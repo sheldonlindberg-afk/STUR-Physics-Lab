@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Resistance Arc Simulator (5-Second Runtime)</title>
+<title>STUR Resistance Arc Simulator</title>
 <style>
   body {
     background-color:#050814; color:#e6edf3;
-    font-family:'Courier New',monospace; margin:0; padding:2rem;
+    font-family: 'Courier New', monospace; margin:0; padding:2rem;
   }
   h1 { color:#ffaa00; text-align:center; }
   .desc { text-align:center; margin-bottom:1.5rem; }
@@ -29,10 +29,10 @@
 </head>
 <body>
 
-<h1>⚡ STUR Resistance Arc Simulator (5-Second Runtime)</h1>
+<h1>⚡ STUR Resistance Arc Simulator</h1>
 <p class="desc">
-Simulates long-term oscillations (≈10 000 cycles) under the Unified Resistance Framework.<br>
-Plots energy confinement, spring stiffness, and coherence stability.
+Models plasma–magnetic coupling under the Unified Resistance Framework.<br>
+Explore equilibrium, confinement, and feedback stability over 5 seconds of oscillation.
 </p>
 
 <h2>Python Code</h2>
@@ -41,79 +41,210 @@ Plots energy confinement, spring stiffness, and coherence stability.
 """
 STUR Resistance Arc Simulator – 5-Second Runtime (Optimized)
 ------------------------------------------------------------
-Simulates ~10 000 oscillations (0.5 ms each) with down-sampled plotting
-for speed and clarity.
+Simulates ~10,000 oscillations (0.5 ms period) with
+down-sampled plotting for speed and clarity.
+
+Outputs:
+- Layperson-readable summary of the "spring" behavior
+- Two graphs (force vs radius, displacement vs time)
+- JSON block with all key parameters
 """
 
-import numpy as np, matplotlib.pyplot as plt, json
+import numpy as np
+import matplotlib.pyplot as plt
+import json
 
-mu0=4*np.pi*1e-7; mB=1e-6; q=1.6e-19
-ke=8.9875e9; G=6.6743e-11; as0=1e-24
-sig=1e3; lam=1e-15; L0=1e-10
-B0,b1,b2=5,500,5e4; Abl=3.1e-4; Vb=4.19e-6
-U0=3e5; Ls=1e-2; kB=1.380649e-23; T0=300
-c0=6e-3; eps=1e-15; d0=1e-14; kfb=1e9
-kmin,kmax=1e3,1e4
+# === Constants ===
+mu0 = 4*np.pi*1e-7
+mB  = 1e-6
+q   = 1.6e-19
+ke  = 8.9875e9
+G   = 6.6743e-11
+as0 = 1e-24
+sig = 1e3
+lam = 1e-15
+L0  = 1e-10
 
-def S(r): return np.tanh(r/L0)*(1-np.exp(-r/L0))
-def Fstur(r): return S(r)*(ke*q*q/r**2 -G*mB*mB/r**2 -as0*(1-np.exp(-r/lam))/r**2 +sig*r)
-def dPB(): return (B0*b1)/mu0
-def d2PB(): return (b1**2+2*b2*B0)/mu0
-Fin0=-Abl*dPB(); Kin=-Abl*d2PB()
-def Fout(r): return -Vb*U0*np.exp(-r/Ls)*(2/r**3+1/(Ls*r**2))
-def Kout(r): x=1/Ls; return -Vb*U0*np.exp(-r/Ls)*(-6/r**4-4*x/r**3-x**2/r**2)
-r0=1e-2; Keff_stat=-(Kin+Kout(r0)); kstat=np.clip(Keff_stat,kmin,kmax)
-def keff(d): return np.clip(kstat+kfb/(d+eps),kmin,kmax)
-def damp(d): return c0*(d/d0)**0.5
+B0, b1, b2 = 5, 500, 5e4
+Abl = 3.1e-4
+Vb  = 4.19e-6
 
-dt=1e-7; tf=5.0
-N=int(tf/dt); Nsample=500000; skip=max(1,int(N/Nsample))
-Nt=Nsample; x=np.zeros(Nt); v=np.zeros(Nt); d=np.zeros(Nt); d[0]=d0
-xi=vi=0.0; di=d0
+U0 = 3e5
+Ls = 1e-2
+
+kB = 1.380649e-23
+T0 = 300.0
+
+c0  = 6e-3
+eps = 1e-15
+d0  = 1e-14
+kfb = 1e9
+
+kmin, kmax = 1e3, 1e4
+
+# === Core STUR field + feedback ===
+def S(r):
+    """STUR radial modulator."""
+    x = r/L0
+    return np.tanh(x)*(1.0 - np.exp(-x))
+
+def Fstur(r):
+    """Net STUR resistance force vs radius."""
+    return S(r)*(
+        ke*q*q/r**2
+        - G*mB*mB/r**2
+        - as0*(1.0 - np.exp(-r/lam))/r**2
+        + sig*r
+    )
+
+def dPB():
+    return (B0*b1)/mu0
+
+def d2PB():
+    return (b1**2 + 2*b2*B0)/mu0
+
+Fin0 = -Abl*dPB()
+Kin  = -Abl*d2PB()
+
+def Fout(r):
+    """External confinement force."""
+    return -Vb*U0*np.exp(-r/Ls)*(2.0/r**3 + 1.0/(Ls*r**2))
+
+def Kout(r):
+    """Effective curvature of external potential."""
+    x = 1.0/Ls
+    return -Vb*U0*np.exp(-r/Ls)*(-6.0/r**4 - 4.0*x/r**3 - x**2/r**2)
+
+# Static stiffness from internal + external contributions
+r0 = 1e-2
+Keff_stat = -(Kin + Kout(r0))
+kstat     = np.clip(Keff_stat, kmin, kmax)
+
+def keff(d):
+    """Dynamic stiffness with feedback as gap d shrinks."""
+    return np.clip(kstat + kfb/(d + eps), kmin, kmax)
+
+def damp(d):
+    """Simple distance-dependent damping (effective friction)."""
+    return c0*(d/d0)**0.5
+
+# === Time evolution (5 s) ===
+dt = 1e-7        # 0.1 microsecond step
+tf = 5.0         # 5 seconds total
+N  = int(tf/dt)  # raw steps (50 million)
+
+# We only store a down-sampled trajectory for plotting:
+Nsample = 500_000
+skip    = max(1, N // Nsample)
+Nt      = Nsample
+
+x = np.zeros(Nt)
+v = np.zeros(Nt)
+d = np.zeros(Nt)
+
+xi = 0.0
+vi = 0.0
+di = d0
+d[0] = d0
+
 for i in range(N):
-    k=keff(di); c=damp(di)
-    a=(-k*xi-c*vi)/mB
-    vi+=a*dt; xi+=vi*dt
-    di-=(di-eps)*1e7*dt
-    if i%skip==0:
-        j=i//skip
-        if j<Nt: x[j],v[j],d[j]=xi,vi,di
+    k = keff(di)
+    c = damp(di)
+    a = (-k*xi - c*vi)/mB
 
-xrms=(np.mean(x**2))**0.5; dfin=d[-1]
-ftrap=(keff(dfin)/mB)**0.5/(2*np.pi)
-rg=np.linspace(1e-12,1e-9,400)
-Ebind=np.trapz(Fstur(rg),rg); Ebind_eV=Ebind/1.602e-19
-coh=np.exp(-(kB*T0)/Ebind); Ppk,tp=5e5,5e-3
-Ep=Ppk*tp; eta=0.3; dump=eta*Ep; Ah=2e-2; mA=8; cp=500
-dT=(dump/Ah)/(mA*cp); tau,fR=0.1,10; Tmean=T0+dT*fR*tau/0.1
-out={"Fin0_N":Fin0,"Kin_N_per_m":Kin,"k_static_N_per_m":kstat,
-     "k_eff_end_N_per_m":keff(dfin),"f_trap_Hz":ftrap,"x_rms_m":xrms,
-     "ring_final_m":dfin,"E_bind_eV":Ebind_eV,
-     "coherence_ratio":coh,"dT_K":dT,"T_mean_K":Tmean}
+    vi += a*dt
+    xi += vi*dt
+    di -= (di - eps)*1e7*dt
 
-print("\\n=== STUR Resistance Arc Summary (5 s) ===")
-print(f"Spring stiffness: {kstat:8.2e} N/m")
-print(f"Oscillation frequency: {ftrap:8.2e} Hz (~{1e3/ftrap:.3f} ms period)")
-print(f"Binding energy: {Ebind_eV:8.2e} eV")
-print(f"Final ring size: {dfin:8.2e} m")
-print(f"Temperature rise: {dT:6.3f} K")
-print(f"Coherence ratio: {coh:.3f}")
-print("\\nInterpretation: A stable resistance ring oscillates for 5 s, "
-      "trapping and releasing energy like a microscopic spring.\\n")
+    if i % skip == 0:
+        j = i // skip
+        if j < Nt:
+            x[j] = xi
+            v[j] = vi
+            d[j] = di
 
-time=np.linspace(0,tf,Nt)
-plt.figure(figsize=(10,4))
-plt.subplot(1,2,1)
+# === Derived quantities ===
+xrms = np.sqrt(np.mean(x**2))
+dfin = d[-1]
+ftrap = np.sqrt(keff(dfin)/mB)/(2.0*np.pi)
+
+rg = np.linspace(1e-12, 1e-9, 400)
+Ebind = np.trapz(Fstur(rg), rg)
+Ebind_eV = Ebind/1.602e-19
+
+coh = np.exp(-(kB*T0)/Ebind)
+
+Ppk, tp = 5e5, 5e-3
+Ep  = Ppk*tp
+eta = 0.3
+dump = eta*Ep
+Ah   = 2e-2
+mA   = 8.0
+cp   = 500.0
+
+dT   = (dump/Ah)/(mA*cp)
+tau, fR = 0.1, 10.0
+Tmean = T0 + dT*fR*tau/0.1
+
+results = {
+    "Fin0_N":            Fin0,
+    "Kin_N_per_m":       Kin,
+    "k_static_N_per_m":  kstat,
+    "k_eff_end_N_per_m": keff(dfin),
+    "f_trap_Hz":         ftrap,
+    "x_rms_m":           xrms,
+    "ring_final_m":      dfin,
+    "E_bind_eV":         Ebind_eV,
+    "coherence_ratio":   coh,
+    "dT_K":              dT,
+    "T_mean_K":          Tmean
+}
+
+# === Human-friendly summary ===
+print("\n=== STUR Resistance Arc Summary (5 s) ===")
+print(f"Initial internal force (Fin0):      {Fin0:8.2e} N")
+print(f"Static spring stiffness (k_static): {kstat:8.2e} N/m")
+print(f"Trap frequency:                     {ftrap:8.2e} Hz")
+print(f"Approx. period:                     {1e3/ftrap:8.3f} ms")
+print(f"RMS displacement:                   {xrms*1e9:8.3f} nm")
+print(f"Final ring size (gap):              {dfin:8.2e} m")
+print(f"Binding energy:                     {Ebind_eV:8.2e} eV")
+print(f"Temperature rise:                   {dT:6.3f} K")
+print(f\"Coherence ratio (stability score):  {coh:.3f}\")
+
+print("""
+Plain-language explanation:
+This simulation treats the STUR arc like a microscopic spring made from
+fields and resistance rather than metal. For 5 seconds, the ring “rings”
+back and forth. If the coherence ratio is high, the oscillations stay
+organized instead of dying quickly into random heat.
+""")
+
+# === Graphs ===
+time = np.linspace(0.0, tf, Nt)
+
+plt.figure(figsize=(10, 4))
+
+# Force vs radius
+plt.subplot(1, 2, 1)
 plt.plot(rg*1e9, Fstur(rg))
-plt.xlabel("Radius (nm)"); plt.ylabel("Force (N)")
+plt.xlabel("Radius (nm)")
+plt.ylabel("Force (N)")
 plt.title("STUR Resistance Force vs Radius")
-plt.subplot(1,2,2)
-plt.plot(time, x*1e9)
-plt.xlabel("Time (s)"); plt.ylabel("Displacement (nm)")
-plt.title("Oscillation over 5 s")
-plt.tight_layout(); plt.show()
 
-print(json.dumps(out,indent=2))
+# Displacement vs time
+plt.subplot(1, 2, 2)
+plt.plot(time, x*1e9)
+plt.xlabel("Time (s)")
+plt.ylabel("Displacement (nm)")
+plt.title("Arc Core Oscillation over 5 s")
+
+plt.tight_layout()
+plt.show()
+
+# === JSON export ===
+print("JSON output:")
+print(json.dumps(results, indent=2))
 </pre>
 
 <div style="text-align:center;">
@@ -122,17 +253,17 @@ print(json.dumps(out,indent=2))
 </div>
 
 <p style="text-align:center;margin-top:1rem;">
-Click <b>Run Script</b> to open Google&nbsp;Colab or another Python&nbsp;3 environment.<br>
-Paste the copied code, run it, and view real-time graphs of the STUR field oscillations.
+When you click <b>Run Script</b>, a Python&nbsp;3 environment will open.<br>
+Paste the copied code and press <b>Run</b> to see live results and graphs (NumPy + Matplotlib supported).
 </p>
 
 <footer>
-  © 2025 STUR Physics Lab | Unified Resistance Framework | Open Access Simulation v5.0
+  © 2025 STUR Physics Lab | Open-Access Unified Resistance Framework | DOI pending
 </footer>
 
 <script>
 function copyCode(){
-  const code=document.getElementById("codeBlock").innerText;
+  const code = document.getElementById("codeBlock").innerText;
   navigator.clipboard.writeText(code);
   alert("✅ Script copied to clipboard!");
 }
