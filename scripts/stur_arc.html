@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Resistance Arc Simulator</title>
+<title>STUR Resistance Arc Simulator (5-Second Runtime)</title>
 <style>
   body {
     background-color:#050814; color:#e6edf3;
-    font-family: 'Courier New', monospace; margin:0; padding:2rem;
+    font-family:'Courier New',monospace; margin:0; padding:2rem;
   }
   h1 { color:#ffaa00; text-align:center; }
   .desc { text-align:center; margin-bottom:1.5rem; }
@@ -29,10 +29,10 @@
 </head>
 <body>
 
-<h1>⚡ STUR Resistance Arc Simulator</h1>
+<h1>⚡ STUR Resistance Arc Simulator (5-Second Runtime)</h1>
 <p class="desc">
-Models plasma–magnetic coupling under the Unified Resistance Framework.<br>
-Explore equilibrium, confinement, and feedback stability over 5 seconds of oscillation.
+Simulates ~10&nbsp;000 oscillations (0.5&nbsp;ms period) under the Unified Resistance Framework.<br>
+Plots energy confinement, spring stiffness, and coherence stability.
 </p>
 
 <h2>Python Code</h2>
@@ -41,13 +41,8 @@ Explore equilibrium, confinement, and feedback stability over 5 seconds of oscil
 """
 STUR Resistance Arc Simulator – 5-Second Runtime (Optimized)
 ------------------------------------------------------------
-Simulates ~10,000 oscillations (0.5 ms period) with
-down-sampled plotting for speed and clarity.
-
-Outputs:
-- Layperson-readable summary of the "spring" behavior
-- Two graphs (force vs radius, displacement vs time)
-- JSON block with all key parameters
+Simulates ~10 000 oscillations (0.5 ms each) with down-sampled plotting
+for speed and clarity.
 """
 
 import numpy as np
@@ -82,18 +77,15 @@ kfb = 1e9
 
 kmin, kmax = 1e3, 1e4
 
-# === Core STUR field + feedback ===
+# === Core STUR functions ===
 def S(r):
-    """STUR radial modulator."""
-    x = r/L0
-    return np.tanh(x)*(1.0 - np.exp(-x))
+    return np.tanh(r/L0)*(1 - np.exp(-r/L0))
 
 def Fstur(r):
-    """Net STUR resistance force vs radius."""
     return S(r)*(
         ke*q*q/r**2
         - G*mB*mB/r**2
-        - as0*(1.0 - np.exp(-r/lam))/r**2
+        - as0*(1 - np.exp(-r/lam))/r**2
         + sig*r
     )
 
@@ -107,45 +99,41 @@ Fin0 = -Abl*dPB()
 Kin  = -Abl*d2PB()
 
 def Fout(r):
-    """External confinement force."""
-    return -Vb*U0*np.exp(-r/Ls)*(2.0/r**3 + 1.0/(Ls*r**2))
+    return -Vb*U0*np.exp(-r/Ls)*(2/r**3 + 1/(Ls*r**2))
 
 def Kout(r):
-    """Effective curvature of external potential."""
-    x = 1.0/Ls
-    return -Vb*U0*np.exp(-r/Ls)*(-6.0/r**4 - 4.0*x/r**3 - x**2/r**2)
+    x = 1/Ls
+    return -Vb*U0*np.exp(-r/Ls)*(
+        -6/r**4 - 4*x/r**3 - x**2/r**2
+    )
 
-# Static stiffness from internal + external contributions
 r0 = 1e-2
 Keff_stat = -(Kin + Kout(r0))
-kstat     = np.clip(Keff_stat, kmin, kmax)
+kstat = np.clip(Keff_stat, kmin, kmax)
 
 def keff(d):
-    """Dynamic stiffness with feedback as gap d shrinks."""
     return np.clip(kstat + kfb/(d + eps), kmin, kmax)
 
 def damp(d):
-    """Simple distance-dependent damping (effective friction)."""
     return c0*(d/d0)**0.5
 
-# === Time evolution (5 s) ===
-dt = 1e-7        # 0.1 microsecond step
-tf = 5.0         # 5 seconds total
-N  = int(tf/dt)  # raw steps (50 million)
+# === Time Evolution (5 s) ===
+dt = 1e-7
+tf = 5.0
+N  = int(tf/dt)
 
-# We only store a down-sampled trajectory for plotting:
 Nsample = 500_000
-skip    = max(1, N // Nsample)
+skip    = max(1, N//Nsample)
 Nt      = Nsample
 
 x = np.zeros(Nt)
 v = np.zeros(Nt)
 d = np.zeros(Nt)
+d[0] = d0
 
 xi = 0.0
 vi = 0.0
 di = d0
-d[0] = d0
 
 for i in range(N):
     k = keff(di)
@@ -157,7 +145,7 @@ for i in range(N):
     di -= (di - eps)*1e7*dt
 
     if i % skip == 0:
-        j = i // skip
+        j = i//skip
         if j < Nt:
             x[j] = xi
             v[j] = vi
@@ -166,7 +154,7 @@ for i in range(N):
 # === Derived quantities ===
 xrms = np.sqrt(np.mean(x**2))
 dfin = d[-1]
-ftrap = np.sqrt(keff(dfin)/mB)/(2.0*np.pi)
+ftrap = np.sqrt(keff(dfin)/mB)/(2*np.pi)
 
 rg = np.linspace(1e-12, 1e-9, 400)
 Ebind = np.trapz(Fstur(rg), rg)
@@ -186,7 +174,7 @@ dT   = (dump/Ah)/(mA*cp)
 tau, fR = 0.1, 10.0
 Tmean = T0 + dT*fR*tau/0.1
 
-results = {
+out = {
     "Fin0_N":            Fin0,
     "Kin_N_per_m":       Kin,
     "k_static_N_per_m":  kstat,
@@ -200,17 +188,14 @@ results = {
     "T_mean_K":          Tmean
 }
 
-# === Human-friendly summary ===
 print("\n=== STUR Resistance Arc Summary (5 s) ===")
-print(f"Initial internal force (Fin0):      {Fin0:8.2e} N")
-print(f"Static spring stiffness (k_static): {kstat:8.2e} N/m")
-print(f"Trap frequency:                     {ftrap:8.2e} Hz")
-print(f"Approx. period:                     {1e3/ftrap:8.3f} ms")
-print(f"RMS displacement:                   {xrms*1e9:8.3f} nm")
-print(f"Final ring size (gap):              {dfin:8.2e} m")
-print(f"Binding energy:                     {Ebind_eV:8.2e} eV")
-print(f"Temperature rise:                   {dT:6.3f} K")
-print(f\"Coherence ratio (stability score):  {coh:.3f}\")
+print(f"Spring stiffness: {kstat:8.2e} N/m")
+print(f"Oscillation frequency: {ftrap:8.2e} Hz (~{1e3/ftrap:.3f} ms period)")
+print(f"RMS displacement: {xrms*1e9:8.3f} nm")
+print(f"Final ring size: {dfin:8.2e} m")
+print(f"Binding energy: {Ebind_eV:8.2e} eV")
+print(f"Temperature rise: {dT:6.3f} K")
+print(f"Coherence ratio (stability score): {coh:.3f}")
 
 print("""
 Plain-language explanation:
@@ -220,19 +205,15 @@ back and forth. If the coherence ratio is high, the oscillations stay
 organized instead of dying quickly into random heat.
 """)
 
-# === Graphs ===
-time = np.linspace(0.0, tf, Nt)
+time = np.linspace(0, tf, Nt)
 
 plt.figure(figsize=(10, 4))
-
-# Force vs radius
 plt.subplot(1, 2, 1)
 plt.plot(rg*1e9, Fstur(rg))
 plt.xlabel("Radius (nm)")
 plt.ylabel("Force (N)")
 plt.title("STUR Resistance Force vs Radius")
 
-# Displacement vs time
 plt.subplot(1, 2, 2)
 plt.plot(time, x*1e9)
 plt.xlabel("Time (s)")
@@ -242,9 +223,8 @@ plt.title("Arc Core Oscillation over 5 s")
 plt.tight_layout()
 plt.show()
 
-# === JSON export ===
 print("JSON output:")
-print(json.dumps(results, indent=2))
+print(json.dumps(out, indent=2))
 </pre>
 
 <div style="text-align:center;">
@@ -253,12 +233,12 @@ print(json.dumps(results, indent=2))
 </div>
 
 <p style="text-align:center;margin-top:1rem;">
-When you click <b>Run Script</b>, a Python&nbsp;3 environment will open.<br>
-Paste the copied code and press <b>Run</b> to see live results and graphs (NumPy + Matplotlib supported).
+Click <b>Run Script</b> to open a live Python environment on Replit.<br>
+Paste the copied code and press <b>Run</b> to view results and graphs.
 </p>
 
 <footer>
-  © 2025 STUR Physics Lab | Open-Access Unified Resistance Framework | DOI pending
+  © 2025 STUR Physics Lab | Unified Resistance Framework | Open Access Simulation v5.0
 </footer>
 
 <script>
@@ -268,7 +248,7 @@ function copyCode(){
   alert("✅ Script copied to clipboard!");
 }
 function openRunner(){
-  window.open("https://colab.research.google.com","_blank");
+  window.open("https://replit.com/new/python3","_blank");
 }
 </script>
 
