@@ -3,111 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Physics Lab</title>
+<title>STUR Physics Lab – Unified Resistance Framework</title>
 <style>
-  body{font-family:Arial,Helvetica,sans-serif;background:#0d1117;color:#e6edf3;
-       margin:40px;line-height:1.6}
-  header{text-align:center;margin-bottom:30px}
-  img.logo{width:160px;height:auto;margin-bottom:10px}
-  h1{color:#58a6ff;font-size:2.2em;margin:0}
-  h2{color:#58a6ff;margin-top:40px}
-  a{color:#58a6ff;text-decoration:none}
-  a:hover{text-decoration:underline}
-  ul{list-style:none;padding:0}
-  li{margin:18px 0}
-  .button{display:inline-block;padding:8px 14px;margin-top:6px;
-          background:#238636;color:#fff;border-radius:5px;font-weight:bold}
-  .button:hover{background:#2ea043}
-  footer{margin-top:50px;border-top:1px solid #30363d;padding-top:20px;
-          font-size:0.9em;color:#8b949e;text-align:center}
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #e6edf3;
+    background: radial-gradient(circle at 25% 25%, #0c0f1a, #000);
+    background-attachment: fixed;
+    text-align: center;
+  }
+  header {
+    padding: 60px 20px 20px;
+    animation: fadeIn 2s ease-in-out;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  img.logo {
+    width: 240px;
+    border-radius: 12px;
+    box-shadow: 0 0 45px #ffaa0088, 0 0 10px #ffaa00 inset;
+    transition: transform 0.6s ease;
+  }
+  img.logo:hover { transform: scale(1.05); }
+
+  h1 {
+    font-size: 2.8em;
+    margin-top: 20px;
+    color: #ffb347;
+    text-shadow: 0 0 20px #ffaa0066;
+  }
+  p {
+    font-size: 1.1em;
+    max-width: 760px;
+    margin: 15px auto 40px;
+    color: #c9d1d9;
+  }
+
+  .sim-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    max-width: 980px;
+    margin: 0 auto 50px;
+    padding: 0 10px;
+  }
+  .sim-card {
+    background: #161b22;
+    border-radius: 10px;
+    padding: 18px;
+    width: 270px;
+    box-shadow: 0 0 10px #ffaa0022;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+  }
+  .sim-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 25px #ffaa0044;
+  }
+  .sim-card a {
+    text-decoration: none;
+    color: #58a6ff;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  .sim-card a:hover { color: #ffb347; }
+
+  .btn {
+    display: inline-block;
+    background: #ffaa00;
+    color: #000;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 0 25px #ffaa0088;
+    transition: all 0.3s ease;
+  }
+  .btn:hover {
+    background: #ffcc33;
+    box-shadow: 0 0 30px #ffcc33aa;
+  }
+
+  footer {
+    margin-top: 60px;
+    padding: 20px;
+    border-top: 1px solid #30363d;
+    font-size: 0.9em;
+    color: #8b949e;
+  }
 </style>
 </head>
+
 <body>
-<header>
-  <img src="assets/logo.png" alt="STUR Physics Logo" class="logo">
-  <h1>STUR Physics Lab</h1>
-  <p><strong>Open Access Physics for All</strong> — advancing unified field simulations,
-     bioenergy models, and collaborative discovery.</p>
-</header>
+  <header>
+    <img src="assets/4.13.png" alt="STUR Physics Logo" class="logo">
+    <h1>STUR Physics Lab</h1>
+    <p>
+      <strong>Open Access Unified Resistance Physics Laboratory</strong><br>
+      A live repository of resistance-field simulations exploring electromagnetism, gravity, superconductivity,
+      biological energy systems, and cosmological coupling across scales.
+    </p>
+  </header>
 
-<main>
-  <h2>Available Simulations</h2>
-  <ul>
-    <li>🤯 <strong>Sheldon’s Theory of Unified Resistance</strong><br>
-      <a href="scripts/stur_core.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_core.py" target="_blank">▶ Run in Colab</a></li>
+  <div class="sim-grid">
+    <div class="sim-card">⚡ <a href="scripts/stur_arc.py">Resistance Arc Simulator</a></div>
+    <div class="sim-card">🧲 <a href="scripts/stur_superconductor.py">Ambient Superconductor</a></div>
+    <div class="sim-card">🔋 <a href="scripts/stur_atp.py">STUR-ATP Mitochondria Simulation</a></div>
+    <div class="sim-card">🧠 <a href="scripts/stur_neuro.py">Neuroplasticity Network</a></div>
+    <div class="sim-card">🌌 <a href="scripts/stur_galaxy.py">Galaxy Curve Model</a></div>
+    <div class="sim-card">🧬 <a href="scripts/stur_immunity.py">Universal Immunity Algorithm</a></div>
+    <div class="sim-card">💭 <a href="scripts/stur_mindgate.py">Mind Gate</a></div>
+    <div class="sim-card">🤖 <a href="scripts/stur_replicator.py">Replicator Model</a></div>
+    <div class="sim-card">💎 <a href="scripts/stur_graphene.py">Graphene Model</a></div>
+    <div class="sim-card">✨ <a href="scripts/stur_sonolum.py">Sonoluminescence Solver</a></div>
+    <div class="sim-card">♾️ <a href="scripts/stur_negative.py">Negative Energy Field</a></div>
+    <div class="sim-card">💡 <a href="scripts/stur_tabletop.py">Table Top Resonance Demo</a></div>
+    <div class="sim-card">🚀 <a href="scripts/stur_tesla.py">Tesla Dream Simulation</a></div>
+    <div class="sim-card">🌠 <a href="scripts/stur_scalar.py">Bounce Energy Scalar Field</a></div>
+    <div class="sim-card">🌪 <a href="scripts/stur_torweather.py">TOR Weather Engine</a></div>
+    <div class="sim-card">🧪 <a href="scripts/stur_gate.py">Resistance Gate</a></div>
+    <div class="sim-card">🧱 <a href="scripts/stur_solidbh.py">Solid Black Hole Model</a></div>
+    <div class="sim-card">🌍 <a href="scripts/stur_cosmos.py">Cosmological Expansion Fit</a></div>
+  </div>
 
-    <li>⚡ <strong>Resistance Arc Sim</strong><br>
-      <a href="scripts/stur_arc.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_arc.py" target="_blank">▶ Run in Colab</a></li>
+  <a href="about.html" class="btn">Learn More</a><br><br>
+  <a href="https://zenodo.org/communities/sturphysics" class="btn" target="_blank">View Citations</a>
 
-    <li>🧲 <strong>Ambient Superconductor Sim</strong><br>
-      <a href="scripts/stur_superconductor.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_superconductor.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>🧮 <strong>Resistance Gate</strong><br>
-      <a href="scripts/stur_gate.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_gate.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>🤖 <strong>Replicator</strong><br>
-      <a href="scripts/stur_replicator.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_replicator.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>🌌 <strong>STUR Galaxy Curve</strong><br>
-      <a href="scripts/stur_galaxy.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_galaxy.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>⚛️ <strong>Bounce Energy: Scalar Field Model</strong><br>
-      <a href="scripts/stur_scalar.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_scalar.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>🧬 <strong>Universal Immunity Algorithm</strong><br>
-      <a href="scripts/stur_immunity.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_immunity.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>🧪 <strong>Graphene</strong><br>
-      <a href="scripts/stur_graphene.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_graphene.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>✨ <strong>Sonoluminescence Solved?</strong><br>
-      <a href="scripts/stur_sonolum.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_sonolum.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>♾️ <strong>Negative Energy</strong><br>
-      <a href="scripts/stur_negative.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_negative.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>🧠 <strong>Neuroplasticity</strong><br>
-      <a href="scripts/stur_neuro.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_neuro.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>☁️ <strong>Mind Gate</strong><br>
-      <a href="scripts/stur_mindgate.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_mindgate.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>⚙️ <strong>Tesla Dream</strong><br>
-      <a href="scripts/stur_tesla.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_tesla.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>🌪️ <strong>TOR Weather</strong><br>
-      <a href="scripts/stur_torweather.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_torweather.py" target="_blank">▶ Run in Colab</a></li>
-
-    <li>🔬 <strong>STUR-ATP Mitochondria Simulation</strong><br>
-      <a href="scripts/stur_atp.py">📄 View Script</a> |
-      <a class="button" href="https://colab.research.google.com/github/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/stur_atp.py" target="_blank">▶ Run in Colab</a></li>
-  </ul>
-
-  <p style="margin-top:30px">
-    <a class="button" href="https://zenodo.org/communities/sturphysics" target="_blank">
-      📚 View Citations &amp; References
-    </a>
-  </p>
-</main>
-
-<footer>
-  <p>© 2025 Sheldon Lon Lindberg — STUR Physics Framework.<br>
-     Shared under Creative Commons CC-BY 4.0. Future feature: integrated Python runner &amp; AI assistant.</p>
-</footer>
+  <footer>
+    <p>© 2025 Sheldon Lon Lindberg • STUR Physics Framework<br>
+    Version 3.0 – Hosted via GitHub Pages • CC-BY-4.0 License</p>
+  </footer>
 </body>
 </html>
