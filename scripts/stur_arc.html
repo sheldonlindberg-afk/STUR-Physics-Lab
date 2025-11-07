@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR Resistance Arc Simulator</title>
+<style>
+  body {
+    background-color:#050814; color:#e6edf3;
+    font-family: 'Courier New', monospace; margin:0; padding:2rem;
+  }
+  h1 { color:#ffaa00; text-align:center; }
+  .desc { text-align:center; margin-bottom:1.5rem; }
+  pre {
+    background:#0a0f1f; padding:1rem; border-radius:8px;
+    overflow-x:auto; color:#00ffcc; line-height:1.4;
+    box-shadow:0 0 20px #ffaa0055;
+  }
+  button {
+    background:#ffaa00; color:#050814; border:none; border-radius:6px;
+    padding:10px 20px; font-weight:bold; cursor:pointer; margin:6px;
+    transition:0.2s;
+  }
+  button:hover { background:#ffcc33; }
+  footer {
+    margin-top:2rem; text-align:center; font-size:0.9em; color:#aaa;
+  }
+</style>
+</head>
+<body>
+
+<h1>⚡ STUR Resistance Arc Simulator</h1>
+<p class="desc">
+Models plasma–magnetic coupling under the Unified Resistance Framework.<br>
+Explore equilibrium, confinement, and feedback stability.
+</p>
+
+<h2>Python Code</h2>
+<pre id="codeBlock">
+import numpy as np, json
+# === STUR Resistance Arc Simulator ===
+mu0=4*np.pi*1e-7; mB=1e-6; q=1.6e-19
+ke=8.9875e9; G=6.6743e-11; as0=1e-24
+sig=1e3; lam=1e-15; L0=1e-10
+B0,b1,b2=5,500,5e4; Abl=3.1e-4; Vb=4.19e-6
+U0=3e5; Ls=1e-2; kB=1.380649e-23; T0=300
+c0=6e-3; eps=1e-15; d0=1e-14; kfb=1e9
+kmin,kmax=1e3,1e4
+
+def S(r): return np.tanh(r/L0)*(1-np.exp(-r/L0))
+def Fstur(r): return S(r)*(ke*q*q/r**2 -G*mB*mB/r**2 -as0*(1-np.exp(-r/lam))/r**2 +sig*r)
+def dPB(): return (B0*b1)/mu0
+def d2PB(): return (b1**2+2*b2*B0)/mu0
+Fin0=-Abl*dPB(); Kin=-Abl*d2PB()
+def Fout(r): return -Vb*U0*np.exp(-r/Ls)*(2/r**3+1/(Ls*r**2))
+def Kout(r): x=1/Ls; return -Vb*U0*np.exp(-r/Ls)*(-6/r**4-4*x/r**3-x**2/r**2)
+r0=1e-2; Keff_stat=-(Kin+Kout(r0)); kstat=np.clip(Keff_stat,kmin,kmax)
+def keff(d): return np.clip(kstat+kfb/(d+eps),kmin,kmax)
+def damp(d): return c0*(d/d0)**0.5
+
+dt=1e-7; tf=5e-4; N=int(tf/dt)
+x=np.zeros(N); v=np.zeros(N); d=np.zeros(N); d[0]=d0
+for i in range(1,N):
+    k=keff(d[i-1]); c=damp(d[i-1])
+    a=(-k*x[i-1]-c*v[i-1])/mB
+    v[i]=v[i-1]+a*dt; x[i]=x[i-1]+v[i]*dt
+    d[i]=d[i-1]-(d[i-1]-eps)*1e7*dt
+
+xrms=(np.mean(x**2))**0.5; dfin=d[-1]
+ftrap=(keff(dfin)/mB)**0.5/(2*np.pi)
+rg=np.linspace(1e-12,1e-9,400)
+Ebind=np.trapz(Fstur(rg),rg); Ebind_eV=Ebind/1.602e-19
+coh=np.exp(-(kB*T0)/Ebind); Ppk, tp=5e5, 5e-3
+Ep=Ppk*tp; eta=0.3; dump=eta*Ep; Ah=2e-2; mA=8; cp=500
+dT=(dump/Ah)/(mA*cp); tau,fR=0.1,10; Tmean=T0+dT*fR*tau/0.1
+out={"Fin0_N":Fin0,"Kin_N_per_m":Kin,"k_static_N_per_m":kstat,
+     "k_eff_end_N_per_m":keff(dfin),"f_trap_Hz":ftrap,"x_rms_m":xrms,
+     "ring_final_m":dfin,"E_bind_eV":Ebind_eV,
+     "coherence_ratio":coh,"dT_K":dT,"T_mean_K":Tmean}
+print(json.dumps(out,indent=2))
+</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">📋 Copy Script</button>
+  <button onclick="openRunner()">▶ Run Script</button>
+</div>
+
+<p style="text-align:center;margin-top:1rem;">
+When you click <b>Run Script</b>, a Python 3 environment will open.<br>
+Paste the copied code and press <b>Run</b> to see live results (NumPy + Matplotlib supported).
+</p>
+
+<footer>
+  © 2025 STUR Physics Lab | Open-Access Unified Resistance Framework | DOI pending
+</footer>
+
+<script>
+function copyCode(){
+  const code=document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("✅ Script copied to clipboard!");
+}
+function openRunner(){
+  window.open("https://colab.research.google.com","_blank");
+}
+</script>
+
+</body>
+</html>
