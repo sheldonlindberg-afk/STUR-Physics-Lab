@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR Table Top – Whispering-Gallery Photon Orbit</title>
+<style>
+  body{
+    background:#050814;
+    color:#e6edf3;
+    font-family:'Courier New',monospace;
+    margin:0;
+    padding:2rem;
+  }
+  h1{
+    color:#ffaa00;
+    text-align:center;
+  }
+  h2{
+    color:#ffcc33;
+    margin-top:2rem;
+  }
+  .desc{
+    max-width:900px;
+    margin:0 auto 1.5rem auto;
+    line-height:1.5;
+  }
+  pre{
+    background:#0a0f1f;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    color:#00ffcc;
+    line-height:1.4;
+    box-shadow:0 0 20px #ffaa0055;
+    font-size:0.9rem;
+    white-space:pre;
+  }
+  button{
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
+  }
+  button:hover{
+    background:#ffcc33;
+  }
+  footer{
+    margin-top:2rem;
+    text-align:center;
+    font-size:0.9em;
+    color:#bbb;
+  }
+  a{color:#66ccff;}
+</style>
+</head>
+<body>
+
+<h1>STUR Table Top – Whispering-Gallery Photon Orbit</h1>
+
+<h2>Derivation Overview</h2>
+<div class="desc">
+<p>
+We model a two-dimensional whispering-gallery orbit of a photon inside a circular
+dielectric cavity of radius R. The photon is launched from an impact parameter
+b = impact close to R and undergoes specular reflections at the boundary.
+The cavity has refractive index n, so total internal reflection holds when the
+internal incidence angle θ satisfies
+</p>
+<p style="text-align:center;">
+<code>
+sin(θ) &gt; 1 / n.
+</code>
+</p>
+<p>
+We represent the orbit as a sequence of straight-line segments between boundary
+hits. Given a position vector p and direction d (unit vector), we find the
+next intersection with the circle |x| = R by solving
+</p>
+<p style="text-align:center;">
+<code>
+|p + t d|² = R²
+</code>
+</p>
+<p>
+for t &gt; 0. This leads to a quadratic in t with discriminant Δ = b² − 4ac. Once
+we know the collision point x_hit and the outward normal n_hat = x_hit / |x_hit|,
+the reflected direction is
+</p>
+<p style="text-align:center;">
+<code>
+d' = d − 2 (d ⋅ n_hat) n_hat.
+</code>
+</p>
+<p>
+At each bounce we compute the internal incidence angle θ from
+</p>
+<p style="text-align:center;">
+<code>
+θ = arccos( (−d) ⋅ n_hat ).
+</code>
+</p>
+<p>
+If θ drops below the critical angle θ_c = arcsin(1/n), we declare the photon
+has escaped and terminate the trace. We also model a small attenuation per
+reflection, I_{k+1} = I_k × atten, and record the full orbit:
+</p>
+<ul>
+  <li>path of positions p_k,</li>
+  <li>intensity sequence I_k,</li>
+  <li>total geometric path length,</li>
+  <li>number of reflections,</li>
+  <li>escape angle at the last bounce.</li>
+</ul>
+<p>
+The script below:
+</p>
+<ul>
+  <li>traces the orbit with up to num_reflect reflections,</li>
+  <li>animates the photon sliding along the boundary (saved as wgm.gif when
+      a GIF writer is available),</li>
+  <li>creates an additional static figure with the orbit and intensity decay,</li>
+  <li>prints a JSON summary of the optical and geometric properties.</li>
+</ul>
+<p>
+The implementation uses only NumPy, Matplotlib, and JSON so it is compatible
+with Jupyter and JupyterLite (the GIF save is wrapped in a try-except so it
+will not crash if Pillow is unavailable).
+</p>
+</div>
+
+<h2>Python Simulation (copy into Jupyter/JupyterLite)</h2>
+
+<pre id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR Table Top – Whispering-Gallery Photon Orbit
+# Jupyter-safe: NumPy + Matplotlib + JSON
+# ===============================================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+import json
+
+# Try to import animation writer if available
+try:
+    from matplotlib.animation import FuncAnimation, PillowWriter
+    HAVE_PILLOW = True
+except Exception:
+    from matplotlib.animation import FuncAnimation
+    PillowWriter = None
+    HAVE_PILLOW = False
+
+# ----------------- PARAMETERS ----------------------------------
+R = 1.0                 # cavity radius
+impact = 0.99 * R       # impact parameter (launch distance from center)
+num_reflect = 60        # maximum number of reflections
+n_refr = 1.5            # refractive index inside cavity
+atten = 0.995           # intensity loss per bounce
+
+# ----------------- INITIAL STATE -------------------------------
+theta0 = np.pi / 2.0
+pos = np.array([
+    impact * np.cos(theta0),
+    impact * np.sin(theta0) - 0.01
+], dtype=float)
+
+# initial direction: horizontal right
+dir_vec = np.array([1.0, 0.0], dtype=float)
+dir_vec = dir_vec / np.linalg.norm(dir_vec)
+
+path = [pos.copy()]
+intens = [1.0]
+escape_angle_rad = None
+
+# ----------------- GEOMETRY HELPERS ----------------------------
+def intersect_circle(p, d, R):
+    """
+    Intersection of ray p + t d with circle ||x|| = R.
+    Returns collision point or None if no positive solution.
+    """
+    a = np.dot(d, d)
+    b = 2.0 * np.dot(p, d)
+    c = np.dot(p, p) - R**2
+    disc = b*b - 4.0*a*c
+    if disc < 0.0:
+        return None
+    sqrt_disc = np.sqrt(disc)
+    t1 = (-b - sqrt_disc) / (2.0*a)
+    t2 = (-b + sqrt_disc) / (2.0*a)
+    ts = [t for t in (t1, t2) if t > 1.0e-9]
+    if not ts:
+        return None
+    t_hit = min(ts)
+    return p + t_hit * d
+
+def reflect(d, n_hat):
+    """Specular reflection of direction d against normal n_hat."""
+    return d - 2.0 * np.dot(d, n_hat) * n_hat
+
+# ----------------- TRACE ORBIT --------------------------------
+pos_curr = pos.copy()
+dir_curr = dir_vec.copy()
+
+theta_c = np.arcsin(1.0 / n_refr)  # critical angle for TIR
+
+for _ in range(num_reflect):
+    hit = intersect_circle(pos_curr, dir_curr, R)
+    if hit is None:
+        break
+
+    normal = hit / np.linalg.norm(hit)
+    # angle between incoming ray and surface normal
+    cos_ang = np.clip(np.dot(-dir_curr, normal), -1.0, 1.0)
+    ang = np.arccos(cos_ang)
+
+    # check for escape condition
+    if ang < theta_c:
+        escape_angle_rad = float(ang)
+        # move to escape point and stop
+        pos_curr = hit.copy()
+        path.append(pos_curr.copy())
+        intens.append(intens[-1] * atten)
+        break
+
+    # total internal reflection: reflect direction
+    dir_curr = reflect(dir_curr, normal)
+    pos_curr = hit + 1.0e-6 * dir_curr
+
+    path.append(pos_curr.copy())
+    intens.append(intens[-1] * atten)
+
+# convert to arrays
+path = np.array(path, dtype=float)
+intens = np.array(intens, dtype=float)
+
+# ----------------- GEOMETRIC STATISTICS ------------------------
+# total path length inside cavity
+if len(path) > 1:
+    diffs = path[1:] - path[:-1]
+    segment_lengths = np.linalg.norm(diffs, axis=1)
+    path_length = float(np.sum(segment_lengths))
+else:
+    path_length = 0.0
+
+num_bounces = max(len(path) - 1, 0)
+mean_intensity = float(np.mean(intens)) if len(intens) > 0 else 0.0
+escape_angle_deg = float(escape_angle_rad * 180.0 / np.pi) if escape_angle_rad is not None else None
+
+# ----------------- ANIMATION ----------------------------------
+fig, ax = plt.subplots(figsize=(5,5))
+ax.set_aspect("equal", "box")
+ax.set_xlim(-R - 0.1, R + 0.1)
+ax.set_ylim(-R - 0.1, R + 0.1)
+ax.set_title("Whispering-Gallery Photon Orbit")
+
+circle = plt.Circle((0.0, 0.0), R, fill=False, color="k")
+ax.add_patch(circle)
+(line,) = ax.plot([], [], "r-", lw=1.5)
+(dot,) = ax.plot([], [], "ro", ms=6)
+
+def update(i):
+    line.set_data(path[:i+1, 0], path[:i+1, 1])
+    dot.set_data(path[i, 0], path[i, 1])
+    dot.set_alpha(intens[i])
+    return line, dot
+
+ani = FuncAnimation(fig, update, frames=len(path), interval=60, blit=True)
+
+gif_saved = False
+if HAVE_PILLOW and PillowWriter is not None:
+    try:
+        writer = PillowWriter(fps=20)
+        ani.save("wgm.gif", writer=writer)
+        gif_saved = True
+    except Exception as e:
+        print("Warning: could not save GIF animation:", e)
+else:
+    print("GIF writer not available; skipping wgm.gif save.")
+
+plt.show()
+
+# ----------------- STATIC SUMMARY PLOT -------------------------
+fig2, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,4))
+
+# Left: static orbit
+ax1.set_aspect("equal", "box")
+ax1.set_xlim(-R - 0.1, R + 0.1)
+ax1.set_ylim(-R - 0.1, R + 0.1)
+ax1.set_title("Photon Orbit (Static)")
+circle2 = plt.Circle((0.0, 0.0), R, fill=False, color="k")
+ax1.add_patch(circle2)
+ax1.plot(path[:,0], path[:,1], "r-", lw=1.5)
+ax1.plot(path[0,0], path[0,1], "go", label="Launch")
+ax1.plot(path[-1,0], path[-1,1], "bo", label="Last point")
+ax1.legend(loc="best")
+
+# Right: intensity vs bounce index
+bounces = np.arange(len(intens))
+ax2.plot(bounces, intens, "m-o", ms=3)
+ax2.set_xlabel("Bounce index")
+ax2.set_ylabel("Relative intensity")
+ax2.set_title("Intensity Decay")
+ax2.grid(True, ls=":")
+
+plt.tight_layout()
+plt.savefig("wgm_orbit.png")
+plt.show()
+
+# ----------------- JSON SUMMARY -------------------------------
+summary = {
+    "model": "STUR Table Top Whispering Gallery",
+    "R": float(R),
+    "impact_parameter": float(impact),
+    "num_reflections_max": int(num_reflect),
+    "num_bounces_actual": int(num_bounces),
+    "path_length_inside": path_length,
+    "mean_intensity": mean_intensity,
+    "escape_angle_deg": escape_angle_deg,
+    "n_refr": float(n_refr),
+    "attenuation_per_bounce": float(atten),
+    "gif_saved": bool(gif_saved),
+    "files": {
+        "animation_gif": "wgm.gif" if gif_saved else None,
+        "static_plot_png": "wgm_orbit.png"
+    }
+}
+
+print("JSON summary:")
+print(json.dumps(summary, indent=2))
+print("STUR Table Top Whispering-Gallery Simulation Complete.")
+</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open Jupyter Lite</button>
+</div>
+
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | Table Top Whispering-Gallery
+</footer>
+
+<script>
+function copyCode(){
+  const code = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("Python simulation code copied to clipboard.");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+</script>
+
+</body>
+</html>
