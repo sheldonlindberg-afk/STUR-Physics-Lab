@@ -62,20 +62,21 @@ effective force on an atmospheric parcel at position r = (x, y):
 </p>
 
 <p style="text-align:center;">
-F<sub>STUR</sub>(r) =
-S(r, L<sub>0</sub>) [
-k<sub>e</sub> q<sub>1</sub> q<sub>2</sub> / r²
-− G m<sub>1</sub> m<sub>2</sub> / r²
-+ α<sub>s</sub> ( (1 − e<sup>−r/λ</sup>) / r² + σ r )
-] r̂,
+F<span style="vertical-align:sub;">STUR</span>(r) =
+S(r, L<span style="vertical-align:sub;">0</span>)
+[ k<span style="vertical-align:sub;">e</span> q<span style="vertical-align:sub;">1</span> q<span style="vertical-align:sub;">2</span> / r²
+− G m<span style="vertical-align:sub;">1</span> m<span style="vertical-align:sub;">2</span> / r²
++ α<span style="vertical-align:sub;">s</span> ( (1 − e<span style="vertical-align:super;">−r/λ</span>) / r² + σ r ) ] r̂.
 </p>
 
 <p>
-with STUR radial modulator
+The STUR radial modulator is
 </p>
 
 <p style="text-align:center;">
-S(r, L<sub>0</sub>) = tanh(r / L<sub>0</sub>) (1 − e<sup>−r / L<sub>0</sub>).
+S(r, L<span style="vertical-align:sub;">0</span>) =
+tanh(r / L<span style="vertical-align:sub;">0</span>)
+(1 − e<span style="vertical-align:super;">−r / L<span style="vertical-align:sub;">0</span></span>).
 </p>
 
 <p>
@@ -83,14 +84,14 @@ In this 2D weather model, each parcel carries (r, v, T, P) and evolves under:
 </p>
 
 <ul>
-  <li>v(t + Δt) = v(t) + (F<sub>fluid</sub> + F<sub>STUR</sub>) Δt</li>
+  <li>v(t + Δt) = v(t) + (F<span style="vertical-align:sub;">fluid</span> + F<span style="vertical-align:sub;">STUR</span>) Δt</li>
   <li>r(t + Δt) = r(t) + v(t) Δt</li>
-  <li>T and P updated using v<sub>y</sub>, gravity g and a simple lapse-like rule</li>
+  <li>T and P updated using v<span style="vertical-align:sub;">y</span>, gravity g and a simple lapse-like rule</li>
 </ul>
 
 <p>
 The fluid force is parameterized as
-F<sub>fluid</sub> = −(1/ρ) ∇P + ν ξ,
+F<span style="vertical-align:sub;">fluid</span> = −(1 / ρ) ∇P + ν ξ,
 where ρ is air density and ξ is a Gaussian noise vector representing subgrid turbulence.
 </p>
 
@@ -100,14 +101,14 @@ each parcel into three event types:
 </p>
 
 <ul>
-  <li><b>Microbursts</b>: large negative vertical-like velocity component v<sub>y</sub></li>
-  <li><b>Funnels</b>: large vertical angular momentum L<sub>z</sub> = x v<sub>y</sub> − y v<sub>x</sub></li>
+  <li><b>Microbursts</b>: strong downward vertical-like velocity component v<span style="vertical-align:sub;">y</span></li>
+  <li><b>Funnels</b>: large vertical angular momentum L<span style="vertical-align:sub;">z</span> = x v<span style="vertical-align:sub;">y</span> − y v<span style="vertical-align:sub;">x</span></li>
   <li><b>Heat domes</b>: elevated temperature above 300 K</li>
 </ul>
 
 <p>
 The Python block below performs the full evolution and prints a single JSON object with all
-summary statistics and event counts, ready for analysis.
+summary statistics, event counts, and a small sample of parcel states.
 </p>
 </div>
 
@@ -136,7 +137,7 @@ nu      = 1e-2      # viscosity-like term
 
 L0      = 1e5       # STUR modulation scale (m)
 alpha_s = 1e-9      # strong-like coupling
-gamma0  = 1e-3      # optional extra coupling for extension
+gamma0  = 1e-3      # reserved for extensions
 
 dt      = 0.5       # timestep (s)
 n_steps = 60        # number of timesteps
@@ -153,7 +154,7 @@ def S_r(r, L0):
 def F_sheldon(r_vec, v_vec):
     """
     2D STUR force: Coulomb + gravity + strong-like radial term.
-    v_vec is kept for possible extensions (e.g., shear coupling).
+    v_vec is kept for possible extensions.
     """
     r_norm = float(np.linalg.norm(r_vec))
     if r_norm == 0.0:
@@ -212,14 +213,14 @@ for step in range(n_steps):
 
 # ------------------- EVENT CLASSIFICATION ---------------
 # microbursts: strong downward vy
-microburst_mask = vel[:, 1] < -10.0
+microburst_mask = np.less(vel[:, 1], -10.0)
 
 # funnels: large vertical angular momentum Lz
 Lz = pos[:, 0] * vel[:, 1] - pos[:, 1] * vel[:, 0]
-funnels_mask = np.abs(Lz) > 0.05
+funnels_mask = np.greater(np.abs(Lz), 0.05)
 
 # heat domes: high temperature
-heat_mask = T > 300.0
+heat_mask = np.greater(T, 300.0)
 
 # ------------------- SUMMARY FIELDS ---------------------
 vx = vel[:, 0]
@@ -283,8 +284,7 @@ for idx in sample_indices:
 summary["sample_parcels"] = sample
 
 # print JSON only
-print(json.dumps(summary, indent=2))
-</pre>
+print(json.dumps(summary, indent=2))</pre>
 
 <div style="text-align:center;">
   <button onclick="copyCode()">Copy Script</button>
