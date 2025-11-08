@@ -63,18 +63,77 @@
 
 <h1>STUR Sonoluminescence – Coulomb–Strong Rayleigh–Plesset Collapse</h1>
 
-<p class="desc">
-Copy the Python code below into a Jupyter or JupyterLite notebook cell and run it.
-It uses only NumPy, Matplotlib, and JSON (no SciPy), and it does not use any
-triple-quoted strings, so you will not see the quote/line-continuation error again.
+<h2>Derivation Overview</h2>
+<div class="desc">
+<p>
+We start from the Rayleigh–Plesset equation for a spherical bubble of radius
+<span style="font-family:serif;">R(t)</span> in a liquid of density <span style="font-family:serif;">ρ<sub>L</sub></span>:
 </p>
+<p style="text-align:center;">
+<code>
+R R¨ + (3/2) R˙² =
+[ P_g(R) − P_inf − P_ac(t) − 4 μ R˙ / R − 2 σ_s / R + F_extra(R) ] / ρ_L.
+</code>
+</p>
+<p>
+The gas pressure is taken as adiabatic,
+<code>P_g(R) = P_g0 (R0 / R)^{3γ}</code>. The STUR modification enters through
+an additional force density
+</p>
+<p style="text-align:center;">
+<code>
+F_extra(R) = C_fac N^(2/3)
+[ k_e q² / R² + α_s ( (1 − e^{−R/λ}) / R² + σ R ) ].
+</code>
+</p>
+<p>
+We nondimensionalize with <code>x = R / R0</code> and
+<code>t' = t √(P_inf / (ρ_L R0²))</code>. Defining
+<code>Π_g = P_g0 / P_inf</code>, <code>Re = ρ_L R0 √(P_inf/ρ_L) / μ</code>,
+<code>We = ρ_L R0 P_inf / σ_s</code>, and a Coulomb–strong coefficient
+<code>Π_C</code>, we obtain
+</p>
+<p style="text-align:center;">
+<code>
+x x¨ + (3/2) x˙² =
+Π_g x^{−3γ} − 1 − P_ac(t')
+− (4 / Re) x˙ / x
+− (2 / We) / x
++ Π_C G(x) / x²,
+</code>
+</p>
+<p>
+with a geometric STUR factor
+<code>
+G(x) = 1 + χ [ (1 − e^{−r/λ}) / r² + σ r ],
+</code>
+where <code>r ≈ a0 x</code> is the microscopic separation between effective
+charges on the bubble wall.
+</p>
+<p>
+To track light emission we evolve a crude thermal+ionization model:
+</p>
+<p style="text-align:center;">
+<code>
+dT/dt = (γ − 1)[ T x˙/x + viscous heating + n_e² source ],<br>
+dn_e/dt = (Saha(T) − n_e) / τ_ion,
+</code>
+</p>
+<p>
+with <code>Saha(T) ∝ exp( −E_ion / (k_B T) )</code>. At the end of each
+cycle we synthesize a spectrum
+<code>B(λ) ∝ n_e² √T exp[ −1240 / (λ T / 11600) ]</code>,
+extract the peak wavelength, and repeat over many cycles to build
+statistics consistent with water sonoluminescence data.
+</p>
+</div>
 
-<h2>Python Simulation</h2>
+<h2>Python Simulation (copy into Jupyter/JupyterLite)</h2>
 
 <pre id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
 # STUR Sonoluminescence – Coulomb + Strong Rayleigh–Plesset Model
-# JupyterLite-safe: NumPy + Matplotlib + JSON (no SciPy, no """ strings)
+# JupyterLite-safe: NumPy + Matplotlib + JSON only (no triple quotes)
 # ===============================================================
 
 import numpy as np
@@ -91,18 +150,18 @@ sigma_s = 0.072         # N/m
 gamma   = 5.0/3.0
 
 # ------------------ COULOMB + STRONG FORCE ----------------------
-N0      = 1.0e5         # number of charges
+N0      = 1.0e5         # number of effective charges
 q       = 1.6e-19       # C
 ke      = 8.9875e9      # N m^2 / C^2
 alpha_s = 1.0e-28       # short-range coupling
 lam     = 1.0e-10       # m
 sigma   = 1.0e-3        # linear term
-Cfac    = 1.0           # scaling factor
+Cfac    = 1.0           # scaling
 
 # ------------------ ACOUSTIC DRIVE ------------------------------
 Pa    = 1.2             # drive amplitude (P / P_inf)
 f     = 25e3            # Hz
-omega = 2.0*np.pi*f*R0*np.sqrt(rhoL/Pinf)  # dimensionless
+omega = 2.0*np.pi*f*R0*np.sqrt(rhoL/Pinf)  # dimensionless frequency
 
 # ------------------ DIMENSIONLESS GROUPS ------------------------
 a0    = (4.0*np.pi/3.0)**(1.0/3.0) * R0 / (N0**(1.0/3.0))
@@ -123,24 +182,24 @@ def rp_rhs(t, y, Pi_C, noise_amp):
     x = max(x, 1.0e-8)
     Pg = Pi_g * x**(-3.0 * gamma)
 
-    # Acoustic drive with per-cycle noise
+    # acoustic drive with per-cycle noise
     Pac = Pa * np.sin(omega * t) * (1.0 + noise_amp)
 
-    # Radial dynamics
+    # radial dynamics
     a = (Pg - 1.0 - Pac
          - 4.0/Re * v/x
          - 2.0/We / x
          + Pi_C * G(x) / x**2
          - 1.5 * v**2) / x
 
-    # Thermal + ionization
+    # clamp for stability
     ne_clip = float(np.clip(ne, 1.0e8, 1.0e15))
     T_eff   = max(T, 300.0)
 
     dTdt = (gamma - 1.0) * (
-        T * v / x +
-        mu * v**2 / (Pinf * R0) +
-        1.0e-19 * ne_clip**2
+        T * v / x
+        + mu * v**2 / (Pinf * R0)
+        + 1.0e-19 * ne_clip**2
     )
 
     Saha = 1.0e23 * np.exp(-12.6 * 11600.0 / T_eff)
@@ -175,13 +234,14 @@ def run_cycle_stats(Pi_C, t_cycle, n_steps, seed):
         T_max = max(T_max, y[2])
 
     lamb = np.linspace(200.0, 800.0, 100)
-    T_end = max(float(y[2]), 300.0)
+    T_end  = max(float(y[2]), 300.0)
     ne_end = float(np.clip(y[3], 1.0e8, 1.0e15))
 
     B = 1.0e-20 * ne_end**2 * np.sqrt(T_end) * np.exp(
         -1240.0 / (lamb * T_end / 11600.0)
     )
     peak_lambda = float(lamb[np.argmax(B)])
+
     return float(T_max), float(x_min), peak_lambda
 
 # ------------------ SINGLE-CYCLE TRAJECTORY ---------------------
@@ -234,12 +294,12 @@ fig, ax = plt.subplots(2, 2, figsize=(10, 8))
 
 # 1) Histogram of T_max
 ax[0,0].hist(T_s, bins=50, density=True, alpha=0.7, color="c",
-             label="&lt;T&gt;={:.0f} K".format(np.mean(T_s)))
+             label="mean T = {:.0f} K".format(np.mean(T_s)))
 ax[0,0].axvline(np.mean(T_s), color="k", lw=2)
 ax[0,0].axvline(5200.0, color="k", ls="--", label="Gaitan")
 ax[0,0].set_xlabel("T_max (K)")
 ax[0,0].set_ylabel("PDF")
-ax[0,0].set_title("H2O: mu={:.0f} K, sigma={:.0f} K".format(np.mean(T_s), np.std(T_s)))
+ax[0,0].set_title("H2O: mu = {:.0f} K, sigma = {:.0f} K".format(np.mean(T_s), np.std(T_s)))
 ax[0,0].legend()
 
 # 2) Single flash trajectory
@@ -250,7 +310,7 @@ ax2.plot(t_tr*1.0e6, T_tr/1000.0, "m-")
 ax[0,1].set_yscale("log")
 ax[0,1].set_xlabel("t (microseconds)")
 ax[0,1].set_ylabel("x")
-ax[0,1].set_title("Flash trajectory, T_max={:.0f} K".format(T_tr.max()))
+ax[0,1].set_title("Flash trajectory, T_max = {:.0f} K".format(T_tr.max()))
 ax[0,1].grid(True)
 
 # 3) Spectrum at end of trajectory
@@ -264,7 +324,7 @@ ax[1,0].plot(lamb, B_show, "m-", lw=3)
 ax[1,0].axvline(288.0, color="k", ls="--", label="VIS")
 ax[1,0].set_xlabel("lambda (nm)")
 ax[1,0].set_ylabel("Intensity")
-ax[1,0].set_title("Sample spectrum, peak ~ {:.0f} nm".format(np.mean(P_s)))
+ax[1,0].set_title("Sample spectrum, mean peak ~ {:.0f} nm".format(np.mean(P_s)))
 ax[1,0].legend()
 ax[1,0].grid(True)
 
@@ -275,7 +335,7 @@ corr = float(np.corrcoef(logx, logT)[0,1])
 ax[1,1].loglog(X_s, T_s, "co-", ms=2, alpha=0.5)
 ax[1,1].set_xlabel("x_min")
 ax[1,1].set_ylabel("T_max")
-ax[1,1].set_title("R–T correlation, rho={:.2f}".format(corr))
+ax[1,1].set_title("R–T correlation, rho = {:.2f}".format(corr))
 
 plt.tight_layout()
 plt.show()
@@ -288,9 +348,9 @@ peak_mean = float(np.mean(P_s))
 vis_count = int(np.sum(P_s > 250.0))
 vis_frac  = 100.0 * vis_count / n_cycles
 
-print("H2O alpha_s=1e-28, <T>={:.0f} +/- {:.0f} K".format(T_mean, T_std))
+print("H2O alpha_s = 1e-28, mean T = {:.0f} +/- {:.0f} K".format(T_mean, T_std))
 print("x_min_mean = {:.2e}".format(x_mean))
-print("peak_lambda_mean = {:.0f} nm".format(peak_mean))
+print("lambda_peak_mean = {:.0f} nm".format(peak_mean))
 print("visible_flashes = {}/{}".format(vis_count, n_cycles))
 print("R–T correlation rho = {:.2f}".format(corr))
 print("")
