@@ -1,20 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>🔋 STUR-ATP Mito Sim 5.5 – 1000-Mito Population</title>
 <style>
-  body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
+  body{
+    background:#050814;
+    color:#e6edf3;
+    font-family:'Courier New',monospace;
+    margin:0;
+    padding:2rem;
+  }
   h1{color:#ffaa00;text-align:center;}
   h2{color:#ffcc33;margin-top:2rem;}
-  .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
-  pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;line-height:1.4;
-      box-shadow:0 0 20px #ffaa0055;}
-  button{background:#ffaa00;color:#050814;border:none;border-radius:6px;padding:10px 20px;font-weight:bold;
-      cursor:pointer;margin:6px;transition:0.2s;}
+  .desc{
+    max-width:900px;
+    margin:0 auto 1.5rem auto;
+    line-height:1.5;
+  }
+  pre{
+    background:#0a0f1f;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    color:#00ffcc;
+    line-height:1.4;
+    box-shadow:0 0 20px #ffaa0055;
+    white-space:pre;
+  }
+  button{
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
+  }
   button:hover{background:#ffcc33;}
-  footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
+  footer{
+    margin-top:2rem;
+    text-align:center;
+    font-size:0.9em;
+    color:#aaa;
+  }
 </style>
 </head>
 <body>
@@ -22,31 +54,16 @@
 <h1>🔋 STUR-ATP Mito Sim 5.5 – 1000-Mito Population</h1>
 
 <p class="desc">
-Models a <b>full mitochondrial population</b>: 1000 mitochondria per mode (healthy, uncoupled, apoptotic).<br>
-Each mitochondrion is a STUR resistance oscillator with geometry (<code>S_STUR(r)</code>), tunneling, ROS production,
-damage accumulation, Ca²⁺ loading, mPTP opening, and thermal feedback.<br>
-Exports CSV/JSON plus 2-D and 3-D plots of pmf, ATP, ROS, temperature, damage, and Ca²⁺ dynamics.
+STUR-based mitochondrial population model (N=1000 per mode: healthy, uncoupled, apoptotic).<br>
+Each mitochondrion has geometry (<code>S_STUR(r)</code>), tunneling, ROS, damage, Ca²⁺, mPTP, and thermal feedback.<br>
+Script exports CSV/JSON plus 2D and 3D plots under <code>exports/</code>.
 </p>
-
-<h2>Derivation Overview (Short Form)</h2>
-<div class="desc">
-<ol>
-  <li><code>S_STUR(r,L₀)</code> maps curvature–resistance into proton-motive force (pmf) and tunneling.</li>
-  <li>Each mitochondrion evolves pmf(t), ATP(t), ROS energy, T(t), D(t), Ca²⁺(t), and mPTP state with feedback loops.</li>
-  <li>Modes differ in drive/leak/ROS parameters and damage/Ca²⁺ thresholds → population bioenergetics under STUR.</li>
-</ol>
-</div>
 
 <h2>Python Simulation (Copy &amp; Run)</h2>
 
-<pre id="codeBlock">
-#!/usr/bin/env python3
-# ===============================================================
-# STUR-ATP Mito Sim 5.5 – Ultimate 1000-Mito Population Version
-# ===============================================================
+<pre id="codeBlock">#!/usr/bin/env python3
+# STUR-ATP Mito Sim 5.5  –  Ultimate 1000-Mito Population Version
 # Sheldon L. Lindberg 2025
-# Simulates 1000 mitochondria per mode under the STUR framework.
-# ===============================================================
 
 import sys
 import subprocess
@@ -66,10 +83,10 @@ for pkg in ["numpy", "matplotlib", "scipy"]:
     except Exception:
         subprocess.run([sys.executable, "-m", "pip", "install", pkg])
 
-NA = 6.022e23            # Avogadro
-E_ATP = 5.0e4 / NA       # 50 kJ/mol → J per ATP
-V_mito_L = 1.0e-15       # 1 fL mitochondrial volume
-ATP_cyto_M = 5.0e-3      # 5 mM cytosolic ATP
+NA = 6.022e23          # Avogadro
+E_ATP = 5.0e4 / NA     # 50 kJ/mol → J per ATP
+V_mito_L = 1.0e-15     # 1 fL mitochondrial volume
+ATP_cyto_M = 5.0e-3    # 5 mM cytosolic ATP
 
 
 def S_STUR(r, L0):
@@ -305,7 +322,6 @@ for r in results:
 
 print("✅ Data exported → exports/*.csv *.json metadata.json")
 
-# 2D timeseries plots
 t = results[0]["t"]
 colors = ["tab:green", "tab:orange", "tab:red"]
 labels = ["Healthy", "Uncoupled", "Apoptotic"]
@@ -352,7 +368,6 @@ plt.savefig("exports/STUR_ATP5_5_timeseries.png", dpi=150, bbox_inches="tight")
 plt.savefig("exports/STUR_ATP5_5_timeseries.pdf", bbox_inches="tight")
 plt.show()
 
-# 3D apoptotic trajectory
 r_apo = [r for r in results if r["MODE"] == "apoptotic"][0]
 pmf = r_apo["pmf_mean"]
 ATP = r_apo["ATP_mean"]
@@ -385,9 +400,8 @@ print("✅ All graphics + data saved in 'exports/'")
 </p>
 
 <p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open Python Runner</b> to launch a JupyterLite
-session (no login). Paste the script into a new notebook cell,
-run it, and inspect the exported CSV/JSON and figures in <code>exports/</code>.
+Click <b>Copy Script</b>, then <b>Open Python Runner</b> to launch a JupyterLite lab in a new tab.<br>
+Paste the script into a new notebook cell and run it. No login required.
 </p>
 
 <footer>
@@ -398,11 +412,30 @@ run it, and inspect the exported CSV/JSON and figures in <code>exports/</code>.
 function copyCode(){
   const el = document.getElementById('codeBlock');
   if(!el) return;
-  navigator.clipboard.writeText(el.innerText);
-  alert('✅ STUR-ATP Mito Sim script copied to clipboard');
+  const text = el.innerText || el.textContent || "";
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(
+      () => alert('✅ Script copied to clipboard'),
+      () => fallbackCopy(text)
+    );
+  }else{
+    fallbackCopy(text);
+  }
+}
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.style.position = 'fixed';
+  ta.style.top = '-1000px';
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  alert('✅ Script copied to clipboard');
 }
 function openRunner(){
-  window.open('https://jupyter.org/try-jupyter/lab/','_blank');
+  // Direct JupyterLite demo with Python kernel
+  window.open('https://jupyterlite.github.io/demo/lab/', '_blank');
 }
 </script>
 
