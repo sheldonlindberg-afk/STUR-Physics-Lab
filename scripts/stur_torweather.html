@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Weather – Simplified 2D Version</title>
+<title>STUR Weather – 2D Event Map (ChatGPT Disclaimer)</title>
 <style>
   body{
     background:#050814;
@@ -14,118 +14,287 @@
   }
   h1{color:#ffaa00;text-align:center;}
   h2{color:#ffcc33;margin-top:2rem;}
+  .desc{
+    max-width:900px;
+    margin:0 auto 1.5rem auto;
+    line-height:1.5;
+  }
   pre{
-    background:#0a0f1f;color:#00ffcc;padding:1rem;
-    border-radius:8px;overflow-x:auto;font-size:0.9rem;
+    background:#0a0f1f;
+    color:#00ffcc;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    font-size:0.9rem;
     box-shadow:0 0 18px #ffaa0040;
+    white-space:pre;
   }
   button{
-    background:#ffaa00;color:#050814;border:none;
-    border-radius:6px;padding:10px 20px;font-weight:bold;
-    cursor:pointer;margin:6px;transition:0.2s;
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
   }
   button:hover{background:#ffcc33;}
-  footer{text-align:center;font-size:0.9em;color:#999;margin-top:2rem;}
+  footer{
+    text-align:center;
+    font-size:0.9em;
+    color:#999;
+    margin-top:2rem;
+  }
+  a{color:#66ccff;}
 </style>
 </head>
 <body>
 
-<h1>STUR Weather – Simplified 2D Field Simulation</h1>
+<h1>STUR Weather – 2D Hybrid Field Simulation</h1>
 
-<div style="background:#200;color:#ff9999;padding:1rem;border-radius:8px;margin-bottom:2rem;">
-<b>Disclaimer:</b> This page was written by ChatGPT, which is known to make mistakes in coding.
-Use this simulation for concept visualization only. Check every formula and constant
-before scientific use.
+<div style="background:#330000;color:#ffaaaa;padding:1rem;border-radius:8px;margin-bottom:1.5rem;">
+  <b>Disclaimer:</b> This page was generated with ChatGPT. Large language models routinely
+  make coding mistakes and bad assumptions. All formulas, constants, and physics
+  should be independently checked before scientific or engineering use.
 </div>
 
-<h2>Overview</h2>
+<h2>Derivation Overview</h2>
+<div class="desc">
 <p>
-This version uses a 2D grid instead of 3D to ensure reliability in JupyterLite.
-It models a STUR unified resistance field coupling electromagnetic, gravitational,
-and strong-like interactions plus spin torque. Atmospheric parcels evolve in time
-and generate emergent features (microbursts, funnels, heat domes) shown as 2D scatter plots.
+We compress the full STUR Unified Resistance force into a 2D atmospheric slice.
+Each air parcel is located at position r = (x,y) with velocity v = (v<sub>x</sub>, v<sub>y</sub>).
+The effective STUR force in the plane is
 </p>
+
+<p style="text-align:center;">
+F<sub>STUR</sub>(r) = S(r,L<sub>0</sub>)
+[ k<sub>e</sub> q<sub>1</sub> q<sub>2</sub> / r² − G m<sub>1</sub> m<sub>2</sub> / r² + α<sub>s</sub> ( (1 − e<sup>−r/λ</sup>) / r² + σ r ) ] r̂
++ γ<sub>0</sub> e<sup>−r/ℓ<sub>B</sub></sup> (S × B)<sub>2D</sub>,
+</p>
+
+<p>
+where S(r,L<sub>0</sub>) is the STUR radial modulator
+</p>
+
+<p style="text-align:center;">
+S(r,L<sub>0</sub>) = tanh(r / L<sub>0</sub>) (1 − e<sup>−r / L<sub>0</sub>}).
+</p>
+
+<p>
+We then add a simple fluid contribution:
+</p>
+
+<p style="text-align:center;">
+F<sub>fluid</sub> = −(1 / ρ) ∇P + ν ξ,
+</p>
+
+<p>
+with air density ρ, local pressure P, and ξ a Gaussian random vector that
+represents small scale turbulence. Each parcel carries temperature T and pressure P.
+To keep it simple but physically motivated:
+</p>
+
+<ul>
+  <li>The x velocity gains a weak horizontal shear proportional to y.</li>
+  <li>The y velocity is driven by the STUR force and random pressure gradients.</li>
+  <li>Temperature and pressure adjust according to vertical like motion (mapped to y).</li>
+</ul>
+
+<p>
+We discretize a 25 × 25 grid in the (x,y) plane over a 2 km × 2 km domain.
+At each timestep Δt we integrate
+</p>
+
+<ul>
+  <li>v(t + Δt) = v(t) + (F<sub>fluid</sub> + F<sub>STUR</sub>) Δt</li>
+  <li>r(t + Δt) = r(t) + v(t) Δt</li>
+  <li>T and P updated using v<sub>y</sub>, g, and a simple lapse-like term</li>
+</ul>
+
+<p>
+After n steps we classify the final state into three emergent weather-like features:
+</p>
+
+<ul>
+  <li><b>Microbursts</b>: parcels whose final v<sub>y</sub> is strongly downward</li>
+  <li><b>Funnels</b>: parcels with large vertical angular momentum
+      L<sub>z</sub> = x v<sub>y</sub> − y v<sub>x</sub></li>
+  <li><b>Heat domes</b>: parcels with elevated T compared to the ambient</li>
+</ul>
+
+<p>
+The Python block below:
+</p>
+<ul>
+  <li>runs the STUR Weather 2D evolution,</li>
+  <li>produces three 2D Matplotlib scatter plots (one per event type),</li>
+  <li>prints a JSON summary with grid, time, event counts, and field ranges.</li>
+</ul>
+</div>
 
 <h2>Python Simulation (copy and run in Jupyter/JupyterLite)</h2>
 
 <pre id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Weather 2D – Reliable Version with Event Plots and JSON
+# STUR Weather 2D – Event Plots + JSON
 # ===============================================================
-import numpy as np, matplotlib.pyplot as plt, json
+import numpy as np
+import matplotlib.pyplot as plt
+import json
+import math
 
-# ---- Constants ----
-k_e,G,sigma=8.9875e9,6.6743e-11,1e-5
-lam,lB=1e-15,1e2
-q1,q2,m1,m2=1e-6,1e-6,1e3,1e3
-S,B=np.array([0,0,1]),np.array([0,0,1])
-rho,g,nu=1.2,9.81,1e-2
-L0,alpha_s,gamma0=1e5,1e-9,1e-3
-dt,n_steps=0.5,60
+# --------------- CONSTANTS ----------------
+k_e  = 8.9875e9   # N m^2 / C^2
+G    = 6.6743e-11 # N m^2 / kg^2
+sigma_strong = 1e-5
+lam  = 1e-15
+lB   = 1e2
+
+q1, q2 = 1e-6, 1e-6   # C
+m1, m2 = 1e3, 1e3     # kg
+S_vec  = np.array([0.0, 0.0, 1.0])
+B_vec  = np.array([0.0, 0.0, 1.0])
+
+rho_air = 1.2         # kg/m^3
+g       = 9.81        # m/s^2
+nu      = 1e-2        # viscosity-like coeff
+
+L0      = 1e5         # STUR scale
+alpha_s = 1e-9
+gamma0  = 1e-3
+
+dt      = 0.5         # s
+n_steps = 60
 np.random.seed(0)
 
-# ---- STUR Force ----
-def S_r(r,L0): return np.tanh(r/L0)*(1-np.exp(-r/L0))
-def F_sheldon(r,vel):
-    r_norm=max(np.linalg.norm(r),1e-9); r_hat=r/r_norm
-    F_rad=S_r(r_norm,L0)*((k_e*q1*q2/r_norm**2-G*m1*m2/r_norm**2+alpha_s*((1-np.exp(-r_norm/lam))/r_norm**2+sigma*r_norm))*r_hat)
-    F_spin=gamma0*np.exp(-r_norm/lB)*np.cross(S,B)[:2]
-    return F_rad[:2]+F_spin
+V_MAX   = 50.0        # cap speed (m/s)
 
-# ---- 2D Grid ----
-nx,ny=25,25
-X,Y=np.meshgrid(np.linspace(-1e3,1e3,nx),np.linspace(-1e3,1e3,ny))
-pos=np.stack([X.flatten(),Y.flatten()],axis=-1)
-vel=np.zeros_like(pos)
-T=np.ones(pos.shape[0])*290
-P=np.ones_like(T)*101325
+# --------------- STUR MODULATOR & FORCE ---------------
+def S_r(r, L0):
+    """STUR radial modulator S(r,L0)."""
+    return math.tanh(r / L0) * (1.0 - math.exp(-r / L0))
 
-# ---- Evolution ----
+def F_sheldon(r_vec, v_vec):
+    """
+    2D STUR force in the plane, using full 3D vectors for spin
+    but projecting back to x–y.
+    """
+    r_norm = float(np.linalg.norm(r_vec))
+    if r_norm == 0.0:
+        return np.zeros(2, dtype=float)
+    r_hat  = r_vec / r_norm
+
+    coul = k_e * q1 * q2 / (r_norm**2)
+    grav = -G * m1 * m2 / (r_norm**2)
+    strong = alpha_s * ((1.0 - math.exp(-r_norm / lam)) / (r_norm**2)
+                        + sigma_strong * r_norm)
+
+    F_rad_3d = S_r(r_norm, L0) * (coul + grav + strong) * np.array([r_hat[0], r_hat[1], 0.0])
+    F_spin_3d = gamma0 * math.exp(-r_norm / lB) * np.cross(S_vec, B_vec)
+    F_total_3d = F_rad_3d + F_spin_3d
+
+    return F_total_3d[:2]
+
+# --------------- GRID INITIALIZATION -------------------
+nx, ny = 25, 25
+x_vals = np.linspace(-1e3, 1e3, nx)
+y_vals = np.linspace(-1e3, 1e3, ny)
+X, Y = np.meshgrid(x_vals, y_vals)
+
+pos = np.stack([X.flatten(), Y.flatten()], axis=-1).astype(float)
+vel = np.zeros_like(pos, dtype=float)
+T   = np.ones(pos.shape[0], dtype=float) * 290.0
+P   = np.ones(pos.shape[0], dtype=float) * 101325.0
+
+# --------------- TIME EVOLUTION ------------------------
 for step in range(n_steps):
-    vel[:,0]+=0.0001*(pos[:,1]/1e3)
+    # background shear in x, proportional to y
+    vel[:, 0] = vel[:, 0] + 0.0001 * (pos[:, 1] / 1e3)
+
     for i in range(pos.shape[0]):
-        F_fluid=-1/rho*np.array([0,(P[i]-101325)/50])+nu*np.random.randn(2)*0.01
-        F_total=F_fluid+F_sheldon(pos[i],vel[i])
-        vel[i]+=F_total*dt
-        vel[i]=np.clip(vel[i],-50,50)
-        pos[i]+=vel[i]*dt
-        T[i]+=-g/1000*vel[i,1]*dt
-        P[i]-=0.05*vel[i,1]*dt
+        # fluid force: vertical pressure deviation + noise
+        F_fluid = np.array([0.0,
+                            (P[i] - 101325.0) / 50.0], dtype=float)
+        F_fluid = F_fluid * (-1.0 / rho_air) + nu * np.random.randn(2) * 0.01
 
-# ---- Events ----
-microbursts=vel[:,1]&lt;-10
-funnels=np.abs(pos[:,0]*vel[:,1]-pos[:,1]*vel[:,0])&gt;0.05
-heat_domes=T&gt;300
+        # STUR unified force
+        F_stur = F_sheldon(pos[i], vel[i])
+        F_total = F_fluid + F_stur
 
-# ---- 2D Plots ----
-def plot_event(mask,color,title):
-    plt.figure(figsize=(6,5))
-    plt.scatter(pos[:,0],pos[:,1],s=5,c='#444444',alpha=0.3)
-    plt.scatter(pos[mask,0],pos[mask,1],s=25,c=color,label=title)
-    plt.xlabel('X (m)');plt.ylabel('Y (m)')
-    plt.title(title);plt.legend();plt.grid(True);plt.tight_layout();plt.show()
+        # update velocity
+        vel[i] = vel[i] + F_total * dt
+        vel[i] = np.clip(vel[i], -V_MAX, V_MAX)
 
-plot_event(microbursts,'cyan','Microbursts (vz&lt;-10)')
-plot_event(funnels,'magenta','Funnels (|Lz|&gt;0.05)')
-plot_event(heat_domes,'red','Heat Domes (T&gt;300K)')
+        # update position
+        pos[i] = pos[i] + vel[i] * dt
 
-# ---- JSON Summary ----
-summary={
- "model":"STUR Weather 2D",
- "grid":{"nx":int(nx),"ny":int(ny),"n_parcels":int(pos.shape[0])},
- "time":{"dt_s":float(dt),"n_steps":int(n_steps),"total_time_s":float(dt*n_steps)},
- "events":{
-  "microbursts_count":int(np.sum(microbursts)),
-  "funnels_count":int(np.sum(funnels)),
-  "heat_domes_count":int(np.sum(heat_domes))
- },
- "fields":{
-  "T_min_K":float(np.min(T)),"T_max_K":float(np.max(T)),
-  "P_min_Pa":float(np.min(P)),"P_max_Pa":float(np.max(P)),
-  "vy_min":float(np.min(vel[:,1])),"vy_max":float(np.max(vel[:,1]))
- }
+        # treat y as vertical-like component
+        vy = vel[i, 1]
+        T[i] = T[i] + (-g / 1000.0) * vy * dt
+        P[i] = P[i] - 0.05 * vy * dt
+
+# --------------- EVENT MASKS ----------------------------
+# microbursts: strong downward vy
+microbursts_mask = np.less(vel[:, 1], -10.0)
+
+# funnels: large vertical angular momentum Lz = x vy − y vx
+Lz = pos[:, 0] * vel[:, 1] - pos[:, 1] * vel[:, 0]
+funnels_mask = np.greater(np.abs(Lz), 0.05)
+
+# heat domes: elevated temperature
+heat_mask = np.greater(T, 300.0)
+
+# --------------- PLOTTING FUNCTIONS ---------------------
+def plot_event(mask, color, title):
+    plt.figure(figsize=(6, 5))
+    plt.scatter(pos[:, 0], pos[:, 1],
+                s=5, c="#444444", alpha=0.3, label="All parcels")
+    plt.scatter(pos[mask, 0], pos[mask, 1],
+                s=25, c=color, label=title)
+    plt.xlabel("X (m)")
+    plt.ylabel("Y (m)")
+    plt.title(title)
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+# Three separate 2D plots
+plot_event(microbursts_mask, "cyan", "Microbursts (vy strongly negative)")
+plot_event(funnels_mask, "magenta", "Funnels (large |Lz|)")
+plot_event(heat_mask, "red", "Heat Domes (T above 300 K)")
+
+# --------------- JSON SUMMARY ---------------------------
+summary = {
+    "model": "STUR Weather 2D",
+    "grid": {
+        "nx": int(nx),
+        "ny": int(ny),
+        "n_parcels": int(pos.shape[0])
+    },
+    "time": {
+        "dt_s": float(dt),
+        "n_steps": int(n_steps),
+        "total_time_s": float(dt * n_steps)
+    },
+    "events": {
+        "microbursts_count": int(np.sum(microbursts_mask)),
+        "funnels_count": int(np.sum(funnels_mask)),
+        "heat_domes_count": int(np.sum(heat_mask))
+    },
+    "fields": {
+        "T_min_K": float(np.min(T)),
+        "T_max_K": float(np.max(T)),
+        "P_min_Pa": float(np.min(P)),
+        "P_max_Pa": float(np.max(P)),
+        "vy_min_m_per_s": float(np.min(vel[:, 1])),
+        "vy_max_m_per_s": float(np.max(vel[:, 1]))
+    }
 }
-print(json.dumps(summary,indent=2))
+
+print(json.dumps(summary, indent=2))
 print("STUR Weather 2D simulation complete.")</pre>
 
 <div style="text-align:center;">
@@ -134,14 +303,14 @@ print("STUR Weather 2D simulation complete.")</pre>
 </div>
 
 <footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | Simplified Weather Simulation
+© 2025 STUR Physics Lab | Unified Resistance Framework | STUR Weather 2D
 </footer>
 
 <script>
 function copyCode(){
-  const code=document.getElementById("codeBlock").innerText;
+  const code = document.getElementById("codeBlock").innerText;
   navigator.clipboard.writeText(code);
-  alert("STUR Weather 2D code copied to clipboard.");
+  alert("STUR Weather 2D simulation code copied to clipboard.");
 }
 function openRunner(){
   window.open("https://jupyter.org/try-jupyter/lab/","_blank");
