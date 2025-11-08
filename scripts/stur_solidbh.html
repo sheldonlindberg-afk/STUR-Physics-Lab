@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR Double-Slit – Toroidal Resistance Interference</title>
+<style>
+  body{
+    background:#050814;
+    color:#e6edf3;
+    font-family:"Courier New",monospace;
+    margin:0;
+    padding:2rem;
+  }
+  h1{color:#ffaa00;text-align:center;}
+  h2{color:#ffcc33;margin-top:2rem;}
+  .desc{
+    max-width:900px;
+    margin:0 auto 1.5rem auto;
+    line-height:1.5;
+  }
+  pre{
+    background:#0a0f1f;
+    color:#00ffcc;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    font-size:0.9rem;
+    box-shadow:0 0 18px #ffaa0040;
+    white-space:pre;
+  }
+  button{
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
+  }
+  button:hover{background:#ffcc33;}
+  footer{
+    text-align:center;
+    font-size:0.9em;
+    color:#999;
+    margin-top:2rem;
+  }
+  a{color:#66ccff;}
+</style>
+</head>
+<body>
+
+<h1>STUR Double-Slit – Toroidal Resistance Gate</h1>
+
+<h2>Derivation Sketch – TOR Phase Gate</h2>
+<div class="desc">
+<p>
+We model an electron wavepacket crossing a toroidal “resistance gate” that
+acts like a dynamical double slit. The electron is treated as a point test
+charge with charge \(q\) and mass \(m\), but driven by the STUR radial
+modulator and a toroidal short–range force.
+</p>
+
+<p style="text-align:center;">
+\[
+\mathbf F_{\mathrm{STUR}}(r)
+= \mathcal S(r;L_0)
+\left[
+\frac{k_e q^2}{r^2}\hat{\mathbf r}
+- \frac{G m^2}{r^2}\hat{\mathbf r}
++ \alpha_s\left(\frac{1-e^{-r/\lambda}}{r^2}+\sigma r\right)\hat{\mathbf r}
+\right]
+\]
+</p>
+
+<p>
+The STUR radial modulator is
+</p>
+
+<p style="text-align:center;">
+\[
+\mathcal S(r;L_0)=\tanh\left(\frac{r}{L_0}\right)
+\left(1-e^{-r/L_0}\right),
+\]
+</p>
+
+<p>
+so that at very small radii the effective force is suppressed, while at
+mesoscopic radii the full Coulomb + short–range interaction is restored.
+The toroidal pilot–kick term couples to the longitudinal velocity \(v_z\):
+</p>
+
+<p style="text-align:center;">
+\[
+g_0(r,v_z)=g_0 e^{-r/\ell_B}\,|v_z|,
+\qquad
+\mathbf F_{\mathrm{pilot}}(t,\mathbf r)
+\propto g_0(r,v_z)\sin(\omega t)\,
+(\tanh z\,\hat{\mathbf x}-\tanh x\,\hat{\mathbf z}),
+\]
+</p>
+
+<p>
+which nudges the packet into two effective paths around the torus core.
+The phase functional accumulated along each trajectory is approximated by
+</p>
+
+<p style="text-align:center;">
+\[
+\Phi = \int g_0(r,|v_z|)\,dt,
+\]
+</p>
+
+<p>
+and the interference intensity on a distant screen is taken as
+\(|\psi|^2\propto 4\cos^2\big[(\Phi_1-\Phi_2 + \Delta k(x))/2\big]\), where
+\(\Delta k(x)\sim 2\pi x/\ell_w\) converts screen position \(x\) into a
+phase shift.  Numerically we integrate the six–dimensional system
+\((x,y,z,v_x,v_y,v_z)\) with a fourth–order Runge–Kutta scheme, generate
+two mirror trajectories, and plot:
+</p>
+
+<ul>
+  <li>3D toroidal paths for the two “slits”</li>
+  <li>Resulting fringe pattern on a 1D screen</li>
+  <li>Longitudinal velocity histories \(v_z(t)\) for both paths</li>
+</ul>
+
+<p>
+All force terms are bounded by a cutoff \(F_{\max}\) to keep the explicit
+time integration stable inside JupyterLite.
+</p>
+</div>
+
+<h2>Python Simulation (copy and run in Jupyter)</h2>
+
+<pre id="codeBlock">
+#!/usr/bin/env python3
+# ===============================================================
+# STUR Double-Slit – Toroidal Resistance Gate
+# Static Matplotlib plots, no SciPy, JupyterLite compatible.
+# ===============================================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 (ensures 3D projection)
+
+# ----------------- Physical / TOR parameters -------------------
+q, m = -1.6e-19, 9.1e-31          # electron charge, mass
+g0, eB = 1e-12, 10.0              # pilot coupling, decay length (arb.)
+L0, lam = 1.0e-10, 1.0e-15        # STUR scale, short-range scale
+s = 1.0e-27                       # strong-like coefficient
+lw = 1.0e-9                       # "slit separation" scale on screen
+eps0 = 1.0e2                      # soft core parameter
+k_e = 8.99e9                      # Coulomb constant (SI)
+Fmax = 1.0e-15                    # force cutoff for numeric stability
+omega_drive = 2.0 * np.pi * 1.0e6 # drive frequency (rad/s)
+
+# STUR radial modulator
+def S_mod(r):
+    return np.tanh(r / L0) * (1.0 - np.exp(-r / L0))
+
+# pilot strength g0(r, v_z)
+def g0_tor(r, vz):
+    return g0 * np.exp(-r / eB) * np.abs(vz)
+
+# softening of the core
+def eps_core(r):
+    return eps0 + 0.1 * r
+
+# full 6D ODE: y = [x, y, z, vx, vy, vz]
+def F_ode(t, y):
+    x, y0, z, vx, vy, vz = y
+    # radial distance in torus core coordinates
+    r0 = np.sqrt(x * x + y0 * y0 + z * z)
+    r = np.sqrt(r0 * r0 + eps_core(r0) ** 2) + 1e-30
+    r_hat = np.array([x, y0, z]) / r
+
+    # Coulomb + short-range "TOR" force
+    F_em = (q * q * k_e) / (r * r) * r_hat
+    F_tor = s * ((1.0 - np.exp(-r / lam)) / (r * r) + r / L0) * r_hat
+
+    # pilot kick (time-dependent, velocity-weighted)
+    pk = g0_tor(r, vz) * np.sin(omega_drive * t)
+    pk = np.tanh(pk / 1.0e-25) * 1.0e-25  # saturate smoothly
+
+    F_px = pk * np.tanh(z / 0.01)
+    F_pz = -pk * np.tanh(x / 0.01)
+
+    F_total = S_mod(r) * (F_em + F_tor)
+    F_total[0] += F_px
+    F_total[2] += F_pz
+
+    mag = np.linalg.norm(F_total)
+    if mag > Fmax:
+        F_total *= Fmax / (mag + 1.0e-30)
+
+    ax, ay, az = F_total / m
+    return np.array([vx, vy, vz, ax, ay, az], dtype=float)
+
+# 4th-order Runge–Kutta integrator (no SciPy)
+def integrate_path(x0, vz0, t0=0.0, t1=1.0e-5, nsteps=1200):
+    t = np.linspace(t0, t1, nsteps)
+    y = np.zeros((6, nsteps), dtype=float)
+    # initial state: start at (x0,0,0) with small transverse vy and chosen vz
+    y[:, 0] = [x0, 0.0, 0.0, 0.0, 1.0e5, vz0]
+    dt = t[1] - t[0]
+
+    for i in range(nsteps - 1):
+        y_i = y[:, i]
+        k1 = F_ode(t[i], y_i)
+        k2 = F_ode(t[i] + 0.5 * dt, y_i + 0.5 * dt * k1)
+        k3 = F_ode(t[i] + 0.5 * dt, y_i + 0.5 * dt * k2)
+        k4 = F_ode(t[i] + dt,       y_i + dt * k3)
+        y[:, i + 1] = y_i + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4)
+
+    # phase functional Φ = ∫ g0(r,|vz|) dt (simple accumulation)
+    r = np.sqrt(y[0] ** 2 + y[1] ** 2 + y[2] ** 2)
+    dt_arr = np.empty_like(t)
+    dt_arr[0] = 0.0
+    dt_arr[1:] = np.diff(t)
+    phase = np.cumsum(g0_tor(r, np.abs(y[5])) * dt_arr)[-1]
+    return t, y, phase
+
+# ----- two mirror paths through TOR gate ------------------------
+t1, y1, phi1 = integrate_path(+100.0,  +5.0e4)
+t2, y2, phi2 = integrate_path(-100.0,  -5.0e4)
+
+# screen interference pattern
+X = np.linspace(-1.0, 1.0, 1000)     # meters on screen
+phase_diff = phi1 - phi2
+I = 4.0 * np.cos((phase_diff + X / lw * 2.0 * np.pi) / 2.0) ** 2
+
+# ------------------------ plots --------------------------------
+fig = plt.figure(figsize=(12, 4))
+
+# (1) 3D TOR paths
+ax1 = fig.add_subplot(1, 3, 1, projection="3d")
+ax1.plot(y1[0], y1[1], y1[2], "b", label="path 1")
+ax1.plot(y2[0], y2[1], y2[2], "r", label="path 2")
+ax1.scatter([+100.0, -100.0], [0.0, 0.0], [0.0, 0.0], c="k", marker="x")
+ax1.set_title("TOR Classical Paths")
+ax1.set_xlabel("x (arb)")
+ax1.set_ylabel("y (arb)")
+ax1.set_zlabel("z (arb)")
+ax1.legend()
+
+# (2) Fringe pattern
+ax2 = fig.add_subplot(1, 3, 2)
+ax2.plot(X * 1.0e3, I, "m")
+ax2.set_title("Effective Fringe Pattern")
+ax2.set_xlabel("screen x (mm)")
+ax2.set_ylabel("|psi|^2 (arb)")
+ax2.grid(alpha=0.3)
+
+# (3) Longitudinal velocities
+ax3 = fig.add_subplot(1, 3, 3)
+ax3.plot(t1, y1[5], "b", label="v_z (path 1)")
+ax3.plot(t2, y2[5], "r", label="v_z (path 2)")
+ax3.set_title("Phase Driver v_z(t)")
+ax3.set_xlabel("t (s)")
+ax3.set_ylabel("v_z (m/s)")
+ax3.legend()
+ax3.grid(alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+print(f"Phase difference |phi1 - phi2| = {abs(phase_diff):.3e} rad")
+print("STUR Double-Slit TOR simulation complete.")
+</pre>
+
+<div style="text-align:center;margin-top:1rem;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open JupyterLite</button>
+</div>
+
+<p class="desc" style="text-align:center;">
+Click <b>Copy Script</b>, then <b>Open JupyterLite</b>.  
+In JupyterLite, create a new Python notebook, paste the code into a cell, and run it to see the
+TOR double-slit paths, interference pattern, and phase driver.
+</p>
+
+<footer>
+STUR Physics Lab &mdash; Unified Resistance Framework &mdash; Double-Slit TOR Gate
+</footer>
+
+<script>
+function copyCode(){
+  const el = document.getElementById("codeBlock");
+  const code = el.innerText;
+  navigator.clipboard.writeText(code).then(
+    () => { alert("STUR Double-Slit TOR code copied to clipboard."); },
+    () => { alert("Copy failed. Select and copy manually."); }
+  );
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/", "_blank");
+}
+</script>
+
+</body>
+</html>
