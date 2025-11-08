@@ -5,181 +5,344 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STUR Sonoluminescence – Coulomb–Strong Collapse</title>
 <style>
-body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
-h1{color:#ffaa00;text-align:center;}
-h2{color:#ffcc33;margin-top:2rem;}
-.desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
-pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;
-    line-height:1.4;box-shadow:0 0 20px #ffaa0055;font-size:0.9rem;white-space:pre;}
-button{background:#ffaa00;color:#050814;border:none;border-radius:6px;
-    padding:10px 20px;font-weight:bold;cursor:pointer;margin:6px;transition:0.2s;}
-button:hover{background:#ffcc33;}
-footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
-a{color:#66ccff;}
+  body{
+    background:#050814;
+    color:#e6edf3;
+    font-family:'Courier New',monospace;
+    margin:0;
+    padding:2rem;
+  }
+  h1{
+    color:#ffaa00;
+    text-align:center;
+  }
+  h2{
+    color:#ffcc33;
+    margin-top:2rem;
+  }
+  .desc{
+    max-width:900px;
+    margin:0 auto 1.5rem auto;
+    line-height:1.5;
+  }
+  pre{
+    background:#0a0f1f;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    color:#00ffcc;
+    line-height:1.4;
+    box-shadow:0 0 20px #ffaa0055;
+    font-size:0.9rem;
+    white-space:pre;
+  }
+  button{
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
+  }
+  button:hover{
+    background:#ffcc33;
+  }
+  footer{
+    margin-top:2rem;
+    text-align:center;
+    font-size:0.9em;
+    color:#bbb;
+  }
+  a{color:#66ccff;}
 </style>
 </head>
 <body>
 
-<h1>STUR Sonoluminescence<br>Coulomb–Strong Rayleigh–Plesset Collapse</h1>
+<h1>STUR Sonoluminescence – Coulomb–Strong Rayleigh–Plesset Collapse</h1>
 
 <p class="desc">
-Self-contained simulation coupling Rayleigh–Plesset bubble dynamics with Coulomb + short-range strong-like
-forces.  Integrates radius R(t), temperature T(t), and free-electron density nₑ(t) via a custom RK4 solver.
+Copy the Python code below into a Jupyter or JupyterLite notebook cell and run it.
+It uses only NumPy, Matplotlib, and JSON (no SciPy), and it does not use any
+triple-quoted strings, so you will not see the quote/line-continuation error again.
 </p>
 
-<h2>Python code (copy into Jupyter)</h2>
+<h2>Python Simulation</h2>
 
 <pre id="codeBlock">#!/usr/bin/env python3
-import numpy as np, matplotlib.pyplot as plt, json
+# ===============================================================
+# STUR Sonoluminescence – Coulomb + Strong Rayleigh–Plesset Model
+# JupyterLite-safe: NumPy + Matplotlib + JSON (no SciPy, no """ strings)
+# ===============================================================
 
-# --- Physical parameters ---
-rhoL,Pinf,Pg0,R0=1000,1e5,1e5,1e-5
-mu,sigma_s,gamma=1e-3,0.072,5/3
-N0,q,ke=1e5,1.6e-19,8.9875e9
-alpha_s,lam,sigma,Cfac=1e-28,1e-10,1e-3,1.0
-Pa,f=1.2,25e3
-omega=2*np.pi*f*R0*np.sqrt(rhoL/Pinf)
+import numpy as np
+import matplotlib.pyplot as plt
+import json
 
-a0=(4*np.pi/3)**(1/3)*R0/N0**(1/3)
-Pi_g=Pg0/Pinf
-Re=rhoL*R0*np.sqrt(Pinf/rhoL)/mu
-We=rhoL*R0*Pinf/sigma_s
-Pi_C0=Cfac*N0**(2/3)*ke*q**2/(Pinf*R0**2)
-chi=alpha_s/(ke*q**2)
+# ------------------ BASE PARAMETERS -----------------------------
+rhoL    = 1000.0        # kg/m^3 (water)
+Pinf    = 1.0e5         # Pa
+Pg0     = 1.0e5         # Pa
+R0      = 1.0e-5        # m
+mu      = 1.0e-3        # Pa·s
+sigma_s = 0.072         # N/m
+gamma   = 5.0/3.0
 
+# ------------------ COULOMB + STRONG FORCE ----------------------
+N0      = 1.0e5         # number of charges
+q       = 1.6e-19       # C
+ke      = 8.9875e9      # N m^2 / C^2
+alpha_s = 1.0e-28       # short-range coupling
+lam     = 1.0e-10       # m
+sigma   = 1.0e-3        # linear term
+Cfac    = 1.0           # scaling factor
+
+# ------------------ ACOUSTIC DRIVE ------------------------------
+Pa    = 1.2             # drive amplitude (P / P_inf)
+f     = 25e3            # Hz
+omega = 2.0*np.pi*f*R0*np.sqrt(rhoL/Pinf)  # dimensionless
+
+# ------------------ DIMENSIONLESS GROUPS ------------------------
+a0    = (4.0*np.pi/3.0)**(1.0/3.0) * R0 / (N0**(1.0/3.0))
+Pi_g  = Pg0 / Pinf
+Re    = rhoL * R0 * np.sqrt(Pinf/rhoL) / mu
+We    = rhoL * R0 * Pinf / sigma_s
+Pi_C0 = Cfac * (N0**(2.0/3.0)) * ke * q**2 / (Pinf * R0**2)
+chi   = alpha_s / (ke * q**2)
+
+# ------------------ ENHANCEMENT FACTOR --------------------------
 def G(x):
-    r=max(a0*x,1e-20)
-    return 1+chi*((1-np.exp(-r/lam))/(r**2+1e-24)+sigma*r)
+    r = max(a0 * x, 1.0e-20)
+    return 1.0 + chi * ((1.0 - np.exp(-r/lam)) / (r**2 + 1.0e-24) + sigma * r)
 
-def rp_rhs(t,y,Pi_C):
-    x,v,T,ne=y
-    x=max(x,1e-8)
-    Pg=Pi_g*x**(-3*gamma)
-    Pac=Pa*np.sin(omega*t)
-    a=(Pg-1-Pac-4/Re*v/x-2/We/x+Pi_C*G(x)/x**2-1.5*v**2)/x
-    ne=np.clip(ne,1e8,1e15)
-    dTdt=(gamma-1)*(T*v/x+mu*v**2/(Pinf*R0)+1e-19*ne**2)
-    Saha=1e23*np.exp(-12.6*11600/max(T,300))
-    dne_dt=(Saha-ne)/1e-6
-    return np.array([v,a,dTdt,dne_dt])
+# ------------------ RAYLEIGH–PLESSET RHS ------------------------
+def rp_rhs(t, y, Pi_C, noise_amp):
+    x, v, T, ne = y
+    x = max(x, 1.0e-8)
+    Pg = Pi_g * x**(-3.0 * gamma)
 
-def rk4_step(t,y,dt,Pi_C):
-    k1=rp_rhs(t,y,Pi_C)
-    k2=rp_rhs(t+0.5*dt,y+0.5*dt*k1,Pi_C)
-    k3=rp_rhs(t+0.5*dt,y+0.5*dt*k2,Pi_C)
-    k4=rp_rhs(t+dt,y+dt*k3,Pi_C)
-    return y+(dt/6)*(k1+2*k2+2*k3+k4)
+    # Acoustic drive with per-cycle noise
+    Pac = Pa * np.sin(omega * t) * (1.0 + noise_amp)
 
-def run_cycle_stats(Pi_C,t_cycle,n_steps,seed):
-    np.random.seed(seed)
-    dt=t_cycle/n_steps; t=0
-    y=np.array([1+0.01*np.random.randn(),0,300,1e10])
-    x_min=y[0]; T_max=y[2]
+    # Radial dynamics
+    a = (Pg - 1.0 - Pac
+         - 4.0/Re * v/x
+         - 2.0/We / x
+         + Pi_C * G(x) / x**2
+         - 1.5 * v**2) / x
+
+    # Thermal + ionization
+    ne_clip = float(np.clip(ne, 1.0e8, 1.0e15))
+    T_eff   = max(T, 300.0)
+
+    dTdt = (gamma - 1.0) * (
+        T * v / x +
+        mu * v**2 / (Pinf * R0) +
+        1.0e-19 * ne_clip**2
+    )
+
+    Saha = 1.0e23 * np.exp(-12.6 * 11600.0 / T_eff)
+    dne_dt = (Saha - ne) / 1.0e-6
+
+    return np.array([v, a, dTdt, dne_dt], dtype=float)
+
+# ------------------ RK4 STEP ------------------------------------
+def rk4_step(t, y, dt, Pi_C, noise_amp):
+    k1 = rp_rhs(t, y, Pi_C, noise_amp)
+    k2 = rp_rhs(t + 0.5*dt, y + 0.5*dt*k1, Pi_C, noise_amp)
+    k3 = rp_rhs(t + 0.5*dt, y + 0.5*dt*k2, Pi_C, noise_amp)
+    k4 = rp_rhs(t + dt,       y + dt*k3,   Pi_C, noise_amp)
+    return y + (dt/6.0)*(k1 + 2.0*k2 + 2.0*k3 + k4)
+
+# ------------------ SINGLE-CYCLE STATS --------------------------
+def run_cycle_stats(Pi_C, t_cycle, n_steps, seed):
+    rng = np.random.default_rng(seed)
+    noise_amp = 0.1 * rng.normal()
+
+    dt = t_cycle / n_steps
+    t  = 0.0
+    y  = np.array([1.0 + 0.01*rng.normal(), 0.0, 300.0, 1.0e10], dtype=float)
+
+    x_min = y[0]
+    T_max = y[2]
+
     for _ in range(n_steps):
-        y=rk4_step(t,y,dt,Pi_C); t+=dt
-        x_min=min(x_min,y[0]); T_max=max(T_max,y[2])
-    lamb=np.linspace(200,800,100)
-    T_end,ne_end=y[2],y[3]
-    B=1e-20*ne_end**2*np.sqrt(max(T_end,100))*np.exp(-1240/(lamb*max(T_end,100)/11600))
-    return float(T_max),float(x_min),float(lamb[np.argmax(B)])
+        y = rk4_step(t, y, dt, Pi_C, noise_amp)
+        t += dt
+        x_min = min(x_min, y[0])
+        T_max = max(T_max, y[2])
 
-def run_cycle_traj(Pi_C,t_cycle,n_steps,seed):
-    np.random.seed(seed)
-    dt=t_cycle/n_steps; t=0
-    y=np.array([1,0,300,1e10])
-    t_arr=np.zeros(n_steps+1);x_arr=np.zeros_like(t_arr)
-    T_arr=np.zeros_like(t_arr);ne_arr=np.zeros_like(t_arr)
-    for i in range(n_steps+1):
-        t_arr[i]=t;x_arr[i]=y[0];T_arr[i]=y[2];ne_arr[i]=y[3]
-        if i<n_steps: y=rk4_step(t,y,dt,Pi_C); t+=dt
-    return t_arr,x_arr,T_arr,ne_arr
+    lamb = np.linspace(200.0, 800.0, 100)
+    T_end = max(float(y[2]), 300.0)
+    ne_end = float(np.clip(y[3], 1.0e8, 1.0e15))
 
-# --- Monte-Carlo ensemble ---
-n_cycles,t_cycle,n_steps_stats,n_steps_traj=10000,0.04,400,1000
-T_s=[];X_s=[];P_s=[]
+    B = 1.0e-20 * ne_end**2 * np.sqrt(T_end) * np.exp(
+        -1240.0 / (lamb * T_end / 11600.0)
+    )
+    peak_lambda = float(lamb[np.argmax(B)])
+    return float(T_max), float(x_min), peak_lambda
+
+# ------------------ SINGLE-CYCLE TRAJECTORY ---------------------
+def run_cycle_traj(Pi_C, t_cycle, n_steps, seed):
+    rng = np.random.default_rng(seed)
+    noise_amp = 0.1 * rng.normal()
+
+    dt = t_cycle / n_steps
+    t  = 0.0
+    y  = np.array([1.0, 0.0, 300.0, 1.0e10], dtype=float)
+
+    t_arr  = np.zeros(n_steps + 1)
+    x_arr  = np.zeros_like(t_arr)
+    T_arr  = np.zeros_like(t_arr)
+    ne_arr = np.zeros_like(t_arr)
+
+    for i in range(n_steps + 1):
+        t_arr[i]  = t
+        x_arr[i]  = y[0]
+        T_arr[i]  = y[2]
+        ne_arr[i] = y[3]
+        if i < n_steps:
+            y = rk4_step(t, y, dt, Pi_C, noise_amp)
+            t += dt
+
+    return t_arr, x_arr, T_arr, ne_arr
+
+# ------------------ MONTE CARLO RUN -----------------------------
+n_cycles      = 10000
+t_cycle       = 0.04
+n_steps_stats = 400
+n_steps_traj  = 1000
+
+T_s = []
+X_s = []
+P_s = []
+
 for i in range(n_cycles):
-    Tmax,xmin,peak=run_cycle_stats(Pi_C0,t_cycle,n_steps_stats,i)
-    T_s.append(Tmax);X_s.append(xmin);P_s.append(peak)
-T_s,X_s,P_s=np.array(T_s),np.array(X_s),np.array(P_s)
+    Tmax, xmin, peak_lambda = run_cycle_stats(Pi_C0, t_cycle, n_steps_stats, seed=i)
+    T_s.append(Tmax)
+    X_s.append(xmin)
+    P_s.append(peak_lambda)
 
-# --- Plots ---
-fig,ax=plt.subplots(2,2,figsize=(10,8))
-ax[0,0].hist(T_s,bins=50,density=True,alpha=0.7,color='c',
-             label=f'<T>={np.mean(T_s):.0f} K')
-ax[0,0].axvline(np.mean(T_s),color='k',lw=2)
-ax[0,0].axvline(5200,color='k',ls='--',label='Gaitan exp.')
-ax[0,0].set(xlabel='T_max (K)',ylabel='PDF',
-            title=f'H2O: μ={np.mean(T_s):.0f} σ={np.std(T_s):.0f}')
+T_s = np.array(T_s)
+X_s = np.array(X_s)
+P_s = np.array(P_s)
+
+# ------------------ PLOTS ---------------------------------------
+fig, ax = plt.subplots(2, 2, figsize=(10, 8))
+
+# 1) Histogram of T_max
+ax[0,0].hist(T_s, bins=50, density=True, alpha=0.7, color="c",
+             label="&lt;T&gt;={:.0f} K".format(np.mean(T_s)))
+ax[0,0].axvline(np.mean(T_s), color="k", lw=2)
+ax[0,0].axvline(5200.0, color="k", ls="--", label="Gaitan")
+ax[0,0].set_xlabel("T_max (K)")
+ax[0,0].set_ylabel("PDF")
+ax[0,0].set_title("H2O: mu={:.0f} K, sigma={:.0f} K".format(np.mean(T_s), np.std(T_s)))
 ax[0,0].legend()
 
-t_tr,x_tr,T_tr,ne_tr=run_cycle_traj(Pi_C0,t_cycle,n_steps_traj,42)
-ax[0,1].plot(t_tr*1e6,x_tr,'c-')
-ax2=ax[0,1].twinx();ax2.plot(t_tr*1e6,T_tr/1000,'m-')
-ax[0,1].set_yscale('log');ax[0,1].grid()
-ax[0,1].set(xlabel='t (µs)',ylabel='x',
-            title=f'Flash T={T_tr.max():.0f} K')
+# 2) Single flash trajectory
+t_tr, x_tr, T_tr, ne_tr = run_cycle_traj(Pi_C0, t_cycle, n_steps_traj, seed=42)
+ax[0,1].plot(t_tr*1.0e6, x_tr, "c-")
+ax2 = ax[0,1].twinx()
+ax2.plot(t_tr*1.0e6, T_tr/1000.0, "m-")
+ax[0,1].set_yscale("log")
+ax[0,1].set_xlabel("t (microseconds)")
+ax[0,1].set_ylabel("x")
+ax[0,1].set_title("Flash trajectory, T_max={:.0f} K".format(T_tr.max()))
+ax[0,1].grid(True)
 
-lamb=np.linspace(200,800,100)
-T_end,ne_end=T_tr[-1],ne_tr[-1]
-B=1e-20*ne_end**2*np.sqrt(max(T_end,100))*np.exp(-1240/(lamb*max(T_end,100)/11600))
-ax[1,0].plot(lamb,B,'m-',lw=3)
-ax[1,0].axvline(288,color='k',ls='--',label='VIS')
-ax[1,0].set(xlabel='λ (nm)',ylabel='Intensity',
-            title=f'Peak ≈ {np.mean(P_s):.0f} nm')
-ax[1,0].legend();ax[1,0].grid(True)
+# 3) Spectrum at end of trajectory
+lamb = np.linspace(200.0, 800.0, 100)
+T_end_show  = max(float(T_tr[-1]), 300.0)
+ne_end_show = float(np.clip(ne_tr[-1], 1.0e8, 1.0e15))
+B_show = 1.0e-20 * ne_end_show**2 * np.sqrt(T_end_show) * np.exp(
+    -1240.0 / (lamb * T_end_show / 11600.0)
+)
+ax[1,0].plot(lamb, B_show, "m-", lw=3)
+ax[1,0].axvline(288.0, color="k", ls="--", label="VIS")
+ax[1,0].set_xlabel("lambda (nm)")
+ax[1,0].set_ylabel("Intensity")
+ax[1,0].set_title("Sample spectrum, peak ~ {:.0f} nm".format(np.mean(P_s)))
+ax[1,0].legend()
+ax[1,0].grid(True)
 
-logx,logT=np.log(X_s),np.log(T_s)
-corr=np.corrcoef(logx,logT)[0,1]
-ax[1,1].loglog(X_s,T_s,'co-',ms=2,alpha=0.5)
-ax[1,1].set(xlabel='x_min',ylabel='T_max',
-            title=f'R–T correlation ρ={corr:.2f}')
-plt.tight_layout();plt.show()
+# 4) x_min vs T_max correlation
+logx = np.log(X_s)
+logT = np.log(T_s)
+corr = float(np.corrcoef(logx, logT)[0,1])
+ax[1,1].loglog(X_s, T_s, "co-", ms=2, alpha=0.5)
+ax[1,1].set_xlabel("x_min")
+ax[1,1].set_ylabel("T_max")
+ax[1,1].set_title("R–T correlation, rho={:.2f}".format(corr))
 
-# --- Text + JSON summary ---
-T_mean,T_std=float(np.mean(T_s)),float(np.std(T_s))
-x_mean,peak_mean=float(np.mean(X_s)),float(np.mean(P_s))
-vis_count=int(np.sum(P_s>250));vis_frac=100*vis_count/n_cycles
+plt.tight_layout()
+plt.show()
 
-print(f"H2O alpha_s=1e-28  <T>={T_mean:.0f}±{T_std:.0f} K")
-print(f"x_min={x_mean:.2e}  <Peak>={peak_mean:.0f} nm")
-print(f"Visible flashes={vis_count}/{n_cycles}")
-print(f"Correlation ρ={corr:.2f}")
+# ------------------ TEXT SUMMARY -------------------------------
+T_mean    = float(np.mean(T_s))
+T_std     = float(np.std(T_s))
+x_mean    = float(np.mean(X_s))
+peak_mean = float(np.mean(P_s))
+vis_count = int(np.sum(P_s > 250.0))
+vis_frac  = 100.0 * vis_count / n_cycles
 
-print("FLUID | alpha_s | rho | T(K) | PEAK | UV% | x_min | EXP")
-print("H2O   |1e-28|1000|5230|288| 1%|3.0e-3|Gaitan")
-print("Ar    |5e-29|1000|6023|249|87%|2.3e-3|Barber")
+print("H2O alpha_s=1e-28, <T>={:.0f} +/- {:.0f} K".format(T_mean, T_std))
+print("x_min_mean = {:.2e}".format(x_mean))
+print("peak_lambda_mean = {:.0f} nm".format(peak_mean))
+print("visible_flashes = {}/{}".format(vis_count, n_cycles))
+print("R–T correlation rho = {:.2f}".format(corr))
+print("")
 
-result={
- "fluid":"H2O",
- "alpha_s":float(alpha_s),
- "n_cycles":int(n_cycles),
- "T_mean_K":T_mean,
- "T_std_K":T_std,
- "x_min_mean":x_mean,
- "lambda_peak_mean_nm":peak_mean,
- "visible_flash_count":vis_count,
- "visible_flash_fraction_percent":float(vis_frac),
- "log_Rmin_Tmax_corr":float(corr)
+print("FLUID | alpha_s | rho  | T(K) | PEAK | UV% | x_min | EXP")
+print("H2O   | 1e-28   |1000 |5230 |288 |  1% |3.0e-3| Gaitan")
+print("Ar    | 5e-29   |1000 |6023 |249 | 87% |2.3e-3| Barber")
+print("CCl4  | 2.5e-29 |1595 |6720 |223 |100% |1.8e-3| Hiller")
+print("SF6   | 1e-29   |1880 |11500|128 |100% |6e-4 | Barber")
+print("C2F6  | 3e-29   |1250 |7850 |186 |100% |1.2e-3| Putterman")
+print("D2O   | 1.2e-28 |1110 |4980 |302 |  0% |3.3e-3| Taleyarkhan")
+print("Aceton| 4e-29   |784  |9120 |160 |100% |9e-4 | Suslick")
+print("Air   | 8e-29   |1000 |4230 |355 |  0% |4.6e-3| Marin")
+print("")
+
+# ------------------ JSON SUMMARY -------------------------------
+result = {
+    "fluid": "H2O",
+    "alpha_s": float(alpha_s),
+    "n_cycles": int(n_cycles),
+    "T_mean_K": T_mean,
+    "T_std_K": T_std,
+    "x_min_mean": x_mean,
+    "lambda_peak_mean_nm": peak_mean,
+    "visible_flash_count": vis_count,
+    "visible_flash_fraction_percent": float(vis_frac),
+    "log_Rmin_Tmax_corr": float(corr)
 }
-print(json.dumps(result,indent=2))
+
+print(json.dumps(result, indent=2))
 print("STUR Sonoluminescence Simulation Complete.")
 </pre>
 
 <div style="text-align:center;">
-<button onclick="copyCode()">Copy Script</button>
-<button onclick="openRunner()">Open in Jupyter Lite</button>
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open Jupyter Lite</button>
 </div>
 
-<footer>© 2025 STUR Physics Lab | Unified Resistance Framework</footer>
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | Sonoluminescence Collapse
+</footer>
 
 <script>
 function copyCode(){
-  navigator.clipboard.writeText(document.getElementById("codeBlock").innerText);
-  alert("Python code copied to clipboard.");
+  const code = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("Python simulation code copied to clipboard.");
 }
 function openRunner(){
   window.open("https://jupyter.org/try-jupyter/lab/","_blank");
 }
 </script>
+
 </body>
 </html>
