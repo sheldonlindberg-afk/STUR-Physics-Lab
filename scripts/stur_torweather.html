@@ -5,151 +5,312 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STUR Weather – Hybrid Atmospheric Field Simulation</title>
 <style>
-body {
-  background: #050814;
-  color: #e6edf3;
-  font-family: "Courier New", monospace;
-  margin: 0; padding: 2rem;
-}
-h1 { color: #ffaa00; text-align: center; }
-h2 { color: #ffcc33; margin-top: 2rem; }
-pre {
-  background: #0a0f1f;
-  color: #00ffcc;
-  padding: 1rem;
-  border-radius: 8px;
-  overflow-x: auto;
-  font-size: 0.9rem;
-  box-shadow: 0 0 15px #ffaa0040;
-}
-button {
-  background: #ffaa00;
-  color: #050814;
-  border: none;
-  border-radius: 6px;
-  padding: 10px 20px;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 6px;
-  transition: 0.2s;
-}
-button:hover { background: #ffcc33; }
-a { color: #66ccff; }
-footer {
-  margin-top: 2rem;
-  text-align: center;
-  font-size: 0.9em;
-  color: #999;
-}
+  body{
+    background:#050814;
+    color:#e6edf3;
+    font-family:"Courier New",monospace;
+    margin:0;
+    padding:2rem;
+  }
+  h1{
+    color:#ffaa00;
+    text-align:center;
+  }
+  h2{
+    color:#ffcc33;
+    margin-top:2rem;
+  }
+  .desc{
+    max-width:900px;
+    margin:0 auto 1.5rem auto;
+    line-height:1.5;
+  }
+  pre{
+    background:#0a0f1f;
+    color:#00ffcc;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    font-size:0.9rem;
+    box-shadow:0 0 18px #ffaa0040;
+    white-space:pre;
+  }
+  button{
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
+  }
+  button:hover{
+    background:#ffcc33;
+  }
+  footer{
+    margin-top:2rem;
+    text-align:center;
+    font-size:0.9em;
+    color:#999;
+  }
+  a{color:#66ccff;}
 </style>
 </head>
 <body>
 
 <h1>STUR Weather – Hybrid Atmospheric Field Simulation</h1>
 
-<h2>Full Derivation</h2>
+<h2>Derivation Overview</h2>
+<div class="desc">
 <p>
-In the Unified Resistance framework, atmospheric behavior can be modeled as a dynamic field
-interaction between electrostatic, gravitational, and strong-force analogs modulated by the
-environmental density and fluid pressure gradients.
-</p>
-<p>
-The governing hybrid force combines Coulomb–Newtonian–Strong–Spin interactions:
+In the STUR Unified Resistance framework, we model a patch of atmosphere as a set
+of discrete parcels carrying mass and charge, embedded in coupled electromagnetic,
+gravitational and short-range “strong” analog fields. The effective force on a parcel
+at position <code>r</code> with velocity <code>v</code> is
 </p>
 
 <p style="text-align:center;">
-𝐅<sub>STUR</sub>(𝐫) = 𝒮(r)
-[ k<sub>e</sub>q₁q₂/r² − Gm₁m₂/r² + α<sub>s</sub>((1−e<sup>−r/λ</sup>)/r² + σr) ] 𝐫̂
-+ γ₀ e<sup>−r/ℓ<sub>B</sub></sup> (𝐒 × 𝐁)
+<code>
+F_STUR(r) = S(r,L₀)
+[ k_e q₁ q₂ / r² − G m₁ m₂ / r² + α_s ( (1 − e^{−r/λ})/r² + σ r ) ] r̂
++ γ₀ e^{−r/ℓ_B} (S × B).
+</code>
 </p>
 
 <p>
-Coupled to a fluid model with local pressure <code>P</code>, density <code>ρ</code>, and viscosity <code>ν</code>,
-each parcel evolves as:
+Here <code>S(r,L₀)=tanh(r/L₀)(1−e^{−r/L₀})</code> is the STUR radial modulator, which
+suppresses the force near the origin, avoiding divergences while encoding curvature
+and resistance. The spin term <code>γ₀ e^{−r/ℓ_B}(S×B)</code> acts as a local torque-like
+forcing that seeds rotational structures (funnels, vortices).
+</p>
+
+<p>
+Each parcel also feels a fluid contribution
 </p>
 
 <p style="text-align:center;">
-m d𝐯/dt = 𝐅<sub>fluid</sub> + 𝐅<sub>STUR</sub>,  
- 𝐅<sub>fluid</sub> = −∇P/ρ + ν ξ,
+<code>
+F_fluid = − (1/ρ) ∇P + ν ξ,
+</code>
 </p>
 
 <p>
-where random vector ξ represents thermal noise. The scalar modulator
-<code>𝒮(r,L₀) = tanh(r/L₀)(1−e<sup>−r/L₀</sup>)</code>
-provides localized stability in nonlinear atmospheric coupling.  
-Emergent features such as microbursts, funnels, and heat domes arise from the combined
-field-induced shear and spin-torque effects.
+where ρ is air density, P is local pressure and ξ is a random Gaussian vector
+representing subgrid turbulence. Gravity couples into the temperature and pressure
+updates through vertical motion:
 </p>
 
-<h2>Python Simulation (JupyterLite-Safe)</h2>
+<ul>
+  <li>Pressure adjustment: <code>P ← P − c_P v_z Δt</code></li>
+  <li>Temperature lapse: <code>T ← T − (g/1000) v_z Δt</code></li>
+</ul>
+
+<p>
+We initialize a 3D grid of parcels over a 2 km × 2 km horizontal domain and a 0–500 m
+vertical column. At each timestep we integrate the velocity and position via a simple
+Euler update:
+</p>
+
+<p style="text-align:center;">
+<code>
+v(t+Δt) = v(t) + (F_fluid + F_STUR) Δt,  
+r(t+Δt) = r(t) + v(t) Δt.
+</code>
+</p>
+
+<p>
+After evolving for N steps, we identify emergent mesoscale structures:
+</p>
+
+<ul>
+  <li><b>Microbursts</b>: parcels with strong downward motion, v_z &lt; −10 m/s</li>
+  <li><b>Funnels</b>: parcels with strong horizontal angular momentum
+      <code>|(v_x y − v_y x)| &gt; L_thresh</code> in the x–y plane</li>
+  <li><b>Heat domes</b>: parcels with temperature T &gt; 300 K</li>
+</ul>
+
+<p>
+The script below:
+</p>
+
+<ul>
+  <li>Runs the full 3D STUR weather evolution (no animation required),</li>
+  <li>Generates one 3D plot for each event type (microbursts, funnels, heat domes),</li>
+  <li>Prints a JSON summary with counts and basic statistics of the final field.</li>
+</ul>
+</div>
+
+<h2>Python Simulation (copy &amp; run in Jupyter/JupyterLite)</h2>
+
 <pre id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
 # STUR Weather – Hybrid Atmospheric Field Simulation
+# Static plots + JSON summary (no animation)
 # ===============================================================
-import numpy as np, matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.animation import FuncAnimation
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 (required for 3D)
+import json
 
-# --- Constants -------------------------------------------------
-k_e,G,sigma = 8.9875e9,6.6743e-11,1e-5
-lam,lB = 1e-15,1e2
-q1,q2,m1,m2 = 1e-6,1e-6,1e3,1e3
-S,B = np.array([0,0,1]), np.array([0,0,1])
-rho,g,nu = 1.2,9.81,1e-2
+# ----------------- CONSTANTS -----------------------------------
+k_e  = 8.9875e9      # Coulomb constant (N m^2 / C^2)
+G    = 6.6743e-11    # Gravitational constant (N m^2 / kg^2)
+sigma_strong = 1e-5  # strong analog parameter
+lam  = 1e-15         # strong range (m)
+lB   = 1e2           # spin decay length (m)
 
-# --- STUR Modulator & Force -----------------------------------
-def S_r(r,L0): return np.tanh(r/L0)*(1-np.exp(-r/L0))
-def F_sheldon(r,vel,L0=1e5,gamma0=1e-3,alpha_s=1e-9):
-    r_norm=max(np.linalg.norm(r),1e-12); r_hat=r/r_norm
-    F_rad=S_r(r_norm,L0)*((k_e*q1*q2/r_norm**2-G*m1*m2/r_norm**2+
-           alpha_s*((1-np.exp(-r_norm/lam))/r_norm**2+sigma*r_norm))*r_hat)
-    F_spin=gamma0*np.exp(-r_norm/lB)*np.cross(S,B)[:len(r)]
-    return F_rad+F_spin
+q1, q2 = 1e-6, 1e-6  # charges (C)
+m1, m2 = 1e3, 1e3    # effective masses (kg)
+S_vec   = np.array([0.0, 0.0, 1.0])
+B_vec   = np.array([0.0, 0.0, 1.0])
 
-# --- Atmospheric Grid ------------------------------------------
-nx,ny,nz=8,8,8
-X,Y,Z=np.meshgrid(np.linspace(-1e3,1e3,nx),
-                  np.linspace(-1e3,1e3,ny),
-                  np.linspace(0,500,nz))
-pos=np.stack([X.flatten(),Y.flatten(),Z.flatten()],axis=-1)
-vel=np.zeros_like(pos)
-T=np.ones(pos.shape[0])*290
-P=np.ones_like(T)*101325
+rho_air = 1.2        # kg/m^3
+g       = 9.81       # m/s^2
+nu      = 1e-2       # effective viscosity coefficient
 
-# --- Animation (Jupyter-safe: no blit) --------------------------
-fig=plt.figure(figsize=(9,7))
-ax=fig.add_subplot(111,projection='3d')
+L0_mod  = 1e5        # STUR radial modulation scale
+gamma0  = 1e-3       # spin-torque coefficient
+dt      = 0.5        # time step (s)
+n_steps = 80         # number of steps in the evolution
+np.random.seed(0)    # reproducible noise
 
-def update(frame):
-    global pos,vel,T,P
-    ax.cla()
-    vel[:,0]+=0.0001*(pos[:,1]/1e3)  # shear
+# ----------------- STUR MODULATOR & FORCE ----------------------
+def S_r(r, L0):
+    return np.tanh(r/L0) * (1.0 - np.exp(-r/L0))
+
+def F_sheldon(r_vec, v_vec, L0=L0_mod, gamma0=gamma0, alpha_s=1e-9):
+    r_norm = max(np.linalg.norm(r_vec), 1e-12)
+    r_hat  = r_vec / r_norm
+    coulomb = k_e * q1 * q2 / r_norm**2
+    grav    = -G * m1 * m2 / r_norm**2
+    strong  = alpha_s * ((1.0 - np.exp(-r_norm/lam))/r_norm**2 + sigma_strong * r_norm)
+    F_rad = S_r(r_norm, L0) * (coulomb + grav + strong) * r_hat
+    F_spin = gamma0 * np.exp(-r_norm/lB) * np.cross(S_vec, B_vec)
+    return F_rad + F_spin
+
+# ----------------- ATMOSPHERIC GRID ----------------------------
+nx, ny, nz = 8, 8, 8
+X, Y, Z = np.meshgrid(
+    np.linspace(-1e3, 1e3, nx),
+    np.linspace(-1e3, 1e3, ny),
+    np.linspace(0.0, 500.0, nz)
+)
+
+pos = np.stack([X.flatten(), Y.flatten(), Z.flatten()], axis=-1).astype(float)
+vel = np.zeros_like(pos)
+T   = np.ones(pos.shape[0]) * 290.0   # K
+P   = np.ones(pos.shape[0]) * 101325.0  # Pa
+
+# ----------------- TIME EVOLUTION ------------------------------
+# simple upper bound on velocity to avoid blow-up (m/s)
+V_MAX = 80.0
+
+for step in range(n_steps):
+    # background horizontal shear in x-direction
+    vel[:, 0] += 0.0001 * (pos[:, 1] / 1e3)
+
     for i in range(pos.shape[0]):
-        F_fluid=-1/rho*np.array([0,0,(P[i]-101325)/50])+nu*np.random.randn(3)*0.01
-        F_total=F_fluid+F_sheldon(pos[i],vel[i])
-        vel[i]+=F_total*0.5
-        pos[i]+=vel[i]*0.5
-        T[i]+=-g/1000*vel[i,2]*0.5
-        P[i]-=0.05*vel[i,2]*0.5
-    microbursts=vel[:,2]<-10
-    funnels=np.linalg.norm(np.cross(vel[:,:2],pos[:,:2]),axis=1)>0.05
-    heat_domes=T>300
-    ax.quiver(pos[:,0],pos[:,1],pos[:,2],
-              vel[:,0],vel[:,1],vel[:,2],
-              length=20,normalize=True,color='blue')
-    ax.scatter(pos[microbursts,0],pos[microbursts,1],pos[microbursts,2],
-               c='cyan',s=20,label='Microbursts')
-    ax.scatter(pos[funnels,0],pos[funnels,1],pos[funnels,2],
-               c='magenta',s=20,label='Funnels')
-    ax.scatter(pos[heat_domes,0],pos[heat_domes,1],pos[heat_domes,2],
-               c='red',s=20,label='Heat Domes')
-    ax.set_xlim(-1e3,1e3); ax.set_ylim(-1e3,1e3); ax.set_zlim(0,500)
-    ax.set_xlabel("X"); ax.set_ylabel("Y"); ax.set_zlabel("Z")
-    ax.set_title("STUR Hybrid Weather Simulation")
-    ax.legend()
+        # fluid contribution: vertical pressure deviation + random turbulence
+        F_fluid = -1.0/rho_air * np.array([0.0, 0.0, (P[i] - 101325.0)/50.0])
+        F_fluid += nu * np.random.randn(3) * 0.01
 
-anim=FuncAnimation(fig,update,frames=60,interval=120)
+        # STUR hybrid force
+        F_total = F_fluid + F_sheldon(pos[i], vel[i])
+
+        # update velocity and position
+        vel[i] += F_total * dt
+        # clip to avoid runaway speeds
+        vnorm = np.linalg.norm(vel[i])
+        if vnorm > V_MAX:
+            vel[i] *= V_MAX / vnorm
+
+        pos[i] += vel[i] * dt
+
+        # temperature and pressure evolution
+        T[i] += -(g/1000.0) * vel[i, 2] * dt
+        P[i] -= 0.05 * vel[i, 2] * dt
+
+# ----------------- EVENT DETECTION -----------------------------
+# Microbursts: strong downward vertical velocity
+microbursts = vel[:, 2] < -10.0
+
+# Funnels: strong horizontal angular momentum |L_z| > threshold
+r2d = pos[:, :2]
+v2d = vel[:, :2]
+Lz  = v2d[:, 0]*r2d[:, 1] - v2d[:, 1]*r2d[:, 0]
+funnels = np.abs(Lz) > 0.05
+
+# Heat domes: elevated temperature
+heat_domes = T > 300.0
+
+# ----------------- PLOTTING -----------------------------------
+fig = plt.figure(figsize=(15, 4))
+
+# 1. Microbursts
+ax1 = fig.add_subplot(131, projection='3d')
+ax1.scatter(pos[:,0], pos[:,1], pos[:,2], c='#444444', s=5, alpha=0.3)
+ax1.scatter(pos[microbursts,0], pos[microbursts,1], pos[microbursts,2],
+            c='cyan', s=25, label='Microbursts')
+ax1.set_title("Microbursts (v_z < -10 m/s)")
+ax1.set_xlim(-1e3,1e3); ax1.set_ylim(-1e3,1e3); ax1.set_zlim(0,500)
+ax1.set_xlabel("X (m)"); ax1.set_ylabel("Y (m)"); ax1.set_zlabel("Z (m)")
+ax1.legend(loc="best")
+
+# 2. Funnels
+ax2 = fig.add_subplot(132, projection='3d')
+ax2.scatter(pos[:,0], pos[:,1], pos[:,2], c='#444444', s=5, alpha=0.3)
+ax2.scatter(pos[funnels,0], pos[funnels,1], pos[funnels,2],
+            c='magenta', s=25, label='Funnels")
+ax2.set_title("Funnels (|L_z| > 0.05)")
+ax2.set_xlim(-1e3,1e3); ax2.set_ylim(-1e3,1e3); ax2.set_zlim(0,500)
+ax2.set_xlabel("X (m)"); ax2.set_ylabel("Y (m)"); ax2.set_zlabel("Z (m)")
+ax2.legend(loc="best")
+
+# 3. Heat domes
+ax3 = fig.add_subplot(133, projection='3d')
+ax3.scatter(pos[:,0], pos[:,1], pos[:,2], c='#444444', s=5, alpha=0.3)
+ax3.scatter(pos[heat_domes,0], pos[heat_domes,1], pos[heat_domes,2],
+            c='red', s=25, label='Heat Domes")
+ax3.set_title("Heat Domes (T > 300 K)")
+ax3.set_xlim(-1e3,1e3); ax3.set_ylim(-1e3,1e3); ax3.set_zlim(0,500)
+ax3.set_xlabel("X (m)"); ax3.set_ylabel("Y (m)"); ax3.set_zlabel("Z (m)")
+ax3.legend(loc="best")
+
+plt.tight_layout()
 plt.show()
+
+# ----------------- JSON SUMMARY -------------------------------
+summary = {
+    "model": "STUR Weather Hybrid Atmosphere",
+    "grid": {
+        "nx": int(nx), "ny": int(ny), "nz": int(nz),
+        "n_parcels": int(pos.shape[0])
+    },
+    "time": {
+        "dt_s": float(dt),
+        "n_steps": int(n_steps),
+        "total_time_s": float(dt * n_steps)
+    },
+    "events": {
+        "microbursts_count": int(np.sum(microbursts)),
+        "funnels_count": int(np.sum(funnels)),
+        "heat_domes_count": int(np.sum(heat_domes))
+    },
+    "fields": {
+        "T_min_K": float(np.min(T)),
+        "T_max_K": float(np.max(T)),
+        "vz_min_m_per_s": float(np.min(vel[:,2])),
+        "vz_max_m_per_s": float(np.max(vel[:,2])),
+        "Lz_min": float(np.min(Lz)),
+        "Lz_max": float(np.max(Lz))
+    }
+}
+
+print("JSON summary:")
+print(json.dumps(summary, indent=2))
+print("STUR Weather hybrid simulation complete.")
 </pre>
 
 <div style="text-align:center;">
@@ -163,7 +324,7 @@ plt.show()
 
 <script>
 function copyCode(){
-  const code = document.getElementById("codeBlock").innerText;
+  const code=document.getElementById("codeBlock").innerText;
   navigator.clipboard.writeText(code);
   alert("STUR Weather simulation code copied to clipboard.");
 }
