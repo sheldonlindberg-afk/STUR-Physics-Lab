@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌌 STUR Galaxy Curve – Unified Resistance Cosmology</title>
+<style>
+ body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
+ h1{color:#ffaa00;text-align:center;}
+ h2{color:#ffcc33;margin-top:2rem;}
+ .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
+ pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;
+     line-height:1.4;box-shadow:0 0 20px #ffaa0055;font-size:0.9rem;}
+ button{background:#ffaa00;color:#050814;border:none;border-radius:6px;
+     padding:10px 20px;font-weight:bold;cursor:pointer;margin:6px;transition:0.2s;}
+ button:hover{background:#ffcc33;}
+ footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
+ a{color:#66ccff;}
+</style>
+</head>
+<body>
+
+<h1>🌌 STUR Galaxy Curve<br>Unified Resistance Cosmology</h1>
+
+<p class="desc">
+This simulation fits <b>STUR-modulated galactic rotation curves</b> using a curvature–resistance scalar field 
+<code>𝓢(r,φ)</code> and an effective Lagrangian coupling dark-energy curvature (Λ), baryonic structure, 
+and the resistance substrate field. The goal is to reproduce <b>JWST Big Wheel</b> data using 
+realistic astrophysical parameters under the <b>Unified Resistance Framework</b>.
+</p>
+
+<h2>Derivation Overview</h2>
+<div class="desc">
+<ol>
+<li>The scalar modulator is defined as
+<code>𝓢(r,φ) = φ(1 + r/L₀)/(1 + (r/L₀)²) e^{−Λr²}</code>,
+which regulates curvature feedback across galactic scales.</li>
+<li>The total rotation velocity arises from the sum of
+gas, stellar, bulge, black-hole, dark-halo, and STUR-resistance terms:
+<code>v_tot² = v_S² + v_g² + v_s² + v_b² + v_bh² + v_h² + v_turb²</code>.</li>
+<li>Minimization of χ² between model and data constrains
+baryonic fractions and the effective curvature coupling parameter φ.</li>
+<li>Outputs include optimal mass components, scale lengths, 
+dark-halo density, and curvature modulator strength. Final results are
+printed as formatted <b>JSON</b> for reproducibility.</li>
+</ol>
+</div>
+
+<h2>Python Simulation (copy &amp; run)</h2>
+
+<pre id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# 🌌 STUR Galaxy Curve – Unified Resistance Cosmology Fit
+# ===============================================================
+# Fully JupyterLite-safe version (no SciPy required).
+# Integrates mass components, fits JWST Big Wheel data,
+# prints JSON summary of optimized parameters.
+# ===============================================================
+
+import numpy as np, math, json, matplotlib.pyplot as plt
+
+# --- Constants (SI) ---------------------------------------------
+G = 6.6743e-11
+Msun = 1.989e30
+kpc = 3.086e19
+La = 4.5e-52
+L0 = 3e20
+sturb = 3e3
+a_bulge = 0.3 * kpc
+rho_gas = 2e-21
+f_gas = 0.8
+
+# --- Scalar field modulator -------------------------------------
+def S_STUR(r, phi):
+    r = max(r, 1e-10)
+    x = r / L0
+    return phi * (1 + x) / (1 + x**2) * math.exp(-La * r**2)
+
+# --- Enclosed mass components -----------------------------------
+def M_gas_encl(r, h):
+    rs = np.linspace(0, r, 300)
+    vals = 4 * math.pi * rs**2 * rho_gas * (1 - f_gas) * np.exp(-rs / h)
+    return np.trapz(vals, rs)
+
+def M_bulge_encl(r, M_b):
+    return M_b * (r**2 / (r + a_bulge)**2)
+
+def M_nfw_encl(r, rho0):
+    Rs = 15 * kpc
+    x = r / Rs
+    return 4 * math.pi * rho0 * Rs**3 * (np.log(1 + x) - x / (1 + x))
+
+# --- Velocity components (km/s) ---------------------------------
+def v_orb(r, M_g, M_s, M_b, R_d, h, phi, M_bh, rho0):
+    r = max(r, 1e-10)
+    v_scalar = math.sqrt(G * M_g * S_STUR(r, phi) / r)
+    v_gas = math.sqrt(G * M_gas_encl(r, h) / r)
+    v_stellar = math.sqrt(G * M_s * r**2 / (r**2 + R_d**2)**1.5)
+    v_bulge = math.sqrt(G * M_bulge_encl(r, M_b) / r)
+    v_bh = math.sqrt(G * M_bh / r)
+    v_nfw = math.sqrt(G * M_nfw_encl(r, rho0) / r)
+    v_turb = sturb
+    return math.sqrt(v_scalar**2 + v_gas**2 + v_stellar**2 +
+                     v_bulge**2 + v_bh**2 + v_nfw**2 + v_turb**2) / 1e3
+
+# --- Observational data (JWST Big Wheel) -------------------------
+r_kpc = np.array([2,4,6,8,10,12,14,16,18,20])
+r_data = r_kpc * kpc
+v_data = np.array([150,250,300,320,331,331,331,331,331,331])
+v_err  = np.array([50,40,30,25,20,20,20,30,30,30])
+
+# --- χ² evaluation -----------------------------------------------
+def chi2(p):
+    M_g, M_s, M_b, R_d, h, phi, M_bh, rho0 = p
+    v_model = np.array([v_orb(r, *p) for r in r_data])
+    return np.sum(((v_model - v_data) / v_err)**2)
+
+# --- Simple Nelder–Mead-like search ------------------------------
+def optimize(p0, steps=60, scale=0.1):
+    best_p = p0.copy()
+    best_chi2 = chi2(best_p)
+    for s in range(steps):
+        trial = best_p * (1 + np.random.uniform(-scale, scale, len(p0)))
+        c2 = chi2(trial)
+        if c2 < best_chi2:
+            best_chi2, best_p = c2, trial
+    return best_p, best_chi2
+
+# --- Initial guess -----------------------------------------------
+p0 = np.array([2e11*Msun, 1e11*Msun, 5e10*Msun, 5*kpc, 2*kpc, 1e-4, 1e7*Msun, 5e-24])
+p_opt, chi2_best = optimize(p0, steps=400, scale=0.2)
+
+# --- Plotting ----------------------------------------------------
+r_plot = np.logspace(math.log10(0.5*kpc), math.log10(50*kpc), 60)
+v_plot = np.array([v_orb(r, *p_opt) for r in r_plot])
+
+fig, (ax1, ax2) = plt.subplots(2,1,figsize=(8,6))
+ax1.plot(r_plot/kpc, v_plot, 'lime', label='STUR Model')
+ax1.errorbar(r_data/kpc, v_data, yerr=v_err, fmt='ob', label='JWST Big Wheel')
+ax1.set_xlim(0,25); ax1.set_ylim(0,400)
+ax1.set_xlabel('R (kpc)'); ax1.set_ylabel('V (km/s)')
+ax1.legend(); ax1.grid(alpha=0.4)
+
+v_fit = np.array([v_orb(r, *p_opt) for r in r_data])
+residuals = v_fit - v_data
+ax2.scatter(r_data/kpc, residuals, c='#ffaa00', label='Residuals')
+ax2.axhline(0,c='gray',ls='--'); ax2.legend(); ax2.grid(alpha=0.3)
+ax2.set_xlabel('R (kpc)'); ax2.set_ylabel('ΔV (km/s)')
+plt.tight_layout(); plt.show()
+
+# --- Results -----------------------------------------------------
+labels = ['M_g','M_s','M_b','R_d','h','phi','M_bh','rho0']
+vals = p_opt
+res_dict = {
+    "chi2_per_dof": float(chi2_best/(len(v_data)-len(p0))),
+    "params": {
+        "M_g_Msun": float(vals[0]/Msun),
+        "M_s_Msun": float(vals[1]/Msun),
+        "M_b_Msun": float(vals[2]/Msun),
+        "R_d_kpc": float(vals[3]/kpc),
+        "h_kpc": float(vals[4]/kpc),
+        "phi": float(vals[5]),
+        "M_bh_Msun": float(vals[6]/Msun),
+        "rho0_kg_m3": float(vals[7])
+    }
+}
+print(json.dumps(res_dict, indent=2))
+print("✅ STUR Galaxy Curve Simulation Complete.")</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open Python Runner (JupyterLite)</button>
+</div>
+
+<p class="desc" style="text-align:center;">
+Click <b>Copy Script</b>, then <b>Open Python Runner</b>.  
+Paste the code into a new cell and run to view rotation curves, residuals, and final parameter JSON output.
+</p>
+
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | Galaxy Curve Simulation
+</footer>
+
+<script>
+function copyCode(){
+  const code=document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("✅ STUR Galaxy Curve code copied to clipboard");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+</script>
+
+</body>
+</html>
