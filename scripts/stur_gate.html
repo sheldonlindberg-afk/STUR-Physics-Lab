@@ -5,41 +5,109 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STUR Resistance Gate – Unified Resistance Access Corridor</title>
 <style>
-  body{background:#050814;color:#e6edf3;font-family:"Courier New",monospace;margin:0;padding:2rem;}
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:1.8rem;}
-  .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.6;}
-  pre{background:#0a0f1f;color:#00ffcc;padding:1rem;border-radius:8px;overflow-x:auto;font-size:0.9rem;box-shadow:0 0 18px #ffaa0040;}
-  button{background:#ffaa00;color:#050814;border:none;border-radius:6px;padding:10px 18px;font-weight:bold;cursor:pointer;margin:8px;transition:0.25s;}
-  button:hover{background:#ffcc33;}
-  footer{text-align:center;font-size:0.9em;color:#aaa;margin-top:2rem;}
-  a{color:#66ccff;}
+body {
+  background: #050814;
+  color: #e6edf3;
+  font-family: "Courier New", monospace;
+  margin: 0;
+  padding: 2rem;
+}
+h1 { color: #ffaa00; text-align: center; }
+h2 { color: #ffcc33; margin-top: 2rem; }
+.desc {
+  max-width: 900px;
+  margin: 0 auto 1.5rem auto;
+  line-height: 1.6;
+}
+pre {
+  background: #0a0f1f;
+  color: #00ffcc;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  box-shadow: 0 0 18px #ffaa0040;
+  white-space: pre;
+}
+button {
+  background: #ffaa00;
+  color: #050814;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 6px;
+  transition: 0.25s;
+}
+button:hover { background: #ffcc33; }
+.links {
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+a {
+  color: #66ccff;
+  text-decoration: none;
+  font-weight: bold;
+}
+a:hover { color: #99ddff; }
+footer {
+  text-align: center;
+  font-size: 0.9em;
+  color: #888;
+  margin-top: 2rem;
+}
 </style>
 </head>
 <body>
 
 <h1>STUR Resistance Gate – Unified Resistance Access Corridor</h1>
 
-<h2>Derivation Summary</h2>
-<div class="desc">
-<p>The Resistance Gate describes the interaction between opposing force domains through a unified scalar field coupling:</p>
-<p style="text-align:center;">
-F<sub>tot</sub>(r,t) = S(r) [F<sub>EM</sub> + F<sub>G</sub> + F<sub>S</sub>] + F<sub>sp</sub> + F<sub>SC</sub> + F<sub>v</sub> + F<sub>d</sub> + F<sub>b</sub>.
-</p>
-<p>The STUR radial modulator is:</p>
-<p style="text-align:center;">S(r) = tanh(r/L₀)(1 − e<sup>−r/L₀</sup>).</p>
-<p>Energy transport efficiency is computed via mean success probabilities across thermal, quantum, and dissipative corridors.</p>
+<div class="links">
+  <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/" target="_blank">🌐 Explore STUR Physics Lab</a> |
+  <a href="https://github.com/SheldonLindberg-AFK/STUR-Physics-Lab" target="_blank">💾 View on GitHub</a> |
+  <a href="https://jupyterlite.github.io/demo/lab/index.html" target="_blank">🚀 Open in JupyterLite</a>
 </div>
 
-<h2>Simulation Code</h2>
+<h2>Full Derivation</h2>
+<div class="desc">
+<p>
+The Resistance Gate defines a dynamic coupling between the fundamental force channels—
+electromagnetic, gravitational, strong, and superconductive—under a single unified resistance field.
+The governing force equation is:
+</p>
+
+<p style="text-align:center;">
+F<sub>tot</sub>(r,t) =
+S(r)
+[ F<sub>EM</sub> + F<sub>G</sub> + F<sub>S</sub> ]
++ F<sub>sp</sub> + F<sub>SC</sub> + F<sub>v</sub> + F<sub>d</sub> + F<sub>b</sub>.
+</p>
+
+<p>
+The radial STUR modulator is:
+</p>
+
+<p style="text-align:center;">
+S(r) = tanh(r / L₀) (1 − e<sup>−r / L₀</sup>).
+</p>
+
+<p>
+This unified formulation governs the formation of “resistance corridors”,
+determining transmission reliability across fluctuating noise channels, local temperature gradients,
+and superconductive oscillations.
+The output parameters represent gate success probabilities and information entropy.
+</p>
+</div>
+
+<h2>Python Simulation</h2>
 <pre id="code">
 #!/usr/bin/env python3
 # ===============================================================
 # STUR Resistance Gate – Unified Resistance Access Corridor
-# Static plots, JupyterLite-compatible, no networkx required.
+# JupyterLite-safe version (no networkx)
 # ===============================================================
-import numpy as np
-import matplotlib.pyplot as plt
+import numpy as np, matplotlib.pyplot as plt, json
 np.random.seed(42)
 
 # --- Power + Thermal setup ---
@@ -47,7 +115,7 @@ Ep,fR,tau,eta=2.5e3,10,0.1,0.15
 E_arc=Ep*fR*tau*eta;E_pack=1e6;J0=E_pack+E_arc
 T0,heat=300,50;cf=1e4;fb=5;w,phi=2*np.pi*fb,0.6*np.pi
 
-# --- Constants & Parameters ---
+# --- Constants ---
 ke,G=8.9875e9,6.6743e-11;q,m=1.602e-19,1.673e-27
 a,sig,lam=1e-10,1e10,1e-9;L0,el=1e-9,1e-9;hb,c=1.055e-34,3e8
 eps=1e-12;Ssp=hb/2;g_sc=1e-15
@@ -92,8 +160,10 @@ for nz in noise_arr:
     avg_succ.append(np.mean(sA));max_succ.append(max(sA))
 
 s_best=max(max_succ);Sinfo=entropy(s_best)
+results={"E_pack":E_pack,"E_arc":E_arc,"J":J0,"A_b":A_b,"A_s":A_s,
+         "div":div,"success_best":s_best,"entropy_bits":Sinfo}
 
-# --- Plots ---
+# --- Plot ---
 plt.figure(figsize=(8,4))
 plt.plot(noise_arr,avg_succ,"o-",label="avg success")
 plt.plot(noise_arr,max_succ,"s--",label="max success")
@@ -101,15 +171,9 @@ plt.xlabel("Noise level");plt.ylabel("Success probability")
 plt.title("Gate reliability vs noise");plt.grid(True);plt.legend()
 plt.tight_layout();plt.show()
 
-# --- Print summary ---
-print("===POWER===")
-print(f"E_pack={E_pack:.2e}J E_arc={E_arc:.2e}J J={J0:.2e}J")
-print(f"A_b={A_b:.3f} A_s={A_s:.2f} div={div:.2e}")
-print("\n===ACCESS===")
-for n,a,m in zip(noise_arr,avg_succ,max_succ):
-    print(f"noise={n:.2f} avg={a*100:.2f}% max={m*100:.2f}%")
-print("\n===ORDER===")
-print(f"best={s_best*100:.2f}% entropy={Sinfo:.3f} bits")
+# --- JSON summary ---
+print("=== JSON SUMMARY ===")
+print(json.dumps(results,indent=2))
 </pre>
 
 <div style="text-align:center;margin-top:1rem;">
@@ -120,10 +184,11 @@ print(f"best={s_best*100:.2f}% entropy={Sinfo:.3f} bits")
 function copyCode(){
   const code=document.getElementById("code").innerText;
   navigator.clipboard.writeText(code);
-  alert("STUR Resistance Gate simulation code copied!");
+  alert("STUR Resistance Gate simulation copied!");
 }
 </script>
 
 <footer>STUR Unified Resistance Physics © Sheldon Lon Lindberg</footer>
+
 </body>
 </html>
