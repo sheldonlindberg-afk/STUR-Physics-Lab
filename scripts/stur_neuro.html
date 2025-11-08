@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR–Neuroplasticity | Unified Resistance Lagrangian</title>
+<style>
+ body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
+ h1{color:#ffaa00;text-align:center;}
+ h2{color:#ffcc33;margin-top:2rem;}
+ .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
+ pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;
+     line-height:1.4;box-shadow:0 0 20px #ffaa0055;font-size:0.9rem;}
+ button{background:#ffaa00;color:#050814;border:none;border-radius:6px;
+     padding:10px 20px;font-weight:bold;cursor:pointer;margin:6px;transition:0.2s;}
+ button:hover{background:#ffcc33;}
+ footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
+ a{color:#66ccff;}
+</style>
+</head>
+<body>
+
+<h1>🧠 STUR–Neuroplasticity<br>Unified Resistance Lagrangian (Punch Version)</h1>
+
+<p class="desc">
+This simulation explores <b>neuro-plastic curvature coupling</b> through the <b>Unified Resistance Lagrangian</b>,
+linking mechanical curvature, electromagnetic spin coupling, and quantum-resistive feedback in a single dynamical framework.
+Each “synaptic particle” evolves under curvature-regulated potential energy
+and spin–field interactions represented by <code>S·B</code> terms, revealing stable and metastable resistance equilibria.
+</p>
+
+<h2>Derivation Overview</h2>
+<div class="desc">
+<p>
+The governing Lagrangian is
+</p>
+<p style="text-align:center;">
+<code>
+L = ½ μ (ṙ² + r² θ̇²) − U(r) − γ₀ e^{−r/ℓ_B} S·B + L_spin,kin(S, Ṡ)
+</code>
+</p>
+<p>
+with potential
+</p>
+<p style="text-align:center;">
+<code>
+U(r) = −∫⁰ʳ 𝓢(ρ) [ (k_e q₁q₂ / ρ²) − (G m₁m₂ / ρ²)
++ α_s((1 − e^{−ρ/λ})/ρ² + σρ) ] dρ,
+  𝓢(r) = tanh(r/L₀)(1 − e^{−r/L₀})
+</code>
+</p>
+<p>
+Variation of the Lagrangian yields the radial equation of motion
+<code>μ r̈ = −dU/dr + γ₀ e^{−r/ℓ_B} |B| sin(ωt)</code>,
+where the last term mimics synaptic spin–field forcing.
+Here we integrate this numerically to demonstrate stable curvature-resistance oscillations and energy transfer pathways.
+</p>
+</div>
+
+<h2>Python Simulation (copy &amp; run)</h2>
+
+<pre id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR–Neuroplasticity Simulation – Unified Resistance Lagrangian
+# ===============================================================
+# JupyterLite-safe numerical integration of the radial motion
+# under curvature-regulated STUR potential + spin-field forcing.
+# ===============================================================
+
+import numpy as np, math, matplotlib.pyplot as plt
+
+# --- Physical parameters ----------------------------------------
+mu = 1.0
+ke, G = 8.9875e9, 6.674e-11
+q1, q2 = 1.0e-6, -1.0e-6
+m1, m2 = 1.0, 1.0
+alpha_s, sigma = 0.2, 0.05
+L0, lam, ellB = 1.0, 2.0, 1.5
+gamma0, B0, omega = 0.1, 1.0, 2.0*math.pi*0.2
+
+# --- STUR modulator and potential --------------------------------
+def S_STUR(r,L0): return math.tanh(r/L0)*(1-math.exp(-r/L0))
+def dU_dr(r):
+    if r==0: return 0
+    S=S_STUR(r,L0)
+    term=(ke*q1*q2 - G*m1*m2)/r**2 + alpha_s*((1-math.exp(-r/lam))/r**2 + sigma*r)
+    return -S*term
+def U_STUR(r):
+    # numerical integration for plotting
+    rs=np.linspace(1e-3,r,500)
+    integrand=[S_STUR(rp,L0)*((ke*q1*q2 - G*m1*m2)/rp**2 +
+               alpha_s*((1-math.exp(-rp/lam))/rp**2 + sigma*rp)) for rp in rs]
+    return -np.trapz(integrand,rs)
+
+# --- Time integration --------------------------------------------
+Tmax, dt = 200.0, 0.01
+N = int(Tmax/dt)
+t = np.linspace(0,Tmax,N)
+r, v = np.zeros(N), np.zeros(N)
+r[0]=1.0; v[0]=0.0
+
+for i in range(N-1):
+    F = -dU_dr(r[i]) + gamma0*math.exp(-r[i]/ellB)*B0*math.sin(omega*t[i])
+    a = F/mu
+    v[i+1] = v[i] + a*dt
+    r[i+1] = max(r[i] + v[i+1]*dt, 1e-6)
+
+# --- Plot results -------------------------------------------------
+Uvals = [U_STUR(rr) for rr in np.linspace(0.1,3.0,300)]
+
+plt.figure(figsize=(10,8))
+plt.subplot(2,1,1)
+plt.plot(np.linspace(0.1,3.0,300),Uvals,color='cyan')
+plt.title('STUR–Neuroplastic Potential U(r)')
+plt.xlabel('r'); plt.ylabel('U(r)')
+
+plt.subplot(2,1,2)
+plt.plot(t,r,color='#ffaa00',label='r(t)')
+plt.title('Radial Response under Spin–Field Forcing')
+plt.xlabel('Time'); plt.ylabel('r(t)')
+plt.grid(True,alpha=0.3); plt.tight_layout()
+plt.show()
+
+print("✅ STUR–Neuroplasticity Simulation Complete.")</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open Python Runner (JupyterLite)</button>
+</div>
+
+<p class="desc" style="text-align:center;">
+Click <b>Copy Script</b>, then <b>Open Python Runner</b>.  
+Paste into a new cell and run. Two plots appear:
+the <b>STUR-regulated potential U(r)</b> and
+the <b>radial oscillatory response r(t)</b> demonstrating curvature-driven resistance modulation.
+</p>
+
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | Neuro-Plasticity Lagrangian Simulation
+</footer>
+
+<script>
+function copyCode(){
+  const code=document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("✅ STUR–Neuroplasticity code copied to clipboard");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+</script>
+
+</body>
+</html>
