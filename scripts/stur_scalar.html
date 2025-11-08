@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR Bounce Energy – Scalar Field Cosmological Model</title>
+<style>
+  body {
+    background: #050814;
+    color: #e6edf3;
+    font-family: "Courier New", monospace;
+    margin: 0; padding: 2rem;
+  }
+  h1 { color: #ffaa00; text-align: center; }
+  h2 { color: #ffcc33; margin-top: 2rem; }
+  pre {
+    background: #0a0f1f;
+    color: #00ffcc;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    box-shadow: 0 0 15px #ffaa0040;
+  }
+  button {
+    background: #ffaa00;
+    color: #050814;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 6px;
+    transition: 0.2s;
+  }
+  button:hover { background: #ffcc33; }
+  a { color: #66ccff; }
+  footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.9em;
+    color: #999;
+  }
+</style>
+</head>
+<body>
+
+<h1>STUR Bounce Energy – Scalar Field Cosmological Model</h1>
+
+<h2>Full Derivation</h2>
+<p>
+This simulation models a **cosmological bounce** in the early universe under a
+scalar field φ(t) coupled to the Unified Resistance framework.  
+We start from the Friedmann equation (Planck units: <code>c=ℏ=8πG=1</code>):
+</p>
+
+<p style="text-align:center;">
+H² = (ρ / 3) (1 - ρ / ρ_c)²,
+</p>
+
+<p>
+where ρ<sub>c</sub> is the **critical density** defining the bounce threshold.
+For a canonical scalar field,
+</p>
+
+<p style="text-align:center;">
+ρ = ½ φ̇² + V(φ),    p = ½ φ̇² - V(φ),
+</p>
+
+<p>
+and the Klein–Gordon equation governs φ:
+</p>
+
+<p style="text-align:center;">
+φ̈ + 3Hφ̇ + V'(φ) = 0.
+</p>
+
+<p>
+Choosing a quadratic potential <code>V(φ) = V₀ φ²</code>, the system evolves as:
+</p>
+
+<ul>
+<li><b>Modified Hubble evolution:</b>  dH/dt = −½ φ̇² (1 − 4r + 3r²), where r = ρ/ρ_c.</li>
+<li><b>Scale factor acceleration:</b>  ä = a (Ḣ + H²).</li>
+<li><b>Scalar field motion:</b>  φ̈ = −3Hφ̇ − 2V₀φ.</li>
+</ul>
+
+<p>
+The bounce occurs when <code>ρ = ρ_c</code> → H = 0 → universe reverses from contraction to expansion.
+</p>
+
+<h2>Python Simulation (JupyterLite-Safe)</h2>
+<pre id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR Bounce Energy – Scalar Field Cosmological Model
+# ===============================================================
+import numpy as np, matplotlib.pyplot as plt, json
+from scipy.integrate import odeint
+
+# --- Constants (Planck units: c=ℏ=8πG=1) -----------------------
+rho_c = 1.0          # Critical density for bounce
+V0 = 0.5             # Potential parameter (V = V0 * φ²)
+phi0, phidot0 = 0.0, 1.0  # Initial field and velocity
+
+# --- Initial energy and Hubble rate -----------------------------
+rho_init = 0.5 * phidot0**2 + V0 * phi0**2
+r_init = rho_init / rho_c
+rho_eff = rho_init * (1 - r_init)**2
+H_init = -np.sqrt(rho_eff / 3)  # negative: contracting phase
+a0, adot0 = 1.0, H_init * 1.0
+
+# --- Dynamical equations ---------------------------------------
+def equations(state, t):
+    a, adot, phi, phidot = state
+    if a <= 0: return [0,0,0,0]
+    H = adot / a
+    rho = 0.5 * phidot**2 + V0 * phi**2
+    r = rho / rho_c
+    if r >= 1:  # at bounce
+        return [0,0,0,0]
+    dH_dt = -0.5 * phidot**2 * (1 - 4*r + 3*r**2)
+    d_adot_dt = a * (dH_dt + H**2)
+    d_phidot_dt = -3*H*phidot - 2*V0*phi
+    return [adot, d_adot_dt, phidot, d_phidot_dt]
+
+# --- Time integration ------------------------------------------
+t = np.linspace(-10, 10, 1000)
+initial_state = [a0, adot0, phi0, phidot0]
+solution = odeint(equations, initial_state, t)
+
+# --- Extract solutions -----------------------------------------
+a = solution[:,0]
+H = solution[:,1] / a
+rho = 0.5 * solution[:,3]**2 + V0 * solution[:,2]**2
+
+# --- Plots ------------------------------------------------------
+fig, axs = plt.subplots(3,1,figsize=(8,10))
+axs[0].plot(t, a, color='cyan')
+axs[0].set_ylabel('Scale Factor a(t)')
+axs[0].set_title('Cosmological Bounce')
+
+axs[1].plot(t, H, color='magenta')
+axs[1].set_ylabel('Hubble H(t)')
+
+axs[2].plot(t, rho, color='orange')
+axs[2].set_ylabel('Energy Density ρ(t)')
+axs[2].set_xlabel('Time t')
+
+plt.tight_layout()
+plt.show()
+
+# --- JSON Summary -----------------------------------------------
+summary = {
+    "model": "STUR Bounce Energy – Scalar Field Cosmology",
+    "rho_c": rho_c,
+    "V0": V0,
+    "initial_conditions": {"phi0": phi0, "phidot0": phidot0},
+    "rho_init": rho_init,
+    "H_init": H_init,
+    "a_min": float(np.min(a)),
+    "a_max": float(np.max(a)),
+    "rho_peak": float(np.max(rho)),
+    "H_min": float(np.min(H)),
+    "H_max": float(np.max(H)),
+}
+print(json.dumps(summary, indent=2))
+print("STUR Bounce Energy simulation complete.")
+</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open Jupyter Lite</button>
+</div>
+
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | Bounce Energy Simulation
+</footer>
+
+<script>
+function copyCode(){
+  const code = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("Bounce Energy simulation code copied to clipboard.");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+</script>
+
+</body>
+</html>
