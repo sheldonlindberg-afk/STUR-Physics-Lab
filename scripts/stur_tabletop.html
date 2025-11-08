@@ -142,6 +142,12 @@ will not crash if Pillow is unavailable).
 # Jupyter-safe: NumPy + Matplotlib + JSON
 # ===============================================================
 
+#!/usr/bin/env python3
+# ===============================================================
+# STUR Table Top – Whispering-Gallery Photon Orbit
+# Jupyter-safe: NumPy + Matplotlib + JSON
+# ===============================================================
+
 import numpy as np
 import matplotlib.pyplot as plt
 import json
@@ -264,9 +270,12 @@ ax.add_patch(circle)
 (dot,) = ax.plot([], [], "ro", ms=6)
 
 def update(i):
+    """Update function for FuncAnimation."""
+    i = int(i)
     line.set_data(path[:i+1, 0], path[:i+1, 1])
-    dot.set_data(path[i, 0], path[i, 1])
-    dot.set_alpha(intens[i])
+    # Matplotlib needs sequences for x and y, not scalars:
+    dot.set_data([path[i, 0]], [path[i, 1]])
+    dot.set_alpha(float(intens[i]))
     return line, dot
 
 ani = FuncAnimation(fig, update, frames=len(path), interval=60, blit=True)
