@@ -43,11 +43,8 @@ Three physiological modes – healthy, uncoupled, apoptotic – are simulated in
 <pre id="codeBlock">
 #!/usr/bin/env python3
 # ===============================================================
-# STUR-ATP Mito Sim 5.5 – Ultimate 1000-Mito Population Version
+# STUR-ATP Mito Sim 5.5 – Ultimate 1000-Mito Population Version (Fixed dtype)
 # ===============================================================
-# Sheldon L. Lindberg 2025
-# ===============================================================
-
 import sys, subprocess, os, math, json, numpy as np, matplotlib.pyplot as plt
 from scipy.ndimage import gaussian_filter
 
@@ -61,12 +58,12 @@ def S_STUR(r,L0): x=r/L0; return math.tanh(x)*(1-math.exp(-x))
 
 def ATP_use_rate_func(t):
     base=5e4; burst=0
-    if 20&lt;t&lt;40: burst=2e5*math.exp(-((t-30)**2)/(2*25))
+    if 20<t<40: burst=2e5*math.exp(-((t-30)**2)/(2*25))
     return base+burst
 
 def run_sim(MODE="healthy",Tmax=100,dt=0.001,seed=1,N_mito=1000):
     np.random.seed(seed)
-    steps=int(Tmax/dt)+1; t=np.linspace(0,Tmax,steps)
+    steps=int(Tmax/dt)+1; t=np.linspace(0,Tmax,steps,dtype=float)
     L0,Rd,Rl,Rf=0.25,0.3,0.6,1.0
     Sd,Sl,St=S_STUR(Rd,L0),S_STUR(Rl,L0),S_STUR(Rf,L0)
     C_eff,drive_scale,tau_NADH,NADH_period=5,400,4,2
@@ -77,19 +74,19 @@ def run_sim(MODE="healthy",Tmax=100,dt=0.001,seed=1,N_mito=1000):
     elif MODE=="uncoupled": k_drive0,k_leak_base,gamma_ATP,ros_gain,ros_thresh=4,1.5e-3,2e-5,5e-4,190
     else: k_drive0,k_leak_base,gamma_ATP,ros_gain,ros_thresh=4.8,2.5e-3,4e-5,6e-3,160
     ros_thresh*=0.6
-    k_damage,k_leak_damage,D_thresh,pmf_mptp=1e-5,5,0.5,140
+    k_damage,k_leak_damage,D_thresh,pmf_mptp=1e-5,5.0,0.5,140.0
     Ca0_uM,k_Ca_in_base,k_Ca_in_ROS,k_Ca_clear,Ca_thresh_uM=0.1,0.005,0.05,0.05,0.5
-    def jitter(val,sig): return val*np.random.lognormal(0,sig,N_mito)
+    def jitter(val,sig): return val*np.random.lognormal(0,sig,N_mito).astype(float)
     k_drive0_vec=jitter(k_drive0,0.1); k_leak_base_vec=jitter(k_leak_base,0.1)
     gamma_ATP_vec=jitter(gamma_ATP,0.05); ros_gain_vec=jitter(ros_gain,0.05)
     E0_vec=jitter(E0_mV,0.05); R0_vec=jitter(R0,0.05)
     D_thresh_vec=jitter(D_thresh,0.05); Ca_thresh_vec=jitter(Ca_thresh_uM,0.05)
-    pmf=np.full(N_mito,20.0); ATP=np.full(N_mito,ATP_cyto_M*NA*V_mito_L)
-    T=np.full(N_mito,37.0); Damage=np.zeros(N_mito); Ca=np.full(N_mito,Ca0_uM)
-    E_ROS_vec=np.zeros(N_mito); mptp_open=np.zeros(N_mito,bool)
+    pmf=np.full(N_mito,20.0,float); ATP=np.full(N_mito,ATP_cyto_M*NA*V_mito_L,float)
+    T=np.full(N_mito,37.0,float); Damage=np.zeros(N_mito,float); Ca=np.full(N_mito,Ca0_uM,float)
+    E_ROS_vec=np.zeros(N_mito,float); mptp_open=np.zeros(N_mito,bool)
     keys=["pmf","ATP","E_ROS","T","Damage","Ca","mptp"]
-    pop={k+"_mean":np.zeros(steps) for k in keys}
-    pop.update({k+"_std":np.zeros(steps) for k in ["pmf","ATP","T","Damage","Ca"]})
+    pop={k+"_mean":np.zeros(steps,float) for k in keys}
+    pop.update({k+"_std":np.zeros(steps,float) for k in ["pmf","ATP","T","Damage","Ca"]})
     def record(i):
         pop["pmf_mean"][i]=pmf.mean(); pop["ATP_mean"][i]=ATP.mean()
         pop["E_ROS_mean"][i]=E_ROS_vec.mean(); pop["T_mean"][i]=T.mean()
@@ -100,15 +97,18 @@ def run_sim(MODE="healthy",Tmax=100,dt=0.001,seed=1,N_mito=1000):
         ti=t[i]; pmf=np.clip(pmf,0,pmf_clip)
         NADH=(0.5+0.5*math.sin(2*math.pi*ti/NADH_period))*math.exp(-ti/tau_NADH)
         NADH=max(NADH,0); pmf_pop=pmf.mean()
-        if pmf_pop&gt;pmf_soft:
+        if pmf_pop>pmf_soft:
             x=(pmf_pop-pmf_soft)/pmf_span; pump_factor=max(0,1-x); leak_fb=1+leak_fb_g*x
         else:
             pump_factor=1; leak_fb=1
         leak_eff=k_leak_base_vec*(1+k_leak_damage*Damage)
         if MODE=="apoptotic":
-            trigger=(~mptp_open)&((Damage&gt;D_thresh_vec)|(Ca&gt;Ca_thresh_vec))&(pmf&gt;pmf_mptp)
+            trigger=(~mptp_open)&((Damage>D_thresh_vec)|(Ca>Ca_thresh_vec))&(pmf>pmf_mptp)
             mptp_open|=trigger
-        leak_eff[mptp_open]*=50; pump_mult=np.full(N_mito,pump_factor); pump_mult[mptp_open]*=0.1
+        leak_eff=np.array(leak_eff,float)
+        leak_eff[mptp_open]=leak_eff[mptp_open]*50.0
+        pump_mult=np.full(N_mito,pump_factor,float)
+        pump_mult[mptp_open]=pump_mult[mptp_open]*0.1
         P_drive=drive_scale*k_drive0_vec*Sd*NADH*pump_mult
         leak_raw=leak_eff*Sl*pmf*leak_fb
         E_emf=(E0_vec*Sd*NADH)*1e-3; R_int=R0_vec/(1+Sl)
@@ -132,8 +132,7 @@ modes=["healthy","uncoupled","apoptotic"]
 results=[run_sim(m,100,0.001,1,1000) for m in modes]
 print("Simulation complete.")
 
-# ---------- Plotting Section ----------
-from matplotlib import pyplot as plt
+# ---------- Plotting ----------
 labels=["Healthy","Uncoupled","Apoptotic"]; colors=["tab:green","tab:orange","tab:red"]
 def smooth(y,sigma=3): 
     try: return gaussian_filter(y,sigma=sigma)
