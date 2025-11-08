@@ -3,146 +3,305 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Weather 2D — JSON Field Simulation</title>
+<title>STUR Weather 2D – STUR Unified Resistance Atmosphere</title>
 <style>
-body{
-  background:#020408;
-  color:#e8ecf2;
-  font-family:"Courier New",monospace;
-  margin:0;
-  padding:2rem;
-}
-h1{color:#ffcc00;text-align:center;}
-h2{color:#ffcc00;}
-pre{
-  background:#0a0f1a;
-  color:#00ffaa;
-  padding:1rem;
-  border-radius:8px;
-  overflow-x:auto;
-  font-size:0.9rem;
-  box-shadow:0 0 12px #ffcc0060;
-  white-space:pre;
-}
-button{
-  background:#ffcc00;
-  color:#000;
-  border:none;
-  border-radius:6px;
-  padding:10px 20px;
-  font-weight:bold;
-  cursor:pointer;
-  margin:6px;
-}
-button:hover{background:#ffee55;}
-footer{text-align:center;font-size:0.9em;color:#999;margin-top:2rem;}
+  body{
+    background:#050814;
+    color:#e6edf3;
+    font-family:"Courier New",monospace;
+    margin:0;
+    padding:2rem;
+  }
+  h1{color:#ffaa00;text-align:center;}
+  h2{color:#ffcc33;margin-top:2rem;}
+  .desc{
+    max-width:900px;
+    margin:0 auto 1.5rem auto;
+    line-height:1.5;
+  }
+  pre{
+    background:#0a0f1f;
+    color:#00ffcc;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    font-size:0.9rem;
+    box-shadow:0 0 18px #ffaa0040;
+    white-space:pre;
+  }
+  button{
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
+  }
+  button:hover{background:#ffcc33;}
+  footer{
+    text-align:center;
+    font-size:0.9em;
+    color:#999;
+    margin-top:2rem;
+  }
+  a{color:#66ccff;}
 </style>
 </head>
 <body>
 
 <h1>STUR Weather – 2D Hybrid Atmospheric Simulation</h1>
 
-<h2>Derivation Summary</h2>
-<pre>
-S(r,L₀) = tanh(r/L₀) (1 − e^(−r/L₀))
-F_STUR(r) = S(r,L₀) [kₑ q₁q₂ / r² − G m₁m₂ / r² + αₛ((1 − e^(−r/λ))/r² + σr)] + γ₀ e^(−r/ℓ_B)(S×B)
-ρ_air, g, ν define the background fluid coupling.
-Grid evolves via v(t+Δt)=v+FΔt, r(t+Δt)=r+vΔt.
-</pre>
+<h2>STUR Atmospheric Derivation (2D slice)</h2>
+<div class="desc">
+<p>
+STUR Unified Resistance couples long range and short range interactions into a single
+effective force on an atmospheric parcel at position r = (x, y):
+</p>
 
-<h2>Python Simulation (copy to Jupyter)</h2>
+<p style="text-align:center;">
+F<sub>STUR</sub>(r) =
+S(r, L<sub>0</sub>) [
+k<sub>e</sub> q<sub>1</sub> q<sub>2</sub> / r²
+− G m<sub>1</sub> m<sub>2</sub> / r²
++ α<sub>s</sub> ( (1 − e<sup>−r/λ</sup>) / r² + σ r )
+] r̂,
+</p>
+
+<p>
+with STUR radial modulator
+</p>
+
+<p style="text-align:center;">
+S(r, L<sub>0</sub>) = tanh(r / L<sub>0</sub>) (1 − e<sup>−r / L<sub>0</sub>).
+</p>
+
+<p>
+In this 2D weather model, each parcel carries (r, v, T, P) and evolves under:
+</p>
+
+<ul>
+  <li>v(t + Δt) = v(t) + (F<sub>fluid</sub> + F<sub>STUR</sub>) Δt</li>
+  <li>r(t + Δt) = r(t) + v(t) Δt</li>
+  <li>T and P updated using v<sub>y</sub>, gravity g and a simple lapse-like rule</li>
+</ul>
+
+<p>
+The fluid force is parameterized as
+F<sub>fluid</sub> = −(1/ρ) ∇P + ν ξ,
+where ρ is air density and ξ is a Gaussian noise vector representing subgrid turbulence.
+</p>
+
+<p>
+On a 25 × 25 grid over a 2 km × 2 km region, the code runs for n steps and then classifies
+each parcel into three event types:
+</p>
+
+<ul>
+  <li><b>Microbursts</b>: large negative vertical-like velocity component v<sub>y</sub></li>
+  <li><b>Funnels</b>: large vertical angular momentum L<sub>z</sub> = x v<sub>y</sub> − y v<sub>x</sub></li>
+  <li><b>Heat domes</b>: elevated temperature above 300 K</li>
+</ul>
+
+<p>
+The Python block below performs the full evolution and prints a single JSON object with all
+summary statistics and event counts, ready for analysis.
+</p>
+</div>
+
+<h2>Python Simulation (copy &amp; run)</h2>
 
 <pre id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Weather 2D – JSON Output Only
+# STUR Weather 2D – JSON-only STUR atmospheric simulation
 # ===============================================================
-import numpy as np, json, math
+import numpy as np
+import json
+import math
 
-# --- Constants ---
-k_e,G,sigma_s=8.9875e9,6.6743e-11,1e-5
-lam,lB=1e-15,1e2
-q1,q2,m1,m2=1e-6,1e-6,1e3,1e3
-rho_air,g,nu=1.2,9.81,1e-2
-L0,alpha_s,gamma0=1e5,1e-9,1e-3
-dt,n_steps=0.5,60
-np.random.seed(0)
+# ------------------- CONSTANTS ----------------------
+k_e  = 8.9875e9     # Coulomb constant (N m^2 / C^2)
+G    = 6.6743e-11   # Gravitational constant (N m^2 / kg^2)
+sigma_s = 1e-5      # strong-like parameter
+lam  = 1e-15        # range (m)
 
-# --- STUR Modulator ---
-def S_r(r,L0): return math.tanh(r/L0)*(1.0-math.exp(-r/L0))
-def F_sheldon(r,v):
-    r_norm=float(np.linalg.norm(r))
-    if r_norm==0: return np.zeros(2)
-    r_hat=r/r_norm
-    coul=k_e*q1*q2/(r_norm**2)
-    grav=-G*m1*m2/(r_norm**2)
-    strong=alpha_s*((1.0-math.exp(-r_norm/lam))/(r_norm**2)+sigma_s*r_norm)
-    F_rad=S_r(r_norm,L0)*(coul+grav+strong)*r_hat
+q1, q2 = 1e-6, 1e-6 # charges (C)
+m1, m2 = 1e3, 1e3   # masses (kg)
+
+rho_air = 1.2       # air density (kg/m^3)
+g       = 9.81      # m/s^2
+nu      = 1e-2      # viscosity-like term
+
+L0      = 1e5       # STUR modulation scale (m)
+alpha_s = 1e-9      # strong-like coupling
+gamma0  = 1e-3      # optional extra coupling for extension
+
+dt      = 0.5       # timestep (s)
+n_steps = 60        # number of timesteps
+
+np.random.seed(0)   # reproducible
+
+V_MAX   = 50.0      # speed cap (m/s)
+
+# ------------------- STUR MODULATOR -------------------
+def S_r(r, L0):
+    "STUR radial modulator S(r,L0)."
+    return math.tanh(r / L0) * (1.0 - math.exp(-r / L0))
+
+def F_sheldon(r_vec, v_vec):
+    """
+    2D STUR force: Coulomb + gravity + strong-like radial term.
+    v_vec is kept for possible extensions (e.g., shear coupling).
+    """
+    r_norm = float(np.linalg.norm(r_vec))
+    if r_norm == 0.0:
+        return np.zeros(2, dtype=float)
+
+    r_hat = r_vec / r_norm
+
+    coul   = k_e * q1 * q2 / (r_norm**2)
+    grav   = -G * m1 * m2 / (r_norm**2)
+    strong = alpha_s * ((1.0 - math.exp(-r_norm / lam)) / (r_norm**2)
+                        + sigma_s * r_norm)
+
+    F_rad = S_r(r_norm, L0) * (coul + grav + strong) * r_hat
     return F_rad
 
-# --- Grid ---
-nx,ny=25,25
-xv=np.linspace(-1e3,1e3,nx)
-yv=np.linspace(-1e3,1e3,ny)
-X,Y=np.meshgrid(xv,yv)
-pos=np.stack([X.flatten(),Y.flatten()],axis=-1)
-vel=np.zeros_like(pos)
-T=np.ones(pos.shape[0])*290.0
-P=np.ones(pos.shape[0])*101325.0
+# ------------------- GRID INITIALIZATION ---------------
+nx, ny = 25, 25
+x_vals = np.linspace(-1e3, 1e3, nx)
+y_vals = np.linspace(-1e3, 1e3, ny)
+X, Y   = np.meshgrid(x_vals, y_vals)
 
-# --- Time evolution ---
-for _ in range(n_steps):
-    vel[:,0]+=0.0001*(pos[:,1]/1e3)
+pos = np.stack([X.flatten(), Y.flatten()], axis=-1).astype(float)
+vel = np.zeros_like(pos, dtype=float)
+
+T = np.ones(pos.shape[0], dtype=float) * 290.0      # K
+P = np.ones(pos.shape[0], dtype=float) * 101325.0   # Pa
+
+# ------------------- TIME EVOLUTION --------------------
+for step in range(n_steps):
+    # background shear: vx grows with y
+    vel[:, 0] = vel[:, 0] + 0.0001 * (pos[:, 1] / 1e3)
+
     for i in range(pos.shape[0]):
-        F_fluid=np.array([0.0,(P[i]-101325.0)/50.0])*(-1/rho_air)+nu*np.random.randn(2)*0.01
-        F_total=F_fluid+F_sheldon(pos[i],vel[i])
-        vel[i]+=F_total*dt
-        pos[i]+=vel[i]*dt
-        vy=vel[i,1]
-        T[i]+=(-g/1000.0)*vy*dt
-        P[i]-=0.05*vy*dt
+        # fluid force from pressure deviation + random turbulence
+        F_fluid = np.array([0.0,
+                            (P[i] - 101325.0) / 50.0], dtype=float)
+        F_fluid = F_fluid * (-1.0 / rho_air) + nu * np.random.randn(2) * 0.01
 
-# --- Event masks ---
-microburst=vel[:,1]<-10
-Lz=pos[:,0]*vel[:,1]-pos[:,1]*vel[:,0]
-funnels=np.abs(Lz)>0.05
-heat=T>300.0
+        # STUR force
+        F_stur  = F_sheldon(pos[i], vel[i])
+        F_total = F_fluid + F_stur
 
-# --- Summary JSON ---
-out={
- "model":"STUR Weather 2D",
- "grid":{"nx":nx,"ny":ny,"points":int(pos.shape[0])},
- "time":{"dt_s":dt,"steps":n_steps,"total_s":dt*n_steps},
- "events":{
-   "microbursts":int(np.sum(microburst)),
-   "funnels":int(np.sum(funnels)),
-   "heat_domes":int(np.sum(heat))
- },
- "fields":{
-   "T_min_K":float(np.min(T)),
-   "T_max_K":float(np.max(T)),
-   "P_min_Pa":float(np.min(P)),
-   "P_max_Pa":float(np.max(P)),
-   "vx_mean":float(np.mean(vel[:,0])),
-   "vy_mean":float(np.mean(vel[:,1])),
-   "speed_rms":float(np.sqrt(np.mean(np.sum(vel**2,axis=1))))
- }
+        # update velocity
+        vel[i] = vel[i] + F_total * dt
+        speed  = float(np.linalg.norm(vel[i]))
+        if speed > V_MAX:
+            vel[i] = vel[i] * (V_MAX / speed)
+
+        # update position
+        pos[i] = pos[i] + vel[i] * dt
+
+        # treat y as vertical-like
+        vy = vel[i, 1]
+        T[i] = T[i] + (-g / 1000.0) * vy * dt
+        P[i] = P[i] - 0.05 * vy * dt
+
+# ------------------- EVENT CLASSIFICATION ---------------
+# microbursts: strong downward vy
+microburst_mask = vel[:, 1] < -10.0
+
+# funnels: large vertical angular momentum Lz
+Lz = pos[:, 0] * vel[:, 1] - pos[:, 1] * vel[:, 0]
+funnels_mask = np.abs(Lz) > 0.05
+
+# heat domes: high temperature
+heat_mask = T > 300.0
+
+# ------------------- SUMMARY FIELDS ---------------------
+vx = vel[:, 0]
+vy = vel[:, 1]
+speed = np.sqrt(vx**2 + vy**2)
+
+summary = {
+    "model": "STUR Weather 2D",
+    "grid": {
+        "nx": int(nx),
+        "ny": int(ny),
+        "n_parcels": int(pos.shape[0]),
+        "x_min_m": float(x_vals[0]),
+        "x_max_m": float(x_vals[-1]),
+        "y_min_m": float(y_vals[0]),
+        "y_max_m": float(y_vals[-1])
+    },
+    "time": {
+        "dt_s": float(dt),
+        "n_steps": int(n_steps),
+        "total_time_s": float(dt * n_steps)
+    },
+    "events": {
+        "microbursts_count": int(np.sum(microburst_mask)),
+        "microbursts_fraction": float(np.mean(microburst_mask)),
+        "funnels_count": int(np.sum(funnels_mask)),
+        "funnels_fraction": float(np.mean(funnels_mask)),
+        "heat_domes_count": int(np.sum(heat_mask)),
+        "heat_domes_fraction": float(np.mean(heat_mask))
+    },
+    "fields": {
+        "T_min_K": float(np.min(T)),
+        "T_max_K": float(np.max(T)),
+        "T_mean_K": float(np.mean(T)),
+        "P_min_Pa": float(np.min(P)),
+        "P_max_Pa": float(np.max(P)),
+        "P_mean_Pa": float(np.mean(P)),
+        "vx_min_m_per_s": float(np.min(vx)),
+        "vx_max_m_per_s": float(np.max(vx)),
+        "vx_mean_m_per_s": float(np.mean(vx)),
+        "vy_min_m_per_s": float(np.min(vy)),
+        "vy_max_m_per_s": float(np.max(vy)),
+        "vy_mean_m_per_s": float(np.mean(vy)),
+        "speed_rms_m_per_s": float(np.sqrt(np.mean(speed**2)))
+    }
 }
-print(json.dumps(out,indent=2))
+
+# include a small sample of parcels
+sample_indices = list(range(0, min(5, pos.shape[0])))
+sample = []
+for idx in sample_indices:
+    sample.append({
+        "index": int(idx),
+        "x_m": float(pos[idx, 0]),
+        "y_m": float(pos[idx, 1]),
+        "vx_m_per_s": float(vx[idx]),
+        "vy_m_per_s": float(vy[idx]),
+        "T_K": float(T[idx]),
+        "P_Pa": float(P[idx])
+    })
+summary["sample_parcels"] = sample
+
+# print JSON only
+print(json.dumps(summary, indent=2))
 </pre>
 
 <div style="text-align:center;">
   <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openJupyter()">Open in JupyterLite</button>
+  <button onclick="openRunner()">Open Jupyter Lite</button>
 </div>
 
-<footer>© 2025 STUR Physics Lab – Unified Resistance Atmospheric Model</footer>
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | STUR Weather 2D
+</footer>
 
 <script>
 function copyCode(){
-  navigator.clipboard.writeText(document.getElementById("codeBlock").innerText);
+  const code = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
   alert("STUR Weather 2D JSON simulation copied to clipboard.");
 }
-function openJupyter(){
+function openRunner(){
   window.open("https://jupyter.org/try-jupyter/lab/","_blank");
 }
 </script>
