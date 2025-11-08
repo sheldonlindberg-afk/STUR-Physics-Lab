@@ -43,7 +43,7 @@ Three physiological modes – healthy, uncoupled, apoptotic – are simulated in
 <pre id="codeBlock">
 #!/usr/bin/env python3
 # ===============================================================
-# STUR-ATP Mito Sim 5.5 – Ultimate 1000-Mito Population Version (Fixed dtype)
+# STUR-ATP Mito Sim 5.5 – Ultimate 1000-Mito Population (JupyterLite-Safe)
 # ===============================================================
 import sys, subprocess, os, math, json, numpy as np, matplotlib.pyplot as plt
 from scipy.ndimage import gaussian_filter
@@ -52,7 +52,7 @@ for pkg in ["numpy","matplotlib","scipy"]:
     try: __import__(pkg)
     except Exception: subprocess.run([sys.executable,"-m","pip","install",pkg])
 
-NA=6.022e23; E_ATP=5.0e4/NA; V_mito_L=1e-15; ATP_cyto_M=5e-3
+NA=6.022e23; E_ATP=5e4/NA; V_mito_L=1e-15; ATP_cyto_M=5e-3
 
 def S_STUR(r,L0): x=r/L0; return math.tanh(x)*(1-math.exp(-x))
 
@@ -76,22 +76,27 @@ def run_sim(MODE="healthy",Tmax=100,dt=0.001,seed=1,N_mito=1000):
     ros_thresh*=0.6
     k_damage,k_leak_damage,D_thresh,pmf_mptp=1e-5,5.0,0.5,140.0
     Ca0_uM,k_Ca_in_base,k_Ca_in_ROS,k_Ca_clear,Ca_thresh_uM=0.1,0.005,0.05,0.05,0.5
-    def jitter(val,sig): return val*np.random.lognormal(0,sig,N_mito).astype(float)
+
+    def jitter(val,sig): return (val*np.random.lognormal(0,sig,N_mito)).astype(float)
     k_drive0_vec=jitter(k_drive0,0.1); k_leak_base_vec=jitter(k_leak_base,0.1)
     gamma_ATP_vec=jitter(gamma_ATP,0.05); ros_gain_vec=jitter(ros_gain,0.05)
     E0_vec=jitter(E0_mV,0.05); R0_vec=jitter(R0,0.05)
     D_thresh_vec=jitter(D_thresh,0.05); Ca_thresh_vec=jitter(Ca_thresh_uM,0.05)
+
     pmf=np.full(N_mito,20.0,float); ATP=np.full(N_mito,ATP_cyto_M*NA*V_mito_L,float)
     T=np.full(N_mito,37.0,float); Damage=np.zeros(N_mito,float); Ca=np.full(N_mito,Ca0_uM,float)
     E_ROS_vec=np.zeros(N_mito,float); mptp_open=np.zeros(N_mito,bool)
+
     keys=["pmf","ATP","E_ROS","T","Damage","Ca","mptp"]
     pop={k+"_mean":np.zeros(steps,float) for k in keys}
     pop.update({k+"_std":np.zeros(steps,float) for k in ["pmf","ATP","T","Damage","Ca"]})
+
     def record(i):
         pop["pmf_mean"][i]=pmf.mean(); pop["ATP_mean"][i]=ATP.mean()
         pop["E_ROS_mean"][i]=E_ROS_vec.mean(); pop["T_mean"][i]=T.mean()
         pop["Damage_mean"][i]=Damage.mean(); pop["Ca_mean"][i]=Ca.mean()
         pop["mptp_mean"][i]=mptp_open.mean()
+
     record(0)
     for i in range(steps-1):
         ti=t[i]; pmf=np.clip(pmf,0,pmf_clip)
@@ -101,14 +106,19 @@ def run_sim(MODE="healthy",Tmax=100,dt=0.001,seed=1,N_mito=1000):
             x=(pmf_pop-pmf_soft)/pmf_span; pump_factor=max(0,1-x); leak_fb=1+leak_fb_g*x
         else:
             pump_factor=1; leak_fb=1
-        leak_eff=k_leak_base_vec*(1+k_leak_damage*Damage)
+
+        leak_eff=(k_leak_base_vec*(1+k_leak_damage*Damage)).astype(float)
         if MODE=="apoptotic":
             trigger=(~mptp_open)&((Damage>D_thresh_vec)|(Ca>Ca_thresh_vec))&(pmf>pmf_mptp)
             mptp_open|=trigger
-        leak_eff=np.array(leak_eff,float)
+
+        # Force float64 before in-place math
+        leak_eff=np.array(leak_eff,dtype=np.float64,copy=True)
+        pump_mult=np.full(N_mito,pump_factor,dtype=np.float64)
+
         leak_eff[mptp_open]=leak_eff[mptp_open]*50.0
-        pump_mult=np.full(N_mito,pump_factor,float)
         pump_mult[mptp_open]=pump_mult[mptp_open]*0.1
+
         P_drive=drive_scale*k_drive0_vec*Sd*NADH*pump_mult
         leak_raw=leak_eff*Sl*pmf*leak_fb
         E_emf=(E0_vec*Sd*NADH)*1e-3; R_int=R0_vec/(1+Sl)
@@ -126,17 +136,19 @@ def run_sim(MODE="healthy",Tmax=100,dt=0.001,seed=1,N_mito=1000):
         Damage+=k_damage*ros*dt
         Ca+=(k_Ca_in_base+k_Ca_in_ROS*ros)*dt-k_Ca_clear*(Ca-Ca0_uM)*dt
         record(i+1)
+
     pop["t"]=t; pop["MODE"]=MODE; return pop
 
+# ---------- Run and Plot ----------
 modes=["healthy","uncoupled","apoptotic"]
 results=[run_sim(m,100,0.001,1,1000) for m in modes]
 print("Simulation complete.")
 
-# ---------- Plotting ----------
 labels=["Healthy","Uncoupled","Apoptotic"]; colors=["tab:green","tab:orange","tab:red"]
-def smooth(y,sigma=3): 
+def smooth(y,sigma=3):
     try: return gaussian_filter(y,sigma=sigma)
     except Exception: return y
+
 fig,axes=plt.subplots(3,2,figsize=(12,10),sharex=True)
 ax_pmf,ax_atp,ax_ros,ax_T,ax_D,ax_Ca=axes.flatten()
 for res,lab,col in zip(results,labels,colors):
@@ -147,12 +159,14 @@ for res,lab,col in zip(results,labels,colors):
     ax_T.plot(t,smooth(res["T_mean"]),label=lab,color=col)
     ax_D.plot(t,smooth(res["Damage_mean"]),label=lab,color=col)
     ax_Ca.plot(t,smooth(res["Ca_mean"]),label=lab,color=col)
+
 for a in axes.flatten(): a.grid(True,alpha=0.3)
 ax_pmf.set_ylabel("pmf (mV)"); ax_atp.set_ylabel("ATP (mols)")
 ax_ros.set_ylabel("ROS"); ax_T.set_ylabel("T (°C)")
 ax_D.set_ylabel("Damage"); ax_Ca.set_ylabel("Ca²⁺ (µM)")
 ax_Ca.set_xlabel("Time (s)"); ax_pmf.legend()
 plt.tight_layout(); plt.show()
+
 plt.figure(figsize=(6,4))
 for res,lab,col in zip(results,labels,colors):
     plt.plot(res["t"],res["mptp_mean"],label=lab,color=col)
