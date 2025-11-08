@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR Resistance Gate – Unified Resistance Access Corridor</title>
+<style>
+  body{
+    background:#050814;
+    color:#e6edf3;
+    font-family:"Courier New",monospace;
+    margin:0;
+    padding:2rem;
+  }
+  h1{color:#ffaa00;text-align:center;}
+  h2{color:#ffcc33;margin-top:2rem;}
+  .desc{
+    max-width:900px;
+    margin:0 auto 1.5rem auto;
+    line-height:1.5;
+  }
+  pre{
+    background:#0a0f1f;
+    color:#00ffcc;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    font-size:0.9rem;
+    box-shadow:0 0 18px #ffaa0040;
+    white-space:pre;
+  }
+  button{
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
+  }
+  button:hover{background:#ffcc33;}
+  footer{
+    text-align:center;
+    font-size:0.9em;
+    color:#999;
+    margin-top:2rem;
+  }
+  a{color:#66ccff;}
+</style>
+</head>
+<body>
+
+<h1>STUR Resistance Gate – Access Corridor Simulation</h1>
+
+<h2>Unified Resistance Derivation</h2>
+<div class="desc">
+<p>
+We model a one–dimensional <b>resistance corridor</b> of length r ∈ [r<span style="vertical-align:sub;">min</span>, r<span style="vertical-align:sub;">max</span>]
+connecting an input boundary to a target region. Along this corridor, the local effective
+force is a STUR–modulated superposition of Coulomb, gravity, short–range confinement,
+spin, vacuum, dissipative, and bio–feedback contributions:
+</p>
+
+<p style="text-align:center;">
+F<span style="vertical-align:sub;">tot</span>(r,t) =
+S(r,L<span style="vertical-align:sub;">0</span>)
+[ F<span style="vertical-align:sub;">EM</span>(r) + F<span style="vertical-align:sub;">G</span>(r) + F<span style="vertical-align:sub;">S</span>(r) ]
++ F<span style="vertical-align:sub;">spin</span>(r)
++ F<span style="vertical-align:sub;">SC</span>(r,t)
++ F<span style="vertical-align:sub;">vac</span>(r)
++ F<span style="vertical-align:sub;">diss</span>(r)
++ F<span style="vertical-align:sub;">bio</span>(r,t),
+</p>
+
+<p>
+with STUR radial modulator
+</p>
+
+<p style="text-align:center;">
+S(r,L<span style="vertical-align:sub;">0</span>) = tanh(r/L<span style="vertical-align:sub;">0</span>) (1 − e<span style="vertical-align:super;">−r/L<span style="vertical-align:sub;">0</span></span>).
+</p>
+
+<p>
+The corridor “cost” at control phase t is defined as a line integral of the magnitude of
+F<span style="vertical-align:sub;">tot</span>:
+</p>
+
+<p style="text-align:center;">
+C(t) = ∫<sub>r<span style="vertical-align:sub;">min</span></sub><sup>r<span style="vertical-align:sub;">max</span></sup> |F<span style="vertical-align:sub;">tot</span>(r,t)| dr.
+</p>
+
+<p>
+For a discrete mesh r<sub>i</sub>, we construct a weighted graph whose edges carry a local cost
+proportional to |F<span style="vertical-align:sub;">tot</span>(r<sub>i</sub>,t)|. The <b>effective access path</b> cost is then the
+shortest–path weight C<span style="vertical-align:sub;">path</span>(t) over this graph.
+</p>
+
+<p>
+A single launch is modeled by drawing a “budget” energy E<span style="vertical-align:sub;">b</span> from a scaled uniform band,
+and a noisy required energy E<span style="vertical-align:sub;">need</span> ∝ C<span style="vertical-align:sub;">path</span>(t). The success probability for a given noise
+level σ<span style="vertical-align:sub;">noise</span> and phase t is:
+</p>
+
+<p style="text-align:center;">
+P<span style="vertical-align:sub;">success</span>(t,σ) = Prob[E<span style="vertical-align:sub;">b</span> &gt; E<span style="vertical-align:sub;">need</span>].
+</p>
+
+<p>
+We then define an information measure via binary Shannon entropy:
+</p>
+
+<p style="text-align:center;">
+S<span style="vertical-align:sub;">info</span>(P) = −P log₂ P − (1−P) log₂(1−P).
+</p>
+
+<p>
+The Python simulation below:
+</p>
+
+<ul>
+  <li>Builds the STUR force profile F<span style="vertical-align:sub;">tot</span>(r,t).</li>
+  <li>Computes corridor cost and graph–based path cost.</li>
+  <li>Samples launches over several noise levels.</li>
+  <li>Prints power / access / order statistics.</li>
+  <li>Generates three static plots:
+    <ul>
+      <li>Force profile |F<span style="vertical-align:sub;">tot</span>(r,t)| vs r for two phases.</li>
+      <li>Access probability vs control phase for multiple noise levels.</li>
+      <li>Average and max success vs noise level.</li>
+    </ul>
+  </li>
+</ul>
+</div>
+
+<h2>Python Simulation (copy &amp; run in Jupyter)</h2>
+
+<pre id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR Resistance Gate – Unified Resistance Access Corridor
+# Static plots, no animation. Jupyter compatible.
+# ===============================================================
+import numpy as np
+import networkx as nx
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+
+# --- power + thermal setup -------------------------------------
+Ep, fR, tau, eta = 2.5e3, 10.0, 0.1, 0.15
+E_arc  = Ep * fR * tau * eta
+E_pack = 1.0e6
+J0     = E_pack + E_arc
+
+T0, heat = 300.0, 50.0
+cf       = 1.0e4
+fb, phi  = 5.0, 0.6 * np.pi
+w        = 2.0 * np.pi * fb
+
+# --- forces and constants --------------------------------------
+ke, G   = 8.9875e9, 6.6743e-11
+q, m    = 1.602e-19, 1.673e-27
+a, sig  = 1.0e-10, 1.0e10
+lam     = 1.0e-9
+L0, el  = 1.0e-9, 1.0e-9
+hb, c   = 1.055e-34, 3.0e8
+eps     = 1.0e-12
+Ssp     = hb / 2.0
+g_sc    = 1.0e-15
+
+def S(r):
+    return np.tanh(r / L0) * (1.0 - np.exp(-r / L0))
+
+def F_EM(r):
+    return ke * q * q / (r * r + eps)
+
+def F_G(r):
+    return -G * m * m / (r * r + eps)
+
+def F_S(r):
+    return a * ((1.0 - np.exp(-r / lam)) / (r * r + eps) + sig * r * np.exp(-r / el))
+
+def F_sp(r):
+    return Ssp * np.exp(-r / el)
+
+def F_SC0(r):
+    return g_sc * np.tanh(15.0 * r / L0) * (1.0 - np.exp(-r / L0))**2 * np.exp(-r / el)
+
+def F_b0(r):
+    return (2.0e-8 + 1.0e-9 * np.sin(r / 5.0)) * np.exp(-r / 40.0) / (r + eps)
+
+def F_v(r):
+    return hb * c / (r**4 + eps) * 1.0e-30 * np.exp(-r / 10.0)
+
+def F_d(r):
+    return 1.0e-9 / (r + eps)
+
+def F_tot(r, t, A_b, A_s):
+    """Total STUR resistance force at radius r and phase t."""
+    F_b  = F_b0(r)  * (1.0 + A_b * np.sin(w * t))
+    F_SC = F_SC0(r) * (1.0 - A_s * np.sin(w * t + phi))
+    return S(r) * (F_EM(r) + F_G(r) + F_S(r)) + F_sp(r) + F_SC + F_v(r) + F_d(r) + F_b
+
+def corridor(rg, t, A_b, A_s):
+    """Integrated corridor cost along r for given phase t."""
+    vals = [abs(F_tot(r, t, A_b, A_s)) for r in rg]
+    return np.trapz(vals, rg)
+
+def path(rg, t, A_b, A_s):
+    """Graph-based shortest path cost along the corridor."""
+    Fv = [F_tot(r, t, A_b, A_s) for r in rg]
+    Gx = nx.Graph()
+    for i in range(len(rg) - 1):
+        wv = (abs(Fv[i]) + abs(Fv[i+1])) / 2.0
+        Gx.add_edge(i, i+1, weight=wv)
+    p = nx.shortest_path(Gx, 0, len(rg) - 1, weight="weight")
+    c = sum(Gx[u][v]["weight"] for u, v in zip(p[:-1], p[1:]))
+    return c, p
+
+def launch(rg, t, div, A_b, A_s, J, Emin=5e-8, Emax=1e-5, noise=0.2, n=200):
+    """Run n launches and return (success_prob, path_cost, need_mean, Eb_mean)."""
+    c, _ = path(rg, t, A_b, A_s)
+    sc = J / div
+    Eb = np.random.uniform(Emin, Emax, n) * sc
+    need = c * (1.0 + np.random.normal(0.0, noise, n))
+    return np.mean(Eb > need), c, need.mean(), Eb.mean()
+
+def entropy(p):
+    p = np.clip(p, 1e-12, 1.0 - 1e-12)
+    return -p * np.log2(p) - (1.0 - p) * np.log2(1.0 - p)
+
+def Ecyc(rg, ts, A_b, A_s):
+    return np.trapz([corridor(rg, t, A_b, A_s) * cf for t in ts], ts)
+
+# --- parameter ranges ------------------------------------------
+r = np.linspace(10.0, 50.0, 80)
+twin = np.linspace(0.0, 0.4, 60)
+tS = [0.0, 0.1, 0.2]
+
+div = 1.0e7
+A_s = 0.25
+
+# --- quick tuning loop -----------------------------------------
+for _ in range(3):
+    T = T0 + (np.random.rand() - 0.5) * heat
+    A_b = np.exp(-T / T0) * (0.4 + 0.3 * eta)
+    J = J0
+    sL = [launch(r, ts, div, A_b, A_s, J)[0] for ts in tS]
+    sM = max(sL)
+    div *= 1.0 - 0.2 * (sM - 0.99)
+    div = np.clip(div, 1.0e6, 1.0e8)
+
+# --- final evaluation ------------------------------------------
+T = T0 + (np.random.rand() - 0.5) * heat
+A_b = np.exp(-T / T0) * (0.4 + 0.3 * eta)
+J  = J0
+
+resA, resM = [], []
+noise_levels = [0.2, 0.05, 0.01]
+
+for nz in noise_levels:
+    sA = [launch(r, ts, div, A_b, A_s, J, noise=nz)[0] for ts in tS]
+    resA.append((nz, np.mean(sA)))
+    resM.append((nz, max(sA)))
+
+Ecy = Ecyc(r, twin, A_b, A_s)
+cyc = J / Ecy if Ecy > 0 else np.inf
+
+nz_best, s_best = max(resM, key=lambda x: x[1])
+Sinfo = entropy(s_best)
+
+# --- TEXT OUTPUT -----------------------------------------------
+print("===POWER===")
+print(f"E_pack={E_pack:.2e}J E_arc={E_arc:.2e}J J={J0:.2e}J T={T:.1f}K")
+print(f"A_b={A_b:.3f} A_s={A_s:.2f} div={div:.2e}")
+
+print("\n===ACCESS===")
+for (nz, a), (_, m) in zip(resA, resM):
+    print(f"noise={nz:.2f} avg={a*100:.2f}% max={m*100:.2f}%")
+
+print("\n===ORDER===")
+print(f"best={s_best*100:.2f}% entropy={Sinfo:.3f} bits")
+print(f"Ecy={Ecy:.2e}J/{twin[-1]:.2f}s cycles={cyc:.2e}")
+
+# ===============================================================
+# STATIC PLOTS (no animation)
+# ===============================================================
+
+# 1) Force profile |F_tot(r,t)| vs r for two control phases
+r_plot = np.linspace(10.0, 50.0, 200)
+F_t0 = [abs(F_tot(rv, 0.0, A_b, A_s)) for rv in r_plot]
+F_t1 = [abs(F_tot(rv, 0.2, A_b, A_s)) for rv in r_plot]
+
+plt.figure(figsize=(8,4))
+plt.plot(r_plot, F_t0, label="|F_tot(r, t=0.0)|")
+plt.plot(r_plot, F_t1, "--", label="|F_tot(r, t=0.2)|")
+plt.xlabel("r (arb units)")
+plt.ylabel("|F_tot| (arb units)")
+plt.title("Resistance Gate Force Profile")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# 2) Access probability vs control phase for each noise level
+succ_vs_t = {}
+for nz in noise_levels:
+    vals = []
+    for ts in tS:
+        p, _, _, _ = launch(r, ts, div, A_b, A_s, J, noise=nz)
+        vals.append(p * 100.0)
+    succ_vs_t[nz] = vals
+
+plt.figure(figsize=(8,4))
+for nz in noise_levels:
+    plt.plot(tS, succ_vs_t[nz], marker="o", label=f"noise={nz:.2f}")
+plt.xlabel("Control phase t (s)")
+plt.ylabel("Success probability (%)")
+plt.title("Access probability vs control phase")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# 3) Average and max success vs noise level
+noise_arr = [x[0] for x in resA]
+avg_succ  = [x[1]*100.0 for x in resA]
+max_succ  = [x[1]*100.0 for x in resM]
+
+plt.figure(figsize=(8,4))
+plt.plot(noise_arr, avg_succ, "o-", label="avg success")
+plt.plot(noise_arr, max_succ, "s--", label="max success")
+plt.xlabel("Noise level")
+plt.ylabel("Success probability (%)")
+plt.title("Gate reliability vs noise")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open JupyterLite</button>
+</div>
+
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | STUR Resistance Gate
+</footer>
+
+<script>
+function copyCode(){
+  const code = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("STUR Resistance Gate simulation code copied to clipboard.");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+</script>
+
+</body>
+</html>
