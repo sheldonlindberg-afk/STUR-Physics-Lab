@@ -22,17 +22,18 @@
 <h1>🔋 STUR-ATP Mito Sim 5.5 – 1000-Mito Population</h1>
 
 <p class="desc">
-Models a <b>full mitochondrial population</b>: 1000 mitochondria per mode (healthy, uncoupled, apoptotic).  
-Each mitochondrion is a STUR resistance oscillator with geometry (<code>S_STUR(r)</code>), tunneling, ROS production, damage accumulation, Ca²⁺ loading, mPTP opening, and thermal feedback.  
+Models a <b>full mitochondrial population</b>: 1000 mitochondria per mode (healthy, uncoupled, apoptotic).<br>
+Each mitochondrion is a STUR resistance oscillator with geometry (<code>S_STUR(r)</code>), tunneling, ROS production,
+damage accumulation, Ca²⁺ loading, mPTP opening, and thermal feedback.<br>
 Exports CSV/JSON plus 2-D and 3-D plots of pmf, ATP, ROS, temperature, damage, and Ca²⁺ dynamics.
 </p>
 
 <h2>Derivation Overview (Short Form)</h2>
 <div class="desc">
 <ol>
-<li><code>S_STUR(r,L₀)</code> maps curvature–resistance into proton-motive force (pmf) and tunneling.</li>
-<li>Each mitochondrion evolves pmf(t), ATP(t), ROS energy, T(t), D(t), Ca²⁺(t), mPTP state with feedback loops.</li>
-<li>Modes differ in drive/leak/ROS parameters and damage/Ca²⁺ thresholds → population bioenergetics under STUR.</li>
+  <li><code>S_STUR(r,L₀)</code> maps curvature–resistance into proton-motive force (pmf) and tunneling.</li>
+  <li>Each mitochondrion evolves pmf(t), ATP(t), ROS energy, T(t), D(t), Ca²⁺(t), and mPTP state with feedback loops.</li>
+  <li>Modes differ in drive/leak/ROS parameters and damage/Ca²⁺ thresholds → population bioenergetics under STUR.</li>
 </ol>
 </div>
 
@@ -47,138 +48,334 @@ Exports CSV/JSON plus 2-D and 3-D plots of pmf, ATP, ROS, temperature, damage, a
 # Simulates 1000 mitochondria per mode under the STUR framework.
 # ===============================================================
 
-import sys,subprocess,os,math,json
-import numpy as np, matplotlib.pyplot as plt
-from datetime import datetime,timezone
+import sys
+import subprocess
+import os
+import math
+import json
+
+import numpy as np
+import matplotlib.pyplot as plt
+from datetime import datetime, timezone
 from scipy.ndimage import gaussian_filter
 
 # auto-install deps if missing
-for pkg in ["numpy","matplotlib","scipy"]:
-    try: __import__(pkg)
-    except Exception: subprocess.run([sys.executable,"-m","pip","install",pkg])
+for pkg in ["numpy", "matplotlib", "scipy"]:
+    try:
+        __import__(pkg)
+    except Exception:
+        subprocess.run([sys.executable, "-m", "pip", "install", pkg])
 
-NA=6.022e23; E_ATP=5.0e4/NA; V_mito_L=1e-15; ATP_cyto_M=5e-3
-def S_STUR(r,L0): x=r/L0; return math.tanh(x)*(1-math.exp(-x))
+NA = 6.022e23            # Avogadro
+E_ATP = 5.0e4 / NA       # 50 kJ/mol → J per ATP
+V_mito_L = 1.0e-15       # 1 fL mitochondrial volume
+ATP_cyto_M = 5.0e-3      # 5 mM cytosolic ATP
+
+
+def S_STUR(r, L0):
+    x = r / L0
+    return math.tanh(x) * (1.0 - math.exp(-x))
+
+
 def ATP_use_rate_func(t):
-    base=5e4; burst=0.0
-    if 20<t<40: burst=2e5*math.exp(-((t-30)**2)/(2*5**2))
-    return base+burst
+    base = 5e4
+    burst = 0.0
+    if 20 < t < 40:
+        burst = 2e5 * math.exp(-((t - 30) ** 2) / (2 * 5 ** 2))
+    return base + burst
 
-def run_sim(MODE="healthy",Tmax=100.0,dt=0.001,seed=1,N_mito=1000):
-    np.random.seed(seed); steps=int(Tmax/dt)+1; t=np.linspace(0,Tmax,steps)
-    L0,Rd,Rl,Rf=0.25,0.3,0.6,1.0; Sd,Sl,St=S_STUR(Rd,L0),S_STUR(Rl,L0),S_STUR(Rf,L0)
-    C_eff,drive_scale=5.0,400.0; tau_NADH,NADH_period=4.0,2.0
-    E0_mV,R0,R_load=220.0,1e7,5e7; eta_batt,eta_elec=0.8,0.6
-    V0_barrier,alpha,noise_sigma=1.0,3.5,0.4; pmf_soft,pmf_span,leak_fb_g,pmf_clip=240.0,150.0,0.5,500.0
 
-    if MODE=="healthy": k_drive0,k_leak_base,gamma_ATP,ros_gain,ros_thresh=4.0,3e-4,3e-5,5e-4,220.0
-    elif MODE=="uncoupled": k_drive0,k_leak_base,gamma_ATP,ros_gain,ros_thresh=4.0,1.5e-3,2e-5,5e-4,190.0
-    else: k_drive0,k_leak_base,gamma_ATP,ros_gain,ros_thresh=4.8,2.5e-3,4e-5,6e-3,160.0
-    ros_thresh*=0.6
-    k_damage,k_leak_damage,D_thresh,pmf_mptp=1e-5,5.0,0.5,140.0
-    Ca0_uM,k_Ca_in_base,k_Ca_in_ROS,k_Ca_clear,Ca_thresh_uM=0.1,0.005,0.05,0.05,0.5
-    T0_C,temp_gain,temp_cool=37.0,0.2,5e-3
-    def jitter(v,s): return v*np.random.lognormal(0.0,s,N_mito)
-    k_drive0_vec=jitter(k_drive0,0.10); k_leak_base_vec=jitter(k_leak_base,0.10)
-    gamma_ATP_vec=jitter(gamma_ATP,0.05); ros_gain_vec=jitter(ros_gain,0.05)
-    E0_vec=jitter(E0_mV,0.05); R0_vec=jitter(R0,0.05)
-    D_thresh_vec=jitter(D_thresh,0.05); Ca_thresh_vec=jitter(Ca_thresh_uM,0.05)
-    pmf=np.full(N_mito,20.0); ATP=np.full(N_mito,ATP_cyto_M*NA*V_mito_L)
-    T=np.full(N_mito,T0_C); Damage=np.zeros(N_mito); Ca=np.full(N_mito,Ca0_uM)
-    E_ROS_vec=np.zeros(N_mito); mptp_open=np.zeros(N_mito,bool)
-    keys=["pmf","ATP","E_ROS","T","Damage","Ca","mptp"]
-    pop={k+"_mean":np.zeros(steps) for k in keys}
-    pop.update({k+"_std":np.zeros(steps) for k in ["pmf","ATP","T","Damage","Ca"]})
+def run_sim(MODE="healthy", Tmax=100.0, dt=0.001, seed=1, N_mito=1000):
+    np.random.seed(seed)
+    steps = int(Tmax / dt) + 1
+    t = np.linspace(0, Tmax, steps)
+
+    L0, Rd, Rl, Rf = 0.25, 0.3, 0.6, 1.0
+    Sd, Sl, St = S_STUR(Rd, L0), S_STUR(Rl, L0), S_STUR(Rf, L0)
+
+    C_eff = 5.0
+    drive_scale = 400.0
+    tau_NADH, NADH_period = 4.0, 2.0
+    E0_mV, R0, R_load = 220.0, 1e7, 5e7
+    eta_batt, eta_elec = 0.8, 0.6
+    V0_barrier, alpha = 1.0, 3.5
+    noise_sigma = 0.4
+    pmf_soft, pmf_span, leak_fb_g, pmf_clip = 240.0, 150.0, 0.5, 500.0
+
+    if MODE == "healthy":
+        k_drive0, k_leak_base, gamma_ATP, ros_gain, ros_thresh = (
+            4.0, 3e-4, 3e-5, 5e-4, 220.0
+        )
+    elif MODE == "uncoupled":
+        k_drive0, k_leak_base, gamma_ATP, ros_gain, ros_thresh = (
+            4.0, 1.5e-3, 2e-5, 5e-4, 190.0
+        )
+    else:
+        k_drive0, k_leak_base, gamma_ATP, ros_gain, ros_thresh = (
+            4.8, 2.5e-3, 4e-5, 6e-3, 160.0
+        )
+    ros_thresh *= 0.6
+
+    k_damage, k_leak_damage, D_thresh, pmf_mptp = 1e-5, 5.0, 0.5, 140.0
+    Ca0_uM, k_Ca_in_base, k_Ca_in_ROS, k_Ca_clear, Ca_thresh_uM = (
+        0.1, 0.005, 0.05, 0.05, 0.5
+    )
+    T0_C, temp_gain, temp_cool = 37.0, 0.2, 5e-3
+
+    def jitter(val, sig):
+        return val * np.random.lognormal(0.0, sig, N_mito)
+
+    k_drive0_vec = jitter(k_drive0, 0.10)
+    k_leak_base_vec = jitter(k_leak_base, 0.10)
+    gamma_ATP_vec = jitter(gamma_ATP, 0.05)
+    ros_gain_vec = jitter(ros_gain, 0.05)
+    E0_vec = jitter(E0_mV, 0.05)
+    R0_vec = jitter(R0, 0.05)
+    D_thresh_vec = jitter(D_thresh, 0.05)
+    Ca_thresh_vec = jitter(Ca_thresh_uM, 0.05)
+
+    pmf = np.full(N_mito, 20.0)
+    ATP = np.full(N_mito, ATP_cyto_M * NA * V_mito_L)
+    T = np.full(N_mito, T0_C)
+    Damage = np.zeros(N_mito)
+    Ca = np.full(N_mito, Ca0_uM)
+    E_ROS_vec = np.zeros(N_mito)
+    mptp_open = np.zeros(N_mito, bool)
+
+    keys = ["pmf", "ATP", "E_ROS", "T", "Damage", "Ca", "mptp"]
+    pop = {k + "_mean": np.zeros(steps) for k in keys}
+    pop.update({k + "_std": np.zeros(steps) for k in ["pmf", "ATP", "T", "Damage", "Ca"]})
+
     def record(i):
-        pop["pmf_mean"][i]=pmf.mean(); pop["pmf_std"][i]=pmf.std()
-        pop["ATP_mean"][i]=ATP.mean(); pop["ATP_std"][i]=ATP.std()
-        pop["E_ROS_mean"][i]=E_ROS_vec.mean()
-        pop["T_mean"][i]=T.mean(); pop["T_std"][i]=T.std()
-        pop["Damage_mean"][i]=Damage.mean(); pop["Damage_std"][i]=Damage.std()
-        pop["Ca_mean"][i]=Ca.mean(); pop["Ca_std"][i]=Ca.std()
-        pop["mptp_mean"][i]=mptp_open.mean()
+        pop["pmf_mean"][i] = pmf.mean()
+        pop["pmf_std"][i] = pmf.std()
+        pop["ATP_mean"][i] = ATP.mean()
+        pop["ATP_std"][i] = ATP.std()
+        pop["E_ROS_mean"][i] = E_ROS_vec.mean()
+        pop["T_mean"][i] = T.mean()
+        pop["T_std"][i] = T.std()
+        pop["Damage_mean"][i] = Damage.mean()
+        pop["Damage_std"][i] = Damage.std()
+        pop["Ca_mean"][i] = Ca.mean()
+        pop["Ca_std"][i] = Ca.std()
+        pop["mptp_mean"][i] = mptp_open.mean()
+
     record(0)
     print(f"=== STUR-ATP 5.5 MODE={MODE} N={N_mito} ===")
 
-    for i in range(steps-1):
-        ti=t[i]; pmf=np.clip(pmf,0,pmf_clip)
-        NADH=(0.5+0.5*math.sin(2*math.pi*ti/NADH_period))*math.exp(-ti/tau_NADH)
-        NADH=max(NADH,0.0)
-        pmf_pop=pmf.mean()
-        if pmf_pop>pmf_soft:
-            x=(pmf_pop-pmf_soft)/pmf_span; pump_factor=max(0,1-x); leak_fb=1+leak_fb_g*x
+    for i in range(steps - 1):
+        ti = t[i]
+        pmf = np.clip(pmf, 0, pmf_clip)
+
+        NADH = (0.5 + 0.5 * math.sin(2 * math.pi * ti / NADH_period)) * math.exp(
+            -ti / tau_NADH
+        )
+        NADH = max(NADH, 0.0)
+
+        pmf_pop = pmf.mean()
+        if pmf_pop > pmf_soft:
+            x = (pmf_pop - pmf_soft) / pmf_span
+            pump_factor = max(0, 1 - x)
+            leak_fb = 1 + leak_fb_g * x
         else:
-            pump_factor,leak_fb=1.0,1.0
-        leak_eff=k_leak_base_vec*(1+k_leak_damage*Damage)
-        if MODE=="apoptotic":
-            trigger=(~mptp_open)&((Damage>D_thresh_vec)|(Ca>Ca_thresh_vec))&(pmf>pmf_mptp)
-            mptp_open|=trigger
-        leak_eff[mptp_open]*=50; pump_mult=np.full(N_mito,pump_factor); pump_mult[mptp_open]*=0.1
-        P_drive=drive_scale*k_drive0_vec*Sd*NADH*pump_mult
-        leak_raw=leak_eff*Sl*pmf*leak_fb
-        E_emf=(E0_vec*Sd*NADH)*1e-3; R_int=R0_vec/(1+Sl)
-        I=np.maximum(E_emf/(R_load+R_int),0); P_el=E_emf*I
-        ATP_batt=eta_batt*P_el/E_ATP
-        S_torq=np.tanh(pmf/180.0)*St; barrier=np.clip(V0_barrier*(1-S_torq),0,5)
-        Tun=np.exp(-alpha*barrier)
-        P_leak=np.abs(leak_raw*1e-12*pmf*1e-3); ATP_leak=eta_elec*P_leak/E_ATP
-        over=np.maximum(pmf-ros_thresh,0); ros=ros_gain_vec*over; P_ros=ros*0.05*E_ATP
-        ATP_prod=(ATP_batt+ATP_leak)*Tun; ATP_use=ATP_use_rate_func(ti)
-        E_ROS_vec+=P_ros*dt
-        dpmf=(P_drive-leak_eff*pmf-gamma_ATP_vec*ATP_prod-2e-3*ros)/C_eff
-        dpmf+=np.random.normal(0,noise_sigma,N_mito)/dt
-        pmf=np.clip(pmf+dpmf*dt,0,pmf_clip)
-        ATP=np.maximum(ATP+(ATP_prod-ATP_use)*dt,0)
-        Damage+=k_damage*ros*dt
-        Ca+=(k_Ca_in_base+k_Ca_in_ROS*ros)*dt-k_Ca_clear*(Ca-Ca0_uM)*dt
-        P_heat=P_leak+P_ros; T+=temp_gain*P_heat*dt-temp_cool*(T-T0_C)*dt
-        record(i+1)
+            pump_factor, leak_fb = 1.0, 1.0
 
-    print(f"Final pmf={pop['pmf_mean'][-1]:.1f} mV ATP={pop['ATP_mean'][-1]:.2e} ROS={pop['E_ROS_mean'][-1]:.2e} T={pop['T_mean'][-1]:.2f} Ca={pop['Ca_mean'][-1]:.3f} mPTP={pop['mptp_mean'][-1]*100:.1f}%")
-    pop["t"]=t; pop["MODE"]=MODE; return pop
+        leak_eff = k_leak_base_vec * (1 + k_leak_damage * Damage)
 
-modes=["healthy","uncoupled","apoptotic"]
-results=[run_sim(m,100.0,0.001,1,1000) for m in modes]
-os.makedirs("exports",exist_ok=True)
-meta={"title":"STUR-ATP Mito Sim 5.5 – Ultimate 1000-Mito Population",
-"description":"STUR-based model of 1000 mitochondria with geometry, tunneling, ROS, damage, Ca²⁺ and mPTP.",
-"date":datetime.now(timezone.utc).isoformat(),"modes":modes,"N_mito":1000,
-"Tmax_s":100.0,"dt_s":0.001,"ATP_units":"molecules per 1 fL mitochondrion",
-"doi":"10.5281/zenodo.xxxxxx"}
-json.dump(meta,open("exports/metadata.json","w"),indent=2)
+        if MODE == "apoptotic":
+            trigger = (
+                (~mptp_open)
+                & ((Damage > D_thresh_vec) | (Ca > Ca_thresh_vec))
+                & (pmf > pmf_mptp)
+            )
+            mptp_open |= trigger
+
+        leak_eff[mptp_open] *= 50
+        pump_mult = np.full(N_mito, pump_factor)
+        pump_mult[mptp_open] *= 0.1
+
+        P_drive = drive_scale * k_drive0_vec * Sd * NADH * pump_mult
+        leak_raw = leak_eff * Sl * pmf * leak_fb
+
+        E_emf = (E0_vec * Sd * NADH) * 1e-3
+        R_int = R0_vec / (1 + Sl)
+        I = np.maximum(E_emf / (R_load + R_int), 0)
+        P_el = E_emf * I
+        ATP_batt = eta_batt * P_el / E_ATP
+
+        S_torq = np.tanh(pmf / 180.0) * St
+        barrier = np.clip(V0_barrier * (1 - S_torq), 0, 5)
+        Tun = np.exp(-alpha * barrier)
+
+        P_leak = np.abs(leak_raw * 1e-12 * pmf * 1e-3)
+        ATP_leak = eta_elec * P_leak / E_ATP
+
+        over = np.maximum(pmf - ros_thresh, 0)
+        ros = ros_gain_vec * over
+        P_ros = ros * 0.05 * E_ATP
+
+        ATP_prod = (ATP_batt + ATP_leak) * Tun
+        ATP_use = ATP_use_rate_func(ti)
+
+        E_ROS_vec += P_ros * dt
+
+        dpmf = (P_drive - leak_eff * pmf - gamma_ATP_vec * ATP_prod - 2e-3 * ros) / C_eff
+        dpmf += np.random.normal(0, noise_sigma, N_mito) / dt
+
+        pmf = np.clip(pmf + dpmf * dt, 0, pmf_clip)
+        ATP = np.maximum(ATP + (ATP_prod - ATP_use) * dt, 0)
+        Damage += k_damage * ros * dt
+        Ca += (k_Ca_in_base + k_Ca_in_ROS * ros) * dt - k_Ca_clear * (Ca - Ca0_uM) * dt
+
+        P_heat = P_leak + P_ros
+        T += temp_gain * P_heat * dt - temp_cool * (T - T0_C) * dt
+
+        record(i + 1)
+
+    print(
+        "Final pmf="
+        f"{pop['pmf_mean'][-1]:.1f} mV "
+        f"ATP={pop['ATP_mean'][-1]:.2e} "
+        f"ROS={pop['E_ROS_mean'][-1]:.2e} "
+        f"T={pop['T_mean'][-1]:.2f} "
+        f"Ca={pop['Ca_mean'][-1]:.3f} "
+        f"mPTP={pop['mptp_mean'][-1]*100:.1f}%"
+    )
+
+    pop["t"] = t
+    pop["MODE"] = MODE
+    return pop
+
+
+modes = ["healthy", "uncoupled", "apoptotic"]
+results = [run_sim(m, 100.0, 0.001, 1, 1000) for m in modes]
+os.makedirs("exports", exist_ok=True)
+
+meta = {
+    "title": "STUR-ATP Mito Sim 5.5 – Ultimate 1000-Mito Population",
+    "description": "STUR-based population model of 1000 mitochondria with geometry, tunneling, ROS, damage, Ca²⁺ and mPTP.",
+    "date": datetime.now(timezone.utc).isoformat(),
+    "modes": modes,
+    "N_mito": 1000,
+    "Tmax_s": 100.0,
+    "dt_s": 0.001,
+    "ATP_units": "molecules per 1 fL mitochondrion",
+    "doi": "10.5281/zenodo.xxxxxx",
+}
+
+with open("exports/metadata.json", "w") as f_meta:
+    json.dump(meta, f_meta, indent=2)
+
+for r in results:
+    mode = r["MODE"]
+    fp = f"exports/{mode}_data.csv"
+    with open(fp, "w") as f:
+        f.write(
+            "t_s,pmf_mean,pmf_std,ATP_mean,ATP_std,E_ROS_mean,T_mean,T_std,"
+            "Damage_mean,Damage_std,Ca_mean,Ca_std,mPTP_fraction\n"
+        )
+        for i in range(len(r["t"])):
+            f.write(
+                ",".join(
+                    str(r[k][i])
+                    for k in [
+                        "t",
+                        "pmf_mean",
+                        "pmf_std",
+                        "ATP_mean",
+                        "ATP_std",
+                        "E_ROS_mean",
+                        "T_mean",
+                        "T_std",
+                        "Damage_mean",
+                        "Damage_std",
+                        "Ca_mean",
+                        "Ca_std",
+                        "mptp_mean",
+                    ]
+                )
+                + "\n"
+            )
+
+    out_json = {
+        k: (v.tolist() if isinstance(v, np.ndarray) else v) for k, v in r.items()
+    }
+    with open(f"exports/{mode}_data.json", "w") as f_json:
+        json.dump(out_json, f_json, indent=2)
+
 print("✅ Data exported → exports/*.csv *.json metadata.json")
 
-# --- plots ---
-t=results[0]["t"]; colors=["tab:green","tab:orange","tab:red"]; labels=["Healthy","Uncoupled","Apoptotic"]
-fig,axs=plt.subplots(6,1,figsize=(9,15),sharex=True)
-fig.suptitle("STUR-ATP 5.5 – 1000-Mito Population Dynamics",fontsize=16,fontweight="bold")
-for r,c,l in zip(results,colors,labels): axs[0].plot(t,r["pmf_mean"],color=c,label=l)
-axs[0].axhline(180,ls="--",color="gray",lw=0.8); axs[0].set_ylabel("pmf (mV)")
-axs[0].legend(fontsize=8); axs[0].grid(alpha=0.3)
-for r,c in zip(results,colors): axs[1].plot(t,r["ATP_mean"],color=c)
-axs[1].set_ylabel("ATP (molecules)"); axs[1].grid(alpha=0.3)
-for r,c in zip(results,colors): axs[2].plot(t,r["E_ROS_mean"],color=c)
-axs[2].set_ylabel("ROS Energy (J)"); axs[2].set_yscale("log"); axs[2].grid(alpha=0.3)
-for r,c in zip(results,colors): axs[3].plot(t,r["T_mean"],color=c)
-axs[3].set_ylabel("Temp (°C)"); axs[3].grid(alpha=0.3)
-for r,c in zip(results,colors): axs[4].plot(t,r["Damage_mean"],color=c)
-axs[4].set_ylabel("Damage D(t)"); axs[4].grid(alpha=0.3)
-for r,c in zip(results,colors): axs[5].plot(t,r["Ca_mean"],color=c)
-axs[5].set_xlabel("Time (s)"); axs[5].set_ylabel("[Ca²⁺] (µM)"); axs[5].grid(alpha=0.3)
-plt.tight_layout(rect=[0,0.02,1,0.97])
-plt.savefig("exports/STUR_ATP5_5_timeseries.png",dpi=150,bbox_inches="tight"); plt.show()
+# 2D timeseries plots
+t = results[0]["t"]
+colors = ["tab:green", "tab:orange", "tab:red"]
+labels = ["Healthy", "Uncoupled", "Apoptotic"]
 
-r_apo=[r for r in results if r["MODE"]=="apoptotic"][0]
-pmf,ATP,E=r_apo["pmf_mean"],r_apo["ATP_mean"],r_apo["E_ROS_mean"]
-n=min(4000,len(pmf)); pmf2=gaussian_filter(pmf[:n],10)
-ROS2=gaussian_filter(np.log10(E[:n]+1e-25),10)
-ATP2=gaussian_filter(ATP[:n],10)/(max(ATP)+1e-30)
-fig=plt.figure(figsize=(8,6)); ax=fig.add_subplot(111,projection="3d")
-ax.plot3D(pmf2,ROS2,ATP2,lw=1.5,color="red")
-ax.set_xlabel("pmf (mV)"); ax.set_ylabel("log₁₀ ROS Energy"); ax.set_zlabel("ATP (norm)")
-ax.set_title("STUR-ATP 5.5 – Apoptotic Energy Trajectory (Mean)",pad=12)
-ax.view_init(elev=25,azim=135); plt.tight_layout()
-plt.savefig("exports/STUR_ATP5_5_landscape.png",dpi=150,bbox_inches="tight"); plt.show()
+fig, axs = plt.subplots(6, 1, figsize=(9, 15), sharex=True)
+fig.suptitle("STUR-ATP 5.5 – 1000-Mito Population Dynamics", fontsize=16, fontweight="bold")
+
+for r, c, l in zip(results, colors, labels):
+    axs[0].plot(t, r["pmf_mean"], color=c, label=l)
+axs[0].axhline(180, ls="--", color="gray", lw=0.8)
+axs[0].set_ylabel("pmf (mV)")
+axs[0].legend(fontsize=8)
+axs[0].grid(alpha=0.3)
+
+for r, c in zip(results, colors):
+    axs[1].plot(t, r["ATP_mean"], color=c)
+axs[1].set_ylabel("ATP (molecules)")
+axs[1].grid(alpha=0.3)
+
+for r, c in zip(results, colors):
+    axs[2].plot(t, r["E_ROS_mean"], color=c)
+axs[2].set_ylabel("ROS Energy (J)")
+axs[2].set_yscale("log")
+axs[2].grid(alpha=0.3)
+
+for r, c in zip(results, colors):
+    axs[3].plot(t, r["T_mean"], color=c)
+axs[3].set_ylabel("Temp (°C)")
+axs[3].grid(alpha=0.3)
+
+for r, c in zip(results, colors):
+    axs[4].plot(t, r["Damage_mean"], color=c)
+axs[4].set_ylabel("Damage D(t)")
+axs[4].grid(alpha=0.3)
+
+for r, c in zip(results, colors):
+    axs[5].plot(t, r["Ca_mean"], color=c)
+axs[5].set_xlabel("Time (s)")
+axs[5].set_ylabel("[Ca²⁺] (µM)")
+axs[5].grid(alpha=0.3)
+
+plt.tight_layout(rect=[0, 0.02, 1, 0.97])
+plt.savefig("exports/STUR_ATP5_5_timeseries.png", dpi=150, bbox_inches="tight")
+plt.savefig("exports/STUR_ATP5_5_timeseries.pdf", bbox_inches="tight")
+plt.show()
+
+# 3D apoptotic trajectory
+r_apo = [r for r in results if r["MODE"] == "apoptotic"][0]
+pmf = r_apo["pmf_mean"]
+ATP = r_apo["ATP_mean"]
+E = r_apo["E_ROS_mean"]
+
+n = min(4000, len(pmf))
+pmf2 = gaussian_filter(pmf[:n], 10)
+ROS2 = gaussian_filter(np.log10(E[:n] + 1e-25), 10)
+ATP2 = gaussian_filter(ATP[:n], 10) / (max(ATP) + 1e-30)
+
+fig = plt.figure(figsize=(8, 6))
+ax = fig.add_subplot(111, projection="3d")
+ax.plot3D(pmf2, ROS2, ATP2, lw=1.5, color="red")
+ax.set_xlabel("pmf (mV)")
+ax.set_ylabel("log₁₀ ROS Energy")
+ax.set_zlabel("ATP (norm)")
+ax.set_title("STUR-ATP 5.5 – Apoptotic Energy Trajectory (Mean)", pad=12)
+ax.view_init(elev=25, azim=135)
+plt.tight_layout()
+plt.savefig("exports/STUR_ATP5_5_landscape.png", dpi=150, bbox_inches="tight")
+plt.savefig("exports/STUR_ATP5_5_landscape.pdf", bbox_inches="tight")
+plt.show()
+
 print("✅ All graphics + data saved in 'exports/'")
 </pre>
 
@@ -188,8 +385,26 @@ print("✅ All graphics + data saved in 'exports/'")
 </p>
 
 <p class="desc" style="text-align:center;">
-Click <b>Copy Script</b> then <b>Open Python Runner</b> to launch a JupyterLite session (no login).  
-Paste the script into a new notebook cell, run it, and inspect the exported CSV/JSON and figures under <code>exports/</code>.
+Click <b>Copy Script</b>, then <b>Open Python Runner</b> to launch a JupyterLite
+session (no login). Paste the script into a new notebook cell,
+run it, and inspect the exported CSV/JSON and figures in <code>exports/</code>.
 </p>
 
-<footer>© 2025 STUR Physics 
+<footer>
+  © 2025 STUR Physics Lab | Unified Resistance Framework | STUR-ATP Mito Sim 5.5
+</footer>
+
+<script>
+function copyCode(){
+  const el = document.getElementById('codeBlock');
+  if(!el) return;
+  navigator.clipboard.writeText(el.innerText);
+  alert('✅ STUR-ATP Mito Sim script copied to clipboard');
+}
+function openRunner(){
+  window.open('https://jupyter.org/try-jupyter/lab/','_blank');
+}
+</script>
+
+</body>
+</html>
