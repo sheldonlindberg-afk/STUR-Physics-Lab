@@ -41,17 +41,9 @@ Three physiological modes – healthy, uncoupled, apoptotic – are simulated in
 <h2>Python Simulation (copy &amp; run)</h2>
 
 <pre id="codeBlock">
-#!/usr/bin/env python3
-# ===============================================================
-# STUR-ATP Mito Sim 5.6 – Clean Stable JupyterLite Edition
-# ===============================================================
-# Sheldon L. Lindberg 2025
-# 1000 mitochondria per mode (healthy, uncoupled, apoptotic)
-# ===============================================================
+import math, numpy as np, matplotlib.pyplot as plt
 
-import math, json, numpy as np, matplotlib.pyplot as plt
-
-# ------------------ Core STUR Functions ------------------
+# --- Core STUR functions ---
 def S_STUR(r, L0):
     x = r / L0
     return math.tanh(x) * (1 - math.exp(-x))
@@ -63,19 +55,16 @@ def ATP_use_rate_func(t):
         burst = 2e5 * math.exp(-((t - 30)**2) / (2 * 25))
     return base + burst
 
-# ------------------ Simulation ------------------
-def run_sim(MODE="healthy", Tmax=100, dt=0.001, seed=1, N_mito=1000):
-    np.random.seed(seed)
-    steps = int(Tmax / dt) + 1
+# --- Simulation ---
+def run_sim(MODE="healthy", Tmax=100.0, dt=0.002, N_mito=1000):
+    np.random.seed(1)
+    steps = int(Tmax / dt)
     t = np.linspace(0, Tmax, steps)
 
-    # Geometry + constants
+    # geometry + constants
     L0, Rd, Rl, Rf = 0.25, 0.3, 0.6, 1.0
     Sd, Sl, St = S_STUR(Rd, L0), S_STUR(Rl, L0), S_STUR(Rf, L0)
     C_eff, drive_scale, tau_NADH, NADH_period = 5, 400, 4, 2
-    E0_mV, R0, R_load = 220, 1e7, 5e7
-    eta_batt, eta_elec = 0.8, 0.6
-    V0_barrier, alpha, noise_sigma = 1, 3.5, 0.4
     pmf_soft, pmf_span, leak_fb_g, pmf_clip = 240, 150, 0.5, 500
 
     if MODE == "healthy":
@@ -88,48 +77,33 @@ def run_sim(MODE="healthy", Tmax=100, dt=0.001, seed=1, N_mito=1000):
 
     k_damage, k_leak_damage, D_thresh, pmf_mptp = 1e-5, 5.0, 0.5, 140.0
     Ca0_uM, k_Ca_in_base, k_Ca_in_ROS, k_Ca_clear, Ca_thresh_uM = 0.1, 0.005, 0.05, 0.05, 0.5
-    NA, E_ATP = 6.022e23, 5.0e4 / 6.022e23
-    ATP_cyto_M, V_mito_L = 5e-3, 1e-15
 
-    def jitter(v, s): return v * np.random.lognormal(0, s, N_mito)
+    def jitter(v, s): 
+        return v * np.random.lognormal(0, s, N_mito).astype(np.float64)
+
     k_drive0_vec = jitter(k_drive0, 0.1)
     k_leak_base_vec = jitter(k_leak_base, 0.1)
     gamma_ATP_vec = jitter(gamma_ATP, 0.05)
     ros_gain_vec = jitter(ros_gain, 0.05)
-    E0_vec = jitter(E0_mV, 0.05)
-    R0_vec = jitter(R0, 0.05)
     D_thresh_vec = jitter(D_thresh, 0.05)
     Ca_thresh_vec = jitter(Ca_thresh_uM, 0.05)
 
-    # Initial conditions
     pmf = np.full(N_mito, 20.0)
-    ATP = np.full(N_mito, ATP_cyto_M * NA * V_mito_L)
-    T = np.full(N_mito, 37.0)
+    ATP = np.full(N_mito, 1e-3)
     Damage = np.zeros(N_mito)
     Ca = np.full(N_mito, Ca0_uM)
-    E_ROS_vec = np.zeros(N_mito)
     mptp_open = np.zeros(N_mito, bool)
 
-    pop = {k: np.zeros(steps) for k in 
-           ["pmf_mean", "ATP_mean", "E_ROS_mean", "T_mean",
-            "Damage_mean", "Ca_mean", "mptp_mean"]}
+    means = {"pmf": [], "ATP": [], "Damage": [], "Ca": [], "mptp": []}
 
-    def record(i):
-        pop["pmf_mean"][i] = pmf.mean()
-        pop["ATP_mean"][i] = ATP.mean()
-        pop["E_ROS_mean"][i] = E_ROS_vec.mean()
-        pop["T_mean"][i] = T.mean()
-        pop["Damage_mean"][i] = Damage.mean()
-        pop["Ca_mean"][i] = Ca.mean()
-        pop["mptp_mean"][i] = mptp_open.mean()
-
-    record(0)
-    for i in range(steps - 1):
+    for i in range(steps):
         ti = t[i]
         pmf = np.clip(pmf, 0, pmf_clip)
+
         NADH = (0.5 + 0.5 * math.sin(2 * math.pi * ti / NADH_period)) * math.exp(-ti / tau_NADH)
         NADH = max(NADH, 0)
         pmf_pop = pmf.mean()
+
         if pmf_pop > pmf_soft:
             x = (pmf_pop - pmf_soft) / pmf_span
             pump_factor = max(0, 1 - x)
@@ -138,86 +112,58 @@ def run_sim(MODE="healthy", Tmax=100, dt=0.001, seed=1, N_mito=1000):
             pump_factor, leak_fb = 1, 1
 
         leak_eff = k_leak_base_vec * (1 + k_leak_damage * Damage)
-        if MODE == "apoptotic":
-            trigger = (~mptp_open) & ((Damage > D_thresh_vec) | (Ca > Ca_thresh_vec)) & (pmf > pmf_mptp)
-            mptp_open |= trigger
-
         leak_eff = np.where(mptp_open, leak_eff * 50.0, leak_eff)
         pump_mult = np.where(mptp_open, 0.1 * pump_factor, pump_factor)
 
         P_drive = drive_scale * k_drive0_vec * Sd * NADH * pump_mult
-        leak_raw = leak_eff * Sl * pmf * leak_fb
-        E_emf = (E0_vec * Sd * NADH) * 1e-3
-        R_int = R0_vec / (1 + Sl)
-        I = np.maximum(E_emf / (R_load + R_int), 0)
-        P_el = E_emf * I
-        ATP_batt = eta_batt * P_el / E_ATP
-        S_torq = np.tanh(pmf / 180) * St
-        barrier = np.clip(V0_barrier * (1 - S_torq), 0, 5)
-        Tun = np.exp(-alpha * barrier)
-        P_leak = np.abs(leak_raw * 1e-12 * pmf * 1e-3)
-        ATP_leak = eta_elec * P_leak / E_ATP
-        over = np.maximum(pmf - ros_thresh, 0)
-        ros = ros_gain_vec * over
-        P_ros = ros * 0.05 * E_ATP
-        ATP_prod = (ATP_batt + ATP_leak) * Tun
+        ros = ros_gain_vec * np.maximum(pmf - ros_thresh, 0)
         ATP_use = ATP_use_rate_func(ti)
-        E_ROS_vec += P_ros * dt
-        dpmf = (P_drive - leak_eff * pmf - gamma_ATP_vec * ATP_prod - 2e-3 * ros) / C_eff
-        dpmf += np.random.normal(0, noise_sigma, N_mito) / dt
+
+        dpmf = (P_drive - leak_eff * pmf - gamma_ATP_vec * ATP_use - 2e-3 * ros) / C_eff
+        dpmf += np.random.normal(0, 0.4, N_mito)
         pmf = np.clip(pmf + dpmf * dt, 0, pmf_clip)
-        ATP = np.maximum(ATP + (ATP_prod - ATP_use) * dt, 0)
+        ATP += (pump_factor - ATP_use) * dt * 1e-6
         Damage += k_damage * ros * dt
         Ca += (k_Ca_in_base + k_Ca_in_ROS * ros) * dt - k_Ca_clear * (Ca - Ca0_uM) * dt
-        record(i + 1)
 
-    pop["t"] = t
-    pop["MODE"] = MODE
-    return pop
+        mptp_open = mptp_open | ((Damage > D_thresh_vec) & (Ca > Ca_thresh_vec))
+        means["pmf"].append(pmf.mean())
+        means["ATP"].append(ATP.mean())
+        means["Damage"].append(Damage.mean())
+        means["Ca"].append(Ca.mean())
+        means["mptp"].append(mptp_open.mean())
 
-# ------------------ Run all modes ------------------
+    means["t"] = t
+    return means
+
+# --- Run and plot ---
 modes = ["healthy", "uncoupled", "apoptotic"]
-results = [run_sim(m, 20.0, 0.002, 1, 200) for m in modes]  # shorter/faster demo
-print("Simulation complete.")
-
-# ------------------ Plotting ------------------
-labels = ["Healthy", "Uncoupled", "Apoptotic"]
 colors = ["tab:green", "tab:orange", "tab:red"]
+labels = ["Healthy", "Uncoupled", "Apoptotic"]
+
+results = [run_sim(m) for m in modes]
+print("✅ Simulation complete.")
 
 fig, axes = plt.subplots(3, 2, figsize=(12, 10), sharex=True)
-ax_pmf, ax_atp, ax_ros, ax_T, ax_D, ax_Ca = axes.flatten()
+(ax1, ax2, ax3, ax4, ax5, ax6) = axes.flatten()
 
-for res, lab, col in zip(results, labels, colors):
+for res, c, lab in zip(results, colors, labels):
     t = res["t"]
-    ax_pmf.plot(t, res["pmf_mean"], label=lab, color=col)
-    ax_atp.plot(t, res["ATP_mean"], label=lab, color=col)
-    ax_ros.plot(t, res["E_ROS_mean"], label=lab, color=col)
-    ax_T.plot(t, res["T_mean"], label=lab, color=col)
-    ax_D.plot(t, res["Damage_mean"], label=lab, color=col)
-    ax_Ca.plot(t, res["Ca_mean"], label=lab, color=col)
+    ax1.plot(t, res["pmf"], color=c, label=lab)
+    ax2.plot(t, res["ATP"], color=c)
+    ax3.plot(t, res["Damage"], color=c)
+    ax4.plot(t, res["Ca"], color=c)
+    ax5.plot(t, res["mptp"], color=c)
 
-for a in axes.flatten():
-    a.grid(True, alpha=0.3)
-
-ax_pmf.set_ylabel("pmf (mV)")
-ax_atp.set_ylabel("ATP (mols)")
-ax_ros.set_ylabel("ROS")
-ax_T.set_ylabel("T (°C)")
-ax_D.set_ylabel("Damage")
-ax_Ca.set_ylabel("Ca²⁺ (µM)")
-ax_Ca.set_xlabel("Time (s)")
-ax_pmf.legend()
-plt.tight_layout()
-plt.show()
-
-plt.figure(figsize=(6, 4))
-for res, lab, col in zip(results, labels, colors):
-    plt.plot(res["t"], res["mptp_mean"], label=lab, color=col)
-plt.xlabel("Time (s)")
-plt.ylabel("mPTP Open Fraction")
-plt.title("mPTP Opening – Population Fraction")
-plt.grid(True, alpha=0.3)
-plt.legend()
+ax1.set_ylabel("pmf (mV)")
+ax2.set_ylabel("ATP")
+ax3.set_ylabel("Damage")
+ax4.set_ylabel("Ca²⁺")
+ax5.set_ylabel("mPTP fraction")
+ax6.axis("off")
+ax1.legend()
+for ax in axes.flatten():
+    ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
 </pre>
