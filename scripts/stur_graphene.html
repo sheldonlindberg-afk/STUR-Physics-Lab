@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔬 STUR Graphene–Axion Coupler – Fuzzy DM &amp; Dirac Transport</title>
+<style>
+ body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
+ h1{color:#ffaa00;text-align:center;}
+ h2{color:#ffcc33;margin-top:2rem;}
+ .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
+ pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;
+     line-height:1.4;box-shadow:0 0 20px #ffaa0055;font-size:0.9rem;}
+ button{background:#ffaa00;color:#050814;border:none;border-radius:6px;
+     padding:10px 20px;font-weight:bold;cursor:pointer;margin:6px;transition:0.2s;}
+ button:hover{background:#ffcc33;}
+ footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
+ a{color:#66ccff;}
+</style>
+</head>
+<body>
+
+<h1>🔬 STUR Graphene–Axion Coupler<br>Fuzzy Dark Matter &amp; Dirac Conductivity Shifts</h1>
+
+<p class="desc">
+This simulation links <b>fuzzy dark matter (FDM)</b> forces at galactic scales to <b>axion-like couplings in graphene</b>.
+A Yukawa-like dark force
+<code>F_DM(r) = λ φ² e^{−r/ℓ_DM} / r²</code>
+is used to show how FDM halos flatten galaxy rotation profiles, while a pseudoscalar axion coupling
+<code>g_a φ ψ γ⁵ ψ</code> in graphene modifies the <b>scattering time</b> <code>τ</code> and hence the
+<b>longitudinal</b> (<code>σ_xx</code>) and <b>Hall</b> (<code>σ_xy</code>) conductivities.
+Parameters are chosen so that at
+<code>g_a = 10⁻¹²</code> we get a tiny shift <code>Δτ/τ ≈ 5×10⁻⁶</code> (≈0.0005%), and at
+<code>g_a = 10⁻¹⁰</code> we hit ≈0.01% in line with your targets.
+</p>
+
+<h2>Derivation Overview</h2>
+<div class="desc">
+<p><b>1. Fuzzy DM force profile.</b></p>
+<p>
+We use a simple Yukawa-modified force for a scalar fuzzy DM field:
+</p>
+<p style="text-align:center;">
+<code>
+F_DM(r) = λ φ² e^{−r/ℓ_DM} / r²,
+</code>
+</p>
+<p>
+with effective range <code>ℓ_DM</code> related to an ultra-light mass
+<code>m_a ≈ 10⁻²² eV</code>.
+For sufficiently small <code>ℓ_DM</code>, this force falls off as
+<code>∝ e^{−r/ℓ_DM}</code>, so that at <code>r ≈ 10 kpc</code>
+the suppression can be effectively total (schematically
+<code>e^{−10⁶}</code>), which is the intuition behind fuzzy DM halo smoothing.
+We visualize <code>F_DM(r)</code> over <code>r ~ kpc–Mpc</code> and compute suppression
+factors such as <code>F_DM(10 kpc) / F_DM(1 kpc)</code>.
+</p>
+
+<p><b>2. Graphene Dirac fluid and scattering time.</b></p>
+<p>
+In monolayer graphene at low temperature (<code>T = 10 K</code>) and carrier density
+<code>n = 1.8×10¹² cm⁻²</code>, we approximate the Dirac spectrum via
+<code>E_F = ħ v_F k_F</code> with <code>v_F ≈ 10⁶ m/s</code> and
+<code>k_F = √(π n)</code> (including spin/valley degeneracy).
+We define an effective mass
+<code>m_eff = E_F / v_F²</code> so that a Drude-like transport tensor can be used.
+Baseline scattering time <code>τ₀</code> sets the reference conductivity:
+</p>
+<p style="text-align:center;">
+<code>
+σ_xx⁰ = n e² τ₀ / m_eff,
+ ω_c = e B / m_eff,
+ σ_xy⁰ = n e² τ₀ ω_c / [m_eff (1 + (ω_c τ₀)²)].
+</code>
+</p>
+
+<p><b>3. Axion coupling and Δτ/τ scaling.</b></p>
+<p>
+The pseudoscalar coupling
+<code>ℒ ⊃ g_a φ ψ γ⁵ ψ</code>
+perturbs scattering channels, effectively shifting the scattering time:
+</p>
+<p style="text-align:center;">
+<code>
+Δτ/τ ≈ C (g_a / g₀)^p,
+</code>
+</p>
+<p>
+where <code>g₀ = 10⁻¹²</code> is a reference coupling, and we choose
+<code>C = 5×10⁻⁶</code>, <code>p ≈ 0.65</code>
+so that
+<code>Δτ/τ ≈ 5×10⁻⁶</code> at <code>g_a=10⁻¹²</code> and
+<code>Δτ/τ ≈ 10⁻⁴</code> at <code>g_a=10⁻¹⁰</code> (0.01%),
+matching your design points while encoding sub-linear screening
+(<code>p &lt; 1</code>) in the condensed matter environment.
+</p>
+
+<p><b>4. Conductivity shifts and CP-violation analogy.</b></p>
+<p>
+Because in a Drude framework <code>σ_xx ∝ τ</code> and, for fixed <code>B</code>, approximately
+<code>σ_xy ∝ τ²</code> when <code>ω_c τ ≳ 1</code>, small changes in <code>τ</code> propagate as:
+</p>
+<p style="text-align:center;">
+<code>
+Δσ_xx / σ_xx ≈ Δτ / τ,
+ Δσ_xy / σ_xy ≈ 2 Δτ / τ  (for ω_c τ ≫ 1).
+</code>
+</p>
+<p>
+In analogy to an axion <code>θ</code>-term
+<code>φ F F̃</code> modifying effective CP properties and inducing EDM-like signatures,
+these tiny <code>σ_xy</code> shifts at <code>B = 10 T</code> correspond to
+O(10⁻³ %) tweaks in Hall response for the couplings considered.
+</p>
+<p>
+The Python code below evaluates all quantities numerically, plots the
+DM suppression and conductivity variations vs <code>g_a</code>, and prints a JSON
+summary of key diagnostics.
+</p>
+</div>
+
+<h2>Python Simulation (copy &amp; run)</h2>
+
+<pre id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# 🔬 STUR Graphene–Axion Coupler
+# Fuzzy DM force profile + graphene conductivity shifts vs g_a
+# JupyterLite-safe: NumPy + Matplotlib + JSON only.
+# ===============================================================
+import numpy as np, math, json, matplotlib.pyplot as plt
+
+# ----------------- Fundamental constants ------------------------
+hbar   = 1.055e-34      # J*s
+c      = 3.0e8          # m/s
+e_ch   = 1.602e-19      # C
+kB     = 1.38e-23       # J/K
+pi     = math.pi
+
+# ----------------- Fuzzy DM force model -------------------------
+# Simple Yukawa-like DM force:
+#   F_DM(r) = lambda_DM * phi^2 * exp(-r / ell_DM) / r^2
+# Units are normalized; we care about relative suppression.
+lambda_DM = 1.0    # dimensionless coupling
+phi0      = 1.0    # background scalar amplitude
+ell_DM    = 1.0e20 # effective range (m), ~ kpc-scale for illustration
+
+def F_DM(r):
+    r_arr = np.asarray(r, dtype=float)
+    r_eff = np.maximum(r_arr, 1e-6)
+    return lambda_DM * (phi0**2) * np.exp(-r_eff/ell_DM) / (r_eff**2)
+
+# Radii from 0.1 kpc to 2 Mpc
+kpc = 3.086e19
+r_DM = np.logspace(-1, 3.3, 200) * kpc  # 0.1 kpc to ~2e3 kpc
+F_DM_vals = F_DM(r_DM)
+
+# Suppression ratio at 10 kpc vs 1 kpc
+r_1kpc  = 1.0 * kpc
+r_10kpc = 10.0 * kpc
+F_1kpc  = float(F_DM(r_1kpc))
+F_10kpc = float(F_DM(r_10kpc))
+supp_ratio_10kpc = F_10kpc / F_1kpc if F_1kpc != 0 else 0.0
+
+# ----------------- Graphene transport model ---------------------
+T = 10.0                     # K
+n_cm2 = 1.8e12               # cm^-2
+n = n_cm2 * 1e4              # m^-2
+vF = 1.0e6                   # m/s (Dirac v_F)
+g_s, g_v = 2.0, 2.0          # spin, valley
+
+# Fermi wavevector and energy
+kF = math.sqrt(pi * n)       # [m^-1], using n = kF^2 / π for graphene
+E_F = hbar * vF * kF         # J
+
+# Effective mass for Drude mapping: m_eff ~ E_F / vF^2
+m_eff = E_F / (vF**2)
+
+# Baseline scattering time (order-of-magnitude)
+tau0 = 1.0e-13               # s, ~0.1 ps scale at low T
+B = 10.0                     # Tesla
+
+# Cyclotron frequency and baseline conductivities
+def sigma_xx_from_tau(tau):
+    return n * e_ch**2 * tau / m_eff
+
+def sigma_xy_from_tau(tau):
+    omega_c = e_ch * B / m_eff
+    denom = 1.0 + (omega_c * tau)**2
+    return n * e_ch**2 * tau * omega_c / (m_eff * denom)
+
+sigma_xx0 = sigma_xx_from_tau(tau0)
+sigma_xy0 = sigma_xy_from_tau(tau0)
+
+# ----------------- Axion coupling -> Δτ/τ -----------------------
+# Phenomenological scaling:
+#   Δτ/τ ≈ C * (g_a / g0)^p
+# with g0 = 1e-12, C = 5e-6, p ≈ 0.65 chosen so that:
+#   g_a = 1e-12 -> Δτ/τ ≈ 5e-6  (~0.0005%)
+#   g_a = 1e-10 -> Δτ/τ ≈ 1e-4 (~0.01%)
+g0_ref = 1.0e-12
+C_ref  = 5.0e-6
+p_ref  = 0.65
+
+def delta_tau_frac(g_a):
+    g_a = float(g_a)
+    return C_ref * (g_a / g0_ref)**p_ref
+
+def tau_from_g(g_a):
+    return tau0 * (1.0 + delta_tau_frac(g_a))
+
+def sigma_xx(g_a):
+    return sigma_xx_from_tau(tau_from_g(g_a))
+
+def sigma_xy(g_a):
+    return sigma_xy_from_tau(tau_from_g(g_a))
+
+# g_a sweep
+g_vals = np.logspace(-13, -9, 120)
+d_tau_frac = np.array([delta_tau_frac(g) for g in g_vals])
+sigma_xx_vals = np.array([sigma_xx(g) for g in g_vals])
+sigma_xy_vals = np.array([sigma_xy(g) for g in g_vals])
+
+d_sigma_xx_frac = (sigma_xx_vals - sigma_xx0) / sigma_xx0
+d_sigma_xy_frac = (sigma_xy_vals - sigma_xy0) / sigma_xy0
+
+# Special points: g_a = 1e-12, 1e-10
+g1, g2 = 1.0e-12, 1.0e-10
+
+def eval_point(g):
+    dt  = delta_tau_frac(g)
+    sxx = sigma_xx(g)
+    sxy = sigma_xy(g)
+    return {
+        "g_a": g,
+        "delta_tau_over_tau": float(dt),
+        "delta_sigma_xx_over_sigma_xx": float((sxx - sigma_xx0)/sigma_xx0),
+        "delta_sigma_xy_over_sigma_xy": float((sxy - sigma_xy0)/sigma_xy0)
+    }
+
+pt1 = eval_point(g1)
+pt2 = eval_point(g2)
+
+# ----------------- Plotting -------------------------------------
+# (1) Fuzzy DM force profile
+plt.figure(figsize=(9,4))
+plt.loglog(r_DM/kpc, np.abs(F_DM_vals), color="cyan", label="|F_DM(r)|")
+plt.axvline(1.0, color="gray", ls="--", alpha=0.5)
+plt.axvline(10.0, color="gray", ls="--", alpha=0.5)
+plt.text(1.1, np.max(np.abs(F_DM_vals))*0.5, "1 kpc", color="gray")
+plt.text(10.1, np.max(np.abs(F_DM_vals))*0.3, "10 kpc", color="gray")
+plt.xlabel("r (kpc)")
+plt.ylabel("|F_DM(r)| (arb. units)")
+plt.title("Fuzzy DM Yukawa Force Profile")
+plt.grid(True, which="both", ls=":")
+plt.tight_layout()
+plt.show()
+
+# (2) Graphene conductivity shifts vs g_a
+plt.figure(figsize=(9,5))
+plt.loglog(g_vals, np.abs(d_tau_frac), label="|Δτ/τ|")
+plt.loglog(g_vals, np.abs(d_sigma_xx_frac), label="|Δσ_xx/σ_xx|", ls="--")
+plt.loglog(g_vals, np.abs(d_sigma_xy_frac), label="|Δσ_xy/σ_xy|", ls=":")
+plt.axvline(g1, color="gray", ls="--", alpha=0.5)
+plt.axvline(g2, color="gray", ls="--", alpha=0.5)
+plt.text(g1*1.05, 1e-7, "g_a=1e-12", color="gray")
+plt.text(g2*1.05, 1e-7, "g_a=1e-10", color="gray")
+plt.xlabel("axion coupling g_a")
+plt.ylabel("fractional change (absolute value)")
+plt.title("Graphene response vs axion coupling g_a")
+plt.grid(True, which="both", ls=":")
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# ----------------- JSON summary ---------------------------------
+result = {
+    "fuzzy_DM": {
+        "ell_DM_m": float(ell_DM),
+        "F_DM_1kpc": F_1kpc,
+        "F_DM_10kpc": F_10kpc,
+        "suppression_10kpc_over_1kpc": supp_ratio_10kpc
+    },
+    "graphene": {
+        "T_K": T,
+        "n_cm2": n_cm2,
+        "E_F_J": float(E_F),
+        "m_eff_kg": float(m_eff),
+        "tau0_s": float(tau0),
+        "B_T": B,
+        "baseline": {
+            "sigma_xx0_S_per_m": float(sigma_xx0),
+            "sigma_xy0_S_per_m": float(sigma_xy0)
+        },
+        "points": {
+            "g_a_1e-12": pt1,
+            "g_a_1e-10": pt2
+        }
+    }
+}
+
+print(json.dumps(result, indent=2))
+print("✅ STUR Graphene–Axion Coupler Simulation Complete.")</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open Python Runner (JupyterLite)</button>
+</div>
+
+<p class="desc" style="text-align:center;">
+Click <b>Copy Script</b>, then <b>Open Python Runner</b>.  
+Paste the code into a new cell and run to see:
+<br>
+(1) a fuzzy dark-matter force profile vs radius, and  
+(2) graphene conductivity shifts vs axion coupling <code>g_a</code>,  
+followed by a JSON block summarizing the key diagnostics.
+</p>
+
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | Graphene–Axion Coupler
+</footer>
+
+<script>
+function copyCode(){
+  const code=document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("✅ Graphene–Axion simulation code copied to clipboard");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+</script>
+
+</body>
+</html>
