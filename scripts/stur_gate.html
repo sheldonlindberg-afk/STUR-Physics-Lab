@@ -3,194 +3,127 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Resistance Gate – JupyterLite Safe Edition</title>
+<title>STUR Resistance Gate – Unified Resistance Access Corridor</title>
 <style>
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:"Courier New",monospace;
-    margin:0;
-    padding:2rem;
-  }
+  body{background:#050814;color:#e6edf3;font-family:"Courier New",monospace;margin:0;padding:2rem;}
   h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  pre{
-    background:#0a0f1f;
-    color:#00ffcc;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    font-size:0.9rem;
-    box-shadow:0 0 18px #ffaa0040;
-    white-space:pre;
-  }
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
-  }
+  h2{color:#ffcc33;margin-top:1.8rem;}
+  .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.6;}
+  pre{background:#0a0f1f;color:#00ffcc;padding:1rem;border-radius:8px;overflow-x:auto;font-size:0.9rem;box-shadow:0 0 18px #ffaa0040;}
+  button{background:#ffaa00;color:#050814;border:none;border-radius:6px;padding:10px 18px;font-weight:bold;cursor:pointer;margin:8px;transition:0.25s;}
   button:hover{background:#ffcc33;}
-  footer{
-    text-align:center;
-    font-size:0.9em;
-    color:#999;
-    margin-top:2rem;
-  }
+  footer{text-align:center;font-size:0.9em;color:#aaa;margin-top:2rem;}
+  a{color:#66ccff;}
 </style>
 </head>
 <body>
 
 <h1>STUR Resistance Gate – Unified Resistance Access Corridor</h1>
 
-<h2>Mathematical Derivation</h2>
-<p>
-The Resistance Gate simulates a one-dimensional unified-force corridor defined by:
-</p>
+<h2>Derivation Summary</h2>
+<div class="desc">
+<p>The Resistance Gate describes the interaction between opposing force domains through a unified scalar field coupling:</p>
 <p style="text-align:center;">
-F<sub>tot</sub>(r,t) =
-S(r,L<sub>0</sub>)[F<sub>EM</sub> + F<sub>G</sub> + F<sub>S</sub>]
-+ F<sub>spin</sub> + F<sub>SC</sub> + F<sub>vac</sub> + F<sub>diss</sub> + F<sub>bio</sub>,
+F<sub>tot</sub>(r,t) = S(r) [F<sub>EM</sub> + F<sub>G</sub> + F<sub>S</sub>] + F<sub>sp</sub> + F<sub>SC</sub> + F<sub>v</sub> + F<sub>d</sub> + F<sub>b</sub>.
 </p>
-<p>
-with radial modulator S(r,L₀) = tanh(r/L₀)(1−exp(−r/L₀)).  
-The path cost is integrated over |F<sub>tot</sub>|, then evaluated against an energy budget and thermal feedback.
-</p>
+<p>The STUR radial modulator is:</p>
+<p style="text-align:center;">S(r) = tanh(r/L₀)(1 − e<sup>−r/L₀</sup>).</p>
+<p>Energy transport efficiency is computed via mean success probabilities across thermal, quantum, and dissipative corridors.</p>
+</div>
 
-<h2>Python Simulation (Jupyter-Lite Compatible)</h2>
-<pre id="codeBlock">#!/usr/bin/env python3
+<h2>Simulation Code</h2>
+<pre id="code">
+#!/usr/bin/env python3
 # ===============================================================
-# STUR Resistance Gate – No external dependencies (networkx-free)
+# STUR Resistance Gate – Unified Resistance Access Corridor
+# Static plots, JupyterLite-compatible, no networkx required.
 # ===============================================================
-import numpy as np, matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.pyplot as plt
 np.random.seed(42)
 
-# --- power + thermal setup -------------------------------------
-Ep,fR,tau,eta = 2.5e3,10,0.1,0.15
-E_arc=Ep*fR*tau*eta; E_pack=1e6; J0=E_pack+E_arc
-T0,heat=300,50; cf=1e4; fb=5; w,phi=2*np.pi*fb,0.6*np.pi
+# --- Power + Thermal setup ---
+Ep,fR,tau,eta=2.5e3,10,0.1,0.15
+E_arc=Ep*fR*tau*eta;E_pack=1e6;J0=E_pack+E_arc
+T0,heat=300,50;cf=1e4;fb=5;w,phi=2*np.pi*fb,0.6*np.pi
 
-# --- constants & parameters ------------------------------------
-ke,G=8.9875e9,6.6743e-11; q,m=1.602e-19,1.673e-27
-a,sig,lam=1e-10,1e10,1e-9; L0,el=1e-9,1e-9; hb,c=1.055e-34,3e8
-eps=1e-12; Ssp=hb/2; g_sc=1e-15
-
-S=lambda r: np.tanh(r/L0)*(1-np.exp(-r/L0))
-F_EM=lambda r: ke*q*q/(r*r+eps)
-F_G=lambda r: -G*m*m/(r*r+eps)
-F_S=lambda r: a*((1-np.exp(-r/lam))/(r*r+eps)+sig*r*np.exp(-r/el))
-F_sp=lambda r: Ssp*np.exp(-r/el)
-F_SC0=lambda r: g_sc*np.tanh(15*r/L0)*(1-np.exp(-r/L0))**2*np.exp(-r/el)
-F_b0=lambda r: (2e-8+1e-9*np.sin(r/5))*np.exp(-r/40)/(r+eps)
-F_v=lambda r: hb*c/(r**4+eps)*1e-30*np.exp(-r/10)
-F_d=lambda r: 1e-9/(r+eps)
+# --- Constants & Parameters ---
+ke,G=8.9875e9,6.6743e-11;q,m=1.602e-19,1.673e-27
+a,sig,lam=1e-10,1e10,1e-9;L0,el=1e-9,1e-9;hb,c=1.055e-34,3e8
+eps=1e-12;Ssp=hb/2;g_sc=1e-15
+S=lambda r:np.tanh(r/L0)*(1-np.exp(-r/L0))
+F_EM=lambda r:ke*q*q/(r*r+eps)
+F_G=lambda r:-G*m*m/(r*r+eps)
+F_S=lambda r:a*((1-np.exp(-r/lam))/(r*r+eps)+sig*r*np.exp(-r/el))
+F_sp=lambda r:Ssp*np.exp(-r/el)
+F_SC0=lambda r:g_sc*np.tanh(15*r/L0)*(1-np.exp(-r/L0))**2*np.exp(-r/el)
+F_b0=lambda r:(2e-8+1e-9*np.sin(r/5))*np.exp(-r/40)/(r+eps)
+F_v=lambda r:hb*c/(r**4+eps)*1e-30*np.exp(-r/10)
+F_d=lambda r:1e-9/(r+eps)
 
 def F_tot(r,t,A_b,A_s):
-    F_b=F_b0(r)*(1+A_b*np.sin(w*t))
-    F_SC=F_SC0(r)*(1-A_s*np.sin(w*t+phi))
-    return S(r)*(F_EM(r)+F_G(r)+F_S(r))+F_sp(r)+F_SC+F_v(r)+F_d(r)+F_b
-
-def corridor(rg,t,A_b,A_s): return np.trapz(np.abs([F_tot(r,t,A_b,A_s) for r in rg]),rg)
-
-# --- simple shortest path surrogate -----------------------------
-def path_cost(rg,t,A_b,A_s):
-    Fv=np.abs([F_tot(r,t,A_b,A_s) for r in rg])
-    return np.sum((Fv[:-1]+Fv[1:])/2)
+    F_b=lambda rr:F_b0(rr)*(1+A_b*np.sin(w*t))
+    F_SC=lambda rr:F_SC0(rr)*(1-A_s*np.sin(w*t+phi))
+    return S(r)*(F_EM(r)+F_G(r)+F_S(r))+F_sp(r)+F_SC(r)+F_v(r)+F_d(r)+F_b(r)
 
 def launch(rg,t,div,A_b,A_s,J,Emin=5e-8,Emax=1e-5,noise=0.2,n=200):
-    c=path_cost(rg,t,A_b,A_s); sc=J/div
-    Eb=np.random.uniform(Emin,Emax,n)*sc
+    Fv=np.array([abs(F_tot(r,t,A_b,A_s))for r in rg])
+    c=np.trapz(Fv,rg)
+    Eb=np.random.uniform(Emin,Emax,n)*(J/div)
     need=c*(1+np.random.normal(0,noise,n))
     return np.mean(Eb>need),c,need.mean(),Eb.mean()
 
-def entropy(p): p=np.clip(p,1e-12,1-1e-12); return -p*np.log2(p)-(1-p)*np.log2(1-p)
-def Ecyc(rg,ts,A_b,A_s): return np.trapz([corridor(rg,t,A_b,A_s)*cf for t in ts],ts)
+def entropy(p):p=np.clip(p,1e-12,1-1e-12);return -p*np.log2(p)-(1-p)*np.log2(1-p)
 
-# --- simulation domain ------------------------------------------
-r=np.linspace(10,50,80); twin=np.linspace(0,0.4,60); tS=[0,0.1,0.2]
-div=1e7; A_s=0.25
-
+# --- Main sweep ---
+r=np.linspace(10,50,80);tS=[0,0.1,0.2];div=1e7;A_s=0.25
 for _ in range(3):
     T=T0+(np.random.rand()-0.5)*heat
-    A_b=np.exp(-T/T0)*(0.4+0.3*eta); J=J0
-    sL=[launch(r,ts,div,A_b,A_s,J)[0] for ts in tS]
-    sM=max(sL); div*=1-0.2*(sM-0.99); div=np.clip(div,1e6,1e8)
+    A_b=np.exp(-T/T0)*(0.4+0.3*eta);J=J0
+    sL=[launch(r,ts,div,A_b,A_s,J)[0]for ts in tS]
+    div*=1-0.2*(max(sL)-0.99);div=np.clip(div,1e6,1e8)
 
-T=T0+(np.random.rand()-0.5)*heat; A_b=np.exp(-T/T0)*(0.4+0.3*eta); J=J0
-resA,resM=[],[]
-for nz in [0.2,0.05,0.01]:
-    sA=[launch(r,ts,div,A_b,A_s,J,noise=nz)[0] for ts in tS]
-    resA.append((nz,np.mean(sA))); resM.append((nz,max(sA)))
+# --- Evaluate noise performance ---
+T=T0+(np.random.rand()-0.5)*heat;A_b=np.exp(-T/T0)*(0.4+0.3*eta);J=J0
+noise_arr=np.array([0.2,0.05,0.01])
+avg_succ=[];max_succ=[]
+for nz in noise_arr:
+    sA=[launch(r,ts,div,A_b,A_s,J,noise=nz)[0]for ts in tS]
+    avg_succ.append(np.mean(sA));max_succ.append(max(sA))
 
-Ecy=Ecyc(r,twin,A_b,A_s); cyc=J/Ecy if Ecy>0 else np.inf
-nz_best,s_best=max(resM,key=lambda x:x[1]); Sinfo=entropy(s_best)
+s_best=max(max_succ);Sinfo=entropy(s_best)
 
-print("===POWER===")
-print(f"E_pack={E_pack:.2e}J  E_arc={E_arc:.2e}J  J={J0:.2e}J  T={T:.1f}K")
-print(f"A_b={A_b:.3f}  A_s={A_s:.2f}  div={div:.2e}")
-print("\\n===ACCESS===")
-for (nz,a),(nz2,m) in zip(resA,resM):
-    print(f"noise={nz:.2f}  avg={a*100:.2f}%  max={m*100:.2f}%")
-print("\\n===ORDER===")
-print(f"best={s_best*100:.2f}%  entropy={Sinfo:.3f} bits")
-print(f"Ecy={Ecy:.2e}J/{twin[-1]:.2f}s  cycles={cyc:.2e}")
-
-# --- PLOTS (static) --------------------------------------------
-r_plot=np.linspace(10,50,200)
-F_t0=np.abs([F_tot(rv,0,A_b,A_s) for rv in r_plot])
-F_t1=np.abs([F_tot(rv,0.2,A_b,A_s) for rv in r_plot])
-
-plt.figure(figsize=(8,4))
-plt.plot(r_plot,F_t0,label="|F_tot(r, t=0.0)|")
-plt.plot(r_plot,F_t1,"--",label="|F_tot(r, t=0.2)|")
-plt.xlabel("r"); plt.ylabel("|F_tot|"); plt.title("Resistance Gate Force Profile")
-plt.grid(True); plt.legend(); plt.tight_layout(); plt.show()
-
-succ_vs_t={}
-for nz in [0.2,0.05,0.01]:
-    vals=[launch(r,ts,div,A_b,A_s,J,noise=nz)[0]*100 for ts in tS]
-    succ_vs_t[nz]=vals
-
-plt.figure(figsize=(8,4))
-for nz in succ_vs_t:
-    plt.plot(tS,succ_vs_t[nz],marker="o",label=f"noise={nz}")
-plt.xlabel("Control phase t"); plt.ylabel("Success probability (%)")
-plt.title("Access probability vs control phase")
-plt.grid(True); plt.legend(); plt.tight_layout(); plt.show()
-
-noise_arr=[x[0] for x in resA]
-avg_succ=[x[1]*100 for x in resA]
-max_succ=[x[1]*100 for x in resM]
+# --- Plots ---
 plt.figure(figsize=(8,4))
 plt.plot(noise_arr,avg_succ,"o-",label="avg success")
 plt.plot(noise_arr,max_succ,"s--",label="max success")
-plt.xlabel("Noise level"); plt.ylabel("Success probability (%)")
-plt.title("Gate reliability vs noise")
-plt.grid(True); plt.legend(); plt.tight_layout(); plt.show()</pre>
+plt.xlabel("Noise level");plt.ylabel("Success probability")
+plt.title("Gate reliability vs noise");plt.grid(True);plt.legend()
+plt.tight_layout();plt.show()
 
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open JupyterLite</button>
+# --- Print summary ---
+print("===POWER===")
+print(f"E_pack={E_pack:.2e}J E_arc={E_arc:.2e}J J={J0:.2e}J")
+print(f"A_b={A_b:.3f} A_s={A_s:.2f} div={div:.2e}")
+print("\n===ACCESS===")
+for n,a,m in zip(noise_arr,avg_succ,max_succ):
+    print(f"noise={n:.2f} avg={a*100:.2f}% max={m*100:.2f}%")
+print("\n===ORDER===")
+print(f"best={s_best*100:.2f}% entropy={Sinfo:.3f} bits")
+</pre>
+
+<div style="text-align:center;margin-top:1rem;">
+  <button onclick="copyCode()">📋 Copy Python Code</button>
 </div>
-
-<footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | Resistance Gate
-</footer>
 
 <script>
 function copyCode(){
-  navigator.clipboard.writeText(document.getElementById("codeBlock").innerText);
-  alert("STUR Resistance Gate code copied to clipboard.");
-}
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+  const code=document.getElementById("code").innerText;
+  navigator.clipboard.writeText(code);
+  alert("STUR Resistance Gate simulation code copied!");
 }
 </script>
 
+<footer>STUR Unified Resistance Physics © Sheldon Lon Lindberg</footer>
 </body>
 </html>
