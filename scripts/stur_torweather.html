@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR Weather – Hybrid Atmospheric Field Simulation</title>
+<style>
+body {
+  background: #050814;
+  color: #e6edf3;
+  font-family: "Courier New", monospace;
+  margin: 0; padding: 2rem;
+}
+h1 { color: #ffaa00; text-align: center; }
+h2 { color: #ffcc33; margin-top: 2rem; }
+pre {
+  background: #0a0f1f;
+  color: #00ffcc;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  box-shadow: 0 0 15px #ffaa0040;
+}
+button {
+  background: #ffaa00;
+  color: #050814;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 6px;
+  transition: 0.2s;
+}
+button:hover { background: #ffcc33; }
+a { color: #66ccff; }
+footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9em;
+  color: #999;
+}
+</style>
+</head>
+<body>
+
+<h1>STUR Weather – Hybrid Atmospheric Field Simulation</h1>
+
+<h2>Full Derivation</h2>
+<p>
+In the Unified Resistance framework, atmospheric behavior can be modeled as a dynamic field
+interaction between electrostatic, gravitational, and strong-force analogs modulated by the
+environmental density and fluid pressure gradients.
+</p>
+<p>
+The governing hybrid force combines Coulomb–Newtonian–Strong–Spin interactions:
+</p>
+
+<p style="text-align:center;">
+𝐅<sub>STUR</sub>(𝐫) = 𝒮(r)
+[ k<sub>e</sub>q₁q₂/r² − Gm₁m₂/r² + α<sub>s</sub>((1−e<sup>−r/λ</sup>)/r² + σr) ] 𝐫̂
++ γ₀ e<sup>−r/ℓ<sub>B</sub></sup> (𝐒 × 𝐁)
+</p>
+
+<p>
+Coupled to a fluid model with local pressure <code>P</code>, density <code>ρ</code>, and viscosity <code>ν</code>,
+each parcel evolves as:
+</p>
+
+<p style="text-align:center;">
+m d𝐯/dt = 𝐅<sub>fluid</sub> + 𝐅<sub>STUR</sub>,  
+ 𝐅<sub>fluid</sub> = −∇P/ρ + ν ξ,
+</p>
+
+<p>
+where random vector ξ represents thermal noise. The scalar modulator
+<code>𝒮(r,L₀) = tanh(r/L₀)(1−e<sup>−r/L₀</sup>)</code>
+provides localized stability in nonlinear atmospheric coupling.  
+Emergent features such as microbursts, funnels, and heat domes arise from the combined
+field-induced shear and spin-torque effects.
+</p>
+
+<h2>Python Simulation (JupyterLite-Safe)</h2>
+<pre id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR Weather – Hybrid Atmospheric Field Simulation
+# ===============================================================
+import numpy as np, matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.animation import FuncAnimation
+
+# --- Constants -------------------------------------------------
+k_e,G,sigma = 8.9875e9,6.6743e-11,1e-5
+lam,lB = 1e-15,1e2
+q1,q2,m1,m2 = 1e-6,1e-6,1e3,1e3
+S,B = np.array([0,0,1]), np.array([0,0,1])
+rho,g,nu = 1.2,9.81,1e-2
+
+# --- STUR Modulator & Force -----------------------------------
+def S_r(r,L0): return np.tanh(r/L0)*(1-np.exp(-r/L0))
+def F_sheldon(r,vel,L0=1e5,gamma0=1e-3,alpha_s=1e-9):
+    r_norm=max(np.linalg.norm(r),1e-12); r_hat=r/r_norm
+    F_rad=S_r(r_norm,L0)*((k_e*q1*q2/r_norm**2-G*m1*m2/r_norm**2+
+           alpha_s*((1-np.exp(-r_norm/lam))/r_norm**2+sigma*r_norm))*r_hat)
+    F_spin=gamma0*np.exp(-r_norm/lB)*np.cross(S,B)[:len(r)]
+    return F_rad+F_spin
+
+# --- Atmospheric Grid ------------------------------------------
+nx,ny,nz=8,8,8
+X,Y,Z=np.meshgrid(np.linspace(-1e3,1e3,nx),
+                  np.linspace(-1e3,1e3,ny),
+                  np.linspace(0,500,nz))
+pos=np.stack([X.flatten(),Y.flatten(),Z.flatten()],axis=-1)
+vel=np.zeros_like(pos)
+T=np.ones(pos.shape[0])*290
+P=np.ones_like(T)*101325
+
+# --- Animation (Jupyter-safe: no blit) --------------------------
+fig=plt.figure(figsize=(9,7))
+ax=fig.add_subplot(111,projection='3d')
+
+def update(frame):
+    global pos,vel,T,P
+    ax.cla()
+    vel[:,0]+=0.0001*(pos[:,1]/1e3)  # shear
+    for i in range(pos.shape[0]):
+        F_fluid=-1/rho*np.array([0,0,(P[i]-101325)/50])+nu*np.random.randn(3)*0.01
+        F_total=F_fluid+F_sheldon(pos[i],vel[i])
+        vel[i]+=F_total*0.5
+        pos[i]+=vel[i]*0.5
+        T[i]+=-g/1000*vel[i,2]*0.5
+        P[i]-=0.05*vel[i,2]*0.5
+    microbursts=vel[:,2]<-10
+    funnels=np.linalg.norm(np.cross(vel[:,:2],pos[:,:2]),axis=1)>0.05
+    heat_domes=T>300
+    ax.quiver(pos[:,0],pos[:,1],pos[:,2],
+              vel[:,0],vel[:,1],vel[:,2],
+              length=20,normalize=True,color='blue')
+    ax.scatter(pos[microbursts,0],pos[microbursts,1],pos[microbursts,2],
+               c='cyan',s=20,label='Microbursts')
+    ax.scatter(pos[funnels,0],pos[funnels,1],pos[funnels,2],
+               c='magenta',s=20,label='Funnels')
+    ax.scatter(pos[heat_domes,0],pos[heat_domes,1],pos[heat_domes,2],
+               c='red',s=20,label='Heat Domes')
+    ax.set_xlim(-1e3,1e3); ax.set_ylim(-1e3,1e3); ax.set_zlim(0,500)
+    ax.set_xlabel("X"); ax.set_ylabel("Y"); ax.set_zlabel("Z")
+    ax.set_title("STUR Hybrid Weather Simulation")
+    ax.legend()
+
+anim=FuncAnimation(fig,update,frames=60,interval=120)
+plt.show()
+</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open Jupyter Lite</button>
+</div>
+
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | Hybrid Weather Simulation
+</footer>
+
+<script>
+function copyCode(){
+  const code = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("STUR Weather simulation code copied to clipboard.");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+</script>
+
+</body>
+</html>
