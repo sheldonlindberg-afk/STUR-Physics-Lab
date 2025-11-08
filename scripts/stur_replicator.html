@@ -3,189 +3,351 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Resistance Gate – JupyterLite Safe Edition</title>
+<title>🍱 STUR Replicator – Stress-to-Failure Visualization</title>
 <style>
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:"Courier New",monospace;
-    margin:0;
-    padding:2rem;
-  }
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  pre{
-    background:#0a0f1f;
-    color:#00ffcc;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    font-size:0.9rem;
-    box-shadow:0 0 18px #ffaa0040;
-    white-space:pre;
-  }
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
-  }
-  button:hover{background:#ffcc33;}
-  footer{
-    text-align:center;
-    font-size:0.9em;
-    color:#999;
-    margin-top:2rem;
-  }
+ body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
+ h1{color:#ffaa00;text-align:center;}
+ h2{color:#ffcc33;margin-top:2rem;}
+ .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
+ pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;
+     line-height:1.4;box-shadow:0 0 20px #ffaa0055;font-size:0.9rem;}
+ button{background:#ffaa00;color:#050814;border:none;border-radius:6px;
+     padding:10px 20px;font-weight:bold;cursor:pointer;margin:6px;transition:0.2s;}
+ button:hover{background:#ffcc33;}
+ footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
+ a{color:#66ccff;}
 </style>
 </head>
 <body>
 
-<h1>STUR Resistance Gate – Unified Resistance Access Corridor</h1>
+<h1>🍱 STUR Replicator<br>Stress-to-Failure Envelope Visualization</h1>
 
-<h2>Mathematical Derivation</h2>
-<p>
-The Resistance Gate simulates a one-dimensional unified-force corridor defined by:
+<p class="desc">
+This module is <b>Step 4</b> in the STUR Replicator chain.  
+It takes the full <code>results</code> dataset from Step 1 (megascale stress-to-failure with 
+<code>sigma_dS = 5×10⁻³</code>, <code>alpha_relief = 0.3</code>) and generates:
 </p>
-<p style="text-align:center;">
-F<sub>tot</sub>(r,t) =
-S(r,L<sub>0</sub>)[F<sub>EM</sub> + F<sub>G</sub> + F<sub>S</sub>]
-+ F<sub>spin</sub> + F<sub>SC</sub> + F<sub>vac</sub> + F<sub>diss</sub> + F<sub>bio</sub>,
-</p>
-<p>
-with radial modulator S(r,L₀) = tanh(r/L₀)(1−exp(−r/L₀)).  
-The path cost is integrated over |F<sub>tot</sub>|, then evaluated against an energy budget and thermal feedback.
-</p>
+<ul class="desc">
+  <li><b>Failure mode envelope vs mass</b> for each class (inert, food, organ).</li>
+  <li><b>Energy fraction</b> <code>E_need/(m c²)</code> vs mass, colored by failure mode.</li>
+  <li><b>Worst-case entropy gradient</b> <code>dS_worst</code> vs mass, linking coherence noise to collapse.</li>
+</ul>
 
-<h2>Python Simulation (Jupyter-Lite Compatible)</h2>
+<h2>Derivation Overview</h2>
+<div class="desc">
+<p>
+Step 1 integrates a unified resistance equation for a class of replicators (inert shells, food-grade products,
+and full organs) over some runtime <code>t_s</code>, sampling noisy entropy gradients <code>dS</code> and
+noise bandwidth <code>Ω</code>. Each sampled configuration yields:
+</p>
+<ul>
+  <li><code>mass_kg</code> – object mass;</li>
+  <li><code>E_need_J</code>, <code>E_feed_J</code> – energy needed vs supplied;</li>
+  <li><code>ratio_vs_mc2 = E_need_J / (m c²)</code> – energy cost as a fraction of rest-mass energy;</li>
+  <li><code>dS_mean</code>, <code>dS_worst</code> – mean and worst effective entropy gradients;</li>
+  <li><code>failure_mode ∈ {power, biology, stable}</code> – dominant limiting factor.</li>
+</ul>
+<p>
+For a fixed physical time <code>t_s</code>, this Step 4 code slices the dataset and constructs:
+</p>
+<ol>
+  <li>
+    A categorical <b>failure mode envelope</b> vs mass, treated as a step function in log mass, showing
+    where power limits, biology limits, or fully stable operation dominate.
+  </li>
+  <li>
+    A log–log scatter of <code>ratio_vs_mc2</code> vs mass, colored by failure mode, making evident
+    which mass bands can run “cheaply” (<code>ratio ≪ 1</code>) and which require near-relativistic
+    energy expenditure.
+  </li>
+  <li>
+    A scatter of <code>dS_worst</code> vs mass, mapping how bad the noise/coherence environment had
+    to get in the “worst draw” that controlled <code>E_need</code>. This ties high-entropy, noisy
+    environments to replicator failure and helps tune allowable bandwidths.
+  </li>
+</ol>
+<p>
+In addition to the plots, a JSON summary is generated directly from the real <code>results</code> array,
+giving counts and basic statistics per class and failure mode for downstream analysis.
+No synthetic data are generated; everything comes from your Step-1 simulation.
+</p>
+</div>
+
+<h2>Python Visualization (copy &amp; run after Step 1)</h2>
+
 <pre id="codeBlock">#!/usr/bin/env python3
-# ===============================================================
-# STUR Resistance Gate – No external dependencies (networkx-free)
-# ===============================================================
-import numpy as np, matplotlib.pyplot as plt
-np.random.seed(42)
+"""
+STUR Replicator – Step 4 Visualization
+--------------------------------------
+Assumes an existing `results` list from Step 1, where each element is a dict:
 
-# --- power + thermal setup -------------------------------------
-Ep,fR,tau,eta = 2.5e3,10,0.1,0.15
-E_arc=Ep*fR*tau*eta; E_pack=1e6; J0=E_pack+E_arc
-T0,heat=300,50; cf=1e4; fb=5; w,phi=2*np.pi*fb,0.6*np.pi
+  {
+    'class',         # "inert", "food", or "organ"
+    'mass_kg',       # object mass [kg]
+    't_s',           # run time [s]
+    'ok_energy',     # boolean
+    'viable',        # boolean
+    'failure_mode',  # "stable", "power", or "biology"
+    'ratio_vs_mc2',  # E_need / (m c^2)
+    'E_need_J',
+    'E_feed_J',
+    'P_arc_W',
+    'bio_share',
+    'alpha_relief',
+    'sigma_dS',
+    'Omega',
+    'dS_mean',
+    'dS_worst'
+  }
 
-# --- constants & parameters ------------------------------------
-ke,G=8.9875e9,6.6743e-11; q,m=1.602e-19,1.673e-27
-a,sig,lam=1e-10,1e10,1e-9; L0,el=1e-9,1e-9; hb,c=1.055e-34,3e8
-eps=1e-12; Ssp=hb/2; g_sc=1e-15
+This file:
+  * builds failure-mode envelopes vs mass at a selected t_s,
+  * plots E_need/(m c^2) vs mass with mode-coded markers,
+  * plots worst-case entropy gradient vs mass,
+  * prints a JSON summary of the actual dataset (no synthetic data).
+"""
 
-S=lambda r: np.tanh(r/L0)*(1-np.exp(-r/L0))
-F_EM=lambda r: ke*q*q/(r*r+eps)
-F_G=lambda r: -G*m*m/(r*r+eps)
-F_S=lambda r: a*((1-np.exp(-r/lam))/(r*r+eps)+sig*r*np.exp(-r/el))
-F_sp=lambda r: Ssp*np.exp(-r/el)
-F_SC0=lambda r: g_sc*np.tanh(15*r/L0)*(1-np.exp(-r/L0))**2*np.exp(-r/el)
-F_b0=lambda r: (2e-8+1e-9*np.sin(r/5))*np.exp(-r/40)/(r+eps)
-F_v=lambda r: hb*c/(r**4+eps)*1e-30*np.exp(-r/10)
-F_d=lambda r: 1e-9/(r+eps)
+import numpy as np
+import matplotlib.pyplot as plt
+import json
 
-def F_tot(r,t,A_b,A_s):
-    F_b=F_b0(r)*(1+A_b*np.sin(w*t))
-    F_SC=F_SC0(r)*(1-A_s*np.sin(w*t+phi))
-    return S(r)*(F_EM(r)+F_G(r)+F_S(r))+F_sp(r)+F_SC+F_v(r)+F_d(r)+F_b
+# -----------
+# Helper: collect arrays for plotting at a given time
+# -----------
+def get_arrays_for_time(results, t_sel):
+    """
+    Return dict[class] = dict of arrays for that t_sel:
+        mass, ratio, mode, dS_worst
+    """
+    out = {}
+    for r in results:
+        if abs(r["t_s"] - t_sel) < 1e-9:
+            cls = r["class"]
+            if cls not in out:
+                out[cls] = {
+                    "mass": [],
+                    "ratio": [],
+                    "mode": [],
+                    "dS_worst": []
+                }
+            out[cls]["mass"].append(r["mass_kg"])
+            out[cls]["ratio"].append(r["ratio_vs_mc2"])
+            out[cls]["mode"].append(r["failure_mode"])
+            out[cls]["dS_worst"].append(r["dS_worst"])
+    # sort each class by mass
+    for cls in out:
+        idx = np.argsort(out[cls]["mass"])
+        for key in ["mass","ratio","mode","dS_worst"]:
+            out[cls][key] = list(np.array(out[cls][key])[idx])
+    return out
 
-def corridor(rg,t,A_b,A_s): return np.trapz(np.abs([F_tot(r,t,A_b,A_s) for r in rg]),rg)
+# -----------
+# Mode color/marker maps
+# -----------
+mode_color = {"stable":"green","power":"orange","biology":"red"}
+mode_marker = {"stable":"o","power":"^","biology":"s"}
 
-# --- simple shortest path surrogate -----------------------------
-def path_cost(rg,t,A_b,A_s):
-    Fv=np.abs([F_tot(r,t,A_b,A_s) for r in rg])
-    return np.sum((Fv[:-1]+Fv[1:])/2)
+def scatter_mode(ax, mass, val, mode, cls_label, y_label, title):
+    """
+    Scatter plot for one class, color/shape by failure mode.
+    """
+    for m, v, fm in zip(mass, val, mode):
+        ax.scatter(
+            m, v,
+            c=mode_color[fm],
+            marker=mode_marker[fm],
+            edgecolors="black",
+            alpha=0.8,
+            label=f"{cls_label}-{fm}"
+        )
+    ax.set_xscale("log")
+    ax.set_xlabel("Mass (kg)")
+    ax.set_ylabel(y_label)
+    ax.set_title(title)
+    ax.grid(True, which="both", ls=":")
+    # dedupe legend
+    handles, labels = ax.get_legend_handles_labels()
+    uniq = dict(zip(labels, handles))
+    ax.legend(uniq.values(), uniq.keys(), fontsize=7)
 
-def launch(rg,t,div,A_b,A_s,J,Emin=5e-8,Emax=1e-5,noise=0.2,n=200):
-    c=path_cost(rg,t,A_b,A_s); sc=J/div
-    Eb=np.random.uniform(Emin,Emax,n)*sc
-    need=c*(1+np.random.normal(0,noise,n))
-    return np.mean(Eb>need),c,need.mean(),Eb.mean()
+# -----------
+# (1) FAILURE MODE MAP VS MASS (categorical)
+# -----------
+mode_numeric = {"power":0,"biology":1,"stable":2}
+mode_label    = {0:"power",1:"biology",2:"stable"}
 
-def entropy(p): p=np.clip(p,1e-12,1-1e-12); return -p*np.log2(p)-(1-p)*np.log2(1-p)
-def Ecyc(rg,ts,A_b,A_s): return np.trapz([corridor(rg,t,A_b,A_s)*cf for t in ts],ts)
+def plot_failure_mode_step(results, t_sel):
+    """
+    Step-plot of failure mode vs mass at a chosen time t_sel.
+    """
+    data = get_arrays_for_time(results, t_sel)
 
-# --- simulation domain ------------------------------------------
-r=np.linspace(10,50,80); twin=np.linspace(0,0.4,60); tS=[0,0.1,0.2]
-div=1e7; A_s=0.25
+    plt.figure(figsize=(7,4))
+    for cls_idx, cls in enumerate(["inert","food","organ"]):
+        if cls not in data:
+            continue
+        mass = np.array(data[cls]["mass"])
+        mode_vals = np.array([mode_numeric[m] for m in data[cls]["mode"]])
+        order = np.argsort(mass)
+        mass_sorted = mass[order]
+        mode_sorted = mode_vals[order]
+        plt.step(
+            mass_sorted,
+            mode_sorted + 0.05*cls_idx,  # slight vertical offset by class
+            where='post',
+            label=f"{cls} (t={t_sel:.0f}s)"
+        )
+    plt.xscale("log")
+    plt.yticks([0,1,2],["power fail","bio fail","stable"])
+    plt.xlabel("Mass (kg)")
+    plt.ylabel("Failure Mode")
+    plt.title(f"STUR Replicator Failure Mode Envelope @ t={t_sel:.0f} s")
+    plt.grid(True, which="both", ls=":")
+    plt.legend(fontsize=8)
+    plt.tight_layout()
+    plt.show()
 
-for _ in range(3):
-    T=T0+(np.random.rand()-0.5)*heat
-    A_b=np.exp(-T/T0)*(0.4+0.3*eta); J=J0
-    sL=[launch(r,ts,div,A_b,A_s,J)[0] for ts in tS]
-    sM=max(sL); div*=1-0.2*(sM-0.99); div=np.clip(div,1e6,1e8)
+# -----------
+# (2) RATIO VS MASS COLORED BY FAILURE MODE
+# -----------
+def plot_ratio_scatter(results, t_sel):
+    """
+    Scatter E_need/(m c^2) vs mass (both log), colored by failure mode.
+    """
+    data = get_arrays_for_time(results, t_sel)
 
-T=T0+(np.random.rand()-0.5)*heat; A_b=np.exp(-T/T0)*(0.4+0.3*eta); J=J0
-resA,resM=[],[]
-for nz in [0.2,0.05,0.01]:
-    sA=[launch(r,ts,div,A_b,A_s,J,noise=nz)[0] for ts in tS]
-    resA.append((nz,np.mean(sA))); resM.append((nz,max(sA)))
+    plt.figure(figsize=(7,4))
+    for cls in ["inert","food","organ"]:
+        if cls not in data:
+            continue
+        mass  = data[cls]["mass"]
+        ratio = data[cls]["ratio"]
+        mode  = data[cls]["mode"]
+        for m, r, fm in zip(mass, ratio, mode):
+            plt.scatter(
+                m, r,
+                c=mode_color[fm],
+                marker=mode_marker[fm],
+                edgecolors="black",
+                alpha=0.8,
+                label=f"{cls}-{fm}"
+            )
+    plt.xscale("log")
+    plt.yscale("log")
+    plt.xlabel("Mass (kg)")
+    plt.ylabel("E_need / (m c^2)")
+    plt.title(f"Replicator Energy Fraction vs Mass @ t={t_sel:.0f} s")
+    plt.grid(True, which="both", ls=":")
+    handles, labels = plt.gca().get_legend_handles_labels()
+    uniq = dict(zip(labels, handles))
+    plt.legend(uniq.values(), uniq.keys(), fontsize=7)
+    plt.tight_layout()
+    plt.show()
 
-Ecy=Ecyc(r,twin,A_b,A_s); cyc=J/Ecy if Ecy>0 else np.inf
-nz_best,s_best=max(resM,key=lambda x:x[1]); Sinfo=entropy(s_best)
+# -----------
+# (3) WORST-CASE ENTROPY GRADIENT VS MASS
+# -----------
+def plot_dS_vs_mass(results, t_sel):
+    """
+    Scatter of dS_worst vs mass with mode-coded markers.
+    """
+    data = get_arrays_for_time(results, t_sel)
 
-print("===POWER===")
-print(f"E_pack={E_pack:.2e}J  E_arc={E_arc:.2e}J  J={J0:.2e}J  T={T:.1f}K")
-print(f"A_b={A_b:.3f}  A_s={A_s:.2f}  div={div:.2e}")
-print("\\n===ACCESS===")
-for (nz,a),(nz2,m) in zip(resA,resM):
-    print(f"noise={nz:.2f}  avg={a*100:.2f}%  max={m*100:.2f}%")
-print("\\n===ORDER===")
-print(f"best={s_best*100:.2f}%  entropy={Sinfo:.3f} bits")
-print(f"Ecy={Ecy:.2e}J/{twin[-1]:.2f}s  cycles={cyc:.2e}")
+    fig, ax = plt.subplots(figsize=(7,4))
+    for cls in ["inert","food","organ"]:
+        if cls not in data:
+            continue
+        mass = data[cls]["mass"]
+        dS_worst = data[cls]["dS_worst"]
+        mode = data[cls]["mode"]
+        scatter_mode(
+            ax, mass, dS_worst, mode, cls,
+            y_label="Worst-case dS_eff (dimensionless entropy gradient)",
+            title=f"Worst-Case Entropy Gradient vs Mass @ t={t_sel:.0f} s"
+        )
+    plt.tight_layout()
+    plt.show()
 
-# --- PLOTS (static) --------------------------------------------
-r_plot=np.linspace(10,50,200)
-F_t0=np.abs([F_tot(rv,0,A_b,A_s) for rv in r_plot])
-F_t1=np.abs([F_tot(rv,0.2,A_b,A_s) for rv in r_plot])
+# -----------
+# (4) JSON SUMMARY OF REAL RESULTS
+# -----------
+def summarize_results(results):
+    """
+    Build a JSON-serializable summary of the real Step-1 results:
+    counts and basic stats per class and failure_mode.
+    """
+    out = {
+        "n_total": int(len(results)),
+        "classes": {},
+        "times_s": sorted({float(r["t_s"]) for r in results})
+    }
+    classes = sorted({r["class"] for r in results})
+    for cls in classes:
+        subset = [r for r in results if r["class"] == cls]
+        cls_entry = {
+            "count": int(len(subset)),
+            "failure_modes": {}
+        }
+        for fm in ["stable","power","biology"]:
+            sub2 = [r for r in subset if r["failure_mode"] == fm]
+            if not sub2:
+                continue
+            masses = np.array([r["mass_kg"] for r in sub2], dtype=float)
+            ratios = np.array([r["ratio_vs_mc2"] for r in sub2], dtype=float)
+            dS_worst = np.array([r["dS_worst"] for r in sub2], dtype=float)
+            cls_entry["failure_modes"][fm] = {
+                "count": int(len(sub2)),
+                "mass_kg_min": float(masses.min()),
+                "mass_kg_max": float(masses.max()),
+                "ratio_vs_mc2_median": float(np.median(ratios)),
+                "dS_worst_mean": float(dS_worst.mean())
+            }
+        out["classes"][cls] = cls_entry
+    return out
 
-plt.figure(figsize=(8,4))
-plt.plot(r_plot,F_t0,label="|F_tot(r, t=0.0)|")
-plt.plot(r_plot,F_t1,"--",label="|F_tot(r, t=0.2)|")
-plt.xlabel("r"); plt.ylabel("|F_tot|"); plt.title("Resistance Gate Force Profile")
-plt.grid(True); plt.legend(); plt.tight_layout(); plt.show()
+# Try to print a JSON summary immediately if `results` exists.
+# No synthetic data are generated: if `results` is missing,
+# we just print a helpful note.
+try:
+    summary = summarize_results(results)  # requires Step 1
+    print(json.dumps(summary, indent=2))
+except NameError:
+    print("NOTE: `results` is not defined. Run Step 1 first to create the results list.")
+    print("This file only visualizes and summarizes an existing Step-1 dataset.")
 
-succ_vs_t={}
-for nz in [0.2,0.05,0.01]:
-    vals=[launch(r,ts,div,A_b,A_s,J,noise=nz)[0]*100 for ts in tS]
-    succ_vs_t[nz]=vals
-
-plt.figure(figsize=(8,4))
-for nz in succ_vs_t:
-    plt.plot(tS,succ_vs_t[nz],marker="o",label=f"noise={nz}")
-plt.xlabel("Control phase t"); plt.ylabel("Success probability (%)")
-plt.title("Access probability vs control phase")
-plt.grid(True); plt.legend(); plt.tight_layout(); plt.show()
-
-noise_arr=[x[0] for x in resA]
-avg_succ=[x[1]*100 for x in resA]
-max_succ=[x[1]*100 for x in resM]
-plt.figure(figsize=(8,4))
-plt.plot(noise_arr,avg_succ,"o-",label="avg success")
-plt.plot(noise_arr,max_succ,"s--",label="max success")
-plt.xlabel("Noise level"); plt.ylabel("Success probability (%)")
-plt.title("Gate reliability vs noise")
-plt.grid(True); plt.legend(); plt.tight_layout(); plt.show()</pre>
+# -----------
+# DRIVER EXAMPLES (uncomment and run after Step 1)
+# -----------
+# Example usage once `results` exists:
+# plot_failure_mode_step(results, 60.0)
+# plot_failure_mode_step(results, 600.0)
+# plot_ratio_scatter(results, 60.0)
+# plot_ratio_scatter(results, 600.0)
+# plot_dS_vs_mass(results, 60.0)
+# plot_dS_vs_mass(results, 600.0)</pre>
 
 <div style="text-align:center;">
   <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open JupyterLite</button>
+  <button onclick="openRunner()">Open Python Runner (JupyterLite)</button>
 </div>
 
+<p class="desc" style="text-align:center;">
+Workflow:
+<br>
+1. In JupyterLite, first run your <b>Step 1 STUR Replicator</b> cell to create <code>results</code> (list of dicts).<br>
+2. Then click <b>Copy Script</b> above, <b>Open Python Runner</b>, paste into a new cell, and run.<br>
+3. Inspect the JSON summary, then call the plotting functions (e.g. <code>plot_failure_mode_step(results, 60.0)</code>).
+</p>
+
 <footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | Resistance Gate
+© 2025 STUR Physics Lab | Unified Resistance Framework | Replicator Stress Envelope (Step 4)
 </footer>
 
 <script>
 function copyCode(){
-  navigator.clipboard.writeText(document.getElementById("codeBlock").innerText);
-  alert("STUR Resistance Gate code copied to clipboard.");
+  const code=document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("✅ STUR Replicator visualization code copied to clipboard");
 }
 function openRunner(){
   window.open("https://jupyter.org/try-jupyter/lab/","_blank");
