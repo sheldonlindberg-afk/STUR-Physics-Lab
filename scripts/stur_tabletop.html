@@ -68,69 +68,59 @@
 <p>
 We model a two-dimensional whispering-gallery orbit of a photon inside a circular
 dielectric cavity of radius R. The photon is launched from an impact parameter
-b = impact close to R and undergoes specular reflections at the boundary.
-The cavity has refractive index n, so total internal reflection holds when the
-internal incidence angle θ satisfies
+b close to R and undergoes specular reflections from the boundary. The cavity
+has refractive index n, so total internal reflection holds when the internal
+incidence angle satisfies
 </p>
 <p style="text-align:center;">
-<code>
-sin(θ) &gt; 1 / n.
-</code>
+<code>sin(θ) &gt; 1 / n.</code>
 </p>
 <p>
-We represent the orbit as a sequence of straight-line segments between boundary
-hits. Given a position vector p and direction d (unit vector), we find the
-next intersection with the circle |x| = R by solving
+We represent the orbit as straight segments between boundary hits. Given a
+position vector <code>p</code> and unit direction <code>d</code>, the next hit satisfies
 </p>
 <p style="text-align:center;">
-<code>
-|p + t d|² = R²
-</code>
+<code>|p + t d|² = R²,</code>
 </p>
 <p>
-for t &gt; 0. This leads to a quadratic in t with discriminant Δ = b² − 4ac. Once
-we know the collision point x_hit and the outward normal n_hat = x_hit / |x_hit|,
-the reflected direction is
+giving a quadratic in t. For the smallest positive root t_hit we obtain the
+collision point <code>x_hit = p + t_hit d</code>. The outward normal is
+<code>n_hat = x_hit / |x_hit|</code> and specular reflection gives a new direction
 </p>
 <p style="text-align:center;">
-<code>
-d' = d − 2 (d ⋅ n_hat) n_hat.
-</code>
+<code>d' = d − 2 (d ⋅ n_hat) n_hat.</code>
 </p>
 <p>
-At each bounce we compute the internal incidence angle θ from
+The internal incidence angle θ is computed by
 </p>
 <p style="text-align:center;">
-<code>
-θ = arccos( (−d) ⋅ n_hat ).
-</code>
+<code>θ = arccos( (−d) ⋅ n_hat ).</code>
 </p>
 <p>
-If θ drops below the critical angle θ_c = arcsin(1/n), we declare the photon
-has escaped and terminate the trace. We also model a small attenuation per
-reflection, I_{k+1} = I_k × atten, and record the full orbit:
+If θ drops below the critical angle <code>θ_c = arcsin(1/n)</code>, the ray escapes and
+the trace stops. For each reflection we apply an attenuation factor
+<code>I_{k+1} = I_k × atten</code>. The simulation records:
 </p>
 <ul>
-  <li>path of positions p_k,</li>
-  <li>intensity sequence I_k,</li>
-  <li>total geometric path length,</li>
+  <li>the full list of positions along the orbit,</li>
+  <li>relative intensity after each bounce,</li>
+  <li>total geometric path length inside the cavity,</li>
   <li>number of reflections,</li>
-  <li>escape angle at the last bounce.</li>
+  <li>escape angle at the last bounce (if any).</li>
 </ul>
 <p>
-The script below:
+The Python code below:
 </p>
 <ul>
-  <li>traces the orbit with up to num_reflect reflections,</li>
-  <li>animates the photon sliding along the boundary (saved as wgm.gif when
-      a GIF writer is available),</li>
-  <li>creates an additional static figure with the orbit and intensity decay,</li>
-  <li>prints a JSON summary of the optical and geometric properties.</li>
+  <li>traces the whispering-gallery orbit,</li>
+  <li>animates the photon moving along the path inside Jupyter/JupyterLite,</li>
+  <li>creates a static plot with the orbit and intensity decay
+      (saved as <code>wgm_orbit.png</code>),</li>
+  <li>prints a JSON summary with all key parameters and outputs.</li>
 </ul>
 <p>
-The implementation uses only NumPy, Matplotlib, and JSON so it is compatible
-with Jupyter and JupyterLite (the GIF save is wrapped in a try-except so it
-will not crash if Pillow is unavailable).
+The script relies only on NumPy, Matplotlib and JSON, with a JupyterLite-safe
+animation (no blitting and no Pillow dependency).
 </p>
 </div>
 
@@ -142,24 +132,11 @@ will not crash if Pillow is unavailable).
 # Jupyter-safe: NumPy + Matplotlib + JSON
 # ===============================================================
 
-#!/usr/bin/env python3
-# ===============================================================
-# STUR Table Top – Whispering-Gallery Photon Orbit
-# Jupyter-safe: NumPy + Matplotlib + JSON
-# ===============================================================
-
 import numpy as np
 import matplotlib.pyplot as plt
 import json
 
-# Try to import animation writer if available
-try:
-    from matplotlib.animation import FuncAnimation, PillowWriter
-    HAVE_PILLOW = True
-except Exception:
-    from matplotlib.animation import FuncAnimation
-    PillowWriter = None
-    HAVE_PILLOW = False
+from matplotlib.animation import FuncAnimation
 
 # ----------------- PARAMETERS ----------------------------------
 R = 1.0                 # cavity radius
@@ -177,7 +154,7 @@ pos = np.array([
 
 # initial direction: horizontal right
 dir_vec = np.array([1.0, 0.0], dtype=float)
-dir_vec = dir_vec / np.linalg.norm(dir_vec)
+dir_vec /= np.linalg.norm(dir_vec)
 
 path = [pos.copy()]
 intens = [1.0]
@@ -212,7 +189,7 @@ def reflect(d, n_hat):
 pos_curr = pos.copy()
 dir_curr = dir_vec.copy()
 
-theta_c = np.arcsin(1.0 / n_refr)  # critical angle for TIR
+theta_c = np.arcsin(1.0 / n_refr)  # critical angle for total internal reflection
 
 for _ in range(num_reflect):
     hit = intersect_circle(pos_curr, dir_curr, R)
@@ -227,7 +204,6 @@ for _ in range(num_reflect):
     # check for escape condition
     if ang < theta_c:
         escape_angle_rad = float(ang)
-        # move to escape point and stop
         pos_curr = hit.copy()
         path.append(pos_curr.copy())
         intens.append(intens[-1] * atten)
@@ -245,7 +221,6 @@ path = np.array(path, dtype=float)
 intens = np.array(intens, dtype=float)
 
 # ----------------- GEOMETRIC STATISTICS ------------------------
-# total path length inside cavity
 if len(path) > 1:
     diffs = path[1:] - path[:-1]
     segment_lengths = np.linalg.norm(diffs, axis=1)
@@ -257,7 +232,7 @@ num_bounces = max(len(path) - 1, 0)
 mean_intensity = float(np.mean(intens)) if len(intens) > 0 else 0.0
 escape_angle_deg = float(escape_angle_rad * 180.0 / np.pi) if escape_angle_rad is not None else None
 
-# ----------------- ANIMATION ----------------------------------
+# ----------------- ANIMATION (JUPYTERLITE SAFE) ----------------
 fig, ax = plt.subplots(figsize=(5,5))
 ax.set_aspect("equal", "box")
 ax.set_xlim(-R - 0.1, R + 0.1)
@@ -270,26 +245,15 @@ ax.add_patch(circle)
 (dot,) = ax.plot([], [], "ro", ms=6)
 
 def update(i):
-    """Update function for FuncAnimation."""
     i = int(i)
     line.set_data(path[:i+1, 0], path[:i+1, 1])
-    # Matplotlib needs sequences for x and y, not scalars:
+    # Matplotlib wants sequences for x and y:
     dot.set_data([path[i, 0]], [path[i, 1]])
     dot.set_alpha(float(intens[i]))
     return line, dot
 
-ani = FuncAnimation(fig, update, frames=len(path), interval=60, blit=True)
-
-gif_saved = False
-if HAVE_PILLOW and PillowWriter is not None:
-    try:
-        writer = PillowWriter(fps=20)
-        ani.save("wgm.gif", writer=writer)
-        gif_saved = True
-    except Exception as e:
-        print("Warning: could not save GIF animation:", e)
-else:
-    print("GIF writer not available; skipping wgm.gif save.")
+# IMPORTANT: blit=False for JupyterLite / non-GUI backend
+ani = FuncAnimation(fig, update, frames=len(path), interval=60, blit=False)
 
 plt.show()
 
@@ -332,9 +296,7 @@ summary = {
     "escape_angle_deg": escape_angle_deg,
     "n_refr": float(n_refr),
     "attenuation_per_bounce": float(atten),
-    "gif_saved": bool(gif_saved),
     "files": {
-        "animation_gif": "wgm.gif" if gif_saved else None,
         "static_plot_png": "wgm_orbit.png"
     }
 }
