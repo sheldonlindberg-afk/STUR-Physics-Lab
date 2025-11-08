@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧬 STUR Universal Immunity Algorithm – Unified Resistance Immunodynamics</title>
+<style>
+ body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
+ h1{color:#ffaa00;text-align:center;}
+ h2{color:#ffcc33;margin-top:2rem;}
+ .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
+ pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;
+     line-height:1.4;box-shadow:0 0 20px #ffaa0055;font-size:0.9rem;}
+ button{background:#ffaa00;color:#050814;border:none;border-radius:6px;
+     padding:10px 20px;font-weight:bold;cursor:pointer;margin:6px;transition:0.2s;}
+ button:hover{background:#ffcc33;}
+ footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
+ a{color:#66ccff;}
+</style>
+</head>
+<body>
+
+<h1>🧬 STUR Universal Immunity Algorithm<br>Unified Resistance Immunodynamics</h1>
+
+<p class="desc">
+This module encodes a <b>universal immunodynamic field</b> in the STUR Unified Resistance framework.  
+The immune force density around a pathogen cluster is treated as a curvature–regulated field
+with innate, suppressive, and adaptive components, plus chemotactic spin–torsion–like coupling.  
+We use realistic biological scales (nm–μm, 10⁹–10¹⁵ cells/m³) to generate an <b>immune map</b>
+for flu-like acute infection, immune-suppressed cancer, and chronic HIV-like collapse, 
+and output a JSON summary for downstream analysis.
+</p>
+
+<h2>Unified Resistance Immune Field</h2>
+<div class="desc">
+<p>
+We model the effective immune force density as
+</p>
+<p style="text-align:center;">
+<code>
+F<sub>immune</sub>(r,t) = 𝓢(r,t) &middot; 
+[ k<sub>innate</sub> C<sub>immune</sub> P<sub>path</sub>/r² 
+− k<sub>suppress</sub> C<sub>reg</sub> P<sub>path</sub>/r²
++ k<sub>adaptive</sub> ( (1 − e<sup>−r/λ<sub>sig</sub></sup>)/r² + σ<sub>prolif</sub> r ) ]
++ F<sub>chem</sub>(r) + η(t)
+</code>
+</p>
+<p>
+with STUR curvature regulator
+</p>
+<p style="text-align:center;">
+<code>
+𝓢(r,t) = tanh(r/L₀)(1 − e<sup>−r/L₀</sup>) e<sup>−κt</sup>
+</code>
+</p>
+<p>
+Here <code>r</code> is the distance from a pathogen focus (10⁻⁹–10⁻⁵ m), <code>t</code> is time (s),
+<code>C<sub>immune</sub></code> and <code>C<sub>reg</sub></code> are effector and regulatory cell densities
+(cells/m³), and <code>P<sub>path</sub></code> is pathogen load (cells/m³).
+The coefficients <code>k<sub>innate</sub></code>, <code>k<sub>suppress</sub></code>, <code>k<sub>adaptive</sub></code>
+(tuned in the range 10⁻¹⁶–10⁻¹¹ m³·act/(cells·s)) encode contact/effector strength.
+Short-range adaptive signaling is controlled by <code>λ<sub>sig</sub> ~ nm</code> and
+a proliferation slope <code>σ<sub>prolif</sub></code>.
+</p>
+<p>
+The chemotactic / spin–torsion analogue is captured as
+<code>F<sub>chem</sub>(r) ≈ γ<sub>chem</sub> e<sup>−r/ℓ<sub>chem</sub></sup> |S<sub>immune</sub>| |G<sub>path</sub>|</code>,
+with <code>γ<sub>chem</sub></code> in m²·act/s and <code>ℓ<sub>chem</sub></code> ~ μm.
+For Alzheimer’s-scale Aβ aggregates (r ≈ 10–50 μm, L₀ ≈ 1 μm), the regulator 𝓢(r) ≈ 1,
+releasing full EM/strong-like attraction for large plaques, while suppressing small oligomers
+(<code>r ≪ L₀</code>) as <code>𝓢 ~ r²/L₀²</code>. This naturally reproduces
+selective immune activation and links to tau torsion terms in the inner spin sector.
+</p>
+<p>
+In this page we focus on the radial, spherically averaged immune force,
+compute <b>time–radius force maps</b> for different disease regimes,
+and integrate them into dimensionless “clearance indices” that are exported as JSON.
+</p>
+</div>
+
+<h2>Python Simulation (copy &amp; run)</h2>
+
+<pre id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# 🧬 STUR Universal Immunity Algorithm – JupyterLite-safe
+# ===============================================================
+# - Implements the STUR immune force field F_immune(r,t)
+# - Three regimes: "flu" (acute), "cancer" (suppressed), "HIV" (collapse)
+# - Produces plots + JSON summary of clearance metrics
+# ===============================================================
+
+import numpy as np, math, json, matplotlib.pyplot as plt
+
+# -------------------- Scales & constants ------------------------
+# Length scales (m)
+L0        = 0.5e-6    # curvature / synapse scale
+lambda_sig= 1.0e-9    # signaling correlation length
+ell_chem  = 5.0e-6    # chemotactic decay length
+
+# Cell & pathogen densities (cells / m^3)
+C_immune_base = 5e12
+P_path_flu    = 5e13
+P_path_cancer = 5e11
+P_path_HIV    = 1e12
+
+# Chemotactic spin-analogue scales
+S_immune_mag = 2e-9    # ~ dendritic span
+G_path_mag   = 5e4     # gradient magnitude (1/m)
+# Typical spin/chemotactic coupling
+gamma_chem   = 5e-13   # m^2 * act / s
+
+# Proliferation slope
+sigma_prolif = 1e-2    # act / (m*s)
+
+# Time decay of STUR gate
+kappa_base   = 5e-7    # s^-1 (slower decay = chronic)
+
+# -------------------- STUR regulator ---------------------------
+def S_reg(r, t, L0=L0, kappa=kappa_base):
+    """
+    STUR synapse-safe regulator 𝓢(r,t) = tanh(r/L0)(1 - exp(-r/L0)) exp(-kappa t)
+    r: array [m], t: array [s] (broadcasted)
+    """
+    x = r / L0
+    return np.tanh(x) * (1.0 - np.exp(-x)) * np.exp(-kappa * t)
+
+# -------------------- Immune force field -----------------------
+def immune_force_radial(r, t, params):
+    """
+    Compute radial immune force F_immune(r,t) (act / m^2).
+    r, t: 2D arrays via broadcasting
+    params: dict with C_immune, C_reg, P_path, k_innate, k_suppress,
+            k_adaptive, kappa_scale, gamma_chem_scale
+    """
+    C_immune = params["C_immune"]
+    C_reg    = params["C_reg"]
+    P_path   = params["P_path"]
+    k_innate = params["k_innate"]
+    k_suppress  = params["k_suppress"]
+    k_adaptive  = params["k_adaptive"]
+    kappa_scale = params["kappa_scale"]
+    gamma_scale = params["gamma_chem_scale"]
+
+    r_eff = np.maximum(r, 1e-9)
+    S = S_reg(r_eff, t, L0=L0, kappa=kappa_base * kappa_scale)
+
+    innate_term   = k_innate   * C_immune * P_path / (r_eff**2)
+    suppress_term = k_suppress * C_reg    * P_path / (r_eff**2)
+    adaptive_term = k_adaptive * ((1.0 - np.exp(-r_eff / lambda_sig))/(r_eff**2)
+                                  + sigma_prolif * r_eff)
+
+    # radial part
+    F_rad = S * (innate_term - suppress_term + adaptive_term)
+
+    # chemotactic / torsion-like part (treated as effective radial magnitude)
+    F_chem = gamma_chem * gamma_scale * np.exp(-r_eff/ell_chem) * S_immune_mag * G_path_mag
+
+    # noise term η(t) neglected in mean-field (set to 0)
+    return F_rad + F_chem
+
+# -------------------- Disease mode parameters -------------------
+modes = {
+    "flu": {
+        "C_immune": C_immune_base,
+        "C_reg":    0.4 * C_immune_base,
+        "P_path":   P_path_flu,
+        "k_innate": 4e-14,
+        "k_suppress":2e-14,
+        "k_adaptive":5e-14,
+        "kappa_scale": 1.0,      # decays on ~1/kappa_base
+        "gamma_chem_scale": 1.0
+    },
+    "cancer": {
+        "C_immune": 0.6 * C_immune_base,
+        "C_reg":    0.9 * C_immune_base,
+        "P_path":   P_path_cancer,
+        "k_innate": 3e-14,
+        "k_suppress":6e-14,      # strong suppression
+        "k_adaptive":4e-14,
+        "kappa_scale": 0.3,      # more chronic (slower decay)
+        "gamma_chem_scale": 0.7
+    },
+    "HIV": {
+        "C_immune": 0.3 * C_immune_base,
+        "C_reg":    0.7 * C_immune_base,
+        "P_path":   P_path_HIV,
+        "k_innate": 2e-14,
+        "k_suppress":5e-14,
+        "k_adaptive":2e-14,      # weakened adaptive arm
+        "kappa_scale": 0.5,
+        "gamma_chem_scale": 0.5
+    }
+}
+
+# -------------------- Grids in r and t --------------------------
+# r from 10 nm to 50 μm
+r_vals = np.logspace(-8, -4.3, 128)
+# t from 0 to 1 hour
+Tmax = 3600.0
+t_vals = np.linspace(0.0, Tmax, 160)
+
+R, T = np.meshgrid(r_vals, t_vals, indexing="ij")  # R: [Nr,Nt], T: [Nr,Nt]
+
+# -------------------- Compute force maps ------------------------
+force_maps = {}
+for name, params in modes.items():
+    F = immune_force_radial(R, T, params)
+    force_maps[name] = F
+
+# -------------------- Metrics & JSON summary --------------------
+summary = {}
+
+for name, F in force_maps.items():
+    # time-integrated magnitude over t for each radius
+    F_int_r = np.trapz(np.abs(F), t_vals, axis=1)
+    # total integrated positive force (clearance index)
+    clearance_index = float(np.trapz(F_int_r, r_vals))
+
+    # radius of maximal time-integrated response
+    idx_r_peak = int(np.argmax(F_int_r))
+    r_peak = float(r_vals[idx_r_peak])
+
+    # time of maximal (absolute) instantaneous response
+    idx_flat = int(np.argmax(np.abs(F)))
+    Nr, Nt = F.shape
+    r_idx = idx_flat // Nt
+    t_idx = idx_flat % Nt
+    r_peak_inst = float(r_vals[r_idx])
+    t_peak_inst = float(t_vals[t_idx])
+    F_peak = float(F[r_idx, t_idx])
+
+    summary[name] = {
+        "clearance_index": clearance_index,
+        "r_peak_time_integrated_m": r_peak,
+        "r_peak_instantaneous_m": r_peak_inst,
+        "t_peak_instantaneous_s": t_peak_inst,
+        "F_peak_act_per_m2": F_peak
+    }
+
+# -------------------- Plotting: F(t) at fixed r* ----------------
+r_probe = 10e-6  # 10 μm probe radius (plaque / cluster scale)
+def nearest_index(arr, x):
+    return int(np.argmin(np.abs(arr - x)))
+
+idx_probe = nearest_index(r_vals, r_probe)
+
+plt.figure(figsize=(10,6))
+for name, color in zip(["flu","cancer","HIV"], ["lime","orange","red"]):
+    F_probe = force_maps[name][idx_probe,:]
+    plt.plot(t_vals/60.0, F_probe, label=name, color=color)
+plt.axhline(0,color="gray",ls="--",alpha=0.5)
+plt.xlabel("time (min)")
+plt.ylabel("F_immune(r=10 μm, t) [act/m²]")
+plt.title("Radial Immune Force at Plaque / Cluster Scale (r ≈ 10 μm)")
+plt.grid(alpha=0.3); plt.legend()
+plt.tight_layout()
+plt.show()
+
+# -------------------- Plotting: time-integrated profiles --------
+plt.figure(figsize=(10,6))
+for name, color in zip(["flu","cancer","HIV"], ["lime","orange","red"]):
+    F = force_maps[name]
+    F_int_r = np.trapz(np.abs(F), t_vals, axis=1)
+    plt.loglog(r_vals*1e6, F_int_r, label=name, color=color)
+plt.xlabel("radius r (μm)")
+plt.ylabel("∫ |F_immune(r,t)| dt  [act/m]")
+plt.title("Time-Integrated Immune Response vs Radius")
+plt.grid(alpha=0.3, which="both"); plt.legend()
+plt.tight_layout()
+plt.show()
+
+# -------------------- JSON output -------------------------------
+result = {
+    "Tmax_s": float(Tmax),
+    "r_min_m": float(r_vals[0]),
+    "r_max_m": float(r_vals[-1]),
+    "modes": summary
+}
+
+print(json.dumps(result, indent=2))
+print("✅ STUR Universal Immunity Algorithm Simulation Complete.")</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open Python Runner (JupyterLite)</button>
+</div>
+
+<p class="desc" style="text-align:center;">
+Click <b>Copy Script</b>, then <b>Open Python Runner</b>.  
+Paste the code into a new cell and run.  
+You will see immune-force time traces at plaque scale, integrated radial profiles,
+and a JSON block summarizing clearance indices and peak-response metrics
+for flu, cancer, and HIV-like regimes.
+</p>
+
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | Universal Immunity Algorithm
+</footer>
+
+<script>
+function copyCode(){
+  const code=document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("✅ Universal Immunity Algorithm code copied to clipboard");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+</script>
+
+</body>
+</html>
