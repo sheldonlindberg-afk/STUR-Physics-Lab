@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR Negative Energy – Exotic Stress-Energy and Wormhole Bounds</title>
+<style>
+  body{
+    background:#050814;
+    color:#e6edf3;
+    font-family:'Courier New',monospace;
+    margin:0;
+    padding:2rem;
+  }
+  h1{
+    color:#ffaa00;
+    text-align:center;
+  }
+  h2{
+    color:#ffcc33;
+    margin-top:2rem;
+  }
+  .desc{
+    max-width:900px;
+    margin:0 auto 1.5rem auto;
+    line-height:1.5;
+  }
+  pre{
+    background:#0a0f1f;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    color:#00ffcc;
+    line-height:1.4;
+    box-shadow:0 0 20px #ffaa0055;
+    font-size:0.9rem;
+    white-space:pre;
+  }
+  button{
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
+  }
+  button:hover{
+    background:#ffcc33;
+  }
+  footer{
+    margin-top:2rem;
+    text-align:center;
+    font-size:0.9em;
+    color:#bbb;
+  }
+  a{color:#66ccff;}
+</style>
+</head>
+<body>
+
+<h1>STUR Negative Energy<br>Exotic Stress-Energy and Wormhole Bounds</h1>
+
+<h2>Derivation Overview</h2>
+<div class="desc">
+<p>
+We build a radial effective model for exotic stress-energy supporting a
+STUR-style wormhole throat. The microscopic forces (electromagnetic, gravitational,
+strong-like, and spin-torsion) act on a test probe at radius <code>r</code>:
+</p>
+<p style="text-align:center;">
+<code>
+F_EM(r) = k_e q² / r², F_grav(r) = − G m² / r², 
+F_strong(r) = α_s ( (1 − e^{−r/λ}) / r² + σ r e^{−r/ℓ_Q} ),<br>
+F_spin(r) ≈ γ₀ e^{−r/ℓ_B} S_mag B₀.
+</code>
+</p>
+<p>
+A STUR radial modulator <code>S(r)</code> multiplies the net radial force to encode
+geometric and modular structure:
+</p>
+<p style="text-align:center;">
+<code>
+S(r) = [1 + 0.1 sin(2π r / L_mod)] tanh(r / L₀) (1 − e^{−r / L₀}).
+</code>
+</p>
+<p>
+The total radial and non-radial (spin) contributions are
+</p>
+<p style="text-align:center;">
+<code>
+F_rad(r) = S(r) [F_EM(r) + F_grav(r) + F_strong(r)],<br>
+F_nonrad(r) = F_spin(r).
+</code>
+</p>
+<p>
+We then construct an effective exotic energy density <code>ρ(r)</code> and radial pressure
+<code>p_r(r)</code> with small stochastic fluctuations:
+</p>
+<p style="text-align:center;">
+<code>
+ρ(r) ≈ b² / [8π (r² + b²)²] + δρ(r),<br>
+p_r(r) ≈ − S(r) α_s σ r e^{−r/ℓ_Q} / [4π r² V₀] + δp(r),
+</code>
+</p>
+<p>
+where <code>b</code> is a throat scale and <code>V₀</code> an effective volume. Fluctuations
+<code>δρ, δp</code> are Gaussian with variance tied to a Planck-scale fluctuation scale.
+The combination <code>ρ + p_r</code> controls energy-condition violation.
+</p>
+<p>
+From <code>ρ</code> and <code>p_r</code> we compute:
+</p>
+<ul>
+  <li>Local exotic entropy density <code>s(r) ∝ |ρ + p_r| / T_P</code></li>
+  <li>Entanglement entropy (holographic-like)
+    <code>
+    S_ent(r) ≈ − A / (4 ℓ_P²) log[1 + |ρ + p_r| / ρ_P] / k_B
+    </code>
+  </li>
+  <li>Bekenstein bound
+    <code>S_B &lt; 2π r E / (ħ c k_B)</code> with <code>E ≈ ρ V₀</code></li>
+  <li>Holographic bound <code>S_hol = A / (4 ℓ_P² k_B)</code></li>
+</ul>
+<p>
+We also define:
+</p>
+<ul>
+  <li>A stability diagnostic: if <code>d/dr (ρ + p_r) &gt; 0</code> anywhere, we flag
+      “Unstable”, else “Stable”.</li>
+  <li>A topology flag: negative <code>ρ + p_r</code> suggests possible topology change.</li>
+  <li>A simple traversal-time integral
+    <code>
+    τ ≈ ∫ dl / √(1 − b² / r(l)²),
+    </code>
+    compared against an external light travel time <code>2r/c</code> to assess
+    causality risk.</li>
+</ul>
+<p>
+The script below samples radii from Planck length to atomic scales, runs several
+noise realizations, averages the observables, generates four diagnostic plots, and
+prints both a detailed table and a JSON summary ready for archiving.
+</p>
+</div>
+
+<h2>Python Simulation (copy into Jupyter/JupyterLite)</h2>
+
+<pre id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR Negative Energy – Exotic Stress-Energy and Wormhole Bounds
+# Jupyter-safe: NumPy + Matplotlib + JSON only
+# ===============================================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+import json
+
+# ------------------ CONSTANTS (SI) ------------------------------
+k_e = 8.9875e9      # N·m^2/C^2
+G = 6.6743e-11      # N·m^2/kg^2
+q = 1.602e-19       # C (proton charge)
+m = 1.673e-27       # kg (proton mass)
+alpha_s = 1e-26     # N·m^2 (effective strong-like)
+sigma = 1e50        # N/m (tuned confinement)
+lambda_ = 1e-15     # m (strong range)
+L_0 = 1e-35         # m (STUR modulation scale)
+V_0 = 1e-45         # m^3 (effective volume)
+b = 1e-15           # m (throat radius)
+ell_Q = 1e-35       # m (QEI cutoff)
+hbar = 1.055e-34    # J·s
+c = 3e8             # m/s
+k_B = 1.38e-23      # J/K
+T_P = 1.42e32       # K (Planck temperature)
+ell_P = 1.616e-35   # m (Planck length)
+m_P = 2.176e-8      # kg (Planck mass)
+rho_P = m_P * c**2 / ell_P**3  # ~1e97 J/m^3 (energy density)
+gamma_0 = 1e-20     # N·m (torque coefficient)
+ell_B = 1e-10       # m (spin decay scale)
+B_0 = 1e-5          # T (background B-field)
+S_mag = hbar / 2.0  # spin magnitude
+L_mod = 1e-34       # m (modulation period)
+fluct_scale = hbar / c  # base fluctuation scale
+num_runs = 10       # number of noise realizations
+
+# ------------------ RADIAL MODULATOR ----------------------------
+def S(r):
+    """STUR radial modulator with modular flow."""
+    mod_flow = 1.0 + 0.1 * np.sin(2.0 * np.pi * r / L_mod)
+    return mod_flow * np.tanh(r / L_0) * (1.0 - np.exp(-r / L_0))
+
+# ------------------ FORCE COMPONENTS ----------------------------
+def F_EM(r):
+    return k_e * q * q / r**2 if r > 0.0 else 0.0
+
+def F_grav(r):
+    return -G * m * m / r**2 if r > 0.0 else 0.0
+
+def F_strong(r):
+    if r <= 0.0:
+        return 0.0
+    linear_term = sigma * r * np.exp(-r / ell_Q)
+    return alpha_s * ((1.0 - np.exp(-r / lambda_)) / r**2 + linear_term)
+
+def F_spin(r):
+    """Magnitude of an effective spin-torsion force."""
+    return gamma_0 * np.exp(-r / ell_B) * S_mag * B_0
+
+# ------------------ TOTAL FORCES --------------------------------
+def F_total_rad(r):
+    return S(r) * (F_EM(r) + F_grav(r) + F_strong(r))
+
+def F_total_nonrad(r):
+    return F_spin(r)
+
+# ------------------ ENERGY DENSITY & PRESSURE -------------------
+def rho(r, fluct=True):
+    """Effective energy density with controlled fluctuations."""
+    l = max(r, ell_P)
+    base_rho = (b**2) / (8.0 * np.pi * (l**2 + b**2)**2)
+    if fluct:
+        # Limit noise variance at very small r
+        denom = max(l**2, 1.0e-70)
+        noise_scale = fluct_scale / denom
+        noise = np.random.normal(0.0, noise_scale)
+        base_rho += noise
+    # Clip to Planck-scale bounds to avoid overflow
+    return float(np.clip(base_rho, -rho_P, rho_P))
+
+def p_r(r, fluct=True):
+    """Effective radial pressure with controlled fluctuations."""
+    if r <= 0.0:
+        base_pr = 0.0
+    else:
+        linear_term = sigma * r * np.exp(-r / ell_Q)
+        base_pr = -S(r) * alpha_s * linear_term / (4.0 * np.pi * r**2 * V_0)
+    if fluct and r > 0.0:
+        denom = max(r**2, 1.0e-70)
+        noise_scale = fluct_scale / denom
+        noise = np.random.normal(0.0, noise_scale)
+        base_pr += noise
+    # Clip to Planck-scale bounds
+    return float(np.clip(base_pr, -rho_P, rho_P))
+
+# ------------------ ENTROPY AND BOUNDS --------------------------
+def s_exotic(rho_val, p_r_val):
+    """Exotic entropy density (positive) in k_B units times V0."""
+    val = abs(rho_val + p_r_val) / T_P  # J/m^3/K
+    return float(val * V_0 / k_B)
+
+def S_ent(r, rho_plus_pr):
+    """Approximate holographic entanglement entropy in k_B units."""
+    if rho_plus_pr == 0.0:
+        return 0.0
+    A = 4.0 * np.pi * r**2
+    ratio = abs(rho_plus_pr) / rho_P
+    return float(-(A / (4.0 * ell_P**2)) * np.log(1.0 + ratio) / k_B)
+
+def S_bekenstein(r, rho_val):
+    """Bekenstein entropy bound in k_B units."""
+    E = rho_val * V_0  # J (energy in volume V0)
+    return float((2.0 * np.pi * r * E) / (hbar * c * k_B))
+
+def S_holographic(r):
+    """Holographic entropy bound in k_B units."""
+    A = 4.0 * np.pi * r**2
+    return float(A / (4.0 * ell_P**2 * k_B))
+
+# ------------------ STABILITY & TOPOLOGY ------------------------
+def stability(r_values, rho_plus_pr_vals):
+    """Check if d(rho+pr)/dr ever > 0 (instability)."""
+    d_dr = np.diff(rho_plus_pr_vals) / np.diff(r_values)
+    return "Unstable" if np.any(d_dr > 0.0) else "Stable"
+
+def topology_change(rho_plus_pr):
+    """Flag potential topology change if rho + pr < 0."""
+    return "Possible topology change" if rho_plus_pr < 0.0 else "No change"
+
+# ------------------ TRAVERSAL TIME ------------------------------
+def traversal_time(r):
+    """
+    Compare approximate proper traversal time through a throat
+    against external light travel time 2r/c.
+    """
+    l = np.linspace(-10.0*r, 10.0*r, 200)
+    r_l = np.sqrt(l**2 + b**2)
+    inside = 1.0 - (b**2 / (r_l**2 + 1.0e-40))
+    inside_clipped = np.clip(inside, 1.0e-12, 1.0)
+    integrand = 1.0 / np.sqrt(inside_clipped)
+    tau = np.trapz(integrand, l)  # dimensionless factor
+    ext_time = 2.0 * r / c
+    status = "Causality preserved" if ext_time > tau else "Violation risk"
+    return float(tau), float(ext_time), status
+
+# ------------------ RADIAL GRID --------------------------------
+r_values = np.logspace(-35, -10, num=20)
+
+# ------------------ MONTE CARLO AVERAGING ----------------------
+avg_data = {
+    "r": r_values,
+    "S": [],
+    "F_rad": [],
+    "F_nonrad": [],
+    "rho": [],
+    "p_r": [],
+    "rho_pr": [],
+    "S_exo": [],
+    "S_ent": [],
+    "S_bek": [],
+    "S_hol": []
+}
+
+for run in range(num_runs):
+    for i, r in enumerate(r_values):
+        s_val   = S(r)
+        f_rad   = F_total_rad(r)
+        f_non   = F_total_nonrad(r)
+        rho_val = rho(r, fluct=True)
+        pr_val  = p_r(r,  fluct=True)
+        rho_pr  = rho_val + pr_val
+        s_exo   = s_exotic(rho_val, pr_val)
+        s_ent   = S_ent(r, rho_pr)
+        s_bek   = S_bekenstein(r, rho_val)
+        s_hol   = S_holographic(r)
+
+        if len(avg_data["S"]) <= i:
+            # initialize lists for each radius index
+            for key in avg_data:
+                if key != "r":
+                    avg_data[key].append([])
+
+        avg_data["S"][i].append(s_val)
+        avg_data["F_rad"][i].append(f_rad)
+        avg_data["F_nonrad"][i].append(f_non)
+        avg_data["rho"][i].append(rho_val)
+        avg_data["p_r"][i].append(pr_val)
+        avg_data["rho_pr"][i].append(rho_pr)
+        avg_data["S_exo"][i].append(s_exo)
+        avg_data["S_ent"][i].append(s_ent)
+        avg_data["S_bek"][i].append(s_bek)
+        avg_data["S_hol"][i].append(s_hol)
+
+# average over runs
+for key in avg_data:
+    if key != "r":
+        avg_data[key] = [float(np.mean(vals)) for vals in avg_data[key]]
+
+# ------------------ TABLE OUTPUT --------------------------------
+print("| r (m)     | S(r)      | F_rad (N) | F_nonrad (N) | rho (J/m^3) | p_r (J/m^3) | rho+pr (J/m^3) | S_exo (k_B) | S_ent (k_B) | S_bek (k_B) | S_hol (k_B) |")
+print("|-----------|-----------|-----------|--------------|-------------|-------------|----------------|------------|------------|------------|------------|")
+for i, r in enumerate(avg_data["r"]):
+    print(
+        "| {r:.2e} | {S:.2e} | {Fr:.2e} | {Fn:.2e} | {rh:.2e} | {pr:.2e} | {rpr:.2e} | {SE:.2e} | {Sent:.2e} | {Sbk:.2e} | {Sh:.2e} |".format(
+            r=r,
+            S=avg_data["S"][i],
+            Fr=avg_data["F_rad"][i],
+            Fn=avg_data["F_nonrad"][i],
+            rh=avg_data["rho"][i],
+            pr=avg_data["p_r"][i],
+            rpr=avg_data["rho_pr"][i],
+            SE=avg_data["S_exo"][i],
+            Sent=avg_data["S_ent"][i],
+            Sbk=avg_data["S_bek"][i],
+            Sh=avg_data["S_hol"][i]
+        )
+    )
+
+# ------------------ GLOBAL DIAGNOSTICS -------------------------
+stab = stability(r_values, avg_data["rho_pr"])
+print("\nOverall Stability: {}".format(stab))
+
+diag_points = []
+for r_ex in [r_values[0], r_values[len(r_values)//2], r_values[-1]]:
+    idx = int(np.argmin(np.abs(r_values - r_ex)))
+    rho_pr_ex = avg_data["rho_pr"][idx]
+    topo = topology_change(rho_pr_ex)
+    tau, ext_t, caus = traversal_time(r_ex)
+    diag_points.append({
+        "r_m": float(r_ex),
+        "rho_plus_p_r_J_per_m3": float(rho_pr_ex),
+        "topology_flag": topo,
+        "tau_dimless": tau,
+        "external_time_s": ext_t,
+        "causality": caus
+    })
+    print(
+        "At r={:.2e} m: rho+pr={:.2e}, {}, tau~{:.2e}, t_ext~{:.2e} s ({})".format(
+            r_ex, rho_pr_ex, topo, tau, ext_t, caus
+        )
+    )
+
+# ------------------ PLOTS --------------------------------------
+fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+
+axs[0,0].loglog(r_values, avg_data["F_rad"], label="Radial")
+axs[0,0].loglog(r_values, avg_data["F_nonrad"], label="Non-radial (spin)")
+axs[0,0].set_title("Forces vs r")
+axs[0,0].set_xlabel("r (m)")
+axs[0,0].set_ylabel("Force (N)")
+axs[0,0].legend()
+axs[0,0].grid(True, which="both", ls=":")
+
+axs[0,1].semilogx(r_values, avg_data["rho_pr"])
+axs[0,1].set_title("rho + p_r vs r")
+axs[0,1].set_xlabel("r (m)")
+axs[0,1].set_ylabel("rho + p_r (J/m^3)")
+axs[0,1].grid(True, which="both", ls=":")
+
+axs[1,0].loglog(r_values, avg_data["S_exo"], label="Exotic entropy")
+axs[1,0].loglog(r_values, avg_data["S_ent"], label="Entanglement")
+axs[1,0].set_title("Entropies vs r")
+axs[1,0].set_xlabel("r (m)")
+axs[1,0].set_ylabel("S (k_B units)")
+axs[1,0].legend()
+axs[1,0].grid(True, which="both", ls=":")
+
+axs[1,1].loglog(r_values, avg_data["S_bek"], label="Bekenstein")
+axs[1,1].loglog(r_values, avg_data["S_hol"], label="Holographic")
+axs[1,1].set_title("Entropy bounds vs r")
+axs[1,1].set_xlabel("r (m)")
+axs[1,1].set_ylabel("S_bound (k_B units)")
+axs[1,1].legend()
+axs[1,1].grid(True, which="both", ls=":")
+
+plt.tight_layout()
+plt.show()
+
+# ------------------ JSON SUMMARY -------------------------------
+result = {
+    "model": "STUR Negative Energy",
+    "num_runs": int(num_runs),
+    "r_min_m": float(r_values[0]),
+    "r_max_m": float(r_values[-1]),
+    "stability": stab,
+    "diagnostic_points": diag_points,
+    "profiles": {
+        "r_m": [float(v) for v in r_values],
+        "rho_plus_p_r_J_per_m3": [float(v) for v in avg_data["rho_pr"]],
+        "F_rad_N": [float(v) for v in avg_data["F_rad"]],
+        "F_nonrad_N": [float(v) for v in avg_data["F_nonrad"]],
+        "S_exotic_kB": [float(v) for v in avg_data["S_exo"]],
+        "S_ent_kB": [float(v) for v in avg_data["S_ent"]],
+        "S_bekenstein_kB": [float(v) for v in avg_data["S_bek"]],
+        "S_holographic_kB": [float(v) for v in avg_data["S_hol"]]
+    }
+}
+
+print("\nJSON summary:")
+print(json.dumps(result, indent=2))
+print("STUR Negative Energy Simulation Complete.")
+</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open Jupyter Lite</button>
+</div>
+
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | Negative Energy Sector
+</footer>
+
+<script>
+function copyCode(){
+  const code = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("Python simulation code copied to clipboard.");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+</script>
+
+</body>
+</html>
