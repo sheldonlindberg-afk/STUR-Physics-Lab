@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR Tesla Dream – Solar Beam Space Power + Ca Bio-Battery</title>
+<style>
+  body {
+    background: #050814;
+    color: #e6edf3;
+    font-family: "Courier New", monospace;
+    margin: 0; padding: 2rem;
+  }
+  h1 { color: #ffaa00; text-align: center; }
+  h2 { color: #ffcc33; margin-top: 2rem; }
+  pre {
+    background: #0a0f1f;
+    color: #00ffcc;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    box-shadow: 0 0 15px #ffaa0040;
+  }
+  button {
+    background: #ffaa00;
+    color: #050814;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 6px;
+    transition: 0.2s;
+  }
+  button:hover { background: #ffcc33; }
+  a { color: #66ccff; }
+  footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.9em;
+    color: #999;
+  }
+</style>
+</head>
+<body>
+
+<h1>STUR Tesla Dream – Solar Beam Space Power System</h1>
+
+<h2>Physical Derivation and Model</h2>
+<p>
+We model a <b>Solar Beam Space Power (SBSP)</b> system composed of six orbital
+fusion-hybrid photovoltaic satellites transmitting wireless power to Earth.
+Each satellite captures solar flux <code>Φ⊙ ≈ 1360 W/m²</code> over an effective area
+<code>A ≈ 3.17 km²</code>. Combined conversion efficiency:
+</p>
+<p style="text-align:center;">
+η_total = η_PV × η_DC→RF × η_TX × η_RX ≈ 0.60 × 0.95 × 0.80 × 0.90 × 0.85 ≈ 0.35.
+</p>
+<p>
+The generated grid power is
+<code>P_grid = Φ⊙ A η_total n_sat ≈ 13.7 GW</code>.  
+Temporal factors modify this base:
+<ul>
+  <li><b>Eclipse modulation</b> (Earth shadow, 20 min/day)</li>
+  <li><b>Doppler shift</b> (+10⁻⁵ sinusoidal)</li>
+  <li><b>Shapiro delay</b> (−10⁻⁴ GR correction)</li>
+  <li><b>Ionospheric attenuation</b> (0.94 – 1.0)</li>
+  <li><b>Fresnel interference loss</b> (~5%)</li>
+  <li><b>Superconducting relay</b> (~0.999)</li>
+  <li><b>Weather factor</b> via barometric and thermal AI model</li>
+</ul>
+The product yields the instantaneous transmitted power <code>P(t)</code> in GW.
+</p>
+
+<p>
+The <b>Ca Bio-Battery</b> stores surplus energy with energy density
+<code>E_b = 3364 Wh/kg</code> and decay constant
+<code>k_d = ln 2 / (69 days)</code>. The simulation integrates hourly supply,
+decay, and demand to yield the state-of-charge (SoC).
+</p>
+
+<h2>Python Simulation (JupyterLite-safe)</h2>
+<pre id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR Tesla Dream – SBSP + Ca Bio-Battery Model
+# ===============================================================
+import numpy as np, matplotlib.pyplot as plt
+from scipy.special import fresnel
+
+# --- Parameters ---
+solar_flux = 1360
+area = 3.17e6
+pv_eff = 0.60 * 0.95
+dc_to_rf, tx_eff, rx_eff = 0.80, 0.90, 0.85
+overall_eff = pv_eff * dc_to_rf * tx_eff * rx_eff
+n_sat = 6
+P_grid = solar_flux * area * overall_eff * n_sat  # ≈13.7 GW
+
+# --- Time vector (7 days, 15 min) ---
+t_hours = np.linspace(0, 7*24, 7*24*4)
+
+# --- Eclipse modulation ---
+eclipse = np.ones_like(t_hours)
+for day in range(7):
+    if day in [2, 3, 4]:
+        t_ecl = (t_hours - day*24) % 24
+        mask = (t_ecl >= 1) & (t_ecl < 1.333)
+        eclipse[mask] = np.cos(np.pi*(t_ecl[mask]-1.167)/0.333)**2
+eclipse = np.clip(eclipse, 0, 1)
+
+# --- Transmission modifiers ---
+doppler = 1 + 1e-5 * np.sin(2*np.pi*t_hours/24)
+shapiro = 1 - 1e-4 * (1 + 0.1*np.sin(2*np.pi*t_hours/24))
+qec = 1.03
+
+# --- Atmospheric/weather model ---
+P = 101325 - 100*np.sin(2*np.pi*t_hours/12)
+T = 290 + 10*np.sin(2*np.pi*t_hours/12)
+weather = np.clip(0.985 + 0.015*(P/101325)*(T/290), 0.97, 1.0)
+iono = np.clip(0.97 + 0.03*np.sin(2*np.pi*t_hours/12)*np.random.randn(len(t_hours)), 0.94, 1.0)
+fresnel_loss = 0.95*(1 - 0.05*np.abs(fresnel(t_hours/168)[0]))
+supercon_relay = 0.999
+
+# --- Total transmitted power ---
+power_output = (P_grid * eclipse * doppler * shapiro * qec *
+                iono * fresnel_loss * supercon_relay * weather)
+
+# --- Ca Bio-Battery parameters ---
+E_bat = 3364  # Wh/kg
+kd = np.log(2)/(69*24)
+daily_demand = 3.52 * 24
+backup_demand = daily_demand * 90
+m_bat = backup_demand * 1e6 / E_bat * np.exp(kd*90*24)
+SoC = np.zeros_like(t_hours)
+SoC[0] = daily_demand
+for i in range(1, len(t_hours)):
+    P_in = power_output[i]*0.25
+    SoC_prev = SoC[i-1]*np.exp(-kd*0.25)
+    SoC[i] = min(SoC_prev + P_in - daily_demand/(24*4), daily_demand)
+
+# --- Plots ---
+fig, ax = plt.subplots(1, 2, figsize=(10,4))
+ax[0].plot(t_hours/24, power_output)
+ax[0].set(xlabel="Days", ylabel="Power (GW)",
+          title="6-Sat SBSP with Fusion Hybrids")
+ax[0].grid(True)
+ax[1].plot(t_hours/24, SoC)
+ax[1].set(xlabel="Days", ylabel="SoC (GWh)", title="Ca Bio-Battery SoC")
+ax[1].grid(True)
+plt.tight_layout(); plt.show()
+
+# --- Summary ---
+mean_out = P_grid * iono.mean() * fresnel_loss.mean() * supercon_relay * weather.mean()
+energy_TWh = mean_out*24*365/1000
+print(f"6 Satellites: Each ≈ 3.17 km², Total {mean_out:.1f} GW, {energy_TWh:.0f} TWh/year")
+print(f"Ca Battery: {m_bat/1e6:.1f} M tonnes for {backup_demand:.0f} GWh (90 days)")
+</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open Jupyter Lite</button>
+</div>
+
+<footer>
+© 2025 STUR Physics Lab | Unified Resistance Framework | Tesla Dream Simulation
+</footer>
+
+<script>
+function copyCode(){
+  const code = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("Tesla Dream simulation code copied to clipboard.");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+</script>
+
+</body>
+</html>
