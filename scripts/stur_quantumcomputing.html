@@ -1,466 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>STUR Quantum Computing Lattice – Deterministic Continuity Sim (Inspired by Lucas Nash X@lukenash</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Dark STUR Lab Theme -->
-  <style>
-    :root {
-      --bg: #050710;
-      --bg-alt: #0b0f1a;
-      --card: #101624;
-      --accent: #5ad0ff;
-      --accent-soft: rgba(90, 208, 255, 0.15);
-      --text: #f5f7ff;
-      --text-muted: #a7b0c8;
-      --border: #20283a;
-      --code-bg: #050811;
-      --danger: #ff4d6a;
-      --success: #3bd98f;
-      --mono: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: var(--sans);
-      background: radial-gradient(circle at top, #151c2f 0, #050710 55%);
-      color: var(--text);
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    header {
-      padding: 1.5rem 1.5rem 0.75rem;
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(16px);
-      background: linear-gradient(to bottom, rgba(5,7,16,0.96), rgba(5,7,16,0.86));
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .title {
-      font-size: 1.3rem;
-      font-weight: 650;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.3rem;
-    }
-    .subtitle {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      max-width: 52rem;
-    }
-
-    main {
-      padding: 1.5rem;
-      max-width: 1100px;
-      margin: 0 auto 3rem;
-    }
-    section {
-      margin-bottom: 1.75rem;
-      background: linear-gradient(145deg, var(--bg-alt), var(--card));
-      border-radius: 0.9rem;
-      border: 1px solid var(--border);
-      padding: 1.2rem 1.4rem;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
-    }
-    section h2 {
-      margin: 0 0 0.75rem;
-      font-size: 1.15rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-    section h3 {
-      margin: 1rem 0 0.4rem;
-      font-size: 1rem;
-      color: var(--text);
-    }
-    p {
-      margin: 0.3rem 0 0.5rem;
-      font-size: 0.92rem;
-      color: var(--text-muted);
-    }
-    ul {
-      margin: 0.35rem 0 0.4rem 1.3rem;
-      padding: 0;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-    li { margin-bottom: 0.25rem; }
-
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      margin-top: 0.3rem;
-    }
-    .pill {
-      font-size: 0.75rem;
-      padding: 0.05rem 0.55rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(5, 8, 18, 0.9);
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
-    pre, code {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-    }
-    .json-block {
-      background: var(--code-bg);
-      border-radius: 0.7rem;
-      padding: 0.7rem 0.85rem;
-      border: 1px solid #1c2335;
-      max-height: 280px;
-      overflow: auto;
-      margin-top: 0.4rem;
-    }
-
-    .figure-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-      margin-top: 0.6rem;
-    }
-    figure {
-      margin: 0;
-      background: rgba(2, 5, 14, 0.9);
-      border-radius: 0.7rem;
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-    figure img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    figcaption {
-      padding: 0.35rem 0.6rem 0.55rem;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      border-top: 1px solid rgba(255,255,255,0.03);
-    }
-
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-top: 0.6rem;
-    }
-    .btn {
-      border-radius: 999px;
-      padding: 0.45rem 0.95rem;
-      font-size: 0.86rem;
-      border: 1px solid var(--accent);
-      background: radial-gradient(circle at top left, var(--accent-soft), rgba(0,0,0,0.9));
-      color: var(--text);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      text-decoration: none;
-    }
-    .btn.secondary {
-      border-color: #3f4760;
-      background: radial-gradient(circle at top left, rgba(99,140,255,0.08), rgba(0,0,0,0.9));
-      color: var(--text-muted);
-    }
-    .btn span.icon {
-      font-size: 1rem;
-      line-height: 1;
-    }
-
-    .script-shell {
-      margin-top: 0.6rem;
-      border-radius: 0.8rem;
-      border: 1px solid var(--border);
-      background: radial-gradient(circle at top, #070b15 0, #02030a 55%);
-      padding: 0.6rem;
-    }
-    .script-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 0.4rem;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-    .script-meta small strong {
-      color: var(--accent);
-    }
-    textarea#python-script {
-      width: 100%;
-      min-height: 420px;
-      resize: vertical;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      line-height: 1.4;
-      padding: 0.4rem;
-      tab-size: 4;
-      white-space: pre;
-      overflow: auto;
-    }
-
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.4rem;
-      font-size: 0.78rem;
-    }
-    .badge {
-      padding: 0.1rem 0.5rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.6);
-      color: var(--text-muted);
-    }
-
-    @media (max-width: 640px) {
-      header { padding: 1rem 1rem 0.75rem; }
-      main   { padding: 1rem; }
-      section { padding: 1rem 1.05rem; }
-    }
-  </style>
-
-  <!-- MathJax for STUR derivations -->
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR QC – Resistance Flow & Continuity Verifier</title>
+<style>
+  body{
+    background:#050814;
+    color:#e6edf3;
+    font-family:"Courier New",monospace;
+    margin:0;
+    padding:2rem;
+  }
+  h1{color:#ffaa00;text-align:center;}
+  h2{color:#ffcc33;margin-top:2rem;}
+  .desc{
+    max-width:960px;
+    margin:0 auto 1.5rem auto;
+    line-height:1.6;
+  }
+  pre{
+    background:#0a0f1f;
+    color:#00ffcc;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    font-size:0.86rem;
+    box-shadow:0 0 18px #ffaa0040;
+    white-space:pre;
+  }
+  button{
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
+  }
+  button:hover{background:#ffcc33;}
+  footer{
+    text-align:center;
+    font-size:0.9em;
+    color:#999;
+    margin-top:2rem;
+  }
+  a{color:#66ccff;}
+  .center{text-align:center;margin-top:1rem;}
+</style>
 </head>
 <body>
-<header>
-  <div class="title">STUR Quantum Computing Lattice</div>
-  <div class="subtitle">
-    Deterministic continuity simulation with no Born-rule probability:
-    resistance-flux conservation, site-resolved currents, and information-based entanglement.
-  </div>
-</header>
 
-<main>
+<h1>STUR QC – Resistance Flow & Continuity Verifier</h1>
 
-  <!-- JSON summary at top -->
-  <section id="json-summary-section">
-    <h2>1. STUR Simulation JSON Summary</h2>
-    <p>
-      This block mirrors the output of <code>stur_qc_summary.json</code> created by the
-      simulation. It exposes the key run parameters and ranges
-      (lattice size, time step, density &amp; current bounds, and global invariants)
-      for quick comparison across STUR experiments.
-    </p>
-    <div class="pill-row">
-      <div class="pill">File: <code>stur_qc_summary.json</code></div>
-      <div class="pill">Source: STUR QC Lattice flow run</div>
-    </div>
-    <div class="json-block">
-      <pre id="json-summary">(loading stur_qc_summary.json...)</pre>
-    </div>
-    <p style="margin-top:0.5rem;">
-      To update these numbers, re-run the Python script, upload the new
-      <code>stur_qc_summary.json</code> next to this HTML file, and refresh.
-    </p>
-  </section>
+<div class="desc">
+  <p>
+    This module tests whether a <b>STUR resistance generator</b> can play the role of a
+    deterministic “quantum” engine without invoking the Born rule.
+    The core object is the lattice operator
+  </p>
 
-  <!-- Full derivations before script -->
-  <section id="derivation">
-    <h2>2. STUR Field Derivations (No Probability)</h2>
+  <p style="text-align:center;">
+    R<span style="vertical-align:sub;">STUR</span>
+    = &sum;<sub>i</sub> h<sub>0</sub> S(r<sub>i</sub>) &sigma;<sub>z</sub><sup>(i)</sup>
+    + &sum;<sub>i&lt;j</sub> J<sub>0</sub> S(|r<sub>i</sub>-r<sub>j</sub>|)
+      (&sigma;<sub>x</sub><sup>(i)</sup>&sigma;<sub>x</sub><sup>(j)</sup>
+      + &sigma;<sub>y</sub><sup>(i)</sup>&sigma;<sub>y</sub><sup>(j)</sup>)
+    + &Omega; &sum;<sub>i</sub> S(r<sub>i</sub>) &sigma;<sub>x</sub><sup>(i)</sup>.
+  </p>
 
-    <h3>2.1 STUR radial resistance modulator</h3>
-    <p>
-      The STUR framework replaces probabilistic amplitudes with a deterministic
-      resistance field shaped by a universal modulator
-      \[
-        \mathcal{S}(r; L_0)
-          = \tanh\!\left(\frac{r}{L_0}\right)\!
-            \Bigl(1 - e^{-r/L_0}\Bigr),
-      \]
-      where \(L_0\) is the characteristic STUR length scale and \(r\) is a
-      geometric or effective curvature distance along the lattice.
-    </p>
+  <p>
+    The STUR radial modulator ties lattice geometry to coupling strength:
+  </p>
 
-    <h3>2.2 STUR resistance generator on a qubit lattice</h3>
-    <p>
-      For \(N\) qubits on a 1D lattice with positions \(r_i = i a_{\mathrm{lat}}\),
-      the usual Hamiltonian is replaced by a Hermitian
-      <em>resistance generator</em> \(R_{\text{STUR}}\):
-      \[
-      R_{\text{STUR}} =
-        \sum_{i} h_0\,\mathcal{S}(r_i;L_0)\,\sigma_z^{(i)}
-        + \sum_{i&lt;j} J_0\,\mathcal{S}(|r_i-r_j|;L_0)
-          \Bigl(\sigma_x^{(i)}\sigma_x^{(j)}+\sigma_y^{(i)}\sigma_y^{(j)}\Bigr)
-        + \Omega\sum_i \mathcal{S}(r_i;L_0)\,\sigma_x^{(i)}.
-      \]
-      Here \(h_0\), \(J_0\), and \(\Omega\) are base scales for bias, coupling,
-      and transverse drive, which are all modulated by \(\mathcal{S}\).
-    </p>
+  <p style="text-align:center;">
+    S(r;L<span style="vertical-align:sub;">0</span>) =
+    tanh(r / L<span style="vertical-align:sub;">0</span>)
+    (1 − e<sup>−r / L<span style="vertical-align:sub;">0</span></sup>).
+  </p>
 
-    <h3>2.3 Deterministic STUR evolution without Born rule</h3>
-    <p>
-      The state \(\Psi(t)\) is a complex STUR resistance field in a
-      \(2^N\)-dimensional configuration space, not a probability amplitude.
-      Its evolution law is Schrödinger-like but interpreted deterministically:
-      \[
-        i\hbar \,\frac{d}{dt}\,\Psi(t)
-          = R_{\text{STUR}}\,\Psi(t).
-      \]
-      The simulation enforces a finite field norm numerically, but never uses
-      \(|\Psi|^2\) as a Born probability; instead, all observables are derived
-      as resistance and information measures.
-    </p>
+  <p>
+    The field obeys a Schrödinger-like evolution
+    iħ ∂Ψ/∂t = R<span style="vertical-align:sub;">STUR</span> Ψ,
+    but Ψ is interpreted as a <b>resistance field</b>, not a probability
+    amplitude. From this, the script extracts three kinds of structure:
+  </p>
 
-    <h3>2.4 Global resistance-flux conservation</h3>
-    <p>
-      For time-independent \(R_{\text{STUR}}\), the global <em>resistance flux</em>
-      \[
-        \Phi_R(t) = \Re\bigl[\Psi^\dagger(t)\,R_{\text{STUR}}\,\Psi(t)\bigr]
-      \]
-      is invariant under the evolution, analogously to conserved energy in
-      closed quantum systems. In a continuum picture, this corresponds to
-      \(\partial_t \rho_R + \nabla\!\cdot\!\mathbf{J}_R = 0\) with
-      \(\Phi_R = \int \rho_R\,dV\) constant.
-    </p>
+  <ul>
+    <li><b>Entanglement entropy</b> S<sub>A</sub>(t) from reduced density matrices.</li>
+    <li>A lattice “flux” invariant Φ<sub>R</sub>(t) = Re[Ψ† R Ψ].</li>
+    <li>Local continuity:
+      dρ<sub>i</sub>/dt + &sum;<sub>j</sub> J<sub>i→j</sub> ≈ 0 with
+      J<sub>i→j</sub>(t) = 4 J<sub>ij</sub> Im⟨σ<sub>i</sub><sup>+</sup>σ<sub>j</sub><sup>−</sup>⟩.</li>
+  </ul>
 
-    <h3>2.5 Local densities and bond currents</h3>
-    <p>
-      To expose a discrete continuity law on the lattice, each site \(i\)
-      is assigned a local excitation density operator
-      \[
-        \hat{n}_i = \frac{1 - \sigma_z^{(i)}}{2},
-        \qquad
-        \rho_i(t) = \langle \Psi(t)|\hat{n}_i|\Psi(t)\rangle.
-      \]
-      For the STUR-weighted XX+YY couplings, we define ladder operators
-      \(\sigma_i^\pm = (\sigma_x^{(i)} \pm i\sigma_y^{(i)})/2\) and
-      STUR bond currents
-      \[
-        J_{i\to j}(t)
-          = 4\,J_{ij}\,\Im\bigl\langle \sigma_i^{+}\sigma_j^{-}\bigr\rangle,
-        \qquad
-        J_{ij} = J_0\,\mathcal{S}(|r_i-r_j|;L_0).
-      \]
-    </p>
+  <p>
+    The code runs two experiments:
+  </p>
 
-    <h3>2.6 Discrete continuity equation</h3>
-    <p>
-      On the lattice, the STUR continuity equation becomes
-      \[
-        \frac{d\rho_i}{dt} + \sum_j J_{i\to j}(t) = 0,
-      \]
-      which the script verifies numerically using central differences
-      for \(d\rho_i/dt\). The reported residual
-      \(|d\rho_i/dt + \sum_j J_{i\to j}|\) is &lt; \(\mathcal{O}(10^{-4})\)
-      for the example run, while total excitation
-      \(\sum_i \rho_i(t)\) is conserved to machine precision.
-    </p>
+  <ol>
+    <li>
+      A full R<span style="vertical-align:sub;">STUR</span> evolution for N = 6 sites with
+      longitudinal fields, transverse drive, and STUR-weighted couplings,
+      tracking entanglement S<sub>A</sub>(t) and Φ<sub>R</sub>(t).
+    </li>
+    <li>
+      A pure XX+YY “conduction chain” where a single excitation flows
+      across the lattice. Local densities ρ<sub>i</sub>(t) and bond currents
+      J<sub>i→j</sub>(t) are measured and checked against the discrete
+      continuity equation.
+    </li>
+  </ol>
 
-    <h3>2.7 Entanglement as information, not probability</h3>
-    <p>
-      The bipartite entanglement entropy for a split
-      \(A|B\) with \(|A| = N_A\) qubits is computed as
-      \[
-        S_A(t) =
-          - \sum_k \lambda_k(t) \log_2 \lambda_k(t),
-      \]
-      where \(\{\lambda_k\}\) are eigenvalues of the reduced density matrix
-      \(\rho_A(t)\). These eigenvalues are interpreted purely as information
-      weights of the resistance field, not as fundamental probabilities,
-      preserving the STUR program of removing the Born rule from the axioms.
-    </p>
-  </section>
+  <p>
+    Outputs:
+  </p>
 
-  <!-- Plots / outputs -->
-  <section id="outputs">
-    <h2>3. Simulation Outputs</h2>
-    <p>
-      The Python script below produces three static plots and a JSON summary.
-      Place the images and JSON in the same directory as this HTML file:
-    </p>
-    <ul>
-      <li><code>stur_qc_densities.png</code> — local densities \(\rho_i(t)\)</li>
-      <li><code>stur_qc_current.png</code> — bond current \(J_{0\to 1}(t)\)</li>
-      <li><code>stur_qc_globals.png</code> — global invariants \(S_A(t)\) and \(\Phi_R(t)\)</li>
-      <li><code>stur_qc_summary.json</code> — numeric summary for programmatic use</li>
-    </ul>
+  <ul>
+    <li><code>stur_qc_densities.png</code> – heatmap of ρ<sub>i</sub>(t).</li>
+    <li><code>stur_qc_current.png</code> – bond current trace and global excitation count.</li>
+    <li><code>stur_qc_globals.png</code> – entanglement entropy S<sub>A</sub>(t) and Φ<sub>R</sub>(t).</li>
+    <li><code>stur_qc_summary.json</code> – machine-readable summary for GitHub / Zenodo.</li>
+  </ul>
 
-    <div class="figure-row">
-      <figure>
-        <img src="stur_qc_densities.png" alt="STUR lattice density heatmap ρ_i(t)" />
-        <figcaption>
-          Local STUR density field \(\rho_i(t)\): deterministic propagation
-          of a single excitation across the lattice.
-        </figcaption>
-      </figure>
-      <figure>
-        <img src="stur_qc_current.png" alt="STUR bond current J_{0→1}(t)" />
-        <figcaption>
-          Bond current \(J_{0\to 1}(t)\): resistance flow between neighboring sites
-          in the XX+YY STUR coupling.
-        </figcaption>
-      </figure>
-      <figure>
-        <img src="stur_qc_globals.png" alt="STUR global invariants S_A(t) and Φ_R(t)" />
-        <figcaption>
-          Global invariants: entanglement entropy \(S_A(t)\) (information)
-          and resistance flux \(\Phi_R(t)\) (conserved).
-        </figcaption>
-      </figure>
-    </div>
-  </section>
+  <p>
+    To run the simulation, open JupyterLite (or any Python 3 + NumPy + SciPy + Matplotlib
+    environment), paste the script below into a notebook cell, and execute.
+  </p>
+</div>
 
-  <!-- Script + buttons -->
-  <section id="script">
-    <h2>4. STUR QC Lattice Python Script</h2>
-    <p>
-      This is the complete, JupyterLite-safe Python script used to generate
-      the plots and JSON summary above. It contains:
-    </p>
-    <ul>
-      <li>Deterministic STUR evolution \(i\hbar\,d\Psi/dt = R_{\text{STUR}}\Psi\)</li>
-      <li>Entanglement entropy \(S_A(t)\) as an information measure</li>
-      <li>Global resistance-flux invariant \(\Phi_R(t)\)</li>
-      <li>Local densities \(\rho_i(t)\), bond currents \(J_{i\to j}(t)\)</li>
-      <li>Continuity residual and flow visualizations</li>
-    </ul>
+<h2>Python Simulation (copy &amp; run)</h2>
 
-    <div class="btn-row">
-      <button class="btn" id="copy-script-btn">
-        <span class="icon">📋</span>
-        <span>Copy Script</span>
-      </button>
-      <!-- You can change href to your own JupyterLite instance if needed -->
-      <a class="btn secondary" id="jupyterlite-btn"
-         href="https://jupyterlite.github.io/demo/lab/index.html"
-         target="_blank" rel="noopener">
-        <span class="icon">🧪</span>
-        <span>Open in JupyterLite</span>
-      </a>
-    </div>
-
-    <div class="script-shell">
-      <div class="script-meta">
-        <small>
-          <strong>STUR-QC Lattice 1.0</strong> · deterministic, no Born rule
-        </small>
-        <small>Tested for N = 6, XX+YY continuity, flux invariant</small>
-      </div>
-      <textarea id="python-script" readonly spellcheck="false">
-#!/usr/bin/env python3
+<pre id="codeBlock">#!/usr/bin/env python3
 import numpy as np, math, json
 from numpy.linalg import eig
 from scipy.linalg import expm
@@ -513,7 +186,7 @@ def build_R_STUR(N, L0=1.0, a_lat=1.0, h0=1.0, J0=1.0, Omega=0.5):
     """
     R_STUR =
       Σ_i    h0 S(r_i) σ_z^i
-    + Σ_i<j J0 S(|r_i-r_j|)(σ_x^i σ_x^j + σ_y^i σ_y^j)
+    + Σ_i&lt;j J0 S(|r_i-r_j|)(σ_x^i σ_x^j + σ_y^i σ_y^j)
     + Ω Σ_i  S(r_i) σ_x^i
     """
     dim = 2**N
@@ -609,7 +282,7 @@ def local_densities(traj, n_ops):
 
 def bond_currents(traj, N, positions, L0, J0):
     """
-    J_{i→j}(t) = 4 J_ij Im <σ_i^+ σ_j^->
+    J_{i→j}(t) = 4 J_ij Im &lt;σ_i^+ σ_j^-&gt;
     with J_ij = J0 S(|r_i - r_j|; L0)
     """
     splus_ops  = {i: single_op(s_plus,  i, N) for i in range(N)}
@@ -671,7 +344,7 @@ def make_plots_and_json(dens, currents, dt, J_index=(0,1),
     N_tot = dens.sum(axis=1)
 
     fig2, ax2 = plt.subplots()
-    ax2.plot(times, J_ij_t, label=f"J_{{{i}->{j}}}(t)")
+    ax2.plot(times, J_ij_t, label=f"J_{{{i}-{&gt;}{j}}}(t)")
     ax2.set_xlabel("time (arb. units)")
     ax2.set_ylabel("bond current")
     ax2.set_title("STUR bond current along lattice")
@@ -782,56 +455,26 @@ if __name__ == "__main__":
     make_plots_and_json(dens, currents, dt_c, J_index=(0,1),
                         S_vals=S_vals, flux_vals=flux_vals)
     print("Saved: stur_qc_densities.png, stur_qc_current.png,")
-    print("       stur_qc_globals.png,  stur_qc_summary.json")
-      </textarea>
-    </div>
+    print("       stur_qc_globals.png,  stur_qc_summary.json")</pre>
 
-    <div class="badge-row">
-      <div class="badge">Fully deterministic STUR evolution</div>
-      <div class="badge">No Born-rule probabilities</div>
-      <div class="badge">Flux &amp; continuity invariants verified</div>
-      <div class="badge">Ready for JupyterLite / Python 3</div>
-    </div>
-  </section>
+<div class="center">
+  <button onclick="copyCode()">Copy Python Script</button>
+  <button onclick="openRunner()">Open JupyterLite</button>
+</div>
 
-</main>
+<footer>
+  &copy; 2025 STUR Physics Lab &mdash; STUR Unified Resistance Framework
+</footer>
 
-<!-- JSON loader + copy-to-clipboard logic -->
 <script>
-  // Load JSON summary if available
-  (function () {
-    var pre = document.getElementById("json-summary");
-    fetch("stur_qc_summary.json")
-      .then(function (r) {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.json();
-      })
-      .then(function (data) {
-        pre.textContent = JSON.stringify(data, null, 2);
-      })
-      .catch(function () {
-        pre.textContent = "Could not load stur_qc_summary.json.\n"
-          + "Ensure it is in the same directory as this HTML file.";
-      });
-  })();
-
-  // Copy script button
-  document.getElementById("copy-script-btn").addEventListener("click", function () {
-    var ta = document.getElementById("python-script");
-    ta.select();
-    ta.setSelectionRange(0, 9999999);
-    try {
-      var ok = document.execCommand("copy");
-      if (!ok && navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(ta.value);
-      }
-      this.textContent = "Copied!";
-      var btn = this;
-      setTimeout(function () { btn.textContent = "Copy Script"; }, 1200);
-    } catch (e) {
-      alert("Copy failed. Manually select and copy the script.");
-    }
-  });
+function copyCode(){
+  const code = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("STUR QC script copied to clipboard.");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/", "_blank");
+}
 </script>
 
 </body>
