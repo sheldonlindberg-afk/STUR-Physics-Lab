@@ -98,33 +98,38 @@ invariants) plus a JSON summary printed to the console.
 
 <pre id="code">
 #!/usr/bin/env python3
-# ===============================================================
-# STUR QC Lattice – Deterministic Continuity
-# JupyterLite-safe: NumPy + Matplotlib + JSON only (no SciPy,
-# no triple-quoted strings).
-# ===============================================================
+# STUR QC Lattice – Deterministic Continuity (JupyterLite-safe)
 
-import numpy as np, math, json
+import numpy as np
+import math
+import json
 import matplotlib.pyplot as plt
 from numpy.linalg import eig
 
-# Dark theme for STUR lab visuals
+# Dark theme for plots
 plt.style.use("dark_background")
 
-# ------------------ STUR RADIAL MODULATOR -----------------------
+# ------------------ STUR radial modulator --------------------------
+
 def S_STUR(r, L0):
     x = r / L0
     return math.tanh(x) * (1.0 - math.exp(-x))
 
 # Pauli / ladder operators
 I2 = np.eye(2, dtype=complex)
-sx = np.array([[0, 1],[1, 0]], dtype=complex)
-sy = np.array([[0, -1j],[1j,  0]], dtype=complex)
-sz = np.array([[1, 0],[0,-1]], dtype=complex)
-s_plus  = np.array([[0, 1],[0, 0]], dtype=complex)
-s_minus = np.array([[0, 0],[1, 0]], dtype=complex)
+sx = np.array([[0, 1],
+               [1, 0]], dtype=complex)
+sy = np.array([[0, -1j],
+               [1j,  0]], dtype=complex)
+sz = np.array([[1, 0],
+               [0,-1]], dtype=complex)
+s_plus  = np.array([[0, 1],
+                    [0, 0]], dtype=complex)
+s_minus = np.array([[0, 0],
+                    [1, 0]], dtype=complex)
 
-# ------------------ TENSOR HELPERS ------------------------------
+# ------------------ tensor helpers ---------------------------------
+
 def kron_all(ops):
     out = ops[0]
     for op in ops[1:]:
@@ -144,18 +149,25 @@ def two_op(pauli_a, i, pauli_b, j, N):
     ops[j] = pauli_b
     return kron_all(ops)
 
-# ------------------ STUR RESISTANCE GENERATOR -------------------
+# ------------------ STUR resistance generator ----------------------
+
 def build_R_STUR(N, L0=1.0, a_lat=1.0, h0=1.0, J0=1.0, Omega=0.5):
+    """
+    R_STUR =
+      sum_i    h0 S(r_i;L0) sigma_z^i
+    + sum_{i<j} J0 S(|r_i-r_j|;L0)(sigma_x^i sigma_x^j + sigma_y^i sigma_y^j)
+    + Omega sum_i S(r_i;L0) sigma_x^i
+    """
     dim = 2**N
     R = np.zeros((dim, dim), dtype=complex)
     positions = np.array([i * a_lat for i in range(N)], dtype=float)
 
-    # On-site STUR-weighted σ_z
+    # on-site terms
     for i in range(N):
         S_i = S_STUR(positions[i], L0)
         R += h0 * S_i * single_op(sz, i, N)
 
-    # Pairwise STUR-weighted XX+YY couplings
+    # XX+YY couplings
     for i in range(N):
         for j in range(i + 1, N):
             r_ij = abs(positions[i] - positions[j])
@@ -164,21 +176,21 @@ def build_R_STUR(N, L0=1.0, a_lat=1.0, h0=1.0, J0=1.0, Omega=0.5):
             R += J_ij * (two_op(sx, i, sx, j, N) +
                          two_op(sy, i, sy, j, N))
 
-    # STUR-weighted transverse drive
+    # transverse drive
     for i in range(N):
         S_i = S_STUR(positions[i], L0)
         R += Omega * S_i * single_op(sx, i, N)
 
     return R, positions
 
-# ------------------ DETERMINISTIC EVOLUTION ---------------------
+# ------------------ deterministic evolution ------------------------
+
 def evolve_STUR(R, psi0, t_final, n_steps, hbar=1.0):
     """
-    i ħ dΨ/dt = R_STUR Ψ  (Ψ = STUR resistance field, not probability).
-    Implemented via spectral decomposition of R_STUR.
+    i hbar dPsi/dt = R_STUR Psi
+    Implemented via spectral decomposition (no SciPy).
     """
     dt = t_final / n_steps
-    # Eigen-decomposition of R_STUR (Hermitian)
     w, V = np.linalg.eigh(R)
     phase = np.exp(-1j * w * dt / hbar)
 
@@ -194,7 +206,8 @@ def evolve_STUR(R, psi0, t_final, n_steps, hbar=1.0):
 
     return np.array(traj), dt
 
-# ------------------ ENTANGLEMENT ENTROPY ------------------------
+# ------------------ entanglement entropy ---------------------------
+
 def entanglement_entropy(psi, N, NA):
     NB = N - NA
     dimA = 2**NA
@@ -206,24 +219,19 @@ def entanglement_entropy(psi, N, NA):
     vals = np.real_if_close(vals)
     vals = np.clip(vals, 0.0, 1.0)
 
-    mask = vals > 1.0e-12
-    lam = vals[mask]
+    lam = vals[vals > 1e-12]
     if lam.size == 0:
         return 0.0
     return float(-np.sum(lam * np.log2(lam)))
 
-# ------------------ GLOBAL FLUX INVARIANT -----------------------
+# ------------------ global flux invariant --------------------------
+
 def resistance_flux(psi, R):
-    """
-    Φ_R(Ψ) = Re[Ψ† R Ψ]  (discrete ∫ρ_R dV).
-    """
     return float(np.real(np.vdot(psi, R @ psi)))
 
-# ------------------ LOCAL DENSITIES & CURRENTS ------------------
+# ------------------ local densities and currents -------------------
+
 def local_density_ops(N):
-    """
-    n_i = (1 - σ_z^i)/2  → local excitation density operator.
-    """
     ops = []
     for i in range(N):
         ops.append(0.5 * (single_op(I2, i, N) - single_op(sz, i, N)))
@@ -240,8 +248,7 @@ def local_densities(traj, n_ops):
 
 def bond_currents(traj, N, positions, L0, J0):
     """
-    J_{i→j}(t) = 4 J_ij Im <σ_i^+ σ_j^->
-    with J_ij = J0 S(|r_i - r_j|;L0).
+    J_{i->j}(t) = 4 J_ij Im <sigma_i^+ sigma_j^->
     """
     splus_ops  = {}
     sminus_ops = {}
@@ -267,7 +274,8 @@ def bond_currents(traj, N, positions, L0, J0):
 
 def continuity_max_residual(dens, currents, dt):
     """
-    Check dρ_i/dt + Σ_j J_{i→j} ≈ 0 (central differences).
+    Checks d rho_i/dt + sum_j J_{i->j} ~= 0
+    using central differences in time.
     """
     T, N = dens.shape
     max_res = 0.0
@@ -280,64 +288,66 @@ def continuity_max_residual(dens, currents, dt):
                 max_res = abs(res)
     return max_res
 
-# ------------------ PLOTTING ROUTINE ----------------------------
-def make_plots(dens, currents, dt, J_index, S_vals, flux_vals):
-    T, N = dens.shape
-    times_local = np.linspace(0.0, dt * (T - 1), T)
-    times_full  = np.linspace(0.0, dt * (len(S_vals) - 1), len(S_vals))
+# ------------------ plotting (no file save) ------------------------
+
+def make_plots(dens, currents, dt_local, J_index, S_vals, flux_vals, dt_full):
+    T_local, N = dens.shape
+    t_local = np.linspace(0.0, dt_local * (T_local - 1), T_local)
+    T_full = len(S_vals)
+    t_full = np.linspace(0.0, dt_full * (T_full - 1), T_full)
 
     fig, ax = plt.subplots(2, 2, figsize=(10, 8))
 
-    # 1) Density heatmap
+    # 1) density heatmap
     im = ax[0,0].imshow(dens.T, aspect="auto", origin="lower",
-                        extent=[times_local[0], times_local[-1], 0, N-1])
-    ax[0,0].set_xlabel("time (arb. units)")
+                        extent=[t_local[0], t_local[-1], 0, N-1])
+    ax[0,0].set_xlabel("time")
     ax[0,0].set_ylabel("site index i")
-    ax[0,0].set_title("STUR local density field $\\rho_i(t)$")
-    fig.colorbar(im, ax=ax[0,0], label="$\\rho_i$")
+    ax[0,0].set_title("STUR local density rho_i(t)")
+    fig.colorbar(im, ax=ax[0,0])
 
-    # 2) Bond current J_{i→j}(t)
+    # 2) bond current
     i, j = J_index
     J_ij_t = currents[:, i, j]
-    ax[0,1].plot(times_local, J_ij_t)
-    ax[0,1].set_xlabel("time (arb. units)")
+    ax[0,1].plot(t_local, J_ij_t)
+    ax[0,1].set_xlabel("time")
     ax[0,1].set_ylabel("current")
-    ax[0,1].set_title(f"Bond current J_{{{i}->{j}}}(t)")
+    ax[0,1].set_title("bond current J_{}->{}(t)".format(i, j))
     ax[0,1].grid(True, alpha=0.3)
 
-    # 3) Entanglement entropy
-    ax[1,0].plot(times_full, S_vals, label="S_A(t)")
-    ax[1,0].set_xlabel("time (arb. units)")
-    ax[1,0].set_ylabel("bits")
+    # 3) entanglement entropy
+    ax[1,0].plot(t_full, S_vals)
+    ax[1,0].set_xlabel("time")
+    ax[1,0].set_ylabel("S_A (bits)")
     ax[1,0].set_title("Entanglement entropy for 3|3 split")
-    ax[1,0].legend()
     ax[1,0].grid(True, alpha=0.3)
 
-    # 4) Flux invariant
-    ax[1,1].plot(times_full, flux_vals, label="Φ_R(t)")
-    ax[1,1].set_xlabel("time (arb. units)")
-    ax[1,1].set_title("Resistance flux (global invariant)")
-    ax[1,1].legend()
+    # 4) flux invariant
+    ax[1,1].plot(t_full, flux_vals)
+    ax[1,1].set_xlabel("time")
+    ax[1,1].set_ylabel("Phi_R")
+    ax[1,1].set_title("Resistance flux Phi_R(t)")
     ax[1,1].grid(True, alpha=0.3)
 
     fig.tight_layout()
     plt.show()
 
-# ------------------ MAIN: RUN + SUMMARY -------------------------
+# ------------------ main -------------------------------------------
+
 if __name__ == "__main__":
-    # Full STUR QC lattice run (entanglement + flux)
-    N     = 6
-    NA    = 3
-    L0    = 1.0
+    # full STUR QC run
+    N = 6
+    NA = 3
+    L0 = 1.0
     a_lat = 1.0
-    h0    = 1.0
-    J0    = 0.8
+    h0 = 1.0
+    J0 = 0.8
     Omega = 0.6
-    t_final  = 5.0
-    n_steps  = 200
+    t_final = 5.0
+    n_steps = 200
     dim = 2**N
 
-    print("Building full STUR operator for N =", N, "(dim =", dim, ")")
+    print("Building R_STUR for N =", N, "dim =", dim)
     R_full, positions = build_R_STUR(N, L0, a_lat, h0, J0, Omega)
 
     psi0 = np.zeros(dim, dtype=complex)
@@ -350,35 +360,26 @@ if __name__ == "__main__":
     flux_vals = [resistance_flux(psi, R_full) for psi in traj_full]
 
     S_max = max(S_vals)
-    print("Max entanglement S_A = {:.4f} bits".format(S_max))
-    print("Final entanglement S_A(T) = {:.4f} bits".format(S_vals[-1]))
-
     flux0 = flux_vals[0]
     flux_min = min(flux_vals)
     flux_max = max(flux_vals)
     drift_abs = flux_max - flux_min
-    drift_rel = drift_abs / (abs(flux0) + 1.0e-15)
+    drift_rel = drift_abs / (abs(flux0) + 1e-15)
 
-    print("")
-    print("Resistance-flux invariant Φ_R(t):")
-    print("  Φ_R(0)        = {:.10f}".format(flux0))
-    print("  min / max     = {:.10f} / {:.10f}".format(flux_min, flux_max))
-    print("  |ΔΦ_R|        = {:.3e}".format(drift_abs))
-    print("  relative drift= {:.3e}".format(drift_rel))
+    print("Max entanglement S_A =", S_max, "bits")
+    print("Flux drift abs =", drift_abs, "rel =", drift_rel)
 
-    # Continuity / flow visualization run (XX+YY only)
-    print("")
-    print("=== Local continuity + flow visualization run ===")
+    # continuity run (XX+YY only)
+    print("\n=== Continuity run (XX+YY only) ===")
     R_xx, positions = build_R_STUR(N, L0, a_lat, h0=0.0, J0=J0, Omega=0.0)
 
-    psi0_cont = np.zeros(dim, dtype=complex)
-    psi0_cont[1] = 1.0
+    psi0_c = np.zeros(dim, dtype=complex)
+    psi0_c[1] = 1.0
 
     t_final_c = 1.0
     n_steps_c = 400
 
-    print("Evolving XX+YY-only STUR lattice...")
-    traj_c, dt_c = evolve_STUR(R_xx, psi0_cont, t_final_c, n_steps_c)
+    traj_c, dt_c = evolve_STUR(R_xx, psi0_c, t_final_c, n_steps_c)
 
     n_ops = local_density_ops(N)
     dens = local_densities(traj_c, n_ops)
@@ -388,18 +389,17 @@ if __name__ == "__main__":
     N_tot = dens.sum(axis=1)
     N_drift = float(N_tot.max() - N_tot.min())
 
-    print("  Max |dρ_i/dt + Σ_j J_i→j| = {:.3e}".format(max_res))
-    print("  Total excitation drift   = {:.3e}".format(N_drift))
+    print("continuity max residual =", max_res)
+    print("total excitation drift  =", N_drift)
 
-    # Plots (all in-memory, no files)
-    print("")
-    print("Rendering STUR QC lattice plots...")
-    make_plots(dens, currents, dt_c, (0,1), S_vals, flux_vals)
+    # plots (no saving to disk)
+    make_plots(dens, currents, dt_c, (0, 1), S_vals, flux_vals, dt_full)
 
-    # JSON-style summary (printed only; no file I/O)
     summary = {
         "N_sites": int(N),
+        "T_steps_full": int(len(S_vals)),
         "T_steps_local": int(dens.shape[0]),
+        "dt_full": float(dt_full),
         "dt_local": float(dt_c),
         "S_A_max_bits": float(S_max),
         "S_A_final_bits": float(S_vals[-1]),
@@ -408,12 +408,12 @@ if __name__ == "__main__":
         "Phi_R_abs_drift": float(drift_abs),
         "Phi_R_rel_drift": float(drift_rel),
         "continuity_max_residual": float(max_res),
-        "N_tot_drift": float(N_drift)
+        "N_tot_drift": float(N_drift),
     }
 
-    print("")
+    print("\nJSON-style summary:")
     print(json.dumps(summary, indent=2))
-    print("STUR QC Lattice Simulation Complete.")
+    print("\nSTUR QC Lattice simulation complete.")
 </pre>
 
 <div style="text-align:center;">
