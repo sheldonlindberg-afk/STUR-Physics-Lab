@@ -5,49 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STUR QC – Resistance Flow & Continuity Verifier</title>
 <style>
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:"Courier New",monospace;
-    margin:0;
-    padding:2rem;
-  }
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  .desc{
-    max-width:960px;
-    margin:0 auto 1.5rem auto;
-    line-height:1.6;
-  }
-  pre{
-    background:#0a0f1f;
-    color:#00ffcc;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    font-size:0.86rem;
-    box-shadow:0 0 18px #ffaa0040;
-  }
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
-  }
-  button:hover{background:#ffcc33;}
-  footer{
-    text-align:center;
-    font-size:0.9em;
-    color:#999;
-    margin-top:2rem;
-  }
-  a{color:#66ccff;}
-  .center{text-align:center;margin-top:1rem;}
+body{
+  background:#050814;
+  color:#e6edf3;
+  font-family:"Courier New",monospace;
+  margin:0;
+  padding:2rem;
+}
+h1{color:#ffaa00;text-align:center;}
+h2{color:#ffcc33;margin-top:2rem;}
+.desc{
+  max-width:960px;
+  margin:0 auto 1.5rem auto;
+  line-height:1.6;
+}
+pre{
+  background:#0a0f1f;
+  color:#00ffcc;
+  padding:1rem;
+  border-radius:8px;
+  overflow-x:auto;
+  font-size:0.86rem;
+  box-shadow:0 0 18px #ffaa0040;
+}
+button{
+  background:#ffaa00;
+  color:#050814;
+  border:none;
+  border-radius:6px;
+  padding:10px 20px;
+  font-weight:bold;
+  cursor:pointer;
+  margin:6px;
+  transition:0.2s;
+}
+button:hover{background:#ffcc33;}
+footer{
+  text-align:center;
+  font-size:0.9em;
+  color:#999;
+  margin-top:2rem;
+}
+a{color:#66ccff;}
+.center{text-align:center;margin-top:1rem;}
 </style>
 </head>
 <body>
@@ -56,202 +56,142 @@
 
 <div class="desc">
 <p>
-This simulation was inspired by Lucas Nash X@lukenash, it tests whether a <b>STUR resistance generator</b> can act as a deterministic quantum-like lattice engine,
-preserving continuity and entanglement without invoking the Born rule.
-It evolves the full operator R<sub>STUR</sub> and checks information flow through
-the discrete continuity law:
+This <b>STUR QC lattice verifier</b> was inspired by Lucas Nash X@lukenash and tests deterministic entanglement and flux invariance under the <b>Resistance Field Model</b>.
+It evaluates whether local densities and bond currents obey a true continuity equation without invoking the Born rule:
 </p>
 
 <p style="text-align:center;">
-dρ<sub>i</sub>/dt + Σ<sub>j</sub> J<sub>i→j</sub> ≈ 0.
+dρ<sub>i</sub>/dt + Σ<sub>j</sub>J<sub>i→j</sub> ≈ 0
 </p>
 
 <p>
-Outputs include:
+This means the resistance field Ψ behaves like a conserved fluid of informational energy.
+The test evolves a 6-site STUR lattice, computes entanglement entropy S<sub>A</sub>(t),
+and tracks global flux Φ<sub>R</sub>(t) for numerical invariance.
+</p>
+
+<p>
+Results output:
+</p>
 <ul>
-<li><code>stur_qc_densities.png</code> – density ρ<sub>i</sub>(t)</li>
+<li><code>stur_qc_densities.png</code> – ρ<sub>i</sub>(t) field heatmap</li>
 <li><code>stur_qc_current.png</code> – bond current trace</li>
-<li><code>stur_qc_globals.png</code> – S<sub>A</sub>(t) and Φ<sub>R</sub>(t)</li>
-<li><code>stur_qc_summary.json</code> – metadata for GitHub/Zenodo</li>
+<li><code>stur_qc_globals.png</code> – S<sub>A</sub> and Φ<sub>R</sub> invariants</li>
+<li><code>stur_qc_summary.json</code> – numerical metadata</li>
 </ul>
-</p>
-
-<p>
-Copy the script below and paste it into a JupyterLite notebook (Python 3 + NumPy + SciPy + Matplotlib) to run the full deterministic STUR QC test.
-</p>
 </div>
 
 <h2>Python Simulation (copy &amp; run)</h2>
 
-<pre id="codeBlock">#!/usr/bin/env python3
+<pre id="codeBlock"># STUR QC – Resistance Flow & Continuity Verifier
+# Verified Python 3.13, NumPy/SciPy compatible
+# Generates JSON + 3 figures (dark theme)
+# --------------------------------------------------
+
 import numpy as np, math, json
 from numpy.linalg import eig
 from scipy.linalg import expm
 import matplotlib.pyplot as plt
-
 plt.style.use("dark_background")
 
-def S_STUR(r, L0):
-    x = r / L0
-    return math.tanh(x) * (1.0 - math.exp(-x))
+def S_STUR(r,L0):x=r/L0;return math.tanh(x)*(1-math.exp(-x))
+I2=np.eye(2,complex);sx=np.array([[0,1],[1,0]],complex)
+sy=np.array([[0,-1j],[1j,0]],complex);sz=np.array([[1,0],[0,-1]],complex)
+s_plus=np.array([[0,1],[0,0]],complex);s_minus=np.array([[0,0],[1,0]],complex)
+def kron_all(ops):o=ops[0];[o:=np.kron(o,p)for p in ops[1:]];return o
+def single_op(p,s,N):ops=[I2]*N;ops[s]=p;return kron_all(ops)
+def two_op(a,i,b,j,N):ops=[I2]*N;ops[i]=a;ops[j]=b;return kron_all(ops)
 
-I2 = np.eye(2, dtype=complex)
-sx = np.array([[0,1],[1,0]],dtype=complex)
-sy = np.array([[0,-1j],[1j,0]],dtype=complex)
-sz = np.array([[1,0],[0,-1]],dtype=complex)
-s_plus  = np.array([[0,1],[0,0]],dtype=complex)
-s_minus = np.array([[0,0],[1,0]],dtype=complex)
+def build_R_STUR(N,L0=1,a=1,h0=1,J0=1,Om=0.5):
+ R=np.zeros((2**N,2**N),complex);pos=np.arange(N)*a
+ for i in range(N):R+=h0*S_STUR(pos[i],L0)*single_op(sz,i,N)
+ for i in range(N):
+  for j in range(i+1,N):
+   r=abs(pos[i]-pos[j]);S=S_STUR(r,L0)
+   R+=J0*S*(two_op(sx,i,sx,j,N)+two_op(sy,i,sy,j,N))
+ for i in range(N):R+=Om*S_STUR(pos[i],L0)*single_op(sx,i,N)
+ return R,pos
 
-def kron_all(ops):
-    out=ops[0]
-    for op in ops[1:]: out=np.kron(out,op)
-    return out
+def evolve(R,psi0,t,T,hbar=1):
+ dt=t/T;U=expm(-1j*R*dt/hbar);p=psi0.copy();traj=[p.copy()]
+ for _ in range(T):p=U@p;p/=np.linalg.norm(p);traj.append(p.copy())
+ return np.array(traj),dt
 
-def single_op(pauli,site,N):
-    ops=[I2 for _ in range(N)]
-    ops[site]=pauli
-    return kron_all(ops)
+def S_ent(psi,N,NA):
+ NB=N-NA;psiM=psi.reshape(2**NA,2**NB);rho=psiM@psiM.conj().T
+ v,_=eig(rho);v=np.clip(np.real_if_close(v),0,1);v=v[v>1e-12]
+ return -float(np.sum(v*np.log2(v))) if v.size else 0
 
-def two_op(pauli_a,i,pauli_b,j,N):
-    ops=[I2 for _ in range(N)]
-    ops[i]=pauli_a; ops[j]=pauli_b
-    return kron_all(ops)
+def Phi_R(psi,R):return float(np.real(np.vdot(psi,R@psi)))
 
-def build_R_STUR(N,L0=1,a_lat=1,h0=1,J0=1,Omega=0.5):
-    dim=2**N; R=np.zeros((dim,dim),dtype=complex)
-    pos=np.array([i*a_lat for i in range(N)],float)
-    for i in range(N):
-        S_i=S_STUR(pos[i],L0)
-        R+=h0*S_i*single_op(sz,i,N)
-    for i in range(N):
-        for j in range(i+1,N):
-            r_ij=abs(pos[i]-pos[j])
-            S_ij=S_STUR(r_ij,L0)
-            R+=J0*S_ij*(two_op(sx,i,sx,j,N)+two_op(sy,i,sy,j,N))
-    for i in range(N):
-        S_i=S_STUR(pos[i],L0)
-        R+=Omega*S_i*single_op(sx,i,N)
-    return R,pos
+def dens_ops(N):return[0.5*(single_op(I2,i,N)-single_op(sz,i,N))for i in range(N)]
+def local_dens(traj,ops):return np.array([[np.real(np.vdot(p,o@p))for o in ops]for p in traj])
 
-def evolve_STUR(R,psi0,t_final,n_steps,hbar=1):
-    dt=t_final/n_steps; U=expm(-1j*R*dt/hbar)
-    psi=psi0.copy(); traj=[psi.copy()]
-    for _ in range(n_steps):
-        psi=U@psi; psi/=np.linalg.norm(psi)
-        traj.append(psi.copy())
-    return np.array(traj),dt
+def Jbonds(traj,N,pos,L0,J0):
+ sp={i:single_op(s_plus,i,N)for i in range(N)}
+ sm={i:single_op(s_minus,i,N)for i in range(N)}
+ cur=[]
+ for p in traj:
+  M=np.zeros((N,N))
+  for i in range(N):
+   for j in range(N):
+    if i==j:continue
+    r=abs(pos[i]-pos[j]);J=J0*S_STUR(r,L0)
+    op=sp[i]@sm[j];M[i,j]=4*J*np.imag(np.vdot(p,op@p))
+  cur.append(M)
+ return np.array(cur)
 
-def entanglement_entropy(psi,N,NA):
-    NB=N-NA; dimA=2**NA; dimB=2**NB
-    psiM=psi.reshape(dimA,dimB)
-    rhoA=psiM@psiM.conj().T
-    vals,_=eig(rhoA)
-    vals=np.clip(np.real_if_close(vals),0,1)
-    vals=vals[vals>1e-12]
-    return float(-np.sum(vals*np.log2(vals))) if vals.size else 0
+def continuity_res(d,c,dt):
+ T,N=d.shape;m=0
+ for t in range(1,T-1):
+  dρ=(d[t+1]-d[t-1])/(2*dt)
+  for i in range(N):m=max(m,abs(dρ[i]+np.sum(c[t][i,:])))
+ return m
 
-def resistance_flux(psi,R):
-    return float(np.real(np.vdot(psi,R@psi)))
+def plots_json(d,c,dt,Sv=None,Fv=None):
+ T,N=d.shape;t=np.linspace(0,dt*(T-1),T)
+ i,j=0,1;Jt=c[:,i,j]
+ fig,ax=plt.subplots();im=ax.imshow(d.T,aspect='auto',origin='lower',
+ extent=[t[0],t[-1],0,N-1]);ax.set_xlabel('time');ax.set_ylabel('site')
+ ax.set_title('STUR local density ρᵢ(t)');fig.colorbar(im,ax=ax)
+ fig.savefig('stur_qc_densities.png',dpi=200)
+ fig,ax=plt.subplots();ax.plot(t,Jt,label=f'J_{i}->{j}(t)')
+ ax.set_xlabel('time');ax.set_ylabel('bond current')
+ ax.set_title('STUR bond current');ax.legend();fig.savefig('stur_qc_current.png',dpi=200)
+ if Sv or Fv:
+  fig,ax=plt.subplots()
+  if Sv:ax.plot(t[:len(Sv)],Sv,label='S_A(bits)')
+  if Fv:ax.plot(t[:len(Fv)],Fv,'--',label='Φ_R')
+  ax.set_xlabel('time');ax.set_title('STUR global invariants')
+  ax.legend();fig.savefig('stur_qc_globals.png',dpi=200)
+ summary={'N':N,'dt':float(dt),'J_index':[i,j],
+          'ρmin':float(d.min()),'ρmax':float(d.max()),
+          'Jmin':float(Jt.min()),'Jmax':float(Jt.max())}
+ with open('stur_qc_summary.json','w')as f:json.dump(summary,f,indent=2)
 
-def local_density_ops(N):
-    return [0.5*(single_op(I2,i,N)-single_op(sz,i,N)) for i in range(N)]
-
-def local_densities(traj,ops):
-    return np.array([[np.real(np.vdot(p,o@p)) for o in ops] for p in traj])
-
-def bond_currents(traj,N,pos,L0,J0):
-    splus={i:single_op(s_plus,i,N) for i in range(N)}
-    sminus={i:single_op(s_minus,i,N) for i in range(N)}
-    cur=[]
-    for psi in traj:
-        M=np.zeros((N,N))
-        for i in range(N):
-            for j in range(N):
-                if i==j: continue
-                r=abs(pos[i]-pos[j]); S=S_STUR(r,L0)
-                J=J0*S; op=splus[i]@sminus[j]
-                M[i,j]=4*J*np.imag(np.vdot(psi,op@psi))
-        cur.append(M)
-    return np.array(cur)
-
-def continuity_max_residual(dens,cur,dt):
-    T,N=dens.shape; m=0
-    for t in range(1,T-1):
-        d=(dens[t+1]-dens[t-1])/(2*dt)
-        for i in range(N):
-            s=np.sum(cur[t][i,:]); m=max(m,abs(d[i]+s))
-    return m
-
-def make_plots_and_json(dens,cur,dt,J_index=(0,1),
-                        S_vals=None,flux_vals=None,
-                        path="stur_qc_summary.json"):
-    T,N=dens.shape; times=np.linspace(0,dt*(T-1),T)
-    fig1,ax1=plt.subplots()
-    im=ax1.imshow(dens.T,aspect='auto',origin='lower',
-                  extent=[times[0],times[-1],0,N-1])
-    ax1.set_xlabel("time"); ax1.set_ylabel("site i")
-    ax1.set_title("STUR local density ρᵢ(t)")
-    fig1.colorbar(im,ax=ax1,label="ρᵢ")
-    fig1.tight_layout(); fig1.savefig("stur_qc_densities.png",dpi=200)
-
-    i,j=J_index; Jt=cur[:,i,j]; Ntot=dens.sum(1)
-    fig2,ax2=plt.subplots()
-    ax2.plot(times,Jt,label=f"J_{i}->{j}(t)")
-    ax2.set_xlabel("time"); ax2.set_ylabel("bond current")
-    ax2.set_title("STUR bond current"); ax2.legend(); ax2.grid(True,alpha=.3)
-    fig2.tight_layout(); fig2.savefig("stur_qc_current.png",dpi=200)
-
-    if S_vals or flux_vals:
-        fig3,ax3=plt.subplots()
-        if S_vals: ax3.plot(times[:len(S_vals)],S_vals,label="S_A (bits)")
-        if flux_vals: ax3.plot(times[:len(flux_vals)],flux_vals,"--",label="Φ_R")
-        ax3.set_xlabel("time"); ax3.set_title("STUR global invariants")
-        ax3.legend(); ax3.grid(True,alpha=.3)
-        fig3.tight_layout(); fig3.savefig("stur_qc_globals.png",dpi=200)
-
-    summary={"N_sites":int(N),"T_steps":int(T),"dt":float(dt),
-             "J_index":[int(i),int(j)],
-             "density_min":float(dens.min()),"density_max":float(dens.max()),
-             "current_min":float(Jt.min()),"current_max":float(Jt.max()),
-             "N_tot_min":float(Ntot.min()),"N_tot_max":float(Ntot.max())}
-    if S_vals:
-        summary["S_A_max_bits"]=float(max(S_vals))
-        summary["S_A_final_bits"]=float(S_vals[-1])
-    if flux_vals:
-        summary["Phi_R_min"]=float(min(flux_vals))
-        summary["Phi_R_max"]=float(max(flux_vals))
-    with open(path,"w") as f: json.dump(summary,f,indent=2)
-
-if __name__=="__main__":
-    N=6; NA=3; L0=1; a_lat=1; h0=1; J0=0.8; Omega=0.6
-    t_final=5; n_steps=200; dim=2**N
-    print(f"Building R_STUR for N={N}, dim={dim}...")
-    R, pos = build_R_STUR(N,L0,a_lat,h0,J0,Omega)
-    psi0=np.zeros(dim,complex); psi0[0]=1
-    traj,dt=evolve_STUR(R,psi0,t_final,n_steps)
-    S_vals=[entanglement_entropy(p,N,NA) for p in traj]
-    flux=[resistance_flux(p,R) for p in traj]
-    print(f"Max S_A = {max(S_vals):.3f} bits")
-    print(f"Φ_R drift = {max(flux)-min(flux):.3e}")
-
-    print("\n=== Continuity test ===")
-    R_xx,_=build_R_STUR(N,L0,a_lat,0,J0,0)
-    psi1=np.zeros(dim,complex); psi1[1]=1
-    traj2,dt2=evolve_STUR(R_xx,psi1,1.0,400)
-    dens=local_densities(traj2,local_density_ops(N))
-    cur=bond_currents(traj2,N,pos,L0,J0)
-    res=continuity_max_residual(dens,cur,dt2)
-    print(f"Max |dρ/dt+ΣJ| = {res:.3e}")
-    make_plots_and_json(dens,cur,dt2,S_vals=S_vals,flux_vals=flux)
-    print("Saved STUR QC plots + stur_qc_summary.json")</pre>
+if __name__=='__main__':
+ N,NA,L0,a,h0,J0,Om,tF,ns=6,3,1,1,1,0.8,0.6,5,200
+ R,pos=build_R_STUR(N,L0,a,h0,J0,Om)
+ psi=np.zeros(2**N,complex);psi[0]=1
+ traj,dt=evolve(R,psi,tF,ns)
+ S=[S_ent(p,N,NA)for p in traj];F=[Phi_R(p,R)for p in traj]
+ print(f'Max S_A={max(S):.3f} bits; Φ_R drift={max(F)-min(F):.3e}')
+ Rx,_=build_R_STUR(N,L0,a,0,J0,0)
+ psi2=np.zeros(2**N,complex);psi2[1]=1
+ traj2,dt2=evolve(Rx,psi2,1,400)
+ d=local_dens(traj2,dens_ops(N));c=Jbonds(traj2,N,pos,L0,J0)
+ print(f'Max|dρ/dt+ΣJ|={continuity_res(d,c,dt2):.3e}')
+ plots_json(d,c,dt2,Sv=S,Fv=F)
+ print('Saved STUR QC plots + stur_qc_summary.json')</pre>
 
 <div class="center">
   <button onclick="copyCode()">Copy Python Script</button>
   <button onclick="openJupyter()">Open JupyterLite</button>
+  <button onclick="goBack()">⬅ Back to STUR Lab</button>
 </div>
 
 <footer>
-&copy; 2025 Sheldon Lon Lindberg • STUR Physics Framework • CC-BY 4.0 License
+&copy; 2025 Sheldon Lon Lindberg • STUR Physics Framework • CC-BY-4.0 License
 </footer>
 
 <script>
@@ -262,6 +202,9 @@ function copyCode(){
 }
 function openJupyter(){
   window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+function goBack(){
+  window.location.href="../index.html";
 }
 </script>
 </body>
