@@ -5,84 +5,102 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STUR QC Lattice – Deterministic Continuity</title>
 <style>
-  body {
-    background: #050814;
-    color: #e6edf3;
-    font-family: "Courier New", monospace;
-    margin: 0;
-    padding: 2rem;
+  body{
+    background:#050814;
+    color:#e6edf3;
+    font-family:"Courier New",monospace;
+    margin:0;
+    padding:2rem;
   }
-  h1 {color: #ffaa00; text-align: center;}
-  h2 {color: #ffcc33; margin-top: 2rem;}
-  pre {
-    background: #0a0f1f;
-    color: #00ffcc;
-    padding: 1rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    font-size: 0.9rem;
-    box-shadow: 0 0 18px #ffaa0040;
+  h1{color:#ffaa00;text-align:center;}
+  h2{color:#ffcc33;margin-top:2rem;}
+  p,li{max-width:960px;line-height:1.5;}
+  pre{
+    background:#0a0f1f;
+    color:#00ffcc;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    font-size:0.9rem;
+    box-shadow:0 0 18px #ffaa0040;
   }
-  button {
-    background: #ffaa00;
-    color: #050814;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 20px;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 6px;
-    transition: 0.2s;
+  button{
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
   }
-  button:hover {background: #ffcc33;}
-  footer {
-    text-align: center;
-    font-size: 0.9em;
-    color: #999;
-    margin-top: 2rem;
+  button:hover{background:#ffcc33;}
+  footer{
+    text-align:center;
+    font-size:0.9em;
+    color:#999;
+    margin-top:2rem;
   }
-  a {color: #66ccff;}
 </style>
 </head>
 <body>
 
-<h1>STUR QC Lattice – Deterministic Continuity Inspired by x@lukenash</h1>
+<h1>STUR QC Lattice – Deterministic Continuity</h1>
 
-<h2>Theoretical Derivation</h2>
+<h2>Derivation sketch</h2>
 <p>
-In the STUR framework, resistance replaces probability as the fundamental carrier of interaction.
-Each qubit-like site follows a resistance equation:
+In the STUR framework, the quantum object is not a probability amplitude but a
+resistance field <code>Psi</code> obeying a Schr&ouml;dinger-like evolution, 
+this simulation was inspired by x@lukenash:
 </p>
 <p style="text-align:center;">
-<i>iħ ∂Ψ/∂t = R<sub>STUR</sub> Ψ</i>
+i &nbsp; hbar &nbsp; dPsi/dt = R_STUR &nbsp; Psi .
 </p>
 <p>
-Here, <b>R<sub>STUR</sub></b> combines on-site, pairwise, and transverse couplings modulated by the STUR function:
+On a one-dimensional N-site lattice, the generator <code>R_STUR</code> is
+built from on-site, pairwise, and transverse terms, all modulated by a STUR
+radial factor
 </p>
 <p style="text-align:center;">
-S(r;L₀) = tanh(r/L₀)(1 - e<sup>-r/L₀</sup>)
+S(r;L0) = tanh(r/L0) * (1 - exp(-r/L0)) .
 </p>
 <p>
-This simulation deterministically evolves Ψ across a 6-site lattice, computing:
+In this script:
 </p>
 <ul>
-  <li>Entanglement entropy (S<sub>A</sub>(t))</li>
-  <li>Resistance-flux invariant (Φ<sub>R</sub>(t))</li>
-  <li>Continuity across local densities and currents</li>
+  <li>We construct <code>R_STUR</code> for N = 6 sites.</li>
+  <li>We evolve Psi deterministically via exact diagonalization of R_STUR.</li>
+  <li>We compute:
+    <ul>
+      <li>entanglement entropy S_A(t) for a 3|3 bipartition,</li>
+      <li>a global resistance flux Phi_R(t) = Re(Psi^dagger R Psi),</li>
+      <li>local densities n_i(t) and bond currents J_{i->j}(t),</li>
+      <li>a continuity residual | d n_i/dt + sum_j J_{i->j} |.</li>
+    </ul>
+  </li>
 </ul>
 <p>
-Static Matplotlib plots display local densities, bond currents, and global invariants.  
-The final JSON summary includes entanglement, flux drift, and continuity residuals.
+The output is three static Matplotlib plots (densities, bond current, global
+invariants) plus a JSON summary printed to the console.
 </p>
 
-<h2>Python Simulation Script</h2>
-<p>Copy or open in JupyterLite to run directly in-browser (no dependencies beyond NumPy + Matplotlib).</p>
+<h2>Python simulation (copy into a Python 3 notebook)</h2>
+<p><b>Important:</b> in JupyterLite choose <b>Notebook → Python 3 (XPython)</b>,
+<b>not</b> JavaScript.</p>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="window.open('https://jupyterlite.github.io/demo/lab/index.html','_blank')">
+    Open JupyterLite
+  </button>
+</div>
 
 <pre id="code">
 #!/usr/bin/env python3
-# ===============================================================
 # STUR QC Lattice – Deterministic Continuity
-# ===============================================================
+# NumPy + Matplotlib + JSON only (JupyterLite compatible).
+
 import numpy as np, math, json
 import matplotlib.pyplot as plt
 from numpy.linalg import eig
@@ -94,11 +112,11 @@ def S_STUR(r, L0):
     return math.tanh(x) * (1.0 - math.exp(-x))
 
 I2 = np.eye(2, dtype=complex)
-sx = np.array([[0,1],[1,0]],dtype=complex)
-sy = np.array([[0,-1j],[1j,0]],dtype=complex)
-sz = np.array([[1,0],[0,-1]],dtype=complex)
-s_plus  = np.array([[0,1],[0,0]],dtype=complex)
-s_minus = np.array([[0,0],[1,0]],dtype=complex)
+sx = np.array([[0, 1],[1, 0]], dtype=complex)
+sy = np.array([[0,-1j],[1j, 0]], dtype=complex)
+sz = np.array([[1, 0],[0,-1]], dtype=complex)
+s_plus  = np.array([[0, 1],[0, 0]], dtype=complex)
+s_minus = np.array([[0, 0],[1, 0]], dtype=complex)
 
 def kron_all(ops):
     out = ops[0]
@@ -106,123 +124,241 @@ def kron_all(ops):
         out = np.kron(out, op)
     return out
 
-def single_op(pauli,site,N):
-    ops=[I2 for _ in range(N)]
-    ops[site]=pauli
+def single_op(pauli, site, N):
+    ops = [I2 for _ in range(N)]
+    ops[site] = pauli
     return kron_all(ops)
 
-def two_op(pauli_a,i,pauli_b,j,N):
-    if i==j: raise ValueError("Sites must differ")
-    ops=[I2 for _ in range(N)]
-    ops[i]=pauli_a; ops[j]=pauli_b
+def two_op(pauli_a, i, pauli_b, j, N):
+    if i == j:
+        raise ValueError("Sites must be different")
+    ops = [I2 for _ in range(N)]
+    ops[i] = pauli_a
+    ops[j] = pauli_b
     return kron_all(ops)
 
-def build_R_STUR(N,L0=1,a_lat=1,h0=1,J0=1,Omega=0.5):
-    dim=2**N; R=np.zeros((dim,dim),dtype=complex)
-    pos=np.array([i*a_lat for i in range(N)],float)
-    for i in range(N):
-        S_i=S_STUR(pos[i],L0); R+=h0*S_i*single_op(sz,i,N)
-    for i in range(N):
-        for j in range(i+1,N):
-            r_ij=abs(pos[i]-pos[j]); S_ij=S_STUR(r_ij,L0)
-            J_ij=J0*S_ij
-            R+=J_ij*(two_op(sx,i,sx,j,N)+two_op(sy,i,sy,j,N))
-    for i in range(N):
-        S_i=S_STUR(pos[i],L0); R+=Omega*S_i*single_op(sx,i,N)
-    return R,pos
+def build_R_STUR(N, L0=1.0, a_lat=1.0, h0=1.0, J0=1.0, Omega=0.5):
+    dim = 2**N
+    R = np.zeros((dim, dim), dtype=complex)
+    positions = np.array([i * a_lat for i in range(N)], dtype=float)
 
-def evolve_STUR(R,psi0,t_final,n_steps,hbar=1):
-    dt=t_final/n_steps; w,V=np.linalg.eigh(R)
-    phase=np.exp(-1j*w*dt/hbar); psi=psi0.astype(complex)
-    traj=[psi.copy()]
+    for i in range(N):
+        S_i = S_STUR(positions[i], L0)
+        R += h0 * S_i * single_op(sz, i, N)
+
+    for i in range(N):
+        for j in range(i + 1, N):
+            r_ij = abs(positions[i] - positions[j])
+            S_ij = S_STUR(r_ij, L0)
+            J_ij = J0 * S_ij
+            R += J_ij * (two_op(sx, i, sx, j, N) +
+                         two_op(sy, i, sy, j, N))
+
+    for i in range(N):
+        S_i = S_STUR(positions[i], L0)
+        R += Omega * S_i * single_op(sx, i, N)
+
+    return R, positions
+
+def evolve_STUR(R, psi0, t_final, n_steps, hbar=1.0):
+    dt = t_final / n_steps
+    w, V = np.linalg.eigh(R)
+    phase = np.exp(-1j * w * dt / hbar)
+
+    psi = psi0.astype(complex)
+    traj = [psi.copy()]
+
     for _ in range(n_steps):
-        c=V.conj().T@psi; c*=phase; psi=V@c; psi/=np.linalg.norm(psi)
+        c = V.conj().T @ psi
+        c *= phase
+        psi = V @ c
+        psi /= np.linalg.norm(psi)
         traj.append(psi.copy())
-    return np.array(traj),dt
 
-def entanglement_entropy(psi,N,NA):
-    NB=N-NA; dimA,dimB=2**NA,2**NB
-    psi_mat=psi.reshape(dimA,dimB); rho_A=psi_mat@psi_mat.conj().T
-    vals,_=eig(rho_A); vals=np.real_if_close(vals)
-    vals=np.clip(vals,0,1); lam=vals[vals>1e-12]
-    return float(-np.sum(lam*np.log2(lam))) if lam.size>0 else 0.0
+    return np.array(traj), dt
 
-def resistance_flux(psi,R): return float(np.real(np.vdot(psi,R@psi)))
+def entanglement_entropy(psi, N, NA):
+    NB = N - NA
+    dimA = 2**NA
+    dimB = 2**NB
+    psi_mat = psi.reshape(dimA, dimB)
+    rho_A = psi_mat @ psi_mat.conj().T
+
+    vals, _ = eig(rho_A)
+    vals = np.real_if_close(vals)
+    vals = np.clip(vals, 0.0, 1.0)
+
+    lam = vals[vals > 1.0e-12]
+    if lam.size == 0:
+        return 0.0
+    return float(-np.sum(lam * np.log2(lam)))
+
+def resistance_flux(psi, R):
+    return float(np.real(np.vdot(psi, R @ psi)))
 
 def local_density_ops(N):
-    return [0.5*(single_op(I2,i,N)-single_op(sz,i,N)) for i in range(N)]
+    ops = []
+    for i in range(N):
+        ops.append(0.5 * (single_op(I2, i, N) - single_op(sz, i, N)))
+    return ops
 
-def local_densities(traj,n_ops):
-    return np.array([[float(np.real(np.vdot(psi,op@psi))) for op in n_ops] for psi in traj])
-
-def bond_currents(traj,N,pos,L0,J0):
-    splus={i:single_op(s_plus,i,N) for i in range(N)}
-    sminus={i:single_op(s_minus,i,N) for i in range(N)}
-    cur=[]
+def local_densities(traj, n_ops):
+    dens = []
     for psi in traj:
-        M=np.zeros((N,N))
+        row = []
+        for op in n_ops:
+            row.append(float(np.real(np.vdot(psi, op @ psi))))
+        dens.append(row)
+    return np.array(dens)
+
+def bond_currents(traj, N, positions, L0, J0):
+    splus  = {i: single_op(s_plus,  i, N) for i in range(N)}
+    sminus = {i: single_op(s_minus, i, N) for i in range(N)}
+
+    currents = []
+    for psi in traj:
+        curMat = np.zeros((N, N))
         for i in range(N):
             for j in range(N):
-                if i==j: continue
-                r_ij=abs(pos[i]-pos[j]); S_ij=S_STUR(r_ij,L0); J_ij=J0*S_ij
-                op=splus[i]@sminus[j]; expv=np.vdot(psi,op@psi)
-                M[i,j]=4*J_ij*np.imag(expv)
-        cur.append(M)
-    return np.array(cur)
+                if i == j:
+                    continue
+                r_ij = abs(positions[i] - positions[j])
+                S_ij = S_STUR(r_ij, L0)
+                J_ij = J0 * S_ij
+                op = splus[i] @ sminus[j]
+                expv = np.vdot(psi, op @ psi)
+                curMat[i, j] = 4.0 * J_ij * float(np.imag(expv))
+        currents.append(curMat)
+    return np.array(currents)
 
-def continuity_max_residual(dens,curr,dt):
-    T,N=dens.shape; maxr=0
-    for t in range(1,T-1):
-        d_rho=(dens[t+1]-dens[t-1])/(2*dt)
+def continuity_max_residual(dens, currents, dt):
+    T, N = dens.shape
+    max_res = 0.0
+    for t in range(1, T - 1):
+        d_rho = (dens[t + 1] - dens[t - 1]) / (2.0 * dt)
         for i in range(N):
-            res=d_rho[i]+np.sum(curr[t][i,:])
-            maxr=max(maxr,abs(res))
-    return maxr
+            res = d_rho[i] + np.sum(currents[t][i, :])
+            if abs(res) > max_res:
+                max_res = abs(res)
+    return max_res
 
-def make_plots(dens,curr,dt,J_index,S_vals,flux_vals):
-    T,N=dens.shape; tL=np.linspace(0,dt*(T-1),T); tF=np.linspace(0,dt*(len(S_vals)-1),len(S_vals))
-    fig,ax=plt.subplots(2,2,figsize=(10,8))
-    im=ax[0,0].imshow(dens.T,aspect="auto",origin="lower",extent=[tL[0],tL[-1],0,N-1])
-    ax[0,0].set_xlabel("time"); ax[0,0].set_ylabel("site i"); ax[0,0].set_title("ρᵢ(t)"); fig.colorbar(im,ax=ax[0,0])
-    i,j=J_index; ax[0,1].plot(tL,curr[:,i,j]); ax[0,1].set_title(f"J{{{i}->{j}}}(t)"); ax[0,1].grid(True,alpha=.3)
-    ax[1,0].plot(tF,S_vals); ax[1,0].set_title("S_A(t)"); ax[1,0].grid(True,alpha=.3)
-    ax[1,1].plot(tF,flux_vals); ax[1,1].set_title("Φ_R(t)"); ax[1,1].grid(True,alpha=.3)
-    fig.tight_layout(); plt.show()
+def make_plots(dens, currents, dt, J_index, S_vals, flux_vals):
+    T, N = dens.shape
+    times_local = np.linspace(0.0, dt * (T - 1), T)
+    times_full  = np.linspace(0.0, dt * (len(S_vals) - 1), len(S_vals))
 
-if __name__=="__main__":
-    N,NA,L0,a_lat,h0,J0,Omega,t_final,n_steps=6,3,1,1,1,0.8,0.6,5,200
-    dim=2**N
-    R_full,pos=build_R_STUR(N,L0,a_lat,h0,J0,Omega)
-    psi0=np.zeros(dim,complex); psi0[0]=1
-    traj,dt=evolve_STUR(R_full,psi0,t_final,n_steps)
-    S_vals=[entanglement_entropy(p,N,NA) for p in traj]
-    flux=[resistance_flux(p,R_full) for p in traj]
-    print("S_A max:",max(S_vals),"Φ drift:",max(flux)-min(flux))
-    R_xx,pos=build_R_STUR(N,L0,a_lat,0,J0,0)
-    psi0c=np.zeros(dim,complex); psi0c[1]=1
-    trajc,dtc=evolve_STUR(R_xx,psi0c,1,400)
-    dens=local_densities(trajc,local_density_ops(N))
-    curr=bond_currents(trajc,N,pos,L0,J0)
-    make_plots(dens,curr,dtc,(0,1),S_vals,flux)
-    res=continuity_max_residual(dens,curr,dtc)
-    print(json.dumps({"max_entropy":max(S_vals),"flux_drift":max(flux)-min(flux),"continuity_residual":res},indent=2))
+    fig, ax = plt.subplots(2, 2, figsize=(10, 8))
+
+    im = ax[0,0].imshow(dens.T, aspect="auto", origin="lower",
+                        extent=[times_local[0], times_local[-1], 0, N-1])
+    ax[0,0].set_xlabel("time")
+    ax[0,0].set_ylabel("site index")
+    ax[0,0].set_title("local density rho_i(t)")
+    fig.colorbar(im, ax=ax[0,0])
+
+    i, j = J_index
+    ax[0,1].plot(times_local, currents[:, i, j])
+    ax[0,1].set_xlabel("time")
+    ax[0,1].set_ylabel("current")
+    ax[0,1].set_title("bond current J_{}->{}(t)".format(i, j))
+    ax[0,1].grid(True, alpha=0.3)
+
+    ax[1,0].plot(times_full, S_vals)
+    ax[1,0].set_xlabel("time")
+    ax[1,0].set_ylabel("bits")
+    ax[1,0].set_title("entanglement entropy S_A(t)")
+    ax[1,0].grid(True, alpha=0.3)
+
+    ax[1,1].plot(times_full, flux_vals)
+    ax[1,1].set_xlabel("time")
+    ax[1,1].set_title("resistance flux Phi_R(t)")
+    ax[1,1].grid(True, alpha=0.3)
+
+    fig.tight_layout()
+    plt.show()
+
+if __name__ == "__main__":
+    N     = 6
+    NA    = 3
+    L0    = 1.0
+    a_lat = 1.0
+    h0    = 1.0
+    J0    = 0.8
+    Omega = 0.6
+    t_final  = 5.0
+    n_steps  = 200
+    dim = 2**N
+
+    R_full, positions = build_R_STUR(N, L0, a_lat, h0, J0, Omega)
+
+    psi0 = np.zeros(dim, dtype=complex)
+    psi0[0] = 1.0
+
+    traj_full, dt_full = evolve_STUR(R_full, psi0, t_final, n_steps)
+
+    S_vals   = [entanglement_entropy(psi, N, NA) for psi in traj_full]
+    flux_vals= [resistance_flux(psi, R_full) for psi in traj_full]
+
+    flux0    = flux_vals[0]
+    flux_min = min(flux_vals)
+    flux_max = max(flux_vals)
+    drift_abs= flux_max - flux_min
+    drift_rel= drift_abs / (abs(flux0) + 1.0e-15)
+
+    R_xx, positions = build_R_STUR(N, L0, a_lat, h0=0.0, J0=J0, Omega=0.0)
+
+    psi0_cont = np.zeros(dim, dtype=complex)
+    psi0_cont[1] = 1.0
+
+    t_final_c = 1.0
+    n_steps_c = 400
+
+    traj_c, dt_c = evolve_STUR(R_xx, psi0_cont, t_final_c, n_steps_c)
+
+    n_ops   = local_density_ops(N)
+    dens    = local_densities(traj_c, n_ops)
+    currents= bond_currents(traj_c, N, positions, L0, J0)
+
+    max_res = continuity_max_residual(dens, currents, dt_c)
+    N_tot   = dens.sum(axis=1)
+    N_drift = float(N_tot.max() - N_tot.min())
+
+    make_plots(dens, currents, dt_c, (0,1), S_vals, flux_vals)
+
+    summary = {
+        "N_sites": int(N),
+        "dt_local": float(dt_c),
+        "S_A_max_bits": float(max(S_vals)),
+        "S_A_final_bits": float(S_vals[-1]),
+        "Phi_R_min": float(flux_min),
+        "Phi_R_max": float(flux_max),
+        "Phi_R_abs_drift": float(drift_abs),
+        "Phi_R_rel_drift": float(drift_rel),
+        "continuity_max_residual": float(max_res),
+        "N_tot_drift": float(N_drift)
+    }
+
+    print(json.dumps(summary, indent=2))
+    print("STUR QC Lattice Simulation Complete.")
 </pre>
 
 <div style="text-align:center;">
-  <button onclick="copyCode()">📋 Copy Script</button>
-  <button onclick="window.open('https://jupyterlite.github.io/demo/lab/index.html', '_blank')">🚀 Open in JupyterLite</button>
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="window.open('https://jupyterlite.github.io/demo/lab/index.html','_blank')">
+    Open JupyterLite
+  </button>
 </div>
 
 <script>
 function copyCode() {
-  const code = document.getElementById("code").innerText;
-  navigator.clipboard.writeText(code);
-  alert("Python simulation copied to clipboard!");
+  const text = document.getElementById("code").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Python script copied to clipboard.");
 }
 </script>
 
 <footer>
-  <p>STUR Physics Lab © 2025 — Deterministic Resistance Field Simulations</p>
+  STUR Physics Lab &copy; 2025
 </footer>
 
 </body>
