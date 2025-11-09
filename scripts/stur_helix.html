@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR Helix TOE Verifier – Geometry + Spectrum</title>
+<style>
+  body{
+    background:#050814;
+    color:#e6edf3;
+    font-family:"Courier New",monospace;
+    margin:0;
+    padding:2rem;
+  }
+  h1{color:#ffaa00;text-align:center;}
+  h2{color:#ffcc33;margin-top:2rem;}
+  .desc{
+    max-width:950px;
+    margin:0 auto 1.5rem auto;
+    line-height:1.6;
+  }
+  pre{
+    background:#0a0f1f;
+    color:#00ffcc;
+    padding:1rem;
+    border-radius:8px;
+    overflow-x:auto;
+    font-size:0.9rem;
+    box-shadow:0 0 18px #ffaa0040;
+    white-space:pre;
+  }
+  code{color:#ffcc66;}
+  button{
+    background:#ffaa00;
+    color:#050814;
+    border:none;
+    border-radius:6px;
+    padding:10px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px;
+    transition:0.2s;
+  }
+  button:hover{background:#ffcc33;}
+  footer{
+    text-align:center;
+    font-size:0.9em;
+    color:#999;
+    margin-top:2rem;
+  }
+  a{color:#66ccff;}
+</style>
+</head>
+<body>
+
+<h1>STUR Helix TOE Verifier – Geometry + Spectrum</h1>
+
+<h2>STUR Helix Quantization &amp; Hydrogen 1s Test</h2>
+<div class="desc">
+<p>
+We treat any helical trajectory as a STUR object: geometry encodes resistance.
+A helix of radius <code>R</code> and pitch <code>P</code> has curvature <code>κ</code> and torsion <code>τ</code>:
+</p>
+
+<p style="text-align:center;">
+κ = R / (R² + c²), &nbsp;&nbsp; τ = c / (R² + c²), &nbsp;&nbsp; c = P / (2π).
+</p>
+
+<p>
+STUR postulates that stable helical states sit on a discrete lattice in
+<code>(κ, τ)</code>-space labeled by integers <code>(n,m)</code> and a universal geometric scale <code>L₀</code>:
+</p>
+
+<p style="text-align:center;">
+(κ² + τ²)(n² + m²) = 1 / L₀²  &nbsp;&nbsp;⟹&nbsp;&nbsp;
+L₀ = 1 / √[(n² + m²)(κ² + τ²)].
+</p>
+
+<p>
+By fitting <code>(n,m)</code> for very different helices
+(solar orbit, DNA, electron gyro, α-helix, tendril) we test whether a
+single <code>L₀</code> emerges across scales. That defines a
+<strong>geometric unification scale</strong> inside the STUR framework.
+</p>
+
+<h2>STUR Radial Modulator in Hydrogen 1s</h2>
+
+<p>
+On the spectral side, we apply the STUR radial modulator to the hydrogen 1s state:
+</p>
+
+<p style="text-align:center;">
+S<span style="vertical-align:sub;">STUR</span>(r;L₀) =
+tanh(r/L₀) (1 − e<sup>−r/L₀</sup>).
+</p>
+
+<p>
+We treat <code>S</code> as a small perturbation to the Coulomb potential and estimate the
+first-order fractional shift from the expectation value
+</p>
+
+<p style="text-align:center;">
+ΔE/E ≈ &lt;S − 1&gt;<sub>1s</sub>,
+</p>
+
+<p>
+where the average is taken with respect to the standard hydrogen 1s radial probability
+density. For each <code>L₀</code> we compute:
+</p>
+
+<ul>
+  <li><code>|ΔE|</code> in µeV for the hydrogen 1s bound state.</li>
+  <li><code>|ΔE/E|</code> and compare it against NIST precision bands (~10⁻¹⁰ and ~10⁻¹²).</li>
+</ul>
+
+<p>
+The script outputs:
+</p>
+
+<ul>
+  <li>A helix table with best-fit <code>(n,m)</code>, <code>κ</code>, <code>τ</code>, and inferred <code>L₀</code>.</li>
+  <li>Two plots:
+    <ul>
+      <li>|ΔE₁ₛ| vs <code>L₀</code> in µeV (log–log).</li>
+      <li>|ΔE/E| vs <code>L₀</code> compared to NIST bands.</li>
+    </ul>
+  </li>
+  <li>A JSON file <code>stur_helix_spectrum.json</code> with all key arrays and fit results.</li>
+</ul>
+
+</div>
+
+<h2>Python Simulation (copy &amp; run in Jupyter/Lite)</h2>
+
+<pre id="codeBlock">#!/usr/bin/env python3
+"""
+STUR Helix TOE Verifier – Geometry + Spectrum
+---------------------------------------------
+A) Helix κ–τ quantization:
+   - Fits discrete (n,m) to observed helices
+   - Infers universal L0 from
+       L0 = 1 / sqrt[(n^2+m^2)(κ^2+τ^2)]
+
+B) Hydrogen 1s STUR correction:
+   - Uses S(r;L0)=tanh(r/L0)*(1-exp(-r/L0))
+   - Computes ΔE/E ~ &lt;S-1&gt; over 1s
+   - Compares to NIST precision bands.
+
+Outputs:
+  * Console tables
+  * Two plots (dark theme)
+  * stur_helix_spectrum.json with key arrays.
+"""
+
+import json
+import numpy as np
+import matplotlib.pyplot as plt
+
+plt.style.use("dark_background")
+
+# ============================================================
+# A) HELIX κ–τ UNIVERSAL L0 SEARCH
+# ============================================================
+
+# name, R (m), P (m)
+SYSTEMS = [
+    ("Solar orbit",
+     1.496e11,
+     2.30e5 * 365.25 * 24 * 3600.0),
+    ("DNA helix",
+     1.0e-9,
+     3.4e-9),
+    ("Electron gyro",
+     9.10938356e-31*1e6/(1.602176634e-19*1.0),
+     2*np.pi*9.10938356e-31*2e6/(1.602176634e-19*1.0)),
+    ("Protein α-helix",
+     0.23e-9,
+     0.54e-9),
+    ("Plant tendril",
+     0.24e-3,
+     1.0e-3),
+]
+
+def helix_invariants(R, P):
+    c = P / (2*np.pi)
+    denom = R**2 + c**2
+    kappa = R / denom
+    tau   = c / denom
+    return kappa, tau
+
+def infer_L0(kappa, tau, n, m):
+    return 1.0 / np.sqrt((n**2 + m**2) * (kappa**2 + tau**2))
+
+print("Start running......")
+
+NMAX = 8
+helix_results = []
+
+print("\n=== STUR Helix Universal L0 Search ===")
+print(f"{'System':25s} {'n':&gt;2s} {'m':&gt;2s} {'L0 (m)':&gt;14s} {'|κ/τ−n/m|':&gt;12s}")
+print("-"*60)
+
+for name, R, P in SYSTEMS:
+    kappa, tau = helix_invariants(R, P)
+    best = None
+    min_err = 1e99
+    for n in range(1, NMAX+1):
+        for m in range(1, NMAX+1):
+            L0 = infer_L0(kappa, tau, n, m)
+            err = abs(kappa/tau - n/m)
+            if err &lt; min_err:
+                min_err = err
+                best = (n, m, L0, err)
+    n_best, m_best, L0_best, err_best = best
+    helix_results.append(
+        dict(system=name, n=n_best, m=m_best,
+             kappa=kappa, tau=tau, L0=L0_best, shape_error=err_best)
+    )
+    print(f"{name:25s} {n_best:2d} {m_best:2d} "
+          f"{L0_best:14.6e} {err_best:12.3e}")
+
+L0_vals = np.array([r["L0"] for r in helix_results])
+L0_mean = L0_vals.mean()
+L0_std  = L0_vals.std()
+print(f"\nUniversal L0 ≈ {L0_mean:.6e} ± {L0_std:.1e} m")
+
+# ============================================================
+# B) HYDROGEN 1s STUR CORRECTION VS NIST
+# ============================================================
+
+# Hard-coded physical constants (SI) to avoid SciPy dependency
+hbar = 1.054571817e-34      # J·s
+m_e = 9.1093837015e-31      # kg
+e = 1.602176634e-19         # C
+epsilon_0 = 8.8541878128e-12  # F/m
+
+Z = 1
+a0 = 4*np.pi*epsilon_0*hbar**2/(m_e*e**2)  # Bohr radius
+E_ref = -13.605693009  # eV, NIST 1s binding energy
+
+def S_stur(r, L0):
+    x = r / L0
+    return np.tanh(x) * (1.0 - np.exp(-x))
+
+def frac_shift_1s(L0):
+    """First-order ΔE/E ≈ &lt;S-1&gt; over 1s radial density."""
+    # radial grid chosen to cover most 1s probability density
+    r = np.logspace(-13, -8, 1000)
+    psi2 = 4 * r**2 * np.exp(-2*r/a0) / a0**3  # |ψ|^2 * 4πr^2
+    num = np.trapz(S_stur(r, L0) * psi2, r)
+    den = np.trapz(psi2, r)
+    S_avg = num / den
+    return S_avg - 1.0
+
+L0s  = np.logspace(-12, 0, 60)
+frac = np.array([abs(frac_shift_1s(L0)) for L0 in L0s])
+dE   = frac * abs(E_ref)  # eV
+
+# --- Plot 1: absolute energy shift (µeV) vs L0 ----------------------
+plt.figure(figsize=(8,6))
+plt.loglog(L0s, dE*1e6, "o-", lw=2)
+plt.xlabel("L₀ (m)")
+plt.ylabel("|ΔE₁ₛ| (µeV)")
+plt.title("Hydrogen 1s Energy Shift vs STUR Scale L₀")
+plt.grid(True, which="both", alpha=0.4)
+plt.tight_layout()
+plt.show()
+
+# --- Plot 2: fractional shift vs NIST precision ---------------------
+nist_floor  = 1e-10
+nist_strict = 1e-12
+
+plt.figure(figsize=(8,6))
+plt.loglog(L0s, frac, "o-", lw=2, label="|ΔE/E| (STUR model)")
+plt.axhline(nist_floor,  color="orange", ls="--", label="NIST ~1e-10")
+plt.axhline(nist_strict, color="red",    ls=":",  label="NIST 1s–2s ~1e-12")
+plt.xlabel("L₀ (m)")
+plt.ylabel("Fractional shift |ΔE/E|")
+plt.title("STUR Hydrogen 1s Shift vs NIST Precision")
+plt.grid(True, which="both", alpha=0.4)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+within = L0s[frac &lt; nist_floor]
+if within.size:
+    print("\nL₀ values consistent with NIST (&lt;1e-10 shift):")
+    print(f"{within.min():.3e} m  ≤  L₀  ≤  {within.max():.3e} m")
+else:
+    print("\nNo L₀ range keeps shifts below 1e-10; STUR correction visible.")
+
+# ============================================================
+# C) JSON EXPORT
+# ============================================================
+
+export = {
+    "helix_results": helix_results,
+    "L0_mean": float(L0_mean),
+    "L0_std":  float(L0_std),
+    "hydrogen": {
+        "L0s_m": L0s.tolist(),
+        "frac_shift": frac.tolist(),
+        "dE_eV": dE.tolist(),
+        "nist_floor": nist_floor,
+        "nist_strict": nist_strict,
+        "E_ref_eV": E_ref,
+    },
+}
+
+with open("stur_helix_spectrum.json", "w") as f:
+    json.dump(export, f, indent=2)
+
+print("\nSaved results to stur_helix_spectrum.json")
+print("\nStop running......")</pre>
+
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open Python Runner (JupyterLite)</button>
+</div>
+
+<p class="desc" style="text-align:center;">
+Click <b>Copy Script</b>, then <b>Open Python Runner</b>.<br>
+In JupyterLite, paste the code into a new cell and run it to see the helix quantization table,
+hydrogen 1s shift plots, and the exported <code>stur_helix_spectrum.json</code>.
+</p>
+
+<footer>
+© 2025 STUR Physics Lab · Helix TOE Verifier · Unified Resistance Geometry &amp; Spectrum
+</footer>
+
+<script>
+function copyCode(){
+  const code = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
+  alert("STUR Helix TOE Verifier code copied to clipboard");
+}
+function openRunner(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+}
+</script>
+
+</body>
+</html>
