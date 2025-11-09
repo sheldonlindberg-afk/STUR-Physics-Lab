@@ -2,256 +2,241 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>STUR QC – Resistance Flow Engine Inspired by x@lukenash</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR QC – Resistance Flow & Continuity</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <style>
+  :root{
+    --bg:#020817;
+    --panel:#050b18;
+    --accent:#00e0ff;
+    --accent2:#ffaa00;
+    --text:#e6edf3;
+    --muted:#9ca3af;
+  }
+  *{box-sizing:border-box;}
   body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:"Courier New",monospace;
     margin:0;
-    padding:2rem;
+    padding:2rem 1.5rem 3rem;
+    background:radial-gradient(circle at top,#071021 0,#020817 55%,#000 100%);
+    color:var(--text);
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
   }
   h1{
-    color:#ffd166;
     text-align:center;
-    margin-bottom:0.2rem;
+    color:var(--accent2);
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    font-size:1.4rem;
+    margin-bottom:0.4rem;
   }
   h2{
-    color:#ffb703;
-    margin-top:2rem;
-    margin-bottom:0.5rem;
+    color:var(--accent);
+    margin-top:1.8rem;
+    font-size:1.05rem;
   }
   .subtitle{
     text-align:center;
-    color:#9fb3c8;
-    margin-bottom:1.5rem;
+    color:var(--muted);
+    font-size:0.9rem;
+    margin-bottom:1.8rem;
   }
-  .desc{
+  .shell{
     max-width:980px;
-    margin:0 auto 1.5rem auto;
-    line-height:1.5;
-    font-size:0.95rem;
-  }
-  .eq{
-    text-align:center;
-    margin:0.6rem 0;
-  }
-  .eq code{
-    font-size:0.95rem;
-  }
-  pre#code-block{
-    background:#020617;
-    color:#e5e5e5;
-    padding:1.2rem;
-    border-radius:10px;
-    overflow-x:auto;
-    font-size:0.85rem;
-    line-height:1.35;
-    box-shadow:0 0 22px rgba(0,0,0,0.8);
-    max-width:1100px;
-    margin:0 auto 1rem auto;
-    white-space:pre;
-  }
-  button{
-    background:#ffb703;
-    color:#04101f;
-    border:none;
-    border-radius:6px;
-    padding:9px 16px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:0.4rem 0.4rem 1.5rem 0;
-    transition:background 0.15s,transform 0.1s;
-  }
-  button:hover{
-    background:#ffd166;
-    transform:translateY(-1px);
-  }
-  .button-row{
-    max-width:1100px;
     margin:0 auto;
   }
-  a{
-    color:#8ecae6;
-    text-decoration:none;
+  .card{
+    background:linear-gradient(145deg,#050b18,#020715);
+    border-radius:14px;
+    border:1px solid rgba(148,163,184,0.35);
+    box-shadow:0 0 35px rgba(15,23,42,0.9);
+    padding:1.4rem 1.4rem 1.6rem;
+    margin-bottom:1.8rem;
   }
-  a:hover{text-decoration:underline;}
+  .card h2:first-child{margin-top:0;}
+  p{line-height:1.55;font-size:0.96rem;}
+  ul{line-height:1.5;font-size:0.95rem;margin-top:0.4rem;}
+  code.inline{
+    font-family:"SF Mono","Menlo","Consolas",monospace;
+    background:#020617;
+    padding:0 0.25rem;
+    border-radius:4px;
+    font-size:0.9em;
+    color:#7ee0ff;
+  }
+  pre{
+    background:#020617;
+    border-radius:10px;
+    padding:1rem 1.1rem;
+    overflow-x:auto;
+    font-size:0.82rem;
+    line-height:1.45;
+    color:#e5f2ff;
+    font-family:"SF Mono","Menlo","Consolas",monospace;
+    box-shadow:0 0 25px rgba(56,189,248,0.25);
+    border:1px solid rgba(148,163,184,0.55);
+    white-space:pre;
+  }
+  .btn-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.6rem;
+    margin:0.4rem 0 1.0rem;
+  }
+  button,a.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:none;
+    border-radius:999px;
+    padding:0.45rem 0.95rem;
+    font-size:0.86rem;
+    font-weight:600;
+    cursor:pointer;
+    text-decoration:none;
+    transition:all 0.15s ease-out;
+    letter-spacing:0.03em;
+  }
+  button.primary,a.btn.primary{
+    background:linear-gradient(135deg,#facc15,#f97316);
+    color:#111827;
+    box-shadow:0 0 16px rgba(250,204,21,0.35);
+  }
+  button.primary:hover,a.btn.primary:hover{
+    transform:translateY(-1px);
+    box-shadow:0 0 22px rgba(250,204,21,0.55);
+  }
+  button.secondary,a.btn.secondary{
+    background:rgba(15,23,42,0.85);
+    color:var(--accent);
+    border:1px solid rgba(148,163,184,0.6);
+  }
+  button.secondary:hover,a.btn.secondary:hover{
+    border-color:var(--accent);
+    box-shadow:0 0 14px rgba(56,189,248,0.35);
+  }
+  .note{
+    font-size:0.86rem;
+    color:var(--muted);
+    margin-top:0.4rem;
+  }
   footer{
-    margin-top:2.5rem;
+    margin-top:2.2rem;
     text-align:center;
     font-size:0.8rem;
-    color:#7a8699;
+    color:var(--muted);
   }
 </style>
 </head>
 <body>
+<div class="shell">
+  <h1>STUR QC – Resistance Flow &amp; Continuity</h1>
+  <div class="subtitle">
+    STUR unified resistance on a finite spin chain, with local continuity and global invariants,
+    Inspired by Lucas Nash X@lukenash.
+  </div>
 
-<h1>STUR QC – Resistance Flow Engine</h1>
-<div class="subtitle">Lattice entanglement, resistance flux, and continuity in the STUR framework</div>
+  <div class="card">
+    <h2>Derivation Sketch – STUR Resistance Generator</h2>
+    <p>
+      We treat a chain of <code class="inline">N</code> two-level sites as an effective
+      STUR medium. On each site <code class="inline">i</code> we place Pauli operators
+      <code class="inline">σ<sub>x</sub><sup>i</sup>, σ<sub>y</sub><sup>i</sup>, σ<sub>z</sub><sup>i</sup></code>.
+      The STUR radial modulator is
+      </p>
+      <p style="margin-left:0.5rem;">
+        <code class="inline">S(r;L₀) = tanh(r/L₀) · (1 − exp(−r/L₀))</code>,
+      </p>
+      <p>
+      which suppresses short-range response and saturates for large separation,
+      just like in your other STUR sims.
+    </p>
+    <p>
+      The effective STUR “resistance generator” is
+    </p>
+    <pre>R_STUR =
+  Σᵢ   h₀ S(rᵢ;L₀) σᶻᵢ
++ Σᵢ&lt;j J₀ S(|rᵢ−rⱼ|;L₀) (σˣᵢ σˣⱼ + σʸᵢ σʸⱼ)
++ Ω Σᵢ S(rᵢ;L₀) σˣᵢ</pre>
+    <p>
+      We evolve a complex field <code class="inline">Ψ(t)</code> on the 2ᴺ-dimensional
+      Hilbert space using a deterministic STUR equation
+    </p>
+    <pre>i ħ ∂ₜ Ψ(t) = R_STUR Ψ(t)</pre>
+    <p>
+      interpreted as a resistance-flow law, not as a probability rule.
+      From <code class="inline">Ψ(t)</code> we compute:
+    </p>
+    <ul>
+      <li><strong>Local density</strong> on each site:
+        <code class="inline">nᵢ = (1 − σᶻᵢ)/2</code>, with density
+        <code class="inline">ρᵢ(t) = ⟨Ψ|nᵢ|Ψ⟩</code>.</li>
+      <li><strong>Bond currents</strong> between sites:
+        <code class="inline">Jᵢ→ⱼ(t) = 4 Jᵢⱼ Im⟨σ⁺ᵢ σ⁻ⱼ⟩</code>,
+        where <code class="inline">Jᵢⱼ = J₀ S(|rᵢ−rⱼ|;L₀)</code>.</li>
+      <li><strong>Continuity residual</strong> from the lattice continuity equation
+        <code class="inline">dρᵢ/dt + Σⱼ Jᵢ→ⱼ ≈ 0</code>.</li>
+      <li><strong>Entanglement entropy</strong> <code class="inline">S_A(t)</code> of a block
+        of <code class="inline">N_A</code> sites.</li>
+      <li><strong>Global resistance flux</strong>
+        <code class="inline">Φ_R(t) = Re[Ψ† R_STUR Ψ]</code>, which is
+        approximately invariant if the STUR generator is well-behaved.</li>
+    </ul>
+    <p>
+      The simulation below:
+    </p>
+    <ul>
+      <li>Builds <code class="inline">R_STUR</code> for <code class="inline">N=6</code>.</li>
+      <li>Evolves the full field and tracks <code class="inline">S_A(t)</code>
+          and <code class="inline">Φ_R(t)</code>.</li>
+      <li>Runs a second evolution with a single excitation,
+          computes <code class="inline">ρᵢ(t)</code> and
+          <code class="inline">Jᵢ→ⱼ(t)</code>, and checks continuity.</li>
+      <li>Writes a JSON summary so the run can be archived alongside
+          your Zenodo STUR series.</li>
+    </ul>
+  </div>
 
-<h2>Derivation Sketch</h2>
-<div class="desc">
-  <p>
-    In the STUR picture, “resistance” is promoted from a scalar to a full quantum field
-    living on a lattice of sites.  For a one-dimensional chain of <em>N</em> two-level
-    sites we define Pauli operators
-    <code>σ<sub>x</sub><sup>(i)</sup>, σ<sub>y</sub><sup>(i)</sup>, σ<sub>z</sub><sup>(i)</sup></code>
-    acting on site <em>i</em>, and the usual ladder operators
-    <code>σ<sup>+</sup>, σ<sup>−</sup></code>.
-  </p>
-
-  <p class="eq">
-    <code>S(r;L<sub>0</sub>) = tanh(r / L<sub>0</sub>) · (1 − e<sup>−r/L<sub>0</sub></sup>)</code>
-  </p>
-
-  <p>
-    is the STUR radial modulator: it suppresses short-range pathologies near
-    <code>r = 0</code> and saturates to 1 for <code>r ≫ L<sub>0</sub></code>.
-    On a 1D lattice with spacing <code>a<sub>lat</sub></code>, positions are
-    <code>r<sub>i</sub> = i · a<sub>lat</sub></code>.  The effective STUR
-    “resistance generator” is
-  </p>
-
-  <p class="eq">
-    <code>
-    R<sub>STUR</sub> =
-      ∑<sub>i</sub> h<sub>0</sub> S(r<sub>i</sub>) σ<sub>z</sub><sup>(i)</sup>
-      + ∑<sub>i&lt;j</sub> J<sub>0</sub> S(|r<sub>i</sub>−r<sub>j</sub>|)
-        (σ<sub>x</sub><sup>(i)</sup>σ<sub>x</sub><sup>(j)</sup> + σ<sub>y</sub><sup>(i)</sup>σ<sub>y</sub><sup>(j)</sup>)
-      + Ω ∑<sub>i</sub> S(r<sub>i</sub>) σ<sub>x</sub><sup>(i)</sup>.
-    </code>
-  </p>
-
-  <p>
-    Instead of the Born-rule interpretation of the wavefunction, we treat
-    <code>Ψ(t)</code> as a <strong>deterministic resistance field</strong> obeying
-  </p>
-
-  <p class="eq">
-    <code>iħ dΨ/dt = R<sub>STUR</sub> Ψ.</code>
-  </p>
-
-  <p>
-    From <code>Ψ(t)</code> we compute:
-  </p>
-  <ul>
-    <li>
-      Local “resistance density”
-      <code>ρ<sub>i</sub>(t) = ⟨n<sub>i</sub>⟩
-      = ⟨(1 − σ<sub>z</sub><sup>(i)</sup>)/2⟩</code>.
-    </li>
-    <li>
-      Bond currents
-      <code>J<sub>i→j</sub>(t) = 4 J<sub>ij</sub> Im ⟨σ<sup>+</sup><sub>i</sub> σ<sup>−</sup><sub>j</sub>⟩</code>
-      with <code>J<sub>ij</sub> = J<sub>0</sub> S(|r<sub>i</sub>−r<sub>j</sub>|)</code>.
-    </li>
-    <li>
-      A lattice continuity equation,
-      <code>dρ<sub>i</sub>/dt + Σ<sub>j</sub> J<sub>i→j</sub> ≈ 0</code>,
-      which we check numerically.
-    </li>
-    <li>
-      Entanglement entropy of a block <code>A</code>,
-      <code>S<sub>A</sub>(t) = −Tr[ρ<sub>A</sub> log₂ ρ<sub>A</sub>]</code>,
-      and a global “resistance flux”
-    </li>
-  </ul>
-
-  <p class="eq">
-    <code>Φ<sub>R</sub>(t) = Re [ Ψ† R<sub>STUR</sub> Ψ ].</code>
-  </p>
-
-  <p>
-    This notebook does two runs:
-  </p>
-  <ol>
-    <li>
-      A full <code>R<sub>STUR</sub></code> evolution for <code>N = 6</code> sites,
-      reporting the growth of entanglement and drift of <code>Φ<sub>R</sub></code>.
-    </li>
-    <li>
-      A continuity test with XX+YY couplings only, starting from a single
-      excitation on site 0.  This produces:
-      <ul>
-        <li>A ρ<sub>i</sub>(t) heatmap (density flow)</li>
-        <li>A bond current trace J<sub>0→1</sub>(t)</li>
-        <li>Global invariants S<sub>A</sub>(t) and Φ<sub>R</sub>(t)</li>
-        <li>A compact JSON summary for GitHub / Zenodo</li>
-      </ul>
-    </li>
-  </ol>
-
-  <p>
-    The Python below is designed so you can copy–paste it directly into Jupyter,
-    JupyterLite, or any standard Python environment with NumPy, SciPy, Matplotlib,
-    and JSON available.
-  </p>
-</div>
-
-<h2>Python Simulation Code</h2>
-<div class="button-row">
-  <button id="copy-btn">Copy Python to clipboard</button>
-</div>
-
-<pre id="code-block"></pre>
-
-<!-- Raw Python script lives here; JS copies it into the <pre> and the clipboard -->
-<script type="text/plain" id="stur-qc-code">
+  <div class="card">
+    <h2>Python Simulation (copy into JupyterLite)</h2>
+    <div class="btn-row">
+      <button class="primary" onclick="copySTURCode()">Copy STUR QC Script</button>
+      <a class="secondary btn" href="https://jupyterlite.github.io/demo/lab/" target="_blank" rel="noopener">
+        Open JupyterLite
+      </a>
+    </div>
+    <p class="note">
+      Paste the script below into a new notebook cell in JupyterLite and run it.
+      It will generate three PNG plots and a JSON file
+      <code class="inline">stur_qc_summary.json</code>.
+    </p>
+    <pre id="stur-code">
 #!/usr/bin/env python3
-"""
-STUR QC – Resistance Flow Engine
---------------------------------
-Lattice version of the STUR resistance field:
-
-  i ħ dΨ/dt = R_STUR Ψ
-
-with local densities ρ_i(t), bond currents J_{i→j}(t),
-entanglement entropy S_A(t) and a global "resistance flux"
-Φ_R(t) = Re[Ψ† R_STUR Ψ].
-
-Outputs:
-  * ρ_i(t) heatmap (stur_qc_densities.png)
-  * Bond current trace (stur_qc_current.png)
-  * Global invariants plot (stur_qc_globals.png)
-  * JSON summary (stur_qc_summary.json)
-"""
-
-import numpy as np
-import math
-import json
+import numpy as np, math, json
 from numpy.linalg import eig
 from scipy.linalg import expm
 import matplotlib.pyplot as plt
 
-# Dark theme
+# Dark theme for STUR lab visuals
 plt.style.use("dark_background")
 
 # ============================================================
 # STUR radial modulator
 # ============================================================
-
 def S_STUR(r, L0):
     x = r / L0
     return math.tanh(x) * (1.0 - math.exp(-x))
 
-# Pauli / ladder operators (explicit complex dtype for JupyterLite)
-I2      = np.eye(2, dtype=np.complex128)
-sx      = np.array([[0, 1],
-                    [1, 0]], dtype=np.complex128)
-sy      = np.array([[0, -1j],
-                    [1j,  0]], dtype=np.complex128)
-sz      = np.array([[1,  0],
-                    [0, -1]], dtype=np.complex128)
-s_plus  = np.array([[0, 1],
-                    [0, 0]], dtype=np.complex128)
-s_minus = np.array([[0, 0],
-                    [1, 0]], dtype=np.complex128)
+# Pauli / ladder operators
+I2 = np.eye(2, dtype=complex)
+sx = np.array([[0, 1],[1, 0]], dtype=complex)
+sy = np.array([[0, -1j],[1j,  0]], dtype=complex)
+sz = np.array([[1, 0],[0,-1]], dtype=complex)
+s_plus  = np.array([[0, 1],[0, 0]], dtype=complex)
+s_minus = np.array([[0, 0],[1, 0]], dtype=complex)
 
 # ============================================================
 # Tensor helpers
 # ============================================================
-
 def kron_all(ops):
     out = ops[0]
     for op in ops[1:]:
@@ -274,16 +259,15 @@ def two_op(pauli_a, i, pauli_b, j, N):
 # ============================================================
 # STUR resistance generator R_STUR
 # ============================================================
-
 def build_R_STUR(N, L0=1.0, a_lat=1.0, h0=1.0, J0=1.0, Omega=0.5):
     """
     R_STUR =
-      Σ_i   h0 S(r_i) σ_z^i
-    + Σ_i<j J0 S(|r_i-r_j|)(σ_x^i σ_x^j + σ_y^i σ_y^j)
-    + Ω Σ_i S(r_i) σ_x^i
+      Σ_i    h0 S(r_i) σ_z^i
+    + Σ_i&lt;j J0 S(|r_i-r_j|)(σ_x^i σ_x^j + σ_y^i σ_y^j)
+    + Ω Σ_i  S(r_i) σ_x^i
     """
     dim = 2**N
-    R = np.zeros((dim, dim), dtype=np.complex128)
+    R = np.zeros((dim, dim), dtype=complex)
     positions = np.array([i * a_lat for i in range(N)], dtype=float)
 
     # On-site STUR-weighted σ_z
@@ -313,10 +297,9 @@ def build_R_STUR(N, L0=1.0, a_lat=1.0, h0=1.0, J0=1.0, Omega=0.5):
 # ============================================================
 # Deterministic STUR evolution (no Born rule)
 # ============================================================
-
 def evolve_STUR(R, psi0, t_final, n_steps, hbar=1.0):
     """
-    iħ dΨ/dt = R_STUR Ψ  (Ψ = STUR resistance field)
+    iħ dΨ/dt = R_STUR Ψ  (Ψ = STUR resistance field, not probability)
     """
     dt = t_final / n_steps
     U_dt = expm(-1j * R * dt / hbar)
@@ -325,14 +308,13 @@ def evolve_STUR(R, psi0, t_final, n_steps, hbar=1.0):
     traj = [psi.copy()]
     for _ in range(n_steps):
         psi = U_dt @ psi
-        psi /= np.linalg.norm(psi)
+        psi /= np.linalg.norm(psi)   # numerical stabilization
         traj.append(psi.copy())
     return np.array(traj), dt
 
 # ============================================================
 # Entanglement entropy (information measure)
 # ============================================================
-
 def entanglement_entropy(psi, N, NA):
     NB = N - NA
     dimA = 2**NA
@@ -353,25 +335,21 @@ def entanglement_entropy(psi, N, NA):
 # ============================================================
 # Global resistance-flux invariant
 # ============================================================
-
 def resistance_flux(psi, R):
     """
-    Φ_R(Ψ) = Re[Ψ† R Ψ]
+    Φ_R(Ψ) = Re[Ψ† R Ψ]  (discrete ∫ρ_R dV)
     """
     return float(np.real(np.vdot(psi, R @ psi)))
 
 # ============================================================
 # Local densities and bond currents
 # ============================================================
-
 def local_density_ops(N):
     """
     n_i = (1 - σ_z^i)/2  → local excitation density
     """
-    ops = []
-    for i in range(N):
-        ops.append(0.5 * (single_op(I2, i, N) - single_op(sz, i, N)))
-    return ops
+    return [0.5 * (single_op(I2, i, N) - single_op(sz, i, N))
+            for i in range(N)]
 
 def local_densities(traj, n_ops):
     dens = []
@@ -381,7 +359,7 @@ def local_densities(traj, n_ops):
 
 def bond_currents(traj, N, positions, L0, J0):
     """
-    J_{i→j}(t) = 4 J_ij Im ⟨σ_i^+ σ_j^-⟩
+    J_{i→j}(t) = 4 J_ij Im <σ_i^+ σ_j^->
     with J_ij = J0 S(|r_i - r_j|; L0)
     """
     splus_ops  = {i: single_op(s_plus,  i, N) for i in range(N)}
@@ -405,9 +383,9 @@ def bond_currents(traj, N, positions, L0, J0):
 
 def continuity_max_residual(dens, currents, dt):
     """
-    Check dρ_i/dt + Σ_j J_{i→j} ≈ 0 using central differences.
+    Check dρ_i/dt + Σ_j J_{i→j} ≈ 0 (central differences).
     """
-    T, N = dens.shape
+    T, N = dens.shape[0], dens.shape[1]
     max_res = 0.0
     for t in range(1, T - 1):
         d_rho = (dens[t + 1] - dens[t - 1]) / (2.0 * dt)
@@ -420,32 +398,30 @@ def continuity_max_residual(dens, currents, dt):
 # ============================================================
 # Plotting + JSON export
 # ============================================================
-
 def make_plots_and_json(dens, currents, dt, J_index=(0,1),
                         S_vals=None, flux_vals=None,
                         summary_path="stur_qc_summary.json"):
     T, N = dens.shape
     times = np.linspace(0.0, dt*(T-1), T)
 
-    # 1) local density heatmap
+    # --- 1) Density heatmap ρ_i(t) ---------------------------------
     fig1, ax1 = plt.subplots()
-    im = ax1.imshow(dens.T, aspect="auto", origin="lower",
+    im = ax1.imshow(dens.T, aspect='auto', origin='lower',
                     extent=[times[0], times[-1], 0, N-1])
     ax1.set_xlabel("time")
     ax1.set_ylabel("site")
     ax1.set_title("STUR local density ρ(t)")
-    fig1.colorbar(im, ax=ax1, label="ρ_i")
+    fig1.colorbar(im, ax=ax1, label="ρᵢ")
     fig1.tight_layout()
     fig1.savefig("stur_qc_densities.png", dpi=200)
 
-    # 2) bond current J_{i→j}(t) + total excitation
+    # --- 2) Bond current J_{i→j}(t) + N_tot(t) ---------------------
     i, j = J_index
     J_ij_t = currents[:, i, j]
     N_tot = dens.sum(axis=1)
 
     fig2, ax2 = plt.subplots()
-    label_str = f"J_{i}->{j}(t)"
-    ax2.plot(times, J_ij_t, label=label_str)
+    ax2.plot(times, J_ij_t, label=f"J_{i}->{j}(t)")
     ax2.set_xlabel("time")
     ax2.set_ylabel("bond current")
     ax2.set_title("STUR bond current")
@@ -454,14 +430,14 @@ def make_plots_and_json(dens, currents, dt, J_index=(0,1),
     fig2.tight_layout()
     fig2.savefig("stur_qc_current.png", dpi=200)
 
-    # 3) global invariants (optional)
-    if (S_vals is not None) or (flux_vals is not None):
+    # --- 3) Global invariants: S_A(t), Φ_R(t) ----------------------
+    if S_vals is not None or flux_vals is not None:
         fig3, ax3 = plt.subplots()
         if S_vals is not None:
             ax3.plot(times[:len(S_vals)], S_vals, label="S_A (bits)")
         if flux_vals is not None:
-            ax3.plot(times[:len(flux_vals)], flux_vals,
-                     linestyle="--", label="Φ_R")
+            ax3.plot(times[:len(flux_vals)], flux_vals, linestyle="--",
+                     label="Φ_R")
         ax3.set_xlabel("time")
         ax3.set_title("STUR global invariants")
         ax3.grid(True, alpha=0.3)
@@ -469,7 +445,7 @@ def make_plots_and_json(dens, currents, dt, J_index=(0,1),
         fig3.tight_layout()
         fig3.savefig("stur_qc_globals.png", dpi=200)
 
-    # JSON summary for repo metadata
+    # --- JSON summary ----------------------------------------------
     summary = {
         "N_sites": int(N),
         "T_steps": int(T),
@@ -480,7 +456,7 @@ def make_plots_and_json(dens, currents, dt, J_index=(0,1),
         "current_min": float(J_ij_t.min()),
         "current_max": float(J_ij_t.max()),
         "N_tot_min": float(N_tot.min()),
-        "N_tot_max": float(N_tot.max()),
+        "N_tot_max": float(N_tot.max())
     }
     if S_vals is not None:
         summary["S_A_max_bits"] = float(max(S_vals))
@@ -488,16 +464,14 @@ def make_plots_and_json(dens, currents, dt, J_index=(0,1),
     if flux_vals is not None:
         summary["Phi_R_min"] = float(min(flux_vals))
         summary["Phi_R_max"] = float(max(flux_vals))
-
     with open(summary_path, "w") as f:
         json.dump(summary, f, indent=2)
 
 # ============================================================
-# Main: run STUR QC + continuity test
+# Main: STUR QC run + continuity + plots
 # ============================================================
-
 if __name__ == "__main__":
-    # --- Full R_STUR evolution (entanglement + flux) --------------
+    # --- Core STUR QC run (entanglement + flux) --------------------
     N      = 6
     NA     = 3
     L0     = 1.0
@@ -509,19 +483,18 @@ if __name__ == "__main__":
     n_steps = 200
     dim    = 2**N
 
-    print(f"Building R_STUR for N={N}, dim={dim}...")
+    print(f"Building full R_STUR for N={N} (dim={dim})...")
     R_full, positions = build_R_STUR(N, L0, a_lat, h0, J0, Omega)
 
-    psi0 = np.zeros(dim, dtype=np.complex128)
+    psi0 = np.zeros(dim, dtype=complex)
     psi0[0] = 1.0
-
     print("Evolving deterministic STUR field (full R_STUR)...")
     traj_full, dt_full = evolve_STUR(R_full, psi0, t_final, n_steps)
 
-    S_vals = [entanglement_entropy(psi, N, NA) for psi in traj_full]
+    S_vals    = [entanglement_entropy(psi, N, NA) for psi in traj_full]
     flux_vals = [resistance_flux(psi, R_full) for psi in traj_full]
-    print(f"Max S_A = {max(S_vals):.3f} bits")
-    print(f"S_A(T)  = {S_vals[-1]:.3f} bits")
+    print(f"Max entanglement S_A = {max(S_vals):.4f} bits")
+    print(f"Final entanglement S_A(T) = {S_vals[-1]:.4f} bits")
 
     flux0 = flux_vals[0]
     drift_abs = max(flux_vals) - min(flux_vals)
@@ -532,28 +505,27 @@ if __name__ == "__main__":
     print(f"  |ΔΦ_R|        = {drift_abs:.3e}")
     print(f"  relative drift= {drift_rel:.3e}")
 
-    # --- Continuity / flow visualization run ----------------------
+    # --- Continuity / flow visualization run -----------------------
     print("\n=== Continuity test ===")
     R_xx, positions = build_R_STUR(N, L0, a_lat, h0=0.0, J0=J0, Omega=0.0)
 
-    psi0_cont = np.zeros(dim, dtype=np.complex128)
-    psi0_cont[1] = 1.0   # single excitation at site 0 in computational basis
-
+    psi0_cont = np.zeros(dim, dtype=complex)
+    psi0_cont[1] = 1.0          # local excitation at site 0
     t_final_c = 1.0
     n_steps_c = 400
 
     print("Evolving XX+YY-only STUR lattice...")
     traj_c, dt_c = evolve_STUR(R_xx, psi0_cont, t_final_c, n_steps_c)
 
-    n_ops = local_density_ops(N)
-    dens = local_densities(traj_c, n_ops)
+    n_ops   = local_density_ops(N)
+    dens    = local_densities(traj_c, n_ops)
     currents = bond_currents(traj_c, N, positions, L0, J0)
 
     max_res = continuity_max_residual(dens, currents, dt_c)
-    N_tot = dens.sum(axis=1)
+    N_tot   = dens.sum(axis=1)
     N_drift = float(N_tot.max() - N_tot.min())
-    print(f"Max |dρ/dt + ΣJ| = {max_res:.3e}")
-    print(f"Total excitation drift = {N_drift:.3e}")
+    print(f"Max |dρ_i/dt + Σ_j J_i→j| = {max_res:.3e}")
+    print(f"Total excitation drift   = {N_drift:.3e}")
 
     print("\nRendering STUR QC plots + JSON summary...")
     make_plots_and_json(dens, currents, dt_c,
@@ -561,32 +533,42 @@ if __name__ == "__main__":
                         S_vals=S_vals,
                         flux_vals=flux_vals)
     print("Saved STUR QC plots + stur_qc_summary.json")
-</script>
+</pre>
+  </div>
+
+  <div class="card">
+    <h2>Outputs</h2>
+    <p>
+      When you run the script in JupyterLite, it will generate:
+    </p>
+    <ul>
+      <li><code class="inline">stur_qc_densities.png</code> — heatmap of
+          local densities <code class="inline">ρᵢ(t)</code> across the chain.</li>
+      <li><code class="inline">stur_qc_current.png</code> — bond current
+          <code class="inline">J₀→₁(t)</code> vs time.</li>
+      <li><code class="inline">stur_qc_globals.png</code> — entanglement
+          <code class="inline">S_A(t)</code> and resistance flux
+          <code class="inline">Φ_R(t)</code>.</li>
+      <li><code class="inline">stur_qc_summary.json</code> — numeric summary for
+          archiving and cross-checking with other STUR sims.</li>
+    </ul>
+  </div>
+
+  <footer>
+    STUR Physics Lab – STUR QC Resistance Flow • HTML shell generated for direct use with JupyterLite.
+  </footer>
+</div>
 
 <script>
-  // Copy the Python code into the visible <pre> and wire up the button
-  (function(){
-    const src = document.getElementById('stur-qc-code').textContent.replace(/^\n/,'');
-    const pre = document.getElementById('code-block');
-    pre.textContent = src;
-
-    const btn = document.getElementById('copy-btn');
-    btn.addEventListener('click', async () => {
-      try{
-        await navigator.clipboard.writeText(src);
-        btn.textContent = "Copied!";
-        setTimeout(()=>{btn.textContent="Copy Python to clipboard";}, 1200);
-      }catch(e){
-        btn.textContent = "Copy failed";
-        setTimeout(()=>{btn.textContent="Copy Python to clipboard";}, 1500);
-      }
-    });
-  })();
+function copySTURCode(){
+  const el = document.getElementById("stur-code");
+  if(!el) return;
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(
+    () => { console.log("STUR QC script copied."); },
+    () => { console.warn("Clipboard copy failed."); }
+  );
+}
 </script>
-
-<footer>
-  STUR QC – Resistance Flow Engine &middot; Paste this script into Jupyter to run the full simulation.
-</footer>
-
 </body>
 </html>
