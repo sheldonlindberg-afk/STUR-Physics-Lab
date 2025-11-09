@@ -2,102 +2,142 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STUR QC Lattice – Deterministic Continuity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:"Courier New",monospace;
-    margin:0;
-    padding:2rem;
+  body {
+    background-color: #02040a;
+    color: #e0e3ff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    margin: 0 auto;
+    max-width: 900px;
+    padding: 20px;
+    line-height: 1.6;
   }
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  p,li{max-width:960px;line-height:1.5;}
-  pre{
-    background:#0a0f1f;
-    color:#00ffcc;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    font-size:0.9rem;
-    box-shadow:0 0 18px #ffaa0040;
+  h1, h2 {
+    color: #5ad0ff;
+    border-bottom: 1px solid #22304a;
+    padding-bottom: 4px;
   }
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
+  h3 { color: #8ddcff; }
+  pre {
+    background: #050814;
+    border-radius: 6px;
+    padding: 10px;
+    overflow-x: auto;
+    font-size: 0.9em;
   }
-  button:hover{background:#ffcc33;}
-  footer{
-    text-align:center;
-    font-size:0.9em;
-    color:#999;
-    margin-top:2rem;
+  code { font-family: "SF Mono", Menlo, Monaco, Consolas, monospace; }
+  .buttons {
+    margin: 8px 0 16px 0;
+  }
+  button, a.button {
+    display: inline-block;
+    background: #0e1624;
+    color: #5ad0ff;
+    border: 1px solid #5ad0ff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-right: 6px;
+  }
+  button:hover, a.button:hover {
+    background: #152033;
+  }
+  .notice {
+    background: #11162a;
+    border: 1px solid #3a4a6a;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 0.9em;
+    margin-bottom: 16px;
+    color: #a8c8ff;
+  }
+  footer {
+    margin-top: 30px;
+    border-top: 1px solid #1c273e;
+    padding-top: 8px;
+    font-size: 0.85em;
+    color: #9fb5d6;
+    text-align: center;
   }
 </style>
+
+<script>
+  function copyScript() {
+    const code = document.getElementById("sturscript").innerText;
+    navigator.clipboard.writeText(code).then(function() {
+      alert("STUR QC Python script copied to clipboard.");
+    }, function() {
+      alert("Copy failed. You can still select & copy manually.");
+    });
+  }
+  function openJupyterLite() {
+    window.open("https://jupyterlite.github.io/demo/lab/index.html", "_blank");
+  }
+</script>
 </head>
+
 <body>
 
 <h1>STUR QC Lattice – Deterministic Continuity</h1>
 
 <h2>Derivation sketch</h2>
+
 <p>
 In the STUR framework, the quantum object is not a probability amplitude but a
-resistance field <code>Psi</code> obeying a Schr&ouml;dinger-like evolution, 
+resistance field <code>Psi</code> obeying a Schrödinger-like evolution,
 this simulation was inspired by x@lukenash:
 </p>
-<p style="text-align:center;">
-i &nbsp; hbar &nbsp; dPsi/dt = R_STUR &nbsp; Psi .
-</p>
+
+<pre><code>i hbar dPsi/dt = R_STUR Psi</code></pre>
+
 <p>
-On a one-dimensional N-site lattice, the generator <code>R_STUR</code> is
-built from on-site, pairwise, and transverse terms, all modulated by a STUR
-radial factor
+On a one-dimensional N-site lattice, the generator <code>R_STUR</code> is built
+from on-site, pairwise, and transverse terms, all modulated by a STUR radial
+factor
 </p>
-<p style="text-align:center;">
-S(r;L0) = tanh(r/L0) * (1 - exp(-r/L0)) .
-</p>
-<p>
-In this script:
-</p>
+
+<pre><code>S(r; L0) = tanh(r/L0) * (1 - exp(-r/L0))</code></pre>
+
+<p>In this script:</p>
 <ul>
   <li>We construct <code>R_STUR</code> for N = 6 sites.</li>
-  <li>We evolve Psi deterministically via exact diagonalization of R_STUR.</li>
+  <li>We evolve <code>Psi</code> deterministically via exact diagonalization of <code>R_STUR</code>.</li>
   <li>We compute:
     <ul>
-      <li>entanglement entropy S_A(t) for a 3|3 bipartition,</li>
-      <li>a global resistance flux Phi_R(t) = Re(Psi^dagger R Psi),</li>
-      <li>local densities n_i(t) and bond currents J_{i->j}(t),</li>
-      <li>a continuity residual | d n_i/dt + sum_j J_{i->j} |.</li>
+      <li>entanglement entropy <code>S_A(t)</code> for a 3|3 bipartition,</li>
+      <li>a global resistance flux <code>Phi_R(t) = Re(Psi^dagger R Psi)</code>,</li>
+      <li>local densities <code>n_i(t)</code> and bond currents <code>J_{i-&gt;j}(t)</code>,</li>
+      <li>a continuity residual <code>| d n_i/dt + sum_j J_{i-&gt;j} |</code>.</li>
     </ul>
   </li>
 </ul>
+
 <p>
-The output is three static Matplotlib plots (densities, bond current, global
-invariants) plus a JSON summary printed to the console.
+The output is a 2x2 Matplotlib figure (densities, bond current, global
+invariants) plus a JSON-style summary printed in the notebook.
 </p>
 
-<h2>Python simulation (copy into a Python 3 notebook)</h2>
-<p><b>Important:</b> in JupyterLite choose <b>Notebook → Python 3 (XPython)</b>,
-<b>not</b> JavaScript.</p>
-
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="window.open('https://jupyterlite.github.io/demo/lab/index.html','_blank')">
-    Open JupyterLite
-  </button>
+<div class="notice">
+<strong>JupyterLite note:</strong>
+After opening JupyterLite, switch the kernel to
+<strong>Python (Pyodide)</strong> (or <strong>Python 3 (XPython)</strong> in some builds).
+If it says “JavaScript (Web Worker)” and you run this code, you’ll get
+<code>SyntaxError</code> messages because it is trying to treat Python as JavaScript.
 </div>
 
-<pre id="code">
-#!/usr/bin/env python3
+<h2>Python simulation (copy into a Python 3 notebook)</h2>
+
+<div class="buttons">
+  <button onclick="copyScript()">Copy Script</button>
+  <a class="button" onclick="openJupyterLite()">Open JupyterLite</a>
+</div>
+
+<pre id="sturscript"><code>#!/usr/bin/env python3
 # STUR QC Lattice – Deterministic Continuity (JupyterLite-safe)
 
 import numpy as np
@@ -152,12 +192,6 @@ def two_op(pauli_a, i, pauli_b, j, N):
 # ------------------ STUR resistance generator ----------------------
 
 def build_R_STUR(N, L0=1.0, a_lat=1.0, h0=1.0, J0=1.0, Omega=0.5):
-    """
-    R_STUR =
-      sum_i    h0 S(r_i;L0) sigma_z^i
-    + sum_{i<j} J0 S(|r_i-r_j|;L0)(sigma_x^i sigma_x^j + sigma_y^i sigma_y^j)
-    + Omega sum_i S(r_i;L0) sigma_x^i
-    """
     dim = 2**N
     R = np.zeros((dim, dim), dtype=complex)
     positions = np.array([i * a_lat for i in range(N)], dtype=float)
@@ -188,7 +222,7 @@ def build_R_STUR(N, L0=1.0, a_lat=1.0, h0=1.0, J0=1.0, Omega=0.5):
 def evolve_STUR(R, psi0, t_final, n_steps, hbar=1.0):
     """
     i hbar dPsi/dt = R_STUR Psi
-    Implemented via spectral decomposition (no SciPy).
+    Implemented via spectral decomposition (no SciPy needed).
     """
     dt = t_final / n_steps
     w, V = np.linalg.eigh(R)
@@ -219,7 +253,7 @@ def entanglement_entropy(psi, N, NA):
     vals = np.real_if_close(vals)
     vals = np.clip(vals, 0.0, 1.0)
 
-    lam = vals[vals > 1e-12]
+    lam = vals[vals &gt; 1e-12]
     if lam.size == 0:
         return 0.0
     return float(-np.sum(lam * np.log2(lam)))
@@ -248,7 +282,7 @@ def local_densities(traj, n_ops):
 
 def bond_currents(traj, N, positions, L0, J0):
     """
-    J_{i->j}(t) = 4 J_ij Im <sigma_i^+ sigma_j^->
+    J_{i-&gt;j}(t) = 4 J_ij Im &lt;sigma_i^+ sigma_j^-&gt;
     """
     splus_ops  = {}
     sminus_ops = {}
@@ -274,8 +308,7 @@ def bond_currents(traj, N, positions, L0, J0):
 
 def continuity_max_residual(dens, currents, dt):
     """
-    Checks d rho_i/dt + sum_j J_{i->j} ~= 0
-    using central differences in time.
+    Checks d rho_i/dt + sum_j J_{i-&gt;j} ~= 0 using central differences.
     """
     T, N = dens.shape
     max_res = 0.0
@@ -284,7 +317,7 @@ def continuity_max_residual(dens, currents, dt):
         for i in range(N):
             sumJ = np.sum(currents[t][i, :])
             res = d_rho[i] + sumJ
-            if abs(res) > max_res:
+            if abs(res) &gt; max_res:
                 max_res = abs(res)
     return max_res
 
@@ -312,7 +345,7 @@ def make_plots(dens, currents, dt_local, J_index, S_vals, flux_vals, dt_full):
     ax[0,1].plot(t_local, J_ij_t)
     ax[0,1].set_xlabel("time")
     ax[0,1].set_ylabel("current")
-    ax[0,1].set_title("bond current J_{}->{}(t)".format(i, j))
+    ax[0,1].set_title("bond current J_{}-&gt;{}(t)".format(i, j))
     ax[0,1].grid(True, alpha=0.3)
 
     # 3) entanglement entropy
@@ -413,26 +446,10 @@ if __name__ == "__main__":
 
     print("\nJSON-style summary:")
     print(json.dumps(summary, indent=2))
-    print("\nSTUR QC Lattice simulation complete.")
-</pre>
-
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="window.open('https://jupyterlite.github.io/demo/lab/index.html','_blank')">
-    Open JupyterLite
-  </button>
-</div>
-
-<script>
-function copyCode() {
-  const text = document.getElementById("code").innerText;
-  navigator.clipboard.writeText(text);
-  alert("Python script copied to clipboard.");
-}
-</script>
+    print("\nSTUR QC Lattice simulation complete.")</code></pre>
 
 <footer>
-  STUR Physics Lab &copy; 2025
+© 2025 STUR Physics Lab · Unified Resistance Framework · Quantum Computing Lattice
 </footer>
 
 </body>
