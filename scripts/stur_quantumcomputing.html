@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR QC – Resistance Flow & Continuity Verifier (Inspired by Lucas Nash- X@lukenash)</title>
+<title>STUR QC – Resistance Flow & Continuity Verifier</title>
 <style>
   body{
     background:#050814;
@@ -27,7 +27,6 @@
     overflow-x:auto;
     font-size:0.86rem;
     box-shadow:0 0 18px #ffaa0040;
-    white-space:pre;
   }
   button{
     background:#ffaa00;
@@ -53,82 +52,33 @@
 </head>
 <body>
 
-<h1>STUR QC – Resistance Flow & Continuity Verifier</h1>
+<h1>STUR QC – Resistance Flow &amp; Continuity Verifier</h1>
 
 <div class="desc">
-  <p>
-    This module tests whether a <b>STUR resistance generator</b> can play the role of a
-    deterministic “quantum” engine without invoking the Born rule.
-    The core object is the lattice operator
-  </p>
+<p>
+This simulation tests whether a <b>STUR resistance generator</b> can act as a deterministic quantum-like lattice engine,
+preserving continuity and entanglement without invoking the Born rule.
+It evolves the full operator R<sub>STUR</sub> and checks information flow through
+the discrete continuity law:
+</p>
 
-  <p style="text-align:center;">
-    R<span style="vertical-align:sub;">STUR</span>
-    = &sum;<sub>i</sub> h<sub>0</sub> S(r<sub>i</sub>) &sigma;<sub>z</sub><sup>(i)</sup>
-    + &sum;<sub>i&lt;j</sub> J<sub>0</sub> S(|r<sub>i</sub>-r<sub>j</sub>|)
-      (&sigma;<sub>x</sub><sup>(i)</sup>&sigma;<sub>x</sub><sup>(j)</sup>
-      + &sigma;<sub>y</sub><sup>(i)</sup>&sigma;<sub>y</sub><sup>(j)</sup>)
-    + &Omega; &sum;<sub>i</sub> S(r<sub>i</sub>) &sigma;<sub>x</sub><sup>(i)</sup>.
-  </p>
+<p style="text-align:center;">
+dρ<sub>i</sub>/dt + Σ<sub>j</sub> J<sub>i→j</sub> ≈ 0.
+</p>
 
-  <p>
-    The STUR radial modulator ties lattice geometry to coupling strength:
-  </p>
+<p>
+Outputs include:
+<ul>
+<li><code>stur_qc_densities.png</code> – density ρ<sub>i</sub>(t)</li>
+<li><code>stur_qc_current.png</code> – bond current trace</li>
+<li><code>stur_qc_globals.png</code> – S<sub>A</sub>(t) and Φ<sub>R</sub>(t)</li>
+<li><code>stur_qc_summary.json</code> – metadata for GitHub/Zenodo</li>
+</ul>
+</p>
 
-  <p style="text-align:center;">
-    S(r;L<span style="vertical-align:sub;">0</span>) =
-    tanh(r / L<span style="vertical-align:sub;">0</span>)
-    (1 − e<sup>−r / L<span style="vertical-align:sub;">0</span></sup>).
-  </p>
-
-  <p>
-    The field obeys a Schrödinger-like evolution
-    iħ ∂Ψ/∂t = R<span style="vertical-align:sub;">STUR</span> Ψ,
-    but Ψ is interpreted as a <b>resistance field</b>, not a probability
-    amplitude. From this, the script extracts three kinds of structure:
-  </p>
-
-  <ul>
-    <li><b>Entanglement entropy</b> S<sub>A</sub>(t) from reduced density matrices.</li>
-    <li>A lattice “flux” invariant Φ<sub>R</sub>(t) = Re[Ψ† R Ψ].</li>
-    <li>Local continuity:
-      dρ<sub>i</sub>/dt + &sum;<sub>j</sub> J<sub>i→j</sub> ≈ 0 with
-      J<sub>i→j</sub>(t) = 4 J<sub>ij</sub> Im⟨σ<sub>i</sub><sup>+</sup>σ<sub>j</sub><sup>−</sup>⟩.</li>
-  </ul>
-
-  <p>
-    The code runs two experiments:
-  </p>
-
-  <ol>
-    <li>
-      A full R<span style="vertical-align:sub;">STUR</span> evolution for N = 6 sites with
-      longitudinal fields, transverse drive, and STUR-weighted couplings,
-      tracking entanglement S<sub>A</sub>(t) and Φ<sub>R</sub>(t).
-    </li>
-    <li>
-      A pure XX+YY “conduction chain” where a single excitation flows
-      across the lattice. Local densities ρ<sub>i</sub>(t) and bond currents
-      J<sub>i→j</sub>(t) are measured and checked against the discrete
-      continuity equation.
-    </li>
-  </ol>
-
-  <p>
-    Outputs:
-  </p>
-
-  <ul>
-    <li><code>stur_qc_densities.png</code> – heatmap of ρ<sub>i</sub>(t).</li>
-    <li><code>stur_qc_current.png</code> – bond current trace and global excitation count.</li>
-    <li><code>stur_qc_globals.png</code> – entanglement entropy S<sub>A</sub>(t) and Φ<sub>R</sub>(t).</li>
-    <li><code>stur_qc_summary.json</code> – machine-readable summary for GitHub / Zenodo.</li>
-  </ul>
-
-  <p>
-    To run the simulation, open JupyterLite (or any Python 3 + NumPy + SciPy + Matplotlib
-    environment), paste the script below into a notebook cell, and execute.
-  </p>
+<p>
+Copy the script below and paste it into a JupyterLite notebook (Python 3 + NumPy + SciPy + Matplotlib) to run the full deterministic STUR QC test.
+</p>
 </div>
 
 <h2>Python Simulation (copy &amp; run)</h2>
@@ -139,343 +89,180 @@ from numpy.linalg import eig
 from scipy.linalg import expm
 import matplotlib.pyplot as plt
 
-# Dark theme for STUR lab visuals
 plt.style.use("dark_background")
 
-# ============================================================
-# STUR radial modulator
-# ============================================================
 def S_STUR(r, L0):
     x = r / L0
     return math.tanh(x) * (1.0 - math.exp(-x))
 
-# Pauli / ladder operators
 I2 = np.eye(2, dtype=complex)
-sx = np.array([[0, 1],[1, 0]], dtype=complex)
-sy = np.array([[0, -1j],[1j,  0]], dtype=complex)
-sz = np.array([[1, 0],[0,-1]], dtype=complex)
-s_plus  = np.array([[0, 1],[0, 0]], dtype=complex)
-s_minus = np.array([[0, 0],[1, 0]], dtype=complex)
+sx = np.array([[0,1],[1,0]],dtype=complex)
+sy = np.array([[0,-1j],[1j,0]],dtype=complex)
+sz = np.array([[1,0],[0,-1]],dtype=complex)
+s_plus  = np.array([[0,1],[0,0]],dtype=complex)
+s_minus = np.array([[0,0],[1,0]],dtype=complex)
 
-# ============================================================
-# Tensor helpers
-# ============================================================
 def kron_all(ops):
-    out = ops[0]
-    for op in ops[1:]:
-        out = np.kron(out, op)
+    out=ops[0]
+    for op in ops[1:]: out=np.kron(out,op)
     return out
 
-def single_op(pauli, site, N):
-    ops = [I2 for _ in range(N)]
-    ops[site] = pauli
+def single_op(pauli,site,N):
+    ops=[I2 for _ in range(N)]
+    ops[site]=pauli
     return kron_all(ops)
 
-def two_op(pauli_a, i, pauli_b, j, N):
-    if i == j:
-        raise ValueError("Sites i and j must be different.")
-    ops = [I2 for _ in range(N)]
-    ops[i] = pauli_a
-    ops[j] = pauli_b
+def two_op(pauli_a,i,pauli_b,j,N):
+    ops=[I2 for _ in range(N)]
+    ops[i]=pauli_a; ops[j]=pauli_b
     return kron_all(ops)
 
-# ============================================================
-# STUR resistance generator R_STUR
-# ============================================================
-def build_R_STUR(N, L0=1.0, a_lat=1.0, h0=1.0, J0=1.0, Omega=0.5):
-    """
-    R_STUR =
-      Σ_i    h0 S(r_i) σ_z^i
-    + Σ_i&lt;j J0 S(|r_i-r_j|)(σ_x^i σ_x^j + σ_y^i σ_y^j)
-    + Ω Σ_i  S(r_i) σ_x^i
-    """
-    dim = 2**N
-    R = np.zeros((dim, dim), dtype=complex)
-    positions = np.array([i * a_lat for i in range(N)], dtype=float)
-
-    # On-site STUR-weighted σ_z
+def build_R_STUR(N,L0=1,a_lat=1,h0=1,J0=1,Omega=0.5):
+    dim=2**N; R=np.zeros((dim,dim),dtype=complex)
+    pos=np.array([i*a_lat for i in range(N)],float)
     for i in range(N):
-        r_i = positions[i]
-        S_i = S_STUR(r_i, L0)
-        h_i = h0 * S_i
-        R += h_i * single_op(sz, i, N)
-
-    # Pairwise STUR-weighted XX+YY couplings
+        S_i=S_STUR(pos[i],L0)
+        R+=h0*S_i*single_op(sz,i,N)
     for i in range(N):
-        for j in range(i + 1, N):
-            r_ij = abs(positions[i] - positions[j])
-            S_ij = S_STUR(r_ij, L0)
-            J_ij = J0 * S_ij
-            R += J_ij * (two_op(sx, i, sx, j, N) +
-                         two_op(sy, i, sy, j, N))
-
-    # STUR-weighted transverse drive
+        for j in range(i+1,N):
+            r_ij=abs(pos[i]-pos[j])
+            S_ij=S_STUR(r_ij,L0)
+            R+=J0*S_ij*(two_op(sx,i,sx,j,N)+two_op(sy,i,sy,j,N))
     for i in range(N):
-        r_i = positions[i]
-        S_i = S_STUR(r_i, L0)
-        R += Omega * S_i * single_op(sx, i, N)
+        S_i=S_STUR(pos[i],L0)
+        R+=Omega*S_i*single_op(sx,i,N)
+    return R,pos
 
-    return R, positions
-
-# ============================================================
-# Deterministic STUR evolution (no Born rule)
-# ============================================================
-def evolve_STUR(R, psi0, t_final, n_steps, hbar=1.0):
-    """
-    iħ dΨ/dt = R_STUR Ψ  (Ψ = STUR resistance field, not probability)
-    """
-    dt = t_final / n_steps
-    U_dt = expm(-1j * R * dt / hbar)
-
-    psi = psi0.copy()
-    traj = [psi.copy()]
+def evolve_STUR(R,psi0,t_final,n_steps,hbar=1):
+    dt=t_final/n_steps; U=expm(-1j*R*dt/hbar)
+    psi=psi0.copy(); traj=[psi.copy()]
     for _ in range(n_steps):
-        psi = U_dt @ psi
-        psi /= np.linalg.norm(psi)   # numerical stabilization
+        psi=U@psi; psi/=np.linalg.norm(psi)
         traj.append(psi.copy())
-    return np.array(traj), dt
+    return np.array(traj),dt
 
-# ============================================================
-# Entanglement entropy (information measure)
-# ============================================================
-def entanglement_entropy(psi, N, NA):
-    NB = N - NA
-    dimA = 2**NA
-    dimB = 2**NB
-    psi_mat = psi.reshape(dimA, dimB)
-    rho_A = psi_mat @ psi_mat.conj().T
+def entanglement_entropy(psi,N,NA):
+    NB=N-NA; dimA=2**NA; dimB=2**NB
+    psiM=psi.reshape(dimA,dimB)
+    rhoA=psiM@psiM.conj().T
+    vals,_=eig(rhoA)
+    vals=np.clip(np.real_if_close(vals),0,1)
+    vals=vals[vals>1e-12]
+    return float(-np.sum(vals*np.log2(vals))) if vals.size else 0
 
-    vals, _ = eig(rho_A)
-    vals = np.real_if_close(vals)
-    vals = np.clip(vals, 0.0, 1.0)
+def resistance_flux(psi,R):
+    return float(np.real(np.vdot(psi,R@psi)))
 
-    mask = vals > 1e-12
-    lam = vals[mask]
-    if lam.size == 0:
-        return 0.0
-    return float(-np.sum(lam * np.log2(lam)))
-
-# ============================================================
-# Global resistance-flux invariant
-# ============================================================
-def resistance_flux(psi, R):
-    """
-    Φ_R(Ψ) = Re[Ψ† R Ψ]  (discrete ∫ρ_R dV)
-    """
-    return float(np.real(np.vdot(psi, R @ psi)))
-
-# ============================================================
-# Local densities and bond currents
-# ============================================================
 def local_density_ops(N):
-    """
-    n_i = (1 - σ_z^i)/2  → local excitation density
-    """
-    return [0.5 * (single_op(I2, i, N) - single_op(sz, i, N))
-            for i in range(N)]
+    return [0.5*(single_op(I2,i,N)-single_op(sz,i,N)) for i in range(N)]
 
-def local_densities(traj, n_ops):
-    dens = []
+def local_densities(traj,ops):
+    return np.array([[np.real(np.vdot(p,o@p)) for o in ops] for p in traj])
+
+def bond_currents(traj,N,pos,L0,J0):
+    splus={i:single_op(s_plus,i,N) for i in range(N)}
+    sminus={i:single_op(s_minus,i,N) for i in range(N)}
+    cur=[]
     for psi in traj:
-        dens.append([np.real(np.vdot(psi, op @ psi)) for op in n_ops])
-    return np.array(dens)
-
-def bond_currents(traj, N, positions, L0, J0):
-    """
-    J_{i→j}(t) = 4 J_ij Im &lt;σ_i^+ σ_j^-&gt;
-    with J_ij = J0 S(|r_i - r_j|; L0)
-    """
-    splus_ops  = {i: single_op(s_plus,  i, N) for i in range(N)}
-    sminus_ops = {i: single_op(s_minus, i, N) for i in range(N)}
-
-    currents = []
-    for psi in traj:
-        curMat = np.zeros((N, N))
+        M=np.zeros((N,N))
         for i in range(N):
             for j in range(N):
-                if i == j:
-                    continue
-                r_ij = abs(positions[i] - positions[j])
-                S_ij = S_STUR(r_ij, L0)
-                J_ij = J0 * S_ij
-                op = splus_ops[i] @ sminus_ops[j]
-                expv = np.vdot(psi, op @ psi)
-                curMat[i, j] = 4.0 * J_ij * np.imag(expv)
-        currents.append(curMat)
-    return np.array(currents)
+                if i==j: continue
+                r=abs(pos[i]-pos[j]); S=S_STUR(r,L0)
+                J=J0*S; op=splus[i]@sminus[j]
+                M[i,j]=4*J*np.imag(np.vdot(psi,op@psi))
+        cur.append(M)
+    return np.array(cur)
 
-def continuity_max_residual(dens, currents, dt):
-    """
-    Check dρ_i/dt + Σ_j J_{i→j} ≈ 0 (central differences).
-    """
-    T, N = dens.shape[0], dens.shape[1]
-    max_res = 0.0
-    for t in range(1, T - 1):
-        d_rho = (dens[t + 1] - dens[t - 1]) / (2.0 * dt)
+def continuity_max_residual(dens,cur,dt):
+    T,N=dens.shape; m=0
+    for t in range(1,T-1):
+        d=(dens[t+1]-dens[t-1])/(2*dt)
         for i in range(N):
-            sumJ = np.sum(currents[t][i, :])
-            res = d_rho[i] + sumJ
-            max_res = max(max_res, abs(res))
-    return max_res
+            s=np.sum(cur[t][i,:]); m=max(m,abs(d[i]+s))
+    return m
 
-# ============================================================
-# Plotting + JSON export
-# ============================================================
-def make_plots_and_json(dens, currents, dt, J_index=(0,1),
-                        S_vals=None, flux_vals=None,
-                        summary_path="stur_qc_summary.json"):
-    T, N = dens.shape
-    times = np.linspace(0.0, dt*(T-1), T)
+def make_plots_and_json(dens,cur,dt,J_index=(0,1),
+                        S_vals=None,flux_vals=None,
+                        path="stur_qc_summary.json"):
+    T,N=dens.shape; times=np.linspace(0,dt*(T-1),T)
+    fig1,ax1=plt.subplots()
+    im=ax1.imshow(dens.T,aspect='auto',origin='lower',
+                  extent=[times[0],times[-1],0,N-1])
+    ax1.set_xlabel("time"); ax1.set_ylabel("site i")
+    ax1.set_title("STUR local density ρᵢ(t)")
+    fig1.colorbar(im,ax=ax1,label="ρᵢ")
+    fig1.tight_layout(); fig1.savefig("stur_qc_densities.png",dpi=200)
 
-    # --- 1) Density heatmap ρ_i(t) ---------------------------------
-    fig1, ax1 = plt.subplots()
-    im = ax1.imshow(dens.T, aspect='auto', origin='lower',
-                    extent=[times[0], times[-1], 0, N-1])
-    ax1.set_xlabel("time (arb. units)")
-    ax1.set_ylabel("site index i")
-    ax1.set_title("STUR local density field $\\rho_i(t)$")
-    fig1.colorbar(im, ax=ax1, label="$\\rho_i$")
-    fig1.tight_layout()
-    fig1.savefig("stur_qc_densities.png", dpi=200)
+    i,j=J_index; Jt=cur[:,i,j]; Ntot=dens.sum(1)
+    fig2,ax2=plt.subplots()
+    ax2.plot(times,Jt,label=f"J_{i}->{j}(t)")
+    ax2.set_xlabel("time"); ax2.set_ylabel("bond current")
+    ax2.set_title("STUR bond current"); ax2.legend(); ax2.grid(True,alpha=.3)
+    fig2.tight_layout(); fig2.savefig("stur_qc_current.png",dpi=200)
 
-    # --- 2) Bond current J_{i→j}(t) + N_tot(t) ---------------------
-    i, j = J_index
-    J_ij_t = currents[:, i, j]
-    N_tot = dens.sum(axis=1)
+    if S_vals or flux_vals:
+        fig3,ax3=plt.subplots()
+        if S_vals: ax3.plot(times[:len(S_vals)],S_vals,label="S_A (bits)")
+        if flux_vals: ax3.plot(times[:len(flux_vals)],flux_vals,"--",label="Φ_R")
+        ax3.set_xlabel("time"); ax3.set_title("STUR global invariants")
+        ax3.legend(); ax3.grid(True,alpha=.3)
+        fig3.tight_layout(); fig3.savefig("stur_qc_globals.png",dpi=200)
 
-    fig2, ax2 = plt.subplots()
-    ax2.plot(times, J_ij_t, label=f"J_{{{i}-{&gt;}{j}}}(t)")
-    ax2.set_xlabel("time (arb. units)")
-    ax2.set_ylabel("bond current")
-    ax2.set_title("STUR bond current along lattice")
-    ax2.legend(loc="upper right")
-    ax2.grid(True, alpha=0.3)
-    fig2.tight_layout()
-    fig2.savefig("stur_qc_current.png", dpi=200)
+    summary={"N_sites":int(N),"T_steps":int(T),"dt":float(dt),
+             "J_index":[int(i),int(j)],
+             "density_min":float(dens.min()),"density_max":float(dens.max()),
+             "current_min":float(Jt.min()),"current_max":float(Jt.max()),
+             "N_tot_min":float(Ntot.min()),"N_tot_max":float(Ntot.max())}
+    if S_vals:
+        summary["S_A_max_bits"]=float(max(S_vals))
+        summary["S_A_final_bits"]=float(S_vals[-1])
+    if flux_vals:
+        summary["Phi_R_min"]=float(min(flux_vals))
+        summary["Phi_R_max"]=float(max(flux_vals))
+    with open(path,"w") as f: json.dump(summary,f,indent=2)
 
-    # --- 3) Global invariants: S_A(t), Φ_R(t) ----------------------
-    if S_vals is not None or flux_vals is not None:
-        fig3, ax3 = plt.subplots()
-        if S_vals is not None:
-            ax3.plot(times[:len(S_vals)], S_vals, label="S_A(t) [bits]")
-        if flux_vals is not None:
-            ax3.plot(times[:len(flux_vals)], flux_vals, linestyle="--",
-                     label="Φ_R(t)")
-        ax3.set_xlabel("time (arb. units)")
-        ax3.set_title("STUR global invariants")
-        ax3.grid(True, alpha=0.3)
-        ax3.legend()
-        fig3.tight_layout()
-        fig3.savefig("stur_qc_globals.png", dpi=200)
+if __name__=="__main__":
+    N=6; NA=3; L0=1; a_lat=1; h0=1; J0=0.8; Omega=0.6
+    t_final=5; n_steps=200; dim=2**N
+    print(f"Building R_STUR for N={N}, dim={dim}...")
+    R, pos = build_R_STUR(N,L0,a_lat,h0,J0,Omega)
+    psi0=np.zeros(dim,complex); psi0[0]=1
+    traj,dt=evolve_STUR(R,psi0,t_final,n_steps)
+    S_vals=[entanglement_entropy(p,N,NA) for p in traj]
+    flux=[resistance_flux(p,R) for p in traj]
+    print(f"Max S_A = {max(S_vals):.3f} bits")
+    print(f"Φ_R drift = {max(flux)-min(flux):.3e}")
 
-    # --- JSON summary (GitHub/Zenodo metadata) ---------------------
-    summary = {
-        "N_sites": int(N),
-        "T_steps": int(T),
-        "dt": float(dt),
-        "J_index": [int(i), int(j)],
-        "density_min": float(dens.min()),
-        "density_max": float(dens.max()),
-        "current_min": float(J_ij_t.min()),
-        "current_max": float(J_ij_t.max()),
-        "N_tot_min": float(N_tot.min()),
-        "N_tot_max": float(N_tot.max())
-    }
-    if S_vals is not None:
-        summary["S_A_max_bits"] = float(max(S_vals))
-        summary["S_A_final_bits"] = float(S_vals[-1])
-    if flux_vals is not None:
-        summary["Phi_R_min"] = float(min(flux_vals))
-        summary["Phi_R_max"] = float(max(flux_vals))
-    with open(summary_path, "w") as f:
-        json.dump(summary, f, indent=2)
-
-# ============================================================
-# Main: STUR QC run + continuity + plots
-# ============================================================
-if __name__ == "__main__":
-    # --- Core STUR QC run (entanglement + flux) --------------------
-    N    = 6
-    NA   = 3
-    L0   = 1.0
-    a_lat = 1.0
-    h0   = 1.0
-    J0   = 0.8
-    Omega = 0.6
-    t_final = 5.0
-    n_steps = 200
-    dim = 2**N
-
-    print(f"Building full STUR operator for N={N} (dim={dim})...")
-    R_full, positions = build_R_STUR(N, L0, a_lat, h0, J0, Omega)
-
-    psi0 = np.zeros(dim, dtype=complex)
-    psi0[0] = 1.0
-    print("Evolving deterministic STUR field (full R_STUR)...")
-    traj_full, dt_full = evolve_STUR(R_full, psi0, t_final, n_steps)
-
-    S_vals = [entanglement_entropy(psi, N, NA) for psi in traj_full]
-    flux_vals = [resistance_flux(psi, R_full) for psi in traj_full]
-    print(f"Max entanglement S_A = {max(S_vals):.4f} bits")
-    print(f"Final entanglement S_A(T) = {S_vals[-1]:.4f} bits")
-
-    flux0 = flux_vals[0]
-    drift_abs = max(flux_vals) - min(flux_vals)
-    drift_rel = drift_abs / (abs(flux0) + 1e-15)
-    print("\nResistance-flux invariant Φ_R(t):")
-    print(f"  Φ_R(0)        = {flux0:.10f}")
-    print(f"  min / max     = {min(flux_vals):.10f} / {max(flux_vals):.10f}")
-    print(f"  |ΔΦ_R|        = {drift_abs:.3e}")
-    print(f"  relative drift= {drift_rel:.3e}")
-
-    # --- Continuity / flow visualization run -----------------------
-    print("\n=== Local continuity + flow visualization run ===")
-    R_xx, positions = build_R_STUR(N, L0, a_lat, h0=0.0, J0=J0, Omega=0.0)
-
-    # Single excitation at site 0 → watch it flow
-    psi0_cont = np.zeros(dim, dtype=complex)
-    psi0_cont[1] = 1.0
-    t_final_c = 1.0
-    n_steps_c = 400
-
-    print("Evolving XX+YY-only STUR lattice...")
-    traj_c, dt_c = evolve_STUR(R_xx, psi0_cont, t_final_c, n_steps_c)
-
-    n_ops = local_density_ops(N)
-    dens = local_densities(traj_c, n_ops)
-    currents = bond_currents(traj_c, N, positions, L0, J0)
-
-    max_res = continuity_max_residual(dens, currents, dt_c)
-    N_tot = dens.sum(axis=1)
-    N_drift = float(N_tot.max() - N_tot.min())
-    print(f"  Max |dρ_i/dt + Σ_j J_i→j| = {max_res:.3e}")
-    print(f"  Total excitation drift   = {N_drift:.3e}")
-
-    print("\nRendering STUR flow plots + JSON summary...")
-    make_plots_and_json(dens, currents, dt_c, J_index=(0,1),
-                        S_vals=S_vals, flux_vals=flux_vals)
-    print("Saved: stur_qc_densities.png, stur_qc_current.png,")
-    print("       stur_qc_globals.png,  stur_qc_summary.json")</pre>
+    print("\n=== Continuity test ===")
+    R_xx,_=build_R_STUR(N,L0,a_lat,0,J0,0)
+    psi1=np.zeros(dim,complex); psi1[1]=1
+    traj2,dt2=evolve_STUR(R_xx,psi1,1.0,400)
+    dens=local_densities(traj2,local_density_ops(N))
+    cur=bond_currents(traj2,N,pos,L0,J0)
+    res=continuity_max_residual(dens,cur,dt2)
+    print(f"Max |dρ/dt+ΣJ| = {res:.3e}")
+    make_plots_and_json(dens,cur,dt2,S_vals=S_vals,flux_vals=flux)
+    print("Saved STUR QC plots + stur_qc_summary.json")</pre>
 
 <div class="center">
   <button onclick="copyCode()">Copy Python Script</button>
-  <button onclick="openRunner()">Open JupyterLite</button>
+  <button onclick="openJupyter()">Open JupyterLite</button>
 </div>
 
 <footer>
-  &copy; 2025 STUR Physics Lab &mdash; STUR Unified Resistance Framework
+&copy; 2025 Sheldon Lon Lindberg • STUR Physics Framework • CC-BY 4.0 License
 </footer>
 
 <script>
 function copyCode(){
-  const code = document.getElementById("codeBlock").innerText;
+  const code=document.getElementById("codeBlock").innerText;
   navigator.clipboard.writeText(code);
   alert("STUR QC script copied to clipboard.");
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/", "_blank");
+function openJupyter(){
+  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
 }
 </script>
-
 </body>
 </html>
