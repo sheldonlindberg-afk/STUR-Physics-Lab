@@ -118,12 +118,28 @@ This file:
   * prints a JSON summary of the actual dataset (no synthetic data).
 """
 
+#!/usr/bin/env python3
+"""
+STEP 4: Visualization Upgrade
+- Uses Step 1 stress-to-failure results (megascale, sigma_dS=5e-3, alpha_relief=0.3)
+- Generates:
+  (1) Failure mode map vs mass
+  (2) Ratio vs mass colored by failure mode
+  (3) Worst-case entropy gradient vs mass
+
+Assumes you have `results` from Step 1:
+each row: {
+  'class','mass_kg','t_s','ok_energy','viable','failure_mode',
+  'ratio_vs_mc2','E_need_J','E_feed_J','P_arc_W','bio_share','alpha_relief',
+  'sigma_dS','Omega','dS_mean','dS_worst'
+}
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
-import json
 
 # -----------
-# Helper: collect arrays for plotting at a given time
+# Helper: collect arrays for plotting
 # -----------
 def get_arrays_for_time(results, t_sel):
     """
@@ -153,7 +169,7 @@ def get_arrays_for_time(results, t_sel):
     return out
 
 # -----------
-# Mode color/marker maps
+# Helper: nice colors/markers
 # -----------
 mode_color = {"stable":"green","power":"orange","biology":"red"}
 mode_marker = {"stable":"o","power":"^","biology":"s"}
@@ -183,31 +199,27 @@ def scatter_mode(ax, mass, val, mode, cls_label, y_label, title):
 
 # -----------
 # (1) FAILURE MODE MAP VS MASS (categorical)
+# We'll translate failure_mode -> numeric for plotting steps (stable=2, biology=1, power=0)
 # -----------
 mode_numeric = {"power":0,"biology":1,"stable":2}
 mode_label    = {0:"power",1:"biology",2:"stable"}
 
 def plot_failure_mode_step(results, t_sel):
-    """
-    Step-plot of failure mode vs mass at a chosen time t_sel.
-    """
     data = get_arrays_for_time(results, t_sel)
 
     plt.figure(figsize=(7,4))
     for cls_idx, cls in enumerate(["inert","food","organ"]):
-        if cls not in data:
-            continue
+        if cls not in data: continue
         mass = np.array(data[cls]["mass"])
         mode_vals = np.array([mode_numeric[m] for m in data[cls]["mode"]])
+        # We'll step-plot feasibility class per mass
         order = np.argsort(mass)
         mass_sorted = mass[order]
         mode_sorted = mode_vals[order]
-        plt.step(
-            mass_sorted,
-            mode_sorted + 0.05*cls_idx,  # slight vertical offset by class
-            where='post',
-            label=f"{cls} (t={t_sel:.0f}s)"
-        )
+        plt.step(mass_sorted,
+                 mode_sorted + 0.05*cls_idx,  # slight vertical offset so lines don't overlap exactly
+                 where='post',
+                 label=f"{cls} (t={t_sel:.0f}s)")
     plt.xscale("log")
     plt.yticks([0,1,2],["power fail","bio fail","stable"])
     plt.xlabel("Mass (kg)")
@@ -220,20 +232,19 @@ def plot_failure_mode_step(results, t_sel):
 
 # -----------
 # (2) RATIO VS MASS COLORED BY FAILURE MODE
+# We'll do one plot per t_s where y=ratio_vs_mc2 (log), x=mass (log),
+# and points colored by failure_mode.
 # -----------
 def plot_ratio_scatter(results, t_sel):
-    """
-    Scatter E_need/(m c^2) vs mass (both log), colored by failure mode.
-    """
     data = get_arrays_for_time(results, t_sel)
 
     plt.figure(figsize=(7,4))
     for cls in ["inert","food","organ"]:
-        if cls not in data:
-            continue
-        mass  = data[cls]["mass"]
+        if cls not in data: continue
+        mass = data[cls]["mass"]
         ratio = data[cls]["ratio"]
-        mode  = data[cls]["mode"]
+        mode = data[cls]["mode"]
+        # scatter with custom shapes/colors per point
         for m, r, fm in zip(mass, ratio, mode):
             plt.scatter(
                 m, r,
@@ -249,6 +260,7 @@ def plot_ratio_scatter(results, t_sel):
     plt.ylabel("E_need / (m c^2)")
     plt.title(f"Replicator Energy Fraction vs Mass @ t={t_sel:.0f} s")
     plt.grid(True, which="both", ls=":")
+    # dedupe legend
     handles, labels = plt.gca().get_legend_handles_labels()
     uniq = dict(zip(labels, handles))
     plt.legend(uniq.values(), uniq.keys(), fontsize=7)
@@ -256,80 +268,31 @@ def plot_ratio_scatter(results, t_sel):
     plt.show()
 
 # -----------
-# (3) WORST-CASE ENTROPY GRADIENT VS MASS
+# (3) WORST-CASE ENTROPY GRADIENT (dS_worst) VS MASS
+# This shows how bad field coherence had to get in the worst draw
+# that dominated E_need. That links noisy environments to failure.
 # -----------
 def plot_dS_vs_mass(results, t_sel):
-    """
-    Scatter of dS_worst vs mass with mode-coded markers.
-    """
     data = get_arrays_for_time(results, t_sel)
 
     fig, ax = plt.subplots(figsize=(7,4))
     for cls in ["inert","food","organ"]:
-        if cls not in data:
-            continue
+        if cls not in data: continue
         mass = data[cls]["mass"]
         dS_worst = data[cls]["dS_worst"]
         mode = data[cls]["mode"]
-        scatter_mode(
-            ax, mass, dS_worst, mode, cls,
-            y_label="Worst-case dS_eff (dimensionless entropy gradient)",
-            title=f"Worst-Case Entropy Gradient vs Mass @ t={t_sel:.0f} s"
-        )
+        scatter_mode(ax, mass, dS_worst, mode, cls,
+                     y_label="Worst-case dS_eff (dimensionless entropy gradient)",
+                     title=f"Worst-Case Entropy Gradient vs Mass @ t={t_sel:.0f} s")
+
     plt.tight_layout()
     plt.show()
 
 # -----------
-# (4) JSON SUMMARY OF REAL RESULTS
+# DRIVER CALLS
+# You run these after Step 1 to generate all figures:
 # -----------
-def summarize_results(results):
-    """
-    Build a JSON-serializable summary of the real Step-1 results:
-    counts and basic stats per class and failure_mode.
-    """
-    out = {
-        "n_total": int(len(results)),
-        "classes": {},
-        "times_s": sorted({float(r["t_s"]) for r in results})
-    }
-    classes = sorted({r["class"] for r in results})
-    for cls in classes:
-        subset = [r for r in results if r["class"] == cls]
-        cls_entry = {
-            "count": int(len(subset)),
-            "failure_modes": {}
-        }
-        for fm in ["stable","power","biology"]:
-            sub2 = [r for r in subset if r["failure_mode"] == fm]
-            if not sub2:
-                continue
-            masses = np.array([r["mass_kg"] for r in sub2], dtype=float)
-            ratios = np.array([r["ratio_vs_mc2"] for r in sub2], dtype=float)
-            dS_worst = np.array([r["dS_worst"] for r in sub2], dtype=float)
-            cls_entry["failure_modes"][fm] = {
-                "count": int(len(sub2)),
-                "mass_kg_min": float(masses.min()),
-                "mass_kg_max": float(masses.max()),
-                "ratio_vs_mc2_median": float(np.median(ratios)),
-                "dS_worst_mean": float(dS_worst.mean())
-            }
-        out["classes"][cls] = cls_entry
-    return out
-
-# Try to print a JSON summary immediately if `results` exists.
-# No synthetic data are generated: if `results` is missing,
-# we just print a helpful note.
-try:
-    summary = summarize_results(results)  # requires Step 1
-    print(json.dumps(summary, indent=2))
-except NameError:
-    print("NOTE: `results` is not defined. Run Step 1 first to create the results list.")
-    print("This file only visualizes and summarizes an existing Step-1 dataset.")
-
-# -----------
-# DRIVER EXAMPLES (uncomment and run after Step 1)
-# -----------
-# Example usage once `results` exists:
+# Example:
 # plot_failure_mode_step(results, 60.0)
 # plot_failure_mode_step(results, 600.0)
 # plot_ratio_scatter(results, 60.0)
