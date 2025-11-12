@@ -5,16 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>⚛️ STUR Plasma Torus — Multi-Particle 4D Manifold (Weak-Field GR)</title>
 <style>
-  :root {
-    --bg:#050814; --fg:#e6edf3; --muted:#9fb0c3;
-    --accent:#ffaa00; --link:#89b4ff;
-    --card:#0b1020; --code:#0f1630; --border:#1b2442;
-  }
-  html,body{
-    margin:0;padding:0;background:var(--bg);color:var(--fg);
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
-    line-height:1.45
-  }
+  :root { --bg:#050814; --fg:#e6edf3; --muted:#9fb0c3; --accent:#ffaa00; --link:#89b4ff;
+          --card:#0b1020; --code:#0f1630; --border:#1b2442; }
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;line-height:1.45}
   main{max-width:1100px;margin:0 auto;padding:28px}
   h1{color:var(--accent);font-size:1.9rem;margin:.2rem 0 1rem}
   h2{color:#ffcc33;margin:1.6rem 0 .6rem;font-size:1.25rem}
@@ -35,22 +29,20 @@
 <body>
 <main>
   <h1>⚛️ STUR Plasma Torus — Multi-Particle 4D Manifold (Weak-Field GR)</h1>
-  <div class="note">Covariant Lorentz + STUR per particle on a weak-field metric. JupyterLite-safe (NumPy + Matplotlib + JSON).</div>
+  <div class="note">Earth-lab gravity (center at −R<sub>E</sub> below), uniform Bẑ, STUR per particle. JupyterLite-safe (NumPy + Matplotlib + JSON).</div>
 
-  <h2>Unified STUR–GR Derivation</h2>
+  <h2>Unified STUR–GR Derivation (lab realism)</h2>
   <div class="eq">
     <p><strong>Metric (weak field):</strong>
-      \( g_{00}=-(1+2\Phi/c^2),\; g_{ij}=(1-2\Phi/c^2)\delta_{ij},\; \Phi=-GM/r \).
-      Nonzero \( \Gamma \) to first order: \( \Gamma^0{}_{0i}=\partial_i\Phi/c^2,\; \Gamma^i{}_{00}=\partial^i\Phi/c^2 \).</p>
-    <p><strong>Equation of motion (particle \(a\)):</strong>
-      \( \displaystyle \frac{du^\mu_a}{d\tau}+\Gamma^\mu_{\alpha\beta}u^\alpha_a u^\beta_a
-      = \frac{q}{m} S_a F^\mu{}_{\nu} u^\nu_a \),
-      with \( \mathbf{E}=0,\ \mathbf{B}=B\hat z \Rightarrow F^{12}=-B,\ F^{21}=+B \).</p>
-    <p><strong>STUR scalar:</strong>
-      \( S_a=\tanh(r_{\rm phys,a}/L_0)\big(1-e^{-r_{\rm phys,a}/L_0}\big) \),
-      \( r_{\rm phys}^2 \!\approx\! (1-2\Phi/c^2)(x_a^2+y_a^2+z_a^2) \).</p>
-    <p><strong>Integrator:</strong> split scheme:
-      half-gravity kick → STUR-scaled Boris rotation for \( \mathbf v\times\mathbf B \) → half-gravity kick → drift.</p>
+      \( g_{00}=-(1+2\Phi/c^2),\; g_{ij}=(1-2\Phi/c^2)\delta_{ij},\; \Phi(\mathbf r_c)=-GM/|\mathbf r_c| \) with
+      \( \mathbf r_c=(x, y, z+R_E)\) (Earth center at \(z=-R_E\)).</p>
+    <p><strong>EOM:</strong>
+      \( \displaystyle \frac{du^\mu}{d\tau}+\Gamma^\mu_{\alpha\beta}u^\alpha u^\beta
+      = \frac{q}{m}S F^\mu{}_{\nu}u^\nu,\quad \mathbf E=0,\ \mathbf B=B\hat z.\)</p>
+    <p><strong>STUR:</strong>
+      \( S=\tanh(r_{\rm phys}/L_0)\big(1-e^{-r_{\rm phys}/L_0}\big),\ 
+         r_{\rm phys}^2\approx (1-2\Phi/c^2)(x^2+y^2+z^2).\)</p>
+    <p>We split-step: gravity half-kicks → **Boris rotation** with local \(S\) → gravity half-kicks → drift, and cap \(v&lt;0.99c\) for numerical safety.</p>
   </div>
 
   <h2>Python Simulation</h2>
@@ -62,9 +54,8 @@
   <pre><code id="pycode">#!/usr/bin/env python3
 # ===============================================================
 # STUR Plasma Torus — Multi-Particle 4D Manifold (Weak-Field GR)
-# JupyterLite-safe: NumPy + Matplotlib + JSON only
+# Earth center at (0,0,-R_E) so g ≈ 9.81 m/s^2; JupyterLite safe.
 # ===============================================================
-
 import numpy as np, math, json
 import matplotlib.pyplot as plt
 plt.style.use("dark_background")
@@ -73,17 +64,18 @@ plt.style.use("dark_background")
 c   = 2.99792458e8
 G   = 6.67430e-11
 M_E = 5.9722e24
+R_E = 6.371e6             # Earth radius (m)
 q   = 1.602176634e-19
 m   = 1.67262192369e-27
 Bz  = 1.5                 # Tesla
 L0  = 1.0e-3              # STUR length (m)
 R_major = 2.0e-2          # torus major radius (m)
 a_minor = 4.0e-3          # torus minor radius (m)
-Npart   = 400             # particles
+Npart   = 400
 beta0   = 0.12            # v/c
 v0      = beta0*c
 n_periods = 5.0
-steps_per_period = 800
+steps_per_period = 1000   # finer step for stability
 
 # time step from classical cyclotron reference
 T_c = 2.0*np.pi*m/(abs(q)*Bz)
@@ -92,33 +84,32 @@ Nsteps = int(n_periods*steps_per_period)
 
 rng = np.random.default_rng(42)
 
-# ---------- Gravity (vectorized) ----------
+# ---------- Gravity (vectorized; Earth center below lab) ----------
+# r_c = (x, y, z+R_E)
 def phi_vec(x,y,z):
-    r2 = x*x + y*y + z*z + 1e-18
-    r  = np.sqrt(r2)
-    return -G*M_E / r
+    rc2 = x*x + y*y + (z+R_E)**2
+    rc  = np.sqrt(rc2)
+    return -G*M_E / (rc + 1e-18)
 
 def grad_phi_vec(x,y,z):
-    r2 = x*x + y*y + z*z + 1e-18
-    r  = np.sqrt(r2)
-    fac = G*M_E / (r2 * r)       # ∇(-GM/r) = +GM r / r^3
-    return fac*x, fac*y, fac*z
+    rc2 = x*x + y*y + (z+R_E)**2 + 1e-18
+    rc  = np.sqrt(rc2)
+    fac = G*M_E / (rc2*rc)            # ∇(-GM/rc) = +GM r_c / rc^3
+    return fac*x, fac*y, fac*(z+R_E)
 
-# ---------- STUR scalar (vectorized) ----------
+# ---------- STUR scalar (vectorized, lab-space radius) ----------
 def S_STUR_vec(x,y,z):
     Phi   = phi_vec(x,y,z)
     scale = 1.0 - 2.0*Phi/c**2
     r2p   = scale*(x*x + y*y + z*z)
     rp    = np.sqrt(np.clip(r2p,0.0,None))
     u     = rp / L0
-    # safe tanh/exp for small u
     return np.tanh(u) * (1.0 - np.exp(-u))
 
 # ---------- Torus initial conditions ----------
 theta = rng.uniform(0.0, 2.0*np.pi, Npart)
 psi   = rng.uniform(0.0, 2.0*np.pi, Npart)
 r_minor = a_minor * (0.6 + 0.4*rng.random(Npart))
-
 x = (R_major + r_minor*np.cos(psi)) * np.cos(theta)
 y = (R_major + r_minor*np.cos(psi)) * np.sin(theta)
 z =  r_minor*np.sin(psi)
@@ -134,6 +125,14 @@ vz = v0 * (pitch / norm)
 def gamma_of(vx,vy,vz):
     b2 = (vx*vx + vy*vy + vz*vz)/c**2
     return 1.0/np.sqrt(1.0 - np.clip(b2,0.0,0.9999999))
+
+def limit_speed(vx,vy,vz, vmax=0.99*c):
+    v2 = vx*vx + vy*vy + vz*vz
+    mask = v2 > vmax*vmax
+    if np.any(mask):
+        scale = np.sqrt((vmax*vmax)/v2[mask])
+        vx[mask] *= scale; vy[mask] *= scale; vz[mask] *= scale
+    return vx,vy,vz
 
 # ---------- Boris rotation (vectorized) ----------
 def boris_B_STUR(vx,vy,vz, S, dt):
@@ -152,25 +151,28 @@ uinv_mu  = np.zeros(Nsteps)
 # ---------- Main loop ----------
 for k in range(Nsteps):
     # gravity half-kick (vectorized)
-    dpx, dpy, dpz = grad_phi_vec(x,y,z)  # = +GM r / r^3
-    gx, gy, gz    = -dpx, -dpy, -dpz     # a_g = -∇Φ
+    dpx, dpy, dpz = grad_phi_vec(x,y,z)  # = +GM r_c / rc^3
+    gx, gy, gz    = -dpx, -dpy, -dpz     # a_g = -∇Φ  (≈ downward z)
     vx += 0.5*dt*gx;  vy += 0.5*dt*gy;  vz += 0.5*dt*gz
+    vx,vy,vz = limit_speed(vx,vy,vz)
 
     # Boris rotation with STUR per particle
     S_loc = S_STUR_vec(x,y,z)
     vx,vy,vz = boris_B_STUR(vx,vy,vz, S_loc, dt)
+    vx,vy,vz = limit_speed(vx,vy,vz)
 
     # gravity second half-kick (vectorized)
     dpx, dpy, dpz = grad_phi_vec(x,y,z)
     gx, gy, gz    = -dpx, -dpy, -dpz
     vx += 0.5*dt*gx;  vy += 0.5*dt*gy;  vz += 0.5*dt*gz
+    vx,vy,vz = limit_speed(vx,vy,vz)
 
     # drift
     x += vx*dt; y += vy*dt; z += vz*dt
 
     # samples
-    g  = gamma_of(vx,vy,vz)
-    inv = -(g*c)**2 + (g*vx)**2 + (g*vy)**2 + (g*vz)**2  # flat invariant proxy
+    g   = gamma_of(vx,vy,vz)
+    inv = -(g*c)**2 + (g*vx)**2 + (g*vy)**2 + (g*vz)**2  # should ~ -c^2
     S_hist[k]   = float(np.mean(S_loc))
     gamma_mu[k] = float(np.mean(g))
     uinv_mu[k]  = float(np.mean(inv))
@@ -233,7 +235,7 @@ plt.xlabel("t (s)"); plt.ylabel("⟨u·u⟩ (m²/s²)")
 plt.title("Invariant check (flat proxy)")
 plt.grid(alpha=0.3); plt.tight_layout(); plt.show()
 
-print("\\nWorldlines integrated: split Boris + STUR per particle + weak-field gravity.")
+print("\\nWorldlines integrated: split Boris + STUR per particle + weak-field gravity (Earth center at -R_E).")
 print("Tag @that1sheldon  #STUR  #PlasmaPhysics  #Relativity  #OpenSource")
 </code></pre>
 
@@ -252,18 +254,14 @@ async function copySTUR(){
   try{
     await navigator.clipboard.writeText(text);
     for(const id of ["copyBtnTop","copyBtnBottom"]){
-      const btn = document.getElementById(id);
-      if(!btn) continue;
-      const old = btn.textContent;
-      btn.textContent = "✅ Copied!";
-      setTimeout(()=>btn.textContent = old, 1400);
+      const btn=document.getElementById(id); if(!btn) continue;
+      const old=btn.textContent; btn.textContent="✅ Copied!";
+      setTimeout(()=>btn.textContent=old,1400);
     }
-  }catch(e){
-    alert("Copy failed — select the code and copy manually.");
-  }
+  }catch(e){ alert("Copy failed — select the code and copy manually."); }
 }
-document.getElementById("copyBtnTop").addEventListener("click", copySTUR);
-document.getElementById("copyBtnBottom").addEventListener("click", copySTUR);
+for(const id of ["copyBtnTop","copyBtnBottom"])
+  document.getElementById(id).addEventListener("click", copySTUR);
 </script>
 </body>
 </html>
