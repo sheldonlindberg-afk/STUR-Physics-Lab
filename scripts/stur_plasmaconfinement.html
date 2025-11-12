@@ -3,24 +3,32 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>STUR Plasma Torus — Multi-Particle, 4D Manifold (Weak-Field GR)</title>
+<title>⚛️ STUR Plasma Torus — Multi-Particle 4D Manifold (Weak-Field GR)</title>
 <style>
-  :root{
-    --bg:#050814; --fg:#e6edf3; --muted:#9fb0c3; --accent:#ffaa00; --link:#89b4ff;
+  :root {
+    --bg:#050814; --fg:#e6edf3; --muted:#9fb0c3;
+    --accent:#ffaa00; --link:#89b4ff;
     --card:#0b1020; --code:#0f1630; --border:#1b2442;
   }
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;line-height:1.45}
-  main{max-width:1100px;margin:0 auto;padding:28px}
+  html,body {
+    margin:0; padding:0;
+    background:var(--bg); color:var(--fg);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+    line-height:1.45;
+  }
+  main {max-width:1100px;margin:0 auto;padding:28px;}
   h1{color:var(--accent);font-size:1.9rem;margin:.2rem 0 1rem}
   h2{color:#ffcc33;margin:1.6rem 0 .6rem;font-size:1.25rem}
   p,li{color:var(--fg)}
   .note{color:var(--muted)}
   .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px}
   .eq{background:var(--card);border:1px dashed var(--border);padding:12px;border-radius:10px}
-  pre{background:var(--code);border:1px solid var(--border);border-radius:10px;padding:14px;overflow:auto}
+  pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+      padding:14px;overflow:auto}
+  code{font-family:inherit}
   .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:.75rem 0}
-  .btn{cursor:pointer;border:1px solid var(--border);background:#0e1835;color:var(--fg);padding:8px 12px;border-radius:9px}
+  .btn{cursor:pointer;border:1px solid var(--border);background:#0e1835;color:var(--fg);
+       padding:8px 12px;border-radius:9px}
   .btn:hover{background:#122049}
   a{color:var(--link);text-decoration:none}
   .back{display:inline-block;margin-top:1.25rem}
@@ -29,277 +37,184 @@
 </head>
 <body>
 <main>
-  <h1>STUR Plasma Torus — Multi-Particle, 4D Manifold (Weak-Field GR)</h1>
-  <div class="note">Covariant Lorentz + STUR on a weak-field metric, many particles in a toroidal distribution. JupyterLite-safe (NumPy + Matplotlib + JSON).</div>
+<h1>⚛️ STUR Plasma Torus — Multi-Particle 4D Manifold (Weak-Field GR)</h1>
+<div class="note">Covariant Lorentz + STUR scalar per particle in a weak-field metric. JupyterLite-safe (NumPy + Matplotlib + JSON).</div>
 
-  <h2>Derivation (toroidal multi-particle, curved spacetime)</h2>
-  <div class="eq">
-    <p><strong>Metric (weak-field):</strong>
-      \( g_{00}=-(1+2\Phi/c^2),\; g_{ij}=(1-2\Phi/c^2)\delta_{ij},\; \Phi=-GM/r. \)
-      Christoffels kept to first order: \( \Gamma^0{}_{0i}=\partial_i\Phi/c^2,\; \Gamma^i{}_{00}=\partial^i\Phi/c^2. \)</p>
-    <p><strong>Equation of motion (each particle \(a\)):</strong>
-      \( \displaystyle \frac{du^\mu_a}{d\tau}+\Gamma^\mu_{\alpha\beta} u^\alpha_a u^\beta_a
-      = \frac{q}{m}\,S_a\,F^\mu{}_{\nu} u^\nu_a, \)
-      with \( \mathbf{E}=0,\ \mathbf{B}=B\hat z,\ F^{12}=-B,\ F^{21}=+B.\)</p>
-    <p><strong>STUR scalar per particle:</strong>
-      \( r_{\rm phys,a}^2 \approx (1-2\Phi/c^2)(x_a^2+y_a^2+z_a^2),\quad
-      S_a=\tanh(r_{\rm phys,a}/L_0)\big(1-e^{-r_{\rm phys,a}/L_0}\big).\)</p>
-    <p><strong>Integrator (split Boris):</strong> In coordinate time \(t\), per-step:
-      (i) half gravity kick \( \mathbf v\leftarrow\mathbf v+\tfrac{\Delta t}{2}\mathbf a_g\); (ii) **Boris rotation** of momentum by
-      \( \theta_a=(qB/(\gamma_a m))\,S_a\,\Delta t\) (exact for B-only); (iii) second half gravity kick; (iv) position drift.
-      We then compute \( \gamma_a \) and monitor \( u^\mu u_\mu\approx -c^2 \).</p>
-  </div>
+<h2>Unified STUR-GR Derivation</h2>
+<div class="eq">
+<p><strong>Metric (weak-field GR):</strong>  
+\( g_{00}=-(1+2\Phi/c^2),\; g_{ij}=(1-2\Phi/c^2)\delta_{ij},\; \Phi=-GM/r. \)  
+Christoffels (first order): \( \Gamma^0{}_{0i}=\partial_i\Phi/c^2,\; \Gamma^i{}_{00}=\partial^i\Phi/c^2. \)</p>
 
-  <h2>Python (copy &amp; run)</h2>
-  <div class="toolbar">
-    <button class="btn" id="copyBtn">Copy Script</button>
-    <button class="btn" id="dlBtn">Download <code>stur_plasma_torus_4D_GR_multi.py</code></button>
-    <a class="btn" href="https://jupyterlite.github.io/demo/lab/index.html" target="_blank" rel="noopener">Open JupyterLite</a>
-  </div>
+<p><strong>Equation of motion (each particle a):</strong>  
+\[
+\frac{du^\mu_a}{d\tau}+\Gamma^\mu_{\alpha\beta}u^\alpha_a u^\beta_a
+= \frac{q}{m}\,S_a\,F^\mu{}_{\nu}u^\nu_a,
+\]
+with \( \mathbf{E}=0,\ \mathbf{B}=B\hat{z} \Rightarrow F^{12}=-B,\ F^{21}=+B.\)</p>
 
-  <pre><code id="pycode">#!/usr/bin/env python3
-# =====================================================================
-# STUR Plasma Torus — Multi-Particle, 4D Manifold (Weak-Field GR)
-# Covariant Lorentz (B-only in lab frame) + STUR scalar per particle.
-# Split Boris: gravity half-kicks + STUR-scaled v×B rotation.
-# JupyterLite-safe: NumPy + Matplotlib + JSON only.
-# =====================================================================
+<p><strong>STUR scalar per particle:</strong>  
+\( S_a=\tanh(r_{\rm phys,a}/L_0)\big(1-e^{-r_{\rm phys,a}/L_0}\big), \)  
+\( r_{\rm phys}^2 \!\approx\! (1-2\Phi/c^2)(x_a^2+y_a^2+z_a^2). \)</p>
+
+<p><strong>Integrator (split Boris):</strong>  
+Half-gravity → STUR-scaled \( \mathbf v\times\mathbf B \) rotation → half-gravity → drift.  
+Conserves \(u^\mu u_\mu\!\approx\!-c^2\) and captures confinement topology.</p>
+</div>
+
+<h2>Python Simulation</h2>
+<div class="toolbar">
+  <button class="btn" id="copyBtn">📋 Copy Script</button>
+  <a class="btn" href="https://jupyterlite.github.io/demo/lab/index.html" target="_blank" rel="noopener">▶️ Open in JupyterLite</a>
+</div>
+
+<pre><code id="pycode">#!/usr/bin/env python3
+# ===============================================================
+# STUR Plasma Torus — Multi-Particle 4D Manifold (Weak-Field GR)
+# JupyterLite-safe: NumPy + Matplotlib + JSON only
+# ===============================================================
 
 import numpy as np, math, json
 import matplotlib.pyplot as plt
 plt.style.use("dark_background")
 
-# -------------------- constants (SI) --------------------
-c   = 299792458.0
-G   = 6.67430e-11
-M_E = 5.9722e24                 # Earth mass
-q   = 1.602176634e-19           # charge (proton)
-m   = 1.67262192369e-27         # mass   (proton)
-Bz  = 1.5                       # Tesla (moderate lab field)
+# ---- Constants ----
+c,G,M_E = 2.99792458e8,6.67430e-11,5.9722e24
+q,m,Bz  = 1.602176634e-19,1.67262192369e-27,1.5
+L0,R_major,a_minor = 1e-3,2e-2,4e-3
+Npart,beta0 = 400,0.12
+v0 = beta0*c
+n_periods,steps_per_period = 5.0,800
+T_c = 2*np.pi*m/(abs(q)*Bz)
+dt,Nsteps = T_c/steps_per_period,int(n_periods*steps_per_period)
+rng=np.random.default_rng(42)
 
-# -------------------- STUR + geometry -------------------
-L0      = 1.0e-3                # STUR length scale [m]
-R_major = 2.0e-2                # torus major radius [m]
-a_minor = 4.0e-3                # torus minor radius [m] (radius of cross-section)
-
-# -------------------- population + runtime --------------
-Npart   = 400                   # number of particles
-beta0   = 0.12                  # target speed fraction of c at start
-v0      = beta0 * c
-n_periods = 5.0                 # reference periods to simulate
-steps_per_period = 800
-# Reference cyclotron period (flat, classical)
-T_c_ref = 2.0*np.pi*m/(abs(q)*Bz)
-dt      = T_c_ref/steps_per_period
-Nsteps  = int(n_periods * steps_per_period)
-
-rng = np.random.default_rng(42)
-
-# -------------------- weak-field potential ---------------
+# ---- Potential & STUR scalar ----
 def phi(x,y,z):
-    r = math.sqrt(x*x+y*y+z*z) + 1e-18
-    return -G*M_E / r
-
+    r=math.sqrt(x*x+y*y+z*z)+1e-18;return -G*M_E/r
 def grad_phi(x,y,z):
-    r2 = x*x+y*y+z*z + 1e-18
-    r  = math.sqrt(r2)
-    fac = G*M_E / (r2*r)
-    return fac*x, fac*y, fac*z   # ∇(-GM/r)
-
-# -------------------- STUR scalar (proper spatial radius) -
+    r2=x*x+y*y+z*z+1e-18;r=math.sqrt(r2);f=G*M_E/(r2*r)
+    return f*x,f*y,f*z
 def S_STUR(x,y,z):
-    Phi = phi(x,y,z)
-    metric_scale = 1.0 - 2.0*Phi/c**2
-    r2p = metric_scale*(x*x+y*y+z*z)
-    if r2p <= 0.0: return 0.0
-    rp = math.sqrt(r2p)
-    u  = rp / L0
-    return math.tanh(u)*(1.0 - math.exp(-u))
+    Phi=phi(x,y,z);scale=1-2*Phi/c**2;r2=scale*(x*x+y*y+z*z)
+    if r2<=0:return 0.0
+    rp=math.sqrt(r2);u=rp/L0
+    return math.tanh(u)*(1-math.exp(-u))
 
-# -------------------- init torus distribution -------------
-# Parametrize torus: major circle angle θ, minor circle angle ψ
-theta = rng.uniform(0.0, 2.0*np.pi, size=Npart)
-psi   = rng.uniform(0.0, 2.0*np.pi, size=Npart)
-r_minor = a_minor * (0.6 + 0.4*rng.random(Npart))  # slight spread
+# ---- Torus distribution ----
+θ,ψ=rng.uniform(0,2*np.pi,Npart),rng.uniform(0,2*np.pi,Npart)
+r_minor=a_minor*(0.6+0.4*rng.random(Npart))
+x=(R_major+r_minor*np.cos(ψ))*np.cos(θ)
+y=(R_major+r_minor*np.cos(ψ))*np.sin(θ)
+z=r_minor*np.sin(ψ)
+tx,ty,tz=-np.sin(θ),np.cos(θ),0*θ
+pitch=0.15
+vx=v0*(tx/np.sqrt(1+pitch**2))
+vy=v0*(ty/np.sqrt(1+pitch**2))
+vz=v0*(pitch/np.sqrt(1+pitch**2))
 
-x = (R_major + r_minor*np.cos(psi)) * np.cos(theta)
-y = (R_major + r_minor*np.cos(psi)) * np.sin(theta)
-z = r_minor*np.sin(psi)
+def γ(vx,vy,vz):
+    b2=(vx*vx+vy*vy+vz*vz)/c**2
+    return 1/np.sqrt(1-np.clip(b2,0,0.9999999))
+def boris(vx,vy,vz,S,dt):
+    g=γ(vx,vy,vz);θ=(q*Bz/(g*m))*S*dt
+    cth,sth=np.cos(θ),np.sin(θ)
+    vxn=cth*vx-sth*vy;vyn=sth*vx+cth*vy;return vxn,vyn,vz
 
-# Tangent direction ~ toroidal (along +θ), normalized
-tx = -np.sin(theta)
-ty =  np.cos(theta)
-tz =  0.0*theta
+S_hist,gam_hist,uinv_hist=np.zeros(Nsteps),np.zeros(Nsteps),np.zeros(Nsteps)
 
-# Add a small helical pitch component along +z for realism
-pitch = 0.15
-vx = v0*( (1.0/np.sqrt(1.0+pitch**2))*tx )
-vy = v0*( (1.0/np.sqrt(1.0+pitch**2))*ty )
-vz = v0*( (pitch/np.sqrt(1.0+pitch**2)) * np.ones_like(theta) )
-
-def gamma_of(vx,vy,vz):
-    b2 = (vx*vx + vy*vy + vz*vz)/c**2
-    b2 = np.clip(b2, 0.0, 0.999999999)
-    return 1.0/np.sqrt(1.0 - b2)
-
-gamma = gamma_of(vx,vy,vz)
-
-# -------------------- Boris rotation (B-only) --------------
-# Rotate momentum about z by θ = (q Bz/(γ m)) S dt
-def boris_B_STUR(vx,vy,vz, S, dt):
-    gamma = gamma_of(vx,vy,vz)
-    theta = (q*Bz/(gamma*m)) * S * dt
-    cth, sth = np.cos(theta), np.sin(theta)
-    vxn = cth*vx - sth*vy
-    vyn = sth*vx + cth*vy
-    vzn = vz
-    return vxn, vyn, vzn
-
-# -------------------- arrays for diagnostics ----------------
-S_hist   = np.zeros(Nsteps)
-gamm_mu  = np.zeros(Nsteps)
-uinv_mu  = np.zeros(Nsteps)
-
-# -------------------- main loop (split scheme) -------------
 for k in range(Nsteps):
-    # gravity half-kick
-    gx, gy, gz = np.zeros_like(x), np.zeros_like(y), np.zeros_like(z)
+    gx=gy=gz=np.zeros_like(x),np.zeros_like(y),np.zeros_like(z)
     for i in range(Npart):
-        dpx,dpy,dpz = grad_phi(x[i],y[i],z[i])  # = +GM r / r^3
-        # gravitational acceleration a_g = -∇Φ = -(+GM r / r^3)
-        ax_g = -dpx; ay_g = -dpy; az_g = -dpz
-        gx[i],gy[i],gz[i] = ax_g, ay_g, az_g
-    vx += 0.5*dt*gx
-    vy += 0.5*dt*gy
-    vz += 0.5*dt*gz
-
-    # Boris rotation with STUR per particle
-    S_local = np.array([S_STUR(x[i],y[i],z[i]) for i in range(Npart)])
-    vx,vy,vz = boris_B_STUR(vx,vy,vz, S_local, dt)
-
-    # gravity second half-kick
+        dpx,dpy,dpz=grad_phi(x[i],y[i],z[i])
+        gx[i],gy[i],gz[i]=-dpx,-dpy,-dpz
+    vx+=0.5*dt*gx;vy+=0.5*dt*gy;vz+=0.5*dt*gz
+    S_loc=np.array([S_STUR(x[i],y[i],z[i]) for i in range(Npart)])
+    vx,vy,vz=boris(vx,vy,vz,S_loc,dt)
     for i in range(Npart):
-        dpx,dpy,dpz = grad_phi(x[i],y[i],z[i])
-        ax_g = -dpx; ay_g = -dpy; az_g = -dpz
-        gx[i],gy[i],gz[i] = ax_g, ay_g, az_g
-    vx += 0.5*dt*gx
-    vy += 0.5*dt*gy
-    vz += 0.5*dt*gz
+        dpx,dpy,dpz=grad_phi(x[i],y[i],z[i])
+        gx[i],gy[i],gz[i]=-dpx,-dpy,-dpz
+    vx+=0.5*dt*gx;vy+=0.5*dt*gy;vz+=0.5*dt*gz
+    x+=vx*dt;y+=vy*dt;z+=vz*dt
+    g=γ(vx,vy,vz);inv=-(g*c)**2+(g*vx)**2+(g*vy)**2+(g*vz)**2
+    S_hist[k]=np.mean(S_loc);gam_hist[k]=np.mean(g);uinv_hist[k]=np.mean(inv)
 
-    # drift
-    x += vx*dt
-    y += vy*dt
-    z += vz*dt
-
-    # diagnostics sample
-    gamma = gamma_of(vx,vy,vz)
-    # Minkowski invariant (flat check): u·u = -c^2 ideally
-    inv = -(gamma*c)**2 + (gamma*vx)**2 + (gamma*vy)**2 + (gamma*vz)**2
-    S_hist[k]  = float(np.mean(S_local))
-    gamm_mu[k] = float(np.mean(gamma))
-    uinv_mu[k] = float(np.mean(inv))
-
-# -------------------- summaries ----------------------------
-r = np.sqrt(x*x+y*y+z*z)
-summary = {
-  "N_particles": int(Npart),
-  "B_T": float(Bz),
-  "L0_m": float(L0),
-  "R_major_m": float(R_major),
-  "a_minor_m": float(a_minor),
-  "beta0": float(beta0),
-  "dt_s": float(dt),
-  "steps": int(Nsteps),
-  "runtime_periods_ref": float(n_periods),
-  "mean_S_over_time": float(np.mean(S_hist)),
-  "mean_gamma_over_time": float(np.mean(gamm_mu)),
-  "uinv_flat_mean": float(np.mean(uinv_mu)),
-  "uinv_flat_std": float(np.std(uinv_mu)),
-  "radius_min_max_m": [float(r.min()), float(r.max())]
+r=np.sqrt(x*x+y*y+z*z)
+summary={
+ "N_particles":int(Npart),"B_T":float(Bz),"L0_m":float(L0),
+ "R_major_m":float(R_major),"a_minor_m":float(a_minor),
+ "beta0":float(beta0),"dt_s":float(dt),"steps":int(Nsteps),
+ "runtime_periods_ref":float(n_periods),
+ "mean_S_over_time":float(np.mean(S_hist)),
+ "mean_gamma_over_time":float(np.mean(gam_hist)),
+ "uinv_flat_mean":float(np.mean(uinv_hist)),
+ "uinv_flat_std":float(np.std(uinv_hist)),
+ "radius_min_max_m":[float(r.min()),float(r.max())]
 }
 print("\\n=== STUR Plasma Torus (Multi, 4D/GR weak) – SUMMARY ===")
-print(json.dumps(summary, indent=4))
+print(json.dumps(summary,indent=4))
 
-# -------------------- plots --------------------------------
-# 1) XY projection of final positions
+# ---- Plots ----
+t=np.arange(Nsteps)*dt
 plt.figure(figsize=(6.5,6.5))
-plt.scatter(x, y, s=6, alpha=0.75)
-circ = plt.Circle((0,0), R_major, fill=False, ls="--", alpha=0.5)
-plt.gca().add_patch(circ)
-plt.axis("equal"); plt.grid(alpha=0.3)
-plt.xlabel("x (m)"); plt.ylabel("y (m)")
-plt.title("STUR Plasma Torus — XY projection (final)")
-plt.tight_layout(); plt.show()
+plt.scatter(x,y,s=6,alpha=.75)
+plt.Circle((0,0),R_major,fill=False,ls="--",alpha=.5)
+plt.axis("equal");plt.grid(alpha=.3)
+plt.xlabel("x (m)");plt.ylabel("y (m)")
+plt.title("STUR Plasma Torus — XY Projection (final)");plt.tight_layout();plt.show()
 
-# 2) XZ projection of final positions
 plt.figure(figsize=(7,3.8))
-plt.scatter(x, z, s=6, alpha=0.75)
-plt.axhline(0, ls="--", alpha=0.4)
-plt.grid(alpha=0.3); plt.xlabel("x (m)"); plt.ylabel("z (m)")
-plt.title("XZ projection (final)")
-plt.tight_layout(); plt.show()
-
-# 3) Mean S(t) and mean γ(t)
-t = np.arange(Nsteps)*dt
-plt.figure(figsize=(7,3))
-plt.plot(t, S_hist, label="⟨S⟩")
-plt.axhline(1.0, ls="--", alpha=0.5)
-plt.xlabel("t (s)"); plt.ylabel("S")
-plt.title("Mean STUR scalar vs time")
-plt.grid(alpha=0.3); plt.tight_layout(); plt.show()
+plt.scatter(x,z,s=6,alpha=.75);plt.axhline(0,ls="--",alpha=.4)
+plt.grid(alpha=.3);plt.xlabel("x (m)");plt.ylabel("z (m)")
+plt.title("XZ Projection (final)");plt.tight_layout();plt.show()
 
 plt.figure(figsize=(7,3))
-plt.plot(t, gamm_mu, label="⟨γ⟩")
-plt.xlabel("t (s)"); plt.ylabel("γ")
-plt.title("Mean Lorentz factor vs time")
-plt.grid(alpha=0.3); plt.tight_layout(); plt.show()
+plt.plot(t,S_hist);plt.axhline(1,ls="--",alpha=.5)
+plt.xlabel("t (s)");plt.ylabel("S");plt.title("Mean STUR Scalar vs Time")
+plt.grid(alpha=.3);plt.tight_layout();plt.show()
 
-# 4) Flat-space invariant u·u ~ -c^2 (monitor)
 plt.figure(figsize=(7,3))
-plt.plot(t, uinv_mu)
-plt.axhline(-c*c, ls="--", alpha=0.6)
-plt.xlabel("t (s)"); plt.ylabel("⟨u·u⟩  (m^2/s^2)")
-plt.title("Invariant check (flat proxy)")
-plt.grid(alpha=0.3); plt.tight_layout(); plt.show()
+plt.plot(t,gam_hist);plt.xlabel("t (s)");plt.ylabel("γ")
+plt.title("Mean Lorentz Factor vs Time")
+plt.grid(alpha=.3);plt.tight_layout();plt.show()
 
-print("\\nWorldlines integrated: split Boris with STUR per particle + weak-field gravity.")
+plt.figure(figsize=(7,3))
+plt.plot(t,uinv_hist);plt.axhline(-c*c,ls="--",alpha=.6)
+plt.xlabel("t (s)");plt.ylabel("⟨u·u⟩ (m²/s²)")
+plt.title("Invariant Check (flat proxy)")
+plt.grid(alpha=.3);plt.tight_layout();plt.show()
+
+print("\\nWorldlines integrated: split Boris + STUR per particle + weak-field gravity.")
 print("Tag @that1sheldon  #STUR  #PlasmaPhysics  #Relativity  #OpenSource")
 </code></pre>
 
-  <div class="toolbar">
-    <button class="btn" id="copyBtn2">Copy Script</button>
-    <button class="btn" id="dlBtn2">Download <code>stur_plasma_torus_4D_GR_multi.py</code></button>
-    <a class="btn" href="https://jupyterlite.github.io/demo/lab/index.html" target="_blank" rel="noopener">Open JupyterLite</a>
-  </div>
+<div class="toolbar">
+  <button class="btn" id="copyBtn2">📋 Copy Script</button>
+  <a class="btn" href="https://jupyterlite.github.io/demo/lab/index.html" target="_blank" rel="noopener">▶️ Open in JupyterLite</a>
+</div>
 
-  <h2>Realism knobs & next steps</h2>
-  <div class="card">
-    <ul>
-      <li><strong>Curved-space fidelity:</strong> For stronger gravity or precision, upgrade to full Schwarzschild \(g_{\mu\nu}\) + exact \(\Gamma^\mu_{\alpha\beta}\) and switch back to **proper-time** stepping with per-particle normalization \(u^\mu u_\mu=-c^2\).</li>
-      <li><strong>Field realism:</strong> Replace uniform \(B\) with a tokamak-like \(B_\phi(R)\) and add a small \(B_\theta\) for safety factor \(q_{\rm saf}\). You can also define \(F_{\hat\alpha\hat\beta}\) in a tetrad and transform to coordinates.</li>
-      <li><strong>STUR physics:</strong> Try alternative \(S\) dependences (e.g., metric scalars or EM invariants \(F_{\mu\nu}F^{\mu\nu}\)) and scan \(L_0\) to study confinement thresholds.</li>
-      <li><strong>Diagnostics:</strong> Add PDFs of \(r\), pitch angle, and \(\Delta r\) over time to quantify confinement and compare STUR vs \(S\equiv 1\).</li>
-      <li><strong>Performance:</strong> Increase `Npart` (e.g., 2–5k) after validating on desktop; mobile Safari/JupyterLite runs best at a few hundred particles.</li>
-    </ul>
-  </div>
-
-  <a class="back" href="../index.html">← STUR Physics Lab</a>
-  <footer>STUR Unified Resistance Physics © Sheldon Lon Lindberg</footer>
+<a class="back" href="../index.html">← STUR Physics Lab</a>
+<footer>STUR Unified Resistance Physics © Sheldon Lon Lindberg</footer>
 </main>
 
 <script>
-  const code = document.getElementById('pycode').innerText;
-  function copyCode(){ navigator.clipboard.writeText(code); }
-  function downloadCode(){
-    const blob = new Blob([code], {type:'text/x-python'});
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url; a.download = 'stur_plasma_torus_4D_GR_multi.py';
-    document.body.appendChild(a); a.click();
-    URL.revokeObjectURL(url); a.remove();
+async function copySTUR(){
+  const code=document.querySelector("pre code").innerText;
+  try{
+    await navigator.clipboard.writeText(code);
+    for(const btn of document.querySelectorAll(".btn")){
+      if(btn.textContent.includes("Copy")){
+        const old=btn.textContent;
+        btn.textContent="✅ Copied!";
+        setTimeout(()=>btn.textContent=old,1500);
+      }
+    }
+  }catch(e){
+    alert("Copy failed. Please select text manually.");
   }
-  for (const id of ['copyBtn','copyBtn2']) document.getElementById(id).addEventListener('click', copyCode);
-  for (const id of ['dlBtn','dlBtn2'])     document.getElementById(id).addEventListener('click', downloadCode);
+}
+document.getElementById("copyBtn").addEventListener("click",copySTUR);
+document.getElementById("copyBtn2").addEventListener("click",copySTUR);
 </script>
 </body>
 </html>
