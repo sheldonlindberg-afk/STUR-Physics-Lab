@@ -32,6 +32,7 @@
     background:#000;
     border-radius:6px;
     margin-top:1rem;
+    display:block;
   }
   button {
     background:#ffaa00;
@@ -59,6 +60,22 @@
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     font-size:0.9rem;
   }
+  .energy-bars {
+    display:flex;
+    gap:8px;
+    margin-top:0.5rem;
+    font-size:0.75rem;
+  }
+  .energy-bar {
+    flex:1;
+    background:#111;
+    border-radius:4px;
+    padding:4px;
+  }
+  .energy-inner {
+    height:10px;
+    border-radius:3px;
+  }
 </style>
 </head>
 <body>
@@ -69,22 +86,18 @@
 <!-- EXPANDED INTRO -->
 <!-- ===================================================== -->
 <p class="text">
-🔍 <b>Welcome to the STUR Geometry Sandbox.</b> This page is a hands-on field 
-explorer designed to help anyone—from middle-school students to researchers—
-experiment with how geometry shapes force and motion. Every slider and button 
-on this page works. The curve you build is the curve the particle experiences.
+<b>STUR Geometry Sandbox</b> is a hands-on field explorer. It lets you reshape a
+STUR resistance curve and then drop a particle into the field you built.
+Everything on this page is live: sliders change the curve immediately, and the
+particle feels those changes as it moves.
 <br><br>
-STUR models forces using a geometric field:
+The base STUR field is
 <code>S(r) = tanh(r / L₀) · (1 − e<sup>−r / L₀</sup>)</code>.
-Here, you can modify and explore this field by adjusting the geometry scale, 
-curve sharpness, amplitude, blending with the derivative, and horizontal range.
+Here, that field is generalized and blended so you can explore how scaling,
+sharpness, and slope change the geometry and the resulting motion.
 <br><br>
-After shaping the field, scroll to the sandbox at the bottom to launch a 
-particle inside the curve you created and watch the resulting motion.
-<br><br>
-<b>Beginners:</b> Experiment freely. Watch how sliders reshape the curve.  
-<b>Advanced users:</b> Explore curvature kernels, derivative-driven dynamics, 
-and toy-model potentials inspired by STUR geometry.
+Beginners can treat this as a visual physics toy. Advanced users can treat it
+as a simple 1D potential model generated from a STUR-style geometry field.
 </p>
 
 <!-- ===================================================== -->
@@ -92,90 +105,77 @@ and toy-model potentials inspired by STUR geometry.
 <!-- ===================================================== -->
 
 <div class="panel">
-  <h2>How Iteration in Science Works</h2>
+  <h2>Iteration and Experimentation</h2>
   <p class="text">
-Scientific progress grows from iteration: trying ideas, testing them, finding 
-what breaks, and adjusting. This cycle—try → observe → refine—is how real 
-discoveries are made. Exploration is not about perfection; it is about learning 
-from attempts.
+Science grows by iteration: try something, run it, see what breaks, adjust,
+and try again. This sandbox supports that loop. Slide parameters, watch the
+curve and motion, decide what is interesting, and change it again.
   </p>
 </div>
 
 <div class="panel">
-  <h2>How to Use Python Runners Like Jupyter</h2>
+  <h2>From Geometry to Motion</h2>
   <p class="text">
-A Python runner (Jupyter, JupyterLite, Colab) is a live notebook environment 
-where code can be written and executed immediately. You paste code, press “Run,” 
-and see plots, numbers, and behaviors appear. The data exported from this sandbox 
-can be used directly in such tools for deeper analysis.
+The idea behind this sandbox is simple:
   </p>
-</div>
-
-<div class="panel">
-  <h2>Using AI as a Scientific Tool</h2>
-  <p class="text">
-Multiple AI systems can act as additional reviewers: one can check clarity, 
-another consistency, another logic. This accelerates refinement and reduces the 
-barrier to testing ideas. AI does not replace thought but amplifies iteration.
-  </p>
-</div>
-
-<div class="panel">
-  <h2>Science, Scrutiny, and Openness</h2>
-  <p class="text">
-Scrutiny is essential to scientific progress. However, traditional scrutiny is 
-often tied to institutional pathways that can limit access. This sandbox is part 
-of a more open approach, enabling anyone to explore physical ideas directly by 
-modifying geometry and observing the consequences.
-  </p>
-</div>
-
-<div class="panel">
-  <h2>How to Explore Using This Sandbox</h2>
-  <p class="text">
-• Adjust <b>L₀</b> to stretch or compress the field horizontally.<br>
-• Adjust <b>A</b> to scale the field vertically.<br>
-• Change <b>n</b> to sharpen or soften the curve.<br>
-• Move <b>R<sub>max</sub></b> to zoom in or out.<br>
-• Use <b>d</b> to blend between the modified field and its derivative.<br><br>
-After modifying the geometry, scroll down to the sandbox to watch a particle 
-move according to the slope of the curve you created.
-  </p>
-</div>
-
-<div class="panel">
-  <h2>STUR Geometry Map</h2>
   <pre>
-Energy + Information
+Geometry field  S(r)
         ↓
-   Resistance Geometry  S(r)
+  Blended field  S_blend(r)
         ↓
-   Curvature / Slope  dS/dr
+ Local slope  dS_blend/dr
         ↓
-       Force  F(r)
+  Toy force  F(r) ≈ − dS_blend/dr
         ↓
-      Motion
+     Motion of a 1D particle
   </pre>
   <p class="text">
-The sandbox below sits at the center of this chain, letting you explore geometry, 
-its derivative, and the resulting motion.
+The particle does not follow an exact physical potential here, but it responds
+to the slope of the blended STUR field. This makes the relationship between
+geometry and motion visible.
+  </p>
+</div>
+
+<div class="panel">
+  <h2>Using Code and AI Around This Sandbox</h2>
+  <p class="text">
+Data exported from this sandbox can be loaded into Python (for example, in
+Jupyter or JupyterLite) to plot, fit, and compare to other models. AI tools
+can be used to review derivations, check consistency, or suggest further
+experiments, but experiments like this remain the core of learning.
+  </p>
+</div>
+
+<div class="panel">
+  <h2>How to Explore with the Controls</h2>
+  <p class="text">
+• <b>L₀</b> changes the horizontal geometry scale.<br>
+• <b>A</b> rescales the vertical amplitude.<br>
+• <b>n</b> makes the curve softer or sharper through the tanh exponent.<br>
+• <b>R<sub>max</sub></b> sets the horizontal range (zoom).<br>
+• <b>d</b> blends between the modified field and its derivative.<br>
+• <b>Mass</b> changes how strongly the particle responds to a given slope.<br>
+• <b>Speed</b> sets how fast the simulation runs globally.<br>
+• <b>Kick</b> adds a burst of velocity to the particle.<br><br>
+After adjusting the field and motion parameters, scroll to the sandbox at the
+bottom, start the particle, and watch how the motion responds.
   </p>
 </div>
 
 <!-- ===================================================== -->
-<!-- CONTROLS SECTION (appears BEFORE the graph) -->
+<!-- CONTROLS SECTION -->
 <!-- ===================================================== -->
 
 <div class="panel">
-  <h2>Field Controls</h2>
+  <h2>Field & Motion Controls</h2>
 
-  <label>L₀ (geometry scale): <span id="L0_val">1.0</span></label>
+  <label>L₀ (geometry scale): <span id="L0_val">1.00</span></label>
   <input type="range" id="L0" min="0.2" max="3" value="1" step="0.1">
 
-  <label>A (amplitude scale): <span id="A_val">1.0</span></label>
+  <label>A (amplitude scale): <span id="A_val">1.00</span></label>
   <input type="range" id="A" min="0.2" max="3" value="1" step="0.1">
 
-  <label>n (tanh exponent): <span id="n_val">1.0</span></label>
+  <label>n (tanh exponent): <span id="n_val">1.00</span></label>
   <input type="range" id="n" min="0.5" max="3" value="1" step="0.1">
 
   <label>R<sub>max</sub> (horizontal range): <span id="Rmax_val">5.0</span></label>
@@ -184,20 +184,43 @@ its derivative, and the resulting motion.
   <label>d (blend S vs. S′, 0→1): <span id="d_val">0.00</span></label>
   <input type="range" id="blend" min="0" max="1" value="0" step="0.05">
 
+  <label>Mass (response to slope): <span id="mass_val">1.0</span></label>
+  <input type="range" id="mass" min="0.2" max="5" value="1" step="0.1">
+
+  <label>Simulation speed: <span id="speed_val">1.0×</span></label>
+  <input type="range" id="speed" min="0.5" max="3" value="1" step="0.1">
+
   <div style="margin-top:0.75rem;">
     <button id="toggleAnim">▶ Start Particle</button>
+    <button id="kickBtn">⚡ Kick Particle</button>
     <button id="resetBtn">⟲ Reset</button>
     <button id="downloadBtn">⬇ Download Data</button>
   </div>
 </div>
 
 <!-- ===================================================== -->
-<!-- SANDBOX + OUTPUT (BOTTOM OF PAGE) -->
+<!-- SANDBOX + OUTPUT (BOTTOM) -->
 <!-- ===================================================== -->
 
 <div class="panel">
-  <h2>STUR Sandbox – Curve & Particle Motion</h2>
+  <h2>STUR Sandbox – Curve, Particle, and Live Output</h2>
   <canvas id="plot" width="800" height="260"></canvas>
+
+  <div class="energy-bars">
+    <div class="energy-bar">
+      KE
+      <div id="ke_bar" class="energy-inner" style="background:#00ffcc;width:0%;"></div>
+    </div>
+    <div class="energy-bar">
+      |Slope|
+      <div id="pe_bar" class="energy-inner" style="background:#ffcc33;width:0%;"></div>
+    </div>
+    <div class="energy-bar">
+      Total
+      <div id="tot_bar" class="energy-inner" style="background:#ff66aa;width:0%;"></div>
+    </div>
+  </div>
+
   <pre id="output"></pre>
 </div>
 
@@ -212,7 +235,7 @@ its derivative, and the resulting motion.
 </div>
 
 <!-- ===================================================== -->
-<!-- JAVASCRIPT (FULLY FUNCTIONAL) -->
+<!-- JAVASCRIPT -->
 <!-- ===================================================== -->
 <script>
 // ---------- Base STUR functions ----------
@@ -236,7 +259,7 @@ function S_mod(r, L0, A, n) {
 function S_blend(r, L0, A, n, d) {
   const Smod = S_mod(r, L0, A, n);
   const Sprime = S_prime(r, L0);
-  return (1-d)*Smod + d*Sprime;
+  return (1 - d)*Smod + d*Sprime;
 }
 
 function dS_blend_dr(r, L0, A, n, d) {
@@ -249,185 +272,269 @@ function dS_blend_dr(r, L0, A, n, d) {
 }
 
 // ---------- DOM ----------
-const L0_slider = document.getElementById("L0");
-const A_slider = document.getElementById("A");
-const n_slider = document.getElementById("n");
+const L0_slider   = document.getElementById("L0");
+const A_slider    = document.getElementById("A");
+const n_slider    = document.getElementById("n");
 const Rmax_slider = document.getElementById("Rmax");
-const blend_slider = document.getElementById("blend");
+const blend_slider= document.getElementById("blend");
+const mass_slider = document.getElementById("mass");
+const speed_slider= document.getElementById("speed");
 
-const L0_val = document.getElementById("L0_val");
-const A_val = document.getElementById("A_val");
-const n_val = document.getElementById("n_val");
+const L0_val   = document.getElementById("L0_val");
+const A_val    = document.getElementById("A_val");
+const n_val    = document.getElementById("n_val");
 const Rmax_val = document.getElementById("Rmax_val");
-const d_val = document.getElementById("d_val");
+const d_val    = document.getElementById("d_val");
+const mass_val = document.getElementById("mass_val");
+const speed_val= document.getElementById("speed_val");
 
-const outputEl = document.getElementById("output");
-const canvas = document.getElementById("plot");
-const ctx = canvas.getContext("2d");
+const outputEl  = document.getElementById("output");
+const canvas    = document.getElementById("plot");
+const ctx       = canvas.getContext("2d");
 
 const toggleAnimBtn = document.getElementById("toggleAnim");
-const resetBtn = document.getElementById("resetBtn");
-const downloadBtn = document.getElementById("downloadBtn");
+const kickBtn       = document.getElementById("kickBtn");
+const resetBtn      = document.getElementById("resetBtn");
+const downloadBtn   = document.getElementById("downloadBtn");
 
-// ---------- Particle ----------
+const ke_bar  = document.getElementById("ke_bar");
+const pe_bar  = document.getElementById("pe_bar");
+const tot_bar = document.getElementById("tot_bar");
+
+// ---------- Particle & trail ----------
 let particle = { r: 2.5, v: 0.0 };
 let animating = false;
+let trail = []; // store recent r values
 
 // ---------- Main update ----------
 function update() {
-  const L0 = parseFloat(L0_slider.value);
-  const A = parseFloat(A_slider.value);
-  const n = parseFloat(n_slider.value);
+  const L0   = parseFloat(L0_slider.value);
+  const A    = parseFloat(A_slider.value);
+  const n    = parseFloat(n_slider.value);
   const Rmax = parseFloat(Rmax_slider.value);
-  const d = parseFloat(blend_slider.value);
+  const d    = parseFloat(blend_slider.value);
+  const mass = parseFloat(mass_slider.value);
+  const speed= parseFloat(speed_slider.value);
 
   if (particle.r > Rmax) particle.r = Rmax;
 
-  L0_val.textContent = L0.toFixed(2);
-  A_val.textContent = A.toFixed(2);
-  n_val.textContent = n.toFixed(2);
+  L0_val.textContent   = L0.toFixed(2);
+  A_val.textContent    = A.toFixed(2);
+  n_val.textContent    = n.toFixed(2);
   Rmax_val.textContent = Rmax.toFixed(1);
-  d_val.textContent = d.toFixed(2);
+  d_val.textContent    = d.toFixed(2);
+  mass_val.textContent = mass.toFixed(1);
+  speed_val.textContent= speed.toFixed(1) + "×";
 
   drawScene(L0, A, n, Rmax, d);
 
-  const rp = particle.r;
-  const Sraw = S_base(rp, L0);
-  const Smod = S_mod(rp, L0, A, n);
-  const Sbl = S_blend(rp, L0, A, n, d);
-  const Spr = S_prime(rp, L0);
+  const rp    = particle.r;
+  const Sraw  = S_base(rp, L0);
+  const Smod  = S_mod(rp, L0, A, n);
+  const Sbl   = S_blend(rp, L0, A, n, d);
+  const Spr   = S_prime(rp, L0);
   const slope = dS_blend_dr(rp, L0, A, n, d);
-  const F = -slope;
+  const F     = -slope;
+  const a     = F / mass;
+  const KE    = 0.5 * mass * particle.v * particle.v;
+  const slopeMag = Math.abs(slope);
+  const KE_rel = Math.min(1, KE*0.5);          // scaled for display
+  const PE_rel = Math.min(1, slopeMag*0.5);    // treat slope magnitude as "potential"
+  const tot_rel= Math.min(1, (KE_rel + PE_rel)/1.5);
+
+  ke_bar.style.width  = (KE_rel*100).toFixed(1) + "%";
+  pe_bar.style.width  = (PE_rel*100).toFixed(1) + "%";
+  tot_bar.style.width = (tot_rel*100).toFixed(1) + "%";
 
   outputEl.textContent =
-`Field Parameters:
-  L₀   = ${L0.toFixed(2)}
-  A    = ${A.toFixed(2)}
-  n    = ${n.toFixed(2)}
-  Rmax = ${Rmax.toFixed(2)}
-  d    = ${d.toFixed(2)}
+`Field parameters:
+  L₀       = ${L0.toFixed(2)}
+  A        = ${A.toFixed(2)}
+  n        = ${n.toFixed(2)}
+  Rmax     = ${Rmax.toFixed(2)}
+  d        = ${d.toFixed(2)}
+  mass     = ${mass.toFixed(2)}
+  speed    = ${speed.toFixed(2)}× (simulation)
 
-Sample at r = ${rp.toFixed(3)}:
+Particle state:
+  r        = ${rp.toFixed(3)}
+  v        = ${particle.v.toFixed(3)}
+  slope    = ${slope.toExponential(6)}
+  F ≈ −dS/dr = ${F.toExponential(6)}
+  a = F/m   = ${a.toExponential(6)}
 
-  Base STUR:
-    S_base   = ${Sraw.toFixed(6)}
-    S'_base  = ${Spr.toFixed(6)}
-
-  Modified:
-    S_mod    = ${Smod.toFixed(6)}
-
-  Blended:
-    S_blend  = ${Sbl.toFixed(6)}
-    dS/dr    = ${slope.toExponential(6)}
-
-  1D Toy Force:
-    F(r) ≈ − dS/dr = ${F.toExponential(6)}
+Field samples at r:
+  S_base   = ${Sraw.toFixed(6)}
+  S_mod    = ${Smod.toFixed(6)}
+  S_blend  = ${Sbl.toFixed(6)}
+  S'_base  = ${Spr.toFixed(6)}
 
 Interpretation:
-  • The curve on the canvas is S_blend(r).
-  • All sliders modify the geometry of that curve.
-  • The particle moves according to the local slope of the field.`;
+  • The yellow curve is S_blend(r).
+  • All sliders reshape that curve.
+  • The cyan particle slides based on slope; mass and speed control how it reacts.`;
 }
 
-// ---------- Draw ----------
+// ---------- Draw curve + particle + trail ----------
 function drawScene(L0, A, n, Rmax, d) {
   const W = canvas.width;
   const H = canvas.height;
   ctx.clearRect(0,0,W,H);
 
-  ctx.strokeStyle="#444";
+  // baseline
+  ctx.strokeStyle="#333";
   ctx.lineWidth=1;
   ctx.beginPath();
   ctx.moveTo(0,H/2);
   ctx.lineTo(W,H/2);
   ctx.stroke();
 
+  // draw curve
   ctx.strokeStyle="#ffaa00";
   ctx.lineWidth=2;
   ctx.beginPath();
-
-  for (let i=0;i<=W;i++){
+  for(let i=0;i<=W;i++){
     const r=(i/W)*Rmax;
     let val=S_blend(r,L0,A,n,d);
     if(val>1.2)val=1.2;
     if(val<-1.2)val=-1.2;
     const y=H/2 - val*(H*0.4);
-    if(i===0)ctx.moveTo(i,y);
-    else ctx.lineTo(i,y);
+    if(i===0)ctx.moveTo(i,y); else ctx.lineTo(i,y);
   }
   ctx.stroke();
 
+  // draw trail
+  if(trail.length>1){
+    const len = trail.length;
+    for(let i=1;i<len;i++){
+      const r1 = trail[i-1];
+      const r2 = trail[i];
+      const rr1=Math.max(0,Math.min(Rmax,r1));
+      const rr2=Math.max(0,Math.min(Rmax,r2));
+      let v1=S_blend(rr1,L0,A,n,d);
+      let v2=S_blend(rr2,L0,A,n,d);
+      v1 = Math.max(-1.2,Math.min(1.2,v1));
+      v2 = Math.max(-1.2,Math.min(1.2,v2));
+      const x1=(rr1/Rmax)*W;
+      const x2=(rr2/Rmax)*W;
+      const y1=H/2 - v1*(H*0.4);
+      const y2=H/2 - v2*(H*0.4);
+      const alpha = i/len*0.6;
+      ctx.strokeStyle="rgba(0,255,204,"+alpha.toFixed(3)+")";
+      ctx.lineWidth=1.5;
+      ctx.beginPath();
+      ctx.moveTo(x1,y1);
+      ctx.lineTo(x2,y2);
+      ctx.stroke();
+    }
+  }
+
+  // draw particle
+  const RmaxVal = Rmax;
   let rp = particle.r;
   if(rp<0)rp=0;
-  if(rp>Rmax)rp=Rmax;
-
+  if(rp>RmaxVal)rp=RmaxVal;
   let valp=S_blend(rp,L0,A,n,d);
   if(valp>1.2)valp=1.2;
   if(valp<-1.2)valp=-1.2;
-
-  const x=(rp/Rmax)*W;
+  const x=(rp/RmaxVal)*W;
   const y_p=H/2 - valp*(H*0.4);
+
   ctx.fillStyle="#00ffcc";
   ctx.beginPath();
   ctx.arc(x,y_p,6,0,2*Math.PI);
   ctx.fill();
+
+  // velocity arrow
+  const vdraw = Math.max(-1,Math.min(1,particle.v));
+  const arrowLen = 25*vdraw;
+  ctx.strokeStyle="#00aaff";
+  ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.moveTo(x,y_p);
+  ctx.lineTo(x+arrowLen,y_p);
+  ctx.stroke();
 }
 
-// ---------- Animation ----------
-function stepParticle(L0,A,n,Rmax,d,dt){
+// ---------- Particle physics ----------
+function stepParticle(L0,A,n,Rmax,d,dt,mass){
   const slope=dS_blend_dr(particle.r,L0,A,n,d);
-  const a=-slope;
-  particle.v+=a*dt;
-  particle.r+=particle.v*dt;
-  if(particle.r<0){particle.r=0;particle.v*=-0.4;}
-  if(particle.r>Rmax){particle.r=Rmax;particle.v*=-0.4;}
+  const F = -slope;
+  const a = F / mass;
+  particle.v += a * dt;
+  particle.r += particle.v * dt;
+
+  if(particle.r<0){
+    particle.r=0;
+    particle.v*=-0.4;
+  }else if(particle.r>Rmax){
+    particle.r=Rmax;
+    particle.v*=-0.4;
+  }
+
+  trail.push(particle.r);
+  if(trail.length>200) trail.shift();
 }
 
 function animate(ts){
   if(!animating)return;
-  const L0=parseFloat(L0_slider.value);
-  const A=parseFloat(A_slider.value);
-  const n=parseFloat(n_slider.value);
-  const Rmax=parseFloat(Rmax_slider.value);
-  const d=parseFloat(blend_slider.value);
-  const dt=0.03;
+  const L0   = parseFloat(L0_slider.value);
+  const A    = parseFloat(A_slider.value);
+  const n    = parseFloat(n_slider.value);
+  const Rmax = parseFloat(Rmax_slider.value);
+  const d    = parseFloat(blend_slider.value);
+  const mass = parseFloat(mass_slider.value);
+  const speed= parseFloat(speed_slider.value);
+
+  const baseDt = 0.02;
+  const dt = baseDt * speed;
   for(let i=0;i<4;i++){
-    stepParticle(L0,A,n,Rmax,d,dt);
+    stepParticle(L0,A,n,Rmax,d,dt,mass);
   }
   update();
   requestAnimationFrame(animate);
 }
 
-// ---------- Event Listeners ----------
-[L0_slider,A_slider,n_slider,Rmax_slider,blend_slider].forEach(sl=>{
+// ---------- Events ----------
+[L0_slider,A_slider,n_slider,Rmax_slider,blend_slider,mass_slider,speed_slider].forEach(sl=>{
   sl.addEventListener("input",update);
 });
 
 toggleAnimBtn.addEventListener("click",()=>{
   animating=!animating;
-  toggleAnimBtn.textContent=animating?"⏸ Pause Particle":"▶ Start Particle";
-  if(animating)requestAnimationFrame(animate);
+  toggleAnimBtn.textContent = animating ? "⏸ Pause Particle" : "▶ Start Particle";
+  if(animating) requestAnimationFrame(animate);
+});
+
+kickBtn.addEventListener("click",()=>{
+  const sign = Math.random()<0.5 ? -1 : 1;
+  particle.v += sign * (0.5 + Math.random()*1.0);
+  update();
 });
 
 resetBtn.addEventListener("click",()=>{
-  L0_slider.value=1;
-  A_slider.value=1;
-  n_slider.value=1;
-  Rmax_slider.value=5;
-  blend_slider.value=0;
-  particle.r=2.5;
-  particle.v=0;
+  L0_slider.value   = 1;
+  A_slider.value    = 1;
+  n_slider.value    = 1;
+  Rmax_slider.value = 5;
+  blend_slider.value= 0;
+  mass_slider.value = 1;
+  speed_slider.value= 1;
+  particle.r = 2.5;
+  particle.v = 0;
+  trail = [];
   animating=false;
   toggleAnimBtn.textContent="▶ Start Particle";
   update();
 });
 
 downloadBtn.addEventListener("click",()=>{
-  const L0=parseFloat(L0_slider.value);
-  const A=parseFloat(A_slider.value);
-  const n=parseFloat(n_slider.value);
-  const Rmax=parseFloat(Rmax_slider.value);
-  const d=parseFloat(blend_slider.value);
+  const L0   = parseFloat(L0_slider.value);
+  const A    = parseFloat(A_slider.value);
+  const n    = parseFloat(n_slider.value);
+  const Rmax = parseFloat(Rmax_slider.value);
+  const d    = parseFloat(blend_slider.value);
+  const mass = parseFloat(mass_slider.value);
 
   const points=[];
   const N=200;
@@ -443,7 +550,7 @@ downloadBtn.addEventListener("click",()=>{
   }
 
   const blob=new Blob([JSON.stringify({
-    L0,A,n,Rmax,d,points
+    L0,A,n,Rmax,d,mass,points
   },null,2)],{type:"application/json"});
 
   const url=URL.createObjectURL(blob);
