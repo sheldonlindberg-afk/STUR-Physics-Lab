@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Explore STUR Physics</title>
+<title>Explore STUR Physics – Sandbox</title>
 
 <style>
   body {
@@ -19,11 +19,11 @@
     background:#0a0f1f;
     padding:1rem;
     border-radius:8px;
-    max-width:800px;
+    max-width:900px;
     margin:1rem auto;
     box-shadow:0 0 12px #ffaa0044;
   }
-  .text { max-width:800px; margin:0 auto; line-height:1.5; }
+  .text { max-width:900px; margin:0 auto; line-height:1.5; }
   label { display:block; margin-top:12px; }
   input[type=range] { width:100%; }
   canvas {
@@ -31,8 +31,8 @@
     height:260px;
     background:#000;
     border-radius:6px;
-    display:block;
     margin-top:1rem;
+    display:block;
   }
   button {
     background:#ffaa00;
@@ -46,6 +46,7 @@
     font-size:0.9rem;
   }
   button:hover { background:#ffcc33; }
+  pre { white-space:pre-wrap; color:#00ffcc; font-size:0.9rem; }
   .links { text-align:center; margin-top:1rem; }
   .links a {
     display:inline-block;
@@ -56,54 +57,61 @@
     border-radius:6px;
     text-decoration:none;
     margin:4px;
-    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     font-size:0.9rem;
-  }
-  pre {
-    white-space:pre-wrap;
-    color:#00ffcc;
   }
 </style>
 </head>
 <body>
 
-<h1>Explore STUR Physics</h1>
+<h1>Explore STUR Physics – Sandbox</h1>
 
 <p class="text">
-This page is meant to be simple, honest, and hands-on. Everything you see here
-works. You can adjust STUR geometry, move a particle in a STUR potential, and
-export data to use in Python or other tools.
+This page is meant to be simple and honest. Every slider and button works.
+You can change the shape of a STUR resistance curve and watch a 1D particle
+move along it. This is for curious 8th graders and for PhDs who want a quick,
+hands-on feel for the STUR geometry.
 </p>
 
 <!-- ===================================================== -->
-<!-- STUR SANDBOX -->
+<!-- STUR SANDBOX – CONTROLS + CANVAS -->
 <!-- ===================================================== -->
 <div class="panel">
-  <h2>STUR Resistance Sandbox</h2>
+  <h2>STUR Geometry & Motion</h2>
 
-  <p>
-    We explore the basic STUR resistance function:
+  <p style="margin-bottom:0.5rem;">
+    Base STUR field (no extra scaling):
     <br><br>
     <code>S(r) = tanh(r / L₀) · (1 − e<sup>−r / L₀</sup>)</code>
     <br><br>
-    and a 1D force derived from the curvature of <code>S(r)/r</code>:
+    In this sandbox we use a generalized form:
     <br><br>
-    <code>F(r) = − m · d/dr [ S(r) / r ]</code>
+    <code>S<sub>mod</sub>(r) = A · [tanh(r/L₀)]<sup>n</sup> · (1 − e<sup>−r/L₀</sup>)</code>
+    <br><br>
+    and optionally blend it with the analytic derivative:
+    <br><br>
+    <code>S'<sub>base</sub>(r) = dS(r)/dr</code>
   </p>
 
   <label>L₀ (geometry scale): <span id="L0_val">1.0</span></label>
   <input type="range" id="L0" min="0.2" max="3" value="1" step="0.1">
 
-  <label>Mass m: <span id="m_val">1.0</span></label>
-  <input type="range" id="mass" min="0.2" max="5" value="1" step="0.1">
+  <label>A (amplitude scale): <span id="A_val">1.0</span></label>
+  <input type="range" id="A" min="0.2" max="3" value="1" step="0.1">
 
-  <label>Radius r (particle position): <span id="r_val">1.0</span></label>
-  <input type="range" id="radius" min="0.1" max="5" value="1" step="0.1">
+  <label>n (tanh exponent): <span id="n_val">1.0</span></label>
+  <input type="range" id="n" min="0.5" max="3" value="1" step="0.1">
+
+  <label>R<sub>max</sub> (horizontal range): <span id="Rmax_val">5.0</span></label>
+  <input type="range" id="Rmax" min="2" max="10" value="5" step="0.5">
+
+  <label>d (blend S vs. S′, 0→1): <span id="d_val">0.00</span></label>
+  <input type="range" id="blend" min="0" max="1" value="0" step="0.05">
 
   <div style="margin-top:0.75rem;">
     <button id="toggleAnim">▶ Start Particle</button>
-    <button id="resetBtn">⟲ Reset Sliders</button>
-    <button id="downloadBtn">⬇ Download Data (JSON)</button>
+    <button id="resetBtn">⟲ Reset</button>
+    <button id="downloadBtn">⬇ Download Curve Data</button>
   </div>
 
   <canvas id="plot" width="800" height="260"></canvas>
@@ -115,65 +123,99 @@ export data to use in Python or other tools.
 </div>
 
 <!-- ===================================================== -->
-<!-- EXPLANATION – SHORT AND REAL -->
+<!-- EDUCATIONAL SECTION – SHORT BLOCKS -->
 <!-- ===================================================== -->
+
 <div class="panel">
   <h2>How Iteration in Science Works</h2>
-  <p>
-    Science is not one big eureka moment. It’s:
-    <br>
-    try → run → see what breaks → fix one thing → try again.
-    <br><br>
-    Every real physicist iterates. You are allowed to, too.
+  <p class="text">
+Science in real life is not a single “Eureka!”. It looks like this:
+<br>
+<b>try → run → see what breaks → fix one thing → try again.</b>
+<br><br>
+Einstein, Maxwell, Feynman, and everyone else did this. You are allowed to
+do it too. This sandbox is for trying, breaking, fixing, and trying again.
   </p>
 </div>
 
 <div class="panel">
   <h2>How to Use Python Runners Like Jupyter</h2>
-  <p>
-    A Python runner (Jupyter, JupyterLite, Colab) is a live math notebook.
-    You paste code, press Run, and see plots and numbers immediately.
-    <br><br>
-    The STUR Lab simulations are written to run in JupyterLite so anyone
-    with a browser can do real physics without installing anything.
+  <p class="text">
+A Python runner (Jupyter, JupyterLite, Colab) is a live math notebook:
+<br><br>
+• You paste code.<br>
+• You press “Run”.<br>
+• You see numbers and plots appear.<br><br>
+The STUR Lab Python simulations are written so that anyone with a browser can
+run them—no installation, no environment setup. You can take the JSON you
+download from this page and load it into Python to make your own plots.
   </p>
 </div>
 
 <div class="panel">
   <h2>Using AI to Check Your Work</h2>
-  <p>
-    You can use multiple AIs like extra reviewers:
-    <br>
-    • Ask one AI what is unclear or wrong.<br>
-    • Ask another if the logic is consistent.<br>
-    • Compare answers and refine.
-    <br><br>
-    This doesn’t replace thinking. It speeds up iteration and reduces the
-    fear of being wrong.
+  <p class="text">
+You can treat AI models like extra reviewers:
+<br><br>
+• Ask one AI “What is unclear or wrong in this derivation?”<br>
+• Ask another “Is this logic consistent?”<br>
+• Compare their feedback and refine your idea.<br><br>
+This doesn’t replace your thinking—it multiplies your iteration speed and
+makes it less scary to be wrong in public.
   </p>
 </div>
 
 <div class="panel">
   <h2>Science, Scrutiny, and Openness</h2>
-  <p>
-    Science grows through scrutiny, but formal scrutiny has become tied to
-    journals, institutions, and funding. This can gatekeep new ideas.
-    <br><br>
-    Tools like this sandbox put some of the power back in your hands.
-    You don’t need permission to explore geometry, forces, and possible
-    theories of everything. You just need curiosity and a place to experiment.
+  <p class="text">
+Science evolves through scrutiny: people question, test, and refine ideas.
+But formal scrutiny (journals, committees, funding) can become a gate that
+keeps out new voices and risky ideas.
+<br><br>
+Pages like this one are about putting some of that power back in your hands:
+you can explore geometry, forces, and potential theories of everything on
+your own screen, without waiting for permission.
   </p>
 </div>
 
 <div class="panel">
   <h2>How to Use This Sandbox</h2>
-  <p>
-    • Move <b>L₀</b> and see how the shape of S(r) changes.<br>
-    • Move <b>r</b> to inspect local geometry and curvature.<br>
-    • Press <b>Start Particle</b> to let a 1D particle slide in the STUR
-      potential defined by S(r)/r.<br>
-    • Use <b>Download Data</b> to save values of S, S′, and curvature from
-      r = 0 to r = 5 as JSON you can analyze in Python.
+  <p class="text">
+<b>For beginners:</b><br>
+• Move <b>L₀</b> to see the curve stretch left and right.<br>
+• Move <b>A</b> to make the curve taller or shorter.<br>
+• Move <b>n</b> to make the curve “sharper” or “softer”.<br>
+• Move <b>R<sub>max</sub></b> to zoom in and out horizontally.<br>
+• Move <b>d</b> toward 1.0 to mix in more derivative (slope) information.<br>
+• Press <b>Start Particle</b> to see a point slide along the curve according
+  to the local slope.
+<br><br>
+<b>For advanced users / PhDs:</b><br>
+Think of this as a toy model of a 1D potential profile where STUR’s
+resistance geometry is encoded in S(r) and its variations. The particle
+motion here uses
+<code>F(r) ≈ − d/dr [S<sub>blend</sub>(r)]</code> with unit mass, so acceleration
+tracks the local slope of the blended field. Sliders let you explore how
+geometry and effective curvature interact.
+  </p>
+</div>
+
+<div class="panel">
+  <h2>STUR Map (Conceptual)</h2>
+  <pre>
+Energy + Information
+        ↓
+   Resistance Geometry  S(r)
+        ↓
+   Curvature / Slope  dS/dr
+        ↓
+       Force  F(r)
+        ↓
+      Motion
+  </pre>
+  <p class="text">
+This sandbox sits at the middle of that chain: it lets you play with geometry
+S(r), its deformation, and the resulting slope that drives motion.
   </p>
 </div>
 
@@ -181,191 +223,235 @@ export data to use in Python or other tools.
 <!-- LINKS -->
 <!-- ===================================================== -->
 <div class="links">
-  <a href="index.html">← Back to STUR Lab</a>
+  <a href="../index.html">← STUR Physics Lab</a>
   <a href="https://x.com/that1sheldon" target="_blank">✦ X</a>
   <a href="https://www.tiktok.com/@that1sheldon" target="_blank">🎵 TikTok</a>
   <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank">⚛ GitHub</a>
 </div>
 
 <!-- ===================================================== -->
-<!-- JAVASCRIPT – EVERYTHING HERE WORKS -->
+<!-- JAVASCRIPT – ALL FUNCTIONAL -->
 <!-- ===================================================== -->
 <script>
-// ---------- STUR functions ----------
-function S(r, L0) {
-  return Math.tanh(r / L0) * (1 - Math.exp(-r / L0));
-}
-function Sp(r, L0) {
+// ---------- Base STUR functions ----------
+function S_base(r, L0) {
   const x = r / L0;
-  const sech2 = 1 / Math.cosh(x) ** 2;
-  return (sech2 * (1 - Math.exp(-x)) + Math.tanh(x) * Math.exp(-x)) / L0;
+  return Math.tanh(x) * (1 - Math.exp(-x));
 }
-// d/dr [S(r)/r]
-function curvatureKernel(r, L0) {
-  const Sr = S(r, L0);
-  const dSr = Sp(r, L0);
-  return (dSr * r - Sr) / (r * r);
+
+// Analytic derivative of the base STUR S(r)
+function S_prime(r, L0) {
+  const x = r / L0;
+  const sech2 = 1 / Math.cosh(x)**2;
+  return (sech2*(1 - Math.exp(-x)) + Math.tanh(x)*Math.exp(-x)) / L0;
+}
+
+// Modified STUR with amplitude + exponent
+function S_mod(r, L0, A, n) {
+  const x = r / L0;
+  const t = Math.tanh(x);
+  return A * (t**n) * (1 - Math.exp(-x));
+}
+
+// Blended field used for plotting + motion
+function S_blend(r, L0, A, n, d) {
+  const Sm = S_mod(r, L0, A, n);
+  const Sprime = S_prime(r, L0);
+  return (1 - d)*Sm + d*Sprime;
+}
+
+// Numerical derivative of blended field
+function dS_blend_dr(r, L0, A, n, d) {
+  const h = 1e-3 * Math.max(1, L0);
+  const r1 = Math.max(0, r - h);
+  const r2 = r + h;
+  const f1 = S_blend(r1, L0, A, n, d);
+  const f2 = S_blend(r2, L0, A, n, d);
+  return (f2 - f1) / (r2 - r1);
 }
 
 // ---------- DOM elements ----------
-const L0_slider = document.getElementById("L0");
-const m_slider  = document.getElementById("mass");
-const r_slider  = document.getElementById("radius");
-const L0_val = document.getElementById("L0_val");
-const m_val  = document.getElementById("m_val");
-const r_val  = document.getElementById("r_val");
-const outputEl = document.getElementById("output");
-const canvas = document.getElementById("plot");
-const ctx = canvas.getContext("2d");
-const toggleAnimBtn = document.getElementById("toggleAnim");
-const resetBtn = document.getElementById("resetBtn");
-const downloadBtn = document.getElementById("downloadBtn");
+const L0_slider   = document.getElementById("L0");
+const A_slider    = document.getElementById("A");
+const n_slider    = document.getElementById("n");
+const Rmax_slider = document.getElementById("Rmax");
+const blend_slider= document.getElementById("blend");
+
+const L0_val   = document.getElementById("L0_val");
+const A_val    = document.getElementById("A_val");
+const n_val    = document.getElementById("n_val");
+const Rmax_val = document.getElementById("Rmax_val");
+const d_val    = document.getElementById("d_val");
+
+const outputEl     = document.getElementById("output");
+const canvas       = document.getElementById("plot");
+const ctx          = canvas.getContext("2d");
+const toggleAnimBtn= document.getElementById("toggleAnim");
+const resetBtn     = document.getElementById("resetBtn");
+const downloadBtn  = document.getElementById("downloadBtn");
 
 // ---------- Particle state ----------
 let particle = {
-  r: parseFloat(r_slider.value),
+  r: parseFloat(Rmax_slider.value) / 2,  // start in middle
   v: 0.0
 };
 let animating = false;
 
-// ---------- Update UI and redraw ----------
+// ---------- Main update: sliders → curve + text ----------
 function update() {
-  const L0 = parseFloat(L0_slider.value);
-  const m  = parseFloat(m_slider.value);
-  const r  = parseFloat(r_slider.value);
+  const L0   = parseFloat(L0_slider.value);
+  const A    = parseFloat(A_slider.value);
+  const n    = parseFloat(n_slider.value);
+  const Rmax = parseFloat(Rmax_slider.value);
+  const d    = parseFloat(blend_slider.value);
 
-  L0_val.textContent = L0.toFixed(1);
-  m_val.textContent  = m.toFixed(1);
-  r_val.textContent  = r.toFixed(2);
+  // Clamp particle inside new range if Rmax changed
+  if (particle.r > Rmax) particle.r = Rmax;
 
-  const Sr  = S(r, L0);
-  const dSr = Sp(r, L0);
-  const K   = curvatureKernel(r, L0);
+  // Update labels
+  L0_val.textContent   = L0.toFixed(2);
+  A_val.textContent    = A.toFixed(2);
+  n_val.textContent    = n.toFixed(2);
+  Rmax_val.textContent = Rmax.toFixed(1);
+  d_val.textContent    = d.toFixed(2);
 
-  // F = - m * d/dr[S(r)/r]
-  const F = -m * K;
+  // Draw curve + particle
+  drawScene(L0, A, n, Rmax, d);
+
+  // Sample at particle position
+  const rp    = particle.r;
+  const Sraw  = S_base(rp, L0);
+  const Smod  = S_mod(rp, L0, A, n);
+  const Sblend= S_blend(rp, L0, A, n, d);
+  const Spr   = S_prime(rp, L0);
+  const slope = dS_blend_dr(rp, L0, A, n, d);
+  const F     = -slope;  // unit mass
 
   outputEl.textContent =
-`Input:
-  L₀        = ${L0.toFixed(2)}
-  m         = ${m.toFixed(2)}
-  r         = ${r.toFixed(3)}
+`Sliders:
+  L₀      = ${L0.toFixed(2)}
+  A       = ${A.toFixed(2)}
+  n       = ${n.toFixed(2)}
+  Rmax    = ${Rmax.toFixed(2)}
+  d       = ${d.toFixed(2)}
 
-STUR field at r:
-  S(r)      = ${Sr.toFixed(6)}
-  S'(r)     = ${dSr.toFixed(6)}
-  K(r) = d/dr[S(r)/r] = ${K.toExponential(6)}
+Probe at particle position r = ${rp.toFixed(3)}:
 
-Force:
-  F(r) = - m · d/dr[S(r)/r]
-       = ${F.toExponential(6)}
+  Base STUR:
+    S_base(r)    = ${Sraw.toFixed(6)}
+    S'_base(r)   = ${Spr.toFixed(6)}
+
+  Modified field:
+    S_mod(r)     = ${Smod.toFixed(6)}
+
+  Blended field:
+    S_blend(r)   = ${Sblend.toFixed(6)}
+    d/dr S_blend = ${slope.toExponential(6)}
+
+  1D toy force (unit mass):
+    F(r) ≈ − d/dr S_blend(r)
+         = ${F.toExponential(6)}
 
 Interpretation:
-  • S(r) describes the resistance geometry.
-  • K(r) is the curvature kernel that shapes the force profile.
-  • The particle animation uses F(r) = -m K(r) in 1D.`;
-
-  drawScene(L0);
+  • The curve on the canvas is S_blend(r).
+  • All sliders change the geometry of this curve.
+  • The particle moves according to the local slope (force ~ −dS/dr).`;
 }
 
-// ---------- Draw S(r) and particle ----------
-function drawScene(L0) {
+// ---------- Drawing ----------
+function drawScene(L0, A, n, Rmax, d) {
   const W = canvas.width;
   const H = canvas.height;
-
   ctx.clearRect(0, 0, W, H);
 
-  // Draw S(r) curve from r=0..5
+  // Draw center axis (y = 0 reference)
+  ctx.strokeStyle = "#444";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, H/2);
+  ctx.lineTo(W, H/2);
+  ctx.stroke();
+
+  // Draw blended curve
   ctx.strokeStyle = "#ffaa00";
   ctx.lineWidth = 2;
   ctx.beginPath();
+
   for (let i = 0; i <= W; i++) {
-    const rr = 5 * (i / W);
-    const val = S(rr, L0);      // 0..1-ish
-    const y = H - val * (H * 0.9); // leave top margin
+    const r = (i / W) * Rmax;
+    let val = S_blend(r, L0, A, n, d);
+
+    // Clamp for display so extremes don't blow it out
+    if (val > 1.2) val = 1.2;
+    if (val < -1.2) val = -1.2;
+
+    const y = H/2 - val * (H * 0.4);
     if (i === 0) ctx.moveTo(i, y);
     else ctx.lineTo(i, y);
   }
   ctx.stroke();
 
-  // Axes line (optional baseline at S=0)
-  ctx.strokeStyle = "#555";
-  ctx.lineWidth = 1;
-  const y0 = H - 0 * (H * 0.9);
-  ctx.beginPath();
-  ctx.moveTo(0, y0);
-  ctx.lineTo(W, y0);
-  ctx.stroke();
+  // Draw particle as a small cyan dot on the curve
+  let r_p = particle.r;
+  if (r_p < 0) r_p = 0;
+  if (r_p > Rmax) r_p = Rmax;
 
-  // Draw particle as a small circle at current r on S(r)
-  const r_now = particle.r;
-  const x = (r_now / 5) * W;
-  const S_now = S(r_now, L0);
-  const y = H - S_now * (H * 0.9);
+  let val_p = S_blend(r_p, L0, A, n, d);
+  if (val_p > 1.2) val_p = 1.2;
+  if (val_p < -1.2) val_p = -1.2;
+  const x = (r_p / Rmax) * W;
+  const y_p = H/2 - val_p * (H * 0.4);
+
   ctx.fillStyle = "#00ffcc";
   ctx.beginPath();
-  ctx.arc(x, y, 6, 0, 2 * Math.PI);
+  ctx.arc(x, y_p, 6, 0, 2*Math.PI);
   ctx.fill();
 }
 
 // ---------- Particle animation ----------
-function stepParticle(dt) {
-  const L0 = parseFloat(L0_slider.value);
-  const m  = parseFloat(m_slider.value);
-  const r_min = 0.05;
-  const r_max = 5.0;
+let lastTime = null;
 
-  // Compute acceleration: a = F/m = -K(r)
-  const K = curvatureKernel(particle.r, L0);
-  const a = -K; // mass cancels in this 1D normalized form
+function stepParticle(L0, A, n, Rmax, d, dt) {
+  // 1D toy force: F ~ − dS_blend/dr (unit mass)
+  const slope = dS_blend_dr(particle.r, L0, A, n, d);
+  const a = -slope;
 
   particle.v += a * dt;
   particle.r += particle.v * dt;
 
-  // Reflect at boundaries to keep it in view
-  if (particle.r < r_min) {
-    particle.r = r_min;
-    particle.v *= -0.5;
-  } else if (particle.r > r_max) {
-    particle.r = r_max;
-    particle.v *= -0.5;
+  // Keep particle within [0, Rmax] with soft reflection
+  if (particle.r < 0) {
+    particle.r = 0;
+    particle.v *= -0.4;
+  } else if (particle.r > Rmax) {
+    particle.r = Rmax;
+    particle.v *= -0.4;
   }
-
-  // Keep the slider synced with the particle position
-  r_slider.value = particle.r.toFixed(3);
 }
 
-// Use a fixed small dt for stability
-let lastTime = null;
-function animate(ts) {
+function animate(timestamp) {
   if (!animating) return;
-  if (lastTime === null) lastTime = ts;
+  const L0   = parseFloat(L0_slider.value);
+  const A    = parseFloat(A_slider.value);
+  const n    = parseFloat(n_slider.value);
+  const Rmax = parseFloat(Rmax_slider.value);
+  const d    = parseFloat(blend_slider.value);
 
-  const dt_ms = ts - lastTime;
-  lastTime = ts;
-  // scale to a reasonable physical step
-  const dt = 0.02; // fixed small step for stability
-  // Take a few substeps for smoother motion
-  for (let i = 0; i < 5; i++) {
-    stepParticle(dt);
+  // fixed small dt, independent of frame rate
+  const dt = 0.03;
+  for (let i = 0; i < 4; i++) {
+    stepParticle(L0, A, n, Rmax, d, dt);
   }
   update();
   requestAnimationFrame(animate);
 }
 
 // ---------- Event handlers ----------
-[L0_slider, m_slider].forEach(sl => {
+[L0_slider, A_slider, n_slider, Rmax_slider, blend_slider].forEach(sl => {
   sl.addEventListener("input", () => {
-    // When L0 or m changes, keep particle where it is, just update
+    // geometry changes → just update
     update();
   });
-});
-
-r_slider.addEventListener("input", () => {
-  // When user moves r, re-center particle and stop motion
-  particle.r = parseFloat(r_slider.value);
-  particle.v = 0.0;
-  update();
 });
 
 toggleAnimBtn.addEventListener("click", () => {
@@ -380,43 +466,60 @@ toggleAnimBtn.addEventListener("click", () => {
 });
 
 resetBtn.addEventListener("click", () => {
-  L0_slider.value = "1";
-  m_slider.value  = "1";
-  r_slider.value  = "1";
-  particle.r = 1.0;
+  L0_slider.value   = 1;
+  A_slider.value    = 1;
+  n_slider.value    = 1;
+  Rmax_slider.value = 5;
+  blend_slider.value= 0;
+  particle.r = parseFloat(Rmax_slider.value) / 2;
   particle.v = 0.0;
   animating = false;
   toggleAnimBtn.textContent = "▶ Start Particle";
   update();
 });
 
-// ---------- JSON download ----------
 downloadBtn.addEventListener("click", () => {
-  const L0 = parseFloat(L0_slider.value);
-  const data = [];
+  const L0   = parseFloat(L0_slider.value);
+  const A    = parseFloat(A_slider.value);
+  const n    = parseFloat(n_slider.value);
+  const Rmax = parseFloat(Rmax_slider.value);
+  const d    = parseFloat(blend_slider.value);
+
   const N = 200;
+  const points = [];
   for (let i = 0; i <= N; i++) {
-    const r = 5 * (i / N);
-    const Sr = S(r, L0);
-    const dSr = Sp(r, L0);
-    const K = r > 0 ? curvatureKernel(r, L0) : 0.0;
-    data.push({ r, S: Sr, Sp: dSr, K: K });
+    const r = (i / N) * Rmax;
+    const Sbase = S_base(r, L0);
+    const Smodv = S_mod(r, L0, A, n);
+    const Sder  = S_prime(r, L0);
+    const Sbl   = S_blend(r, L0, A, n, d);
+    points.push({
+      r: r,
+      S_base: Sbase,
+      S_mod: Smodv,
+      S_prime: Sder,
+      S_blend: Sbl
+    });
   }
-  const blob = new Blob([JSON.stringify({
-    L0: L0,
-    points: data
-  }, null, 2)], {type:"application/json"});
+
+  const data = {
+    L0, A, n, Rmax, d,
+    description: "STUR sandbox curve: base, modified, derivative, blended.",
+    points
+  };
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "stur_sandbox_data.json";
+  a.download = "stur_sandbox_curve.json";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 });
 
-// ---------- Initial draw ----------
+// ---------- Initial render ----------
 update();
 </script>
 
