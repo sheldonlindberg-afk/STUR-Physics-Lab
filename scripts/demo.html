@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AURORA–STUR 4D SOFTBALL REACTOR — GOV EMS v4.0</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    margin:0;
+    background:#000;
+    overflow:hidden;
+    font-family:'Courier New',monospace;
+    color:#0ff;
+  }
+  #ui {
+    position:absolute;
+    top:10px; left:10px;
+    z-index:100;
+    background:rgba(0,0,0,0.75);
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #0ff;
+    backdrop-filter:blur(5px);
+  }
+  button, select {
+    background:#0b0b0b;
+    color:#0ff;
+    border:1px solid #0ff;
+    padding:6px 8px;
+    margin:4px;
+    border-radius:4px;
+    font-size:14px;
+  }
+  button:hover, select:hover {
+    background:#022;
+    cursor:pointer;
+  }
+  #fps {
+    position:absolute;
+    top:10px; right:10px;
+    color:#0ff;
+    font-size:1.1rem;
+  }
+  #loading {
+    position:fixed;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    padding:1.5rem 3rem;
+    background:rgba(0,0,0,0.88);
+    border:2px solid #0ff;
+    border-radius:12px;
+    font-size:1.3rem;
+    color:#0ff;
+    text-shadow:0 0 12px #0ff;
+    animation:glow 1.7s infinite alternate;
+  }
+  @keyframes glow {
+    from { text-shadow:0 0 12px #0ff; }
+    to   { text-shadow:0 0 26px #0ff, 0 0 40px #0ff; }
+  }
+</style>
+</head>
+<body>
+
+<div id="ui">
+  <button onclick="togglePulse()">Pulse</button>
+  <button onclick="resetReact()">Reset</button>
+  <select onchange="setMode(this.value)">
+    <option value="stable">Stable</option>
+    <option value="stellarator">Stellarator</option>
+    <option value="turbulent">Turbulent</option>
+    <option value="pulsar">4D Pulsar</option>
+  </select>
+  <label style="margin-left:8px;">
+    <input type="checkbox" id="autorot"> Auto-Rotate
+  </label>
+</div>
+
+<div id="fps">FPS: 0.0</div>
+<div id="loading">INITIALIZING GOV-EMS v4.0...</div>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
+<script>
+let py, pyUpdate, pySetView;
+let params = [0.010, 0.22, 0.04, 0.02, 0.014]; // [a, tw, sh, tb, s4]
+let pulseOn = false;
+let autoRotOn = false;
+let viewAzim = 45;
+let viewElev = 20;
+let lastFrame = performance.now();
+let dragging = false;
+let dragStartX = 0, dragStartY = 0;
+let startAzim = 45, startElev = 20;
+
+// ---------------------------------------------------------------
+// INIT PYODIDE + PYTHON
+// ---------------------------------------------------------------
+async function init() {
+  const loading = document.getElementById("loading");
+
+  py = await loadPyodide({
+    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/"
+  });
+  await py.loadPackage(["numpy","matplotlib"]);
+
+  const code = `
+import numpy as np, matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib
+matplotlib.use("module://matplotlib.backends.html5_canvas")
+plt.style.use("dark_background")
+
+R = 0.025
+L0 = 3.3e-4
+
+u = np.linspace(0, 2*np.pi, 160)
+v = np.linspace(0, 2*np.pi, 80)
+U, V = np.meshgrid(u, v)
+
+traces = []
+
+def Scurv(r):
+    x = r/L0
+    return np.tanh(x)*(1-np.exp(-x))
+
+def compute_plasma(a, tw, sh, tb, s4):
+    X = (R + a*np.cos(V))*np.cos(U)
+    Y = (R + a*np.cos(V))*np.sin(U)
+    Z = a*np.sin(V)
+
+    Rv = np.sqrt(X**2 + Y**2 + Z**2)
+    Z4 = Z + s4*Scurv(Rv)
+
+    Xt = X*np.cos(tw) - Y*np.sin(tw)
+    Yt = X*np.sin(tw) + Y*np.cos(tw)
+    Zt = Z4*np.cos(sh) + Xt*np.sin(sh)
+    Xt = Xt*np.cos(sh) - Z4*np.sin(sh)
+
+    tube = np.sqrt((Xt - R*np.cos(U))**2 +
+                   (Yt - R*np.sin(U))**2 +
+                   (Zt)**2)
+
+    dens = np.exp(-(tube**2)/(2*(a*0.52)**2))
+    glow = np.clip(dens + tb*np.random.randn(*dens.shape), 0, 1)
+
+    C = np.zeros(X.shape + (3,))
+    C[...,0] = 0.2 + 0.8*glow**0.5
+    C[...,1] = 0.05 + 0.4*glow**0.9
+    C[...,2] = 0.7 + 0.6*glow**1.4 + 0.35*Scurv(Rv)
+    C = np.clip(C, 0, 1)
+
+    return C, Xt, Yt, Zt
+
+def compute_tracers(a, n_lines=8, turns=3.0):
+    ph = np.linspace(0, 2*np.pi*turns, 200)
+    lines = []
+    for k in range(n_lines):
+        theta0 = 2*np.pi*k/n_lines
+        r = R + 0.25*a*np.cos(ph)
+        x = r*np.cos(theta0 + 0.15*np.sin(ph))
+        y = r*np.sin(theta0 + 0.15*np.sin(ph))
+        z = a*np.sin(ph)
+        lines.append((x,y,z))
+    return lines
+
+fig = plt.figure(figsize=(12,12))
+ax = fig.add_subplot(111, projection="3d")
+
+C0, X0, Y0, Z0 = compute_plasma(0.010, 0.22, 0.04, 0.02, 0.014)
+surf = ax.plot_surface(X0, Y0, Z0, facecolors=C0,
+                       rstride=1, cstride=1,
+                       linewidth=0, shade=False)
+
+lines0 = compute_tracers(0.010)
+for (x,y,z) in lines0:
+    ln, = ax.plot(x,y,z,color=(0.2,1.0,1.0,0.7),linewidth=1.1)
+    traces.append(ln)
+
+ax.set_xlim(-0.04,0.04)
+ax.set_ylim(-0.04,0.04)
+ax.set_zlim(-0.02,0.02)
+ax.axis("off")
+ax.view_init(elev=20, azim=45)
+
+def update(a, tw, sh, tb, s4):
+    global surf, traces
+    surf.remove()
+    for ln in traces:
+        ln.remove()
+    traces = []
+
+    C, Xn, Yn, Zn = compute_plasma(a, tw, sh, tb, s4)
+    surf = ax.plot_surface(Xn, Yn, Zn, facecolors=C,
+                           rstride=1, cstride=1,
+                           linewidth=0, shade=False)
+    lines = compute_tracers(a)
+    for (x,y,z) in lines:
+        ln, = ax.plot(x,y,z,color=(0.2,1.0,1.0,0.7),linewidth=1.1)
+        traces.append(ln)
+
+    fig.canvas.draw_idle()
+
+def set_view(elev, azim):
+    ax.view_init(elev=elev, azim=azim)
+    fig.canvas.draw_idle()
+
+(update, set_view)
+`;
+
+  const res = await py.runPythonAsync(code);
+  pyUpdate = res.get(0);
+  pySetView = res.get(1);
+
+  loading.style.display = "none";
+  startFPS();
+}
+
+// ---------------------------------------------------------------
+// FPS MONITOR
+// ---------------------------------------------------------------
+function startFPS(){
+  function loop(){
+    const now = performance.now();
+    const fps = 1000 / (now - lastFrame);
+    lastFrame = now;
+    document.getElementById("fps").textContent = "FPS: " + fps.toFixed(1);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+}
+
+// ---------------------------------------------------------------
+// MODES
+// ---------------------------------------------------------------
+const modes = {
+  stable:      [0.010,0.22,0.04,0.02,0.014],
+  stellarator: [0.011,0.75,0.30,0.02,0.012],
+  turbulent:   [0.012,0.10,0.00,0.13,0.008],
+  pulsar:      [0.010,0.28,0.16,0.05,0.030]
+};
+
+function setMode(name){
+  pulseOn = false;
+  params = modes[name].slice();
+  pyUpdate(...params);
+}
+
+// ---------------------------------------------------------------
+// PULSE MODE
+// ---------------------------------------------------------------
+function togglePulse(){
+  pulseOn = !pulseOn;
+  if (!pulseOn) return;
+
+  function step(){
+    if (!pulseOn) return;
+    const t = performance.now()*0.001;
+    params[0] = 0.010 + 0.004*Math.sin(t*2.0);              // a
+    params[4] = 0.014 + 0.020*Math.abs(Math.sin(t*1.3));    // s4d
+    pyUpdate(...params);
+    requestAnimationFrame(step);
+  }
+  step();
+}
+
+// ---------------------------------------------------------------
+// RESET
+// ---------------------------------------------------------------
+function resetReact(){
+  pulseOn = false;
+  params = [0.010,0.22,0.04,0.02,0.014];
+  pyUpdate(...params);
+  viewAzim = 45;
+  viewElev = 20;
+  pySetView(viewElev, viewAzim);
+  document.getElementById("autorot").checked = false;
+  autoRotOn = false;
+}
+
+// ---------------------------------------------------------------
+// AUTO ROTATE
+// ---------------------------------------------------------------
+document.getElementById("autorot").onchange = (e)=>{
+  autoRotOn = e.target.checked;
+  if (!autoRotOn) return;
+  function spin(){
+    if (!autoRotOn) return;
+    viewAzim = (viewAzim + 1) % 360;
+    pySetView(viewElev, viewAzim);
+    setTimeout(spin, 40);
+  }
+  spin();
+};
+
+// ---------------------------------------------------------------
+// TOUCH / MOUSE DRAG ROTATION
+// ---------------------------------------------------------------
+document.body.addEventListener("pointerdown", (e)=>{
+  dragging = true;
+  dragStartX = e.clientX;
+  dragStartY = e.clientY;
+  startAzim = viewAzim;
+  startElev = viewElev;
+});
+
+document.body.addEventListener("pointermove", (e)=>{
+  if (!dragging) return;
+  const dx = e.clientX - dragStartX;
+  const dy = e.clientY - dragStartY;
+  viewAzim = startAzim + dx*0.4;
+  viewElev = Math.max(-10, Math.min(80, startElev - dy*0.3));
+  pySetView(viewElev, viewAzim);
+});
+
+document.body.addEventListener("pointerup", ()=> dragging=false);
+document.body.addEventListener("pointerleave", ()=> dragging=false);
+
+// ---------------------------------------------------------------
+init();
+</script>
+</body>
+</html>
