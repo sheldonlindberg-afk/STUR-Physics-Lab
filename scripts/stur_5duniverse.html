@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>STUR 5D Helical Manifold Lab – v4.0</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
   :root {
     --bg-main: #02030a;
@@ -261,6 +262,7 @@
     line-height: 1.5;
     font-family: "SF Mono", Menlo, Consolas, monospace;
     border: 1px solid rgba(255,255,255,0.05);
+    color: #d8f8ff;
   }
 
   .footer-nav {
@@ -349,13 +351,13 @@
   <h1>STUR 5D Helical Manifold Lab – v4.0</h1>
   <p class="subtitle">
     A phase-locked double helix in a 5D manifold
-    \( M_5 = M_4(-+++) \oplus \chi \) with χ-dependent metric,
+    M<sub>5</sub> = M<sub>4</sub>(-+++) ⊕ χ with χ-dependent metric,
     off-diagonal couplings, gate trajectories, and χ± observer projections.
     Toggle between <strong>PHYSICAL</strong> and <strong>EXTREME</strong> modes
     to see how the hidden χ-dimension warps the visible helix.
   </p>
   <div class="chip-row">
-    <div class="chip">JupyterLite / Pyodide safe</div>
+    <div class="chip">JupyterLite / JupyterLab safe</div>
     <div class="chip">Metric: ds² = g<sub>tt</sub>dt² + dx² + dy² + dz² + g<sub>χχ</sub>dχ² + 2g<sub>tχ</sub>dtdχ + 2g<sub>zχ</sub>dzdχ</div>
     <div class="chip">Curvature proxy R<sub>eff</sub>(τ,χ)</div>
     <div class="chip">Gate χ<sub>+</sub> → χ<sub>−</sub></div>
@@ -369,7 +371,7 @@
     <section class="panel">
       <h2><span class="icon">χ</span> What the χ-dimension is doing here</h2>
       <p>
-        In this lab, χ is not “extra space” in the usual sense. It encodes
+        In this lab, χ is not “extra space” in the usual sense. It encodes the
         <strong>coherence state</strong> of the helix – how tightly the STUR
         resistance network is wound. We track two strands:
       </p>
@@ -396,33 +398,25 @@
             <span class="chevron">▸</span> Metric with χ-dependent warping
           </span>
         </summary>
-        <p>
-          We work in a 5D manifold
-        </p>
+        <p>We work in a 5D manifold:</p>
         <div class="eq-block">
           M₅ = M₄(-+++) ⊕ χ
         </div>
-        <p>
-          Along the helix worldline we use a metric of the form:
-        </p>
+        <p>Along the helix worldline we use a metric of the form:</p>
         <div class="eq-block">
           ds² = g<sub>tt</sub> dt² + dx² + dy² + dz²
           + g<sub>χχ</sub> dχ²
           + 2 g<sub>tχ</sub> dt dχ
           + 2 g<sub>zχ</sub> dz dχ
         </div>
-        <p>
-          with components:
-        </p>
+        <p>with components:</p>
         <div class="eq-block">
           g<sub>tt</sub>(τ,χ) = −c² [1 + λ<sub>T</sub> sin(ω<sub>coup</sub> τ) tanh²(χ)]<br>
           g<sub>χχ</sub>(τ,χ) = α(τ,χ)<br>
           g<sub>tχ</sub>(τ,χ) = C<sub>tχ</sub> sin(ω<sub>coup</sub> τ) tanh(χ)<br>
           g<sub>zχ</sub>(τ,χ) = C<sub>zχ</sub> cos(ω<sub>coup</sub> τ) tanh(χ)
         </div>
-        <p>
-          The breathing factor α(τ,χ) controls how “stiff” the χ-direction is:
-        </p>
+        <p>The breathing factor α(τ,χ) controls how “stiff” the χ-direction is:</p>
         <div class="eq-block">
           α(τ,χ) = α₀ cos(ω<sub>α</sub> τ) (1 + ε<sub>χ</sub> sin(λχ)) &nbsp; [PHYSICAL]<br><br>
           α(τ,χ) = α₀ cos(ω<sub>α</sub> τ) [1 + ε<sub>χ</sub> tanh(χ) sin(λτ)]³ + δ &nbsp; [EXTREME]
@@ -438,23 +432,17 @@
             <span class="chevron">▸</span> Helix embedding and gate χ<sub>+</sub> → χ<sub>−</sub>
           </span>
         </summary>
-        <p>
-          The 3D projection of the helix is:
-        </p>
+        <p>The 3D projection of the helix is:</p>
         <div class="eq-block">
           (x,y,z)(τ,χ) =<br>
           &nbsp;&nbsp;R<sub>local</sub>(τ,χ) [cos φ(τ,χ), sin φ(τ,χ)] ,<br>
           &nbsp;&nbsp;z(τ,χ) = P(τ,χ) · τ
         </div>
-        <p>
-          In PHYSICAL mode the helix is simple and uniform:
-        </p>
+        <p>In PHYSICAL mode the helix is simple and uniform:</p>
         <div class="eq-block">
           R<sub>local</sub> = R₀, &nbsp; φ = τ, &nbsp; z = p τ
         </div>
-        <p>
-          In EXTREME mode χ and α drive visible warping:
-        </p>
+        <p>In EXTREME mode χ and α drive visible warping:</p>
         <div class="eq-block">
           a<sub>norm</sub> = tanh[α(τ,χ)]<br>
           R<sub>local</sub> = R₀ [1 + 0.45 a<sub>norm</sub> tanh(χ)]<br>
@@ -480,17 +468,13 @@
             <span class="chevron">▸</span> Proper interval and curvature proxy R<sub>eff</sub>(τ,χ)
           </span>
         </summary>
-        <p>
-          Along the worldline (parametrized by τ with t = τ) we compute:
-        </p>
+        <p>Along the worldline (parametrized by τ with t = τ) we compute:</p>
         <div class="eq-block">
           ds²/dτ² = g<sub>tt</sub> (dt/dτ)² + (dx/dτ)² + (dy/dτ)² + (dz/dτ)²<br>
           &nbsp;&nbsp;+ g<sub>χχ</sub> (dχ/dτ)² + 2g<sub>tχ</sub>(dt/dτ)(dχ/dτ)
           + 2g<sub>zχ</sub>(dz/dτ)(dχ/dτ)
         </div>
-        <p>
-          Then integrate to get the signed proper interval:
-        </p>
+        <p>Then integrate to get the signed proper interval:</p>
         <div class="eq-block">
           S(τ) = ∫<sub>0</sub><sup>τ</sup> sign(ds²) √|ds²| dτ′
         </div>
@@ -522,9 +506,7 @@
         <div class="eq-block">
           ds<sub>4,eff</sub>² = Ω(τ)² ds<sub>4</sub>²
         </div>
-        <p>
-          In the code we define:
-        </p>
+        <p>In the code we define:</p>
         <div class="eq-block">
           χ<sub>norm</sub> = (χ − χ<sub>min</sub>) / (χ<sub>max</sub> − χ<sub>min</sub>)<br>
           χ<sub>c</sub> = χ<sub>norm</sub> − ½<br><br>
@@ -578,7 +560,7 @@
     <section class="panel">
       <h2><span class="icon">▶</span> Run the lab & inspect JSON</h2>
       <p>
-        This script is <strong>JupyterLite / Pyodide compatible</strong>.
+        This script is <strong>Jupyter / JupyterLite compatible</strong>.
         It only uses <code>numpy</code>, <code>matplotlib</code>, <code>math</code>,
         and <code>json</code>.
       </p>
@@ -603,12 +585,12 @@
           Python source: <strong>stur_5d_manifold_v4.py</strong>
         </div>
         <div class="btn-row">
-          <button id="copyBtn" class="action">📋 Copy Script</button>
-          <button id="jupyterBtn" class="action secondary">▶ Open JupyterLite</button>
+          <button id="copyBtn" class="action" type="button" onclick="copyCode()">📋 Copy Script</button>
+          <button id="jupyterBtn" class="action secondary" type="button" onclick="openRunner()">▶ Open Python Runner (no sign-up)</button>
         </div>
       </div>
 
-      <pre class="code-block" id="codeBlock"><code>
+      <pre class="code-block" id="codeBlock">
 #!/usr/bin/env python3
 # ===============================================================
 # STUR 5D Helical Manifold Lab – v4.0
@@ -623,7 +605,7 @@
 #   ds² = g_tt dt² + dx² + dy² + dz²
 #         + g_χχ dχ² + 2 g_tχ dt dχ + 2 g_zχ dz dχ
 #
-# JupyterLite-safe: numpy, matplotlib, json, math only.
+# Jupyter-safe: numpy, matplotlib, json, math only.
 # ===============================================================
 
 import numpy as np
@@ -1189,7 +1171,7 @@ def main(show_plots=True,
 
 if __name__ == "__main__":
     main(show_animation=False)
-      </code></pre>
+      </pre>
 
     </section>
   </div>
@@ -1212,52 +1194,41 @@ if __name__ == "__main__":
 </main>
 
 <script>
-  // Copy Python code to clipboard
-  (function () {
-    var copyBtn = document.getElementById("copyBtn");
-    var codeBlock = document.getElementById("codeBlock");
-    if (copyBtn && codeBlock) {
-      copyBtn.addEventListener("click", function () {
-        var text = codeBlock.innerText;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text).then(function () {
-            var old = copyBtn.innerText;
-            copyBtn.innerText = "✅ Copied!";
-            setTimeout(function () {
-              copyBtn.innerText = old;
-            }, 1500);
-          });
-        } else {
-          var range = document.createRange();
-          range.selectNodeContents(codeBlock);
-          var sel = window.getSelection();
-          sel.removeAllRanges();
-          sel.addRange(range);
-          document.execCommand("copy");
-          sel.removeAllRanges();
-        }
-      });
-    }
-  })();
-
-  // JupyterLite link – same style as Universe Atlas page
-  (function () {
-    var jupyterBtn = document.getElementById("jupyterBtn");
-    if (jupyterBtn) {
-      jupyterBtn.addEventListener("click", function () {
-        var url = "https://jupyterlite.github.io/demo/repl/index.html";
-        window.open(url, "_blank", "noopener");
-      });
-    }
-  })();
-
-  // Tweak chevron on open/close
-  document.querySelectorAll("details").forEach(function (det) {
-    det.addEventListener("toggle", function () {
-      var chev = det.querySelector(".summary-label .chevron");
-      if (chev) chev.textContent = det.open ? "▾" : "▸";
+function copyCode(){
+  const el = document.getElementById('codeBlock');
+  if(!el) return;
+  const text = el.innerText;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function () {
+      const btn = document.getElementById('copyBtn');
+      if (!btn) return;
+      const old = btn.innerText;
+      btn.innerText = '✅ Copied!';
+      setTimeout(() => { btn.innerText = old; }, 1500);
     });
+  } else {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    document.execCommand('copy');
+    sel.removeAllRanges();
+  }
+}
+
+function openRunner(){
+  // Same pattern as your working 3-Body page: open a Python-capable JupyterLab
+  window.open('https://jupyter.org/try-jupyter/lab/', '_blank');
+}
+
+// Chevron toggle for details
+document.querySelectorAll('details').forEach(function (det) {
+  det.addEventListener('toggle', function () {
+    const chev = det.querySelector('.summary-label .chevron');
+    if (chev) chev.textContent = det.open ? '▾' : '▸';
   });
+});
 </script>
 
 </body>
