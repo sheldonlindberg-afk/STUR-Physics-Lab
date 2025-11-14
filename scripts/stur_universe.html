@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>STUR Universe Atlas – Earth POV Skybox (Full Helix Flow v5.0)</title>
+<title>STUR Universe Atlas – Full Skybox & Helical Cosmic Map (v1.0)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -19,7 +19,9 @@
     --code-bg: #050711;
   }
 
-  * { box-sizing: border-box; }
+  * {
+    box-sizing: border-box;
+  }
 
   body {
     margin: 0;
@@ -31,8 +33,13 @@
     line-height: 1.6;
   }
 
-  a { color: var(--accent-2); text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  a {
+    color: var(--accent-2);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
 
   header {
     padding: 32px 16px 8px;
@@ -70,7 +77,7 @@
 
   h1 {
     margin: 6px 0;
-    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    font-size: clamp(1.7rem, 4vw, 2.3rem);
   }
   .tagline {
     margin-top: 4px;
@@ -149,7 +156,9 @@
     margin-top: 6px;
     margin-bottom: 6px;
   }
-  li { margin-bottom: 3px; }
+  li {
+    margin-bottom: 3px;
+  }
 
   code {
     font-family: "JetBrains Mono", "SF Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -176,7 +185,9 @@
     padding-left: 20px;
     margin-top: 6px;
   }
-  .steps li { margin-bottom: 5px; }
+  .steps li {
+    margin-bottom: 5px;
+  }
 
   .code-shell {
     margin-top: 4px;
@@ -217,28 +228,14 @@
     gap: 8px;
   }
 
-  .btn-inline {
-    padding: 4px 8px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.18);
-    background: rgba(3,7,18,0.7);
-    color: var(--text-main);
-    font-size: 0.75rem;
-    cursor: pointer;
-  }
-  .btn-inline:hover {
-    background: rgba(0,212,255,0.12);
-    border-color: var(--accent-2);
-  }
-
   textarea#sturCode {
     width: 100%;
     border: none;
     padding: 10px 12px 12px;
     margin: 0;
     resize: vertical;
-    min-height: 460px;
-    max-height: 1200px;
+    min-height: 520px;
+    max-height: 1100px;
     color: #e8f0ff;
     background: var(--code-bg);
     font-family: "JetBrains Mono", monospace;
@@ -312,7 +309,22 @@
     background: rgba(3,7,18,0.9);
   }
 
-  .tiny { font-size: 0.75rem; color: var(--text-muted); }
+  .tiny {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .highlight-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 999px;
+    padding: 4px 10px;
+    border: 1px solid rgba(0,212,255,0.35);
+    background: rgba(0,212,255,0.06);
+    font-size: 0.78rem;
+    color: var(--accent-2);
+  }
 
   .scroll-top {
     position: fixed;
@@ -327,7 +339,9 @@
     display: none;
     z-index: 50;
   }
-  .scroll-top.show { display: inline-flex; }
+  .scroll-top.show {
+    display: inline-flex;
+  }
 </style>
 </head>
 
@@ -337,202 +351,168 @@
     <div class="logo-mark">STUR</div>
     <div class="logo-text">Physics Lab</div>
   </div>
-  <h1>STUR Universe Atlas – Earth POV Skybox (Full Helix Flow v5.0)</h1>
+  <h1>STUR Universe Atlas – Full Skybox & Helical Cosmic Map (v1.0)</h1>
   <div class="tagline">
-    A full 4π skybox from Earth: Local Group, clusters, walls, voids, JWST fields,
-    and a STUR coherence fog, all stitched into one helix atlas.
+    From Earth’s point of view to the cosmic web: real coordinates, helical funnels,
+    and a STUR coherence field stitched into a 3D map and full-sky atlas.
   </div>
   <div class="badge-row">
-    <span class="badge accent">Earth POV · Full Skybox</span>
-    <span class="badge">3D Skeleton · Aitoff Projection · 6-Face Atlas</span>
-    <span class="badge">JupyterLite / Pyodide Safe</span>
-    <span class="badge">JSON Catalog for All Helices</span>
+    <span class="badge accent">Copy-and-Run Python Atlas</span>
+    <span class="badge">Earth POV · RA/Dec · Redshift Shells</span>
+    <span class="badge">JWST Deep Fields + Virgo / GA / Shapley / Repeller</span>
+    <span class="badge">JSON Universe Atlas Summary</span>
   </div>
 </header>
 
 <main>
 
-  <!-- OVERVIEW / DERIVATION -->
+  <!-- OVERVIEW + PHYSICS STORY -->
   <section class="panel">
     <div class="panel-header">
-      <div class="panel-title">What this Universe Atlas actually does</div>
-      <div class="panel-tag">First STUR Earth-POV skybox · Full helix atlas</div>
+      <div class="panel-title">What this STUR Universe Atlas does</div>
+      <div class="panel-tag">Perspective: you are sitting at Earth inside the funnels</div>
     </div>
     <div class="grid-two">
       <div>
         <p>
-          This lab builds a <strong>STUR Universe Atlas</strong> from the point of view of Earth.
-          You are sitting at the origin. Every point in the sky is given:
+          This is a <strong>single monster script</strong> that builds a
+          <em>first-pass Universe Atlas</em> in the STUR framework. It combines:
         </p>
         <ul>
-          <li>a direction on the celestial sphere (RA, Dec),</li>
-          <li>a comoving distance in megaparsecs (Mpc) from a simple ΛCDM model,</li>
-          <li>a STUR coherence weight <span class="inline-math">S(r)</span>, and</li>
-          <li>optional helix funnels for major structures.</li>
+          <li>
+            A simple flat ΛCDM background to convert
+            <span class="inline-math">z \leftrightarrow r_{\rm comoving}</span>.
+          </li>
+          <li>
+            A <strong>STUR coherence field</strong>
+            <div class="equation-block">
+              \( S(r) = \tanh\!\big(x\big)\,\big(1 - e^{-x}\big), \quad x = \dfrac{r}{L_0} \)
+            </div>
+          </li>
+          <li>
+            Real-sky anchors:
+            Virgo, Norma / Great Attractor, Shapley, and a Dipole Repeller.
+          </li>
+          <li>
+            Real JWST deep-field pointings: CEERS, JADES, HUDF, SMACS 0723.
+          </li>
         </ul>
         <p>
-          The STUR coherence profile is:
+          From these ingredients, the code constructs:
         </p>
-        <div class="equation-block">
-          \( S(r) = \tanh\!\big(x\big)\,\big(1 - e^{-x}\big),\quad x = \dfrac{r}{L_0} \)
-        </div>
-        <p>
-          where \(r\) is comoving distance and \(L_0\) is a coherence scale tied to the
-          structure (cluster, void, wall, or supercluster). Large <span class="inline-math">S</span>
-          means the universe “likes” to store or move energy along that radial scale.
-        </p>
+        <ul>
+          <li>A 3D STUR field with helical funnels from Earth to each anchor.</li>
+          <li>
+            A full-sky <strong>Aitoff map</strong> in RA/Dec with projected helices.
+          </li>
+          <li>
+            A <strong>4-panel skybox</strong> splitting the sky into four RA sectors:
+            you can see how the funnels and JWST fields tile the sky.
+          </li>
+          <li>
+            A diagnostic plot of <span class="inline-math">S(r)</span>
+            for each anchor along its radial line.
+          </li>
+        </ul>
       </div>
       <div>
-        <p><strong>Helix funnels and STUR forces</strong></p>
+        <p><strong>STUR interpretation</strong></p>
         <p>
-          Each major structure gets a <strong>central helix funnel</strong> launched from Earth.
-          Let \(\hat{a}\) be the unit vector from Earth to a cluster center. We construct
-          two orthonormal directions \(\hat{e}_1,\hat{e}_2\) transverse to \(\hat{a}\), and then
-          trace a helix:
+          In the STUR picture, all long-range structure is modulated by a coherence
+          factor that multiplies the usual forces:
         </p>
         <div class="equation-block">
-          \(
-          \vec{r}(s) = r(s)\,\hat{a} +
-          R_{\rm helix}(s)\big[\cos\Phi(s)\,\hat{e}_1 + \sin\Phi(s)\,\hat{e}_2\big]
-          \)
-          <br>
-          with \(s\in[0,1]\), \(r(s)\) running from 0 to the structure distance, and
-          \(R_{\rm helix}(s)\) modulated by \(S(r)\).
+          \( \vec{F}_{\rm STUR}(\vec{r}) = S(r)\,\Big[
+          \vec{F}_{\rm grav} + \vec{F}_{\rm EM} + \vec{F}_{\rm strong} + \vec{F}_{\rm spin}
+          \Big] \)
         </div>
         <p>
-          Repellers / voids use the same machinery but with a different radial envelope,
-          so their helices “open out” rather than focus.
+          Here we don’t try to simulate full N-body gravity. Instead, we:
         </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- COSMOLOGY + MAPPING -->
-  <section class="panel alt">
-    <div class="panel-header">
-      <div class="panel-title">Cosmology, distance ladder, and skybox mapping</div>
-      <div class="panel-tag">ΛCDM · RA/Dec · cube-map coordinates</div>
-    </div>
-    <div class="grid-two">
-      <div>
-        <p><strong>Redshift → distance</strong></p>
-        <p>
-          We use a flat ΛCDM background:
-        </p>
-        <div class="equation-block">
-          \( H(z) = H_0\sqrt{\Omega_m(1+z)^3 + \Omega_\Lambda} \)
-        </div>
-        <p>
-          with \(H_0 = 70\ \text{km/s/Mpc}\), \(\Omega_m = 0.3\), \(\Omega_\Lambda = 0.7\).
-          The comoving distance is:
-        </p>
-        <div class="equation-block">
-          \( D_C(z) = \displaystyle \int_0^z \dfrac{c\,dz'}{H(z')} \)
-        </div>
-        <p>
-          Numerically this is done with a tabulated integral and linear interpolation,
-          up to \(z = 20\).
-        </p>
-        <p>
-          The code also includes an inverse function \(z(D_C)\) to color the fog by
-          approximate redshift.
-        </p>
-      </div>
-      <div>
-        <p><strong>From RA/Dec to a 4π skybox</strong></p>
-        <p>
-          Directions on the sky are encoded as unit vectors:
-        </p>
-        <div class="equation-block">
-          \( \hat{n}(\alpha,\delta) =
-          (\cos\delta\cos\alpha,\ \cos\delta\sin\alpha,\ \sin\delta)\)
-        </div>
-        <p>
-          To make a game-style <strong>cube-map skybox</strong>, each direction is projected
-          onto one of six faces: FRONT (+X), BACK (−X), LEFT (+Y), RIGHT (−Y),
-          TOP (+Z), BOTTOM (−Z). For each face we compute 2D coordinates \((u,v)\)
-          in [-1,1]×[-1,1], then draw helix paths and STUR fog inside a circle of radius 1.
-        </p>
-        <p>
-          That gives six panels you can think of as a 3D sky dome you could later feed into
-          a WebGL viewer or planetarium environment.
+        <ul>
+          <li>Sample a 3D cloud of points in comoving distance.</li>
+          <li>Compute a <strong>signed STUR field</strong> from the anchors
+              (attractors vs. repeller).</li>
+          <li>Use that as an “energy fog” color field in both 3D and sky maps.</li>
+        </ul>
+        <p class="tiny">
+          All major ingredients – cosmology, anchors, JWST pointings, helices,
+          and selected STUR field samples – are exported into a <strong>JSON atlas</strong>
+          at the end so other scripts (or AI) can reuse the same universe skeleton.
         </p>
       </div>
     </div>
   </section>
 
   <!-- HOW TO RUN -->
-  <section class="panel">
+  <section class="panel alt">
     <div class="panel-header">
       <div class="panel-title">How to run the STUR Universe Atlas</div>
-      <div class="panel-tag">JupyterLite / Pyodide · Desktop Python</div>
+      <div class="panel-tag">JupyterLite · Pyodide · Desktop Python 3</div>
     </div>
     <div class="grid-two">
       <div>
-        <p><strong>Option A – Run in the browser (JupyterLite / Pyodide)</strong></p>
+        <p><strong>Option A – Run in a browser (JupyterLite / Pyodide)</strong></p>
         <ol class="steps">
-          <li>Open your JupyterLite / Pyodide notebook environment.</li>
-          <li>Create a new <strong>Python 3 notebook</strong>.</li>
-          <li>Scroll down and click
-            <strong>“📋 Copy STUR Universe Atlas Code”</strong>.
+          <li>Click the <strong>“Run in JupyterLite”</strong> button below (opens in a new tab).</li>
+          <li>In JupyterLite, create a new <strong>Python 3 notebook</strong>.</li>
+          <li>
+            Return to this page, click <strong>“📋 Copy STUR Universe Atlas Code”</strong>,
+            and paste the code into a single notebook cell.
           </li>
-          <li>Paste it into a single notebook cell.</li>
-          <li>Run the cell. It will:
+          <li>Run the cell:
             <ul>
-              <li>Print a small “Start running…” message.</li>
-              <li>Draw three figures:
-                <ul>
-                  <li><strong>3D helix skeleton</strong> (fog + funnels + Earth rays + CMB arrow)</li>
-                  <li><strong>Aitoff all-sky projection</strong> of the helix network</li>
-                  <li><strong>6-face skybox atlas</strong> (TOP, LEFT, FRONT, RIGHT, BACK, BOTTOM)</li>
-                </ul>
-              </li>
-              <li>Write a JSON file:
-                <code>stur_universe_skybox_full_atlas_v5_0.json</code>
-              </li>
+              <li>Figure 1: 3D STUR helical universe with redshift shells.</li>
+              <li>Figure 2: Aitoff all-sky projection of field + helices.</li>
+              <li>Figure 3: 4-panel skybox (RA sectors) from Earth POV.</li>
+              <li>Figure 4: STUR coherence <span class="inline-math">S(r)</span> vs. radius for each anchor.</li>
+              <li>Then a <strong>JSON atlas</strong> prints to the console.</li>
             </ul>
           </li>
         </ol>
         <p class="tiny">
-          In JupyterLite, you can find the JSON in the file browser and download it.
+          JupyterLite may or may not allow saving PNGs; the script wraps all
+          <code>savefig</code> calls in <code>try/except</code> so it remains safe.
         </p>
       </div>
       <div>
         <p><strong>Option B – Run locally (desktop / laptop)</strong></p>
         <ol class="steps">
-          <li>Install Python 3 if needed.</li>
           <li>Install dependencies:
             <br><code>pip install numpy matplotlib</code>
           </li>
-          <li>Save the code to a file, e.g.
-            <code>stur_universe_skybox_full_atlas_v5_0.py</code>.
+          <li>Save the code as
+            <code>stur_universe_atlas_v1.py</code>.
           </li>
-          <li>Run from a terminal:
-            <br><code>python stur_universe_skybox_full_atlas_v5_0.py</code>
+          <li>From a terminal:
+            <br><code>python stur_universe_atlas_v1.py</code>
           </li>
-          <li>Three matplotlib windows will open with the figures.</li>
-          <li>The JSON file will be written in the same directory.</li>
+          <li>Four matplotlib windows will pop up with the figures.</li>
+          <li>
+            The JSON atlas will be printed to stdout; you can redirect it:
+            <br><code>python stur_universe_atlas_v1.py &gt; stur_universe_atlas_v1.json</code>
+          </li>
         </ol>
         <p class="tiny">
-          If you want to redirect the JSON to another file name, you can just edit
-          the <code>JSON_FILENAME</code> variable near the top of the script.
+          If the script feels heavy, lower <code>N_FIELD_SAMPLES</code> or
+          <code>N_STREAM</code> in the parameters section and rerun.
         </p>
       </div>
     </div>
   </section>
 
   <!-- PYTHON CODE BOX -->
-  <section class="panel alt">
+  <section class="panel">
     <div class="panel-header">
-      <div class="panel-title">STUR Universe Atlas – Python Monster Code (v5.0)</div>
-      <div class="panel-tag">3D Skeleton · Aitoff · 6-Face Skybox · JSON Catalog</div>
+      <div class="panel-title">Full STUR Universe Atlas Python code (v1.0)</div>
+      <div class="panel-tag">3D map · Aitoff sky · 4-panel skybox · JSON atlas</div>
     </div>
 
     <div class="code-shell">
       <div class="code-shell-header">
         <div class="code-shell-header-left">
           <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          <span class="code-filename">stur_universe_skybox_full_atlas_v5_0.py</span>
+          <span class="code-filename">stur_universe_atlas_v1.py</span>
         </div>
         <div class="code-actions">
           <button class="btn-inline" id="copyBtnTop">Copy</button>
@@ -541,127 +521,116 @@
       </div>
       <textarea id="sturCode" spellcheck="false">
 #!/usr/bin/env python3
-# ======================================================================
-#  STUR UNIVERSE SKYBOX – FULL ATLAS v5.0 (Earth POV, Pyodide-Safe)
-# ======================================================================
-#  Sheldon L. Lindberg (2025)
+# ===============================================================
+# STUR Universe Atlas – Full Skybox & Helical Cosmic Map (v1.0)
+# ===============================================================
+# Sheldon L. Lindberg (2025)
 #
-#  Features:
-#    - Earth at origin, full 4π sky
-#    - 3D STUR fog + helix funnels
-#    - Aitoff all-sky projection of helix paths
-#    - 6-face cube-map skybox (TOP, LEFT, FRONT, RIGHT, BACK, BOTTOM)
-#    - Major clusters, walls, Local Group, voids/repellers, JWST fields,
-#      synthetic 2MRS-like galaxies
-#    - Earth-ray lines to major structures in 3D view
-#    - CMB dipole arrow
-#    - JSON catalog of:
-#         * structure list
-#         * helix paths and STUR profiles
-#         * subsampled STUR fog
-#         * citation block for underlying catalogs
+# This "monster" script builds a universe atlas from Earth's POV.
+# It is meant as a conceptual + visual model in the STUR framework:
 #
-#  Pyodide / JupyterLite safety:
-#    - NO giant JSON printed to stdout.
-#    - JSON is written only to a file:
-#         stur_universe_skybox_full_atlas_v5_0.json
+#  * Flat ΛCDM background to map z <-> comoving distance (Mpc)
+#  * STUR coherence factor:
+#       S(r) = tanh(x)*(1 - exp(-x)),  x = r/L0
+#  * Real-ish coordinates for:
+#       - Virgo Cluster
+#       - Norma / Great Attractor
+#       - Shapley Supercluster
+#       - Dipole Repeller (effective under-density)
+#       - JWST deep fields: CEERS, JADES, HUDF, SMACS 0723
+#  * Random 3D STUR field samples (comoving ball)
+#  * Helical funnels from Earth to each anchor / JWST field
 #
-#  Dependencies: numpy, matplotlib, math, json
-# ======================================================================
+# The script produces four main figures:
+#   1) 3D STUR helical universe + redshift shells + CMB dipole
+#   2) All-sky Aitoff projection of STUR samples + central helices
+#   3) 4-panel RA skybox (Earth POV, RA sectors)
+#   4) S(r) vs r for each anchor along its line of sight
+#
+# Finally, it prints a JSON "atlas" with:
+#   * Cosmology / configuration
+#   * Anchor and JWST metadata
+#   * Subsampled central helices
+#   * Subsampled STUR field points
+#
+# Designed to be:
+#   * 100% self-contained
+#   * JupyterLite / Pyodide compatible (NumPy + matplotlib + json + math)
+#   * Configurable at the top
+# ===============================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
-import math, json
+from mpl_toolkits.mplot3d import Axes3D  # registers 3D projection
+import json, math
 
 plt.style.use("dark_background")
 
-print("Start running STUR Universe Skybox v5.0 ......")
+# ---------------------- GLOBAL SWITCHES ------------------------
+# These can be tuned for performance vs. resolution.
+Z_MAX              = 20.0     # Maximum redshift we consider
+N_ZGRID            = 2000     # Integration grid for z->r
+N_STREAM           = 60       # Helical strands per funnel
+N_STEPS_HELIX      = 240      # Points along each strand
+N_FIELD_SAMPLES    = 45000    # STUR 3D field samples
+N_FIELD_SUB_JSON   = 4000     # How many field points to keep in JSON
+N_HELIX_SUB_JSON   = 80       # Points per central helix for JSON export
 
-# ======================================================================
-# CONFIG
-# ======================================================================
+# Random seed for reproducibility
+np.random.seed(42)
 
-CONFIG = {
-    "label": "STUR_UNIVERSE_SKYBOX_FULL_ATLAS_v5_0_MAX_REALISM",
-    "N_FIELD_SAMPLES": 180000,    # total STUR fog samples
-    "N_FIELD_SUB_PLOT": 90000,    # subset used for plotting
-    "N_FIELD_SUB_JSON": 5000,     # subset stored in JSON
-    "N_STEPS_HELIX": 750,         # points per helix path
-    "HELIX_TURNS_MAJOR": 4.0,
-    "HELIX_TURNS_MINOR": 2.0,
-    "HELIX_TURNS_JWST": 3.0,
-    "RANDOM_SEED": 42,
-    "fog_mode": "hybrid_S_weighted",
-    "helix_style": "scientific_halo"
-}
-
-JSON_FILENAME = "stur_universe_skybox_full_atlas_v5_0.json"
-
-# ======================================================================
-# STUR COHERENCE
-# ======================================================================
-
-def S_stur(r, L0):
-    """
-    STUR coherence:
-        S(r) = tanh(x) * (1 - exp(-x)),  x = r/L0
-    Supports scalar or array r, L0 (broadcasted).
-    """
-    r = np.asarray(r, dtype=float)
-    L0 = np.asarray(L0, dtype=float)
-    x = np.where(L0 > 0, r / L0, 0.0)
-    x = np.clip(x, 0.0, 80.0)
-    return np.tanh(x) * (1.0 - np.exp(-x))
-
-# ======================================================================
-# COSMOLOGY
-# ======================================================================
-
+# ---------------------- BASIC CONSTANTS ------------------------
 deg2rad = math.pi / 180.0
 rad2deg = 180.0 / math.pi
 
-c_kms   = 299792.458
-H0_kms  = 70.0
+c_kms   = 299792.458    # km/s
+H0_kms  = 70.0          # km/s/Mpc
 Omega_m = 0.3
 Omega_L = 0.7
 
-Z_MAX   = 20.0
-N_ZGRID = 2000
-
+# ---------------------- COSMOLOGY: z <-> r ---------------------
 def E_z(z):
+    """
+    Dimensionless H(z)/H0 for flat ΛCDM-like background:
+        E(z) = sqrt( Ω_m (1+z)^3 + Ω_Λ )
+    """
     return math.sqrt(Omega_m*(1+z)**3 + Omega_L)
 
+# Precompute comoving distance grid with simple trapezoid rule.
 z_grid = np.linspace(0.0, Z_MAX, N_ZGRID)
 D_grid = np.zeros_like(z_grid)
+
 for i in range(1, N_ZGRID):
     z0, z1 = z_grid[i-1], z_grid[i]
     dz = z1 - z0
     f0 = c_kms / (H0_kms * E_z(z0))
     f1 = c_kms / (H0_kms * E_z(z1))
-    D_grid[i] = D_grid[i-1] + 0.5*(f0+f1)*dz
+    D_grid[i] = D_grid[i-1] + 0.5*(f0 + f1)*dz
 
 R_MAX_MPC = float(D_grid[-1])
 
 def comoving_distance_Mpc(z):
+    """Return comoving distance (Mpc) for redshift z using interpolation."""
     if z <= 0.0:
         return 0.0
     if z >= Z_MAX:
         z = Z_MAX
     return float(np.interp(z, z_grid, D_grid))
 
-def redshift_from_distance(r):
-    if r <= 0.0:
+def redshift_from_distance(r_Mpc):
+    """Inverse of comoving_distance_Mpc via interpolation."""
+    if r_Mpc <= 0.0:
         return 0.0
-    if r >= R_MAX_MPC:
-        r = R_MAX_MPC
-    return float(np.interp(r, D_grid, z_grid))
+    if r_Mpc >= R_MAX_MPC:
+        r_Mpc = R_MAX_MPC
+    return float(np.interp(r_Mpc, D_grid, z_grid))
 
-# ======================================================================
-# COORDINATE HELPERS
-# ======================================================================
-
+# ---------------------- COORDINATES ----------------------------
 def sph_to_cart(ra_deg, dec_deg, r):
+    """
+    Input RA,Dec in degrees and radius r.
+    Returns numpy array [x,y,z] (same units as r).
+    """
     ra  = ra_deg * deg2rad
     dec = dec_deg * deg2rad
     x = r * np.cos(dec)*np.cos(ra)
@@ -670,797 +639,705 @@ def sph_to_cart(ra_deg, dec_deg, r):
     return np.array([x, y, z])
 
 def cart_to_sph(vec):
+    """
+    Input numpy array-like [x,y,z].
+    Returns (RA_deg, Dec_deg, r).
+    RA in [-180, +180] deg.
+    """
     x, y, z = vec
-    r = np.linalg.norm(vec) + 1e-12
+    r = float(np.linalg.norm(vec) + 1e-12)
     dec = rad2deg * math.asin(z / r)
     ra  = rad2deg * math.atan2(y, x)
     return ra, dec, r
 
-def hms(h, m, s): return h + m/60.0 + s/3600.0
+# ---------------------- STUR COHERENCE -------------------------
+def S_stur(r_Mpc, L0_Mpc):
+    """
+    STUR coherence:
+        S(r) = tanh(x)*(1 - exp(-x)), x = r/L0
+    r_Mpc and L0_Mpc can be scalars or arrays.
+    """
+    x = np.clip(np.asarray(r_Mpc, dtype=float) / float(L0_Mpc), 0.0, 60.0)
+    return np.tanh(x) * (1.0 - np.exp(-x))
+
+# ---------------------- HELPERS FOR ANGLES ---------------------
+def wrap_ra_180(ra_deg):
+    """
+    Wrap RA to [-180, +180] deg.
+    """
+    return (ra_deg + 180.0) % 360.0 - 180.0
+
+# ---------------------- ANCHORS & JWST FIELDS ------------------
+def hms(h, m, s):
+    """Hours, minutes, seconds -> hours (decimal)."""
+    return h + m/60.0 + s/3600.0
+
 def dms(sign, d, m, s):
+    """
+    sign = +1 or -1; d, m, s positive.
+    Returns degrees (decimal).
+    """
     sgn = 1 if sign >= 0 else -1
     return sgn * (abs(d) + m/60.0 + s/3600.0)
 
-# ======================================================================
-# STRUCTURE CATALOG – FULL ATLAS
-# ======================================================================
+# Major attractors and one repeller
+anchors_raw = [
+    # name, RA_deg, Dec_deg, distance_Mpc, is_repeller
+    ("Virgo Cluster",
+     hms(12,27,0)*15, dms(+1,12,43,0), 16.5, False),
 
-def build_structure_catalog():
-    """
-    Build list of structures with fields:
-      name, ra_deg, dec_deg, dist_Mpc, is_repeller,
-      kind, catalog, importance
-    """
-    structures = []
+    ("Norma Cluster (Great Attractor)",
+     hms(16,14,0)*15, dms(-1,60,52,0), 68.0, False),
 
-    # ---- Local Group + satellites ----
-    local_group = [
-        ("Milky Way Plane (ref)",  hms(17,45,0)*15,  dms(0,0,0,0),     0.01),
-        ("M31 Andromeda",          hms(0,42,44.3)*15,  41.269,         0.78),
-        ("M33 Triangulum",         hms(1,33,50.9)*15,  30.660,         0.86),
-        ("LMC",                    80.89,             -69.76,         0.05),
-        ("SMC",                    13.19,             -72.83,         0.06),
-        ("M81 Group",              148.9,              69.1,          3.6),
-        ("Centaurus A Group",      201.4,             -43.0,          3.7),
-        ("M101 Group",             210.8,              54.3,          7.0),
-    ]
-    for name, ra, dec, dist in local_group:
-        structures.append({
-            "name": name,
-            "ra_deg": float(ra),
-            "dec_deg": float(dec),
-            "dist_Mpc": float(dist),
-            "is_repeller": False,
-            "kind": "local_group",
-            "catalog": "LocalGroup",
-            "importance": "major"
-        })
+    ("Shapley Supercluster",
+     hms(13,25,0)*15, dms(-1,30,0,0), 200.0, False),
 
-    # ---- Major clusters, walls, superclusters ----
-    clusters = [
-        ("Virgo Cluster",                    hms(12,27,0)*15,  dms(+1,12,43,0), 16.5,  "cluster",      "NearbyClusters"),
-        ("Fornax Cluster",                   54.65,            -35.45,          20.0,  "cluster",      "NearbyClusters"),
-        ("Hydra Cluster",                    159.0,            -27.6,           55.0,  "cluster",      "NearbyClusters"),
-        ("Centaurus Cluster",                192.2,            -41.3,           45.0,  "cluster",      "NearbyClusters"),
-        ("Norma Cluster (Great Attractor)",  hms(16,14,0)*15,  dms(-1,60,52,0), 68.0,  "cluster",      "GreatAttractor"),
-        ("Ophiuchus Cluster",                258.1,            -23.4,           120.0, "cluster",      "NearbyClusters"),
-        ("Perseus Cluster",                  49.95,            41.51,           75.0,  "cluster",      "NearbyClusters"),
-        ("Coma Cluster (Abell 1656)",        194.95,           27.98,           100.0, "cluster",      "Abell"),
-        ("Shapley Core (A3558)",             201.0,            -31.7,           200.0, "supercluster", "Shapley"),
-        ("Perseus–Pisces Spine",             40.0,             20.0,            70.0,  "wall",         "PerseusPisces"),
-        ("Sculptor Wall",                    0.0,              -30.0,           15.0,  "wall",         "SculptorWall"),
-        ("Centaurus Wall",                   190.0,            -30.0,           45.0,  "wall",         "CentaurusWall"),
-        ("Local Sheet (Laniakea)",           150.0,            -10.0,           7.0,   "supercluster", "Laniakea"),
-        ("Laniakea Basin Core",              160.0,            -45.0,           70.0,  "supercluster", "Laniakea"),
-    ]
-    for name, ra, dec, dist, kind, cat in clusters:
-        structures.append({
-            "name": name,
-            "ra_deg": float(ra),
-            "dec_deg": float(dec),
-            "dist_Mpc": float(dist),
-            "is_repeller": False,
-            "kind": kind,
-            "catalog": cat,
-            "importance": "major"
-        })
+    ("Dipole Repeller",
+     347.8, 7.1, 220.0, True),
+]
 
-    # ---- Major voids / repellers & Local Void wall ----
-    voids = [
-        ("Dipole Repeller", 347.8,   7.1,  220.0, "void_repeller"),
-        ("Local Void",      210.0,  15.0,   25.0, "void"),
-        ("Local Void Wall", 190.0,   0.0,   35.0, "wall"),
-        ("Bootes Void",     210.0,  50.0,   70.0, "void"),
-        ("Eridanus Void",   70.0,  -20.0,   80.0, "void"),
-    ]
-    for name, ra, dec, dist, vkind in voids:
-        is_rep = (vkind == "void_repeller")
-        structures.append({
-            "name": name,
-            "ra_deg": float(ra),
-            "dec_deg": float(dec),
-            "dist_Mpc": float(dist),
-            "is_repeller": bool(is_rep),
-            "kind": "void" if vkind not in ("wall", "void_repeller") else
-                    ("wall" if vkind=="wall" else "void"),
-            "catalog": "VoidCatalog",
-            "importance": "major"
-        })
+anchor_names    = [row[0] for row in anchors_raw]
+anchor_ra_deg   = np.array([row[1] for row in anchors_raw])
+anchor_dec_deg  = np.array([row[2] for row in anchors_raw])
+anchor_dist_Mpc = np.array([row[3] for row in anchors_raw])
+anchor_is_rep   = np.array([row[4] for row in anchors_raw], dtype=bool)
 
-    # ---- JWST deep fields ----
-    jwst_fields = [
-        ("CEERS (Extended Groth Strip)",
-         hms(14,19,43)*15, dms(+1,52,53,0), 10.0),
-        ("JADES (GOODS-South)",
-         hms(3,32,38)*15,  dms(-1,27,47,0), 14.0),
-        ("HUDF Field",
-         hms(3,32,39)*15,  dms(-1,27,47,29), 12.0),
-        ("SMACS 0723 Field",
-         hms(7,23,16)*15,  dms(-1,73,27,0), 13.0),
-    ]
-    for name, ra, dec, zmax in jwst_fields:
-        dist = comoving_distance_Mpc(zmax)
-        structures.append({
-            "name": name,
-            "ra_deg": float(ra),
-            "dec_deg": float(dec),
-            "dist_Mpc": float(dist),
-            "is_repeller": False,
-            "kind": "jwst",
-            "catalog": "JWST",
-            "importance": "major"
-        })
+anchor_xyz = np.array([
+    sph_to_cart(anchor_ra_deg[i], anchor_dec_deg[i], anchor_dist_Mpc[i])
+    for i in range(len(anchor_names))
+])
 
-    # ---- Mock 2MRS-like galaxy sample ----
-    N_2MRS = 320
-    np.random.seed(CONFIG["RANDOM_SEED"] + 7)
-    ra2 = np.random.uniform(0.0, 360.0, N_2MRS)
-    u_dec = np.random.uniform(-1.0, 1.0, N_2MRS)
-    dec2 = np.arcsin(u_dec) * rad2deg
-    logd = np.random.uniform(math.log10(5.0), math.log10(250.0), N_2MRS)
-    dist2 = 10.0**logd
+anchor_colors = {
+    "Virgo Cluster": "orange",
+    "Norma Cluster (Great Attractor)": "yellow",
+    "Shapley Supercluster": "red",
+    "Dipole Repeller": "cyan",
+}
 
-    for i in range(N_2MRS):
-        structures.append({
-            "name": f"2MRS_GAL_{i+1:03d}",
-            "ra_deg": float(ra2[i]),
-            "dec_deg": float(dec2[i]),
-            "dist_Mpc": float(dist2[i]),
-            "is_repeller": False,
-            "kind": "galaxy_2mrs",
-            "catalog": "2MRS_Mock",
-            "importance": "minor"
-        })
+# JWST deep fields
+jwst_raw = [
+    # name, RA_deg, Dec_deg, z_max, area_arcmin2
+    ("CEERS (Extended Groth Strip)",
+     hms(14,19,43)*15, dms(+1,52,53,0), 10.0, 84.0),
 
-    return structures
+    ("JADES (GOODS-South)",
+     hms(3,32,38)*15, dms(-1,27,47,0), 14.0, 20.0),
 
-structures = build_structure_catalog()
+    ("HUDF Field",
+     hms(3,32,39)*15, dms(-1,27,47,29), 12.0, 11.0),
 
-for s in structures:
-    s_xyz = sph_to_cart(s["ra_deg"], s["dec_deg"], s["dist_Mpc"])
-    s["xyz"] = [float(s_xyz[0]), float(s_xyz[1]), float(s_xyz[2])]
+    ("SMACS 0723 Cluster Field",
+     hms(7,23,16)*15, dms(-1,73,27,0), 13.0, 9.0),
+]
 
-field_sources = [s for s in structures if s["kind"] in ("cluster","supercluster","void","wall")]
-field_xyz   = np.array([s["xyz"] for s in field_sources])
-field_dist  = np.array([s["dist_Mpc"] for s in field_sources])
-field_rep   = np.array([s["is_repeller"] for s in field_sources], dtype=bool)
+jwst_names       = [row[0] for row in jwst_raw]
+jwst_ra_deg      = np.array([row[1] for row in jwst_raw])
+jwst_dec_deg     = np.array([row[2] for row in jwst_raw])
+jwst_z           = np.array([row[3] for row in jwst_raw])
+jwst_area_arcmin = np.array([row[4] for row in jwst_raw])
+jwst_dist_Mpc    = np.array([comoving_distance_Mpc(z) for z in jwst_z])
 
-# ======================================================================
-# STUR COSMIC FOG – HYBRID MODE
-# ======================================================================
+jwst_xyz = np.array([
+    sph_to_cart(jwst_ra_deg[i], jwst_dec_deg[i], jwst_dist_Mpc[i])
+    for i in range(len(jwst_names))
+])
 
-np.random.seed(CONFIG["RANDOM_SEED"])
-N_FIELD = CONFIG["N_FIELD_SAMPLES"]
+jwst_colors = {
+    "CEERS (Extended Groth Strip)": "magenta",
+    "JADES (GOODS-South)": "lime",
+    "HUDF Field": "white",
+    "SMACS 0723 Cluster Field": "deepskyblue",
+}
 
-# Isotropic in direction, ∝ r^2 in radius so that the density appears uniform
-u_rand = np.random.rand(N_FIELD)
-r_sample = R_MAX_MPC * np.cbrt(u_rand)
-theta = np.arccos(1.0 - 2.0*np.random.rand(N_FIELD))
-phi   = 2.0 * np.pi * np.random.rand(N_FIELD)
-
-x = r_sample * np.sin(theta) * np.cos(phi)
-y = r_sample * np.sin(theta) * np.sin(phi)
-z = r_sample * np.cos(theta)
-field_pts = np.stack([x,y,z], axis=1)
-
-if len(field_sources) > 0:
-    diffs = field_pts[:,None,:] - field_xyz[None,:,:]
-    dists = np.linalg.norm(diffs, axis=2) + 1e-6
-    signs = np.where(field_rep, -1.0, 1.0)[None,:]
-    L0s   = np.maximum(field_dist/10.0, 1.0)[None,:]
-    S_each = S_stur(dists, L0s)
-    Svals = np.sum(signs * S_each / (dists**2), axis=1)
-else:
-    Svals = np.zeros(N_FIELD)
-
-S_min, S_max = float(Svals.min()), float(Svals.max())
-S_norm = (Svals - S_min) / (S_max - S_min + 1e-12)
-
-z_field = np.array([redshift_from_distance(r) for r in r_sample])
-z_norm  = np.clip(z_field / Z_MAX, 0.0, 1.0)
-
-ra_field_deg = rad2deg * np.arctan2(y, x)
-ra_field_deg = (ra_field_deg + 180.0) % 360.0 - 180.0
-dec_field_deg = rad2deg * np.arcsin(
-    z / (np.linalg.norm(field_pts, axis=1) + 1e-12)
-)
-
-# ======================================================================
-# HELIX GENERATOR
-# ======================================================================
-
-def helix_turns_for_kind(kind, importance):
-    if kind == "jwst":
-        return CONFIG["HELIX_TURNS_JWST"]
-    if importance == "major":
-        return CONFIG["HELIX_TURNS_MAJOR"]
-    return CONFIG["HELIX_TURNS_MINOR"]
-
-def generate_central_helix(axis_vec, R_max, turns, n_steps, rep=False):
-    """
-    Generate a single central helix along axis_vec from r=0 to R_max.
-    rep=True -> repeller-style radial envelope.
-    """
-    axis = np.array(axis_vec, dtype=float)
-    axis /= (np.linalg.norm(axis) + 1e-12)
-
-    tmp = np.array([0.0, 0.0, 1.0])
-    if abs(np.dot(axis, tmp)) > 0.9:
-        tmp = np.array([1.0, 0.0, 0.0])
-    e1 = np.cross(axis, tmp); e1 /= np.linalg.norm(e1)
-    e2 = np.cross(axis, e1)
-
-    svals = np.linspace(0.0, 1.0, n_steps)
-    pts   = np.zeros((n_steps,3), dtype=float)
-    r_arr = np.zeros(n_steps, dtype=float)
-    S_arr = np.zeros(n_steps, dtype=float)
-
-    L0 = max(R_max/8.0, 1.0)
-    base_r = 0.07 * R_max
-
-    for i, s in enumerate(svals):
-        r_here = s * R_max
-        if rep:
-            r_here = R_max * (s**0.9)
-        Sval = float(S_stur(r_here, L0))
-        helix_r = base_r * (0.15 + 0.85 * Sval)
-        angle = 2.0 * math.pi * turns * s
-
-        pos = axis * r_here
-        pos += helix_r * (math.cos(angle)*e1 + math.sin(angle)*e2)
-
-        pts[i,:] = pos
-        r_arr[i] = r_here
-        S_arr[i] = Sval
-
-    return pts, r_arr, S_arr
-
-def color_for_struct(s):
-    k = s["kind"]
-    cat = s["catalog"]
-    if k == "local_group":
-        return "deepskyblue"
-    if k == "cluster":
-        return "gold"
-    if k == "supercluster":
-        return "red"
-    if k == "wall":
-        return "orange"
-    if k == "void":
-        return "magenta"
-    if k == "jwst":
-        return "lime"
-    if k == "galaxy_2mrs":
-        return "0.6"
-    if k == "flow":
-        return "cyan"
-    return "white"
-
-central_helices = {}
-helix_meta = {}
-N_STEPS = CONFIG["N_STEPS_HELIX"]
-
-for s in structures:
-    name = s["name"]
-    turns = helix_turns_for_kind(s["kind"], s["importance"])
-    helix, r_arr, S_arr = generate_central_helix(
-        s["xyz"], s["dist_Mpc"], turns, N_STEPS,
-        rep=s["is_repeller"]
-    )
-    central_helices[name] = helix
-
-    ra_list = []
-    dec_list = []
-    r_list = []
-    for p in helix:
-        ra_d, dec_d, r_d = cart_to_sph(p)
-        ra_wrap = (ra_d + 180.0) % 360.0 - 180.0
-        ra_list.append(ra_wrap)
-        dec_list.append(dec_d)
-        r_list.append(r_d)
-
-    helix_meta[name] = {
-        "kind": s["kind"],
-        "catalog": s["catalog"],
-        "importance": s["importance"],
-        "ra_center_deg": s["ra_deg"],
-        "dec_center_deg": s["dec_deg"],
-        "distance_Mpc": s["dist_Mpc"],
-        "is_repeller": s["is_repeller"],
-        "axis_xyz_Mpc": s["xyz"],
-        "ra_path_deg": ra_list,
-        "dec_path_deg": dec_list,
-        "r_path_Mpc": list(map(float, r_list)),
-        "S_path": list(map(float, S_arr)),
-        "color": color_for_struct(s)
-    }
-
-# CMB dipole
+# CMB dipole direction (approx)
 cmb_ra_deg  = 168.0
 cmb_dec_deg = -7.0
 cmb_vec = sph_to_cart(cmb_ra_deg, cmb_dec_deg, 1.0)
 cmb_vec /= np.linalg.norm(cmb_vec)
 
-# ======================================================================
-# DUAL-MODE HELIX DRAW (SCIENTIFIC HALO)
-# ======================================================================
+# ---------------------- HELICAL FUNNEL GENERATOR --------------
+def generate_helical_bundle(axis_vec, r_min, r_max, rep=False):
+    """
+    Generate a bundle of helical strands from Earth toward axis_vec.
+    axis_vec: 3D vector pointing roughly toward the anchor.
+    r_min, r_max: radial range (Mpc).
+    rep: if True, acts loosely like a repeller at large r
+         (slight divergence near endpoint).
+    Returns:
+        bundle: shape (N_STREAM, N_STEPS_HELIX, 3)
+        central: shape (N_STEPS_HELIX, 3)
+    """
+    axis = np.array(axis_vec, dtype=float)
+    axis /= (np.linalg.norm(axis) + 1e-12)
 
-def draw_helix_3d_dual(ax, pts, color,
-                       lw_core=1.2, lw_glow=2.6,
-                       alpha_glow=0.28, alpha_core=0.96,
-                       **kwargs):
-    x, y, z = pts[:,0], pts[:,1], pts[:,2]
-    ax.plot(x, y, z, color=color, linewidth=lw_glow,
-            alpha=alpha_glow, solid_capstyle="round", **kwargs)
-    ax.plot(x, y, z, color=color, linewidth=lw_core,
-            alpha=alpha_core, solid_capstyle="round", **kwargs)
+    # Build local orthonormal frame (axis, e1, e2)
+    tmp = np.array([0.0, 0.0, 1.0])
+    if abs(np.dot(axis, tmp)) > 0.9:
+        tmp = np.array([1.0, 0.0, 0.0])
+    e1 = np.cross(axis, tmp)
+    e1 /= np.linalg.norm(e1)
+    e2 = np.cross(axis, e1)
 
-def draw_helix_2d_dual(ax, x, y, color,
-                       lw_core=1.6, lw_glow=3.0,
-                       alpha_glow=0.32, alpha_core=0.98,
-                       **kwargs):
-    ax.plot(x, y, color=color, linewidth=lw_glow,
-            alpha=alpha_glow, solid_capstyle="round", **kwargs)
-    ax.plot(x, y, color=color, linewidth=lw_core,
-            alpha=alpha_core, solid_capstyle="round", **kwargs)
+    svals = np.linspace(0.0, 1.5, N_STEPS_HELIX)
+    bundle = np.zeros((N_STREAM, N_STEPS_HELIX, 3), dtype=float)
 
-# ======================================================================
-# FIGURE 1 – 3D SKELETON
-# ======================================================================
+    # Characteristic coherence length along this line
+    L0 = max(r_max / 8.0, 1.0)
+    base_radius = 0.09 * r_max  # sets overall funnel width
 
-fig3d = plt.figure(figsize=(10, 8))
-ax3d = fig3d.add_subplot(111, projection="3d")
-ax3d.set_title("STUR Cosmic Helix Skeleton v5.0 – Full Atlas (Mpc)")
+    for k in range(N_STREAM):
+        phase = 2.0 * math.pi * k / N_STREAM
+        for i, s in enumerate(svals):
+            s1 = min(s, 1.0)
+            r_here = r_min + 0.5*(r_max - r_min)*(1.0 - math.cos(math.pi * s1))
+            # For repeller, bend slightly away near the end
+            if rep and s > 1.0:
+                r_here *= 1.0 - 0.45 * (s - 1.0)**1.3
 
-N_plot_field = min(CONFIG["N_FIELD_SUB_PLOT"], field_pts.shape[0])
-idx_plot = np.linspace(0, field_pts.shape[0]-1, N_plot_field, dtype=int)
+            Sval = float(S_stur(r_here, L0))
+            helix_r = base_radius * (0.20 + 0.80 * Sval)
+            angle   = 6.0*math.pi*s + phase
 
-col3d = plt.cm.plasma(z_norm[idx_plot])
-alpha3d = 0.05 + 0.4 * S_norm[idx_plot]
-alpha3d = np.clip(alpha3d, 0.05, 0.45)
-col3d[:,3] = alpha3d
+            pos = axis * r_here
+            pos += helix_r * (math.cos(angle)*e1 + math.sin(angle)*e2)
 
-ax3d.scatter(field_pts[idx_plot,0],
-             field_pts[idx_plot,1],
-             field_pts[idx_plot,2],
-             c=col3d, s=1.0, linewidths=0)
+            if rep:
+                norm = np.linalg.norm(pos)
+                if norm > 0:
+                    pos = pos / norm * r_here
 
-# Spherical redshift shells in 3D
-shell_z = [0.01, 0.05, 0.1, 0.3, 1.0, 3.0, 5.0]
-theta_shell = np.linspace(0.0, math.pi, 48)
-phi_shell   = np.linspace(0.0, 2.0*math.pi, 72)
-T, P = np.meshgrid(theta_shell, phi_shell)
-for zs in shell_z:
-    R_s = comoving_distance_Mpc(zs)
-    xs = R_s * np.sin(T) * np.cos(P)
-    ys = R_s * np.sin(T) * np.sin(P)
-    zs_s = R_s * np.cos(T)
-    level = zs / Z_MAX
-    ax3d.plot_wireframe(xs, ys, zs_s,
-                        color=plt.cm.Greys(0.25 + 0.5*level),
-                        linewidth=0.2, alpha=0.18)
-    ax3d.text(0.0, 0.0, R_s,
-              f"z={zs}",
+            bundle[k, i, :] = pos
+
+    return bundle, bundle[0].copy()
+
+# ---------------------- BUILD HELICAL NETWORK ------------------
+helical_bundles = {}
+central_helices = {}
+
+# Anchors
+for i, name in enumerate(anchor_names):
+    bundle, central = generate_helical_bundle(
+        axis_vec=anchor_xyz[i],
+        r_min=0.0,
+        r_max=3.0 * anchor_dist_Mpc[i],
+        rep=bool(anchor_is_rep[i])
+    )
+    helical_bundles[name] = bundle
+    central_helices[name] = central
+
+# JWST deep fields (funnels to their max comoving distance)
+for i, name in enumerate(jwst_names):
+    bundle, central = generate_helical_bundle(
+        axis_vec=jwst_xyz[i],
+        r_min=0.0,
+        r_max=jwst_dist_Mpc[i],
+        rep=False
+    )
+    helical_bundles[name] = bundle
+    central_helices[name] = central
+
+# ---------------------- VECTORIZED STUR 3D FIELD --------------
+def sample_stur_field_3d(N_samples):
+    """
+    Sample the STUR field in a sphere of radius R_MAX_MPC.
+    Returns:
+        pts      : (N,3) positions (Mpc)
+        S_values : (N,) signed STUR field
+        z_values : (N,) approximate redshift from distance
+    """
+    u = np.random.rand(N_samples)
+    r = R_MAX_MPC * np.cbrt(u)
+    theta = np.arccos(1.0 - 2.0*np.random.rand(N_samples))
+    phi   = 2.0 * np.pi * np.random.rand(N_samples)
+
+    x = r * np.sin(theta) * np.cos(phi)
+    y = r * np.sin(theta) * np.sin(phi)
+    z = r * np.cos(theta)
+    pts = np.stack([x, y, z], axis=1)
+
+    # Distances to each anchor
+    diffs = pts[:, None, :] - anchor_xyz[None, :, :]    # (N, n_anchor, 3)
+    dists = np.linalg.norm(diffs, axis=2) + 1e-6        # (N, n_anchor)
+
+    # Signed contributions: attractors (+), repeller (-)
+    signs = np.where(anchor_is_rep, -1.0, 1.0)[None, :]   # (1, n_anchor)
+    L0s   = np.maximum(anchor_dist_Mpc / 10.0, 1.0)[None, :]
+
+    S_each = S_stur(dists, L0s)                           # (N, n_anchor)
+    S_vals = np.sum(signs * S_each / (dists**2), axis=1)  # (N,)
+
+    # Convert radius to redshift
+    z_vals = np.array([redshift_from_distance(rr) for rr in r])
+
+    return pts, S_vals, z_vals
+
+field_pts, field_S_raw, field_z = sample_stur_field_3d(N_FIELD_SAMPLES)
+S_min, S_max = float(field_S_raw.min()), float(field_S_raw.max())
+S_norm = (field_S_raw - S_min) / (S_max - S_min + 1e-12)
+z_norm = np.clip(field_z / Z_MAX, 0.0, 1.0)
+
+# Colormap by redshift for 3D & Aitoff
+field_colors = plt.cm.plasma(z_norm)
+
+# ---------------------- FIGURE 1: 3D UNIVERSE -----------------
+fig1 = plt.figure(figsize=(10, 10))
+ax3d = fig1.add_subplot(111, projection="3d")
+ax3d.set_title("STUR Universe Atlas – 3D Helical Map (v1.0)")
+
+# STUR fog
+ax3d.scatter(field_pts[:,0], field_pts[:,1], field_pts[:,2],
+             c=field_colors, s=1.1, alpha=0.13, linewidths=0)
+
+# Redshift shells
+shell_z_list = [0.1, 0.5, 1.0, 3.0, 5.0, 10.0, 20.0]
+theta = np.linspace(0.0, math.pi, 60)
+phi   = np.linspace(0.0, 2.0*math.pi, 60)
+T, P  = np.meshgrid(theta, phi)
+
+for z_shell in shell_z_list:
+    R_shell = comoving_distance_Mpc(z_shell)
+    xs = R_shell * np.sin(T) * np.cos(P)
+    ys = R_shell * np.sin(T) * np.sin(P)
+    zs = R_shell * np.cos(T)
+
+    level = z_shell / Z_MAX
+    ax3d.plot_wireframe(xs, ys, zs,
+                        color=plt.cm.Greys(0.15 + 0.65*level),
+                        linewidth=0.25,
+                        alpha=0.18)
+    ax3d.text(0.0, 0.0, R_shell,
+              f"z={z_shell:g}",
               color="gray",
               fontsize=7,
               ha="center",
               va="bottom")
 
-# Helix funnels and Earth-ray lines
-major_structs = [s for s in structures if s["importance"]=="major"]
-
-for s in structures:
-    name = s["name"]
-    pts = central_helices[name]
-    meta = helix_meta[name]
-    color = meta["color"]
-    kind  = meta["kind"]
-    imp   = meta["importance"]
-    style = "-" if kind not in ("void","jwst") else "--"
-
-    if imp == "major":
-        draw_helix_3d_dual(ax3d, pts, color=color, linestyle=style)
-    else:
+# Helical funnels to anchors
+for name in anchor_names:
+    col = anchor_colors.get(name, "white")
+    bundle = helical_bundles[name]
+    for k in range(N_STREAM):
+        pts = bundle[k]
         ax3d.plot(pts[:,0], pts[:,1], pts[:,2],
-                  color=color, linewidth=0.6,
-                  alpha=0.35, linestyle=style)
+                  color=col, alpha=0.25, linewidth=0.8)
 
-# Earth-ray lines to major structures
-for s in major_structs:
-    vec = np.array(s["xyz"], dtype=float)
-    ax3d.plot([0, vec[0]], [0, vec[1]], [0, vec[2]],
-              color=color_for_struct(s),
-              linewidth=0.7, alpha=0.9, linestyle=":")
+# Helical funnels to JWST fields
+for name in jwst_names:
+    col = jwst_colors.get(name, "white")
+    bundle = helical_bundles[name]
+    for k in range(N_STREAM):
+        pts = bundle[k]
+        ax3d.plot(pts[:,0], pts[:,1], pts[:,2],
+                  color=col, alpha=0.55, linewidth=1.0)
 
-# Major structure markers
-for s in major_structs:
-    vec = np.array(s["xyz"], dtype=float)
-    col = color_for_struct(s)
-    ax3d.scatter([vec[0]], [vec[1]], [vec[2]],
-                 color=col, s=60,
-                 marker="*" if s["kind"]!="void" else "o",
-                 edgecolors="black", linewidths=0.7)
-    ax3d.text(vec[0], vec[1], vec[2],
-              s["name"].split()[0],
-              color=col, fontsize=8,
-              ha="center", va="bottom")
+# Plot anchor positions
+for i, name in enumerate(anchor_names):
+    x, y, z = anchor_xyz[i]
+    col = anchor_colors.get(name, "white")
+    ax3d.scatter([x], [y], [z],
+                 color=col, s=120,
+                 marker="*", edgecolors="black", linewidths=0.8)
+    ax3d.text(x, y, z, name.split()[0],
+              color=col, fontsize=9, ha="center", va="bottom")
+
+# JWST as triangles
+for i, name in enumerate(jwst_names):
+    x, y, z = jwst_xyz[i]
+    col = jwst_colors.get(name, "white")
+    ax3d.scatter([x], [y], [z],
+                 color=col, s=80,
+                 marker="^", edgecolors="black", linewidths=0.7)
+    ax3d.text(x, y, z, name.split()[0],
+              color=col, fontsize=8, ha="center", va="bottom")
 
 # Earth at origin
-ax3d.scatter([0], [0], [0], color="white", s=50)
-ax3d.text(0, 0, 0, "You / Earth", color="white",
-          fontsize=9, ha="center", va="top")
+ax3d.scatter([0], [0], [0], color="white", s=60)
+ax3d.text(0, 0, 0, "Earth", color="white", fontsize=9,
+          ha="center", va="top")
 
 # CMB dipole arrow
 cmb_len = comoving_distance_Mpc(0.02)
 cmb_end = cmb_vec * cmb_len
-ax3d.quiver(0,0,0, cmb_end[0],cmb_end[1],cmb_end[2],
+ax3d.quiver(0, 0, 0,
+            cmb_end[0], cmb_end[1], cmb_end[2],
             color="lime", linewidth=2, arrow_length_ratio=0.12)
 ax3d.text(cmb_end[0], cmb_end[1], cmb_end[2],
-          "CMB Dipole", color="lime",
-          fontsize=8, ha="center", va="bottom")
+          "CMB Dipole", color="lime", fontsize=8,
+          ha="center", va="bottom")
 
 ax3d.set_xlabel("x (Mpc)")
 ax3d.set_ylabel("y (Mpc)")
 ax3d.set_zlabel("z (Mpc)")
-ax3d.grid(alpha=0.25)
 
-limits = np.array([ax3d.get_xlim3d(),
-                   ax3d.get_ylim3d(),
-                   ax3d.get_zlim3d()])
-spans = limits[:,1] - limits[:,0]
-centers = np.mean(limits, axis=1)
-Rbox = 0.5 * max(spans)
-ax3d.set_xlim3d([centers[0]-Rbox, centers[0]+Rbox])
-ax3d.set_ylim3d([centers[1]-Rbox, centers[1]+Rbox])
-ax3d.set_zlim3d([centers[2]-Rbox, centers[2]+Rbox])
+def set_equal_aspect_3d(ax):
+    limits = np.array([ax.get_xlim3d(),
+                       ax.get_ylim3d(),
+                       ax.get_zlim3d()])
+    spans = limits[:,1] - limits[:,0]
+    centers = np.mean(limits, axis=1)
+    radius = 0.5 * max(spans)
+    ax.set_xlim3d([centers[0] - radius, centers[0] + radius])
+    ax.set_ylim3d([centers[1] - radius, centers[1] + radius])
+    ax.set_zlim3d([centers[2] - radius, centers[2] + radius])
 
-# ======================================================================
-# FIGURE 2 – AITOFF PROJECTION
-# ======================================================================
+set_equal_aspect_3d(ax3d)
+fig1.tight_layout()
 
-figA = plt.figure(figsize=(10, 6))
-axA = figA.add_subplot(111, projection="aitoff")
-axA.set_title("STUR Helical Universe v5.0 – Aitoff Projection (RA, Dec)")
+try:
+    fig1.savefig("STUR_Universe_3D_v1.png", dpi=260, bbox_inches="tight")
+except Exception:
+    pass
 
-N_ait = min(70000, N_FIELD)
-idx_ait = np.linspace(0, N_FIELD-1, N_ait, dtype=int)
+# ---------------------- FIGURE 2: AITOFF ALL-SKY ---------------
+fig2 = plt.figure(figsize=(10, 6))
+axA = fig2.add_subplot(111, projection="aitoff")
+axA.set_title("STUR Universe Atlas – Aitoff All-Sky Projection (v1.0)")
 
-ra_bg = ra_field_deg[idx_ait] * deg2rad
-dec_bg = dec_field_deg[idx_ait] * deg2rad
+# Subsample for plotting
+idx_allsky = np.linspace(0, len(field_pts)-1, 30000, dtype=int)
+ra_all, dec_all = [], []
+cols_all = []
 
-colA = plt.cm.plasma(z_norm[idx_ait])
-alphaA = 0.05 + 0.45 * S_norm[idx_ait]
-alphaA = np.clip(alphaA, 0.05, 0.55)
-colA[:,3] = alphaA
+for i in idx_allsky:
+    ra_deg, dec_deg, r = cart_to_sph(field_pts[i])
+    ra_wrap = wrap_ra_180(ra_deg)
+    ra_all.append(ra_wrap * deg2rad)
+    dec_all.append(dec_deg * deg2rad)
+    cols_all.append(field_colors[i])
 
-axA.scatter(ra_bg, dec_bg, c=colA, s=1.0, linewidths=0)
+ra_all = np.array(ra_all)
+dec_all = np.array(dec_all)
+cols_all = np.array(cols_all)
 
-def plot_helix_aitoff(name, meta):
-    pts_ra = np.array(meta["ra_path_deg"]) * deg2rad
-    pts_dec = np.array(meta["dec_path_deg"]) * deg2rad
-    color = meta["color"]
-    kind  = meta["kind"]
-    imp   = meta["importance"]
-    style = "-" if kind not in ("void","jwst") else "--"
-    if imp == "major":
-        draw_helix_2d_dual(axA, pts_ra, pts_dec,
-                           color=color, linestyle=style, lw_core=1.7)
-    else:
-        axA.plot(pts_ra, pts_dec, color=color,
-                 linewidth=0.6, alpha=0.5, linestyle=style)
+axA.scatter(ra_all, dec_all,
+            c=cols_all, s=1.1, alpha=0.18)
 
-for name, meta in helix_meta.items():
-    plot_helix_aitoff(name, meta)
+# Helper: project a central helix
+def plot_central_helix_on_aitoff(pts, color, lw=1.5):
+    raL, decL = [], []
+    for p in pts:
+        ra_deg, dec_deg, r = cart_to_sph(p)
+        ra_wrap = wrap_ra_180(ra_deg)
+        raL.append(ra_wrap * deg2rad)
+        decL.append(dec_deg * deg2rad)
+    axA.plot(raL, decL, color=color, alpha=0.9, linewidth=lw)
 
-# Mark major structure centers
-for s in major_structs:
-    ra_c = (s["ra_deg"] + 180.0) % 360.0 - 180.0
-    dec_c = s["dec_deg"]
-    axA.scatter([ra_c*deg2rad], [dec_c*deg2rad],
-                c=[color_for_struct(s)], s=35,
-                marker="*", edgecolors="black", linewidths=0.6)
-    axA.text(ra_c*deg2rad, dec_c*deg2rad,
-             s["name"].split()[0],
-             color=color_for_struct(s),
-             fontsize=7, ha="center", va="bottom")
+# Anchors
+for name in anchor_names:
+    plot_central_helix_on_aitoff(central_helices[name],
+                                 anchor_colors.get(name, "white"),
+                                 lw=1.7)
+
+# JWST deep fields
+for name in jwst_names:
+    plot_central_helix_on_aitoff(central_helices[name],
+                                 jwst_colors.get(name, "white"),
+                                 lw=1.4)
 
 axA.grid(True)
 
-# ======================================================================
-# SKYBOX MAPPING (CUBE)
-# ======================================================================
+try:
+    fig2.savefig("STUR_Universe_Aitoff_v1.png", dpi=260, bbox_inches="tight")
+except Exception:
+    pass
 
-FACE_FRONT  = 0  # +X
-FACE_BACK   = 1  # -X
-FACE_LEFT   = 2  # +Y
-FACE_RIGHT  = 3  # -Y
-FACE_TOP    = 4  # +Z
-FACE_BOTTOM = 5  # -Z
+fig2.tight_layout()
 
-def cube_map_dir_to_face_uv(x, y, z):
-    x = np.asarray(x, dtype=float)
-    y = np.asarray(y, dtype=float)
-    z = np.asarray(z, dtype=float)
-    absx = np.abs(x)
-    absy = np.abs(y)
-    absz = np.abs(z)
+# ---------------------- FIGURE 3: 4-PANEL SKYBOX ---------------
+fig3, axes3 = plt.subplots(2, 2, figsize=(10, 8), subplot_kw={"projection": None})
+fig3.suptitle("STUR Universe Atlas – 4-Panel RA Skybox (Earth POV)", fontsize=12)
 
-    face = np.empty_like(absx, dtype=int)
-    u = np.zeros_like(absx)
-    v = np.zeros_like(absx)
+# Compute RA/Dec for all field points (for reuse)
+ra_all_deg, dec_all_deg = [], []
+for i in range(len(field_pts)):
+    ra_deg, dec_deg, r = cart_to_sph(field_pts[i])
+    ra_all_deg.append(wrap_ra_180(ra_deg))
+    dec_all_deg.append(dec_deg)
+ra_all_deg = np.array(ra_all_deg)
+dec_all_deg = np.array(dec_all_deg)
 
-    mask_x = (absx >= absy) & (absx >= absz)
-    front = mask_x & (x >= 0)
-    back  = mask_x & (x < 0)
+# Define RA sectors
+sectors = [
+    ("RA ∈ [-180°, -90°]", -180.0, -90.0),
+    ("RA ∈ [-90°, 0°]",    -90.0,   0.0),
+    ("RA ∈ [0°, 90°]",       0.0,  90.0),
+    ("RA ∈ [90°, 180°]",    90.0, 180.0),
+]
 
-    u[front] = -z[front]/absx[front]
-    v[front] =  y[front]/absx[front]
-    face[front] = FACE_FRONT
+def plot_sector(ax, title, ra_min, ra_max):
+    mask = (ra_all_deg >= ra_min) & (ra_all_deg < ra_max)
+    # Further subsample for speed
+    idx_sector = np.where(mask)[0]
+    if len(idx_sector) > 20000:
+        idx_sector = np.random.choice(idx_sector, size=20000, replace=False)
+    ax.scatter(ra_all_deg[idx_sector],
+               dec_all_deg[idx_sector],
+               c=z_norm[idx_sector],
+               cmap="plasma",
+               s=1.2,
+               alpha=0.26)
+    ax.set_title(title, fontsize=9)
+    ax.set_xlim(ra_min, ra_max)
+    ax.set_ylim(-90, 90)
+    ax.set_xlabel("RA (deg)")
+    ax.set_ylabel("Dec (deg)")
+    ax.grid(alpha=0.25, linestyle="--")
 
-    u[back]  =  z[back]/absx[back]
-    v[back]  =  y[back]/absx[back]
-    face[back] = FACE_BACK
+    # Overplot anchors that fall in this RA range
+    for i, name in enumerate(anchor_names):
+        ra = wrap_ra_180(anchor_ra_deg[i])
+        dec = anchor_dec_deg[i]
+        if ra_min <= ra < ra_max:
+            col = anchor_colors.get(name, "white")
+            ax.scatter([ra], [dec],
+                       color=col, s=40, marker="*", edgecolors="black", linewidths=0.6)
+            ax.text(ra, dec, name.split()[0],
+                    color=col, fontsize=7, ha="center", va="bottom")
 
-    mask_y = (absy > absx) & (absy >= absz)
-    left  = mask_y & (y >= 0)
-    right = mask_y & (y < 0)
+    # Overplot JWST fields
+    for i, name in enumerate(jwst_names):
+        ra = wrap_ra_180(jwst_ra_deg[i])
+        dec = jwst_dec_deg[i]
+        if ra_min <= ra < ra_max:
+            col = jwst_colors.get(name, "white")
+            ax.scatter([ra], [dec],
+                       color=col, s=30, marker="^", edgecolors="black", linewidths=0.5)
+            ax.text(ra, dec, name.split()[0],
+                    color=col, fontsize=7, ha="center", va="bottom")
 
-    u[left]  =  x[left]/absy[left]
-    v[left]  = -z[left]/absy[left]
-    face[left] = FACE_LEFT
+# Lay out the 4 panels
+for ax, (label, ra_min, ra_max) in zip(axes3.flatten(), sectors):
+    plot_sector(ax, label, ra_min, ra_max)
 
-    u[right] = -x[right]/absy[right]
-    v[right] = -z[right]/absy[right]
-    face[right] = FACE_RIGHT
+fig3.tight_layout(rect=[0, 0.03, 1, 0.95])
 
-    mask_z = (absz > absx) & (absz > absy)
-    top    = mask_z & (z >= 0)
-    bottom = mask_z & (z < 0)
+try:
+    fig3.savefig("STUR_Universe_Skybox4_v1.png", dpi=260, bbox_inches="tight")
+except Exception:
+    pass
 
-    u[top]    = -x[top]/absz[top]
-    v[top]    =  y[top]/absz[top]
-    face[top] = FACE_TOP
+# ---------------------- FIGURE 4: S(r) RADIAL PROFILES --------
+fig4, ax4 = plt.subplots(figsize=(9, 5))
+ax4.set_title("STUR Coherence S(r) Along Anchor Lines")
+ax4.set_xlabel("Radius r (Mpc)")
+ax4.set_ylabel("S(r)")
 
-    u[bottom] =  x[bottom]/absz[bottom]
-    v[bottom] =  y[bottom]/absz[bottom]
-    face[bottom] = FACE_BOTTOM
+for i, name in enumerate(anchor_names):
+    r_max = 3.0 * anchor_dist_Mpc[i]
+    r_vals = np.linspace(0.0, r_max, 400)
+    L0 = max(anchor_dist_Mpc[i] / 5.0, 1.0)
+    S_vals = S_stur(r_vals, L0)
+    col = anchor_colors.get(name, "white")
+    ax4.plot(r_vals, S_vals, label=name, color=col, linewidth=1.4)
 
-    return face, u, v
+ax4.set_ylim(0.0, 1.05)
+ax4.grid(alpha=0.25, linestyle="--")
+ax4.legend(fontsize=7)
 
-def skybox_map_ra_dec(ra_deg, dec_deg):
-    ra = np.asarray(ra_deg) * deg2rad
-    dec = np.asarray(dec_deg) * deg2rad
-    x_dir = np.cos(dec)*np.cos(ra)
-    y_dir = np.cos(dec)*np.sin(ra)
-    z_dir = np.sin(dec)
-    return cube_map_dir_to_face_uv(x_dir, y_dir, z_dir)
+fig4.tight_layout()
 
-# ======================================================================
-# FIGURE 3 – SIX-FACE SKYBOX ATLAS
-# ======================================================================
+try:
+    fig4.savefig("STUR_Universe_S_profile_v1.png", dpi=260, bbox_inches="tight")
+except Exception:
+    pass
 
-figS = plt.figure(figsize=(12, 9))
-figS.suptitle("STUR Universe Map v5.0 – Earth POV Skybox (Helix Flow Full Atlas)",
-              y=0.95)
+plt.show()
 
-axes_sky = {}
-axes_sky[FACE_TOP]    = figS.add_axes([0.39, 0.70, 0.22, 0.22])
-axes_sky[FACE_LEFT]   = figS.add_axes([0.02, 0.39, 0.22, 0.22])
-axes_sky[FACE_FRONT]  = figS.add_axes([0.27, 0.39, 0.22, 0.22])
-axes_sky[FACE_RIGHT]  = figS.add_axes([0.52, 0.39, 0.22, 0.22])
-axes_sky[FACE_BACK]   = figS.add_axes([0.77, 0.39, 0.22, 0.22])
-axes_sky[FACE_BOTTOM] = figS.add_axes([0.39, 0.08, 0.22, 0.22])
-
-titles = {
-    FACE_FRONT:  "FRONT (RA ≈ 0°)",
-    FACE_BACK:   "BACK (RA ≈ 180°)",
-    FACE_LEFT:   "LEFT (RA ≈ 90°)",
-    FACE_RIGHT:  "RIGHT (RA ≈ 270°)",
-    FACE_TOP:    "TOP (Dec ≈ +90°)",
-    FACE_BOTTOM: "BOTTOM (Dec ≈ −90°)"
-}
-
-for fid, ax in axes_sky.items():
-    ax.set_title(titles[fid], fontsize=9)
-    ax.set_xlim(-1.02, 1.02)
-    ax.set_ylim(-1.02, 1.02)
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_aspect("equal")
-    circ = plt.Circle((0,0), 1.0, fill=False,
-                      edgecolor="gray", linewidth=0.7, alpha=0.85)
-    ax.add_patch(circ)
-
-N_sky_fog = min(CONFIG["N_FIELD_SUB_PLOT"], N_FIELD)
-idx_sky = np.linspace(0, N_FIELD-1, N_sky_fog, dtype=int)
-
-ra_fog = ra_field_deg[idx_sky]
-dec_fog = dec_field_deg[idx_sky]
-face_fog, u_fog, v_fog = skybox_map_ra_dec(ra_fog, dec_fog)
-
-S_sky = S_norm[idx_sky]
-z_sky = z_norm[idx_sky]
-
-for fid in range(6):
-    ax = axes_sky[fid]
-    mask = (face_fog == fid)
-    if not np.any(mask):
-        continue
-    uu = u_fog[mask]; vv = v_fog[mask]
-    colS = plt.cm.plasma(z_sky[mask])
-    alphaS = 0.05 + 0.45 * S_sky[mask]
-    alphaS = np.clip(alphaS, 0.05, 0.55)
-    colS[:,3] = alphaS
-    ax.scatter(uu, vv, c=colS, s=1.0, linewidths=0)
-
-def plot_helix_skybox(name, meta):
-    ra_arr = np.array(meta["ra_path_deg"])
-    dec_arr = np.array(meta["dec_path_deg"])
-    face_h, u_h, v_h = skybox_map_ra_dec(ra_arr, dec_arr)
-    n = len(ra_arr)
-    if n < 2:
-        return
-    color = meta["color"]
-    kind  = meta["kind"]
-    imp   = meta["importance"]
-    style = "-" if kind not in ("void","jwst") else "--"
-
-    for fid in range(6):
-        ax = axes_sky[fid]
-        mask = (face_h == fid)
-        if not np.any(mask):
-            continue
-        uu = u_h[mask]
-        vv = v_h[mask]
-        if imp == "major":
-            draw_helix_2d_dual(ax, uu, vv, color=color,
-                               lw_core=1.4, linestyle=style)
-        else:
-            ax.plot(uu, vv, color=color, linewidth=0.5,
-                    alpha=0.5, linestyle=style)
-
-for name, meta in helix_meta.items():
-    plot_helix_skybox(name, meta)
-
-# Mark major structures on skybox faces
-ra_major = np.array([s["ra_deg"] for s in major_structs])
-dec_major = np.array([s["dec_deg"] for s in major_structs])
-face_m, u_m, v_m = skybox_map_ra_dec(ra_major, dec_major)
-
-for i, s in enumerate(major_structs):
-    fid = face_m[i]
-    if fid not in axes_sky:
-        continue
-    ax = axes_sky[fid]
-    col = color_for_struct(s)
-    ax.scatter([u_m[i]], [v_m[i]],
-               c=[col], s=42,
-               marker="*" if s["kind"]!="void" else "o",
-               edgecolors="black", linewidths=0.6)
-    ax.text(u_m[i], v_m[i],
-            s["name"].split()[0],
-            color=col,
-            fontsize=6, ha="center", va="bottom")
-
-# ======================================================================
-# JSON EXPORT – FULL DETAIL, FILE ONLY
-# ======================================================================
-
+# ---------------------- JSON ATLAS EXPORT ----------------------
 def vec_to_list(v):
     return [float(v[0]), float(v[1]), float(v[2])]
 
-try:
-    N_total = field_pts.shape[0]
-    cap_f = min(CONFIG["N_FIELD_SUB_JSON"], N_total)
-    idx_json = np.linspace(0, N_total-1, cap_f, dtype=int)
+# Subsample for JSON
+N_field_json = min(N_FIELD_SUB_JSON, len(field_pts))
+json_idx = np.linspace(0, len(field_pts)-1, N_field_json, dtype=int)
 
-    field_json = {
-        "N_total": int(N_total),
-        "N_in_JSON": int(cap_f),
-        "xyz_Mpc": [vec_to_list(field_pts[i]) for i in idx_json],
-        "redshift": [float(z_field[i]) for i in idx_json],
-        "S_value_norm": [float(S_norm[i]) for i in idx_json]
+# Subsample each central helix
+def subsample_central(pts, N_sub):
+    N = pts.shape[0]
+    if N <= N_sub:
+        return [vec_to_list(p) for p in pts]
+    idx = np.linspace(0, N-1, N_sub, dtype=int)
+    return [vec_to_list(pts[i]) for i in idx]
+
+atlas = {
+    "model": "STUR Universe Atlas v1.0",
+    "description": (
+        "Helical, STUR-modulated universe skeleton from Earth's POV, "
+        "with anchors (Virgo, GA, Shapley, Repeller), JWST deep fields, "
+        "and STUR field samples in comoving ΛCDM coordinates."
+    ),
+    "cosmology": {
+        "H0_km_s_Mpc": float(H0_kms),
+        "Omega_m": float(Omega_m),
+        "Omega_Lambda": float(Omega_L),
+        "Z_max": float(Z_MAX),
+        "R_max_Mpc": float(R_MAX_MPC),
+        "note": "Flat ΛCDM toy background for distance-redshift conversion."
+    },
+    "configuration": {
+        "N_z_grid": int(N_ZGRID),
+        "N_stream": int(N_STREAM),
+        "N_steps_helix": int(N_STEPS_HELIX),
+        "N_field_samples": int(N_FIELD_SAMPLES),
+        "N_field_samples_in_JSON": int(N_field_json),
+        "N_helix_points_in_JSON": int(N_HELIX_SUB_JSON)
+    },
+    "anchors": [],
+    "jwst_pointings": [],
+    "central_helices": {},
+    "stur_field_subsample": {
+        "xyz_Mpc": [],
+        "redshift": [],
+        "S_value_raw": [],
+        "S_value_norm": []
     }
+}
 
-    helices_json = {}
-    for name, meta in helix_meta.items():
-        helix = central_helices[name]
-        N_all = helix.shape[0]
-        idx_h = np.arange(N_all, dtype=int)
-        helices_json[name] = {
-            "kind": meta["kind"],
-            "catalog": meta["catalog"],
-            "importance": meta["importance"],
-            "center_RA_deg": meta["ra_center_deg"],
-            "center_Dec_deg": meta["dec_center_deg"],
-            "distance_Mpc": meta["distance_Mpc"],
-            "is_repeller": meta["is_repeller"],
-            "axis_xyz_Mpc": meta["axis_xyz_Mpc"],
-            "N_points_total": int(N_all),
-            "xyz_Mpc": [vec_to_list(helix[j]) for j in idx_h],
-            "ra_path_deg": [float(meta["ra_path_deg"][j]) for j in idx_h],
-            "dec_path_deg": [float(meta["dec_path_deg"][j]) for j in idx_h],
-            "r_path_Mpc": [float(meta["r_path_Mpc"][j]) for j in idx_h],
-            "S_path": [float(meta["S_path"][j]) for j in idx_h]
-        }
-
-    universe_json = {
-        "model": "STUR Universe Skybox – Full Atlas v5.0 (Earth POV, Max Realism, Pyodide-Safe)",
-        "config": CONFIG,
-        "cosmology": {
-            "H0_km_s_Mpc": float(H0_kms),
-            "Omega_m": float(Omega_m),
-            "Omega_Lambda": float(Omega_L),
-            "Z_max": float(Z_MAX),
-            "R_max_Mpc": float(R_MAX_MPC)
-        },
-        "catalog_references": [
-            "Local Group and satellite parameters are inspired by standard Local Group compilations (e.g. Karachentsev et al.).",
-            "Cluster and wall positions (Virgo, Fornax, Hydra, Centaurus, Norma / Great Attractor, Ophiuchus, Perseus, Coma, Sculptor Wall, Centaurus Wall, Local Sheet, Laniakea basin) follow typical RA/Dec/distance values discussed in large-scale structure literature.",
-            "Void and repeller geometries (Local Void, Bootes Void, Eridanus Void, Dipole Repeller) are approximate sketches based on cosmic-flow and void catalog work (e.g. Tully et al., cosmicflows-3).",
-            "The synthetic galaxy set labeled 2MRS_GAL_xxx is drawn to resemble the 2MASS Redshift Survey distribution but does not reproduce the real catalog objects.",
-            "Cosmology is a flat LCDM model with H0 ≈ 70 km/s/Mpc, Omega_m = 0.3, Omega_Lambda = 0.7.",
-            "JWST deep fields (CEERS, JADES, HUDF, SMACS 0723) use approximate RA/Dec and limiting redshifts; this atlas is for geometric intuition, not precision pointing."
-        ],
-        "structures": [
-            {
-                "name": s["name"],
-                "RA_deg": s["ra_deg"],
-                "Dec_deg": s["dec_deg"],
-                "distance_Mpc": s["dist_Mpc"],
-                "is_repeller": s["is_repeller"],
-                "kind": s["kind"],
-                "catalog": s["catalog"],
-                "importance": s["importance"],
-                "xyz_Mpc": s["xyz"]
-            }
-            for s in structures
-        ],
-        "helices": helices_json,
-        "stur_field_subsample": field_json,
-        "note": (
-            "Skybox faces: FRONT(+X, RA~0), BACK(-X, RA~180), LEFT(+Y, RA~90), "
-            "RIGHT(-Y, RA~270), TOP(+Z, Dec~+90), BOTTOM(-Z, Dec~-90). "
-            "Fog sampling is uniform in radius but brightness is modulated by "
-            "STUR coherence S(r). Cluster, wall, and void positions are "
-            "approximate but arranged to honor known large-scale structures "
-            "such as Laniakea, Perseus–Pisces, the Great Attractor region, "
-            "and the Local Void."
+# Anchors
+for i, name in enumerate(anchor_names):
+    atlas["anchors"].append({
+        "name": name,
+        "RA_deg": float(anchor_ra_deg[i]),
+        "Dec_deg": float(anchor_dec_deg[i]),
+        "distance_Mpc": float(anchor_dist_Mpc[i]),
+        "is_repeller": bool(anchor_is_rep[i]),
+        "xyz_Mpc": vec_to_list(anchor_xyz[i]),
+        "L0_S_profile_Mpc": float(max(anchor_dist_Mpc[i] / 5.0, 1.0)),
+        "data_note": (
+            "Approximate sky position and distance. This is a schematic atlas, "
+            "not a precision catalog."
         )
+    })
+
+# JWST fields
+for i, name in enumerate(jwst_names):
+    atlas["jwst_pointings"].append({
+        "name": name,
+        "RA_deg": float(jwst_ra_deg[i]),
+        "Dec_deg": float(jwst_dec_deg[i]),
+        "z_max": float(jwst_z[i]),
+        "footprint_arcmin2": float(jwst_area_arcmin[i]),
+        "distance_Mpc": float(jwst_dist_Mpc[i]),
+        "xyz_Mpc": vec_to_list(jwst_xyz[i]),
+        "data_note": (
+            "Footprints and redshifts are order-of-magnitude descriptors, "
+            "used for building a conceptual STUR atlas."
+        )
+    })
+
+# Central helices
+for name, pts in central_helices.items():
+    atlas["central_helices"][name] = {
+        "N_points_full": int(pts.shape[0]),
+        "xyz_Mpc_subsample": subsample_central(pts, N_HELIX_SUB_JSON)
     }
 
-    with open(JSON_FILENAME, "w") as f:
-        json.dump(universe_json, f, indent=2)
+# STUR field subset
+for i in json_idx:
+    atlas["stur_field_subsample"]["xyz_Mpc"].append(
+        vec_to_list(field_pts[i])
+    )
+    atlas["stur_field_subsample"]["redshift"].append(
+        float(field_z[i])
+    )
+    atlas["stur_field_subsample"]["S_value_raw"].append(
+        float(field_S_raw[i])
+    )
+    atlas["stur_field_subsample"]["S_value_norm"].append(
+        float(S_norm[i])
+    )
 
-    print(f"[JSON] Wrote {JSON_FILENAME}")
-
-except Exception as e:
-    print("[JSON] Failed to write JSON file:", e)
-
-# ======================================================================
-# SHOW FIGURES
-# ======================================================================
-plt.show()
-print("Stop running STUR Universe Skybox v5.0.")
+# Print JSON atlas
+print(json.dumps(atlas, indent=2))
       </textarea>
     </div>
 
     <div class="button-row">
       <button class="btn primary" id="copyBtnMain">📋 Copy STUR Universe Atlas Code</button>
       <button class="btn" id="selectBtnMain">🔎 Select all code</button>
-      <a class="btn accent" href="../index.html">🏠 Back to STUR Physics Lab</a>
+      <a class="btn accent" href="../jupyterlite/index.html" target="_blank">▶ Run in JupyterLite</a>
+      <a class="btn" href="../index.html">🏠 Back to STUR Physics Lab</a>
     </div>
 
     <div class="footer-nav">
       <div class="left">
         <span class="chip">Author: Sheldon L. Lindberg (2025)</span>
-        <span class="chip">Universe Atlas Core: v5.0</span>
+        <span class="chip">Universe Atlas: v1.0</span>
       </div>
       <div class="right">
         <span class="tiny">
-          After running, look for <code>stur_universe_skybox_full_atlas_v5_0.json</code> in your
-          JupyterLite file browser or working directory. That file is your machine-readable atlas.
+          All future STUR universe modules (quark→cosmic ladder, helix labs) can reuse this atlas JSON
+          so the whole STUR-Physics-Lab speaks one consistent cosmic language.
         </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERPRETING THE ATLAS -->
+  <section class="panel alt">
+    <div class="panel-header">
+      <div class="panel-title">How to read the STUR Universe Atlas</div>
+      <div class="panel-tag">3D map · all-sky · RA skybox · coherence curves</div>
+    </div>
+    <div class="grid-two">
+      <div>
+        <p><strong>Figure 1 – 3D STUR Universe</strong></p>
+        <ul>
+          <li>
+            Colored fog: random samples of the STUR field, color-coded by redshift.
+          </li>
+          <li>
+            Transparent wire shells: constant-redshift surfaces (<code>z</code> labels).
+          </li>
+          <li>
+            Helical tubes to Virgo, Great Attractor, Shapley, Repeller and JWST fields.
+          </li>
+          <li>
+            Earth at the origin, with a green arrow for the CMB dipole direction.
+          </li>
+        </ul>
+        <p><strong>Figure 2 – Aitoff all-sky</strong></p>
+        <ul>
+          <li>
+            RA/Dec sky plot of the same STUR samples (now flattened to the sphere).
+          </li>
+          <li>
+            Central helices appear as colored curves across the sky.
+          </li>
+          <li>
+            Use this as a starting framework to overlay real catalogs (galaxies, clusters, etc.).
+          </li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Figure 3 – 4-panel RA skybox</strong></p>
+        <ul>
+          <li>
+            The full sky is split into four RA sectors:
+            [-180°, -90°], [-90°, 0°], [0°, 90°], [90°, 180°].
+          </li>
+          <li>
+            Each panel shows STUR samples in that RA slice, color-coded by redshift.
+          </li>
+          <li>
+            Anchors and JWST deep fields are overplotted as stars and triangles with labels.
+          </li>
+        </ul>
+        <p><strong>Figure 4 – S(r) curves</strong></p>
+        <ul>
+          <li>
+            Coherence profiles <span class="inline-math">S(r)</span> along each anchor’s line of sight.
+          </li>
+          <li>
+            Where <span class="inline-math">S(r)</span> peaks, that anchor is most “efficient” at
+            structuring flows in the STUR picture.
+          </li>
+        </ul>
+        <p class="tiny">
+          The JSON atlas at the end is your “save game” for the universe:
+          you can load it in other STUR labs, machine learning experiments,
+          or parameter scans without recomputing the whole field.
+        </p>
       </div>
     </div>
   </section>
@@ -1494,9 +1371,11 @@ print("Stop running STUR Universe Skybox v5.0.")
           copyButtons.forEach(btn => btn.textContent = "✔ Copied!");
           setTimeout(() => {
             copyButtons.forEach(btn => {
-              btn.textContent = btn.id.includes("Main")
-                ? "📋 Copy STUR Universe Atlas Code"
-                : "Copy";
+              if (btn.id === "copyBtnMain") {
+                btn.textContent = "📋 Copy STUR Universe Atlas Code";
+              } else {
+                btn.textContent = "Copy";
+              }
             });
           }, 1600);
         }
