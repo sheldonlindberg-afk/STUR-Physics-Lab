@@ -204,6 +204,10 @@
     opacity: 0.9;
   }
 
+  .note-block p {
+    margin-bottom: 8px;
+  }
+
   .code-header {
     display: flex;
     flex-wrap: wrap;
@@ -394,10 +398,10 @@
         </summary>
         <p>
           We work in a 5D manifold
-          <span class="eq-block">
-            M₅ = M₄(-+++) ⊕ χ
-          </span>
         </p>
+        <div class="eq-block">
+          M₅ = M₄(-+++) ⊕ χ
+        </div>
         <p>
           Along the helix worldline we use a metric of the form:
         </p>
@@ -539,34 +543,35 @@
         <div class="badge physical">MODE = "physical" → finite curvature, smooth χ-warping</div>
         <div class="badge extreme">MODE = "extreme" → boosted couplings, violent χ-gate spikes</div>
       </div>
-      <p class="note" style="margin-top:8px;">
-       <p>
-  The χ–dimension is not another planet or universe you can walk into. It’s a
-  hidden direction that every person already moves through without knowing it.
-  You can’t point to χ like left or right, because χ measures how tightly your
-  part of reality is “wound up.” High χ means things feel intense and packed
-  together. Low χ means things feel open, calm, and flexible. Everyone is in the
-  same world, but not at the same χ-value — that’s why people experience life so
-  differently.
-</p>
 
-<p>
-  So can you “travel” to another dimension? In STUR, yes — but not by leaving
-  this universe. You travel by shifting your χ-state. When your χ changes, you
-  jump to a different version of the same world, where time moves differently,
-  choices open or close, and events line up in new ways. These shifts happen
-  during big emotions, major decisions, sudden clarity, or huge life changes.
-  That’s a χ flip — a small, personal dimensional jump.
-</p>
+      <div class="note-block" style="margin-top:10px;">
+        <p class="note">
+          The χ–dimension is not another planet or universe you can walk into. It’s a
+          hidden direction that every person already moves through without knowing it.
+          You can’t point to χ like left or right, because χ measures how tightly your
+          part of reality is “wound up.” High χ means things feel intense and packed
+          together. Low χ means things feel open, calm, and flexible. Everyone is in the
+          same world, but not at the same χ-value — that’s why people experience life so
+          differently.
+        </p>
 
-<p>
-  The bigger, cosmic jumps — like the ones shown in the helix simulation — are
-  the universe doing the same thing. Humans don’t walk into them; they ride
-  them. The χ-dimension is always moving, and you move with it. People
-  already travel dimensions — not by disappearing, but by shifting the hidden
-  coordinate that shapes the version of reality they experience.
-</p>
-      </p>
+        <p class="note">
+          So can you “travel” to another dimension? In STUR, yes — but not by leaving
+          this universe. You travel by shifting your χ-state. When your χ changes, you
+          jump to a different version of the same world, where time moves differently,
+          choices open or close, and events line up in new ways. These shifts happen
+          during big emotions, major decisions, sudden clarity, or huge life changes.
+          That’s a χ flip — a small, personal dimensional jump.
+        </p>
+
+        <p class="note">
+          The bigger, cosmic jumps — like the ones shown in the helix simulation — are
+          the universe doing the same thing. Humans don’t walk into them; they ride
+          them. The χ-dimension is always moving, and you move with it. People
+          already travel dimensions — not by disappearing, but by shifting the hidden
+          coordinate that shapes the version of reality they experience.
+        </p>
+      </div>
     </section>
 
     <!-- RIGHT: How to run + code -->
@@ -589,7 +594,7 @@
         <ul>
           <li><code>model</code>, <code>mode</code>, and <code>params</code> used</li>
           <li>Subsampled τ, t, x, y, z, χ, α(τ,χ) for χ<sub>+</sub> and χ<sub>−</sub></li>
-          <li>Ready to feed into other STUR-Universe modules as a 5D coherence skeleton</li>
+          <li>Ready to feed into other STUR Universe modules as a 5D coherence skeleton</li>
         </ul>
       </div>
 
@@ -597,11 +602,10 @@
         <div class="code-title">
           Python source: <strong>stur_5d_manifold_v4.py</strong>
         </div>
-       <p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open JupyterLite</b>.  
-In JupyterLite, create a new Python notebook, paste the code into a cell, and run it to see the
-TOR double-slit paths, interference pattern, and phase driver.
-</p>
+        <div class="btn-row">
+          <button id="copyBtn" class="action">📋 Copy Script</button>
+          <button id="jupyterBtn" class="action secondary">▶ Open JupyterLite</button>
+        </div>
       </div>
 
       <pre class="code-block" id="codeBlock"><code>
@@ -1193,10 +1197,10 @@ if __name__ == "__main__":
   <div class="footer-nav">
     <div class="footer-buttons">
       <a href="../index.html">
-        <button class="action secondary">← Back to STUR Physics Lab</button>
+        <button class="action secondary" type="button">← Back to STUR Physics Lab</button>
       </a>
       <a href="./stur_sandbox.html">
-        <button class="action secondary">🧪 STUR Sandbox</button>
+        <button class="action secondary" type="button">🧪 STUR Sandbox</button>
       </a>
     </div>
     <div class="pill">
@@ -1209,40 +1213,49 @@ if __name__ == "__main__":
 
 <script>
   // Copy Python code to clipboard
-  document.getElementById("copyBtn").addEventListener("click", function () {
-    const codeBlock = document.getElementById("codeBlock");
-    const text = codeBlock.innerText;
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () {
-        const old = document.getElementById("copyBtn").innerText;
-        document.getElementById("copyBtn").innerText = "✅ Copied!";
-        setTimeout(function () {
-          document.getElementById("copyBtn").innerText = old;
-        }, 1500);
+  (function () {
+    var copyBtn = document.getElementById("copyBtn");
+    var codeBlock = document.getElementById("codeBlock");
+    if (copyBtn && codeBlock) {
+      copyBtn.addEventListener("click", function () {
+        var text = codeBlock.innerText;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            var old = copyBtn.innerText;
+            copyBtn.innerText = "✅ Copied!";
+            setTimeout(function () {
+              copyBtn.innerText = old;
+            }, 1500);
+          });
+        } else {
+          var range = document.createRange();
+          range.selectNodeContents(codeBlock);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          document.execCommand("copy");
+          sel.removeAllRanges();
+        }
       });
-    } else {
-      const range = document.createRange();
-      range.selectNodeContents(codeBlock);
-      const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-      document.execCommand("copy");
-      sel.removeAllRanges();
     }
-  });
+  })();
 
-  // JupyterLite link (update to your own instance / path if needed)
-  document.getElementById("jupyterBtn").addEventListener("click", function () {
-    const url =
-      "https://jupyterlite.github.io/demo/repl/index.html?path=stur_5d_manifold_v4.py";
-    window.open(url, "_blank");
-  });
+  // JupyterLite link – same style as Universe Atlas page
+  (function () {
+    var jupyterBtn = document.getElementById("jupyterBtn");
+    if (jupyterBtn) {
+      jupyterBtn.addEventListener("click", function () {
+        var url = "https://jupyterlite.github.io/demo/repl/index.html";
+        window.open(url, "_blank", "noopener");
+      });
+    }
+  })();
 
   // Tweak chevron on open/close
   document.querySelectorAll("details").forEach(function (det) {
     det.addEventListener("toggle", function () {
-      const summary = det.querySelector(".summary-label .chevron");
-      if (summary) summary.textContent = det.open ? "▾" : "▸";
+      var chev = det.querySelector(".summary-label .chevron");
+      if (chev) chev.textContent = det.open ? "▾" : "▸";
     });
   });
 </script>
