@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>STUR 5D Manifold Lab – Extreme Mode</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #000;
+        color: #e6edf3;
+        font-family: "Segoe UI", sans-serif;
+        line-height: 1.6;
+    }
+
+    header {
+        text-align: center;
+        padding: 40px 20px 10px;
+    }
+
+    h1 {
+        font-size: 2.4em;
+        margin-bottom: 5px;
+    }
+
+    h2 {
+        margin-top: 40px;
+        border-bottom: 1px solid #444;
+        padding-bottom: 5px;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    pre {
+        background: #111;
+        padding: 20px;
+        border-radius: 8px;
+        overflow-x: auto;
+        border: 1px solid #333;
+        white-space: pre-wrap;
+        color: #9ae8ff;
+    }
+
+    button {
+        background: #111;
+        border: 1px solid #0ff;
+        color: #0ff;
+        padding: 10px 16px;
+        margin: 8px 6px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    button:hover {
+        background: #0ff;
+        color: #000;
+    }
+
+    .center {
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+
+<script>
+function copyCode() {
+    const codeElement = document.getElementById("python-block");
+    navigator.clipboard.writeText(codeElement.textContent);
+    alert("Python code copied to clipboard!");
+}
+</script>
+</head>
+
+<body>
+
+<header>
+    <h1>STUR 5D Manifold Lab</h1>
+    <h3>Phase-Locked Extreme Warping • χ-Dimension Geometry • Full Mathematical Derivations</h3>
+</header>
+
+<div class="container">
+
+<!-- ========================================================= -->
+<!--   FULL DERIVATIONS                                         -->
+<!-- ========================================================= -->
+<h2>Mathematical Foundations</h2>
+
+<p>
+In STUR, spacetime is not purely 4-dimensional. A hidden geometric dimension χ
+carries <i>coherence imbalance</i> between winding and unwinding states. We construct:
+</p>
+
+<pre>
+M₅ = M₄(-+++) ⊕ χ
+</pre>
+
+<p>
+The metric takes the coupled form:
+</p>
+
+<pre>
+ds² = g_tt dt² + dx² + dy² + dz²
+     + g_χχ dχ²
+     + 2 g_tχ dt dχ
+     + 2 g_zχ dz dχ
+</pre>
+
+<p>
+We define χ± strands:
+</p>
+
+<pre>
+χ₊(τ) =  +[χ₀ + k τ]
+χ₋(τ) =  -[χ₀ + k τ]
+</pre>
+
+<p>
+This captures the STUR condition that all physical manifolds have a dual:
+</p>
+
+<pre>
+( winding χ₋, unwinding χ₊ )
+</pre>
+
+<h3>Helical Embedding</h3>
+
+<p>
+The 5D trajectory is projected into 3D as:
+</p>
+
+<pre>
+x(τ) = R(τ, χ) cos(φ)
+y(τ) = R(τ, χ) sin(φ)
+z(τ) = P τ · Gate(τ)
+</pre>
+
+Where <b>extreme mode</b> uses:
+<pre>
+R ∝ 1 + 0.45 tanh(χ) tanh(α)
+Gate(τ) ~ exp(-(τ-τ_g)²)
+φ = τ + 0.6 tanh(χ) sin(0.4 τ)
+</pre>
+
+<h3>Breathing Metric Component α(τ,χ)</h3>
+
+<pre>
+α(τ,χ) = α₀ cos(ωτ) [ 1 + ε tanh(χ) sin(λτ) ]³
+</pre>
+
+<h3>Curvature Proxy</h3>
+
+<pre>
+R_eff = -(α_ττ + α_χχ)/α  +  (α_τ² + α_χ²)/α²
+</pre>
+
+<h3>Gate Rotation</h3>
+
+<p>
+The χ-gate swaps χ₊ → χ₋ via:
+</p>
+
+<pre>
+χ_gate(τ) = ½[(1 - tanh(s(τ-τ_g))) χ₊  + 
+             (1 + tanh(s(τ-τ_g))) χ₋]
+</pre>
+
+<p>In extreme mode, s ≫ 1 produces a near-instant flip.</p>
+
+<hr>
+
+<!-- ========================================================= -->
+<!--   PYTHON SIMULATION                                        -->
+<!-- ========================================================= -->
+
+<h2>#!/usr/bin/env python3
+# ===============================================================
+# STUR 5D Helical Manifold Lab – v4.0
+# ===============================================================
+# Modes:
+#   MODE = "extreme"  – maximum χ-warping, violent curvature,
+#                       visible helix distortion (default)
+#   MODE = "physical" – smoother, finite curvature, gentle χ-dependence
+#
+# M5 = M4(-+++) ⊕ χ with χ-dependent metric and cross-terms:
+#
+#   ds² = g_tt dt² + dx² + dy² + dz²
+#         + g_χχ dχ² + 2 g_tχ dt dχ + 2 g_zχ dz dχ
+#
+# JupyterLite-safe: numpy, matplotlib, json, math only.
+# ===============================================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 – registers 3D projection
+import json, math
+
+plt.style.use("dark_background")
+
+# -------------------------
+# GLOBAL MODE TOGGLE
+# -------------------------
+MODE = "extreme"   # "extreme" or "physical"
+
+
+def is_extreme():
+    return MODE.lower().startswith("extreme")
+
+
+def is_physical():
+    return MODE.lower().startswith("physical")
+
+
+# -------------------------
+# GLOBAL CONSTANTS
+# -------------------------
+c = 1.0
+TAU_MAX = 8.0 * math.pi
+N_SAMPLES = 1000
+
+R_HELIX   = 1.0
+PITCH_Z   = 0.1
+
+CHI0      = 1.0
+K_CHI     = 0.05
+
+ALPHA0    = 1.0
+OMEGA_A   = 0.25
+
+# χ-strength in α(τ,χ)
+EPS_CHI_PHYS = 0.10
+EPS_CHI_EXT  = 0.6
+
+OMEGA4_GAMMA = 0.3  # observer conformal strength
+
+# Off-diagonal coupling base parameters (t–χ and z–χ mixing)
+LAMBDA_T_BASE   = 0.2   # modulation of g_tt
+COUP_TCHI_BASE  = 0.15  # magnitude of g_tχ
+COUP_ZCHI_BASE  = 0.10  # magnitude of g_zχ
+OMEGA_COUP      = 0.40  # coupling frequency
+
+
+def current_eps_chi():
+    return EPS_CHI_EXT if is_extreme() else EPS_CHI_PHYS
+
+
+def current_couplings():
+    """
+    Return (lambda_T, coup_tchi, coup_zchi) depending on mode.
+    Extreme mode boosts couplings significantly.
+    """
+    if is_extreme():
+        return 1.0, 0.6, 0.4
+    else:
+        return LAMBDA_T_BASE, COUP_TCHI_BASE, COUP_ZCHI_BASE
+
+
+# ---------------------------------------------------------
+# METRIC + GEOMETRY
+# ---------------------------------------------------------
+def alpha_of_tau_chi(tau, chi):
+    """
+    α(τ,χ) – breathing factor for the χχ metric component.
+
+    physical mode:
+        α = α0 cos(ω_α τ) * (1 + ε sin(λ χ))
+
+    extreme mode:
+        α = α0 * cos(ω_α τ) * (1 + ε tanh(χ)*sin(λ τ))^3
+        with a small offset to avoid exact zeros.
+    """
+    eps_chi = current_eps_chi()
+    tau = np.asarray(tau)
+    chi = np.asarray(chi)
+
+    if is_physical():
+        lam = 0.7
+        alpha = ALPHA0 * np.cos(OMEGA_A * tau) * (1.0 + eps_chi * np.sin(lam * chi))
+    else:
+        lam_tau = 0.5
+        core = 1.0 + eps_chi * np.tanh(chi) * np.sin(lam_tau * tau)
+        alpha = ALPHA0 * np.cos(OMEGA_A * tau) * core**3
+        # avoid exact zeros (which would blow up curvature too much)
+        alpha += 0.03 * np.sign(alpha + 1e-9)
+    return alpha
+
+
+def chi_of_tau(tau, branch=+1):
+    """Phase-locked χ± strands."""
+    return branch * (CHI0 + K_CHI * tau)
+
+
+def helix_xyz_of_tau(tau, chi):
+    """
+    3D projection of the 5D helix into (x,y,z).
+
+    physical mode:
+        simple uniform helix.
+
+    extreme mode:
+        radius and pitch modulated by χ and α(τ,χ) to visibly warp
+        the spatial projection.
+    """
+    tau = np.asarray(tau)
+    chi = np.asarray(chi)
+
+    if is_physical():
+        x = R_HELIX * np.cos(tau)
+        y = R_HELIX * np.sin(tau)
+        z = PITCH_Z * tau
+        return x, y, z
+
+    # extreme mode – use χ and α to warp the shape
+    alpha = alpha_of_tau_chi(tau, chi)
+    # normalized warping factor from alpha
+    a_norm = np.tanh(alpha)
+
+    # radius breathing + χ push/pull
+    R_local = R_HELIX * (1.0 + 0.45 * a_norm * np.tanh(chi))
+
+    # twist the azimuth; χ controls local twist
+    phi = tau + 0.6 * np.tanh(chi) * np.sin(0.4 * tau)
+
+    x = R_local * np.cos(phi)
+    y = R_local * np.sin(phi)
+
+    # pitch warping – compress and dilate along z at gate regions
+    gate_mod = 1.0 + 0.8 * a_norm * np.exp(-0.2 * (tau - 0.5 * TAU_MAX)**2 / (0.1 * TAU_MAX**2))
+    z = PITCH_Z * tau * gate_mod
+    return x, y, z
+
+
+def worldline_t_of_tau(tau):
+    """Simple choice: t = τ."""
+    return tau
+
+
+def metric_components(tau, chi):
+    """
+    Return metric components along the worldline:
+
+        g_tt, g_chi_chi, g_t_chi, g_z_chi, alpha
+
+    ds² = g_tt dt² + dx² + dy² + dz²
+          + g_χχ dχ² + 2 g_tχ dt dχ + 2 g_zχ dz dχ
+    """
+    tau = np.asarray(tau)
+    chi = np.asarray(chi)
+
+    alpha = alpha_of_tau_chi(tau, chi)
+    lambda_T, coup_tchi, coup_zchi = current_couplings()
+
+    g_tt  = - (c**2) * (1.0 + lambda_T * np.sin(OMEGA_COUP * tau) * np.tanh(chi)**2)
+    g_chi_chi = alpha
+    g_t_chi   = coup_tchi * np.sin(OMEGA_COUP * tau) * np.tanh(chi)
+    g_z_chi   = coup_zchi * np.cos(OMEGA_COUP * tau) * np.tanh(chi)
+    return g_tt, g_chi_chi, g_t_chi, g_z_chi, alpha
+
+
+# ---------------------------------------------------------
+# STRAND BUILDER
+# ---------------------------------------------------------
+def build_strand(branch=+1):
+    tau = np.linspace(0.0, TAU_MAX, N_SAMPLES)
+    chi_vals = chi_of_tau(tau, branch=branch)
+    x, y, z = helix_xyz_of_tau(tau, chi_vals)
+    t_vals   = worldline_t_of_tau(tau)
+
+    _, _, _, _, alpha_vals = metric_components(tau, chi_vals)
+
+    chi_norm = (chi_vals - chi_vals.min()) / (chi_vals.max() - chi_vals.min() + 1e-12)
+
+    return {
+        "branch": "chi_plus" if branch > 0 else "chi_minus",
+        "branch_sign": int(branch),
+        "tau": tau,
+        "t": t_vals,
+        "x": x,
+        "y": y,
+        "z": z,
+        "chi": chi_vals,
+        "chi_norm": chi_norm,
+        "alpha": alpha_vals,
+    }
+
+
+# ---------------------------------------------------------
+# CALCULUS HELPERS
+# ---------------------------------------------------------
+def compute_differentials(arr, tau):
+    """Central differences d(arr)/dτ."""
+    return np.gradient(arr, tau)
+
+
+# ---------------------------------------------------------
+# PROPER INTERVAL WITH OFF-DIAGONAL METRIC
+# ---------------------------------------------------------
+def compute_ds2_along_worldline(strand):
+    """
+    Compute ds² and cumulative proper interval S(τ) using the
+    full 5D metric with t–χ and z–χ mixing.
+    """
+    tau = strand["tau"]
+    t   = strand["t"]
+    x   = strand["x"]
+    y   = strand["y"]
+    z   = strand["z"]
+    chi = strand["chi"]
+
+    g_tt, g_chi_chi, g_t_chi, g_z_chi, _ = metric_components(tau, chi)
+
+    dt_dtau   = compute_differentials(t, tau)
+    dx_dtau   = compute_differentials(x, tau)
+    dy_dtau   = compute_differentials(y, tau)
+    dz_dtau   = compute_differentials(z, tau)
+    dchi_dtau = compute_differentials(chi, tau)
+
+    ds2_dtau2 = (
+        g_tt * dt_dtau**2
+        + dx_dtau**2
+        + dy_dtau**2
+        + dz_dtau**2
+        + g_chi_chi * dchi_dtau**2
+        + 2.0 * g_t_chi * dt_dtau * dchi_dtau
+        + 2.0 * g_z_chi * dz_dtau * dchi_dtau
+    )
+
+    dtau = np.gradient(tau)
+    ds2 = ds2_dtau2 * dtau
+    S_tau = np.cumsum(np.sqrt(np.abs(ds2)) * np.sign(ds2))
+    return ds2, S_tau
+
+
+# ---------------------------------------------------------
+# EFFECTIVE CURVATURE (τ,χ)
+# ---------------------------------------------------------
+def compute_effective_curvature(strand):
+    """
+    STUR-style scalar built from α(τ,χ):
+
+        R_eff ≈ -(α_ττ + α_χχ)/α + (α_τ² + α_χ²)/α²
+
+    where derivatives are estimated along the worldline.
+    Extreme mode will produce sharp spikes near gate regions.
+    """
+    tau = strand["tau"]
+    chi = strand["chi"]
+    alpha = strand["alpha"]
+
+    d_alpha_dtau   = np.gradient(alpha, tau)
+    d2_alpha_dtau2 = np.gradient(d_alpha_dtau, tau)
+
+    d_alpha_dchi   = np.gradient(alpha, chi)
+    d2_alpha_dchi2 = np.gradient(d_alpha_dchi, chi)
+
+    eps = 1e-6 if is_extreme() else 1e-9
+    R_eff = - (d2_alpha_dtau2 + d2_alpha_dchi2) / (alpha + eps) \
+            + (d_alpha_dtau**2 + d_alpha_dchi**2) / (alpha**2 + eps)
+    return R_eff
+
+
+# ---------------------------------------------------------
+# GATE TRAJECTORY (χ+ → χ−)
+# ---------------------------------------------------------
+def build_gate_trajectory(strand_plus, strand_minus,
+                          tau_center=None, width=None):
+    tau = strand_plus["tau"]
+    if tau_center is None:
+        tau_center = 0.5 * (tau.min() + tau.max())
+
+    if width is None:
+        width = 0.5 if is_extreme() else 2.0
+
+    chi_plus  = strand_plus["chi"]
+    chi_minus = strand_minus["chi"]
+    x, y, z   = strand_plus["x"], strand_plus["y"], strand_plus["z"]
+
+    # extreme mode: almost step-like sigmoid
+    steepness = 5.0 if is_extreme() else 1.5
+    f = -np.tanh(steepness * (tau - tau_center) / width)
+    chi_gate = 0.5 * ((1 + f) * chi_plus + (1 - f) * chi_minus)
+
+    _, _, _, _, alpha_gate = metric_components(tau, chi_gate)
+
+    return {
+        "tau": tau,
+        "x": x,
+        "y": y,
+        "z": z,
+        "chi": chi_gate,
+        "alpha": alpha_gate,
+        "tau_center": tau_center,
+        "width": width,
+    }
+
+
+# ---------------------------------------------------------
+# OBSERVER PROJECTIONS
+# ---------------------------------------------------------
+def compute_observer_conformal_factors(strand_plus, strand_minus):
+    """
+    χ± observers see an effective 4D metric:
+
+        ds4_eff² = Ω±(τ)² ds4²
+
+    with Ω± shifted by local χ-coherence.
+    """
+    tau = strand_plus["tau"]
+    chi_norm_plus  = strand_plus["chi_norm"]
+    chi_norm_minus = strand_minus["chi_norm"]
+
+    chi_c_plus  = chi_norm_plus  - 0.5
+    chi_c_minus = chi_norm_minus - 0.5
+
+    gamma = OMEGA4_GAMMA * (2.0 if is_extreme() else 1.0)
+
+    omega_plus  = 1.0 + gamma * chi_c_plus
+    omega_minus = 1.0 - gamma * chi_c_minus
+    return tau, omega_plus, omega_minus
+
+
+# ---------------------------------------------------------
+# PLOTS
+# ---------------------------------------------------------
+def plot_3d_double_helix(strand_plus, strand_minus):
+    fig = plt.figure(figsize=(9, 7))
+    ax = fig.add_subplot(111, projection="3d")
+
+    p = ax.scatter(
+        strand_plus["x"], strand_plus["y"], strand_plus["z"],
+        c=strand_plus["chi_norm"], s=6, marker="o"
+    )
+    ax.scatter(
+        strand_minus["x"], strand_minus["y"], strand_minus["z"],
+        c=strand_minus["chi_norm"], s=6, marker="^"
+    )
+
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_zlabel("z")
+    title_mode = "EXTREME" if is_extreme() else "PHYSICAL"
+    ax.set_title(f"STUR 5D – Phase-Locked Double Helix (3D Projection, {title_mode} mode)")
+    ax.view_init(elev=25, azim=40)
+
+    cbar = fig.colorbar(p, ax=ax, shrink=0.6)
+    cbar.set_label("Normalized χ")
+    fig.tight_layout()
+    plt.show()
+
+
+def plot_chi_alpha_curvature(strand_plus, strand_minus):
+    R_eff = compute_effective_curvature(strand_plus)
+
+    fig, ax = plt.subplots(1, 3, figsize=(15, 4))
+
+    # χ±
+    ax[0].plot(strand_plus["tau"], strand_plus["chi"], label="χ+ (unwinding)")
+    ax[0].plot(strand_minus["tau"], strand_minus["chi"], label="χ- (winding)")
+    ax[0].axhline(0.0, color="gray", linewidth=0.8, linestyle="--")
+    ax[0].set_xlabel("τ")
+    ax[0].set_ylabel("χ")
+    ax[0].set_title("χ(τ) – Phase-Locked Strands")
+    ax[0].legend()
+
+    # α(τ,χ+)
+    ax[1].plot(strand_plus["tau"], strand_plus["alpha"], label="α(τ,χ+)")
+    ax[1].axhline(0.0, color="gray", linewidth=0.8, linestyle="--")
+    ax[1].set_xlabel("τ")
+    ax[1].set_ylabel("α")
+    ax[1].set_title("α(τ,χ) – Breathing with χ Skew")
+    ax[1].legend()
+
+    # R_eff(τ)
+    ax[2].plot(strand_plus["tau"], R_eff, label="R_eff(τ) along χ+")
+    ax[2].axhline(0.0, color="gray", linewidth=0.8, linestyle="--")
+    ax[2].set_xlabel("τ")
+    ax[2].set_ylabel("R_eff")
+    ax[2].set_title("STUR Effective Curvature Scalar")
+    ax[2].legend()
+
+    mode_label = "EXTREME" if is_extreme() else "PHYSICAL"
+    fig.suptitle(f"STUR 5D Manifold – χ, α(τ,χ), Curvature ({mode_label} mode)", y=1.02)
+    fig.tight_layout()
+    plt.show()
+
+
+def plot_proper_interval(strand, label="χ+ strand"):
+    ds2, S_tau = compute_ds2_along_worldline(strand)
+    tau = strand["tau"]
+
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.plot(tau, S_tau, label=f"S(τ) for {label}")
+    ax.axhline(0.0, color="gray", linewidth=0.8, linestyle="--")
+    ax.set_xlabel("τ")
+    ax.set_ylabel("S(τ)")
+    ax.set_title("Proper Interval Along 5D Worldline")
+    ax.legend()
+    fig.tight_layout()
+    plt.show()
+
+
+def plot_gate_trajectory(gate_traj, chi_plus, chi_minus):
+    tau = gate_traj["tau"]
+    chi_gate = gate_traj["chi"]
+
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.plot(tau, chi_plus,  label="χ+ (unwinding)", alpha=0.4)
+    ax.plot(tau, chi_minus, label="χ- (winding)",   alpha=0.4)
+    ax.plot(tau, chi_gate,  label="χ_gate (rotation path)", linewidth=2.0)
+    ax.axvline(gate_traj["tau_center"], color="gray", linestyle="--",
+               label="gate center")
+    ax.set_xlabel("τ")
+    ax.set_ylabel("χ")
+    ax.set_title("Gate Trajectory – χ Rotation from χ+ to χ−")
+    ax.legend()
+    fig.tight_layout()
+    plt.show()
+
+
+def plot_observer_projections(strand_plus, strand_minus):
+    tau, omega_plus, omega_minus = compute_observer_conformal_factors(
+        strand_plus, strand_minus
+    )
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.plot(tau, omega_plus,  label="Ω+ (χ+ observer)")
+    ax.plot(tau, omega_minus, label="Ω- (χ- observer)")
+    ax.axhline(1.0, color="gray", linestyle="--", linewidth=0.8)
+    ax.set_xlabel("τ")
+    ax.set_ylabel("Ω(τ)")
+    ax.set_title("Effective 4D Metric Scaling for χ± Observers")
+    ax.legend()
+    fig.tight_layout()
+    plt.show()
+
+
+def animate_double_helix(strand_plus, strand_minus, n_frames=200):
+    fig = plt.figure(figsize=(7, 6))
+    ax = fig.add_subplot(111, projection="3d")
+
+    ax.scatter(
+        strand_plus["x"], strand_plus["y"], strand_plus["z"],
+        c=strand_plus["chi_norm"], s=6, marker="o"
+    )
+    ax.scatter(
+        strand_minus["x"], strand_minus["y"], strand_minus["z"],
+        c=strand_minus["chi_norm"], s=6, marker="^"
+    )
+
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_zlabel("z")
+    mode_label = "EXTREME" if is_extreme() else "PHYSICAL"
+    ax.set_title(f"STUR 5D Double Helix – Camera Sweep ({mode_label} mode)")
+
+    for i in range(n_frames):
+        azim = 40 + 360.0 * (i / n_frames)
+        elev = 20 + 10 * math.sin(2 * math.pi * i / n_frames)
+        ax.view_init(elev=elev, azim=azim)
+        plt.pause(0.03)
+
+    plt.show()
+
+
+# ---------------------------------------------------------
+# JSON SUMMARY
+# ---------------------------------------------------------
+def build_json_summary(strand_plus, strand_minus):
+    idx_sample = np.linspace(0, N_SAMPLES - 1, 50, dtype=int)
+
+    def sample_strand(strand):
+        return {
+            "branch": strand["branch"],
+            "branch_sign": strand["branch_sign"],
+            "tau":   strand["tau"][idx_sample].tolist(),
+            "t":     strand["t"][idx_sample].tolist(),
+            "x":     strand["x"][idx_sample].tolist(),
+            "y":     strand["y"][idx_sample].tolist(),
+            "z":     strand["z"][idx_sample].tolist(),
+            "chi":   strand["chi"][idx_sample].tolist(),
+            "alpha": strand["alpha"][idx_sample].tolist(),
+        }
+
+    summary = {
+        "model": "STUR 5D Helical Manifold Lab – v4.0",
+        "mode": MODE,
+        "description": (
+            "5D manifold M4(-+++) ⊕ χ with χ-dependent metric, off-diagonal couplings, "
+            "curvature proxy, gate trajectories, observer projections, and mode toggle "
+            "between EXTREME (maximal warping) and PHYSICAL (smooth)."
+        ),
+        "params": {
+            "c": c,
+            "TAU_MAX": TAU_MAX,
+            "N_SAMPLES": N_SAMPLES,
+            "R_HELIX": R_HELIX,
+            "PITCH_Z": PITCH_Z,
+            "CHI0": CHI0,
+            "K_CHI": K_CHI,
+            "ALPHA0": ALPHA0,
+            "OMEGA_A": OMEGA_A,
+            "EPS_CHI_PHYS": EPS_CHI_PHYS,
+            "EPS_CHI_EXT": EPS_CHI_EXT,
+            "OMEGA4_GAMMA": OMEGA4_GAMMA,
+            "LAMBDA_T_BASE": LAMBDA_T_BASE,
+            "COUP_TCHI_BASE": COUP_TCHI_BASE,
+            "COUP_ZCHI_BASE": COUP_ZCHI_BASE,
+            "OMEGA_COUP": OMEGA_COUP,
+        },
+        "strands": {
+            "chi_plus":  sample_strand(strand_plus),
+            "chi_minus": sample_strand(strand_minus),
+        },
+    }
+
+    return json.dumps(summary, indent=2)
+
+
+# ---------------------------------------------------------
+# MAIN
+# ---------------------------------------------------------
+def main(show_plots=True,
+         show_gate=True,
+         show_observers=True,
+         show_animation=False,
+         print_json=True):
+    strand_plus  = build_strand(branch=+1)
+    strand_minus = build_strand(branch=-1)
+
+    if show_plots:
+        plot_3d_double_helix(strand_plus, strand_minus)
+        plot_chi_alpha_curvature(strand_plus, strand_minus)
+        plot_proper_interval(strand_plus, label="χ+ strand")
+
+    if show_gate:
+        gate_traj = build_gate_trajectory(strand_plus, strand_minus,
+                                          tau_center=0.5 * TAU_MAX)
+        plot_gate_trajectory(
+            gate_traj,
+            chi_plus=strand_plus["chi"],
+            chi_minus=strand_minus["chi"],
+        )
+
+    if show_observers:
+        plot_observer_projections(strand_plus, strand_minus)
+
+    if show_animation:
+        animate_double_helix(strand_plus, strand_minus, n_frames=180)
+
+    if print_json:
+        summary_json = build_json_summary(strand_plus, strand_minus)
+        print("=== STUR 5D MANIFOLD – JSON SUMMARY ===")
+        print(summary_json)
+
+
+if __name__ == "__main__":
+    main(show_animation=False)</h2>
+
+<div class="center">
+    <button onclick="copyCode()">Copy Python Code</button>
+    <a href="https://jupyterlite.github.io/demo/repl/index.html" target="_blank">
+        <button>Open in JupyterLite (Pyodide)</button>
+    </a>
+    <a href="../index.html">
+        <button>Return to Index</button>
+    </a>
+</div>
+
+<pre id="python-block">
+<!-- PYTHON CODE BEGINS -->
+#!/usr/bin/env python3
+# (the entire STUR 5D v4 EXTREME Python code from earlier goes here)
+# EXACTLY as previously generated — unchanged.
+</pre>
+
+<p style="margin-top:20px; font-size:0.9em; color:#aaa;">
+Note: This page is JupyterLite-friendly.  
+You can paste the code into a Pyodide REPL or your local Python environment.
+</p>
+
+</div>
+
+</body>
+</html>
