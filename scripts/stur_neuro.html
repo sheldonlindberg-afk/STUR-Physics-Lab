@@ -32,7 +32,7 @@
                    "SF Pro Text", "Segoe UI", sans-serif;
       background: radial-gradient(circle at 10% 0%, #08101f 0%, var(--bg) 40%);
       color: var(--text-main);
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     a {
@@ -44,7 +44,7 @@
     }
 
     header {
-      padding: 1.8rem 1.5rem 1.1rem;
+      padding: 1.8rem 1.5rem 1rem;
       border-bottom: 1px solid var(--border-soft);
       background: linear-gradient(135deg, #05070c 0%, #080d17 40%, #05070c 100%);
       position: sticky;
@@ -61,27 +61,27 @@
 
     h1 {
       margin: 0;
-      font-size: 2rem;
+      font-size: 1.8rem;
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
 
     .subtitle {
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
       opacity: 0.9;
     }
 
     main {
-      padding: 1.7rem 1.5rem 2.5rem;
-      max-width: 1250px;
-      margin: 0 auto;
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: minmax(0, 2.6fr) minmax(0, 1.9fr);
-      gap: 1.7rem;
+      grid-template-columns: minmax(0, 2.5fr) minmax(0, 1.8fr);
+      gap: 1.5rem;
     }
     @media (max-width: 900px) {
       .grid {
@@ -91,10 +91,10 @@
 
     .panel {
       background: radial-gradient(circle at 0 0, #161f30 0%, var(--panel) 60%);
-      border-radius: 1rem;
-      border: 1px solid rgba(106,151,255,0.3);
-      padding: 1.35rem 1.4rem 1.6rem;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      border-radius: 0.9rem;
+      border: 1px solid rgba(106,151,255,0.25);
+      padding: 1.25rem 1.35rem 1.4rem;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.55);
       position: relative;
       overflow: hidden;
     }
@@ -105,23 +105,23 @@
       background:
         radial-gradient(circle at 20% 0%, rgba(51,224,255,0.08) 0, transparent 50%),
         radial-gradient(circle at 100% 10%, rgba(255,222,132,0.07) 0, transparent 48%);
-      opacity: 0.9;
+      opacity: 0.85;
       pointer-events:none;
       z-index:-1;
     }
 
     .panel h2 {
       margin-top: 0;
-      font-size: 1.25rem;
-      letter-spacing: 0.09em;
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 0.7rem;
+      margin-bottom: 0.6rem;
     }
 
     .panel h3 {
       font-size: 1.05rem;
-      margin-top: 1.1rem;
-      margin-bottom: 0.4rem;
+      margin-top: 1rem;
+      margin-bottom: 0.35rem;
     }
 
     .kicker {
@@ -129,27 +129,21 @@
       text-transform: uppercase;
       letter-spacing: 0.18em;
       color: var(--accent-soft);
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.2rem;
     }
 
     .equation-block {
       background: linear-gradient(135deg, #060913 0%, #050a12 40%, #05070b 100%);
-      border-radius: 0.85rem;
+      border-radius: 0.75rem;
       border: 1px solid var(--code-border);
-      padding: 0.7rem 0.85rem 0.85rem;
+      padding: 0.6rem 0.8rem 0.75rem;
       font-family: "SF Mono","JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
       font-size: 0.88rem;
       overflow-x: auto;
-      margin: 0.45rem 0 0.85rem;
+      margin: 0.4rem 0 0.75rem;
     }
     .equation-block strong {
       color: var(--accent-warm);
-    }
-
-    ul {
-      padding-left: 1.1rem;
-      margin-top: 0.3rem;
-      margin-bottom: 0.7rem;
     }
 
     code {
@@ -159,21 +153,21 @@
     .buttons-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.7rem;
-      margin-top: 0.85rem;
-      margin-bottom: 0.6rem;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+      margin-bottom: 0.4rem;
     }
 
     .btn {
       display:inline-flex;
       align-items:center;
-      gap:0.45rem;
-      padding:0.5rem 1.05rem;
+      gap:0.4rem;
+      padding:0.45rem 0.9rem;
       border-radius:999px;
       border:1px solid var(--btn-border);
       background: radial-gradient(circle at 0 0, #1f2937 0%, var(--btn-bg) 55%);
       color: var(--text-main);
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       cursor:pointer;
       transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
       text-decoration:none;
@@ -181,53 +175,51 @@
     }
     .btn:hover {
       background: var(--btn-hover);
-      box-shadow: 0 0 0 1px rgba(108,154,255,0.5), 0 7px 18px rgba(0,0,0,0.55);
+      box-shadow: 0 0 0 1px rgba(108,154,255,0.4), 0 6px 16px rgba(0,0,0,0.5);
       transform: translateY(-0.5px);
     }
     .btn .icon {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       opacity: 0.9;
     }
     .btn-primary {
       border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(51,224,255,0.4);
+      box-shadow: 0 0 0 1px rgba(51,224,255,0.35);
     }
 
     .tagline {
-      font-size: 0.94rem;
+      font-size: 0.92rem;
       color: var(--text-muted);
-      margin-top: 0.4rem;
+      margin-top: 0.35rem;
     }
 
     .phi-quote {
       font-style: italic;
       color: var(--accent-soft);
-      border-left: 2px solid rgba(139,243,255,0.7);
-      padding-left: 0.75rem;
-      margin-top: 0.7rem;
+      border-left: 2px solid rgba(139,243,255,0.6);
+      padding-left: 0.7rem;
+      margin-top: 0.6rem;
     }
 
     .code-wrapper {
       position: relative;
-      margin-top: 0.9rem;
+      margin-top: 0.8rem;
     }
     pre.code-block {
       margin: 0;
-      border-radius:0.85rem;
+      border-radius:0.75rem;
       border:1px solid var(--code-border);
       background: radial-gradient(circle at 0 0, #040812 0%, var(--code-bg)48%);
-      padding:1rem 1.05rem 1.1rem;
-      font-size:0.83rem;
+      padding:0.9rem 0.95rem 1rem;
+      font-size:0.82rem;
       overflow-x:auto;
-      overflow-y:auto;
-      max-height: 520px;
       color:#f7fbff;
       white-space: pre;
     }
 
     footer {
-      max-width:1250px;
-      margin:0 auto 2.7rem;
+      max-width:1200px;
+      margin:0 auto 2.5rem;
       padding:0 1.5rem;
       font-size:0.8rem;
       color:var(--text-muted);
@@ -254,7 +246,7 @@
 
   <main>
     <section class="grid">
-      <!-- LEFT: derivations + philosophy -->
+      <!-- Left column: Physics + Philosophy -->
       <article class="panel">
         <div class="kicker">Unified Resistance · χ–Dimension</div>
         <h2>Conceptual Map</h2>
@@ -315,8 +307,8 @@
                + \alpha_s\Big(\tfrac{1-e^{-r/\lambda}}{r^2} + \sigma\,r\Big)
            \Big]
            + \tfrac{\gamma_0}{\ell_B} e^{-r/\ell_B} c\)<br><br>
-          Axon motion is overdamped with noise:<br>
-          \(\dot{\mathbf v} \sim -F_r\,\hat{\mathbf r} - \gamma_v\,\mathbf v + \text{Brownian search}.\)
+          Axon motion is overdamped with noise:
+          \(\;\dot{\mathbf v} \sim -F_r\,\hat{\mathbf r} - \gamma_v\,\mathbf v + \text{Brownian search}.\)
         </div>
 
         <h3>Coherence, χ, and Structural Weight</h3>
@@ -374,20 +366,22 @@
 
         <h3>Philosophic Statement</h3>
         <p class="phi-quote">
-          In this model a thought is not just a spike, but a successful traversal of resistance.
-          The axon searches a five-dimensional field, finds a corridor of low resistance, and
-          then remembers that path by locking spins, geometry, and χ into coherence. Classical
-          synapses are the shadows of this process; the χ-dimension is the hidden ledger that
-          keeps track of which paths truly lower the resistance of the whole network.
+          In this model a thought is not just a spike, but a successful
+          traversal of resistance. The axon searches a five-dimensional
+          field, finds a corridor of low resistance, and then remembers that
+          path by locking spins, geometry, and χ into coherence. Classical
+          synapses are the shadows of this process; the χ-dimension is the
+          hidden ledger that keeps track of which paths truly lower the
+          resistance of the whole network.
         </p>
         <p class="phi-quote">
-          Neuroplasticity, in STUR language, is the universe teaching matter how to resist more
-          gracefully. Every new connection is the field re-writing itself to make future
-          coherence easier.
+          Neuroplasticity, in STUR language, is the universe teaching matter
+          how to resist more gracefully. Every new connection is the field
+          re-writing itself to make future coherence easier.
         </p>
       </article>
 
-      <!-- RIGHT: buttons + full script -->
+      <!-- Right column: Buttons + Python driver -->
       <article class="panel">
         <div class="kicker">Python · STUR Lab</div>
         <h2>Simulation Script</h2>
@@ -399,29 +393,30 @@
         <ul>
           <li>Grows an axon from Neuron A to Neuron B under the Unified Resistance field</li>
           <li>Tracks \(r(t)\), \(c(t)\), \(w(t)\), and χ(t) and plots a 5D χ-slice</li>
-          <li>Runs a pre-synaptic HH neuron and two post neurons (classic vs STUR χ–enhanced)</li>
+          <li>Runs a pre-synaptic HH neuron and two post neurons (classic vs STUR χ-enhanced)</li>
           <li>Applies STDP to both and plots the weight competition</li>
         </ul>
 
         <div class="buttons-row">
-          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/" target="_blank" rel="noopener">
+          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
             <span class="icon">⤺</span><span>Return to Index</span>
           </a>
           <button class="btn btn-primary" onclick="copyCode()">
             <span class="icon">📋</span><span>Copy Python Script</span>
           </button>
-          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_sandbox.html" target="_blank" rel="noopener">
-            <span class="icon">🚀</span><span>Open Jupyter (Pyodide) Sandbox</span>
-          </a>
+          <button class="btn" onclick="openJupyter()">
+            <span class="icon">🚀</span><span>Open Jupyter Piode</span>
+          </button>
         </div>
 
         <p class="tagline">
-          Workflow: click <strong>Open Jupyter (Pyodide) Sandbox</strong>, paste this script into the Python
-          cell, and run. Use the plots + printed values for papers, TikToks, or future STUR modules.
+          Workflow: open the Jupyter Piode console, paste this script into the Python cell,
+          and run. Use the plots + printed values for papers, TikToks, or future
+          STUR modules.
         </p>
 
         <div class="code-wrapper">
-<pre id="stur-neuro-code" class="code-block"># ===============================================================
+          <pre id="stur-neuro-code" class="code-block"># ===============================================================
 # STUR Neuroplasticity Lab v5.1 – 5D χ Synapse
 #   • Axon growth under Unified Resistance Lagrangian proxy
 #   • Coherence S·B(t), structural weight w(t), χ(t)
@@ -822,13 +817,15 @@ ax4.legend()
 
 plt.show()</pre>
         </div>
+
       </article>
     </section>
   </main>
 
   <footer>
-    STUR Neuroplasticity Lab · 5D χ–Synapse · for <strong>STUR Physics Lab</strong>.
-    Drop this HTML file into <code>STUR-Physics-Lab/scripts/</code> and link it from your index.
+    STUR Neuroplasticity Lab · 5D χ–Synapse · Generated for
+    <strong>STUR Physics Lab</strong>. Drop this HTML file into
+    <code>STUR-Physics-Lab/scripts/</code> and link it from your index.
   </footer>
 
   <script>
@@ -861,6 +858,11 @@ plt.show()</pre>
         alert("Could not copy automatically – select and copy manually.");
       }
       document.body.removeChild(ta);
+    }
+
+    function openJupyter() {
+      // Jupyter Piode (Pyodide) console – NOT the STUR sandbox
+      window.open("https://pyodide.org/en/stable/console.html", "_blank");
     }
   </script>
 </body>
