@@ -205,6 +205,7 @@
       position: relative;
       margin-top: 0.8rem;
     }
+
     pre.code-block {
       margin: 0;
       border-radius:0.75rem;
@@ -215,6 +216,7 @@
       overflow-x:auto;
       color:#f7fbff;
       white-space: pre;
+      max-height: 70vh;
     }
 
     footer {
@@ -224,6 +226,21 @@
       font-size:0.8rem;
       color:var(--text-muted);
       opacity:0.85;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+      flex-wrap:wrap;
+    }
+
+    .footer-left {
+      max-width: 60%;
+    }
+
+    .footer-buttons {
+      display:flex;
+      gap:0.6rem;
+      flex-wrap:wrap;
     }
   </style>
 
@@ -398,19 +415,19 @@
         </ul>
 
         <div class="buttons-row">
-          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
+          <a class="btn" href="../index.html">
             <span class="icon">⤺</span><span>Return to Index</span>
           </a>
           <button class="btn btn-primary" onclick="copyCode()">
             <span class="icon">📋</span><span>Copy Python Script</span>
           </button>
-          <button class="btn" onclick="openJupyter()">
-            <span class="icon">🚀</span><span>Open Jupyter Piode</span>
+          <button class="btn" onclick="runJupyter()">
+            <span class="icon">🚀</span><span>Run in JupyterLab</span>
           </button>
         </div>
 
         <p class="tagline">
-          Workflow: open the Jupyter Piode console, paste this script into the Python cell,
+          Workflow: open JupyterLab, paste this script into a Python cell,
           and run. Use the plots + printed values for papers, TikToks, or future
           STUR modules.
         </p>
@@ -823,9 +840,19 @@ plt.show()</pre>
   </main>
 
   <footer>
-    STUR Neuroplasticity Lab · 5D χ–Synapse · Generated for
-    <strong>STUR Physics Lab</strong>. Drop this HTML file into
-    <code>STUR-Physics-Lab/scripts/</code> and link it from your index.
+    <div class="footer-left">
+      STUR Neuroplasticity Lab · 5D χ–Synapse · Generated for
+      <strong>STUR Physics Lab</strong>. Drop this HTML file into
+      <code>STUR-Physics-Lab/scripts/</code> and link it from your index.
+    </div>
+    <div class="footer-buttons">
+      <a class="btn" href="../index.html">
+        <span class="icon">⤺</span><span>Back to STUR Index</span>
+      </a>
+      <button class="btn" onclick="runJupyter()">
+        <span class="icon">🚀</span><span>Run in JupyterLab</span>
+      </button>
+    </div>
   </footer>
 
   <script>
@@ -860,9 +887,8 @@ plt.show()</pre>
       document.body.removeChild(ta);
     }
 
-    function openJupyter() {
-      // Jupyter Piode (Pyodide) console – NOT the STUR sandbox
-      window.open("https://pyodide.org/en/stable/console.html", "_blank");
+    function runJupyter() {
+      window.open("https://jupyter.org/try-jupyter/lab/", "_blank");
     }
   </script>
 </body>
