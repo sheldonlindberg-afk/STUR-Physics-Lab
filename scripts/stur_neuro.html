@@ -72,19 +72,6 @@
       opacity: 0.9;
     }
 
-    .nav-row {
-      margin-top: 0.8rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .nav-separator {
-      opacity: 0.35;
-    }
-
     main {
       padding: 1.5rem;
       max-width: 1200px;
@@ -168,13 +155,14 @@
       flex-wrap: wrap;
       gap: 0.6rem;
       margin-top: 0.8rem;
+      margin-bottom: 0.4rem;
     }
 
     .btn {
       display:inline-flex;
       align-items:center;
       gap:0.4rem;
-      padding:0.45rem 0.85rem;
+      padding:0.45rem 0.9rem;
       border-radius:999px;
       border:1px solid var(--btn-border);
       background: radial-gradient(circle at 0 0, #1f2937 0%, var(--btn-bg) 55%);
@@ -183,6 +171,7 @@
       cursor:pointer;
       transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
       text-decoration:none;
+      white-space: nowrap;
     }
     .btn:hover {
       background: var(--btn-hover);
@@ -228,7 +217,7 @@
       font-size:0.82rem;
       overflow-x:auto;
       color:#f7fbff;
-      white-space:pre;
+      white-space: pre;
     }
 
     footer {
@@ -255,13 +244,6 @@
     <div class="title-row">
       <h1>STUR Neuroplasticity Lab</h1>
       <div class="subtitle">5D χ–Synapse Formation · Coherence · Learning Advantage</div>
-    </div>
-    <div class="nav-row">
-      <span><a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">STUR Physics Lab</a></span>
-      <span class="nav-separator">·</span>
-      <span><a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_sandbox.html">STUR Sandbox (JupyterLite)</a></span>
-      <span class="nav-separator">·</span>
-      <span><a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/">Scripts Index</a></span>
     </div>
   </header>
 
@@ -404,7 +386,7 @@
 
       <!-- Right column: Buttons + Python driver -->
       <article class="panel">
-        <div class="kicker">Python · JupyterLite</div>
+        <div class="kicker">Python · STUR Lab</div>
         <h2>Simulation Script</h2>
 
         <p>
@@ -413,20 +395,26 @@
         </p>
         <ul>
           <li>Grows an axon from Neuron A to Neuron B under the Unified Resistance field</li>
-          <li>Tracks \(r(t)\), \(c(t)\), \(w(t)\), χ(t) and plots a 5D χ-slice</li>
-          <li>Runs a pre-synaptic HH neuron and two posts (classic vs STUR χ-enhanced)</li>
+          <li>Tracks \(r(t)\), \(c(t)\), \(w(t)\), and χ(t) and plots a 5D χ-slice</li>
+          <li>Runs a pre-synaptic HH neuron and two post neurons (classic vs STUR χ-enhanced)</li>
           <li>Applies STDP to both and plots the weight competition</li>
         </ul>
 
         <div class="buttons-row">
+          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
+            <span class="icon">⤺</span><span>Return to Index</span>
+          </a>
           <button class="btn btn-primary" onclick="copyCode()">
             <span class="icon">📋</span><span>Copy Python Script</span>
           </button>
           <button class="btn" onclick="openSandbox()">
-            <span class="icon">🚀</span><span>Open in STUR Sandbox</span>
+            <span class="icon">🚀</span><span>Open STUR Sandbox</span>
           </button>
-          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/">
-            <span class="icon">⤺</span><span>Return to Scripts Index</span>
+          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_5duniverse.html" target="_blank" rel="noopener">
+            <span class="icon">🌀</span><span>Open 5D Universe Lab</span>
+          </a>
+          <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/STUR_Neuroplasticity_Lab.ipynb" target="_blank" rel="noopener">
+            <span class="icon">🐙</span><span>View on GitHub</span>
           </a>
         </div>
 
