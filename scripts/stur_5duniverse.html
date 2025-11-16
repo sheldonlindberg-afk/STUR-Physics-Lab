@@ -1,1235 +1,875 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>STUR 5D Helical Manifold Lab – v4.0</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>STUR Neuroplasticity Lab – 5D χ Synapse</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-  :root {
-    --bg-main: #02030a;
-    --bg-panel: #050816;
-    --bg-panel-soft: #07101e;
-    --accent: #34d8ff;
-    --accent-soft: rgba(52, 216, 255, 0.2);
-    --accent-strong: #00f2aa;
-    --text-main: #e6edf3;
-    --text-soft: #a5b3c4;
-    --danger: #ff6b81;
-    --radius: 12px;
-    --shadow-soft: 0 0 30px rgba(0, 255, 255, 0.15);
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    color: var(--text-main);
-    background:
-      radial-gradient(circle at 10% 0%, #102040 0, #02030a 45%, #000 80%),
-      radial-gradient(circle at 90% 100%, #041428 0, #02030a 60%, #000 100%);
-    background-attachment: fixed;
-  }
-
-  a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-
-  header {
-    text-align: center;
-    padding: 40px 16px 16px;
-  }
-
-  .logo-title {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 18px;
-    border-radius: 999px;
-    border: 1px solid var(--accent-soft);
-    background: radial-gradient(circle at 0 0, rgba(52,216,255,0.12), transparent 55%);
-    box-shadow: 0 0 18px rgba(0, 255, 255, 0.15);
-    font-size: 0.9rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-soft);
-  }
-
-  .logo-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg, var(--accent), var(--accent-strong), #ffffff, var(--accent));
-    box-shadow: 0 0 12px rgba(0,255,255,0.8);
-  }
-
-  h1 {
-    font-size: clamp(1.9rem, 4vw, 2.4rem);
-    margin: 16px 0 4px;
-  }
-
-  .subtitle {
-    font-size: 0.98rem;
-    color: var(--text-soft);
-    max-width: 700px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-
-  .chip-row {
-    margin-top: 18px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .chip {
-    font-size: 0.8rem;
-    padding: 4px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(7,16,30,0.9);
-    color: var(--text-soft);
-  }
-
-  main {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 10px 12px 40px;
-  }
-
-  .layout-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
-    gap: 20px;
-  }
-
-  @media (max-width: 900px) {
-    .layout-grid {
-      grid-template-columns: minmax(0, 1fr);
+  <style>
+    :root {
+      --bg: #05070b;
+      --panel: #10151f;
+      --accent: #33e0ff;
+      --accent-soft: #8bf3ff;
+      --accent-warm: #ffce6b;
+      --border-soft: #323b4a;
+      --text-main: #f2f4ff;
+      --text-muted: #a9b3cc;
+      --code-bg: #050910;
+      --code-border: #262f3e;
+      --btn-bg: #151c28;
+      --btn-border: #3a4b63;
+      --btn-hover: #1e2738;
+      --danger: #ff6b6b;
+      --good: #8bff9b;
     }
-  }
+    * { box-sizing: border-box; }
 
-  .panel {
-    background: radial-gradient(circle at 0 0, rgba(52,216,255,0.12), transparent 60%),
-                radial-gradient(circle at 100% 100%, rgba(0,242,170,0.12), transparent 60%),
-                var(--bg-panel);
-    border-radius: var(--radius);
-    padding: 18px 16px 16px;
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: var(--shadow-soft);
-  }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                   "SF Pro Text", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 10% 0%, #08101f 0%, var(--bg) 40%);
+      color: var(--text-main);
+      line-height: 1.5;
+    }
 
-  .panel h2 {
-    font-size: 1.05rem;
-    margin: 0 0 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+    a {
+      color: var(--accent-soft);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
 
-  .panel h2 span.icon {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.25);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-  }
+    header {
+      padding: 1.8rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--border-soft);
+      background: linear-gradient(135deg, #05070c 0%, #080d17 40%, #05070c 100%);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-  .panel p {
-    font-size: 0.9rem;
-    color: var(--text-soft);
-    line-height: 1.7;
-    margin: 0 0 8px;
-  }
+    .title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
 
-  .panel ul {
-    padding-left: 18px;
-    margin: 6px 0 10px;
-    color: var(--text-soft);
-    font-size: 0.88rem;
-  }
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
 
-  .panel li {
-    margin-bottom: 4px;
-  }
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      opacity: 0.9;
+    }
 
-  .eq-block {
-    background: var(--bg-panel-soft);
-    border-radius: 10px;
-    padding: 10px 12px;
-    border: 1px solid rgba(255,255,255,0.06);
-    font-family: "SF Mono", Menlo, Consolas, monospace;
-    font-size: 0.86rem;
-    line-height: 1.5;
-    overflow-x: auto;
-    margin: 8px 0;
-  }
+    main {
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+    }
 
-  .mode-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 6px;
-  }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.5fr) minmax(0, 1.8fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
 
-  .badge {
-    padding: 4px 8px;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    border: 1px solid rgba(255,255,255,0.12);
-  }
-  .badge.extreme {
-    border-color: var(--danger);
-    color: var(--danger);
-  }
-  .badge.physical {
-    border-color: var(--accent-strong);
-    color: var(--accent-strong);
-  }
+    .panel {
+      background: radial-gradient(circle at 0 0, #161f30 0%, var(--panel) 60%);
+      border-radius: 0.9rem;
+      border: 1px solid rgba(106,151,255,0.25);
+      padding: 1.25rem 1.35rem 1.4rem;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.55);
+      position: relative;
+      overflow: hidden;
+    }
+    .panel::before {
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(51,224,255,0.08) 0, transparent 50%),
+        radial-gradient(circle at 100% 10%, rgba(255,222,132,0.07) 0, transparent 48%);
+      opacity: 0.85;
+      pointer-events:none;
+      z-index:-1;
+    }
 
-  .note {
-    font-size: 0.8rem;
-    color: var(--text-soft);
-    opacity: 0.9;
-  }
+    .panel h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
 
-  .note-block p {
-    margin-bottom: 8px;
-  }
+    .panel h3 {
+      font-size: 1.05rem;
+      margin-top: 1rem;
+      margin-bottom: 0.35rem;
+    }
 
-  .code-header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+    .kicker {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-soft);
+      margin-bottom: 0.2rem;
+    }
 
-  .code-title {
-    font-size: 0.9rem;
-    color: var(--text-soft);
-  }
+    .equation-block {
+      background: linear-gradient(135deg, #060913 0%, #050a12 40%, #05070b 100%);
+      border-radius: 0.75rem;
+      border: 1px solid var(--code-border);
+      padding: 0.6rem 0.8rem 0.75rem;
+      font-family: "SF Mono","JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+      font-size: 0.88rem;
+      overflow-x: auto;
+      margin: 0.4rem 0 0.75rem;
+    }
+    .equation-block strong {
+      color: var(--accent-warm);
+    }
 
-  .btn-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+    code {
+      font-family: "SF Mono","JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+    }
 
-  button.action {
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.16);
-    background: linear-gradient(135deg, rgba(52,216,255,0.16), rgba(0,0,0,0.8));
-    color: var(--text-main);
-    font-size: 0.85rem;
-    padding: 5px 12px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
+    .buttons-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+      margin-bottom: 0.4rem;
+    }
 
-  button.action.secondary {
-    background: rgba(5,8,24,0.95);
-  }
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      gap:0.4rem;
+      padding:0.45rem 0.9rem;
+      border-radius:999px;
+      border:1px solid var(--btn-border);
+      background: radial-gradient(circle at 0 0, #1f2937 0%, var(--btn-bg) 55%);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      cursor:pointer;
+      transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
+      text-decoration:none;
+      white-space: nowrap;
+    }
+    .btn:hover {
+      background: var(--btn-hover);
+      box-shadow: 0 0 0 1px rgba(108,154,255,0.4), 0 6px 16px rgba(0,0,0,0.5);
+      transform: translateY(-0.5px);
+    }
+    .btn .icon {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    .btn-primary {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(51,224,255,0.35);
+    }
+    .btn-danger {
+      border-color: var(--danger);
+    }
 
-  button.action:hover {
-    border-color: var(--accent);
-    box-shadow: 0 0 18px rgba(0,255,255,0.25);
-  }
+    .tagline {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
 
-  pre.code-block {
-    max-height: 520px;
-    overflow: auto;
-    margin: 0;
-    border-radius: 10px;
-    background: #050710;
-    padding: 10px 12px;
-    font-size: 0.8rem;
-    line-height: 1.5;
-    font-family: "SF Mono", Menlo, Consolas, monospace;
-    border: 1px solid rgba(255,255,255,0.05);
-    color: #d8f8ff;
-  }
+    .phi-quote {
+      font-style: italic;
+      color: var(--accent-soft);
+      border-left: 2px solid rgba(139,243,255,0.6);
+      padding-left: 0.7rem;
+      margin-top: 0.6rem;
+    }
 
-  .footer-nav {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85rem;
-    color: var(--text-soft);
-  }
+    .code-wrapper {
+      position: relative;
+      margin-top: 0.8rem;
+    }
+    pre.code-block {
+      margin: 0;
+      border-radius:0.75rem;
+      border:1px solid var(--code-border);
+      background: radial-gradient(circle at 0 0, #040812 0%, var(--code-bg)48%);
+      padding:0.9rem 0.95rem 1rem;
+      font-size:0.82rem;
+      overflow-x:auto;
+      color:#f7fbff;
+      white-space: pre;
+    }
 
-  .footer-buttons {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
+    footer {
+      max-width:1200px;
+      margin:0 auto 2.5rem;
+      padding:0 1.5rem;
+      font-size:0.8rem;
+      color:var(--text-muted);
+      opacity:0.85;
+    }
+  </style>
 
-  .tiny {
-    font-size: 0.75rem;
-    opacity: 0.8;
-  }
-
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 999px;
-    padding: 3px 9px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(5,8,20,0.9);
-  }
-
-  .pill span.dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    margin-right: 6px;
-    background: #25e070;
-    box-shadow: 0 0 6px rgba(37,224,112,0.9);
-  }
-
-  /* Collapsible sections (for derivations) */
-  details {
-    margin-top: 8px;
-    background: rgba(5,8,20,0.95);
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 8px 10px;
-  }
-
-  details summary {
-    cursor: pointer;
-    list-style: none;
-    font-size: 0.88rem;
-    color: var(--accent);
-  }
-
-  details[open] {
-    border-color: var(--accent-soft);
-  }
-
-  details summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .summary-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .summary-label span.chevron {
-    font-size: 0.75rem;
-    opacity: 0.9;
-  }
-</style>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [["\\(","\\)"],["$","$"]] },
+      svg: { fontCache: "global" }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
+
 <body>
+  <header>
+    <div class="title-row">
+      <h1>STUR Neuroplasticity Lab</h1>
+      <div class="subtitle">5D χ–Synapse Formation · Coherence · Learning Advantage</div>
+    </div>
+  </header>
 
-<header>
-  <div class="logo-title">
-    <span class="logo-dot"></span>
-    STUR Physics Lab · 5D Manifold
-  </div>
-  <h1>STUR 5D Helical Manifold Lab – v4.0</h1>
-  <p class="subtitle">
-    A phase-locked double helix in a 5D manifold
-    M<sub>5</sub> = M<sub>4</sub>(-+++) ⊕ χ with χ-dependent metric,
-    off-diagonal couplings, gate trajectories, and χ± observer projections.
-    Toggle between <strong>PHYSICAL</strong> and <strong>EXTREME</strong> modes
-    to see how the hidden χ-dimension warps the visible helix.
-  </p>
-  <div class="chip-row">
-    <div class="chip">JupyterLite / JupyterLab safe</div>
-    <div class="chip">Metric: ds² = g<sub>tt</sub>dt² + dx² + dy² + dz² + g<sub>χχ</sub>dχ² + 2g<sub>tχ</sub>dtdχ + 2g<sub>zχ</sub>dzdχ</div>
-    <div class="chip">Curvature proxy R<sub>eff</sub>(τ,χ)</div>
-    <div class="chip">Gate χ<sub>+</sub> → χ<sub>−</sub></div>
-  </div>
-</header>
+  <main>
+    <section class="grid">
+      <!-- Left column: Physics + Philosophy -->
+      <article class="panel">
+        <div class="kicker">Unified Resistance · χ–Dimension</div>
+        <h2>Conceptual Map</h2>
 
-<main>
-
-  <div class="layout-grid">
-    <!-- LEFT: Concept + derivations -->
-    <section class="panel">
-      <h2><span class="icon">χ</span> What the χ-dimension is doing here</h2>
-      <p>
-        In this lab, χ is not “extra space” in the usual sense. It encodes the
-        <strong>coherence state</strong> of the helix – how tightly the STUR
-        resistance network is wound. We track two strands:
-      </p>
-      <ul>
-        <li><strong>χ<sub>+</sub>(τ)</strong> – the <em>unwinding</em> strand (positive branch)</li>
-        <li><strong>χ<sub>−</sub>(τ)</strong> – the <em>winding</em> strand (negative branch)</li>
-      </ul>
-      <p>
-        Both are phase-locked in τ but live at opposite χ:
-      </p>
-      <div class="eq-block">
-        χ<sub>±</sub>(τ) = ± (χ₀ + k<sub>χ</sub> τ)
-      </div>
-      <p>
-        Geometrically, you see just one 3D helix (x, y, z). The hidden χ coordinate
-        modulates its radius, pitch, and local curvature. Where χ and the metric
-        breathe the hardest, the helix visibly warps – that is the “missing dimension”
-        showing up in projection.
-      </p>
-
-      <details>
-        <summary>
-          <span class="summary-label">
-            <span class="chevron">▸</span> Metric with χ-dependent warping
-          </span>
-        </summary>
-        <p>We work in a 5D manifold:</p>
-        <div class="eq-block">
-          M₅ = M₄(-+++) ⊕ χ
-        </div>
-        <p>Along the helix worldline we use a metric of the form:</p>
-        <div class="eq-block">
-          ds² = g<sub>tt</sub> dt² + dx² + dy² + dz²
-          + g<sub>χχ</sub> dχ²
-          + 2 g<sub>tχ</sub> dt dχ
-          + 2 g<sub>zχ</sub> dz dχ
-        </div>
-        <p>with components:</p>
-        <div class="eq-block">
-          g<sub>tt</sub>(τ,χ) = −c² [1 + λ<sub>T</sub> sin(ω<sub>coup</sub> τ) tanh²(χ)]<br>
-          g<sub>χχ</sub>(τ,χ) = α(τ,χ)<br>
-          g<sub>tχ</sub>(τ,χ) = C<sub>tχ</sub> sin(ω<sub>coup</sub> τ) tanh(χ)<br>
-          g<sub>zχ</sub>(τ,χ) = C<sub>zχ</sub> cos(ω<sub>coup</sub> τ) tanh(χ)
-        </div>
-        <p>The breathing factor α(τ,χ) controls how “stiff” the χ-direction is:</p>
-        <div class="eq-block">
-          α(τ,χ) = α₀ cos(ω<sub>α</sub> τ) (1 + ε<sub>χ</sub> sin(λχ)) &nbsp; [PHYSICAL]<br><br>
-          α(τ,χ) = α₀ cos(ω<sub>α</sub> τ) [1 + ε<sub>χ</sub> tanh(χ) sin(λτ)]³ + δ &nbsp; [EXTREME]
-        </div>
-        <p class="note">
-          δ is a small offset to avoid α = 0, which would blow up curvature.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          <span class="summary-label">
-            <span class="chevron">▸</span> Helix embedding and gate χ<sub>+</sub> → χ<sub>−</sub>
-          </span>
-        </summary>
-        <p>The 3D projection of the helix is:</p>
-        <div class="eq-block">
-          (x,y,z)(τ,χ) =<br>
-          &nbsp;&nbsp;R<sub>local</sub>(τ,χ) [cos φ(τ,χ), sin φ(τ,χ)] ,<br>
-          &nbsp;&nbsp;z(τ,χ) = P(τ,χ) · τ
-        </div>
-        <p>In PHYSICAL mode the helix is simple and uniform:</p>
-        <div class="eq-block">
-          R<sub>local</sub> = R₀, &nbsp; φ = τ, &nbsp; z = p τ
-        </div>
-        <p>In EXTREME mode χ and α drive visible warping:</p>
-        <div class="eq-block">
-          a<sub>norm</sub> = tanh[α(τ,χ)]<br>
-          R<sub>local</sub> = R₀ [1 + 0.45 a<sub>norm</sub> tanh(χ)]<br>
-          φ(τ,χ) = τ + 0.6 tanh(χ) sin(0.4 τ)<br>
-          P(τ,χ) = p [1 + 0.8 a<sub>norm</sub> e^{−0.2 (τ − ½τ<sub>max</sub>)² / (0.1 τ<sub>max</sub>²)}]
-        </div>
         <p>
-          The “gate” trajectory smoothly rotates coherence from χ<sub>+</sub> to χ<sub>−</sub>:
+          This lab simulates a single axon growing from <strong>Neuron A</strong> to <strong>Neuron B</strong>
+          under the <strong>Unified Resistance Lagrangian</strong>. As the growth cone searches, three things
+          evolve together:
         </p>
-        <div class="eq-block">
-          f(τ) = −tanh[s (τ − τ<sub>gate</sub>)/w]<br>
-          χ<sub>gate</sub>(τ) = ½ [(1 + f) χ<sub>+</sub>(τ) + (1 − f) χ<sub>−</sub>(τ)]
-        </div>
-        <p>
-          So at early τ you ride χ<sub>+</sub>, then pass through the gate region,
-          and at late τ you end up on χ<sub>−</sub>. The 3D helix is continuous, the χ-state flips.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          <span class="summary-label">
-            <span class="chevron">▸</span> Proper interval and curvature proxy R<sub>eff</sub>(τ,χ)
-          </span>
-        </summary>
-        <p>Along the worldline (parametrized by τ with t = τ) we compute:</p>
-        <div class="eq-block">
-          ds²/dτ² = g<sub>tt</sub> (dt/dτ)² + (dx/dτ)² + (dy/dτ)² + (dz/dτ)²<br>
-          &nbsp;&nbsp;+ g<sub>χχ</sub> (dχ/dτ)² + 2g<sub>tχ</sub>(dt/dτ)(dχ/dτ)
-          + 2g<sub>zχ</sub>(dz/dτ)(dχ/dτ)
-        </div>
-        <p>Then integrate to get the signed proper interval:</p>
-        <div class="eq-block">
-          S(τ) = ∫<sub>0</sub><sup>τ</sup> sign(ds²) √|ds²| dτ′
-        </div>
-        <p>
-          To visualize how α(τ,χ) bends the 5D geometry, we build a scalar
-          curvature proxy:
-        </p>
-        <div class="eq-block">
-          R<sub>eff</sub>(τ,χ) ≈ − (α<sub>ττ</sub> + α<sub>χχ</sub>) / α
-          + (α<sub>τ</sub>² + α<sub>χ</sub>²) / α²
-        </div>
-        <p>
-          All derivatives are estimated numerically along the worldline.
-          In EXTREME mode, R<sub>eff</sub> develops sharp spikes at the gate,
-          representing strong χ-curvature.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          <span class="summary-label">
-            <span class="chevron">▸</span> χ± observers and effective 4D metric
-          </span>
-        </summary>
-        <p>
-          A χ-observer doesn’t see the full 5D metric directly. Instead, they
-          experience an effective 4D metric rescaled by a conformal factor Ω(τ):
-        </p>
-        <div class="eq-block">
-          ds<sub>4,eff</sub>² = Ω(τ)² ds<sub>4</sub>²
-        </div>
-        <p>In the code we define:</p>
-        <div class="eq-block">
-          χ<sub>norm</sub> = (χ − χ<sub>min</sub>) / (χ<sub>max</sub> − χ<sub>min</sub>)<br>
-          χ<sub>c</sub> = χ<sub>norm</sub> − ½<br><br>
-          Ω<sub>+</sub>(τ) = 1 + γ χ<sub>c,+</sub>(τ)<br>
-          Ω<sub>−</sub>(τ) = 1 − γ χ<sub>c,−</sub>(τ)
-        </div>
-        <p>
-          where γ is strengthened in EXTREME mode. You can think of Ω as a
-          χ-dependent “magnification” of the visible 4D world – redshifts,
-          clocks, and rulers all get rescaled slightly depending on which strand
-          you ride.
-        </p>
-      </details>
-
-      <div class="mode-badges">
-        <div class="badge physical">MODE = "physical" → finite curvature, smooth χ-warping</div>
-        <div class="badge extreme">MODE = "extreme" → boosted couplings, violent χ-gate spikes</div>
-      </div>
-
-      <div class="note-block" style="margin-top:10px;">
-        <p class="note">
-          The χ–dimension is not another planet or universe you can walk into. It’s a
-          hidden direction that every person already moves through without knowing it.
-          You can’t point to χ like left or right, because χ measures how tightly your
-          part of reality is “wound up.” High χ means things feel intense and packed
-          together. Low χ means things feel open, calm, and flexible. Everyone is in the
-          same world, but not at the same χ-value — that’s why people experience life so
-          differently.
-        </p>
-
-        <p class="note">
-          So can you “travel” to another dimension? In STUR, yes — but not by leaving
-          this universe. You travel by shifting your χ-state. When your χ changes, you
-          jump to a different version of the same world, where time moves differently,
-          choices open or close, and events line up in new ways. These shifts happen
-          during big emotions, major decisions, sudden clarity, or huge life changes.
-          That’s a χ flip — a small, personal dimensional jump.
-        </p>
-
-        <p class="note">
-          The bigger, cosmic jumps — like the ones shown in the helix simulation — are
-          the universe doing the same thing. Humans don’t walk into them; they ride
-          them. The χ-dimension is always moving, and you move with it. People
-          already travel dimensions — not by disappearing, but by shifting the hidden
-          coordinate that shapes the version of reality they experience.
-        </p>
-      </div>
-    </section>
-
-    <!-- RIGHT: How to run + code -->
-    <section class="panel">
-      <h2><span class="icon">▶</span> Run the lab & inspect JSON</h2>
-      <p>
-        This script is <strong>Jupyter / JupyterLite compatible</strong>.
-        It only uses <code>numpy</code>, <code>matplotlib</code>, <code>math</code>,
-        and <code>json</code>.
-      </p>
-      <ul>
-        <li>Set <code>MODE = "physical"</code> or <code>"extreme"</code> at the top.</li>
-        <li>Run the script once to generate all static plots.</li>
-        <li>Scroll to the bottom of the notebook / terminal to see the
-          <strong>JSON summary</strong> of the χ± strands.</li>
-      </ul>
-
-      <div class="eq-block">
-        Output JSON key points:
         <ul>
-          <li><code>model</code>, <code>mode</code>, and <code>params</code> used</li>
-          <li>Subsampled τ, t, x, y, z, χ, α(τ,χ) for χ<sub>+</sub> and χ<sub>−</sub></li>
-          <li>Ready to feed into other STUR Universe modules as a 5D coherence skeleton</li>
+          <li>The <strong>distance</strong> to the target dendrite \(r(t)\)</li>
+          <li>The <strong>spin–field coherence</strong> \(c(t)=\mathbf S\!\cdot\!\mathbf B\in[-1,1]\)</li>
+          <li>The <strong>structural synaptic weight</strong> \(w(t)\in[0,1]\)</li>
         </ul>
-      </div>
 
-      <div class="code-header">
-        <div class="code-title">
-          Python source: <strong>stur_5d_manifold_v4.py</strong>
-        </div>
-        <div class="btn-row">
-          <button id="copyBtn" class="action" type="button" onclick="copyCode()">📋 Copy Script</button>
-          <button id="jupyterBtn" class="action secondary" type="button" onclick="openRunner()">▶ Open Python Runner (no sign-up)</button>
-        </div>
-      </div>
+        <p>
+          When geometry and coherence align, the synapse stabilizes, and the same spikes are passed through
+          two different channels:
+        </p>
+        <ul>
+          <li>A <strong>classical synapse</strong> with conductance \(g_{\text{classic}}\propto w\)</li>
+          <li>A <strong>STUR χ–enhanced synapse</strong> with conductance
+              \(g_{\text{STUR}}\propto w\,(1+\lambda_X)\)</li>
+        </ul>
 
-      <pre class="code-block" id="codeBlock">
-#!/usr/bin/env python3
-# ===============================================================
-# STUR 5D Helical Manifold Lab – v4.0
-# ===============================================================
-# Modes:
-#   MODE = "extreme"  – maximum χ-warping, violent curvature,
-#                       visible helix distortion (default)
-#   MODE = "physical" – smoother, finite curvature, gentle χ-dependence
-#
-# M5 = M4(-+++) ⊕ χ with χ-dependent metric and cross-terms:
-#
-#   ds² = g_tt dt² + dx² + dy² + dz²
-#         + g_χχ dχ² + 2 g_tχ dt dχ + 2 g_zχ dz dχ
-#
-# Jupyter-safe: numpy, matplotlib, json, math only.
+        <p class="tagline">
+          The χ-dimension behaves like an extra coherence dial: same action potential in, but a higher
+          effective gain when the underlying resistance field is aligned.
+        </p>
+
+        <h3>Unified Resistance Lagrangian (axon growth)</h3>
+        <div class="equation-block">
+          <strong>Lagrangian</strong><br>
+          \(L = \tfrac12 \mu\big(\dot r^2 + r^2 \dot\theta^2\big)
+             - U(r)
+             - \gamma_0 e^{-r/\ell_B}\,\mathbf S\!\cdot\!\mathbf B
+             + L_{\text{spin,kin}}(\mathbf S,\dot{\mathbf S})\)<br><br>
+          <strong>Effective potential</strong><br>
+          \(U(r) = -\displaystyle\int^r
+            \mathcal S(\rho)
+            \Big[
+               \tfrac{k_e q_1 q_2}{\rho^2}
+             - \tfrac{G m_1 m_2}{\rho^2}
+             + \alpha_s\big(
+                 \tfrac{1-e^{-\rho/\lambda}}{\rho^2}
+                 + \sigma\,\rho
+               \big)
+            \Big]\,d\rho\)<br><br>
+          with synapse-safe regulator<br>
+          \(\mathcal S(r) = \tanh(r/L_0)\big(1 - e^{-r/L_0}\big)\).
+        </div>
+
+        <div class="equation-block">
+          <strong>Radial force</strong><br>
+          \(F_r(r,c) =
+           \mathcal S(r)\Big[
+               \tfrac{k_e\,q_1\,q_2 - G\,m_1\,m_2}{r^2}
+               + \alpha_s\Big(\tfrac{1-e^{-r/\lambda}}{r^2} + \sigma\,r\Big)
+           \Big]
+           + \tfrac{\gamma_0}{\ell_B} e^{-r/\ell_B} c\)<br><br>
+          Axon motion is overdamped with noise:
+          \(\;\dot{\mathbf v} \sim -F_r\,\hat{\mathbf r} - \gamma_v\,\mathbf v + \text{Brownian search}.\)
+        </div>
+
+        <h3>Coherence, χ, and Structural Weight</h3>
+        <div class="equation-block">
+          <strong>Coherence target</strong> (geometry-dependent)<br>
+          \(c_\star(r) = \tanh\!\Big(\dfrac{r_{\rm syn} - r}{0.5\,r_{\rm syn}}\Big)\)<br><br>
+          <strong>Coherence dynamics</strong><br>
+          \(\dot c = \dfrac{c_\star(r) - c}{\tau_S}\)<br><br>
+          <strong>χ–dimension coordinate</strong><br>
+          \(\dot\chi = k_\chi\,(c - c_0) - \gamma_\chi\,\chi.\)
+        </div>
+
+        <div class="equation-block">
+          <strong>Structural synaptic weight</strong><br>
+          \(P(r) = \exp\!\Big[-\dfrac{(r-r_{\rm syn})^2}{2\,\sigma_r^2}\Big],\quad G(c)=\tfrac12(1+c)\)<br>
+          \(\dot w =
+            \eta_w\,P(r)\,G(c)\,(1-w)
+            - \lambda_w\,(1-G(c))\,w\)
+        </div>
+
+        <h3>Synapse Conductance and STUR Gain</h3>
+        <div class="equation-block">
+          <strong>X-dimension coupling</strong><br>
+          \(\lambda_X = \tfrac12(1 + c_{\rm final})\,w_{\rm final}\)<br><br>
+          <strong>Conductances</strong><br>
+          \(g_{\rm classic} = g_0\,w_{\rm final}\)<br>
+          \(g_{\rm STUR}    = g_0\,w_{\rm final}(1 + 2\,\lambda_X)\)
+        </div>
+
+        <h3>Neural Dynamics and STDP</h3>
+        <div class="equation-block">
+          <strong>Hodgkin–Huxley neuron</strong><br>
+          \(C_m\,\dot V = I_{\rm inj}
+            - g_{\rm Na}m^3h\,(V-E_{\rm Na})
+            - g_{\rm K}n^4\,(V-E_{\rm K})
+            - g_{\rm L}(V-E_{\rm L})\)<br><br>
+          <strong>Synaptic current</strong><br>
+          \(I_{\rm syn} = g_{\rm syn}\,s(t)\,(E_{\rm syn} - V)\)
+        </div>
+
+        <div class="equation-block">
+          <strong>STDP (classic)</strong><br>
+          \(\Delta w_c =
+            \begin{cases}
+              +A_+ e^{-\Delta t/\tau_+}, & \text{pre before post (LTP)}\\[4pt]
+              -A_- e^{-\Delta t/\tau_-}, & \text{post before pre (LTD)}
+            \end{cases}\)<br><br>
+          <strong>STUR-weighted STDP</strong><br>
+          \(\Delta w_s =
+            \begin{cases}
+              (1+4\lambda_X)\,A_+ e^{-\Delta t/\tau_+}, & \text{LTP}\\[4pt]
+              -(1-3\lambda_X)_+\,A_- e^{-\Delta t/\tau_-}, & \text{LTD}
+            \end{cases}\)
+        </div>
+
+        <h3>Philosophic Statement</h3>
+        <p class="phi-quote">
+          In this model a thought is not just a spike, but a successful
+          traversal of resistance. The axon searches a five-dimensional
+          field, finds a corridor of low resistance, and then remembers that
+          path by locking spins, geometry, and χ into coherence. Classical
+          synapses are the shadows of this process; the χ-dimension is the
+          hidden ledger that keeps track of which paths truly lower the
+          resistance of the whole network.
+        </p>
+        <p class="phi-quote">
+          Neuroplasticity, in STUR language, is the universe teaching matter
+          how to resist more gracefully. Every new connection is the field
+          re-writing itself to make future coherence easier.
+        </p>
+      </article>
+
+      <!-- Right column: Buttons + Python driver -->
+      <article class="panel">
+        <div class="kicker">Python · STUR Lab</div>
+        <h2>Simulation Script</h2>
+
+        <p>
+          The script below is fully self-contained and JupyterLite-safe
+          (<code>numpy</code> + <code>matplotlib</code> only). It:
+        </p>
+        <ul>
+          <li>Grows an axon from Neuron A to Neuron B under the Unified Resistance field</li>
+          <li>Tracks \(r(t)\), \(c(t)\), \(w(t)\), and χ(t) and plots a 5D χ-slice</li>
+          <li>Runs a pre-synaptic HH neuron and two post neurons (classic vs STUR χ-enhanced)</li>
+          <li>Applies STDP to both and plots the weight competition</li>
+        </ul>
+
+        <div class="buttons-row">
+          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
+            <span class="icon">⤺</span><span>Return to Index</span>
+          </a>
+          <button class="btn btn-primary" onclick="copyCode()">
+            <span class="icon">📋</span><span>Copy Python Script</span>
+          </button>
+          <button class="btn" onclick="openJupyter()">
+            <span class="icon">🚀</span><span>Run in Jupyter (Pyodide)</span>
+          </button>
+        </div>
+
+        <p class="tagline">
+          Workflow: click “Run in Jupyter”, paste this script into the Python cell,
+          and run. Use the plots + printed values for papers, TikToks, or future
+          STUR modules.
+        </p>
+
+        <div class="code-wrapper">
+          <pre id="stur-neuro-code" class="code-block"># ===============================================================
+# STUR Neuroplasticity Lab v5.1 – 5D χ Synapse
+#   • Axon growth under Unified Resistance Lagrangian proxy
+#   • Coherence S·B(t), structural weight w(t), χ(t)
+#   • Hodgkin–Huxley pre + 2 post neurons (classic vs STUR)
+#   • STDP competition showing χ–dimension learning advantage
 # ===============================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 – registers 3D projection
-import json, math
 
 plt.style.use("dark_background")
-
-# -------------------------
-# GLOBAL MODE TOGGLE
-# -------------------------
-MODE = "extreme"   # "extreme" or "physical"
-
-
-def is_extreme():
-    return MODE.lower().startswith("extreme")
-
-
-def is_physical():
-    return MODE.lower().startswith("physical")
-
-
-# -------------------------
-# GLOBAL CONSTANTS
-# -------------------------
-c = 1.0
-TAU_MAX = 8.0 * math.pi
-N_SAMPLES = 1000
-
-R_HELIX   = 1.0
-PITCH_Z   = 0.1
-
-CHI0      = 1.0
-K_CHI     = 0.05
-
-ALPHA0    = 1.0
-OMEGA_A   = 0.25
-
-# χ-strength in α(τ,χ)
-EPS_CHI_PHYS = 0.10
-EPS_CHI_EXT  = 0.6
-
-OMEGA4_GAMMA = 0.3  # observer conformal strength
-
-# Off-diagonal coupling base parameters (t–χ and z–χ mixing)
-LAMBDA_T_BASE   = 0.2   # modulation of g_tt
-COUP_TCHI_BASE  = 0.15  # magnitude of g_tχ
-COUP_ZCHI_BASE  = 0.10  # magnitude of g_zχ
-OMEGA_COUP      = 0.40  # coupling frequency
-
-
-def current_eps_chi():
-    return EPS_CHI_EXT if is_extreme() else EPS_CHI_PHYS
-
-
-def current_couplings():
-    """
-    Return (lambda_T, coup_tchi, coup_zchi) depending on mode.
-    Extreme mode boosts couplings significantly.
-    """
-    if is_extreme():
-        return 1.0, 0.6, 0.4
-    else:
-        return LAMBDA_T_BASE, COUP_TCHI_BASE, COUP_ZCHI_BASE
-
-
-# ---------------------------------------------------------
-# METRIC + GEOMETRY
-# ---------------------------------------------------------
-def alpha_of_tau_chi(tau, chi):
-    """
-    α(τ,χ) – breathing factor for the χχ metric component.
-
-    physical mode:
-        α = α0 cos(ω_α τ) * (1 + ε sin(λ χ))
-
-    extreme mode:
-        α = α0 * cos(ω_α τ) * (1 + ε tanh(χ)*sin(λ τ))^3
-        with a small offset to avoid exact zeros.
-    """
-    eps_chi = current_eps_chi()
-    tau = np.asarray(tau)
-    chi = np.asarray(chi)
-
-    if is_physical():
-        lam = 0.7
-        alpha = ALPHA0 * np.cos(OMEGA_A * tau) * (1.0 + eps_chi * np.sin(lam * chi))
-    else:
-        lam_tau = 0.5
-        core = 1.0 + eps_chi * np.tanh(chi) * np.sin(lam_tau * tau)
-        alpha = ALPHA0 * np.cos(OMEGA_A * tau) * core**3
-        # avoid exact zeros (which would blow up curvature too much)
-        alpha += 0.03 * np.sign(alpha + 1e-9)
-    return alpha
-
-
-def chi_of_tau(tau, branch=+1):
-    """Phase-locked χ± strands."""
-    return branch * (CHI0 + K_CHI * tau)
-
-
-def helix_xyz_of_tau(tau, chi):
-    """
-    3D projection of the 5D helix into (x,y,z).
-
-    physical mode:
-        simple uniform helix.
-
-    extreme mode:
-        radius and pitch modulated by χ and α(τ,χ) to visibly warp
-        the spatial projection.
-    """
-    tau = np.asarray(tau)
-    chi = np.asarray(chi)
-
-    if is_physical():
-        x = R_HELIX * np.cos(tau)
-        y = R_HELIX * np.sin(tau)
-        z = PITCH_Z * tau
-        return x, y, z
-
-    # extreme mode – use χ and α to warp the shape
-    alpha = alpha_of_tau_chi(tau, chi)
-    # normalized warping factor from alpha
-    a_norm = np.tanh(alpha)
-
-    # radius breathing + χ push/pull
-    R_local = R_HELIX * (1.0 + 0.45 * a_norm * np.tanh(chi))
-
-    # twist the azimuth; χ controls local twist
-    phi = tau + 0.6 * np.tanh(chi) * np.sin(0.4 * tau)
-
-    x = R_local * np.cos(phi)
-    y = R_local * np.sin(phi)
-
-    # pitch warping – compress and dilate along z at gate regions
-    gate_mod = 1.0 + 0.8 * a_norm * np.exp(-0.2 * (tau - 0.5 * TAU_MAX)**2 / (0.1 * TAU_MAX**2))
-    z = PITCH_Z * tau * gate_mod
-    return x, y, z
-
-
-def worldline_t_of_tau(tau):
-    """Simple choice: t = τ."""
-    return tau
-
-
-def metric_components(tau, chi):
-    """
-    Return metric components along the worldline:
-
-        g_tt, g_chi_chi, g_t_chi, g_z_chi, alpha
-
-    ds² = g_tt dt² + dx² + dy² + dz²
-          + g_χχ dχ² + 2 g_tχ dt dχ + 2 g_zχ dz dχ
-    """
-    tau = np.asarray(tau)
-    chi = np.asarray(chi)
-
-    alpha = alpha_of_tau_chi(tau, chi)
-    lambda_T, coup_tchi, coup_zchi = current_couplings()
-
-    g_tt  = - (c**2) * (1.0 + lambda_T * np.sin(OMEGA_COUP * tau) * np.tanh(chi)**2)
-    g_chi_chi = alpha
-    g_t_chi   = coup_tchi * np.sin(OMEGA_COUP * tau) * np.tanh(chi)
-    g_z_chi   = coup_zchi * np.cos(OMEGA_COUP * tau) * np.tanh(chi)
-    return g_tt, g_chi_chi, g_t_chi, g_z_chi, alpha
-
-
-# ---------------------------------------------------------
-# STRAND BUILDER
-# ---------------------------------------------------------
-def build_strand(branch=+1):
-    tau = np.linspace(0.0, TAU_MAX, N_SAMPLES)
-    chi_vals = chi_of_tau(tau, branch=branch)
-    x, y, z = helix_xyz_of_tau(tau, chi_vals)
-    t_vals   = worldline_t_of_tau(tau)
-
-    _, _, _, _, alpha_vals = metric_components(tau, chi_vals)
-
-    chi_norm = (chi_vals - chi_vals.min()) / (chi_vals.max() - chi_vals.min() + 1e-12)
-
-    return {
-        "branch": "chi_plus" if branch > 0 else "chi_minus",
-        "branch_sign": int(branch),
-        "tau": tau,
-        "t": t_vals,
-        "x": x,
-        "y": y,
-        "z": z,
-        "chi": chi_vals,
-        "chi_norm": chi_norm,
-        "alpha": alpha_vals,
-    }
-
-
-# ---------------------------------------------------------
-# CALCULUS HELPERS
-# ---------------------------------------------------------
-def compute_differentials(arr, tau):
-    """Central differences d(arr)/dτ."""
-    return np.gradient(arr, tau)
-
-
-# ---------------------------------------------------------
-# PROPER INTERVAL WITH OFF-DIAGONAL METRIC
-# ---------------------------------------------------------
-def compute_ds2_along_worldline(strand):
-    """
-    Compute ds² and cumulative proper interval S(τ) using the
-    full 5D metric with t–χ and z–χ mixing.
-    """
-    tau = strand["tau"]
-    t   = strand["t"]
-    x   = strand["x"]
-    y   = strand["y"]
-    z   = strand["z"]
-    chi = strand["chi"]
-
-    g_tt, g_chi_chi, g_t_chi, g_z_chi, _ = metric_components(tau, chi)
-
-    dt_dtau   = compute_differentials(t, tau)
-    dx_dtau   = compute_differentials(x, tau)
-    dy_dtau   = compute_differentials(y, tau)
-    dz_dtau   = compute_differentials(z, tau)
-    dchi_dtau = compute_differentials(chi, tau)
-
-    ds2_dtau2 = (
-        g_tt * dt_dtau**2
-        + dx_dtau**2
-        + dy_dtau**2
-        + dz_dtau**2
-        + g_chi_chi * dchi_dtau**2
-        + 2.0 * g_t_chi * dt_dtau * dchi_dtau
-        + 2.0 * g_z_chi * dz_dtau * dchi_dtau
-    )
-
-    dtau = np.gradient(tau)
-    ds2 = ds2_dtau2 * dtau
-    S_tau = np.cumsum(np.sqrt(np.abs(ds2)) * np.sign(ds2))
-    return ds2, S_tau
-
-
-# ---------------------------------------------------------
-# EFFECTIVE CURVATURE (τ,χ)
-# ---------------------------------------------------------
-def compute_effective_curvature(strand):
-    """
-    STUR-style scalar built from α(τ,χ):
-
-        R_eff ≈ -(α_ττ + α_χχ)/α + (α_τ² + α_χ²)/α²
-
-    where derivatives are estimated along the worldline.
-    Extreme mode will produce sharp spikes near gate regions.
-    """
-    tau = strand["tau"]
-    chi = strand["chi"]
-    alpha = strand["alpha"]
-
-    d_alpha_dtau   = np.gradient(alpha, tau)
-    d2_alpha_dtau2 = np.gradient(d_alpha_dtau, tau)
-
-    d_alpha_dchi   = np.gradient(alpha, chi)
-    d2_alpha_dchi2 = np.gradient(d_alpha_dchi, chi)
-
-    eps = 1e-6 if is_extreme() else 1e-9
-    R_eff = - (d2_alpha_dtau2 + d2_alpha_dchi2) / (alpha + eps) \
-            + (d_alpha_dtau**2 + d_alpha_dchi**2) / (alpha**2 + eps)
-    return R_eff
-
-
-# ---------------------------------------------------------
-# GATE TRAJECTORY (χ+ → χ−)
-# ---------------------------------------------------------
-def build_gate_trajectory(strand_plus, strand_minus,
-                          tau_center=None, width=None):
-    tau = strand_plus["tau"]
-    if tau_center is None:
-        tau_center = 0.5 * (tau.min() + tau.max())
-
-    if width is None:
-        width = 0.5 if is_extreme() else 2.0
-
-    chi_plus  = strand_plus["chi"]
-    chi_minus = strand_minus["chi"]
-    x, y, z   = strand_plus["x"], strand_plus["y"], strand_plus["z"]
-
-    # extreme mode: almost step-like sigmoid
-    steepness = 5.0 if is_extreme() else 1.5
-    f = -np.tanh(steepness * (tau - tau_center) / width)
-    chi_gate = 0.5 * ((1 + f) * chi_plus + (1 - f) * chi_minus)
-
-    _, _, _, _, alpha_gate = metric_components(tau, chi_gate)
-
-    return {
-        "tau": tau,
-        "x": x,
-        "y": y,
-        "z": z,
-        "chi": chi_gate,
-        "alpha": alpha_gate,
-        "tau_center": tau_center,
-        "width": width,
-    }
-
-
-# ---------------------------------------------------------
-# OBSERVER PROJECTIONS
-# ---------------------------------------------------------
-def compute_observer_conformal_factors(strand_plus, strand_minus):
-    """
-    χ± observers see an effective 4D metric:
-
-        ds4_eff² = Ω±(τ)² ds4²
-
-    with Ω± shifted by local χ-coherence.
-    """
-    tau = strand_plus["tau"]
-    chi_norm_plus  = strand_plus["chi_norm"]
-    chi_norm_minus = strand_minus["chi_norm"]
-
-    chi_c_plus  = chi_norm_plus  - 0.5
-    chi_c_minus = chi_norm_minus - 0.5
-
-    gamma = OMEGA4_GAMMA * (2.0 if is_extreme() else 1.0)
-
-    omega_plus  = 1.0 + gamma * chi_c_plus
-    omega_minus = 1.0 - gamma * chi_c_minus
-    return tau, omega_plus, omega_minus
-
-
-# ---------------------------------------------------------
-# PLOTS
-# ---------------------------------------------------------
-def plot_3d_double_helix(strand_plus, strand_minus):
-    fig = plt.figure(figsize=(9, 7))
-    ax = fig.add_subplot(111, projection="3d")
-
-    p = ax.scatter(
-        strand_plus["x"], strand_plus["y"], strand_plus["z"],
-        c=strand_plus["chi_norm"], s=6, marker="o"
-    )
-    ax.scatter(
-        strand_minus["x"], strand_minus["y"], strand_minus["z"],
-        c=strand_minus["chi_norm"], s=6, marker="^"
-    )
-
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
-    ax.set_zlabel("z")
-    title_mode = "EXTREME" if is_extreme() else "PHYSICAL"
-    ax.set_title(f"STUR 5D – Phase-Locked Double Helix (3D Projection, {title_mode} mode)")
-    ax.view_init(elev=25, azim=40)
-
-    cbar = fig.colorbar(p, ax=ax, shrink=0.6)
-    cbar.set_label("Normalized χ")
-    fig.tight_layout()
-    plt.show()
-
-
-def plot_chi_alpha_curvature(strand_plus, strand_minus):
-    R_eff = compute_effective_curvature(strand_plus)
-
-    fig, ax = plt.subplots(1, 3, figsize=(15, 4))
-
-    # χ±
-    ax[0].plot(strand_plus["tau"], strand_plus["chi"], label="χ+ (unwinding)")
-    ax[0].plot(strand_minus["tau"], strand_minus["chi"], label="χ- (winding)")
-    ax[0].axhline(0.0, color="gray", linewidth=0.8, linestyle="--")
-    ax[0].set_xlabel("τ")
-    ax[0].set_ylabel("χ")
-    ax[0].set_title("χ(τ) – Phase-Locked Strands")
-    ax[0].legend()
-
-    # α(τ,χ+)
-    ax[1].plot(strand_plus["tau"], strand_plus["alpha"], label="α(τ,χ+)")
-    ax[1].axhline(0.0, color="gray", linewidth=0.8, linestyle="--")
-    ax[1].set_xlabel("τ")
-    ax[1].set_ylabel("α")
-    ax[1].set_title("α(τ,χ) – Breathing with χ Skew")
-    ax[1].legend()
-
-    # R_eff(τ)
-    ax[2].plot(strand_plus["tau"], R_eff, label="R_eff(τ) along χ+")
-    ax[2].axhline(0.0, color="gray", linewidth=0.8, linestyle="--")
-    ax[2].set_xlabel("τ")
-    ax[2].set_ylabel("R_eff")
-    ax[2].set_title("STUR Effective Curvature Scalar")
-    ax[2].legend()
-
-    mode_label = "EXTREME" if is_extreme() else "PHYSICAL"
-    fig.suptitle(f"STUR 5D Manifold – χ, α(τ,χ), Curvature ({mode_label} mode)", y=1.02)
-    fig.tight_layout()
-    plt.show()
-
-
-def plot_proper_interval(strand, label="χ+ strand"):
-    ds2, S_tau = compute_ds2_along_worldline(strand)
-    tau = strand["tau"]
-
-    fig, ax = plt.subplots(figsize=(6, 4))
-    ax.plot(tau, S_tau, label=f"S(τ) for {label}")
-    ax.axhline(0.0, color="gray", linewidth=0.8, linestyle="--")
-    ax.set_xlabel("τ")
-    ax.set_ylabel("S(τ)")
-    ax.set_title("Proper Interval Along 5D Worldline")
-    ax.legend()
-    fig.tight_layout()
-    plt.show()
-
-
-def plot_gate_trajectory(gate_traj, chi_plus, chi_minus):
-    tau = gate_traj["tau"]
-    chi_gate = gate_traj["chi"]
-
-    fig, ax = plt.subplots(figsize=(6, 4))
-    ax.plot(tau, chi_plus,  label="χ+ (unwinding)", alpha=0.4)
-    ax.plot(tau, chi_minus, label="χ- (winding)",   alpha=0.4)
-    ax.plot(tau, chi_gate,  label="χ_gate (rotation path)", linewidth=2.0)
-    ax.axvline(gate_traj["tau_center"], color="gray", linestyle="--",
-               label="gate center")
-    ax.set_xlabel("τ")
-    ax.set_ylabel("χ")
-    ax.set_title("Gate Trajectory – χ Rotation from χ+ to χ−")
-    ax.legend()
-    fig.tight_layout()
-    plt.show()
-
-
-def plot_observer_projections(strand_plus, strand_minus):
-    tau, omega_plus, omega_minus = compute_observer_conformal_factors(
-        strand_plus, strand_minus
-    )
-    fig, ax = plt.subplots(figsize=(6, 4))
-    ax.plot(tau, omega_plus,  label="Ω+ (χ+ observer)")
-    ax.plot(tau, omega_minus, label="Ω- (χ- observer)")
-    ax.axhline(1.0, color="gray", linestyle="--", linewidth=0.8)
-    ax.set_xlabel("τ")
-    ax.set_ylabel("Ω(τ)")
-    ax.set_title("Effective 4D Metric Scaling for χ± Observers")
-    ax.legend()
-    fig.tight_layout()
-    plt.show()
-
-
-def animate_double_helix(strand_plus, strand_minus, n_frames=200):
-    fig = plt.figure(figsize=(7, 6))
-    ax = fig.add_subplot(111, projection="3d")
-
-    ax.scatter(
-        strand_plus["x"], strand_plus["y"], strand_plus["z"],
-        c=strand_plus["chi_norm"], s=6, marker="o"
-    )
-    ax.scatter(
-        strand_minus["x"], strand_minus["y"], strand_minus["z"],
-        c=strand_minus["chi_norm"], s=6, marker="^"
-    )
-
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
-    ax.set_zlabel("z")
-    mode_label = "EXTREME" if is_extreme() else "PHYSICAL"
-    ax.set_title(f"STUR 5D Double Helix – Camera Sweep ({mode_label} mode)")
-
-    for i in range(n_frames):
-        azim = 40 + 360.0 * (i / n_frames)
-        elev = 20 + 10 * math.sin(2 * math.pi * i / n_frames)
-        plt.pause(0.03)
-
-    plt.show()
-
-
-# ---------------------------------------------------------
-# JSON SUMMARY
-# ---------------------------------------------------------
-def build_json_summary(strand_plus, strand_minus):
-    idx_sample = np.linspace(0, N_SAMPLES - 1, 50, dtype=int)
-
-    def sample_strand(strand):
-        return {
-            "branch": strand["branch"],
-            "branch_sign": strand["branch_sign"],
-            "tau":   strand["tau"][idx_sample].tolist(),
-            "t":     strand["t"][idx_sample].tolist(),
-            "x":     strand["x"][idx_sample].tolist(),
-            "y":     strand["y"][idx_sample].tolist(),
-            "z":     strand["z"][idx_sample].tolist(),
-            "chi":   strand["chi"][idx_sample].tolist(),
-            "alpha": strand["alpha"][idx_sample].tolist(),
-        }
-
-    summary = {
-        "model": "STUR 5D Helical Manifold Lab – v4.0",
-        "mode": MODE,
-        "description": (
-            "5D manifold M4(-+++) ⊕ χ with χ-dependent metric, off-diagonal couplings, "
-            "curvature proxy, gate trajectories, observer projections, and mode toggle "
-            "between EXTREME (maximal warping) and PHYSICAL (smooth)."
-        ),
-        "params": {
-            "c": c,
-            "TAU_MAX": TAU_MAX,
-            "N_SAMPLES": N_SAMPLES,
-            "R_HELIX": R_HELIX,
-            "PITCH_Z": PITCH_Z,
-            "CHI0": CHI0,
-            "K_CHI": K_CHI,
-            "ALPHA0": ALPHA0,
-            "OMEGA_A": OMEGA_A,
-            "EPS_CHI_PHYS": EPS_CHI_PHYS,
-            "EPS_CHI_EXT": EPS_CHI_EXT,
-            "OMEGA4_GAMMA": OMEGA4_GAMMA,
-            "LAMBDA_T_BASE": LAMBDA_T_BASE,
-            "COUP_TCHI_BASE": COUP_TCHI_BASE,
-            "COUP_ZCHI_BASE": COUP_ZCHI_BASE,
-            "OMEGA_COUP": OMEGA_COUP,
-        },
-        "strands": {
-            "chi_plus":  sample_strand(strand_plus),
-            "chi_minus": sample_strand(strand_minus),
-        },
-    }
-
-    return json.dumps(summary, indent=2)
-
-
-# ---------------------------------------------------------
-# MAIN
-# ---------------------------------------------------------
-def main(show_plots=True,
-         show_gate=True,
-         show_observers=True,
-         show_animation=False,
-         print_json=True):
-    strand_plus  = build_strand(branch=+1)
-    strand_minus = build_strand(branch=-1)
-
-    if show_plots:
-        plot_3d_double_helix(strand_plus, strand_minus)
-        plot_chi_alpha_curvature(strand_plus, strand_minus)
-        plot_proper_interval(strand_plus, label="χ+ strand")
-
-    if show_gate:
-        gate_traj = build_gate_trajectory(strand_plus, strand_minus,
-                                          tau_center=0.5 * TAU_MAX)
-        plot_gate_trajectory(
-            gate_traj,
-            chi_plus=strand_plus["chi"],
-            chi_minus=strand_minus["chi"],
-        )
-
-    if show_observers:
-        plot_observer_projections(strand_plus, strand_minus)
-
-    if show_animation:
-        animate_double_helix(strand_plus, strand_minus, n_frames=180)
-
-    if print_json:
-        summary_json = build_json_summary(strand_plus, strand_minus)
-        print("=== STUR 5D MANIFOLD – JSON SUMMARY ===")
-        print(summary_json)
-
-
-if __name__ == "__main__":
-    main(show_animation=False)
-      </pre>
-
+np.random.seed(0)
+
+# ===============================================================
+# STAGE 1 – GROWTH, COHERENCE, X-DIMENSION χ
+# ===============================================================
+
+# Effective parameters (scaled units)
+mu      = 1.0
+k_e     = 1.0
+G_eff   = 0.15
+alpha_s = 0.6
+lambda_int = 3.0
+sigma_conf = 0.08
+
+q1, q2 = -1.0, +1.0
+m1, m2 = 1.0, 1.0
+
+gamma0 = 0.8
+ell_B  = 1.0
+L0     = 1.2
+
+# Synapse / learning scales
+r_syn    = 6.0        # preferred synaptic radius (um)
+tau_S    = 0.7        # coherence adaptation (s)
+eta_w    = 0.7        # structural learning rate
+lambda_w = 0.02       # structural decay
+sigma_r  = 0.5 * r_syn
+
+# Growth damping + noise
+gamma_v   = 1.0
+noise_amp = 0.25
+
+# Time grid for growth
+dt_g    = 0.02
+steps_g = 2200
+t_g     = np.arange(steps_g) * dt_g
+
+# Geometry: two somas in 2D
+d_neurons = 40.0
+soma_A = np.array([-d_neurons/2, 0.0])
+soma_B = np.array([+d_neurons/2, 0.0])
+
+pos = soma_A + np.array([3.0, 0.0])
+vel = np.zeros(2)
+
+# X-dimension state
+chi      = 0.0
+k_chi    = 1.0
+gamma_chi = 0.5
+
+def S_reg(r):
+    return np.tanh(r / L0) * (1.0 - np.exp(-r / L0))
+
+def radial_bracket(r):
+    r2 = r*r + 1e-9
+    coul_grav = (k_e*q1*q2 - G_eff*m1*m2) / r2
+    yukawa    = alpha_s * ((1.0 - np.exp(-r/lambda_int)) / r2 + sigma_conf*r)
+    return coul_grav + yukawa
+
+def radial_force(r, c_SB):
+    """Effective radial force F_r(r,c)."""
+    return S_reg(r) * radial_bracket(r) + (gamma0 / ell_B) * np.exp(-r/ell_B) * c_SB
+
+def c_target(r):
+    """Target coherence: negative far away, positive near r_syn."""
+    return np.tanh((r_syn - r) / (0.5 * r_syn))
+
+xs, ys, rs, cs, ws = [], [], [], [], []
+chi_hist, chi_dot_hist = [], []
+
+c_SB = -0.2
+w    = 0.0
+
+for step in range(steps_g):
+    diff = pos - soma_B
+    r    = np.linalg.norm(diff)
+    if r < 1e-6:
+        r    = 1e-6
+        diff = np.array([1e-6, 0.0])
+    r_hat = diff / r
+
+    # Unified Resistance radial force
+    F_r  = radial_force(r, c_SB)
+    F_vec = F_r * r_hat
+
+    # Overdamped growth with noise
+    acc = -F_vec/mu - gamma_v*vel
+    vel += acc * dt_g
+    vel += noise_amp * np.sqrt(dt_g) * np.random.randn(2)
+    pos += vel * dt_g
+
+    # X-dimension dynamics
+    chi_dot = k_chi * (c_SB - 0.0) - gamma_chi * chi
+    chi += chi_dot * dt_g
+
+    # Coherence dynamics
+    c_star = c_target(r)
+    c_SB += (c_star - c_SB) * dt_g / tau_S
+    c_SB = float(np.clip(c_SB, -1.0, 1.0))
+
+    # Structural weight
+    proximity = np.exp(-(r - r_syn)**2 / (2.0 * sigma_r**2))
+    gating    = 0.5 * (1.0 + c_SB)
+    dw = (eta_w * proximity * gating * (1.0 - w)
+          - lambda_w * (1.0 - gating) * w)
+    w += dw * dt_g
+    w = float(np.clip(w, 0.0, 1.0))
+
+    xs.append(pos[0]); ys.append(pos[1])
+    rs.append(r);      cs.append(c_SB); ws.append(w)
+    chi_hist.append(chi); chi_dot_hist.append(chi_dot)
+
+xs, ys, rs, cs, ws = map(np.array, (xs, ys, rs, cs, ws))
+chi_hist = np.array(chi_hist)
+
+r_final  = float(rs[-1])
+c_final  = float(cs[-1])
+w_final  = float(ws[-1])
+lambda_X = 0.5 * (1.0 + c_final) * w_final
+lambda_X = float(np.clip(lambda_X, 0.0, 1.5))
+
+print("=== GROWTH RESULTS v5.1 ===")
+print("r_final  =", round(r_final, 3), "um")
+print("c_final  =", round(c_final, 3))
+print("w_final  =", round(w_final, 3))
+print("lambda_X =", round(lambda_X, 3))
+
+# ===============================================================
+# STAGE 2 – HODGKIN–HUXLEY + STDP (CLASSIC vs STUR)
+# ===============================================================
+
+C_m  = 1.0
+g_Na = 120.0
+g_K  = 36.0
+g_L  = 0.3
+E_Na = 50.0
+E_K  = -77.0
+E_L  = -54.4
+E_syn = 0.0
+
+# Structural conductances
+g0_syn        = 1.0
+g_syn_classic = g0_syn * w_final
+g_syn_STUR    = g0_syn * w_final * (1.0 + 2.0 * lambda_X)
+
+# STUR scaling of STDP
+factor_LTP_STUR = 1.0 + 4.0 * lambda_X
+factor_LTD_STUR = max(0.0, 1.0 - 3.0 * lambda_X)
+
+print("\n=== SYNAPTIC GAINS ===")
+print("g_classic =", round(g_syn_classic, 3), "mS/cm^2")
+print("g_STUR    =", round(g_syn_STUR, 3), "mS/cm^2")
+print("LTP factor (STUR) =", round(factor_LTP_STUR, 3))
+print("LTD factor (STUR) =", round(factor_LTD_STUR, 3))
+
+# HH time
+dt_hh    = 0.01
+T_hh     = 120.0
+steps_hh = int(T_hh / dt_hh)
+t_hh     = np.arange(steps_hh) * dt_hh
+
+def I_ext_pre(t_ms):
+    for t0 in [10.0, 40.0, 70.0, 100.0]:
+        if t0 <= t_ms <= t0 + 3.0:
+            return 10.0
+    return 0.0
+
+def alpha_n(V): return 0.01*(V + 55.0)/(1.0 - np.exp(-(V+55.0)/10.0))
+def beta_n(V):  return 0.125*np.exp(-(V+65.0)/80.0)
+def alpha_m(V): return 0.1*(V + 40.0)/(1.0 - np.exp(-(V+40.0)/10.0))
+def beta_m(V):  return 4.0*np.exp(-(V+65.0)/18.0)
+def alpha_h(V): return 0.07*np.exp(-(V+65.0)/20.0)
+def beta_h(V):  return 1.0/(1.0 + np.exp(-(V+35.0)/10.0))
+
+# Initial states
+V_pre = -65.0
+n_pre = 0.3177
+m_pre = 0.0529
+h_pre = 0.5961
+
+V_pc  = -65.0
+n_pc  = 0.3177
+m_pc  = 0.0529
+h_pc  = 0.5961
+
+V_ps  = -65.0
+n_ps  = 0.3177
+m_ps  = 0.0529
+h_ps  = 0.5961
+
+# Synaptic gates
+s_c = 0.0
+s_s = 0.0
+tau_syn = 3.0
+s_jump  = 0.6
+
+# Storage
+V_pre_hist = np.zeros(steps_hh)
+V_pc_hist  = np.zeros(steps_hh)
+V_ps_hist  = np.zeros(steps_hh)
+w_c_hist   = np.zeros(steps_hh)
+w_s_hist   = np.zeros(steps_hh)
+
+# STDP weights
+w_c = w_final
+w_s = w_final
+
+A_plus   = 0.01
+A_minus  = 0.012
+tau_plus = 20.0
+tau_minus = 20.0
+decay_STDP = 1e-4
+w_max, w_min = 2.0, 0.0
+
+last_V_pre  = V_pre
+last_V_post = V_pc
+last_pre_spike_time  = None
+last_post_spike_time = None
+
+noise_std = 0.4
+spike_thr = 0.0
+
+def HH_step(V, n, m, h, I_inj):
+    an = alpha_n(V); bn = beta_n(V)
+    am = alpha_m(V); bm = beta_m(V)
+    ah = alpha_h(V); bh = beta_h(V)
+    n += dt_hh * (an*(1.0-n) - bn*n)
+    m += dt_hh * (am*(1.0-m) - bm*m)
+    h += dt_hh * (ah*(1.0-h) - bh*h)
+    gNa = g_Na * (m**3) * h
+    gK  = g_K  * (n**4)
+    I_Na = gNa * (V - E_Na)
+    I_K  = gK  * (V - E_K)
+    I_L  = g_L * (V - E_L)
+    dV   = (I_inj - I_Na - I_K - I_L) / C_m
+    V   += dt_hh * dV
+    return V, n, m, h
+
+for k in range(steps_hh):
+    t_ms = t_hh[k]
+
+    # PRE neuron
+    I_inj = I_ext_pre(t_ms) + noise_std * np.random.randn()
+    V_pre, n_pre, m_pre, h_pre = HH_step(V_pre, n_pre, m_pre, h_pre, I_inj)
+
+    pre_spike = (last_V_pre < spike_thr and V_pre >= spike_thr)
+    if pre_spike:
+        s_c += s_jump
+        s_s += s_jump
+        if last_post_spike_time is not None:
+            dt = t_ms - last_post_spike_time
+            if dt >= 0.0:
+                w_c += -A_minus * np.exp(-dt / tau_minus)
+                w_s += -A_minus * factor_LTD_STUR * np.exp(-dt / tau_minus)
+        last_pre_spike_time = t_ms
+    last_V_pre = V_pre
+
+    # Synaptic gate decay
+    s_c += -s_c * dt_hh / tau_syn
+    s_s += -s_s * dt_hh / tau_syn
+    s_c = max(0.0, s_c)
+    s_s = max(0.0, s_s)
+
+    # POST classic
+    g_syn_c = g_syn_classic * (w_c / max(w_final, 1e-6))
+    I_syn_c = g_syn_c * s_c * (E_syn - V_pc)
+    V_pc, n_pc, m_pc, h_pc = HH_step(V_pc, n_pc, m_pc, h_pc, I_syn_c)
+
+    # POST STUR
+    g_syn_s = g_syn_STUR * (w_s / max(w_final, 1e-6))
+    I_syn_s = g_syn_s * s_s * (E_syn - V_ps)
+    V_ps, n_ps, m_ps, h_ps = HH_step(V_ps, n_ps, m_ps, h_ps, I_syn_s)
+
+    # POST spike detection (classic)
+    post_spike = (last_V_post < spike_thr and V_pc >= spike_thr)
+    if post_spike:
+        if last_pre_spike_time is not None:
+            dt = t_ms - last_pre_spike_time
+            if dt >= 0.0:
+                w_c += A_plus * np.exp(-dt / tau_plus)
+                w_s += A_plus * factor_LTP_STUR * np.exp(-dt / tau_plus)
+        last_post_spike_time = t_ms
+    last_V_post = V_pc
+
+    # STDP decay + clamp
+    w_c -= decay_STDP * w_c * dt_hh
+    w_s -= decay_STDP * w_s * dt_hh
+    w_c = float(np.clip(w_c, w_min, w_max))
+    w_s = float(np.clip(w_s, w_min, w_max))
+
+    V_pre_hist[k] = V_pre
+    V_pc_hist[k]  = V_pc
+    V_ps_hist[k]  = V_ps
+    w_c_hist[k]   = w_c
+    w_s_hist[k]   = w_s
+
+print("\n=== FINAL STDP WEIGHTS ===")
+print("w_classic_final =", round(w_c_hist[-1], 3))
+print("w_STUR_final    =", round(w_s_hist[-1], 3))
+
+# ===============================================================
+# PLOTTING
+# ===============================================================
+
+# 1) Growth & coherence panels
+fig, axes = plt.subplots(2, 2, figsize=(13, 8))
+(ax_path, ax_w), (ax_c, ax_r) = axes
+
+ax_path.set_title("Axon Path in Physical Space")
+sc = ax_path.scatter(xs, ys, c=t_g, s=4, cmap="plasma")
+ax_path.set_aspect("equal", "box")
+ax_path.set_xlabel("x (um)")
+ax_path.set_ylabel("y (um)")
+fig.colorbar(sc, ax=ax_path, label="time (s)")
+
+ax_w.set_title("Structural Weight w(t)")
+ax_w.plot(t_g, ws, lw=2)
+ax_w.set_xlabel("time (s)")
+ax_w.set_ylabel("w(t)")
+ax_w.set_ylim(-0.05, 1.05)
+ax_w.grid(alpha=0.3)
+
+ax_c.set_title("Spin–Field Coherence c(t) = S·B")
+ax_c.plot(t_g, cs, lw=2, color="orange")
+ax_c.set_xlabel("time (s)")
+ax_c.set_ylabel("c(t)")
+ax_c.set_ylim(-1.05, 1.05)
+ax_c.grid(alpha=0.3)
+
+ax_r.set_title("Distance to Target r(t)")
+ax_r.plot(t_g, rs, lw=2, color="lime")
+ax_r.axhline(r_syn, ls="--", color="gray", alpha=0.7, label="r_syn")
+ax_r.set_xlabel("time (s)")
+ax_r.set_ylabel("r(t) (um)")
+ax_r.legend()
+ax_r.grid(alpha=0.3)
+
+fig.suptitle("STUR Neuroplasticity – Growth, Coherence, and Synapse Formation",
+             fontsize=14, fontweight="bold")
+fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+# 2) X-dimension χ-slice sheet
+chi_min = chi_hist.min() - 0.5
+chi_max = chi_hist.max() + 0.5
+chi_grid = np.linspace(chi_min, chi_max, 200)
+T_grid   = t_g
+
+P = np.zeros((len(chi_grid), len(T_grid)))
+sigma_chi = 0.25 * max(1e-3, np.std(chi_hist))
+for i, chi_val in enumerate(chi_grid):
+    P[i, :] = np.exp(-(chi_val - chi_hist)**2 / (2.0 * sigma_chi**2))
+
+fig2, ax2 = plt.subplots(figsize=(10, 4))
+im = ax2.imshow(
+    P,
+    extent=[T_grid[0], T_grid[-1], chi_min, chi_max],
+    origin="lower",
+    aspect="auto",
+    cmap="viridis",
+)
+ax2.set_xlabel("time (s)")
+ax2.set_ylabel("chi (X-dimension)")
+ax2.set_title("STUR 5D chi-Slice – Probability Ridge")
+fig2.colorbar(im, ax=ax2, label="relative density")
+ax2.plot(T_grid, chi_hist, color="white", lw=1.4)
+
+# 3) HH voltages
+fig3, ax3 = plt.subplots(figsize=(11, 5))
+ax3.set_title("Hodgkin–Huxley – Pre vs Post (Classic vs STUR)", fontsize=14)
+ax3.plot(t_hh, V_pre_hist, label="Pre neuron", lw=2)
+ax3.plot(t_hh, V_pc_hist, label="Post (classic)", lw=2)
+ax3.plot(t_hh, V_ps_hist, "--", label="Post (STUR chi-synapse)", lw=2)
+ax3.set_xlabel("time (ms)")
+ax3.set_ylabel("V (mV)")
+ax3.grid(alpha=0.3)
+ax3.legend()
+
+# 4) STDP competition
+fig4, ax4 = plt.subplots(figsize=(10, 4))
+ax4.set_title("STDP Competition – Classic vs STUR Synapse Weights", fontsize=13)
+ax4.plot(t_hh, w_c_hist, label="w_classic(t)", lw=2)
+ax4.plot(t_hh, w_s_hist, "--", label="w_STUR(t)", lw=2)
+ax4.set_xlabel("time (ms)")
+ax4.set_ylabel("synaptic weight")
+ax4.grid(alpha=0.3)
+ax4.legend()
+
+plt.show()</pre>
+        </div>
+
+      </article>
     </section>
-  </div>
+  </main>
 
-  <div class="footer-nav">
-    <div class="footer-buttons">
-      <a href="../index.html">
-        <button class="action secondary" type="button">← Back to STUR Physics Lab</button>
-      </a>
-      <a href="./stur_sandbox.html">
-        <button class="action secondary" type="button">🧪 STUR Sandbox</button>
-      </a>
-    </div>
-    <div class="pill">
-      <span class="dot"></span>
-      <span class="tiny">STUR 5D Manifold Lab · v4.0 · static plots + JSON only (no blit)</span>
-    </div>
-  </div>
+  <footer>
+    STUR Neuroplasticity Lab · 5D χ–Synapse · Generated for
+    <strong>STUR Physics Lab</strong>. Drop this HTML file into
+    <code>STUR-Physics-Lab/scripts/</code> and link it from your index.
+  </footer>
 
-</main>
+  <script>
+    function copyCode() {
+      const el = document.getElementById("stur-neuro-code");
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(
+          () => alert("STUR neuroplasticity script copied to clipboard ✅"),
+          () => fallbackCopy(text)
+        );
+      } else {
+        fallbackCopy(text);
+      }
+    }
 
-<script>
-function copyCode(){
-  const el = document.getElementById('codeBlock');
-  if(!el) return;
-  const text = el.innerText;
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(function () {
-      const btn = document.getElementById('copyBtn');
-      if (!btn) return;
-      const old = btn.innerText;
-      btn.innerText = '✅ Copied!';
-      setTimeout(() => { btn.innerText = old; }, 1500);
-    });
-  } else {
-    const range = document.createRange();
-    range.selectNodeContents(el);
-    const sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
-    document.execCommand('copy');
-    sel.removeAllRanges();
-  }
-}
+    function fallbackCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand("copy");
+        alert("Script copied to clipboard ✅");
+      } catch (e) {
+        alert("Could not copy automatically – select and copy manually.");
+      }
+      document.body.removeChild(ta);
+    }
 
-function openRunner(){
-  // Same pattern as your working 3-Body page: open a Python-capable JupyterLab
-  window.open('https://jupyter.org/try-jupyter/lab/', '_blank');
-}
-
-// Chevron toggle for details
-document.querySelectorAll('details').forEach(function (det) {
-  det.addEventListener('toggle', function () {
-    const chev = det.querySelector('.summary-label .chevron');
-    if (chev) chev.textContent = det.open ? '▾' : '▸';
-  });
-});
-</script>
-
+    function openJupyter() {
+      // Jupyter / Pyodide runner – no sandbox
+      window.open(
+        "https://jupyter.org/try-jupyter/lab/",
+        "_blank"
+      );
+    }
+  </script>
 </body>
 </html>
