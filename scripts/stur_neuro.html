@@ -228,6 +228,7 @@
       font-size:0.82rem;
       overflow-x:auto;
       color:#f7fbff;
+      white-space:pre;
     }
 
     footer {
@@ -424,11 +425,8 @@
           <button class="btn" onclick="openSandbox()">
             <span class="icon">🚀</span><span>Open in STUR Sandbox</span>
           </button>
-          <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/STUR_Neuroplasticity_Lab.ipynb" target="_blank">
-            <span class="icon">🐙</span><span>View on GitHub</span>
-          </a>
-          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_sandbox.html" target="_blank">
-            <span class="icon">🔗</span><span>Open in JupyterLite</span>
+          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/">
+            <span class="icon">⤺</span><span>Return to Scripts Index</span>
           </a>
         </div>
 
@@ -439,9 +437,12 @@
         </p>
 
         <div class="code-wrapper">
-          <pre id="stur-neuro-code" class="code-block"><code># ===============================================================
+          <pre id="stur-neuro-code" class="code-block"># ===============================================================
 # STUR Neuroplasticity Lab v5.1 – 5D χ Synapse
-# […] (script content here unchanged)
+#   • Axon growth under Unified Resistance Lagrangian proxy
+#   • Coherence S·B(t), structural weight w(t), χ(t)
+#   • Hodgkin–Huxley pre + 2 post neurons (classic vs STUR)
+#   • STDP competition showing χ–dimension learning advantage
 # ===============================================================
 
 import numpy as np
@@ -450,8 +451,392 @@ import matplotlib.pyplot as plt
 plt.style.use("dark_background")
 np.random.seed(0)
 
-# etc.
-</code></pre>
+# ===============================================================
+# STAGE 1 – GROWTH, COHERENCE, X-DIMENSION χ
+# ===============================================================
+
+# Effective parameters (scaled units)
+mu      = 1.0
+k_e     = 1.0
+G_eff   = 0.15
+alpha_s = 0.6
+lambda_int = 3.0
+sigma_conf = 0.08
+
+q1, q2 = -1.0, +1.0
+m1, m2 = 1.0, 1.0
+
+gamma0 = 0.8
+ell_B  = 1.0
+L0     = 1.2
+
+# Synapse / learning scales
+r_syn    = 6.0        # preferred synaptic radius (um)
+tau_S    = 0.7        # coherence adaptation (s)
+eta_w    = 0.7        # structural learning rate
+lambda_w = 0.02       # structural decay
+sigma_r  = 0.5 * r_syn
+
+# Growth damping + noise
+gamma_v   = 1.0
+noise_amp = 0.25
+
+# Time grid for growth
+dt_g    = 0.02
+steps_g = 2200
+t_g     = np.arange(steps_g) * dt_g
+
+# Geometry: two somas in 2D
+d_neurons = 40.0
+soma_A = np.array([-d_neurons/2, 0.0])
+soma_B = np.array([+d_neurons/2, 0.0])
+
+pos = soma_A + np.array([3.0, 0.0])
+vel = np.zeros(2)
+
+# X-dimension state
+chi      = 0.0
+k_chi    = 1.0
+gamma_chi = 0.5
+
+def S_reg(r):
+    return np.tanh(r / L0) * (1.0 - np.exp(-r / L0))
+
+def radial_bracket(r):
+    r2 = r*r + 1e-9
+    coul_grav = (k_e*q1*q2 - G_eff*m1*m2) / r2
+    yukawa    = alpha_s * ((1.0 - np.exp(-r/lambda_int)) / r2 + sigma_conf*r)
+    return coul_grav + yukawa
+
+def radial_force(r, c_SB):
+    """Effective radial force F_r(r,c)."""
+    return S_reg(r) * radial_bracket(r) + (gamma0 / ell_B) * np.exp(-r/ell_B) * c_SB
+
+def c_target(r):
+    """Target coherence: negative far away, positive near r_syn."""
+    return np.tanh((r_syn - r) / (0.5 * r_syn))
+
+xs, ys, rs, cs, ws = [], [], [], [], []
+chi_hist, chi_dot_hist = [], []
+
+c_SB = -0.2
+w    = 0.0
+
+for step in range(steps_g):
+    diff = pos - soma_B
+    r    = np.linalg.norm(diff)
+    if r < 1e-6:
+        r    = 1e-6
+        diff = np.array([1e-6, 0.0])
+    r_hat = diff / r
+
+    # Unified Resistance radial force
+    F_r  = radial_force(r, c_SB)
+    F_vec = F_r * r_hat
+
+    # Overdamped growth with noise
+    acc = -F_vec/mu - gamma_v*vel
+    vel += acc * dt_g
+    vel += noise_amp * np.sqrt(dt_g) * np.random.randn(2)
+    pos += vel * dt_g
+
+    # X-dimension dynamics
+    chi_dot = k_chi * (c_SB - 0.0) - gamma_chi * chi
+    chi += chi_dot * dt_g
+
+    # Coherence dynamics
+    c_star = c_target(r)
+    c_SB += (c_star - c_SB) * dt_g / tau_S
+    c_SB = float(np.clip(c_SB, -1.0, 1.0))
+
+    # Structural weight
+    proximity = np.exp(-(r - r_syn)**2 / (2.0 * sigma_r**2))
+    gating    = 0.5 * (1.0 + c_SB)
+    dw = (eta_w * proximity * gating * (1.0 - w)
+          - lambda_w * (1.0 - gating) * w)
+    w += dw * dt_g
+    w = float(np.clip(w, 0.0, 1.0))
+
+    xs.append(pos[0]); ys.append(pos[1])
+    rs.append(r);      cs.append(c_SB); ws.append(w)
+    chi_hist.append(chi); chi_dot_hist.append(chi_dot)
+
+xs, ys, rs, cs, ws = map(np.array, (xs, ys, rs, cs, ws))
+chi_hist = np.array(chi_hist)
+
+r_final  = float(rs[-1])
+c_final  = float(cs[-1])
+w_final  = float(ws[-1])
+lambda_X = 0.5 * (1.0 + c_final) * w_final
+lambda_X = float(np.clip(lambda_X, 0.0, 1.5))
+
+print("=== GROWTH RESULTS v5.1 ===")
+print("r_final  =", round(r_final, 3), "um")
+print("c_final  =", round(c_final, 3))
+print("w_final  =", round(w_final, 3))
+print("lambda_X =", round(lambda_X, 3))
+
+# ===============================================================
+# STAGE 2 – HODGKIN–HUXLEY + STDP (CLASSIC vs STUR)
+# ===============================================================
+
+C_m  = 1.0
+g_Na = 120.0
+g_K  = 36.0
+g_L  = 0.3
+E_Na = 50.0
+E_K  = -77.0
+E_L  = -54.4
+E_syn = 0.0
+
+# Structural conductances
+g0_syn        = 1.0
+g_syn_classic = g0_syn * w_final
+g_syn_STUR    = g0_syn * w_final * (1.0 + 2.0 * lambda_X)
+
+# STUR scaling of STDP
+factor_LTP_STUR = 1.0 + 4.0 * lambda_X
+factor_LTD_STUR = max(0.0, 1.0 - 3.0 * lambda_X)
+
+print("\n=== SYNAPTIC GAINS ===")
+print("g_classic =", round(g_syn_classic, 3), "mS/cm^2")
+print("g_STUR    =", round(g_syn_STUR, 3), "mS/cm^2")
+print("LTP factor (STUR) =", round(factor_LTP_STUR, 3))
+print("LTD factor (STUR) =", round(factor_LTD_STUR, 3))
+
+# HH time
+dt_hh    = 0.01
+T_hh     = 120.0
+steps_hh = int(T_hh / dt_hh)
+t_hh     = np.arange(steps_hh) * dt_hh
+
+def I_ext_pre(t_ms):
+    for t0 in [10.0, 40.0, 70.0, 100.0]:
+        if t0 <= t_ms <= t0 + 3.0:
+            return 10.0
+    return 0.0
+
+def alpha_n(V): return 0.01*(V + 55.0)/(1.0 - np.exp(-(V+55.0)/10.0))
+def beta_n(V):  return 0.125*np.exp(-(V+65.0)/80.0)
+def alpha_m(V): return 0.1*(V + 40.0)/(1.0 - np.exp(-(V+40.0)/10.0))
+def beta_m(V):  return 4.0*np.exp(-(V+65.0)/18.0)
+def alpha_h(V): return 0.07*np.exp(-(V+65.0)/20.0)
+def beta_h(V):  return 1.0/(1.0 + np.exp(-(V+35.0)/10.0))
+
+# Initial states
+V_pre = -65.0
+n_pre = 0.3177
+m_pre = 0.0529
+h_pre = 0.5961
+
+V_pc  = -65.0
+n_pc  = 0.3177
+m_pc  = 0.0529
+h_pc  = 0.5961
+
+V_ps  = -65.0
+n_ps  = 0.3177
+m_ps  = 0.0529
+h_ps  = 0.5961
+
+# Synaptic gates
+s_c = 0.0
+s_s = 0.0
+tau_syn = 3.0
+s_jump  = 0.6
+
+# Storage
+V_pre_hist = np.zeros(steps_hh)
+V_pc_hist  = np.zeros(steps_hh)
+V_ps_hist  = np.zeros(steps_hh)
+w_c_hist   = np.zeros(steps_hh)
+w_s_hist   = np.zeros(steps_hh)
+
+# STDP weights
+w_c = w_final
+w_s = w_final
+
+A_plus   = 0.01
+A_minus  = 0.012
+tau_plus = 20.0
+tau_minus = 20.0
+decay_STDP = 1e-4
+w_max, w_min = 2.0, 0.0
+
+last_V_pre  = V_pre
+last_V_post = V_pc
+last_pre_spike_time  = None
+last_post_spike_time = None
+
+noise_std = 0.4
+spike_thr = 0.0
+
+def HH_step(V, n, m, h, I_inj):
+    an = alpha_n(V); bn = beta_n(V)
+    am = alpha_m(V); bm = beta_m(V)
+    ah = alpha_h(V); bh = beta_h(V)
+    n += dt_hh * (an*(1.0-n) - bn*n)
+    m += dt_hh * (am*(1.0-m) - bm*m)
+    h += dt_hh * (ah*(1.0-h) - bh*h)
+    gNa = g_Na * (m**3) * h
+    gK  = g_K  * (n**4)
+    I_Na = gNa * (V - E_Na)
+    I_K  = gK  * (V - E_K)
+    I_L  = g_L * (V - E_L)
+    dV   = (I_inj - I_Na - I_K - I_L) / C_m
+    V   += dt_hh * dV
+    return V, n, m, h
+
+for k in range(steps_hh):
+    t_ms = t_hh[k]
+
+    # PRE neuron
+    I_inj = I_ext_pre(t_ms) + noise_std * np.random.randn()
+    V_pre, n_pre, m_pre, h_pre = HH_step(V_pre, n_pre, m_pre, h_pre, I_inj)
+
+    pre_spike = (last_V_pre < spike_thr and V_pre >= spike_thr)
+    if pre_spike:
+        s_c += s_jump
+        s_s += s_jump
+        if last_post_spike_time is not None:
+            dt = t_ms - last_post_spike_time
+            if dt >= 0.0:
+                w_c += -A_minus * np.exp(-dt / tau_minus)
+                w_s += -A_minus * factor_LTD_STUR * np.exp(-dt / tau_minus)
+        last_pre_spike_time = t_ms
+    last_V_pre = V_pre
+
+    # Synaptic gate decay
+    s_c += -s_c * dt_hh / tau_syn
+    s_s += -s_s * dt_hh / tau_syn
+    s_c = max(0.0, s_c)
+    s_s = max(0.0, s_s)
+
+    # POST classic
+    g_syn_c = g_syn_classic * (w_c / max(w_final, 1e-6))
+    I_syn_c = g_syn_c * s_c * (E_syn - V_pc)
+    V_pc, n_pc, m_pc, h_pc = HH_step(V_pc, n_pc, m_pc, h_pc, I_syn_c)
+
+    # POST STUR
+    g_syn_s = g_syn_STUR * (w_s / max(w_final, 1e-6))
+    I_syn_s = g_syn_s * s_s * (E_syn - V_ps)
+    V_ps, n_ps, m_ps, h_ps = HH_step(V_ps, n_ps, m_ps, h_ps, I_syn_s)
+
+    # POST spike detection (classic)
+    post_spike = (last_V_post < spike_thr and V_pc >= spike_thr)
+    if post_spike:
+        if last_pre_spike_time is not None:
+            dt = t_ms - last_pre_spike_time
+            if dt >= 0.0:
+                w_c += A_plus * np.exp(-dt / tau_plus)
+                w_s += A_plus * factor_LTP_STUR * np.exp(-dt / tau_plus)
+        last_post_spike_time = t_ms
+    last_V_post = V_pc
+
+    # STDP decay + clamp
+    w_c -= decay_STDP * w_c * dt_hh
+    w_s -= decay_STDP * w_s * dt_hh
+    w_c = float(np.clip(w_c, w_min, w_max))
+    w_s = float(np.clip(w_s, w_min, w_max))
+
+    V_pre_hist[k] = V_pre
+    V_pc_hist[k]  = V_pc
+    V_ps_hist[k]  = V_ps
+    w_c_hist[k]   = w_c
+    w_s_hist[k]   = w_s
+
+print("\n=== FINAL STDP WEIGHTS ===")
+print("w_classic_final =", round(w_c_hist[-1], 3))
+print("w_STUR_final    =", round(w_s_hist[-1], 3))
+
+# ===============================================================
+# PLOTTING
+# ===============================================================
+
+# 1) Growth & coherence panels
+fig, axes = plt.subplots(2, 2, figsize=(13, 8))
+(ax_path, ax_w), (ax_c, ax_r) = axes
+
+ax_path.set_title("Axon Path in Physical Space")
+sc = ax_path.scatter(xs, ys, c=t_g, s=4, cmap="plasma")
+ax_path.set_aspect("equal", "box")
+ax_path.set_xlabel("x (um)")
+ax_path.set_ylabel("y (um)")
+fig.colorbar(sc, ax=ax_path, label="time (s)")
+
+ax_w.set_title("Structural Weight w(t)")
+ax_w.plot(t_g, ws, lw=2)
+ax_w.set_xlabel("time (s)")
+ax_w.set_ylabel("w(t)")
+ax_w.set_ylim(-0.05, 1.05)
+ax_w.grid(alpha=0.3)
+
+ax_c.set_title("Spin–Field Coherence c(t) = S·B")
+ax_c.plot(t_g, cs, lw=2, color="orange")
+ax_c.set_xlabel("time (s)")
+ax_c.set_ylabel("c(t)")
+ax_c.set_ylim(-1.05, 1.05)
+ax_c.grid(alpha=0.3)
+
+ax_r.set_title("Distance to Target r(t)")
+ax_r.plot(t_g, rs, lw=2, color="lime")
+ax_r.axhline(r_syn, ls="--", color="gray", alpha=0.7, label="r_syn")
+ax_r.set_xlabel("time (s)")
+ax_r.set_ylabel("r(t) (um)")
+ax_r.legend()
+ax_r.grid(alpha=0.3)
+
+fig.suptitle("STUR Neuroplasticity – Growth, Coherence, and Synapse Formation",
+             fontsize=14, fontweight="bold")
+fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+# 2) X-dimension χ-slice sheet
+chi_min = chi_hist.min() - 0.5
+chi_max = chi_hist.max() + 0.5
+chi_grid = np.linspace(chi_min, chi_max, 200)
+T_grid   = t_g
+
+P = np.zeros((len(chi_grid), len(T_grid)))
+sigma_chi = 0.25 * max(1e-3, np.std(chi_hist))
+for i, chi_val in enumerate(chi_grid):
+    P[i, :] = np.exp(-(chi_val - chi_hist)**2 / (2.0 * sigma_chi**2))
+
+fig2, ax2 = plt.subplots(figsize=(10, 4))
+im = ax2.imshow(
+    P,
+    extent=[T_grid[0], T_grid[-1], chi_min, chi_max],
+    origin="lower",
+    aspect="auto",
+    cmap="viridis",
+)
+ax2.set_xlabel("time (s)")
+ax2.set_ylabel("chi (X-dimension)")
+ax2.set_title("STUR 5D chi-Slice – Probability Ridge")
+fig2.colorbar(im, ax=ax2, label="relative density")
+ax2.plot(T_grid, chi_hist, color="white", lw=1.4)
+
+# 3) HH voltages
+fig3, ax3 = plt.subplots(figsize=(11, 5))
+ax3.set_title("Hodgkin–Huxley – Pre vs Post (Classic vs STUR)", fontsize=14)
+ax3.plot(t_hh, V_pre_hist, label="Pre neuron", lw=2)
+ax3.plot(t_hh, V_pc_hist, label="Post (classic)", lw=2)
+ax3.plot(t_hh, V_ps_hist, "--", label="Post (STUR chi-synapse)", lw=2)
+ax3.set_xlabel("time (ms)")
+ax3.set_ylabel("V (mV)")
+ax3.grid(alpha=0.3)
+ax3.legend()
+
+# 4) STDP competition
+fig4, ax4 = plt.subplots(figsize=(10, 4))
+ax4.set_title("STDP Competition – Classic vs STUR Synapse Weights", fontsize=13)
+ax4.plot(t_hh, w_c_hist, label="w_classic(t)", lw=2)
+ax4.plot(t_hh, w_s_hist, "--", label="w_STUR(t)", lw=2)
+ax4.set_xlabel("time (ms)")
+ax4.set_ylabel("synaptic weight")
+ax4.grid(alpha=0.3)
+ax4.legend()
+
+plt.show()</pre>
         </div>
 
       </article>
