@@ -5,910 +5,108 @@
 <title>STUR Neuroplasticity Lab – 5D χ Synapse</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Basic dark theme styling, similar to STUR Helix lab -->
 <style>
-    :root {
-        --bg: #05070b;
-        --panel: #10151f;
-        --accent: #33e0ff;
-        --accent-soft: #8bf3ff;
-        --accent-warm: #ffce6b;
-        --border-soft: #323b4a;
-        --text-main: #f2f4ff;
-        --text-muted: #a9b3cc;
-        --code-bg: #050910;
-        --code-border: #262f3e;
-        --btn-bg: #151c28;
-        --btn-border: #3a4b63;
-        --btn-hover: #1e2738;
-        --danger: #ff6b6b;
-        --good: #8bff9b;
-    }
-
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont,
-                     "SF Pro Text", "Segoe UI", sans-serif;
-        background: radial-gradient(circle at 10% 0%, #08101f 0, var(--bg) 40%);
-        color: var(--text-main);
-        line-height: 1.5;
-    }
-
-    a {
-        color: var(--accent-soft);
-        text-decoration: none;
-    }
-    a:hover {
-        text-decoration: underline;
-    }
-
-    header {
-        padding: 1.8rem 1.5rem 1rem;
-        border-bottom: 1px solid var(--border-soft);
-        background: linear-gradient(135deg, #05070c 0, #080d17 40%, #05070c 100%);
-        position: sticky;
-        top: 0;
-        z-index: 10;
-    }
-
-    .title-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: baseline;
-        gap: 0.75rem;
-    }
-
-    h1 {
-        margin: 0;
-        font-size: 1.8rem;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-    }
-
-    .subtitle {
-        font-size: 0.95rem;
-        color: var(--text-muted);
-        opacity: 0.9;
-    }
-
-    .nav-row {
-        margin-top: 0.8rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        font-size: 0.9rem;
-        color: var(--text-muted);
-    }
-
-    .nav-separator {
-        opacity: 0.35;
-    }
-
-    main {
-        padding: 1.5rem;
-        max-width: 1200px;
-        margin: 0 auto 3rem;
-    }
-
-    .grid {
-        display: grid;
-        grid-template-columns: minmax(0, 2.5fr) minmax(0, 1.8fr);
-        gap: 1.5rem;
-    }
-
-    @media (max-width: 900px) {
-        .grid {
-            grid-template-columns: minmax(0, 1fr);
-        }
-    }
-
-    .panel {
-        background: radial-gradient(circle at 0 0, #161f30 0, var(--panel) 60%);
-        border-radius: 0.9rem;
-        border: 1px solid rgba(106, 151, 255, 0.25);
-        padding: 1.25rem 1.35rem 1.4rem;
-        box-shadow: 0 18px 45px rgba(0,0,0,0.55);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .panel::before {
-        content: "";
-        position: absolute;
-        inset: -40%;
-        background:
-          radial-gradient(circle at 20% 0%, rgba(51,224,255,0.08) 0, transparent 50%),
-          radial-gradient(circle at 100% 10%, rgba(255,222,132,0.07) 0, transparent 48%);
-        opacity: 0.85;
-        pointer-events: none;
-        z-index: -1;
-    }
-
-    .panel h2 {
-        margin-top: 0;
-        font-size: 1.2rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        margin-bottom: 0.6rem;
-    }
-
-    .panel h3 {
-        font-size: 1.05rem;
-        margin-top: 1rem;
-        margin-bottom: 0.35rem;
-    }
-
-    .kicker {
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        color: var(--accent-soft);
-        margin-bottom: 0.2rem;
-    }
-
-    .equation-block {
-        background: linear-gradient(135deg, #060913 0, #050a12 40%, #05070b 100%);
-        border-radius: 0.75rem;
-        border: 1px solid var(--code-border);
-        padding: 0.6rem 0.8rem;
-        font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-        font-size: 0.88rem;
-        overflow-x: auto;
-        margin: 0.4rem 0 0.75rem;
-    }
-
-    .equation-block strong {
-        color: var(--accent-warm);
-    }
-
-    code {
-        font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-    }
-
-    .buttons-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem;
-        margin-top: 0.8rem;
-    }
-
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.45rem 0.85rem;
-        border-radius: 999px;
-        border: 1px solid var(--btn-border);
-        background: radial-gradient(circle at 0 0, #1f2937 0, var(--btn-bg) 55%);
-        color: var(--text-main);
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
-        text-decoration: none;
-    }
-
-    .btn:hover {
-        background: var(--btn-hover);
-        box-shadow: 0 0 0 1px rgba(108,154,255,0.4), 0 6px 16px rgba(0,0,0,0.5);
-        transform: translateY(-0.5px);
-    }
-
-    .btn span.icon {
-        font-size: 0.9rem;
-        opacity: 0.9;
-    }
-
-    .btn-primary {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 1px rgba(51,224,255,0.35);
-    }
-
-    .btn-danger {
-        border-color: var(--danger);
-    }
-
-    .tagline {
-        font-size: 0.92rem;
-        color: var(--text-muted);
-        margin-top: 0.35rem;
-    }
-
-    .phi-quote {
-        font-style: italic;
-        color: var(--accent-soft);
-        border-left: 2px solid rgba(139,243,255,0.6);
-        padding-left: 0.7rem;
-        margin-top: 0.6rem;
-    }
-
-    /* Python code block */
-    .code-wrapper {
-        position: relative;
-        margin-top: 0.8rem;
-    }
-
-    pre.code-block {
-        margin: 0;
-        border-radius: 0.75rem;
-        border: 1px solid var(--code-border);
-        background: radial-gradient(circle at 0 0, #040812 0, var(--code-bg) 48%);
-        padding: 0.9rem 0.95rem 1rem;
-        font-size: 0.82rem;
-        overflow-x: auto;
-        color: #f7fbff;
-    }
-
-    footer {
-        max-width: 1200px;
-        margin: 0 auto 2.5rem;
-        padding: 0 1.5rem;
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        opacity: 0.85;
-    }
-</style>
-
-<!-- (Optional) MathJax if you want real TeX rendering in-browser -->
-<script>
-window.MathJax = {
-  tex: {inlineMath: [["\\(","\\)"],["$","$"]]},
-  svg: {fontCache: "global"}
-};
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-</head>
-
-<body>
-<header>
-  <div class="title-row">
-    <h1>STUR Neuroplasticity Lab</h1>
-    <div class="subtitle">5D χ–Synapse Formation · Coherence · Learning Advantage</div>
-  </div>
-  <div class="nav-row">
-    <span><a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">STUR&nbsp;Physics&nbsp;Lab</a></span>
-    <span class="nav-separator">·</span>
-    <span><a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_sandbox.html">STUR Sandbox (JupyterLite)</a></span>
-    <span class="nav-separator">·</span>
-    <span><a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/">Scripts Index</a></span>
-  </div>
-</header>
-
-<main>
-
-  <section class="grid">
-    <!-- LEFT COLUMN: Physics + Philosophy -->
-    <article class="panel">
-      <div class="kicker">Unified Resistance · χ–Dimension</div>
-      <h2>Conceptual Map</h2>
-
-      <p>
-        This lab simulates a single axon growing from <strong>Neuron A</strong> to <strong>Neuron B</strong>
-        under the <strong>Unified Resistance Lagrangian</strong>. As the growth cone searches, three things
-        evolve together:
-      </p>
-      <ul>
-        <li>The <strong>distance</strong> to the target dendrite \(r(t)\)</li>
-        <li>The <strong>spin–field coherence</strong> \(c(t)=\mathbf S\!\cdot\!\mathbf B\in[-1,1]\)</li>
-        <li>The <strong>structural synaptic weight</strong> \(w(t)\in[0,1]\)</li>
-      </ul>
-
-      <p>
-        When geometry and coherence align, the synapse stabilizes, and the same spikes are passed through
-        two different channels:
-      </p>
-
-      <ul>
-        <li>A <strong>classical synapse</strong> with conductance \(g_{\text{classic}} \propto w\)</li>
-        <li>A <strong>STUR χ–enhanced synapse</strong> with conductance
-          \(g_{\text{STUR}} \propto w\,(1+\lambda_X)\)</li>
-      </ul>
-
-      <p class="tagline">
-        The χ-dimension behaves like an extra coherence dial: same action potential in, but a higher
-        effective gain when the underlying resistance field is aligned.
-      </p>
-
-      <h3>Unified Resistance Lagrangian (axon growth)</h3>
-
-      <div class="equation-block">
-        <strong>Lagrangian</strong><br/>
-        \(L = \tfrac12 \mu\big(\dot r^2 + r^2 \dot\theta^2\big)
-             - U(r)
-             - \gamma_0 e^{-r/\ell_B} \,\mathbf S\!\cdot\!\mathbf B
-             + L_{\text{spin,kin}}(\mathbf S,\dot{\mathbf S})\)
-        <br/><br/>
-        <strong>Effective potential</strong><br/>
-        \(U(r) = -\displaystyle\int^r
-            \mathcal S(\rho)
-            \Big[
-                 \tfrac{k_e q_1 q_2}{\rho^2}
-               - \tfrac{G m_1 m_2}{\rho^2}
-               + \alpha_s\big(
-                   \tfrac{1-e^{-\rho/\lambda}}{\rho^2}
-                   + \sigma \rho
-                 \big)
-            \Big]\,d\rho\)
-        <br/><br/>
-        with synapse-safe regulator<br/>
-        \(\mathcal S(r) = \tanh(r/L_0)\big(1 - e^{-r/L_0}\big).\)
-      </div>
-
-      <div class="equation-block">
-        <strong>Radial force</strong><br/>
-        \(F_r(r,c) =
-           \mathcal S(r)\Big[
-               \tfrac{k_e q_1 q_2 - G m_1 m_2}{r^2}
-               + \alpha_s\Big(\tfrac{1-e^{-r/\lambda}}{r^2}+\sigma r\Big)
-           \Big]
-           + \tfrac{\gamma_0}{\ell_B} e^{-r/\ell_B} c\)
-        <br/><br/>
-        Axon motion is overdamped with noise:
-        \(\;\dot{\mathbf v} \sim -F_r \hat{\mathbf r} - \gamma_v \mathbf v + \text{Brownian search}.\)
-      </div>
-
-      <h3>Coherence, χ, and Structural Weight</h3>
-
-      <div class="equation-block">
-        <strong>Coherence target</strong> (geometry-dependent)<br/>
-        \(c_\star(r) = \tanh\!\Big(\dfrac{r_{\rm syn} - r}{0.5\,r_{\rm syn}}\Big)\)
-        <br/><br/>
-        <strong>Coherence dynamics</strong><br/>
-        \(\dot c = \dfrac{c_\star(r) - c}{\tau_S}\)
-        <br/><br/>
-        <strong>χ–dimension coordinate</strong><br/>
-        \(\dot\chi = k_\chi\,(c - c_0) - \gamma_\chi\chi.\)
-      </div>
-
-      <div class="equation-block">
-        <strong>Structural synaptic weight</strong><br/>
-        \(P(r) = \exp\!\Big[-\dfrac{(r-r_{\rm syn})^2}{2\sigma_r^2}\Big],
-          \quad G(c)=\tfrac12(1+c)\)
-        <br/>
-        \(\dot w =
-          \eta_w P(r) G(c)\big(1-w\big)
-          - \lambda_w\big(1-G(c)\big)w\)
-      </div>
-
-      <h3>Synapse Conductance and STUR Gain</h3>
-
-      <div class="equation-block">
-        <strong>X-dimension coupling</strong><br/>
-        \(\lambda_X = \tfrac12(1 + c_{\rm final})\,w_{\rm final}\)
-        <br/><br/>
-        <strong>Conductances</strong><br/>
-        \(g_{\rm classic} = g_0 w_{\rm final}\)<br/>
-        \(g_{\rm STUR}    = g_0 w_{\rm final}\big(1 + 2\lambda_X\big)\)
-      </div>
-
-      <h3>Neural Dynamics and STDP</h3>
-
-      <div class="equation-block">
-        <strong>Hodgkin–Huxley neuron</strong><br/>
-        \(C_m \dot V = I_{\rm inj}
-           - g_{\rm Na}m^3h(V-E_{\rm Na})
-           - g_{\rm K}n^4(V-E_{\rm K})
-           - g_{\rm L}(V-E_{\rm L})\)
-        <br/><br/>
-        <strong>Synaptic current</strong><br/>
-        \(I_{\rm syn} = g_{\rm syn}\,s(t)\,(E_{\rm syn} - V)\)
-      </div>
-
-      <div class="equation-block">
-        <strong>STDP (classic)</strong><br/>
-        \(\Delta w_c =
-          \begin{cases}
-            +A_+ e^{-\Delta t/\tau_+}, & \text{pre before post (LTP)}\\[4pt]
-            -A_- e^{-\Delta t/\tau_-}, & \text{post before pre (LTD)}
-          \end{cases}\)
-        <br/><br/>
-        <strong>STUR-weighted STDP</strong><br/>
-        \(\Delta w_s =
-          \begin{cases}
-            (1+4\lambda_X) A_+ e^{-\Delta t/\tau_+}, & \text{LTP}\\[4pt]
-            -(1-3\lambda_X)_+ A_- e^{-\Delta t/\tau_-}, & \text{LTD}
-          \end{cases}\)
-      </div>
-
-      <h3>Philosophic Statement</h3>
-      <p class="phi-quote">
-        In this model a thought is not just a spike, but a successful
-        traversal of resistance. The axon searches a five-dimensional
-        field, finds a corridor of low resistance, and then remembers that
-        path by locking spins, geometry, and χ into coherence. Classical
-        synapses are the shadows of this process; the χ-dimension is the
-        hidden ledger that keeps track of which paths truly lower the
-        resistance of the whole network.
-      </p>
-      <p class="phi-quote">
-        Neuroplasticity, in STUR language, is the universe teaching matter
-        how to resist more gracefully. Every new connection is the field
-        re-writing itself to make future coherence easier.
-      </p>
-    </article>
-
-    <!-- RIGHT COLUMN: Buttons + Python driver -->
-    <article class="panel">
-      <div class="kicker">Python · JupyterLite</div>
-      <h2>Simulation Script</h2>
-
-      <p>
-        The script below is fully self-contained and JupyterLite-safe
-        (<code>numpy</code> + <code>matplotlib</code> only). It:
-      </p>
-      <ul>
-        <li>Grows an axon from Neuron&nbsp;A to Neuron&nbsp;B under the Unified Resistance field</li>
-        <li>Tracks \(r(t), c(t), w(t), \chi(t)\) and plots a 5D χ-slice</li>
-        <li>Runs a pre-synaptic HH neuron and two post neurons
-            (classical vs STUR χ-enhanced)</li>
-        <li>Applies STDP to both and plots the weight competition</li>
-      </ul>
-
-      <div class="buttons-row">
-        <button class="btn btn-primary" onclick="copyCode()">
-          <span class="icon">📋</span><span>Copy Python Script</span>
-        </button>
-        <button class="btn" onclick="openSandbox()">
-          <span class="icon">🚀</span><span>Open in STUR Sandbox</span>
-        </button>
-        <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
-          <span class="icon">⤺</span><span>Return to STUR Index</span>
-        </a>
-      </div>
-
-      <p class="tagline">
-        Workflow: open the STUR Sandbox, paste this script into the Python cell,
-        and run. Use the plots + printed values for papers, TikToks, or future
-        STUR modules.
-      </p>
-
-      <div class="code-wrapper">
-        <pre id="stur-neuro-code" class="code-block"><code># ===============================================================
-# STUR Neuroplasticity Lab v5.1 – 5D χ Synapse
-#   • Axon growth under Unified Resistance Lagrangian proxy
-#   • Coherence S·B(t), structural weight w(t), χ(t)
-#   • Hodgkin–Huxley pre + 2 post neurons (classic vs STUR)
-#   • STDP competition showing χ–dimension learning advantage
-# ===============================================================
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-plt.style.use("dark_background")
-np.random.seed(0)
-
-# ===============================================================
-# STAGE 1 – GROWTH, COHERENCE, X-DIMENSION χ
-# ===============================================================
-
-# Effective parameters (scaled units)
-mu      = 1.0
-k_e     = 1.0
-G_eff   = 0.15
-alpha_s = 0.6
-lambda_int = 3.0
-sigma_conf = 0.08
-
-q1, q2 = -1.0, +1.0
-m1, m2 = 1.0, 1.0
-
-gamma0 = 0.8
-ell_B  = 1.0
-L0     = 1.2
-
-# Synapse / learning scales
-r_syn    = 6.0        # preferred synaptic radius (um)
-tau_S    = 0.7        # coherence adaptation (s)
-eta_w    = 0.7        # structural learning rate
-lambda_w = 0.02       # structural decay
-sigma_r  = 0.5 * r_syn
-
-# Growth damping + noise
-gamma_v   = 1.0
-noise_amp = 0.25
-
-# Time grid for growth
-dt_g    = 0.02
-steps_g = 2200
-t_g     = np.arange(steps_g) * dt_g
-
-# Geometry: two somas in 2D
-d_neurons = 40.0
-soma_A = np.array([-d_neurons/2, 0.0])
-soma_B = np.array([+d_neurons/2, 0.0])
-
-pos = soma_A + np.array([3.0, 0.0])
-vel = np.zeros(2)
-
-# X-dimension state
-chi      = 0.0
-k_chi    = 1.0
-gamma_chi = 0.5
-
-def S_reg(r):
-    return np.tanh(r / L0) * (1.0 - np.exp(-r / L0))
-
-def radial_bracket(r):
-    r2 = r*r + 1e-9
-    coul_grav = (k_e*q1*q2 - G_eff*m1*m2) / r2
-    yukawa    = alpha_s * ((1.0 - np.exp(-r/lambda_int)) / r2 + sigma_conf*r)
-    return coul_grav + yukawa
-
-def radial_force(r, c_SB):
-    """Effective radial force F_r(r,c)."""
-    return S_reg(r) * radial_bracket(r) + (gamma0 / ell_B) * np.exp(-r/ell_B) * c_SB
-
-def c_target(r):
-    """Target coherence: negative far away, positive near r_syn."""
-    return np.tanh((r_syn - r) / (0.5 * r_syn))
-
-xs, ys, rs, cs, ws = [], [], [], [], []
-chi_hist, chi_dot_hist = [], []
-
-c_SB = -0.2
-w    = 0.0
-
-for step in range(steps_g):
-    diff = pos - soma_B
-    r    = np.linalg.norm(diff)
-    if r < 1e-6:
-        r    = 1e-6
-        diff = np.array([1e-6, 0.0])
-    r_hat = diff / r
-
-    # Unified Resistance radial force
-    F_r  = radial_force(r, c_SB)
-    F_vec = F_r * r_hat
-
-    # Overdamped growth with noise
-    acc = -F_vec/mu - gamma_v*vel
-    vel += acc * dt_g
-    vel += noise_amp * np.sqrt(dt_g) * np.random.randn(2)
-    pos += vel * dt_g
-
-    # X-dimension dynamics
-    chi_dot = k_chi * (c_SB - 0.0) - gamma_chi * chi
-    chi += chi_dot * dt_g
-
-    # Coherence dynamics
-    c_star = c_target(r)
-    c_SB += (c_star - c_SB) * dt_g / tau_S
-    c_SB = float(np.clip(c_SB, -1.0, 1.0))
-
-    # Structural weight
-    proximity = np.exp(-(r - r_syn)**2 / (2.0 * sigma_r**2))
-    gating    = 0.5 * (1.0 + c_SB)
-    dw = (eta_w * proximity * gating * (1.0 - w)
-          - lambda_w * (1.0 - gating) * w)
-    w += dw * dt_g
-    w = float(np.clip(w, 0.0, 1.0))
-
-    xs.append(pos[0]); ys.append(pos[1])
-    rs.append(r);      cs.append(c_SB); ws.append(w)
-    chi_hist.append(chi); chi_dot_hist.append(chi_dot)
-
-xs, ys, rs, cs, ws = map(np.array, (xs, ys, rs, cs, ws))
-chi_hist = np.array(chi_hist)
-
-r_final  = float(rs[-1])
-c_final  = float(cs[-1])
-w_final  = float(ws[-1])
-lambda_X = 0.5 * (1.0 + c_final) * w_final
-lambda_X = float(np.clip(lambda_X, 0.0, 1.5))
-
-print("=== GROWTH RESULTS v5.1 ===")
-print("r_final  =", round(r_final, 3), "um")
-print("c_final  =", round(c_final, 3))
-print("w_final  =", round(w_final, 3))
-print("lambda_X =", round(lambda_X, 3))
-
-# ===============================================================
-# STAGE 2 – HODGKIN–HUXLEY + STDP (CLASSIC vs STUR)
-# ===============================================================
-
-C_m  = 1.0
-g_Na = 120.0
-g_K  = 36.0
-g_L  = 0.3
-E_Na = 50.0
-E_K  = -77.0
-E_L  = -54.4
-E_syn = 0.0
-
-# Structural conductances
-g0_syn        = 1.0
-g_syn_classic = g0_syn * w_final
-g_syn_STUR    = g0_syn * w_final * (1.0 + 2.0 * lambda_X)
-
-# STUR scaling of STDP
-factor_LTP_STUR = 1.0 + 4.0 * lambda_X
-factor_LTD_STUR = max(0.0, 1.0 - 3.0 * lambda_X)
-
-print("\n=== SYNAPTIC GAINS ===")
-print("g_classic =", round(g_syn_classic, 3), "mS/cm^2")
-print("g_STUR    =", round(g_syn_STUR, 3), "mS/cm^2")
-print("LTP factor (STUR) =", round(factor_LTP_STUR, 3))
-print("LTD factor (STUR) =", round(factor_LTD_STUR, 3))
-
-# HH time
-dt_hh    = 0.01
-T_hh     = 120.0
-steps_hh = int(T_hh / dt_hh)
-t_hh     = np.arange(steps_hh) * dt_hh
-
-def I_ext_pre(t_ms):
-    for t0 in [10.0, 40.0, 70.0, 100.0]:
-        if t0 <= t_ms <= t0 + 3.0:
-            return 10.0
-    return 0.0
-
-def alpha_n(V): return 0.01*(V + 55.0)/(1.0 - np.exp(-(V+55.0)/10.0))
-def beta_n(V):  return 0.125*np.exp(-(V+65.0)/80.0)
-def alpha_m(V): return 0.1*(V + 40.0)/(1.0 - np.exp(-(V+40.0)/10.0))
-def beta_m(V):  return 4.0*np.exp(-(V+65.0)/18.0)
-def alpha_h(V): return 0.07*np.exp(-(V+65.0)/20.0)
-def beta_h(V):  return 1.0/(1.0 + np.exp(-(V+35.0)/10.0))
-
-# Initial states
-V_pre = -65.0
-n_pre = 0.3177
-m_pre = 0.0529
-h_pre = 0.5961
-
-V_pc  = -65.0
-n_pc  = 0.3177
-m_pc  = 0.0529
-h_pc  = 0.5961
-
-V_ps  = -65.0
-n_ps  = 0.3177
-m_ps  = 0.0529
-h_ps  = 0.5961
-
-# Synaptic gates
-s_c = 0.0
-s_s = 0.0
-tau_syn = 3.0
-s_jump  = 0.6
-
-# Storage
-V_pre_hist = np.zeros(steps_hh)
-V_pc_hist  = np.zeros(steps_hh)
-V_ps_hist  = np.zeros(steps_hh)
-w_c_hist   = np.zeros(steps_hh)
-w_s_hist   = np.zeros(steps_hh)
-
-# STDP weights
-w_c = w_final
-w_s = w_final
-
-A_plus   = 0.01
-A_minus  = 0.012
-tau_plus = 20.0
-tau_minus = 20.0
-decay_STDP = 1e-4
-w_max, w_min = 2.0, 0.0
-
-last_V_pre  = V_pre
-last_V_post = V_pc
-last_pre_spike_time  = None
-last_post_spike_time = None
-
-noise_std = 0.4
-spike_thr = 0.0
-
-def HH_step(V, n, m, h, I_inj):
-    an = alpha_n(V); bn = beta_n(V)
-    am = alpha_m(V); bm = beta_m(V)
-    ah = alpha_h(V); bh = beta_h(V)
-    n += dt_hh * (an*(1.0-n) - bn*n)
-    m += dt_hh * (am*(1.0-m) - bm*m)
-    h += dt_hh * (ah*(1.0-h) - bh*h)
-    gNa = g_Na * (m**3) * h
-    gK  = g_K  * (n**4)
-    I_Na = gNa * (V - E_Na)
-    I_K  = gK  * (V - E_K)
-    I_L  = g_L * (V - E_L)
-    dV   = (I_inj - I_Na - I_K - I_L) / C_m
-    V   += dt_hh * dV
-    return V, n, m, h
-
-for k in range(steps_hh):
-    t_ms = t_hh[k]
-
-    # PRE neuron
-    I_inj = I_ext_pre(t_ms) + noise_std * np.random.randn()
-    V_pre, n_pre, m_pre, h_pre = HH_step(V_pre, n_pre, m_pre, h_pre, I_inj)
-
-    pre_spike = (last_V_pre < spike_thr and V_pre >= spike_thr)
-    if pre_spike:
-        s_c += s_jump
-        s_s += s_jump
-        if last_post_spike_time is not None:
-            dt = t_ms - last_post_spike_time
-            if dt >= 0.0:
-                w_c += -A_minus * np.exp(-dt / tau_minus)
-                w_s += -A_minus * factor_LTD_STUR * np.exp(-dt / tau_minus)
-        last_pre_spike_time = t_ms
-    last_V_pre = V_pre
-
-    # Synaptic gate decay
-    s_c += -s_c * dt_hh / tau_syn
-    s_s += -s_s * dt_hh / tau_syn
-    s_c = max(0.0, s_c)
-    s_s = max(0.0, s_s)
-
-    # POST classic
-    g_syn_c = g_syn_classic * (w_c / max(w_final, 1e-6))
-    I_syn_c = g_syn_c * s_c * (E_syn - V_pc)
-    V_pc, n_pc, m_pc, h_pc = HH_step(V_pc, n_pc, m_pc, h_pc, I_syn_c)
-
-    # POST STUR
-    g_syn_s = g_syn_STUR * (w_s / max(w_final, 1e-6))
-    I_syn_s = g_syn_s * s_s * (E_syn - V_ps)
-    V_ps, n_ps, m_ps, h_ps = HH_step(V_ps, n_ps, m_ps, h_ps, I_syn_s)
-
-    # POST spike detection (classic)
-    post_spike = (last_V_post < spike_thr and V_pc >= spike_thr)
-    if post_spike:
-        if last_pre_spike_time is not None:
-            dt = t_ms - last_pre_spike_time
-            if dt >= 0.0:
-                w_c += A_plus * np.exp(-dt / tau_plus)
-                w_s += A_plus * factor_LTP_STUR * np.exp(-dt / tau_plus)
-        last_post_spike_time = t_ms
-    last_V_post = V_pc
-
-    # STDP decay + clamp
-    w_c -= decay_STDP * w_c * dt_hh
-    w_s -= decay_STDP * w_s * dt_hh
-    w_c = float(np.clip(w_c, w_min, w_max))
-    w_s = float(np.clip(w_s, w_min, w_max))
-
-    V_pre_hist[k] = V_pre
-    V_pc_hist[k]  = V_pc
-    V_ps_hist[k]  = V_ps
-    w_c_hist[k]   = w_c
-    w_s_hist[k]   = w_s
-
-print("\n=== FINAL STDP WEIGHTS ===")
-print("w_classic_final =", round(w_c_hist[-1], 3))
-print("w_STUR_final    =", round(w_s_hist[-1], 3))
-
-# ===============================================================
-# PLOTTING
-# ===============================================================
-
-# 1) Growth & coherence panels
-fig, axes = plt.subplots(2, 2, figsize=(13, 8))
-(ax_path, ax_w), (ax_c, ax_r) = axes
-
-ax_path.set_title("Axon Path in Physical Space")
-sc = ax_path.scatter(xs, ys, c=t_g, s=4, cmap="plasma")
-ax_path.set_aspect("equal", "box")
-ax_path.set_xlabel("x (um)")
-ax_path.set_ylabel("y (um)")
-fig.colorbar(sc, ax=ax_path, label="time (s)")
-
-ax_w.set_title("Structural Weight w(t)")
-ax_w.plot(t_g, ws, lw=2)
-ax_w.set_xlabel("time (s)")
-ax_w.set_ylabel("w(t)")
-ax_w.set_ylim(-0.05, 1.05)
-ax_w.grid(alpha=0.3)
-
-ax_c.set_title("Spin–Field Coherence c(t) = S·B")
-ax_c.plot(t_g, cs, lw=2, color="orange")
-ax_c.set_xlabel("time (s)")
-ax_c.set_ylabel("c(t)")
-ax_c.set_ylim(-1.05, 1.05)
-ax_c.grid(alpha=0.3)
-
-ax_r.set_title("Distance to Target r(t)")
-ax_r.plot(t_g, rs, lw=2, color="lime")
-ax_r.axhline(r_syn, ls="--", color="gray", alpha=0.7, label="r_syn")
-ax_r.set_xlabel("time (s)")
-ax_r.set_ylabel("r(t) (um)")
-ax_r.legend()
-ax_r.grid(alpha=0.3)
-
-fig.suptitle("STUR Neuroplasticity – Growth, Coherence, and Synapse Formation",
-             fontsize=14, fontweight="bold")
-fig.tight_layout(rect=[0, 0.03, 1, 0.95])
-
-# 2) X-dimension χ-slice sheet
-chi_min = chi_hist.min() - 0.5
-chi_max = chi_hist.max() + 0.5
-chi_grid = np.linspace(chi_min, chi_max, 200)
-T_grid   = t_g
-
-P = np.zeros((len(chi_grid), len(T_grid)))
-sigma_chi = 0.25 * max(1e-3, np.std(chi_hist))
-for i, chi_val in enumerate(chi_grid):
-    P[i, :] = np.exp(-(chi_val - chi_hist)**2 / (2.0 * sigma_chi**2))
-
-fig2, ax2 = plt.subplots(figsize=(10, 4))
-im = ax2.imshow(
-    P,
-    extent=[T_grid[0], T_grid[-1], chi_min, chi_max],
-    origin="lower",
-    aspect="auto",
-    cmap="viridis",
-)
-ax2.set_xlabel("time (s)")
-ax2.set_ylabel("chi (X-dimension)")
-ax2.set_title("STUR 5D chi-Slice – Probability Ridge")
-fig2.colorbar(im, ax=ax2, label="relative density")
-ax2.plot(T_grid, chi_hist, color="white", lw=1.4)
-
-# 3) HH voltages
-fig3, ax3 = plt.subplots(figsize=(11, 5))
-ax3.set_title("Hodgkin–Huxley – Pre vs Post (Classic vs STUR)", fontsize=14)
-ax3.plot(t_hh, V_pre_hist, label="Pre neuron", lw=2)
-ax3.plot(t_hh, V_pc_hist, label="Post (classic)", lw=2)
-ax3.plot(t_hh, V_ps_hist, "--", label="Post (STUR chi-synapse)", lw=2)
-ax3.set_xlabel("time (ms)")
-ax3.set_ylabel("V (mV)")
-ax3.grid(alpha=0.3)
-ax3.legend()
-
-# 4) STDP competition
-fig4, ax4 = plt.subplots(figsize=(10, 4))
-ax4.set_title("STDP Competition – Classic vs STUR Synapse Weights", fontsize=13)
-ax4.plot(t_hh, w_c_hist, label="w_classic(t)", lw=2)
-ax4.plot(t_hh, w_s_hist, "--", label="w_STUR(t)", lw=2)
-ax4.set_xlabel("time (ms)")
-ax4.set_ylabel("synaptic weight")
-ax4.grid(alpha=0.3)
-ax4.legend()
-
-plt.show()
-</code></pre>
-      </div>
-    </article>
-  </section>
-</main>
-
-<footer>
-  STUR Neuroplasticity Lab · 5D χ–Synapse · Generated for
-  <strong>STUR Physics Lab</strong>. Drop this HTML file into
-  <code>STUR-Physics-Lab/scripts/</code> and link it from your index.
-</footer>
-
-<script>
-function copyCode() {
-  const el = document.getElementById("stur-neuro-code");
-  if (!el) return;
-  const text = el.innerText || el.textContent;
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(
-      () => alert("STUR neuroplasticity script copied to clipboard ✅"),
-      () => fallbackCopy(text)
-    );
-  } else {
-    fallbackCopy(text);
-  }
+/* Dark STUR Lab Global */
+body {
+  margin:0;
+  background:#05070b;
+  color:#e7efff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", Segoe UI;
+}
+a { color:#8bf3ff; }
+
+/* Container */
+.main {
+  max-width:1200px;
+  margin:auto;
+  padding:1.5rem;
 }
 
-function fallbackCopy(text) {
-  const ta = document.createElement("textarea");
-  ta.value = text;
-  ta.style.position = "fixed";
-  ta.style.left = "-9999px";
-  document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
-  try {
-    document.execCommand("copy");
-    alert("Script copied to clipboard ✅");
-  } catch (e) {
-    alert("Could not copy automatically – select and copy manually.");
-  }
-  document.body.removeChild(ta);
+/* Title */
+.title {
+  text-align:center;
+  letter-spacing:0.03em;
+  margin-bottom:1rem;
+}
+.subtitle {
+  text-align:center;
+  color:#a8b3cc;
+  margin-bottom:1.5rem;
+}
+
+/* Buttons */
+.btnrow {
+  display:flex;
+  flex-wrap:wrap;
+  gap:.6rem;
+  justify-content:center;
+  margin-bottom:1.2rem;
+}
+.btn {
+  background:#151c28;
+  border:1px solid #3a4b63;
+  padding:.45rem .9rem;
+  border-radius:8px;
+  color:#fff;
+  text-decoration:none;
+  font-size:.9rem;
+  cursor:pointer;
+}
+.btn:hover {
+  background:#1e2738;
+  border-color:#8bf3ff;
+}
+
+/* Code box */
+.code-box {
+  background:#0a0f17;
+  border:1px solid #293240;
+  border-radius:8px;
+  padding:.75rem 1rem;
+  overflow-x:auto;
+  white-space:pre;
+  max-height:650px;
+  font-family: "JetBrains Mono", "SF Mono", monospace;
+  font-size:.82rem;
+  line-height:1.25rem;
+}
+.code-title {
+  background:#10151f;
+  padding:.3rem .7rem;
+  border-radius:6px 6px 0 0;
+  border:1px solid #3a4b63;
+  border-bottom:none;
+  margin-top:1.2rem;
+  display:inline-block;
+}
+
+/* Section headers */
+h2 {
+  margin-top:2rem;
+  margin-bottom:.5rem;
+  text-transform:uppercase;
+  font-size:1.1rem;
+  color:#33e0ff;
+  text-align:center;
+}
+hr {
+  border:0;
+  border-top:1px solid #263042;
+  margin:1.4rem 0;
+}
+footer {
+  text-align:center;
+  color:#7284a4;
+  font-size:.75rem;
+  margin-top:3rem;
+}
+</style>
+
+<script>
+function copyScript() {
+  const t=document.getElementById("codeblock").innerText;
+  navigator.clipboard.writeText(t);
+  alert("Python script copied to clipboard! 🧠⚡");
 }
 
 function openSandbox() {
@@ -917,6 +115,306 @@ function openSandbox() {
     "_blank"
   );
 }
+
+function runPyodide() {
+  window.open(
+    "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_sandbox.html",
+    "_blank"
+  );
+}
 </script>
+
+</head>
+<body>
+
+<div class="main">
+
+  <h1 class="title">STUR Neuroplasticity Lab</h1>
+  <div class="subtitle">
+    Growth · Coherence · χ-Dimension Synaptic Learning Advantage
+  </div>
+
+  <div class="btnrow">
+    <a class="btn" onclick="copyScript()">📋 Copy Script</a>
+    <a class="btn" onclick="openSandbox()">🚀 Open STUR Sandbox</a>
+    <a class="btn" onclick="runPyodide()">⚡ Run in JupyterLite / Pyodide</a>
+    <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">⤺ STUR Index</a>
+  </div>
+
+  <hr>
+
+  <h2>Full Simulation Script</h2>
+  <div class="code-title">Python (copy & run in STUR Sandbox)</div>
+
+  <pre class="code-box" id="codeblock">
+#!/usr/bin/env python3
+# ===============================================================
+# STUR Neuroplasticity Lab v5.1 – 5D χ Synapse
+# Axon growth → χ-dim Coherence → HH spikes → STDP advantage
+# ===============================================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+plt.style.use("dark_background")
+np.random.seed(0)
+
+# ===============================================================
+# GROWTH + COHERENCE + χ-DIMENSION
+# ===============================================================
+
+mu = 1.0
+k_e = 1.0
+G_eff = 0.15
+alpha_s = 0.6
+lambda_int = 3.0
+sigma_conf = 0.08
+q1,q2 = -1,+1
+m1,m2 = 1,1
+gamma0 = 0.8
+ell_B = 1.0
+L0 = 1.2
+
+r_syn = 6.0
+tau_S = 0.7
+eta_w = 0.7
+lambda_w = 0.02
+sigma_r = 0.5*r_syn
+gamma_v = 1.0
+noise_amp = 0.25
+
+dt_g = 0.02
+steps_g = 2200
+t_g = np.arange(steps_g)*dt_g
+
+d_neurons = 40.0
+soma_A = np.array([-d_neurons/2,0])
+soma_B = np.array([+d_neurons/2,0])
+pos = soma_A+np.array([3.0,0])
+vel = np.zeros(2)
+
+chi = 0.0
+k_chi = 1.0
+gamma_chi = 0.5
+
+def S_reg(r): return np.tanh(r/L0)*(1-np.exp(-r/L0))
+def radial_bracket(r):
+    r2=r*r+1e-9
+    return (k_e*q1*q2-G_eff*m1*m2)/r2 + alpha_s*((1-np.exp(-r/lambda_int))/r2 + sigma_conf*r)
+def radial_force(r,c_SB):
+    return S_reg(r)*radial_bracket(r)+(gamma0/ell_B)*np.exp(-r/ell_B)*c_SB
+def c_target(r): return np.tanh((r_syn-r)/(0.5*r_syn))
+
+xs,ys,rs,cs,ws=[],[],[],[],[]
+chi_hist=[]
+
+c_SB=-0.2
+w=0.0
+for _ in range(steps_g):
+    diff = pos-soma_B
+    r = np.linalg.norm(diff)
+    r_hat = diff/(r+1e-6)
+    F_r = radial_force(r,c_SB)
+    acc = -F_r*r_hat/mu - gamma_v*vel
+    vel += acc*dt_g
+    vel += noise_amp*np.sqrt(dt_g)*np.random.randn(2)
+    pos += vel*dt_g
+
+    chi_dot = k_chi*c_SB - gamma_chi*chi
+    chi += chi_dot*dt_g
+
+    c_SB += (c_target(r)-c_SB)*dt_g/tau_S
+    c_SB=float(np.clip(c_SB,-1,1))
+
+    proximity=np.exp(-(r-r_syn)**2/(2*sigma_r**2))
+    gating=0.5*(1+c_SB)
+    w+= (eta_w*proximity*gating*(1-w) - lambda_w*(1-gating)*w)*dt_g
+    w=float(np.clip(w,0,1))
+
+    xs.append(pos[0]); ys.append(pos[1])
+    rs.append(r); cs.append(c_SB); ws.append(w); chi_hist.append(chi)
+
+xs,ys,rs,cs,ws,chi_hist = map(np.array,(xs,ys,rs,cs,ws,chi_hist))
+r_final,c_final,w_final = rs[-1],cs[-1],ws[-1]
+lambda_X = 0.5*(1+c_final)*w_final
+print("=== GROWTH RESULTS v5.1 ===")
+print(r_final,c_final,round(w_final,3),"lambda_X",round(lambda_X,3))
+
+# ===============================================================
+# HODGKIN-HUXLEY + χ-DIM STDP
+# ===============================================================
+
+C_m=1.0; g_Na=120.0; g_K=36.0; g_L=0.3
+E_Na=50.0; E_K=-77.0; E_L=-54.4; E_syn=0.0
+
+g0=1.0
+g_syn_classic=g0*w_final
+g_syn_STUR   =g0*w_final*(1+2*lambda_X)
+
+factor_LTP_STUR=1+4*lambda_X
+factor_LTD_STUR=max(0,1-3*lambda_X)
+
+print("g_classic",round(g_syn_classic,3),"g_STUR",round(g_syn_STUR,3))
+
+dt_hh=0.01
+T_hh=120
+steps_hh=int(T_hh/dt_hh)
+t_hh=np.arange(steps_hh)*dt_hh
+
+def I_ext_pre(t):
+    for T0 in [10,40,70,100]:
+        if T0<=t<=T0+3: return 10.0
+    return 0.0
+
+def αn(V): return 0.01*(V+55)/(1-np.exp(-(V+55)/10))
+def βn(V): return 0.125*np.exp(-(V+65)/80)
+def αm(V): return 0.1*(V+40)/(1-np.exp(-(V+40)/10))
+def βm(V): return 4*np.exp(-(V+65)/18)
+def αh(V): return 0.07*np.exp(-(V+65)/20)
+def βh(V): return 1/(1+np.exp(-(V+35)/10))
+
+V_pre=-65; n_pre=0.3177; m_pre=0.0529; h_pre=0.5961
+V_pc=-65;  n_pc=0.3177; m_pc=0.0529; h_pc=0.5961
+V_ps=-65;  n_ps=0.3177; m_ps=0.0529; h_ps=0.5961
+
+s_c=0.0; s_s=0.0
+tau_syn=3.0; s_jump=0.6
+noise_std=0.4; spike_thr=0.0
+
+w_c=w_final
+w_s=w_final
+
+A_plus=0.01; A_minus=0.012
+tau_plus=20; tau_minus=20
+decay_STDP=1e-4
+
+V_pre_hist=np.zeros(steps_hh)
+V_pc_hist=np.zeros(steps_hh)
+V_ps_hist=np.zeros(steps_hh)
+w_c_hist=np.zeros(steps_hh)
+w_s_hist=np.zeros(steps_hh)
+
+last_V_pre=V_pre
+last_V_post=V_pc
+last_pre_spike_time=None
+last_post_spike_time=None
+
+def HH_step(V,n,m,h,I):
+    n+=dt_hh*(αn(V)*(1-n)-βn(V)*n)
+    m+=dt_hh*(αm(V)*(1-m)-βm(V)*m)
+    h+=dt_hh*(αh(V)*(1-h)-βh(V)*h)
+    gNa=g_Na*(m**3)*h
+    gK=g_K*(n**4)
+    Iion=gNa*(V-E_Na)+gK*(V-E_K)+g_L*(V-E_L)
+    V+=dt_hh*(I-Iion)/C_m
+    return V,n,m,h
+
+for k in range(steps_hh):
+    t=t_hh[k]
+    Iinj=I_ext_pre(t)+noise_std*np.random.randn()
+    V_pre,n_pre,m_pre,h_pre=HH_step(V_pre,n_pre,m_pre,h_pre,Iinj)
+
+    preSpike=(last_V_pre<spike_thr and V_pre>=spike_thr)
+    if preSpike:
+        s_c+=s_jump; s_s+=s_jump
+        if last_post_spike_time!=None:
+            dt=t-last_post_spike_time
+            if dt>=0:
+                w_c-=A_minus*np.exp(-dt/tau_minus)
+                w_s-=A_minus*factor_LTD_STUR*np.exp(-dt/tau_minus)
+        last_pre_spike_time=t
+    last_V_pre=V_pre
+
+    s_c+=-s_c*dt_hh/tau_syn
+    s_s+=-s_s*dt_hh/tau_syn
+    s_c=max(0, s_c); s_s=max(0, s_s)
+
+    I_c=g_syn_classic*(w_c/max(w_final,1e-6))*s_c*(E_syn-V_pc)
+    V_pc,n_pc,m_pc,h_pc=HH_step(V_pc,n_pc,m_pc,h_pc,I_c)
+
+    I_s=g_syn_STUR*(w_s/max(w_final,1e-6))*s_s*(E_syn-V_ps)
+    V_ps,n_ps,m_ps,h_ps=HH_step(V_ps,n_ps,m_ps,h_ps,I_s)
+
+    postSpike=(last_V_post<spike_thr and V_pc>=spike_thr)
+    if postSpike:
+        if last_pre_spike_time!=None:
+            dt=t-last_pre_spike_time
+            if dt>=0:
+                w_c+=A_plus*np.exp(-dt/tau_plus)
+                w_s+=A_plus*factor_LTP_STUR*np.exp(-dt/tau_plus)
+        last_post_spike_time=t
+    last_V_post=V_pc
+
+    w_c-=decay_STDP*w_c*dt_hh
+    w_s-=decay_STDP*w_s*dt_hh
+    w_c=float(np.clip(w_c,0,2))
+    w_s=float(np.clip(w_s,0,2))
+
+    V_pre_hist[k]=V_pre
+    V_pc_hist[k] =V_pc
+    V_ps_hist[k] =V_ps
+    w_c_hist[k]=w_c
+    w_s_hist[k]=w_s
+
+print("Final STDP:", round(w_c_hist[-1],3), round(w_s_hist[-1],3))
+
+# ===============================================================
+# PLOT RESULTS
+# ===============================================================
+
+fig,axs=plt.subplots(2,2,figsize=(13,8))
+(ax_path,ax_w),(ax_c,ax_r)=axs
+
+ax_path.set_title("Axon Path")
+sc=ax_path.scatter(xs,ys,c=t_g,s=4,cmap="plasma")
+ax_path.set_aspect("equal","box")
+plt.colorbar(sc,ax=ax_path,label="time (s)")
+
+ax_w.set_title("Structural Weight w(t)")
+ax_w.plot(t_g,ws)
+
+ax_c.set_title("Coherence c(t)")
+ax_c.plot(t_g,cs,color="orange")
+
+ax_r.set_title("Distance r(t)")
+ax_r.plot(t_g,rs)
+ax_r.axhline(r_syn,ls="--",color="gray")
+
+plt.tight_layout()
+
+fig2,ax2=plt.subplots(figsize=(10,4))
+chi_min=chi_hist.min()-0.5
+chi_max=chi_hist.max()+0.5
+chi_grid=np.linspace(chi_min,chi_max,200)
+P=np.zeros((len(chi_grid),len(t_g)))
+sigma_chi=max(0.01,np.std(chi_hist)*0.2)
+for i,chi_v in enumerate(chi_grid):
+    P[i]=np.exp(-(chi_v-chi_hist)**2/(2*sigma_chi**2))
+im=ax2.imshow(P,extent=[0,t_g[-1],chi_min,chi_max],origin="lower",aspect="auto",cmap="viridis")
+fig2.colorbar(im,ax=ax2,label="density")
+ax2.plot(t_g,chi_hist,color="white",lw=1.4)
+ax2.set_title("χ-Dimension Slice")
+ax2.set_ylabel("χ")
+
+fig3,ax3=plt.subplots(figsize=(11,5))
+ax3.plot(t_hh,V_pre_hist,label="Pre")
+ax3.plot(t_hh,V_pc_hist,label="Classic Post")
+ax3.plot(t_hh,V_ps_hist,"--",label="STUR Post")
+ax3.legend(); ax3.set_ylabel("mV")
+ax3.set_title("Hodgkin-Huxley Spikes")
+
+fig4,ax4=plt.subplots(figsize=(10,4))
+ax4.plot(t_hh,w_c_hist,label="Classic")
+ax4.plot(t_hh,w_s_hist,"--",label="STUR")
+ax4.set_title("STDP Weight Evolution")
+ax4.legend()
+
+plt.show()
+  </pre>
+
+  <footer>
+    STUR Neuroplasticity Lab · χ-Dimension Synapse Advantage · STUR Physics Lab
+  </footer>
+
+</div>
 </body>
 </html>
