@@ -186,9 +186,6 @@
       border-color: var(--accent);
       box-shadow: 0 0 0 1px rgba(51,224,255,0.35);
     }
-    .btn-danger {
-      border-color: var(--danger);
-    }
 
     .tagline {
       font-size: 0.92rem;
@@ -401,27 +398,17 @@
         </ul>
 
         <div class="buttons-row">
-          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
-            <span class="icon">⤺</span><span>Return to Index</span>
-          </a>
           <button class="btn btn-primary" onclick="copyCode()">
             <span class="icon">📋</span><span>Copy Python Script</span>
           </button>
-          <button class="btn" onclick="openSandbox()">
-            <span class="icon">🚀</span><span>Open STUR Sandbox</span>
-          </button>
-          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_5duniverse.html" target="_blank" rel="noopener">
-            <span class="icon">🌀</span><span>Open 5D Universe Lab</span>
-          </a>
-          <a class="btn" href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab/blob/main/scripts/STUR_Neuroplasticity_Lab.ipynb" target="_blank" rel="noopener">
-            <span class="icon">🐙</span><span>View on GitHub</span>
+          <a class="btn" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_sandbox.html" target="_blank" rel="noopener">
+            <span class="icon">🚀</span><span>Run in Jupyter (Pyodide)</span>
           </a>
         </div>
 
         <p class="tagline">
-          Workflow: open the STUR Sandbox, paste this script into the Python cell,
-          and run. Use the plots + printed values for papers, TikToks, or future
-          STUR modules.
+          Workflow: click <strong>Run in Jupyter (Pyodide)</strong>, paste this script into the Python cell,
+          and run. Use the plots + printed values for papers, TikToks, or future STUR modules.
         </p>
 
         <div class="code-wrapper">
@@ -867,13 +854,6 @@ plt.show()</pre>
         alert("Could not copy automatically – select and copy manually.");
       }
       document.body.removeChild(ta);
-    }
-
-    function openSandbox() {
-      window.open(
-        "https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_sandbox.html",
-        "_blank"
-      );
     }
   </script>
 </body>
