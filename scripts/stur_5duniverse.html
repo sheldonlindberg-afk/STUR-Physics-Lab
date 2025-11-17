@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>STUR 5D Helical Manifold Lab – v4.2</title>
+<title>STUR 5D UGR – Unified Gravity Run v6.1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -15,233 +15,890 @@
     --accent-strong: #00f2aa;
     --text-main: #e6edf3;
     --text-soft: #a5b3c4;
+    --danger: #ff6b81;
     --radius: 12px;
-    --shadow-soft: 0 0 30px rgba(0,255,255,0.15);
+    --shadow-soft: 0 0 30px rgba(0, 255, 255, 0.15);
   }
+
   * { box-sizing: border-box; }
+
   body {
     margin: 0;
-    font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     color: var(--text-main);
     background:
       radial-gradient(circle at 10% 0%, #102040 0, #02030a 45%, #000 80%),
       radial-gradient(circle at 90% 100%, #041428 0, #02030a 60%, #000 100%);
   }
-  header { text-align:center;padding:40px 14px 14px; }
+
+  header {
+    text-align: center;
+    padding: 40px 14px 14px;
+  }
+
   .logo-title {
-    display:inline-flex;align-items:center;gap:10px;
-    padding:8px 14px;border-radius:999px;
-    border:1px solid var(--accent-soft);
-    background:rgba(52,216,255,0.08);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--accent-soft);
+    background: rgba(52,216,255,0.08);
+    box-shadow: var(--shadow-soft);
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
   }
+
   .logo-dot {
-    width:10px;height:10px;border-radius:50%;
-    background:#00f2aa;box-shadow:0 0 10px #00f2aa;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #00f2aa;
+    box-shadow: 0 0 10px #00f2aa;
   }
-  h1 { margin:14px 0 6px; }
-  main { max-width:1100px;margin:0 auto;padding:20px 14px 40px; }
+
+  h1 {
+    margin: 14px 0 6px;
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    margin: 0 0 8px;
+    font-size: 1.2rem;
+  }
+
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 14px 40px;
+  }
+
   .panel {
-    background:var(--bg-panel);border-radius:var(--radius);
-    padding:14px;border:1px solid rgba(255,255,255,.06);
-    margin-bottom:20px;
+    background: var(--bg-panel);
+    border-radius: var(--radius);
+    padding: 14px;
+    border: 1px solid rgba(255,255,255,.06);
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
   }
+
+  .panel p {
+    margin: 4px 0 8px;
+    color: var(--text-soft);
+    line-height: 1.5;
+    font-size: 0.92rem;
+  }
+
+  .inline-math {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.85rem;
+    background: rgba(0,0,0,0.35);
+    padding: 1px 4px;
+    border-radius: 4px;
+  }
+
   pre.code-block {
-    background:#050710;padding:10px;border-radius:10px;
-    overflow:auto;font-size:0.75rem;
-    border:1px solid rgba(255,255,255,0.05);
+    background: #050710;
+    padding: 10px;
+    border-radius: 10px;
+    overflow: auto;
+    font-size: 0.75rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    margin: 8px 0;
   }
+
+  pre.code-block code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
   button {
-    border-radius:6px;padding:6px 14px;
-    background:#0f233a;color:#00f2aa;border:1px solid #00f2aa;
-    cursor:pointer;font-size:.85rem;margin:4px;
-    transition:all 0.15s;
+    border-radius: 6px;
+    padding: 6px 14px;
+    background: #0f233a;
+    color: #00f2aa;
+    border: 1px solid #00f2aa;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin: 4px 6px 4px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
-  button:hover { background:#112a45; }
-  .toast {
-    position:fixed;bottom:20px;right:20px;
-    background:var(--accent-strong);color:#000;
-    padding:8px 14px;border-radius:5px;
-    font-size:.8rem;opacity:0;transition:.25s;
+
+  button:hover {
+    background: #112a45;
   }
-  footer {text-align:center;color:#8893aa;font-size:.8rem;margin-top:30px;}
+
+  footer {
+    text-align: center;
+    color: #8893aa;
+    font-size: 0.8rem;
+    margin-top: 30px;
+  }
+
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+  .small-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-soft);
+  }
+
 </style>
 </head>
 
 <body>
 <header>
-  <div class="logo-title"><span class="logo-dot"></span>STUR Physics Lab · 5D Manifold</div>
-  <h1>STUR 5D Helical Manifold Lab – v4.2</h1>
+  <div class="logo-title">
+    <span class="logo-dot"></span>
+    STUR Physics Lab · 5D Unified Gravity Run
+  </div>
+  <h1>STUR 5D UGR – v6.1 · Infinity Helix ΛCDM + χ-Gravity</h1>
 </header>
 
 <main>
 
-<section class="panel">
-<h2>How to Run</h2>
-<p>Zero-install. 100% In-Browser Pyodide.</p>
+  <!-- HOW TO RUN -->
+  <section class="panel">
+    <h2>How to Run</h2>
+    <p>
+      100% JupyterLite / Pyodide compatible. Copy the script below into a free in-browser Jupyter lab and
+      press <span class="inline-math">Run</span>. All plots and the JSON summary will appear in the notebook.
+    </p>
 
-<button id="copyBtn">📋 Copy Python Script</button>
-<button onclick="window.open('https://jupyterlite.readthedocs.io/en/stable/_static/lab/index.html','_blank');">
-☁️ Run in Browser (Pyodide)
-</button>
+    <button id="copyBtn">📋 Copy Python Script</button>
 
-<pre class="code-block" id="codeBlock"><code>
-#!/usr/bin/env python3
+    <button id="openJupyterBtn">
+      ☁️ Open Free Jupyter Lab
+    </button>
+
+    <button id="backIndexBtn">
+      ⬅️ Return to STUR Index
+    </button>
+
+    <p class="small-label">Script: STUR_5D_UGR_v6_1.py</p>
+
+    <pre class="code-block" id="codeBlock"><code>#!/usr/bin/env python3
 # ===============================================================
-# STUR 5D Helical Manifold Lab – v4.0 (PHYSICAL MODE DEFAULT)
+# STUR 5D UGR v6.1 – Unified Tidal Operator
+#   (Metric + Torsion + Gauge) with Scientific Plots
 # ===============================================================
 
 import numpy as np
+import math
+import json
 import matplotlib.pyplot as plt
-import json, math
-plt.style.use("dark_background")
 
-MODE = "physical"  # default as requested
+plt.style.use("dark_background")  # journal layout but dark theme
 
-def is_extreme(): return MODE.lower().startswith("ext")
-def is_physical(): return MODE.lower().startswith("phys")
+# ---------------------------------------------------------------
+# PHYSICAL CONSTANTS (Planck-ish ΛCDM)
+# ---------------------------------------------------------------
+c_si   = 2.99792458e8
+G_si   = 6.67430e-11
+H0_km_s_Mpc = 67.4
+Mpc_si = 3.085677581491367e22
 
-# Parameters
-c=1.0
-TAU_MAX = 8.0*np.pi
-N_SAMPLES = 1000
-R_HELIX = 1.0
-PITCH_Z = 0.1
-CHI0 = 1.0
-K_CHI = 0.05
-ALPHA0 = 1.0
-OMEGA_A = 0.25
-EPS_CHI_PHYS = 0.1
-EPS_CHI_EXT = 0.6
-OMEGA4_GAMMA = 0.3
-LAMBDA_T_BASE = 0.2
-COUP_TCHI_BASE = 0.15
-COUP_ZCHI_BASE = 0.10
-OMEGA_COUP = 0.40
+H0_si  = H0_km_s_Mpc * 1000.0 / Mpc_si
+t_H_si = 1.0 / H0_si
+R_H_si = c_si / H0_si
 
-def current_eps_chi(): return EPS_CHI_EXT if is_extreme() else EPS_CHI_PHYS
-def current_couplings():
-    return (1.0,0.6,0.4) if is_extreme() else (LAMBDA_T_BASE,COUP_TCHI_BASE,COUP_ZCHI_BASE)
+Omega_m = 0.315
+Omega_L = 0.685
+Omega_r = 9.2e-5
+Omega_b   = 0.049
+Omega_cdm = Omega_m - Omega_b
+t0_Gyr = 13.8
 
-def alpha_of_tau_chi(tau,chi):
-    eps=current_eps_chi()
-    base = ALPHA0*np.cos(OMEGA_A*tau)
-    if is_physical():
-        return base*(1+eps*np.sin(0.7*chi))
-    core=1+eps*np.tanh(chi)*np.sin(0.5*tau)
-    return base*core**3 + 0.03*np.sign(base)
+# natural units internally
+c = 1.0
 
-def chi_of_tau(tau,b=+1):
-    return b*(CHI0+K_CHI*tau)
+# ---------------------------------------------------------------
+# SAMPLING
+# ---------------------------------------------------------------
+TAU_MAX   = 8.0 * np.pi   # long evolution
+N_SAMPLES = 600           # moderate resolution for Pyodide
 
-def helix_xyz_of_tau(tau,chi):
-    if is_physical():
-        return (R_HELIX*np.cos(tau),R_HELIX*np.sin(tau),PITCH_Z*tau)
-    a=np.tanh(alpha_of_tau_chi(tau,chi))
-    R=R_HELIX*(1+0.45*a*np.tanh(chi))
-    phi=tau+0.6*np.tanh(chi)*np.sin(0.4*tau)
-    z=PITCH_Z*tau*(1+0.8*a*np.exp(-0.2*(tau-0.5*TAU_MAX)**2/(0.1*TAU_MAX**2)))
-    return (R*np.cos(phi),R*np.sin(phi),z)
+# cosmology integration grid
+N_COSMO = 3000
+A_MIN   = 1e-6
 
-def compute_ds2(S):
-    tau=S["tau"]
-    t=tau
-    x=S["x"];y=S["y"];z=S["z"];chi=S["chi"]
-    lamT,cT,cZ=current_couplings()
-    g_tt=-(c**2)*(1+lamT*np.sin(OMEGA_COUP*tau)*np.tanh(chi)**2)
-    g_chi_chi=alpha_of_tau_chi(tau,chi)
-    g_t_chi=cT*np.sin(OMEGA_COUP*tau)*np.tanh(chi)
-    g_z_chi=cZ*np.cos(OMEGA_COUP*tau)*np.tanh(chi)
-    dt=tau
-    dx=np.gradient(x,tau);dy=np.gradient(y,tau)
-    dz=np.gradient(z,tau);dchi=np.gradient(chi,tau)
-    ds2=g_tt+dx**2+dy**2+dz**2+g_chi_chi*dchi**2 \
-        +2*g_t_chi*dchi+2*g_z_chi*dz*dchi
-    dτ=np.gradient(tau);return ds2*dτ
+MODE = "physical"
 
-def build_strand(b):
-    tau=np.linspace(0,TAU_MAX,N_SAMPLES)
-    chi=chi_of_tau(tau,b)
-    x,y,z=helix_xyz_of_tau(tau,chi)
-    return dict(branch=b,tau=tau,x=x,y=y,z=z,chi=chi,
-                alpha=alpha_of_tau_chi(tau,chi))
+# ---------------------------------------------------------------
+# ΛCDM BACKGROUND
+# ---------------------------------------------------------------
+def friedmann_E(a):
+    """Dimensionless Hubble function E(a) = H(a)/H0."""
+    return np.sqrt(Omega_r * a**(-4) + Omega_m * a**(-3) + Omega_L)
 
-def plot_all():
-    sp=build_strand(+1); sm=build_strand(-1)
+def build_cosmo_background():
+    """
+    Build ΛCDM background on log-spaced a-grid.
+    """
+    a_grid = np.logspace(np.log10(A_MIN), 0.0, N_COSMO)
+    E = friedmann_E(a_grid)
 
-    fig=plt.figure(figsize=(9,7));ax=fig.add_subplot(111,projection="3d")
-    ax.scatter(sp["x"],sp["y"],sp["z"],c=sp["chi"],s=6)
-    ax.scatter(sm["x"],sm["y"],sm["z"],c=sm["chi"],s=6,marker="^")
-    ax.set_title("3D Projection – "+MODE.upper());plt.show()
+    # cosmic time t/H0^{-1} via dt ∝ da / (a E(a))
+    integrand = 1.0 / (a_grid * E + 1e-30)
+    t_grid = np.zeros_like(a_grid)
+    t_grid[1:] = np.cumsum(
+        0.5 * (integrand[1:] + integrand[:-1]) * (a_grid[1:] - a_grid[:-1])
+    )
+    u_t = t_grid / t_grid[-1]   # normalize so t(a=1) → 1
 
-    plt.figure(figsize=(6,4))
-    plt.plot(sp["tau"],sp["chi"],label="chi+")
-    plt.plot(sm["tau"],sm["chi"],label="chi-")
-    plt.legend();plt.title("chi(τ)");plt.show()
+    # FRW Ricci scalar proxy: R ∝ 6 (dE/du + 2E^2)
+    dE_du = np.gradient(E, u_t)
+    R_FRW = 6.0 * (dE_du + 2.0 * E**2)
 
-    ds2=compute_ds2(sp);Sτ=np.cumsum(np.sqrt(np.abs(ds2))*np.sign(ds2))
-    plt.figure(figsize=(6,4))
-    plt.plot(sp["tau"],Sτ);plt.title("Proper Interval S(τ)");plt.show()
+    # energy fractions
+    rho_r = Omega_r * a_grid**(-4)
+    rho_m = Omega_m * a_grid**(-3)
+    rho_L = Omega_L * np.ones_like(a_grid)
+    rho_tot = rho_r + rho_m + rho_L
+    Or = rho_r / rho_tot
+    Om = rho_m / rho_tot
+    OL = rho_L / rho_tot
 
-    summary=json.dumps({
-        "model":"STUR_5D_v4",
-        "mode":MODE,
-        "chi_range":[float(np.min(sp["chi"])),float(np.max(sp["chi"]))],
-    },indent=2)
-    print(summary)
+    # matter split
+    frac_b   = Omega_b / Omega_m
+    frac_cdm = Omega_cdm / Omega_m
+    Ob = frac_b   * Om
+    Oc = frac_cdm * Om
 
-if __name__=="__main__":
-    plot_all()
-</code></pre>
-</section>
+    # effective energy scale μ ∝ 1/a
+    mu = 1.0 / a_grid
+    mu /= mu[-1]
+    log10_mu = np.log10(mu)
 
-<section class="panel">
-<h2>What This Means for You</h2>
-<p>
-You aren’t moving through time — you are <b>winding through it</b>.
-Each moment is a turn. Each decision shifts your pitch in χ, the hidden direction of coherence.
-</p>
-<p>You don’t just age. You <b>evolve or decohere</b>.</p>
-<p>High-χ lives discover new dimensions of freedom.</p>
-<p>Low-χ lives get stuck in flat timelines.</p>
-</section>
+    # deceleration parameter q(a) = -1 - d ln H / d ln a
+    lnE = np.log(E)
+    lnA = np.log(a_grid)
+    dlnE_dlnA = np.gradient(lnE, lnA)
+    q_grid = -1.0 - dlnE_dlnA
 
-<section class="panel">
-<h2>Derivations</h2>
+    # effective equation-of-state:
+    #   w_eff = -1 - (1/3) d ln H^2 / d ln a
+    lnE2 = np.log(E**2)
+    dlnE2_dlnA = np.gradient(lnE2, lnA)
+    w_eff_grid = -1.0 - (1.0/3.0) * dlnE2_dlnA
+
+    # linear growth factor D(a):
+    #   D(a) ∝ E(a) * ∫^a da' / (a'^3 E^3(a'))
+    g = 1.0 / (a_grid**3 * E**3 + 1e-30)
+    G_int = np.zeros_like(a_grid)
+    G_int[1:] = np.cumsum(
+        0.5 * (g[1:] + g[:-1]) * (a_grid[1:] - a_grid[:-1])
+    )
+    D_raw = E * G_int
+    D = D_raw / (D_raw[-1] + 1e-30)
+
+    return (
+        a_grid, u_t, E, R_FRW,
+        Or, Om, OL, Ob, Oc,
+        log10_mu, q_grid, w_eff_grid, D
+    )
+
+# build background once
+(
+    A_GRID, U_T, E_GRID, R_GRID,
+    OR_GRID, OM_GRID, OL_GRID, OB_GRID, OC_GRID,
+    LOGMU_GRID, Q_GRID, WEFF_GRID, D_GRID
+) = build_cosmo_background()
+
+def cosmos_at_u(u_uniform):
+    """Interpolate cosmological fields to uniform u-grid."""
+    u_uniform = np.asarray(u_uniform)
+    a = np.interp(u_uniform, U_T, A_GRID)
+    E = np.interp(u_uniform, U_T, E_GRID)
+    R = np.interp(u_uniform, U_T, R_GRID)
+    Or = np.interp(u_uniform, U_T, OR_GRID)
+    Om = np.interp(u_uniform, U_T, OM_GRID)
+    OL = np.interp(u_uniform, U_T, OL_GRID)
+    Ob = np.interp(u_uniform, U_T, OB_GRID)
+    Oc = np.interp(u_uniform, U_T, OC_GRID)
+    log10_mu = np.interp(u_uniform, U_T, LOGMU_GRID)
+    q = np.interp(u_uniform, U_T, Q_GRID)
+    w_eff = np.interp(u_uniform, U_T, WEFF_GRID)
+    D = np.interp(u_uniform, U_T, D_GRID)
+    return a, E, R, Or, Om, OL, Ob, Oc, log10_mu, q, w_eff, D
+
+def tau_and_u():
+    tau = np.linspace(0.0, TAU_MAX, N_SAMPLES)
+    u   = tau / TAU_MAX
+    return tau, u
+
+# key epochs from scale factor
+z_rec = 1090.0
+a_rec_target = 1.0 / (1.0 + z_rec)
+a_L_eq_target = (Omega_m / Omega_L)**(1.0/3.0)
+
+def u_for_scale_factor(a_target):
+    return float(np.interp(a_target, A_GRID, U_T))
+
+U_REC   = u_for_scale_factor(a_rec_target)
+U_L_EQ  = u_for_scale_factor(a_L_eq_target)
+U_SOLAR = 0.97   # solar epoch ~4.6 Gyr ago (approx.)
+
+# ---------------------------------------------------------------
+# χ(τ) STRANDS
+# ---------------------------------------------------------------
+CHI0  = 1.0
+K_CHI = 0.35
+
+def chi_sector(tau, sector="baryon"):
+    tau = np.asarray(tau)
+    if sector == "baryon":
+        return  (CHI0 + K_CHI * np.sin(tau))
+    elif sector == "dm":
+        return -(CHI0 + 1.2*K_CHI * np.sin(tau + 0.4))
+    elif sector == "de":
+        return 0.3 + 0.15*np.sin(2.0*tau)
+    else:
+        raise ValueError("Unknown sector: " + str(sector))
+
+# ---------------------------------------------------------------
+# χ-METRIC SCALE α(τ, χ)
+# ---------------------------------------------------------------
+ALPHA0       = 1.0
+EPS_CHI_PHYS = 0.15
+EPS_CHI_EXT  = 0.55
+OMEGA_A      = 1.0
+
+def is_extreme():
+    return MODE.lower().startswith("ext")
+
+def current_eps_chi():
+    return EPS_CHI_EXT if is_extreme() else EPS_CHI_PHYS
+
+def alpha_of_tau_chi(tau, chi):
+    eps = current_eps_chi()
+    base = ALPHA0 * np.cos(OMEGA_A * tau)
+    if not is_extreme():
+        return base * (1.0 + eps * np.sin(tau) * np.tanh(chi))
+    core = 1.0 + eps * np.sin(OMEGA_A * tau) * np.tanh(chi)
+    return base * core**3 + 0.04 * np.sign(base)
+
+# ---------------------------------------------------------------
+# ∞-SHAPED SPATIAL WORLDLINE
+# ---------------------------------------------------------------
+R_HELIX = 0.5   # in units of R_H
+Z_AMP   = 0.25
+
+def helix_xyz_of_tau(tau, chi):
+    x = R_HELIX * np.cos(tau)
+    y = 0.5 * R_HELIX * np.sin(2.0 * tau)
+    z = Z_AMP * np.sin(2.0 * tau)
+    return x, y, z
+
+# ---------------------------------------------------------------
+# WORLDLINES
+# ---------------------------------------------------------------
+def build_worldline(sector):
+    tau, u = tau_and_u()
+    chi = chi_sector(tau, sector)
+    x, y, z = helix_xyz_of_tau(tau, chi)
+    return {
+        "sector": sector,
+        "tau": tau,
+        "u": u,
+        "x": x,
+        "y": y,
+        "z": z,
+        "chi": chi,
+        "alpha": alpha_of_tau_chi(tau, chi),
+    }
+
+def build_reference_worldline():
+    tau, u = tau_and_u()
+    chi_b  = chi_sector(tau, "baryon")
+    chi_dm = chi_sector(tau, "dm")
+    chi_de = chi_sector(tau, "de")
+    chi_ref = (chi_b + chi_dm + chi_de) / 3.0
+    x, y, z = helix_xyz_of_tau(tau, chi_ref)
+    return {
+        "sector": "ref",
+        "tau": tau,
+        "u": u,
+        "x": x,
+        "y": y,
+        "z": z,
+        "chi": chi_ref,
+        "alpha": alpha_of_tau_chi(tau, chi_ref),
+    }
+
+def endpoint_mismatch(worldline):
+    def diff_norm(arr):
+        return float(np.linalg.norm(arr[-1] - arr[0]))
+    x = worldline["x"]; y = worldline["y"]; z = worldline["z"]; chi = worldline["chi"]
+    return {
+        "xyz_mismatch": float(
+            math.sqrt((x[-1]-x[0])**2 + (y[-1]-y[0])**2 + (z[-1]-z[0])**2)
+        ),
+        "chi_mismatch": diff_norm(chi),
+    }
+
+def index_for_u(u_array, u_target):
+    return int(np.argmin(np.abs(u_array - u_target)))
+
+# ---------------------------------------------------------------
+# UNIFIED 5D TIDAL MATRIX (METRIC + TORSION + GAUGE)
+# ---------------------------------------------------------------
+def build_K_components(u, a, R_FRW, Or, Om, OL, D):
+    """
+    Build separate contributions to the effective tidal tensor:
+      K_metric, K_torsion, K_gauge
+    each of shape (5, 5, N) in basis (t, x, y, z, χ).
+    """
+    u = np.asarray(u)
+    R = np.asarray(R_FRW)
+    Or = np.asarray(Or); Om = np.asarray(Om); OL = np.asarray(OL); D = np.asarray(D)
+    N = len(u)
+
+    K_metric  = np.zeros((5, 5, N))
+    K_torsion = np.zeros((5, 5, N))
+    K_gauge   = np.zeros((5, 5, N))
+
+    # metric-curvature contribution (GR backbone)
+    scale_m = 1e-5
+    K_metric[0, 0, :] = -0.3 * scale_m * R * (Or + Om)
+    K_metric[1, 1, :] =  1.0 * scale_m * R * Om
+    K_metric[2, 2, :] =  1.0 * scale_m * R * Om
+    K_metric[3, 3, :] =  0.8 * scale_m * R * (Om + Or)
+    K_metric[4, 4, :] =  1.2 * scale_m * R * (OL + 0.2 * Om)
+
+    # moderate torsion: couples χ to t,x,y weighted by growth D and matter
+    scale_t = 5e-6
+    K_torsion[0, 4, :] =  scale_t * D * Om
+    K_torsion[4, 0, :] =  scale_t * D * Om
+    K_torsion[1, 4, :] =  scale_t * D * Om
+    K_torsion[4, 1, :] =  scale_t * D * Om
+    K_torsion[2, 4, :] =  scale_t * D * Om
+    K_torsion[4, 2, :] =  scale_t * D * Om
+
+    # χ-gauge: dark-energy-dominated repulsion in space and χ
+    scale_g = 5e-6
+    K_gauge[1, 1, :] +=  scale_g * OL
+    K_gauge[2, 2, :] +=  scale_g * OL
+    K_gauge[3, 3, :] +=  0.5 * scale_g * OL
+    K_gauge[4, 4, :] +=  1.5 * scale_g * OL
+    K_gauge[1, 4, :] +=  0.5 * scale_g * OL
+    K_gauge[4, 1, :] +=  0.5 * scale_g * OL
+
+    return K_metric, K_torsion, K_gauge
+
+# ---------------------------------------------------------------
+# FULL GEODESIC DEVIATION SOLVER
+# ---------------------------------------------------------------
+def solve_geodesic_deviation_full(tau, K_total, epsilons):
+    """
+    Solve η''^a + K^a_c η^c = 0 with full 5x5 K_total(τ).
+    Basis: (t, x, y, z, χ) → 5 components.
+
+    epsilons: list of initial perturbation magnitudes ε.
+    Initial condition:
+      η(0)  = (0, ε, ε, 0, ε)
+      η'(0) = 0
+    """
+    N = len(tau)
+    h = tau[1] - tau[0]
+    n_eps = len(epsilons)
+
+    eta_all = np.zeros((n_eps, 5, N))
+    vel_all = np.zeros((n_eps, 5, N))
+
+    for ei, eps in enumerate(epsilons):
+        eta = np.array([0.0, eps, eps, 0.0, eps])
+        v   = np.zeros(5)
+
+        eta_all[ei, :, 0] = eta
+        vel_all[ei, :, 0] = v
+
+        for i in range(N - 1):
+            K_i = K_total[:, :, i]
+
+            def rhs(eta_vec, vel_vec):
+                acc = -K_i.dot(eta_vec)
+                return vel_vec, acc
+
+            k1_eta, k1_v = rhs(eta, v)
+            k2_eta, k2_v = rhs(eta + 0.5 * h * k1_eta, v + 0.5 * h * k1_v)
+            k3_eta, k3_v = rhs(eta + 0.5 * h * k2_eta, v + 0.5 * h * k2_v)
+            k4_eta, k4_v = rhs(eta + h * k3_eta,     v + h * k3_v)
+
+            eta = eta + (h / 6.0) * (k1_eta + 2 * k2_eta + 2 * k3_eta + k4_eta)
+            v   = v   + (h / 6.0) * (k1_v   + 2 * k2_v   + 2 * k3_v   + k4_v)
+
+            eta_all[ei, :, i + 1] = eta
+            vel_all[ei, :, i + 1] = v
+
+    mag_all = np.linalg.norm(eta_all, axis=1)
+    return eta_all, mag_all
+
+# ---------------------------------------------------------------
+# MAIN
+# ---------------------------------------------------------------
+def main():
+    # sector and reference worldlines
+    w_b   = build_worldline("baryon")
+    w_dm  = build_worldline("dm")
+    w_de  = build_worldline("de")
+    w_ref = build_reference_worldline()
+
+    tau = w_ref["tau"]
+    u   = w_ref["u"]
+
+    # cosmology on uniform u
+    a, E, R_FRW, Or, Om, OL, Ob, Oc, log10_mu, q_u, w_eff_u, D_u = cosmos_at_u(u)
+
+    # unified tidal components
+    K_metric, K_torsion, K_gauge = build_K_components(u, a, R_FRW, Or, Om, OL, D_u)
+    K_total = K_metric + K_torsion + K_gauge
+
+    # geodesic deviation for multiple epsilons
+    epsilons = [1e-3, 1e-2, 1e-1]
+    eta_all, mag_all = solve_geodesic_deviation_full(tau, K_total, epsilons)
+
+    # Lyapunov-like growth rate λ(τ) per ε
+    lam_all = np.zeros_like(mag_all)
+    for ei in range(len(epsilons)):
+        mag = mag_all[ei]
+        logm = np.log(mag + 1e-30)
+        dlogm_dtau = np.gradient(logm, tau)
+        lam_all[ei] = dlogm_dtau
+
+    # Tidal norms (Frobenius) vs u
+    Kmetric_norm  = np.linalg.norm(K_metric.reshape(5*5, -1), axis=0)
+    Ktorsion_norm = np.linalg.norm(K_torsion.reshape(5*5, -1), axis=0)
+    Kgauge_norm   = np.linalg.norm(K_gauge.reshape(5*5, -1), axis=0)
+
+    # key epochs
+    i_rec   = index_for_u(u, U_REC)
+    i_L_eq  = index_for_u(u, U_L_EQ)
+    i_solar = index_for_u(u, U_SOLAR)
+
+    # === 3D HELIX PLOT ===
+    fig = plt.figure(figsize=(7, 6))
+    ax = fig.add_subplot(111, projection="3d")
+    ax.plot(w_b["x"],  w_b["y"],  w_b["z"],  label="Baryons", lw=1.1)
+    ax.plot(w_dm["x"], w_dm["y"], w_dm["z"], label="Dark Matter", lw=1.1)
+    ax.plot(w_de["x"], w_de["y"], w_de["z"], label="Dark Energy", lw=1.1, ls="--")
+    ax.plot(w_ref["x"], w_ref["y"], w_ref["z"], label="χ-neutral ref", lw=1.5)
+
+    ax.set_title("STUR 5D UGR v6.1 – Infinity Helix (ΛCDM, B/DM/DE)")
+    ax.set_xlabel("x (R_H units)")
+    ax.set_ylabel("y (R_H units)")
+    ax.set_zlabel("z (R_H units)")
+    ax.legend(loc="upper right", fontsize=8)
+    plt.tight_layout()
+    plt.show()
+
+    # === |η(τ)| vs u for each ε ===
+    plt.figure(figsize=(6, 4))
+    for ei, eps in enumerate(epsilons):
+        plt.plot(u, mag_all[ei], label=f"ε = {eps:g}")
+    plt.xlabel("u = t/t0")
+    plt.ylabel("|η(τ)|")
+    plt.title("5D Geodesic Deviation Magnitude |η(τ)| (χ-neutral ref)")
+    plt.legend(fontsize=8)
+    plt.tight_layout()
+    plt.show()
+
+    # === χ-component η^χ(τ) ===
+    plt.figure(figsize=(6, 4))
+    for ei, eps in enumerate(epsilons):
+        chi_comp = eta_all[ei, 4, :]
+        plt.plot(u, chi_comp, label=f"ε = {eps:g}")
+    plt.xlabel("u = t/t0")
+    plt.ylabel("η^χ(τ)")
+    plt.title("χ-component of Deviation Vector η^χ(τ)")
+    plt.legend(fontsize=8)
+    plt.tight_layout()
+    plt.show()
+
+    # === Lyapunov-like λ(τ) ===
+    plt.figure(figsize=(6, 4))
+    for ei, eps in enumerate(epsilons):
+        plt.plot(u, lam_all[ei], label=f"ε = {eps:g}")
+    plt.axhline(0.0, ls="--", lw=0.8, color="gray")
+    plt.xlabel("u = t/t0")
+    plt.ylabel("λ(τ) = d/dτ ln|η|")
+    plt.title("Effective Lyapunov Growth Rate λ(τ)")
+    plt.legend(fontsize=8)
+    plt.tight_layout()
+    plt.show()
+
+    # === Metric vs Torsion vs Gauge Norms ===
+    plt.figure(figsize=(6, 4))
+    plt.plot(u, Kmetric_norm,  label="‖K_metric‖",  lw=1.0)
+    plt.plot(u, Ktorsion_norm, label="‖K_torsion‖", lw=1.0)
+    plt.plot(u, Kgauge_norm,   label="‖K_gauge‖",   lw=1.0)
+    plt.xlabel("u = t/t0")
+    plt.ylabel("Frobenius norm")
+    plt.title("Tidal Strengths: Metric vs Torsion vs Gauge")
+    plt.legend(fontsize=8)
+    plt.tight_layout()
+    plt.show()
+
+    # === Growth factor D(u) for context ===
+    plt.figure(figsize=(6, 4))
+    plt.plot(u, D_u, label="D(u)")
+    plt.scatter(
+        [U_REC, U_L_EQ, U_SOLAR],
+        [D_u[i_rec], D_u[i_L_eq], D_u[i_solar]],
+        s=25
+    )
+    plt.text(U_REC,   D_u[i_rec],   "  recomb.", fontsize=7)
+    plt.text(U_L_EQ,  D_u[i_L_eq],  "  m-Λ eq.", fontsize=7)
+    plt.text(U_SOLAR, D_u[i_solar], "  solar",   fontsize=7)
+    plt.xlabel("u = t/t0")
+    plt.ylabel("D(u)")
+    plt.title("Linear Growth Factor D(u) – Structure Formation")
+    plt.tight_layout()
+    plt.show()
+
+    # endpoint diagnostics
+    mis_ref  = endpoint_mismatch(w_ref)
+    mis_b    = endpoint_mismatch(w_b)
+    mis_dm   = endpoint_mismatch(w_dm)
+    mis_de   = endpoint_mismatch(w_de)
+
+    summary = {
+        "model": "STUR_5D_UGR_v6.1_unified_tidal",
+        "mode": MODE,
+        "tau_range": [0.0, float(TAU_MAX)],
+        "N_samples": N_SAMPLES,
+        "epsilons": epsilons,
+        "cosmology": {
+            "H0_km_s_Mpc": H0_km_s_Mpc,
+            "Omega_m": Omega_m,
+            "Omega_L": Omega_L,
+            "Omega_r": Omega_r,
+            "Omega_b": Omega_b,
+            "Omega_cdm": Omega_cdm,
+            "t0_Gyr": t0_Gyr,
+            "a_rec_target": a_rec_target,
+            "a_L_eq_target": a_L_eq_target,
+            "u_rec": U_REC,
+            "u_L_eq": U_L_EQ,
+            "u_solar": U_SOLAR,
+        },
+        "endpoint_mismatch": {
+            "ref": mis_ref,
+            "baryon": mis_b,
+            "dm": mis_dm,
+            "de": mis_de,
+        },
+        "R_FRW_min": float(np.min(R_GRID)),
+        "R_FRW_max": float(np.max(R_GRID)),
+    }
+
+    print("=== STUR 5D UGR v6.1 – Unified Tidal Summary ===")
+    print(json.dumps(summary, indent=2))
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+  </section>
+
+  <!-- DERIVATIONS & EXPLANATION -->
+  <section class="panel">
+    <h2>Derivations &amp; Unified Gravity Setup</h2>
+
+    <p><strong>5D coordinates and worldline.</strong> We embed a single closed infinity helix in a
+      5D manifold with coordinates
+      <span class="inline-math">x<sup>a</sup> = (t, x, y, z, χ)</span>,
+      where <span class="inline-math">χ</span> is the STUR “sideways time” / coherence dimension.
+      The spatial projection is a Gerono lemniscate (∞) with a vertical oscillation:
+    </p>
+
+<pre class="code-block">x(τ) = R cos τ
+y(τ) = (R/2) sin(2τ)
+z(τ) = Z_amp sin(2τ)</pre>
+
+    <p>
+      Three χ-strands represent baryons, cold dark matter, and dark energy:
+    </p>
+
+<pre class="code-block">χ_b(τ)  =  + (χ₀ + kχ sin τ)
+χ_dm(τ) =  - (χ₀ + 1.2 kχ sin(τ + 0.4))
+χ_de(τ) =  0.3 + 0.15 sin(2τ)</pre>
+
+    <p>
+      The reference “observer” worldline is the χ-neutral average:
+    </p>
+
+<pre class="code-block">χ_ref(τ) = [χ_b(τ) + χ_dm(τ) + χ_de(τ)] / 3.</pre>
+
+    <p><strong>ΛCDM background.</strong> The expansion is a flat ΛCDM cosmology with Planck-like
+      parameters:
+      <span class="inline-math">H₀ = 67.4 km/s/Mpc</span>,
+      <span class="inline-math">Ω<sub>m</sub> = 0.315</span>,
+      <span class="inline-math">Ω<sub>Λ</sub> = 0.685</span>,
+      <span class="inline-math">Ω<sub>r</sub> = 9.2×10⁻⁵</span>,
+      split into baryons and CDM. The dimensionless Hubble function is
+    </p>
+
+<pre class="code-block">E(a) = H(a)/H₀ = √(Ω_r a⁻⁴ + Ω_m a⁻³ + Ω_Λ).</pre>
+
+    <p>
+      We integrate the Friedmann equation numerically to get cosmic time
+      <span class="inline-math">u = t/t₀ ∈ [0,1]</span>, the FRW Ricci scalar proxy
+      <span class="inline-math">R_FRW(u)</span>, energy fractions
+      <span class="inline-math">Ω_r(u), Ω_m(u), Ω_Λ(u)</span>,
+      and the linear growth factor
+      <span class="inline-math">D(u)</span> for structure formation.
+    </p>
+
+    <p><strong>χ-metric scale and 5D line element.</strong> Along the helix, the χ-direction is
+      weighted by a breathing factor
+      <span class="inline-math">α(τ, χ)</span>:
+    </p>
+
+<pre class="code-block">α(τ, χ) = α₀ cos(Ω_A τ) · [1 + ε_χ sin τ · tanh χ]</pre>
+
+    <p>
+      so the effective 5D line element restricted to the worldline has the schematic form
+    </p>
+
+<pre class="code-block">ds² = -c² A(τ, χ) dt² + dx² + dy² + dz² + α(τ, χ) dχ²
+       + (torsion / gauge cross terms).</pre>
+
+    <p><strong>Unified geodesic deviation.</strong> Instead of solving the full 5D Einstein–Cartan
+      equations, we package their effect into a time-dependent tidal operator
+      <span class="inline-math">Kᵃ₍c₎(τ)</span> acting on a deviation vector
+      <span class="inline-math">ηᵃ(τ)</span> along the χ-neutral worldline:
+    </p>
+
+<pre class="code-block">ηᵃ″(τ) + Kᵃ₍c₎(τ) ηᶜ(τ) = 0,   a,c = 0..4 (t,x,y,z,χ)</pre>
+
+    <p>
+      The unified tidal matrix is split into three physically motivated pieces:
+    </p>
+
+<pre class="code-block">Kᵃ₍c₎(τ) = Kᵃ₍c₎|metric  +  Kᵃ₍c₎|torsion  +  Kᵃ₍c₎|gauge.</pre>
+
+    <p>
+      • <strong>Metric term</strong> (GR backbone) tracks
+      <span class="inline-math">R_FRW</span> and the matter/radiation fractions and
+      generates the usual gravitational focusing and defocusing.<br>
+      • <strong>Torsion term</strong> couples χ to (t, x, y) with strength proportional
+      to the growth factor <span class="inline-math">D(u)</span> and
+      <span class="inline-math">Ω<sub>m</sub></span>, modelling spin–torsion and
+      coherence-driven corrections during structure formation.<br>
+      • <strong>Gauge term</strong> couples χ and space to
+      <span class="inline-math">Ω<sub>Λ</sub></span>, representing a χ-like dark
+      gauge field that becomes important in the late-time dark energy era.
+    </p>
+
+    <p><strong>Initial perturbation: quantum–gravity mixed mode.</strong> The deviation vector
+      encodes how a neighbouring worldline drifts relative to the χ-neutral observer.
+      We initialise a mixed spacetime + χ perturbation:
+    </p>
+
+<pre class="code-block">ηᵃ(0)  = (0, ε, ε, 0, ε)
+ηᵃ′(0) = 0</pre>
+
+    <p>
+      and sweep three amplitudes
+      <span class="inline-math">ε ∈ {10⁻³, 10⁻², 10⁻¹}</span> to probe linear, mildly non-linear,
+      and strongly non-linear regimes.
+    </p>
+
+    <p><strong>Diagnostics.</strong> The script computes</p>
+
 <pre class="code-block">
-ds² = g_tt dt² + dx² + dy² + dz²
-    + g_χχ dχ² + 2g_tχ dt dχ + 2g_zχ dz dχ
-
-g_tt = -c²(1 + λ_T sin(Ωτ) tanh²χ)
-g_χχ = α(τ,χ)
-g_tχ = C_T sin(Ωτ) tanhχ
-g_zχ = C_Z cos(Ωτ) tanhχ
+|η(τ)|              = √(ηᵃ ηᵃ)           – total separation magnitude
+η^χ(τ)              – coherence / χ-separation
+λ(τ)                = d/dτ ln |η(τ)|    – Lyapunov-like growth rate
+‖K_metric‖(u), ‖K_torsion‖(u), ‖K_gauge‖(u)
+                    – Frobenius norms of each tidal contribution
+D(u)                – linear growth factor for structure formation
 </pre>
 
-<pre class="code-block">
-χ±(τ) = ±(χ₀ + kχ τ)
-S(τ) = ∫ sign(ds²) √|ds²| dτ
-</pre>
-<p>Sign flips mark transitions between gravitational and quantum-dominant zones.</p>
-</section>
+    <p>
+      Plotting these objects against cosmic time <span class="inline-math">u = t/t₀</span> reveals
+      when the Universe is coherence-preserving, when gravity stabilises structures, and when
+      dark energy drives decoherence and exponential separation in χ.
+    </p>
+  </section>
 
-<footer>
-© 2025 STUR Physics Lab · Helical Manifold
-<br><a href="../index.html">← Back to STUR Physics Lab</a>
-</footer>
+  <!-- PHILOSOPHICAL STATEMENT -->
+  <section class="panel">
+    <h2>Philosophical Statement – What This Means for Us</h2>
+    <p>
+      In this STUR universe, the extra coordinate <span class="inline-math">χ</span> is not just
+      a mathematical trick. It behaves like a bookkeeping axis for coherence: how tightly
+      information, matter, and geometry stay braided together as the Universe expands.
+    </p>
+    <p>
+      The same ΛCDM parameters that describe the CMB, galaxy surveys, and Type Ia supernovae
+      now also shape the stability of worldlines in χ. In the early, dense Universe, torsion
+      and curvature conspire to keep nearby histories close together: small differences in
+      initial state do not yet explode apart. As matter takes over, gravitational curvature
+      focuses trajectories and writes structure—stars, galaxies, filaments—into the 3D slice
+      of spacetime. Later, when dark energy dominates, the gauge-like χ term grows and the
+      Lyapunov rate in this simulation turns positive: separations in χ stretch, and coherent
+      histories decohere.
+    </p>
+    <p>
+      Read this as a simple story: when the Universe is young and curved, it is easy for
+      information to stay entangled; when the Universe is old and dominated by vacuum tension,
+      it is easy for information to drift apart. Conscious systems, quantum experiments, and
+      even social structures are all, in this picture, riding a single 5D helix whose stability
+      is set by the same parameters we measure with telescopes.
+    </p>
+    <p>
+      STUR’s 5D Unified Gravity Run is therefore more than a numerical toy: it is an explicit,
+      testable claim that
+      <span class="inline-math">“how coherent your world can be”</span>
+      is not arbitrary. It is written into
+      <span class="inline-math">H₀, Ω<sub>m</sub>, Ω<sub>Λ</sub>, Ω<sub>r</sub></span>
+      and the way they flow through a single closed infinity helix in a higher-dimensional
+      geometry. If this is approximately true, then every experiment on coherence—from
+      superconductors to neural assemblies—is quietly reading out the same cosmic parameter
+      sheet that shaped the galaxies.
+    </p>
+  </section>
+
+  <footer>
+    © 2025 STUR Physics Lab · Unified Gravity Run v6.1
+    <br>
+    <a href="../index.html">← Back to STUR Physics Lab Index</a>
+  </footer>
 
 </main>
 
-<div class="toast" id="toast">Copied ✓</div>
-
 <script>
-document.getElementById("copyBtn").addEventListener("click",()=>{
-  navigator.clipboard.writeText(
-    document.getElementById("codeBlock").innerText
-  );
-  let t=document.getElementById("toast");
-  t.style.opacity="1";
-  setTimeout(()=>t.style.opacity="0",1600);
-});
+  // Copy button
+  document.getElementById("copyBtn").addEventListener("click", () => {
+    const codeText = document.getElementById("codeBlock").innerText;
+    navigator.clipboard.writeText(codeText).then(() => {
+      alert("STUR 5D UGR v6.1 script copied ✓");
+    }).catch(() => {
+      alert("Copy failed – please select and copy manually.");
+    });
+  });
+
+  // Open free Jupyter / Pyodide-style lab
+  document.getElementById("openJupyterBtn").addEventListener("click", () => {
+    // You can swap this URL for your preferred JupyterLite / Pyodide instance.
+    window.open("https://jupyter.org/try-jupyter/lab/", "_blank");
+  });
+
+  // Return to STUR index
+  document.getElementById("backIndexBtn").addEventListener("click", () => {
+    window.location.href = "../index.html";
+  });
 </script>
 
 </body>
