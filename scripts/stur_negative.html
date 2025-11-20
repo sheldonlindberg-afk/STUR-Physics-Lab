@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Negative Energy – Exotic Stress-Energy and Wormhole Bounds</title>
+<title>STUR-X 5D Negative Energy – Exotic Stress-Energy and Wormhole Bounds</title>
 <style>
   body{
     background:#050814;
@@ -61,134 +61,223 @@
 </head>
 <body>
 
-<h1>STUR Negative Energy<br>Exotic Stress-Energy and Wormhole Bounds</h1>
+<h1>STUR-X 5D Negative Energy<br>Exotic Stress-Energy and Wormhole Bounds</h1>
 
-<h2>Derivation Overview</h2>
+<h2>Derivation Overview (STUR-X 5D Uplift)</h2>
 <div class="desc">
 <p>
-We build a radial effective model for exotic stress-energy supporting a
-STUR-style wormhole throat. The microscopic forces (electromagnetic, gravitational,
-strong-like, and spin-torsion) act on a test probe at radius <code>r</code>:
+We start from the usual 4D effective picture of exotic stress–energy near a
+wormhole throat and then <b>promote it to a STUR-X 5D geometry</b>:
+a Lorentzian 4D manifold plus an informational / sideways time axis
+<span style="white-space:nowrap;"><code>χ</code></span>,
+</p>
+<p style="text-align:center;">
+<code>M₄(-+++) ⊕ χ, coordinates (t, r, θ, φ, χ).</code>
+</p>
+
+<p>
+In 4D, microscopic forces (electromagnetic, gravitational, strong-like,
+and spin-torsion) act on a test probe at radius <code>r</code>:
 </p>
 <p style="text-align:center;">
 <code>
-F_EM(r) = k_e q² / r², F_grav(r) = − G m² / r², 
-F_strong(r) = α_s ( (1 − e^{−r/λ}) / r² + σ r e^{−r/ℓ_Q} ),<br>
+F_EM(r) = k_e q² / r², F_grav(r) = − G m² / r²,<br>
+F_strong(r) = α_s ((1 − e^{−r/λ}) / r² + σ r e^{−r/ℓ_Q}),<br>
 F_spin(r) ≈ γ₀ e^{−r/ℓ_B} S_mag B₀.
 </code>
 </p>
+
 <p>
-A STUR radial modulator <code>S(r)</code> multiplies the net radial force to encode
-geometric and modular structure:
+A STUR radial modulator <code>S₀(r)</code> encodes curvature and modular
+structure:
 </p>
 <p style="text-align:center;">
 <code>
-S(r) = [1 + 0.1 sin(2π r / L_mod)] tanh(r / L₀) (1 − e^{−r / L₀}).
+S₀(r) = tanh(r / L₀) (1 − e^{−r / L₀}) [1 + 0.1 sin(2π r / L_mod)].
 </code>
 </p>
+
 <p>
-The total radial and non-radial (spin) contributions are
+To pass to <b>STUR-X 5D</b>, we let the sideways time coordinate
+<code>χ</code> track how bound vs. unbound information flows through the throat.
+We introduce a χ-envelope (local coherence) and a χ-curvature penalty:
 </p>
 <p style="text-align:center;">
 <code>
-F_rad(r) = S(r) [F_EM(r) + F_grav(r) + F_strong(r)],<br>
-F_nonrad(r) = F_spin(r).
+E_χ(χ) = exp[−(χ/χ₀)²], C_χ(χ) = 1 / (1 + (χ/χ_c)²),
+</code><br>
+<code>
+S_X(r, χ) = S₀(r) · E_χ(χ) · C_χ(χ).
 </code>
 </p>
+
 <p>
-We then construct an effective exotic energy density <code>ρ(r)</code> and radial pressure
-<code>p_r(r)</code> with small stochastic fluctuations:
+At fixed <code>χ</code>, the total radial and non-radial contributions become
 </p>
 <p style="text-align:center;">
 <code>
-ρ(r) ≈ b² / [8π (r² + b²)²] + δρ(r),<br>
-p_r(r) ≈ − S(r) α_s σ r e^{−r/ℓ_Q} / [4π r² V₀] + δp(r),
+F_rad⁽⁵ᴰ⁾(r, χ) = S_X(r, χ) [F_EM(r) + F_grav(r) + F_strong(r)],<br>
+F_nonrad(r) = F_spin(r),
 </code>
 </p>
 <p>
-where <code>b</code> is a throat scale and <code>V₀</code> an effective volume. Fluctuations
-<code>δρ, δp</code> are Gaussian with variance tied to a Planck-scale fluctuation scale.
-The combination <code>ρ + p_r</code> controls energy-condition violation.
+and we build an effective 5D exotic energy density and radial pressure
+with controlled χ-dependent fluctuations:
+</p>
+<p style="text-align:center;">
+<code>
+ρ(r, χ) ≈ b² / [8π (r² + b²)²] + δρ(r, χ),<br>
+p_r(r, χ) ≈ − S_X(r, χ) α_s σ r e^{−r/ℓ_Q} / [4π r² V₀] + δp(r, χ),
+</code>
 </p>
 <p>
-From <code>ρ</code> and <code>p_r</code> we compute:
+with <code>b</code> the throat scale, <code>V₀</code> an effective cell volume and
+χ-noise tuned so that fluctuations are strongest near the throat and near
+the χ-axis where topology can change.
+</p>
+
+<p>
+The combination <code>ρ + p_r</code> still controls energy-condition violation.
+From it we compute at each (<code>r, χ</code>):
 </p>
 <ul>
-  <li>Local exotic entropy density <code>s(r) ∝ |ρ + p_r| / T_P</code></li>
+  <li>Local exotic entropy density
+      <code>s(r, χ) ∝ |ρ + p_r| / T_P</code></li>
   <li>Entanglement entropy (holographic-like)
     <code>
-    S_ent(r) ≈ − A / (4 ℓ_P²) log[1 + |ρ + p_r| / ρ_P] / k_B
+    S_ent(r, χ) ≈ − A(r) / (4 ℓ_P²) log[1 + |ρ + p_r| / ρ_P] / k_B
     </code>
   </li>
-  <li>Bekenstein bound
-    <code>S_B &lt; 2π r E / (ħ c k_B)</code> with <code>E ≈ ρ V₀</code></li>
-  <li>Holographic bound <code>S_hol = A / (4 ℓ_P² k_B)</code></li>
+  <li>Bekenstein and holographic bounds using
+    <code>E ≈ ρ(r, χ) V₀</code> and <code>A = 4π r²</code></li>
 </ul>
+
 <p>
-We also define:
+To quantify how “STUR-X coherent” a configuration is, we define an
+X-coherence indicator
+</p>
+<p style="text-align:center;">
+<code>
+κ_X(r, χ) = S_X(r, χ)² / [1 + |ρ(r, χ) + p_r(r, χ)| / ρ_P],
+</code>
+</p>
+<p>
+so that large modulator and small energy-condition violation give
+high κ_X.  We then average over χ to get 5D radial profiles,
+</p>
+<p style="text-align:center;">
+<code>
+⟨…⟩_χ = (1 / Δχ) ∫ dχ (…)  (discretized in the code).
+</code>
+</p>
+
+<p>
+Stability is probed by the sign of <code>d/dr ⟨ρ + p_r⟩_χ</code>; a positive
+gradient flags an instability.  A topology flag is raised whenever
+<code>⟨ρ + p_r⟩_χ &lt; 0</code> at a diagnostic radius.  A simple traversal-time
+integral,
+</p>
+<p style="text-align:center;">
+<code>
+τ(r) ≈ ∫ dl / √(1 − b² / r(l)²),
+</code>
+</p>
+<p>
+is compared to external light travel time <code>2r/c</code> to tag potential
+causality violations.
+</p>
+
+<p>
+The Python engine below:
 </p>
 <ul>
-  <li>A stability diagnostic: if <code>d/dr (ρ + p_r) &gt; 0</code> anywhere, we flag
-      “Unstable”, else “Stable”.</li>
-  <li>A topology flag: negative <code>ρ + p_r</code> suggests possible topology change.</li>
-  <li>A simple traversal-time integral
-    <code>
-    τ ≈ ∫ dl / √(1 − b² / r(l)²),
-    </code>
-    compared against an external light travel time <code>2r/c</code> to assess
-    causality risk.</li>
+  <li>Samples <code>r</code> from near Planck length to atomic scales,</li>
+  <li>Samples <code>χ</code> across a sideways-time band,</li>
+  <li>Runs several noise realizations,</li>
+  <li>Averages all observables over χ and Monte-Carlo runs,</li>
+  <li>Generates diagnostic plots for forces, (ρ + p_r), entropies,
+      bounds, and X-coherence,</li>
+  <li>Prints a detailed table plus a JSON blob ready for archiving.</li>
 </ul>
-<p>
-The script below samples radii from Planck length to atomic scales, runs several
-noise realizations, averages the observables, generates four diagnostic plots, and
-prints both a detailed table and a JSON summary ready for archiving.
-</p>
+
+<p><i>
+Philosophically, STUR-X treats negative energy not as free energy,
+but as a bookkeeping of how information and curvature are traded
+between bound and unbound states along χ.  Stable wormholes are then
+high-κ_X regions where those trades remain coherent across all five
+dimensions.
+</i></p>
 </div>
 
-<h2>Python Simulation (copy into Jupyter/JupyterLite)</h2>
+<h2>Python Simulation (STUR-X 5D, Jupyter/JupyterLite-safe)</h2>
 
 <pre id="codeBlock">#!/usr/bin/env python3
-# ===============================================================
-# STUR Negative Energy – Exotic Stress-Energy and Wormhole Bounds
-# Jupyter-safe: NumPy + Matplotlib + JSON only
-# ===============================================================
+# ==================================================================
+# STUR-X 5D Negative Energy – Exotic Stress-Energy and Wormhole Bounds
+#   • 5D manifold: M4(-+++) ⊕ χ
+#   • χ = sideways time / information axis
+#   • Jupyter-safe: NumPy + Matplotlib + JSON only
+# ==================================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
 import json
 
 # ------------------ CONSTANTS (SI) ------------------------------
-k_e = 8.9875e9      # N·m^2/C^2
-G = 6.6743e-11      # N·m^2/kg^2
-q = 1.602e-19       # C (proton charge)
-m = 1.673e-27       # kg (proton mass)
-alpha_s = 1e-26     # N·m^2 (effective strong-like)
-sigma = 1e50        # N/m (tuned confinement)
-lambda_ = 1e-15     # m (strong range)
-L_0 = 1e-35         # m (STUR modulation scale)
-V_0 = 1e-45         # m^3 (effective volume)
-b = 1e-15           # m (throat radius)
-ell_Q = 1e-35       # m (QEI cutoff)
-hbar = 1.055e-34    # J·s
-c = 3e8             # m/s
-k_B = 1.38e-23      # J/K
-T_P = 1.42e32       # K (Planck temperature)
-ell_P = 1.616e-35   # m (Planck length)
-m_P = 2.176e-8      # kg (Planck mass)
-rho_P = m_P * c**2 / ell_P**3  # ~1e97 J/m^3 (energy density)
-gamma_0 = 1e-20     # N·m (torque coefficient)
-ell_B = 1e-10       # m (spin decay scale)
-B_0 = 1e-5          # T (background B-field)
-S_mag = hbar / 2.0  # spin magnitude
-L_mod = 1e-34       # m (modulation period)
-fluct_scale = hbar / c  # base fluctuation scale
-num_runs = 10       # number of noise realizations
+k_e   = 8.9875e9      # N·m^2/C^2
+G     = 6.6743e-11    # N·m^2/kg^2
+q     = 1.602e-19     # C (proton charge)
+m     = 1.673e-27     # kg (proton mass)
+alpha_s = 1e-26       # N·m^2 (effective strong-like)
+sigma   = 1e50        # N/m (tuned confinement)
+lambda_ = 1e-15       # m (strong range)
+L_0     = 1e-35       # m (STUR modulation scale)
+L_mod   = 1e-34       # m (modulation period)
+V_0     = 1e-45       # m^3 (effective coarse-grained cell)
+b       = 1e-15       # m (throat radius)
+ell_Q   = 1e-35       # m (QEI cutoff)
+hbar    = 1.055e-34   # J·s
+c       = 3e8         # m/s
+k_B     = 1.38e-23    # J/K
+T_P     = 1.42e32     # K (Planck temperature)
+ell_P   = 1.616e-35   # m (Planck length)
+m_P     = 2.176e-8    # kg (Planck mass)
+rho_P   = m_P * c**2 / ell_P**3  # ~1e97 J/m^3 (Planck energy density)
+gamma_0 = 1e-20       # N·m (torque coefficient)
+ell_B   = 1e-10       # m (spin decay scale)
+B_0     = 1e-5        # T (background B-field)
+S_mag   = hbar / 2.0  # spin magnitude
 
-# ------------------ RADIAL MODULATOR ----------------------------
-def S(r):
-    """STUR radial modulator with modular flow."""
+# STUR-X χ-dimension parameters
+chi_0   = 1.0         # coherence width in χ (dimensionless)
+chi_c   = 2.0         # curvature penalty scale in χ (dimensionless)
+chi_max = 4.0         # χ-range: [-chi_max, chi_max]
+N_chi   = 41          # number of χ samples
+
+fluct_scale = hbar / c  # base fluctuation scale
+num_runs    = 8         # number of Monte Carlo noise realizations
+
+# ------------------ RADIAL / SIDEWAYS GRIDS --------------------
+r_values   = np.logspace(-35, -10, num=20)
+chi_values = np.linspace(-chi_max, chi_max, N_chi)
+
+# ------------------ STUR & STUR-X MODULATORS -------------------
+def S0(r):
+    """Pure radial STUR modulator (4D)."""
     mod_flow = 1.0 + 0.1 * np.sin(2.0 * np.pi * r / L_mod)
     return mod_flow * np.tanh(r / L_0) * (1.0 - np.exp(-r / L_0))
+
+def S_X(r, chi):
+    """
+    STUR-X 5D modulator:
+      • S0(r): radial curvature / modular flow
+      • exp(-(chi/chi0)^2): χ coherence envelope
+      • 1 / (1 + (chi/chi_c)^2): χ curvature penalty
+    """
+    s0  = S0(r)
+    env = np.exp(-(chi / chi_0)**2)
+    curv_pen = 1.0 / (1.0 + (chi / chi_c)**2)
+    return s0 * env * curv_pen
 
 # ------------------ FORCE COMPONENTS ----------------------------
 def F_EM(r):
@@ -204,43 +293,46 @@ def F_strong(r):
     return alpha_s * ((1.0 - np.exp(-r / lambda_)) / r**2 + linear_term)
 
 def F_spin(r):
-    """Magnitude of an effective spin-torsion force."""
+    """Magnitude of an effective spin-torsion force (non-radial)."""
     return gamma_0 * np.exp(-r / ell_B) * S_mag * B_0
 
-# ------------------ TOTAL FORCES --------------------------------
-def F_total_rad(r):
-    return S(r) * (F_EM(r) + F_grav(r) + F_strong(r))
+# 5D total forces (radial depends on χ via S_X)
+def F_total_rad_5D(r, chi):
+    return S_X(r, chi) * (F_EM(r) + F_grav(r) + F_strong(r))
 
-def F_total_nonrad(r):
-    return F_spin(r)
+def F_total_nonrad(r, chi):
+    # Option: keep non-radial independent of χ or mildly modulated
+    return F_spin(r) * (1.0 + 0.1 * np.tanh(chi / chi_c))
 
 # ------------------ ENERGY DENSITY & PRESSURE -------------------
-def rho(r, fluct=True):
-    """Effective energy density with controlled fluctuations."""
+def rho(r, chi, fluct=True):
+    """Effective 5D energy density with χ-sensitive fluctuations."""
     l = max(r, ell_P)
     base_rho = (b**2) / (8.0 * np.pi * (l**2 + b**2)**2)
+
     if fluct:
-        # Limit noise variance at very small r
-        denom = max(l**2, 1.0e-70)
+        # Noise stronger near throat and χ ~ 0
+        denom = max(l**2 + 0.25 * (chi * ell_P)**2, 1.0e-70)
         noise_scale = fluct_scale / denom
         noise = np.random.normal(0.0, noise_scale)
         base_rho += noise
-    # Clip to Planck-scale bounds to avoid overflow
+
     return float(np.clip(base_rho, -rho_P, rho_P))
 
-def p_r(r, fluct=True):
-    """Effective radial pressure with controlled fluctuations."""
+def p_r(r, chi, fluct=True):
+    """Effective 5D radial pressure with controlled fluctuations."""
     if r <= 0.0:
         base_pr = 0.0
     else:
         linear_term = sigma * r * np.exp(-r / ell_Q)
-        base_pr = -S(r) * alpha_s * linear_term / (4.0 * np.pi * r**2 * V_0)
+        base_pr = -S_X(r, chi) * alpha_s * linear_term / (4.0 * np.pi * r**2 * V_0)
+
     if fluct and r > 0.0:
-        denom = max(r**2, 1.0e-70)
+        denom = max(r**2 + 0.25 * (chi * ell_P)**2, 1.0e-70)
         noise_scale = fluct_scale / denom
         noise = np.random.normal(0.0, noise_scale)
         base_pr += noise
-    # Clip to Planck-scale bounds
+
     return float(np.clip(base_pr, -rho_P, rho_P))
 
 # ------------------ ENTROPY AND BOUNDS --------------------------
@@ -267,23 +359,32 @@ def S_holographic(r):
     A = 4.0 * np.pi * r**2
     return float(A / (4.0 * ell_P**2 * k_B))
 
+# ------------------ X-COHERENCE METRIC --------------------------
+def kappa_X_metric(SX_val, rho_val, p_r_val):
+    """
+    STUR-X coherence indicator:
+      κ_X = S_X^2 / (1 + |ρ + p_r| / ρ_P)
+    """
+    denom = 1.0 + abs(rho_val + p_r_val) / rho_P
+    return float((SX_val * SX_val) / denom)
+
 # ------------------ STABILITY & TOPOLOGY ------------------------
-def stability(r_values, rho_plus_pr_vals):
-    """Check if d(rho+pr)/dr ever > 0 (instability)."""
-    d_dr = np.diff(rho_plus_pr_vals) / np.diff(r_values)
+def stability(r_vals, rho_plus_pr_vals):
+    """Check if d(ρ+pr)/dr ever > 0 (instability)."""
+    d_dr = np.diff(rho_plus_pr_vals) / np.diff(r_vals)
     return "Unstable" if np.any(d_dr > 0.0) else "Stable"
 
 def topology_change(rho_plus_pr):
-    """Flag potential topology change if rho + pr < 0."""
+    """Flag potential topology change if ρ + pr < 0."""
     return "Possible topology change" if rho_plus_pr < 0.0 else "No change"
 
-# ------------------ TRAVERSAL TIME ------------------------------
+# ------------------ TRAVERSAL TIME (4D GEOMETRIC PROXY) --------
 def traversal_time(r):
     """
     Compare approximate proper traversal time through a throat
     against external light travel time 2r/c.
     """
-    l = np.linspace(-10.0*r, 10.0*r, 200)
+    l = np.linspace(-10.0 * r, 10.0 * r, 200)
     r_l = np.sqrt(l**2 + b**2)
     inside = 1.0 - (b**2 / (r_l**2 + 1.0e-40))
     inside_clipped = np.clip(inside, 1.0e-12, 1.0)
@@ -293,10 +394,7 @@ def traversal_time(r):
     status = "Causality preserved" if ext_time > tau else "Violation risk"
     return float(tau), float(ext_time), status
 
-# ------------------ RADIAL GRID --------------------------------
-r_values = np.logspace(-35, -10, num=20)
-
-# ------------------ MONTE CARLO AVERAGING ----------------------
+# ------------------ MONTE CARLO AVERAGING (OVER χ & RUNS) ------
 avg_data = {
     "r": r_values,
     "S": [],
@@ -308,73 +406,107 @@ avg_data = {
     "S_exo": [],
     "S_ent": [],
     "S_bek": [],
-    "S_hol": []
+    "S_hol": [],
+    "kappa_X_mean": [],
+    "kappa_X_max": []
 }
 
 for run in range(num_runs):
     for i, r in enumerate(r_values):
-        s_val   = S(r)
-        f_rad   = F_total_rad(r)
-        f_non   = F_total_nonrad(r)
-        rho_val = rho(r, fluct=True)
-        pr_val  = p_r(r,  fluct=True)
-        rho_pr  = rho_val + pr_val
-        s_exo   = s_exotic(rho_val, pr_val)
-        s_ent   = S_ent(r, rho_pr)
-        s_bek   = S_bekenstein(r, rho_val)
-        s_hol   = S_holographic(r)
 
+        # Ensure per-radius containers exist
         if len(avg_data["S"]) <= i:
-            # initialize lists for each radius index
             for key in avg_data:
                 if key != "r":
                     avg_data[key].append([])
 
-        avg_data["S"][i].append(s_val)
-        avg_data["F_rad"][i].append(f_rad)
-        avg_data["F_nonrad"][i].append(f_non)
-        avg_data["rho"][i].append(rho_val)
-        avg_data["p_r"][i].append(pr_val)
-        avg_data["rho_pr"][i].append(rho_pr)
-        avg_data["S_exo"][i].append(s_exo)
-        avg_data["S_ent"][i].append(s_ent)
-        avg_data["S_bek"][i].append(s_bek)
-        avg_data["S_hol"][i].append(s_hol)
+        S_list      = []
+        F_rad_list  = []
+        F_non_list  = []
+        rho_list    = []
+        pr_list     = []
+        rho_pr_list = []
+        S_exo_list  = []
+        S_ent_list  = []
+        S_bek_list  = []
+        S_hol_list  = []
+        kappa_list  = []
 
-# average over runs
+        for chi in chi_values:
+            sx     = S_X(r, chi)
+            f_rad  = F_total_rad_5D(r, chi)
+            f_non  = F_total_nonrad(r, chi)
+            rho_v  = rho(r, chi,  fluct=True)
+            pr_v   = p_r(r, chi,  fluct=True)
+            rho_pr = rho_v + pr_v
+
+            s_exo  = s_exotic(rho_v, pr_v)
+            s_ent  = S_ent(r, rho_pr)
+            s_bek  = S_bekenstein(r, rho_v)
+            s_hol  = S_holographic(r)
+            kappa  = kappa_X_metric(sx, rho_v, pr_v)
+
+            S_list.append(sx)
+            F_rad_list.append(f_rad)
+            F_non_list.append(f_non)
+            rho_list.append(rho_v)
+            pr_list.append(pr_v)
+            rho_pr_list.append(rho_pr)
+            S_exo_list.append(s_exo)
+            S_ent_list.append(s_ent)
+            S_bek_list.append(s_bek)
+            S_hol_list.append(s_hol)
+            kappa_list.append(kappa)
+
+        # χ-averages for this run and radius
+        avg_data["S"][i].append(float(np.mean(S_list)))
+        avg_data["F_rad"][i].append(float(np.mean(F_rad_list)))
+        avg_data["F_nonrad"][i].append(float(np.mean(F_non_list)))
+        avg_data["rho"][i].append(float(np.mean(rho_list)))
+        avg_data["p_r"][i].append(float(np.mean(pr_list)))
+        avg_data["rho_pr"][i].append(float(np.mean(rho_pr_list)))
+        avg_data["S_exo"][i].append(float(np.mean(S_exo_list)))
+        avg_data["S_ent"][i].append(float(np.mean(S_ent_list)))
+        avg_data["S_bek"][i].append(float(np.mean(S_bek_list)))
+        avg_data["S_hol"][i].append(float(np.mean(S_hol_list)))
+        avg_data["kappa_X_mean"][i].append(float(np.mean(kappa_list)))
+        avg_data["kappa_X_max"][i].append(float(np.max(kappa_list)))
+
+# Average over runs
 for key in avg_data:
     if key != "r":
         avg_data[key] = [float(np.mean(vals)) for vals in avg_data[key]]
 
 # ------------------ TABLE OUTPUT --------------------------------
-print("| r (m)     | S(r)      | F_rad (N) | F_nonrad (N) | rho (J/m^3) | p_r (J/m^3) | rho+pr (J/m^3) | S_exo (k_B) | S_ent (k_B) | S_bek (k_B) | S_hol (k_B) |")
-print("|-----------|-----------|-----------|--------------|-------------|-------------|----------------|------------|------------|------------|------------|")
+print("| r (m)     | S_X(avg)  | F_rad (N) | F_nonrad (N) | rho (J/m^3) | p_r (J/m^3) | rho+pr (J/m^3) | S_exo (k_B) | S_ent (k_B) | S_bek (k_B) | S_hol (k_B) | kappa_X(avg) |")
+print("|-----------|-----------|-----------|--------------|-------------|-------------|----------------|------------|------------|------------|------------|-------------|")
 for i, r in enumerate(avg_data["r"]):
     print(
-        "| {r:.2e} | {S:.2e} | {Fr:.2e} | {Fn:.2e} | {rh:.2e} | {pr:.2e} | {rpr:.2e} | {SE:.2e} | {Sent:.2e} | {Sbk:.2e} | {Sh:.2e} |".format(
-            r=r,
-            S=avg_data["S"][i],
-            Fr=avg_data["F_rad"][i],
-            Fn=avg_data["F_nonrad"][i],
-            rh=avg_data["rho"][i],
-            pr=avg_data["p_r"][i],
-            rpr=avg_data["rho_pr"][i],
-            SE=avg_data["S_exo"][i],
-            Sent=avg_data["S_ent"][i],
-            Sbk=avg_data["S_bek"][i],
-            Sh=avg_data["S_hol"][i]
+        "| {r:.2e} | {S:.2e} | {Fr:.2e} | {Fn:.2e} | {rh:.2e} | {pr:.2e} | {rpr:.2e} | {SE:.2e} | {Sent:.2e} | {Sbk:.2e} | {Sh:.2e} | {kX:.2e} |".format(
+            r   = r,
+            S   = avg_data["S"][i],
+            Fr  = avg_data["F_rad"][i],
+            Fn  = avg_data["F_nonrad"][i],
+            rh  = avg_data["rho"][i],
+            pr  = avg_data["p_r"][i],
+            rpr = avg_data["rho_pr"][i],
+            SE  = avg_data["S_exo"][i],
+            Sent= avg_data["S_ent"][i],
+            Sbk = avg_data["S_bek"][i],
+            Sh  = avg_data["S_hol"][i],
+            kX  = avg_data["kappa_X_mean"][i]
         )
     )
 
 # ------------------ GLOBAL DIAGNOSTICS -------------------------
 stab = stability(r_values, avg_data["rho_pr"])
-print("\nOverall Stability: {}".format(stab))
+print("\nOverall Stability (χ-averaged): {}".format(stab))
 
 diag_points = []
 for r_ex in [r_values[0], r_values[len(r_values)//2], r_values[-1]]:
     idx = int(np.argmin(np.abs(r_values - r_ex)))
     rho_pr_ex = avg_data["rho_pr"][idx]
-    topo = topology_change(rho_pr_ex)
+    topo      = topology_change(rho_pr_ex)
     tau, ext_t, caus = traversal_time(r_ex)
     diag_points.append({
         "r_m": float(r_ex),
@@ -382,42 +514,50 @@ for r_ex in [r_values[0], r_values[len(r_values)//2], r_values[-1]]:
         "topology_flag": topo,
         "tau_dimless": tau,
         "external_time_s": ext_t,
-        "causality": caus
+        "causality": caus,
+        "kappa_X_mean": float(avg_data["kappa_X_mean"][idx]),
+        "kappa_X_max": float(avg_data["kappa_X_max"][idx])
     })
     print(
-        "At r={:.2e} m: rho+pr={:.2e}, {}, tau~{:.2e}, t_ext~{:.2e} s ({})".format(
-            r_ex, rho_pr_ex, topo, tau, ext_t, caus
+        "At r={:.2e} m: rho+pr={:.2e}, {}, tau~{:.2e}, t_ext~{:.2e} s ({}) | kappa_X(avg)~{:.2e}, kappa_X(max)~{:.2e}".format(
+            r_ex, rho_pr_ex, topo, tau, ext_t, caus,
+            avg_data["kappa_X_mean"][idx],
+            avg_data["kappa_X_max"][idx]
         )
     )
 
 # ------------------ PLOTS --------------------------------------
 fig, axs = plt.subplots(2, 2, figsize=(12, 10))
 
-axs[0,0].loglog(r_values, avg_data["F_rad"], label="Radial")
+# Forces
+axs[0,0].loglog(r_values, avg_data["F_rad"],     label="Radial (5D, χ-avg)")
 axs[0,0].loglog(r_values, avg_data["F_nonrad"], label="Non-radial (spin)")
-axs[0,0].set_title("Forces vs r")
+axs[0,0].set_title("Forces vs r (STUR-X 5D)")
 axs[0,0].set_xlabel("r (m)")
 axs[0,0].set_ylabel("Force (N)")
 axs[0,0].legend()
 axs[0,0].grid(True, which="both", ls=":")
 
+# rho + p_r
 axs[0,1].semilogx(r_values, avg_data["rho_pr"])
-axs[0,1].set_title("rho + p_r vs r")
+axs[0,1].set_title("⟨rho + p_r⟩_χ vs r")
 axs[0,1].set_xlabel("r (m)")
 axs[0,1].set_ylabel("rho + p_r (J/m^3)")
 axs[0,1].grid(True, which="both", ls=":")
 
+# Entropies
 axs[1,0].loglog(r_values, avg_data["S_exo"], label="Exotic entropy")
 axs[1,0].loglog(r_values, avg_data["S_ent"], label="Entanglement")
-axs[1,0].set_title("Entropies vs r")
+axs[1,0].set_title("Entropies vs r (χ-averaged)")
 axs[1,0].set_xlabel("r (m)")
 axs[1,0].set_ylabel("S (k_B units)")
 axs[1,0].legend()
 axs[1,0].grid(True, which="both", ls=":")
 
-axs[1,1].loglog(r_values, avg_data["S_bek"], label="Bekenstein")
-axs[1,1].loglog(r_values, avg_data["S_hol"], label="Holographic")
-axs[1,1].set_title("Entropy bounds vs r")
+# Entropy bounds
+axs[1,1].loglog(r_values, avg_data["S_bek"], label="Bekenstein bound")
+axs[1,1].loglog(r_values, avg_data["S_hol"], label="Holographic bound")
+axs[1,1].set_title("Entropy Bounds vs r")
 axs[1,1].set_xlabel("r (m)")
 axs[1,1].set_ylabel("S_bound (k_B units)")
 axs[1,1].legend()
@@ -426,13 +566,29 @@ axs[1,1].grid(True, which="both", ls=":")
 plt.tight_layout()
 plt.show()
 
+# X-coherence profile figure
+plt.figure(figsize=(6,4))
+plt.semilogx(r_values, avg_data["kappa_X_mean"], label="⟨κ_X⟩_χ")
+plt.semilogx(r_values, avg_data["kappa_X_max"],  label="max κ_X over χ", linestyle="--")
+plt.title("STUR-X 5D X-Coherence vs r")
+plt.xlabel("r (m)")
+plt.ylabel("κ_X (dimensionless)")
+plt.grid(True, which="both", ls=":")
+plt.legend()
+plt.tight_layout()
+plt.show()
+
 # ------------------ JSON SUMMARY -------------------------------
 result = {
-    "model": "STUR Negative Energy",
+    "model": "STUR-X_5D_Negative_Energy",
+    "geometry": "M4(-+++) ⊕ χ",
     "num_runs": int(num_runs),
     "r_min_m": float(r_values[0]),
     "r_max_m": float(r_values[-1]),
-    "stability": stab,
+    "chi_min": float(chi_values[0]),
+    "chi_max": float(chi_values[-1]),
+    "N_chi": int(N_chi),
+    "stability_chi_averaged": stab,
     "diagnostic_points": diag_points,
     "profiles": {
         "r_m": [float(v) for v in r_values],
@@ -442,20 +598,23 @@ result = {
         "S_exotic_kB": [float(v) for v in avg_data["S_exo"]],
         "S_ent_kB": [float(v) for v in avg_data["S_ent"]],
         "S_bekenstein_kB": [float(v) for v in avg_data["S_bek"]],
-        "S_holographic_kB": [float(v) for v in avg_data["S_hol"]]
+        "S_holographic_kB": [float(v) for v in avg_data["S_hol"]],
+        "kappa_X_mean": [float(v) for v in avg_data["kappa_X_mean"]],
+        "kappa_X_max": [float(v) for v in avg_data["kappa_X_max"]]
     }
 }
 
 print("\nJSON summary:")
 print(json.dumps(result, indent=2))
-print("STUR Negative Energy Simulation Complete.")
+print("STUR-X 5D Negative Energy Simulation Complete.")
 </pre>
 
 <div style="text-align:center;">
   <button onclick="copyCode()">Copy Script</button>
   <button onclick="openRunner()">Open Jupyter Lite</button>
 </div>
-            <!-- ===== STUR Lab Return Button ===== -->
+
+<!-- ===== STUR Lab Return Button ===== -->
 <div style="margin:10px 0 20px 0;">
   <a href="../index.html"
      style="display:inline-block;
@@ -474,7 +633,7 @@ print("STUR Negative Energy Simulation Complete.")
 <!-- ===== End Return Button ===== -->
 
 <footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | Negative Energy Sector
+© 2025 STUR Physics Lab | Unified Resistance Framework | STUR-X 5D Negative Energy Sector
 </footer>
 
 <script>
