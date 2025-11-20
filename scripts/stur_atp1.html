@@ -328,8 +328,10 @@ function copyCode() {
 
 #!/usr/bin/env python3
 # ===============================================================
-# STUR Mitochondria Lab – Full Life/Death v3.2
-# Now includes Pyodide-safe Matplotlib plots.
+# STUR Mitochondria Lab – Full Life/Death v3.3
+# — Clean version with correct <, >, <=, >=
+# — Fully Pyodide-safe
+# — Includes Matplotlib plots
 # ===============================================================
 
 import numpy as np
@@ -344,34 +346,35 @@ L0 = 1.0
 
 def stur_scalar(r, L0=L0):
     x = r / L0
-    return np.tanh(x) * (1.0 - np.exp(-x))
+    return np.tanh(x) * (1 - np.exp(-x))
 
 
 def preset_state(mode):
     if mode == "healthy":
-        return dict(S_radius_healthy=1.8, pmf_init=175.0, NADH_init=0.90)
+        return dict(S_radius_healthy=1.8, pmf_init=175, NADH_init=0.9)
     if mode == "stressed":
-        return dict(S_radius_healthy=1.4, pmf_init=145.0, NADH_init=0.75)
+        return dict(S_radius_healthy=1.4, pmf_init=145, NADH_init=0.75)
     if mode == "pre_apoptotic":
-        return dict(S_radius_healthy=0.9, pmf_init=110.0, NADH_init=0.55)
+        return dict(S_radius_healthy=0.9, pmf_init=110, NADH_init=0.55)
     if mode == "uncoupled":
-        return dict(S_radius_healthy=0.25, pmf_init=70.0, NADH_init=0.30)
-    return dict(S_radius_healthy=1.8, pmf_init=165.0, NADH_init=0.90)
+        return dict(S_radius_healthy=0.25, pmf_init=70, NADH_init=0.3)
+    return dict(S_radius_healthy=1.8, pmf_init=165, NADH_init=0.9)
 
 
 def run_mito_sim_full(
     T_final=60.0,
     dt=0.001,
-    pmf_init=165.0,
+    pmf_init=165,
     NADH_init=0.9,
     S_radius_healthy=1.8,
     workload_mode="pulse",
 ):
     N = int(T_final / dt)
-    t = np.linspace(0.0, T_final, N)
+    t = np.linspace(0, T_final, N)
+
     pmf = np.zeros(N)
-    NADH = np.zeros(N)
     ATP = np.zeros(N)
+    NADH = np.zeros(N)
     Ca_m = np.zeros(N)
     ROS = np.zeros(N)
     geom = np.zeros(N)
@@ -380,7 +383,6 @@ def run_mito_sim_full(
 
     pmf[0] = pmf_init
     NADH[0] = NADH_init
-    ATP[0] = 0
     Ca_m[0] = CA_BASELINE
     ROS[0] = ROS_BASELINE
     geom[0] = 1.0
@@ -389,15 +391,15 @@ def run_mito_sim_full(
 
     Ca_thr = 1.2
     ROS_thr = 0.8
-    pmf_stress = 120.0
-    pmf_collapse = 60.0
+    pmf_stress = 120
+    pmf_collapse = 60
 
     base = {
-        "healthy":   {"S":S_radius_healthy, "g_leak":0.35, "g_ATP":1.6, "k_pump":50.0},
-        "stressed":  {"S":1.2, "g_leak":0.70, "g_ATP":1.3, "k_pump":40.0},
-        "pre":       {"S":0.9, "g_leak":1.20, "g_ATP":0.9, "k_pump":30.0},
-        "uncoupled": {"S":0.25, "g_leak":3.00, "g_ATP":0.25,"k_pump":15.0},
-        "mPTP":      {"S":0.10, "g_leak":6.00, "g_ATP":0.10,"k_pump":5.0},
+        "healthy":   {"S":S_radius_healthy, "g_leak":0.35, "g_ATP":1.6, "k_pump":50},
+        "stressed":  {"S":1.2, "g_leak":0.7, "g_ATP":1.3, "k_pump":40},
+        "pre":       {"S":0.9, "g_leak":1.2, "g_ATP":0.9, "k_pump":30},
+        "uncoupled": {"S":0.25, "g_leak":3.0, "g_ATP":0.25, "k_pump":15},
+        "mPTP":      {"S":0.1, "g_leak":6.0, "g_ATP":0.1, "k_pump":5},
     }
 
     def W(ti):
@@ -411,51 +413,55 @@ def run_mito_sim_full(
 
     for i in range(N-1):
         s = states[i]
-        mode = "pre" if s=="pre_apoptotic" else s
+        mode = "pre" if s == "pre_apoptotic" else s
         p = base[mode]
 
-        pmf_i, NADH_i, ATP_i = pmf[i], NADH[i], ATP[i]
-        Ca_i, ROS_i = Ca_m[i], ROS[i]
-        G_i, V_i = geom[i], volume[i]
+        pmf_i = pmf[i]
+        NADH_i = NADH[i]
+        ATP_i = ATP[i]
+        Ca_i = Ca_m[i]
+        ROS_i = ROS[i]
+        G_i = geom[i]
+        V_i = volume[i]
 
         S_base = stur_scalar(p["S"])
-        S_val = S_base*(0.5 + 0.5*G_i)
-        gain = 1 + 1.8*S_val
+        S_val = S_base * (0.5 + 0.5 * G_i)
+        gain = 1 + 1.8 * S_val
 
-        ETC_drive = max(NADH_i*(1-pmf_i/PMF_MAX),0)
-        J_ETC  = p["k_pump"] * ETC_drive * gain
-        J_leak = p["g_leak"]*pmf_i*(1+0.5*(V_i-1))
-        J_ATP  = p["g_ATP"]*W(t[i])*(pmf_i/PMF_HEALTHY)*gain
+        ETC_drive = max(NADH_i * (1 - pmf_i / PMF_MAX), 0)
+        J_ETC = p["k_pump"] * ETC_drive * gain
+        J_leak = p["g_leak"] * pmf_i * (1 + 0.5*(V_i - 1))
+        J_ATP = p["g_ATP"] * W(t[i]) * (pmf_i / PMF_HEALTHY) * gain
 
-        pmf_next = pmf_i + (J_ETC - J_leak - J_ATP)*dt
-        if s in ("uncoupled","mPTP"):
+        pmf_next = pmf_i + (J_ETC - J_leak - J_ATP) * dt
+        if s in ("uncoupled", "mPTP"):
             pmf_next *= 0.92
         pmf_next = max(0, min(PMF_MAX, pmf_next))
 
-        prod = 0.04*J_ATP
-        use  = 0.8*W(t[i])
-        ATP_next = max(0, ATP_i + (prod-use)*dt)
+        prod = 0.04 * J_ATP
+        use  = 0.8 * W(t[i])
+        ATP_next = max(0, ATP_i + (prod - use) * dt)
 
-        dNADH = -0.15*ETC_drive + 0.1*(0.8-NADH_i)
-        NADH_next = np.clip(NADH_i+dNADH*dt, 0,1)
+        dNADH = -0.15*ETC_drive + 0.1*(0.8 - NADH_i)
+        NADH_next = np.clip(NADH_i + dNADH*dt, 0, 1)
 
-        Ca_drive = 0.3*W(t[i])*(1+(180-pmf_i)/140)
-        Ca_in = 0.3*Ca_drive
-        Ca_out = 0.08*Ca_i*(2 if s in ("mPTP","uncoupled") else 1)
-        Ca_next = max(0, Ca_i+(Ca_in-Ca_out)*dt)
+        Ca_drive = 0.3*W(t[i])*(1 + (180 - pmf_i)/140)
+        Ca_in = 0.3 * Ca_drive
+        Ca_out = 0.08 * Ca_i * (2 if s in ("mPTP","uncoupled") else 1)
+        Ca_next = max(0, Ca_i + (Ca_in - Ca_out)*dt)
 
         pmf_frac = pmf_i/180
-        ROS_prod = 0.1*ETC_drive*(0.3+max(pmf_frac-0.8,0))
-        ROS_clear = 0.15*(1+S_val)*ROS_i
-        ROS_next = max(0, ROS_i+(ROS_prod-ROS_clear)*dt)
+        ROS_prod = 0.1*ETC_drive*(0.3 + max(pmf_frac - 0.8, 0))
+        ROS_clear = 0.15*(1 + S_val)*ROS_i
+        ROS_next = max(0, ROS_i + (ROS_prod - ROS_clear)*dt)
 
-        dG = -0.5*(Ca_i+ROS_i)*(G_i-0.3) + 0.05*(1-G_i)*(S_base-0.3)
-        G_next = np.clip(G_i+dG*dt, 0,1)
+        dG = -0.5*(Ca_i+ROS_i)*(G_i - 0.3) + 0.05*(1-G_i)*(S_base - 0.3)
+        G_next = np.clip(G_i + dG*dt, 0, 1)
 
-        dV = 0.3*max(Ca_i-0.6,0) + 0.5*max(ROS_i-0.7,0) - 0.1*(V_i-1)
+        dV = 0.3*max(Ca_i - 0.6,0) + 0.5*max(ROS_i - 0.7,0) - 0.1*(V_i - 1)
         if s=="mPTP":
             dV += 0.4
-        V_next = max(1.0, V_i+dV*dt)
+        V_next = max(1, V_i + dV*dt)
 
         pmf[i+1] = pmf_next
         ATP[i+1] = ATP_next
@@ -467,9 +473,8 @@ def run_mito_sim_full(
 
         ns = s
 
-        if (not event["mPTP_opened"] and 
-            Ca_i>Ca_thr and ROS_i>ROS_thr and pmf_i<pmf_stress):
-            ns="mPTP"
+        if (not event["mPTP_opened"] and Ca_i>Ca_thr and ROS_i>ROS_thr and pmf_i<pmf_stress):
+            ns = "mPTP"
             event["mPTP_opened"] = True
             event["mPTP_time"] = t[i]
 
@@ -511,16 +516,12 @@ def run_mito_sim_full(
     return t, pmf, ATP, Ca_m, ROS, states, summary
 
 
-def phenotype(s):
-    st = s["state_final"]
-    if st=="mPTP":
-        return "Catastrophic membrane collapse."
-    if st=="uncoupled":
-        return "Uncoupled heat-mode respiration."
-    if st=="pre_apoptotic":
-        return "Cristae instability with Ca²⁺/ROS bursts."
-    if st=="stressed":
-        return "Reduced efficiency with increased leak."
+def phenotype(summary):
+    st = summary["state_final"]
+    if st=="mPTP": return "Catastrophic membrane collapse."
+    if st=="uncoupled": return "Uncoupled heat-mode respiration."
+    if st=="pre_apoptotic": return "Cristae instability with Ca2+/ROS bursts."
+    if st=="stressed": return "Reduced efficiency with elevated leak."
     return "Stable oxidative phosphorylation."
 
 
@@ -537,8 +538,7 @@ if __name__ == "__main__":
     print("\nPhenotype:", phenotype(summary))
     print("\nStop running......")
 
-    # ------------------ PLOTS ------------------
-
+    # Plot 1: pmf
     plt.figure(figsize=(6,3))
     plt.plot(t, pmf)
     plt.title("Proton-Motive Force (ΔΨm)")
@@ -547,16 +547,18 @@ if __name__ == "__main__":
     plt.grid(True, alpha=0.3)
     plt.show()
 
+    # Plot 2: ATP
     plt.figure(figsize=(6,3))
     plt.plot(t, ATP)
-    plt.title("Net ATP")
+    plt.title("ATP Production")
     plt.xlabel("Time (s)")
     plt.ylabel("ATP (a.u.)")
     plt.grid(True, alpha=0.3)
     plt.show()
 
+    # Plot 3: Ca and ROS
     plt.figure(figsize=(6,3))
-    plt.plot(t, Ca_m, label="Ca²⁺")
+    plt.plot(t, Ca_m, label="Ca2+")
     plt.plot(t, ROS, label="ROS")
     plt.title("Stress Signals")
     plt.xlabel("Time (s)")
@@ -565,21 +567,19 @@ if __name__ == "__main__":
     plt.legend()
     plt.show()
 
-    # State timeline as numeric codes
-    state_map = {"healthy":0, "stressed":1, "pre_apoptotic":2,
-                 "uncoupled":3, "mPTP":4}
-    numeric_states = np.array([state_map[s] for s in states])
+    # Plot 4: State timeline
+    map_states = {"healthy":0, "stressed":1, "pre_apoptotic":2, "uncoupled":3, "mPTP":4}
+    num_states = np.array([map_states[s] for s in states])
 
     plt.figure(figsize=(6,2))
-    plt.plot(t, numeric_states, drawstyle="steps-post")
-    plt.yticks(list(state_map.values()), list(state_map.keys()))
+    plt.step(t, num_states, where="post")
+    plt.yticks(list(map_states.values()), list(map_states.keys()))
     plt.title("State Timeline")
     plt.xlabel("Time (s)")
     plt.grid(True, alpha=0.3)
     plt.show()
 
-    # Export summary JSON
-    with open("summary.json","w") as f:
+    with open("summary.json", "w") as f:
         json.dump(summary, f, indent=2)
 </code></pre>
   </div>
