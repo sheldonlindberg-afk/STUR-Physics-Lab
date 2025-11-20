@@ -2,177 +2,368 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>STUR Mitochondria Lab — Life/Death v3.0</title>
+<title>STUR Mitochondria Lab — Life/Death v3.1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
   :root {
     --bg-main: #02030a;
     --bg-panel: #050816;
-    --bg-soft: #0b1020;
+    --bg-soft: #07101e;
     --accent: #34d8ff;
+    --accent-soft: rgba(52,216,255,0.2);
     --accent-strong: #00f2aa;
     --text-main: #e6edf3;
     --text-soft: #a5b3c4;
     --danger: #ff6b81;
     --radius: 14px;
-    --shadow-soft: 0 0 25px rgba(0,255,255,0.12);
+    --shadow-soft: 0 0 30px rgba(0,255,255,0.13);
     --code-bg: #04070f;
+    --border-soft: #132033;
   }
+
+  * { box-sizing: border-box; }
 
   body {
     margin: 0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: var(--bg-main);
+    background: radial-gradient(circle at top, #05081a 0, #02030a 55%, #000000 100%);
     color: var(--text-main);
     line-height: 1.55;
-    padding-bottom: 100px;
   }
 
   .container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
+    max-width: 960px;
+    margin: 32px auto 80px;
+    padding: 0 16px;
   }
 
-  h1, h2 {
+  h1, h2, h3 {
     color: var(--accent);
+    margin-top: 0;
+  }
+
+  h1 {
     text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--text-soft);
+    max-width: 720px;
+    margin: 0 auto 24px;
+    font-size: 0.98rem;
   }
 
   .panel {
     background: var(--bg-panel);
-    padding: 20px;
+    padding: 20px 22px;
     border-radius: var(--radius);
     box-shadow: var(--shadow-soft);
-    margin-bottom: 30px;
+    border: 1px solid var(--border-soft);
+    margin-bottom: 26px;
+  }
+
+  .panel-soft {
+    background: var(--bg-soft);
+  }
+
+  .btn-row {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .btn, .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--accent-soft);
+    background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+    color: #02030a;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.08s ease;
+    white-space: nowrap;
+  }
+
+  .btn.secondary {
+    background: #07101e;
+    color: var(--text-main);
+    border-color: var(--border-soft);
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+  }
+
+  .btn:hover, .copy-btn:hover {
+    filter: brightness(1.04);
+    transform: translateY(-1px);
+    box-shadow: 0 0 35px rgba(0,255,255,0.24);
+  }
+
+  .copy-btn {
+    background: #07101e;
+    color: var(--text-soft);
+    font-weight: 500;
+    padding: 6px 11px;
+    font-size: 0.82rem;
+    border-radius: 999px;
+    float: right;
+    margin-top: -6px;
+    margin-right: -4px;
   }
 
   pre, code {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.84rem;
+  }
+
+  pre {
     background: var(--code-bg);
-    color: var(--accent);
-    padding: 15px;
+    padding: 16px 14px;
     border-radius: var(--radius);
+    border: 1px solid var(--border-soft);
     overflow-x: auto;
-    border: 1px solid #0b2236;
-    font-size: 0.86rem;
+    margin-top: 10px;
   }
 
-  .btn {
+  .equation {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.9rem;
+    background: rgba(4,7,18,0.8);
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-soft);
+    margin: 8px 0 4px;
+    overflow-x: auto;
+  }
+
+  .tag {
     display: inline-block;
-    padding: 12px 18px;
-    margin-top: 12px;
-    background: var(--accent-strong);
-    color: #02030a;
-    font-weight: 700;
-    border-radius: var(--radius);
-    text-decoration: none;
-    border: 1px solid var(--accent);
-    box-shadow: var(--shadow-soft);
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
-  .btn:hover { background: var(--accent); }
 
-  .copy-btn {
-    float: right;
-    margin-top: -10px;
-    margin-right: -10px;
-    background: #07101e;
-    border: 1px solid #233040;
-    padding: 6px 10px;
-    border-radius: var(--radius);
-    cursor: pointer;
-    color: var(--text-soft);
+  ul {
+    padding-left: 18px;
+    margin-top: 6px;
+  }
+
+  @media (max-width: 640px) {
+    .panel { padding: 16px 14px; }
+    pre { font-size: 0.8rem; }
   }
 </style>
 
 <script>
 function copyCode() {
-  const code = document.getElementById("code-block").innerText;
-  navigator.clipboard.writeText(code);
-  alert("Code copied!");
+  const el = document.getElementById("code-block");
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(
+    () => alert("STUR Mitochondria v3.1 code copied to clipboard."),
+    () => alert("Copy failed – try selecting manually.")
+  );
 }
 </script>
-
 </head>
+
 <body>
 <div class="container">
 
-<h1>STUR Mitochondria Lab — v3.0</h1>
-<p style="text-align:center;color:var(--text-soft);max-width:700px;margin:0 auto;">
-A single mitochondrion undergoing real bioenergetic life, stress, collapse, and death — mapped through the
-STUR resistance scalar <code>S(r)</code>, χ-curvature coherence, and biologically accurate pmf, Ca²⁺, ROS, and ATP dynamics.
-</p>
+  <h1>STUR Mitochondria Lab — v3.1</h1>
+  <p class="subtitle">
+    A single mitochondrion undergoing bioenergetic life, stress, collapse, and death, mapped through the
+    STUR resistance scalar <code>S(r)</code>, χ-curvature coherence, proton-motive force, Ca²⁺, ROS,
+    and ATP dynamics. One organelle as a full STUR universe.
+  </p>
 
-<!-- JUPYTER BUTTON -->
-<div class="panel" style="text-align:center;">
-<a class="btn" target="_blank"
-   href="https://jupyterlite.github.io/demo/lab/index.html">
-🚀 Run in Free JupyterLite (Pyodide)
-</a>
-<a class="btn" href="index.html">⬅ Return to STUR Index</a>
-</div>
+  <!-- ACTION BUTTONS -->
+  <div class="panel panel-soft">
+    <div class="btn-row">
+      <a class="btn" target="_blank" href="https://jupyterlite.github.io/demo/lab/index.html">
+        🚀 Run in Free JupyterLite (Pyodide)
+      </a>
+      <a class="btn secondary" href="../index.html">
+        ⬅ Return to STUR Index
+      </a>
+    </div>
+  </div>
 
-<!-- PYTHON SCRIPT -->
-<div class="panel">
-<h2>Python Simulation v3.0</h2>
-<button class="copy-btn" onclick="copyCode()">Copy</button>
+  <!-- DERIVATIONS & EXPLANATION -->
+  <div class="panel">
+    <h2>1. STUR Scalar and Mitochondrial Coherence</h2>
+    <span class="tag">Geometry → Coherence</span>
+    <p>
+      We treat one mitochondrion as a χ-curved object: cristae shape and packing determine how easily
+      proton flows can align into coherent geodesics. The STUR scalar
+      compresses that geometry into a single effective coherence:
+    </p>
+    <div class="equation">
+      S(r) = tanh(r / L<sub>0</sub>) · (1 − e<sup>−r / L<sub>0</sub></sup>)
+    </div>
+    <p>
+      where <code>r</code> is an effective curvature/ordering radius for the inner membrane and
+      <code>L<sub>0</sub></code> is a characteristic STUR length. High curvature alignment
+      (healthy cristae) → larger <code>r</code> → <code>S</code> → 1, meaning low resistance and
+      high coherence. Fragmented, swollen cristae push <code>S</code> toward 0: the geometry stops
+      helping proton flow and coherence collapses.
+    </p>
+    <p>
+      In the code, we compute a base STUR value from the state-dependent radius, then modulate it
+      by the instantaneous cristae order <code>geom</code>:
+    </p>
+    <div class="equation">
+      S<sub>val</sub> = S<sub>base</sub> · (0.5 + 0.5·geom)  
+      <br>
+      gain = 1 + 1.8·S<sub>val</sub>
+    </div>
+    <p>
+      This <code>gain</code> factor multiplies ETC pumping and ATP synthase throughput: better
+      geometry &rarr; higher STUR coherence &rarr; more bioenergetic current for the same driving
+      chemistry.
+    </p>
+  </div>
 
-<pre id="code-block"><code>
-#!/usr/bin/env python3
+  <div class="panel">
+    <h2>2. Proton-Motive Force, Leak, and ATP Production</h2>
+    <span class="tag">Battery Dynamics</span>
+    <p>
+      The inner membrane acts as a STUR-modulated battery. We integrate pmf (ΔΨm) using three
+      competing fluxes:
+    </p>
+    <ul>
+      <li><b>J<sub>ETC</sub></b>: proton pumping by the electron transport chain</li>
+      <li><b>J<sub>leak</sub></b>: passive proton leak plus swelling-driven leak</li>
+      <li><b>J<sub>ATP</sub></b>: proton flow through ATP synthase under workload</li>
+    </ul>
+    <div class="equation">
+      d(pmf)/dt = J<sub>ETC</sub> − J<sub>leak</sub> − J<sub>ATP</sub>
+      <br><br>
+      J<sub>ETC</sub> = k<sub>pump</sub> · ETC<sub>drive</sub> · gain  
+      J<sub>leak</sub> = g<sub>leak</sub> · pmf · (1 + 0.5·(V − 1))  
+      J<sub>ATP</sub> = g<sub>ATP</sub> · W(t) · (pmf / PMF<sub>healthy</sub>) · gain
+    </div>
+    <p>
+      The workload profile <code>W(t)</code> is a smooth pulse in time, mimicking a cell that ramps
+      up ATP demand and then relaxes. From <code>J_ATP</code> we infer ATP production and net ATP:
+    </p>
+    <div class="equation">
+      d(ATP)/dt = α · J<sub>ATP</sub> − ATP<sub>use</sub>(t)
+    </div>
+    <p>
+      where <code>α</code> encodes an effective H<sup>+</sup>/ATP ratio and
+      <code>ATP_use(t)</code> captures cellular work.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>3. Ca²⁺, ROS, Cristae Geometry and Swelling</h2>
+    <span class="tag">Feedback Loops</span>
+    <p>
+      We couple three slow variables to the pmf dynamics:
+    </p>
+    <ul>
+      <li><b>Ca<sub>m</sub></b> — matrix Ca²⁺, driven in by high workload and low pmf</li>
+      <li><b>ROS</b> — reactive oxygen species, rising with ETC drive at high pmf</li>
+      <li><b>geom</b>, <b>V</b> — cristae order and swelling volume</li>
+    </ul>
+    <p>
+      Ca²⁺ and ROS push geometry toward disorder and increase swelling, which in turn increases
+      leak and reduces STUR coherence. This closes the loop: bioenergetic overload feeds back
+      into the geometry of coherence.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>4. State Machine and Phenotypes</h2>
+    <span class="tag">Life → Stress → Death</span>
+    <p>
+      A simple mitochondrial state machine runs on top of the continuous fields:
+      <code>healthy → stressed → pre_apoptotic → uncoupled → mPTP</code>.
+      Thresholds in pmf, Ca²⁺, and ROS trigger transitions. Once mPTP opens, pmf collapses,
+      swelling accelerates, and the organelle effectively dies.
+    </p>
+    <p>
+      At the end of each run, the code prints:
+    </p>
+    <ul>
+      <li>A compact numerical summary (pmf, ATP, peaks of Ca²⁺ and ROS)</li>
+      <li>A phenotype sentence (“stable OXPHOS”, “uncoupled heat mode”, etc.)</li>
+      <li>A state timeline (first time each state was visited)</li>
+      <li>A JSON file <code>summary.json</code> for downstream STUR pipelines</li>
+    </ul>
+  </div>
+
+  <!-- PYTHON SCRIPT PANEL -->
+  <div class="panel">
+    <h2>Python Simulation v3.1</h2>
+    <button class="copy-btn" onclick="copyCode()">⧉ Copy code</button>
+
+<pre id="code-block"><code>#!/usr/bin/env python3
 # ===============================================================
-# STUR Mitochondria Lab – Full Life/Death v3.0
+# STUR Mitochondria Lab – Full Life/Death v3.1
 #
-# Includes:
+# Single mitochondrion with:
 #   • STUR coherence regimes
 #   • State transitions (healthy → stressed → pre-apoptotic → uncoupled → mPTP)
 #   • Ca²⁺ overload, ROS loops, swelling, geometry loss
 #   • Presets for starting states
-#   • Phenotype summary
-#   • State timeline
+#   • Phenotype summary + state timeline
 #   • JSON export
 #
-# Fully Pyodide / JupyterLite safe.
+# Pyodide / JupyterLite safe (NumPy + json only).
 # ===============================================================
 
 import numpy as np
 import json
 
-
 # ===============================================================
-# Biological and STUR constants
+# Biological + STUR constants
 # ===============================================================
 PMF_MAX = 220.0        # mV
-PMF_HEALTHY = 150.0    # mV typical
+PMF_HEALTHY = 150.0    # mV typical physiological
 CA_BASELINE = 0.1
 ROS_BASELINE = 0.05
 L0 = 1.0               # STUR curvature length
 
-
-# ===============================================================
-# STUR scalar
-# ===============================================================
+# ---------------------------------------------------------------
+# STUR scalar: curvature → coherence
+# ---------------------------------------------------------------
 def stur_scalar(r, L0=L0):
     x = r / L0
     return np.tanh(x) * (1.0 - np.exp(-x))
 
 
-# ===============================================================
-# Presets
-# ===============================================================
+# ---------------------------------------------------------------
+# Presets for initial states
+# ---------------------------------------------------------------
 def preset_state(mode):
     if mode == "healthy":
-        return dict(S_radius_healthy=1.8, pmf_init=175, NADH_init=0.9)
+        return dict(S_radius_healthy=1.8, pmf_init=175.0, NADH_init=0.90)
     if mode == "stressed":
-        return dict(S_radius_healthy=1.4, pmf_init=145, NADH_init=0.75)
+        return dict(S_radius_healthy=1.4, pmf_init=145.0, NADH_init=0.75)
     if mode == "pre_apoptotic":
-        return dict(S_radius_healthy=0.9, pmf_init=110, NADH_init=0.55)
+        return dict(S_radius_healthy=0.9, pmf_init=110.0, NADH_init=0.55)
     if mode == "uncoupled":
-        return dict(S_radius_healthy=0.25, pmf_init=70, NADH_init=0.3)
-    return dict(S_radius_healthy=1.8, pmf_init=165, NADH_init=0.9)
+        return dict(S_radius_healthy=0.25, pmf_init=70.0, NADH_init=0.30)
+    # default
+    return dict(S_radius_healthy=1.8, pmf_init=165.0, NADH_init=0.90)
 
 
 # ===============================================================
-# Main sim
+# Main simulation
 # ===============================================================
 def run_mito_sim_full(
     T_final=60.0,
@@ -185,7 +376,7 @@ def run_mito_sim_full(
     N = int(T_final / dt)
     t = np.linspace(0.0, T_final, N)
 
-    # Core states
+    # Core state arrays
     pmf = np.zeros(N)
     NADH = np.zeros(N)
     ATP = np.zeros(N)
@@ -195,159 +386,164 @@ def run_mito_sim_full(
     volume = np.zeros(N)
     states = np.empty(N, dtype=object)
 
-    # Init
+    # Initial conditions
     pmf[0] = pmf_init
     NADH[0] = NADH_init
-    ATP[0] = 0
+    ATP[0] = 0.0
     Ca_m[0] = CA_BASELINE
     ROS[0] = ROS_BASELINE
     geom[0] = 1.0
     volume[0] = 1.0
     states[0] = "healthy"
 
-    # Transition thresholds
+    # Thresholds for transitions
     Ca_thr = 1.2
     ROS_thr = 0.8
-    pmf_stress = 120
-    pmf_collapse = 60
+    pmf_stress = 120.0
+    pmf_collapse = 60.0
 
-    # Base parameters per state
+    # State-dependent base parameters
     base = {
-        "healthy":      {"S": S_radius_healthy, "g_leak":0.35, "g_ATP":1.6, "k_pump":50},
-        "stressed":     {"S":1.2,  "g_leak":0.7,  "g_ATP":1.3, "k_pump":40},
-        "pre":          {"S":0.9,  "g_leak":1.2,  "g_ATP":0.9, "k_pump":30},
-        "uncoupled":    {"S":0.25, "g_leak":3.0,  "g_ATP":0.25,"k_pump":15},
-        "mPTP":         {"S":0.1,  "g_leak":6.0,  "g_ATP":0.1, "k_pump":5},
+        "healthy":   {"S": S_radius_healthy, "g_leak": 0.35, "g_ATP": 1.6, "k_pump": 50.0},
+        "stressed":  {"S": 1.2,  "g_leak": 0.70, "g_ATP": 1.3, "k_pump": 40.0},
+        "pre":       {"S": 0.9,  "g_leak": 1.20, "g_ATP": 0.9, "k_pump": 30.0},
+        "uncoupled": {"S": 0.25, "g_leak": 3.00, "g_ATP": 0.25,"k_pump": 15.0},
+        "mPTP":      {"S": 0.10, "g_leak": 6.00, "g_ATP": 0.10,"k_pump": 5.0},
     }
 
-    # Workload
+    # Workload profile
     def W(ti):
         if workload_mode == "pulse":
-            if 0.2*T_final < ti < 0.8*T_final:
-                return 0.7 + 1.4 * (np.sin(np.pi*(ti-0.2*T_final)/(0.6*T_final)))**2
+            if 0.2 * T_final &lt; ti &lt; 0.8 * T_final:
+                return 0.7 + 1.4 * (np.sin(np.pi * (ti - 0.2*T_final) / (0.6*T_final)))**2
             return 0.5
         return 1.0
 
-    # Events
+    # Event flags
     event = {"mPTP_opened": False, "mPTP_time": None}
 
-    # Run loop
-    for i in range(N-1):
+    # ----------------------------------------------------------
+    # Time stepping (Euler)
+    # ----------------------------------------------------------
+    for i in range(N - 1):
         s = states[i]
         mode = "pre" if s == "pre_apoptotic" else s
         p = base[mode]
 
         pmf_i = pmf[i]
         NADH_i = NADH[i]
-        ATP_i  = ATP[i]
-        Ca_i   = Ca_m[i]
-        ROS_i  = ROS[i]
-        G_i    = geom[i]
-        V_i    = volume[i]
+        ATP_i = ATP[i]
+        Ca_i = Ca_m[i]
+        ROS_i = ROS[i]
+        G_i = geom[i]
+        V_i = volume[i]
 
-        # STUR
+        # STUR coherence factor
         S_base = stur_scalar(p["S"])
-        S_val = S_base * (0.5 + 0.5*G_i)
-        gain = 1 + 1.8*S_val
+        S_val = S_base * (0.5 + 0.5 * G_i)
+        gain = 1.0 + 1.8 * S_val
 
-        # ETC
-        ETC_drive = max(NADH_i*(1 - pmf_i/PMF_MAX), 0)
+        # ETC pumping
+        ETC_drive = max(NADH_i * (1.0 - pmf_i / PMF_MAX), 0.0)
         J_ETC = p["k_pump"] * ETC_drive * gain
 
-        # Leak
-        J_leak = p["g_leak"] * pmf_i * (1 + 0.5*(V_i-1))
+        # Leak (enhanced by swelling)
+        J_leak = p["g_leak"] * pmf_i * (1.0 + 0.5 * (V_i - 1.0))
 
         # ATP synthase pull
-        J_ATP = p["g_ATP"] * W(t[i]) * (pmf_i/PMF_HEALTHY) * gain
+        J_ATP = p["g_ATP"] * W(t[i]) * (pmf_i / PMF_HEALTHY) * gain
 
         # pmf update
-        pmf_next = pmf_i + (J_ETC - J_leak - J_ATP)*dt
-        if s in ("uncoupled","mPTP"):
-            pmf_next *= 0.92
-        pmf_next = max(0, min(PMF_MAX, pmf_next))
+        pmf_next = pmf_i + (J_ETC - J_leak - J_ATP) * dt
+        if s in ("uncoupled", "mPTP"):
+            pmf_next *= 0.92  # accelerated collapse
+        pmf_next = max(0.0, min(PMF_MAX, pmf_next))
 
         # ATP update
         prod = 0.04 * J_ATP
-        use  = 0.8 * W(t[i])
-        ATP_next = max(0, ATP_i + (prod - use)*dt)
+        use = 0.8 * W(t[i])
+        ATP_next = max(0.0, ATP_i + (prod - use) * dt)
 
-        # NADH
-        dNADH = -0.15*ETC_drive + 0.1*(0.8 - NADH_i)
-        NADH_next = np.clip(NADH_i + dNADH*dt, 0,1)
+        # NADH dynamics
+        dNADH = -0.15 * ETC_drive + 0.1 * (0.8 - NADH_i)
+        NADH_next = np.clip(NADH_i + dNADH * dt, 0.0, 1.0)
 
-        # Ca²⁺
-        Ca_drive = 0.3*W(t[i])*(1 + (180-pmf_i)/140)
-        Ca_in = 0.3*Ca_drive
-        Ca_out = 0.08*Ca_i*(2 if s in ("mPTP","uncoupled") else 1)
-        Ca_next = max(0, Ca_i + (Ca_in - Ca_out)*dt)
+        # Ca²⁺ dynamics
+        Ca_drive = 0.3 * W(t[i]) * (1.0 + (180.0 - pmf_i) / 140.0)
+        Ca_in = 0.3 * Ca_drive
+        Ca_out = 0.08 * Ca_i * (2.0 if s in ("mPTP", "uncoupled") else 1.0)
+        Ca_next = max(0.0, Ca_i + (Ca_in - Ca_out) * dt)
 
-        # ROS
-        pmf_frac = pmf_i/180
-        ROS_prod = 0.1*ETC_drive*(0.3 + max(pmf_frac-0.8,0))
-        ROS_clear = 0.15*(1+S_val)*ROS_i
-        ROS_next = max(0, ROS_i + (ROS_prod - ROS_clear)*dt)
+        # ROS dynamics
+        pmf_frac = pmf_i / 180.0
+        ROS_prod = 0.1 * ETC_drive * (0.3 + max(pmf_frac - 0.8, 0.0))
+        ROS_clear = 0.15 * (1.0 + S_val) * ROS_i
+        ROS_next = max(0.0, ROS_i + (ROS_prod - ROS_clear) * dt)
 
         # Cristae geometry
-        dG = -0.5*(Ca_i+ROS_i)*(G_i-0.3) + 0.05*(1-G_i)*(S_base-0.3)
-        G_next = np.clip(G_i + dG*dt, 0,1)
+        dG = -0.5 * (Ca_i + ROS_i) * (G_i - 0.3) + 0.05 * (1.0 - G_i) * (S_base - 0.3)
+        G_next = np.clip(G_i + dG * dt, 0.0, 1.0)
 
         # Swelling
-        dV = 0.3*max(Ca_i-0.6,0) + 0.5*max(ROS_i-0.7,0) - 0.1*(V_i-1)
-        if s=="mPTP": dV += 0.4
-        V_next = max(1.0, V_i + dV*dt)
+        dV = 0.3 * max(Ca_i - 0.6, 0.0) + 0.5 * max(ROS_i - 0.7, 0.0) - 0.1 * (V_i - 1.0)
+        if s == "mPTP":
+            dV += 0.4
+        V_next = max(1.0, V_i + dV * dt)
 
-        # Assign
-        pmf[i+1]=pmf_next
-        ATP[i+1]=ATP_next
-        NADH[i+1]=NADH_next
-        Ca_m[i+1]=Ca_next
-        ROS[i+1]=ROS_next
-        geom[i+1]=G_next
-        volume[i+1]=V_next
+        # Store
+        pmf[i+1] = pmf_next
+        ATP[i+1] = ATP_next
+        NADH[i+1] = NADH_next
+        Ca_m[i+1] = Ca_next
+        ROS[i+1] = ROS_next
+        geom[i+1] = G_next
+        volume[i+1] = V_next
 
-        # Transitions
+        # ---------------- State transitions ----------------
         ns = s
-        if (not event["mPTP_opened"] and 
-            Ca_i>Ca_thr and ROS_i>ROS_thr and pmf_i<pmf_stress):
-            ns="mPTP"
-            event["mPTP_opened"]=True
-            event["mPTP_time"]=t[i]
 
-        elif s=="healthy":
-            if pmf_i<pmf_stress or ROS_i>0.4 or Ca_i>0.6:
-                ns="stressed"
+        # Hard mPTP trigger
+        if (not event["mPTP_opened"] and
+            Ca_i &gt; Ca_thr and ROS_i &gt; ROS_thr and pmf_i &lt; pmf_stress):
+            ns = "mPTP"
+            event["mPTP_opened"] = True
+            event["mPTP_time"] = t[i]
 
-        elif s=="stressed":
-            if pmf_i<pmf_stress*0.8 or ROS_i>0.7 or Ca_i>0.9:
-                ns="pre_apoptotic"
-            elif pmf_i>pmf_stress and ROS_i<0.3 and Ca_i<0.5:
-                ns="healthy"
+        elif s == "healthy":
+            if pmf_i &lt; pmf_stress or ROS_i &gt; 0.4 or Ca_i &gt; 0.6:
+                ns = "stressed"
 
-        elif s=="pre_apoptotic":
-            if pmf_i<pmf_collapse or ROS_i>1 or Ca_i>1.1:
-                ns="uncoupled"
-            elif pmf_i>pmf_stress and ROS_i<0.4 and Ca_i<0.7:
-                ns="stressed"
+        elif s == "stressed":
+            if pmf_i &lt; pmf_stress*0.8 or ROS_i &gt; 0.7 or Ca_i &gt; 0.9:
+                ns = "pre_apoptotic"
+            elif pmf_i &gt; pmf_stress and ROS_i &lt; 0.3 and Ca_i &lt; 0.5:
+                ns = "healthy"
 
-        elif s=="uncoupled":
-            if pmf_i<pmf_collapse*0.5 and ROS_i>1.1:
-                ns="mPTP"
+        elif s == "pre_apoptotic":
+            if pmf_i &lt; pmf_collapse or ROS_i &gt; 1.0 or Ca_i &gt; 1.1:
+                ns = "uncoupled"
+            elif pmf_i &gt; pmf_stress and ROS_i &lt; 0.4 and Ca_i &lt; 0.7:
+                ns = "stressed"
 
-        states[i+1]=ns
+        elif s == "uncoupled":
+            if pmf_i &lt; pmf_collapse*0.5 and ROS_i &gt; 1.1:
+                ns = "mPTP"
 
-    # Summary
+        states[i+1] = ns
+
+    # ---------------- Summary ----------------
     summary = {
-        "model":"STUR_Mitochondria_Lab_v3.0",
-        "pmf_final":float(pmf[-1]),
-        "ATP_final":float(ATP[-1]),
-        "NADH_final":float(NADH[-1]),
-        "Ca_peak":float(Ca_m.max()),
-        "ROS_peak":float(ROS.max()),
-        "geom_final":float(geom[-1]),
-        "volume_final":float(volume[-1]),
-        "state_final":states[-1],
-        "mPTP_opened":event["mPTP_opened"],
-        "mPTP_time":float(event["mPTP_time"]) if event["mPTP_time"] else None,
+        "model": "STUR_Mitochondria_Lab_v3.1",
+        "pmf_final": float(pmf[-1]),
+        "ATP_final": float(ATP[-1]),
+        "NADH_final": float(NADH[-1]),
+        "Ca_peak": float(Ca_m.max()),
+        "ROS_peak": float(ROS.max()),
+        "geom_final": float(geom[-1]),
+        "volume_final": float(volume[-1]),
+        "state_final": states[-1],
+        "mPTP_opened": event["mPTP_opened"],
+        "mPTP_time": float(event["mPTP_time"]) if event["mPTP_time"] is not None else None,
     }
 
     return dict(
@@ -360,20 +556,24 @@ def run_mito_sim_full(
         geom=geom,
         volume=volume,
         states=states,
-        summary=summary
+        summary=summary,
     )
 
 
 # ===============================================================
 # Phenotype summary
 # ===============================================================
-def phenotype(s):
-    state = s["state_final"]
-    if state=="mPTP": return "Catastrophic collapse: permeability transition."
-    if state=="uncoupled": return "Uncoupled respiration: heat mode, zero ATP."
-    if state=="pre_apoptotic": return "Intermittent depolarization, ROS bursts."
-    if state=="stressed": return "Reduced efficiency: high proton leak."
-    return "Stable oxidative phosphorylation."
+def phenotype(summary):
+    state = summary["state_final"]
+    if state == "mPTP":
+        return "Catastrophic collapse: permeability transition and swelling."
+    if state == "uncoupled":
+        return "Uncoupled respiration: heat mode, near-zero ATP efficiency."
+    if state == "pre_apoptotic":
+        return "Intermittent depolarization with ROS and Ca²⁺ bursts."
+    if state == "stressed":
+        return "Reduced efficiency with elevated leak and moderate ROS."
+    return "Stable oxidative phosphorylation with coherent cristae geometry."
 
 
 # ===============================================================
@@ -384,8 +584,8 @@ if __name__ == "__main__":
     result = run_mito_sim_full(**cfg)
 
     print("Start running......\n")
-    print("=== STUR Mitochondria Lab – v3.0 Summary ===")
-    for k,v in result["summary"].items():
+    print("=== STUR Mitochondria Lab – v3.1 Summary ===")
+    for k, v in result["summary"].items():
         print(f"{k:20s} = {v}")
 
     print("\n=== Phenotype ===")
@@ -393,18 +593,18 @@ if __name__ == "__main__":
 
     print("\n=== State Timeline ===")
     st = result["states"]
-    for label in ["healthy","stressed","pre_apoptotic","uncoupled","mPTP"]:
+    for label in ["healthy", "stressed", "pre_apoptotic", "uncoupled", "mPTP"]:
         if label in st:
-            idx = np.where(st==label)[0][0]
-            print(f"{label:15s} → t = {idx*0.001:.2f} s")
+            idx = np.where(st == label)[0][0]
+            print(f"{label:15s} -> t = {idx*0.001:.2f} s")
 
-    # Export JSON
-    with open("summary.json","w") as f:
-        json.dump(result["summary"],f,indent=2)
+    # Export JSON summary
+    with open("summary.json", "w") as f:
+        json.dump(result["summary"], f, indent=2)
 
     print("\nStop running......")
 </code></pre>
-</div>
+  </div>
 
 </div>
 </body>
