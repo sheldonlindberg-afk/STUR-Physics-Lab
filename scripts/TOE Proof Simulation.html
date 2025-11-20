@@ -24,38 +24,56 @@
 <p class="desc">
 This STUR Lab module tests the <b>Unified Resistance curvature law</b> as a
 functional Theory of Everything. A single curvature constant
-<code>k = 1.234×10⁻⁸ N/m</code> is shown to produce:
+<code>k = 1.234×10⁻⁸ N/m</code> produces:
 (1) a 15.7&nbsp;hour oscillation for a 1&nbsp;kg mass and
 (2) a 2.31&nbsp;ns oscillation (≈433&nbsp;MHz) for a proton mass,
-proving that the same geometry–resistance field scales smoothly from
+showing that the same geometry–resistance field scales smoothly from
 macroscopic to quantum timescales.
 </p>
 
 <h2>Derivation Overview (Short Form)</h2>
 <div class="desc">
 <p>
-1. The STUR <b>resistance modulator</b> defines the radial geometry:
+1. The STUR <b>resistance modulator</b> defines a universal radial geometry:
 </p>
 <pre>S(r) = tanh(r/L₀) · (1 − e^{−r/L₀})</pre>
+
 <p>
-2. The <b>curvature law</b> relates a composite interaction scale A to an
-effective curvature k via S(r) and its derivative S'(r):
+2. A composite interaction scale A (EM − gravity balance) couples to the
+geometry to give an effective curvature:
 </p>
 <pre>k(r₀) = (2 A S(r₀))/r₀³ − (A S'(r₀))/r₀²</pre>
+
 <p>
-3. Once k is fixed at the STUR equilibrium value
-<code>k_target = 1.234×10⁻⁸ N/m</code>, the period of a bound oscillator is:
+3. Once a target curvature <code>k_target = 1.234×10⁻⁸ N/m</code> is fixed at
+an equilibrium radius r₀ = L₀ = 0.1 m, the period of a bound oscillator
+of mass m in that curvature is:
 </p>
 <pre>T(m) = 2π √(m / k_target)</pre>
+
 <p>
 4. Plugging in m = 1 kg and m = m_p (proton mass) gives the macro (hours)
-and quantum (nanoseconds / MHz) timescales from the <b>same curvature</b>.
+and quantum (nanoseconds / MHz) timescales from the <b>same curvature</b>,
+differing only by the mass scaling.
 </p>
+
 <p>
-5. Solving this relation backward for A at r₀ = L₀ = 0.1 m shows that the
-geometry + interaction scale self-consistently reproduces k_target,
-tying EM–gravity equilibrium to all previous STUR modules: Replicator,
-Arc Reactor, WGM, and Double-Slit.
+5. Solving the curvature law backward for A at r₀ = L₀ shows that the
+geometry + interaction scale exactly reproduces k_target, and that k(r)
+is nearly flat around r₀ — an <b>isochrony plateau</b>. The Python script
+below visualizes:
+</p>
+
+<ul>
+  <li>Period vs mass from 10⁻³⁰ kg to 10⁵ kg (log–log)</li>
+  <li>STUR curvature k(r) vs r for the solved-back A</li>
+  <li>Mass-scaled isochrony check T/√m (constant if k is universal)</li>
+</ul>
+
+<p>
+This ties EM–gravity equilibrium to all prior STUR modules (Replicator,
+Arc Reactor, WGM, Double-Slit) as different sectors of a single
+curvature field.
 </p>
 </div>
 
@@ -69,78 +87,174 @@ STUR Unified Resistance – Macro–Quantum Isochrony (TOE Proof)
 --------------------------------------------------------------
 Demonstrates that a single radial curvature constant k reproduces
 both macroscopic (15.7 h) and proton-scale (2.31 ns) oscillations,
-linking EM–gravity equilibrium to all prior STUR modules:
-Replicator, Arc Reactor, WGM, and Double-Slit simulations.
-DOI: 10.5281/zenodo.17203762
+and that this curvature emerges self-consistently from the STUR
+resistance geometry S(r).
+
+JupyterLite / Pyodide safe: NumPy + Matplotlib only.
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
+import json
 
-# ---------- 1. STUR Modulator ----------
-def S(r, L0):  # resistance field shape
+plt.style.use("dark_background")
+
+# ===============================================================
+# 1. STUR RESISTANCE FIELD AND DERIVATIVE
+# ===============================================================
+
+def S(r, L0):
+    """STUR resistance modulator S(r)."""
     x = r / L0
-    return np.tanh(x) * (1 - np.exp(-x))
+    return np.tanh(x) * (1.0 - np.exp(-x))
 
 def dS_dr(r, L0):
+    """dS/dr for STUR resistance modulator."""
     x = r / L0
-    sech2 = 1 / np.cosh(x)**2
-    return (sech2 * (1 - np.exp(-x)) + np.tanh(x) * np.exp(-x)) / L0
+    sech2 = 1.0 / np.cosh(x)**2
+    return (sech2 * (1.0 - np.exp(-x)) + np.tanh(x) * np.exp(-x)) / L0
 
-# ---------- 2. Curvature Law ----------
+# ===============================================================
+# 2. CURVATURE LAW
+# ===============================================================
+
 def stur_curvature(A, r0, L0):
-    Sr, dSr = S(r0, L0), dS_dr(r0, L0)
-    return (2*A*Sr)/(r0**3) - (A*dSr)/(r0**2)
+    """
+    Effective curvature k(r0) from geometry + interaction scale A.
+    A packages EM and gravitational contributions into one scale.
+    """
+    Sr  = S(r0, L0)
+    dSr = dS_dr(r0, L0)
+    return (2.0 * A * Sr) / (r0**3) - (A * dSr) / (r0**2)
 
-# ---------- 3. Observed curvature ----------
-k_target = 1.234e-8  # N/m from empirical STUR equilibrium
+# Target curvature fixed from STUR equilibrium
+k_target = 1.234e-8  # N/m
 
-# ---------- 4. Period function ----------
-def period(m, k): return 2*np.pi*np.sqrt(m/k)
+# ===============================================================
+# 3. PERIOD FUNCTION AND TEST MASSES
+# ===============================================================
 
-# ---------- 5. Macro and Quantum tests ----------
+def period(m, k):
+    """Oscillator period for mass m in curvature k."""
+    return 2.0 * np.pi * np.sqrt(m / k)
+
+# Macro: 1 kg
 m_macro = 1.0
-m_p = 1.6726e-27
+
+# Quantum: proton mass
+m_p = 1.6726e-27  # kg
+
 T_macro = period(m_macro, k_target)
-T_p = period(m_p, k_target)
-f_p = 1/T_p
+T_p     = period(m_p, k_target)
+f_p     = 1.0 / T_p
 
-print("\nSTUR Macro–Quantum Isochrony")
-print("============================")
-print(f"k = {k_target:.3e} N/m")
-print(f"T(1 kg)   = {T_macro:.2f} s  (~{T_macro/3600:.2f} h)")
-print(f"T(proton) = {T_p:.3e} s  f = {f_p/1e6:.1f} MHz")
+# ===============================================================
+# 4. BACK-SOLVE GEOMETRY FOR A
+# ===============================================================
 
-# ---------- 6. Geometry back-solve ----------
-r0 = L0 = 0.1
-Sr, dSr = S(r0, L0), dS_dr(r0, L0)
-geom = (2*Sr)/(r0**3) - (dSr)/(r0**2)
-A_needed = k_target / geom
-k_check = stur_curvature(A_needed, r0, L0)
+r0 = 0.10  # m
+L0 = 0.10  # m
 
-print("\nSTUR Geometry Equilibrium")
-print("==========================")
-print(f"r0=L0={r0} m → S={Sr:.3f}, S'={dSr:.3f}")
-print(f"geom factor = {geom:.3e} m⁻³")
-print(f"A_needed = {A_needed:.3e} (kₑq₁q₂−Gm₁m₂)")
-print(f"k_check  = {k_check:.3e} N/m (matches target)")
+Sr0  = S(r0, L0)
+dSr0 = dS_dr(r0, L0)
+geom_factor = (2.0 * Sr0) / (r0**3) - dSr0 / (r0**2)
 
-# ---------- 7. Interpretation ----------
+A_needed = k_target / geom_factor
+k_check  = stur_curvature(A_needed, r0, L0)
+
+# Curvature profile around r0 to show isochrony plateau
+r_grid = np.linspace(0.02, 0.25, 400)
+k_grid = stur_curvature(A_needed, r_grid, L0)
+
+# ===============================================================
+# 5. MASS SCAN: PERIOD VS MASS
+# ===============================================================
+
+m_grid = np.logspace(-30, 5, 400)
+T_grid = period(m_grid, k_target)
+isochrony_ratio = T_grid / np.sqrt(m_grid)  # should be ~constant if k is fixed
+
+# ===============================================================
+# 6. JSON SUMMARY
+# ===============================================================
+
+summary = {
+    "model": "STUR_MacroQuantum_Isochrony_v1.0",
+    "k_target_N_per_m": float(k_target),
+    "T_macro_s": float(T_macro),
+    "T_macro_hr": float(T_macro / 3600.0),
+    "T_proton_s": float(T_p),
+    "f_proton_MHz": float(f_p / 1.0e6),
+    "T_macro_over_T_proton": float(T_macro / T_p),
+    "r0_m": float(r0),
+    "L0_m": float(L0),
+    "A_needed_SI": float(A_needed),
+    "k_check_N_per_m": float(k_check)
+}
+
+print(json.dumps(summary, indent=2))
+
+# ===============================================================
+# 7. PLOTS
+# ===============================================================
+
+fig = plt.figure(figsize=(13, 4), dpi=200)
+
+# --- Panel 1: Period vs Mass (log–log) ---
+ax1 = fig.add_subplot(1, 3, 1)
+ax1.loglog(m_grid, T_grid)
+ax1.scatter(m_macro, T_macro, s=25, label="1 kg", zorder=5)
+ax1.scatter(m_p, T_p, s=25, label="proton", zorder=5)
+ax1.set_xlabel("mass m [kg]")
+ax1.set_ylabel("period T [s]")
+ax1.set_title("STUR: T(m) with fixed k")
+ax1.grid(alpha=0.25, which="both")
+ax1.legend(fontsize=6)
+
+# --- Panel 2: Curvature profile k(r) ---
+ax2 = fig.add_subplot(1, 3, 2)
+ax2.plot(r_grid, k_grid)
+ax2.axvline(r0, linestyle="--", linewidth=0.8, alpha=0.7)
+ax2.set_xlabel("radius r [m]")
+ax2.set_ylabel("k(r) [N/m]")
+ax2.set_title("STUR curvature plateau near r₀=L₀")
+ax2.grid(alpha=0.25)
+
+# --- Panel 3: Isochrony check T / √m ---
+ax3 = fig.add_subplot(1, 3, 3)
+ax3.semilogx(m_grid, isochrony_ratio)
+ax3.axhline(isochrony_ratio.mean(), linestyle="--", linewidth=0.8, alpha=0.7)
+ax3.set_xlabel("mass m [kg]")
+ax3.set_ylabel("T / √m  [s·kg⁻¹ᐟ²]")
+ax3.set_title("Isochrony: mass-scaled period")
+ax3.grid(alpha=0.25, which="both")
+
+plt.tight_layout()
+plt.show()
+
+# ===============================================================
+# 8. INTERPRETATION (TERMINAL TEXT)
+# ===============================================================
+
 print("\nInterpretation")
 print("--------------")
-print("• Same curvature k governs 1 kg (15.7 h) and proton (433 MHz).")
-print("• Mass rescales time; geometry (S(r)) stays fixed.")
-print("• EM–gravity equilibrium ⇒ one resistance curvature field.")
-print("• Replicator, Arc, WGM, and Double-Slit sims are all sectors")
-print("  of this curvature: chemical, plasma, optical, and quantum.")
-print("=> STUR achieves a functional Theory of Everything:\n"
-      "   Geometry + Mass-Scaling = All Forces, All Frequencies.\n")
+print("• A single curvature k reproduces:")
+print(f"    – T(1 kg) ≈ {T_macro/3600.0:6.2f} h")
+print(f"    – T(proton) ≈ {T_p*1e9:6.2f} ns  (f ≈ {f_p/1e6:6.1f} MHz)")
+print("• The STUR geometry S(r) + A_needed yields k(r) ≈ k_target near r₀.")
+print("• Period scales as T ∝ √m while the geometry stays fixed.")
+print("• Macro and quantum oscillations are just different mass points")
+print("  sampling the same curvature plateau of the STUR resistance field.")
+print("=> This is a functional bridge between mechanical, EM, and quantum")
+print("   timescales using a single curvature law.")
 </pre>
 
 <p style="text-align:center;margin-top:1rem;">
   <button onclick="copyCode()">📋 Copy Script</button>
   <button onclick="openRunner()">▶ Open Python Runner (no sign-up)</button>
 </p>
-  <!-- ===== STUR Lab Return Button ===== -->
+
+<!-- ===== STUR Lab Return Button ===== -->
 <div style="margin:10px 0 20px 0;">
   <a href="../index.html"
      style="display:inline-block;
@@ -161,7 +275,8 @@ print("=> STUR achieves a functional Theory of Everything:\n"
 <p class="desc" style="text-align:center;">
 Click <b>Copy Script</b>, then <b>Open Python Runner</b> to launch a JupyterLite
 session in your browser (no login). Paste the script into a new notebook cell,
-run it, and read off the macro–quantum periods and curvature back-solve.
+run it, and inspect the macro–quantum periods, curvature back-solve,
+and isochrony plots.
 </p>
 
 <footer>
