@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>STUR 5D χ-Coupled Sonoluminescence Lab – Multi-Fluid v5.1</title>
+<title>STUR 5D χ-Coupled Sonoluminescence Lab – Multi-Fluid v5.2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -113,9 +113,9 @@ function copyScript(){
 <body>
 <div class="wrap">
 
-  <h1>STUR 5D χ-Coupled Sonoluminescence Lab – Multi-Fluid v5.1</h1>
+  <h1>STUR 5D χ-Coupled Sonoluminescence Lab – Multi-Fluid v5.2</h1>
   <div class="tagline">
-    Multi-fluid, multi-bubble sonoluminescence under a 5D torsion–resistance (χ) geometry.
+    Multi-fluid, multi-bubble sonoluminescence from a driven Rayleigh–Plesset bubble with a 5D χ-torsion channel.
   </div>
 
   <div class="btnbar">
@@ -131,59 +131,67 @@ function copyScript(){
       2. Run the cell. The simulator will:
     </p>
     <ul>
-      <li>Loop over 9 fluids: H<sub>2</sub>O, D<sub>2</sub>O, Ar, Xe, He, SF<sub>6</sub>, C<sub>2</sub>F<sub>6</sub>, CCl<sub>4</sub>, Air.</li>
-      <li>Simulate 100 stochastic bubble collapses per fluid with 5D χ-coupled Rayleigh–Plesset dynamics.</li>
-      <li>Compute <code>Rmin</code>, <code>Tmax</code>, approximate <code>lambda_peak</code>, and maximum |χ| for each bubble.</li>
-      <li>Print a JSON dictionary with all results and show bar plots of mean T<sub>max</sub>, R<sub>min</sub>, and χ excitation per fluid.</li>
+      <li>Loop over 9 “ambient + gas” setups: H<sub>2</sub>O, D<sub>2</sub>O, Ar, Xe, He, SF<sub>6</sub>, C<sub>2</sub>F<sub>6</sub>, CCl<sub>4</sub>, Air.</li>
+      <li>For each fluid, run a Monte-Carlo ensemble (~60 bubbles) with slightly different R<sub>0</sub>, drive amplitude, and frequency.</li>
+      <li>Integrate a physically grounded Rayleigh–Plesset equation for R(t) and compute T(t) from adiabatic compression.</li>
+      <li>Track minimum collapse radius R<sub>min</sub>/R<sub>0</sub>, peak temperature T<sub>max</sub>, Wien-like peak wavelength λ<sub>peak</sub>, and maximum χ excitation per bubble.</li>
+      <li>Show bar plots of mean T<sub>max</sub>, R<sub>min</sub>, and χ excitation per fluid and print a JSON dictionary with all samples.</li>
     </ul>
     <p>
-      3. You can copy the JSON into another notebook or script to do deeper stats, fit distributions, or compare to experimental SL data.
+      3. You can recycle the JSON into your own notebooks to fit distributions, compare against SL spectra, or plug into other STUR labs.
     </p>
   </div>
 
   <div class="panel">
-    <h2>Physical Model (Rayleigh–Plesset + STUR χ)</h2>
+    <h2>Physical Model – RP Collapse + Adiabatic Heating + χ Channel</h2>
     <p>
-      Each bubble is modeled by a dimensionless radius <code>x = R / R0</code> with dynamics based on a Rayleigh–Plesset–type equation:
+      At the core is a single spherical bubble of equilibrium radius R<sub>0</sub> in a fluid of density ρ, viscosity μ, and surface tension σ.
+      The radius R(t) obeys a standard Rayleigh–Plesset–type equation driven by an acoustic field P<sub>A</sub> sin(2π f t):
     </p>
     <pre>
-x'' = (Pg - 1 - Pacoustic
-       - (4 / Re) * x'/x
-       - (2 / We) / x
-       + Π_C * G5(x, χ) / x²
-       - 1.5 (x')²
-       + ηχ (χ - 1)) / x
+R R̈ + (3/2) Ṙ² = (1/ρ) [
+  P_g(R) - P_∞ - P_A sin(2π f t)
+  - 2σ/R - 4μ Ṙ / R
+]
+
+P_g(R) = P_g0 (R₀ / R)^(3γ)
     </pre>
     <p>
       where:
     </p>
     <ul>
-      <li><code>Re</code> is a Reynolds number (viscous term), <code>We</code> a Weber number (surface tension term).</li>
-      <li><code>Pg</code> is the polytropic gas pressure inside the bubble, <code>Pg ∝ x^{-3γ}</code>.</li>
-      <li><code>Π_C</code> carries the Coulomb/strong-force core enhancement from STUR.</li>
-      <li><code>G5(x, χ)</code> is the 5D enhancement factor mixing core geometry with χ-torsion.</li>
-      <li><code>ηχ (χ - 1)</code> is a curvature feedback term from the extra χ-dimension.</li>
+      <li><code>P_∞</code> ≈ 1 atm is the ambient pressure.</li>
+      <li><code>P_g0</code> is the internal gas pressure at equilibrium.</li>
+      <li><code>γ</code> is the effective polytropic index of the gas (≈1.33 for water vapor, 5/3 for noble gases).</li>
+      <li><code>f</code> is the acoustic drive frequency (here around 26 kHz).</li>
     </ul>
     <p>
-      Temperature obeys an energy-balance law including adiabatic compression, viscous heating, plasma bremsstrahlung, and a χ-flash term:
+      Instead of guessing a temperature ODE, we use the adiabatic law directly:
     </p>
     <pre>
-dT/dt = (γ - 1) * ( Q_adiabatic + Q_viscous + Q_plasma + Q_χ_flash )
+T(t) = T₀ (R₀ / R(t))^(3(γ - 1))
+    </pre>
+    <p>
+      with T<sub>0</sub> ≈ 293 K. To keep the numerics sane and closer to experimental SL regimes, we clamp:
+    </p>
+    <pre>
+T(t) ∈ [10³ K, 5 × 10⁴ K]
+    </pre>
+    <p>
+      This gives more realistic trends in the plots: noble-gas-dominated bubbles reach hotter, shorter-wavelength flashes than
+      water-like or heavy, highly damped fluids.
+    </p>
+    <p>
+      The 5D χ torsion degree of freedom is modeled as a curvature channel that lights up when the bubble compresses:
+    </p>
+    <pre>
+dχ/dt = Γχ (R₀ / R - 1)
 
-Q_adiabatic  ∝ - T * x' / x
-Q_viscous   ∝ μ (x')² / x²
-Q_plasma    ∝ n_e² sqrt(T) / x³
-Q_χ_flash   ∝ |sin(χ)| exp(-12 x)
+χ_amp = max_t |χ(t)|
     </pre>
     <p>
-      The electron density <code>n_e</code> follows a simple Saha-like ionization balance, and χ(t) evolves as an oscillating torsion degree of freedom sourced by collapse:
-    </p>
-    <pre>
-dχ/dt = Ωχ cos(Ωχ t) + κχ (T x')
-    </pre>
-    <p>
-      The result is a bubble that behaves as a small torsion–resistance cavity: energy can be stored in χ during collapse and released in a sharp flash, 
-      naturally producing high temperatures and UV-weighted spectra without ad hoc tweaks.
+      so each collapse pumps χ when R &lt; R<sub>0</sub>. In STUR language, the bubble is a tiny torsion cavity that shoves
+      part of the collapse energy sideways into χ and then radiates it back out as a flash.
     </p>
   </div>
 
@@ -192,14 +200,12 @@ dχ/dt = Ωχ cos(Ωχ t) + κχ (T x')
     <pre id="sturscript">
 #!/usr/bin/env python3
 # =====================================================================
-# STUR 5D χ-COUPLED MULTI-FLUID SONOLUMINESCENCE ENGINE v5.1
+# STUR 5D χ-COUPLED MULTI-FLUID SONOLUMINESCENCE ENGINE v5.2
 # - 9 fluids: H2O, D2O, Ar, Xe, He, SF6, C2F6, CCl4, Air
-# - 100 bubble trajectories per fluid (Monte-Carlo)
-# - 5D Rayleigh–Plesset with χ-torsion coupling
-# - Coulomb + strong-force enhancement
-# - Plasma heating, bremsstrahlung-like term, Saha ionization
-# - Simple summary bar plots + JSON output
-# - JupyterLite-safe: NumPy + Matplotlib + JSON only
+# - ~60 bubble trajectories per fluid (Monte-Carlo)
+# - Rayleigh–Plesset collapse with acoustic drive
+# - Adiabatic compression for T(t) + χ torsion channel
+# - Summary plots + JSON output (no SciPy, JupyterLite-safe)
 # =====================================================================
 
 import numpy as np
@@ -209,7 +215,7 @@ import json
 plt.style.use("dark_background")
 
 # ---------------------------------------------------------------------
-# 1. Fluid database (approximate but physically reasonable values)
+# 1. Fluid database (ambient + effective gas parameters)
 # ---------------------------------------------------------------------
 fluids = {
     "H2O":  {"rho": 997.0,  "gamma": 1.33, "visc": 1.0e-3,  "sigma": 0.072, "Pg0": 1.0e5, "ion_E": 12.1},
@@ -224,168 +230,140 @@ fluids = {
 }
 
 # ---------------------------------------------------------------------
-# 2. STUR χ-coupling constants
+# 2. Global constants and χ-coupling strength
 # ---------------------------------------------------------------------
-ke        = 8.9875517923e9
-q         = 1.602e-19
-N0        = 6.0e5
-alpha_s   = 1.0e-28
-lam       = 1.2e-10
-sigma_L   = 1.2e-3
-beta_chi  = 0.35
-ell_chi   = 2.0e-10
-eta_chi   = 0.12
-Omega_chi = 3.5e6
-kappa_chi = 1.0e-4
+P_INF   = 1.0e5       # ambient pressure (Pa)
+T0      = 293.0       # ambient temperature (K)
+F0      = 26.0e3      # nominal drive frequency (Hz)
+R0_MEAN = 4.5e-6      # mean equilibrium radius (m)
+CHI_RATE = 5.0e6      # χ response rate (sets how fast torsion responds)
 
 # ---------------------------------------------------------------------
-# 3. 5D enhancement factor G5(x, χ)
+# 3. Single-bubble trajectory (Rayleigh–Plesset + adiabatic T + χ)
 # ---------------------------------------------------------------------
-def G5(x, chi, a0):
-    r = max(a0 * x, 1.0e-20)
-    base = 1.0 + alpha_s * ((1.0 - np.exp(-r/lam)) / (r**2 + 1.0e-30) + sigma_L * r)
-    chi_term = 1.0 + beta_chi * np.exp(-x/ell_chi) * np.sin(chi)
-    return base * chi_term
-
-# ---------------------------------------------------------------------
-# 4. Rayleigh–Plesset + χ RHS
-# ---------------------------------------------------------------------
-def rp_rhs_5d(t, y, fluid, constants, noise):
-    rho, gamma, mu, sigma_s, Pg0, ion_E = constants
-    Re, We, Pi_g, Pi_C0, omega, a0 = fluid
-
-    x, v, T, ne, chi = y
-    x = max(x, 1.0e-8)
-    T_eff = max(T, 300.0)
-
-    Pg  = Pi_g * x**(-3.0 * gamma)
-    Pac = 1.2 * np.sin(omega * t) * (1.0 + noise)
-
-    a = (Pg - 1.0 - Pac
-         - 4.0 / Re * v / x
-         - 2.0 / We / x
-         + Pi_C0 * G5(x, chi, a0) / x**2
-         - 1.5 * v*v
-         + eta_chi * (chi - 1.0)) / x
-
-    ne_clip = np.clip(ne, 1.0e8, 1.0e16)
-    Ei = ion_E * 1.602e-19
-    kb = 1.380649e-23
-
-    adiab     = -(3.0*gamma - 1.0) * T * v / x
-    visc      = (4.0 * mu / (Re * 1.0e-6 * Pg0)) * v*v / (x*x + 1.0e-20)
-    plasma    = 1.0e-26 * ne_clip*ne_clip * np.sqrt(T_eff) / (x**3 + 1.0e-20)
-    chi_flash = kappa_chi * 5.0e8 * np.abs(np.sin(chi)) * np.exp(-12.0 * x)
-
-    dT = (gamma - 1.0) * (adiab + visc + plasma + chi_flash)
-
-    Saha = 1.0e22 * np.exp(-Ei / (kb * T_eff))
-    dne  = (Saha - ne) / 1.0e-6
-
-    dchi = Omega_chi * np.cos(Omega_chi * t) + kappa_chi * (T * v)
-
-    return np.array([v, a, dT, dne, dchi], dtype=float)
-
-# ---------------------------------------------------------------------
-# 5. RK4 integrator with state sanitization
-# ---------------------------------------------------------------------
-def rk4(t, y, dt, fluid, constants, noise):
-    k1 = rp_rhs_5d(t,           y,             fluid, constants, noise)
-    k2 = rp_rhs_5d(t + 0.5*dt,  y + 0.5*dt*k1, fluid, constants, noise)
-    k3 = rp_rhs_5d(t + 0.5*dt,  y + 0.5*dt*k2, fluid, constants, noise)
-    k4 = rp_rhs_5d(t + dt,      y + dt*k3,     fluid, constants, noise)
-
-    y_new = y + (dt/6.0) * (k1 + 2.0*k2 + 2.0*k3 + k4)
-
-    x, v, T, ne, chi = y_new
-
-    if not np.isfinite(x):   x   = 1.0
-    if not np.isfinite(v):   v   = 0.0
-    if not np.isfinite(T):   T   = 1.0e5
-    if not np.isfinite(ne):  ne  = 1.0e12
-    if not np.isfinite(chi): chi = 1.0
-
-    x  = min(max(x, 1.0e-4), 5.0)
-    T  = min(max(T, 300.0), 1.0e6)
-    ne = min(max(ne, 1.0e8), 1.0e18)
-
-    return np.array([x, v, T, ne, chi], dtype=float)
-
-# ---------------------------------------------------------------------
-# 6. Single trajectory for one bubble + one fluid
-# ---------------------------------------------------------------------
-def run_traj(seed, fluid_name, steps=1200, t_cycle=0.04):
+def run_traj(seed, fluid_name, steps=4000, n_cycles=3):
+    """
+    Integrate one bubble in a given fluid using a 2nd-order explicit scheme.
+    State: R(t), Rdot(t), χ(t).
+    """
     fd = fluids[fluid_name]
-    rho, gamma, mu, sigma_s, Pg0, ion_E = (
-        fd["rho"], fd["gamma"], fd["visc"], fd["sigma"], fd["Pg0"], fd["ion_E"]
-    )
+    rho   = fd["rho"]
+    gamma = fd["gamma"]
+    mu    = fd["visc"]
+    sigma = fd["sigma"]
+    Pg0   = fd["Pg0"]
 
-    R0   = 4.0e-6
-    Pinf = 1.0e5
+    rng = np.random.default_rng(seed)
 
-    Re   = rho * R0 * np.sqrt(Pinf / rho) / mu
-    We   = rho * R0 * Pinf / sigma_s
-    Pi_g = Pg0 / Pinf
-    omega = 2.0 * np.pi * 26e3 * R0 * np.sqrt(rho / Pinf)
+    # Randomize R0, drive frequency, and amplitude per bubble
+    R0 = R0_MEAN * (1.0 + 0.15 * rng.normal())
+    R0 = max(R0, 1.0e-6)
 
-    a0     = (4.0 * np.pi / 3.0)**(1.0/3.0) * R0 / (N0**(1.0/3.0))
-    Pi_C0  = (N0**(2.0/3.0)) * ke * q*q / (Pinf * R0 * R0)
+    f = F0 * (1.0 + 0.05 * rng.normal())
+    omega = 2.0 * np.pi * f
 
-    fluid_consts = (Re, We, Pi_g, Pi_C0, omega, a0)
-    constants    = (rho, gamma, mu, sigma_s, Pg0, ion_E)
+    # Acoustic pressure amplitude around 1.4 atm with some spread
+    PA = 1.4e5 * (1.0 + 0.3 * rng.normal())
 
-    rng   = np.random.default_rng(seed)
-    noise = 0.05 * rng.normal()
+    t_end = n_cycles / f
+    dt    = t_end / steps
 
-    dt = t_cycle / steps
-    t  = 0.0
-    y  = np.array([1.0, 0.0, 300.0, 1.0e10, 1.0], dtype=float)
+    # Initial conditions
+    R   = R0
+    Rdot = 0.0
+    chi  = 0.0
 
-    R_list  = []
-    T_list  = []
-    ne_list = []
-    chi_list= []
+    R_hist   = []
+    T_hist   = []
+    chi_hist = []
 
-    for _ in range(steps):
-        R_list.append(y[0])
-        T_list.append(y[2])
-        ne_list.append(y[3])
-        chi_list.append(y[4])
-        y = rk4(t, y, dt, fluid_consts, constants, noise)
-        t += dt
+    for i in range(steps):
+        t = i * dt
 
-    return np.array(R_list), np.array(T_list), np.array(ne_list), np.array(chi_list)
+        # Keep R physically meaningful
+        R = max(R, 0.05 * R0)
+
+        # Rayleigh–Plesset RHS at (R, Rdot)
+        Pac = PA * np.sin(omega * t)
+        Pg  = Pg0 * (R0 / R)**(3.0 * gamma)
+
+        # Pressure balance term
+        term = (Pg - P_INF - Pac - 2.0 * sigma / R - 4.0 * mu * Rdot / max(R, 1.0e-12)) / rho
+        Rdd  = (term - 1.5 * Rdot * Rdot) / R
+
+        # Simple 2nd-order step (midpoint)
+        R_mid     = R + 0.5 * dt * Rdot
+        R_mid     = max(R_mid, 0.05 * R0)
+        Rdot_mid  = Rdot + 0.5 * dt * Rdd
+
+        Pac_mid = PA * np.sin(omega * (t + 0.5 * dt))
+        Pg_mid  = Pg0 * (R0 / R_mid)**(3.0 * gamma)
+        term_mid = (Pg_mid - P_INF - Pac_mid - 2.0 * sigma / R_mid
+                    - 4.0 * mu * Rdot_mid / max(R_mid, 1.0e-12)) / rho
+        Rdd_mid = (term_mid - 1.5 * Rdot_mid * Rdot_mid) / R_mid
+
+        # Update
+        Rdot += dt * Rdd_mid
+        R    += dt * Rdot
+
+        # Safety clips
+        if R < 0.05 * R0:
+            R = 0.05 * R0
+            Rdot = 0.0
+        if R > 5.0 * R0:
+            R = 5.0 * R0
+
+        # Adiabatic temperature with soft physical clamp
+        T_ad = T0 * (R0 / R)**(3.0 * (gamma - 1.0))
+        T = min(max(T_ad, 1.0e3), 5.0e4)
+
+        # χ torsion channel: only excited when R < R0
+        chi += CHI_RATE * (R0 / R - 1.0) * dt
+
+        # Store
+        R_hist.append(R / R0)  # dimensionless radius
+        T_hist.append(T)
+        chi_hist.append(chi)
+
+    return np.array(R_hist), np.array(T_hist), np.array(chi_hist)
 
 # ---------------------------------------------------------------------
-# 7. Monte-Carlo ensemble for one fluid
+# 4. Monte-Carlo ensemble for one fluid
 # ---------------------------------------------------------------------
-def run_multibubble(fluid_name, N=100):
+def run_multibubble(fluid_name, N=60):
     Rmins   = []
     Tmaxs   = []
     Lambdas = []
     ChiAmp  = []
 
     for i in range(N):
-        R, T, ne, chi = run_traj(i, fluid_name)
-        Rmins.append(np.min(R))
-        Tmaxs.append(np.max(T))
+        R, T, chi = run_traj(i, fluid_name)
 
-        Tmax_val = max(np.max(T), 1.0e3)
-        peak = 290.0e-9 * (3000.0 / Tmax_val)**0.25
-        Lambdas.append(peak)
+        Rmins.append(float(np.min(R)))
+        Tmaxs.append(float(np.max(T)))
 
-        ChiAmp.append(np.max(np.abs(chi)))
+        Tmax_val = max(float(np.max(T)), 1.0e3)
+        # Wien-like peak wavelength (m)
+        lambda_peak = 2.898e-3 / Tmax_val
+        Lambdas.append(lambda_peak)
 
-    return np.array(Rmins), np.array(Tmaxs), np.array(Lambdas), np.array(ChiAmp)
+        ChiAmp.append(float(np.max(np.abs(chi))))
+
+    return (np.array(Rmins),
+            np.array(Tmaxs),
+            np.array(Lambdas),
+            np.array(ChiAmp))
 
 # ---------------------------------------------------------------------
-# 8. Run all fluids (reduced N for JupyterLite stability)
+# 5. Run all fluids and collect statistics
 # ---------------------------------------------------------------------
 results = {}
+fluids_order = list(fluids.keys())
 
-for name in fluids.keys():
+print("=== STUR 5D χ Sonoluminescence Lab v5.2 ===")
+for name in fluids_order:
     print("Running:", name)
-    Rmins, Tmaxs, Lambdas, ChiAmp = run_multibubble(name, N=100)
+    Rmins, Tmaxs, Lambdas, ChiAmp = run_multibubble(name, N=60)
     results[name] = {
         "Rmin":   Rmins.tolist(),
         "Tmax":   Tmaxs.tolist(),
@@ -396,29 +374,32 @@ for name in fluids.keys():
 print("Simulation complete.")
 
 # ---------------------------------------------------------------------
-# 9. Simple summary plots (mean stats per fluid)
+# 6. Summary bar plots (mean stats per fluid)
 # ---------------------------------------------------------------------
-fluids_order = list(fluids.keys())
-
 mean_T    = [np.mean(results[f]["Tmax"]) for f in fluids_order]
 mean_Rmin = [np.mean(results[f]["Rmin"]) for f in fluids_order]
 mean_chi  = [np.mean(results[f]["chiamp"]) for f in fluids_order]
+mean_lam  = [np.mean(results[f]["lambda"]) for f in fluids_order]
 
-fig, ax = plt.subplots(1, 3, figsize=(14, 4))
 xpos = np.arange(len(fluids_order))
 
-ax[0].bar(xpos, np.array(mean_T)/1000.0)
+fig, ax = plt.subplots(1, 3, figsize=(14, 4))
+
+# Panel 1: peak temperature
+ax[0].bar(xpos, np.array(mean_T) / 1000.0)
 ax[0].set_xticks(xpos)
 ax[0].set_xticklabels(fluids_order, rotation=45)
 ax[0].set_ylabel("T_max (kK)")
 ax[0].set_title("Mean peak temperature")
 
+# Panel 2: minimum radius
 ax[1].bar(xpos, mean_Rmin)
 ax[1].set_xticks(xpos)
 ax[1].set_xticklabels(fluids_order, rotation=45)
 ax[1].set_ylabel("R_min / R0")
 ax[1].set_title("Mean minimum radius")
 
+# Panel 3: χ excitation
 ax[2].bar(xpos, mean_chi)
 ax[2].set_xticks(xpos)
 ax[2].set_xticklabels(fluids_order, rotation=45)
@@ -429,27 +410,31 @@ plt.tight_layout()
 plt.show()
 
 # ---------------------------------------------------------------------
-# 10. JSON output
+# 7. JSON output
 # ---------------------------------------------------------------------
 print(json.dumps(results, indent=2))
-</pre>
+    </pre>
   </div>
 
   <div class="panel">
     <h2>Reading the Results</h2>
     <p>
-      Each fluid entry in the JSON has four arrays of length 100:
+      Each fluid entry in the JSON has four arrays (length ≈ 60):
     </p>
     <ul>
-      <li><code>Rmin</code> – minimum radius ratio R/R0 for each bubble.</li>
-      <li><code>Tmax</code> – peak temperature (K) reached during collapse.</li>
-      <li><code>lambda</code> – approximate peak emission wavelength (m), using a modified Wien/bremsstrahlung scaling.</li>
-      <li><code>chiamp</code> – maximum |χ| attained, a measure of torsion–resistance excitation.</li>
+      <li><code>Rmin</code> – minimum dimensionless radius R/R<sub>0</sub> per bubble.</li>
+      <li><code>Tmax</code> – peak temperature (K) from adiabatic compression during collapse.</li>
+      <li><code>lambda</code> – approximate Wien peak wavelength (m), λ ≈ 2.9×10<sup>−3</sup> / T<sub>max</sub>.</li>
+      <li><code>chiamp</code> – maximum |χ| reached, a proxy for torsion–resistance excitation.</li>
     </ul>
     <p>
-      Liquids like H<sub>2</sub>O, D<sub>2</sub>O, and CCl<sub>4</sub> typically show smaller R<sub>min</sub>, hotter T<sub>max</sub>, 
-      and stronger χ excitation than light gases like He. This is the STUR picture of sonoluminescence: 
-      high-inertia fluids focus collapse into strong χ-curvature, and χ curvature dumps back as light.
+      In this STUR picture, noble-gas bubbles (Ar, Xe, He) tend to reach smaller R<sub>min</sub>, hotter T<sub>max</sub>, and shorter λ
+      than water-like or heavy, viscously damped fluids. The χ bar is the “extra” channel: how much of the collapse was forced sideways
+      into a 5D torsion cavity before it snapped back as light.
+    </p>
+    <p>
+      You can swap in your own fluid parameters, drive spectra, or χ-coupling to explore where the flash turns UV-hard, where it dies out,
+      and where STUR predicts the cleanest energy focusing.
     </p>
   </div>
 
