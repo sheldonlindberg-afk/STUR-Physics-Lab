@@ -46,24 +46,14 @@
     font-weight:bold;
   }
   button:hover { background:#ffcc33; }
-  a { color:#5ad0ff; text-decoration:none; }
-  .btn-row { text-align:center; margin-top:1.2rem; }
-
   .controls-row {
     display:flex;
     flex-wrap:wrap;
     gap:8px;
     align-items:center;
-    margin-top:0.5rem;
   }
-  .controls-column { flex:1 1 180px; min-width:0; }
-  .buttons-column {
-    flex:1 1 160px;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:flex-start;
-  }
-
+  .controls-column { flex:1 1 180px; }
+  .buttons-column { flex:1 1 160px; display:flex; flex-wrap:wrap; }
   canvas {
     width:100%;
     height:260px;
@@ -71,35 +61,17 @@
     border-radius:6px;
     margin-top:0.75rem;
   }
-
-  .energy-wrap { margin-top:0.5rem; font-size:0.75rem; }
-  .energy-bar {
-    background:#111;
-    border-radius:4px;
-    overflow:hidden;
-    height:10px;
-    margin-top:4px;
-  }
-  .energy-inner {
-    height:100%;
-    width:0%;
-    background:#00ffcc;
-    transition:width 0.1s linear;
-  }
-
-  @media (max-width:600px) {
-    body { padding:1rem; }
-    .panel { padding:0.8rem; }
-    button { flex:1 1 45%; text-align:center; }
-  }
+  .energy-bar { background:#111; border-radius:4px; overflow:hidden; height:10px; }
+  .energy-inner { height:100%; width:0%; background:#00ffcc; transition:width 0.1s linear; }
 </style>
 </head>
+
 <body>
 
 <h1>STUR Sandbox – Geometry, Simulation & AI</h1>
 
 <!-- ===================================================== -->
-<!-- EDUCATIONAL SECTION -->
+<!-- EDUCATION PANELS -->
 <!-- ===================================================== -->
 
 <div class="panel">
@@ -112,140 +84,104 @@ It teaches:
 <br>• how to write and understand simulations  
 <br>• how to use AI to extend theoretical physics  
 <br><br>
-You’ll learn the entire physics workflow:
+You’ll learn the entire modern workflow:
 <br><br>
-idea → equation → derivative → simulation → refinement → iteration  
-<br><br>
-You can repeat this with AI as your collaborator — or many AIs at once.
+<b>idea → equation → derivative → simulation → refinement → iteration</b>
 </p>
 </div>
 
 <div class="panel">
 <h2>How Science Really Works (Iteration)</h2>
-<p class="text">
-Science moves by iteration:
-</p>
+<p class="text">Science is not a straight line. It is:</p>
 
 <pre>guess → compute → compare → refine → repeat</pre>
 
 <p class="text">
-This sandbox is built for high-speed iteration.  
-Move sliders, observe, adjust.  
-Every loop sharpens intuition.
+This sandbox is built for fast iteration.  
+Move sliders, watch motion change, observe behavior, adjust.
 </p>
 </div>
 
 <div class="panel">
 <h2>Why Simulations Matter</h2>
 <p class="text">
-Simulations let you run experiments that are:
+Simulations let you run impossible experiments:
 <br><br>
-• too big (helium stars)  
-• too small (quark binding)  
-• too fast (femtosecond electron drift)  
-• too dangerous (plasma arcs)  
-• too nonlinear for intuition  
-<br><br>
-STUR geometry makes these systems unified and simple.
+• too big (galaxies)  
+• too small (quarks)  
+• too dangerous (plasma)  
+• too expensive (supercolliders)  
+• too slow to observe in real time  
 </p>
 </div>
 
 <div class="panel">
-<h2>AI × Physics: Using Multiple AIs for Real Research</h2>
+<h2>How to Use AI for Theoretical Physics</h2>
 <p class="text">
-You can chain multiple AIs together and treat them like  
-a distributed research lab:
+AI assists at every step:
+</p>
+
+<pre>
+1. derive dS/dr or more complex fields
+2. check your algebra
+3. explore limits & asymptotics
+4. rewrite equations cleanly
+5. build simulations/PDE solvers
+6. search for conserved quantities
+7. extend geometry (2D, 3D, helical, toroidal)
+</pre>
+</div>
+
+<!-- ===================================================== -->
+<!-- NEW PANEL: HOW TO CODE & ITERATE WITH AI -->
+<!-- ===================================================== -->
+
+<div class="panel">
+<h2>How to Code & Iterate With AI</h2>
+<p class="text">
+The most important skill in modern physics is not coding —
+it is <i>iterating</i>.
+You build the idea, AI builds the code, you refine the direction.
+</p>
+
+<p class="text">
+Here is the actual workflow used by modern researchers:
+</p>
+
+<pre>
+Step 1 — Describe the physics in plain language  
+Step 2 — Ask AI to write the first version of the code  
+Step 3 — Run it, find what breaks or behaves strangely  
+Step 4 — Tell AI exactly what happened  
+Step 5 — AI rewrites the math or improves stability  
+Step 6 — Repeat until the model behaves  
+</pre>
+
+<p class="text">
+You can accelerate this by using multiple AIs:
 </p>
 
 <pre>
 AI #1 → derive equations  
-AI #2 → sanity-check math  
-AI #3 → build simulator  
-AI #4 → analyze outputs  
-AI #5 → search limits, edge cases  
-You → select direction and unify results
+AI #2 → algebra verification  
+AI #3 → build simulation  
+AI #4 → analyze patterns  
+AI #5 → search edge cases  
+You → unify and choose direction
 </pre>
 
 <p class="text">
-This is how modern physics will be done:  
-<b>a human conductor with multiple AI instruments.</b>
-</p>
-
-<p class="text">
-Every AI sees the same template.  
-Every AI extends the geometry in a different direction:  
-5D, helical, toroidal, fractal, relativistic, quantum, biological.
-</p>
-</div>
-
-<div class="panel">
-<h2>Python Runner (How to Iterate Fast)</h2>
-<p class="text">
-When your AI generates code, run it instantly in:
-</p>
-
-<pre>
-• JupyterLite (browser, sandbox-safe)
-• Jupyter Notebooks
-• VS Code Python
-• Piode / PiCloud runners
-</pre>
-
-<p class="text">
-The workflow is:
-</p>
-
-<pre>
-1. Copy AI output  
-2. Paste into Python runner  
-3. Verify stability + output  
-4. Re-prompt AI with the result  
-5. Repeat until the model behaves  
-</pre>
-
-<p class="text">
-This loop is the engine of modern theoretical physics.  
-It is also how STUR reached its 5D manifold and χ-coupled structure.
-</p>
-</div>
-
-<div class="panel">
-<h2>Prompting the 5D STUR Manifold</h2>
-<p class="text">
-This is the exact prompt that expands the sandbox geometry into the  
-full 5D manifold structure you use across your labs:
-</p>
-
-<pre>
-"Extend S(r) into the full STUR 5D manifold:
-X = (t₁, t₂, τ, r, θ)
-with χ-torsion coupling, helical time, and resistance curvature.
-Return:
-- Lagrangian
-- full derivatives
-- force laws
-- stability conditions
-- simulation-ready Python code"
-</pre>
-
-<p class="text">
-Paste this into your AI, and it will fold this sandbox into  
-the same 5D foundation behind your Universe Simulator,  
-Neuroplasticity Lab, ATP Mito Engine, and Photon Orbit model.
+Use this workflow for every STUR system, from 1D geometry to the 5D manifold.
 </p>
 </div>
 
 <div class="panel">
 <h2>STUR Geometry in One Equation</h2>
 <pre>S(r) = tanh(r/L₀) · (1 − e<sup>−r/L₀</sup>)</pre>
-<p class="text">
-This single expression contains curvature, damping, confinement,  
-and the unification of classical and quantum regimes.
-</p>
 </div>
 
 <!-- ===================================================== -->
-<!-- INTERACTIVE SANDBOX -->
+<!-- INTERACTIVE SANDBOX (UNCHANGED) -->
 <!-- ===================================================== -->
 
 <div class="panel">
@@ -254,10 +190,10 @@ and the unification of classical and quantum regimes.
 
   <div class="controls-row">
     <div class="controls-column">
-      <label>L₀ (geometry scale): <span id="L0_val">1.00</span></label>
+      <label>L₀: <span id="L0_val">1.00</span></label>
       <input type="range" id="L0" min="0.2" max="3" value="1" step="0.1">
 
-      <label>R<sub>max</sub> (horizontal range): <span id="Rmax_val">5.0</span></label>
+      <label>R<sub>max</sub>: <span id="Rmax_val">5.0</span></label>
       <input type="range" id="Rmax" min="2" max="10" value="5" step="0.5">
     </div>
 
@@ -276,72 +212,95 @@ and the unification of classical and quantum regimes.
     <div class="energy-bar"><div id="speed_bar" class="energy-inner"></div></div>
   </div>
 
-  <details style="margin-top:0.5rem;">
+  <details>
     <summary>Show live numerical output</summary>
     <pre id="output"></pre>
   </details>
 </div>
 
 <!-- ===================================================== -->
-<!-- STARTER TEMPLATE -->
+<!-- UPGRADED AI TEMPLATE SECTION -->
 <!-- ===================================================== -->
 
 <div class="panel">
   <h2>STUR Starter Template (Copy Ready)</h2>
-  <p class="text">This is the official template for creating new STUR simulations with AI.</p>
+  <p class="text">
+This is the guided template for learning to code with AI —
+from 1D geometry to the full 5D STUR manifold.  
+Each block tells you exactly what to ask AI next.
+  </p>
 
 <pre id="ai_template">
 # ===============================================================
-# STUR Starter Template – Derivations + Simulation (AI Ready)
+# STUR Learning Template — 1D → 5D + Physics Challenge
+# Use this with AI. Each section tells you what to ask AI next.
 # ===============================================================
+
 import numpy as np
 import matplotlib.pyplot as plt
 plt.style.use("dark_background")
 
-def S(r, L0):
+# ---------------------------------------------------------------
+# 1D GEOMETRY
+# Ask AI:
+# "Explain each line and show me the shape of S(r)."
+# ---------------------------------------------------------------
+def S_1D(r, L0):
     x = r/L0
     return np.tanh(x)*(1 - np.exp(-x))
 
-def dS_dr(r, L0):
+def dSdr_1D(r, L0):
     x = r/L0
     sech2 = 1/np.cosh(x)**2
     return (sech2*(1 - np.exp(-x)) + np.tanh(x)*np.exp(-x)) / L0
 
-def force(r, L0):
-    return -dS_dr(r, L0)
+# ---------------------------------------------------------------
+# 2D EXTENSION
+# Ask AI:
+# "Extend S into 2D polar coordinates and derive its gradient."
+# ---------------------------------------------------------------
 
-def simulate(L0=1.0, Rmax=8.0, dt=0.01, steps=5000):
-    r = Rmax/2
-    v = 0.0
-    rs = []
-    for _ in range(steps):
-        v += force(r,L0)*dt
-        r += v*dt
-        r = max(0, min(Rmax, r))
-        rs.append(r)
-    return np.array(rs)
+# ---------------------------------------------------------------
+# 3D EXTENSION
+# Ask AI:
+# "Generalize to 3D spherical coords and return ∇S."
+# ---------------------------------------------------------------
 
-traj = simulate(L0=1.0)
-plt.plot(traj); plt.show()
+# ---------------------------------------------------------------
+# 4D PRE-MANIFOLD
+# Ask AI:
+# "Add time t and derive the Lagrangian L = T - V."
+# ---------------------------------------------------------------
 
-# Ask AI to:
-#  - derive the Lagrangian
-#  - extend to 2D/3D
-#  - quantize the geometry
-#  - generalize S(r)
-#  - build multi-body STUR systems
-#  - find conserved quantities
+# ---------------------------------------------------------------
+# 5D STUR MANIFOLD
+# Ask AI:
+# "Build X = (t1, t2, τ, r, θ), include χ torsion,
+#  derive the connection, and generate a simulation."
+# ---------------------------------------------------------------
+
+# ---------------------------------------------------------------
+# FINAL PHYSICS CHALLENGE
+# Ask AI:
+# "Using the 5D STUR manifold you built, identify a conserved
+#  quantity, build a numerical integrator, and simulate a particle
+#  trajectory under torsion-coupled curvature."
+# ---------------------------------------------------------------
 </pre>
 
   <button onclick="copyAITemplate()">📋 Copy STUR AI Template</button>
 </div>
+
+<!-- ===================================================== -->
+<!-- INDEX BUTTON -->
+<!-- ===================================================== -->
 
 <div class="panel" style="text-align:center;">
   <button onclick="location.href='../index.html'">← Back to STUR Index</button>
 </div>
 
 <!-- ===================================================== -->
-<!-- SCRIPT (unchanged except for comments) -->
+<!-- JAVASCRIPT (UNCHANGED) -->
 <!-- ===================================================== -->
 
 <script>
@@ -357,30 +316,27 @@ const L0_val=document.getElementById("L0_val");
 const Rmax_val=document.getElementById("Rmax_val");
 const canvas=document.getElementById("plot");
 const ctx=canvas.getContext("2d");
-const outputEl=document.getElementById("output");
-const toggleBtn=document.getElementById("toggleAnim");
-const kickBtn=document.getElementById("kickBtn");
-const resetBtn=document.getElementById("resetBtn");
-const downloadBtn=document.getElementById("downloadBtn");
-const speedBar=document.getElementById("speed_bar");
+const output=document.getElementById("output");
+const toggle=document.getElementById("toggleAnim");
+const kick=document.getElementById("kickBtn");
+const reset=document.getElementById("resetBtn");
+const download=document.getElementById("downloadBtn");
+const speed=document.getElementById("speed_bar");
 
 let particle={ r:2.5, v:0 };
-let animating=false;
+let anim=false;
 let trail=[];
 
 function update(){
   const L0=parseFloat(L0_slider.value);
   const Rmax=parseFloat(Rmax_slider.value);
   if(particle.r>Rmax) particle.r=Rmax;
-
   L0_val.textContent=L0.toFixed(2);
   Rmax_val.textContent=Rmax.toFixed(1);
-  drawScene(L0,Rmax);
-
+  draw(L0,Rmax);
   const slope=dS_dr(particle.r,L0);
-  speedBar.style.width = (Math.min(1,Math.abs(particle.v)/3)*100)+"%";
-
-  outputEl.textContent=
+  speed.style.width = (Math.min(1,Math.abs(particle.v)/3)*100)+"%";
+  output.textContent =
 `L₀ = ${L0}
 Rmax = ${Rmax}
 
@@ -390,14 +346,15 @@ slope = ${slope.toExponential(3)}
 F = ${(-slope).toExponential(3)}`;
 }
 
-function drawScene(L0,Rmax){
+function draw(L0,Rmax){
   const W=canvas.width, H=canvas.height;
   ctx.clearRect(0,0,W,H);
 
-  ctx.strokeStyle="#333"; ctx.beginPath();
-  ctx.moveTo(0,H/2); ctx.lineTo(W,H/2); ctx.stroke();
+  ctx.strokeStyle="#333";
+  ctx.beginPath(); ctx.moveTo(0,H/2); ctx.lineTo(W,H/2); ctx.stroke();
 
-  ctx.strokeStyle="#ffaa00"; ctx.beginPath();
+  ctx.strokeStyle="#ffaa00";
+  ctx.beginPath();
   for(let i=0;i<=W;i++){
     const r=(i/W)*Rmax;
     let val=S(r,L0);
@@ -418,10 +375,10 @@ function drawScene(L0,Rmax){
     }
   }
 
-  const xp=(particle.r/Rmax)*W;
-  const yp=H/2 - S(particle.r,L0)*(H*0.4);
+  const x=(particle.r/Rmax)*W;
+  const y=H/2 - S(particle.r,L0)*(H*0.4);
   ctx.fillStyle="#00ffcc";
-  ctx.beginPath(); ctx.arc(xp,yp,6,0,2*Math.PI); ctx.fill();
+  ctx.beginPath(); ctx.arc(x,y,6,0,2*Math.PI); ctx.fill();
 }
 
 function step(L0,Rmax,dt=0.02){
@@ -434,42 +391,42 @@ function step(L0,Rmax,dt=0.02){
   trail.push(particle.r); if(trail.length>200) trail.shift();
 }
 
-function animate(){
-  if(!animating) return;
+function animLoop(){
+  if(!anim) return;
   const L0=parseFloat(L0_slider.value);
   const Rmax=parseFloat(Rmax_slider.value);
   for(let i=0;i<3;i++) step(L0,Rmax);
   update();
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animLoop);
 }
 
 L0_slider.oninput=update;
 Rmax_slider.oninput=update;
 
-toggleBtn.onclick=()=>{
-  animating=!animating;
-  toggleBtn.textContent=animating?"⏸ Pause":"▶ Start";
-  if(animating) requestAnimationFrame(animate);
+toggle.onclick=()=>{
+  anim=!anim;
+  toggle.textContent=anim?"⏸ Pause":"▶ Start";
+  if(anim) requestAnimationFrame(animLoop);
 };
 
-kickBtn.onclick=()=>{
+kick.onclick=()=>{
   const Rmax=parseFloat(Rmax_slider.value);  
   const dir = (particle.r <= Rmax/2) ? 1 : -1;
   particle.v = dir*(1 + Math.random()*0.7);
   update();
 };
 
-resetBtn.onclick=()=>{
+reset.onclick=()=>{
   L0_slider.value=1;
   Rmax_slider.value=5;
   particle={ r:2.5, v:0 };
   trail=[];
-  animating=false;
-  toggleBtn.textContent="▶ Start";
+  anim=false;
+  toggle.textContent="▶ Start";
   update();
 };
 
-downloadBtn.onclick=()=>{
+download.onclick=()=>{
   const L0=parseFloat(L0_slider.value);
   const Rmax=parseFloat(Rmax_slider.value);
   const pts=[];
