@@ -295,12 +295,8 @@ Change the geometry, observe motion, and experiment with structure.
 
 <pre id="ai_template">
 # ===============================================================
-# STUR 1D → 5D Manifold Starter – AI + Human Loop
-# - JupyterLite-safe: numpy + matplotlib + json only
-# - Geometry: S(r) = tanh(r/L0) * (1 - exp(-r/L0))
-# - Dynamics: simple radial motion in that geometry
+# STUR 1D → 5D Manifold Suite — JupyterPiode Safe Version
 # ===============================================================
-
 import numpy as np
 import matplotlib.pyplot as plt
 import json
@@ -308,154 +304,103 @@ import json
 plt.style.use("dark_background")
 
 # -------------------------------
-# 1. Geometry and its derivative
+# 1. STUR Geometry
 # -------------------------------
 def S(r, L0=1.0):
-    """
-    STUR-style scalar geometry in terms of radius r.
-    L0 sets the characteristic length / curvature scale.
-    """
     x = r / L0
-    return np.tanh(x) * (1.0 - np.exp(-x))
-
+    return np.tanh(x) * (1 - np.exp(-x))
 
 def dS_dr(r, L0=1.0):
-    """
-    Analytic derivative of S with respect to r.
-    This is where the "force" comes from: F(r) = -dS/dr.
-    """
     x = r / L0
     sech2 = 1.0 / np.cosh(x)**2
-    return (sech2 * (1.0 - np.exp(-x)) + np.tanh(x) * np.exp(-x)) / L0
-
+    return (sech2 * (1 - np.exp(-x)) + np.tanh(x) * np.exp(-x)) / L0
 
 def force(r, L0=1.0):
-    """
-    Effective radial force for the toy model.
-    More realistic systems will add angular terms, charges, etc.
-    """
     return -dS_dr(r, L0)
 
 # -------------------------------
-# 2. Single radial step
+# 2. Update Step
 # -------------------------------
-def radial_step(r, v, dt, L0=1.0, damping=0.05):
-    """
-    Euler update for radial motion in the STUR geometry.
-      r ... radius
-      v ... radial velocity
-      dt ... time step
-      damping ... simple velocity drag term
-    """
+def radial_step(r, v, dt=0.01, L0=1.0, damping=0.05):
     F = force(r, L0)
     v = v + (F - damping * v) * dt
     r = r + v * dt
 
-    # hard-wall reflections at r = 0
-    if r &lt; 0.0:
-        r = 0.0
+    if r < 0:
+        r = 0
         v *= -0.4
 
     return r, v
 
 # -------------------------------
-# 3. Dimension-labeled simulation
+# 3. Run 1D → 5D labeled simulation
 # -------------------------------
-def simulate_dimension(D, L0=1.0, Rmax=5.0, dt=0.01, steps=4000):
-    """
-    Simulate radial motion for a given "dimension label" D.
-
-    For now, D is a label, not full coordinate geometry.
-    The point is to show that **the same S(r)** can underlie
-    1D, 2D, 3D, 4D, 5D systems, just with different physical
-    interpretations.
-
-    Ask AI to:
-      - Replace this radial toy model with full D-dimensional
-        coordinates (x, y, z, t1, t2) for STUR 5D.
-      - Map each D to a real system (string, membrane, orbit, etc.).
-    """
+def simulate_dimension(D, L0=1.0, Rmax=5.0, steps=4000, dt=0.01):
     r = 0.6 * Rmax
     v = 0.0
     rs = []
 
     for _ in range(steps):
-        r, v = radial_step(r, v, dt, L0=L0)
-        # keep the particle inside a box [0, Rmax]
+        r, v = radial_step(r, v, dt=dt, L0=L0)
         r = float(np.clip(r, 0.0, Rmax))
         rs.append(r)
 
     rs = np.array(rs)
     summary = {
         "D": int(D),
-        "L0": float(L0),
-        "Rmax": float(Rmax),
         "r_min": float(rs.min()),
         "r_max": float(rs.max()),
-        "r_mean": float(rs.mean())
+        "r_mean": float(rs.mean()),
     }
     return rs, summary
 
 # -------------------------------
-# 4. Run the 1D → 5D suite
+# 4. Master Suite
 # -------------------------------
-def run_suite(max_dim=5, L0=1.0, Rmax=5.0, dt=0.01, steps=4000):
-    """
-    Run the same radial experiment for D = 1, 2, 3, 4, 5.
-    Returns both trajectories and a compact JSON summary.
-    """
-    all_traj = {}
+def run_suite(max_dim=5, L0=1.0, Rmax=5.0):
+    trajs = {}
     summaries = []
     for D in range(1, max_dim + 1):
-        rs, summary = simulate_dimension(D, L0=L0, Rmax=Rmax, dt=dt, steps=steps)
-        all_traj[D] = rs
+        rs, summary = simulate_dimension(D, L0=L0, Rmax=Rmax)
+        trajs[D] = rs
         summaries.append(summary)
-    return all_traj, summaries
+    return trajs, summaries
 
 # -------------------------------
-# 5. Main: plot + JSON + prompt
+# 5. Main Execution
 # -------------------------------
-if __name__ == "__main__":
-    L0 = 1.0
-    Rmax = 5.0
-    max_dim = 5
+trajs, summaries = run_suite()
 
-    trajs, summaries = run_suite(max_dim=max_dim, L0=L0, Rmax=Rmax)
+# Plot all 1D→5D trajectories on one graph
+fig, ax = plt.subplots(figsize=(8, 5))
+min_len = min(len(v) for v in trajs.values())
+t = np.arange(min_len)
 
-    # --- Plot all dimensions on one figure ---
-    fig, ax = plt.subplots(figsize=(8, 6))
-    # Use the shortest trajectory length for the time axis
-    min_len = min(len(rs) for rs in trajs.values())
-    t = np.arange(min_len)
+for D, rs in trajs.items():
+    ax.plot(t, rs[:min_len], label=f"{D}D")
 
-    for D, rs in trajs.items():
-        ax.plot(t, rs[:min_len], label=f"{D}D")
+ax.set_title("STUR 1D → 5D Manifold - Radial Motion")
+ax.set_xlabel("time step")
+ax.set_ylabel("radius r")
+ax.legend()
+plt.tight_layout()
+plt.show()
 
-    ax.set_xlabel("time step")
-    ax.set_ylabel("radius r")
-    ax.set_title("STUR radial motion across 1D → 5D manifold")
-    ax.legend()
-    plt.tight_layout()
-    plt.show()
+# Save summary as JSON
+with open("stur_1d_to_5d_summary.json", "w") as f:
+    json.dump(summaries, f, indent=2)
 
-    # --- Save JSON summary for downstream AI use ---
-    with open("stur_1D_to_5D_summary.json", "w") as f:
-        json.dump(summaries, f, indent=2)
+print("=== STUR 1D → 5D SUMMARY ===")
+print(json.dumps(summaries, indent=2))
 
-    print("=== STUR 1D → 5D MANIFOLD SUITE ===")
-    print(json.dumps(summaries, indent=2))
-
-    # --- Hand the baton to the human + AI loop ---
-    print("\nNext prompt for your AI co-pilot:\n")
-    print(
-        "Take this 1D–5D STUR manifold summary and:\n"
-        "1) propose a concrete physics problem (oscillator, orbit, plasma, etc.),\n"
-        "2) derive the corresponding Lagrangian or Hamiltonian in this geometry,\n"
-        "3) write a new JupyterLite-safe simulation that tests a falsifiable prediction."
-    )
-
-    # You can literally copy-paste the printed text above into your next AI chat.
-    # That is the hand-off: simulation → AI → new theory / experiment.
+print("\nNext prompt:\n")
+print(
+    "Using this 1D–5D STUR summary:\n"
+    "1. Pick one dimension and define a physical interpretation.\n"
+    "2. Derive a Lagrangian or Hamiltonian.\n"
+    "3. Convert it into a new JupyterPiode-safe simulation.\n"
+    "4. Predict an observable or experiment."
+)
 </pre>
 
   <button onclick="copyAITemplate()">📋 Copy STUR 1D → 5D Template</button>
