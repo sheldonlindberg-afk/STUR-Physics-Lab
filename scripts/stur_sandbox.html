@@ -233,7 +233,7 @@ Each block tells you exactly what to ask AI next.
 <pre id="ai_template">
 # ===============================================================
 # STUR Learning Template — 1D → 5D + Physics Challenge
-# Use this with AI. Each section tells you what to ask AI next.
+# Each section tells you EXACTLY what to ask AI next.
 # ===============================================================
 
 import numpy as np
@@ -254,40 +254,82 @@ def dSdr_1D(r, L0):
     sech2 = 1/np.cosh(x)**2
     return (sech2*(1 - np.exp(-x)) + np.tanh(x)*np.exp(-x)) / L0
 
+
 # ---------------------------------------------------------------
 # 2D EXTENSION
 # Ask AI:
 # "Extend S into 2D polar coordinates and derive its gradient."
 # ---------------------------------------------------------------
+# (AI will fill this section)
+
 
 # ---------------------------------------------------------------
 # 3D EXTENSION
 # Ask AI:
-# "Generalize to 3D spherical coords and return ∇S."
+# "Generalize the 2D equation into 3D spherical coordinates
+#  and return the full gradient ∇S."
 # ---------------------------------------------------------------
+# (AI will fill this section)
+
 
 # ---------------------------------------------------------------
 # 4D PRE-MANIFOLD
 # Ask AI:
-# "Add time t and derive the Lagrangian L = T - V."
+# "Add a time coordinate t and derive the Lagrangian L = T - V.
+#  Then produce basic equations of motion."
 # ---------------------------------------------------------------
+# (AI will fill this section)
+
 
 # ---------------------------------------------------------------
-# 5D STUR MANIFOLD
+# 5D FULL STUR MANIFOLD
 # Ask AI:
-# "Build X = (t1, t2, τ, r, θ), include χ torsion,
-#  derive the connection, and generate a simulation."
+# "Build the 5D coordinate system X = (t1, t2, τ, r, θ),
+#  include χ torsion, derive the connection terms,
+#  and produce simulation-ready force equations."
 # ---------------------------------------------------------------
+# (AI will fill this section)
+
 
 # ---------------------------------------------------------------
 # FINAL PHYSICS CHALLENGE
 # Ask AI:
 # "Using the 5D STUR manifold you built, identify a conserved
-#  quantity, build a numerical integrator, and simulate a particle
+#  quantity, build a numerical solver, and simulate a particle
 #  trajectory under torsion-coupled curvature."
 # ---------------------------------------------------------------
-</pre>
 
+
+# ---------------------------------------------------------------
+# NEXT STEPS (DO NOT SKIP THIS)
+# What to do AFTER AI returns the final script:
+#
+# 1. Copy the AI’s code into your Python runner or JupyterLite.
+# 2. Run it and look for:
+#      - stability issues
+#      - divergence
+#      - unrealistic oscillations
+#      - stuck trajectories
+# 3. Tell AI EXACTLY what happened:
+#      "The trajectory diverged at step 400"
+#      "Energy is not conserved"
+#      "It spirals inward too fast"
+#      "The torsion term blows up"
+# 4. AI will fix:
+#      - integration method
+#      - step size
+#      - force equations
+#      - numerical stability
+# 5. Repeat until the simulation behaves physically.
+#
+# 6. THEN ask AI:
+#      "Now make this 5D simulation interactive
+#       like the STUR sandbox in the browser."
+#
+# This is the real scientific workflow.
+# ---------------------------------------------------------------
+
+</pre>
   <button onclick="copyAITemplate()">📋 Copy STUR AI Template</button>
 </div>
 
