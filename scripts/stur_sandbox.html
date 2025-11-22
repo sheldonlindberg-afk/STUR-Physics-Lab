@@ -231,19 +231,20 @@ Each block tells you exactly what to ask AI next.
   </p>
 
 <pre id="ai_template">
-# ===============================================================
-# STUR Learning Template — 1D → 5D + Physics Challenge
-# Each section tells you EXACTLY what to ask AI next.
-# ===============================================================
+# ==================================================================
+# STUR Learning Template — 1D → 5D Manifold Builder
+# This template gives the AI EVERYTHING it needs to stop being ad hoc.
+# Each block defines the math AND the strict rules the AI must follow.
+# ==================================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
 plt.style.use("dark_background")
 
 # ---------------------------------------------------------------
-# 1D GEOMETRY
+# 1D BASE GEOMETRY
 # Ask AI:
-# "Explain each line and show me the shape of S(r)."
+# “Explain all math formally, define variables, and derive dS/dr.”
 # ---------------------------------------------------------------
 def S_1D(r, L0):
     x = r/L0
@@ -256,79 +257,129 @@ def dSdr_1D(r, L0):
 
 
 # ---------------------------------------------------------------
-# 2D EXTENSION
+# 2D EXTENSION REQUEST
 # Ask AI:
-# "Extend S into 2D polar coordinates and derive its gradient."
+# “Extend S into 2D polar coordinates (r, θ).
+#  REQUIRED OUTPUT (NO AD HOC ALLOWED):
+#  • explicit formula for S(r,θ)
+#  • full gradient ∇S in polar form
+#  • Jacobian of the coordinate system
+#  • curvature or Laplacian if applicable
+#  • list ALL assumptions.”
 # ---------------------------------------------------------------
-# (AI will fill this section)
 
 
 # ---------------------------------------------------------------
-# 3D EXTENSION
+# 3D EXTENSION REQUEST
 # Ask AI:
-# "Generalize the 2D equation into 3D spherical coordinates
-#  and return the full gradient ∇S."
+# “Generalize into 3D spherical coordinates (r, θ, φ).
+#  REQUIRED OUTPUT:
+#  • S(r,θ,φ) construction rule
+#  • ∇S in spherical form
+#  • divergence ∇⋅F and curl ∇×F if F is defined
+#  • metric components g_ij
+#  • required symmetries and constraints.”
 # ---------------------------------------------------------------
-# (AI will fill this section)
 
 
 # ---------------------------------------------------------------
-# 4D PRE-MANIFOLD
+# 4D EXTENSION REQUEST
 # Ask AI:
-# "Add a time coordinate t and derive the Lagrangian L = T - V.
-#  Then produce basic equations of motion."
+# “Add time t and derive L = T - V.
+#  REQUIRED OUTPUT:
+#  • explicit Lagrangian
+#  • canonical momenta
+#  • Euler–Lagrange equations
+#  • energy functional
+#  • discuss invariances and conserved quantities (Noether).”
 # ---------------------------------------------------------------
-# (AI will fill this section)
 
 
 # ---------------------------------------------------------------
-# 5D FULL STUR MANIFOLD
+# 5D STUR MANIFOLD REQUEST
 # Ask AI:
-# "Build the 5D coordinate system X = (t1, t2, τ, r, θ),
-#  include χ torsion, derive the connection terms,
-#  and produce simulation-ready force equations."
+# “Construct the 5D STUR manifold:
+#     X = (t1, t2, τ, r, θ)
+#  With:
+#     • χ torsion coupling
+#     • helical-time embedding
+#     • curvature from S(r)
+#
+#  REQUIRED OUTPUT:
+#     1. Metric tensor g_ab (5×5)
+#     2. Inverse metric g^ab
+#     3. Connection coefficients Γ^a_bc
+#     4. Geodesic equations
+#     5. Reduced force laws for simulation
+#     6. All assumptions explicitly listed
+#
+#  REQUIRED BEHAVIOR:
+#     • No hand-wavy reasoning
+#     • No shortcuts
+#     • Every symbol must be defined
+#     • All derivatives must be explicit
+#     • All equations must be internally consistent
+#     • Must maintain compatibility with S_1D(r)
 # ---------------------------------------------------------------
-# (AI will fill this section)
+
+
+# ---------------------------------------------------------------
+# STRICT AI INSTRUCTIONS (DO NOT REMOVE)
+# These constraints force the AI out of “ad hoc” mode.
+#
+# AI MUST:
+#   • Use explicit symbolic derivations
+#   • Define every variable and tensor index
+#   • Reduce expressions to canonical forms
+#   • Follow coordinate-consistency rules
+#   • Maintain dimensional consistency
+#   • Justify assumptions explicitly
+#   • Verify each step against previous outputs
+#   • Show intermediate math, not just final answers
+#
+# AI MUST NOT:
+#   • invent structures without derivation
+#   • output unspecified symbols
+#   • skip steps
+#   • jump straight to “final code”
+#   • hand-wave physics or geometry
+#
+# AI MUST ALWAYS:
+#   • check stability
+#   • check limits (r→0, r→∞)
+#   • check symmetry
+#   • check conservation laws
+#   • check numerical behavior
+#
+# This forces the AI to behave like a real physicist.
+# ---------------------------------------------------------------
 
 
 # ---------------------------------------------------------------
 # FINAL PHYSICS CHALLENGE
 # Ask AI:
-# "Using the 5D STUR manifold you built, identify a conserved
-#  quantity, build a numerical solver, and simulate a particle
-#  trajectory under torsion-coupled curvature."
+# "Using the 5D manifold and force laws you derived,
+#  produce a stable numerical solver, run a test trajectory,
+#  and analyze the conserved quantity from Noether's theorem."
 # ---------------------------------------------------------------
 
 
 # ---------------------------------------------------------------
-# NEXT STEPS (DO NOT SKIP THIS)
-# What to do AFTER AI returns the final script:
+# NEXT STEPS FOR THE USER
+# After AI outputs the final 5D solver:
 #
-# 1. Copy the AI’s code into your Python runner or JupyterLite.
-# 2. Run it and look for:
-#      - stability issues
-#      - divergence
-#      - unrealistic oscillations
-#      - stuck trajectories
-# 3. Tell AI EXACTLY what happened:
-#      "The trajectory diverged at step 400"
-#      "Energy is not conserved"
-#      "It spirals inward too fast"
-#      "The torsion term blows up"
-# 4. AI will fix:
-#      - integration method
-#      - step size
-#      - force equations
-#      - numerical stability
-# 5. Repeat until the simulation behaves physically.
+# 1. Paste the code into JupyterLite or your runner.
+# 2. Run it and record:
+#       - drift
+#       - blow-up
+#       - oscillations
+#       - conserved quantity accuracy
+# 3. Report EXACT behavior to AI.
+# 4. AI refines until stable.
+# 5. Then ask:
+#      “Make a browser-friendly visualization based on the STUR Sandbox.”
 #
-# 6. THEN ask AI:
-#      "Now make this 5D simulation interactive
-#       like the STUR sandbox in the browser."
-#
-# This is the real scientific workflow.
 # ---------------------------------------------------------------
-
 </pre>
   <button onclick="copyAITemplate()">📋 Copy STUR AI Template</button>
 </div>
