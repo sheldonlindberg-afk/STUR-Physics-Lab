@@ -6,117 +6,80 @@
 <title>STUR Sandbox – Geometry • Simulation • AI Collaboration</title>
 
 <style>
-  :root {
-    --bg-main:#050814;
-    --bg-panel:#0a0f1f;
-    --accent:#ffaa00;
-    --accent-soft:#ffcc33;
-    --text-main:#e6edf3;
-    --text-soft:#a5b3c4;
-    --code-bg:#000000;
-    --code-border:#0a223d;
-  }
-  *{box-sizing:border-box;}
   body {
-    background:radial-gradient(circle at 10% 0%,#0c1633 0%,var(--bg-main)45%);
-    color:var(--text-main);
-    font-family:'Courier New',monospace;
+    background:#050814;
+    color:#e6edf3;
+    font-family:'Courier New', monospace;
     margin:0;
     padding:1.5rem;
     line-height:1.55;
   }
-  h1 {
-    text-align:center;
-    color:var(--accent);
-    margin-bottom:0.5rem;
-  }
-  h2 {
-    color:var(--accent-soft);
-    margin-top:0;
-    margin-bottom:0.7rem;
-  }
+  h1 { text-align:center; color:#ffaa00; margin-bottom:1rem; }
+  h2 { color:#ffcc33; margin-top:1.5rem; }
   .panel {
-    background:var(--bg-panel);
+    background:#0a0f1f;
     padding:1.2rem;
-    border-radius:10px;
-    max-width:950px;
-    margin:1rem auto;
-    box-shadow:0 0 16px #000000dd;
-    border:1px solid #151c2f;
-  }
-  .text {
+    border-radius:8px;
     max-width:900px;
-    margin:0 auto;
-    color:var(--text-main);
+    margin:1rem auto;
+    box-shadow:0 0 12px #ffaa0044;
   }
-  .text-soft {
-    color:var(--text-soft);
-  }
+  .text { max-width:900px; margin:0 auto; }
   pre {
-    background:var(--code-bg);
+    background:#000;
     color:#00ffcc;
     padding:1rem;
     border-radius:6px;
     overflow-x:auto;
     font-size:0.85rem;
-    border:1px solid var(--code-border);
-    white-space:pre;
+    border:1px solid #0a223d;
   }
-  code { font-family:'Courier New',monospace; }
-
   button {
-    background:var(--accent);
+    background:#ffaa00;
     color:#050814;
     border:none;
     border-radius:6px;
-    padding:8px 16px;
-    margin:4px;
+    padding:10px 18px;
+    margin:6px;
     cursor:pointer;
-    font-family:'Courier New',monospace;
+    font-family:'Courier New', monospace;
     font-weight:bold;
-    font-size:0.9rem;
   }
-  button:hover { background:var(--accent-soft); }
+  button:hover { background:#ffcc33; }
+  a { color:#5ad0ff; text-decoration:none; }
+  .btn-row { text-align:center; margin-top:1.2rem; }
 
+  /* sandbox layout */
   .controls-row {
     display:flex;
     flex-wrap:wrap;
-    gap:12px;
-    align-items:flex-start;
+    gap:8px;
+    align-items:center;
+    margin-top:0.5rem;
   }
-  .controls-column {
-    flex:1 1 220px;
-    min-width:180px;
-  }
+  .controls-column { flex:1 1 180px; min-width:0; }
   .buttons-column {
-    flex:1 1 180px;
+    flex:1 1 160px;
     display:flex;
     flex-wrap:wrap;
-    align-items:flex-start;
+    justify-content:flex-start;
   }
-  label { display:block; margin-top:0.4rem; margin-bottom:0.1rem; }
-  input[type="range"] { width:100%; }
 
   canvas {
     width:100%;
-    max-width:900px;
     height:260px;
     background:#000;
     border-radius:6px;
     margin-top:0.75rem;
-    display:block;
   }
 
-  #canvas5D_chi {
-    height:220px;
-  }
-
+  .energy-wrap { margin-top:0.5rem; font-size:0.75rem; }
   .energy-bar {
     background:#111;
     border-radius:4px;
     overflow:hidden;
     height:10px;
-    margin-top:0.35rem;
+    margin-top:4px;
   }
   .energy-inner {
     height:100%;
@@ -125,141 +88,175 @@
     transition:width 0.1s linear;
   }
 
-  details { margin-top:0.4rem; }
-
-  .center { text-align:center; }
-
-  a.btn-link {
-    text-decoration:none;
-    display:inline-block;
+  @media (max-width:600px) {
+    body { padding:1rem; }
+    .panel { padding:0.8rem; }
+    button { flex:1 1 45%; text-align:center; }
   }
 </style>
 </head>
-
 <body>
 
 <h1>STUR Sandbox – Geometry, Simulation & AI</h1>
 
 <!-- ===================================================== -->
-<!-- WELCOME & PHILOSOPHY -->
+<!-- EDUCATIONAL SECTION -->
 <!-- ===================================================== -->
+
 <div class="panel">
-  <h2>Welcome to the STUR Sandbox</h2>
+<h2>Welcome to the STUR Sandbox</h2>
+<p class="text">
+This page is an interactive physics laboratory.
+<br><br>
+It teaches:
+<br>• how to experiment with geometry  
+<br>• how to write and understand simulations  
+<br>• how to use AI to extend theoretical physics  
+<br><br>
+You’ll learn <b>the entire modern physics workflow</b>:
+<br><br>
+<b>idea → equation → derivative → simulation → refinement → iteration</b>
+<br><br>
+Here you start with a 1D geometry and, in the Python template, climb to a 5D STUR-style manifold automatically.  
+AI is not the replacement for you — it is the accelerator around you.
+</p>
+</div>
+
+<div class="panel">
+<h2>How Science Really Works (Iteration)</h2>
+<p class="text">
+Science is not a straight line. It is iteration:
+</p>
+
+<pre>
+guess → compute → compare → refine → repeat
+</pre>
+
+<p class="text">
+This sandbox is built for fast iteration.  
+Move sliders, watch motion change, observe behavior, adjust.  
+Every experiment trains intuition.
+</p>
+</div>
+
+<div class="panel">
+<h2>Why Simulations Matter</h2>
+<p class="text">
+Simulations let you run impossible experiments:
+<br><br>
+• too big (galaxies)  
+• too small (quarks)  
+• too dangerous (plasma)  
+• too expensive (supercolliders)  
+• too slow to observe in real time  
+<br><br>
+This sandbox is a tiny version of the same principle:
+a single geometry function driving motion.
+</p>
+</div>
+
+<div class="panel">
+<h2>A Short History of Simulations</h2>
+<p class="text">
+The first “simulations” were mechanical: pendulums, gears, adding machines.
+<br><br>
+Then came digital computers:
+<br>• 1950s orbit simulations  
+<br>• 1960s weather modeling  
+<br>• 1970s plasma torus codes  
+<br>• 1980s cosmology  
+<br>• 2000s molecular dynamics  
+<br>• 2020s neural simulations  
+<br>• 2025+ AI-assisted physics  
+<br><br>
+This sandbox continues that lineage: a geometry → motion experiment.
+</p>
+</div>
+
+<div class="panel">
+<h2>How to Use AI for Theoretical Physics</h2>
+<p class="text">
+AI can now assist at every stage:
+</p>
+
+<pre>
+1. turn your hunch into a clean written idea
+2. derive dS/dr or more complex fields
+3. check the algebra and limits
+4. rewrite equations in canonical form
+5. build simulations or PDE solvers
+6. search for conserved quantities
+7. extend geometry to 2D, 3D, helical, toroidal, or 5D STUR manifolds
+</pre>
+
+<p class="text">
+The key is still <b>your idea</b>.  
+AI accelerates the steps around it — not the spark itself.
+</p>
+</div>
+
+<div class="panel">
+  <h2>Multi-AI + Python Runner Workflow</h2>
   <p class="text">
-    This page is a live physics laboratory and a coding dojo.
-    You’ll move between:
+  This page is also a “learn how to code with AI” lab.  
+  Treat each AI (or each chat) like a different member of your research group:
   </p>
+
+<pre>
+Teacher AI
+  “Help me restate this idea clearly.
+   Define the variables and what I’m trying to test.”
+
+Coder AI
+  “Using the official STUR Sandbox template, write a JupyterLite-safe
+   Python script that does X, Y, Z with S(r).”
+
+Reviewer AI
+  “Check the physics, units, stability and edge cases.
+   Suggest fixes without changing the core idea.”
+
+Python Runner (JupyterLite, JupyterLab, VS Code, etc.)
+  1. Paste the script.
+  2. Run it and look at the plots + JSON summary.
+  3. Go back to AI:
+     “Given these results, what should we change next?”
+</pre>
+
   <p class="text">
-    idea → equation → derivative → simulation → refinement → iteration
-  </p>
-  <p class="text">
-    We start directly in a 5D STUR manifold (3 space + t + χ torsion-time),
-    then drop down into a 1D potential sandbox, and finally hand you a full
-    Python script + AI template so you can keep going in JupyterLite with an AI partner.
+  You are not chatting for entertainment.  
+  You are driving a loop:
+  <b>intuition → AI derivation → Python run → new data → new intuition.</b>
   </p>
 </div>
 
-<!-- ===================================================== -->
-<!-- HOW TO CODE & ITERATE WITH AI -->
-<!-- ===================================================== -->
 <div class="panel">
-  <h2>How to Code & Iterate With AI</h2>
-  <p class="text">
-    The real superpower is not memorizing syntax, it’s knowing how to iterate.
-    You describe the physics. AI writes and rewrites the code. You decide where to push.
-  </p>
-
-  <pre>
-Step 1 — Describe the physics in plain language  
-Step 2 — Ask AI to write the first version of the code  
-Step 3 — Run it, watch what the universe does on-screen  
-Step 4 — Tell AI exactly what failed or looked wrong  
-Step 5 — AI fixes the math / stability / plots  
-Step 6 — Repeat until it feels like a real experiment
-  </pre>
-
-  <p class="text">
-    You can also split the workload across multiple AIs:
-  </p>
-  <pre>
-AI #1 → derive equations & limits  
-AI #2 → check algebra / units  
-AI #3 → build the simulation (ODE/PDE)  
-AI #4 → analyze patterns & regimes  
-AI #5 → search weird edge cases  
-You  → choose direction, keep what’s real
-  </pre>
-
-  <p class="text">
-    Below, you’ll see exactly how to phrase prompts and how to move code between browser, AI, and JupyterLite.
-  </p>
+<h2>STUR Geometry in One Equation</h2>
+<pre>S(r) = tanh(r/L₀) · (1 − e<sup>−r/L₀</sup>)</pre>
+<p class="text">
+This one expression contains curvature, damping, confinement characteristics,
+and the ability to unify different types of fields into one geometry.
+<br><br>
+In the Python template below, this same S(r) is used to build a
+1D → 5D radial motion suite: same geometry, different dimensional labels.
+</p>
 </div>
 
 <!-- ===================================================== -->
-<!-- 5D STUR MANIFOLD – JS SANDBOX -->
+<!-- INTERACTIVE SANDBOX -->
 <!-- ===================================================== -->
+
 <div class="panel">
-  <h2>STUR 5D Manifold – Live Sandbox (3D + t + χ)</h2>
+  <h2>Interactive Geometry Sandbox</h2>
   <p class="text">
-    We track a worldline in a simple STUR-inspired 5D background:
-  </p>
-  <pre>
-State:   (t, x, y, z, χ)
-
-Metric (toy):
-  ds² ≈ −c² t² + a(t)² (x² + y² + z²) + T(r, χ) χ²
-
-  a(t)       = exp(H₀ t)                (cosmic expansion)
-  T(r, χ)    ≈ 1 + (L₀ / (r + ε)) sin χ (torsion twist)
-  r          = √(x² + y² + z²)
-  </pre>
-
-  <p class="text">
-    The plot shows a projection of the 5D path onto the x–y plane.
-    A second plot tracks χ as the torsion degree of freedom.
-  </p>
-
-  <canvas id="canvas5D_xy" width="900" height="260"></canvas>
-  <canvas id="canvas5D_chi" width="900" height="220"></canvas>
-
-  <div class="center">
-    <button id="run5D_once">⏵ Run 5D Simulation Once</button>
-    <button id="run5D_reset">⟲ Reset 5D</button>
-    <button id="ask_question_btn">❓ Ask a Physics Question</button>
-  </div>
-
-  <details>
-    <summary>Show 5D status / summary</summary>
-    <pre id="fiveD_status"></pre>
-  </details>
-
-  <details>
-    <summary>Next task for your AI</summary>
-    <pre id="next_question" class="text-soft">(Your question to the AI will appear here.)</pre>
-  </details>
-</div>
-
-<!-- ===================================================== -->
-<!-- 1D GEOMETRY SANDBOX (STUR S(r)) -->
-<!-- ===================================================== -->
-<div class="panel">
-  <h2>Interactive STUR Geometry Sandbox (1D Potential)</h2>
-  <p class="text">
-    This section lets you experiment with the core STUR potential:
-  </p>
-  <pre>S(r) = tanh(r / L₀) · (1 − e<sup>−r / L₀</sup>)</pre>
-  <p class="text">
-    You control the coherence scale L₀ and the radial domain R<sub>max</sub>.
-    A particle slides on this curve while we show its position r, velocity v,
-    and the effective force F ≈ −dS/dr.
+Change the geometry, observe motion, and experiment with structure.
   </p>
 
   <div class="controls-row">
     <div class="controls-column">
-      <label>L₀: <span id="L0_val">1.00</span></label>
+      <label>L₀ (geometry scale): <span id="L0_val">1.00</span></label>
       <input type="range" id="L0" min="0.2" max="3" value="1" step="0.1">
 
-      <label>R<sub>max</sub>: <span id="Rmax_val">5.0</span></label>
+      <label>R<sub>max</sub> (horizontal range): <span id="Rmax_val">5.0</span></label>
       <input type="range" id="Rmax" min="2" max="10" value="5" step="0.5">
     </div>
 
@@ -267,42 +264,42 @@ Metric (toy):
       <button id="toggleAnim">▶ Start</button>
       <button id="kickBtn">⚡ Kick</button>
       <button id="resetBtn">⟲ Reset</button>
-      <button id="downloadBtn">⬇ Export Curve JSON</button>
+      <button id="downloadBtn">⬇ Curve</button>
     </div>
   </div>
 
   <canvas id="plot" width="800" height="260"></canvas>
 
-  <div class="energy-wrap text">
+  <div class="energy-wrap">
     Speed indicator:
     <div class="energy-bar"><div id="speed_bar" class="energy-inner"></div></div>
   </div>
 
-  <details>
+  <details style="margin-top:0.5rem;">
     <summary>Show live numerical output</summary>
     <pre id="output"></pre>
   </details>
 </div>
 
 <!-- ===================================================== -->
-<!-- PYTHON 5D SCRIPT – JUPYTERLITE SAFE -->
+<!-- STARTER TEMPLATE FOR AI -->
 <!-- ===================================================== -->
+
 <div class="panel">
-  <h2>Python – STUR 5D Sandbox Script (Copy & Run)</h2>
+  <h2>STUR 1D → 5D Manifold Starter (Copy Ready)</h2>
   <p class="text">
-    This script reproduces a simple 5D worldline in pure Python:
-    NumPy + Matplotlib + JSON only (JupyterLite safe).
+  This is the official template for creating new STUR simulations with AI.  
+  It automatically runs a 1D → 5D radial motion suite in the same geometry,
+  saves a JSON summary, and then prints a prompt for your next physics question.
   </p>
 
-  <pre id="python_script">
-#!/usr/bin/env python3
-# ============================================================
-# STUR 5D SANDBOX – v1.0
-# 3 space + t + χ torsion-time
-# - Real constants (cosmology + EM)
-# - Simple 5D worldline
-# - JupyterLite-safe (NumPy + Matplotlib + JSON)
-# ============================================================
+<pre id="ai_template">
+# ===============================================================
+# STUR 1D → 5D Manifold Starter – AI + Human Loop
+# - JupyterLite-safe: numpy + matplotlib + json only
+# - Geometry: S(r) = tanh(r/L0) * (1 - exp(-r/L0))
+# - Dynamics: simple radial motion in that geometry
+# ===============================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -310,379 +307,226 @@ import json
 
 plt.style.use("dark_background")
 
-# ------------------------------------------------------------
-# 1. Physical constants (approximate, real-world)
-# ------------------------------------------------------------
-c = 2.99792458e8           # m/s
-G = 6.67430e-11            # m^3 kg^-1 s^-2
-hbar = 1.054571817e-34     # J·s
-kB = 1.380649e-23          # J/K
+# -------------------------------
+# 1. Geometry and its derivative
+# -------------------------------
+def S(r, L0=1.0):
+    """
+    STUR-style scalar geometry in terms of radius r.
+    L0 sets the characteristic length / curvature scale.
+    """
+    x = r / L0
+    return np.tanh(x) * (1.0 - np.exp(-x))
 
-H0 = 67.4 * 1e3 / 3.086e22 # Hubble rate [1/s]
-Omega_m = 0.315
-Omega_L = 0.685
 
-L0 = 1e-12                 # STUR coherence length [m]
-chi0 = 7.3e5               # torsion scale [1/s]
+def dS_dr(r, L0=1.0):
+    """
+    Analytic derivative of S with respect to r.
+    This is where the "force" comes from: F(r) = -dS/dr.
+    """
+    x = r / L0
+    sech2 = 1.0 / np.cosh(x)**2
+    return (sech2 * (1.0 - np.exp(-x)) + np.tanh(x) * np.exp(-x)) / L0
 
-# ------------------------------------------------------------
-# 2. 5D metric + evolution
-# State = (t, x, y, z, chi)
-# ------------------------------------------------------------
-def scale_factor(t):
-    """Simple FRW-like scale factor."""
-    return np.exp(H0 * t)
 
-def torsion_term(r, chi):
-    """Toy torsion coupling."""
-    return 1.0 + (L0 / (r + 1e-12)) * np.sin(chi)
+def force(r, L0=1.0):
+    """
+    Effective radial force for the toy model.
+    More realistic systems will add angular terms, charges, etc.
+    """
+    return -dS_dr(r, L0)
 
-def metric_5D(state):
-    t, x, y, z, chi = state
-    r = np.sqrt(x**2 + y**2 + z**2)
-    a = scale_factor(t)
-    T = torsion_term(r, chi)
-    ds2 = -(c**2) * t**2 + a**2 * (x**2 + y**2 + z**2) + T * chi**2
-    return ds2
+# -------------------------------
+# 2. Single radial step
+# -------------------------------
+def radial_step(r, v, dt, L0=1.0, damping=0.05):
+    """
+    Euler update for radial motion in the STUR geometry.
+      r ... radius
+      v ... radial velocity
+      dt ... time step
+      damping ... simple velocity drag term
+    """
+    F = force(r, L0)
+    v = v + (F - damping * v) * dt
+    r = r + v * dt
 
-def step_5D(state, dt):
-    t, x, y, z, chi = state
-    r = np.sqrt(x**2 + y**2 + z**2)
+    # hard-wall reflections at r = 0
+    if r &lt; 0.0:
+        r = 0.0
+        v *= -0.4
 
-    # toy "forces" (effective geodesic drift)
-    ax = -x / (1.0 + x**2 + chi**2)
-    ay = -y / (1.0 + y**2 + chi**2)
-    az = -z / (1.0 + z**2 + chi**2)
+    return r, v
 
-    chi_dot = chi0 * np.sin(0.1 * t)
+# -------------------------------
+# 3. Dimension-labeled simulation
+# -------------------------------
+def simulate_dimension(D, L0=1.0, Rmax=5.0, dt=0.01, steps=4000):
+    """
+    Simulate radial motion for a given "dimension label" D.
 
-    # Euler step (enough for a qualitative sandbox)
-    t_new   = t + dt
-    x_new   = x + ax * dt
-    y_new   = y + ay * dt
-    z_new   = z + az * dt
-    chi_new = chi + chi_dot * dt
+    For now, D is a label, not full coordinate geometry.
+    The point is to show that **the same S(r)** can underlie
+    1D, 2D, 3D, 4D, 5D systems, just with different physical
+    interpretations.
 
-    return np.array([t_new, x_new, y_new, z_new, chi_new])
+    Ask AI to:
+      - Replace this radial toy model with full D-dimensional
+        coordinates (x, y, z, t1, t2) for STUR 5D.
+      - Map each D to a real system (string, membrane, orbit, etc.).
+    """
+    r = 0.6 * Rmax
+    v = 0.0
+    rs = []
 
-# ------------------------------------------------------------
-# 3. Integrate a single worldline
-# ------------------------------------------------------------
-N_steps = 4000
-dt = 0.002
+    for _ in range(steps):
+        r, v = radial_step(r, v, dt, L0=L0)
+        # keep the particle inside a box [0, Rmax]
+        r = float(np.clip(r, 0.0, Rmax))
+        rs.append(r)
 
-state = np.array([0.0, 1.0, 0.8, 0.2, 0.1])
-path = np.zeros((N_steps, 5))
+    rs = np.array(rs)
+    summary = {
+        "D": int(D),
+        "L0": float(L0),
+        "Rmax": float(Rmax),
+        "r_min": float(rs.min()),
+        "r_max": float(rs.max()),
+        "r_mean": float(rs.mean())
+    }
+    return rs, summary
 
-for i in range(N_steps):
-    path[i] = state
-    state = step_5D(state, dt)
+# -------------------------------
+# 4. Run the 1D → 5D suite
+# -------------------------------
+def run_suite(max_dim=5, L0=1.0, Rmax=5.0, dt=0.01, steps=4000):
+    """
+    Run the same radial experiment for D = 1, 2, 3, 4, 5.
+    Returns both trajectories and a compact JSON summary.
+    """
+    all_traj = {}
+    summaries = []
+    for D in range(1, max_dim + 1):
+        rs, summary = simulate_dimension(D, L0=L0, Rmax=Rmax, dt=dt, steps=steps)
+        all_traj[D] = rs
+        summaries.append(summary)
+    return all_traj, summaries
 
-t_arr   = path[:, 0]
-x_arr   = path[:, 1]
-y_arr   = path[:, 2]
-z_arr   = path[:, 3]
-chi_arr = path[:, 4]
+# -------------------------------
+# 5. Main: plot + JSON + prompt
+# -------------------------------
+if __name__ == "__main__":
+    L0 = 1.0
+    Rmax = 5.0
+    max_dim = 5
 
-# ------------------------------------------------------------
-# 4. Plots
-# ------------------------------------------------------------
-fig1, ax1 = plt.subplots()
-ax1.plot(x_arr, y_arr, linewidth=1.0)
-ax1.set_xlabel("x [arb]")
-ax1.set_ylabel("y [arb]")
-ax1.set_title("STUR 5D Worldline – x–y Projection")
-ax1.grid(True)
+    trajs, summaries = run_suite(max_dim=max_dim, L0=L0, Rmax=Rmax)
 
-fig2, ax2 = plt.subplots()
-ax2.plot(np.arange(N_steps), chi_arr, linewidth=1.0)
-ax2.set_xlabel("step")
-ax2.set_ylabel("χ [arb]")
-ax2.set_title("χ Torsion Evolution")
-ax2.grid(True)
+    # --- Plot all dimensions on one figure ---
+    fig, ax = plt.subplots(figsize=(8, 6))
+    # Use the shortest trajectory length for the time axis
+    min_len = min(len(rs) for rs in trajs.values())
+    t = np.arange(min_len)
 
-plt.show()
+    for D, rs in trajs.items():
+        ax.plot(t, rs[:min_len], label=f"{D}D")
 
-# ------------------------------------------------------------
-# 5. Simple JSON summary
-# ------------------------------------------------------------
-summary = {
-    "model": "STUR_5D_sandbox_v1",
-    "N_steps": int(N_steps),
-    "dt": float(dt),
-    "t_final": float(t_arr[-1]),
-    "x_span": [float(x_arr.min()), float(x_arr.max())],
-    "y_span": [float(y_arr.min()), float(y_arr.max())],
-    "chi_span": [float(chi_arr.min()), float(chi_arr.max())],
-}
+    ax.set_xlabel("time step")
+    ax.set_ylabel("radius r")
+    ax.set_title("STUR radial motion across 1D → 5D manifold")
+    ax.legend()
+    plt.tight_layout()
+    plt.show()
 
-print("=== STUR 5D SANDBOX SUMMARY ===")
-print(json.dumps(summary, indent=2))
-  </pre>
+    # --- Save JSON summary for downstream AI use ---
+    with open("stur_1D_to_5D_summary.json", "w") as f:
+        json.dump(summaries, f, indent=2)
 
-  <div class="center">
-    <button onclick="copyPythonScript()">📋 Copy Python Script</button>
-    <a class="btn-link" href="https://jupyterlite.github.io/demo/lab/index.html" target="_blank" rel="noopener">
-      <button>🚀 Open Free JupyterLite</button>
-    </a>
-  </div>
+    print("=== STUR 1D → 5D MANIFOLD SUITE ===")
+    print(json.dumps(summaries, indent=2))
+
+    # --- Hand the baton to the human + AI loop ---
+    print("\nNext prompt for your AI co-pilot:\n")
+    print(
+        "Take this 1D–5D STUR manifold summary and:\n"
+        "1) propose a concrete physics problem (oscillator, orbit, plasma, etc.),\n"
+        "2) derive the corresponding Lagrangian or Hamiltonian in this geometry,\n"
+        "3) write a new JupyterLite-safe simulation that tests a falsifiable prediction."
+    )
+
+    # You can literally copy-paste the printed text above into your next AI chat.
+    # That is the hand-off: simulation → AI → new theory / experiment.
+</pre>
+
+  <button onclick="copyAITemplate()">📋 Copy STUR 1D → 5D Template</button>
 </div>
 
-<!-- ===================================================== -->
-<!-- AI TEMPLATE PROMPT -->
-<!-- ===================================================== -->
 <div class="panel">
-  <h2>AI Collaboration Template</h2>
+  <h2>What to Ask AI After You Run the Script</h2>
   <p class="text">
-    Copy this into your AI (plus your own question from above) to iterate on the model.
+  After you run the Python template once and see the 1D → 5D plot + JSON, you can drive the next step with a single prompt:
   </p>
-  <pre id="ai_template">
-Act as a STUR-literate theoretical physicist and Python mentor.
 
-I have a 5D STUR sandbox with:
-- State (t, x, y, z, chi)
-- Simple FRW-like scale factor a(t) = exp(H0 t)
-- A torsion term T(r, chi) ≈ 1 + (L0 / (r + ε)) sin(chi)
-- A worldline evolved with a simple Euler step
+<pre>
+“Here is my STUR 1D–5D manifold summary (paste JSON).
+Turn this into a real physical problem:
 
-I pasted in the Python script from my STUR sandbox page.
-Please:
+1. Pick an interpretation for each D (string, membrane, orbit, plasma, etc.).
+2. Derive a Lagrangian or Hamiltonian for one of them.
+3. Write a new JupyterLite-safe Python script that simulates that system.
+4. Tell me what experimental or observational signature I should look for.”
+</pre>
 
-1. Check the equations and the units conceptually.
-2. Propose one improvement that makes the dynamics more physically meaningful
-   (e.g., a better chi equation, a better potential, or a more stable integrator).
-3. Modify the code accordingly and show the full updated script.
-4. Explain in plain language what changed in the physics.
-
-Here is my specific physics question / task:
-[PASTE THE QUESTION FROM THE SANDBOX PAGE HERE]
-  </pre>
-
-  <div class="center">
-    <button onclick="copyAITemplate()">📋 Copy AI Template</button>
-  </div>
+  <p class="text">
+  That is the full loop: <b>geometry → motion → manifold → real physics.</b>
+  </p>
 </div>
 
-<!-- ===================================================== -->
-<!-- NAVIGATION -->
-<!-- ===================================================== -->
-<div class="panel center">
+<div class="panel" style="text-align:center;">
   <button onclick="location.href='../index.html'">← Back to STUR Index</button>
 </div>
 
-<!-- ===================================================== -->
-<!-- JAVASCRIPT – 5D SANDBOX + 1D SANDBOX + COPY BUTTONS -->
-<!-- ===================================================== -->
 <script>
-// ===============================================================
-// STUR 5D TOY SIMULATOR — FIXED + VISIBLE + ANIMATED
-// ===============================================================
-window.addEventListener("load", () => {
-
-    const canvas5D_xy = document.getElementById("canvas5D_xy");
-    const canvas5D_chi = document.getElementById("canvas5D_chi");
-    const xy = canvas5D_xy.getContext("2d");
-    const chi_cv = canvas5D_chi.getContext("2d");
-    const Wxy = canvas5D_xy.width;
-    const Hxy = canvas5D_xy.height;
-    const Wchi = canvas5D_chi.width;
-    const Hchi = canvas5D_chi.height;
-
-    const status = document.getElementById("fiveD_status");
-    const next_question_el = document.getElementById("next_question");
-
-    // constants (only some used directly in toy; others there for context)
-    const C = 2.99792458e8;
-    const H0 = 67.4 * 1000 / 3.086e22;
-    const L0 = 1e-12;
-    const CHI_RATE = 0.7;  // boosted so χ visibly evolves
-
-    let state = { t:0, x:1, y:0.3, z:0.0, chi:0.1 };
-    let path = [];
-    let running = false;
-
-    function step(dt = 0.01) {
-        const { t,x,y,z,chi } = state;
-
-        const r = Math.sqrt(x*x + y*y + z*z) + 1e-9;
-
-        const ax = -0.2 * x / (1 + r*r);
-        const ay = -0.2 * y / (1 + r*r);
-        const az = -0.1 * z / (1 + r*r);
-
-        const chi_dot = CHI_RATE * Math.sin(0.4 * t);
-
-        state = {
-            t:   t + dt,
-            x:   x + ax * dt,
-            y:   y + ay * dt,
-            z:   z + az * dt,
-            chi: chi + chi_dot * dt
-        };
-
-        if(!isFinite(state.x)) state.x = 0;
-        if(!isFinite(state.y)) state.y = 0;
-        if(!isFinite(state.z)) state.z = 0;
-        if(!isFinite(state.chi)) state.chi = 0;
-
-        path.push({...state});
-        if (path.length > 900) path.shift();
-    }
-
-    function drawXY() {
-        xy.fillStyle = "#000";
-        xy.fillRect(0,0,Wxy,Hxy);
-
-        if (path.length < 2) return;
-
-        let xs = path.map(p => p.x);
-        let ys = path.map(p => p.y);
-        let xmin = Math.min(...xs), xmax = Math.max(...xs);
-        let ymin = Math.min(...ys), ymax = Math.max(...ys);
-
-        let dx = xmax - xmin; if (dx < 1e-6) dx = 1e-6;
-        let dy = ymax - ymin; if (dy < 1e-6) dy = 1e-6;
-
-        xy.strokeStyle = "#ffaa00";
-        xy.beginPath();
-
-        path.forEach((p, i) => {
-            const X = ((p.x - xmin) / dx) * Wxy;
-            const Y = Hxy - ((p.y - ymin) / dy) * Hxy;
-            if (i === 0) xy.moveTo(X, Y);
-            else xy.lineTo(X, Y);
-        });
-
-        xy.stroke();
-
-        const last = path[path.length-1];
-        const X = ((last.x - xmin) / dx) * Wxy;
-        const Y = Hxy - ((last.y - ymin) / dy) * Hxy;
-
-        xy.fillStyle = "#00ffcc";
-        xy.beginPath();
-        xy.arc(X, Y, 5, 0, 2*Math.PI);
-        xy.fill();
-    }
-
-    function drawChi() {
-        chi_cv.fillStyle = "#000";
-        chi_cv.fillRect(0,0,Wchi,Hchi);
-
-        if (path.length < 2) return;
-
-        const chis = path.map(p => p.chi);
-        const chiMin = Math.min(...chis);
-        const chiMax = Math.max(...chis);
-        const dchi = chiMax - chiMin || 1;
-
-        chi_cv.strokeStyle = "#ffaa00";
-        chi_cv.beginPath();
-
-        path.forEach((p, i) => {
-            const X = (i / (path.length - 1)) * Wchi;
-            const Y = Hchi - ((p.chi - chiMin) / dchi) * Hchi;
-            if (i === 0) chi_cv.moveTo(X, Y);
-            else chi_cv.lineTo(X, Y);
-        });
-
-        chi_cv.stroke();
-    }
-
-    function updateStatus() {
-        const p = path[path.length - 1];
-        if (!p) return;
-
-        status.textContent =
-`Steps: ${path.length}
-t:   ${p.t.toFixed(3)}
-x:   ${p.x.toFixed(3)}
-y:   ${p.y.toFixed(3)}
-z:   ${p.z.toFixed(3)}
-chi: ${p.chi.toFixed(3)}`;
-    }
-
-    function loop() {
-        if (!running) return;
-        step(0.02);
-        drawXY();
-        drawChi();
-        updateStatus();
-        requestAnimationFrame(loop);
-    }
-
-    document.getElementById("run5D_once").onclick = () => {
-        running = true;
-        loop();
-    };
-
-    document.getElementById("run5D_reset").onclick = () => {
-        running = false;
-        state = { t:0, x:1, y:0.3, z:0, chi:0.1 };
-        path = [];
-        drawXY();
-        drawChi();
-        status.textContent = "5D reset.";
-    };
-
-    document.getElementById("ask_question_btn").onclick = () => {
-        const q = prompt(
-`Welcome to the STUR 5D Sandbox.
-
-You are in a 5D manifold (3 space + t + χ torsion-time).
-
-Ask a physics question for your AI to work on next:
-(e.g. "Simulate a 5D orbit", "Derive a better χ equation",
-"Compare STUR to GR for tidal forces", etc.)`
-        );
-        if (q) {
-            console.log("USER PHYSICS REQUEST:", q);
-            next_question_el.textContent =
-                "Next task for AI:\n\n" + q + "\n\nPaste this at the bottom of the AI template.";
-        }
-    };
-
-    // start once on load so there’s something on screen
-    running = true;
-    loop();
-});
-
-// --------------------------------------------------------
-// 1D GEOMETRY SANDBOX
-// --------------------------------------------------------
+/* ========= geometry ========= */
 function S(r, L0){ const x=r/L0; return Math.tanh(x)*(1-Math.exp(-x)); }
 function dS_dr(r,L0){
   const h=1e-3*Math.max(1,L0);
   return (S(r+h,L0)-S(Math.max(0,r-h),L0))/(2*h);
 }
 
+/* ========= DOM ========= */
 const L0_slider=document.getElementById("L0");
 const Rmax_slider=document.getElementById("Rmax");
 const L0_val=document.getElementById("L0_val");
 const Rmax_val=document.getElementById("Rmax_val");
 const canvas=document.getElementById("plot");
 const ctx=canvas.getContext("2d");
-const output=document.getElementById("output");
-const toggle=document.getElementById("toggleAnim");
-const kick=document.getElementById("kickBtn");
-const reset=document.getElementById("resetBtn");
-const download=document.getElementById("downloadBtn");
-const speed=document.getElementById("speed_bar");
+const outputEl=document.getElementById("output");
+const toggleBtn=document.getElementById("toggleAnim");
+const kickBtn=document.getElementById("kickBtn");
+const resetBtn=document.getElementById("resetBtn");
+const downloadBtn=document.getElementById("downloadBtn");
+const speedBar=document.getElementById("speed_bar");
 
+/* ========= particle ========= */
 let particle={ r:2.5, v:0 };
-let anim=false;
+let animating=false;
 let trail=[];
 
+/* ========= update ========= */
 function update(){
   const L0=parseFloat(L0_slider.value);
   const Rmax=parseFloat(Rmax_slider.value);
   if(particle.r>Rmax) particle.r=Rmax;
+
   L0_val.textContent=L0.toFixed(2);
   Rmax_val.textContent=Rmax.toFixed(1);
-  draw(L0,Rmax);
+  drawScene(L0,Rmax);
+
   const slope=dS_dr(particle.r,L0);
-  speed.style.width = (Math.min(1,Math.abs(particle.v)/3)*100)+"%";
-  output.textContent =
+  speedBar.style.width = (Math.min(1,Math.abs(particle.v)/3)*100)+"%";
+
+  outputEl.textContent=
 `L₀ = ${L0}
 Rmax = ${Rmax}
 
@@ -692,15 +536,15 @@ slope = ${slope.toExponential(3)}
 F = ${(-slope).toExponential(3)}`;
 }
 
-function draw(L0,Rmax){
+/* ========= draw ========= */
+function drawScene(L0,Rmax){
   const W=canvas.width, H=canvas.height;
   ctx.clearRect(0,0,W,H);
 
-  ctx.strokeStyle="#333";
-  ctx.beginPath(); ctx.moveTo(0,H/2); ctx.lineTo(W,H/2); ctx.stroke();
+  ctx.strokeStyle="#333"; ctx.beginPath();
+  ctx.moveTo(0,H/2); ctx.lineTo(W,H/2); ctx.stroke();
 
-  ctx.strokeStyle="#ffaa00";
-  ctx.beginPath();
+  ctx.strokeStyle="#ffaa00"; ctx.beginPath();
   for(let i=0;i<=W;i++){
     const r=(i/W)*Rmax;
     let val=S(r,L0);
@@ -721,12 +565,13 @@ function draw(L0,Rmax){
     }
   }
 
-  const x=(particle.r/Rmax)*W;
-  const y=H/2 - S(particle.r,L0)*(H*0.4);
+  const xp=(particle.r/Rmax)*W;
+  const yp=H/2 - S(particle.r,L0)*(H*0.4);
   ctx.fillStyle="#00ffcc";
-  ctx.beginPath(); ctx.arc(x,y,6,0,2*Math.PI); ctx.fill();
+  ctx.beginPath(); ctx.arc(xp,yp,6,0,2*Math.PI); ctx.fill();
 }
 
+/* ========= physics ========= */
 function step(L0,Rmax,dt=0.02){
   const slope=dS_dr(particle.r,L0);
   const F=-slope;
@@ -737,42 +582,44 @@ function step(L0,Rmax,dt=0.02){
   trail.push(particle.r); if(trail.length>200) trail.shift();
 }
 
-function animLoop(){
-  if(!anim) return;
+/* ========= animation ========= */
+function animate(){
+  if(!animating) return;
   const L0=parseFloat(L0_slider.value);
   const Rmax=parseFloat(Rmax_slider.value);
   for(let i=0;i<3;i++) step(L0,Rmax);
   update();
-  requestAnimationFrame(animLoop);
+  requestAnimationFrame(animate);
 }
 
+/* ========= events ========= */
 L0_slider.oninput=update;
 Rmax_slider.oninput=update;
 
-toggle.onclick=()=>{
-  anim=!anim;
-  toggle.textContent=anim?"⏸ Pause":"▶ Start";
-  if(anim) requestAnimationFrame(animLoop);
+toggleBtn.onclick=()=>{
+  animating=!animating;
+  toggleBtn.textContent=animating?"⏸ Pause":"▶ Start";
+  if(animating) requestAnimationFrame(animate);
 };
 
-kick.onclick=()=>{
+kickBtn.onclick=()=>{
   const Rmax=parseFloat(Rmax_slider.value);  
   const dir = (particle.r <= Rmax/2) ? 1 : -1;
   particle.v = dir*(1 + Math.random()*0.7);
   update();
 };
 
-reset.onclick=()=>{
+resetBtn.onclick=()=>{
   L0_slider.value=1;
   Rmax_slider.value=5;
   particle={ r:2.5, v:0 };
   trail=[];
-  anim=false;
-  toggle.textContent="▶ Start";
+  animating=false;
+  toggleBtn.textContent="▶ Start";
   update();
 };
 
-download.onclick=()=>{
+downloadBtn.onclick=()=>{
   const L0=parseFloat(L0_slider.value);
   const Rmax=parseFloat(Rmax_slider.value);
   const pts=[];
@@ -788,27 +635,13 @@ download.onclick=()=>{
   URL.revokeObjectURL(url);
 };
 
-// initial render
-update();
-
-// --------------------------------------------------------
-// COPY BUTTONS
-// --------------------------------------------------------
-function copyPythonScript(){
-  const el = document.getElementById("python_script");
-  const text = el.innerText || el.textContent;
-  navigator.clipboard.writeText(text).then(()=>{
-    alert("Python script copied to clipboard.");
-  });
-}
-
 function copyAITemplate(){
-  const el = document.getElementById("ai_template");
-  const text = el.innerText || el.textContent;
-  navigator.clipboard.writeText(text).then(()=>{
-    alert("AI template copied to clipboard.");
-  });
+  navigator.clipboard.writeText(document.getElementById("ai_template").innerText);
+  alert("STUR 1D → 5D Template copied!");
 }
+
+/* ========= init ========= */
+update();
 </script>
 
 </body>
