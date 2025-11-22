@@ -107,6 +107,10 @@
     display:block;
   }
 
+  #canvas5D_chi {
+    height:220px;
+  }
+
   .energy-bar {
     background:#111;
     border-radius:4px;
@@ -187,8 +191,7 @@ You  → choose direction, keep what’s real
   </pre>
 
   <p class="text">
-    Below, you’ll see exactly how to phrase prompts and how to move
-    code between browser, AI, and JupyterLite.
+    Below, you’ll see exactly how to phrase prompts and how to move code between browser, AI, and JupyterLite.
   </p>
 </div>
 
@@ -471,183 +474,159 @@ Here is my specific physics question / task:
 <!-- JAVASCRIPT – 5D SANDBOX + 1D SANDBOX + COPY BUTTONS -->
 <!-- ===================================================== -->
 <script>
-// --------------------------------------------------------
-// 5D STUR JS SANDBOX
-// --------------------------------------------------------
-const canvas5D_xy = document.getElementById("canvas5D_xy");
-const canvas5D_chi = document.getElementById("canvas5D_chi");
-const ctx5D_xy  = canvas5D_xy.getContext("2d");
-const ctx5D_chi = canvas5D_chi.getContext("2d");
-const fiveD_status = document.getElementById("fiveD_status");
-const next_question_el = document.getElementById("next_question");
+// ===============================================================
+// STUR 5D TOY SIMULATOR — FIXED + VISIBLE + ANIMATED
+// ===============================================================
+window.addEventListener("load", () => {
 
-const constants5D = {
-  c: 2.99792458e8,
-  H0: 67.4 * 1e3 / 3.086e22,
-  L0: 1e-12,
-  chi0: 7.3e5
-};
+    const canvas5D_xy = document.getElementById("canvas5D_xy");
+    const canvas5D_chi = document.getElementById("canvas5D_chi");
+    const xy = canvas5D_xy.getContext("2d");
+    const chi_cv = canvas5D_chi.getContext("2d");
+    const Wxy = canvas5D_xy.width;
+    const Hxy = canvas5D_xy.height;
+    const Wchi = canvas5D_chi.width;
+    const Hchi = canvas5D_chi.height;
 
-let fiveD_state0 = { t:0, x:1, y:0.8, z:0.2, chi:0.1 };
+    const status = document.getElementById("fiveD_status");
+    const next_question_el = document.getElementById("next_question");
 
-function scaleFactor(t){
-  return Math.exp(constants5D.H0 * t);
-}
-function torsionTerm(r, chi){
-  return 1 + (constants5D.L0 / (r + 1e-12)) * Math.sin(chi);
-}
-function step5D(state, dt){
-  const t = state.t;
-  const x = state.x;
-  const y = state.y;
-  const z = state.z;
-  const chi = state.chi;
+    // constants (only some used directly in toy; others there for context)
+    const C = 2.99792458e8;
+    const H0 = 67.4 * 1000 / 3.086e22;
+    const L0 = 1e-12;
+    const CHI_RATE = 0.7;  // boosted so χ visibly evolves
 
-  const r = Math.sqrt(x*x + y*y + z*z);
+    let state = { t:0, x:1, y:0.3, z:0.0, chi:0.1 };
+    let path = [];
+    let running = false;
 
-  const ax = -x / (1 + x*x + chi*chi);
-  const ay = -y / (1 + y*y + chi*chi);
-  const az = -z / (1 + z*z + chi*chi);
+    function step(dt = 0.01) {
+        const { t,x,y,z,chi } = state;
 
-  const chi_dot = constants5D.chi0 * Math.sin(0.1 * t);
+        const r = Math.sqrt(x*x + y*y + z*z) + 1e-9;
 
-  return {
-    t:   t   + dt,
-    x:   x   + ax * dt,
-    y:   y   + ay * dt,
-    z:   z   + az * dt,
-    chi: chi + chi_dot * dt
-  };
-}
+        const ax = -0.2 * x / (1 + r*r);
+        const ay = -0.2 * y / (1 + r*r);
+        const az = -0.1 * z / (1 + r*r);
 
-function run5DSimulationJS(N=2000, dt=0.002){
-  let s = {...fiveD_state0};
-  const path = [];
-  for(let i=0;i<N;i++){
-    path.push({...s});
-    s = step5D(s, dt);
-  }
-  return path;
-}
+        const chi_dot = CHI_RATE * Math.sin(0.4 * t);
 
-function draw5D_xy(path){
-  const W = canvas5D_xy.width;
-  const H = canvas5D_xy.height;
-  ctx5D_xy.clearRect(0,0,W,H);
-  ctx5D_xy.fillStyle = "#000";
-  ctx5D_xy.fillRect(0,0,W,H);
+        state = {
+            t:   t + dt,
+            x:   x + ax * dt,
+            y:   y + ay * dt,
+            z:   z + az * dt,
+            chi: chi + chi_dot * dt
+        };
 
-  // determine bounds
-  let xmin=Infinity, xmax=-Infinity, ymin=Infinity, ymax=-Infinity;
-  for(const p of path){
-    if(p.x < xmin) xmin = p.x;
-    if(p.x > xmax) xmax = p.x;
-    if(p.y < ymin) ymin = p.y;
-    if(p.y > ymax) ymax = p.y;
-  }
-  if(xmin === xmax){ xmin -= 1; xmax += 1; }
-  if(ymin === ymax){ ymin -= 1; ymax += 1; }
+        if(!isFinite(state.x)) state.x = 0;
+        if(!isFinite(state.y)) state.y = 0;
+        if(!isFinite(state.z)) state.z = 0;
+        if(!isFinite(state.chi)) state.chi = 0;
 
-  const pad = 0.1;
-  const dx = (xmax - xmin) || 1;
-  const dy = (ymax - ymin) || 1;
+        path.push({...state});
+        if (path.length > 900) path.shift();
+    }
 
-  ctx5D_xy.strokeStyle = "#333";
-  ctx5D_xy.beginPath();
-  ctx5D_xy.moveTo(0, H/2);
-  ctx5D_xy.lineTo(W, H/2);
-  ctx5D_xy.stroke();
+    function drawXY() {
+        xy.fillStyle = "#000";
+        xy.fillRect(0,0,Wxy,Hxy);
 
-  ctx5D_xy.strokeStyle = "#ffaa00";
-  ctx5D_xy.beginPath();
-  path.forEach((p, i) => {
-    const xNorm = (p.x - xmin)/dx;
-    const yNorm = (p.y - ymin)/dy;
-    const X = xNorm * W;
-    const Y = H - yNorm * H;
-    if(i === 0) ctx5D_xy.moveTo(X, Y);
-    else ctx5D_xy.lineTo(X, Y);
-  });
-  ctx5D_xy.stroke();
+        if (path.length < 2) return;
 
-  // final point
-  const last = path[path.length-1];
-  const xNorm = (last.x - xmin)/dx;
-  const yNorm = (last.y - ymin)/dy;
-  const X = xNorm * W;
-  const Y = H - yNorm * H;
-  ctx5D_xy.fillStyle = "#00ffcc";
-  ctx5D_xy.beginPath();
-  ctx5D_xy.arc(X, Y, 5, 0, 2*Math.PI);
-  ctx5D_xy.fill();
-}
+        let xs = path.map(p => p.x);
+        let ys = path.map(p => p.y);
+        let xmin = Math.min(...xs), xmax = Math.max(...xs);
+        let ymin = Math.min(...ys), ymax = Math.max(...ys);
 
-function draw5D_chi(path){
-  const W = canvas5D_chi.width;
-  const H = canvas5D_chi.height;
-  ctx5D_chi.clearRect(0,0,W,H);
-  ctx5D_chi.fillStyle = "#000";
-  ctx5D_chi.fillRect(0,0,W,H);
+        let dx = xmax - xmin; if (dx < 1e-6) dx = 1e-6;
+        let dy = ymax - ymin; if (dy < 1e-6) dy = 1e-6;
 
-  let chiMin = Infinity, chiMax = -Infinity;
-  path.forEach(p => {
-    if(p.chi < chiMin) chiMin = p.chi;
-    if(p.chi > chiMax) chiMax = p.chi;
-  });
-  if(chiMin === chiMax){ chiMin -= 1; chiMax += 1; }
-  const dchi = chiMax - chiMin || 1;
+        xy.strokeStyle = "#ffaa00";
+        xy.beginPath();
 
-  ctx5D_chi.strokeStyle = "#333";
-  ctx5D_chi.beginPath();
-  ctx5D_chi.moveTo(0, H/2);
-  ctx5D_chi.lineTo(W, H/2);
-  ctx5D_chi.stroke();
+        path.forEach((p, i) => {
+            const X = ((p.x - xmin) / dx) * Wxy;
+            const Y = Hxy - ((p.y - ymin) / dy) * Hxy;
+            if (i === 0) xy.moveTo(X, Y);
+            else xy.lineTo(X, Y);
+        });
 
-  ctx5D_chi.strokeStyle = "#ffaa00";
-  ctx5D_chi.beginPath();
-  const N = path.length;
-  path.forEach((p, i) => {
-    const xNorm = i / (N-1 || 1);
-    const chiNorm = (p.chi - chiMin)/dchi;
-    const X = xNorm * W;
-    const Y = H - chiNorm * H;
-    if(i === 0) ctx5D_chi.moveTo(X, Y);
-    else ctx5D_chi.lineTo(X, Y);
-  });
-  ctx5D_chi.stroke();
-}
+        xy.stroke();
 
-function update5DSummary(path){
-  const t0 = path[0].t;
-  const t1 = path[path.length-1].t;
-  const xs = path.map(p => p.x);
-  const ys = path.map(p => p.y);
-  const chis = path.map(p => p.chi);
+        const last = path[path.length-1];
+        const X = ((last.x - xmin) / dx) * Wxy;
+        const Y = Hxy - ((last.y - ymin) / dy) * Hxy;
 
-  const min = arr => arr.reduce((a,b)=>a<b?a:b, Infinity);
-  const max = arr => arr.reduce((a,b)=>a>b?a:b, -Infinity);
+        xy.fillStyle = "#00ffcc";
+        xy.beginPath();
+        xy.arc(X, Y, 5, 0, 2*Math.PI);
+        xy.fill();
+    }
 
-  const txt = [
-    `steps: ${path.length}`,
-    `t range : ${t0.toExponential(3)} → ${t1.toExponential(3)}`,
-    `x range : ${min(xs).toExponential(3)} → ${max(xs).toExponential(3)}`,
-    `y range : ${min(ys).toExponential(3)} → ${max(ys).toExponential(3)}`,
-    `chi range : ${min(chis).toExponential(3)} → ${max(chis).toExponential(3)}`
-  ].join("\n");
+    function drawChi() {
+        chi_cv.fillStyle = "#000";
+        chi_cv.fillRect(0,0,Wchi,Hchi);
 
-  fiveD_status.textContent = txt;
-}
+        if (path.length < 2) return;
 
-function run5DOnce(){
-  const path = run5DSimulationJS(2000, 0.002);
-  draw5D_xy(path);
-  draw5D_chi(path);
-  update5DSummary(path);
-}
+        const chis = path.map(p => p.chi);
+        const chiMin = Math.min(...chis);
+        const chiMax = Math.max(...chis);
+        const dchi = chiMax - chiMin || 1;
 
-// Ask physics question
-function askPhysicsQuestion(){
-  const q = prompt(
+        chi_cv.strokeStyle = "#ffaa00";
+        chi_cv.beginPath();
+
+        path.forEach((p, i) => {
+            const X = (i / (path.length - 1)) * Wchi;
+            const Y = Hchi - ((p.chi - chiMin) / dchi) * Hchi;
+            if (i === 0) chi_cv.moveTo(X, Y);
+            else chi_cv.lineTo(X, Y);
+        });
+
+        chi_cv.stroke();
+    }
+
+    function updateStatus() {
+        const p = path[path.length - 1];
+        if (!p) return;
+
+        status.textContent =
+`Steps: ${path.length}
+t:   ${p.t.toFixed(3)}
+x:   ${p.x.toFixed(3)}
+y:   ${p.y.toFixed(3)}
+z:   ${p.z.toFixed(3)}
+chi: ${p.chi.toFixed(3)}`;
+    }
+
+    function loop() {
+        if (!running) return;
+        step(0.02);
+        drawXY();
+        drawChi();
+        updateStatus();
+        requestAnimationFrame(loop);
+    }
+
+    document.getElementById("run5D_once").onclick = () => {
+        running = true;
+        loop();
+    };
+
+    document.getElementById("run5D_reset").onclick = () => {
+        running = false;
+        state = { t:0, x:1, y:0.3, z:0, chi:0.1 };
+        path = [];
+        drawXY();
+        drawChi();
+        status.textContent = "5D reset.";
+    };
+
+    document.getElementById("ask_question_btn").onclick = () => {
+        const q = prompt(
 `Welcome to the STUR 5D Sandbox.
 
 You are in a 5D manifold (3 space + t + χ torsion-time).
@@ -655,30 +634,21 @@ You are in a 5D manifold (3 space + t + χ torsion-time).
 Ask a physics question for your AI to work on next:
 (e.g. "Simulate a 5D orbit", "Derive a better χ equation",
 "Compare STUR to GR for tidal forces", etc.)`
-  );
-  if(!q){
-    alert("No question entered. You can click the button again later.");
-    return;
-  }
-  console.log("USER PHYSICS REQUEST:", q);
-  next_question_el.textContent =
-    "Next task for AI:\n\n" + q + "\n\nPaste this at the bottom of the AI template.";
-}
+        );
+        if (q) {
+            console.log("USER PHYSICS REQUEST:", q);
+            next_question_el.textContent =
+                "Next task for AI:\n\n" + q + "\n\nPaste this at the bottom of the AI template.";
+        }
+    };
 
-// Wire buttons
-document.getElementById("run5D_once").onclick = run5DOnce;
-document.getElementById("run5D_reset").onclick = () => {
-  fiveD_state0 = { t:0, x:1, y:0.8, z:0.2, chi:0.1 };
-  fiveD_status.textContent = "5D state reset. Click 'Run 5D Simulation Once'.";
-};
-document.getElementById("ask_question_btn").onclick = askPhysicsQuestion;
-
-// Run once on load
-run5DOnce();
-
+    // start once on load so there’s something on screen
+    running = true;
+    loop();
+});
 
 // --------------------------------------------------------
-// 1D GEOMETRY SANDBOX (YOUR EXISTING LOGIC)
+// 1D GEOMETRY SANDBOX
 // --------------------------------------------------------
 function S(r, L0){ const x=r/L0; return Math.tanh(x)*(1-Math.exp(-x)); }
 function dS_dr(r,L0){
@@ -818,7 +788,7 @@ download.onclick=()=>{
   URL.revokeObjectURL(url);
 };
 
-// Initial render
+// initial render
 update();
 
 // --------------------------------------------------------
