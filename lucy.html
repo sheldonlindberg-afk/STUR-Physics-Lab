@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucy • STUR AI Engine</title>
+
+<style>
+:root {
+    --bg: #050814;
+    --panel: #0b1122;
+    --border: #1a2238;
+    --accent: #ffaa00;
+    --accent-soft: #ffcc33;
+    --danger: #d33;
+    --text: #e6edf3;
+    --sub: #98a4c0;
+    --radius: 14px;
+}
+
+body {
+    background: var(--bg);
+    margin: 0;
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+}
+
+header {
+    padding: 1.3rem 0;
+    text-align: center;
+    font-size: 2.2rem;
+    color: var(--accent);
+    letter-spacing: 4px;
+    background: linear-gradient(to bottom, #080d1a 0%, #050814 100%);
+    box-shadow: 0 2px 12px #000;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+/* Layout */
+#container {
+    max-width: 950px;
+    margin: auto;
+    padding: 1.2rem;
+}
+
+/* Chat Window */
+#chat {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    height: 45vh;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    font-size: 1rem;
+    box-shadow: 0 0 12px #0004;
+}
+
+/* Input */
+textarea {
+    width: 100%;
+    background: var(--panel);
+    color: var(--text);
+    padding: 1rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    resize: none;
+    height: 120px;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 10px #ffaa0044;
+}
+
+/* Buttons */
+button {
+    padding: 1rem;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.btn-row {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 0.7rem;
+}
+
+.send-btn {
+    flex: 2;
+    background: var(--accent);
+    color: #050814;
+}
+.send-btn:hover { background: var(--accent-soft); }
+
+.terminate-btn {
+    flex: 1;
+    background: var(--danger);
+    color: #fff;
+}
+.terminate-btn:hover { background: #e44; }
+
+.clear-btn {
+    flex: 1;
+    background: #343a4f;
+    color: #fff;
+}
+.clear-btn:hover { background: #4a5168; }
+
+/* Utility Sections */
+.section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-top: 1.2rem;
+}
+
+.section-title {
+    color: var(--accent-soft);
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+}
+
+.section-sub {
+    color: var(--sub);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+/* Settings */
+#settingsPanel {
+    display: none;
+    margin-top: 0.7rem;
+}
+
+.settings-toggle {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.8rem;
+    background: #111a2f;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+.settings-toggle:hover { border-color: var(--accent); }
+
+/* Input Fields */
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: var(--radius);
+    background: #0c1326;
+    border: 1px solid var(--border);
+    color: var(--text);
+    margin-bottom: 0.8rem;
+}
+
+/* STUR Sim List */
+#simList {
+    max-height: 240px;
+    overflow-y: auto;
+    background: #081020;
+    padding: 0.7rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+.sim-item {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #111a2b;
+}
+
+.sim-name {
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.sim-actions {
+    margin-top: 0.3rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.sim-actions button,
+.sim-actions a {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--text);
+    background: #121a2f;
+    border: 1px solid var(--border);
+}
+.sim-actions a:hover,
+.sim-actions button:hover {
+    border-color: var(--accent);
+}
+
+footer {
+    text-align: center;
+    opacity: 0.4;
+    margin-top: 2rem;
+    padding-bottom: 1.5rem;
+    font-size: 0.8rem;
+}
+</style>
+
+<script>
+/* =============================
+   GLOBAL CONFIG / INITIALIZATION
+   ============================= */
+let BACKEND_URL = "http://localhost:8000";
+let GITHUB_OWNER = "sheldonlindberg-afk";
+let GITHUB_REPO  = "STUR-Physics-Lab";
+let GITHUB_TOKEN = "";
+
+let TERMINATION_TOKEN = null;
+let LUCY_CONTEXT = [];
+
+/* =============================
+   LOAD SETTINGS
+   ============================= */
+function loadSettings() {
+    const saved = JSON.parse(localStorage.getItem("lucy_settings") || "{}");
+
+    BACKEND_URL   = saved.backendUrl   || BACKEND_URL;
+    GITHUB_OWNER  = saved.ghOwner      || GITHUB_OWNER;
+    GITHUB_REPO   = saved.ghRepo       || GITHUB_REPO;
+    GITHUB_TOKEN  = saved.ghToken      || "";
+
+    document.getElementById("backendUrl").value  = BACKEND_URL;
+    document.getElementById("ghOwner").value     = GITHUB_OWNER;
+    document.getElementById("ghRepo").value      = GITHUB_REPO;
+    document.getElementById("ghToken").value     = GITHUB_TOKEN;
+}
+
+/* =============================
+   SAVE SETTINGS
+   ============================= */
+function saveSettings() {
+    const data = {
+        backendUrl: document.getElementById("backendUrl").value.trim(),
+        ghOwner:    document.getElementById("ghOwner").value.trim(),
+        ghRepo:     document.getElementById("ghRepo").value.trim(),
+        ghToken:    document.getElementById("ghToken").value.trim()
+    };
+
+    localStorage.setItem("lucy_settings", JSON.stringify(data));
+    loadSettings();
+    addMessage("Settings saved.", "Lucy");
+}
+
+/* =============================
+   MESSAGE HANDLING
+   ============================= */
+function addMessage(msg, from="Lucy") {
+    const chat = document.getElementById("chat");
+    chat.textContent += `\n${from}: ${msg}`;
+    chat.scrollTop = chat.scrollHeight;
+}
+
+async function sendMessage() {
+    const input = document.getElementById("inputBox");
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    addMessage(msg, "You");
+    input.value = "";
+
+    try {
+        const res = await fetch(BACKEND_URL + "/message", {
+            method: "POST",
+            headers: { "Content-Type":"application/json" },
+            body: JSON.stringify({ message: msg })
+        });
+
+        const data = await res.json();
+        TERMINATION_TOKEN = data.termination_token;
+        addMessage(data.reply, "Lucy");
+
+    } catch {
+        addMessage("Backend offline. Lucy is in offline mode.", "Lucy");
+    }
+}
+
+function clearChat() {
+    document.getElementById("chat").textContent = "Lucy: Ready when you are.";
+}
+
+/* =============================
+   TERMINATE
+   ============================= */
+async function terminateTask() {
+    if (!TERMINATION_TOKEN) {
+        addMessage("No active task.", "Lucy");
+        return;
+    }
+
+    await fetch(BACKEND_URL + "/terminate", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({ termination_token: TERMINATION_TOKEN })
+    });
+
+    addMessage("Termination signal sent.", "Lucy");
+}
+
+/* =============================
+   GITHUB: LOAD SIMULATIONS
+   ============================= */
+async function loadSimList() {
+    const list = document.getElementById("simList");
+    list.textContent = "Loading STUR simulations…";
+
+    const headers = GITHUB_TOKEN ? { "Authorization": "Bearer " + GITHUB_TOKEN } : {};
+
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/scripts`;
+
+    const res = await fetch(url,{ headers });
+    if (!res.ok) { list.textContent = "Error loading repo."; return; }
+
+    const files = await res.json();
+    list.textContent = "";
+
+    files.filter(f => f.type === "file").forEach(file => {
+        const div = document.createElement("div");
+        div.className = "sim-item";
+
+        div.innerHTML = `
+            <div class="sim-name">${file.name}</div>
+            <div class="sim-actions">
+                <a href="${file.html_url}" target="_blank">Open</a>
+                <button onclick='loadSim("${file.path}")'>Load Into Lucy</button>
+            </div>
+        `;
+
+        list.appendChild(div);
+    });
+}
+
+async function loadSim(path) {
+    addMessage("Loading " + path + "…", "Lucy");
+
+    const headers = GITHUB_TOKEN ? { "Authorization": "Bearer " + GITHUB_TOKEN } : {};
+    const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${path}`;
+
+    const res = await fetch(url,{ headers });
+    const content = await res.text();
+
+    LUCY_CONTEXT.push({ path, content });
+
+    addMessage("Loaded into Lucy's knowledge base.", "Lucy");
+
+    try {
+        await fetch(BACKEND_URL + "/ingest", {
+            method:"POST",
+            headers:{ "Content-Type":"application/json" },
+            body:JSON.stringify({ path, content })
+        });
+        addMessage("Ingested by backend.", "Lucy");
+    } catch {
+        addMessage("Backend ingest unavailable.", "Lucy");
+    }
+}
+
+/* =============================
+   TOGGLE SETTINGS PANEL
+   ============================= */
+function toggleSettings() {
+    const panel = document.getElementById("settingsPanel");
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+}
+
+/* =============================
+   INIT
+   ============================= */
+window.onload = () => {
+    loadSettings();
+    loadSimList();
+};
+</script>
+
+</head>
+
+<body>
+
+<header>LUCY</header>
+
+<div id="container">
+
+    <div id="chat">Lucy: Ready when you are.</div>
+
+    <textarea id="inputBox" placeholder="Speak to Lucy..."></textarea>
+
+    <div class="btn-row">
+        <button class="send-btn" onclick="sendMessage()">Send</button>
+        <button class="terminate-btn" onclick="terminateTask()">Terminate</button>
+        <button class="clear-btn" onclick="clearChat()">Clear</button>
+    </div>
+
+    <!-- GitHub Integration -->
+    <div class="section">
+        <div class="section-title">STUR GitHub Integration</div>
+        <div class="section-sub">Lucy reads your STUR simulations as her core knowledge base.</div>
+        <button class="send-btn" onclick="loadSimList()">Refresh</button>
+        <div id="simList"></div>
+    </div>
+
+    <button class="settings-toggle" onclick="toggleSettings()">Settings</button>
+
+    <div id="settingsPanel" class="section">
+        <div class="section-title">Lucy Settings</div>
+        <div class="section-sub">Stored locally. Private to your browser.</div>
+
+        <input id="backendUrl" type="text" placeholder="Backend URL">
+        <input id="ghOwner" type="text" placeholder="GitHub Owner">
+        <input id="ghRepo" type="text" placeholder="GitHub Repo">
+        <input id="ghToken" type="password" placeholder="GitHub Token (optional)">
+        <button class="send-btn" onclick="saveSettings()">Save</button>
+    </div>
+
+</div>
+
+<footer>Lucy • STUR AI • Private Autonomous Assistant</footer>
+
+</body>
+</html>
