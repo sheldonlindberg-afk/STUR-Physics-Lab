@@ -2,626 +2,148 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Lucy – STUR AI Workbench</title>
+<title>Lucy • STUR AI</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
-  :root{
-    --bg:#050814;
-    --panel:#0b1122;
-    --border:#1a2238;
-    --accent:#ffaa00;
-    --accent-soft:#ffcc33;
-    --text:#e6edf3;
-    --sub:#9aa6c4;
-    --radius:12px;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    padding:1rem;
-    background:var(--bg);
-    color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;
-  }
-  header{
-    text-align:center;
-    font-size:2rem;
-    letter-spacing:3px;
-    padding:0.8rem 0 1rem;
-    color:var(--accent);
-  }
-  .container{
-    max-width:1100px;
-    margin:0 auto;
-    display:flex;
-    flex-direction:column;
-    gap:1rem;
-  }
-  .panel{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:1rem;
-    box-shadow:0 0 10px #0006;
-  }
-  .title{
-    font-size:1.1rem;
-    color:var(--accent-soft);
-    margin-bottom:0.35rem;
-  }
-  .sub{
-    font-size:0.85rem;
-    color:var(--sub);
-    margin-bottom:0.75rem;
-  }
-  #chatLog{
-    height:220px;
-    overflow-y:auto;
-    white-space:pre-wrap;
-    font-size:0.95rem;
-    background:#050a18;
-    border-radius:var(--radius);
-    padding:0.6rem;
-    border:1px solid var(--border);
-  }
-  textarea{
-    width:100%;
-    border-radius:var(--radius);
-    border:1px solid var(--border);
-    background:#050a18;
-    color:var(--text);
-    padding:0.6rem;
-    resize:vertical;
-    min-height:70px;
-    font-size:0.95rem;
-  }
-  textarea:focus, input:focus{
-    outline:none;
-    border-color:var(--accent);
-    box-shadow:0 0 8px #ffaa0044;
-  }
-  input[type="text"]{
-    width:100%;
-    border-radius:var(--radius);
-    border:1px solid var(--border);
-    background:#050a18;
-    color:var(--text);
-    padding:0.5rem 0.6rem;
-    font-size:0.9rem;
-    margin-bottom:0.35rem;
-  }
-  .row{
-    display:flex;
-    gap:0.6rem;
-    margin-top:0.6rem;
-    flex-wrap:wrap;
-  }
-  button{
-    border:none;
-    border-radius:var(--radius);
-    padding:0.6rem 1rem;
-    font-size:0.95rem;
-    cursor:pointer;
-    background:var(--accent);
-    color:#050814;
-    flex:0 0 auto;
-  }
-  button.secondary{
-    background:#323b55;
-    color:var(--text);
-  }
-  button.danger{
-    background:#c13a3a;
-    color:#fff;
-  }
-  button:hover{
-    filter:brightness(1.06);
-  }
-  .flex-2col{
-    display:flex;
-    flex-direction:column;
-    gap:1rem;
-  }
-  @media (min-width:880px){
-    .flex-2col{
-      flex-direction:row;
-    }
-    .flex-2col > .panel{
-      flex:1;
-    }
-  }
-  .script-list-item{
-    padding:0.35rem 0.25rem;
-    border-bottom:1px solid #141c34;
-    font-size:0.85rem;
-    display:flex;
-    justify-content:space-between;
-    gap:0.3rem;
-    align-items:center;
-  }
-  .script-list-item span{
-    flex:1;
-  }
-  .script-list-item button{
-    padding:0.25rem 0.6rem;
-    font-size:0.8rem;
-  }
-  a.stur-link{
-    color:var(--accent-soft);
-    text-decoration:none;
-    font-size:0.85rem;
-  }
-  a.stur-link:hover{
-    text-decoration:underline;
-  }
+body {
+    background:#050814; color:#e6edf3; font-family:system-ui,monospace; 
+    margin:0; padding:20px;
+}
+#status { padding:6px 12px; border-radius:6px; }
+#terminateBtn {
+    background:#b71c1c; color:white; padding:8px 12px; border:none;
+    border-radius:6px; cursor:pointer; margin-left:10px;
+}
+#sendBtn {
+    background:#1565c0; color:white; padding:8px 12px; border:none;
+    border-radius:6px; cursor:pointer;
+}
+#chat { width:100%; height:200px; background:#0a0f1f; padding:10px;
+        border-radius:6px; overflow-y:auto; margin-bottom:10px; }
+input { width:70%; padding:8px; border-radius:6px; 
+        border:none; background:#101624; color:#e6edf3; }
 </style>
 </head>
+
 <body>
 
-<header>Lucy</header>
+<h2>Lucy • STUR AI Frontend</h2>
 
-<div class="container">
-
-  <!-- CHAT + SETTINGS -->
-  <div class="flex-2col">
-    <div class="panel">
-      <div class="title">Conversation</div>
-      <div class="sub">
-        This is your personal Lucy shell. Right now she runs locally in the browser with a 5D STUR-style toy kernel.
-        Later we can wire her to your Codespace brain.
-      </div>
-      <div id="chatLog">Lucy: Online and listening.</div>
-      <textarea id="chatInput" placeholder="Talk to Lucy..."></textarea>
-      <div class="row">
-        <button onclick="sendChat()">Send</button>
-        <button class="secondary" onclick="clearChat()">Clear</button>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="title">Engine Settings</div>
-      <div class="sub">
-        These sit in localStorage only. Backend URL is optional; if it’s empty, Lucy uses the local STUR toy kernel.
-      </div>
-      <input type="text" id="backendUrl" placeholder="Backend URL (optional, e.g. https://...-8000.app.github.dev)">
-      <input type="text" id="unitsInput" placeholder="Number of 5D units (default 64)">
-      <input type="text" id="chiInput" placeholder="χ coupling (default 0.15)">
-      <input type="text" id="etaInput" placeholder="η plasticity (default 0.01)">
-      <div class="row">
-        <button class="secondary" onclick="saveSettings()">Save</button>
-        <button class="danger" onclick="resetKernel()">Reset Kernel</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- STUR LAB LINKS -->
-  <div class="panel">
-    <div class="title">STUR Physics Lab Integration</div>
-    <div class="sub">
-      Quick links into your existing STUR sims. These are just hard-coded helpers for now; later Lucy’s backend
-      will parse and ingest them automatically.
-    </div>
-    <div>
-      <a class="stur-link" href="../scripts/stur_neuro.html" target="_blank">Neural STUR model</a><br>
-      <a class="stur-link" href="../scripts/stur_scalar.html" target="_blank">Scalar STUR field</a><br>
-      <a class="stur-link" href="../scripts/stur_thegoldenratio.html" target="_blank">Golden ratio sim</a><br>
-      <a class="stur-link" href="../scripts/stur_atp1.html" target="_blank">ATP / mitochondria STUR</a><br>
-      <a class="stur-link" href="../scripts/stur_quantumcomputing.html" target="_blank">Quantum computing STUR</a>
-    </div>
-  </div>
-
-  <!-- CODE STUDIO -->
-  <div class="panel">
-    <div class="title">Code Studio</div>
-    <div class="sub">
-      Here Lucy drafts scripts, saves them in this browser, and lets you download them. When we connect a backend,
-      this same UI can call a real model to write full STUR simulations.
-    </div>
-
-    <label style="font-size:0.85rem;">Describe the script you want:</label>
-    <textarea id="codeDescription" placeholder="Example: Python script for a 5D STUR oscillator with tunable resistance matrix."></textarea>
-
-    <div class="row">
-      <button onclick="lucyGenerateCode()">Ask Lucy to draft script</button>
-      <button class="secondary" onclick="clearDescription()">Clear description</button>
-    </div>
-
-    <label style="font-size:0.85rem;margin-top:0.7rem;display:block;">Filename:</label>
-    <input type="text" id="codeFilename" placeholder="stur_script.py">
-
-    <label style="font-size:0.85rem;">Script contents:</label>
-    <textarea id="codeEditor" placeholder="# Lucy will put code here…"></textarea>
-
-    <div class="row">
-      <button onclick="saveScriptToBrowser()">Save in browser</button>
-      <button onclick="downloadScript()">Download</button>
-      <button class="danger" onclick="clearEditor()">Clear editor</button>
-    </div>
-
-    <div style="margin-top:0.9rem;font-size:0.9rem;color:var(--sub);">
-      Saved scripts in this browser:
-    </div>
-    <div id="scriptList"></div>
-  </div>
-
+<div>
+    <span id="status" style="background:#8b0000;">Backend: Offline</span>
+    <button id="terminateBtn">Terminate Backend</button>
 </div>
 
-<script>
-/* ============================================================
-   KERNEL + SETTINGS
-   ============================================================ */
+<div id="chat"></div>
 
-let LUCY = {
-  N: 64,
-  chi: 0.15,
-  eta: 0.01,
-  psi: [],
-  R: [],
-  backendUrl: ""
+<input id="msgInput" placeholder="Say something to Lucy...">
+<button id="sendBtn">Send</button>
+
+<script>
+// -----------------------------------------------------------
+// 1. AUTO-DETECT BACKEND URL
+// -----------------------------------------------------------
+
+// GitHub Codespaces exposes the backend via:
+// https://<codespace-id>-8000.app.github.dev
+//
+// This script auto-detects that URL without you typing anything.
+
+function detectBackendURL() {
+    const host = window.location.host;
+    if (host.includes(".github.io")) {
+        // Try to infer Codespace URL from stored localStorage
+        const saved = localStorage.getItem("lucy_backend_url");
+        if (saved) return saved;
+        return ""; // fallback until detected
+    }
+    return "";
+}
+
+let BACKEND = detectBackendURL();
+
+// Allow runtime injection if needed:
+window.setBackendURL = function(url) {
+    BACKEND = url;
+    localStorage.setItem("lucy_backend_url", url);
 };
 
-function initKernel(){
-  const saved = JSON.parse(localStorage.getItem("lucy_kernel_v1") || "{}");
-  if (saved.N)   LUCY.N   = saved.N;
-  if (saved.chi) LUCY.chi = saved.chi;
-  if (saved.eta) LUCY.eta = saved.eta;
-  if (saved.backendUrl) LUCY.backendUrl = saved.backendUrl;
+const statusEl = document.getElementById("status");
+const chat = document.getElementById("chat");
 
-  document.getElementById("backendUrl").value = LUCY.backendUrl || "";
-  if (saved.N)   document.getElementById("unitsInput").value = String(LUCY.N);
-  if (saved.chi) document.getElementById("chiInput").value   = String(LUCY.chi);
-  if (saved.eta) document.getElementById("etaInput").value   = String(LUCY.eta);
+// -----------------------------------------------------------
+// 2. WATCHDOG (auto checks backend every 5s)
+// -----------------------------------------------------------
 
-  if (saved.psi && saved.R &&
-      Array.isArray(saved.psi) && Array.isArray(saved.R) &&
-      saved.psi.length === LUCY.N && saved.R.length === LUCY.N) {
-    LUCY.psi = saved.psi;
-    LUCY.R   = saved.R;
-  } else {
-    // fresh random state
-    LUCY.psi = [];
-    LUCY.R   = [];
-    for (let i=0;i<LUCY.N;i++){
-      const v=[];
-      for (let d=0;d<5;d++) v.push((Math.random()-0.5)*0.1);
-      LUCY.psi.push(v);
-    }
-    for (let i=0;i<LUCY.N;i++){
-      const row=[];
-      for (let j=0;j<LUCY.N;j++){
-        let val=0.03*Math.random();
-        if (i===j) val=0.18+0.05*Math.random();
-        row.push(val);
-      }
-      LUCY.R.push(row);
-    }
-  }
-
-  loadScriptsFromStorage();
-}
-
-function persistKernel(){
-  const data = {
-    N: LUCY.N,
-    chi: LUCY.chi,
-    eta: LUCY.eta,
-    backendUrl: LUCY.backendUrl,
-    psi: LUCY.psi,
-    R: LUCY.R
-  };
-  localStorage.setItem("lucy_kernel_v1", JSON.stringify(data));
-}
-
-/* ============================================================
-   STUR-LIKE TOY UPDATE
-   ============================================================ */
-
-function encodeMessage(msg){
-  const tokens = msg.trim().split(/\s+/).filter(t => t.length>0);
-  const N = LUCY.N;
-  const drive = Array.from({length:N}, () => [0,0,0,0,0]);
-
-  if (tokens.length === 0){
-    for(let i=0;i<N;i++) drive[i][0]+=0.1;
-    return drive;
-  }
-
-  const stride = Math.max(1, Math.floor(N/tokens.length));
-  tokens.forEach((tok,idx)=>{
-    let h=0;
-    for(let c=0;c<tok.length;c++) h = (h*131 + tok.charCodeAt(c))>>>0;
-    const vec=[];
-    for(let d=0;d<5;d++){
-      const x = ((h>>(d*5)) & 31)/31;
-      vec.push((x-0.5)*0.4);
-    }
-    const start = idx*stride;
-    const end   = Math.min(N,start+stride);
-    for(let i=start;i<end;i++){
-      for(let d=0;d<5;d++) drive[i][d]+=vec[d];
-    }
-  });
-
-  return drive;
-}
-
-function sturStep(drive){
-  const N=LUCY.N;
-  const chi=LUCY.chi;
-  const eta=LUCY.eta;
-  const dt=0.1;
-  const psi=LUCY.psi;
-  const R=LUCY.R;
-
-  const psiMean=[0,0,0,0,0];
-  for(let i=0;i<N;i++){
-    for(let d=0;d<5;d++) psiMean[d]+=psi[i][d];
-  }
-  for(let d=0;d<5;d++) psiMean[d]/=N;
-
-  const newPsi=[];
-  for(let i=0;i<N;i++){
-    const grad=[0,0,0,0,0];
-    for(let j=0;j<N;j++){
-      const Rij=R[i][j];
-      for(let d=0;d<5;d++) grad[d]+=Rij*psi[j][d];
-    }
-    for(let d=0;d<5;d++){
-      const deltaX = drive[i][d] - psiMean[d];
-      let val = psi[i][d] + (-grad[d]*dt + chi*deltaX*dt) + (Math.random()-0.5)*0.02;
-      val = Math.tanh(val);
-      if(!newPsi[i]) newPsi[i]=[0,0,0,0,0];
-      newPsi[i][d]=val;
-    }
-  }
-
-  const newR=[];
-  for(let i=0;i<N;i++){
-    const row=[];
-    for(let j=0;j<N;j++){
-      let corr=0;
-      for(let d=0;d<5;d++) corr+=newPsi[i][d]*newPsi[j][d];
-      const target = (i===j)?0.2:0.0;
-      let val = R[i][j] - eta*(corr-target);
-      row.push(val);
-    }
-    newR.push(row);
-  }
-
-  LUCY.psi = newPsi;
-  LUCY.R   = newR;
-}
-
-function decodeReply(msg){
-  const psi=LUCY.psi;
-  const N=LUCY.N;
-  const mean=[0,0,0,0,0];
-  for(let i=0;i<N;i++){
-    for(let d=0;d<5;d++) mean[d]+=psi[i][d];
-  }
-  for(let d=0;d<5;d++) mean[d]/=N;
-  const mag=Math.sqrt(mean.reduce((s,v)=>s+v*v,0));
-  const dir=mean.map(x=>x.toFixed(3)).join(", ");
-
-  return "I pushed your message through my 5D resistance field. " +
-         "Current mean magnitude: " + mag.toFixed(3) +
-         " with direction [" + dir + "]. " +
-         "Right now I’m running locally; when you connect my backend, I’ll start writing full STUR simulations and editing your lab directly.";
-}
-
-/* ============================================================
-   CHAT
-   ============================================================ */
-
-async function sendChat(){
-  const box=document.getElementById("chatInput");
-  const msg=box.value.trim();
-  if(!msg) return;
-  box.value="";
-  appendChat("You",msg);
-
-  if (LUCY.backendUrl){
-    try{
-      const res = await fetch(LUCY.backendUrl + "/message",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({message:msg})
-      });
-      if (res.ok){
-        const data = await res.json();
-        appendChat("Lucy", data.reply || "(empty reply from backend)");
+async function checkBackend() {
+    if (!BACKEND) {
+        statusEl.textContent = "Backend: Unknown";
+        statusEl.style.background = "#8b0000";
         return;
-      }
-    }catch(e){
-      appendChat("Lucy","Backend unreachable, falling back to local kernel.");
     }
-  }
 
-  const drive = encodeMessage(msg);
-  for(let k=0;k<5;k++) sturStep(drive);
-  const reply = decodeReply(msg);
-  appendChat("Lucy",reply);
-  persistKernel();
+    try {
+        const resp = await fetch(BACKEND + "/health");
+        const data = await resp.json();
+        if (data.status === "online") {
+            statusEl.textContent = "Backend: Online";
+            statusEl.style.background = "#1b5e20";
+            return;
+        }
+    } catch (e) {}
+
+    statusEl.textContent = "Backend: Offline";
+    statusEl.style.background = "#8b0000";
 }
+setInterval(checkBackend, 5000);
+checkBackend();
 
-function appendChat(who,text){
-  const log=document.getElementById("chatLog");
-  log.textContent += `\n${who}: ${text}`;
-  log.scrollTop = log.scrollHeight;
-}
+// -----------------------------------------------------------
+// 3. TERMINATE BACKEND
+// -----------------------------------------------------------
 
-function clearChat(){
-  document.getElementById("chatLog").textContent="Lucy: Online and listening.";
-}
+document.getElementById("terminateBtn").onclick = async () => {
+    if (!BACKEND) return alert("Backend URL not detected.");
 
-/* ============================================================
-   SETTINGS
-   ============================================================ */
+    try {
+        await fetch(BACKEND + "/shutdown", { method:"POST" });
+        alert("Backend terminated.");
+    } catch (e) {
+        alert("Error contacting backend.");
+    }
 
-function saveSettings(){
-  LUCY.backendUrl = document.getElementById("backendUrl").value.trim();
+    statusEl.textContent = "Backend: Offline";
+    statusEl.style.background = "#8b0000";
+};
 
-  const Nval=parseInt(document.getElementById("unitsInput").value.trim(),10);
-  if(!isNaN(Nval) && Nval>0) LUCY.N = Nval;
+// -----------------------------------------------------------
+// 4. SEND MESSAGE
+// -----------------------------------------------------------
 
-  const chiVal=parseFloat(document.getElementById("chiInput").value.trim());
-  if(!isNaN(chiVal)) LUCY.chi = chiVal;
+document.getElementById("sendBtn").onclick = async () => {
+    const msg = document.getElementById("msgInput").value;
+    if (!msg) return;
 
-  const etaVal=parseFloat(document.getElementById("etaInput").value.trim());
-  if(!isNaN(etaVal)) LUCY.eta = etaVal;
+    chat.innerHTML += `<div>You: ${msg}</div>`;
 
-  persistKernel();
-  appendChat("Lucy","Settings saved locally.");
-}
-
-function resetKernel(){
-  localStorage.removeItem("lucy_kernel_v1");
-  appendChat("Lucy","I wiped my local kernel. Reload the page to reinitialize a fresh 5D state.");
-}
-
-/* ============================================================
-   CODE STUDIO
-   ============================================================ */
-
-async function lucyGenerateCode(){
-  const desc=document.getElementById("codeDescription").value.trim();
-  if(!desc){
-    appendChat("Lucy","Tell me what kind of script you want in the description box.");
-    return;
-  }
-
-  if (LUCY.backendUrl){
-    try{
-      const res = await fetch(LUCY.backendUrl + "/generate_code",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({description:desc})
-      });
-      if (res.ok){
-        const data = await res.json();
-        document.getElementById("codeEditor").value = data.code || "";
-        if (data.filename) document.getElementById("codeFilename").value = data.filename;
-        appendChat("Lucy","I drafted a script using the backend.");
+    if (!BACKEND) {
+        chat.innerHTML += `<div>Lucy: Local fallback mode active.</div>`;
         return;
-      }
-    }catch(e){
-      appendChat("Lucy","Backend code generator unreachable, using local template instead.");
     }
-  }
 
-  const nameGuess = guessFilename(desc);
-  document.getElementById("codeFilename").value = nameGuess;
+    try {
+        const resp = await fetch(BACKEND + "/message", {
+            method:"POST",
+            headers:{ "Content-Type":"application/json" },
+            body: JSON.stringify({ message: msg })
+        });
 
-  const stub = [
-    "# Lucy local code template",
-    "# Description:",
-    "#   " + desc,
-    "",
-    "import math",
-    "",
-    "def main():",
-    "    # TODO: implement full STUR-based logic here",
-    "    print('Lucy stub running – fill me with STUR physics')",
-    "",
-    "if __name__ == '__main__':",
-    "    main()",
-    ""
-  ].join("\n");
-
-  document.getElementById("codeEditor").value = stub;
-  appendChat("Lucy","I created a local template script based on your description.");
-}
-
-function guessFilename(desc){
-  const t = desc.toLowerCase();
-  if (t.includes("python")) return "script.py";
-  if (t.includes("html"))   return "page.html";
-  if (t.includes("js") || t.includes("javascript")) return "script.js";
-  return "lucy_script.py";
-}
-
-function clearDescription(){ document.getElementById("codeDescription").value=""; }
-function clearEditor(){ document.getElementById("codeEditor").value=""; }
-
-function saveScriptToBrowser(){
-  const filename = document.getElementById("codeFilename").value.trim() || "lucy_script.py";
-  const code     = document.getElementById("codeEditor").value;
-  if (!code){
-    appendChat("Lucy","There is no code to save yet.");
-    return;
-  }
-  const stored = JSON.parse(localStorage.getItem("lucy_scripts_v1") || "{}");
-  stored[filename] = { filename, code, saved_at: Date.now() };
-  localStorage.setItem("lucy_scripts_v1", JSON.stringify(stored));
-  appendChat("Lucy","I saved that script in this browser as '"+filename+"'.");
-  loadScriptsFromStorage();
-}
-
-function loadScriptsFromStorage(){
-  const listDiv=document.getElementById("scriptList");
-  listDiv.innerHTML="";
-  const stored = JSON.parse(localStorage.getItem("lucy_scripts_v1") || "{}");
-  const names = Object.keys(stored).sort();
-  if (names.length===0){
-    listDiv.textContent="(no saved scripts yet)";
-    return;
-  }
-  names.forEach(name=>{
-    const item = stored[name];
-    const div  = document.createElement("div");
-    div.className="script-list-item";
-    const span=document.createElement("span");
-    span.textContent=name;
-    div.appendChild(span);
-
-    const loadBtn=document.createElement("button");
-    loadBtn.className="secondary";
-    loadBtn.textContent="Load";
-    loadBtn.onclick=()=>{
-      document.getElementById("codeFilename").value=item.filename;
-      document.getElementById("codeEditor").value=item.code;
-      appendChat("Lucy","Loaded script '"+item.filename+"' from browser storage.");
-    };
-
-    const delBtn=document.createElement("button");
-    delBtn.className="danger";
-    delBtn.textContent="Delete";
-    delBtn.onclick=()=>{
-      delete stored[name];
-      localStorage.setItem("lucy_scripts_v1", JSON.stringify(stored));
-      loadScriptsFromStorage();
-    };
-
-    div.appendChild(loadBtn);
-    div.appendChild(delBtn);
-    listDiv.appendChild(div);
-  });
-}
-
-function downloadScript(){
-  const filename=document.getElementById("codeFilename").value.trim() || "lucy_script.py";
-  const code=document.getElementById("codeEditor").value;
-  if(!code){
-    appendChat("Lucy","Nothing to download yet – create or load a script first.");
-    return;
-  }
-  const blob=new Blob([code],{type:"text/plain"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;
-  a.download=filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-}
-
-/* ============================================================
-   BOOT
-   ============================================================ */
-
-initKernel();
+        const data = await resp.json();
+        chat.innerHTML += `<div>Lucy: ${data.reply}</div>`;
+    } catch (e) {
+        chat.innerHTML += `<div>Lucy: Backend offline, local mode.</div>`;
+    }
+};
 </script>
 
 </body>
