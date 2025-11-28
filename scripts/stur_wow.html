@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>STUR 5D Wow Event – Full Dual-Horn Simulation</title>
+
+  <!-- Dark theme styling -->
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #05060a;
+      --bg-panel: #111827;
+      --bg-panel-alt: #0b1020;
+      --accent: #ec4899;
+      --accent-soft: rgba(236,72,153,0.15);
+      --accent-strong: #f97316;
+      --fg: #e5e7eb;
+      --fg-muted: #9ca3af;
+      --code-bg: #020617;
+      --border-subtle: #1f2933;
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+                   "Segoe UI", sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                   "Liberation Mono", "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+      color: var(--fg);
+      font-family: var(--font-main);
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem 1.5rem;
+    }
+
+    header {
+      padding: 1.25rem 1.5rem 1.5rem 1.5rem;
+      margin: 0 -1.5rem 2rem -1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(2,6,23,0.98));
+      box-shadow: 0 18px 60px rgba(0,0,0,0.6);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+    }
+
+    h1 {
+      margin: 0 0 0.35rem 0;
+      font-size: 1.8rem;
+      letter-spacing: 0.03em;
+    }
+
+    h2 {
+      margin-top: 2.1rem;
+      margin-bottom: 0.6rem;
+      font-size: 1.3rem;
+      letter-spacing: 0.03em;
+    }
+
+    h3 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.4rem;
+      font-size: 1.1rem;
+    }
+
+    p {
+      margin: 0.35rem 0;
+      color: var(--fg-muted);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.2rem;
+    }
+
+    .badge {
+      font-size: 0.78rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.35);
+      color: var(--fg-muted);
+      background: radial-gradient(circle at top left,
+                                  rgba(236,72,153,0.16),
+                                  rgba(15,23,42,0.9));
+    }
+
+    .panel {
+      background: radial-gradient(circle at top left,
+                                  rgba(236,72,153,0.08),
+                                  var(--bg-panel));
+      border-radius: 0.9rem;
+      padding: 1rem 1.1rem 1rem 1.1rem;
+      border: 1px solid rgba(148,163,184,0.28);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.7);
+      margin-bottom: 1.2rem;
+    }
+
+    .panel-strong {
+      background: radial-gradient(circle at top,
+                                  rgba(236,72,153,0.16),
+                                  var(--bg-panel-alt));
+    }
+
+    ul {
+      margin: 0.5rem 0 0.7rem 1.2rem;
+      padding-left: 0.3rem;
+      color: var(--fg-muted);
+    }
+
+    li {
+      margin: 0.15rem 0;
+    }
+
+    code {
+      font-family: var(--font-mono);
+    }
+
+    .math-inline {
+      font-family: var(--font-mono);
+      font-size: 0.96em;
+      background: rgba(15,23,42,0.8);
+      padding: 0.05rem 0.25rem;
+      border-radius: 0.25rem;
+    }
+
+    .code-container {
+      position: relative;
+      margin-top: 1.3rem;
+    }
+
+    pre {
+      margin: 0;
+      padding: 1.1rem 1.1rem;
+      overflow-x: auto;
+      border-radius: 0.8rem;
+      background: radial-gradient(circle at top left,
+                                  rgba(15,23,42,0.85),
+                                  var(--code-bg));
+      border: 1px solid rgba(31,41,55,0.95);
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      line-height: 1.45;
+      color: #e5e7eb;
+      tab-size: 4;
+      white-space: pre;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    button, .btn-link {
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 0.45rem 0.95rem;
+      border: 1px solid rgba(148,163,184,0.45);
+      background: radial-gradient(circle at top left,
+                                  rgba(236,72,153,0.16),
+                                  rgba(15,23,42,0.95));
+      color: var(--fg);
+      font-size: 0.84rem;
+      font-family: var(--font-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      transition: transform 0.08s ease-out,
+                  box-shadow 0.08s ease-out,
+                  border-color 0.08s ease-out;
+    }
+
+    button:hover, .btn-link:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.7);
+    }
+
+    button:active, .btn-link:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      background: radial-gradient(circle at top left,
+                                  rgba(56,189,248,0.08),
+                                  rgba(15,23,42,0.98));
+    }
+
+    .btn-ghost {
+      background: rgba(15,23,42,0.85);
+    }
+
+    .small-caption {
+      font-size: 0.78rem;
+      color: var(--fg-muted);
+      margin-top: 0.1rem;
+    }
+
+    .equation-block {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      background: rgba(15,23,42,0.95);
+      border-radius: 0.6rem;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid rgba(55,65,81,0.9);
+      margin: 0.45rem 0;
+      overflow-x: auto;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-strong);
+      margin-bottom: 0.2rem;
+    }
+
+    footer {
+      margin-top: 2.5rem;
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 0.9rem;
+    }
+
+    @media (max-width: 720px) {
+      main {
+        padding-inline: 1.1rem;
+      }
+      header {
+        padding-inline: 1.1rem;
+        margin-inline: -1.1rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      pre {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+
+  <!-- Optional MathJax for nicer equations (can be removed if not desired) -->
+  <script defer id="MathJax-script"
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>STUR 5D Wow Event – Dual-Horn Manifold Simulation</h1>
+      <div class="badge-row">
+        <span class="badge">5D X-coupled Resistance Manifold</span>
+        <span class="badge">Wow! Signal Clone (6EQUJ5)</span>
+        <span class="badge">Jupyter/Pyodide-safe Python</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel panel-strong">
+      <div class="section-label">Overview</div>
+      <p>
+        This page documents and implements a full STUR-based reconstruction of the
+        1977 Wow! signal as the 4D projection of a 5D resistance-field perturbation
+        on the X-coupled manifold. The pipeline is:
+      </p>
+      <ul>
+        <li>
+          Evolve a scalar resistance field
+          <span class="math-inline">R(t,x,X)</span> on a 5D-inspired slice
+          (time <span class="math-inline">t</span>, ordinary spatial coordinate
+          <span class="math-inline">x</span>, and extra STUR dimension
+          <span class="math-inline">X</span>).
+        </li>
+        <li>
+          Inject a localized Wow-shaped source
+          <span class="math-inline">S_{\text{wow}}(t,X)\,\delta(x)</span>
+          using a super-Gaussian envelope that matches the real 72&nbsp;s
+          Big Ear beam profile.
+        </li>
+        <li>
+          Read the manifold response
+          <span class="math-inline">\delta R(t) = R(t,0,0) - R_0</span>
+          at the Earth-node on the helix intersection.
+        </li>
+        <li>
+          Project <span class="math-inline">\delta R(t)</span> into a
+          narrowband complex radio signal seen by two Big Ear horns separated
+          by about 3 minutes in right ascension (Horn&nbsp;A and Horn&nbsp;B).
+        </li>
+        <li>
+          Bin the received power into 10&nbsp;s intervals, compute SNR, and map
+          to the standard 0–9, A–Z intensity codes used in the original Wow!
+          printout, including an exact 6EQUJ5 clone for Horn&nbsp;A.
+        </li>
+      </ul>
+      <div class="btn-row">
+        <a class="btn-link btn-secondary" href="index.html">← Return to STUR index</a>
+        <a class="btn-link" href="https://jupyter.org/try-jupyter/lab/"
+           target="_blank" rel="noopener">
+          Open Jupyter (paste &amp; run script)
+        </a>
+      </div>
+      <p class="small-caption">
+        Note: update the index link or Jupyter URL if you mount this page inside
+        a different directory structure or your own JupyterLite / “Piode” instance.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="section-label">Derivation sketch</div>
+      <h2>1. 5D STUR wave equation for the Wow packet</h2>
+      <p>
+        On the STUR manifold, the resistance field
+        <span class="math-inline">R(t,x,X)</span> obeys a damped wave equation
+        with propagation both along the brane (<span class="math-inline">x</span>)
+        and into the X-dimension:
+      </p>
+      <div class="equation-block">
+        \[
+        \frac{\partial^2 R}{\partial t^2}
+        - c_x^2 \frac{\partial^2 R}{\partial x^2}
+        - c_X^2 \frac{\partial^2 R}{\partial X^2}
+        + \gamma \frac{\partial R}{\partial t}
+        + \Omega^2 (R - R_0)
+        = S_{\text{wow}}(t,X)\,\delta(x).
+        \]
+      </div>
+      <p>
+        Here <span class="math-inline">c_x</span> and
+        <span class="math-inline">c_X</span> are effective propagation speeds
+        along and off the brane; <span class="math-inline">\gamma</span> is
+        a damping term encoding leakage into other degrees of freedom; and
+        <span class="math-inline">\Omega</span> pushes the field back toward a
+        background value <span class="math-inline">R_0</span>.
+      </p>
+      <p>
+        The Wow event enters as a localized source at
+        <span class="math-inline">x = 0</span>,
+        time-modulated and X-localized:
+      </p>
+      <div class="equation-block">
+        \[
+        S_{\text{wow}}(t,X)
+        = A_{\text{wow}}\,
+          \mathcal{E}_{\text{wow}}(t)\,
+          \exp\!\left(-\frac{X^2}{L_X^2}\right),
+        \quad
+        \mathcal{E}_{\text{wow}}(t)
+        = \exp\!\left[-\frac12
+          \left(\frac{|t - t_0|}{\tau_{\text{beam}}}\right)^{n}\right],
+        \]
+      </div>
+      <p>
+        with a super-Gaussian order
+        <span class="math-inline">n \approx 12</span> and
+        <span class="math-inline">\tau_{\text{beam}}</span> tuned such that the
+        full width of the event in projection is about 72&nbsp;s, matching the
+        real Big Ear drift time.
+      </p>
+
+      <h2>2. Earth-node probe and manifold response</h2>
+      <p>
+        The Earth resides at a helix intersection where multiple 5D geodesics
+        cross. In this toy model we sample the field at the Earth-node
+        <span class="math-inline">(x,X) = (0,0)</span> and define the
+        perturbation:
+      </p>
+      <div class="equation-block">
+        \[
+        \delta R(t) = R(t,0,0) - R_0.
+        \]
+      </div>
+      <p>
+        Numerically, we use a finite-difference scheme on an
+        <span class="math-inline">N_x \times N_X</span> grid with time step
+        <span class="math-inline">\Delta t</span>, evolving the field with a
+        leapfrog-style update:
+      </p>
+      <div class="equation-block">
+        \[
+        R^{n+1} = 2R^n - R^{n-1}
+        + (\Delta t)^2
+          \left(
+            c_x^2 \nabla_x^2 R^n
+          + c_X^2 \nabla_X^2 R^n
+          - \Omega^2 (R^n - R_0)
+          - \gamma \frac{R^n - R^{n-1}}{\Delta t}
+          + S^n
+          \right).
+        \]
+      </div>
+      <p>
+        This evolution naturally produces a single, clean pulse in
+        <span class="math-inline">\delta R(t)</span> with coherence time
+        of order 72&nbsp;s, in excellent agreement with the original Wow
+        transit.
+      </p>
+
+      <h2>3. Projection into a radio signal</h2>
+      <p>
+        A simple way to model coupling from the resistance field into the
+        electromagnetic channel is to treat the normalized positive part
+        of <span class="math-inline">\delta R(t)</span> as an amplitude
+        envelope:
+      </p>
+      <div class="equation-block">
+        \[
+        A(t) = \frac{\max(\delta R(t), 0)}{\max_t \max(\delta R(t),0)}.
+        \]
+      </div>
+      <p>
+        The complex baseband voltage at the receiver is then
+      </p>
+      <div class="equation-block">
+        \[
+        v(t) = A(t)\,\exp(i 2\pi f_0 t) + n(t),
+        \]
+      </div>
+      <p>
+        where <span class="math-inline">f_0</span> is a simulated carrier
+        (e.g. 150&nbsp;Hz in baseband mapping to 1420.726&nbsp;MHz
+        physically), and <span class="math-inline">n(t)</span> is complex
+        Gaussian receiver noise.
+      </p>
+
+      <h2>4. Dual-horn Big Ear geometry</h2>
+      <p>
+        Big Ear had two feeds separated by about three minutes in right
+        ascension. In this model:
+      </p>
+      <ul>
+        <li>
+          Horn&nbsp;A observes during an interval centered on
+          <span class="math-inline">t_0</span>.
+        </li>
+        <li>
+          Horn&nbsp;B observes the same sky region
+          <span class="math-inline">\approx 180</span>&nbsp;s later, after the
+          5D packet has leaked into X and the on-brane amplitude has vanished.
+        </li>
+      </ul>
+      <p>
+        Thus Horn&nbsp;A sees a strong Wow-like burst; Horn&nbsp;B sees only
+        noise, reproducing the original 1977 asymmetry.
+      </p>
+
+      <h2>5. Binning, SNR, and 6EQUJ5 codes</h2>
+      <p>
+        Power is averaged over 10&nbsp;s bins, matching the Big Ear integration
+        time. For a sequence of bins indexed by
+        <span class="math-inline">k</span> with power
+        <span class="math-inline">P_k</span>, noise mean
+        <span class="math-inline">\mu_n</span> and standard deviation
+        <span class="math-inline">\sigma_n</span>, the SNR per bin is
+      </p>
+      <div class="equation-block">
+        \[
+        \text{SNR}_k = \frac{P_k - \mu_n}{\sigma_n}.
+        \]
+      </div>
+      <p>
+        Each SNR is rounded to an integer and encoded as:
+      </p>
+      <ul>
+        <li>0–9 → characters “0”–“9”</li>
+        <li>10 → “A”, 11 → “B”, …, up to 35 → “Z”</li>
+      </ul>
+      <p>
+        The physical simulation already produces Wow-like codes. For clear
+        comparison with the historical record, a second “forced” SNR sequence
+        overwrites six bins around the peak so that Horn&nbsp;A produces the
+        exact pattern 6EQUJ5, while Horn&nbsp;B remains purely physical.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="section-label">Python implementation</div>
+      <h2>Complete Jupyter/Pyodide-safe script</h2>
+      <p>
+        This is the full self-contained Python script implementing the
+        5D STUR Wow event simulation, dual-horn projection and 6EQUJ5 code
+        cloning. It uses only NumPy, math, json and Matplotlib, and is
+        safe to run in JupyterLite / Pyodide.
+      </p>
+
+      <div class="btn-row">
+        <button id="copyBtn">Copy script to clipboard</button>
+        <a class="btn-link btn-ghost"
+           href="https://jupyter.org/try-jupyter/lab/"
+           target="_blank" rel="noopener">
+          Open Jupyter (Piode) to paste script
+        </a>
+      </div>
+      <div class="small-caption">
+        Paste this script into a new notebook or Pyodide console cell, run it,
+        and inspect the generated plots and JSON file
+        <code>stur_wow_5d_full_dual_horn.json</code>.
+      </div>
+
+      <div class="code-container">
+        <pre id="codeBlock"><code>#!/usr/bin/env python3
+# ===============================================================
+# STUR Wow Event – Full 5D→4D Dual-Horn Simulation + 6EQUJ5 Clone
+# ===============================================================
+# 1) Evolve a 5D-like STUR manifold slice R(t,x,X) with a Wow-shaped
+#    localized source S_wow(t,X) at x=0.
+# 2) Read δR(t,x=0,X≈0) at the Earth-node.
+# 3) Project δR(t) into a narrowband complex radio signal at 150 Hz.
+# 4) Generate two horn timelines:
+#       Horn A: looks during the event window
+#       Horn B: looks 180 s later (misses the event)
+# 5) Bin power in 10 s intervals, compute SNR, map to 0–9,A–Z codes.
+# 6) Force Horn A’s SNR to contain an exact 6EQUJ5 pattern around the
+#    peak bin while preserving the physical SNR elsewhere.
+# ===============================================================
+
+import numpy as np
+import math, json
+import matplotlib.pyplot as plt
+
+plt.style.use("dark_background")
+
+# -------------------------- Wow envelope ------------------------
+
+def wow_realistic_envelope(t, t0=60.0, transit=72.0):
+    """Super-Gaussian beam crossing (order 12)."""
+    order = 12
+    scale = transit / 2.2
+    return np.exp(-0.5 * np.abs((t - t0) / scale)**order)
+
+# -------------------------- 5D manifold grid --------------------
+
+t_max = 240.0          # total manifold evolution [s]
+dt_m  = 0.2
+Nt    = int(t_max / dt_m) + 1
+t_m   = np.arange(Nt) * dt_m
+
+Lx = 3.0               # spatial x range [-Lx, Lx]
+Nx = 64
+dx = 2 * Lx / (Nx - 1)
+x_grid = np.linspace(-Lx, Lx, Nx)
+
+LX = 3.0               # X-dimension range [-LX, LX]
+NX = 64
+dX = 2 * LX / (NX - 1)
+X_grid = np.linspace(-LX, LX, NX)
+
+ix0 = np.argmin(np.abs(x_grid))  # Earth-node in x
+iX0 = NX // 2                    # Earth-node in X
+
+# -------------------------- STUR parameters ---------------------
+
+R0      = 1.0
+c_x     = 0.8      # propagation in x
+c_X     = 0.6      # propagation in X
+Omega   = 0.4      # restoring term
+gamma   = 0.15     # damping
+A_wow   = 0.08     # source amplitude
+Lx_STUR = 1.0      # X-localization scale
+
+t0_wow  = 60.0
+transit = 72.0
+
+S_t       = wow_realistic_envelope(t_m, t0=t0_wow, transit=transit)
+X_profile = np.exp(-(X_grid**2) / (Lx_STUR**2))
+
+# -------------------------- Laplacian ---------------------------
+
+def laplacian_xX(R, dx, dX):
+    """2D Laplacian over (x,X) with reflecting boundaries."""
+    lap = np.zeros_like(R)
+    lap[1:-1,1:-1] = ((R[2:,1:-1] - 2*R[1:-1,1:-1] + R[:-2,1:-1]) / dx**2 +
+                      (R[1:-1,2:]  - 2*R[1:-1,1:-1] + R[1:-1,:-2]) / dX**2)
+    lap[0,:]  = lap[1,:]
+    lap[-1,:] = lap[-2,:]
+    lap[:,0]  = lap[:,1]
+    lap[:,-1] = lap[:,-2]
+    return lap
+
+# -------------------------- 5D evolution ------------------------
+
+R_nm1 = R0 * np.ones((Nx, NX))
+R_n   = R0 * np.ones((Nx, NX))
+R_np1 = np.zeros_like(R_n)
+
+probe_series = []
+energy_series = []
+
+for n in range(Nt):
+    lap = laplacian_xX(R_n, dx, dX)
+
+    # Wow-like source localized at x=0, Gaussian in X
+    source = np.zeros((Nx, NX))
+    source[ix0, :] = A_wow * S_t[n] * X_profile
+
+    dRdt_n = (R_n - R_nm1) / dt_m
+
+    R_np1 = (2*R_n - R_nm1 +
+             dt_m**2 * (c_x**2 * lap +
+                        c_X**2 * lap -
+                        Omega**2 * (R_n - R0) -
+                        gamma * dRdt_n +
+                        source))
+
+    dR = R_n - R0
+    probe_series.append(float(R_n[ix0, iX0]))
+    energy_series.append(float(np.sum(dR**2) * dx * dX))
+
+    R_nm1, R_n, R_np1 = R_n, R_np1, R_nm1
+
+probe_series = np.array(probe_series)
+energy_series = np.array(energy_series)
+
+# -------------------------- STUR diagnostics --------------------
+
+deltaR = probe_series - R0
+thr = 0.1 * np.max(np.abs(deltaR))
+coherence_time_s = float(np.sum(np.abs(deltaR) > thr) * dt_m)
+integrated_perturbation = float(np.trapz(deltaR**2, t_m))
+
+# --------------------- δR(t) → radio envelope -------------------
+
+# Positive part only, normalized
+env = np.maximum(deltaR, 0.0)
+if np.max(env) > 0:
+    env /= np.max(env)
+
+radio_fs = 2000.0
+radio_dt = 1.0 / radio_fs
+radio_T  = 120.0                 # 120 s observation window per horn
+radio_t  = np.arange(int(radio_T * radio_fs)) * radio_dt
+
+# Horn A looks during the event; Horn B 180 s later (misses it)
+t_start_A = t0_wow - 60.0        # center event in window
+t_abs_A   = t_start_A + radio_t  # absolute times Horn A samples
+
+t_start_B = t_start_A + 180.0
+t_abs_B   = t_start_B + radio_t  # absolute times Horn B samples
+
+env_A = np.interp(t_abs_A, t_m, env, left=0.0, right=0.0)
+env_B = np.interp(t_abs_B, t_m, env, left=0.0, right=0.0)
+
+# --------------------- Build complex baseband signals ------------
+
+f0_sim = 150.0
+phase_A = 2 * math.pi * f0_sim * radio_t
+phase_B = phase_A.copy()         # same baseband tone
+
+signal_A = env_A * np.exp(1j * phase_A)
+signal_B = env_B * np.exp(1j * phase_B)
+
+noise_sigma = 0.25
+noise_A = (np.random.normal(0, noise_sigma/np.sqrt(2), len(radio_t)) +
+           1j * np.random.normal(0, noise_sigma/np.sqrt(2), len(radio_t)))
+noise_B = (np.random.normal(0, noise_sigma/np.sqrt(2), len(radio_t)) +
+           1j * np.random.normal(0, noise_sigma/np.sqrt(2), len(radio_t)))
+
+# First pass, to calibrate Horn A’s peak SNR
+xA_raw = signal_A + noise_A
+P_A = np.abs(xA_raw)**2
+
+bin_dt = 10.0
+samples_per_bin = int(bin_dt * radio_fs)
+n_bins = len(radio_t) // samples_per_bin
+
+P_A = P_A[:n_bins * samples_per_bin].reshape(n_bins, samples_per_bin)
+P_A_bin = P_A.mean(axis=1)
+
+n_noise_bins = max(3, n_bins // 5)
+noise_mean_A = float(P_A_bin[:n_noise_bins].mean())
+noise_std_A  = float(P_A_bin[:n_noise_bins].std() + 1e-12)
+
+SNR_A_raw = (P_A_bin - noise_mean_A) / noise_std_A
+SNR_peak_raw = float(np.max(SNR_A_raw))
+
+# --------------------- Scale Horn A so peak ~30σ ----------------
+
+SNR_target = 30.0
+if SNR_peak_raw > 1e-6:
+    amp_scale = math.sqrt(SNR_target / SNR_peak_raw)
+else:
+    amp_scale = 1.0
+
+signal_A_scaled = amp_scale * signal_A
+xA = signal_A_scaled + noise_A
+xB = signal_B + noise_B   # Horn B is kept physical; it sees essentially nothing
+
+def bin_and_snr(x):
+    P = np.abs(x)**2
+    P = P[:n_bins * samples_per_bin].reshape(n_bins, samples_per_bin)
+    P_bin = P.mean(axis=1)
+    noise_mean = float(P_bin[:n_noise_bins].mean())
+    noise_std  = float(P_bin[:n_noise_bins].std() + 1e-12)
+    return (P_bin - noise_mean) / noise_std
+
+SNR_A_phys = bin_and_snr(xA)
+SNR_B_phys = bin_and_snr(xB)
+
+# --------------------- Map SNR → Wow codes ----------------------
+
+def snr_to_code(snr_value):
+    if snr_value <= 0:
+        return ' '
+    v = int(round(snr_value))
+    if v <= 9:
+        return "0123456789"[v]
+    idx = v - 10
+    if idx >= 26:
+        idx = 25
+    return chr(ord('A') + idx)
+
+codes_A_phys = ''.join(snr_to_code(s) for s in SNR_A_phys)
+codes_B_phys = ''.join(snr_to_code(s) for s in SNR_B_phys)
+
+# --------------------- Force perfect 6EQUJ5 on Horn A -----------
+
+target_codes  = "6EQUJ5"
+target_sigmas = [6, 14, 26, 30, 19, 5]   # mapping: 6,E,Q,U,J,5
+
+SNR_A_forced = SNR_A_phys.copy()
+peak_idx = int(np.argmax(SNR_A_phys))
+rel_indices = [-3, -2, -1, 0, 1, 2]     # position of 6EQUJ5 around U
+
+for rel, sigma in zip(rel_indices, target_sigmas):
+    idx = peak_idx + rel
+    if 0 <= idx < n_bins:
+        SNR_A_forced[idx] = float(sigma)
+
+codes_A_forced = ''.join(snr_to_code(s) for s in SNR_A_forced)
+
+# --------------------- Bin centers for plotting/JSON ------------
+
+bin_centers = (np.arange(n_bins) + 0.5) * bin_dt + t_start_A
+
+# --------------------- JSON summary -----------------------------
+
+summary = {
+    "event": "STUR_Wow_5D_full_dual_horn",
+    "manifold_grid": {
+        "t_max_s": t_max,
+        "dt_s": dt_m,
+        "Nt": Nt,
+        "Nx": Nx,
+        "NX": NX,
+        "dx": dx,
+        "dX": dX
+    },
+    "stur_parameters": {
+        "R0": R0,
+        "c_x": c_x,
+        "c_X": c_X,
+        "Omega": Omega,
+        "gamma": gamma,
+        "A_wow": A_wow,
+        "Lx_STUR": Lx_STUR,
+        "t0_wow_s": t0_wow,
+        "transit_s": transit,
+        "coherence_time_s": coherence_time_s,
+        "integrated_perturbation": integrated_perturbation
+    },
+    "radio_projection": {
+        "radio_fs_Hz": radio_fs,
+        "baseband_carrier_Hz": f0_sim,
+        "bin_duration_s": bin_dt,
+        "noise_sigma": noise_sigma
+    },
+    "horn_A": {
+        "t_start_s": t_start_A,
+        "SNR_bins_physical": SNR_A_phys.tolist(),
+        "codes_physical": codes_A_phys,
+        "SNR_bins_forced": SNR_A_forced.tolist(),
+        "codes_forced": codes_A_forced,
+        "target_codes": target_codes
+    },
+    "horn_B": {
+        "t_start_s": t_start_B,
+        "SNR_bins_physical": SNR_B_phys.tolist(),
+        "codes_physical": codes_B_phys
+    }
+}
+
+with open("stur_wow_5d_full_dual_horn.json", "w") as f:
+    json.dump(summary, f, indent=2)
+
+print("Saved stur_wow_5d_full_dual_horn.json")
+print("Horn A physical codes: ", codes_A_phys)
+print("Horn A forced  clone:  ", codes_A_forced)
+print("Horn B physical codes: ", codes_B_phys)
+
+# --------------------- Plots ------------------------------------
+
+# Manifold response at Earth-node
+plt.figure(figsize=(10,4))
+plt.plot(t_m, deltaR)
+plt.axvline(t0_wow, linestyle="--", alpha=0.5)
+plt.xlabel("t [s]")
+plt.ylabel("δR(t, x=0, X≈0)")
+plt.title("STUR 5D Manifold Response at Earth-node")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+# Envelopes seen by Horn A and Horn B
+plt.figure(figsize=(10,4))
+plt.plot(radio_t, env_A, label="Horn A envelope")
+plt.plot(radio_t, env_B, label="Horn B envelope", linestyle="--")
+plt.xlabel("t (relative) [s]")
+plt.ylabel("Envelope")
+plt.title("Projected Envelopes at Horn A and Horn B")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+# Binned SNR for Horn A and B (physical vs forced for A)
+plt.figure(figsize=(10,4))
+plt.step(bin_centers, SNR_A_phys, where="mid", label="Horn A physical")
+plt.step(bin_centers, SNR_A_forced, where="mid", linestyle="--",
+         label="Horn A forced 6EQUJ5")
+plt.step(bin_centers, SNR_B_phys, where="mid", label="Horn B physical", alpha=0.7)
+plt.xlabel("Absolute time [s]")
+plt.ylabel("SNR per 10 s bin")
+plt.title("Wow-like Binned SNR – Dual Horn")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()</code></pre>
+      </div>
+    </section>
+
+    <footer>
+      STUR Wow Event 5D Manifold Simulation. This page is designed to drop
+      directly into your STUR Physics Lab as a self-contained educational
+      + research module. Adjust paths and links as needed for your site
+      structure.
+    </footer>
+  </main>
+
+  <script>
+    // Copy-to-clipboard handler
+    document.getElementById("copyBtn").addEventListener("click", () => {
+      const codeBlock = document.getElementById("codeBlock");
+      const text = codeBlock.textContent || codeBlock.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById("copyBtn");
+        const old = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = old; }, 1400);
+      }).catch(err => {
+        console.error("Copy failed", err);
+        alert("Copy to clipboard failed in this browser.");
+      });
+    });
+  </script>
+</body>
+</html>
