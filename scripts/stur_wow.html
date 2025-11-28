@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>STUR 5D Wow Event – Full Dual-Horn Simulation</title>
+  <title>STUR 5D Wow Event – Full Dual-Horn Simulation (FAST)</title>
 
   <!-- Dark theme styling -->
   <style>
@@ -239,22 +239,6 @@
       border-top: 1px solid var(--border-subtle);
       padding-top: 0.9rem;
     }
-
-    @media (max-width: 720px) {
-      main {
-        padding-inline: 1.1rem;
-      }
-      header {
-        padding-inline: 1.1rem;
-        margin-inline: -1.1rem;
-      }
-      h1 {
-        font-size: 1.5rem;
-      }
-      pre {
-        font-size: 0.8rem;
-      }
-    }
   </style>
 
   <!-- MathJax for equations -->
@@ -265,11 +249,11 @@
 <body>
   <header>
     <div>
-      <h1>STUR 5D Wow Event – Dual-Horn Manifold Simulation</h1>
+      <h1>STUR 5D Wow Event – Dual-Horn Manifold Simulation (FAST)</h1>
       <div class="badge-row">
         <span class="badge">5D X-coupled Resistance Manifold</span>
         <span class="badge">Wow! Signal Clone (6EQUJ5)</span>
-        <span class="badge">Jupyter/Pyodide-safe Python</span>
+        <span class="badge">JupyterLite/Pyodide FAST Run</span>
       </div>
     </div>
   </header>
@@ -278,46 +262,26 @@
     <section class="panel panel-strong">
       <div class="section-label">Overview</div>
       <p>
-        This page documents and implements a full STUR-based reconstruction of the
+        This page documents and implements a STUR-based reconstruction of the
         1977 Wow! signal as the 4D projection of a 5D resistance-field perturbation
-        on the X-coupled manifold. The pipeline is:
+        on the X-coupled manifold. This is a FAST configuration tuned to run
+        comfortably in a browser-based JupyterLite / Pyodide kernel.
       </p>
       <ul>
-        <li>
-          Evolve a scalar resistance field
-          <span class="math-inline">R(t,x,X)</span> on a 5D-inspired slice
-          (time <span class="math-inline">t</span>, ordinary spatial coordinate
-          <span class="math-inline">x</span>, and extra STUR dimension
-          <span class="math-inline">X</span>).
-        </li>
-        <li>
-          Inject a localized Wow-shaped source
-          <span class="math-inline">S_{\text{wow}}(t,X)\,\delta(x)</span>
-          using a super-Gaussian envelope that matches the real 72&nbsp;s
-          Big Ear beam profile.
-        </li>
-        <li>
-          Read the manifold response
-          <span class="math-inline">\delta R(t) = R(t,0,0) - R_0</span>
-          at the Earth-node on the helix intersection.
-        </li>
-        <li>
-          Project <span class="math-inline">\delta R(t)</span> into a
-          narrowband complex radio signal seen by two Big Ear horns separated
-          by about 3 minutes in right ascension (Horn&nbsp;A and Horn&nbsp;B).
-        </li>
-        <li>
-          Bin the received power into 10&nbsp;s intervals, compute SNR, and map
-          to the standard 0–9, A–Z intensity codes used in the original Wow!
-          printout, including an exact 6EQUJ5 clone for Horn&nbsp;A.
-        </li>
+        <li>Evolve a scalar resistance field <span class="math-inline">R(t,x,X)</span> on a 5D-inspired slice.</li>
+        <li>Inject a localized Wow-shaped source <span class="math-inline">S_{\text{wow}}(t,X)\,\delta(x)</span>.</li>
+        <li>Measure the perturbation <span class="math-inline">\delta R(t) = R(t,0,0) - R_0</span> at the Earth-node.</li>
+        <li>Project <span class="math-inline">\delta R(t)</span> into a narrowband complex radio signal.</li>
+        <li>Apply a dual-horn Big Ear geometry with a 180 s offset between horns.</li>
+        <li>Bin in 10 s intervals, compute SNR, map to the Wow 0–9/A–Z alphabet.</li>
+        <li>Overwrite a six-bin window in Horn A to exactly match 6EQUJ5.</li>
       </ul>
       <div class="btn-row">
         <a class="btn-link btn-secondary" href="index.html">← Return to STUR index</a>
       </div>
       <p class="small-caption">
-        Update the index link if you mount this page inside a different directory
-        structure in your STUR Physics Lab.
+        This is a reduced grid / reduced sampling “FAST” build to keep browser runtimes smooth
+        while preserving the same qualitative manifold + radio behavior.
       </p>
     </section>
 
@@ -325,10 +289,8 @@
       <div class="section-label">Derivation sketch</div>
       <h2>1. 5D STUR wave equation for the Wow packet</h2>
       <p>
-        On the STUR manifold, the resistance field
-        <span class="math-inline">R(t,x,X)</span> obeys a damped wave equation
-        with propagation both along the brane (<span class="math-inline">x</span>)
-        and into the X-dimension:
+        On the STUR manifold, the resistance field <span class="math-inline">R(t,x,X)</span> obeys a damped wave equation
+        with propagation along the brane (<span class="math-inline">x</span>) and into the X-dimension:
       </p>
       <div class="equation-block">
         \[
@@ -341,17 +303,13 @@
         \]
       </div>
       <p>
-        Here <span class="math-inline">c_x</span> and
-        <span class="math-inline">c_X</span> are effective propagation speeds
-        along and off the brane; <span class="math-inline">\gamma</span> is
-        a damping term encoding leakage into other degrees of freedom; and
-        <span class="math-inline">\Omega</span> pushes the field back toward a
-        background value <span class="math-inline">R_0</span>.
+        Here <span class="math-inline">c_x</span> and <span class="math-inline">c_X</span> are effective propagation speeds
+        along and off the brane, <span class="math-inline">\gamma</span> encodes damping into other degrees of freedom,
+        and <span class="math-inline">\Omega</span> pulls the field back toward the background
+        <span class="math-inline">R_0</span>.
       </p>
       <p>
-        The Wow event enters as a localized source at
-        <span class="math-inline">x = 0</span>,
-        time-modulated and X-localized:
+        The Wow event is implemented as a localized, X-Gaussian, time-modulated source:
       </p>
       <div class="equation-block">
         \[
@@ -366,19 +324,13 @@
         \]
       </div>
       <p>
-        with a super-Gaussian order
-        <span class="math-inline">n \approx 12</span> and
-        <span class="math-inline">\tau_{\text{beam}}</span> tuned such that the
-        full width of the event in projection is about 72&nbsp;s, matching the
-        real Big Ear drift time.
+        with <span class="math-inline">n \approx 12</span> and <span class="math-inline">\tau_{\text{beam}}</span> chosen
+        so that the on-brane projection of the event has a width of order 72&nbsp;s, matching the Big Ear drift time.
       </p>
 
       <h2>2. Earth-node probe and manifold response</h2>
       <p>
-        The Earth resides at a helix intersection where multiple 5D geodesics
-        cross. In this toy model we sample the field at the Earth-node
-        <span class="math-inline">(x,X) = (0,0)</span> and define the
-        perturbation:
+        The Earth-node is modeled at <span class="math-inline">(x,X) = (0,0)</span>, and the observable scalar is
       </p>
       <div class="equation-block">
         \[
@@ -386,10 +338,8 @@
         \]
       </div>
       <p>
-        Numerically, we use a finite-difference scheme on an
-        <span class="math-inline">N_x \times N_X</span> grid with time step
-        <span class="math-inline">\Delta t</span>, evolving the field with a
-        leapfrog-style update:
+        We evolve the field on a discrete <span class="math-inline">N_x \times N_X</span> grid with time step
+        <span class="math-inline">\Delta t</span> using a leapfrog update:
       </p>
       <div class="equation-block">
         \[
@@ -405,97 +355,44 @@
         \]
       </div>
       <p>
-        This evolution naturally produces a single, clean pulse in
-        <span class="math-inline">\delta R(t)</span> with coherence time
-        of order 72&nbsp;s, in excellent agreement with the original Wow
-        transit.
+        From the resulting <span class="math-inline">\delta R(t)</span> we extract coherence time and an integrated
+        perturbation norm as simple STUR diagnostics of the Wow packet on the manifold.
       </p>
 
-      <h2>3. Projection into a radio signal</h2>
+      <h2>3. Projection into a radio signal and dual horns</h2>
       <p>
-        A simple way to model coupling from the resistance field into the
-        electromagnetic channel is to treat the normalized positive part
-        of <span class="math-inline">\delta R(t)</span> as an amplitude
-        envelope:
+        The positive part of <span class="math-inline">\delta R(t)</span>, normalized, serves as an amplitude envelope
+        for a complex baseband tone:
       </p>
       <div class="equation-block">
         \[
-        A(t) = \frac{\max(\delta R(t), 0)}{\max_t \max(\delta R(t),0)}.
-        \]
-      </div>
-      <p>
-        The complex baseband voltage at the receiver is then
-      </p>
-      <div class="equation-block">
-        \[
+        A(t) = \frac{\max(\delta R(t), 0)}{\max_t \max(\delta R(t),0)},\quad
         v(t) = A(t)\,\exp(i 2\pi f_0 t) + n(t),
         \]
       </div>
       <p>
-        where <span class="math-inline">f_0</span> is a simulated carrier
-        (e.g. 150&nbsp;Hz in baseband mapping to 1420.726&nbsp;MHz
-        physically), and <span class="math-inline">n(t)</span> is complex
-        Gaussian receiver noise.
+        where <span class="math-inline">f_0</span> is a simulated carrier (here 150&nbsp;Hz) and
+        <span class="math-inline">n(t)</span> is complex Gaussian noise. Horn A sees the event centered in its
+        observation window; Horn B sees the same sky position 180 s later, by which time the on-brane packet has
+        leaked into X and vanished.
       </p>
 
-      <h2>4. Dual-horn Big Ear geometry</h2>
+      <h2>4. Binning, SNR, and Wow code</h2>
       <p>
-        Big Ear had two feeds separated by about three minutes in right
-        ascension. In this model:
-      </p>
-      <ul>
-        <li>
-          Horn&nbsp;A observes during an interval centered on
-          <span class="math-inline">t_0</span>.
-        </li>
-        <li>
-          Horn&nbsp;B observes the same sky region
-          <span class="math-inline">\approx 180</span>&nbsp;s later, after the
-          5D packet has leaked into X and the on-brane amplitude has vanished.
-        </li>
-      </ul>
-      <p>
-        Thus Horn&nbsp;A sees a strong Wow-like burst; Horn&nbsp;B sees only
-        noise, reproducing the original 1977 asymmetry.
-      </p>
-
-      <h2>5. Binning, SNR, and 6EQUJ5 codes</h2>
-      <p>
-        Power is averaged over 10&nbsp;s bins, matching the Big Ear integration
-        time. For a sequence of bins indexed by
-        <span class="math-inline">k</span> with power
-        <span class="math-inline">P_k</span>, noise mean
-        <span class="math-inline">\mu_n</span> and standard deviation
-        <span class="math-inline">\sigma_n</span>, the SNR per bin is
-      </p>
-      <div class="equation-block">
-        \[
-        \text{SNR}_k = \frac{P_k - \mu_n}{\sigma_n}.
-        \]
-      </div>
-      <p>
-        Each SNR is rounded to an integer and encoded as:
-      </p>
-      <ul>
-        <li>0–9 → characters “0”–“9”</li>
-        <li>10 → “A”, 11 → “B”, …, up to 35 → “Z”</li>
-      </ul>
-      <p>
-        The physical simulation already produces Wow-like codes. For clear
-        comparison with the historical record, a second “forced” SNR sequence
-        overwrites six bins around the peak so that Horn&nbsp;A produces the
-        exact pattern 6EQUJ5, while Horn&nbsp;B remains purely physical.
+        The baseband power is averaged over 10 s bins, the mean and standard deviation of the noise are estimated
+        from early-time bins, and each bin’s SNR is mapped to a Wow code (0–9, then A–Z for 10–35). A second “forced”
+        Horn A sequence overwrites six bins around the peak so that the pattern 6EQUJ5 appears exactly while leaving
+        the rest of the run physical.
       </p>
     </section>
 
     <section class="panel">
-      <div class="section-label">Python implementation</div>
-      <h2>Complete Jupyter/Pyodide-safe script</h2>
+      <div class="section-label">Python implementation (FAST)</div>
+      <h2>Complete JupyterLite-safe script</h2>
       <p>
-        This is the full self-contained Python script implementing the
-        5D STUR Wow event simulation, dual-horn projection and 6EQUJ5 code
-        cloning. It uses only NumPy, math, json and Matplotlib, and is
-        safe to run in JupyterLite / Pyodide.
+        This is the full self-contained Python script implementing the 5D STUR Wow event simulation in FAST mode,
+        including dual-horn projection and 6EQUJ5 code cloning. It uses only NumPy, math, json and Matplotlib, and is
+        tuned for JupyterLite / Pyodide performance.
       </p>
 
       <div class="btn-row">
@@ -507,26 +404,21 @@
         </a>
       </div>
       <div class="small-caption">
-        Paste this script into a new notebook cell, run it,
-        and inspect the generated plots and JSON file
-        <code>stur_wow_5d_full_dual_horn.json</code>.
+        In JupyterLite, create a new Python notebook, paste this script into a cell, run it, and inspect the printed
+        Wow codes, JSON file <code>stur_wow_5d_full_dual_horn_fast.json</code>, and plots.
       </div>
 
       <div class="code-container">
         <pre id="codeBlock"><code>#!/usr/bin/env python3
 # ===============================================================
-# STUR Wow Event – Full 5D→4D Dual-Horn Simulation + 6EQUJ5 Clone
+# STUR Wow Event – 5D→4D Dual-Horn Simulation (FAST) + 6EQUJ5 Clone
 # ===============================================================
-# 1) Evolve a 5D-like STUR manifold slice R(t,x,X) with a Wow-shaped
-#    localized source S_wow(t,X) at x=0.
-# 2) Read δR(t,x=0,X≈0) at the Earth-node.
-# 3) Project δR(t) into a narrowband complex radio signal at 150 Hz.
-# 4) Generate two horn timelines:
-#       Horn A: looks during the event window
-#       Horn B: looks 180 s later (misses the event)
-# 5) Bin power in 10 s intervals, compute SNR, map to 0–9,A–Z codes.
-# 6) Force Horn A’s SNR to contain an exact 6EQUJ5 pattern around the
-#    peak bin while preserving the physical SNR elsewhere.
+# FAST MODE:
+#   - Nx = 32, NX = 32         (smaller grid)
+#   - t_max = 120 s            (shorter manifold evolution)
+#   - radio_fs = 400 Hz        (lighter radio sampling)
+# This keeps runtime comfortable in JupyterLite / Pyodide
+# while preserving the structure of the original full model.
 # ===============================================================
 
 import numpy as np
@@ -543,20 +435,20 @@ def wow_realistic_envelope(t, t0=60.0, transit=72.0):
     scale = transit / 2.2
     return np.exp(-0.5 * np.abs((t - t0) / scale)**order)
 
-# -------------------------- 5D manifold grid --------------------
+# -------------------------- 5D manifold grid (FAST) ------------
 
-t_max = 240.0          # total manifold evolution [s]
+t_max = 120.0         # total manifold evolution [s] (reduced from 240)
 dt_m  = 0.2
 Nt    = int(t_max / dt_m) + 1
 t_m   = np.arange(Nt) * dt_m
 
-Lx = 3.0               # spatial x range [-Lx, Lx]
-Nx = 64
+Lx = 3.0              # spatial x range [-Lx, Lx]
+Nx = 32               # reduced grid in x (was 64)
 dx = 2 * Lx / (Nx - 1)
 x_grid = np.linspace(-Lx, Lx, Nx)
 
-LX = 3.0               # X-dimension range [-LX, LX]
-NX = 64
+LX = 3.0              # X-dimension range [-LX, LX]
+NX = 32               # reduced grid in X (was 64)
 dX = 2 * LX / (NX - 1)
 X_grid = np.linspace(-LX, LX, NX)
 
@@ -599,7 +491,6 @@ R_n   = R0 * np.ones((Nx, NX))
 R_np1 = np.zeros_like(R_n)
 
 probe_series = []
-energy_series = []
 
 for n in range(Nt):
     lap = laplacian_xX(R_n, dx, dX)
@@ -617,20 +508,21 @@ for n in range(Nt):
                         gamma * dRdt_n +
                         source))
 
-    dR = R_n - R0
     probe_series.append(float(R_n[ix0, iX0]))
-    energy_series.append(float(np.sum(dR**2) * dx * dX))
 
     R_nm1, R_n, R_np1 = R_n, R_np1, R_nm1
 
 probe_series = np.array(probe_series)
-energy_series = np.array(energy_series)
 
 # -------------------------- STUR diagnostics --------------------
 
 deltaR = probe_series - R0
-thr = 0.1 * np.max(np.abs(deltaR))
-coherence_time_s = float(np.sum(np.abs(deltaR) > thr) * dt_m)
+thr = 0.1 * np.max(np.abs(deltaR)) if np.max(np.abs(deltaR)) > 0 else 0.0
+if thr > 0.0:
+    coherence_time_s = float(np.sum(np.abs(deltaR) > thr) * dt_m)
+else:
+    coherence_time_s = 0.0
+
 integrated_perturbation = float(np.trapezoid(deltaR**2, t_m))
 
 # --------------------- δR(t) → radio envelope -------------------
@@ -640,9 +532,9 @@ env = np.maximum(deltaR, 0.0)
 if np.max(env) > 0:
     env /= np.max(env)
 
-radio_fs = 2000.0
+radio_fs = 400.0      # FAST: reduced from 2000 Hz
 radio_dt = 1.0 / radio_fs
-radio_T  = 120.0                 # 120 s observation window per horn
+radio_T  = 120.0      # 120 s observation window per horn
 radio_t  = np.arange(int(radio_T * radio_fs)) * radio_dt
 
 # Horn A looks during the event; Horn B 180 s later (misses it)
@@ -760,7 +652,7 @@ bin_centers = (np.arange(n_bins) + 0.5) * bin_dt + t_start_A
 # --------------------- JSON summary -----------------------------
 
 summary = {
-    "event": "STUR_Wow_5D_full_dual_horn",
+    "event": "STUR_Wow_5D_full_dual_horn_fast",
     "manifold_grid": {
         "t_max_s": t_max,
         "dt_s": dt_m,
@@ -804,10 +696,10 @@ summary = {
     }
 }
 
-with open("stur_wow_5d_full_dual_horn.json", "w") as f:
+with open("stur_wow_5d_full_dual_horn_fast.json", "w") as f:
     json.dump(summary, f, indent=2)
 
-print("Saved stur_wow_5d_full_dual_horn.json")
+print("Saved stur_wow_5d_full_dual_horn_fast.json")
 print("Horn A physical codes: ", codes_A_phys)
 print("Horn A forced  clone:  ", codes_A_forced)
 print("Horn B physical codes: ", codes_B_phys)
@@ -820,7 +712,7 @@ plt.plot(t_m, deltaR)
 plt.axvline(t0_wow, linestyle="--", alpha=0.5)
 plt.xlabel("t [s]")
 plt.ylabel("δR(t, x=0, X≈0)")
-plt.title("STUR 5D Manifold Response at Earth-node")
+plt.title("STUR 5D Manifold Response at Earth-node (FAST)")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
@@ -831,7 +723,7 @@ plt.plot(radio_t, env_A, label="Horn A envelope")
 plt.plot(radio_t, env_B, label="Horn B envelope", linestyle="--")
 plt.xlabel("t (relative) [s]")
 plt.ylabel("Envelope")
-plt.title("Projected Envelopes at Horn A and Horn B")
+plt.title("Projected Envelopes at Horn A and Horn B (FAST)")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
@@ -845,7 +737,7 @@ plt.step(bin_centers, SNR_A_forced, where="mid", linestyle="--",
 plt.step(bin_centers, SNR_B_phys, where="mid", label="Horn B physical", alpha=0.7)
 plt.xlabel("Absolute time [s]")
 plt.ylabel("SNR per 10 s bin")
-plt.title("Wow-like Binned SNR – Dual Horn")
+plt.title("Wow-like Binned SNR – Dual Horn (FAST)")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
@@ -854,10 +746,8 @@ plt.show()</code></pre>
     </section>
 
     <footer>
-      STUR Wow Event 5D Manifold Simulation. This page is designed to drop
-      directly into your STUR Physics Lab as a self-contained educational
-      and research module. Adjust paths and links as needed for your site
-      structure.
+      STUR Wow Event 5D Manifold Simulation (FAST). Drop this page directly into
+      your STUR Physics Lab and adjust links as needed for your site structure.
     </footer>
   </main>
 
