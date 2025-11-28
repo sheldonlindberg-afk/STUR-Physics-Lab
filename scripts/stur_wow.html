@@ -416,8 +416,7 @@
 #   - Nx = 32, NX = 32         (smaller grid)
 #   - t_max = 120 s            (shorter manifold evolution)
 #   - radio_fs = 400 Hz        (lighter radio sampling)
-# This keeps runtime comfortable while preserving the structure
-# of the original full model.
+# Uses only: numpy, math, json, matplotlib
 # ===============================================================
 
 import numpy as np
@@ -436,33 +435,33 @@ def wow_realistic_envelope(t, t0=60.0, transit=72.0):
 
 # -------------------------- 5D manifold grid (FAST) ------------
 
-t_max = 120.0         # total manifold evolution [s]
+t_max = 120.0          # total manifold evolution [s]
 dt_m  = 0.2
 Nt    = int(t_max / dt_m) + 1
 t_m   = np.arange(Nt) * dt_m
 
-Lx = 3.0              # spatial x range [-Lx, Lx]
-Nx = 32               # reduced grid in x
+Lx = 3.0               # spatial x range [-Lx, Lx]
+Nx = 32                # reduced grid in x
 dx = 2 * Lx / (Nx - 1)
 x_grid = np.linspace(-Lx, Lx, Nx)
 
-LX = 3.0              # X-dimension range [-LX, LX]
-NX = 32               # reduced grid in X
+LX = 3.0               # X-dimension range [-LX, LX]
+NX = 32                # reduced grid in X
 dX = 2 * LX / (NX - 1)
 X_grid = np.linspace(-LX, LX, NX)
 
-ix0 = np.argmin(np.abs(x_grid))  # Earth-node in x
-iX0 = NX // 2                    # Earth-node in X
+ix0 = np.argmin(np.abs(x_grid))   # Earth-node in x
+iX0 = NX // 2                     # Earth-node in X
 
 # -------------------------- STUR parameters ---------------------
 
 R0      = 1.0
-c_x     = 0.8      # propagation in x
-c_X     = 0.6      # propagation in X
-Omega   = 0.4      # restoring term
-gamma   = 0.15     # damping
-A_wow   = 0.08     # source amplitude
-Lx_STUR = 1.0      # X-localization scale
+c_x     = 0.8       # propagation in x
+c_X     = 0.6       # propagation in X
+Omega   = 0.4       # restoring term
+gamma   = 0.15      # damping
+A_wow   = 0.08      # source amplitude
+Lx_STUR = 1.0       # X-localization scale
 
 t0_wow  = 60.0
 transit = 72.0
@@ -475,12 +474,14 @@ X_profile = np.exp(-(X_grid**2) / (Lx_STUR**2))
 def laplacian_xX(R, dx, dX):
     """2D Laplacian over (x,X) with reflecting boundaries."""
     lap = np.zeros_like(R)
-    lap[1:-1,1:-1] = ((R[2:,1:-1] - 2*R[1:-1,1:-1] + R[:-2,1:-1]) / dx**2 +
-                      (R[1:-1,2:]  - 2*R[1:-1,1:-1] + R[1:-1,:-2]) / dX**2)
-    lap[0,:]  = lap[1,:]
-    lap[-1,:] = lap[-2,:]
-    lap[:,0]  = lap[:,1]
-    lap[:,-1] = lap[:,-2]
+    lap[1:-1, 1:-1] = (
+        (R[2:, 1:-1] - 2*R[1:-1, 1:-1] + R[:-2, 1:-1]) / dx**2 +
+        (R[1:-1, 2:]  - 2*R[1:-1, 1:-1] + R[1:-1, :-2]) / dX**2
+    )
+    lap[0, :]  = lap[1, :]
+    lap[-1, :] = lap[-2, :]
+    lap[:, 0]  = lap[:, 1]
+    lap[:, -1] = lap[:, -2]
     return lap
 
 # -------------------------- 5D evolution ------------------------
@@ -516,42 +517,46 @@ probe_series = np.array(probe_series)
 # -------------------------- STUR diagnostics --------------------
 
 deltaR = probe_series - R0
-thr = 0.1 * np.max(np.abs(deltaR)) if np.max(np.abs(deltaR)) > 0 else 0.0
-if thr > 0.0:
+max_abs = np.max(np.abs(deltaR))
+
+if max_abs > 0.0:
+    thr = 0.1 * max_abs
     coherence_time_s = float(np.sum(np.abs(deltaR) > thr) * dt_m)
 else:
+    thr = 0.0
     coherence_time_s = 0.0
 
-# Use np.trapz for maximum compatibility
-integrated_perturbation = float(np.trapz(deltaR**2, t_m))
+# Use np.trapezoid (no deprecation warning)
+integrated_perturbation = float(np.trapezoid(deltaR**2, t_m))
 
 # --------------------- δR(t) → radio envelope -------------------
 
 # Positive part only, normalized
 env = np.maximum(deltaR, 0.0)
-if np.max(env) > 0:
-    env /= np.max(env)
+max_env = np.max(env)
+if max_env > 0:
+    env /= max_env
 
-radio_fs = 400.0      # FAST: reduced sampling rate
+radio_fs = 400.0       # FAST: reduced sampling rate
 radio_dt = 1.0 / radio_fs
-radio_T  = 120.0      # 120 s observation window per horn
+radio_T  = 120.0       # 120 s observation window per horn
 radio_t  = np.arange(int(radio_T * radio_fs)) * radio_dt
 
 # Horn A looks during the event; Horn B 180 s later (misses it)
-t_start_A = t0_wow - 60.0        # center event in window
-t_abs_A   = t_start_A + radio_t  # absolute times Horn A samples
+t_start_A = t0_wow - 60.0
+t_abs_A   = t_start_A + radio_t
 
 t_start_B = t_start_A + 180.0
-t_abs_B   = t_start_B + radio_t  # absolute times Horn B samples
+t_abs_B   = t_start_B + radio_t
 
 env_A = np.interp(t_abs_A, t_m, env, left=0.0, right=0.0)
 env_B = np.interp(t_abs_B, t_m, env, left=0.0, right=0.0)
 
 # --------------------- Build complex baseband signals ------------
 
-f0_sim = 150.0
+f0_sim  = 150.0
 phase_A = 2 * math.pi * f0_sim * radio_t
-phase_B = phase_A.copy()         # same baseband tone
+phase_B = phase_A.copy()
 
 signal_A = env_A * np.exp(1j * phase_A)
 signal_B = env_B * np.exp(1j * phase_B)
@@ -562,13 +567,13 @@ noise_A = (np.random.normal(0, noise_sigma/np.sqrt(2), len(radio_t)) +
 noise_B = (np.random.normal(0, noise_sigma/np.sqrt(2), len(radio_t)) +
            1j * np.random.normal(0, noise_sigma/np.sqrt(2), len(radio_t)))
 
-# First pass, to calibrate Horn A’s peak SNR
+# First pass: calibrate Horn A peak SNR
 xA_raw = signal_A + noise_A
 P_A = np.abs(xA_raw)**2
 
-bin_dt = 10.0
+bin_dt          = 10.0
 samples_per_bin = int(bin_dt * radio_fs)
-n_bins = len(radio_t) // samples_per_bin
+n_bins          = len(radio_t) // samples_per_bin
 
 P_A = P_A[:n_bins * samples_per_bin].reshape(n_bins, samples_per_bin)
 P_A_bin = P_A.mean(axis=1)
@@ -577,7 +582,7 @@ n_noise_bins = max(3, n_bins // 5)
 noise_mean_A = float(P_A_bin[:n_noise_bins].mean())
 noise_std_A  = float(P_A_bin[:n_noise_bins].std() + 1e-12)
 
-SNR_A_raw = (P_A_bin - noise_mean_A) / noise_std_A
+SNR_A_raw    = (P_A_bin - noise_mean_A) / noise_std_A
 SNR_peak_raw = float(np.max(SNR_A_raw))
 
 # --------------------- Scale Horn A so peak ~30σ ----------------
@@ -610,40 +615,37 @@ SNR_B_phys = np.nan_to_num(SNR_B_phys, nan=0.0, posinf=0.0, neginf=0.0)
 # --------------------- Map SNR → Wow codes ----------------------
 
 def snr_to_code(snr_value):
-    # Defensive: handle NaN and infinities
     if not np.isfinite(snr_value):
-        return ' '
+        return " "
     if snr_value <= 0:
-        return ' '
+        return " "
     v = int(round(float(snr_value)))
     if v <= 9:
         return "0123456789"[v]
     idx = v - 10
     if idx >= 26:
         idx = 25
-    return chr(ord('A') + idx)
+    return chr(ord("A") + idx)
 
-codes_A_phys = ''.join(snr_to_code(s) for s in SNR_A_phys)
-codes_B_phys = ''.join(snr_to_code(s) for s in SNR_B_phys)
+codes_A_phys = "".join(snr_to_code(s) for s in SNR_A_phys)
+codes_B_phys = "".join(snr_to_code(s) for s in SNR_B_phys)
 
 # --------------------- Force perfect 6EQUJ5 on Horn A -----------
 
 target_codes  = "6EQUJ5"
-target_sigmas = [6, 14, 26, 30, 19, 5]   # mapping: 6,E,Q,U,J,5
+target_sigmas = [6, 14, 26, 30, 19, 5]   # 6,E,Q,U,J,5
 
 SNR_A_forced = SNR_A_phys.copy()
-peak_idx = int(np.argmax(SNR_A_phys))
-rel_indices = [-3, -2, -1, 0, 1, 2]     # position of 6EQUJ5 around U
+peak_idx     = int(np.argmax(SNR_A_phys))
+rel_indices  = [-3, -2, -1, 0, 1, 2]
 
 for rel, sigma in zip(rel_indices, target_sigmas):
     idx = peak_idx + rel
     if 0 <= idx < n_bins:
         SNR_A_forced[idx] = float(sigma)
 
-# Clean forced sequence as well
-SNR_A_forced = np.nan_to_num(SNR_A_forced, nan=0.0, posinf=0.0, neginf=0.0)
-
-codes_A_forced = ''.join(snr_to_code(s) for s in SNR_A_forced)
+SNR_A_forced   = np.nan_to_num(SNR_A_forced, nan=0.0, posinf=0.0, neginf=0.0)
+codes_A_forced = "".join(snr_to_code(s) for s in SNR_A_forced)
 
 # --------------------- Bin centers for plotting/JSON ------------
 
@@ -660,7 +662,7 @@ summary = {
         "Nx": Nx,
         "NX": NX,
         "dx": dx,
-        "dX": dX
+        "dX": dX,
     },
     "stur_parameters": {
         "R0": R0,
@@ -673,13 +675,13 @@ summary = {
         "t0_wow_s": t0_wow,
         "transit_s": transit,
         "coherence_time_s": coherence_time_s,
-        "integrated_perturbation": integrated_perturbation
+        "integrated_perturbation": integrated_perturbation,
     },
     "radio_projection": {
         "radio_fs_Hz": radio_fs,
         "baseband_carrier_Hz": f0_sim,
         "bin_duration_s": bin_dt,
-        "noise_sigma": noise_sigma
+        "noise_sigma": noise_sigma,
     },
     "horn_A": {
         "t_start_s": t_start_A,
@@ -687,27 +689,27 @@ summary = {
         "codes_physical": codes_A_phys,
         "SNR_bins_forced": SNR_A_forced.tolist(),
         "codes_forced": codes_A_forced,
-        "target_codes": target_codes
+        "target_codes": target_codes,
     },
     "horn_B": {
         "t_start_s": t_start_B,
         "SNR_bins_physical": SNR_B_phys.tolist(),
-        "codes_physical": codes_B_phys
-    }
+        "codes_physical": codes_B_phys,
+    },
 }
 
 with open("stur_wow_5d_full_dual_horn_fast.json", "w") as f:
     json.dump(summary, f, indent=2)
 
 print("Saved stur_wow_5d_full_dual_horn_fast.json")
-print("Horn A physical codes: ", codes_A_phys)
-print("Horn A forced  clone:  ", codes_A_forced)
-print("Horn B physical codes: ", codes_B_phys)
+print("Horn A physical codes:", codes_A_phys)
+print("Horn A forced  clone: ", codes_A_forced)
+print("Horn B physical codes:", codes_B_phys)
 
 # --------------------- Plots ------------------------------------
 
 # Manifold response at Earth-node
-plt.figure(figsize=(10,4))
+plt.figure(figsize=(10, 4))
 plt.plot(t_m, deltaR)
 plt.axvline(t0_wow, linestyle="--", alpha=0.5)
 plt.xlabel("t [s]")
@@ -718,7 +720,7 @@ plt.tight_layout()
 plt.show()
 
 # Envelopes seen by Horn A and Horn B
-plt.figure(figsize=(10,4))
+plt.figure(figsize=(10, 4))
 plt.plot(radio_t, env_A, label="Horn A envelope")
 plt.plot(radio_t, env_B, label="Horn B envelope", linestyle="--")
 plt.xlabel("t (relative) [s]")
@@ -730,7 +732,7 @@ plt.tight_layout()
 plt.show()
 
 # Binned SNR for Horn A and B (physical vs forced for A)
-plt.figure(figsize=(10,4))
+plt.figure(figsize=(10, 4))
 plt.step(bin_centers, SNR_A_phys, where="mid", label="Horn A physical")
 plt.step(bin_centers, SNR_A_forced, where="mid", linestyle="--",
          label="Horn A forced 6EQUJ5")
