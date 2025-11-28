@@ -253,7 +253,7 @@
       <div class="badge-row">
         <span class="badge">5D X-coupled Resistance Manifold</span>
         <span class="badge">Wow! Signal Clone (6EQUJ5)</span>
-        <span class="badge">JupyterLite/Pyodide FAST Run</span>
+        <span class="badge">JupyterLab in the browser</span>
       </div>
     </div>
   </header>
@@ -265,7 +265,7 @@
         This page documents and implements a STUR-based reconstruction of the
         1977 Wow! signal as the 4D projection of a 5D resistance-field perturbation
         on the X-coupled manifold. This is a FAST configuration tuned to run
-        comfortably in a browser-based JupyterLite / Pyodide kernel.
+        comfortably in a browser-based Jupyter kernel.
       </p>
       <ul>
         <li>Evolve a scalar resistance field <span class="math-inline">R(t,x,X)</span> on a 5D-inspired slice.</li>
@@ -280,7 +280,7 @@
         <a class="btn-link btn-secondary" href="index.html">← Return to STUR index</a>
       </div>
       <p class="small-caption">
-        This is a reduced grid / reduced sampling “FAST” build to keep browser runtimes smooth
+        This is a reduced grid / reduced sampling “FAST” build to keep runtimes smooth
         while preserving the same qualitative manifold + radio behavior.
       </p>
     </section>
@@ -388,23 +388,22 @@
 
     <section class="panel">
       <div class="section-label">Python implementation (FAST)</div>
-      <h2>Complete JupyterLite-safe script</h2>
+      <h2>Complete Jupyter-safe script</h2>
       <p>
         This is the full self-contained Python script implementing the 5D STUR Wow event simulation in FAST mode,
-        including dual-horn projection and 6EQUJ5 code cloning. It uses only NumPy, math, json and Matplotlib, and is
-        tuned for JupyterLite / Pyodide performance.
+        including dual-horn projection and 6EQUJ5 code cloning. It uses only NumPy, math, json and Matplotlib.
       </p>
 
       <div class="btn-row">
         <button id="copyBtn">Copy script to clipboard</button>
         <a class="btn-link btn-ghost"
-           href="https://jupyterlite.github.io/demo/lab/?kernel=python"
+           href="https://jupyter.org/try-jupyter/lab/"
            target="_blank" rel="noopener">
-          Open JupyterLite (browser Python)
+          Open JupyterLab in the browser
         </a>
       </div>
       <div class="small-caption">
-        In JupyterLite, create a new Python notebook, paste this script into a cell, run it, and inspect the printed
+        In JupyterLab, create a new Python notebook, paste this script into a cell, run it, and inspect the printed
         Wow codes, JSON file <code>stur_wow_5d_full_dual_horn_fast.json</code>, and plots.
       </div>
 
@@ -417,8 +416,8 @@
 #   - Nx = 32, NX = 32         (smaller grid)
 #   - t_max = 120 s            (shorter manifold evolution)
 #   - radio_fs = 400 Hz        (lighter radio sampling)
-# This keeps runtime comfortable in JupyterLite / Pyodide
-# while preserving the structure of the original full model.
+# This keeps runtime comfortable while preserving the structure
+# of the original full model.
 # ===============================================================
 
 import numpy as np
@@ -437,18 +436,18 @@ def wow_realistic_envelope(t, t0=60.0, transit=72.0):
 
 # -------------------------- 5D manifold grid (FAST) ------------
 
-t_max = 120.0         # total manifold evolution [s] (reduced from 240)
+t_max = 120.0         # total manifold evolution [s]
 dt_m  = 0.2
 Nt    = int(t_max / dt_m) + 1
 t_m   = np.arange(Nt) * dt_m
 
 Lx = 3.0              # spatial x range [-Lx, Lx]
-Nx = 32               # reduced grid in x (was 64)
+Nx = 32               # reduced grid in x
 dx = 2 * Lx / (Nx - 1)
 x_grid = np.linspace(-Lx, Lx, Nx)
 
 LX = 3.0              # X-dimension range [-LX, LX]
-NX = 32               # reduced grid in X (was 64)
+NX = 32               # reduced grid in X
 dX = 2 * LX / (NX - 1)
 X_grid = np.linspace(-LX, LX, NX)
 
@@ -523,7 +522,8 @@ if thr > 0.0:
 else:
     coherence_time_s = 0.0
 
-integrated_perturbation = float(np.trapezoid(deltaR**2, t_m))
+# Use np.trapz for maximum compatibility
+integrated_perturbation = float(np.trapz(deltaR**2, t_m))
 
 # --------------------- δR(t) → radio envelope -------------------
 
@@ -532,7 +532,7 @@ env = np.maximum(deltaR, 0.0)
 if np.max(env) > 0:
     env /= np.max(env)
 
-radio_fs = 400.0      # FAST: reduced from 2000 Hz
+radio_fs = 400.0      # FAST: reduced sampling rate
 radio_dt = 1.0 / radio_fs
 radio_T  = 120.0      # 120 s observation window per horn
 radio_t  = np.arange(int(radio_T * radio_fs)) * radio_dt
@@ -747,7 +747,7 @@ plt.show()</code></pre>
 
     <footer>
       STUR Wow Event 5D Manifold Simulation (FAST). Drop this page directly into
-      your STUR Physics Lab and adjust links as needed for your site structure.
+      your STUR Physics Lab and adjust the index link as needed for your site structure.
     </footer>
   </main>
 
