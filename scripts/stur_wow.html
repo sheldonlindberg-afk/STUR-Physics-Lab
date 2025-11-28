@@ -257,7 +257,7 @@
     }
   </style>
 
-  <!-- Optional MathJax for nicer equations (can be removed if not desired) -->
+  <!-- MathJax for equations -->
   <script defer id="MathJax-script"
           src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
@@ -314,14 +314,10 @@
       </ul>
       <div class="btn-row">
         <a class="btn-link btn-secondary" href="index.html">← Return to STUR index</a>
-        <a class="btn-link" href="https://jupyter.org/try-jupyter/lab/"
-           target="_blank" rel="noopener">
-          Open Jupyter (paste &amp; run script)
-        </a>
       </div>
       <p class="small-caption">
-        Note: update the index link or Jupyter URL if you mount this page inside
-        a different directory structure or your own JupyterLite / “Piode” instance.
+        Update the index link if you mount this page inside a different directory
+        structure in your STUR Physics Lab.
       </p>
     </section>
 
@@ -507,7 +503,7 @@
         <a class="btn-link btn-ghost"
            href="https://jupyter.org/try-jupyter/lab/"
            target="_blank" rel="noopener">
-          Open Jupyter (Piode) to paste script
+          Open Jupyter to paste script
         </a>
       </div>
       <div class="small-caption">
@@ -635,7 +631,7 @@ energy_series = np.array(energy_series)
 deltaR = probe_series - R0
 thr = 0.1 * np.max(np.abs(deltaR))
 coherence_time_s = float(np.sum(np.abs(deltaR) > thr) * dt_m)
-integrated_perturbation = float(np.trapz(deltaR**2, t_m))
+integrated_perturbation = float(np.trapezoid(deltaR**2, t_m))
 
 # --------------------- δR(t) → radio envelope -------------------
 
@@ -715,12 +711,19 @@ def bin_and_snr(x):
 SNR_A_phys = bin_and_snr(xA)
 SNR_B_phys = bin_and_snr(xB)
 
+# Clean up any NaNs or infinities
+SNR_A_phys = np.nan_to_num(SNR_A_phys, nan=0.0, posinf=0.0, neginf=0.0)
+SNR_B_phys = np.nan_to_num(SNR_B_phys, nan=0.0, posinf=0.0, neginf=0.0)
+
 # --------------------- Map SNR → Wow codes ----------------------
 
 def snr_to_code(snr_value):
+    # Defensive: handle NaN and infinities
+    if not np.isfinite(snr_value):
+        return ' '
     if snr_value <= 0:
         return ' '
-    v = int(round(snr_value))
+    v = int(round(float(snr_value)))
     if v <= 9:
         return "0123456789"[v]
     idx = v - 10
@@ -744,6 +747,9 @@ for rel, sigma in zip(rel_indices, target_sigmas):
     idx = peak_idx + rel
     if 0 <= idx < n_bins:
         SNR_A_forced[idx] = float(sigma)
+
+# Clean forced sequence as well
+SNR_A_forced = np.nan_to_num(SNR_A_forced, nan=0.0, posinf=0.0, neginf=0.0)
 
 codes_A_forced = ''.join(snr_to_code(s) for s in SNR_A_forced)
 
@@ -850,7 +856,7 @@ plt.show()</code></pre>
     <footer>
       STUR Wow Event 5D Manifold Simulation. This page is designed to drop
       directly into your STUR Physics Lab as a self-contained educational
-      + research module. Adjust paths and links as needed for your site
+      and research module. Adjust paths and links as needed for your site
       structure.
     </footer>
   </main>
