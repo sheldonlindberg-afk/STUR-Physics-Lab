@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>STUR 5D Hydrothermal Micro-Pore – Emergent Proto-Cell Simulation</title>
 
 <style>
@@ -24,6 +25,8 @@
         color: var(--fg);
         margin: 0;
         padding: 0;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.55;
     }
 
     header {
@@ -84,6 +87,8 @@
         resize: vertical;
         white-space: pre;
         overflow-x: auto;
+        line-height: 1.4;
+        tab-size: 4;
     }
 
     .btnrow {
@@ -112,6 +117,11 @@
         opacity: 0.92;
     }
 
+    button:focus-visible {
+        outline: 2px solid var(--accent2);
+        outline-offset: 2px;
+    }
+
     .pill {
         display: inline-block;
         padding: 0.2rem 0.6rem;
@@ -130,6 +140,18 @@
 
     a:hover {
         text-decoration: underline;
+    }
+
+    header > * {
+        max-width: 960px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .section > * {
+        max-width: 960px;
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>
 
@@ -258,12 +280,12 @@ v_th(z)  = − D_Ac S_T · ∂T/∂z / T           (thermophoresis, Soret effect
         with large resistance curvature into stable, self-sustaining proto-cell-like attractors.
     </p>
 
-    <!-- ===== ADDITIONAL FULL DERIVATION (ADDED, NOTHING REMOVED) ===== -->
+    <!-- ===== ADDITIONAL FULL DERIVATION (ADDED) ===== -->
 
     <p>
-        Starting from the STUR evolution law, we can make the reduction explicit. Take
+        Starting from the STUR evolution law, take
         <code>R(x,t) = Σ_i w_i c_i(x,t)</code> with species
-        <code>c_i ∈ { [CO2],[H2],[Ac],[ATP],[Fe²⁺] }</code>. Then
+        <code>c_i ∈ { [CO2],[H2],[Ac],[ATP],[Fe²⁺] }</code>. Then:
     </p>
 
     <div class="codebox">
@@ -276,8 +298,8 @@ and absorb detailed chemistry and boundary exchange into S_eff.
     </div>
 
     <p>
-        Substituting the reaction–diffusion form for each species,
-        <code>∂c_i/∂t = D_i ∇²c_i + F_i(c,T,pH,R)</code>, we obtain
+        For each species we write
+        <code>∂c_i/∂t = D_i ∇²c_i + F_i(c,T,pH,R)</code>, so:
     </p>
 
     <div class="codebox">
@@ -291,10 +313,10 @@ and absorb detailed chemistry and boundary exchange into S_eff.
     <p>
         Matching terms gives a consistency condition: the net reaction contribution
         <code>Σ_i w_i F_i</code> must equal the combination of STUR source terms
-        <code>S_eff + χ(L_X^{-1})(R−R_bg)</code>. In the vent scripts, we enforce this by
+        <code>S_eff + χ(L_X^{-1})(R−R_bg)</code>. In the vent scripts, we implement this by
         inserting the X-feedback factor <code>f_X = exp[ χ (R − R_bg) ]</code> directly into the
         catalytic rate <code>r_form</code>. High-resistance regions (relative to the volume
-        average) receive an exponential gain in formation rate, which is exactly the curvature
+        average) receive an exponential gain in formation rate, which is exactly curvature
         selection:
     </p>
 
@@ -306,10 +328,9 @@ small (R − R_bg)  →  f_X ≈ 1    →  background mixing
     </div>
 
     <p>
-        The discrete scheme used in the scripts is a standard explicit finite-difference / upwind
-        discretization of the PDEs. For a generic scalar field <code>c(x,t)</code> with diffusion
-        coefficient <code>D</code>, drift velocity <code>v_z</code>, and reaction term
-        <code>F(c)</code>:
+        The discrete scheme used is a standard explicit finite-difference / upwind discretization
+        of the PDEs. For a generic scalar field <code>c(x,t)</code> with diffusion coefficient
+        <code>D</code>, drift velocity <code>v_z</code>, and reaction term <code>F(c)</code>:
     </p>
 
     <div class="codebox">
@@ -325,51 +346,16 @@ c^{n+1} = c^n
         Stability of the explicit diffusion step is enforced by choosing
         <code>dt ≈ 0.2–0.25 · dx² / max(D_i)</code>, which is encoded directly in
         <code>dt = 0.25 * dx*dx / max(...)</code> in the FAST script and similarly in the FULL
-        script. The advective CFL constraint is mild here because <code>v_th</code> is small
-        relative to <code>dx/dt</code>, but the upwind form adds extra numerical damping and helps
-        maintain stability as χ and gradients grow.
+        script. The advective CFL constraint is mild because <code>v_th</code> is small relative to
+        <code>dx/dt</code>, and the upwind form adds extra numerical damping as χ and gradients
+        grow.
     </p>
 
     <p>
         Finally, the JSON outputs <code>stur_vent_fast.json</code> and
-        <code>stur_vent_full.json</code> store:
-    </p>
-
-    <div class="codebox">
-{
-  "mode": "FAST" or "FULL",
-  "grid": [N,N,N],
-  "dx_m": Δx in meters,
-  "dt_s": Δt in seconds,
-  "nt": total steps,
-  "T_hot_K": upper temperature,
-  "T_cold_K": lower temperature,
-  "pH_top": alkaline side,
-  "pH_bottom": acidic side,
-  "chi_values": [χ_1, χ_2, ...],
-  "bifurcation_results": [
-    {
-      "chi_X": χ,
-      "Ac_final": ⟨[Ac]⟩_final,
-      "R_var_max": max_t Var(R − R_bg)
-    },
-    ...
-  ],
-  "example_history": {
-    "chi_X": χ_example,
-    "t_s": [t_0, ..., t_n],
-    "Ac_mean": [...],
-    "ATP_mean": [...],
-    "R_var": [...]
-  }
-}
-    </div>
-
-    <p>
-        That means the “physics result” of the run is fully encoded as numbers: given only the JSON,
-        any external code can reconstruct the bifurcation curve, track the emergence of localized
-        proto-cell states as χ increases, and cross-check every parameter of the STUR vent model
-        without touching this HTML file.
+        <code>stur_vent_full.json</code> store grid, dt, parameters, the χ sweep, and a time
+        history for one χ<sub>X</sub> trajectory. That JSON is now rich enough to reconstruct the
+        bifurcation curves and time-series plots without re-running these exact Python scripts.
     </p>
 </div>
 
@@ -382,14 +368,14 @@ c^{n+1} = c^n
         <a href="https://jupyter.org/try-jupyter/lab/" target="_blank">https://jupyter.org/try-jupyter/lab/</a><br>
         2. Create a new Python notebook or Python file.<br>
         3. Copy either the FAST or FULL script below into a cell (or file).<br>
-        4. Run the cell. The simulation will execute and write a JSON file:
-        <code>stur_vent_fast.json</code> or <code>stur_vent_full.json</code>.<br>
-        5. Use the JSON to make bifurcation plots, phase diagrams, or to audit every parameter.
+        4. Run the cell. The simulation will execute and write:
+        <code>stur_vent_fast.json</code> or <code>stur_vent_full.json</code>, plus a small set of PNG plots.<br>
+        5. Use the JSON + PNGs for bifurcation plots, phase diagrams, and paper-ready figures.
     </p>
 
     <div class="btnrow">
         <button onclick="window.open('https://jupyter.org/try-jupyter/lab/', '_blank')">Open JupyterLab</button>
-        <button onclick="window.location.href='../index.html'">Return to Index</button>
+        <button onclick="window.location.href='../index.html'">Return to Lab Index</button>
     </div>
 </div>
 
@@ -399,10 +385,10 @@ c^{n+1} = c^n
 
     <p>
         This version is tuned for speed on JupyterLite and laptops. It uses a 32³ grid with
-        realistic vent parameters and full STUR curvature feedback. It sweeps several χ<sub>X</sub>
-        values, prints the final acetyl means and resistance variance, and writes a compact JSON
-        diagnostic file <code>stur_vent_fast.json</code> with the bifurcation data and an example
-        time series.
+        realistic vent parameters and full STUR curvature feedback. It sweeps χ<sub>X</sub>
+        values, prints the final acetyl means and resistance variance, writes a rich JSON
+        diagnostic file <code>stur_vent_fast.json</code>, and generates basic PNG plots:
+        a bifurcation diagram and a time-series for the example χ<sub>X</sub>.
     </p>
 
     <div class="btnrow">
@@ -419,7 +405,10 @@ Realistic alkaline vent micro-pore with:
   - FeS/NiS-like wall catalysis
   - Thermophoresis for acetyl-thioester analogue
   - STUR resistance manifold R(x,t,X) with X-feedback f_X
-Outputs: stur_vent_fast.json (bifurcation + example history)
+Outputs:
+  - stur_vent_fast.json (bifurcation + example history + parameters)
+  - stur_vent_fast_bifurcation.png
+  - stur_vent_fast_example_history.png
 """
 
 import numpy as np
@@ -503,7 +492,7 @@ def advect_z(field, v_z, dx, dt):
     return field - dt * v_z * grad
 
 chi_values = [0.0, 2.5, 4.0, 5.5, 8.0]
-results = []
+results = []  # (chi, Ac_final, ATP_final, R_var_max)
 chi_example = 4.0
 example_history = None
 
@@ -514,7 +503,7 @@ for chi in chi_values:
     ATP_f = ATP.copy()
     Fe_f  = Fe2.copy()
 
-    history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": []}
+    history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": [], "R_mean": []}
 
     for n in range(nt):
         R = (w_CO2*CO2_f + w_H2*H2_f + w_Ac*Ac_f +
@@ -546,37 +535,66 @@ for chi in chi_values:
             history["Ac_mean"].append(Ac_f.mean())
             history["ATP_mean"].append(ATP_f.mean())
             history["R_var"].append(((R - Rbg)**2).mean())
+            history["R_mean"].append(Rbg)
 
-    results.append((chi, Ac_f.mean(), max(history["R_var"])))
-    print(f"FAST mode chi_X={chi:.2f}: Ac_final={Ac_f.mean():.4e}, max Var(R)={max(history['R_var']):.3e}")
+    Ac_final = Ac_f.mean()
+    ATP_final = ATP_f.mean()
+    R_var_max = max(history["R_var"]) if history["R_var"] else 0.0
+
+    results.append((chi, Ac_final, ATP_final, R_var_max))
+    print(f"FAST mode chi_X={chi:.2f}: Ac_final={Ac_final:.4e}, "
+          f"ATP_final={ATP_final:.4e}, max Var(R)={R_var_max:.3e}")
 
     if abs(chi - chi_example) < 1e-6:
         example_history = history
 
 if example_history is None:
-    example_history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": []}
+    example_history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": [], "R_mean": []}
+
+# ---------------------- JSON DIAGNOSTICS ---------------------
+chi_list = [c for (c, _, _, _) in results]
+Ac_final_list = [a for (_, a, _, _) in results]
+ATP_final_list = [a for (_, _, a, _) in results]
+R_var_max_list = [v for (_, _, _, v) in results]
 
 diagnostics = {
     "mode": "FAST",
-    "grid": [N, N, N],
+    "grid": [int(N), int(N), int(N)],
     "dx_m": float(dx),
     "dt_s": float(dt),
     "nt": int(nt),
+    "L_m": float(L),
     "T_hot_K": float(T_hot),
     "T_cold_K": float(T_cold),
     "pH_top": float(pH_top),
     "pH_bottom": float(pH_bottom),
-    "chi_values": [float(c) for c in chi_values],
-    "bifurcation_results": [
-        {"chi_X": float(c), "Ac_final": float(a), "R_var_max": float(v)}
-        for c, a, v in results
-    ],
+    "chi_values": [float(c) for c in chi_list],
+    "Ac_final": [float(v) for v in Ac_final_list],
+    "ATP_final": [float(v) for v in ATP_final_list],
+    "R_var_max": [float(v) for v in R_var_max_list],
+    "weights": {
+        "w_CO2": float(w_CO2),
+        "w_H2": float(w_H2),
+        "w_Ac": float(w_Ac),
+        "w_ATP": float(w_ATP),
+        "w_Fe": float(w_Fe)
+    },
+    "diffusion": {
+        "D_CO2": float(D_CO2),
+        "D_H2": float(D_H2),
+        "D_Ac": float(D_Ac),
+        "D_ATP": float(D_ATP)
+    },
+    "thermophoresis": {
+        "S_T_Ac": float(S_T_Ac)
+    },
     "example_history": {
         "chi_X": float(chi_example),
         "t_s": [float(v) for v in example_history["t"]],
         "Ac_mean": [float(v) for v in example_history["Ac_mean"]],
         "ATP_mean": [float(v) for v in example_history["ATP_mean"]],
         "R_var": [float(v) for v in example_history["R_var"]],
+        "R_mean": [float(v) for v in example_history["R_mean"]],
     }
 }
 
@@ -584,6 +602,44 @@ with open("stur_vent_fast.json", "w") as f:
     json.dump(diagnostics, f, indent=2)
 
 print("FAST mode complete. JSON saved → stur_vent_fast.json")
+
+# ---------------------- PLOTS ---------------------
+# Bifurcation: Ac_final and R_var_max vs chi
+plt.figure()
+plt.plot(chi_list, Ac_final_list, marker="o", label="⟨Ac⟩_final")
+plt.plot(chi_list, R_var_max_list, marker="s", label="max Var(R)")
+plt.xlabel("χ_X")
+plt.ylabel("Ac / Var(R)")
+plt.title("STUR Vent – FAST Bifurcation (32^3)")
+plt.legend()
+plt.tight_layout()
+plt.savefig("stur_vent_fast_bifurcation.png", dpi=150)
+plt.close()
+
+# Example history for chi_example
+if example_history["t"]:
+    t = np.array(example_history["t"])
+    Ac_m = np.array(example_history["Ac_mean"])
+    ATP_m = np.array(example_history["ATP_mean"])
+    Rv = np.array(example_history["R_var"])
+
+    fig, ax1 = plt.subplots()
+    ax1.set_xlabel("t [s]")
+    ax1.set_ylabel("⟨Ac⟩, ⟨ATP⟩")
+    ax1.plot(t, Ac_m, marker="o", linestyle="-", label="⟨Ac⟩", alpha=0.8)
+    ax1.plot(t, ATP_m, marker="s", linestyle="-", label="⟨ATP⟩", alpha=0.8)
+    ax1.legend(loc="upper left")
+
+    ax2 = ax1.twinx()
+    ax2.set_ylabel("Var(R)")
+    ax2.plot(t, Rv, marker="^", linestyle="--", label="Var(R)", alpha=0.8)
+    fig.suptitle(f"STUR Vent – FAST Example History (χ_X = {chi_example})")
+    fig.tight_layout()
+    plt.savefig("stur_vent_fast_example_history.png", dpi=150)
+    plt.close()
+
+print("FAST mode plots saved → "
+      "stur_vent_fast_bifurcation.png, stur_vent_fast_example_history.png")
 </textarea>
 </div>
 
@@ -595,7 +651,7 @@ print("FAST mode complete. JSON saved → stur_vent_fast.json")
         This version pushes resolution to 96³ and is appropriate for publication figures and
         serious parameter sweeps. It uses tighter, more realistic concentrations and the same
         STUR-driven feedback. It writes <code>stur_vent_full.json</code> with grid, dt, χ sweep
-        results, and an example χ<sub>X</sub> trajectory for full forensic reproducibility.
+        results, and an example χ<sub>X</sub> trajectory, and generates corresponding PNG plots.
     </p>
 
     <div class="btnrow">
@@ -612,7 +668,10 @@ Lost City–like alkaline vent with:
   - FeS/NiS-like wall catalysis
   - Thermophoresis for acetyl-thioester analogue
   - STUR curvature selection via f_X = exp[χ (R − R̄)]
-Outputs: stur_vent_full.json
+Outputs:
+  - stur_vent_full.json
+  - stur_vent_full_bifurcation.png
+  - stur_vent_full_example_history.png
 """
 
 import numpy as np
@@ -694,7 +753,7 @@ def advect_z(field, v_z, dx, dt):
     return field - dt * v_z * grad
 
 chi_values = [0.0, 2.5, 4.0, 5.0, 7.5]
-results = []
+results = []  # (chi, Ac_final, ATP_final, R_var_max)
 chi_example = 4.0
 example_history = None
 
@@ -705,7 +764,7 @@ for chi in chi_values:
     ATP_f = ATP.copy()
     Fe_f  = Fe2.copy()
 
-    history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": []}
+    history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": [], "R_mean": []}
 
     for n in range(nt):
         R = (w_CO2*CO2_f + w_H2*H2_f + w_Ac*Ac_f +
@@ -736,37 +795,66 @@ for chi in chi_values:
             history["Ac_mean"].append(Ac_f.mean())
             history["ATP_mean"].append(ATP_f.mean())
             history["R_var"].append(((R - Rbg)**2).mean())
+            history["R_mean"].append(Rbg)
 
-    results.append((chi, Ac_f.mean(), max(history["R_var"])))
-    print(f"FULL mode chi_X={chi:.2f}: Ac_final={Ac_f.mean():.4e}, max Var(R)={max(history['R_var']):.3e}")
+    Ac_final = Ac_f.mean()
+    ATP_final = ATP_f.mean()
+    R_var_max = max(history["R_var"]) if history["R_var"] else 0.0
+
+    results.append((chi, Ac_final, ATP_final, R_var_max))
+    print(f"FULL mode chi_X={chi:.2f}: Ac_final={Ac_final:.4e}, "
+          f"ATP_final={ATP_final:.4e}, max Var(R)={R_var_max:.3e}")
 
     if abs(chi - chi_example) < 1e-6:
         example_history = history
 
 if example_history is None:
-    example_history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": []}
+    example_history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": [], "R_mean": []}
+
+# ---------------------- JSON DIAGNOSTICS ---------------------
+chi_list = [c for (c, _, _, _) in results]
+Ac_final_list = [a for (_, a, _, _) in results]
+ATP_final_list = [a for (_, _, a, _) in results]
+R_var_max_list = [v for (_, _, _, v) in results]
 
 diagnostics = {
     "mode": "FULL",
-    "grid": [N, N, N],
+    "grid": [int(N), int(N), int(N)],
     "dx_m": float(dx),
     "dt_s": float(dt),
     "nt": int(nt),
+    "L_m": float(L),
     "T_hot_K": float(T_hot),
     "T_cold_K": float(T_cold),
     "pH_top": float(pH_top),
     "pH_bottom": float(pH_bottom),
-    "chi_values": [float(c) for c in chi_values],
-    "bifurcation_results": [
-        {"chi_X": float(c), "Ac_final": float(a), "R_var_max": float(v)}
-        for c, a, v in results
-    ],
+    "chi_values": [float(c) for c in chi_list],
+    "Ac_final": [float(v) for v in Ac_final_list],
+    "ATP_final": [float(v) for v in ATP_final_list],
+    "R_var_max": [float(v) for v in R_var_max_list],
+    "weights": {
+        "w_CO2": float(w_CO2),
+        "w_H2": float(w_H2),
+        "w_Ac": float(w_Ac),
+        "w_ATP": float(w_ATP),
+        "w_Fe": float(w_Fe)
+    },
+    "diffusion": {
+        "D_CO2": float(D_CO2),
+        "D_H2": float(D_H2),
+        "D_Ac": float(D_Ac),
+        "D_ATP": float(D_ATP)
+    },
+    "thermophoresis": {
+        "S_T_Ac": float(S_T_Ac)
+    },
     "example_history": {
         "chi_X": float(chi_example),
         "t_s": [float(v) for v in example_history["t"]],
         "Ac_mean": [float(v) for v in example_history["Ac_mean"]],
         "ATP_mean": [float(v) for v in example_history["ATP_mean"]],
         "R_var": [float(v) for v in example_history["R_var"]],
+        "R_mean": [float(v) for v in example_history["R_mean"]],
     }
 }
 
@@ -774,6 +862,44 @@ with open("stur_vent_full.json", "w") as f:
     json.dump(diagnostics, f, indent=2)
 
 print("FULL PHYSICS mode complete. JSON saved → stur_vent_full.json")
+
+# ---------------------- PLOTS ---------------------
+# Bifurcation: Ac_final and R_var_max vs chi
+plt.figure()
+plt.plot(chi_list, Ac_final_list, marker="o", label="⟨Ac⟩_final")
+plt.plot(chi_list, R_var_max_list, marker="s", label="max Var(R)")
+plt.xlabel("χ_X")
+plt.ylabel("Ac / Var(R)")
+plt.title("STUR Vent – FULL Bifurcation (96^3)")
+plt.legend()
+plt.tight_layout()
+plt.savefig("stur_vent_full_bifurcation.png", dpi=150)
+plt.close()
+
+# Example history for chi_example
+if example_history["t"]:
+    t = np.array(example_history["t"])
+    Ac_m = np.array(example_history["Ac_mean"])
+    ATP_m = np.array(example_history["ATP_mean"])
+    Rv = np.array(example_history["R_var"])
+
+    fig, ax1 = plt.subplots()
+    ax1.set_xlabel("t [s]")
+    ax1.set_ylabel("⟨Ac⟩, ⟨ATP⟩")
+    ax1.plot(t, Ac_m, marker="o", linestyle="-", label="⟨Ac⟩", alpha=0.8)
+    ax1.plot(t, ATP_m, marker="s", linestyle="-", label="⟨ATP⟩", alpha=0.8)
+    ax1.legend(loc="upper left")
+
+    ax2 = ax1.twinx()
+    ax2.set_ylabel("Var(R)")
+    ax2.plot(t, Rv, marker="^", linestyle="--", label="Var(R)", alpha=0.8)
+    fig.suptitle(f"STUR Vent – FULL Example History (χ_X = {chi_example})")
+    fig.tight_layout()
+    plt.savefig("stur_vent_full_example_history.png", dpi=150)
+    plt.close()
+
+print("FULL mode plots saved → "
+      "stur_vent_full_bifurcation.png, stur_vent_full_example_history.png")
 </textarea>
 </div>
 
@@ -786,8 +912,9 @@ print("FULL PHYSICS mode complete. JSON saved → stur_vent_full.json")
         for low χ<sub>X</sub> the vent is just a gradient-driven mixer with diffuse acetyl;
         for χ<sub>X</sub> ≈ 3.5–4.5 the STUR curvature term amplifies resistance hotspots and
         nucleates stable, localized acetyl/ATP structures that behave like proto-cells riding the
-        ΔT and ΔpH gradients. All of that is encoded in the JSON, so anyone can regenerate the
-        curves, slices, and statistics without trusting the plots or the text.
+        ΔT and ΔpH gradients. All of that is encoded numerically in the JSON files and rendered
+        in the PNG plots, so anyone can regenerate the curves, slices, and statistics without
+        trusting this page or your text.
     </p>
 </div>
 
