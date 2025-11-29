@@ -280,7 +280,7 @@ v_th(z)  = − D_Ac S_T · ∂T/∂z / T           (thermophoresis, Soret effect
         with large resistance curvature into stable, self-sustaining proto-cell-like attractors.
     </p>
 
-    <!-- ===== ADDITIONAL FULL DERIVATION (ADDED) ===== -->
+    <!-- ===== ADDITIONAL FULL DERIVATION ===== -->
 
     <p>
         Starting from the STUR evolution law, take
@@ -354,8 +354,10 @@ c^{n+1} = c^n
     <p>
         Finally, the JSON outputs <code>stur_vent_fast.json</code> and
         <code>stur_vent_full.json</code> store grid, dt, parameters, the χ sweep, and a time
-        history for one χ<sub>X</sub> trajectory. That JSON is now rich enough to reconstruct the
-        bifurcation curves and time-series plots without re-running these exact Python scripts.
+        history for one χ<sub>X</sub> trajectory. Combined with the three PNG plots from each
+        script (bifurcation, example history, and a midplane Ac slice), that JSON is rich enough
+        to reconstruct the bifurcation curves, time-series plots, and spatial structure without
+        re-running these exact Python scripts.
     </p>
 </div>
 
@@ -369,8 +371,9 @@ c^{n+1} = c^n
         2. Create a new Python notebook or Python file.<br>
         3. Copy either the FAST or FULL script below into a cell (or file).<br>
         4. Run the cell. The simulation will execute and write:
-        <code>stur_vent_fast.json</code> or <code>stur_vent_full.json</code>, plus a small set of PNG plots.<br>
-        5. Use the JSON + PNGs for bifurcation plots, phase diagrams, and paper-ready figures.
+        <code>stur_vent_fast.json</code> or <code>stur_vent_full.json</code>, and produce three PNG plots for each mode:
+        a bifurcation diagram, an example χ<sub>X</sub> time-series history, and a midplane Ac slice.<br>
+        5. In Jupyter, the plots will also display inline after each run, and you can download the JSON + PNGs from the file browser.
     </p>
 
     <div class="btnrow">
@@ -387,8 +390,9 @@ c^{n+1} = c^n
         This version is tuned for speed on JupyterLite and laptops. It uses a 32³ grid with
         realistic vent parameters and full STUR curvature feedback. It sweeps χ<sub>X</sub>
         values, prints the final acetyl means and resistance variance, writes a rich JSON
-        diagnostic file <code>stur_vent_fast.json</code>, and generates basic PNG plots:
-        a bifurcation diagram and a time-series for the example χ<sub>X</sub>.
+        diagnostic file <code>stur_vent_fast.json</code>, and generates three PNG plots:
+        a bifurcation diagram, a time-series for the example χ<sub>X</sub>, and a midplane slice
+        of the final Ac field for χ<sub>X</sub> = 4.0.
     </p>
 
     <div class="btnrow">
@@ -409,6 +413,7 @@ Outputs:
   - stur_vent_fast.json (bifurcation + example history + parameters)
   - stur_vent_fast_bifurcation.png
   - stur_vent_fast_example_history.png
+  - stur_vent_fast_slice_Ac_mid.png
 """
 
 import numpy as np
@@ -495,6 +500,7 @@ chi_values = [0.0, 2.5, 4.0, 5.5, 8.0]
 results = []  # (chi, Ac_final, ATP_final, R_var_max)
 chi_example = 4.0
 example_history = None
+Ac_example_final = None  # store final Ac field for chi_example
 
 for chi in chi_values:
     CO2_f = CO2.copy()
@@ -547,6 +553,7 @@ for chi in chi_values:
 
     if abs(chi - chi_example) < 1e-6:
         example_history = history
+        Ac_example_final = Ac_f.copy()
 
 if example_history is None:
     example_history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": [], "R_mean": []}
@@ -614,6 +621,7 @@ plt.title("STUR Vent – FAST Bifurcation (32^3)")
 plt.legend()
 plt.tight_layout()
 plt.savefig("stur_vent_fast_bifurcation.png", dpi=150)
+plt.show()
 plt.close()
 
 # Example history for chi_example
@@ -636,10 +644,28 @@ if example_history["t"]:
     fig.suptitle(f"STUR Vent – FAST Example History (χ_X = {chi_example})")
     fig.tight_layout()
     plt.savefig("stur_vent_fast_example_history.png", dpi=150)
+    plt.show()
+    plt.close()
+
+# Midplane Ac slice for chi_example
+if Ac_example_final is not None:
+    mid = N // 2
+    plt.figure()
+    plt.imshow(Ac_example_final[:, :, mid], origin="lower")
+    plt.xlabel("x index")
+    plt.ylabel("y index")
+    plt.title(f"STUR Vent – FAST Ac slice (χ_X = {chi_example}, z-mid)")
+    cbar = plt.colorbar()
+    cbar.set_label("[Ac]")
+    plt.tight_layout()
+    plt.savefig("stur_vent_fast_slice_Ac_mid.png", dpi=150)
+    plt.show()
     plt.close()
 
 print("FAST mode plots saved → "
-      "stur_vent_fast_bifurcation.png, stur_vent_fast_example_history.png")
+      "stur_vent_fast_bifurcation.png, "
+      "stur_vent_fast_example_history.png, "
+      "stur_vent_fast_slice_Ac_mid.png")
 </textarea>
 </div>
 
@@ -651,7 +677,9 @@ print("FAST mode plots saved → "
         This version pushes resolution to 96³ and is appropriate for publication figures and
         serious parameter sweeps. It uses tighter, more realistic concentrations and the same
         STUR-driven feedback. It writes <code>stur_vent_full.json</code> with grid, dt, χ sweep
-        results, and an example χ<sub>X</sub> trajectory, and generates corresponding PNG plots.
+        results, and an example χ<sub>X</sub> trajectory, and generates three PNG plots:
+        a bifurcation diagram, an example χ<sub>X</sub> time-series history, and a midplane slice
+        of the final Ac field for χ<sub>X</sub> = 4.0.
     </p>
 
     <div class="btnrow">
@@ -672,6 +700,7 @@ Outputs:
   - stur_vent_full.json
   - stur_vent_full_bifurcation.png
   - stur_vent_full_example_history.png
+  - stur_vent_full_slice_Ac_mid.png
 """
 
 import numpy as np
@@ -756,6 +785,7 @@ chi_values = [0.0, 2.5, 4.0, 5.0, 7.5]
 results = []  # (chi, Ac_final, ATP_final, R_var_max)
 chi_example = 4.0
 example_history = None
+Ac_example_final = None  # store final Ac field for chi_example
 
 for chi in chi_values:
     CO2_f = CO2.copy()
@@ -807,6 +837,7 @@ for chi in chi_values:
 
     if abs(chi - chi_example) < 1e-6:
         example_history = history
+        Ac_example_final = Ac_f.copy()
 
 if example_history is None:
     example_history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": [], "R_mean": []}
@@ -874,6 +905,7 @@ plt.title("STUR Vent – FULL Bifurcation (96^3)")
 plt.legend()
 plt.tight_layout()
 plt.savefig("stur_vent_full_bifurcation.png", dpi=150)
+plt.show()
 plt.close()
 
 # Example history for chi_example
@@ -896,10 +928,28 @@ if example_history["t"]:
     fig.suptitle(f"STUR Vent – FULL Example History (χ_X = {chi_example})")
     fig.tight_layout()
     plt.savefig("stur_vent_full_example_history.png", dpi=150)
+    plt.show()
+    plt.close()
+
+# Midplane Ac slice for chi_example
+if Ac_example_final is not None:
+    mid = N // 2
+    plt.figure()
+    plt.imshow(Ac_example_final[:, :, mid], origin="lower")
+    plt.xlabel("x index")
+    plt.ylabel("y index")
+    plt.title(f"STUR Vent – FULL Ac slice (χ_X = {chi_example}, z-mid)")
+    cbar = plt.colorbar()
+    cbar.set_label("[Ac]")
+    plt.tight_layout()
+    plt.savefig("stur_vent_full_slice_Ac_mid.png", dpi=150)
+    plt.show()
     plt.close()
 
 print("FULL mode plots saved → "
-      "stur_vent_full_bifurcation.png, stur_vent_full_example_history.png")
+      "stur_vent_full_bifurcation.png, "
+      "stur_vent_full_example_history.png, "
+      "stur_vent_full_slice_Ac_mid.png")
 </textarea>
 </div>
 
