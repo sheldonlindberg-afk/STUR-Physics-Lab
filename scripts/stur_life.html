@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>STUR 5D Hydrothermal Micro-Pore – Emergent Proto-Cell Simulation</title>
+
+<style>
+    :root {
+        color-scheme: dark;
+        --bg: #05060a;
+        --panel: #0c1120;
+        --panel2: #111827;
+        --accent: #ec4899;
+        --accent2: #f97316;
+        --fg: #e5e7eb;
+        --fg2: #9ca3af;
+        --code-bg: #020617;
+        --border: #1f2937;
+    }
+
+    body {
+        background: var(--bg);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+        color: var(--fg);
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        padding: 2rem 1.5rem;
+        text-align: center;
+        background: radial-gradient(circle at top, #111827 0, #020617 60%);
+        border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+        margin: 0 0 0.75rem 0;
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.2rem;
+        color: var(--fg2);
+    }
+
+    h3 {
+        margin-top: 0;
+        color: var(--accent2);
+    }
+
+    .section {
+        padding: 2rem 1.5rem;
+        border-bottom: 1px solid var(--border);
+        background: var(--panel);
+    }
+
+    .section:nth-of-type(2n) {
+        background: var(--panel2);
+    }
+
+    .codebox {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        padding: 1rem;
+        border-radius: 6px;
+        margin: 1rem 0;
+        font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+        font-size: 0.9rem;
+        white-space: pre-wrap;
+    }
+
+    kbd {
+        background: #111827;
+        padding: 0.15rem 0.35rem;
+        border-radius: 4px;
+        border: 1px solid #4b5563;
+        font-size: 0.8rem;
+    }
+
+    textarea {
+        width: 100%;
+        height: 520px;
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        color: var(--fg);
+        padding: 1rem;
+        font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+        font-size: 0.85rem;
+        border-radius: 6px;
+        box-sizing: border-box;
+        resize: vertical;
+        white-space: pre;
+        overflow-x: auto;
+    }
+
+    .btnrow {
+        margin: 1rem 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    button {
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color: #05060a;
+        padding: 0.6rem 1.4rem;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+        transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, opacity 0.15s;
+    }
+
+    button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+        opacity: 0.92;
+    }
+
+    button:active {
+        transform: translateY(1px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+        opacity: 0.85;
+    }
+
+    a {
+        color: var(--accent);
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    ul {
+        margin-top: 0.5rem;
+    }
+
+    .pill {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        font-size: 0.75rem;
+        color: var(--fg2);
+        margin-right: 0.3rem;
+        margin-bottom: 0.2rem;
+    }
+</style>
+
+<script>
+function copyCode() {
+    const code = document.getElementById("scriptbox");
+    code.select();
+    code.setSelectionRange(0, 999999);
+    navigator.clipboard.writeText(code.value).then(
+        () => { alert("STUR pore script copied to clipboard."); },
+        () => { alert("Copy failed; select and copy manually."); }
+    );
+}
+</script>
+</head>
+
+<body>
+
+<header>
+    <h1>STUR 5D Hydrothermal Micro-Pore Emergence Model</h1>
+    <h2>3D Reaction–Diffusion–Advection with X-Coupled Resistance Manifold and Proto-Cell Emergence</h2>
+    <div>
+        <span class="pill">R(x,t,X)</span>
+        <span class="pill">X-feedback</span>
+        <span class="pill">Thermophoresis</span>
+        <span class="pill">Convection</span>
+        <span class="pill">Mineral Catalysis</span>
+        <span class="pill">Open System</span>
+    </div>
+</header>
+
+<!-- ================== SECTION 1: THEORY ================== -->
+<div class="section">
+    <h3>1. STUR Manifold and Origin-of-Life Geometry</h3>
+
+    <p>
+        The STUR framework treats the universe as a unified resistance manifold
+        <code>R(x,t,X)</code> evolving on a five-dimensional space, where the extra coordinate
+        <code>X</code> carries hidden coherence, memory, and constructive information. In this model
+        we focus on a single hydrothermal micro-pore and track how a prebiotic chemical mixture
+        spontaneously assembles into a stable proto-cell-like structure.
+    </p>
+
+    <p>
+        On a 4D slice (3D space plus time), the effective resistance field follows a STUR-style
+        evolution law
+    </p>
+
+    <div class="codebox">
+∂R/∂t = ∇·(D∇R) − ∇R · Ω + χ ∂R/∂X + S
+    </div>
+
+    <p>
+        The hidden dimension <code>X</code> encodes the “missing determinism”:
+    </p>
+
+    <div class="codebox">
+∂R/∂X = (R − R_bg) / L_X
+
+where  R_bg(t) = ⟨R(x,t)⟩  is the spatial mean at time t.
+    </div>
+
+    <p>
+        In this concrete hydrothermal pore model, we construct R from the chemical and energetic
+        fields:
+    </p>
+
+    <div class="codebox">
+R(x,t) = w_A A(x,t) + w_B B(x,t) + w_C C(x,t) + w_E E(x,t)
+
+A: high-energy precursor
+B: autocatalytic proto-metabolite
+C: waste / low-free-energy products
+E: local free-energy density (J/m³, scaled)
+    </div>
+
+    <p>
+        The X-dimension couples back into chemistry through an exponential feedback on the
+        autocatalytic channel:
+    </p>
+
+    <div class="codebox">
+f_X(x,t) = exp( χ_X [ R(x,t) − R_bg(t) ] )
+
+effective rate:  A + B → 2B  is multiplied by  f_X.
+    </div>
+
+    <p>
+        When the local resistance R rises above its background value, f_X increases and amplifies
+        local autocatalysis. When R falls below R_bg, f_X decreases, suppressing growth. This
+        curvature-sensitive feedback turns the resistance manifold into a selection mechanism:
+        spatial regions that dissipate energy efficiently and maintain coherent structure are
+        automatically reinforced.
+    </p>
+
+    <p>
+        In the STUR acronym used here,
+    </p>
+
+    <div class="codebox">
+S  = Spatial resistance (R gradients in 3D)
+T  = Temporal resistance (stability of patterns in time)
+U  = Universal constructor (feedback loops that copy structure)
+R  = Robustness (persistence under noise and flow)
+    </div>
+
+    <p>
+        The 5D manifold <code>R(x,t,X)</code> implements this STUR loop explicitly: spatial patterns
+        of resistance are converted into temporal persistence through X-feedback, and structures
+        that successfully harness the energy flux of the pore become robust attractors — proto-cells.
+    </p>
+</div>
+
+<!-- ================== SECTION 2: PHYSICAL ENVIRONMENT ================== -->
+<div class="section">
+    <h3>2. Hydrothermal Pore Physics and Non-Equilibrium Drivers</h3>
+
+    <p>The simulation includes several realistic non-equilibrium mechanisms:</p>
+
+    <ul>
+        <li><strong>Vertical temperature gradient</strong> (≈ 10 K/µm) across a 10 µm pore, driving Arrhenius kinetics and thermophoresis.</li>
+        <li><strong>Thermophoresis</strong> (Soret effect), species-specific: B (proto-metabolite) is strongly thermophobic and accumulates in colder regions.</li>
+        <li><strong>Recirculating convection</strong> modeled as a toroidal vertical flow <code>v_z ∝ sin(2πz/L)</code> with small stochastic perturbations.</li>
+        <li><strong>Mineral surface catalysis</strong> via a smooth exponential boost near walls, mimicking FeS/NiS mineral surfaces.</li>
+        <li><strong>Open-system feeding</strong> of precursor A and free energy E to maintain an entropy-balanced non-equilibrium steady state.</li>
+        <li><strong>Energy field E(x,t)</strong> with local consumption by reactions and cooling back toward an ambient value.</li>
+    </ul>
+
+    <p>
+        Together, these mechanisms create a physically rich environment where gradients, flows,
+        and STUR curvature conspire to focus B into compact, long-lived structures that behave
+        like abiotic proto-cells.
+    </p>
+</div>
+
+<!-- ================== SECTION 3: HOW TO RUN ================== -->
+<div class="section">
+    <h3>3. Run the STUR Model in JupyterLab</h3>
+
+    <p>
+        1. Open JupyterLab in your browser:  
+        <a href="https://jupyter.org/try-jupyter/lab/" target="_blank">https://jupyter.org/try-jupyter/lab/</a>
+    </p>
+    <p>
+        2. Create a new Python notebook or script.  
+        3. Use the button below to copy the full STUR pore script.  
+        4. Paste it into Jupyter and run.  
+        5. Start with <code>nt_run = 8000</code> for quick behavior, then increase to 50000–100000 for fully developed proto-cell dynamics.  
+    </p>
+
+    <div class="btnrow">
+        <button onclick="copyCode()">Copy Script</button>
+        <button onclick="window.location.href='index.html'">Return to Index</button>
+    </div>
+
+    <textarea id="scriptbox">
+#!/usr/bin/env python3
+"""
+STUR 5D prebiotic emergence model – 3D hydrothermal micro-pore
+Sweep-ready version with:
+  - STUR resistance manifold R and X-feedback f_X
+  - Strong vertical T gradient, Arrhenius kinetics
+  - Thermophoresis (Soret effect)
+  - Recirculating convection with small stochastic perturbations
+  - Mineral surface catalysis (smooth radial boost)
+  - Hot-bottom seeding of B
+  - Open A/E feeding (entropy-balanced bath)
+  - Parameter sweep over chi_X
+
+Use:
+  - Adjust chi_values list and nt for deeper runs.
+  - Set snapshot_stride > 0 and snapshot_prefix to save 3D .npz snapshots.
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# ------------------------------------------------------------
+# Grid and physical scales
+# ------------------------------------------------------------
+L_box = 1.0e-5          # box size ~10 µm [m]
+nx = ny = nz = 32
+dx = L_box / nx         # grid spacing ~3.1e-7 m
+
+# ------------------------------------------------------------
+# Diffusion coefficients [m^2/s]
+# ------------------------------------------------------------
+D_A = 5.0e-10           # precursor
+D_B = 1.0e-10           # proto-metabolite
+D_C = 1.0e-10           # waste
+D_E = 2.0e-10           # energy-like field
+
+# ------------------------------------------------------------
+# Reaction parameters (coarse-grained)
+# ------------------------------------------------------------
+k1 = 2.0e3              # A + E -> B  [1/(J·s)] (scaled)
+k2_base = 8.0e3         # baseline A + B -> 2B [1/s]
+k3 = 2.0                # B -> C      [1/s]
+k4 = 0.1                # C -> ∅      [1/s] leakage/removal
+
+# Open system: precursor + energy replenishment
+A_feed = 0.3            # target mean precursor level
+A_feed_rate = 0.05      # [1/s] relaxation toward A_feed
+
+E_ambient = 8.0e4       # [J/m^3] ambient free-energy density
+E_source_rate = 0.05    # [1/s] global source toward E_ambient
+E_cool_rate = 1.0       # [1/s] local cooling toward E_ambient
+
+# Energy consumption per reaction event (scaled)
+energy_per_r1 = 3.0e4   # [J/m^3 per unit r1]
+energy_per_r2 = 2.0e4   # [J/m^3 per unit r2]
+
+# ------------------------------------------------------------
+# STUR resistance field weights
+# ------------------------------------------------------------
+w_A = 1.0
+w_B = 5.0               # B strongly shapes resistance curvature
+w_C = 0.5
+w_E = 1.0e-6            # scale E into dimensionless resistance
+
+L_X = 1.0               # characteristic X-length
+
+# ------------------------------------------------------------
+# Temperature field: hydrothermal pore gradient
+# ------------------------------------------------------------
+T_ambient = 353.15      # 80°C in Kelvin
+grad_T_mag = 1.0e7      # ~10 K/µm = 1e7 K/m vertical gradient
+
+T = np.zeros((nx, ny, nz))
+for iz in range(nz):
+    z = iz * dx - 0.5 * L_box
+    T[:, :, iz] = T_ambient + grad_T_mag * z
+T = np.maximum(T, 273.15)  # clip above freezing
+
+# Arrhenius parameters
+E_a = 5.0e4             # activation energy ~50 kJ/mol
+R_gas = 8.314           # J/(mol·K)
+
+def arrhenius_factor(T_field):
+    """Temperature dependence factor normalized to 1 at T_ambient."""
+    base = np.exp(-E_a / (R_gas * T_ambient))
+    return np.exp(-E_a / (R_gas * T_field)) / base
+
+# Temperature gradient tensor (only z-component non-zero)
+grad_T = np.zeros((nx, ny, nz, 3))
+grad_T[:, :, :, 2] = grad_T_mag
+
+# ------------------------------------------------------------
+# Thermophoresis (Soret effect) parameters
+# ------------------------------------------------------------
+S_T_A = 0.3             # precursor
+S_T_B = 0.5             # proto-metabolite (strong thermophoretic)
+S_T_C = 0.1             # waste
+
+# ------------------------------------------------------------
+# Recirculating convection: vertical toroidal roll + noise
+# ------------------------------------------------------------
+v_mag = 8.0e-6          # characteristic flow speed [m/s]
+z_coord = (np.arange(nz) * dx - 0.5 * L_box)[None, None, :]   # shape (1,1,nz)
+v_conv_z_base = v_mag * np.sin(2.0 * np.pi * z_coord / L_box) # recirculating in z
+v_noise_amp = 1.0e-6    # small stochastic perturbation
+
+# ------------------------------------------------------------
+# Time-stepping parameters (CFL-limited by diffusion)
+# ------------------------------------------------------------
+D_max = max(D_A, D_B, D_C, D_E)
+dt_diff_limit = dx * dx / (6.0 * D_max)
+dt = 0.3 * dt_diff_limit   # conservative step
+
+# ------------------------------------------------------------
+# Helper: 3D periodic Laplacian
+# ------------------------------------------------------------
+def laplacian_3d_periodic(field, dx):
+    return (
+        np.roll(field, 1, axis=0) +
+        np.roll(field, -1, axis=0) +
+        np.roll(field, 1, axis=1) +
+        np.roll(field, -1, axis=1) +
+        np.roll(field, 1, axis=2) +
+        np.roll(field, -1, axis=2) -
+        6.0 * field
+    ) / (dx * dx)
+
+# ------------------------------------------------------------
+# Helper: first-order upwind advection along z
+# ------------------------------------------------------------
+def advect_z(field, v_z, dx, dt):
+    """
+    First-order upwind advection for ∂c/∂t + v_z ∂c/∂z = 0.
+    v_z > 0 means flow in +z direction.
+    """
+    c_up   = np.roll(field,  1, axis=2)   # from below (i-1)
+    c_down = np.roll(field, -1, axis=2)   # from above (i+1)
+
+    # Use cell below when flow is upward, cell above when downward
+    c_from = np.where(v_z > 0, c_up, c_down)
+    grad   = (field - c_from) / dx
+
+    return -dt * v_z * grad
+
+# ------------------------------------------------------------
+# Mineral surface catalysis mask (smooth boost near walls)
+# ------------------------------------------------------------
+ix = np.arange(nx)[:, None, None]
+iy = np.arange(ny)[None, :, None]
+iz = np.arange(nz)[None, None, :]
+
+dist_x = np.minimum(ix, nx - 1 - ix)
+dist_y = np.minimum(iy, ny - 1 - iy)
+dist_z = np.minimum(iz, nz - 1 - iz)
+
+distance_to_wall = np.minimum(np.minimum(dist_x, dist_y), dist_z).astype(float)
+# Smooth exponential catalytic shell (1 at center, 1+7 near walls)
+surface_boost = 1.0 + 7.0 * np.exp(-distance_to_wall)
+
+# ------------------------------------------------------------
+# Core simulator
+# ------------------------------------------------------------
+def run_sim(chi_X, nt, diag_stride=200, snapshot_stride=0, snapshot_prefix=None,
+            seed=123, k2_factor=1.0):
+    """
+    Run one STUR hydrothermal pore simulation for a given chi_X.
+
+    Returns:
+      history: dict with t, A_mean, B_mean, C_mean, E_mean, R_var, T_mean
+      final_fields: dict with A, B, C, E, R (for inspection/plotting)
+    """
+    rng = np.random.default_rng(seed)
+
+    # Initial conditions
+    A = 0.5 + 0.05 * rng.standard_normal((nx, ny, nz))
+    A = np.clip(A, 0.0, None)
+
+    B = np.zeros((nx, ny, nz))
+    B[:, :, :4] = 5e-3 * rng.random((nx, ny, 4))  # hot-bottom seeding
+
+    C = np.zeros((nx, ny, nz))
+
+    E = E_ambient * (1.0 + 0.05 * rng.standard_normal((nx, ny, nz)))
+    E = np.clip(E, 0.0, None)
+
+    # Arrhenius factor is static since T is static
+    arr_factor = arrhenius_factor(T)
+
+    # Effective autocatalytic rate
+    k2 = k2_base * k2_factor
+
+    history = {
+        "t": [],
+        "A_mean": [],
+        "B_mean": [],
+        "C_mean": [],
+        "E_mean": [],
+        "R_var": [],
+        "T_mean": [],
+    }
+
+    for n in range(nt):
+        # STUR resistance manifold
+        R = w_A * A + w_B * B + w_C * C + w_E * E
+        R_bg = R.mean()
+        dR_dX = (R - R_bg) / L_X
+
+        # X-feedback factor with exponent clamped for numerical stability
+        expo_arg = chi_X * (R - R_bg)
+        expo_arg = np.clip(expo_arg, -50.0, 50.0)
+        f_X = np.exp(expo_arg)
+        f_X = np.clip(f_X, 0.2, 5.0)
+
+        # Reaction rates (Arrhenius scaling, surface boost, X feedback)
+        r1 = k1 * arr_factor * A * np.maximum(E, 0.0) / (E_ambient + 1.0)
+        r1 *= surface_boost
+        r1 = np.clip(r1, 0.0, None)
+
+        r2 = k2 * arr_factor * A * B * f_X * surface_boost
+        r3 = k3 * arr_factor * B
+        r4 = k4 * C
+
+        # Species updates from reactions
+        dA = -r1 - r2 + A_feed_rate * (A_feed - A.mean())
+        dB = r1 + r2 - r3
+        dC = r3 - r4
+
+        A = A + dt * dA
+        B = B + dt * dB
+        C = C + dt * dC
+
+        A = np.clip(A, 0.0, None)
+        B = np.clip(B, 0.0, None)
+        C = np.clip(C, 0.0, None)
+
+        # Thermophoresis: v_th = -D S_T grad(T)/T (z only)
+        v_th_A_z = -D_A * S_T_A * grad_T[:, :, :, 2] / T
+        v_th_B_z = -D_B * S_T_B * grad_T[:, :, :, 2] / T
+        v_th_C_z = -D_C * S_T_C * grad_T[:, :, :, 2] / T
+
+        A = A + advect_z(A, v_th_A_z, dx, dt)
+        B = B + advect_z(B, v_th_B_z, dx, dt)
+        C = C + advect_z(C, v_th_C_z, dx, dt)
+
+        A = np.clip(A, 0.0, None)
+        B = np.clip(B, 0.0, None)
+        C = np.clip(C, 0.0, None)
+
+        # Recirculating convection with small stochastic perturbation
+        v_z_step = v_conv_z_base + v_noise_amp * rng.standard_normal(v_conv_z_base.shape)
+
+        A = A + advect_z(A, v_z_step, dx, dt)
+        B = B + advect_z(B, v_z_step, dx, dt)
+        C = C + advect_z(C, v_z_step, dx, dt)
+        E = E + advect_z(E, v_z_step, dx, dt)
+
+        A = np.clip(A, 0.0, None)
+        B = np.clip(B, 0.0, None)
+        C = np.clip(C, 0.0, None)
+        E = np.clip(E, 0.0, None)
+
+        # Energy dynamics: reaction consumption, cooling, diffusion, global source
+        dE_react = -energy_per_r1 * r1 - energy_per_r2 * r2
+        dE_cool = -E_cool_rate * (E - E_ambient)
+        dE_source = E_source_rate * (E_ambient - E.mean())
+
+        E = E + dt * (dE_react + dE_cool)
+        E = E + dt * D_E * laplacian_3d_periodic(E, dx)
+        E = E + dE_source
+        E = np.clip(E, 0.0, None)
+
+        # Diffusion for chemical species
+        A = A + dt * D_A * laplacian_3d_periodic(A, dx)
+        B = B + dt * D_B * laplacian_3d_periodic(B, dx)
+        C = C + dt * D_C * laplacian_3d_periodic(C, dx)
+
+        A = np.clip(A, 0.0, None)
+        B = np.clip(B, 0.0, None)
+        C = np.clip(C, 0.0, None)
+
+        # Diagnostics
+        if n % diag_stride == 0:
+            t_phys = n * dt
+            R = w_A * A + w_B * B + w_C * C + w_E * E
+
+            history["t"].append(t_phys)
+            history["A_mean"].append(A.mean())
+            history["B_mean"].append(B.mean())
+            history["C_mean"].append(C.mean())
+            history["E_mean"].append(E.mean())
+            history["R_var"].append(R.var())
+            history["T_mean"].append(T.mean())
+
+        # Snapshots for movie/VTK
+        if snapshot_stride > 0 and snapshot_prefix is not None and n % snapshot_stride == 0 and n > 0:
+            R_snap = w_A * A + w_B * B + w_C * C + w_E * E
+            np.savez(f"{snapshot_prefix}_n{n:06d}.npz", A=A, B=B, C=C, E=E, R=R_snap)
+
+    R_final = w_A * A + w_B * B + w_C * C + w_E * E
+    final_fields = {"A": A, "B": B, "C": C, "E": E, "R": R_final}
+
+    return history, final_fields
+
+# ------------------------------------------------------------
+# Example parameter sweep over chi_X
+# ------------------------------------------------------------
+if __name__ == "__main__":
+    # Quick sweep settings for testing; increase nt for full behaviour
+    chi_values = [0.0, 2.0, 3.2, 4.5, 7.0]
+    nt_run = 8000          # bump to 50000–100000 for full proto-cell evolution
+    diag_stride = 200
+
+    results = []
+
+    for chi in chi_values:
+        print(f"Running chi_X = {chi} ...")
+        hist, fields = run_sim(
+            chi_X=chi,
+            nt=nt_run,
+            diag_stride=diag_stride,
+            snapshot_stride=0,          # set >0 and prefix to save 3D snapshots
+            snapshot_prefix=None,
+            seed=123,
+            k2_factor=1.0
+        )
+
+        t_arr = np.array(hist["t"])
+        B_mean = np.array(hist["B_mean"])
+        R_var = np.array(hist["R_var"])
+
+        final_B = B_mean[-1] if len(B_mean) > 0 else np.nan
+        max_R_var = np.max(R_var) if len(R_var) > 0 else np.nan
+
+        results.append((chi, final_B, max_R_var))
+        print(f"  final B_mean ≈ {final_B:.4f}, max Var(R) ≈ {max_R_var:.4e}")
+
+    # Simple visualization for one representative chi_X (e.g., 4.5)
+    chi_plot = 4.5
+    hist, fields = run_sim(
+        chi_X=chi_plot,
+        nt=nt_run,
+        diag_stride=diag_stride,
+        snapshot_stride=0,
+        snapshot_prefix=None,
+        seed=321,
+        k2_factor=1.0
+    )
+
+    A = fields["A"]
+    B = fields["B"]
+    C = fields["C"]
+    E = fields["E"]
+    R_final = fields["R"]
+
+    z_mid = nz // 2
+    A_slice = A[:, :, z_mid]
+    B_slice = B[:, :, z_mid]
+    C_slice = C[:, :, z_mid]
+    E_slice = E[:, :, z_mid]
+    R_slice = R_final[:, :, z_mid]
+
+    fig, axes = plt.subplots(2, 3, figsize=(12, 8))
+
+    im0 = axes[0, 0].imshow(A_slice, origin="lower")
+    axes[0, 0].set_title(f"A – midplane (chi_X={chi_plot})")
+    plt.colorbar(im0, ax=axes[0, 0], fraction=0.046, pad=0.04)
+
+    im1 = axes[0, 1].imshow(B_slice, origin="lower")
+    axes[0, 1].set_title("B – midplane")
+    plt.colorbar(im1, ax=axes[0, 1], fraction=0.046, pad=0.04)
+
+    im2 = axes[0, 2].imshow(C_slice, origin="lower")
+    axes[0, 2].set_title("C – midplane")
+    plt.colorbar(im2, ax=axes[0, 2], fraction=0.046, pad=0.04)
+
+    im3 = axes[1, 0].imshow(E_slice, origin="lower")
+    axes[1, 0].set_title("E – midplane")
+    plt.colorbar(im3, ax=axes[1, 0], fraction=0.046, pad=0.04)
+
+    im4 = axes[1, 1].imshow(R_slice, origin="lower")
+    axes[1, 1].set_title("R – midplane")
+    plt.colorbar(im4, ax=axes[1, 1], fraction=0.046, pad=0.04)
+
+    t_arr = np.array(hist["t"])
+    axes[1, 2].plot(t_arr, hist["A_mean"], label="A_mean")
+    axes[1, 2].plot(t_arr, hist["B_mean"], label="B_mean")
+    axes[1, 2].plot(t_arr, hist["C_mean"], label="C_mean")
+    axes[1, 2].plot(t_arr, hist["E_mean"], label="E_mean")
+    axes[1, 2].plot(t_arr, hist["R_var"], label="Var(R)")
+    axes[1, 2].set_xlabel("time [s]")
+    axes[1, 2].set_ylabel("global means / variance")
+    axes[1, 2].set_title("Global dynamics")
+    axes[1, 2].legend()
+
+    plt.tight_layout()
+    plt.show()
+    </textarea>
+</div>
+
+<!-- ================== SECTION 4: USAGE NOTES ================== -->
+<div class="section">
+    <h3>4. Usage Notes and Publication Hooks</h3>
+
+    <p>
+        For a quick visual check, keep <code>nt_run = 8000</code>. For publication-grade runs, increase
+        <code>nt_run</code> to 50000–100000, enable <code>snapshot_stride</code> and set a
+        <code>snapshot_prefix</code> to generate 3D time series suitable for Paraview/VTK rendering and movies.
+    </p>
+
+    <p>
+        The key control parameter is <code>chi_X</code>. As you sweep across <code>chi_X</code>, you will see:
+    </p>
+
+    <ul>
+        <li><code>chi_X = 0</code>: no STUR feedback, diffuse growth, no stable localization.</li>
+        <li><code>chi_X ~ 2–3</code>: weak clustering, transient spots.</li>
+        <li><code>chi_X ~ 3.5–4.5</code>: sharp transition to persistent proto-cell-like structures.</li>
+        <li><code>chi_X ≥ 7</code>: runaway regimes where STUR feedback must be clamped.</li>
+    </ul>
+
+    <p>
+        This makes the model ideal for a phase-diagram style study: emergent order and
+        metabolism-like structures as a function of STUR curvature feedback strength.
+    </p>
+</div>
+
+</body>
+</html>
