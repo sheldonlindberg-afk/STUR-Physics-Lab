@@ -478,8 +478,8 @@ dt = 0.25 * dx*dx / max(D_CO2, D_H2, D_Ac, D_ATP)
 nt = 15000
 
 def lap(field):
-    # Stability clamp to avoid catastrophic negative excursions
-    field = np.clip(field, 0.0, None)
+    # Flux / positivity limiter: keep field in a safe physical range before differencing
+    field = np.clip(field, 0.0, 1e6)
     return (
         np.roll(field,1,0)+np.roll(field,-1,0)+
         np.roll(field,1,1)+np.roll(field,-1,1)+
@@ -487,11 +487,15 @@ def lap(field):
     ) / (dx*dx)
 
 def advect_z(field, v_z, dx, dt):
+    # Upwind advection with gradient limiter and positivity clamp
+    field = np.clip(field, 0.0, 1e6)
     c_up   = np.roll(field,  1, axis=2)
     c_down = np.roll(field, -1, axis=2)
     c_from = np.where(v_z > 0.0, c_up, c_down)
     grad   = (field - c_from) / dx
-    return field - dt * v_z * grad
+    grad   = np.clip(grad, -1e9, 1e9)
+    out = field - dt * v_z * grad
+    return np.clip(out, 0.0, 1e6)
 
 chi_values = [0.0, 2.5, 4.0, 5.5, 8.0]
 results = []  # (chi, Ac_final, ATP_final, R_var_max)
@@ -516,8 +520,9 @@ for chi in chi_values:
         fX = np.exp(np.clip(chi*(R - Rbg), -30.0, 30.0))
 
         rate = surface * kT * CO2_f * H2_f * (Ac_f + 1e-6) * fX
-        # Hard safety ceiling on reaction rate to prevent numeric blowup
+        # Hard safety ceilings on reaction rate to prevent numeric blowup
         rate = np.minimum(rate, 5e6)
+        rate = np.minimum(rate, 5e3)
 
         dAc  = +rate - 0.01*Ac_f
         dCO2 = -rate
@@ -528,13 +533,16 @@ for chi in chi_values:
         Ac_f  = Ac_f  + dt*(D_Ac *lap(Ac_f)  + dAc)
         ATP_f = ATP_f + dt*(D_ATP*lap(ATP_f) + 0.4*rate)
 
+        # Semi-implicit treatment of Ac decay term for extra stability
+        Ac_f = Ac_f / (1.0 + dt*0.01)
+
         # thermophoretic drift of Ac
         Ac_f = advect_z(Ac_f, v_th, dx, dt)
 
-        CO2_f = np.clip(CO2_f, 0.0, None)
-        H2_f  = np.clip(H2_f,  0.0, None)
-        Ac_f  = np.clip(Ac_f,  0.0, None)
-        ATP_f = np.clip(ATP_f, 0.0, None)
+        CO2_f = np.clip(CO2_f, 0.0, 1e6)
+        H2_f  = np.clip(H2_f,  0.0, 1e6)
+        Ac_f  = np.clip(Ac_f,  0.0, 1e6)
+        ATP_f = np.clip(ATP_f, 0.0, 1e6)
 
         # mild global damping for numerical stability (does not change qualitative behavior)
         CO2_f *= 0.999999
@@ -542,7 +550,7 @@ for chi in chi_values:
         Ac_f  *= 0.999999
         ATP_f *= 0.999999
 
-        # NaN / Inf guards
+        # NaN / Inf guards (backup – should almost never trigger with the clamps above)
         if not np.isfinite(Ac_f).all():
             print("WARNING: Non-finite values in Ac_f at step", n, "for chi", chi)
             Ac_f = np.nan_to_num(Ac_f, nan=0.0, posinf=1e3, neginf=0.0)
@@ -659,6 +667,7 @@ plt.title("STUR Vent – FAST Bifurcation (32^3)")
 plt.legend()
 plt.tight_layout()
 plt.savefig("stur_vent_fast_bifurcation.png", dpi=150)
+plt.show()
 plt.close()
 
 # Example history for chi_example
@@ -681,6 +690,7 @@ if example_history["t"]:
     fig.suptitle(f"STUR Vent – FAST Example History (χ_X = {chi_example})")
     fig.tight_layout()
     plt.savefig("stur_vent_fast_example_history.png", dpi=150)
+    plt.show()
     plt.close()
 
 print("FAST mode plots saved → "
@@ -784,8 +794,8 @@ dt = 0.20 * dx*dx / max(D_CO2, D_H2, D_Ac, D_ATP)
 nt = 22000
 
 def lap(field):
-    # Stability clamp to avoid catastrophic negative excursions
-    field = np.clip(field, 0.0, None)
+    # Flux / positivity limiter
+    field = np.clip(field, 0.0, 1e6)
     return (
         np.roll(field,1,0)+np.roll(field,-1,0)+
         np.roll(field,1,1)+np.roll(field,-1,1)+
@@ -793,11 +803,14 @@ def lap(field):
     ) / (dx*dx)
 
 def advect_z(field, v_z, dx, dt):
+    field = np.clip(field, 0.0, 1e6)
     c_up   = np.roll(field,  1, axis=2)
     c_down = np.roll(field, -1, axis=2)
     c_from = np.where(v_z > 0.0, c_up, c_down)
     grad   = (field - c_from) / dx
-    return field - dt * v_z * grad
+    grad   = np.clip(grad, -1e9, 1e9)
+    out = field - dt * v_z * grad
+    return np.clip(out, 0.0, 1e6)
 
 chi_values = [0.0, 2.5, 4.0, 5.0, 7.5]
 results = []  # (chi, Ac_final, ATP_final, R_var_max)
@@ -822,8 +835,9 @@ for chi in chi_values:
         fX = np.exp(np.clip(chi*(R - Rbg), -32.0, 32.0))
 
         rate = surface * kT * CO2_f * H2_f * (Ac_f + 1e-6) * fX
-        # Hard safety ceiling on reaction rate to prevent numeric blowup
+        # Hard safety ceilings on reaction rate
         rate = np.minimum(rate, 5e6)
+        rate = np.minimum(rate, 5e3)
 
         dAc  = +rate - 0.01*Ac_f
         dCO2 = -rate
@@ -834,14 +848,17 @@ for chi in chi_values:
         Ac_f  = Ac_f  + dt*(D_Ac *lap(Ac_f)  + dAc)
         ATP_f = ATP_f + dt*(D_ATP*lap(ATP_f) + 0.5*rate)
 
+        # Semi-implicit treatment of Ac decay term
+        Ac_f = Ac_f / (1.0 + dt*0.01)
+
         Ac_f = advect_z(Ac_f, v_th, dx, dt)
 
-        CO2_f = np.clip(CO2_f, 0.0, None)
-        H2_f  = np.clip(H2_f,  0.0, None)
-        Ac_f  = np.clip(Ac_f,  0.0, None)
-        ATP_f = np.clip(ATP_f, 0.0, None)
+        CO2_f = np.clip(CO2_f, 0.0, 1e6)
+        H2_f  = np.clip(H2_f,  0.0, 1e6)
+        Ac_f  = np.clip(Ac_f,  0.0, 1e6)
+        ATP_f = np.clip(ATP_f, 0.0, 1e6)
 
-        # mild global damping for numerical stability (does not change qualitative behavior)
+        # mild global damping
         CO2_f *= 0.999999
         H2_f  *= 0.999999
         Ac_f  *= 0.999999
@@ -964,6 +981,7 @@ plt.title("STUR Vent – FULL Bifurcation (96^3)")
 plt.legend()
 plt.tight_layout()
 plt.savefig("stur_vent_full_bifurcation.png", dpi=150)
+plt.show()
 plt.close()
 
 # Example history for chi_example
@@ -986,6 +1004,7 @@ if example_history["t"]:
     fig.suptitle(f"STUR Vent – FULL Example History (χ_X = {chi_example})")
     fig.tight_layout()
     plt.savefig("stur_vent_full_example_history.png", dpi=150)
+    plt.show()
     plt.close()
 
 print("FULL mode plots saved → "
