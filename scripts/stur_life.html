@@ -136,6 +136,10 @@
 <script>
 function copyFast() {
     const code = document.getElementById("fastbox");
+    if (!code) {
+        alert("FAST script textarea not found.");
+        return;
+    }
     code.select();
     code.setSelectionRange(0, 999999);
     navigator.clipboard.writeText(code.value).then(
@@ -145,6 +149,10 @@ function copyFast() {
 }
 function copyFull() {
     const code = document.getElementById("fullbox");
+    if (!code) {
+        alert("FULL script textarea not found.");
+        return;
+    }
     code.select();
     code.setSelectionRange(0, 999999);
     navigator.clipboard.writeText(code.value).then(
@@ -249,6 +257,120 @@ v_th(z)  = − D_Ac S_T · ∂T/∂z / T           (thermophoresis, Soret effect
         through the curvature-sensitive feedback factor <code>f_X</code>, which elevates regions
         with large resistance curvature into stable, self-sustaining proto-cell-like attractors.
     </p>
+
+    <!-- ===== ADDITIONAL FULL DERIVATION (ADDED, NOTHING REMOVED) ===== -->
+
+    <p>
+        Starting from the STUR evolution law, we can make the reduction explicit. Take
+        <code>R(x,t) = Σ_i w_i c_i(x,t)</code> with species
+        <code>c_i ∈ { [CO2],[H2],[Ac],[ATP],[Fe²⁺] }</code>. Then
+    </p>
+
+    <div class="codebox">
+∂R/∂t = Σ_i w_i ∂c_i/∂t
+
+STUR:  ∂R/∂t = ∇·(D∇R) + χ ∂R/∂X + S_eff
+
+Assume Ω ≈ 0 (no large-scale vorticity in the micro-pore frame)
+and absorb detailed chemistry and boundary exchange into S_eff.
+    </div>
+
+    <p>
+        Substituting the reaction–diffusion form for each species,
+        <code>∂c_i/∂t = D_i ∇²c_i + F_i(c,T,pH,R)</code>, we obtain
+    </p>
+
+    <div class="codebox">
+∂R/∂t = Σ_i w_i D_i ∇²c_i + Σ_i w_i F_i(c,T,pH,R)
+
+∇·(D∇R) ≈ Σ_i w_i D_i ∇²c_i      (effective diffusion for R)
+
+χ ∂R/∂X = χ (R − R_bg)/L_X = χ/L_X · (R − R_bg)
+    </div>
+
+    <p>
+        Matching terms gives a consistency condition: the net reaction contribution
+        <code>Σ_i w_i F_i</code> must equal the combination of STUR source terms
+        <code>S_eff + χ(L_X^{-1})(R−R_bg)</code>. In the vent scripts, we enforce this by
+        inserting the X-feedback factor <code>f_X = exp[ χ (R − R_bg) ]</code> directly into the
+        catalytic rate <code>r_form</code>. High-resistance regions (relative to the volume
+        average) receive an exponential gain in formation rate, which is exactly the curvature
+        selection:
+    </p>
+
+    <div class="codebox">
+F_Ac ⊃ r_form · f_X  ⇒  ∂[Ac]/∂t ⊃ r_form · exp[χ (R − R_bg)]
+
+large (R − R_bg)  →  large f_X  →  local growth
+small (R − R_bg)  →  f_X ≈ 1    →  background mixing
+    </div>
+
+    <p>
+        The discrete scheme used in the scripts is a standard explicit finite-difference / upwind
+        discretization of the PDEs. For a generic scalar field <code>c(x,t)</code> with diffusion
+        coefficient <code>D</code>, drift velocity <code>v_z</code>, and reaction term
+        <code>F(c)</code>:
+    </p>
+
+    <div class="codebox">
+c^{n+1} = c^n
+          + Δt · D ∇²_h c^n
+          − Δt · v_z · (c^n − c^n_from_upwind)/Δz
+          + Δt · F(c^n)
+
+∇²_h c(i,j,k) = [c(i+1,j,k)+c(i−1,j,k)+c(i,j+1,k)+c(i,j−1,k)+c(i,j,k+1)+c(i,j,k−1)−6c(i,j,k)] / Δx²
+    </div>
+
+    <p>
+        Stability of the explicit diffusion step is enforced by choosing
+        <code>dt ≈ 0.2–0.25 · dx² / max(D_i)</code>, which is encoded directly in
+        <code>dt = 0.25 * dx*dx / max(...)</code> in the FAST script and similarly in the FULL
+        script. The advective CFL constraint is mild here because <code>v_th</code> is small
+        relative to <code>dx/dt</code>, but the upwind form adds extra numerical damping and helps
+        maintain stability as χ and gradients grow.
+    </p>
+
+    <p>
+        Finally, the JSON outputs <code>stur_vent_fast.json</code> and
+        <code>stur_vent_full.json</code> store:
+    </p>
+
+    <div class="codebox">
+{
+  "mode": "FAST" or "FULL",
+  "grid": [N,N,N],
+  "dx_m": Δx in meters,
+  "dt_s": Δt in seconds,
+  "nt": total steps,
+  "T_hot_K": upper temperature,
+  "T_cold_K": lower temperature,
+  "pH_top": alkaline side,
+  "pH_bottom": acidic side,
+  "chi_values": [χ_1, χ_2, ...],
+  "bifurcation_results": [
+    {
+      "chi_X": χ,
+      "Ac_final": ⟨[Ac]⟩_final,
+      "R_var_max": max_t Var(R − R_bg)
+    },
+    ...
+  ],
+  "example_history": {
+    "chi_X": χ_example,
+    "t_s": [t_0, ..., t_n],
+    "Ac_mean": [...],
+    "ATP_mean": [...],
+    "R_var": [...]
+  }
+}
+    </div>
+
+    <p>
+        That means the “physics result” of the run is fully encoded as numbers: given only the JSON,
+        any external code can reconstruct the bifurcation curve, track the emergence of localized
+        proto-cell states as χ increases, and cross-check every parameter of the STUR vent model
+        without touching this HTML file.
+    </p>
 </div>
 
 <!-- ================== SECTION 2: HOW TO RUN ================== -->
@@ -267,16 +389,16 @@ v_th(z)  = − D_Ac S_T · ∂T/∂z / T           (thermophoresis, Soret effect
 
     <div class="btnrow">
         <button onclick="window.open('https://jupyter.org/try-jupyter/lab/', '_blank')">Open JupyterLab</button>
-        <button onclick="window.location.href='index.html'">Return to Index</button>
+        <button onclick="window.location.href='../index.html'">Return to Index</button>
     </div>
 </div>
 
 <!-- ================== SECTION 3: FAST MODE ================== -->
 <div class="section">
-    <h3>3. FAST MODE – 64³ Grid (JupyterLite-Safe)</h3>
+    <h3>3. FAST MODE – 32³ Grid (JupyterLite-Safe)</h3>
 
     <p>
-        This version is tuned for speed on JupyterLite and laptops. It uses a 64³ grid with
+        This version is tuned for speed on JupyterLite and laptops. It uses a 32³ grid with
         realistic vent parameters and full STUR curvature feedback. It sweeps several χ<sub>X</sub>
         values, prints the final acetyl means and resistance variance, and writes a compact JSON
         diagnostic file <code>stur_vent_fast.json</code> with the bifurcation data and an example
@@ -290,7 +412,7 @@ v_th(z)  = − D_Ac S_T · ∂T/∂z / T           (thermophoresis, Soret effect
     <textarea id="fastbox">
 #!/usr/bin/env python3
 """
-FAST STUR Hydrothermal Vent Model (64^3)
+FAST STUR Hydrothermal Vent Model (32^3)
 Realistic alkaline vent micro-pore with:
   - 12 μm pore, 80–120 °C gradient
   - pH 9.8 → 6.0 gradient via [H+](z)
@@ -305,7 +427,7 @@ import json
 import matplotlib.pyplot as plt
 
 # ---------------------- GRID & GEOMETRY ----------------------
-N = 64
+N = 32
 L = 12e-6
 dx = L / N
 
