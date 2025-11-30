@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STUR The Law of Resistance</title>
+<title>STUR – The Law of Resistance</title>
 
 <style>
     :root {
@@ -39,6 +39,7 @@
         margin: 0;
         padding: 0;
         -webkit-font-smoothing: antialiased;
+        font-size: 16px;
     }
 
     a {
@@ -240,11 +241,12 @@
 
     .hero-subtitle {
         margin-top: 0.7rem;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         color: var(--fg2);
         max-width: 36rem;
         position: relative;
         z-index: 1;
+        line-height: 1.7;
     }
 
     .hero-equation-card {
@@ -273,9 +275,10 @@
 
     .hero-footnote {
         margin-top: 0.5rem;
-        font-size: 0.74rem;
+        font-size: 0.78rem;
         color: var(--muted);
         max-width: 32rem;
+        line-height: 1.6;
     }
 
     .hero-side {
@@ -293,14 +296,14 @@
     }
 
     .panel-title {
-        font-size: 0.88rem;
+        font-size: 0.9rem;
         margin-bottom: 0.4rem;
     }
 
     .panel-body {
-        font-size: 0.78rem;
+        font-size: 0.84rem;
         color: var(--fg2);
-        line-height: 1.5;
+        line-height: 1.7;
     }
 
     .panel-body strong {
@@ -348,7 +351,7 @@
     }
 
     .section-kicker {
-        font-size: 0.76rem;
+        font-size: 0.78rem;
         color: var(--muted);
     }
 
@@ -358,13 +361,13 @@
         border: 1px solid rgba(55,65,81,0.9);
         padding: 1rem 1.1rem;
         box-shadow: var(--shadow-soft);
-        font-size: 0.88rem;
+        font-size: 0.93rem;
         color: var(--fg2);
-        line-height: 1.7;
+        line-height: 1.8;
     }
 
     .section-body p {
-        margin: 0.2rem 0 0.5rem;
+        margin: 0.2rem 0 0.7rem;
     }
 
     .math-block {
@@ -374,6 +377,7 @@
         background: radial-gradient(circle at top, rgba(15,23,42,0.96), rgba(15,23,42,0.98));
         border: 1px solid rgba(55,65,81,0.9);
         overflow-x: auto;
+        font-size: 0.9rem;
     }
 
     .math-caption {
@@ -404,11 +408,12 @@
         border: 1px solid rgba(31,41,55,0.95);
         padding: 0.7rem 0.8rem;
         font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-        font-size: 0.75rem;
+        font-size: 0.78rem;
         color: #e5e7eb;
         overflow-x: auto;
         line-height: 1.6;
         position: relative;
+        white-space: pre;
     }
 
     .code-label {
@@ -461,7 +466,7 @@
 
     .poc-status {
         margin-top: 0.5rem;
-        font-size: 0.76rem;
+        font-size: 0.8rem;
         color: var(--muted);
     }
 
@@ -472,22 +477,24 @@
         background: radial-gradient(circle at top, rgba(15,23,42,0.96), rgba(15,23,42,0.98));
         border: 1px solid rgba(55,65,81,0.95);
         font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-        font-size: 0.73rem;
+        font-size: 0.78rem;
         color: #e5e7eb;
         max-height: 350px;
         overflow: auto;
+        white-space: pre;
     }
 
     footer {
         margin-top: 2.5rem;
         padding-top: 1rem;
         border-top: 1px solid rgba(31,41,55,0.9);
-        font-size: 0.7rem;
+        font-size: 0.78rem;
         color: var(--muted);
         display: flex;
         justify-content: space-between;
         gap: 0.5rem;
         flex-wrap: wrap;
+        line-height: 1.6;
     }
 </style>
 
@@ -517,22 +524,20 @@ window.MathJax = {
                 <div class="brand-subtitle">Law of Resistance</div>
             </div>
         </div>
-       <div class="nav-actions">
-    <a href="../index.html" class="btn-ghost">
-        <span class="icon">←</span>
-        <span>Return to Lab Index</span>
-    </a>
-
-    <a href="https://jupyter.org/try-jupyter/lab/" class="btn-ghost" target="_blank" rel="noopener">
-        <span class="icon">📓</span>
-        <span>Open in Jupyter</span>
-    </a>
-
-    <button id="copy-script-btn" class="btn-ghost">
-        <span class="icon">📋</span>
-        <span>Copy Script</span>
-    </button>
-</div>
+        <div class="nav-actions">
+            <a href="../index.html" class="btn-ghost">
+                <span class="icon">←</span>
+                <span>Return to Lab Index</span>
+            </a>
+            <a href="https://jupyter.org/try-jupyter/lab/" class="btn-ghost" target="_blank" rel="noopener">
+                <span class="icon">📓</span>
+                <span>Open in Jupyter</span>
+            </a>
+            <button id="copy-script-btn" class="btn-ghost" type="button">
+                <span class="icon">📋</span>
+                <span>Copy Script</span>
+            </button>
+        </div>
     </div>
 </header>
 
@@ -824,7 +829,7 @@ window.MathJax = {
             <div class="two-column">
                 <div>
                     <div class="code-block">
-<pre>// Minimal 1D resistance diffusion (JS, run in browser)
+<pre id="poc-core-script">// Minimal 1D resistance diffusion (JS, run in browser)
 const N = 64;           // grid points
 const D = 0.2;          // diffusion coefficient
 const dx = 1.0;
@@ -851,8 +856,7 @@ for (let n = 0; n < steps; n++) {
     R = newR;
 }
 
-const finalR = R.slice();
-</pre>
+const finalR = R.slice();</pre>
                         <div class="code-label">Proof-of-concept core</div>
                     </div>
                 </div>
@@ -959,18 +963,37 @@ window.addEventListener('DOMContentLoaded', () => {
         statusEl.style.color = "#f97373";
     }
 });
-</script>
 
-<script>
-document.getElementById("copy-script-btn").addEventListener("click", async () => {
-    try {
-        const response = await fetch(window.location.href);
-        const text = await response.text();
-        await navigator.clipboard.writeText(text);
-        alert("Full HTML copied to clipboard!");
-    } catch (err) {
-        alert("Copy failed: " + err);
-    }
+// Copy only the core JS script from the code block, not the whole page
+window.addEventListener('DOMContentLoaded', () => {
+    const copyBtn = document.getElementById('copy-script-btn');
+    if (!copyBtn) return;
+
+    copyBtn.addEventListener('click', async () => {
+        const pre = document.getElementById('poc-core-script');
+        if (!pre) {
+            alert("Script block not found.");
+            return;
+        }
+
+        const scriptText = pre.innerText.trim();
+
+        try {
+            await navigator.clipboard.writeText(scriptText);
+            const originalLabel = copyBtn.querySelector('span:nth-child(2)');
+            if (originalLabel) {
+                const prev = originalLabel.textContent;
+                originalLabel.textContent = "Copied!";
+                setTimeout(() => {
+                    originalLabel.textContent = prev;
+                }, 1200);
+            } else {
+                alert("Script copied to clipboard.");
+            }
+        } catch (err) {
+            alert("Copy failed: " + err);
+        }
+    });
 });
 </script>
 
