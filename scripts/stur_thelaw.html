@@ -920,13 +920,18 @@ for _ in range(steps):
 
 final_R = R.copy()
 
-print("Initial R:", np.round(initial_R, 3))
-print("Final R:  ", np.round(final_R, 3))
+print(np.round(initial_R,3))
+print(np.round(final_R,3))
 
+plt.figure(figsize=(10,5))
 plt.plot(initial_R, label="Initial R")
 plt.plot(final_R, label="Final R")
 plt.legend()
-plt.title("1D STUR Diffusion Demo")
+plt.title("1D STUR Resistance Diffusion")
+plt.xlabel("Index")
+plt.ylabel("R value")
+plt.grid(True)
+plt.tight_layout()
 plt.show()
 </pre>
 
