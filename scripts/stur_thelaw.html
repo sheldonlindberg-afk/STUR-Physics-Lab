@@ -141,7 +141,6 @@
         padding: 1rem 1.2rem 3rem;
     }
 
-    /* ADDED: readability improvement */
     pre {
         white-space: pre-wrap;
         word-break: break-word;
@@ -151,7 +150,6 @@
         margin-top: 0.6rem;
     }
 
-    /* rest unchanged */
     .hero {
         margin-top: 1.2rem;
         margin-bottom: 1.5rem;
@@ -479,7 +477,6 @@
     }
 </style>
 
-<!-- MathJax -->
 <script>
 window.MathJax = {
     tex: { inlineMath: [['$', '$'], ['\\(', '\\)']],
@@ -514,7 +511,6 @@ window.MathJax = {
 
 <main>
 
-    <!-- HERO -->
     <section class="hero">
         <div class="hero-main">
             <div class="hero-badge">
@@ -581,7 +577,6 @@ window.MathJax = {
         </aside>
     </section>
 
-    <!-- DERIVATION -->
     <section class="section" id="derivation">
         <div class="section-header">
             <h2 class="section-title">1 · Deriving the Law of Resistance</h2>
@@ -589,9 +584,10 @@ window.MathJax = {
         </div>
 
         <div class="section-body">
-            <p>Start with the only assumption you really need:
-               there is a scalar resistance field $R(x,t,X)$ defined over physical space $x$,
-               time $t$, and a hidden feedback coordinate $X$.
+            <p>
+                Start with the only assumption you really need:
+                there is a scalar resistance field $R(x,t,X)$ defined over physical space $x$,
+                time $t$, and a hidden feedback coordinate $X$.
             </p>
 
             <div class="math-block">
@@ -680,7 +676,6 @@ window.MathJax = {
         </div>
     </section>
 
-    <!-- INTERPRETATION -->
     <section class="section" id="interpretation">
         <div class="section-header">
             <h2 class="section-title">2 · How to read the equation</h2>
@@ -716,7 +711,6 @@ window.MathJax = {
         </div>
     </section>
 
-    <!-- PROOF -->
     <section class="section" id="proof">
         <div class="section-header">
             <h2 class="section-title">3 · Proof of concept: resistance smoothing in 1D</h2>
@@ -746,81 +740,36 @@ window.MathJax = {
                 <div>
                     <div class="code-block">
 
-<pre id="stur-script"> <!-- ADDED: Script now has ID -->
-# STUR 1D Resistance Diffusion – Jupyter-Compatible Full Demo
-# Runs in JupyterLite / JupyterLab with numpy + matplotlib only
+<pre id="stur-script">
+// Minimal 1D resistance diffusion (JS, run in browser)
+const N = 64;           // grid points
+const D = 0.2;          // diffusion coefficient
+const dx = 1.0;
+const dt = 0.1;         // stable for this D, dx
+const steps = 200;      // time steps
 
-import numpy as np
-import matplotlib.pyplot as plt
-import json
+let R = new Array(N).fill(0);
 
-# -------------------------------------------------------------
-# Parameters
-# -------------------------------------------------------------
-N = 64          # grid points
-D = 0.2         # diffusion coefficient
-dx = 1.0        # spatial step
-dt = 0.1        # time step (stable)
-steps = 200     # number of iterations
-
-# -------------------------------------------------------------
-# Initial resistance profile: sharp spike at center
-# -------------------------------------------------------------
-R = np.zeros(N)
-center = N // 2
-for i in range(N):
-    dist = abs(i - center)
-    R[i] = 1.0 if dist < 3 else 0.0
-
-initialR = R.copy()
-
-# -------------------------------------------------------------
-# Finite-difference evolution loop for:
-#       ∂R/∂t = D ∂²R/∂x²
-# -------------------------------------------------------------
-for _ in range(steps):
-    newR = R.copy()
-    lap = (np.roll(R, -1) - 2 * R + np.roll(R, 1)) / (dx * dx)
-    newR = R + dt * D * lap
-    R = newR
-
-finalR = R.copy()
-
-# -------------------------------------------------------------
-# JSON-like dump for the webpage output box
-# -------------------------------------------------------------
-def rlist(arr):
-    return [float(f"{x:.3f}") for x in arr]
-
-payload = {
-    "description": "1D STUR diffusion demo of the Law of Resistance",
-    "equation": "dR/dt = D d²R/dx²",
-    "N": N,
-    "D": D,
-    "dx": dx,
-    "dt": dt,
-    "steps": steps,
-    "initial_R_center_slice": rlist(initialR),
-    "final_R_center_slice": rlist(finalR),
+// Sharp resistance spike in the center
+for (let i = 0; i < N; i++) {
+    const dist = Math.abs(i - N/2);
+    R[i] = dist < 3 ? 1.0 : 0.0;
 }
 
-print(json.dumps(payload, indent=2))
+const initialR = R.slice();
 
-# -------------------------------------------------------------
-# Plot initial vs final resistance profiles
-# -------------------------------------------------------------
-plt.figure(figsize=(10,5))
-plt.plot(initialR, label="Initial R", linewidth=2)
-plt.plot(finalR, label="Final R", linewidth=2)
-plt.title("STUR 1D Resistance Diffusion")
-plt.xlabel("Space index")
-plt.ylabel("R value")
-plt.grid(True)
-plt.legend()
-plt.tight_layout()
-plt.show()
+// Explicit finite-difference update
+for (let n = 0; n < steps; n++) {
+    const newR = R.slice();
+    for (let i = 1; i < N - 1; i++) {
+        const lap = (R[i+1] - 2*R[i] + R[i-1]) / (dx*dx);
+        newR[i] = R[i] + dt * D * lap;
+    }
+    R = newR;
+}
 
-<!-- ADDED: Copy button moved next to script -->
+const finalR = R.slice();
+</pre>
 <button id="copy-script-btn-inline" class="btn-ghost">📋 Copy Script</button>
 
                         <div class="code-label">Proof-of-concept core</div>
@@ -859,7 +808,6 @@ plt.show()
 </main>
 
 <script>
-// Minimal demo
 window.addEventListener('DOMContentLoaded', () => {
     const statusEl = document.getElementById('poc-status');
     const outEl = document.getElementById('poc-output');
@@ -909,7 +857,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<!-- ADDED: Replaced broken copy script JS -->
 <script>
 document.getElementById("copy-script-btn-inline")
 .addEventListener("click", async () => {
