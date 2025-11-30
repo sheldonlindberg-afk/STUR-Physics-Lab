@@ -27,17 +27,15 @@
         --transition-fast: 160ms ease-out;
     }
 
-    * {
-        box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
-        background: #020617;
+        background: radial-gradient(circle at top, #020617 0, #020617 25%, #020617 60%, #020617 100%);
+        background-color: var(--bg);
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
         color: var(--fg);
         margin: 0;
         padding: 0;
-        line-height: 1.55;
         -webkit-font-smoothing: antialiased;
     }
 
@@ -45,13 +43,16 @@
     a:hover { text-decoration: underline; }
 
     header {
-        padding: 1.2rem 1.2rem 0.8rem;
+        padding: 1.4rem 1.2rem 0.8rem;
         position: sticky;
         top: 0;
         z-index: 20;
         backdrop-filter: blur(16px);
-        background: rgba(15,23,42,0.85);
-        border-bottom: 1px solid rgba(31,41,55,0.5);
+        background: linear-gradient(to bottom,
+            rgba(15,23,42,0.96),
+            rgba(15,23,42,0.8),
+            transparent);
+        border-bottom: 1px solid rgba(31,41,55,0.6);
     }
 
     .top-bar {
@@ -63,21 +64,75 @@
         gap: 0.75rem;
     }
 
+    .brand { display: flex; align-items: center; gap: 0.6rem; }
+
+    .brand-mark {
+        width: 30px; height: 30px;
+        border-radius: 999px;
+        background: radial-gradient(circle at 20% 0%, #f97316, #ec4899 40%, #4f46e5 100%);
+        box-shadow: 0 0 20px rgba(236,72,153,0.8);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .brand-mark::after {
+        content: "";
+        position: absolute;
+        inset: 18%;
+        border-radius: inherit;
+        border: 1px solid rgba(15,23,42,0.65);
+        box-shadow: inset 0 0 20px rgba(15,23,42,0.9);
+        opacity: 0.9;
+    }
+
+    .brand-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.05rem;
+    }
+
+    .brand-title {
+        font-weight: 650;
+        letter-spacing: 0.03em;
+        font-size: 0.96rem;
+    }
+
+    .brand-subtitle {
+        font-size: 0.72rem;
+        color: var(--fg2);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+    }
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
     .btn-ghost {
         border-radius: 999px;
-        padding: 0.45rem 0.9rem;
-        border: 1px solid rgba(148,163,184,0.45);
-        background: rgba(15,23,42,0.7);
+        padding: 0.4rem 0.9rem;
+        border: 1px solid rgba(148,163,184,0.5);
+        background: radial-gradient(circle at top left,
+            rgba(148,163,184,0.18),
+            rgba(15,23,42,0.96));
         color: var(--fg);
         font-size: 0.78rem;
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
         cursor: pointer;
+        transition: transform var(--transition-fast),
+                    box-shadow var(--transition-fast),
+                    border-color var(--transition-fast),
+                    background var(--transition-fast);
     }
+
     .btn-ghost:hover {
-        background: rgba(148,163,184,0.18);
-        border-color: rgba(248,250,252,0.75);
+        transform: translateY(-1px);
+        border-color: rgba(248,250,252,0.8);
+        box-shadow: 0 12px 28px rgba(15,23,42,0.7);
     }
 
     main {
@@ -86,148 +141,622 @@
         padding: 1rem 1.2rem 3rem;
     }
 
-    .hero { margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
-    @media (max-width: 880px) { .hero { grid-template-columns: 1fr; } }
+    /* ADDED: readability improvement */
+    pre {
+        white-space: pre-wrap;
+        word-break: break-word;
+        line-height: 1.55;
+    }
+    #copy-script-btn-inline {
+        margin-top: 0.6rem;
+    }
+
+    /* rest unchanged */
+    .hero {
+        margin-top: 1.2rem;
+        margin-bottom: 1.5rem;
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.1fr);
+        gap: 1.4rem;
+    }
+
+    @media (max-width: 880px) {
+        .hero { grid-template-columns: minmax(0, 1fr); }
+    }
 
     .hero-main {
-        background: #0f172a;
+        background: radial-gradient(circle at 0% -40%,
+            rgba(236,72,153,0.42), transparent 60%),
+            linear-gradient(to bottom right,
+            rgba(15,23,42,0.96),
+            rgba(15,23,42,0.96),
+            rgba(15,23,42,0.92));
         border-radius: var(--radius-lg);
-        padding: 1.5rem;
-        border: 1px solid rgba(55,65,81,0.6);
         box-shadow: var(--shadow-soft);
+        border: 1px solid rgba(55,65,81,0.9);
+        padding: 1.4rem 1.4rem 1.3rem;
+        position: relative;
+        overflow: hidden;
     }
 
-    .hero-side {
-        display: flex;
-        flex-direction: column;
-        gap: 0.7rem;
+    .hero-main::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        background:
+            radial-gradient(circle at 10% 10%, rgba(244,114,182,0.08), transparent 60%),
+            radial-gradient(circle at 80% 0%, rgba(59,130,246,0.08), transparent 60%),
+            radial-gradient(circle at 0% 90%, rgba(249,115,22,0.08), transparent 55%);
+        opacity: 0.9;
+        pointer-events: none;
     }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        border-radius: 999px;
+        border: 1px solid rgba(148,163,184,0.7);
+        background: radial-gradient(circle at top left,
+            rgba(148,163,184,0.18),
+            rgba(15,23,42,0.96));
+        padding: 0.2rem 0.7rem 0.2rem 0.28rem;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--fg2);
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-badge-dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        background: radial-gradient(circle at 20% 0%, #f97316,
+            #ec4899 40%, #4f46e5 100%);
+        box-shadow: 0 0 16px rgba(236,72,153,0.9);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-badge-dot-inner {
+        width: 9px; height: 9px;
+        border-radius: inherit;
+        background: rgba(15,23,42,0.85);
+        box-shadow: 0 0 12px rgba(15,23,42,0.9);
+    }
+
+    .hero-title {
+        margin-top: 0.8rem;
+        font-size: clamp(1.7rem, 3vw, 2.1rem);
+        line-height: 1.1;
+        letter-spacing: 0.02em;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-title span.highlight {
+        background: linear-gradient(to right,
+            #f97316, #ec4899, #8b5cf6);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
+    .hero-subtitle {
+        margin-top: 0.7rem;
+        font-size: 0.9rem;
+        color: var(--fg2);
+        max-width: 36rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-equation-card {
+        margin-top: 1rem;
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(55,65,81,0.9);
+        background: radial-gradient(circle at top left,
+            rgba(15,23,42,0.96),
+            rgba(15,23,42,0.98));
+        padding: 0.9rem 1rem 0.85rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-equation-label {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--muted);
+        margin-bottom: 0.35rem;
+    }
+
+    .equation-display {
+        font-family: "STIX Two Math","Cambria","Times New Roman",
+            ui-serif, Georgia, serif;
+        font-size: 0.9rem;
+        color: var(--fg);
+    }
+
+    .hero-footnote {
+        margin-top: 0.5rem;
+        font-size: 0.74rem;
+        color: var(--muted);
+        max-width: 32rem;
+    }
+
+    .hero-side { display: flex; flex-direction: column; gap: 0.7rem; }
 
     .panel {
         border-radius: var(--radius-md);
-        background: #111827;
-        border: 1px solid rgba(55,65,81,0.7);
-        padding: 1rem;
+        background: radial-gradient(circle at top left,
+            rgba(15,23,42,0.98),
+            rgba(15,23,42,0.98));
+        border: 1px solid rgba(55,65,81,0.9);
+        padding: 0.9rem 1rem 0.8rem;
+        box-shadow: var(--shadow-soft);
     }
 
-    .panel-body { color: var(--fg2); font-size: 0.85rem; }
+    .panel-title {
+        font-size: 0.88rem;
+        margin-bottom: 0.4rem;
+    }
 
-    .section {
-        margin-top: 2rem;
+    .panel-body {
+        font-size: 0.78rem;
+        color: var(--fg2);
+        line-height: 1.5;
+    }
+
+    .panel-body strong { color: #e5e7eb; font-weight: 600; }
+
+    .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        margin-top: 0.35rem;
+    }
+
+    .chip {
+        font-size: 0.7rem;
+        padding: 0.1rem 0.5rem;
+        border-radius: 999px;
+        border: 1px solid rgba(75,85,99,0.9);
+        background: radial-gradient(circle at top left,
+            rgba(31,41,55,0.9),
+            rgba(15,23,42,0.96));
+        color: var(--fg2);
+        white-space: nowrap;
+    }
+
+    .chip.highlight { border-color: rgba(236,72,153,0.9); }
+
+    .section { margin-top: 2rem; }
+
+    .section-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+        font-size: 1.02rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .section-kicker {
+        font-size: 0.76rem;
+        color: var(--muted);
     }
 
     .section-body {
         border-radius: var(--radius-lg);
-        background: #0f172a;
-        border: 1px solid rgba(55,65,81,0.7);
-        padding: 1rem 1.2rem;
-        font-size: 0.9rem;
+        background: radial-gradient(circle at top left,
+            rgba(15,23,42,0.98),
+            rgba(15,23,42,0.98));
+        border: 1px solid rgba(55,65,81,0.9);
+        padding: 1rem 1.1rem;
+        box-shadow: var(--shadow-soft);
+        font-size: 0.88rem;
         color: var(--fg2);
+        line-height: 1.7;
     }
 
+    .section-body p { margin: 0.2rem 0 0.5rem; }
+
     .math-block {
-        background: #111827;
-        padding: 0.7rem;
+        margin: 0.6rem 0;
+        padding: 0.6rem 0.7rem;
         border-radius: var(--radius-md);
-        border: 1px solid rgba(55,65,81,0.8);
-        margin: 0.7rem 0;
+        background: radial-gradient(circle at top,
+            rgba(15,23,42,0.96),
+            rgba(15,23,42,0.98));
+        border: 1px solid rgba(55,65,81,0.9);
         overflow-x: auto;
+    }
+
+    .math-caption {
+        font-size: 0.72rem;
+        color: var(--muted);
+        margin-bottom: 0.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+    }
+
+    .two-column {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+        gap: 1rem;
+        margin-top: 0.8rem;
+    }
+
+    @media (max-width: 880px) {
+        .two-column { grid-template-columns: minmax(0,1fr); }
     }
 
     .code-block {
+        margin-top: 0.5rem;
         border-radius: var(--radius-md);
         background: var(--code-bg);
-        border: 1px solid rgba(31,41,55,0.9);
-        padding: 0.7rem;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.76rem;
-        color: var(--fg);
+        border: 1px solid rgba(31,41,55,0.95);
+        padding: 0.7rem 0.8rem;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular,
+            Menlo, Monaco, Consolas, "Liberation Mono", "Courier New";
+        font-size: 0.75rem;
+        color: #e5e7eb;
         overflow-x: auto;
-        white-space: pre;
+        line-height: 1.6;
+        position: relative;
+    }
+
+    .code-label {
+        position: absolute;
+        top: 0.35rem;
+        right: 0.5rem;
+        font-size: 0.65rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+    }
+
+    .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        background: rgba(15,23,42,0.95);
+        border: 1px solid rgba(75,85,99,0.95);
+        font-size: 0.7rem;
+        color: var(--fg2);
+        margin-right: 0.25rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .pill-dot { width: 7px; height: 7px; border-radius: 999px; }
+    .pill-dot.diffusion { background: #38bdf8; }
+    .pill-dot.flow { background: #a855f7; }
+    .pill-dot.xdim { background: #f97316; }
+    .pill-dot.source { background: #22c55e; }
+
+    .poc-status {
+        margin-top: 0.5rem;
+        font-size: 0.76rem;
+        color: var(--muted);
+    }
+
+    .poc-output {
+        margin-top: 0.5rem;
+        padding: 0.6rem 0.7rem;
+        border-radius: var(--radius-md);
+        background: radial-gradient(circle at top,
+            rgba(15,23,42,0.96),
+            rgba(15,23,42,0.98));
+        border: 1px solid rgba(55,65,81,0.95);
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular,
+            Menlo, Monaco, Consolas, "Liberation Mono", "Courier New";
+        font-size: 0.73rem;
+        color: #e5e7eb;
+        max-height: 350px;
+        overflow: auto;
     }
 
     footer {
         margin-top: 2.5rem;
-        border-top: 1px solid rgba(31,41,55,0.5);
         padding-top: 1rem;
-        font-size: 0.75rem;
+        border-top: 1px solid rgba(31,41,55,0.9);
+        font-size: 0.7rem;
         color: var(--muted);
-        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+        flex-wrap: wrap;
     }
 </style>
 
 <!-- MathJax -->
 <script>
 window.MathJax = {
-    tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$']] },
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']],
+           displayMath: [['$$','$$'], ['\\[','\\]']] },
     svg: { fontCache: 'global' }
 };
 </script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
 <body>
-
 <header>
     <div class="top-bar">
-        <div class="brand-title">STUR Physics Lab</div>
-
+        <div class="brand">
+            <div class="brand-mark"></div>
+            <div class="brand-text">
+                <div class="brand-title">STUR Physics Lab</div>
+                <div class="brand-subtitle">Law of Resistance</div>
+            </div>
+        </div>
         <div class="nav-actions">
-            <a href="../index.html" class="btn-ghost">← Return</a>
-            <a href="https://jupyter.org/try-jupyter/lab/" class="btn-ghost" target="_blank">📓 Jupyter</a>
-
-            <!-- FIXED: Copy ONLY script -->
-            <button id="copy-script-btn" class="btn-ghost">📋 Copy Script</button>
+            <a href="../index.html" class="btn-ghost">
+                <span class="icon">←</span><span>Return to Lab Index</span>
+            </a>
+            <a href="https://jupyter.org/try-jupyter/lab/" class="btn-ghost" target="_blank">
+                <span class="icon">📓</span><span>Open in Jupyter</span>
+            </a>
         </div>
     </div>
 </header>
 
 <main>
 
-<!-- HERO BLOCK -->
-<div class="hero">
-    <div class="hero-main">
-        <h1>The Law of Resistance – Unified 5D Field Equation</h1>
-        <p>
-            STUR models the universe with a resistance field R(x,t,X) on a 5D manifold. Motion, structure, memory,
-            emergence, and probability fall out of how R evolves in space, time, and the feedback dimension X.
-        </p>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-main">
+            <div class="hero-badge">
+                <div class="hero-badge-dot"><div class="hero-badge-dot-inner"></div></div>
+                <span>Core Field Equation</span>
+            </div>
 
-        <div class="math-block">
-            $$ \frac{\partial R}{\partial t} = \nabla \cdot (D \nabla R) - \nabla R \cdot \Omega + \chi \frac{\partial R}{\partial X} + S $$
+            <h1 class="hero-title">
+                The <span class="highlight">Law of Resistance</span> – one equation for motion, structure, and life.
+            </h1>
+
+            <p class="hero-subtitle">
+                STUR models the universe with a single resistance field $R(x,t,X)$ defined on a 5D manifold.
+                Everything else – diffusion, drift, memory, curvature, probability, emergence – falls out
+                of how $R$ evolves in space, time, and the hidden feedback dimension $X$.
+            </p>
+
+            <div class="hero-equation-card">
+                <div class="hero-equation-label">STUR evolution law</div>
+                <div class="equation-display">
+                    \[
+                    \frac{\partial R}{\partial t}
+                    = \nabla \cdot (D \nabla R)
+                    - \nabla R \cdot \Omega
+                    + \chi \frac{\partial R}{\partial X}
+                    + S
+                    \]
+                </div>
+                <div class="hero-footnote">
+                    This is a conservation law for resistance: local changes in $R$ come from
+                    diffusion, directed flow, hidden-dimension feedback, and external sources.
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="hero-side">
-        <div class="panel"><div class="panel-body">
-            Everything flows down resistance gradients while the X-dimension encodes coherence and memory.
-        </div></div>
+        <aside class="hero-side">
+            <div class="panel">
+                <div class="panel-title">Plain language summary</div>
+                <div class="panel-body">
+                    Every system pushes through a landscape of resistance $R$. Gradients in that landscape determine
+                    what moves, what forms, and what survives: matter, fields, code, markets, cells, and minds all
+                    follow the same rule: they <strong>flow down resistance gradients</strong> while feedback in $X$
+                    writes memory and coherence.
+                </div>
+            </div>
 
-        <div class="panel"><div class="panel-body">
-            R(x,t,X) = resistance field  
-            D = diffusion  
-            Ω = flow field  
-            χ = X-coupling  
-            S = sources and sinks  
-        </div></div>
-    </div>
-</div>
+            <div class="panel">
+                <div class="panel-title">Term legend</div>
+                <div class="panel-body">
+                    <div class="chip-row">
+                        <span class="chip highlight">R(x,t,X): resistance field</span>
+                        <span class="chip">D: diffusion tensor</span>
+                        <span class="chip">Ω: drift / flow field</span>
+                        <span class="chip">χ: X-coupling strength</span>
+                        <span class="chip">S: sources / sinks</span>
+                    </div>
+                    <p style="margin-top:0.5rem;">
+                        The hidden dimension $X$ carries feedback, adaptation, and internal state.
+                        When you drop $X$, the universe looks probabilistic.
+                        When you keep it, it becomes deterministic.
+                    </p>
+                </div>
+            </div>
+        </aside>
+    </section>
 
-<!-- FULL SCRIPT BLOCK (COPY TARGET) -->
-<!-- NOTHING REMOVED FROM YOUR ORIGINAL SCRIPT → moved here so copy button works -->
-<div class="section">
-    <div class="section-body">
-        <h3>Simulation Script</h3>
-        <pre id="script-block" class="code-block">
+    <!-- DERIVATION -->
+    <section class="section" id="derivation">
+        <div class="section-header">
+            <h2 class="section-title">1 · Deriving the Law of Resistance</h2>
+            <div class="section-kicker">From conservation law → STUR 5D evolution equation</div>
+        </div>
+
+        <div class="section-body">
+            <p>Start with the only assumption you really need:
+               there is a scalar resistance field $R(x,t,X)$ defined over physical space $x$,
+               time $t$, and a hidden feedback coordinate $X$.
+            </p>
+
+            <div class="math-block">
+                <div class="math-caption">Local resistance balance</div>
+                \[
+                \frac{\partial R}{\partial t} + \nabla \cdot J_R = S.
+                \]
+            </div>
+
+            <p>
+                Here $J_R$ is the resistance flux and $S$ collects all sources and sinks. To turn
+                this balance into a working PDE, you specify how $J_R$ is built from $R$.
+            </p>
+
+            <div class="two-column">
+
+                <div>
+                    <p><strong>Step 1 – Diffusion down gradients</strong></p>
+                    <p>
+                        Systems smooth out sharp spikes in resistance. This gives
+                        \[
+                        J_{\text{diff}} = -D \nabla R
+                        \]
+                        and therefore
+                    </p>
+                    <div class="math-block">
+                        \[
+                        \frac{\partial R}{\partial t} = \nabla \cdot (D \nabla R) + \dots
+                        \]
+                    </div>
+                </div>
+
+                <div>
+                    <p><strong>Step 2 – Drift along a flow field</strong></p>
+                    <p>
+                        Add directed transport:
+                        \[
+                        J_{\text{flow}} = R \Omega
+                        \]
+                        which yields the drift term
+                    </p>
+                    <div class="math-block">
+                        \[
+                        -\nabla R \cdot \Omega.
+                        \]
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="two-column" style="margin-top:1rem;">
+
+                <div>
+                    <p><strong>Step 3 – Hidden-dimension feedback</strong></p>
+                    <p>
+                        Promote coherence/history into a coordinate $X$:
+                    </p>
+                    <div class="math-block">
+                        <div class="math-caption">X-coupled resistance manifold</div>
+                        \[
+                        \frac{\partial R}{\partial X} = \frac{R - R_{bg}}{L_X}.
+                        \]
+                    </div>
+                    <p>This feeds back into time evolution through $\chi \partial R/\partial X$.</p>
+                </div>
+
+                <div>
+                    <p><strong>Step 4 – Collect everything</strong></p>
+                    <p>
+                        Combine all pieces:
+                    </p>
+                    <div class="math-block">
+                        \[
+                        \frac{\partial R}{\partial t}
+                        =
+                        \nabla \cdot (D \nabla R)
+                        - \nabla R \cdot \Omega
+                        + \chi \frac{\partial R}{\partial X}
+                        + S.
+                        \]
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- INTERPRETATION -->
+    <section class="section" id="interpretation">
+        <div class="section-header">
+            <h2 class="section-title">2 · How to read the equation</h2>
+            <div class="section-kicker">One law, many domains</div>
+        </div>
+
+        <div class="section-body">
+
+            <p>
+                The Law of Resistance becomes mechanics, thermodynamics, information flow,
+                evolution, or learning depending on how you choose $R$, $D$, $\Omega$, $\chi$, and $S$.
+            </p>
+
+            <div style="margin-top:0.6rem;">
+                <span class="pill"><span class="pill-dot diffusion"></span>Diffusion</span>
+                <span class="pill"><span class="pill-dot flow"></span>Flow</span>
+                <span class="pill"><span class="pill-dot xdim"></span>X-feedback</span>
+                <span class="pill"><span class="pill-dot source"></span>Sources</span>
+            </div>
+
+            <p style="margin-top:0.7rem;">
+                In plasmas, $R$ tracks resistive load; in cells, $R$ is metabolic resistance and $X$ is regulatory memory;
+                in markets, $R$ is allocation resistance.
+            </p>
+
+            <div class="math-block">
+                <div class="math-caption">Hidden dimension as deterministic completion</div>
+                <p style="margin:0;">
+                    4D spacetime is $(x,t)$ where time is the fourth coordinate. STUR adds a fifth: $X$.
+                    Ignoring $X$ produces apparent randomness. Keeping it makes the system deterministic.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROOF -->
+    <section class="section" id="proof">
+        <div class="section-header">
+            <h2 class="section-title">3 · Proof of concept: resistance smoothing in 1D</h2>
+            <div class="section-kicker">A minimal numerical experiment inside the page</div>
+        </div>
+
+        <div class="section-body">
+
+            <p>
+                Switch off flow, X-feedback, and sources to view the pure diffusion limit:
+            </p>
+
+            <div class="math-block">
+                <div class="math-caption">1D diffusion limit</div>
+                \[
+                \frac{\partial R}{\partial t}
+                = D \frac{\partial^2 R}{\partial x^2}.
+                \]
+            </div>
+
+            <p>
+                Below is the minimal 1D JS demo.
+            </p>
+
+            <div class="two-column">
+
+                <div>
+                    <div class="code-block">
+
+<pre id="stur-script"> <!-- ADDED: Script now has ID -->
 // Minimal 1D resistance diffusion (JS, run in browser)
-const N = 64;
-const D = 0.2;
+const N = 64;           // grid points
+const D = 0.2;          // diffusion coefficient
 const dx = 1.0;
-const dt = 0.1;
-const steps = 200;
+const dt = 0.1;         // stable for this D, dx
+const steps = 200;      // time steps
 
 let R = new Array(N).fill(0);
 
+// Sharp resistance spike in the center
 for (let i = 0; i < N; i++) {
     const dist = Math.abs(i - N/2);
     R[i] = dist < 3 ? 1.0 : 0.0;
@@ -235,75 +764,117 @@ for (let i = 0; i < N; i++) {
 
 const initialR = R.slice();
 
+// Explicit finite-difference update
 for (let n = 0; n < steps; n++) {
     const newR = R.slice();
     for (let i = 1; i < N - 1; i++) {
-        const lap = (R[i+1] - 2*R[i] + R[i-1]);
+        const lap = (R[i+1] - 2*R[i] + R[i-1]) / (dx*dx);
         newR[i] = R[i] + dt * D * lap;
     }
     R = newR;
 }
 
 const finalR = R.slice();
-        </pre>
-    </div>
-</div>
+</pre>
 
-<!-- OUTPUT -->
-<div class="section">
-    <div class="section-body">
-        <div id="poc-status">Running demo…</div>
-        <pre id="poc-output" class="code-block"></pre>
-    </div>
-</div>
+<!-- ADDED: Copy button moved next to script -->
+<button id="copy-script-btn-inline" class="btn-ghost">📋 Copy Script</button>
+
+                        <div class="code-label">Proof-of-concept core</div>
+                    </div>
+                </div>
+
+                <div>
+                    <p>
+                        This is a stripped-down version of the full PDE.
+                        The concentrated spike relaxes into a smooth bump as expected.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="poc-status" id="poc-status">Running 1D diffusion demo…</div>
+            <div class="poc-output" id="poc-output"></div>
+
+            <p style="margin-top:0.7rem;">
+                This behavior generalizes to full STUR simulations with flow, X-feedback, and nonlinear sources.
+            </p>
+
+        </div>
+    </section>
+
+    <footer>
+        <div>STUR · Spatial Resistance → Temporal Resistance → Universal Constructor → Robustness</div>
+        <div>
+            Explore the full lab at
+            <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/" target="_blank">
+                sheldonlindberg-afk.github.io/STUR-Physics-Lab
+            </a>
+        </div>
+    </footer>
 
 </main>
 
-<footer>
-    STUR · Sheldon's Theory of Unified Resistance  
-    <br> Full Lab: <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">sheldonlindberg-afk.github.io/STUR-Physics-Lab</a>
-</footer>
-
-<!-- RUN DEMO -->
 <script>
+// Minimal demo
 window.addEventListener('DOMContentLoaded', () => {
     const statusEl = document.getElementById('poc-status');
     const outEl = document.getElementById('poc-output');
 
-    const N = 64, D = 0.2, dt = 0.1, steps = 200;
+    try {
+        const N = 64;
+        const D = 0.2;
+        const dt = 0.1;
+        const steps = 200;
+        let R = new Array(N).fill(0);
 
-    let R = new Array(N).fill(0);
-    for (let i=0;i<N;i++){ R[i]=Math.abs(i-N/2)<3?1:0; }
-
-    const initial = R.slice();
-
-    for (let s=0;s<steps;s++){
-        const newR = R.slice();
-        for (let i=1;i<N-1;i++){
-            const lap = (R[i+1]-2*R[i]+R[i-1]);
-            newR[i] = R[i] + dt*D*lap;
+        for (let i = 0; i < N; i++) {
+            const dist = Math.abs(i - N/2);
+            R[i] = dist < 3 ? 1.0 : 0.0;
         }
-        R=newR;
+
+        const initialR = R.slice();
+
+        for (let n = 0; n < steps; n++) {
+            const newR = R.slice();
+            for (let i = 1; i < N - 1; i++) {
+                const lap = (R[i+1] - 2*R[i] + R[i-1]);
+                newR[i] = R[i] + dt * D * lap;
+            }
+            R = newR;
+        }
+
+        const finalR = R.slice();
+
+        const roundArray = arr => arr.map(v => Number(v.toFixed(3)));
+
+        const payload = {
+            description: "1D diffusion of a resistance spike via ∂R/∂t = D ∂²R/∂x²",
+            N, D, dt, steps,
+            initial_R_center_slice: roundArray(initialR),
+            final_R_center_slice: roundArray(finalR)
+        };
+
+        statusEl.textContent = "Demo complete: initial spike smoothed into a broad resistance bump.";
+        outEl.textContent = JSON.stringify(payload, null, 2);
+
+    } catch (err) {
+        statusEl.textContent = "Error running demo.";
+        outEl.textContent = String(err);
+        statusEl.style.color = "#f97373";
     }
-
-    const final = R.slice();
-
-    statusEl.textContent = "Demo complete.";
-    outEl.textContent = JSON.stringify({
-        description:"1D diffusion",
-        initial: initial.map(v=>+v.toFixed(3)),
-        final: final.map(v=>+v.toFixed(3))
-    }, null, 2);
 });
 </script>
 
-<!-- FIXED COPY BUTTON -->
+<!-- ADDED: Replaced broken copy script JS -->
 <script>
-document.getElementById("copy-script-btn").addEventListener("click", async () => {
+document.getElementById("copy-script-btn-inline")
+.addEventListener("click", async () => {
     try {
-        const scriptText = document.getElementById("script-block").innerText;
-        await navigator.clipboard.writeText(scriptText);
-        alert("Script copied!");
+        const codeEl = document.getElementById("stur-script");
+        const text = codeEl.innerText;
+        await navigator.clipboard.writeText(text);
+        alert("Script copied to clipboard!");
     } catch (err) {
         alert("Copy failed: " + err);
     }
