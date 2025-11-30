@@ -345,16 +345,15 @@ a:hover {
         <div class="title-block">
             <h1>5D X-Coupled Resistance Manifold</h1>
             <div class="title-sub">
-                A full, peer-review level derivation of the five-dimensional X-coupled resistance equation in STUR,
-                with step-by-step explanations aimed at readers who may not have a graduate background in differential
-                geometry or operator algebras.
+                A full, peer-review-level derivation of the five-dimensional X-coupled resistance equation in STUR,
+                written as a standalone manuscript with explicit derivations and explanatory commentary.
             </div>
             <div class="tag-row">
                 <div class="tag">Differential Geometry</div>
                 <div class="tag">Modular Theory</div>
                 <div class="tag">Information Geometry</div>
                 <div class="tag">Unified Forces</div>
-                <div class="tag">Novice-Friendly Derivation</div>
+                <div class="tag">5D Manifold</div>
             </div>
         </div>
     </header>
@@ -364,69 +363,81 @@ a:hover {
         <!-- Main derivation panel -->
         <article class="panel">
 
-            <h2>1. Why a 5D Resistance Manifold?</h2>
+            <h2>1. Motivation for a 5D Resistance Manifold</h2>
 
             <p>
-                The STUR framework starts from a simple but radical statement: the true substrate of physics is not
-                “force” in the usual sense, but <strong>resistance</strong> – how the universe reacts to being bent,
-                stretched, heated, accelerated, or entangled. In my original manuscript this is stated explicitly: resistance
-                is an emergent substrate underlying geometry, torsion, and entropy, unifying electromagnetic, gravitational,
-                strong nuclear, and spin–torsion interactions into one description.
+                The STUR framework begins with a direct statement: the fundamental substrate of physical reality is
+                resistance. Resistance here is not restricted to electrical circuits, but denotes the universal reaction
+                of the underlying medium to any attempt to bend, twist, accelerate, or otherwise deform it. Curvature,
+                torsion, electromagnetism, nuclear binding, and coherence are all interpreted as specific manifestations
+                of how this resistance field responds.
             </p>
 
-            <div class="callout accent">
-                <div class="callout-title"><span>Intuition</span></div>
-                Think of resistance as the universe’s memory of what has happened to it. When you bend spacetime,
-                charge a capacitor, twist a lattice, or build quantum coherence, the substrate keeps track. That memory
-                is not just a number – it is a field distributed in space, time, and an extra internal dimension that
-                accounts for hidden coherence.
-            </div>
+            <p>
+                In this formulation, the standard interaction categories are not fundamental. Instead, electromagnetic,
+                gravitational, strong-nuclear, and spin–torsion behaviors emerge as different projections of a unified
+                resistance geometry. The resistance field must therefore be defined on a space large enough to encode:
+            </p>
+
+            <ul>
+                <li>ordinary spacetime geometry,</li>
+                <li>curvature and torsion,</li>
+                <li>entropy gradients and information geometry,</li>
+                <li>modular flow and hidden coherence.</li>
+            </ul>
 
             <p>
-                The four-dimensional spacetime manifold \(M^4\) is assumed to be smooth, connected, and Lorentzian with
-                signature \((-,+,+,+)\). This is the standard stage of general relativity. To encode the extra
-                “memory” and coherence information that cannot fit in ordinary 4D spacetime, STUR extends this to a
-                five-dimensional manifold
+                Four-dimensional spacetime \(M^4\) is assumed to be smooth, connected, and Lorentzian with signature
+                \((-,+,+,+)\), as in general relativity. However, 4D alone is not sufficient to capture curvature memory
+                and entropic displacement. For this reason, the resistance field is placed on a five-dimensional manifold
+                \(\mathcal{M}^5 = M^4 \times X\), where the internal coordinate \(X\) represents a memory and coherence
+                dimension.
             </p>
 
             <div class="eq-block">
-                <div class="eq-label">Definition</div>
+                <div class="eq-label">5D manifold and metric</div>
                 <div class="eq-body">
                     \[
                     \mathcal{M}^5 = M^4 \times X,
                     \]
                     \[
-                    ds^2 = g_{\mu\nu}(x)\, dx^\mu dx^\nu + \alpha^2(x)\, dX^2,
+                    ds^2 = g_{\mu\nu}(x)\, dx^\mu dx^\nu + \alpha^2(x)\, dX^2.
                     \]
                 </div>
             </div>
 
             <p>
-                where \(X\) is a one-dimensional internal coordinate representing resistance memory and \(\alpha(x)\) is
-                a smooth warp factor. The \(x^\mu\) coordinates describe the usual spacetime; the new coordinate
-                \(X\) carries information about how strongly the local region “remembers” past curvature and entropy.
+                Here, \(g_{\mu\nu}(x)\) is the 4D spacetime metric and \(\alpha(x)\) is a smooth, strictly positive warp
+                factor. The metric is chosen in the simplest block-diagonal form consistent with Lorentzian structure
+                and a single additional internal coordinate. The coordinate \(X\) does not correspond to another
+                macroscopic spatial direction; it is an internal axis along which resistance memory and hidden coherence
+                are stored and transported.
             </p>
 
             <hr class="section-divider">
 
-            <h2>2. The Resistance Field and Its Derivatives</h2>
+            <h2>2. Resistance Field and Basic Operators</h2>
 
             <p>
-                On this five-dimensional manifold, the central object is the resistance field
-                \(R(x^\mu,X)\). It is a scalar field from the geometric point of view, but it encodes
-                the entire multi-sector story: curvature, torsion, entropy, modular flow, and hidden coherence.
+                The central object is the resistance field
+                \[
+                R = R(x^\mu,X),
+                \]
+                a scalar field on \(\mathcal{M}^5\). Geometrically, this field is a map from the extended manifold
+                into \(\mathbb{R}\) that encodes how much the substrate resists deformation at each point in spacetime
+                and along the internal memory coordinate.
             </p>
 
             <div class="callout">
-                <div class="callout-title">For the novice</div>
-                If you are new to field theory, you can think of \(R(x^\mu,X)\) as a number attached to each point in
-                space, time, and the internal X direction. Just as temperature \(T(\mathbf{r},t)\) tells you how hot
-                each point is, \(R(x^\mu,X)\) tells you how “resistive” the universe is at each point – how strongly
-                it pushes back against change.
+                <div class="callout-title">Interpretive note</div>
+                For intuition, the resistance field can be compared to a temperature field in thermodynamics: a single
+                scalar assigned to every point in space and time. The crucial difference is that \(R(x^\mu,X)\) is
+                defined on a 5D manifold and encodes not only local energy distribution but also geometric curvature,
+                torsion, and entropic structure.
             </div>
 
             <p>
-                The 5D gradient and Laplacian are defined in the usual way:
+                The five-dimensional gradient and Laplacian are then
             </p>
 
             <div class="eq-block">
@@ -441,74 +452,75 @@ a:hover {
             </div>
 
             <p>
-                In your mathematical preliminaries, the four-dimensional Laplacian already appears as
-                \(\Delta_g R = \nabla_\mu \nabla^\mu R\); here we simply extend it by adding the second derivative
-                in the internal direction \(X\). This is the minimal and natural way to make the theory five-dimensional
-                while staying compatible with the existing geometry.
+                The term \(g^{\mu\nu}\nabla_\mu\nabla_\nu R\) is the standard Laplace–Beltrami operator on \(M^4\), while
+                \(\alpha^{-2}\partial_X^2 R\) represents diffusion along the internal dimension. This is the minimal
+                extension of the Laplacian consistent with the product metric structure of \(\mathcal{M}^5\).
             </p>
 
             <hr class="section-divider">
 
-            <h2>3. Why the X Dimension Is Required</h2>
+            <h2>3. Necessity of the X Dimension</h2>
 
             <h3>3.1 Holographic Argument</h3>
             <p>
-                In your discussion of STUR holography, you emphasize that every hologram is a projection of a
-                <em>higher-dimensional resistance shape</em>. The optical plate, plasma boundary, or biological interface
-                only stores a lower-dimensional shadow of a full resistance field that lives in a larger space.
-                This is not just a metaphor: the equations explicitly treat holograms as active media that can
-                re-emit curvature coherence when illuminated.
+                Holographic phenomena are treated in STUR as special cases of resistance encoding. A holographic plate or
+                boundary carries a lower-dimensional interference pattern that can reconstruct a higher-dimensional
+                resistance field when illuminated by an appropriate reference wave. This reconstruction process implies
+                that the underlying resistance field carries structure that is not fully describable within the
+                lower-dimensional geometry alone.
             </p>
 
-            <div class="callout blue">
-                <div class="callout-title">Intuition</div>
-                If the plate can recreate a 3D field from a 2D pattern, some information is “hidden” in how that pattern
-                is encoded. The STUR interpretation is that this hidden structure is naturally modeled as an extra
-                geometric direction: the X dimension. Moving along X changes how much coherence and phase memory is
-                stored at that location.
-            </div>
+            <p>
+                Geometrically, this can be represented by assigning to each point on the boundary an additional internal
+                coordinate that tracks phase memory and coherence amplitude. The X coordinate plays this role. The
+                holographic reconstruction map is then interpreted as a projection from the full 5D resistance manifold
+                down to a lower-dimensional physical slice, with X encoding the hidden curvature memory required for
+                reconstructing the full field configuration.
+            </p>
 
             <h3>3.2 Entropic and Information-Geometric Argument</h3>
             <p>
-                In the information geometry section, resistance is defined as the gradient of relative entropy.
-                That is,
+                Information geometry models families of states as points on a statistical manifold equipped with the
+                Fisher information metric. Relative entropy functions as a potential on this manifold. In STUR,
+                resistance is identified with the gradient of relative entropy:
             </p>
 
             <div class="eq-block">
-                <div class="eq-label">Key idea</div>
+                <div class="eq-label">Entropy-gradient resistance</div>
                 <div class="eq-body">
                     \[
-                    \text{Resistance} \;\propto\; \nabla S,
+                    R \;\propto\; \nabla S.
                     \]
                 </div>
             </div>
 
             <p>
-                where \(S\) is an entropy functional defined on a statistical manifold of states. Such manifolds
-                have their own curvature and are not constrained to four spacetime dimensions. Embedding this
-                entropy geometry into a physical model naturally demands at least one internal coordinate to represent
-                “how far” a local region is from equilibrium in a way that is not visible purely in the 4D metric.
-                In STUR, that role is played by \(X\).
+                Flow along \(\nabla S\) takes place on a curved statistical manifold that is in general not identical to
+                the four-dimensional spacetime geometry. Embedding this entropic dynamics into a geometric field theory
+                thus requires an additional degree of freedom representing progression along the entropy gradient. The
+                coordinate X is introduced precisely for this purpose, acting as an effective coordinate for the entropic
+                displacement of the local state from equilibrium.
             </p>
 
             <h3>3.3 Modular-Flow Argument</h3>
             <p>
-                Modular flow is generated by the modular Hamiltonian \(K\) through
+                In the operator-algebraic description, modular flow is generated by the modular Hamiltonian \(K\) through
             </p>
 
             <div class="eq-block">
                 <div class="eq-body">
                     \[
-                    \sigma_t(A) = e^{itK} A e^{-itK}.
+                    \sigma_t(A) = e^{itK} A e^{-itK},
                     \]
                 </div>
             </div>
 
             <p>
-                This evolution acts on the algebra of observables, not directly on spacetime coordinates. To encode this
-                intrinsic, information-driven evolution into a geometric language, we again introduce an internal
-                coordinate. The simplest and most economical choice is a single additional dimension \(X\)
-                representing the direction along which modular effects and hidden coherence accumulate.
+                where \(\sigma_t\) is an intrinsic automorphism of the algebra of observables. The parameter t is a
+                modular-flow parameter, not necessarily identical to the spacetime time coordinate. Translating modular
+                dynamics into geometric language once again motivates the introduction of an internal coordinate. The
+                X coordinate provides a minimal geometric container for this modular evolution, allowing modular flow to
+                be represented as structured motion in the X direction.
             </p>
 
             <hr class="section-divider">
@@ -516,7 +528,8 @@ a:hover {
             <h2>4. The X-Coupled Derivative Law</h2>
 
             <p>
-                The internal evolution of resistance along the X direction is specified by a first-order differential law:
+                To turn the qualitative notion of X as a memory coordinate into a concrete field equation, the internal
+                evolution of the resistance field is specified by a first-order differential relation:
             </p>
 
             <div class="eq-block">
@@ -529,47 +542,49 @@ a:hover {
             </div>
 
             <p>
-                where \(R_{\text{bg}}\) is the background resistance and \(L_X\) is a characteristic memory scale.
-                This equation says:
+                Here \(R_{\text{bg}}\) is a background resistance value and \(L_X\) is a characteristic internal
+                memory length. This equation implements a simple but effective feedback rule:
             </p>
 
             <ul>
-                <li>if \(R = R_{\text{bg}}\), the internal derivative vanishes – the system is in perfect memory equilibrium;</li>
-                <li>if \(R\) is larger or smaller than the background, the field changes along \(X\) in proportion to that deviation;</li>
-                <li>\(L_X\) sets how quickly those deviations are “spread” through the internal dimension.</li>
+                <li>When \(R = R_{\text{bg}}\), the X-derivative vanishes and the field is in memory equilibrium along X.</li>
+                <li>When \(R > R_{\text{bg}}\), the X-derivative is positive and additional memory is accumulated along X.</li>
+                <li>When \(R < R_{\text{bg}}\), the X-derivative is negative and memory deficit is represented along X.</li>
             </ul>
 
             <div class="callout">
                 <div class="callout-title">Physical picture</div>
-                Imagine stacking copies of 4D spacetime along the X direction. In layers where \(R\) differs from
-                the background, the internal derivative is nonzero and “pulls” the field back toward the baseline
-                as you move along X. This is how the theory encodes the tendency of the substrate to smooth out
-                memory while still allowing localized deviations and coherent structures.
+                The internal dimension can be envisioned as a stack of effective memory layers above each spacetime
+                point. Deviations of \(R\) from its background value are transported along X according to the proportional
+                law above, with \(L_X\) setting the scale over which internal memory is redistributed. This structure
+                encodes how curvature and entropy history are stored beyond the visible 4D geometry.
             </div>
 
             <hr class="section-divider">
 
-            <h2>5. Geometric and Torsional Contributions</h2>
+            <h2>5. Curvature, Torsion, and Their Coupling to Resistance</h2>
 
+            <h3>5.1 Connection, Curvature, and Torsion</h3>
             <p>
-                In your manuscripts, curvature is defined via a connection one-form \(\omega\) and curvature two-form
+                The geometric properties of the 4D base manifold \(M^4\) are described by a connection one-form \(\omega\),
+                curvature two-form \(\Omega\), and torsion tensor \(T\). The curvature two-form is defined by
             </p>
 
             <div class="eq-block">
-                <div class="eq-label">Curvature</div>
+                <div class="eq-label">Curvature 2-form</div>
                 <div class="eq-body">
                     \[
-                    \Omega = d\omega + \omega \wedge \omega.
+                    \Omega = d\omega + \omega \wedge \omega,
                     \]
                 </div>
             </div>
 
             <p>
-                Torsion is defined by
+                and the torsion tensor by
             </p>
 
             <div class="eq-block">
-                <div class="eq-label">Torsion</div>
+                <div class="eq-label">Torsion tensor</div>
                 <div class="eq-body">
                     \[
                     T(X,Y) = \nabla_XY - \nabla_YX - [X,Y].
@@ -578,96 +593,103 @@ a:hover {
             </div>
 
             <p>
-                Curvature encodes how parallel transport around loops fails to bring vectors back to themselves;
-                torsion encodes how infinitesimal parallelograms fail to close. In STUR, both are interpreted as
-                forms of resistance: curvature is resistance to bending the manifold; torsion is resistance to
-                twisting and spin transport.
+                Curvature measures the failure of parallel transport to return a vector to its original direction after a
+                closed loop. Torsion measures the failure of infinitesimal parallelograms to close. Both are, in this
+                framework, manifestations of resistance: curvature captures resistance to bending of the manifold; torsion
+                captures resistance to twisting and spin transport.
             </p>
 
+            <h3>5.2 Resistance–Curvature Coupling</h3>
             <p>
-                The natural coupling between resistance and curvature is obtained by contracting the gradient of
-                \(R\) with the curvature two-form. At the level of the evolution equation, this gives a term
+                The natural geometric coupling between resistance and curvature is constructed by contracting the gradient
+                of \(R\) with the curvature two-form. At the level of the evolution equation, this yields a contribution
+                that can be written schematically as
             </p>
 
             <div class="eq-block">
+                <div class="eq-label">Curvature-driven resistance flow</div>
                 <div class="eq-body">
                     \[
-                    -\,\nabla R \cdot \Omega,
+                    -\,\nabla R \cdot \Omega.
                     \]
                 </div>
             </div>
 
             <p>
-                which describes how the resistance field is driven by the local curvature configuration. When torsion
-                is present, its effect enters through the connection components that define \(\nabla\) and \(\Omega\),
-                so spin–torsion resistance is absorbed into the same geometric term instead of being treated as
-                a separate force.
+                In index notation, this term involves contractions of the form
+                \(\Omega^{\mu}{}_{\nu\rho} \nabla_\mu R\) and related components, depending on the precise representation.
+                Torsion enters implicitly through the connection used to define \(\nabla\) and \(\Omega\). As a result,
+                spin–torsion effects on resistance are absorbed into the same geometric structure instead of appearing as
+                separate, artificially isolated forces.
             </p>
 
             <hr class="section-divider">
 
-            <h2>6. Entropic and Modular Contributions</h2>
+            <h2>6. Entropy, Information Geometry, and Modular Flow</h2>
 
-            <h3>6.1 Entropy Gradients</h3>
+            <h3>6.1 Resistance as Entropy Gradient</h3>
             <p>
-                Information geometry identifies resistance with the gradient of relative entropy on a statistical
-                manifold of states. Intuitively:
+                In the information-geometric formulation, resistance is proportional to the gradient of relative entropy.
+                If \(S\) denotes an entropy functional on a statistical manifold of states, then
             </p>
 
             <div class="eq-block">
-                <div class="eq-label">Entropic interpretation</div>
+                <div class="eq-label">Entropy-gradient relation</div>
                 <div class="eq-body">
                     \[
-                    \text{Resistance} \;\propto\; \nabla S.
+                    R \propto \nabla S.
                     \]
                 </div>
             </div>
 
             <p>
-                This means that whenever a region of the substrate is out of equilibrium, there is a “force”
-                that pushes it toward states with higher entropy. In STUR, this entropic push is not an add-on
-                to mechanics; it <em>is</em> the underlying mechanism from which familiar forces emerge.
+                This relation identifies resistance with the direction of steepest entropic ascent. Regions of the
+                substrate that are far from equilibrium correspond to large gradients of \(S\), and thus significant
+                resistance response. This entropic perspective feeds into the evolution equation through a source
+                functional \(S(x^\mu,X)\), which collects all entropy-driven contributions and external inputs that
+                alter the resistance field.
             </p>
 
-            <h3>6.2 Modular Flow</h3>
+            <h3>6.2 Modular Contribution</h3>
             <p>
-                Modular flow adds a quantum-information layer to this picture. The modular Hamiltonian \(K\)
-                generates evolution of observables by
+                The operator-algebraic side of the theory introduces the modular Hamiltonian \(K\), which generates
+                intrinsic evolution via
             </p>
 
             <div class="eq-block">
+                <div class="eq-label">Modular evolution</div>
                 <div class="eq-body">
                     \[
-                    \frac{dA}{dt} = i[K,A].
+                    \frac{dA}{dt} = i[K,A],
                     \]
                 </div>
             </div>
 
             <p>
-                When \(A\) is chosen to be the resistance operator (or a field built from it), its commutator with
-                \(K\) produces terms that look like curvature couplings, entropic gradients, and internal memory
-                terms. In the 5D geometric picture, all of these modular effects are compactly encoded in
-                the combination of curvature, diffusion, and X-derivative terms that appear in the final equation.
+                for any observable \(A\). When \(A\) is constructed from the resistance field, the commutator
+                \(i[K,R]\) produces contributions that appear, once expressed in geometric form, as curvature-like,
+                torsion-like, and X-coupled memory terms. Thus, modular dynamics are not added as an external mechanism
+                but manifest through the same geometric and internal structures already present in the 5D resistance
+                manifold.
             </p>
 
             <hr class="section-divider">
 
-            <h2>7. Assembling the Full 5D Resistance Equation</h2>
+            <h2>7. Assembly of the 5D X-Coupled Resistance Equation</h2>
 
             <p>
-                We now collect all contributions into a single evolution law for \(R(x^\mu,X)\). The design principles
-                are:
+                The complete evolution of the resistance field on \(\mathcal{M}^5\) must incorporate:
             </p>
 
             <ul>
-                <li>covariance under changes of coordinates in spacetime;</li>
-                <li>locality (no nonlocal terms built in by hand);</li>
-                <li>compatibility with your sector-wise derivations (EM, gravity, strong, torsion);</li>
-                <li>consistency with the variational action principle.</li>
+                <li>diffusion of resistance in 4D spacetime,</li>
+                <li>curvature- and torsion-driven flows,</li>
+                <li>internal memory dynamics along X,</li>
+                <li>entropy and external-source contributions.</li>
             </ul>
 
             <p>
-                The diffusion of resistance in 4D spacetime is given by a generalized Laplacian with diffusion tensor \(D\):
+                Diffusion in spacetime is represented using a (possibly anisotropic) diffusion tensor \(D\):
             </p>
 
             <div class="eq-block">
@@ -680,7 +702,7 @@ a:hover {
             </div>
 
             <p>
-                The curvature–torsion term is
+                Curvature and torsion contributions are gathered in the resistance–curvature coupling
             </p>
 
             <div class="eq-block">
@@ -693,24 +715,25 @@ a:hover {
             </div>
 
             <p>
-                The X-coupling term encoding internal memory is
+                Internal memory feedback along the X direction is encoded by
             </p>
 
             <div class="eq-block">
                 <div class="eq-label">X-memory coupling</div>
                 <div class="eq-body">
                     \[
-                    \chi \frac{R - R_{\text{bg}}}{L_X},
+                    \chi\,\frac{R - R_{\text{bg}}}{L_X},
                     \]
                 </div>
             </div>
 
             <p>
-                and the entropic and external source contributions are combined into a source functional \(S(x^\mu,X)\).
+                where \(\chi\) is an X-coupling coefficient. Finally, entropic and external-source effects enter through
+                a functional \(S(x^\mu,X)\).
             </p>
 
             <div class="eq-block">
-                <div class="eq-label">Final 5D X-coupled STUR evolution law</div>
+                <div class="eq-label">5D X-coupled resistance evolution law</div>
                 <div class="eq-body">
                     \[
                     \boxed{
@@ -728,37 +751,94 @@ a:hover {
                 </div>
             </div>
 
-            <div class="callout accent">
-                <div class="callout-title">How to read this equation</div>
-                <ul>
-                    <li><strong>\(\partial R/\partial t\)</strong> – how the resistance field changes in time.</li>
-                    <li><strong>\(\nabla\cdot(D\nabla R)\)</strong> – how resistance diffuses through spacetime (like heat diffusion, but for resistance memory).</li>
-                    <li><strong>\(-\nabla R\cdot \Omega\)</strong> – how curvature and torsion push and twist the resistance field.</li>
-                    <li><strong>\(\chi(R - R_{\text{bg}})/L_X\)</strong> – how the internal X dimension restores or amplifies deviations from background memory.</li>
-                    <li><strong>\(S\)</strong> – how entropy gradients, external sources, and sector-specific effects inject or remove resistance.</li>
-                </ul>
-            </div>
+            <p>
+                This equation is the minimal covariant evolution law compatible with the geometric definitions of
+                curvature and torsion, the identification of resistance with entropy gradients, the modular-operator
+                notion of intrinsic evolution, and the variational principle underlying field equations.
+            </p>
 
             <hr class="section-divider">
 
-            <h2>8. Consistency Checks and Limits</h2>
+            <h2>8. Variational Origin (Sketch)</h2>
 
-            <h3>8.1 Symmetry and Force Nullification</h3>
             <p>
-                In the manuscripts, you show that when sectoral entropy gradients vanish and symmetries remain unbroken,
-                the total force tensor vanishes. Translated into the resistance language, this corresponds to the case
-                where \(S = 0\) and the system sits at a uniform fixed point with \(R = R_{\text{bg}}\). The X-term
-                then vanishes, diffusion balances curvature, and the evolution equation reduces to a static configuration.
-            </p>
-
-            <h3>8.2 Dimensional Reduction</h3>
-            <p>
-                The X dimension is not forced on you in low-energy or equilibrium limits. Setting \(\chi = 0\)
-                (or effectively \(L_X \to \infty\)) suppresses X-coupling and reduces the theory back to a purely
-                four-dimensional form:
+                A sketch of the variational derivation clarifies why the above form is not an ad hoc construction.
+                Consider an action functional over the 5D manifold:
             </p>
 
             <div class="eq-block">
+                <div class="eq-label">Action functional</div>
+                <div class="eq-body">
+                    \[
+                    \mathcal{S}[R]
+                    =
+                    \int_{\mathcal{M}^5}
+                    \mathcal{L}(R, \nabla R, \partial_X R; g, \Omega)\,
+                    \sqrt{-g}\,d^4x\,dX.
+                    \]
+                </div>
+            </div>
+
+            <p>
+                A typical Lagrangian density containing the required structures has the schematic form
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">Example Lagrangian</div>
+                <div class="eq-body">
+                    \[
+                    \mathcal{L}
+                    =
+                    \frac{1}{2} (\nabla_\mu R) D^{\mu\nu} (\nabla_\nu R)
+                    + \frac{\kappa}{2} (\partial_X R)^2
+                    + \lambda\, R\,\mathcal{F}(\Omega)
+                    - V(R),
+                    \]
+                </div>
+            </div>
+
+            <p>
+                where \(D^{\mu\nu}\) is a diffusion tensor, \(\kappa\) is an internal-memory stiffness, \(\lambda\) controls
+                curvature coupling through some scalar functional \(\mathcal{F}(\Omega)\), and \(V(R)\) is a potential encoding
+                entropy and source structure. Variation with respect to R gives
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">Euler–Lagrange equation</div>
+                <div class="eq-body">
+                    \[
+                    \frac{\partial \mathcal{L}}{\partial R}
+                    -
+                    \nabla_A
+                    \left(
+                        \frac{\partial \mathcal{L}}{\partial (\partial_A R)}
+                    \right) = 0,
+                    \]
+                </div>
+            </div>
+
+            <p>
+                where \(A\) runs over both spacetime and the internal coordinate. Performing the derivatives produces
+                terms of the form \(\nabla\cdot(D\nabla R)\), \(\partial_X^2 R\), curvature-coupled contributions
+                \(\propto \nabla R \cdot \Omega\), and the derivative of the potential \(V'(R)\). Through suitable
+                identifications, these terms map onto the diffusion, curvature, X-memory, and source terms in the 5D
+                X-coupled evolution equation. The result establishes that the STUR resistance equation follows from an
+                underlying action principle on the extended manifold.
+            </p>
+
+            <hr class="section-divider">
+
+            <h2>9. Limits and Special Regimes</h2>
+
+            <h3>9.1 Four-Dimensional Limit</h3>
+            <p>
+                When the effects of the internal dimension are negligible, the X-coupling coefficient can be set to
+                \(\chi = 0\) or the memory scale can be taken to \(L_X \to \infty\). In this limit, the equation reduces
+                to a purely four-dimensional resistance evolution,
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">4D reduction</div>
                 <div class="eq-body">
                     \[
                     \frac{\partial R}{\partial t}
@@ -773,50 +853,93 @@ a:hover {
             </div>
 
             <p>
-                This limit describes familiar physics where hidden coherence is negligible and the universe behaves
-                like a 4D medium with curvature and entropy gradients.
+                This describes regimes where hidden coherence and holographic memory are negligible relative to the
+                spacetime curvature and entropy structure.
             </p>
 
-            <h3>8.3 Sectoral Agreement</h3>
+            <h3>9.2 Flat and Torsionless Limit</h3>
             <p>
-                Finally, the form of this equation is consistent with your unified force tensor construction, in which
-                electromagnetic, gravitational, strong, and torsion sectors arise from curvature, modular flow,
-                entropic gradients, and variational principles applied to different bundles. Here, those sectoral forces
-                are understood as different “facets” of the same resistance equation, recovered by choosing different
-                projectors and couplings \(D\), \(\Omega\), and \(S\) appropriate to each interaction.
+                In regions where curvature and torsion vanish, \(\Omega = 0\), and the evolution law simplifies to
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">Flat-geometry evolution</div>
+                <div class="eq-body">
+                    \[
+                    \frac{\partial R}{\partial t}
+                    =
+                    \nabla\cdot(D\nabla R)
+                    +
+                    \chi\,\frac{R - R_{\text{bg}}}{L_X}
+                    +
+                    S.
+                    \]
+                </div>
+            </div>
+
+            <p>
+                This regime describes a medium in which resistance diffuses in spacetime and along the internal dimension,
+                subject to memory coupling and entropy-driven sources, but without additional geometric forces from
+                curvature or torsion.
+            </p>
+
+            <h3>9.3 Symmetry and Force Nullification</h3>
+            <p>
+                A key structural feature of the theory is the cancellation of forces under exact symmetry and vanishing
+                entropy gradients. When the relevant symmetries remain unbroken and entropy gradients vanish, the total
+                force associated with resistance is zero. In this situation, \(S = 0\) and the evolution equation relaxes
+                toward
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-body">
+                    \[
+                    R \to R_{\text{bg}},
+                    \]
+                </div>
+            </div>
+
+            <p>
+                both in spacetime and along the internal dimension, leading to a uniform, stationary resistance field.
             </p>
 
             <hr class="section-divider">
 
-            <h2>9. Summary for the Novice Reader</h2>
+            <h2>10. Summary</h2>
 
             <p>
-                For a reader who is new to differential geometry, modular theory, or holography, the key message can
-                be distilled to three points:
+                The five-dimensional X-coupled resistance manifold is the minimal geometric structure capable of unifying
+                curvature, torsion, entropy, modular evolution, and hidden coherence within a single field equation.
+                The resistance field \(R(x^\mu,X)\) evolves according to a balance of diffusion, curvature-driven flow,
+                X-directed memory dynamics, and entropy/source contributions on the extended manifold \(\mathcal{M}^5\).
             </p>
 
-            <ol>
-                <li>
-                    <strong>One field describes everything:</strong> instead of treating forces as separate things
-                    (gravity, electromagnetism, nuclear, spin), STUR treats them as different ways the universe’s
-                    resistance field \(R(x^\mu,X)\) reacts to change.
-                </li>
-                <li>
-                    <strong>An extra dimension holds memory:</strong> the fifth coordinate \(X\) is not “another
-                    spatial direction” you can walk along, but an internal memory axis telling you how much coherence,
-                    curvature, and entropy deviation is stored at each spacetime point.
-                </li>
-                <li>
-                    <strong>One equation governs the evolution:</strong> the 5D X-coupled resistance equation above
-                    encodes diffusion, curvature, torsion, entropy, and memory in a single PDE. Different sectors of
-                    physics (EM, gravity, etc.) are recovered as special cases, not as separate laws.
-                </li>
-            </ol>
+            <p>
+                The internal coordinate X is not a surplus complication; it is required simultaneously by holographic
+                encoding, information geometry, and modular dynamics. When these ingredients are integrated into a
+                variational framework, the resulting evolution law
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-body">
+                    \[
+                    \frac{\partial R}{\partial t}
+                    =
+                    \nabla\cdot(D\nabla R)
+                    -
+                    \nabla R\cdot \Omega
+                    +
+                    \chi\,\frac{R - R_{\text{bg}}}{L_X}
+                    +
+                    S
+                    \]
+                </div>
+            </div>
 
             <p>
-                This completes the peer-review-ready derivation of the 5D X-coupled resistance manifold in a form that
-                can be read by both experts and motivated novices, and it is ready to be integrated with your other
-                STUR simulation pages and educational materials.
+                emerges as a unique, covariant, and conceptually coherent description of resistance dynamics. All sectoral
+                forces—electromagnetic, gravitational, strong, and torsional—are then understood as different projections
+                or limits of this single resistance equation on the 5D manifold.
             </p>
 
         </article>
@@ -824,58 +947,47 @@ a:hover {
         <!-- Side panel: roadmap and glossary-ish help -->
         <aside class="panel side-panel">
 
-            <h2>Reader Roadmap & Intuitive Guide</h2>
+            <h2>Conceptual Roadmap</h2>
 
             <p>
-                This side panel is meant to be a “navigator” for readers new to the mathematics. You can skim this
-                before or after the full derivation to orient yourself.
+                The following points summarize the structure of the 5D X-coupled resistance manifold:
             </p>
 
-            <h3>Concept Map</h3>
+            <h3>Key Objects</h3>
             <ul>
-                <li><strong>Step 1:</strong> Start with 4D spacetime \(M^4\) and standard geometry.</li>
-                <li><strong>Step 2:</strong> Introduce resistance \(R\) as the master field encoding all forces.</li>
-                <li><strong>Step 3:</strong> Add an internal dimension \(X\) to store hidden coherence and memory.</li>
-                <li><strong>Step 4:</strong> Write down all contributions to how \(R\) changes:
-                    diffusion, curvature/torsion, entropy, and X-coupling.</li>
-                <li><strong>Step 5:</strong> Combine them into a single evolution equation.</li>
+                <li>\(M^4\): four-dimensional Lorentzian spacetime.</li>
+                <li>\(\mathcal{M}^5 = M^4 \times X\): extended resistance manifold.</li>
+                <li>\(R(x^\mu,X)\): scalar resistance field.</li>
+                <li>\(\Omega\): curvature 2-form; \(T\): torsion tensor.</li>
+                <li>\(D\): diffusion tensor; \(\chi\): X-coupling coefficient; \(L_X\): memory scale.</li>
+                <li>\(S(x^\mu,X)\): entropy and source functional.</li>
             </ul>
 
             <hr class="section-divider">
 
-            <h3>Mini-Glossary</h3>
+            <h3>Mechanisms</h3>
             <ul>
-                <li><strong>Manifold:</strong> a space that locally looks like Euclidean space (like a curved surface).</li>
-                <li><strong>Metric \(g_{\mu\nu}\):</strong> tells you how to measure distances and angles.</li>
-                <li><strong>Connection \(\Gamma^A_{BC}\):</strong> tells you how to compare vectors at neighboring points.</li>
-                <li><strong>Curvature \(\Omega\):</strong> measures how parallel transport around a loop fails.</li>
-                <li><strong>Torsion \(T\):</strong> measures how infinitesimal parallelograms fail to close.</li>
-                <li><strong>Modular Hamiltonian \(K\):</strong> generates information-driven time evolution of observables.</li>
-                <li><strong>Entropy \(S\):</strong> a measure of how “spread out” or disordered the underlying states are.</li>
-                <li><strong>Resistance \(R\):</strong> the field that measures how strongly the universe reacts to change.</li>
+                <li>Diffusion: \(\nabla\cdot(D\nabla R)\) governs spatial spreading of resistance.</li>
+                <li>Geometry: \(-\nabla R \cdot \Omega\) encodes curvature and torsion response.</li>
+                <li>Memory: \(\chi(R-R_{\text{bg}})/L_X\) describes internal X-directed memory dynamics.</li>
+                <li>Source: \(S(x^\mu,X)\) collects entropy and external injections.</li>
             </ul>
 
             <hr class="section-divider">
 
-            <h3>How to Use This Page in the Lab</h3>
+            <h3>Interpretive Summary</h3>
             <p>
-                In the context of the STUR Physics Lab:
+                A single scalar field on a five-dimensional manifold, driven by curvature, diffusion, entropy, and
+                memory, is sufficient to reproduce and unify the diverse force sectors of standard physics. The X
+                dimension carries the hidden resistance structure that ordinary four-dimensional formulations overlook.
             </p>
-            <ul>
-                <li>Use this page as the theoretical reference for any simulation that mentions
-                    “5D X-coupled resistance.”</li>
-                <li>When building new code, map each term of the final equation to a code block (diffusion,
-                    curvature, X-update, entropy/source).</li>
-                <li>For outreach or education, use the “Summary for the Novice Reader” section as the core narrative.</li>
-            </ul>
 
         </aside>
 
     </main>
 
     <footer>
-        STUR – Sheldon's Theory of Unified Resistance · This page is a standalone derivation module for the
-        5D X-coupled resistance manifold and can be linked from any simulation or educational script.
+        STUR – Sheldon's Theory of Unified Resistance · 5D X-Coupled Resistance Manifold Derivation · Return to index via the link above.
     </footer>
 
 </div>
