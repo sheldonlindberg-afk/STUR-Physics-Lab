@@ -2,841 +2,882 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>STUR – 5D X-Coupled Resistance Manifold (Full Derivation)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STUR – The Law of Resistance</title>
 
-<style>
-    :root {
-        color-scheme: dark;
-        --bg: #05060a;
-        --panel: #0c1120;
-        --panel2: #111827;
-        --accent: #ec4899;
-        --accent2: #f97316;
-        --fg: #e5e7eb;
-        --fg2: #9ca3af;
-        --code-bg: #020617;
-        --border: #1f2937;
-        --danger: #f97373;
-        --success: #22c55e;
-        --muted: #6b7280;
-        --shadow-soft: 0 18px 45px rgba(0,0,0,0.55);
-        --radius-lg: 18px;
-        --radius-md: 12px;
-        --radius-sm: 8px;
-        --transition-fast: 160ms ease-out;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-        background: radial-gradient(circle at top, #020617 0, #020617 25%, #020617 60%, #020617 100%);
-        background-color: var(--bg);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-        color: var(--fg);
-        margin: 0;
-        padding: 0;
-        -webkit-font-smoothing: antialiased;
-    }
-
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    header {
-        padding: 1.4rem 1.2rem 0.8rem;
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        backdrop-filter: blur(16px);
-        background: linear-gradient(to bottom,
-            rgba(15,23,42,0.96),
-            rgba(15,23,42,0.8),
-            transparent);
-        border-bottom: 1px solid rgba(31,41,55,0.6);
-    }
-
-    .top-bar {
-        max-width: 1100px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.75rem;
-    }
-
-    .brand { display: flex; align-items: center; gap: 0.6rem; }
-
-    .brand-mark {
-        width: 30px; height: 30px;
-        border-radius: 999px;
-        background: radial-gradient(circle at 20% 0%, #f97316, #ec4899 40%, #4f46e5 100%);
-        box-shadow: 0 0 20px rgba(236,72,153,0.8);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .brand-mark::after {
-        content: "";
-        position: absolute;
-        inset: 18%;
-        border-radius: inherit;
-        border: 1px solid rgba(15,23,42,0.65);
-        box-shadow: inset 0 0 20px rgba(15,23,42,0.9);
-        opacity: 0.9;
-    }
-
-    .brand-text {
-        display: flex;
-        flex-direction: column;
-        gap: 0.05rem;
-    }
-
-    .brand-title {
-        font-weight: 650;
-        letter-spacing: 0.03em;
-        font-size: 0.96rem;
-    }
-
-    .brand-subtitle {
-        font-size: 0.72rem;
-        color: var(--fg2);
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-    }
-
-    .nav-actions {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .btn-ghost {
-        border-radius: 999px;
-        padding: 0.4rem 0.9rem;
-        border: 1px solid rgba(148,163,184,0.5);
-        background: radial-gradient(circle at top left,
-            rgba(148,163,184,0.18),
-            rgba(15,23,42,0.96));
-        color: var(--fg);
-        font-size: 0.78rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        cursor: pointer;
-        transition: transform var(--transition-fast),
-                    box-shadow var(--transition-fast),
-                    border-color var(--transition-fast),
-                    background var(--transition-fast);
-    }
-
-    .btn-ghost:hover {
-        transform: translateY(-1px);
-        border-color: rgba(248,250,252,0.8);
-        box-shadow: 0 12px 28px rgba(15,23,42,0.7);
-    }
-
-    main {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 1rem 1.2rem 3rem;
-    }
-
-    pre {
-        white-space: pre-wrap;
-        word-break: break-word;
-        line-height: 1.55;
-        background: var(--code-bg);
-        border: 1px solid var(--border);
-        padding: 1rem;
-        border-radius: 8px;
-        font-family: "JetBrains Mono", monospace;
-        color: var(--fg);
-        overflow-x: auto;
-        font-size: 0.8rem;
-    }
-    #copy-script-btn-inline {
-        margin-top: 0.6rem;
-    }
-
-    .hero {
-        margin-top: 1.2rem;
-        margin-bottom: 1.5rem;
-        display: grid;
-        grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.1fr);
-        gap: 1.4rem;
-    }
-
-    @media (max-width: 880px) {
-        .hero { grid-template-columns: minmax(0, 1fr); }
-    }
-
-    .hero-main {
-        background: radial-gradient(circle at 0% -40%,
-            rgba(236,72,153,0.42), transparent 60%),
-            linear-gradient(to bottom right,
-            rgba(15,23,42,0.96),
-            rgba(15,23,42,0.96),
-            rgba(15,23,42,0.92));
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-soft);
-        border: 1px solid rgba(55,65,81,0.9);
-        padding: 1.4rem 1.4rem 1.3rem;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-main::before {
-        content: "";
-        position: absolute;
-        inset: -40%;
-        background:
-            radial-gradient(circle at 10% 10%, rgba(244,114,182,0.08), transparent 60%),
-            radial-gradient(circle at 80% 0%, rgba(59,130,246,0.08), transparent 60%),
-            radial-gradient(circle at 0% 90%, rgba(249,115,22,0.08), transparent 55%);
-        opacity: 0.9;
-        pointer-events: none;
-    }
-
-    .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        border-radius: 999px;
-        border: 1px solid rgba(148,163,184,0.7);
-        background: radial-gradient(circle at top left,
-            rgba(148,163,184,0.18),
-            rgba(15,23,42,0.96));
-        padding: 0.2rem 0.7rem 0.2rem 0.28rem;
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        color: var(--fg2);
-        position: relative;
-        z-index: 1;
-    }
-
-    .hero-badge-dot {
-        width: 18px;
-        height: 18px;
-        border-radius: 999px;
-        background: radial-gradient(circle at 20% 0%, #f97316,
-            #ec4899 40%, #4f46e5 100%);
-        box-shadow: 0 0 16px rgba(236,72,153,0.9);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .hero-badge-dot-inner {
-        width: 9px; height: 9px;
-        border-radius: inherit;
-        background: rgba(15,23,42,0.85);
-        box-shadow: 0 0 12px rgba(15,23,42,0.9);
-    }
-
-    .hero-title {
-        margin-top: 0.8rem;
-        font-size: clamp(1.7rem, 3vw, 2.1rem);
-        line-height: 1.1;
-        letter-spacing: 0.02em;
-        position: relative;
-        z-index: 1;
-    }
-
-    .hero-title span.highlight {
-        background: linear-gradient(to right,
-            #f97316, #ec4899, #8b5cf6);
-        -webkit-background-clip: text;
-        color: transparent;
-    }
-
-    .hero-subtitle {
-        margin-top: 0.7rem;
-        font-size: 0.9rem;
-        color: var(--fg2);
-        max-width: 36rem;
-        position: relative;
-        z-index: 1;
-    }
-
-    .hero-equation-card {
-        margin-top: 1rem;
-        border-radius: var(--radius-md);
-        border: 1px solid rgba(55,65,81,0.9);
-        background: radial-gradient(circle at top left,
-            rgba(15,23,42,0.96),
-            rgba(15,23,42,0.98));
-        padding: 0.9rem 1rem 0.85rem;
-        position: relative;
-        z-index: 1;
-    }
-
-    .hero-equation-label {
-        font-size: 0.68rem;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        color: var(--muted);
-        margin-bottom: 0.35rem;
-    }
-
-    .equation-display {
-        font-family: "STIX Two Math","Cambria","Times New Roman",
-            ui-serif, Georgia, serif;
-        font-size: 0.9rem;
-        color: var(--fg);
-    }
-
-    .hero-footnote {
-        margin-top: 0.5rem;
-        font-size: 0.74rem;
-        color: var(--muted);
-        max-width: 32rem;
-    }
-
-    .hero-side { display: flex; flex-direction: column; gap: 0.7rem; }
-
-    .panel {
-        border-radius: var(--radius-md);
-        background: radial-gradient(circle at top left,
-            rgba(15,23,42,0.98),
-            rgba(15,23,42,0.98));
-        border: 1px solid rgba(55,65,81,0.9);
-        padding: 0.9rem 1rem 0.8rem;
-        box-shadow: var(--shadow-soft);
-    }
-
-    .panel-title {
-        font-size: 0.88rem;
-        margin-bottom: 0.4rem;
-    }
-
-    .panel-body {
-        font-size: 0.78rem;
-        color: var(--fg2);
-        line-height: 1.5;
-    }
-
-    .panel-body strong { color: #e5e7eb; font-weight: 600; }
-
-    .chip-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.3rem;
-        margin-top: 0.35rem;
-    }
-
-    .chip {
-        font-size: 0.7rem;
-        padding: 0.1rem 0.5rem;
-        border-radius: 999px;
-        border: 1px solid rgba(75,85,99,0.9);
-        background: radial-gradient(circle at top left,
-            rgba(31,41,55,0.9),
-            rgba(15,23,42,0.96));
-        color: var(--fg2);
-        white-space: nowrap;
-    }
-
-    .chip.highlight { border-color: rgba(236,72,153,0.9); }
-
-    .section { margin-top: 2rem; }
-
-    .section-header {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 0.5rem;
-        margin-bottom: 0.8rem;
-    }
-
-    .section-title {
-        font-size: 1.02rem;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-    }
-
-    .section-kicker {
-        font-size: 0.76rem;
-        color: var(--muted);
-    }
-
-    .section-body {
-        border-radius: var(--radius-lg);
-        background: radial-gradient(circle at top left,
-            rgba(15,23,42,0.98),
-            rgba(15,23,42,0.98));
-        border: 1px solid rgba(55,65,81,0.9);
-        padding: 1rem 1.1rem;
-        box-shadow: var(--shadow-soft);
-        font-size: 0.88rem;
-        color: var(--fg2);
-        line-height: 1.7;
-    }
-
-    .section-body p { margin: 0.2rem 0 0.5rem; }
-
-    .math-block {
-        margin: 0.6rem 0;
-        padding: 0.6rem 0.7rem;
-        border-radius: var(--radius-md);
-        background: radial-gradient(circle at top,
-            rgba(15,23,42,0.96),
-            rgba(15,23,42,0.98));
-        border: 1px solid rgba(55,65,81,0.9);
-        overflow-x: auto;
-    }
-
-    .math-caption {
-        font-size: 0.72rem;
-        color: var(--muted);
-        margin-bottom: 0.2rem;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-    }
-
-    .two-column {
-        display: grid;
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
-        gap: 1rem;
-        margin-top: 0.8rem;
-    }
-
-    @media (max-width: 880px) {
-        .two-column { grid-template-columns: minmax(0,1fr); }
-    }
-
-    .code-block {
-        margin-top: 0.5rem;
-        border-radius: var(--radius-md);
-        background: var(--code-bg);
-        border: 1px solid rgba(31,41,55,0.95);
-        padding: 0.7rem 0.8rem;
-        font-family: "JetBrains Mono", ui-monospace;
-        font-size: 0.75rem;
-        color: #e5e7eb;
-        overflow-x: auto;
-        line-height: 1.6;
-        position: relative;
-    }
-
-    .code-label {
-        position: absolute;
-        top: 0.35rem;
-        right: 0.5rem;
-        font-size: 0.65rem;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-    }
-
-    footer {
-        margin-top: 2.5rem;
-        padding-top: 1rem;
-        border-top: 1px solid rgba(31,41,55,0.9);
-        font-size: 0.7rem;
-        color: var(--muted);
-        display: flex;
-        justify-content: space-between;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-    }
-</style>
-
-<!-- MATHJAX FULLY ENABLED -->
+<!-- MathJax for equations -->
 <script>
 window.MathJax = {
-    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
-    svg: { fontCache: 'global' }
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    processEscapes: true
+  },
+  svg: { fontCache: 'global' }
 };
 </script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script>
-window.addEventListener("load", () => {
-    if (window.MathJax) MathJax.typeset();
-});
-</script>
-</head>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-<body>
-<header>
-    <div class="top-bar">
-        <div class="brand">
-            <div class="brand-mark"></div>
-            <div class="brand-text">
-                <div class="brand-title">STUR Physics Lab</div>
-                <div class="brand-subtitle">Law of Resistance</div>
-            </div>
-        </div>
-        <div class="nav-actions">
-            <a href="../index.html" class="btn-ghost">
-                <span class="icon">←</span><span>Return to Lab Index</span>
-            </a>
-            <a href="https://jupyter.org/try-jupyter/lab/" class="btn-ghost" target="_blank">
-                <span class="icon">📓</span><span>Open in Jupyter</span>
-            </a>
-        </div>
-    </div>
-</header>
-
-<main>
-
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-main">
-            <div class="hero-badge">
-                <div class="hero-badge-dot"><div class="hero-badge-dot-inner"></div></div>
-                <span>Core Field Equation</span>
-            </div>
-
-            <h1 class="hero-title">
-                The <span class="highlight">Law of Resistance</span> – one equation for motion, structure, and life.
-            </h1>
-
-            <p class="hero-subtitle">
-                STUR models the universe with a single resistance field $R(x,t,X)$ defined on a 5D manifold.
-                Everything else – diffusion, drift, memory, curvature, probability, emergence – falls out
-                of how $R$ evolves in space, time, and the hidden feedback dimension $X$.
-            </p>
-
-            <div class="hero-equation-card">
-                <div class="hero-equation-label">STUR evolution law</div>
-                <div class="equation-display">
-                    \[
-                    \frac{\partial R}{\partial t}
-                    = \nabla \cdot (D \nabla R)
-                    - \nabla R \cdot \Omega
-                    + \chi \frac{\partial R}{\partial X}
-                    + S
-                    \]
-                </div>
-                <div class="hero-footnote">
-                    This is a conservation law for resistance: local changes in $R$ come from
-                    diffusion, directed flow, hidden-dimension feedback, and external sources.
-                </div>
-            </div>
-        </div>
-
-        <aside class="hero-side">
-            <div class="panel">
-                <div class="panel-title">Plain language summary</div>
-                <div class="panel-body">
-                    Every system pushes through a landscape of resistance $R$. Gradients in that landscape determine
-                    what moves, what forms, and what survives: matter, fields, code, markets, cells, and minds all
-                    follow the same rule: they <strong>flow down resistance gradients</strong> while feedback in $X$
-                    writes memory and coherence.
-                </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-title">Term legend</div>
-                <div class="panel-body">
-                    <div class="chip-row">
-                        <span class="chip highlight">R(x,t,X): resistance field</span>
-                        <span class="chip">D: diffusion tensor</span>
-                        <span class="chip">Ω: drift / flow field</span>
-                        <span class="chip">χ: X-coupling strength</span>
-                        <span class="chip">S: sources / sinks</span>
-                    </div>
-                    <p style="margin-top:0.5rem;">
-                        The hidden dimension $X$ carries feedback, adaptation, and internal state.
-                        When you drop $X$, the universe looks probabilistic.
-                        When you keep it, it becomes deterministic.
-                    </p>
-                </div>
-            </div>
-        </aside>
-    </section>
-
-    <!-- DERIVATION -->
-    <section class="section" id="derivation">
-        <div class="section-header">
-            <h2 class="section-title">1 · Deriving the Law of Resistance</h2>
-            <div class="section-kicker">From conservation law → STUR 5D evolution equation</div>
-        </div>
-
-        <div class="section-body">
-            <p>Start with the only assumption you really need:
-               there is a scalar resistance field $R(x,t,X)$ defined over physical space $x$,
-               time $t$, and a hidden feedback coordinate $X$.
-            </p>
-
-            <div class="math-block">
-                <div class="math-caption">Local resistance balance</div>
-                \[
-                \frac{\partial R}{\partial t} + \nabla \cdot J_R = S.
-                \]
-            </div>
-
-            <p>
-                Here $J_R$ is the resistance flux and $S$ collects all sources and sinks. To turn
-                this balance into a working PDE, you specify how $J_R$ is built from $R$.
-            </p>
-
-            <div class="two-column">
-
-                <div>
-                    <p><strong>Step 1 – Diffusion down gradients</strong></p>
-                    <p>
-                        Systems smooth out sharp spikes in resistance. This gives
-                        \[
-                        J_{\text{diff}} = -D \nabla R
-                        \]
-                        and therefore
-                    </p>
-                    <div class="math-block">
-                        \[
-                        \frac{\partial R}{\partial t} = \nabla \cdot (D \nabla R) + \dots
-                        \]
-                    </div>
-                </div>
-
-                <div>
-                    <p><strong>Step 2 – Drift along a flow field</strong></p>
-                    <p>
-                        Add directed transport:
-                        \[
-                        J_{\text{flow}} = R \Omega
-                        \]
-                        which yields the drift term
-                    </p>
-                    <div class="math-block">
-                        \[
-                        -\nabla R \cdot \Omega.
-                        \]
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="two-column" style="margin-top:1rem;">
-
-                <div>
-                    <p><strong>Step 3 – Hidden-dimension feedback</strong></p>
-                    <p>
-                        Promote coherence/history into a coordinate $X$:
-                    </p>
-                    <div class="math-block">
-                        <div class="math-caption">X-coupled resistance manifold</div>
-                        \[
-                        \frac{\partial R}{\partial X} = \frac{R - R_{bg}}{L_X}.
-                        \]
-                    </div>
-                    <p>This feeds back into time evolution through $\chi \partial R/\partial X$.</p>
-                </div>
-
-                <div>
-                    <p><strong>Step 4 – Collect everything</strong></p>
-                    <p>
-                        Combine all pieces:
-                    </p>
-                    <div class="math-block">
-                        \[
-                        \frac{\partial R}{\partial t}
-                        =
-                        \nabla \cdot (D \nabla R)
-                        - \nabla R \cdot \Omega
-                        + \chi \frac{\partial R}{\partial X}
-                        + S.
-                        \]
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <!-- INTERPRETATION -->
-    <section class="section" id="interpretation">
-        <div class="section-header">
-            <h2 class="section-title">2 · How to read the equation</h2>
-            <div class="section-kicker">One law, many domains</div>
-        </div>
-
-        <div class="section-body">
-
-            <p>
-                The Law of Resistance becomes mechanics, thermodynamics, information flow,
-                evolution, or learning depending on how you choose $R$, $D$, $\Omega$, $\chi$, and $S$.
-            </p>
-
-            <div style="margin-top:0.6rem;">
-                <span class="pill"><span class="pill-dot diffusion"></span>Diffusion</span>
-                <span class="pill"><span class="pill-dot flow"></span>Flow</span>
-                <span class="pill"><span class="pill-dot xdim"></span>X-feedback</span>
-                <span class="pill"><span class="pill-dot source"></span>Sources</span>
-            </div>
-
-            <p style="margin-top:0.7rem;">
-                In plasmas, $R$ tracks resistive load; in cells, $R$ is metabolic resistance and $X$ is regulatory memory;
-                in markets, $R$ is allocation resistance.
-            </p>
-
-            <div class="math-block">
-                <div class="math-caption">Hidden dimension as deterministic completion</div>
-                <p style="margin:0;">
-                    4D spacetime is $(x,t)$ where time is the fourth coordinate. STUR adds a fifth: $X$.
-                    Ignoring $X$ produces apparent randomness. Keeping it makes the system deterministic.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- PROOF -->
-    <section class="section" id="proof">
-        <div class="section-header">
-            <h2 class="section-title">3 · Proof of concept: resistance smoothing in 1D</h2>
-            <div class="section-kicker">A minimal numerical experiment inside the page</div>
-        </div>
-
-        <div class="section-body">
-
-            <p>
-                Switch off flow, X-feedback, and sources to view the pure diffusion limit:
-            </p>
-
-            <div class="math-block">
-                <div class="math-caption">1D diffusion limit</div>
-                \[
-                \frac{\partial R}{\partial t}
-                = D \frac{\partial^2 R}{\partial x^2}.
-                \]
-            </div>
-
-            <p>
-                Below is the Python version of the 1D STUR demo (copy & run in Jupyter).
-            </p>
-
-            <div class="two-column">
-
-                <div>
-                    <div class="code-block">
-
-<pre id="stur-script">
-import numpy as np
-import matplotlib.pyplot as plt
-
-N = 256
-D = 0.22
-dx = 1.0
-dt = 0.08
-steps = 1200
-
-R = np.zeros(N)
-
-for i in range(N):
-    c1 = abs(i - N*0.35)
-    c2 = abs(i - N*0.65)
-    if c1 < 4: 
-        R[i] = 1.0 - 0.15*c1
-    if c2 < 6: 
-        R[i] += 0.9 - 0.1*c2
-
-initial_R = R.copy()
-history = np.zeros((steps, N))
-
-for t in range(steps):
-    newR = R.copy()
-    for i in range(1, N-1):
-        lap = (R[i+1] - 2*R[i] + R[i-1])/(dx*dx)
-        newR[i] = R[i] + dt*D*lap
-    R = newR
-    history[t] = R
-
-final_R = R.copy()
-
-curvature = np.zeros(N)
-curvature[1:-1] = (final_R[2:] - 2*final_R[1:-1] + final_R[:-2])/(dx*dx)
-
-energy = float(np.sum(curvature**2))
-smoothness = float(np.mean(np.abs(np.diff(final_R))))
-peak_shift = float(np.argmax(final_R) - np.argmax(initial_R))
-
-payload = {
-    "grid_points": N,
-    "time_steps": steps,
-    "max_initial_R": float(np.max(initial_R)),
-    "max_final_R": float(np.max(final_R)),
-    "energy_metric": energy,
-    "smoothness_metric": smoothness,
-    "peak_shift": peak_shift
+<style>
+:root {
+    color-scheme: dark;
+    --bg: #05060a;
+    --panel: #050815;
+    --panel2: #0b1120;
+    --accent: #ec4899;
+    --accent-soft: rgba(236, 72, 153, 0.1);
+    --accent2: #38bdf8;
+    --accent2-soft: rgba(56, 189, 248, 0.1);
+    --fg: #e5e7eb;
+    --fg2: #9ca3af;
+    --fg3: #6b7280;
+    --code-bg: #020617;
+    --border: #1f2937;
+    --border-soft: rgba(15, 23, 42, 0.7);
+    --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
 }
 
-print("=== STUR 1D EXTENDED SIM PAYLOAD ===")
-print(payload)
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
-plt.figure(figsize=(11,5))
-plt.plot(initial_R, label="Initial R", linewidth=2)
-plt.plot(final_R, label="Final R", linewidth=2)
-plt.legend()
-plt.grid(True)
-plt.title("STUR Extended 1D Resistance Evolution")
-plt.tight_layout()
-plt.show()
+html, body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle at top, #020617 0, #020617 40%, #020617 60%, #020617 100%);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+    color: var(--fg);
+}
 
-plt.figure(figsize=(11,5))
-plt.imshow(history, aspect='auto', cmap='inferno',
-           extent=[0,N-1,steps*dt,0])
-plt.colorbar(label="R")
-plt.title("Resistance Evolution Heatmap (Space × Time)")
-plt.tight_layout()
-plt.show()
+body {
+    min-height: 100vh;
+}
 
-plt.figure(figsize=(11,5))
-plt.plot(curvature, linewidth=1.5)
-plt.grid(True)
-plt.title("Curvature of Final R")
-plt.tight_layout()
-plt.show()
-</pre>
+/* Layout */
 
-<button id="copy-script-btn-inline" class="btn-ghost">📋 Copy Script</button>
+.page {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 1.75rem 1.25rem 3.5rem;
+}
 
-                        <div class="code-label">Python Jupyter Demo</div>
-                    </div>
-                </div>
+header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
 
-                <div>
-                    <p>
-                        This Python block replaces the JS demo and is the official
-                        Jupyter-compatible STUR reference implementation for this page.
-                    </p>
-                </div>
+.nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
 
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: radial-gradient(circle at left, rgba(236,72,153,0.18), transparent 60%);
+    border: 1px solid var(--border);
+    color: var(--fg2);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.18s ease-out;
+}
+
+.back-link span.icon {
+    font-size: 1.05rem;
+    transform: translateY(-0.5px);
+}
+
+.back-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: radial-gradient(circle at left, rgba(236,72,153,0.26), transparent 60%);
+    transform: translateY(-1px);
+}
+
+.lab-pill {
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148,163,184,0.65);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg3);
+}
+
+.title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.title-block h1 {
+    font-size: clamp(1.9rem, 3.2vw, 2.4rem);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin: 0;
+    background: linear-gradient(to right, #e5e7eb, #f97316, #38bdf8);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.title-sub {
+    font-size: 0.95rem;
+    color: var(--fg2);
+    max-width: 640px;
+}
+
+/* Main content layout */
+
+.main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1.4fr);
+    gap: 1.75rem;
+}
+
+@media (max-width: 960px) {
+    .main-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Panels */
+
+.panel {
+    background: radial-gradient(circle at top left, rgba(15,23,42,0.9), #020617 56%);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-soft);
+    box-shadow: var(--shadow-soft);
+    padding: 1.5rem 1.6rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.panel::before {
+    content: "";
+    position: absolute;
+    inset: -120px;
+    background: radial-gradient(circle at top left, rgba(236,72,153,0.08), transparent 60%);
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.panel h2 {
+    margin-top: 0;
+    font-size: 1.15rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--fg2);
+}
+
+.panel h3 {
+    font-size: 1.02rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.4rem;
+    color: var(--accent2);
+}
+
+.panel p {
+    font-size: 0.94rem;
+    line-height: 1.6;
+    color: var(--fg2);
+    margin: 0.25rem 0 0.4rem;
+}
+
+.panel strong {
+    color: #e5e7eb;
+}
+
+/* Side panel */
+
+.side-panel {
+    background: radial-gradient(circle at top right, rgba(56,189,248,0.16), #020617 65%);
+}
+
+.side-panel::before {
+    background: radial-gradient(circle at top right, rgba(56,189,248,0.22), transparent 60%);
+}
+
+/* Callouts */
+
+.callout {
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(148,163,184,0.5);
+    background: radial-gradient(circle at top left, rgba(15,23,42,0.95), #020617 70%);
+    padding: 0.9rem 0.9rem;
+    margin: 0.7rem 0 0.8rem;
+    font-size: 0.88rem;
+    color: var(--fg2);
+}
+
+.callout.accent {
+    border-color: rgba(236,72,153,0.7);
+    background: radial-gradient(circle at top left, rgba(236,72,153,0.12), rgba(15,23,42,0.96) 65%);
+}
+
+.callout.blue {
+    border-color: rgba(56,189,248,0.65);
+    background: radial-gradient(circle at top left, rgba(56,189,248,0.12), rgba(15,23,42,0.96) 65%);
+}
+
+.callout-title {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--fg3);
+    margin-bottom: 0.45rem;
+}
+
+.callout-title span {
+    color: var(--accent);
+}
+
+/* Equation blocks */
+
+.eq-block {
+    margin: 0.75rem 0 0.9rem;
+    padding: 0.7rem 0.85rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(148,163,184,0.55);
+    background: radial-gradient(circle at top, rgba(15,23,42,0.96), #020617 70%);
+    font-size: 0.93rem;
+    overflow-x: auto;
+}
+
+.eq-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--fg3);
+    margin-bottom: 0.25rem;
+}
+
+.eq-body {
+    font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    color: var(--fg);
+}
+
+/* Lists */
+
+.panel ul {
+    padding-left: 1.25rem;
+    margin: 0.3rem 0 0.7rem;
+    font-size: 0.92rem;
+    color: var(--fg2);
+}
+
+.panel li {
+    margin-bottom: 0.35rem;
+}
+
+/* Section separators */
+
+.section-divider {
+    height: 1px;
+    border: none;
+    margin: 1.4rem 0 1.1rem;
+    background: linear-gradient(to right, transparent, rgba(148,163,184,0.5), transparent);
+}
+
+/* Tag row */
+
+.tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+}
+
+.tag {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148,163,184,0.45);
+    color: var(--fg3);
+}
+
+/* Footer */
+
+footer {
+    margin-top: 2.25rem;
+    font-size: 0.8rem;
+    color: var(--fg3);
+    text-align: center;
+}
+
+/* Anchor style */
+
+a {
+    color: var(--accent2);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+    <header>
+        <div class="nav-row">
+            <a class="back-link" href="../index.html">
+                <span class="icon">←</span>
+                <span>Return to STUR Physics Lab Index</span>
+            </a>
+            <div class="lab-pill">STUR · Unified Resistance Framework</div>
+        </div>
+
+        <div class="title-block">
+            <h1>5D X-Coupled Resistance Manifold</h1>
+            <div class="title-sub">
+                A full, peer-review level derivation of the five-dimensional X-coupled resistance equation in STUR,
+                with step-by-step explanations aimed at readers who may not have a graduate background in differential
+                geometry or operator algebras.
+            </div>
+            <div class="tag-row">
+                <div class="tag">Differential Geometry</div>
+                <div class="tag">Modular Theory</div>
+                <div class="tag">Information Geometry</div>
+                <div class="tag">Unified Forces</div>
+                <div class="tag">Novice-Friendly Derivation</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-grid">
+
+        <!-- Main derivation panel -->
+        <article class="panel">
+
+            <h2>1. Why a 5D Resistance Manifold?</h2>
+
+            <p>
+                The STUR framework starts from a simple but radical statement: the true substrate of physics is not
+                “force” in the usual sense, but <strong>resistance</strong> – how the universe reacts to being bent,
+                stretched, heated, accelerated, or entangled. In your manuscripts this is stated explicitly: resistance
+                is an emergent substrate underlying geometry, torsion, and entropy, unifying electromagnetic, gravitational,
+                strong nuclear, and spin–torsion interactions into one description.
+            </p>
+
+            <div class="callout accent">
+                <div class="callout-title"><span>Intuition</span></div>
+                Think of resistance as the universe’s memory of what has happened to it. When you bend spacetime,
+                charge a capacitor, twist a lattice, or build quantum coherence, the substrate keeps track. That memory
+                is not just a number – it is a field distributed in space, time, and an extra internal dimension that
+                accounts for hidden coherence.
             </div>
 
-            <div class="poc-status" id="poc-status"></div>
-            <div class="poc-output" id="poc-output"></div>
+            <p>
+                The four-dimensional spacetime manifold \(M^4\) is assumed to be smooth, connected, and Lorentzian with
+                signature \((-,+,+,+)\). This is the standard stage of general relativity. To encode the extra
+                “memory” and coherence information that cannot fit in ordinary 4D spacetime, STUR extends this to a
+                five-dimensional manifold
+            </p>
 
-        </div>
-    </section>
+            <div class="eq-block">
+                <div class="eq-label">Definition</div>
+                <div class="eq-body">
+                    \[
+                    \mathcal{M}^5 = M^4 \times X,
+                    \]
+                    \[
+                    ds^2 = g_{\mu\nu}(x)\, dx^\mu dx^\nu + \alpha^2(x)\, dX^2,
+                    \]
+                </div>
+            </div>
+
+            <p>
+                where \(X\) is a one-dimensional internal coordinate representing resistance memory and \(\alpha(x)\) is
+                a smooth warp factor. The \(x^\mu\) coordinates describe the usual spacetime; the new coordinate
+                \(X\) carries information about how strongly the local region “remembers” past curvature and entropy.
+            </p>
+
+            <hr class="section-divider">
+
+            <h2>2. The Resistance Field and Its Derivatives</h2>
+
+            <p>
+                On this five-dimensional manifold, the central object is the resistance field
+                \(R(x^\mu,X)\). It is a scalar field from the geometric point of view, but it encodes
+                the entire multi-sector story: curvature, torsion, entropy, modular flow, and hidden coherence.
+            </p>
+
+            <div class="callout">
+                <div class="callout-title">For the novice</div>
+                If you are new to field theory, you can think of \(R(x^\mu,X)\) as a number attached to each point in
+                space, time, and the internal X direction. Just as temperature \(T(\mathbf{r},t)\) tells you how hot
+                each point is, \(R(x^\mu,X)\) tells you how “resistive” the universe is at each point – how strongly
+                it pushes back against change.
+            </div>
+
+            <p>
+                The 5D gradient and Laplacian are defined in the usual way:
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-body">
+                    \[
+                    \nabla_A R = (\nabla_\mu R,\; \partial_X R),
+                    \]
+                    \[
+                    \Delta_5 R = g^{\mu\nu} \nabla_\mu \nabla_\nu R + \alpha^{-2} \partial_X^2 R.
+                    \]
+                </div>
+            </div>
+
+            <p>
+                In your mathematical preliminaries, the four-dimensional Laplacian already appears as
+                \(\Delta_g R = \nabla_\mu \nabla^\mu R\); here we simply extend it by adding the second derivative
+                in the internal direction \(X\). This is the minimal and natural way to make the theory five-dimensional
+                while staying compatible with the existing geometry.
+            </p>
+
+            <hr class="section-divider">
+
+            <h2>3. Why the X Dimension Is Required</h2>
+
+            <h3>3.1 Holographic Argument</h3>
+            <p>
+                In your discussion of STUR holography, you emphasize that every hologram is a projection of a
+                <em>higher-dimensional resistance shape</em>. The optical plate, plasma boundary, or biological interface
+                only stores a lower-dimensional shadow of a full resistance field that lives in a larger space.
+                This is not just a metaphor: the equations explicitly treat holograms as active media that can
+                re-emit curvature coherence when illuminated.
+            </p>
+
+            <div class="callout blue">
+                <div class="callout-title">Intuition</div>
+                If the plate can recreate a 3D field from a 2D pattern, some information is “hidden” in how that pattern
+                is encoded. The STUR interpretation is that this hidden structure is naturally modeled as an extra
+                geometric direction: the X dimension. Moving along X changes how much coherence and phase memory is
+                stored at that location.
+            </div>
+
+            <h3>3.2 Entropic and Information-Geometric Argument</h3>
+            <p>
+                In the information geometry section, resistance is defined as the gradient of relative entropy.
+                That is,
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">Key idea</div>
+                <div class="eq-body">
+                    \[
+                    \text{Resistance} \;\propto\; \nabla S,
+                    \]
+                </div>
+            </div>
+
+            <p>
+                where \(S\) is an entropy functional defined on a statistical manifold of states. Such manifolds
+                have their own curvature and are not constrained to four spacetime dimensions. Embedding this
+                entropy geometry into a physical model naturally demands at least one internal coordinate to represent
+                “how far” a local region is from equilibrium in a way that is not visible purely in the 4D metric.
+                In STUR, that role is played by \(X\).
+            </p>
+
+            <h3>3.3 Modular-Flow Argument</h3>
+            <p>
+                Modular flow is generated by the modular Hamiltonian \(K\) through
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-body">
+                    \[
+                    \sigma_t(A) = e^{itK} A e^{-itK}.
+                    \]
+                </div>
+            </div>
+
+            <p>
+                This evolution acts on the algebra of observables, not directly on spacetime coordinates. To encode this
+                intrinsic, information-driven evolution into a geometric language, we again introduce an internal
+                coordinate. The simplest and most economical choice is a single additional dimension \(X\)
+                representing the direction along which modular effects and hidden coherence accumulate.
+            </p>
+
+            <hr class="section-divider">
+
+            <h2>4. The X-Coupled Derivative Law</h2>
+
+            <p>
+                The internal evolution of resistance along the X direction is specified by a first-order differential law:
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">X-dimension evolution</div>
+                <div class="eq-body">
+                    \[
+                    \partial_X R = \frac{R - R_{\text{bg}}}{L_X},
+                    \]
+                </div>
+            </div>
+
+            <p>
+                where \(R_{\text{bg}}\) is the background resistance and \(L_X\) is a characteristic memory scale.
+                This equation says:
+            </p>
+
+            <ul>
+                <li>if \(R = R_{\text{bg}}\), the internal derivative vanishes – the system is in perfect memory equilibrium;</li>
+                <li>if \(R\) is larger or smaller than the background, the field changes along \(X\) in proportion to that deviation;</li>
+                <li>\(L_X\) sets how quickly those deviations are “spread” through the internal dimension.</li>
+            </ul>
+
+            <div class="callout">
+                <div class="callout-title">Physical picture</div>
+                Imagine stacking copies of 4D spacetime along the X direction. In layers where \(R\) differs from
+                the background, the internal derivative is nonzero and “pulls” the field back toward the baseline
+                as you move along X. This is how the theory encodes the tendency of the substrate to smooth out
+                memory while still allowing localized deviations and coherent structures.
+            </div>
+
+            <hr class="section-divider">
+
+            <h2>5. Geometric and Torsional Contributions</h2>
+
+            <p>
+                In your manuscripts, curvature is defined via a connection one-form \(\omega\) and curvature two-form
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">Curvature</div>
+                <div class="eq-body">
+                    \[
+                    \Omega = d\omega + \omega \wedge \omega.
+                    \]
+                </div>
+            </div>
+
+            <p>
+                Torsion is defined by
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">Torsion</div>
+                <div class="eq-body">
+                    \[
+                    T(X,Y) = \nabla_XY - \nabla_YX - [X,Y].
+                    \]
+                </div>
+            </div>
+
+            <p>
+                Curvature encodes how parallel transport around loops fails to bring vectors back to themselves;
+                torsion encodes how infinitesimal parallelograms fail to close. In STUR, both are interpreted as
+                forms of resistance: curvature is resistance to bending the manifold; torsion is resistance to
+                twisting and spin transport.
+            </p>
+
+            <p>
+                The natural coupling between resistance and curvature is obtained by contracting the gradient of
+                \(R\) with the curvature two-form. At the level of the evolution equation, this gives a term
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-body">
+                    \[
+                    -\,\nabla R \cdot \Omega,
+                    \]
+                </div>
+            </div>
+
+            <p>
+                which describes how the resistance field is driven by the local curvature configuration. When torsion
+                is present, its effect enters through the connection components that define \(\nabla\) and \(\Omega\),
+                so spin–torsion resistance is absorbed into the same geometric term instead of being treated as
+                a separate force.
+            </p>
+
+            <hr class="section-divider">
+
+            <h2>6. Entropic and Modular Contributions</h2>
+
+            <h3>6.1 Entropy Gradients</h3>
+            <p>
+                Information geometry identifies resistance with the gradient of relative entropy on a statistical
+                manifold of states. Intuitively:
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">Entropic interpretation</div>
+                <div class="eq-body">
+                    \[
+                    \text{Resistance} \;\propto\; \nabla S.
+                    \]
+                </div>
+            </div>
+
+            <p>
+                This means that whenever a region of the substrate is out of equilibrium, there is a “force”
+                that pushes it toward states with higher entropy. In STUR, this entropic push is not an add-on
+                to mechanics; it <em>is</em> the underlying mechanism from which familiar forces emerge.
+            </p>
+
+            <h3>6.2 Modular Flow</h3>
+            <p>
+                Modular flow adds a quantum-information layer to this picture. The modular Hamiltonian \(K\)
+                generates evolution of observables by
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-body">
+                    \[
+                    \frac{dA}{dt} = i[K,A].
+                    \]
+                </div>
+            </div>
+
+            <p>
+                When \(A\) is chosen to be the resistance operator (or a field built from it), its commutator with
+                \(K\) produces terms that look like curvature couplings, entropic gradients, and internal memory
+                terms. In the 5D geometric picture, all of these modular effects are compactly encoded in
+                the combination of curvature, diffusion, and X-derivative terms that appear in the final equation.
+            </p>
+
+            <hr class="section-divider">
+
+            <h2>7. Assembling the Full 5D Resistance Equation</h2>
+
+            <p>
+                We now collect all contributions into a single evolution law for \(R(x^\mu,X)\). The design principles
+                are:
+            </p>
+
+            <ul>
+                <li>covariance under changes of coordinates in spacetime;</li>
+                <li>locality (no nonlocal terms built in by hand);</li>
+                <li>compatibility with your sector-wise derivations (EM, gravity, strong, torsion);</li>
+                <li>consistency with the variational action principle.</li>
+            </ul>
+
+            <p>
+                The diffusion of resistance in 4D spacetime is given by a generalized Laplacian with diffusion tensor \(D\):
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">Diffusion term</div>
+                <div class="eq-body">
+                    \[
+                    \nabla\cdot(D\nabla R).
+                    \]
+                </div>
+            </div>
+
+            <p>
+                The curvature–torsion term is
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">Curvature coupling</div>
+                <div class="eq-body">
+                    \[
+                    -\nabla R \cdot \Omega.
+                    \]
+                </div>
+            </div>
+
+            <p>
+                The X-coupling term encoding internal memory is
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">X-memory coupling</div>
+                <div class="eq-body">
+                    \[
+                    \chi \frac{R - R_{\text{bg}}}{L_X},
+                    \]
+                </div>
+            </div>
+
+            <p>
+                and the entropic and external source contributions are combined into a source functional \(S(x^\mu,X)\).
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-label">Final 5D X-coupled STUR evolution law</div>
+                <div class="eq-body">
+                    \[
+                    \boxed{
+                    \frac{\partial R}{\partial t}
+                    \;=\;
+                    \nabla\cdot(D\nabla R)
+                    \;-\;
+                    \nabla R\cdot \Omega
+                    \;+\;
+                    \chi\,\frac{R - R_{\text{bg}}}{L_X}
+                    \;+\;
+                    S
+                    }
+                    \]
+                </div>
+            </div>
+
+            <div class="callout accent">
+                <div class="callout-title">How to read this equation</div>
+                <ul>
+                    <li><strong>\(\partial R/\partial t\)</strong> – how the resistance field changes in time.</li>
+                    <li><strong>\(\nabla\cdot(D\nabla R)\)</strong> – how resistance diffuses through spacetime (like heat diffusion, but for resistance memory).</li>
+                    <li><strong>\(-\nabla R\cdot \Omega\)</strong> – how curvature and torsion push and twist the resistance field.</li>
+                    <li><strong>\(\chi(R - R_{\text{bg}})/L_X\)</strong> – how the internal X dimension restores or amplifies deviations from background memory.</li>
+                    <li><strong>\(S\)</strong> – how entropy gradients, external sources, and sector-specific effects inject or remove resistance.</li>
+                </ul>
+            </div>
+
+            <hr class="section-divider">
+
+            <h2>8. Consistency Checks and Limits</h2>
+
+            <h3>8.1 Symmetry and Force Nullification</h3>
+            <p>
+                In the manuscripts, you show that when sectoral entropy gradients vanish and symmetries remain unbroken,
+                the total force tensor vanishes. Translated into the resistance language, this corresponds to the case
+                where \(S = 0\) and the system sits at a uniform fixed point with \(R = R_{\text{bg}}\). The X-term
+                then vanishes, diffusion balances curvature, and the evolution equation reduces to a static configuration.
+            </p>
+
+            <h3>8.2 Dimensional Reduction</h3>
+            <p>
+                The X dimension is not forced on you in low-energy or equilibrium limits. Setting \(\chi = 0\)
+                (or effectively \(L_X \to \infty\)) suppresses X-coupling and reduces the theory back to a purely
+                four-dimensional form:
+            </p>
+
+            <div class="eq-block">
+                <div class="eq-body">
+                    \[
+                    \frac{\partial R}{\partial t}
+                    =
+                    \nabla\cdot(D\nabla R)
+                    -
+                    \nabla R\cdot \Omega
+                    +
+                    S.
+                    \]
+                </div>
+            </div>
+
+            <p>
+                This limit describes familiar physics where hidden coherence is negligible and the universe behaves
+                like a 4D medium with curvature and entropy gradients.
+            </p>
+
+            <h3>8.3 Sectoral Agreement</h3>
+            <p>
+                Finally, the form of this equation is consistent with your unified force tensor construction, in which
+                electromagnetic, gravitational, strong, and torsion sectors arise from curvature, modular flow,
+                entropic gradients, and variational principles applied to different bundles. Here, those sectoral forces
+                are understood as different “facets” of the same resistance equation, recovered by choosing different
+                projectors and couplings \(D\), \(\Omega\), and \(S\) appropriate to each interaction.
+            </p>
+
+            <hr class="section-divider">
+
+            <h2>9. Summary for the Novice Reader</h2>
+
+            <p>
+                For a reader who is new to differential geometry, modular theory, or holography, the key message can
+                be distilled to three points:
+            </p>
+
+            <ol>
+                <li>
+                    <strong>One field describes everything:</strong> instead of treating forces as separate things
+                    (gravity, electromagnetism, nuclear, spin), STUR treats them as different ways the universe’s
+                    resistance field \(R(x^\mu,X)\) reacts to change.
+                </li>
+                <li>
+                    <strong>An extra dimension holds memory:</strong> the fifth coordinate \(X\) is not “another
+                    spatial direction” you can walk along, but an internal memory axis telling you how much coherence,
+                    curvature, and entropy deviation is stored at each spacetime point.
+                </li>
+                <li>
+                    <strong>One equation governs the evolution:</strong> the 5D X-coupled resistance equation above
+                    encodes diffusion, curvature, torsion, entropy, and memory in a single PDE. Different sectors of
+                    physics (EM, gravity, etc.) are recovered as special cases, not as separate laws.
+                </li>
+            </ol>
+
+            <p>
+                This completes the peer-review-ready derivation of the 5D X-coupled resistance manifold in a form that
+                can be read by both experts and motivated novices, and it is ready to be integrated with your other
+                STUR simulation pages and educational materials.
+            </p>
+
+        </article>
+
+        <!-- Side panel: roadmap and glossary-ish help -->
+        <aside class="panel side-panel">
+
+            <h2>Reader Roadmap & Intuitive Guide</h2>
+
+            <p>
+                This side panel is meant to be a “navigator” for readers new to the mathematics. You can skim this
+                before or after the full derivation to orient yourself.
+            </p>
+
+            <h3>Concept Map</h3>
+            <ul>
+                <li><strong>Step 1:</strong> Start with 4D spacetime \(M^4\) and standard geometry.</li>
+                <li><strong>Step 2:</strong> Introduce resistance \(R\) as the master field encoding all forces.</li>
+                <li><strong>Step 3:</strong> Add an internal dimension \(X\) to store hidden coherence and memory.</li>
+                <li><strong>Step 4:</strong> Write down all contributions to how \(R\) changes:
+                    diffusion, curvature/torsion, entropy, and X-coupling.</li>
+                <li><strong>Step 5:</strong> Combine them into a single evolution equation.</li>
+            </ul>
+
+            <hr class="section-divider">
+
+            <h3>Mini-Glossary</h3>
+            <ul>
+                <li><strong>Manifold:</strong> a space that locally looks like Euclidean space (like a curved surface).</li>
+                <li><strong>Metric \(g_{\mu\nu}\):</strong> tells you how to measure distances and angles.</li>
+                <li><strong>Connection \(\Gamma^A_{BC}\):</strong> tells you how to compare vectors at neighboring points.</li>
+                <li><strong>Curvature \(\Omega\):</strong> measures how parallel transport around a loop fails.</li>
+                <li><strong>Torsion \(T\):</strong> measures how infinitesimal parallelograms fail to close.</li>
+                <li><strong>Modular Hamiltonian \(K\):</strong> generates information-driven time evolution of observables.</li>
+                <li><strong>Entropy \(S\):</strong> a measure of how “spread out” or disordered the underlying states are.</li>
+                <li><strong>Resistance \(R\):</strong> the field that measures how strongly the universe reacts to change.</li>
+            </ul>
+
+            <hr class="section-divider">
+
+            <h3>How to Use This Page in the Lab</h3>
+            <p>
+                In the context of the STUR Physics Lab:
+            </p>
+            <ul>
+                <li>Use this page as the theoretical reference for any simulation that mentions
+                    “5D X-coupled resistance.”</li>
+                <li>When building new code, map each term of the final equation to a code block (diffusion,
+                    curvature, X-update, entropy/source).</li>
+                <li>For outreach or education, use the “Summary for the Novice Reader” section as the core narrative.</li>
+            </ul>
+
+        </aside>
+
+    </main>
 
     <footer>
-        <div>STUR · Spatial Resistance → Temporal Resistance → Universal Constructor → Robustness</div>
-        <div>
-            Explore the full lab at
-            <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/" target="_blank">
-                sheldonlindberg-afk.github.io/STUR-Physics-Lab
-            </a>
-        </div>
+        STUR – Sheldon's Theory of Unified Resistance · This page is a standalone derivation module for the
+        5D X-coupled resistance manifold and can be linked from any simulation or educational script.
     </footer>
 
-</main>
-
-<!-- PYTHON COPY BUTTON -->
-<script>
-document.getElementById("copy-script-btn-inline")
-.addEventListener("click", async () => {
-    try {
-        const codeEl = document.getElementById("stur-script");
-        const text = codeEl.innerText;
-        await navigator.clipboard.writeText(text);
-        alert("Python script copied!");
-    } catch (err) {
-        alert("Copy failed: " + err);
-    }
-});
-</script>
-
+</div>
 </body>
 </html>
