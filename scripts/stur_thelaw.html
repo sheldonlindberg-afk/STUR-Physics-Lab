@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>STUR – The Law of Resistance</title>
-
 <style>
     :root {
         color-scheme: dark;
@@ -476,18 +475,16 @@
         flex-wrap: wrap;
     }
 </style>
-
 <script>
 window.MathJax = {
-    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']],
-           displayMath: [['$$','$$'], ['\\[','\\]']] },
+    tex: { inlineMath: [['$', '$'], ['\$begin:math:text$\'\, \'\\$end:math:text$']],
+           displayMath: [['$$','$$'], ['\$begin:math:display$\'\,\'\\$end:math:display$']] },
     svg: { fontCache: 'global' }
 };
 </script>
 <script id="MathJax-script" async
         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-
 <body>
 <header>
     <div class="top-bar">
@@ -508,309 +505,364 @@ window.MathJax = {
         </div>
     </div>
 </header>
-
 <main>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-main">
+        <div class="hero-badge">
+            <div class="hero-badge-dot"><div class="hero-badge-dot-inner"></div></div>
+            <span>Core Field Equation</span>
+        </div>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-main">
-            <div class="hero-badge">
-                <div class="hero-badge-dot"><div class="hero-badge-dot-inner"></div></div>
-                <span>Core Field Equation</span>
+        <h1 class="hero-title">
+            The <span class="highlight">Law of Resistance</span> – one equation for motion, structure, and life.
+        </h1>
+
+        <p class="hero-subtitle">
+            STUR models the universe with a single resistance field $R(x,t,X)$ defined on a 5D manifold.
+            Everything else – diffusion, drift, memory, curvature, probability, emergence – falls out
+            of how $R$ evolves in space, time, and the hidden feedback dimension $X$.
+        </p>
+
+        <div class="hero-equation-card">
+            <div class="hero-equation-label">STUR evolution law</div>
+            <div class="equation-display">
+                $begin:math:display$
+                \\frac\{\\partial R\}\{\\partial t\}
+                \= \\nabla \\cdot \(D \\nabla R\)
+                \- \\nabla R \\cdot \\Omega
+                \+ \\chi \\frac\{\\partial R\}\{\\partial X\}
+                \+ S
+                $end:math:display$
             </div>
+            <div class="hero-footnote">
+                This is a conservation law for resistance: local changes in $R$ come from
+                diffusion, directed flow, hidden-dimension feedback, and external sources.
+            </div>
+        </div>
+    </div>
 
-            <h1 class="hero-title">
-                The <span class="highlight">Law of Resistance</span> – one equation for motion, structure, and life.
-            </h1>
-
-            <p class="hero-subtitle">
-                STUR models the universe with a single resistance field $R(x,t,X)$ defined on a 5D manifold.
-                Everything else – diffusion, drift, memory, curvature, probability, emergence – falls out
-                of how $R$ evolves in space, time, and the hidden feedback dimension $X$.
-            </p>
-
-            <div class="hero-equation-card">
-                <div class="hero-equation-label">STUR evolution law</div>
-                <div class="equation-display">
-                    \[
-                    \frac{\partial R}{\partial t}
-                    = \nabla \cdot (D \nabla R)
-                    - \nabla R \cdot \Omega
-                    + \chi \frac{\partial R}{\partial X}
-                    + S
-                    \]
-                </div>
-                <div class="hero-footnote">
-                    This is a conservation law for resistance: local changes in $R$ come from
-                    diffusion, directed flow, hidden-dimension feedback, and external sources.
-                </div>
+    <aside class="hero-side">
+        <div class="panel">
+            <div class="panel-title">Plain language summary</div>
+            <div class="panel-body">
+                Every system pushes through a landscape of resistance $R$. Gradients in that landscape determine
+                what moves, what forms, and what survives: matter, fields, code, markets, cells, and minds all
+                follow the same rule: they <strong>flow down resistance gradients</strong> while feedback in $X$
+                writes memory and coherence.
             </div>
         </div>
 
-        <aside class="hero-side">
-            <div class="panel">
-                <div class="panel-title">Plain language summary</div>
-                <div class="panel-body">
-                    Every system pushes through a landscape of resistance $R$. Gradients in that landscape determine
-                    what moves, what forms, and what survives: matter, fields, code, markets, cells, and minds all
-                    follow the same rule: they <strong>flow down resistance gradients</strong> while feedback in $X$
-                    writes memory and coherence.
+        <div class="panel">
+            <div class="panel-title">Term legend</div>
+            <div class="panel-body">
+                <div class="chip-row">
+                    <span class="chip highlight">R(x,t,X): resistance field</span>
+                    <span class="chip">D: diffusion tensor</span>
+                    <span class="chip">Ω: drift / flow field</span>
+                    <span class="chip">χ: X-coupling strength</span>
+                    <span class="chip">S: sources / sinks</span>
                 </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-title">Term legend</div>
-                <div class="panel-body">
-                    <div class="chip-row">
-                        <span class="chip highlight">R(x,t,X): resistance field</span>
-                        <span class="chip">D: diffusion tensor</span>
-                        <span class="chip">Ω: drift / flow field</span>
-                        <span class="chip">χ: X-coupling strength</span>
-                        <span class="chip">S: sources / sinks</span>
-                    </div>
-                    <p style="margin-top:0.5rem;">
-                        The hidden dimension $X$ carries feedback, adaptation, and internal state.
-                        When you drop $X$, the universe looks probabilistic.
-                        When you keep it, it becomes deterministic.
-                    </p>
-                </div>
-            </div>
-        </aside>
-    </section>
-
-    <!-- DERIVATION -->
-    <section class="section" id="derivation">
-        <div class="section-header">
-            <h2 class="section-title">1 · Deriving the Law of Resistance</h2>
-            <div class="section-kicker">From conservation law → STUR 5D evolution equation</div>
-        </div>
-
-        <div class="section-body">
-            <p>Start with the only assumption you really need:
-               there is a scalar resistance field $R(x,t,X)$ defined over physical space $x$,
-               time $t$, and a hidden feedback coordinate $X$.
-            </p>
-
-            <div class="math-block">
-                <div class="math-caption">Local resistance balance</div>
-                \[
-                \frac{\partial R}{\partial t} + \nabla \cdot J_R = S.
-                \]
-            </div>
-
-            <p>
-                Here $J_R$ is the resistance flux and $S$ collects all sources and sinks. To turn
-                this balance into a working PDE, you specify how $J_R$ is built from $R$.
-            </p>
-
-            <div class="two-column">
-
-                <div>
-                    <p><strong>Step 1 – Diffusion down gradients</strong></p>
-                    <p>
-                        Systems smooth out sharp spikes in resistance. This gives
-                        \[
-                        J_{\text{diff}} = -D \nabla R
-                        \]
-                        and therefore
-                    </p>
-                    <div class="math-block">
-                        \[
-                        \frac{\partial R}{\partial t} = \nabla \cdot (D \nabla R) + \dots
-                        \]
-                    </div>
-                </div>
-
-                <div>
-                    <p><strong>Step 2 – Drift along a flow field</strong></p>
-                    <p>
-                        Add directed transport:
-                        \[
-                        J_{\text{flow}} = R \Omega
-                        \]
-                        which yields the drift term
-                    </p>
-                    <div class="math-block">
-                        \[
-                        -\nabla R \cdot \Omega.
-                        \]
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="two-column" style="margin-top:1rem;">
-
-                <div>
-                    <p><strong>Step 3 – Hidden-dimension feedback</strong></p>
-                    <p>
-                        Promote coherence/history into a coordinate $X$:
-                    </p>
-                    <div class="math-block">
-                        <div class="math-caption">X-coupled resistance manifold</div>
-                        \[
-                        \frac{\partial R}{\partial X} = \frac{R - R_{bg}}{L_X}.
-                        \]
-                    </div>
-                    <p>This feeds back into time evolution through $\chi \partial R/\partial X$.</p>
-                </div>
-
-                <div>
-                    <p><strong>Step 4 – Collect everything</strong></p>
-                    <p>
-                        Combine all pieces:
-                    </p>
-                    <div class="math-block">
-                        \[
-                        \frac{\partial R}{\partial t}
-                        =
-                        \nabla \cdot (D \nabla R)
-                        - \nabla R \cdot \Omega
-                        + \chi \frac{\partial R}{\partial X}
-                        + S.
-                        \]
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <!-- INTERPRETATION -->
-    <section class="section" id="interpretation">
-        <div class="section-header">
-            <h2 class="section-title">2 · How to read the equation</h2>
-            <div class="section-kicker">One law, many domains</div>
-        </div>
-
-        <div class="section-body">
-
-            <p>
-                The Law of Resistance becomes mechanics, thermodynamics, information flow,
-                evolution, or learning depending on how you choose $R$, $D$, $\Omega$, $\chi$, and $S$.
-            </p>
-
-            <div style="margin-top:0.6rem;">
-                <span class="pill"><span class="pill-dot diffusion"></span>Diffusion</span>
-                <span class="pill"><span class="pill-dot flow"></span>Flow</span>
-                <span class="pill"><span class="pill-dot xdim"></span>X-feedback</span>
-                <span class="pill"><span class="pill-dot source"></span>Sources</span>
-            </div>
-
-            <p style="margin-top:0.7rem;">
-                In plasmas, $R$ tracks resistive load; in cells, $R$ is metabolic resistance and $X$ is regulatory memory;
-                in markets, $R$ is allocation resistance.
-            </p>
-
-            <div class="math-block">
-                <div class="math-caption">Hidden dimension as deterministic completion</div>
-                <p style="margin:0;">
-                    4D spacetime is $(x,t)$ where time is the fourth coordinate. STUR adds a fifth: $X$.
-                    Ignoring $X$ produces apparent randomness. Keeping it makes the system deterministic.
+                <p style="margin-top:0.5rem;">
+                    The hidden dimension $X$ carries feedback, adaptation, and internal state.
+                    When you drop $X$, the universe looks probabilistic.
+                    When you keep it, it becomes deterministic.
                 </p>
             </div>
         </div>
-    </section>
+    </aside>
+</section>
 
-    <!-- PROOF -->
-    <section class="section" id="proof">
-        <div class="section-header">
-            <h2 class="section-title">3 · Proof of concept: resistance smoothing in 1D</h2>
-            <div class="section-kicker">A minimal numerical experiment inside the page</div>
+<!-- DERIVATION -->
+<section class="section" id="derivation">
+    <div class="section-header">
+        <h2 class="section-title">1 · Deriving the Law of Resistance</h2>
+        <div class="section-kicker">From conservation law → STUR 5D evolution equation</div>
+    </div>
+
+    <div class="section-body">
+        <p>Start with the only assumption you really need:
+           there is a scalar resistance field $R(x,t,X)$ defined over physical space $x$,
+           time $t$, and a hidden feedback coordinate $X$.
+        </p>
+
+        <div class="math-block">
+            <div class="math-caption">Local resistance balance</div>
+            $begin:math:display$
+            \\frac\{\\partial R\}\{\\partial t\} \+ \\nabla \\cdot J\_R \= S\.
+            $end:math:display$
         </div>
 
-        <div class="section-body">
+        <p>
+            Here $J_R$ is the resistance flux and $S$ collects all sources and sinks. To turn
+            this balance into a working PDE, you specify how $J_R$ is built from $R$.
+        </p>
 
-            <p>
-                Switch off flow, X-feedback, and sources to view the pure diffusion limit:
-            </p>
+        <div class="two-column">
 
-            <div class="math-block">
-                <div class="math-caption">1D diffusion limit</div>
-                \[
-                \frac{\partial R}{\partial t}
-                = D \frac{\partial^2 R}{\partial x^2}.
-                \]
+            <div>
+                <p><strong>Step 1 – Diffusion down gradients</strong></p>
+                <p>
+                    Systems smooth out sharp spikes in resistance. This gives
+                    $begin:math:display$
+                    J\_\{\\text\{diff\}\} \= \-D \\nabla R
+                    $end:math:display$
+                    and therefore
+                </p>
+                <div class="math-block">
+                    $begin:math:display$
+                    \\frac\{\\partial R\}\{\\partial t\} \= \\nabla \\cdot \(D \\nabla R\) \+ \\dots
+                    $end:math:display$
+                </div>
             </div>
 
-            <p>
-                Below is the minimal 1D JS demo.
+            <div>
+                <p><strong>Step 2 – Drift along a flow field</strong></p>
+                <p>
+                    Add directed transport:
+                    $begin:math:display$
+                    J\_\{\\text\{flow\}\} \= R \\Omega
+                    $end:math:display$
+                    which yields the drift term
+                </p>
+                <div class="math-block">
+                    $begin:math:display$
+                    \-\\nabla R \\cdot \\Omega\.
+                    $end:math:display$
+                </div>
+            </div>
+
+        </div>
+
+        <div class="two-column" style="margin-top:1rem;">
+
+            <div>
+                <p><strong>Step 3 – Hidden-dimension feedback</strong></p>
+                <p>
+                    Promote coherence/history into a coordinate $X$:
+                </p>
+                <div class="math-block">
+                    <div class="math-caption">X-coupled resistance manifold</div>
+                    $begin:math:display$
+                    \\frac\{\\partial R\}\{\\partial X\} \= \\frac\{R \- R\_\{bg\}\}\{L\_X\}\.
+                    $end:math:display$
+                </div>
+                <p>This feeds back into time evolution through $\chi \partial R/\partial X$.</p>
+            </div>
+
+            <div>
+                <p><strong>Step 4 – Collect everything</strong></p>
+                <p>
+                    Combine all pieces:
+                </p>
+                <div class="math-block">
+                    $begin:math:display$
+                    \\frac\{\\partial R\}\{\\partial t\}
+                    \=
+                    \\nabla \\cdot \(D \\nabla R\)
+                    \- \\nabla R \\cdot \\Omega
+                    \+ \\chi \\frac\{\\partial R\}\{\\partial X\}
+                    \+ S\.
+                    $end:math:display$
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- INTERPRETATION -->
+<section class="section" id="interpretation">
+    <div class="section-header">
+        <h2 class="section-title">2 · How to read the equation</h2>
+        <div class="section-kicker">One law, many domains</div>
+    </div>
+
+    <div class="section-body">
+
+        <p>
+            The Law of Resistance becomes mechanics, thermodynamics, information flow,
+            evolution, or learning depending on how you choose $R$, $D$, $\Omega$, $\chi$, and $S$.
+        </p>
+
+        <div style="margin-top:0.6rem;">
+            <span class="pill"><span class="pill-dot diffusion"></span>Diffusion</span>
+            <span class="pill"><span class="pill-dot flow"></span>Flow</span>
+            <span class="pill"><span class="pill-dot xdim"></span>X-feedback</span>
+            <span class="pill"><span class="pill-dot source"></span>Sources</span>
+        </div>
+
+        <p style="margin-top:0.7rem;">
+            In plasmas, $R$ tracks resistive load; in cells, $R$ is metabolic resistance and $X$ is regulatory memory;
+            in markets, $R$ is allocation resistance.
+        </p>
+
+        <div class="math-block">
+            <div class="math-caption">Hidden dimension as deterministic completion</div>
+            <p style="margin:0;">
+                4D spacetime is $(x,t)$ where time is the fourth coordinate. STUR adds a fifth: $X$.
+                Ignoring $X$ produces apparent randomness. Keeping it makes the system deterministic.
             </p>
+        </div>
+    </div>
+</section>
 
-            <div class="two-column">
+<!-- PROOF -->
+<section class="section" id="proof">
+    <div class="section-header">
+        <h2 class="section-title">3 · Proof of concept: resistance smoothing in 1D</h2>
+        <div class="section-kicker">A minimal numerical experiment inside the page</div>
+    </div>
 
-                <div>
-                    <div class="code-block">
+    <div class="section-body">
 
-<pre id="stur-script">
-// Minimal 1D resistance diffusion (JS, run in browser)
-const N = 64;           // grid points
-const D = 0.2;          // diffusion coefficient
-const dx = 1.0;
-const dt = 0.1;         // stable for this D, dx
-const steps = 200;      // time steps
+        <p>
+            Switch off flow, X-feedback, and sources to view the pure diffusion limit:
+        </p>
 
-let R = new Array(N).fill(0);
+        <div class="math-block">
+            <div class="math-caption">1D diffusion limit</div>
+            $begin:math:display$
+            \\frac\{\\partial R\}\{\\partial t\}
+            \= D \\frac\{\\partial\^2 R\}\{\\partial x\^2\}\.
+            $end:math:display$
+        </div>
 
-// Sharp resistance spike in the center
-for (let i = 0; i < N; i++) {
-    const dist = Math.abs(i - N/2);
-    R[i] = dist < 3 ? 1.0 : 0.0;
+        <p>
+            Below is the minimal 1D JS demo.
+        </p>
+
+        <div class="two-column">
+
+            <div>
+                <div class="code-block"><pre id="stur-script">
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Grid and physical parameters
+N = 128          # number of spatial points
+D = 0.2          # diffusion coefficient
+dx = 1.0         # spatial step
+dt = 0.1         # time step (explicit Euler)
+steps = 400      # number of time steps
+
+# Spatial grid
+x = np.arange(N) * dx
+
+# Initial resistance field R(x, 0):
+# sharp peak in the center (high resistance region)
+R = np.zeros(N)
+center = x.mean()
+R[np.abs(x - center)  <  3 * dx] = 1.0
+
+initial_R = R.copy()
+
+# Choose some steps to snapshot the profile
+snap_indices = [0, 5, 20, 100, steps - 1]
+snapshots = []
+
+# Explicit finite-difference time stepping for
+# ∂R/∂t = D ∂²R/∂x²
+for n in range(steps):
+    # Compute discrete Laplacian with periodic neighbors via roll
+    lap = (np.roll(R, -1) - 2.0 * R + np.roll(R, 1)) / (dx * dx)
+
+    # New field after one step
+    newR = R.copy()
+    newR[1:-1] = R[1:-1] + dt * D * lap[1:-1]
+
+    # Simple boundary conditions (Neumann-like: zero gradient)
+    newR[0] = newR[1]
+    newR[-1] = newR[-2]
+
+    R = newR
+
+    if n in snap_indices:
+        snapshots.append(R.copy())
+
+final_R = R.copy()
+
+# Build a small summary "JSON-like" dictionary of the run
+summary = {
+    "N": N,
+    "D": D,
+    "dx": dx,
+    "dt": dt,
+    "steps": steps,
+    "initial_peak": float(initial_R.max()),
+    "final_peak": float(final_R.max()),
+    "initial_sum": float(initial_R.sum()),
+    "final_sum": float(final_R.sum())
 }
 
-const initialR = R.slice();
+print("STUR 1D diffusion demo summary:")
+for key, value in summary.items():
+    if isinstance(value, float):
+        print(f"{key}: {value:.6f}")
+    else:
+        print(f"{key}: {value}")
 
-// Explicit finite-difference update
-for (let n = 0; n < steps; n++) {
-    const newR = R.slice();
-    for (let i = 1; i < N - 1; i++) {
-        const lap = (R[i+1] - 2*R[i] + R[i-1]) / (dx*dx);
-        newR[i] = R[i] + dt * D * lap;
-    }
-    R = newR;
-}
+print("\nInitial R (rounded):")
+print(np.round(initial_R, 3))
 
-const finalR = R.slice();
+print("\nFinal R (rounded):")
+print(np.round(final_R, 3))
+
+# Plot initial vs final
+plt.figure(figsize=(6, 4))
+plt.plot(x, initial_R, label="initial R(x, 0)")
+plt.plot(x, final_R, label=f"final R(x, t={steps * dt})")
+plt.xlabel("x")
+plt.ylabel("R")
+plt.title("STUR 1D diffusion: initial vs final")
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# Plot snapshots over time
+plt.figure(figsize=(6, 4))
+for snap, idx in zip(snapshots, snap_indices):
+    plt.plot(x, snap, label=f"step {idx}")
+plt.xlabel("x")
+plt.ylabel("R")
+plt.title("STUR 1D diffusion snapshots")
+plt.legend()
+plt.tight_layout()
+plt.show()
 </pre>
-
-<button id="copy-script-btn-inline" class="btn-ghost">📋 Copy Script</button>
-
-                        <div class="code-label">Proof-of-concept core</div>
-                    </div>
+                    <div class="code-label">Proof-of-concept core</div>
                 </div>
-
-                <div>
-                    <p>
-                        This is a stripped-down version of the full PDE.
-                        The concentrated spike relaxes into a smooth bump as expected.
-                    </p>
-                </div>
-
             </div>
 
-            <div class="poc-status" id="poc-status">Running 1D diffusion demo…</div>
-            <div class="poc-output" id="poc-output"></div>
-
-            <p style="margin-top:0.7rem;">
-                This behavior generalizes to full STUR simulations with flow, X-feedback, and nonlinear sources.
-            </p>
+            <div>
+                <p>
+                    This is a stripped-down version of the full PDE.
+                    The concentrated spike relaxes into a smooth bump as expected.
+                </p>
+            </div>
 
         </div>
-    </section>
 
-    <footer>
-        <div>STUR · Spatial Resistance → Temporal Resistance → Universal Constructor → Robustness</div>
-        <div>
-            Explore the full lab at
-            <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/" target="_blank">
-                sheldonlindberg-afk.github.io/STUR-Physics-Lab
-            </a>
-        </div>
-    </footer>
+        <div class="poc-status" id="poc-status">Running 1D diffusion demo…</div>
+        <div class="poc-output" id="poc-output"></div>
 
-</main>
+        <p style="margin-top:0.7rem;">
+            This behavior generalizes to full STUR simulations with flow, X-feedback, and nonlinear sources.
+        </p>
 
+    </div>
+</section>
+
+<footer>
+    <div>STUR · Spatial Resistance → Temporal Resistance → Universal Constructor → Robustness</div>
+    <div>
+        Explore the full lab at
+        <a href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/" target="_blank">
+            sheldonlindberg-afk.github.io/STUR-Physics-Lab
+        </a>
+    </div>
+</footer></main>
 <script>
 // Minimal demo
 window.addEventListener('DOMContentLoaded', () => {
@@ -861,7 +913,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
-
 <script>
 document.getElementById("copy-script-btn-inline")
 .addEventListener("click", async () => {
@@ -875,122 +926,5 @@ document.getElementById("copy-script-btn-inline")
     }
 });
 </script>
-
-
-<!-- PYTHON BLOCK INSERTED AT END EXACTLY AS REQUESTED -->
-<section class="section" id="python-stur">
-    <div class="section-header">
-        <h2 class="section-title">4 · Jupyter Version of the STUR Diffusion Demo</h2>
-        <div class="section-kicker">This block runs in Jupyter Python exactly as-is</div>
-    </div>
-
-    <div class="section-body">
-        <p>
-            Below is the pure-Python version of the 1D resistance diffusion demo.  
-            Copy it into a Jupyter notebook cell and run it directly.
-        </p>
-
-        <div class="code-block">
-            <div class="code-label">Python · Jupyter-ready</div>
-
-<pre id="stur-python">
-import numpy as np
-import matplotlib.pyplot as plt
-
-# STUR 1D diffusion – clean Jupyter-safe version
-
-N = 128
-D = 0.25
-dx = 1.0
-dt = 0.1
-steps = 600
-
-R = np.zeros(N)
-for i in range(N):
-    if abs(i - N//2) < 5:
-        R[i] = 1.0
-
-initial_R = R.copy()
-history = np.zeros((steps, N))
-
-for t in range(steps):
-    newR = R.copy()
-    for i in range(1, N-1):
-        lap = (R[i+1] - 2*R[i] + R[i-1]) / (dx*dx)
-        newR[i] = R[i] + dt * D * lap
-    R = newR
-    history[t] = R
-
-final_R = R.copy()
-
-curvature = np.zeros(N)
-curvature[1:-1] = (final_R[2:] - 2*final_R[1:-1] + final_R[:-2]) / (dx*dx)
-
-energy = float(np.sum(curvature**2))
-
-payload = {
-    "grid_points": int(N),
-    "diffusion_coefficient": float(D),
-    "time_steps": int(steps),
-    "initial_peak_max": float(np.max(initial_R)),
-    "final_peak_max": float(np.max(final_R)),
-    "energy_like_metric": energy
-}
-
-print("PAYLOAD:")
-print(payload)
-
-plt.figure(figsize=(10,5))
-plt.plot(initial_R, label="Initial R", linewidth=2)
-plt.plot(final_R, label="Final R", linewidth=2)
-plt.title("STUR 1D Resistance Diffusion")
-plt.xlabel("Space index")
-plt.ylabel("R value")
-plt.grid(True)
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-plt.figure(figsize=(10,5))
-plt.imshow(history, aspect='auto', cmap='inferno',
-           extent=[0, N-1, steps*dt, 0])
-plt.colorbar(label="R")
-plt.xlabel("Space index")
-plt.ylabel("Time")
-plt.title("Resistance Evolution (Space × Time)")
-plt.tight_layout()
-plt.show()
-
-plt.figure(figsize=(10,4))
-plt.plot(curvature, linewidth=2)
-plt.title("Curvature of Final R")
-plt.xlabel("Index")
-plt.ylabel("Curvature")
-plt.grid(True)
-plt.tight_layout()
-plt.show()
-</pre>
-
-<button id="copy-python-btn" class="btn-ghost">📋 Copy Python</button>
-
-        </div>
-    </div>
-</section>
-
-<script>
-document.getElementById("copy-python-btn")
-.addEventListener("click", async () => {
-    try {
-        const codeEl = document.getElementById("stur-python");
-        const text = codeEl.innerText;
-        await navigator.clipboard.writeText(text);
-        alert("Python code copied!");
-    } catch (err) {
-        alert("Copy failed: " + err);
-    }
-});
-</script>
-
-
 </body>
 </html>
