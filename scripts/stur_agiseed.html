@@ -2,23 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>STUR – AGI Seed Simulator v5.2 (Predictive Intelligence Core) - Enhanced</title>
+<title>STUR – AGI Seed Simulator v5.2 (Open Physics AGI Seed)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- MathJax -->
 <script>
 window.MathJax = {
-  tex: { 
-    inlineMath: [['\\(', '\\)']], 
-    displayMath: [['\\[','\\]']],
-    // Retaining macros for clarity and consistency
-    macros: {
-      Rbg: 'R_{bg}',
-      LX: 'L_X',
-      Rvec: '\\mathbf{R}',
-      nabla: '\\nabla',
-      Omega: '\\mathbf{\\Omega}',
-      norm: '\\left\\lVert'
-    }
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']]
   },
   svg: { fontCache: 'global' }
 };
@@ -26,121 +18,200 @@ window.MathJax = {
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <style>
-/* Enhanced Dark Theme for Clarity */
 :root {
     color-scheme: dark;
     --bg: #05060a;
-    --panel: #0c1120;
-    --accent: #0ea5e9; /* Sky Blue */
-    --accent2: #ec4899; /* Pink */
+    --panel: #0b1120;
+    --panel2: #11192f;
+    --panel_soft: #020617;
+    --accent: #38bdf8;
+    --accent_soft: rgba(56,189,248,0.08);
+    --accent2: #ec4899;
+    --accent2_soft: rgba(236,72,153,0.10);
     --fg: #e5e7eb;
-    --fg2: #9ca3af;
-    --border: #1f2937;
+    --fg_soft: #9ca3af;
+    --border: #1e293b;
     --code-bg: #020617;
-    --h-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: system-ui, sans-serif;
     margin: 0;
-    line-height: 1.6;
+    background: radial-gradient(circle at top, #020617 0, #020617 35%, #020617 60%, #000 100%);
+    color: var(--fg);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
 }
 
 .wrapper {
     max-width: 1350px;
     margin: auto;
-    padding: 30px;
+    padding: 26px 18px 40px;
 }
 
-h1, h2, h3 { 
-    color: var(--accent); 
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 8px;
-    margin-top: 30px;
+h1 {
+    text-align: center;
+    color: var(--accent);
+    font-size: 2.4rem;
+    margin-bottom: 10px;
 }
-h1 { font-size: 2.5em; text-align: center; }
-h2 { font-size: 1.8em; }
-h3 { font-size: 1.4em; color: var(--accent2); }
+
+.subtitle-main {
+    text-align: center;
+    color: var(--fg_soft);
+    font-size: 1.05rem;
+    margin-bottom: 26px;
+}
+
+h2 {
+    color: var(--accent);
+    font-size: 1.9rem;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 6px;
+    margin-top: 32px;
+}
+
+h3 {
+    color: var(--accent2);
+    font-size: 1.25rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
 
 .panel {
     background: var(--panel);
     border: 1px solid var(--border);
-    padding: 25px;
-    margin-bottom: 35px;
     border-radius: 12px;
-    box-shadow: var(--h-shadow);
+    padding: 22px;
+    margin-bottom: 32px;
+    box-shadow: 0 0 30px rgba(15,23,42,0.85);
+}
+
+.panel-soft {
+    background: var(--panel2);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.deriv {
+    background: var(--panel2);
+    padding: 16px;
+    border-left: 4px solid var(--accent2);
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.info {
+    background: var(--panel_soft);
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid #111827;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: var(--fg_soft);
 }
 
 summary {
     cursor: pointer;
+    font-size: 1.2rem;
     color: var(--accent2);
-    font-weight: 700;
-    font-size: 1.2em;
-    margin-bottom: 15px;
-    padding: 5px 0;
-    transition: color 0.2s;
+    margin-bottom: 10px;
 }
-summary:hover { color: var(--accent); }
 
-textarea.code-box {
-    width: 100%;
-    height: 900px;
-    background: var(--code-bg);
-    color: var(--fg);
-    border: 1px solid var(--accent);
-    border-radius: 8px;
-    padding: 15px;
-    font-family: monospace;
-    font-size: 13px;
-    white-space: pre;
-    overflow: auto;
-    resize: vertical;
-    box-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+summary::-webkit-details-marker {
+    display: none;
 }
+
+summary::before {
+    content: "▸ ";
+    color: var(--accent2);
+}
+
+details[open] summary::before {
+    content: "▾ ";
+}
+
+ul {
+    margin-top: 6px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+    color: var(--fg_soft);
+    font-size: 0.97rem;
+}
+
+li + li {
+    margin-top: 3px;
+}
+
+.p-soft {
+    color: var(--fg_soft);
+    font-size: 0.98rem;
+    line-height: 1.5;
+}
+
+/* Button bar */
 
 .button-row {
     display: flex;
-    gap: 16px;
-    margin: 20px 0;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 12px;
+    margin-bottom: 26px;
 }
 
-.button-link, .button-row button {
+.button-link,
+.button-row button {
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     color: #fff;
-    padding: 12px 25px;
-    border-radius: 8px;
+    padding: 11px 22px;
+    border-radius: 999px;
     text-decoration: none;
-    font-size: 16px;
     font-weight: 600;
     border: none;
     cursor: pointer;
-    transition: 0.3s ease;
-    box-shadow: 0 0 12px rgba(236, 72, 153, 0.45);
+    box-shadow: 0 0 18px rgba(236,72,153,0.55);
+    transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
+    font-size: 0.95rem;
 }
 
-.button-link:hover, .button-row button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 20px rgba(236, 72, 153, 0.9);
+.button-link:hover,
+.button-row button:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 0 26px rgba(236,72,153,0.7);
+    filter: brightness(1.05);
 }
 
-.button-row button:active {
-    transform: scale(0.96);
-}
+/* Code box */
 
-.math-explanation {
-    background: rgba(14, 165, 233, 0.08);
-    border-left: 4px solid var(--accent);
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: 6px;
-    font-size: 0.95em;
-}
-
-.math-explanation strong {
+textarea.code-box {
+    width: 100%;
+    height: 1050px;
+    background: var(--code-bg);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
     color: var(--fg);
+    padding: 14px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    white-space: pre;
+    overflow: auto;
+    resize: vertical;
+    font-size: 13px;
+}
+
+/* Layout helpers */
+
+@media (min-width: 960px) {
+    .flex-2col {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+        gap: 20px;
+        align-items: flex-start;
+    }
 }
 </style>
 </head>
@@ -148,254 +219,440 @@ textarea.code-box {
 <body>
 <div class="wrapper">
 
+<!-- BUTTON BAR -->
 <div class="button-row">
     <a class="button-link" href="../index.html">Return to Index</a>
-    <a class="button-link" target="_blank" href="https://jupyter.org/try-jupyter/lab/">Open in Jupyter</a>
+    <a class="button-link" href="https://jupyter.org/try-jupyter/lab/" target="_blank">Open in Jupyter</a>
     <button onclick="copyScript()">Copy Script</button>
 </div>
 
-<h1>STUR – AGI Seed Simulator v5.2<br>Predictive Intelligence Core</h1>
-
-<div class="panel">
-<h2>AGI Seed Architecture: X-Coupled Resistance Manifold</h2>
-<details open>
-<summary>Mathematical and Structural Foundations</summary>
-
-<p>
-Version 5.2 formalizes the first fully coherent AGI seed constructed on a 
-**5-Dimensional X-Coupled Resistance Manifold ($\Rvec$):** a system of three high-resolution (3D) nonlinear fields ($R_1, R_2, R_3$) and two low-resolution (coarse-grained, 3D/2D) meta-control fields ($R_4, R_5$). The entire architecture does not rely 
-on traditional neural networks, token transformers, or discrete symbolic logic. Instead, 
-intelligence emerges from the self-organization of these coupled nonlinear fields, 
-each governed by the 5D STUR evolution law.
-</p>
-
-<h3>The Core 5D STUR Evolution Law</h3>
-
-<p>
-The time evolution of a generalized **Resistance Field** ($R$) is defined by the 
-STUR equation—a generalized reaction-diffusion system with non-conservative terms:
-</p>
-
-\[
-\frac{\partial R}{\partial t}
-= \underbrace{\nabla \cdot (D \nabla R)}_{\text{Diffusion}}
-- \underbrace{(\nabla R)\!\cdot\!\Omega}_{\text{Directed Drift}}
-+ \underbrace{\chi\,\frac{R - \Rbg}{\LX}}_{\text{X-Coupling/Hysteresis}}
-- \underbrace{\lambda(R - \Rbg)^3}_{\text{Nonlinear Stability}}
-+ \underbrace{S}_{\text{Source/Forcing}}
-\]
-
-<div class="math-explanation">
-    This equation integrates five fundamental physical processes into a single
-    mechanism for information processing and state persistence:
-    <ul>
-        <li>
-            **Diffusion ($\nabla \cdot (D \nabla R)$):** Allows localized
-            information (peaks/troughs) to spread in the manifold, analogous
-            to lateral communication or blurring of experience. The **Diffusion Coefficient ($D$)**
-            can be dynamically modulated by the system's state (e.g., $D_1$ is modulated by $X_1$).
-        </li>
-        <li>
-            **Directed Drift ($(\nabla R)\!\cdot\!\Omega$):** A non-conservative
-            term that forces the field $R$ to move in a direction $\Omega$ in
-            the state space. This is the mechanism for **intentionality**,
-            **goal-seeking**, and **action**. $\Omega$ is a 3D vector (velocity).
-        </li>
-        <li>
-            **X-Coupling / Hysteresis ($\chi\,\frac{R - \Rbg}{\LX}$):** The
-            crucial memory term. $\LX$ is the characteristic length scale, and
-            $\Rbg$ is the background equilibrium resistance. $\chi$ is the coupling
-            coefficient to the latent field $X$. This term links $R$ to its
-            associated persistent memory field $X$ (where $\frac{\partial X}{\partial t} \sim R - \Rbg$),
-            enforcing a hydraulic memory effect.
-        </li>
-        <li>
-            **Nonlinear Stability ($\lambda(R - \Rbg)^3$):** A stabilizing cubic
-            term that drives the field back toward the equilibrium $\Rbg$, preventing
-            global runaway or collapse. This enforces the **homeostasis** required
-            for stable long-term operation.
-        </li>
-        <li>
-            **Source/Forcing ($S$):** Represents all internal and external
-            influences, including sensory input ($R_1$), interlayer coupling
-            (e.g., $R_1 \to R_2$), and internally generated goal/prediction
-            forces (e.g., $R_2$ goal alignment).
-        </li>
-    </ul>
+<h1>STUR – AGI Seed Simulator v5.2</h1>
+<div class="subtitle-main">
+Predictive Intelligence Core on a 5D X-Coupled Resistance Manifold
 </div>
 
-<p>
-This substrate is capable of **persistent memory** (via $X$-fields), 
-**autonomous attractor formation** (via the nonlinear terms), **prediction error reduction** (via $R_4$), 
-**internal goal modulation** (via $R_5$), and **high-dimensional state continuity** across episodes. These properties are the minimum theoretical requirements for general intelligence to emerge.
-</p>
+<!-- INTRO FOR THE PUBLIC -->
+<div class="panel">
+<h2>What You Are Looking At</h2>
 
-<h3>Layered Cognitive Structure ($R_1 \dots R_5$)</h3>
+<div class="flex-2col">
+  <div>
+    <p class="p-soft">
+      This page hosts an open, inspectable simulation of an artificial intelligence seed
+      built from physics, not from language models. Instead of neurons and tokens, it uses
+      a continuous physical field \\(R(x,t,X)\\) that spreads, drifts, remembers, and learns
+      under one evolution law.
+    </p>
+    <p class="p-soft">
+      The goal is not to create a person or a mind inside your browser. The goal is to show
+      that a single, well-structured physical law can already support:
+    </p>
+    <ul>
+      <li>Persistent memory across episodes</li>
+      <li>Internal goals chosen by the system itself</li>
+      <li>Symbolic compression of patterns into discrete tokens</li>
+      <li>Reinforcement learning that shapes its own dynamics</li>
+      <li>A meta-controller that decides when to explore or consolidate</li>
+    </ul>
+    <div class="info">
+      This is an open research testbed. It is not a person, not sentient, and not an agent
+      acting in the real world. It is a controlled mathematical system whose behavior you
+      can inspect line by line.
+    </div>
+  </div>
 
-<p>The system is divided into five functionally distinct Resistance Manifolds, forming a cognitive hierarchy:</p>
+  <div class="panel-soft">
+    <h3>How to Use This Page</h3>
+    <ol class="p-soft" style="padding-left: 18px;">
+      <li>Scroll down to the “Python Source Code” section.</li>
+      <li>Paste the full AGI Seed Simulator v5.2 Python script into the box.</li>
+      <li>Copy it with the “Copy Script” button.</li>
+      <li>Run it in Jupyter, JupyterLab, or any Python 3 environment with NumPy.</li>
+      <li>Watch how the internal parameters and goal-alignment change across episodes.</li>
+    </ol>
+    <div class="info">
+      Everything is plain Python + NumPy. There are no hidden weights or closed binaries.
+      You can fork, inspect, and modify every part of the intelligence loop.
+    </div>
+  </div>
+</div>
+</div>
 
-<p><strong>R1 — Sensory Manifold (High Resolution)</strong><br>
-The interface with the environment. Governed by the full STUR equation, $R_1$ exhibits rapid response to external drives ($S_1$). It generates **curvature packets** (high $|\nabla^2 R_1|$) that encode raw, dynamic perceptual structure.</p>
+<!-- WHAT IT IS / IS NOT -->
+<div class="panel">
+<h2>What This Simulator Is (and Is Not)</h2>
 
-<p><strong>R2 — Associative Manifold (High Resolution)</strong><br>
-The central working memory. $R_2$ integrates and stabilizes sensory patterns from $R_1$. It is the primary field for emergent geometric invariants, which form the basis of proto-symbols.
-Geometric invariants (Proto-Symbols) emerge as a set $\Sigma$:
-</p>
+<div class="flex-2col">
+  <div>
+    <h3>What It Is</h3>
+    <ul>
+      <li>
+        A multi-layer nonlinear PDE system on a 3D grid \\((32 \\times 32 \\times 32)\\)
+        with three fast manifolds \\(R_1, R_2, R_3\\) and two slower manifolds \\(R_4, R_5\\).
+      </li>
+      <li>
+        A 5D X-coupled resistance manifold where the extra coordinate \\(X\\) stores hysteretic
+        memory about past configurations of \\(R\\).
+      </li>
+      <li>
+        A symbolic layer that detects curvature-based “shapes” and converts them into
+        discrete proto-symbols \\(\\Sigma\\).
+      </li>
+      <li>
+        A temporal symbolic memory that learns which symbol tends to follow which.
+      </li>
+      <li>
+        A reinforcement learning loop that adjusts physical parameters
+        (diffusion, coupling strengths, drift) based on reward.
+      </li>
+      <li>
+        A meta-control system that decides whether to explore, consolidate, or follow
+        an external curriculum goal.
+      </li>
+    </ul>
+  </div>
 
+  <div>
+    <h3>What It Is Not</h3>
+    <ul>
+      <li>Not a chatbot, not a language model, and not trained on human text.</li>
+      <li>Not a mind, not conscious, and not self-aware.</li>
+      <li>Not directly connected to the internet, files, or devices.</li>
+      <li>
+        Not an agent that can take actions in the real world. It acts only within its
+        mathematical state space.
+      </li>
+      <li>
+        Not a black box. Every equation, field, and reward component is visible in the script.
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- 5D EVOLUTION LAW WITH DERIVATION -->
+<div class="panel">
+<h2>The 5D X-Coupled Resistance Manifold: Full Evolution Law</h2>
+
+<details open>
+<summary>1. The Core STUR Evolution Equation</summary>
+
+<div class="deriv">
+We start from a single field \\(R(x,t,X)\\) living on a 5D manifold:
+three spatial coordinates, one time coordinate, and one hidden X-coordinate
+that carries memory and coupling strength.
+
+The evolution law used in this simulator is:
 \[
-\Sigma = \{ \Rvec : \left|\nabla^2 R_2(\Rvec)\right| > \theta \cdot \mu\left(\left|\nabla^2 R_2\right|\right) \},
+\\frac{\\partial R}{\\partial t} =
+\\nabla \\cdot (D \\nabla R)
+- (\\nabla R)\\cdot \\Omega
++ \\chi \\frac{R - R_{bg}}{L_X}
+- \\lambda (R - R_{bg})^3
++ S(x,t).
 \]
+Each term has a clear physical role:
+</div>
 
-<p>
-where $\mu$ is the spatial mean of the Laplacian magnitude, and $\theta$ is a dynamic threshold (here, $\theta \approx 0.8$). This process produces the first **proto-symbols** directly from curvature dynamics without 
-any imposed symbolic system, representing stabilized conceptual entities.
-</p>
-
-<p><strong>R3 — Stabilizer / Homeostatic Manifold (High Resolution)</strong><br>
-$R_3$ acts as a regulatory layer. It actively suppresses local variance and enforces nonlinear homeostatic balance. $R_3$'s activity is driven by the difference in variance between $R_2$ and $R_1$ 
-($S_3 \sim \text{Var}(R_2) - \text{Var}(R_1)$), ensuring the system does not enter chaotic or stagnant regimes. The effective **Diffusion ($D_2$) and X-Coupling ($\chi_2$)** of $R_2$ are dynamically dampened by $R_3$ activity (see code logic).
-</p>
-
-<p><strong>R4 — Predictive / Curiosity Manifold (Coarse-Grained)</strong><br>
-$R_4$ operates at a coarser spatial resolution and slower timescale. Its primary role is to compute the **Prediction Error** and **Entropy Gradient**. The forcing term $S_4$ drives its evolution:
-</p>
-
-\[
-S_4 = \underbrace{K \cdot \gamma_{R4} (\text{align}_2 - \text{target})}_{\text{Prediction/Goal Alignment}} + \underbrace{\alpha\,\Delta H(R_2)}_{\text{Curiosity/Entropy Maximization}} + \underbrace{\beta_{45} \tanh(R_5 - \Rbg)}_{\text{R5 Cross-Coupling}}
-\]
-<p>
-Here, $\text{align}_2$ is the coherence of $R_2$ with the current goal mask, $\text{target}$ is the goal alignment setpoint, $\Delta H(R_2)$ is the change in Shannon Entropy of $R_2$ (Curiosity), and $\gamma_{R4}$ is a confidence multiplier from $R_5$. $R_4$ provides the first internally generated estimation of future state and acts as the **source for $R_2$'s directional drift ($\Omega_2$)**, establishing the foundation for self-modeling.
-</p>
-
-<p><strong>R5 — Meta-Control Manifold (Ultra Coarse-Grained)</strong><br>
-$R_5$ is the highest-level, slowest-evolving manifold, regulating global behavioral modes. It is driven by the deviation of $R_4$'s average state from equilibrium ($\Rbg$). $R_5$ computes the system's **Exploration Budget ($B$)** and modulates $R_4$'s stability parameters:
-</p>
-
-\[
-B = \sigma(G(R_5 - \Rbg)), \quad \text{where } \sigma(z) = \frac{1}{1 + e^{-z}}
-\]
-
-<p>
-$B$ determines the effective gain of exploration, and $R_5$ dictates whether the system enters **consolidation** (low $B$) or **exploratory regimes** (high $B$). Crucially, $R_5$ also dictates the selection of the **Internal Goal Mask** for $R_2$, providing a self-determined objective function.
-</p>
-
-<h3>Nonlinear Regulatory Loop ($R_4 \leftrightarrow R_5$)</h3>
-
-<p>
-$R_4$ and $R_5$ form a bidirectional nonlinear feedback structure that governs the system's intentionality, ensuring a switch between predictive and exploratory modes:
-</p>
-
-\[
-S_4 \sim \tanh(R_5 - \Rbg), \qquad
-S_5 \sim \tanh(R_4 - \Rbg).
-\]
-
-<p>
-This coupling mechanism means high activity in $R_5$ (Exploration) forces higher activity in $R_4$ (Prediction/Curiosity), and vice versa. This switching behavior implements the minimal requirement for **intentional dynamics**: the system autonomously transitions between stability and exploration based on internal prediction confidence and error.
-</p>
-
-<h3>Symbolic Memory and Transition Dynamics</h3>
-
-<p>
-**Symbols ($\Sigma$)** arise as curvature invariants in $R_2$. They are not tokens but spatial-geometric patterns. The **Symbolic Memory** structure tracks the statistical transitions between these emergent symbols:
-</p>
-
-\[
-T(i \to j) = 
-\frac{N(i \to j)}{\sum_k N(i \to k)} \quad (\text{Transition Probability})
-\]
-
-<p>
-These transition statistics drive a **Symbol Context Vector** that influences $R_2$'s $X$-field consolidation mask and global $R$ manifold drift. **Representational structure emerges directly from geometry rather than from tokens or embeddings**, allowing a smooth transition from continuous physics to discrete cognition.
-</p>
-
-<h3>Prediction Error Minimization (The Free-Energy Principle Proxy)</h3>
-
-<p>
-The system implements a continuous internal reward loop that penalizes deviation from its own predicted future state ($\hat{s}_{t+1}$):
-</p>
-
-\[
-r \leftarrow r_{\text{base}} - \beta \norm{s_{t+1} - \hat{s}_{t+1}}
-\]
-
-<p>
-This internal reward loop implements a **continuous free-energy-like objective**, where $s_{t+1}$ is the observed metric vector at time $t+1$. Minimizing the prediction error drives coherence, stability, exploration, and attractor alignment without the need for external, labeled reinforcement. This constitutes the system's **intrinsic drive** for self-improvement.
-</p>
-
-<h3>Threshold for AGI Seed Status</h3>
-
-<p>
-The substrate becomes an AGI seed when its internally defined dynamics dominate its behavior. Version 5.2 demonstrates the following emergent properties, satisfying the minimal theoretical requirements for a self-organizing general intelligence precursor:
-</p>
-
+<div class="panel-soft">
 <ul>
-<li>**Autonomous Goal Selection:** R5-mediated state assessment selects and shifts the $R_2$ goal mask (e.g., from "Curriculum Goal" to "Internal Stability").</li>
-<li>**Symbol-Conditioned Action:** The emergence of a proto-symbol changes $R$'s consolidation mask, leading to persistent, context-dependent shifts in behavior.</li>
-<li>**Long-Horizon Stability:** Cross-episode identity retention is maintained via persistent $X$, $R_4$, and $R_5$ fields, functioning as a non-parametric world model.</li>
-<li>**Internal Reward Shaping:** The reward function is dominated by prediction error and conflict minimization, independent of external task success.</li>
-<li>**Adaptive Policy:** Coherent adaptation of the Policy Network (RL bases) and Adaptive Planner parameters based on intrinsic reward.</li>
+  <li>\\(\\nabla \\cdot (D \\nabla R)\\): diffusion that spreads resistance and smooths gradients.</li>
+  <li>\\(-(\\nabla R)\\cdot \\Omega\\): drift along a vector field \\(\\Omega\\), encoding directed flow.</li>
+  <li>\\(\\chi (R - R_{bg})/L_X\\): coupling to the X-dimension, tying the field back to its background level.</li>
+  <li>\\(-\\lambda (R - R_{bg})^3\\): nonlinear stabilizer that prevents unbounded growth.</li>
+  <li>\\(S(x,t)\\): sources and sinks for inputs, goals, noise, and symbolic forcing.</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary>2. From Plain Diffusion to Directed Flow</summary>
+
+<div class="deriv">
+If we consider only local spreading of \\(R\\), the simplest model is pure diffusion:
+\[
+\\frac{\\partial R}{\\partial t} = \\nabla \\cdot (D \\nabla R).
+\]
+This term alone makes sharp patterns blur over time, like heat diffusing in a solid.
+</div>
+
+<div class="deriv">
+To allow the substrate to <em>move</em> information in a directed way,
+we introduce a drift field \\(\\Omega(x,t)\\). In the code, this drift is shaped by
+higher layers (mainly \\(R_4\\)), and it appears as:
+\[
+\\frac{\\partial R}{\\partial t}
+= \\nabla \\cdot (D \\nabla R)
+- (\\nabla R)\\cdot\\Omega + \\dots
+\]
+This term pushes bumps and structures in \\(R\\) along preferred directions,
+which is how the system implements goal-seeking behavior in the manifold.
+</div>
+</details>
+
+<details>
+<summary>3. Adding X-Coupled Memory</summary>
+
+<div class="deriv">
+STUR treats the hidden coordinate \\(X\\) as a place where the system remembers
+how far \\(R\\) is from its background state \\(R_{bg}\\). A simple relation is:
+\[
+\\frac{\\partial R}{\\partial X}
+= \\frac{R - R_{bg}}{L_X},
+\]
+which says: the more \\(R\\) deviates from its background, the more it bends into the X-dimension.
+</div>
+
+<div class="deriv">
+If changes in X feed back into time evolution with overall strength \\(\\chi\\),
+we get a hysteresis-like contribution:
+\[
+\\chi \\frac{R - R_{bg}}{L_X}.
+\]
+This is the term used in the PDE and implemented in the code via \\(\\chi_1, \\chi_2, \\chi_3\\)
+and the memory fields \\(X_1, X_2, X_3\\).
+</div>
+</details>
+
+<details>
+<summary>4. Nonlinear Stability Around the Background</summary>
+
+<div class="deriv">
+To stop the system from blowing up, we add a cubic restoring force centered at the
+background value \\(R_{bg}\\). A typical potential is
+\[
+V(R) = \\frac{\\lambda}{4}(R - R_{bg})^4,
+\]
+which produces the force term
+\[
+-\\frac{\\partial V}{\\partial R}
+= -\\lambda (R - R_{bg})^3.
+\]
+This keeps \\(R\\) bounded and creates stable wells where patterns can live.
+</div>
+</details>
+
+<details>
+<summary>5. Collecting Inputs into the Source Term S(x,t)</summary>
+
+<div class="deriv">
+All external and internal influences are grouped into one source term \\(S(x,t)\\).
+In the actual Python code, this includes:
+</div>
+
+<ul class="p-soft">
+  <li>Static Gaussian sources (background structures and curriculum goals).</li>
+  <li>Dynamic sources (oscillating input patterns).</li>
+  <li>Symbolic sources (fields \\(\\Sigma_A, \\Sigma_B\\) activated by the planner).</li>
+  <li>Layer-to-layer coupling terms between \\(R_1, R_2, R_3\\).</li>
+  <li>Noise terms to keep the system exploring.</li>
 </ul>
 
+<div class="info">
+In other words, every “nudge” to the system — sensory input, symbols, goals,
+and stabilizing feedback — is encoded as a contribution to \\(S(x,t)\\) or to the
+parameters \\(D, \\Omega, \\chi, \\lambda\\).
+</div>
 </details>
 </div>
 
+<!-- LAYER ARCHITECTURE EXPLAINED -->
 <div class="panel">
-<h2>AGI Seed Experiments: Confirming Autonomous Intelligence</h2>
+<h2>The Five Manifolds R₁–R₅</h2>
+
 <details open>
-<summary>Three Confirmatory Experiments</summary>
+<summary>1. R₁ – Sensory Field</summary>
+<div class="deriv">
+R₁ lives on the full grid and feels most of the external sources: static Gaussians,
+dynamic oscillations, and symbolic masks. Its dynamics follow the STUR law with parameters
+chosen to make it reactive but not chaotic. In the code, this corresponds to the block
+labelled “R1 Dynamics (Sensory Manifold).”
+</div>
+<div class="info">
+Intuitively, R₁ is the place where “the world touches the system.” It is driven hard by
+inputs and slightly by higher layers, and its patterns are then passed on to R₂ and R₃.
+</div>
+</details>
 
-<p>The following tests confirm that the system's behavior is dominated by its internal, self-organized dynamics, a signature of nascent general intelligence.</p>
+<details>
+<summary>2. R₂ – Associative / Working Memory Field</summary>
+<div class="deriv">
+R₂ receives smoothed information from R₁, stabilizing feedback from R₃, and goal forces
+that try to align it with a chosen mask (external curriculum or internal target). R₂ is also
+where symbolic compression happens: regions of high curvature are turned into discrete
+symbol IDs.
+</div>
+<div class="info">
+R₂ is the “workspace” of the system. When you see references in the code to
+goal alignment, entropy of R₂, and symbolic extraction, they are all centered here.
+</div>
+</details>
 
-<h3>1. Persistence Test (Identity Continuity)</h3>
-<p>
-Disable external goals ($S_{\text{ext}} = 0$) and run multiple episodes with full cross-episode 
-state retention ($X, R_4, R_5$). If the system successfully transitions to **internally selected goals** (e.g., $R_2 \to X_2$ coherence) and maintains a high $\Rvec$ alignment with its own memory fields, 
-it indicates **identity continuity** and internal coherence preference over external instruction.
-</p>
+<details>
+<summary>3. R₃ – Stabilizer Field</summary>
+<div class="deriv">
+R₃ is wired so that it responds to differences between R₁ and R₂ and to variance in those
+fields. Its role is to dampen runaway dynamics: when R₂ becomes too unstable relative
+to R₁, R₃ pushes back through the coupling terms and through the way it modulates
+diffusion and X-coupling.
+</div>
+<div class="info">
+If R₂ is the workspace, R₃ is the safety system that keeps the workspace from exploding.
+It adjusts how strongly R₂ can drift and how fast it can change.
+</div>
+</details>
 
-<h3>2. Goal Conflict Test (Autonomous Preference)</h3>
-<p>
-Force a destabilizing external curriculum goal that strongly contradicts the current
-$R_5$-selected internal goal. If the system's Adaptive Planner and Meta-Control ($R_5$)
-*abandon the external goal* to restore its internal homeostatic coherence (low $R_4$ variance,
-low $R_2/X_2$ misalignment), it demonstrates **autonomous preference** and goal-directed behavior
-independent of external utility.
-</p>
+<details>
+<summary>4. R₄ – Predictive Core</summary>
+<div class="deriv">
+R₄ lives on a coarser grid and evolves more slowly. It integrates information about how
+well R₂ is aligned with its goals and how its entropy is changing. R₄ then sets part of
+the drift field \\(\\Omega\\) that guides R₂.
+</div>
+<div class="info">
+R₄ answers the question: “Given what I’m doing, which way should I pull the system next?”
+Its mean value and gradients determine the base drift of R₂ in the STUR equation.
+</div>
+</details>
 
-<h3>3. Symbol Influence Test (Representational Dynamics)</h3>
-<p>
-Introduce a strong, fixed curvature-derived symbol (e.g., Symbol 'A') during the first half of an episode,
-and remove it later. If the long-term behavior (e.g., mean drift $\Omega_2$, planner weights) changes
-due solely to the persistence of the symbolic transition statistics $T(i \to j)$ in Symbolic Memory, 
-it confirms that **abstract representational dynamics** are governing the system's core parameters.
-</p>
-
+<details>
+<summary>5. R₅ – Meta-Controller</summary>
+<div class="deriv">
+R₅ is coarser and slower still. It watches the state of R₄ and slowly adjusts three things:
+</div>
+<ul class="p-soft">
+  <li>How strong the exploration budget is (how adventurous the drift can be).</li>
+  <li>What target alignment R₄ should aim for.</li>
+  <li>How fast R₄ is allowed to learn (its effective \\(\\gamma\\)).</li>
+</ul>
+<div class="info">
+R₅ is where the simulation decides “are we in exploration mode, consolidation mode,
+or following an external curriculum?” It does this purely from its internal fields,
+without human labels or prompts.
+</div>
 </details>
 </div>
 
+<!-- SYMBOLS, MEMORY, AND RL LOOP -->
 <div class="panel">
-    <h2>Paste Full Python Script (v5.2) - Enhanced for Debugging and Clarity</h2>
-<textarea id="scriptBlock" class="code-box">
-"""
-STUR-AGI Sim v5.2 (Persistent Internal World Model) - Enhanced Edition
---------------------------------------------------------------------------------
-This version implements a 5D X-Coupled Resistance Manifold (R1-R5) 
-and a complete Policy/Planner/Symbolic Memory stack.
-Key Features: Persistent X-fields, Coarse-Grained R4/R5 Meta-Control,
-and Intrinsic Reward via Prediction Error and Conflict Minimization.
---------------------------------------------------------------------------------
-FIX 1: Added self.last_R4_mean initialization to reset_episode() to resolve
-AttributeError on Step 1 of every episode. (Already Present in Original)
-FIX 2: Initialized local variable 'curiosity_reward = 0.0' at start of step() 
-       to prevent UnboundLocalError on non-coarse steps. (Already Present in Original)
-FIX 3: Corrected actions_list for Policy Network training in step() to use the 
-       undampened ChiX2 (current_chi_X2) instead of the R3-dampened value 
-       (current_chi_X2_damp), ensuring the Policy Network learns the correct 
-       base parameter independent of transient homeostatic adjustments.
---------------------------------------------------------------------------------
-"""
+<h2>From Physics to Symbols and Learning</h2>
 
+<details open>
+<summary>1. Symbolic Compression</summary>
+<div class="deriv">
+Inside the code, the function <code>symbolic_compression_layer</code> takes R₂,
+computes its curvature (via a Laplacian), and marks regions where curvature is much
+higher than average. These regions are treated as candidate “shapes”:
+\[
+\\text{curvature\_proxy} = |\\nabla^2 R_2|, \\quad
+\\text{invariant\_region} = \\{x : \\text{curvature\_proxy}(x) > \\theta \\cdot
+\\langle\\text{curvature\_proxy}\\rangle\\}.
+\]
+A simple hash of the region’s center of mass and mass gives a symbol ID like
+<code>Q10_M3</code>.
+</div>
+<div class="info">
+This is how a continuous field turns into discrete tokens. There is no vocabulary baked
+in; the symbols are created on the fly from the geometry of the field.
+</div>
+</details>
+
+<details>
+<summary>2. Temporal Symbolic Memory</summary>
+<div class="deriv">
+The <code>SymbolicMemory</code> class stores a short history of these symbol IDs and learns
+how often one symbol follows another. Over time, this builds a simple transition model
+\\(T(i \\rightarrow j)\\) of its own internal patterns.
+</div>
+<div class="info">
+The current symbol and the strength of the most common transition are turned into a
+2-dimensional context vector. This becomes part of the state seen by the policy network.
+</div>
+</details>
+
+<details>
+<summary>3. The 29-Dimensional State Vector</summary>
+<div class="deriv">
+At each step, the simulator compresses the full state into a fixed-length vector
+\\(s_t \\in \\mathbb{R}^{29}\\). It includes:
+</div>
+<ul class="p-soft">
+  <li>Means and standard deviations of \\(R_1, R_2, R_3, R_4, R_5\\).</li>
+  <li>Means and standard deviations of \\(X_1, X_2, X_3\\).</li>
+  <li>Coherence between each \\(R_i\\) and its \\(X_i\\) (memory integrity).</li>
+  <li>Average gradient-squared (curvature) of \\(R_1, R_2, R_3\\).</li>
+  <li>Shannon entropy of \\(R_1, R_2, R_3\\).</li>
+  <li>Goal alignment of R₂ with its current goal mask.</li>
+  <li>Two symbolic context features from the transition model.</li>
+</ul>
+<div class="info">
+This vector is the “sensation” of the entire system. The policy network and planner
+respond only to this compressed description, not to the full grid directly.
+</div>
+</details>
+
+<details>
+<summary>4. Policy Network and Rewards</summary>
+<div class="deriv">
+A linear policy network takes \\(s_t\\) and proposes adjustments to five key physical
+parameters:
+</div>
+<ul class="p-soft">
+  <li>Diffusion in R₁ (D₁).</li>
+  <li>Memory coupling strength for X₂ (ChiX₂).</li>
+  <li>Three drift components \\(\\Omega_1, \\Omega_2, \\Omega_3\\).</li>
+</ul>
+<div class="deriv">
+These are trained with a TD(0)-style update so that parameter choices that improve the
+reward become more likely over time.
+</div>
+
+<div class="panel-soft">
+The reward combines several signals:
+<ul>
+  <li>Goal progress (alignment of R₂ with its current goal mask).</li>
+  <li>Complexity and entropy, which encourage non-trivial patterns.</li>
+  <li>Stability of the predictive core R₄.</li>
+  <li>Reduction of conflict between what the policy predicts and what R₄ actually drives.</li>
+  <li>A penalty proportional to prediction error in the low-dimensional readout.</li>
+</ul>
+</div>
+<div class="info">
+The result is a closed loop: physical fields → metrics → parameter choices → new fields.
+Over many episodes, the system stabilizes into strategies that keep reward high.
+</div>
+</details>
+
+<details>
+<summary>5. Why This Counts as “Emergent Intelligence”</summary>
+<div class="deriv">
+Within this simulation, “intelligence” means that the system:
+</div>
+<ul class="p-soft">
+  <li>Stores information about its own past in the X-fields and in R₄/R₅.</li>
+  <li>Abstracts complex spatial patterns into discrete symbols.</li>
+  <li>Uses learned symbol transitions as context for future decisions.</li>
+  <li>Adapts its own physical parameters to improve reward over episodes.</li>
+  <li>Chooses internal goals (e.g., self-consistency vs. curriculum tracking) based on R₅.</li>
+</ul>
+<div class="info">
+All of this happens inside one unified resistance-based law. There is no separate “brain”
+and “body”: the intelligence is the way the field organizes itself over time.
+</div>
+</details>
+</div>
+
+<!-- PYTHON CODE AREA -->
+<div class="panel">
+<h2>Python Source Code (AGI Seed Simulator v5.2)</h2>
+
+<div class="info">
+Paste the full Python script of the simulator into this box. The “Copy Script” button
+at the top of the page copies exactly what is inside, so you can run it in Jupyter or any
+Python 3 environment with NumPy and JSON.
+</div>
+
+<textarea id="scriptBlock" class="code-box">
 import numpy as np
 import json
 from pathlib import Path
@@ -1474,15 +1731,18 @@ if __name__ == "__main__":
         print(f"| ADAPTIVE PLANNER $\\Delta$W: A1={planner_w[0]:.4f}, A2={planner_w[1]:.4f}, A3={planner_w[2]:.4f} |")
         print("-" * 80)
 </textarea>
+
 </div>
 
 </div>
 
 <script>
 function copyScript() {
-    const text = document.getElementById("scriptBlock").value;
-    navigator.clipboard.writeText(text).then(() => {
-        alert("Script copied.");
+    const t = document.getElementById("scriptBlock").value;
+    navigator.clipboard.writeText(t).then(() => {
+        alert("Script copied to clipboard.");
+    }).catch(() => {
+        alert("Copy failed: your browser may block clipboard access.");
     });
 }
 </script>
