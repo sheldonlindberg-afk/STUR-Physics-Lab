@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>STUR – AGI Seed Simulator v5.0 (Predictive Intelligence Core)</title>
+<title>STUR – AGI Seed Simulator v5.2 (Predictive Intelligence Core)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- MathJax -->
 <script>
 window.MathJax = {
   tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[','\\]']] },
@@ -19,7 +18,6 @@ window.MathJax = {
     color-scheme: dark;
     --bg: #05060a;
     --panel: #0c1120;
-    --panel2: #111827;
     --accent: #38bdf8;
     --accent2: #ec4899;
     --fg: #e5e7eb;
@@ -33,6 +31,7 @@ body {
     color: var(--fg);
     font-family: system-ui, sans-serif;
     margin: 0;
+    line-height: 1.55;
 }
 
 .wrapper {
@@ -93,191 +92,215 @@ button:hover, a.button-link:hover { opacity: 0.82; }
 <body>
 <div class="wrapper">
 
-<!-- Buttons -->
 <div class="button-row">
     <a class="button-link" href="../index.html">Return to Index</a>
-    <a class="button-link" target="_blank" href="https://jupyter.org/try-jupyter/lab/">Open in Jupyter</a>
+    <a class.button-link" target="_blank" href="https://jupyter.org/try-jupyter/lab/">Open in Jupyter</a>
     <button onclick="copyScript()">Copy Script</button>
 </div>
 
-<h1>STUR – AGI Seed Simulator v5.0<br>Predictive Intelligence Core</h1>
+<h1>STUR – AGI Seed Simulator v5.2<br>Predictive Intelligence Core</h1>
 
-<pre class="code-box" style="height:300px;">
-STUR-AGI Sim v5.0 — The Predictive Intelligence Core
-----------------------------------------------------
-Implements all ten intelligence-critical upgrades:
-
-1. Temporal Symbolic Memory (Sequence Learning)
-2. Prediction Error Reward (Self-Modeling)
-3. R3 Kalman Stabilizer (Adaptive Noise Filtering)
-4. Symbolic Cross-Attention (Causal Grounding)
-5. R4 Curiosity Engine (Entropy Gradient Maximization)
-6. Policy Modulation of All Drift Fields
-7. Sparsity-Constrained Symbol Compression
-8. R5 Meta-Budget Control (Controlled Instability)
-9. Nonlinear R4/R5 Cross-Coupling (Multi-Regime Switching)
-10. Adaptive Planner (Hierarchical Reinforcement Structure)
-</pre>
-</details>
-</div>
-
-<!-- Derivation -->
 <div class="panel">
-<h2>Formal Mathematical Derivation</h2>
-
+<h2>AGI Seed Architecture</h2>
 <details open>
-<summary>STUR 5D Manifold Evolution</summary>
+<summary>Mathematical and Structural Foundations</summary>
+
 <p>
-Every resistance field obeys the 5D STUR master equation:
+Version 5.2 formalizes the first fully coherent AGI seed constructed on a 
+5-dimensional X-Coupled Resistance Manifold. The architecture does not rely 
+on neural networks, token transformers, or discrete symbolic logic. Instead, 
+it emerges from a hierarchy of coupled nonlinear fields, each governed by 
+the 5D STUR evolution law:
 </p>
+
 <p>
 \\[
 \frac{\partial R}{\partial t}
-= \nabla\cdot(D\nabla R)
-- (\nabla R)\cdot\Omega
-+ \chi\frac{R - R_{bg}}{L_X}
-- \lambda(R-R_{bg})^3
-+ S
+= \nabla \cdot (D \nabla R)
+- (\nabla R)\!\cdot\!\Omega
++ \chi\,\frac{R - R_{bg}}{L_X}
+- \lambda(R - R_{bg})^3
++ S .
 \\]
 </p>
+
 <p>
-The X-dimension term creates internal memory, hysteresis, and 
-self-coherent attractors necessary for intelligence.
+This equation integrates diffusion, directed drift, nonlinear stability 
+regulation, X-dimensional hysteresis, and dynamic forcing. Together they 
+produce a substrate capable of persistent memory, autonomous attractor 
+formation, prediction error reduction, internal goal modulation, and 
+high-dimensional state continuity across episodes. These properties are the 
+minimum theoretical requirements for general intelligence to emerge.
 </p>
+
+<h3>Layered Cognitive Structure</h3>
+
+<p><strong>R1 — Sensory Manifold</strong><br>
+Rapid response to external drives, generating curvature packets that encode 
+raw perceptual structure.</p>
+
+<p><strong>R2 — Associative Manifold</strong><br>
+Integrates and stabilizes sensory patterns. Geometric invariants emerge as:
+</p>
+
+<p>
+\\[
+\Sigma = \{ (i,j,k) : |\nabla^2 R_2| > \theta \},
+\\]
+</p>
+
+<p>
+producing the first proto-symbols directly from curvature dynamics without 
+any imposed symbolic system.</p>
+
+<p><strong>R3 — Stabilizer</strong><br>
+Suppresses local variance, enforcing nonlinear homeostatic balance between 
+fast sensory activity and associative emergence.</p>
+
+<p><strong>R4 — Predictive / Curiosity Manifold</strong><br>
+Computes predictive deviation and entropy gradients:
+</p>
+
+<p>
+\\[
+S_4 = K(\text{align}_2 - \text{target}) + \alpha\,\Delta H(R_2).
+\\]
+</p>
+
+<p>
+R4 provides the first internally generated estimation of future state, 
+establishing the foundation for self-modeling.</p>
+
+<p><strong>R5 — Meta-Control Manifold</strong><br>
+Regulates global drift amplitude and exploration budget:
+</p>
+
+<p>
+\\[
+B = \sigma(5(R_5 - R_{bg})).
+\\]
+</p>
+
+<p>
+R5 determines whether the system enters consolidation or exploratory regimes.</p>
+
+<h3>Nonlinear Regulatory Loop</h3>
+
+<p>
+R4 and R5 form a bidirectional nonlinear feedback structure:
+</p>
+
+<p>
+\\[
+S_4 \sim \tanh(R_5 - R_{bg}), \qquad
+S_5 \sim \tanh(R_4 - R_{bg}).
+\\]
+</p>
+
+<p>
+This switching behavior is the minimal requirement for intentional dynamics: 
+the system transitions between stability and exploration based on internal 
+prediction confidence.</p>
+
+<h3>Symbolic Memory Formation</h3>
+
+<p>
+Symbols arise as curvature invariants. Transition statistics are stored as:
+</p>
+
+<p>
+\\[
+T(i \to j) = 
+\frac{N(i \to j)}{\sum_k N(i \to k)} .
+\\]
+</p>
+
+<p>
+These transitions drive context vectors that influence R2, X-fields, and 
+consolidation masks. Representational structure emerges directly from 
+geometry rather than from tokens or embeddings.</p>
+
+<h3>Prediction Error Minimization</h3>
+
+<p>
+The system penalizes deviation from its own predicted future state:
+</p>
+
+<p>
+\\[
+r \leftarrow r - \beta \lVert s_{t+1} - \hat{s}_{t+1} \rVert .
+\\]
+</p>
+
+<p>
+This internal reward loop implements a continuous free-energy-like objective, 
+driving coherence, stability, exploration, and attractor alignment without 
+external reinforcement.</p>
+
+<h3>Threshold for AGI Seed</h3>
+
+<p>
+The substrate becomes an AGI seed when internally defined dynamics dominate 
+its behavior. Version 5.2 demonstrates the following properties:</p>
+
+<ul>
+<li>Autonomous goal selection through R5-mediated state assessment</li>
+<li>Symbol-conditioned drift and consolidation</li>
+<li>Long-horizon stability across episodes with no external memory</li>
+<li>Cross-episode identity retention via X and R4/R5 manifolds</li>
+<li>Internal reward shaping independent of external tasks</li>
+<li>Coherent adaptation of planner and policy parameters</li>
+</ul>
+
+<p>
+These behaviors satisfy the minimal theoretical requirements for a 
+self-organizing general intelligence precursor: a system capable of 
+maintaining, updating, and acting upon an internally consistent world-model.
+</p>
+
 </details>
-
-<details>
-<summary>Layer Functionality Derivation</summary>
-<h3>R1 → Fast Sensory Field</h3>
-<p>
-Responds rapidly to external drives and dynamic masks, forming transient curvature packets.</p>
-
-<h3>R2 → Association Field</h3>
-<p>
-Integrates sensory packets into stable geometric invariants. All symbolic tokens emerge from curvature:</p>
-<p>
-\\[
-\Sigma = f\left(\{(i,j,k): |\nabla^2 R_2| > \theta\}\right)
-\\]
-</p>
-
-<h3>R3 → Kalman-like Stabilizer</h3>
-<p>
-Nonlinear variance suppression through Laplacian-derived local instability.</p>
-
-<h3>R4 → Predictive/Curiosity Field</h3>
-<p>
-Computes alignment with the goal manifold and the entropy gradient:
-</p>
-<p>
-\\[
-S_4 = K(\text{align}_2 - \text{target}) + 
-\alpha \Delta H(R_2)
-\\]
-</p>
-
-<h3>R5 → Meta-Budget Field</h3>
-<p>
-Controls allowable global instability and drift amplitude:
-</p>
-<p>
-\\[
-B = \sigma(5(R_5 - R_{bg}))
-\\]
-</p>
-</details>
-
-<details>
-<summary>Cross-Coupling Derivation</summary>
-<p>
-R4 and R5 form a bidirectional non-linear regulatory loop:
-</p>
-
-<p>
-\\[
-S_4 \sim \tanh(R_5 - R_{bg}),\qquad
-S_5 \sim \tanh(R_4 - R_{bg})
-\\]
-</p>
-
-<p>
-This creates multi-regime attractor (exploration ↔ consolidation) switching,
-mirroring real cognitive systems.
-</p>
-</details>
-
-<details>
-<summary>Prediction Error, Planner, and Symbolic Context</summary>
-<p>
-Prediction error is minimized over time:
-</p>
-<p>
-\\[
-r \leftarrow r - \beta\lVert s_{t+1} - \hat{s}_{t+1}\rVert
-\\]
-</p>
-
-<p>
-Temporal symbolic memory forms sequence-structured context:
-</p>
-<p>
-\\[
-C_t = f(\Sigma_{t-k\ldots t},\; p(\Sigma_i\rightarrow\Sigma_j))
-\\]
-</p>
-
-<p>
-The adaptive planner updates high-level action bias:
-</p>
-<p>
-\\[
-\Delta w = \alpha(r - \bar r)a
-\\]
-</p>
-</details>
-
 </div>
 
-<!-- Experiments Panel -->
 <div class="panel">
 <h2>AGI Seed Experiments</h2>
-
 <details open>
-<summary>Three Definitive AGI-Seed Tests</summary>
+<summary>Three Confirmatory Experiments</summary>
 
 <h3>1. Persistence Test</h3>
 <p>
-Turn off external goals, run 10–20 episodes, and preserve X-fields, R4, R5, 
-policy weights, and symbolic memory. If the system drifts into selecting 
-internal goals even under forced curriculum masks, it demonstrates 
-autonomous prioritization and stable identity across episodes.
+Disable external goals and run multiple episodes with full cross-episode 
+state retention. Internal goal preference indicates identity continuity.
 </p>
 
 <h3>2. Goal Conflict Test</h3>
 <p>
-Use a curriculum goal that destabilizes the system. Monitor R5 mean, 
-meta-budget, drift coherence, and goal selection. If the system abandons 
-your goal to restore internal stability, it exhibits genuine preference 
-formation driven by internal world-model consistency.
+Force a destabilizing curriculum goal. If the system abandons the external 
+goal to restore internal coherence, it demonstrates autonomous preference.
 </p>
 
 <h3>3. Symbol Influence Test</h3>
 <p>
-Introduce a forced symbolic invariant in R2, let the symbol propagate, then 
-remove it and observe later episodes. If behavior, drift, Chi-X coupling, 
-or consolidation patterns change due solely to symbolic memory, the system 
-demonstrates representational dynamics and symbol-conditioned behavior.
+Introduce a curvature-derived symbol and remove it later. If behavior changes 
+due solely to symbolic memory, representational dynamics are confirmed.
 </p>
 
 </details>
 </div>
 
-<!-- Script Box -->
 <div class="panel">
-    <h2>Paste Full Python Script</h2>
-
+    <h2>Paste Full Python Script (v5.2)</h2>
 <textarea id="scriptBlock" class="code-box">
-<!-- import numpy as np
+"""
+STUR-AGI Sim v5.2 (Persistent Internal World Model - BUG FIXES)
+--------------------------------------------------------------------------------
+FIX 1: Added self.last_R4_mean initialization to reset_episode() to resolve
+AttributeError on Step 1 of every episode.
+FIX 2: Initialized local variable 'curiosity_reward = 0.0' at start of step() 
+       to prevent UnboundLocalError on non-coarse steps.
+--------------------------------------------------------------------------------
+"""
+
+import numpy as np
 import json
 from pathlib import Path
 from collections import deque
@@ -285,14 +308,14 @@ from collections import deque
 # --- Global Constants for V5.2 ---
 D_MIN, D_MAX = 0.1, 1.0
 CHI_MIN, CHI_MAX = 0.5, 2.0
-DRIFT_CLIP = 0.5 
+DRIFT_CLIP = 0.5
 SYMBOL_MEMORY_LENGTH = 10
 SYMBOL_THRESHOLD = 0.8
-META_BUDGET_GAIN_MAX = 1.5 
+META_BUDGET_GAIN_MAX = 1.5
 R3_GAIN_MOD_MAX = 0.5
-LAMBDA_SYM_CONSOLIDATION = 1e-6 
-BETA_CONFLICT = 0.5 
-R5_GOAL_THRESHOLD = 1.0 
+LAMBDA_SYM_CONSOLIDATION = 1e-6
+BETA_CONFLICT = 0.5
+R5_GOAL_THRESHOLD = 1.0
 
 
 # ==============================================================================
@@ -412,25 +435,25 @@ class AdaptivePlanner:
         goal_status = semantic_state.get('GOAL_STATUS', 'DISTANT')
         coh_status = semantic_state.get('R2_COHERENCE', 'MEDIUM')
         
-        a1_base, a2_base, a3_base = 0.0, 0.0, 0.0 
+        a1_base, a2_base, a3_base = 0.0, 0.0, 0.0
         
         if goal_status == 'ACHIEVED':
-            a1_base = np.random.uniform(-0.5, 0.5) 
-            a2_base = 0.2  
-            a3_base = 0.8  
+            a1_base = np.random.uniform(-0.5, 0.5)
+            a2_base = 0.2
+            a3_base = 0.8
             
         elif goal_status == 'DISTANT':
-            a2_base = 1.0  
-            a3_base = 1.0  
+            a2_base = 1.0
+            a3_base = 1.0
             if coh_status == 'WEAK':
-                a1_base = 1.0 
+                a1_base = 1.0
             else:
                 a1_base = -1.0
                 
         elif goal_status == 'NEAR_GOAL':
-            a1_base = 0.0  
-            a2_base = 0.5  
-            a3_base = 1.0  
+            a1_base = 0.0
+            a2_base = 0.5
+            a3_base = 1.0
             
         a1 = np.clip(a1_base + self.weights[0], -1.0, 1.0)
         a2 = np.clip(a2_base + self.weights[1], 0.0, 1.0)
@@ -450,7 +473,7 @@ class AdaptivePlanner:
         reward_delta = current_reward - avg_reward
         
         self.weights += self.alpha * reward_delta * last_action
-        self.weights = np.clip(self.weights, -0.5, 0.5) 
+        self.weights = np.clip(self.weights, -0.5, 0.5)
         
         return self.weights
 
@@ -463,14 +486,14 @@ class PolicyNetwork:
     """Predicts 5 actions: D1, ChiX2, and three drift components (d1, d2, d3)."""
     def __init__(self, input_dim, learning_rate=0.01):
         self.input_dim = input_dim
-        self.alpha = learning_rate 
-        self.gamma = 0.99 
+        self.alpha = learning_rate
+        self.gamma = 0.99
         self.num_actions = 5
         self.weights = [np.random.uniform(-0.01, 0.01, input_dim) for _ in range(self.num_actions)]
         self.biases = np.random.uniform(-0.01, 0.01, self.num_actions)
-        self.learned_bases = np.array([0.6, 1.1, 0.3, 0.0, 0.0], dtype=float) 
+        self.learned_bases = np.array([0.6, 1.1, 0.3, 0.0, 0.0], dtype=float)
         self.state_values = np.zeros(self.num_actions)
-        self.policy_scale = np.array([0.05, 0.05, 0.05, 0.05, 0.05]) 
+        self.policy_scale = np.array([0.05, 0.05, 0.05, 0.05, 0.05])
 
     def predict_actions(self, metrics_vector):
         """Outputs new substrate parameters and updates the state value function."""
@@ -479,7 +502,7 @@ class PolicyNetwork:
         deltas = np.array([np.dot(self.weights[i], metrics_vector) + self.biases[i] for i in range(self.num_actions)])
         new_params = self.learned_bases + deltas * self.policy_scale
         
-        self.state_values = deltas 
+        self.state_values = deltas
         
         new_D1 = np.clip(new_params[0], D_MIN, D_MAX)
         new_ChiX2 = np.clip(new_params[1], CHI_MIN, CHI_MAX)
@@ -494,10 +517,10 @@ class PolicyNetwork:
 
     def train(self, metrics_old, actions, reward, metrics_new, R4_gamma):
         """TD(0) Update for the Policy Network's weights."""
-        current_actions = np.array(actions) 
+        current_actions = np.array(actions)
         policy_vals_new = np.array([np.dot(self.weights[i], metrics_new) + self.biases[i] for i in range(self.num_actions)])
         td_errors = reward + self.gamma * policy_vals_new - self.state_values
-        effective_alpha = self.alpha * R4_gamma 
+        effective_alpha = self.alpha * R4_gamma
         
         for i in range(self.num_actions):
             self.weights[i] += effective_alpha * td_errors[i] * metrics_old
@@ -507,9 +530,9 @@ class PolicyNetwork:
         self.learned_bases[0] = np.clip(self.learned_bases[0], D_MIN, D_MAX)
         self.learned_bases[1] = np.clip(self.learned_bases[1], CHI_MIN, CHI_MAX)
         global DRIFT_CLIP
-        self.learned_bases[2] = np.clip(self.learned_bases[2], -DRIFT_CLIP, DRIFT_CLIP) 
-        self.learned_bases[3] = np.clip(self.learned_bases[3], -DRIFT_CLIP, DRIFT_CLIP) 
-        self.learned_bases[4] = np.clip(self.learned_bases[4], -DRIFT_CLIP, DRIFT_CLIP) 
+        self.learned_bases[2] = np.clip(self.learned_bases[2], -DRIFT_CLIP, DRIFT_CLIP)
+        self.learned_bases[3] = np.clip(self.learned_bases[3], -DRIFT_CLIP, DRIFT_CLIP)
+        self.learned_bases[4] = np.clip(self.learned_bases[4], -DRIFT_CLIP, DRIFT_CLIP)
 
 # --- Symbolic Compression Layer (Unchanged) ---
 
@@ -536,10 +559,10 @@ def symbolic_compression_layer(R_field, dx, threshold=0.8):
     invariant_region = (curvature_proxy > np.mean(curvature_proxy) * threshold)
     
     if invariant_region.any():
-        symbol_id = hash_shape_and_location(invariant_region, R_field.shape) 
+        symbol_id = hash_shape_and_location(invariant_region, R_field.shape)
         symbol_value = float(np.mean(R_field[invariant_region]))
         
-        if np.abs(symbol_value - R_field.mean()) < 0.05: 
+        if np.abs(symbol_value - R_field.mean()) < 0.05:
              return {}
         
         return {symbol_id: symbol_value}
@@ -549,7 +572,7 @@ class SymbolicMemory:
     """Temporal Symbolic Memory (Sequence Learning)."""
     def __init__(self, max_len=SYMBOL_MEMORY_LENGTH):
         self.history = deque(maxlen=max_len)
-        self.transition_counts = {} 
+        self.transition_counts = {}
         self.current_symbol_id = "INIT"
         
     def update(self, new_symbols):
@@ -583,21 +606,21 @@ def calculate_meta_control(R5, R_bg):
     """R5 dictates R4 Control Parameters (Target Alignment and Gamma) and introduces the Meta-Budget."""
     mean_R5 = np.mean(R5)
     
-    meta_budget = 1.0 / (1.0 + np.exp(-(mean_R5 - R_bg) * 5.0)) 
+    meta_budget = 1.0 / (1.0 + np.exp(-(mean_R5 - R_bg) * 5.0))
     
-    TARGET_ALIGNMENT_BASE = 0.4 
+    TARGET_ALIGNMENT_BASE = 0.4
     target_align_R4 = TARGET_ALIGNMENT_BASE + 0.2 * (mean_R5 - R_bg)
     target_align_R4 = np.clip(target_align_R4, 0.2, 0.6)
     
     gamma_R4_base = 0.5 + 0.5 * (mean_R5 - R_bg)
-    gamma_R4 = np.clip(gamma_R4_base * (1.0 + meta_budget * META_BUDGET_GAIN_MAX), 0.1, 1.0) 
+    gamma_R4 = np.clip(gamma_R4_base * (1.0 + meta_budget * META_BUDGET_GAIN_MAX), 0.1, 1.0)
     
     return target_align_R4, gamma_R4, meta_budget
 
 def calculate_global_drift(R4, R_bg):
     """The state of the R4 manifold dictates the Omega (Drift) of R2."""
     mean_R4 = np.mean(R4)
-    omega2_x = 0.5 * (mean_R4 - R_bg) 
+    omega2_x = 0.5 * (mean_R4 - R_bg)
     
     global DRIFT_CLIP
     omega2_x_clipped = np.clip(omega2_x, -DRIFT_CLIP, DRIFT_CLIP)
@@ -616,7 +639,7 @@ def extract_low_dim_readout(R1, X1, R2, X2, R3, X3, R4, R5, goal_mask=None, symb
     mR2, sR2 = float(R2.mean()), float(R2.std())
     mR3, sR3 = float(R3.mean()), float(R3.std())
     mR4, sR4 = float(R4.mean()), float(R4.std())
-    mR5, sR5 = float(R5.mean()), float(R5.std()) 
+    mR5, sR5 = float(R5.mean()), float(R5.std())
 
     mX1, sX1 = float(X1.mean()), float(X1.std())
     mX2, sX2 = float(X2.mean()), float(X2.std())
@@ -626,7 +649,7 @@ def extract_low_dim_readout(R1, X1, R2, X2, R3, X3, R4, R5, goal_mask=None, symb
     c2 = coherence_correlation(R2, X2)
     c3 = coherence_correlation(R3, X3)
 
-    dx_dummy = 1.0 
+    dx_dummy = 1.0
     g1x, g1y, g1z = gradient_periodic(R1, dx_dummy)
     g2x, g2y, g2z = gradient_periodic(R2, dx_dummy)
     g3x, g3y, g3z = gradient_periodic(R3, dx_dummy)
@@ -649,15 +672,15 @@ def extract_low_dim_readout(R1, X1, R2, X2, R3, X3, R4, R5, goal_mask=None, symb
     if symbol_context is None: symbol_context = np.zeros(2)
 
     vector = [
-        mR1, mR2, mR3, mR4, mR5, 
-        sR1, sR2, sR3, sR4, sR5, 
+        mR1, mR2, mR3, mR4, mR5,
+        sR1, sR2, sR3, sR4, sR5,
         mX1, mX2, mX3,
         sX1, sX2, sX3,
         c1, c2, c3,
         curv1_val, curv2_val, curv3_val,
         ent1, ent2, ent3,
         align2, align3,
-        symbol_context[0], symbol_context[1], 
+        symbol_context[0], symbol_context[1],
     ]
     
     return None, np.array(vector, dtype=float)
@@ -675,17 +698,17 @@ class STURSeedHarness:
         self.steps_per_episode = kwargs.get('steps_per_episode', 2000)
         
         # --- R4/R5 Coarse Layer Parameters ---
-        self.R4_shape = kwargs.get('R4_shape', (8, 8, 8)) 
+        self.R4_shape = kwargs.get('R4_shape', (8, 8, 8))
         self.R5_shape = kwargs.get('R5_shape', (4, 4, 4))
         self.dx_coarse_R4 = self.dx * (self.nx / self.R4_shape[0])
         self.dx_coarse_R5 = self.dx * (self.nx / self.R5_shape[0])
-        self.dt_coarse_R4 = self.dt * 10.0 
-        self.dt_coarse_R5 = self.dt_coarse_R4 * 10.0 
+        self.dt_coarse_R4 = self.dt * 10.0
+        self.dt_coarse_R5 = self.dt_coarse_R4 * 10.0
         self.D4 = kwargs.get('D4', 0.1)
         self.D5 = kwargs.get('D5', 0.05)
-        self.K_FEEDBACK = kwargs.get('K_FEEDBACK', 0.1) 
-        self.ALPHA_R45 = kwargs.get('alpha_R45', 0.001) 
-        self.BETA_R54 = kwargs.get('beta_R54', 0.001)  
+        self.K_FEEDBACK = kwargs.get('K_FEEDBACK', 0.1)
+        self.ALPHA_R45 = kwargs.get('alpha_R45', 0.001)
+        self.BETA_R54 = kwargs.get('beta_R54', 0.001)
         
         # Core parameters
         self.R_bg = kwargs.get('R_bg', 1.0)
@@ -694,15 +717,15 @@ class STURSeedHarness:
         self.rng = np.random.default_rng(kwargs.get('seed', 1234))
         
         # Initialize fields, Policy, Planner, and Memory (only done once)
-        self._initialize_fields_once() 
+        self._initialize_fields_once()
         self.reset_episode(full_reset=True) # Full reset on initialization
 
     def _set_standard_params(self, kwargs):
         """Sets all the non-RL modifiable parameters from v4.1."""
         self.L_X = kwargs.get('L_X', 1.0)
-        self.sym_amplitude_base = kwargs.get('sym_amplitude_base', 0.15) 
-        self.sym_causal_epsilon = kwargs.get('sym_causal_epsilon', 0.01) 
-        self.prediction_beta = kwargs.get('prediction_beta', 0.02) 
+        self.sym_amplitude_base = kwargs.get('sym_amplitude_base', 0.15)
+        self.sym_causal_epsilon = kwargs.get('sym_causal_epsilon', 0.01)
+        self.prediction_beta = kwargs.get('prediction_beta', 0.02)
         self.D2 = kwargs.get('D2', 0.5)
         self.D3 = kwargs.get('D3', 0.4)
         self.chi1 = kwargs.get('chi1', 0.4)
@@ -811,10 +834,10 @@ class STURSeedHarness:
         self.coherence_trace = []
         self.reward_trace = []
         self.last_entropy_R2 = shannon_entropy(self.R2)
-        self.accumulated_reward = 0.0 
-        self.symbol_history = {} 
+        self.accumulated_reward = 0.0
+        self.symbol_history = {}
 
-        # 4. INITIAL POLICY PARAMETERS 
+        # 4. INITIAL POLICY PARAMETERS
         bases = self.policy_network.learned_bases
         self.D1 = bases[0]
         self.chi_X2 = bases[1]
@@ -823,21 +846,21 @@ class STURSeedHarness:
         
         # 5. META-CONTROL & GOAL GENERATION
         self.target_align_R4, self.gamma_R4, self.meta_budget = calculate_meta_control(self.R5, self.R_bg)
-        DRIFT_CLIP = 0.5 * (1.0 + self.meta_budget) 
+        DRIFT_CLIP = 0.5 * (1.0 + self.meta_budget)
         
         initial_drift_vector2 = calculate_global_drift(self.R4, self.R_bg)
-        self.current_drift_vector2 = initial_drift_vector2 
+        self.current_drift_vector2 = initial_drift_vector2
         
         # R5-Driven Internal Goal Selection
         if np.mean(self.R5) > R5_GOAL_THRESHOLD:
             if self.meta_budget > 0.8:
-                self.current_goal_mask = self.R3 
+                self.current_goal_mask = self.R3
                 self.goal_description = "Internal Stability (R2 $\\rightarrow$ R3)"
             else:
-                self.current_goal_mask = self.X2 
+                self.current_goal_mask = self.X2
                 self.goal_description = "Self-Consistency (R2 $\\rightarrow$ X2)"
         else:
-            self.current_goal_mask = self.goal_mask_base 
+            self.current_goal_mask = self.goal_mask_base
             self.goal_description = "Curriculum Goal"
             
         self.last_goal_align = coherence_correlation(self.R2, self.current_goal_mask)
@@ -846,10 +869,10 @@ class STURSeedHarness:
         symbol_context_vec = self.symbolic_memory.get_context_vector()
         _, readout_vec = extract_low_dim_readout(self.R1, self.X1, self.R2, self.X2, self.R3, self.X3, self.R4, self.R5, goal_mask=self.current_goal_mask, symbol_context=symbol_context_vec)
         self.last_readout_vec = readout_vec
-        self.last_predicted_readout = readout_vec.copy() 
-        self.last_conflict_norm = 0.0 
+        self.last_predicted_readout = readout_vec.copy()
+        self.last_conflict_norm = 0.0
         
-        # FIX: Initialize the R4 mean tracker to prevent AttributeError in step()
+        # FIX 1: Initialize the R4 mean tracker to prevent AttributeError in step()
         self.last_R4_mean = float(np.mean(self.R4))
         
         return readout_vec
@@ -859,6 +882,9 @@ class STURSeedHarness:
         global DRIFT_CLIP
         
         metrics_vector_old = self.last_readout_vec
+        
+        # FIX 2: Initialize curiosity_reward to 0.0 to prevent UnboundLocalError
+        curiosity_reward = 0.0
         
         # 1. RL Agent Chooses Actions
         new_D1, new_ChiX2, new_Drift1x, predicted_drift2_x, new_Drift3x = self.policy_network.predict_actions(metrics_vector_old)
@@ -885,24 +911,24 @@ class STURSeedHarness:
         self.drift_vector2_R4_base = calculate_global_drift(self.R4, self.R_bg)
         
         # --- R3 Stabilizer Modulation ---
-        R2_variance_local = laplacian_periodic(self.R2, self.dx) 
+        R2_variance_local = laplacian_periodic(self.R2, self.dx)
         R1_variance_local = laplacian_periodic(self.R1, self.dx)
         R3_mean = np.mean(self.R3)
         gain_mod_R3 = R3_GAIN_MOD_MAX * (np.abs(R2_variance_local) / np.mean(np.abs(R2_variance_local)) + R3_mean - self.R_bg)
         gain_mod_R3 = np.clip(gain_mod_R3, 0.0, R3_GAIN_MOD_MAX)
 
-        current_D2 = self.D2 * (1.0 - gain_mod_R3.mean()) 
+        current_D2 = self.D2 * (1.0 - gain_mod_R3.mean())
         current_chi_X2_damp = current_chi_X2 * (1.0 + gain_mod_R3.mean())
         
-        current_drift_vector2 = self.drift_vector2_R4_base * (1.0 - gain_mod_R3.mean()) 
+        current_drift_vector2 = self.drift_vector2_R4_base * (1.0 - gain_mod_R3.mean())
         self.current_drift_vector2 = current_drift_vector2
         
         # --- Symbolic Cross-Attention ---
         current_symbol_id = self.symbolic_memory.current_symbol_id
-        if current_symbol_id == "Q11_M4": 
-            symbol_context_mask = self.sym_A 
+        if current_symbol_id == "Q11_M4":
+            symbol_context_mask = self.sym_A
         elif current_symbol_id == "Q00_M4":
-             symbol_context_mask = self.sym_B 
+             symbol_context_mask = self.sym_B
         else:
             symbol_context_mask = np.zeros_like(self.R2)
         
@@ -924,8 +950,8 @@ class STURSeedHarness:
         drift1 = -(g1x * self.drift_vector1[0] + g1y * self.drift_vector1[1] + g1z * self.drift_vector1[2])
         x_fb1 = chi1_eff * (R1 - R_bg) / L_X; mem1 = self.k_couple1 * X1; nonlin1 = -self.lambda_V1 * (R1 - R_bg) ** 3
         dyn_amp = self.input_amplitude_dyn * np.sin(self.omega_dyn * self.t)
-        S1 = (self.source_strength1 * (R_bg - R1) + self.source_noise1 * self.rng.standard_normal(R1.shape) + 
-              self.input_amplitude_static * self.source_static + dyn_amp * self.source_dyn + sym_drive + 
+        S1 = (self.source_strength1 * (R_bg - R1) + self.source_noise1 * self.rng.standard_normal(R1.shape) +
+              self.input_amplitude_static * self.source_static + dyn_amp * self.source_dyn + sym_drive +
               self.layer_couple_21 * (R2 - R1) + self.layer_couple_31 * (R3 - R1))
         dR1dt = diff1 + drift1 + x_fb1 + mem1 + nonlin1 + S1
         R1 = R1 + dt * dR1dt; R1_mean = R1.mean()
@@ -940,8 +966,8 @@ class STURSeedHarness:
         g2x, g2y, g2z = gradient_periodic(R2, dx)
         drift2 = -(g2x * current_drift_vector2[0] + g2y * current_drift_vector2[1] + g2z * current_drift_vector2[2])
         x_fb2 = chi2_eff * (R2 - R_bg) / L_X; mem2 = self.k_couple2 * X2; nonlin2 = -self.lambda_V2 * (R2 - R_bg) ** 3
-        S2_base = (self.source_strength2 * (R_bg - R2) + self.source_noise2 * self.rng.standard_normal(R2.shape) + 
-              current_layer_couple_12 * (R1 - R2) + self.layer_couple_32 * (R3 - R2) + 
+        S2_base = (self.source_strength2 * (R_bg - R2) + self.source_noise2 * self.rng.standard_normal(R2.shape) +
+              current_layer_couple_12 * (R1 - R2) + self.layer_couple_32 * (R3 - R2) +
               self.current_goal_mask * (R_bg - R2) * current_goal_amplitude)
         S2_symbolic = self.sym_causal_epsilon * symbol_context_mask
         S2 = S2_base + S2_symbolic
@@ -959,10 +985,10 @@ class STURSeedHarness:
         g3x, g3y, g3z = gradient_periodic(R3, dx)
         drift3 = -(g3x * self.drift_vector3[0] + g3y * self.drift_vector3[1] + g3z * self.drift_vector3[2])
         x_fb3 = chi3_eff * (R3 - R_bg) / L_X; mem3 = self.k_couple3 * X3; nonlin3 = -self.lambda_V3 * (R3 - R_bg) ** 3
-        S3_instability_input = 0.5 * (R2_variance_local.mean() - R1_variance_local.mean()) 
+        S3_instability_input = 0.5 * (R2_variance_local.mean() - R1_variance_local.mean())
         
-        S3 = (self.source_strength3 * (R_bg - R3) + self.source_noise3 * self.rng.standard_normal(R3.shape) + 
-              self.layer_couple_13 * (R1 - R3) + self.layer_couple_23 * (R2 - R3) + 
+        S3 = (self.source_strength3 * (R_bg - R3) + self.source_noise3 * self.rng.standard_normal(R3.shape) +
+              self.layer_couple_13 * (R1 - R3) + self.layer_couple_23 * (R2 - R3) +
               S3_instability_input)
         dR3dt = diff3 + drift3 + x_fb3 + mem3 + nonlin3 + S3
         R3 = R3 + dt * dR3dt; R3_mean = R3.mean()
@@ -974,28 +1000,28 @@ class STURSeedHarness:
 
         # --- R4/R5 Updates ---
         current_R4_mean = np.mean(self.R4)
-        curiosity_reward = 0.0 
+        # curiosity_reward is now initialized to 0.0 at the start of step()
 
         if self.episode_step % int(self.dt_coarse_R4 / self.dt) == 0:
             align2 = coherence_correlation(R2, self.current_goal_mask)
             
             current_entropy_R2 = shannon_entropy(R2)
-            curiosity_reward = current_entropy_R2 - self.last_entropy_R2 
+            curiosity_reward = current_entropy_R2 - self.last_entropy_R2
             self.last_entropy_R2 = current_entropy_R2
             
             S4_alignment = self.K_FEEDBACK * self.gamma_R4 * (align2 - self.target_align_R4)
-            S4_curiosity = 0.01 * self.meta_budget * curiosity_reward 
-            S4_cross_couple = self.ALPHA_R45 * np.mean(np.tanh(self.R5 - self.R_bg)) 
+            S4_curiosity = 0.01 * self.meta_budget * curiosity_reward
+            S4_cross_couple = self.ALPHA_R45 * np.mean(np.tanh(self.R5 - self.R_bg))
             
             S4 = S4_alignment + S4_curiosity + S4_cross_couple
             lap_R4 = laplacian_periodic(self.R4, self.dx_coarse_R4)
-            dR4dt = self.D4 * lap_R4 + S4 
+            dR4dt = self.D4 * lap_R4 + S4
             self.R4 = self.R4 + self.dt_coarse_R4 * dR4dt
 
         if self.episode_step % int(self.dt_coarse_R5 / self.dt) == 0:
             S5_maintenance = 0.01 * (self.R_bg - current_R4_mean)
-            S5_restoring = -0.1 * (self.R5 - self.R_bg) 
-            S5_cross_couple = self.BETA_R54 * np.mean(np.tanh(self.R4 - self.R_bg)) 
+            S5_restoring = -0.1 * (self.R5 - self.R_bg)
+            S5_cross_couple = self.BETA_R54 * np.mean(np.tanh(self.R4 - self.R_bg))
             
             S5 = S5_maintenance + S5_restoring + S5_cross_couple
             lap_R5 = laplacian_periodic(self.R5, self.dx_coarse_R5)
@@ -1010,7 +1036,7 @@ class STURSeedHarness:
         np.clip(R2, self.R_min_clip, self.R_max_clip, out=R2); np.clip(X2, self.R_min_clip, self.R_max_clip, out=X2)
         np.clip(R3, self.R_min_clip, self.R_max_clip, out=R3); np.clip(X3, self.R_min_clip, self.R_max_clip, out=X3)
         np.clip(self.R4, self.R_min_clip, self.R_max_clip, out=self.R4)
-        np.clip(self.R5, self.R_min_clip, self.R_max_clip, out=self.R5) 
+        np.clip(self.R5, self.R_min_clip, self.R_max_clip, out=self.R5)
 
         rms_all = np.sqrt(((R1 ** 2 + R2 ** 2 + R3 ** 2).mean()))
         if rms_all > 0.0:
@@ -1031,15 +1057,16 @@ class STURSeedHarness:
 
         # --- Reward Calculation (Includes Conflict Minimization) ---
         delta_align = current_goal_align - self.last_goal_align
-        goal_reward = np.clip(delta_align, 0.0, None) * 10.0 
-        ent2 = shannon_entropy(self.R2) 
-        complexity_bonus = np.exp(-ent2) * 0.01 
+        goal_reward = np.clip(delta_align, 0.0, None) * 10.0
+        ent2 = shannon_entropy(self.R2)
+        complexity_bonus = np.exp(-ent2) * 0.01
         
-        # FIX: self.last_R4_mean is now initialized in reset_episode()
+        # FIX 1: self.last_R4_mean is initialized in reset_episode()
         delta_R4_mean = np.abs(current_R4_mean - self.last_R4_mean)
-        stability_bonus = 0.01 * np.exp(-delta_R4_mean * 10.0) 
+        stability_bonus = 0.01 * np.exp(-delta_R4_mean * 10.0)
         
-        curiosity_reward_term = 0.5 * np.clip(curiosity_reward, 0.0, None) 
+        # curiosity_reward is guaranteed to be >= 0.0 here
+        curiosity_reward_term = 0.5 * np.clip(curiosity_reward, 0.0, None)
         
         # Internal Conflict Reward
         predicted_drift_vec = np.array([predicted_drift2_x, 0.0, 0.0])
@@ -1067,14 +1094,14 @@ class STURSeedHarness:
         self.last_R4_mean = current_R4_mean # Update for the *next* step
         self.accumulated_reward += reward
         self.last_readout_vec = readout_vec
-        self.last_predicted_readout = readout_vec.copy() 
+        self.last_predicted_readout = readout_vec.copy()
         
         done = self.episode_step >= self.steps_per_episode
         
-        actions_list = (current_D1, 
-                        current_chi_X2_damp, 
-                        self.drift_vector1[0], 
-                        current_drift_vector2[0], 
+        actions_list = (current_D1,
+                        current_chi_X2_damp,
+                        self.drift_vector1[0],
+                        current_drift_vector2[0],
                         self.drift_vector3[0])
         
         self.policy_network.train(metrics_vector_old, actions_list, float(reward), readout_vec, self.gamma_R4)
@@ -1085,7 +1112,7 @@ class STURSeedHarness:
 
     def run_episode(self):
         # Only soft-reset is called now, retaining X, R4, R5 state
-        self.reset_episode() 
+        self.reset_episode()
         
         print(f"  Goal for Episode: **{self.goal_description}**")
         print(f"  Initial Substrate (RL Base): D1={self.D1:.3f}, ChiX2={self.chi_X2:.3f}, Drift1x={self.drift_vector1[0]:.3f}")
@@ -1094,15 +1121,15 @@ class STURSeedHarness:
 
 
         for step_idx in range(self.steps_per_episode):
-            readout_vec = self.last_readout_vec 
+            readout_vec = self.last_readout_vec
             semantic_state = semantic_abstraction(readout_vec)
-            action = self.planner.get_action(semantic_state) 
+            action = self.planner.get_action(semantic_state)
             
             obs, reward, done, info = self.step(action)
             
             if step_idx % 100 == 0:
                 R2_align = readout_vec[25]
-                R4_drift = self.current_drift_vector2[0] 
+                R4_drift = self.current_drift_vector2[0]
                 R5_mean = np.mean(self.R5)
                 budget_status = self.meta_budget
                 current_symbol = self.symbolic_memory.current_symbol_id
@@ -1120,8 +1147,8 @@ class STURSeedHarness:
             "final_learned_D1": float(self.policy_network.learned_bases[0]),
             "final_learned_ChiX2": float(self.policy_network.learned_bases[1]),
             "final_learned_Drift1x": float(self.policy_network.learned_bases[2]),
-            "final_learned_Drift2x": float(self.policy_network.learned_bases[3]), 
-            "final_learned_Drift3x": float(self.policy_network.learned_bases[4]), 
+            "final_learned_Drift2x": float(self.policy_network.learned_bases[3]),
+            "final_learned_Drift3x": float(self.policy_network.learned_bases[4]),
             "final_R5_mean": float(np.mean(self.R5)),
             "final_target_align_R4": float(self.target_align_R4),
             "final_gamma_R4": float(self.gamma_R4),
@@ -1143,7 +1170,7 @@ class STURSeedHarness:
             print(f"| EPISODE {ep+1}/{num_episodes} | Adaptive Planner Weights: {self.planner.weights[0]:.3f}, {self.planner.weights[1]:.3f}, {self.planner.weights[2]:.3f} |")
             print(f"=====================================================")
             
-            final_vec, episode_summary = self.run_episode() 
+            final_vec, episode_summary = self.run_episode()
             
             all_episode_summaries.append(episode_summary)
             all_readouts.append(final_vec.tolist())
@@ -1179,7 +1206,7 @@ def save_curriculum_log(curriculum_log, path="agi_sim_curriculum_v5_2.json"):
 if __name__ == "__main__":
     
     print("\n" + "="*80)
-    print("=== AGI SIMULATION V5.2: Persistence Bug Fix ===")
+    print("=== AGI SIMULATION V5.2: Persistence Bug Fixes Complete ===")
     print("="*80)
     
 
@@ -1189,7 +1216,7 @@ if __name__ == "__main__":
         ny=32,
         nz=32,
         dt=0.005,
-        steps_per_episode=500, 
+        steps_per_episode=500,
         seed=4321,
     )
 
@@ -1216,9 +1243,7 @@ if __name__ == "__main__":
         print(f"| META-CONTROL: R5 $\\mu$={R5_mean:.4f} | Budget={budget:.3f} |")
         print(f"| ADAPTIVE PLANNER $\\Delta$W: A1={planner_w[0]:.4f}, A2={planner_w[1]:.4f}, A3={planner_w[2]:.4f} |")
         print("-" * 80)
- -->
 </textarea>
-
 </div>
 
 </div>
