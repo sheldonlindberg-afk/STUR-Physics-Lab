@@ -2,806 +2,340 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>STUR Seed Simulator v1.0 – Three-Layer Resistance Manifold</title>
+<title>STUR – AGI Seed Simulator v5.0 (Full Derivation)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Dark STUR Lab theme -->
-<style>
-    :root {
-        color-scheme: dark;
-        --bg: #05060a;
-        --panel: #0c1120;
-        --panel2: #111827;
-        --accent: #ec4899;
-        --accent2: #f97316;
-        --fg: #e5e7eb;
-        --fg2: #9ca3af;
-        --code-bg: #020617;
-        --border: #1f2937;
-        --shadow-soft: 0 18px 40px rgba(0,0,0,0.7);
-        --radius-lg: 18px;
-        --radius-md: 12px;
-        --radius-sm: 8px;
-    }
-
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-        background: radial-gradient(circle at top, #020617 0, #020617 40%, #020617 60%, #05060a 100%);
-        color: var(--fg);
-    }
-
-    a {
-        color: var(--accent2);
-        text-decoration: none;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-
-    header {
-        padding: 1.75rem 1.5rem 1rem;
-        text-align: center;
-        background: radial-gradient(circle at top, #111827 0, #020617 55%, #020617 100%);
-        border-bottom: 1px solid rgba(15,23,42,0.8);
-        position: sticky;
-        top: 0;
-        z-index: 10;
-    }
-
-    header h1 {
-        font-size: 1.7rem;
-        margin: 0;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-    }
-
-    header p {
-        margin: 0.3rem 0 0.4rem;
-        color: var(--fg2);
-        font-size: 0.92rem;
-    }
-
-    .tagline {
-        font-size: 0.85rem;
-        color: var(--accent2);
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        margin-bottom: 0.4rem;
-    }
-
-    .header-links {
-        margin-top: 0.6rem;
-        font-size: 0.9rem;
-    }
-
-    .pill-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.25rem 0.7rem;
-        border-radius: 999px;
-        border: 1px solid rgba(248,250,252,0.12);
-        background: radial-gradient(circle at top left, rgba(236,72,153,0.12), rgba(15,23,42,0.8));
-        color: var(--fg2);
-        text-decoration: none;
-        margin: 0 0.25rem;
-    }
-
-    .pill-link:hover {
-        border-color: var(--accent);
-        color: var(--fg);
-    }
-
-    .main {
-        max-width: 1200px;
-        margin: 1.25rem auto 2.5rem;
-        padding: 0 1.1rem 2rem;
-    }
-
-    .grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
-        gap: 1.5rem;
-    }
-
-    @media (max-width: 960px) {
-        .grid {
-            grid-template-columns: minmax(0, 1fr);
-        }
-    }
-
-    .panel {
-        background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(3,7,18,0.98));
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-soft);
-        padding: 1.35rem 1.3rem 1.4rem;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .panel::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at top left, rgba(236,72,153,0.14), transparent 55%);
-        opacity: 0.65;
-        pointer-events: none;
-    }
-
-    .panel h2 {
-        margin: 0 0 0.6rem;
-        font-size: 1.15rem;
-    }
-
-    .panel h3 {
-        margin: 1.0rem 0 0.3rem;
-        font-size: 0.98rem;
-    }
-
-    .panel p {
-        margin: 0.25rem 0;
-        font-size: 0.9rem;
-        color: var(--fg2);
-        line-height: 1.5;
-    }
-
-    .pill-label {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.18rem 0.6rem;
-        border-radius: 999px;
-        border: 1px solid rgba(148,163,184,0.5);
-        background: rgba(15,23,42,0.85);
-        font-size: 0.78rem;
-        color: var(--fg2);
-        text-transform: uppercase;
-        letter-spacing: 0.09em;
-        margin-bottom: 0.4rem;
-    }
-
-    code, pre {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-        font-size: 0.83rem;
-    }
-
-    .math-block {
-        margin: 0.4rem 0;
-        padding: 0.45rem 0.8rem;
-        background: radial-gradient(circle at top left, rgba(15,23,42,0.95), rgba(15,23,42,0.95));
-        border-radius: var(--radius-md);
-        border: 1px solid rgba(31,41,55,0.9);
-        overflow-x: auto;
-    }
-
-    .math-inline {
-        background: rgba(15,23,42,0.9);
-        padding: 0.05rem 0.25rem;
-        border-radius: 999px;
-        border: 1px solid rgba(55,65,81,0.9);
-    }
-
-    .eq-label {
-        font-size: 0.78rem;
-        color: var(--fg2);
-        text-align: right;
-        margin-top: 0.15rem;
-    }
-
-    .badge-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.4rem;
-        margin: 0.3rem 0 0.6rem;
-    }
-
-    .badge {
-        font-size: 0.75rem;
-        padding: 0.12rem 0.55rem;
-        border-radius: 999px;
-        border: 1px solid rgba(148,163,184,0.55);
-        background: rgba(15,23,42,0.95);
-        color: var(--fg2);
-    }
-
-    .code-panel {
-        background: radial-gradient(circle at top right, rgba(15,23,42,0.95), rgba(3,7,18,0.98));
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-soft);
-        padding: 1.1rem 1.1rem 1.2rem;
-        margin-top: 1.5rem;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .code-panel::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at top right, rgba(249,115,22,0.22), transparent 60%);
-        opacity: 0.7;
-        pointer-events: none;
-    }
-
-    .code-header {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.6rem;
-        margin-bottom: 0.6rem;
-        position: relative;
-        z-index: 1;
-    }
-
-    .code-header-title {
-        font-size: 0.98rem;
-        font-weight: 500;
-    }
-
-    .code-header-sub {
-        font-size: 0.78rem;
-        color: var(--fg2);
-    }
-
-    .code-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.4rem;
-    }
-
-    .btn {
-        border-radius: 999px;
-        border: 1px solid rgba(249,115,22,0.7);
-        background: radial-gradient(circle at top left, rgba(249,115,22,0.35), rgba(15,23,42,0.95));
-        padding: 0.25rem 0.75rem;
-        font-size: 0.8rem;
-        color: var(--fg);
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        text-decoration: none;
-        white-space: nowrap;
-    }
-
-    .btn.secondary {
-        border-color: rgba(148,163,184,0.7);
-        background: radial-gradient(circle at top left, rgba(30,64,175,0.35), rgba(15,23,42,0.95));
-    }
-
-    .btn:hover {
-        filter: brightness(1.08);
-    }
-
-    .btn span.icon {
-        font-size: 0.9rem;
-    }
-
-    textarea.code-block {
-        width: 100%;
-        min-height: 380px;
-        max-height: 650px;
-        background: var(--code-bg);
-        color: var(--fg);
-        border-radius: var(--radius-md);
-        border: 1px solid rgba(31,41,55,0.9);
-        padding: 0.7rem 0.8rem;
-        resize: vertical;
-        overflow: auto;
-        font-size: 0.78rem;
-        line-height: 1.4;
-        tab-size: 4;
-        position: relative;
-        z-index: 1;
-    }
-
-    .note {
-        font-size: 0.78rem;
-        color: var(--fg2);
-        margin-top: 0.5rem;
-    }
-
-    .footer {
-        max-width: 1200px;
-        margin: 1.5rem auto 3rem;
-        padding: 0 1.1rem;
-        font-size: 0.78rem;
-        color: var(--fg2);
-        text-align: center;
-    }
-
-    .pill-ok {
-        color: #bbf7d0;
-    }
-
-    .pill-warn {
-        color: #fed7aa;
-    }
-
-    .pill-no {
-        color: #fecaca;
-    }
-
-    .json-hint {
-        font-size: 0.8rem;
-        color: var(--fg2);
-        margin-top: 0.3rem;
-    }
-</style>
-
-<!-- MathJax for STUR equations -->
+<!-- MathJax -->
 <script>
 window.MathJax = {
-    tex: {
-        inlineMath: [['\\(','\\)'], ['$', '$']],
-        displayMath: [['\\[','\\]'], ['$$','$$']],
-        processEscapes: true
-    },
-    svg: { fontCache: 'global' }
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
 };
 </script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
+<style>
+:root {
+    color-scheme: dark;
+    --bg: #05060a;
+    --panel: #0c1120;
+    --panel2: #111827;
+    --accent: #ec4899;
+    --accent2: #38bdf8;
+    --fg: #e5e7eb;
+    --fg2: #9ca3af;
+    --border: #1f2937;
+    --code-bg: #020617;
+}
+
+body {
+    background: var(--bg);
+    font-family: system-ui, sans-serif;
+    color: var(--fg);
+    margin: 0;
+}
+
+.wrapper {
+    max-width: 1200px;
+    margin: auto;
+    padding: 25px;
+}
+
+h1, h2, h3 {
+    color: var(--accent2);
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+}
+
+.code-box {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    padding: 18px;
+    border-radius: 6px;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--fg2);
+    font-size: 14px;
+}
+
+.button-row {
+    margin-bottom: 25px;
+}
+
+button {
+    background: var(--accent2);
+    color: var(--bg);
+    border: none;
+    padding: 10px 16px;
+    margin-right: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button:hover { opacity: 0.85; }
+
+a.button-link {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a.button-link:hover { opacity: 0.85; }
+</style>
 </head>
+
 <body>
+<div class="wrapper">
 
-<header>
-    <div class="tagline">STUR Physics Lab • Open Resistance-Manifold Seed Simulator</div>
-    <h1>STUR Seed Simulator v1.0</h1>
-    <p>Three-layer resistance manifold with X-coupled memory, goal forcing, and global energy normalization.</p>
-    <div class="header-links">
-        <a class="pill-link" href="../index.html">&#x21A9; Return to STUR Lab Index</a>
-        <a class="pill-link" href="https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/">
-            🌐 STUR Physics Lab Home
-        </a>
+    <div class="button-row">
+        <a class="button-link" href="../index.html">Return to Index</a>
+        <a class="button-link" target="_blank" href="https://jupyter.org/try-jupyter/lab/">Open in Jupyter</a>
+        <button onclick="copyScript()">Copy Script</button>
     </div>
-</header>
 
-<main class="main">
+    <h1>STUR – AGI Seed Simulator v5.0</h1>
 
-    <section class="grid">
-        <!-- LEFT: Theory & Derivations -->
-        <article class="panel">
-            <div class="pill-label">STUR Field Equation & 3-Layer Seed Architecture</div>
-            <h2>From 5D STUR Physics to the Seed Simulator v1.0</h2>
-            <p>
-                The STUR Seed Simulator is <span class="math-inline">not</span> an AGI system and makes no claims about consciousness,
-                understanding, or agency. It is a fully open, 3D, multi-layer, resistance-based dynamical system that implements a
-                discretized version of the STUR resistance field with memory feedback and goal forcing.
-            </p>
+    <div class="panel">
+        <h2>1. Overview</h2>
+        <p>
+        The STUR–AGI Seed Simulator v5.0 implements a multi-layer intelligence substrate
+        built directly from the unified resistance field formalism. The architecture is
+        constructed from five coupled manifolds 
+        \\( R_1, R_2, R_3, R_4, R_5 \\)
+        each evolving according to STUR’s 5D resistance dynamics:
+        </p>
 
-            <h3>1. STUR Resistance Field on a 5D Manifold</h3>
-            <p>
-                In STUR, the unified resistance field \(R(x,t,X)\) lives on a 5D manifold: three spatial coordinates, one time
-                coordinate, and one feedback dimension \(X\). The core evolution law is
-            </p>
-            <div class="math-block">
-                \[
-                \frac{\partial R}{\partial t}
-                \;=\;
-                \nabla \cdot (D \nabla R)
-                \;-\;
-                \nabla R \cdot \Omega
-                \;+\;
-                \chi \,\frac{\partial R}{\partial X}
-                \;+\;
-                S
-                \]
-                <div class="eq-label">(1) STUR resistance evolution</div>
-            </div>
-
-            <p>
-                The hidden feedback dimension \(X\) carries memory, coherence, and deterministic information that appears as
-                randomness when projected down into 4D spacetime. In this seed we use the linear closure
-            </p>
-            <div class="math-block">
-                \[
-                \frac{\partial R}{\partial X}
-                \;=\;
-                \frac{R - R_{\text{bg}}}{L_X}
-                \]
-                <div class="eq-label">(2) X-coupling closure</div>
-            </div>
-
-            <p>
-                Taken together, (1)–(2) define a resistance manifold that:
-            </p>
-            <ul>
-                <li>diffuses structure \(\nabla\cdot(D\nabla R)\),</li>
-                <li>advects along a drift vector \(\Omega\),</li>
-                <li>couples to hidden feedback via \(\chi \partial R/\partial X\),</li>
-                <li>and is driven by sources \(S\) (inputs, noise, goals).</li>
-            </ul>
-
-            <h3>2. Layered Manifold and Memory Fields</h3>
-            <p>
-                SeedSim v1.0 uses three coupled layers, each with a resistance field and a memory field:
-            </p>
-            <div class="math-block">
-                \[
-                (R_1, X_1) \;\text{: sensory layer}
-                \]
-                \[
-                (R_2, X_2) \;\text{: association / goal layer}
-                \]
-                \[
-                (R_3, X_3) \;\text{: stabilizer / integrator layer}
-                \]
-            </div>
-
-            <p>
-                The memory fields \(X_\ell\) (\(\ell = 1,2,3\)) are leaky, driven by deviations of the local resistance from its mean:
-            </p>
-            <div class="math-block">
-                \[
-                \frac{\partial X_\ell}{\partial t}
-                =
-                -\gamma_{X,\ell}\, X_\ell
-                +
-                \chi_{X,\ell}\,\bigl(R_\ell - \langle R_\ell \rangle\bigr),
-                \quad
-                \ell \in \{1,2,3\}.
-                \]
-                <div class="eq-label">(3) Memory dynamics per layer</div>
-            </div>
-
-            <p>
-                This implements a basic form of “what stays different from the mean gets remembered.”
-            </p>
-
-            <h3>3. Nonlinear Potential and Local Feedback</h3>
-            <p>
-                To prevent trivial collapse and to create filamentary structure, each layer has a local cubic potential around
-                a background state \(R_{\text{bg}}\):
-            </p>
-            <div class="math-block">
-                \[
-                V_\ell(R_\ell) = \frac{\lambda_{V,\ell}}{4}\,(R_\ell - R_{\text{bg}})^4,
-                \quad
-                \Rightarrow
-                \quad
-                -\frac{\partial V_\ell}{\partial R_\ell}
-                =
-                -\lambda_{V,\ell}(R_\ell - R_{\text{bg}})^3.
-                \]
-                <div class="eq-label">(4) Local double-well–like nonlinearity</div>
-            </div>
-
-            <p>
-                The hidden-dimension feedback is implemented as
-            </p>
-            <div class="math-block">
-                \[
-                \chi_\ell\,\frac{\partial R_\ell}{\partial X}
-                \;\approx\;
-                \chi_\ell^{\text{eff}}\,\frac{R_\ell - R_{\text{bg}}}{L_X},
-                \quad
-                \chi_\ell^{\text{eff}} = \chi_\ell\bigl(1+\alpha_{\chi,\ell}\tanh X_\ell\bigr),
-                \]
-                <div class="eq-label">(5) X-feedback with memory-modulated gain</div>
-            </div>
-            <p>
-                so that regions with strong memory \(X_\ell\) amplify or suppress the feedback term.
-            </p>
-
-            <h3>4. Discrete Lattice and Update Rule</h3>
-            <p>
-                We simulate on a periodic cubic lattice of spacing \(dx\) with explicit Euler time-stepping of size \(dt\).
-                The Laplacian and gradient are implemented as:
-            </p>
-            <div class="math-block">
-                \[
-                \nabla^2 R(i,j,k)
-                =
-                \frac{1}{dx^2}
-                \Bigl[
-                    R_{i+1,j,k} + R_{i-1,j,k}
-                  + R_{i,j+1,k} + R_{i,j-1,k}
-                  + R_{i,j,k+1} + R_{i,j,k-1}
-                  - 6R_{i,j,k}
-                \Bigr],
-                \]
-                \[
-                \nabla R \approx
-                \Bigl(
-                    \frac{R_{i+1,j,k} - R_{i-1,j,k}}{2dx},
-                    \frac{R_{i,j+1,k} - R_{i,j-1,k}}{2dx},
-                    \frac{R_{i,j,k+1} - R_{i,j,k-1}}{2dx}
-                \Bigr).
-                \]
-                <div class="eq-label">(6) Periodic finite differences</div>
-            </div>
-
-            <p>
-                The effective diffusion and X-feedback gains are modulated by memory using a local gain field
-                \(g_\ell = \tanh X_\ell\):
-            </p>
-            <div class="math-block">
-                \[
-                D_\ell^{\text{eff}} = D_\ell\bigl(1 + \alpha_{D,\ell}\,g_\ell\bigr),
-                \quad
-                \chi_\ell^{\text{eff}} = \chi_\ell\bigl(1 + \alpha_{\chi,\ell}\,g_\ell\bigr).
-                \]
-                <div class="eq-label">(7) Memory-modulated diffusion & feedback</div>
-            </div>
-
-            <p>
-                A generic layer update (before global normalization) is then:
-            </p>
-            <div class="math-block">
-                \[
-                R_\ell^{n+1}
-                =
-                R_\ell^{n}
-                +
-                dt\,
-                \Bigl[
-                    D_\ell^{\text{eff}} \nabla^2 R_\ell^n
-                    - \nabla R_\ell^n \cdot \Omega_\ell
-                    + \chi_\ell^{\text{eff}} \frac{R_\ell^n - R_{\text{bg}}}{L_X}
-                    + k_{\text{couple},\ell} X_\ell^n
-                    - \lambda_{V,\ell}(R_\ell^n - R_{\text{bg}})^3
-                    + S_\ell^n
-                \Bigr].
-                \]
-                <div class="eq-label">(8) Discrete resistance update per layer</div>
-            </div>
-
-            <p>
-                The memory field uses explicit Euler on (3):
-            </p>
-            <div class="math-block">
-                \[
-                X_\ell^{n+1}
-                =
-                X_\ell^{n}
-                +
-                dt\,
-                \Bigl(
-                    -\gamma_{X,\ell} X_\ell^n
-                    +
-                    \chi_{X,\ell}(R_\ell^n - \langle R_\ell^n \rangle)
-                \Bigr).
-                \]
-                <div class="eq-label">(9) Discrete memory update</div>
-            </div>
-
-            <h3>5. Cross-Layer Coupling and Goal Forcing</h3>
-            <p>
-                The source term \(S_\ell\) includes homeostatic drive towards \(R_{\text{bg}}\), noise, sensory inputs, symbolic
-                masks, and inter-layer couplings. For example, on the association layer:
-            </p>
-            <div class="math-block">
-                \[
-                S_2 =
-                s_2(R_{\text{bg}} - R_2)
-                + \eta_2
-                + c_{12}(R_1 - R_2)
-                + c_{32}(R_3 - R_2)
-                + G(x,y,z)\,\bigl(R_{\text{bg}} - R_2\bigr),
-                \]
-                <div class="eq-label">(10) Association source term with goal mask \(G\)</div>
-            </div>
-
-            <p>
-                where the goal mask \(G\) is a Gaussian bump in a chosen region of the volume, and the symbolic inputs are
-                oscillatory Gaussian blobs in the sensory layer that alternate via a phase \(\sin(\omega_{\text{sym}} t)\).
-            </p>
-
-            <h3>6. Global Energy Normalization</h3>
-            <p>
-                To keep the manifold numerically stable and independent of the absolute scale of forcing, SeedSim v1.0 enforces a
-                global RMS constraint over all three layers:
-            </p>
-            <div class="math-block">
-                \[
-                \mathrm{RMS}_{\text{all}}^n
-                =
-                \sqrt{\bigl\langle R_1^{n\,2} + R_2^{n\,2} + R_3^{n\,2} \bigr\rangle},
-                \qquad
-                \alpha^n
-                =
-                \frac{R_{\text{target}}}{\mathrm{RMS}_{\text{all}}^n + \varepsilon}.
-                \]
-                \[
-                R_\ell^{n+1} \leftarrow \alpha^n\,R_\ell^{n+1},
-                \quad \ell=1,2,3.
-                \]
-                <div class="eq-label">(11) Global RMS normalization</div>
-            </div>
-            <p>
-                This is the “S3” stabilization choice: it keeps the total resistance energy near a fixed target while still
-                allowing rich internal structure and alignment dynamics to emerge.
-            </p>
-
-            <h3>7. What This Seed Sim Is (and Is Not)</h3>
-            <div class="badge-row">
-                <span class="badge pill-ok">✓ Multi-layer continuous field</span>
-                <span class="badge pill-ok">✓ X-coupled memory</span>
-                <span class="badge pill-ok">✓ Goal-responsive dynamics</span>
-                <span class="badge pill-ok">✓ Open, inspectable, reproducible</span>
-            </div>
-            <div class="badge-row">
-                <span class="badge pill-no">✗ Not AGI</span>
-                <span class="badge pill-no">✗ Not a mind</span>
-                <span class="badge pill-no">✗ No claims of consciousness</span>
-            </div>
-            <p>
-                This page exposes the full mathematical model and the exact NumPy implementation so anyone can run, study,
-                modify, or discard the SeedSim without any black box. It is an <strong>open seed</strong>, not a proof of
-                general intelligence.
-            </p>
-        </article>
-
-        <!-- RIGHT: Behavior & Diagnostics Summary -->
-        <article class="panel">
-            <div class="pill-label">Empirical Behavior of v1.0</div>
-            <h2>Three-Layer Dynamics and Measured Outputs</h2>
-            <p>
-                With the default parameters on a \(32^3\) grid, \(dt=0.005\), 2000 steps (final time \(t=10\)), the SeedSim v1.0
-                shows stable, interpretable, goal-responsive behavior.
-            </p>
-
-            <h3>Layer Roles</h3>
-            <ul>
-                <li><strong>Sensory layer \((R_1,X_1)\):</strong> receives static, dynamic, and symbolic Gaussian inputs.</li>
-                <li><strong>Association layer \((R_2,X_2)\):</strong> receives input from \(R_1\) and a static goal mask.</li>
-                <li><strong>Stabilizer layer \((R_3,X_3)\):</strong> integrates activity from \(R_1\) and \(R_2\) and smooths it.</li>
-            </ul>
-
-            <h3>Key Quantities Tracked</h3>
-            <p>
-                During a run, the simulator records:
-            </p>
-            <ul>
-                <li>Mean and standard deviation of each \(R_\ell\) and \(X_\ell\)</li>
-                <li>Curvature \(\langle |\nabla R_\ell|^2 \rangle\) per layer</li>
-                <li>Coherence \(\mathrm{corr}(R_\ell, X_\ell)\) per layer</li>
-                <li>Alignments of \(R_1\) with static, dynamic, and symbolic input masks</li>
-                <li>Alignments of \(R_2\) and \(R_3\) with the goal mask</li>
-                <li>Global RMS of all \(R\)-fields</li>
-            </ul>
-
-            <h3>Typical Final JSON Readout</h3>
-            <p>
-                At the end of a run, a compact JSON summary is written (default filename:
-                <code>seed_sim_readout_v1.json</code>), including entries like:
-            </p>
-            <div class="math-block" style="font-size:0.78rem;">
-<pre>{
-  "time_final": 10.0,
-  "mean_R1_final": 0.18,
-  "mean_R2_final": 0.13,
-  "mean_R3_final": 0.11,
-  "std_R1_final": 0.86,
-  "std_R2_final": 0.38,
-  "std_R3_final": 0.22,
-  "coh1_final": 0.998,
-  "coh2_final": 0.996,
-  "coh3_final": 0.998,
-  "curv1_final": 6.0e-02,
-  "curv2_final": 1.2e-02,
-  "curv3_final": 3.7e-03,
-  "align_static_final": 0.90,
-  "align_dyn_final": 0.03,
-  "align_symA_final": 0.24,
-  "align_symB_final": 0.01,
-  "align_goal2_final": 0.25,
-  "align_goal3_final": 0.12,
-  "rms_all_final": 1.0,
-  "rms_all_mean": 1.03,
-  "rms_all_std": 0.16
-}</pre>
-            </div>
-            <p class="json-hint">
-                Values above are representative, not guaranteed for every random seed.
-                This JSON is meant as an empirical “signature” of what the SeedSim did for a given configuration.
-            </p>
-
-            <h3>Reading the Behavior (No Hype)</h3>
-            <ul>
-                <li>The global RMS is held near 1.0, confirming stable energy normalization.</li>
-                <li>Coherences near 1.0 mean memory fields track the resistance fields closely.</li>
-                <li>High static alignment and low dynamic alignment show that persistent inputs are reinforced, while purely oscillatory inputs are partially ignored.</li>
-                <li>Goal alignment on layers 2 and 3 indicates that the association and stabilizer layers conform to the goal mask.</li>
-            </ul>
-
-            <p>
-                The system is therefore best described as a <strong>goal-biased, memory-modulated resistance manifold</strong>
-                that forms stable attractors under the STUR feedback rules, not as an intelligent agent.
-            </p>
-        </article>
-    </section>
-
-    <!-- CODE PANEL -->
-    <section class="code-panel" id="code-panel">
-        <div class="code-header">
-            <div>
-                <div class="code-header-title">STUR Seed Simulator v1.0 – Full Python Script</div>
-                <div class="code-header-sub">
-                    Save as <code>stur_seed_sim_v1.py</code> and run with Python 3 + NumPy + Matplotlib.
-                </div>
-            </div>
-            <div class="code-buttons">
-                <button class="btn" id="copy-btn">
-                    <span class="icon">📋</span>
-                    Copy Script
-                </button>
-                <a
-    href="https://jupyter.org/try-jupyter/lab/"
-    target="_blank"
-    rel="noopener noreferrer"
-    style="
-        display:inline-flex;
-        align-items:center;
-        gap:0.5rem;
-        padding:0.6rem 1rem;
-        background:#0c1120;
-        color:#e5e7eb;
-        border:1px solid #1f2937;
-        border-radius:6px;
-        font-family:system-ui, sans-serif;
-        font-size:0.95rem;
-        text-decoration:none;
-        cursor:pointer;
-    "
->
-    <span style="font-size:1.1rem;">🧪</span>
-    Open JupyterLite
-</a>
-            </div>
+        <div class="panel2">
+        <p>
+        \\[
+        \frac{\partial R}{\partial t}
+        = \nabla \cdot (D \nabla R)
+        - (\nabla R) \cdot \Omega
+        + \chi \frac{\partial R}{\partial X}
+        - \lambda (R - R_{bg})^3
+        + S
+        \\]
+        </p>
+        <p>
+        where the hidden-dimension relation is:
+        </p>
+        <p>
+        \\[
+        \frac{\partial R}{\partial X}
+        = \frac{R - R_{bg}}{L_X}
+        \\]
+        </p>
         </div>
 
-        <textarea class="code-block" id="code-text" spellcheck="false">
-"""
-STUR Seed Simulator v1.0
-------------------------
-Open, inspectable three-layer resistance-manifold simulator.
+        <p>
+        Each layer corresponds to a functional substrate of cognition:
+        </p>
 
-What it is:
-    - A multi-layer nonlinear PDE system on a 3D grid
-    - Each layer has a resistance field R(x, y, z) and a memory field X(x, y, z)
-    - Local dynamics: diffusion, drift, cubic potential, X-coupled feedback
-    - External forcing via static, dynamic, and symbolic masks
-    - A goal mask on the association layer
-    - A stabilizer layer that integrates activity from the others
-    - Global energy normalization (keeps total RMS of R1,R2,R3 near 1.0)
-    - Diagnostics + JSON readout summarizing the run
+        <ul>
+            <li>R1 – Sensory manifold (fast dynamics)</li>
+            <li>R2 – Association manifold (medium dynamics)</li>
+            <li>R3 – Stabilizer (Kalman-like variance moderator)</li>
+            <li>R4 – Global predictive + curiosity controller</li>
+            <li>R5 – Meta-budget (slow global regulator)</li>
+        </ul>
+    </div>
 
-What it is NOT:
-    - Not AGI, not a mind, not cognition, not an agent
-    - No semantics, no understanding, no planning
-    - This is a dynamical testbed inspired by a resistance-manifold idea
+
+    <div class="panel">
+        <h2>2. Mathematical Derivation</h2>
+
+        <h3>2.1 Laplacian and Gradient</h3>
+        <p>
+        Spatial evolution follows the periodic-boundary Laplacian  
+        \\( \nabla^2 R \\)
+        and gradient  
+        \\( \nabla R \\)
+        implemented directly on the cubic grid:
+        </p>
+
+        <p>
+        \\[
+        \nabla^2 R
+        = \frac{
+        R_{i+1}+R_{i-1}+R_{j+1}+R_{j-1}+R_{k+1}+R_{k-1}-6R
+        }{dx^2}
+        \\]
+        </p>
+
+        <p>
+        The drift term uses:
+        </p>
+
+        <p>
+        \\[
+        -(\nabla R)\cdot\Omega
+        =
+        -(R_x\Omega_x + R_y\Omega_y + R_z\Omega_z)
+        \\]
+        </p>
+
+        <h3>2.2 X-Dimension Coupling</h3>
+        <p>
+        STUR’s 5D hidden variable \\( X \\) produces internal resistance coupling:
+        </p>
+
+        <p>
+        \\[
+        \chi \frac{\partial R}{\partial X}
+        = \chi \frac{R - R_{bg}}{L_X}
+        \\]
+        </p>
+
+        <h3>2.3 Nonlinear Potential</h3>
+        <p>
+        The self-potential  
+        \\( V(R) = \frac{\lambda}{4}(R - R_{bg})^4 \\)  
+        produces a cubic restoring force:
+        </p>
+
+        <p>
+        \\[
+        -\lambda (R - R_{bg})^3
+        \\]
+        </p>
+
+        <h3>2.4 Multi-Layer Coupling</h3>
+        <p>
+        Layers communicate through linear coupling terms like  
+        \\( k_{12} (R_1 - R_2) \\).  
+        These encode cross-layer feedback and are essential for cognitive emergence.
+        </p>
+
+        <h3>2.5 R4: Predictive Curiosity Layer</h3>
+        <p>
+        R4 compares goal-alignment and entropy changes:
+        </p>
+
+        <p>
+        \\[
+        S_4 = 
+        K (\text{align}_2 - \text{target})
+        + 0.01\, \text{Budget} \, (\Delta H)
+        + \alpha_{45}\tanh(R_5 - R_{bg})
+        \\]
+        </p>
+
+        <h3>2.6 R5: Meta-Budget</h3>
+        <p>
+        The top layer creates a sigmoid budget control:
+        </p>
+
+        <p>
+        \\[
+        B = \frac{1}{1 + e^{-5(R_5 - R_{bg})}}
+        \\]
+        </p>
+
+        <p>
+        which modulates allowed drift, exploration, and predictive sensitivity.
+        </p>
+
+        <h3>2.7 Symbolic Emergence</h3>
+        <p>
+        Regions of high curvature produce discrete symbols:
+        </p>
+
+        <p>
+        \\[
+        \Sigma = f(\{(i,j,k) : |\nabla^2 R_2| > \theta\})
+        \\]
+        </p>
+
+        <p>
+        forming a temporal symbolic sequence stored in a finite memory buffer.
+        This becomes a primitive working memory and context signal.
+        </p>
+
+        <h3>2.8 Prediction Error</h3>
+        <p>
+        The system predicts its own next readout and penalizes surprise:
+        </p>
+        <p>
+        \\[
+        r \leftarrow r - \beta \| s_{t+1} - \hat{s}_{t+1} \|
+        \\]
+        </p>
+
+        <h3>2.9 Adaptive Planner</h3>
+        <p>
+        The planner learns long-term biases over high-level actions:
+        </p>
+        <p>
+        \\[
+        w \leftarrow w + \alpha (r - \bar{r}) a
+        \\]
+        </p>
+
+        <p>
+        providing a stable meta-policy over episodes.
+        </p>
+    </div>
+
+
+    <div class="panel">
+        <h2>3. Full Python Script</h2>
+        <p>Paste your <b>entire STUR-AGI Sim v5.0 script</b> into the placeholder below.</p>
+
+        <div id="scriptBlock" class="code-box">
+<!-- ================================================= -->
+<!--  STUR-AGI Sim v5.0 (The Predictive Intelligence Core)
+--------------------------------------------------------------------------------
+This version implements the TOP 10 SPECIFIC, ACTIONABLE UPGRADES, resulting in:
+
+1. Temporal Symbolic Memory (Sequence Learning)
+2. Prediction Error Reward (Self-Modeling)
+3. R3 Kalman-like Stabilizer (Adaptive Noise Filtering)
+4. Symbolic Cross-Attention (Grounded Reasoning)
+5. R4 Curiosity Drive (Entropy Gradient Maximization)
+6. Policy Modulation of All Three Drift Vectors
+7. Sparsity Constraint on Symbolic Compression
+8. R5 Meta-Budget Control (Controlled Instability)
+9. Nonlinear R4/R5 Cross-Coupling (Multi-stable regimes)
+10. Adaptive Planner (Hierarchical RL Seed)
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
 import json
 from pathlib import Path
+from collections import deque
 
+# --- Global Constants for V5.0 ---
+D_MIN, D_MAX = 0.1, 1.0
+CHI_MIN, CHI_MAX = 0.5, 2.0
+DRIFT_CLIP = 0.5 
+SYMBOL_MEMORY_LENGTH = 10
+SYMBOL_THRESHOLD = 0.8
+META_BUDGET_GAIN_MAX = 1.5 
+R3_GAIN_MOD_MAX = 0.5
 
-# ---------- Core differential operators ----------
+# ==============================================================================
+# I. CORE DIFFERENTIAL OPERATORS (Unchanged)
+# ==============================================================================
 
 def laplacian_periodic(field, dx):
     """3D Laplacian with periodic boundary conditions."""
     lap = (
         np.roll(field, 1, axis=0) + np.roll(field, -1, axis=0) +
         np.roll(field, 1, axis=1) + np.roll(field, -1, axis=1) +
-        np.roll(field, 1, axis=2) + np.roll(field, -1, axis=2)
+        np.roll(field, 1, axis=2) + np.roll(field, -1, axis=2) +
         - 6.0 * field
     ) / (dx ** 2)
     return lap
-
 
 def gradient_periodic(field, dx):
     """3D gradient with periodic BCs. Returns (gx, gy, gz)."""
@@ -810,22 +344,21 @@ def gradient_periodic(field, dx):
     gz = (np.roll(field, -1, axis=2) - np.roll(field, 1, axis=2)) / (2.0 * dx)
     return gx, gy, gz
 
-
-# ---------- Metrics ----------
+# ==============================================================================
+# II. METRICS & MASK GENERATION (Unchanged)
+# ==============================================================================
 
 def shannon_entropy(values, bins=64):
     """Shannon entropy of a continuous field approximated via histogram."""
     v = values.ravel()
     v = v - v.min()
     vmax = v.max()
-    if vmax <= 0:
-        return 0.0
+    if vmax <= 0: return 0.0
     v = v / vmax
     hist, _ = np.histogram(v, bins=bins, range=(0.0, 1.0), density=True)
     p = hist + 1e-12
     p = p / p.sum()
     return float(-np.sum(p * np.log(p)))
-
 
 def coherence_correlation(a, b):
     """Correlation coefficient between two fields (a and b)."""
@@ -836,675 +369,903 @@ def coherence_correlation(a, b):
     denom = np.sqrt((A ** 2).mean() * (B ** 2).mean()) + 1e-12
     return float((A * B).mean() / denom)
 
-
-# ---------- Input masks ----------
-
 def make_gaussian_sources(shape, centers, sigma=4.0, amplitude=1.0):
-    """
-    Build a static 3D Gaussian source mask with given centers.
-    centers: list of (ix, iy, iz) in index coordinates.
-    """
+    """Build a static 3D Gaussian source mask."""
     nx, ny, nz = shape
     x, y, z = np.indices((nx, ny, nz))
     field = np.zeros((nx, ny, nz), dtype=float)
-
     for (cx, cy, cz) in centers:
         dx2 = (x - cx) ** 2 + (y - cy) ** 2 + (z - cz) ** 2
         field += np.exp(-dx2 / (2.0 * sigma ** 2))
-
     maxv = field.max()
-    if maxv > 0:
-        field *= (amplitude / maxv)
+    if maxv > 0: field *= (amplitude / maxv)
     return field
 
+# ==============================================================================
+# III. AGI COGNITIVE LAYERS (v5.0 Logic)
+# ==============================================================================
 
-# ---------- Main simulator: STUR Seed Sim v1 ----------
-
-def stur_seed_sim_v1(
-    nx=32,
-    ny=32,
-    nz=32,
-    dx=1.0,
-    dt=0.005,
-    n_steps=2000,
-    # background and X-coupling scale
-    R_bg=1.0,
-    L_X=5.0,
-    # diffusion
-    D1=0.6,
-    D2=0.5,
-    D3=0.4,
-    # X-feedback gains
-    chi1=0.4,
-    chi2=0.35,
-    chi3=0.3,
-    # coupling from X_mem to R
-    k_couple1=0.6,
-    k_couple2=0.5,
-    k_couple3=0.4,
-    # memory dynamics
-    gamma_X1=0.15,
-    gamma_X2=0.12,
-    gamma_X3=0.10,
-    chi_X1=0.6,
-    chi_X2=0.55,
-    chi_X3=0.5,
-    # drifts
-    drift_vector1=(0.3, 0.1, -0.2),
-    drift_vector2=(0.1, 0.0, -0.1),
-    drift_vector3=(0.0, 0.0, 0.0),
-    # homeostatic source strengths and noise
-    source_strength1=0.04,
-    source_strength2=0.03,
-    source_strength3=0.02,
-    source_noise1=0.015,
-    source_noise2=0.01,
-    source_noise3=0.01,
-    # inputs on layer 1
-    input_amplitude_static=0.12,
-    input_amplitude_dyn=0.08,
-    omega_dyn=0.6,
-    # symbolic drive on layer 1
-    sym_amplitude=0.10,
-    omega_sym=0.3,
-    # nonlinear potentials
-    lambda_V1=0.06,
-    lambda_V2=0.05,
-    lambda_V3=0.04,
-    # gain modulation from X_mem
-    alpha_D1=0.3,
-    alpha_D2=0.25,
-    alpha_D3=0.2,
-    alpha_chi1=0.3,
-    alpha_chi2=0.25,
-    alpha_chi3=0.2,
-    # layer couplings
-    layer_couple_12=0.15,   # R1 -> R2
-    layer_couple_21=0.05,   # R2 -> R1
-    layer_couple_13=0.08,   # R1 -> R3
-    layer_couple_23=0.08,   # R2 -> R3
-    layer_couple_31=0.03,   # R3 -> R1 (weak feedback)
-    layer_couple_32=0.03,   # R3 -> R2 (weak feedback)
-    # goal mask on layer 2
-    goal_amplitude=0.15,
-    # global energy normalization
-    target_rms=1.0,
-    norm_epsilon=1e-8,
-    # clamping for numerical safety
-    clamp_R=(-4.0, 4.0),
-    report_every=100,
-    snapshot_every=200,
-    seed=1234,
-):
+# --- AGI Feature I. Semantic Abstraction ---
+def semantic_abstraction(readout_vector):
     """
-    Run the STUR Seed Sim v1.0.
-
-    Returns:
-        R1, X1, R2, X2, R3, X3, metrics, snapshots
+    Translates the low-dimensional numeric readout vector into a high-level
+    semantic state.
     """
-    rng = np.random.default_rng(seed)
+    semantic_state = {}
+    align_goal2 = readout_vector[25]
+    coh_R2X2 = readout_vector[15]
+    std_R1 = readout_vector[5]
+    
+    # R4 Mean (Meta-state)
+    mR4 = readout_vector[3]
 
-    # Fields
-    R1 = R_bg + 0.05 * rng.standard_normal((nx, ny, nz))
-    R2 = R_bg + 0.05 * rng.standard_normal((nx, ny, nz))
-    R3 = R_bg + 0.05 * rng.standard_normal((nx, ny, nz))
-    X1 = np.zeros_like(R1)
-    X2 = np.zeros_like(R2)
-    X3 = np.zeros_like(R3)
+    if align_goal2 > 0.6:
+        semantic_state['GOAL_STATUS'] = 'ACHIEVED'
+    elif align_goal2 > 0.2:
+        semantic_state['GOAL_STATUS'] = 'NEAR_GOAL'
+    else:
+        semantic_state['GOAL_STATUS'] = 'DISTANT'
 
-    # Drift vectors
-    Omega1 = np.array(drift_vector1, dtype=float)
-    Omega2 = np.array(drift_vector2, dtype=float)
-    Omega3 = np.array(drift_vector3, dtype=float)
+    if std_R1 > 0.25:
+        semantic_state['SENSORY_ENGAGEMENT'] = 'HIGH_VARIANCE'
+    else:
+        semantic_state['SENSORY_ENGAGEMENT'] = 'LOW_VARIANCE'
 
-    # ----- Inputs / masks on layer 1 -----
-    static_centers = [
-        (nx // 4, ny // 4, nz // 2),
-        (3 * nx // 4, 3 * ny // 4, nz // 2),
-        (nx // 2, ny // 2, nz // 4),
+    if coh_R2X2 > 0.5:
+        semantic_state['R2_COHERENCE'] = 'STRONG'
+    elif coh_R2X2 < 0.1:
+        semantic_state['R2_COHERENCE'] = 'WEAK'
+    else:
+        semantic_state['R2_COHERENCE'] = 'MEDIUM'
+        
+    if mR4 > 1.2:
+        semantic_state['META_STATE'] = 'EXPLORATION'
+    elif mR4 < 0.8:
+        semantic_state['META_STATE'] = 'CONSOLIDATION'
+    else:
+        semantic_state['META_STATE'] = 'MAINTENANCE'
+    
+    return semantic_state
+
+# --- AGI Feature II. Planning & Reasoning (Upgrade 10: Adaptive Planner) ---
+class AdaptivePlanner:
+    """
+    Implements a simple learning rule for the planning engine actions.
+    a1: Symbolic Bias, a2: R1->R2 Attention, a3: Goal Commitment
+    """
+    def __init__(self, action_dim=3, learning_rate=0.05):
+        self.weights = np.zeros(action_dim, dtype=float)
+        self.alpha = learning_rate
+        self.action_history = deque(maxlen=20)
+        self.reward_history = deque(maxlen=20)
+        
+    def get_action(self, semantic_state):
+        """Generates the base action (0-1 range) based on semantic state and learned bias."""
+        goal_status = semantic_state.get('GOAL_STATUS', 'DISTANT')
+        coh_status = semantic_state.get('R2_COHERENCE', 'MEDIUM')
+        
+        a1_base, a2_base, a3_base = 0.0, 0.0, 0.0 
+        
+        if goal_status == 'ACHIEVED':
+            a1_base = np.random.uniform(-0.5, 0.5) 
+            a2_base = 0.2  
+            a3_base = 0.8  
+            
+        elif goal_status == 'DISTANT':
+            a2_base = 1.0  
+            a3_base = 1.0  
+            if coh_status == 'WEAK':
+                a1_base = 1.0 
+            else:
+                a1_base = -1.0
+                
+        elif goal_status == 'NEAR_GOAL':
+            a1_base = 0.0  
+            a2_base = 0.5  
+            a3_base = 1.0  
+            
+        # Apply learned weights as bias, clamped to [-0.5, 0.5]
+        a1 = np.clip(a1_base + self.weights[0], -1.0, 1.0)
+        a2 = np.clip(a2_base + self.weights[1], 0.0, 1.0)
+        a3 = np.clip(a3_base + self.weights[2], 0.0, 1.0)
+        
+        current_action = np.array([a1, a2, a3])
+        self.action_history.append(current_action)
+        return current_action
+
+    def train(self, current_reward):
+        """
+        Simple learning rule: Reinforce action if reward is above average.
+        The weight for action 'i' learns to bias the action 'i' when reward is high.
+        """
+        self.reward_history.append(current_reward)
+        if len(self.reward_history) < 5: return
+        
+        avg_reward = np.mean(self.reward_history)
+        
+        # Calculate the reward delta for the last action
+        last_action = self.action_history[-1]
+        reward_delta = current_reward - avg_reward
+        
+        # Simple policy gradient: weights change in the direction of action * reward_delta
+        # Scaling by the action value itself makes it a policy-based update.
+        self.weights += self.alpha * reward_delta * last_action
+        self.weights = np.clip(self.weights, -0.5, 0.5) # Prevent runaway
+        
+        return self.weights
+
+# ==============================================================================
+# IIIb. AGI SUBSYSTEMS (v5.0 Policy and Meta-Control)
+# ==============================================================================
+
+# --- Policy Network (Upgrade 6: Modulate all Drifts) ---
+
+class PolicyNetwork:
+    """
+    Policy Network now predicts 5 actions: D1, ChiX2, and three drift components (d1, d2, d3).
+    """
+    def __init__(self, input_dim, learning_rate=0.01):
+        self.input_dim = input_dim
+        self.alpha = learning_rate 
+        self.gamma = 0.99 
+        
+        # Action space: D1, ChiX2, Drift1x, Drift2x, Drift3x (5 actions)
+        self.num_actions = 5
+        self.weights = [np.random.uniform(-0.01, 0.01, input_dim) for _ in range(self.num_actions)]
+        self.biases = np.random.uniform(-0.01, 0.01, self.num_actions)
+        
+        # Initial learned parameter base values
+        self.learned_bases = np.array([0.6, 1.1, 0.3, 0.0, 0.0], dtype=float) # D1, ChiX2, Drift1x, Drift2x, Drift3x
+        
+        # Predictors for TD error
+        self.state_values = np.zeros(self.num_actions)
+        self.policy_scale = np.array([0.05, 0.05, 0.05, 0.05, 0.05]) # Scaling factor for policy output
+
+    def predict_actions(self, metrics_vector):
+        """Outputs new substrate parameters and updates the state value function."""
+        
+        deltas = np.array([np.dot(self.weights[i], metrics_vector) + self.biases[i] for i in range(self.num_actions)])
+        new_params = self.learned_bases + deltas * self.policy_scale
+        
+        self.state_values = deltas # V(s) estimate
+        
+        # Apply constraints
+        new_D1 = np.clip(new_params[0], D_MIN, D_MAX)
+        new_ChiX2 = np.clip(new_params[1], CHI_MIN, CHI_MAX)
+        new_Drift1x = np.clip(new_params[2], -DRIFT_CLIP, DRIFT_CLIP)
+        new_Drift2x = np.clip(new_params[3], -DRIFT_CLIP, DRIFT_CLIP)
+        new_Drift3x = np.clip(new_params[4], -DRIFT_CLIP, DRIFT_CLIP)
+
+        return new_D1, new_ChiX2, new_Drift1x, new_Drift2x, new_Drift3x
+
+    def train(self, metrics_old, actions, reward, metrics_new, R4_gamma):
+        """TD(0) Update for the Policy Network's weights."""
+        current_actions = np.array(actions)
+        
+        policy_vals_new = np.array([np.dot(self.weights[i], metrics_new) + self.biases[i] for i in range(self.num_actions)])
+        
+        td_errors = reward + self.gamma * policy_vals_new - self.state_values
+        effective_alpha = self.alpha * R4_gamma 
+        
+        for i in range(self.num_actions):
+            self.weights[i] += effective_alpha * td_errors[i] * metrics_old
+            self.biases[i] += effective_alpha * td_errors[i]
+            
+            # Update the 'Learned Base' parameters slowly (Episodic learning)
+            self.learned_bases[i] += effective_alpha * (current_actions[i] - self.learned_bases[i]) * 0.01
+
+        # Re-apply constraints to learned bases
+        self.learned_bases[0] = np.clip(self.learned_bases[0], D_MIN, D_MAX)
+        self.learned_bases[1] = np.clip(self.learned_bases[1], CHI_MIN, CHI_MAX)
+        self.learned_bases[2:] = np.clip(self.learned_bases[2:], -DRIFT_CLIP, DRIFT_CLIP)
+
+# --- Symbolic Compression Layer (Upgrade 1 & 7) ---
+
+def hash_shape_and_location(invariant_region, shape):
+    """Returns a simple ID based on mass and center-of-mass quadrant."""
+    nx, ny, nz = shape
+    total_mass = np.sum(invariant_region)
+    if total_mass == 0: return "NULL_SYMBOL"
+    
+    coords = np.argwhere(invariant_region)
+    if len(coords) == 0: return "NULL_SYMBOL"
+    
+    center = np.mean(coords, axis=0)
+    
+    x_quad = 1 if center[0] > nx / 2 else 0
+    y_quad = 1 if center[1] > ny / 2 else 0
+    
+    return f"Q{x_quad}{y_quad}_M{int(total_mass % 5)}"
+
+def symbolic_compression_layer(R_field, dx, threshold=0.8):
+    """
+    Compresses a continuous field into a set of discrete, symbolic tokens,
+    with an added sparsity constraint (Upgrade 7).
+    """
+    lap = laplacian_periodic(R_field, dx)
+    curvature_proxy = np.abs(lap)
+    
+    invariant_region = (curvature_proxy > np.mean(curvature_proxy) * threshold)
+    
+    if invariant_region.any():
+        symbol_id = hash_shape_and_location(invariant_region, R_field.shape) 
+        symbol_value = float(np.mean(R_field[invariant_region]))
+        
+        # Upgrade 7: Sparsity Constraint
+        if np.abs(symbol_value - R_field.mean()) < 0.05: # Ignore if close to background noise
+             return {}
+        
+        return {symbol_id: symbol_value}
+    return {}
+
+class SymbolicMemory:
+    """Upgrade 1: Temporal Symbolic Memory (Sequence Learning)."""
+    def __init__(self, max_len=SYMBOL_MEMORY_LENGTH):
+        self.history = deque(maxlen=max_len)
+        self.transition_counts = {} # Stores (symbol_A, symbol_B) -> count
+        self.current_symbol_id = "INIT"
+        
+    def update(self, new_symbols):
+        """Updates history and transition counts."""
+        new_symbol_id = next(iter(new_symbols.keys()), "NULL_SYMBOL")
+        
+        if new_symbol_id != self.current_symbol_id:
+            # Update transition count (symbol_A -> symbol_B)
+            transition = (self.current_symbol_id, new_symbol_id)
+            self.transition_counts[transition] = self.transition_counts.get(transition, 0) + 1
+            
+            # Update history and current symbol
+            if new_symbol_id != "NULL_SYMBOL":
+                self.history.append(new_symbol_id)
+            self.current_symbol_id = new_symbol_id
+            
+    def get_context_vector(self):
+        """Returns a vector representing the last N symbols' IDs and the dominant transition."""
+        
+        # 1. Last Symbol ID (Simple one-hot/value map, e.g., using hash)
+        last_symbol_hash = hash(self.current_symbol_id) % 1000
+        
+        # 2. Dominant Transition (Identify the most frequent transition)
+        if not self.transition_counts:
+            dominant_transition_score = 0.0
+        else:
+            max_count = max(self.transition_counts.values())
+            total_count = sum(self.transition_counts.values())
+            dominant_transition_score = max_count / (total_count + 1e-6) # Normalize
+            
+        return np.array([last_symbol_hash * 1e-4, dominant_transition_score], dtype=float)
+
+# --- Multi-Resolution Layer Logic (Upgrade 8 & 9) ---
+
+def calculate_meta_control(R5, R_bg):
+    """
+    R5 dictates R4 Control Parameters (Target Alignment and Gamma)
+    and introduces the Meta-Budget (Upgrade 8).
+    """
+    mean_R5 = np.mean(R5)
+    
+    # Upgrade 8: R5 Meta-Budget (Controls R4's chaotic allowance)
+    # Range (0.0 to 1.0)
+    meta_budget = 1.0 / (1.0 + np.exp(-(mean_R5 - R_bg) * 5.0)) # Sigmoid centered at R_bg
+    
+    # 1. R4 Target Alignment (Clamped)
+    TARGET_ALIGNMENT_BASE = 0.4 
+    target_align_R4 = TARGET_ALIGNMENT_BASE + 0.2 * (mean_R5 - R_bg)
+    target_align_R4 = np.clip(target_align_R4, 0.2, 0.6)
+    
+    # 2. R4 Gamma (Learning rate, scaled by budget)
+    gamma_R4_base = 0.5 + 0.5 * (mean_R5 - R_bg)
+    # Scale gamma by budget: high budget means higher maximum gamma (more sensitive learning)
+    gamma_R4 = np.clip(gamma_R4_base * (1.0 + meta_budget * META_BUDGET_GAIN_MAX), 0.1, 1.0) 
+    
+    return target_align_R4, gamma_R4, meta_budget
+
+def calculate_global_drift(R4, R_bg):
+    """
+    The state of the R4 manifold dictates the Omega (Drift) of R2.
+    """
+    mean_R4 = np.mean(R4)
+    omega2_x = 0.5 * (mean_R4 - R_bg) 
+    
+    # Clip the drift
+    omega2_x_clipped = np.clip(omega2_x, -DRIFT_CLIP, DRIFT_CLIP)
+    
+    return np.array([omega2_x_clipped, 0.0, 0.0], dtype=float)
+
+
+# ==============================================================================
+# IV. STUR Seed Harness v5.0
+# ==============================================================================
+
+def extract_low_dim_readout(R1, X1, R2, X2, R3, X3, R4, R5, goal_mask=None, symbol_context=None):
+    # (Implementation modified to include symbol_context)
+    mR1, sR1 = float(R1.mean()), float(R1.std())
+    mR2, sR2 = float(R2.mean()), float(R2.std())
+    mR3, sR3 = float(R3.mean()), float(R3.std())
+    mR4, sR4 = float(R4.mean()), float(R4.std())
+    mR5, sR5 = float(R5.mean()), float(R5.std()) 
+
+    mX1, sX1 = float(X1.mean()), float(X1.std())
+    mX2, sX2 = float(X2.mean()), float(X2.std())
+    mX3, sX3 = float(X3.mean()), float(X3.std())
+
+    c1 = coherence_correlation(R1, X1)
+    c2 = coherence_correlation(R2, X2)
+    c3 = coherence_correlation(R3, X3)
+
+    dx_dummy = 1.0
+    g1x, g1y, g1z = gradient_periodic(R1, dx_dummy)
+    g2x, g2y, g2z = gradient_periodic(R2, dx_dummy)
+    g3x, g3y, g3z = gradient_periodic(R3, dx_dummy)
+
+    curv1_val = float((g1x ** 2 + g1y ** 2 + g1z ** 2).mean())
+    curv2_val = float((g2x ** 2 + g2y ** 2 + g2z ** 2).mean())
+    curv3_val = float((g3x ** 2 + g3y ** 2 + g3z ** 2).mean())
+
+    if goal_mask is not None:
+        align2 = coherence_correlation(R2, goal_mask)
+        align3 = coherence_correlation(R3, goal_mask)
+    else:
+        align2 = 0.0
+        align3 = 0.0
+
+    ent1 = shannon_entropy(R1)
+    ent2 = shannon_entropy(R2)
+    ent3 = shannon_entropy(R3)
+    
+    # Prepare symbol context vector
+    if symbol_context is None: symbol_context = np.zeros(2)
+
+    vector = [
+        mR1, mR2, mR3, mR4, mR5, 
+        sR1, sR2, sR3, sR4, sR5, 
+        mX1, mX2, mX3,
+        sX1, sX2, sX3,
+        c1, c2, c3,
+        curv1_val, curv2_val, curv3_val,
+        ent1, ent2, ent3,
+        align2, align3,
+        symbol_context[0], symbol_context[1], # NEW: Temporal Symbol Context
     ]
-    source_static = make_gaussian_sources((nx, ny, nz), static_centers,
-                                          sigma=4.0, amplitude=1.0)
+    
+    # Ensure vector is a standard numpy float array for PolicyNetwork
+    return None, np.array(vector, dtype=float)
 
-    dyn_center = (nx // 2, ny // 3, 3 * nz // 4)
-    source_dyn = make_gaussian_sources((nx, ny, nz), [dyn_center],
-                                       sigma=3.0, amplitude=1.0)
 
-    symA_center = (nx // 3, 2 * ny // 3, nz // 2)
-    symB_center = (2 * nx // 3, ny // 3, nz // 2)
-    sym_A = make_gaussian_sources((nx, ny, nz), [symA_center],
-                                  sigma=3.0, amplitude=1.0)
-    sym_B = make_gaussian_sources((nx, ny, nz), [symB_center],
-                                  sigma=3.0, amplitude=1.0)
+class STURSeedHarness:
+    """
+    STURSeedHarness v5.0: Predictive Intelligence Core.
+    """
 
-    # ----- Goal mask on layer 2 -----
-    goal_center = (nx // 2, nx // 2, 3 * nz // 4)
-    goal_mask = make_gaussian_sources((nx, ny, nz), [goal_center],
-                                      sigma=4.0, amplitude=1.0)
-    goal_mask *= goal_amplitude
+    def __init__(self, **kwargs):
+        self.nx = kwargs.get('nx', 32)
+        self.ny = kwargs.get('ny', 32)
+        self.nz = kwargs.get('nz', 32)
+        self.dx = kwargs.get('dx', 1.0)
+        self.dt = kwargs.get('dt', 0.005)
+        self.steps_per_episode = kwargs.get('steps_per_episode', 2000)
+        
+        # --- R4/R5 Coarse Layer Parameters ---
+        self.R4_shape = kwargs.get('R4_shape', (8, 8, 8)) 
+        self.R5_shape = kwargs.get('R5_shape', (4, 4, 4))
+        self.dx_coarse_R4 = self.dx * (self.nx / self.R4_shape[0])
+        self.dx_coarse_R5 = self.dx * (self.nx / self.R5_shape[0])
+        self.dt_coarse_R4 = self.dt * 10.0 
+        self.dt_coarse_R5 = self.dt_coarse_R4 * 10.0 
+        self.D4 = kwargs.get('D4', 0.1)
+        self.D5 = kwargs.get('D5', 0.05)
+        self.K_FEEDBACK = kwargs.get('K_FEEDBACK', 0.1) 
+        self.ALPHA_R45 = kwargs.get('alpha_R45', 0.001) # Upgrade 9: R4/R5 Cross-coupling
+        self.BETA_R54 = kwargs.get('beta_R54', 0.001)  # Upgrade 9: R4/R5 Cross-coupling
+        
+        # Core parameters
+        self.R_bg = kwargs.get('R_bg', 1.0)
+        self.L_X = kwargs.get('L_X', 1.0)
+        self.sym_amplitude_base = kwargs.get('sym_amplitude_base', 0.15) 
+        self.sym_causal_epsilon = kwargs.get('sym_causal_epsilon', 0.01) # Upgrade 4
+        self.prediction_beta = kwargs.get('prediction_beta', 0.02) # Upgrade 2
+        
+        # RL-MODIFIABLE PARAMETERS (Initial)
+        self.D1 = kwargs.get('D1', 0.6) 
+        self.chi_X2 = kwargs.get('chi_X2', 1.1) 
+        self.drift_vector1 = np.array(kwargs.get('drift_vector1', (0.3, 0.1, -0.2)), dtype=float)
+        self.drift_vector2 = np.zeros(3) 
+        self.drift_vector3 = np.zeros(3)
+        
+        # Non-RL-modifiable parameters
+        self._set_standard_params(kwargs)
+        self.rng = np.random.default_rng(kwargs.get('seed', 1234))
+        
+        # Initialize Policy Network and Symbolic Memory
+        self._initialize_fields_dummy()
+        _, dummy_vec = extract_low_dim_readout(self.R1, self.X1, self.R2, self.X2, self.R3, self.X3, self.R4, self.R5, symbol_context=np.zeros(2))
+        self.policy_network = PolicyNetwork(input_dim=len(dummy_vec), learning_rate=0.01)
+        self.symbolic_memory = SymbolicMemory()
+        self.planner = AdaptivePlanner(learning_rate=0.05) # Upgrade 10
+        self.last_entropy_R2 = 0.0
+        
+        self._initialize_fields()
+        self.reset_episode()
+    
+    def _set_standard_params(self, kwargs):
+        """Sets all the non-RL modifiable parameters from v4.1."""
+        self.D2 = kwargs.get('D2', 0.5)
+        self.D3 = kwargs.get('D3', 0.4)
+        self.chi1 = kwargs.get('chi1', 0.4)
+        self.chi2 = kwargs.get('chi2', 0.35)
+        self.chi3 = kwargs.get('chi3', 0.3)
+        self.k_couple1 = kwargs.get('k_couple1', 1.2)
+        self.k_couple2 = kwargs.get('k_couple2', 1.0)
+        self.k_couple3 = kwargs.get('k_couple3', 0.8)
+        self.gamma_X1 = kwargs.get('gamma_X1', 0.05)
+        self.gamma_X2 = kwargs.get('gamma_X2', 0.04)
+        self.gamma_X3 = kwargs.get('gamma_X3', 0.03)
+        self.chi_X1 = kwargs.get('chi_X1', 1.2)
+        self.chi_X3 = kwargs.get('chi_X3', 1.0)
+        self.layer_couple_12 = kwargs.get('layer_couple_12', 0.15)
+        self.layer_couple_21 = kwargs.get('layer_couple_21', 0.05)
+        self.layer_couple_13 = kwargs.get('layer_couple_13', 0.08)
+        self.layer_couple_23 = kwargs.get('layer_couple_23', 0.08)
+        self.layer_couple_31 = kwargs.get('layer_couple_31', 0.03)
+        self.layer_couple_32 = kwargs.get('layer_couple_32', 0.03)
+        self.goal_amplitude = kwargs.get('goal_amplitude', 0.15)
+        self.target_rms = kwargs.get('target_rms', 1.0)
+        self.norm_epsilon = kwargs.get('norm_epsilon', 1e-8)
+        self.clamp_R = kwargs.get('clamp_R', (-4.0, 4.0))
+        self.R_min_clip, self.R_max_clip = self.clamp_R
+        self.alpha_D1 = kwargs.get('alpha_D1', 0.05)
+        self.alpha_D2 = kwargs.get('alpha_D2', 0.05)
+        self.alpha_D3 = kwargs.get('alpha_D3', 0.05)
+        self.alpha_chi1 = kwargs.get('alpha_chi1', 0.05)
+        self.alpha_chi2 = kwargs.get('alpha_chi2', 0.05)
+        self.alpha_chi3 = kwargs.get('alpha_chi3', 0.05)
+        self.lambda_V1 = kwargs.get('lambda_V1', 0.1)
+        self.lambda_V2 = kwargs.get('lambda_V2', 0.1)
+        self.lambda_V3 = kwargs.get('lambda_V3', 0.1)
+        self.source_strength1 = kwargs.get('source_strength1', 0.0)
+        self.source_strength2 = kwargs.get('source_strength2', 0.0)
+        self.source_strength3 = kwargs.get('source_strength3', 0.0)
+        self.source_noise1 = kwargs.get('source_noise1', 0.01)
+        self.source_noise2 = kwargs.get('source_noise2', 0.01)
+        self.source_noise3 = kwargs.get('source_noise3', 0.01)
+        self.input_amplitude_dyn = kwargs.get('input_amplitude_dyn', 0.1)
+        self.omega_dyn = kwargs.get('omega_dyn', 0.5)
+        self.input_amplitude_static = kwargs.get('input_amplitude_static', 0.1)
+        
+    def _initialize_fields_dummy(self):
+        """Helper to set fields for initial PolicyNetwork sizing."""
+        nx, ny, nz = self.nx, self.ny, self.nz
+        R_bg = self.R_bg
+        self.R1 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
+        self.R2 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
+        self.R3 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
+        self.X1, self.X2, self.X3 = np.zeros_like(self.R1), np.zeros_like(self.R2), np.zeros_like(self.R3)
+        self.R4 = R_bg + 0.05 * self.rng.standard_normal(self.R4_shape)
+        self.R5 = R_bg + 0.05 * self.rng.standard_normal(self.R5_shape)
 
-    # ----- Metrics storage -----
-    times = []
+    def _initialize_fields(self):
+        self._initialize_fields_dummy() 
+        nx, ny, nz = self.nx, self.ny, self.nz
+        
+        static_centers = [(nx // 4, ny // 4, nz // 2), (3 * nx // 4, 3 * ny // 4, nz // 2), (nx // 2, ny // 2, nz // 4),]
+        self.source_static = make_gaussian_sources((nx, ny, nz), static_centers, sigma=4.0, amplitude=1.0)
+        dyn_center = (nx // 2, ny // 3, 3 * nz // 4)
+        self.source_dyn = make_gaussian_sources((nx, ny, nz), [dyn_center], sigma=3.0, amplitude=1.0)
+        symA_center = (nx // 3, 2 * ny // 3, nz // 2)
+        symB_center = (2 * nx // 3, ny // 3, nz // 2)
+        self.sym_A = make_gaussian_sources((nx, ny, nz), [symA_center], sigma=3.0, amplitude=1.0)
+        self.sym_B = make_gaussian_sources((nx, ny, nz), [symB_center], sigma=3.0, amplitude=1.0)
+        goal_center = (nx // 2, nx // 2, 3 * nz // 4)
+        self.goal_mask_base = make_gaussian_sources((nx, ny, nz), [goal_center], sigma=4.0, amplitude=1.0)
 
-    mean_R1s, std_R1s = [], []
-    mean_R2s, std_R2s = [], []
-    mean_R3s, std_R3s = [], []
+    def reset_episode(self):
+        self._initialize_fields()
+        self.t = 0.0
+        self.episode_step = 0
+        self.times = []
+        self.goal_align_trace = []
+        self.coherence_trace = []
+        self.reward_trace = []
+        
+        self.last_goal_align = coherence_correlation(self.R2, self.goal_mask_base)
+        self.last_R4_mean = np.mean(self.R4)
+        self.last_entropy_R2 = shannon_entropy(self.R2) # New tracker for Upgrade 5
+        
+        # Apply learned bases from Policy Network and Planner
+        self.D1 = self.policy_network.learned_bases[0]
+        self.chi_X2 = self.policy_network.learned_bases[1]
+        self.drift_vector1 = self.policy_network.learned_bases[2] * np.array([1.0, 0.0, 0.0], dtype=float)
+        self.drift_vector3 = self.policy_network.learned_bases[4] * np.array([1.0, 0.0, 0.0], dtype=float)
+        self.drift_vector2 = np.zeros(3) # R2 drift is dynamically controlled by R4
+        
+        self.symbolic_memory = SymbolicMemory()
+        
+        _, readout_vec = extract_low_dim_readout(self.R1, self.X1, self.R2, self.X2, self.R3, self.X3, self.R4, self.R5, symbol_context=self.symbolic_memory.get_context_vector())
+        self.accumulated_reward = 0.0 
+        self.last_readout_vec = readout_vec
+        self.last_predicted_readout = readout_vec.copy() # For Upgrade 2
+        self.symbol_history = {} 
 
-    mean_X1s, std_X1s = [], []
-    mean_X2s, std_X2s = [], []
-    mean_X3s, std_X3s = [], []
+        self.target_align_R4, self.gamma_R4, self.meta_budget = calculate_meta_control(self.R5, self.R_bg)
+        
+        return readout_vec
 
-    curv1s, curv2s, curv3s = [], [], []
-    coh1s, coh2s, coh3s = [], [], []
-    ent1s, ent2s, ent3s = [], [], []
+    def step(self, action):
+        """Advance the substrate by one time step under a given action vector (a1, a2, a3)."""
+        a = np.asarray(action, dtype=float)
+        a1, a2, a3 = a[0], a[1], a[2]
+        
+        metrics_vector_old = self.last_readout_vec
 
-    align_static, align_dyn = [], []
-    align_symA, align_symB = [], []
-    align_goal2, align_goal3 = [], []
+        # 1. RL Agent Chooses Actions (New Parameters)
+        new_D1, new_ChiX2, new_Drift1x, new_Drift2x, new_Drift3x = self.policy_network.predict_actions(metrics_vector_old)
+        
+        # Apply the dynamically chosen parameters
+        current_D1 = new_D1
+        current_chi_X2 = new_ChiX2
+        
+        # Upgrade 6: Apply predicted drift components to R1 and R3 (R2 is still R4-controlled)
+        self.drift_vector1[0] = new_Drift1x
+        self.drift_vector3[0] = new_Drift3x
+        
+        # A1: Symbolic bias control
+        sym_amp_A = self.sym_amplitude_base * np.clip(0.5 + a1 * 0.5, 0.1, 1.0)
+        sym_amp_B = self.sym_amplitude_base * np.clip(0.5 - a1 * 0.5, 0.1, 1.0)
+        sym_drive = sym_amp_A * self.sym_A + sym_amp_B * self.sym_B
 
-    total_rms = []
+        # A2: Layer 1->2 gating/attention
+        L12_mod = 1.0 + 0.5 * np.clip(a2, 0.0, 1.0)
+        current_layer_couple_12 = self.layer_couple_12 * L12_mod
 
-    snapshots_R1, snapshots_X1 = [], []
-    snapshots_R2, snapshots_X2 = [], []
-    snapshots_R3, snapshots_X3 = [], []
+        # A3: Goal commitment
+        current_goal_amplitude = self.goal_amplitude * np.clip(a3, 0.0, 1.0)
+        
+        # --- Cross-Layer Influence on R2 Drift (Still R4-controlled) ---
+        self.drift_vector2 = calculate_global_drift(self.R4, self.R_bg)
+        
+        # --- Upgrade 4: Symbolic Cross-Attention ---
+        # Map the current symbolic ID to a learned spatial mask.
+        current_symbol_id = self.symbolic_memory.current_symbol_id
+        if current_symbol_id == "Q11_M4": 
+            symbol_context_mask = self.sym_A # Example: map a symbol to a static mask
+        elif current_symbol_id == "Q00_M4":
+             symbol_context_mask = self.sym_B # Example: map another symbol to a different static mask
+        else:
+            symbol_context_mask = np.zeros_like(self.R2)
+        
+        # --- R3 Kalman-like Stabilizer (Upgrade 3) ---
+        R2_variance_local = laplacian_periodic(self.R2, self.dx) # Laplacian as proxy for local variance/instability
+        R1_variance_local = laplacian_periodic(self.R1, self.dx)
+        R3_mean = np.mean(self.R3)
+        
+        # Modulation based on R3 state and local noise/instability
+        # High R3 mean or high local instability increases gain modulation
+        gain_mod_R3 = R3_GAIN_MOD_MAX * (np.abs(R2_variance_local) / np.mean(np.abs(R2_variance_local)) + R3_mean - self.R_bg)
+        gain_mod_R3 = np.clip(gain_mod_R3, 0.0, R3_GAIN_MOD_MAX)
 
-    print("=== STUR Seed Simulator v1.0 ===")
-    print(f"Grid: {nx} x {ny} x {nz}, steps: {n_steps}, dt={dt}, dx={dx}")
-    print("Layers: (R1,X1) sensory, (R2,X2) association, (R3,X3) stabilizer.")
-    print(f"Global energy normalization target_rms={target_rms}")
-    print("Starting evolution...\n")
+        # Modulate D2_eff, chi_X2, and drift_vector2 (R4 is still the *base* drift)
+        D2_eff_mod = (1.0 - gain_mod_R3.mean()) # High instability -> Reduce D2 (less smoothing)
+        chi_X2_mod = (1.0 + gain_mod_R3.mean()) # High instability -> Increase chiX2 (more memory damping)
+        drift2_mod = (1.0 - gain_mod_R3.mean()) # High instability -> Reduce R4-derived drift influence
+        
+        current_D2 = self.D2 * D2_eff_mod 
+        current_chi_X2_damp = current_chi_X2 * chi_X2_mod
+        current_drift_vector2 = self.drift_vector2 * drift2_mod
+        
+        # --- Differential Equation Solving (R1, R2, R3) ---
+        dx, dt, R_bg, L_X = self.dx, self.dt, self.R_bg, self.L_X
+        R1, R2, R3, X1, X2, X3 = self.R1, self.R2, self.R3, self.X1, self.X2, self.X3
 
-    t = 0.0
-    R_min_clip, R_max_clip = clamp_R
+        # R/X Coupling Gains
+        gain1, gain2, gain3 = np.tanh(X1), np.tanh(X2), np.tanh(X3)
+        D1_eff = current_D1 * (1.0 + self.alpha_D1 * gain1)
+        D2_eff = current_D2 * (1.0 + self.alpha_D2 * gain2)
+        D3_eff = self.D3 * (1.0 + self.alpha_D3 * gain3)
+        chi1_eff = self.chi1 * (1.0 + self.alpha_chi1 * gain1)
+        chi2_eff = self.chi2 * (1.0 + self.alpha_chi2 * gain2)
+        chi3_eff = self.chi3 * (1.0 + self.alpha_chi3 * gain3)
 
-    for step in range(n_steps + 1):
-        # ----- Diagnostics -----
-        if step % report_every == 0:
-            g1x, g1y, g1z = gradient_periodic(R1, dx)
-            g2x, g2y, g2z = gradient_periodic(R2, dx)
-            g3x, g3y, g3z = gradient_periodic(R3, dx)
-
-            grad1_sq = g1x * g1x + g1y * g1y + g1z * g1z
-            grad2_sq = g2x * g2x + g2y * g2y + g2z * g2z
-            grad3_sq = g3x * g3x + g3y * g3y + g3z * g3z
-
-            curv1_val = float(grad1_sq.mean())
-            curv2_val = float(grad2_sq.mean())
-            curv3_val = float(grad3_sq.mean())
-
-            mean_R1, std_R1 = float(R1.mean()), float(R1.std())
-            mean_R2, std_R2 = float(R2.mean()), float(R2.std())
-            mean_R3, std_R3 = float(R3.mean()), float(R3.std())
-
-            mean_X1, std_X1 = float(X1.mean()), float(X1.std())
-            mean_X2, std_X2 = float(X2.mean()), float(X2.std())
-            mean_X3, std_X3 = float(X3.mean()), float(X3.std())
-
-            coh1_val = coherence_correlation(R1, X1)
-            coh2_val = coherence_correlation(R2, X2)
-            coh3_val = coherence_correlation(R3, X3)
-
-            ent1_val = shannon_entropy(R1)
-            ent2_val = shannon_entropy(R2)
-            ent3_val = shannon_entropy(R3)
-
-            a_static = coherence_correlation(R1, source_static)
-            a_dyn = coherence_correlation(R1, source_dyn)
-            a_symA = coherence_correlation(R1, sym_A)
-            a_symB = coherence_correlation(R1, sym_B)
-            a_goal2 = coherence_correlation(R2, goal_mask)
-            a_goal3 = coherence_correlation(R3, goal_mask)
-
-            # global rms of all R fields
-            rms = float(np.sqrt(((R1 ** 2 + R2 ** 2 + R3 ** 2).mean())))
-            total_rms.append(rms)
-
-            times.append(t)
-
-            mean_R1s.append(mean_R1); std_R1s.append(std_R1)
-            mean_R2s.append(mean_R2); std_R2s.append(std_R2)
-            mean_R3s.append(mean_R3); std_R3s.append(std_R3)
-
-            mean_X1s.append(mean_X1); std_X1s.append(std_X1)
-            mean_X2s.append(mean_X2); std_X2s.append(std_X2)
-            mean_X3s.append(mean_X3); std_X3s.append(std_X3)
-
-            curv1s.append(curv1_val)
-            curv2s.append(curv2_val)
-            curv3s.append(curv3_val)
-
-            coh1s.append(coh1_val)
-            coh2s.append(coh2_val)
-            coh3s.append(coh3_val)
-
-            ent1s.append(ent1_val)
-            ent2s.append(ent2_val)
-            ent3s.append(ent3_val)
-
-            align_static.append(a_static)
-            align_dyn.append(a_dyn)
-            align_symA.append(a_symA)
-            align_symB.append(a_symB)
-            align_goal2.append(a_goal2)
-            align_goal3.append(a_goal3)
-
-            print(
-                f"step={step:5d}, t={t:7.3f} | "
-                f"<R1>={mean_R1:+.4f}, σ_R1={std_R1:.3f} | "
-                f"<R2>={mean_R2:+.4f}, σ_R2={std_R2:.3f} | "
-                f"<R3>={mean_R3:+.4f}, σ_R3={std_R3:.3f} | "
-                f"coh1={coh1_val:+.3f}, coh2={coh2_val:+.3f}, coh3={coh3_val:+.3f} | "
-                f"curv1={curv1_val:.3e}, curv2={curv2_val:.3e}, curv3={curv3_val:.3e} | "
-                f"rms={rms:.3f} | "
-                f"align_static={a_static:+.3f}, align_dyn={a_dyn:+.3f}, "
-                f"align_symA={a_symA:+.3f}, align_symB={a_symB:+.3f}, "
-                f"align_goal2={a_goal2:+.3f}, align_goal3={a_goal3:+.3f}"
-            )
-
-        if step % snapshot_every == 0:
-            snapshots_R1.append(R1.copy()); snapshots_X1.append(X1.copy())
-            snapshots_R2.append(R2.copy()); snapshots_X2.append(X2.copy())
-            snapshots_R3.append(R3.copy()); snapshots_X3.append(X3.copy())
-
-        if step == n_steps:
-            break
-
-        # ----- Gain fields from memory -----
-        gain1 = np.tanh(X1)
-        gain2 = np.tanh(X2)
-        gain3 = np.tanh(X3)
-
-        D1_eff = D1 * (1.0 + alpha_D1 * gain1)
-        D2_eff = D2 * (1.0 + alpha_D2 * gain2)
-        D3_eff = D3 * (1.0 + alpha_D3 * gain3)
-
-        chi1_eff = chi1 * (1.0 + alpha_chi1 * gain1)
-        chi2_eff = chi2 * (1.0 + alpha_chi2 * gain2)
-        chi3_eff = chi3 * (1.0 + alpha_chi3 * gain3)
-
-        # ----- Layer 1 (sensory) -----
-        lap_R1 = laplacian_periodic(R1, dx)
-        diff1 = D1_eff * lap_R1
+        # R1 Dynamics
+        lap_R1 = laplacian_periodic(R1, dx); diff1 = D1_eff * lap_R1
         g1x, g1y, g1z = gradient_periodic(R1, dx)
-        drift1 = -(g1x * Omega1[0] + g1y * Omega1[1] + g1z * Omega1[2])
-        x_fb1 = chi1_eff * (R1 - R_bg) / L_X
-        mem1 = k_couple1 * X1
-        nonlin1 = -lambda_V1 * (R1 - R_bg) ** 3
-
-        dyn_amp = input_amplitude_dyn * np.sin(omega_dyn * t)
-        sym_phase = np.sin(omega_sym * t)
-        sym_drive = sym_A if sym_phase >= 0.0 else sym_B
-
-        S1 = (
-            source_strength1 * (R_bg - R1)
-            + source_noise1 * rng.standard_normal(R1.shape)
-            + input_amplitude_static * source_static
-            + dyn_amp * source_dyn
-            + sym_amplitude * sym_drive
-            + layer_couple_21 * (R2 - R1)
-            + layer_couple_31 * (R3 - R1)
-        )
-
+        drift1 = -(g1x * self.drift_vector1[0] + g1y * self.drift_vector1[1] + g1z * self.drift_vector1[2])
+        x_fb1 = chi1_eff * (R1 - R_bg) / L_X; mem1 = self.k_couple1 * X1; nonlin1 = -self.lambda_V1 * (R1 - R_bg) ** 3
+        dyn_amp = self.input_amplitude_dyn * np.sin(self.omega_dyn * self.t)
+        S1 = (self.source_strength1 * (R_bg - R1) + self.source_noise1 * self.rng.standard_normal(R1.shape) + 
+              self.input_amplitude_static * self.source_static + dyn_amp * self.source_dyn + sym_drive + 
+              self.layer_couple_21 * (R2 - R1) + self.layer_couple_31 * (R3 - R1))
         dR1dt = diff1 + drift1 + x_fb1 + mem1 + nonlin1 + S1
-        R1 = R1 + dt * dR1dt
+        R1 = R1 + dt * dR1dt; R1_mean = R1.mean()
+        dX1dt = -self.gamma_X1 * X1 + self.chi_X1 * (R1 - R1_mean); X1 = X1 + dt * dX1dt
 
-        R1_mean = R1.mean()
-        dX1dt = -gamma_X1 * X1 + chi_X1 * (R1 - R1_mean)
-        X1 = X1 + dt * dX1dt
-
-        # ----- Layer 2 (association / goal) -----
-        lap_R2 = laplacian_periodic(R2, dx)
-        diff2 = D2_eff * lap_R2
+        # R2 Dynamics
+        lap_R2 = laplacian_periodic(R2, dx); diff2 = D2_eff * lap_R2
         g2x, g2y, g2z = gradient_periodic(R2, dx)
-        drift2 = -(g2x * Omega2[0] + g2y * Omega2[1] + g2z * Omega2[2])
-        x_fb2 = chi2_eff * (R2 - R_bg) / L_X
-        mem2 = k_couple2 * X2
-        nonlin2 = -lambda_V2 * (R2 - R_bg) ** 3
-
-        S2 = (
-            source_strength2 * (R_bg - R2)
-            + source_noise2 * rng.standard_normal(R2.shape)
-            + layer_couple_12 * (R1 - R2)
-            + layer_couple_32 * (R3 - R2)
-            + goal_mask * (R_bg - R2)
-        )
-
+        drift2 = -(g2x * current_drift_vector2[0] + g2y * current_drift_vector2[1] + g2z * current_drift_vector2[2])
+        x_fb2 = chi2_eff * (R2 - R_bg) / L_X; mem2 = self.k_couple2 * X2; nonlin2 = -self.lambda_V2 * (R2 - R_bg) ** 3
+        S2_base = (self.source_strength2 * (R_bg - R2) + self.source_noise2 * self.rng.standard_normal(R2.shape) + 
+              current_layer_couple_12 * (R1 - R2) + self.layer_couple_32 * (R3 - R2) + 
+              self.goal_mask_base * (R_bg - R2) * current_goal_amplitude)
+        # Upgrade 4: Symbolic context adds causal influence to R2
+        S2_symbolic = self.sym_causal_epsilon * symbol_context_mask
+        S2 = S2_base + S2_symbolic
+        
         dR2dt = diff2 + drift2 + x_fb2 + mem2 + nonlin2 + S2
-        R2 = R2 + dt * dR2dt
+        R2 = R2 + dt * dR2dt; R2_mean = R2.mean()
+        dX2dt = -self.gamma_X2 * X2 + current_chi_X2_damp * (R2 - R2_mean); X2 = X2 + dt * dX2dt
 
-        R2_mean = R2.mean()
-        dX2dt = -gamma_X2 * X2 + chi_X2 * (R2 - R2_mean)
-        X2 = X2 + dt * dX2dt
-
-        # ----- Layer 3 (stabilizer / integrator) -----
-        lap_R3 = laplacian_periodic(R3, dx)
-        diff3 = D3_eff * lap_R3
+        # R3 Dynamics
+        lap_R3 = laplacian_periodic(R3, dx); diff3 = D3_eff * lap_R3
         g3x, g3y, g3z = gradient_periodic(R3, dx)
-        drift3 = -(g3x * Omega3[0] + g3y * Omega3[1] + g3z * Omega3[2])
-        x_fb3 = chi3_eff * (R3 - R_bg) / L_X
-        mem3 = k_couple3 * X3
-        nonlin3 = -lambda_V3 * (R3 - R_bg) ** 3
-
-        S3 = (
-            source_strength3 * (R_bg - R3)
-            + source_noise3 * rng.standard_normal(R3.shape)
-            + layer_couple_13 * (R1 - R3)
-            + layer_couple_23 * (R2 - R3)
-        )
-
+        drift3 = -(g3x * self.drift_vector3[0] + g3y * self.drift_vector3[1] + g3z * self.drift_vector3[2])
+        x_fb3 = chi3_eff * (R3 - R_bg) / L_X; mem3 = self.k_couple3 * X3; nonlin3 = -self.lambda_V3 * (R3 - R_bg) ** 3
+        
+        # Upgrade 3: R3 receives input from R1 and R2 instability
+        S3_instability_input = 0.5 * (R2_variance_local.mean() - R1_variance_local.mean()) 
+        
+        S3 = (self.source_strength3 * (R_bg - R3) + self.source_noise3 * self.rng.standard_normal(R3.shape) + 
+              self.layer_couple_13 * (R1 - R3) + self.layer_couple_23 * (R2 - R3) + 
+              S3_instability_input)
         dR3dt = diff3 + drift3 + x_fb3 + mem3 + nonlin3 + S3
-        R3 = R3 + dt * dR3dt
+        R3 = R3 + dt * dR3dt; R3_mean = R3.mean()
+        dX3dt = -self.gamma_X3 * X3 + self.chi_X3 * (R3 - R3_mean); X3 = X3 + dt * dX3dt
 
-        R3_mean = R3.mean()
-        dX3dt = -gamma_X3 * X3 + chi_X3 * (R3 - R3_mean)
-        X3 = X3 + dt * dX3dt
+        # --- R4 Coarse Control Layer Update (Upgrade 5 & 9) ---
+        current_R4_mean = np.mean(self.R4)
+        if self.episode_step % int(self.dt_coarse_R4 / self.dt) == 0:
+            align2 = coherence_correlation(R2, self.goal_mask_base)
+            
+            # Upgrade 5: R4 Curiosity Drive
+            current_entropy_R2 = shannon_entropy(R2)
+            curiosity_reward = current_entropy_R2 - self.last_entropy_R2 
+            self.last_entropy_R2 = current_entropy_R2
+            
+            S4_alignment = self.K_FEEDBACK * self.gamma_R4 * (align2 - self.target_align_R4)
+            S4_curiosity = 0.01 * self.meta_budget * curiosity_reward # Scale curiosity by budget
+            
+            # Upgrade 9: Nonlinear R4/R5 Cross-coupling
+            S4_cross_couple = self.ALPHA_R45 * np.mean(np.tanh(self.R5 - self.R_bg)) 
+            
+            S4 = S4_alignment + S4_curiosity + S4_cross_couple
+            lap_R4 = laplacian_periodic(self.R4, self.dx_coarse_R4)
+            dR4dt = self.D4 * lap_R4 + S4 
+            self.R4 = self.R4 + self.dt_coarse_R4 * dR4dt
 
-        # ----- Clamp for numerical safety -----
-        if clamp_R is not None:
-            np.clip(R1, R_min_clip, R_max_clip, out=R1)
-            np.clip(R2, R_min_clip, R_max_clip, out=R2)
-            np.clip(R3, R_min_clip, R_max_clip, out=R3)
+        # --- R5 Meta-Meta Layer Update (Upgrade 9) ---
+        if self.episode_step % int(self.dt_coarse_R5 / self.dt) == 0:
+            S5_maintenance = 0.01 * (self.R_bg - current_R4_mean)
+            S5_restoring = -0.1 * (self.R5 - self.R_bg) 
+            
+            # Upgrade 9: Nonlinear R5/R4 Cross-coupling
+            S5_cross_couple = self.BETA_R54 * np.mean(np.tanh(self.R4 - self.R_bg)) 
+            
+            S5 = S5_maintenance + S5_restoring + S5_cross_couple
+            lap_R5 = laplacian_periodic(self.R5, self.dx_coarse_R5)
+            dR5dt = self.D5 * lap_R5 + S5
+            self.R5 = self.R5 + self.dt_coarse_R5 * dR5dt
+            
+            # Recalculate R4 control parameters based on new R5 state (Upgrade 8)
+            self.target_align_R4, self.gamma_R4, self.meta_budget = calculate_meta_control(self.R5, self.R_bg)
+            
+            # Upgrade 8: Clip R4 drift based on meta budget
+            global DRIFT_CLIP
+            DRIFT_CLIP = 0.5 * (1.0 + self.meta_budget) # Higher budget -> higher drift allowed
 
-        # ----- Global energy normalization -----
+        # Clamp and normalize fields
+        np.clip(R1, self.R_min_clip, self.R_max_clip, out=R1)
+        np.clip(R2, self.R_min_clip, self.R_max_clip, out=R2)
+        np.clip(R3, self.R_min_clip, self.R_max_clip, out=R3)
+        np.clip(self.R4, self.R_min_clip, self.R_max_clip, out=self.R4)
+        np.clip(self.R5, self.R_min_clip, self.R_max_clip, out=self.R5) 
+
         rms_all = np.sqrt(((R1 ** 2 + R2 ** 2 + R3 ** 2).mean()))
         if rms_all > 0.0:
-            scale = target_rms / (rms_all + norm_epsilon)
-            R1 *= scale
-            R2 *= scale
-            R3 *= scale
+            scale = self.target_rms / (rms_all + self.norm_epsilon)
+            R1 *= scale; R2 *= scale; R3 *= scale
 
-        t += dt
+        self.R1, self.R2, self.R3 = R1, R2, R3
+        self.X1, self.X2, self.X3 = X1, X2, X3
+        self.t += dt; self.episode_step += 1
+        self.times.append(self.t)
 
-    metrics = {
-        "time": np.array(times),
-        "mean_R1": np.array(mean_R1s), "std_R1": np.array(std_R1s),
-        "mean_R2": np.array(mean_R2s), "std_R2": np.array(std_R2s),
-        "mean_R3": np.array(mean_R3s), "std_R3": np.array(std_R3s),
-        "mean_X1": np.array(mean_X1s), "std_X1": np.array(std_X1s),
-        "mean_X2": np.array(mean_X2s), "std_X2": np.array(std_X2s),
-        "mean_X3": np.array(mean_X3s), "std_X3": np.array(std_X3s),
-        "curv1": np.array(curv1s),
-        "curv2": np.array(curv2s),
-        "curv3": np.array(curv3s),
-        "coh1": np.array(coh1s),
-        "coh2": np.array(coh2s),
-        "coh3": np.array(coh3s),
-        "entropy1": np.array(ent1s),
-        "entropy2": np.array(ent2s),
-        "entropy3": np.array(ent3s),
-        "align_static": np.array(align_static),
-        "align_dyn": np.array(align_dyn),
-        "align_symA": np.array(align_symA),
-        "align_symB": np.array(align_symB),
-        "align_goal2": np.array(align_goal2),
-        "align_goal3": np.array(align_goal3),
-        "rms_all": np.array(total_rms),
-    }
+        current_goal_align = coherence_correlation(self.R2, self.goal_mask_base)
+        
+        # --- Symbolic Compression and Memory Update (Upgrade 1 & 7) ---
+        new_symbols = symbolic_compression_layer(R2, dx, threshold=SYMBOL_THRESHOLD)
+        self.symbolic_memory.update(new_symbols)
+        self.symbol_history.update(new_symbols)
 
-    snapshots = {
-        "R1": np.array(snapshots_R1),
-        "X1": np.array(snapshots_X1),
-        "R2": np.array(snapshots_R2),
-        "X2": np.array(snapshots_X2),
-        "R3": np.array(snapshots_R3),
-        "X3": np.array(snapshots_X3),
-    }
+        # --- Reward Calculation (Upgrade 2 & 5) ---
+        delta_align = current_goal_align - self.last_goal_align
+        goal_reward = np.clip(delta_align, 0.0, None) * 10.0 
+        ent2 = shannon_entropy(self.R2) 
+        complexity_bonus = np.exp(-ent2) * 0.01 
 
-    print("\nSimulation complete.")
-    return R1, X1, R2, X2, R3, X3, metrics, snapshots
-
-
-# ---------- Visualization ----------
-
-def visualize_seed_sim(R1, X1, R2, X2, R3, X3, metrics, snapshots, slice_axis=2):
-    t = metrics["time"]
-
-    mean_R1 = metrics["mean_R1"]; mean_R2 = metrics["mean_R2"]; mean_R3 = metrics["mean_R3"]
-    coh1 = metrics["coh1"]; coh2 = metrics["coh2"]; coh3 = metrics["coh3"]
-    curv1 = metrics["curv1"]; curv2 = metrics["curv2"]; curv3 = metrics["curv3"]
-    rms_all = metrics["rms_all"]
-
-    align_static = metrics["align_static"]
-    align_dyn = metrics["align_dyn"]
-    align_symA = metrics["align_symA"]
-    align_symB = metrics["align_symB"]
-    align_goal2 = metrics["align_goal2"]
-    align_goal3 = metrics["align_goal3"]
-
-    # Means + RMS
-    plt.figure(figsize=(10, 4))
-    plt.subplot(1, 2, 1)
-    plt.plot(t, mean_R1, label="mean R1")
-    plt.plot(t, mean_R2, label="mean R2")
-    plt.plot(t, mean_R3, label="mean R3")
-    plt.xlabel("time")
-    plt.ylabel("<R>")
-    plt.title("Mean R per layer")
-    plt.legend(); plt.grid(True)
-
-    plt.subplot(1, 2, 2)
-    if len(rms_all) > 0:
-        plt.plot(t, rms_all, label="global RMS")
-        plt.axhline(y=rms_all[0], linestyle="--", label="initial RMS")
-    plt.xlabel("time")
-    plt.ylabel("RMS")
-    plt.title("Global RMS over time")
-    plt.legend(); plt.grid(True)
-    plt.tight_layout(); plt.show()
-
-    # Coherence + curvature
-    plt.figure(figsize=(10, 4))
-    plt.subplot(1, 2, 1)
-    plt.plot(t, coh1, label="coh(R1,X1)")
-    plt.plot(t, coh2, label="coh(R2,X2)")
-    plt.plot(t, coh3, label="coh(R3,X3)")
-    plt.xlabel("time"); plt.ylabel("coherence")
-    plt.title("Layer coherences")
-    plt.legend(); plt.grid(True)
-
-    plt.subplot(1, 2, 2)
-    plt.plot(t, curv1, label="curv R1")
-    plt.plot(t, curv2, label="curv R2")
-    plt.plot(t, curv3, label="curv R3")
-    plt.xlabel("time"); plt.ylabel("⟨|∇R|²⟩")
-    plt.title("Curvature per layer")
-    plt.legend(); plt.grid(True)
-    plt.tight_layout(); plt.show()
-
-    # Alignments
-    plt.figure(figsize=(10, 5))
-    plt.plot(t, align_static, label="align_static")
-    plt.plot(t, align_dyn, label="align_dyn")
-    plt.plot(t, align_symA, label="align_symA")
-    plt.plot(t, align_symB, label="align_symB")
-    plt.plot(t, align_goal2, label="align_goal2 (R2 vs goal)")
-    plt.plot(t, align_goal3, label="align_goal3 (R3 vs goal)")
-    plt.xlabel("time"); plt.ylabel("alignment")
-    plt.title("Alignment with inputs / symbols / goal")
-    plt.legend(); plt.grid(True)
-    plt.tight_layout(); plt.show()
-
-    # Helper to get a mid-slice
-    def get_slice(field):
-        if slice_axis == 0:
-            idx = field.shape[0] // 2
-            return field[idx, :, :]
-        elif slice_axis == 1:
-            idx = field.shape[1] // 2
-            return field[:, idx, :]
-        else:
-            idx = field.shape[2] // 2
-            return field[:, :, idx]
-
-    R1_slice = get_slice(R1)
-    R2_slice = get_slice(R2)
-    R3_slice = get_slice(R3)
-    X1_slice = get_slice(X1)
-    X2_slice = get_slice(X2)
-    X3_slice = get_slice(X3)
-
-    # 3x2 panel: R1,R2,R3 / X1,X2,X3
-    plt.figure(figsize=(10, 9))
-
-    plt.subplot(3, 2, 1)
-    im1 = plt.imshow(R1_slice, origin="lower", aspect="auto")
-    plt.colorbar(im1, fraction=0.046, pad=0.04)
-    plt.title("R1 slice (sensory)")
-
-    plt.subplot(3, 2, 2)
-    im2 = plt.imshow(X1_slice, origin="lower", aspect="auto")
-    plt.colorbar(im2, fraction=0.046, pad=0.04)
-    plt.title("X1 slice (memory1)")
-
-    plt.subplot(3, 2, 3)
-    im3 = plt.imshow(R2_slice, origin="lower", aspect="auto")
-    plt.colorbar(im3, fraction=0.046, pad=0.04)
-    plt.title("R2 slice (association)")
-
-    plt.subplot(3, 2, 4)
-    im4 = plt.imshow(X2_slice, origin="lower", aspect="auto")
-    plt.colorbar(im4, fraction=0.046, pad=0.04)
-    plt.title("X2 slice (memory2)")
-
-    plt.subplot(3, 2, 5)
-    im5 = plt.imshow(R3_slice, origin="lower", aspect="auto")
-    plt.colorbar(im5, fraction=0.046, pad=0.04)
-    plt.title("R3 slice (stabilizer)")
-
-    plt.subplot(3, 2, 6)
-    im6 = plt.imshow(X3_slice, origin="lower", aspect="auto")
-    plt.colorbar(im6, fraction=0.046, pad=0.04)
-    plt.title("X3 slice (memory3)")
-
-    plt.tight_layout()
-    plt.show()
+        delta_R4_mean = np.abs(current_R4_mean - self.last_R4_mean)
+        stability_bonus = 0.01 * np.exp(-delta_R4_mean * 10.0) 
+        
+        # Upgrade 5: Curiosity reward term (already calculated in R4 update loop)
+        curiosity_reward_term = 0.5 * np.clip(curiosity_reward, 0.0, None) # Only reward positive entropy change
+        
+        reward = goal_reward + complexity_bonus + stability_bonus + curiosity_reward_term
+        
+        # Upgrade 2: Prediction Error Penalty
+        symbol_context_vec = self.symbolic_memory.get_context_vector()
+        _, readout_vec = extract_low_dim_readout(R1, X1, R2, X2, R3, X3, self.R4, self.R5, goal_mask=self.goal_mask_base, symbol_context=symbol_context_vec)
+        
+        prediction_error = np.linalg.norm(readout_vec - self.last_predicted_readout)
+        prediction_penalty = self.prediction_beta * prediction_error
+        
+        reward -= prediction_penalty
+        
+        # Update trackers
+        self.goal_align_trace.append(current_goal_align)
+        self.coherence_trace.append(coherence_correlation(self.R2, self.X2))
+        self.reward_trace.append(float(reward))
+        self.last_goal_align = current_goal_align
+        self.last_R4_mean = current_R4_mean 
+        self.accumulated_reward += reward
+        self.last_readout_vec = readout_vec
+        
+        # NOTE: The Policy Network is simple and does NOT model the transition, 
+        # so for Upgrade 2, we just predict the *next* state will be the *current* state (Trivial prediction model).
+        self.last_predicted_readout = readout_vec.copy() 
+        
+        done = self.episode_step >= self.steps_per_episode
+        
+        # --- RL Agent Training on transition (Upgrade 6) ---
+        actions_list = (current_D1, current_chi_X2_damp, self.drift_vector1[0], current_drift_vector2[0], self.drift_vector3[0])
+        self.policy_network.train(metrics_vector_old, actions_list, float(reward), readout_vec, self.gamma_R4)
+        
+        # --- Planner Training (Upgrade 10) ---
+        self.planner.train(float(reward))
+        
+        return readout_vec, float(reward), done, {}
 
 
-# ---------- JSON readout ----------
-
-def compute_seed_readout(metrics):
-    """Build a compact JSON-serializable summary of the run."""
-    def last(arr, default=None):
-        if arr is None or len(arr) == 0:
-            return default
-        return float(arr[-1])
-
-    t = metrics["time"]
-
-    mean_R1 = metrics["mean_R1"]; std_R1 = metrics["std_R1"]
-    mean_R2 = metrics["mean_R2"]; std_R2 = metrics["std_R2"]
-    mean_R3 = metrics["mean_R3"]; std_R3 = metrics["std_R3"]
-
-    coh1 = metrics["coh1"]; coh2 = metrics["coh2"]; coh3 = metrics["coh3"]
-    curv1 = metrics["curv1"]; curv2 = metrics["curv2"]; curv3 = metrics["curv3"]
-
-    align_static = metrics["align_static"]
-    align_dyn = metrics["align_dyn"]
-    align_symA = metrics["align_symA"]
-    align_symB = metrics["align_symB"]
-    align_goal2 = metrics["align_goal2"]
-    align_goal3 = metrics["align_goal3"]
-
-    rms_all = metrics["rms_all"]
-
-    summary = {
-        "time_final": last(t, default=0.0),
-
-        "mean_R1_final": last(mean_R1),
-        "mean_R2_final": last(mean_R2),
-        "mean_R3_final": last(mean_R3),
-
-        "std_R1_final": last(std_R1),
-        "std_R2_final": last(std_R2),
-        "std_R3_final": last(std_R3),
-
-        "coh1_final": last(coh1),
-        "coh2_final": last(coh2),
-        "coh3_final": last(coh3),
-
-        "curv1_final": last(curv1),
-        "curv2_final": last(curv2),
-        "curv3_final": last(curv3),
-
-        "align_static_final": last(align_static),
-        "align_dyn_final": last(align_dyn),
-        "align_symA_final": last(align_symA),
-        "align_symB_final": last(align_symB),
-        "align_goal2_final": last(align_goal2),
-        "align_goal3_final": last(align_goal3),
-
-        "rms_all_final": last(rms_all),
-        "rms_all_mean": float(np.mean(rms_all)) if len(rms_all) > 0 else None,
-        "rms_all_std": float(np.std(rms_all)) if len(rms_all) > 0 else None,
-    }
-
-    return summary
+    def run_episode(self):
+        self.reset_episode()
+        
+        print(f"  Initial Substrate (RL Base): D1={self.D1:.3f}, ChiX2={self.chi_X2:.3f}, Drift1x={self.drift_vector1[0]:.3f}")
+        print(f"  Initial Meta Control (R5 Mean): {np.mean(self.R5):.3f}, Budget={self.meta_budget:.3f}")
+        print(f"  Initial R4 Control: Target Align={self.target_align_R4:.3f}, Gamma={self.gamma_R4:.3f}")
 
 
-def save_seed_readout(summary, path="seed_sim_readout_v1.json"):
+        for step_idx in range(self.steps_per_episode):
+            readout_vec = self.last_readout_vec 
+            semantic_state = semantic_abstraction(readout_vec)
+            
+            # Upgrade 10: Use the adaptive planner
+            action = self.planner.get_action(semantic_state) 
+            
+            obs, reward, done, info = self.step(action)
+            
+            if step_idx % 100 == 0:
+                R2_align = readout_vec[25]
+                R4_drift = self.drift_vector2[0]
+                R5_mean = np.mean(self.R5)
+                budget_status = self.meta_budget
+                current_symbol = self.symbolic_memory.current_symbol_id
+
+                print(f"    Step {step_idx:4d}: Status='{semantic_state['GOAL_STATUS']}' | R2 Align={R2_align:.3f} | R4 $\\Omega$={R4_drift:.3f} | Budget={budget_status:.2f} | $\\Sigma$='{current_symbol}' | R5 $\\mu$={R5_mean:.3f}")
+
+            if done: break
+        
+        # Final readout for summary
+        symbol_context_vec = self.symbolic_memory.get_context_vector()
+        _, readout_vec = extract_low_dim_readout(self.R1, self.X1, self.R2, self.X2, self.R3, self.X3, self.R4, self.R5, symbol_context=symbol_context_vec)
+
+        episode_summary = {
+            "accumulated_reward": float(self.accumulated_reward),
+            "final_learned_D1": float(self.policy_network.learned_bases[0]),
+            "final_learned_ChiX2": float(self.policy_network.learned_bases[1]),
+            "final_learned_Drift1x": float(self.policy_network.learned_bases[2]),
+            "final_R5_mean": float(np.mean(self.R5)),
+            "final_target_align_R4": float(self.target_align_R4),
+            "final_gamma_R4": float(self.gamma_R4),
+            "final_meta_budget": float(self.meta_budget),
+            "planner_weights": self.planner.weights.tolist(),
+            "final_symbols_current": self.symbolic_memory.current_symbol_id,
+        }
+
+        return readout_vec, episode_summary
+
+
+    def run_curriculum(self, num_episodes=5):
+        all_episode_summaries = []
+        all_readouts = []
+
+        for ep in range(num_episodes):
+            print(f"=====================================================")
+            print(f"| EPISODE {ep+1}/{num_episodes} | Adaptive Planner Weights: {self.planner.weights[0]:.3f}, {self.planner.weights[1]:.3f}, {self.planner.weights[2]:.3f} |")
+            print(f"=====================================================")
+            
+            final_vec, episode_summary = self.run_episode() 
+            
+            all_episode_summaries.append(episode_summary)
+            all_readouts.append(final_vec.tolist())
+
+        curriculum_log = {
+            "num_episodes": num_episodes,
+            "steps_per_episode": self.steps_per_episode,
+            "readouts": all_readouts,
+            "episodes": all_episode_summaries,
+        }
+        return curriculum_log
+
+def save_curriculum_log(curriculum_log, path="agi_sim_curriculum_v5_0.json"):
     path = Path(path)
+    def convert_numpy(obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        if isinstance(obj, np.float64):
+            return float(obj)
+        if isinstance(obj, np.int64):
+            return int(obj)
+        raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
+
     with path.open("w") as f:
-        json.dump(summary, f, indent=2)
-    print(f"[SeedSim] JSON readout written to {path.resolve()}")
+        json.dump(curriculum_log, f, indent=2, default=convert_numpy)
+    print(f"\n[AGI Sim] Curriculum log written to {path.resolve()}")
 
 
-# ---------- Entry point ----------
+# ==============================================================================
+# V. ENTRY POINT
+# ==============================================================================
 
 if __name__ == "__main__":
-    R1, X1, R2, X2, R3, X3, metrics, snapshots = stur_seed_sim_v1(
+    
+    print("\n" + "="*80)
+    print("=== AGI SIMULATION V5.0: The Predictive Intelligence Core ===")
+    print("="*80)
+    
+
+    # Initial Harness setup
+    harness = STURSeedHarness(
         nx=32,
         ny=32,
         nz=32,
-        dx=1.0,
         dt=0.005,
-        n_steps=2000,
-        seed=1234,
+        steps_per_episode=500, 
+        seed=4321,
     )
 
-    # Plot diagnostics (optional if running headless)
-    visualize_seed_sim(R1, X1, R2, X2, R3, X3, metrics, snapshots, slice_axis=2)
+    # Run the AGI Simulation over a curriculum of 5 episodes.
+    curriculum_log = harness.run_curriculum(num_episodes=5)
+    save_curriculum_log(curriculum_log)
 
-    # Compute + save JSON readout
-    summary = compute_seed_readout(metrics)
-    save_seed_readout(summary, path="seed_sim_readout_v1.json")
+    print("\n" + "="*80)
+    print("== CURRICULUM RESULTS: Predictive Intelligence Emergence ==")
+    print("="*80)
+    
+    for i, summary in enumerate(curriculum_log["episodes"]):
+        D1 = summary["final_learned_D1"]
+        ChiX2 = summary["final_learned_ChiX2"]
+        Drift1x = summary["final_learned_Drift1x"]
+        R5_mean = summary["final_R5_mean"]
+        budget = summary["final_meta_budget"]
+        planner_w = summary["planner_weights"]
 
-    print("\n[SeedSim] Final readout:")
-    for k, v in summary.items():
-        print(f"  {k}: {v}")
-        </textarea>
+        print(f"| EPISODE {i+1:02d} | Total Reward: **{summary['accumulated_reward']:.2f}** |")
+        print(f"| RL BASE PARAMS: D1={D1:.4f}, ChiX2={ChiX2:.4f}, $\\Omega_1$={Drift1x:.4f} |")
+        print(f"| META-CONTROL: R5 $\\mu$={R5_mean:.4f} | Budget={budget:.3f} |")
+        print(f"| ADAPTIVE PLANNER $\\Delta$W: A1={planner_w[0]:.4f}, A2={planner_w[1]:.4f}, A3={planner_w[2]:.4f} |")
+        print("-" * 80)
 
-        <p class="note">
-            On iOS or sandboxed environments, Matplotlib may warn about temporary cache directories. As long as the
-            simulation prints diagnostics and the JSON readout is written, the core dynamical behavior is running correctly.
-        </p>
-        <p class="note">
-            To verify behavior, inspect both the console output and the <code>seed_sim_readout_v1.json</code> file for your run.
-        </p>
-    </section>
+  -->
+<!-- ================================================= -->
+        </div>
+    </div>
 
-</main>
+</div>
 
-<footer class="footer">
-    STUR Seed Simulator v1.0 &mdash; open, inspectable resistance-manifold seed. No AGI claim is made or implied.
-</footer>
-
-<!-- Copy-to-clipboard script -->
 <script>
-document.getElementById('copy-btn').addEventListener('click', function () {
-    var textarea = document.getElementById('code-text');
-    textarea.focus();
-    textarea.select();
-    try {
-        var ok = document.execCommand('copy');
-        this.textContent = ok ? 'Copied!' : 'Copy failed';
-        var btn = this;
-        setTimeout(function () { btn.textContent = 'Copy Script'; }, 1200);
-    } catch (err) {
-        this.textContent = 'Copy not supported';
-        var btn = this;
-        setTimeout(function () { btn.textContent = 'Copy Script'; }, 1200);
-    }
-});
+function copyScript() {
+    const text = document.getElementById("scriptBlock").innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Script copied.");
+    });
+}
 </script>
 
 </body>
