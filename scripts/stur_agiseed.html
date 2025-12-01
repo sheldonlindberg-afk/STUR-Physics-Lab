@@ -92,9 +92,39 @@ button:hover, a.button-link:hover { opacity: 0.82; }
 <body>
 <div class="wrapper">
 
+<style>
+.button-row {
+    display: flex;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.button-link, .button-row button {
+    background: linear-gradient(135deg, #0ea5e9, #ec4899);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    transition: 0.25s ease;
+    box-shadow: 0 0 12px rgba(236, 72, 153, 0.45);
+}
+
+.button-link:hover, .button-row button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 18px rgba(236, 72, 153, 0.75);
+}
+
+.button-row button:active {
+    transform: scale(0.96);
+}
+</style>
+
 <div class="button-row">
     <a class="button-link" href="../index.html">Return to Index</a>
-    <a class.button-link" target="_blank" href="https://jupyter.org/try-jupyter/lab/">Open in Jupyter</a>
+    <a class="button-link" target="_blank" href="https://jupyter.org/try-jupyter/lab/">Open in Jupyter</a>
     <button onclick="copyScript()">Copy Script</button>
 </div>
 
