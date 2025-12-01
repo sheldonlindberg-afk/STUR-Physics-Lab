@@ -103,81 +103,6 @@ button:hover, a.button-link:hover { opacity: 0.85; }
         </p>
 
 <pre class="code-box" style="height:300px;">
-STUR-AGI Sim v5.0 – The Predictive Intelligence Core
-----------------------------------------------------
-Implements all ten intelligence-critical upgrades:
-
-1. Temporal Symbolic Memory
-2. Prediction Error Reward
-3. R3 Kalman Stabilizer
-4. Symbolic Cross-Attention
-5. R4 Curiosity Drive
-6. Policy Modulated Drift Fields
-7. Sparsity-Constrained Symbol Compression
-8. R5 Meta-Budget Controller
-9. Nonlinear R4/R5 Cross-Coupling
-10. Adaptive Planner (Hierarchical RL)
-</pre>
-    </div>
-
-    <div class="panel">
-        <h2>Mathematical Derivation</h2>
-        <p>The full 5D STUR evolution equation used for every manifold is:</p>
-
-        <p>
-        \\[
-        \frac{\partial R}{\partial t}
-        = \nabla \cdot (D \nabla R)
-        - (\nabla R)\cdot\Omega
-        + \chi \frac{R - R_{bg}}{L_X}
-        - \lambda (R - R_{bg})^3
-        + S(R,t)
-        \\]
-        </p>
-
-        <h3>Layer Architecture</h3>
-        <ul>
-            <li>R1: Fast Sensory Field</li>
-            <li>R2: Association Field (Goal Dynamics)</li>
-            <li>R3: Nonlinear Stabilizer (Kalman-like)</li>
-            <li>R4: Predictive / Curiosity Engine</li>
-            <li>R5: Meta-Budget / System-Wide Instability Regulator</li>
-        </ul>
-
-        <h3>Symbol Formation</h3>
-        <p>
-        \\[
-        \Sigma = f( \{ (i,j,k): |\nabla^2 R_2| > \theta \} )
-        \\]
-        </p>
-
-        <h3>Prediction Error</h3>
-        <p>
-        \\[
-        r \leftarrow r - \beta \Vert s_{t+1} - \hat{s}_{t+1} \Vert
-        \\]
-        </p>
-
-        <h3>Curiosity</h3>
-        <p>
-        \\[
-        r_{curiosity} = \Delta H(R_2)
-        \\]
-        </p>
-
-        <h3>Meta-Budget</h3>
-        <p>
-        \\[
-        B = \sigma(5(R_5 - R_{bg}))
-        \\]
-        </p>
-    </div>
-
-    <div class="panel">
-        <h2>Paste Full Python Script Below</h2>
-
-<textarea id="scriptBlock" class="code-box">
-<!-- 
 STUR-AGI Sim v5.0 (The Predictive Intelligence Core)
 --------------------------------------------------------------------------------
 This version implements the TOP 10 SPECIFIC, ACTIONABLE UPGRADES, resulting in:
@@ -399,8 +324,9 @@ class PolicyNetwork:
         self.weights = [np.random.uniform(-0.01, 0.01, input_dim) for _ in range(self.num_actions)]
         self.biases = np.random.uniform(-0.01, 0.01, self.num_actions)
         
-        # Initial learned parameter base values
-        self.learned_bases = np.array([0.6, 1.1, 0.3, 0.0, 0.0], dtype=float) # D1, ChiX2, Drift1x, Drift2x, Drift3x
+        # CORRECTED: Set the initial learned base values for the 5 actions
+        # D1 (0.6), ChiX2 (1.1), Drift1x (0.3), Drift2x (0.0), Drift3x (0.0)
+        self.learned_bases = np.array([0.6, 1.1, 0.3, 0.0, 0.0], dtype=float) 
         
         # Predictors for TD error
         self.state_values = np.zeros(self.num_actions)
@@ -425,7 +351,7 @@ class PolicyNetwork:
 
     def train(self, metrics_old, actions, reward, metrics_new, R4_gamma):
         """TD(0) Update for the Policy Network's weights."""
-        current_actions = np.array(actions)
+        current_actions = np.array(actions) # This list is the *applied* parameter values
         
         policy_vals_new = np.array([np.dot(self.weights[i], metrics_new) + self.biases[i] for i in range(self.num_actions)])
         
@@ -437,12 +363,16 @@ class PolicyNetwork:
             self.biases[i] += effective_alpha * td_errors[i]
             
             # Update the 'Learned Base' parameters slowly (Episodic learning)
+            # The base learns toward the actual applied value
             self.learned_bases[i] += effective_alpha * (current_actions[i] - self.learned_bases[i]) * 0.01
 
         # Re-apply constraints to learned bases
         self.learned_bases[0] = np.clip(self.learned_bases[0], D_MIN, D_MAX)
         self.learned_bases[1] = np.clip(self.learned_bases[1], CHI_MIN, CHI_MAX)
-        self.learned_bases[2:] = np.clip(self.learned_bases[2:], -DRIFT_CLIP, DRIFT_CLIP)
+        # Apply constraints to the drift bases
+        self.learned_bases[2] = np.clip(self.learned_bases[2], -DRIFT_CLIP, DRIFT_CLIP) # Drift1x
+        self.learned_bases[3] = np.clip(self.learned_bases[3], -DRIFT_CLIP, DRIFT_CLIP) # Drift2x
+        self.learned_bases[4] = np.clip(self.learned_bases[4], -DRIFT_CLIP, DRIFT_CLIP) # Drift3x
 
 # --- Symbolic Compression Layer (Upgrade 1 & 7) ---
 
@@ -553,6 +483,7 @@ def calculate_global_drift(R4, R_bg):
     omega2_x = 0.5 * (mean_R4 - R_bg) 
     
     # Clip the drift
+    # Uses the global DRIFT_CLIP which is modulated by R5/Meta-Budget
     omega2_x_clipped = np.clip(omega2_x, -DRIFT_CLIP, DRIFT_CLIP)
     
     return np.array([omega2_x_clipped, 0.0, 0.0], dtype=float)
@@ -651,11 +582,13 @@ class STURSeedHarness:
         self.prediction_beta = kwargs.get('prediction_beta', 0.02) # Upgrade 2
         
         # RL-MODIFIABLE PARAMETERS (Initial)
+        # These are used for _set_standard_params and are overwritten in reset_episode by learned_bases.
         self.D1 = kwargs.get('D1', 0.6) 
         self.chi_X2 = kwargs.get('chi_X2', 1.1) 
-        self.drift_vector1 = np.array(kwargs.get('drift_vector1', (0.3, 0.1, -0.2)), dtype=float)
-        self.drift_vector2 = np.zeros(3) 
-        self.drift_vector3 = np.zeros(3)
+        # Initialize drift vectors (x-only, other two components are zero)
+        self.drift_vector1 = np.array(kwargs.get('drift_vector1', (0.3, 0.0, 0.0)), dtype=float)
+        self.drift_vector2 = np.array(kwargs.get('drift_vector2', (0.0, 0.0, 0.0)), dtype=float) 
+        self.drift_vector3 = np.array(kwargs.get('drift_vector3', (0.0, 0.0, 0.0)), dtype=float)
         
         # Non-RL-modifiable parameters
         self._set_standard_params(kwargs)
@@ -756,12 +689,14 @@ class STURSeedHarness:
         self.last_R4_mean = np.mean(self.R4)
         self.last_entropy_R2 = shannon_entropy(self.R2) # New tracker for Upgrade 5
         
-        # Apply learned bases from Policy Network and Planner
-        self.D1 = self.policy_network.learned_bases[0]
-        self.chi_X2 = self.policy_network.learned_bases[1]
-        self.drift_vector1 = self.policy_network.learned_bases[2] * np.array([1.0, 0.0, 0.0], dtype=float)
-        self.drift_vector3 = self.policy_network.learned_bases[4] * np.array([1.0, 0.0, 0.0], dtype=float)
-        self.drift_vector2 = np.zeros(3) # R2 drift is dynamically controlled by R4
+        # CORRECTED: Apply all 5 learned bases from Policy Network
+        bases = self.policy_network.learned_bases
+        self.D1 = bases[0]
+        self.chi_X2 = bases[1]
+        self.drift_vector1 = bases[2] * np.array([1.0, 0.0, 0.0], dtype=float)
+        # R2 Drift base is learned but dynamically overridden by R4 in 'step'
+        self.drift_vector2 = bases[3] * np.array([1.0, 0.0, 0.0], dtype=float) 
+        self.drift_vector3 = bases[4] * np.array([1.0, 0.0, 0.0], dtype=float)
         
         self.symbolic_memory = SymbolicMemory()
         
@@ -789,9 +724,15 @@ class STURSeedHarness:
         current_D1 = new_D1
         current_chi_X2 = new_ChiX2
         
-        # Upgrade 6: Apply predicted drift components to R1 and R3 (R2 is still R4-controlled)
+        # Upgrade 6: Apply predicted drift components to R1 and R3 
+        # R1 drift uses the predicted x-component (new_Drift1x)
         self.drift_vector1[0] = new_Drift1x
+        # R3 drift uses the predicted x-component (new_Drift3x)
         self.drift_vector3[0] = new_Drift3x
+        
+        # R2 drift is dynamically controlled by R4, but we store the *predicted*
+        # value for training the PolicyNetwork's base weights.
+        predicted_drift2_x = new_Drift2x 
         
         # A1: Symbolic bias control
         sym_amp_A = self.sym_amplitude_base * np.clip(0.5 + a1 * 0.5, 0.1, 1.0)
@@ -805,7 +746,7 @@ class STURSeedHarness:
         # A3: Goal commitment
         current_goal_amplitude = self.goal_amplitude * np.clip(a3, 0.0, 1.0)
         
-        # --- Cross-Layer Influence on R2 Drift (Still R4-controlled) ---
+        # --- Cross-Layer Influence on R2 Drift (Still R4-controlled BASE) ---
         self.drift_vector2 = calculate_global_drift(self.R4, self.R_bg)
         
         # --- Upgrade 4: Symbolic Cross-Attention ---
@@ -835,7 +776,7 @@ class STURSeedHarness:
         
         current_D2 = self.D2 * D2_eff_mod 
         current_chi_X2_damp = current_chi_X2 * chi_X2_mod
-        current_drift_vector2 = self.drift_vector2 * drift2_mod
+        current_drift_vector2 = self.drift_vector2 * drift2_mod # R4-derived, then modulated
         
         # --- Differential Equation Solving (R1, R2, R3) ---
         dx, dt, R_bg, L_X = self.dx, self.dt, self.R_bg, self.L_X
@@ -999,6 +940,8 @@ class STURSeedHarness:
         done = self.episode_step >= self.steps_per_episode
         
         # --- RL Agent Training on transition (Upgrade 6) ---
+        # CORRECTED: actions_list must contain the *actual* applied values for training the bases.
+        # R1_drift_x, R2_drift_x (R4-derived), R3_drift_x are the x-components of the full vectors.
         actions_list = (current_D1, current_chi_X2_damp, self.drift_vector1[0], current_drift_vector2[0], self.drift_vector3[0])
         self.policy_network.train(metrics_vector_old, actions_list, float(reward), readout_vec, self.gamma_R4)
         
@@ -1045,6 +988,8 @@ class STURSeedHarness:
             "final_learned_D1": float(self.policy_network.learned_bases[0]),
             "final_learned_ChiX2": float(self.policy_network.learned_bases[1]),
             "final_learned_Drift1x": float(self.policy_network.learned_bases[2]),
+            "final_learned_Drift2x": float(self.policy_network.learned_bases[3]), # Added for completeness
+            "final_learned_Drift3x": float(self.policy_network.learned_bases[4]), # Added for completeness
             "final_R5_mean": float(np.mean(self.R5)),
             "final_target_align_R4": float(self.target_align_R4),
             "final_gamma_R4": float(self.gamma_R4),
@@ -1127,15 +1072,19 @@ if __name__ == "__main__":
         D1 = summary["final_learned_D1"]
         ChiX2 = summary["final_learned_ChiX2"]
         Drift1x = summary["final_learned_Drift1x"]
+        Drift2x = summary["final_learned_Drift2x"]
+        Drift3x = summary["final_learned_Drift3x"]
         R5_mean = summary["final_R5_mean"]
         budget = summary["final_meta_budget"]
         planner_w = summary["planner_weights"]
 
         print(f"| EPISODE {i+1:02d} | Total Reward: **{summary['accumulated_reward']:.2f}** |")
-        print(f"| RL BASE PARAMS: D1={D1:.4f}, ChiX2={ChiX2:.4f}, $\\Omega_1$={Drift1x:.4f} |")
+        print(f"| RL BASE PARAMS: D1={D1:.4f}, ChiX2={ChiX2:.4f}, $\\Omega_1$={Drift1x:.4f}, $\\Omega_2$={Drift2x:.4f}, $\\Omega_3$={Drift3x:.4f} |")
         print(f"| META-CONTROL: R5 $\\mu$={R5_mean:.4f} | Budget={budget:.3f} |")
         print(f"| ADAPTIVE PLANNER $\\Delta$W: A1={planner_w[0]:.4f}, A2={planner_w[1]:.4f}, A3={planner_w[2]:.4f} |")
         print("-" * 80)
+
+
 
  -->
 </textarea>
