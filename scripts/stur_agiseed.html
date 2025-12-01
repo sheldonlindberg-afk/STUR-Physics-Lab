@@ -10,6 +10,7 @@ window.MathJax = {
   tex: { 
     inlineMath: [['\\(', '\\)']], 
     displayMath: [['\\[','\\]']],
+    // Retaining macros for clarity and consistency
     macros: {
       Rbg: 'R_{bg}',
       LX: 'L_X',
@@ -242,7 +243,7 @@ Geometric invariants (Proto-Symbols) emerge as a set $\Sigma$:
 </p>
 
 \[
-\Sigma = \{ \Rvec : |\nabla^2 R_2(\Rvec)| > \theta \cdot \mu(|\nabla^2 R_2|) \},
+\Sigma = \{ \Rvec : \left|\nabla^2 R_2(\Rvec)\right| > \theta \cdot \mu\left(\left|\nabla^2 R_2\right|\right) \},
 \]
 
 <p>
@@ -383,6 +384,15 @@ This version implements a 5D X-Coupled Resistance Manifold (R1-R5)
 and a complete Policy/Planner/Symbolic Memory stack.
 Key Features: Persistent X-fields, Coarse-Grained R4/R5 Meta-Control,
 and Intrinsic Reward via Prediction Error and Conflict Minimization.
+--------------------------------------------------------------------------------
+FIX 1: Added self.last_R4_mean initialization to reset_episode() to resolve
+AttributeError on Step 1 of every episode. (Already Present in Original)
+FIX 2: Initialized local variable 'curiosity_reward = 0.0' at start of step() 
+       to prevent UnboundLocalError on non-coarse steps. (Already Present in Original)
+FIX 3: Corrected actions_list for Policy Network training in step() to use the 
+       undampened ChiX2 (current_chi_X2) instead of the R3-dampened value 
+       (current_chi_X2_damp), ensuring the Policy Network learns the correct 
+       base parameter independent of transient homeostatic adjustments.
 --------------------------------------------------------------------------------
 """
 
