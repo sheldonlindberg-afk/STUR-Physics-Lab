@@ -384,11 +384,6 @@ and a complete Policy/Planner/Symbolic Memory stack.
 Key Features: Persistent X-fields, Coarse-Grained R4/R5 Meta-Control,
 and Intrinsic Reward via Prediction Error and Conflict Minimization.
 --------------------------------------------------------------------------------
-FIX 1: Added self.last_R4_mean initialization to reset_episode() to resolve
-AttributeError on Step 1 of every episode.
-FIX 2: Initialized local variable 'curiosity_reward = 0.0' at start of step() 
-       to prevent UnboundLocalError on non-coarse steps.
---------------------------------------------------------------------------------
 """
 
 import numpy as np
@@ -541,7 +536,7 @@ class AdaptivePlanner:
     Implements a simple Reinforcement Learning rule for the planning engine's
     base actions (modulating symbolic/layer coupling/goal amplitude).
     """
-    def __init__(self, action_dim=3, learning_rate=0=05):
+    def __init__(self, action_dim=3, learning_rate=0.05): # Fixed typo in learning_rate
         self.weights = np.zeros(action_dim, dtype=float)
         self.alpha = learning_rate
         self.action_history = deque(maxlen=20)
@@ -1091,7 +1086,7 @@ class STURSeedHarness:
         new_D1, new_ChiX2, new_Drift1x, predicted_drift2_x, new_Drift3x = self.policy_network.predict_actions(metrics_vector_old)
         
         current_D1 = new_D1
-        current_chi_X2 = new_ChiX2
+        current_chi_X2 = new_ChiX2 # Policy Network's chosen base ChiX2
         
         self.drift_vector1[0] = new_Drift1x
         self.drift_vector3[0] = new_Drift3x
@@ -1125,7 +1120,7 @@ class STURSeedHarness:
 
         # R3 dampens R2's Diffusion, X-Coupling, and Drift (Stabilization)
         current_D2 = self.D2 * (1.0 - gain_mod_R3.mean())
-        current_chi_X2_damp = current_chi_X2 * (1.0 + gain_mod_R3.mean())
+        current_chi_X2_damp = current_chi_X2 * (1.0 - gain_mod_R3.mean()) # Dampening the Policy's chosen ChiX2
         
         current_drift_vector2 = self.drift_vector2_R4_base * (1.0 - gain_mod_R3.mean())
         self.current_drift_vector2 = current_drift_vector2
@@ -1316,8 +1311,10 @@ class STURSeedHarness:
         
         done = self.episode_step >= self.steps_per_episode
         
+        # FIX 3: Use the Policy Network's chosen, *undampened* chiX2 for training,
+        # ensuring the Policy learns the base parameter, not the homeostatically adjusted one.
         actions_list = (current_D1,
-                        current_chi_X2_damp,
+                        current_chi_X2, # <<<--- FIXED
                         self.drift_vector1[0],
                         current_drift_vector2[0],
                         self.drift_vector3[0])
@@ -1482,4 +1479,3 @@ function copyScript() {
 
 </body>
 </html>
-
