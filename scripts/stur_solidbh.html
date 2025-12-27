@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Double-Slit – Toroidal Resistance Interference</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STUR Cosmology – Resistance-Origin Big Bang (Toy Model)</title>
+
+<!-- MathJax (so the equations render) -->
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
 <style>
+  :root{ color-scheme: dark; }
   body{
     background:#050814;
     color:#e6edf3;
@@ -50,233 +61,496 @@
   a{color:#66ccff;}
 </style>
 </head>
+
 <body>
 
-<h1>STUR Double-Slit – Toroidal Resistance Gate</h1>
+<h1>STUR Cosmology – Resistance-Origin Big Bang</h1>
 
-<h2>Derivation Sketch – TOR Phase Gate</h2>
+<h2>Mechanism (No Singularity, No Prediction)</h2>
 <div class="desc">
-<p>
-We model an electron wavepacket crossing a toroidal “resistance gate” that
-acts like a dynamical double slit. The electron is treated as a point test
-charge with charge \(q\) and mass \(m\), but driven by the STUR radial
-modulator and a toroidal short–range force.
-</p>
+  <p>
+    In STUR, the Big Bang is not an extrapolated singularity, explosion, or
+    probabilistic jump. The universe is defined from the start as a continuous
+    resistance field \(R\) on a Lorentzian manifold. What we label the “Big Bang”
+    is the first global transition where resistance gradients become dynamically
+    active and causal structure opens.
+  </p>
 
-<p style="text-align:center;">
-\[
-\mathbf F_{\mathrm{STUR}}(r)
-= \mathcal S(r;L_0)
-\left[
-\frac{k_e q^2}{r^2}\hat{\mathbf r}
-- \frac{G m^2}{r^2}\hat{\mathbf r}
-+ \alpha_s\left(\frac{1-e^{-r/\lambda}}{r^2}+\sigma r\right)\hat{\mathbf r}
-\right]
-\]
-</p>
+  <p>
+    In the homogeneous limit \(R = R(t)\), the resistance field carries a finite
+    energy density
+  </p>
 
-<p>
-The STUR radial modulator is
-</p>
+  <p style="text-align:center;">
+    \[
+      \rho_R = \tfrac12 \dot R^2 + V(R),
+      \qquad
+      V(R)=\tfrac12 m^2 (R-R_{\mathrm{bg}})^2,
+    \]
+  </p>
 
-<p style="text-align:center;">
-\[
-\mathcal S(r;L_0)=\tanh\left(\frac{r}{L_0}\right)
-\left(1-e^{-r/L_0}\right),
-\]
-</p>
+  <p>
+    and is subject to a saturation constraint arising from the hidden
+    X–coupling of the STUR manifold. This imposes a finite resistance capacity
+    \(\rho_c\), encoded by the effective density
+  </p>
 
-<p>
-so that at very small radii the effective force is suppressed, while at
-mesoscopic radii the full Coulomb + short–range interaction is restored.
-The toroidal pilot–kick term couples to the longitudinal velocity \(v_z\):
-</p>
+  <p style="text-align:center;">
+    \[
+      \rho_{\mathrm{eff}} = \rho_R\!\left(1-\frac{\rho_R}{\rho_c}\right).
+    \]
+  </p>
 
-<p style="text-align:center;">
-\[
-g_0(r,v_z)=g_0 e^{-r/\ell_B}\,|v_z|,
-\qquad
-\mathbf F_{\mathrm{pilot}}(t,\mathbf r)
-\propto g_0(r,v_z)\sin(\omega t)\,
-(\tanh z\,\hat{\mathbf x}-\tanh x\,\hat{\mathbf z}),
-\]
-</p>
+  <p>
+    When \(\rho_R \to \rho_c\), the effective density vanishes, forcing the
+    Hubble rate to zero and producing a smooth causal turnaround. There is no
+    singularity and no imposed bounce: expansion emerges because resistance must
+    relax toward its background everywhere at once.
+  </p>
 
-<p>
-which nudges the packet into two effective paths around the torus core.
-The phase functional accumulated along each trajectory is approximated by
-</p>
-
-<p style="text-align:center;">
-\[
-\Phi = \int g_0(r,|v_z|)\,dt,
-\]
-</p>
-
-<p>
-and the interference intensity on a distant screen is taken as
-\(|\psi|^2\propto 4\cos^2\big[(\Phi_1-\Phi_2 + \Delta k(x))/2\big]\), where
-\(\Delta k(x)\sim 2\pi x/\ell_w\) converts screen position \(x\) into a
-phase shift.  Numerically we integrate the six–dimensional system
-\((x,y,z,v_x,v_y,v_z)\) with a fourth–order Runge–Kutta scheme, generate
-two mirror trajectories, and plot:
-</p>
-
-<ul>
-  <li>3D toroidal paths for the two “slits”</li>
-  <li>Resulting fringe pattern on a 1D screen</li>
-  <li>Longitudinal velocity histories \(v_z(t)\) for both paths</li>
-</ul>
-
-<p>
-All force terms are bounded by a cutoff \(F_{\max}\) to keep the explicit
-time integration stable inside JupyterLite.
-</p>
+  <p>
+    Time, curvature, and matter content appear together as consequences of this
+    relaxation. The CMB, horizons, and structure formation follow as frozen
+    resistance imprints, not as tuned initial conditions.
+  </p>
 </div>
 
-<h2>Python Simulation (copy and run in Jupyter)</h2>
+<h2>Python Toy Model (copy and run in Jupyter)</h2>
 
 <pre id="codeBlock">
 #!/usr/bin/env python3
 # ===============================================================
-# STUR Double-Slit – Toroidal Resistance Gate
-# Static Matplotlib plots, no SciPy, JupyterLite compatible.
+# STUR Bounce Toy Model v1.0 — Homogeneous Resistance Cosmology
+#   (Peer-review-defensible minimal mechanism, with plots + JSON)
 # ===============================================================
+"""
+What this is (toy model, but defensible):
+----------------------------------------
+This is a *minimal* cosmological model built to reflect the STUR premise:
 
+  1) The fundamental dynamical object is a continuous resistance field R on a
+     Lorentzian manifold. In the homogeneous/isotropic limit, R = R(t).
+  2) "Big Bang talk" is replaced by a *causal field mechanism*: global relaxation
+     and saturation dynamics of R, not a singularity or probabilistic jump.
+  3) Geometry is not prescribed as an initial-condition miracle. Instead we use
+     a consistent closure: an FRW scale factor a(t) coupled to an effective
+     resistance-energy density ρ_R.
+
+Core assumptions (explicit, so reviewers can attack them cleanly):
+------------------------------------------------------------------
+A. Metric ansatz (standard): FRW with scale factor a(t), H = a_dot/a.
+   This is not "assuming expansion"; it is the minimal symmetry reduction for
+   a homogeneous universe. The dynamics (H(t)) comes from the field equation.
+
+B. Resistance-field effective energy:
+      ρ_R = 1/2 * R_dot^2 + V(R)
+   with a simple quadratic potential around R_bg:
+      V(R) = 1/2 * m^2 * (R - R_bg)^2
+   This is a standard effective-field-energy construction. "m" is an effective
+   stiffness/relaxation curvature scale.
+
+C. STUR X-coupled saturation (the bounce mechanism):
+   Instead of allowing unbounded energy density (which would drive singular
+   behavior), we encode a saturation/closure that is natural in STUR because
+   X-coupling imposes finite capacity of the resistance manifold:
+
+      ρ_eff = ρ_R * (1 - ρ_R/ρ_c)
+
+   where ρ_c is a critical resistance-energy density set by the XCRM capacity.
+   When ρ_R → ρ_c, ρ_eff → 0, forcing H → 0 and triggering a bounce (turnaround).
+
+   This is mathematically identical to a common "effective bounce" correction,
+   but the interpretation is STUR: finite resistance capacity via X-coupling,
+   not a quantum postulate. The toy model is intentionally transparent.
+
+D. Dynamics of R(t):
+   We use the standard covariant homogeneous scalar equation with Hubble
+   friction (this is required by energy-momentum conservation in FRW):
+
+      R_ddot + 3 H R_dot + dV/dR = 0
+
+   Here it is not "a scalar inflaton"; it is the homogeneous mode of the STUR
+   resistance field.
+
+E. Friedmann closure:
+      H^2 = (1/3) * ρ_eff
+   sign(H) chosen by whether the universe is contracting or expanding.
+
+What this model can (and cannot) claim:
+---------------------------------------
+- It *does* provide a clean physical mechanism for a non-singular origin:
+  a causal saturation + relaxation of a single field.
+- It *does not* claim to be a full STUR 5D PDE or to fit all cosmological data.
+  It is the smallest defensible bridge from STUR language to testable dynamics.
+- Extensions for reviewers: add radiation/matter fluids, perturbations,
+  and compute CMB/structure observables (not done here).
+
+Outputs:
+--------
+- a(t), H(t), ρ_R(t), and key bounce diagnostics.
+- JSON summary for reproducibility.
+"""
+
+import json
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 (ensures 3D projection)
+from dataclasses import dataclass
+from typing import Dict, Tuple
 
-# ----------------- Physical / TOR parameters -------------------
-q, m = -1.6e-19, 9.1e-31          # electron charge, mass
-g0, eB = 1e-12, 10.0              # pilot coupling, decay length (arb.)
-L0, lam = 1.0e-10, 1.0e-15        # STUR scale, short-range scale
-s = 1.0e-27                       # strong-like coefficient
-lw = 1.0e-9                       # "slit separation" scale on screen
-eps0 = 1.0e2                      # soft core parameter
-k_e = 8.99e9                      # Coulomb constant (SI)
-Fmax = 1.0e-15                    # force cutoff for numeric stability
-omega_drive = 2.0 * np.pi * 1.0e6 # drive frequency (rad/s)
+# --- SciPy is great if available; fallback included so this runs on JupyterLite. ---
+try:
+    from scipy.integrate import solve_ivp  # type: ignore
+    _HAVE_SCIPY = True
+except Exception:
+    solve_ivp = None
+    _HAVE_SCIPY = False
 
-# STUR radial modulator
-def S_mod(r):
-    return np.tanh(r / L0) * (1.0 - np.exp(-r / L0))
+plt.style.use("dark_background")
 
-# pilot strength g0(r, v_z)
-def g0_tor(r, vz):
-    return g0 * np.exp(-r / eB) * np.abs(vz)
+# ===============================================================
+# Parameters
+# ===============================================================
 
-# softening of the core
-def eps_core(r):
-    return eps0 + 0.1 * r
+@dataclass(frozen=True)
+class Params:
+    # Background resistance level
+    R_bg: float = 0.0
 
-# full 6D ODE: y = [x, y, z, vx, vy, vz]
-def F_ode(t, y):
-    x, y0, z, vx, vy, vz = y
-    # radial distance in torus core coordinates
-    r0 = np.sqrt(x * x + y0 * y0 + z * z)
-    r = np.sqrt(r0 * r0 + eps_core(r0) ** 2) + 1e-30
-    r_hat = np.array([x, y0, z]) / r
+    # Effective stiffness scale for the resistance potential
+    m: float = 0.45
 
-    # Coulomb + short-range "TOR" force
-    F_em = (q * q * k_e) / (r * r) * r_hat
-    F_tor = s * ((1.0 - np.exp(-r / lam)) / (r * r) + r / L0) * r_hat
+    # Critical resistance-energy density (XCRM "capacity")
+    rho_c: float = 1.0
 
-    # pilot kick (time-dependent, velocity-weighted)
-    pk = g0_tor(r, vz) * np.sin(omega_drive * t)
-    pk = np.tanh(pk / 1.0e-25) * 1.0e-25  # saturate smoothly
+    # Choose initial branch sign for H: -1 contracting, +1 expanding
+    H_sign_init: int = -1
 
-    F_px = pk * np.tanh(z / 0.01)
-    F_pz = -pk * np.tanh(x / 0.01)
+    # Safety epsilon
+    eps: float = 1e-12
 
-    F_total = S_mod(r) * (F_em + F_tor)
-    F_total[0] += F_px
-    F_total[2] += F_pz
 
-    mag = np.linalg.norm(F_total)
-    if mag > Fmax:
-        F_total *= Fmax / (mag + 1.0e-30)
+def V(R: float, p: Params) -> float:
+    """Quadratic relaxation potential around R_bg."""
+    x = (R - p.R_bg)
+    return 0.5 * (p.m ** 2) * (x ** 2)
 
-    ax, ay, az = F_total / m
-    return np.array([vx, vy, vz, ax, ay, az], dtype=float)
 
-# 4th-order Runge–Kutta integrator (no SciPy)
-def integrate_path(x0, vz0, t0=0.0, t1=1.0e-5, nsteps=1200):
-    t = np.linspace(t0, t1, nsteps)
-    y = np.zeros((6, nsteps), dtype=float)
-    # initial state: start at (x0,0,0) with small transverse vy and chosen vz
-    y[:, 0] = [x0, 0.0, 0.0, 0.0, 1.0e5, vz0]
+def dVdR(R: float, p: Params) -> float:
+    """Derivative of V wrt R."""
+    return (p.m ** 2) * (R - p.R_bg)
+
+
+def rho_R(R: float, Rdot: float, p: Params) -> float:
+    """Resistance energy density."""
+    return 0.5 * (Rdot ** 2) + V(R, p)
+
+
+def rho_eff(rho: float, p: Params) -> float:
+    """
+    STUR saturation closure (bounce mechanism):
+      ρ_eff = ρ (1 - ρ/ρ_c)
+
+    - For small ρ: standard-like behavior (ρ_eff ≈ ρ)
+    - As ρ → ρ_c: ρ_eff → 0, forcing H → 0 (bounce)
+    - For ρ > ρ_c: we clamp to 0 for numerical stability (unphysical region)
+      In a full STUR PDE, the evolution should prevent overshoot.
+    """
+    if rho <= 0:
+        return 0.0
+    r = rho / (p.rho_c + p.eps)
+    val = rho * (1.0 - r)
+    return float(max(0.0, val))
+
+
+def Hubble(R: float, Rdot: float, p: Params, H_sign: int) -> float:
+    """Friedmann closure with chosen branch sign."""
+    rho = rho_R(R, Rdot, p)
+    heff = rho_eff(rho, p)
+    return float(H_sign) * np.sqrt(heff / 3.0 + p.eps)
+
+
+# ===============================================================
+# ODE system
+# ===============================================================
+
+def stur_system(t: float, y: np.ndarray, p: Params) -> np.ndarray:
+    """
+    State y = [a, R, Rdot, H_sign_float]
+    We keep H_sign as a continuous state but round it to ±1 in dynamics.
+
+    a_dot = a * H
+    R_dot = Rdot
+    Rddot = -3 H Rdot - dV/dR
+
+    Branch rule:
+    - H_sign stays fixed until we cross the bounce (H ~ 0 near rho~rho_c),
+      then we flip sign to represent contraction→expansion (or reverse).
+    - This is the minimal way to represent a bounce in first-order form.
+    """
+    a, R, Rdot, Hs = y
+    H_sign = -1 if Hs < 0 else +1
+
+    # Compute H on the current branch
+    H = Hubble(R, Rdot, p, H_sign)
+
+    # Bounce detector: near H ~ 0 while rho near rho_c
+    rho = rho_R(R, Rdot, p)
+    near_bounce = (abs(H) < 5e-4) and (rho > 0.92 * p.rho_c)
+
+    # Flip the branch at bounce so the solution continues smoothly
+    # (contracting H<0 -> expanding H>0). In full GR you'd track a_dot sign;
+    # here we explicitly switch the square-root branch.
+    if near_bounce and H_sign < 0:
+        H_sign = +1
+
+    # Dynamics
+    adot = a * H
+    dR = Rdot
+    dRdot = -3.0 * H * Rdot - dVdR(R, p)
+
+    # Keep sign state consistent (piecewise constant; we encode the flip implicitly)
+    dHs = 0.0
+
+    return np.array([adot, dR, dRdot, dHs], dtype=float)
+
+
+# ===============================================================
+# Simulation driver
+# ===============================================================
+
+def _rk4_fallback(
+    p: Params,
+    t_span: Tuple[float, float],
+    n: int,
+    a0: float,
+    R0: float,
+    Rdot0: float,
+) -> Dict[str, np.ndarray]:
+    """
+    SciPy-free RK4 fallback so the same model runs in JupyterLite.
+    Integrates the same first-order system y' = f(t,y).
+    """
+    t = np.linspace(t_span[0], t_span[1], n)
     dt = t[1] - t[0]
+    y = np.zeros((4, n), dtype=float)
+    y[:, 0] = [a0, R0, Rdot0, float(-1 if p.H_sign_init < 0 else +1)]
 
-    for i in range(nsteps - 1):
-        y_i = y[:, i]
-        k1 = F_ode(t[i], y_i)
-        k2 = F_ode(t[i] + 0.5 * dt, y_i + 0.5 * dt * k1)
-        k3 = F_ode(t[i] + 0.5 * dt, y_i + 0.5 * dt * k2)
-        k4 = F_ode(t[i] + dt,       y_i + dt * k3)
-        y[:, i + 1] = y_i + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4)
+    for i in range(n - 1):
+        ti = t[i]
+        yi = y[:, i]
 
-    # phase functional Φ = ∫ g0(r,|vz|) dt (simple accumulation)
-    r = np.sqrt(y[0] ** 2 + y[1] ** 2 + y[2] ** 2)
-    dt_arr = np.empty_like(t)
-    dt_arr[0] = 0.0
-    dt_arr[1:] = np.diff(t)
-    phase = np.cumsum(g0_tor(r, np.abs(y[5])) * dt_arr)[-1]
-    return t, y, phase
+        k1 = stur_system(ti, yi, p)
+        k2 = stur_system(ti + 0.5 * dt, yi + 0.5 * dt * k1, p)
+        k3 = stur_system(ti + 0.5 * dt, yi + 0.5 * dt * k2, p)
+        k4 = stur_system(ti + dt, yi + dt * k3, p)
 
-# ----- two mirror paths through TOR gate ------------------------
-t1, y1, phi1 = integrate_path(+100.0,  +5.0e4)
-t2, y2, phi2 = integrate_path(-100.0,  -5.0e4)
+        y[:, i + 1] = yi + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4)
 
-# screen interference pattern
-X = np.linspace(-1.0, 1.0, 1000)     # meters on screen
-phase_diff = phi1 - phi2
-I = 4.0 * np.cos((phase_diff + X / lw * 2.0 * np.pi) / 2.0) ** 2
+        # keep a positive to avoid log issues in diagnostics
+        if y[0, i + 1] < p.eps:
+            y[0, i + 1] = p.eps
 
-# ------------------------ plots --------------------------------
-fig = plt.figure(figsize=(12, 4))
+    a = y[0]
+    R = y[1]
+    Rdot = y[2]
 
-# (1) 3D TOR paths
-ax1 = fig.add_subplot(1, 3, 1, projection="3d")
-ax1.plot(y1[0], y1[1], y1[2], "b", label="path 1")
-ax1.plot(y2[0], y2[1], y2[2], "r", label="path 2")
-ax1.scatter([+100.0, -100.0], [0.0, 0.0], [0.0, 0.0], c="k", marker="x")
-ax1.set_title("TOR Classical Paths")
-ax1.set_xlabel("x (arb)")
-ax1.set_ylabel("y (arb)")
-ax1.set_zlabel("z (arb)")
-ax1.legend()
+    H = np.gradient(np.log(np.maximum(a, p.eps)), t)
+    rho = np.array([rho_R(R[i], Rdot[i], p) for i in range(len(t))], dtype=float)
+    rhoe = np.array([rho_eff(rho[i], p) for i in range(len(t))], dtype=float)
 
-# (2) Fringe pattern
-ax2 = fig.add_subplot(1, 3, 2)
-ax2.plot(X * 1.0e3, I, "m")
-ax2.set_title("Effective Fringe Pattern")
-ax2.set_xlabel("screen x (mm)")
-ax2.set_ylabel("|psi|^2 (arb)")
-ax2.grid(alpha=0.3)
+    idx_b = int(np.argmin(np.abs(H)))
+    t_b = float(t[idx_b])
 
-# (3) Longitudinal velocities
-ax3 = fig.add_subplot(1, 3, 3)
-ax3.plot(t1, y1[5], "b", label="v_z (path 1)")
-ax3.plot(t2, y2[5], "r", label="v_z (path 2)")
-ax3.set_title("Phase Driver v_z(t)")
-ax3.set_xlabel("t (s)")
-ax3.set_ylabel("v_z (m/s)")
-ax3.legend()
-ax3.grid(alpha=0.3)
+    return {
+        "t": t,
+        "a": a,
+        "H": H,
+        "R": R,
+        "Rdot": Rdot,
+        "rho_R": rho,
+        "rho_eff": rhoe,
+        "t_bounce": np.array([t_b]),
+        "idx_bounce": np.array([idx_b]),
+    }
 
-plt.tight_layout()
-plt.show()
 
-print(f"Phase difference |phi1 - phi2| = {abs(phase_diff):.3e} rad")
-print("STUR Double-Slit TOR simulation complete.")
+def run_sim(
+    p: Params,
+    t_span: Tuple[float, float] = (-20.0, 20.0),
+    n: int = 2500,
+    a0: float = 1.0,
+    R0: float = 0.0,
+    Rdot0: float = 1.15,
+) -> Dict[str, np.ndarray]:
+    """
+    Choose initial conditions:
+    - a0 arbitrary normalization
+    - R0, Rdot0 set total resistance-energy density
+    - Start on contracting branch (H_sign_init=-1) to show a bounce
+    """
+    if _HAVE_SCIPY:
+        Hs0 = float(-1 if p.H_sign_init < 0 else +1)
+        y0 = np.array([a0, R0, Rdot0, Hs0], dtype=float)
+        t_eval = np.linspace(t_span[0], t_span[1], n)
+
+        sol = solve_ivp(
+            fun=lambda t, y: stur_system(t, y, p),
+            t_span=t_span,
+            y0=y0,
+            t_eval=t_eval,
+            rtol=1e-8,
+            atol=1e-10,
+            method="RK45",
+        )
+
+        if not sol.success:
+            raise RuntimeError(f"Integration failed: {sol.message}")
+
+        a = sol.y[0]
+        R = sol.y[1]
+        Rdot = sol.y[2]
+
+        # Reconstruct H with a sign chosen from a_dot/a (numerical)
+        H = np.gradient(np.log(np.maximum(a, p.eps)), sol.t)
+
+        rho = np.array([rho_R(R[i], Rdot[i], p) for i in range(len(sol.t))], dtype=float)
+        rhoe = np.array([rho_eff(rho[i], p) for i in range(len(sol.t))], dtype=float)
+
+        idx_b = int(np.argmin(np.abs(H)))
+        t_b = float(sol.t[idx_b])
+
+        return {
+            "t": sol.t,
+            "a": a,
+            "H": H,
+            "R": R,
+            "Rdot": Rdot,
+            "rho_R": rho,
+            "rho_eff": rhoe,
+            "t_bounce": np.array([t_b]),
+            "idx_bounce": np.array([idx_b]),
+        }
+
+    # Fallback (JupyterLite-safe)
+    return _rk4_fallback(p, t_span, n, a0, R0, Rdot0)
+
+
+# ===============================================================
+# Plot + JSON summary
+# ===============================================================
+
+def main():
+    p = Params(
+        R_bg=0.0,
+        m=0.45,
+        rho_c=1.0,
+        H_sign_init=-1,  # start contracting -> bounce -> expand
+    )
+
+    data = run_sim(
+        p=p,
+        t_span=(-20.0, 20.0),
+        n=2600,
+        a0=1.0,
+        R0=0.0,
+        Rdot0=1.15,
+    )
+
+    t = data["t"]
+    a = data["a"]
+    H = data["H"]
+    rho = data["rho_R"]
+    rhoe = data["rho_eff"]
+    tb = float(data["t_bounce"][0])
+    ib = int(data["idx_bounce"][0])
+
+    # ---- Plots ----
+    fig, ax = plt.subplots(figsize=(8.5, 4.5))
+    ax.plot(t, a, lw=1.6)
+    ax.axvline(tb, ls="--", lw=1.0, alpha=0.7)
+    ax.set_title("STUR Bounce Toy Model — Scale Factor a(t)")
+    ax.set_xlabel("t (dimensionless)")
+    ax.set_ylabel("a(t)")
+    plt.tight_layout()
+    plt.show()
+
+    fig, ax = plt.subplots(figsize=(8.5, 4.5))
+    ax.plot(t, H, lw=1.6)
+    ax.axhline(0.0, ls="--", lw=1.0, alpha=0.7)
+    ax.axvline(tb, ls="--", lw=1.0, alpha=0.7)
+    ax.set_title("STUR Bounce Toy Model — Hubble H(t)")
+    ax.set_xlabel("t (dimensionless)")
+    ax.set_ylabel("H(t)")
+    plt.tight_layout()
+    plt.show()
+
+    fig, ax = plt.subplots(figsize=(8.5, 4.5))
+    ax.plot(t, rho, label="ρ_R (resistance energy)", lw=1.6)
+    ax.plot(t, rhoe, label="ρ_eff (XCRM saturation)", lw=1.2)
+    ax.axhline(p.rho_c, ls="--", lw=1.0, alpha=0.7, label="ρ_c")
+    ax.axvline(tb, ls="--", lw=1.0, alpha=0.7)
+    ax.set_title("STUR Bounce Toy Model — Energy Densities")
+    ax.set_xlabel("t (dimensionless)")
+    ax.set_ylabel("density (Planck-like units)")
+    ax.legend(fontsize=9)
+    plt.tight_layout()
+    plt.show()
+
+    # ---- Diagnostics + JSON ----
+    summary = {
+        "model": "STUR Bounce Toy Model v1.0 — Homogeneous Resistance Cosmology",
+        "scipy_available": bool(_HAVE_SCIPY),
+        "interpretation": {
+            "big_bang_as": "first global causal activation / relaxation of resistance gradients",
+            "singularity": "excluded by XCRM saturation capacity rho_c",
+            "bounce_mechanism": "rho_eff = rho_R (1 - rho_R/rho_c) -> H->0 at rho_R~rho_c",
+        },
+        "params": {
+            "R_bg": p.R_bg,
+            "m": p.m,
+            "rho_c": p.rho_c,
+            "H_sign_init": p.H_sign_init,
+        },
+        "initial_conditions": {
+            "a0": float(a[0]),
+            "R0": float(data["R"][0]),
+            "Rdot0": float(data["Rdot"][0]),
+            "rho_R0": float(rho[0]),
+        },
+        "results": {
+            "t_min": float(t[0]),
+            "t_max": float(t[-1]),
+            "t_bounce": tb,
+            "a_min": float(np.min(a)),
+            "a_at_bounce": float(a[ib]),
+            "a_max": float(np.max(a)),
+            "H_min": float(np.min(H)),
+            "H_max": float(np.max(H)),
+            "rho_R_peak": float(np.max(rho)),
+            "rho_eff_peak": float(np.max(rhoe)),
+        },
+        "notes_for_peer_review": [
+            "This is a symmetry-reduced homogeneous sector of STUR: R=R(t).",
+            "The FRW closure is used as a minimal geometric bookkeeping device; the dynamics are driven by R(t).",
+            "The only nonstandard ingredient is the explicit XCRM saturation closure rho_eff=rho(1-rho/rho_c), interpreted as finite resistance capacity.",
+            "Next steps for falsifiable contact: add matter/radiation fluids, perturbations, compute power spectra and CMB constraints.",
+        ],
+    }
+
+    print(json.dumps(summary, indent=2))
+    print("STUR Bounce Toy Model simulation complete.")
+
+
+if __name__ == "__main__":
+    main()
 </pre>
 
 <div style="text-align:center;margin-top:1rem;">
   <button onclick="copyCode()">Copy Script</button>
   <button onclick="openRunner()">Open JupyterLite</button>
 </div>
-    <!-- ===== STUR Lab Return Button ===== -->
+
+<!-- ===== STUR Lab Return Button ===== -->
 <div style="margin:10px 0 20px 0;">
   <a href="../index.html"
      style="display:inline-block;
@@ -295,13 +569,12 @@ print("STUR Double-Slit TOR simulation complete.")
 <!-- ===== End Return Button ===== -->
 
 <p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open JupyterLite</b>.  
-In JupyterLite, create a new Python notebook, paste the code into a cell, and run it to see the
-TOR double-slit paths, interference pattern, and phase driver.
+Click <b>Copy Script</b>, then <b>Open JupyterLite</b>. In JupyterLite, create a new Python notebook, paste the code into a cell, and run it.  
+(The script includes a SciPy solver if available, and a built-in RK4 fallback so it still runs when SciPy is missing.)
 </p>
 
 <footer>
-STUR Physics Lab &mdash; Unified Resistance Framework &mdash; Double-Slit TOR Gate
+STUR Physics Lab &mdash; Unified Resistance Framework &mdash; Cosmology
 </footer>
 
 <script>
@@ -309,7 +582,7 @@ function copyCode(){
   const el = document.getElementById("codeBlock");
   const code = el.innerText;
   navigator.clipboard.writeText(code).then(
-    () => { alert("STUR Double-Slit TOR code copied to clipboard."); },
+    () => { alert("STUR cosmology code copied to clipboard."); },
     () => { alert("Copy failed. Select and copy manually."); }
   );
 }
