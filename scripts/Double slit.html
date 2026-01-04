@@ -15,57 +15,49 @@ window.MathJax = {
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <style>
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:"Courier New",monospace;
-    margin:0;
-    padding:2rem;
-  }
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  h3{color:#66ccff;margin-top:1.5rem;}
-  .desc{
-    max-width:900px;
-    margin:0 auto 1.5rem auto;
-    line-height:1.55;
-  }
-  pre{
-    background:#0a0f1f;
-    color:#00ffcc;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    font-size:0.9rem;
-    box-shadow:0 0 18px #ffaa0040;
-    white-space:pre;
-  }
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
-  }
-  button:hover{background:#ffcc33;}
-  footer{
-    text-align:center;
-    font-size:0.9em;
-    color:#999;
-    margin-top:2.5rem;
-  }
-  a{color:#66ccff;}
-  .placeholder{
-    border:2px dashed #ffaa00;
-    padding:1.2rem;
-    border-radius:10px;
-    background:#0b1224;
-    box-shadow:0 0 20px #ffaa0022 inset;
-  }
+body{
+  background:#050814;
+  color:#e6edf3;
+  font-family:"Courier New",monospace;
+  margin:0;
+  padding:2rem;
+}
+h1{color:#ffaa00;text-align:center;}
+h2{color:#ffcc33;margin-top:2rem;}
+h3{color:#66ccff;margin-top:1.5rem;}
+.desc{
+  max-width:900px;
+  margin:0 auto 1.5rem auto;
+  line-height:1.55;
+}
+pre{
+  background:#0a0f1f;
+  color:#00ffcc;
+  padding:1rem;
+  border-radius:8px;
+  overflow-x:auto;
+  font-size:0.82rem;
+  box-shadow:0 0 18px #ffaa0040;
+  white-space:pre;
+}
+button{
+  background:#ffaa00;
+  color:#050814;
+  border:none;
+  border-radius:6px;
+  padding:10px 20px;
+  font-weight:bold;
+  cursor:pointer;
+  margin:6px;
+}
+button:hover{background:#ffcc33;}
+footer{
+  text-align:center;
+  font-size:0.9em;
+  color:#999;
+  margin-top:2.5rem;
+}
+a{color:#66ccff;}
 </style>
 </head>
 
@@ -73,34 +65,13 @@ window.MathJax = {
 
 <h1>STUR Double-Slit – Toroidal Resistance Gate</h1>
 
-<!-- ===================================================== -->
-<!-- TOROIDAL RESISTANCE GATE DERIVATION                    -->
-<!-- ===================================================== -->
-
 <h2>Derivation Sketch – TOR Phase Gate</h2>
 <div class="desc">
-
 <p>
 We model an electron wavepacket traversing a <b>toroidal resistance gate</b>
-that dynamically splits the trajectory into two effective paths. The electron
-is treated as a test charge subject to a bounded STUR-modulated force field,
-rather than an idealized hard-edged slit.
-</p>
-
-<p style="text-align:center;">
-\[
-\mathbf F_{\mathrm{STUR}}(r)=
-\mathcal S(r;L_0)\!
-\left[
-\frac{k_e q^2}{r^2}\hat{\mathbf r}
--\frac{G m^2}{r^2}\hat{\mathbf r}
-+\alpha_s\!\left(\frac{1-e^{-r/\lambda}}{r^2}+\sigma r\right)\hat{\mathbf r}
-\right]
-\]
-</p>
-
-<p>
-The STUR radial modulator
+that dynamically splits the trajectory into two effective paths.
+Unlike an ideal geometric slit, the interaction is smooth, bounded,
+and physically regulated by the STUR resistance modulator.
 </p>
 
 <p style="text-align:center;">
@@ -111,88 +82,35 @@ The STUR radial modulator
 </p>
 
 <p>
-regularizes short-range divergences while preserving long-range dynamics.
-A toroidal <b>pilot phase kick</b> couples to the longitudinal velocity:
+Interference visibility loss arises from phase entanglement with a hidden
+X-bundle of paths rather than classical noise, directly analogous to
+Debye–Waller suppression in quantum-optical experiments.
 </p>
-
-<p style="text-align:center;">
-\[
-g_0(r,v_z)=g_0 e^{-r/\ell_B}|v_z|,
-\quad
-\mathbf F_{\mathrm{pilot}}
-\propto g_0(r,v_z)\sin(\omega t)
-(\tanh z\,\hat{\mathbf x}-\tanh x\,\hat{\mathbf z})
-\]
-</p>
-
-<p>
-The accumulated phase functional
-</p>
-
-<p style="text-align:center;">
-\[
-\Phi=\int g_0(r,|v_z|)\,dt
-\]
-</p>
-
-<p>
-acts as a continuous which-path phase. Interference on the screen is computed as
-</p>
-
-<p style="text-align:center;">
-\[
-|\psi|^2 \propto
-4\cos^2\!\left(\frac{\Phi_1-\Phi_2+\Delta k(x)}{2}\right),
-\qquad
-\Delta k(x)=\frac{2\pi x}{\ell_w}.
-\]
-</p>
-
 </div>
-
-<h2>Python Simulation (TOR Gate)</h2>
-
-<pre id="codeBlock">
-[ TOR GATE SIMULATION CODE — unchanged from your submission ]
-</pre>
-
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open JupyterLite</button>
-</div>
-
-<!-- ===================================================== -->
-<!-- DATASET-LOCKED PLASMON PLACEHOLDER                    -->
-<!-- ===================================================== -->
 
 <h2>Dataset-Locked Plasmon STUR Simulation</h2>
 
-<div class="desc placeholder">
-<h3>STUR Double Slit — DATASET-LOCKED PLASMON COHERENCE (UPDATED)</h3>
-
+<div class="desc">
 <p>
-This section is intentionally reserved for the
-<b>dataset-locked plasmon coherence simulation</b> deriving
-</p>
-
-<p style="text-align:center;">
+The coherence length
 \[
 L_0(\lambda)=\frac{Q}{2\pi n_{\mathrm{eff}}}\lambda
 \]
+is derived directly from the measured AuNP plasmon linewidth.
+No fitting parameters are introduced anywhere in the model.
 </p>
 
 <p>
-directly from the measured AuNP plasmon linewidth.
+Visibility decay emerges from plasmon-mediated phase entanglement,
+mirroring MIT single-atom wavepacket interference results.
 </p>
+</div>
 
-<ul>
-  <li>No fitted parameters</li>
-  <li>Plasmon Q extracted from absorption data</li>
-  <li>Numeric and analytic STUR visibility cross-check</li>
-  <li>Pure Python, iOS-safe, Grok-safe</li>
-</ul>
+<h3>Python Simulation (Dataset-Locked, No Knobs)</h3>
 
-<p><strong>Status:</strong>#!/usr/bin/env python3
+<pre id="codeBlock">
+
+#!/usr/bin/env python3
 # ============================================================
 # STUR Double Slit — DATASET-LOCKED PLASMON COHERENCE (UPDATED)
 # iOS-SAFE • GROK-SAFE • PURE PYTHON • NO KNOBS
@@ -635,75 +553,39 @@ print(f"L0(500nm) = {L0_from_plasmon(500e-9)*1e9:.3f} nm")
 print(f"RMSE(QM)   = {rmse_qm:.6f}")
 print(f"RMSE(STUR) = {rmse_st:.6f}")
 print(f"Wrote: {OUT_SVG}")
-print(f"Wrote: {OUT_JSON}")</p>
-</div>
+print(f"Wrote: {OUT_JSON}")
+</pre>
 
-<!-- ===================================================== -->
-<!-- DATA SOURCES & CONTEXT                                -->
-<!-- ===================================================== -->
+<div style="text-align:center;">
+  <button onclick="copyCode()">Copy Script</button>
+  <button onclick="openRunner()">Open JupyterLite</button>
+</div>
 
 <h2>Data Sources & Experimental Context</h2>
 
 <div class="desc">
-
-<p><b>Primary nanophotonics dataset:</b><br>
-<a href="https://pureportal.strath.ac.uk/en/datasets/data-for-coupling-colloidal-quantum-dot-supraparticle-microlasers/"
-target="_blank">
-Data for coupling colloidal quantum dot supraparticle microlasers
-</a><br>
-University of Strathclyde (Pure Data Portal).
+<p><b>Nanophotonics dataset:</b><br>
+<a href="https://pureportal.strath.ac.uk/en/datasets/data-for-coupling-colloidal-quantum-dot-supraparticle-microlasers/" target="_blank">
+University of Strathclyde – Supraparticle microlaser dataset
+</a>
 </p>
 
-<p>
-This dataset provides the AuNP absorption spectrum used to extract
-\(\lambda_{\mathrm{res}}\approx532\) nm,
-FWHM ≈ 82 nm,
-and Q ≈ 6.5, yielding
-\(L_0(500\,\mathrm{nm})\approx345\) nm with no tuning.
-</p>
-
-<hr>
-
-<p><b>Quantum-optical coherence benchmark (MIT):</b><br>
+<p><b>Quantum-optical benchmark (MIT):</b><br>
 V. Fedoseev <i>et al.</i>,
 <i>Coherent and incoherent light scattering by single-atom wavepackets</i>,
 MIT, 2024 (arXiv:2410.19671).
 </p>
-
-<p>
-That work demonstrates that interference visibility decays due to
-partial atom–photon entanglement (Debye–Waller suppression),
-not classical noise. The STUR X-bundle formalism implements the same
-mechanism using plasmon-derived coherence length instead of atomic
-wavepacket width.
-</p>
-
-</div>
-
-<!-- ===================================================== -->
-
-<div style="margin:20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;">
-    ← STUR Physics Lab
-  </a>
 </div>
 
 <footer>
-STUR Physics Lab — Unified Resistance Framework — Toroidal Double-Slit
+STUR Physics Lab — Unified Resistance Framework
 </footer>
 
 <script>
 function copyCode(){
   navigator.clipboard.writeText(
     document.getElementById("codeBlock").innerText
-  ).then(()=>alert("Code copied."));
+  ).then(()=>alert("Code copied to clipboard."));
 }
 function openRunner(){
   window.open("https://jupyter.org/try-jupyter/lab/","_blank");
