@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,12 +7,14 @@
 <title>STUR Double-Slit – Toroidal Resistance Interference</title>
 
 <!-- MathJax -->
+
 <script>
 window.MathJax = {
   tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
   svg: { fontCache: 'global' }
 };
 </script>
+
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <style>
@@ -59,6 +62,7 @@ footer{
 }
 a{color:#66ccff;}
 </style>
+
 </head>
 
 <body>
@@ -108,84 +112,37 @@ mirroring MIT single-atom wavepacket interference results.
 
 <h3>Python Simulation (Dataset-Locked, No Knobs)</h3>
 
-<pre id="codeBlock">
-
-#!/usr/bin/env python3
-# ============================================================
-# STUR Double Slit — DATASET-LOCKED PLASMON COHERENCE (UPDATED)
-# iOS-SAFE • GROK-SAFE • PURE PYTHON • NO KNOBS
-#
-# Updates vs your draft:
-# 1) Fixes sinc(): true normalized sinc = sin(x)/x (not sin(pi x)/(pi x))
-#    (your original made the envelope wrong by an extra π factor)
-# 2) Robust plasmon extraction included (peak + half-max crossings),
-#    but uses your verified values as the default "dataset-locked" truth.
-#    If you later embed the full ABS spectrum, just set USE_EMBEDDED_ABS=True
-#    and paste WL_ABS_NM + ABS_AUNP arrays.
-# 3) Adds a compact SVG plot (no matplotlib) + JSON provenance fields.
-# 4) Adds optional analytic STUR visibility (Gaussian Fourier transform)
-#    to cross-check the numeric X-bundle integration (still no fitting).
-# ============================================================
+<pre id="codeBlock">#!/usr/bin/env python3
+# STUR Double Slit - DATASET-LOCKED PLASMON COHERENCE
+# Pure Python, iOS-safe, no external dependencies
 
 import math, json
 
-# ============================================================
-# 0) IO / OUTPUT NAMES
-# ============================================================
+# ========== VERIFIED PLASMON PARAMETERS ==========
+LAMBDA_RES_NM = 532.0
+HALFMAX_L_NM  = 493.7
+HALFMAX_R_NM  = 575.5
+N_EFF         = 1.50
+USE_EMBEDDED_ABS = False
+
 OUT_JSON = "stur_plasmon_datasetlocked.json"
 OUT_SVG  = "stur_plasmon_datasetlocked.svg"
 
-# ============================================================
-# 1) VERIFIED PLASMON EXTRACTION (FROM REAL DATASET)
-# ============================================================
-# Source:
-# Data_Set_AuNP_WGM_Coupling.xlsx
-# Sheet: "ABS AuNPs_Substrate_Sub+SuPs"
-# Method:
-#   - Background subtraction (poly fit <450 nm & >650 nm)
-#   - Peak detection
-#   - Half-max crossings
-#
-# These are the VERIFIED values you provided (dataset-locked, no knobs):
-LAMBDA_RES_NM_VERIFIED = 532.0
-HALFMAX_L_NM_VERIFIED  = 493.7
-HALFMAX_R_NM_VERIFIED  = 575.5
-N_EFF                  = 1.50
+# ========== DATASET SIGNALS ==========
+WL_NM = [350, 360, 380, 400, 420, 440, 450, 460, 470, 480,
+         500, 520, 540, 560, 580, 600, 620, 640]
 
-# Optional: If you later paste the REAL ABS arrays here, set to True
-USE_EMBEDDED_ABS = False
+V_DATA = [0.98, 0.97, 0.93, 0.86, 0.79, 0.71, 0.66, 0.62, 0.59, 0.57,
+          0.55, 0.57, 0.60, 0.64, 0.69, 0.75, 0.82, 0.88]
 
-# Paste real absorption spectrum here (ONLY if USE_EMBEDDED_ABS=True)
-# WL_ABS_NM = [...]
-# ABS_AUNP  = [...]
+RQ_EFF = [0.18, 0.20, 0.24, 0.30, 0.38, 0.52, 0.60, 0.58, 0.55,
+          0.53, 0.50, 0.47, 0.44, 0.40, 0.36, 0.32, 0.28, 0.25]
 
-# ============================================================
-# 2) DATASET SIGNALS (VISIBILITY + COUPLING PROXY)
-# ============================================================
-WL_NM = [
-    350, 360, 380, 400, 420, 440, 450, 460, 470, 480,
-    500, 520, 540, 560, 580, 600, 620, 640
-]
-
-# Experimental visibility proxy (AuNP / bare)
-V_DATA = [
-    0.98, 0.97, 0.93, 0.86, 0.79, 0.71, 0.66, 0.62, 0.59, 0.57,
-    0.55, 0.57, 0.60, 0.64, 0.69, 0.75, 0.82, 0.88
-]
-
-# Effective coupling strength (from SuPs / WGM normalization)
-RQ_EFF = [
-    0.18, 0.20, 0.24, 0.30, 0.38, 0.52, 0.60, 0.58, 0.55,
-    0.53, 0.50, 0.47, 0.44, 0.40, 0.36, 0.32, 0.28, 0.25
-]
-
-# ============================================================
-# 3) PURE-PYTHON UTILITIES
-# ============================================================
+# ========== UTILITIES ==========
 def trapz(f, x):
     s = 0.0
     for i in range(len(x) - 1):
-        s += 0.5 * (f[i] + f[i + 1]) * (x[i + 1] - x[i])
+        s += 0.5 * (f[i] + f[i+1]) * (x[i+1] - x[i])
     return s
 
 def normalize(f, x):
@@ -198,101 +155,20 @@ def rmse(a, b):
     n = min(len(a), len(b))
     if n <= 0:
         return 0.0
-    return math.sqrt(sum((a[i] - b[i]) ** 2 for i in range(n)) / n)
+    return math.sqrt(sum((a[i] - b[i])**2 for i in range(n)) / n)
 
 def clamp01(v):
     return 0.0 if v < 0.0 else (1.0 if v > 1.0 else v)
 
-# True normalized sinc: sinc(x) = sin(x)/x
 def sinc_norm(x):
     return 1.0 if abs(x) < 1e-12 else math.sin(x) / x
 
-# ============================================================
-# 4) OPTIONAL: PLASMON PEAK + FWHM EXTRACTION (SELF-CONTAINED)
-# ============================================================
-def extract_peak_and_fwhm_nm(wl_nm, sig):
-    """
-    Simple peak+half-max crossing extractor.
-    Assumes sig is baseline-subtracted and has a single dominant peak.
-    Returns: lambda_res_nm, left_hm_nm, right_hm_nm, fwhm_nm
-    """
-    if len(wl_nm) != len(sig) or len(sig) < 5:
-        return None
-
-    # peak index
-    imax = 0
-    for i in range(1, len(sig)):
-        if sig[i] > sig[imax]:
-            imax = i
-
-    smax = sig[imax]
-    half = 0.5 * smax
-    lam_res = wl_nm[imax]
-
-    # find left crossing (sig crosses from <half to >half)
-    il = imax
-    while il > 0 and sig[il] >= half:
-        il -= 1
-    # linear interp
-    if il == imax:
-        left = wl_nm[imax]
-    else:
-        x0, x1 = wl_nm[il], wl_nm[il + 1]
-        y0, y1 = sig[il], sig[il + 1]
-        if abs(y1 - y0) < 1e-30:
-            left = x0
-        else:
-            t = (half - y0) / (y1 - y0)
-            left = x0 + t * (x1 - x0)
-
-    # find right crossing (sig crosses from >half to <half)
-    ir = imax
-    while ir < len(sig) - 1 and sig[ir] >= half:
-        ir += 1
-    if ir == imax:
-        right = wl_nm[imax]
-    else:
-        x0, x1 = wl_nm[ir - 1], wl_nm[ir]
-        y0, y1 = sig[ir - 1], sig[ir]
-        if abs(y1 - y0) < 1e-30:
-            right = x1
-        else:
-            t = (half - y0) / (y1 - y0)
-            right = x0 + t * (x1 - x0)
-
-    fwhm = max(0.0, right - left)
-    return (lam_res, left, right, fwhm)
-
-# ============================================================
-# 5) PLASMON → COHERENCE LENGTH
-# ============================================================
+# ========== PLASMON COHERENCE LENGTH ==========
 def compute_plasmon_params():
-    """
-    Returns (lambda_res_nm, hm_left_nm, hm_right_nm, fwhm_nm, Q)
-    Default is VERIFIED constants (dataset-locked).
-    If USE_EMBEDDED_ABS=True, it will extract from embedded ABS arrays.
-    """
-    if USE_EMBEDDED_ABS:
-        # You must paste WL_ABS_NM and ABS_AUNP arrays above.
-        # Also ensure ABS is already background-subtracted (or add baseline removal here).
-        try:
-            ext = extract_peak_and_fwhm_nm(WL_ABS_NM, ABS_AUNP)  # noqa: F821
-        except Exception:
-            ext = None
-        if ext is None:
-            # fall back to verified constants
-            lam_res = LAMBDA_RES_NM_VERIFIED
-            hm_l    = HALFMAX_L_NM_VERIFIED
-            hm_r    = HALFMAX_R_NM_VERIFIED
-            fwhm    = hm_r - hm_l
-        else:
-            lam_res, hm_l, hm_r, fwhm = ext
-    else:
-        lam_res = LAMBDA_RES_NM_VERIFIED
-        hm_l    = HALFMAX_L_NM_VERIFIED
-        hm_r    = HALFMAX_R_NM_VERIFIED
-        fwhm    = hm_r - hm_l
-
+    lam_res = LAMBDA_RES_NM
+    hm_l    = HALFMAX_L_NM
+    hm_r    = HALFMAX_R_NM
+    fwhm    = hm_r - hm_l
     fwhm = max(fwhm, 1e-12)
     Q = lam_res / fwhm
     return lam_res, hm_l, hm_r, fwhm, Q
@@ -300,40 +176,32 @@ def compute_plasmon_params():
 LAMBDA_RES_NM, HALFMAX_L_NM, HALFMAX_R_NM, FWHM_NM, Q_PLASMON = compute_plasmon_params()
 
 def L0_from_plasmon(lam_m):
-    """
-    L0(λ) = (Q / (2π n_eff)) λ
-    """
     return (Q_PLASMON / (2.0 * math.pi * N_EFF)) * lam_m
 
-# ============================================================
-# 6) DOUBLE SLIT GEOMETRY
-# ============================================================
+# ========== DOUBLE SLIT GEOMETRY ==========
 d = 1.0e-3
 a = 0.15e-3
 L = 5.0
-
 Ny = 801
 y = [-0.03 + 0.06 * i / (Ny - 1) for i in range(Ny)]
 
-# ============================================================
-# 7) VISIBILITY MEASURE (ENVELOPE-NORMALIZED, LOCAL)
-# ============================================================
+# ========== VISIBILITY MEASURE ==========
 def local_visibility(I, env, window=0.006):
     J = []
     for i in range(len(y)):
         if abs(y[i]) <= window:
             J.append(I[i] / max(env[i], 1e-30))
-
+    
     peaks, troughs = [], []
     for i in range(1, len(J) - 1):
-        if J[i] > J[i - 1] and J[i] > J[i + 1]:
+        if J[i] > J[i-1] and J[i] > J[i+1]:
             peaks.append(J[i])
-        if J[i] < J[i - 1] and J[i] < J[i + 1]:
+        if J[i] < J[i-1] and J[i] < J[i+1]:
             troughs.append(J[i])
-
+    
     if (not peaks) or (not troughs):
         return 0.0
-
+    
     m = min(len(peaks), len(troughs))
     s = 0.0
     for i in range(m):
@@ -341,137 +209,131 @@ def local_visibility(I, env, window=0.006):
         s += (p - t) / (p + t + 1e-30)
     return s / m
 
-# ============================================================
-# 8) QM IDEAL VISIBILITY (FRAUNHOFER DOUBLE SLIT)
-# ============================================================
+# ========== QM BASELINE ==========
 def qm_visibility(lam_m):
-    # theta = y/L
-    env = [sinc_norm(a * (yy / L) / lam_m) ** 2 for yy in y]
-    fr  = [math.cos(math.pi * d * (yy / L) / lam_m) ** 2 for yy in y]
+    env = [sinc_norm(a * (yy / L) / lam_m)**2 for yy in y]
+    fr  = [math.cos(math.pi * d * (yy / L) / lam_m)**2 for yy in y]
     I   = normalize([env[i] * fr[i] for i in range(len(y))], y)
     return local_visibility(I, env)
 
-# ============================================================
-# 9) STUR X-BUNDLE DEPHASING (NO FREE PARAMETERS)
-# ============================================================
+# ========== STUR X-BUNDLE DEPHASING ==========
 def S_u(u):
     return math.tanh(u) * (1.0 - math.exp(-u))
 
 def stur_visibility_numeric(lam_m, Rq):
     L0 = L0_from_plasmon(lam_m)
-
+    
     NX = 401
     Xmax = 5.0 * L0
     X = [-Xmax + (2.0 * Xmax) * i / (NX - 1) for i in range(NX)]
-
-    w = normalize([math.exp(-0.5 * (xx / L0) ** 2) for xx in X], X)
-
-    env = [sinc_norm(a * (yy / L) / lam_m) ** 2 for yy in y]
+    
+    w = normalize([math.exp(-0.5 * (xx / L0)**2) for xx in X], X)
+    
+    env = [sinc_norm(a * (yy / L) / lam_m)**2 for yy in y]
     phi = [(2.0 * math.pi / lam_m) * d * yy / L for yy in y]
-
+    
     I = []
     for i, yy in enumerate(y):
         path = abs(d * yy / L)
         u = path / max(L0, 1e-30)
         Su = S_u(u)
-
+        
         s = 0.0
         for j, xx in enumerate(X):
             chi = float(Rq) * Su * (xx / max(L0, 1e-30))
             A = 2.0 * math.sqrt(env[i]) * math.cos(0.5 * (phi[i] + chi))
             s += w[j] * (A * A)
-
+        
         I.append(s)
-
+    
     I = normalize(I, y)
     return local_visibility(I, env)
 
 def stur_visibility_analytic(lam_m, Rq):
-    """
-    Cross-check: Gaussian X-bundle average has a closed form:
-    If X ~ N(0, L0^2) and chi = Rq*S(u)*(X/L0),
-    then <cos(phi/2 + chi/2)^2> produces a visibility multiplier:
-       V = exp( - (Rq*S(u))^2 / 8 )
-    BUT our visibility metric is local+averaged, so we estimate the
-    central-window visibility by averaging S(u)^2 across the window.
-    This is a diagnostic (not used as "fit").
-    """
     L0 = L0_from_plasmon(lam_m)
-    # average S(u)^2 over the same y-window used for visibility
     window = 0.006
     su2 = []
     for yy in y:
         if abs(yy) <= window:
             path = abs(d * yy / L)
             u = path / max(L0, 1e-30)
-            su2.append(S_u(u) ** 2)
+            su2.append(S_u(u)**2)
     if not su2:
         return 0.0
     su2_avg = sum(su2) / len(su2)
-    # effective visibility multiplier (heuristic mapping)
-    return math.exp(-0.125 * (float(Rq) ** 2) * su2_avg)
+    return math.exp(-0.125 * (float(Rq)**2) * su2_avg)
 
-# ============================================================
-# 10) SIMPLE SVG PLOT (NO MATPLOTLIB)
-# ============================================================
+# ========== SVG PLOT ==========
 def write_svg(path, xs, series, labels, title, w=1200, h=600, pad=70):
     x0, x1 = min(xs), max(xs)
-
+    
     def Xp(x):
         return pad + (w - 2 * pad) * ((x - x0) / (x1 - x0 + 1e-30))
-
+    
     def Yp(yv):
         yv = clamp01(yv)
         return h - pad - (h - 2 * pad) * yv
-
+    
     svg = []
-    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}">')
+    svg_header = '<svg xmlns="http://www.w3.org/2000/svg" width="' + str(w) + '" height="' + str(h) + '">'
+    svg.append(svg_header)
     svg.append('<rect width="100%" height="100%" fill="#06070b"/>')
-    svg.append(f'<text x="{pad}" y="{pad-28}" fill="#e5e7eb" font-size="20" font-family="Arial">{title}</text>')
-
+    
+    title_line = '<text x="' + str(pad) + '" y="' + str(pad-28) + '" fill="#e5e7eb" font-size="20" font-family="Arial">' + title + '</text>'
+    svg.append(title_line)
+    
     # axes
-    svg.append(f'<line x1="{pad}" y1="{h-pad}" x2="{w-pad}" y2="{h-pad}" stroke="#334155" stroke-width="2"/>')
-    svg.append(f'<line x1="{pad}" y1="{pad}" x2="{pad}" y2="{h-pad}" stroke="#334155" stroke-width="2"/>')
-
-    # y ticks 0..1
+    axis1 = '<line x1="' + str(pad) + '" y1="' + str(h-pad) + '" x2="' + str(w-pad) + '" y2="' + str(h-pad) + '" stroke="#334155" stroke-width="2"/>'
+    axis2 = '<line x1="' + str(pad) + '" y1="' + str(pad) + '" x2="' + str(pad) + '" y2="' + str(h-pad) + '" stroke="#334155" stroke-width="2"/>'
+    svg.append(axis1)
+    svg.append(axis2)
+    
+    # y ticks
     for k in range(6):
         yt = k / 5.0
         yy = Yp(yt)
-        svg.append(f'<line x1="{pad-6}" y1="{yy:.2f}" x2="{pad}" y2="{yy:.2f}" stroke="#334155" stroke-width="2"/>')
-        svg.append(f'<text x="{pad-12}" y="{yy+5:.2f}" fill="#94a3b8" font-size="12" font-family="Arial" text-anchor="end">{yt:.1f}</text>')
-
+        tick = '<line x1="' + str(pad-6) + '" y1="' + str(round(yy,2)) + '" x2="' + str(pad) + '" y2="' + str(round(yy,2)) + '" stroke="#334155" stroke-width="2"/>'
+        label = '<text x="' + str(pad-12) + '" y="' + str(round(yy+5,2)) + '" fill="#94a3b8" font-size="12" font-family="Arial" text-anchor="end">' + str(round(yt,1)) + '</text>'
+        svg.append(tick)
+        svg.append(label)
+    
     # x ticks
     for xt in xs[::max(1, len(xs)//8)]:
         xx = Xp(xt)
-        svg.append(f'<line x1="{xx:.2f}" y1="{h-pad}" x2="{xx:.2f}" y2="{h-pad+6}" stroke="#334155" stroke-width="2"/>')
-        svg.append(f'<text x="{xx:.2f}" y="{h-pad+24}" fill="#94a3b8" font-size="12" font-family="Arial" text-anchor="middle">{xt:.0f}</text>')
-
+        tick = '<line x1="' + str(round(xx,2)) + '" y1="' + str(h-pad) + '" x2="' + str(round(xx,2)) + '" y2="' + str(h-pad+6) + '" stroke="#334155" stroke-width="2"/>'
+        label = '<text x="' + str(round(xx,2)) + '" y="' + str(h-pad+24) + '" fill="#94a3b8" font-size="12" font-family="Arial" text-anchor="middle">' + str(int(xt)) + '</text>'
+        svg.append(tick)
+        svg.append(label)
+    
     colors = ["#f59e0b", "#60a5fa", "#34d399", "#f472b6", "#a78bfa"]
     for si, ys in enumerate(series):
         col = colors[si % len(colors)]
         dpath = []
         for i in range(len(xs)):
             cmd = "M" if i == 0 else "L"
-            dpath.append(f"{cmd} {Xp(xs[i]):.2f} {Yp(ys[i]):.2f}")
-        svg.append(f'<path d="{" ".join(dpath)}" fill="none" stroke="{col}" stroke-width="3"/>')
-
+            dpath.append(cmd + " " + str(round(Xp(xs[i]),2)) + " " + str(round(Yp(ys[i]),2)))
+        path_elem = '<path d="' + " ".join(dpath) + '" fill="none" stroke="' + col + '" stroke-width="3"/>'
+        svg.append(path_elem)
+    
     # legend
     lx, ly = w - pad - 330, pad + 10
     box_h = 26 * len(labels) + 16
-    svg.append(f'<rect x="{lx-12}" y="{ly-24}" width="350" height="{box_h}" fill="rgba(15,23,42,0.75)" stroke="#334155"/>')
+    legend_box = '<rect x="' + str(lx-12) + '" y="' + str(ly-24) + '" width="350" height="' + str(box_h) + '" fill="rgba(15,23,42,0.75)" stroke="#334155"/>'
+    svg.append(legend_box)
+    
     for i, lab in enumerate(labels):
         col = colors[i % len(colors)]
         yline = ly + i * 26
-        svg.append(f'<line x1="{lx}" y1="{yline}" x2="{lx+28}" y2="{yline}" stroke="{col}" stroke-width="5"/>')
-        svg.append(f'<text x="{lx+40}" y="{yline+5}" fill="#e5e7eb" font-size="14" font-family="Arial">{lab}</text>')
-
+        line = '<line x1="' + str(lx) + '" y1="' + str(yline) + '" x2="' + str(lx+28) + '" y2="' + str(yline) + '" stroke="' + col + '" stroke-width="5"/>'
+        text = '<text x="' + str(lx+40) + '" y="' + str(yline+5) + '" fill="#e5e7eb" font-size="14" font-family="Arial">' + lab + '</text>'
+        svg.append(line)
+        svg.append(text)
+    
     svg.append('</svg>')
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(svg))
 
-# ============================================================
-# 11) RUN COMPARISON
-# ============================================================
+# ========== RUN COMPARISON ==========
 V_QM = []
 V_STUR = []
 V_STUR_ANALYTIC = []
@@ -480,7 +342,7 @@ L0_M = []
 for wl, rq in zip(WL_NM, RQ_EFF):
     lam = wl * 1e-9
     L0_M.append(L0_from_plasmon(lam))
-
+    
     V_QM.append(qm_visibility(lam))
     V_STUR.append(stur_visibility_numeric(lam, rq))
     V_STUR_ANALYTIC.append(stur_visibility_analytic(lam, rq))
@@ -488,24 +350,22 @@ for wl, rq in zip(WL_NM, RQ_EFF):
 rmse_qm = rmse(V_QM, V_DATA)
 rmse_st = rmse(V_STUR, V_DATA)
 
-# ============================================================
-# 12) OUTPUT + SVG
-# ============================================================
+# ========== OUTPUT ==========
 write_svg(
     OUT_SVG,
     WL_NM,
     [V_DATA, V_QM, V_STUR, V_STUR_ANALYTIC],
     ["DATA proxy", "QM ideal", "STUR (numeric X-bundle)", "STUR (analytic check)"],
-    "QM vs STUR with plasmon-derived L0(λ) (dataset-locked, no knobs)"
+    "QM vs STUR with plasmon-derived L0(lambda) (dataset-locked, no knobs)"
 )
 
 out = {
     "provenance": {
-        "script": "STUR Double Slit — DATASET-LOCKED PLASMON COHERENCE (UPDATED)",
+        "script": "STUR Double Slit - DATASET-LOCKED PLASMON COHERENCE (UPDATED)",
         "notes": [
             "Pure Python only (no numpy, no matplotlib).",
             "sinc() fixed to sin(x)/x form (Fraunhofer envelope correctness).",
-            "Plasmon parameters are dataset-locked to verified extraction values unless USE_EMBEDDED_ABS=True."
+            "Plasmon parameters are dataset-locked to verified extraction values."
         ],
         "files_written": [OUT_JSON, OUT_SVG]
     },
@@ -523,7 +383,7 @@ out = {
         "fwhm_nm": FWHM_NM,
         "Q": Q_PLASMON,
         "n_eff": N_EFF,
-        "L0_formula": "L0(λ) = (Q / (2π n_eff)) * λ",
+        "L0_formula": "L0(lambda) = (Q / (2*pi*n_eff)) * lambda",
         "example_L0_nm_at_500nm": L0_from_plasmon(500e-9) * 1e9
     },
     "dataset": {
@@ -547,14 +407,13 @@ with open(OUT_JSON, "w", encoding="utf-8") as f:
     json.dump(out, f, indent=2)
 
 print("\n=== DATASET-LOCKED PLASMON RESULT (UPDATED) ===")
-print(f"λ_res = {LAMBDA_RES_NM:.1f} nm")
-print(f"FWHM  = {FWHM_NM:.1f} nm → Q = {Q_PLASMON:.3f}")
-print(f"L0(500nm) = {L0_from_plasmon(500e-9)*1e9:.3f} nm")
-print(f"RMSE(QM)   = {rmse_qm:.6f}")
-print(f"RMSE(STUR) = {rmse_st:.6f}")
-print(f"Wrote: {OUT_SVG}")
-print(f"Wrote: {OUT_JSON}")
-</pre>
+print("lambda_res = " + str(round(LAMBDA_RES_NM, 1)) + " nm")
+print("FWHM  = " + str(round(FWHM_NM, 1)) + " nm -> Q = " + str(round(Q_PLASMON, 3)))
+print("L0(500nm) = " + str(round(L0_from_plasmon(500e-9)*1e9, 3)) + " nm")
+print("RMSE(QM)   = " + str(round(rmse_qm, 6)))
+print("RMSE(STUR) = " + str(round(rmse_st, 6)))
+print("Wrote: " + OUT_SVG)
+print("Wrote: " + OUT_JSON)</pre>
 
 <div style="text-align:center;">
   <button onclick="copyCode()">Copy Script</button>
