@@ -275,35 +275,26 @@ def write_svg(path, xs, series, labels, title, w=1200, h=600, pad=70):
         return h - pad - (h - 2 * pad) * yv
     
     svg = []
-    svg_header = '<svg xmlns="http://www.w3.org/2000/svg" width="' + str(w) + '" height="' + str(h) + '">'
-    svg.append(svg_header)
+    svg.append('<svg xmlns="http://www.w3.org/2000/svg" width="{0}" height="{1}">'.format(w, h))
     svg.append('<rect width="100%" height="100%" fill="#06070b"/>')
-    
-    title_line = '<text x="' + str(pad) + '" y="' + str(pad-28) + '" fill="#e5e7eb" font-size="20" font-family="Arial">' + title + '</text>'
-    svg.append(title_line)
+    svg.append('<text x="{0}" y="{1}" fill="#e5e7eb" font-size="20" font-family="Arial">{2}</text>'.format(pad, pad-28, title))
     
     # axes
-    axis1 = '<line x1="' + str(pad) + '" y1="' + str(h-pad) + '" x2="' + str(w-pad) + '" y2="' + str(h-pad) + '" stroke="#334155" stroke-width="2"/>'
-    axis2 = '<line x1="' + str(pad) + '" y1="' + str(pad) + '" x2="' + str(pad) + '" y2="' + str(h-pad) + '" stroke="#334155" stroke-width="2"/>'
-    svg.append(axis1)
-    svg.append(axis2)
+    svg.append('<line x1="{0}" y1="{1}" x2="{2}" y2="{3}" stroke="#334155" stroke-width="2"/>'.format(pad, h-pad, w-pad, h-pad))
+    svg.append('<line x1="{0}" y1="{1}" x2="{2}" y2="{3}" stroke="#334155" stroke-width="2"/>'.format(pad, pad, pad, h-pad))
     
     # y ticks
     for k in range(6):
         yt = k / 5.0
         yy = Yp(yt)
-        tick = '<line x1="' + str(pad-6) + '" y1="' + str(round(yy,2)) + '" x2="' + str(pad) + '" y2="' + str(round(yy,2)) + '" stroke="#334155" stroke-width="2"/>'
-        label = '<text x="' + str(pad-12) + '" y="' + str(round(yy+5,2)) + '" fill="#94a3b8" font-size="12" font-family="Arial" text-anchor="end">' + str(round(yt,1)) + '</text>'
-        svg.append(tick)
-        svg.append(label)
+        svg.append('<line x1="{0}" y1="{1:.2f}" x2="{2}" y2="{3:.2f}" stroke="#334155" stroke-width="2"/>'.format(pad-6, yy, pad, yy))
+        svg.append('<text x="{0}" y="{1:.2f}" fill="#94a3b8" font-size="12" font-family="Arial" text-anchor="end">{2:.1f}</text>'.format(pad-12, yy+5, yt))
     
     # x ticks
     for xt in xs[::max(1, len(xs)//8)]:
         xx = Xp(xt)
-        tick = '<line x1="' + str(round(xx,2)) + '" y1="' + str(h-pad) + '" x2="' + str(round(xx,2)) + '" y2="' + str(h-pad+6) + '" stroke="#334155" stroke-width="2"/>'
-        label = '<text x="' + str(round(xx,2)) + '" y="' + str(h-pad+24) + '" fill="#94a3b8" font-size="12" font-family="Arial" text-anchor="middle">' + str(int(xt)) + '</text>'
-        svg.append(tick)
-        svg.append(label)
+        svg.append('<line x1="{0:.2f}" y1="{1}" x2="{2:.2f}" y2="{3}" stroke="#334155" stroke-width="2"/>'.format(xx, h-pad, xx, h-pad+6))
+        svg.append('<text x="{0:.2f}" y="{1}" fill="#94a3b8" font-size="12" font-family="Arial" text-anchor="middle">{2}</text>'.format(xx, h-pad+24, int(xt)))
     
     colors = ["#f59e0b", "#60a5fa", "#34d399", "#f472b6", "#a78bfa"]
     for si, ys in enumerate(series):
@@ -311,23 +302,19 @@ def write_svg(path, xs, series, labels, title, w=1200, h=600, pad=70):
         dpath = []
         for i in range(len(xs)):
             cmd = "M" if i == 0 else "L"
-            dpath.append(cmd + " " + str(round(Xp(xs[i]),2)) + " " + str(round(Yp(ys[i]),2)))
-        path_elem = '<path d="' + " ".join(dpath) + '" fill="none" stroke="' + col + '" stroke-width="3"/>'
-        svg.append(path_elem)
+            dpath.append("{0} {1:.2f} {2:.2f}".format(cmd, Xp(xs[i]), Yp(ys[i])))
+        svg.append('<path d="{0}" fill="none" stroke="{1}" stroke-width="3"/>'.format(" ".join(dpath), col))
     
     # legend
     lx, ly = w - pad - 330, pad + 10
     box_h = 26 * len(labels) + 16
-    legend_box = '<rect x="' + str(lx-12) + '" y="' + str(ly-24) + '" width="350" height="' + str(box_h) + '" fill="rgba(15,23,42,0.75)" stroke="#334155"/>'
-    svg.append(legend_box)
+    svg.append('<rect x="{0}" y="{1}" width="350" height="{2}" fill="rgba(15,23,42,0.75)" stroke="#334155"/>'.format(lx-12, ly-24, box_h))
     
     for i, lab in enumerate(labels):
         col = colors[i % len(colors)]
         yline = ly + i * 26
-        line = '<line x1="' + str(lx) + '" y1="' + str(yline) + '" x2="' + str(lx+28) + '" y2="' + str(yline) + '" stroke="' + col + '" stroke-width="5"/>'
-        text = '<text x="' + str(lx+40) + '" y="' + str(yline+5) + '" fill="#e5e7eb" font-size="14" font-family="Arial">' + lab + '</text>'
-        svg.append(line)
-        svg.append(text)
+        svg.append('<line x1="{0}" y1="{1}" x2="{2}" y2="{3}" stroke="{4}" stroke-width="5"/>'.format(lx, yline, lx+28, yline, col))
+        svg.append('<text x="{0}" y="{1}" fill="#e5e7eb" font-size="14" font-family="Arial">{2}</text>'.format(lx+40, yline+5, lab))
     
     svg.append('</svg>')
     with open(path, "w", encoding="utf-8") as f:
@@ -416,8 +403,9 @@ print("Wrote: " + OUT_SVG)
 print("Wrote: " + OUT_JSON)</pre>
 
 <div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
+  <button id="copyBtn">Copy Script</button>
   <button onclick="openRunner()">Open JupyterLite</button>
+  <button onclick="selectCode()">Select All Code</button>
 </div>
 
 <h2>Data Sources & Experimental Context</h2>
@@ -441,11 +429,94 @@ STUR Physics Lab — Unified Resistance Framework
 </footer>
 
 <script>
+// Get button and code element
+const copyBtn = document.getElementById('copyBtn');
+const codeBlock = document.getElementById('codeBlock');
+
+// Add click handler
+copyBtn.addEventListener('click', function() {
+  copyCode();
+});
+
 function copyCode(){
-  navigator.clipboard.writeText(
-    document.getElementById("codeBlock").innerText
-  ).then(()=>alert("Code copied to clipboard."));
+  const codeText = codeBlock.textContent || codeBlock.innerText;
+  
+  // Method 1: Modern Clipboard API
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(codeText)
+      .then(() => {
+        showSuccess();
+      })
+      .catch(err => {
+        console.error("Clipboard API failed:", err);
+        fallbackCopy(codeText);
+      });
+  } else {
+    // Method 2: Fallback
+    fallbackCopy(codeText);
+  }
 }
+
+function fallbackCopy(text) {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.style.position = "fixed";
+  textarea.style.top = "0";
+  textarea.style.left = "0";
+  textarea.style.width = "2em";
+  textarea.style.height = "2em";
+  textarea.style.padding = "0";
+  textarea.style.border = "none";
+  textarea.style.outline = "none";
+  textarea.style.boxShadow = "none";
+  textarea.style.background = "transparent";
+  document.body.appendChild(textarea);
+  
+  try {
+    textarea.focus();
+    textarea.select();
+    const successful = document.execCommand('copy');
+    
+    if (successful) {
+      showSuccess();
+    } else {
+      showError();
+    }
+  } catch (err) {
+    console.error("Fallback copy failed:", err);
+    showError();
+  } finally {
+    document.body.removeChild(textarea);
+  }
+}
+
+function selectCode() {
+  if (window.getSelection && document.createRange) {
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(codeBlock);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    alert("✓ Code selected! Now press Ctrl+C (or Cmd+C on Mac) to copy.");
+  } else {
+    alert("Please manually select the code and press Ctrl+C (or Cmd+C on Mac).");
+  }
+}
+
+function showSuccess() {
+  const originalText = copyBtn.textContent;
+  copyBtn.textContent = "✓ Copied!";
+  copyBtn.style.background = "#34d399";
+  setTimeout(() => {
+    copyBtn.textContent = originalText;
+    copyBtn.style.background = "#ffaa00";
+  }, 2000);
+}
+
+function showError() {
+  alert("⚠ Automatic copy failed. Click 'Select All Code' button, then press Ctrl+C (or Cmd+C on Mac).");
+}
+
 function openRunner(){
   window.open("https://jupyter.org/try-jupyter/lab/","_blank");
 }
