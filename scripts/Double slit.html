@@ -24,8 +24,6 @@ body{
   margin:0;
   padding:2rem;
 }
-
-/* ---------- NAV ---------- */
 .nav-header{
   max-width:1200px;
   margin:0 auto 2rem auto;
@@ -36,31 +34,33 @@ body{
 .nav-btn{
   background:#4a5568;
   color:#e6edf3;
+  text-decoration:none;
   border-radius:6px;
   padding:10px 20px;
   font-weight:bold;
   font-size:14px;
-  text-decoration:none;
-  display:inline-block;
   transition:all 0.2s;
 }
 .nav-btn:hover{
   background:#60a5fa;
   transform:translateY(-2px);
 }
-
-/* ---------- TYPOGRAPHY ---------- */
-h1{color:#ffaa00;text-align:center;margin-top:0;}
-h2{color:#ffcc33;margin-top:2.4rem;border-bottom:2px solid #ffaa0040;padding-bottom:0.5rem;}
-h3{color:#66ccff;margin-top:1.6rem;}
-
+h1{
+  color:#ffaa00;
+  text-align:center;
+  margin-top:0;
+}
+h2{
+  color:#ffcc33;
+  margin-top:2.4rem;
+  border-bottom:2px solid #ffaa0040;
+  padding-bottom:0.5rem;
+}
 .desc{
   max-width:920px;
   margin:0 auto 1.6rem auto;
   line-height:1.65;
 }
-
-/* ---------- BOXES ---------- */
 .highlight-box{
   background:#0a0f1f;
   border-left:4px solid #ffaa00;
@@ -69,7 +69,6 @@ h3{color:#66ccff;margin-top:1.6rem;}
   max-width:920px;
   border-radius:6px;
 }
-
 .equation-box{
   background:#0f1729;
   padding:1.6rem;
@@ -78,8 +77,6 @@ h3{color:#66ccff;margin-top:1.6rem;}
   border-radius:8px;
   border:1px solid #334155;
 }
-
-/* ---------- CODE ---------- */
 pre{
   background:#0a0f1f;
   color:#00ffcc;
@@ -92,9 +89,10 @@ pre{
   max-width:920px;
   margin:1.4rem auto;
 }
-
-/* ---------- BUTTONS ---------- */
-.btn-group{text-align:center;margin:1.6rem auto;}
+.btn-group{
+  text-align:center;
+  margin:1.6rem auto;
+}
 button{
   background:#ffaa00;
   color:#050814;
@@ -106,9 +104,10 @@ button{
   margin:6px;
   transition:all 0.2s;
 }
-button:hover{background:#ffcc33;transform:translateY(-2px);}
-
-/* ---------- FOOTER ---------- */
+button:hover{
+  background:#ffcc33;
+  transform:translateY(-2px);
+}
 footer{
   text-align:center;
   font-size:0.9em;
@@ -144,34 +143,21 @@ coherence length \(L_0(\lambda)\) derived directly from plasmon spectroscopy.
 <br><br>
 <b>Falsification rule.</b><br>
 If STUR does not outperform a perfect-coherence QM baseline using the
-same dataset-locked \(L_0(\lambda)\), the hidden-state mechanism adds no
-predictive value.
+same dataset-locked \(L_0(\lambda)\), the hidden-state mechanism is falsified.
 </div>
 
-<h2>1. Phase-Level Framework</h2>
-
-<div class="desc">
-Standard quantum mechanics predicts perfect visibility for an ideal
-double slit. Real systems lose contrast because phase becomes entangled
-with unobserved degrees of freedom. STUR identifies that channel explicitly.
-</div>
+<h2>Phase-Level Framework</h2>
 
 <div class="equation-box">
 \[
 \phi = \frac{1}{\hbar}\int \mu R \, d\tau
 \]
 <p>
-A contribution far below photon energy can still generate a full \(2\pi\)
-phase shift because interference is phase-sensitive, not force-sensitive.
+Interference is phase-sensitive, not force-sensitive.
 </p>
 </div>
 
-<h2>2. Dataset-Locked Python Simulation</h2>
-
-<div class="desc">
-The following script is the <b>complete, executable model</b>.
-It is pure Python, iOS-safe, and contains no fitting parameters.
-</div>
+<h2>Dataset-Locked Python Simulation (Real)</h2>
 
 <pre id="codeBlock">
 #!/usr/bin/env python3
@@ -279,7 +265,7 @@ def local_visibility(I, env, window=0.006):
     return sum((peaks[i]-troughs[i])/(peaks[i]+troughs[i]+1e-30) for i in range(m))/m
 
 # ===============================================================
-# 7. QM BASELINE
+# 7. QM BASELINE (NO DEPHASING)
 # ===============================================================
 def qm_visibility(lam):
     env = [sinc(a*(yy/L)/lam)**2 for yy in y]
@@ -331,8 +317,8 @@ def stur_visibility_analytic(lam, Rq):
 
 <div class="btn-group">
   <button id="copyBtn">Copy Script</button>
-  <button onclick="window.open('https://jupyter.org/try-jupyter/lab/','_blank')">Open JupyterLite</button>
   <button onclick="selectCode()">Select All Code</button>
+  <button onclick="window.open('https://jupyter.org/try-jupyter/lab/','_blank')">Open JupyterLite</button>
 </div>
 
 <footer>
@@ -340,37 +326,17 @@ STUR Physics Lab — Unified Resistance Framework
 </footer>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const copyBtn = document.getElementById("copyBtn");
-  const codeBlock = document.getElementById("codeBlock");
-
-  copyBtn.addEventListener("click", () => {
-    const text = codeBlock.textContent;
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).then(flash).catch(() => fallback(text));
-    } else {
-      fallback(text);
+document.addEventListener("DOMContentLoaded",()=>{
+  const btn=document.getElementById("copyBtn");
+  const code=document.getElementById("codeBlock").textContent;
+  btn.onclick=()=>{
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(code);
     }
-    function fallback(t){
-      const ta=document.createElement("textarea");
-      ta.value=t;
-      ta.style.position="fixed";
-      ta.style.opacity="0";
-      document.body.appendChild(ta);
-      ta.focus();
-      ta.select();
-      try{document.execCommand("copy");}catch(e){}
-      document.body.removeChild(ta);
-      flash();
-    }
-    function flash(){
-      const old=copyBtn.textContent;
-      copyBtn.textContent="✓ Copied";
-      setTimeout(()=>copyBtn.textContent=old,1500);
-    }
-  });
+    btn.textContent="✓ Copied";
+    setTimeout(()=>btn.textContent="Copy Script",1500);
+  };
 });
-
 function selectCode(){
   const r=document.createRange();
   r.selectNodeContents(document.getElementById("codeBlock"));
