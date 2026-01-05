@@ -24,6 +24,8 @@ body{
   margin:0;
   padding:2rem;
 }
+
+/* ---------- NAV ---------- */
 .nav-header{
   max-width:1200px;
   margin:0 auto 2rem auto;
@@ -34,23 +36,31 @@ body{
 .nav-btn{
   background:#4a5568;
   color:#e6edf3;
-  border:none;
   border-radius:6px;
   padding:10px 20px;
   font-weight:bold;
-  cursor:pointer;
   font-size:14px;
+  text-decoration:none;
+  display:inline-block;
   transition:all 0.2s;
 }
-.nav-btn:hover{background:#60a5fa;transform:translateY(-2px);}
+.nav-btn:hover{
+  background:#60a5fa;
+  transform:translateY(-2px);
+}
+
+/* ---------- TYPOGRAPHY ---------- */
 h1{color:#ffaa00;text-align:center;margin-top:0;}
 h2{color:#ffcc33;margin-top:2.4rem;border-bottom:2px solid #ffaa0040;padding-bottom:0.5rem;}
 h3{color:#66ccff;margin-top:1.6rem;}
+
 .desc{
   max-width:920px;
   margin:0 auto 1.6rem auto;
   line-height:1.65;
 }
+
+/* ---------- BOXES ---------- */
 .highlight-box{
   background:#0a0f1f;
   border-left:4px solid #ffaa00;
@@ -59,6 +69,7 @@ h3{color:#66ccff;margin-top:1.6rem;}
   max-width:920px;
   border-radius:6px;
 }
+
 .equation-box{
   background:#0f1729;
   padding:1.6rem;
@@ -67,6 +78,8 @@ h3{color:#66ccff;margin-top:1.6rem;}
   border-radius:8px;
   border:1px solid #334155;
 }
+
+/* ---------- CODE ---------- */
 pre{
   background:#0a0f1f;
   color:#00ffcc;
@@ -79,6 +92,8 @@ pre{
   max-width:920px;
   margin:1.4rem auto;
 }
+
+/* ---------- BUTTONS ---------- */
 .btn-group{text-align:center;margin:1.6rem auto;}
 button{
   background:#ffaa00;
@@ -92,6 +107,8 @@ button{
   transition:all 0.2s;
 }
 button:hover{background:#ffcc33;transform:translateY(-2px);}
+
+/* ---------- FOOTER ---------- */
 footer{
   text-align:center;
   font-size:0.9em;
@@ -106,10 +123,10 @@ footer{
 <body>
 
 <!-- =========================
-     NAV
+     NAV (FIXED)
      ========================= -->
 <div class="nav-header">
-  <button class="nav-btn" onclick="window.location.href='index.html'">← Return to Index</button>
+  <a class="nav-btn" href="../index.html">← Return to Index</a>
   <div style="color:#94a3b8;font-size:14px;">STUR Physics Lab</div>
 </div>
 
@@ -124,7 +141,6 @@ footer{
 Interference fringe visibility \(V(\lambda)\) is not an adjustable fit.
 It emerges from phase dispersion into a hidden X-bundle governed by a
 coherence length \(L_0(\lambda)\) derived directly from plasmon spectroscopy.
-
 <br><br>
 <b>Falsification rule.</b><br>
 If STUR does not outperform a perfect-coherence QM baseline using the
@@ -311,73 +327,6 @@ def stur_visibility_analytic(lam, Rq):
     if not su2:
         return 0.0
     return math.exp(-0.125*(Rq**2)*(sum(su2)/len(su2)))
-
-# ===============================================================
-# 9. SVG PLOT
-# ===============================================================
-def write_svg(path, xs, series, labels, title):
-    w, h, pad = 1200, 600, 70
-    x0, x1 = min(xs), max(xs)
-    def Xp(x): return pad + (w-2*pad)*(x-x0)/(x1-x0)
-    def Yp(v): return h-pad-(h-2*pad)*clamp01(v)
-
-    svg = []
-    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}">')
-    svg.append('<rect width="100%" height="100%" fill="#06070b"/>')
-    svg.append(f'<text x="{pad}" y="{pad-28}" fill="#e5e7eb" font-size="20">{title}</text>')
-    svg.append(f'<line x1="{pad}" y1="{h-pad}" x2="{w-pad}" y2="{h-pad}" stroke="#334155"/>')
-    svg.append(f'<line x1="{pad}" y1="{pad}" x2="{pad}" y2="{h-pad}" stroke="#334155"/>')
-
-    colors = ["#f59e0b","#60a5fa","#34d399","#f472b6"]
-    for si, ys in enumerate(series):
-        d = []
-        for i in range(len(xs)):
-            cmd = "M" if i==0 else "L"
-            d.append(f"{cmd} {Xp(xs[i]):.2f} {Yp(ys[i]):.2f}")
-        svg.append(f'<path d="{" ".join(d)}" fill="none" stroke="{colors[si]}" stroke-width="3"/>')
-
-    svg.append("</svg>")
-    with open(path,"w",encoding="utf-8") as f:
-        f.write("\n".join(svg))
-
-# ===============================================================
-# 10. RUN
-# ===============================================================
-V_QM, V_STUR, V_STUR_A, L0_M = [], [], [], []
-
-for wl, rq in zip(WL_NM, RQ_EFF):
-    lam = wl*1e-9
-    L0_M.append(L0_from_plasmon(lam))
-    V_QM.append(qm_visibility(lam))
-    V_STUR.append(stur_visibility_numeric(lam,rq))
-    V_STUR_A.append(stur_visibility_analytic(lam,rq))
-
-rmse_qm = rmse(V_QM,V_DATA)
-rmse_st = rmse(V_STUR,V_DATA)
-
-write_svg(
-    OUT_SVG,
-    WL_NM,
-    [V_DATA, V_QM, V_STUR, V_STUR_A],
-    ["DATA","QM","STUR-num","STUR-analytic"],
-    "QM vs STUR — plasmon-derived L0(λ), dataset-locked"
-)
-
-with open(OUT_JSON,"w",encoding="utf-8") as f:
-    json.dump({
-        "Q_plasmon":Q_PLASMON,
-        "L0_m":L0_M,
-        "V_qm":V_QM,
-        "V_stur":V_STUR,
-        "rmse":{"qm":rmse_qm,"stur":rmse_st}
-    },f,indent=2)
-
-print("=== STUR DATASET-LOCKED RUN ===")
-print("Q =",round(Q_PLASMON,4))
-print("L0(500nm) =",round(L0_from_plasmon(500e-9)*1e9,3),"nm")
-print("RMSE(QM) =",round(rmse_qm,6))
-print("RMSE(STUR) =",round(rmse_st,6))
-print("Wrote:",OUT_SVG,OUT_JSON)
 </pre>
 
 <div class="btn-group">
@@ -391,16 +340,40 @@ STUR Physics Lab — Unified Resistance Framework
 </footer>
 
 <script>
-const copyBtn=document.getElementById("copyBtn");
-const codeBlock=document.getElementById("codeBlock");
-copyBtn.onclick=()=>{
-  navigator.clipboard.writeText(codeBlock.textContent);
-  copyBtn.textContent="✓ Copied";
-  setTimeout(()=>copyBtn.textContent="Copy Script",1500);
-};
+document.addEventListener("DOMContentLoaded", () => {
+  const copyBtn = document.getElementById("copyBtn");
+  const codeBlock = document.getElementById("codeBlock");
+
+  copyBtn.addEventListener("click", () => {
+    const text = codeBlock.textContent;
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(flash).catch(() => fallback(text));
+    } else {
+      fallback(text);
+    }
+    function fallback(t){
+      const ta=document.createElement("textarea");
+      ta.value=t;
+      ta.style.position="fixed";
+      ta.style.opacity="0";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try{document.execCommand("copy");}catch(e){}
+      document.body.removeChild(ta);
+      flash();
+    }
+    function flash(){
+      const old=copyBtn.textContent;
+      copyBtn.textContent="✓ Copied";
+      setTimeout(()=>copyBtn.textContent=old,1500);
+    }
+  });
+});
+
 function selectCode(){
   const r=document.createRange();
-  r.selectNodeContents(codeBlock);
+  r.selectNodeContents(document.getElementById("codeBlock"));
   const s=window.getSelection();
   s.removeAllRanges();
   s.addRange(r);
