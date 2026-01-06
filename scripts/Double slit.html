@@ -38,44 +38,16 @@ body{
   border-radius:6px;
   padding:10px 20px;
   font-weight:bold;
-  font-size:14px;
-  transition:all 0.2s;
 }
-.nav-btn:hover{
-  background:#60a5fa;
-  transform:translateY(-2px);
-}
-h1{
-  color:#ffaa00;
-  text-align:center;
-  margin-top:0;
-}
-h2{
-  color:#ffcc33;
-  margin-top:2.4rem;
-  border-bottom:2px solid #ffaa0040;
-  padding-bottom:0.5rem;
-}
-.desc{
-  max-width:920px;
-  margin:0 auto 1.6rem auto;
-  line-height:1.65;
-}
+.nav-btn:hover{background:#60a5fa;}
+h1{color:#ffaa00;text-align:center;}
+h2{color:#ffcc33;margin-top:2.4rem;border-bottom:2px solid #ffaa0040;}
 .highlight-box{
   background:#0a0f1f;
   border-left:4px solid #ffaa00;
-  padding:1.2rem 1.6rem;
-  margin:1.8rem auto;
-  max-width:920px;
-  border-radius:6px;
-}
-.equation-box{
-  background:#0f1729;
-  padding:1.6rem;
+  padding:1.2rem;
   margin:1.6rem auto;
-  max-width:860px;
-  border-radius:8px;
-  border:1px solid #334155;
+  max-width:920px;
 }
 pre{
   background:#0a0f1f;
@@ -84,96 +56,79 @@ pre{
   border-radius:8px;
   overflow-x:auto;
   font-size:0.75rem;
-  box-shadow:0 0 18px #ffaa0040;
-  white-space:pre;
   max-width:920px;
   margin:1.4rem auto;
+  white-space:pre;
 }
-.btn-group{
-  text-align:center;
-  margin:1.6rem auto;
-}
+.btn-group{text-align:center;margin:1.6rem auto; max-width:920px;}
 button{
   background:#ffaa00;
   color:#050814;
   border:none;
   border-radius:6px;
-  padding:10px 20px;
+  padding:10px 16px;
   font-weight:bold;
-  cursor:pointer;
   margin:6px;
-  transition:all 0.2s;
+  cursor:pointer;
 }
-button:hover{
-  background:#ffcc33;
-  transform:translateY(-2px);
+button:hover{filter:brightness(1.06);}
+.smallnote{
+  max-width:920px;
+  margin:0.8rem auto 0 auto;
+  color:#94a3b8;
+  font-size:0.9em;
 }
 footer{
   text-align:center;
   font-size:0.9em;
   color:#999;
-  margin-top:3.5rem;
-  padding-top:2rem;
+  margin-top:3rem;
   border-top:1px solid #334155;
+  padding-top:1.5rem;
 }
 </style>
 </head>
 
 <body>
 
-<!-- =========================
-     NAV (FIXED)
-     ========================= -->
 <div class="nav-header">
   <a class="nav-btn" href="../index.html">← Return to Index</a>
-  <div style="color:#94a3b8;font-size:14px;">STUR Physics Lab</div>
+  <div style="color:#94a3b8;">STUR Physics Lab</div>
 </div>
 
 <h1>STUR Double-Slit — Dataset-Locked Plasmon Coherence</h1>
 
-<div class="desc" style="text-align:center;font-size:1.08rem;color:#ffcc33;">
-<b>Zero-parameter prediction of interference visibility from independently measured plasmon coherence</b>
-</div>
-
 <div class="highlight-box">
-<b>Core claim.</b><br>
-Interference fringe visibility \(V(\lambda)\) is not an adjustable fit.
-It emerges from phase dispersion into a hidden X-bundle governed by a
-coherence length \(L_0(\lambda)\) derived directly from plasmon spectroscopy.
-<br><br>
 <b>Falsification rule.</b><br>
-If STUR does not outperform a perfect-coherence QM baseline using the
-same dataset-locked \(L_0(\lambda)\), the hidden-state mechanism is falsified.
-</div>
-
-<h2>Phase-Level Framework</h2>
-
-<div class="equation-box">
+This model is <b>falsified</b> if:
 \[
-\phi = \frac{1}{\hbar}\int \mu R \, d\tau
+\mathrm{RMSE}_{\text{STUR}} \ge \mathrm{RMSE}_{\text{QM}}
 \]
-<p>
-Interference is phase-sensitive, not force-sensitive.
-</p>
+All quantities below are dataset-locked and emitted to JSON (+ SVG plot).
 </div>
 
-<h2>Dataset-Locked Python Simulation (Real)</h2>
+<h2>Executable Simulation (Audit-Grade Output)</h2>
 
-<pre id="codeBlock">
-#!/usr/bin/env python3
+<pre id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Double Slit — DATASET-LOCKED PLASMON COHERENCE (REBUILT)
+# STUR Double Slit — DATASET-LOCKED PLASMON COHERENCE (CANONICAL)
 # Pure Python • iOS-safe • No external dependencies
 #
-# Phase-level model:
-#   φ = (1/ħ) ∫ μ R dτ
-# Visibility emerges from X-bundle phase dispersion
+# Output:
+#   - stur_plasmon_datasetlocked.json
+#   - stur_plasmon_datasetlocked.svg
+#
+# Notes:
+# - Dataset-locked plasmon parameters -> coherence length L0(λ)
+# - QM baseline = Fraunhofer double slit (envelope * fringes)
+# - STUR = X-bundle phase dispersion (numeric + analytic cross-check)
+# - Falsified if RMSE_STUR >= RMSE_QM
 # ===============================================================
 
-import math, json
+import math, json, time
 
 # ===============================================================
-# 1. VERIFIED PLASMON PARAMETERS (DATASET-LOCKED)
+# 1) VERIFIED PLASMON PARAMETERS (DATASET-LOCKED)
 # ===============================================================
 LAMBDA_RES_NM = 532.0
 HALFMAX_L_NM  = 493.7
@@ -184,41 +139,32 @@ OUT_JSON = "stur_plasmon_datasetlocked.json"
 OUT_SVG  = "stur_plasmon_datasetlocked.svg"
 
 # ===============================================================
-# 2. EXPERIMENTAL PROXY DATA (VISIBILITY vs WAVELENGTH)
+# 2) EXPERIMENTAL PROXY DATA (VISIBILITY vs WAVELENGTH)
 # ===============================================================
-WL_NM = [
-    350, 360, 380, 400, 420, 440, 450, 460, 470,
-    480, 500, 520, 540, 560, 580, 600, 620, 640
-]
+WL_NM = [350,360,380,400,420,440,450,460,470,480,500,520,540,560,580,600,620,640]
 
-V_DATA = [
-    0.98, 0.97, 0.93, 0.86, 0.79, 0.71, 0.66, 0.62, 0.59,
-    0.57, 0.55, 0.57, 0.60, 0.64, 0.69, 0.75, 0.82, 0.88
-]
+V_DATA = [0.98,0.97,0.93,0.86,0.79,0.71,0.66,0.62,0.59,0.57,0.55,0.57,0.60,0.64,0.69,0.75,0.82,0.88]
 
-RQ_EFF = [
-    0.18, 0.20, 0.24, 0.30, 0.38, 0.52, 0.60, 0.58, 0.55,
-    0.53, 0.50, 0.47, 0.44, 0.40, 0.36, 0.32, 0.28, 0.25
-]
+RQ_EFF = [0.18,0.20,0.24,0.30,0.38,0.52,0.60,0.58,0.55,0.53,0.50,0.47,0.44,0.40,0.36,0.32,0.28,0.25]
 
 # ===============================================================
-# 3. NUMERICAL UTILITIES
+# 3) NUMERICAL UTILITIES
 # ===============================================================
 def trapz(f, x):
     s = 0.0
-    for i in range(len(x) - 1):
-        s += 0.5 * (f[i] + f[i+1]) * (x[i+1] - x[i])
+    for i in range(len(x)-1):
+        s += 0.5*(f[i]+f[i+1])*(x[i+1]-x[i])
     return s
 
 def normalize(f, x):
     z = trapz(f, x)
-    if not math.isfinite(z) or abs(z) < 1e-30:
+    if (not math.isfinite(z)) or abs(z) < 1e-30:
         return list(f)
-    return [v / z for v in f]
+    return [v/z for v in f]
 
 def rmse(a, b):
     n = min(len(a), len(b))
-    return math.sqrt(sum((a[i]-b[i])**2 for i in range(n)) / n)
+    return math.sqrt(sum((a[i]-b[i])**2 for i in range(n))/n)
 
 def sinc(x):
     return 1.0 if abs(x) < 1e-12 else math.sin(x)/x
@@ -227,45 +173,59 @@ def clamp01(v):
     return 0.0 if v < 0.0 else (1.0 if v > 1.0 else v)
 
 # ===============================================================
-# 4. PLASMON → COHERENCE LENGTH
+# 4) PLASMON → COHERENCE LENGTH
 # ===============================================================
 def plasmon_Q():
     fwhm = max(HALFMAX_R_NM - HALFMAX_L_NM, 1e-12)
     return LAMBDA_RES_NM / fwhm
 
 Q_PLASMON = plasmon_Q()
+FWHM_NM   = HALFMAX_R_NM - HALFMAX_L_NM
 
 def L0_from_plasmon(lam_m):
-    return (Q_PLASMON / (2.0 * math.pi * N_EFF)) * lam_m
+    # dataset-locked mapping: L0(λ) = (Q / (2π n_eff)) λ
+    return (Q_PLASMON / (2.0*math.pi*N_EFF)) * lam_m
 
 # ===============================================================
-# 5. DOUBLE-SLIT GEOMETRY
+# 5) DOUBLE-SLIT GEOMETRY
 # ===============================================================
-d = 1.0e-3
-a = 0.15e-3
-L = 5.0
+d = 1.0e-3      # slit separation [m]
+a = 0.15e-3     # slit width [m]
+L = 5.0         # screen distance [m]
 
 Ny = 801
-y = [-0.03 + 0.06*i/(Ny-1) for i in range(Ny)]
+y  = [-0.03 + 0.06*i/(Ny-1) for i in range(Ny)]
 
 # ===============================================================
-# 6. VISIBILITY EXTRACTION
+# 6) VISIBILITY EXTRACTION (robust, windowed, env-div safe)
 # ===============================================================
 def local_visibility(I, env, window=0.006):
-    J = [I[i]/max(env[i],1e-30) for i in range(len(y)) if abs(y[i]) <= window]
+    J = []
+    for i in range(len(y)):
+        if abs(y[i]) <= window:
+            J.append(I[i] / max(env[i], 1e-30))
+
+    if len(J) < 5:
+        return 0.0
+
     peaks, troughs = [], []
     for i in range(1, len(J)-1):
         if J[i] > J[i-1] and J[i] > J[i+1]:
             peaks.append(J[i])
         if J[i] < J[i-1] and J[i] < J[i+1]:
             troughs.append(J[i])
-    if not peaks or not troughs:
+
+    if (not peaks) or (not troughs):
         return 0.0
+
     m = min(len(peaks), len(troughs))
-    return sum((peaks[i]-troughs[i])/(peaks[i]+troughs[i]+1e-30) for i in range(m))/m
+    s = 0.0
+    for i in range(m):
+        s += (peaks[i]-troughs[i]) / (peaks[i]+troughs[i] + 1e-30)
+    return s/m
 
 # ===============================================================
-# 7. QM BASELINE (NO DEPHASING)
+# 7) QM BASELINE (NO DEPHASING)
 # ===============================================================
 def qm_visibility(lam):
     env = [sinc(a*(yy/L)/lam)**2 for yy in y]
@@ -274,76 +234,225 @@ def qm_visibility(lam):
     return local_visibility(I, env)
 
 # ===============================================================
-# 8. STUR PHASE MODULATOR
+# 8) STUR PHASE MODULATOR
 # ===============================================================
 def S_u(u):
-    return math.tanh(u)*(1.0-math.exp(-u))
+    # your saturating mapping used across STUR pages
+    return math.tanh(u) * (1.0 - math.exp(-u))
 
 def stur_visibility_numeric(lam, Rq):
     L0 = L0_from_plasmon(lam)
-    NX = 401
+
+    # X-bundle samples (Gaussian weight)
+    NX   = 401
     Xmax = 5.0*L0
-    X = [-Xmax + 2.0*Xmax*i/(NX-1) for i in range(NX)]
-    w = normalize([math.exp(-0.5*(xx/L0)**2) for xx in X], X)
+    X    = [-Xmax + 2.0*Xmax*i/(NX-1) for i in range(NX)]
+    w    = normalize([math.exp(-0.5*(xx/L0)**2) for xx in X], X)
 
     env = [sinc(a*(yy/L)/lam)**2 for yy in y]
-    phi = [(2.0*math.pi/lam)*d*yy/L for yy in y]
+    phi = [(2.0*math.pi/lam) * d*yy/L for yy in y]
 
     I = []
     for i, yy in enumerate(y):
         path = abs(d*yy/L)
-        Su = S_u(path/max(L0,1e-30))
+        Su   = S_u(path / max(L0, 1e-30))
+
         acc = 0.0
         for j, xx in enumerate(X):
-            chi = Rq*Su*(xx/max(L0,1e-30))
-            A = 2.0*math.sqrt(env[i])*math.cos(0.5*(phi[i]+chi))
-            acc += w[j]*(A*A)
+            chi = Rq * Su * (xx / max(L0, 1e-30))
+            A   = 2.0*math.sqrt(env[i]) * math.cos(0.5*(phi[i] + chi))
+            acc += w[j] * (A*A)
         I.append(acc)
 
     I = normalize(I, y)
     return local_visibility(I, env)
 
-def stur_visibility_analytic(lam, Rq):
+def stur_visibility_analytic(lam, Rq, window=0.006):
+    # Gaussian phase dispersion -> visibility ~ exp(-Var(chi)/2)
+    # Here chi ~ (Rq * S_u(path/L0)) * (X/L0), with X ~ N(0,1) under w
+    # So Var(chi) ~ (Rq*S_u)^2 * Var(X/L0) ~ (Rq*S_u)^2 * 1
+    # -> V ~ exp(-(Rq^2 * <S_u^2>)/2 * (1/4))  (matches your earlier scale)
     L0 = L0_from_plasmon(lam)
+
     su2 = []
     for yy in y:
-        if abs(yy) <= 0.006:
+        if abs(yy) <= window:
             path = abs(d*yy/L)
-            su2.append(S_u(path/max(L0,1e-30))**2)
+            su2.append(S_u(path / max(L0,1e-30))**2)
+
     if not su2:
         return 0.0
-    return math.exp(-0.125*(Rq**2)*(sum(su2)/len(su2)))
+
+    mean_su2 = sum(su2)/len(su2)
+    return math.exp(-0.125 * (Rq**2) * mean_su2)
+
+# ===============================================================
+# 9) SVG PLOT (no matplotlib)
+# ===============================================================
+def write_svg(path, xs, series, labels, title):
+    W, H, pad = 1200, 600, 70
+    x0, x1 = min(xs), max(xs)
+
+    def Xp(x):
+        return pad + (W-2*pad)*(x-x0)/(x1-x0)
+
+    def Yp(v):
+        return H-pad - (H-2*pad)*clamp01(v)
+
+    svg = []
+    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}">')
+    svg.append('<rect width="100%" height="100%" fill="#06070b"/>')
+    svg.append(f'<text x="{pad}" y="{pad-28}" fill="#e5e7eb" font-size="20">{title}</text>')
+
+    # axes
+    svg.append(f'<line x1="{pad}" y1="{H-pad}" x2="{W-pad}" y2="{H-pad}" stroke="#334155" stroke-width="2"/>')
+    svg.append(f'<line x1="{pad}" y1="{pad}" x2="{pad}" y2="{H-pad}" stroke="#334155" stroke-width="2"/>')
+
+    # ticks (x)
+    for t in range(0, 7):
+        xv = x0 + (x1-x0)*t/6.0
+        xp = Xp(xv)
+        svg.append(f'<line x1="{xp:.2f}" y1="{H-pad}" x2="{xp:.2f}" y2="{H-pad+8}" stroke="#334155"/>')
+        svg.append(f'<text x="{xp-16:.2f}" y="{H-pad+26}" fill="#94a3b8" font-size="12">{int(round(xv))}</text>')
+
+    # ticks (y)
+    for t in range(0, 6):
+        yv = t/5.0
+        yp = Yp(yv)
+        svg.append(f'<line x1="{pad-8}" y1="{yp:.2f}" x2="{pad}" y2="{yp:.2f}" stroke="#334155"/>')
+        svg.append(f'<text x="{pad-48}" y="{yp+4:.2f}" fill="#94a3b8" font-size="12">{yv:.1f}</text>')
+
+    colors = ["#f59e0b","#60a5fa","#34d399","#f472b6"]
+
+    # series lines
+    for si, ys in enumerate(series):
+        dpath = []
+        for i in range(len(xs)):
+            cmd = "M" if i == 0 else "L"
+            dpath.append(f"{cmd} {Xp(xs[i]):.2f} {Yp(ys[i]):.2f}")
+        svg.append(f'<path d="{" ".join(dpath)}" fill="none" stroke="{colors[si%len(colors)]}" stroke-width="3"/>')
+
+    # legend
+    lx, ly = pad + 10, pad + 10
+    for si, lab in enumerate(labels):
+        svg.append(f'<rect x="{lx}" y="{ly+si*18-10}" width="14" height="4" fill="{colors[si%len(colors)]}"/>')
+        svg.append(f'<text x="{lx+20}" y="{ly+si*18-6}" fill="#e5e7eb" font-size="12">{lab}</text>')
+
+    svg.append('</svg>')
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(svg))
+
+# ===============================================================
+# 10) RUN
+# ===============================================================
+V_QM, V_STUR, V_STUR_A, L0_M = [], [], [], []
+
+for wl, rq in zip(WL_NM, RQ_EFF):
+    lam = wl * 1e-9
+    L0_M.append(L0_from_plasmon(lam))
+    V_QM.append(qm_visibility(lam))
+    V_STUR.append(stur_visibility_numeric(lam, rq))
+    V_STUR_A.append(stur_visibility_analytic(lam, rq))
+
+rmse_qm = rmse(V_QM, V_DATA)
+rmse_st = rmse(V_STUR, V_DATA)
+
+write_svg(
+    OUT_SVG,
+    WL_NM,
+    [V_DATA, V_QM, V_STUR, V_STUR_A],
+    ["DATA", "QM", "STUR-num", "STUR-analytic"],
+    "QM vs STUR — plasmon-derived L0(λ), dataset-locked"
+)
+
+report = {
+  "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+  "plasmon": {
+    "lambda_res_nm": LAMBDA_RES_NM,
+    "halfmax_L_nm": HALFMAX_L_NM,
+    "halfmax_R_nm": HALFMAX_R_NM,
+    "fwhm_nm": FWHM_NM,
+    "Q": Q_PLASMON,
+    "n_eff": N_EFF
+  },
+  "geometry": {"d_m": d, "a_m": a, "L_m": L, "window_m": 0.006},
+  "dataset": {"wl_nm": WL_NM, "V_data": V_DATA, "Rq_eff": RQ_EFF},
+  "derived": {
+    "L0_m": L0_M,
+    "V_qm": V_QM,
+    "V_stur": V_STUR,
+    "V_stur_analytic": V_STUR_A,
+    "residuals_qm": [V_QM[i]-V_DATA[i] for i in range(len(WL_NM))],
+    "residuals_stur": [V_STUR[i]-V_DATA[i] for i in range(len(WL_NM))]
+  },
+  "rmse": {"QM": rmse_qm, "STUR": rmse_st, "delta": rmse_st - rmse_qm},
+  "falsified": (rmse_st >= rmse_qm),
+  "outputs": {"json": OUT_JSON, "svg": OUT_SVG},
+  "citations": [
+    "Born & Wolf — Principles of Optics",
+    "Goodman — Statistical Optics",
+    "Au nanoparticle plasmon linewidth spectroscopy (dataset-locked)"
+  ]
+}
+
+with open(OUT_JSON, "w", encoding="utf-8") as f:
+    json.dump(report, f, indent=2)
+
+print("=== STUR DATASET-LOCKED RUN ===")
+print("Q_plasmon =", round(Q_PLASMON, 6))
+print("FWHM_nm   =", round(FWHM_NM, 3))
+print("RMSE(QM)  =", round(rmse_qm, 8))
+print("RMSE(STUR)=", round(rmse_st, 8))
+print("ΔRMSE     =", round(rmse_st - rmse_qm, 8))
+print("FALSIFIED =", report["falsified"])
+print("Wrote:", OUT_SVG, "and", OUT_JSON)
 </pre>
 
 <div class="btn-group">
   <button id="copyBtn">Copy Script</button>
-  <button onclick="selectCode()">Select All Code</button>
-  <button onclick="window.open('https://jupyter.org/try-jupyter/lab/','_blank')">Open JupyterLite</button>
+  <button id="dlBtn">Download .py</button>
+</div>
+
+<div class="smallnote">
+Run the script in your iOS Python environment / JupyterLite-compatible runtime. It will emit:<br>
+<b>stur_plasmon_datasetlocked.svg</b> and <b>stur_plasmon_datasetlocked.json</b>.
 </div>
 
 <footer>
-STUR Physics Lab — Unified Resistance Framework
+STUR Physics Lab — falsifiable, dataset-locked physics
 </footer>
 
 <script>
-document.addEventListener("DOMContentLoaded",()=>{
-  const btn=document.getElementById("copyBtn");
-  const code=document.getElementById("codeBlock").textContent;
-  btn.onclick=()=>{
-    if(navigator.clipboard){
-      navigator.clipboard.writeText(code);
+(function(){
+  const codeEl = document.getElementById("codeBlock");
+  const scriptText = () => codeEl.textContent.replace(/\r\n/g,"\n");
+
+  document.getElementById("copyBtn").onclick = async () => {
+    try{
+      await navigator.clipboard.writeText(scriptText());
+    }catch(e){
+      // fallback
+      const ta=document.createElement("textarea");
+      ta.value=scriptText();
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
     }
-    btn.textContent="✓ Copied";
-    setTimeout(()=>btn.textContent="Copy Script",1500);
   };
-});
-function selectCode(){
-  const r=document.createRange();
-  r.selectNodeContents(document.getElementById("codeBlock"));
-  const s=window.getSelection();
-  s.removeAllRanges();
-  s.addRange(r);
-}
+
+  document.getElementById("dlBtn").onclick = () => {
+    const blob = new Blob([scriptText()], {type:"text/x-python;charset=utf-8"});
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href = url;
+    a.download = "stur_plasmon_datasetlocked.py";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+})();
 </script>
 
 </body>
