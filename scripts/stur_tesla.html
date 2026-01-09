@@ -1,198 +1,486 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Tesla Dream – Solar Beam Space Power + Ca Bio-Battery</title>
-<style>
-  body {
-    background: #050814;
-    color: #e6edf3;
-    font-family: "Courier New", monospace;
-    margin: 0; padding: 2rem;
-  }
-  h1 { color: #ffaa00; text-align: center; }
-  h2 { color: #ffcc33; margin-top: 2rem; }
-  pre {
-    background: #0a0f1f;
-    color: #00ffcc;
-    padding: 1rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    font-size: 0.9rem;
-    box-shadow: 0 0 15px #ffaa0040;
-  }
-  button {
-    background: #ffaa00;
-    color: #050814;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 20px;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 6px;
-    transition: 0.2s;
-  }
-  button:hover { background: #ffcc33; }
-  a { color: #66ccff; }
-  footer {
-    margin-top: 2rem;
-    text-align: center;
-    font-size: 0.9em;
-    color: #999;
-  }
-</style>
-</head>
-<body>
+import React, { useMemo, useState } from "react";
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid,
+  Tooltip, Legend, ResponsiveContainer,
+  ScatterChart, Scatter, ReferenceLine, ReferenceArea
+} from "recharts";
 
-<h1>STUR Tesla Dream – Solar Beam Space Power System</h1>
+/* ============================================================
+   STUR–TOE + CHRONOMAGNETICS SIMULATOR (FULL + ENTROPY HUD)
 
-<h2>Physical Derivation and Model</h2>
-<p>
-We model a <b>Solar Beam Space Power (SBSP)</b> system composed of six orbital
-fusion-hybrid photovoltaic satellites transmitting wireless power to Earth.
-Each satellite captures solar flux <code>Φ⊙ ≈ 1360 W/m²</code> over an effective area
-<code>A ≈ 3.17 km²</code>. Combined conversion efficiency:
-</p>
-<p style="text-align:center;">
-η_total = η_PV × η_DC→RF × η_TX × η_RX ≈ 0.60 × 0.95 × 0.80 × 0.90 × 0.85 ≈ 0.35.
-</p>
-<p>
-The generated grid power is
-<code>P_grid = Φ⊙ A η_total n_sat ≈ 13.7 GW</code>.  
-Temporal factors modify this base:
-<ul>
-  <li><b>Eclipse modulation</b> (Earth shadow, 20 min/day)</li>
-  <li><b>Doppler shift</b> (+10⁻⁵ sinusoidal)</li>
-  <li><b>Shapiro delay</b> (−10⁻⁴ GR correction)</li>
-  <li><b>Ionospheric attenuation</b> (0.94 – 1.0)</li>
-  <li><b>Fresnel interference loss</b> (~5%)</li>
-  <li><b>Superconducting relay</b> (~0.999)</li>
-  <li><b>Weather factor</b> via barometric and thermal AI model</li>
-</ul>
-The product yields the instantaneous transmitted power <code>P(t)</code> in GW.
-</p>
+   Operators:
+     Su(u)  = tanh(u)(1 − e^−u)
+     coh    = exp(−Rq·Su)
 
-<p>
-The <b>Ca Bio-Battery</b> stores surplus energy with energy density
-<code>E_b = 3364 Wh/kg</code> and decay constant
-<code>k_d = ln 2 / (69 days)</code>. The simulation integrates hourly supply,
-decay, and demand to yield the state-of-charge (SoC).
-</p>
+   Closed-form STUR intensity (Gaussian phase-bundle exact):
+     I_STUR = 2E · coh² · [1 + cos(φ) · exp(−½(Rq·Su)²)]
 
-<h2>Python Simulation (JupyterLite-safe)</h2>
-<pre id="codeBlock">#!/usr/bin/env python3
-# ===============================================================
-# STUR Tesla Dream – SBSP + Ca Bio-Battery Model
-# ===============================================================
-import numpy as np, matplotlib.pyplot as plt
-from scipy.special import fresnel
+   Entropy Export HUD:
+     We treat radius shrink (coh < 1) as purity loss and integrate
+     coherence loss over the screen (or equivalently over the ψ-plane).
+   ============================================================ */
 
-# --- Parameters ---
-solar_flux = 1360
-area = 3.17e6
-pv_eff = 0.60 * 0.95
-dc_to_rf, tx_eff, rx_eff = 0.80, 0.90, 0.85
-overall_eff = pv_eff * dc_to_rf * tx_eff * rx_eff
-n_sat = 6
-P_grid = solar_flux * area * overall_eff * n_sat  # ≈13.7 GW
+export default function STURChronoAnalyzer() {
+  /* ---------- UI State ---------- */
+  const [RqManual, setRqManual] = useState(1.8);
+  const [L0_nm, setL0nm] = useState(120);
+  const [viewMode, setViewMode] = useState("pattern"); // pattern | phase
+  const [showDiff, setShowDiff] = useState(false);
 
-# --- Time vector (7 days, 15 min) ---
-t_hours = np.linspace(0, 7*24, 7*24*4)
+  const [timeTravel, setTimeTravel] = useState(false);
+  const [tau, setTau] = useState(1.0); // 0=Planck, 1=Now
 
-# --- Eclipse modulation ---
-eclipse = np.ones_like(t_hours)
-for day in range(7):
-    if day in [2, 3, 4]:
-        t_ecl = (t_hours - day*24) % 24
-        mask = (t_ecl >= 1) & (t_ecl < 1.333)
-        eclipse[mask] = np.cos(np.pi*(t_ecl[mask]-1.167)/0.333)**2
-eclipse = np.clip(eclipse, 0, 1)
+  /* ---------- Constants ---------- */
+  const RQ_MAX = 2.5;
 
-# --- Transmission modifiers ---
-doppler = 1 + 1e-5 * np.sin(2*np.pi*t_hours/24)
-shapiro = 1 - 1e-4 * (1 + 0.1*np.sin(2*np.pi*t_hours/24))
-qec = 1.03
+  // Optical setup (locked)
+  const LAM = 500e-9;  // wavelength [m]
+  const L = 1.0;       // screen distance [m]
+  const a = 100e-6;    // slit width [m]
+  const d = 1e-3;      // slit separation [m]
 
-# --- Atmospheric/weather model ---
-P = 101325 - 100*np.sin(2*np.pi*t_hours/12)
-T = 290 + 10*np.sin(2*np.pi*t_hours/12)
-weather = np.clip(0.985 + 0.015*(P/101325)*(T/290), 0.97, 1.0)
-iono = np.clip(0.97 + 0.03*np.sin(2*np.pi*t_hours/12)*np.random.randn(len(t_hours)), 0.94, 1.0)
-fresnel_loss = 0.95*(1 - 0.05*np.abs(fresnel(t_hours/168)[0]))
-supercon_relay = 0.999
+  /* ---------- Physics ---------- */
+  const S_u = (u) => Math.tanh(u) * (1 - Math.exp(-u));
+  const sinc_pi = (x) => (Math.abs(x) < 1e-12 ? 1 : Math.sin(Math.PI * x) / (Math.PI * x));
 
-# --- Total transmitted power ---
-power_output = (P_grid * eclipse * doppler * shapiro * qec *
-                iono * fresnel_loss * supercon_relay * weather)
+  const normalizeMax = (arr) => {
+    const m = Math.max(...arr);
+    return arr.map(v => v / (m || 1));
+  };
 
-# --- Ca Bio-Battery parameters ---
-E_bat = 3364  # Wh/kg
-kd = np.log(2)/(69*24)
-daily_demand = 3.52 * 24
-backup_demand = daily_demand * 90
-m_bat = backup_demand * 1e6 / E_bat * np.exp(kd*90*24)
-SoC = np.zeros_like(t_hours)
-SoC[0] = daily_demand
-for i in range(1, len(t_hours)):
-    P_in = power_output[i]*0.25
-    SoC_prev = SoC[i-1]*np.exp(-kd*0.25)
-    SoC[i] = min(SoC_prev + P_in - daily_demand/(24*4), daily_demand)
+  /* ============================================================
+     Time-Travel Driver:
+     τ maps cosmic log-time from Planck to Now,
+     then pushes Rq via saturation of u_c (diagnostic-only mapping).
+     ============================================================ */
+  const Rq = useMemo(() => {
+    if (!timeTravel) return RqManual;
 
-# --- Plots ---
-fig, ax = plt.subplots(1, 2, figsize=(10,4))
-ax[0].plot(t_hours/24, power_output)
-ax[0].set(xlabel="Days", ylabel="Power (GW)",
-          title="6-Sat SBSP with Fusion Hybrids")
-ax[0].grid(True)
-ax[1].plot(t_hours/24, SoC)
-ax[1].set(xlabel="Days", ylabel="SoC (GWh)", title="Ca Bio-Battery SoC")
-ax[1].grid(True)
-plt.tight_layout(); plt.show()
+    // log10(t) endpoints
+    const log_t0 = -43.27; // Planck time
+    const log_t1 = 17.6;   // ~Now (age of Universe in seconds)
 
-# --- Summary ---
-mean_out = P_grid * iono.mean() * fresnel_loss.mean() * supercon_relay * weather.mean()
-energy_TWh = mean_out*24*365/1000
-print(f"6 Satellites: Each ≈ 3.17 km², Total {mean_out:.1f} GW, {energy_TWh:.0f} TWh/year")
-print(f"Ca Battery: {m_bat/1e6:.1f} M tonnes for {backup_demand:.0f} GWh (90 days)")
-</pre>
+    const log_t = (1 - tau) * log_t0 + tau * log_t1;
+    const t_eff = Math.pow(10, log_t);
 
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open Jupyter Lite</button>
-</div>
-    <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+    // chronomagnetic log-time coordinate
+    const u_c = Math.log(t_eff / 1e-43);
+    const sat = S_u(Math.abs(u_c)); // in [0,1)
 
-<footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | Tesla Dream Simulation
-</footer>
+    return RQ_MAX * sat;
+  }, [timeTravel, tau, RqManual]);
 
-<script>
-function copyCode(){
-  const code = document.getElementById("codeBlock").innerText;
-  navigator.clipboard.writeText(code);
-  alert("Tesla Dream simulation code copied to clipboard.");
+  /* ---------- Epoch Markers ---------- */
+  const cosmicEvents = [
+    { name: "CMB", log_t: 12.6, color: "#90ee90", desc: "Recombination / decoupling" },
+    { name: "Dark Ages", log_t: 15.5, color: "#4169e1", desc: "Before first stars" },
+    { name: "Reion.", log_t: 16.3, color: "#9370db", desc: "First galaxies" },
+    { name: "Now", log_t: 17.6, color: "#ffffff", desc: "Present epoch" }
+  ];
+
+  /* ============================================================
+     Core: Interference + coherence arrays + chronomagnetics
+     ============================================================ */
+  const patterns = useMemo(() => {
+    const L0 = L0_nm * 1e-9;
+
+    // screen coordinate y in meters
+    const y = Array.from({ length: 501 }, (_, i) => (i - 250) * 1e-4);
+    const y_mm = y.map(v => v * 1000);
+
+    // envelope and phase
+    const env = y.map(yy => Math.pow(sinc_pi((a * yy) / (LAM * L)), 2));
+    const phi = y.map(yy => (2 * Math.PI / LAM) * (d * yy / L));
+
+    // QM baseline
+    const I_qm = y.map((_, i) => env[i] * Math.pow(Math.cos(phi[i] / 2), 2));
+
+    // STUR closed form + coherence arrays
+    const cohArr = y.map((yy) => {
+      const u = Math.abs(d * yy / L) / Math.max(L0, 1e-30);
+      const Su = S_u(u);
+      return Math.exp(-Rq * Su);
+    });
+
+    const phaseDampArr = y.map((yy) => {
+      const u = Math.abs(d * yy / L) / Math.max(L0, 1e-30);
+      const Su = S_u(u);
+      return Math.exp(-0.5 * (Rq * Su) ** 2);
+    });
+
+    const I_stur = y.map((_, i) => {
+      const coh = cohArr[i];
+      const damp = phaseDampArr[i];
+      return 2 * env[i] * coh * coh * (1 + Math.cos(phi[i]) * damp);
+    });
+
+    // normalize
+    const Iq = normalizeMax(I_qm);
+    const Is = normalizeMax(I_stur);
+    const diff = Is.map((v, i) => v - Iq[i]);
+
+    // RMSE (shape deviation)
+    const rmse = Math.sqrt(diff.reduce((s, d0) => s + d0 * d0, 0) / diff.length);
+
+    /* ---------- Chronomagnetics diagnostic mapping ---------- */
+    const t0 = 1e-43;
+    const t_eff = Math.pow(10, 14 + Rq * 2.5);  // simple proxy mapping
+    const log_t = Math.log10(t_eff);
+    const u_c = Math.log(t_eff / t0);
+    const M = Rq * S_u(Math.abs(u_c));
+
+    let chronoRegime = "pre-saturation";
+    if (M > 0.3) chronoRegime = "transitional";
+    if (M > 0.8) chronoRegime = "saturated";
+
+    /* ---------- Entropy Export (bits) ---------- */
+    // Interpret coherence loss (1 - coh) as purity loss proxy.
+    // Average coherence loss across y (screen).
+    const entropyExport = cohArr.reduce((acc, coh) => acc + (1 - coh), 0) / cohArr.length;
+
+    // Convert "nats-like" to bits with factor ~1/ln2 = 1.4427...
+    const bitsLost = entropyExport * 1.4426950408889634;
+
+    /* ---------- Phase Divergence (scalar diagnostic) ---------- */
+    // Track mean magnitude of angular displacement between QM phase and STUR-damped phase.
+    // Here: θ = (φ/2) - (φ/2)*damp = (φ/2)*(1 - damp)
+    const phaseDiv = phi.reduce((acc, ph, i) => {
+      const theta = 0.5 * ph * (1 - phaseDampArr[i]);
+      return acc + Math.abs(theta);
+    }, 0) / phi.length;
+
+    return {
+      y_mm,
+      I_qm: Iq,
+      I_stur: Is,
+      diff,
+      rmse,
+      cohArr,
+      phaseDampArr,
+      chrono: { log_t, M, regime: chronoRegime },
+      entropy: {
+        entropyExport,
+        bitsLost,
+        phaseDiv
+      }
+    };
+  }, [Rq, L0_nm]);
+
+  /* ---------- Interference Chart Data ---------- */
+  const chartData = useMemo(() => {
+    return patterns.y_mm.map((y, i) => ({
+      y: y.toFixed(2),
+      QM: patterns.I_qm[i],
+      STUR: patterns.I_stur[i],
+      Diff: patterns.diff[i] * 1000
+    }));
+  }, [patterns]);
+
+  /* ============================================================
+     Phase-Space (ψ-plane) data
+     QM: e^{iφ/2} on unit circle
+     STUR: coh * e^{i(φ/2 * damp)} inward spiral
+     ============================================================ */
+  const phaseSpaceData = useMemo(() => {
+    const L0 = L0_nm * 1e-9;
+
+    // tight sampling around center
+    const ys = Array.from({ length: 300 }, (_, i) => (i - 150) * 2e-5);
+
+    return ys.map((y) => {
+      const u = Math.abs(d * y / L) / Math.max(L0, 1e-30);
+      const Su = S_u(u);
+      const coh = Math.exp(-Rq * Su);
+
+      const ph = (2 * Math.PI / LAM) * (d * y / L);
+      const damp = Math.exp(-0.5 * (Rq * Su) ** 2);
+
+      const phaseQM = ph / 2;
+      const phaseST = (ph / 2) * damp;
+
+      return {
+        Re_QM: Math.cos(phaseQM),
+        Im_QM: Math.sin(phaseQM),
+        Re_STUR: coh * Math.cos(phaseST),
+        Im_STUR: coh * Math.sin(phaseST)
+      };
+    });
+  }, [Rq, L0_nm]);
+
+  /* ---------- HUD numbers ---------- */
+  const bitsLost = patterns.entropy.bitsLost;
+  const bitsBar = Math.min(bitsLost * 50, 100); // simple visualization scale
+  const phaseDiv = patterns.entropy.phaseDiv;
+
+  /* ---------- Main UI ---------- */
+  return (
+    <div className="max-w-7xl mx-auto p-6 space-y-6 bg-slate-50">
+
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+        <div>
+          <h1 className="text-3xl font-bold text-indigo-900">
+            STUR–TOE + Chronomagnetics Simulator
+          </h1>
+          <div className="text-sm text-slate-600 mt-1">
+            Interference • ψ-plane • Chronomagnetic diagnostic • Entropy export HUD
+          </div>
+        </div>
+
+        <div className="flex gap-2 flex-wrap">
+          <button
+            onClick={() => setViewMode(viewMode === "pattern" ? "phase" : "pattern")}
+            className="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700 transition-colors text-sm font-semibold"
+          >
+            Switch to {viewMode === "pattern" ? "Phase Space" : "Interference"}
+          </button>
+
+          <button
+            onClick={() => setShowDiff(!showDiff)}
+            className={`px-4 py-2 rounded text-sm font-semibold transition-colors ${
+              showDiff ? "bg-purple-600 text-white hover:bg-purple-700" : "bg-slate-200 text-slate-700 hover:bg-slate-300"
+            }`}
+          >
+            {showDiff ? "Show Patterns" : "Show Difference"}
+          </button>
+        </div>
+      </div>
+
+      {/* ---------- Controls ---------- */}
+      <div className="bg-white p-4 rounded shadow grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div>
+          <label className="text-sm font-semibold text-slate-700">
+            R<sub>q</sub> (Resistance / Phase Strength)
+          </label>
+          <input
+            type="range"
+            min="0.2"
+            max="2.5"
+            step="0.05"
+            value={RqManual}
+            onChange={(e) => setRqManual(parseFloat(e.target.value))}
+            disabled={timeTravel}
+            className="w-full"
+          />
+          <div className="text-xs text-slate-600 mt-1">
+            Manual Rq = <strong>{RqManual.toFixed(2)}</strong>
+            {timeTravel && <span className="ml-2 text-indigo-600">(locked by Time-Travel)</span>}
+          </div>
+          <div className="text-xs text-slate-500 mt-1">
+            Active Rq = <strong>{Rq.toFixed(3)}</strong>
+          </div>
+        </div>
+
+        <div>
+          <label className="text-sm font-semibold text-slate-700">
+            L<sub>0</sub> (Saturation Length, nm)
+          </label>
+          <input
+            type="range"
+            min="50"
+            max="500"
+            step="10"
+            value={L0_nm}
+            onChange={(e) => setL0nm(parseFloat(e.target.value))}
+            className="w-full"
+          />
+          <div className="text-xs text-slate-600 mt-1">
+            L₀ = <strong>{Math.round(L0_nm)}</strong> nm
+          </div>
+        </div>
+
+        <div>
+          <label className="text-sm font-semibold text-slate-700">Time-Travel (τ)</label>
+          <div className="flex items-center gap-3 mt-1">
+            <input
+              type="checkbox"
+              checked={timeTravel}
+              onChange={() => setTimeTravel(!timeTravel)}
+            />
+            <span className="text-xs text-slate-600">
+              Drives Rq from cosmic log-time
+            </span>
+          </div>
+          {timeTravel && (
+            <>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.002"
+                value={tau}
+                onChange={(e) => setTau(parseFloat(e.target.value))}
+                className="w-full mt-2"
+              />
+              <div className="text-xs text-slate-600 mt-1">τ = {tau.toFixed(3)}</div>
+            </>
+          )}
+        </div>
+
+        <div className="bg-indigo-50 rounded p-3 flex flex-col justify-center">
+          <div className="text-xs text-slate-600">Chronomagnetic Regime</div>
+          <div className="text-lg font-bold text-indigo-800">{patterns.chrono.regime}</div>
+          <div className="text-xs text-slate-600">M = {patterns.chrono.M.toFixed(3)}</div>
+          <div className="text-xs text-slate-600">RMSE = {patterns.rmse.toFixed(4)}</div>
+        </div>
+      </div>
+
+      {/* ---------- Entropy HUD ---------- */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-slate-900 text-green-400 p-4 rounded-lg font-mono shadow-inner">
+          <div className="text-xs uppercase text-slate-400 mb-2">
+            Vacuum Information Leakage
+          </div>
+          <div className="text-2xl">
+            ΔS: <span className="text-white">{bitsLost.toFixed(3)}</span>{" "}
+            <span className="text-sm text-slate-500">bits (avg)</span>
+          </div>
+          <div className="mt-2 h-1 bg-slate-800 rounded">
+            <div
+              className="h-full bg-green-500 transition-all duration-300"
+              style={{ width: `${bitsBar}%` }}
+            />
+          </div>
+          <div className="text-xs text-slate-500 mt-2">
+            Computed from ⟨1 − coh(y)⟩, where coh = exp(−R_q·S_u).
+          </div>
+        </div>
+
+        <div className="bg-slate-900 text-indigo-400 p-4 rounded-lg font-mono shadow-inner">
+          <div className="text-xs uppercase text-slate-400 mb-2">Phase Divergence</div>
+          <div className="text-2xl text-white">
+            {phaseDiv.toFixed(4)} <span className="text-sm text-slate-500">⟨|Δθ|⟩</span>
+          </div>
+          <div className="text-xs mt-1 text-slate-500 italic">
+            Mean angular displacement from phase damping exp(−½(R_q·S_u)²).
+          </div>
+        </div>
+      </div>
+
+      {/* ---------- Primary View ---------- */}
+      {viewMode === "pattern" ? (
+        <div className="bg-white rounded shadow p-4">
+          <div className="text-sm font-semibold text-slate-700 mb-3">
+            {showDiff ? "Difference (STUR − QM) × 1000" : "Interference Intensity"}
+          </div>
+
+          <ResponsiveContainer width="100%" height={380}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="y" label={{ value: "Position (mm)", position: "insideBottom" }} />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              {!showDiff ? (
+                <>
+                  <Line dataKey="QM" stroke="#2563eb" dot={false} name="QM" />
+                  <Line dataKey="STUR" stroke="#059669" dot={false} strokeDasharray="5 5" name="STUR" />
+                </>
+              ) : (
+                <Line dataKey="Diff" stroke="#7c3aed" dot={false} name="STUR − QM × 1000" />
+              )}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      ) : (
+        <div className="bg-white rounded shadow p-4">
+          <div className="text-sm font-semibold text-slate-700 mb-3">
+            Wavefunction Phase-Space (ψ-plane): QM circle vs STUR spiral
+          </div>
+
+          <ResponsiveContainer width="100%" height={380}>
+            <ScatterChart>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis type="number" dataKey="Re_QM" domain={[-1.1, 1.1]} />
+              <YAxis type="number" dataKey="Im_QM" domain={[-1.1, 1.1]} />
+              <Tooltip />
+              <Legend />
+
+              <Scatter name="QM (unit circle)" data={phaseSpaceData} fill="#2563eb" />
+
+              {/* Recharts wants consistent keys; we map STUR points into same x/y keys */}
+              <Scatter
+                name="STUR (inward spiral)"
+                data={phaseSpaceData.map(p => ({ Re_QM: p.Re_STUR, Im_QM: p.Im_STUR }))}
+                fill="#059669"
+              />
+            </ScatterChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* ---------- Chronomagnetics Diagnostic Plot ---------- */}
+      <div className="bg-white rounded shadow p-4">
+        <div className="text-sm font-semibold text-slate-700 mb-3">
+          Chronomagnetic Diagnostic: log(t) vs Modulation Index M
+        </div>
+
+        <ResponsiveContainer width="100%" height={320}>
+          <ScatterChart margin={{ top: 10, right: 20, left: 10, bottom: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              type="number"
+              dataKey="log_t"
+              domain={[12, 18]}
+              label={{ value: "log₁₀(t / seconds)", position: "insideBottom", offset: -5 }}
+            />
+            <YAxis
+              type="number"
+              dataKey="modulation"
+              domain={[0, 2]}
+              label={{ value: "M = R_q · S_u(u_c)", angle: -90, position: "insideLeft" }}
+            />
+
+            {/* Zones */}
+            <ReferenceArea y1={0} y2={0.3} fill="#90ee90" fillOpacity={0.15} />
+            <ReferenceArea y1={0.3} y2={0.8} fill="#ffd700" fillOpacity={0.15} />
+            <ReferenceArea y1={0.8} y2={2.0} fill="#ff6b6b" fillOpacity={0.15} />
+
+            {/* Epoch lines */}
+            {cosmicEvents.map((e, i) => (
+              <ReferenceLine key={i} x={e.log_t} stroke={e.color} strokeDasharray="3 3" />
+            ))}
+
+            <Tooltip
+              content={({ active, payload }) => {
+                if (!active || !payload?.[0]) return null;
+                const p = payload[0].payload;
+                const near = cosmicEvents.find(e => Math.abs(e.log_t - p.log_t) < 0.5);
+                return (
+                  <div className="bg-white p-3 border rounded shadow text-sm">
+                    <div className="font-semibold">Chrono Point</div>
+                    <div>log₁₀(t) = {p.log_t.toFixed(2)}</div>
+                    <div>M = {p.modulation.toFixed(3)}</div>
+                    {near && (
+                      <div className="mt-2 text-xs text-slate-600">
+                        Near: <strong>{near.name}</strong> — {near.desc}
+                      </div>
+                    )}
+                  </div>
+                );
+              }}
+            />
+
+            {/* Current epoch point */}
+            <Scatter
+              name="Current Diagnostic"
+              data={[{ log_t: patterns.chrono.log_t, modulation: patterns.chrono.M }]}
+              fill="#7c3aed"
+            />
+          </ScatterChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* ---------- Theory footer (chronomagnetics rationale) ---------- */}
+      <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded">
+        <div className="font-semibold text-indigo-900 mb-1">Chronomagnetics (diagnostic layer)</div>
+        <div className="text-sm text-indigo-900/80">
+          Bounded source dynamics → bounded invariants → finite responses. Here, the modulation index
+          <span className="font-mono"> M = Rq·S_u(u_c) </span>
+          is the unified diagnostic. The simulator keeps Chronomagnetics as a geometry-only projection
+          (no direct coupling into optics beyond the shared saturation logic).
+        </div>
+      </div>
+
+    </div>
+  );
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
-}
-</script>
-
-</body>
-</html>
