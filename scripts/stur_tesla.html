@@ -1,220 +1,825 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>STUR–TOE + Chronomagnetics Simulator</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>STUR – TOE + Chronomagnetics Simulator (GitHub Single-HTML)</title>
 
-<!-- Tailwind (matches your lab aesthetic) -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<!-- React + ReactDOM (UMD) -->
-<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-<!-- Recharts (UMD) -->
-<script src="https://unpkg.com/recharts/umd/Recharts.min.js"></script>
-
-<!-- Babel (JSX in browser) -->
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-<style>
-  body {
-    margin: 0;
-    background: #020617;
-    color: #e5e7eb;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  }
-</style>
+  <style>
+    :root{
+      --bg:#050814;
+      --panel:#0a1022;
+      --panel2:#0b132a;
+      --border:#1f2a44;
+      --text:#e6edf3;
+      --muted:#94a3b8;
+      --accent:#60a5fa;
+      --accent2:#34d399;
+      --warn:#f59e0b;
+      --danger:#fb7185;
+      --purple:#a78bfa;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      --radius:14px;
+      --shadow: 0 18px 40px rgba(0,0,0,.45);
+      --shadow2: inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 700px at 10% 10%, rgba(96,165,250,.10), transparent 55%),
+                  radial-gradient(900px 650px at 90% 20%, rgba(52,211,153,.10), transparent 55%),
+                  linear-gradient(180deg, #030510, #050814 40%, #030510);
+      color:var(--text);
+      font-family:var(--sans);
+    }
+    .wrap{max-width:1220px;margin:0 auto;padding:22px}
+    .top{
+      display:flex; gap:14px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .title h1{margin:0;font-size:26px;letter-spacing:.2px}
+    .title .sub{margin-top:6px;color:var(--muted);font-size:13px}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    button{
+      border:0; cursor:pointer;
+      padding:10px 12px;
+      border-radius:12px;
+      background:rgba(255,255,255,.08);
+      color:var(--text);
+      box-shadow: var(--shadow2);
+      font-weight:700; font-size:13px;
+    }
+    button.primary{background:rgba(96,165,250,.22); color:#dbeafe}
+    button.primary:hover{background:rgba(96,165,250,.30)}
+    button.alt{background:rgba(167,139,250,.18); color:#ede9fe}
+    button.alt:hover{background:rgba(167,139,250,.26)}
+    button.good{background:rgba(52,211,153,.18); color:#dcfce7}
+    button.good:hover{background:rgba(52,211,153,.26)}
+    button:active{transform:translateY(1px)}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap:14px;
+    }
+    @media (max-width:980px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      background: rgba(10,16,34,.82);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardhead{
+      padding:12px 14px;
+      border-bottom:1px solid rgba(255,255,255,.07);
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent);
+    }
+    .cardhead .h{
+      font-weight:800; font-size:13px; color:#cbd5e1; letter-spacing:.25px;
+      text-transform:uppercase;
+    }
+    .cardbody{padding:14px}
+    .controls{
+      display:grid; gap:12px;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width:520px){ .controls{grid-template-columns:1fr} }
+    .ctrl{
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.07);
+      border-radius: 14px;
+      padding:12px;
+    }
+    .ctrl label{display:block;font-size:12px;font-weight:800;color:#dbeafe}
+    .ctrl .hint{color:var(--muted);font-size:11px;margin-top:6px;line-height:1.25}
+    .ctrl .val{margin-top:4px;color:#e2e8f0;font-family:var(--mono);font-size:12px}
+    input[type="range"]{width:100%}
+    input[type="checkbox"]{transform:scale(1.15)}
+    .hud{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width:760px){ .hud{grid-template-columns:1fr} }
+    .hudbox{
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: #0a0f1f;
+      box-shadow: var(--shadow2);
+      padding:12px;
+      font-family:var(--mono);
+    }
+    .hudbox .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.2px}
+    .hudbox .v{margin-top:6px;font-size:22px;font-weight:900}
+    .bar{height:6px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;margin-top:10px}
+    .bar > div{height:100%;background:rgba(52,211,153,.85);width:0%}
+    .small{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.25}
+    .kv{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    .kv > div{
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:14px;
+      padding:10px;
+    }
+    .kv .k{font-size:11px;color:var(--muted)}
+    .kv .v{font-family:var(--mono);font-size:14px;font-weight:900;margin-top:4px}
+    canvas{display:block;width:100%;height:auto}
+    .foot{
+      margin-top:14px;
+      padding:12px 14px;
+      border-left:4px solid rgba(96,165,250,.8);
+      background: rgba(96,165,250,.10);
+      border-radius: 14px;
+      color:#dbeafe;
+    }
+    .foot .t{font-weight:900;margin-bottom:6px}
+    .foot .p{font-size:13px;color:#cfe3ff;line-height:1.35}
+    .warnline{
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(245,158,11,.12);
+      border:1px solid rgba(245,158,11,.25);
+      color:#ffedd5;
+      font-size:12px;
+      margin-top:12px;
+      display:none;
+    }
+  </style>
 </head>
-
 <body>
-<div id="root"></div>
+  <div class="wrap">
+    <div class="top">
+      <div class="title">
+        <h1>STUR – TOE + Chronomagnetics Simulator</h1>
+        <div class="sub">Single-file GitHub Pages HTML • Interference • ψ-plane • Chronomagnetic diagnostic • Entropy export HUD</div>
+      </div>
+      <div class="btnrow">
+        <button id="toggleView" class="primary">Switch to Phase Space</button>
+        <button id="toggleDiff" class="alt">Show Difference</button>
+      </div>
+    </div>
 
-<script type="text/babel">
-
-const {
-  LineChart, Line, XAxis, YAxis, CartesianGrid,
-  Tooltip, Legend, ResponsiveContainer,
-  ScatterChart, Scatter, ReferenceLine, ReferenceArea
-} = Recharts;
-
-const { useState, useMemo } = React;
-
-/* ============================================================
-   STUR–TOE + CHRONOMAGNETICS SIMULATOR
-   Single-file GitHub Pages version
-   ============================================================ */
-
-function STURChronoAnalyzer() {
-
-  /* ---------- UI State ---------- */
-  const [RqManual, setRqManual] = useState(1.8);
-  const [L0_nm, setL0nm] = useState(120);
-  const [viewMode, setViewMode] = useState("pattern");
-  const [showDiff, setShowDiff] = useState(false);
-  const [timeTravel, setTimeTravel] = useState(false);
-  const [tau, setTau] = useState(1.0);
-
-  /* ---------- Constants ---------- */
-  const RQ_MAX = 2.5;
-  const LAM = 500e-9;
-  const L = 1.0;
-  const a = 100e-6;
-  const d = 1e-3;
-
-  /* ---------- Physics ---------- */
-  const S_u = (u) => Math.tanh(u) * (1 - Math.exp(-u));
-  const sinc_pi = (x) => Math.abs(x) < 1e-12 ? 1 : Math.sin(Math.PI*x)/(Math.PI*x);
-
-  const normalize = (arr) => {
-    const m = Math.max(...arr);
-    return arr.map(v => v/(m||1));
-  };
-
-  /* ---------- Time-Travel → Rq ---------- */
-  const Rq = useMemo(() => {
-    if (!timeTravel) return RqManual;
-    const log_t0 = -43.27, log_t1 = 17.6;
-    const log_t = (1-tau)*log_t0 + tau*log_t1;
-    const t_eff = Math.pow(10, log_t);
-    const u_c = Math.log(t_eff/1e-43);
-    return RQ_MAX * S_u(Math.abs(u_c));
-  }, [RqManual, timeTravel, tau]);
-
-  /* ---------- Epoch Markers ---------- */
-  const cosmicEvents = [
-    { name:"CMB", log_t:12.6, color:"#90ee90", desc:"Recombination" },
-    { name:"Dark Ages", log_t:15.5, color:"#4169e1", desc:"No stars" },
-    { name:"Reion.", log_t:16.3, color:"#9370db", desc:"First galaxies" },
-    { name:"Now", log_t:17.6, color:"#ffffff", desc:"Present" }
-  ];
-
-  /* ---------- Core Computation ---------- */
-  const patterns = useMemo(() => {
-    const L0 = L0_nm*1e-9;
-    const y = Array.from({length:501},(_,i)=>(i-250)*1e-4);
-    const y_mm = y.map(v=>v*1000);
-
-    const env = y.map(yy=>Math.pow(sinc_pi((a*yy)/(LAM*L)),2));
-    const phi = y.map(yy=>(2*Math.PI/LAM)*(d*yy/L));
-
-    const I_qm = y.map((_,i)=>env[i]*Math.cos(phi[i]/2)**2);
-
-    const coh = y.map(yy=>{
-      const u = Math.abs(d*yy/L)/Math.max(L0,1e-30);
-      return Math.exp(-Rq*S_u(u));
-    });
-
-    const damp = y.map(yy=>{
-      const u = Math.abs(d*yy/L)/Math.max(L0,1e-30);
-      return Math.exp(-0.5*(Rq*S_u(u))**2);
-    });
-
-    const I_stur = y.map((_,i)=>
-      2*env[i]*coh[i]*coh[i]*(1+Math.cos(phi[i])*damp[i])
-    );
-
-    const Iq = normalize(I_qm);
-    const Is = normalize(I_stur);
-    const diff = Is.map((v,i)=>v-Iq[i]);
-
-    const rmse = Math.sqrt(diff.reduce((s,d)=>s+d*d,0)/diff.length);
-
-    const entropy = coh.reduce((s,c)=>s+(1-c),0)/coh.length;
-    const bitsLost = entropy*1.442695;
-
-    const t_eff = Math.pow(10,14+Rq*2.5);
-    const log_t = Math.log10(t_eff);
-    const M = Rq*S_u(Math.log(t_eff/1e-43));
-
-    return {
-      y_mm, Iq, Is, diff, rmse,
-      bitsLost, log_t, M
-    };
-  }, [Rq, L0_nm]);
-
-  /* ---------- Charts ---------- */
-  const chartData = patterns.y_mm.map((y,i)=>({
-    y:y.toFixed(2),
-    QM:patterns.Iq[i],
-    STUR:patterns.Is[i],
-    Diff:patterns.diff[i]*1000
-  }));
-
-  /* ---------- Render ---------- */
-  return (
-    <div className="max-w-7xl mx-auto p-6 space-y-6">
-
-      <h1 className="text-3xl font-bold text-indigo-400">
-        STUR–TOE + Chronomagnetics Simulator
-      </h1>
-
-      {/* Controls */}
-      <div className="grid md:grid-cols-4 gap-4 bg-slate-800 p-4 rounded">
-        <div>
-          <label className="text-sm">R<sub>q</sub></label>
-          <input type="range" min="0.2" max="2.5" step="0.05"
-            value={RqManual}
-            disabled={timeTravel}
-            onChange={e=>setRqManual(+e.target.value)}
-            className="w-full"/>
-          <div className="text-xs">Rq = {Rq.toFixed(3)}</div>
-        </div>
-
-        <div>
-          <label className="text-sm">L<sub>0</sub> (nm)</label>
-          <input type="range" min="50" max="500" step="10"
-            value={L0_nm}
-            onChange={e=>setL0nm(+e.target.value)}
-            className="w-full"/>
-          <div className="text-xs">{L0_nm} nm</div>
-        </div>
-
-        <div>
-          <label className="text-sm">Time-Travel</label>
-          <input type="checkbox" checked={timeTravel}
-            onChange={()=>setTimeTravel(!timeTravel)}/>
-          {timeTravel &&
-            <input type="range" min="0" max="1" step="0.002"
-              value={tau}
-              onChange={e=>setTau(+e.target.value)}
-              className="w-full mt-2"/>}
-        </div>
-
-        <div className="bg-black p-3 rounded font-mono">
-          <div className="text-xs text-slate-400">Entropy Export</div>
-          <div className="text-xl text-green-400">
-            {patterns.bitsLost.toFixed(3)} bits
+    <div class="grid">
+      <!-- LEFT: MAIN VIEW -->
+      <div class="card">
+        <div class="cardhead">
+          <div class="h" id="mainTitle">Interference Intensity</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">QM: blue • STUR: green • Diff: purple</span>
           </div>
+        </div>
+        <div class="cardbody">
+          <canvas id="mainCanvas" width="1100" height="420"></canvas>
+          <div class="warnline" id="warnLine"></div>
         </div>
       </div>
 
-      {/* Plot */}
-      <ResponsiveContainer width="100%" height={380}>
-        <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3"/>
-          <XAxis dataKey="y"/>
-          <YAxis/>
-          <Tooltip/>
-          <Legend/>
-          {!showDiff ?
-            <>
-              <Line dataKey="QM" stroke="#3b82f6" dot={false}/>
-              <Line dataKey="STUR" stroke="#22c55e" dot={false} strokeDasharray="5 5"/>
-            </> :
-            <Line dataKey="Diff" stroke="#a855f7" dot={false}/>
-          }
-        </LineChart>
-      </ResponsiveContainer>
+      <!-- RIGHT: CONTROLS + HUD + CHRONO -->
+      <div class="card">
+        <div class="cardhead">
+          <div class="h">Controls + Diagnostics</div>
+          <div style="font-family:var(--mono);font-size:12px;color:var(--muted)">Physics locked • UI live</div>
+        </div>
+        <div class="cardbody">
 
+          <div class="controls">
+            <div class="ctrl">
+              <label>R<sub>q</sub> (Resistance / Phase Strength)</label>
+              <input id="rqRange" type="range" min="0.2" max="2.5" step="0.05" value="1.8">
+              <div class="val">Manual Rq = <span id="rqVal">1.80</span></div>
+              <div class="hint">Controls coherence suppression: <span style="color:#dcfce7">coh = exp(−R<sub>q</sub>·S<sub>u</sub>)</span> and phase damping <span style="color:#dcfce7">exp(−½(R<sub>q</sub>·S<sub>u</sub>)²)</span>.</div>
+              <div class="val">Active Rq = <span id="rqActive">1.800</span></div>
+            </div>
+
+            <div class="ctrl">
+              <label>L<sub>0</sub> (Saturation Length, nm)</label>
+              <input id="l0Range" type="range" min="50" max="500" step="10" value="120">
+              <div class="val">L₀ = <span id="l0Val">120</span> nm</div>
+              <div class="hint">Sets saturation onset in <span style="color:#dbeafe">u = |d·y/L| / L₀</span>.</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Time-Travel (τ)</label>
+              <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+                <input id="ttCheck" type="checkbox">
+                <span style="font-size:12px;color:var(--muted)">Drive Rq from cosmic log-time</span>
+              </div>
+              <input id="tauRange" type="range" min="0" max="1" step="0.002" value="1" style="margin-top:10px" disabled>
+              <div class="val">τ = <span id="tauVal">1.000</span></div>
+              <div class="hint">τ maps log₁₀(t): Planck (−43.27) → Now (17.6), then <span style="color:#dcfce7">Rq = RQ_MAX·S<sub>u</sub>(|u<sub>c</sub>|)</span>.</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Chronomagnetic Regime</label>
+              <div class="kv">
+                <div>
+                  <div class="k">Regime</div>
+                  <div class="v" id="chronoReg">pre-saturation</div>
+                </div>
+                <div>
+                  <div class="k">M = Rq·S<sub>u</sub>(u<sub>c</sub>)</div>
+                  <div class="v" id="chronoM">0.000</div>
+                </div>
+                <div>
+                  <div class="k">log₁₀(t)</div>
+                  <div class="v" id="chronologt">0.00</div>
+                </div>
+                <div>
+                  <div class="k">RMSE</div>
+                  <div class="v" id="rmseVal">0.0000</div>
+                </div>
+              </div>
+              <div class="hint" style="margin-top:10px">
+                Diagnostic mapping (kept geometry-only): <span style="color:#dbeafe">t_eff = 10^(14 + 2.5·Rq)</span>, u<sub>c</sub> = ln(t_eff / t₀), M = Rq·S<sub>u</sub>(|u<sub>c</sub>|).
+              </div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="hud">
+            <div class="hudbox">
+              <div class="k">Vacuum Information Leakage</div>
+              <div class="v">ΔS: <span style="color:#fff" id="bitsLost">0.000</span> <span style="font-size:12px;color:var(--muted)">bits (avg)</span></div>
+              <div class="bar"><div id="bitsBar"></div></div>
+              <div class="small">Computed from ⟨1 − coh(y)⟩, with coh = exp(−R<sub>q</sub>·S<sub>u</sub>).</div>
+            </div>
+            <div class="hudbox">
+              <div class="k">Phase Divergence</div>
+              <div class="v"><span style="color:#fff" id="phaseDiv">0.0000</span> <span style="font-size:12px;color:var(--muted)">⟨|Δθ|⟩</span></div>
+              <div class="small">Mean angular displacement from phase damping exp(−½(R<sub>q</sub>·S<sub>u</sub>)²).</div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="card" style="box-shadow:none;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(10,16,34,.55)">
+            <div class="cardhead" style="border-radius:14px 14px 0 0">
+              <div class="h">Chronomagnetic Diagnostic Plot</div>
+              <div style="font-family:var(--mono);font-size:12px;color:var(--muted)">log(t) vs M</div>
+            </div>
+            <div class="cardbody" style="padding:10px">
+              <canvas id="chronoCanvas" width="520" height="300"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
-  );
-}
 
-ReactDOM.createRoot(document.getElementById("root"))
-  .render(<STURChronoAnalyzer/>);
+    <div class="foot">
+      <div class="t">Chronomagnetics (diagnostic layer)</div>
+      <div class="p">
+        Bounded source dynamics → bounded invariants → finite responses. Here the modulation index
+        <span style="font-family:var(--mono);font-weight:900"> M = Rq·S<sub>u</sub>(u<sub>c</sub>) </span>
+        is the unified diagnostic. This page keeps Chronomagnetics as a geometry-only projection (no extra knobs; no cross-coupling beyond the shared saturation operator).
+      </div>
+    </div>
 
-</script>
+  </div>
+
+  <script>
+    // ============================================================
+    // STUR–TOE + CHRONOMAGNETICS SIMULATOR (NO BUILD, GH PAGES SAFE)
+    // Matches your physics from the React version:
+    //   Su(u)=tanh(u)(1-exp(-u))
+    //   coh=exp(-Rq*Su)
+    //   I_STUR = 2E*coh^2*(1 + cos(phi)*exp(-0.5*(Rq*Su)^2))
+    // Phase space:
+    //   QM: exp(i*phi/2)
+    //   STUR: coh * exp(i*(phi/2)*damp)
+    // Entropy HUD:
+    //   bitsLost = <1 - coh> * 1/ln2
+    // Chrono diag:
+    //   t_eff = 10^(14 + 2.5*Rq), u_c=ln(t_eff/t0), M=Rq*Su(|u_c|)
+    // ============================================================
+
+    // ----- DOM
+    const mainCanvas = document.getElementById("mainCanvas");
+    const mainCtx = mainCanvas.getContext("2d");
+    const chronoCanvas = document.getElementById("chronoCanvas");
+    const chronoCtx = chronoCanvas.getContext("2d");
+
+    const toggleViewBtn = document.getElementById("toggleView");
+    const toggleDiffBtn = document.getElementById("toggleDiff");
+
+    const rqRange = document.getElementById("rqRange");
+    const l0Range = document.getElementById("l0Range");
+    const ttCheck = document.getElementById("ttCheck");
+    const tauRange = document.getElementById("tauRange");
+
+    const rqVal = document.getElementById("rqVal");
+    const rqActive = document.getElementById("rqActive");
+    const l0Val = document.getElementById("l0Val");
+    const tauVal = document.getElementById("tauVal");
+
+    const chronoReg = document.getElementById("chronoReg");
+    const chronoM = document.getElementById("chronoM");
+    const chronologt = document.getElementById("chronologt");
+    const rmseVal = document.getElementById("rmseVal");
+
+    const bitsLostEl = document.getElementById("bitsLost");
+    const bitsBarEl = document.getElementById("bitsBar");
+    const phaseDivEl = document.getElementById("phaseDiv");
+    const mainTitle = document.getElementById("mainTitle");
+    const warnLine = document.getElementById("warnLine");
+
+    // ----- State
+    let viewMode = "pattern";  // "pattern" | "phase"
+    let showDiff = false;
+
+    // ----- Constants (locked optics)
+    const RQ_MAX = 2.5;
+    const LAM = 500e-9;
+    const L = 1.0;
+    const a = 100e-6;
+    const d = 1e-3;
+
+    const cosmicEvents = [
+      { name: "CMB", log_t: 12.6, color: "#90ee90", desc: "Recombination / decoupling" },
+      { name: "Dark Ages", log_t: 15.5, color: "#4169e1", desc: "Before first stars" },
+      { name: "Reion.", log_t: 16.3, color: "#9370db", desc: "First galaxies" },
+      { name: "Now", log_t: 17.6, color: "#ffffff", desc: "Present epoch" }
+    ];
+
+    // ----- Physics helpers
+    const S_u = (u) => Math.tanh(u) * (1 - Math.exp(-u));
+    const sinc_pi = (x) => (Math.abs(x) < 1e-12 ? 1 : Math.sin(Math.PI * x) / (Math.PI * x));
+
+    function normalizeMax(arr){
+      let m = -Infinity;
+      for (let i=0;i<arr.length;i++) if (arr[i] > m) m = arr[i];
+      if (!isFinite(m) || m === 0) return arr.map(()=>0);
+      return arr.map(v => v / m);
+    }
+
+    // ----- Time-travel driver (matches your React logic)
+    function computeRq(){
+      const timeTravel = ttCheck.checked;
+      const RqManual = parseFloat(rqRange.value);
+
+      if (!timeTravel) return RqManual;
+
+      const tau = parseFloat(tauRange.value);
+      const log_t0 = -43.27;
+      const log_t1 = 17.6;
+      const log_t = (1 - tau) * log_t0 + tau * log_t1;
+      const t_eff = Math.pow(10, log_t);
+
+      const u_c = Math.log(t_eff / 1e-43);
+      const sat = S_u(Math.abs(u_c));
+
+      return RQ_MAX * sat;
+    }
+
+    // ----- Core compute (matches your React physics)
+    function computePatterns(Rq, L0_nm){
+      const L0 = L0_nm * 1e-9;
+
+      // screen coordinate y in meters
+      const N = 501;
+      const y = new Array(N);
+      const y_mm = new Array(N);
+      for (let i=0;i<N;i++){
+        const yy = (i - 250) * 1e-4;
+        y[i] = yy;
+        y_mm[i] = yy * 1000;
+      }
+
+      // envelope and phase
+      const env = new Array(N);
+      const phi = new Array(N);
+      for (let i=0;i<N;i++){
+        const yy = y[i];
+        env[i] = Math.pow(sinc_pi((a * yy) / (LAM * L)), 2);
+        phi[i] = (2 * Math.PI / LAM) * (d * yy / L);
+      }
+
+      // QM baseline
+      const I_qm = new Array(N);
+      for (let i=0;i<N;i++){
+        I_qm[i] = env[i] * Math.pow(Math.cos(phi[i] / 2), 2);
+      }
+
+      // STUR coherence and phase damp
+      const cohArr = new Array(N);
+      const dampArr = new Array(N);
+      for (let i=0;i<N;i++){
+        const yy = y[i];
+        const u = Math.abs(d * yy / L) / Math.max(L0, 1e-30);
+        const Su = S_u(u);
+        const rs = Rq * Su;
+        cohArr[i] = Math.exp(-rs);
+        dampArr[i] = Math.exp(-0.5 * rs * rs);
+      }
+
+      const I_stur = new Array(N);
+      for (let i=0;i<N;i++){
+        const coh = cohArr[i];
+        const damp = dampArr[i];
+        I_stur[i] = 2 * env[i] * coh * coh * (1 + Math.cos(phi[i]) * damp);
+      }
+
+      // normalize
+      const Iq = normalizeMax(I_qm);
+      const Is = normalizeMax(I_stur);
+
+      // diff + rmse
+      const diff = new Array(N);
+      let sse = 0;
+      for (let i=0;i<N;i++){
+        diff[i] = Is[i] - Iq[i];
+        sse += diff[i] * diff[i];
+      }
+      const rmse = Math.sqrt(sse / N);
+
+      // Chronomagnetics diagnostic mapping
+      const t0 = 1e-43;
+      const t_eff = Math.pow(10, 14 + Rq * 2.5);
+      const log_t = Math.log10(t_eff);
+      const u_c = Math.log(t_eff / t0);
+      const M = Rq * S_u(Math.abs(u_c));
+
+      let chronoRegime = "pre-saturation";
+      if (M > 0.3) chronoRegime = "transitional";
+      if (M > 0.8) chronoRegime = "saturated";
+
+      // Entropy export (bits)
+      let avgLoss = 0;
+      for (let i=0;i<N;i++) avgLoss += (1 - cohArr[i]);
+      avgLoss /= N;
+      const bitsLost = avgLoss * 1.4426950408889634; // 1/ln2
+
+      // Phase divergence (mean |Δθ|)
+      let pd = 0;
+      for (let i=0;i<N;i++){
+        const theta = 0.5 * phi[i] * (1 - dampArr[i]);
+        pd += Math.abs(theta);
+      }
+      pd /= N;
+
+      return {
+        y_mm, Iq, Is, diff, rmse,
+        cohArr, dampArr,
+        chrono: { log_t, M, regime: chronoRegime },
+        entropy: { bitsLost, phaseDiv: pd }
+      };
+    }
+
+    // ----- Phase-space data (matches your React physics)
+    function computePhaseSpace(Rq, L0_nm){
+      const L0 = L0_nm * 1e-9;
+      const N = 300;
+      const ptsQM = new Array(N);
+      const ptsST = new Array(N);
+
+      for (let i=0;i<N;i++){
+        const y = (i - 150) * 2e-5;
+        const u = Math.abs(d * y / L) / Math.max(L0, 1e-30);
+        const Su = S_u(u);
+        const rs = Rq * Su;
+
+        const coh = Math.exp(-rs);
+        const damp = Math.exp(-0.5 * rs * rs);
+
+        const ph = (2 * Math.PI / LAM) * (d * y / L);
+        const phaseQM = ph / 2;
+        const phaseST = (ph / 2) * damp;
+
+        ptsQM[i] = { x: Math.cos(phaseQM), y: Math.sin(phaseQM) };
+        ptsST[i] = { x: coh * Math.cos(phaseST), y: coh * Math.sin(phaseST) };
+      }
+      return { ptsQM, ptsST };
+    }
+
+    // ----- Drawing helpers
+    function clear(ctx, w, h){
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = "rgba(255,255,255,0.02)";
+      ctx.fillRect(0,0,w,h);
+    }
+
+    function drawAxes(ctx, w, h, x0, x1, y0, y1, opts={}){
+      // plotting rect
+      const padL = opts.padL ?? 50;
+      const padR = opts.padR ?? 18;
+      const padT = opts.padT ?? 18;
+      const padB = opts.padB ?? 46;
+
+      const gx0 = padL, gx1 = w - padR;
+      const gy0 = padT, gy1 = h - padB;
+
+      // grid
+      ctx.strokeStyle = "rgba(255,255,255,0.08)";
+      ctx.lineWidth = 1;
+
+      const ngrid = 6;
+      for (let i=0;i<=ngrid;i++){
+        const t = i/ngrid;
+        const x = gx0 + t*(gx1-gx0);
+        ctx.beginPath(); ctx.moveTo(x,gy0); ctx.lineTo(x,gy1); ctx.stroke();
+
+        const y = gy0 + t*(gy1-gy0);
+        ctx.beginPath(); ctx.moveTo(gx0,y); ctx.lineTo(gx1,y); ctx.stroke();
+      }
+
+      // border
+      ctx.strokeStyle = "rgba(255,255,255,0.10)";
+      ctx.strokeRect(gx0,gy0,gx1-gx0,gy1-gy0);
+
+      // axis labels
+      ctx.fillStyle = "rgba(226,232,240,0.85)";
+      ctx.font = "12px " + getComputedStyle(document.documentElement).getPropertyValue('--mono');
+      if (opts.xlabel){
+        ctx.textAlign = "center";
+        ctx.fillText(opts.xlabel, (gx0+gx1)/2, h-16);
+      }
+      if (opts.ylabel){
+        ctx.save();
+        ctx.translate(16, (gy0+gy1)/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.textAlign = "center";
+        ctx.fillText(opts.ylabel, 0, 0);
+        ctx.restore();
+      }
+
+      return { gx0, gx1, gy0, gy1, x0, x1, y0, y1 };
+    }
+
+    function mapX(fr, x){
+      return fr.gx0 + (x - fr.x0) * (fr.gx1 - fr.gx0) / (fr.x1 - fr.x0);
+    }
+    function mapY(fr, y){
+      return fr.gy1 - (y - fr.y0) * (fr.gy1 - fr.gy0) / (fr.y1 - fr.y0);
+    }
+
+    function drawLine(ctx, fr, xs, ys, color, width=2, dash=null){
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      if (dash) ctx.setLineDash(dash);
+      ctx.beginPath();
+      for (let i=0;i<xs.length;i++){
+        const X = mapX(fr, xs[i]);
+        const Y = mapY(fr, ys[i]);
+        if (i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawPoints(ctx, fr, pts, color, r=2){
+      ctx.save();
+      ctx.fillStyle = color;
+      for (const p of pts){
+        const X = mapX(fr, p.x);
+        const Y = mapY(fr, p.y);
+        ctx.beginPath();
+        ctx.arc(X,Y,r,0,Math.PI*2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function drawLegend(ctx, items, x, y){
+      ctx.save();
+      ctx.font = "12px " + getComputedStyle(document.documentElement).getPropertyValue('--sans');
+      ctx.textAlign = "left";
+      let yy = y;
+      for (const it of items){
+        ctx.fillStyle = it.color;
+        ctx.fillRect(x, yy-9, 10, 10);
+        ctx.fillStyle = "rgba(226,232,240,0.90)";
+        ctx.fillText(it.label, x+14, yy);
+        yy += 16;
+      }
+      ctx.restore();
+    }
+
+    // ----- Render
+    function render(){
+      try{
+        warnLine.style.display = "none";
+        warnLine.textContent = "";
+
+        const RqManual = parseFloat(rqRange.value);
+        const L0_nm = parseFloat(l0Range.value);
+        const tau = parseFloat(tauRange.value);
+
+        rqVal.textContent = RqManual.toFixed(2);
+        l0Val.textContent = Math.round(L0_nm).toString();
+        tauVal.textContent = tau.toFixed(3);
+
+        const Rq = computeRq();
+        rqActive.textContent = Rq.toFixed(3);
+
+        const pat = computePatterns(Rq, L0_nm);
+
+        // HUD
+        const bitsLost = pat.entropy.bitsLost;
+        const bitsBar = Math.min(bitsLost * 50, 100);
+        bitsLostEl.textContent = bitsLost.toFixed(3);
+        bitsBarEl.style.width = bitsBar.toFixed(1) + "%";
+        phaseDivEl.textContent = pat.entropy.phaseDiv.toFixed(4);
+
+        // Chrono cards
+        chronoReg.textContent = pat.chrono.regime;
+        chronoM.textContent = pat.chrono.M.toFixed(3);
+        chronologt.textContent = pat.chrono.log_t.toFixed(2);
+        rmseVal.textContent = pat.rmse.toFixed(4);
+
+        // MAIN VIEW
+        clear(mainCtx, mainCanvas.width, mainCanvas.height);
+
+        if (viewMode === "pattern"){
+          mainTitle.textContent = showDiff ? "Difference (STUR − QM) × 1000" : "Interference Intensity";
+
+          // y range
+          const xs = pat.y_mm;
+          let xmin = xs[0], xmax = xs[xs.length-1];
+
+          // y range for plot
+          let ymin = 0, ymax = 1.05;
+          if (showDiff){
+            // diff * 1000
+            ymin = Infinity; ymax = -Infinity;
+            for (let i=0;i<pat.diff.length;i++){
+              const v = pat.diff[i]*1000;
+              if (v<ymin) ymin=v;
+              if (v>ymax) ymax=v;
+            }
+            // pad
+            const pad = 0.10 * (ymax - ymin + 1e-9);
+            ymin -= pad; ymax += pad;
+          }
+
+          const fr = drawAxes(mainCtx, mainCanvas.width, mainCanvas.height, xmin, xmax, ymin, ymax, {
+            xlabel: "Position (mm)",
+            ylabel: showDiff ? "ΔI × 1000" : "Normalized intensity",
+            padL: 60, padR: 20, padT: 18, padB: 50
+          });
+
+          if (!showDiff){
+            drawLine(mainCtx, fr, xs, pat.Iq, "#2563eb", 2.5, null);      // QM
+            drawLine(mainCtx, fr, xs, pat.Is, "#059669", 2.5, [6,5]);    // STUR
+            drawLegend(mainCtx, [
+              {label:"QM", color:"#2563eb"},
+              {label:"STUR (closed)", color:"#059669"}
+            ], fr.gx0+10, fr.gy0+18);
+          } else {
+            const diff1000 = pat.diff.map(v=>v*1000);
+            drawLine(mainCtx, fr, xs, diff1000, "#a78bfa", 2.5, null);
+            drawLegend(mainCtx, [{label:"STUR − QM (×1000)", color:"#a78bfa"}], fr.gx0+10, fr.gy0+18);
+          }
+
+        } else {
+          mainTitle.textContent = "Wavefunction Phase-Space (ψ-plane): QM circle vs STUR spiral";
+
+          const fr = drawAxes(mainCtx, mainCanvas.width, mainCanvas.height, -1.1, 1.1, -1.1, 1.1, {
+            xlabel: "Re(ψ)",
+            ylabel: "Im(ψ)",
+            padL: 60, padR: 20, padT: 18, padB: 50
+          });
+
+          const ps = computePhaseSpace(Rq, L0_nm);
+
+          // draw faint unit circle
+          mainCtx.save();
+          mainCtx.strokeStyle = "rgba(255,255,255,0.18)";
+          mainCtx.lineWidth = 1.5;
+          mainCtx.beginPath();
+          for (let k=0;k<=240;k++){
+            const th = (k/240)*Math.PI*2;
+            const X = mapX(fr, Math.cos(th));
+            const Y = mapY(fr, Math.sin(th));
+            if (k===0) mainCtx.moveTo(X,Y); else mainCtx.lineTo(X,Y);
+          }
+          mainCtx.stroke();
+          mainCtx.restore();
+
+          // QM points (blue) + STUR points (green)
+          drawPoints(mainCtx, fr, ps.ptsQM, "#2563eb", 2.0);
+          drawPoints(mainCtx, fr, ps.ptsST, "#059669", 2.0);
+
+          drawLegend(mainCtx, [
+            {label:"QM (unit circle)", color:"#2563eb"},
+            {label:"STUR (inward spiral)", color:"#059669"}
+          ], fr.gx0+10, fr.gy0+18);
+        }
+
+        // CHRONO PLOT
+        renderChrono(pat.chrono.log_t, pat.chrono.M);
+
+      } catch (err){
+        warnLine.style.display = "block";
+        warnLine.textContent = "Runtime error: " + (err && err.message ? err.message : String(err));
+        console.error(err);
+      }
+    }
+
+    function renderChrono(log_t, M){
+      clear(chronoCtx, chronoCanvas.width, chronoCanvas.height);
+
+      const fr = drawAxes(chronoCtx, chronoCanvas.width, chronoCanvas.height, 12, 18, 0, 2.0, {
+        xlabel: "log₁₀(t / seconds)",
+        ylabel: "M = Rq · S_u(u_c)",
+        padL: 60, padR: 18, padT: 18, padB: 46
+      });
+
+      // Regime zones (y)
+      // pre: [0,0.3], trans: [0.3,0.8], sat: [0.8,2.0]
+      function fillZone(y1,y2,color,alpha){
+        chronoCtx.save();
+        chronoCtx.fillStyle = color;
+        chronoCtx.globalAlpha = alpha;
+        const X0 = fr.gx0, X1 = fr.gx1;
+        const Y1 = mapY(fr, y2);
+        const Y2 = mapY(fr, y1);
+        chronoCtx.fillRect(X0, Y1, X1-X0, Y2-Y1);
+        chronoCtx.restore();
+      }
+      fillZone(0,0.3,"#22c55e",0.10);
+      fillZone(0.3,0.8,"#f59e0b",0.10);
+      fillZone(0.8,2.0,"#fb7185",0.10);
+
+      // Epoch vertical lines
+      for (const e of cosmicEvents){
+        const x = mapX(fr, e.log_t);
+        chronoCtx.save();
+        chronoCtx.strokeStyle = e.color;
+        chronoCtx.globalAlpha = 0.7;
+        chronoCtx.setLineDash([5,5]);
+        chronoCtx.beginPath();
+        chronoCtx.moveTo(x, fr.gy0);
+        chronoCtx.lineTo(x, fr.gy1);
+        chronoCtx.stroke();
+        chronoCtx.restore();
+
+        // label (tiny)
+        chronoCtx.save();
+        chronoCtx.fillStyle = e.color;
+        chronoCtx.globalAlpha = 0.9;
+        chronoCtx.font = "10px " + getComputedStyle(document.documentElement).getPropertyValue('--sans');
+        chronoCtx.textAlign = "center";
+        chronoCtx.fillText(e.name, x, fr.gy0+12);
+        chronoCtx.restore();
+      }
+
+      // current point
+      const X = mapX(fr, log_t);
+      const Y = mapY(fr, M);
+      chronoCtx.save();
+      chronoCtx.fillStyle = "#a78bfa";
+      chronoCtx.beginPath();
+      chronoCtx.arc(X,Y,5,0,Math.PI*2);
+      chronoCtx.fill();
+      chronoCtx.restore();
+
+      // point label
+      chronoCtx.save();
+      chronoCtx.fillStyle = "rgba(226,232,240,0.90)";
+      chronoCtx.font = "11px " + getComputedStyle(document.documentElement).getPropertyValue('--mono');
+      chronoCtx.textAlign = "left";
+      chronoCtx.fillText(`log_t=${log_t.toFixed(2)}, M=${M.toFixed(3)}`, Math.min(X+8, fr.gx1-150), Math.max(Y-10, fr.gy0+16));
+      chronoCtx.restore();
+    }
+
+    // ----- Events
+    toggleViewBtn.addEventListener("click", () => {
+      viewMode = (viewMode === "pattern") ? "phase" : "pattern";
+      toggleViewBtn.textContent = (viewMode === "pattern") ? "Switch to Phase Space" : "Switch to Interference";
+      render();
+    });
+
+    toggleDiffBtn.addEventListener("click", () => {
+      showDiff = !showDiff;
+      toggleDiffBtn.textContent = showDiff ? "Show Patterns" : "Show Difference";
+      render();
+    });
+
+    rqRange.addEventListener("input", () => render());
+    l0Range.addEventListener("input", () => render());
+
+    ttCheck.addEventListener("change", () => {
+      const on = ttCheck.checked;
+      tauRange.disabled = !on;
+      rqRange.disabled = on;
+      render();
+    });
+
+    tauRange.addEventListener("input", () => render());
+
+    // ----- Initial render
+    render();
+  </script>
 </body>
 </html>
