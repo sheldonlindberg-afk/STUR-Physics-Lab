@@ -1,486 +1,220 @@
-import React, { useMemo, useState } from "react";
-import {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>STUR–TOE + Chronomagnetics Simulator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Tailwind (matches your lab aesthetic) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- React + ReactDOM (UMD) -->
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+<!-- Recharts (UMD) -->
+<script src="https://unpkg.com/recharts/umd/Recharts.min.js"></script>
+
+<!-- Babel (JSX in browser) -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<style>
+  body {
+    margin: 0;
+    background: #020617;
+    color: #e5e7eb;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+</style>
+</head>
+
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+
+const {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, ResponsiveContainer,
   ScatterChart, Scatter, ReferenceLine, ReferenceArea
-} from "recharts";
+} = Recharts;
+
+const { useState, useMemo } = React;
 
 /* ============================================================
-   STUR–TOE + CHRONOMAGNETICS SIMULATOR (FULL + ENTROPY HUD)
-
-   Operators:
-     Su(u)  = tanh(u)(1 − e^−u)
-     coh    = exp(−Rq·Su)
-
-   Closed-form STUR intensity (Gaussian phase-bundle exact):
-     I_STUR = 2E · coh² · [1 + cos(φ) · exp(−½(Rq·Su)²)]
-
-   Entropy Export HUD:
-     We treat radius shrink (coh < 1) as purity loss and integrate
-     coherence loss over the screen (or equivalently over the ψ-plane).
+   STUR–TOE + CHRONOMAGNETICS SIMULATOR
+   Single-file GitHub Pages version
    ============================================================ */
 
-export default function STURChronoAnalyzer() {
+function STURChronoAnalyzer() {
+
   /* ---------- UI State ---------- */
   const [RqManual, setRqManual] = useState(1.8);
   const [L0_nm, setL0nm] = useState(120);
-  const [viewMode, setViewMode] = useState("pattern"); // pattern | phase
+  const [viewMode, setViewMode] = useState("pattern");
   const [showDiff, setShowDiff] = useState(false);
-
   const [timeTravel, setTimeTravel] = useState(false);
-  const [tau, setTau] = useState(1.0); // 0=Planck, 1=Now
+  const [tau, setTau] = useState(1.0);
 
   /* ---------- Constants ---------- */
   const RQ_MAX = 2.5;
-
-  // Optical setup (locked)
-  const LAM = 500e-9;  // wavelength [m]
-  const L = 1.0;       // screen distance [m]
-  const a = 100e-6;    // slit width [m]
-  const d = 1e-3;      // slit separation [m]
+  const LAM = 500e-9;
+  const L = 1.0;
+  const a = 100e-6;
+  const d = 1e-3;
 
   /* ---------- Physics ---------- */
   const S_u = (u) => Math.tanh(u) * (1 - Math.exp(-u));
-  const sinc_pi = (x) => (Math.abs(x) < 1e-12 ? 1 : Math.sin(Math.PI * x) / (Math.PI * x));
+  const sinc_pi = (x) => Math.abs(x) < 1e-12 ? 1 : Math.sin(Math.PI*x)/(Math.PI*x);
 
-  const normalizeMax = (arr) => {
+  const normalize = (arr) => {
     const m = Math.max(...arr);
-    return arr.map(v => v / (m || 1));
+    return arr.map(v => v/(m||1));
   };
 
-  /* ============================================================
-     Time-Travel Driver:
-     τ maps cosmic log-time from Planck to Now,
-     then pushes Rq via saturation of u_c (diagnostic-only mapping).
-     ============================================================ */
+  /* ---------- Time-Travel → Rq ---------- */
   const Rq = useMemo(() => {
     if (!timeTravel) return RqManual;
-
-    // log10(t) endpoints
-    const log_t0 = -43.27; // Planck time
-    const log_t1 = 17.6;   // ~Now (age of Universe in seconds)
-
-    const log_t = (1 - tau) * log_t0 + tau * log_t1;
+    const log_t0 = -43.27, log_t1 = 17.6;
+    const log_t = (1-tau)*log_t0 + tau*log_t1;
     const t_eff = Math.pow(10, log_t);
-
-    // chronomagnetic log-time coordinate
-    const u_c = Math.log(t_eff / 1e-43);
-    const sat = S_u(Math.abs(u_c)); // in [0,1)
-
-    return RQ_MAX * sat;
-  }, [timeTravel, tau, RqManual]);
+    const u_c = Math.log(t_eff/1e-43);
+    return RQ_MAX * S_u(Math.abs(u_c));
+  }, [RqManual, timeTravel, tau]);
 
   /* ---------- Epoch Markers ---------- */
   const cosmicEvents = [
-    { name: "CMB", log_t: 12.6, color: "#90ee90", desc: "Recombination / decoupling" },
-    { name: "Dark Ages", log_t: 15.5, color: "#4169e1", desc: "Before first stars" },
-    { name: "Reion.", log_t: 16.3, color: "#9370db", desc: "First galaxies" },
-    { name: "Now", log_t: 17.6, color: "#ffffff", desc: "Present epoch" }
+    { name:"CMB", log_t:12.6, color:"#90ee90", desc:"Recombination" },
+    { name:"Dark Ages", log_t:15.5, color:"#4169e1", desc:"No stars" },
+    { name:"Reion.", log_t:16.3, color:"#9370db", desc:"First galaxies" },
+    { name:"Now", log_t:17.6, color:"#ffffff", desc:"Present" }
   ];
 
-  /* ============================================================
-     Core: Interference + coherence arrays + chronomagnetics
-     ============================================================ */
+  /* ---------- Core Computation ---------- */
   const patterns = useMemo(() => {
-    const L0 = L0_nm * 1e-9;
+    const L0 = L0_nm*1e-9;
+    const y = Array.from({length:501},(_,i)=>(i-250)*1e-4);
+    const y_mm = y.map(v=>v*1000);
 
-    // screen coordinate y in meters
-    const y = Array.from({ length: 501 }, (_, i) => (i - 250) * 1e-4);
-    const y_mm = y.map(v => v * 1000);
+    const env = y.map(yy=>Math.pow(sinc_pi((a*yy)/(LAM*L)),2));
+    const phi = y.map(yy=>(2*Math.PI/LAM)*(d*yy/L));
 
-    // envelope and phase
-    const env = y.map(yy => Math.pow(sinc_pi((a * yy) / (LAM * L)), 2));
-    const phi = y.map(yy => (2 * Math.PI / LAM) * (d * yy / L));
+    const I_qm = y.map((_,i)=>env[i]*Math.cos(phi[i]/2)**2);
 
-    // QM baseline
-    const I_qm = y.map((_, i) => env[i] * Math.pow(Math.cos(phi[i] / 2), 2));
-
-    // STUR closed form + coherence arrays
-    const cohArr = y.map((yy) => {
-      const u = Math.abs(d * yy / L) / Math.max(L0, 1e-30);
-      const Su = S_u(u);
-      return Math.exp(-Rq * Su);
+    const coh = y.map(yy=>{
+      const u = Math.abs(d*yy/L)/Math.max(L0,1e-30);
+      return Math.exp(-Rq*S_u(u));
     });
 
-    const phaseDampArr = y.map((yy) => {
-      const u = Math.abs(d * yy / L) / Math.max(L0, 1e-30);
-      const Su = S_u(u);
-      return Math.exp(-0.5 * (Rq * Su) ** 2);
+    const damp = y.map(yy=>{
+      const u = Math.abs(d*yy/L)/Math.max(L0,1e-30);
+      return Math.exp(-0.5*(Rq*S_u(u))**2);
     });
 
-    const I_stur = y.map((_, i) => {
-      const coh = cohArr[i];
-      const damp = phaseDampArr[i];
-      return 2 * env[i] * coh * coh * (1 + Math.cos(phi[i]) * damp);
-    });
+    const I_stur = y.map((_,i)=>
+      2*env[i]*coh[i]*coh[i]*(1+Math.cos(phi[i])*damp[i])
+    );
 
-    // normalize
-    const Iq = normalizeMax(I_qm);
-    const Is = normalizeMax(I_stur);
-    const diff = Is.map((v, i) => v - Iq[i]);
+    const Iq = normalize(I_qm);
+    const Is = normalize(I_stur);
+    const diff = Is.map((v,i)=>v-Iq[i]);
 
-    // RMSE (shape deviation)
-    const rmse = Math.sqrt(diff.reduce((s, d0) => s + d0 * d0, 0) / diff.length);
+    const rmse = Math.sqrt(diff.reduce((s,d)=>s+d*d,0)/diff.length);
 
-    /* ---------- Chronomagnetics diagnostic mapping ---------- */
-    const t0 = 1e-43;
-    const t_eff = Math.pow(10, 14 + Rq * 2.5);  // simple proxy mapping
+    const entropy = coh.reduce((s,c)=>s+(1-c),0)/coh.length;
+    const bitsLost = entropy*1.442695;
+
+    const t_eff = Math.pow(10,14+Rq*2.5);
     const log_t = Math.log10(t_eff);
-    const u_c = Math.log(t_eff / t0);
-    const M = Rq * S_u(Math.abs(u_c));
-
-    let chronoRegime = "pre-saturation";
-    if (M > 0.3) chronoRegime = "transitional";
-    if (M > 0.8) chronoRegime = "saturated";
-
-    /* ---------- Entropy Export (bits) ---------- */
-    // Interpret coherence loss (1 - coh) as purity loss proxy.
-    // Average coherence loss across y (screen).
-    const entropyExport = cohArr.reduce((acc, coh) => acc + (1 - coh), 0) / cohArr.length;
-
-    // Convert "nats-like" to bits with factor ~1/ln2 = 1.4427...
-    const bitsLost = entropyExport * 1.4426950408889634;
-
-    /* ---------- Phase Divergence (scalar diagnostic) ---------- */
-    // Track mean magnitude of angular displacement between QM phase and STUR-damped phase.
-    // Here: θ = (φ/2) - (φ/2)*damp = (φ/2)*(1 - damp)
-    const phaseDiv = phi.reduce((acc, ph, i) => {
-      const theta = 0.5 * ph * (1 - phaseDampArr[i]);
-      return acc + Math.abs(theta);
-    }, 0) / phi.length;
+    const M = Rq*S_u(Math.log(t_eff/1e-43));
 
     return {
-      y_mm,
-      I_qm: Iq,
-      I_stur: Is,
-      diff,
-      rmse,
-      cohArr,
-      phaseDampArr,
-      chrono: { log_t, M, regime: chronoRegime },
-      entropy: {
-        entropyExport,
-        bitsLost,
-        phaseDiv
-      }
+      y_mm, Iq, Is, diff, rmse,
+      bitsLost, log_t, M
     };
   }, [Rq, L0_nm]);
 
-  /* ---------- Interference Chart Data ---------- */
-  const chartData = useMemo(() => {
-    return patterns.y_mm.map((y, i) => ({
-      y: y.toFixed(2),
-      QM: patterns.I_qm[i],
-      STUR: patterns.I_stur[i],
-      Diff: patterns.diff[i] * 1000
-    }));
-  }, [patterns]);
+  /* ---------- Charts ---------- */
+  const chartData = patterns.y_mm.map((y,i)=>({
+    y:y.toFixed(2),
+    QM:patterns.Iq[i],
+    STUR:patterns.Is[i],
+    Diff:patterns.diff[i]*1000
+  }));
 
-  /* ============================================================
-     Phase-Space (ψ-plane) data
-     QM: e^{iφ/2} on unit circle
-     STUR: coh * e^{i(φ/2 * damp)} inward spiral
-     ============================================================ */
-  const phaseSpaceData = useMemo(() => {
-    const L0 = L0_nm * 1e-9;
-
-    // tight sampling around center
-    const ys = Array.from({ length: 300 }, (_, i) => (i - 150) * 2e-5);
-
-    return ys.map((y) => {
-      const u = Math.abs(d * y / L) / Math.max(L0, 1e-30);
-      const Su = S_u(u);
-      const coh = Math.exp(-Rq * Su);
-
-      const ph = (2 * Math.PI / LAM) * (d * y / L);
-      const damp = Math.exp(-0.5 * (Rq * Su) ** 2);
-
-      const phaseQM = ph / 2;
-      const phaseST = (ph / 2) * damp;
-
-      return {
-        Re_QM: Math.cos(phaseQM),
-        Im_QM: Math.sin(phaseQM),
-        Re_STUR: coh * Math.cos(phaseST),
-        Im_STUR: coh * Math.sin(phaseST)
-      };
-    });
-  }, [Rq, L0_nm]);
-
-  /* ---------- HUD numbers ---------- */
-  const bitsLost = patterns.entropy.bitsLost;
-  const bitsBar = Math.min(bitsLost * 50, 100); // simple visualization scale
-  const phaseDiv = patterns.entropy.phaseDiv;
-
-  /* ---------- Main UI ---------- */
+  /* ---------- Render ---------- */
   return (
-    <div className="max-w-7xl mx-auto p-6 space-y-6 bg-slate-50">
+    <div className="max-w-7xl mx-auto p-6 space-y-6">
 
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+      <h1 className="text-3xl font-bold text-indigo-400">
+        STUR–TOE + Chronomagnetics Simulator
+      </h1>
+
+      {/* Controls */}
+      <div className="grid md:grid-cols-4 gap-4 bg-slate-800 p-4 rounded">
         <div>
-          <h1 className="text-3xl font-bold text-indigo-900">
-            STUR–TOE + Chronomagnetics Simulator
-          </h1>
-          <div className="text-sm text-slate-600 mt-1">
-            Interference • ψ-plane • Chronomagnetic diagnostic • Entropy export HUD
-          </div>
-        </div>
-
-        <div className="flex gap-2 flex-wrap">
-          <button
-            onClick={() => setViewMode(viewMode === "pattern" ? "phase" : "pattern")}
-            className="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700 transition-colors text-sm font-semibold"
-          >
-            Switch to {viewMode === "pattern" ? "Phase Space" : "Interference"}
-          </button>
-
-          <button
-            onClick={() => setShowDiff(!showDiff)}
-            className={`px-4 py-2 rounded text-sm font-semibold transition-colors ${
-              showDiff ? "bg-purple-600 text-white hover:bg-purple-700" : "bg-slate-200 text-slate-700 hover:bg-slate-300"
-            }`}
-          >
-            {showDiff ? "Show Patterns" : "Show Difference"}
-          </button>
-        </div>
-      </div>
-
-      {/* ---------- Controls ---------- */}
-      <div className="bg-white p-4 rounded shadow grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div>
-          <label className="text-sm font-semibold text-slate-700">
-            R<sub>q</sub> (Resistance / Phase Strength)
-          </label>
-          <input
-            type="range"
-            min="0.2"
-            max="2.5"
-            step="0.05"
+          <label className="text-sm">R<sub>q</sub></label>
+          <input type="range" min="0.2" max="2.5" step="0.05"
             value={RqManual}
-            onChange={(e) => setRqManual(parseFloat(e.target.value))}
             disabled={timeTravel}
-            className="w-full"
-          />
-          <div className="text-xs text-slate-600 mt-1">
-            Manual Rq = <strong>{RqManual.toFixed(2)}</strong>
-            {timeTravel && <span className="ml-2 text-indigo-600">(locked by Time-Travel)</span>}
-          </div>
-          <div className="text-xs text-slate-500 mt-1">
-            Active Rq = <strong>{Rq.toFixed(3)}</strong>
-          </div>
+            onChange={e=>setRqManual(+e.target.value)}
+            className="w-full"/>
+          <div className="text-xs">Rq = {Rq.toFixed(3)}</div>
         </div>
 
         <div>
-          <label className="text-sm font-semibold text-slate-700">
-            L<sub>0</sub> (Saturation Length, nm)
-          </label>
-          <input
-            type="range"
-            min="50"
-            max="500"
-            step="10"
+          <label className="text-sm">L<sub>0</sub> (nm)</label>
+          <input type="range" min="50" max="500" step="10"
             value={L0_nm}
-            onChange={(e) => setL0nm(parseFloat(e.target.value))}
-            className="w-full"
-          />
-          <div className="text-xs text-slate-600 mt-1">
-            L₀ = <strong>{Math.round(L0_nm)}</strong> nm
-          </div>
+            onChange={e=>setL0nm(+e.target.value)}
+            className="w-full"/>
+          <div className="text-xs">{L0_nm} nm</div>
         </div>
 
         <div>
-          <label className="text-sm font-semibold text-slate-700">Time-Travel (τ)</label>
-          <div className="flex items-center gap-3 mt-1">
-            <input
-              type="checkbox"
-              checked={timeTravel}
-              onChange={() => setTimeTravel(!timeTravel)}
-            />
-            <span className="text-xs text-slate-600">
-              Drives Rq from cosmic log-time
-            </span>
+          <label className="text-sm">Time-Travel</label>
+          <input type="checkbox" checked={timeTravel}
+            onChange={()=>setTimeTravel(!timeTravel)}/>
+          {timeTravel &&
+            <input type="range" min="0" max="1" step="0.002"
+              value={tau}
+              onChange={e=>setTau(+e.target.value)}
+              className="w-full mt-2"/>}
+        </div>
+
+        <div className="bg-black p-3 rounded font-mono">
+          <div className="text-xs text-slate-400">Entropy Export</div>
+          <div className="text-xl text-green-400">
+            {patterns.bitsLost.toFixed(3)} bits
           </div>
-          {timeTravel && (
+        </div>
+      </div>
+
+      {/* Plot */}
+      <ResponsiveContainer width="100%" height={380}>
+        <LineChart data={chartData}>
+          <CartesianGrid strokeDasharray="3 3"/>
+          <XAxis dataKey="y"/>
+          <YAxis/>
+          <Tooltip/>
+          <Legend/>
+          {!showDiff ?
             <>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.002"
-                value={tau}
-                onChange={(e) => setTau(parseFloat(e.target.value))}
-                className="w-full mt-2"
-              />
-              <div className="text-xs text-slate-600 mt-1">τ = {tau.toFixed(3)}</div>
-            </>
-          )}
-        </div>
-
-        <div className="bg-indigo-50 rounded p-3 flex flex-col justify-center">
-          <div className="text-xs text-slate-600">Chronomagnetic Regime</div>
-          <div className="text-lg font-bold text-indigo-800">{patterns.chrono.regime}</div>
-          <div className="text-xs text-slate-600">M = {patterns.chrono.M.toFixed(3)}</div>
-          <div className="text-xs text-slate-600">RMSE = {patterns.rmse.toFixed(4)}</div>
-        </div>
-      </div>
-
-      {/* ---------- Entropy HUD ---------- */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-slate-900 text-green-400 p-4 rounded-lg font-mono shadow-inner">
-          <div className="text-xs uppercase text-slate-400 mb-2">
-            Vacuum Information Leakage
-          </div>
-          <div className="text-2xl">
-            ΔS: <span className="text-white">{bitsLost.toFixed(3)}</span>{" "}
-            <span className="text-sm text-slate-500">bits (avg)</span>
-          </div>
-          <div className="mt-2 h-1 bg-slate-800 rounded">
-            <div
-              className="h-full bg-green-500 transition-all duration-300"
-              style={{ width: `${bitsBar}%` }}
-            />
-          </div>
-          <div className="text-xs text-slate-500 mt-2">
-            Computed from ⟨1 − coh(y)⟩, where coh = exp(−R_q·S_u).
-          </div>
-        </div>
-
-        <div className="bg-slate-900 text-indigo-400 p-4 rounded-lg font-mono shadow-inner">
-          <div className="text-xs uppercase text-slate-400 mb-2">Phase Divergence</div>
-          <div className="text-2xl text-white">
-            {phaseDiv.toFixed(4)} <span className="text-sm text-slate-500">⟨|Δθ|⟩</span>
-          </div>
-          <div className="text-xs mt-1 text-slate-500 italic">
-            Mean angular displacement from phase damping exp(−½(R_q·S_u)²).
-          </div>
-        </div>
-      </div>
-
-      {/* ---------- Primary View ---------- */}
-      {viewMode === "pattern" ? (
-        <div className="bg-white rounded shadow p-4">
-          <div className="text-sm font-semibold text-slate-700 mb-3">
-            {showDiff ? "Difference (STUR − QM) × 1000" : "Interference Intensity"}
-          </div>
-
-          <ResponsiveContainer width="100%" height={380}>
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="y" label={{ value: "Position (mm)", position: "insideBottom" }} />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              {!showDiff ? (
-                <>
-                  <Line dataKey="QM" stroke="#2563eb" dot={false} name="QM" />
-                  <Line dataKey="STUR" stroke="#059669" dot={false} strokeDasharray="5 5" name="STUR" />
-                </>
-              ) : (
-                <Line dataKey="Diff" stroke="#7c3aed" dot={false} name="STUR − QM × 1000" />
-              )}
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      ) : (
-        <div className="bg-white rounded shadow p-4">
-          <div className="text-sm font-semibold text-slate-700 mb-3">
-            Wavefunction Phase-Space (ψ-plane): QM circle vs STUR spiral
-          </div>
-
-          <ResponsiveContainer width="100%" height={380}>
-            <ScatterChart>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" dataKey="Re_QM" domain={[-1.1, 1.1]} />
-              <YAxis type="number" dataKey="Im_QM" domain={[-1.1, 1.1]} />
-              <Tooltip />
-              <Legend />
-
-              <Scatter name="QM (unit circle)" data={phaseSpaceData} fill="#2563eb" />
-
-              {/* Recharts wants consistent keys; we map STUR points into same x/y keys */}
-              <Scatter
-                name="STUR (inward spiral)"
-                data={phaseSpaceData.map(p => ({ Re_QM: p.Re_STUR, Im_QM: p.Im_STUR }))}
-                fill="#059669"
-              />
-            </ScatterChart>
-          </ResponsiveContainer>
-        </div>
-      )}
-
-      {/* ---------- Chronomagnetics Diagnostic Plot ---------- */}
-      <div className="bg-white rounded shadow p-4">
-        <div className="text-sm font-semibold text-slate-700 mb-3">
-          Chronomagnetic Diagnostic: log(t) vs Modulation Index M
-        </div>
-
-        <ResponsiveContainer width="100%" height={320}>
-          <ScatterChart margin={{ top: 10, right: 20, left: 10, bottom: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              type="number"
-              dataKey="log_t"
-              domain={[12, 18]}
-              label={{ value: "log₁₀(t / seconds)", position: "insideBottom", offset: -5 }}
-            />
-            <YAxis
-              type="number"
-              dataKey="modulation"
-              domain={[0, 2]}
-              label={{ value: "M = R_q · S_u(u_c)", angle: -90, position: "insideLeft" }}
-            />
-
-            {/* Zones */}
-            <ReferenceArea y1={0} y2={0.3} fill="#90ee90" fillOpacity={0.15} />
-            <ReferenceArea y1={0.3} y2={0.8} fill="#ffd700" fillOpacity={0.15} />
-            <ReferenceArea y1={0.8} y2={2.0} fill="#ff6b6b" fillOpacity={0.15} />
-
-            {/* Epoch lines */}
-            {cosmicEvents.map((e, i) => (
-              <ReferenceLine key={i} x={e.log_t} stroke={e.color} strokeDasharray="3 3" />
-            ))}
-
-            <Tooltip
-              content={({ active, payload }) => {
-                if (!active || !payload?.[0]) return null;
-                const p = payload[0].payload;
-                const near = cosmicEvents.find(e => Math.abs(e.log_t - p.log_t) < 0.5);
-                return (
-                  <div className="bg-white p-3 border rounded shadow text-sm">
-                    <div className="font-semibold">Chrono Point</div>
-                    <div>log₁₀(t) = {p.log_t.toFixed(2)}</div>
-                    <div>M = {p.modulation.toFixed(3)}</div>
-                    {near && (
-                      <div className="mt-2 text-xs text-slate-600">
-                        Near: <strong>{near.name}</strong> — {near.desc}
-                      </div>
-                    )}
-                  </div>
-                );
-              }}
-            />
-
-            {/* Current epoch point */}
-            <Scatter
-              name="Current Diagnostic"
-              data={[{ log_t: patterns.chrono.log_t, modulation: patterns.chrono.M }]}
-              fill="#7c3aed"
-            />
-          </ScatterChart>
-        </ResponsiveContainer>
-      </div>
-
-      {/* ---------- Theory footer (chronomagnetics rationale) ---------- */}
-      <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded">
-        <div className="font-semibold text-indigo-900 mb-1">Chronomagnetics (diagnostic layer)</div>
-        <div className="text-sm text-indigo-900/80">
-          Bounded source dynamics → bounded invariants → finite responses. Here, the modulation index
-          <span className="font-mono"> M = Rq·S_u(u_c) </span>
-          is the unified diagnostic. The simulator keeps Chronomagnetics as a geometry-only projection
-          (no direct coupling into optics beyond the shared saturation logic).
-        </div>
-      </div>
+              <Line dataKey="QM" stroke="#3b82f6" dot={false}/>
+              <Line dataKey="STUR" stroke="#22c55e" dot={false} strokeDasharray="5 5"/>
+            </> :
+            <Line dataKey="Diff" stroke="#a855f7" dot={false}/>
+          }
+        </LineChart>
+      </ResponsiveContainer>
 
     </div>
   );
 }
+
+ReactDOM.createRoot(document.getElementById("root"))
+  .render(<STURChronoAnalyzer/>);
+
+</script>
+</body>
+</html>
