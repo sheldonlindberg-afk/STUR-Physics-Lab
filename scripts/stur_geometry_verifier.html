@@ -1,1444 +1,805 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>STUR – Geometry Verifier + Bach et al. (2013) Falsification Harness</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>STUR – Geometry Verifier + Bach et al. (2013) Falsification Harness</title>
 
-  <style>
-    :root{
-      --bg:#050814;
-      --panel:#0a1022;
-      --panel2:#0b132a;
-      --border:#1f2a44;
-      --text:#e6edf3;
-      --muted:#94a3b8;
-      --accent:#60a5fa;
-      --accent2:#34d399;
-      --warn:#f59e0b;
-      --danger:#fb7185;
-      --purple:#a78bfa;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-      --radius:14px;
-      --shadow: 0 18px 40px rgba(0,0,0,.45);
-      --shadow2: inset 0 0 0 1px rgba(255,255,255,.06);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      background: radial-gradient(1200px 700px at 10% 10%, rgba(96,165,250,.10), transparent 55%),
-                  radial-gradient(900px 650px at 90% 20%, rgba(52,211,153,.10), transparent 55%),
-                  linear-gradient(180deg, #030510, #050814 40%, #030510);
-      color:var(--text);
-      font-family:var(--sans);
-    }
-    .wrap{max-width:1220px;margin:0 auto;padding:22px}
-    .top{
-      display:flex; gap:14px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap;
-      margin-bottom:14px;
-    }
-    .title h1{margin:0;font-size:26px;letter-spacing:.2px}
-    .title .sub{margin-top:6px;color:var(--muted);font-size:13px;line-height:1.35}
-    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
-    button{
-      border:0; cursor:pointer;
-      padding:10px 12px;
-      border-radius:12px;
-      background:rgba(255,255,255,.08);
-      color:var(--text);
-      box-shadow: var(--shadow2);
-      font-weight:700; font-size:13px;
-    }
-    button.primary{background:rgba(96,165,250,.22); color:#dbeafe}
-    button.primary:hover{background:rgba(96,165,250,.30)}
-    button.alt{background:rgba(167,139,250,.18); color:#ede9fe}
-    button.alt:hover{background:rgba(167,139,250,.26)}
-    button.good{background:rgba(52,211,153,.18); color:#dcfce7}
-    button.good:hover{background:rgba(52,211,153,.26)}
-    button.warn{background:rgba(245,158,11,.18); color:#ffedd5}
-    button.warn:hover{background:rgba(245,158,11,.26)}
-    button.bad{background:rgba(251,113,133,.18); color:#ffe4e6}
-    button.bad:hover{background:rgba(251,113,133,.26)}
-    button:active{transform:translateY(1px)}
-    .grid{
-      display:grid;
-      grid-template-columns: 1.35fr .65fr;
-      gap:14px;
-    }
-    @media (max-width:980px){
-      .grid{grid-template-columns:1fr}
-    }
-    .card{
-      background: rgba(10,16,34,.82);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .cardhead{
-      padding:12px 14px;
-      border-bottom:1px solid rgba(255,255,255,.07);
-      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
-      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent);
-    }
-    .cardhead .h{
-      font-weight:800; font-size:13px; color:#cbd5e1; letter-spacing:.25px;
-      text-transform:uppercase;
-    }
-    .cardbody{padding:14px}
-    .controls{
-      display:grid; gap:12px;
-      grid-template-columns: 1fr 1fr;
-    }
-    @media (max-width:520px){ .controls{grid-template-columns:1fr} }
-    .ctrl{
-      background: rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.07);
-      border-radius: 14px;
-      padding:12px;
-    }
-    .ctrl label{display:block;font-size:12px;font-weight:800;color:#dbeafe}
-    .ctrl .hint{color:var(--muted);font-size:11px;margin-top:6px;line-height:1.25}
-    .ctrl .val{margin-top:6px;color:#e2e8f0;font-family:var(--mono);font-size:12px}
-    input[type="range"]{width:100%}
-    input[type="checkbox"]{transform:scale(1.15)}
-    select, input[type="number"], input[type="text"]{
-      width:100%;
-      background: rgba(0,0,0,.25);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 12px;
-      padding: 10px 10px;
-      font-family: var(--mono);
-      outline: none;
-    }
-    select:focus, input:focus{border-color: rgba(96,165,250,.55); box-shadow: 0 0 0 3px rgba(96,165,250,.12)}
-    .hud{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
-    @media (max-width:760px){ .hud{grid-template-columns:1fr} }
-    .hudbox{
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-      background: #0a0f1f;
-      box-shadow: var(--shadow2);
-      padding:12px;
-      font-family:var(--mono);
-    }
-    .hudbox .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.2px}
-    .hudbox .v{margin-top:6px;font-size:18px;font-weight:900}
-    .bar{height:6px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;margin-top:10px}
-    .bar > div{height:100%;background:rgba(52,211,153,.85);width:0%}
-    .small{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.25}
-    .kv{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      margin-top:12px;
-    }
-    .kv > div{
-      background: rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.07);
-      border-radius:14px;
-      padding:10px;
-    }
-    .kv .k{font-size:11px;color:var(--muted)}
-    .kv .v{font-family:var(--mono);font-size:14px;font-weight:900;margin-top:4px}
-    canvas{display:block;width:100%;height:auto}
-    .foot{
-      margin-top:14px;
-      padding:12px 14px;
-      border-left:4px solid rgba(96,165,250,.8);
-      background: rgba(96,165,250,.10);
-      border-radius: 14px;
-      color:#dbeafe;
-    }
-    .foot .t{font-weight:900;margin-bottom:6px}
-    .foot .p{font-size:13px;color:#cfe3ff;line-height:1.35}
-    .warnline{
-      padding:10px 12px;
-      border-radius:14px;
-      background: rgba(0,0,0,.18);
-      border:1px solid rgba(255,255,255,.14);
-      color:#e2e8f0;
-      font-size:12px;
-      margin-top:12px;
-      display:none;
-      white-space:pre-wrap;
-    }
-    details{
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:14px;
-      background: rgba(10,16,34,.55);
-      overflow:hidden;
-      margin-top:12px;
-    }
-    details > summary{
-      cursor:pointer;
-      padding:12px 14px;
-      list-style:none;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      font-weight:900;
-      color:#cbd5e1;
-      text-transform:uppercase;
-      letter-spacing:.25px;
-      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent);
-      border-bottom:1px solid rgba(255,255,255,.07);
-    }
-    details > summary::-webkit-details-marker{display:none}
-    .proto{
-      padding:14px;
-      font-family: var(--sans);
-      color: #e5e7eb;
-    }
-    .proto h2,.proto h3{margin:10px 0 8px 0}
-    .proto code, .proto pre{
-      font-family: var(--mono);
-      background: rgba(0,0,0,.35);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 12px;
-    }
-    .proto pre{padding:10px; overflow:auto}
-    .proto table{
-      width:100%;
-      border-collapse:collapse;
-      margin-top:10px;
-      margin-bottom:10px;
-      font-size:13px;
-    }
-    .proto th,.proto td{
-      border:1px solid rgba(255,255,255,.10);
-      padding:8px;
-      text-align:left;
-    }
-    .proto th{color:#dbeafe;background:rgba(255,255,255,.04)}
-    .proto a{color:#93c5fd; text-decoration:none}
-    .proto a:hover{text-decoration:underline}
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-    }
-    .dot{
-      width:8px;height:8px;border-radius:50%;
-      background: var(--accent2);
-      box-shadow:0 0 16px rgba(52,211,153,.35);
-    }
-  </style>
+<style>
+/* ===================== THEME ===================== */
+:root{
+  --bg:#050814;
+  --panel:#0a1022;
+  --border:#1f2a44;
+  --text:#e6edf3;
+  --muted:#94a3b8;
+  --accent:#60a5fa;
+  --accent2:#34d399;
+  --warn:#f59e0b;
+  --danger:#fb7185;
+  --purple:#a78bfa;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --radius:14px;
+  --shadow:0 18px 40px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 700px at 10% 10%, rgba(96,165,250,.10), transparent 55%),
+    radial-gradient(900px 650px at 90% 20%, rgba(52,211,153,.10), transparent 55%),
+    linear-gradient(180deg,#030510,#050814 40%,#030510);
+  color:var(--text);
+  font-family:var(--sans);
+}
+.wrap{max-width:1220px;margin:0 auto;padding:22px}
+
+/* ===================== UI ===================== */
+.top{display:flex;gap:14px;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+h1{margin:0;font-size:26px}
+.sub{color:var(--muted);font-size:13px}
+button{
+  border:0;cursor:pointer;
+  padding:10px 12px;border-radius:12px;
+  background:rgba(255,255,255,.08);
+  color:var(--text);font-weight:800;font-size:13px;
+}
+button:active{transform:translateY(1px)}
+button.primary{background:rgba(96,165,250,.22)}
+button.good{background:rgba(52,211,153,.18)}
+button.bad{background:rgba(251,113,133,.18)}
+button.warn{background:rgba(245,158,11,.18)}
+.grid{display:grid;grid-template-columns:1.35fr .65fr;gap:14px}
+@media(max-width:980px){.grid{grid-template-columns:1fr}}
+.card{
+  background:rgba(10,16,34,.85);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.cardhead{
+  padding:12px 14px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  font-weight:900;font-size:13px;color:#cbd5e1;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+}
+.cardbody{padding:14px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.controls{grid-template-columns:1fr}}
+.ctrl{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;padding:12px
+}
+.ctrl label{display:block;font-size:12px;font-weight:900;color:#dbeafe}
+.ctrl .hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.25}
+.ctrl .val{font-family:var(--mono);font-size:12px;margin-top:6px;color:#e2e8f0;white-space:pre-wrap}
+input,select{
+  width:100%;padding:10px;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.1);
+  color:var(--text);border-radius:12px;
+  font-family:var(--mono);
+  outline:none;
+}
+input:focus,select:focus{border-color:rgba(96,165,250,.55);box-shadow:0 0 0 3px rgba(96,165,250,.12)}
+canvas{width:100%;height:auto}
+.warnline{
+  margin-top:10px;padding:10px;
+  border-radius:12px;display:none;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.15);
+  font-size:12px;white-space:pre-wrap
+}
+.pill{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:12px;color:var(--muted);
+  padding:7px 10px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.04);
+}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);box-shadow:0 0 16px rgba(52,211,153,.35)}
+.small{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.25}
+.kv{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px
+}
+.kv > div{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;padding:10px
+}
+.kv .k{font-size:11px;color:var(--muted)}
+.kv .v{font-family:var(--mono);font-size:14px;font-weight:900;margin-top:4px}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="top">
-      <div class="title">
-        <h1>STUR – Geometry Verifier <span style="color:var(--accent);font-weight:900">+ Bach (2013) Falsification Harness</span></h1>
-        <div class="sub">
-          Single-file GitHub Pages HTML • QM baseline + STUR coherence-loss • Optional support-bar notch • CSV digitized-data χ² test • <b>Adversarial Null-Dominance</b>
-        </div>
-      </div>
-      <div class="btnrow">
-        <button id="toggleView" class="primary">Switch to Phase Space</button>
-        <button id="toggleDiff" class="alt">Show Difference</button>
-        <button id="btnBach" class="good">Load Bach 2013 Preset</button>
-        <button id="btnSweep" class="bad">Rq Sensitivity</button>
-        <button id="btnExport" class="warn">Export JSON (Audit)</button>
-        <button id="btnCopyX" class="primary">Copy X Post</button>
-      </div>
-    </div>
+<div class="wrap">
 
-    <div class="grid">
-      <!-- LEFT: MAIN VIEW -->
-      <div class="card">
-        <div class="cardhead">
-          <div class="h" id="mainTitle">Interference Intensity</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-            <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">QM: blue • STUR: green • Diff: purple • Data: white</span>
-            <span class="pill"><span class="dot"></span><span>Status: <b id="statusText" style="color:#e2e8f0">Ready</b></span></span>
-          </div>
-        </div>
-        <div class="cardbody">
-          <canvas id="mainCanvas" width="1100" height="420"></canvas>
-          <div class="warnline" id="warnLine"></div>
-        </div>
-      </div>
+<div class="top">
+  <div>
+    <h1>STUR – Geometry Verifier <span style="color:var(--accent)">+ Bach (2013)</span></h1>
+    <div class="sub">QM baseline • STUR coherence-loss • Detector PSF • CSV χ² • Rq sensitivity sweep • Null-dominance enforced</div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <button id="btnBach" class="good">Load Bach Preset</button>
+    <button id="btnSweep" class="bad">Rq Sensitivity</button>
+    <button id="btnExport" class="warn">Export JSON</button>
+    <span class="pill"><span class="dot"></span><span>Status: <b id="statusText" style="color:#e2e8f0">Ready</b></span></span>
+  </div>
+</div>
 
-      <!-- RIGHT: CONTROLS + HUD -->
-      <div class="card">
-        <div class="cardhead">
-          <div class="h">Controls + Diagnostics</div>
-          <div style="font-family:var(--mono);font-size:12px;color:var(--muted)">pure falsifier • no ΔE • no PSF</div>
-        </div>
-        <div class="cardbody">
+<div class="grid">
 
-          <div class="controls">
-            <div class="ctrl">
-              <label>Particle (mass m)</label>
-              <select id="particle">
-                <option value="electron" selected>Electron</option>
-                <option value="neutron">Neutron</option>
-                <option value="alpha">Alpha</option>
-                <option value="c60">Fullerene (C₆₀)</option>
-                <option value="oligo">Oligoporphyrin</option>
-              </select>
-              <div class="hint">Mass only affects STUR scaling when enabled (and λ if you choose “derive λ”).</div>
-              <div class="val">m = <span id="massOut">—</span> kg</div>
-            </div>
+<!-- ===================== PLOT ===================== -->
+<div class="card">
+  <div class="cardhead">
+    <span>Interference Pattern (QM vs STUR)</span>
+    <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">QM: blue • STUR: green • Data: white</span>
+  </div>
+  <div class="cardbody">
+    <canvas id="mainCanvas" width="1100" height="420"></canvas>
+    <div id="warnLine" class="warnline"></div>
+  </div>
+</div>
 
-            <div class="ctrl">
-              <label>Energy (eV) + λ mode</label>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
-                <input id="Eev" type="number" value="600" step="1" />
-                <select id="lambdaMode">
-                  <option value="derive" selected>derive λ from E,m</option>
-                  <option value="manual">manual λ (pm)</option>
-                </select>
-              </div>
-              <div style="margin-top:10px">
-                <input id="lambdaPm" type="number" value="50" step="0.1" />
-              </div>
-              <div class="hint">Bach 2013: 600 eV, λ ≈ 50 pm. Manual λ overrides derivation.</div>
-              <div class="val">λ = <span id="lamOut">—</span></div>
-            </div>
+<!-- ===================== CONTROLS ===================== -->
+<div class="card">
+<div class="cardhead">Controls</div>
+<div class="cardbody">
 
-            <div class="ctrl">
-              <label>Geometry (Bach units)</label>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">Slit width a (nm)</div>
-                  <input id="aNm" type="number" value="62" step="1" />
-                </div>
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">Separation d (nm)</div>
-                  <input id="dNm" type="number" value="272" step="1" />
-                </div>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">Screen distance L (cm)</div>
-                  <input id="Lcm" type="number" value="30.5" step="0.1" />
-                </div>
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">Plot span (mm)</div>
-                  <input id="spanMm" type="number" value="10" step="1" />
-                </div>
-              </div>
-              <div class="hint">Baseline QM: envelope sinc²(πaθ/λ) and fringes cos(2πdθ/λ).</div>
-            </div>
+<div class="controls">
 
-            <div class="ctrl">
-              <label>STUR coherence layer</label>
-              <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
-                <input id="sturOn" type="checkbox" checked />
-                <span style="font-size:12px;color:var(--muted)">Enable STUR modulation</span>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">Rq (base)</div>
-                  <input id="rq" type="number" value="0.30" step="0.05" />
-                </div>
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">Mass power p</div>
-                  <select id="pwr">
-                    <option value="1">linear (m¹)</option>
-                    <option value="2" selected>Penrose-like (m²)</option>
-                  </select>
-                </div>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">L₀ (nm)</div>
-                  <input id="L0nm" type="number" value="120" step="5" />
-                </div>
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">Kernel</div>
-                  <select id="kernel">
-                    <option value="tanh" selected>tanh(u)(1-e^{-u})</option>
-                    <option value="exp">1 - e^{-u}</option>
-                    <option value="poly">u/(1+u)</option>
-                  </select>
-                </div>
-              </div>
-              <div class="val">R_eff = <span id="reffOut">—</span></div>
-              <div class="hint">C(y)=exp(−R_eff·kernel(|dθ|/L₀)). STUR suppresses ONLY the cosine contrast.</div>
-            </div>
-
-            <div class="ctrl">
-              <label>Support bar (Bach: 150 nm) + notch</label>
-              <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
-                <input id="barOn" type="checkbox" checked />
-                <span style="font-size:12px;color:var(--muted)">Enable support-bar notch model</span>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">bar width (nm)</div>
-                  <input id="barNm" type="number" value="150" step="5" />
-                </div>
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">notch strength</div>
-                  <input id="barAmp" type="number" value="0.65" step="0.05" />
-                </div>
-              </div>
-              <div class="hint">
-                Simple notch: multiply intensity by <span style="color:#dbeafe;font-family:var(--mono);font-weight:900">[1 − A·sinc²(π y / w)]</span>.
-                (Explicit falsifiable feature; refine only if exact transfer function is known.)
-              </div>
-            </div>
-
-            <div class="ctrl">
-              <label>Data χ² (CSV load)</label>
-              <input id="csvFile" type="file" accept=".csv,text/csv" />
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">σ (noise)</div>
-                  <input id="sigma" type="number" value="0.02" step="0.005" />
-                </div>
-                <div>
-                  <div class="hint" style="margin:0 0 6px 0">window ± (mm)</div>
-                  <input id="winMm" type="number" value="2.0" step="0.25" />
-                </div>
-              </div>
-              <div class="kv">
-                <div>
-                  <div class="k">χ²_red(QM)</div>
-                  <div class="v" id="chiQM">—</div>
-                </div>
-                <div>
-                  <div class="k">χ²_red(STUR)</div>
-                  <div class="v" id="chiST">—</div>
-                </div>
-                <div>
-                  <div class="k">Δχ² = STUR − QM</div>
-                  <div class="v" id="chiD">—</div>
-                </div>
-                <div>
-                  <div class="k">Decision</div>
-                  <div class="v" id="chiDecision">—</div>
-                </div>
-              </div>
-              <div class="hint">CSV format: <span style="font-family:var(--mono)">y_mm,intensity</span>. Intensity auto-normalized to max=1.</div>
-            </div>
-          </div>
-
-          <div style="height:12px"></div>
-
-          <div class="hud">
-            <div class="hudbox">
-              <div class="k">Visibility (model window)</div>
-              <div class="v">V(QM)=<span id="Vqm">—</span> • V(STUR)=<span id="Vst">—</span></div>
-              <div class="small">Computed inside ±window using (Imax−Imin)/(Imax+Imin).</div>
-            </div>
-            <div class="hudbox">
-              <div class="k">Falsification trigger</div>
-              <div class="v">ΔV = <span id="dV">—</span></div>
-              <div class="bar"><div id="dvBar"></div></div>
-              <div class="small">Rule: STUR must beat QM without tuning; sweep exposes null dominance.</div>
-            </div>
-          </div>
-
-          <details open>
-            <summary>
-              <span>Bach et al. (2013) falsification protocol (embedded)</span>
-              <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">click to collapse</span>
-            </summary>
-            <div class="proto" id="protocolBlock"></div>
-          </details>
-
-        </div>
-      </div>
-    </div>
-
-    <div class="foot">
-      <div class="t">Ask to falsify (copy-ready)</div>
-      <div class="p" id="falsifyText">
-        Load Bach preset → digitize Fig. 1(c) P₁₂ → load CSV → compare χ²_red(QM) vs χ²_red(STUR).
-        Then run “Rq Sensitivity”: if χ² minimum occurs at Rq≈0 (or improvement ≤1%), STUR is unsupported by this dataset.
-      </div>
-    </div>
-
+  <div class="ctrl">
+    <label>Energy (eV)</label>
+    <input id="Eev" type="number" value="600" step="1" />
+    <div class="hint">Used for relativistic de Broglie λ when λ mode is “derive”.</div>
   </div>
 
-  <script>
-    // ============================================================
-    // STUR GEOMETRY VERIFIER + BACH (2013) FALSIFICATION HARNESS
-    // GOLD MASTER — Pure Falsifier Mode
-    //   ✓ Rq χ² sweep
-    //   ✓ Null-dominance adversarial banner (EPS + 1% rule)
-    //   ✓ Audit-log snapshot embedded in JSON export
-    //   ✗ No ΔE damping, no PSF (kept out by design)
-    // ============================================================
-
-    // ----- DOM
-    const mainCanvas = document.getElementById("mainCanvas");
-    const ctx = mainCanvas.getContext("2d");
-
-    const statusText = document.getElementById("statusText");
-
-    const toggleViewBtn = document.getElementById("toggleView");
-    const toggleDiffBtn = document.getElementById("toggleDiff");
-    const btnBach = document.getElementById("btnBach");
-    const btnSweep = document.getElementById("btnSweep");
-    const btnExport = document.getElementById("btnExport");
-    const btnCopyX = document.getElementById("btnCopyX");
-
-    const particleEl = document.getElementById("particle");
-    const EevEl = document.getElementById("Eev");
-    const lambdaModeEl = document.getElementById("lambdaMode");
-    const lambdaPmEl = document.getElementById("lambdaPm");
-
-    const aNmEl = document.getElementById("aNm");
-    const dNmEl = document.getElementById("dNm");
-    const LcmEl = document.getElementById("Lcm");
-    const spanMmEl = document.getElementById("spanMm");
-
-    const sturOnEl = document.getElementById("sturOn");
-    const rqEl = document.getElementById("rq");
-    const pwrEl = document.getElementById("pwr");
-    const L0nmEl = document.getElementById("L0nm");
-    const kernelEl = document.getElementById("kernel");
-
-    const barOnEl = document.getElementById("barOn");
-    const barNmEl = document.getElementById("barNm");
-    const barAmpEl = document.getElementById("barAmp");
-
-    const csvFileEl = document.getElementById("csvFile");
-    const sigmaEl = document.getElementById("sigma");
-    const winMmEl = document.getElementById("winMm");
-
-    const massOut = document.getElementById("massOut");
-    const lamOut = document.getElementById("lamOut");
-    const reffOut = document.getElementById("reffOut");
-
-    const VqmEl = document.getElementById("Vqm");
-    const VstEl = document.getElementById("Vst");
-    const dVEl = document.getElementById("dV");
-    const dvBarEl = document.getElementById("dvBar");
-
-    const chiQMEl = document.getElementById("chiQM");
-    const chiSTEl = document.getElementById("chiST");
-    const chiDEl = document.getElementById("chiD");
-    const chiDecisionEl = document.getElementById("chiDecision");
-
-    const mainTitle = document.getElementById("mainTitle");
-    const warnLine = document.getElementById("warnLine");
-
-    const protocolBlock = document.getElementById("protocolBlock");
-
-    // ----- Constants
-    const h = 6.62607015e-34;
-    const c = 299792458;
-    const eV = 1.602176634e-19;
-
-    // Adversarial thresholds
-    const EPS_RQ = 1e-6;
-    const IMPROVE_FRAC = 0.01; // 1%
-
-    const masses = {
-      electron: 9.1093837015e-31,
-      neutron: 1.67492749804e-27,
-      alpha:   6.6446573357e-27,
-      c60:     1.195e-24,
-      oligo:   1.5e-23
-    };
-
-    // ----- State
-    let viewMode = "pattern"; // pattern | phase
-    let showDiff = false;
-
-    let dataCSV = null; // {y_mm:[], I:[]} normalized to max=1
-
-    // Audit snapshot of latest sweep (session-state)
-    let lastChi2Sweep = null;
-
-    // ----- helpers
-    function setStatus(t){ statusText.textContent = t; }
-    function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
-
-    function fmtSI(x){
-      if (!isFinite(x)) return "∞";
-      const ax = Math.abs(x);
-      if (ax === 0) return "0";
-      if (ax >= 1e3 || ax < 1e-2) return x.toExponential(3);
-      return x.toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
-    }
-
-    function sinc(x){
-      return (Math.abs(x) < 1e-12) ? 1 : Math.sin(x)/x;
-    }
-
-    function kernel(u, kind){
-      u = Math.max(0, u);
-      if (kind === "exp")  return (1 - Math.exp(-u));
-      if (kind === "poly") return (u / (1 + u));
-      return Math.tanh(u) * (1 - Math.exp(-u)); // default
-    }
-
-    function normalizeMax(arr){
-      let m = -Infinity;
-      for (let i=0;i<arr.length;i++) if (arr[i] > m) m = arr[i];
-      if (!isFinite(m) || m === 0) return arr.map(()=>0);
-      return arr.map(v => v / m);
-    }
-
-    function linInterp(x, xs, ys){
-      const n = xs.length;
-      if (n < 2) return NaN;
-      if (x <= xs[0]) return ys[0];
-      if (x >= xs[n-1]) return ys[n-1];
-      let lo = 0, hi = n-1;
-      while (hi - lo > 1){
-        const mid = (lo + hi) >> 1;
-        if (xs[mid] <= x) lo = mid;
-        else hi = mid;
-      }
-      const x0 = xs[lo], x1 = xs[hi];
-      const y0 = ys[lo], y1 = ys[hi];
-      const t = (x - x0) / (x1 - x0);
-      return y0 + t*(y1 - y0);
-    }
-
-    // ----- Physics core
-    function deriveLambda_m(E_eV, m){
-      const E = E_eV * eV;
-      const p = Math.sqrt(E*E + 2*E*m*c*c) / c; // relativistic correction, kinetic E
-      return h / p;
-    }
-
-    function computeModel(){
-      const m = masses[particleEl.value] ?? masses.electron;
-
-      const E_eV = parseFloat(EevEl.value);
-      const a_m = parseFloat(aNmEl.value) * 1e-9;
-      const d_m = parseFloat(dNmEl.value) * 1e-9;
-      const L_m = parseFloat(LcmEl.value) * 1e-2;
-      const span_mm = parseFloat(spanMmEl.value);
-
-      let lambda_m;
-      if (lambdaModeEl.value === "manual"){
-        lambda_m = parseFloat(lambdaPmEl.value) * 1e-12;
-      } else {
-        lambda_m = deriveLambda_m(E_eV, m);
-      }
-
-      // STUR params
-      const sturOn = sturOnEl.checked;
-      const RqBase = parseFloat(rqEl.value);
-      const pwr = parseFloat(pwrEl.value);
-      const L0_m = Math.max(parseFloat(L0nmEl.value) * 1e-9, 1e-35);
-      const kind = kernelEl.value;
-
-      const R_eff = sturOn ? (RqBase * Math.pow(m / masses.electron, pwr)) : 0;
-
-      // support bar notch
-      const barOn = barOnEl.checked;
-      const bar_w_m = Math.max(1e-12, parseFloat(barNmEl.value) * 1e-9);
-      const barA = clamp(parseFloat(barAmpEl.value), 0, 0.99);
-
-      const N = 1201;
-      const y = new Array(N);
-      const y_mm = new Array(N);
-
-      const halfSpan_m = 0.5 * span_mm * 1e-3;
-      for (let i=0;i<N;i++){
-        const yy = -halfSpan_m + (2*halfSpan_m) * i/(N-1);
-        y[i] = yy;
-        y_mm[i] = yy * 1000;
-      }
-
-      const Iqm = new Array(N);
-      const Ist = new Array(N);
-      const diff = new Array(N);
-
-      for (let i=0;i<N;i++){
-        const yy = y[i];
-        const theta = yy / L_m;
-
-        const env = Math.pow(sinc(Math.PI * a_m * theta / lambda_m), 2);
-        const phi = (2*Math.PI / lambda_m) * (d_m * theta);
-
-        let iQ = env * (1 + Math.cos(phi)) * 0.5;
-
-        const u = Math.abs(d_m * theta) / L0_m;
-        const C = Math.exp(-R_eff * kernel(u, kind));
-        let iS = env * (1 + C * Math.cos(phi)) * 0.5;
-
-        if (barOn){
-          const notch = 1 - barA * Math.pow(sinc(Math.PI * (yy / bar_w_m)), 2);
-          iQ *= notch;
-          iS *= notch;
-        }
-
-        Iqm[i] = iQ;
-        Ist[i] = iS;
-      }
-
-      const Iq = normalizeMax(Iqm);
-      const Is = normalizeMax(Ist);
-
-      for (let i=0;i<N;i++) diff[i] = Is[i] - Iq[i];
-
-      const win = parseFloat(winMmEl.value);
-      let qMin=1, qMax=0, sMin=1, sMax=0;
-      for (let i=0;i<N;i++){
-        if (Math.abs(y_mm[i]) <= win){
-          qMin = Math.min(qMin, Iq[i]); qMax = Math.max(qMax, Iq[i]);
-          sMin = Math.min(sMin, Is[i]); sMax = Math.max(sMax, Is[i]);
-        }
-      }
-      const Vqm = (qMax - qMin) / (qMax + qMin || 1);
-      const Vst = (sMax - sMin) / (sMax + sMin || 1);
-
-      return {
-        m, E_eV, a_m, d_m, L_m, span_mm,
-        lambda_m, R_eff, L0_m, sturOn, kind,
-        barOn, bar_w_m, barA,
-        y_mm, Iq, Is, diff, Vqm, Vst
-      };
-    }
-
-    // ----- Chi2 against loaded CSV
-    function computeChi2AgainstData(model){
-      if (!dataCSV) return null;
-
-      const sigma = Math.max(1e-6, parseFloat(sigmaEl.value));
-      const win = parseFloat(winMmEl.value);
-
-      const ys = dataCSV.y_mm;
-      const Io = dataCSV.I;
-
-      let ssQ = 0, ssS = 0, n = 0;
-
-      for (let i=0;i<ys.length;i++){
-        const x = ys[i];
-        if (Math.abs(x) > win) continue;
-
-        const mq = linInterp(x, model.y_mm, model.Iq);
-        const ms = linInterp(x, model.y_mm, model.Is);
-
-        if (!isFinite(mq) || !isFinite(ms)) continue;
-
-        const rQ = (Io[i] - mq) / sigma;
-        const rS = (Io[i] - ms) / sigma;
-
-        ssQ += rQ*rQ;
-        ssS += rS*rS;
-        n++;
-      }
-
-      if (n < 5) return { n, chiQ: NaN, chiS: NaN, d: NaN };
-
-      const nu = Math.max(1, n - 1);
-      const chiQ = ssQ / nu;
-      const chiS = ssS / nu;
-      return { n, chiQ, chiS, d: (chiS - chiQ) };
-    }
-
-    // ----- Drawing helpers
-    function clear(){
-      ctx.clearRect(0,0,mainCanvas.width,mainCanvas.height);
-      ctx.fillStyle = "rgba(255,255,255,0.02)";
-      ctx.fillRect(0,0,mainCanvas.width,mainCanvas.height);
-    }
-
-    function drawAxes(x0, x1, y0, y1, opts={}){
-      const w = mainCanvas.width, h = mainCanvas.height;
-
-      const padL = opts.padL ?? 60;
-      const padR = opts.padR ?? 20;
-      const padT = opts.padT ?? 18;
-      const padB = opts.padB ?? 50;
-
-      const gx0 = padL, gx1 = w - padR;
-      const gy0 = padT, gy1 = h - padB;
-
-      ctx.strokeStyle = "rgba(255,255,255,0.08)";
-      ctx.lineWidth = 1;
-      const ngrid = 6;
-      for (let i=0;i<=ngrid;i++){
-        const t = i/ngrid;
-        const x = gx0 + t*(gx1-gx0);
-        ctx.beginPath(); ctx.moveTo(x,gy0); ctx.lineTo(x,gy1); ctx.stroke();
-
-        const y = gy0 + t*(gy1-gy0);
-        ctx.beginPath(); ctx.moveTo(gx0,y); ctx.lineTo(gx1,y); ctx.stroke();
-      }
-
-      ctx.strokeStyle = "rgba(255,255,255,0.10)";
-      ctx.strokeRect(gx0,gy0,gx1-gx0,gy1-gy0);
-
-      ctx.fillStyle = "rgba(226,232,240,0.85)";
-      ctx.font = "12px " + getComputedStyle(document.documentElement).getPropertyValue('--mono');
-
-      if (opts.xlabel){
-        ctx.textAlign = "center";
-        ctx.fillText(opts.xlabel, (gx0+gx1)/2, h-16);
-      }
-      if (opts.ylabel){
-        ctx.save();
-        ctx.translate(16, (gy0+gy1)/2);
-        ctx.rotate(-Math.PI/2);
-        ctx.textAlign = "center";
-        ctx.fillText(opts.ylabel, 0, 0);
-        ctx.restore();
-      }
-
-      return { gx0,gx1,gy0,gy1,x0,x1,y0,y1 };
-    }
-
-    function mapX(fr, x){
-      return fr.gx0 + (x - fr.x0) * (fr.gx1 - fr.gx0) / (fr.x1 - fr.x0);
-    }
-    function mapY(fr, y){
-      return fr.gy1 - (y - fr.y0) * (fr.gy1 - fr.gy0) / (fr.y1 - fr.y0);
-    }
-
-    function drawLine(fr, xs, ys, color, width=2, dash=null){
-      ctx.save();
-      ctx.strokeStyle = color;
-      ctx.lineWidth = width;
-      if (dash) ctx.setLineDash(dash);
-      ctx.beginPath();
-      for (let i=0;i<xs.length;i++){
-        const X = mapX(fr, xs[i]);
-        const Y = mapY(fr, ys[i]);
-        if (i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
-      }
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    function drawPoints(fr, xs, ys, color, r=2){
-      ctx.save();
-      ctx.fillStyle = color;
-      for (let i=0;i<xs.length;i++){
-        const X = mapX(fr, xs[i]);
-        const Y = mapY(fr, ys[i]);
-        ctx.beginPath();
-        ctx.arc(X,Y,r,0,Math.PI*2);
-        ctx.fill();
-      }
-      ctx.restore();
-    }
-
-    function drawLegend(items, x, y){
-      ctx.save();
-      ctx.font = "12px " + getComputedStyle(document.documentElement).getPropertyValue('--sans');
-      ctx.textAlign = "left";
-      let yy = y;
-      for (const it of items){
-        ctx.fillStyle = it.color;
-        ctx.fillRect(x, yy-9, 10, 10);
-        ctx.fillStyle = "rgba(226,232,240,0.90)";
-        ctx.fillText(it.label, x+14, yy);
-        yy += 16;
-      }
-      ctx.restore();
-    }
-
-    function computePhaseSpace(model){
-      const N = 420;
-      const ptsQM = new Array(N);
-      const ptsST = new Array(N);
-
-      const lambda = model.lambda_m;
-      const d = model.d_m;
-      const L = model.L_m;
-      const L0 = model.L0_m;
-      const kind = model.kind;
-      const R_eff = model.R_eff;
-
-      for (let i=0;i<N;i++){
-        const y_m = (i - (N/2)) * (model.span_mm*1e-3) / N;
-        const theta = y_m / L;
-        const phi = (2*Math.PI / lambda) * (d * theta);
-
-        const u = Math.abs(d * theta) / Math.max(L0, 1e-35);
-        const C = Math.exp(-R_eff * kernel(u, kind));
-
-        const phaseQM = phi/2;
-        const phaseST = (phi/2) * C;
-
-        const coh = Math.sqrt(C);
-        ptsQM[i] = { x: Math.cos(phaseQM), y: Math.sin(phaseQM) };
-        ptsST[i] = { x: coh*Math.cos(phaseST), y: coh*Math.sin(phaseST) };
-      }
-      return { ptsQM, ptsST };
-    }
-
-    // ----- Chi2 sweep (Rq sensitivity)
-    function sweepRqChi2(){
-      if (!dataCSV){
-        warnLine.style.display = "block";
-        warnLine.style.borderColor = "var(--warn)";
-        warnLine.textContent = "Load CSV data first to run χ² sensitivity sweep.";
-        return;
-      }
-
-      setStatus("Sweeping Rq…");
-      warnLine.style.display = "none";
-      warnLine.textContent = "";
-
-      const rq0 = parseFloat(rqEl.value);
-      const steps = 40;
-      const rqMax = 1.0;
-
-      const rqVals = [];
-      const chiVals = [];
-
-      for (let i = 0; i <= steps; i++){
-        const rq = rqMax * i / steps;
-        rqEl.value = rq.toFixed(6);
-
-        const model = computeModel();
-        const chi = computeChi2AgainstData(model);
-
-        if (chi && isFinite(chi.chiS)){
-          rqVals.push(rq);
-          chiVals.push(chi.chiS);
-        }
-      }
-
-      // restore original Rq
-      rqEl.value = rq0;
-
-      // snapshot (session audit log)
-      const minChi = Math.min(...chiVals);
-      const minIdx = chiVals.indexOf(minChi);
-      const rqAtMin = rqVals[minIdx];
-      const chiAtZero = chiVals[0];
-      const improvement = (chiAtZero - minChi) / chiAtZero;
-
-      lastChi2Sweep = {
-        timestamp: new Date().toISOString(),
-        rq_range: [0, 1.0],
-        best_fit_rq: rqAtMin,
-        chi2_at_zero: chiAtZero,
-        chi2_at_min: minChi,
-        improvement_pct: (improvement * 100).toFixed(4),
-        is_falsified: (rqAtMin <= EPS_RQ || improvement <= IMPROVE_FRAC)
-      };
-
-      drawChi2Sweep(rqVals, chiVals);
-      setStatus("Ready");
-    }
-
-    function drawChi2Sweep(rq, chi){
-      clear();
-      mainTitle.textContent = "Sensitivity Test: χ²_red(STUR) vs Rq";
-
-      const ymin = Math.min(...chi);
-      const ymax = Math.max(...chi);
-
-      const fr = drawAxes(
-        0, 1.0,
-        ymin * 0.95,
-        ymax * 1.05,
-        { xlabel: "Rq (coherence strength)", ylabel: "χ²_red(STUR)" }
-      );
-
-      drawLine(fr, rq, chi, "#fb7185", 2.5);
-      drawPoints(fr, [0], [chi[0]], "rgba(255,255,255,0.95)", 4);
-
-      // --- Adversarial Null Dominance Banner ---
-      const minChi = Math.min(...chi);
-      const minIdx = chi.indexOf(minChi);
-      const rqAtMin = rq[minIdx];
-      const chiAtZero = chi[0];
-
-      const improvement = (chiAtZero - minChi) / chiAtZero;
-      const isSTURBetter = (rqAtMin > EPS_RQ) && (improvement > IMPROVE_FRAC);
-
-      warnLine.style.display = "block";
-
-      if (!isSTURBetter){
-        warnLine.style.borderColor = "var(--danger)";
-        warnLine.textContent =
-`CRITICAL: Null Model (QM) Dominates.
-
-Global minimum occurs at Rq = 0 (or within tolerance),
-or improvement ≤ ${(IMPROVE_FRAC*100).toFixed(0)}%.
-
-Result: STUR is unsupported by this dataset under adversarial criteria.
-(Do NOT claim discovery from numerical epsilon.)`;
-      } else {
-        warnLine.style.borderColor = "var(--accent2)";
-        warnLine.textContent =
-`STUR Signal Detected (adversarial pass).
-
-Best fit: Rq = ${rqAtMin.toFixed(3)}
-Improvement over QM (Rq=0): ${(improvement*100).toFixed(2)}%
-
-Caution: check systematics (PSF, charging) before claiming physics.`;
-      }
-
-      drawLegend([{label:"χ²_red(STUR) sweep", color:"#fb7185"}], fr.gx0+10, fr.gy0+18);
-    }
-
-    // ----- Render main view
-    function render(){
-      try{
-        setStatus("Computing…");
-
-        const model = computeModel();
-
-        massOut.textContent = fmtSI(model.m);
-        lamOut.textContent = (model.lambda_m*1e12).toFixed(2) + " pm";
-        reffOut.textContent = fmtSI(model.R_eff);
-
-        VqmEl.textContent = model.Vqm.toFixed(4);
-        VstEl.textContent = model.Vst.toFixed(4);
-        const dV = model.Vqm - model.Vst;
-        dVEl.textContent = dV.toFixed(4);
-        dvBarEl.style.width = clamp(Math.abs(dV)*120, 0, 100).toFixed(1) + "%";
-
-        const chi = computeChi2AgainstData(model);
-        if (chi && isFinite(chi.chiQ) && isFinite(chi.chiS)){
-          chiQMEl.textContent = chi.chiQ.toFixed(3);
-          chiSTEl.textContent = chi.chiS.toFixed(3);
-          chiDEl.textContent = (chi.d >= 0 ? "+" : "") + chi.d.toFixed(3);
-
-          let decision = "Inconclusive";
-          if (chi.d > 0.10) decision = "QM wins (STUR worse)";
-          if (chi.d < -0.10) decision = "STUR improves (scrutinize systematics)";
-          chiDecisionEl.textContent = decision;
-        } else {
-          chiQMEl.textContent = "—";
-          chiSTEl.textContent = "—";
-          chiDEl.textContent = "—";
-          chiDecisionEl.textContent = dataCSV ? "Need more points in window" : "Load CSV";
-        }
-
-        // Hide banner unless sweep was recently run; keep it quiet otherwise.
-        if (!lastChi2Sweep) {
-          warnLine.style.display = "none";
-          warnLine.textContent = "";
-        }
-
-        clear();
-
-        if (viewMode === "pattern"){
-          if (showDiff){
-            mainTitle.textContent = "Difference (STUR − QM) × 1000";
-            const xs = model.y_mm;
-            const ys = model.diff.map(v => v*1000);
-
-            let ymin = Infinity, ymax = -Infinity;
-            for (let i=0;i<ys.length;i++){
-              const v = ys[i];
-              if (v < ymin) ymin = v;
-              if (v > ymax) ymax = v;
-            }
-            const pad = 0.10*(ymax - ymin + 1e-9);
-            ymin -= pad; ymax += pad;
-
-            const fr = drawAxes(xs[0], xs[xs.length-1], ymin, ymax, {
-              xlabel: "Position (mm)",
-              ylabel: "ΔI × 1000"
-            });
-
-            drawLine(fr, xs, ys, "#a78bfa", 2.5);
-            drawLegend([{label:"STUR − QM (×1000)", color:"#a78bfa"}], fr.gx0+10, fr.gy0+18);
-          } else {
-            mainTitle.textContent = "Interference Intensity";
-            const xs = model.y_mm;
-
-            const fr = drawAxes(xs[0], xs[xs.length-1], 0, 1.05, {
-              xlabel: "Position (mm)",
-              ylabel: "Normalized intensity"
-            });
-
-            drawLine(fr, xs, model.Iq, "#2563eb", 2.5);
-            drawLine(fr, xs, model.Is, "#059669", 2.5, [6,5]);
-
-            if (dataCSV){
-              drawPoints(fr, dataCSV.y_mm, dataCSV.I, "rgba(255,255,255,0.92)", 2.0);
-            }
-
-            const items = [
-              {label:"QM", color:"#2563eb"},
-              {label:"STUR (coherence loss)", color:"#059669"}
-            ];
-            if (dataCSV) items.push({label:"Data (CSV)", color:"rgba(255,255,255,0.92)"});
-            drawLegend(items, fr.gx0+10, fr.gy0+18);
-          }
-        } else {
-          mainTitle.textContent = "Wavefunction Phase-Space (ψ-plane): QM circle vs STUR spiral";
-          const fr = drawAxes(-1.1, 1.1, -1.1, 1.1, {
-            xlabel: "Re(ψ)",
-            ylabel: "Im(ψ)"
-          });
-
-          // unit circle
-          ctx.save();
-          ctx.strokeStyle = "rgba(255,255,255,0.18)";
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for (let k=0;k<=240;k++){
-            const th = (k/240)*Math.PI*2;
-            const X = mapX(fr, Math.cos(th));
-            const Y = mapY(fr, Math.sin(th));
-            if (k===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
-          }
-          ctx.stroke();
-          ctx.restore();
-
-          const ps = computePhaseSpace(model);
-
-          ctx.save();
-          ctx.fillStyle = "#2563eb";
-          for (const p of ps.ptsQM){
-            const X = mapX(fr, p.x), Y = mapY(fr, p.y);
-            ctx.beginPath(); ctx.arc(X,Y,2.0,0,Math.PI*2); ctx.fill();
-          }
-          ctx.fillStyle = "#059669";
-          for (const p of ps.ptsST){
-            const X = mapX(fr, p.x), Y = mapY(fr, p.y);
-            ctx.beginPath(); ctx.arc(X,Y,2.0,0,Math.PI*2); ctx.fill();
-          }
-          ctx.restore();
-
-          drawLegend([
-            {label:"QM (unit circle)", color:"#2563eb"},
-            {label:"STUR (inward)", color:"#059669"}
-          ], fr.gx0+10, fr.gy0+18);
-        }
-
-        setStatus("Ready");
-      } catch (err){
-        setStatus("Error");
-        warnLine.style.display = "block";
-        warnLine.style.borderColor = "var(--danger)";
-        warnLine.textContent = "Runtime error: " + (err && err.message ? err.message : String(err));
-        console.error(err);
+  <div class="ctrl">
+    <label>λ Mode</label>
+    <select id="lambdaMode">
+      <option value="manual">Manual (pm)</option>
+      <option value="derive" selected>Relativistic derive</option>
+    </select>
+    <div style="height:8px"></div>
+    <input id="lambdaPm" type="number" value="50" step="0.1" />
+    <div class="hint">Manual overrides derivation. Bach 2013: ~50 pm @ 600 eV.</div>
+    <div class="val">λ = <span id="lamOut">—</span></div>
+  </div>
+
+  <div class="ctrl">
+    <label>Geometry</label>
+    <div class="hint">a (nm), d (nm), L (cm)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+      <input id="aNm" type="number" value="62" step="1" />
+      <input id="dNm" type="number" value="272" step="1" />
+    </div>
+    <div style="height:8px"></div>
+    <input id="Lcm" type="number" value="30.5" step="0.1" />
+    <div class="hint">Plot window fixed to ±5 mm for this compact harness.</div>
+  </div>
+
+  <div class="ctrl">
+    <label>STUR Rq</label>
+    <input id="rq" type="number" value="0.30" step="0.05" />
+    <div class="hint">Adversarial sweep checks whether data prefers Rq &gt; 0 or collapses to QM (Rq≈0).</div>
+  </div>
+
+  <div class="ctrl">
+    <label>Detector Blur (PSF)</label>
+    <input id="psfSigmaUm" type="number" value="5" step="1" />
+    <div class="hint">Gaussian σ (μm), applied to QM and STUR equally (fair shake).</div>
+  </div>
+
+  <div class="ctrl">
+    <label>CSV χ² (load digitized data)</label>
+    <input id="csvFile" type="file" accept=".csv,text/csv" />
+    <div class="hint">Expected columns: <span style="font-family:var(--mono)">y_mm,intensity</span>. Input auto-normalized to max=1.</div>
+  </div>
+
+  <div class="ctrl">
+    <label>χ² Results</label>
+    <div id="resultsOut" class="val">Load CSV to begin sweep</div>
+    <div class="hint">This is the formal falsifier output (not a visual judgment).</div>
+  </div>
+
+  <div class="ctrl">
+    <label>Instant χ² (current Rq)</label>
+    <div class="kv">
+      <div>
+        <div class="k">χ²(QM)</div>
+        <div class="v" id="chiQM">—</div>
+      </div>
+      <div>
+        <div class="k">χ²(STUR)</div>
+        <div class="v" id="chiST">—</div>
+      </div>
+      <div>
+        <div class="k">Δ = STUR − QM</div>
+        <div class="v" id="chiD">—</div>
+      </div>
+      <div>
+        <div class="k">Decision</div>
+        <div class="v" id="chiDecision">—</div>
+      </div>
+    </div>
+    <div class="small">Decision threshold here is conservative: Δ&lt;-0.10 suggests improvement; Δ&gt;0.10 suggests QM wins.</div>
+  </div>
+
+</div>
+</div>
+</div>
+</div>
+
+<script>
+/* ===================== CONSTANTS ===================== */
+const h = 6.62607015e-34, c = 299792458, eV = 1.602176634e-19;
+const m_e = 9.1093837015e-31;
+
+// Adversarial criteria
+const EPS_RQ = 1e-2;          // “Rq≈0” tolerance for the sweep verdict
+const IMPROVE_FRAC = 0.01;    // 1% improvement threshold
+
+/* ===================== DOM ===================== */
+const mainCanvas = document.getElementById("mainCanvas");
+const ctx = mainCanvas.getContext("2d");
+
+const statusText = document.getElementById("statusText");
+const warnLine = document.getElementById("warnLine");
+
+const btnBach = document.getElementById("btnBach");
+const btnSweep = document.getElementById("btnSweep");
+const btnExport = document.getElementById("btnExport");
+
+const Eev = document.getElementById("Eev");
+const lambdaMode = document.getElementById("lambdaMode");
+const lambdaPm = document.getElementById("lambdaPm");
+
+const aNm = document.getElementById("aNm");
+const dNm = document.getElementById("dNm");
+const Lcm = document.getElementById("Lcm");
+
+const rqEl = document.getElementById("rq");
+const psfSigmaUm = document.getElementById("psfSigmaUm");
+
+const csvFile = document.getElementById("csvFile");
+const resultsOut = document.getElementById("resultsOut");
+
+const lamOut = document.getElementById("lamOut");
+const chiQMEl = document.getElementById("chiQM");
+const chiSTEl = document.getElementById("chiST");
+const chiDEl = document.getElementById("chiD");
+const chiDecisionEl = document.getElementById("chiDecision");
+
+/* ===================== STATE ===================== */
+let dataCSV = null; // {y_mm:[], I:[]} normalized to max=1
+let lastSweep = null;
+
+/* ===================== HELPERS ===================== */
+function setStatus(t){ statusText.textContent = t; }
+
+function sinc(x){ return Math.abs(x) < 1e-12 ? 1 : Math.sin(x)/x; }
+
+function normalizeMax(arr){
+  let m = 0;
+  for (let i=0;i<arr.length;i++) if (arr[i] > m) m = arr[i];
+  if (m <= 0 || !isFinite(m)) return arr.map(()=>0);
+  return arr.map(v => v/m);
+}
+
+// Simple linear interp on monotonic grid
+function linInterp(x, xs, ys){
+  const n = xs.length;
+  if (n < 2) return NaN;
+  if (x <= xs[0]) return ys[0];
+  if (x >= xs[n-1]) return ys[n-1];
+  let lo = 0, hi = n-1;
+  while (hi - lo > 1){
+    const mid = (lo + hi) >> 1;
+    if (xs[mid] <= x) lo = mid; else hi = mid;
+  }
+  const x0 = xs[lo], x1 = xs[hi];
+  const y0 = ys[lo], y1 = ys[hi];
+  const t = (x - x0) / (x1 - x0);
+  return y0 + t*(y1 - y0);
+}
+
+/* ===================== PSF ===================== */
+function applyPSF(intensityArray, y_mm, sigma_um) {
+  const sigma_mm = sigma_um / 1000;
+  if (!isFinite(sigma_mm) || sigma_mm <= 0) return intensityArray.slice();
+
+  const N = intensityArray.length;
+  const result = new Array(N).fill(0);
+
+  const dy = y_mm[1] - y_mm[0];
+  const reach = Math.max(1, Math.ceil((3 * sigma_mm) / dy));
+
+  for (let i = 0; i < N; i++) {
+    let weightSum = 0;
+    for (let j = i - reach; j <= i + reach; j++) {
+      if (j >= 0 && j < N) {
+        const dist = y_mm[i] - y_mm[j];
+        const weight = Math.exp(-(dist * dist) / (2 * sigma_mm * sigma_mm));
+        result[i] += intensityArray[j] * weight;
+        weightSum += weight;
       }
     }
+    result[i] /= (weightSum || 1);
+  }
+  return result;
+}
 
-    // ----- CSV loader
-    function parseCSV(text){
-      const lines = text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
-      if (lines.length < 2) return null;
+/* ===================== RELATIVISTIC λ ===================== */
+function deriveLambda_m(E_eV){
+  // p = sqrt(E^2 + 2 E m c^2) / c  (E = kinetic energy)
+  const E = E_eV * eV;
+  const p = Math.sqrt(E*E + 2*E*m_e*c*c) / c;
+  return h / p;
+}
 
-      let start = 0;
-      if (/[a-zA-Z]/.test(lines[0])) start = 1;
+/* ===================== MODEL ===================== */
+function computeModel(){
+  const E_eV = +Eev.value;
+  const a_m  = +aNm.value * 1e-9;
+  const d_m  = +dNm.value * 1e-9;
+  const L_m  = +Lcm.value * 1e-2;
 
-      const y = [];
-      const I = [];
-      for (let i=start;i<lines.length;i++){
-        const parts = lines[i].split(/,|\t|;/).map(s=>s.trim());
-        if (parts.length < 2) continue;
-        const x = parseFloat(parts[0]);
-        const v = parseFloat(parts[1]);
-        if (!isFinite(x) || !isFinite(v)) continue;
-        y.push(x);
-        I.push(Math.max(0, v));
-      }
-      if (y.length < 5) return null;
+  const lambda_m = (lambdaMode.value === "manual")
+    ? (+lambdaPm.value * 1e-12)
+    : deriveLambda_m(E_eV);
 
-      const idx = y.map((v,i)=>i).sort((i,j)=>y[i]-y[j]);
-      const ys = idx.map(i=>y[i]);
-      const Is = idx.map(i=>I[i]);
+  const Rq = +rqEl.value;
+  const sigma_psf_um = +psfSigmaUm.value;
 
-      let m = 0;
-      for (const v of Is) if (v > m) m = v;
-      const In = (m > 0) ? Is.map(v=>v/m) : Is.map(()=>0);
+  // Fixed compact view: ±5 mm
+  const N = 1201;
+  const span_m = 5e-3; // 5 mm
+  const y_mm = new Array(N);
+  const Iqm = new Array(N);
+  const Ist = new Array(N);
 
-      return { y_mm: ys, I: In };
+  for (let i=0;i<N;i++){
+    const yy = -span_m + (2*span_m) * i/(N-1);
+    const theta = yy / L_m;
+
+    const env = Math.pow(sinc(Math.PI * a_m * theta / lambda_m), 2);
+    const phi = (2*Math.PI / lambda_m) * (d_m * theta);
+
+    // QM baseline
+    Iqm[i] = env * (1 + Math.cos(phi)) * 0.5;
+
+    // STUR coherence-loss (minimal here: exp(-Rq) contrast scaling)
+    Ist[i] = env * (1 + Math.exp(-Rq) * Math.cos(phi)) * 0.5;
+
+    y_mm[i] = yy * 1000;
+  }
+
+  // PSF applied equally (fair)
+  const Iq_blur = applyPSF(Iqm, y_mm, sigma_psf_um);
+  const Is_blur = applyPSF(Ist, y_mm, sigma_psf_um);
+
+  // normalize each to its own max (common plotting convention)
+  const Iq = normalizeMax(Iq_blur);
+  const Is = normalizeMax(Is_blur);
+
+  lamOut.textContent = (lambda_m * 1e12).toFixed(2) + " pm";
+
+  return { y_mm, Iq, Is, lambda_m, params: {E_eV, a_m, d_m, L_m, Rq, sigma_psf_um} };
+}
+
+/* ===================== CSV PARSER (AUTO-NORMALIZE) ===================== */
+function parseCSV(text){
+  const lines = text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+  if (lines.length < 2) return null;
+
+  let start = /[a-zA-Z]/.test(lines[0]) ? 1 : 0;
+
+  const y = [];
+  const I = [];
+  for (let i=start;i<lines.length;i++){
+    const parts = lines[i].split(/,|\t|;/).map(s=>s.trim());
+    if (parts.length < 2) continue;
+    const x = parseFloat(parts[0]);
+    const v = parseFloat(parts[1]);
+    if (!isFinite(x) || !isFinite(v)) continue;
+    y.push(x);
+    I.push(Math.max(0, v));
+  }
+  if (y.length < 5) return null;
+
+  // sort by y
+  const idx = y.map((_,i)=>i).sort((i,j)=>y[i]-y[j]);
+  const ys = idx.map(i=>y[i]);
+  const Is = idx.map(i=>I[i]);
+
+  // normalize to max=1
+  const maxI = Math.max(...Is);
+  const In = (maxI > 0) ? Is.map(v=>v/maxI) : Is.map(()=>0);
+
+  return { y_mm: ys, I: In };
+}
+
+/* ===================== χ² (MEAN SQUARED ERROR, NORMALIZED SPACE) ===================== */
+function calculateChi2(model, data){
+  // Using interpolation onto model grid (not index hacks)
+  let sumSq = 0;
+  let n = 0;
+
+  for (let i=0;i<data.y_mm.length;i++){
+    const x = data.y_mm[i];
+    const obs = data.I[i];
+
+    const predQM = linInterp(x, model.y_mm, model.Iq);
+    const predST = linInterp(x, model.y_mm, model.Is);
+
+    if (!isFinite(predQM) || !isFinite(predST)) continue;
+
+    // Return both in one pass by storing residuals
+    // (caller can compute separate sums if desired)
+    n++;
+  }
+
+  // This function is used by sweep for STUR only (as requested),
+  // but we also compute instant χ² both models below.
+  return NaN;
+}
+
+function chi2Both(model, data){
+  if (!data) return null;
+  let ssQ = 0, ssS = 0, n = 0;
+
+  for (let i=0;i<data.y_mm.length;i++){
+    const x = data.y_mm[i];
+    const obs = data.I[i];
+
+    const q = linInterp(x, model.y_mm, model.Iq);
+    const s = linInterp(x, model.y_mm, model.Is);
+    if (!isFinite(q) || !isFinite(s)) continue;
+
+    const dq = (obs - q);
+    const ds = (obs - s);
+
+    ssQ += dq*dq;
+    ssS += ds*ds;
+    n++;
+  }
+  if (n < 5) return { n, chiQ: NaN, chiS: NaN, d: NaN };
+
+  // Mean squared error (acts like χ² up to constant scaling since data is normalized)
+  const chiQ = ssQ / n;
+  const chiS = ssS / n;
+  return { n, chiQ, chiS, d: (chiS - chiQ) };
+}
+
+/* ===================== DRAW ===================== */
+function clear(){
+  ctx.clearRect(0,0,mainCanvas.width,mainCanvas.height);
+  ctx.fillStyle = "rgba(255,255,255,0.02)";
+  ctx.fillRect(0,0,mainCanvas.width,mainCanvas.height);
+}
+
+function drawAxes(){
+  const w = mainCanvas.width, h = mainCanvas.height;
+  const padL = 54, padR = 14, padT = 12, padB = 34;
+
+  const x0 = padL, x1 = w - padR;
+  const y0 = padT, y1 = h - padB;
+
+  ctx.strokeStyle = "rgba(255,255,255,0.10)";
+  ctx.strokeRect(x0,y0,x1-x0,y1-y0);
+
+  ctx.strokeStyle = "rgba(255,255,255,0.06)";
+  for (let i=1;i<6;i++){
+    const tx = x0 + (x1-x0)*i/6;
+    ctx.beginPath(); ctx.moveTo(tx,y0); ctx.lineTo(tx,y1); ctx.stroke();
+    const ty = y0 + (y1-y0)*i/6;
+    ctx.beginPath(); ctx.moveTo(x0,ty); ctx.lineTo(x1,ty); ctx.stroke();
+  }
+
+  ctx.fillStyle = "rgba(226,232,240,0.80)";
+  ctx.font = "12px " + getComputedStyle(document.documentElement).getPropertyValue('--mono');
+  ctx.textAlign = "center";
+  ctx.fillText("Position y (mm)", (x0+x1)/2, h-10);
+  ctx.save();
+  ctx.translate(14, (y0+y1)/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText("Normalized intensity", 0, 0);
+  ctx.restore();
+
+  return {x0,x1,y0,y1};
+}
+
+function mapX(fr, x_mm){
+  // x_mm in [-5,5]
+  return fr.x0 + ((x_mm + 5) / 10) * (fr.x1 - fr.x0);
+}
+function mapY(fr, I){
+  return fr.y1 - I * (fr.y1 - fr.y0);
+}
+
+function drawLine(fr, xs, ys, color){
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2.3;
+  ctx.beginPath();
+  for (let i=0;i<xs.length;i++){
+    const X = mapX(fr, xs[i]);
+    const Y = mapY(fr, ys[i]);
+    if (i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+  }
+  ctx.stroke();
+}
+
+function drawPoints(fr, xs, ys, color){
+  ctx.fillStyle = color;
+  for (let i=0;i<xs.length;i++){
+    const X = mapX(fr, xs[i]);
+    const Y = mapY(fr, ys[i]);
+    ctx.beginPath();
+    ctx.arc(X,Y,2.0,0,Math.PI*2);
+    ctx.fill();
+  }
+}
+
+function draw(){
+  try{
+    setStatus("Computing…");
+    warnLine.style.display = "none";
+    warnLine.textContent = "";
+
+    const model = computeModel();
+    clear();
+    const fr = drawAxes();
+
+    // QM
+    drawLine(fr, model.y_mm, model.Iq, "#2563eb");
+    // STUR
+    drawLine(fr, model.y_mm, model.Is, "#059669");
+
+    // Data points
+    if (dataCSV){
+      drawPoints(fr, dataCSV.y_mm, dataCSV.I, "rgba(255,255,255,0.92)");
     }
 
-    csvFileEl.addEventListener("change", async (ev)=>{
-      try{
-        const f = ev.target.files && ev.target.files[0];
-        if (!f) return;
-
-        setStatus("Loading CSV…");
-        const text = await f.text();
-        const parsed = parseCSV(text);
-
-        if (!parsed){
-          dataCSV = null;
-          warnLine.style.display = "block";
-          warnLine.style.borderColor = "var(--warn)";
-          warnLine.textContent = "Could not parse CSV. Expected columns: y_mm,intensity (header optional).";
-        } else {
-          dataCSV = parsed;
-          // reset sweep snapshot; new dataset means new audit state
-          lastChi2Sweep = null;
-          warnLine.style.display = "none";
-          warnLine.textContent = "";
-        }
-        render();
-      } catch (e){
-        console.error(e);
-        warnLine.style.display = "block";
-        warnLine.style.borderColor = "var(--danger)";
-        warnLine.textContent = "CSV load error: " + (e && e.message ? e.message : String(e));
-      }
-    });
-
-    // ----- Preset
-    function loadBachPreset(){
-      particleEl.value = "electron";
-      EevEl.value = 600;
-      lambdaModeEl.value = "manual";
-      lambdaPmEl.value = 50.0;
-
-      aNmEl.value = 62;
-      dNmEl.value = 272;
-      LcmEl.value = 30.5;
-      spanMmEl.value = 10;
-
-      sturOnEl.checked = true;
-      rqEl.value = 0.30;
-      pwrEl.value = "2";
-      L0nmEl.value = 120;
-      kernelEl.value = "tanh";
-
-      barOnEl.checked = true;
-      barNmEl.value = 150;
-      barAmpEl.value = 0.65;
-
-      winMmEl.value = 2.0;
-      sigmaEl.value = 0.02;
-
-      lastChi2Sweep = null;
-      warnLine.style.display = "none";
-      warnLine.textContent = "";
-
-      render();
-    }
-
-    // ----- Export JSON (Audit)
-    function downloadText(filename, text, mime="application/json"){
-      const blob = new Blob([text], {type:mime});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url), 800);
-    }
-
-    function exportSummary(){
-      const model = computeModel();
-      const chi = computeChi2AgainstData(model);
-
-      const out = {
-        schema: "stur-bach-falsification-v2-goldmaster",
-        exported_at: new Date().toISOString(),
-
-        adversarial_thresholds: {
-          eps_rq: EPS_RQ,
-          improve_frac: IMPROVE_FRAC
-        },
-
-        view: { viewMode, showDiff },
-
-        params: {
-          particle: particleEl.value,
-          energy_eV: parseFloat(EevEl.value),
-          lambda_mode: lambdaModeEl.value,
-          lambda_pm_manual: parseFloat(lambdaPmEl.value),
-          a_nm: parseFloat(aNmEl.value),
-          d_nm: parseFloat(dNmEl.value),
-          L_cm: parseFloat(LcmEl.value),
-          span_mm: parseFloat(spanMmEl.value),
-
-          stur_on: sturOnEl.checked,
-          Rq_base: parseFloat(rqEl.value),
-          mass_power_p: parseFloat(pwrEl.value),
-          L0_nm: parseFloat(L0nmEl.value),
-          kernel: kernelEl.value,
-
-          support_bar_on: barOnEl.checked,
-          support_bar_nm: parseFloat(barNmEl.value),
-          notch_strength: parseFloat(barAmpEl.value),
-
-          chi2_sigma: parseFloat(sigmaEl.value),
-          window_mm: parseFloat(winMmEl.value)
-        },
-
-        derived: {
-          mass_kg: model.m,
-          lambda_pm: model.lambda_m * 1e12,
-          R_eff: model.R_eff,
-          visibility: { V_qm: model.Vqm, V_stur: model.Vst, dV: (model.Vqm - model.Vst) }
-        },
-
-        data_loaded: !!dataCSV,
-
-        chi2: chi ? {
-          n_in_window: chi.n,
-          chi2_red_qm: chi.chiQ,
-          chi2_red_stur: chi.chiS,
-          delta: chi.d
-        } : null,
-
-        chi2_sweep_audit: lastChi2Sweep
-      };
-
-      downloadText("stur_bach_audit.json", JSON.stringify(out, null, 2));
-      setStatus("Exported");
-      setTimeout(()=>setStatus("Ready"), 900);
-    }
-
-    // ----- Copy helpers
-    async function copyToClipboard(text){
-      try{
-        await navigator.clipboard.writeText(text);
-        setStatus("Copied");
-        setTimeout(()=>setStatus("Ready"), 900);
-      }catch(_){
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        ta.remove();
-        setStatus("Copied");
-        setTimeout(()=>setStatus("Ready"), 900);
-      }
-    }
-
-    function buildXPost(){
-      const model = computeModel();
-      const chi = computeChi2AgainstData(model);
-
-      const base =
-`Bach et al. (2013) controlled electron double-slit (600 eV, a=62 nm, d=272 nm, L=30.5 cm) is my falsification target.
-
-This tool computes QM baseline + STUR coherence-loss and an optional support-bar notch. Load digitized Fig. 1(c) CSV (y_mm,intensity) to compare χ²_red(QM) vs χ²_red(STUR).
-
-Then run “Rq Sensitivity”: if χ² minimum is at Rq≈0 (or ≤1% improvement), the dataset supports QM and STUR fails.
-
-Try to falsify it: https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/`;
-
-      let tail = "";
+    // Instant χ²
+    if (dataCSV){
+      const chi = chi2Both(model, dataCSV);
       if (chi && isFinite(chi.chiQ) && isFinite(chi.chiS)){
-        tail += `\n\nCurrent CSV: χ²(QM)=${chi.chiQ.toFixed(3)} χ²(STUR)=${chi.chiS.toFixed(3)} Δ=${chi.d.toFixed(3)}.`;
+        chiQMEl.textContent = chi.chiQ.toFixed(6);
+        chiSTEl.textContent = chi.chiS.toFixed(6);
+        chiDEl.textContent  = (chi.d >= 0 ? "+" : "") + chi.d.toFixed(6);
+
+        let decision = "Inconclusive";
+        if (chi.d >  0.10) decision = "QM wins (STUR worse)";
+        if (chi.d < -0.10) decision = "STUR improves (scrutinize systematics)";
+        chiDecisionEl.textContent = decision;
+      } else {
+        chiQMEl.textContent = "—";
+        chiSTEl.textContent = "—";
+        chiDEl.textContent = "—";
+        chiDecisionEl.textContent = "Need more points";
       }
-      if (lastChi2Sweep){
-        tail += `\nSweep: best Rq=${lastChi2Sweep.best_fit_rq.toFixed(3)} improvement=${lastChi2Sweep.improvement_pct}% falsified=${lastChi2Sweep.is_falsified}.`;
-      }
-      return base + tail;
+    } else {
+      chiQMEl.textContent = "—";
+      chiSTEl.textContent = "—";
+      chiDEl.textContent = "—";
+      chiDecisionEl.textContent = "Load CSV";
     }
 
-    // ----- Protocol injection
-    function injectProtocol(){
-      protocolBlock.innerHTML = `
-<h2>Falsification Protocol: Bach et al. (2013) Double-Slit Experiment</h2>
+    setStatus("Ready");
+  } catch (err){
+    setStatus("Error");
+    warnLine.style.display = "block";
+    warnLine.style.borderColor = "rgba(251,113,133,.55)";
+    warnLine.textContent = "Runtime error: " + (err && err.message ? err.message : String(err));
+    console.error(err);
+  }
+}
 
-<h3>Paper Reference</h3>
-<p><b>“Controlled double-slit electron diffraction”</b><br>
-Roger Bach, Damian Pope, Sy-Hwang Liou, Herman Batelaan<br>
-<i>New Journal of Physics</i> <b>15</b> (2013) 033018<br>
-DOI: <a href="http://dx.doi.org/10.1088/1367-2630/15/3/033018" target="_blank" rel="noopener">10.1088/1367-2630/15/3/033018</a></p>
+/* ===================== Rq SENSITIVITY SWEEP ===================== */
+async function runRqSweep(){
+  if (!dataCSV){
+    alert("Please load a CSV file first!");
+    return;
+  }
 
-<h3>Experimental Parameters (Verified)</h3>
-<table>
-  <tr><th>Parameter</th><th>Value</th><th>Notes</th></tr>
-  <tr><td>Particle</td><td>Electron</td><td>Thermionic tungsten source</td></tr>
-  <tr><td>Energy</td><td>600 eV</td><td>Relativistic correction negligible</td></tr>
-  <tr><td>de Broglie λ</td><td>50 pm</td><td>Paper states this (h/p gives ≈ 50.1 pm)</td></tr>
-  <tr><td>Slit width (a)</td><td>62 nm</td><td>FIB milled in Si₃N₄ membrane</td></tr>
-  <tr><td>Slit separation (d)</td><td>272 nm</td><td>Center-to-center</td></tr>
-  <tr><td>Screen distance (L)</td><td>30.5 cm</td><td>Double-slit to MCP detector</td></tr>
-  <tr><td>Support bar</td><td>150 nm</td><td>Midway along slit height</td></tr>
-  <tr><td>Coating</td><td>~2 nm Au</td><td>Applied after FIB milling</td></tr>
-  <tr><td>Detection</td><td>MCP + phosphor</td><td>2D microchannel plate</td></tr>
-</table>
+  setStatus("Sweeping Rq…");
 
-<h3>Why This Experiment Is Perfect for Falsification</h3>
-<ul>
-  <li><b>Well-characterized geometry:</b> SEM-verified slits; the support bar adds a distinctive notch-like feature.</li>
-  <li><b>Single-electron regime:</b> ~1 Hz detection; no e–e interactions.</li>
-  <li><b>QM baseline is fixed:</b> no “fit knobs” beyond measured geometry and λ.</li>
-</ul>
+  let bestRq = 0;
+  let minChi2 = Infinity;
+  const sweepResults = [];
 
-<h3>Data Extraction Methods</h3>
-<p><b>Rigorous:</b> Digitize Fig. 1(c) using WebPlotDigitizer and load CSV here.</p>
-<p><b>WebPlotDigitizer:</b> <a href="https://automeris.io/WebPlotDigitizer/" target="_blank" rel="noopener">automeris.io/WebPlotDigitizer</a></p>
+  const rqOriginal = parseFloat(rqEl.value);
 
-<h4>CSV format</h4>
-<pre><code>y_mm,intensity
--5.0,0.234
--4.9,0.245
-...</code></pre>
+  for (let r = 0; r <= 1.000001; r += 0.05) {
+    rqEl.value = r.toFixed(2);
+    const model = computeModel();
+    const chi = chi2Both(model, dataCSV);
 
-<h3>Models</h3>
-<p><b>Null (QM):</b></p>
-<pre><code>I_QM(y) = sinc²(πaθ/λ) · [1 + cos(2πdθ/λ)] / 2</code></pre>
+    const currentChi2 = chi ? chi.chiS : Infinity;
+    sweepResults.push({ r, chi2: currentChi2 });
 
-<p><b>Alt (STUR):</b></p>
-<pre><code>I_STUR(y) = sinc²(πaθ/λ) · [1 + C(y)·cos(2πdθ/λ)] / 2
-C(y) = exp(-R_eff · kernel(|dθ|/L₀))</code></pre>
+    if (currentChi2 < minChi2) {
+      minChi2 = currentChi2;
+      bestRq = r;
+    }
+  }
 
-<h3>Adversarial Criteria</h3>
-<ul>
-  <li>Compute χ²_red(QM) and χ²_red(STUR) in a fixed ±window.</li>
-  <li>Run “Rq Sensitivity” sweep (0→1). If global minimum is at Rq≈0 <i>or</i> improvement ≤ 1%, the dataset supports QM and STUR is flagged as unsupported.</li>
-  <li>Export JSON (Audit) stores sweep snapshot to prevent post-hoc reinterpretation.</li>
-</ul>
+  // Improvement relative to QM-like baseline (Rq=0)
+  const chi0 = sweepResults[0].chi2;
+  const improvementFrac = (chi0 - minChi2) / (chi0 || 1);
+  const improvementPct = improvementFrac * 100;
 
-<h3>Bottom line</h3>
-<p>Digitize → load CSV → compare χ² → run sweep → export audit. Let the data decide.</p>
-      `;
+  // Store sweep audit
+  lastSweep = {
+    timestamp: new Date().toISOString(),
+    step: 0.05,
+    rq_range: [0, 1.0],
+    bestRq: bestRq,
+    chi2_at_rq0: chi0,
+    chi2_min: minChi2,
+    improvement_pct: improvementPct
+  };
+
+  // Verdict (adversarial)
+  const falsified = (bestRq < EPS_RQ) || (improvementFrac <= IMPROVE_FRAC);
+  const verdict = falsified
+    ? "❌ FALSIFIED: QM dominates (Rq → 0 or ≤1% improvement)."
+    : "⚠️ POTENTIAL SIGNAL: inspect PSF, charging, drift, digitization error.";
+
+  resultsOut.innerHTML =
+`Best Rq: ${bestRq.toFixed(2)}
+χ²(STUR) @ Rq=0: ${chi0.toFixed(6)}
+χ²(STUR) min:  ${minChi2.toFixed(6)}
+Improvement:   ${improvementPct.toFixed(2)}%
+${verdict}`;
+
+  // Set slider to best-fit so the plot matches the sweep state
+  rqEl.value = bestRq.toFixed(2);
+  setStatus("Ready");
+  draw();
+}
+
+/* ===================== EXPORT JSON ===================== */
+function downloadText(filename, text, mime="application/json"){
+  const blob = new Blob([text], {type:mime});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 800);
+}
+
+function exportJSON(){
+  const model = computeModel();
+  const chi = dataCSV ? chi2Both(model, dataCSV) : null;
+
+  const out = {
+    schema: "stur-bach-mini-harness-v1",
+    exported_at: new Date().toISOString(),
+    adversarial: {
+      eps_rq: EPS_RQ,
+      improve_frac: IMPROVE_FRAC
+    },
+    params: {
+      energy_eV: +Eev.value,
+      lambda_mode: lambdaMode.value,
+      lambda_pm_manual: +lambdaPm.value,
+      a_nm: +aNm.value,
+      d_nm: +dNm.value,
+      L_cm: +Lcm.value,
+      Rq: +rqEl.value,
+      psf_sigma_um: +psfSigmaUm.value
+    },
+    derived: {
+      lambda_pm: model.lambda_m * 1e12
+    },
+    data_loaded: !!dataCSV,
+    chi2: chi ? {
+      n: chi.n,
+      chi_qm: chi.chiQ,
+      chi_stur: chi.chiS,
+      delta: chi.d
+    } : null,
+    sweep_audit: lastSweep
+  };
+
+  downloadText("stur_bach_audit.json", JSON.stringify(out, null, 2));
+  setStatus("Exported");
+  setTimeout(()=>setStatus("Ready"), 900);
+}
+
+/* ===================== CSV LOAD ===================== */
+csvFile.addEventListener("change", async (ev)=>{
+  try{
+    const f = ev.target.files && ev.target.files[0];
+    if (!f) return;
+    setStatus("Loading CSV…");
+
+    const text = await f.text();
+    const parsed = parseCSV(text);
+
+    if (!parsed){
+      dataCSV = null;
+      warnLine.style.display = "block";
+      warnLine.style.borderColor = "rgba(245,158,11,.55)";
+      warnLine.textContent = "Could not parse CSV. Expected: y_mm,intensity (header optional).";
+      resultsOut.textContent = "Load CSV to begin sweep";
+    } else {
+      dataCSV = parsed;
+      lastSweep = null;
+      warnLine.style.display = "none";
+      warnLine.textContent = "";
+      resultsOut.textContent = "CSV loaded. Click “Rq Sensitivity”.";
     }
 
-    // ----- Events
-    toggleViewBtn.addEventListener("click", () => {
-      viewMode = (viewMode === "pattern") ? "phase" : "pattern";
-      toggleViewBtn.textContent = (viewMode === "pattern") ? "Switch to Phase Space" : "Switch to Pattern";
-      render();
-    });
+    draw();
+    setStatus("Ready");
+  } catch (e){
+    console.error(e);
+    warnLine.style.display = "block";
+    warnLine.style.borderColor = "rgba(251,113,133,.55)";
+    warnLine.textContent = "CSV load error: " + (e && e.message ? e.message : String(e));
+    setStatus("Error");
+  }
+});
 
-    toggleDiffBtn.addEventListener("click", () => {
-      showDiff = !showDiff;
-      toggleDiffBtn.textContent = showDiff ? "Show Patterns" : "Show Difference";
-      render();
-    });
+/* ===================== PRESET ===================== */
+function loadBachPreset(){
+  Eev.value = 600;
+  lambdaMode.value = "manual";
+  lambdaPm.value = 50.0;
+  lambdaPm.disabled = false;
 
-    btnBach.addEventListener("click", loadBachPreset);
-    btnSweep.addEventListener("click", sweepRqChi2);
-    btnExport.addEventListener("click", exportSummary);
-    btnCopyX.addEventListener("click", async ()=> { await copyToClipboard(buildXPost()); });
+  aNm.value = 62;
+  dNm.value = 272;
+  Lcm.value = 30.5;
 
-    // re-render on input
-    [
-      particleEl,EevEl,lambdaModeEl,lambdaPmEl,
-      aNmEl,dNmEl,LcmEl,spanMmEl,
-      sturOnEl,rqEl,pwrEl,L0nmEl,kernelEl,
-      barOnEl,barNmEl,barAmpEl,
-      sigmaEl,winMmEl
-    ].forEach(el => el.addEventListener("input", () => {
-      // If a user changes controls after a sweep, invalidate the sweep audit (prevents stale claims).
-      lastChi2Sweep = null;
-      render();
-    }));
+  rqEl.value = 0.30;
+  psfSigmaUm.value = 5;
 
-    lambdaModeEl.addEventListener("change", ()=>{
-      const manual = (lambdaModeEl.value === "manual");
-      lambdaPmEl.disabled = !manual;
-      lastChi2Sweep = null;
-      render();
-    });
+  lastSweep = null;
+  resultsOut.textContent = dataCSV ? "CSV loaded. Click “Rq Sensitivity”." : "Load CSV to begin sweep";
+  warnLine.style.display = "none";
+  warnLine.textContent = "";
 
-    // ----- Init
-    injectProtocol();
-    lambdaPmEl.disabled = (lambdaModeEl.value !== "manual");
-    render();
-  </script>
+  draw();
+}
+
+function syncLambdaUI(){
+  const manual = (lambdaMode.value === "manual");
+  lambdaPm.disabled = !manual;
+}
+
+/* ===================== EVENTS ===================== */
+btnBach.addEventListener("click", loadBachPreset);
+btnSweep.addEventListener("click", runRqSweep);
+btnExport.addEventListener("click", exportJSON);
+
+lambdaMode.addEventListener("change", ()=>{
+  syncLambdaUI();
+  lastSweep = null;
+  draw();
+});
+
+document.querySelectorAll("input,select").forEach(el=>{
+  el.addEventListener("input", ()=>{
+    // Changing controls invalidates the last sweep (prevents stale claims)
+    lastSweep = null;
+    if (resultsOut) resultsOut.textContent = dataCSV ? "Parameters changed. Re-run sweep." : "Load CSV to begin sweep";
+    draw();
+  });
+});
+
+/* ===================== INIT ===================== */
+syncLambdaUI();
+draw();
+</script>
 </body>
 </html>
