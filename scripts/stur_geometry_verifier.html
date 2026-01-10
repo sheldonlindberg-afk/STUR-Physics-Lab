@@ -1,988 +1,1168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>STUR / Quantum Gravity Geometry Matcher</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>STUR – Quantum Gravity Geometry Matcher (Single-Page)</title>
 
-<style>
-:root{
-  --bg:#050814;
-  --panel:#0a1022;
-  --panel2:#0b142b;
-  --text:#e6edf3;
-  --muted:#94a3b8;
-  --border:rgba(255,255,255,.10);
-  --accent:#60a5fa;
-  --accent2:#34d399;
-  --warn:#f59e0b;
-  --danger:#fb7185;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  --shadow: 0 18px 60px rgba(0,0,0,.45);
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  background:linear-gradient(180deg,#030510,#050814);
-  color:var(--text);
-  font-family:var(--sans);
-  overflow-x:hidden;
-}
-.wrap{max-width:1200px;margin:auto;padding:16px}
-h1{font-weight:300;margin:6px 0 14px 0}
-h1 b{color:var(--accent);font-weight:900}
+  <style>
+    :root{
+      --bg:#050814;
+      --panel:#0a1022;
+      --panel2:#0b132a;
+      --border:#1f2a44;
+      --text:#e6edf3;
+      --muted:#94a3b8;
+      --accent:#60a5fa;
+      --accent2:#34d399;
+      --warn:#f59e0b;
+      --danger:#fb7185;
+      --purple:#a78bfa;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      --radius:14px;
+      --shadow: 0 18px 40px rgba(0,0,0,.45);
+      --shadow2: inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 700px at 10% 10%, rgba(96,165,250,.10), transparent 55%),
+                  radial-gradient(900px 650px at 90% 20%, rgba(52,211,153,.10), transparent 55%),
+                  linear-gradient(180deg, #030510, #050814 40%, #030510);
+      color:var(--text);
+      font-family:var(--sans);
+    }
+    .wrap{max-width:1220px;margin:0 auto;padding:22px}
+    .top{
+      display:flex; gap:14px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .title h1{margin:0;font-size:26px;letter-spacing:.2px}
+    .title .sub{margin-top:6px;color:var(--muted);font-size:13px;line-height:1.25}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
 
-.topbar{
-  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
-  margin-bottom:12px;
-}
-.pills{display:flex;gap:8px;flex-wrap:wrap}
-.pill{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:8px 10px;border-radius:999px;
-  border:1px solid var(--border);background:rgba(255,255,255,.04);
-  font-size:12px;color:var(--muted);
-}
-.pill b{color:var(--text);font-weight:900}
-.pill .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);box-shadow:0 0 18px rgba(52,211,153,.4)}
+    button{
+      border:0; cursor:pointer;
+      padding:10px 12px;
+      border-radius:12px;
+      background:rgba(255,255,255,.08);
+      color:var(--text);
+      box-shadow: var(--shadow2);
+      font-weight:800; font-size:13px;
+    }
+    button.primary{background:rgba(96,165,250,.22); color:#dbeafe}
+    button.primary:hover{background:rgba(96,165,250,.30)}
+    button.alt{background:rgba(167,139,250,.18); color:#ede9fe}
+    button.alt:hover{background:rgba(167,139,250,.26)}
+    button.good{background:rgba(52,211,153,.18); color:#dcfce7}
+    button.good:hover{background:rgba(52,211,153,.26)}
+    button.warn{background:rgba(245,158,11,.18); color:#ffedd5}
+    button.warn:hover{background:rgba(245,158,11,.26)}
+    button.bad{background:rgba(251,113,133,.18); color:#ffe4e6}
+    button.bad:hover{background:rgba(251,113,133,.26)}
+    button:active{transform:translateY(1px)}
 
-.nav{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.nav button{
-  flex:1;min-width:120px;padding:12px;border-radius:10px;
-  border:1px solid var(--border);background:rgba(255,255,255,.04);
-  color:var(--text);font-weight:900;cursor:pointer;transition:0.2s;
-}
-.nav button:active{transform:translateY(1px)}
-.nav button.active{background:rgba(96,165,250,.18);border-color:rgba(96,165,250,.55)}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap:14px;
+    }
+    @media (max-width:980px){
+      .grid{grid-template-columns:1fr}
+    }
 
-.card{
-  background:linear-gradient(180deg,var(--panel),rgba(10,16,34,.92));
-  border:1px solid var(--border);
-  border-radius:16px;padding:18px;margin-bottom:16px;
-  box-shadow:var(--shadow);
-}
-.cardtitle{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  font-size:12px;font-weight:900;text-transform:uppercase;
-  letter-spacing:1px;color:var(--muted);margin-bottom:14px;
-  border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:10px;
-}
-.cardtitle .right{display:flex;gap:8px;flex-wrap:wrap}
-.smallbtn{
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.04);
-  color:var(--text);
-  font-family:var(--mono);
-  font-size:11px;
-  padding:7px 10px;
-  border-radius:10px;
-  cursor:pointer;
-}
-.smallbtn:hover{border-color:rgba(96,165,250,.55)}
-.smallbtn:active{transform:translateY(1px)}
+    .card{
+      background: rgba(10,16,34,.82);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardhead{
+      padding:12px 14px;
+      border-bottom:1px solid rgba(255,255,255,.07);
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent);
+    }
+    .cardhead .h{
+      font-weight:900; font-size:13px; color:#cbd5e1; letter-spacing:.25px;
+      text-transform:uppercase;
+    }
+    .cardhead .subh{
+      font-family:var(--mono);font-size:12px;color:var(--muted)
+    }
+    .cardbody{padding:14px}
 
-.slide{display:none}
-.slide.active{display:block}
+    .controls{
+      display:grid; gap:12px;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width:520px){ .controls{grid-template-columns:1fr} }
 
-.row2, .row3{display:grid;gap:14px;margin-bottom:14px}
-.row2{grid-template-columns:1fr 1fr}
-.row3{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:840px){.row2,.row3{grid-template-columns:1fr}}
+    .ctrl{
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.07);
+      border-radius: 14px;
+      padding:12px;
+    }
+    .ctrl label{display:block;font-size:12px;font-weight:900;color:#dbeafe}
+    .ctrl .hint{color:var(--muted);font-size:11px;margin-top:6px;line-height:1.25}
+    .ctrl .val{margin-top:6px;color:#e2e8f0;font-family:var(--mono);font-size:12px}
+    .ctrl select,.ctrl input[type="number"],.ctrl input[type="text"]{
+      width:100%;
+      margin-top:8px;
+      padding:10px 10px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.18);
+      color:var(--text);
+      font-family:var(--mono);
+      outline:none;
+    }
+    .ctrl select:focus,.ctrl input:focus{border-color:rgba(96,165,250,.55); box-shadow:0 0 0 3px rgba(96,165,250,.12)}
+    input[type="range"]{width:100%}
+    input[type="checkbox"]{transform:scale(1.15)}
 
-label{display:block;font-size:11px;font-weight:900;color:var(--accent);margin-bottom:6px}
-input, select, textarea{
-  width:100%;
-  background:rgba(255,255,255,.05);
-  border:1px solid var(--border);
-  color:var(--text);
-  border-radius:10px;
-  padding:10px 11px;
-  font-family:var(--mono);
-  outline:none;
-}
-textarea{min-height:70px;resize:vertical}
-input:focus,select:focus,textarea:focus{border-color:rgba(96,165,250,.55);box-shadow:0 0 0 3px rgba(96,165,250,.12)}
-.hint{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.35}
+    .hud{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+    @media (max-width:760px){ .hud{grid-template-columns:1fr} }
+    .hudbox{
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: #0a0f1f;
+      box-shadow: var(--shadow2);
+      padding:12px;
+      font-family:var(--mono);
+    }
+    .hudbox .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.2px}
+    .hudbox .v{margin-top:6px;font-size:20px;font-weight:900}
+    .bar{height:6px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;margin-top:10px}
+    .bar > div{height:100%;background:rgba(52,211,153,.85);width:0%}
+    .small{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.25}
 
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
-@media(max-width:840px){.metrics{grid-template-columns:repeat(2,1fr)}}
-.metric{
-  background:rgba(255,255,255,.03);
-  padding:12px 12px 10px 12px;
-  border-radius:12px;border:1px solid var(--border)
-}
-.metric .k{font-size:10px;color:var(--muted);margin-bottom:4px}
-.metric .v{font-family:var(--mono);font-size:16px;font-weight:900;color:var(--accent2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.metric .s{font-size:10px;color:var(--muted);margin-top:6px}
+    .kv{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .kv > div{
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:14px;
+      padding:10px;
+    }
+    .kv .k{font-size:11px;color:var(--muted)}
+    .kv .v{font-family:var(--mono);font-size:14px;font-weight:900;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-.canvasWrap{display:grid;gap:10px}
-canvas{
-  width:100%;
-  border-radius:12px;
-  background:#000;
-  border:1px solid var(--border)
-}
-.legend{display:flex;gap:16px;font-size:11px;margin-top:6px;color:var(--muted);flex-wrap:wrap}
-.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:middle}
+    canvas{display:block;width:100%;height:auto;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:#000}
 
-.btn-group{display:flex;gap:10px;flex-wrap:wrap}
-button.action{
-  padding:12px 16px;border-radius:12px;border:none;
-  font-weight:900;cursor:pointer;transition:0.2s;
-}
-button.action:active{transform:translateY(1px)}
-button.primary{background:var(--accent);color:#000}
-button.warn{background:var(--warn);color:#000}
-button.danger{background:var(--danger);color:#000}
-button.ghost{
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--border);
-  color:var(--text);
-}
+    .foot{
+      margin-top:14px;
+      padding:12px 14px;
+      border-left:4px solid rgba(96,165,250,.8);
+      background: rgba(96,165,250,.10);
+      border-radius: 14px;
+      color:#dbeafe;
+    }
+    .foot .t{font-weight:900;margin-bottom:6px}
+    .foot .p{font-size:13px;color:#cfe3ff;line-height:1.35}
 
-.badge{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:11px;
-  padding:7px 10px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.04);
-  color:var(--muted);
-}
-.badge b{color:var(--text)}
-hr.sep{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
-</style>
+    .warnline{
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(245,158,11,.12);
+      border:1px solid rgba(245,158,11,.25);
+      color:#ffedd5;
+      font-size:12px;
+      margin-top:12px;
+      display:none;
+    }
+
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:11px;
+      padding:7px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
+      font-family:var(--mono);
+    }
+    .badge b{color:var(--text)}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);box-shadow:0 0 18px rgba(52,211,153,.35)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .file{
+      display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px
+    }
+    .file input[type="file"]{display:none}
+    .mini{
+      font-family:var(--mono);
+      font-size:11px;
+      color:var(--muted);
+    }
+  </style>
 </head>
-
 <body>
-<div class="wrap">
-  <div class="topbar">
-    <div>
-      <h1>STUR <b>Engine v3</b></h1>
-      <div class="pills">
-        <div class="pill"><span class="dot"></span><span>Status: <b id="statusText">Ready</b></span></div>
-        <div class="pill"><span>λ (de Broglie): <b id="lambdaText">—</b></span></div>
-        <div class="pill"><span>m: <b id="massText">—</b></span></div>
-      </div>
-    </div>
-    <div class="pills">
-      <div class="pill"><span>Exports: <b>Summary + Full Trace</b></span></div>
-      <div class="pill"><span>Core: <b>QM + STUR coherence loss</b></span></div>
-    </div>
-  </div>
-
-  <div class="nav" role="tablist" aria-label="Slides">
-    <button class="active" data-slide="0" onclick="showSlide(0)">1. Setup</button>
-    <button data-slide="1" onclick="showSlide(1)">2. Gravity</button>
-    <button data-slide="2" onclick="showSlide(2)">3. Analysis</button>
-    <button data-slide="3" onclick="showSlide(3)">4. Phase Map</button>
-    <button data-slide="4" onclick="showSlide(4)">5. Export</button>
-  </div>
-
-  <!-- Slide 1 -->
-  <div class="card slide active" id="slide0">
-    <div class="cardtitle">
-      <span>Instrument Geometry</span>
-      <div class="right">
-        <button class="smallbtn" onclick="resetDefaults()">Reset Defaults</button>
-        <button class="smallbtn" onclick="compute()">Recompute</button>
-      </div>
-    </div>
-
-    <div class="row2">
-      <div>
-        <label>Particle Source</label>
-        <select id="mode" onchange="compute()">
-          <option value="electron">Electron</option>
-          <option value="neutron">Neutron</option>
-          <option value="alpha">Alpha</option>
-          <option value="c60">Fullerene (C₆₀)</option>
-          <option value="oligo">Oligoporphyrin</option>
-        </select>
-        <div class="hint">Sets mass m used for λ and STUR scaling.</div>
-      </div>
-      <div>
-        <label>Energy (eV)</label>
-        <input id="E_eV" type="number" value="600" step="1" oninput="compute()">
-        <div class="hint">Relativistic momentum is used (safe across electron → macro).</div>
-      </div>
-    </div>
-
-    <div class="row3">
-      <div>
-        <label>Slit Width a (μm)</label>
-        <input id="a_um" type="number" value="0.062" step="0.001" oninput="compute()">
-        <div class="hint">Envelope uses normalized sinc: sin(x)/x.</div>
-      </div>
-      <div>
-        <label>Separation d (μm)</label>
-        <input id="d_um" type="number" value="0.272" step="0.001" oninput="compute()">
-        <div class="hint">Fringe phase φ(y) ∝ d·y/(λL).</div>
-      </div>
-      <div>
-        <label>Distance L (cm)</label>
-        <input id="L_cm" type="number" value="30" step="1" oninput="compute()">
-        <div class="hint">Screen y-range is ±20 mm by default.</div>
-      </div>
-    </div>
-
-    <div class="row2">
-      <div>
-        <label>Screen span (mm)</label>
-        <input id="span_mm" type="number" value="40" step="1" oninput="compute()">
-        <div class="hint">Total horizontal domain, centered at 0.</div>
-      </div>
-      <div>
-        <label>Samples (N)</label>
-        <input id="N" type="number" value="700" step="50" min="200" max="4000" oninput="compute()">
-        <div class="hint">Higher N improves residual structure visibility.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Slide 2 -->
-  <div class="card slide" id="slide1">
-    <div class="cardtitle">
-      <span>Decoherence Parameters</span>
-      <div class="right">
-        <span class="badge"><b>STUR</b> toggle + scaling</span>
-      </div>
-    </div>
-
-    <div class="row2" style="background:rgba(96,165,250,0.06);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.06);margin-bottom:14px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <input type="checkbox" id="gOn" onchange="compute()" checked style="width:20px;height:20px;accent-color:#34d399">
-        <span style="font-weight:900">Enable STUR Model</span>
-      </div>
-      <div>
-        <label>Scaling Power</label>
-        <select id="scaleLaw" onchange="compute()">
-          <option value="1">Linear (m¹)</option>
-          <option value="2" selected>Penrose-like (m²)</option>
-        </select>
-        <div class="hint">Effective strength ∝ (m/mₑ)<sup>p</sup>.</div>
-      </div>
-    </div>
-
-    <div class="row3">
-      <div>
-        <label>Rq (Noise Base)</label>
-        <input id="Rq" type="number" value="0.30" step="0.05" oninput="compute()">
-        <div class="hint">Dimensionless; sets coherence-loss amplitude.</div>
-      </div>
-      <div>
-        <label>L₀ Coherence (nm)</label>
-        <input id="L0_nm" type="number" value="120" step="1" oninput="compute()">
-        <div class="hint">Hidden-length clamp: L₀ ≥ ℓ<sub>P</sub>.</div>
-      </div>
-      <div>
-        <label>Environment T (K)</label>
-        <input id="tempK" type="number" value="0" step="1" oninput="compute()">
-        <div class="hint">Optional thermal suppression (heuristic).</div>
-      </div>
-    </div>
-
-    <div class="row3">
-      <div>
-        <label>Detector σ</label>
-        <input id="noiseFloor" type="number" value="1e-4" step="1e-5" oninput="compute()">
-        <div class="hint">Used for reduced χ² on residuals.</div>
-      </div>
-      <div>
-        <label>Vis. Window (mm)</label>
-        <input id="visWin" type="number" value="2" step="0.25" oninput="compute()">
-        <div class="hint">Visibility computed only inside ±window.</div>
-      </div>
-      <div>
-        <label>Residual gain</label>
-        <input id="resGain" type="number" value="50" step="5" oninput="compute()">
-        <div class="hint">Visual scale factor for residual plot.</div>
-      </div>
-    </div>
-
-    <div class="row2">
-      <div>
-        <label>Coherence kernel</label>
-        <select id="kernel" onchange="compute()">
-          <option value="tanh" selected>tanh(u)(1-e^{-u})</option>
-          <option value="exp">1 - e^{-u}</option>
-          <option value="poly">u/(1+u)</option>
-        </select>
-        <div class="hint">Shape-only choice; no fitting. All map u=|θ|/θ₀.</div>
-      </div>
-      <div>
-        <label>Notes (exported)</label>
-        <textarea id="notes" placeholder="Optional notes to include in JSON exports..."></textarea>
-      </div>
-    </div>
-  </div>
-
-  <!-- Slide 3 -->
-  <div class="card slide" id="slide2">
-    <div class="cardtitle">
-      <span>Interference Data</span>
-      <div class="right">
-        <button class="smallbtn" onclick="copyJSON('summary')">Copy Summary JSON</button>
-        <button class="smallbtn" onclick="copyJSON('full')">Copy Full JSON</button>
-      </div>
-    </div>
-
-    <div class="metrics">
-      <div class="metric">
-        <div class="k">V(QM)</div><div id="Vqm" class="v">0</div>
-        <div class="s">Ideal envelope + fringes</div>
-      </div>
-      <div class="metric">
-        <div class="k">V(STUR)</div><div id="Vst" class="v">0</div>
-        <div class="s">Decohered visibility</div>
-      </div>
-      <div class="metric">
-        <div class="k">Loss ΔV</div><div id="dV" class="v">0</div>
-        <div class="s">ΔV = V(QM)-V(STUR)</div>
-      </div>
-      <div class="metric">
-        <div class="k">Reduced χ²</div><div id="chi2" class="v">0</div>
-        <div class="s">From residuals / σ</div>
-      </div>
-    </div>
-
-    <div class="canvasWrap">
-      <canvas id="plot" width="1000" height="360"></canvas>
-      <canvas id="residualPlot" width="1000" height="170"></canvas>
-    </div>
-
-    <div class="legend">
-      <span><i style="background:#2563eb"></i>Quantum (Ideal)</span>
-      <span><i style="background:#34d399"></i>STUR (Decohered)</span>
-      <span><i style="background:#a78bfa"></i>Residual (STUR − QM)</span>
-      <span><i style="background:#64748b"></i>Grid / axes</span>
-    </div>
-  </div>
-
-  <!-- Slide 4 -->
-  <div class="card slide" id="slide3">
-    <div class="cardtitle">
-      <span>Mass-Geometry Phase Map</span>
-      <div class="right">
-        <span class="badge">Heatmap color ∝ <b>V(STUR)</b></span>
-      </div>
-    </div>
-
-    <div class="row2">
-      <div>
-        <label>Mass Range (kg)</label>
-        <div class="row2">
-          <input id="mMin" value="9e-31" oninput="/* no-op */">
-          <input id="mMax" value="1e-22" oninput="/* no-op */">
-        </div>
-        <div class="hint">Log-swept between bounds.</div>
-      </div>
-      <div>
-        <label>Separation d (μm)</label>
-        <div class="row2">
-          <input id="dMin" value="0.05" oninput="/* no-op */">
-          <input id="dMax" value="5" oninput="/* no-op */">
-        </div>
-        <div class="hint">Linear sweep in microns.</div>
-      </div>
-    </div>
-
-    <div class="row2">
-      <div>
-        <label>Grid (N×N)</label>
-        <input id="phaseN" value="44" type="number" min="20" max="120">
-        <div class="hint">Higher N is heavier CPU.</div>
-      </div>
-      <div>
-        <label>Render</label>
-        <button class="action warn" style="width:100%" onclick="computePhaseMap()">Generate Phase Heatmap</button>
-      </div>
-    </div>
-
-    <canvas id="phasePlot" width="1000" height="420"></canvas>
-    <div class="hint">Tip: Turn STUR off to sanity-check map becomes flat (visibility ~ QM normalization).</div>
-  </div>
-
-  <!-- Slide 5 -->
-  <div class="card slide" id="slide4">
-    <div class="cardtitle">
-      <span>Pipeline Export</span>
-      <div class="right">
-        <button class="smallbtn" onclick="downloadPNG()">Download Plot PNG</button>
-      </div>
-    </div>
-
-    <div class="btn-group">
-      <button class="action primary" onclick="exportData('summary')">Download JSON Summary</button>
-      <button class="action warn" onclick="exportData('full')">Download Full Trace JSON</button>
-      <button class="action ghost" onclick="exportData('phase')">Download Phase Map JSON</button>
-      <button class="action danger" onclick="exportData('bundle')">Download All (ZIP-free)</button>
-    </div>
-
-    <hr class="sep">
-
-    <div class="row2">
-      <div>
-        <label>What “Summary” contains</label>
-        <div class="hint">
-          Parameters + derived λ + V(QM), V(STUR), ΔV, reduced χ², and compact provenance.
+  <div class="wrap">
+    <div class="top">
+      <div class="title">
+        <h1>STUR – Quantum Gravity Geometry Matcher</h1>
+        <div class="sub">
+          Single-file GitHub Pages HTML • QM vs STUR coherence-loss interferometry • optional phase-space view • data falsification via CSV (y_mm,intensity)
         </div>
       </div>
-      <div>
-        <label>What “Full Trace” contains</label>
-        <div class="hint">
-          Everything in Summary plus arrays: y(mm), Q(y), S(y), residual R(y), and the screen-domain settings.
+      <div class="btnrow">
+        <button id="toggleView" class="primary">Switch to Phase Space</button>
+        <button id="toggleDiff" class="alt">Show Residual (STUR−QM)</button>
+        <button id="toggleData" class="good">Show Data Overlay</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT: MAIN VIEW -->
+      <div class="card">
+        <div class="cardhead">
+          <div class="h" id="mainTitle">Interference Intensity</div>
+          <div class="row">
+            <span class="badge"><span class="dot"></span><span>Status: <b id="statusText">Ready</b></span></span>
+            <span class="badge">λ: <b id="lambdaText">—</b></span>
+            <span class="badge">m: <b id="massText">—</b></span>
+          </div>
+          <div class="subh">QM: blue • STUR: green • Residual: purple • Data: white</div>
+        </div>
+        <div class="cardbody">
+          <canvas id="mainCanvas" width="1100" height="420"></canvas>
+          <div class="warnline" id="warnLine"></div>
+
+          <div class="file">
+            <button class="good" onclick="triggerDataLoad()">Load Data CSV</button>
+            <button class="bad" onclick="clearData()">Clear Data</button>
+            <span class="mini">Format: <b>y_mm,intensity</b> (header ok) • normalized to max=1</span>
+            <input id="dataFile" type="file" accept=".csv,text/csv" onchange="handleDataFile(event)">
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: CONTROLS + HUD -->
+      <div class="card">
+        <div class="cardhead">
+          <div class="h">Controls + Diagnostics</div>
+          <div class="subh">Physics locked • UI live</div>
+        </div>
+        <div class="cardbody">
+
+          <div class="controls">
+
+            <div class="ctrl">
+              <label>Particle</label>
+              <select id="mode">
+                <option value="electron">Electron</option>
+                <option value="neutron">Neutron</option>
+                <option value="alpha">Alpha</option>
+                <option value="c60">Fullerene (C₆₀)</option>
+                <option value="oligo">Oligoporphyrin</option>
+              </select>
+              <div class="hint">Sets mass m used for λ and STUR scaling.</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Energy (eV)</label>
+              <input id="E_eV" type="number" value="600" step="1">
+              <div class="hint">Relativistic momentum used (safe across electron → macro).</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Slit width a (μm)</label>
+              <input id="a_um" type="number" value="0.062" step="0.001">
+              <div class="hint">Envelope uses normalized sinc: sin(x)/x.</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Separation d (μm)</label>
+              <input id="d_um" type="number" value="0.272" step="0.001">
+              <div class="hint">Fringe phase φ(y) ∝ d·y/(λL).</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Distance L (cm)</label>
+              <input id="L_cm" type="number" value="30" step="1">
+              <div class="hint">Screen y-range uses span below.</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Screen span (mm)</label>
+              <input id="span_mm" type="number" value="40" step="1">
+              <div class="hint">Total horizontal domain centered at 0.</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Samples (N)</label>
+              <input id="N" type="number" value="700" step="50" min="200" max="4000">
+              <div class="hint">Higher N improves residual structure visibility.</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Enable STUR</label>
+              <div style="display:flex;gap:10px;align-items:center;margin-top:10px">
+                <input id="gOn" type="checkbox" checked>
+                <span style="font-size:12px;color:var(--muted)">Apply coherence loss to interference term</span>
+              </div>
+              <div class="hint">STUR uses: I_STUR = env·(1 + coh(u)·cosφ)/2.</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Scaling power p</label>
+              <select id="scaleLaw">
+                <option value="1">Linear (m¹)</option>
+                <option value="2" selected>Penrose-like (m²)</option>
+              </select>
+              <div class="hint">Effective strength: Rq_eff = Rq·(m/mₑ)^p</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Rq (noise base)</label>
+              <input id="Rq" type="number" value="0.30" step="0.05">
+              <div class="hint">Dimensionless; sets coherence-loss amplitude.</div>
+            </div>
+
+            <div class="ctrl">
+              <label>L0 coherence (nm)</label>
+              <input id="L0_nm" type="number" value="120" step="1">
+              <div class="hint">Hidden-length clamp: L0 ≥ ℓP</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Coherence kernel</label>
+              <select id="kernel">
+                <option value="tanh" selected>tanh(u)(1-e^{-u})</option>
+                <option value="exp">1 - e^{-u}</option>
+                <option value="poly">u/(1+u)</option>
+              </select>
+              <div class="hint">Shape-only choice; no fitting. u = |d·θ|/L0.</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Visibility window (mm)</label>
+              <input id="visWin" type="number" value="2" step="0.25">
+              <div class="hint">Visibility computed only inside ±window.</div>
+            </div>
+
+            <div class="ctrl">
+              <label>σ (detector)</label>
+              <input id="noiseFloor" type="number" value="1e-4" step="1e-5">
+              <div class="hint">Used for reduced χ² (model residual or data χ²).</div>
+            </div>
+
+            <div class="ctrl">
+              <label>Residual gain</label>
+              <input id="resGain" type="number" value="50" step="5">
+              <div class="hint">Visual scale factor for residual plot.</div>
+            </div>
+
+          </div>
+
+          <div class="hud">
+            <div class="hudbox">
+              <div class="k">Visibility (windowed)</div>
+              <div class="v">V(QM): <span style="color:#fff" id="Vqm">0</span></div>
+              <div class="small">Ideal envelope + fringes</div>
+              <div class="v" style="margin-top:6px">V(STUR): <span style="color:#fff" id="Vst">0</span></div>
+              <div class="small">Decohered visibility</div>
+            </div>
+
+            <div class="hudbox">
+              <div class="k">Fit / falsification</div>
+              <div class="v">χ²(STUR−QM): <span style="color:#fff" id="chi2">—</span></div>
+              <div class="small">Uses residual vs σ (internal check)</div>
+              <div class="v" style="margin-top:6px">Δχ²(Data): <span style="color:#fff" id="dChi2">—</span></div>
+              <div class="small">STUR−QM vs dataset (negative = better)</div>
+            </div>
+
+            <div class="hudbox">
+              <div class="k">Data χ²</div>
+              <div class="v">χ²(QM): <span style="color:#fff" id="chi2DataQM">—</span></div>
+              <div class="small">Reduced χ² vs loaded CSV</div>
+              <div class="v" style="margin-top:6px">χ²(STUR): <span style="color:#fff" id="chi2DataST">—</span></div>
+              <div class="small">Reduced χ² vs loaded CSV</div>
+            </div>
+
+            <div class="hudbox">
+              <div class="k">Data points</div>
+              <div class="v"><span style="color:#fff" id="nData">—</span></div>
+              <div class="small">After parsing & normalization</div>
+              <div class="small" style="margin-top:10px">Exports are available from console-free buttons below.</div>
+              <div class="bar"><div id="bitsBar" style="width:0%"></div></div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="row" style="gap:10px">
+            <button class="primary" onclick="exportJSON('summary')">Download Summary JSON</button>
+            <button class="warn" onclick="exportJSON('full')">Download Full Trace JSON</button>
+            <button class="alt" onclick="copyJSON('summary')">Copy Summary JSON</button>
+            <button class="alt" onclick="copyJSON('full')">Copy Full JSON</button>
+            <button onclick="downloadPNG()">Download Plot PNG</button>
+            <button class="bad" onclick="resetDefaults()">Reset Defaults</button>
+          </div>
+
         </div>
       </div>
     </div>
+
+    <div class="foot">
+      <div class="t">Falsification target</div>
+      <div class="p">
+        This page is an <b>effective interferometry model</b>: geometry + mass + coherence scale → predicted visibility loss and residual signature.
+        Load a dataset (CSV) and compare <span style="font-family:var(--mono);font-weight:900">χ²(QM)</span> vs
+        <span style="font-family:var(--mono);font-weight:900">χ²(STUR)</span>. If STUR cannot beat QM without ad hoc tuning, it fails.
+      </div>
+    </div>
+
   </div>
 
-</div>
+  <script>
+    // ============================================================
+    // STUR – Quantum Gravity Geometry Matcher (Single-Page)
+    // - Pattern view: QM vs STUR intensity
+    // - Phase view: ψ-plane (QM unit circle, STUR inward spiral)
+    // - Optional data overlay + reduced chi² vs dataset (CSV: y_mm,intensity)
+    // ============================================================
 
-<script>
-/* ============================================================
-   Constants + helpers
-   ============================================================ */
-const h=6.62607015e-34, c=299792458, kB=1.380649e-23, hbar=h/(2*Math.PI);
-const eV=1.602176634e-19, PLANCK_L=1.616255e-35;
+    // ----- Constants
+    const h=6.62607015e-34, c=299792458, kB=1.380649e-23, hbar=h/(2*Math.PI);
+    const eV=1.602176634e-19, PLANCK_L=1.616255e-35;
 
-const masses={
-  electron:9.10938e-31,
-  neutron:1.67492e-27,
-  alpha:6.64465e-27,
-  c60:1.195e-24,
-  oligo:1.5e-23
-};
-
-const clamp = (x,a,b)=>Math.max(a,Math.min(b,x));
-const nowISO = ()=>new Date().toISOString();
-const fmtSI = (x)=> {
-  if(!isFinite(x)) return "∞";
-  const ax=Math.abs(x);
-  if(ax===0) return "0";
-  if(ax>=1e3 || ax<1e-2) return x.toExponential(3);
-  return x.toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
-};
-
-function setStatus(t){ document.getElementById('statusText').textContent = t; }
-
-/* Correct normalized sinc: sin(x)/x (NOT sin(pi x)/(pi x)) */
-function sinc(x){ return (Math.abs(x)<1e-12) ? 1 : Math.sin(x)/x; }
-
-/* Kernel family for coherence loss */
-function kernel(u, kind){
-  u = Math.max(0,u);
-  if(kind==="exp")  return (1 - Math.exp(-u));
-  if(kind==="poly") return (u/(1+u));
-  /* default: tanh(u)(1-e^{-u}) */
-  return Math.tanh(u) * (1 - Math.exp(-u));
-}
-
-/* Robust download helper */
-function downloadText(filename, text, mime="application/json"){
-  const blob = new Blob([text], {type:mime});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url), 800);
-}
-
-/* Clipboard helper */
-async function copyToClipboard(text){
-  try{
-    await navigator.clipboard.writeText(text);
-    setStatus("Copied");
-    setTimeout(()=>setStatus("Ready"), 900);
-  }catch(e){
-    // Fallback
-    const ta=document.createElement('textarea');
-    ta.value=text; document.body.appendChild(ta);
-    ta.select(); document.execCommand('copy'); ta.remove();
-    setStatus("Copied");
-    setTimeout(()=>setStatus("Ready"), 900);
-  }
-}
-
-function showSlide(n){
-  document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active', i===n));
-  document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active', i===n));
-  // accessibility-ish: mark pressed
-  document.querySelectorAll('.nav button').forEach((b,i)=>b.setAttribute('aria-selected', i===n ? 'true':'false'));
-}
-
-/* ============================================================
-   Core solver (QM vs STUR)
-   - QM: single-slit envelope * double-slit fringes
-   - STUR: visibility loss via a coherence factor coh(u)
-   ============================================================ */
-function solveCore(m, d_in_um){
-  const E = parseFloat(document.getElementById('E_eV').value)*eV;
-  const a = parseFloat(document.getElementById('a_um').value)*1e-6;
-  const d = d_in_um*1e-6;
-  const L = parseFloat(document.getElementById('L_cm').value)*0.01;
-
-  // Relativistic momentum p = sqrt(E^2 + 2 E m c^2)/c  (E is kinetic energy in Joules)
-  const p = Math.sqrt(E*E + 2*E*m*c*c)/c;
-  const lambda = h/p;
-
-  const L0 = Math.max(parseFloat(document.getElementById('L0_nm').value)*1e-9, PLANCK_L);
-  const RqBase = parseFloat(document.getElementById('Rq').value);
-  const gOn = document.getElementById('gOn').checked;
-  const pwr = parseFloat(document.getElementById('scaleLaw').value);
-  const T = parseFloat(document.getElementById('tempK').value);
-  const kind = document.getElementById('kernel').value;
-
-  // STUR effective strength
-  const rqEff = gOn ? (RqBase * Math.pow(m/masses.electron, pwr)) : 0;
-
-  // optional thermal attenuation (heuristic length)
-  const ellTh = (T>0) ? (hbar*c)/(kB*T) : Infinity;
-
-  const span_mm = parseFloat(document.getElementById('span_mm').value);
-  const N = Math.max(200, Math.floor(parseFloat(document.getElementById('N').value) || 700));
-
-  const y = new Array(N);
-  const Q = new Array(N);
-  const S = new Array(N);
-  const R = new Array(N);
-
-  let qMax = 0, sMax = 0;
-
-  // map screen coordinate to angle: theta ≈ y/L, and phase phi ≈ (2π/λ)*d*theta
-  // u uses angular separation scaled by L0: u = |d*theta|/L0
-  const yMin = -0.5*span_mm*1e-3;
-  const yMax =  0.5*span_mm*1e-3;
-
-  for(let i=0;i<N;i++){
-    const yy = yMin + (yMax-yMin)*i/(N-1); // meters
-
-    // Single-slit envelope: sinc(beta)^2 with beta = (π a / λ) sinθ, small-angle -> sinθ ~ θ = y/L.
-    const theta = yy / L;
-    const beta = Math.PI * a * theta / lambda;
-    const env = Math.pow(sinc(beta), 2);
-
-    const phi = (2*Math.PI/lambda) * (d * theta);
-
-    // u = |d*theta|/L0 ; kernel(u) is shape-only
-    const u = Math.abs(d*theta) / L0;
-
-    // coherence factor in [0,1]
-    let coh = Math.exp(-rqEff * kernel(u, kind));
-    if(T>0 && isFinite(ellTh)) coh *= Math.exp(-Math.abs(yy)/ellTh);
-
-    // QM (normalized later): envelope * interference
-    // Use classic: I = env * (1 + cos(phi)) / 2   (equivalent to cos^2(phi/2))
-    const iQ = env * (1 + Math.cos(phi)) * 0.5;
-
-    // STUR: suppress the interference term only (physically: loss of coherence kills cosine contrast)
-    // I_STUR = env * [1 + coh * cos(phi)] / 2
-    const iS = env * (1 + coh * Math.cos(phi)) * 0.5;
-
-    y[i] = yy*1000; // mm for display/export
-    Q[i] = iQ;
-    S[i] = iS;
-
-    if(iQ>qMax) qMax=iQ;
-    if(iS>sMax) sMax=iS;
-  }
-
-  // normalize to max=1 for each
-  for(let i=0;i<N;i++){
-    Q[i] = qMax>0 ? Q[i]/qMax : 0;
-    S[i] = sMax>0 ? S[i]/sMax : 0;
-    R[i] = S[i] - Q[i];
-  }
-
-  // visibility in window
-  const win = parseFloat(document.getElementById('visWin').value);
-  let v_qMin=1, v_qMax=0, v_sMin=1, v_sMax=0;
-  for(let i=0;i<N;i++){
-    if(Math.abs(y[i]) <= win){
-      v_qMin = Math.min(v_qMin, Q[i]); v_qMax = Math.max(v_qMax, Q[i]);
-      v_sMin = Math.min(v_sMin, S[i]); v_sMax = Math.max(v_sMax, S[i]);
-    }
-  }
-  const vqm = (v_qMax-v_qMin) / (v_qMax+v_qMin || 1);
-  const vst = (v_sMax-v_sMin) / (v_sMax+v_sMin || 1);
-
-  // reduced chi2 based on residuals and detector sigma
-  const sigma = Math.max(1e-12, parseFloat(document.getElementById('noiseFloor').value));
-  let ss=0;
-  for(let i=0;i<N;i++) ss += (R[i]*R[i])/(sigma*sigma);
-  const chi2 = ss / Math.max(1,(N-1));
-
-  return { y, Q, S, R, vqm, vst, chi2, lambda, rqEff, L0, p, thetaSpan: span_mm };
-}
-
-/* ============================================================
-   Plotting (canvas)
-   ============================================================ */
-function drawAxes(ctx, W, H, pad, xMin, xMax, yMin, yMax, title){
-  ctx.save();
-  ctx.clearRect(0,0,W,H);
-
-  // background
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0,0,W,H);
-
-  // grid
-  ctx.strokeStyle = "rgba(255,255,255,.08)";
-  ctx.lineWidth = 1;
-
-  const nx=10, ny=6;
-  for(let i=0;i<=nx;i++){
-    const x = pad + (W-2*pad)*i/nx;
-    ctx.beginPath(); ctx.moveTo(x, pad); ctx.lineTo(x, H-pad); ctx.stroke();
-  }
-  for(let j=0;j<=ny;j++){
-    const y = pad + (H-2*pad)*j/ny;
-    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(W-pad, y); ctx.stroke();
-  }
-
-  // border box
-  ctx.strokeStyle = "rgba(255,255,255,.18)";
-  ctx.lineWidth = 1.2;
-  ctx.strokeRect(pad, pad, W-2*pad, H-2*pad);
-
-  // labels
-  ctx.fillStyle = "rgba(255,255,255,.70)";
-  ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
-  ctx.fillText(title, pad, 18);
-
-  ctx.fillStyle = "rgba(255,255,255,.55)";
-  ctx.font = "11px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
-  ctx.fillText(`${xMin.toFixed(1)} mm`, pad, H-10);
-  const xMid = (xMin+xMax)/2;
-  ctx.fillText(`${xMid.toFixed(1)} mm`, pad + 0.5*(W-2*pad) - 30, H-10);
-  ctx.fillText(`${xMax.toFixed(1)} mm`, W-pad-60, H-10);
-
-  ctx.fillText(`${yMax.toFixed(2)}`, 6, pad+4);
-  ctx.fillText(`${((yMin+yMax)/2).toFixed(2)}`, 6, pad + 0.5*(H-2*pad));
-  ctx.fillText(`${yMin.toFixed(2)}`, 6, H-pad);
-
-  ctx.restore();
-}
-
-function drawMain(res){
-  const ctx = document.getElementById('plot').getContext('2d');
-  const rctx = document.getElementById('residualPlot').getContext('2d');
-
-  const W=1000, H=360, rW=1000, rH=170, pad=44;
-
-  const xMin = res.y[0], xMax = res.y[res.y.length-1];
-
-  // Main axes
-  drawAxes(ctx, W, H, pad, xMin, xMax, 0, 1, "Intensity (normalized) — QM vs STUR");
-
-  const mX = x => pad + (x-xMin)*(W-2*pad)/(xMax-xMin);
-  const mY = y => pad + (H-2*pad)*(1-y);
-
-  // QM
-  ctx.strokeStyle='#2563eb';
-  ctx.lineWidth=2.2;
-  ctx.beginPath();
-  for(let i=0;i<res.y.length;i++){
-    const x=mX(res.y[i]), y=mY(res.Q[i]);
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-  }
-  ctx.stroke();
-
-  // STUR
-  ctx.strokeStyle='#34d399';
-  ctx.lineWidth=2.2;
-  ctx.setLineDash([6,4]);
-  ctx.beginPath();
-  for(let i=0;i<res.y.length;i++){
-    const x=mX(res.y[i]), y=mY(res.S[i]);
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-  }
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // Residual axes (centered)
-  const rGain = parseFloat(document.getElementById('resGain').value);
-  drawAxes(rctx, rW, rH, pad, xMin, xMax, -1, 1, `Residual (STUR − QM) × ${rGain}`);
-
-  const rX = x => pad + (x-xMin)*(rW-2*pad)/(xMax-xMin);
-  const rY = v => pad + (rH-2*pad)*(1-(0.5 + 0.5*clamp(v, -1, 1)));
-
-  // zero line
-  rctx.strokeStyle="rgba(255,255,255,.20)";
-  rctx.lineWidth=1.2;
-  rctx.beginPath();
-  rctx.moveTo(pad, rY(0));
-  rctx.lineTo(rW-pad, rY(0));
-  rctx.stroke();
-
-  // residual
-  rctx.strokeStyle='#a78bfa';
-  rctx.lineWidth=2.0;
-  rctx.beginPath();
-  for(let i=0;i<res.y.length;i++){
-    const x=rX(res.y[i]);
-    const v=res.R[i]*rGain;
-    const y=rY(v);
-    if(i===0) rctx.moveTo(x,y); else rctx.lineTo(x,y);
-  }
-  rctx.stroke();
-}
-
-/* ============================================================
-   UI compute + exports
-   ============================================================ */
-let lastRes = null;
-let lastPhase = null;
-
-function readParams(){
-  return {
-    mode: document.getElementById('mode').value,
-    E_eV: parseFloat(document.getElementById('E_eV').value),
-    a_um: parseFloat(document.getElementById('a_um').value),
-    d_um: parseFloat(document.getElementById('d_um').value),
-    L_cm: parseFloat(document.getElementById('L_cm').value),
-    span_mm: parseFloat(document.getElementById('span_mm').value),
-    N: Math.floor(parseFloat(document.getElementById('N').value)),
-    stur_on: document.getElementById('gOn').checked,
-    scale_power: parseFloat(document.getElementById('scaleLaw').value),
-    Rq_base: parseFloat(document.getElementById('Rq').value),
-    L0_nm: parseFloat(document.getElementById('L0_nm').value),
-    tempK: parseFloat(document.getElementById('tempK').value),
-    sigma: parseFloat(document.getElementById('noiseFloor').value),
-    visWin_mm: parseFloat(document.getElementById('visWin').value),
-    resGain: parseFloat(document.getElementById('resGain').value),
-    kernel: document.getElementById('kernel').value,
-    notes: (document.getElementById('notes').value || "").trim()
-  };
-}
-
-function compute(){
-  try{
-    setStatus("Computing…");
-    const params = readParams();
-    const m = masses[params.mode];
-    const res = solveCore(m, params.d_um);
-
-    lastRes = res;
-
-    document.getElementById('Vqm').textContent = res.vqm.toFixed(4);
-    document.getElementById('Vst').textContent = res.vst.toFixed(4);
-    document.getElementById('dV').textContent  = (res.vqm - res.vst).toFixed(4);
-    document.getElementById('chi2').textContent = res.chi2.toExponential(2);
-
-    document.getElementById('lambdaText').textContent = `${fmtSI(res.lambda*1e9)} nm`;
-    document.getElementById('massText').textContent = `${fmtSI(m)} kg`;
-
-    drawMain(res);
-    setStatus("Ready");
-  }catch(e){
-    console.error(e);
-    setStatus("Error");
-  }
-}
-
-function buildExport(type){
-  const params = readParams();
-  const m = masses[params.mode];
-  const base = {
-    schema: "stur-engine-v3",
-    exported_at: nowISO(),
-    type,
-    params,
-    derived: {
-      mass_kg: m,
-      lambda_m: lastRes?.lambda ?? null,
-      lambda_nm: lastRes?.lambda ? lastRes.lambda*1e9 : null,
-      rq_eff: lastRes?.rqEff ?? null,
-      L0_m: lastRes?.L0 ?? null
-    },
-    metrics: {
-      V_qm: lastRes?.vqm ?? null,
-      V_stur: lastRes?.vst ?? null,
-      dV: (lastRes ? (lastRes.vqm - lastRes.vst) : null),
-      reduced_chi2: lastRes?.chi2 ?? null
-    }
-  };
-
-  if(type==="full" || type==="bundle"){
-    base.trace = {
-      y_mm: lastRes?.y ?? [],
-      I_qm: lastRes?.Q ?? [],
-      I_stur: lastRes?.S ?? [],
-      residual: lastRes?.R ?? []
+    const masses={
+      electron:9.10938e-31,
+      neutron:1.67492e-27,
+      alpha:6.64465e-27,
+      c60:1.195e-24,
+      oligo:1.5e-23
     };
-  }
 
-  if((type==="phase" || type==="bundle") && lastPhase){
-    base.phase = lastPhase;
-  }
+    // ----- DOM
+    const mainCanvas = document.getElementById("mainCanvas");
+    const mainCtx = mainCanvas.getContext("2d");
+    const warnLine = document.getElementById("warnLine");
 
-  return base;
-}
+    const toggleViewBtn = document.getElementById("toggleView");
+    const toggleDiffBtn = document.getElementById("toggleDiff");
+    const toggleDataBtn = document.getElementById("toggleData");
 
-function exportData(type){
-  if(!lastRes) compute();
+    const statusText = document.getElementById("statusText");
+    const lambdaText = document.getElementById("lambdaText");
+    const massText = document.getElementById("massText");
 
-  if(type==="bundle"){
-    const summary = buildExport("summary");
-    const full = buildExport("full");
-    const phase = buildExport("phase");
-    downloadText("stur_summary.json", JSON.stringify(summary, null, 2));
-    downloadText("stur_fulltrace.json", JSON.stringify(full, null, 2));
-    downloadText("stur_phase.json", JSON.stringify(phase, null, 2));
-    setStatus("Exported");
-    setTimeout(()=>setStatus("Ready"), 900);
-    return;
-  }
+    const modeEl = document.getElementById("mode");
+    const E_eVEl = document.getElementById("E_eV");
+    const a_umEl = document.getElementById("a_um");
+    const d_umEl = document.getElementById("d_um");
+    const L_cmEl = document.getElementById("L_cm");
+    const span_mmEl = document.getElementById("span_mm");
+    const NEl = document.getElementById("N");
 
-  const data = buildExport(type);
-  const fname = (type==="summary") ? "stur_summary.json"
-              : (type==="full")    ? "stur_fulltrace.json"
-              : (type==="phase")   ? "stur_phase.json"
-              : `stur_${type}.json`;
-  downloadText(fname, JSON.stringify(data, null, 2));
-  setStatus("Exported");
-  setTimeout(()=>setStatus("Ready"), 900);
-}
+    const gOnEl = document.getElementById("gOn");
+    const scaleLawEl = document.getElementById("scaleLaw");
+    const RqEl = document.getElementById("Rq");
+    const L0_nmEl = document.getElementById("L0_nm");
+    const kernelEl = document.getElementById("kernel");
+    const visWinEl = document.getElementById("visWin");
+    const sigmaEl = document.getElementById("noiseFloor");
+    const resGainEl = document.getElementById("resGain");
 
-async function copyJSON(type){
-  if(!lastRes) compute();
-  const data = buildExport(type);
-  await copyToClipboard(JSON.stringify(data, null, 2));
-}
+    const VqmEl = document.getElementById("Vqm");
+    const VstEl = document.getElementById("Vst");
+    const chi2El = document.getElementById("chi2");
 
-function resetDefaults(){
-  document.getElementById('mode').value = "electron";
-  document.getElementById('E_eV').value = 600;
-  document.getElementById('a_um').value = 0.062;
-  document.getElementById('d_um').value = 0.272;
-  document.getElementById('L_cm').value = 30;
-  document.getElementById('span_mm').value = 40;
-  document.getElementById('N').value = 700;
+    const chi2DataQMEl = document.getElementById("chi2DataQM");
+    const chi2DataSTEl = document.getElementById("chi2DataST");
+    const dChi2El = document.getElementById("dChi2");
+    const nDataEl = document.getElementById("nData");
 
-  document.getElementById('gOn').checked = true;
-  document.getElementById('scaleLaw').value = "2";
-  document.getElementById('Rq').value = 0.30;
-  document.getElementById('L0_nm').value = 120;
-  document.getElementById('tempK').value = 0;
-  document.getElementById('noiseFloor').value = 1e-4;
-  document.getElementById('visWin').value = 2;
-  document.getElementById('resGain').value = 50;
-  document.getElementById('kernel').value = "tanh";
-  document.getElementById('notes').value = "";
+    // ----- State
+    let viewMode = "pattern";      // "pattern" | "phase"
+    let showResidual = false;      // residual plot in pattern view
+    let showDataOverlay = true;    // draw data points if loaded
+    let lastRes = null;
+    let dataObs = null;            // {y_mm:[], I:[]}
 
-  lastPhase = null;
-  compute();
-}
+    function setStatus(t){ statusText.textContent = t; }
+    const clamp = (x,a,b)=>Math.max(a,Math.min(b,x));
+    const nowISO = ()=>new Date().toISOString();
+    const fmtSI = (x)=> {
+      if(!isFinite(x)) return "∞";
+      const ax=Math.abs(x);
+      if(ax===0) return "0";
+      if(ax>=1e3 || ax<1e-2) return x.toExponential(3);
+      return x.toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
+    };
 
-/* ============================================================
-   Phase map
-   ============================================================ */
-function computePhaseMap(){
-  try{
-    setStatus("Phase…");
-    const ctx = document.getElementById('phasePlot').getContext('2d');
-    const W=1000, H=420;
-    ctx.clearRect(0,0,W,H);
-    ctx.fillStyle="#000"; ctx.fillRect(0,0,W,H);
+    // Correct normalized sinc: sin(x)/x
+    function sinc(x){ return (Math.abs(x)<1e-12) ? 1 : Math.sin(x)/x; }
 
-    const N = Math.max(20, Math.min(200, parseInt(document.getElementById('phaseN').value||44,10)));
-    const mMin = parseFloat(document.getElementById('mMin').value);
-    const mMax = parseFloat(document.getElementById('mMax').value);
-    const d1 = parseFloat(document.getElementById('dMin').value);
-    const d2 = parseFloat(document.getElementById('dMax').value);
+    // Kernel family for coherence loss
+    function kernel(u, kind){
+      u = Math.max(0,u);
+      if(kind==="exp")  return (1 - Math.exp(-u));
+      if(kind==="poly") return (u/(1+u));
+      return Math.tanh(u) * (1 - Math.exp(-u));
+    }
 
-    const logm1 = Math.log10(mMin);
-    const logm2 = Math.log10(mMax);
+    function readParams(){
+      return {
+        mode: modeEl.value,
+        E_eV: parseFloat(E_eVEl.value),
+        a_um: parseFloat(a_umEl.value),
+        d_um: parseFloat(d_umEl.value),
+        L_cm: parseFloat(L_cmEl.value),
+        span_mm: parseFloat(span_mmEl.value),
+        N: Math.max(200, Math.floor(parseFloat(NEl.value) || 700)),
+        stur_on: gOnEl.checked,
+        scale_power: parseFloat(scaleLawEl.value),
+        Rq_base: parseFloat(RqEl.value),
+        L0_nm: parseFloat(L0_nmEl.value),
+        kernel: kernelEl.value,
+        visWin_mm: parseFloat(visWinEl.value),
+        sigma: parseFloat(sigmaEl.value),
+        resGain: parseFloat(resGainEl.value)
+      };
+    }
 
-    const cw = W/N, ch = H/N;
+    // ============================================================
+    // Core solver
+    // QM: env*(1+cosφ)/2
+    // STUR: env*(1+coh(u)*cosφ)/2
+    // u = |d*theta|/L0 where theta=y/L
+    // ============================================================
+    function solveCore(params){
+      const m = masses[params.mode];
+      const E = params.E_eV * eV;
+      const a = params.a_um * 1e-6;
+      const d = params.d_um * 1e-6;
+      const L = params.L_cm * 0.01;
 
-    // store for export (coarse)
-    const grid = [];
-    for(let j=0;j<N;j++){
-      const row=[];
+      // Relativistic momentum
+      const p = Math.sqrt(E*E + 2*E*m*c*c)/c;
+      const lambda = h/p;
+
+      const L0 = Math.max(params.L0_nm * 1e-9, PLANCK_L);
+      const rqEff = params.stur_on ? (params.Rq_base * Math.pow(m/masses.electron, params.scale_power)) : 0;
+
+      const span_m = params.span_mm * 1e-3;
+      const N = params.N;
+
+      const y_mm = new Array(N);
+      const Q = new Array(N);
+      const S = new Array(N);
+      const R = new Array(N);
+
+      let qMax=0, sMax=0;
+
+      const yMin = -0.5*span_m;
+      const yMax =  0.5*span_m;
+
       for(let i=0;i<N;i++){
-        const m = Math.pow(10, logm1 + (logm2-logm1)*i/(N-1));
-        const d = d1 + (d2-d1)*(N-1-j)/(N-1);
-        const r = solveCore(m, d);
-        const v = clamp(r.vst, 0, 1);
-        // color: greenish with brightness ~ visibility
-        const hue = 140;
-        const light = 18 + 52*v;
-        ctx.fillStyle = `hsl(${hue}, 70%, ${light}%)`;
-        ctx.fillRect(i*cw, j*ch, cw+0.5, ch+0.5);
-        row.push(v);
+        const yy = yMin + (yMax-yMin)*i/(N-1); // m
+        const theta = yy / L;
+
+        // Envelope: sinc(beta)^2, beta = π a θ / λ
+        const beta = Math.PI * a * theta / lambda;
+        const env = Math.pow(sinc(beta), 2);
+
+        const phi = (2*Math.PI/lambda) * (d * theta);
+
+        const u = Math.abs(d*theta) / L0;
+        const coh = Math.exp(-rqEff * kernel(u, params.kernel));
+
+        const iQ = env * (1 + Math.cos(phi)) * 0.5;
+        const iS = env * (1 + coh * Math.cos(phi)) * 0.5;
+
+        y_mm[i] = yy * 1000;
+        Q[i] = iQ;
+        S[i] = iS;
+
+        if(iQ>qMax) qMax=iQ;
+        if(iS>sMax) sMax=iS;
       }
-      grid.push(row);
+
+      for(let i=0;i<N;i++){
+        Q[i] = qMax>0 ? Q[i]/qMax : 0;
+        S[i] = sMax>0 ? S[i]/sMax : 0;
+        R[i] = S[i] - Q[i];
+      }
+
+      // Visibility in window
+      const win = params.visWin_mm;
+      let v_qMin=1, v_qMax=0, v_sMin=1, v_sMax=0;
+      for(let i=0;i<N;i++){
+        if(Math.abs(y_mm[i]) <= win){
+          v_qMin = Math.min(v_qMin, Q[i]); v_qMax = Math.max(v_qMax, Q[i]);
+          v_sMin = Math.min(v_sMin, S[i]); v_sMax = Math.max(v_sMax, S[i]);
+        }
+      }
+      const vqm = (v_qMax-v_qMin) / (v_qMax+v_qMin || 1);
+      const vst = (v_sMax-v_sMin) / (v_sMax+v_sMin || 1);
+
+      // Internal residual chi² (STUR-QM)/sigma
+      const sigma = Math.max(1e-12, params.sigma);
+      let ss=0;
+      for(let i=0;i<N;i++) ss += (R[i]*R[i])/(sigma*sigma);
+      const chi2 = ss / Math.max(1,(N-1));
+
+      return { params, m, lambda, p, L0, rqEff, y_mm, Q, S, R, vqm, vst, chi2 };
     }
 
-    // overlay axes labels
-    ctx.fillStyle="rgba(255,255,255,.85)";
-    ctx.font="12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
-    ctx.fillText("Phase Map: V(STUR) vs mass and separation", 14, 18);
+    // ============================================================
+    // Phase-space view (ψ-plane)
+    // QM: exp(iφ/2)
+    // STUR: coh * exp(i(φ/2)*damp) where damp = exp(-0.5(rs)^2), rs=rqEff*kernel(u)
+    // ============================================================
+    function computePhaseSpace(res){
+      const params = res.params;
+      const m = res.m;
 
-    ctx.fillStyle="rgba(255,255,255,.60)";
-    ctx.font="11px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
-    ctx.fillText(`mass: ${fmtSI(mMin)} → ${fmtSI(mMax)} kg (log)`, 14, H-12);
-    ctx.fillText(`d: ${d1.toFixed(3)} → ${d2.toFixed(3)} µm`, W-300, H-12);
+      const E = params.E_eV * eV;
+      const d = params.d_um * 1e-6;
+      const L = params.L_cm * 0.01;
 
-    lastPhase = {
-      N,
-      mass_kg_min: mMin,
-      mass_kg_max: mMax,
-      d_um_min: d1,
-      d_um_max: d2,
-      Vst_grid: grid
-    };
+      const p = Math.sqrt(E*E + 2*E*m*c*c)/c;
+      const lambda = h/p;
 
-    setStatus("Ready");
-  }catch(e){
-    console.error(e);
-    setStatus("Error");
-  }
-}
+      const L0 = Math.max(params.L0_nm * 1e-9, PLANCK_L);
+      const rqEff = params.stur_on ? (params.Rq_base * Math.pow(m/masses.electron, params.scale_power)) : 0;
 
-/* ============================================================
-   Export plot PNG
-   ============================================================ */
-function downloadPNG(){
-  const main = document.getElementById('plot');
-  const resi = document.getElementById('residualPlot');
+      const N = 320;
+      const ptsQM = new Array(N);
+      const ptsST = new Array(N);
 
-  // Combine two canvases into one PNG (stacked)
-  const out = document.createElement('canvas');
-  out.width = main.width;
-  out.height = main.height + resi.height;
+      const span_m = params.span_mm * 1e-3;
+      const yMin = -0.5*span_m;
+      const yMax =  0.5*span_m;
 
-  const octx = out.getContext('2d');
-  octx.fillStyle="#000";
-  octx.fillRect(0,0,out.width,out.height);
-  octx.drawImage(main, 0, 0);
-  octx.drawImage(resi, 0, main.height);
+      for(let i=0;i<N;i++){
+        const yy = yMin + (yMax-yMin)*i/(N-1);
+        const theta = yy / L;
+        const phi = (2*Math.PI/lambda) * (d * theta);
 
-  out.toBlob((blob)=>{
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href=url;
-    a.download="stur_plot.png";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url), 800);
-  }, "image/png");
-}
+        const u = Math.abs(d*theta) / L0;
+        const Su = kernel(u, params.kernel);
+        const rs = rqEff * Su;
 
-/* ============================================================
-   Init
-   ============================================================ */
-window.addEventListener('load', ()=>{
-  // ensure nav active aria
-  document.querySelectorAll('.nav button').forEach((b,i)=>b.setAttribute('aria-selected', i===0?'true':'false'));
-  compute();
-});
-</script>
+        const coh = Math.exp(-rs);
+        const damp = Math.exp(-0.5 * rs * rs);
+
+        const phaseQM = phi / 2;
+        const phaseST = (phi / 2) * damp;
+
+        ptsQM[i] = { x: Math.cos(phaseQM), y: Math.sin(phaseQM) };
+        ptsST[i] = { x: coh * Math.cos(phaseST), y: coh * Math.sin(phaseST) };
+      }
+      return { ptsQM, ptsST };
+    }
+
+    // ============================================================
+    // CSV Data import + chi² vs dataset
+    // ============================================================
+    function triggerDataLoad(){
+      document.getElementById('dataFile').click();
+    }
+
+    function clearData(){
+      dataObs = null;
+      chi2DataQMEl.textContent = "—";
+      chi2DataSTEl.textContent = "—";
+      dChi2El.textContent = "—";
+      nDataEl.textContent = "—";
+      render();
+    }
+
+    function parseCSV(text){
+      const lines = text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+      const y=[], I=[];
+      for(const ln of lines){
+        if(ln.startsWith("#")) continue;
+        if(/y/i.test(ln) && /int/i.test(ln)) continue; // header
+        const parts = ln.split(/,|\t|;/).map(s=>s.trim());
+        if(parts.length < 2) continue;
+        const yy = parseFloat(parts[0]);
+        const ii = parseFloat(parts[1]);
+        if(!isFinite(yy) || !isFinite(ii)) continue;
+        y.push(yy); I.push(ii);
+      }
+      if(y.length < 5) return null;
+      let mx = 0;
+      for(const v of I) mx = Math.max(mx, v);
+      const In = I.map(v => (mx>0 ? v/mx : 0));
+      return { y_mm: y, I: In };
+    }
+
+    function handleDataFile(ev){
+      const file = ev.target.files && ev.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const parsed = parseCSV(String(reader.result || ""));
+        if(!parsed){
+          setStatus("Bad CSV");
+          setTimeout(()=>setStatus("Ready"), 900);
+          return;
+        }
+        dataObs = parsed;
+        nDataEl.textContent = String(parsed.y_mm.length);
+        render();
+        setStatus("Data Loaded");
+        setTimeout(()=>setStatus("Ready"), 900);
+      };
+      reader.readAsText(file);
+    }
+
+    function interp(yArr, vArr, x){
+      const n=yArr.length;
+      if(x <= yArr[0]) return vArr[0];
+      if(x >= yArr[n-1]) return vArr[n-1];
+      let lo=0, hi=n-1;
+      while(hi-lo>1){
+        const mid=(lo+hi)>>1;
+        if(yArr[mid] <= x) lo=mid; else hi=mid;
+      }
+      const x0=yArr[lo], x1=yArr[hi];
+      const t=(x-x0)/(x1-x0);
+      return vArr[lo]*(1-t) + vArr[hi]*t;
+    }
+
+    function computeDataChi2(res){
+      if(!dataObs) return null;
+      const sigma = Math.max(1e-12, res.params.sigma);
+      const yM = res.y_mm, Q = res.Q, S = res.S;
+
+      let ssQ=0, ssS=0;
+      const nd = dataObs.y_mm.length;
+
+      for(let i=0;i<nd;i++){
+        const x = dataObs.y_mm[i];
+        const obs = dataObs.I[i];
+        const mq = interp(yM, Q, x);
+        const ms = interp(yM, S, x);
+        const rq = (obs - mq)/sigma;
+        const rs = (obs - ms)/sigma;
+        ssQ += rq*rq;
+        ssS += rs*rs;
+      }
+      const dof = Math.max(1, nd - 1);
+      const chiQ = ssQ / dof;
+      const chiS = ssS / dof;
+      return { chiQ, chiS, dChi2: (chiS - chiQ), n: nd };
+    }
+
+    // ============================================================
+    // Drawing helpers
+    // ============================================================
+    function clear(ctx, w, h){
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = "rgba(255,255,255,0.02)";
+      ctx.fillRect(0,0,w,h);
+    }
+
+    function drawAxes(ctx, w, h, x0, x1, y0, y1, opts={}){
+      const padL = opts.padL ?? 60;
+      const padR = opts.padR ?? 20;
+      const padT = opts.padT ?? 18;
+      const padB = opts.padB ?? 50;
+
+      const gx0 = padL, gx1 = w - padR;
+      const gy0 = padT, gy1 = h - padB;
+
+      ctx.strokeStyle = "rgba(255,255,255,0.08)";
+      ctx.lineWidth = 1;
+
+      const ngrid = 6;
+      for (let i=0;i<=ngrid;i++){
+        const t = i/ngrid;
+        const x = gx0 + t*(gx1-gx0);
+        ctx.beginPath(); ctx.moveTo(x,gy0); ctx.lineTo(x,gy1); ctx.stroke();
+
+        const y = gy0 + t*(gy1-gy0);
+        ctx.beginPath(); ctx.moveTo(gx0,y); ctx.lineTo(gx1,y); ctx.stroke();
+      }
+
+      ctx.strokeStyle = "rgba(255,255,255,0.10)";
+      ctx.strokeRect(gx0,gy0,gx1-gx0,gy1-gy0);
+
+      ctx.fillStyle = "rgba(226,232,240,0.85)";
+      ctx.font = "12px " + getComputedStyle(document.documentElement).getPropertyValue('--mono');
+
+      if (opts.xlabel){
+        ctx.textAlign = "center";
+        ctx.fillText(opts.xlabel, (gx0+gx1)/2, h-16);
+      }
+      if (opts.ylabel){
+        ctx.save();
+        ctx.translate(16, (gy0+gy1)/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.textAlign = "center";
+        ctx.fillText(opts.ylabel, 0, 0);
+        ctx.restore();
+      }
+
+      return { gx0, gx1, gy0, gy1, x0, x1, y0, y1 };
+    }
+
+    function mapX(fr, x){
+      return fr.gx0 + (x - fr.x0) * (fr.gx1 - fr.gx0) / (fr.x1 - fr.x0);
+    }
+    function mapY(fr, y){
+      return fr.gy1 - (y - fr.y0) * (fr.gy1 - fr.gy0) / (fr.y1 - fr.y0);
+    }
+
+    function drawLine(ctx, fr, xs, ys, color, width=2, dash=null){
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      if (dash) ctx.setLineDash(dash);
+      ctx.beginPath();
+      for (let i=0;i<xs.length;i++){
+        const X = mapX(fr, xs[i]);
+        const Y = mapY(fr, ys[i]);
+        if (i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawPoints(ctx, fr, pts, color, r=2){
+      ctx.save();
+      ctx.fillStyle = color;
+      for (const p of pts){
+        const X = mapX(fr, p.x);
+        const Y = mapY(fr, p.y);
+        ctx.beginPath();
+        ctx.arc(X,Y,r,0,Math.PI*2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function drawLegend(ctx, items, x, y){
+      ctx.save();
+      ctx.font = "12px " + getComputedStyle(document.documentElement).getPropertyValue('--sans');
+      ctx.textAlign = "left";
+      let yy = y;
+      for (const it of items){
+        ctx.fillStyle = it.color;
+        ctx.fillRect(x, yy-9, 10, 10);
+        ctx.fillStyle = "rgba(226,232,240,0.90)";
+        ctx.fillText(it.label, x+14, yy);
+        yy += 16;
+      }
+      ctx.restore();
+    }
+
+    // ============================================================
+    // Render
+    // ============================================================
+    function render(){
+      try{
+        warnLine.style.display = "none";
+        warnLine.textContent = "";
+
+        setStatus("Computing…");
+        const params = readParams();
+        const res = solveCore(params);
+        lastRes = res;
+
+        lambdaText.textContent = `${fmtSI(res.lambda*1e9)} nm`;
+        massText.textContent = `${fmtSI(res.m)} kg`;
+
+        VqmEl.textContent = res.vqm.toFixed(4);
+        VstEl.textContent = res.vst.toFixed(4);
+        chi2El.textContent = res.chi2.toExponential(2);
+
+        // Dataset χ²
+        const fit = computeDataChi2(res);
+        if(fit){
+          chi2DataQMEl.textContent = fit.chiQ.toExponential(2);
+          chi2DataSTEl.textContent = fit.chiS.toExponential(2);
+          dChi2El.textContent = fit.dChi2.toExponential(2);
+          nDataEl.textContent = String(fit.n);
+          document.getElementById("bitsBar").style.width = clamp(Math.abs(fit.dChi2)*10, 0, 100).toFixed(1) + "%";
+        }else{
+          chi2DataQMEl.textContent = "—";
+          chi2DataSTEl.textContent = "—";
+          dChi2El.textContent = "—";
+          nDataEl.textContent = "—";
+          document.getElementById("bitsBar").style.width = "0%";
+        }
+
+        // Draw
+        clear(mainCtx, mainCanvas.width, mainCanvas.height);
+
+        if(viewMode === "pattern"){
+          document.getElementById("mainTitle").textContent = showResidual ? "Residual (STUR − QM)" : "Interference Intensity";
+
+          const xs = res.y_mm;
+          const xmin = xs[0], xmax = xs[xs.length-1];
+
+          let ymin = 0, ymax = 1.05;
+
+          if(showResidual){
+            ymin = Infinity; ymax = -Infinity;
+            const gain = parseFloat(resGainEl.value);
+            for(let i=0;i<res.R.length;i++){
+              const v = res.R[i]*gain;
+              if(v<ymin) ymin=v;
+              if(v>ymax) ymax=v;
+            }
+            const pad = 0.10 * (ymax - ymin + 1e-9);
+            ymin -= pad; ymax += pad;
+          }
+
+          const fr = drawAxes(mainCtx, mainCanvas.width, mainCanvas.height, xmin, xmax, ymin, ymax, {
+            xlabel: "Position (mm)",
+            ylabel: showResidual ? `Residual × ${parseFloat(resGainEl.value)}` : "Normalized intensity",
+            padL: 60, padR: 20, padT: 18, padB: 50
+          });
+
+          if(!showResidual){
+            drawLine(mainCtx, fr, xs, res.Q, "#2563eb", 2.6, null);
+            drawLine(mainCtx, fr, xs, res.S, "#059669", 2.6, [6,5]);
+
+            if(showDataOverlay && dataObs){
+              // data points are already normalized to max=1
+              mainCtx.save();
+              mainCtx.fillStyle = "rgba(255,255,255,.90)";
+              for(let i=0;i<dataObs.y_mm.length;i++){
+                const X = mapX(fr, dataObs.y_mm[i]);
+                const Y = mapY(fr, clamp(dataObs.I[i], 0, 1));
+                mainCtx.beginPath();
+                mainCtx.arc(X, Y, 2.2, 0, Math.PI*2);
+                mainCtx.fill();
+              }
+              mainCtx.restore();
+            }
+
+            drawLegend(mainCtx, [
+              {label:"QM", color:"#2563eb"},
+              {label:"STUR", color:"#059669"},
+              ...(showDataOverlay && dataObs ? [{label:"Data", color:"rgba(255,255,255,.90)"}] : [])
+            ], fr.gx0+10, fr.gy0+18);
+
+          }else{
+            const gain = parseFloat(resGainEl.value);
+            const rr = res.R.map(v=>v*gain);
+            drawLine(mainCtx, fr, xs, rr, "#a78bfa", 2.6, null);
+            drawLegend(mainCtx, [
+              {label:`STUR − QM (×${gain})`, color:"#a78bfa"},
+            ], fr.gx0+10, fr.gy0+18);
+          }
+
+        } else {
+          document.getElementById("mainTitle").textContent = "Wavefunction Phase-Space (ψ-plane): QM circle vs STUR spiral";
+          const fr = drawAxes(mainCtx, mainCanvas.width, mainCanvas.height, -1.1, 1.1, -1.1, 1.1, {
+            xlabel: "Re(ψ)",
+            ylabel: "Im(ψ)",
+            padL: 60, padR: 20, padT: 18, padB: 50
+          });
+
+          // faint unit circle
+          mainCtx.save();
+          mainCtx.strokeStyle = "rgba(255,255,255,0.18)";
+          mainCtx.lineWidth = 1.5;
+          mainCtx.beginPath();
+          for (let k=0;k<=260;k++){
+            const th = (k/260)*Math.PI*2;
+            const X = mapX(fr, Math.cos(th));
+            const Y = mapY(fr, Math.sin(th));
+            if (k===0) mainCtx.moveTo(X,Y); else mainCtx.lineTo(X,Y);
+          }
+          mainCtx.stroke();
+          mainCtx.restore();
+
+          const ps = computePhaseSpace(res);
+          drawPoints(mainCtx, fr, ps.ptsQM, "#2563eb", 2.0);
+          drawPoints(mainCtx, fr, ps.ptsST, "#059669", 2.0);
+
+          drawLegend(mainCtx, [
+            {label:"QM (unit circle)", color:"#2563eb"},
+            {label:"STUR (inward spiral)", color:"#059669"}
+          ], fr.gx0+10, fr.gy0+18);
+        }
+
+        setStatus("Ready");
+      }catch(err){
+        setStatus("Error");
+        warnLine.style.display = "block";
+        warnLine.textContent = "Runtime error: " + (err && err.message ? err.message : String(err));
+        console.error(err);
+      }
+    }
+
+    // ============================================================
+    // Exports (summary/full) + PNG
+    // ============================================================
+    function downloadText(filename, text, mime="application/json"){
+      const blob = new Blob([text], {type:mime});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 800);
+    }
+
+    async function copyToClipboard(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        setStatus("Copied");
+        setTimeout(()=>setStatus("Ready"), 900);
+      }catch(e){
+        const ta=document.createElement('textarea');
+        ta.value=text; document.body.appendChild(ta);
+        ta.select(); document.execCommand('copy'); ta.remove();
+        setStatus("Copied");
+        setTimeout(()=>setStatus("Ready"), 900);
+      }
+    }
+
+    function buildExport(type){
+      if(!lastRes) return null;
+      const res = lastRes;
+
+      const base = {
+        schema: "stur-geometry-matcher-singlepage",
+        exported_at: nowISO(),
+        type,
+        params: res.params,
+        derived: {
+          mass_kg: res.m,
+          lambda_m: res.lambda,
+          lambda_nm: res.lambda*1e9,
+          rq_eff: res.rqEff,
+          L0_m: res.L0
+        },
+        metrics: {
+          V_qm: res.vqm,
+          V_stur: res.vst,
+          dV: (res.vqm - res.vst),
+          reduced_chi2_internal: res.chi2
+        },
+        data: dataObs ? {
+          n: dataObs.y_mm.length,
+          chi2_qm: (computeDataChi2(res)?.chiQ ?? null),
+          chi2_stur: (computeDataChi2(res)?.chiS ?? null),
+          dChi2: (computeDataChi2(res)?.dChi2 ?? null)
+        } : null
+      };
+
+      if(type === "full"){
+        base.trace = {
+          y_mm: res.y_mm,
+          I_qm: res.Q,
+          I_stur: res.S,
+          residual: res.R
+        };
+        base.dataset = dataObs ? dataObs : null;
+      }
+
+      return base;
+    }
+
+    function exportJSON(type){
+      const data = buildExport(type);
+      if(!data){ render(); return; }
+      const fname = (type==="summary") ? "stur_summary.json" : "stur_fulltrace.json";
+      downloadText(fname, JSON.stringify(data, null, 2));
+      setStatus("Exported");
+      setTimeout(()=>setStatus("Ready"), 900);
+    }
+
+    async function copyJSON(type){
+      const data = buildExport(type);
+      if(!data){ render(); return; }
+      await copyToClipboard(JSON.stringify(data, null, 2));
+    }
+
+    function downloadPNG(){
+      const out = document.createElement('canvas');
+      out.width = mainCanvas.width;
+      out.height = mainCanvas.height;
+
+      const octx = out.getContext('2d');
+      octx.fillStyle="#000";
+      octx.fillRect(0,0,out.width,out.height);
+      octx.drawImage(mainCanvas, 0, 0);
+
+      out.toBlob((blob)=>{
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href=url;
+        a.download="stur_plot.png";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url), 800);
+      }, "image/png");
+    }
+
+    function resetDefaults(){
+      modeEl.value = "electron";
+      E_eVEl.value = 600;
+      a_umEl.value = 0.062;
+      d_umEl.value = 0.272;
+      L_cmEl.value = 30;
+      span_mmEl.value = 40;
+      NEl.value = 700;
+
+      gOnEl.checked = true;
+      scaleLawEl.value = "2";
+      RqEl.value = 0.30;
+      L0_nmEl.value = 120;
+      kernelEl.value = "tanh";
+      visWinEl.value = 2;
+      sigmaEl.value = 1e-4;
+      resGainEl.value = 50;
+
+      dataObs = null;
+      render();
+    }
+
+    // ============================================================
+    // UI events
+    // ============================================================
+    toggleViewBtn.addEventListener("click", () => {
+      viewMode = (viewMode === "pattern") ? "phase" : "pattern";
+      toggleViewBtn.textContent = (viewMode === "pattern") ? "Switch to Phase Space" : "Switch to Interference";
+      render();
+    });
+
+    toggleDiffBtn.addEventListener("click", () => {
+      showResidual = !showResidual;
+      toggleDiffBtn.textContent = showResidual ? "Show Patterns" : "Show Residual (STUR−QM)";
+      render();
+    });
+
+    toggleDataBtn.addEventListener("click", () => {
+      showDataOverlay = !showDataOverlay;
+      toggleDataBtn.textContent = showDataOverlay ? "Hide Data Overlay" : "Show Data Overlay";
+      render();
+    });
+
+    // Recompute on any control change
+    const recomputeEls = [
+      modeEl,E_eVEl,a_umEl,d_umEl,L_cmEl,span_mmEl,NEl,
+      gOnEl,scaleLawEl,RqEl,L0_nmEl,kernelEl,visWinEl,sigmaEl,resGainEl
+    ];
+    recomputeEls.forEach(el => el.addEventListener("input", render));
+    recomputeEls.forEach(el => el.addEventListener("change", render));
+
+    // Init
+    window.addEventListener("load", () => render());
+  </script>
 </body>
 </html>
