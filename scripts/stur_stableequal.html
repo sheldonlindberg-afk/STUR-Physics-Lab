@@ -50,9 +50,7 @@ h1{margin:0 0 6px}
   padding-bottom:8px;
 }
 
-.param{
-  margin-bottom:12px;
-}
+.param{margin-bottom:12px}
 .param label{
   font-size:12px;
   font-weight:700;
@@ -79,6 +77,7 @@ h1{margin:0 0 6px}
   border:1px solid rgba(255,255,255,.08);
   border-radius:12px;
   padding:12px;
+  margin-bottom:10px;
 }
 .metric .label{font-size:11px;color:var(--muted)}
 .metric .value{
@@ -104,7 +103,6 @@ canvas{
   color:#dcfce7;
   font-weight:800;
   cursor:pointer;
-  margin-top:12px;
 }
 .export-btn:hover{background:rgba(52,211,153,.28)}
 </style>
@@ -158,7 +156,7 @@ Interactive, domain-locked predictions • QM vs STUR • Fully self-contained
 <div class="cardtitle">STUR Parameters</div>
 
 <div class="param">
-<label>R<sub>q</sub> (coherence strength)</label>
+<label>R<sub>q</sub></label>
 <div class="row">
 <input id="rqR" type="range" min="0" max="2.5" step="0.05" value="1.8">
 <input id="rqN" type="number" step="0.05" value="1.8">
@@ -180,35 +178,12 @@ Interactive, domain-locked predictions • QM vs STUR • Fully self-contained
 <div class="card">
 <div class="cardtitle">Predicted Observables</div>
 
-<div class="metric">
-<div class="label">Visibility (QM)</div>
-<div class="value" id="vQM">—</div>
-</div>
-
-<div class="metric">
-<div class="label">Visibility (STUR)</div>
-<div class="value" id="vST">—</div>
-</div>
-
-<div class="metric">
-<div class="label">Δ Visibility</div>
-<div class="value" id="vDV">—</div>
-</div>
-
-<div class="metric">
-<div class="label">Coherence Length ℓ<sub>coh</sub></div>
-<div class="value" id="ell">—</div>
-</div>
-
-<div class="metric">
-<div class="label">Decoherence Time τ = ℓ<sub>coh</sub>/c</div>
-<div class="value" id="tau">—</div>
-</div>
-
-<div class="metric">
-<div class="label">Max |ΔI| Location</div>
-<div class="value" id="maxpos">—</div>
-</div>
+<div class="metric"><div class="label">Visibility (QM)</div><div class="value" id="vQM">—</div></div>
+<div class="metric"><div class="label">Visibility (STUR)</div><div class="value" id="vST">—</div></div>
+<div class="metric"><div class="label">Δ Visibility</div><div class="value" id="vDV">—</div></div>
+<div class="metric"><div class="label">Coherence Length ℓ<sub>coh</sub></div><div class="value" id="ell">—</div></div>
+<div class="metric"><div class="label">Decoherence Time τ</div><div class="value" id="tau">—</div></div>
+<div class="metric"><div class="label">Max |ΔI|</div><div class="value" id="maxdev">—</div></div>
 
 <canvas id="plot" width="900" height="360"></canvas>
 </div>
@@ -217,88 +192,76 @@ Interactive, domain-locked predictions • QM vs STUR • Fully self-contained
 </div>
 
 <script>
-/* ---------- Canonical Operators ---------- */
-const S_u = u => Math.tanh(u) * (1 - Math.exp(-u));
-const sinc = x => Math.abs(x) < 1e-12 ? 1 : Math.sin(Math.PI*x)/(Math.PI*x);
+/* === Canonical Operators === */
+const S_u = u => Math.tanh(u)*(1-Math.exp(-u));
+const sinc = x => Math.abs(x)<1e-12 ? 1 : Math.sin(Math.PI*x)/(Math.PI*x);
 
-/* ---------- Domain Lock ---------- */
-const Y_HALF = 0.025; // meters
-const C = 299792458;
+/* === Constants === */
+const Y_HALF=0.025, C=299792458;
 
-/* ---------- Sync sliders ---------- */
-[
-['lambdaR','lambdaN'],['aR','aN'],['dR','dN'],['LR','LN'],
-['rqR','rqN'],['l0R','l0N']
-].forEach(([r,n])=>{
-  const R=document.getElementById(r), N=document.getElementById(n);
-  R.oninput=()=>{N.value=R.value;compute();}
-  N.oninput=()=>{R.value=N.value;compute();}
+/* === Sync === */
+[['lambdaR','lambdaN'],['aR','aN'],['dR','dN'],['LR','LN'],['rqR','rqN'],['l0R','l0N']]
+.forEach(([r,n])=>{
+  const R=document.getElementById(r),N=document.getElementById(n);
+  R.oninput=()=>{N.value=R.value;compute()}
+  N.oninput=()=>{R.value=N.value;compute()}
 });
 
-/* ---------- Core Compute ---------- */
 function compute(){
-  const λ = +lambdaN.value*1e-9;
-  const a = +aN.value*1e-6;
-  const d = +dN.value*1e-6;
-  const L = +LN.value*1e-2;
-  const Rq = +rqN.value;
-  const L0 = +l0N.value*1e-9;
+  const λ=+lambdaN.value*1e-9,a=+aN.value*1e-6,d=+dN.value*1e-6;
+  const L=+LN.value*1e-2,Rq=+rqN.value,L0=+l0N.value*1e-9;
 
-  const N=501;
-  const y=[],yMM=[],Iq=[],Is=[];
-  let maxDev=0,maxPos=0;
+  const N=501,y=[],yMM=[],Iq=[],Is=[];
+  let maxDev=0;
 
   for(let i=0;i<N;i++){
     const yy=-Y_HALF+2*Y_HALF*i/(N-1);
-    const env=Math.pow(sinc(a*yy/(λ*L)),2);
+    const env=sinc(a*yy/(λ*L))**2;
     const φ=(2*Math.PI/λ)*(d*yy/L);
     const u=Math.abs(d*yy/L)/Math.max(L0,1e-30);
     const rs=Rq*S_u(u);
     const coh=Math.exp(-rs);
     const damp=Math.exp(-0.5*rs*rs);
-    const iq=env*Math.pow(Math.cos(φ/2),2);
-    const is=2*env*coh*coh*(1+Math.cos(φ)*damp);
+    Iq.push(env*Math.cos(φ/2)**2);
+    Is.push(2*env*coh**2*(1+Math.cos(φ)*damp));
     y.push(yy); yMM.push(yy*1000);
-    Iq.push(iq); Is.push(is);
   }
 
   const norm=a=>{const m=Math.max(...a);return a.map(v=>v/m)}
-  const Q=norm(Iq), S=norm(Is);
+  const Q=norm(Iq),S=norm(Is);
 
   const vis=a=>{
     const c=a.filter((_,i)=>Math.abs(yMM[i])<2);
-    const M=Math.max(...c), m=Math.min(...c);
-    return (M-m)/(M+m);
+    const M=Math.max(...c),m=Math.min(...c);
+    return M+m>0?(M-m)/(M+m):0;
   };
 
-  const vQM=vis(Q), vST=vis(S);
-  document.getElementById('vQM').textContent=vQM.toFixed(4);
-  document.getElementById('vST').textContent=vST.toFixed(4);
-  document.getElementById('vDV').textContent=(vST-vQM).toFixed(4);
+  const vQM=vis(Q),vST=vis(S);
+  vQM_el.textContent=vQM.toFixed(4);
+  vST_el.textContent=vST.toFixed(4);
+  vDV_el.textContent=(vST-vQM).toFixed(4);
 
-  // ℓ_coh
-  let ucoh=0;
-  for(let u=0;u<50;u+=0.001){ if(Rq*S_u(u)>=1){ucoh=u;break}}
-  const ell=L*L0/d*ucoh;
-  document.getElementById('ell').textContent=(ell*1000).toFixed(3)+' mm';
-  document.getElementById('tau').textContent=(ell/C*1e15).toFixed(2)+' fs';
+  let ucoh=Infinity;
+  for(let u=0;u<50;u+=0.001){if(Rq*S_u(u)>=1){ucoh=u;break}}
+  const ell=ucoh===Infinity?Infinity:L*L0/d*ucoh;
+  ell_el.textContent=ell===Infinity?'∞':(ell*1000).toFixed(3)+' mm';
+  tau_el.textContent=ell===Infinity?'∞':(ell/C*1e15).toFixed(2)+' fs';
 
-  S.forEach((v,i)=>{
-    const dv=Math.abs(v-Q[i]);
-    if(dv>maxDev){maxDev=dv;maxPos=yMM[i]}
-  });
-  document.getElementById('maxpos').textContent=maxPos.toFixed(3)+' mm';
+  S.forEach((v,i)=>maxDev=Math.max(maxDev,Math.abs(v-Q[i])));
+  maxdev_el.textContent=maxDev.toFixed(4);
 
   drawPlot(yMM,Q,S);
 }
 
-/* ---------- Plot ---------- */
+/* === Plot === */
 function drawPlot(x,q,s){
-  const c=document.getElementById('plot'),ctx=c.getContext('2d');
+  const c=plot,ctx=c.getContext('2d');
   ctx.clearRect(0,0,c.width,c.height);
   const pad=50,w=c.width-pad*2,h=c.height-pad*2;
-  const mapX=v=>pad+(v-Math.min(...x))*w/(Math.max(...x)-Math.min(...x));
-  const mapY=v=>pad+h*(1-v);
+  const xmin=Math.min(...x),xmax=Math.max(...x);
+  const ymin=0,ymax=1;
+  const mapX=v=>pad+(v-xmin)*w/(xmax-xmin);
+  const mapY=v=>pad+h*(1-(v-ymin)/(ymax-ymin));
 
   ctx.strokeStyle='#2563eb';ctx.beginPath();
   x.forEach((v,i)=>{const X=mapX(v),Y=mapY(q[i]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.stroke();
@@ -308,23 +271,37 @@ function drawPlot(x,q,s){
   ctx.setLineDash([]);
 }
 
-/* ---------- Export ---------- */
+/* === Export === */
 function exportJSON(){
   const data={
-    lambda_nm:+lambdaN.value,
-    slit_width_um:+aN.value,
-    slit_sep_um:+dN.value,
-    L_cm:+LN.value,
-    Rq:+rqN.value,
-    L0_nm:+l0N.value
+    parameters:{
+      lambda_nm:+lambdaN.value,slit_width_um:+aN.value,
+      slit_sep_um:+dN.value,L_cm:+LN.value,Rq:+rqN.value,L0_nm:+l0N.value
+    },
+    observables:{
+      visibility_qm:parseFloat(vQM_el.textContent),
+      visibility_stur:parseFloat(vST_el.textContent),
+      delta_visibility:parseFloat(vDV_el.textContent),
+      coherence_length_mm:ell_el.textContent,
+      decoherence_time_fs:tau_el.textContent,
+      max_deltaI:parseFloat(maxdev_el.textContent)
+    },
+    provenance:{
+      Su:"tanh(u)*(1-exp(-u))",
+      Iq:"env*cos(phi/2)^2",
+      Is:"2*env*coh^2*(1+cos(phi)*damp)",
+      domain:"y ∈ [-0.025,0.025] m, N=501"
+    }
   };
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download='stur_geometry_params.json';
+  a.download='stur_predictions.json';
   a.click();
 }
 
+/* Bind outputs */
+const vQM_el=vQM,vST_el=vST,vDV_el=vDV,ell_el=ell,tau_el=tau,maxdev_el=maxdev;
 compute();
 </script>
 </body>
