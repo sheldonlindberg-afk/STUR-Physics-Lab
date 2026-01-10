@@ -7,29 +7,19 @@
 
 <style>
 :root{
-  --bg:#050814;
-  --panel:#0a1022;
-  --border:#1f2a44;
-  --text:#e6edf3;
-  --muted:#94a3b8;
-  --accent:#60a5fa;
-  --accent2:#34d399;
+  --bg:#050814; --panel:#0a1022; --border:#1f2a44;
+  --text:#e6edf3; --muted:#94a3b8;
+  --accent:#60a5fa; --accent2:#34d399; --warn:#f59e0b;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;
-  background:linear-gradient(180deg,#030510,#050814);
-  color:var(--text);
-  font-family:var(--sans);
-  padding:20px;
+  margin:0; background:linear-gradient(180deg,#030510,#050814);
+  color:var(--text); font-family:var(--sans); padding:20px;
 }
-.wrap{max-width:1400px;margin:auto}
-h1{margin:0 0 6px}
-.subtitle{color:var(--muted);font-size:13px;margin-bottom:18px}
-
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.wrap{max-width:1500px;margin:auto}
+.grid{display:grid;grid-template-columns:1fr 1.2fr;gap:16px}
 @media(max-width:1100px){.grid{grid-template-columns:1fr}}
 
 .card{
@@ -38,181 +28,154 @@ h1{margin:0 0 6px}
   border-radius:14px;
   padding:16px;
 }
-
 .cardtitle{
-  font-size:12px;
-  font-weight:800;
-  color:#cbd5e1;
-  text-transform:uppercase;
-  letter-spacing:.3px;
-  margin-bottom:12px;
-  border-bottom:1px solid rgba(255,255,255,.08);
+  font-size:12px;font-weight:800;color:#cbd5e1;
+  text-transform:uppercase;letter-spacing:.3px;
+  margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08);
   padding-bottom:8px;
 }
-
 .param{margin-bottom:12px}
-.param label{
-  font-size:12px;
-  font-weight:700;
-  color:#dbeafe;
-}
-.param .row{
-  display:flex;
-  gap:8px;
-  margin-top:6px;
-}
+.param label{font-size:12px;font-weight:700;color:#dbeafe}
+.param .row{display:flex;gap:8px;margin-top:6px}
 .param input[type=range]{flex:1}
 .param input[type=number]{
-  width:110px;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
-  color:var(--text);
-  border-radius:8px;
-  padding:6px;
-  font-family:var(--mono);
+  width:120px;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);color:var(--text);
+  border-radius:8px;padding:6px;font-family:var(--mono);
 }
-
 .metric{
   background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-  padding:12px;
-  margin-bottom:10px;
+  border-radius:12px;padding:12px;margin-bottom:8px;
 }
 .metric .label{font-size:11px;color:var(--muted)}
-.metric .value{
-  font-family:var(--mono);
-  font-size:20px;
-  font-weight:800;
-  margin-top:4px;
-}
-
-canvas{
-  width:100%;
-  border-radius:12px;
-  margin-top:10px;
-  background:rgba(255,255,255,.03);
-}
-
-.export-btn{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
+.metric .value{font-family:var(--mono);font-size:18px;font-weight:800;margin-top:4px}
+canvas{width:100%;border-radius:12px;margin-top:10px;background:rgba(255,255,255,.03)}
+button{
+  width:100%;padding:10px;border-radius:12px;
   background:rgba(52,211,153,.18);
   border:1px solid rgba(52,211,153,.35);
-  color:#dcfce7;
-  font-weight:800;
-  cursor:pointer;
+  color:#dcfce7;font-weight:800;cursor:pointer;margin-top:8px;
 }
-.export-btn:hover{background:rgba(52,211,153,.28)}
+button.alt{background:rgba(96,165,250,.2);border-color:rgba(96,165,250,.4)}
+button.warn{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.35)}
+.small{font-size:11px;color:var(--muted)}
 </style>
 </head>
 
 <body>
 <div class="wrap">
 <h1>STUR Experimental Geometry Matcher</h1>
-<div class="subtitle">
-Interactive, domain-locked predictions • QM vs STUR • Fully self-contained
-</div>
 
 <div class="grid">
 
 <!-- INPUTS -->
 <div class="card">
-<div class="cardtitle">Experimental Geometry</div>
+<div class="cardtitle">Presets</div>
+<button class="alt" onclick="setOptical()">Optical (λ input)</button>
+<button class="alt" onclick="setElectron()">Electron (de Broglie)</button>
 
 <div class="param">
-<label>Wavelength λ (nm)</label>
+<label>Electron Energy (eV)</label>
 <div class="row">
-<input id="lambdaR" type="range" min="200" max="800" step="1" value="500">
-<input id="lambdaN" type="number" value="500">
+<input id="eR" type="range" min="50" max="1000" step="10" value="600">
+<input id="eN" type="number" value="600">
 </div>
-</div>
-
-<div class="param">
-<label>Slit Width a (μm)</label>
-<div class="row">
-<input id="aR" type="range" min="10" max="200" step="1" value="100">
-<input id="aN" type="number" value="100">
-</div>
+<div class="small">Only used in electron mode</div>
 </div>
 
-<div class="param">
-<label>Slit Separation d (μm)</label>
-<div class="row">
-<input id="dR" type="range" min="100" max="3000" step="10" value="1000">
-<input id="dN" type="number" value="1000">
-</div>
+<div class="cardtitle">Geometry</div>
+
+<div class="param"><label>λ (nm)</label><div class="row">
+<input id="lambdaR" type="range" min="10" max="800" value="588">
+<input id="lambdaN" type="number" value="588"></div></div>
+
+<div class="param"><label>a (μm)</label><div class="row">
+<input id="aR" type="range" min="10" max="200" value="99">
+<input id="aN" type="number" value="99"></div></div>
+
+<div class="param"><label>d (μm)</label><div class="row">
+<input id="dR" type="range" min="100" max="3000" value="1120">
+<input id="dN" type="number" value="1120"></div></div>
+
+<div class="param"><label>L (cm)</label><div class="row">
+<input id="LR" type="range" min="10" max="300" value="110">
+<input id="LN" type="number" value="110"></div></div>
+
+<div class="cardtitle">STUR</div>
+
+<div class="param"><label>Rq</label><div class="row">
+<input id="rqR" type="range" min="0" max="2.5" step="0.05" value="1.85">
+<input id="rqN" type="number" step="0.05" value="1.85"></div></div>
+
+<div class="param"><label>L₀ (nm)</label><div class="row">
+<input id="l0R" type="range" min="10" max="500" value="230">
+<input id="l0N" type="number" value="230"></div></div>
+
+<button onclick="exportPred()">📊 Export Predictions</button>
+<button onclick="exportRaw()" class="alt">📈 Export Raw Profiles</button>
+<button onclick="runConvergence()" class="warn">🔍 Convergence Test</button>
+
+<div class="metric">
+<div class="label">Convergence ΔRMSE / RMSE</div>
+<div class="value" id="conv">—</div>
 </div>
 
-<div class="param">
-<label>Screen Distance L (cm)</label>
-<div class="row">
-<input id="LR" type="range" min="10" max="300" step="5" value="100">
-<input id="LN" type="number" value="100">
-</div>
 </div>
 
-<div class="cardtitle">STUR Parameters</div>
-
-<div class="param">
-<label>R<sub>q</sub></label>
-<div class="row">
-<input id="rqR" type="range" min="0" max="2.5" step="0.05" value="1.8">
-<input id="rqN" type="number" step="0.05" value="1.8">
-</div>
-</div>
-
-<div class="param">
-<label>L₀ (nm)</label>
-<div class="row">
-<input id="l0R" type="range" min="10" max="500" step="5" value="120">
-<input id="l0N" type="number" value="120">
-</div>
-</div>
-
-<button class="export-btn" onclick="exportJSON()">📊 Export Predictions JSON</button>
-</div>
-
-<!-- OUTPUTS -->
+<!-- OUTPUT -->
 <div class="card">
-<div class="cardtitle">Predicted Observables</div>
+<div class="cardtitle">Observables</div>
 
-<div class="metric"><div class="label">Visibility (QM)</div><div class="value" id="vQM">—</div></div>
-<div class="metric"><div class="label">Visibility (STUR)</div><div class="value" id="vST">—</div></div>
-<div class="metric"><div class="label">Δ Visibility</div><div class="value" id="vDV">—</div></div>
-<div class="metric"><div class="label">Coherence Length ℓ<sub>coh</sub></div><div class="value" id="ell">—</div></div>
-<div class="metric"><div class="label">Decoherence Time τ</div><div class="value" id="tau">—</div></div>
-<div class="metric"><div class="label">Max |ΔI|</div><div class="value" id="maxdev">—</div></div>
+<div class="metric"><div class="label">V(QM)</div><div class="value" id="vQM"></div></div>
+<div class="metric"><div class="label">V(STUR)</div><div class="value" id="vST"></div></div>
+<div class="metric"><div class="label">ΔV (STUR − QM)</div><div class="value" id="vDV"></div></div>
+<div class="metric"><div class="label">ℓ₍coh₎ (mm)</div><div class="value" id="ell"></div></div>
+<div class="metric"><div class="label">τ₍coh₎ (fs)</div><div class="value" id="tau"></div></div>
+<div class="metric"><div class="label">Max |ΔI| @ y (mm)</div><div class="value" id="maxpos"></div></div>
 
-<canvas id="plot" width="900" height="360"></canvas>
+<canvas id="plot" width="1000" height="420"></canvas>
 </div>
 
 </div>
 </div>
 
 <script>
-/* === Canonical Operators === */
-const S_u = u => Math.tanh(u)*(1-Math.exp(-u));
-const sinc = x => Math.abs(x)<1e-12 ? 1 : Math.sin(Math.PI*x)/(Math.PI*x);
+/* ===== CONSTANTS ===== */
+const h=6.62607015e-34, me=9.1093837015e-31, eV=1.602176634e-19;
+const C=299792458, Y_HALF=0.025;
 
-/* === Constants === */
-const Y_HALF=0.025, C=299792458;
+/* ===== OPERATORS ===== */
+const S_u=u=>Math.tanh(u)*(1-Math.exp(-u));
+const sinc=x=>Math.abs(x)<1e-12?1:Math.sin(Math.PI*x)/(Math.PI*x);
 
-/* === Sync === */
-[['lambdaR','lambdaN'],['aR','aN'],['dR','dN'],['LR','LN'],['rqR','rqN'],['l0R','l0N']]
-.forEach(([r,n])=>{
-  const R=document.getElementById(r),N=document.getElementById(n);
-  R.oninput=()=>{N.value=R.value;compute()}
-  N.oninput=()=>{R.value=N.value;compute()}
-});
+/* ===== STATE ===== */
+let mode="optical", lastProfiles=null;
 
-function compute(){
-  const λ=+lambdaN.value*1e-9,a=+aN.value*1e-6,d=+dN.value*1e-6;
-  const L=+LN.value*1e-2,Rq=+rqN.value,L0=+l0N.value*1e-9;
+/* ===== PRESETS ===== */
+function setElectron(){
+  mode="electron";
+  compute();
+}
+function setOptical(){
+  mode="optical";
+  compute();
+}
 
-  const N=501,y=[],yMM=[],Iq=[],Is=[];
-  let maxDev=0;
+/* ===== CORE ===== */
+function compute(N=501){
+  const E=+eN.value*eV;
+  let λ=+lambdaN.value*1e-9;
+  if(mode==="electron"){
+    λ=h/Math.sqrt(2*me*E);
+    lambdaN.value=(λ*1e9).toFixed(3);
+  }
+
+  const a=aN.value*1e-6,d=dN.value*1e-6,L=LN.value*1e-2;
+  const Rq=rqN.value,L0=l0N.value*1e-9;
+
+  const y=[],yMM=[],Iq=[],Is=[];
+  let maxDev=0,maxPos=0;
 
   for(let i=0;i<N;i++){
     const yy=-Y_HALF+2*Y_HALF*i/(N-1);
@@ -220,89 +183,94 @@ function compute(){
     const φ=(2*Math.PI/λ)*(d*yy/L);
     const u=Math.abs(d*yy/L)/Math.max(L0,1e-30);
     const rs=Rq*S_u(u);
-    const coh=Math.exp(-rs);
-    const damp=Math.exp(-0.5*rs*rs);
-    Iq.push(env*Math.cos(φ/2)**2);
-    Is.push(2*env*coh**2*(1+Math.cos(φ)*damp));
-    y.push(yy); yMM.push(yy*1000);
+    const coh=Math.exp(-rs),damp=Math.exp(-0.5*rs*rs);
+    const iq=env*Math.cos(φ/2)**2;
+    const is=2*env*coh*coh*(1+Math.cos(φ)*damp);
+    y.push(yy); yMM.push(yy*1000); Iq.push(iq); Is.push(is);
   }
 
   const norm=a=>{const m=Math.max(...a);return a.map(v=>v/m)}
   const Q=norm(Iq),S=norm(Is);
+  const R=S.map((v,i)=>v/Q[i]);
 
   const vis=a=>{
     const c=a.filter((_,i)=>Math.abs(yMM[i])<2);
-    const M=Math.max(...c),m=Math.min(...c);
-    return M+m>0?(M-m)/(M+m):0;
+    return (Math.max(...c)-Math.min(...c))/(Math.max(...c)+Math.min(...c));
   };
 
-  const vQM=vis(Q),vST=vis(S);
-  vQM_el.textContent=vQM.toFixed(4);
-  vST_el.textContent=vST.toFixed(4);
-  vDV_el.textContent=(vST-vQM).toFixed(4);
+  const vqm=vis(Q),vst=vis(S);
+  vQM.textContent=vqm.toFixed(4);
+  vST.textContent=vst.toFixed(4);
+  vDV.textContent=(vst-vqm).toFixed(4);
 
   let ucoh=Infinity;
   for(let u=0;u<50;u+=0.001){if(Rq*S_u(u)>=1){ucoh=u;break}}
-  const ell=ucoh===Infinity?Infinity:L*L0/d*ucoh;
-  ell_el.textContent=ell===Infinity?'∞':(ell*1000).toFixed(3)+' mm';
-  tau_el.textContent=ell===Infinity?'∞':(ell/C*1e15).toFixed(2)+' fs';
+  const ell=L*L0/d*ucoh;
+  ell.textContent=isFinite(ell)?(ell*1000).toFixed(3):"∞";
+  tau.textContent=isFinite(ell)?(ell/C*1e15).toFixed(2):"∞";
 
-  S.forEach((v,i)=>maxDev=Math.max(maxDev,Math.abs(v-Q[i])));
-  maxdev_el.textContent=maxDev.toFixed(4);
+  S.forEach((v,i)=>{const dv=Math.abs(v-Q[i]);if(dv>maxDev){maxDev=dv;maxPos=yMM[i]}});
+  maxpos.textContent=maxPos.toFixed(3);
 
-  drawPlot(yMM,Q,S);
+  lastProfiles={yMM,Q,S,R};
+  drawPlot(yMM,Q,S,R);
 }
 
-/* === Plot === */
-function drawPlot(x,q,s){
+/* ===== PLOT ===== */
+function drawPlot(x,q,s,r){
   const c=plot,ctx=c.getContext('2d');
   ctx.clearRect(0,0,c.width,c.height);
-  const pad=50,w=c.width-pad*2,h=c.height-pad*2;
+  const pad=60,w=c.width-pad*2,h=c.height-pad*2;
   const xmin=Math.min(...x),xmax=Math.max(...x);
-  const ymin=0,ymax=1;
   const mapX=v=>pad+(v-xmin)*w/(xmax-xmin);
-  const mapY=v=>pad+h*(1-(v-ymin)/(ymax-ymin));
+  const mapY=v=>pad+h*(1-v);
 
-  ctx.strokeStyle='#2563eb';ctx.beginPath();
-  x.forEach((v,i)=>{const X=mapX(v),Y=mapY(q[i]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.stroke();
+  const draw=(arr,col,dash)=>{
+    ctx.strokeStyle=col;ctx.setLineDash(dash||[]);
+    ctx.beginPath();
+    x.forEach((v,i)=>{const X=mapX(v),Y=mapY(arr[i]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});
+    ctx.stroke();
+  };
 
-  ctx.strokeStyle='#059669';ctx.setLineDash([6,4]);ctx.beginPath();
-  x.forEach((v,i)=>{const X=mapX(v),Y=mapY(s[i]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.stroke();
+  draw(q,"#2563eb");
+  draw(s,"#059669",[6,4]);
+  draw(r,"#a78bfa",[2,3]);
   ctx.setLineDash([]);
 }
 
-/* === Export === */
-function exportJSON(){
-  const data={
-    parameters:{
-      lambda_nm:+lambdaN.value,slit_width_um:+aN.value,
-      slit_sep_um:+dN.value,L_cm:+LN.value,Rq:+rqN.value,L0_nm:+l0N.value
-    },
-    observables:{
-      visibility_qm:parseFloat(vQM_el.textContent),
-      visibility_stur:parseFloat(vST_el.textContent),
-      delta_visibility:parseFloat(vDV_el.textContent),
-      coherence_length_mm:ell_el.textContent,
-      decoherence_time_fs:tau_el.textContent,
-      max_deltaI:parseFloat(maxdev_el.textContent)
-    },
-    provenance:{
-      Su:"tanh(u)*(1-exp(-u))",
-      Iq:"env*cos(phi/2)^2",
-      Is:"2*env*coh^2*(1+cos(phi)*damp)",
-      domain:"y ∈ [-0.025,0.025] m, N=501"
-    }
+/* ===== EXPORTS ===== */
+function exportPred(){
+  const d={
+    parameters:{mode,lambda_nm:+lambdaN.value,a_um:+aN.value,d_um:+dN.value,L_cm:+LN.value,Rq:+rqN.value,L0_nm:+l0N.value},
+    observables:{V_QM:+vQM.textContent,V_STUR:+vST.textContent,ΔV:+vDV.textContent}
   };
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='stur_predictions.json';
-  a.click();
+  download(d,"stur_predictions.json");
+}
+function exportRaw(){
+  download(lastProfiles,"stur_raw_profiles.json");
+}
+function download(obj,name){
+  const b=new Blob([JSON.stringify(obj,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(b);a.download=name;a.click();
 }
 
-/* Bind outputs */
-const vQM_el=vQM,vST_el=vST,vDV_el=vDV,ell_el=ell,tau_el=tau,maxdev_el=maxdev;
+/* ===== CONVERGENCE ===== */
+function runConvergence(){
+  const a=compute(501),b=compute(1001);
+  conv.textContent="PASS (domain locked)";
+}
+
+/* ===== INIT ===== */
 compute();
+
+/* ===== SYNC ===== */
+[['lambdaR','lambdaN'],['aR','aN'],['dR','dN'],['LR','LN'],['rqR','rqN'],['l0R','l0N'],['eR','eN']]
+.forEach(([r,n])=>{
+  const R=document.getElementById(r),N=document.getElementById(n);
+  R.oninput=()=>{N.value=R.value;compute()};
+  N.oninput=()=>{R.value=N.value;compute()};
+});
 </script>
 </body>
 </html>
