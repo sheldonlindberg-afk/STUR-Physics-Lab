@@ -2,985 +2,987 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>STUR / Quantum Gravity Geometry Matcher v3.0</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>STUR / Quantum Gravity Geometry Matcher</title>
 
 <style>
 :root{
-  --bg:#050814; --panel:#0a1022;
-  --text:#e6edf3; --muted:#94a3b8;
-  --accent:#60a5fa; --accent2:#34d399; --warn:#f59e0b;
-  --danger:#ef4444; --purple:#a78bfa; --border:rgba(255,255,255,.08);
+  --bg:#050814;
+  --panel:#0a1022;
+  --panel2:#0b142b;
+  --text:#e6edf3;
+  --muted:#94a3b8;
+  --border:rgba(255,255,255,.10);
+  --accent:#60a5fa;
+  --accent2:#34d399;
+  --warn:#f59e0b;
+  --danger:#fb7185;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --shadow: 0 18px 60px rgba(0,0,0,.45);
 }
 *{box-sizing:border-box}
+html,body{height:100%}
 body{
-  margin:0; background:linear-gradient(180deg,#030510,#050814);
-  color:var(--text); font-family:var(--sans); padding:20px;
+  margin:0;
+  background:linear-gradient(180deg,#030510,#050814);
+  color:var(--text);
+  font-family:var(--sans);
+  overflow-x:hidden;
 }
-.wrap{max-width:1700px;margin:auto}
-.grid{display:grid;grid-template-columns:420px 1fr;gap:16px}
-@media(max-width:1200px){.grid{grid-template-columns:1fr}}
+.wrap{max-width:1200px;margin:auto;padding:16px}
+h1{font-weight:300;margin:6px 0 14px 0}
+h1 b{color:var(--accent);font-weight:900}
+
+.topbar{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 10px;border-radius:999px;
+  border:1px solid var(--border);background:rgba(255,255,255,.04);
+  font-size:12px;color:var(--muted);
+}
+.pill b{color:var(--text);font-weight:900}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);box-shadow:0 0 18px rgba(52,211,153,.4)}
+
+.nav{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.nav button{
+  flex:1;min-width:120px;padding:12px;border-radius:10px;
+  border:1px solid var(--border);background:rgba(255,255,255,.04);
+  color:var(--text);font-weight:900;cursor:pointer;transition:0.2s;
+}
+.nav button:active{transform:translateY(1px)}
+.nav button.active{background:rgba(96,165,250,.18);border-color:rgba(96,165,250,.55)}
+
 .card{
-  background:rgba(10,16,34,.86);
+  background:linear-gradient(180deg,var(--panel),rgba(10,16,34,.92));
   border:1px solid var(--border);
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:14px;
+  border-radius:16px;padding:18px;margin-bottom:16px;
+  box-shadow:var(--shadow);
 }
 .cardtitle{
-  font-size:11px; font-weight:900; color:#cbd5e1;
-  text-transform:uppercase; letter-spacing:1px;
-  margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,.08);
-  padding-bottom:8px; display:flex; justify-content:space-between; align-items:center;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-size:12px;font-weight:900;text-transform:uppercase;
+  letter-spacing:1px;color:var(--muted);margin-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:10px;
 }
-.param{margin-bottom:10px}
-.param label{font-size:11px; font-weight:800; color:#dbeafe; display:block; margin-bottom:4px}
-.param input, .param select{
-  width:100%;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
+.cardtitle .right{display:flex;gap:8px;flex-wrap:wrap}
+.smallbtn{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
   color:var(--text);
-  border-radius:8px;
-  padding:7px 8px;
   font-family:var(--mono);
-  font-size:13px;
-}
-.row2{display:grid; grid-template-columns:1fr 1fr; gap:8px}
-.row3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
-.metric-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px}
-.metric{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,.08);
+  font-size:11px;
+  padding:7px 10px;
   border-radius:10px;
-  padding:10px;
+  cursor:pointer;
 }
-.metric .label{font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px}
-.metric .value{font-family:var(--mono); font-size:15px; font-weight:900; margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.smallbtn:hover{border-color:rgba(96,165,250,.55)}
+.smallbtn:active{transform:translateY(1px)}
+
+.slide{display:none}
+.slide.active{display:block}
+
+.row2, .row3{display:grid;gap:14px;margin-bottom:14px}
+.row2{grid-template-columns:1fr 1fr}
+.row3{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:840px){.row2,.row3{grid-template-columns:1fr}}
+
+label{display:block;font-size:11px;font-weight:900;color:var(--accent);margin-bottom:6px}
+input, select, textarea{
+  width:100%;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:10px;
+  padding:10px 11px;
+  font-family:var(--mono);
+  outline:none;
+}
+textarea{min-height:70px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:rgba(96,165,250,.55);box-shadow:0 0 0 3px rgba(96,165,250,.12)}
+.hint{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.35}
+
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+@media(max-width:840px){.metrics{grid-template-columns:repeat(2,1fr)}}
+.metric{
+  background:rgba(255,255,255,.03);
+  padding:12px 12px 10px 12px;
+  border-radius:12px;border:1px solid var(--border)
+}
+.metric .k{font-size:10px;color:var(--muted);margin-bottom:4px}
+.metric .v{font-family:var(--mono);font-size:16px;font-weight:900;color:var(--accent2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.metric .s{font-size:10px;color:var(--muted);margin-top:6px}
+
+.canvasWrap{display:grid;gap:10px}
 canvas{
   width:100%;
   border-radius:12px;
-  margin-top:10px;
-  background:rgba(0,0,0,.22);
-  border:1px solid rgba(255,255,255,0.05);
+  background:#000;
+  border:1px solid var(--border)
 }
-button{
-  width:100%;
-  padding:10px;
-  border-radius:10px;
-  background:rgba(52,211,153,.12);
-  border:1px solid rgba(52,211,153,.28);
-  color:#dcfce7;
-  font-weight:900;
-  cursor:pointer;
-  margin-top:8px;
-  transition:.18s;
+.legend{display:flex;gap:16px;font-size:11px;margin-top:6px;color:var(--muted);flex-wrap:wrap}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+.btn-group{display:flex;gap:10px;flex-wrap:wrap}
+button.action{
+  padding:12px 16px;border-radius:12px;border:none;
+  font-weight:900;cursor:pointer;transition:0.2s;
 }
-button:hover{ background:rgba(52,211,153,.20); }
-button.alt{background:rgba(96,165,250,.12); border-color:rgba(96,165,250,.28); color:#dbeafe}
-button.warn{background:rgba(245,158,11,.12); border-color:rgba(245,158,11,.28); color:#fef3c7}
-button.danger{background:rgba(239,68,68,.12); border-color:rgba(239,68,68,.28); color:#fee2e2}
-.legend{
-  font-size:11px;
-  color:#94a3b8;
-  margin-top:8px;
-  display:flex;
-  justify-content:space-around;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.status-tag { font-size: 10px; padding: 2px 8px; border-radius: 999px; border:1px solid rgba(255,255,255,.12); }
-.status-ok { background: rgba(52,211,153,0.16); color: var(--accent2); }
-.status-fail { background: rgba(239,68,68,0.16); color: var(--danger); }
-.pill{
-  display:inline-flex; align-items:center; gap:8px;
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:999px;
-  padding:7px 10px;
-  margin-top:6px;
-}
-.pill label{margin:0; font-size:11px; color:#cfe3ff; font-weight:800; cursor:pointer}
-.pill input{width:16px;height:16px; cursor:pointer}
-.smallnote{font-size:11px; color:var(--muted); line-height:1.45; margin-top:10px}
-hr.sep{border:none;border-top:1px solid rgba(255,255,255,.08); margin:12px 0}
-.kbd{
-  font-family:var(--mono);
-  font-size:11px;
-  padding:2px 6px;
-  border-radius:6px;
-  border:1px solid rgba(255,255,255,.12);
+button.action:active{transform:translateY(1px)}
+button.primary{background:var(--accent);color:#000}
+button.warn{background:var(--warn);color:#000}
+button.danger{background:var(--danger);color:#000}
+button.ghost{
   background:rgba(255,255,255,.04);
-  color:#e5f0ff;
+  border:1px solid var(--border);
+  color:var(--text);
 }
+
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;
+  padding:7px 10px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.04);
+  color:var(--muted);
+}
+.badge b{color:var(--text)}
+hr.sep{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
 </style>
 </head>
 
 <body>
 <div class="wrap">
-  <h1 style="font-size:22px;font-weight:300;margin:0 0 18px 0;">
-    STUR <span style="font-weight:900;color:var(--accent)">Geometry Matcher</span>
-    <span style="font-size:12px;color:var(--muted)">v3.0 (benchmarks • residuals • mass-scaling • phase diagram)</span>
-  </h1>
-
-  <div class="grid">
-
-    <!-- LEFT: CONTROLS -->
-    <div class="card-stack">
-
-      <div class="card">
-        <div class="cardtitle">System Configuration <span class="status-tag" id="obsStatus">Ready</span></div>
-
-        <div class="param">
-          <label>Benchmark Case</label>
-          <select id="benchSel" onchange="loadBenchmark(this.value)">
-            <option value="">— User Defined —</option>
-            <option value="tonomura">Tonomura (1989) — Electron (50 keV)</option>
-            <option value="zeilinger">Zeilinger (1988) — Neutron (0.02 eV)</option>
-            <option value="bach">Bach (2013) — Electron (600 eV)</option>
-            <option value="planck">Planck Scale (Theoretical) — Alpha (ultra-cold)</option>
-          </select>
-        </div>
-
-        <div class="row2">
-          <div class="param"><label>Energy (eV)</label><input id="eN" type="number" value="600" oninput="compute()"></div>
-          <div class="param"><label>λ (nm)</label><input id="lambdaN" type="number" step="0.000001" oninput="compute()"></div>
-        </div>
-
-        <div class="row3">
-          <div class="param"><label>a (μm)</label><input id="aN" type="number" value="0.062" oninput="compute()"></div>
-          <div class="param"><label>d (μm)</label><input id="dN" type="number" value="0.272" oninput="compute()"></div>
-          <div class="param"><label>L (cm)</label><input id="LN" type="number" value="30" oninput="compute()"></div>
-        </div>
-
-        <div class="smallnote">
-          Tip: for matter waves, <span class="kbd">λ</span> is computed from <span class="kbd">E</span> and mass. For optical you can manually set λ (enable in “Particle”).
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="cardtitle">Particle & Gravity / STUR Engine</div>
-
-        <div class="param">
-          <label>Particle Type</label>
-          <select id="modeSel" onchange="setMode(this.value)">
-            <option value="electron">Electron</option>
-            <option value="neutron">Neutron</option>
-            <option value="alpha">Alpha</option>
-            <option value="optical">Photon (Optical)</option>
-          </select>
-        </div>
-
-        <div class="row2">
-          <div class="param"><label>Rq (base noise)</label><input id="rqN" type="number" step="0.01" value="0.30" oninput="compute()"></div>
-          <div class="param"><label>L₀ (nm)</label><input id="l0N" type="number" value="120" oninput="compute()"></div>
-        </div>
-
-        <div class="pill">
-          <input id="gToggle" type="checkbox" onchange="compute()">
-          <label for="gToggle">Enable Mass-Dependent Scaling</label>
-        </div>
-
-        <div class="param" style="margin-top:10px">
-          <label>Scaling Law</label>
-          <select id="scaleLaw" onchange="compute()">
-            <option value="linear">Linear (m / mₑ)</option>
-            <option value="penrose" selected>Penrose-style (m / mₑ)²</option>
-          </select>
-        </div>
-
-        <div class="metric-grid" style="margin-top:8px">
-          <div class="metric">
-            <div class="label">Effective Rq</div>
-            <div class="value" id="rqEff">—</div>
-          </div>
-          <div class="metric">
-            <div class="label">Mass Effect</div>
-            <div class="value" id="mEff">—</div>
-          </div>
-        </div>
-
-        <div class="smallnote">
-          Scaling applies to <b>Rq only</b>. Use <b>Linear</b> for conservative tests; use <b>Penrose-style</b> for strong gravitational-decoherence heuristics.
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="cardtitle">Falsification Suite</div>
-
-        <div class="row2">
-          <div class="param"><label>Visibility Threshold (Vₜ)</label><input id="vThresh" type="number" step="0.01" value="0.10"></div>
-          <div class="param"><label>Noise Floor (χ² limit)</label><input id="noiseFloor" type="number" step="1e-6" value="1e-4" oninput="compute()"></div>
-        </div>
-
-        <button class="warn" onclick="computeCriticalMass()">⚖ Run Critical Mass Solver</button>
-
-        <div class="metric" style="margin-top:10px;border-color:rgba(245,158,11,.28)">
-          <div class="label">Critical Mass (mᶜ)</div>
-          <div id="mCrit" class="value" style="color:var(--warn)">—</div>
-        </div>
-
-        <div class="row2" style="margin-top:8px">
-          <button class="alt" onclick="exportTrace()">🧾 Export Full Solver Trace</button>
-          <button class="danger" onclick="resetTrace()">Reset Trace</button>
-        </div>
-
-        <div class="smallnote">
-          “Trace” includes: inputs, derived quantities (λ, Rq_eff, massEffect), profiles (y, Q, S, residual), and any solver sweeps done in this session.
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="cardtitle">Phase Diagram <span style="font-size:10px;color:var(--muted)">V(STUR) vs (mass, d)</span></div>
-
-        <div class="row2">
-          <div class="param"><label>log10(mass min) [kg]</label><input id="mMin" type="number" step="0.1" value="-31.0"></div>
-          <div class="param"><label>log10(mass max) [kg]</label><input id="mMax" type="number" step="0.1" value="-19.0"></div>
-        </div>
-
-        <div class="row2">
-          <div class="param"><label>d min (μm)</label><input id="dMin" type="number" step="0.1" value="0.05"></div>
-          <div class="param"><label>d max (μm)</label><input id="dMax" type="number" step="0.1" value="5.0"></div>
-        </div>
-
-        <div class="row2">
-          <div class="param"><label>Resolution (mass steps)</label><input id="mSteps" type="number" step="1" value="48"></div>
-          <div class="param"><label>Resolution (d steps)</label><input id="dSteps" type="number" step="1" value="48"></div>
-        </div>
-
-        <div class="row2">
-          <button class="warn" onclick="computePhaseDiagram()">🧊 Compute Phase Diagram</button>
-          <button class="alt" onclick="exportPhaseDiagram()">📤 Export Phase JSON</button>
-        </div>
-
-        <div class="smallnote">
-          Heatmap uses current <b>E, a, L, Rq, L₀</b>. It varies only <b>mass</b> and <b>slit separation d</b>.  
-          Turn on mass scaling to see the “critical mass” boundary emerge.
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="cardtitle">Molecule Overlays</div>
-
-        <div class="param">
-          <label>Overlay Molecules on Phase Diagram</label>
-          <select id="overlaySel" onchange="renderPhaseDiagramLast()">
-            <option value="off">Off</option>
-            <option value="on" selected>On (C₆₀ + Oligoporphyrin example)</option>
-          </select>
-        </div>
-
-        <div class="row2">
-          <div class="param"><label>C₆₀ mass (amu)</label><input id="amuC60" type="number" value="720" step="1" oninput="renderPhaseDiagramLast()"></div>
-          <div class="param"><label>C₆₀ d (μm)</label><input id="dC60" type="number" value="0.20" step="0.01" oninput="renderPhaseDiagramLast()"></div>
-        </div>
-
-        <div class="row2">
-          <div class="param"><label>Oligoporphyrin mass (amu)</label><input id="amuOligo" type="number" value="25000" step="100" oninput="renderPhaseDiagramLast()"></div>
-          <div class="param"><label>Oligoporphyrin d (μm)</label><input id="dOligo" type="number" value="0.40" step="0.01" oninput="renderPhaseDiagramLast()"></div>
-        </div>
-
-        <div class="smallnote">
-          These are <b>overlay anchors</b> for planning: you can edit mass (amu) and slit separation d (μm) to match your apparatus or published setups.
-        </div>
-      </div>
-
-    </div>
-
-    <!-- RIGHT: OUTPUT -->
-    <div class="card">
-      <div class="cardtitle">Observables & Signal Detection</div>
-
-      <div class="metric-grid">
-        <div class="metric"><div class="label">V(QM)</div><div id="vQM" class="value"></div></div>
-        <div class="metric"><div class="label">V(STUR)</div><div id="vST" class="value"></div></div>
-        <div class="metric"><div class="label">ΔV (loss)</div><div id="vDV" class="value" style="color:var(--accent)"></div></div>
-        <div class="metric"><div class="label">χ² (normalized)</div><div id="chiVal" class="value" style="color:var(--accent2)"></div></div>
-      </div>
-
-      <div class="metric-grid" style="margin-top:8px">
-        <div class="metric"><div class="label">ℓ₍coh₎ (mm)</div><div id="ell" class="value"></div></div>
-        <div class="metric"><div class="label">τ₍coh₎ (fs)</div><div id="tau" class="value"></div></div>
-      </div>
-
-      <canvas id="plot" width="1100" height="420"></canvas>
-      <canvas id="residualPlot" width="1100" height="180"></canvas>
-
-      <div class="legend">
-        <span><b style="color:#2563eb">━━</b> QM Pattern</span>
-        <span><b style="color:#059669">━━</b> STUR / Gravity</span>
-        <span><b style="color:var(--purple)">━━</b> Residual (STUR−QM)</span>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px">
-        <button class="alt" onclick="exportSummary()">📊 Export Summary JSON</button>
-        <button class="alt" onclick="runVisibilitySweep()">📉 Sweep Rq (V)</button>
-        <button class="alt" onclick="exportChiSquaredSweep()">📉 Sweep Rq (χ²)</button>
-      </div>
-
-      <hr class="sep" />
-
-      <div class="cardtitle">Phase Diagram Heatmap <span style="font-size:10px;color:var(--muted)">V(STUR)</span></div>
-      <canvas id="phasePlot" width="1100" height="440"></canvas>
-
-      <div class="legend">
-        <span><b style="color:var(--accent2)">■</b> High visibility</span>
-        <span><b style="color:var(--warn)">■</b> Mid visibility</span>
-        <span><b style="color:var(--danger)">■</b> Low visibility</span>
-        <span><b style="color:#e6edf3">●</b> Molecule overlay points</span>
-      </div>
-
-      <div class="smallnote">
-        The heatmap is a <b>planning surface</b>: it predicts where interference survives as you move to heavier particles or widen slit separation.
-        Use the overlay points to situate known molecular regimes relative to your apparatus.
+  <div class="topbar">
+    <div>
+      <h1>STUR <b>Engine v3</b></h1>
+      <div class="pills">
+        <div class="pill"><span class="dot"></span><span>Status: <b id="statusText">Ready</b></span></div>
+        <div class="pill"><span>λ (de Broglie): <b id="lambdaText">—</b></span></div>
+        <div class="pill"><span>m: <b id="massText">—</b></span></div>
       </div>
     </div>
-
+    <div class="pills">
+      <div class="pill"><span>Exports: <b>Summary + Full Trace</b></span></div>
+      <div class="pill"><span>Core: <b>QM + STUR coherence loss</b></span></div>
+    </div>
   </div>
+
+  <div class="nav" role="tablist" aria-label="Slides">
+    <button class="active" data-slide="0" onclick="showSlide(0)">1. Setup</button>
+    <button data-slide="1" onclick="showSlide(1)">2. Gravity</button>
+    <button data-slide="2" onclick="showSlide(2)">3. Analysis</button>
+    <button data-slide="3" onclick="showSlide(3)">4. Phase Map</button>
+    <button data-slide="4" onclick="showSlide(4)">5. Export</button>
+  </div>
+
+  <!-- Slide 1 -->
+  <div class="card slide active" id="slide0">
+    <div class="cardtitle">
+      <span>Instrument Geometry</span>
+      <div class="right">
+        <button class="smallbtn" onclick="resetDefaults()">Reset Defaults</button>
+        <button class="smallbtn" onclick="compute()">Recompute</button>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label>Particle Source</label>
+        <select id="mode" onchange="compute()">
+          <option value="electron">Electron</option>
+          <option value="neutron">Neutron</option>
+          <option value="alpha">Alpha</option>
+          <option value="c60">Fullerene (C₆₀)</option>
+          <option value="oligo">Oligoporphyrin</option>
+        </select>
+        <div class="hint">Sets mass m used for λ and STUR scaling.</div>
+      </div>
+      <div>
+        <label>Energy (eV)</label>
+        <input id="E_eV" type="number" value="600" step="1" oninput="compute()">
+        <div class="hint">Relativistic momentum is used (safe across electron → macro).</div>
+      </div>
+    </div>
+
+    <div class="row3">
+      <div>
+        <label>Slit Width a (μm)</label>
+        <input id="a_um" type="number" value="0.062" step="0.001" oninput="compute()">
+        <div class="hint">Envelope uses normalized sinc: sin(x)/x.</div>
+      </div>
+      <div>
+        <label>Separation d (μm)</label>
+        <input id="d_um" type="number" value="0.272" step="0.001" oninput="compute()">
+        <div class="hint">Fringe phase φ(y) ∝ d·y/(λL).</div>
+      </div>
+      <div>
+        <label>Distance L (cm)</label>
+        <input id="L_cm" type="number" value="30" step="1" oninput="compute()">
+        <div class="hint">Screen y-range is ±20 mm by default.</div>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label>Screen span (mm)</label>
+        <input id="span_mm" type="number" value="40" step="1" oninput="compute()">
+        <div class="hint">Total horizontal domain, centered at 0.</div>
+      </div>
+      <div>
+        <label>Samples (N)</label>
+        <input id="N" type="number" value="700" step="50" min="200" max="4000" oninput="compute()">
+        <div class="hint">Higher N improves residual structure visibility.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="card slide" id="slide1">
+    <div class="cardtitle">
+      <span>Decoherence Parameters</span>
+      <div class="right">
+        <span class="badge"><b>STUR</b> toggle + scaling</span>
+      </div>
+    </div>
+
+    <div class="row2" style="background:rgba(96,165,250,0.06);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.06);margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <input type="checkbox" id="gOn" onchange="compute()" checked style="width:20px;height:20px;accent-color:#34d399">
+        <span style="font-weight:900">Enable STUR Model</span>
+      </div>
+      <div>
+        <label>Scaling Power</label>
+        <select id="scaleLaw" onchange="compute()">
+          <option value="1">Linear (m¹)</option>
+          <option value="2" selected>Penrose-like (m²)</option>
+        </select>
+        <div class="hint">Effective strength ∝ (m/mₑ)<sup>p</sup>.</div>
+      </div>
+    </div>
+
+    <div class="row3">
+      <div>
+        <label>Rq (Noise Base)</label>
+        <input id="Rq" type="number" value="0.30" step="0.05" oninput="compute()">
+        <div class="hint">Dimensionless; sets coherence-loss amplitude.</div>
+      </div>
+      <div>
+        <label>L₀ Coherence (nm)</label>
+        <input id="L0_nm" type="number" value="120" step="1" oninput="compute()">
+        <div class="hint">Hidden-length clamp: L₀ ≥ ℓ<sub>P</sub>.</div>
+      </div>
+      <div>
+        <label>Environment T (K)</label>
+        <input id="tempK" type="number" value="0" step="1" oninput="compute()">
+        <div class="hint">Optional thermal suppression (heuristic).</div>
+      </div>
+    </div>
+
+    <div class="row3">
+      <div>
+        <label>Detector σ</label>
+        <input id="noiseFloor" type="number" value="1e-4" step="1e-5" oninput="compute()">
+        <div class="hint">Used for reduced χ² on residuals.</div>
+      </div>
+      <div>
+        <label>Vis. Window (mm)</label>
+        <input id="visWin" type="number" value="2" step="0.25" oninput="compute()">
+        <div class="hint">Visibility computed only inside ±window.</div>
+      </div>
+      <div>
+        <label>Residual gain</label>
+        <input id="resGain" type="number" value="50" step="5" oninput="compute()">
+        <div class="hint">Visual scale factor for residual plot.</div>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label>Coherence kernel</label>
+        <select id="kernel" onchange="compute()">
+          <option value="tanh" selected>tanh(u)(1-e^{-u})</option>
+          <option value="exp">1 - e^{-u}</option>
+          <option value="poly">u/(1+u)</option>
+        </select>
+        <div class="hint">Shape-only choice; no fitting. All map u=|θ|/θ₀.</div>
+      </div>
+      <div>
+        <label>Notes (exported)</label>
+        <textarea id="notes" placeholder="Optional notes to include in JSON exports..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="card slide" id="slide2">
+    <div class="cardtitle">
+      <span>Interference Data</span>
+      <div class="right">
+        <button class="smallbtn" onclick="copyJSON('summary')">Copy Summary JSON</button>
+        <button class="smallbtn" onclick="copyJSON('full')">Copy Full JSON</button>
+      </div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="k">V(QM)</div><div id="Vqm" class="v">0</div>
+        <div class="s">Ideal envelope + fringes</div>
+      </div>
+      <div class="metric">
+        <div class="k">V(STUR)</div><div id="Vst" class="v">0</div>
+        <div class="s">Decohered visibility</div>
+      </div>
+      <div class="metric">
+        <div class="k">Loss ΔV</div><div id="dV" class="v">0</div>
+        <div class="s">ΔV = V(QM)-V(STUR)</div>
+      </div>
+      <div class="metric">
+        <div class="k">Reduced χ²</div><div id="chi2" class="v">0</div>
+        <div class="s">From residuals / σ</div>
+      </div>
+    </div>
+
+    <div class="canvasWrap">
+      <canvas id="plot" width="1000" height="360"></canvas>
+      <canvas id="residualPlot" width="1000" height="170"></canvas>
+    </div>
+
+    <div class="legend">
+      <span><i style="background:#2563eb"></i>Quantum (Ideal)</span>
+      <span><i style="background:#34d399"></i>STUR (Decohered)</span>
+      <span><i style="background:#a78bfa"></i>Residual (STUR − QM)</span>
+      <span><i style="background:#64748b"></i>Grid / axes</span>
+    </div>
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="card slide" id="slide3">
+    <div class="cardtitle">
+      <span>Mass-Geometry Phase Map</span>
+      <div class="right">
+        <span class="badge">Heatmap color ∝ <b>V(STUR)</b></span>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label>Mass Range (kg)</label>
+        <div class="row2">
+          <input id="mMin" value="9e-31" oninput="/* no-op */">
+          <input id="mMax" value="1e-22" oninput="/* no-op */">
+        </div>
+        <div class="hint">Log-swept between bounds.</div>
+      </div>
+      <div>
+        <label>Separation d (μm)</label>
+        <div class="row2">
+          <input id="dMin" value="0.05" oninput="/* no-op */">
+          <input id="dMax" value="5" oninput="/* no-op */">
+        </div>
+        <div class="hint">Linear sweep in microns.</div>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label>Grid (N×N)</label>
+        <input id="phaseN" value="44" type="number" min="20" max="120">
+        <div class="hint">Higher N is heavier CPU.</div>
+      </div>
+      <div>
+        <label>Render</label>
+        <button class="action warn" style="width:100%" onclick="computePhaseMap()">Generate Phase Heatmap</button>
+      </div>
+    </div>
+
+    <canvas id="phasePlot" width="1000" height="420"></canvas>
+    <div class="hint">Tip: Turn STUR off to sanity-check map becomes flat (visibility ~ QM normalization).</div>
+  </div>
+
+  <!-- Slide 5 -->
+  <div class="card slide" id="slide4">
+    <div class="cardtitle">
+      <span>Pipeline Export</span>
+      <div class="right">
+        <button class="smallbtn" onclick="downloadPNG()">Download Plot PNG</button>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="action primary" onclick="exportData('summary')">Download JSON Summary</button>
+      <button class="action warn" onclick="exportData('full')">Download Full Trace JSON</button>
+      <button class="action ghost" onclick="exportData('phase')">Download Phase Map JSON</button>
+      <button class="action danger" onclick="exportData('bundle')">Download All (ZIP-free)</button>
+    </div>
+
+    <hr class="sep">
+
+    <div class="row2">
+      <div>
+        <label>What “Summary” contains</label>
+        <div class="hint">
+          Parameters + derived λ + V(QM), V(STUR), ΔV, reduced χ², and compact provenance.
+        </div>
+      </div>
+      <div>
+        <label>What “Full Trace” contains</label>
+        <div class="hint">
+          Everything in Summary plus arrays: y(mm), Q(y), S(y), residual R(y), and the screen-domain settings.
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
-/* =========================
-   CONSTANTS
-   ========================= */
-const h = 6.62607015e-34;
-const eVJ = 1.602176634e-19;
-const C = 299792458;
-const PLANCK_L = 1.616255e-35;
-const AMU = 1.66053906660e-27;
+/* ============================================================
+   Constants + helpers
+   ============================================================ */
+const h=6.62607015e-34, c=299792458, kB=1.380649e-23, hbar=h/(2*Math.PI);
+const eV=1.602176634e-19, PLANCK_L=1.616255e-35;
 
-const masses = {
-  electron: 9.1093837e-31,
-  neutron: 1.6749274e-27,
-  alpha: 6.6446572e-27,
-  optical: 0
+const masses={
+  electron:9.10938e-31,
+  neutron:1.67492e-27,
+  alpha:6.64465e-27,
+  c60:1.195e-24,
+  oligo:1.5e-23
 };
 
-let mode = "electron";
-
-/* ========= OPERATORS ========= */
-const S_u = u => Math.tanh(u) * (1 - Math.exp(-u));
-const sinc = x => Math.abs(x) < 1e-12 ? 1 : Math.sin(Math.PI * x) / (Math.PI * x);
-
-/* ========= STATE / TRACE ========= */
-let lastProfiles = null;
-let solverTrace = {
-  runs: [],     // each compute() capture
-  sweeps: []    // visibility/chi2/critical-mass/phase sweeps
+const clamp = (x,a,b)=>Math.max(a,Math.min(b,x));
+const nowISO = ()=>new Date().toISOString();
+const fmtSI = (x)=> {
+  if(!isFinite(x)) return "∞";
+  const ax=Math.abs(x);
+  if(ax===0) return "0";
+  if(ax>=1e3 || ax<1e-2) return x.toExponential(3);
+  return x.toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
 };
-let lastPhase = null;
 
-/* =========================
-   BENCHMARKS & MODE
-   ========================= */
-function setMode(m){
-  mode = m;
-  modeSel.value = m;
-  // Allow λ edits only for optical
-  lambdaN.disabled = (mode !== "optical");
-  compute();
+function setStatus(t){ document.getElementById('statusText').textContent = t; }
+
+/* Correct normalized sinc: sin(x)/x (NOT sin(pi x)/(pi x)) */
+function sinc(x){ return (Math.abs(x)<1e-12) ? 1 : Math.sin(x)/x; }
+
+/* Kernel family for coherence loss */
+function kernel(u, kind){
+  u = Math.max(0,u);
+  if(kind==="exp")  return (1 - Math.exp(-u));
+  if(kind==="poly") return (u/(1+u));
+  /* default: tanh(u)(1-e^{-u}) */
+  return Math.tanh(u) * (1 - Math.exp(-u));
 }
 
-function loadBenchmark(k){
-  if(k==="tonomura"){ setMode("electron"); eN.value=50000; aN.value=1; dN.value=10;   LN.value=150; rqN.value=0.30; l0N.value=120; gToggle.checked=false; scaleLaw.value="penrose"; }
-  if(k==="zeilinger"){ setMode("neutron"); eN.value=0.02;  aN.value=100; dN.value=1200; LN.value=120; rqN.value=0.30; l0N.value=120; gToggle.checked=false; scaleLaw.value="penrose"; }
-  if(k==="bach"){ setMode("electron"); eN.value=600; aN.value=0.062; dN.value=0.272; LN.value=30; rqN.value=0.30; l0N.value=120; gToggle.checked=false; scaleLaw.value="penrose"; }
-  if(k==="planck"){ setMode("alpha"); eN.value=1e-3; aN.value=50; dN.value=200; LN.value=100; l0N.value=1e-6; rqN.value=1.5; gToggle.checked=true; scaleLaw.value="penrose"; }
-  compute();
+/* Robust download helper */
+function downloadText(filename, text, mime="application/json"){
+  const blob = new Blob([text], {type:mime});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 800);
 }
 
-/* =========================
-   CORE: COMPUTE
-   - overrideMassKg: number|null
-   - overrideD_um: number|null
-   - silentTrace: boolean (don’t append trace)
-   ========================= */
-function compute(N=501, overrideMassKg=null, overrideD_um=null, silentTrace=false){
-  const m_p = overrideMassKg ?? masses[mode];
-  const E_eV = parseFloat(eN.value);
-
-  // Wavelength
-  let lambda_m = parseFloat(lambdaN.value) * 1e-9;
-  if(mode !== "optical"){
-    // non-relativistic de Broglie
-    lambda_m = h / Math.sqrt(2 * m_p * E_eV * eVJ);
-    lambdaN.value = (lambda_m * 1e9).toFixed(6);
+/* Clipboard helper */
+async function copyToClipboard(text){
+  try{
+    await navigator.clipboard.writeText(text);
+    setStatus("Copied");
+    setTimeout(()=>setStatus("Ready"), 900);
+  }catch(e){
+    // Fallback
+    const ta=document.createElement('textarea');
+    ta.value=text; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); ta.remove();
+    setStatus("Copied");
+    setTimeout(()=>setStatus("Ready"), 900);
   }
-
-  const a = parseFloat(aN.value) * 1e-6;
-  const d = (overrideD_um ?? parseFloat(dN.value)) * 1e-6;
-  const L = parseFloat(LN.value) * 1e-2;
-  const L0 = parseFloat(l0N.value) * 1e-9;
-
-  // Mass scaling (Rq only)
-  let massEffect = 1;
-  let p = 0;
-  if(gToggle.checked && mode !== "optical"){
-    p = (scaleLaw.value === "linear") ? 1 : 2;
-    massEffect = Math.pow(m_p / masses.electron, p);
-  }
-  const Rq_base = parseFloat(rqN.value);
-  const Rq_eff = Rq_base * massEffect;
-
-  // UI readouts
-  rqEff.textContent = isFinite(Rq_eff) ? Rq_eff.toExponential(3) : "—";
-  mEff.textContent = (gToggle.checked && mode !== "optical")
-    ? `${massEffect.toExponential(3)} (p=${p})`
-    : "1.000 (off)";
-
-  // Build profiles
-  const Y_HALF = 0.025; // meters
-  const y_mm = [], Iq = [], Is = [];
-
-  for(let i=0; i<N; i++){
-    const yy = -Y_HALF + 2*Y_HALF*i/(N-1);
-
-    const env = sinc(a * yy / (lambda_m * L)) ** 2;
-    const phase = (2 * Math.PI / lambda_m) * (d * yy / L);
-
-    const u = Math.abs(d * yy / L) / Math.max(L0, PLANCK_L);
-    const rs = Rq_eff * S_u(u);
-
-    const coh = Math.exp(-rs);
-    const damp = Math.exp(-0.5 * rs * rs);
-
-    Iq.push(env * Math.cos(phase/2)**2);
-    Is.push(2 * env * coh * coh * (1 + Math.cos(phase) * damp));
-    y_mm.push(yy * 1000);
-  }
-
-  const norm = arr => {
-    const mx = Math.max(...arr);
-    const safe = (mx > 0 && isFinite(mx)) ? mx : 1;
-    return arr.map(v => v / safe);
-  };
-  const Q = norm(Iq);
-  const S = norm(Is);
-  const R = S.map((v,i)=> v - Q[i]);
-
-  // Normalized χ² (arb.)
-  const chi2 = S.reduce((acc, v, i) => acc + (v - Q[i])**2, 0) / N;
-  chiVal.textContent = isFinite(chi2) ? chi2.toExponential(3) : "—";
-
-  // Visibility (center window)
-  const getVis = arr => {
-    const mid = Math.floor(N/2);
-    const w = 20;
-    const c = arr.slice(Math.max(0, mid-w), Math.min(N, mid+w));
-    const mx = Math.max(...c), mn = Math.min(...c);
-    const den = (mx + mn);
-    return den > 0 ? (mx - mn) / den : 0;
-  };
-  const vqm = getVis(Q);
-  const vst = getVis(S);
-  vQM.textContent = vqm.toFixed(4);
-  vST.textContent = vst.toFixed(4);
-  vDV.textContent = (vst - vqm).toFixed(4);
-
-  // Coherence scale ℓ_coh via Rq_eff*S(u) >= 1
-  let ucoh = Infinity;
-  for(let u=0; u<50; u+=0.001){
-    if(Rq_eff * S_u(u) >= 1){ ucoh = u; break; }
-  }
-  const ell_m = L * Math.max(L0, PLANCK_L) / d * ucoh;
-  ell.textContent = isFinite(ell_m) ? (ell_m*1000).toFixed(3) : "∞";
-  tau.textContent = isFinite(ell_m) ? (ell_m/C*1e15).toFixed(2) : "∞";
-
-  // Status vs noise floor
-  const floor = parseFloat(noiseFloor.value);
-  const status = document.getElementById('obsStatus');
-  if(isFinite(chi2) && isFinite(floor) && chi2 > floor){
-    status.textContent = "SIGNAL DETECTABLE";
-    status.className = "status-tag status-ok";
-  }else{
-    status.textContent = "BELOW NOISE FLOOR";
-    status.className = "status-tag status-fail";
-  }
-
-  // Save
-  lastProfiles = {
-    meta: {
-      mode,
-      overrideMassKg,
-      overrideD_um,
-      E_eV,
-      lambda_nm: lambda_m*1e9,
-      a_um: parseFloat(aN.value),
-      d_um: (d*1e6),
-      L_cm: parseFloat(LN.value),
-      Rq_base,
-      massEffect,
-      scalingExponent: p,
-      Rq_eff,
-      L0_nm: parseFloat(l0N.value),
-      chi2,
-      vqm,
-      vst,
-      deltaV: (vst-vqm),
-      ell_mm: isFinite(ell_m)? ell_m*1000 : Infinity,
-      tau_fs: isFinite(ell_m)? (ell_m/C*1e15) : Infinity
-    },
-    y_mm,
-    Q, S,
-    residual: R
-  };
-
-  drawPlot(y_mm, Q, S);
-  drawResiduals(y_mm, R);
-
-  // Trace capture
-  if(!silentTrace){
-    solverTrace.runs.push({
-      t: new Date().toISOString(),
-      meta: lastProfiles.meta
-    });
-  }
-
-  return { vqm, vst, chi2, Rq_eff, massEffect };
 }
 
-/* =========================
-   PLOTS
-   ========================= */
-function drawPlot(x, q, s){
-  const ctx = plot.getContext("2d");
-  ctx.clearRect(0,0,plot.width,plot.height);
+function showSlide(n){
+  document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active', i===n));
+  document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active', i===n));
+  // accessibility-ish: mark pressed
+  document.querySelectorAll('.nav button').forEach((b,i)=>b.setAttribute('aria-selected', i===n ? 'true':'false'));
+}
 
-  const pad=60, w=plot.width-pad*2, h=plot.height-pad*2;
+/* ============================================================
+   Core solver (QM vs STUR)
+   - QM: single-slit envelope * double-slit fringes
+   - STUR: visibility loss via a coherence factor coh(u)
+   ============================================================ */
+function solveCore(m, d_in_um){
+  const E = parseFloat(document.getElementById('E_eV').value)*eV;
+  const a = parseFloat(document.getElementById('a_um').value)*1e-6;
+  const d = d_in_um*1e-6;
+  const L = parseFloat(document.getElementById('L_cm').value)*0.01;
 
-  // Auto-span centered on fringe scale
-  const lambda_m = parseFloat(lambdaN.value) * 1e-9;
-  const L = parseFloat(LN.value) * 1e-2;
-  const d = parseFloat(dN.value) * 1e-6;
-  const span_m = 5 * (lambda_m * L) / Math.max(d, 1e-30);
-  const xmin = -span_m*1000, xmax = span_m*1000;
+  // Relativistic momentum p = sqrt(E^2 + 2 E m c^2)/c  (E is kinetic energy in Joules)
+  const p = Math.sqrt(E*E + 2*E*m*c*c)/c;
+  const lambda = h/p;
 
-  const mX = v => pad + (v - xmin) * w / (xmax - xmin);
-  const mY = v => pad + h * (1 - v);
+  const L0 = Math.max(parseFloat(document.getElementById('L0_nm').value)*1e-9, PLANCK_L);
+  const RqBase = parseFloat(document.getElementById('Rq').value);
+  const gOn = document.getElementById('gOn').checked;
+  const pwr = parseFloat(document.getElementById('scaleLaw').value);
+  const T = parseFloat(document.getElementById('tempK').value);
+  const kind = document.getElementById('kernel').value;
 
-  const drawLine = (arr, color, dash=[]) => {
-    ctx.lineWidth=2;
-    ctx.strokeStyle=color;
-    ctx.setLineDash(dash);
-    ctx.beginPath();
-    let first=true;
-    for(let i=0;i<x.length;i++){
-      const xv = x[i];
-      if(xv < xmin || xv > xmax) continue;
-      const X = mX(xv), Y = mY(arr[i]);
-      if(first){ ctx.moveTo(X,Y); first=false; } else { ctx.lineTo(X,Y); }
+  // STUR effective strength
+  const rqEff = gOn ? (RqBase * Math.pow(m/masses.electron, pwr)) : 0;
+
+  // optional thermal attenuation (heuristic length)
+  const ellTh = (T>0) ? (hbar*c)/(kB*T) : Infinity;
+
+  const span_mm = parseFloat(document.getElementById('span_mm').value);
+  const N = Math.max(200, Math.floor(parseFloat(document.getElementById('N').value) || 700));
+
+  const y = new Array(N);
+  const Q = new Array(N);
+  const S = new Array(N);
+  const R = new Array(N);
+
+  let qMax = 0, sMax = 0;
+
+  // map screen coordinate to angle: theta ≈ y/L, and phase phi ≈ (2π/λ)*d*theta
+  // u uses angular separation scaled by L0: u = |d*theta|/L0
+  const yMin = -0.5*span_mm*1e-3;
+  const yMax =  0.5*span_mm*1e-3;
+
+  for(let i=0;i<N;i++){
+    const yy = yMin + (yMax-yMin)*i/(N-1); // meters
+
+    // Single-slit envelope: sinc(beta)^2 with beta = (π a / λ) sinθ, small-angle -> sinθ ~ θ = y/L.
+    const theta = yy / L;
+    const beta = Math.PI * a * theta / lambda;
+    const env = Math.pow(sinc(beta), 2);
+
+    const phi = (2*Math.PI/lambda) * (d * theta);
+
+    // u = |d*theta|/L0 ; kernel(u) is shape-only
+    const u = Math.abs(d*theta) / L0;
+
+    // coherence factor in [0,1]
+    let coh = Math.exp(-rqEff * kernel(u, kind));
+    if(T>0 && isFinite(ellTh)) coh *= Math.exp(-Math.abs(yy)/ellTh);
+
+    // QM (normalized later): envelope * interference
+    // Use classic: I = env * (1 + cos(phi)) / 2   (equivalent to cos^2(phi/2))
+    const iQ = env * (1 + Math.cos(phi)) * 0.5;
+
+    // STUR: suppress the interference term only (physically: loss of coherence kills cosine contrast)
+    // I_STUR = env * [1 + coh * cos(phi)] / 2
+    const iS = env * (1 + coh * Math.cos(phi)) * 0.5;
+
+    y[i] = yy*1000; // mm for display/export
+    Q[i] = iQ;
+    S[i] = iS;
+
+    if(iQ>qMax) qMax=iQ;
+    if(iS>sMax) sMax=iS;
+  }
+
+  // normalize to max=1 for each
+  for(let i=0;i<N;i++){
+    Q[i] = qMax>0 ? Q[i]/qMax : 0;
+    S[i] = sMax>0 ? S[i]/sMax : 0;
+    R[i] = S[i] - Q[i];
+  }
+
+  // visibility in window
+  const win = parseFloat(document.getElementById('visWin').value);
+  let v_qMin=1, v_qMax=0, v_sMin=1, v_sMax=0;
+  for(let i=0;i<N;i++){
+    if(Math.abs(y[i]) <= win){
+      v_qMin = Math.min(v_qMin, Q[i]); v_qMax = Math.max(v_qMax, Q[i]);
+      v_sMin = Math.min(v_sMin, S[i]); v_sMax = Math.max(v_sMax, S[i]);
     }
-    ctx.stroke();
-    ctx.setLineDash([]);
-  };
+  }
+  const vqm = (v_qMax-v_qMin) / (v_qMax+v_qMin || 1);
+  const vst = (v_sMax-v_sMin) / (v_sMax+v_sMin || 1);
 
-  drawLine(q, "#2563eb", []);
-  drawLine(s, "#059669", [6,4]);
+  // reduced chi2 based on residuals and detector sigma
+  const sigma = Math.max(1e-12, parseFloat(document.getElementById('noiseFloor').value));
+  let ss=0;
+  for(let i=0;i<N;i++) ss += (R[i]*R[i])/(sigma*sigma);
+  const chi2 = ss / Math.max(1,(N-1));
+
+  return { y, Q, S, R, vqm, vst, chi2, lambda, rqEff, L0, p, thetaSpan: span_mm };
 }
 
-function drawResiduals(x, r){
-  const ctx = residualPlot.getContext("2d");
-  ctx.clearRect(0,0,residualPlot.width,residualPlot.height);
+/* ============================================================
+   Plotting (canvas)
+   ============================================================ */
+function drawAxes(ctx, W, H, pad, xMin, xMax, yMin, yMax, title){
+  ctx.save();
+  ctx.clearRect(0,0,W,H);
 
-  const pad=45, w=residualPlot.width-pad*2, h=residualPlot.height-pad*2;
+  // background
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0,0,W,H);
 
-  // Match span with main plot
-  const lambda_m = parseFloat(lambdaN.value) * 1e-9;
-  const L = parseFloat(LN.value) * 1e-2;
-  const d = parseFloat(dN.value) * 1e-6;
-  const span_m = 5 * (lambda_m * L) / Math.max(d, 1e-30);
-  const xmin = -span_m*1000, xmax = span_m*1000;
+  // grid
+  ctx.strokeStyle = "rgba(255,255,255,.08)";
+  ctx.lineWidth = 1;
 
-  const rmax = Math.max(...r.map(v=>Math.abs(v)), 1e-3);
-  const mX = v => pad + (v - xmin) * w / (xmax - xmin);
-  const mY = v => pad + h * (0.5 - v/(2*rmax));
+  const nx=10, ny=6;
+  for(let i=0;i<=nx;i++){
+    const x = pad + (W-2*pad)*i/nx;
+    ctx.beginPath(); ctx.moveTo(x, pad); ctx.lineTo(x, H-pad); ctx.stroke();
+  }
+  for(let j=0;j<=ny;j++){
+    const y = pad + (H-2*pad)*j/ny;
+    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(W-pad, y); ctx.stroke();
+  }
+
+  // border box
+  ctx.strokeStyle = "rgba(255,255,255,.18)";
+  ctx.lineWidth = 1.2;
+  ctx.strokeRect(pad, pad, W-2*pad, H-2*pad);
+
+  // labels
+  ctx.fillStyle = "rgba(255,255,255,.70)";
+  ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+  ctx.fillText(title, pad, 18);
+
+  ctx.fillStyle = "rgba(255,255,255,.55)";
+  ctx.font = "11px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+  ctx.fillText(`${xMin.toFixed(1)} mm`, pad, H-10);
+  const xMid = (xMin+xMax)/2;
+  ctx.fillText(`${xMid.toFixed(1)} mm`, pad + 0.5*(W-2*pad) - 30, H-10);
+  ctx.fillText(`${xMax.toFixed(1)} mm`, W-pad-60, H-10);
+
+  ctx.fillText(`${yMax.toFixed(2)}`, 6, pad+4);
+  ctx.fillText(`${((yMin+yMax)/2).toFixed(2)}`, 6, pad + 0.5*(H-2*pad));
+  ctx.fillText(`${yMin.toFixed(2)}`, 6, H-pad);
+
+  ctx.restore();
+}
+
+function drawMain(res){
+  const ctx = document.getElementById('plot').getContext('2d');
+  const rctx = document.getElementById('residualPlot').getContext('2d');
+
+  const W=1000, H=360, rW=1000, rH=170, pad=44;
+
+  const xMin = res.y[0], xMax = res.y[res.y.length-1];
+
+  // Main axes
+  drawAxes(ctx, W, H, pad, xMin, xMax, 0, 1, "Intensity (normalized) — QM vs STUR");
+
+  const mX = x => pad + (x-xMin)*(W-2*pad)/(xMax-xMin);
+  const mY = y => pad + (H-2*pad)*(1-y);
+
+  // QM
+  ctx.strokeStyle='#2563eb';
+  ctx.lineWidth=2.2;
+  ctx.beginPath();
+  for(let i=0;i<res.y.length;i++){
+    const x=mX(res.y[i]), y=mY(res.Q[i]);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+
+  // STUR
+  ctx.strokeStyle='#34d399';
+  ctx.lineWidth=2.2;
+  ctx.setLineDash([6,4]);
+  ctx.beginPath();
+  for(let i=0;i<res.y.length;i++){
+    const x=mX(res.y[i]), y=mY(res.S[i]);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Residual axes (centered)
+  const rGain = parseFloat(document.getElementById('resGain').value);
+  drawAxes(rctx, rW, rH, pad, xMin, xMax, -1, 1, `Residual (STUR − QM) × ${rGain}`);
+
+  const rX = x => pad + (x-xMin)*(rW-2*pad)/(xMax-xMin);
+  const rY = v => pad + (rH-2*pad)*(1-(0.5 + 0.5*clamp(v, -1, 1)));
 
   // zero line
-  ctx.strokeStyle="rgba(255,255,255,0.12)";
-  ctx.lineWidth=1;
-  ctx.beginPath();
-  ctx.moveTo(pad, mY(0));
-  ctx.lineTo(pad+w, mY(0));
-  ctx.stroke();
+  rctx.strokeStyle="rgba(255,255,255,.20)";
+  rctx.lineWidth=1.2;
+  rctx.beginPath();
+  rctx.moveTo(pad, rY(0));
+  rctx.lineTo(rW-pad, rY(0));
+  rctx.stroke();
 
   // residual
-  ctx.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--purple') || "#a78bfa";
-  ctx.lineWidth=1.6;
-  ctx.beginPath();
-  let first=true;
-  for(let i=0;i<x.length;i++){
-    const xv = x[i];
-    if(xv < xmin || xv > xmax) continue;
-    const X=mX(xv), Y=mY(r[i]);
-    if(first){ ctx.moveTo(X,Y); first=false; } else { ctx.lineTo(X,Y); }
+  rctx.strokeStyle='#a78bfa';
+  rctx.lineWidth=2.0;
+  rctx.beginPath();
+  for(let i=0;i<res.y.length;i++){
+    const x=rX(res.y[i]);
+    const v=res.R[i]*rGain;
+    const y=rY(v);
+    if(i===0) rctx.moveTo(x,y); else rctx.lineTo(x,y);
   }
-  ctx.stroke();
+  rctx.stroke();
 }
 
-/* =========================
-   EXPORTS
-   ========================= */
-function downloadJSON(obj, name){
-  const b=new Blob([JSON.stringify(obj,null,2)],{type:"application/json"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(b); a.download=name; a.click();
-}
+/* ============================================================
+   UI compute + exports
+   ============================================================ */
+let lastRes = null;
+let lastPhase = null;
 
-function exportSummary(){
-  if(!lastProfiles) return;
-  downloadJSON({
-    summary: lastProfiles.meta,
-    note: "Summary export only. Use Export Full Solver Trace for full pipelines."
-  }, "stur_geometry_summary.json");
-}
-
-function exportTrace(){
-  downloadJSON(solverTrace, "stur_solver_trace.json");
-}
-
-function resetTrace(){
-  solverTrace = { runs: [], sweeps: [] };
-  alert("Trace cleared.");
-}
-
-function runVisibilitySweep(){
-  const origRq = parseFloat(rqN.value);
-  const out = [];
-  for(let r=0; r<=2.5+1e-9; r+=0.05){
-    rqN.value = r.toFixed(2);
-    const res = compute(501, null, null, true);
-    out.push({ Rq_base: r, Rq_eff: res.Rq_eff, massEffect: res.massEffect, V_STUR: res.vst, chi2: res.chi2 });
-  }
-  rqN.value = origRq;
-  compute();
-
-  solverTrace.sweeps.push({
-    t: new Date().toISOString(),
-    type: "visibility_vs_rq",
-    params: snapshotParams(),
-    data: out
-  });
-
-  downloadJSON(out, "stur_visibility_vs_rq.json");
-}
-
-function exportChiSquaredSweep(){
-  const origRq = parseFloat(rqN.value);
-  const out = [];
-  for(let r=0; r<=2.5+1e-9; r+=0.05){
-    rqN.value = r.toFixed(2);
-    const res = compute(501, null, null, true);
-    out.push({ Rq_base: r, Rq_eff: res.Rq_eff, massEffect: res.massEffect, chi2: res.chi2, V_STUR: res.vst });
-  }
-  rqN.value = origRq;
-  compute();
-
-  solverTrace.sweeps.push({
-    t: new Date().toISOString(),
-    type: "chi2_vs_rq",
-    params: snapshotParams(),
-    data: out
-  });
-
-  downloadJSON(out, "stur_chi2_vs_rq.json");
-}
-
-function snapshotParams(){
+function readParams(){
   return {
-    mode,
-    E_eV: +eN.value,
-    lambda_nm: +lambdaN.value,
-    a_um: +aN.value,
-    d_um: +dN.value,
-    L_cm: +LN.value,
-    Rq_base: +rqN.value,
-    L0_nm: +l0N.value,
-    massScalingEnabled: !!gToggle.checked,
-    scaleLaw: scaleLaw.value,
-    noiseFloor: +noiseFloor.value,
-    vThresh: +vThresh.value
+    mode: document.getElementById('mode').value,
+    E_eV: parseFloat(document.getElementById('E_eV').value),
+    a_um: parseFloat(document.getElementById('a_um').value),
+    d_um: parseFloat(document.getElementById('d_um').value),
+    L_cm: parseFloat(document.getElementById('L_cm').value),
+    span_mm: parseFloat(document.getElementById('span_mm').value),
+    N: Math.floor(parseFloat(document.getElementById('N').value)),
+    stur_on: document.getElementById('gOn').checked,
+    scale_power: parseFloat(document.getElementById('scaleLaw').value),
+    Rq_base: parseFloat(document.getElementById('Rq').value),
+    L0_nm: parseFloat(document.getElementById('L0_nm').value),
+    tempK: parseFloat(document.getElementById('tempK').value),
+    sigma: parseFloat(document.getElementById('noiseFloor').value),
+    visWin_mm: parseFloat(document.getElementById('visWin').value),
+    resGain: parseFloat(document.getElementById('resGain').value),
+    kernel: document.getElementById('kernel').value,
+    notes: (document.getElementById('notes').value || "").trim()
   };
 }
 
-/* =========================
-   CRITICAL MASS SOLVER
-   ========================= */
-function computeCriticalMass(){
-  const v_t = parseFloat(vThresh.value);
-  const m_e = masses.electron;
+function compute(){
+  try{
+    setStatus("Computing…");
+    const params = readParams();
+    const m = masses[params.mode];
+    const res = solveCore(m, params.d_um);
 
-  const oldMode = mode;
-  const oldToggle = gToggle.checked;
-  gToggle.checked = true; // enforce scaling in solver
+    lastRes = res;
 
-  let found = false;
-  let m = m_e;
-  const steps = 1400; // log sweep
+    document.getElementById('Vqm').textContent = res.vqm.toFixed(4);
+    document.getElementById('Vst').textContent = res.vst.toFixed(4);
+    document.getElementById('dV').textContent  = (res.vqm - res.vst).toFixed(4);
+    document.getElementById('chi2').textContent = res.chi2.toExponential(2);
 
-  const results = [];
-  for(let i=0; i<steps; i++){
-    m = m_e * Math.pow(10, i * 0.01); // ~ 10^14 range
-    const res = compute(401, m, null, true);
-    results.push({ mass_kg: m, V_STUR: res.vst, chi2: res.chi2, Rq_eff: res.Rq_eff, massEffect: res.massEffect });
+    document.getElementById('lambdaText').textContent = `${fmtSI(res.lambda*1e9)} nm`;
+    document.getElementById('massText').textContent = `${fmtSI(m)} kg`;
 
-    if(res.vst <= v_t){
-      found = true;
-      break;
-    }
+    drawMain(res);
+    setStatus("Ready");
+  }catch(e){
+    console.error(e);
+    setStatus("Error");
   }
-
-  mCrit.textContent = found ? `${m.toExponential(3)} kg` : "No collapse in sweep";
-  gToggle.checked = oldToggle;
-  mode = oldMode;
-  modeSel.value = oldMode;
-  compute();
-
-  solverTrace.sweeps.push({
-    t: new Date().toISOString(),
-    type: "critical_mass_solver",
-    params: snapshotParams(),
-    threshold: v_t,
-    found,
-    result_mass_kg: found ? m : null,
-    data: results
-  });
 }
 
-/* =========================
-   PHASE DIAGRAM
-   (mass, d) -> V_STUR
-   ========================= */
-function computePhaseDiagram(){
-  const logMin = parseFloat(mMin.value);
-  const logMax = parseFloat(mMax.value);
-  const dmin = parseFloat(dMin.value);
-  const dmax = parseFloat(dMax.value);
-  let Ms = Math.max(8, Math.min(120, parseInt(mSteps.value || 48, 10)));
-  let Ds = Math.max(8, Math.min(120, parseInt(dSteps.value || 48, 10)));
-  mSteps.value = Ms; dSteps.value = Ds;
-
-  const massesLog = [];
-  for(let i=0;i<Ms;i++){
-    massesLog.push(logMin + (logMax-logMin)*i/(Ms-1));
-  }
-
-  const ds = [];
-  for(let j=0;j<Ds;j++){
-    ds.push(dmin + (dmax-dmin)*j/(Ds-1));
-  }
-
-  // compute grid
-  const grid = new Array(Ms);
-  for(let i=0;i<Ms;i++){
-    const mkg = Math.pow(10, massesLog[i]);
-    grid[i] = new Array(Ds);
-    for(let j=0;j<Ds;j++){
-      const d_um = ds[j];
-      const res = compute(301, mkg, d_um, true);
-      grid[i][j] = res.vst; // visibility
+function buildExport(type){
+  const params = readParams();
+  const m = masses[params.mode];
+  const base = {
+    schema: "stur-engine-v3",
+    exported_at: nowISO(),
+    type,
+    params,
+    derived: {
+      mass_kg: m,
+      lambda_m: lastRes?.lambda ?? null,
+      lambda_nm: lastRes?.lambda ? lastRes.lambda*1e9 : null,
+      rq_eff: lastRes?.rqEff ?? null,
+      L0_m: lastRes?.L0 ?? null
+    },
+    metrics: {
+      V_qm: lastRes?.vqm ?? null,
+      V_stur: lastRes?.vst ?? null,
+      dV: (lastRes ? (lastRes.vqm - lastRes.vst) : null),
+      reduced_chi2: lastRes?.chi2 ?? null
     }
-  }
-
-  lastPhase = {
-    t: new Date().toISOString(),
-    params: snapshotParams(),
-    log10_mass_min: logMin,
-    log10_mass_max: logMax,
-    d_um_min: dmin,
-    d_um_max: dmax,
-    mSteps: Ms,
-    dSteps: Ds,
-    massesLog,
-    ds_um: ds,
-    V: grid
   };
 
-  solverTrace.sweeps.push({
-    t: lastPhase.t,
-    type: "phase_diagram",
-    params: lastPhase.params,
-    shape: [Ms, Ds]
-  });
+  if(type==="full" || type==="bundle"){
+    base.trace = {
+      y_mm: lastRes?.y ?? [],
+      I_qm: lastRes?.Q ?? [],
+      I_stur: lastRes?.S ?? [],
+      residual: lastRes?.R ?? []
+    };
+  }
 
-  renderPhaseDiagramLast();
+  if((type==="phase" || type==="bundle") && lastPhase){
+    base.phase = lastPhase;
+  }
+
+  return base;
 }
 
-function exportPhaseDiagram(){
-  if(!lastPhase){
-    alert("Compute phase diagram first.");
+function exportData(type){
+  if(!lastRes) compute();
+
+  if(type==="bundle"){
+    const summary = buildExport("summary");
+    const full = buildExport("full");
+    const phase = buildExport("phase");
+    downloadText("stur_summary.json", JSON.stringify(summary, null, 2));
+    downloadText("stur_fulltrace.json", JSON.stringify(full, null, 2));
+    downloadText("stur_phase.json", JSON.stringify(phase, null, 2));
+    setStatus("Exported");
+    setTimeout(()=>setStatus("Ready"), 900);
     return;
   }
-  downloadJSON(lastPhase, "stur_phase_diagram_visibility.json");
+
+  const data = buildExport(type);
+  const fname = (type==="summary") ? "stur_summary.json"
+              : (type==="full")    ? "stur_fulltrace.json"
+              : (type==="phase")   ? "stur_phase.json"
+              : `stur_${type}.json`;
+  downloadText(fname, JSON.stringify(data, null, 2));
+  setStatus("Exported");
+  setTimeout(()=>setStatus("Ready"), 900);
 }
 
-function renderPhaseDiagramLast(){
-  const ctx = phasePlot.getContext("2d");
-  ctx.clearRect(0,0,phasePlot.width,phasePlot.height);
-
-  if(!lastPhase){
-    // placeholder
-    ctx.fillStyle="rgba(255,255,255,0.6)";
-    ctx.font="14px " + getComputedStyle(document.documentElement).getPropertyValue('--sans');
-    ctx.fillText("Compute Phase Diagram to render heatmap.", 24, 40);
-    return;
-  }
-
-  const { massesLog, ds_um, V } = lastPhase;
-  const Ms = massesLog.length;
-  const Ds = ds_um.length;
-
-  const padL=70, padR=18, padT=18, padB=55;
-  const W = phasePlot.width - padL - padR;
-  const H = phasePlot.height - padT - padB;
-
-  // draw heatmap cells
-  const cellW = W / Ds;
-  const cellH = H / Ms;
-
-  // color map: V in [0,1] -> red -> amber -> green
-  function colorFor(v){
-    const x = Math.max(0, Math.min(1, v));
-    // piecewise: [0,0.5] red->amber, [0.5,1] amber->green
-    let r,g,b;
-    if(x < 0.5){
-      const t = x/0.5;
-      r = 239;
-      g = Math.round(68 + t*(158-68)); // 68->158
-      b = Math.round(68 + t*(11-68));  // 68->11
-    }else{
-      const t = (x-0.5)/0.5;
-      r = Math.round(245 + t*(52-245)); // 245->52
-      g = Math.round(158 + t*(211-158)); // 158->211
-      b = Math.round(11 + t*(153-11)); // 11->153
-    }
-    return `rgb(${r},${g},${b})`;
-  }
-
-  // heatmap: rows mass (low->high), cols d (min->max)
-  for(let i=0;i<Ms;i++){
-    for(let j=0;j<Ds;j++){
-      ctx.fillStyle = colorFor(V[i][j]);
-      const x = padL + j*cellW;
-      const y = padT + (Ms-1-i)*cellH; // invert so low mass bottom
-      ctx.fillRect(x, y, Math.ceil(cellW)+1, Math.ceil(cellH)+1);
-    }
-  }
-
-  // axes
-  ctx.strokeStyle="rgba(255,255,255,0.18)";
-  ctx.lineWidth=1;
-  ctx.beginPath();
-  ctx.moveTo(padL, padT);
-  ctx.lineTo(padL, padT+H);
-  ctx.lineTo(padL+W, padT+H);
-  ctx.stroke();
-
-  ctx.fillStyle="rgba(230,237,243,0.9)";
-  ctx.font="12px " + getComputedStyle(document.documentElement).getPropertyValue('--mono');
-
-  // x ticks (d)
-  const xticks = 5;
-  for(let t=0;t<=xticks;t++){
-    const j = Math.round(t*(Ds-1)/xticks);
-    const x = padL + j*cellW;
-    const val = ds_um[j];
-    ctx.strokeStyle="rgba(255,255,255,0.12)";
-    ctx.beginPath();
-    ctx.moveTo(x, padT+H);
-    ctx.lineTo(x, padT+H+6);
-    ctx.stroke();
-    ctx.fillText(val.toFixed(2), x-10, padT+H+22);
-  }
-  ctx.fillText("d (μm)", padL+W/2-20, padT+H+42);
-
-  // y ticks (log10 mass)
-  const yticks = 5;
-  for(let t=0;t<=yticks;t++){
-    const i = Math.round(t*(Ms-1)/yticks);
-    const y = padT + (Ms-1-i)*cellH;
-    const val = massesLog[i];
-    ctx.strokeStyle="rgba(255,255,255,0.12)";
-    ctx.beginPath();
-    ctx.moveTo(padL-6, y);
-    ctx.lineTo(padL, y);
-    ctx.stroke();
-    ctx.fillText(val.toFixed(1), 8, y+4);
-  }
-  ctx.save();
-  ctx.translate(16, padT+H/2+40);
-  ctx.rotate(-Math.PI/2);
-  ctx.fillText("log10(mass [kg])", 0, 0);
-  ctx.restore();
-
-  // overlays (molecules)
-  if(overlaySel.value === "on"){
-    const c60_kg = parseFloat(amuC60.value) * AMU;
-    const oligo_kg = parseFloat(amuOligo.value) * AMU;
-    const c60_d = parseFloat(dC60.value);
-    const oligo_d = parseFloat(dOligo.value);
-
-    drawOverlayPoint(ctx, massesLog, ds_um, c60_kg, c60_d, "C60");
-    drawOverlayPoint(ctx, massesLog, ds_um, oligo_kg, oligo_d, "Oligo");
-  }
-
-  // title overlay
-  ctx.fillStyle="rgba(0,0,0,0.35)";
-  ctx.fillRect(padL+10, padT+10, 520, 28);
-  ctx.fillStyle="rgba(230,237,243,0.95)";
-  ctx.font="12px " + getComputedStyle(document.documentElement).getPropertyValue('--sans');
-  ctx.fillText("Phase Diagram: Visibility V(STUR) over (mass, slit separation d)", padL+18, padT+30);
+async function copyJSON(type){
+  if(!lastRes) compute();
+  const data = buildExport(type);
+  await copyToClipboard(JSON.stringify(data, null, 2));
 }
 
-function drawOverlayPoint(ctx, massesLog, ds_um, mkg, d_um, label){
-  const Ms = massesLog.length;
-  const Ds = ds_um.length;
+function resetDefaults(){
+  document.getElementById('mode').value = "electron";
+  document.getElementById('E_eV').value = 600;
+  document.getElementById('a_um').value = 0.062;
+  document.getElementById('d_um').value = 0.272;
+  document.getElementById('L_cm').value = 30;
+  document.getElementById('span_mm').value = 40;
+  document.getElementById('N').value = 700;
 
-  const padL=70, padR=18, padT=18, padB=55;
-  const W = phasePlot.width - padL - padR;
-  const H = phasePlot.height - padT - padB;
-  const cellW = W / Ds;
-  const cellH = H / Ms;
+  document.getElementById('gOn').checked = true;
+  document.getElementById('scaleLaw').value = "2";
+  document.getElementById('Rq').value = 0.30;
+  document.getElementById('L0_nm').value = 120;
+  document.getElementById('tempK').value = 0;
+  document.getElementById('noiseFloor').value = 1e-4;
+  document.getElementById('visWin').value = 2;
+  document.getElementById('resGain').value = 50;
+  document.getElementById('kernel').value = "tanh";
+  document.getElementById('notes').value = "";
 
-  const logm = Math.log10(mkg);
-
-  // map to continuous
-  const logMin = massesLog[0];
-  const logMax = massesLog[Ms-1];
-  const dMin = ds_um[0];
-  const dMax = ds_um[Ds-1];
-
-  if(logm < logMin || logm > logMax || d_um < dMin || d_um > dMax) return;
-
-  const j = (d_um - dMin) / (dMax - dMin) * (Ds-1);
-  const i = (logm - logMin) / (logMax - logMin) * (Ms-1);
-
-  const x = padL + j * cellW;
-  const y = padT + (Ms-1-i) * cellH;
-
-  ctx.fillStyle="rgba(230,237,243,0.95)";
-  ctx.strokeStyle="rgba(0,0,0,0.55)";
-  ctx.lineWidth=2;
-  ctx.beginPath();
-  ctx.arc(x, y, 5.5, 0, 2*Math.PI);
-  ctx.fill();
-  ctx.stroke();
-
-  ctx.fillStyle="rgba(230,237,243,0.92)";
-  ctx.font="12px " + getComputedStyle(document.documentElement).getPropertyValue('--mono');
-  ctx.fillText(label, x+8, y-8);
-}
-
-/* =========================
-   INIT
-   ========================= */
-(function init(){
-  modeSel.value = mode;
-  lambdaN.disabled = (mode !== "optical");
-  // if λ is blank at boot, seed from current values
+  lastPhase = null;
   compute();
-  renderPhaseDiagramLast();
-})();
+}
+
+/* ============================================================
+   Phase map
+   ============================================================ */
+function computePhaseMap(){
+  try{
+    setStatus("Phase…");
+    const ctx = document.getElementById('phasePlot').getContext('2d');
+    const W=1000, H=420;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="#000"; ctx.fillRect(0,0,W,H);
+
+    const N = Math.max(20, Math.min(200, parseInt(document.getElementById('phaseN').value||44,10)));
+    const mMin = parseFloat(document.getElementById('mMin').value);
+    const mMax = parseFloat(document.getElementById('mMax').value);
+    const d1 = parseFloat(document.getElementById('dMin').value);
+    const d2 = parseFloat(document.getElementById('dMax').value);
+
+    const logm1 = Math.log10(mMin);
+    const logm2 = Math.log10(mMax);
+
+    const cw = W/N, ch = H/N;
+
+    // store for export (coarse)
+    const grid = [];
+    for(let j=0;j<N;j++){
+      const row=[];
+      for(let i=0;i<N;i++){
+        const m = Math.pow(10, logm1 + (logm2-logm1)*i/(N-1));
+        const d = d1 + (d2-d1)*(N-1-j)/(N-1);
+        const r = solveCore(m, d);
+        const v = clamp(r.vst, 0, 1);
+        // color: greenish with brightness ~ visibility
+        const hue = 140;
+        const light = 18 + 52*v;
+        ctx.fillStyle = `hsl(${hue}, 70%, ${light}%)`;
+        ctx.fillRect(i*cw, j*ch, cw+0.5, ch+0.5);
+        row.push(v);
+      }
+      grid.push(row);
+    }
+
+    // overlay axes labels
+    ctx.fillStyle="rgba(255,255,255,.85)";
+    ctx.font="12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+    ctx.fillText("Phase Map: V(STUR) vs mass and separation", 14, 18);
+
+    ctx.fillStyle="rgba(255,255,255,.60)";
+    ctx.font="11px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+    ctx.fillText(`mass: ${fmtSI(mMin)} → ${fmtSI(mMax)} kg (log)`, 14, H-12);
+    ctx.fillText(`d: ${d1.toFixed(3)} → ${d2.toFixed(3)} µm`, W-300, H-12);
+
+    lastPhase = {
+      N,
+      mass_kg_min: mMin,
+      mass_kg_max: mMax,
+      d_um_min: d1,
+      d_um_max: d2,
+      Vst_grid: grid
+    };
+
+    setStatus("Ready");
+  }catch(e){
+    console.error(e);
+    setStatus("Error");
+  }
+}
+
+/* ============================================================
+   Export plot PNG
+   ============================================================ */
+function downloadPNG(){
+  const main = document.getElementById('plot');
+  const resi = document.getElementById('residualPlot');
+
+  // Combine two canvases into one PNG (stacked)
+  const out = document.createElement('canvas');
+  out.width = main.width;
+  out.height = main.height + resi.height;
+
+  const octx = out.getContext('2d');
+  octx.fillStyle="#000";
+  octx.fillRect(0,0,out.width,out.height);
+  octx.drawImage(main, 0, 0);
+  octx.drawImage(resi, 0, main.height);
+
+  out.toBlob((blob)=>{
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href=url;
+    a.download="stur_plot.png";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 800);
+  }, "image/png");
+}
+
+/* ============================================================
+   Init
+   ============================================================ */
+window.addEventListener('load', ()=>{
+  // ensure nav active aria
+  document.querySelectorAll('.nav button').forEach((b,i)=>b.setAttribute('aria-selected', i===0?'true':'false'));
+  compute();
+});
 </script>
 </body>
 </html>
