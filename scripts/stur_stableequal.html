@@ -2,313 +2,330 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Spring – EM–Gravity Equilibrium Resonator</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STUR Experimental Geometry Matcher</title>
+
 <style>
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:"Courier New",monospace;
-    margin:0;
-    padding:2rem;
-  }
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  .desc{
-    max-width:900px;
-    margin:0 auto 1.5rem auto;
-    line-height:1.5;
-  }
-  pre{
-    background:#0a0f1f;
-    color:#00ffcc;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    font-size:0.9rem;
-    box-shadow:0 0 18px #ffaa0040;
-    white-space:pre;
-  }
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
-  }
-  button:hover{background:#ffcc33;}
-  footer{
-    text-align:center;
-    font-size:0.9em;
-    color:#999;
-    margin-top:2rem;
-  }
-  a{color:#66ccff;}
+:root{
+  --bg:#050814;
+  --panel:#0a1022;
+  --border:#1f2a44;
+  --text:#e6edf3;
+  --muted:#94a3b8;
+  --accent:#60a5fa;
+  --accent2:#34d399;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#030510,#050814);
+  color:var(--text);
+  font-family:var(--sans);
+  padding:20px;
+}
+.wrap{max-width:1400px;margin:auto}
+h1{margin:0 0 6px}
+.subtitle{color:var(--muted);font-size:13px;margin-bottom:18px}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1100px){.grid{grid-template-columns:1fr}}
+
+.card{
+  background:rgba(10,16,34,.85);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  padding:16px;
+}
+
+.cardtitle{
+  font-size:12px;
+  font-weight:800;
+  color:#cbd5e1;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+  margin-bottom:12px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  padding-bottom:8px;
+}
+
+.param{
+  margin-bottom:12px;
+}
+.param label{
+  font-size:12px;
+  font-weight:700;
+  color:#dbeafe;
+}
+.param .row{
+  display:flex;
+  gap:8px;
+  margin-top:6px;
+}
+.param input[type=range]{flex:1}
+.param input[type=number]{
+  width:110px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--text);
+  border-radius:8px;
+  padding:6px;
+  font-family:var(--mono);
+}
+
+.metric{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  padding:12px;
+}
+.metric .label{font-size:11px;color:var(--muted)}
+.metric .value{
+  font-family:var(--mono);
+  font-size:20px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+canvas{
+  width:100%;
+  border-radius:12px;
+  margin-top:10px;
+  background:rgba(255,255,255,.03);
+}
+
+.export-btn{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(52,211,153,.18);
+  border:1px solid rgba(52,211,153,.35);
+  color:#dcfce7;
+  font-weight:800;
+  cursor:pointer;
+  margin-top:12px;
+}
+.export-btn:hover{background:rgba(52,211,153,.28)}
 </style>
 </head>
+
 <body>
-
-<h1>STUR Spring – EM–Gravity Equilibrium Resonator</h1>
-
-<h2>Derivation – EM–Gravity Balanced Spring</h2>
-<div class="desc">
-<p>
-We consider a radial line where electromagnetic and gravitational forces exactly
-cancel at a radius
-<code>r₀ = 1.243 m</code>.  Let the total radial force on a test mass be
-</p>
-
-<p style="text-align:center;">
-F(r) = F_EM(r) + F_G(r) + F_other(r),
-</p>
-
-<p>
-with <code>F_EM</code> attractive or repulsive depending on charge and
-<code>F_G</code> always attractive.  At the equilibrium point
-</p>
-
-<p style="text-align:center;">
-F(r₀) = 0.
-</p>
-
-<p>
-Linearising around <code>r = r₀</code> with a small displacement
-<code>ξ = r − r₀</code> gives
-</p>
-
-<p style="text-align:center;">
-F(r₀ + ξ) ≈ F(r₀) + (dF/dr)|₍r₀₎ ξ = (dF/dr)|₍r₀₎ ξ.
-</p>
-
-<p>
-Numerically we have
-</p>
-
-<p style="text-align:center;">
-(dF/dr)|₍r₀₎ = −1.234×10⁻⁸ N/m.
-</p>
-
-<p>
-For stability we define the effective spring constant
-</p>
-
-<p style="text-align:center;">
-k_eff = −(dF/dr)|₍r₀₎ = 1.234×10⁻⁸ N/m &gt; 0.
-</p>
-
-<p>
-The equation of motion for a mass <code>m</code> near the equilibrium becomes
-a simple harmonic oscillator:
-</p>
-
-<p style="text-align:center;">
-m ξ¨ + k_eff ξ = 0,
-</p>
-
-<p>
-with angular frequency and period
-</p>
-
-<p style="text-align:center;">
-ω(m) = √(k_eff / m),  T(m) = 2π / ω(m).
-</p>
-
-<p>
-For <code>m = 1 kg</code> this gives <code>T ≈ 15.7 h</code>, while for a
-proton with <code>m_p ≈ 1.673×10⁻²⁷ kg</code> we obtain
-<code>T ≈ 2.3 ns</code> (GHz-scale oscillation).  The effective potential is
-</p>
-
-<p style="text-align:center;">
-U_eff(r) = ½ k_eff (r − r₀)²,
-</p>
-
-<p>
-which we use in the simulation below.  We directly integrate the harmonic
-motion using the analytic solution and generate:
-</p>
-
-<ul>
-  <li>Effective potential near the equilibrium</li>
-  <li>Radial oscillation for a 1 kg test mass (hours)</li>
-  <li>Radial oscillation for a proton (nanoseconds)</li>
-</ul>
-
-<p>
-Finally, the script prints a JSON summary of the equilibrium, spring constant,
-frequencies and periods for both mass scales.
-</p>
+<div class="wrap">
+<h1>STUR Experimental Geometry Matcher</h1>
+<div class="subtitle">
+Interactive, domain-locked predictions • QM vs STUR • Fully self-contained
 </div>
 
-<h2>Python Simulation (copy and run in Jupyter)</h2>
+<div class="grid">
 
-<pre id="codeBlock">
-#!/usr/bin/env python3
-# ===============================================================
-# STUR Spring – EM–Gravity Equilibrium Resonator
-# Simple harmonic motion around r0 with Matplotlib plots and JSON.
-# JupyterLite compatible: NumPy + Matplotlib + JSON only.
-# ===============================================================
+<!-- INPUTS -->
+<div class="card">
+<div class="cardtitle">Experimental Geometry</div>
 
-import numpy as np
-import matplotlib.pyplot as plt
-import json
-import math
-
-# --------- equilibrium data (from STUR EM–gravity balance) -----
-r_eq = 1.243          # m, equilibrium radius
-dF_dr = -1.234e-8     # N/m, slope of total force at r_eq
-k_eff = -dF_dr        # effective spring constant (positive)
-
-# --------- masses we care about --------------------------------
-m_1kg = 1.0           # kg
-m_p = 1.673e-27       # kg, proton mass
-
-def omega(mass):
-    """Angular frequency for a given mass in the STUR spring."""
-    return math.sqrt(k_eff / mass)
-
-# frequencies and periods
-omega_1 = omega(m_1kg)
-omega_p = omega(m_p)
-
-T1 = 2.0 * math.pi / omega_1
-Tp = 2.0 * math.pi / omega_p
-
-f1 = 1.0 / T1
-fp = 1.0 / Tp
-
-# --------- choose small amplitudes for oscillations ------------
-A1 = 0.05      # m, 1 kg small excursion around r_eq
-A2 = 1.0e-10   # m, proton excursion (tiny)
-
-# time grids
-t1 = np.linspace(0.0, T1, 1000)     # one full period for 1 kg
-t2 = np.linspace(0.0, 5.0 * Tp, 1000)  # several periods for proton
-
-# harmonic solutions: r(t) = r_eq + A cos(ω t)
-r1 = r_eq + A1 * np.cos(omega_1 * t1)
-r2 = r_eq + A2 * np.cos(omega_p * t2)
-
-# --------- effective potential curve around r_eq ---------------
-r_span = np.linspace(r_eq - 0.5, r_eq + 0.5, 400)
-U_eff = 0.5 * k_eff * (r_span - r_eq) ** 2  # relative potential (J)
-
-# ======================= plotting ==============================
-
-fig, axs = plt.subplots(1, 3, figsize=(12, 4))
-
-# (1) potential
-axs[0].plot(r_span, U_eff)
-axs[0].set_xlabel("r (m)")
-axs[0].set_ylabel("U_eff (J, relative)")
-axs[0].set_title("Effective potential near equilibrium")
-axs[0].grid(alpha=0.3)
-
-# (2) 1 kg oscillation vs time (hours)
-axs[1].plot(t1 / 3600.0, r1)
-axs[1].set_xlabel("time (hours)")
-axs[1].set_ylabel("r(t) (m)")
-axs[1].set_title("1 kg test mass")
-axs[1].grid(alpha=0.3)
-
-# (3) proton oscillation vs time (ns)
-axs[2].plot(t2 * 1.0e9, r2)
-axs[2].set_xlabel("time (ns)")
-axs[2].set_ylabel("r(t) (m)")
-axs[2].set_title("Proton mass")
-axs[2].grid(alpha=0.3)
-
-plt.tight_layout()
-plt.show()
-
-# ======================= JSON summary ==========================
-
-result = {
-    "equilibrium": {
-        "r_eq_m": r_eq,
-        "dF_dr_N_per_m": dF_dr,
-        "k_eff_N_per_m": k_eff
-    },
-    "masses": {
-        "one_kg": {
-            "mass_kg": m_1kg,
-            "omega_rad_per_s": omega_1,
-            "period_s": T1,
-            "period_hours": T1 / 3600.0,
-            "frequency_Hz": f1
-        },
-        "proton": {
-            "mass_kg": m_p,
-            "omega_rad_per_s": omega_p,
-            "period_s": Tp,
-            "period_ns": Tp * 1.0e9,
-            "frequency_Hz": fp,
-            "frequency_GHz": fp / 1.0e9
-        }
-    },
-    "simulation": {
-        "amplitude_one_kg_m": A1,
-        "amplitude_proton_m": A2,
-        "n_time_points_1kg": int(t1.size),
-        "n_time_points_proton": int(t2.size)
-    }
-}
-
-print(json.dumps(result, indent=2))
-print("STUR EM–Gravity equilibrium spring simulation complete.")
-</pre>
-
-<div style="text-align:center;margin-top:1rem;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open JupyterLite</button>
+<div class="param">
+<label>Wavelength λ (nm)</label>
+<div class="row">
+<input id="lambdaR" type="range" min="200" max="800" step="1" value="500">
+<input id="lambdaN" type="number" value="500">
 </div>
-    <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
 </div>
-<!-- ===== End Return Button ===== -->
 
-<p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open JupyterLite</b>.  
-In JupyterLite, create a new Python notebook, paste the code into a cell, and run it to view the
-potential well, the 1&nbsp;kg and proton trajectories, and the JSON summary of the EM–gravity
-equilibrium resonator.
-</p>
+<div class="param">
+<label>Slit Width a (μm)</label>
+<div class="row">
+<input id="aR" type="range" min="10" max="200" step="1" value="100">
+<input id="aN" type="number" value="100">
+</div>
+</div>
 
-<footer>
-STUR Physics Lab &mdash; EM–Gravity Hybrid Technologies &mdash; STUR Spring Resonator
-</footer>
+<div class="param">
+<label>Slit Separation d (μm)</label>
+<div class="row">
+<input id="dR" type="range" min="100" max="3000" step="10" value="1000">
+<input id="dN" type="number" value="1000">
+</div>
+</div>
+
+<div class="param">
+<label>Screen Distance L (cm)</label>
+<div class="row">
+<input id="LR" type="range" min="10" max="300" step="5" value="100">
+<input id="LN" type="number" value="100">
+</div>
+</div>
+
+<div class="cardtitle">STUR Parameters</div>
+
+<div class="param">
+<label>R<sub>q</sub> (coherence strength)</label>
+<div class="row">
+<input id="rqR" type="range" min="0" max="2.5" step="0.05" value="1.8">
+<input id="rqN" type="number" step="0.05" value="1.8">
+</div>
+</div>
+
+<div class="param">
+<label>L₀ (nm)</label>
+<div class="row">
+<input id="l0R" type="range" min="10" max="500" step="5" value="120">
+<input id="l0N" type="number" value="120">
+</div>
+</div>
+
+<button class="export-btn" onclick="exportJSON()">📊 Export Predictions JSON</button>
+</div>
+
+<!-- OUTPUTS -->
+<div class="card">
+<div class="cardtitle">Predicted Observables</div>
+
+<div class="metric">
+<div class="label">Visibility (QM)</div>
+<div class="value" id="vQM">—</div>
+</div>
+
+<div class="metric">
+<div class="label">Visibility (STUR)</div>
+<div class="value" id="vST">—</div>
+</div>
+
+<div class="metric">
+<div class="label">Δ Visibility</div>
+<div class="value" id="vDV">—</div>
+</div>
+
+<div class="metric">
+<div class="label">Coherence Length ℓ<sub>coh</sub></div>
+<div class="value" id="ell">—</div>
+</div>
+
+<div class="metric">
+<div class="label">Decoherence Time τ = ℓ<sub>coh</sub>/c</div>
+<div class="value" id="tau">—</div>
+</div>
+
+<div class="metric">
+<div class="label">Max |ΔI| Location</div>
+<div class="value" id="maxpos">—</div>
+</div>
+
+<canvas id="plot" width="900" height="360"></canvas>
+</div>
+
+</div>
+</div>
 
 <script>
-function copyCode(){
-  const el = document.getElementById("codeBlock");
-  const code = el.innerText;
-  navigator.clipboard.writeText(code).then(
-    () => { alert("STUR Spring simulation code copied to clipboard."); },
-    () => { alert("Copy failed. Select and copy manually."); }
-  );
-}
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/", "_blank");
-}
-</script>
+/* ---------- Canonical Operators ---------- */
+const S_u = u => Math.tanh(u) * (1 - Math.exp(-u));
+const sinc = x => Math.abs(x) < 1e-12 ? 1 : Math.sin(Math.PI*x)/(Math.PI*x);
 
+/* ---------- Domain Lock ---------- */
+const Y_HALF = 0.025; // meters
+const C = 299792458;
+
+/* ---------- Sync sliders ---------- */
+[
+['lambdaR','lambdaN'],['aR','aN'],['dR','dN'],['LR','LN'],
+['rqR','rqN'],['l0R','l0N']
+].forEach(([r,n])=>{
+  const R=document.getElementById(r), N=document.getElementById(n);
+  R.oninput=()=>{N.value=R.value;compute();}
+  N.oninput=()=>{R.value=N.value;compute();}
+});
+
+/* ---------- Core Compute ---------- */
+function compute(){
+  const λ = +lambdaN.value*1e-9;
+  const a = +aN.value*1e-6;
+  const d = +dN.value*1e-6;
+  const L = +LN.value*1e-2;
+  const Rq = +rqN.value;
+  const L0 = +l0N.value*1e-9;
+
+  const N=501;
+  const y=[],yMM=[],Iq=[],Is=[];
+  let maxDev=0,maxPos=0;
+
+  for(let i=0;i<N;i++){
+    const yy=-Y_HALF+2*Y_HALF*i/(N-1);
+    const env=Math.pow(sinc(a*yy/(λ*L)),2);
+    const φ=(2*Math.PI/λ)*(d*yy/L);
+    const u=Math.abs(d*yy/L)/Math.max(L0,1e-30);
+    const rs=Rq*S_u(u);
+    const coh=Math.exp(-rs);
+    const damp=Math.exp(-0.5*rs*rs);
+    const iq=env*Math.pow(Math.cos(φ/2),2);
+    const is=2*env*coh*coh*(1+Math.cos(φ)*damp);
+    y.push(yy); yMM.push(yy*1000);
+    Iq.push(iq); Is.push(is);
+  }
+
+  const norm=a=>{const m=Math.max(...a);return a.map(v=>v/m)}
+  const Q=norm(Iq), S=norm(Is);
+
+  const vis=a=>{
+    const c=a.filter((_,i)=>Math.abs(yMM[i])<2);
+    const M=Math.max(...c), m=Math.min(...c);
+    return (M-m)/(M+m);
+  };
+
+  const vQM=vis(Q), vST=vis(S);
+  document.getElementById('vQM').textContent=vQM.toFixed(4);
+  document.getElementById('vST').textContent=vST.toFixed(4);
+  document.getElementById('vDV').textContent=(vST-vQM).toFixed(4);
+
+  // ℓ_coh
+  let ucoh=0;
+  for(let u=0;u<50;u+=0.001){ if(Rq*S_u(u)>=1){ucoh=u;break}}
+  const ell=L*L0/d*ucoh;
+  document.getElementById('ell').textContent=(ell*1000).toFixed(3)+' mm';
+  document.getElementById('tau').textContent=(ell/C*1e15).toFixed(2)+' fs';
+
+  S.forEach((v,i)=>{
+    const dv=Math.abs(v-Q[i]);
+    if(dv>maxDev){maxDev=dv;maxPos=yMM[i]}
+  });
+  document.getElementById('maxpos').textContent=maxPos.toFixed(3)+' mm';
+
+  drawPlot(yMM,Q,S);
+}
+
+/* ---------- Plot ---------- */
+function drawPlot(x,q,s){
+  const c=document.getElementById('plot'),ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  const pad=50,w=c.width-pad*2,h=c.height-pad*2;
+  const mapX=v=>pad+(v-Math.min(...x))*w/(Math.max(...x)-Math.min(...x));
+  const mapY=v=>pad+h*(1-v);
+
+  ctx.strokeStyle='#2563eb';ctx.beginPath();
+  x.forEach((v,i)=>{const X=mapX(v),Y=mapY(q[i]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.stroke();
+
+  ctx.strokeStyle='#059669';ctx.setLineDash([6,4]);ctx.beginPath();
+  x.forEach((v,i)=>{const X=mapX(v),Y=mapY(s[i]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+/* ---------- Export ---------- */
+function exportJSON(){
+  const data={
+    lambda_nm:+lambdaN.value,
+    slit_width_um:+aN.value,
+    slit_sep_um:+dN.value,
+    L_cm:+LN.value,
+    Rq:+rqN.value,
+    L0_nm:+l0N.value
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='stur_geometry_params.json';
+  a.click();
+}
+
+compute();
+</script>
 </body>
 </html>
