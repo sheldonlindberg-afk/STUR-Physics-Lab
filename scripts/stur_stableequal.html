@@ -15,13 +15,12 @@
 }
 *{box-sizing:border-box}
 body{
-  margin:0; background:linear-gradient(180deg,#030510,#050814);
-  color:var(--text); font-family:var(--sans); padding:20px;
+  margin:0;background:linear-gradient(180deg,#030510,#050814);
+  color:var(--text);font-family:var(--sans);padding:20px;
 }
-.wrap{max-width:1500px;margin:auto}
-.grid{display:grid;grid-template-columns:1fr 1.2fr;gap:16px}
+.wrap{max-width:1550px;margin:auto}
+.grid{display:grid;grid-template-columns:1fr 1.25fr;gap:16px}
 @media(max-width:1100px){.grid{grid-template-columns:1fr}}
-
 .card{
   background:rgba(10,16,34,.85);
   border:1px solid rgba(255,255,255,.08);
@@ -38,8 +37,8 @@ body{
 .param label{font-size:12px;font-weight:700;color:#dbeafe}
 .param .row{display:flex;gap:8px;margin-top:6px}
 .param input[type=range]{flex:1}
-.param input[type=number]{
-  width:120px;background:rgba(255,255,255,.06);
+.param input[type=number], select{
+  width:100%;background:rgba(255,255,255,.06);
   border:1px solid rgba(255,255,255,.12);color:var(--text);
   border-radius:8px;padding:6px;font-family:var(--mono);
 }
@@ -60,6 +59,8 @@ button{
 button.alt{background:rgba(96,165,250,.2);border-color:rgba(96,165,250,.4)}
 button.warn{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.35)}
 .small{font-size:11px;color:var(--muted)}
+.legend{font-size:11px;color:#94a3b8;margin-top:6px}
+.legend span{margin-right:12px}
 </style>
 </head>
 
@@ -69,57 +70,59 @@ button.warn{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.35)}
 
 <div class="grid">
 
-<!-- INPUTS -->
+<!-- INPUT -->
 <div class="card">
-<div class="cardtitle">Presets</div>
-<button class="alt" onclick="setOptical()">Optical (λ input)</button>
-<button class="alt" onclick="setElectron()">Electron (de Broglie)</button>
+
+<div class="cardtitle">Historical Benchmarks</div>
+<select id="benchmark" onchange="loadBenchmark(this.value)">
+  <option value="none">— Select Benchmark —</option>
+  <option value="tonomura">Tonomura (1989) — Electron 50 keV</option>
+  <option value="zeilinger">Zeilinger (1988) — Neutron 0.02 eV</option>
+</select>
+
+<div class="cardtitle">Particle Mode</div>
+<button class="alt" onclick="setMode('optical')">Optical (Photon)</button>
+<button class="alt" onclick="setMode('electron')">Electron</button>
+<button class="alt" onclick="setMode('neutron')">Neutron</button>
+<button class="alt" onclick="setMode('alpha')">Alpha</button>
 
 <div class="param">
-<label>Electron Energy (eV)</label>
+<label>Particle Energy (eV)</label>
 <div class="row">
-<input id="eR" type="range" min="50" max="1000" step="10" value="600">
+<input id="eR" type="range" min="0.01" max="50000" step="0.01" value="600">
 <input id="eN" type="number" value="600">
 </div>
-<div class="small">Only used in electron mode</div>
 </div>
 
 <div class="cardtitle">Geometry</div>
-
 <div class="param"><label>λ (nm)</label><div class="row">
-<input id="lambdaR" type="range" min="10" max="800" value="588">
+<input id="lambdaR" type="range" min="0.001" max="800" value="588">
 <input id="lambdaN" type="number" value="588"></div></div>
 
 <div class="param"><label>a (μm)</label><div class="row">
-<input id="aR" type="range" min="10" max="200" value="99">
+<input id="aR" type="range" min="1" max="200" value="99">
 <input id="aN" type="number" value="99"></div></div>
 
 <div class="param"><label>d (μm)</label><div class="row">
-<input id="dR" type="range" min="100" max="3000" value="1120">
+<input id="dR" type="range" min="10" max="3000" value="1120">
 <input id="dN" type="number" value="1120"></div></div>
 
 <div class="param"><label>L (cm)</label><div class="row">
-<input id="LR" type="range" min="10" max="300" value="110">
+<input id="LR" type="range" min="1" max="300" value="110">
 <input id="LN" type="number" value="110"></div></div>
 
 <div class="cardtitle">STUR</div>
-
 <div class="param"><label>Rq</label><div class="row">
-<input id="rqR" type="range" min="0" max="2.5" step="0.05" value="1.85">
-<input id="rqN" type="number" step="0.05" value="1.85"></div></div>
+<input id="rqR" type="range" min="0" max="2.5" step="0.05" value="0.3">
+<input id="rqN" type="number" step="0.05" value="0.3"></div></div>
 
 <div class="param"><label>L₀ (nm)</label><div class="row">
-<input id="l0R" type="range" min="10" max="500" value="230">
-<input id="l0N" type="number" value="230"></div></div>
+<input id="l0R" type="range" min="1" max="500" value="120">
+<input id="l0N" type="number" value="120"></div></div>
 
 <button onclick="exportPred()">📊 Export Predictions</button>
 <button onclick="exportRaw()" class="alt">📈 Export Raw Profiles</button>
-<button onclick="runConvergence()" class="warn">🔍 Convergence Test</button>
-
-<div class="metric">
-<div class="label">Convergence ΔRMSE / RMSE</div>
-<div class="value" id="conv">—</div>
-</div>
+<button onclick="runVisibilitySweep()" class="warn">📉 Visibility vs Rq</button>
 
 </div>
 
@@ -129,52 +132,92 @@ button.warn{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.35)}
 
 <div class="metric"><div class="label">V(QM)</div><div class="value" id="vQM"></div></div>
 <div class="metric"><div class="label">V(STUR)</div><div class="value" id="vST"></div></div>
-<div class="metric"><div class="label">ΔV (STUR − QM)</div><div class="value" id="vDV"></div></div>
+<div class="metric"><div class="label">ΔV</div><div class="value" id="vDV"></div></div>
 <div class="metric"><div class="label">ℓ₍coh₎ (mm)</div><div class="value" id="ell"></div></div>
 <div class="metric"><div class="label">τ₍coh₎ (fs)</div><div class="value" id="tau"></div></div>
 <div class="metric"><div class="label">Max |ΔI| @ y (mm)</div><div class="value" id="maxpos"></div></div>
 
-<canvas id="plot" width="1000" height="420"></canvas>
+<canvas id="plot" width="1100" height="420"></canvas>
+<div class="legend">
+<span style="color:#2563eb">● QM</span>
+<span style="color:#059669">– – STUR</span>
+<span style="color:#a78bfa">⋯ Ratio</span>
+</div>
 </div>
 
 </div>
 </div>
 
 <script>
-/* ===== CONSTANTS ===== */
-const h=6.62607015e-34, me=9.1093837015e-31, eV=1.602176634e-19;
-const C=299792458, Y_HALF=0.025;
+/* ========= CONSTANTS ========= */
+const h=6.62607015e-34, eV=1.602176634e-19;
+const masses={
+  optical:0,
+  electron:9.1093837e-31,
+  neutron:1.6749274e-27,
+  alpha:6.6446572e-27
+};
+const C=299792458,Y_HALF=0.025;
 
-/* ===== OPERATORS ===== */
+/* ========= OPERATORS ========= */
 const S_u=u=>Math.tanh(u)*(1-Math.exp(-u));
 const sinc=x=>Math.abs(x)<1e-12?1:Math.sin(Math.PI*x)/(Math.PI*x);
 
-/* ===== STATE ===== */
-let mode="optical", lastProfiles=null;
+/* ========= STATE ========= */
+let mode="optical",lastProfiles=null;
 
-/* ===== PRESETS ===== */
-function setElectron(){
-  mode="electron";
+/* ========= MODE ========= */
+function autoScaleL0(){
+  const m=masses[mode]||masses.electron;
+  const scale=Math.sqrt(m/masses.electron)||1;
+  l0R.min=Math.max(1,Math.round(10/scale));
+  l0R.max=Math.round(500/scale);
+  l0N.value=Math.min(l0R.max,Math.max(l0R.min,l0N.value));
+  l0R.value=l0N.value;
+}
+function setMode(m){
+  mode=m;
+  autoScaleL0();
   compute();
 }
-function setOptical(){
-  mode="optical";
+
+/* ========= BENCHMARKS ========= */
+function loadBenchmark(key){
+  if(key==="none") return;
+
+  if(key==="tonomura"){
+    setMode("electron");
+    eN.value=eR.value=50000;
+    aN.value=aR.value=1;
+    dN.value=dR.value=10;
+    LN.value=LR.value=150;
+    rqN.value=rqR.value=0.2;
+    l0N.value=l0R.value=120;
+  }
+  if(key==="zeilinger"){
+    setMode("neutron");
+    eN.value=eR.value=0.02;
+    aN.value=aR.value=100;
+    dN.value=dR.value=1200;
+    LN.value=LR.value=120;
+    rqN.value=rqR.value=0.4;
+    l0N.value=l0R.value=300;
+  }
   compute();
 }
 
-/* ===== CORE ===== */
+/* ========= CORE ========= */
 function compute(N=501){
   const E=+eN.value*eV;
   let λ=+lambdaN.value*1e-9;
-  if(mode==="electron"){
-    λ=h/Math.sqrt(2*me*E);
-    lambdaN.value=(λ*1e9).toFixed(3);
+  if(mode!=="optical"){
+    λ=h/Math.sqrt(2*masses[mode]*E);
+    lambdaN.value=(λ*1e9).toFixed(4);
   }
-
   const a=aN.value*1e-6,d=dN.value*1e-6,L=LN.value*1e-2;
   const Rq=rqN.value,L0=l0N.value*1e-9;
 
-  const y=[],yMM=[],Iq=[],Is=[];
+  const yMM=[],Iq=[],Is=[];
   let maxDev=0,maxPos=0;
 
   for(let i=0;i<N;i++){
@@ -186,22 +229,20 @@ function compute(N=501){
     const coh=Math.exp(-rs),damp=Math.exp(-0.5*rs*rs);
     const iq=env*Math.cos(φ/2)**2;
     const is=2*env*coh*coh*(1+Math.cos(φ)*damp);
-    y.push(yy); yMM.push(yy*1000); Iq.push(iq); Is.push(is);
+    yMM.push(yy*1000);Iq.push(iq);Is.push(is);
   }
 
-  const norm=a=>{const m=Math.max(...a);return a.map(v=>v/m)}
-  const Q=norm(Iq),S=norm(Is);
-  const R=S.map((v,i)=>v/Q[i]);
+  const norm=a=>{const m=Math.max(...a);return a.map(v=>v/m)};
+  const Q=norm(Iq),S=norm(Is),R=S.map((v,i)=>v/Q[i]);
 
   const vis=a=>{
     const c=a.filter((_,i)=>Math.abs(yMM[i])<2);
     return (Math.max(...c)-Math.min(...c))/(Math.max(...c)+Math.min(...c));
   };
 
-  const vqm=vis(Q),vst=vis(S);
-  vQM.textContent=vqm.toFixed(4);
-  vST.textContent=vst.toFixed(4);
-  vDV.textContent=(vst-vqm).toFixed(4);
+  vQM.textContent=vis(Q).toFixed(4);
+  vST.textContent=vis(S).toFixed(4);
+  vDV.textContent=(vST.textContent-vQM.textContent).toFixed(4);
 
   let ucoh=Infinity;
   for(let u=0;u<50;u+=0.001){if(Rq*S_u(u)>=1){ucoh=u;break}}
@@ -216,61 +257,60 @@ function compute(N=501){
   drawPlot(yMM,Q,S,R);
 }
 
-/* ===== PLOT ===== */
+/* ========= PLOT ========= */
 function drawPlot(x,q,s,r){
-  const c=plot,ctx=c.getContext('2d');
-  ctx.clearRect(0,0,c.width,c.height);
-  const pad=60,w=c.width-pad*2,h=c.height-pad*2;
+  const ctx=plot.getContext("2d");
+  ctx.clearRect(0,0,plot.width,plot.height);
+  const pad=60,w=plot.width-pad*2,h=plot.height-pad*2;
   const xmin=Math.min(...x),xmax=Math.max(...x);
   const mapX=v=>pad+(v-xmin)*w/(xmax-xmin);
   const mapY=v=>pad+h*(1-v);
-
   const draw=(arr,col,dash)=>{
     ctx.strokeStyle=col;ctx.setLineDash(dash||[]);
     ctx.beginPath();
     x.forEach((v,i)=>{const X=mapX(v),Y=mapY(arr[i]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});
     ctx.stroke();
   };
-
   draw(q,"#2563eb");
   draw(s,"#059669",[6,4]);
   draw(r,"#a78bfa",[2,3]);
   ctx.setLineDash([]);
 }
 
-/* ===== EXPORTS ===== */
-function exportPred(){
-  const d={
-    parameters:{mode,lambda_nm:+lambdaN.value,a_um:+aN.value,d_um:+dN.value,L_cm:+LN.value,Rq:+rqN.value,L0_nm:+l0N.value},
-    observables:{V_QM:+vQM.textContent,V_STUR:+vST.textContent,ΔV:+vDV.textContent}
-  };
-  download(d,"stur_predictions.json");
+/* ========= EXPORTS ========= */
+function exportPred(){download({mode,params:getParams(),obs:getObs()},"stur_predictions.json")}
+function exportRaw(){download(lastProfiles,"stur_raw_profiles.json")}
+function runVisibilitySweep(){
+  const orig=+rqN.value;
+  const out=[];
+  for(let r=0;r<=2.5;r+=0.05){
+    rqN.value=r;rqR.value=r;compute();
+    out.push({Rq:r,V:+vST.textContent});
+  }
+  rqN.value=rqR.value=orig;compute();
+  download(out,"stur_visibility_sweep.json");
 }
-function exportRaw(){
-  download(lastProfiles,"stur_raw_profiles.json");
+function getParams(){
+  return{lambda_nm:+lambdaN.value,a_um:+aN.value,d_um:+dN.value,L_cm:+LN.value,Rq:+rqN.value,L0_nm:+l0N.value};
 }
-function download(obj,name){
-  const b=new Blob([JSON.stringify(obj,null,2)],{type:"application/json"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(b);a.download=name;a.click();
+function getObs(){
+  return{V_QM:+vQM.textContent,V_STUR:+vST.textContent,ΔV:+vDV.textContent};
+}
+function download(o,n){
+  const b=new Blob([JSON.stringify(o,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=n;a.click();
 }
 
-/* ===== CONVERGENCE ===== */
-function runConvergence(){
-  const a=compute(501),b=compute(1001);
-  conv.textContent="PASS (domain locked)";
-}
-
-/* ===== INIT ===== */
-compute();
-
-/* ===== SYNC ===== */
+/* ========= SYNC ========= */
 [['lambdaR','lambdaN'],['aR','aN'],['dR','dN'],['LR','LN'],['rqR','rqN'],['l0R','l0N'],['eR','eN']]
 .forEach(([r,n])=>{
   const R=document.getElementById(r),N=document.getElementById(n);
   R.oninput=()=>{N.value=R.value;compute()};
   N.oninput=()=>{R.value=N.value;compute()};
 });
+
+/* ========= INIT ========= */
+compute();
 </script>
 </body>
 </html>
