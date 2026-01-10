@@ -161,9 +161,9 @@
     .warnline{
       padding:10px 12px;
       border-radius:14px;
-      background: rgba(245,158,11,.12);
-      border:1px solid rgba(245,158,11,.25);
-      color:#ffedd5;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.14);
+      color:#e2e8f0;
       font-size:12px;
       margin-top:12px;
       display:none;
@@ -245,14 +245,15 @@
       <div class="title">
         <h1>STUR – Geometry Verifier <span style="color:var(--accent);font-weight:900">+ Bach (2013) Falsification Harness</span></h1>
         <div class="sub">
-          Single-file GitHub Pages HTML • QM baseline + STUR coherence-loss • Optional support-bar notch model • CSV digitized-data χ² test
+          Single-file GitHub Pages HTML • QM baseline + STUR coherence-loss • Optional support-bar notch • CSV digitized-data χ² test • <b>Adversarial Null-Dominance</b>
         </div>
       </div>
       <div class="btnrow">
         <button id="toggleView" class="primary">Switch to Phase Space</button>
         <button id="toggleDiff" class="alt">Show Difference</button>
         <button id="btnBach" class="good">Load Bach 2013 Preset</button>
-        <button id="btnExport" class="warn">Export JSON (Summary)</button>
+        <button id="btnSweep" class="bad">Rq Sensitivity</button>
+        <button id="btnExport" class="warn">Export JSON (Audit)</button>
         <button id="btnCopyX" class="primary">Copy X Post</button>
       </div>
     </div>
@@ -277,7 +278,7 @@
       <div class="card">
         <div class="cardhead">
           <div class="h">Controls + Diagnostics</div>
-          <div style="font-family:var(--mono);font-size:12px;color:var(--muted)">physics live • data optional</div>
+          <div style="font-family:var(--mono);font-size:12px;color:var(--muted)">pure falsifier • no ΔE • no PSF</div>
         </div>
         <div class="cardbody">
 
@@ -390,8 +391,8 @@
                 </div>
               </div>
               <div class="hint">
-                Simple, explicit notch: multiply intensity by <span style="color:#dbeafe;font-family:var(--mono);font-weight:900">[1 − A·sinc²(π y / w)]</span>.
-                (Meant as a falsifiable “does the central notch exist?” switch; refine if you have the exact bar transfer function.)
+                Simple notch: multiply intensity by <span style="color:#dbeafe;font-family:var(--mono);font-weight:900">[1 − A·sinc²(π y / w)]</span>.
+                (Explicit falsifiable feature; refine only if exact transfer function is known.)
               </div>
             </div>
 
@@ -426,7 +427,7 @@
                   <div class="v" id="chiDecision">—</div>
                 </div>
               </div>
-              <div class="hint">CSV format: <span style="font-family:var(--mono)">y_mm,intensity</span>. Intensity is auto-normalized to max=1.</div>
+              <div class="hint">CSV format: <span style="font-family:var(--mono)">y_mm,intensity</span>. Intensity auto-normalized to max=1.</div>
             </div>
           </div>
 
@@ -442,7 +443,7 @@
               <div class="k">Falsification trigger</div>
               <div class="v">ΔV = <span id="dV">—</span></div>
               <div class="bar"><div id="dvBar"></div></div>
-              <div class="small">Rule: If χ²(STUR) ≥ χ²(QM), STUR fails to improve (for this dataset + fixed params).</div>
+              <div class="small">Rule: STUR must beat QM without tuning; sweep exposes null dominance.</div>
             </div>
           </div>
 
@@ -451,9 +452,7 @@
               <span>Bach et al. (2013) falsification protocol (embedded)</span>
               <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">click to collapse</span>
             </summary>
-            <div class="proto" id="protocolBlock">
-              <!-- injected by JS (keeps HTML lean) -->
-            </div>
+            <div class="proto" id="protocolBlock"></div>
           </details>
 
         </div>
@@ -463,7 +462,8 @@
     <div class="foot">
       <div class="t">Ask to falsify (copy-ready)</div>
       <div class="p" id="falsifyText">
-        Run Bach (2013) preset → digitize Fig. 1(c) P₁₂ → load CSV → compare χ²_red(QM) vs χ²_red(STUR). If STUR can’t beat QM without tuning, discard it. If it beats QM with pre-registered parameters, publish it.
+        Load Bach preset → digitize Fig. 1(c) P₁₂ → load CSV → compare χ²_red(QM) vs χ²_red(STUR).
+        Then run “Rq Sensitivity”: if χ² minimum occurs at Rq≈0 (or improvement ≤1%), STUR is unsupported by this dataset.
       </div>
     </div>
 
@@ -472,7 +472,11 @@
   <script>
     // ============================================================
     // STUR GEOMETRY VERIFIER + BACH (2013) FALSIFICATION HARNESS
-    // Single-file / GH Pages safe. No external libs.
+    // GOLD MASTER — Pure Falsifier Mode
+    //   ✓ Rq χ² sweep
+    //   ✓ Null-dominance adversarial banner (EPS + 1% rule)
+    //   ✓ Audit-log snapshot embedded in JSON export
+    //   ✗ No ΔE damping, no PSF (kept out by design)
     // ============================================================
 
     // ----- DOM
@@ -484,6 +488,7 @@
     const toggleViewBtn = document.getElementById("toggleView");
     const toggleDiffBtn = document.getElementById("toggleDiff");
     const btnBach = document.getElementById("btnBach");
+    const btnSweep = document.getElementById("btnSweep");
     const btnExport = document.getElementById("btnExport");
     const btnCopyX = document.getElementById("btnCopyX");
 
@@ -535,6 +540,10 @@
     const c = 299792458;
     const eV = 1.602176634e-19;
 
+    // Adversarial thresholds
+    const EPS_RQ = 1e-6;
+    const IMPROVE_FRAC = 0.01; // 1%
+
     const masses = {
       electron: 9.1093837015e-31,
       neutron: 1.67492749804e-27,
@@ -549,11 +558,11 @@
 
     let dataCSV = null; // {y_mm:[], I:[]} normalized to max=1
 
-    // ----- helpers
-    function setStatus(t){
-      statusText.textContent = t;
-    }
+    // Audit snapshot of latest sweep (session-state)
+    let lastChi2Sweep = null;
 
+    // ----- helpers
+    function setStatus(t){ statusText.textContent = t; }
     function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
 
     function fmtSI(x){
@@ -566,12 +575,6 @@
 
     function sinc(x){
       return (Math.abs(x) < 1e-12) ? 1 : Math.sin(x)/x;
-    }
-
-    // normalized sinc with PI in argument (common diffraction form)
-    function sinc_pi(z){
-      // sinc(pi z) = sin(pi z)/(pi z)
-      return (Math.abs(z) < 1e-12) ? 1 : Math.sin(Math.PI*z)/(Math.PI*z);
     }
 
     function kernel(u, kind){
@@ -589,12 +592,10 @@
     }
 
     function linInterp(x, xs, ys){
-      // xs sorted
       const n = xs.length;
       if (n < 2) return NaN;
       if (x <= xs[0]) return ys[0];
       if (x >= xs[n-1]) return ys[n-1];
-      // binary search
       let lo = 0, hi = n-1;
       while (hi - lo > 1){
         const mid = (lo + hi) >> 1;
@@ -607,11 +608,10 @@
       return y0 + t*(y1 - y0);
     }
 
-    // ----- Physics core (Bach-style double slit)
+    // ----- Physics core
     function deriveLambda_m(E_eV, m){
       const E = E_eV * eV;
-      // relativistic p = sqrt(E^2 + 2 E m c^2)/c  (E kinetic)
-      const p = Math.sqrt(E*E + 2*E*m*c*c) / c;
+      const p = Math.sqrt(E*E + 2*E*m*c*c) / c; // relativistic correction, kinetic E
       return h / p;
     }
 
@@ -638,7 +638,6 @@
       const L0_m = Math.max(parseFloat(L0nmEl.value) * 1e-9, 1e-35);
       const kind = kernelEl.value;
 
-      // effective strength
       const R_eff = sturOn ? (RqBase * Math.pow(m / masses.electron, pwr)) : 0;
 
       // support bar notch
@@ -646,7 +645,6 @@
       const bar_w_m = Math.max(1e-12, parseFloat(barNmEl.value) * 1e-9);
       const barA = clamp(parseFloat(barAmpEl.value), 0, 0.99);
 
-      // screen y in meters
       const N = 1201;
       const y = new Array(N);
       const y_mm = new Array(N);
@@ -658,7 +656,6 @@
         y_mm[i] = yy * 1000;
       }
 
-      // QM + STUR
       const Iqm = new Array(N);
       const Ist = new Array(N);
       const diff = new Array(N);
@@ -667,21 +664,15 @@
         const yy = y[i];
         const theta = yy / L_m;
 
-        // envelope sinc^2(pi a theta / lambda)
         const env = Math.pow(sinc(Math.PI * a_m * theta / lambda_m), 2);
-
-        // fringes cos(2π d θ / λ)
         const phi = (2*Math.PI / lambda_m) * (d_m * theta);
 
-        // QM intensity
         let iQ = env * (1 + Math.cos(phi)) * 0.5;
 
-        // STUR: suppress cosine contrast with C(y)
         const u = Math.abs(d_m * theta) / L0_m;
         const C = Math.exp(-R_eff * kernel(u, kind));
         let iS = env * (1 + C * Math.cos(phi)) * 0.5;
 
-        // support bar notch (explicit, centered)
         if (barOn){
           const notch = 1 - barA * Math.pow(sinc(Math.PI * (yy / bar_w_m)), 2);
           iQ *= notch;
@@ -692,15 +683,11 @@
         Ist[i] = iS;
       }
 
-      // normalize each to max=1 (as in your existing tool)
       const Iq = normalizeMax(Iqm);
       const Is = normalizeMax(Ist);
 
-      for (let i=0;i<N;i++){
-        diff[i] = Is[i] - Iq[i];
-      }
+      for (let i=0;i<N;i++) diff[i] = Is[i] - Iq[i];
 
-      // visibility in window
       const win = parseFloat(winMmEl.value);
       let qMin=1, qMax=0, sMin=1, sMax=0;
       for (let i=0;i<N;i++){
@@ -751,13 +738,13 @@
 
       if (n < 5) return { n, chiQ: NaN, chiS: NaN, d: NaN };
 
-      const nu = Math.max(1, n - 1); // no fitted params assumed
+      const nu = Math.max(1, n - 1);
       const chiQ = ssQ / nu;
       const chiS = ssS / nu;
       return { n, chiQ, chiS, d: (chiS - chiQ) };
     }
 
-    // ----- Drawing
+    // ----- Drawing helpers
     function clear(){
       ctx.clearRect(0,0,mainCanvas.width,mainCanvas.height);
       ctx.fillStyle = "rgba(255,255,255,0.02)";
@@ -775,7 +762,6 @@
       const gx0 = padL, gx1 = w - padR;
       const gy0 = padT, gy1 = h - padB;
 
-      // grid
       ctx.strokeStyle = "rgba(255,255,255,0.08)";
       ctx.lineWidth = 1;
       const ngrid = 6;
@@ -788,13 +774,12 @@
         ctx.beginPath(); ctx.moveTo(gx0,y); ctx.lineTo(gx1,y); ctx.stroke();
       }
 
-      // border
       ctx.strokeStyle = "rgba(255,255,255,0.10)";
       ctx.strokeRect(gx0,gy0,gx1-gx0,gy1-gy0);
 
-      // axis labels
       ctx.fillStyle = "rgba(226,232,240,0.85)";
       ctx.font = "12px " + getComputedStyle(document.documentElement).getPropertyValue('--mono');
+
       if (opts.xlabel){
         ctx.textAlign = "center";
         ctx.fillText(opts.xlabel, (gx0+gx1)/2, h-16);
@@ -815,7 +800,7 @@
       return fr.gx0 + (x - fr.x0) * (fr.gx1 - fr.gx0) / (fr.x1 - fr.x0);
     }
     function mapY(fr, y){
-      return fr.gy1 - (y - fr.y0) * (fr.gy1 - fr.gy0) / (fr.y1 - fr.gy0);
+      return fr.gy1 - (y - fr.y0) * (fr.gy1 - fr.gy0) / (fr.y1 - fr.y0);
     }
 
     function drawLine(fr, xs, ys, color, width=2, dash=null){
@@ -874,31 +859,135 @@
       const R_eff = model.R_eff;
 
       for (let i=0;i<N;i++){
-        const y_m = (i - (N/2)) * (model.span_mm*1e-3) / N; // meters
+        const y_m = (i - (N/2)) * (model.span_mm*1e-3) / N;
         const theta = y_m / L;
         const phi = (2*Math.PI / lambda) * (d * theta);
 
         const u = Math.abs(d * theta) / Math.max(L0, 1e-35);
-        const C = Math.exp(-R_eff * kernel(u, kind)); // contrast
-        const damp = C; // keep it explicit: contrast factor as phase damping proxy
+        const C = Math.exp(-R_eff * kernel(u, kind));
 
         const phaseQM = phi/2;
-        const phaseST = (phi/2) * damp;
+        const phaseST = (phi/2) * C;
 
-        const coh = Math.sqrt(C); // simple amplitude proxy for phase-plane (explicitly heuristic)
-
+        const coh = Math.sqrt(C);
         ptsQM[i] = { x: Math.cos(phaseQM), y: Math.sin(phaseQM) };
         ptsST[i] = { x: coh*Math.cos(phaseST), y: coh*Math.sin(phaseST) };
       }
       return { ptsQM, ptsST };
     }
 
-    // ----- Render
+    // ----- Chi2 sweep (Rq sensitivity)
+    function sweepRqChi2(){
+      if (!dataCSV){
+        warnLine.style.display = "block";
+        warnLine.style.borderColor = "var(--warn)";
+        warnLine.textContent = "Load CSV data first to run χ² sensitivity sweep.";
+        return;
+      }
+
+      setStatus("Sweeping Rq…");
+      warnLine.style.display = "none";
+      warnLine.textContent = "";
+
+      const rq0 = parseFloat(rqEl.value);
+      const steps = 40;
+      const rqMax = 1.0;
+
+      const rqVals = [];
+      const chiVals = [];
+
+      for (let i = 0; i <= steps; i++){
+        const rq = rqMax * i / steps;
+        rqEl.value = rq.toFixed(6);
+
+        const model = computeModel();
+        const chi = computeChi2AgainstData(model);
+
+        if (chi && isFinite(chi.chiS)){
+          rqVals.push(rq);
+          chiVals.push(chi.chiS);
+        }
+      }
+
+      // restore original Rq
+      rqEl.value = rq0;
+
+      // snapshot (session audit log)
+      const minChi = Math.min(...chiVals);
+      const minIdx = chiVals.indexOf(minChi);
+      const rqAtMin = rqVals[minIdx];
+      const chiAtZero = chiVals[0];
+      const improvement = (chiAtZero - minChi) / chiAtZero;
+
+      lastChi2Sweep = {
+        timestamp: new Date().toISOString(),
+        rq_range: [0, 1.0],
+        best_fit_rq: rqAtMin,
+        chi2_at_zero: chiAtZero,
+        chi2_at_min: minChi,
+        improvement_pct: (improvement * 100).toFixed(4),
+        is_falsified: (rqAtMin <= EPS_RQ || improvement <= IMPROVE_FRAC)
+      };
+
+      drawChi2Sweep(rqVals, chiVals);
+      setStatus("Ready");
+    }
+
+    function drawChi2Sweep(rq, chi){
+      clear();
+      mainTitle.textContent = "Sensitivity Test: χ²_red(STUR) vs Rq";
+
+      const ymin = Math.min(...chi);
+      const ymax = Math.max(...chi);
+
+      const fr = drawAxes(
+        0, 1.0,
+        ymin * 0.95,
+        ymax * 1.05,
+        { xlabel: "Rq (coherence strength)", ylabel: "χ²_red(STUR)" }
+      );
+
+      drawLine(fr, rq, chi, "#fb7185", 2.5);
+      drawPoints(fr, [0], [chi[0]], "rgba(255,255,255,0.95)", 4);
+
+      // --- Adversarial Null Dominance Banner ---
+      const minChi = Math.min(...chi);
+      const minIdx = chi.indexOf(minChi);
+      const rqAtMin = rq[minIdx];
+      const chiAtZero = chi[0];
+
+      const improvement = (chiAtZero - minChi) / chiAtZero;
+      const isSTURBetter = (rqAtMin > EPS_RQ) && (improvement > IMPROVE_FRAC);
+
+      warnLine.style.display = "block";
+
+      if (!isSTURBetter){
+        warnLine.style.borderColor = "var(--danger)";
+        warnLine.textContent =
+`CRITICAL: Null Model (QM) Dominates.
+
+Global minimum occurs at Rq = 0 (or within tolerance),
+or improvement ≤ ${(IMPROVE_FRAC*100).toFixed(0)}%.
+
+Result: STUR is unsupported by this dataset under adversarial criteria.
+(Do NOT claim discovery from numerical epsilon.)`;
+      } else {
+        warnLine.style.borderColor = "var(--accent2)";
+        warnLine.textContent =
+`STUR Signal Detected (adversarial pass).
+
+Best fit: Rq = ${rqAtMin.toFixed(3)}
+Improvement over QM (Rq=0): ${(improvement*100).toFixed(2)}%
+
+Caution: check systematics (PSF, charging) before claiming physics.`;
+      }
+
+      drawLegend([{label:"χ²_red(STUR) sweep", color:"#fb7185"}], fr.gx0+10, fr.gy0+18);
+    }
+
+    // ----- Render main view
     function render(){
       try{
-        warnLine.style.display = "none";
-        warnLine.textContent = "";
-
         setStatus("Computing…");
 
         const model = computeModel();
@@ -907,14 +996,12 @@
         lamOut.textContent = (model.lambda_m*1e12).toFixed(2) + " pm";
         reffOut.textContent = fmtSI(model.R_eff);
 
-        // HUD: visibility + ΔV
         VqmEl.textContent = model.Vqm.toFixed(4);
         VstEl.textContent = model.Vst.toFixed(4);
         const dV = model.Vqm - model.Vst;
         dVEl.textContent = dV.toFixed(4);
         dvBarEl.style.width = clamp(Math.abs(dV)*120, 0, 100).toFixed(1) + "%";
 
-        // chi2 vs data (if any)
         const chi = computeChi2AgainstData(model);
         if (chi && isFinite(chi.chiQ) && isFinite(chi.chiS)){
           chiQMEl.textContent = chi.chiQ.toFixed(3);
@@ -930,6 +1017,12 @@
           chiSTEl.textContent = "—";
           chiDEl.textContent = "—";
           chiDecisionEl.textContent = dataCSV ? "Need more points in window" : "Load CSV";
+        }
+
+        // Hide banner unless sweep was recently run; keep it quiet otherwise.
+        if (!lastChi2Sweep) {
+          warnLine.style.display = "none";
+          warnLine.textContent = "";
         }
 
         clear();
@@ -951,11 +1044,10 @@
 
             const fr = drawAxes(xs[0], xs[xs.length-1], ymin, ymax, {
               xlabel: "Position (mm)",
-              ylabel: "ΔI × 1000",
-              padL: 60, padR: 20, padT: 18, padB: 50
+              ylabel: "ΔI × 1000"
             });
 
-            drawLine(fr, xs, ys, "#a78bfa", 2.5, null);
+            drawLine(fr, xs, ys, "#a78bfa", 2.5);
             drawLegend([{label:"STUR − QM (×1000)", color:"#a78bfa"}], fr.gx0+10, fr.gy0+18);
           } else {
             mainTitle.textContent = "Interference Intensity";
@@ -963,14 +1055,12 @@
 
             const fr = drawAxes(xs[0], xs[xs.length-1], 0, 1.05, {
               xlabel: "Position (mm)",
-              ylabel: "Normalized intensity",
-              padL: 60, padR: 20, padT: 18, padB: 50
+              ylabel: "Normalized intensity"
             });
 
-            drawLine(fr, xs, model.Iq, "#2563eb", 2.5, null);
+            drawLine(fr, xs, model.Iq, "#2563eb", 2.5);
             drawLine(fr, xs, model.Is, "#059669", 2.5, [6,5]);
 
-            // data overlay
             if (dataCSV){
               drawPoints(fr, dataCSV.y_mm, dataCSV.I, "rgba(255,255,255,0.92)", 2.0);
             }
@@ -986,8 +1076,7 @@
           mainTitle.textContent = "Wavefunction Phase-Space (ψ-plane): QM circle vs STUR spiral";
           const fr = drawAxes(-1.1, 1.1, -1.1, 1.1, {
             xlabel: "Re(ψ)",
-            ylabel: "Im(ψ)",
-            padL: 60, padR: 20, padT: 18, padB: 50
+            ylabel: "Im(ψ)"
           });
 
           // unit circle
@@ -1006,7 +1095,6 @@
 
           const ps = computePhaseSpace(model);
 
-          // points
           ctx.save();
           ctx.fillStyle = "#2563eb";
           for (const p of ps.ptsQM){
@@ -1030,6 +1118,7 @@
       } catch (err){
         setStatus("Error");
         warnLine.style.display = "block";
+        warnLine.style.borderColor = "var(--danger)";
         warnLine.textContent = "Runtime error: " + (err && err.message ? err.message : String(err));
         console.error(err);
       }
@@ -1040,7 +1129,6 @@
       const lines = text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
       if (lines.length < 2) return null;
 
-      // detect header
       let start = 0;
       if (/[a-zA-Z]/.test(lines[0])) start = 1;
 
@@ -1057,12 +1145,10 @@
       }
       if (y.length < 5) return null;
 
-      // sort by y
       const idx = y.map((v,i)=>i).sort((i,j)=>y[i]-y[j]);
       const ys = idx.map(i=>y[i]);
       const Is = idx.map(i=>I[i]);
 
-      // normalize max=1
       let m = 0;
       for (const v of Is) if (v > m) m = v;
       const In = (m > 0) ? Is.map(v=>v/m) : Is.map(()=>0);
@@ -1078,12 +1164,16 @@
         setStatus("Loading CSV…");
         const text = await f.text();
         const parsed = parseCSV(text);
+
         if (!parsed){
           dataCSV = null;
           warnLine.style.display = "block";
+          warnLine.style.borderColor = "var(--warn)";
           warnLine.textContent = "Could not parse CSV. Expected columns: y_mm,intensity (header optional).";
         } else {
           dataCSV = parsed;
+          // reset sweep snapshot; new dataset means new audit state
+          lastChi2Sweep = null;
           warnLine.style.display = "none";
           warnLine.textContent = "";
         }
@@ -1091,11 +1181,12 @@
       } catch (e){
         console.error(e);
         warnLine.style.display = "block";
+        warnLine.style.borderColor = "var(--danger)";
         warnLine.textContent = "CSV load error: " + (e && e.message ? e.message : String(e));
       }
     });
 
-    // ----- Presets
+    // ----- Preset
     function loadBachPreset(){
       particleEl.value = "electron";
       EevEl.value = 600;
@@ -1120,10 +1211,14 @@
       winMmEl.value = 2.0;
       sigmaEl.value = 0.02;
 
+      lastChi2Sweep = null;
+      warnLine.style.display = "none";
+      warnLine.textContent = "";
+
       render();
     }
 
-    // ----- Export JSON
+    // ----- Export JSON (Audit)
     function downloadText(filename, text, mime="application/json"){
       const blob = new Blob([text], {type:mime});
       const url = URL.createObjectURL(blob);
@@ -1141,9 +1236,16 @@
       const chi = computeChi2AgainstData(model);
 
       const out = {
-        schema: "stur-bach-falsification-v1",
+        schema: "stur-bach-falsification-v2-goldmaster",
         exported_at: new Date().toISOString(),
+
+        adversarial_thresholds: {
+          eps_rq: EPS_RQ,
+          improve_frac: IMPROVE_FRAC
+        },
+
         view: { viewMode, showDiff },
+
         params: {
           particle: particleEl.value,
           energy_eV: parseFloat(EevEl.value),
@@ -1153,33 +1255,41 @@
           d_nm: parseFloat(dNmEl.value),
           L_cm: parseFloat(LcmEl.value),
           span_mm: parseFloat(spanMmEl.value),
+
           stur_on: sturOnEl.checked,
           Rq_base: parseFloat(rqEl.value),
           mass_power_p: parseFloat(pwrEl.value),
           L0_nm: parseFloat(L0nmEl.value),
           kernel: kernelEl.value,
+
           support_bar_on: barOnEl.checked,
           support_bar_nm: parseFloat(barNmEl.value),
           notch_strength: parseFloat(barAmpEl.value),
+
           chi2_sigma: parseFloat(sigmaEl.value),
           window_mm: parseFloat(winMmEl.value)
         },
+
         derived: {
           mass_kg: model.m,
           lambda_pm: model.lambda_m * 1e12,
           R_eff: model.R_eff,
           visibility: { V_qm: model.Vqm, V_stur: model.Vst, dV: (model.Vqm - model.Vst) }
         },
+
         data_loaded: !!dataCSV,
+
         chi2: chi ? {
           n_in_window: chi.n,
           chi2_red_qm: chi.chiQ,
           chi2_red_stur: chi.chiS,
           delta: chi.d
-        } : null
+        } : null,
+
+        chi2_sweep_audit: lastChi2Sweep
       };
 
-      downloadText("stur_bach_summary.json", JSON.stringify(out, null, 2));
+      downloadText("stur_bach_audit.json", JSON.stringify(out, null, 2));
       setStatus("Exported");
       setTimeout(()=>setStatus("Ready"), 900);
     }
@@ -1209,21 +1319,23 @@
       const base =
 `Bach et al. (2013) controlled electron double-slit (600 eV, a=62 nm, d=272 nm, L=30.5 cm) is my falsification target.
 
-This tool computes QM baseline + STUR coherence-loss and (optionally) a support-bar notch model. If you digitize Fig. 1(c) and load CSV (y_mm,intensity), it reports χ²_red(QM) vs χ²_red(STUR).
+This tool computes QM baseline + STUR coherence-loss and an optional support-bar notch. Load digitized Fig. 1(c) CSV (y_mm,intensity) to compare χ²_red(QM) vs χ²_red(STUR).
 
-Decision rule: if χ²(STUR) ≥ χ²(QM) with pre-set STUR parameters → discard STUR. If χ²(STUR) < χ²(QM) without tuning → publish + replicate.
+Then run “Rq Sensitivity”: if χ² minimum is at Rq≈0 (or ≤1% improvement), the dataset supports QM and STUR fails.
 
-Try to falsify it: https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/scripts/stur_geometry_verifier.html`;
+Try to falsify it: https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/`;
 
       let tail = "";
       if (chi && isFinite(chi.chiQ) && isFinite(chi.chiS)){
-        tail = `\n\nCurrent (loaded CSV): χ²(QM)=${chi.chiQ.toFixed(3)} χ²(STUR)=${chi.chiS.toFixed(3)} Δ=${chi.d.toFixed(3)}.`;
+        tail += `\n\nCurrent CSV: χ²(QM)=${chi.chiQ.toFixed(3)} χ²(STUR)=${chi.chiS.toFixed(3)} Δ=${chi.d.toFixed(3)}.`;
       }
-
+      if (lastChi2Sweep){
+        tail += `\nSweep: best Rq=${lastChi2Sweep.best_fit_rq.toFixed(3)} improvement=${lastChi2Sweep.improvement_pct}% falsified=${lastChi2Sweep.is_falsified}.`;
+      }
       return base + tail;
     }
 
-    // ----- Protocol injection (your text, embedded)
+    // ----- Protocol injection
     function injectProtocol(){
       protocolBlock.innerHTML = `
 <h2>Falsification Protocol: Bach et al. (2013) Double-Slit Experiment</h2>
@@ -1250,15 +1362,13 @@ DOI: <a href="http://dx.doi.org/10.1088/1367-2630/15/3/033018" target="_blank" r
 
 <h3>Why This Experiment Is Perfect for Falsification</h3>
 <ul>
-  <li><b>Well-characterized geometry:</b> SEM-verified slits, nm precision; support bar gives a distinctive notch.</li>
-  <li><b>Single-electron regime:</b> ~1 Hz detection, huge separations, no e–e interactions.</li>
-  <li><b>Published patterns:</b> Fig. 1(c) P₁₂, Fig. 2 mask scan, Fig. 3 build-up sequence.</li>
-  <li><b>QM baseline is fixed:</b> no free parameters beyond measured a,d,λ,L (plus explicit systematics).</li>
+  <li><b>Well-characterized geometry:</b> SEM-verified slits; the support bar adds a distinctive notch-like feature.</li>
+  <li><b>Single-electron regime:</b> ~1 Hz detection; no e–e interactions.</li>
+  <li><b>QM baseline is fixed:</b> no “fit knobs” beyond measured geometry and λ.</li>
 </ul>
 
 <h3>Data Extraction Methods</h3>
-<p><b>Method 1 (quick):</b> Load Bach preset → enable support bar → compare qualitatively to Fig. 1(c).</p>
-<p><b>Method 2 (rigorous):</b> Digitize Fig. 1(c) using WebPlotDigitizer and load CSV here.</p>
+<p><b>Rigorous:</b> Digitize Fig. 1(c) using WebPlotDigitizer and load CSV here.</p>
 <p><b>WebPlotDigitizer:</b> <a href="https://automeris.io/WebPlotDigitizer/" target="_blank" rel="noopener">automeris.io/WebPlotDigitizer</a></p>
 
 <h4>CSV format</h4>
@@ -1267,36 +1377,23 @@ DOI: <a href="http://dx.doi.org/10.1088/1367-2630/15/3/033018" target="_blank" r
 -4.9,0.245
 ...</code></pre>
 
-<h4>Cleaning (example)</h4>
-<pre><code>import pandas as pd
-import numpy as np
-
-df = pd.read_csv('bach_fig1c_raw.csv')
-df = df.drop_duplicates(subset=['y_mm']).sort_values('y_mm')
-df['intensity'] = df['intensity'] / df['intensity'].max()
-df = df[df['intensity'] &gt;= 0]
-df.to_csv('bach_2013_P12.csv', index=False)</code></pre>
-
-<h3>Falsification Criteria</h3>
+<h3>Models</h3>
 <p><b>Null (QM):</b></p>
 <pre><code>I_QM(y) = sinc²(πaθ/λ) · [1 + cos(2πdθ/λ)] / 2</code></pre>
+
 <p><b>Alt (STUR):</b></p>
 <pre><code>I_STUR(y) = sinc²(πaθ/λ) · [1 + C(y)·cos(2πdθ/λ)] / 2
 C(y) = exp(-R_eff · kernel(|dθ|/L₀))</code></pre>
 
-<p><b>Decision rule:</b> If χ²_red(STUR) &lt; χ²_red(QM), STUR improves fit. Otherwise, STUR fails to improve.</p>
-<p><b>Critical check:</b> Were Rq/L₀ tuned post-hoc to Bach data? If yes, it’s fitting—not prediction.</p>
-
-<h3>Systematics to track</h3>
+<h3>Adversarial Criteria</h3>
 <ul>
-  <li>Support bar notch (this page includes an explicit notch toggle; refine if you have the exact transfer function).</li>
-  <li>Finite collimation → partial coherence (standard optics).</li>
-  <li>Detector PSF blur (can be modeled as Gaussian convolution if needed).</li>
-  <li>Charging effects on Si₃N₄ (time-dependent shifts/contrast loss).</li>
+  <li>Compute χ²_red(QM) and χ²_red(STUR) in a fixed ±window.</li>
+  <li>Run “Rq Sensitivity” sweep (0→1). If global minimum is at Rq≈0 <i>or</i> improvement ≤ 1%, the dataset supports QM and STUR is flagged as unsupported.</li>
+  <li>Export JSON (Audit) stores sweep snapshot to prevent post-hoc reinterpretation.</li>
 </ul>
 
 <h3>Bottom line</h3>
-<p>Digitize → load CSV → compare χ². Let the data decide.</p>
+<p>Digitize → load CSV → compare χ² → run sweep → export audit. Let the data decide.</p>
       `;
     }
 
@@ -1314,10 +1411,9 @@ C(y) = exp(-R_eff · kernel(|dθ|/L₀))</code></pre>
     });
 
     btnBach.addEventListener("click", loadBachPreset);
+    btnSweep.addEventListener("click", sweepRqChi2);
     btnExport.addEventListener("click", exportSummary);
-    btnCopyX.addEventListener("click", async ()=> {
-      await copyToClipboard(buildXPost());
-    });
+    btnCopyX.addEventListener("click", async ()=> { await copyToClipboard(buildXPost()); });
 
     // re-render on input
     [
@@ -1326,12 +1422,16 @@ C(y) = exp(-R_eff · kernel(|dθ|/L₀))</code></pre>
       sturOnEl,rqEl,pwrEl,L0nmEl,kernelEl,
       barOnEl,barNmEl,barAmpEl,
       sigmaEl,winMmEl
-    ].forEach(el => el.addEventListener("input", render));
+    ].forEach(el => el.addEventListener("input", () => {
+      // If a user changes controls after a sweep, invalidate the sweep audit (prevents stale claims).
+      lastChi2Sweep = null;
+      render();
+    }));
 
-    // lambda mode toggle: show/hide manual
     lambdaModeEl.addEventListener("change", ()=>{
       const manual = (lambdaModeEl.value === "manual");
       lambdaPmEl.disabled = !manual;
+      lastChi2Sweep = null;
       render();
     });
 
