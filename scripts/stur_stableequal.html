@@ -15,10 +15,13 @@
 }
 *{box-sizing:border-box}
 body{
-  margin:0;background:linear-gradient(180deg,#030510,#050814);
-  color:var(--text);font-family:var(--sans);padding:20px;
+  margin:0;
+  background:linear-gradient(180deg,#030510,#050814);
+  color:var(--text);
+  font-family:var(--sans);
+  padding:20px;
 }
-.wrap{max-width:1550px;margin:auto}
+.wrap{max-width:1600px;margin:auto}
 .grid{display:grid;grid-template-columns:1fr 1.25fr;gap:16px}
 @media(max-width:1100px){.grid{grid-template-columns:1fr}}
 .card{
@@ -35,30 +38,43 @@ body{
 }
 .param{margin-bottom:12px}
 .param label{font-size:12px;font-weight:700;color:#dbeafe}
-.param .row{display:flex;gap:8px;margin-top:6px}
-.param input[type=range]{flex:1}
-.param input[type=number], select{
-  width:100%;background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);color:var(--text);
-  border-radius:8px;padding:6px;font-family:var(--mono);
+.param input, select{
+  width:100%;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--text);
+  border-radius:8px;
+  padding:6px;
+  font-family:var(--mono);
 }
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .metric{
-  background:rgba(255,255,255,.04);
+  background:rgba(255,255,255,0.04);
   border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;padding:12px;margin-bottom:8px;
+  border-radius:12px;
+  padding:10px;
 }
 .metric .label{font-size:11px;color:var(--muted)}
-.metric .value{font-family:var(--mono);font-size:18px;font-weight:800;margin-top:4px}
-canvas{width:100%;border-radius:12px;margin-top:10px;background:rgba(255,255,255,.03)}
+.metric .value{font-family:var(--mono);font-size:16px;font-weight:800}
+canvas{
+  width:100%;
+  border-radius:12px;
+  margin-top:10px;
+  background:rgba(255,255,255,.03)
+}
 button{
-  width:100%;padding:10px;border-radius:12px;
-  background:rgba(52,211,153,.18);
+  width:100%;
+  padding:10px;
+  border-radius:12px;
+  background:rgba(52,211,153,0.18);
   border:1px solid rgba(52,211,153,.35);
-  color:#dcfce7;font-weight:800;cursor:pointer;margin-top:8px;
+  color:#dcfce7;
+  font-weight:800;
+  cursor:pointer;
+  margin-top:8px;
 }
 button.alt{background:rgba(96,165,250,.2);border-color:rgba(96,165,250,.4)}
-button.warn{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.35)}
-.small{font-size:11px;color:var(--muted)}
+button.warn{background:rgba(245,158,11,0.18);border-color:rgba(245,158,11,.35)}
 .legend{font-size:11px;color:#94a3b8;margin-top:6px}
 .legend span{margin-right:12px}
 </style>
@@ -72,76 +88,60 @@ button.warn{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.35)}
 
 <!-- INPUT -->
 <div class="card">
-
 <div class="cardtitle">Historical Benchmarks</div>
-<select id="benchmark" onchange="loadBenchmark(this.value)">
-  <option value="none">— Select Benchmark —</option>
+<select onchange="loadBenchmark(this.value)">
+  <option value="">— Select Benchmark —</option>
   <option value="tonomura">Tonomura (1989) — Electron 50 keV</option>
   <option value="zeilinger">Zeilinger (1988) — Neutron 0.02 eV</option>
+  <option value="bach">Bach et al. (2013) — Electron 600 eV</option>
 </select>
 
 <div class="cardtitle">Particle Mode</div>
-<button class="alt" onclick="setMode('optical')">Optical (Photon)</button>
+<button class="alt" onclick="setMode('optical')">Photon</button>
 <button class="alt" onclick="setMode('electron')">Electron</button>
 <button class="alt" onclick="setMode('neutron')">Neutron</button>
 <button class="alt" onclick="setMode('alpha')">Alpha</button>
 
-<div class="param">
-<label>Particle Energy (eV)</label>
-<div class="row">
-<input id="eR" type="range" min="0.01" max="50000" step="0.01" value="600">
-<input id="eN" type="number" value="600">
-</div>
-</div>
-
-<div class="cardtitle">Geometry</div>
-<div class="param"><label>λ (nm)</label><div class="row">
-<input id="lambdaR" type="range" min="0.001" max="800" value="588">
-<input id="lambdaN" type="number" value="588"></div></div>
-
-<div class="param"><label>a (μm)</label><div class="row">
-<input id="aR" type="range" min="1" max="200" value="99">
-<input id="aN" type="number" value="99"></div></div>
-
-<div class="param"><label>d (μm)</label><div class="row">
-<input id="dR" type="range" min="10" max="3000" value="1120">
-<input id="dN" type="number" value="1120"></div></div>
-
-<div class="param"><label>L (cm)</label><div class="row">
-<input id="LR" type="range" min="1" max="300" value="110">
-<input id="LN" type="number" value="110"></div></div>
+<div class="param"><label>Energy (eV)</label><input id="eN" type="number" value="600" oninput="compute()"></div>
+<div class="param"><label>λ (nm)</label><input id="lambdaN" type="number" value="588" oninput="compute()"></div>
+<div class="param"><label>a (μm)</label><input id="aN" type="number" value="99" oninput="compute()"></div>
+<div class="param"><label>d (μm)</label><input id="dN" type="number" value="1120" oninput="compute()"></div>
+<div class="param"><label>L (cm)</label><input id="LN" type="number" value="110" oninput="compute()"></div>
 
 <div class="cardtitle">STUR</div>
-<div class="param"><label>Rq</label><div class="row">
-<input id="rqR" type="range" min="0" max="2.5" step="0.05" value="0.3">
-<input id="rqN" type="number" step="0.05" value="0.3"></div></div>
-
-<div class="param"><label>L₀ (nm)</label><div class="row">
-<input id="l0R" type="range" min="1" max="500" value="120">
-<input id="l0N" type="number" value="120"></div></div>
+<div class="param"><label>Rq</label><input id="rqN" type="number" step="0.05" value="0.3" oninput="compute()"></div>
+<div class="param"><label>L₀ (nm)</label><input id="l0N" type="number" value="120" oninput="compute()"></div>
 
 <button onclick="exportPred()">📊 Export Predictions</button>
-<button onclick="exportRaw()" class="alt">📈 Export Raw Profiles</button>
-<button onclick="runVisibilitySweep()" class="warn">📉 Visibility vs Rq</button>
-
+<button onclick="exportRaw()" class="alt">📈 Export Raw</button>
+<button onclick="runVisibilitySweep()" class="warn">📉 V vs Rq</button>
+<button onclick="exportChiSquared()" class="warn">χ² vs Rq</button>
 </div>
 
 <!-- OUTPUT -->
 <div class="card">
-<div class="cardtitle">Observables</div>
+<div class="cardtitle">Observables & Fit Quality</div>
 
-<div class="metric"><div class="label">V(QM)</div><div class="value" id="vQM"></div></div>
-<div class="metric"><div class="label">V(STUR)</div><div class="value" id="vST"></div></div>
-<div class="metric"><div class="label">ΔV</div><div class="value" id="vDV"></div></div>
-<div class="metric"><div class="label">ℓ₍coh₎ (mm)</div><div class="value" id="ell"></div></div>
-<div class="metric"><div class="label">τ₍coh₎ (fs)</div><div class="value" id="tau"></div></div>
-<div class="metric"><div class="label">Max |ΔI| @ y (mm)</div><div class="value" id="maxpos"></div></div>
+<div class="metric-grid">
+  <div class="metric"><div class="label">V(QM)</div><div class="value" id="vQM"></div></div>
+  <div class="metric"><div class="label">V(STUR)</div><div class="value" id="vST"></div></div>
+  <div class="metric"><div class="label">ΔV</div><div class="value" id="vDV"></div></div>
+  <div class="metric"><div class="label">χ²</div><div class="value" id="chiVal" style="color:var(--accent2)"></div></div>
+</div>
+
+<div class="metric-grid">
+  <div class="metric"><div class="label">ℓ₍coh₎ (mm)</div><div class="value" id="ell"></div></div>
+  <div class="metric"><div class="label">τ₍coh₎ (fs)</div><div class="value" id="tau"></div></div>
+  <div class="metric"><div class="label">V² + D²</div><div class="value" id="comp"></div></div>
+</div>
 
 <canvas id="plot" width="1100" height="420"></canvas>
+<canvas id="residualPlot" width="1100" height="180"></canvas>
+
 <div class="legend">
 <span style="color:#2563eb">● QM</span>
 <span style="color:#059669">– – STUR</span>
-<span style="color:#a78bfa">⋯ Ratio</span>
+<span style="color:#a78bfa">⋯ Residuals (STUR − QM)</span>
 </div>
 </div>
 
@@ -149,167 +149,153 @@ button.warn{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.35)}
 </div>
 
 <script>
-/* ========= CONSTANTS ========= */
-const h=6.62607015e-34, eV=1.602176634e-19;
-const masses={
-  optical:0,
-  electron:9.1093837e-31,
-  neutron:1.6749274e-27,
-  alpha:6.6446572e-27
-};
-const C=299792458,Y_HALF=0.025;
+const h=6.62607015e-34, eV=1.602176634e-19, C=299792458;
+const masses={optical:0,electron:9.1093837e-31,neutron:1.6749274e-27,alpha:6.6446572e-27};
+const Y_HALF=0.025;
 
-/* ========= OPERATORS ========= */
 const S_u=u=>Math.tanh(u)*(1-Math.exp(-u));
 const sinc=x=>Math.abs(x)<1e-12?1:Math.sin(Math.PI*x)/(Math.PI*x);
 
-/* ========= STATE ========= */
-let mode="optical",lastProfiles=null;
+let mode="optical", lastProfiles=null;
 
-/* ========= MODE ========= */
 function autoScaleL0(){
   const m=masses[mode]||masses.electron;
   const scale=Math.sqrt(m/masses.electron)||1;
-  l0R.min=Math.max(1,Math.round(10/scale));
-  l0R.max=Math.round(500/scale);
-  l0N.value=Math.min(l0R.max,Math.max(l0R.min,l0N.value));
-  l0R.value=l0N.value;
+  l0N.min=Math.max(1,10/scale);
+  l0N.max=500/scale;
+  l0N.value=Math.min(l0N.max,Math.max(l0N.min,l0N.value));
 }
-function setMode(m){
-  mode=m;
-  autoScaleL0();
+
+function setMode(m){mode=m;autoScaleL0();compute();}
+
+function loadBenchmark(k){
+  if(k==="tonomura"){setMode("electron");eN.value=50000;aN.value=1;dN.value=10;LN.value=150;}
+  if(k==="zeilinger"){setMode("neutron");eN.value=0.02;aN.value=100;dN.value=1200;LN.value=120;}
+  if(k==="bach"){setMode("electron");eN.value=600;aN.value=0.062;dN.value=0.272;LN.value=30;}
   compute();
 }
 
-/* ========= BENCHMARKS ========= */
-function loadBenchmark(key){
-  if(key==="none") return;
-
-  if(key==="tonomura"){
-    setMode("electron");
-    eN.value=eR.value=50000;
-    aN.value=aR.value=1;
-    dN.value=dR.value=10;
-    LN.value=LR.value=150;
-    rqN.value=rqR.value=0.2;
-    l0N.value=l0R.value=120;
-  }
-  if(key==="zeilinger"){
-    setMode("neutron");
-    eN.value=eR.value=0.02;
-    aN.value=aR.value=100;
-    dN.value=dR.value=1200;
-    LN.value=LR.value=120;
-    rqN.value=rqR.value=0.4;
-    l0N.value=l0R.value=300;
-  }
-  compute();
-}
-
-/* ========= CORE ========= */
 function compute(N=501){
-  const E=+eN.value*eV;
-  let λ=+lambdaN.value*1e-9;
-  if(mode!=="optical"){
-    λ=h/Math.sqrt(2*masses[mode]*E);
-    lambdaN.value=(λ*1e9).toFixed(4);
-  }
+  let λ=lambdaN.value*1e-9;
+  if(mode!=="optical") λ=h/Math.sqrt(2*masses[mode]*eN.value*eV);
+  lambdaN.value=(λ*1e9).toFixed(4);
+
   const a=aN.value*1e-6,d=dN.value*1e-6,L=LN.value*1e-2;
   const Rq=rqN.value,L0=l0N.value*1e-9;
 
-  const yMM=[],Iq=[],Is=[];
-  let maxDev=0,maxPos=0;
-
+  const y=[],Iq=[],Is=[];
   for(let i=0;i<N;i++){
     const yy=-Y_HALF+2*Y_HALF*i/(N-1);
     const env=sinc(a*yy/(λ*L))**2;
     const φ=(2*Math.PI/λ)*(d*yy/L);
-    const u=Math.abs(d*yy/L)/Math.max(L0,1e-30);
+    const u=Math.abs(d*yy/L)/Math.max(L0,1e-25);
     const rs=Rq*S_u(u);
     const coh=Math.exp(-rs),damp=Math.exp(-0.5*rs*rs);
-    const iq=env*Math.cos(φ/2)**2;
-    const is=2*env*coh*coh*(1+Math.cos(φ)*damp);
-    yMM.push(yy*1000);Iq.push(iq);Is.push(is);
+    Iq.push(env*Math.cos(φ/2)**2);
+    Is.push(2*env*coh*coh*(1+Math.cos(φ)*damp));
+    y.push(yy*1000);
   }
 
   const norm=a=>{const m=Math.max(...a);return a.map(v=>v/m)};
-  const Q=norm(Iq),S=norm(Is),R=S.map((v,i)=>v/Q[i]);
+  const Q=norm(Iq),S=norm(Is),R=S.map((v,i)=>v-Q[i]);
+
+  const chi2=S.reduce((s,v,i)=>s+(v-Q[i])**2,0);
+  chiVal.textContent=chi2.toExponential(3);
 
   const vis=a=>{
-    const c=a.filter((_,i)=>Math.abs(yMM[i])<2);
+    const c=a.filter((_,i)=>Math.abs(y[i])<2);
     return (Math.max(...c)-Math.min(...c))/(Math.max(...c)+Math.min(...c));
   };
 
-  vQM.textContent=vis(Q).toFixed(4);
-  vST.textContent=vis(S).toFixed(4);
-  vDV.textContent=(vST.textContent-vQM.textContent).toFixed(4);
+  const vqm=vis(Q),vst=vis(S);
+  vQM.textContent=vqm.toFixed(4);
+  vST.textContent=vst.toFixed(4);
+  vDV.textContent=(vst-vqm).toFixed(4);
+
+  const D=Math.sqrt(Math.max(0,1-vqm*vqm));
+  comp.textContent=((vqm*vqm+D*D)<=1.000001?"✓ ":"⚠ ")+(vqm*vqm+D*D).toFixed(4);
 
   let ucoh=Infinity;
-  for(let u=0;u<50;u+=0.001){if(Rq*S_u(u)>=1){ucoh=u;break}}
+  for(let u=0;u<50;u+=0.001) if(Rq*S_u(u)>=1){ucoh=u;break;}
   const ell=L*L0/d*ucoh;
   ell.textContent=isFinite(ell)?(ell*1000).toFixed(3):"∞";
   tau.textContent=isFinite(ell)?(ell/C*1e15).toFixed(2):"∞";
 
-  S.forEach((v,i)=>{const dv=Math.abs(v-Q[i]);if(dv>maxDev){maxDev=dv;maxPos=yMM[i]}});
-  maxpos.textContent=maxPos.toFixed(3);
-
-  lastProfiles={yMM,Q,S,R};
-  drawPlot(yMM,Q,S,R);
+  lastProfiles={y,Q,S,R};
+  drawPlot(y,Q,S);
+  drawResiduals(y,R);
 }
 
-/* ========= PLOT ========= */
-function drawPlot(x,q,s,r){
+function drawPlot(x,q,s){
   const ctx=plot.getContext("2d");
   ctx.clearRect(0,0,plot.width,plot.height);
   const pad=60,w=plot.width-pad*2,h=plot.height-pad*2;
-  const xmin=Math.min(...x),xmax=Math.max(...x);
+  const span=5*(lambdaN.value*1e-9*LN.value*1e-2)/(dN.value*1e-6);
+  const xmin=-span*1000,xmax=span*1000;
   const mapX=v=>pad+(v-xmin)*w/(xmax-xmin);
   const mapY=v=>pad+h*(1-v);
-  const draw=(arr,col,dash)=>{
-    ctx.strokeStyle=col;ctx.setLineDash(dash||[]);
-    ctx.beginPath();
-    x.forEach((v,i)=>{const X=mapX(v),Y=mapY(arr[i]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});
+  const draw=(a,c,d=[])=>{
+    ctx.strokeStyle=c;ctx.setLineDash(d);ctx.beginPath();
+    let f=true;
+    x.forEach((v,i)=>{if(v<xmin||v>xmax)return;
+      const X=mapX(v),Y=mapY(a[i]);
+      if(f){ctx.moveTo(X,Y);f=false}else ctx.lineTo(X,Y);
+    });
     ctx.stroke();
   };
   draw(q,"#2563eb");
   draw(s,"#059669",[6,4]);
-  draw(r,"#a78bfa",[2,3]);
   ctx.setLineDash([]);
 }
 
-/* ========= EXPORTS ========= */
-function exportPred(){download({mode,params:getParams(),obs:getObs()},"stur_predictions.json")}
+function drawResiduals(x,r){
+  const ctx=residualPlot.getContext("2d");
+  ctx.clearRect(0,0,residualPlot.width,residualPlot.height);
+  const pad=50,w=residualPlot.width-pad*2,h=residualPlot.height-pad*2;
+  const span=5*(lambdaN.value*1e-9*LN.value*1e-2)/(dN.value*1e-6);
+  const xmin=-span*1000,xmax=span*1000;
+  const rmax=Math.max(...r.map(v=>Math.abs(v)),0.01);
+  const mapX=v=>pad+(v-xmin)*w/(xmax-xmin);
+  const mapY=v=>pad+h*(0.5-v/(2*rmax));
+
+  ctx.strokeStyle="rgba(255,255,255,.15)";
+  ctx.beginPath();ctx.moveTo(pad,mapY(0));ctx.lineTo(pad+w,mapY(0));ctx.stroke();
+
+  ctx.strokeStyle="#a78bfa";
+  ctx.beginPath();
+  let f=true;
+  x.forEach((v,i)=>{if(v<xmin||v>xmax)return;
+    const X=mapX(v),Y=mapY(r[i]);
+    if(f){ctx.moveTo(X,Y);f=false}else ctx.lineTo(X,Y);
+  });
+  ctx.stroke();
+}
+
+function exportPred(){download({mode,Rq:+rqN.value,V:+vST.textContent,chi2:chiVal.textContent},"stur_predictions.json")}
 function exportRaw(){download(lastProfiles,"stur_raw_profiles.json")}
+
 function runVisibilitySweep(){
-  const orig=+rqN.value;
-  const out=[];
+  const o=rqN.value,out=[];
+  for(let r=0;r<=2.5;r+=0.05){rqN.value=r;compute();out.push({Rq:r,V:+vST.textContent});}
+  rqN.value=o;compute();download(out,"stur_visibility_sweep.json");
+}
+
+function exportChiSquared(){
+  const o=rqN.value,out=[];
   for(let r=0;r<=2.5;r+=0.05){
-    rqN.value=r;rqR.value=r;compute();
-    out.push({Rq:r,V:+vST.textContent});
+    rqN.value=r;compute();
+    out.push({Rq:r,chi2:+chiVal.textContent});
   }
-  rqN.value=rqR.value=orig;compute();
-  download(out,"stur_visibility_sweep.json");
+  rqN.value=o;compute();download(out,"stur_chi2_vs_rq.json");
 }
-function getParams(){
-  return{lambda_nm:+lambdaN.value,a_um:+aN.value,d_um:+dN.value,L_cm:+LN.value,Rq:+rqN.value,L0_nm:+l0N.value};
-}
-function getObs(){
-  return{V_QM:+vQM.textContent,V_STUR:+vST.textContent,ΔV:+vDV.textContent};
-}
+
 function download(o,n){
   const b=new Blob([JSON.stringify(o,null,2)],{type:"application/json"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=n;a.click();
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(b);a.download=n;a.click();
 }
 
-/* ========= SYNC ========= */
-[['lambdaR','lambdaN'],['aR','aN'],['dR','dN'],['LR','LN'],['rqR','rqN'],['l0R','l0N'],['eR','eN']]
-.forEach(([r,n])=>{
-  const R=document.getElementById(r),N=document.getElementById(n);
-  R.oninput=()=>{N.value=R.value;compute()};
-  N.oninput=()=>{R.value=N.value;compute()};
-});
-
-/* ========= INIT ========= */
+autoScaleL0();
 compute();
 </script>
 </body>
