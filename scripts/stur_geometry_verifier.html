@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>STUR – Geometry Verifier + Bach et al. (2013) Falsification Harness</title>
+<title>STUR Unified Research Suite — Verifier + Geometry Engine (Hardcoded)</title>
 
 <style>
-/* ===================== THEME ===================== */
 :root{
   --bg:#050814;
   --panel:#0a1022;
@@ -14,656 +13,655 @@
   --text:#e6edf3;
   --muted:#94a3b8;
   --accent:#60a5fa;
-  --accent2:#34d399;
+  --good:#34d399;
   --warn:#f59e0b;
-  --danger:#fb7185;
-  --purple:#a78bfa;
+  --bad:#fb7185;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   --radius:14px;
-  --shadow:0 18px 40px rgba(0,0,0,.45);
+  --shadow:0 15px 35px rgba(0,0,0,.5);
 }
 *{box-sizing:border-box}
 body{
   margin:0;
   background:
-    radial-gradient(1200px 700px at 10% 10%, rgba(96,165,250,.10), transparent 55%),
-    radial-gradient(900px 650px at 90% 20%, rgba(52,211,153,.10), transparent 55%),
-    linear-gradient(180deg,#030510,#050814 40%,#030510);
+    radial-gradient(circle at 50% 0%, #111827, #050814);
   color:var(--text);
-  font-family:var(--sans);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  line-height:1.5;
 }
-.wrap{max-width:1220px;margin:0 auto;padding:22px}
-
-/* ===================== UI ===================== */
-.top{display:flex;gap:14px;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
-h1{margin:0;font-size:26px}
-.sub{color:var(--muted);font-size:13px}
-button{
-  border:0;cursor:pointer;
-  padding:10px 12px;border-radius:12px;
-  background:rgba(255,255,255,.08);
-  color:var(--text);font-weight:800;font-size:13px;
+.wrap{max-width:1200px;margin:0 auto;padding:20px}
+header h1{margin:0}
+header p{margin:6px 0 0;color:var(--muted)}
+nav{
+  display:flex; gap:10px; margin:18px 0 16px;
+  border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap;
 }
-button:active{transform:translateY(1px)}
-button.primary{background:rgba(96,165,250,.22)}
-button.good{background:rgba(52,211,153,.18)}
-button.bad{background:rgba(251,113,133,.18)}
-button.warn{background:rgba(245,158,11,.18)}
-.grid{display:grid;grid-template-columns:1.35fr .65fr;gap:14px}
-@media(max-width:980px){.grid{grid-template-columns:1fr}}
+.tab-btn{
+  background:transparent;border:0;color:var(--muted);
+  padding:10px 16px; cursor:pointer; font-weight:800; border-radius:10px;
+}
+.tab-btn.active{color:var(--accent); background:rgba(96,165,250,0.12)}
 .card{
-  background:rgba(10,16,34,.85);
+  background:var(--panel);
   border:1px solid rgba(255,255,255,.08);
   border-radius:var(--radius);
   box-shadow:var(--shadow);
+  margin-bottom:18px;
   overflow:hidden;
 }
-.cardhead{
-  padding:12px 14px;
-  border-bottom:1px solid rgba(255,255,255,.07);
-  font-weight:900;font-size:13px;color:#cbd5e1;
-  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+.card-head{
+  padding:14px 16px;
+  background:rgba(255,255,255,0.02);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
+  font-weight:900;
 }
-.cardbody{padding:14px}
-.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:520px){.controls{grid-template-columns:1fr}}
+.card-body{padding:16px}
+.grid-ui{
+  display:grid;
+  grid-template-columns: 1fr 340px;
+  gap:18px;
+}
+@media(max-width:980px){ .grid-ui{grid-template-columns:1fr;} }
+
+.ctrl-stack{display:flex; flex-direction:column; gap:12px;}
 .ctrl{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:14px;padding:12px
+  background:rgba(0,0,0,0.20);
+  padding:12px;
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px;
 }
-.ctrl label{display:block;font-size:12px;font-weight:900;color:#dbeafe}
-.ctrl .hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.25}
-.ctrl .val{font-family:var(--mono);font-size:12px;margin-top:6px;color:#e2e8f0;white-space:pre-wrap}
+label{
+  display:block;
+  font-size:11px;
+  font-weight:900;
+  color:var(--accent);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  margin-bottom:6px;
+}
 input,select{
-  width:100%;padding:10px;
-  background:rgba(0,0,0,.25);
-  border:1px solid rgba(255,255,255,.1);
-  color:var(--text);border-radius:12px;
+  width:100%;
+  background:#030712;
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:9px 10px;
+  border-radius:10px;
   font-family:var(--mono);
   outline:none;
 }
-input:focus,select:focus{border-color:rgba(96,165,250,.55);box-shadow:0 0 0 3px rgba(96,165,250,.12)}
-canvas{width:100%;height:auto}
-.warnline{
-  margin-top:10px;padding:10px;
-  border-radius:12px;display:none;
-  background:rgba(0,0,0,.25);
-  border:1px solid rgba(255,255,255,.15);
-  font-size:12px;white-space:pre-wrap
-}
+input[type="checkbox"]{width:auto; transform:translateY(1px);}
+.hint{font-size:11px; color:var(--muted); margin-top:6px; line-height:1.25;}
+.row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
 .pill{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--mono);font-size:12px;color:var(--muted);
-  padding:7px 10px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.04);
+  display:inline-flex; align-items:center; gap:8px;
+  padding:7px 10px; border-radius:999px;
+  border:1px solid rgba(255,255,255,0.10);
+  background:rgba(255,255,255,0.04);
+  font-family:var(--mono); font-size:12px; color:var(--muted);
 }
-.dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);box-shadow:0 0 16px rgba(52,211,153,.35)}
-.small{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.25}
-.kv{
-  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px
+.dot{width:8px;height:8px;border-radius:50%; background:var(--good); box-shadow:0 0 16px rgba(52,211,153,.35)}
+button.action{
+  border:0; cursor:pointer;
+  padding:10px 12px; border-radius:12px;
+  font-weight:900;
+  background:rgba(96,165,250,0.22);
+  color:var(--text);
 }
-.kv > div{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:14px;padding:10px
+button.action:hover{opacity:.92}
+button.bad{background:rgba(251,113,133,0.22)}
+button.good{background:rgba(52,211,153,0.18)}
+button.warn{background:rgba(245,158,11,0.20)}
+canvas{
+  width:100%;
+  background:#02040a;
+  border-radius:12px;
+  display:block;
 }
-.kv .k{font-size:11px;color:var(--muted)}
-.kv .v{font-family:var(--mono);font-size:14px;font-weight:900;margin-top:4px}
+.readout{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+@media(max-width:520px){ .readout{grid-template-columns:1fr} }
+.stat-box{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  padding:10px;
+  border-radius:12px;
+  font-family:var(--mono);
+  font-size:12px;
+}
+.stat-box b{color:var(--text)}
+.hidden{display:none;}
+hr.sep{border:0;border-top:1px solid rgba(255,255,255,0.06); margin:12px 0;}
+small.mono{font-family:var(--mono); color:var(--muted)}
 </style>
 </head>
 
 <body>
 <div class="wrap">
+  <header>
+    <h1>STUR Unified Research Suite</h1>
+    <p>Hardcoded verifier + draggable metric engine (no uploads). One master Rq drives everything.</p>
+  </header>
 
-<div class="top">
-  <div>
-    <h1>STUR – Geometry Verifier <span style="color:var(--accent)">+ Bach (2013)</span></h1>
-    <div class="sub">QM baseline • STUR coherence-loss • Detector PSF • CSV χ² • Rq sensitivity sweep • Null-dominance enforced</div>
-  </div>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-    <button id="btnBach" class="good">Load Bach Preset</button>
-    <button id="btnSweep" class="bad">Rq Sensitivity</button>
-    <button id="btnExport" class="warn">Export JSON</button>
-    <span class="pill"><span class="dot"></span><span>Status: <b id="statusText" style="color:#e2e8f0">Ready</b></span></span>
-  </div>
-</div>
-
-<div class="grid">
-
-<!-- ===================== PLOT ===================== -->
-<div class="card">
-  <div class="cardhead">
-    <span>Interference Pattern (QM vs STUR)</span>
-    <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">QM: blue • STUR: green • Data: white</span>
-  </div>
-  <div class="cardbody">
-    <canvas id="mainCanvas" width="1100" height="420"></canvas>
-    <div id="warnLine" class="warnline"></div>
-  </div>
-</div>
-
-<!-- ===================== CONTROLS ===================== -->
-<div class="card">
-<div class="cardhead">Controls</div>
-<div class="cardbody">
-
-<div class="controls">
-
-  <div class="ctrl">
-    <label>Energy (eV)</label>
-    <input id="Eev" type="number" value="600" step="1" />
-    <div class="hint">Used for relativistic de Broglie λ when λ mode is “derive”.</div>
-  </div>
-
-  <div class="ctrl">
-    <label>λ Mode</label>
-    <select id="lambdaMode">
-      <option value="manual">Manual (pm)</option>
-      <option value="derive" selected>Relativistic derive</option>
-    </select>
-    <div style="height:8px"></div>
-    <input id="lambdaPm" type="number" value="50" step="0.1" />
-    <div class="hint">Manual overrides derivation. Bach 2013: ~50 pm @ 600 eV.</div>
-    <div class="val">λ = <span id="lamOut">—</span></div>
-  </div>
-
-  <div class="ctrl">
-    <label>Geometry</label>
-    <div class="hint">a (nm), d (nm), L (cm)</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
-      <input id="aNm" type="number" value="62" step="1" />
-      <input id="dNm" type="number" value="272" step="1" />
+  <div class="card">
+    <div class="card-head">
+      <span>Master Controls (Global)</span>
+      <span class="pill"><span class="dot"></span><span>Status: <b id="status">Ready</b></span></span>
     </div>
-    <div style="height:8px"></div>
-    <input id="Lcm" type="number" value="30.5" step="0.1" />
-    <div class="hint">Plot window fixed to ±5 mm for this compact harness.</div>
-  </div>
-
-  <div class="ctrl">
-    <label>STUR Rq</label>
-    <input id="rq" type="number" value="0.30" step="0.05" />
-    <div class="hint">Adversarial sweep checks whether data prefers Rq &gt; 0 or collapses to QM (Rq≈0).</div>
-  </div>
-
-  <div class="ctrl">
-    <label>Detector Blur (PSF)</label>
-    <input id="psfSigmaUm" type="number" value="5" step="1" />
-    <div class="hint">Gaussian σ (μm), applied to QM and STUR equally (fair shake).</div>
-  </div>
-
-  <div class="ctrl">
-    <label>CSV χ² (load digitized data)</label>
-    <input id="csvFile" type="file" accept=".csv,text/csv" />
-    <div class="hint">Expected columns: <span style="font-family:var(--mono)">y_mm,intensity</span>. Input auto-normalized to max=1.</div>
-  </div>
-
-  <div class="ctrl">
-    <label>χ² Results</label>
-    <div id="resultsOut" class="val">Load CSV to begin sweep</div>
-    <div class="hint">This is the formal falsifier output (not a visual judgment).</div>
-  </div>
-
-  <div class="ctrl">
-    <label>Instant χ² (current Rq)</label>
-    <div class="kv">
-      <div>
-        <div class="k">χ²(QM)</div>
-        <div class="v" id="chiQM">—</div>
-      </div>
-      <div>
-        <div class="k">χ²(STUR)</div>
-        <div class="v" id="chiST">—</div>
-      </div>
-      <div>
-        <div class="k">Δ = STUR − QM</div>
-        <div class="v" id="chiD">—</div>
-      </div>
-      <div>
-        <div class="k">Decision</div>
-        <div class="v" id="chiDecision">—</div>
+    <div class="card-body">
+      <div class="grid-ui" style="grid-template-columns: 1fr 1fr; align-items:start;">
+        <div class="ctrl">
+          <label>Master STUR Strength Rq</label>
+          <input id="RqMaster" type="range" min="0" max="1" step="0.01" value="0.30">
+          <div class="hint">Rq = <span id="RqMasterVal" class="mono">0.30</span> (drives Diffraction STUR contrast + Geometry metric strength)</div>
+        </div>
+        <div class="ctrl">
+          <label>Energy (eV)</label>
+          <input id="Eev" type="number" min="50" max="30000" step="10" value="600">
+          <div class="hint">Relativistic de Broglie λ derived from kinetic energy.</div>
+          <div class="hint"><small class="mono">λ = <span id="lamPm">—</span> pm</small></div>
+        </div>
       </div>
     </div>
-    <div class="small">Decision threshold here is conservative: Δ&lt;-0.10 suggests improvement; Δ&gt;0.10 suggests QM wins.</div>
   </div>
 
-</div>
-</div>
-</div>
+  <nav>
+    <button class="tab-btn active" data-tab="diff">1. Diffraction Verifier (Bach 2013)</button>
+    <button class="tab-btn" data-tab="geo">2. Geometry Engine (Drag Ball)</button>
+  </nav>
+
+  <!-- ===================== TAB 1: DIFFRACTION ===================== -->
+  <section id="tab-diff">
+    <div class="grid-ui">
+      <div class="card">
+        <div class="card-head">
+          <span>Far-Field Profile: <span style="color:#2563eb">QM</span> vs <span style="color:var(--good)">STUR</span> vs <span style="color:#fff">Ref</span></span>
+          <span><small class="mono">Ref = hardcoded digitized central profile</small></span>
+        </div>
+        <div class="card-body">
+          <canvas id="diffCanvas" width="900" height="420"></canvas>
+
+          <div class="readout">
+            <div class="stat-box">χ²(QM) <b id="chiQM">—</b></div>
+            <div class="stat-box">χ²(STUR) <b id="chiST">—</b></div>
+            <div class="stat-box">Δχ² = STUR−QM <b id="chiD">—</b></div>
+            <div class="stat-box">Δχ²(avg) <b id="chiAvg">—</b></div>
+            <div class="stat-box" style="grid-column:1/-1">Decision <b id="decision">—</b></div>
+          </div>
+
+          <div class="hint" style="margin-top:10px">
+            Geometry uses slit values reported by Bach et al. (62 nm wide slits, 272 nm separation).  [oai_citation:1‡DoubleSlitExperiment.pdf](sediment://file_00000000faac722fb66aa8b4d744f437)
+          </div>
+        </div>
+      </div>
+
+      <div class="ctrl-stack">
+        <div class="ctrl">
+          <label>Bach Preset</label>
+          <button class="action good" id="btnBach" style="width:100%">Apply 600 eV + Bach Geometry</button>
+          <div class="hint">Sets a=62 nm, d=272 nm, L=30.5 cm (same as your harness).</div>
+        </div>
+
+        <div class="ctrl">
+          <label>Geometry (Verifier)</label>
+          <div class="row">
+            <div style="flex:1">
+              <small class="mono">a (nm)</small>
+              <input id="aNm" type="number" value="62" step="1">
+            </div>
+            <div style="flex:1">
+              <small class="mono">d (nm)</small>
+              <input id="dNm" type="number" value="272" step="1">
+            </div>
+          </div>
+          <div style="margin-top:10px">
+            <small class="mono">L (cm)</small>
+            <input id="Lcm" type="number" value="30.5" step="0.1">
+          </div>
+          <div class="hint">This tab fits a **1D cross-section** (central profile) for a compact verifier.</div>
+        </div>
+
+        <div class="ctrl">
+          <label>Detector PSF blur</label>
+          <input id="psfUm" type="range" min="0" max="30" step="0.5" value="5">
+          <div class="hint">Gaussian σ = <span id="psfVal" class="mono">5.0</span> μm (convolved onto model intensity)</div>
+        </div>
+
+        <div class="ctrl">
+          <label>Shot noise (optional)</label>
+          <div class="row">
+            <input id="shotNoise" type="checkbox">
+            <span class="hint" style="margin:0">Add lightweight Poisson-ish noise to the *model* (stress test).</span>
+          </div>
+        </div>
+
+        <div class="ctrl">
+          <label>Adversarial Sweep</label>
+          <button class="action bad" id="btnSweep" style="width:100%">Run Rq Sensitivity Sweep</button>
+          <pre id="sweepOut" class="hint" style="white-space:pre-wrap;margin:10px 0 0;color:var(--text)"></pre>
+          <hr class="sep">
+          <button class="action warn" id="btnAudit" style="width:100%">Export Audit JSON</button>
+          <div class="hint">Exports: energy, best Rq, χ², decision, PSF, and convergence window.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TAB 2: GEOMETRY ===================== -->
+  <section id="tab-geo" class="hidden">
+    <div class="grid-ui">
+      <div class="card">
+        <div class="card-head">
+          <span>2D Metric Grid (drag ball anywhere; it stays put)</span>
+          <span><small class="mono">Ball = particle state</small></span>
+        </div>
+        <div class="card-body">
+          <canvas id="geoCanvas" width="900" height="520"></canvas>
+
+          <div class="readout">
+            <div class="stat-box">x,y <b id="gXY">—</b></div>
+            <div class="stat-box">r <b id="gR">—</b></div>
+            <div class="stat-box">V(x,y) <b id="gV">—</b></div>
+            <div class="stat-box">∇V = (dV/dx,dV/dy) <b id="gGrad">—</b></div>
+            <div class="stat-box" style="grid-column:1/-1">Coherence horizon (V=1/e): r = <b id="gLc">—</b></div>
+          </div>
+
+          <div class="hint" style="margin-top:10px">
+            Dragging is “stateful”: no inertia, no kick, no drift. This is a **verifier-style geometry probe**.
+          </div>
+        </div>
+      </div>
+
+      <div class="ctrl-stack">
+        <div class="ctrl">
+          <label>Geometry scale L0</label>
+          <input id="L0" type="range" min="0.2" max="3" step="0.01" value="1.0">
+          <div class="hint">L0 = <span id="L0Val" class="mono">1.00</span> (sets radial scale in kernel r/L0)</div>
+        </div>
+
+        <div class="ctrl">
+          <label>Grid extent</label>
+          <input id="Rmax" type="range" min="2" max="10" step="0.25" value="5.0">
+          <div class="hint">Rmax = <span id="RmaxVal" class="mono">5.00</span> (world coordinates shown)</div>
+        </div>
+
+        <div class="ctrl">
+          <label>Visual options</label>
+          <div class="row">
+            <input id="showHeat" type="checkbox" checked>
+            <span class="hint" style="margin:0">Heat shading</span>
+          </div>
+          <div class="row" style="margin-top:6px">
+            <input id="showForce" type="checkbox" checked>
+            <span class="hint" style="margin:0">Force arrow (−∇V)</span>
+          </div>
+        </div>
+
+        <div class="ctrl">
+          <label>Reset particle</label>
+          <button class="action" id="btnResetGeo" style="width:100%">Reset to (x=1.5, y=0)</button>
+          <div class="hint">Tip: you can park the ball at any coordinate and screenshot the full readout.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <script>
-/* ===================== CONSTANTS ===================== */
-const h = 6.62607015e-34, c = 299792458, eV = 1.602176634e-19;
+/* ===================== SHARED CONSTANTS ===================== */
+const h = 6.62607015e-34;
+const c = 299792458;
+const eV = 1.602176634e-19;
 const m_e = 9.1093837015e-31;
 
-// Adversarial criteria
-const EPS_RQ = 1e-2;          // “Rq≈0” tolerance for the sweep verdict
-const IMPROVE_FRAC = 0.01;    // 1% improvement threshold
-
-/* ===================== DOM ===================== */
-const mainCanvas = document.getElementById("mainCanvas");
-const ctx = mainCanvas.getContext("2d");
-
-const statusText = document.getElementById("statusText");
-const warnLine = document.getElementById("warnLine");
-
-const btnBach = document.getElementById("btnBach");
-const btnSweep = document.getElementById("btnSweep");
-const btnExport = document.getElementById("btnExport");
-
-const Eev = document.getElementById("Eev");
-const lambdaMode = document.getElementById("lambdaMode");
-const lambdaPm = document.getElementById("lambdaPm");
-
-const aNm = document.getElementById("aNm");
-const dNm = document.getElementById("dNm");
-const Lcm = document.getElementById("Lcm");
-
-const rqEl = document.getElementById("rq");
-const psfSigmaUm = document.getElementById("psfSigmaUm");
-
-const csvFile = document.getElementById("csvFile");
-const resultsOut = document.getElementById("resultsOut");
-
-const lamOut = document.getElementById("lamOut");
-const chiQMEl = document.getElementById("chiQM");
-const chiSTEl = document.getElementById("chiST");
-const chiDEl = document.getElementById("chiD");
-const chiDecisionEl = document.getElementById("chiDecision");
-
-/* ===================== STATE ===================== */
-let dataCSV = null; // {y_mm:[], I:[]} normalized to max=1
-let lastSweep = null;
-
-/* ===================== HELPERS ===================== */
-function setStatus(t){ statusText.textContent = t; }
+const $ = (id)=>document.getElementById(id);
+function setStatus(t){ $("status").textContent = t; }
 
 function sinc(x){ return Math.abs(x) < 1e-12 ? 1 : Math.sin(x)/x; }
 
-function normalizeMax(arr){
-  let m = 0;
-  for (let i=0;i<arr.length;i++) if (arr[i] > m) m = arr[i];
-  if (m <= 0 || !isFinite(m)) return arr.map(()=>0);
-  return arr.map(v => v/m);
-}
+/* ===================== UI: TABS ===================== */
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click", (ev)=>{
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    const tab = btn.getAttribute("data-tab");
+    $("tab-diff").classList.toggle("hidden", tab!=="diff");
+    $("tab-geo").classList.toggle("hidden", tab!=="geo");
+  });
+});
 
-// Simple linear interp on monotonic grid
-function linInterp(x, xs, ys){
-  const n = xs.length;
-  if (n < 2) return NaN;
-  if (x <= xs[0]) return ys[0];
-  if (x >= xs[n-1]) return ys[n-1];
-  let lo = 0, hi = n-1;
-  while (hi - lo > 1){
-    const mid = (lo + hi) >> 1;
-    if (xs[mid] <= x) lo = mid; else hi = mid;
-  }
-  const x0 = xs[lo], x1 = xs[hi];
-  const y0 = ys[lo], y1 = ys[hi];
-  const t = (x - x0) / (x1 - x0);
-  return y0 + t*(y1 - y0);
-}
+/* ===================== MASTER CONTROLS ===================== */
+const RqMaster = $("RqMaster");
+const RqMasterVal = $("RqMasterVal");
+const Eev = $("Eev");
+const lamPm = $("lamPm");
 
-/* ===================== PSF ===================== */
-function applyPSF(intensityArray, y_mm, sigma_um) {
-  const sigma_mm = sigma_um / 1000;
-  if (!isFinite(sigma_mm) || sigma_mm <= 0) return intensityArray.slice();
-
-  const N = intensityArray.length;
-  const result = new Array(N).fill(0);
-
-  const dy = y_mm[1] - y_mm[0];
-  const reach = Math.max(1, Math.ceil((3 * sigma_mm) / dy));
-
-  for (let i = 0; i < N; i++) {
-    let weightSum = 0;
-    for (let j = i - reach; j <= i + reach; j++) {
-      if (j >= 0 && j < N) {
-        const dist = y_mm[i] - y_mm[j];
-        const weight = Math.exp(-(dist * dist) / (2 * sigma_mm * sigma_mm));
-        result[i] += intensityArray[j] * weight;
-        weightSum += weight;
-      }
-    }
-    result[i] /= (weightSum || 1);
-  }
-  return result;
-}
-
-/* ===================== RELATIVISTIC λ ===================== */
 function deriveLambda_m(E_eV){
-  // p = sqrt(E^2 + 2 E m c^2) / c  (E = kinetic energy)
+  // relativistic: p = sqrt(E^2 + 2 E m c^2) / c ; (E is kinetic energy)
   const E = E_eV * eV;
   const p = Math.sqrt(E*E + 2*E*m_e*c*c) / c;
   return h / p;
 }
+function syncMaster(){
+  const rq = Number(RqMaster.value);
+  RqMasterVal.textContent = rq.toFixed(2);
+  const lam = deriveLambda_m(Number(Eev.value));
+  lamPm.textContent = (lam*1e12).toFixed(2);
 
-/* ===================== MODEL ===================== */
-function computeModel(){
-  const E_eV = +Eev.value;
-  const a_m  = +aNm.value * 1e-9;
-  const d_m  = +dNm.value * 1e-9;
-  const L_m  = +Lcm.value * 1e-2;
+  // keep Diff tab sliderless: master drives it
+  // update both engines
+  updateDiff();
+  drawGeo();
+}
+RqMaster.addEventListener("input", syncMaster);
+Eev.addEventListener("input", syncMaster);
 
-  const lambda_m = (lambdaMode.value === "manual")
-    ? (+lambdaPm.value * 1e-12)
-    : deriveLambda_m(E_eV);
+/* ===================== TAB 1: DIFFRACTION VERIFIER ===================== */
+const diffCanvas = $("diffCanvas");
+const dctx = diffCanvas.getContext("2d");
 
-  const Rq = +rqEl.value;
-  const sigma_psf_um = +psfSigmaUm.value;
+const aNm = $("aNm");
+const dNm = $("dNm");
+const Lcm = $("Lcm");
 
-  // Fixed compact view: ±5 mm
-  const N = 1201;
-  const span_m = 5e-3; // 5 mm
-  const y_mm = new Array(N);
-  const Iqm = new Array(N);
-  const Ist = new Array(N);
+const psfUm = $("psfUm");
+const psfVal = $("psfVal");
 
-  for (let i=0;i<N;i++){
-    const yy = -span_m + (2*span_m) * i/(N-1);
-    const theta = yy / L_m;
+const shotNoise = $("shotNoise");
+const btnBach = $("btnBach");
+const btnSweep = $("btnSweep");
+const btnAudit = $("btnAudit");
+const sweepOut = $("sweepOut");
 
-    const env = Math.pow(sinc(Math.PI * a_m * theta / lambda_m), 2);
-    const phi = (2*Math.PI / lambda_m) * (d_m * theta);
+const chiQM = $("chiQM");
+const chiST = $("chiST");
+const chiD  = $("chiD");
+const chiAvg= $("chiAvg");
+const decision = $("decision");
 
-    // QM baseline
-    Iqm[i] = env * (1 + Math.cos(phi)) * 0.5;
+// Hardcoded (coarse) digitized central profile (normalized to max=1).
+// y positions are symmetric window (mm). You can replace with a denser digitization later.
+const ref_y_mm = Array.from({length:17}, (_,i)=> -4 + i*(8/16));
+const ref_I = [0.04,0.08,0.15,0.32,0.55,0.78,0.92,0.98,1.00,0.98,0.92,0.78,0.55,0.32,0.15,0.08,0.04];
 
-    // STUR coherence-loss (minimal here: exp(-Rq) contrast scaling)
-    Ist[i] = env * (1 + Math.exp(-Rq) * Math.cos(phi)) * 0.5;
+let deltaHistory = []; // convergence window of Δχ²
 
-    y_mm[i] = yy * 1000;
+function normalizeMax(arr){
+  let m = 0;
+  for (const v of arr) m = Math.max(m, v);
+  if (!(m>0)) return arr.map(()=>0);
+  return arr.map(v=>v/m);
+}
+
+function applyPSF(I, y_mm, sigma_um){
+  const sigma_mm = sigma_um/1000;
+  if (!(sigma_mm>0)) return I.slice();
+  const N = I.length;
+  const out = new Array(N).fill(0);
+
+  // compute dy (assume uniform here)
+  const dy = (y_mm.length>1) ? (y_mm[1]-y_mm[0]) : 1;
+  const reach = Math.max(1, Math.ceil((3*sigma_mm)/Math.abs(dy)));
+
+  for(let i=0;i<N;i++){
+    let wsum=0, acc=0;
+    for(let j=i-reach;j<=i+reach;j++){
+      if(j<0||j>=N) continue;
+      const dist = y_mm[i]-y_mm[j];
+      const w = Math.exp(-(dist*dist)/(2*sigma_mm*sigma_mm));
+      acc += I[j]*w;
+      wsum += w;
+    }
+    out[i] = acc/(wsum||1);
+  }
+  return out;
+}
+
+// “Poisson-ish” noise injection for stress-testing (not a replacement for counts data).
+function addShotNoise(I){
+  // Convert normalized intensity into pseudo-counts, sample, renormalize
+  const countsScale = 400; // tweak for stronger/weaker noise
+  const noisy = I.map(v=>{
+    const lam = Math.max(0, v) * countsScale;
+    // fast approximate Poisson: normal approx for lam>10, else Knuth
+    if (lam > 12){
+      const std = Math.sqrt(lam);
+      const z = (Math.random()*2-1) + (Math.random()*2-1) + (Math.random()*2-1); // rough-ish
+      const k = Math.max(0, Math.round(lam + z*std*0.6));
+      return k / countsScale;
+    } else {
+      let L = Math.exp(-lam), k=0, p=1;
+      do { k++; p*=Math.random(); } while (p > L);
+      return (k-1)/countsScale;
+    }
+  });
+  return normalizeMax(noisy);
+}
+
+function modelProfile(Rq){
+  const lam = deriveLambda_m(Number(Eev.value));
+  const a = Number(aNm.value)*1e-9;
+  const d = Number(dNm.value)*1e-9;
+  const L = Number(Lcm.value)*1e-2;
+
+  // compute at ref sampling positions (for honest χ²)
+  const I = ref_y_mm.map((y)=>{
+    const y_m = y*1e-3;
+    const theta = y_m / L;
+    const env = Math.pow(sinc(Math.PI*a*theta/lam), 2);
+    const phi = (2*Math.PI/lam) * (d*theta);
+
+    // baseline: env * (1 + contrast*cos(phi))/2
+    const contrast = Math.exp(-Rq);
+    return env * (1 + contrast*Math.cos(phi)) * 0.5;
+  });
+
+  // PSF convolution equally applied
+  const sigma = Number(psfUm.value);
+  const I_blur = applyPSF(I, ref_y_mm, sigma);
+
+  // normalize for comparison in normalized space
+  let out = normalizeMax(I_blur);
+  if (shotNoise.checked) out = addShotNoise(out);
+  return out;
+}
+
+function chi2(obs, pred){
+  let ss=0;
+  for(let i=0;i<obs.length;i++){
+    const d = (obs[i]-pred[i]);
+    ss += d*d;
+  }
+  return ss/obs.length;
+}
+
+function drawDiffPlot(qm, st){
+  const w = diffCanvas.width, h = diffCanvas.height;
+  dctx.clearRect(0,0,w,h);
+
+  const padL=54, padR=16, padT=14, padB=34;
+  const x0=padL, x1=w-padR, y0=padT, y1=h-padB;
+
+  // background
+  dctx.fillStyle = "rgba(255,255,255,0.02)";
+  dctx.fillRect(0,0,w,h);
+
+  // frame
+  dctx.strokeStyle = "rgba(255,255,255,0.12)";
+  dctx.strokeRect(x0,y0,x1-x0,y1-y0);
+
+  // grid
+  dctx.strokeStyle = "rgba(255,255,255,0.06)";
+  for(let i=1;i<6;i++){
+    const xx = x0 + (x1-x0)*i/6;
+    dctx.beginPath(); dctx.moveTo(xx,y0); dctx.lineTo(xx,y1); dctx.stroke();
+    const yy = y0 + (y1-y0)*i/6;
+    dctx.beginPath(); dctx.moveTo(x0,yy); dctx.lineTo(x1,yy); dctx.stroke();
   }
 
-  // PSF applied equally (fair)
-  const Iq_blur = applyPSF(Iqm, y_mm, sigma_psf_um);
-  const Is_blur = applyPSF(Ist, y_mm, sigma_psf_um);
+  // axes labels
+  dctx.fillStyle = "rgba(226,232,240,0.85)";
+  dctx.font = "12px " + getComputedStyle(document.documentElement).getPropertyValue('--mono');
+  dctx.textAlign = "center";
+  dctx.fillText("y (mm)", (x0+x1)/2, h-10);
+  dctx.save();
+  dctx.translate(16, (y0+y1)/2);
+  dctx.rotate(-Math.PI/2);
+  dctx.fillText("normalized intensity", 0, 0);
+  dctx.restore();
 
-  // normalize each to its own max (common plotting convention)
-  const Iq = normalizeMax(Iq_blur);
-  const Is = normalizeMax(Is_blur);
+  // mapping
+  const xmin = ref_y_mm[0], xmax = ref_y_mm[ref_y_mm.length-1];
+  const mapX = (x)=> x0 + (x-xmin)/(xmax-xmin) * (x1-x0);
+  const mapY = (I)=> y1 - I*(y1-y0);
 
-  lamOut.textContent = (lambda_m * 1e12).toFixed(2) + " pm";
-
-  return { y_mm, Iq, Is, lambda_m, params: {E_eV, a_m, d_m, L_m, Rq, sigma_psf_um} };
-}
-
-/* ===================== CSV PARSER (AUTO-NORMALIZE) ===================== */
-function parseCSV(text){
-  const lines = text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
-  if (lines.length < 2) return null;
-
-  let start = /[a-zA-Z]/.test(lines[0]) ? 1 : 0;
-
-  const y = [];
-  const I = [];
-  for (let i=start;i<lines.length;i++){
-    const parts = lines[i].split(/,|\t|;/).map(s=>s.trim());
-    if (parts.length < 2) continue;
-    const x = parseFloat(parts[0]);
-    const v = parseFloat(parts[1]);
-    if (!isFinite(x) || !isFinite(v)) continue;
-    y.push(x);
-    I.push(Math.max(0, v));
+  // QM line
+  dctx.lineWidth = 2.4;
+  dctx.strokeStyle = "#2563eb";
+  dctx.beginPath();
+  for(let i=0;i<ref_y_mm.length;i++){
+    const X = mapX(ref_y_mm[i]);
+    const Y = mapY(qm[i]);
+    if(i===0) dctx.moveTo(X,Y); else dctx.lineTo(X,Y);
   }
-  if (y.length < 5) return null;
+  dctx.stroke();
 
-  // sort by y
-  const idx = y.map((_,i)=>i).sort((i,j)=>y[i]-y[j]);
-  const ys = idx.map(i=>y[i]);
-  const Is = idx.map(i=>I[i]);
+  // STUR line
+  dctx.strokeStyle = "#34d399";
+  dctx.beginPath();
+  for(let i=0;i<ref_y_mm.length;i++){
+    const X = mapX(ref_y_mm[i]);
+    const Y = mapY(st[i]);
+    if(i===0) dctx.moveTo(X,Y); else dctx.lineTo(X,Y);
+  }
+  dctx.stroke();
 
-  // normalize to max=1
-  const maxI = Math.max(...Is);
-  const In = (maxI > 0) ? Is.map(v=>v/maxI) : Is.map(()=>0);
-
-  return { y_mm: ys, I: In };
-}
-
-/* ===================== χ² (MEAN SQUARED ERROR, NORMALIZED SPACE) ===================== */
-function calculateChi2(model, data){
-  // Using interpolation onto model grid (not index hacks)
-  let sumSq = 0;
-  let n = 0;
-
-  for (let i=0;i<data.y_mm.length;i++){
-    const x = data.y_mm[i];
-    const obs = data.I[i];
-
-    const predQM = linInterp(x, model.y_mm, model.Iq);
-    const predST = linInterp(x, model.y_mm, model.Is);
-
-    if (!isFinite(predQM) || !isFinite(predST)) continue;
-
-    // Return both in one pass by storing residuals
-    // (caller can compute separate sums if desired)
-    n++;
+  // Reference dots
+  dctx.fillStyle = "rgba(255,255,255,0.92)";
+  for(let i=0;i<ref_y_mm.length;i++){
+    const X = mapX(ref_y_mm[i]);
+    const Y = mapY(ref_I[i]);
+    dctx.beginPath();
+    dctx.arc(X,Y,3.0,0,Math.PI*2);
+    dctx.fill();
   }
 
-  // This function is used by sweep for STUR only (as requested),
-  // but we also compute instant χ² both models below.
-  return NaN;
+  // legend
+  dctx.textAlign="left";
+  dctx.font="12px " + getComputedStyle(document.documentElement).getPropertyValue('--mono');
+  dctx.fillStyle="rgba(255,255,255,0.85)";
+  dctx.fillText("QM", x0+10, y0+16);
+  dctx.fillStyle="#2563eb"; dctx.fillRect(x0+40, y0+7, 18, 4);
+  dctx.fillStyle="rgba(255,255,255,0.85)";
+  dctx.fillText("STUR", x0+70, y0+16);
+  dctx.fillStyle="#34d399"; dctx.fillRect(x0+118, y0+7, 18, 4);
+  dctx.fillStyle="rgba(255,255,255,0.85)";
+  dctx.fillText("Ref", x0+150, y0+16);
+  dctx.fillStyle="rgba(255,255,255,0.92)"; dctx.beginPath(); dctx.arc(x0+190, y0+9, 3, 0, Math.PI*2); dctx.fill();
 }
 
-function chi2Both(model, data){
-  if (!data) return null;
-  let ssQ = 0, ssS = 0, n = 0;
-
-  for (let i=0;i<data.y_mm.length;i++){
-    const x = data.y_mm[i];
-    const obs = data.I[i];
-
-    const q = linInterp(x, model.y_mm, model.Iq);
-    const s = linInterp(x, model.y_mm, model.Is);
-    if (!isFinite(q) || !isFinite(s)) continue;
-
-    const dq = (obs - q);
-    const ds = (obs - s);
-
-    ssQ += dq*dq;
-    ssS += ds*ds;
-    n++;
-  }
-  if (n < 5) return { n, chiQ: NaN, chiS: NaN, d: NaN };
-
-  // Mean squared error (acts like χ² up to constant scaling since data is normalized)
-  const chiQ = ssQ / n;
-  const chiS = ssS / n;
-  return { n, chiQ, chiS, d: (chiS - chiQ) };
-}
-
-/* ===================== DRAW ===================== */
-function clear(){
-  ctx.clearRect(0,0,mainCanvas.width,mainCanvas.height);
-  ctx.fillStyle = "rgba(255,255,255,0.02)";
-  ctx.fillRect(0,0,mainCanvas.width,mainCanvas.height);
-}
-
-function drawAxes(){
-  const w = mainCanvas.width, h = mainCanvas.height;
-  const padL = 54, padR = 14, padT = 12, padB = 34;
-
-  const x0 = padL, x1 = w - padR;
-  const y0 = padT, y1 = h - padB;
-
-  ctx.strokeStyle = "rgba(255,255,255,0.10)";
-  ctx.strokeRect(x0,y0,x1-x0,y1-y0);
-
-  ctx.strokeStyle = "rgba(255,255,255,0.06)";
-  for (let i=1;i<6;i++){
-    const tx = x0 + (x1-x0)*i/6;
-    ctx.beginPath(); ctx.moveTo(tx,y0); ctx.lineTo(tx,y1); ctx.stroke();
-    const ty = y0 + (y1-y0)*i/6;
-    ctx.beginPath(); ctx.moveTo(x0,ty); ctx.lineTo(x1,ty); ctx.stroke();
-  }
-
-  ctx.fillStyle = "rgba(226,232,240,0.80)";
-  ctx.font = "12px " + getComputedStyle(document.documentElement).getPropertyValue('--mono');
-  ctx.textAlign = "center";
-  ctx.fillText("Position y (mm)", (x0+x1)/2, h-10);
-  ctx.save();
-  ctx.translate(14, (y0+y1)/2);
-  ctx.rotate(-Math.PI/2);
-  ctx.fillText("Normalized intensity", 0, 0);
-  ctx.restore();
-
-  return {x0,x1,y0,y1};
-}
-
-function mapX(fr, x_mm){
-  // x_mm in [-5,5]
-  return fr.x0 + ((x_mm + 5) / 10) * (fr.x1 - fr.x0);
-}
-function mapY(fr, I){
-  return fr.y1 - I * (fr.y1 - fr.y0);
-}
-
-function drawLine(fr, xs, ys, color){
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 2.3;
-  ctx.beginPath();
-  for (let i=0;i<xs.length;i++){
-    const X = mapX(fr, xs[i]);
-    const Y = mapY(fr, ys[i]);
-    if (i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
-  }
-  ctx.stroke();
-}
-
-function drawPoints(fr, xs, ys, color){
-  ctx.fillStyle = color;
-  for (let i=0;i<xs.length;i++){
-    const X = mapX(fr, xs[i]);
-    const Y = mapY(fr, ys[i]);
-    ctx.beginPath();
-    ctx.arc(X,Y,2.0,0,Math.PI*2);
-    ctx.fill();
-  }
-}
-
-function draw(){
+function updateDiff(){
   try{
     setStatus("Computing…");
-    warnLine.style.display = "none";
-    warnLine.textContent = "";
 
-    const model = computeModel();
-    clear();
-    const fr = drawAxes();
+    psfVal.textContent = Number(psfUm.value).toFixed(1);
 
-    // QM
-    drawLine(fr, model.y_mm, model.Iq, "#2563eb");
-    // STUR
-    drawLine(fr, model.y_mm, model.Is, "#059669");
+    const rq = Number(RqMaster.value);
+    const qm = modelProfile(0.0);
+    const st = modelProfile(rq);
 
-    // Data points
-    if (dataCSV){
-      drawPoints(fr, dataCSV.y_mm, dataCSV.I, "rgba(255,255,255,0.92)");
-    }
+    const cqm = chi2(ref_I, qm);
+    const cst = chi2(ref_I, st);
+    const d = (cst - cqm);
 
-    // Instant χ²
-    if (dataCSV){
-      const chi = chi2Both(model, dataCSV);
-      if (chi && isFinite(chi.chiQ) && isFinite(chi.chiS)){
-        chiQMEl.textContent = chi.chiQ.toFixed(6);
-        chiSTEl.textContent = chi.chiS.toFixed(6);
-        chiDEl.textContent  = (chi.d >= 0 ? "+" : "") + chi.d.toFixed(6);
+    // rolling window: approx last 5 seconds @ ~60fps cap
+    deltaHistory.push(d);
+    if(deltaHistory.length > 300) deltaHistory.shift();
+    const avg = deltaHistory.reduce((a,b)=>a+b,0) / deltaHistory.length;
 
-        let decision = "Inconclusive";
-        if (chi.d >  0.10) decision = "QM wins (STUR worse)";
-        if (chi.d < -0.10) decision = "STUR improves (scrutinize systematics)";
-        chiDecisionEl.textContent = decision;
-      } else {
-        chiQMEl.textContent = "—";
-        chiSTEl.textContent = "—";
-        chiDEl.textContent = "—";
-        chiDecisionEl.textContent = "Need more points";
-      }
-    } else {
-      chiQMEl.textContent = "—";
-      chiSTEl.textContent = "—";
-      chiDEl.textContent = "—";
-      chiDecisionEl.textContent = "Load CSV";
-    }
+    chiQM.textContent = cqm.toFixed(6);
+    chiST.textContent = cst.toFixed(6);
+    chiD.textContent  = (d>=0?"+":"") + d.toFixed(6);
+    chiAvg.textContent= (avg>=0?"+":"") + avg.toFixed(6);
+
+    let dec = "Inconclusive";
+    if (avg >  0.01) dec = "QM dominates (STUR worse)";
+    if (avg < -0.01) dec = "STUR improves (scrutinize systematics)";
+    decision.textContent = dec;
+
+    drawDiffPlot(qm, st);
 
     setStatus("Ready");
-  } catch (err){
-    setStatus("Error");
-    warnLine.style.display = "block";
-    warnLine.style.borderColor = "rgba(251,113,133,.55)";
-    warnLine.textContent = "Runtime error: " + (err && err.message ? err.message : String(err));
+  } catch(err){
     console.error(err);
+    setStatus("Error");
+    decision.textContent = "Error: " + (err?.message || String(err));
   }
 }
 
-/* ===================== Rq SENSITIVITY SWEEP ===================== */
-async function runRqSweep(){
-  if (!dataCSV){
-    alert("Please load a CSV file first!");
-    return;
-  }
+btnBach.addEventListener("click", ()=>{
+  Eev.value = 600;
+  aNm.value = 62;
+  dNm.value = 272;
+  Lcm.value = 30.5;
+  syncMaster();
+});
 
-  setStatus("Sweeping Rq…");
+[aNm,dNm,Lcm,psfUm].forEach(el=>el.addEventListener("input", updateDiff));
+shotNoise.addEventListener("change", updateDiff);
 
-  let bestRq = 0;
-  let minChi2 = Infinity;
-  const sweepResults = [];
+function runSweep(){
+  try{
+    setStatus("Sweeping…");
+    sweepOut.textContent = "Sweeping Rq ∈ [0,1] step 0.02…";
+    const saved = Number(RqMaster.value);
 
-  const rqOriginal = parseFloat(rqEl.value);
+    let bestRq = 0;
+    let bestChi = Infinity;
+    const step = 0.02;
 
-  for (let r = 0; r <= 1.000001; r += 0.05) {
-    rqEl.value = r.toFixed(2);
-    const model = computeModel();
-    const chi = chi2Both(model, dataCSV);
+    // baseline “QM-like” (Rq=0) already computed from modelProfile(0) in updateDiff,
+    // but we recompute for consistency with current PSF/noise toggle settings.
+    const qm = modelProfile(0.0);
+    const chi0 = chi2(ref_I, qm);
 
-    const currentChi2 = chi ? chi.chiS : Infinity;
-    sweepResults.push({ r, chi2: currentChi2 });
-
-    if (currentChi2 < minChi2) {
-      minChi2 = currentChi2;
-      bestRq = r;
+    for(let r=0; r<=1.000001; r+=step){
+      const st = modelProfile(r);
+      const c = chi2(ref_I, st);
+      if(c < bestChi){
+        bestChi = c;
+        bestRq = r;
+      }
     }
-  }
 
-  // Improvement relative to QM-like baseline (Rq=0)
-  const chi0 = sweepResults[0].chi2;
-  const improvementFrac = (chi0 - minChi2) / (chi0 || 1);
-  const improvementPct = improvementFrac * 100;
+    const improveFrac = (chi0 - bestChi) / (chi0 || 1);
+    const improvePct = improveFrac*100;
 
-  // Store sweep audit
-  lastSweep = {
-    timestamp: new Date().toISOString(),
-    step: 0.05,
-    rq_range: [0, 1.0],
-    bestRq: bestRq,
-    chi2_at_rq0: chi0,
-    chi2_min: minChi2,
-    improvement_pct: improvementPct
-  };
-
-  // Verdict (adversarial)
-  const falsified = (bestRq < EPS_RQ) || (improvementFrac <= IMPROVE_FRAC);
-  const verdict = falsified
-    ? "❌ FALSIFIED: QM dominates (Rq → 0 or ≤1% improvement)."
-    : "⚠️ POTENTIAL SIGNAL: inspect PSF, charging, drift, digitization error.";
-
-  resultsOut.innerHTML =
+    const falsified = (bestRq < 0.01) || (improveFrac <= 0.01);
+    sweepOut.textContent =
 `Best Rq: ${bestRq.toFixed(2)}
-χ²(STUR) @ Rq=0: ${chi0.toFixed(6)}
-χ²(STUR) min:  ${minChi2.toFixed(6)}
-Improvement:   ${improvementPct.toFixed(2)}%
-${verdict}`;
+χ² @ Rq=0: ${chi0.toFixed(6)}
+χ² min:   ${bestChi.toFixed(6)}
+Improve:  ${improvePct.toFixed(2)}%
+Verdict:  ${falsified ? "FALSIFIED (Rq→0 or ≤1% improvement)" : "Potential signal (inspect systematics)"}`;
 
-  // Set slider to best-fit so the plot matches the sweep state
-  rqEl.value = bestRq.toFixed(2);
-  setStatus("Ready");
-  draw();
+    RqMaster.value = bestRq.toFixed(2);
+    syncMaster();
+
+    setStatus("Ready");
+  } catch(err){
+    console.error(err);
+    setStatus("Error");
+    sweepOut.textContent = "Sweep error: " + (err?.message || String(err));
+  }
 }
+btnSweep.addEventListener("click", runSweep);
 
-/* ===================== EXPORT JSON ===================== */
+/* ===================== EXPORT AUDIT JSON ===================== */
 function downloadText(filename, text, mime="application/json"){
   const blob = new Blob([text], {type:mime});
   const url = URL.createObjectURL(blob);
@@ -676,130 +674,312 @@ function downloadText(filename, text, mime="application/json"){
   setTimeout(()=>URL.revokeObjectURL(url), 800);
 }
 
-function exportJSON(){
-  const model = computeModel();
-  const chi = dataCSV ? chi2Both(model, dataCSV) : null;
+function exportAudit(){
+  // defensive reads
+  const energy_ev = Number(Eev.value);
+  const rq_val = Number(RqMaster.value);
+  const lam_pm = Number(lamPm.textContent);
+
+  const chi_qm = Number(chiQM.textContent);
+  const chi_st = Number(chiST.textContent);
+  const verdict = decision.textContent;
+
+  const delta_avg = (deltaHistory.length)
+    ? deltaHistory.reduce((a,b)=>a+b,0) / deltaHistory.length
+    : null;
 
   const out = {
-    schema: "stur-bach-mini-harness-v1",
-    exported_at: new Date().toISOString(),
-    adversarial: {
-      eps_rq: EPS_RQ,
-      improve_frac: IMPROVE_FRAC
+    schema: "stur-unified-suite-audit-v1",
+    timestamp_utc: new Date().toISOString(),
+    experiment: {
+      reference: "Bach et al. (2013) Controlled double-slit electron diffraction",
+      energy_ev,
+      derived_lambda_pm: lam_pm,
+      geometry: {
+        a_nm: Number(aNm.value),
+        d_nm: Number(dNm.value),
+        L_cm: Number(Lcm.value)
+      },
+      note: "Reference data here is a coarse hardcoded digitization of a central profile; replace arrays to refine."
     },
-    params: {
-      energy_eV: +Eev.value,
-      lambda_mode: lambdaMode.value,
-      lambda_pm_manual: +lambdaPm.value,
-      a_nm: +aNm.value,
-      d_nm: +dNm.value,
-      L_cm: +Lcm.value,
-      Rq: +rqEl.value,
-      psf_sigma_um: +psfSigmaUm.value
+    models: {
+      qm: { rq: 0.0, description: "QM baseline contrast=1" },
+      stur: { rq: rq_val, description: "contrast=exp(-Rq)" }
     },
-    derived: {
-      lambda_pm: model.lambda_m * 1e12
+    detector: {
+      psf_sigma_um: Number(psfUm.value),
+      psf_applied_equally: true
     },
-    data_loaded: !!dataCSV,
-    chi2: chi ? {
-      n: chi.n,
-      chi_qm: chi.chiQ,
-      chi_stur: chi.chiS,
-      delta: chi.d
-    } : null,
-    sweep_audit: lastSweep
+    noise: {
+      model_shot_noise_enabled: !!shotNoise.checked,
+      note: "Noise is applied to model for stress-testing; not a substitute for counts."
+    },
+    metrics: {
+      chi2_qm,
+      chi2_stur: chi_st,
+      delta_chi2: chi_st - chi_qm,
+      delta_chi2_avg_5s: delta_avg
+    },
+    verdict
   };
 
-  downloadText("stur_bach_audit.json", JSON.stringify(out, null, 2));
-  setStatus("Exported");
-  setTimeout(()=>setStatus("Ready"), 900);
+  const fname = `stur_audit_${out.timestamp_utc.replace(/[:.]/g,'-')}.json`;
+  downloadText(fname, JSON.stringify(out, null, 2));
+  console.log("STUR AUDIT:", out);
+}
+btnAudit.addEventListener("click", exportAudit);
+
+/* ===================== TAB 2: GEOMETRY ENGINE (DRAG-ONLY VERIFIER) ===================== */
+const geoCanvas = $("geoCanvas");
+const gctx = geoCanvas.getContext("2d");
+
+const L0 = $("L0");
+const Rmax = $("Rmax");
+const showHeat = $("showHeat");
+const showForce = $("showForce");
+const btnResetGeo = $("btnResetGeo");
+
+const L0Val = $("L0Val");
+const RmaxVal = $("RmaxVal");
+
+const gXY = $("gXY");
+const gR  = $("gR");
+const gV  = $("gV");
+const gGrad = $("gGrad");
+const gLc = $("gLc");
+
+let ball = {x:1.5, y:0.0}; // world coords; stays where dragged
+
+function kernel(u){
+  // smooth positive kernel; “geometry response”
+  return Math.tanh(u) * (1 - Math.exp(-u));
 }
 
-/* ===================== CSV LOAD ===================== */
-csvFile.addEventListener("change", async (ev)=>{
-  try{
-    const f = ev.target.files && ev.target.files[0];
-    if (!f) return;
-    setStatus("Loading CSV…");
+function Vxy(x,y){
+  // metric / potential proxy; linked to master Rq and L0
+  const rq = Number(RqMaster.value);
+  const l0 = Number(L0.value);
+  const r = Math.hypot(x,y);
+  const u = r / (l0 || 1e-9);
+  return Math.exp(-(rq * kernel(u)));
+}
 
-    const text = await f.text();
-    const parsed = parseCSV(text);
+function gradV(x,y){
+  // numerical gradient
+  const e = 1e-3 * (Number(Rmax.value) / 5); // scale eps with view
+  const v0 = Vxy(x,y);
+  const gx = (Vxy(x+e,y) - Vxy(x-e,y)) / (2*e);
+  const gy = (Vxy(x,y+e) - Vxy(x,y-e)) / (2*e);
+  return {gx, gy};
+}
 
-    if (!parsed){
-      dataCSV = null;
-      warnLine.style.display = "block";
-      warnLine.style.borderColor = "rgba(245,158,11,.55)";
-      warnLine.textContent = "Could not parse CSV. Expected: y_mm,intensity (header optional).";
-      resultsOut.textContent = "Load CSV to begin sweep";
-    } else {
-      dataCSV = parsed;
-      lastSweep = null;
-      warnLine.style.display = "none";
-      warnLine.textContent = "";
-      resultsOut.textContent = "CSV loaded. Click “Rq Sensitivity”.";
-    }
+function coherenceRadius(){
+  // horizon defined by V(r)=1/e => rq*kernel(r/L0)=1
+  const rq = Number(RqMaster.value);
+  const l0 = Number(L0.value);
+  if (!(rq>0)) return Infinity;
 
-    draw();
-    setStatus("Ready");
-  } catch (e){
-    console.error(e);
-    warnLine.style.display = "block";
-    warnLine.style.borderColor = "rgba(251,113,133,.55)";
-    warnLine.textContent = "CSV load error: " + (e && e.message ? e.message : String(e));
-    setStatus("Error");
+  // solve rq*kernel(u)=1 for u >=0
+  const target = 1 / rq;
+  // kernel(u) in (0,1). If target>=1 no solution (rq<=1) may still exist depending; handle:
+  if (target >= 1) {
+    // if rq <=1, need kernel(u)=1/rq >=1 impossible (since kernel<1), so no finite horizon
+    return Infinity;
   }
-});
 
-/* ===================== PRESET ===================== */
-function loadBachPreset(){
-  Eev.value = 600;
-  lambdaMode.value = "manual";
-  lambdaPm.value = 50.0;
-  lambdaPm.disabled = false;
-
-  aNm.value = 62;
-  dNm.value = 272;
-  Lcm.value = 30.5;
-
-  rqEl.value = 0.30;
-  psfSigmaUm.value = 5;
-
-  lastSweep = null;
-  resultsOut.textContent = dataCSV ? "CSV loaded. Click “Rq Sensitivity”." : "Load CSV to begin sweep";
-  warnLine.style.display = "none";
-  warnLine.textContent = "";
-
-  draw();
+  // binary search u in [0, Umax]
+  let lo=0, hi=50;
+  for(let it=0; it<70; it++){
+    const mid=(lo+hi)/2;
+    const km=kernel(mid);
+    if (km < target) lo=mid; else hi=mid;
+  }
+  return hi * l0;
 }
 
-function syncLambdaUI(){
-  const manual = (lambdaMode.value === "manual");
-  lambdaPm.disabled = !manual;
+function drawGeo(){
+  L0Val.textContent = Number(L0.value).toFixed(2);
+  RmaxVal.textContent = Number(Rmax.value).toFixed(2);
+
+  const w=geoCanvas.width, h=geoCanvas.height;
+  gctx.clearRect(0,0,w,h);
+  gctx.fillStyle="rgba(255,255,255,0.02)";
+  gctx.fillRect(0,0,w,h);
+
+  const cx=w/2, cy=h/2;
+  const rmax = Number(Rmax.value);
+  const sc = Math.min(w,h) * 0.42 / (rmax || 1);
+
+  // heat shading (coarse)
+  if (showHeat.checked){
+    const step = 18; // px
+    for(let py=0; py<h; py+=step){
+      for(let px=0; px<w; px+=step){
+        const x = (px - cx) / sc;
+        const y = (cy - py) / sc;
+        const v = Vxy(x,y);
+        // map v in (0,1] to alpha
+        const a = Math.min(0.18, Math.max(0, (1-v)*0.22));
+        gctx.fillStyle = `rgba(96,165,250,${a})`;
+        gctx.fillRect(px,py,step,step);
+      }
+    }
+  }
+
+  // warped mesh
+  gctx.strokeStyle="rgba(255,255,255,0.06)";
+  gctx.lineWidth=1;
+  const lines = 11;
+  for(let i=-lines; i<=lines; i++){
+    const gx = i * (rmax/lines);
+    // vertical-ish
+    gctx.beginPath();
+    for(let j=-lines; j<=lines; j+=0.2){
+      const gy = j * (rmax/lines);
+      const wv = Vxy(gx,gy);
+      const X = cx + (gx * wv) * sc;
+      const Y = cy - (gy * wv) * sc;
+      if (j===-lines) gctx.moveTo(X,Y); else gctx.lineTo(X,Y);
+    }
+    gctx.stroke();
+
+    const gy2 = i * (rmax/lines);
+    // horizontal-ish
+    gctx.beginPath();
+    for(let j=-lines; j<=lines; j+=0.2){
+      const gx2 = j * (rmax/lines);
+      const wv = Vxy(gx2,gy2);
+      const X = cx + (gx2 * wv) * sc;
+      const Y = cy - (gy2 * wv) * sc;
+      if (j===-lines) gctx.moveTo(X,Y); else gctx.lineTo(X,Y);
+    }
+    gctx.stroke();
+  }
+
+  // coherence horizon circle
+  const lc = coherenceRadius();
+  if (isFinite(lc)){
+    gctx.save();
+    gctx.setLineDash([8,8]);
+    gctx.strokeStyle="rgba(245,158,11,0.70)";
+    gctx.lineWidth=2;
+    gctx.beginPath();
+    gctx.arc(cx,cy, lc*sc, 0, Math.PI*2);
+    gctx.stroke();
+    gctx.restore();
+  }
+
+  // particle
+  const px = cx + ball.x*sc;
+  const py = cy - ball.y*sc;
+
+  gctx.fillStyle = "#34d399";
+  gctx.beginPath();
+  gctx.arc(px,py,10,0,Math.PI*2);
+  gctx.fill();
+
+  // outline glow
+  gctx.strokeStyle="rgba(52,211,153,0.6)";
+  gctx.lineWidth=2;
+  gctx.beginPath();
+  gctx.arc(px,py,10,0,Math.PI*2);
+  gctx.stroke();
+
+  // force arrow: F ~ -∇V
+  if (showForce.checked){
+    const g = gradV(ball.x, ball.y);
+    const fx = -g.gx, fy = -g.gy;
+    const mag = Math.hypot(fx,fy) || 1e-9;
+    const gain = 80; // visual scale
+    const ax = px + (fx/mag)*gain;
+    const ay = py - (fy/mag)*gain;
+
+    gctx.strokeStyle="rgba(96,165,250,0.9)";
+    gctx.lineWidth=2.5;
+    gctx.beginPath();
+    gctx.moveTo(px,py);
+    gctx.lineTo(ax,ay);
+    gctx.stroke();
+
+    // arrow head
+    const ang = Math.atan2((py-ay),(ax-px));
+    gctx.fillStyle="rgba(96,165,250,0.95)";
+    gctx.beginPath();
+    gctx.moveTo(ax,ay);
+    gctx.lineTo(ax - 10*Math.cos(ang-0.4), ay + 10*Math.sin(ang-0.4));
+    gctx.lineTo(ax - 10*Math.cos(ang+0.4), ay + 10*Math.sin(ang+0.4));
+    gctx.closePath();
+    gctx.fill();
+  }
+
+  // readouts (live)
+  const r = Math.hypot(ball.x, ball.y);
+  const v = Vxy(ball.x, ball.y);
+  const g = gradV(ball.x, ball.y);
+
+  gXY.textContent = `${ball.x.toFixed(3)}, ${ball.y.toFixed(3)}`;
+  gR.textContent = r.toFixed(3);
+  gV.textContent = v.toFixed(6);
+  gGrad.textContent = `(${g.gx.toExponential(3)}, ${g.gy.toExponential(3)})`;
+  gLc.textContent = isFinite(lc) ? lc.toFixed(3) : "∞ (Rq too small)";
+
+  // no animation needed; drag drives updates
 }
 
-/* ===================== EVENTS ===================== */
-btnBach.addEventListener("click", loadBachPreset);
-btnSweep.addEventListener("click", runRqSweep);
-btnExport.addEventListener("click", exportJSON);
+L0.addEventListener("input", drawGeo);
+Rmax.addEventListener("input", drawGeo);
+showHeat.addEventListener("change", drawGeo);
+showForce.addEventListener("change", drawGeo);
 
-lambdaMode.addEventListener("change", ()=>{
-  syncLambdaUI();
-  lastSweep = null;
-  draw();
+btnResetGeo.addEventListener("click", ()=>{
+  ball.x = 1.5; ball.y = 0.0;
+  drawGeo();
 });
 
-document.querySelectorAll("input,select").forEach(el=>{
-  el.addEventListener("input", ()=>{
-    // Changing controls invalidates the last sweep (prevents stale claims)
-    lastSweep = null;
-    if (resultsOut) resultsOut.textContent = dataCSV ? "Parameters changed. Re-run sweep." : "Load CSV to begin sweep";
-    draw();
-  });
+let dragging = false;
+function canvasToWorld(ev){
+  const rect = geoCanvas.getBoundingClientRect();
+  const w=geoCanvas.width, h=geoCanvas.height;
+  const cx=w/2, cy=h/2;
+  const rmax = Number(Rmax.value);
+  const sc = Math.min(w,h) * 0.42 / (rmax || 1);
+
+  // map client->canvas coords
+  const xCanvas = (ev.clientX - rect.left) * (w/rect.width);
+  const yCanvas = (ev.clientY - rect.top) * (h/rect.height);
+
+  // inverse of drawing coords (note: grid warps but ball is in world coords)
+  const x = (xCanvas - cx) / sc;
+  const y = (cy - yCanvas) / sc;
+
+  // clamp to view
+  const clampedX = Math.max(-rmax, Math.min(rmax, x));
+  const clampedY = Math.max(-rmax, Math.min(rmax, y));
+  return {x: clampedX, y: clampedY};
+}
+
+geoCanvas.addEventListener("pointerdown", (ev)=>{
+  dragging = true;
+  geoCanvas.setPointerCapture(ev.pointerId);
+  const p = canvasToWorld(ev);
+  ball.x = p.x; ball.y = p.y;
+  drawGeo();
+});
+geoCanvas.addEventListener("pointermove", (ev)=>{
+  if(!dragging) return;
+  const p = canvasToWorld(ev);
+  ball.x = p.x; ball.y = p.y;
+  drawGeo();
+});
+geoCanvas.addEventListener("pointerup", (ev)=>{
+  dragging = false;
+  try{ geoCanvas.releasePointerCapture(ev.pointerId); }catch(_){}
 });
 
 /* ===================== INIT ===================== */
-syncLambdaUI();
-draw();
+syncMaster();
+updateDiff();
+drawGeo();
 </script>
 </body>
 </html>
