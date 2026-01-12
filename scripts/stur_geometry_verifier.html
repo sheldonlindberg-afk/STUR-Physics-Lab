@@ -61,6 +61,18 @@ canvas{
 .validation-box.pass{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3);color:#bfffea}
 .validation-box.fail{background:rgba(251,113,133,.08);border-color:rgba(251,113,133,.3);color:#ffd0d8}
 .validation-box.neutral{background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.3);color:#bfdbfe}
+.tooltip{position:relative;cursor:help;border-bottom:1px dotted var(--muted)}
+.tooltip:hover::after{
+  content:attr(data-tip);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);
+  background:rgba(20,27,61,0.98);color:var(--text);padding:8px 12px;border-radius:6px;
+  font-size:11px;white-space:nowrap;z-index:1000;border:1px solid var(--border);
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);margin-bottom:8px;font-family:var(--sans);
+  line-height:1.4;max-width:300px;white-space:normal;
+}
+.tooltip:hover::before{
+  content:"";position:absolute;bottom:100%;left:50%;transform:translateX(-50%);
+  border:6px solid transparent;border-top-color:var(--border);margin-bottom:2px;
+}
 @media(max-width:768px){
   .controls{grid-template-columns:1fr}
   .metrics{grid-template-columns:1fr}
@@ -113,7 +125,8 @@ canvas{
         <button id="btnReset" class="secondary">Reset PDE</button>
       </div>
       <div class="smallmono" style="margin-top:10px">
-        PDE: TVD-limited advection • absorbing boundaries • zero allocation
+        PDE: TVD-limited advection • absorbing boundaries • zero allocation<br/>
+        Status: <span id="pdeStatus" style="color:var(--good)">Stable</span>
       </div>
     </div>
   </div>
@@ -137,22 +150,22 @@ canvas{
   <div class="card-title">🔒 Gauge-Invariant Boundary Observables</div>
   <div class="metrics">
     <div class="metric">
-      <div class="metric-label">Q<sub>Δ</sub> = ∫<sub>Σ</sub> (⋆F<sub>g</sub> − ⋆F<sub>f</sub>)</div>
+      <div class="metric-label"><span class="tooltip" data-tip="Difference in flux integrals between geometric and field boundaries - gauge-invariant observable">Q<sub>Δ</sub> = ∫<sub>Σ</sub> (⋆F<sub>g</sub> − ⋆F<sub>f</sub>)</span></div>
       <div id="m_Qdelta" class="metric-value accent">—</div>
       <div class="smallmono">Coulombs (×10<sup>−19</sup>)</div>
     </div>
     <div class="metric">
-      <div class="metric-label">q<sub>Δ</sub> = Q<sub>Δ</sub>/e</div>
+      <div class="metric-label"><span class="tooltip" data-tip="Charge difference normalized by elementary charge - dimensionless canonical variable">q<sub>Δ</sub> = Q<sub>Δ</sub>/e</span></div>
       <div id="m_qdelta" class="metric-value">—</div>
       <div class="smallmono">Dimensionless</div>
     </div>
     <div class="metric">
-      <div class="metric-label">θ = 2πq<sub>Δ</sub></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Canonical phase conjugate to boundary position Γ - evolves via Josephson relation">θ = 2πq<sub>Δ</sub></span></div>
       <div id="m_theta" class="metric-value">—</div>
       <div class="smallmono">Canonical phase (rad)</div>
     </div>
     <div class="metric">
-      <div class="metric-label">{θ, q<sub>Δ</sub>}<sub>Γ</sub></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Poisson bracket {θ,q_Δ}_Γ - should equal 2π for canonical conjugacy">{θ, q<sub>Δ</sub>}<sub>Γ</sub></span></div>
       <div id="m_bracket" class="metric-value accent">—</div>
       <div class="smallmono">Poisson bracket</div>
     </div>
@@ -273,23 +286,23 @@ canvas{
   </div>
   <div class="metrics">
     <div class="metric">
-      <div class="metric-label">Visibility e<sup>−R(Γ)</sup></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Fringe visibility factor from resistance decoherence: exp(-R(Γ))">Visibility e<sup>−R(Γ)</sup></span></div>
       <div id="m_vis" class="metric-value accent">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">χ²<sub>QM</sub></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Chi-squared fit of pure quantum mechanics to experimental data">χ²<sub>QM</sub></span></div>
       <div id="chi1" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">χ²<sub>STUR</sub></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Chi-squared fit of STUR-modified interference to experimental data">χ²<sub>STUR</sub></span></div>
       <div id="chi2" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">Δχ²</div>
+      <div class="metric-label"><span class="tooltip" data-tip="Difference in chi-squared: positive means STUR fits better than QM">Δχ²</span></div>
       <div id="m_dchi" class="metric-value good">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">√|Δχ²| proxy</div>
+      <div class="metric-label"><span class="tooltip" data-tip="Significance proxy (not rigorous): √|Δχ²| > 3 suggests distinguishable theories">√|Δχ²| proxy</span></div>
       <div id="m_sigma" class="metric-value">—</div>
     </div>
   </div>
@@ -388,6 +401,21 @@ const Msol = 1.98847e30, hbar = h/(2*Math.PI), e = 1.602176634e-19;
 const lP = 1.616255e-35, Phi0 = h/(2*e);
 
 /* ================================================================
+   INPUT VALIDATION & SANITIZATION
+   ================================================================ */
+const sanitizeNumber = (value, min, max, defaultVal) => {
+  const num = parseFloat(value);
+  if(!Number.isFinite(num) || num < min || num > max) return defaultVal;
+  return num;
+};
+
+const safeGetGamma = () => sanitizeNumber($("gamma").value, 0, 1, 0.15);
+const safeGetMass = () => sanitizeNumber($("bhMass").value, 1, 1e9, 10);
+const safeGetEnergy = () => sanitizeNumber($("energy").value, 100, 10000, 600);
+const safeGetSlitA = () => sanitizeNumber($("a_nm").value, 1, 1000, 62);
+const safeGetSlitD = () => sanitizeNumber($("d_nm").value, 1, 10000, 272);
+
+/* ================================================================
    UTILITIES
    ================================================================ */
 const $ = id => document.getElementById(id);
@@ -450,6 +478,7 @@ const NX=192, DT=0.0045, DX=1/(NX-1), R_BG=0.02, Dcoef=0.06, RCAP=0.8;
 let R=new Float64Array(NX), Rn=new Float64Array(NX), Rdot=new Float64Array(NX);
 let physicsSteps=0, thetaHistory=[], qDeltaHistory=[];
 const MAX_HISTORY=150;
+let pdeStable=true, instabilityCount=0;
 
 const rrsSpanMeters = rs => 3.5*rs;
 const cellMeters = rs => rrsSpanMeters(rs)/(NX-1);
@@ -465,8 +494,8 @@ function seedPDE(){
 }
 
 function physicsTick(){
-  const g = clamp(parseFloat($("gamma").value),0,1);
-  const xh = g*(NX-1), M = Math.max(1,parseFloat($("bhMass").value))*Msol;
+  const g = safeGetGamma();
+  const xh = g*(NX-1), M = safeGetMass()*Msol;
   const rs = schwarzschildRs(M), sigmaCells = sigmaCellsFromMeters(rs, STRETCH_HORIZON_M/2.5);
   const A=0.085, P=2.5, vin=0.20, relaxK=1.15, sinkK0=0.60;
   const gP = Math.pow(g,P), vBase = vin*Math.pow(g,1.5);
@@ -485,6 +514,30 @@ function physicsTick(){
     Rdot[i] = (Rn[i]-C)/DT;
   }
   Rn[0]=R_BG; Rn[NX-1]=0.92*Rn[NX-1]+0.08*R_BG;
+  
+  // Stability check: detect NaN/Inf or runaway values
+  let isStable = true;
+  for(let i=0;i<NX;i++){
+    if(!Number.isFinite(Rn[i]) || Rn[i]<-0.1 || Rn[i]>RCAP*1.5){
+      isStable = false;
+      break;
+    }
+  }
+  
+  if(!isStable){
+    instabilityCount++;
+    if(instabilityCount>3){
+      // Force reset
+      seedPDE();
+      pdeStable = false;
+      console.warn("PDE instability detected - reset triggered");
+      return;
+    }
+  } else {
+    instabilityCount = 0;
+    pdeStable = true;
+  }
+  
   let tmp=R; R=Rn; Rn=tmp; physicsSteps++;
   
   const Qdelta = computeChargeDifference(R,g);
@@ -513,8 +566,8 @@ const getLambda = E => h/Math.sqrt(E*E*eVJ*eVJ + 2*E*eVJ*me*c*c)*c;
 const sinc = x => Math.abs(x)<1e-12 ? 1 : Math.sin(x)/x;
 const chi2 = (obs,pred) => {let s=0; for(let i=0;i<obs.length;i++){const d=obs[i]-pred[i]; s+=d*d;} return s/obs.length;};
 const calcPattern = contrast => {
-  const E=parseFloat($("energy").value), a=parseFloat($("a_nm").value)*1e-9;
-  const d=parseFloat($("d_nm").value)*1e-9, L=0.305, lam=getLambda(E);
+  const E=safeGetEnergy(), a=safeGetSlitA()*1e-9;
+  const d=safeGetSlitD()*1e-9, L=0.305, lam=getLambda(E);
   return REF.y.map(ym => {
     const th=ym*1e-3/L, env=Math.pow(sinc(Math.PI*a*th/lam),2);
     return env*(1+contrast*Math.cos(2*Math.PI*d*th/lam))*0.5;
@@ -885,8 +938,8 @@ const download = (content,name,type) => {
 };
 
 function exportSnapshot(){
-  const g=clamp(parseFloat($("gamma").value),0,1), idx=Math.floor(g*(NX-1));
-  const M=Math.max(1,parseFloat($("bhMass").value))*Msol;
+  const g=safeGetGamma(), idx=Math.floor(g*(NX-1));
+  const M=safeGetMass()*Msol;
   const {rrs,rs,r}=gammaToRadiusMeters(g,M);
   const Qd=computeChargeDifference(R,g), qd=Qd/e, th=2*Math.PI*qd;
   const br=computeSymplecticBracket(g,M);
@@ -915,7 +968,7 @@ function exportSnapshot(){
 }
 
 function exportCSV(){
-  const g=parseFloat($("gamma").value), M=Math.max(1,parseFloat($("bhMass").value))*Msol;
+  const g=safeGetGamma(), M=safeGetMass()*Msol;
   let csv="time,gamma,theta,q_delta,R_probe,bracket\n";
   for(let i=0;i<Math.min(thetaHistory.length,200);i++){
     csv+=`${i*DT},${g},${thetaHistory[i]},${qDeltaHistory[i]},${R[Math.floor(g*(NX-1))]},${computeSymplecticBracket(g,M)}\n`;
@@ -924,16 +977,31 @@ function exportCSV(){
 }
 
 function exportFalsification(){
-  const g=parseFloat($("gamma").value), idx=Math.floor(g*(NX-1));
+  const g=safeGetGamma(), idx=Math.floor(g*(NX-1));
   const contrast=Math.exp(-clamp(R[idx],0,4));
   const pqm=normArea(calcPattern(1.0)), pmod=normArea(calcPattern(contrast));
   const c1=chi2(REF.i,pqm), c2=chi2(REF.i,pmod), dchi=c1-c2;
   const sp=Math.sqrt(Math.abs(dchi));
-  const Elow=parseFloat($("E_low").value)*1e6, Ehigh=parseFloat($("E_high").value)*1e9;
-  const a0=parseFloat($("alpha_inv_0").value), apred=runningCoupling(a0,Elow,Ehigh);
+  const Elow=sanitizeNumber($("E_low").value, 0.1, 1000, 0.511)*1e6;
+  const Ehigh=sanitizeNumber($("E_high").value, 1, 10000, 91.1876)*1e9;
+  const a0=sanitizeNumber($("alpha_inv_0").value, 100, 200, 137.035999084);
+  const apred=runningCoupling(a0,Elow,Ehigh);
   
   const report=`HOLOSCREEN FALSIFICATION REPORT
 Generated: ${new Date().toISOString()}
+
+═══════════════════════════════════════════════════════════════════
+
+STATISTICAL METHODOLOGY NOTICE
+This report uses χ² differences and √|Δχ²| as PROXIES for distinguishability.
+These are NOT rigorous significance tests. Proper falsification requires:
+- Bootstrap/Monte Carlo confidence intervals
+- Accounting for systematic uncertainties
+- Multiple independent experimental configurations
+- Peer-reviewed statistical protocols
+
+The thresholds used (√|Δχ²| > 3 for "distinguishable") are heuristic guidelines
+only and should NOT be interpreted as formal hypothesis tests.
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -949,10 +1017,10 @@ PREDICTIONS
 √|Δχ²|: ${sp.toFixed(3)} (significance proxy)
 Visibility: ${contrast.toFixed(4)}
 
-FALSIFICATION CRITERIA
-- √|Δχ²| > 3: Distinguishable at ~3σ proxy
-- √|Δχ²| < 1: Indistinguishable
-Status: ${Math.abs(dchi)<0.01?"INDISTINGUISHABLE":(dchi>0?"STUR IMPROVES":"QM BETTER")}
+FALSIFICATION CRITERIA (PROXY THRESHOLDS - NOT RIGOROUS TESTS)
+- √|Δχ²| > 3: Potentially distinguishable (heuristic ~3σ proxy)
+- √|Δχ²| < 1: Likely indistinguishable (heuristic)
+Status: ${Math.abs(dchi)<0.01?"INDISTINGUISHABLE (PROXY)":(dchi>0?"STUR IMPROVES (PROXY)":"QM BETTER (PROXY)")}
 
 QED RECOVERY
 α⁻¹(M_Z) Predicted: ${apred.toFixed(4)}
@@ -1017,10 +1085,10 @@ function exportExperimentData(){
 let isPlaying=true;
 
 function updateAll(){
-  const g=clamp(parseFloat($("gamma").value),0,1), idx=Math.floor(g*(NX-1));
+  const g=safeGetGamma(), idx=Math.floor(g*(NX-1));
   $("gVal").textContent=g.toFixed(4);
   
-  const M=Math.max(1,parseFloat($("bhMass").value))*Msol;
+  const M=safeGetMass()*Msol;
   const {rrs,rs,r}=gammaToRadiusMeters(g,M);
   const sm=STRETCH_HORIZON_M/2.5, sc=sigmaCellsFromMeters(rs,sm);
   
@@ -1079,6 +1147,16 @@ function updateAll(){
   const kappa=1.5, thJ=kappa*th, VJ=1e-6*Math.tanh(tdot/1e6), sat=Math.abs(Math.tanh(tdot/1e6))*100;
   updateMetric("m_thetaJ",thJ,4); updateMetric("m_kappa",kappa,3);
   updateMetric("m_VJ",VJ*1e6,4); updateMetric("m_saturation",sat,1);
+  
+  // Update PDE stability indicator
+  const pdeStatusEl = $("pdeStatus");
+  if(pdeStable){
+    pdeStatusEl.textContent = "Stable";
+    pdeStatusEl.style.color = "var(--good)";
+  } else {
+    pdeStatusEl.textContent = "Recovered from instability";
+    pdeStatusEl.style.color = "var(--warn)";
+  }
   
   drawQEDRunning(); drawResistanceField(); drawHorizonGeometry(); drawDoubleSlit(); drawJosephson();
 }
