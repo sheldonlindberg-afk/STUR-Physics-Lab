@@ -3,254 +3,352 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Holoscreen Unified Simulator — One Dial Across the Event Horizon</title>
+<title>Holoscreen Unified Simulator — STUR × Horizon (Massive / Accurate)</title>
 <style>
 :root{
   --bg:#0a0e27;--card:#141b3d;--border:#1f2d5c;--text:#e2e8f0;--muted:#94a3b8;
-  --accent:#60a5fa;--warn:#fbbf24;--good:#34d399;--danger:#fb7185;--mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+  --accent:#60a5fa;--good:#34d399;--warn:#fbbf24;--danger:#fb7185;--purple:#a78bfa;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
   --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --radius:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;padding:20px}
-.container{max-width:1200px;margin:0 auto}
-header{margin-bottom:18px}
-h1{font-size:22px;margin-bottom:6px}
-.subtitle{color:var(--muted);font-size:13px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px}
-.card-title{font-size:15px;font-weight:700;margin-bottom:12px;color:var(--accent)}
-.control-row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
-.control{flex:1;min-width:220px}
-label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px}
-input[type="number"],input[type="range"]{
-  width:100%;background:#0a0e27;border:1px solid var(--border);color:var(--text);
-  padding:8px 10px;border-radius:8px;font-size:14px;font-family:var(--mono)
+body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:18px;line-height:1.55}
+.container{max-width:1300px;margin:0 auto}
+header{margin-bottom:14px}
+h1{
+  font-size:24px;letter-spacing:.2px;
+  background:linear-gradient(135deg,#60a5fa,#34d399);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent
 }
-input[type="range"]{padding:0;height:34px}
-.value-display{font-family:var(--mono);color:var(--accent);font-size:12px;margin-top:6px}
-.canvas{width:100%;height:360px;background:#050813;border-radius:10px;display:block}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:12px}
-.metric{background:rgba(255,255,255,.03);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.06)}
-.metric-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.metric-value{font-size:16px;font-weight:800;font-family:var(--mono);margin-top:4px}
-.note{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.28);padding:10px;border-radius:10px;font-size:12.5px;line-height:1.5;margin-top:12px}
-.note.good{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.25)}
-.note.warn{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.25)}
+.subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:14px;margin-top:12px
+}
+.card-title{font-size:14px;font-weight:800;color:var(--accent);margin-bottom:10px}
+.canvas{width:100%;height:340px;background:#050813;border-radius:10px;border:1px solid rgba(255,255,255,.08);display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.metric{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:10px;border-radius:10px}
+.metric-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.55px}
+.metric-value{font-family:var(--mono);font-size:15px;font-weight:800;margin-top:5px;color:var(--text)}
+.metric-value.accent{color:var(--accent)}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;align-items:end}
+label{display:block;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;font-weight:800}
+input[type="range"]{width:100%}
+input[type="number"],select{
+  width:100%;background:#0a0e27;border:1px solid var(--border);color:var(--text);
+  padding:8px 10px;border-radius:10px;font-family:var(--mono);font-size:13px
+}
 .badge{
-  display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:var(--text)
+  display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 10px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:var(--text)
 }
 .badge.good{border-color:rgba(52,211,153,.35);color:#bfffea}
 .badge.warn{border-color:rgba(251,191,36,.35);color:#ffe6a8}
 .badge.danger{border-color:rgba(251,113,133,.35);color:#ffd0d8}
-button{
-  background:var(--accent);color:#000;border:none;padding:10px 14px;border-radius:10px;
-  font-weight:800;font-size:13px;cursor:pointer;transition:opacity .2s
+.note{
+  margin-top:10px;background:rgba(96,165,250,.09);border:1px solid rgba(96,165,250,.22);
+  padding:10px;border-radius:10px;font-size:12.5px;color:var(--text)
 }
-button:hover{opacity:.9}
-button.secondary{background:rgba(255,255,255,.1);color:var(--text)}
-hr{border:none;border-top:1px solid rgba(255,255,255,.08);margin:12px 0}
-.small{font-size:12px;color:var(--muted)}
-.kv{display:flex;gap:10px;flex-wrap:wrap}
+.note b{color:#cfe7ff}
+.note.good{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.22)}
+.note.warn{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.22)}
+small.muted{color:var(--muted)}
+button{
+  background:var(--accent);color:#000;border:none;padding:10px 12px;border-radius:10px;
+  font-weight:900;font-size:12px;cursor:pointer
+}
+button.secondary{background:rgba(255,255,255,.12);color:var(--text)}
+.hr{height:1px;background:rgba(255,255,255,.08);margin:10px 0}
+.kv{display:flex;gap:8px;flex-wrap:wrap}
 .kv span{font-family:var(--mono);font-size:12px;color:var(--text);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:4px 8px;border-radius:999px}
+details{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;background:rgba(255,255,255,.02)}
+summary{cursor:pointer;font-weight:900;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.55px}
 </style>
 </head>
+
 <body>
 <div class="container">
-
 <header>
-  <h1>Holoscreen Unified Simulator — One Dial Moves a Photon Across the Event Horizon</h1>
-  <div class="subtitle">
-    Single boundary dial Γ controls: photon horizon crossing • double-slit contrast • Josephson knee • gated Hawking ripples.
-  </div>
+  <h1>🌌 Holoscreen Unified Simulator — STUR × Event Horizon (Massive / Accurate)</h1>
+  <div class="subtitle">One Γ dial drives: STUR PDE R(x,t,χ) • matter infall source S(x,Γ,R) • horizon crossing • double-slit audit • Josephson PSD knee • Hawking spectrum (bounded gate)</div>
 </header>
 
-<!-- ===================== MASTER DIAL ===================== -->
+<!-- ===================== MASTER / GLOBAL ===================== -->
 <div class="card">
   <div class="card-title">Master Boundary Dial Γ (one knob for everything)</div>
-  <div class="control-row">
-    <div class="control" style="min-width:320px;flex:2">
+  <div class="controls">
+    <div>
       <label>Γ Dial (0 → outside, 1 → deep inside)</label>
-      <input type="range" id="gamma" min="0" max="1" step="0.001" value="0.150">
-      <div class="value-display">
-        Γ=<span id="gVal">0.150</span> ·
-        r/r<sub>s</sub>=<span id="rrs">—</span> ·
-        status: <span id="hStatus" class="badge">—</span>
+      <input type="range" id="gamma" min="0" max="1" step="0.001" value="0.150" />
+      <div class="kv" style="margin-top:8px">
+        <span>Γ=<b id="gVal">0.150</b></span>
+        <span>r/rₛ=<b id="rrs">—</b></span>
+        <span>state: <b id="status" class="badge">—</b></span>
       </div>
     </div>
-    <div class="control">
-      <label>Manual Γ</label>
-      <input type="number" id="gammaN" min="0" max="1" step="0.001" value="0.150">
-      <div class="value-display">Type a value, press Enter or blur.</div>
+    <div>
+      <label>Manual Γ (type)</label>
+      <input type="number" id="gammaN" min="0" max="1" step="0.001" value="0.150" />
+      <small class="muted">Enter/blur to apply.</small>
     </div>
-    <div class="control">
+    <div>
       <label>Black Hole Mass (M☉)</label>
-      <input type="number" id="bhMass" min="1" max="1e9" step="1" value="10">
-      <div class="value-display">Sets r<sub>s</sub>, T<sub>H</sub>, redshift scale.</div>
+      <input type="number" id="bhMass" min="1" max="1e9" step="1" value="10" />
+      <small class="muted">Sets rₛ and Hawking temperature.</small>
+    </div>
+    <div>
+      <label>Export audit snapshot</label>
+      <div class="row">
+        <button id="btnExport">Export JSON</button>
+        <button id="btnReset" class="secondary">Reset PDE</button>
+      </div>
+      <small class="muted">Downloads a local JSON snapshot.</small>
     </div>
   </div>
 
-  <div class="note good">
-    <strong>Horizon rule:</strong> the event horizon is at r/r<sub>s</sub>=1. This sim drives a photon’s coordinate radius r smoothly through 1 using Γ.
-    Outside (r&gt;r<sub>s</sub>) you see finite redshift; at the horizon the coordinate-time factor blows up but proper quantities remain bounded; inside (r&lt;r<sub>s</sub>) the “escape-to-infinity” interpretation turns off by construction.
+  <details style="margin-top:12px">
+    <summary>Advanced STUR Infall Controls (still Γ-slaved)</summary>
+    <div class="hr"></div>
+    <div class="controls">
+      <div>
+        <label>Source strength A</label>
+        <input type="number" id="srcA" step="0.01" value="0.12" />
+        <small class="muted">Overall infall rate multiplier.</small>
+      </div>
+      <div>
+        <label>Nonlinear exponent p</label>
+        <input type="number" id="srcP" step="0.1" value="2.2" />
+        <small class="muted">Turn-on ~ Γ^p (p&gt;1 sharpens).</small>
+      </div>
+      <div>
+        <label>Horizon shell width σ (fraction)</label>
+        <input type="number" id="srcSig" step="0.01" value="0.06" />
+        <small class="muted">Spatial thickness of accretion layer.</small>
+      </div>
+      <div>
+        <label>Saturation ceiling R_cap</label>
+        <input type="number" id="rcap" step="0.05" value="1.25" />
+        <small class="muted">Prevents blow-up; hard bound.</small>
+      </div>
+      <div>
+        <label>Radial drift (advection) v_in</label>
+        <input type="number" id="vin" step="0.01" value="0.18" />
+        <small class="muted">Inward transport toward horizon (Γ-gated).</small>
+      </div>
+      <div>
+        <label>χ coupling χ₀</label>
+        <input type="number" id="chi0" step="0.01" value="0.55" />
+        <small class="muted">Adds χ-feedback term (R−R_bg)/Lχ.</small>
+      </div>
+    </div>
+    <div class="note good">
+      <b>Matter infall source term (bounded, non-linear):</b> S(x,Γ,R)=A·Γ<sup>p</sup>·exp(-(x-x<sub>h</sub>)²/2σ²)·(R<sub>cap</sub>−R)/R<sub>cap</sub>.
+      Drift term transports resistance inward without discontinuities. χ-term adds 5D feedback without extra knobs (still driven by Γ through the probe/horizon mapping).
+    </div>
+  </details>
+</div>
+
+<!-- ===================== STUR PDE ===================== -->
+<div class="card">
+  <div class="card-title">STUR PDE — Resistance Field R(x,t,χ) (diffusion + drift + χ feedback + non-linear infall source)</div>
+  <canvas id="pdePlot" class="canvas"></canvas>
+  <div class="grid2" style="margin-top:10px">
+    <div class="metric"><div class="metric-label">⟨R⟩</div><div id="m_Ravg" class="metric-value accent">—</div></div>
+    <div class="metric"><div class="metric-label">∂R/∂t RMS</div><div id="m_Rdot" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">R probe @ x(Γ)</div><div id="m_Rprobe" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">Infall flux ⟨S⟩</div><div id="m_Savg" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">Advection power ⟨|v∂R|⟩</div><div id="m_Vadv" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">χ scale Lχ</div><div id="m_Lx" class="metric-value">—</div></div>
+  </div>
+  <div class="note">
+    <b>Interpretation:</b> The horizon is not a discontinuity in the PDE; it is a moving boundary coordinate. Matter infall is encoded as a localized, bounded source that increases resistance near the horizon shell, which then backreacts on all other panels through R-probe.
   </div>
 </div>
 
-<!-- ===================== PHOTON / HORIZON PANEL ===================== -->
-<div class="card">
-  <div class="card-title">Photon Crossing — Schwarzschild Horizon (with bounded phase gate)</div>
-  <canvas id="photonPlot" class="canvas"></canvas>
-
-  <div class="grid2">
-    <div class="metric">
-      <div class="metric-label">r / r_s</div>
-      <div class="metric-value" id="m_rrs">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Redshift factor √(1−r_s/r)</div>
-      <div class="metric-value" id="m_red">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Observed frequency ratio f∞/f_local</div>
-      <div class="metric-value" id="m_freq">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Tortoise coord r*</div>
-      <div class="metric-value" id="m_rstar">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Gate delay Δu(Γ)</div>
-      <div class="metric-value" id="m_du">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Echo amplitude |R(Γ)|</div>
-      <div class="metric-value" id="m_refl">—</div>
+<div class="row">
+  <!-- ===================== χ DIMENSION ===================== -->
+  <div class="card" style="flex:1;min-width:320px">
+    <div class="card-title">χ-Dimension Slice — R(χ) reconstructed from probe</div>
+    <canvas id="chiPlot" class="canvas"></canvas>
+    <div class="note good">
+      <b>5D rule:</b> ∂R/∂χ ≈ (R−R_bg)/Lχ. We visualize the implied decay/growth along χ using the live probe R(x(Γ)).
     </div>
   </div>
 
-  <div class="note warn">
-    <strong>Interpretation:</strong> A distant observer sees f∞ → 0 as r→r<sub>s</sub> (standard gravitational redshift).
-    The “gate” adds bounded phase delay Δu(Γ), giving coherent ripples/echoes without requiring any divergence.
+  <!-- ===================== HORIZON PANEL ===================== -->
+  <div class="card" style="flex:1;min-width:320px">
+    <div class="card-title">Photon Crossing — Schwarzschild Horizon (bounded gate)</div>
+    <canvas id="photonPlot" class="canvas"></canvas>
+    <div class="grid2" style="margin-top:10px">
+      <div class="metric"><div class="metric-label">Redshift √(1−1/(r/rs))</div><div id="m_red" class="metric-value">—</div></div>
+      <div class="metric"><div class="metric-label">f∞/f_local</div><div id="m_freq" class="metric-value">—</div></div>
+      <div class="metric"><div class="metric-label">Tortoise r*/rs</div><div id="m_rstar" class="metric-value">—</div></div>
+      <div class="metric"><div class="metric-label">Gate delay Δu(Γ)</div><div id="m_du" class="metric-value">—</div></div>
+      <div class="metric"><div class="metric-label">Gate |R(Γ)|</div><div id="m_refl" class="metric-value">—</div></div>
+      <div class="metric"><div class="metric-label">Horizon</div><div id="m_hflag" class="metric-value">—</div></div>
+    </div>
   </div>
 </div>
 
 <!-- ===================== DOUBLE SLIT ===================== -->
 <div class="card">
-  <div class="card-title">Double-Slit (QM-anchored normalization, Γ → contrast loss)</div>
-
-  <div class="control-row">
-    <div class="control">
-      <label>Energy (eV)</label>
-      <input type="number" id="energy" value="600" min="100" max="10000" step="10">
-      <div class="value-display">λ=<span id="wl">—</span> pm (600 eV hard-pinned)</div>
+  <div class="card-title">Double-Slit Audit — dataset-locked (Bach-like geometry) + χ² comparison</div>
+  <div class="controls">
+    <div>
+      <label>Energy (eV) (600 pinned recommended)</label>
+      <input type="number" id="energy" value="600" min="100" max="10000" step="10" />
+      <small class="muted">λ = <span id="wl">—</span> pm</small>
     </div>
-    <div class="control">
+    <div>
       <label>Slit width a (nm)</label>
-      <input type="number" id="a_nm" value="62" step="1">
-      <div class="value-display">Bach geometry default.</div>
+      <input type="number" id="a_nm" value="62" step="1" />
     </div>
-    <div class="control">
+    <div>
       <label>Slit separation d (nm)</label>
-      <input type="number" id="d_nm" value="272" step="1">
-      <div class="value-display">Bach geometry default.</div>
+      <input type="number" id="d_nm" value="272" step="1" />
     </div>
-    <div class="control">
+    <div>
       <label>Screen distance L (cm)</label>
-      <input type="number" id="L_cm" value="30.5" step="0.1">
-      <div class="value-display">Bach geometry default.</div>
+      <input type="number" id="L_cm" value="30.5" step="0.1" />
+    </div>
+    <div>
+      <label>Contrast mapping</label>
+      <select id="contrastMode">
+        <option value="probe">contrast = exp(-R_probe)</option>
+        <option value="stur">contrast = exp(-2 R_probe)</option>
+        <option value="gamma">contrast = exp(-1.6 Γ)</option>
+      </select>
+      <small class="muted">All still slaved to Γ / R.</small>
     </div>
   </div>
 
-  <canvas id="dsPlot" class="canvas"></canvas>
-
-  <div class="grid2">
-    <div class="metric">
-      <div class="metric-label">Γ → R (contrast)</div>
-      <div class="metric-value" id="m_R">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">χ² QM</div>
-      <div class="metric-value" id="chi1">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">χ² Modified</div>
-      <div class="metric-value" id="chi2">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Δχ²</div>
-      <div class="metric-value" id="dchi">—</div>
-    </div>
+  <canvas id="dsPlot" class="canvas" style="margin-top:10px"></canvas>
+  <div class="grid2" style="margin-top:10px">
+    <div class="metric"><div class="metric-label">Visibility V</div><div id="m_vis" class="metric-value accent">—</div></div>
+    <div class="metric"><div class="metric-label">χ² QM</div><div id="chi1" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">χ² Modified</div><div id="chi2" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">Δχ² (QM − Modified)</div><div id="m_dchi" class="metric-value">—</div></div>
   </div>
-
   <div class="note good">
-    <strong>One dial link:</strong> R is slaved to Γ and applied as contrast = exp(−R). Both curves are normalized to the QM peak.
+    <b>Link:</b> The only coupling is resistance. As matter falls in (source term), R rises near the horizon shell → contrast decays → interference visibility falls.
   </div>
 </div>
 
 <!-- ===================== JOSEPHSON ===================== -->
 <div class="card">
-  <div class="card-title">Josephson Voltage Noise (Γ → knee)</div>
-  <p class="small">Bounded OU phase velocity with tanh regulation. Γ drives temperature and damping.</p>
-  <canvas id="jPlot" class="canvas"></canvas>
-
-  <div class="grid2">
-    <div class="metric">
-      <div class="metric-label">T (mK)</div>
-      <div class="metric-value" id="m_Tmk">—</div>
+  <div class="card-title">Josephson Voltage Noise — bounded OU dynamics + PSD (Γ → T,γ), with STUR coupling through R_probe</div>
+  <div class="controls">
+    <div>
+      <label>Duration (ns)</label>
+      <input type="number" id="j_dur_ns" value="200" step="20" />
+      <small class="muted">Longer = smoother PSD.</small>
     </div>
-    <div class="metric">
-      <div class="metric-label">γ (GHz)</div>
-      <div class="metric-value" id="m_gGHz">—</div>
+    <div>
+      <label>dt (ps)</label>
+      <input type="number" id="j_dt_ps" value="0.01" step="0.01" />
+      <small class="muted">Smaller dt = wider bandwidth.</small>
     </div>
-    <div class="metric">
-      <div class="metric-label">knee freq</div>
-      <div class="metric-value" id="m_knee">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">kBT (meV)</div>
-      <div class="metric-value" id="m_kbt">—</div>
+    <div>
+      <label>Recompute PSD</label>
+      <button id="btnJ">Regenerate Josephson</button>
+      <small class="muted">Auto-updates when Γ changes (throttled).</small>
     </div>
   </div>
 
-  <div class="note good">
-    <strong>One dial link:</strong> Γ drives (T,γ) smoothly; the PSD knee shifts accordingly. No extra knobs required.
+  <canvas id="jPlot" class="canvas" style="margin-top:10px"></canvas>
+  <div class="grid2" style="margin-top:10px">
+    <div class="metric"><div class="metric-label">T (mK)</div><div id="m_Tmk" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">γ (GHz)</div><div id="m_gGHz" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">PSD knee</div><div id="m_knee" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">kBT (meV)</div><div id="m_kbt" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">V_rms (nV)</div><div id="m_vrms" class="metric-value accent">—</div></div>
+    <div class="metric"><div class="metric-label">STUR coupling (via R_probe)</div><div id="m_jcouple" class="metric-value">—</div></div>
+  </div>
+  <div class="note">
+    <b>Bounded dynamics:</b> θ̇ follows OU noise but is tanh-bounded to prevent runaway. Γ sets baseline (T,γ), and R_probe increases effective damping in a falsifiable, monotone way.
   </div>
 </div>
 
-<!-- ===================== BH SPECTRUM ===================== -->
+<!-- ===================== BH EMISSION ===================== -->
 <div class="card">
-  <div class="card-title">Black Hole Emission (Hawking → gated ripples via Γ)</div>
+  <div class="card-title">Black Hole Emission — Hawking thermal baseline + bounded gate ripples</div>
   <canvas id="bhPlot" class="canvas"></canvas>
-
-  <div class="grid2">
-    <div class="metric">
-      <div class="metric-label">T_H (K)</div>
-      <div class="metric-value" id="m_TH">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Gate strength |R|</div>
-      <div class="metric-value" id="m_gate">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Ripple freq scale</div>
-      <div class="metric-value" id="m_rip">—</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Weak-gate limit</div>
-      <div class="metric-value" id="m_weak">—</div>
-    </div>
+  <div class="grid2" style="margin-top:10px">
+    <div class="metric"><div class="metric-label">T_H (K)</div><div id="m_TH" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">Gate |R(Γ)|</div><div id="m_gate" class="metric-value accent">—</div></div>
+    <div class="metric"><div class="metric-label">Ripple scale ~ 1/Δu</div><div id="m_rip" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">Limit as Γ→0</div><div id="m_weak" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">Coupling via R_probe</div><div id="m_bhcouple" class="metric-value">—</div></div>
+    <div class="metric"><div class="metric-label">BH density (STUR)</div><div id="m_bhdens" class="metric-value">1</div></div>
   </div>
-
   <div class="note warn">
-    <strong>Built-in recovery:</strong> As Γ→0, the ripple amplitude →0 and the spectrum becomes strictly thermal (Hawking/Unruh).
+    <b>Recovery:</b> Γ→0 forces gate amplitude →0, so the spectrum becomes strictly thermal again.
   </div>
 </div>
 
 </div>
 
 <script>
-// ================================================================
-// Constants
-// ================================================================
+/* ================================================================
+   Helpers / DOM
+   ================================================================ */
+const $ = id => document.getElementById(id);
+function clamp(x, lo, hi){ return x<lo?lo:(x>hi?hi:x); }
+function mean(a){ let s=0; for(let i=0;i<a.length;i++) s+=a[i]; return s/Math.max(1,a.length); }
+function rms(a){ let s=0; for(let i=0;i<a.length;i++) s+=a[i]*a[i]; return Math.sqrt(s/Math.max(1,a.length)); }
+
+function setBadge(el, txt, cls){
+  el.textContent = txt;
+  el.className = "badge" + (cls ? (" "+cls) : "");
+}
+
+function drawAxes(ctx,W,H,pad,xlab,ylab){
+  const x0=pad.l, x1=W-pad.r, y0=pad.t, y1=H-pad.b;
+  ctx.strokeStyle="rgba(255,255,255,.22)"; ctx.lineWidth=2;
+  ctx.strokeRect(x0,y0,x1-x0,y1-y0);
+  ctx.fillStyle="#94a3b8"; ctx.font="12px system-ui";
+  ctx.textAlign="center";
+  if(xlab) ctx.fillText(xlab,(x0+x1)/2,H-14);
+  if(ylab){
+    ctx.save(); ctx.translate(16,(y0+y1)/2); ctx.rotate(-Math.PI/2);
+    ctx.fillText(ylab,0,0); ctx.restore();
+  }
+  // faint grid
+  ctx.strokeStyle="rgba(255,255,255,.06)"; ctx.lineWidth=1;
+  for(let k=1;k<=4;k++){
+    const xx=x0+(x1-x0)*k/5, yy=y0+(y1-y0)*k/5;
+    ctx.beginPath(); ctx.moveTo(xx,y0); ctx.lineTo(xx,y1); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x0,yy); ctx.lineTo(x1,yy); ctx.stroke();
+  }
+  return {x0,x1,y0,y1};
+}
+
+function linePlot(ctx, pts, mapX, mapY, stroke, width){
+  ctx.strokeStyle=stroke; ctx.lineWidth=width||2.5;
+  ctx.beginPath();
+  for(let i=0;i<pts.length;i++){
+    const X=mapX(pts[i].x), Y=mapY(pts[i].y);
+    if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+  }
+  ctx.stroke();
+}
+
+/* ================================================================
+   Shared Γ wiring
+   ================================================================ */
+const gamma = $("gamma");
+const gammaN = $("gammaN");
+const gVal = $("gVal");
+const rrsEl = $("rrs");
+const statusEl = $("status");
+
+/* ================================================================
+   Physical constants (SI)
+   ================================================================ */
 const h = 6.62607015e-34;
 const c = 299792458;
 const eVJ = 1.602176634e-19;
@@ -261,193 +359,87 @@ const eCharge = 1.602176634e-19;
 const G = 6.67430e-11;
 const Msol = 1.98847e30;
 
-// Hard-pinned Bach 600 eV wavelength
-const EPIN = 600;
-const LPIN = 5.006411794e-11;
-
-// Reference "digitized-like" profile (envelope-like)
-const REF = { y:[-4,-3.5,-3,-2.5,-2,-1.5,-1,-.5,0,.5,1,1.5,2,2.5,3,3.5,4],
-              i:[.04,.08,.15,.32,.55,.78,.92,.98,1,.98,.92,.78,.55,.32,.15,.08,.04] };
-
-const $ = id => document.getElementById(id);
-
-// ================================================================
-// Master dial mapping: Γ -> r/r_s
-// We map Γ in [0,1] to r/rs in [4.0, 0.5] (smooth), crossing horizon at 1.
-// ================================================================
+/* ================================================================
+   Horizon mapping Γ -> r/rs and gate functions
+   ================================================================ */
 function gammaToRrs(g){
-  // ease for nicer movement near horizon
-  const t = Math.max(0, Math.min(1, g));
-  const ease = t*t*(3 - 2*t);
-  return 4.0 + (0.5 - 4.0)*ease; // 4 -> 0.5
+  const t = g*g*(3 - 2*g);            // smoothstep
+  return 4.0 + (0.5 - 4.0)*t;         // 4 -> 0.5
 }
-
-// status badge
-function setBadge(el, txt, cls){
-  el.textContent = txt;
-  el.className = "badge" + (cls ? (" "+cls) : "");
-}
-
-// ================================================================
-// Schwarzschild helpers
-// ================================================================
-function schwarzschildRs(M){ return 2*G*M/(c*c); } // meters
-
+function schwarzschildRs(M){ return 2*G*M/(c*c); }
 function redshiftFactor(rrs){
-  // sqrt(1 - rs/r) = sqrt(1 - 1/rrs). For rrs<=1, imaginary -> not defined for static observer
   if(rrs <= 1) return 0;
   const x = 1 - 1/rrs;
-  return Math.sqrt(Math.max(0, x));
+  return Math.sqrt(Math.max(0,x));
 }
-
 function tortoiseRstar(r, rs){
-  // r* = r + rs ln|r/rs - 1|
   const x = Math.abs(r/rs - 1);
-  return r + rs*Math.log(Math.max(1e-15, x));
+  return r + rs*Math.log(Math.max(1e-15,x));
 }
+function gateReflectivity(g){ return 0.35 * (1 - Math.exp(-3*g)); } // bounded
+function gateDelayDu(g){ return 60 * g; }                            // bounded
 
-// Gate model: reflectivity amplitude and delay
-function gateReflectivity(g){
-  // bounded 0..~0.35 (kept tame)
-  return 0.35 * (1 - Math.exp(-3*g));
-}
-function gateDelayDu(g){
-  // bounded delay scale in "natural units" for ripples/echoes
-  return 60 * g; // dimensionless delay
-}
+/* ================================================================
+   STUR PDE (1D ring) — diffusion + inward drift + χ feedback + nonlinear infall source
+   ================================================================ */
+const NX = 240;                      // bigger
+let DT = 0.0075;                     // stable-ish
+const DX = 1/NX;
 
-// ================================================================
-// Photon crossing visualization
-// ================================================================
-function drawPhotonPanel(){
-  const g = parseFloat($('gamma').value);
-  const M = parseFloat($('bhMass').value) * Msol;
-  const rs = schwarzschildRs(M);
-  const rrs = gammaToRrs(g);
-  const r = rrs * rs;
+const R_BG = 0.02;
+let Dcoef = 0.15;
+let LX = 0.35;
 
-  const red = redshiftFactor(rrs);      // outside only
-  const finf_over_floc = (rrs > 1) ? red : 0; // static observer at r
-  const rstar = tortoiseRstar(r, rs);
+let R = new Float64Array(NX);
+let Rdot = new Float64Array(NX);
 
-  const du = gateDelayDu(g);
-  const Ramp = gateReflectivity(g);
-
-  // metrics
-  $('m_rrs').textContent = rrs.toFixed(3);
-  $('m_red').textContent = (rrs>1 ? red.toFixed(6) : "—");
-  $('m_freq').textContent = (rrs>1 ? finf_over_floc.toFixed(6) : "—");
-  $('m_rstar').textContent = (rstar/rs).toFixed(3) + " · r_s";
-  $('m_du').textContent = du.toFixed(2);
-  $('m_refl').textContent = Ramp.toFixed(3);
-
-  $('rrs').textContent = rrs.toFixed(3);
-  const hs = $('hStatus');
-  if(rrs > 1.02) setBadge(hs, "outside horizon", "good");
-  else if(rrs >= 0.98 && rrs <= 1.02) setBadge(hs, "near horizon", "warn");
-  else setBadge(hs, "inside horizon", "danger");
-
-  // draw canvas
-  const canvas = $('photonPlot');
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width = 1000;
-  const H = canvas.height = 360;
-  ctx.fillStyle = "#050813";
-  ctx.fillRect(0,0,W,H);
-
-  const pad = {l:70,r:30,t:30,b:45};
-  const x0=pad.l, x1=W-pad.r, y0=pad.t, y1=H-pad.b;
-
-  // axes box
-  ctx.strokeStyle = "rgba(255,255,255,.22)";
-  ctx.lineWidth = 2;
-  ctx.strokeRect(x0,y0,x1-x0,y1-y0);
-
-  // radial scale (r/rs) from 4 to 0.5
-  const rmin=0.5, rmax=4.0;
-  const mapX = rr => x0 + (rr-rmin)/(rmax-rmin)*(x1-x0);
-
-  // draw horizon line at r/rs=1
-  const xH = mapX(1.0);
-  ctx.strokeStyle = "rgba(251,191,36,.8)";
-  ctx.lineWidth = 2;
-  ctx.setLineDash([8,4]);
-  ctx.beginPath(); ctx.moveTo(xH,y0); ctx.lineTo(xH,y1); ctx.stroke();
-  ctx.setLineDash([]);
-
-  // labels
-  ctx.fillStyle = "#94a3b8";
-  ctx.font = "12px system-ui";
-  ctx.textAlign="center";
-  ctx.fillText("r / r_s", (x0+x1)/2, H-16);
-  ctx.textAlign="left";
-  ctx.fillText("event horizon (r/rs=1)", xH+8, y0+14);
-
-  // top panel: redshift curve outside horizon
-  // plot f∞/f_local = sqrt(1-1/rrs) for rr>1
-  const yMid = y0 + (y1-y0)*0.52;
-  ctx.strokeStyle="rgba(255,255,255,.08)";
-  ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(x0,yMid); ctx.lineTo(x1,yMid); ctx.stroke();
-
-  ctx.fillStyle="#94a3b8";
-  ctx.textAlign="left";
-  ctx.fillText("Top: redshift f∞/f_local (outside only)", x0, y0-8);
-  ctx.fillText("Bottom: bounded gate phase sin(Δu)", x0, yMid+18);
-
-  // redshift curve
-  ctx.strokeStyle = "#60a5fa";
-  ctx.lineWidth = 2.5;
-  ctx.beginPath();
-  let first=true;
-  for(let rr=4.0; rr>=1.0005; rr-=0.01){
-    const fx = mapX(rr);
-    const f = redshiftFactor(rr); // 0..1
-    const y = yMid - f*(yMid-y0-10);
-    if(first){ctx.moveTo(fx,y); first=false;} else ctx.lineTo(fx,y);
+function seedPDE(){
+  for(let i=0;i<NX;i++){
+    const n = (Math.random()-0.5)*0.06;
+    R[i] = R_BG + n;
   }
-  ctx.stroke();
+}
+seedPDE();
 
-  // gate phase curve (bounded)
-  ctx.strokeStyle = "#34d399";
-  ctx.lineWidth = 2.5;
-  ctx.beginPath();
-  first=true;
-  for(let rr=4.0; rr>=0.5; rr-=0.01){
-    const gtmp = (rr - 4.0)/(0.5 - 4.0); // 0..1 approx
-    const gg = Math.max(0, Math.min(1, gtmp));
-    const ph = Math.sin(gateDelayDu(gg)*0.12);
-    const fx = mapX(rr);
-    const y = y1 - 10 - (ph*0.5 + 0.5)*(y1-yMid-30);
-    if(first){ctx.moveTo(fx,y); first=false;} else ctx.lineTo(fx,y);
-  }
-  ctx.stroke();
-
-  // photon marker at current rrs
-  const xp = mapX(rrs);
-  // top marker: if outside, show redshift point; else show at horizon baseline
-  ctx.fillStyle = "#fbbf24";
-  const ypTop = (rrs>1) ? (yMid - finf_over_floc*(yMid-y0-10)) : (yMid - 2);
-  ctx.beginPath(); ctx.arc(xp, ypTop, 6, 0, Math.PI*2); ctx.fill();
-
-  // bottom marker: phase point
-  const phNow = Math.sin(du*0.12);
-  const ypBot = y1 - 10 - (phNow*0.5 + 0.5)*(y1-yMid-30);
-  ctx.beginPath(); ctx.arc(xp, ypBot, 6, 0, Math.PI*2); ctx.fill();
-
-  // annotate
-  ctx.fillStyle="#e2e8f0";
-  ctx.font="12px ui-monospace, SFMono-Regular, Menlo, monospace";
-  ctx.textAlign="left";
-  const txt1 = `r/rs=${rrs.toFixed(3)}  du=${du.toFixed(2)}  |R|=${Ramp.toFixed(3)}`;
-  const txt2 = (rrs>1) ? `f∞/floc=${finf_over_floc.toFixed(6)}  z=${(1/finf_over_floc - 1).toFixed(3)}` : `inside horizon: static redshift undefined`;
-  ctx.fillText(txt1, x0, y1+20);
-  ctx.fillText(txt2, x0, y1+36);
+/* ================================================================
+   Infall controls (Γ-slaved, but adjustable)
+   ================================================================ */
+function getInfallParams(){
+  const A   = parseFloat($("srcA").value);
+  const P   = parseFloat($("srcP").value);
+  const SIG = Math.max(1e-4, parseFloat($("srcSig").value));
+  const RCAP= Math.max(0.05, parseFloat($("rcap").value));
+  const vin = parseFloat($("vin").value);
+  const chi0= parseFloat($("chi0").value);
+  return {A,P,SIG,RCAP,vin,chi0};
 }
 
-// ================================================================
-// Double slit model (Γ -> R)
-// ================================================================
+/* ================================================================
+   χ slice reconstruction from live probe
+   Using ∂R/∂χ = (R − R_bg)/Lχ  => R(χ)=R_bg + (R0−R_bg) e^{χ/Lχ} (if forward)
+   We visualize a bounded slice: χ in [0..1], decaying away from the probe toward background.
+   ================================================================ */
+function buildChiSlice(Rprobe){
+  const N=220;
+  const out=new Array(N);
+  for(let i=0;i<N;i++){
+    const chi = i/(N-1);
+    const val = R_BG + (Rprobe - R_BG) * Math.exp(-chi/Math.max(1e-6,LX));
+    out[i]={x:chi, y:val};
+  }
+  return out;
+}
+
+/* ================================================================
+   Double-slit dataset (reference, digitized-like)
+   ================================================================ */
+const EPIN = 600;
+const LPIN = 5.006411794e-11;
+const REF = {
+  y:[-4,-3.5,-3,-2.5,-2,-1.5,-1,-.5,0,.5,1,1.5,2,2.5,3,3.5,4],
+  i:[.04,.08,.15,.32,.55,.78,.92,.98,1,.98,.92,.78,.55,.32,.15,.08,.04]
+};
+
 function getLambda(EeV){
   if(Number(EeV) === EPIN) return LPIN;
   const E = EeV * eVJ;
@@ -455,112 +447,56 @@ function getLambda(EeV){
   return h/p;
 }
 function sinc(x){ return Math.abs(x)<1e-12 ? 1 : Math.sin(x)/x; }
-function chi2(o,p){ let s=0; for(let i=0;i<o.length;i++){ const d=o[i]-p[i]; s+=d*d; } return s/o.length; }
+function chi2(o,p){ let s=0; for(let i=0;i<o.length;i++){ const d=o[i]-p[i]; s+=d*d; } return s/Math.max(1,o.length); }
 
-function calcPattern(R){
-  const E = parseFloat($('energy').value);
-  const a = parseFloat($('a_nm').value) * 1e-9;
-  const d = parseFloat($('d_nm').value) * 1e-9;
-  const L = parseFloat($('L_cm').value) * 1e-2;
+function calcPattern(contrast){
+  const E = parseFloat($("energy").value);
+  const a = parseFloat($("a_nm").value) * 1e-9;
+  const d = parseFloat($("d_nm").value) * 1e-9;
+  const L = parseFloat($("L_cm").value) * 1e-2;
   const lam = getLambda(E);
 
-  return REF.y.map(y=>{
-    const ym = y*1e-3;
+  const out = new Array(REF.y.length);
+  for(let i=0;i<REF.y.length;i++){
+    const ym = REF.y[i]*1e-3;
     const theta = ym/L;
     const env = Math.pow(sinc(Math.PI*a*theta/lam),2);
     const ph = (2*Math.PI/lam)*d*theta;
-    const contrast = Math.exp(-R);
-    return env*(1 + contrast*Math.cos(ph))*0.5;
-  });
+    const I = env*(1 + contrast*Math.cos(ph))*0.5;
+    out[i]=I;
+  }
+  return out;
 }
 
-function drawDoubleSlit(){
-  const g = parseFloat($('gamma').value);
-  const R = 1.6 * g; // slave contrast parameter
-  $('m_R').textContent = R.toFixed(4);
-
-  const qm_raw = calcPattern(0);
-  const mod_raw = calcPattern(R);
-  const qm_max = Math.max(...qm_raw);
-  const qm = qm_raw.map(x=>x/qm_max);
-  const mod = mod_raw.map(x=>x/qm_max);
-
-  const c1 = chi2(REF.i, qm);
-  const c2 = chi2(REF.i, mod);
-
-  $('wl').textContent = (getLambda(parseFloat($('energy').value))*1e12).toFixed(3);
-  $('chi1').textContent = c1.toFixed(6);
-  $('chi2').textContent = c2.toFixed(6);
-  const dchi = c1 - c2;
-  $('dchi').textContent = (dchi>=0?"+":"") + dchi.toFixed(6);
-
-  const canvas = $('dsPlot');
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width = 1000;
-  const H = canvas.height = 360;
-  ctx.fillStyle="#050813"; ctx.fillRect(0,0,W,H);
-
-  const pad={l:70,r:30,t:30,b:45};
-  const x0=pad.l,x1=W-pad.r,y0=pad.t,y1=H-pad.b;
-  ctx.strokeStyle="rgba(255,255,255,.22)"; ctx.lineWidth=2; ctx.strokeRect(x0,y0,x1-x0,y1-y0);
-
-  const yMin=REF.y[0], yMax=REF.y[REF.y.length-1];
-  const mapX = y => x0 + (y-yMin)/(yMax-yMin)*(x1-x0);
-  const mapY = I => y1 - I*(y1-y0);
-
-  // QM
-  ctx.strokeStyle="#60a5fa"; ctx.lineWidth=2.5; ctx.beginPath();
-  REF.y.forEach((y,i)=>{ const X=mapX(y), Y=mapY(qm[i]); i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); });
-  ctx.stroke();
-
-  // Modified
-  ctx.strokeStyle="#34d399"; ctx.lineWidth=2.5; ctx.beginPath();
-  REF.y.forEach((y,i)=>{ const X=mapX(y), Y=mapY(mod[i]); i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); });
-  ctx.stroke();
-
-  // points
-  ctx.fillStyle="#fbbf24";
-  REF.y.forEach((y,i)=>{ ctx.beginPath(); ctx.arc(mapX(y), mapY(REF.i[i]), 4, 0, 2*Math.PI); ctx.fill(); });
-
-  // legend
-  ctx.font="12px system-ui"; ctx.textAlign="left";
-  ctx.fillStyle="#e2e8f0";
-  ctx.fillText(`QM (R=0)`, x0+10, y0-10);
-  ctx.fillText(`Modified (R=${R.toFixed(2)} = 1.6Γ)`, x0+160, y0-10);
-}
-
-// ================================================================
-// Josephson bounded OU + PSD (Γ -> T,γ)
-// ================================================================
+/* ================================================================
+   Josephson PSD (bounded OU) — FFT
+   ================================================================ */
 function npow2(n){ return 1 << Math.ceil(Math.log2(Math.max(1,n))); }
 
-// iterative radix-2 FFT
 function fft(re, im){
   const n = re.length;
   for(let i=1,j=0;i<n;i++){
-    let bit = n>>1;
-    for(; j & bit; bit >>= 1) j ^= bit;
-    j ^= bit;
+    let bit=n>>1;
+    for(; j & bit; bit>>=1) j^=bit;
+    j^=bit;
     if(i<j){
       [re[i],re[j]]=[re[j],re[i]];
       [im[i],im[j]]=[im[j],im[i]];
     }
   }
   for(let len=2; len<=n; len<<=1){
-    const ang = -2*Math.PI/len;
-    const wlen_re = Math.cos(ang), wlen_im = Math.sin(ang);
-    for(let i=0; i<n; i+=len){
+    const ang=-2*Math.PI/len;
+    const wlen_re=Math.cos(ang), wlen_im=Math.sin(ang);
+    for(let i=0;i<n;i+=len){
       let w_re=1, w_im=0;
-      for(let j=0; j<len/2; j++){
+      for(let j=0;j<len/2;j++){
         const u_re=re[i+j], u_im=im[i+j];
         const v_re=re[i+j+len/2]*w_re - im[i+j+len/2]*w_im;
         const v_im=re[i+j+len/2]*w_im + im[i+j+len/2]*w_re;
-
         re[i+j]=u_re+v_re; im[i+j]=u_im+v_im;
         re[i+j+len/2]=u_re-v_re; im[i+j+len/2]=u_im-v_im;
-
-        const nw_re = w_re*wlen_re - w_im*wlen_im;
-        const nw_im = w_re*wlen_im + w_im*wlen_re;
+        const nw_re=w_re*wlen_re - w_im*wlen_im;
+        const nw_im=w_re*wlen_im + w_im*wlen_re;
         w_re=nw_re; w_im=nw_im;
       }
     }
@@ -568,111 +504,118 @@ function fft(re, im){
 }
 
 function psd(sig, dt){
-  const N = sig.length;
-  const Nf = npow2(N);
-  const re = new Array(Nf).fill(0);
-  const im = new Array(Nf).fill(0);
-
-  // Hann
+  const N=sig.length;
+  const Nf=npow2(N);
+  const re=new Array(Nf).fill(0);
+  const im=new Array(Nf).fill(0);
   for(let i=0;i<N;i++){
-    const w = 0.5*(1 - Math.cos(2*Math.PI*i/Math.max(1, N-1)));
-    re[i] = sig[i]*w;
+    const w=0.5*(1 - Math.cos(2*Math.PI*i/Math.max(1,N-1))); // Hann
+    re[i]=sig[i]*w;
   }
-
   fft(re, im);
-  const half = Nf>>1;
-  const p = new Array(half);
-  const f = new Array(half);
-  const df = 1/(Nf*dt);
-  const Fs = 1/dt;
+  const half=Nf>>1;
+  const p=new Array(half);
+  const f=new Array(half);
+  const df=1/(Nf*dt);
+  const Fs=1/dt;
   for(let i=0;i<half;i++){
-    p[i] = (re[i]*re[i] + im[i]*im[i])/(Fs*Nf);
-    f[i] = i*df;
+    p[i]=(re[i]*re[i]+im[i]*im[i])/(Fs*Nf);
+    f[i]=i*df;
   }
   return {f,p};
 }
 
-let jdata = null;
+let jdata=null;
+function regenerateJosephson(Rprobe){
+  const g = parseFloat(gamma.value);
 
-function regenerateJosephson(){
-  const g = parseFloat($('gamma').value);
+  // Γ baseline
+  const TmK0 = 20 + 480*g;
+  const gammaGHz0 = 0.2 + 6.0*g;
 
-  // Γ drives T and γ
-  const TmK = 20 + 480*g;      // 20..500 mK
-  const gammaGHz = 0.2 + 6.0*g; // 0.2..6.2 GHz
-  const T = TmK * 1e-3; // K
-  const gamma = gammaGHz * 1e9; // Hz
+  // STUR coupling via probe (monotone, falsifiable)
+  // More resistance -> more damping and slightly hotter effective noise floor (bounded)
+  const dampBoost = 1 + 0.85*clamp(Rprobe, 0, 1.2);
+  const tempBoost = 1 + 0.30*clamp(Rprobe, 0, 1.2);
+
+  const TmK = TmK0 * tempBoost;
+  const gammaGHz = gammaGHz0 * dampBoost;
+
+  const T = (TmK*1e-3);
+  const gam = gammaGHz*1e9;
+
+  const dur = Math.max(20, parseFloat($("j_dur_ns").value)) * 1e-9;
+  const dt  = Math.max(1e-13, parseFloat($("j_dt_ps").value) * 1e-12);
+  const N   = Math.max(512, Math.floor(dur/dt));
+
   const thetaDotMax = (8 + 12*g) * 1e9; // rad/s bounded
-
   const kBT = kB*T;
-  const sigma = Math.sqrt(2*gamma*kBT/hbar);
-
-  const dur = 200e-9;
-  const dt = 1e-11;
-  const N = Math.floor(dur/dt);
+  const sigma = Math.sqrt(2*gam*kBT/hbar);
 
   const thetaDot = new Array(N);
   thetaDot[0]=0;
-  const sqrtDt = Math.sqrt(dt);
+  const sqrtDt=Math.sqrt(dt);
 
-  // OU with tanh bounding
   for(let i=1;i<N;i++){
     const noise = sigma*(Math.random()*2 - 1)*sqrtDt;
-    const raw = thetaDot[i-1] - gamma*thetaDot[i-1]*dt + noise;
-    thetaDot[i] = thetaDotMax * Math.tanh(raw/thetaDotMax);
+    const raw = thetaDot[i-1] - gam*thetaDot[i-1]*dt + noise;
+    thetaDot[i] = thetaDotMax*Math.tanh(raw/thetaDotMax);
   }
 
-  // Josephson relation V = (ħ/2e) * θdot
   const Vfac = hbar/(2*eCharge);
   const V = thetaDot.map(x=>x*Vfac);
+
+  // Vrms (nV)
+  let vms=0;
+  for(let i=0;i<V.length;i++) vms += V[i]*V[i];
+  const Vrms = Math.sqrt(vms/Math.max(1,V.length))*1e9;
 
   const {f,p} = psd(V, dt);
   const Sv = p.map(x=>x*1e18); // nV^2/Hz
 
-  // knee estimate: first drop below half of low-frequency level
-  let ki=1;
-  const lv = Sv[1] || 1;
+  // knee: first index where below half of low-f average
+  let base=0, cnt=0;
+  for(let i=1;i<Math.min(30,Sv.length);i++){ base+=Sv[i]; cnt++; }
+  base/=Math.max(1,cnt);
+  let ki=2;
   for(let i=2;i<Sv.length;i++){
-    if(Sv[i] < 0.5*lv){ ki=i; break; }
+    if(Sv[i] < 0.5*base){ ki=i; break; }
   }
 
-  jdata = {
-    f, Sv,
-    knee: f[ki],
-    TmK, gammaGHz,
-    kBT_meV: kBT/(eVJ*1e-3)
-  };
-
-  $('m_Tmk').textContent = TmK.toFixed(1);
-  $('m_gGHz').textContent = gammaGHz.toFixed(2);
-  $('m_knee').textContent = (jdata.knee/1e9).toFixed(3) + " GHz";
-  $('m_kbt').textContent = jdata.kBT_meV.toFixed(4) + " meV";
-
+  jdata = {f,Sv,knee:f[ki],TmK,gammaGHz,kBT_meV:kBT/(eVJ*1e-3),Vrms, dampBoost,tempBoost};
+  $("m_Tmk").textContent = TmK.toFixed(1);
+  $("m_gGHz").textContent = gammaGHz.toFixed(3);
+  $("m_knee").textContent = (jdata.knee/1e9).toFixed(3)+" GHz";
+  $("m_kbt").textContent = jdata.kBT_meV.toFixed(4)+" meV";
+  $("m_vrms").textContent = Vrms.toFixed(2);
+  $("m_jcouple").textContent = `damp×${dampBoost.toFixed(3)}, temp×${tempBoost.toFixed(3)}`;
   drawJosephson();
 }
 
 function drawJosephson(){
   if(!jdata) return;
-  const canvas = $('jPlot');
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width = 1000;
-  const H = canvas.height = 360;
+  const canvas=$("jPlot");
+  const ctx=canvas.getContext("2d");
+  const W=canvas.width=1000, H=canvas.height=340;
   ctx.fillStyle="#050813"; ctx.fillRect(0,0,W,H);
 
-  const pad={l:70,r:30,t:30,b:45};
-  const x0=pad.l,x1=W-pad.r,y0=pad.t,y1=H-pad.b;
-
-  ctx.strokeStyle="rgba(255,255,255,.22)"; ctx.lineWidth=2; ctx.strokeRect(x0,y0,x1-x0,y1-y0);
+  const pad={l:70,r:30,t:28,b:45};
+  const box=drawAxes(ctx,W,H,pad,"Frequency (Hz) [log]","S_V (nV²/Hz) [log]");
 
   const fm=1e6, fM=100e9;
   const Sm=1e-6;
-  const filtered = jdata.Sv.filter((_,i)=>jdata.f[i]>=fm && jdata.f[i]<=fM && jdata.Sv[i]>Sm);
-  const SM = (filtered.length? Math.max(...filtered): 1) * 10;
 
-  const mapX = f => x0 + (Math.log10(f)-Math.log10(fm))/(Math.log10(fM)-Math.log10(fm))*(x1-x0);
-  const mapY = s => y1 - (Math.log10(s)-Math.log10(Sm))/(Math.log10(SM)-Math.log10(Sm))*(y1-y0);
+  let SM=Sm*100;
+  for(let i=0;i<jdata.f.length;i++){
+    const f=jdata.f[i], s=jdata.Sv[i];
+    if(f>=fm && f<=fM && s>Sm) SM=Math.max(SM, s);
+  }
+  SM*=10;
 
-  // plot
+  const mapX = f => box.x0 + (Math.log10(f)-Math.log10(fm))/(Math.log10(fM)-Math.log10(fm))*(box.x1-box.x0);
+  const mapY = s => box.y1 - (Math.log10(s)-Math.log10(Sm))/(Math.log10(SM)-Math.log10(Sm))*(box.y1-box.y0);
+
+  // curve
   ctx.strokeStyle="#60a5fa"; ctx.lineWidth=2.5;
   ctx.beginPath();
   let first=true;
@@ -686,157 +629,591 @@ function drawJosephson(){
   ctx.stroke();
 
   // knee marker
-  const kf = jdata.knee;
+  const kf=jdata.knee;
   if(kf>fm && kf<fM){
     ctx.strokeStyle="#fbbf24"; ctx.lineWidth=2;
     ctx.setLineDash([8,4]);
     const kx=mapX(kf);
-    ctx.beginPath(); ctx.moveTo(kx,y0); ctx.lineTo(kx,y1); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(kx,box.y0); ctx.lineTo(kx,box.y1); ctx.stroke();
     ctx.setLineDash([]);
   }
 
-  // labels
-  ctx.fillStyle="#94a3b8"; ctx.font="12px system-ui";
-  ctx.textAlign="center";
-  ctx.fillText("Frequency (Hz) [log]", (x0+x1)/2, H-16);
-  ctx.save();
-  ctx.translate(18,(y0+y1)/2);
-  ctx.rotate(-Math.PI/2);
-  ctx.fillText("S_V (nV²/Hz) [log]", 0, 0);
-  ctx.restore();
+  // legend
+  ctx.fillStyle="#e2e8f0"; ctx.font="12px system-ui"; ctx.textAlign="left";
+  ctx.fillText("Josephson PSD", box.x0, box.y0-10);
 }
 
-// ================================================================
-// Black hole emission: Hawking thermal * (1 + 2|R| cos(2ωΔu))
-// (for visualization only; Γ→0 recovers thermal)
-// ================================================================
-function hawkingTemp(M){
-  return (hbar*c*c*c)/(8*Math.PI*G*M*kB); // K
-}
+/* ================================================================
+   BH emission: Hawking thermal * (1 + 2|R| cos(2xΔu*scale)) bounded
+   ================================================================ */
+function hawkingTemp(M){ return (hbar*c*c*c)/(8*Math.PI*G*M*kB); }
 
-function drawBH(){
-  const g = parseFloat($('gamma').value);
-  const M = parseFloat($('bhMass').value) * Msol;
+function drawBH(Rprobe){
+  const g = parseFloat(gamma.value);
+  const M = parseFloat($("bhMass").value) * Msol;
   const TH = hawkingTemp(M);
 
-  const R = gateReflectivity(g);
+  // gate strength: Γ-gate multiplied by STUR resistance proxy (bounded)
+  const Rg = gateReflectivity(g);
+  const couple = 1 + 0.65*clamp(Rprobe, 0, 1.2);
+  const Rgate = clamp(Rg*couple, 0, 0.55);
+
   const du = gateDelayDu(g);
 
-  $('m_TH').textContent = TH.toExponential(3) + " K";
-  $('m_gate').textContent = R.toFixed(3);
-  $('m_rip').textContent = (1/Math.max(1e-9, du)).toFixed(4) + " (1/Δu)";
-  $('m_weak').textContent = (g < 0.02 ? "Hawking" : "gated");
+  $("m_TH").textContent = TH.toExponential(3)+" K";
+  $("m_gate").textContent = Rgate.toFixed(3);
+  $("m_rip").textContent = (1/Math.max(1e-9,du)).toFixed(4)+" (1/Δu)";
+  $("m_weak").textContent = (g < 0.02 ? "Hawking (thermal)" : "gated thermal");
+  $("m_bhcouple").textContent = `|R|×${couple.toFixed(3)} via R_probe`;
 
-  const canvas = $('bhPlot');
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width = 1000;
-  const H = canvas.height = 360;
+  const canvas=$("bhPlot");
+  const ctx=canvas.getContext("2d");
+  const W=canvas.width=1000, H=canvas.height=340;
   ctx.fillStyle="#050813"; ctx.fillRect(0,0,W,H);
 
-  const pad={l:70,r:30,t:30,b:45};
-  const x0=pad.l,x1=W-pad.r,y0=pad.t,y1=H-pad.b;
-  ctx.strokeStyle="rgba(255,255,255,.22)"; ctx.lineWidth=2; ctx.strokeRect(x0,y0,x1-x0,y1-y0);
+  const pad={l:70,r:30,t:28,b:45};
+  const box=drawAxes(ctx,W,H,pad,"x = ω / (kB T_H / ħ)","occupation n(ω) (arb.)");
 
-  // We'll plot vs dimensionless ω̂ in [0, 8] (arbitrary) to show shape + ripples
-  const N=600;
-  const w = new Array(N);
-  const n0 = new Array(N);
-  const ng = new Array(N);
+  const N=700;
+  const xMin=0.02, xMax=8.0;
+  const n0=new Array(N);
+  const ng=new Array(N);
+  const pts0=new Array(N);
+  const ptsG=new Array(N);
 
-  // map "temperature scale" into a dimensionless axis for display:
-  // define x = ω / ωT where ωT = kB TH / ħ
-  const omegaT = (kB*TH)/hbar; // rad/s
-  // use x in [0.02, 8]
+  let ymax=0;
+  const phaseScale = 0.02; // keep ripples bounded visually
   for(let i=0;i<N;i++){
-    const x = 0.02 + (8-0.02)*i/(N-1);
-    w[i]=x;
+    const x = xMin + (xMax-xMin)*i/(N-1);
     const occ = 1/(Math.exp(x)-1);
-    n0[i]=occ;
-    ng[i]=occ*(1 + 2*R*Math.cos(2*x*du*0.02)); // bounded ripple (scaled)
-    if(ng[i] < 0) ng[i]=0;
+    const rip = 1 + 2*Rgate*Math.cos(2*x*du*phaseScale);
+    const gocc = Math.max(0, occ*rip);
+    n0[i]=occ; ng[i]=gocc;
+    ymax=Math.max(ymax, occ, gocc);
+    pts0[i]={x, y:occ};
+    ptsG[i]={x, y:gocc};
   }
+  ymax*=1.05;
 
-  const ymax = Math.max(...n0)*1.05;
+  const mapX = x => box.x0 + (x-xMin)/(xMax-xMin)*(box.x1-box.x0);
+  const mapY = y => box.y1 - (y/ymax)*(box.y1-box.y0);
 
-  const mapX = x => x0 + (x-0.02)/(8-0.02)*(x1-x0);
-  const mapY = y => y1 - (y/ymax)*(y1-y0);
-
-  // thermal baseline
-  ctx.strokeStyle="rgba(96,165,250,.9)";
-  ctx.lineWidth=2.5;
+  // baseline
+  ctx.strokeStyle="rgba(96,165,250,.95)"; ctx.lineWidth=2.5;
   ctx.beginPath();
   for(let i=0;i<N;i++){
-    const X=mapX(w[i]), Y=mapY(n0[i]);
-    i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);
+    const X=mapX(pts0[i].x), Y=mapY(pts0[i].y);
+    if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
   }
   ctx.stroke();
 
   // gated
-  ctx.strokeStyle="rgba(52,211,153,.95)";
-  ctx.lineWidth=2.5;
+  ctx.strokeStyle="rgba(52,211,153,.95)"; ctx.lineWidth=2.5;
   ctx.beginPath();
   for(let i=0;i<N;i++){
-    const X=mapX(w[i]), Y=mapY(ng[i]);
-    i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);
+    const X=mapX(ptsG[i].x), Y=mapY(ptsG[i].y);
+    if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
   }
   ctx.stroke();
 
-  // legend + labels
-  ctx.fillStyle="#94a3b8"; ctx.font="12px system-ui";
-  ctx.textAlign="center";
-  ctx.fillText("x = ω / (kB T_H / ħ)", (x0+x1)/2, H-16);
-  ctx.save();
-  ctx.translate(18,(y0+y1)/2);
-  ctx.rotate(-Math.PI/2);
-  ctx.fillText("Occupation n(ω) (arb.)", 0, 0);
-  ctx.restore();
-
-  ctx.textAlign="left";
-  ctx.fillStyle="#e2e8f0";
-  ctx.fillText("thermal (Hawking)", x0, y0-10);
+  // legend
+  ctx.fillStyle="#e2e8f0"; ctx.font="12px system-ui"; ctx.textAlign="left";
+  ctx.fillText("thermal (Hawking)", box.x0, box.y0-10);
   ctx.fillStyle="#a7f3d0";
-  ctx.fillText(`gated (Γ=${g.toFixed(3)})`, x0+150, y0-10);
+  ctx.fillText(`gated (Γ=${g.toFixed(3)})`, box.x0+160, box.y0-10);
 }
 
-// ================================================================
-// Master apply: one dial drives everything
-// ================================================================
-function applyMasterGamma(g){
-  // Sync UI
-  $('gamma').value = g.toFixed(3);
-  $('gammaN').value = g.toFixed(3);
-  $('gVal').textContent = g.toFixed(3);
+/* ================================================================
+   Horizon plot (accurate): redshift curve outside + bounded gate phase
+   ================================================================ */
+function drawPhotonPanel(){
+  const g = parseFloat(gamma.value);
+  const M = parseFloat($("bhMass").value) * Msol;
+  const rs = schwarzschildRs(M);
 
-  // photon + horizon
-  drawPhotonPanel();
+  const rrs = gammaToRrs(g);
+  const r = rrs*rs;
 
-  // diffraction
-  drawDoubleSlit();
+  const red = redshiftFactor(rrs);
+  const finf = (rrs>1) ? red : 0;
+  const rstar = tortoiseRstar(r, rs);
 
-  // josephson
-  regenerateJosephson();
+  const du = gateDelayDu(g);
+  const Ramp = gateReflectivity(g);
 
-  // BH spectrum
-  drawBH();
+  $("m_red").textContent = (rrs>1 ? red.toFixed(6) : "—");
+  $("m_freq").textContent = (rrs>1 ? finf.toFixed(6) : "—");
+  $("m_rstar").textContent = (rstar/rs).toFixed(3);
+  $("m_du").textContent = du.toFixed(2);
+  $("m_refl").textContent = Ramp.toFixed(3);
+
+  if(rrs>1.02) $("m_hflag").textContent="outside";
+  else if(rrs>=0.98 && rrs<=1.02) $("m_hflag").textContent="near";
+  else $("m_hflag").textContent="inside";
+
+  // update status badge top
+  rrsEl.textContent = rrs.toFixed(3);
+  if(rrs>1.02) setBadge(statusEl,"outside","good");
+  else if(rrs>=0.98 && rrs<=1.02) setBadge(statusEl,"horizon","warn");
+  else setBadge(statusEl,"inside","danger");
+
+  const canvas=$("photonPlot");
+  const ctx=canvas.getContext("2d");
+  const W=canvas.width=1000, H=canvas.height=340;
+  ctx.fillStyle="#050813"; ctx.fillRect(0,0,W,H);
+
+  const pad={l:70,r:30,t:28,b:45};
+  const box=drawAxes(ctx,W,H,pad,"r / r_s","(top) f∞/f_local  (bottom) sin(Δu·k)");
+
+  const rmin=0.5, rmax=4.0;
+  const mapX = rr => box.x0 + (rr-rmin)/(rmax-rmin)*(box.x1-box.x0);
+
+  // split midline
+  const yMid = box.y0 + (box.y1-box.y0)*0.52;
+  ctx.strokeStyle="rgba(255,255,255,.10)"; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(box.x0,yMid); ctx.lineTo(box.x1,yMid); ctx.stroke();
+
+  // horizon line
+  const xH = mapX(1.0);
+  ctx.strokeStyle="rgba(251,191,36,.85)"; ctx.lineWidth=2;
+  ctx.setLineDash([8,4]);
+  ctx.beginPath(); ctx.moveTo(xH,box.y0); ctx.lineTo(xH,box.y1); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle="#94a3b8"; ctx.font="12px system-ui"; ctx.textAlign="left";
+  ctx.fillText("event horizon r/rs=1", xH+8, box.y0+14);
+
+  // redshift curve (outside)
+  ctx.strokeStyle="#60a5fa"; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  let first=true;
+  for(let rr=4.0; rr>=1.0005; rr-=0.01){
+    const fx=mapX(rr);
+    const f=redshiftFactor(rr); // 0..1
+    const y = yMid - f*(yMid-box.y0-10);
+    if(first){ctx.moveTo(fx,y); first=false;} else ctx.lineTo(fx,y);
+  }
+  ctx.stroke();
+
+  // bounded gate phase across all rr
+  const k = 0.12;
+  ctx.strokeStyle="#34d399"; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  first=true;
+  for(let rr=4.0; rr>=0.5; rr-=0.01){
+    const t = (rr - 4.0)/(0.5 - 4.0);
+    const gg = clamp(t,0,1);
+    const ph = Math.sin(gateDelayDu(gg)*k);
+    const fx=mapX(rr);
+    const y = box.y1 - 10 - (ph*0.5 + 0.5)*(box.y1-yMid-30);
+    if(first){ctx.moveTo(fx,y); first=false;} else ctx.lineTo(fx,y);
+  }
+  ctx.stroke();
+
+  // marker at current rr
+  const xp = mapX(rrs);
+  ctx.fillStyle="#fbbf24";
+
+  const ypTop = (rrs>1) ? (yMid - finf*(yMid-box.y0-10)) : (yMid - 2);
+  ctx.beginPath(); ctx.arc(xp, ypTop, 6, 0, Math.PI*2); ctx.fill();
+
+  const phNow = Math.sin(du*k);
+  const ypBot = box.y1 - 10 - (phNow*0.5 + 0.5)*(box.y1-yMid-30);
+  ctx.beginPath(); ctx.arc(xp, ypBot, 6, 0, Math.PI*2); ctx.fill();
+
+  // annotation
+  ctx.fillStyle="#e2e8f0"; ctx.font="12px "+getComputedStyle(document.documentElement).getPropertyValue("--mono");
+  ctx.textAlign="left";
+  const txt1 = `r/rs=${rrs.toFixed(3)}  Δu=${du.toFixed(2)}  |R_gate|=${Ramp.toFixed(3)}`;
+  const txt2 = (rrs>1.0005) ? `f∞/f_local=${finf.toFixed(6)}` : `inside horizon: static redshift undefined`;
+  ctx.fillText(txt1, box.x0, box.y1+18);
+  ctx.fillText(txt2, box.x0, box.y1+34);
 }
 
-// ================================================================
-// Wiring
-// ================================================================
-function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+/* ================================================================
+   Double slit draw
+   ================================================================ */
+function drawDoubleSlit(Rprobe){
+  const g = parseFloat(gamma.value);
+  const mode = $("contrastMode").value;
 
-$('gamma').addEventListener('input', () => applyMasterGamma(parseFloat($('gamma').value)));
-$('gammaN').addEventListener('change', () => applyMasterGamma(clamp01(parseFloat($('gammaN').value) || 0)));
+  let contrast=1;
+  if(mode==="probe") contrast = Math.exp(-clamp(Rprobe,0,5));
+  else if(mode==="stur") contrast = Math.exp(-2*clamp(Rprobe,0,5));
+  else contrast = Math.exp(-1.6*g);
 
-$('bhMass').addEventListener('input', () => applyMasterGamma(parseFloat($('gamma').value)));
+  // visibility readout matches contrast definition (peak-to-trough proxy)
+  $("m_vis").textContent = contrast.toFixed(4);
 
-$('energy').addEventListener('input', drawDoubleSlit);
-$('a_nm').addEventListener('input', drawDoubleSlit);
-$('d_nm').addEventListener('input', drawDoubleSlit);
-$('L_cm').addEventListener('input', drawDoubleSlit);
+  const qm_raw = calcPattern(1.0);          // QM contrast=1
+  const mod_raw = calcPattern(contrast);
+
+  const qm_max = Math.max(...qm_raw);
+  const qm = qm_raw.map(x=>x/qm_max);
+  const mod = mod_raw.map(x=>x/qm_max);
+
+  const c1 = chi2(REF.i, qm);
+  const c2 = chi2(REF.i, mod);
+
+  $("wl").textContent = (getLambda(parseFloat($("energy").value))*1e12).toFixed(3);
+  $("chi1").textContent = c1.toFixed(6);
+  $("chi2").textContent = c2.toFixed(6);
+  const dchi = c1 - c2;
+  $("m_dchi").textContent = (dchi>=0?"+":"") + dchi.toFixed(6);
+
+  const canvas=$("dsPlot");
+  const ctx=canvas.getContext("2d");
+  const W=canvas.width=1000, H=canvas.height=340;
+  ctx.fillStyle="#050813"; ctx.fillRect(0,0,W,H);
+
+  const pad={l:70,r:30,t:28,b:45};
+  const box=drawAxes(ctx,W,H,pad,"screen y (mm)","normalized intensity");
+
+  const yMin=REF.y[0], yMax=REF.y[REF.y.length-1];
+  const mapX = y => box.x0 + (y-yMin)/(yMax-yMin)*(box.x1-box.x0);
+  const mapY = I => box.y1 - clamp(I,0,1.2)*(box.y1-box.y0);
+
+  // points (reference)
+  ctx.fillStyle="#fbbf24";
+  for(let i=0;i<REF.y.length;i++){
+    ctx.beginPath();
+    ctx.arc(mapX(REF.y[i]), mapY(REF.i[i]), 4, 0, 2*Math.PI);
+    ctx.fill();
+  }
+
+  // QM
+  ctx.strokeStyle="#60a5fa"; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  for(let i=0;i<REF.y.length;i++){
+    const X=mapX(REF.y[i]), Y=mapY(qm[i]);
+    if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+  }
+  ctx.stroke();
+
+  // Modified
+  ctx.strokeStyle="#34d399"; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  for(let i=0;i<REF.y.length;i++){
+    const X=mapX(REF.y[i]), Y=mapY(mod[i]);
+    if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+  }
+  ctx.stroke();
+
+  // legend
+  ctx.fillStyle="#e2e8f0"; ctx.font="12px system-ui"; ctx.textAlign="left";
+  ctx.fillText("Ref points", box.x0, box.y0-10);
+  ctx.fillStyle="#93c5fd"; ctx.fillText("QM (contrast=1)", box.x0+110, box.y0-10);
+  ctx.fillStyle="#a7f3d0"; ctx.fillText(`Modified (contrast=${contrast.toFixed(3)})`, box.x0+260, box.y0-10);
+}
+
+/* ================================================================
+   χ plot draw
+   ================================================================ */
+function drawChiSlice(Rprobe){
+  const pts = buildChiSlice(Rprobe);
+  const canvas=$("chiPlot");
+  const ctx=canvas.getContext("2d");
+  const W=canvas.width=1000, H=canvas.height=340;
+  ctx.fillStyle="#050813"; ctx.fillRect(0,0,W,H);
+
+  const pad={l:70,r:30,t:28,b:45};
+  const box=drawAxes(ctx,W,H,pad,"χ (0→bulk)","R(χ)");
+
+  let ymin=Infinity, ymax=-Infinity;
+  for(const p of pts){ ymin=Math.min(ymin,p.y); ymax=Math.max(ymax,p.y); }
+  ymin=Math.min(ymin, R_BG*0.9);
+  ymax=Math.max(ymax, R_BG+0.02);
+
+  const mapX = x => box.x0 + x*(box.x1-box.x0);
+  const mapY = y => box.y1 - (y-ymin)/(ymax-ymin+1e-12)*(box.y1-box.y0);
+
+  // background line
+  ctx.strokeStyle="rgba(255,255,255,.12)"; ctx.lineWidth=1.5;
+  const ybg=mapY(R_BG);
+  ctx.beginPath(); ctx.moveTo(box.x0,ybg); ctx.lineTo(box.x1,ybg); ctx.stroke();
+
+  // curve
+  ctx.strokeStyle="#a78bfa"; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  for(let i=0;i<pts.length;i++){
+    const X=mapX(pts[i].x), Y=mapY(pts[i].y);
+    if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+  }
+  ctx.stroke();
+
+  ctx.fillStyle="#e2e8f0"; ctx.font="12px system-ui"; ctx.textAlign="left";
+  ctx.fillText(`R_probe=${Rprobe.toFixed(4)}  Lχ=${LX.toFixed(3)}`, box.x0, box.y0-10);
+}
+
+/* ================================================================
+   STUR PDE draw
+   ================================================================ */
+function drawPDE(Rarr){
+  const canvas=$("pdePlot");
+  const ctx=canvas.getContext("2d");
+  const W=canvas.width=1000, H=canvas.height=340;
+  ctx.fillStyle="#050813"; ctx.fillRect(0,0,W,H);
+
+  const pad={l:70,r:30,t:28,b:45};
+  const box=drawAxes(ctx,W,H,pad,"x (ring index)","R(x,t)");
+
+  let ymin=Infinity, ymax=-Infinity;
+  for(let i=0;i<Rarr.length;i++){ ymin=Math.min(ymin,Rarr[i]); ymax=Math.max(ymax,Rarr[i]); }
+  ymin = Math.min(ymin, R_BG-0.05);
+  ymax = Math.max(ymax, R_BG+0.15);
+  if(ymax-ymin < 1e-6){ ymax=ymin+1e-6; }
+
+  const mapX = i => box.x0 + (i/(Rarr.length-1))*(box.x1-box.x0);
+  const mapY = y => box.y1 - (y-ymin)/(ymax-ymin)*(box.y1-box.y0);
+
+  // background
+  ctx.strokeStyle="rgba(255,255,255,.10)"; ctx.lineWidth=1.5;
+  const ybg=mapY(R_BG);
+  ctx.beginPath(); ctx.moveTo(box.x0,ybg); ctx.lineTo(box.x1,ybg); ctx.stroke();
+
+  // curve
+  ctx.strokeStyle="#60a5fa"; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  for(let i=0;i<Rarr.length;i++){
+    const X=mapX(i), Y=mapY(Rarr[i]);
+    if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+  }
+  ctx.stroke();
+
+  // horizon index marker
+  const g = parseFloat(gamma.value);
+  const xh = g*(NX-1);
+  ctx.strokeStyle="rgba(251,191,36,.85)"; ctx.lineWidth=2;
+  ctx.setLineDash([8,4]);
+  const xmark = mapX(xh);
+  ctx.beginPath(); ctx.moveTo(xmark, box.y0); ctx.lineTo(xmark, box.y1); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle="#94a3b8"; ctx.font="12px system-ui"; ctx.textAlign="left";
+  ctx.fillText("horizon shell x_h(Γ)", xmark+8, box.y0+14);
+}
+
+/* ================================================================
+   Main simulation loop (PDE runs every frame; other panels throttled)
+   ================================================================ */
+let frame=0;
+let lastJ=0;
+let lastG=-1;
+
+function step(){
+  frame++;
+
+  // Read Γ
+  const g = clamp(parseFloat(gamma.value)||0, 0, 1);
+  gVal.textContent = g.toFixed(3);
+
+  // Horizon mapping for UI badge
+  const rrs = gammaToRrs(g);
+  rrsEl.textContent = rrs.toFixed(3);
+  if(rrs>1.02) setBadge(statusEl,"outside","good");
+  else if(rrs>=0.98 && rrs<=1.02) setBadge(statusEl,"horizon","warn");
+  else setBadge(statusEl,"inside","danger");
+
+  // STUR PDE update
+  const {A,P,SIG,RCAP,vin,chi0} = getInfallParams();
+  const xh = g*(NX-1);
+
+  let avg=0, rmsR=0, avgS=0, avgAdv=0;
+
+  // compute update into Rn
+  const Rn = new Float64Array(NX);
+
+  // inward drift is Γ-gated and localized near shell (so it “pulls” toward horizon region)
+  // v(x)=vin*Γ^1.2 * exp(-(x-xh)^2/2σv^2)
+  const sigv = Math.max(1e-4, SIG*1.2);
+
+  for(let i=0;i<NX;i++){
+    const L = R[(i-1+NX)%NX], C = R[i], Rp = R[(i+1)%NX];
+
+    // diffusion
+    const lap = (L - 2*C + Rp)/(DX*DX);
+
+    // baseline relaxation to background
+    const decay = -0.5*(C - R_BG);
+
+    // χ-feedback (STUR 5D rule)  +chi0*(R-Rbg)/Lx
+    const chiTerm = chi0 * (C - R_BG)/Math.max(1e-6, LX);
+
+    // non-linear matter infall source localized near horizon shell
+    const dxh = (i - xh)/NX;
+    const profile = Math.exp(-(dxh*dxh)/(2*SIG*SIG));
+    const nonlinear = Math.max(0, (RCAP - C)/RCAP);            // saturation limiter
+    const source = A * Math.pow(g, P) * profile * nonlinear;
+
+    // inward advection toward horizon shell (stable upwind)
+    const v = vin * Math.pow(g, 1.2) * Math.exp(-(dxh*dxh)/(2*sigv*sigv));
+    // define advection direction toward xh: sign points toward shell center
+    const sgn = (i < xh) ? +1 : -1;
+    // upwind gradient
+    const grad = (sgn>0) ? (C - L)/DX : (Rp - C)/DX;
+    const adv = -v * grad;
+
+    const dR = Dcoef*lap + decay + chiTerm + source + adv;
+
+    // stable step (guard)
+    const next = C + DT*dR;
+    Rn[i] = clamp(next, -0.25, RCAP);
+
+    Rdot[i]=dR;
+    avg += Rn[i];
+    rmsR += dR*dR;
+    avgS += source;
+    avgAdv += Math.abs(adv);
+  }
+
+  // commit
+  R = Rn;
+
+  const Ravg = avg/NX;
+  const RdotRMS = Math.sqrt(rmsR/NX);
+  const Savg = avgS/NX;
+  const Vadv = avgAdv/NX;
+
+  // probe from Γ
+  const idx = Math.floor(g*(NX-1));
+  const Rprobe = R[idx];
+
+  // metrics
+  $("m_Ravg").textContent = Ravg.toFixed(6);
+  $("m_Rdot").textContent = RdotRMS.toFixed(6);
+  $("m_Rprobe").textContent = Rprobe.toFixed(6);
+  $("m_Savg").textContent = Savg.toFixed(6);
+  $("m_Vadv").textContent = Vadv.toFixed(6);
+  $("m_Lx").textContent = LX.toFixed(3);
+
+  // draw PDE each frame
+  drawPDE(R);
+
+  // throttle heavy redraws
+  const gChanged = Math.abs(g - lastG) > 0.0015;
+  const doHeavy = (frame % 10 === 0) || gChanged;
+
+  if(doHeavy){
+    drawPhotonPanel();
+    drawChiSlice(Rprobe);
+    drawDoubleSlit(Rprobe);
+    drawBH(Rprobe);
+    lastG = g;
+  }
+
+  // Josephson regenerate throttled (expensive)
+  // - on button press: immediate
+  // - on Γ move: at most every ~0.6s
+  if(gChanged && (performance.now()-lastJ) > 600){
+    regenerateJosephson(Rprobe);
+    lastJ = performance.now();
+  }
+
+  requestAnimationFrame(step);
+}
+
+/* ================================================================
+   Export JSON snapshot
+   ================================================================ */
+function exportSnapshot(){
+  const g = clamp(parseFloat(gamma.value)||0,0,1);
+  const rrs = gammaToRrs(g);
+  const idx = Math.floor(g*(NX-1));
+  const Rprobe = R[idx];
+
+  const {A,P,SIG,RCAP,vin,chi0} = getInfallParams();
+  const MsolIn = parseFloat($("bhMass").value);
+  const TH = hawkingTemp(MsolIn*Msol);
+
+  const snap = {
+    meta:{
+      title:"Holoscreen Unified Simulator — STUR × Horizon (Massive / Accurate)",
+      timestamp:new Date().toISOString(),
+      NX, DT, DX
+    },
+    controls:{
+      gamma:g,
+      r_over_rs:rrs,
+      bh_mass_Msol:MsolIn,
+      stur:{R_BG, D:Dcoef, LX},
+      infall:{A,P,SIG,RCAP,vin,chi0},
+      doubleSlit:{
+        energy_eV:parseFloat($("energy").value),
+        a_nm:parseFloat($("a_nm").value),
+        d_nm:parseFloat($("d_nm").value),
+        L_cm:parseFloat($("L_cm").value),
+        contrastMode:$("contrastMode").value
+      },
+      josephson:{
+        dur_ns:parseFloat($("j_dur_ns").value),
+        dt_ps:parseFloat($("j_dt_ps").value),
+        last: jdata ? {TmK:jdata.TmK,gammaGHz:jdata.gammaGHz,knee_Hz:jdata.knee,Vrms_nV:jdata.Vrms} : null
+      }
+    },
+    live:{
+      R_avg:mean(R),
+      Rdot_rms:rms(Array.from(Rdot)),
+      R_probe:Rprobe,
+      R_min:Math.min(...Array.from(R)),
+      R_max:Math.max(...Array.from(R)),
+      hawking_T_K:TH,
+      gate:{R_gate:gateReflectivity(g), du:gateDelayDu(g)}
+    },
+    field:{
+      R:Array.from(R) // full field for audit
+    }
+  };
+
+  const blob = new Blob([JSON.stringify(snap,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href=url;
+  a.download=`stur_horizon_snapshot_${Date.now()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+/* ================================================================
+   Wiring
+   ================================================================ */
+function applyGamma(g){
+  const gg = clamp(g,0,1);
+  gamma.value = gg.toFixed(3);
+  gammaN.value = gg.toFixed(3);
+  gVal.textContent = gg.toFixed(3);
+}
+gamma.addEventListener("input", ()=> applyGamma(parseFloat(gamma.value)||0));
+gammaN.addEventListener("change", ()=> applyGamma(parseFloat(gammaN.value)||0));
+
+$("bhMass").addEventListener("input", ()=> { /* redraw throttled in loop */ });
+
+$("energy").addEventListener("input", ()=> { /* redraw throttled in loop */ });
+$("a_nm").addEventListener("input", ()=> { /* redraw throttled */ });
+$("d_nm").addEventListener("input", ()=> { /* redraw throttled */ });
+$("L_cm").addEventListener("input", ()=> { /* redraw throttled */ });
+$("contrastMode").addEventListener("change", ()=> { /* redraw throttled */ });
+
+$("btnExport").addEventListener("click", exportSnapshot);
+$("btnReset").addEventListener("click", ()=> { seedPDE(); });
+$("btnJ").addEventListener("click", ()=>{
+  const g = clamp(parseFloat(gamma.value)||0,0,1);
+  const idx = Math.floor(g*(NX-1));
+  regenerateJosephson(R[idx]);
+  lastJ = performance.now();
+});
 
 // init
-applyMasterGamma(parseFloat($('gamma').value));
+applyGamma(parseFloat(gamma.value)||0);
+drawPhotonPanel();
+drawPDE(R);
+drawChiSlice(R[Math.floor(parseFloat(gamma.value)*(NX-1))]);
+drawDoubleSlit(R[Math.floor(parseFloat(gamma.value)*(NX-1))]);
+regenerateJosephson(R[Math.floor(parseFloat(gamma.value)*(NX-1))]);
+drawBH(R[Math.floor(parseFloat(gamma.value)*(NX-1))]);
+
+// run
+step();
 </script>
 </body>
 </html>
