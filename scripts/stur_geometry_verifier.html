@@ -75,7 +75,8 @@ button:active{transform:translateY(1px)}
       <input type="range" id="gamma" min="0" max="1" step="0.001" value="0.150" />
       <div style="margin-top:12px;font-family:var(--mono);font-size:14px">
         Γ = <span id="gVal">0.150</span> |
-        r/r<sub>s</sub> = <span id="rrs">—</span>
+        r/r<sub>s</sub> = <span id="rrs">—</span> |
+        σ = <span id="sigmaVal">—</span> m (<span id="sigmaCellsVal">—</span> cells)
         <span id="status" class="badge">—</span>
       </div>
       <div class="smallmono" style="margin-top:6px">
@@ -280,6 +281,28 @@ function gammaToRadiusMeters(g, M){
 }
 const STRETCH_HORIZON_M = 10; // membrane thickness band (meters)
 
+// ================================================================
+// "PERFECT BLOB" HELPERS — mass-consistent 10 m shell width
+// ================================================================
+function rrsSpanMeters(rs){
+  // Domain spans r/rs from 4.0 down to 0.5 -> Δ(rrs)=3.5 => Δr = 3.5*rs
+  return 3.5 * rs;
+}
+function cellMeters(rs){
+  return rrsSpanMeters(rs) / (NX - 1);
+}
+function sigmaCellsFromMeters(rs, sigma_m){
+  // Convert physical sigma (m) -> sigma (cells), clamp to keep it resolvable
+  const dm = cellMeters(rs);
+  const sc = sigma_m / Math.max(1e-12, dm);
+  return clamp(sc, 1.25, 0.20*(NX-1)); // at least ~1.25 cells wide
+}
+function minmod(a,b){
+  // TVD limiter
+  if(a*b <= 0) return 0;
+  return (Math.abs(a) < Math.abs(b)) ? a : b;
+}
+
 /* ================================================================
    PDE SOLVER — CAUSAL BOUNDARY + DOUBLE BUFFER (ZERO ALLOC)
    1D grid: i=0 (outside infinity-ish) -> i=NX-1 (deep interior)
@@ -314,71 +337,88 @@ function seedPDE(){
 function physicsTick(){
   const g = clamp(parseFloat($("gamma").value), 0, 1);
 
-  // Horizon index (shell center) and shape
-  const xh = g * (NX-1);
+  // Horizon index (shell center)
+  const xh = g * (NX - 1);
 
-  // Source shell (infall injection near horizon)
-  const A   = 0.085;        // amplitude
-  const P   = 2.5;          // gamma power
-  const SIG = 0.06;         // shell width in normalized grid units (fraction of domain)
-  const vin = 0.20;         // base infall speed (normalized)
-  const relaxK = 1.15;      // relax toward background
-  const sinkK0 = 0.60;      // inner absorb strength baseline
+  // Controls (kept close to your original intent)
+  const A       = 0.085;   // source amplitude
+  const P       = 2.5;     // gamma power
+  const vin     = 0.20;    // base infall speed (normalized)
+  const relaxK  = 1.15;    // relax toward background
+  const sinkK0  = 0.60;    // inner absorb baseline
 
-  // Precompute a few (cheap) helpers
+  // Mass-consistent shell width:
+  // Use stretched-horizon band as ~ +/- 10 m. Treat that as ~2.5σ (nice compact Gaussian).
+  // sigma_m ≈ 10m / 2.5 = 4 m
+  const M = Math.max(1, parseFloat($("bhMass").value)) * Msol;
+  const rs = schwarzschildRs(M);
+  const sigmaCells = sigmaCellsFromMeters(rs, STRETCH_HORIZON_M / 2.5);
+
+  // Precompute
   const gP = Math.pow(g, P);
-  const v0 = vin * Math.pow(g, 1.5);
+  const vBase = vin * Math.pow(g, 1.5);
 
-  for(let i=0; i<NX; i++){
-    // --- boundary-aware neighbors (non-periodic)
+  // We do: diffusion + relax + source + advection(TVD) + sponge sink
+  for(let i = 0; i < NX; i++){
     const C  = R[i];
-    const L  = (i === 0)     ? R_BG : R[i-1];
-    const Rp = (i === NX-1)  ? R[i] : R[i+1]; // zero-gradient at inner boundary
+    const L  = (i === 0)    ? R_BG : R[i-1];
+    const Rp = (i === NX-1) ? R[i] : R[i+1];
 
-    // --- diffusion (2nd derivative)
+    // ---- diffusion (explicit)
     const lap = (L - 2*C + Rp) / (DX*DX);
 
-    // --- relax to background (keeps field bounded)
+    // ---- relax to background
     const relax = -relaxK * (C - R_BG);
 
-    // --- gaussian shell around horizon location
-    const dxn = (i - xh) / (NX-1);     // normalized coordinate around shell
-    const shell = Math.exp(-(dxn*dxn) / (2*SIG*SIG));
+    // ---- shell: Gaussian in CELL units (this is the "perfect blob" part)
+    const u = (i - xh) / Math.max(1e-9, sigmaCells); // dimensionless
+    const shell = Math.exp(-0.5 * u * u);
 
-    // --- saturation-limited source (infall "matter" pushing resistance up)
-    const src = A * gP * shell * Math.max(0, (RCAP - C)/RCAP);
+    // ---- source (saturation-limited, smooth)
+    const src = A * gP * shell * (1 - C/RCAP);
+    const srcClamped = (src > 0) ? src : 0;
 
-    // --- infall-only advection (toward increasing i)
-    // Upwind for v>=0 : ∂x R ≈ (C - L)/DX
-    // Couple advection to shell (strongest near horizon)
-    const v = v0 * shell;
-    const gradUp = (C - L) / DX;
-    const adv = -v * gradUp;
+    // ---- infall-only advection with TVD minmod limiter (keeps blob crisp)
+    // v>=0 so we upwind, but use a limited slope reconstruction to reduce smearing.
+    const v = vBase * shell; // strongest near horizon
+    const dL = C - L;
+    const dR = Rp - C;
+    const slope = minmod(dL, dR);               // limited slope
+    const C_L = C - 0.5 * slope;                // left state at i+1/2
+    const L_R = L + 0.5 * minmod(L - ((i>=2)?R[i-2]:R_BG), C - L); // right state at i-1/2
 
-    // --- absorbing inner boundary (causal: things fall in, do not come back)
-    // Apply a sink that ramps up with depth into the interior and with gamma.
-    // depth=0 at horizon index, depth→1 near inner edge.
-    const depth = clamp((i - xh) / (NX-1 - xh + 1e-9), 0, 1);
-    const sink = -sinkK0 * Math.pow(g, 1.2) * depth * C;
+    // Fluxes (v>=0)
+    const F_imh = v * L_R;  // flux at i-1/2 uses left neighbor reconstructed right state
+    const F_iph = v * C_L;  // flux at i+1/2 uses current reconstructed left state
 
-    // --- forward Euler update (bounded)
-    const next = C + DT * (Dcoef*lap + relax + src + adv + sink);
+    // Conservative update: dR/dt = -(F_iph - F_imh)/DX
+    const adv = -(F_iph - F_imh) / DX;
 
-    // Clamp to [0, RCAP]
-    const clamped = clamp(next, 0, RCAP);
-    Rn[i] = clamped;
-    Rdot[i] = (clamped - C)/DT;
+    // ---- sponge sink (smooth ramp) to prevent echoes without kinking the blob
+    // depth measured from shell toward inner edge
+    const denom = (NX - 1 - xh + 1e-9);
+    const depth = clamp((i - xh) / denom, 0, 1);
+
+    // Smoothstep sponge profile
+    const s = depth*depth*(3 - 2*depth);
+    const sink = -sinkK0 * Math.pow(g, 1.2) * s * C;
+
+    // ---- total
+    const ddt = (Dcoef*lap + relax + srcClamped + adv + sink);
+    const next = C + DT * ddt;
+
+    Rn[i] = clamp(next, 0, RCAP);
+    Rdot[i] = (Rn[i] - C) / DT;
   }
 
-  // Enforce strict outer boundary reservoir (Dirichlet)
+  // Outer boundary: strict reservoir
   Rn[0] = R_BG;
 
-  // Optional: extra absorption at the last cell to prevent any numerical echo
-  Rn[NX-1] = 0.85*Rn[NX-1] + 0.15*R_BG;
+  // Inner boundary: extra absorber (gentle)
+  Rn[NX-1] = 0.92*Rn[NX-1] + 0.08*R_BG;
 
-  // swap buffers (zero allocation)
+  // swap buffers
   let tmp = R; R = Rn; Rn = tmp;
-
   physicsSteps++;
 }
 
@@ -520,6 +560,19 @@ function updateAll(){
 
   $("gVal").textContent = g.toFixed(3);
 
+  // ------------------------------------------------------------
+  // Compute horizon geometry ONCE (fixes rs undefined in flux block)
+  // ------------------------------------------------------------
+  const M = Math.max(1, parseFloat($("bhMass").value)) * Msol;
+  const { rrs, rs, r } = gammaToRadiusMeters(g, M);
+
+  // ------------------------------------------------------------
+  // Mass-consistent stretched-horizon Gaussian width (shared)
+  // 10 m band ~ +/-10m => take 2.5σ ≈ 10m -> σ ≈ 4m
+  // ------------------------------------------------------------
+  const sigma_m = STRETCH_HORIZON_M / 2.5;
+  const sigmaCells = sigmaCellsFromMeters(rs, sigma_m);
+
   // STUR metrics
   updateMetric("m_Ravg", mean(R), 4);
   updateMetric("m_Rprobe", Rprobe, 4);
@@ -528,23 +581,21 @@ function updateAll(){
   // Infall flux monitor (cheap, every 10 ticks)
   if(physicsSteps % 10 === 0){
     const xh = g*(NX-1);
-    const A = 0.085, P = 2.5, SIG=0.06;
-    let flux = 0;
+    const A = 0.085, P = 2.5;
     const gP = Math.pow(g,P);
+
+    let flux = 0;
     for(let i=0; i<NX; i++){
-      const dxn = (i - xh)/(NX-1);
-      const shell = Math.exp(-(dxn*dxn)/(2*SIG*SIG));
-      flux += A * gP * shell * Math.max(0,(RCAP-R[i])/RCAP);
+      const u = (i - xh) / Math.max(1e-9, sigmaCells);
+      const shell = Math.exp(-0.5 * u * u);
+      flux += A * gP * shell * Math.max(0,(RCAP - R[i]) / RCAP);
     }
     updateMetric("m_Savg", flux/NX, 6);
   }
 
-  // Horizon
-  const M = Math.max(1, parseFloat($("bhMass").value)) * Msol;
-  const { rrs, rs, r } = gammaToRadiusMeters(g, M);
+  // Horizon observables
   const red = redshiftFactor(rrs);
   const finf_over_floc = red;
-
   const gate = gateReflectivity(g);
   const TH = hawkingTemp(M);
 
@@ -557,6 +608,10 @@ function updateAll(){
   $("rs_m").textContent = rs.toFixed(3);
   $("r_m").textContent  = r.toFixed(3);
 
+  $("sigmaVal").textContent = sigma_m.toFixed(1);
+  $("sigmaCellsVal").textContent = sigmaCells.toFixed(2);
+
+  // Status badge (outside / near horizon / inside)
   const statusEl = $("status");
   const dr = Math.abs(r - rs);
   if(r > rs && dr > STRETCH_HORIZON_M){
@@ -584,7 +639,7 @@ function updateAll(){
   updateMetric("m_contrast", contrast, 4);
   updateMetric("m_dchi", c1-c2, 6);
 
-  // Hawking
+  // Hawking emission derived metrics
   const peak_um = (2.898e-3 / TH) * 1e6; // Wien peak in micrometers
   $("m_peak").textContent = peak_um.toExponential(2) + " µm";
   updateMetric("m_gate", gate, 4);
