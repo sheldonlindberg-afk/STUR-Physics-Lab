@@ -22,7 +22,7 @@ h1{font-size:28px;margin-bottom:8px;color:var(--accent);font-weight:800}
 .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:20px}
 label{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;font-weight:700}
 input[type="range"]{width:100%;height:40px}
-input[type="number"]{
+input[type="number"],select{
   width:100%;background:#0a0e27;border:1px solid var(--border);color:var(--text);
   padding:10px;border-radius:8px;font-family:var(--mono);font-size:14px
 }
@@ -47,6 +47,7 @@ button{
 button.secondary{background:rgba(255,255,255,.12);color:var(--text)}
 button:hover{opacity:.9}
 button:active{transform:translateY(1px)}
+button:disabled{opacity:.4;cursor:not-allowed}
 .row{display:flex;gap:12px;flex-wrap:wrap}
 .smallmono{font-family:var(--mono);font-size:12px;color:var(--muted)}
 canvas{
@@ -318,6 +319,48 @@ canvas{
   <canvas id="josephsonCanvas" height="240"></canvas>
 </div>
 
+<!-- EXPERIMENTAL MODE -->
+
+<div class="card">
+  <div class="card-title">🧪 Experimental Falsification Sweeps</div>
+
+  <div class="controls">
+    <div>
+      <label for="expMode">Experiment</label>
+      <select id="expMode">
+        <option value="none">Off (Live Mode)</option>
+        <option value="gamma_sweep">Γ Sweep → Δχ²(Γ)</option>
+        <option value="steady_state">Steady State @ Γ</option>
+        <option value="wavelength">Wavelength Sensitivity</option>
+      </select>
+    </div>
+
+```
+<div>
+  <label for="expSteps">Steps</label>
+  <input type="number" id="expSteps" value="30" min="10" max="200" />
+</div>
+
+<div>
+  <label for="expGamma">Fixed Γ (if applicable)</label>
+  <input type="number" id="expGamma" value="0.35" min="0" max="0.6" step="0.01" />
+</div>
+```
+
+  </div>
+
+  <div class="row">
+    <button id="btnRunExp">Run Experiment</button>
+    <button id="btnStopExp" class="secondary" disabled>Stop</button>
+  </div>
+
+<canvas id="expCanvas" height="320"></canvas>
+
+  <div id="expStatus" class="validation-box neutral">
+    Experimental mode idle. Select experiment type and click Run.
+  </div>
+</div>
+
 <!-- EXPORT -->
 
 <div class="card">
@@ -326,6 +369,7 @@ canvas{
     <button id="btnExport">Export Dataset (JSON)</button>
     <button id="btnExportCSV" class="secondary">Time Series (CSV)</button>
     <button id="btnExportReport" class="secondary">Falsification Report</button>
+    <button id="btnExportExp" class="secondary" disabled>Export Sweep Data</button>
   </div>
 </div>
 
@@ -447,6 +491,15 @@ function physicsTick(){
 }
 
 /* ================================================================
+   EXPERIMENT STATE
+   ================================================================ */
+let expRunning = false;
+let expData = [];
+let expType = "none";
+let expIndex = 0;
+let expHoldGamma = null;
+
+/* ================================================================
    DOUBLE SLIT
    ================================================================ */
 const REF = {
@@ -465,6 +518,138 @@ const calcPattern = contrast => {
   });
 };
 const normArea = arr => {let s=arr.reduce((a,b)=>a+b,0); return arr.map(x=>x/s);};
+
+/* ================================================================
+   EXPERIMENT RUNNER
+   ================================================================ */
+function runExperimentStep(){
+  if(!expRunning) return;
+
+  const steps = parseInt($("expSteps").value);
+  const mode = $("expMode").value;
+  const fixedG = clamp(parseFloat($("expGamma").value),0,1);
+
+  if(expIndex === 0){
+    expData = [];
+    expHoldGamma = parseFloat($("gamma").value);
+    seedPDE();
+    $("btnExportExp").disabled = true;
+  }
+
+  let g = fixedG;
+
+  if(mode === "gamma_sweep"){
+    g = 0.6 * expIndex / Math.max(1,steps-1);
+    $("gamma").value = g;
+  } else if(mode === "wavelength"){
+    const Emin = 200, Emax = 2000;
+    const E = Emin + (Emax-Emin)*expIndex/Math.max(1,steps-1);
+    $("energy").value = E;
+    $("gamma").value = fixedG;
+    g = fixedG;
+  } else {
+    $("gamma").value = fixedG;
+  }
+
+  // settle PDE
+  for(let i=0;i<150;i++) physicsTick();
+
+  // measure
+  const idx = Math.floor(g*(NX-1));
+  const contrast = Math.exp(-clamp(R[idx],0,4));
+  const pqm = normArea(calcPattern(1.0));
+  const pmod = normArea(calcPattern(contrast));
+  const dchi = chi2(REF.i,pqm) - chi2(REF.i,pmod);
+
+  expData.push({
+    gamma: g,
+    energy: parseFloat($("energy").value),
+    R: R[idx],
+    contrast,
+    dchi,
+    chi2_qm: chi2(REF.i,pqm),
+    chi2_stur: chi2(REF.i,pmod)
+  });
+
+  expIndex++;
+
+  $("expStatus").textContent =
+    `Running ${mode}: ${expIndex}/${steps} | Γ=${g.toFixed(3)} Δχ²=${dchi.toFixed(6)}`;
+
+  drawExperiment(expData, mode);
+
+  if(expIndex >= steps){
+    expRunning = false;
+    $("btnStopExp").disabled = true;
+    $("btnExportExp").disabled = false;
+    const maxDchi = Math.max(...expData.map(d=>Math.abs(d.dchi)));
+    $("expStatus").className = "validation-box pass";
+    $("expStatus").textContent =
+      `✓ Experiment complete. Peak |Δχ²| = ${maxDchi.toFixed(6)}`;
+    $("gamma").value = expHoldGamma;
+  }
+}
+
+/* ================================================================
+   EXPERIMENT PLOTTING
+   ================================================================ */
+function drawExperiment(data, mode){
+  const c = $("expCanvas");
+  const ctx = c.getContext("2d");
+  const w = c.width = c.offsetWidth * devicePixelRatio;
+  const h = c.height = 320 * devicePixelRatio;
+
+  ctx.fillStyle = "rgba(10,14,39,0.9)";
+  ctx.fillRect(0,0,w,h);
+
+  if(data.length < 2) return;
+
+  const maxD = Math.max(...data.map(d=>Math.abs(d.dchi)),1e-6);
+  const maxR = Math.max(...data.map(d=>d.R),0.1);
+
+  // Draw Δχ²
+  ctx.strokeStyle = "#60a5fa";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+
+  data.forEach((d,i)=>{
+    const x = i/(data.length-1)*w;
+    const y = h/2 - d.dchi/maxD * (h*0.4);
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  });
+
+  ctx.stroke();
+
+  // Draw R field
+  ctx.strokeStyle = "rgba(251,191,36,0.6)";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  data.forEach((d,i)=>{
+    const x = i/(data.length-1)*w;
+    const y = h - d.R/maxR * (h*0.25);
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+
+  // Zero line
+  ctx.strokeStyle = "rgba(148,163,184,0.3)";
+  ctx.setLineDash([4,4]);
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0,h/2);
+  ctx.lineTo(w,h/2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Labels
+  ctx.fillStyle="#94a3b8";
+  ctx.font="12px monospace";
+  ctx.fillText("Δχ²",10,20);
+  ctx.fillText("R(Γ)",10,h-10);
+  
+  const xLabel = mode === "wavelength" ? "Energy (eV)" : "Γ";
+  ctx.fillText(xLabel,w-80,h-10);
+}
 
 /* ================================================================
    CANVAS RENDERING
@@ -668,7 +853,7 @@ function exportSnapshot(){
   
   download(JSON.stringify({
     meta:{title:"Holoscreen — Unified Falsification Laboratory",
-          timestamp:new Date().toISOString(), version:"production-v1.0",
+          timestamp:new Date().toISOString(), version:"experimental-v1.0",
           authors:"James Lockwood and Sheldon Lindberg"},
     controls:{gamma:g,bhMass_Msol:M/Msol,
               doubleSlit:{energy_eV:+$("energy").value,a_nm:+$("a_nm").value,d_nm:+$("d_nm").value}},
@@ -746,6 +931,37 @@ RECOMMENDED EXPERIMENTS
 Theory: Lockwood-Lindberg Boundary-Calibrated Holoscreen
 `;
   download(report,`holoscreen_falsification_${Date.now()}.txt`,"text/plain");
+}
+
+function exportExperimentData(){
+  if(expData.length === 0) return;
+  
+  const mode = $("expMode").value;
+  const report = {
+    meta: {
+      title: "Holoscreen Experimental Sweep",
+      timestamp: new Date().toISOString(),
+      experimentType: mode,
+      steps: expData.length
+    },
+    setup: {
+      bhMass_Msol: parseFloat($("bhMass").value),
+      doubleSlit: {
+        energy_eV: parseFloat($("energy").value),
+        a_nm: parseFloat($("a_nm").value),
+        d_nm: parseFloat($("d_nm").value)
+      },
+      fixedGamma: parseFloat($("expGamma").value)
+    },
+    data: expData,
+    statistics: {
+      max_abs_dchi: Math.max(...expData.map(d=>Math.abs(d.dchi))),
+      mean_dchi: mean(expData.map(d=>d.dchi)),
+      max_R: Math.max(...expData.map(d=>d.R))
+    }
+  };
+  
+  download(JSON.stringify(report,null,2), `holoscreen_sweep_${mode}_${Date.now()}.json`, "application/json");
 }
 
 /* ================================================================
@@ -827,9 +1043,32 @@ $("btnReset").addEventListener("click",()=>{seedPDE(); updateAll();});
 $("btnExport").addEventListener("click",exportSnapshot);
 $("btnExportCSV").addEventListener("click",exportCSV);
 $("btnExportReport").addEventListener("click",exportFalsification);
+$("btnExportExp").addEventListener("click",exportExperimentData);
+
+// Experiment controls
+$("btnRunExp").addEventListener("click",()=>{
+  expRunning = true;
+  expIndex = 0;
+  $("btnStopExp").disabled = false;
+  $("expStatus").className = "validation-box neutral";
+});
+
+$("btnStopExp").addEventListener("click",()=>{
+  expRunning = false;
+  $("btnStopExp").disabled = true;
+  $("expStatus").textContent = "Experiment stopped.";
+  if(expData.length > 0){
+    $("btnExportExp").disabled = false;
+  }
+});
 
 seedPDE(); updateAll();
-setInterval(()=>{if(isPlaying)physicsTick(); updateAll(); drawInfallProbe();}, 50);
+setInterval(()=>{
+  if(isPlaying && !expRunning) physicsTick();
+  if(expRunning) runExperimentStep();
+  updateAll();
+  drawInfallProbe();
+}, 50);
 </script>
 
 </body>
