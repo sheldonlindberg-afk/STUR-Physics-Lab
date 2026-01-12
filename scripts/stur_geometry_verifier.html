@@ -87,9 +87,9 @@ canvas{
   <div class="controls">
     <div>
       <label for="gamma">Γ Position (0 = far outside, 1 = deep inside horizon)</label>
-      <input type="range" id="gamma" min="0" max="1" step="0.001" value="0.150" />
+      <input type="range" id="gamma" min="0" max="1" step="0.0001" value="0.150" />
       <div style="margin-top:12px;font-family:var(--mono);font-size:14px">
-        Γ = <span id="gVal">0.150</span> |
+        Γ = <span id="gVal">0.1500</span> |
         r/r<sub>s</sub> = <span id="rrs">—</span>
         <span id="status" class="badge">—</span>
       </div>
@@ -203,7 +203,7 @@ canvas{
 <!-- STUR RESISTANCE -->
 
 <div class="card">
-  <div class="card-title">🌊 STUR Resistance Field</div>
+  <div class="card-title">🌊 STUR Resistance Field — Spatial Profile</div>
   <div class="metrics">
     <div class="metric">
       <div class="metric-label">Mean ⟨R⟩</div>
@@ -223,6 +223,9 @@ canvas{
     </div>
   </div>
   <canvas id="resistanceCanvas" height="280"></canvas>
+  <div class="smallmono" style="text-align:center;margin-top:8px">
+    🔴 Horizon zone • 🟢 Probe position • Gray band: stretched horizon ±10m
+  </div>
 </div>
 
 <!-- HORIZON PHYSICS -->
@@ -540,15 +543,15 @@ function runExperimentStep(){
 
   if(mode === "gamma_sweep"){
     g = 0.6 * expIndex / Math.max(1,steps-1);
-    $("gamma").value = g;
+    $("gamma").value = g.toFixed(4);
   } else if(mode === "wavelength"){
     const Emin = 200, Emax = 2000;
     const E = Emin + (Emax-Emin)*expIndex/Math.max(1,steps-1);
     $("energy").value = E;
-    $("gamma").value = fixedG;
+    $("gamma").value = fixedG.toFixed(4);
     g = fixedG;
   } else {
-    $("gamma").value = fixedG;
+    $("gamma").value = fixedG.toFixed(4);
   }
 
   // settle PDE
@@ -586,7 +589,7 @@ function runExperimentStep(){
     $("expStatus").className = "validation-box pass";
     $("expStatus").textContent =
       `✓ Experiment complete. Peak |Δχ²| = ${maxDchi.toFixed(6)}`;
-    $("gamma").value = expHoldGamma;
+    $("gamma").value = expHoldGamma.toFixed(4);
   }
 }
 
@@ -690,18 +693,62 @@ function drawResistanceField(){
   const h=canvas.height=280*window.devicePixelRatio;
   ctx.fillStyle="rgba(10,14,39,0.9)"; ctx.fillRect(0,0,w,h);
   
-  const g=parseFloat($("gamma").value), xh=g*w;
-  ctx.strokeStyle="#60a5fa"; ctx.lineWidth=2; ctx.beginPath();
+  const g=clamp(parseFloat($("gamma").value),0,1), xh=g*w;
+  const M=Math.max(1,parseFloat($("bhMass").value))*Msol;
+  const {rrs,rs} = gammaToRadiusMeters(g,M);
+  const sigmaCells = sigmaCellsFromMeters(rs, STRETCH_HORIZON_M/2.5);
+  
+  // Draw stretched horizon band
+  const xhCells = g*(NX-1);
+  const bandL = Math.max(0, (xhCells-sigmaCells)/(NX-1)*w);
+  const bandR = Math.min(w, (xhCells+sigmaCells)/(NX-1)*w);
+  ctx.fillStyle="rgba(148,163,184,0.08)";
+  ctx.fillRect(bandL, 0, bandR-bandL, h);
+  
+  // Draw horizon marker (r/rs = 1.0)
+  const g_horizon = 0.7143; // Solve gammaToRrs(g) = 1.0
+  const xHorizon = g_horizon * w;
+  ctx.strokeStyle="rgba(251,113,133,0.4)";
+  ctx.setLineDash([8,4]);
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(xHorizon,0);
+  ctx.lineTo(xHorizon,h);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // Draw R field
+  ctx.strokeStyle="#60a5fa"; ctx.lineWidth=3; ctx.beginPath();
   for(let i=0;i<NX;i++){
-    const x=i/(NX-1)*w, y=h-R[i]/1.0*h*0.9;
+    const x=i/(NX-1)*w, y=h-R[i]/RCAP*h*0.85;
     if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y);
   }
   ctx.stroke();
   
-  ctx.strokeStyle="rgba(251,113,133,0.5)"; ctx.setLineDash([5,5]);
-  ctx.beginPath(); ctx.moveTo(xh,0); ctx.lineTo(xh,h); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle="#94a3b8"; ctx.font="12px monospace";
-  ctx.fillText("x/L",w-40,h-10); ctx.fillText("R",10,20);
+  // Draw probe position
+  const idx = Math.floor(g*(NX-1));
+  const xProbe = idx/(NX-1)*w;
+  const yProbe = h-R[idx]/RCAP*h*0.85;
+  ctx.fillStyle="#34d399";
+  ctx.beginPath();
+  ctx.arc(xProbe,yProbe,7,0,2*Math.PI);
+  ctx.fill();
+  ctx.strokeStyle="rgba(52,211,153,0.3)";
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4,4]);
+  ctx.beginPath();
+  ctx.moveTo(xProbe,0);
+  ctx.lineTo(xProbe,h);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // Labels
+  ctx.fillStyle="#94a3b8"; ctx.font="13px monospace";
+  ctx.fillText("Position",w-70,h-10); ctx.fillText("R",10,20);
+  
+  ctx.font="11px monospace";
+  ctx.fillStyle="#fb7185";
+  ctx.fillText("horizon",xHorizon+5,20);
 }
 
 function drawHorizonGeometry(){
@@ -971,7 +1018,7 @@ let isPlaying=true;
 
 function updateAll(){
   const g=clamp(parseFloat($("gamma").value),0,1), idx=Math.floor(g*(NX-1));
-  $("gVal").textContent=g.toFixed(3);
+  $("gVal").textContent=g.toFixed(4);
   
   const M=Math.max(1,parseFloat($("bhMass").value))*Msol;
   const {rrs,rs,r}=gammaToRadiusMeters(g,M);
@@ -1007,7 +1054,7 @@ function updateAll(){
   updateMetric("m_red",red,4); updateMetric("m_freq",red,4);
   updateMetric("m_refl",gateReflectivity(g),4);
   $("m_TH").textContent=TH.toExponential(3); $("TH_quick").textContent=TH.toExponential(2);
-  $("rrs").textContent=rrs.toFixed(3); $("rs_m").textContent=rs.toFixed(3);
+  $("rrs").textContent=rrs.toFixed(4); $("rs_m").textContent=rs.toFixed(3);
   $("r_m").textContent=r.toFixed(3); $("sigmaVal").textContent=sm.toFixed(1);
   $("sigmaCellsVal").textContent=sc.toFixed(2);
   
@@ -1036,7 +1083,7 @@ function updateAll(){
   drawQEDRunning(); drawResistanceField(); drawHorizonGeometry(); drawDoubleSlit(); drawJosephson();
 }
 
-$("gamma").addEventListener("input",()=>$("gVal").textContent=parseFloat($("gamma").value).toFixed(3));
+$("gamma").addEventListener("input",()=>$("gVal").textContent=parseFloat($("gamma").value).toFixed(4));
 $("btnPlayPause").addEventListener("click",()=>{isPlaying=!isPlaying; $("btnPlayPause").textContent=isPlaying?"Pause":"Play";});
 $("btnReset").addEventListener("click",()=>{seedPDE(); updateAll();});
 ["bhMass","energy","a_nm","d_nm","E_low","E_high","alpha_inv_0"].forEach(id=>$(id).addEventListener("change",updateAll));
