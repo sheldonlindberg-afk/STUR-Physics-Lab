@@ -1,1302 +1,842 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>STUR Research Suite — φ-Coherence + Systematic Error Analysis</title>
-
+<title>Holoscreen Unified Simulator — One Dial Across the Event Horizon</title>
 <style>
 :root{
-  --bg:#050814;
-  --panel:#0a1022;
-  --border:#1f2a44;
-  --text:#e6edf3;
-  --muted:#94a3b8;
-  --accent:#60a5fa;
-  --good:#34d399;
-  --warn:#f59e0b;
-  --bad:#fb7185;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --radius:14px;
-  --shadow:0 15px 35px rgba(0,0,0,.5);
+  --bg:#0a0e27;--card:#141b3d;--border:#1f2d5c;--text:#e2e8f0;--muted:#94a3b8;
+  --accent:#60a5fa;--warn:#fbbf24;--good:#34d399;--danger:#fb7185;--mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+  --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
-*{box-sizing:border-box}
-body{
-  margin:0;
-  background:radial-gradient(circle at 50% 0%, #111827, #050814);
-  color:var(--text);
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  line-height:1.5;
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;padding:20px}
+.container{max-width:1200px;margin:0 auto}
+header{margin-bottom:18px}
+h1{font-size:22px;margin-bottom:6px}
+.subtitle{color:var(--muted);font-size:13px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px}
+.card-title{font-size:15px;font-weight:700;margin-bottom:12px;color:var(--accent)}
+.control-row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.control{flex:1;min-width:220px}
+label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px}
+input[type="number"],input[type="range"]{
+  width:100%;background:#0a0e27;border:1px solid var(--border);color:var(--text);
+  padding:8px 10px;border-radius:8px;font-size:14px;font-family:var(--mono)
 }
-.wrap{max-width:1400px;margin:0 auto;padding:20px}
-header h1{margin:0;font-size:28px}
-header p{margin:6px 0 0;color:var(--muted);font-size:14px}
-nav{
-  display:flex; gap:10px; margin:18px 0 16px;
-  border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap;
+input[type="range"]{padding:0;height:34px}
+.value-display{font-family:var(--mono);color:var(--accent);font-size:12px;margin-top:6px}
+.canvas{width:100%;height:360px;background:#050813;border-radius:10px;display:block}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:12px}
+.metric{background:rgba(255,255,255,.03);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.06)}
+.metric-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.metric-value{font-size:16px;font-weight:800;font-family:var(--mono);margin-top:4px}
+.note{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.28);padding:10px;border-radius:10px;font-size:12.5px;line-height:1.5;margin-top:12px}
+.note.good{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.25)}
+.note.warn{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.25)}
+.badge{
+  display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:var(--text)
 }
-.tab-btn{
-  background:transparent;border:0;color:var(--muted);
-  padding:10px 16px; cursor:pointer; font-weight:800; border-radius:10px;
-  font-size:13px;
+.badge.good{border-color:rgba(52,211,153,.35);color:#bfffea}
+.badge.warn{border-color:rgba(251,191,36,.35);color:#ffe6a8}
+.badge.danger{border-color:rgba(251,113,133,.35);color:#ffd0d8}
+button{
+  background:var(--accent);color:#000;border:none;padding:10px 14px;border-radius:10px;
+  font-weight:800;font-size:13px;cursor:pointer;transition:opacity .2s
 }
-.tab-btn.active{color:var(--accent); background:rgba(96,165,250,0.12)}
-.card{
-  background:var(--panel);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  margin-bottom:18px;
-  overflow:hidden;
-}
-.card-head{
-  padding:14px 16px;
-  background:rgba(255,255,255,0.02);
-  border-bottom:1px solid rgba(255,255,255,0.05);
-  display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
-  font-weight:900;
-  font-size:14px;
-}
-.card-body{padding:16px}
-.grid-ui{
-  display:grid;
-  grid-template-columns: 1fr 340px;
-  gap:18px;
-}
-@media(max-width:980px){ .grid-ui{grid-template-columns:1fr;} }
-
-.ctrl-stack{display:flex; flex-direction:column; gap:12px;}
-.ctrl{
-  background:rgba(0,0,0,0.20);
-  padding:12px;
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius:12px;
-}
-label{
-  display:block;
-  font-size:11px;
-  font-weight:900;
-  color:var(--accent);
-  text-transform:uppercase;
-  letter-spacing:.06em;
-  margin-bottom:6px;
-}
-input,select{
-  width:100%;
-  background:#030712;
-  border:1px solid var(--border);
-  color:var(--text);
-  padding:9px 10px;
-  border-radius:10px;
-  font-family:var(--mono);
-  outline:none;
-  font-size:13px;
-}
-input[type="checkbox"]{width:auto; transform:translateY(1px);}
-.hint{font-size:11px; color:var(--muted); margin-top:6px; line-height:1.25;}
-.row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
-.pill{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:7px 10px; border-radius:999px;
-  border:1px solid rgba(255,255,255,0.10);
-  background:rgba(255,255,255,0.04);
-  font-family:var(--mono); font-size:12px; color:var(--muted);
-}
-.dot{width:8px;height:8px;border-radius:50%; background:var(--good); box-shadow:0 0 16px rgba(52,211,153,.35)}
-button.action{
-  border:0; cursor:pointer;
-  padding:10px 12px; border-radius:12px;
-  font-weight:900;
-  background:rgba(96,165,250,0.22);
-  color:var(--text);
-  font-size:13px;
-}
-button.action:hover{opacity:.92}
-button.bad{background:rgba(251,113,133,0.22)}
-button.good{background:rgba(52,211,153,0.18)}
-button.warn{background:rgba(245,158,11,0.20)}
-canvas{
-  width:100%;
-  background:#02040a;
-  border-radius:12px;
-  display:block;
-}
-.readout{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:10px;
-  margin-top:12px;
-}
-@media(max-width:520px){ .readout{grid-template-columns:1fr} }
-.stat-box{
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.06);
-  padding:10px;
-  border-radius:12px;
-  font-family:var(--mono);
-  font-size:12px;
-}
-.stat-box b{color:var(--text)}
-.hidden{display:none;}
-hr.sep{border:0;border-top:1px solid rgba(255,255,255,0.06); margin:12px 0;}
-small.mono{font-family:var(--mono); color:var(--muted); font-size:11px}
-.alert-box{
-  background:rgba(96,165,250,0.08);
-  border:1px solid rgba(96,165,250,0.25);
-  border-radius:12px;
-  padding:12px;
-  margin-top:12px;
-  font-size:12px;
-  line-height:1.4;
-}
-.warn-box{
-  background:rgba(245,158,11,0.08);
-  border:1px solid rgba(245,158,11,0.25);
-}
-.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-@media(max-width:768px){.grid-2{grid-template-columns:1fr;}}
+button:hover{opacity:.9}
+button.secondary{background:rgba(255,255,255,.1);color:var(--text)}
+hr{border:none;border-top:1px solid rgba(255,255,255,.08);margin:12px 0}
+.small{font-size:12px;color:var(--muted)}
+.kv{display:flex;gap:10px;flex-wrap:wrap}
+.kv span{font-family:var(--mono);font-size:12px;color:var(--text);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:4px 8px;border-radius:999px}
 </style>
-
 </head>
-
 <body>
-<div class="wrap">
-  <header>
-    <h1>STUR Research Suite — φ-Coherence + Systematic Error Analysis</h1>
-    <p>Bach (2013) verifier • Geometric metric engine • Phase-space dynamics • Systematic error decomposition</p>
-  </header>
+<div class="container">
 
-  <div class="card">
-    <div class="card-head">
-      <span>Master Controls — φ-Enhanced with Real-Time Coherence Mapping</span>
-      <span class="pill"><span class="dot"></span><span>Status: <b id="status">Ready</b></span></span>
-    </div>
-    <div class="card-body">
-      <div class="grid-ui" style="grid-template-columns: 1fr 1fr; align-items:start;">
-        <div class="ctrl">
-          <label>Master STUR Strength R<sub>q</sub></label>
-          <input id="RqMaster" type="range" min="0" max="1" step="0.01" value="0.30">
-          <div class="hint">R<sub>q</sub> = <span id="RqMasterVal" class="mono">0.30</span> — controls contrast exp(−R<sub>q</sub>) and geometric frustration</div>
-          <div class="alert-box" style="margin-top:10px">
-            <strong>φ-Coherence State Mapping:</strong><br>
-            Dynamic coherence R* = E/(IΦ): <b id="phiRstar">—</b><br>
-            Geometric flux Φ: <b id="phiPhi">—</b> (φ = <b id="phiGolden">1.618</b>)<br>
-            <small style="color:var(--muted)">Interpolated from real simulation (frustrated state at R<sub>q</sub>=1: R*≈0.87, Φ≈1.28)</small>
-          </div>
-        </div>
-        <div class="ctrl">
-          <label>Electron Energy (eV)</label>
-          <input id="Eev" type="number" min="50" max="30000" step="10" value="600">
-          <div class="hint">Relativistic de Broglie: λ = <span id="lamPm" class="mono">—</span> pm</div>
-          <div class="alert-box warn-box" style="margin-top:8px">
-            <strong>φ-Coherence Length:</strong><br>
-            L<sub>c</sub>(φ) = (λ/R<sub>q</sub>) × Φ<sub>mean</sub> = <span id="lcPhi" class="mono">—</span> nm<br>
-            <small style="color:var(--muted)">Defines spatial scale where V(r) = 1/e (visible in Geometry tab)</small>
-          </div>
-        </div>
+<header>
+  <h1>Holoscreen Unified Simulator — One Dial Moves a Photon Across the Event Horizon</h1>
+  <div class="subtitle">
+    Single boundary dial Γ controls: photon horizon crossing • double-slit contrast • Josephson knee • gated Hawking ripples.
+  </div>
+</header>
+
+<!-- ===================== MASTER DIAL ===================== -->
+<div class="card">
+  <div class="card-title">Master Boundary Dial Γ (one knob for everything)</div>
+  <div class="control-row">
+    <div class="control" style="min-width:320px;flex:2">
+      <label>Γ Dial (0 → outside, 1 → deep inside)</label>
+      <input type="range" id="gamma" min="0" max="1" step="0.001" value="0.150">
+      <div class="value-display">
+        Γ=<span id="gVal">0.150</span> ·
+        r/r<sub>s</sub>=<span id="rrs">—</span> ·
+        status: <span id="hStatus" class="badge">—</span>
       </div>
+    </div>
+    <div class="control">
+      <label>Manual Γ</label>
+      <input type="number" id="gammaN" min="0" max="1" step="0.001" value="0.150">
+      <div class="value-display">Type a value, press Enter or blur.</div>
+    </div>
+    <div class="control">
+      <label>Black Hole Mass (M☉)</label>
+      <input type="number" id="bhMass" min="1" max="1e9" step="1" value="10">
+      <div class="value-display">Sets r<sub>s</sub>, T<sub>H</sub>, redshift scale.</div>
     </div>
   </div>
 
-  <nav>
-    <button class="tab-btn active" data-tab="diff">1. Diffraction Verifier</button>
-    <button class="tab-btn" data-tab="geo">2. Geometry Engine</button>
-    <button class="tab-btn" data-tab="phi">3. φ-Coherence Dynamics</button>
-    <button class="tab-btn" data-tab="phase">4. Phase Space</button>
-  </nav>
-
-  <!-- ===================== TAB 1: DIFFRACTION ===================== -->
-
-  <section id="tab-diff">
-    <div class="grid-ui">
-      <div class="card">
-        <div class="card-head">
-          <span>Far-Field Profile: <span style="color:#2563eb">QM</span> vs <span style="color:var(--good)">STUR</span> vs <span style="color:#fff">Bach Data</span></span>
-        </div>
-        <div class="card-body">
-          <canvas id="diffCanvas" width="900" height="420"></canvas>
-
-```
-      <div class="readout">
-        <div class="stat-box">χ²<sub>QM</sub> <b id="chiQM">—</b></div>
-        <div class="stat-box">χ²<sub>STUR</sub> <b id="chiST">—</b></div>
-        <div class="stat-box">Δχ² = STUR−QM <b id="chiD">—</b></div>
-        <div class="stat-box">⟨Δχ²⟩<sub>5s</sub> <b id="chiAvg">—</b></div>
-        <div class="stat-box" style="grid-column:1/-1">
-          <strong>Verdict:</strong> <b id="decision">—</b>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ctrl-stack">
-    <div class="ctrl">
-      <label>Bach (2013) Preset</label>
-      <button class="action good" id="btnBach" style="width:100%">Apply Bach Parameters</button>
-      <div class="hint">Sets: E=600 eV, a=62 nm, d=272 nm, L=30.5 cm (reported geometry)</div>
-    </div>
-
-    <div class="ctrl">
-      <label>Slit Geometry</label>
-      <div class="row">
-        <div style="flex:1">
-          <small class="mono">a (nm)</small>
-          <input id="aNm" type="number" value="62" step="1">
-        </div>
-        <div style="flex:1">
-          <small class="mono">d (nm)</small>
-          <input id="dNm" type="number" value="272" step="1">
-        </div>
-      </div>
-      <div style="margin-top:10px">
-        <small class="mono">L (cm)</small>
-        <input id="Lcm" type="number" value="30.5" step="0.1">
-      </div>
-      <div class="hint">Critical: Use exact reported values to avoid artificial χ² shifts</div>
-    </div>
-
-    <div class="ctrl">
-      <label>Detector PSF (Systematic)</label>
-      <input id="psfUm" type="range" min="0" max="30" step="0.5" value="5">
-      <div class="hint">Gaussian σ = <span id="psfVal" class="mono">5.0</span> μm — applied equally to both models</div>
-    </div>
-
-    <div class="ctrl">
-      <label>Noise Injection (Test)</label>
-      <div class="row">
-        <input id="shotNoise" type="checkbox">
-        <span class="hint" style="margin:0">Add Poisson-ish noise (stress test only)</span>
-      </div>
-    </div>
-
-    <div class="ctrl">
-      <label>Adversarial Analysis</label>
-      <button class="action bad" id="btnSweep" style="width:100%">R<sub>q</sub> Sensitivity Sweep</button>
-      <pre id="sweepOut" class="hint" style="white-space:pre-wrap;margin:10px 0 0;color:var(--text);max-height:240px;overflow-y:auto"></pre>
-      <hr class="sep">
-      <button class="action warn" id="btnAudit" style="width:100%">Export Full Audit JSON</button>
-      <div class="hint">Includes: geometry, PSF, systematic decomposition, phase-space state</div>
-    </div>
+  <div class="note good">
+    <strong>Horizon rule:</strong> the event horizon is at r/r<sub>s</sub>=1. This sim drives a photon’s coordinate radius r smoothly through 1 using Γ.
+    Outside (r&gt;r<sub>s</sub>) you see finite redshift; at the horizon the coordinate-time factor blows up but proper quantities remain bounded; inside (r&lt;r<sub>s</sub>) the “escape-to-infinity” interpretation turns off by construction.
   </div>
 </div>
-```
 
-  </section>
+<!-- ===================== PHOTON / HORIZON PANEL ===================== -->
+<div class="card">
+  <div class="card-title">Photon Crossing — Schwarzschild Horizon (with bounded phase gate)</div>
+  <canvas id="photonPlot" class="canvas"></canvas>
 
-  <!-- ===================== TAB 2: GEOMETRY ===================== -->
-
-  <section id="tab-geo" class="hidden">
-    <div class="grid-ui">
-      <div class="card">
-        <div class="card-head">
-          <span>2D Metric Grid with Dynamic L<sub>c</sub> Visualization</span>
-          <span><small class="mono">Orange circle = coherence horizon</small></span>
-        </div>
-        <div class="card-body">
-          <canvas id="geoCanvas" width="900" height="520"></canvas>
-
-```
-      <div class="readout">
-        <div class="stat-box">Position (x,y) <b id="gXY">—</b></div>
-        <div class="stat-box">Radius r <b id="gR">—</b></div>
-        <div class="stat-box">Potential V(x,y) <b id="gV">—</b></div>
-        <div class="stat-box">Gradient ∇V <b id="gGrad">—</b></div>
-        <div class="stat-box" style="grid-column:1/-1">
-          L<sub>c</sub> (coherence horizon, V=1/e): <b id="gLc">—</b> | 
-          λ-scaled: <b id="gLcNm">—</b> nm
-        </div>
-      </div>
+  <div class="grid2">
+    <div class="metric">
+      <div class="metric-label">r / r_s</div>
+      <div class="metric-value" id="m_rrs">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Redshift factor √(1−r_s/r)</div>
+      <div class="metric-value" id="m_red">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Observed frequency ratio f∞/f_local</div>
+      <div class="metric-value" id="m_freq">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Tortoise coord r*</div>
+      <div class="metric-value" id="m_rstar">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Gate delay Δu(Γ)</div>
+      <div class="metric-value" id="m_du">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Echo amplitude |R(Γ)|</div>
+      <div class="metric-value" id="m_refl">—</div>
     </div>
   </div>
 
-  <div class="ctrl-stack">
-    <div class="ctrl">
-      <label>Geometry Scale L<sub>0</sub></label>
-      <input id="L0" type="range" min="0.2" max="3" step="0.01" value="1.0">
-      <div class="hint">L<sub>0</sub> = <span id="L0Val" class="mono">1.00</span> (radial kernel scale)</div>
-    </div>
-
-    <div class="ctrl">
-      <label>View Extent R<sub>max</sub></label>
-      <input id="Rmax" type="range" min="2" max="10" step="0.25" value="5.0">
-      <div class="hint">R<sub>max</sub> = <span id="RmaxVal" class="mono">5.00</span> (world coordinates)</div>
-    </div>
-
-    <div class="ctrl">
-      <label>Visualization</label>
-      <div class="row">
-        <input id="showHeat" type="checkbox" checked>
-        <span class="hint" style="margin:0">Heat map (1−V intensity)</span>
-      </div>
-      <div class="row" style="margin-top:6px">
-        <input id="showForce" type="checkbox" checked>
-        <span class="hint" style="margin:0">Force vector F=−∇V</span>
-      </div>
-      <div class="row" style="margin-top:6px">
-        <input id="showLcBlur" type="checkbox" checked>
-        <span class="hint" style="margin:0">L<sub>c</sub> blur overlay (scales with energy)</span>
-      </div>
-    </div>
-
-    <div class="ctrl">
-      <label>Particle Control</label>
-      <button class="action" id="btnResetGeo" style="width:100%">Reset to (x=1.5, y=0)</button>
-      <div class="hint">Drag ball anywhere; stateful positioning (no drift)</div>
-    </div>
+  <div class="note warn">
+    <strong>Interpretation:</strong> A distant observer sees f∞ → 0 as r→r<sub>s</sub> (standard gravitational redshift).
+    The “gate” adds bounded phase delay Δu(Γ), giving coherent ripples/echoes without requiring any divergence.
   </div>
 </div>
-```
 
-  </section>
+<!-- ===================== DOUBLE SLIT ===================== -->
+<div class="card">
+  <div class="card-title">Double-Slit (QM-anchored normalization, Γ → contrast loss)</div>
 
-  <!-- ===================== TAB 3: φ-COHERENCE ===================== -->
-
-  <section id="tab-phi" class="hidden">
-    <div class="card">
-      <div class="card-head">
-        <span>φ-Coherence Time Evolution (Real Simulation Data)</span>
-      </div>
-      <div class="card-body">
-        <canvas id="phiCanvas" width="900" height="500"></canvas>
-
-```
-    <div class="readout" style="margin-top:12px">
-      <div class="stat-box" style="grid-column:1/-1">
-        <strong>Simulation Statistics:</strong><br>
-        ⟨R*⟩ = <b id="phiRstarMean">0.869</b> ± <b id="phiRstarStd">0.125</b><br>
-        ⟨Φ⟩ = <b id="phiPhiMean">1.282</b> (vs φ = <b>1.618</b>)
-      </div>
-      <div class="stat-box" style="grid-column:1/-1; font-size:11px; line-height:1.4">
-        <strong>Physical Interpretation:</strong><br>
-        System operates in <em>frustrated state</em>: geometric ideality (φ≈1.618) vs operational efficiency (R*≈0.87) trade-off.
-        Slow geometric relaxation (k<sub>geom</sub>=0.05) overwhelmed by oscillatory driving → Φ settles below φ.
-        STUR feedback (k<sub>fb</sub>=0.18) maintains ~87% coherence despite geometric mismatch.
-      </div>
+  <div class="control-row">
+    <div class="control">
+      <label>Energy (eV)</label>
+      <input type="number" id="energy" value="600" min="100" max="10000" step="10">
+      <div class="value-display">λ=<span id="wl">—</span> pm (600 eV hard-pinned)</div>
+    </div>
+    <div class="control">
+      <label>Slit width a (nm)</label>
+      <input type="number" id="a_nm" value="62" step="1">
+      <div class="value-display">Bach geometry default.</div>
+    </div>
+    <div class="control">
+      <label>Slit separation d (nm)</label>
+      <input type="number" id="d_nm" value="272" step="1">
+      <div class="value-display">Bach geometry default.</div>
+    </div>
+    <div class="control">
+      <label>Screen distance L (cm)</label>
+      <input type="number" id="L_cm" value="30.5" step="0.1">
+      <div class="value-display">Bach geometry default.</div>
     </div>
   </div>
-</div>
-```
 
-  </section>
+  <canvas id="dsPlot" class="canvas"></canvas>
 
-  <!-- ===================== TAB 4: PHASE SPACE ===================== -->
-
-  <section id="tab-phase" class="hidden">
-    <div class="card">
-      <div class="card-head">
-        <span>Phase Portrait: R* vs Φ Attractor Analysis</span>
-      </div>
-      <div class="card-body">
-        <canvas id="phaseCanvas" width="900" height="600"></canvas>
-
-```
-    <div class="readout" style="margin-top:12px">
-      <div class="stat-box">
-        <strong>Attractor Centroid:</strong><br>
-        (Φ̄, R̄*) = <b id="phaseCentroid">—</b>
-      </div>
-      <div class="stat-box">
-        <strong>Trajectory Spread:</strong><br>
-        σ<sub>Φ</sub> = <b id="phaseSpreadPhi">—</b>, σ<sub>R*</sub> = <b id="phaseSpreadR">—</b>
-      </div>
-      <div class="stat-box" style="grid-column:1/-1; font-size:11px; line-height:1.4">
-        <strong>Attractor Topology:</strong><br>
-        System exhibits <em>limit cycle behavior</em> around frustrated equilibrium (Φ≈1.28, R*≈0.87).
-        Trajectory does not converge to ideal point (φ, 1) due to competing timescales:
-        fast STUR feedback vs slow geometric relaxation. This phase-space portrait validates
-        the dual-layer structure: geometry (φ) sets preference, dynamics (R*) enforces operational constraint.
-      </div>
+  <div class="grid2">
+    <div class="metric">
+      <div class="metric-label">Γ → R (contrast)</div>
+      <div class="metric-value" id="m_R">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">χ² QM</div>
+      <div class="metric-value" id="chi1">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">χ² Modified</div>
+      <div class="metric-value" id="chi2">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Δχ²</div>
+      <div class="metric-value" id="dchi">—</div>
     </div>
   </div>
-</div>
-```
 
-  </section>
+  <div class="note good">
+    <strong>One dial link:</strong> R is slaved to Γ and applied as contrast = exp(−R). Both curves are normalized to the QM peak.
+  </div>
+</div>
+
+<!-- ===================== JOSEPHSON ===================== -->
+<div class="card">
+  <div class="card-title">Josephson Voltage Noise (Γ → knee)</div>
+  <p class="small">Bounded OU phase velocity with tanh regulation. Γ drives temperature and damping.</p>
+  <canvas id="jPlot" class="canvas"></canvas>
+
+  <div class="grid2">
+    <div class="metric">
+      <div class="metric-label">T (mK)</div>
+      <div class="metric-value" id="m_Tmk">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">γ (GHz)</div>
+      <div class="metric-value" id="m_gGHz">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">knee freq</div>
+      <div class="metric-value" id="m_knee">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">kBT (meV)</div>
+      <div class="metric-value" id="m_kbt">—</div>
+    </div>
+  </div>
+
+  <div class="note good">
+    <strong>One dial link:</strong> Γ drives (T,γ) smoothly; the PSD knee shifts accordingly. No extra knobs required.
+  </div>
+</div>
+
+<!-- ===================== BH SPECTRUM ===================== -->
+<div class="card">
+  <div class="card-title">Black Hole Emission (Hawking → gated ripples via Γ)</div>
+  <canvas id="bhPlot" class="canvas"></canvas>
+
+  <div class="grid2">
+    <div class="metric">
+      <div class="metric-label">T_H (K)</div>
+      <div class="metric-value" id="m_TH">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Gate strength |R|</div>
+      <div class="metric-value" id="m_gate">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Ripple freq scale</div>
+      <div class="metric-value" id="m_rip">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Weak-gate limit</div>
+      <div class="metric-value" id="m_weak">—</div>
+    </div>
+  </div>
+
+  <div class="note warn">
+    <strong>Built-in recovery:</strong> As Γ→0, the ripple amplitude →0 and the spectrum becomes strictly thermal (Hawking/Unruh).
+  </div>
+</div>
+
 </div>
 
 <script>
-/* ===================== PHYSICAL CONSTANTS ===================== */
+// ================================================================
+// Constants
+// ================================================================
 const h = 6.62607015e-34;
 const c = 299792458;
-const eV = 1.602176634e-19;
-const m_e = 9.1093837015e-31;
-const PHI_GOLDEN = (1 + Math.sqrt(5)) / 2;
+const eVJ = 1.602176634e-19;
+const me = 9.1093837015e-31;
+const kB = 1.380649e-23;
+const hbar = h/(2*Math.PI);
+const eCharge = 1.602176634e-19;
+const G = 6.67430e-11;
+const Msol = 1.98847e30;
 
-const $ = (id)=>document.getElementById(id);
-function setStatus(t){ $("status").textContent = t; }
+// Hard-pinned Bach 600 eV wavelength
+const EPIN = 600;
+const LPIN = 5.006411794e-11;
 
-function sinc(x){ return Math.abs(x) < 1e-12 ? 1 : Math.sin(x)/x; }
+// Reference "digitized-like" profile (envelope-like)
+const REF = { y:[-4,-3.5,-3,-2.5,-2,-1.5,-1,-.5,0,.5,1,1.5,2,2.5,3,3.5,4],
+              i:[.04,.08,.15,.32,.55,.78,.92,.98,1,.98,.92,.78,.55,.32,.15,.08,.04] };
 
-/* ===================== φ-COHERENCE SIMULATION DATA ===================== */
-const PHI_SIM_DATA = {
-  time: [0,2.67,5.33,8,10.67,13.33,16,18.67,21.33,24,26.67,29.33,32,34.67,37.33,40,42.67,45.33,48,50.67,53.33,56,58.67,61.33,64,66.67,69.33,72,74.67,77.33,80],
-  Phi: [1.55,1.50,1.42,1.32,1.22,1.15,1.11,1.10,1.15,1.23,1.32,1.40,1.47,1.51,1.52,1.50,1.44,1.36,1.27,1.19,1.14,1.12,1.15,1.21,1.30,1.39,1.46,1.51,1.52,1.49,1.43],
-  Rstar: [0.76,0.79,0.99,1.05,1.09,0.98,0.76,0.65,0.77,0.91,0.88,0.78,0.60,0.58,0.78,0.95,1.01,1.12,1.02,0.85,0.78,0.86,0.99,1.00,0.86,0.67,0.61,0.73,0.95,1.08,1.09],
-  stats: {
-    Rstar_mean: 0.869,
-    Rstar_std: 0.125,
-    Phi_mean: 1.282,
-    phi: PHI_GOLDEN
+const $ = id => document.getElementById(id);
+
+// ================================================================
+// Master dial mapping: Γ -> r/r_s
+// We map Γ in [0,1] to r/rs in [4.0, 0.5] (smooth), crossing horizon at 1.
+// ================================================================
+function gammaToRrs(g){
+  // ease for nicer movement near horizon
+  const t = Math.max(0, Math.min(1, g));
+  const ease = t*t*(3 - 2*t);
+  return 4.0 + (0.5 - 4.0)*ease; // 4 -> 0.5
+}
+
+// status badge
+function setBadge(el, txt, cls){
+  el.textContent = txt;
+  el.className = "badge" + (cls ? (" "+cls) : "");
+}
+
+// ================================================================
+// Schwarzschild helpers
+// ================================================================
+function schwarzschildRs(M){ return 2*G*M/(c*c); } // meters
+
+function redshiftFactor(rrs){
+  // sqrt(1 - rs/r) = sqrt(1 - 1/rrs). For rrs<=1, imaginary -> not defined for static observer
+  if(rrs <= 1) return 0;
+  const x = 1 - 1/rrs;
+  return Math.sqrt(Math.max(0, x));
+}
+
+function tortoiseRstar(r, rs){
+  // r* = r + rs ln|r/rs - 1|
+  const x = Math.abs(r/rs - 1);
+  return r + rs*Math.log(Math.max(1e-15, x));
+}
+
+// Gate model: reflectivity amplitude and delay
+function gateReflectivity(g){
+  // bounded 0..~0.35 (kept tame)
+  return 0.35 * (1 - Math.exp(-3*g));
+}
+function gateDelayDu(g){
+  // bounded delay scale in "natural units" for ripples/echoes
+  return 60 * g; // dimensionless delay
+}
+
+// ================================================================
+// Photon crossing visualization
+// ================================================================
+function drawPhotonPanel(){
+  const g = parseFloat($('gamma').value);
+  const M = parseFloat($('bhMass').value) * Msol;
+  const rs = schwarzschildRs(M);
+  const rrs = gammaToRrs(g);
+  const r = rrs * rs;
+
+  const red = redshiftFactor(rrs);      // outside only
+  const finf_over_floc = (rrs > 1) ? red : 0; // static observer at r
+  const rstar = tortoiseRstar(r, rs);
+
+  const du = gateDelayDu(g);
+  const Ramp = gateReflectivity(g);
+
+  // metrics
+  $('m_rrs').textContent = rrs.toFixed(3);
+  $('m_red').textContent = (rrs>1 ? red.toFixed(6) : "—");
+  $('m_freq').textContent = (rrs>1 ? finf_over_floc.toFixed(6) : "—");
+  $('m_rstar').textContent = (rstar/rs).toFixed(3) + " · r_s";
+  $('m_du').textContent = du.toFixed(2);
+  $('m_refl').textContent = Ramp.toFixed(3);
+
+  $('rrs').textContent = rrs.toFixed(3);
+  const hs = $('hStatus');
+  if(rrs > 1.02) setBadge(hs, "outside horizon", "good");
+  else if(rrs >= 0.98 && rrs <= 1.02) setBadge(hs, "near horizon", "warn");
+  else setBadge(hs, "inside horizon", "danger");
+
+  // draw canvas
+  const canvas = $('photonPlot');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width = 1000;
+  const H = canvas.height = 360;
+  ctx.fillStyle = "#050813";
+  ctx.fillRect(0,0,W,H);
+
+  const pad = {l:70,r:30,t:30,b:45};
+  const x0=pad.l, x1=W-pad.r, y0=pad.t, y1=H-pad.b;
+
+  // axes box
+  ctx.strokeStyle = "rgba(255,255,255,.22)";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(x0,y0,x1-x0,y1-y0);
+
+  // radial scale (r/rs) from 4 to 0.5
+  const rmin=0.5, rmax=4.0;
+  const mapX = rr => x0 + (rr-rmin)/(rmax-rmin)*(x1-x0);
+
+  // draw horizon line at r/rs=1
+  const xH = mapX(1.0);
+  ctx.strokeStyle = "rgba(251,191,36,.8)";
+  ctx.lineWidth = 2;
+  ctx.setLineDash([8,4]);
+  ctx.beginPath(); ctx.moveTo(xH,y0); ctx.lineTo(xH,y1); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // labels
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "12px system-ui";
+  ctx.textAlign="center";
+  ctx.fillText("r / r_s", (x0+x1)/2, H-16);
+  ctx.textAlign="left";
+  ctx.fillText("event horizon (r/rs=1)", xH+8, y0+14);
+
+  // top panel: redshift curve outside horizon
+  // plot f∞/f_local = sqrt(1-1/rrs) for rr>1
+  const yMid = y0 + (y1-y0)*0.52;
+  ctx.strokeStyle="rgba(255,255,255,.08)";
+  ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x0,yMid); ctx.lineTo(x1,yMid); ctx.stroke();
+
+  ctx.fillStyle="#94a3b8";
+  ctx.textAlign="left";
+  ctx.fillText("Top: redshift f∞/f_local (outside only)", x0, y0-8);
+  ctx.fillText("Bottom: bounded gate phase sin(Δu)", x0, yMid+18);
+
+  // redshift curve
+  ctx.strokeStyle = "#60a5fa";
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  let first=true;
+  for(let rr=4.0; rr>=1.0005; rr-=0.01){
+    const fx = mapX(rr);
+    const f = redshiftFactor(rr); // 0..1
+    const y = yMid - f*(yMid-y0-10);
+    if(first){ctx.moveTo(fx,y); first=false;} else ctx.lineTo(fx,y);
   }
-};
+  ctx.stroke();
 
-/* ===================== UI: TABS ===================== */
-document.querySelectorAll(".tab-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    const tab = btn.getAttribute("data-tab");
-    $("tab-diff").classList.toggle("hidden", tab!=="diff");
-    $("tab-geo").classList.toggle("hidden", tab!=="geo");
-    $("tab-phi").classList.toggle("hidden", tab!=="phi");
-    $("tab-phase").classList.toggle("hidden", tab!=="phase");
-    if(tab==="phase") drawPhaseSpace();
+  // gate phase curve (bounded)
+  ctx.strokeStyle = "#34d399";
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  first=true;
+  for(let rr=4.0; rr>=0.5; rr-=0.01){
+    const gtmp = (rr - 4.0)/(0.5 - 4.0); // 0..1 approx
+    const gg = Math.max(0, Math.min(1, gtmp));
+    const ph = Math.sin(gateDelayDu(gg)*0.12);
+    const fx = mapX(rr);
+    const y = y1 - 10 - (ph*0.5 + 0.5)*(y1-yMid-30);
+    if(first){ctx.moveTo(fx,y); first=false;} else ctx.lineTo(fx,y);
+  }
+  ctx.stroke();
+
+  // photon marker at current rrs
+  const xp = mapX(rrs);
+  // top marker: if outside, show redshift point; else show at horizon baseline
+  ctx.fillStyle = "#fbbf24";
+  const ypTop = (rrs>1) ? (yMid - finf_over_floc*(yMid-y0-10)) : (yMid - 2);
+  ctx.beginPath(); ctx.arc(xp, ypTop, 6, 0, Math.PI*2); ctx.fill();
+
+  // bottom marker: phase point
+  const phNow = Math.sin(du*0.12);
+  const ypBot = y1 - 10 - (phNow*0.5 + 0.5)*(y1-yMid-30);
+  ctx.beginPath(); ctx.arc(xp, ypBot, 6, 0, Math.PI*2); ctx.fill();
+
+  // annotate
+  ctx.fillStyle="#e2e8f0";
+  ctx.font="12px ui-monospace, SFMono-Regular, Menlo, monospace";
+  ctx.textAlign="left";
+  const txt1 = `r/rs=${rrs.toFixed(3)}  du=${du.toFixed(2)}  |R|=${Ramp.toFixed(3)}`;
+  const txt2 = (rrs>1) ? `f∞/floc=${finf_over_floc.toFixed(6)}  z=${(1/finf_over_floc - 1).toFixed(3)}` : `inside horizon: static redshift undefined`;
+  ctx.fillText(txt1, x0, y1+20);
+  ctx.fillText(txt2, x0, y1+36);
+}
+
+// ================================================================
+// Double slit model (Γ -> R)
+// ================================================================
+function getLambda(EeV){
+  if(Number(EeV) === EPIN) return LPIN;
+  const E = EeV * eVJ;
+  const p = Math.sqrt(E*E + 2*E*me*c*c) / c;
+  return h/p;
+}
+function sinc(x){ return Math.abs(x)<1e-12 ? 1 : Math.sin(x)/x; }
+function chi2(o,p){ let s=0; for(let i=0;i<o.length;i++){ const d=o[i]-p[i]; s+=d*d; } return s/o.length; }
+
+function calcPattern(R){
+  const E = parseFloat($('energy').value);
+  const a = parseFloat($('a_nm').value) * 1e-9;
+  const d = parseFloat($('d_nm').value) * 1e-9;
+  const L = parseFloat($('L_cm').value) * 1e-2;
+  const lam = getLambda(E);
+
+  return REF.y.map(y=>{
+    const ym = y*1e-3;
+    const theta = ym/L;
+    const env = Math.pow(sinc(Math.PI*a*theta/lam),2);
+    const ph = (2*Math.PI/lam)*d*theta;
+    const contrast = Math.exp(-R);
+    return env*(1 + contrast*Math.cos(ph))*0.5;
   });
-});
-
-/* ===================== MASTER CONTROLS ===================== */
-const RqMaster = $("RqMaster");
-const Eev = $("Eev");
-
-function deriveLambda_m(E_eV){
-  // Full relativistic: p = sqrt(E^2 + 2*E*m_e*c^2)/c
-  const E = E_eV * eV;
-  const p = Math.sqrt(E*E + 2*E*m_e*c*c) / c;
-  return h / p;
 }
 
-function phiCoherenceLength(Rq, lambda_m){
-  // L_c(φ) = (λ/R_q) × Φ_mean
-  if (!(Rq > 1e-6)) return Infinity;
-  return (lambda_m / Rq) * PHI_SIM_DATA.stats.Phi_mean;
-}
+function drawDoubleSlit(){
+  const g = parseFloat($('gamma').value);
+  const R = 1.6 * g; // slave contrast parameter
+  $('m_R').textContent = R.toFixed(4);
 
-function interpolatePhiData(Rq){
-  // Linear interpolation: Rq=0 → ideal (R*=1, Φ=φ), Rq=1 → frustrated (R*=0.869, Φ=1.282)
-  const r_ideal = 1.0;
-  const r_actual = PHI_SIM_DATA.stats.Rstar_mean;
-  const phi_ideal = PHI_GOLDEN;
-  const phi_actual = PHI_SIM_DATA.stats.Phi_mean;
-  
-  const rstar = r_ideal + (r_actual - r_ideal) * Rq;
-  const phi = phi_ideal + (phi_actual - phi_ideal) * Rq;
-  
-  return {rstar, phi};
-}
+  const qm_raw = calcPattern(0);
+  const mod_raw = calcPattern(R);
+  const qm_max = Math.max(...qm_raw);
+  const qm = qm_raw.map(x=>x/qm_max);
+  const mod = mod_raw.map(x=>x/qm_max);
 
-function syncMaster(){
-  const rq = Number(RqMaster.value);
-  $("RqMasterVal").textContent = rq.toFixed(2);
-  
-  const lam = deriveLambda_m(Number(Eev.value));
-  $("lamPm").textContent = (lam*1e12).toFixed(2);
+  const c1 = chi2(REF.i, qm);
+  const c2 = chi2(REF.i, mod);
 
-  const phiData = interpolatePhiData(rq);
-  $("phiRstar").textContent = phiData.rstar.toFixed(3);
-  $("phiPhi").textContent = phiData.phi.toFixed(3);
-  $("phiGolden").textContent = PHI_GOLDEN.toFixed(3);
-  
-  const lc = phiCoherenceLength(rq, lam);
-  $("lcPhi").textContent = isFinite(lc) ? (lc*1e9).toFixed(2) : "∞";
+  $('wl').textContent = (getLambda(parseFloat($('energy').value))*1e12).toFixed(3);
+  $('chi1').textContent = c1.toFixed(6);
+  $('chi2').textContent = c2.toFixed(6);
+  const dchi = c1 - c2;
+  $('dchi').textContent = (dchi>=0?"+":"") + dchi.toFixed(6);
 
-  updateDiff();
-  drawGeo();
-}
-RqMaster.addEventListener("input", syncMaster);
-Eev.addEventListener("input", syncMaster);
+  const canvas = $('dsPlot');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width = 1000;
+  const H = canvas.height = 360;
+  ctx.fillStyle="#050813"; ctx.fillRect(0,0,W,H);
 
-/* ===================== TAB 1: DIFFRACTION VERIFIER ===================== */
-const diffCanvas = $("diffCanvas");
-const dctx = diffCanvas.getContext("2d");
+  const pad={l:70,r:30,t:30,b:45};
+  const x0=pad.l,x1=W-pad.r,y0=pad.t,y1=H-pad.b;
+  ctx.strokeStyle="rgba(255,255,255,.22)"; ctx.lineWidth=2; ctx.strokeRect(x0,y0,x1-x0,y1-y0);
 
-const aNm = $("aNm");
-const dNm = $("dNm");
-const Lcm = $("Lcm");
-const psfUm = $("psfUm");
-const shotNoise = $("shotNoise");
-
-// Reference data (Bach 2013 digitized central profile)
-const ref_y_mm = Array.from({length:17}, (_,i)=> -4 + i*(8/16));
-const ref_I = [0.04,0.08,0.15,0.32,0.55,0.78,0.92,0.98,1.00,0.98,0.92,0.78,0.55,0.32,0.15,0.08,0.04];
-
-let deltaHistory = [];
-
-function normalizeMax(arr){
-  let m = Math.max(...arr.filter(v=>isFinite(v)));
-  if (!(m>0)) return arr.map(()=>0);
-  return arr.map(v=>v/m);
-}
-
-function applyPSF(I, y_mm, sigma_um){
-  const sigma_mm = sigma_um/1000;
-  if (!(sigma_mm>0)) return I.slice();
-  const N = I.length;
-  const out = new Array(N).fill(0);
-
-  const dy = (y_mm.length>1) ? (y_mm[1]-y_mm[0]) : 1;
-  const reach = Math.max(1, Math.ceil((3*sigma_mm)/Math.abs(dy)));
-
-  for(let i=0;i<N;i++){
-    let wsum=0, acc=0;
-    for(let j=i-reach;j<=i+reach;j++){
-      if(j<0||j>=N) continue;
-      const dist = y_mm[i]-y_mm[j];
-      const w = Math.exp(-(dist*dist)/(2*sigma_mm*sigma_mm));
-      acc += I[j]*w;
-      wsum += w;
-    }
-    out[i] = acc/(wsum||1);
-  }
-  return out;
-}
-
-function addShotNoise(I){
-  const countsScale = 400;
-  return normalizeMax(I.map(v=>{
-    const lam = Math.max(0, v) * countsScale;
-    if (lam > 12){
-      const std = Math.sqrt(lam);
-      const z = (Math.random()*2-1) + (Math.random()*2-1) + (Math.random()*2-1);
-      return Math.max(0, Math.round(lam + z*std*0.6)) / countsScale;
-    } else {
-      let L = Math.exp(-lam), k=0, p=1;
-      do { k++; p*=Math.random(); } while (p > L);
-      return (k-1)/countsScale;
-    }
-  }));
-}
-
-function modelProfile(Rq){
-  const lam = deriveLambda_m(Number(Eev.value));
-  const a = Number(aNm.value)*1e-9;
-  const d = Number(dNm.value)*1e-9;
-  const L = Number(Lcm.value)*1e-2;
-
-  const I = ref_y_mm.map((y)=>{
-    const y_m = y*1e-3;
-    const theta = y_m / L;
-    const env = Math.pow(sinc(Math.PI*a*theta/lam), 2);
-    const phi = (2*Math.PI/lam) * (d*theta);
-    const contrast = Math.exp(-Rq);
-    return env * (1 + contrast*Math.cos(phi)) * 0.5;
-  });
-
-  const sigma = Number(psfUm.value);
-  const I_blur = applyPSF(I, ref_y_mm, sigma);
-
-  let out = normalizeMax(I_blur);
-  if (shotNoise.checked) out = addShotNoise(out);
-  return out;
-}
-
-function chi2(obs, pred){
-  let ss=0;
-  for(let i=0;i<obs.length;i++){
-    const d = (obs[i]-pred[i]);
-    ss += d*d;
-  }
-  return ss/obs.length;
-}
-
-function drawDiffPlot(qm, st){
-  const w = diffCanvas.width, h = diffCanvas.height;
-  dctx.clearRect(0,0,w,h);
-
-  const padL=54, padR=16, padT=14, padB=34;
-  const x0=padL, x1=w-padR, y0=padT, y1=h-padB;
-
-  dctx.fillStyle = "rgba(255,255,255,0.02)";
-  dctx.fillRect(0,0,w,h);
-
-  dctx.strokeStyle = "rgba(255,255,255,0.12)";
-  dctx.strokeRect(x0,y0,x1-x0,y1-y0);
-
-  dctx.strokeStyle = "rgba(255,255,255,0.06)";
-  for(let i=1;i<6;i++){
-    const xx = x0 + (x1-x0)*i/6;
-    dctx.beginPath(); dctx.moveTo(xx,y0); dctx.lineTo(xx,y1); dctx.stroke();
-    const yy = y0 + (y1-y0)*i/6;
-    dctx.beginPath(); dctx.moveTo(x0,yy); dctx.lineTo(x1,yy); dctx.stroke();
-  }
-
-  dctx.fillStyle = "rgba(226,232,240,0.85)";
-  dctx.font = "12px monospace";
-  dctx.textAlign = "center";
-  dctx.fillText("y (mm)", (x0+x1)/2, h-10);
-  dctx.save();
-  dctx.translate(16, (y0+y1)/2);
-  dctx.rotate(-Math.PI/2);
-  dctx.fillText("normalized intensity", 0, 0);
-  dctx.restore();
-
-  const xmin = ref_y_mm[0], xmax = ref_y_mm[ref_y_mm.length-1];
-  const mapX = (x)=> x0 + (x-xmin)/(xmax-xmin) * (x1-x0);
-  const mapY = (I)=> y1 - I*(y1-y0);
+  const yMin=REF.y[0], yMax=REF.y[REF.y.length-1];
+  const mapX = y => x0 + (y-yMin)/(yMax-yMin)*(x1-x0);
+  const mapY = I => y1 - I*(y1-y0);
 
   // QM
-  dctx.lineWidth = 2.4;
-  dctx.strokeStyle = "#2563eb";
-  dctx.beginPath();
-  ref_y_mm.forEach((y,i)=>{
-    const X = mapX(y), Y = mapY(qm[i]);
-    i===0 ? dctx.moveTo(X,Y) : dctx.lineTo(X,Y);
-  });
-  dctx.stroke();
+  ctx.strokeStyle="#60a5fa"; ctx.lineWidth=2.5; ctx.beginPath();
+  REF.y.forEach((y,i)=>{ const X=mapX(y), Y=mapY(qm[i]); i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); });
+  ctx.stroke();
 
-  // STUR
-  dctx.strokeStyle = "#34d399";
-  dctx.beginPath();
-  ref_y_mm.forEach((y,i)=>{
-    const X = mapX(y), Y = mapY(st[i]);
-    i===0 ? dctx.moveTo(X,Y) : dctx.lineTo(X,Y);
-  });
-  dctx.stroke();
+  // Modified
+  ctx.strokeStyle="#34d399"; ctx.lineWidth=2.5; ctx.beginPath();
+  REF.y.forEach((y,i)=>{ const X=mapX(y), Y=mapY(mod[i]); i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); });
+  ctx.stroke();
 
-  // Reference
-  dctx.fillStyle = "rgba(255,255,255,0.92)";
-  ref_y_mm.forEach((y,i)=>{
-    const X = mapX(y), Y = mapY(ref_I[i]);
-    dctx.beginPath();
-    dctx.arc(X,Y,3.0,0,Math.PI*2);
-    dctx.fill();
-  });
+  // points
+  ctx.fillStyle="#fbbf24";
+  REF.y.forEach((y,i)=>{ ctx.beginPath(); ctx.arc(mapX(y), mapY(REF.i[i]), 4, 0, 2*Math.PI); ctx.fill(); });
 
-  // Legend
-  dctx.textAlign="left";
-  dctx.font="12px monospace";
-  dctx.fillStyle="rgba(255,255,255,0.85)";
-  dctx.fillText("QM", x0+10, y0+16);
-  dctx.fillStyle="#2563eb"; dctx.fillRect(x0+40, y0+7, 18, 4);
-  dctx.fillStyle="rgba(255,255,255,0.85)";
-  dctx.fillText("STUR", x0+70, y0+16);
-  dctx.fillStyle="#34d399"; dctx.fillRect(x0+118, y0+7, 18, 4);
-  dctx.fillStyle="rgba(255,255,255,0.85)";
-  dctx.fillText("Ref", x0+150, y0+16);
-  dctx.fillStyle="rgba(255,255,255,0.92)"; 
-  dctx.beginPath(); dctx.arc(x0+190, y0+9, 3, 0, Math.PI*2); dctx.fill();
+  // legend
+  ctx.font="12px system-ui"; ctx.textAlign="left";
+  ctx.fillStyle="#e2e8f0";
+  ctx.fillText(`QM (R=0)`, x0+10, y0-10);
+  ctx.fillText(`Modified (R=${R.toFixed(2)} = 1.6Γ)`, x0+160, y0-10);
 }
 
-function updateDiff(){
-  try{
-    setStatus("Computing…");
+// ================================================================
+// Josephson bounded OU + PSD (Γ -> T,γ)
+// ================================================================
+function npow2(n){ return 1 << Math.ceil(Math.log2(Math.max(1,n))); }
 
-    $("psfVal").textContent = Number(psfUm.value).toFixed(1);
-
-    const rq = Number(RqMaster.value);
-    const qm = modelProfile(0.0);
-    const st = modelProfile(rq);
-
-    const cqm = chi2(ref_I, qm);
-    const cst = chi2(ref_I, st);
-    const d = (cst - cqm);
-
-    deltaHistory.push(d);
-    if(deltaHistory.length > 300) deltaHistory.shift();
-    const avg = deltaHistory.reduce((a,b)=>a+b,0) / deltaHistory.length;
-
-    $("chiQM").textContent = cqm.toFixed(6);
-    $("chiST").textContent = cst.toFixed(6);
-    $("chiD").textContent  = (d>=0?"+":"") + d.toFixed(6);
-    $("chiAvg").textContent= (avg>=0?"+":"") + avg.toFixed(6);
-
-    let dec = "Inconclusive (|⟨Δχ²⟩| < 0.01)";
-    if (avg >  0.01) dec = "QM favored (STUR worse by detector-limited margin)";
-    if (avg < -0.01) dec = "STUR improvement detected (scrutinize PSF systematics)";
-    $("decision").textContent = dec;
-
-    drawDiffPlot(qm, st);
-
-    setStatus("Ready");
-  } catch(err){
-    console.error(err);
-    setStatus("Error");
-    $("decision").textContent = "Error: " + (err?.message || String(err));
-  }
-}
-
-$("btnBach").addEventListener("click", ()=>{
-  Eev.value = 600;
-  aNm.value = 62;
-  dNm.value = 272;
-  Lcm.value = 30.5;
-  syncMaster();
-});
-
-[aNm,dNm,Lcm,psfUm].forEach(el=>el.addEventListener("input", updateDiff));
-shotNoise.addEventListener("change", updateDiff);
-
-/* ===================== ENHANCED SWEEP WITH SYSTEMATIC DECOMPOSITION ===================== */
-function runSweep(){
-  try{
-    setStatus("Sweeping…");
-    $("sweepOut").textContent = "Analyzing R_q ∈ [0,1] (step=0.02) with systematic decomposition…\n";
-
-    const qm = modelProfile(0.0);
-    const chi0 = chi2(ref_I, qm);
-
-    let bestRq = 0, bestChi = Infinity;
-    const sweep = [];
-
-    for(let r=0; r<=1.0001; r+=0.02){
-      const st = modelProfile(r);
-      const c = chi2(ref_I, st);
-      sweep.push({rq:r, chi:c});
-      if(c < bestChi){ bestChi = c; bestRq = r; }
+// iterative radix-2 FFT
+function fft(re, im){
+  const n = re.length;
+  for(let i=1,j=0;i<n;i++){
+    let bit = n>>1;
+    for(; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if(i<j){
+      [re[i],re[j]]=[re[j],re[i]];
+      [im[i],im[j]]=[im[j],im[i]];
     }
-
-    const improve = (chi0 - bestChi) / chi0;
-    const improvePct = improve*100;
-
-    // Systematic error estimate: variation in χ² due to PSF alone
-    const psfSaved = Number(psfUm.value);
-    const psfTests = [0, 2.5, 5, 7.5, 10].map(psf=>{
-      psfUm.value = psf;
-      const qm_test = modelProfile(0.0);
-      return chi2(ref_I, qm_test);
-    });
-    psfUm.value = psfSaved;
-    const psfVariance = Math.max(...psfTests) - Math.min(...psfTests);
-    const systematicRatio = Math.abs(bestChi - chi0) / (psfVariance || 1e-9);
-
-    const falsified = (bestRq < 0.01) || (improve <= 0.01) || (systematicRatio < 2.0);
-
-    $("sweepOut").textContent = 
-`=== ADVERSARIAL SWEEP RESULTS ===
-Best R_q: ${bestRq.toFixed(3)}
-χ²(QM, R_q=0): ${chi0.toFixed(6)}
-χ²(STUR, best): ${bestChi.toFixed(6)}
-Δχ²: ${(bestChi-chi0).toFixed(6)} (${improvePct.toFixed(2)}% change)
-
-=== SYSTEMATIC ERROR ANALYSIS ===
-PSF variance (σ ∈ [0,10] μm): ${psfVariance.toFixed(6)}
-Signal-to-systematic ratio: ${systematicRatio.toFixed(2)}×
-
-=== VERDICT ===
-${falsified 
-  ? "FALSIFIED — Signal ≤ detector systematics or R_q→0" 
-  : "POTENTIAL SIGNAL — Requires independent PSF calibration"}
-
-Best fit at φ-coherence state:
-  R* = ${interpolatePhiData(bestRq).rstar.toFixed(3)}
-  Φ = ${interpolatePhiData(bestRq).phi.toFixed(3)}
-`;
-
-    RqMaster.value = bestRq.toFixed(2);
-    syncMaster();
-
-    setStatus("Ready");
-  } catch(err){
-    console.error(err);
-    setStatus("Error");
-    $("sweepOut").textContent = "Sweep error: " + (err?.message || String(err));
   }
-}
-$("btnSweep").addEventListener("click", runSweep);
+  for(let len=2; len<=n; len<<=1){
+    const ang = -2*Math.PI/len;
+    const wlen_re = Math.cos(ang), wlen_im = Math.sin(ang);
+    for(let i=0; i<n; i+=len){
+      let w_re=1, w_im=0;
+      for(let j=0; j<len/2; j++){
+        const u_re=re[i+j], u_im=im[i+j];
+        const v_re=re[i+j+len/2]*w_re - im[i+j+len/2]*w_im;
+        const v_im=re[i+j+len/2]*w_im + im[i+j+len/2]*w_re;
 
-/* ===================== AUDIT JSON EXPORT ===================== */
-function downloadJSON(filename, obj){
-  const blob = new Blob([JSON.stringify(obj, null, 2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url; a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url), 800);
-}
+        re[i+j]=u_re+v_re; im[i+j]=u_im+v_im;
+        re[i+j+len/2]=u_re-v_re; im[i+j+len/2]=u_im-v_im;
 
-function exportAudit(){
-  const rq = Number(RqMaster.value);
-  const phiData = interpolatePhiData(rq);
-  const lam = deriveLambda_m(Number(Eev.value));
-
-  const out = {
-    schema: "stur-phi-systematic-audit-v2",
-    timestamp_utc: new Date().toISOString(),
-    experiment: {
-      reference: "Bach et al. (2013) — Controlled double-slit electron diffraction",
-      energy_eV: Number(Eev.value),
-      lambda_pm: lam*1e12,
-      geometry: {
-        slit_width_nm: Number(aNm.value),
-        separation_nm: Number(dNm.value),
-        screen_distance_cm: Number(Lcm.value)
+        const nw_re = w_re*wlen_re - w_im*wlen_im;
+        const nw_im = w_re*wlen_im + w_im*wlen_re;
+        w_re=nw_re; w_im=nw_im;
       }
-    },
-    phi_coherence: {
-      golden_ratio: PHI_GOLDEN,
-      current_state: {
-        Rq: rq,
-        Rstar: phiData.rstar,
-        Phi: phiData.phi,
-        coherence_length_nm: phiCoherenceLength(rq, lam)*1e9
-      },
-      simulation_source: "Python simulation with k_feedback=0.18, k_geom=0.05"
-    },
-    models: {
-      qm: {Rq: 0, contrast: 1, description: "Standard quantum mechanics"},
-      stur: {Rq: rq, contrast: Math.exp(-rq), description: "STUR with geometric frustration"}
-    },
-    detector: {
-      psf_sigma_um: Number(psfUm.value),
-      note: "Gaussian PSF applied equally to both models"
-    },
-    systematics: {
-      shot_noise_enabled: shotNoise.checked,
-      note: "Noise for stress-testing only; not a substitute for counts data"
-    },
-    metrics: {
-      chi2_qm: Number($("chiQM").textContent),
-      chi2_stur: Number($("chiST").textContent),
-      delta_chi2: Number($("chiD").textContent),
-      delta_chi2_avg_5s: Number($("chiAvg").textContent)
-    },
-    verdict: $("decision").textContent,
-    phase_space: {
-      attractor_centroid: [PHI_SIM_DATA.stats.Phi_mean, PHI_SIM_DATA.stats.Rstar_mean],
-      note: "See phase-space tab for trajectory topology"
     }
+  }
+}
+
+function psd(sig, dt){
+  const N = sig.length;
+  const Nf = npow2(N);
+  const re = new Array(Nf).fill(0);
+  const im = new Array(Nf).fill(0);
+
+  // Hann
+  for(let i=0;i<N;i++){
+    const w = 0.5*(1 - Math.cos(2*Math.PI*i/Math.max(1, N-1)));
+    re[i] = sig[i]*w;
+  }
+
+  fft(re, im);
+  const half = Nf>>1;
+  const p = new Array(half);
+  const f = new Array(half);
+  const df = 1/(Nf*dt);
+  const Fs = 1/dt;
+  for(let i=0;i<half;i++){
+    p[i] = (re[i]*re[i] + im[i]*im[i])/(Fs*Nf);
+    f[i] = i*df;
+  }
+  return {f,p};
+}
+
+let jdata = null;
+
+function regenerateJosephson(){
+  const g = parseFloat($('gamma').value);
+
+  // Γ drives T and γ
+  const TmK = 20 + 480*g;      // 20..500 mK
+  const gammaGHz = 0.2 + 6.0*g; // 0.2..6.2 GHz
+  const T = TmK * 1e-3; // K
+  const gamma = gammaGHz * 1e9; // Hz
+  const thetaDotMax = (8 + 12*g) * 1e9; // rad/s bounded
+
+  const kBT = kB*T;
+  const sigma = Math.sqrt(2*gamma*kBT/hbar);
+
+  const dur = 200e-9;
+  const dt = 1e-11;
+  const N = Math.floor(dur/dt);
+
+  const thetaDot = new Array(N);
+  thetaDot[0]=0;
+  const sqrtDt = Math.sqrt(dt);
+
+  // OU with tanh bounding
+  for(let i=1;i<N;i++){
+    const noise = sigma*(Math.random()*2 - 1)*sqrtDt;
+    const raw = thetaDot[i-1] - gamma*thetaDot[i-1]*dt + noise;
+    thetaDot[i] = thetaDotMax * Math.tanh(raw/thetaDotMax);
+  }
+
+  // Josephson relation V = (ħ/2e) * θdot
+  const Vfac = hbar/(2*eCharge);
+  const V = thetaDot.map(x=>x*Vfac);
+
+  const {f,p} = psd(V, dt);
+  const Sv = p.map(x=>x*1e18); // nV^2/Hz
+
+  // knee estimate: first drop below half of low-frequency level
+  let ki=1;
+  const lv = Sv[1] || 1;
+  for(let i=2;i<Sv.length;i++){
+    if(Sv[i] < 0.5*lv){ ki=i; break; }
+  }
+
+  jdata = {
+    f, Sv,
+    knee: f[ki],
+    TmK, gammaGHz,
+    kBT_meV: kBT/(eVJ*1e-3)
   };
 
-  downloadJSON(`stur_phi_audit_${new Date().toISOString().replace(/[:.]/g,'-')}.json`, out);
-  console.log("AUDIT EXPORTED:", out);
-}
-$("btnAudit").addEventListener("click", exportAudit);
+  $('m_Tmk').textContent = TmK.toFixed(1);
+  $('m_gGHz').textContent = gammaGHz.toFixed(2);
+  $('m_knee').textContent = (jdata.knee/1e9).toFixed(3) + " GHz";
+  $('m_kbt').textContent = jdata.kBT_meV.toFixed(4) + " meV";
 
-/* ===================== TAB 2: GEOMETRY ENGINE ===================== */
-const geoCanvas = $("geoCanvas");
-const gctx = geoCanvas.getContext("2d");
-
-const L0 = $("L0");
-const Rmax = $("Rmax");
-const showHeat = $("showHeat");
-const showForce = $("showForce");
-const showLcBlur = $("showLcBlur");
-
-let ball = {x:1.5, y:0.0};
-
-function kernel(u){
-  return Math.tanh(u) * (1 - Math.exp(-u));
+  drawJosephson();
 }
 
-function Vxy(x,y){
-  const rq = Number(RqMaster.value);
-  const l0 = Number(L0.value);
-  const r = Math.hypot(x,y);
-  const u = r / (l0 || 1e-9);
-  return Math.exp(-(rq * kernel(u)));
-}
+function drawJosephson(){
+  if(!jdata) return;
+  const canvas = $('jPlot');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width = 1000;
+  const H = canvas.height = 360;
+  ctx.fillStyle="#050813"; ctx.fillRect(0,0,W,H);
 
-function gradV(x,y){
-  const e = 1e-3 * (Number(Rmax.value) / 5);
-  const gx = (Vxy(x+e,y) - Vxy(x-e,y)) / (2*e);
-  const gy = (Vxy(x,y+e) - Vxy(x,y-e)) / (2*e);
-  return {gx, gy};
-}
+  const pad={l:70,r:30,t:30,b:45};
+  const x0=pad.l,x1=W-pad.r,y0=pad.t,y1=H-pad.b;
 
-function coherenceRadius(){
-  const rq = Number(RqMaster.value);
-  const l0 = Number(L0.value);
-  if (!(rq>1e-6)) return Infinity;
+  ctx.strokeStyle="rgba(255,255,255,.22)"; ctx.lineWidth=2; ctx.strokeRect(x0,y0,x1-x0,y1-y0);
 
-  const target = 1 / rq;
-  if (target >= 1) return Infinity;
+  const fm=1e6, fM=100e9;
+  const Sm=1e-6;
+  const filtered = jdata.Sv.filter((_,i)=>jdata.f[i]>=fm && jdata.f[i]<=fM && jdata.Sv[i]>Sm);
+  const SM = (filtered.length? Math.max(...filtered): 1) * 10;
 
-  let lo=0, hi=50;
-  for(let it=0; it<70; it++){
-    const mid=(lo+hi)/2;
-    if (kernel(mid) < target) lo=mid; else hi=mid;
-  }
-  return hi * l0;
-}
+  const mapX = f => x0 + (Math.log10(f)-Math.log10(fm))/(Math.log10(fM)-Math.log10(fm))*(x1-x0);
+  const mapY = s => y1 - (Math.log10(s)-Math.log10(Sm))/(Math.log10(SM)-Math.log10(Sm))*(y1-y0);
 
-function drawGeo(){
-  $("L0Val").textContent = Number(L0.value).toFixed(2);
-  $("RmaxVal").textContent = Number(Rmax.value).toFixed(2);
-
-  const w=geoCanvas.width, h=geoCanvas.height;
-  gctx.clearRect(0,0,w,h);
-  gctx.fillStyle="rgba(255,255,255,0.02)";
-  gctx.fillRect(0,0,w,h);
-
-  const cx=w/2, cy=h/2;
-  const rmax = Number(Rmax.value);
-  const sc = Math.min(w,h) * 0.42 / (rmax || 1);
-
-  // Heat map
-  if (showHeat.checked){
-    const step = 18;
-    for(let py=0; py<h; py+=step){
-      for(let px=0; px<w; px+=step){
-        const x = (px - cx) / sc;
-        const y = (cy - py) / sc;
-        const v = Vxy(x,y);
-        const a = Math.min(0.18, Math.max(0, (1-v)*0.22));
-        gctx.fillStyle = `rgba(96,165,250,${a})`;
-        gctx.fillRect(px,py,step,step);
-      }
+  // plot
+  ctx.strokeStyle="#60a5fa"; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  let first=true;
+  for(let i=0;i<jdata.f.length;i++){
+    const f=jdata.f[i], s=jdata.Sv[i];
+    if(f>=fm && f<=fM && s>Sm && s<SM){
+      const X=mapX(f), Y=mapY(s);
+      if(first){ctx.moveTo(X,Y); first=false;} else ctx.lineTo(X,Y);
     }
   }
+  ctx.stroke();
 
-  // Warped grid
-  gctx.strokeStyle="rgba(255,255,255,0.06)";
-  gctx.lineWidth=1;
-  const lines = 11;
-  for(let i=-lines; i<=lines; i++){
-    const gx = i * (rmax/lines);
-    gctx.beginPath();
-    for(let j=-lines; j<=lines; j+=0.2){
-      const gy = j * (rmax/lines);
-      const wv = Vxy(gx,gy);
-      const X = cx + (gx * wv) * sc;
-      const Y = cy - (gy * wv) * sc;
-      j===-lines ? gctx.moveTo(X,Y) : gctx.lineTo(X,Y);
-    }
-    gctx.stroke();
-
-    const gy2 = i * (rmax/lines);
-    gctx.beginPath();
-    for(let j=-lines; j<=lines; j+=0.2){
-      const gx2 = j * (rmax/lines);
-      const wv = Vxy(gx2,gy2);
-      const X = cx + (gx2 * wv) * sc;
-      const Y = cy - (gy2 * wv) * sc;
-      j===-lines ? gctx.moveTo(X,Y) : gctx.lineTo(X,Y);
-    }
-    gctx.stroke();
+  // knee marker
+  const kf = jdata.knee;
+  if(kf>fm && kf<fM){
+    ctx.strokeStyle="#fbbf24"; ctx.lineWidth=2;
+    ctx.setLineDash([8,4]);
+    const kx=mapX(kf);
+    ctx.beginPath(); ctx.moveTo(kx,y0); ctx.lineTo(kx,y1); ctx.stroke();
+    ctx.setLineDash([]);
   }
 
-  // Coherence horizon
-  const lc = coherenceRadius();
-  if (isFinite(lc)){
-    gctx.save();
-    gctx.setLineDash([8,8]);
-    gctx.strokeStyle="rgba(245,158,11,0.70)";
-    gctx.lineWidth=2;
-    gctx.beginPath();
-    gctx.arc(cx,cy, lc*sc, 0, Math.PI*2);
-    gctx.stroke();
-    gctx.restore();
-
-    // L_c blur overlay
-    if (showLcBlur.checked){
-      const grad = gctx.createRadialGradient(cx,cy,0, cx,cy,lc*sc);
-      grad.addColorStop(0, "rgba(245,158,11,0.08)");
-      grad.addColorStop(1, "rgba(245,158,11,0)");
-      gctx.fillStyle = grad;
-      gctx.fillRect(0,0,w,h);
-    }
-  }
-
-  // Particle
-  const px = cx + ball.x*sc;
-  const py = cy - ball.y*sc;
-
-  gctx.fillStyle = "#34d399";
-  gctx.beginPath();
-  gctx.arc(px,py,10,0,Math.PI*2);
-  gctx.fill();
-
-  gctx.strokeStyle="rgba(52,211,153,0.6)";
-  gctx.lineWidth=2;
-  gctx.beginPath();
-  gctx.arc(px,py,10,0,Math.PI*2);
-  gctx.stroke();
-
-  // Force vector
-  if (showForce.checked){
-    const g = gradV(ball.x, ball.y);
-    const fx = -g.gx, fy = -g.gy;
-    const mag = Math.hypot(fx,fy) || 1e-9;
-    const gain = 80;
-    const ax = px + (fx/mag)*gain;
-    const ay = py - (fy/mag)*gain;
-
-    gctx.strokeStyle="rgba(96,165,250,0.9)";
-    gctx.lineWidth=2.5;
-    gctx.beginPath();
-    gctx.moveTo(px,py);
-    gctx.lineTo(ax,ay);
-    gctx.stroke();
-
-    const ang = Math.atan2((py-ay),(ax-px));
-    gctx.fillStyle="rgba(96,165,250,0.95)";
-    gctx.beginPath();
-    gctx.moveTo(ax,ay);
-    gctx.lineTo(ax - 10*Math.cos(ang-0.4), ay + 10*Math.sin(ang-0.4));
-    gctx.lineTo(ax - 10*Math.cos(ang+0.4), ay + 10*Math.sin(ang+0.4));
-    gctx.closePath();
-    gctx.fill();
-  }
-
-  // Readouts
-  const r = Math.hypot(ball.x, ball.y);
-  const v = Vxy(ball.x, ball.y);
-  const g = gradV(ball.x, ball.y);
-  const lcNm = isFinite(lc) ? phiCoherenceLength(Number(RqMaster.value), deriveLambda_m(Number(Eev.value)))*1e9 : Infinity;
-
-  $("gXY").textContent = `${ball.x.toFixed(3)}, ${ball.y.toFixed(3)}`;
-  $("gR").textContent = r.toFixed(3);
-  $("gV").textContent = v.toFixed(6);
-  $("gGrad").textContent = `(${g.gx.toExponential(2)}, ${g.gy.toExponential(2)})`;
-  $("gLc").textContent = isFinite(lc) ? lc.toFixed(3) : "∞";
-  $("gLcNm").textContent = isFinite(lcNm) ? lcNm.toFixed(2) : "∞";
+  // labels
+  ctx.fillStyle="#94a3b8"; ctx.font="12px system-ui";
+  ctx.textAlign="center";
+  ctx.fillText("Frequency (Hz) [log]", (x0+x1)/2, H-16);
+  ctx.save();
+  ctx.translate(18,(y0+y1)/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText("S_V (nV²/Hz) [log]", 0, 0);
+  ctx.restore();
 }
 
-L0.addEventListener("input", drawGeo);
-Rmax.addEventListener("input", drawGeo);
-showHeat.addEventListener("change", drawGeo);
-showForce.addEventListener("change", drawGeo);
-showLcBlur.addEventListener("change", drawGeo);
-
-$("btnResetGeo").addEventListener("click", ()=>{
-  ball.x = 1.5; ball.y = 0.0;
-  drawGeo();
-});
-
-let dragging = false;
-function canvasToWorld(ev){
-  const rect = geoCanvas.getBoundingClientRect();
-  const w=geoCanvas.width, h=geoCanvas.height;
-  const cx=w/2, cy=h/2;
-  const rmax = Number(Rmax.value);
-  const sc = Math.min(w,h) * 0.42 / (rmax || 1);
-
-  const xCanvas = (ev.clientX - rect.left) * (w/rect.width);
-  const yCanvas = (ev.clientY - rect.top) * (h/rect.height);
-
-  const x = Math.max(-rmax, Math.min(rmax, (xCanvas - cx) / sc));
-  const y = Math.max(-rmax, Math.min(rmax, (cy - yCanvas) / sc));
-  return {x, y};
+// ================================================================
+// Black hole emission: Hawking thermal * (1 + 2|R| cos(2ωΔu))
+// (for visualization only; Γ→0 recovers thermal)
+// ================================================================
+function hawkingTemp(M){
+  return (hbar*c*c*c)/(8*Math.PI*G*M*kB); // K
 }
 
-geoCanvas.addEventListener("pointerdown", (ev)=>{
-  dragging = true;
-  geoCanvas.setPointerCapture(ev.pointerId);
-  const p = canvasToWorld(ev);
-  ball.x = p.x; ball.y = p.y;
-  drawGeo();
-});
-geoCanvas.addEventListener("pointermove", (ev)=>{
-  if(!dragging) return;
-  const p = canvasToWorld(ev);
-  ball.x = p.x; ball.y = p.y;
-  drawGeo();
-});
-geoCanvas.addEventListener("pointerup", (ev)=>{
-  dragging = false;
-  try{ geoCanvas.releasePointerCapture(ev.pointerId); }catch(_){}
-});
+function drawBH(){
+  const g = parseFloat($('gamma').value);
+  const M = parseFloat($('bhMass').value) * Msol;
+  const TH = hawkingTemp(M);
 
-/* ===================== TAB 3: φ-COHERENCE TIME EVOLUTION ===================== */
-const phiCanvas = $("phiCanvas");
-const phictx = phiCanvas.getContext("2d");
+  const R = gateReflectivity(g);
+  const du = gateDelayDu(g);
 
-function drawPhiPlot(){
-  const w = phiCanvas.width, h = phiCanvas.height;
-  phictx.clearRect(0,0,w,h);
+  $('m_TH').textContent = TH.toExponential(3) + " K";
+  $('m_gate').textContent = R.toFixed(3);
+  $('m_rip').textContent = (1/Math.max(1e-9, du)).toFixed(4) + " (1/Δu)";
+  $('m_weak').textContent = (g < 0.02 ? "Hawking" : "gated");
 
-  const padL=60, padR=20, padT=20, padB=40;
-  const x0=padL, x1=w-padR, y0=padT, y1=h-padB;
+  const canvas = $('bhPlot');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width = 1000;
+  const H = canvas.height = 360;
+  ctx.fillStyle="#050813"; ctx.fillRect(0,0,W,H);
 
-  phictx.fillStyle = "rgba(255,255,255,0.02)";
-  phictx.fillRect(0,0,w,h);
+  const pad={l:70,r:30,t:30,b:45};
+  const x0=pad.l,x1=W-pad.r,y0=pad.t,y1=H-pad.b;
+  ctx.strokeStyle="rgba(255,255,255,.22)"; ctx.lineWidth=2; ctx.strokeRect(x0,y0,x1-x0,y1-y0);
 
-  const mid = (y0 + y1) / 2;
-  
-  phictx.strokeStyle = "rgba(255,255,255,0.12)";
-  phictx.strokeRect(x0,y0,x1-x0,mid-y0-5);
-  phictx.strokeRect(x0,mid+5,x1-x0,y1-(mid+5));
+  // We'll plot vs dimensionless ω̂ in [0, 8] (arbitrary) to show shape + ripples
+  const N=600;
+  const w = new Array(N);
+  const n0 = new Array(N);
+  const ng = new Array(N);
 
-  phictx.strokeStyle = "rgba(255,255,255,0.06)";
-  for(let i=1;i<5;i++){
-    const xx = x0 + (x1-x0)*i/5;
-    phictx.beginPath(); phictx.moveTo(xx,y0); phictx.lineTo(xx,mid-5); phictx.stroke();
-    phictx.beginPath(); phictx.moveTo(xx,mid+5); phictx.lineTo(xx,y1); phictx.stroke();
+  // map "temperature scale" into a dimensionless axis for display:
+  // define x = ω / ωT where ωT = kB TH / ħ
+  const omegaT = (kB*TH)/hbar; // rad/s
+  // use x in [0.02, 8]
+  for(let i=0;i<N;i++){
+    const x = 0.02 + (8-0.02)*i/(N-1);
+    w[i]=x;
+    const occ = 1/(Math.exp(x)-1);
+    n0[i]=occ;
+    ng[i]=occ*(1 + 2*R*Math.cos(2*x*du*0.02)); // bounded ripple (scaled)
+    if(ng[i] < 0) ng[i]=0;
   }
 
-  phictx.fillStyle = "rgba(226,232,240,0.85)";
-  phictx.font = "11px monospace";
-  phictx.textAlign = "center";
-  phictx.fillText("Time", (x0+x1)/2, h-10);
-  
-  phictx.save();
-  phictx.translate(20, y0 + (mid-y0)/2);
-  phictx.rotate(-Math.PI/2);
-  phictx.fillText("Φ (geometric flux)", 0, 0);
-  phictx.restore();
-  
-  phictx.save();
-  phictx.translate(20, mid+5 + (y1-(mid+5))/2);
-  phictx.rotate(-Math.PI/2);
-  phictx.fillText("R* (STUR invariant)", 0, 0);
-  phictx.restore();
+  const ymax = Math.max(...n0)*1.05;
 
-  const tmin = PHI_SIM_DATA.time[0];
-  const tmax = PHI_SIM_DATA.time[PHI_SIM_DATA.time.length-1];
-  const mapX = (t)=> x0 + (t-tmin)/(tmax-tmin) * (x1-x0);
+  const mapX = x => x0 + (x-0.02)/(8-0.02)*(x1-x0);
+  const mapY = y => y1 - (y/ymax)*(y1-y0);
 
-  // Φ(t)
-  const phiMin = 1.0, phiMax = 1.65;
-  const mapPhiY = (phi)=> (mid-5) - ((phi-phiMin)/(phiMax-phiMin)) * ((mid-5)-y0);
-
-  phictx.strokeStyle = "#a78bfa";
-  phictx.lineWidth = 2;
-  phictx.beginPath();
-  PHI_SIM_DATA.time.forEach((t,i)=>{
-    const X = mapX(t), Y = mapPhiY(PHI_SIM_DATA.Phi[i]);
-    i===0 ? phictx.moveTo(X,Y) : phictx.lineTo(X,Y);
-  });
-  phictx.stroke();
-
-  phictx.setLineDash([6,6]);
-  phictx.strokeStyle = "rgba(255,255,255,0.8)";
-  phictx.lineWidth = 1.5;
-  phictx.beginPath();
-  const phiY = mapPhiY(PHI_GOLDEN);
-  phictx.moveTo(x0, phiY);
-  phictx.lineTo(x1, phiY);
-  phictx.stroke();
-  phictx.setLineDash([]);
-
-  // R*(t)
-  const rMin = 0.55, rMax = 1.15;
-  const mapRY = (r)=> y1 - ((r-rMin)/(rMax-rMin)) * (y1-(mid+5));
-
-  phictx.strokeStyle = "#34d399";
-  phictx.lineWidth = 2;
-  phictx.beginPath();
-  PHI_SIM_DATA.time.forEach((t,i)=>{
-    const X = mapX(t), Y = mapRY(PHI_SIM_DATA.Rstar[i]);
-    i===0 ? phictx.moveTo(X,Y) : phictx.lineTo(X,Y);
-  });
-  phictx.stroke();
-
-  phictx.setLineDash([6,6]);
-  phictx.strokeStyle = "rgba(0,255,255,0.7)";
-  phictx.lineWidth = 1.5;
-  phictx.beginPath();
-  const rOneY = mapRY(1.0);
-  phictx.moveTo(x0, rOneY);
-  phictx.lineTo(x1, rOneY);
-  phictx.stroke();
-  phictx.setLineDash([]);
-
-  $("phiRstarMean").textContent = PHI_SIM_DATA.stats.Rstar_mean.toFixed(3);
-  $("phiRstarStd").textContent = PHI_SIM_DATA.stats.Rstar_std.toFixed(3);
-  $("phiPhiMean").textContent = PHI_SIM_DATA.stats.Phi_mean.toFixed(3);
-}
-
-/* ===================== TAB 4: PHASE SPACE ===================== */
-const phaseCanvas = $("phaseCanvas");
-const phasectx = phaseCanvas.getContext("2d");
-
-function drawPhaseSpace(){
-  const w = phaseCanvas.width, h = phaseCanvas.height;
-  phasectx.clearRect(0,0,w,h);
-
-  const padL=70, padR=30, padT=30, padB=50;
-  const x0=padL, x1=w-padR, y0=padT, y1=h-padB;
-
-  phasectx.fillStyle = "rgba(255,255,255,0.02)";
-  phasectx.fillRect(0,0,w,h);
-
-  phasectx.strokeStyle = "rgba(255,255,255,0.12)";
-  phasectx.strokeRect(x0,y0,x1-x0,y1-y0);
-
-  // Grid
-  phasectx.strokeStyle = "rgba(255,255,255,0.06)";
-  for(let i=1;i<6;i++){
-    const xx = x0 + (x1-x0)*i/6;
-    phasectx.beginPath(); phasectx.moveTo(xx,y0); phasectx.lineTo(xx,y1); phasectx.stroke();
-    const yy = y0 + (y1-y0)*i/6;
-    phasectx.beginPath(); phasectx.moveTo(x0,yy); phasectx.lineTo(x1,yy); phasectx.stroke();
+  // thermal baseline
+  ctx.strokeStyle="rgba(96,165,250,.9)";
+  ctx.lineWidth=2.5;
+  ctx.beginPath();
+  for(let i=0;i<N;i++){
+    const X=mapX(w[i]), Y=mapY(n0[i]);
+    i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);
   }
+  ctx.stroke();
 
-  // Axes
-  phasectx.fillStyle = "rgba(226,232,240,0.85)";
-  phasectx.font = "13px monospace";
-  phasectx.textAlign = "center";
-  phasectx.fillText("Φ (geometric flux)", (x0+x1)/2, h-15);
-  
-  phasectx.save();
-  phasectx.translate(25, (y0+y1)/2);
-  phasectx.rotate(-Math.PI/2);
-  phasectx.fillText("R* (dynamic coherence)", 0, 0);
-  phasectx.restore();
+  // gated
+  ctx.strokeStyle="rgba(52,211,153,.95)";
+  ctx.lineWidth=2.5;
+  ctx.beginPath();
+  for(let i=0;i<N;i++){
+    const X=mapX(w[i]), Y=mapY(ng[i]);
+    i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);
+  }
+  ctx.stroke();
 
-  // Mapping
-  const phiMin = 1.05, phiMax = 1.60;
-  const rMin = 0.55, rMax = 1.15;
-  const mapX = (phi)=> x0 + (phi-phiMin)/(phiMax-phiMin) * (x1-x0);
-  const mapY = (r)=> y1 - (r-rMin)/(rMax-rMin) * (y1-y0);
+  // legend + labels
+  ctx.fillStyle="#94a3b8"; ctx.font="12px system-ui";
+  ctx.textAlign="center";
+  ctx.fillText("x = ω / (kB T_H / ħ)", (x0+x1)/2, H-16);
+  ctx.save();
+  ctx.translate(18,(y0+y1)/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText("Occupation n(ω) (arb.)", 0, 0);
+  ctx.restore();
 
-  // Ideal point (φ, 1)
-  phasectx.fillStyle = "rgba(255,255,255,0.6)";
-  phasectx.beginPath();
-  phasectx.arc(mapX(PHI_GOLDEN), mapY(1.0), 6, 0, Math.PI*2);
-  phasectx.fill();
-  phasectx.fillStyle = "rgba(255,255,255,0.85)";
-  phasectx.font = "11px monospace";
-  phasectx.textAlign = "left";
-  phasectx.fillText("Ideal (φ,1)", mapX(PHI_GOLDEN)+10, mapY(1.0)-8);
-
-  // Frustrated attractor
-  const centX = mapX(PHI_SIM_DATA.stats.Phi_mean);
-  const centY = mapY(PHI_SIM_DATA.stats.Rstar_mean);
-  phasectx.strokeStyle = "rgba(245,158,11,0.8)";
-  phasectx.lineWidth = 2;
-  phasectx.setLineDash([6,6]);
-  phasectx.beginPath();
-  phasectx.arc(centX, centY, 8, 0, Math.PI*2);
-  phasectx.stroke();
-  phasectx.setLineDash([]);
-  phasectx.fillStyle = "rgba(245,158,11,0.9)";
-  phasectx.fillText("Attractor", centX+12, centY-10);
-
-  // Trajectory
-  phasectx.strokeStyle = "#60a5fa";
-  phasectx.lineWidth = 2;
-  phasectx.beginPath();
-  PHI_SIM_DATA.Phi.forEach((phi,i)=>{
-    const X = mapX(phi), Y = mapY(PHI_SIM_DATA.Rstar[i]);
-    i===0 ? phasectx.moveTo(X,Y) : phasectx.lineTo(X,Y);
-  });
-  phasectx.stroke();
-
-  // Direction arrows
-  phasectx.fillStyle = "rgba(96,165,250,0.7)";
-  [5,15,25].forEach(idx=>{
-    if(idx >= PHI_SIM_DATA.Phi.length-1) return;
-    const x1 = mapX(PHI_SIM_DATA.Phi[idx]);
-    const y1 = mapY(PHI_SIM_DATA.Rstar[idx]);
-    const x2 = mapX(PHI_SIM_DATA.Phi[idx+1]);
-    const y2 = mapY(PHI_SIM_DATA.Rstar[idx+1]);
-    const ang = Math.atan2(y2-y1, x2-x1);
-    phasectx.beginPath();
-    phasectx.moveTo(x2,y2);
-    phasectx.lineTo(x2-8*Math.cos(ang-0.3), y2-8*Math.sin(ang-0.3));
-    phasectx.lineTo(x2-8*Math.cos(ang+0.3), y2-8*Math.sin(ang+0.3));
-    phasectx.closePath();
-    phasectx.fill();
-  });
-
-  // Stats
-  const spreadPhi = Math.sqrt(PHI_SIM_DATA.Phi.reduce((s,v)=> s + (v-PHI_SIM_DATA.stats.Phi_mean)**2, 0) / PHI_SIM_DATA.Phi.length);
-  const spreadR = Math.sqrt(PHI_SIM_DATA.Rstar.reduce((s,v)=> s + (v-PHI_SIM_DATA.stats.Rstar_mean)**2, 0) / PHI_SIM_DATA.Rstar.length);
-
-  $("phaseCentroid").textContent = `(${PHI_SIM_DATA.stats.Phi_mean.toFixed(3)}, ${PHI_SIM_DATA.stats.Rstar_mean.toFixed(3)})`;
-  $("phaseSpreadPhi").textContent = spreadPhi.toFixed(3);
-  $("phaseSpreadR").textContent = spreadR.toFixed(3);
+  ctx.textAlign="left";
+  ctx.fillStyle="#e2e8f0";
+  ctx.fillText("thermal (Hawking)", x0, y0-10);
+  ctx.fillStyle="#a7f3d0";
+  ctx.fillText(`gated (Γ=${g.toFixed(3)})`, x0+150, y0-10);
 }
 
-/* ===================== INIT ===================== */
-syncMaster();
-updateDiff();
-drawGeo();
-drawPhiPlot();
+// ================================================================
+// Master apply: one dial drives everything
+// ================================================================
+function applyMasterGamma(g){
+  // Sync UI
+  $('gamma').value = g.toFixed(3);
+  $('gammaN').value = g.toFixed(3);
+  $('gVal').textContent = g.toFixed(3);
+
+  // photon + horizon
+  drawPhotonPanel();
+
+  // diffraction
+  drawDoubleSlit();
+
+  // josephson
+  regenerateJosephson();
+
+  // BH spectrum
+  drawBH();
+}
+
+// ================================================================
+// Wiring
+// ================================================================
+function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+
+$('gamma').addEventListener('input', () => applyMasterGamma(parseFloat($('gamma').value)));
+$('gammaN').addEventListener('change', () => applyMasterGamma(clamp01(parseFloat($('gammaN').value) || 0)));
+
+$('bhMass').addEventListener('input', () => applyMasterGamma(parseFloat($('gamma').value)));
+
+$('energy').addEventListener('input', drawDoubleSlit);
+$('a_nm').addEventListener('input', drawDoubleSlit);
+$('d_nm').addEventListener('input', drawDoubleSlit);
+$('L_cm').addEventListener('input', drawDoubleSlit);
+
+// init
+applyMasterGamma(parseFloat($('gamma').value));
 </script>
-
 </body>
 </html>
