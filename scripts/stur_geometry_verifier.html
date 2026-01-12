@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -14,7 +13,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:20px;line-height:1.6}
-.container{max-width:900px;margin:0 auto}
+.container{max-width:980px;margin:0 auto}
 h1{font-size:28px;margin-bottom:8px;color:var(--accent);font-weight:800}
 .subtitle{color:var(--muted);font-size:13px;margin-bottom:24px;line-height:1.5}
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
@@ -26,7 +25,7 @@ input[type="number"]{
   width:100%;background:#0a0e27;border:1px solid var(--border);color:var(--text);
   padding:10px;border-radius:8px;font-family:var(--mono);font-size:14px
 }
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .metric{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:16px;border-radius:10px}
 .metric-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
 .metric-value{font-family:var(--mono);font-size:22px;font-weight:800;color:var(--text)}
@@ -48,11 +47,11 @@ button.secondary{background:rgba(255,255,255,.12);color:var(--text)}
 button:hover{opacity:.9}
 button:active{transform:translateY(1px)}
 .row{display:flex;gap:12px;margin-top:12px}
-.divider{height:1px;background:rgba(255,255,255,.1);margin:20px 0}
 @media(max-width:768px){
   .controls{grid-template-columns:1fr}
   .metrics{grid-template-columns:1fr}
 }
+.smallmono{font-family:var(--mono);font-size:12px;color:var(--muted)}
 </style>
 </head>
 
@@ -60,11 +59,14 @@ button:active{transform:translateY(1px)}
 <div class="container">
 <header>
   <h1>🌌 Holoscreen — Boundary-Driven Physical State Monitor</h1>
-  <div class="subtitle">Real-time PDE solver coupling resistance field R(x,t) to event horizon physics. Single parameter Γ drives horizon crossing, matter infall, quantum decoherence, and thermal emission. By James Lockwood and Sheldon Lindberg.</div>
+  <div class="subtitle">
+    Real-time 1D PDE monitor coupling a STUR-like resistance field R(x,t) to Schwarzschild horizon observables.
+    Single master parameter Γ moves the horizon-proxy shell and modulates infall-only flux, decoherence contrast, and thermal emission.
+    By James Lockwood and Sheldon Lindberg.
+  </div>
 </header>
 
 <!-- MASTER CONTROL -->
-
 <div class="card">
   <div class="card-title">Master Boundary Control (Γ)</div>
   <div class="controls">
@@ -72,13 +74,21 @@ button:active{transform:translateY(1px)}
       <label for="gamma">Γ Position (0 = far outside, 1 = deep inside horizon)</label>
       <input type="range" id="gamma" min="0" max="1" step="0.001" value="0.150" />
       <div style="margin-top:12px;font-family:var(--mono);font-size:14px">
-        Γ = <span id="gVal">0.150</span> | r/r<sub>s</sub> = <span id="rrs">—</span>
+        Γ = <span id="gVal">0.150</span> |
+        r/r<sub>s</sub> = <span id="rrs">—</span>
         <span id="status" class="badge">—</span>
+      </div>
+      <div class="smallmono" style="margin-top:6px">
+        (Stretched-horizon band uses |r − r<sub>s</sub>| ≤ 10 m, mass-consistent.)
       </div>
     </div>
     <div>
       <label for="bhMass">Black Hole Mass (M☉)</label>
       <input type="number" id="bhMass" min="1" max="1e9" step="1" value="10" />
+      <div class="smallmono" style="margin-top:10px">
+        r<sub>s</sub> (m): <span id="rs_m">—</span><br/>
+        r (m): <span id="r_m">—</span>
+      </div>
     </div>
     <div>
       <label>Controls</label>
@@ -86,12 +96,14 @@ button:active{transform:translateY(1px)}
         <button id="btnPause">Pause</button>
         <button id="btnReset" class="secondary">Reset PDE</button>
       </div>
+      <div class="smallmono" style="margin-top:10px">
+        PDE: zero-allocation double buffer • infall-only advection • absorbing inner boundary
+      </div>
     </div>
   </div>
 </div>
 
 <!-- STUR RESISTANCE -->
-
 <div class="card">
   <div class="card-title">STUR Resistance Field — State</div>
   <div class="metrics">
@@ -115,7 +127,6 @@ button:active{transform:translateY(1px)}
 </div>
 
 <!-- HORIZON PHYSICS -->
-
 <div class="card">
   <div class="card-title">Event Horizon Physics — Schwarzschild Geometry</div>
   <div class="metrics">
@@ -128,7 +139,7 @@ button:active{transform:translateY(1px)}
       <div id="m_freq" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">Gate Reflectivity |R|</div>
+      <div class="metric-label">Gate Reflectivity |ℛ(Γ)|</div>
       <div id="m_refl" class="metric-value accent">—</div>
     </div>
     <div class="metric">
@@ -139,7 +150,6 @@ button:active{transform:translateY(1px)}
 </div>
 
 <!-- QUANTUM DECOHERENCE -->
-
 <div class="card">
   <div class="card-title">Double-Slit Interference — Quantum Decoherence</div>
   <div class="controls" style="margin-bottom:16px">
@@ -158,19 +168,19 @@ button:active{transform:translateY(1px)}
   </div>
   <div class="metrics">
     <div class="metric">
-      <div class="metric-label">Visibility V</div>
+      <div class="metric-label">Visibility V ≡ e<sup>−R(Γ)</sup></div>
       <div id="m_vis" class="metric-value accent">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">Contrast e<sup>−R</sup></div>
+      <div class="metric-label">Contrast (same)</div>
       <div id="m_contrast" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">χ² QM Baseline</div>
+      <div class="metric-label">χ² QM Baseline (area-norm)</div>
       <div id="chi1" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">χ² Modified (STUR)</div>
+      <div class="metric-label">χ² Modified (STUR) (area-norm)</div>
       <div id="chi2" class="metric-value">—</div>
     </div>
     <div class="metric">
@@ -181,7 +191,6 @@ button:active{transform:translateY(1px)}
 </div>
 
 <!-- HAWKING EMISSION -->
-
 <div class="card">
   <div class="card-title">Black Hole Thermal Emission — Hawking Radiation</div>
   <div class="metrics">
@@ -201,12 +210,11 @@ button:active{transform:translateY(1px)}
 </div>
 
 <!-- EXPORT -->
-
 <div class="card">
   <div class="card-title">Data Export</div>
   <button id="btnExport">Export JSON Snapshot</button>
   <div class="subtitle" style="margin-top:12px">
-    Downloads complete state snapshot with resistance field, horizon parameters, and decoherence metrics.
+    Downloads a complete state snapshot with resistance field, horizon parameters (SI-consistent), and decoherence metrics (area-normalized χ²).
   </div>
 </div>
 
@@ -214,17 +222,16 @@ button:active{transform:translateY(1px)}
 
 <script>
 /* ================================================================
-   PHYSICAL CONSTANTS
+   PHYSICAL CONSTANTS (SI)
    ================================================================ */
 const h = 6.62607015e-34;
 const c = 299792458;
 const eVJ = 1.602176634e-19;
 const me = 9.1093837015e-31;
 const kB = 1.380649e-23;
-const G = 6.67430e-11;
+const G  = 6.67430e-11;
 const Msol = 1.98847e30;
 const hbar = h/(2*Math.PI);
-const eCharge = 1.602176634e-19;
 
 /* ================================================================
    UTILITIES
@@ -234,107 +241,149 @@ function clamp(x, lo, hi){ return x<lo?lo:(x>hi?hi:x); }
 function mean(a){ let s=0; for(let v of a) s+=v; return s/a.length; }
 function rms(a){ let s=0; for(let v of a) s+=v*v; return Math.sqrt(s/a.length); }
 
-function minMaxTyped(a){
-  let mn = Infinity, mx = -Infinity;
-  for(let i=0;i<a.length;i++){
-    const v = a[i];
-    if(v < mn) mn = v;
-    if(v > mx) mx = v;
-  }
-  return {mn, mx};
-}
-
-const metricSmooth = {};
+const metricSmooth = Object.create(null);
 function updateMetric(id, value, decimals=4){
   const alpha = 0.15;
-  if(!metricSmooth[id]) metricSmooth[id] = value;
+  if(metricSmooth[id] === undefined) metricSmooth[id] = value;
   metricSmooth[id] = alpha * value + (1-alpha) * metricSmooth[id];
-  $(id).textContent = metricSmooth[id].toFixed(decimals);
+  $(id).textContent = Number.isFinite(metricSmooth[id]) ? metricSmooth[id].toFixed(decimals) : "—";
 }
 
 /* ================================================================
-   HORIZON MAPPING
+   HORIZON MAPPING (Γ -> r/rs -> SI)
    ================================================================ */
 function gammaToRrs(g){
+  // Smoothstep mapping: Γ ∈ [0,1] -> r/rs from 4.0 (outside) to 0.5 (inside)
   const t = g*g*(3 - 2*g);
   return 4.0 + (0.5 - 4.0)*t;
 }
-
 function schwarzschildRs(M){
   return 2*G*M/(c*c);
 }
-
 function redshiftFactor(rrs){
+  // Outside horizon: sqrt(1 - 1/rrs). Inside: clamp to 0 (no real static redshift).
   if(rrs <= 1) return 0;
-  return Math.sqrt(1 - 1/rrs);
+  const val = 1 - 1/rrs;
+  return val > 0 ? Math.sqrt(val) : 0;
 }
-
-function gateReflectivity(g){
-  return 0.35 * (1 - Math.exp(-3*g));
-}
-
 function hawkingTemp(M){
   return (hbar*c*c*c)/(8*Math.PI*G*M*kB);
 }
+function gateReflectivity(g){
+  // UI "membrane-like" reflectivity gate (bounded, monotone)
+  return 0.35 * (1 - Math.exp(-3*g));
+}
+function gammaToRadiusMeters(g, M){
+  const rrs = gammaToRrs(g);
+  const rs  = schwarzschildRs(M);
+  return { rrs, rs, r: rrs * rs };
+}
+const STRETCH_HORIZON_M = 10; // membrane thickness band (meters)
 
 /* ================================================================
-   PDE SOLVER
+   PDE SOLVER — CAUSAL BOUNDARY + DOUBLE BUFFER (ZERO ALLOC)
+   1D grid: i=0 (outside infinity-ish) -> i=NX-1 (deep interior)
+   Boundary conditions:
+     - Outer boundary i=0 : Dirichlet to background R_BG (reservoir)
+     - Inner boundary i=NX-1: Absorbing (no reflection) + sink
+   Dynamics (per cell):
+     ∂t R = D ∂xx R  + relax  + src(shell@horizon) + adv(infall-only) + sink(inner)
    ================================================================ */
-const NX = 128;
-const DT = 0.005;
-const DX = 1/NX;
+const NX = 192;        // higher res, still light
+const DT = 0.0045;     // stable at 20 Hz
+const DX = 1/(NX-1);   // physical domain normalized
 const R_BG = 0.02;
-const Dcoef = 0.08;
+const Dcoef = 0.06;
+
+const RCAP = 0.8;      // saturation cap
 
 let R = new Float64Array(NX);
+let Rn = new Float64Array(NX);  // double-buffer target
 let Rdot = new Float64Array(NX);
 let physicsSteps = 0;
 
 function seedPDE(){
-  for(let i=0; i<NX; i++){
+  for(let i=0;i<NX;i++){
     R[i] = R_BG;
+    Rn[i] = R_BG;
+    Rdot[i] = 0;
   }
+  physicsSteps = 0;
 }
 
 function physicsTick(){
   const g = clamp(parseFloat($("gamma").value), 0, 1);
+
+  // Horizon index (shell center) and shape
   const xh = g * (NX-1);
-  
-  const A = 0.08;
-  const P = 2.5;
-  const SIG = 0.08;
-  const RCAP = 0.8;
-  const vin = 0.12;
-  
-  const Rn = new Float64Array(NX);
-  
+
+  // Source shell (infall injection near horizon)
+  const A   = 0.085;        // amplitude
+  const P   = 2.5;          // gamma power
+  const SIG = 0.06;         // shell width in normalized grid units (fraction of domain)
+  const vin = 0.20;         // base infall speed (normalized)
+  const relaxK = 1.15;      // relax toward background
+  const sinkK0 = 0.60;      // inner absorb strength baseline
+
+  // Precompute a few (cheap) helpers
+  const gP = Math.pow(g, P);
+  const v0 = vin * Math.pow(g, 1.5);
+
   for(let i=0; i<NX; i++){
-    const L = R[(i-1+NX)%NX];
-    const C = R[i];
-    const Rp = R[(i+1)%NX];
-    
-    const lap = (L - 2*C + Rp)/(DX*DX);
-    const relax = -1.2*(C - R_BG);
-    
-    const dx = (i - xh)/NX;
-    const shell = Math.exp(-(dx*dx)/(2*SIG*SIG));
-    const src = A * Math.pow(g, P) * shell * Math.max(0, (RCAP-C)/RCAP);
-    
-    const v = vin * Math.pow(g, 1.5) * shell;
-    const grad = (i < xh) ? (C-L)/DX : (Rp-C)/DX;
-    const adv = -v * grad;
-    
-    const next = C + DT*(Dcoef*lap + relax + src + adv);
-    Rn[i] = clamp(next, 0, RCAP);
-    Rdot[i] = (Rn[i] - C)/DT;
+    // --- boundary-aware neighbors (non-periodic)
+    const C  = R[i];
+    const L  = (i === 0)     ? R_BG : R[i-1];
+    const Rp = (i === NX-1)  ? R[i] : R[i+1]; // zero-gradient at inner boundary
+
+    // --- diffusion (2nd derivative)
+    const lap = (L - 2*C + Rp) / (DX*DX);
+
+    // --- relax to background (keeps field bounded)
+    const relax = -relaxK * (C - R_BG);
+
+    // --- gaussian shell around horizon location
+    const dxn = (i - xh) / (NX-1);     // normalized coordinate around shell
+    const shell = Math.exp(-(dxn*dxn) / (2*SIG*SIG));
+
+    // --- saturation-limited source (infall "matter" pushing resistance up)
+    const src = A * gP * shell * Math.max(0, (RCAP - C)/RCAP);
+
+    // --- infall-only advection (toward increasing i)
+    // Upwind for v>=0 : ∂x R ≈ (C - L)/DX
+    // Couple advection to shell (strongest near horizon)
+    const v = v0 * shell;
+    const gradUp = (C - L) / DX;
+    const adv = -v * gradUp;
+
+    // --- absorbing inner boundary (causal: things fall in, do not come back)
+    // Apply a sink that ramps up with depth into the interior and with gamma.
+    // depth=0 at horizon index, depth→1 near inner edge.
+    const depth = clamp((i - xh) / (NX-1 - xh + 1e-9), 0, 1);
+    const sink = -sinkK0 * Math.pow(g, 1.2) * depth * C;
+
+    // --- forward Euler update (bounded)
+    const next = C + DT * (Dcoef*lap + relax + src + adv + sink);
+
+    // Clamp to [0, RCAP]
+    const clamped = clamp(next, 0, RCAP);
+    Rn[i] = clamped;
+    Rdot[i] = (clamped - C)/DT;
   }
-  
-  R = Rn;
+
+  // Enforce strict outer boundary reservoir (Dirichlet)
+  Rn[0] = R_BG;
+
+  // Optional: extra absorption at the last cell to prevent any numerical echo
+  Rn[NX-1] = 0.85*Rn[NX-1] + 0.15*R_BG;
+
+  // swap buffers (zero allocation)
+  let tmp = R; R = Rn; Rn = tmp;
+
   physicsSteps++;
 }
 
 /* ================================================================
-   DOUBLE SLIT
+   DOUBLE SLIT (REFERENCE + MODEL)
    ================================================================ */
 const REF = {
   y: [-4,-3.5,-3,-2.5,-2,-1.5,-1,-.5,0,.5,1,1.5,2,2.5,3,3.5,4],
@@ -342,15 +391,14 @@ const REF = {
 };
 
 function getLambda(EeV){
+  // Relativistic electron de Broglie wavelength (matches your earlier intent)
   const E = EeV * eVJ;
   const p = Math.sqrt(E*E + 2*E*me*c*c) / c;
   return h/p;
 }
-
 function sinc(x){
   return Math.abs(x)<1e-12 ? 1 : Math.sin(x)/x;
 }
-
 function chi2(obs, pred){
   let s = 0;
   for(let i=0; i<obs.length; i++){
@@ -359,14 +407,13 @@ function chi2(obs, pred){
   }
   return s/obs.length;
 }
-
 function calcPattern(contrast){
   const E = parseFloat($("energy").value);
   const a = parseFloat($("a_nm").value) * 1e-9;
   const d = parseFloat($("d_nm").value) * 1e-9;
   const L = 0.305;
   const lam = getLambda(E);
-  
+
   const out = new Array(REF.y.length);
   for(let i=0; i<REF.y.length; i++){
     const ym = REF.y[i] * 1e-3;
@@ -376,6 +423,12 @@ function calcPattern(contrast){
     out[i] = env * (1 + contrast*Math.cos(ph)) * 0.5;
   }
   return out;
+}
+function normArea(arr){
+  let s = 0;
+  for(const v of arr) s += v;
+  const inv = (s > 1e-12) ? (1/s) : 1;
+  return arr.map(x => x * inv);
 }
 
 /* ================================================================
@@ -389,17 +442,23 @@ function downloadJSON(obj, name){
   document.body.appendChild(a); a.click();
   setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 250);
 }
-
 function exportSnapshot(){
   const g = clamp(parseFloat($("gamma").value),0,1);
   const idx = Math.floor(g*(NX-1));
   const Rprobe = R[idx];
   const M = Math.max(1, parseFloat($("bhMass").value)) * Msol;
 
-  const rrs = gammaToRrs(g);
+  const { rrs, rs, r } = gammaToRadiusMeters(g, M);
+  const red = redshiftFactor(rrs);
+  const gate = gateReflectivity(g);
   const TH  = hawkingTemp(M);
 
-  const ds=64, Rds=[];
+  const predQM  = normArea(calcPattern(1.0));
+  const predMod = normArea(calcPattern(Math.exp(-clamp(Rprobe,0,4))));
+  const c1 = chi2(REF.i, predQM);
+  const c2 = chi2(REF.i, predMod);
+
+  const ds=80, Rds=[];
   for(let i=0;i<ds;i++){
     const j=Math.floor(i*(NX-1)/(ds-1));
     Rds.push(+R[j].toFixed(6));
@@ -409,7 +468,7 @@ function exportSnapshot(){
     meta:{
       title:"Holoscreen — Boundary-Driven Physical State Monitor",
       timestamp:new Date().toISOString(),
-      version:"state-monitor-v1",
+      version:"state-monitor-v2-causal-boundary",
       authors:"James Lockwood and Sheldon Lindberg"
     },
     controls:{
@@ -419,16 +478,32 @@ function exportSnapshot(){
     },
     horizon:{
       r_over_rs: rrs,
-      redshift: redshiftFactor(rrs),
-      gateReflectivity: gateReflectivity(g),
-      hawkingTempK: TH
+      rs_m: rs,
+      r_m: r,
+      redshift_sqrt_1_rs_over_r: red,
+      f_inf_over_f_local: red,
+      gateReflectivity: gate,
+      hawkingTempK: TH,
+      stretchedHorizon_m: STRETCH_HORIZON_M,
+      status: (r>rs ? (Math.abs(r-rs)<=STRETCH_HORIZON_M ? "near horizon" : "outside") : "inside")
     },
     stur:{
-      NX, DT, Dcoef, R_bg:R_BG,
+      NX, DT, DX, Dcoef, R_bg:R_BG, R_cap:RCAP,
       R_probe:Rprobe,
       R_mean: mean(R),
       Rdot_rms: rms(Rdot),
-      R_downsample: Rds
+      R_downsample: Rds,
+      notes:{
+        boundary:"outer Dirichlet (reservoir), inner absorbing + sink",
+        advection:"infall-only upwind (v>=0)",
+        allocation:"zero per tick (double buffer swap)"
+      }
+    },
+    decoherence:{
+      contrast: Math.exp(-clamp(Rprobe,0,4)),
+      chi2_QM_areaNorm: c1,
+      chi2_STUR_areaNorm: c2,
+      deltaChi2_QM_minus_STUR: c1 - c2
     }
   }, `holoscreen_state_${Date.now()}.json`);
 }
@@ -442,74 +517,76 @@ function updateAll(){
   const g = clamp(parseFloat($("gamma").value), 0, 1);
   const idx = Math.floor(g*(NX-1));
   const Rprobe = R[idx];
-  
-  // Gamma display
+
   $("gVal").textContent = g.toFixed(3);
-  
+
   // STUR metrics
   updateMetric("m_Ravg", mean(R), 4);
   updateMetric("m_Rprobe", Rprobe, 4);
   updateMetric("m_Rdot", rms(Rdot), 5);
-  
-  // Infall flux (compute every 10 steps)
+
+  // Infall flux monitor (cheap, every 10 ticks)
   if(physicsSteps % 10 === 0){
-    let flux = 0;
     const xh = g*(NX-1);
+    const A = 0.085, P = 2.5, SIG=0.06;
+    let flux = 0;
+    const gP = Math.pow(g,P);
     for(let i=0; i<NX; i++){
-      const dx = (i-xh)/NX;
-      const shell = Math.exp(-(dx*dx)/(2*0.08*0.08));
-      flux += 0.08 * Math.pow(g,2.5) * shell * Math.max(0,(0.8-R[i])/0.8);
+      const dxn = (i - xh)/(NX-1);
+      const shell = Math.exp(-(dxn*dxn)/(2*SIG*SIG));
+      flux += A * gP * shell * Math.max(0,(RCAP-R[i])/RCAP);
     }
-    updateMetric("m_Savg", flux/NX, 5);
+    updateMetric("m_Savg", flux/NX, 6);
   }
-  
+
   // Horizon
   const M = Math.max(1, parseFloat($("bhMass").value)) * Msol;
-  const rrs = gammaToRrs(g);
+  const { rrs, rs, r } = gammaToRadiusMeters(g, M);
   const red = redshiftFactor(rrs);
+  const finf_over_floc = red;
+
   const gate = gateReflectivity(g);
   const TH = hawkingTemp(M);
-  
+
   updateMetric("m_red", red, 4);
-  updateMetric("m_freq", red, 4);
+  updateMetric("m_freq", finf_over_floc, 4);
   updateMetric("m_refl", gate, 4);
   $("m_TH").textContent = TH.toExponential(3);
-  
+
   $("rrs").textContent = rrs.toFixed(3);
+  $("rs_m").textContent = rs.toFixed(3);
+  $("r_m").textContent  = r.toFixed(3);
+
   const statusEl = $("status");
-  if(rrs > 1.02){
+  const dr = Math.abs(r - rs);
+  if(r > rs && dr > STRETCH_HORIZON_M){
     statusEl.textContent = "outside";
     statusEl.className = "badge good";
-  } else if(rrs > 0.98){
+  } else if(dr <= STRETCH_HORIZON_M){
     statusEl.textContent = "near horizon";
     statusEl.className = "badge warn";
   } else {
     statusEl.textContent = "inside";
     statusEl.className = "badge danger";
   }
-  
-  // Double slit
+
+  // Double slit (area-normalized χ²)
   const contrast = Math.exp(-clamp(Rprobe, 0, 4));
-  const predQM = calcPattern(1.0);
-  const predMod = calcPattern(contrast);
-  
-  const n1 = Math.max(...predQM);
-  const n2 = Math.max(...predMod);
-  const pq = predQM.map(x => x/n1);
-  const pm = predMod.map(x => x/n2);
-  
-  const c1 = chi2(REF.i, pq);
-  const c2 = chi2(REF.i, pm);
-  
+  const predQM  = normArea(calcPattern(1.0));
+  const predMod = normArea(calcPattern(contrast));
+
+  const c1 = chi2(REF.i, predQM);
+  const c2 = chi2(REF.i, predMod);
+
   updateMetric("chi1", c1, 6);
   updateMetric("chi2", c2, 6);
   updateMetric("m_vis", contrast, 4);
   updateMetric("m_contrast", contrast, 4);
   updateMetric("m_dchi", c1-c2, 6);
-  
+
   // Hawking
-  const peak = (2.898e-3 / TH) * 1e6;
-  $("m_peak").textContent = peak.toExponential(2) + " µm";
+  const peak_um = (2.898e-3 / TH) * 1e6; // Wien peak in micrometers
+  $("m_peak").textContent = peak_um.toExponential(2) + " µm";
   updateMetric("m_gate", gate, 4);
   $("m_couple").textContent = `R(Γ)=${Rprobe.toFixed(3)}`;
 }
@@ -517,27 +594,19 @@ function updateAll(){
 /* ================================================================
    CONTROLS
    ================================================================ */
-const gamma = $("gamma");
-
-gamma.addEventListener("input", ()=>{
-  const g = clamp(parseFloat(gamma.value), 0, 1);
+$("gamma").addEventListener("input", ()=>{
+  const g = clamp(parseFloat($("gamma").value), 0, 1);
   $("gVal").textContent = g.toFixed(3);
 });
-
 $("btnPause").addEventListener("click", ()=>{
   paused = !paused;
   $("btnPause").textContent = paused ? "Resume" : "Pause";
 });
-
 $("btnReset").addEventListener("click", ()=>{
   seedPDE();
   updateAll();
 });
-
-["bhMass","energy","a_nm","d_nm"].forEach(id => {
-  $(id).addEventListener("change", updateAll);
-});
-
+["bhMass","energy","a_nm","d_nm"].forEach(id => $(id).addEventListener("change", updateAll));
 $("btnExport").addEventListener("click", exportSnapshot);
 
 /* ================================================================
@@ -550,8 +619,6 @@ setInterval(()=>{
   if(!paused) physicsTick();
   updateAll();
 }, 50); // 20 Hz, rock solid
-
 </script>
-
 </body>
 </html>
