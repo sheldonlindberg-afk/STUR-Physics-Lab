@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Holoscreen Unified Simulator — STUR × Horizon (Massive / Accurate)</title>
+<title>Holoscreen Unified Simulator — STUR × Horizon (Massive / Accurate • Lite Load)</title>
 <style>
 :root{
   --bg:#0a0e27;--card:#141b3d;--border:#1f2d5c;--text:#e2e8f0;--muted:#94a3b8;
@@ -77,11 +77,13 @@ summary{cursor:pointer;font-weight:900;color:var(--muted);font-size:12px;text-tr
 <body>
 <div class="container">
 <header>
-  <h1>🌌 Holoscreen Unified Simulator — STUR × Event Horizon (Massive / Accurate)</h1>
+  <h1>🌌 Holoscreen Unified Simulator — STUR × Event Horizon (Massive / Accurate • Lite Load)</h1>
   <div class="subtitle">One Γ dial drives: STUR PDE R(x,t,χ) • matter infall source S(x,Γ,R) • horizon crossing • double-slit audit • Josephson PSD knee • Hawking spectrum (bounded gate) • ADM-sector hyperbolic mixing (ε)</div>
   <div class="subtitle">By James Lockwood and Sheldon Lindberg</div>
+  <div class="subtitle"><span class="badge good">Lite-load</span> keeps all panels + coupling but caps heavy loops, debounces Josephson, and draws at a stable low FPS.</div>
 </header>
 
+<!-- ===================== MASTER / GLOBAL ===================== -->
 <div class="card">
   <div class="card-title">Master Boundary Dial Γ (one knob for everything)</div>
   <div class="controls">
@@ -103,6 +105,14 @@ summary{cursor:pointer;font-weight:900;color:var(--muted);font-size:12px;text-tr
       <label for="bhMass">Black Hole Mass (M☉)</label>
       <input type="number" id="bhMass" min="1" max="1e9" step="1" value="10" aria-label="Black Hole Mass" />
       <small class="muted">Sets rₛ and Hawking temperature.</small>
+    </div>
+    <div>
+      <label>Run controls</label>
+      <div class="row">
+        <button id="btnPause">Pause</button>
+        <button id="btnStep" class="secondary">Step</button>
+      </div>
+      <small class="muted">Pause lowers iOS load; Step advances one physics tick.</small>
     </div>
     <div>
       <label>Export audit snapshot</label>
@@ -148,6 +158,24 @@ summary{cursor:pointer;font-weight:900;color:var(--muted);font-size:12px;text-tr
         <input type="number" id="chi0" step="0.01" value="0.55" aria-label="χ Coupling χ₀" />
         <small class="muted">Adds χ-feedback term (R−R_bg)/Lχ.</small>
       </div>
+      <div>
+        <label for="liteNX">PDE resolution (NX)</label>
+        <select id="liteNX" aria-label="PDE resolution">
+          <option value="120">120 (fast)</option>
+          <option value="160" selected>160 (balanced)</option>
+          <option value="240">240 (heavy)</option>
+        </select>
+        <small class="muted">Changing NX resets PDE.</small>
+      </div>
+      <div>
+        <label for="drawFPS">Draw FPS cap</label>
+        <select id="drawFPS" aria-label="Draw FPS">
+          <option value="12">12 FPS (iOS safe)</option>
+          <option value="18" selected>18 FPS</option>
+          <option value="30">30 FPS</option>
+        </select>
+        <small class="muted">Physics runs separately from drawing.</small>
+      </div>
     </div>
     <div class="note good">
       <b>Matter infall source term (bounded, non-linear):</b>
@@ -157,6 +185,7 @@ summary{cursor:pointer;font-weight:900;color:var(--muted);font-size:12px;text-tr
   </details>
 </div>
 
+<!-- ===================== ADM ===================== -->
 <div class="card">
   <div class="card-title">ADM Sector Metric (±) + Hyperbolic Effective Mixing (ε actuator)</div>
 
@@ -223,6 +252,7 @@ g^eff_{μν} = cosh(ε(x)) g^(+)_{μν} + sinh(ε(x)) g^(−)_{μν}
   </div>
 </div>
 
+<!-- ===================== PDE ===================== -->
 <div class="card">
   <div class="card-title">STUR PDE — Resistance Field R(x,t,χ) (diffusion + drift + χ feedback + non-linear infall source)</div>
   <canvas id="pdePlot" class="canvas" aria-label="STUR PDE Plot"></canvas>
@@ -262,6 +292,7 @@ g^eff_{μν} = cosh(ε(x)) g^(+)_{μν} + sinh(ε(x)) g^(−)_{μν}
   </div>
 </div>
 
+<!-- ===================== DOUBLE SLIT ===================== -->
 <div class="card">
   <div class="card-title">Double-Slit Audit — dataset-locked (Bach-like geometry) + χ² comparison</div>
   <div class="controls">
@@ -296,23 +327,36 @@ g^eff_{μν} = cosh(ε(x)) g^(+)_{μν} + sinh(ε(x)) g^(−)_{μν}
   </div>
 </div>
 
+<!-- ===================== JOSEPHSON ===================== -->
 <div class="card">
   <div class="card-title">Josephson Voltage Noise — bounded OU dynamics + PSD (Γ → T,γ), with STUR coupling through R_probe</div>
   <div class="controls">
     <div>
       <label for="j_dur_ns">Duration (ns)</label>
-      <input type="number" id="j_dur_ns" value="200" step="20" aria-label="Duration in ns" />
-      <small class="muted">Longer = smoother PSD.</small>
+      <input type="number" id="j_dur_ns" value="120" step="20" aria-label="Duration in ns" />
+      <small class="muted">Lite-load caps samples.</small>
     </div>
     <div>
       <label for="j_dt_ps">dt (ps)</label>
-      <input type="number" id="j_dt_ps" value="0.01" step="0.01" aria-label="dt in ps" />
-      <small class="muted">Smaller dt = wider bandwidth.</small>
+      <input type="number" id="j_dt_ps" value="0.02" step="0.01" aria-label="dt in ps" />
+      <small class="muted">Larger dt = fewer samples.</small>
+    </div>
+    <div>
+      <label for="j_capN">Max samples cap</label>
+      <select id="j_capN" aria-label="Josephson max samples">
+        <option value="2048">2048 (fast)</option>
+        <option value="4096" selected>4096 (balanced)</option>
+        <option value="8192">8192 (heavy)</option>
+      </select>
+      <small class="muted">Keeps FFT bounded.</small>
     </div>
     <div>
       <label>Recompute PSD</label>
-      <button id="btnJ">Regenerate Josephson</button>
-      <small class="muted">Auto-updates when Γ changes (throttled).</small>
+      <div class="row">
+        <button id="btnJ">Regenerate Josephson</button>
+        <button id="btnJAuto" class="secondary">Auto: OFF</button>
+      </div>
+      <small class="muted">Auto OFF by default (prevents iOS stalls).</small>
     </div>
   </div>
 
@@ -330,6 +374,7 @@ g^eff_{μν} = cosh(ε(x)) g^(+)_{μν} + sinh(ε(x)) g^(−)_{μν}
   </div>
 </div>
 
+<!-- ===================== BH EMISSION ===================== -->
 <div class="card">
   <div class="card-title">Black Hole Emission — Hawking thermal baseline + bounded gate ripples</div>
   <canvas id="bhPlot" class="canvas" aria-label="Black Hole Emission Plot"></canvas>
@@ -350,10 +395,10 @@ g^eff_{μν} = cosh(ε(x)) g^(+)_{μν} + sinh(ε(x)) g^(−)_{μν}
 
 <script>
 /* ================================================================
-   HiDPI Canvas Manager (kills iOS/Safari “vertical barcode” artifacts)
+   HiDPI Canvas Manager (iOS/Safari safe)
    ================================================================ */
 const CAN = new Map();
-const DPR = Math.max(1, Math.min(4, window.devicePixelRatio || 1));
+let DPR = Math.max(1, Math.min(3, window.devicePixelRatio || 1)); // cap DPR harder for iOS load
 
 function regCanvas(id){
   const c = document.getElementById(id);
@@ -370,7 +415,7 @@ function resizeCanvasEntry(ent){
   ent.w = w; ent.h = h;
   ent.c.width  = Math.floor(w * DPR);
   ent.c.height = Math.floor(h * DPR);
-  ent.ctx.setTransform(DPR,0,0,DPR,0,0);
+  ent.ctx.setTransform(DPR,0,0,DPR,0,0); // draw in CSS pixels
   ent.ctx.imageSmoothingEnabled = true;
 }
 function resizeAllCanvases(){ for(const ent of CAN.values()) resizeCanvasEntry(ent); }
@@ -382,8 +427,8 @@ function getCanvas(id){
 }
 ["pdePlot","chiPlot","photonPlot","dsPlot","jPlot","bhPlot","admPlot"].forEach(regCanvas);
 resizeAllCanvases();
-window.addEventListener("resize", resizeAllCanvases);
-window.addEventListener("orientationchange", ()=> setTimeout(resizeAllCanvases, 250));
+window.addEventListener("resize", ()=>{ DPR=Math.max(1,Math.min(3,window.devicePixelRatio||1)); resizeAllCanvases(); });
+window.addEventListener("orientationchange", ()=> setTimeout(()=>{ DPR=Math.max(1,Math.min(3,window.devicePixelRatio||1)); resizeAllCanvases(); }, 250));
 
 /* ================================================================
    Helpers / DOM
@@ -421,6 +466,10 @@ function drawLine(ctx, pts, mapX, mapY){
   }
   ctx.stroke();
 }
+function debounce(fn, ms){
+  let t=null;
+  return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), ms); };
+}
 
 /* ================================================================
    Shared Γ wiring
@@ -448,8 +497,8 @@ const Msol = 1.98847e30;
    Horizon mapping Γ -> r/rs and gate functions
    ================================================================ */
 function gammaToRrs(g){
-  const t = g*g*(3 - 2*g);
-  return 4.0 + (0.5 - 4.0)*t;
+  const t = g*g*(3 - 2*g);      // smoothstep
+  return 4.0 + (0.5 - 4.0)*t;   // 4 -> 0.5
 }
 function schwarzschildRs(M){ return 2*G*M/(c*c); }
 function redshiftFactor(rrs){
@@ -461,15 +510,15 @@ function tortoiseRstar(r, rs){
   const x = Math.abs(r/rs - 1);
   return r + rs*Math.log(Math.max(1e-15,x));
 }
-function gateReflectivity(g){ return 0.35 * (1 - Math.exp(-3*g)); }
-function gateDelayDu(g){ return 60 * g; }
+function gateReflectivity(g){ return 0.35 * (1 - Math.exp(-3*g)); } // bounded
+function gateDelayDu(g){ return 60 * g; }                           // bounded
 
 /* ================================================================
-   STUR PDE (1D ring) — diffusion + inward drift + χ feedback + infall source
+   STUR PDE — lite-load adaptive sizing (keeps same physics)
    ================================================================ */
-const NX = 240;
-let DT = 0.0075;
-const DX = 1/NX;
+let NX = 160;
+let DT = 0.009;                 // slightly larger dt for fewer ticks
+let DX = 1/NX;
 
 const R_BG = 0.02;
 let Dcoef = 0.15;
@@ -479,12 +528,19 @@ let R = new Float64Array(NX);
 let Rdot = new Float64Array(NX);
 
 function seedPDE(){
+  R = new Float64Array(NX);
+  Rdot = new Float64Array(NX);
   for(let i=0;i<NX;i++){
     const n = (Math.random()-0.5)*0.06;
     R[i] = R_BG + n;
   }
 }
-seedPDE();
+function setNX(n){
+  NX = n|0;
+  DX = 1/NX;
+  seedPDE();
+}
+setNX(parseInt($("liteNX").value,10));
 
 function getInfallParams(){
   const A   = parseFloat($("srcA").value);
@@ -495,13 +551,14 @@ function getInfallParams(){
   const chi0= parseFloat($("chi0").value);
   return {A,P,SIG,RCAP,vin,chi0};
 }
-
 function buildChiSlice(Rprobe){
-  const N=220, out=new Array(N);
+  const N=180; // reduce a bit
+  const out=new Array(N);
+  const L = Math.max(1e-6, LX);
   for(let i=0;i<N;i++){
     const chi = i/(N-1);
-    const val = R_BG + (Rprobe - R_BG) * Math.exp(-chi/Math.max(1e-6,LX));
-    out[i]={x:chi, y:val};
+    const val = R_BG + (Rprobe - R_BG) * Math.exp(-chi/L);
+    out[i]=val;
   }
   return out;
 }
@@ -510,9 +567,11 @@ function buildChiSlice(Rprobe){
    Double-slit dataset (reference points)
    ================================================================ */
 const EPIN = 600;
-const LPIN = 5.006411794e-11;
-const REF = { y:[-4,-3.5,-3,-2.5,-2,-1.5,-1,-.5,0,.5,1,1.5,2,2.5,3,3.5,4],
-              i:[.04,.08,.15,.32,.55,.78,.92,.98,1,.98,.92,.78,.55,.32,.15,.08,.04] };
+const LPIN = 5.006411794e-11; // pinned de Broglie for 600 eV (m)
+const REF = {
+  y:[-4,-3.5,-3,-2.5,-2,-1.5,-1,-.5,0,.5,1,1.5,2,2.5,3,3.5,4],
+  i:[.04,.08,.15,.32,.55,.78,.92,.98,1,.98,.92,.78,.55,.32,.15,.08,.04]
+};
 function getLambda(EeV){
   if(Number(EeV) === EPIN) return LPIN;
   const E = EeV * eVJ;
@@ -540,7 +599,7 @@ function calcPattern(contrast){
 }
 
 /* ================================================================
-   Josephson PSD (bounded OU) — FFT
+   Josephson PSD (bounded OU) — FFT (bounded hard)
    ================================================================ */
 function npow2(n){ return 1 << Math.ceil(Math.log2(Math.max(1,n))); }
 function fft(re, im){
@@ -549,7 +608,10 @@ function fft(re, im){
     let bit=n>>1;
     for(; j & bit; bit>>=1) j^=bit;
     j^=bit;
-    if(i<j){ [re[i],re[j]]=[re[j],re[i]]; [im[i],im[j]]=[im[j],im[i]]; }
+    if(i<j){
+      [re[i],re[j]]=[re[j],re[i]];
+      [im[i],im[j]]=[im[j],im[i]];
+    }
   }
   for(let len=2; len<=n; len<<=1){
     const ang=-2*Math.PI/len;
@@ -570,15 +632,20 @@ function fft(re, im){
   }
 }
 function psd(sig, dt){
-  const N=sig.length, Nf=npow2(N);
-  const re=new Array(Nf).fill(0), im=new Array(Nf).fill(0);
+  const N=sig.length;
+  const Nf=npow2(N);
+  const re=new Array(Nf).fill(0);
+  const im=new Array(Nf).fill(0);
   for(let i=0;i<N;i++){
-    const w=0.5*(1 - Math.cos(2*Math.PI*i/Math.max(1,N-1)));
+    const w=0.5*(1 - Math.cos(2*Math.PI*i/Math.max(1,N-1))); // Hann
     re[i]=sig[i]*w;
   }
   fft(re, im);
-  const half=Nf>>1, p=new Array(half), f=new Array(half);
-  const df=1/(Nf*dt), Fs=1/dt;
+  const half=Nf>>1;
+  const p=new Array(half);
+  const f=new Array(half);
+  const df=1/(Nf*dt);
+  const Fs=1/dt;
   for(let i=0;i<half;i++){
     p[i]=(re[i]*re[i]+im[i]*im[i])/(Fs*Nf);
     f[i]=i*df;
@@ -586,9 +653,12 @@ function psd(sig, dt){
   return {f,p};
 }
 let jdata=null;
+let josephsonAuto=false;
 
 function regenerateJosephson(Rprobe){
+  // HARD CAP WORK
   const g = clamp(parseFloat(gamma.value),0,1);
+
   const TmK0 = 20 + 480*g;
   const gammaGHz0 = 0.2 + 6.0*g;
 
@@ -603,21 +673,26 @@ function regenerateJosephson(Rprobe){
 
   const dur = Math.max(20, parseFloat($("j_dur_ns").value))*1e-9;
   const dt  = Math.max(1e-13, parseFloat($("j_dt_ps").value))*1e-12;
-  const N   = Math.max(512, Math.floor(dur/dt));
+  let N     = Math.max(512, Math.floor(dur/dt));
 
-  const thetaDotMax = (8 + 12*g)*1e9;
+  const capN = parseInt($("j_capN").value,10) || 4096;
+  N = Math.min(N, capN);
+
+  const thetaDotMax = (8 + 12*g)*1e9;                 // bounded
   const sigma = Math.sqrt(Math.max(0,2*gam*kB*T/hbar));
   const sqrtDt = Math.sqrt(dt);
 
-  const th=new Array(N); th[0]=0;
+  const th = new Array(N);
+  th[0]=0;
   for(let i=1;i<N;i++){
     const noise = sigma*(Math.random()*2-1)*sqrtDt;
     const raw = th[i-1] - gam*th[i-1]*dt + noise;
     th[i] = thetaDotMax*Math.tanh(raw/thetaDotMax);
   }
+
   const V = th.map(x=>x*hbar/(2*eCharge));
   let vr=0; for(const v of V) vr+=v*v;
-  const Vrms = Math.sqrt(vr/V.length)*1e9;
+  const Vrms = Math.sqrt(vr/V.length)*1e9;            // nV
 
   const {f,p} = psd(V,dt);
   const Sv = p.map(x=>x*1e18);
@@ -628,13 +703,14 @@ function regenerateJosephson(Rprobe){
   let ki=2;
   for(let i=2;i<Sv.length;i++){ if(Sv[i]<0.5*base){ ki=i; break; } }
 
-  jdata={f,Sv,knee:f[ki],TmK,gammaGHz,Vrms,kbt_meV:(kB*T/eVJ)*1e3, dampBoost, tempBoost};
+  jdata={f,Sv,knee:f[ki],TmK,gammaGHz,Vrms,kbt_meV:(kB*T/eVJ)*1e3, dampBoost, tempBoost, N, dt};
   $("m_Tmk").textContent=TmK.toFixed(1);
   $("m_gGHz").textContent=gammaGHz.toFixed(3);
   $("m_knee").textContent=(jdata.knee/1e9).toFixed(3)+" GHz";
   $("m_kbt").textContent=jdata.kbt_meV.toFixed(4);
   $("m_vrms").textContent=Vrms.toFixed(2);
-  $("m_jcouple").textContent=`damp×${dampBoost.toFixed(2)}, temp×${tempBoost.toFixed(2)}`;
+  $("m_jcouple").textContent=`damp×${dampBoost.toFixed(2)}, temp×${tempBoost.toFixed(2)} (N=${N})`;
+
   drawJosephson();
 }
 function drawJosephson(){
@@ -643,13 +719,14 @@ function drawJosephson(){
   ctx.clearRect(0,0,w,h);
   const pad={l:60,r:20,t:20,b:40};
   const box=drawAxes(ctx,w,h,pad,"f (GHz)","PSD (a.u.)");
-  if(!jdata) return;
+  if(!jdata){ return; }
 
   const f=jdata.f, Sv=jdata.Sv;
   const maxF = Math.min(f.length-1, Sv.length-1);
+
   let xmax=0;
   for(let i=1;i<maxF;i++){ if(f[i]>20e9){ xmax=i; break; } }
-  if(xmax===0) xmax=maxF-1;
+  if(xmax===0) xmax=Math.max(2,maxF-1);
 
   let ymin=1e99,ymax=-1e99;
   for(let i=1;i<=xmax;i++){
@@ -658,7 +735,11 @@ function drawJosephson(){
   }
   if(ymax-ymin<1e-6){ ymax=ymin+1e-6; }
 
-  const mapX=i=> box.x0 + ((f[i]/1e9)/(f[xmax]/1e9))*(box.x1-box.x0);
+  const fxMaxGHz = (f[xmax]/1e9) || 1;
+  const mapX=i=>{
+    const x = (f[i]/1e9)/fxMaxGHz;
+    return box.x0 + clamp(x,0,1)*(box.x1-box.x0);
+  };
   const mapYv=y=> box.y1 - (y-ymin)/(ymax-ymin)*(box.y1-box.y0);
 
   ctx.strokeStyle="#60a5fa"; ctx.lineWidth=2.5;
@@ -671,7 +752,7 @@ function drawJosephson(){
   ctx.stroke();
 
   const fk = jdata.knee/1e9;
-  const Xk = box.x0 + clamp(fk/(f[xmax]/1e9),0,1)*(box.x1-box.x0);
+  const Xk = box.x0 + clamp(fk/fxMaxGHz,0,1)*(box.x1-box.x0);
   ctx.strokeStyle="rgba(251,191,36,.8)"; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(Xk,box.y0); ctx.lineTo(Xk,box.y1); ctx.stroke();
 }
@@ -680,9 +761,10 @@ function drawJosephson(){
    ADM sector computation + draw ε(x)
    ================================================================ */
 function computeADM(Rprobe){
+  const g = clamp(parseFloat(gamma.value),0,1);
   const eps =
     parseFloat($("eps0").value) +
-    parseFloat($("epsG").value)*(2*clamp(parseFloat(gamma.value),0,1)-1) +
+    parseFloat($("epsG").value)*(2*g-1) +
     parseFloat($("epsR").value)*(Rprobe-R_BG);
 
   const beta0 = -parseFloat($("betaWarp").value);
@@ -711,12 +793,14 @@ function computeADM(Rprobe){
   $("m_Geff").textContent=Geff.toFixed(4);
   $("m_g00").textContent=g00.toFixed(4);
   $("m_admCouple").textContent="Γ + R_probe";
+
   return {eps,Neff,Beff,Geff,g00};
 }
 function drawADM(Rarr){
   const ent=getCanvas("admPlot"); if(!ent) return;
   const {ctx,w,h}=ent;
   ctx.clearRect(0,0,w,h);
+
   const pad={l:60,r:20,t:20,b:40};
   const box=drawAxes(ctx,w,h,pad,"x","ε(x)");
 
@@ -726,8 +810,12 @@ function drawADM(Rarr){
   const g=clamp(parseFloat(gamma.value),0,1);
 
   let ymin=1e9,ymax=-1e9;
-  const epsArr=Rarr.map(Rx=>eps0 + eG*(2*g-1) + eR*(Rx-R_BG));
-  for(const v of epsArr){ ymin=Math.min(ymin,v); ymax=Math.max(ymax,v); }
+  const epsArr=new Array(Rarr.length);
+  for(let i=0;i<Rarr.length;i++){
+    const v = eps0 + eG*(2*g-1) + eR*(Rarr[i]-R_BG);
+    epsArr[i]=v;
+    ymin=Math.min(ymin,v); ymax=Math.max(ymax,v);
+  }
   if(ymax-ymin<1e-6){ ymax=ymin+1e-6; }
 
   const mapX=i=>box.x0+(i/(Rarr.length-1))*(box.x1-box.x0);
@@ -754,6 +842,7 @@ function drawPDE(Rarr){
   const ent=getCanvas("pdePlot"); if(!ent) return;
   const {ctx,w,h}=ent;
   ctx.clearRect(0,0,w,h);
+
   const pad={l:60,r:20,t:20,b:40};
   const box=drawAxes(ctx,w,h,pad,"x","R");
 
@@ -768,7 +857,10 @@ function drawPDE(Rarr){
 
   ctx.strokeStyle="rgba(148,163,184,.35)";
   ctx.lineWidth=1.5;
-  ctx.beginPath(); ctx.moveTo(box.x0,mapY(R_BG)); ctx.lineTo(box.x1,mapY(R_BG)); ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(box.x0,mapY(R_BG));
+  ctx.lineTo(box.x1,mapY(R_BG));
+  ctx.stroke();
 
   ctx.strokeStyle="#34d399"; ctx.lineWidth=2.5;
   ctx.beginPath();
@@ -789,30 +881,38 @@ function drawPDE(Rarr){
   $("m_Rprobe").textContent=Rarr[idx].toFixed(4);
   $("m_Lx").textContent=LX.toFixed(3);
 
+  // infall stats (still computed, but lighter)
   const {A,P,SIG,RCAP,vin}=getInfallParams();
   const xh=g*(NX-1);
   let ssum=0, vsum=0;
-  for(let i=0;i<NX;i++){
+  const stride = Math.max(1, Math.floor(NX/120)); // reduce cost if NX bigger
+  for(let i=0;i<NX;i+=stride){
     const dx=(i-xh)/NX;
     const shell=Math.exp(-(dx*dx)/(2*SIG*SIG));
     const src=A*Math.pow(g,P)*shell*Math.max(0,(RCAP-Rarr[i])/RCAP);
     const v=vin*Math.pow(g,1.2)*shell;
     const L=Rarr[(i-1+NX)%NX], C=Rarr[i], Rp=Rarr[(i+1)%NX];
     const grad=(i<xh)?(C-L)/DX:(Rp-C)/DX;
-    ssum+=src; vsum+=Math.abs(v*grad);
+    ssum+=src;
+    vsum+=Math.abs(v*grad);
   }
-  $("m_Savg").textContent=(ssum/NX).toFixed(5);
-  $("m_Vadv").textContent=(vsum/NX).toFixed(5);
+  const norm = Math.max(1, Math.floor(NX/stride));
+  $("m_Savg").textContent=(ssum/norm).toFixed(5);
+  $("m_Vadv").textContent=(vsum/norm).toFixed(5);
 }
 
+/* ================================================================
+   χ plot draw
+   ================================================================ */
 function drawChiSlice(Rprobe){
   const ent=getCanvas("chiPlot"); if(!ent) return;
   const {ctx,w,h}=ent;
   ctx.clearRect(0,0,w,h);
+
   const pad={l:60,r:20,t:20,b:40};
   const box=drawAxes(ctx,w,h,pad,"χ","R(χ)");
 
-  const pts=buildChiSlice(Rprobe).map(o=>o.y);
+  const pts=buildChiSlice(Rprobe);
   let ymin=1e9,ymax=-1e9;
   for(const v of pts){ ymin=Math.min(ymin,v); ymax=Math.max(ymax,v); }
   ymin=Math.min(ymin, R_BG-0.05);
@@ -830,10 +930,14 @@ function drawChiSlice(Rprobe){
   ctx.beginPath(); ctx.moveTo(box.x0,mapY(R_BG)); ctx.lineTo(box.x1,mapY(R_BG)); ctx.stroke();
 }
 
+/* ================================================================
+   Photon / horizon panel
+   ================================================================ */
 function drawPhotonPanel(){
   const ent=getCanvas("photonPlot"); if(!ent) return;
   const {ctx,w,h}=ent;
   ctx.clearRect(0,0,w,h);
+
   const pad={l:60,r:20,t:20,b:40};
   const box=drawAxes(ctx,w,h,pad,"Γ","gate / redshift");
 
@@ -860,7 +964,8 @@ function drawPhotonPanel(){
   $("m_refl").textContent = refl.toFixed(4);
   $("m_hflag").textContent = (rrs>1? "r>rs" : "r≤rs");
 
-  const N=260;
+  // draw small profiles vs Γ (reduced points)
+  const N=160;
   const zArr=new Array(N);
   const rArr=new Array(N);
   for(let i=0;i<N;i++){
@@ -869,17 +974,24 @@ function drawPhotonPanel(){
     zArr[i]=Math.min(1, redshiftFactor(rr));
     rArr[i]=gateReflectivity(gg);
   }
+
   const mapX=i=>box.x0+(i/(N-1))*(box.x1-box.x0);
   const mapY=y=>box.y1-(y-0)/(1-0)*(box.y1-box.y0);
 
   ctx.strokeStyle="#34d399"; ctx.lineWidth=2.5;
   ctx.beginPath();
-  for(let i=0;i<N;i++){ const X=mapX(i),Y=mapY(zArr[i]); if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
+  for(let i=0;i<N;i++){
+    const X=mapX(i),Y=mapY(zArr[i]);
+    if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+  }
   ctx.stroke();
 
   ctx.strokeStyle="#fb7185"; ctx.lineWidth=2.5;
   ctx.beginPath();
-  for(let i=0;i<N;i++){ const X=mapX(i),Y=mapY(rArr[i]); if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
+  for(let i=0;i<N;i++){
+    const X=mapX(i),Y=mapY(rArr[i]);
+    if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+  }
   ctx.stroke();
 
   const Xp = box.x0 + g*(box.x1-box.x0);
@@ -887,6 +999,9 @@ function drawPhotonPanel(){
   ctx.beginPath(); ctx.moveTo(Xp,box.y0); ctx.lineTo(Xp,box.y1); ctx.stroke();
 }
 
+/* ================================================================
+   Double-slit draw + metrics
+   ================================================================ */
 function drawDoubleSlit(Rprobe){
   const ent=getCanvas("dsPlot"); if(!ent) return;
   const {ctx,w,h}=ent;
@@ -909,11 +1024,14 @@ function drawDoubleSlit(Rprobe){
   const predQM=calcPattern(1.0);
   const predMod=calcPattern(contrast);
 
+  // normalize peaks
   const n1=Math.max(...predQM), n2=Math.max(...predMod);
   const pq=predQM.map(x=>x/Math.max(1e-12,n1));
   const pm=predMod.map(x=>x/Math.max(1e-12,n2));
 
-  const c1=chi2(REF.i,pq), c2=chi2(REF.i,pm);
+  const c1=chi2(REF.i,pq);
+  const c2=chi2(REF.i,pm);
+
   $("chi1").textContent=c1.toFixed(6);
   $("chi2").textContent=c2.toFixed(6);
   $("m_dchi").textContent=(c1-c2).toFixed(6);
@@ -927,7 +1045,7 @@ function drawDoubleSlit(Rprobe){
   ctx.fillStyle="rgba(255,255,255,.75)";
   for(let i=0;i<ys.length;i++){
     const X=mapXy(ys[i]), Y=mapYI(REF.i[i]);
-    ctx.beginPath(); ctx.arc(X,Y,3.2,0,2*Math.PI); ctx.fill();
+    ctx.beginPath(); ctx.arc(X,Y,3.0,0,2*Math.PI); ctx.fill();
   }
 
   ctx.strokeStyle="rgba(148,163,184,.75)"; ctx.lineWidth=2.0;
@@ -947,11 +1065,17 @@ function drawDoubleSlit(Rprobe){
   ctx.stroke();
 }
 
-function hawkingTempK(M){ return (hbar*c*c*c)/(8*Math.PI*G*M*kB); }
+/* ================================================================
+   Hawking emission (shape-only, normalized) + gate ripples
+   ================================================================ */
+function hawkingTempK(M){
+  return (hbar*c*c*c)/(8*Math.PI*G*M*kB);
+}
 function drawBH(Rprobe){
   const ent=getCanvas("bhPlot"); if(!ent) return;
   const {ctx,w,h}=ent;
   ctx.clearRect(0,0,w,h);
+
   const pad={l:60,r:20,t:20,b:40};
   const box=drawAxes(ctx,w,h,pad,"x (scaled energy)","Φ (norm)");
 
@@ -969,21 +1093,28 @@ function drawBH(Rprobe){
   $("m_weak").textContent = (g<0.02 ? "thermal" : "thermal + gated");
   $("m_bhcouple").textContent = `gate×${gate.toFixed(3)}, R_probe=${Rprobe.toFixed(3)}`;
 
-  const N=260, xArr=new Array(N), yArr=new Array(N), base=new Array(N);
-  let ymax=-1e99, bmax=-1e99;
+  const N=180; // reduce points
+  const xArr=new Array(N);
+  const base=new Array(N);
+  let bmax=-1e99;
   for(let i=0;i<N;i++){
     const x = 0.05 + 8.0*(i/(N-1));
     xArr[i]=x;
-    base[i]=(x*x*x)/(Math.exp(x)-1 + 1e-12);
-    bmax=Math.max(bmax,base[i]);
+    const th = (x*x*x)/(Math.exp(x)-1 + 1e-12);
+    base[i]=th;
+    bmax=Math.max(bmax,th);
   }
+
+  const yArr=new Array(N);
+  let ymax=-1e99;
   for(let i=0;i<N;i++){
     const x=xArr[i];
     const thermal = base[i]/Math.max(1e-12,bmax);
     const modAmp = gate*(0.25 + 0.55*clamp(Rprobe,0,1));
     const rippleTerm = 1 + modAmp*Math.sin(2*Math.PI*ripple*x);
-    yArr[i]=Math.max(0, thermal*rippleTerm);
-    ymax=Math.max(ymax,yArr[i]);
+    const y = Math.max(0, thermal*rippleTerm);
+    yArr[i]=y;
+    ymax=Math.max(ymax,y);
   }
   for(let i=0;i<N;i++) yArr[i]/=Math.max(1e-12,ymax);
 
@@ -991,14 +1122,17 @@ function drawBH(Rprobe){
   const mapX=i=>box.x0+((xArr[i]-xmin)/(xmax-xmin))*(box.x1-box.x0);
   const mapY=y=>box.y1-((y-0)/(1.05-0))*(box.y1-box.y0);
 
+  // baseline
   ctx.strokeStyle="rgba(148,163,184,.65)"; ctx.lineWidth=2.0;
   ctx.beginPath();
   for(let i=0;i<N;i++){
-    const X=mapX(i), Y=mapY(base[i]/Math.max(1e-12,bmax));
+    const y=base[i]/Math.max(1e-12,bmax);
+    const X=mapX(i), Y=mapY(y);
     if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
   }
   ctx.stroke();
 
+  // gated
   ctx.strokeStyle="#fb7185"; ctx.lineWidth=2.5;
   ctx.beginPath();
   for(let i=0;i<N;i++){
@@ -1008,6 +1142,9 @@ function drawBH(Rprobe){
   ctx.stroke();
 }
 
+/* ================================================================
+   Export snapshot
+   ================================================================ */
 function downloadJSON(obj, name){
   const blob=new Blob([JSON.stringify(obj,null,2)],{type:"application/json"});
   const url=URL.createObjectURL(blob);
@@ -1026,22 +1163,26 @@ function exportSnapshot(){
   const TH = hawkingTempK(M);
   const adm=computeADM(Rprobe);
 
-  const ds=60, Rds=[];
+  // downsample PDE for file size
+  const ds=60;
+  const Rds=[];
   for(let i=0;i<ds;i++){
     const j=Math.floor(i*(NX-1)/(ds-1));
     Rds.push(+R[j].toFixed(6));
   }
+
   downloadJSON({
     meta:{
-      title:"Holoscreen Unified Simulator — STUR × Horizon",
+      title:"Holoscreen Unified Simulator — STUR × Horizon (Lite Load)",
       timestamp:new Date().toISOString(),
-      version:"massive-accurate-singlefile-v1",
+      version:"massive-accurate-lite-v2",
       authors:"James Lockwood and Sheldon Lindberg"
     },
     controls:{
       gamma:g,
       bhMass_Msol: Math.max(1, parseFloat($("bhMass").value)),
       infall:getInfallParams(),
+      pde:{NX,DT,Dcoef,LX},
       adm:{
         betaWarp:+$("betaWarp").value,
         eps0:+$("eps0").value, epsG:+$("epsG").value, epsR:+$("epsR").value,
@@ -1050,7 +1191,9 @@ function exportSnapshot(){
       doubleSlit:{
         energy_eV:+$("energy").value, a_nm:+$("a_nm").value, d_nm:+$("d_nm").value, L_cm:+$("L_cm").value, contrastMode:$("contrastMode").value
       },
-      josephson:{dur_ns:+$("j_dur_ns").value, dt_ps:+$("j_dt_ps").value}
+      josephson:{
+        dur_ns:+$("j_dur_ns").value, dt_ps:+$("j_dt_ps").value, capN:+$("j_capN").value, auto:josephsonAuto
+      }
     },
     horizon:{
       rs_m: rs,
@@ -1061,7 +1204,7 @@ function exportSnapshot(){
       hawkingTempK: TH
     },
     stur:{
-      R_bg:R_BG, Dcoef, LX, DT, NX,
+      R_bg:R_BG,
       R_probe:Rprobe,
       R_mean:mean(R),
       Rdot_rms:rms(Rdot),
@@ -1070,41 +1213,63 @@ function exportSnapshot(){
     adm_probe: adm,
     josephson: jdata ? {
       TmK:jdata.TmK, gammaGHz:jdata.gammaGHz, kneeHz:jdata.knee, Vrms_nV:jdata.Vrms, kbt_meV:jdata.kbt_meV,
-      dampBoost:jdata.dampBoost, tempBoost:jdata.tempBoost
-    } : null
+      dampBoost:jdata.dampBoost, tempBoost:jdata.tempBoost, N:jdata.N, dt_s:jdata.dt
+    } : null,
+    bh_density_STUR: 1
   }, `stur_holoscreen_snapshot_${Date.now()}.json`);
 }
 
-let frame=0;
-function step(){
-  frame++;
-  const g=clamp(parseFloat(gamma.value)||0,0,1);
-  gVal.textContent=g.toFixed(3);
+/* ================================================================
+   Core physics tick (PDE only) — separated from drawing
+   ================================================================ */
+let paused=false;
 
+function physicsTick(){
+  const g=clamp(parseFloat(gamma.value)||0,0,1);
   const {A,P,SIG,RCAP,vin,chi0}=getInfallParams();
   const xh=g*(NX-1);
+
   const Rn=new Float64Array(NX);
 
+  // optional: stride update when NX is big (keeps physics stable)
+  // (we do full update; NX is already capped by selector)
   for(let i=0;i<NX;i++){
     const L=R[(i-1+NX)%NX], C=R[i], Rp=R[(i+1)%NX];
     const lap=(L-2*C+Rp)/(DX*DX);
 
+    // mild relaxation to background (stability, not tuning)
     const relax = -0.5*(C-R_BG);
-    const chiTerm = chi0*(C-R_BG)/LX;
 
+    // 5D feedback term ∂R/∂χ ≈ (R−R_bg)/Lχ  (encoded as source-like term)
+    const chiTerm = chi0*(C-R_BG)/Math.max(1e-6,LX);
+
+    // bounded infall source near horizon shell
     const dx=(i-xh)/NX;
     const shell=Math.exp(-(dx*dx)/(2*SIG*SIG));
     const src=A*Math.pow(g,P)*shell*Math.max(0,(RCAP-C)/RCAP);
 
+    // inward drift (Γ-gated)
     const v=vin*Math.pow(g,1.2)*shell;
     const grad=(i<xh)?(C-L)/DX:(Rp-C)/DX;
     const adv=-v*grad;
 
     const next = C + DT*(Dcoef*lap + relax + chiTerm + src + adv);
-    Rn[i]=clamp(next,-0.25,RCAP);
-    Rdot[i]=Rn[i]-C;
+    const clamped = clamp(next,-0.25,RCAP);
+    Rn[i]=clamped;
+    Rdot[i]=clamped-C;
   }
   R=Rn;
+}
+
+/* ================================================================
+   Draw loop (FPS capped)
+   ================================================================ */
+let lastDraw=0;
+let drawIntervalMs=1000/18;
+
+function drawAll(){
+  const g=clamp(parseFloat(gamma.value)||0,0,1);
+  gVal.textContent=g.toFixed(3);
 
   const idx=Math.floor(g*(NX-1));
   const Rprobe=R[idx];
@@ -1116,25 +1281,83 @@ function step(){
   drawBH(Rprobe);
   drawADM(R);
   computeADM(Rprobe);
-
-  if(frame%40===0) regenerateJosephson(Rprobe);
-  requestAnimationFrame(step);
 }
 
+function rafLoop(ts){
+  if(!lastDraw) lastDraw=ts;
+  if(ts-lastDraw >= drawIntervalMs){
+    lastDraw=ts;
+    drawAll();
+  }
+  requestAnimationFrame(rafLoop);
+}
+
+/* ================================================================
+   Scheduler: physics runs at fixed tick (cheap); drawing is capped
+   ================================================================ */
+let physTimer=null;
+function startPhysics(){
+  stopPhysics();
+  // 40 Hz physics; cheap and stable on iOS
+  physTimer=setInterval(()=>{ if(!paused) physicsTick(); }, 25);
+}
+function stopPhysics(){
+  if(physTimer){ clearInterval(physTimer); physTimer=null; }
+}
+
+/* ================================================================
+   Wiring + boot
+   ================================================================ */
 function applyGamma(v){
   const g=clamp(v,0,1);
   gamma.value=g.toFixed(3);
   gammaN.value=g.toFixed(3);
+  // optional: auto josephson (debounced)
+  if(josephsonAuto) debouncedAutoJ();
 }
 gamma.addEventListener("input",()=>applyGamma(parseFloat(gamma.value)));
 gammaN.addEventListener("change",()=>applyGamma(parseFloat(gammaN.value)));
 
 $("btnReset").onclick=()=>{ seedPDE(); };
 $("btnExport").onclick=()=>{ exportSnapshot(); };
-$("btnJ").onclick=()=>{ 
-  const g=clamp(parseFloat(gamma.value),0,1);
-  regenerateJosephson(R[Math.floor(g*(NX-1))]);
+
+$("btnPause").onclick=()=>{
+  paused=!paused;
+  $("btnPause").textContent = paused ? "Resume" : "Pause";
+  setBadge(statusEl, paused ? "paused" : statusEl.textContent, paused ? "warn" : statusEl.className.split(" ").pop());
 };
+
+$("btnStep").onclick=()=>{
+  if(!paused) return;
+  physicsTick();
+  drawAll();
+};
+
+$("liteNX").addEventListener("change", ()=>{
+  const n=parseInt($("liteNX").value,10);
+  setNX(n);
+  drawAll();
+});
+
+$("drawFPS").addEventListener("change", ()=>{
+  const fps=parseInt($("drawFPS").value,10);
+  drawIntervalMs = 1000/Math.max(6, fps);
+});
+
+$("btnJ").onclick=()=>{
+  const g=clamp(parseFloat(gamma.value),0,1);
+  const Rprobe=R[Math.floor(g*(NX-1))];
+  regenerateJosephson(Rprobe);
+};
+$("btnJAuto").onclick=()=>{
+  josephsonAuto=!josephsonAuto;
+  $("btnJAuto").textContent = josephsonAuto ? "Auto: ON" : "Auto: OFF";
+  if(josephsonAuto){
+    const g=clamp(parseFloat(gamma.value),0,1);
+    regenerateJosephson(R[Math.floor(g*(NX-1))]);
+  }
+};
+
 ["energy","a_nm","d_nm","L_cm","contrastMode"].forEach(id=>{
   $(id).addEventListener("change", ()=> {
     const g=clamp(parseFloat(gamma.value),0,1);
@@ -1142,14 +1365,29 @@ $("btnJ").onclick=()=>{
   });
 });
 
-applyGamma(parseFloat(gamma.value));
-resizeAllCanvases();
-try{
+// debounce auto Josephson (so Γ scrub doesn't freeze)
+const debouncedAutoJ = debounce(()=>{
   const g=clamp(parseFloat(gamma.value),0,1);
   regenerateJosephson(R[Math.floor(g*(NX-1))]);
-}catch(e){}
+}, 450);
 
-step();
+["j_dur_ns","j_dt_ps","j_capN"].forEach(id=>{
+  $(id).addEventListener("change", ()=> {
+    if(josephsonAuto){
+      const g=clamp(parseFloat(gamma.value),0,1);
+      regenerateJosephson(R[Math.floor(g*(NX-1))]);
+    }
+  });
+});
+
+// initial
+applyGamma(parseFloat(gamma.value));
+resizeAllCanvases();
+startPhysics();
+requestAnimationFrame(rafLoop);
+
+// first Josephson: OFF by default, but keep panel stable
+drawAll();
 </script>
 
 </body>
