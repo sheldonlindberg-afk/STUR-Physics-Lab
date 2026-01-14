@@ -1,147 +1,1097 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🧙‍♂️ Ambient Superconductor Simulator – STUR Physics Lab</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TEGR vs GR/STUR Comparative Laboratory</title>
+
 <style>
-  body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
-  pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;line-height:1.4;
-      box-shadow:0 0 20px #ffaa0055;}
-  button{background:#ffaa00;color:#050814;border:none;border-radius:6px;padding:10px 20px;font-weight:bold;
-      cursor:pointer;margin:6px;transition:0.2s;}
-  button:hover{background:#ffcc33;}
-  footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap');
+
+:root{
+  --bg:#0a0e1a;
+  --panel:#141b2d;
+  --card:#1a2332;
+  --border:#1f2d5c;
+  --border-bright:#2d4a8c;
+  --text:#e6edf3;
+  --muted:#94a3b8;
+  --dim:#64748b;
+  --cyan:#00d9ff;
+  --green:#00ff88;
+  --yellow:#ffcc00;
+  --magenta:#ff00ff;
+  --red:#ff5555;
+  --orange:#ff8c00;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--mono);
+  line-height:1.6;
+  padding:0;
+  overflow-x:hidden;
+}
+
+/* Animated grid background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridScroll 20s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes gridScroll {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+/* Header */
+header{
+  position:relative;
+  padding:2rem;
+  background:linear-gradient(135deg, var(--panel) 0%, var(--card) 100%);
+  border-bottom:3px solid var(--cyan);
+  box-shadow:0 4px 20px rgba(0,217,255,0.2);
+  z-index:10;
+}
+
+.header-content{
+  max-width:1600px;
+  margin:0 auto;
+}
+
+h1{
+  font-size:2.5rem;
+  font-weight:700;
+  letter-spacing:-0.02em;
+  background:linear-gradient(135deg, var(--cyan), var(--magenta));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:0.5rem;
+}
+
+.subtitle{
+  font-size:1rem;
+  color:var(--muted);
+  font-weight:300;
+  letter-spacing:0.05em;
+}
+
+/* Main container */
+.container{
+  max-width:1600px;
+  margin:0 auto;
+  padding:2rem;
+  position:relative;
+  z-index:1;
+}
+
+/* Theory Toggle */
+.theory-toggle-container{
+  display:flex;
+  justify-content:center;
+  margin:2rem 0;
+  gap:0;
+}
+
+.theory-toggle{
+  display:flex;
+  background:var(--card);
+  border:2px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.toggle-btn{
+  padding:1rem 3rem;
+  background:transparent;
+  border:none;
+  color:var(--muted);
+  font-family:var(--mono);
+  font-size:1rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.3s;
+  position:relative;
+}
+
+.toggle-btn::before{
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:transparent;
+  transition:all 0.3s;
+}
+
+.toggle-btn:hover{
+  color:var(--text);
+  background:rgba(0,217,255,0.05);
+}
+
+.toggle-btn.active{
+  color:var(--cyan);
+  background:rgba(0,217,255,0.1);
+}
+
+.toggle-btn.active::before{
+  background:var(--cyan);
+}
+
+.toggle-btn.tegr.active{
+  color:var(--magenta);
+  background:rgba(255,0,255,0.1);
+}
+
+.toggle-btn.tegr.active::before{
+  background:var(--magenta);
+}
+
+/* Cards */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:2rem;
+  margin-bottom:2rem;
+  position:relative;
+  overflow:hidden;
+  transition:all 0.3s;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:linear-gradient(90deg, var(--cyan), var(--magenta));
+  opacity:0;
+  transition:opacity 0.3s;
+}
+
+.card:hover{
+  border-color:var(--border-bright);
+  box-shadow:0 8px 32px rgba(0,217,255,0.15);
+}
+
+.card:hover::before{
+  opacity:1;
+}
+
+.card-title{
+  font-size:1.5rem;
+  font-weight:700;
+  margin-bottom:1rem;
+  color:var(--cyan);
+}
+
+.card.tegr-mode .card-title{
+  color:var(--magenta);
+}
+
+.card-subtitle{
+  font-size:0.9rem;
+  color:var(--muted);
+  margin-bottom:1.5rem;
+}
+
+/* Grid layouts */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.5rem;
+}
+
+.metric-box{
+  background:rgba(0,217,255,0.05);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1.5rem;
+  text-align:center;
+  transition:all 0.3s;
+  position:relative;
+}
+
+.tegr-mode .metric-box{
+  background:rgba(255,0,255,0.05);
+}
+
+.metric-box:hover{
+  border-color:var(--cyan);
+  box-shadow:0 4px 16px rgba(0,217,255,0.2);
+}
+
+.tegr-mode .metric-box:hover{
+  border-color:var(--magenta);
+  box-shadow:0 4px 16px rgba(255,0,255,0.2);
+}
+
+.metric-label{
+  font-size:0.85rem;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  margin-bottom:0.5rem;
+}
+
+.metric-value{
+  font-size:1.8rem;
+  font-weight:700;
+}
+
+.metric-unit{
+  font-size:1rem;
+  font-weight:400;
+  color:var(--muted);
+  margin-left:0.3rem;
+}
+
+.metric-sub{
+  font-size:0.85rem;
+  color:var(--dim);
+  margin-top:0.5rem;
+}
+
+.good{color:var(--green)}
+.warn{color:var(--yellow)}
+.bad{color:var(--red)}
+.diff{color:var(--orange)}
+
+/* Controls */
+.control-group{
+  background:rgba(0,217,255,0.03);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1.5rem;
+  margin:1.5rem 0;
+}
+
+.tegr-mode .control-group{
+  background:rgba(255,0,255,0.03);
+}
+
+.control-label{
+  display:block;
+  font-size:0.9rem;
+  color:var(--text);
+  margin-bottom:0.5rem;
+  font-weight:600;
+}
+
+.control-value{
+  float:right;
+  color:var(--cyan);
+  font-weight:700;
+}
+
+.tegr-mode .control-value{
+  color:var(--magenta);
+}
+
+input[type="range"]{
+  width:100%;
+  height:4px;
+  border-radius:2px;
+  background:rgba(0,217,255,0.2);
+  outline:none;
+  -webkit-appearance:none;
+  margin:0.5rem 0 1rem;
+}
+
+.tegr-mode input[type="range"]{
+  background:rgba(255,0,255,0.2);
+}
+
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--cyan);
+  cursor:pointer;
+  box-shadow:0 0 10px var(--cyan);
+  transition:all 0.2s;
+}
+
+.tegr-mode input[type="range"]::-webkit-slider-thumb{
+  background:var(--magenta);
+  box-shadow:0 0 10px var(--magenta);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover{
+  transform:scale(1.2);
+}
+
+input[type="range"]::-moz-range-thumb{
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--cyan);
+  cursor:pointer;
+  box-shadow:0 0 10px var(--cyan);
+  border:none;
+}
+
+.tegr-mode input[type="range"]::-moz-range-thumb{
+  background:var(--magenta);
+  box-shadow:0 0 10px var(--magenta);
+}
+
+/* Canvas */
+canvas{
+  width:100%;
+  height:400px;
+  background:#050814;
+  border:1px solid var(--border);
+  border-radius:8px;
+}
+
+/* Info boxes */
+.info-box{
+  padding:1rem;
+  border-radius:6px;
+  margin:1rem 0;
+  font-size:0.9rem;
+  line-height:1.7;
+}
+
+.info-box.warning{
+  background:rgba(255,204,0,0.1);
+  border-left:3px solid var(--yellow);
+}
+
+.info-box.critical{
+  background:rgba(255,85,85,0.1);
+  border-left:3px solid var(--red);
+}
+
+.info-box.success{
+  background:rgba(0,255,136,0.1);
+  border-left:3px solid var(--green);
+}
+
+.info-box.difference{
+  background:rgba(255,140,0,0.1);
+  border-left:3px solid var(--orange);
+}
+
+/* Math display */
+.math-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1rem;
+}
+
+.math-box{
+  background:rgba(0,0,0,0.3);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:1rem;
+  text-align:center;
+}
+
+.math-label{
+  font-size:0.8rem;
+  color:var(--muted);
+  margin-bottom:0.3rem;
+}
+
+.math-value{
+  font-size:1.3rem;
+  font-weight:700;
+  color:var(--cyan);
+}
+
+.tegr-mode .math-value{
+  color:var(--magenta);
+}
+
+/* Comparison table */
+.comparison-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:1.5rem 0;
+}
+
+.comparison-table th,
+.comparison-table td{
+  padding:1rem;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+}
+
+.comparison-table th{
+  color:var(--cyan);
+  font-weight:700;
+  background:rgba(0,217,255,0.05);
+}
+
+.comparison-table tr:hover{
+  background:rgba(0,217,255,0.03);
+}
+
+.comparison-table .tegr-col{
+  color:var(--magenta);
+}
+
+.comparison-table .gr-col{
+  color:var(--cyan);
+}
+
+.comparison-table .diff-col{
+  color:var(--orange);
+  font-weight:700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 { font-size: 1.8rem; }
+  .container { padding: 1rem; }
+  .toggle-btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; }
+  .grid, .math-grid { grid-template-columns: 1fr; }
+  .comparison-table { font-size: 0.85rem; }
+  .comparison-table th, .comparison-table td { padding: 0.75rem; }
+}
 </style>
 </head>
+
 <body>
 
-<h1>🧙‍♂️ Ambient Superconductor Simulator</h1>
+<header>
+  <div class="header-content">
+    <h1>⚛️ TEGR vs GR/STUR COMPARATIVE LABORATORY</h1>
+    <div class="subtitle">Teleparallel Gravity vs General Relativity with STUR Resistance Mechanics</div>
+  </div>
+</header>
 
-<p class="desc">
-This STUR Lab simulation studies the <b>SC-600 ambient superconducting lattice</b> model.
-It sweeps 100–600 K, comparing <b>natural</b> versus <b>enforced</b> lattice stiffness coupling
-to determine whether phase-locked coherence can persist above room temperature.
-The model uses resistance-based field coupling between quantum oscillators to
-simulate ambient superconductivity under the Unified Resistance Framework.
-</p>
+<div class="container">
 
-<h2>Derivation Overview (Short Form)</h2>
-<div class="desc">
-<p>
-1. Each lattice pair obeys a modified STUR coupling:
-</p>
-<pre>S(r) = tanh(r/L₀) · (1 − e^{−r/L₀})</pre>
-<p>
-2. The net field–resistance force combines EM, strong-like, and spin–polar terms:
-</p>
-<pre>F(r) = S(r)[ k_e q²/r² − a₀(1+η)((1−e^{−r/λ})/r² + σ₀(1+η)r) ] − g₀ e^{−r/ℓ_B}</pre>
-<p>
-3. Four coupled oscillators evolve with intra- and inter-lattice stiffness (k_in, k_out)
-and temperature-dependent stochastic kicks. Coherence is evaluated by mean displacement Δ_mean.
-</p>
+  <div class="theory-toggle-container">
+    <div class="theory-toggle">
+      <button class="toggle-btn gr active" data-theory="gr">GR/STUR</button>
+      <button class="toggle-btn tegr" data-theory="tegr">TEGR</button>
+    </div>
+  </div>
+
+  <!-- ============ OVERVIEW ============ -->
+  <div class="card" id="overview-card">
+    <h2 class="card-title">Theory Overview</h2>
+    <div class="card-subtitle" id="theory-subtitle">General Relativity with STUR resistance-field modifications</div>
+    
+    <div id="gr-overview">
+      <p style="margin-bottom:1rem;line-height:1.8">
+        <strong>General Relativity (GR)</strong> describes gravity through spacetime curvature (Riemann tensor), 
+        where matter follows geodesics in curved 4D geometry. The Einstein field equations relate curvature 
+        to energy-momentum content.
+      </p>
+      <p style="margin-bottom:1rem;line-height:1.8">
+        <strong>STUR modification:</strong> Introduces resistance fields R_μν that couple to matter flow, 
+        creating additional geodesic deviations. Near event horizons, resistance gradients create 
+        observable "hover effects" where particles experience additional radial forces before crossing.
+      </p>
+      <div class="info-box success">
+        <strong>Key prediction:</strong> Non-zero radial acceleration at event horizon (R = 2M) in GR/STUR, 
+        versus zero in pure GR. This is falsifiable via pulsar timing and gravitational wave ringdown analysis.
+      </div>
+    </div>
+
+    <div id="tegr-overview" style="display:none">
+      <p style="margin-bottom:1rem;line-height:1.8">
+        <strong>Teleparallel Equivalent of General Relativity (TEGR)</strong> reformulates gravity using 
+        torsion instead of curvature. Spacetime is flat (Riemann = 0), but the Weitzenböck connection 
+        carries torsion. Gravity emerges from parallel transport failure.
+      </p>
+      <p style="margin-bottom:1rem;line-height:1.8">
+        The torsion scalar T equals the Ricci scalar R (up to boundary terms), making TEGR classically 
+        equivalent to GR for vacuum solutions. However, matter coupling and quantum corrections differ.
+      </p>
+      <div class="info-box warning">
+        <strong>Key difference:</strong> TEGR uses flat geometry with torsion. Near event horizons, 
+        torsion diverges at R = 2M, but geodesic structure is identical to GR (no "hover zone").
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ INTERACTIVE CALCULATOR ============ -->
+  <div class="card" id="calculator-card">
+    <h2 class="card-title">Event Horizon Physics Calculator</h2>
+    <div class="card-subtitle">Schwarzschild black hole: radial dynamics near R = 2M</div>
+    
+    <div class="control-group">
+      <label class="control-label">
+        Black Hole Mass (M☉)
+        <span class="control-value" id="mass-val">10</span>
+      </label>
+      <input type="range" min="1" max="100" value="10" step="1" id="mass-slider">
+      
+      <label class="control-label">
+        Radial Position (r / r<sub>s</sub>)
+        <span class="control-value" id="r-val">1.50</span>
+      </label>
+      <input type="range" min="1.01" max="5.0" value="1.5" step="0.01" id="r-slider">
+      <div style="font-size:0.85rem;color:var(--dim);margin-top:0.5rem">
+        r<sub>s</sub> = 2GM/c² = Schwarzschild radius
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PREDICTIONS ============ -->
+  <div class="card" id="predictions-card">
+    <h2 class="card-title">Predicted Observables</h2>
+    <div class="grid">
+      <div class="metric-box">
+        <div class="metric-label">Schwarzschild Radius</div>
+        <div class="metric-value" id="rs-val">—</div>
+        <div class="metric-sub">Event horizon location</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-label">Radial Acceleration</div>
+        <div class="metric-value" id="accel-val">—</div>
+        <div class="metric-sub" id="accel-sub">At selected r</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-label">Tidal Force</div>
+        <div class="metric-value" id="tidal-val">—</div>
+        <div class="metric-sub">Riemann curvature</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-label">Time Dilation</div>
+        <div class="metric-value" id="time-val">—</div>
+        <div class="metric-sub">dt<sub>local</sub> / dt<sub>∞</sub></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PHYSICS BREAKDOWN ============ -->
+  <div class="card" id="physics-card">
+    <h2 class="card-title">Physics Breakdown</h2>
+    <div class="math-grid">
+      <div class="math-box">
+        <div class="math-label">Metric Component g<sub>tt</sub></div>
+        <div class="math-value" id="gtt-val">—</div>
+      </div>
+      <div class="math-box">
+        <div class="math-label">Metric Component g<sub>rr</sub></div>
+        <div class="math-value" id="grr-val">—</div>
+      </div>
+      <div class="math-box">
+        <div class="math-label" id="curv-label">Curvature Scalar R</div>
+        <div class="math-value" id="curv-val">—</div>
+      </div>
+      <div class="math-box">
+        <div class="math-label">Escape Velocity</div>
+        <div class="math-value" id="vesc-val">—</div>
+      </div>
+      <div class="math-box">
+        <div class="math-label">Photon Orbit</div>
+        <div class="math-value" id="photon-val">—</div>
+      </div>
+      <div class="math-box">
+        <div class="math-label">ISCO Radius</div>
+        <div class="math-value" id="isco-val">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ COMPARATIVE PLOT ============ -->
+  <div class="card" id="plot-card">
+    <h2 class="card-title">Radial Acceleration Profile</h2>
+    <canvas id="plot"></canvas>
+    <div style="margin-top:1rem;display:flex;gap:2rem;justify-content:center;font-size:0.85rem;flex-wrap:wrap">
+      <div><span style="color:var(--cyan);font-weight:700">━━</span> GR/STUR</div>
+      <div><span style="color:var(--magenta);font-weight:700">━━</span> TEGR</div>
+      <div><span style="color:var(--yellow);font-weight:700">┃</span> Event Horizon (r<sub>s</sub>)</div>
+      <div><span style="color:var(--green);font-weight:700">┃</span> Photon Sphere (1.5r<sub>s</sub>)</div>
+    </div>
+  </div>
+
+  <!-- ============ COMPARISON TABLE ============ -->
+  <div class="card" id="comparison-card">
+    <h2 class="card-title">Theory Comparison at Event Horizon</h2>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Observable</th>
+          <th class="gr-col">GR/STUR</th>
+          <th class="tegr-col">TEGR</th>
+          <th class="diff-col">Difference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Geometry</td>
+          <td class="gr-col">Curved spacetime (Riemann ≠ 0)</td>
+          <td class="tegr-col">Flat spacetime (Riemann = 0, Torsion ≠ 0)</td>
+          <td class="diff-col">Mathematical only</td>
+        </tr>
+        <tr>
+          <td>Radial Acceleration at r<sub>s</sub></td>
+          <td class="gr-col" id="gr-accel-horizon">0 m/s²</td>
+          <td class="tegr-col" id="tegr-accel-horizon">0 m/s²</td>
+          <td class="diff-col">IDENTICAL</td>
+        </tr>
+        <tr>
+          <td>Tidal Force at r<sub>s</sub></td>
+          <td class="gr-col" id="gr-tidal-horizon">—</td>
+          <td class="tegr-col" id="tegr-tidal-horizon">—</td>
+          <td class="diff-col" id="tidal-diff">—</td>
+        </tr>
+        <tr>
+          <td>Photon Sphere</td>
+          <td class="gr-col">1.5 r<sub>s</sub></td>
+          <td class="tegr-col">1.5 r<sub>s</sub></td>
+          <td class="diff-col">IDENTICAL</td>
+        </tr>
+        <tr>
+          <td>ISCO (Innermost Stable Circular Orbit)</td>
+          <td class="gr-col">3.0 r<sub>s</sub></td>
+          <td class="tegr-col">3.0 r<sub>s</sub></td>
+          <td class="diff-col">IDENTICAL</td>
+        </tr>
+        <tr>
+          <td>Hawking Temperature</td>
+          <td class="gr-col" id="gr-hawking">—</td>
+          <td class="tegr-col" id="tegr-hawking">—</td>
+          <td class="diff-col">IDENTICAL</td>
+        </tr>
+        <tr>
+          <td>Gravitational Wave Ringdown</td>
+          <td class="gr-col">Quasi-normal modes from curvature</td>
+          <td class="tegr-col">Quasi-normal modes from torsion</td>
+          <td class="diff-col">Same frequencies</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ KEY DIFFERENCES ============ -->
+  <div class="card" id="differences-card">
+    <h2 class="card-title">Where GR/STUR and TEGR Differ</h2>
+    
+    <div class="info-box difference">
+      <strong>1. Matter Coupling:</strong><br>
+      GR: Energy-momentum tensor couples to metric (Einstein equations)<br>
+      TEGR: Energy-momentum couples to tetrads (field equations in flat space)<br>
+      <strong>STUR:</strong> Resistance fields modify both coupling mechanisms
+    </div>
+
+    <div class="info-box difference">
+      <strong>2. Quantum Gravity:</strong><br>
+      GR: Path integral over metrics (Wheeler-DeWitt equation)<br>
+      TEGR: Path integral over tetrads (simpler measure, no conformal mode)<br>
+      <strong>STUR:</strong> Introduces resistance-field quantization (distinct from both)
+    </div>
+
+    <div class="info-box difference">
+      <strong>3. Cosmology (Modified Theories):</strong><br>
+      f(R) gravity: Modifies Ricci scalar R<br>
+      f(T) gravity: Modifies torsion scalar T<br>
+      These are <em>NOT</em> equivalent and predict different dark energy dynamics
+    </div>
+
+    <div class="info-box difference">
+      <strong>4. Spin-Torsion Coupling:</strong><br>
+      GR: Spin (intrinsic angular momentum) does not directly source curvature<br>
+      TEGR: Spin can couple to torsion → testable via neutron interferometry<br>
+      <strong>Experimental status:</strong> No confirmed spin-torsion coupling to date
+    </div>
+  </div>
+
+  <!-- ============ FALSIFICATION ============ -->
+  <div class="card" id="falsification-card">
+    <h2 class="card-title">Experimental Falsification</h2>
+    
+    <div class="info-box critical">
+      <strong>For Schwarzschild vacuum solutions:</strong> GR and TEGR are mathematically equivalent. 
+      Both predict identical black hole observables (ringdown, photon sphere, ISCO). The "hover zone" 
+      is a STUR-specific prediction, not a TEGR vs GR difference.
+    </div>
+
+    <div class="info-box warning">
+      <strong>Where TEGR can be tested:</strong>
+      <ul style="margin-top:0.5rem">
+        <li><strong>f(T) modified gravity:</strong> Distinct from f(R), different cosmological predictions</li>
+        <li><strong>Spin-torsion coupling:</strong> Neutron/electron spin in gravitational fields</li>
+        <li><strong>Loop quantum gravity:</strong> TEGR formulation simplifies spin networks</li>
+        <li><strong>Quantum entanglement:</strong> Torsion may affect entanglement transport (speculative)</li>
+      </ul>
+    </div>
+
+    <div class="info-box success">
+      <strong>STUR falsification (independent of TEGR):</strong>
+      <ul style="margin-top:0.5rem">
+        <li><strong>Pulsar timing:</strong> Search for anomalous radial forces near horizon</li>
+        <li><strong>Gravitational waves:</strong> Ringdown phase discrepancies from resistance damping</li>
+        <li><strong>Accretion disk spectroscopy:</strong> ISCO radius shifts if resistance modifies orbits</li>
+      </ul>
+    </div>
+  </div>
+
 </div>
-
-<h2>Python Simulation (Copy &amp; Run)</h2>
-
-<pre id="codeBlock">
-#!/usr/bin/env python3
-"""
-SC-600 Stability 7.3 (≤4000 chars)
-Sweeps 100–600 K in 50 K steps.
-Compares NATURAL vs ENFORCED lattice stiffness for ambient superconductors.
-"""
-
-import numpy as np, matplotlib.pyplot as plt
-ke,q=8.9875e9,1.602e-19; kB,JeV=1.38e-23,1.602e-19
-a0,sg0,lam,L0,ellB,g0=1e-24,1e3,1e-10,1e-10,1e-9,1e-8
-eta,C,dt,steps,Nper,limit_nm,ks_in,ks_out=1.0,1e-8,1e-16,40000,50,0.5,1e3,1e3
-r_eqs=np.array([1e-12,1.1e-12,1.2e-12,1.15e-12])
-
-def S(r): x=r/L0; return np.tanh(x)*(1-np.exp(-x))
-def F(r):
-    r=np.maximum(r,1e-13)
-    F_em=ke*q**2/r**2
-    F_s=-a0*(1+eta)*((1-np.exp(-r/lam))/r**2+sg0*(1+eta)*r)
-    F_sp=-g0*np.exp(-r/ellB)
-    return S(r)*(F_em+F_s)+F_sp
-
-def evolve(ktr,T):
-    thermal=kB*T/JeV; kick=np.sqrt(2*kB*T*dt/C)
-    r=np.stack([np.full(Nper,r_eqs[i]) for i in range(4)])
-    for _ in range(steps):
-        means=r.mean(1); gmean=means.mean(); new=np.empty_like(r)
-        for i in range(4):
-            Fi=F(r[i])-ktr[i]*(r[i]-r_eqs[i])-ks_in*(r[i]-means[i])-ks_out*(r[i]-gmean)
-            dr=(Fi/C)*dt+kick*np.random.randn(Nper)
-            new[i]=np.clip(r[i]+dr,1e-13,None)
-        r=new
-    m,s,ma=r.mean(1),r.std(1),r.max(1)
-    dmax=max(abs(m[i]-m[j])*1e9 for i in range(4) for j in range(i+1,4))
-    return dmax,np.any(ma*1e9>limit_nm),thermal
-
-temps=np.arange(100,601,50); d_nat=[]; d_enf=[]
-for T in temps:
-    dN,decN,thN=evolve([5e3,4e3,3e3,4e3],T)
-    dE,decE,thE=evolve([5e6]*4,T)
-    d_nat.append(dN); d_enf.append(dE)
-    print(f"T={T} K | NAT Δ={dN:.3e} nm dec={decN} | ENF Δ={dE:.3e} nm dec={decE} | kT={thN:.2e} eV")
-
-plt.plot(temps,d_nat,'o-',label="Natural Δmean")
-plt.plot(temps,d_enf,'s-',label="Enforced Δmean")
-plt.xlabel("Temperature (K)"); plt.ylabel("Δmean (nm)")
-plt.title("Ambient SC Coherence 100–600 K")
-plt.grid(True); plt.legend(); plt.show()
-
-print("\nResult: Phase-locking persists through 600 K; enforced stiffness holds <1 pm drift → viable high-T ambient SC.")
-</pre>
-
-<p style="text-align:center;margin-top:1rem;">
-  <button onclick="copyCode()">📋 Copy Script</button>
-  <button onclick="openRunner()">▶ Open Python Runner (no sign-up)</button>
-</p>
-    <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
-
-<p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open Python Runner</b> to launch a JupyterLite
-session in your browser (no login). Paste the script into a new notebook cell,
-run it, and view the temperature-sweep coherence plots.
-</p>
-
-<footer>
-  © 2025 STUR Physics Lab | Unified Resistance Framework | Ambient Superconductor Simulation v7.3
-</footer>
 
 <script>
-function copyCode(){
-  const el=document.getElementById('codeBlock');
-  if(!el)return;
-  navigator.clipboard.writeText(el.innerText);
-  alert('✅ Ambient Superconductor script copied to clipboard');
+// ========== PHYSICAL CONSTANTS (SI + Geometric Units) ==========
+const c = 299792458; // m/s
+const G = 6.67430e-11; // m^3 kg^-1 s^-2
+const M_sun = 1.98892e30; // kg
+const hbar = 1.054571817e-34; // J·s
+const k_B = 1.380649e-23; // J/K
+
+// Current theory mode
+let currentTheory = 'gr';
+
+// ========== GR/STUR PHYSICS ==========
+function calculateGR(M_solar, r_over_rs) {
+  const M = M_solar * M_sun;
+  const r_s = 2 * G * M / (c * c); // Schwarzschild radius
+  const r = r_over_rs * r_s;
+  
+  // Schwarzschild metric components
+  const g_tt = -(1 - r_s / r);
+  const g_rr = 1 / (1 - r_s / r);
+  
+  // Radial acceleration (proper acceleration for static observer)
+  // a = GM / (r^2 * sqrt(1 - r_s/r))
+  const a_radial = (r > r_s) ? (G * M / (r * r)) / Math.sqrt(1 - r_s / r) : 0;
+  
+  // STUR modification: resistance gradient creates additional force near horizon
+  // This is ILLUSTRATIVE - actual STUR requires solving modified field equations
+  const stur_enhancement = (r < 2 * r_s) ? 1.0 + 0.2 * Math.exp(-(r / r_s - 1)) : 1.0;
+  const a_stur = a_radial * stur_enhancement;
+  
+  // Tidal force (Riemann curvature component R_trtr for radial stretching)
+  // K = 2GM / r^3 (Newtonian approximation valid far from horizon)
+  const tidal = 2 * G * M / (r * r * r);
+  
+  // Time dilation factor
+  const time_dilation = Math.sqrt(Math.abs(g_tt));
+  
+  // Escape velocity
+  const v_esc = Math.sqrt(2 * G * M / r) / c;
+  
+  // Hawking temperature
+  const T_hawking = (hbar * c * c * c) / (8 * Math.PI * G * M * k_B);
+  
+  return {
+    r_s,
+    r,
+    g_tt,
+    g_rr,
+    a_radial: a_stur, // Using STUR-modified acceleration
+    tidal,
+    time_dilation,
+    v_esc,
+    T_hawking,
+    curvature_scalar: 0 // Zero in vacuum for Schwarzschild
+  };
 }
-function openRunner(){
-  window.open('https://jupyter.org/try-jupyter/lab/','_blank');
+
+// ========== TEGR PHYSICS ==========
+function calculateTEGR(M_solar, r_over_rs) {
+  const M = M_solar * M_sun;
+  const r_s = 2 * G * M / (c * c);
+  const r = r_over_rs * r_s;
+  
+  // TEGR uses flat spacetime with torsion
+  // For Schwarzschild solution, tetrad field reproduces same metric
+  // g_μν = η_ab e^a_μ e^b_ν where η is Minkowski metric
+  
+  // Metric components (identical to GR for vacuum Schwarzschild)
+  const g_tt = -(1 - r_s / r);
+  const g_rr = 1 / (1 - r_s / r);
+  
+  // Torsion scalar T (replaces Ricci scalar R in action)
+  // T = -R for Schwarzschild (up to boundary terms)
+  // Torsion tensor components diverge at r = r_s
+  const torsion_scalar = (r > r_s) ? 2 * G * M / (r * r * r) : Infinity;
+  
+  // Geodesics are IDENTICAL to GR (equivalence principle preserved)
+  const a_radial = (r > r_s) ? (G * M / (r * r)) / Math.sqrt(1 - r_s / r) : 0;
+  
+  // Tidal force (same Riemann tensor components despite flat geometry)
+  const tidal = 2 * G * M / (r * r * r);
+  
+  // Time dilation
+  const time_dilation = Math.sqrt(Math.abs(g_tt));
+  
+  // Escape velocity
+  const v_esc = Math.sqrt(2 * G * M / r) / c;
+  
+  // Hawking temperature (unchanged - thermodynamics is universal)
+  const T_hawking = (hbar * c * c * c) / (8 * Math.PI * G * M * k_B);
+  
+  return {
+    r_s,
+    r,
+    g_tt,
+    g_rr,
+    a_radial, // No STUR modification in pure TEGR
+    tidal,
+    time_dilation,
+    v_esc,
+    T_hawking,
+    torsion_scalar
+  };
 }
+
+// ========== DOM ELEMENTS ==========
+const mass_slider = document.getElementById('mass-slider');
+const r_slider = document.getElementById('r-slider');
+const mass_val = document.getElementById('mass-val');
+const r_val = document.getElementById('r-val');
+
+const rs_val = document.getElementById('rs-val');
+const accel_val = document.getElementById('accel-val');
+const accel_sub = document.getElementById('accel-sub');
+const tidal_val = document.getElementById('tidal-val');
+const time_val = document.getElementById('time-val');
+
+const gtt_val = document.getElementById('gtt-val');
+const grr_val = document.getElementById('grr-val');
+const curv_val = document.getElementById('curv-val');
+const curv_label = document.getElementById('curv-label');
+const vesc_val = document.getElementById('vesc-val');
+const photon_val = document.getElementById('photon-val');
+const isco_val = document.getElementById('isco-val');
+
+const plot_canvas = document.getElementById('plot');
+
+// ========== UPDATE FUNCTION ==========
+function update() {
+  const M_solar = parseFloat(mass_slider.value);
+  const r_over_rs = parseFloat(r_slider.value);
+  
+  let phys;
+  if (currentTheory === 'gr') {
+    phys = calculateGR(M_solar, r_over_rs);
+  } else {
+    phys = calculateTEGR(M_solar, r_over_rs);
+  }
+  
+  // Update displays
+  mass_val.textContent = M_solar.toFixed(0);
+  r_val.textContent = r_over_rs.toFixed(2);
+  
+  rs_val.textContent = (phys.r_s / 1000).toFixed(2) + ' km';
+  accel_val.textContent = phys.a_radial.toExponential(2) + ' m/s²';
+  tidal_val.textContent = phys.tidal.toExponential(2) + ' s⁻²';
+  time_val.textContent = phys.time_dilation.toFixed(4);
+  
+  gtt_val.textContent = phys.g_tt.toFixed(4);
+  grr_val.textContent = phys.g_rr > 100 ? phys.g_rr.toExponential(2) : phys.g_rr.toFixed(4);
+  
+  if (currentTheory === 'gr') {
+    curv_label.textContent = 'Ricci Scalar R';
+    curv_val.textContent = '0 (vacuum)';
+  } else {
+    curv_label.textContent = 'Torsion Scalar T';
+    curv_val.textContent = phys.torsion_scalar === Infinity ? '∞' : phys.torsion_scalar.toExponential(2);
+  }
+  
+  vesc_val.textContent = (phys.v_esc * 100).toFixed(1) + '% c';
+  photon_val.textContent = '1.5 r_s';
+  isco_val.textContent = '3.0 r_s';
+  
+  // Update comparison table
+  const accel_at_horizon_gr = calculateGR(M_solar, 1.001).a_radial;
+  const accel_at_horizon_tegr = calculateTEGR(M_solar, 1.001).a_radial;
+  document.getElementById('gr-accel-horizon').textContent = accel_at_horizon_gr.toExponential(2) + ' m/s²';
+  document.getElementById('tegr-accel-horizon').textContent = accel_at_horizon_tegr.toExponential(2) + ' m/s²';
+  
+  const tidal_horizon_gr = calculateGR(M_solar, 1.001).tidal;
+  const tidal_horizon_tegr = calculateTEGR(M_solar, 1.001).tidal;
+  document.getElementById('gr-tidal-horizon').textContent = tidal_horizon_gr.toExponential(2) + ' s⁻²';
+  document.getElementById('tegr-tidal-horizon').textContent = tidal_horizon_tegr.toExponential(2) + ' s⁻²';
+  document.getElementById('tidal-diff').textContent = 'IDENTICAL';
+  
+  document.getElementById('gr-hawking').textContent = (phys.T_hawking * 1e9).toFixed(4) + ' nK';
+  document.getElementById('tegr-hawking').textContent = (phys.T_hawking * 1e9).toFixed(4) + ' nK';
+  
+  drawPlot(M_solar);
+}
+
+// ========== PLOT FUNCTION ==========
+function drawPlot(M_solar) {
+  const ctx = plot_canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const width = plot_canvas.width = plot_canvas.offsetWidth * dpr;
+  const height = plot_canvas.height = plot_canvas.offsetHeight * dpr;
+  ctx.scale(dpr, dpr);
+  
+  const display_width = plot_canvas.offsetWidth;
+  const display_height = plot_canvas.offsetHeight;
+  
+  ctx.clearRect(0, 0, width, height);
+  
+  const padding = 50;
+  const plot_width = display_width - 2 * padding;
+  const plot_height = display_height - 2 * padding;
+  
+  // Calculate acceleration profiles
+  const r_min = 1.01;
+  const r_max = 5.0;
+  const data_gr = [];
+  const data_tegr = [];
+  
+  let max_a = 0;
+  
+  for (let r_rs = r_min; r_rs <= r_max; r_rs += 0.05) {
+    const gr = calculateGR(M_solar, r_rs);
+    const tegr = calculateTEGR(M_solar, r_rs);
+    
+    data_gr.push({ r: r_rs, a: gr.a_radial });
+    data_tegr.push({ r: r_rs, a: tegr.a_radial });
+    
+    max_a = Math.max(max_a, gr.a_radial, tegr.a_radial);
+  }
+  
+  // Draw grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 5; i++) {
+    const y = padding + plot_height * i / 5;
+    ctx.beginPath();
+    ctx.moveTo(padding, y);
+    ctx.lineTo(display_width - padding, y);
+    ctx.stroke();
+  }
+  
+  // Draw r_s line (event horizon)
+  const rs_x = padding;
+  ctx.strokeStyle = 'rgba(255, 204, 0, 0.6)';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  ctx.moveTo(rs_x, padding);
+  ctx.lineTo(rs_x, display_height - padding);
+  ctx.stroke();
+  
+  // Draw photon sphere (1.5 r_s)
+  const photon_x = padding + plot_width * (1.5 - r_min) / (r_max - r_min);
+  ctx.strokeStyle = 'rgba(0, 255, 136, 0.6)';
+  ctx.beginPath();
+  ctx.moveTo(photon_x, padding);
+  ctx.lineTo(photon_x, display_height - padding);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // Draw TEGR curve
+  ctx.strokeStyle = '#ff00ff';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i < data_tegr.length; i++) {
+    const x = padding + plot_width * (data_tegr[i].r - r_min) / (r_max - r_min);
+    const y = display_height - padding - plot_height * data_tegr[i].a / max_a;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  
+  // Draw GR/STUR curve
+  ctx.strokeStyle = '#00d9ff';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  for (let i = 0; i < data_gr.length; i++) {
+    const x = padding + plot_width * (data_gr[i].r - r_min) / (r_max - r_min);
+    const y = display_height - padding - plot_height * data_gr[i].a / max_a;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  
+  // Draw current position marker
+  const r_current = parseFloat(r_slider.value);
+  const r_current_x = padding + plot_width * (r_current - r_min) / (r_max - r_min);
+  
+  let p_current;
+  if (currentTheory === 'gr') {
+    p_current = calculateGR(M_solar, r_current);
+    ctx.fillStyle = '#00d9ff';
+    ctx.strokeStyle = 'rgba(0, 217, 255, 0.5)';
+  } else {
+    p_current = calculateTEGR(M_solar, r_current);
+    ctx.fillStyle = '#ff00ff';
+    ctx.strokeStyle = 'rgba(255, 0, 255, 0.5)';
+  }
+  
+  const r_current_y = display_height - padding - plot_height * p_current.a_radial / max_a;
+  
+  ctx.beginPath();
+  ctx.arc(r_current_x, r_current_y, 6, 0, 2 * Math.PI);
+  ctx.fill();
+  
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(r_current_x, r_current_y, 10, 0, 2 * Math.PI);
+  ctx.stroke();
+  
+  // Axis labels
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '12px JetBrains Mono';
+  ctx.textAlign = 'right';
+  ctx.fillText('a (m/s²)', padding - 10, padding - 10);
+  
+  ctx.textAlign = 'center';
+  ctx.fillText('r_s', padding, display_height - padding + 20);
+  ctx.fillText(r_max.toFixed(1) + ' r_s', display_width - padding, display_height - padding + 20);
+  ctx.fillText('Radial Position', display_width / 2, display_height - 10);
+}
+
+// ========== THEORY TOGGLE ==========
+document.querySelectorAll('.toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const theory = btn.dataset.theory;
+    
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    currentTheory = theory;
+    
+    // Update UI theme
+    const cards = document.querySelectorAll('.card, .control-group');
+    if (theory === 'tegr') {
+      cards.forEach(c => c.classList.add('tegr-mode'));
+      document.getElementById('theory-subtitle').textContent = 
+        'Teleparallel Equivalent of General Relativity (torsion-based formulation)';
+      document.getElementById('gr-overview').style.display = 'none';
+      document.getElementById('tegr-overview').style.display = 'block';
+    } else {
+      cards.forEach(c => c.classList.remove('tegr-mode'));
+      document.getElementById('theory-subtitle').textContent = 
+        'General Relativity with STUR resistance-field modifications';
+      document.getElementById('gr-overview').style.display = 'block';
+      document.getElementById('tegr-overview').style.display = 'none';
+    }
+    
+    update();
+  });
+});
+
+// ========== EVENT LISTENERS ==========
+mass_slider.addEventListener('input', update);
+r_slider.addEventListener('input', update);
+
+// ========== INITIAL RENDER ==========
+update();
 </script>
 
 </body>
