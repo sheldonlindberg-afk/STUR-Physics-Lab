@@ -2,591 +2,878 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STUR Sandbox – Geometry • Simulation • AI Collaboration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>STUR Sandbox — Geometry • Simulation • Falsification Loop</title>
+
+<!-- MathJax (SVG, no menu) -->
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  options: { renderActions: { addMenu: [] } }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <style>
-  body {
-    background:#050814;
-    color:#e6edf3;
-    font-family:'Courier New', monospace;
-    margin:0;
-    padding:1.5rem;
-    line-height:1.55;
-  }
-  h1 { text-align:center; color:#ffaa00; margin-bottom:1rem; }
-  h2 { color:#ffcc33; margin-top:1.5rem; }
-  .panel {
-    background:#0a0f1f;
-    padding:1.2rem;
-    border-radius:8px;
-    max-width:900px;
-    margin:1rem auto;
-    box-shadow:0 0 12px #ffaa0044;
-  }
-  .text { max-width:900px; margin:0 auto; }
-  pre {
-    background:#000;
-    color:#00ffcc;
-    padding:1rem;
-    border-radius:6px;
-    overflow-x:auto;
-    font-size:0.85rem;
-    border:1px solid #0a223d;
-  }
-  button {
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 18px;
-    margin:6px;
-    cursor:pointer;
-    font-family:'Courier New', monospace;
-    font-weight:bold;
-  }
-  button:hover { background:#ffcc33; }
-  a { color:#5ad0ff; text-decoration:none; }
-  .btn-row { text-align:center; margin-top:1.2rem; }
+:root{
+  color-scheme: dark;
+  --bg:#020617;
+  --panel:#0b1226;
+  --panel2:#0a0f1f;
+  --border:#1f2937;
+  --fg:#e5e7eb;
+  --fg2:#9ca3af;
+  --fg3:#6b7280;
+  --accent:#ec4899;
+  --accent2:#38bdf8;
+  --good:#34d399;
+  --warn:#fbbf24;
+  --danger:#fb7185;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+  --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --r:16px;
+}
 
-  /* sandbox layout */
-  .controls-row {
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    align-items:center;
-    margin-top:0.5rem;
-  }
-  .controls-column { flex:1 1 180px; min-width:0; }
-  .buttons-column {
-    flex:1 1 160px;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:flex-start;
-  }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;overflow-x:hidden;background:var(--bg);color:var(--fg);font-family:var(--sans)}
+a{color:var(--accent2);text-decoration:none;word-break:break-word}
+a:hover{text-decoration:underline}
+img,svg,canvas{max-width:100%}
+mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
 
-  canvas {
-    width:100%;
-    height:260px;
-    background:#000;
-    border-radius:6px;
-    margin-top:0.75rem;
-  }
+/* Safe-area + responsive padding */
+.page{
+  max-width:1100px;
+  margin:auto;
+  padding: clamp(14px, 3.5vw, 28px);
+  padding-left: max(clamp(14px, 3.5vw, 28px), env(safe-area-inset-left));
+  padding-right: max(clamp(14px, 3.5vw, 28px), env(safe-area-inset-right));
+  padding-top: max(clamp(14px, 3.5vw, 28px), env(safe-area-inset-top));
+  padding-bottom: max(clamp(18px, 4vw, 32px), env(safe-area-inset-bottom));
+}
 
-  .energy-wrap { margin-top:0.5rem; font-size:0.75rem; }
-  .energy-bar {
-    background:#111;
-    border-radius:4px;
-    overflow:hidden;
-    height:10px;
-    margin-top:4px;
-  }
-  .energy-inner {
-    height:100%;
-    width:0%;
-    background:#00ffcc;
-    transition:width 0.1s linear;
-  }
+.header{
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding: clamp(12px, 3.2vw, 22px);
+  margin-bottom: clamp(12px, 3vw, 22px);
+  background: radial-gradient(1200px 500px at 20% 0%, rgba(236,72,153,0.12), transparent 45%),
+              radial-gradient(900px 450px at 90% 10%, rgba(56,189,248,0.12), transparent 40%),
+              linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+}
 
-  @media (max-width:600px) {
-    body { padding:1rem; }
-    .panel { padding:0.8rem; }
-    button { flex:1 1 45%; text-align:center; }
-  }
+h1{
+  font-size: clamp(1.35rem, 5.8vw, 2.15rem);
+  line-height: 1.1;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #e5e7eb, var(--accent), var(--accent2));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.subtitle{margin-top:.45rem;color:var(--fg2);line-height:1.6}
+.badges{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+.badge{
+  font-family:var(--mono);
+  font-size:.78rem;
+  color:var(--fg);
+  border:1px solid var(--border);
+  padding:.28rem .55rem;
+  border-radius:999px;
+  background: rgba(2,6,23,0.55);
+}
+
+.panel{
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding: clamp(12px, 3.2vw, 22px);
+  margin-bottom: clamp(12px, 3vw, 22px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+
+h2{
+  font-size: clamp(0.95rem, 3.6vw, 1.12rem);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--fg2);
+  margin-bottom:.6rem;
+}
+h3{
+  font-size: clamp(0.92rem, 3.2vw, 1.02rem);
+  color:var(--accent2);
+  margin-top:1rem;
+  margin-bottom:.35rem;
+}
+p, li{
+  font-size: clamp(0.95rem, 3.6vw, 1.0rem);
+  color:var(--fg2);
+  line-height:1.65;
+}
+ul{padding-left:1.2rem}
+.eq{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding: clamp(10px, 2.8vw, 14px);
+  margin:.8rem 0;
+  overflow-x:auto;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(2,6,23,0.55);
+}
+pre{
+  background: rgba(2,6,23,0.7);
+  color: #a7f3d0;
+  border:1px solid var(--border);
+  padding: 1rem;
+  border-radius: 12px;
+  overflow-x:auto;
+  font-size: .88rem;
+  -webkit-overflow-scrolling: touch;
+  font-family: var(--mono);
+}
+
+hr{border:none;border-top:1px solid var(--border);margin:1rem 0}
+
+/* Controls */
+.controls{
+  display:grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 1rem;
+  align-items:start;
+}
+@media (max-width: 820px){
+  .controls{grid-template-columns:1fr}
+}
+
+.control{
+  display:flex;
+  flex-direction:column;
+  gap:.4rem;
+  margin-bottom:.6rem;
+}
+label{
+  color:var(--fg2);
+  font-size:.92rem;
+}
+input[type="range"]{ width:100% }
+input[type="number"], select{
+  width:100%;
+  background: rgba(2,6,23,0.65);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:.65rem .65rem;
+  color:var(--fg);
+  font-family:var(--mono);
+  font-size:16px; /* iOS zoom guard */
+}
+.btnrow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.6rem;
+  margin-top:.25rem;
+}
+button{
+  border:none;
+  border-radius:12px;
+  padding:.75rem 1rem;
+  font-weight:800;
+  cursor:pointer;
+  color:#051018;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  font-family: var(--mono);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  flex: 1 1 150px;
+}
+button:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px rgba(56,189,248,0.18); filter:saturate(1.1) }
+button.secondary{
+  background: rgba(2,6,23,0.65);
+  border:1px solid var(--border);
+  color:var(--fg);
+  box-shadow:none;
+}
+button.secondary:hover{ box-shadow:none; }
+
+.canvas-wrap{
+  margin-top:.8rem;
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  background:#000;
+}
+canvas{
+  display:block;
+  width:100%;
+  height: clamp(200px, 42vw, 300px);
+  background:#000;
+}
+
+.kpi-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:.75rem;
+  margin-top:.85rem;
+}
+@media (max-width: 720px){
+  .kpi-grid{grid-template-columns:1fr}
+}
+.kpi{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:.85rem;
+  background: rgba(2,6,23,0.55);
+}
+.kpi .k{ color:var(--fg3); font-size:.8rem; letter-spacing:.06em; text-transform:uppercase }
+.kpi .v{ margin-top:.35rem; font-family:var(--mono); color:var(--fg); font-size:1rem }
+
+.energy-wrap{ margin-top:.8rem; }
+.energy-label{ color:var(--fg2); font-size:.9rem; }
+.energy-bar{
+  background:#0b1020;
+  border:1px solid var(--border);
+  border-radius:999px;
+  overflow:hidden;
+  height:12px;
+  margin-top:6px;
+}
+.energy-inner{
+  height:100%;
+  width:0%;
+  background: linear-gradient(90deg, var(--good), var(--accent2));
+  transition:width 0.08s linear;
+}
+
+details summary{ cursor:pointer; color:var(--fg); font-weight:700; margin-top:.75rem }
+.result{
+  margin-top:.65rem;
+  padding: .9rem;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background: rgba(56,189,248,0.08);
+  font-family: var(--mono);
+  font-size:.88rem;
+  color:var(--fg);
+}
+
+footer{
+  text-align:center;
+  color:var(--fg3);
+  font-size:.82rem;
+  padding: 1.2rem 0 .4rem;
+}
 </style>
 </head>
+
 <body>
+<div class="page">
 
-<h1>STUR Sandbox – Geometry, Simulation & AI</h1>
+  <header class="header">
+    <h1>STUR Sandbox</h1>
+    <p class="subtitle">
+      Geometry → Derivative → Dynamics → Summary → Next Prompt.
+      This page is the <b>falsification loop</b> in miniature.
+    </p>
+    <div class="badges">
+      <span class="badge">S(u)=tanh(u)(1-e^{-u})</span>
+      <span class="badge">u=r/L₀ (dimensionless)</span>
+      <span class="badge">Analytic dS/dr</span>
+      <span class="badge">DPR-correct canvas</span>
+      <span class="badge">JSON export</span>
+    </div>
+  </header>
 
-<!-- ===================================================== -->
-<!-- EDUCATIONAL SECTION -->
-<!-- ===================================================== -->
+  <section class="panel">
+    <h2>What This Page Teaches</h2>
+    <p>
+      You’re doing the real workflow:
+      <b>idea → equation → derivative → simulation → refinement → repeat</b>.
+      In STUR terms, you are testing how a chosen geometry produces a specific dynamical signature,
+      then exporting numeric evidence for the next iteration.
+    </p>
 
-<div class="panel">
-<h2>Welcome to the STUR Sandbox</h2>
-<p class="text">
-This page is an interactive physics laboratory.
-<br><br>
-It teaches:
-<br>• how to experiment with geometry  
-<br>• how to write and understand simulations  
-<br>• how to use AI to extend theoretical physics  
-<br><br>
-You’ll learn <b>the entire modern physics workflow</b>:
-<br><br>
-<b>idea → equation → derivative → simulation → refinement → iteration</b>
-<br><br>
-Here you start with a 1D geometry and, in the Python template, climb to a 5D STUR-style manifold automatically.  
-AI is not the replacement for you — it is the accelerator around you.
-</p>
-</div>
-
-<div class="panel">
-<h2>How Science Really Works (Iteration)</h2>
-<p class="text">
-Science is not a straight line. It is iteration:
-</p>
-
-<pre>
-guess → compute → compare → refine → repeat
-</pre>
-
-<p class="text">
-This sandbox is built for fast iteration.  
-Move sliders, watch motion change, observe behavior, adjust.  
-Every experiment trains intuition.
-</p>
-</div>
-
-<div class="panel">
-<h2>Why Simulations Matter</h2>
-<p class="text">
-Simulations let you run impossible experiments:
-<br><br>
-• too big (galaxies)  
-• too small (quarks)  
-• too dangerous (plasma)  
-• too expensive (supercolliders)  
-• too slow to observe in real time  
-<br><br>
-This sandbox is a tiny version of the same principle:
-a single geometry function driving motion.
-</p>
-</div>
-
-<div class="panel">
-<h2>A Short History of Simulations</h2>
-<p class="text">
-The first “simulations” were mechanical: pendulums, gears, adding machines.
-<br><br>
-Then came digital computers:
-<br>• 1950s orbit simulations  
-<br>• 1960s weather modeling  
-<br>• 1970s plasma torus codes  
-<br>• 1980s cosmology  
-<br>• 2000s molecular dynamics  
-<br>• 2020s neural simulations  
-<br>• 2025+ AI-assisted physics  
-<br><br>
-This sandbox continues that lineage: a geometry → motion experiment.
-</p>
-</div>
-
-<div class="panel">
-<h2>How to Use AI for Theoretical Physics</h2>
-<p class="text">
-AI can now assist at every stage:
-</p>
-
-<pre>
-1. turn your hunch into a clean written idea
-2. derive dS/dr or more complex fields
-3. check the algebra and limits
-4. rewrite equations in canonical form
-5. build simulations or PDE solvers
-6. search for conserved quantities
-7. extend geometry to 2D, 3D, helical, toroidal, or 5D STUR manifolds
-</pre>
-
-<p class="text">
-The key is still <b>your idea</b>.  
-AI accelerates the steps around it — not the spark itself.
-</p>
-</div>
-
-<div class="panel">
-  <h2>Multi-AI + Python Runner Workflow</h2>
-  <p class="text">
-  This page is also a “learn how to code with AI” lab.  
-  Treat each AI (or each chat) like a different member of your research group:
-  </p>
-
-<pre>
-Teacher AI
-  “Help me restate this idea clearly.
-   Define the variables and what I’m trying to test.”
-
-Coder AI
-  “Using the official STUR Sandbox template, write a JupyterLite-safe
-   Python script that does X, Y, Z with S(r).”
-
-Reviewer AI
-  “Check the physics, units, stability and edge cases.
-   Suggest fixes without changing the core idea.”
-
-Python Runner (JupyterLite, JupyterLab, VS Code, etc.)
-  1. Paste the script.
-  2. Run it and look at the plots + JSON summary.
-  3. Go back to AI:
-     “Given these results, what should we change next?”
-</pre>
-
-  <p class="text">
-  You are not chatting for entertainment.  
-  You are driving a loop:
-  <b>intuition → AI derivation → Python run → new data → new intuition.</b>
-  </p>
-</div>
-
-<div class="panel">
-<h2>STUR Geometry in One Equation</h2>
-<pre>S(r) = tanh(r/L₀) · (1 − e<sup>−r/L₀</sup>)</pre>
-<p class="text">
-This one expression contains curvature, damping, confinement characteristics,
-and the ability to unify different types of fields into one geometry.
-<br><br>
-In the Python template below, this same S(r) is used to build a
-1D → 5D radial motion suite: same geometry, different dimensional labels.
-</p>
-</div>
-
-<!-- ===================================================== -->
-<!-- INTERACTIVE SANDBOX -->
-<!-- ===================================================== -->
-
-<div class="panel">
-  <h2>Interactive Geometry Sandbox</h2>
-  <p class="text">
-Change the geometry, observe motion, and experiment with structure.
-  </p>
-
-  <div class="controls-row">
-    <div class="controls-column">
-      <label>L₀ (geometry scale): <span id="L0_val">1.00</span></label>
-      <input type="range" id="L0" min="0.2" max="3" value="1" step="0.1">
-
-      <label>R<sub>max</sub> (horizontal range): <span id="Rmax_val">5.0</span></label>
-      <input type="range" id="Rmax" min="2" max="10" value="5" step="0.5">
+    <div class="eq">
+\[
+\boxed{
+S(u)=\tanh(u)\left(1-e^{-u}\right), \quad u=\frac{r}{L_0}
+}
+\]
     </div>
 
-    <div class="buttons-column">
-      <button id="toggleAnim">▶ Start</button>
-      <button id="kickBtn">⚡ Kick</button>
-      <button id="resetBtn">⟲ Reset</button>
-      <button id="downloadBtn">⬇ Curve</button>
+    <p>
+      The sandbox uses a simple radial motion rule driven by the geometry slope:
+      \(F(r)=-\partial_r S(r)\) (plus damping and soft wall bounces).
+      This is not “the whole theory” — it’s the smallest loop that trains the same habits as your larger STUR sims.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h2>Interactive Geometry Sandbox</h2>
+
+    <div class="controls">
+      <div>
+        <h3>Geometry & Integrator</h3>
+
+        <div class="control">
+          <label>L₀ (geometry scale): <span id="L0_val">1.00</span></label>
+          <input type="range" id="L0" min="0.2" max="3" value="1" step="0.05">
+        </div>
+
+        <div class="control">
+          <label>R<sub>max</sub> (range): <span id="Rmax_val">5.0</span></label>
+          <input type="range" id="Rmax" min="2" max="10" value="5" step="0.25">
+        </div>
+
+        <div class="control">
+          <label>Damping γ: <span id="gamma_val">0.050</span></label>
+          <input type="range" id="gamma" min="0" max="0.25" value="0.05" step="0.005">
+        </div>
+
+        <div class="control">
+          <label>Time step dt: <span id="dt_val">0.020</span></label>
+          <input type="range" id="dt" min="0.005" max="0.06" value="0.02" step="0.001">
+        </div>
+
+        <div class="btnrow">
+          <button id="toggleAnim">▶ Start</button>
+          <button class="secondary" id="kickBtn">⚡ Kick</button>
+          <button class="secondary" id="resetBtn">⟲ Reset</button>
+          <button class="secondary" id="downloadBtn">⬇ Export JSON</button>
+        </div>
+
+        <div class="energy-wrap">
+          <div class="energy-label">Speed indicator (|v| mapped to bar):</div>
+          <div class="energy-bar"><div id="speed_bar" class="energy-inner"></div></div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi">
+            <div class="k">Phase proxy</div>
+            <div class="v" id="kpi_phase">—</div>
+          </div>
+          <div class="kpi">
+            <div class="k">Local slope dS/dr</div>
+            <div class="v" id="kpi_slope">—</div>
+          </div>
+          <div class="kpi">
+            <div class="k">Force F=-dS/dr</div>
+            <div class="v" id="kpi_force">—</div>
+          </div>
+        </div>
+
+        <details>
+          <summary>Show live numerical output</summary>
+          <pre id="output"></pre>
+        </details>
+      </div>
+
+      <div>
+        <h3>Plot</h3>
+        <p style="margin-bottom:.5rem;color:var(--fg2)">
+          Orange: \(S(r)\). Cyan: particle on the curve. Faint cyan trail: recent history.
+        </p>
+
+        <div class="canvas-wrap">
+          <canvas id="plot"></canvas>
+        </div>
+
+        <div class="result" id="mini_readme">
+          Tip: this sandbox exports a JSON bundle containing <b>S(r)</b>, <b>dS/dr</b>, and the particle trajectory.
+          Drop that JSON into the next AI prompt to generate a more advanced STUR experiment (PDE, boundary gate, or 5D mapping).
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <canvas id="plot" width="800" height="260"></canvas>
+  <section class="panel">
+    <h2>STUR 1D → 5D Starter Template (Copy Ready)</h2>
+    <p>
+      Updated to match your “theory hammered out” baseline:
+      dimensionless \(u=r/L_0\), the same \(S(u)\), analytic derivative, and a clean JSON summary.
+      (JupyterLite / Pyodide safe: no blit tricks, no filesystem dependencies beyond optional JSON save.)
+    </p>
 
-  <div class="energy-wrap">
-    Speed indicator:
-    <div class="energy-bar"><div id="speed_bar" class="energy-inner"></div></div>
-  </div>
-
-  <details style="margin-top:0.5rem;">
-    <summary>Show live numerical output</summary>
-    <pre id="output"></pre>
-  </details>
-</div>
-
-<!-- ===================================================== -->
-<!-- STARTER TEMPLATE FOR AI -->
-<!-- ===================================================== -->
-
-<div class="panel">
-  <h2>STUR 1D → 5D Manifold Starter (Copy Ready)</h2>
-  <p class="text">
-  This is the official template for creating new STUR simulations with AI.  
-  It automatically runs a 1D → 5D radial motion suite in the same geometry,
-  saves a JSON summary, and then prints a prompt for your next physics question.
-  </p>
-
-<pre id="ai_template">
-# ===============================================================
-# STUR 1D → 5D Manifold Suite — JupyterPiode Safe Version
+<pre id="ai_template"># ===============================================================
+# STUR 1D → 5D Manifold Suite — Pyodide/JupyterLite-safe
+# Geometry: S(u)=tanh(u)(1-exp(-u)), u=r/L0
 # ===============================================================
 import numpy as np
 import matplotlib.pyplot as plt
 import json
 
-plt.style.use("dark_background")
+# -------------------------------
+# 1) Geometry (dimensionless u)
+# -------------------------------
+def Su(u):
+    return np.tanh(u) * (1.0 - np.exp(-u))
 
-# -------------------------------
-# 1. STUR Geometry
-# -------------------------------
-def S(r, L0=1.0):
-    x = r / L0
-    return np.tanh(x) * (1 - np.exp(-x))
+def dSu_du(u):
+    # d/du [tanh(u)(1-e^{-u})]
+    sech2 = 1.0 / np.cosh(u)**2
+    return sech2*(1.0 - np.exp(-u)) + np.tanh(u)*np.exp(-u)
+
+def S_r(r, L0=1.0):
+    u = r / L0
+    return Su(u)
 
 def dS_dr(r, L0=1.0):
-    x = r / L0
-    sech2 = 1.0 / np.cosh(x)**2
-    return (sech2 * (1 - np.exp(-x)) + np.tanh(x) * np.exp(-x)) / L0
+    u = r / L0
+    return dSu_du(u) / L0
 
 def force(r, L0=1.0):
     return -dS_dr(r, L0)
 
 # -------------------------------
-# 2. Update Step
+# 2) Simple radial dynamics (demo)
 # -------------------------------
-def radial_step(r, v, dt=0.01, L0=1.0, damping=0.05):
+def step(r, v, dt=0.02, L0=1.0, gamma=0.05, Rmax=5.0):
     F = force(r, L0)
-    v = v + (F - damping * v) * dt
+    v = v + (F - gamma*v) * dt
     r = r + v * dt
 
-    if r < 0:
-        r = 0
+    # soft wall bounce
+    if r < 0.0:
+        r = 0.0
         v *= -0.4
-
-    return r, v
+    if r > Rmax:
+        r = Rmax
+        v *= -0.4
+    return r, v, F
 
 # -------------------------------
-# 3. Run 1D → 5D labeled simulation
+# 3) Run 1D → 5D labeled suite
 # -------------------------------
-def simulate_dimension(D, L0=1.0, Rmax=5.0, steps=4000, dt=0.01):
+def simulate_dimension(D, L0=1.0, Rmax=5.0, steps=4000, dt=0.02, gamma=0.05):
     r = 0.6 * Rmax
     v = 0.0
-    rs = []
+    rs = np.zeros(steps)
+    Fs = np.zeros(steps)
+    for i in range(steps):
+        r, v, F = step(r, v, dt=dt, L0=L0, gamma=gamma, Rmax=Rmax)
+        rs[i] = r
+        Fs[i] = F
 
-    for _ in range(steps):
-        r, v = radial_step(r, v, dt=dt, L0=L0)
-        r = float(np.clip(r, 0.0, Rmax))
-        rs.append(r)
-
-    rs = np.array(rs)
     summary = {
         "D": int(D),
+        "L0": float(L0),
+        "Rmax": float(Rmax),
+        "dt": float(dt),
+        "gamma": float(gamma),
         "r_min": float(rs.min()),
         "r_max": float(rs.max()),
         "r_mean": float(rs.mean()),
+        "F_rms": float(np.sqrt(np.mean(Fs**2))),
     }
-    return rs, summary
+    return rs, Fs, summary
 
-# -------------------------------
-# 4. Master Suite
-# -------------------------------
-def run_suite(max_dim=5, L0=1.0, Rmax=5.0):
+def run_suite(max_dim=5, L0=1.0, Rmax=5.0, steps=4000, dt=0.02, gamma=0.05):
     trajs = {}
     summaries = []
-    for D in range(1, max_dim + 1):
-        rs, summary = simulate_dimension(D, L0=L0, Rmax=Rmax)
-        trajs[D] = rs
-        summaries.append(summary)
+    for D in range(1, max_dim+1):
+        rs, Fs, s = simulate_dimension(D, L0=L0, Rmax=Rmax, steps=steps, dt=dt, gamma=gamma)
+        trajs[D] = {"r": rs, "F": Fs}
+        summaries.append(s)
     return trajs, summaries
 
 # -------------------------------
-# 5. Main Execution
+# 4) Main
 # -------------------------------
-trajs, summaries = run_suite()
+L0 = 1.0
+Rmax = 5.0
+dt = 0.02
+gamma = 0.05
+steps = 2500
 
-# Plot all 1D→5D trajectories on one graph
+trajs, summaries = run_suite(max_dim=5, L0=L0, Rmax=Rmax, steps=steps, dt=dt, gamma=gamma)
+
+# Plot trajectories
 fig, ax = plt.subplots(figsize=(8, 5))
-min_len = min(len(v) for v in trajs.values())
-t = np.arange(min_len)
-
-for D, rs in trajs.items():
-    ax.plot(t, rs[:min_len], label=f"{D}D")
-
-ax.set_title("STUR 1D → 5D Manifold - Radial Motion")
+t = np.arange(steps)
+for D in trajs:
+    ax.plot(t, trajs[D]["r"], label=f"{D}D")
+ax.set_title("STUR 1D → 5D (same geometry, labeled dimensions)")
 ax.set_xlabel("time step")
 ax.set_ylabel("radius r")
 ax.legend()
 plt.tight_layout()
 plt.show()
 
-# Save summary as JSON
-with open("stur_1d_to_5d_summary.json", "w") as f:
-    json.dump(summaries, f, indent=2)
+# Geometry curve
+rgrid = np.linspace(0, Rmax, 600)
+fig2, ax2 = plt.subplots(figsize=(8, 3.2))
+ax2.plot(rgrid, S_r(rgrid, L0=L0))
+ax2.set_title("Geometry S(r)")
+ax2.set_xlabel("r")
+ax2.set_ylabel("S")
+plt.tight_layout()
+plt.show()
 
+# JSON summary (safe: works in JupyterLite; file save may depend on environment)
 print("=== STUR 1D → 5D SUMMARY ===")
 print(json.dumps(summaries, indent=2))
 
-print("\nNext prompt:\n")
+print("\nNEXT PROMPT:\n")
 print(
-    "Using this 1D–5D STUR summary:\n"
-    "1. Pick one dimension and define a physical interpretation.\n"
-    "2. Derive a Lagrangian or Hamiltonian.\n"
-    "3. Convert it into a new JupyterPiode-safe simulation.\n"
-    "4. Predict an observable or experiment."
+    "Using this STUR summary JSON:\n"
+    "1) Choose one D and define a physical interpretation (boundary gate, orbit, junction, optics).\n"
+    "2) Write a Lagrangian or an evolution PDE consistent with STUR (include u_c and M if needed).\n"
+    "3) Implement a falsification-facing simulator (plots + JSON + residual hooks).\n"
+    "4) State a YES/NO experimental signature."
 )
 </pre>
 
-  <button onclick="copyAITemplate()">📋 Copy STUR 1D → 5D Template</button>
-</div>
+    <div class="btnrow">
+      <button id="copyTemplateBtn">📋 Copy Template</button>
+      <button class="secondary" id="copyNextPromptBtn">🧭 Copy “Next Prompt”</button>
+    </div>
+  </section>
 
-<div class="panel">
-  <h2>What to Ask AI After You Run the Script</h2>
-  <p class="text">
-  After you run the Python template once and see the 1D → 5D plot + JSON, you can drive the next step with a single prompt:
-  </p>
+  <section class="panel">
+    <h2>Where This Sandbox Upgrades Next</h2>
+    <ul>
+      <li><b>Boundary gate toggle</b>: add \(M(\tau)=R_qS_u(u_c)\) and a phase slider \(\theta\) that modulates observed output.</li>
+      <li><b>History dependence</b>: add “slow-cool vs fast-quench” presets that change \(u_c\) evolution (same final state).</li>
+      <li><b>Residual hooks</b>: export a model-vs-data residual panel (plug-in style) for real datasets.</li>
+      <li><b>2D/3D lift</b>: replace 1D radial motion with a 2D/3D trajectory constrained by \(S(r)\).</li>
+    </ul>
+  </section>
 
-<pre>
-“Here is my STUR 1D–5D manifold summary (paste JSON).
-Turn this into a real physical problem:
+  <div class="panel" style="text-align:center;">
+    <button class="secondary" onclick="location.href='../index.html'">← Back to STUR Index</button>
+  </div>
 
-1. Pick an interpretation for each D (string, membrane, orbit, plasma, etc.).
-2. Derive a Lagrangian or Hamiltonian for one of them.
-3. Write a new JupyterLite-safe Python script that simulates that system.
-4. Tell me what experimental or observational signature I should look for.”
-</pre>
+  <footer>
+    STUR Sandbox • Geometry → Simulation → Falsification Loop<br>
+    (Updated for dimensionless u=r/L₀ and analytic derivative)
+  </footer>
 
-  <p class="text">
-  That is the full loop: <b>geometry → motion → manifold → real physics.</b>
-  </p>
-</div>
-
-<div class="panel" style="text-align:center;">
-  <button onclick="location.href='../index.html'">← Back to STUR Index</button>
 </div>
 
 <script>
-/* ========= geometry ========= */
-function S(r, L0){ const x=r/L0; return Math.tanh(x)*(1-Math.exp(-x)); }
-function dS_dr(r,L0){
-  const h=1e-3*Math.max(1,L0);
-  return (S(r+h,L0)-S(Math.max(0,r-h),L0))/(2*h);
+/* =========================================================
+   STUR Sandbox — "Theory hammered out" update
+   - Uses u=r/L0 and analytic derivative
+   - DPR-correct canvas
+   - Exports JSON: geometry samples + trajectory + settings
+========================================================= */
+
+/* ---------- Geometry: S(u)=tanh(u)(1-e^{-u}) ---------- */
+function Su(u){ return Math.tanh(u) * (1 - Math.exp(-u)); }
+function dSu_du(u){
+  const sech2 = 1 / (Math.cosh(u) * Math.cosh(u));
+  return sech2 * (1 - Math.exp(-u)) + Math.tanh(u) * Math.exp(-u);
+}
+function S_r(r, L0){ return Su(r / L0); }
+function dS_dr(r, L0){ return dSu_du(r / L0) / L0; }
+
+/* ---------- DOM ---------- */
+const L0_slider = document.getElementById("L0");
+const Rmax_slider = document.getElementById("Rmax");
+const gamma_slider = document.getElementById("gamma");
+const dt_slider = document.getElementById("dt");
+
+const L0_val = document.getElementById("L0_val");
+const Rmax_val = document.getElementById("Rmax_val");
+const gamma_val = document.getElementById("gamma_val");
+const dt_val = document.getElementById("dt_val");
+
+const canvas = document.getElementById("plot");
+const ctx = canvas.getContext("2d");
+const outputEl = document.getElementById("output");
+
+const toggleBtn = document.getElementById("toggleAnim");
+const kickBtn = document.getElementById("kickBtn");
+const resetBtn = document.getElementById("resetBtn");
+const downloadBtn = document.getElementById("downloadBtn");
+const speedBar = document.getElementById("speed_bar");
+
+const kpiPhase = document.getElementById("kpi_phase");
+const kpiSlope = document.getElementById("kpi_slope");
+const kpiForce = document.getElementById("kpi_force");
+
+const copyTemplateBtn = document.getElementById("copyTemplateBtn");
+const copyNextPromptBtn = document.getElementById("copyNextPromptBtn");
+
+/* ---------- Canvas DPR fit ---------- */
+function fitCanvasToCSS(){
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  const rect = canvas.getBoundingClientRect();
+  const w = Math.round(rect.width * dpr);
+  const h = Math.round(rect.height * dpr);
+  if (canvas.width !== w || canvas.height !== h){
+    canvas.width = w; canvas.height = h;
+  }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // draw in CSS pixels
+  return { width: rect.width, height: rect.height };
 }
 
-/* ========= DOM ========= */
-const L0_slider=document.getElementById("L0");
-const Rmax_slider=document.getElementById("Rmax");
-const L0_val=document.getElementById("L0_val");
-const Rmax_val=document.getElementById("Rmax_val");
-const canvas=document.getElementById("plot");
-const ctx=canvas.getContext("2d");
-const outputEl=document.getElementById("output");
-const toggleBtn=document.getElementById("toggleAnim");
-const kickBtn=document.getElementById("kickBtn");
-const resetBtn=document.getElementById("resetBtn");
-const downloadBtn=document.getElementById("downloadBtn");
-const speedBar=document.getElementById("speed_bar");
+/* ---------- Particle + trail ---------- */
+let particle = { r: 2.5, v: 0 };
+let trail = [];
+let animating = false;
 
-/* ========= particle ========= */
-let particle={ r:2.5, v:0 };
-let animating=false;
-let trail=[];
+/* ---------- Physics step ---------- */
+function step(L0, Rmax, dt, gamma){
+  const slope = dS_dr(particle.r, L0);
+  const F = -slope;
 
-/* ========= update ========= */
-function update(){
-  const L0=parseFloat(L0_slider.value);
-  const Rmax=parseFloat(Rmax_slider.value);
-  if(particle.r>Rmax) particle.r=Rmax;
+  particle.v += (F - gamma * particle.v) * dt;
+  particle.r += particle.v * dt;
 
-  L0_val.textContent=L0.toFixed(2);
-  Rmax_val.textContent=Rmax.toFixed(1);
-  drawScene(L0,Rmax);
+  // walls
+  if (particle.r < 0){ particle.r = 0; particle.v *= -0.4; }
+  if (particle.r > Rmax){ particle.r = Rmax; particle.v *= -0.4; }
 
-  const slope=dS_dr(particle.r,L0);
-  speedBar.style.width = (Math.min(1,Math.abs(particle.v)/3)*100)+"%";
+  trail.push(particle.r);
+  if (trail.length > 240) trail.shift();
 
-  outputEl.textContent=
-`L₀ = ${L0}
-Rmax = ${Rmax}
-
-r = ${particle.r.toFixed(3)}
-v = ${particle.v.toFixed(3)}
-slope = ${slope.toExponential(3)}
-F = ${(-slope).toExponential(3)}`;
+  return { slope, F };
 }
 
-/* ========= draw ========= */
-function drawScene(L0,Rmax){
-  const W=canvas.width, H=canvas.height;
+/* ---------- Draw ---------- */
+function drawScene(L0, Rmax){
+  const { width: W, height: H } = fitCanvasToCSS();
+
   ctx.clearRect(0,0,W,H);
 
-  ctx.strokeStyle="#333"; ctx.beginPath();
-  ctx.moveTo(0,H/2); ctx.lineTo(W,H/2); ctx.stroke();
+  // axis
+  ctx.strokeStyle = "rgba(148,163,184,0.22)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, H/2);
+  ctx.lineTo(W, H/2);
+  ctx.stroke();
 
-  ctx.strokeStyle="#ffaa00"; ctx.beginPath();
-  for(let i=0;i<=W;i++){
-    const r=(i/W)*Rmax;
-    let val=S(r,L0);
-    val=Math.max(-1.2,Math.min(1.2,val));
-    const y=H/2 - val*(H*0.4);
-    if(i===0) ctx.moveTo(i,y); else ctx.lineTo(i,y);
+  // geometry curve S(r)
+  ctx.strokeStyle = "rgba(251,191,36,0.95)"; // warm amber (close to your legacy)
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i=0;i<=Math.floor(W);i++){
+    const r = (i/W)*Rmax;
+    let val = S_r(r, L0);
+    val = Math.max(-1.2, Math.min(1.2, val));
+    const y = H/2 - val*(H*0.4);
+    if (i===0) ctx.moveTo(i, y); else ctx.lineTo(i, y);
   }
   ctx.stroke();
 
-  if(trail.length>1){
-    for(let i=1;i<trail.length;i++){
-      const r1=trail[i-1], r2=trail[i];
-      const x1=(r1/Rmax)*W, x2=(r2/Rmax)*W;
-      const y1=H/2-S(r1,L0)*(H*0.4);
-      const y2=H/2-S(r2,L0)*(H*0.4);
-      ctx.strokeStyle=`rgba(0,255,204,${i/trail.length*0.5})`;
-      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  // trail
+  if (trail.length > 1){
+    for (let i=1;i<trail.length;i++){
+      const r1 = trail[i-1], r2 = trail[i];
+      const x1 = (r1/Rmax)*W, x2 = (r2/Rmax)*W;
+      const y1 = H/2 - S_r(r1, L0)*(H*0.4);
+      const y2 = H/2 - S_r(r2, L0)*(H*0.4);
+
+      ctx.strokeStyle = `rgba(0,255,204,${(i/trail.length)*0.45})`;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x1,y1);
+      ctx.lineTo(x2,y2);
+      ctx.stroke();
     }
   }
 
-  const xp=(particle.r/Rmax)*W;
-  const yp=H/2 - S(particle.r,L0)*(H*0.4);
-  ctx.fillStyle="#00ffcc";
-  ctx.beginPath(); ctx.arc(xp,yp,6,0,2*Math.PI); ctx.fill();
+  // particle
+  const xp = (particle.r/Rmax)*W;
+  const yp = H/2 - S_r(particle.r, L0)*(H*0.4);
+  ctx.fillStyle = "rgba(0,255,204,0.95)";
+  ctx.beginPath();
+  ctx.arc(xp, yp, 6, 0, 2*Math.PI);
+  ctx.fill();
 }
 
-/* ========= physics ========= */
-function step(L0,Rmax,dt=0.02){
-  const slope=dS_dr(particle.r,L0);
-  const F=-slope;
-  particle.v += (F - 0.05*particle.v)*dt;
-  particle.r += particle.v*dt;
-  if(particle.r<0){ particle.r=0; particle.v*=-0.4; }
-  if(particle.r>Rmax){ particle.r=Rmax; particle.v*=-0.4; }
-  trail.push(particle.r); if(trail.length>200) trail.shift();
+/* ---------- Update UI ---------- */
+function updateUI(extra){
+  const L0 = parseFloat(L0_slider.value);
+  const Rmax = parseFloat(Rmax_slider.value);
+  const gamma = parseFloat(gamma_slider.value);
+  const dt = parseFloat(dt_slider.value);
+
+  if (particle.r > Rmax) particle.r = Rmax;
+
+  L0_val.textContent = L0.toFixed(2);
+  Rmax_val.textContent = Rmax.toFixed(2);
+  gamma_val.textContent = gamma.toFixed(3);
+  dt_val.textContent = dt.toFixed(3);
+
+  const slope = extra?.slope ?? dS_dr(particle.r, L0);
+  const F = extra?.F ?? (-slope);
+
+  // speed bar
+  const vAbs = Math.abs(particle.v);
+  speedBar.style.width = (Math.min(1, vAbs/3) * 100) + "%";
+
+  // KPI: phase proxy (simple, bounded): atan(v) as a toy “phase-like” readout
+  const phaseProxy = Math.atan2(particle.v, 1);
+  kpiPhase.textContent = phaseProxy.toFixed(4);
+  kpiSlope.textContent = slope.toExponential(3);
+  kpiForce.textContent = F.toExponential(3);
+
+  outputEl.textContent =
+`STUR Sandbox (dimensionless u=r/L0)
+
+L0     = ${L0}
+Rmax   = ${Rmax}
+gamma  = ${gamma}
+dt     = ${dt}
+
+r      = ${particle.r.toFixed(5)}
+v      = ${particle.v.toFixed(5)}
+u=r/L0 = ${(particle.r/L0).toFixed(5)}
+
+S(r)   = ${S_r(particle.r, L0).toExponential(6)}
+dS/dr  = ${slope.toExponential(6)}
+F      = ${F.toExponential(6)}
+
+trail_len = ${trail.length}`;
+
+  drawScene(L0, Rmax);
 }
 
-/* ========= animation ========= */
+/* ---------- Animation ---------- */
 function animate(){
-  if(!animating) return;
-  const L0=parseFloat(L0_slider.value);
-  const Rmax=parseFloat(Rmax_slider.value);
-  for(let i=0;i<3;i++) step(L0,Rmax);
-  update();
+  if (!animating) return;
+
+  const L0 = parseFloat(L0_slider.value);
+  const Rmax = parseFloat(Rmax_slider.value);
+  const gamma = parseFloat(gamma_slider.value);
+  const dt = parseFloat(dt_slider.value);
+
+  // multiple substeps for stability
+  let last;
+  for (let i=0;i<3;i++){
+    last = step(L0, Rmax, dt, gamma);
+  }
+  updateUI(last);
+
   requestAnimationFrame(animate);
 }
 
-/* ========= events ========= */
-L0_slider.oninput=update;
-Rmax_slider.oninput=update;
+/* ---------- JSON export ---------- */
+function exportJSON(){
+  const L0 = parseFloat(L0_slider.value);
+  const Rmax = parseFloat(Rmax_slider.value);
+  const gamma = parseFloat(gamma_slider.value);
+  const dt = parseFloat(dt_slider.value);
 
-toggleBtn.onclick=()=>{
-  animating=!animating;
-  toggleBtn.textContent=animating?"⏸ Pause":"▶ Start";
-  if(animating) requestAnimationFrame(animate);
-};
-
-kickBtn.onclick=()=>{
-  const Rmax=parseFloat(Rmax_slider.value);  
-  const dir = (particle.r <= Rmax/2) ? 1 : -1;
-  particle.v = dir*(1 + Math.random()*0.7);
-  update();
-};
-
-resetBtn.onclick=()=>{
-  L0_slider.value=1;
-  Rmax_slider.value=5;
-  particle={ r:2.5, v:0 };
-  trail=[];
-  animating=false;
-  toggleBtn.textContent="▶ Start";
-  update();
-};
-
-downloadBtn.onclick=()=>{
-  const L0=parseFloat(L0_slider.value);
-  const Rmax=parseFloat(Rmax_slider.value);
-  const pts=[];
-  for(let i=0;i<=200;i++){
-    const r=(i/200)*Rmax;
-    pts.push({ r:r, S:S(r,L0) });
+  // geometry samples
+  const N = 360;
+  const pts = [];
+  for (let i=0;i<=N;i++){
+    const r = (i/N)*Rmax;
+    pts.push({
+      r,
+      u: r/L0,
+      S: S_r(r, L0),
+      dS_dr: dS_dr(r, L0),
+      F: -dS_dr(r, L0)
+    });
   }
-  const json=JSON.stringify({L0,Rmax,points:pts},null,2);
-  const blob=new Blob([json],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url; a.download="stur_curve.json"; a.click();
-  URL.revokeObjectURL(url);
-};
 
-function copyAITemplate(){
-  navigator.clipboard.writeText(document.getElementById("ai_template").innerText);
-  alert("STUR 1D → 5D Template copied!");
+  const payload = {
+    meta: {
+      title: "STUR Sandbox Export",
+      geometry: "S(u)=tanh(u)(1-exp(-u)), u=r/L0",
+      timestamp_iso: new Date().toISOString()
+    },
+    settings: { L0, Rmax, gamma, dt },
+    state: { r: particle.r, v: particle.v },
+    geometry_samples: pts,
+    trajectory_r: trail.slice()
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "stur_sandbox_export.json";
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
-/* ========= init ========= */
-update();
+/* ---------- Clipboard helpers ---------- */
+async function copyText(txt){
+  try{
+    await navigator.clipboard.writeText(txt);
+    return true;
+  }catch(e){
+    // fallback
+    const ta = document.createElement("textarea");
+    ta.value = txt;
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(ta);
+    return ok;
+  }
+}
+
+/* ---------- Events ---------- */
+L0_slider.addEventListener("input", () => updateUI());
+Rmax_slider.addEventListener("input", () => updateUI());
+gamma_slider.addEventListener("input", () => updateUI());
+dt_slider.addEventListener("input", () => updateUI());
+
+toggleBtn.onclick = () => {
+  animating = !animating;
+  toggleBtn.textContent = animating ? "⏸ Pause" : "▶ Start";
+  if (animating) requestAnimationFrame(animate);
+};
+
+kickBtn.onclick = () => {
+  const Rmax = parseFloat(Rmax_slider.value);
+  const dir = (particle.r <= Rmax/2) ? 1 : -1;
+  particle.v = dir * (1.2 + Math.random()*0.9);
+  updateUI();
+};
+
+resetBtn.onclick = () => {
+  L0_slider.value = 1;
+  Rmax_slider.value = 5;
+  gamma_slider.value = 0.05;
+  dt_slider.value = 0.02;
+  particle = { r: 2.5, v: 0 };
+  trail = [];
+  animating = false;
+  toggleBtn.textContent = "▶ Start";
+  updateUI();
+};
+
+downloadBtn.onclick = exportJSON;
+
+copyTemplateBtn.onclick = async () => {
+  const txt = document.getElementById("ai_template").innerText;
+  const ok = await copyText(txt);
+  copyTemplateBtn.textContent = ok ? "✅ Copied" : "⚠️ Copy failed";
+  setTimeout(()=> copyTemplateBtn.textContent="📋 Copy Template", 1200);
+};
+
+copyNextPromptBtn.onclick = async () => {
+  const prompt =
+`Using the STUR Sandbox export JSON:
+
+1) Identify the regime (confinement vs saturation) using S(r), dS/dr, and the trajectory.
+2) Replace this toy dynamics with a falsification-facing model:
+   - either a boundary gate (M=R_q S_u(u_c), theta modulation),
+   - or a PDE (diffusion + drift + chi*∂_X R + source).
+3) Add residual hooks (model - data) and export a JSON summary.
+4) State a YES/NO experimental signature that would kill the model.`;
+
+  const ok = await copyText(prompt);
+  copyNextPromptBtn.textContent = ok ? "✅ Copied" : "⚠️ Copy failed";
+  setTimeout(()=> copyNextPromptBtn.textContent="🧭 Copy “Next Prompt”", 1200);
+};
+
+/* ---------- Init ---------- */
+function init(){
+  // start centered to current Rmax
+  const Rmax = parseFloat(Rmax_slider.value);
+  particle.r = 0.5 * Rmax;
+  particle.v = 0;
+  updateUI();
+  // ensure redraw on resize for DPR/layout changes
+  window.addEventListener("resize", () => updateUI(), {passive:true});
+}
+init();
 </script>
 
 </body>
