@@ -112,6 +112,53 @@ th {
     grid-template-columns: 1fr;
   }
 }
+/* --- Phase-mixing demo --- */
+.phase-tool{
+  background: rgba(56,189,248,0.05);
+  border: 1px solid var(--accent2);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin: 1rem 0;
+}
+.phase-grid{
+  display:grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1rem;
+  align-items:start;
+}
+.phase-row{
+  display:flex;
+  gap:.75rem;
+  align-items:center;
+  flex-wrap:wrap;
+  margin:.5rem 0;
+}
+.phase-label{
+  color: var(--fg2);
+  font-size:.9rem;
+  min-width: 120px;
+}
+.phase-slider{
+  width: min(520px, 100%);
+}
+.phase-readout{
+  font-family: monospace;
+  color: var(--fg);
+  background: rgba(2,6,23,0.6);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .5rem .7rem;
+}
+.phase-canvas{
+  width:100%;
+  height:260px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background: rgba(2,6,23,0.55);
+}
+@media (max-width: 768px){
+  .phase-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 
@@ -244,10 +291,15 @@ Geometrizing this evolution requires the internal axis \(X\).
 <div class="eq">
 \[
 \boxed{
-\partial_X R = \frac{R - R_{\mathrm{bg}}}{L_X}
+\partial_X R \;\sim\; \frac{R - R_{\mathrm{bg}}}{L_X}
+\quad\text{(steady-state profile, not a dynamical law)}
 }
 \]
 </div>
+
+<p>
+The actual X-dynamics are governed by the bulk PDE and the Robin boundary condition at X=0.
+</p>
 
 <ul>
 <li>\(R = R_{\mathrm{bg}}\): equilibrium</li>
@@ -268,13 +320,17 @@ The X-directed evolution requires boundary conditions at the classical limit and
 <div class="eq">
 \[
 \boxed{
-\begin{align}
-R(x^\mu, X_{\min}) &= R_{\mathrm{classical}}(x^\mu) \quad \text{(classical limit)}\\
-\left.\partial_X R\right|_{X_{\max}} &= 0 \quad \text{(coherence saturation)}
-\end{align}
+\begin{aligned}
+- D_0 \partial_X R(t,x,0) &= F_{\mathrm{cm}}(t,x) \\
+\partial_X R(t,x,L_X) &= 0
+\end{aligned}
 }
 \]
 </div>
+
+<p>
+The classical limit emerges dynamically when the boundary flux saturates.
+</p>
 
 <p>
 These conditions uniquely define solutions to the 5D evolution equation.
@@ -286,17 +342,25 @@ These conditions uniquely define solutions to the 5D evolution equation.
 
 <div class="eq">
 \[
+\boxed{
 \mathcal{F}_{\mathrm{geom}}
 =
--\nabla_\mu R\,\Omega^{\mu}{}_{\nu\rho}
+- v^\mu \nabla_\mu R,
+\qquad
+v^\mu := \beta\,\Omega^\mu,
+\qquad
+\Omega^\mu := K^\mu{}_\nu{}^\nu
+}
 \]
 </div>
 
 <p>
+The contraction \Omega^\mu = K^\mu{}_\nu{}^\nu ensures scalar closure.
+</p>
+
+<p>
 Curvature and torsion are resistance responses, not independent forces.
-Here \(\Omega^{\mu}{}_{\nu\rho}\) is an effective affine response tensor 
-encoding curvature and torsion induced by resistance gradients, reducible 
-to the Levi-Civita connection plus contorsion terms in the classical limit.
+Here \(\Omega^{\mu}{}_{\nu\rho}\) is an effective affine response tensor encoding curvature and torsion induced by resistance gradients, reducible to the Levi-Civita connection plus contorsion terms in the classical limit, from which the scalar drift \Omega^\mu = K^\mu{}_\nu{}^\nu is constructed.
 </p>
 </section>
 
@@ -310,11 +374,13 @@ to the Levi-Civita connection plus contorsion terms in the classical limit.
 =
 \nabla\!\cdot(D\nabla R)
 -
-\nabla_\mu R\,\Omega^{\mu}{}_{\nu\rho}
+v^\mu \nabla_\mu R
 +
 \chi\,\partial_X R
 +
-S
+S,
+\qquad
+v^\mu := \beta\,\Omega^\mu
 }
 \]
 </div>
@@ -514,6 +580,10 @@ M = R_q\,S_u(u_c)
 </div>
 
 <p>
+We identify K_{\mathrm{proj}} := \kappa_{\mathrm{cm}}\cos(\theta/M).
+</p>
+
+<p>
 The observable is the boundary functional:
 </p>
 
@@ -540,6 +610,118 @@ which is the chronomagnetic signal evaluated by the simulator.
 <p>
 This expression is the origin of all laboratory and astrophysical signals.
 </p>
+</section>
+
+<section class="panel" id="phase-mixing">
+  <h2>8.5 Covariant Phase-Mixing Channel (EM Duality Rotation)</h2>
+
+  <p>
+    To implement a chronomagnetics-compatible, unit-consistent phase-mixing channel at the field level,
+    define the Faraday tensor \(F_{\mu\nu}\) and its dual \({}^\*\!F_{\mu\nu}\). Introduce a
+    <strong>dimensionless</strong> pseudoscalar mixing angle \(\chi(x)\).
+  </p>
+
+  <div class="eq">
+  \[
+  \boxed{
+  F'_{\mu\nu}
+  =
+  \cos\chi \, F_{\mu\nu}
+  +
+  \sin\chi \, {}^\*\!F_{\mu\nu}
+  \qquad
+  (\chi\ \text{dimensionless; units preserved})
+  }
+  \]
+  </div>
+
+  <p>
+    In SI 3-vector form (vacuum), the equivalent transformation is:
+  </p>
+
+  <div class="eq">
+  \[
+  \boxed{
+  \mathbf{E}'=\mathbf{E}\cos\chi + c\,\mathbf{B}\sin\chi,
+  \qquad
+  \mathbf{B}'=\mathbf{B}\cos\chi - \frac{1}{c}\mathbf{E}\sin\chi
+  }
+  \]
+  </div>
+
+  <p>
+    For constant \(\chi\), this is a duality rotation that preserves the field energy density
+    \(u=\tfrac12(\varepsilon_0|\mathbf{E}|^2+|\mathbf{B}|^2/\mu_0)\) and the plane-wave transport relation
+    \(|\mathbf{S}|=cu\). A spacetime-varying \(\chi(x)\) represents a physically active mixing channel, which in
+    STUR can be realized as a boundary-gated projection (holoscreen-induced phase mixing).
+  </p>
+
+  <div class="conceptual-box">
+    <strong>STUR link:</strong> treat \(\chi\) as a boundary-controlled mixing angle generated by the holoscreen
+    phase gate (chronomagnetic projection). The bulk Maxwell sector remains standard; the gate enters as an
+    effective boundary-induced duality rotation.
+  </div>
+
+  <div class="phase-tool">
+    <h4>⚙️ Interactive Demo: Plane-wave Phase Mixing (unit-consistent)</h4>
+
+    <div class="phase-grid">
+      <div>
+        <div class="phase-row">
+          <span class="phase-label">Mixing angle χ (rad):</span>
+          <input id="chi_slider" class="phase-slider" type="range" min="-3.1416" max="3.1416" step="0.001" value="0">
+          <span id="chi_value" class="phase-readout">0.000</span>
+        </div>
+
+        <div class="phase-row">
+          <span class="phase-label">E₀ (V/m):</span>
+          <input id="E0_input" class="calc-input" type="number" value="1" step="0.1">
+        </div>
+
+        <div class="phase-row">
+          <span class="phase-label">k (rad/m):</span>
+          <input id="k_input" class="calc-input" type="number" value="6.283" step="0.1">
+        </div>
+
+        <div class="phase-row">
+          <span class="phase-label">ω (rad/s):</span>
+          <input id="w_input" class="calc-input" type="number" value="6.283" step="0.1">
+        </div>
+
+        <div id="phase_invariants" class="result-box" style="display:block;"></div>
+      </div>
+
+      <div>
+        <canvas id="phase_canvas" class="phase-canvas" width="900" height="520"></canvas>
+      </div>
+    </div>
+
+    <p style="margin-top:.75rem;color:var(--fg2);font-size:.9rem;">
+      Blue: \(E_y(x,t)\) and \(E'_y(x,t)\) overlay (solid vs dashed). Orange: \(cB_z(x,t)\) and \(cB'_z(x,t)\) overlay.
+      The invariance check below reports \(u'/u\) and \(|S'|/|S|\) (should stay ≈ 1 for constant χ).
+    </p>
+  </div>
+
+<div class="eq">
+\[
+\boxed{
+\rho_{\mathrm{eff}} =
+\frac{1}{\mu_0 c}\nabla\chi\cdot\mathbf B,
+\qquad
+\mathbf J_{\mathrm{eff}} =
+\frac{1}{\mu_0}\left(
+\dot\chi\,\mathbf B + \nabla\chi\times\mathbf E
+\right)
+}
+\]
+</div>
+
+<p>
+A spacetime-varying χ(x,t) therefore induces effective electromagnetic
+sources without introducing new charges or violating energy conservation.
+In STUR, χ is a boundary-projected chronomagnetic phase, not a bulk field.
+</p>
+
 </section>
 
 <section class="panel">
@@ -612,6 +794,10 @@ constraints.
 The parameter <span class="equation">\(\tau\)</span> is <strong>not spacetime time</strong>.
 It is a <em>boundary evolution parameter</em> labeling successive
 holoscreen configurations.
+</p>
+
+<p>
+In the minimal STUR–CM model used for simulations and falsification tests, τ is identified with physical time t on the boundary hypersurface.
 </p>
 
 <p>
@@ -1381,6 +1567,206 @@ No parameter tuning rescues the theory.
 All predicted effects are <strong>at or near current experimental precision</strong>,
 making STUR immediately testable.
 </p>
+
+<h3>ε_Γ Diagnostic</h3>
+
+<div class="eq">
+\[
+\boxed{
+\begin{aligned}
+a_r(t,r) &:= -c^2 \partial_r R(t,r,0) \\
+\mu_{\mathrm{eff}}(t,r) &:= r^2 a_r(t,r) \\
+\varepsilon_\Gamma(t,r) &:= \frac{\mu_{\mathrm{eff}} - \mu_{\mathrm{ref}}}{\mu_{\mathrm{ref}}}
+\end{aligned}
+}
+\]
+</div>
+
+<p>
+A phase-locked periodic component in ε_Γ(t) is a necessary condition for STUR to differ from GR.
+</p>
+
+<h3>16.4 Pluto–Charon Orbital Residuals</h3>
+
+<p>
+For a nearly circular two-body orbit, the mean motion is n^2 = \mu_{\rm ref} / a^3.
+If STUR predicts a phase-locked periodic \varepsilon_\Gamma(t),
+</p>
+
+<div class="eq">
+\[
+\boxed{
+\;\varepsilon_\Gamma(t)=\varepsilon_0\cos(\omega_{\rm cm} t+\varphi)\;
+}
+\]
+</div>
+
+<p>
+then the radial perturbation equation about r=a is (linearized)
+</p>
+
+<div class="eq">
+\[
+\delta \ddot r + n^2 \delta r
+=
+-\frac{\mu_{\rm ref}}{a^2}\,\varepsilon_\Gamma(t)
+=
+- a n^2\,\varepsilon_0\cos(\omega_{\rm cm} t+\varphi).
+\]
+</div>
+
+<p>
+Solve it (particular solution, away from resonance \omega_{\rm cm}\neq n):
+</p>
+
+<div class="eq">
+\[
+\boxed{
+\delta r(t)
+=
+-\,a\,\varepsilon_0\;
+\frac{n^2}{\,n^2-\omega_{\rm cm}^2\,}
+\cos(\omega_{\rm cm} t+\varphi)
+}
+\]
+</div>
+
+<p>
+Range residual amplitude
+</p>
+
+<div class="eq">
+\[
+\boxed{
+A_r
+=
+a\,|\varepsilon_0|\;
+\left|\frac{n^2}{n^2-\omega_{\rm cm}^2}\right|
+}
+\]
+</div>
+
+<p>
+Line-of-sight range residual
+</p>
+
+<div class="eq">
+\[
+\boxed{
+\Delta\rho(t)\approx \hat{\mathbf u}\cdot \delta\mathbf r(t)
+\;\sim\;
+A_r\,\cos(\omega_{\rm cm} t+\varphi)\times(\text{geometry factor})
+}
+\]
+</div>
+
+<p>
+(the geometry factor is order-unity and computable from the observing ephemeris; it’s not a free physics parameter.)
+Timing residual (period modulation)
+From n=\sqrt{\mu/a^3}, a small periodic \mu(t)=\mu_{\rm ref}(1+\varepsilon_\Gamma) gives
+\frac{\delta n}{n}=\tfrac12\varepsilon_\Gamma(t),
+\qquad
+\delta\dot\lambda(t)=\delta n(t),
+so accumulated mean-longitude residual
+</p>
+
+<div class="eq">
+\[
+\boxed{
+\delta\lambda(t)=\frac{n}{2}\int^t \varepsilon_\Gamma(t')\,dt'
+=
+\frac{n\,\varepsilon_0}{2\omega_{\rm cm}}
+\sin(\omega_{\rm cm} t+\varphi)
+}
+\]
+</div>
+
+<p>
+and corresponding along-track displacement a\,\delta\lambda is:
+</p>
+
+<div class="eq">
+\[
+\boxed{
+A_\parallel
+\sim
+a\frac{n\,|\varepsilon_0|}{2\omega_{\rm cm}}
+}
+\]
+</div>
+
+<p>
+The falsification bite
+Fit Pluto–Charon tracking residuals with:
+	•	a static \mu (standard GR/Newton)
+	•	plus one sinusoid at \omega_{\rm cm}
+If the best-fit sinusoid is consistent with zero within uncertainties, your “phase-locked ε_Γ” channel is constrained (or killed) without degeneracy with GM refits, because the periodic signature survives any constant μ adjustment.
+</p>
+
+<h3>16.5 Laboratory Polarization Rotation Test</h3>
+
+<p>
+For slowly varying χ (adiabatic, small angle) the net effect on a linearly polarized beam propagating along \hat{\mathbf k} is optical activity:
+</p>
+
+<div class="eq">
+\[
+\boxed{
+\Delta\psi
+=
+\frac12\Bigl[\chi(t,\mathbf x)\Bigr]_{\rm emit}^{\rm detect}
+}
+\]
+</div>
+
+<p>
+So if you actively modulate χ at the boundary (electro-optic, magneto-optic, or your STUR phase gate proxy), you get:
+</p>
+
+<div class="eq">
+\[
+\boxed{
+\Delta\psi(t)=\frac12\,\Delta\chi(t)
+}
+\]
+</div>
+
+<p>
+Practical lab protocol (very doable)
+	•	Laser → polarizer → sample region (where χ is driven) → analyzer → photodiode.
+	•	Drive χ(t) sinusoidally at frequency f (your chronomagnetic lock-in frequency).
+	•	Measure transmitted intensity:
+I(t)=I_0\cos^2(\psi_0+\Delta\psi(t)).
+For small modulation \Delta\psi\ll 1:
+</p>
+
+<div class="eq">
+\[
+\boxed{
+\Delta I(t)\approx -I_0\sin(2\psi_0)\,\Delta\psi(t)
+}
+\]
+</div>
+
+<p>
+So the photodiode has a clean lock-in tone at f. That’s a yes/no signature.
+</p>
+
+<p>
+STUR tie-in
+If you use the coupling you already set up:
+\dot\chi(t)=\alpha_\chi K_{\rm proj}(t),
+\qquad
+\varepsilon_\Gamma(t)=\lambda_\Gamma\dot\chi(t),
+then the same phase-locked tone appears in:
+	•	polarization rotation \Delta\psi(t)
+	•	and the gravitational diagnostic \varepsilon_\Gamma(t)
+</p>
+
+<p>
+That’s powerful because it cross-validates the channel across EM optics + orbital mechanics.
+</p>
+
 </section>
 
 <footer>
@@ -1597,6 +1983,180 @@ function simulateQuench() {
   const diff = ((M_slow - M_fast) / M_fast) * 100;
   console.log(`STUR History Effect: ${diff.toFixed(2)}% variance predicted.`);
 }
+// --- Phase-mixing (EM duality rotation) demo ---
+// SI-consistent duality rotation:
+// E' = E cosχ + c B sinχ
+// B' = B cosχ - (1/c) E sinχ
+function dualityRotateEB(E, B, chi) {
+  const cc = Math.cos(chi);
+  const ss = Math.sin(chi);
+  const Ep = E * cc + (c * B) * ss;
+  const Bp = B * cc - (E / c) * ss;
+  return { Ep, Bp };
+}
+
+function drawPhaseMixing() {
+  const canvas = document.getElementById('phase_canvas');
+  const ctx = canvas.getContext('2d');
+
+  const chi = parseFloat(document.getElementById('chi_slider').value);
+  const E0  = parseFloat(document.getElementById('E0_input').value);
+  const k   = parseFloat(document.getElementById('k_input').value);
+  const w   = parseFloat(document.getElementById('w_input').value);
+
+  document.getElementById('chi_value').textContent = chi.toFixed(3);
+
+  // Plane wave snapshot at fixed t=0 for visualization
+  const t = 0.0;
+  const N = 700;
+  const xMin = 0.0;
+  const xMax = (4 * Math.PI) / Math.max(k, 1e-9); // about 0..4π in phase
+  const dx = (xMax - xMin) / (N - 1);
+
+  // Base vacuum relation B0 = E0/c (for plane wave)
+  const B0 = E0 / c;
+
+  // Compute arrays and invariants (time-averaged over x-samples as a proxy)
+  let uSum = 0, uPSum = 0;
+  let sSum = 0, sPSum = 0;
+
+  const Ex = new Array(N);
+  const cB = new Array(N);
+  const Exp = new Array(N);
+  const cBp = new Array(N);
+
+  for (let i = 0; i < N; i++) {
+    const x = xMin + i * dx;
+    const phase = k * x - w * t;
+
+    const E = E0 * Math.cos(phase);     // Ey
+    const B = B0 * Math.cos(phase);     // Bz (in phase, vacuum)
+    const rot = dualityRotateEB(E, B, chi);
+
+    Ex[i]  = E;
+    cB[i]  = c * B;
+    Exp[i] = rot.Ep;
+    cBp[i] = c * rot.Bp;
+
+    // Energy density u = 1/2(ε0 E^2 + B^2/μ0)
+    const u  = 0.5 * (epsilon0 * (E*E) + (B*B) / mu0);
+    const up = 0.5 * (epsilon0 * (rot.Ep*rot.Ep) + (rot.Bp*rot.Bp) / mu0);
+
+    // Poynting magnitude for plane wave |S| = (1/μ0) E B
+    const s  = Math.abs((1/mu0) * E * B);
+    const sp = Math.abs((1/mu0) * rot.Ep * rot.Bp);
+
+    uSum += u; uPSum += up;
+    sSum += s; sPSum += sp;
+  }
+
+  const uRatio = (uPSum / Math.max(uSum, 1e-30));
+  const sRatio = (sPSum / Math.max(sSum, 1e-30));
+
+  const inv = document.getElementById('phase_invariants');
+  inv.innerHTML = `
+    <strong>Invariance Check (constant χ):</strong><br>
+    B₀ = E₀ / c = ${(B0).toExponential(3)} T<br>
+    u' / u ≈ ${uRatio.toFixed(6)}<br>
+    |S'| / |S| ≈ ${sRatio.toFixed(6)}<br>
+    <em style="color:var(--fg2);">Expected ≈ 1.000000 (numerical sampling error small).</em>
+  `;
+
+  // --- Plot ---
+  // Clear
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Axes styling
+  const padL = 60, padR = 20, padT = 20, padB = 50;
+  const W = canvas.width - padL - padR;
+  const H = canvas.height - padT - padB;
+
+  // Determine y scale across all traces
+  let yMax = 0;
+  for (let i = 0; i < N; i++) {
+    yMax = Math.max(yMax, Math.abs(Ex[i]), Math.abs(Exp[i]), Math.abs(cB[i]), Math.abs(cBp[i]));
+  }
+  yMax = Math.max(yMax, 1e-9);
+
+  function xToPx(i) { return padL + (i/(N-1))*W; }
+  function yToPx(y) { return padT + H*(0.5 - 0.48*(y/yMax)); } // 0.48 keeps margins
+
+  // Axes
+  ctx.globalAlpha = 1;
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'rgba(148,163,184,0.35)';
+  ctx.beginPath();
+  ctx.moveTo(padL, padT + H/2);
+  ctx.lineTo(padL + W, padT + H/2);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(padL, padT);
+  ctx.lineTo(padL, padT + H);
+  ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = 'rgba(229,231,235,0.8)';
+  ctx.font = '20px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace';
+  ctx.fillText('E (blue) and cB (orange) | solid: base, dashed: mixed', padL, canvas.height - 16);
+
+  // Helper: plot line
+  function plotLine(arr, stroke, dashed=false) {
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 2;
+    ctx.setLineDash(dashed ? [10, 8] : []);
+    ctx.beginPath();
+    for (let i=0; i<N; i++){
+      const px = xToPx(i);
+      const py = yToPx(arr[i]);
+      if (i===0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Base traces
+  plotLine(Ex,  'rgba(96,165,250,0.95)', false);  // blue
+  plotLine(cB,  'rgba(251,146,60,0.90)', false);  // orange
+
+  // Mixed traces (dashed)
+  plotLine(Exp, 'rgba(96,165,250,0.95)', true);
+  plotLine(cBp, 'rgba(251,146,60,0.90)', true);
+}
+
+// Hook demo to UI
+(function initPhaseMixingDemo(){
+  // Provide ε0 and μ0 locally (since you already define kB,G,e etc.)
+  // If you already have these elsewhere, keep the names consistent.
+  window.epsilon0 = 8.8541878128e-12; // F/m
+  window.mu0 = 1.25663706212e-6;      // N/A^2
+
+  const chi = document.getElementById('chi_slider');
+  const E0  = document.getElementById('E0_input');
+  const kIn = document.getElementById('k_input');
+  const wIn = document.getElementById('w_input');
+
+  if (!chi || !E0 || !kIn || !wIn) return;
+
+  const rerender = () => drawPhaseMixing();
+  chi.addEventListener('input', rerender);
+  E0.addEventListener('input', rerender);
+  kIn.addEventListener('input', rerender);
+  wIn.addEventListener('input', rerender);
+
+  drawPhaseMixing();
+})();
+
+// --- χ–εΓ phase-locked orbital diagnostic ---
+function computeEpsilonGamma(t, alphaChi, lambdaGamma, kappa0, omega) {
+  // K_proj(t) = κ0 cos(ωt)
+  const Kproj = kappa0 * Math.cos(omega * t);
+  const chiDot = alphaChi * Kproj;
+  const epsGamma = lambdaGamma * chiDot;
+  return { Kproj, chiDot, epsGamma };
+}
+
 </script>
 
 </body>
