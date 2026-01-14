@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>STUR — X-Coupled Resistance Manifold & Chronomagnetic Boundary Theory</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="version" content="1.0">
 <meta name="authors" content="Sheldon Lindberg, James Lockwood">
 
@@ -11,7 +11,8 @@
 <script>
 window.MathJax = {
   tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
-  svg: { fontCache: 'global' }
+  svg: { fontCache: 'global' },
+  options: { renderActions: { addMenu: [] } }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -159,6 +160,89 @@ th {
 @media (max-width: 768px){
   .phase-grid{grid-template-columns:1fr}
 }
+/* ===== Mobile fit patch (drop-in) ===== */
+
+/* Better default spacing + prevent accidental horizontal scroll */
+html, body { width: 100%; overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }
+img, svg { max-width: 100%; height: auto; }
+canvas { max-width: 100%; }
+
+/* Use safe-area on iPhone notches */
+.page{
+  max-width: 1100px;
+  margin: auto;
+  padding: clamp(14px, 3.5vw, 28px);
+  padding-left: max(clamp(14px, 3.5vw, 28px), env(safe-area-inset-left));
+  padding-right: max(clamp(14px, 3.5vw, 28px), env(safe-area-inset-right));
+  padding-top: max(clamp(14px, 3.5vw, 28px), env(safe-area-inset-top));
+  padding-bottom: max(clamp(18px, 4vw, 32px), env(safe-area-inset-bottom));
+}
+
+.panel{
+  padding: clamp(12px, 3.2vw, 22px);
+  margin-bottom: clamp(12px, 3vw, 22px);
+}
+
+/* Responsive type without needing multiple breakpoints */
+h1{ font-size: clamp(1.35rem, 5.8vw, 2.3rem); line-height: 1.1; }
+h2{ font-size: clamp(0.95rem, 3.6vw, 1.15rem); }
+h3{ font-size: clamp(0.9rem, 3.2vw, 1.0rem); }
+p, li{ font-size: clamp(0.95rem, 3.6vw, 1.0rem); line-height: 1.65; }
+
+/* Make equation boxes behave on small screens */
+.eq{
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: clamp(10px, 2.8vw, 14px);
+}
+
+/* Long links should wrap */
+a { word-break: break-word; }
+
+/* Tables: force horizontal scroll instead of crushing columns */
+table{
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+@media (max-width: 768px){
+  table{ display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: nowrap; }
+  th, td{ white-space: nowrap; }
+}
+
+/* Inputs: iOS tap targets + stop iOS zoom (>=16px) */
+.calc-input, select, input[type="number"], input[type="text"]{
+  font-size: 16px;
+  padding: 0.65rem 0.6rem;
+}
+
+/* Buttons: full-width on phones */
+.calc-button{
+  width: 100%;
+  padding: 0.8rem 1rem;
+}
+
+/* Phase demo: tighten canvas height on phones */
+.phase-canvas{
+  height: clamp(180px, 42vw, 260px);
+}
+
+/* Reduce grid gutters on narrow screens */
+@media (max-width: 520px){
+  .calc-grid{ gap: 0.75rem; }
+  .phase-row{ gap: 0.5rem; }
+  .phase-label{ min-width: 0; }
+}
+/* Make MathJax SVG shrink-to-fit inside equation boxes */
+mjx-container { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+.eq mjx-container { padding-bottom: 4px; }
+
+@media (max-width: 390px){
+  .panel{ padding: 12px; }
+  h1{ letter-spacing: 0.05em; }
+}
+
 </style>
 </head>
 
@@ -654,6 +738,10 @@ This expression is the origin of all laboratory and astrophysical signals.
     \(u=\tfrac12(\varepsilon_0|\mathbf{E}|^2+|\mathbf{B}|^2/\mu_0)\) and the plane-wave transport relation
     \(|\mathbf{S}|=cu\). A spacetime-varying \(\chi(x)\) represents a physically active mixing channel, which in
     STUR can be realized as a boundary-gated projection (holoscreen-induced phase mixing).
+  </p>
+
+  <p>
+This is mathematically equivalent to axion electrodynamics with χ non-dynamical.
   </p>
 
   <div class="conceptual-box">
@@ -1336,7 +1424,6 @@ M_{\mathrm{eff}} &= M \left(1 + \frac{\delta M}{M}\right)\\
 <td>Classical</td>
 <td>~10<sup>-18</sup> fractional</td>
 </tr>
-<tr>
 <td>Optical clock (Sr lattice)</td>
 <td>10<sup>3</sup> – 10<sup>4</sup></td>
 <td>Saturated</td>
@@ -1434,7 +1521,7 @@ The characteristic spatial trajectory of a $\chi$-coupled particle is an <strong
 </p>
 
 <p>
-a minimal-resistance representative trajectory, not a literal spacetime path.
+A minimal-resistance representative trajectory, not a literal spacetime path.
 </p>
 
 <div class="eq">
@@ -1995,9 +2082,38 @@ function dualityRotateEB(E, B, chi) {
   return { Ep, Bp };
 }
 
+function fitCanvasToCSS(canvas) {
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  const rect = canvas.getBoundingClientRect();
+
+  const width = Math.round(rect.width * dpr);
+  const height = Math.round(rect.height * dpr);
+
+  if (canvas.width !== width || canvas.height !== height) {
+    canvas.width = width;
+    canvas.height = height;
+  }
+
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return ctx;
+}
+
+function rafDebounce(fn){
+  let raf = 0;
+  return function(){
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      fn();
+    });
+  };
+}
+
 function drawPhaseMixing() {
   const canvas = document.getElementById('phase_canvas');
-  const ctx = canvas.getContext('2d');
+  const ctx = fitCanvasToCSS(canvas);
+  const rect = canvas.getBoundingClientRect();
 
   const chi = parseFloat(document.getElementById('chi_slider').value);
   const E0  = parseFloat(document.getElementById('E0_input').value);
@@ -2064,12 +2180,12 @@ function drawPhaseMixing() {
 
   // --- Plot ---
   // Clear
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, rect.width, rect.height);
 
   // Axes styling
   const padL = 60, padR = 20, padT = 20, padB = 50;
-  const W = canvas.width - padL - padR;
-  const H = canvas.height - padT - padB;
+  const W = rect.width - padL - padR;
+  const H = rect.height - padT - padB;
 
   // Determine y scale across all traces
   let yMax = 0;
@@ -2098,7 +2214,7 @@ function drawPhaseMixing() {
   // Labels
   ctx.fillStyle = 'rgba(229,231,235,0.8)';
   ctx.font = '20px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace';
-  ctx.fillText('E (blue) and cB (orange) | solid: base, dashed: mixed', padL, canvas.height - 16);
+  ctx.fillText('E (blue) and cB (orange) | solid: base, dashed: mixed', padL, rect.height - 16);
 
   // Helper: plot line
   function plotLine(arr, stroke, dashed=false) {
@@ -2139,7 +2255,7 @@ function drawPhaseMixing() {
 
   if (!chi || !E0 || !kIn || !wIn) return;
 
-  const rerender = () => drawPhaseMixing();
+  const rerender = rafDebounce(drawPhaseMixing);
   chi.addEventListener('input', rerender);
   E0.addEventListener('input', rerender);
   kIn.addEventListener('input', rerender);
