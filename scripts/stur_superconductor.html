@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>STUR ATS Falsifier — La–C–H Composition Sweep</title>
+<title>HOLOSCREEN_ATS_DISCOVERY_v3.1</title>
 
-<!-- MathJax -->
+<!-- MathJax (SVG, no menu) -->
 <script>
 window.MathJax = {
   tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
@@ -17,219 +17,299 @@ window.MathJax = {
 
 <style>
 :root{
-  color-scheme:dark;
-  --bg:#020617; --panel:#0b1226; --border:#1f2937;
-  --fg:#e5e7eb; --fg2:#9ca3af; --fg3:#6b7280;
-  --accent:#38bdf8; --accent2:#ec4899;
-  --good:#22c55e; --warn:#fbbf24; --bad:#ef4444;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "JetBrains Mono", monospace;
-  --radius:14px;
+  color-scheme: dark;
+  --bg0:#050816; --bg1:#070b1f; --card:#0b1230; --border:#1b2a55;
+  --fg:#e6edf7; --muted:#94a3b8; --dim:#64748b;
+  --cyan:#00d9ff; --mag:#ff2bd6; --green:#34d399; --yellow:#fbbf24; --red:#fb7185;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, sans-serif;
+  --r:16px;
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui}
-.page{max-width:1100px;margin:auto;padding:clamp(14px,3.5vw,28px)}
-.panel{background:linear-gradient(180deg,rgba(11,18,38,.88),rgba(10,15,31,.88));
-  border:1px solid var(--border);border-radius:var(--radius);
-  padding:clamp(12px,3.2vw,22px);margin-bottom:clamp(12px,3vw,22px)}
-h1{font-size:clamp(1.35rem,5.8vw,2.2rem);text-transform:uppercase;letter-spacing:.08em;
-  background:linear-gradient(90deg,var(--fg),var(--accent2),var(--accent));
-  -webkit-background-clip:text;color:transparent;margin:0 0 .6rem}
-h2{margin:.2rem 0 .8rem;font-size:clamp(.95rem,3.6vw,1.15rem);
-  text-transform:uppercase;letter-spacing:.08em;color:var(--fg2)}
-p,li{color:var(--fg2);line-height:1.65;font-size:clamp(.95rem,3.6vw,1.0rem)}
-.eq{border:1px solid var(--border);border-radius:12px;padding:.75rem .9rem;margin:.8rem 0;overflow-x:auto}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
-@media(max-width:840px){.grid{grid-template-columns:1fr}}
-label{color:var(--fg2);font-size:.9rem}
-input,button,select{width:100%;font-size:16px;background:rgba(2,6,23,.75);
-  color:var(--fg);border:1px solid var(--border);border-radius:10px;padding:.65rem .7rem;
-  font-family:var(--mono)}
-button{border:none;cursor:pointer;font-weight:800;color:white;
-  background:linear-gradient(135deg,var(--accent2),var(--accent))}
-button.ghost{background:transparent;border:1px solid var(--border);color:var(--fg)}
-.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
-@media(max-width:840px){.kpi{grid-template-columns:1fr}}
-.kpiBox{background:rgba(56,189,248,0.06);border:1px solid var(--border);
-  border-radius:12px;padding:.9rem}
-.kpiLabel{color:var(--fg3);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}
-.kpiVal{font-family:var(--mono);font-size:1.1rem;margin-top:.35rem}
-.good{color:var(--good)} .warn{color:var(--warn)} .bad{color:var(--bad)}
-.note{border-left:4px solid var(--accent);background:rgba(56,189,248,0.06);
-  padding:.9rem 1rem;border-radius:12px;margin:.8rem 0}
-.note.good{border-left-color:var(--good)} .note.warn{border-left-color:var(--warn)}
-.note.bad{border-left-color:var(--bad)}
-canvas{width:100%;height:320px;border:1px solid var(--border);border-radius:12px;
-  background:rgba(2,6,23,.65)}
-footer{color:var(--fg3);text-align:center;font-size:.85rem;margin-top:1.6rem}
+body{
+  margin:0; font-family:var(--sans); color:var(--fg);
+  background:
+    radial-gradient(1200px 700px at 20% 10%, rgba(255,43,214,.12), transparent 60%),
+    linear-gradient(180deg, var(--bg0), var(--bg1));
+}
+.holo{max-width:1300px;margin:0 auto;padding:20px}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px;border:1px solid var(--border);border-radius:var(--r);
+  background:rgba(11,18,48,.8)
+}
+.grid{display:grid;grid-template-columns:420px 1fr;gap:16px;margin-top:16px}
+@media(max-width:1000px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r)}
+.hd{padding:12px;border-bottom:1px solid var(--border);font-size:.8rem;letter-spacing:.12em}
+.bd{padding:14px}
+label{font-size:.8rem;color:var(--muted)}
+input,textarea,button{
+  width:100%;margin-top:6px;margin-bottom:10px;
+  background:rgba(0,0,0,.35);border:1px solid var(--border);
+  color:white;border-radius:8px;padding:8px;font-family:var(--mono)
+}
+button{cursor:pointer;background:linear-gradient(135deg,var(--mag),var(--cyan));color:black;font-weight:700}
+button.ghost{background:transparent;color:white}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.kpi{background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:10px;padding:10px}
+.val{font-family:var(--mono);font-size:1.1rem}
+.val.good{color:var(--green)} .val.bad{color:var(--red)}
+canvas{width:100%;height:260px;background:#000;border-radius:10px;border:1px solid var(--border)}
+.tbl{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.75rem}
+.tbl th,.tbl td{padding:8px;border-bottom:1px solid rgba(255,255,255,.06)}
+.tbl th{color:var(--dim);text-align:left}
+.code{font-family:var(--mono);font-size:.8rem;background:rgba(0,0,0,.4);padding:10px;border-radius:8px}
+.mini{font-size:.7rem;color:var(--dim)}
 </style>
 </head>
 
 <body>
-<div class="page">
+<div class="holo">
 
-<header class="panel">
-  <h1>ATS Falsifier — STUR (La–C–H)</h1>
-  <p><strong>Composition-driven coherence sweep · binary falsification</strong></p>
-  <div class="note">
-    <strong>Scope lock:</strong> STUR modifies <em>phase transport</em> at the boundary only.
-    Bulk pairing and spectroscopy must remain conventional.
+  <div class="topbar">
+    <div>
+      <h1 style="margin:0;font-size:1.15rem">HOLOSCREEN v3.1</h1>
+      <div class="mini">ATS Discovery • Ambient Survivability Falsifier</div>
+    </div>
+    <div class="mini">Locked Instrument • No Tc Prediction</div>
   </div>
-  <div class="note good">
-    <strong>Credits:</strong><br>
-    • <strong>Sheldon Lindberg</strong> — STUR originator<br>
-    • <strong>Christopher Br. Cyrek</strong> — phase-lock / boundary / chronomagnetic axiom stack contributor record<br>
-    • <strong>Derek Burkeen</strong> — chronomagnetics mathematical foundation contributor record<br>
-    • <strong>J. M. Lockwood</strong> — boundary/holoscreen + chronomagnetics integration contributor record
-  </div>
-</header>
 
-<section class="panel">
-  <h2>Model</h2>
-  <div class="eq">
-\[
-I_c^{\mathrm{STUR}}(T)=I_c^{\mathrm{BCS}}(T)\tanh(M),\quad
-M=R_q S_u(u_c),\quad
-R_q=\frac{\Delta(T)}{k_BT}
-\]
-  </div>
-  <div class="eq">
-\[
-u_c(\mathrm{La}_\ell\mathrm{C}_n\mathrm{H}_m)=
-\ln\!\Big(\frac{\xi_{\text{cage}}}{a_H}\Big),\quad
-\xi_{\text{cage}}\propto \sqrt{n}\Big(\frac{m}{\ell}\Big)^{1/3}
-\]
-  </div>
-  <p class="small">
-    Composition determines coherence. No free \(u_c\) knobs.
-    Element roles (La anchor / C lattice / H light-mode) are consistent with Lockwood’s Hybrid Alchemical Table.  [oai_citation:1‡a48a3d5745300fa993b012b814deef1f.pdf](sediment://file_000000009cb071fdaff8dbbf4cd9bf5c)
-  </p>
-</section>
-
-<section class="panel">
-  <h2>Composition & Sweep</h2>
   <div class="grid">
-    <div>
-      <label>Stoichiometry (example)</label>
-      <input id="formula" value="C30H14La2" />
-      <label>Pairing scale proxy \(T_c\) (K)</label>
-      <input id="Tc" type="number" value="260" />
-      <label>Gap ratio \(\alpha=\Delta_0/(k_BT_c)\)</label>
-      <input id="alpha" type="number" value="2.0" step="0.05" />
-      <label>Baseline \(I_{c0}\) (arb.)</label>
-      <input id="Ic0" type="number" value="1.0" step="0.1" />
-    </div>
-    <div>
-      <label>Temperature band (K)</label>
-      <div class="grid">
-        <input id="Tmin" type="number" value="120" />
-        <input id="Tmax" type="number" value="300" />
+
+    <!-- INPUTS -->
+    <div class="card">
+      <div class="hd">Inputs</div>
+      <div class="bd">
+
+        <label>Candidate Formulas (Bi-on + control)</label>
+        <textarea id="formulas" rows="6">La2C36H45Bi1
+La2C36H45
+La1C40H50Bi1
+La1C40H50</textarea>
+
+        <label>Pairing Proxy Tc (K)</label>
+        <input id="Tc" type="number" value="520">
+
+        <label>Chronon Gain β</label>
+        <input id="beta" type="number" value="0.85" step="0.05">
+
+        <button id="run">Run Discovery Sweep</button>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button id="exportCSV" class="ghost">Export CSV</button>
+          <button id="exportJSON" class="ghost">Export JSON</button>
+        </div>
+
+        <div class="code" style="margin-top:12px">
+          \[
+          I_c^{STUR}=I_c^{BCS}\tanh(R_q S_u),\quad
+          V_{ATS}=\frac{1}{100}\sum I_c\Delta T
+          \]
+        </div>
+
       </div>
-      <label>Step (K)</label>
-      <input id="Tstep" type="number" value="10" />
-      <label>Pass threshold (history split %)</label>
-      <input id="thrPct" type="number" value="10" />
-      <button id="run">Run sweep</button>
+    </div>
+
+    <!-- VISUALIZATION -->
+    <div class="card">
+      <div class="hd">Visualization</div>
+      <div class="bd">
+
+        <div class="kpis">
+          <div class="kpi"><div class="mini">Formula</div><div id="k_formula" class="val">—</div></div>
+          <div class="kpi"><div class="mini">V_ATS (norm)</div><div id="k_viability" class="val">—</div></div>
+          <div class="kpi"><div class="mini">Verdict</div><div id="k_verdict" class="val">—</div></div>
+        </div>
+
+        <canvas id="plot"></canvas>
+        <div class="mini" style="margin-top:6px">
+          Solid = STUR • Dashed = Null (BCS baseline)
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TABLE -->
+  <div class="card" style="margin-top:16px">
+    <div class="hd">Ranked Candidates (Audit-Grade)</div>
+    <div class="bd" style="overflow:auto">
+      <table class="tbl" id="rankTbl">
+        <thead>
+          <tr>
+            <th>Formula</th><th>u_geo</th><th>u_chr</th><th>V_ATS</th>
+            <th>β</th><th>Phonon</th><th>Isotope</th><th>P-Proxy</th><th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
   </div>
-  <div class="kpi">
-    <div class="kpiBox"><div class="kpiLabel">Derived \(u_c\)</div><div class="kpiVal" id="ucVal">—</div></div>
-    <div class="kpiBox"><div class="kpiLabel">Max split</div><div class="kpiVal" id="splitVal">—</div></div>
-    <div class="kpiBox"><div class="kpiLabel">Verdict</div><div class="kpiVal" id="verdict">—</div></div>
-  </div>
-</section>
-
-<section class="panel">
-  <h2>Predicted Curves</h2>
-  <canvas id="plot"></canvas>
-  <p class="small">Solid: STUR (composition-derived coherence). Dashed: null (no history).</p>
-</section>
-
-<footer>
-STUR · Ambient-Temperature Superconductor Falsifier · La–C–H Composition Sweep
-</footer>
 
 </div>
 
 <script>
+/* ===========================
+   CONSTANTS
+=========================== */
 const kB = 1.380649e-23;
+const CHRONON = {La:0.14,C:0.04,H:0.01,Bi:0.42};
+const ANCHOR  = {La:2.0,Bi:3.0};
+const ISOTOPES = {H:[{tag:"D",mu:2.0}],C:[{tag:"13C",mu:1.08}]};
+const ISOTOPE_COUNT = Object.values(ISOTOPES).reduce((a,v)=>a+v.length,0);
+const PHONON_MU = [0.8,1.0,1.2];
+let LAST=null;
 
-// helpers
-function Su(u){ return Math.tanh(u)*(1-Math.exp(-u)); }
-function Delta_T(T,Tc,alpha){ return alpha*kB*Tc*Math.sqrt(Math.max(0,1-T/Tc)); }
-function Ic_BCS(T,Tc,Ic0){ return Ic0*Math.pow(Math.max(0,1-T/Tc),1.5); }
+/* ===========================
+   CORE PHYSICS
+=========================== */
+function Su(u){return Math.tanh(u)*(1-Math.exp(-Math.max(0,u)))}
+function Ic_BCS(T,Tc){return Math.pow(Math.max(0,1-T/Tc),1.5)}
+function Delta_T(T,Tc){return 2.0*kB*Tc*Math.sqrt(Math.max(0,1-T/Tc))}
 
-// parse CnHmLal
+function u_geo(s,aH=0.12){
+  const C=s.C||0,H=s.H||0;if(!C||!H)return-5;
+  let anc=0;for(let k in s)anc+=(ANCHOR[k]||0)*s[k];
+  return Math.log(Math.sqrt(C)*Math.pow(H/Math.max(1,anc),1/3)/aH);
+}
+function u_chr(s){
+  let tot=0;for(let k in s)tot+=s[k];
+  let v=0;for(let k in s)v+=(CHRONON[k]||0)*(s[k]/tot);
+  return (v-0.08)/0.10;
+}
+
+function computeSeries(s,p){
+  const ug=u_geo(s),uc=u_chr(s),ue=ug+p.beta*uc;
+  let V=0,amb=0,series=[];
+  for(let T=200;T<=400;T+=5){
+    const bcs=Ic_BCS(T,p.Tc);
+    const rq=Delta_T(T,p.Tc)/(kB*Math.max(1,T));
+    const stur=bcs*Math.tanh(rq*Su(ue));
+    series.push({T,nullv:bcs,comb:stur});
+    if(T>=300&&T<=400)V+=stur*5;
+    if(T===350)amb=stur;
+  }
+  return {series,ug,uc,ue,Vats:V/100,survives:amb>0};
+}
+
+/* ===========================
+   GATES
+=========================== */
+function pressureProxy(s){return Math.abs(1-(s.H||0)/(s.C||1))}
+function isotopeSensitivity(s,p){
+  let pass=0;
+  for(let el in ISOTOPES){
+    if(!s[el])continue;
+    ISOTOPES[el].forEach(i=>{
+      if(computeSeries(s,{...p,Tc:p.Tc/Math.sqrt(i.mu)}).survives)pass++;
+    });
+  }
+  return {pass,robust:pass>=Math.ceil(ISOTOPE_COUNT/2)};
+}
+function finalVerdict(d){
+  if(!d.survives)return"REJECTED (Thermal)";
+  if(!d.robustOK)return"REJECTED (β)";
+  if(!d.phononOK)return"REJECTED (Phonon)";
+  if(!d.isotopeOK)return"REJECTED (Isotope)";
+  if(d.pressureProxy>0.3)return"REJECTED (Pressure)";
+  return"ATS-VIABLE";
+}
+
+/* ===========================
+   EXECUTION
+=========================== */
 function parseFormula(s){
-  const m = s.match(/C(\d+)H(\d+)La(\d+)/i);
-  if(!m) return null;
-  return { C:+m[1], H:+m[2], La:+m[3] };
+  const r={};for(const m of s.matchAll(/([A-Z][a-z]?)(\d*)/g))r[m[1]]=+m[2]||1;
+  return Object.keys(r).length?r:null;
 }
 
-// composition -> coherence
-function ucFromComposition({C,H,La}){
-  const aH = 0.12; // nm (scale)
-  const xi = Math.sqrt(C)*Math.pow(H/Math.max(1,La),1/3); // relative nm units
-  return Math.log(xi/aH);
+function runSweep(){
+  const raw=document.getElementById("formulas").value.split("\n");
+  const p={Tc:+Tc.value,beta:+beta.value};
+  const rows=[];
+  raw.forEach(f=>{
+    const s=parseFormula(f); if(!s)return;
+    const d=computeSeries(s,p);
+    const bOK=computeSeries(s,{...p,beta:0.75}).survives&&computeSeries(s,{...p,beta:0.95}).survives;
+    const phon=PHONON_MU.filter(mu=>computeSeries(s,{...p,Tc:p.Tc/Math.sqrt(mu)}).survives).length>=2;
+    const iso=isotopeSensitivity(s,p);
+    const pp=pressureProxy(s);
+    const verdict=finalVerdict({...d,robustOK:bOK,phononOK:phon,isotopeOK:iso.robust,pressureProxy:pp});
+    rows.push({formula:f,...d,robustOK:bOK,phononOK:phon,isotopeOK:iso.robust,pressureProxy:pp,verdict});
+  });
+  LAST={rows,params:p,ts:new Date().toISOString()};
+  renderTable(rows);
+  if(rows.length)selectRow(0);
 }
 
-// STUR Ic
-function Ic_STUR(T,Tc,alpha,Ic0,uc){
-  if(T>=Tc) return {Ic:0,M:0};
-  const Rq = Delta_T(T,Tc,alpha)/(kB*T);
-  const M = Rq*Su(uc);
-  return { Ic: Ic_BCS(T,Tc,Ic0)*Math.tanh(M), M };
+function renderTable(rows){
+  const tb=document.querySelector("#rankTbl tbody");tb.innerHTML="";
+  rows.forEach((r,i)=>{
+    const tr=document.createElement("tr");tr.onclick=()=>selectRow(i);
+    tr.innerHTML=`
+      <td>${r.formula}</td>
+      <td>${r.ug.toFixed(2)}</td>
+      <td>${r.uc.toFixed(2)}</td>
+      <td>${r.Vats.toFixed(3)}</td>
+      <td>${r.robustOK?"✔":"✘"}</td>
+      <td>${r.phononOK?"✔":"✘"}</td>
+      <td>${r.isotopeOK?"✔":"✘"}</td>
+      <td>${r.pressureProxy.toFixed(2)}</td>
+      <td style="color:${r.verdict.includes("VIABLE")?"#34d399":"#fb7185"}">${r.verdict}</td>`;
+    tb.appendChild(tr);
+  });
 }
 
-// plot
-function draw(series){
-  const c=document.getElementById('plot'),ctx=c.getContext('2d');
-  const w=c.width=c.clientWidth,h=c.height=c.clientHeight;
-  ctx.clearRect(0,0,w,h);
-  const pad=40, pw=w-2*pad, ph=h-2*pad;
-  let yMax=0; series.forEach(p=>yMax=Math.max(yMax,p.s,p.n));
-  yMax=Math.max(yMax,1e-9);
-  const xOf=(i)=>pad+pw*i/(series.length-1);
-  const yOf=(y)=>pad+ph*(1-y/yMax);
-  ctx.strokeStyle='rgba(148,163,184,.25)';
-  for(let i=0;i<=5;i++){ const y=pad+ph*i/5; ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(w-pad,y); ctx.stroke(); }
-  function line(key,color,dash){
-    ctx.strokeStyle=color; ctx.setLineDash(dash||[]); ctx.beginPath();
-    series.forEach((p,i)=>{ const x=xOf(i), y=yOf(p[key]); if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y);});
-    ctx.stroke(); ctx.setLineDash([]);
-  }
-  line('s','#22c55e',[]);
-  line('n','#9ca3af',[8,6]);
+function selectRow(i){
+  const r=LAST.rows[i];
+  k_formula.textContent=r.formula;
+  k_viability.textContent=r.Vats.toFixed(3);
+  k_verdict.textContent=r.verdict;
+  k_verdict.className="val "+(r.verdict.includes("VIABLE")?"good":"bad");
+  drawPlot(r.series);
 }
 
-// run
-document.getElementById('run').onclick=()=>{
-  const f=parseFormula(document.getElementById('formula').value);
-  if(!f){ alert('Use format like C30H14La2'); return; }
-  const uc=ucFromComposition(f);
-  document.getElementById('ucVal').textContent=uc.toFixed(2);
+function drawPlot(series){
+  const c=plot,ctx=c.getContext("2d");ctx.clearRect(0,0,c.width,c.height);
+  const sx=c.width/200,sy=c.height/1.1;
+  ctx.setLineDash([6,6]);ctx.strokeStyle="#777";ctx.beginPath();
+  series.forEach(p=>ctx.lineTo((p.T-200)*sx,c.height-p.nullv*sy));ctx.stroke();
+  ctx.setLineDash([]);ctx.strokeStyle="#00d9ff";ctx.lineWidth=2;ctx.beginPath();
+  series.forEach(p=>ctx.lineTo((p.T-200)*sx,c.height-p.comb*sy));ctx.stroke();
+  ctx.lineWidth=1;
+}
 
-  const Tc=+document.getElementById('Tc').value;
-  const alpha=+document.getElementById('alpha').value;
-  const Ic0=+document.getElementById('Ic0').value;
-  const Tmin=+document.getElementById('Tmin').value;
-  const Tmax=+document.getElementById('Tmax').value;
-  const step=+document.getElementById('Tstep').value;
-  const thr=+document.getElementById('thrPct').value;
+/* ===========================
+   EXPORTS
+=========================== */
+function exportCSV(){
+  if(!LAST||!LAST.rows.length)return alert("No data");
+  const h=["Formula","u_geo","u_chr","V_ATS","β","Phonon","Isotope","Pressure","Verdict"];
+  const r=LAST.rows.map(x=>[
+    x.formula,x.ug.toFixed(4),x.uc.toFixed(4),x.Vats.toFixed(4),
+    x.robustOK,x.phononOK,x.isotopeOK,x.pressureProxy.toFixed(4),x.verdict
+  ]);
+  const csv=[h.join(","),...r.map(e=>e.join(","))].join("\n");
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+  a.download=`HOLOSCREEN_ATS_DISCOVERY_v3.1_${Date.now()}.csv`;
+  a.click();
+}
 
-  const series=[];
-  let maxSplit=0;
-  for(let T=Tmin;T<=Tmax;T+=step){
-    const s=Ic_STUR(T,Tc,alpha,Ic0,uc);
-    const n=Ic_STUR(T,Tc,alpha,Ic0,0); // null
-    if(n.Ic>0) maxSplit=Math.max(maxSplit,100*(s.Ic-n.Ic)/n.Ic);
-    series.push({s:s.Ic,n:n.Ic});
-  }
-  document.getElementById('splitVal').textContent=maxSplit.toFixed(1)+'%';
-  const v=document.getElementById('verdict');
-  if(maxSplit>=thr){ v.textContent='PASS'; v.className='kpiVal good'; }
-  else{ v.textContent='FAIL'; v.className='kpiVal bad'; }
-  draw(series);
-};
+function exportJSON(){
+  if(!LAST)return alert("No data");
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(LAST,null,2)],{type:"application/json"}));
+  a.download=`HOLOSCREEN_ATS_DISCOVERY_v3.1_${Date.now()}.json`;
+  a.click();
+}
+
+run.onclick=runSweep;
+exportCSV.onclick=exportCSV;
+exportJSON.onclick=exportJSON;
 </script>
+
 </body>
 </html>
