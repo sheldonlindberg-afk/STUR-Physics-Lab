@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>STUR ATS Falsifier — Side-by-Side (La–C–H vs YBCO)</title>
+<meta charset="UTF-8">
+<title>STUR — Holoscreen Chronomagnetic Boundary Simulator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 <!-- MathJax -->
 <script>
 window.MathJax = {
-  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
-  svg: { fontCache: 'global' },
-  options: { renderActions: { addMenu: [] } }
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']] },
+  svg: { fontCache:'global' },
+  options:{ renderActions:{ addMenu:[] } }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -18,392 +18,187 @@ window.MathJax = {
 <style>
 :root{
   color-scheme:dark;
-  --bg:#020617; --panel:#0b1226; --border:#1f2937;
-  --fg:#e5e7eb; --fg2:#9ca3af; --fg3:#6b7280;
-  --accent:#38bdf8; --accent2:#ec4899;
-  --good:#22c55e; --warn:#fbbf24; --bad:#ef4444;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "JetBrains Mono", monospace;
-  --radius:14px;
+  --bg:#020617; --panel:#020617; --border:#1f2937;
+  --fg:#e5e7eb; --fg2:#9ca3af;
+  --accent:#ec4899; --accent2:#38bdf8;
+  --radius:16px;
 }
-*{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui}
-.page{max-width:1200px;margin:auto;padding:clamp(14px,3.5vw,28px)}
-.panel{background:linear-gradient(180deg,rgba(11,18,38,.88),rgba(10,15,31,.88));
-  border:1px solid var(--border);border-radius:var(--radius);
-  padding:clamp(12px,3.2vw,22px);margin-bottom:clamp(12px,3vw,22px)}
-h1{font-size:clamp(1.35rem,5.8vw,2.2rem);text-transform:uppercase;letter-spacing:.08em;
-  background:linear-gradient(90deg,var(--fg),var(--accent2),var(--accent));
-  -webkit-background-clip:text;color:transparent;margin:0 0 .6rem}
-h2{margin:.2rem 0 .8rem;font-size:clamp(.95rem,3.6vw,1.15rem);
-  text-transform:uppercase;letter-spacing:.08em;color:var(--fg2)}
-p,li{color:var(--fg2);line-height:1.65;font-size:clamp(.95rem,3.6vw,1.0rem)}
-.small{font-size:.92rem;color:var(--fg3)}
-.eq{border:1px solid var(--border);border-radius:12px;padding:.75rem .9rem;margin:.8rem 0;overflow-x:auto}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
-@media(max-width:980px){.grid{grid-template-columns:1fr}}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.9rem}
-@media(max-width:980px){.grid3{grid-template-columns:1fr}}
-label{color:var(--fg2);font-size:.9rem}
-input,button,select{width:100%;font-size:16px;background:rgba(2,6,23,.75);
-  color:var(--fg);border:1px solid var(--border);border-radius:10px;padding:.65rem .7rem;
-  font-family:var(--mono)}
-button{border:none;cursor:pointer;font-weight:900;color:white;
-  background:linear-gradient(135deg,var(--accent2),var(--accent))}
-button.ghost{background:transparent;border:1px solid var(--border);color:var(--fg)}
-.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
-@media(max-width:980px){.kpi{grid-template-columns:1fr}}
-.kpiBox{background:rgba(56,189,248,0.06);border:1px solid var(--border);
-  border-radius:12px;padding:.9rem}
-.kpiLabel{color:var(--fg3);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}
-.kpiVal{font-family:var(--mono);font-size:1.1rem;margin-top:.35rem}
-.good{color:var(--good)} .warn{color:var(--warn)} .bad{color:var(--bad)}
-.note{border-left:4px solid var(--accent);background:rgba(56,189,248,0.06);
-  padding:.9rem 1rem;border-radius:12px;margin:.8rem 0}
-.note.good{border-left-color:var(--good)} .note.warn{border-left-color:var(--warn)}
-.note.bad{border-left-color:var(--bad)}
-canvas{width:100%;height:320px;border:1px solid var(--border);border-radius:12px;
-  background:rgba(2,6,23,.65)}
-hr{border:none;border-top:1px solid rgba(148,163,184,.18);margin:1rem 0}
-footer{color:var(--fg3);text-align:center;font-size:.85rem;margin-top:1.6rem}
-.badge{display:inline-block;padding:.18rem .55rem;border-radius:999px;
-  border:1px solid var(--border);font-family:var(--mono);font-size:.8rem;color:var(--fg2)}
-.badge.good{border-color:rgba(34,197,94,.5);color:rgba(34,197,94,.95)}
-.badge.warn{border-color:rgba(251,191,36,.55);color:rgba(251,191,36,.95)}
-.badge.bad{border-color:rgba(239,68,68,.55);color:rgba(239,68,68,.95)}
+.page{max-width:1100px;margin:auto;padding:2rem}
+.panel{border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;margin-bottom:1.4rem}
+h1{font-size:1.8rem;letter-spacing:.08em}
+h2{font-size:1.1rem;color:var(--fg2);letter-spacing:.06em;text-transform:uppercase}
+label{font-size:.85rem;color:var(--fg2)}
+input{
+  width:100%;font-family:monospace;font-size:16px;
+  padding:.55rem;border-radius:8px;
+  border:1px solid var(--border);
+  background:#020617;color:var(--fg)
+}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1rem}
+.kpi{border:1px solid var(--border);border-radius:10px;padding:.7rem}
+.kpi .t{font-size:.7rem;color:var(--fg2);text-transform:uppercase}
+.kpi .v{font-family:monospace;font-size:.9rem}
+.badges{display:flex;gap:.6rem;flex-wrap:wrap}
+.badge{
+  font-family:monospace;font-size:.7rem;
+  padding:.35rem .6rem;border-radius:999px;
+  border:1px solid var(--border)
+}
+.pass{border-color:#22c55e;color:#22c55e}
+.fail{border-color:#fb7185;color:#fb7185}
+.eq{border:1px solid var(--border);border-radius:12px;padding:.7rem;margin:.7rem 0}
 </style>
 </head>
 
 <body>
 <div class="page">
 
-<header class="panel">
-  <h1>ATS Falsifier — Side-by-Side</h1>
-  <p><strong>Canonical La–C–H vs forced YBCO adapter (demonstration)</strong></p>
+<div class="panel">
+<h1>STUR — Holoscreen Chronomagnetic Boundary Simulator</h1>
+<p style="color:var(--fg2)">
+Implements Sections 7–14 of the STUR manuscript.
+All observables are holoscreen projections.
+</p>
+</div>
 
-  <div class="note">
-    <strong>Scope lock:</strong> STUR modifies <em>phase transport</em> at the boundary only.
-    Bulk pairing and spectroscopy remain conventional.
-  </div>
+<div class="panel">
+<h2>Boundary Control Parameters</h2>
 
-  <div class="note warn">
-    <strong>What “side-by-side” means here:</strong> both panels run the same falsifier logic
-    (STUR curve vs null curve; max history split; PASS/FAIL).  
-    <br><br>
-    <span class="badge good">La–C–H</span> uses your <em>canonical</em> composition-derived \(u_c\).  
-    <span class="badge warn">YBCO</span> uses a clearly labeled <em>non-canonical adapter</em> so you can see why the
-    original “space travel / cloaking” paragraph doesn’t plug into this lab.
-  </div>
-</header>
+<label>Resistance Amplitude R<sub>q</sub></label>
+<input id="Rq" type="number" value="50" step="5">
 
-<section class="panel">
-  <h2>Shared Model</h2>
-  <div class="eq">
+<label style="margin-top:.8rem">Coherence Depth u<sub>c</sub></label>
+<input id="uc" type="number" value="5" step="0.1">
+
+<label style="margin-top:.8rem">Boundary Phase θ (rad)</label>
+<input id="theta" type="number" value="1.0" step="0.05">
+
+<label style="margin-top:.8rem">Chronomagnetic Gain κ<sub>cm</sub></label>
+<input id="kappa" type="number" value="1.0" step="0.1">
+</div>
+
+<div class="panel">
+<h2>Holoscreen Quantities</h2>
+
+<div class="kpis">
+<div class="kpi"><div class="t">Saturation S<sub>u</sub>(u<sub>c</sub>)</div><div id="kSu" class="v">—</div></div>
+<div class="kpi"><div class="t">M = R<sub>q</sub> S<sub>u</sub></div><div id="kM" class="v">—</div></div>
+<div class="kpi"><div class="t">Phase Gate cos(θ/M)</div><div id="kGate" class="v">—</div></div>
+<div class="kpi"><div class="t">K<sub>proj</sub></div><div id="kProj" class="v">—</div></div>
+</div>
+
+<div class="eq">
 \[
-I_c^{\mathrm{STUR}}(T)=I_c^{\mathrm{BCS}}(T)\tanh(M),\quad
-M=R_q S_u(u_c),\quad
-R_q=\frac{\Delta(T)}{k_BT}
+M = R_q S_u(u_c),\quad
+K_{\rm proj} = \kappa_{\rm cm}\cos\!\left(\frac{\theta}{M}\right)
 \]
-  </div>
-  <p class="small">
-    Each panel differs only in how \(u_c\) is derived from composition.
-  </p>
-</section>
+</div>
+</div>
 
-<section class="panel">
-  <h2>Inputs</h2>
+<div class="panel">
+<h2>Gravitational Calibration (Section 14.4)</h2>
 
-  <div class="grid3">
-    <div>
-      <label>Temperature band (K)</label>
-      <div class="grid">
-        <input id="Tmin" type="number" value="120" />
-        <input id="Tmax" type="number" value="300" />
-      </div>
-    </div>
-    <div>
-      <label>Step (K)</label>
-      <input id="Tstep" type="number" value="10" />
-    </div>
-    <div>
-      <label>Pass threshold (history split %)</label>
-      <input id="thrPct" type="number" value="10" />
-    </div>
-  </div>
+<div class="kpis">
+<div class="kpi"><div class="t">1 / M</div><div id="kInvM" class="v">—</div></div>
+<div class="kpi"><div class="t">Redshift Multiplier</div><div id="kRed" class="v">—</div></div>
+</div>
 
-  <hr>
+<div class="eq">
+\[
+\frac{\Delta\nu}{\nu}
+=
+\frac{gh}{c^2}
+\left(1 + \frac{1}{M}\right)
+\]
+</div>
 
-  <div class="grid">
-    <!-- Left: LaCH -->
-    <div class="panel" style="margin:0">
-      <h2>Panel A — La–C–H <span class="badge good">canonical</span></h2>
-      <label>Stoichiometry (CnHmLal)</label>
-      <input id="fA" value="C30H14La2" />
-      <div class="grid">
-        <div>
-          <label>\(T_c\) (K)</label>
-          <input id="TcA" type="number" value="260" />
-        </div>
-        <div>
-          <label>\(\alpha=\Delta_0/(k_BT_c)\)</label>
-          <input id="aA" type="number" value="2.0" step="0.05" />
-        </div>
-      </div>
-      <label>Baseline \(I_{c0}\) (arb.)</label>
-      <input id="Ic0A" type="number" value="1.0" step="0.1" />
+<div class="badges" style="margin-top:.6rem">
+<div id="bClassical" class="badge">Classical Limit</div>
+<div id="bSTUR" class="badge">STUR Active</div>
+</div>
+</div>
 
-      <div class="kpi" style="margin-top:.9rem">
-        <div class="kpiBox"><div class="kpiLabel">Derived \(u_c\)</div><div class="kpiVal" id="ucA">—</div></div>
-        <div class="kpiBox"><div class="kpiLabel">Max split</div><div class="kpiVal" id="spA">—</div></div>
-        <div class="kpiBox"><div class="kpiLabel">Verdict</div><div class="kpiVal" id="vdA">—</div></div>
-      </div>
+<div class="panel">
+<h2>ε<sub>Γ</sub> Diagnostic (Section 16)</h2>
 
-      <div class="note good">
-        \(u_c=\ln(\xi_{\text{cage}}/a_H)\), with \(\xi_{\text{cage}}\propto\sqrt{C}(H/La)^{1/3}\).
-      </div>
+<div class="kpis">
+<div class="kpi"><div class="t">ε<sub>Γ</sub></div><div id="kEps" class="v">—</div></div>
+</div>
 
-      <canvas id="plotA"></canvas>
-      <p class="small">Solid: STUR. Dashed: null.</p>
-    </div>
+<div class="eq">
+\[
+\varepsilon_\Gamma(\tau)
+=
+\lambda_\Gamma \dot\chi(\tau)
+\quad,\quad
+\dot\chi = \alpha_\chi K_{\rm proj}
+\]
+</div>
+</div>
 
-    <!-- Right: YBCO -->
-    <div class="panel" style="margin:0">
-      <h2>Panel B — YBCO <span class="badge warn">adapter</span></h2>
-      <label>Stoichiometry (YBa2Cu3O7 style)</label>
-      <input id="fB" value="YBa2Cu3O7" />
-      <div class="grid">
-        <div>
-          <label>\(T_c\) (K)</label>
-          <input id="TcB" type="number" value="93" />
-        </div>
-        <div>
-          <label>\(\alpha=\Delta_0/(k_BT_c)\)</label>
-          <input id="aB" type="number" value="2.2" step="0.05" />
-        </div>
-      </div>
-      <label>Baseline \(I_{c0}\) (arb.)</label>
-      <input id="Ic0B" type="number" value="1.0" step="0.1" />
-
-      <div class="kpi" style="margin-top:.9rem">
-        <div class="kpiBox"><div class="kpiLabel">Derived \(u_c\)</div><div class="kpiVal" id="ucB">—</div></div>
-        <div class="kpiBox"><div class="kpiLabel">Max split</div><div class="kpiVal" id="spB">—</div></div>
-        <div class="kpiBox"><div class="kpiLabel">Verdict</div><div class="kpiVal" id="vdB">—</div></div>
-      </div>
-
-      <div class="note warn">
-        <strong>Non-canonical adapter:</strong> YBCO is outside the La–C–H cage model.
-        This adapter creates a <em>structural proxy</em> \(u_c\) from Y/Ba/Cu/O counts so you can
-        compare behavior — <strong>not</strong> to claim STUR predicts YBCO.
-      </div>
-
-      <canvas id="plotB"></canvas>
-      <p class="small">Solid: STUR (adapter \(u_c\)). Dashed: null.</p>
-    </div>
-  </div>
-
-  <div style="margin-top:1rem" class="grid">
-    <button id="run">Run side-by-side sweep</button>
-    <button id="swap" class="ghost">Swap panels (A ↔ B)</button>
-  </div>
-</section>
-
-<footer>
-STUR · ATS Falsifier · Side-by-side demo (canonical vs adapter)
+<footer style="text-align:center;color:var(--fg2);font-size:.75rem">
+STUR · X-Coupled Resistance Manifold · Holoscreen-Only Physics
 </footer>
 
+</div>
+
 <script>
-const kB = 1.380649e-23;
-
-// helpers
-function Su(u){ return Math.tanh(u)*(1-Math.exp(-u)); }
-function Delta_T(T,Tc,alpha){ return alpha*kB*Tc*Math.sqrt(Math.max(0,1-T/Tc)); }
-function Ic_BCS(T,Tc,Ic0){ return Ic0*Math.pow(Math.max(0,1-T/Tc),1.5); }
-
-function Ic_STUR(T,Tc,alpha,Ic0,uc){
-  if(T>=Tc) return {Ic:0,M:0};
-  const Rq = Delta_T(T,Tc,alpha)/(kB*T);
-  const M = Rq*Su(uc);
-  return { Ic: Ic_BCS(T,Tc,Ic0)*Math.tanh(M), M };
+// Saturation functional (Section 8)
+function Su(u){
+  return Math.tanh(u) * (1 - Math.exp(-u));
 }
 
-// -------- parsers --------
+function update(){
+  const Rq = +RqEl.value;
+  const uc = +ucEl.value;
+  const th = +thetaEl.value;
+  const kap = +kappaEl.value;
 
-// parse CnHmLal
-function parseLaCH(s){
-  const m = s.match(/C(\d+)H(\d+)La(\d+)/i);
-  if(!m) return null;
-  return { C:+m[1], H:+m[2], La:+m[3] };
+  const Suv = Su(uc);
+  const M = Rq * Suv;
+  const gate = Math.cos(th / M);
+  const Kproj = kap * gate;
+
+  const invM = 1 / M;
+  const redMult = 1 + invM;
+
+  const alphaChi = 1.0;
+  const lambdaGamma = 1.0;
+  const epsGamma = lambdaGamma * alphaChi * Kproj;
+
+  kSu.textContent = Suv.toFixed(6);
+  kM.textContent = M.toFixed(6);
+  kGate.textContent = gate.toFixed(6);
+  kProj.textContent = Kproj.toFixed(6);
+  kInvM.textContent = invM.toExponential(3);
+  kRed.textContent = redMult.toFixed(6);
+  kEps.textContent = epsGamma.toFixed(6);
+
+  bClassical.className = "badge " + (M > 100 ? "pass" : "fail");
+  bSTUR.className = "badge " + (M < 100 ? "pass" : "fail");
 }
 
-// parse YBa2Cu3O7 (flexible order, supports missing digits = 1)
-function parseYBCO(s){
-  // normalize: remove spaces, keep letters+digits
-  const t = s.replace(/\s+/g,'');
-  // capture tokens like Y, Ba2, Cu3, O7
-  const re = /([A-Z][a-z]?)(\d*)/g;
-  let m, out = {};
-  while((m = re.exec(t)) !== null){
-    const el = m[1];
-    const n = m[2] ? +m[2] : 1;
-    out[el] = (out[el]||0) + n;
-  }
-  // require key species
-  if(!out.Y || !out.Ba || !out.Cu || !out.O) return null;
-  return { Y:out.Y, Ba:out.Ba, Cu:out.Cu, O:out.O };
-}
+// Bind
+const RqEl = document.getElementById('Rq');
+const ucEl = document.getElementById('uc');
+const thetaEl = document.getElementById('theta');
+const kappaEl = document.getElementById('kappa');
 
-// -------- coherence maps --------
+const kSu = document.getElementById('kSu');
+const kM = document.getElementById('kM');
+const kGate = document.getElementById('kGate');
+const kProj = document.getElementById('kProj');
+const kInvM = document.getElementById('kInvM');
+const kRed = document.getElementById('kRed');
+const kEps = document.getElementById('kEps');
 
-// Canonical La–C–H composition -> coherence
-function ucFromLaCH({C,H,La}){
-  const aH = 0.12; // nm scale (your prior constant)
-  const xi = Math.sqrt(C) * Math.pow(H/Math.max(1,La), 1/3); // relative nm-ish units
-  return Math.log(xi/aH);
-}
+const bClassical = document.getElementById('bClassical');
+const bSTUR = document.getElementById('bSTUR');
 
-// Non-canonical YBCO adapter -> coherence (explicitly a proxy)
-// Idea: map planar network + oxygen content -> coherence-length-like proxy
-function ucFromYBCO({Y,Ba,Cu,O}){
-  const aO = 0.14; // nm scale proxy (not a claim; just a dimensional stand-in)
-  // "plane density" proxy: Cu sets planes, O sets carrier/doping capacity
-  const plane = Math.sqrt(Cu) * Math.pow(O/7, 1/2); // normalized around O~7
-  // "reservoir" proxy: Ba/Y ratio affects charge reservoir (very crude)
-  const reservoir = Math.pow(Ba/Math.max(1,Y), 1/3);
-  const xi = plane * reservoir; // relative proxy
-  return Math.log(Math.max(1e-9, xi/aO));
-}
-
-// -------- plotting --------
-
-function draw(canvasId, series){
-  const c=document.getElementById(canvasId),ctx=c.getContext('2d');
-  const w=c.width=c.clientWidth,h=c.height=c.clientHeight;
-  ctx.clearRect(0,0,w,h);
-  const pad=40, pw=w-2*pad, ph=h-2*pad;
-
-  let yMax=0;
-  series.forEach(p => yMax=Math.max(yMax,p.s,p.n));
-  yMax = Math.max(yMax, 1e-12);
-
-  const xOf=(i)=>pad+pw*i/(series.length-1);
-  const yOf=(y)=>pad+ph*(1-y/yMax);
-
-  // gridlines
-  ctx.strokeStyle='rgba(148,163,184,.22)';
-  for(let i=0;i<=5;i++){
-    const y=pad+ph*i/5;
-    ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(w-pad,y); ctx.stroke();
-  }
-
-  function line(key, color, dash){
-    ctx.strokeStyle=color;
-    ctx.setLineDash(dash||[]);
-    ctx.beginPath();
-    series.forEach((p,i)=>{
-      const x=xOf(i), y=yOf(p[key]);
-      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-    });
-    ctx.stroke();
-    ctx.setLineDash([]);
-  }
-
-  // STUR + null
-  line('s', '#22c55e', []);
-  line('n', '#9ca3af', [8,6]);
-
-  // axis labels (minimal)
-  ctx.fillStyle='rgba(148,163,184,.85)';
-  ctx.font='12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "JetBrains Mono", monospace';
-  ctx.fillText('Ic (arb.)', 8, 14);
-  ctx.fillText('T sweep index', w-120, h-10);
-}
-
-function setVerdict(elId, pass){
-  const el = document.getElementById(elId);
-  if(pass){ el.textContent='PASS'; el.className='kpiVal good'; }
-  else { el.textContent='FAIL'; el.className='kpiVal bad'; }
-}
-
-function runPanel({ kind, formula, Tc, alpha, Ic0, Tmin, Tmax, step, thrPct, outUcId, outSpId, outVdId, plotId }){
-  let uc = NaN;
-  let ok = true;
-
-  if(kind === 'lach'){
-    const f = parseLaCH(formula);
-    if(!f){ ok=false; }
-    else uc = ucFromLaCH(f);
-  }else if(kind === 'ybco'){
-    const f = parseYBCO(formula);
-    if(!f){ ok=false; }
-    else uc = ucFromYBCO(f);
-  }
-
-  if(!ok || !Number.isFinite(uc)){
-    document.getElementById(outUcId).textContent = '—';
-    document.getElementById(outSpId).textContent = '—';
-    document.getElementById(outVdId).textContent = 'INVALID';
-    document.getElementById(outVdId).className='kpiVal warn';
-    draw(plotId, [{s:0,n:0},{s:0,n:0}]);
-    return { valid:false, uc:NaN, maxSplit:NaN };
-  }
-
-  document.getElementById(outUcId).textContent = uc.toFixed(2);
-
-  const series=[];
-  let maxSplit=0;
-
-  for(let T=Tmin; T<=Tmax+1e-9; T+=step){
-    const s = Ic_STUR(T,Tc,alpha,Ic0,uc);
-    const n = Ic_STUR(T,Tc,alpha,Ic0,0); // null: uc=0 => Su(0)=0 => tanh(0)=0 => no history
-    if(n.Ic > 0){
-      const split = 100*(s.Ic - n.Ic)/n.Ic;
-      if(Number.isFinite(split)) maxSplit = Math.max(maxSplit, split);
-    }
-    series.push({s:s.Ic, n:n.Ic});
-  }
-
-  document.getElementById(outSpId).textContent = maxSplit.toFixed(1) + '%';
-  setVerdict(outVdId, maxSplit >= thrPct);
-
-  draw(plotId, series);
-
-  return { valid:true, uc, maxSplit };
-}
-
-document.getElementById('run').onclick = () => {
-  const Tmin = +document.getElementById('Tmin').value;
-  const Tmax = +document.getElementById('Tmax').value;
-  const step = +document.getElementById('Tstep').value;
-  const thr = +document.getElementById('thrPct').value;
-
-  // Panel A (LaCH)
-  runPanel({
-    kind:'lach',
-    formula: document.getElementById('fA').value,
-    Tc: +document.getElementById('TcA').value,
-    alpha: +document.getElementById('aA').value,
-    Ic0: +document.getElementById('Ic0A').value,
-    Tmin, Tmax, step, thrPct: thr,
-    outUcId:'ucA', outSpId:'spA', outVdId:'vdA', plotId:'plotA'
-  });
-
-  // Panel B (YBCO)
-  runPanel({
-    kind:'ybco',
-    formula: document.getElementById('fB').value,
-    Tc: +document.getElementById('TcB').value,
-    alpha: +document.getElementById('aB').value,
-    Ic0: +document.getElementById('Ic0B').value,
-    Tmin, Tmax, step, thrPct: thr,
-    outUcId:'ucB', outSpId:'spB', outVdId:'vdB', plotId:'plotB'
-  });
-};
-
-document.getElementById('swap').onclick = () => {
-  // swap formulas + Tc/alpha/Ic0 quickly
-  function swap(id1,id2){ const a=document.getElementById(id1), b=document.getElementById(id2); const t=a.value; a.value=b.value; b.value=t; }
-  swap('fA','fB'); swap('TcA','TcB'); swap('aA','aB'); swap('Ic0A','Ic0B');
-};
-
+[RqEl, ucEl, thetaEl, kappaEl].forEach(el => el.addEventListener('input', update));
+update();
 </script>
+
 </body>
 </html>
