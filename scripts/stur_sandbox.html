@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>STUR Sandbox — Geometry • Simulation • Falsification Loop</title>
 
 <!-- MathJax (SVG, no menu) -->
@@ -269,8 +269,8 @@ footer{
   <header class="header">
     <h1>STUR Sandbox</h1>
     <p class="subtitle">
-      Geometry → Derivative → Dynamics → Summary → Next Prompt.
-      This page is the <b>falsification loop</b> in miniature.
+      A compact, interactive sandbox for exploring a chosen geometry, its analytic derivative, and a minimal dynamical response.
+      The goal is to generate exportable numerical artifacts suitable for downstream falsification and iteration.
     </p>
     <div class="badges">
       <span class="badge">S(u)=tanh(u)(1-e^{-u})</span>
@@ -282,12 +282,12 @@ footer{
   </header>
 
   <section class="panel">
-    <h2>What This Page Teaches</h2>
+    <h2>Purpose</h2>
     <p>
-      You’re doing the real workflow:
-      <b>idea → equation → derivative → simulation → refinement → repeat</b>.
-      In STUR terms, you are testing how a chosen geometry produces a specific dynamical signature,
-      then exporting numeric evidence for the next iteration.
+      This page provides a minimal, reproducible loop that connects:
+      <b>geometry</b> → <b>analytic derivative</b> → <b>toy dynamics</b> → <b>exportable data</b>.
+      It is intended as a scaffold for building and testing progressively higher-fidelity STUR simulations,
+      including PDE evolutions, boundary-gate models, and higher-dimensional mappings.
     </p>
 
     <div class="eq">
@@ -299,37 +299,37 @@ S(u)=\tanh(u)\left(1-e^{-u}\right), \quad u=\frac{r}{L_0}
     </div>
 
     <p>
-      The sandbox uses a simple radial motion rule driven by the geometry slope:
-      \(F(r)=-\partial_r S(r)\) (plus damping and soft wall bounces).
-      This is not “the whole theory” — it’s the smallest loop that trains the same habits as your larger STUR sims.
+      The demonstrator dynamics uses a simple radial rule driven by the geometry slope:
+      \(F(r)=-\partial_r S(r)\), with linear damping and soft boundary reflections.
+      This is a pedagogical baseline and is not presented as a complete physical model.
     </p>
   </section>
 
   <section class="panel">
-    <h2>Interactive Geometry Sandbox</h2>
+    <h2>Interactive Sandbox</h2>
 
     <div class="controls">
       <div>
-        <h3>Geometry & Integrator</h3>
+        <h3>Parameters</h3>
 
         <div class="control">
           <label>L₀ (geometry scale): <span id="L0_val">1.00</span></label>
-          <input type="range" id="L0" min="0.2" max="3" value="1" step="0.05">
+          <input type="range" id="L0" min="0.2" max="3" value="1" step="0.05" />
         </div>
 
         <div class="control">
-          <label>R<sub>max</sub> (range): <span id="Rmax_val">5.0</span></label>
-          <input type="range" id="Rmax" min="2" max="10" value="5" step="0.25">
+          <label>R<sub>max</sub> (domain extent): <span id="Rmax_val">5.0</span></label>
+          <input type="range" id="Rmax" min="2" max="10" value="5" step="0.25" />
         </div>
 
         <div class="control">
           <label>Damping γ: <span id="gamma_val">0.050</span></label>
-          <input type="range" id="gamma" min="0" max="0.25" value="0.05" step="0.005">
+          <input type="range" id="gamma" min="0" max="0.25" value="0.05" step="0.005" />
         </div>
 
         <div class="control">
           <label>Time step dt: <span id="dt_val">0.020</span></label>
-          <input type="range" id="dt" min="0.005" max="0.06" value="0.02" step="0.001">
+          <input type="range" id="dt" min="0.005" max="0.06" value="0.02" step="0.001" />
         </div>
 
         <div class="btnrow">
@@ -376,8 +376,8 @@ S(u)=\tanh(u)\left(1-e^{-u}\right), \quad u=\frac{r}{L_0}
         </div>
 
         <div class="result" id="mini_readme">
-          Tip: this sandbox exports a JSON bundle containing <b>S(r)</b>, <b>dS/dr</b>, and the particle trajectory.
-          Drop that JSON into the next AI prompt to generate a more advanced STUR experiment (PDE, boundary gate, or 5D mapping).
+          The export includes sampled geometry values (<b>S(r)</b>, <b>dS/dr</b>, and <b>F(r)</b>) along with the simulated trajectory and settings,
+          enabling direct reuse in subsequent models and falsification workflows.
         </div>
       </div>
     </div>
@@ -386,9 +386,8 @@ S(u)=\tanh(u)\left(1-e^{-u}\right), \quad u=\frac{r}{L_0}
   <section class="panel">
     <h2>STUR 1D → 5D Starter Template (Copy Ready)</h2>
     <p>
-      Updated to match your “theory hammered out” baseline:
-      dimensionless \(u=r/L_0\), the same \(S(u)\), analytic derivative, and a clean JSON summary.
-      (JupyterLite / Pyodide safe: no blit tricks, no filesystem dependencies beyond optional JSON save.)
+      This reference template reproduces the same dimensionless geometry \(u=r/L_0\), analytic derivative, and a clean JSON summary.
+      It is compatible with JupyterLite / Pyodide environments (no animation blitting; optional JSON saving only).
     </p>
 
 <pre id="ai_template"># ===============================================================
@@ -527,12 +526,12 @@ print(
   </section>
 
   <section class="panel">
-    <h2>Where This Sandbox Upgrades Next</h2>
+    <h2>Recommended Next Extensions</h2>
     <ul>
-      <li><b>Boundary gate toggle</b>: add \(M(\tau)=R_qS_u(u_c)\) and a phase slider \(\theta\) that modulates observed output.</li>
-      <li><b>History dependence</b>: add “slow-cool vs fast-quench” presets that change \(u_c\) evolution (same final state).</li>
-      <li><b>Residual hooks</b>: export a model-vs-data residual panel (plug-in style) for real datasets.</li>
-      <li><b>2D/3D lift</b>: replace 1D radial motion with a 2D/3D trajectory constrained by \(S(r)\).</li>
+      <li><b>Boundary-gate module</b>: add \(M(\tau)=R_qS_u(u_c)\) and a phase parameter \(\theta\) to modulate an observable channel.</li>
+      <li><b>History dependence</b>: add “slow-cool vs fast-quench” presets that alter the evolution of \(u_c\) while preserving the final state.</li>
+      <li><b>Residual hooks</b>: add a model-vs-data residual panel designed as a plug-in interface for external datasets.</li>
+      <li><b>2D/3D lift</b>: replace the 1D radial motion with a 2D/3D trajectory constrained by \(S(r)\).</li>
     </ul>
   </section>
 
@@ -542,17 +541,18 @@ print(
 
   <footer>
     STUR Sandbox • Geometry → Simulation → Falsification Loop<br>
-    (Updated for dimensionless u=r/L₀ and analytic derivative)
+    Baseline: \(u=r/L_0\) with analytic derivative and JSON export
   </footer>
 
 </div>
 
 <script>
 /* =========================================================
-   STUR Sandbox — "Theory hammered out" update
-   - Uses u=r/L0 and analytic derivative
-   - DPR-correct canvas
-   - Exports JSON: geometry samples + trajectory + settings
+   STUR Sandbox — Reference Implementation
+   - u=r/L0 (dimensionless)
+   - Analytic derivative dS/dr
+   - DPR-correct canvas rendering
+   - JSON export: settings + geometry samples + trajectory
 ========================================================= */
 
 /* ---------- Geometry: S(u)=tanh(u)(1-e^{-u}) ---------- */
@@ -631,7 +631,6 @@ function step(L0, Rmax, dt, gamma){
 /* ---------- Draw ---------- */
 function drawScene(L0, Rmax){
   const { width: W, height: H } = fitCanvasToCSS();
-
   ctx.clearRect(0,0,W,H);
 
   // axis
@@ -643,7 +642,7 @@ function drawScene(L0, Rmax){
   ctx.stroke();
 
   // geometry curve S(r)
-  ctx.strokeStyle = "rgba(251,191,36,0.95)"; // warm amber (close to your legacy)
+  ctx.strokeStyle = "rgba(251,191,36,0.95)";
   ctx.lineWidth = 2;
   ctx.beginPath();
   for (let i=0;i<=Math.floor(W);i++){
@@ -702,7 +701,7 @@ function updateUI(extra){
   const vAbs = Math.abs(particle.v);
   speedBar.style.width = (Math.min(1, vAbs/3) * 100) + "%";
 
-  // KPI: phase proxy (simple, bounded): atan(v) as a toy “phase-like” readout
+  // KPI: phase proxy (bounded): atan(v) as a simple phase-like readout
   const phaseProxy = Math.atan2(particle.v, 1);
   kpiPhase.textContent = phaseProxy.toFixed(4);
   kpiSlope.textContent = slope.toExponential(3);
@@ -796,7 +795,6 @@ async function copyText(txt){
     await navigator.clipboard.writeText(txt);
     return true;
   }catch(e){
-    // fallback
     const ta = document.createElement("textarea");
     ta.value = txt;
     document.body.appendChild(ta);
@@ -856,7 +854,7 @@ copyNextPromptBtn.onclick = async () => {
    - either a boundary gate (M=R_q S_u(u_c), theta modulation),
    - or a PDE (diffusion + drift + chi*∂_X R + source).
 3) Add residual hooks (model - data) and export a JSON summary.
-4) State a YES/NO experimental signature that would kill the model.`;
+4) State a YES/NO experimental signature that would falsify the model.`;
 
   const ok = await copyText(prompt);
   copyNextPromptBtn.textContent = ok ? "✅ Copied" : "⚠️ Copy failed";
@@ -865,12 +863,10 @@ copyNextPromptBtn.onclick = async () => {
 
 /* ---------- Init ---------- */
 function init(){
-  // start centered to current Rmax
   const Rmax = parseFloat(Rmax_slider.value);
   particle.r = 0.5 * Rmax;
   particle.v = 0;
   updateUI();
-  // ensure redraw on resize for DPR/layout changes
   window.addEventListener("resize", () => updateUI(), {passive:true});
 }
 init();
