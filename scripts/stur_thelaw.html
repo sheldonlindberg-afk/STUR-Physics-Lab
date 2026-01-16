@@ -228,6 +228,30 @@ th{color:var(--accent2);font-weight:bold}
   font-size:0.9rem;
 }
 
+/* Output tiles used by Appendix A calculators */
+.output-box{
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,.18);
+  border-radius:12px;
+  padding:10px 12px;
+}
+.output-label{
+  display:block;
+  font-size:11px;
+  color:var(--fg2);
+  text-transform:uppercase;
+  letter-spacing:.18px;
+}
+.output-value{
+  display:block;
+  margin-top:6px;
+  font-family:var(--mono);
+  font-size:14px;
+  font-weight:900;
+  color:#e2e8f0;
+  word-break:break-word;
+}
+
 /* Badges */
 .badges{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.6rem}
 .badge{
@@ -3589,9 +3613,13 @@ These results apply when \(M \to \infty\) and \(\partial_X R \to 0\).</p>
 </div>
 
 <div class="panel" style="background:rgba(255,200,100,0.1);border:1px solid #ffd93d">
-<p style="margin:0"><strong>⚠️ STUR-Primary Note:</strong> TEGR is a <em>derived effective theory</em> within STUR, 
-not a foundation. The derivations below document consistency with established GR/TEGR results in the appropriate limit. 
-A single scalar \(R\) cannot reproduce full GR's 2 tensor DOF generically—this is a restricted sector mapping.</p>
+<p style="margin:0">
+  <strong>⚠️ STUR-Primary Note:</strong>
+  TEGR is presented here only as a <em>derived, restricted sector</em> of STUR for reader triangulation.
+  The results in this tab are asserted to apply in the limit \(M \to \infty\) and \(\partial_X R \to 0\),
+  under the restricted torsion ansatz spelled out in the manuscript. They are not claimed as a full
+  reconstruction of GR's tensor dynamics from a single scalar \(R\).
+</p>
 </div>
 
 <!-- Section 1: TEGR Field Equation -->
