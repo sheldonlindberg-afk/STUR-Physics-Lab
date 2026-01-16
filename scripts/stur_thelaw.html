@@ -508,6 +508,42 @@ The framework is <strong>explicitly falsifiable</strong>.
 </header>
 
 <!-- ============================
+     DOCUMENT FRAMING: Research Platform Notice
+============================= -->
+<section class="panel" style="background:rgba(74,158,255,0.08);border:2px solid #4a9eff">
+<h2>Document Classification</h2>
+
+<div class="conceptual-box" style="background:rgba(74,158,255,0.1);border:1px solid #4a9eff;padding:1rem;border-radius:8px">
+<strong>This is an open, falsifiable research framework and simulation platform.</strong>
+
+<p style="margin:0.5rem 0">This document is <em>not</em> formatted as a single journal submission. It is a comprehensive
+research artifact containing:</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:0.5rem 0">
+<thead>
+<tr style="background:rgba(74,158,255,0.2)">
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #4a9eff">Component</th>
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #4a9eff">Sections</th>
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #4a9eff">Submission Target</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Core Theory</strong></td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">§1–§7</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Paper I (foundations)</td></tr>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Falsification Protocol</strong></td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Appendix A</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Paper II (experimental)</td></tr>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Derived Limits</strong></td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">§14, TEGR Tab</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Paper III (correspondences)</td></tr>
+<tr><td style="padding:0.3rem"><strong>Interactive Tools</strong></td><td style="padding:0.3rem">Simulators, Calibrations</td><td style="padding:0.3rem">Supplementary material</td></tr>
+</tbody>
+</table>
+
+<p style="margin:0.5rem 0 0 0;font-size:0.85rem">
+<strong>Review criteria:</strong> This platform should be evaluated on: (1) internal mathematical consistency,
+(2) explicit falsifiability, (3) scope discipline. It should <em>not</em> be evaluated as a single journal paper
+attempting to do everything at once.
+</p>
+</div>
+</section>
+
+<!-- ============================
      SECTION 0: Scope, Claim Hierarchy, and Reader Guide
 ============================= -->
 <section class="panel">
@@ -701,19 +737,22 @@ coherence scale, STUR is falsified. If dark matter is directly detected with the
 <div class="eq">
 \[
 \boxed{
-\text{All observable physical interactions can be modeled as manifestations of resistance gradients.}
+\text{All modeled interactions are represented as gradients of a scalar resistance field } R(x^\mu, X).
 }
 \]
 </div>
 
 <p>
-Resistance is defined as the substrate's opposition to deformation,
-transport, phase evolution, or information flow.
-Particles and forces are emergent projections of resistance gradients.
+Within STUR, resistance quantifies the local opposition to deformation,
+transport, phase evolution, or information flow. Observable particles and forces
+emerge as projections of resistance gradients onto the holoscreen boundary.
 </p>
 
-<p class="note">
-This statement is a modeling postulate, not an ontological claim about the ultimate nature of reality.
+<p class="note" style="background:rgba(74,158,255,0.15);border-left:3px solid #4a9eff;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Epistemic status:</strong> This is a <em>modeling postulate</em>, not an ontological claim.
+We do not assert that "reality is resistance" — we assert that a resistance-gradient framework
+provides a unified computational structure for diverse phenomena. The postulate is justified
+by its falsifiable predictions, not by metaphysical argument.
 </p>
 
 <div class="conceptual-box" style="background:rgba(52,211,153,0.12);border:2px solid #34d399;padding:1rem;margin:1.5rem 0;border-radius:8px">
@@ -1515,11 +1554,25 @@ This explains why thermal coherence (at temperature \(T\)) maps naturally to mem
 via \(R_q = \Delta E / k_B T\).
 </p>
 
-<p class="note">
-This identification is geometric and phenomenological rather than a literal equivalence for arbitrary
-von Neumann algebras. STUR geometrizes the existence of intrinsic modular flow without asserting a
-one-to-one mapping in full generality.
+<div class="conceptual-box" style="background:rgba(255,200,100,0.12);border:2px solid #ffd93d;padding:0.75rem 1rem;margin:1rem 0;border-radius:8px">
+<strong>Epistemic Status: Motivated Identification (Not Theorem)</strong>
+
+<p style="margin:0.5rem 0">The identification \(X \sim s_{\text{modular}}\) is:</p>
+<ul style="margin:0.3rem 0">
+<li><strong>Motivated</strong> by the structural parallel between X-evolution and modular flow</li>
+<li><strong>Heuristic</strong> — not derived from first principles or proven equivalent</li>
+<li><strong>Phenomenologically useful</strong> — it explains the thermal-coherence ↔ memory-depth mapping</li>
+<li><strong>Not a literal theorem</strong> for arbitrary von Neumann algebras</li>
+</ul>
+
+<p style="margin:0.5rem 0 0 0;font-size:0.85rem">
+A rigorous derivation would require: (1) specifying the operator algebra, (2) proving the KMS condition
+implies X-dependence of the form given, (3) showing the modular Hamiltonian generates exactly the
+X-evolution operator. This remains open. STUR adopts the identification as a <em>working hypothesis</em>
+that generates testable predictions — the interferometry test (Appendix A) does not depend on whether
+this identification is exact.
 </p>
+</div>
 </section>
 
 <section class="panel">
@@ -2540,16 +2593,33 @@ All nonlocal effects are boundary-mediated and phase-gated.
 No superluminal signaling is implied; all observable effects remain causal at the level of measurement.
 </p>
 
-<h3>Cosmological Outlook (Speculative)</h3>
+<h3>Cosmological Outlook (Speculative Phenomenology — Order of Magnitude Only)</h3>
 
-<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.6rem 1rem;margin:1rem 0">
-<strong>Status:</strong> The following cosmological extensions are <em>speculative and exploratory</em>.
-They have not been validated against Boltzmann solvers (CAMB/CLASS) or fitted to Planck likelihoods.
-These expressions define a testable correction structure, not precision cosmology.
+<div class="conceptual-box" style="background:rgba(255,100,100,0.15);border:2px solid #ff6b6b;padding:1rem;margin:1rem 0;border-radius:8px">
+<strong>⚠️ CRITICAL DISCLAIMER — READ BEFORE PROCEEDING</strong>
+
+<p style="margin:0.5rem 0"><strong>This section is NOT peer-review ready for cosmology journals.</strong></p>
+
+<p style="margin:0.5rem 0">The following cosmological extensions are:</p>
+<ul style="margin:0.3rem 0">
+<li><strong>Speculative</strong> — not derived from first-principles STUR dynamics</li>
+<li><strong>Order-of-magnitude</strong> — no error bars, no likelihood analysis</li>
+<li><strong>Unvalidated</strong> — not tested against CAMB/CLASS Boltzmann solvers</li>
+<li><strong>Not fitted</strong> — no comparison to Planck/WMAP likelihoods</li>
+<li><strong>Heuristic</strong> — the \(\cos^2(\ell/M)\) form is motivated by analogy, not derivation</li>
+</ul>
+
+<p style="margin:0.5rem 0 0 0;font-size:0.9rem">
+<strong>Purpose:</strong> These expressions define a <em>testable correction structure</em> that a future
+researcher could implement in a Boltzmann code. They are presented to show that STUR has cosmological
+implications, not to claim current predictive power in this domain. The core STUR predictions
+(interferometry, Josephson junctions) do not depend on this section.
 </p>
+</div>
 
 <p>
-STUR suggests exploratory, order-of-magnitude corrections for early-universe observables:
+With the above caveats, STUR suggests the following <em>exploratory, order-of-magnitude</em> correction
+structure for early-universe observables:
 </p>
 
 <h4>Phase-Gated CMB</h4>
