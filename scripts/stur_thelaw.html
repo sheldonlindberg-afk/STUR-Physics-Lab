@@ -445,11 +445,11 @@ footer{
 <header class="panel">
 <h1>X-Coupled Resistance Manifold (STUR)</h1>
 <p><strong>Authors:</strong> Sheldon Lindberg · James Lockwood · Christopher B. Cyrek · Dustin Hansley · Derek J. Burkeen</p>
-<p><strong>Version:</strong> 1.0</p>
+<p><strong>Version:</strong> 1.2</p>
 
 <p>
-This manuscript presents the geometric core of <strong>Sheldon's Theory of Unified Resistance (STUR)</strong>,
-formulated as a five-dimensional resistance field theory with explicit
+This manuscript presents the core of <strong>Sheldon's Theory of Unified Resistance (STUR)</strong>,
+formulated as a 4D resistance field theory with an <strong>internal memory coordinate</strong> \(X\) and explicit
 <strong>chronomagnetic boundary closure</strong>.
 </p>
 
@@ -478,14 +478,29 @@ Particles and forces are emergent projections of resistance gradients.
 
 <div class="eq">
 \[
-R = R(x^\mu, X), \qquad \mathcal{M}^5 = M^4 \times X
+R = R(x^\mu, X), \qquad \mathcal{M} = M^4 \times \mathbb{R}_X
 \]
 </div>
 
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Critical clarification:</strong> The coordinate \(X\) is <strong>not</strong> a fifth spatial or temporal dimension.
+It is an <strong>internal memory coordinate</strong> — mathematically equivalent to a kernel representation for nonlocal
+memory effects. The "\(M^4 \times \mathbb{R}_X\)" notation indicates the field's domain, not a geometric 5-manifold in the
+GR sense. No extra-dimensional physics is claimed.
+</p>
+
 <p>
-The coordinate \(X\) is not spatial.
-It is an internal <strong>coherence and memory axis</strong>
-required to encode hysteresis, phase history, and entropy displacement.
+Physically, \(X\) parametrizes:
+</p>
+<ul>
+<li><strong>Memory depth</strong>: How far into the system's history the current state depends</li>
+<li><strong>Coherence accumulation</strong>: The degree of phase correlation built up over preparation</li>
+<li><strong>Hysteresis encoding</strong>: Path-dependence of the resistance field</li>
+</ul>
+
+<p>
+The \(X\)-dependence of \(R(x^\mu, X)\) is equivalent to a convolution kernel in standard nonlocal theories:
+the "extra dimension" is a <em>mathematical bookkeeping device</em>, not a claim about spacetime geometry.
 </p>
 
 <h3>Dimensional Convention</h3>
@@ -499,44 +514,60 @@ energy scale. Physical dimensions enter only through calibration mappings
 
 <div class="conceptual-box" style="background:rgba(74,158,255,0.15);border:2px solid #4a9eff;padding:1rem;margin:1.5rem 0;border-radius:8px">
 <h3 style="margin-top:0;color:#4a9eff">STUR-Primary Commitments</h3>
-<p>This framework is <strong>STUR-primary</strong>: all dynamics derive from a single canonical functional. 
+<p>This framework is <strong>STUR-primary</strong>: all dynamics derive from a single canonical functional.
 Other theories (TEGR, GR, QM) appear only as derived limits or restricted sectors.</p>
 <ol style="margin:0.5rem 0">
-<li><strong>Canonical functional</strong> \(\mathcal{F}_{\text{STUR}}[R]\) (free-energy form) generates all dynamics</li>
-<li><strong>Evolution law</strong> is gradient flow of \(\mathcal{F}\) plus geometric drift and sources</li>
-<li><strong>Holoscreen projection</strong> is the only path from bulk \(R\) to measurable observables</li>
+<li><strong>Canonical functional</strong> \(\mathcal{F}_{\text{STUR}}[R]\) (free-energy form) generates dynamics via gradient flow</li>
+<li><strong>Master PDE</strong> is gradient flow of \(\mathcal{F}\) plus constitutive drift (phenomenological reduction)</li>
+<li><strong>Holoscreen projection</strong> is the only path from \(R\) to measurable observables</li>
 <li><strong>Domain dictionary</strong> maps lab parameters \(\to (R_q, u_c, \theta)\) with no tunable knobs</li>
-<li><strong>TEGR/GR</strong> emerges as the \(M \to \infty\), \(\partial_X R \to 0\) effective sector under a restricted torsion ansatz</li>
+<li><strong>X-boundary conditions</strong> are locked per domain (part of dictionary, not adjustable)</li>
+<li><strong>TEGR/GR correspondence</strong> is a <em>restricted sector mapping</em>, not a derivation (see §14)</li>
 </ol>
 </div>
 </section>
 
 <section class="panel">
-<h2>2. Geometry of the Extended Manifold</h2>
+<h2>2. Structure of the Field Domain</h2>
+
+<p class="note" style="background:rgba(167,139,250,0.15);border-left:3px solid #a78bfa;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Interpretive note:</strong> The following "line element" is a <em>computational metric</em> for defining
+gradients and Laplacians on the field domain \(M^4 \times \mathbb{R}_X\). It does <strong>not</strong> represent
+physical spacetime geometry — \(X\) is an internal coordinate, not a geometric dimension. The notation is chosen
+for mathematical convenience in writing covariant-looking equations.
+</p>
 
 <div class="eq">
 \[
-ds^2 = g_{\mu\nu}(x)\,dx^\mu dx^\nu + \ell_X^2\, dX^2
+ds^2_{\text{(field domain)}} = g_{\mu\nu}(x)\,dx^\mu dx^\nu + \ell_X^2\, dX^2
 \]
 </div>
 
 <p>
-The coherence scale \(\ell_X\) sets the dimensional magnitude of the X-coordinate:
+The scale \(\ell_X\) sets the dimensional conversion factor for the memory coordinate:
 </p>
 
 <ul>
-<li>\(\ell_X \to 0\): Classical limit (4D physics recovered)</li>
-<li>\(\ell_X \sim \ell_P \approx 10^{-35}\,\text{m}\): Planck-scale coherence</li>
-<li>\(\ell_X \sim \lambda_{\mathrm{dB}}\): Quantum coherence scale</li>
+<li>\(\ell_X \to 0\): Memory effects suppressed (4D classical limit recovered)</li>
+<li>\(\ell_X \sim \lambda_{\mathrm{dB}}\): Quantum coherence scale (memory effects comparable to wave nature)</li>
+<li>\(\ell_X\) is <em>not</em> a physical length in spacetime — it converts the dimensionless \(X\) to units compatible with spacetime gradients</li>
 </ul>
+
+<p>
+Gradient and Laplacian on the field domain:
+</p>
 
 <div class="eq">
 \[
 \nabla_A R = (\nabla_\mu R,\;\ell_X^{-1}\partial_X R),
 \qquad
-\Delta_5 R = \nabla^\mu\nabla_\mu R + \ell_X^{-2}\partial_X^2 R
+\Delta R = \nabla^\mu\nabla_\mu R + \ell_X^{-2}\partial_X^2 R
 \]
 </div>
+
+<p>
+These are <em>functional derivatives</em> on the extended field space, not geometric covariant derivatives on a physical 5-manifold.
+</p>
 </section>
 
 <!-- NEW: EXPLICIT ACTION AND DERIVATION -->
@@ -545,8 +576,8 @@ The coherence scale \(\ell_X\) sets the dimensional magnitude of the X-coordinat
 <h2>2A. Action Functional and Normalization Ledger</h2>
 
 <p>
-The STUR dynamics derive from a 5D free-energy functional. Before stating the action,
-we establish the <strong>explicit normalization convention</strong> that renders all equations dimensionally consistent.
+The STUR dynamics derive from a free-energy functional on the extended field domain \(M^4 \times \mathbb{R}_X\).
+Before stating the functional, we establish the <strong>explicit normalization convention</strong> that renders all equations dimensionally consistent.
 </p>
 
 <h3>2A.1 Normalization Ledger (Mandatory)</h3>
@@ -689,7 +720,7 @@ produces diffusion-type PDEs. This resolves the apparent conflict between "actio
 
 <p>where:</p>
 <ul>
-<li>\(\bar{g}_5\) is the dimensionless 5D metric</li>
+<li>\(\bar{g}_5\) is the dimensionless extended field domain metric</li>
 <li>\(\bar{D}^{AB} = \text{diag}(\bar{D} \bar{g}^{\mu\nu}, \bar{D}_X)\) is the dimensionless anisotropic diffusion tensor</li>
 <li>\(\bar{V}(R)\) is the dimensionless self-interaction potential (e.g., \(\bar{V} = \frac{\bar{\mu}^2}{2}R^2 + \frac{\bar{g}}{4}R^4\))</li>
 <li>The memory-restoring term \((R - R_{\text{bg}})^2/2\) is already dimensionless</li>
@@ -764,9 +795,31 @@ The linear growth rate is therefore
 \(|R-R_{\mathrm{bg}}| \sim \sqrt{(\chi - \Gamma\mu^2)/(\Gamma g)}\)</li>
 </ul>
 
+<h4>Minimal Stability Theorem</h4>
+
+<div class="conceptual-box" style="background:rgba(52,211,153,0.1);border:2px solid #34d399;padding:1rem;margin:1.5rem 0;border-radius:8px">
+<p><strong>Theorem (Global Boundedness):</strong> Let \(R(x,t)\) satisfy the STUR evolution equation with
+potential \(V(R) = \frac{\mu^2}{2}(R-R_{\mathrm{bg}})^2 + \frac{g}{4}(R-R_{\mathrm{bg}})^4\) where \(\mu^2 > 0, g > 0\).
+Then:</p>
+<ol>
+<li><strong>\(\mathcal{F}\) is bounded below:</strong> \(\mathcal{F}[R] \geq -C\) for some constant \(C\) depending only on \(\mu, g, R_{\mathrm{bg}}\).</li>
+<li><strong>Gradient flow decreases \(\mathcal{F}\):</strong> \(\frac{d\mathcal{F}}{dt} = -\Gamma \int |\delta\mathcal{F}/\delta R|^2 \leq 0\).</li>
+<li><strong>Global attractor exists:</strong> All trajectories converge to the set \(\{R : \delta\mathcal{F}/\delta R = 0\}\).</li>
+<li><strong>Local stability of \(R_{\mathrm{bg}}\):</strong> The configuration \(R = R_{\mathrm{bg}}\) is a stable fixed point when \(\chi < \Gamma\mu^2\).</li>
+</ol>
+</div>
+
+<p><em>Proof sketch:</em></p>
+<ol>
+<li>The quartic term \(\frac{g}{4}(R-R_{\mathrm{bg}})^4\) dominates at large \(|R - R_{\mathrm{bg}}|\), ensuring \(V(R) \to +\infty\). Combined with the positive-definite gradient term, \(\mathcal{F} \geq V_{\min} > -\infty\).</li>
+<li>Standard calculus of variations: \(\frac{d\mathcal{F}}{dt} = \int \frac{\delta\mathcal{F}}{\delta R}\partial_t R = -\Gamma \int |\frac{\delta\mathcal{F}}{\delta R}|^2\) by the gradient flow ansatz.</li>
+<li>La Salle's invariance principle applied to the Lyapunov function \(\mathcal{F}\).</li>
+<li>Linearization around \(R_{\mathrm{bg}}\) gives eigenvalue \(\chi - \Gamma\mu^2\); negative when condition holds.</li>
+</ol>
+
 <p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
 <strong>Conclusion:</strong> The dynamics are globally bounded for all parameter values.
-No runaway solutions exist within the STUR phase space.
+No runaway solutions exist within the STUR phase space. "Coherence buildup" saturates at finite amplitude.
 </p>
 
 <p class="note">
@@ -947,7 +1000,7 @@ Dimensional forms are shown for reference; the equations use only dimensionless 
 <h3>Index Conventions</h3>
 <ul>
 <li>Greek indices \(\mu, \nu, \rho, \ldots \in \{0,1,2,3\}\): 4D spacetime</li>
-<li>Capital Latin indices \(A, B, C, \ldots \in \{0,1,2,3,5\}\): 5D bulk</li>
+<li>Capital Latin indices \(A, B, C, \ldots \in \{0,1,2,3,5\}\): extended field domain</li>
 <li>Lowercase Latin indices \(a, b, c, \ldots \in \{0,1,2,3\}\): Lorentz frame (in TEGR sections)</li>
 <li>The connection \(\nabla_A\) is the Levi-Civita connection of \(g_{AB}\) (torsion-free, metric-compatible)</li>
 </ul>
@@ -1144,9 +1197,10 @@ and differentiation yields the first-order memory law:
 </div>
 
 <p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
-<strong>Key point:</strong> This is <em>not</em> an overdamped approximation. It is the unique stable branch
-of the exact second-order equation under physically admissible boundary conditions, analogous to selecting
-retarded Green's functions in causal propagation.
+<strong>Key point:</strong> This is <em>not</em> an overdamped approximation. It is the <em>memory-stable branch</em>
+of the exact second-order equation under the physically motivated regularity condition \(B = 0\). The selection
+is analogous to choosing retarded Green's functions in causal propagation or imposing normalizable wave functions
+in quantum mechanics.
 </p>
 
 <h3>4.4 Physical Interpretation</h3>
@@ -1186,6 +1240,36 @@ where \(X_\Sigma\) is the X-coordinate of the holoscreen.
 
 <p>
 These two conditions fully specify the solution in the quasi-static regime.
+</p>
+
+<h3>4.6 X-Boundary Conditions: Domain-Locked (No Escape Hatch)</h3>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Falsifiability requirement:</strong> The X-boundary conditions are part of the <em>domain dictionary</em>,
+not free parameters. Critics correctly note that freely adjustable X-BCs could "save" the theory from any
+null result. To close this loophole, X-BCs are <strong>locked per domain</strong>.
+</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:1rem 0">
+<thead>
+<tr style="background:rgba(167,139,250,0.2)">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Domain</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">X-BC at \(X \to -\infty\)</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">X-BC at Holoscreen</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Optical interferometry</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R \to R_{\text{bg}}\) (regularity)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Robin: \(D\partial_X R|_\Sigma = \kappa_{\text{cm}}\cos(\theta/M)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ff6b6b;font-weight:bold">Locked</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Superconductors</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R \to R_{\text{bg}}\) (regularity)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Robin: \(D\partial_X R|_\Sigma = \kappa_{\text{cm}}\cos(\theta/M)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ff6b6b;font-weight:bold">Locked</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Gravitational (scalar sector)</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R \to R_{\text{bg}}\) (regularity)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Robin: \(D\partial_X R|_\Sigma = \kappa_{\text{cm}}\cos(\theta/M)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ff6b6b;font-weight:bold">Locked</td></tr>
+</tbody>
+</table>
+
+<p>
+<strong>Audit rule:</strong> Modifying X-BCs for any domain requires incrementing the theory version and
+re-deriving all predictions. Post-hoc adjustment is forbidden. If experiments contradict predictions,
+the theory is falsified — not rescued by BC changes.
 </p>
 </section>
 
@@ -1280,7 +1364,15 @@ that makes the theory falsifiable.
 </section>
 
 <section class="panel">
-<h2>6. Full Resistance Evolution Law (Dimensionless Master PDE)</h2>
+<h2>6. Full Resistance Evolution Law (Phenomenological Master PDE)</h2>
+
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Status clarification:</strong> The master PDE below is a <em>phenomenological reduction</em>, not a strict
+derivation from \(\mathcal{F}_{\text{STUR}}\). The gradient-flow part (diffusion + potential) derives from
+\(\delta\mathcal{F}/\delta R\). The \(\chi\partial_X R\) term and the drift \(\Omega^\mu\nabla_\mu R\) are
+<strong>constitutive additions</strong> that must be specified separately (see §5). An expert reviewer will correctly
+note: "The canonical functional does not generate all terms in the evolution law." We acknowledge this explicitly.
+</p>
 
 <p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
 <strong>All quantities below are dimensionless</strong> (per the normalization ledger in Section 2A.1).
@@ -1294,11 +1386,11 @@ The evolution parameter \(t\) is the relaxation time (Section 2B.1).
 \boxed{
 \frac{\partial R}{\partial t}
 =
-\nabla_\mu(D\nabla^\mu R)
+\underbrace{\nabla_\mu(D\nabla^\mu R) - V'(R)}_{\text{from } \delta\mathcal{F}/\delta R}
 -
-\Omega^\mu \nabla_\mu R
+\underbrace{\Omega^\mu \nabla_\mu R}_{\text{constitutive drift}}
 +
-\chi\,\partial_X R
+\underbrace{\chi\,\partial_X R}_{\text{memory coupling}}
 +
 S
 }
@@ -1306,14 +1398,20 @@ S
 </div>
 
 <p>
-This is a covariant advection–diffusion–reaction equation on the 5D bulk \(\mathcal{M}^5\), where:
+This is an advection–diffusion–reaction equation on the extended field domain, where:
 </p>
 <ul>
-<li>\(\nabla_\mu(D\nabla^\mu R)\): diffusion in spacetime (dimensionless \(D\))</li>
-<li>\(\Omega^\mu \nabla_\mu R\): geometric drift (constitutive choice per Section 5)</li>
-<li>\(\chi\,\partial_X R\): memory-axis coupling (dimensionless \(\chi\))</li>
+<li>\(\nabla_\mu(D\nabla^\mu R) - V'(R)\): <strong>derived from \(\mathcal{F}\)</strong> via gradient flow</li>
+<li>\(\Omega^\mu \nabla_\mu R\): geometric drift (<strong>constitutive choice</strong> per Section 5, not from \(\mathcal{F}\))</li>
+<li>\(\chi\,\partial_X R\): memory-axis coupling (<strong>constitutive</strong>, represents coupling between \(t\)-evolution and \(X\)-structure)</li>
 <li>\(S\): source term (matter/energy injection, dimensionless)</li>
 </ul>
+
+<p class="note" style="background:rgba(167,139,250,0.15);border-left:3px solid #a78bfa;padding:0.5rem 1rem;margin:1rem 0">
+<strong>On \(\chi\partial_X R\):</strong> This term could arise from a mixed kinetic term \(\sim (\partial_t R)(\partial_X R)\)
+in \(\mathcal{F}\), but such a term would break the simple gradient-flow structure. Instead, we treat \(\chi\) as a
+phenomenological memory-relaxation rate, locked per domain (like \(\Omega^\mu\)). For optical domains, \(\chi = 1\) (dimensionless).
+</p>
 
 <h3>6.2 Quasi-Static Memory Closure</h3>
 
@@ -1398,7 +1496,7 @@ The measurable quantity is the <strong>normal resistance flux</strong>:
 </div>
 
 <div class="conceptual-box">
-<strong>Conceptual visualization</strong>: A 5D bulk \(\mathcal{M}^5\) 
+<strong>Conceptual visualization</strong>: A extended field domain \(\mathcal{M}^5\) 
 terminates on a 3D holoscreen \(\Sigma\) with normal flux \(n^A\nabla_A R\) 
 gated by boundary phase \(\theta\).
 </div>
@@ -1436,42 +1534,83 @@ with saturation functional \(S_u(u)=\tanh(u)(1-e^{-u})\).
 <section class="panel">
 <h2>8. Chronomagnetic Projection Law</h2>
 
-<h3>8.0 Origin of the Chronomagnetic Gating Function</h3>
+<h3>8.0 Origin of the Chronomagnetic Gating Function: Derivation from Symmetry</h3>
+
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Motivation:</strong> Why \(\cos(\theta/M)\)? Why not \(\cos(\theta)\), \(\cos(\theta/M^2)\), a Bessel function,
+or another periodic gate? This section derives the gating function from symmetry principles, making it the
+<em>least-assumptive choice</em> rather than an arbitrary postulate.
+</p>
+
+<h4>Step 1: \(\theta\) is compact (periodicity requirement)</h4>
 
 <p>
-The boundary phase \(\theta\) is an angular control parameter and is therefore compact:
+The boundary phase \(\theta\) parameterizes the holoscreen configuration space. Physical observables must be
+single-valued, imposing:
 </p>
 
 <div class="eq">
 \[
-\theta \sim \theta + 2\pi
+\theta \sim \theta + 2\pi \quad \text{(periodicity)}
 \]
 </div>
 
+<h4>Step 2: Parity symmetry (\(\theta \to -\theta\))</h4>
+
 <p>
-The holoscreen free-energy contribution depends only on dimensionless invariants formed from \(\theta\)
-and the control parameter \(M\). The lowest-order, parity-even, \(2\pi\)-periodic scalar is
+The holoscreen free-energy density must be invariant under reflection \(\theta \to -\theta\) (no preferred
+handedness in the boundary phase). This excludes odd functions like \(\sin(\cdots)\) at leading order.
+</p>
+
+<h4>Step 3: Leading harmonic dominance</h4>
+
+<p>
+Any smooth, \(2\pi\)-periodic, even function can be expanded in a Fourier cosine series:
 </p>
 
 <div class="eq">
 \[
-\cos(\theta/M)
+\mathcal{W}(\theta) = a_0 + \sum_{n=1}^\infty a_n \cos(n\alpha\theta)
 \]
 </div>
 
 <p>
-The argument must be \(\theta/M\) rather than \(\theta\) alone because:
+For a smooth boundary with no fine structure, the \(n = 1\) term dominates (higher harmonics are suppressed
+by boundary regularity). The constant \(a_0\) is absorbed into normalization.
+</p>
+
+<h4>Step 4: Scaling argument fixes \(\alpha = 1/M\)</h4>
+
+<p>
+The dimensionless combination \(\theta/M\) is required on dimensional and physical grounds:
 </p>
 
 <ul>
-<li>\(M = R_q S_u(u_c)\) rescales the modular/thermal generator of boundary response</li>
-<li>Large \(M\) corresponds to classical recovery (\(\theta/M \to 0\))</li>
-<li>Small \(M\) enhances phase sensitivity</li>
+<li>\(M = R_q S_u(u_c)\) is the only dimensionless scale characterizing the boundary's "depth" of saturation</li>
+<li>Large \(M\) (high coherence) must recover classical behavior: \(\cos(\theta/M) \approx 1 - \theta^2/2M^2 \to 1\)</li>
+<li>Small \(M\) (low coherence) enhances phase sensitivity</li>
+<li>No other combination of \(R_q, S_u, u_c\) produces the correct limits</li>
 </ul>
 
+<div class="eq" style="background:rgba(167,139,250,0.15);border:1px solid #a78bfa;padding:1rem;border-radius:8px">
+\[
+\boxed{
+\mathcal{W}(\theta) = \cos\left(\frac{\theta}{M}\right)
+\quad \text{(minimal gating function satisfying symmetries)}
+}
+\]
+</div>
+
 <p class="note" style="background:rgba(167,139,250,0.1);border-left:3px solid #a78bfa;padding:0.5rem 1rem;margin:1rem 0">
-<strong>Higher harmonics:</strong> Terms like \(\cos(n\theta/M)\) for \(n > 1\) are suppressed by higher-order
-boundary operators and are neglected at leading order in STUR v1.0.
+<strong>Higher harmonics:</strong> Terms like \(\cos(n\theta/M)\) for \(n > 1\) are generated by higher-order
+boundary operators and are suppressed by powers of \(1/M\). At leading order (STUR v1.1), only the \(n = 1\)
+harmonic is retained. Future precision tests may require \(n = 2\) corrections.
+</p>
+
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Summary:</strong> The \(\cos(\theta/M)\) gating function is <em>derived</em> from: (1) periodicity of \(\theta\),
+(2) parity symmetry, (3) leading-harmonic dominance, and (4) dimensional scaling. It is the unique leading-order
+choice satisfying all symmetry constraints.
 </p>
 
 <h3>8.1 Gating Function and Observable</h3>
@@ -1750,7 +1889,7 @@ STUR treats boundaries as <strong>constitutive</strong>.
 <!-- NEW SECTION 14: TEGR AS DERIVED SECTOR -->
 
 <section class="panel">
-<h2>14. Derived Sector: TEGR Limit (Restricted Torsion Ansatz)</h2>
+<h2>14. TEGR Correspondence: Restricted Sector Mapping (Not Derivation)</h2>
 
 <p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
 <strong>STUR-Primary framing:</strong> TEGR/GR is <em>not</em> foundational in this framework. It emerges as an
@@ -1958,7 +2097,14 @@ The saturation functional \(S_u(u)\) must satisfy the following physical require
 <li><strong>Small-\(u\) scaling:</strong> \(S_u(u) \sim u^2\) as \(u \to 0\) (quadratic onset, consistent with perturbation theory)</li>
 </ol>
 
-<h3>15.0.2 Uniqueness Argument</h3>
+<h3>15.0.2 Canonical Choice Argument (Not Uniqueness)</h3>
+
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Important clarification:</strong> The constraints 1–5 do <em>not</em> uniquely determine \(S_u\).
+Many functions satisfy all five constraints (e.g., functions with additional shape parameters).
+The argument below establishes that \(S_u = \tanh(u)(1-e^{-u})\) is the <em>minimal canonical choice</em>
+with no free parameters — not that it is unique.
+</p>
 
 <p>
 Consider the class of functions satisfying constraints 1–4. A minimal ansatz combining
@@ -2000,7 +2146,7 @@ u^2 - \frac{u^3}{3} + O(u^4) & u \ll 1 \quad \text{(onset regime)}\\
 \[
 \boxed{
 S_u(u) = \tanh(u)(1 - e^{-u})
-\quad \text{(STUR Postulate: unique smooth saturating function satisfying constraints 1–5)}
+\quad \text{(STUR Postulate: canonical minimal choice satisfying constraints 1–5)}
 }
 \]
 </div>
@@ -2122,11 +2268,40 @@ The only inputs are directly measurable quantities.
 </section>
 
 <section class="panel">
-<h2>15.3 Superconductors — Hard Observables</h2>
+<h2>15.3 Superconductors — Operational Definitions and Hard Observables</h2>
 
 <p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
 <strong>Falsifiability requirement:</strong> STUR predictions for superconductors focus on observables
 that <em>cannot</em> be absorbed into effective temperature or sample-quality parameters.
+All parameters must be operationally defined from independent measurements.
+</p>
+
+<h3>15.3.0 Operational Definitions (No Circularity)</h3>
+
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Preventing circular calibration:</strong> To make STUR falsifiable in superconductors, \(R_q\) and \(u_c\)
+must be defined from measurements that do <em>not</em> involve the STUR-predicted quantities.
+</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:1rem 0">
+<thead>
+<tr style="background:rgba(167,139,250,0.2)">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Parameter</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Operational Definition</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Independent Measurement</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R_q\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R_q = \Delta/k_B T\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Gap \(\Delta\) from tunneling spectroscopy; \(T\) from thermometry</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(u_c\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(u_c = \ln(\xi(T)/\xi_0)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Coherence length \(\xi(T)\) from \(H_{c2}\) measurements; \(\xi_0\) from BCS theory</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(M\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(M = R_q \cdot S_u(u_c)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Computed from above; no free parameters</td></tr>
+<tr><td style="padding:0.4rem">\(\theta\)</td><td style="padding:0.4rem">\(\theta = 2\pi \cdot (\text{cooling rate})/(\text{reference rate})\)</td><td style="padding:0.4rem">Controlled experimentally; reference rate = 1 K/min</td></tr>
+</tbody>
+</table>
+
+<p>
+<strong>Key point:</strong> Once \(\Delta\), \(\xi(T)\), \(T\), and cooling rate are measured independently,
+\(M\) is fully determined with no adjustable parameters. The STUR predictions below are then parameter-free.
 </p>
 
 <h3>(i) Meissner Response — Penetration Depth Modification</h3>
@@ -2344,22 +2519,106 @@ Failure of <em>any single test</em> falsifies STUR.
 <!-- ============================================================ -->
 
 <section class="panel" id="appendix-a">
-<h2>Appendix A: Interferometry Visibility–Memory Test</h2>
+<h2>Appendix A: Interferometry Visibility–Memory Test (Lab-Grade Protocol)</h2>
 <p class="note">
 Primary falsification protocol for STUR boundary effects. All predictions are parameter-free once R<sub>q</sub> is calibrated.
+This appendix specifies operational definitions to prevent parameter ambiguity.
 </p>
+
+<h3>A.0 Operational Definitions (Mandatory for Reproducibility)</h3>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Critical requirement:</strong> Different conventions for \(\ell_c\) will produce different \(R_q\) values.
+To prevent parameter slippage, STUR adopts the following <em>mandatory</em> operational definitions.
+</p>
+
+<h4>A.0.1 Coherence Length Definition (Standardized)</h4>
+
+<div class="conceptual-box" style="background:rgba(167,139,250,0.1);border:2px solid #a78bfa;padding:1rem;margin:1.5rem 0;border-radius:8px">
+<p><strong>STUR Convention:</strong> The coherence length \(\ell_c\) is defined as the \(1/e\) decay length of the
+first-order autocorrelation function \(g^{(1)}(\tau)\):</p>
+<div class="eq">
+\[
+\boxed{
+|g^{(1)}(\tau_c)| = 1/e \quad \Rightarrow \quad \ell_c = c \cdot \tau_c
+}
+\]
+</div>
+<p>Equivalently, for a Gaussian power spectrum with FWHM linewidth \(\Delta\nu\):</p>
+<div class="eq">
+\[
+\ell_c = \frac{c}{\pi \Delta\nu} \cdot \sqrt{\ln 2}
+\]
+</div>
+</div>
+
+<p><strong>Measurement protocol:</strong></p>
+<ol>
+<li>Acquire power spectral density \(S(\nu)\) via scanning Fabry-Pérot or grating spectrometer</li>
+<li>Fit Gaussian: \(S(\nu) = S_0 \exp[-(\nu - \nu_0)^2/(2\sigma_\nu^2)]\)</li>
+<li>Compute FWHM: \(\Delta\nu = 2\sqrt{2\ln 2}\,\sigma_\nu\)</li>
+<li>Calculate: \(\ell_c = c\sqrt{\ln 2}/(\pi\Delta\nu)\)</li>
+</ol>
+
+<h4>A.0.2 Spectral Shape Assumption</h4>
+
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Baseline convention:</strong> STUR v1.1 assumes a <strong>Gaussian spectral profile</strong> for the
+\(V_{\text{QM}}\) baseline. For Lorentzian sources, the visibility envelope changes to
+\(V_{\text{QM}} = V_0 \exp(-|\Delta L|/\ell_c)\). The spectral shape must be reported with all data.
+</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:1rem 0">
+<thead>
+<tr style="background:rgba(74,158,255,0.2)">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Spectral Shape</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">\(V_{\text{QM}}(\Delta L)\)</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">\(\ell_c\) Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Gaussian</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(V_0 \exp[-(\Delta L/\ell_c)^2]\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\ell_c = c\sqrt{\ln 2}/(\pi\Delta\nu)\)</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Lorentzian</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(V_0 \exp[-|\Delta L|/\ell_c]\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\ell_c = c/(2\pi\Delta\nu)\)</td></tr>
+<tr><td style="padding:0.4rem"><strong>Other</strong></td><td style="padding:0.4rem">Must be explicitly modeled</td><td style="padding:0.4rem">Report full \(S(\nu)\)</td></tr>
+</tbody>
+</table>
+
+<h4>A.0.3 Data Reduction Pipeline</h4>
+
+<ol>
+<li><strong>Raw acquisition:</strong> Record \(I(\phi)\) as function of path difference \(\Delta L\) or phase \(\phi\)</li>
+<li><strong>Fringe fitting:</strong> Fit \(I(\phi) = I_0[1 + V\cos(\phi + \phi_0)]\) to extract \(V, I_0, \phi_0\)</li>
+<li><strong>Background subtraction:</strong> Subtract stray light \(I_{\text{bg}}\) measured with one arm blocked</li>
+<li><strong>Visibility computation:</strong> \(V = (I_{\max} - I_{\min})/(I_{\max} + I_{\min})\) from fitted curve</li>
+<li><strong>Uncertainty propagation:</strong> Bootstrap or Gaussian error propagation from fit covariance</li>
+<li><strong>Ratio computation:</strong> \(V_{\text{STUR}}/V_{\text{QM}}\) with correlated uncertainties</li>
+</ol>
+
+<h4>A.0.4 Pre-Registered Scan Plan</h4>
+
+<div class="conceptual-box" style="background:rgba(52,211,153,0.1);border:2px solid #34d399;padding:1rem;margin:1.5rem 0;border-radius:8px">
+<p><strong>Mandatory scan parameters (to be registered before data acquisition):</strong></p>
+<ul>
+<li><strong>Wavelength:</strong> \(\lambda = 532\) nm (Nd:YAG doubled) or \(\lambda = 633\) nm (HeNe)</li>
+<li><strong>Coherence range:</strong> \(\ell_c/\lambda \in [10^2, 10^4]\) (at least 3 points per decade)</li>
+<li><strong>Path difference range:</strong> \(\Delta L/\ell_c \in [0.1, 2.0]\) (at least 10 points)</li>
+<li><strong>Repetitions:</strong> \(\geq 5\) independent measurements per \((\ell_c, \Delta L)\) pair</li>
+<li><strong>Acceptance criterion:</strong> \(|V_{\text{meas}}/V_{\text{QM}} - \cos^2(\cdots)| < 3\sigma\) to confirm STUR</li>
+<li><strong>Rejection criterion:</strong> \(|V_{\text{meas}}/V_{\text{QM}} - 1| < 3\sigma\) across full range falsifies STUR</li>
+</ul>
+</div>
 
 <h3>A.1 Visibility in Measured Variables</h3>
 
 <p>Let:</p>
 <ul>
-<li><strong>λ</strong> = laser wavelength</li>
-<li><strong>ℓ<sub>c</sub></strong> = measured coherence length (from linewidth or correlation measurement)</li>
-<li><strong>ΔL</strong> = measured path-length difference (arm imbalance)</li>
+<li><strong>λ</strong> = laser wavelength (measured via spectrometer, uncertainty \(\lesssim 0.1\) nm)</li>
+<li><strong>ℓ<sub>c</sub></strong> = coherence length per A.0.1 convention</li>
+<li><strong>ΔL</strong> = path-length difference (measured via delay line encoder, uncertainty \(\lesssim 1\) μm)</li>
 <li><strong>V</strong> ≡ (I<sub>max</sub> − I<sub>min</sub>)/(I<sub>max</sub> + I<sub>min</sub>)</li>
 </ul>
 
-<p><strong>Baseline (standard QM interferometry):</strong> For a Gaussian spectrum:</p>
+<p><strong>Baseline (standard QM interferometry):</strong> For a Gaussian spectrum (see A.0.2):</p>
 <div class="eq">
 \[
 V_{\text{QM}}(\Delta L) = V_0 \exp\left[-\left(\frac{\Delta L}{\ell_c}\right)^2\right]
@@ -2649,7 +2908,7 @@ moderate coherence and path imbalance, <em>not</em> ultra-coherent lasers. The e
 </tr>
 </thead>
 <tbody>
-<tr><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>R(x<sup>μ</sup>, X)</strong></td><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)">Resistance field (5D bulk)</td><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>R(x<sup>μ</sup>, X)</strong></td><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)">Resistance field (extended field domain)</td><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
 <tr><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>R<sub>q</sub></strong></td><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)">Dimensionless amplitude (calibrated per domain)</td><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
 <tr><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>X</strong></td><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)">Coherence/memory coordinate (5th dimension)</td><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)">length</td></tr>
 <tr><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>L<sub>X</sub></strong></td><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)">Memory relaxation scale in X</td><td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)">length</td></tr>
