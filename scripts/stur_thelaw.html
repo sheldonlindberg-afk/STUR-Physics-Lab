@@ -3,9 +3,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>STUR — Integrated Framework v1.0</title>
+<title>STUR — Integrated Framework v1.2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="version" content="1.0">
+<meta name="version" content="1.2">
 <meta name="authors" content="Sheldon Lindberg, James Lockwood, Christopher B. Cyrek, Dustin Hansley, Derek J. Burkeen">
 
 <!-- PATCH 2: Explicit CSP (replaces broad default-src) -->
@@ -1013,7 +1013,7 @@ Dimensional forms are shown for reference; the equations use only dimensionless 
 </tr>
 </thead>
 <tbody>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R(x^\mu, X)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Scalar field on \(\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Resistance field</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R(x^\mu, X)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Scalar field on extended domain \(\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Resistance field</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
 <tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R_{\text{bg}}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Constant</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Background/equilibrium resistance</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
 <tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(t\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Relaxation parameter</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Gradient flow evolution coordinate</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([T]\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
 <tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\tau\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Protocol parameter</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Boundary configuration label (not spacetime time)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">domain-specific</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">domain-specific</td></tr>
@@ -1510,9 +1510,14 @@ For \(\chi > 0\), this represents coherence buildup; for stability, one typicall
 <section class="panel">
 <h2>7. Holoscreen Boundary Formalism</h2>
 
+<p>
+The extended field domain \(\mathcal{M} = M^4 \times \mathbb{R}_X\) (denoted \(\mathcal{M}^5\) for brevity)
+has a boundary:
+</p>
+
 <div class="eq">
 \[
-\partial\mathcal{M}^5 = \Sigma
+\partial\mathcal{M}^5 = \Sigma \quad \text{(holoscreen)}
 \]
 </div>
 
@@ -1530,7 +1535,7 @@ The measurable quantity is the <strong>normal resistance flux</strong>:
 </div>
 
 <div class="conceptual-box">
-<strong>Conceptual visualization</strong>: A extended field domain \(\mathcal{M}^5\) 
+<strong>Conceptual visualization</strong>: The extended field domain \(\mathcal{M}^5\) 
 terminates on a 3D holoscreen \(\Sigma\) with normal flux \(n^A\nabla_A R\) 
 gated by boundary phase \(\theta\).
 </div>
@@ -3336,7 +3341,7 @@ TOE regime thresholds use normalized M scale for visualization purposes.
 <div id="tegr" class="section" role="tabpanel" aria-labelledby="tegr-tab">
 
 <div class="panel">
-<h1>Derived Sector: Teleparallel Dynamics</h1>
+<h1>Appendix B: Derived Sector — Teleparallel Dynamics</h1>
 <p><strong>Authors:</strong> Sheldon Lindberg · James Lockwood · Christopher B. Cyrek · Dustin Hansley · Derek J. Burkeen</p>
 <p class="note">Complete TEGR derivations for the <em>restricted torsion ansatz</em> sector of STUR. 
 These results apply when \(M \to \infty\) and \(\partial_X R \to 0\).</p>
@@ -3351,7 +3356,7 @@ A single scalar \(R\) cannot reproduce full GR's 2 tensor DOF generically—this
 <!-- Section 1: TEGR Field Equation -->
 
 <section class="panel">
-<h2>1. TEGR Field Equation: Definitions and Properties</h2>
+<h2>B.1 TEGR Field Equation: Definitions and Properties</h2>
 
 <h3>Setup and Indices</h3>
 <ul>
@@ -3430,7 +3435,7 @@ e^a{}_\lambda \partial_\nu(e\, S^{\mu\nu}{}_\lambda) - e\left( S^{\nu\mu}{}_\rho
 <!-- Section 2: Weak-field and GEM -->
 
 <section class="panel">
-<h2>2. Weak-Field, Gauge Fixing, and the GEM/HGEM Map</h2>
+<h2>B.2 Weak-Field, Gauge Fixing, and the GEM/HGEM Map</h2>
 
 <h3>Linearization and Gauge</h3>
 <p>Set \(e^a{}_\mu = \delta^a_\mu + \frac{1}{2}h^a{}_\mu\) with \(|h| \ll 1\). Define \(h_{\mu\nu} := \eta_{a(\mu} h^a{}_{\nu)}\) and trace-reverse \(\bar{h}_{\mu\nu} := h_{\mu\nu} - \frac{1}{2}\eta_{\mu\nu}h\).</p>
@@ -3499,7 +3504,7 @@ e^a{}_\lambda \partial_\nu(e\, S^{\mu\nu}{}_\lambda) - e\left( S^{\nu\mu}{}_\rho
 <!-- Section 3: Identity R = -T + B -->
 
 <section class="panel">
-<h2>3. Identity \(R = -T + B\) and Field Redefinitions</h2>
+<h2>B.3 Identity \(R = -T + B\) and Field Redefinitions</h2>
 
 <h3>Connection Split and Tensors</h3>
 <p>Write the Levi–Civita connection \({}^{\text{LC}}\Gamma^\rho{}_{\mu\nu}\) and the Weitzenböck one \(\Gamma^\rho{}_{\mu\nu}\). Contortion: \(K^\rho{}_{\mu\nu} := \Gamma^\rho{}_{\mu\nu} - {}^{\text{LC}}\Gamma^\rho{}_{\mu\nu}\).</p>
@@ -3532,7 +3537,7 @@ h_{00} = -\frac{2}{c^2}\Phi_g, \qquad h_{0i} = \frac{1}{c^2}A_{g\,i}, \qquad h_{
 <!-- Section 4: Clean Gauge-Fixed Linear Map -->
 
 <section class="panel">
-<h2>4. Clean Gauge-Fixed Linear Map</h2>
+<h2>B.4 Clean Gauge-Fixed Linear Map</h2>
 
 <h3>Lorenz-Type Gauge and Potentials</h3>
 <p>Adopt the teleparallel Lorenz gauge:</p>
@@ -3570,7 +3575,7 @@ h_{00} = -\frac{2}{c^2}\Phi_g, \qquad h_{0i} = \frac{1}{c^2}A_{g\,i}, \qquad h_{
 <!-- Section 5: HGEM Resonance, Energy, and Flux -->
 
 <section class="panel">
-<h2>5. HGEM Resonance, Energy, and Flux</h2>
+<h2>B.5 HGEM Resonance, Energy, and Flux</h2>
 
 <h3>Vacuum Wave Relations</h3>
 <p>In vacuum (\(\rho = \mathbf{J} = 0\)) the GEM system reduces to:</p>
@@ -3618,7 +3623,7 @@ u_g := -\frac{1}{8\pi G}\left( \frac{\|\mathbf{E}_g\|^2}{c^2} + \|\mathbf{B}_g\|
 <!-- Section 6: Observables -->
 
 <section class="panel">
-<h2>6. Observables: Force Law and Lense–Thirring Precession</h2>
+<h2>B.6 Observables: Force Law and Lense–Thirring Precession</h2>
 
 <h3>Geodesic to GEM Force Law (Slow Motion)</h3>
 <p>For a test worldline with 3-velocity \(\mathbf{v}\) and \(|\mathbf{v}| \ll c\), expand the geodesic equation:</p>
@@ -3657,7 +3662,7 @@ u_g := -\frac{1}{8\pi G}\left( \frac{\|\mathbf{E}_g\|^2}{c^2} + \|\mathbf{B}_g\|
 <!-- Section 7: Covariant TEGR -->
 
 <section class="panel">
-<h2>7. Covariant TEGR: Inertial Spin Connection</h2>
+<h2>B.7 Covariant TEGR: Inertial Spin Connection</h2>
 
 <h3>Local Lorentz Covariance</h3>
 <p>A local Lorentz transformation \(\Lambda^a{}_b(x) \in SO(1,3)\) acts as \(e^a{}_\mu \to \Lambda^a{}_b e^b{}_\mu\). To keep the Weitzenböck curvature zero and maintain local Lorentz invariance, include the inertial spin connection:</p>
@@ -3689,7 +3694,7 @@ E_{[\mu\lambda]}(e,\omega) \equiv 0 \quad \Rightarrow \quad E_{(\mu\lambda)} = \
 <!-- Section 8: Bimetric Extension -->
 
 <section class="panel">
-<h2>8. Bimetric Teleparallel Extension and HGEM Screening</h2>
+<h2>B.8 Bimetric Teleparallel Extension and HGEM Screening</h2>
 
 <h3>Setup and Interaction</h3>
 <p>Introduce two tetrads \((e^a{}_\mu, \tilde{e}^a{}_\mu)\) with metrics \(g_{\mu\nu}\) and \(f_{\mu\nu}\). The ghost-free interaction depends on \(S^\mu{}_\nu := (\sqrt{g^{-1}f})^\mu{}_\nu\) via:</p>
@@ -3742,7 +3747,7 @@ k_m^2 = \frac{\omega^2}{c^2} - \mu^2 \quad \Rightarrow \quad \text{propagating i
 <!-- Section 9-10: Numerical HGEM and Analytic Examples -->
 
 <section class="panel">
-<h2>9. Numerical HGEM: Constrained Helmholtz Formulation</h2>
+<h2>B.9 Numerical HGEM: Constrained Helmholtz Formulation</h2>
 
 <h3>Frequency-Domain PDEs</h3>
 <p>Time-harmonic fields \(e^{-i\omega t}\) with \(k = \omega/c\):</p>
@@ -3763,7 +3768,7 @@ k_m^2 = \frac{\omega^2}{c^2} - \mu^2 \quad \Rightarrow \quad \text{propagating i
 </section>
 
 <section class="panel">
-<h2>10. Analytic HGEM Exemplars</h2>
+<h2>B.10 Analytic HGEM Exemplars</h2>
 
 <h3>Static Point Mass</h3>
 <div class="eq">
@@ -3803,7 +3808,7 @@ k_{\ell n} = \frac{x_{\ell n}}{R} \quad (x_{\ell n}\text{ is }n\text{-th zero of
 <!-- Section 11: Characteristics and Causality -->
 
 <section class="panel">
-<h2>11. Characteristics, Dispersion, and Causality</h2>
+<h2>B.11 Characteristics, Dispersion, and Causality</h2>
 
 <h3>Principal Symbol and Hyperbolicity</h3>
 <p>In Lorenz gauge the principal symbol is:</p>
@@ -3843,7 +3848,7 @@ k_{\ell n} = \frac{x_{\ell n}}{R} \quad (x_{\ell n}\text{ is }n\text{-th zero of
 <!-- Section 12: Variational Boundary Term -->
 
 <section class="panel">
-<h2>12. Variational Boundary Term and Well-Posedness</h2>
+<h2>B.12 Variational Boundary Term and Well-Posedness</h2>
 
 <h3>Surface Term from the TEGR Variation</h3>
 <p>A boundary contribution remains when \(\delta e^a{}_\mu \neq 0\) on \(\partial M\).</p>
@@ -3878,7 +3883,7 @@ S^{\text{well-posed}}_{\text{TEGR}} = \frac{1}{2\kappa}\int_M d^4x\, e\, T - \fr
 <!-- Section 13: Conserved Currents -->
 
 <section class="panel">
-<h2>13. Conserved Currents and Charges in TEGR</h2>
+<h2>B.13 Conserved Currents and Charges in TEGR</h2>
 
 <h3>Superpotential in Lorentz Frame</h3>
 <div class="eq">
@@ -3920,7 +3925,7 @@ e\, S_j{}^{0i} \approx \frac{1}{2}\epsilon^i{}_{jk}(\nabla \times \mathbf{A}_g)^
 <!-- Section 14: Symbols and Dimensional Audit -->
 
 <section class="panel">
-<h2>14. Symbols, Types, and Dimensional Audit</h2>
+<h2>B.14 Symbols, Types, and Dimensional Audit</h2>
 
 <h3>Index Conventions</h3>
 <ul>
@@ -3953,7 +3958,7 @@ e\, S_j{}^{0i} \approx \frac{1}{2}\epsilon^i{}_{jk}(\nabla \times \mathbf{A}_g)^
 <!-- Section 15: Post-Newtonian Corrections -->
 
 <section class="panel">
-<h2>15. Post-Newtonian Corrections in TEGR</h2>
+<h2>B.15 Post-Newtonian Corrections in TEGR</h2>
 
 <h3>Expansion Scheme</h3>
 <p>The post-Newtonian expansion uses the small dimensionless parameter:</p>
@@ -4012,7 +4017,7 @@ g_{ij} &= \delta_{ij}\left(1 + \frac{2U}{c^2}\right) + O(c^{-4})
 <!-- Section 16: Gravitational Waves -->
 
 <section class="panel">
-<h2>16. Gravitational Waves</h2>
+<h2>B.16 Gravitational Waves</h2>
 
 <h3>Vacuum Wave Equation and TT Gauge</h3>
 <p>Linearized, Lorenz gauge: \(\Box\bar{h}_{\mu\nu} = 0\) in vacuum. Project to TT:</p>
@@ -4063,7 +4068,7 @@ h(f) \simeq \frac{4}{R}\frac{G^{5/3}}{c^4}\mathcal{M}_c^{5/3}(\pi f)^{2/3}
 <!-- Section 17: Gauge/Tetrad Catalog -->
 
 <section class="panel">
-<h2>17. Gauge/Tetrad Catalog</h2>
+<h2>B.17 Gauge/Tetrad Catalog</h2>
 
 <h3>Principles</h3>
 <ul>
@@ -4100,7 +4105,7 @@ e^a{}_\mu = \text{diag}(1, a(t), a(t), a(t)), \qquad \omega^a{}_{b\mu} = 0
 <!-- Section 18: 3+1 Hamiltonian -->
 
 <section class="panel">
-<h2>18. 3+1 Hamiltonian Formulation</h2>
+<h2>B.18 3+1 Hamiltonian Formulation</h2>
 
 <h3>Split and Time Gauge</h3>
 <p>Metric split:</p>
@@ -4154,7 +4159,7 @@ T^{(a)}{}_{ij} := \partial_i E^{(a)}{}_j - \partial_j E^{(a)}{}_i
 <!-- Section 19-21: Nonlinear HGEM, Stability, Implementation -->
 
 <section class="panel">
-<h2>19. Nonlinear HGEM</h2>
+<h2>B.19 Nonlinear HGEM</h2>
 
 <h3>Second Order in Amplitude</h3>
 <p>Let \(h_{\mu\nu} = \epsilon h^{(1)}_{\mu\nu} + \epsilon^2 h^{(2)}_{\mu\nu} + O(\epsilon^3)\) in Lorenz gauge. Then:</p>
@@ -4183,7 +4188,7 @@ T^{(a)}{}_{ij} := \partial_i E^{(a)}{}_j - \partial_j E^{(a)}{}_i
 </section>
 
 <section class="panel">
-<h2>20. Stability and IBVP</h2>
+<h2>B.20 Stability and IBVP</h2>
 
 <h3>Energy Identity and Uniqueness</h3>
 <p>Define:</p>
@@ -4222,7 +4227,7 @@ E(t) := \frac{1}{8\pi G}\int_\Omega \left(\frac{\|\mathbf{E}_g\|^2}{c^2} + \|\ma
 </section>
 
 <section class="panel">
-<h2>21. Implementation Details</h2>
+<h2>B.21 Implementation Details</h2>
 
 <h3>Code Layout</h3>
 <ul>
@@ -4647,6 +4652,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // HOLOSCREEN SIMULATOR
 // ============================================================
 function updateHoloscreen() {
+  // Edge case protection: clamp R_q and u_c to prevent M→0 singularity
+  // With R_q ≥ 0.1 and u_c ≥ 0.1, we get M = R_q·S_u(u_c) ≥ 0.1·S_u(0.1) ≈ 0.009 > 0
   const Rq = Math.max(0.1, +document.getElementById('holo_Rq').value);
   const uc = Math.max(0.1, +document.getElementById('holo_uc').value);
   const th = +document.getElementById('holo_theta').value;
@@ -4656,7 +4663,7 @@ function updateHoloscreen() {
   const ucB = Math.max(0.1, +document.getElementById('holo_ucB').value);
 
   const Suv = Su(uc);
-  const M = Rq * Suv;
+  const M = Rq * Suv; // Guaranteed M > 0 by input clamping
   const gate = Math.cos(th / M);
   const Kproj = kap * gate;
   const entFactor = 1 - Math.exp(-M);
