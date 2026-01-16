@@ -822,6 +822,39 @@ Then:</p>
 No runaway solutions exist within the STUR phase space. "Coherence buildup" saturates at finite amplitude.
 </p>
 
+<div class="eq" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:1rem;margin:1rem 0">
+\[
+\boxed{
+\textbf{Stability Condition.}\;
+\text{If } V(R)\ge c_1 R^4 - c_2 \text{ for constants } c_1>0,
+\text{ then } \mathcal{F}_{\mathrm{STUR}} \text{ is bounded below.}
+}
+\]
+</div>
+
+<p>
+Under this condition, the gradient-flow dynamics admits global attractors and
+prevents runaway growth even when \(\chi>0\)
+(standard result for dissipative semilinear PDEs).
+</p>
+
+<p><strong>Canonical choice (fixed for STUR v1.0):</strong></p>
+
+<div class="eq">
+\[
+\boxed{
+V(R) = \frac{\mu^2}{2}R^2 + \frac{g}{4}R^4,
+\qquad \mu^2 \ge 0,\; g>0
+}
+\]
+</div>
+
+<p class="note">
+This is the minimal polynomial potential that guarantees bounded free energy,
+smooth dynamics, and saturation of memory growth.
+No other potentials are used in STUR v1.0 predictions.
+</p>
+
 <p class="note">
 <strong>Notational convention:</strong> From Section 2B onward, we work exclusively in dimensionless
 variables and drop the bar notation. All equations are to be understood as dimensionless unless
@@ -2146,10 +2179,15 @@ u^2 - \frac{u^3}{3} + O(u^4) & u \ll 1 \quad \text{(onset regime)}\\
 \[
 \boxed{
 S_u(u) = \tanh(u)(1 - e^{-u})
-\quad \text{(STUR Postulate: canonical minimal choice satisfying constraints 1–5)}
+\quad \text{(STUR Postulate: canonical minimal representative of the admissible class satisfying constraints 1–5)}
 }
 \]
 </div>
+
+<p class="note">
+Other smooth saturating functions exist in principle, but STUR fixes this
+canonical choice to preserve falsifiability and avoid post-hoc functional tuning.
+</p>
 
 <p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
 <strong>Falsifiability consequence:</strong> The form of \(S_u\) is now <em>fixed by the postulates</em>, not
@@ -2269,6 +2307,16 @@ The only inputs are directly measurable quantities.
 
 <section class="panel">
 <h2>15.3 Superconductors — Operational Definitions and Hard Observables</h2>
+
+<div class="conceptual-box" style="background:rgba(255,100,100,0.1);border:2px solid #ff6b6b;padding:1rem;margin:1.5rem 0;border-radius:8px">
+<strong>Locked Superconductor Falsifier Set (STUR v1.0)</strong>
+<ul>
+<li><strong>Meissner response:</strong> penetration depth \(\lambda_L\) vs preparation history</li>
+<li><strong>Resistive transition shape:</strong> width of \(dR/dT\) near \(T_c\)</li>
+<li><strong>Phase noise PSD:</strong> low-frequency excess noise in Josephson junctions</li>
+</ul>
+The Josephson critical current is treated as a secondary diagnostic, not the primary falsifier.
+</div>
 
 <p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
 <strong>Falsifiability requirement:</strong> STUR predictions for superconductors focus on observables
@@ -2402,6 +2450,11 @@ but <em>different preparation histories</em>. Temperature-only explanations are 
 <button class="calc-button" onclick="calculateJosephson()">Calculate</button>
 <div id="cal_josephson_result" class="result-box" style="display:none;"></div>
 </div>
+
+<p>
+STUR is falsified if all three observables reduce to purely thermal scaling
+with no preparation-history dependence.
+</p>
 </section>
 
 <section class="panel">
@@ -2489,6 +2542,27 @@ Hence:
 remaining accessible in optical interferometry where \(\ell_c/\lambda\) is <em>deliberately reduced</em>.
 Atomic clock experiments do not constrain STUR because the correction is 6 orders of magnitude below
 current sensitivity.
+</p>
+
+<h3>15.4.2 Explicit Numerical Bound (Earth Clocks)</h3>
+
+<div class="eq" style="background:rgba(52,211,153,0.12);border-left:3px solid #34d399;padding:1rem;margin:1rem 0">
+\[
+\boxed{
+\text{Earth clocks: }
+\ell_c \sim 10^8\text{ m},\;
+\lambda_{\text{clock}}\sim10^{-6}\text{ m}
+\Rightarrow
+u_c \sim 32,\;
+M \gtrsim 10^{14}
+}
+\]
+</div>
+
+<p>
+Thus the STUR correction factor \(1/M \lesssim 10^{-14}\),
+well below current gravitational redshift bounds
+(\(\sim10^{-18}\)).
 </p>
 </section>
 
