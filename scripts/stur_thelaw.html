@@ -9,6 +9,8 @@
 <meta name="authors" content="Sheldon Lindberg, James Lockwood, Christopher B. Cyrek, Dustin Hansley, Derek J. Burkeen">
 
 <!-- PATCH 2: Explicit CSP (replaces broad default-src) -->
+<!-- NOTE: 'unsafe-inline' is required for MathJax configuration and inline event handlers.
+     This is acceptable for a research demo but would need nonce-based CSP for production. -->
 
 <meta http-equiv="Content-Security-Policy" content="
 default-src 'self';
@@ -521,8 +523,8 @@ energy scale. Physical dimensions enter only through calibration mappings
 </p>
 
 <div class="conceptual-box" style="background:rgba(74,158,255,0.15);border:2px solid #4a9eff;padding:1rem;margin:1.5rem 0;border-radius:8px">
-<h3 style="margin-top:0;color:#4a9eff">STUR-Primary Commitments</h3>
-<p>This framework is <strong>STUR-primary</strong>: all dynamics derive from a single canonical functional. 
+<h3 style="margin-top:0;color:#4a9eff">STUR-Native Commitments</h3>
+<p>This framework is <strong>STUR-native</strong>: all dynamics derive from a single canonical functional. 
 Other theories (TEGR, GR, QM) appear only as derived limits or restricted sectors.</p>
 <ol style="margin:0.5rem 0">
 <li><strong>Canonical functional</strong> \(\mathcal{F}_{\text{STUR}}[R]\) (free-energy form) generates all dynamics</li>
@@ -567,8 +569,14 @@ The coherence scale \(\ell_X\) sets the dimensional magnitude of the X-coordinat
 <section class="panel">
 <h2>2A. Action Functional and Normalization Ledger</h2>
 
+<p class="note" style="background:rgba(167,139,250,0.15);border-left:3px solid #a78bfa;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Terminology note:</strong> Except where explicitly stated, "action" in this document refers to an
+equilibrium functional derived from the free-energy minimum, not a dynamical Lorentzian action.
+The evolution is gradient flow (dissipative relaxation), not Hamiltonian mechanics.
+</p>
+
 <p>
-The STUR dynamics derive from a 5D free-energy functional. Before stating the action,
+The STUR dynamics derive from a 5D free-energy functional. Before stating the functional,
 we establish the <strong>explicit normalization convention</strong> that renders all equations dimensionally consistent.
 </p>
 
@@ -620,6 +628,10 @@ expressed consistently with this choice.
 \(D\, n^A \nabla_A R|_\Sigma = \kappa_{\text{cm}} \cos(\theta/M)\) has LHS units
 \([D][\nabla R] = (L^2/T)(1/L) = L/T\). Therefore \(\kappa_{\text{cm}}\) <em>must</em> have units \([L/T]\)
 (a flux velocity scale), not \([L^{-1}]\). This is enforced by the ledger above.
+<br><br>
+<strong>Clarification:</strong> The dimensional form of \(n^A\nabla_A R\) is \([L^{-1}]\);
+in the normalized (barred) variables of Section 2A.1, it becomes dimensionless.
+Throughout the manuscript, context determines which convention is in use.
 </p>
 
 <h3>2A.2 Free-Energy Functional</h3>
@@ -732,10 +744,11 @@ Specifically:
 </ul>
 
 <p class="note" style="background:rgba(74,158,255,0.1);border-left:3px solid #4a9eff;padding:0.5rem 1rem;margin:1rem 0">
-<strong>Covariance note:</strong> The gradient flow structure with a preferred \(t\) explicitly breaks
-4D diffeomorphism invariance. This is acceptable because STUR is formulated as a <em>dissipative effective
-theory</em> (Model A/B type), not a fundamental Lorentzian field theory. The preferred foliation is
-the one in which the free-energy functional is defined.
+<strong>Covariance note:</strong> STUR is not a fundamental microcausal theory; it is an effective,
+dissipative theory defined on a preferred foliation. The gradient flow structure with a preferred \(t\)
+explicitly breaks 4D diffeomorphism invariance. This is acceptable because STUR is formulated as a
+<em>dissipative effective theory</em> (Model A/B type), not a fundamental Lorentzian field theory.
+The preferred foliation is the one in which the free-energy functional is defined.
 </p>
 
 <h3>2B.2 Gradient Flow Evolution Law</h3>
@@ -1389,8 +1402,14 @@ All nonlocal effects are boundary-mediated and phase-gated.
 
 <h3>Cosmological Predictions</h3>
 
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:0.5rem 0 1rem 0;font-size:0.85rem">
+<strong>Speculative outlook:</strong> The following are order-of-magnitude scaling predictions,
+not precision fits. A rigorous comparison to CMB data would require transfer functions,
+Boltzmann hierarchy integration, and proper likelihood analysis—beyond the scope of this framework document.
+</p>
+
 <p>
-STUR makes specific predictions for early-universe observables:
+STUR makes scaling predictions for early-universe observables:
 </p>
 
 <h4>Phase-Gated CMB</h4>
@@ -1967,6 +1986,12 @@ The only inputs are directly measurable quantities.
 <section class="panel">
 <h2>15.3 Superconductor Calibration</h2>
 
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:0.5rem 0 1rem 0;font-size:0.85rem">
+<strong>Phenomenological status:</strong> This is a domain-specific phenomenological projection of STUR,
+not a derivation from microscopic BCS pairing theory. The formula captures STUR's boundary-gating
+mechanism applied to superconducting coherence, but material-specific corrections may be required.
+</p>
+
 <div class="eq">
 \[
 \boxed{
@@ -2281,6 +2306,12 @@ Solid curves show V<sub>STUR</sub>/V<sub>QM</sub> for three coherence lengths. D
 </div>
 
 <p><strong>Practical default:</strong> Set δ = 5ε (so it's not a marginal call).</p>
+
+<p class="note" style="font-size:0.8rem;color:var(--fg3);margin-top:0.5rem">
+<strong>Statistical assumption:</strong> This criterion assumes stationary Gaussian noise;
+correlated systematics (thermal drift, vibration modes, etc.) must be independently bounded
+before applying the pass/fail inequality.
+</p>
 
 <h4>Falsification Calculator</h4>
 <div class="input-grid" style="margin:1rem 0">
@@ -3644,6 +3675,22 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
   });
 });
 
+// Keyboard navigation for ARIA tablist (accessibility requirement)
+const navBtns = Array.from(document.querySelectorAll('.nav-btn[role="tab"]'));
+navBtns.forEach((btn, idx) => {
+  btn.addEventListener('keydown', (e) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+    e.preventDefault();
+    let targetIdx = idx;
+    if (e.key === 'ArrowLeft') targetIdx = (idx - 1 + navBtns.length) % navBtns.length;
+    if (e.key === 'ArrowRight') targetIdx = (idx + 1) % navBtns.length;
+    if (e.key === 'Home') targetIdx = 0;
+    if (e.key === 'End') targetIdx = navBtns.length - 1;
+    navBtns[targetIdx].focus();
+    openSection(navBtns[targetIdx].dataset.section);
+  });
+});
+
 // ============================================================
 // PHYSICS CONSTANTS
 // ============================================================
@@ -3675,7 +3722,7 @@ function calculateDoubleSlit() {
   // R_q = π * ℓ_c / λ (no T_eff freedom)
   const Rq = Math.PI * lc / lambda;
   const uc = Math.log(lc / lambda);
-  const M = Rq * Su(uc);
+  const M = Math.max(1e-6, Rq * Su(uc));  // Guard against division by zero
   const deltaTheta = (2 * Math.PI * d) / lambda;
   const visibilityFactor = Math.pow(Math.cos(deltaTheta / (2 * M)), 2);
   const suppressionPercent = (1 - visibilityFactor) * 100;
@@ -3747,7 +3794,7 @@ function calculateGravRedshift() {
   const Rq_clock = parseFloat(document.getElementById('cal_rq_clock').value);
   
   const uc = 5;
-  const M = Rq_clock * Su(uc);
+  const M = Math.max(1e-6, Rq_clock * Su(uc));  // Guard against division by zero
   const g = G_grav * M_mass / (r * r);
   const redshift_GR = (g * h_height) / (c_light * c_light);
   const sturCorrection = 1 / M;
@@ -3786,9 +3833,9 @@ function updateVisibilityCalc() {
   // Compute STUR parameters
   const uc = Math.log(lc_over_lambda);
   const Su_val = Math.tanh(uc) * (1 - Math.exp(-uc));
-  const M = Rq * Su_val;
+  const M = Math.max(1e-6, Rq * Su_val);  // Guard against division by zero
   const dtheta = 2 * Math.PI * dL_m / lambda_m;
-  
+
   // STUR visibility ratio
   const arg = Math.PI * dL_m / (lambda_m * M);
   const ratio = Math.pow(Math.cos(arg), 2);
@@ -3921,7 +3968,7 @@ function drawVisibilitySweep(lambda_nm, Rq) {
   coherences.forEach((coh, idx) => {
     const uc = Math.log(coh.lc_ratio);
     const Su_val = Math.tanh(uc) * (1 - Math.exp(-uc));
-    const M = Rq * Su_val;
+    const M = Math.max(1e-6, Rq * Su_val);  // Guard against division by zero
     const lc_m = coh.lc_ratio * lambda_m;
     
     ctx.strokeStyle = coh.color;
@@ -3993,7 +4040,7 @@ function updateHoloscreen() {
   const ucB = Math.max(0.1, +document.getElementById('holo_ucB').value);
 
   const Suv = Su(uc);
-  const M = Rq * Suv;
+  const M = Math.max(1e-6, Rq * Suv);  // Guard against division by zero
   const gate = Math.cos(th / M);
   const Kproj = kap * gate;
   const entFactor = 1 - Math.exp(-M);
@@ -4001,8 +4048,8 @@ function updateHoloscreen() {
   const redMult = 1 + invM;
   const visRatio = Math.pow(Math.cos(dTheta / (2 * M)), 2);
   const suppress = (1 - visRatio) * 100;
-  const MA = Rq * Su(ucA);
-  const MB = Rq * Su(ucB);
+  const MA = Math.max(1e-6, Rq * Su(ucA));  // Guard against division by zero
+  const MB = Math.max(1e-6, Rq * Su(ucB));  // Guard against division by zero
   const histDiff = ((MA - MB) / MB) * 100;
   const jump = th / M;
 
@@ -4159,7 +4206,7 @@ function computePatterns(Rq, L0_nm) {
   }
   
   const u_c = Math.log(t_eff / t0);
-  const M = Rq * Su(Math.abs(u_c));
+  const M = Math.max(1e-6, Rq * Su(Math.abs(u_c)));  // Guard against division by zero
 
   // NOTE: TOE uses normalized M thresholds distinct from Holoscreen diagnostics
   let chronoRegime = "pre-saturation";
