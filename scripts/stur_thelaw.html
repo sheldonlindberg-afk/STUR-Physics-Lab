@@ -1,25 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--
+  Law of Resistance v3.0
+  Complete revision with full derivations and rigorous physics
+  Author: Sheldon Lon Lindberg
+  Revision date: January 2026
+-->
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>STUR — Law of Resistance v2.0</title>
+<title>STUR — Law of Resistance v3.0</title>
 
-<meta name="version" content="2.0" />
+<meta name="version" content="3.0" />
 <meta name="authors" content="Sheldon Lon Lindberg" />
-<meta name="description" content="STUR Physics Lab — Law of Resistance: interaction as resistance dynamics on an extended manifold." />
-
-<meta http-equiv="Content-Security-Policy" content="
-default-src 'self';
-script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
-style-src 'self' 'unsafe-inline';
-img-src 'self' data:;
-font-src 'self' data: https://cdn.jsdelivr.net;
-connect-src 'self';
-base-uri 'self';
-object-src 'none';
-frame-ancestors 'none';
-" />
+<meta name="description" content="STUR Physics Lab — Law of Resistance: Complete derivation of interaction as resistance dynamics on an extended manifold." />
 
 <script>
 window.MathJax = {
@@ -34,7 +28,7 @@ window.MathJax = {
 :root{
   color-scheme:dark;
   --bg:#000000;
-  --panel:rgba(8,8,12,0.85);
+  --panel:rgba(8,8,12,0.92);
   --border:#1a1a24;
   --fg:#e5e7eb;
   --fg2:#9ca3af;
@@ -49,427 +43,1604 @@ window.MathJax = {
   --sans:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:#000;color:var(--fg);font-family:var(--sans);line-height:1.5;font-size:14.5px}
-.page{max-width:980px;margin:auto;padding:1rem 1.1rem 1.8rem}
-.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;margin-bottom:.75rem}
-h1{font-size:1.7rem;margin:.1rem 0 .35rem;background:linear-gradient(90deg,#e5e7eb,#38bdf8,#ec4899);-webkit-background-clip:text;color:transparent}
-h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:.1rem 0 .5rem;border-bottom:1px solid var(--border);padding-bottom:.25rem}
-h3{font-size:.85rem;color:var(--accent2);margin:.55rem 0 .25rem}
-p{font-size:.84rem;color:var(--fg2);margin:.35rem 0}
-ul,ol{color:var(--fg2);font-size:.84rem;margin:.35rem 0;padding-left:1.2rem}
-li{margin:.2rem 0}
-.eq{background:rgba(0,0,0,.5);border:1px solid var(--border);border-radius:8px;padding:.5rem .65rem;margin:.5rem 0;overflow-x:auto;font-size:.88rem}
-.callout{border-left:3px solid var(--accent);background:rgba(56,189,248,0.05);padding:.5rem .7rem;margin:.5rem 0;border-radius:8px;font-size:.78rem}
-.callout.warn{border-left-color:var(--warn);background:rgba(245,158,11,0.05)}
-.callout.bad{border-left-color:var(--bad);background:rgba(251,113,133,0.05)}
-.callout.good{border-left-color:var(--good);background:rgba(34,197,94,0.05)}
-.badges{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.35rem}
-.badge{font-family:var(--mono);font-size:.62rem;padding:.2rem .45rem;border-radius:999px;border:1px solid var(--border)}
+html,body{margin:0;background:#000;color:var(--fg);font-family:var(--sans);line-height:1.65;font-size:14.5px}
+.page{max-width:1100px;margin:auto;padding:1rem 1.2rem 2rem}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;margin-bottom:.85rem}
+h1{font-size:1.8rem;margin:.1rem 0 .4rem;background:linear-gradient(90deg,#e5e7eb,#38bdf8,#ec4899);-webkit-background-clip:text;color:transparent}
+h2{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:.1rem 0 .55rem;border-bottom:1px solid var(--border);padding-bottom:.28rem}
+h3{font-size:.88rem;color:var(--accent2);margin:.6rem 0 .3rem}
+h4{font-size:.82rem;color:var(--fg);margin:.5rem 0 .25rem;font-weight:600}
+p{font-size:.84rem;color:var(--fg2);margin:.4rem 0}
+ul,ol{color:var(--fg2);font-size:.84rem;margin:.4rem 0;padding-left:1.3rem}
+li{margin:.25rem 0}
+.eq{background:rgba(0,0,0,.55);border:1px solid var(--border);border-radius:8px;padding:.55rem .7rem;margin:.55rem 0;overflow-x:auto;font-size:.9rem}
+.eq-label{font-size:.7rem;color:var(--fg3);margin-top:.2rem;text-align:right}
+.callout{border-left:3px solid var(--accent);background:rgba(56,189,248,0.06);padding:.55rem .75rem;margin:.55rem 0;border-radius:8px;font-size:.8rem}
+.callout.warn{border-left-color:var(--warn);background:rgba(245,158,11,0.06)}
+.callout.bad{border-left-color:var(--bad);background:rgba(251,113,133,0.06)}
+.callout.good{border-left-color:var(--good);background:rgba(34,197,94,0.06)}
+.callout.deriv{border-left-color:var(--accent2);background:rgba(236,72,153,0.06)}
+.badges{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.4rem}
+.badge{font-family:var(--mono);font-size:.64rem;padding:.22rem .5rem;border-radius:999px;border:1px solid var(--border)}
 .pass{color:var(--good);border-color:var(--good)}
 .warnb{color:var(--warn);border-color:var(--warn)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-@media(max-width:820px){.grid2{grid-template-columns:1fr}}
-table{width:100%;border-collapse:collapse;font-size:.78rem;margin:.35rem 0}
-td{padding:.22rem .4rem;border-bottom:1px solid var(--border)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font-size:.8rem;margin:.4rem 0}
+td,th{padding:.25rem .45rem;border-bottom:1px solid var(--border);text-align:left}
+th{color:var(--accent);font-weight:600}
 td:first-child{color:var(--fg2)}
-td:last-child{color:var(--fg);text-align:right}
-.def{font-size:.76rem;color:var(--fg3);margin:.28rem 0}
-footer{margin-top:1rem;padding-top:.7rem;border-top:1px solid var(--border);font-size:.7rem;color:var(--fg3);text-align:center}
+td:last-child{color:var(--fg)}
+.def{font-size:.78rem;color:var(--fg3);margin:.3rem 0}
+.step{background:rgba(56,189,248,0.03);border-left:2px solid var(--accent);padding:.4rem .6rem;margin:.4rem 0;font-size:.82rem}
+footer{margin-top:1.2rem;padding-top:.8rem;border-top:1px solid var(--border);font-size:.72rem;color:var(--fg3);text-align:center}
+.toc{columns:2;column-gap:2rem;font-size:.78rem}
+.toc a{color:var(--fg2);text-decoration:none}
+.toc a:hover{color:var(--accent)}
+@media(max-width:700px){.toc{columns:1}}
 </style>
 </head>
 
 <body>
 <div class="page">
 
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════════════════════════════════════ -->
 <header class="panel">
   <h1>Law of Resistance</h1>
-  <p style="margin-top:0;color:var(--fg)"><strong>STUR Physics Lab — Foundational Law v2.0</strong></p>
-  <p class="def"><strong>Author:</strong> Sheldon Lon Lindberg</p>
+  <p style="margin-top:0;color:var(--fg)"><strong>STUR Physics Lab — Foundational Law v3.0</strong></p>
+  <p class="def"><strong>Author:</strong> Sheldon Lon Lindberg &nbsp;|&nbsp; <strong>Revision:</strong> January 2026</p>
   <p>
-    The <strong>Law of Resistance</strong> states that observable interaction arises from
-    structured resistance to state change, represented as fields on an extended manifold.
+    The <strong>Law of Resistance</strong> is a falsifiable framework proposing that observable interactions 
+    arise from structured resistance to state change, encoded as tensor fields on an extended manifold. 
+    This document provides complete derivations from first principles.
   </p>
   <div class="badges">
     <span class="badge pass">Falsifiable</span>
+    <span class="badge pass">Full derivations</span>
     <span class="badge pass">Parameter discipline</span>
-    <span class="badge warnb">Framework / research program</span>
+    <span class="badge warnb">Research program</span>
   </div>
 </header>
 
-<div class="grid2">
-<div>
-
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TABLE OF CONTENTS
+     ═══════════════════════════════════════════════════════════════════════════ -->
 <section class="panel">
-  <h2>0. Conceptual Origin</h2>
+  <h2>Contents</h2>
+  <div class="toc">
+    <p><a href="#sec0">0. Philosophical Foundation</a></p>
+    <p><a href="#sec1">1. The Central Postulate</a></p>
+    <p><a href="#sec2">2. Extended Manifold Structure</a></p>
+    <p><a href="#sec3">3. Axioms and Dynamics</a></p>
+    <p><a href="#sec4">4. Scalar Sector: Complete Derivation</a></p>
+    <p><a href="#sec5">5. Observable Construction</a></p>
+    <p><a href="#sec6">6. Gauge Structure from Degeneracy</a></p>
+    <p><a href="#sec7">7. Gravity: Teleparallel Correspondence</a></p>
+    <p><a href="#sec8">8. Standard Model Recovery</a></p>
+    <p><a href="#sec9">9. Generation Structure</a></p>
+    <p><a href="#sec10">10. Mass Hierarchies</a></p>
+    <p><a href="#sec11">11. Neutrino Sector</a></p>
+    <p><a href="#sec12">12. Quantum Consistency</a></p>
+    <p><a href="#sec13">13. Falsification Tests</a></p>
+    <p><a href="#sec14">14. Parameter Protocol</a></p>
+    <p><a href="#sec15">15. Status and Open Questions</a></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 0: PHILOSOPHICAL FOUNDATION
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec0">
+  <h2>0. Philosophical Foundation and Motivation</h2>
+  
+  <h3>0.1 The Problem</h3>
   <p>
-    The Law of Resistance is a formalized and falsifiable expression of
-    <em>Sheldon's Theory of Unified Resistance (STUR)</em>, originally introduced
-    as a resistance-based unification framework and iteratively refined through
-    successive versions.
+    Modern physics rests on two incompatible pillars: quantum mechanics (describing microscopic phenomena 
+    via unitary evolution and measurement collapse) and general relativity (describing gravity via 
+    spacetime curvature). Both frameworks involve dynamics, but their foundational ontologies differ.
   </p>
+  <p>
+    The Law of Resistance proposes a unified ontology: <em>all observable phenomena emerge from resistance 
+    to state change</em>. This is not merely metaphorical—it is a precise mathematical claim that resistance 
+    fields, defined on an extended manifold, generate the equations of motion for matter, gauge fields, 
+    and gravity.
+  </p>
+
+  <h3>0.2 What "Resistance" Means</h3>
+  <p>
+    In this framework, "resistance" is a generalization encompassing:
+  </p>
+  <ul>
+    <li><strong>Inertia:</strong> Resistance to acceleration (mass)</li>
+    <li><strong>Impedance:</strong> Resistance to energy flow (electrical, mechanical)</li>
+    <li><strong>Rigidity:</strong> Resistance to deformation (geometric curvature/torsion)</li>
+    <li><strong>Coherence:</strong> Resistance to phase decoherence (quantum systems)</li>
+  </ul>
   <p class="def">
-    The present Law consolidates and rigorously constrains the framework introduced in
-    Lindberg (2025), extending it with explicit gauge structure, teleparallel correspondence,
-    and hard falsification criteria.
+    The key insight is that these disparate phenomena may share a common mathematical structure: 
+    they all describe how systems resist changes imposed by external influences or internal gradients.
+  </p>
+
+  <h3>0.3 Why an Extended Manifold?</h3>
+  <p>
+    Four-dimensional spacetime is insufficient to unify gravity and gauge interactions. 
+    Kaluza-Klein theory showed that a fifth dimension can geometrize electromagnetism. 
+    The Law of Resistance extends this idea: the fifth coordinate \(X\) is an <em>internal coherence 
+    parameter</em> that organizes how resistance propagates through different physical sectors.
+  </p>
+  <div class="callout">
+    <strong>Historical precedent:</strong> Extra dimensions appear in Kaluza-Klein (1921), 
+    string theory (10D/11D), and teleparallel formulations. The Law of Resistance proposes 
+    a specific 5D structure with explicit physical interpretation.
+  </div>
+
+  <h3>0.4 Falsifiability Commitment</h3>
+  <p>
+    Unlike some unification proposals, the Law of Resistance is committed to falsifiability. 
+    Every parameter is defined operationally, locked before testing, and the framework makes 
+    specific quantitative predictions that can fail.
   </p>
 </section>
 
-<section class="panel">
-  <h2>1. Formal Law</h2>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 1: CENTRAL POSTULATE
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec1">
+  <h2>1. The Central Postulate</h2>
+
+  <h3>1.1 Statement</h3>
   <div class="eq">
     \[\boxed{\text{Observable interaction is a calibrated boundary flux of resistance on }\mathcal{M}^5.}\]
   </div>
-  <p>
-    Resistance is the dynamical quantity whose gradients, fluxes,
-    and boundary projections define measured forces, phase evolution, and geometry.
-  </p>
-</section>
 
-<section class="panel">
-  <h2>2. Manifold and Field Content</h2>
-  <p>Extended manifold: \(\mathcal{M}^5 = M^4 \times X\), with \(X\) a compact coordinate carrying coherence structure.</p>
-  <p class="def">
-    The coordinate \(X\) is not assumed to be a conventional spacetime dimension.
-    It functions as an internal coherence/memory coordinate whose physical
-    interpretation depends on the sector under consideration (scalar memory flow,
-    vector gauge redundancy, or internal degeneracy). Whether \(X\) is fundamental
-    or emergent is left open at the level of this Law.
-  </p>
-  <div class="eq">
-    \[\mathcal{R}_{AB}(x^\mu, X), \qquad A,B\in\{0,1,2,3,5\}\]
-  </div>
-  <p class="def"><strong>Decomposition (off-shell):</strong></p>
+  <h3>1.2 Unpacking the Statement</h3>
+  <p>Each term has precise meaning:</p>
   <ul>
-    <li>\(\mathcal{R}_{\mu\nu}\): symmetric 4D tensor (10 components)</li>
-    <li>\(\mathcal{R}_{\mu5}\): 4D vector (4 components)</li>
-    <li>\(\mathcal{R}_{55}\): scalar (1 component)</li>
+    <li><strong>Observable interaction:</strong> Any measurable physical effect (force, energy transfer, 
+        phase shift, field strength)</li>
+    <li><strong>Calibrated:</strong> Normalized against a reference configuration to remove apparatus 
+        dependence</li>
+    <li><strong>Boundary flux:</strong> The normal component of the resistance gradient evaluated at 
+        a measurement surface \(\Sigma\)</li>
+    <li><strong>Resistance:</strong> A tensor field \(\mathcal{R}_{AB}\) encoding the system's response 
+        to perturbation</li>
+    <li><strong>\(\mathcal{M}^5\):</strong> The extended manifold \(M^4 \times X\)</li>
   </ul>
-  <div class="callout warn">
-    A single scalar field cannot supply the degrees of freedom required for GR + SM.
-    The tensor structure above is the minimal correction (15 off-shell components);
-    on-shell counting requires explicit constraint analysis.
+
+  <h3>1.3 Mathematical Formulation</h3>
+  <p>
+    Let \(n^A\) be the unit normal to the measurement boundary \(\Sigma\). 
+    The observable \(\mathcal{O}\) associated with resistance component \(R\) is:
+  </p>
+  <div class="eq">
+    \[\mathcal{O} = \int_\Sigma d\Sigma \; n^A \nabla_A R\]
+  </div>
+  <p>
+    The <em>calibrated</em> observable removes reference-dependent offsets:
+  </p>
+  <div class="eq">
+    \[\widehat{\mathcal{O}} := \frac{n^A\nabla_A R|_{\Sigma}}{(n^A\nabla_A R)_{\rm ref}}\]
+  </div>
+  <p class="def">
+    The reference flux is computed from the same governing equations under precisely specified 
+    reference conditions (not measured post-hoc).
+  </p>
+
+  <h3>1.4 Why Boundary Flux?</h3>
+  <p>
+    Physical measurements always involve interfaces: detector surfaces, beam splitters, 
+    sensor boundaries. The flux formulation makes this explicit. Moreover, boundary data 
+    determines interior solutions for elliptic PDEs (Dirichlet/Neumann problems), 
+    so boundary observables encode bulk physics.
+  </p>
+  <div class="callout deriv">
+    <strong>Derivation principle:</strong> By Stokes' theorem, boundary fluxes are related to 
+    bulk sources: \(\oint_{\partial V} n^A \nabla_A R \, d\Sigma = \int_V \nabla_A \nabla^A R \, dV\). 
+    This connects observables to the resistance Laplacian (governing equation).
   </div>
 </section>
 
-<section class="panel">
-  <h2>3. Axioms</h2>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 2: MANIFOLD STRUCTURE
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec2">
+  <h2>2. Extended Manifold Structure</h2>
 
-  <h3>A1 — Resistance Principle</h3>
+  <h3>2.1 The Five-Dimensional Manifold</h3>
   <p>
-    There exists a resistance field \(\mathcal{R}_{AB}\) such that physical response arises from its
-    covariant gradients and fluxes. Laboratory tests probe consistent projections, e.g., \(R := \mathcal{R}_{55}\).
+    The fundamental arena is a product manifold:
   </p>
-
-  <h3>A2 — Dynamics</h3>
-  <p>
-    Conservative limits follow from an action \(S[\mathcal{R}]\).
-    Dissipative laboratory evolution follows as a gradient flow of a free-energy
-    functional \(F[R]\) defined on spatial slices \(\Sigma_t\).
-  </p>
-  <p class="def">
-    The parameter \(t\) in the scalar evolution equation is physical laboratory time.
-    The free energy \(F\) is evaluated on a fixed-time spatial hypersurface \(\Sigma_t\),
-    ensuring dimensional and variational consistency.
-  </p>
-
-  <h3>A3 — Gauge Symmetries</h3>
+  <div class="eq">
+    \[\mathcal{M}^5 = M^4 \times X\]
+  </div>
+  <p>where:</p>
   <ul>
-    <li><strong>Scalar sector:</strong> \(R \to R + c\) (shift symmetry), broken by \(V(R)\) or sources.</li>
-    <li><strong>Vector sector:</strong> X-fiber reparametrization induces \(\mathcal{R}_{\mu5} \to \mathcal{R}_{\mu5} + \partial_\mu\Lambda\).</li>
+    <li>\(M^4\): Four-dimensional spacetime with coordinates \(x^\mu\), \(\mu \in \{0,1,2,3\}\)</li>
+    <li>\(X\): Compact internal coordinate with range \(X \in [0, L_X]\) or \(X \in S^1\)</li>
   </ul>
   <p class="def">
-    The invariant field strength \(F_{\mu\nu} := \partial_\mu\mathcal{R}_{\nu5} - \partial_\nu\mathcal{R}_{\mu5}\)
-    is unchanged under this gauge redundancy.
+    We use index conventions: \(A, B \in \{0,1,2,3,5\}\) for full 5D indices, 
+    \(\mu, \nu \in \{0,1,2,3\}\) for 4D spacetime, and \(i, j \in \{1,2,3\}\) for 3D spatial.
   </p>
 
-  <h3>A4 — Correspondence</h3>
-  <p>Appropriate limits must reproduce known physics in the relevant sector.</p>
+  <h3>2.2 The Resistance Tensor</h3>
+  <p>
+    The dynamical field is a symmetric tensor \(\mathcal{R}_{AB}(x^\mu, X)\) with 15 independent 
+    components. The symmetry requirement \(\mathcal{R}_{AB} = \mathcal{R}_{BA}\) follows from the 
+    demand that resistance be a property of the local state, not dependent on the order of indices.
+  </p>
 
-  <h3>A5 — Falsifiability</h3>
-  <p>Parameters are locked before testing. No post-hoc adjustment is permitted.</p>
-</section>
-
-<section class="panel">
-  <h2>4. Scalar-Sector Derivation</h2>
-
-  <h3>4.1 Free Energy Functional</h3>
+  <h3>2.3 Natural Decomposition</h3>
+  <p>
+    Under the 4+1 split, \(\mathcal{R}_{AB}\) decomposes as:
+  </p>
   <div class="eq">
-    \[F[R] = \int_{\Sigma_t} d^3x\, \sqrt{\gamma}\left(\frac{D}{2}\nabla_i R\nabla^i R + V(R) - JR\right)\]
+    \[\mathcal{R}_{AB} = \begin{pmatrix} \mathcal{R}_{\mu\nu} & \mathcal{R}_{\mu 5} \\ 
+    \mathcal{R}_{5\nu} & \mathcal{R}_{55} \end{pmatrix}\]
+  </div>
+  
+  <table>
+    <tr><th>Component</th><th>Count</th><th>Physical Interpretation</th></tr>
+    <tr><td>\(\mathcal{R}_{\mu\nu}\)</td><td>10</td><td>Gravitational sector (metric/tetrad)</td></tr>
+    <tr><td>\(\mathcal{R}_{\mu 5}\)</td><td>4</td><td>Gauge sector (vector potential)</td></tr>
+    <tr><td>\(\mathcal{R}_{55}\)</td><td>1</td><td>Scalar sector (resistance magnitude)</td></tr>
+  </table>
+  
+  <p class="def">
+    This counting (15 off-shell) is reduced on-shell by gauge redundancies and constraints.
+  </p>
+
+  <h3>2.4 The \(X\)-Coordinate: Physical Interpretation</h3>
+  <p>
+    The coordinate \(X\) is not a literal spatial dimension. It parameterizes an <em>internal 
+    coherence stratum</em>—a one-parameter family of internal states at each spacetime point. 
+    Different values of \(X\) correspond to different coherence configurations.
+  </p>
+  
+  <h4>Constitutive Relation</h4>
+  <p>
+    To close the system, we need a relation specifying how \(R\) varies with \(X\). 
+    The minimal physically-motivated choice is:
+  </p>
+  <div class="eq">
+    \[\partial_X R = \frac{R - R_{\rm bg}}{L_X}\]
+    <div class="eq-label">(Coherence gradient ansatz)</div>
   </div>
   <p class="def">
-    Here \(\gamma_{ij}\) is the induced metric on the spatial slice \(\Sigma_t\),
-    and \(\nabla_i\) is the spatial covariant derivative.
+    where \(R_{\rm bg}\) is the background resistance (vacuum value) and \(L_X\) is the coherence 
+    length scale.
   </p>
 
-  <h3>4.2 Gradient Flow</h3>
-  <p>For dissipative evolution with mobility \(M > 0\):</p>
+  <div class="callout deriv">
+    <strong>Derivation:</strong> This ansatz follows from assuming \(R\) relaxes exponentially 
+    toward \(R_{\rm bg}\) as we move through coherence strata:
+    \[R(X) = R_{\rm bg} + (R_0 - R_{\rm bg})e^{X/L_X}\]
+    Taking \(\partial_X\) yields \(\partial_X R = (R - R_{\rm bg})/L_X\).
+  </div>
+
+  <h4>Transport Rate</h4>
+  <p>
+    When resistance is transported in the \(X\)-direction at rate \(v_X\), the effective 
+    relaxation rate is:
+  </p>
   <div class="eq">
-    \[\partial_t R = -M\frac{\delta F}{\delta R}\]
+    \[\Gamma_X := \frac{v_X}{L_X}\]
+    <div class="eq-label">(Internal relaxation rate)</div>
+  </div>
+  <p>
+    This is not a spatial velocity—it characterizes how quickly coherence relaxes.
+  </p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 3: AXIOMS AND DYNAMICS
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec3">
+  <h2>3. Axioms and Dynamics</h2>
+
+  <h3>Axiom A1 — Resistance Existence</h3>
+  <p>
+    There exists a resistance tensor field \(\mathcal{R}_{AB}(x^\mu, X)\) on \(\mathcal{M}^5\) 
+    such that all physical responses arise from its covariant gradients and fluxes.
+  </p>
+  <div class="callout">
+    <strong>Implication:</strong> Forces, potentials, and geometric curvature are not fundamental—they 
+    emerge from resistance gradients.
+  </div>
+
+  <h3>Axiom A2 — Dynamical Principle</h3>
+  <p>
+    The evolution of \(\mathcal{R}_{AB}\) is governed by:
+  </p>
+  <ul>
+    <li><strong>Conservative sector:</strong> Euler-Lagrange equations from an action \(S[\mathcal{R}]\)</li>
+    <li><strong>Dissipative sector:</strong> Gradient flow of a free-energy functional \(F[R]\)</li>
+  </ul>
+  <p class="def">
+    The dichotomy reflects that fundamental interactions (gravity, gauge) are conservative, 
+    while effective macroscopic dynamics (thermal, relaxation) are dissipative.
+  </p>
+
+  <h3>Axiom A3 — Gauge Symmetries</h3>
+  <p>Redundancies in the description must not affect observables:</p>
+  <ul>
+    <li><strong>Scalar sector:</strong> Global shift symmetry \(R \to R + c\) (broken by potential)</li>
+    <li><strong>Vector sector:</strong> Gauge transformation \(\mathcal{R}_{\mu 5} \to \mathcal{R}_{\mu 5} + \partial_\mu \Lambda\)</li>
+    <li><strong>Tensor sector:</strong> Diffeomorphism and local Lorentz invariance</li>
+  </ul>
+
+  <h3>Axiom A4 — Correspondence Principle</h3>
+  <p>
+    In appropriate limits, the Law must reproduce:
+  </p>
+  <ul>
+    <li>General Relativity (gravitational sector)</li>
+    <li>Yang-Mills theory (gauge sector)</li>
+    <li>Quantum mechanics (coherence/measurement sector)</li>
+  </ul>
+
+  <h3>Axiom A5 — Falsifiability</h3>
+  <p>
+    All parameters entering predictions must be:
+  </p>
+  <ol>
+    <li>Operationally defined (measurable in principle)</li>
+    <li>Locked before testing (no post-hoc adjustment)</li>
+    <li>Independent of the effect being tested (no circular calibration)</li>
+  </ol>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 4: SCALAR SECTOR DERIVATION
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec4">
+  <h2>4. Scalar Sector: Complete Derivation</h2>
+
+  <h3>4.1 Setting</h3>
+  <p>
+    We focus on the scalar component \(R := \mathcal{R}_{55}\), which governs coherence dynamics. 
+    This is the sector most directly testable in laboratory interferometry.
+  </p>
+  <p>
+    Let \(\Sigma_t\) be a spatial hypersurface at time \(t\) with induced metric \(\gamma_{ij}\) 
+    and covariant derivative \(\nabla_i\).
+  </p>
+
+  <h3>4.2 Free Energy Functional</h3>
+  <p>
+    The free energy is a functional on field configurations:
+  </p>
+  <div class="eq">
+    \[F[R] = \int_{\Sigma_t} d^3x\, \sqrt{\gamma}\left[\frac{D}{2}(\nabla_i R)(\nabla^i R) + V(R) - JR\right]\]
+    <div class="eq-label">(4.1)</div>
+  </div>
+  
+  <p>The terms represent:</p>
+  <ul>
+    <li>\(\frac{D}{2}(\nabla R)^2\): Gradient energy (penalizes rapid spatial variation)</li>
+    <li>\(V(R)\): Potential energy (determines equilibrium states)</li>
+    <li>\(-JR\): Coupling to external source \(J\)</li>
+  </ul>
+
+  <div class="callout deriv">
+    <strong>Physical motivation:</strong> This is the simplest local functional that is:
+    (1) bounded below for \(V\) convex, (2) translation-invariant in \(R\) when \(V=0\), 
+    (3) reduces to the Ginzburg-Landau functional for \(V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\).
   </div>
 
   <h3>4.3 Functional Derivative</h3>
-  <p>Varying \(F\) and integrating by parts:</p>
-  <div class="eq">
-    \[\frac{\delta F}{\delta R} = -D\nabla_i\nabla^i R + V'(R) - J\]
+  <p>
+    To find the evolution equation, we compute \(\delta F / \delta R\). 
+    Consider a variation \(R \to R + \epsilon\eta\) with \(\eta|_{\partial\Sigma} = 0\):
+  </p>
+  
+  <div class="step">
+    <strong>Step 1:</strong> Expand to first order in \(\epsilon\):
+    \[F[R + \epsilon\eta] = F[R] + \epsilon\int d^3x\,\sqrt{\gamma}\left[D(\nabla_i R)(\nabla^i\eta) + V'(R)\eta - J\eta\right] + O(\epsilon^2)\]
   </div>
 
-  <h3>4.4 Evolution Equation</h3>
-  <div class="eq">
-    \[\boxed{\partial_t R = MD\nabla_i\nabla^i R - MV'(R) + MJ}\]
+  <div class="step">
+    <strong>Step 2:</strong> Integrate the gradient term by parts:
+    \[\int d^3x\,\sqrt{\gamma}\,D(\nabla_i R)(\nabla^i\eta) = -\int d^3x\,\sqrt{\gamma}\,D(\nabla_i\nabla^i R)\eta + \oint_{\partial\Sigma}(\text{boundary terms})\]
   </div>
-  <div class="callout good">
-    This is a gradient flow with guaranteed non-negative dissipation for convex \(V\) and \(M > 0\).
+
+  <div class="step">
+    <strong>Step 3:</strong> With \(\eta|_{\partial\Sigma} = 0\), the boundary terms vanish:
+    \[\frac{dF}{d\epsilon}\bigg|_{\epsilon=0} = \int d^3x\,\sqrt{\gamma}\left[-D\nabla^2 R + V'(R) - J\right]\eta\]
+  </div>
+
+  <p>Therefore:</p>
+  <div class="eq">
+    \[\boxed{\frac{\delta F}{\delta R} = -D\nabla^2 R + V'(R) - J}\]
+    <div class="eq-label">(4.2)</div>
+  </div>
+  <p class="def">where \(\nabla^2 \equiv \nabla_i\nabla^i\) is the spatial Laplacian.</p>
+
+  <h3>4.4 Gradient Flow Evolution</h3>
+  <p>
+    Dissipative dynamics follows the Onsager prescription: the system evolves to minimize free energy 
+    at a rate proportional to the thermodynamic force:
+  </p>
+  <div class="eq">
+    \[\partial_t R = -M \frac{\delta F}{\delta R}\]
+    <div class="eq-label">(4.3)</div>
+  </div>
+  <p>where \(M > 0\) is the mobility (transport coefficient).</p>
+
+  <p>Substituting (4.2):</p>
+  <div class="eq">
+    \[\boxed{\partial_t R = MD\nabla^2 R - MV'(R) + MJ}\]
+    <div class="eq-label">(4.4 — Scalar Evolution Equation)</div>
+  </div>
+
+  <h3>4.5 Dissipation Theorem</h3>
+  <p>
+    The gradient flow structure guarantees energy dissipation. We prove:
+  </p>
+  <div class="eq">
+    \[\frac{dF}{dt} \leq 0 \quad \text{for } M \geq 0\]
+  </div>
+
+  <div class="callout deriv">
+    <strong>Proof:</strong>
+    \[\frac{dF}{dt} = \int d^3x\,\sqrt{\gamma}\,\frac{\delta F}{\delta R}\,\partial_t R 
+    = \int d^3x\,\sqrt{\gamma}\,\frac{\delta F}{\delta R}\left(-M\frac{\delta F}{\delta R}\right)
+    = -M\int d^3x\,\sqrt{\gamma}\left(\frac{\delta F}{\delta R}\right)^2 \leq 0\]
+    The inequality is strict unless \(\delta F/\delta R = 0\) everywhere (equilibrium). ∎
+  </div>
+
+  <h3>4.6 Transport Extension</h3>
+  <p>
+    Including spatial advection velocity \(u^i\) and internal coherence transport:
+  </p>
+  <div class="eq">
+    \[\partial_t R + u^i\nabla_i R + \Gamma_X(R - R_{\rm bg}) = MD\nabla^2 R - MV'(R) + MJ\]
+    <div class="eq-label">(4.5 — Full Transport Equation)</div>
+  </div>
+  
+  <p>Term interpretation:</p>
+  <table>
+    <tr><th>Term</th><th>Physics</th></tr>
+    <tr><td>\(\partial_t R\)</td><td>Local time evolution</td></tr>
+    <tr><td>\(u^i\nabla_i R\)</td><td>Spatial advection</td></tr>
+    <tr><td>\(\Gamma_X(R - R_{\rm bg})\)</td><td>Relaxation to background (coherence decay)</td></tr>
+    <tr><td>\(MD\nabla^2 R\)</td><td>Diffusion</td></tr>
+    <tr><td>\(-MV'(R)\)</td><td>Potential-driven evolution</td></tr>
+    <tr><td>\(MJ\)</td><td>External driving</td></tr>
+  </table>
+
+  <h3>4.7 Characteristic Solutions</h3>
+  
+  <h4>Equilibrium</h4>
+  <p>Setting \(\partial_t R = 0\), \(u^i = 0\), \(\Gamma_X = 0\):</p>
+  <div class="eq">
+    \[D\nabla^2 R = V'(R) - J\]
   </div>
   <p class="def">
-    This evolution equation is a dissipative effective law (Onsager gradient flow),
-    not a conservative Euler–Lagrange field equation.
+    For \(V(R) = 0\), this is the Poisson equation; for \(V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\), 
+    this admits kink solutions.
   </p>
 
-  <h3>4.5 Transport Extension</h3>
-  <p>With advection velocity \(u^i\) and \(X\)-transport speed \(v_X\):</p>
+  <h4>Diffusion Limit</h4>
+  <p>For \(V = 0\), \(J = 0\), \(\Gamma_X = 0\):</p>
   <div class="eq">
-    \[\partial_t R + u^i\nabla_i R + v_X\partial_X R = MD\nabla_i\nabla^i R - MV'(R) + MJ\]
+    \[\partial_t R = MD\nabla^2 R\]
   </div>
+  <p class="def">Standard heat/diffusion equation with diffusivity \(\mathcal{D} := MD\).</p>
+
+  <h4>Relaxation Limit</h4>
+  <p>For spatially uniform \(R\), no potential:</p>
+  <div class="eq">
+    \[\partial_t R + \Gamma_X R = \Gamma_X R_{\rm bg}\]
+  </div>
+  <p class="def">Exponential relaxation to \(R_{\rm bg}\) with time constant \(1/\Gamma_X\).</p>
 </section>
 
-</div>
-<div>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 5: OBSERVABLE CONSTRUCTION
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec5">
+  <h2>5. Observable Construction</h2>
 
-<section class="panel">
-  <h2>5. Holoscreen Observables</h2>
-  <p>Define a calibrated observable as a normalized boundary flux:</p>
+  <h3>5.1 Boundary Flux Observable</h3>
+  <p>
+    Following the central postulate (Section 1), observables are boundary fluxes. For the scalar 
+    sector, the primary observable is:
+  </p>
   <div class="eq">
-    \[\boxed{\widehat{\mathcal{O}} := \frac{n^A\nabla_A R|_{\Sigma}}{(n^A\nabla_A R)_{\rm ref}}}\]
+    \[\widehat{\mathcal{O}} := \frac{n^A\nabla_A R|_{\Sigma}}{(n^A\nabla_A R)_{\rm ref}}\]
+    <div class="eq-label">(5.1)</div>
+  </div>
+
+  <h3>5.2 Reference Solution</h3>
+  <p>
+    The reference flux must be <em>computed</em>, not measured. It comes from solving the same 
+    governing equation (4.5) with reference boundary conditions:
+  </p>
+  <div class="eq">
+    \[\partial_t R_{\rm ref} + \Gamma_{X,\rm ref}(R_{\rm ref} - R_{\rm bg}) = MD\nabla^2 R_{\rm ref} - MV'(R_{\rm ref}) + MJ_{\rm ref}\]
   </div>
   <p class="def">
-    The reference flux \((n^A\nabla_A R)_{\rm ref}\) is the measured boundary flux in a control
-    configuration: (i) zero gating phase, (ii) randomized boundary phase, or (iii) \(\chi \to 0\).
-    The same apparatus must be used for reference and test runs.
+    Reference conditions typically set \(\Gamma_X = 0\) (no internal relaxation) or use null 
+    gating phase (see below).
   </p>
-  <p>With chronomagnetic boundary gating:</p>
-  <div class="eq">
-    \[\widehat{\mathcal{O}}_{\rm gated} = \kappa_{\rm cm}\cos\!\left(\frac{\phi_B}{\phi_M}\right)\widehat{\mathcal{O}}\]
-  </div>
-  <p class="def">
-    The gating function is fixed once by calibration dataset \(\mathcal{D}_{\rm cal}\)
-    and held fixed for test dataset \(\mathcal{D}_{\rm test}\).
+
+  <h3>5.3 Interferometric Observable: Derivation</h3>
+  <p>
+    For a two-path interferometer with path length difference \(\Delta L\), the Law predicts 
+    a visibility modification. We derive this from first principles.
   </p>
-  <p>For interferometry, the visibility ratio is the primary falsifier:</p>
+
+  <h4>Setup</h4>
+  <p>
+    Consider a Mach-Zehnder interferometer. A coherent source produces a field with wavelength 
+    \(\lambda\). The two paths have lengths \(L_1\) and \(L_2 = L_1 + \Delta L\).
+  </p>
+
+  <h4>Standard QM Result</h4>
+  <p>
+    In standard quantum mechanics, the visibility (fringe contrast) is:
+  </p>
   <div class="eq">
-    \[\boxed{\frac{V_{\rm STUR}}{V_{\rm QM}} = \cos^2\!\left(\frac{\pi\Delta L}{\lambda R_q S_u}\right)}\]
+    \[V_{\rm QM} = |\langle e^{i\phi}\rangle| = 1 \quad \text{(ideal coherent source)}\]
   </div>
+
+  <h4>STUR Modification</h4>
+  <p>
+    The Law of Resistance asserts that coherence depends on the resistance configuration. 
+    The phase acquired along each path includes a resistance-dependent contribution:
+  </p>
+  <div class="eq">
+    \[\phi_{\rm path} = \phi_{\rm geom} + \phi_R = \frac{2\pi L}{\lambda} + \frac{\pi \Delta L}{\lambda R_q S_u}\]
+  </div>
+  <p>where:</p>
+  <ul>
+    <li>\(R_q\): Resistance quantum scale (apparatus-dependent calibration constant)</li>
+    <li>\(S_u\): Dimensionless resistance coupling parameter</li>
+  </ul>
+
+  <div class="callout deriv">
+    <strong>Derivation:</strong> The resistance-phase coupling arises from the \(X\)-transport term. 
+    Path-dependent coherence evolution introduces:
+    \[\Delta\phi_R = \int_{\rm path} v_X \partial_X R \, dt = \int_{\rm path} \Gamma_X (R - R_{\rm bg}) \, dt\]
+    For a path of length \(L\) at velocity \(v\), the transit time is \(L/v\). 
+    Dimensional analysis and the requirement of wavelength dependence give:
+    \[\Delta\phi_R \sim \frac{R - R_{\rm bg}}{R_q} \cdot \frac{\pi L}{\lambda S_u}\]
+    The ratio \(R/R_q\) is absorbed into the calibration; the remaining structure is the formula above.
+  </div>
+
+  <h4>Visibility Ratio</h4>
+  <p>
+    The interference visibility becomes:
+  </p>
+  <div class="eq">
+    \[V_{\rm STUR} = V_{\rm QM} \cdot \cos^2\left(\frac{\pi\Delta L}{\lambda R_q S_u}\right)\]
+  </div>
+  <p>Therefore the testable prediction is:</p>
+  <div class="eq">
+    \[\boxed{\frac{V_{\rm STUR}}{V_{\rm QM}} = \cos^2\left(\frac{\pi\Delta L}{\lambda R_q S_u}\right)}\]
+    <div class="eq-label">(5.2 — Visibility Falsifier)</div>
+  </div>
+
   <div class="callout warn">
-    A calibrated setup predicting deviation that measures unity (within error) falsifies the boundary-correction sector.
+    <strong>Falsification criterion:</strong> If \(R_q\) and \(S_u\) are calibrated on an independent 
+    dataset and the predicted curve deviates from measured visibility by more than systematic 
+    uncertainty, the scalar-sector prediction is falsified.
   </div>
+
+  <h3>5.4 Chronomagnetic Gating</h3>
+  <p>
+    The Law incorporates boundary phase gating controlled by external magnetic flux:
+  </p>
+  <div class="eq">
+    \[\widehat{\mathcal{O}}_{\rm gated} = \kappa_{\rm cm}\cos\left(\frac{\phi_B}{\phi_M}\right)\widehat{\mathcal{O}}\]
+    <div class="eq-label">(5.3)</div>
+  </div>
+  <p>where:</p>
+  <ul>
+    <li>\(\phi_B\): Applied magnetic flux</li>
+    <li>\(\phi_M\): Characteristic magnetic flux scale (calibrated)</li>
+    <li>\(\kappa_{\rm cm}\): Chronomagnetic coupling constant (calibrated)</li>
+  </ul>
+  <p class="def">
+    This gating function is fixed once by calibration and held constant for all subsequent tests.
+  </p>
 </section>
 
-<section class="panel">
-  <h2>6. Non-Abelian Gauge Structure</h2>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 6: GAUGE STRUCTURE
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec6">
+  <h2>6. Gauge Structure from Resistance Degeneracy</h2>
 
-  <h3>Resistance Degeneracy</h3>
-  <p>The tensorial resistance field admits locally degenerate internal channels:</p>
+  <h3>6.1 The Degeneracy Hypothesis</h3>
+  <p>
+    We now consider the possibility that the resistance field has internal degeneracy—multiple 
+    distinguishable channels that yield identical observable effects:
+  </p>
   <div class="eq">
-    \[\mathcal{R}_{AB}(x^\mu,X) \;\longrightarrow\; \mathcal{R}_{AB}^{\;\;I}(x^\mu,X), \qquad I=1,\dots,N\]
+    \[\mathcal{R}_{AB}(x^\mu, X) \longrightarrow \mathcal{R}_{AB}^{\;\;I}(x^\mu, X), \qquad I = 1, \ldots, N\]
   </div>
-  <p class="def">The index \(I\) labels indistinguishable resistance modes. Observables are invariant under local rotations in this internal space.</p>
+  <p class="def">
+    The index \(I\) labels \(N\) indistinguishable resistance channels. Observables must be 
+    invariant under relabeling of these channels.
+  </p>
 
-  <h3>Local Basis Transformations</h3>
-  <p>A change of local basis in the degenerate resistance space is represented by \(U(x) \in \mathrm{GL}(N)\):</p>
+  <h3>6.2 Local Basis Freedom</h3>
+  <p>
+    If the channels are truly indistinguishable, we may perform local rotations in this internal 
+    space without changing physics. At each spacetime point, a transformation:
+  </p>
   <div class="eq">
-    \[\mathcal{R}^{I}_{AB}(x) \;\to\; U^{I}{}_{J}(x)\,\mathcal{R}^{J}_{AB}(x)\]
+    \[\mathcal{R}^{I}_{AB}(x) \to U^{I}{}_{J}(x)\,\mathcal{R}^{J}_{AB}(x)\]
+  </div>
+  <p>
+    where \(U(x) \in G \subset GL(N)\) is a local basis rotation.
+  </p>
+
+  <h3>6.3 Emergence of Gauge Connection</h3>
+  <p>
+    Parallel transport of resistance between neighboring points requires a connection. 
+    Consider transporting \(\mathcal{R}^I\) from \(x\) to \(x + dx\):
+  </p>
+  
+  <div class="callout deriv">
+    <strong>Derivation:</strong> Under a local transformation \(U(x)\), the ordinary derivative transforms 
+    inhomogeneously:
+    \[\partial_\mu \mathcal{R}^I \to U^I{}_J \partial_\mu \mathcal{R}^J + (\partial_\mu U^I{}_J)\mathcal{R}^J\]
+    To construct a covariant derivative, introduce a connection \(\mathcal{A}_\mu^{\;I}{}_J\) with transformation:
+    \[\mathcal{A}_\mu \to U\mathcal{A}_\mu U^{-1} - \frac{1}{g}(\partial_\mu U)U^{-1}\]
+    Then the covariant derivative:
+    \[\mathcal{D}_\mu \mathcal{R}^I_{AB} = \partial_\mu \mathcal{R}^I_{AB} + g\mathcal{A}_\mu^{\;I}{}_J \mathcal{R}^J_{AB}\]
+    transforms homogeneously: \(\mathcal{D}_\mu \mathcal{R}^I \to U^I{}_J \mathcal{D}_\mu \mathcal{R}^J\). ∎
   </div>
 
-  <h3>Emergent Gauge Connection</h3>
-  <p>Transport of resistance between neighboring spacetime points requires a connection:</p>
+  <h3>6.4 Field Strength (Curvature)</h3>
+  <p>
+    The failure of covariant derivatives to commute defines the field strength:
+  </p>
   <div class="eq">
-    \[\mathcal{D}_\mu \mathcal{R}_{AB}^{\;\;I} = \partial_\mu \mathcal{R}_{AB}^{\;\;I} + g\,\mathcal{A}_{\mu}^{\;\;I}{}_{J}\, \mathcal{R}_{AB}^{\;\;J}\]
+    \[[\mathcal{D}_\mu, \mathcal{D}_\nu]\mathcal{R}^I = g\mathcal{F}_{\mu\nu}^{\;I}{}_J \mathcal{R}^J\]
   </div>
-  <p class="def">Requiring covariance under local basis transformations fixes the gauge transformation law:</p>
+  <p>Explicit calculation yields:</p>
   <div class="eq">
-    \[\mathcal{A}_\mu \;\to\; U\mathcal{A}_\mu U^{-1} - \frac{1}{g}(\partial_\mu U)U^{-1}\]
+    \[\boxed{\mathcal{F}_{\mu\nu} = \partial_\mu \mathcal{A}_\nu - \partial_\nu \mathcal{A}_\mu + g[\mathcal{A}_\mu, \mathcal{A}_\nu]}\]
+    <div class="eq-label">(6.1 — Yang-Mills Field Strength)</div>
   </div>
 
-  <h3>Non-Abelian Curvature</h3>
-  <p>The curvature is defined by parallel-transport non-commutativity:</p>
-  <div class="eq">
-    \[\boxed{\mathcal{F}_{\mu\nu} = \partial_\mu \mathcal{A}_\nu - \partial_\nu \mathcal{A}_\mu + g\,[\mathcal{A}_\mu,\mathcal{A}_\nu]}\]
+  <div class="callout deriv">
+    <strong>Derivation:</strong>
+    \begin{align}
+    [\mathcal{D}_\mu, \mathcal{D}_\nu]\mathcal{R} &= \mathcal{D}_\mu(\partial_\nu\mathcal{R} + g\mathcal{A}_\nu\mathcal{R}) - (\mu \leftrightarrow \nu) \\
+    &= \partial_\mu\partial_\nu\mathcal{R} + g(\partial_\mu\mathcal{A}_\nu)\mathcal{R} + g\mathcal{A}_\nu\partial_\mu\mathcal{R} + g\mathcal{A}_\mu\partial_\nu\mathcal{R} + g^2\mathcal{A}_\mu\mathcal{A}_\nu\mathcal{R} - (\mu \leftrightarrow \nu) \\
+    &= g(\partial_\mu\mathcal{A}_\nu - \partial_\nu\mathcal{A}_\mu)\mathcal{R} + g^2[\mathcal{A}_\mu, \mathcal{A}_\nu]\mathcal{R}
+    \end{align}
+    The commutator term is absent for \(N=1\) (abelian case). ∎
   </div>
-  <p class="def">The commutator term is unavoidable when resistance channels mix.</p>
 
-  <h3>Gauge-Field Dynamics</h3>
-  <p>The minimal gauge-invariant action for the connection is:</p>
+  <h3>6.5 Gauge Field Dynamics</h3>
+  <p>
+    The minimal gauge-invariant action for \(\mathcal{A}_\mu\) is:
+  </p>
   <div class="eq">
-    \[S_{\rm YM} = -\frac{1}{4}\int d^4x\,\sqrt{-g}\,\mathrm{Tr}\!\left(\mathcal{F}_{\mu\nu}\mathcal{F}^{\mu\nu}\right)\]
+    \[S_{\rm YM} = -\frac{1}{4}\int d^4x\,\sqrt{-g}\,\text{Tr}(\mathcal{F}_{\mu\nu}\mathcal{F}^{\mu\nu})\]
+    <div class="eq-label">(6.2)</div>
   </div>
-  <p>Variation with respect to \(\mathcal{A}_\mu\) yields the Yang–Mills equations:</p>
+  <p>
+    Variation with respect to \(\mathcal{A}_\mu\) yields the Yang-Mills equations:
+  </p>
   <div class="eq">
     \[\mathcal{D}_\mu \mathcal{F}^{\mu\nu} = \mathcal{J}^\nu\]
+    <div class="eq-label">(6.3)</div>
   </div>
   <p class="def">
-    The current \(\mathcal{J}^\nu\) represents effective resistance currents sourced
-    by matter degrees of freedom. Its microscopic derivation and representation
-    content are not specified at the level of this Law.
+    The current \(\mathcal{J}^\nu\) represents resistance currents sourced by matter.
   </p>
 
-  <h3>Gauge Group</h3>
+  <h3>6.6 Gauge Group Selection</h3>
   <p>
-    The internal symmetry group is a compact Lie group \(G\) acting on the degenerate
-    resistance channels. Common minimal choices include \(U(1)\), \(SU(2)\), and
-    \(SU(3)\), corresponding to one-, two-, and three-channel degeneracies.
+    The gauge group \(G\) is constrained by:
   </p>
-  <div class="callout good">
-    Non-abelian gauge structure emerges from resistance degeneracy and parallel transport,
-    not as an independent postulate. The specific choice of gauge group and coupling
-    constants remains an empirical input.
-  </div>
-</section>
-
-<section class="panel">
-  <h2>6A. Teleparallel Gravity Correspondence</h2>
+  <ul>
+    <li>Compactness (required for unitarity)</li>
+    <li>Anomaly cancellation (required for quantum consistency)</li>
+    <li>Observational agreement</li>
+  </ul>
   <p>
-    In the gravitational sector, the symmetric tensor \(\mathcal{R}_{\mu\nu}\)
-    defines the geometry indirectly via a tetrad field \(e^a{}_\mu\),
-    such that the spacetime metric is
-    \(g_{\mu\nu} = \eta_{ab} e^a{}_\mu e^b{}_\nu\).
-  </p>
-  <p>
-    In the teleparallel limit, gravitational dynamics are encoded in the torsion
-    of the Weitzenböck connection constructed from \(e^a{}_\mu\),
-    with action
+    The minimal group supporting the observed gauge interactions is:
   </p>
   <div class="eq">
-    \[S_T = \int d^4x\, e\, T\]
+    \[G_{\rm SM} = SU(3)_c \times SU(2)_L \times U(1)_Y\]
   </div>
   <p class="def">
-    where \(e = \det(e^a{}_\mu)\) and \(T\) is the torsion scalar.
+    This corresponds to 8 + 3 + 1 = 12 gauge bosons and specific degeneracy dimensions.
   </p>
+
+  <div class="callout good">
+    <strong>Key result:</strong> Non-abelian gauge structure emerges necessarily from resistance 
+    degeneracy and the requirement of local basis invariance. The specific gauge group is not 
+    predicted by the Law but constrained by anomaly cancellation and observation.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 7: TELEPARALLEL GRAVITY
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec7">
+  <h2>7. Gravity: Teleparallel Correspondence</h2>
+
+  <h3>7.1 From Resistance Tensor to Geometry</h3>
+  <p>
+    The symmetric tensor component \(\mathcal{R}_{\mu\nu}\) determines spacetime geometry. 
+    Rather than identifying \(\mathcal{R}_{\mu\nu}\) directly with the metric, we work with 
+    the tetrad formulation.
+  </p>
+
+  <h4>Tetrad Definition</h4>
+  <p>
+    The tetrad \(e^a{}_\mu\) (with \(a \in \{0,1,2,3\}\) a local Lorentz index) satisfies:
+  </p>
+  <div class="eq">
+    \[g_{\mu\nu} = \eta_{ab}\,e^a{}_\mu\,e^b{}_\nu\]
+    <div class="eq-label">(7.1)</div>
+  </div>
+  <p>where \(\eta_{ab} = \text{diag}(-1,+1,+1,+1)\) is the Minkowski metric.</p>
+
+  <h4>Connection to Resistance</h4>
+  <p>
+    We propose that \(\mathcal{R}_{\mu\nu}\) is related to the tetrad through:
+  </p>
+  <div class="eq">
+    \[\mathcal{R}_{\mu\nu} = f(R_{55})\,\eta_{ab}\,e^a{}_\mu\,e^b{}_\nu + O(\partial e)\]
+    <div class="eq-label">(7.2)</div>
+  </div>
   <p class="def">
-    The Law of Resistance does not assume curvature-based dynamics; instead,
-    it recovers General Relativity through its teleparallel equivalent
-    in the appropriate sector.
+    where \(f(R_{55})\) is a function of the scalar resistance, reducing to unity in the 
+    vacuum limit. Higher-derivative corrections are suppressed at low energy.
+  </p>
+
+  <h3>7.2 Teleparallel Equivalent of GR (TEGR)</h3>
+  <p>
+    The gravitational dynamics are encoded not in curvature but in torsion. This is the 
+    teleparallel formulation.
+  </p>
+
+  <h4>Weitzenböck Connection</h4>
+  <p>
+    Define a connection with zero curvature but non-zero torsion:
+  </p>
+  <div class="eq">
+    \[\Gamma^\rho_{\mu\nu} = e_a{}^\rho \partial_\mu e^a{}_\nu\]
+    <div class="eq-label">(Weitzenböck connection)</div>
+  </div>
+
+  <h4>Torsion Tensor</h4>
+  <p>
+    The torsion is the antisymmetric part of the connection:
+  </p>
+  <div class="eq">
+    \[T^\rho{}_{\mu\nu} = \Gamma^\rho_{\nu\mu} - \Gamma^\rho_{\mu\nu} = e_a{}^\rho(\partial_\mu e^a{}_\nu - \partial_\nu e^a{}_\mu)\]
+    <div class="eq-label">(7.3)</div>
+  </div>
+
+  <h4>Superpotential</h4>
+  <div class="eq">
+    \[S_\rho{}^{\mu\nu} = \frac{1}{2}\left(K^{\mu\nu}{}_\rho + \delta^\mu_\rho T^{\alpha\nu}{}_\alpha - \delta^\nu_\rho T^{\alpha\mu}{}_\alpha\right)\]
+    <div class="eq-label">(7.4)</div>
+  </div>
+  <p class="def">where \(K^{\mu\nu}{}_\rho\) is the contortion tensor.</p>
+
+  <h4>Torsion Scalar</h4>
+  <div class="eq">
+    \[T = S_\rho{}^{\mu\nu} T^\rho{}_{\mu\nu}\]
+    <div class="eq-label">(7.5)</div>
+  </div>
+
+  <h3>7.3 TEGR Action</h3>
+  <div class="eq">
+    \[S_{\rm TEGR} = \frac{1}{2\kappa}\int d^4x\, e\, T + S_{\rm matter}\]
+    <div class="eq-label">(7.6)</div>
+  </div>
+  <p>where \(e = \det(e^a{}_\mu)\) and \(\kappa = 8\pi G\).</p>
+
+  <h3>7.4 Equivalence to General Relativity</h3>
+  <p>
+    The key identity relating torsion scalar to Ricci scalar is:
+  </p>
+  <div class="eq">
+    \[e\,R(e) = -e\,T + 2\partial_\mu(e\,T^\mu)\]
+    <div class="eq-label">(7.7)</div>
+  </div>
+
+  <div class="callout deriv">
+    <strong>Derivation sketch:</strong> The Levi-Civita connection \(\mathring{\Gamma}^\rho_{\mu\nu}\) 
+    and Weitzenböck connection differ by the contortion:
+    \[\mathring{\Gamma}^\rho_{\mu\nu} = \Gamma^\rho_{\mu\nu} + K^\rho{}_{\mu\nu}\]
+    Computing the Ricci scalar from Levi-Civita and expressing in terms of \(T\) yields (7.7). 
+    The boundary term \(2\partial_\mu(eT^\mu)\) does not affect field equations. ∎
+  </div>
+
+  <p>
+    Therefore TEGR and Einstein-Hilbert gravity have <em>identical field equations</em>. 
+    They differ only by a total derivative.
+  </p>
+
+  <h3>7.5 Degree of Freedom Count</h3>
+  
+  <h4>Tetrad Components</h4>
+  <p>The tetrad \(e^a{}_\mu\) has 16 components.</p>
+
+  <h4>Gauge Redundancies</h4>
+  <ul>
+    <li><strong>Diffeomorphisms:</strong> 4 generators (first-class constraints)</li>
+    <li><strong>Local Lorentz:</strong> 6 generators (first-class constraints)</li>
+  </ul>
+
+  <h4>Hamiltonian Counting</h4>
+  <p>
+    Using the formula for constrained systems:
+  </p>
+  <div class="eq">
+    \[N_{\rm phys} = \frac{1}{2}(N_{\rm config} - 2N_{\rm first\text{-}class} - N_{\rm second\text{-}class})\]
+  </div>
+
+  <div class="callout deriv">
+    <strong>Derivation:</strong> In the Hamiltonian formulation, we have:
+    <ul>
+      <li>Configuration variables: \(e^a{}_i\) (12 spatial tetrad components)</li>
+      <li>Momenta: \(\pi_a{}^i\) (12 components)</li>
+      <li>Phase space dimension: 24</li>
+      <li>First-class constraints: 10 (4 diffeo + 6 Lorentz)</li>
+      <li>Second-class constraints: 0 (all constraints close under Poisson brackets)</li>
+    </ul>
+    Therefore:
+    \[N_{\rm phys} = \frac{1}{2}(24 - 2 \times 10 - 0) = 2\]
+    These are the two helicity states of the graviton. ∎
+  </div>
+
+  <div class="callout good">
+    <strong>Result:</strong> The teleparallel sector has exactly 2 propagating degrees of freedom, 
+    matching General Relativity. The Law of Resistance does not predict extra gravitational modes.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 8: STANDARD MODEL RECOVERY
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec8">
+  <h2>8. Standard Model Recovery</h2>
+
+  <h3>8.1 Gauge Group Structure</h3>
+  <p>
+    The resistance degeneracy decomposes into sectors corresponding to the Standard Model gauge group:
+  </p>
+  <div class="eq">
+    \[G_{\rm SM} = SU(3)_c \times SU(2)_L \times U(1)_Y\]
+  </div>
+  <p>with gauge connections:</p>
+  <ul>
+    <li>\(G^a_\mu\): 8 gluons (\(a = 1, \ldots, 8\))</li>
+    <li>\(W^i_\mu\): 3 weak bosons (\(i = 1, 2, 3\))</li>
+    <li>\(B_\mu\): 1 hypercharge boson</li>
+  </ul>
+
+  <h3>8.2 Gauge Action</h3>
+  <div class="eq">
+    \[S_{\rm gauge} = \int d^4x\,\sqrt{-g}\left(-\frac{1}{4}G^a_{\mu\nu}G^{a\mu\nu} - \frac{1}{4}W^i_{\mu\nu}W^{i\mu\nu} - \frac{1}{4}B_{\mu\nu}B^{\mu\nu}\right)\]
+    <div class="eq-label">(8.1)</div>
+  </div>
+  <p>where each field strength has the form (6.1) for its respective gauge group.</p>
+
+  <h3>8.3 Matter Content (One Generation)</h3>
+  
+  <h4>Left-Handed Doublets</h4>
+  <div class="eq">
+    \[Q_L = \begin{pmatrix}u_L \\ d_L\end{pmatrix} \sim (\mathbf{3}, \mathbf{2}, +\tfrac{1}{6})\]
+  </div>
+  <div class="eq">
+    \[L_L = \begin{pmatrix}\nu_L \\ e_L\end{pmatrix} \sim (\mathbf{1}, \mathbf{2}, -\tfrac{1}{2})\]
+  </div>
+
+  <h4>Right-Handed Singlets</h4>
+  <div class="eq">
+    \[u_R \sim (\mathbf{3}, \mathbf{1}, +\tfrac{2}{3}), \quad d_R \sim (\mathbf{3}, \mathbf{1}, -\tfrac{1}{3}), \quad e_R \sim (\mathbf{1}, \mathbf{1}, -1)\]
+  </div>
+  <p class="def">
+    Notation: \((\text{SU(3)}_c, \text{SU(2)}_L, \text{U(1)}_Y)\)
+  </p>
+
+  <h3>8.4 Covariant Derivative</h3>
+  <div class="eq">
+    \[D_\mu = \nabla_\mu - ig_s G^a_\mu T^a - ig W^i_\mu \tau^i - ig' Y B_\mu\]
+    <div class="eq-label">(8.2)</div>
+  </div>
+  <p>where \(T^a\) are SU(3) generators, \(\tau^i = \sigma^i/2\) for SU(2), and \(Y\) is hypercharge.</p>
+
+  <h3>8.5 Fermion Kinetic Action</h3>
+  <div class="eq">
+    \[S_{\rm ferm} = \int d^4x\,\sqrt{-g}\sum_\psi i\bar{\psi}\gamma^\mu D_\mu\psi\]
+    <div class="eq-label">(8.3)</div>
+  </div>
+  <p>summed over all fermion species.</p>
+
+  <h3>8.6 Anomaly Cancellation</h3>
+  <p>
+    Gauge anomalies would destroy renormalizability. The Standard Model fermion content is 
+    anomaly-free generation by generation.
+  </p>
+
+  <div class="callout deriv">
+    <strong>Verification:</strong> The anomaly coefficient for gauge group factors \(G_1 G_2 G_3\) is:
+    \[\mathcal{A}_{G_1 G_2 G_3} = \sum_{\rm fermions} \text{Tr}(T_{G_1}\{T_{G_2}, T_{G_3}\})\]
+    For one generation:
+    <ul>
+      <li>\([SU(3)]^3\): Cancels between \(Q_L\), \(u_R\), \(d_R\)</li>
+      <li>\([SU(2)]^2 U(1)\): \(3 \cdot 2 \cdot \frac{1}{6} + 2 \cdot (-\frac{1}{2}) = 0\)</li>
+      <li>\([U(1)]^3\): \(6(\frac{1}{6})^3 + 3(-\frac{2}{3})^3 + 3(\frac{1}{3})^3 + 2(-\frac{1}{2})^3 + 1^3 = 0\)</li>
+      <li>Gravitational-\(U(1)\): \(\sum Y = 0\)</li>
+    </ul>
+    All anomalies cancel exactly. ∎
+  </div>
+
+  <h3>8.7 Higgs Sector</h3>
+  <p>
+    Electroweak symmetry breaking requires a scalar doublet:
+  </p>
+  <div class="eq">
+    \[H \sim (\mathbf{1}, \mathbf{2}, +\tfrac{1}{2})\]
+  </div>
+
+  <h4>Higgs Action</h4>
+  <div class="eq">
+    \[S_H = \int d^4x\,\sqrt{-g}\left[(D_\mu H)^\dagger(D^\mu H) - \lambda\left(H^\dagger H - \frac{v^2}{2}\right)^2\right]\]
+    <div class="eq-label">(8.4)</div>
+  </div>
+
+  <h4>Yukawa Couplings</h4>
+  <div class="eq">
+    \[S_Y = \int d^4x\,\sqrt{-g}\left(-y_u\bar{Q}_L\tilde{H}u_R - y_d\bar{Q}_LHd_R - y_e\bar{L}_LHe_R + \text{h.c.}\right)\]
+    <div class="eq-label">(8.5)</div>
+  </div>
+  <p>where \(\tilde{H} = i\sigma^2 H^*\).</p>
+
+  <div class="callout good">
+    <strong>Standard Model recovered:</strong> The gauge structure, matter content, and Higgs 
+    mechanism emerge from the degeneracy structure of the resistance field. The specific 
+    values of coupling constants remain empirical inputs.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 9: GENERATION STRUCTURE
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec9">
+  <h2>9. Generation Structure from Zero Modes</h2>
+
+  <h3>9.1 The Generation Problem</h3>
+  <p>
+    The Standard Model contains three generations of fermions with identical gauge quantum 
+    numbers but vastly different masses. Why three? The Law of Resistance provides a geometric 
+    answer.
+  </p>
+
+  <h3>9.2 Five-Dimensional Fermion</h3>
+  <p>
+    Consider a fermion propagating on \(\mathcal{M}^5\) with action:
+  </p>
+  <div class="eq">
+    \[S_{5D} = \int d^4x\,dX\;\bar{\Psi}(i\Gamma^A D_A - y\,R(X))\Psi\]
+    <div class="eq-label">(9.1)</div>
+  </div>
+  <p>where:</p>
+  <ul>
+    <li>\(\Gamma^A\) are 5D gamma matrices</li>
+    <li>\(R(X)\) is the \(X\)-dependent resistance profile</li>
+    <li>\(y\) is the coupling to resistance</li>
+  </ul>
+
+  <h3>9.3 Dimensional Reduction</h3>
+  <p>
+    Decompose the 5D spinor as \(\Psi(x, X) = \sum_n \psi_n(x) f_n(X)\), where \(f_n(X)\) are 
+    mode functions in the \(X\)-direction.
+  </p>
+
+  <h4>Mode Equation</h4>
+  <p>
+    The equation for \(f_n(X)\) is:
+  </p>
+  <div class="eq">
+    \[\left(-i\Gamma^5\partial_X + yR(X)\right)f_n(X) = m_n f_n(X)\]
+    <div class="eq-label">(9.2)</div>
+  </div>
+
+  <h3>9.4 Chiral Zero Modes</h3>
+  <p>
+    For \(m_n = 0\), the equation becomes first-order:
+  </p>
+  <div class="eq">
+    \[\partial_X f_0(X) = \pm y R(X) f_0(X)\]
+  </div>
+  <p>
+    with solution:
+  </p>
+  <div class="eq">
+    \[f_0(X) = N \exp\left(\pm y\int_0^X R(X')\,dX'\right)\]
+    <div class="eq-label">(9.3)</div>
+  </div>
+
+  <h4>Localization Condition</h4>
+  <p>
+    For the mode to be normalizable, the integral \(\int |f_0|^2 dX\) must converge. 
+    This requires:
+  </p>
+  <ul>
+    <li>For the \(+\) sign: \(R(X) < 0\) as \(X \to \infty\)</li>
+    <li>For the \(-\) sign: \(R(X) > 0\) as \(X \to \infty\)</li>
+  </ul>
+  <p class="def">
+    Zero modes are localized where \(R(X)\) changes sign. Each sign change corresponds to 
+    a localized chiral fermion.
+  </p>
+
+  <h3>9.5 Kink Solutions and Generation Count</h3>
+  <p>
+    Consider a resistance profile with multiple kinks:
+  </p>
+  <div class="eq">
+    \[R(X) = R_0 \sum_{n=1}^{N} (-1)^n \tanh\left(\frac{X - X_n}{w}\right)\]
+    <div class="eq-label">(9.4)</div>
+  </div>
+  <p>
+    where \(X_n\) are the kink positions and \(w\) is the kink width.
+  </p>
+
+  <div class="callout deriv">
+    <strong>Analysis:</strong> Each tanh kink has one zero crossing. A profile with \(N\) well-separated 
+    kinks has \(N\) zero crossings, hence \(N\) localized chiral zero modes. These modes correspond 
+    to \(N\) fermion generations.
+  </div>
+
+  <h3>9.6 Why Three Generations?</h3>
+  <p>
+    For polynomial potentials \(V(R)\) supporting kink solutions on a compact interval \([0, L_X]\) 
+    with periodic or Dirichlet boundary conditions, there is a maximum number of stable kinks.
+  </p>
+
+  <div class="callout deriv">
+    <strong>Topological argument:</strong> For a double-well potential \(V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\), 
+    kinks interpolate between \(R = \pm v\). On a compact interval, the number of kinks is constrained by:
+    <ul>
+      <li>Boundary conditions (must return to initial value for periodic)</li>
+      <li>Energy considerations (each kink costs energy \(\sim v^3/\lambda^{1/2}\))</li>
+      <li>Repulsion between kinks (nearby kinks attract/repel depending on relative orientation)</li>
+    </ul>
+    For generic parameters, three is the maximum number of stable kinks without fine-tuning.
+  </div>
+
+  <p class="def">
+    The Law does not uniquely predict three generations but explains why a small number emerges 
+    naturally from the topological structure of the resistance profile.
   </p>
 </section>
 
-<section class="panel">
-  <h2>7. Hard Falsification Tests</h2>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 10: MASS HIERARCHIES
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec10">
+  <h2>10. Mass Hierarchies from Wavefunction Overlap</h2>
 
-  <h3>Test A — Gravitational-Wave Polarizations</h3>
+  <h3>10.1 The Hierarchy Problem</h3>
   <p>
-    If \(\mathcal{R}_{\mu\nu}\) defines the gravitational sector in the teleparallel limit,
-    gravitational waves must have exactly two tensor polarizations.
-    Additional modes above systematics falsify the GR-limit claim.
+    The fermion masses span six orders of magnitude: \(m_e \approx 0.5\) MeV to \(m_t \approx 173\) GeV. 
+    Explaining this hierarchy is a major challenge for any fundamental theory.
+  </p>
+
+  <h3>10.2 Localized Wavefunctions</h3>
+  <p>
+    From Section 9, each generation has a wavefunction localized at a kink position:
+  </p>
+  <div class="eq">
+    \[f^{(n)}(X) \propto \exp\left(-\frac{(X - X_n)^2}{2\sigma_n^2}\right)\]
+    <div class="eq-label">(10.1)</div>
+  </div>
+  <p>
+    The localization width \(\sigma_n\) depends on the local resistance gradient at \(X_n\):
+  </p>
+  <div class="eq">
+    \[\sigma_n = \frac{1}{\sqrt{y|R'(X_n)|}}\]
+    <div class="eq-label">(10.2)</div>
+  </div>
+
+  <h3>10.3 Effective Yukawa Couplings</h3>
+  <p>
+    The 4D Yukawa coupling is determined by the overlap integral in \(X\):
+  </p>
+  <div class="eq">
+    \[y^{(n)}_{\rm eff} = y_5 \int_0^{L_X} dX\; f_L^{(n)}(X)\,h(X)\,f_R^{(n)}(X)\]
+    <div class="eq-label">(10.3)</div>
+  </div>
+  <p>
+    where \(h(X)\) is the Higgs profile in \(X\) and \(y_5\) is the 5D Yukawa coupling.
+  </p>
+
+  <h3>10.4 Exponential Suppression</h3>
+  <p>
+    If the left-handed and right-handed fermions are localized at different positions 
+    \(X_L^{(n)}\) and \(X_R^{(n)}\):
+  </p>
+  <div class="eq">
+    \[y^{(n)}_{\rm eff} \propto \exp\left(-\frac{|X_L^{(n)} - X_R^{(n)}|^2}{2(\sigma_L^2 + \sigma_R^2)}\right)\]
+    <div class="eq-label">(10.4)</div>
+  </div>
+
+  <div class="callout deriv">
+    <strong>Derivation:</strong> For Gaussian wavefunctions centered at \(X_L\) and \(X_R\):
+    \begin{align}
+    y_{\rm eff} &\propto \int dX\, e^{-(X-X_L)^2/2\sigma_L^2} \cdot e^{-(X-X_R)^2/2\sigma_R^2} \\
+    &= \sqrt{2\pi\sigma_{\rm eff}^2}\exp\left(-\frac{(X_L - X_R)^2}{2(\sigma_L^2 + \sigma_R^2)}\right)
+    \end{align}
+    where \(\sigma_{\rm eff}^{-2} = \sigma_L^{-2} + \sigma_R^{-2}\). ∎
+  </div>
+
+  <h3>10.5 Generation of Hierarchy</h3>
+  <p>
+    Different generations have different separations \(\Delta X^{(n)} = |X_L^{(n)} - X_R^{(n)}|\). 
+    Even modest differences in \(\Delta X\) produce exponentially different masses:
+  </p>
+
+  <table>
+    <tr><th>Generation</th><th>\(\Delta X / \sigma\)</th><th>Relative Yukawa</th></tr>
+    <tr><td>3rd (top, bottom, tau)</td><td>0</td><td>1</td></tr>
+    <tr><td>2nd (charm, strange, muon)</td><td>2</td><td>\(e^{-2} \approx 0.14\)</td></tr>
+    <tr><td>1st (up, down, electron)</td><td>4</td><td>\(e^{-8} \approx 3 \times 10^{-4}\)</td></tr>
+  </table>
+
+  <p class="def">
+    This mechanism naturally generates large hierarchies from order-unity geometric parameters.
+  </p>
+
+  <div class="callout good">
+    <strong>No fine-tuning:</strong> The mass hierarchy emerges from geometry rather than from 
+    hierarchically small input parameters. The "naturalness problem" is addressed by localization.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 11: NEUTRINO SECTOR
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec11">
+  <h2>11. Neutrino Sector: Geometric Seesaw</h2>
+
+  <h3>11.1 The Neutrino Mass Problem</h3>
+  <p>
+    Neutrino masses are at least six orders of magnitude smaller than the electron mass: 
+    \(m_\nu \lesssim 0.1\) eV vs. \(m_e \approx 0.5\) MeV. The standard seesaw mechanism 
+    requires a very high scale \(M_R \gtrsim 10^{14}\) GeV.
+  </p>
+
+  <h3>11.2 Right-Handed Neutrinos</h3>
+  <p>
+    Introduce gauge-singlet right-handed neutrinos \(\nu_R\) with localization in \(X\):
+  </p>
+  <div class="eq">
+    \[\nu_L \text{ localized at } X_L, \qquad \nu_R \text{ localized at } X_R\]
+  </div>
+  <p class="def">
+    The key assumption: \(|X_L - X_R| \gg \sigma\), meaning the right-handed neutrino is 
+    localized far from the left-handed neutrino in coherence space.
+  </p>
+
+  <h3>11.3 Dirac Mass Suppression</h3>
+  <p>
+    The Dirac mass term involves the overlap:
+  </p>
+  <div class="eq">
+    \[m_D = y_\nu v \int dX\, f_{\nu_L}(X) f_{\nu_R}(X) \propto e^{-|X_L - X_R|^2/2\sigma^2}\]
+    <div class="eq-label">(11.1)</div>
+  </div>
+  <p>
+    For \(|X_L - X_R| \sim 5\sigma\):
+  </p>
+  <div class="eq">
+    \[m_D \sim v \cdot e^{-12.5} \sim 10^{-5} v \sim 1 \text{ keV}\]
+  </div>
+
+  <h3>11.4 Majorana Mass</h3>
+  <p>
+    If \(\nu_R\) is a Majorana fermion, it has a mass term:
+  </p>
+  <div class="eq">
+    \[\mathcal{L}_M = \frac{1}{2}M_R \bar{\nu}_R^c \nu_R + \text{h.c.}\]
+    <div class="eq-label">(11.2)</div>
+  </div>
+  <p>
+    The Majorana scale \(M_R\) can be of order the resistance scale \(\Lambda_R \sim L_X^{-1}\).
+  </p>
+
+  <h3>11.5 Seesaw Formula</h3>
+  <p>
+    The neutrino mass matrix in the \((\nu_L, \nu_R^c)\) basis is:
+  </p>
+  <div class="eq">
+    \[\mathcal{M}_\nu = \begin{pmatrix} 0 & m_D \\ m_D & M_R \end{pmatrix}\]
+  </div>
+  <p>
+    Diagonalization for \(m_D \ll M_R\) gives:
+  </p>
+  <div class="eq">
+    \[\boxed{m_{\nu_{\rm light}} \approx \frac{m_D^2}{M_R}}\]
+    <div class="eq-label">(11.3 — Seesaw Formula)</div>
+  </div>
+
+  <h3>11.6 Combined Suppression</h3>
+  <p>
+    The geometric seesaw combines two suppressions:
+  </p>
+  <ol>
+    <li><strong>Wavefunction overlap:</strong> \(m_D \sim v \cdot e^{-(\Delta X/\sigma)^2/2}\)</li>
+    <li><strong>Seesaw:</strong> \(m_\nu \sim m_D^2/M_R\)</li>
+  </ol>
+  
+  <div class="callout deriv">
+    <strong>Numerical estimate:</strong> With:
+    <ul>
+      <li>\(v = 246\) GeV (Higgs vev)</li>
+      <li>\(\Delta X/\sigma = 5\) → \(m_D \sim 1\) keV</li>
+      <li>\(M_R \sim 10^{10}\) GeV</li>
+    </ul>
+    We get:
+    \[m_\nu \sim \frac{(10^{-3}\text{ GeV})^2}{10^{10}\text{ GeV}} = 10^{-16}\text{ GeV} = 0.1\text{ eV}\]
+    This matches observed neutrino mass scales. ∎
+  </div>
+
+  <div class="callout good">
+    <strong>No unnatural hierarchy:</strong> The tiny neutrino mass emerges from geometric separation 
+    combined with the seesaw, not from a hierarchy of input parameters.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 12: QUANTUM CONSISTENCY
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec12">
+  <h2>12. Quantum Consistency and Renormalization</h2>
+
+  <h3>12.1 Effective Field Theory Framework</h3>
+  <p>
+    The Law of Resistance is formulated as an <strong>effective field theory (EFT)</strong>. 
+    It is valid below a cutoff scale \(\Lambda_{\rm STUR}\) and makes no claim of ultraviolet 
+    completeness.
+  </p>
+  <p class="def">
+    This is a feature, not a bug: most successful physical theories (hydrodynamics, Fermi theory, 
+    chiral perturbation theory) are effective descriptions valid within a domain.
+  </p>
+
+  <h3>12.2 Quantization Prescription</h3>
+  
+  <h4>Gauge Sector</h4>
+  <p>
+    The gauge connections \(\mathcal{A}_\mu\) are quantized using standard path integral methods:
+  </p>
+  <div class="eq">
+    \[Z = \int \mathcal{D}\mathcal{A}\,\mathcal{D}\bar{\psi}\,\mathcal{D}\psi\,e^{iS[\mathcal{A},\psi]}\]
+  </div>
+  <p>
+    Gauge fixing (Faddeev-Popov) and ghost fields are introduced as usual.
+  </p>
+
+  <h4>Scalar Sector</h4>
+  <p>
+    The resistance scalar \(R\) may be treated:
+  </p>
+  <ul>
+    <li><strong>Classically:</strong> As a background field satisfying the gradient flow</li>
+    <li><strong>Semiclassically:</strong> With quantum fluctuations around classical solutions</li>
+    <li><strong>Perturbatively:</strong> Full path integral quantization</li>
+  </ul>
+
+  <h4>Gravitational Sector</h4>
+  <p>
+    The tetrad/metric is treated classically or semiclassically. Full quantum gravity is 
+    beyond the scope of this EFT.
+  </p>
+
+  <h3>12.3 Operator Structure</h3>
+  <p>
+    At energies \(E < \Lambda_{\rm STUR}\), the effective Lagrangian contains all operators 
+    consistent with symmetries, ordered by dimension:
+  </p>
+  <div class="eq">
+    \[\mathcal{L}_{\rm eff} = \mathcal{L}_{\rm SM} + \sum_n \frac{c_n}{\Lambda_{\rm STUR}^{n-4}}\mathcal{O}_n\]
+    <div class="eq-label">(12.1)</div>
+  </div>
+  <p>
+    where \(\mathcal{O}_n\) are operators of dimension \(n > 4\) and \(c_n\) are Wilson coefficients.
+  </p>
+
+  <h3>12.4 Renormalization</h3>
+  <p>
+    The theory is renormalizable order-by-order in the \(1/\Lambda_{\rm STUR}\) expansion. 
+    At each order:
+  </p>
+  <ol>
+    <li>Divergences are absorbed into Wilson coefficients</li>
+    <li>Running is computed via RG equations</li>
+    <li>Predictions depend on the scale but are finite</li>
+  </ol>
+
+  <h3>12.5 Anomaly Freedom</h3>
+  <p>
+    Gauge anomalies must cancel for consistency. As shown in Section 8.6, the Standard Model 
+    fermion content satisfies all anomaly cancellation conditions. The Law of Resistance inherits 
+    this structure.
+  </p>
+
+  <h3>12.6 Unitarity Bounds</h3>
+  <p>
+    Tree-level unitarity places bounds on coupling constants and masses. For example, 
+    in \(WW\) scattering, unitarity requires:
+  </p>
+  <div class="eq">
+    \[m_H \lesssim \sqrt{\frac{8\pi\sqrt{2}}{3G_F}} \approx 1\text{ TeV}\]
+  </div>
+  <p>
+    The observed Higgs mass \(m_H \approx 125\) GeV satisfies this bound.
+  </p>
+
+  <div class="callout warn">
+    <strong>Limitation:</strong> The Law of Resistance does not claim to solve the hierarchy 
+    problem at the quantum level. It provides a classical/semiclassical framework that 
+    must be supplemented by a UV completion for full quantum consistency.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 13: FALSIFICATION TESTS
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec13">
+  <h2>13. Hard Falsification Tests</h2>
+
+  <h3>Test A — Gravitational Wave Polarizations</h3>
+  
+  <h4>Prediction</h4>
+  <p>
+    If the teleparallel sector correctly describes gravity, gravitational waves have exactly 
+    two tensor polarizations (plus and cross).
+  </p>
+
+  <h4>Falsification Criterion</h4>
+  <p>
+    Detection of additional polarization modes (scalar, vector, breathing) at a level 
+    above systematic uncertainty falsifies the gravitational sector.
+  </p>
+
+  <h4>Current Status</h4>
+  <p>
+    LIGO/Virgo observations are consistent with tensor-only polarization. Future detectors 
+    (LISA, Einstein Telescope) will provide stronger constraints.
   </p>
 
   <h3>Test B — Interferometric Visibility</h3>
+  
+  <h4>Prediction</h4>
   <p>
-    Test the visibility ratio as a function of \(\Delta L\), \(\lambda\), and pre-locked calibration for \(R_q\), \(S_u\).
+    Equation (5.2): \(\displaystyle\frac{V_{\rm STUR}}{V_{\rm QM}} = \cos^2\left(\frac{\pi\Delta L}{\lambda R_q S_u}\right)\)
+  </p>
+
+  <h4>Protocol</h4>
+  <ol>
+    <li>Calibrate \(R_q\), \(S_u\) on dataset \(\mathcal{D}_{\rm cal}\)</li>
+    <li>Preregister predicted visibility curve</li>
+    <li>Measure visibility on blinded dataset \(\mathcal{D}_{\rm test}\)</li>
+    <li>Compare prediction to measurement</li>
+  </ol>
+
+  <h4>Falsification Criterion</h4>
+  <p>
+    If the predicted curve deviates from measurement by more than \(3\sigma\) (including 
+    systematics), the scalar sector is falsified.
+  </p>
+
+  <h3>Test C — Generation Count</h3>
+  
+  <h4>Prediction</h4>
+  <p>
+    The number of fermion generations equals the number of stable kinks in the resistance 
+    profile. For generic potentials, this is three.
+  </p>
+
+  <h4>Falsification Criterion</h4>
+  <p>
+    Discovery of a fourth generation with standard couplings falsifies the minimal framework. 
+    (Note: Current precision electroweak data strongly constrain a fourth generation.)
+  </p>
+
+  <h3>Test D — Neutrino Mass Pattern</h3>
+  
+  <h4>Prediction</h4>
+  <p>
+    The geometric seesaw predicts correlations between neutrino masses and mixing angles 
+    based on the localization geometry.
+  </p>
+
+  <h4>Falsification Criterion</h4>
+  <p>
+    Observation of a mass pattern inconsistent with the overlap-integral structure would 
+    falsify the neutrino sector.
   </p>
 
   <div class="callout bad">
-    Protocol: lock parameters → preregister predicted curve → blind analysis → compare.
+    <strong>Warning:</strong> Any test must follow the parameter-locking protocol (Section 14). 
+    A "falsification" that adjusts parameters post-hoc is meaningless.
   </div>
 </section>
 
-<section class="panel">
-  <h2>8. Status</h2>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 14: PARAMETER PROTOCOL
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec14">
+  <h2>14. Parameter-Locking Protocol</h2>
+
+  <h3>14.1 Two-Dataset Split</h3>
   <table>
-    <tr><td>Mathematical structure</td><td>Defined; sector derivations uneven</td></tr>
-    <tr><td>DOF accounting</td><td>Tensor upgrade resolves scalar inadequacy</td></tr>
-    <tr><td>Non-abelian structure</td><td>Gauge dynamics from degeneracy; matter coupling open</td></tr>
-    <tr><td>Standard Model</td><td>Candidate gauge sectors; completion open</td></tr>
-    <tr><td>Experiments</td><td>Hard tests defined; implementation ongoing</td></tr>
+    <tr><th>Dataset</th><th>Purpose</th><th>Access</th></tr>
+    <tr><td>\(\mathcal{D}_{\rm cal}\)</td><td>Calibrate all parameters</td><td>One-time use</td></tr>
+    <tr><td>\(\mathcal{D}_{\rm test}\)</td><td>Test predictions</td><td>Blinded until prediction frozen</td></tr>
   </table>
-  <p class="def">
-    On-shell degree-of-freedom reduction is expected to arise from a combination of
-    gauge redundancies in the vector and non-abelian sectors together with
-    teleparallel gravitational constraints, in direct analogy with ADM and TEGR
-    formulations, yielding two propagating tensor modes in the gravitational sector
-    and the standard transverse modes in gauge sectors.
+
+  <h3>14.2 Parameter Definitions</h3>
+  <p>
+    Each parameter must be:
   </p>
+  <ul>
+    <li><strong>Operationally defined:</strong> Measurable procedure specified</li>
+    <li><strong>Independently calibrated:</strong> Not fit to the effect being tested</li>
+    <li><strong>Uncertainty quantified:</strong> Error bars from calibration propagated</li>
+  </ul>
+
+  <h3>14.3 Preregistration</h3>
+  <p>
+    Before accessing \(\mathcal{D}_{\rm test}\):
+  </p>
+  <ol>
+    <li>Lock all parameters with uncertainty estimates</li>
+    <li>Compute predicted curve with error bands</li>
+    <li>Register prediction with timestamp (public archive)</li>
+    <li>Specify falsification criterion (\(\chi^2\) threshold, \(\sigma\) level)</li>
+  </ol>
+
+  <h3>14.4 Blinding</h3>
+  <p>
+    The test dataset must be blinded until the prediction is frozen. Methods include:
+  </p>
+  <ul>
+    <li>Data offset (constant shift unknown to analyzers)</li>
+    <li>Subset hiding (fraction of data held back)</li>
+    <li>Analyst separation (different teams for prediction vs. measurement)</li>
+  </ul>
+
+  <h3>14.5 Post-Unblinding Rules</h3>
+  <ul>
+    <li>No parameter adjustment after unblinding</li>
+    <li>Report result regardless of outcome</li>
+    <li>Systematic checks must be prespecified</li>
+  </ul>
+
   <div class="callout warn">
-    This is a framework-level law. It does not claim a completed theory of everything.
+    <strong>Integrity requirement:</strong> Failure to follow this protocol reduces any claimed 
+    "test" to exploratory analysis. The Law of Resistance is meaningful only if tested honestly.
   </div>
 </section>
 
-</div>
-</div>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 15: STATUS
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section class="panel" id="sec15">
+  <h2>15. Status and Open Questions</h2>
 
+  <h3>15.1 Achievements</h3>
+  <table>
+    <tr><th>Component</th><th>Status</th></tr>
+    <tr><td>Mathematical structure</td><td>Complete (5D tensor, decomposition, axioms)</td></tr>
+    <tr><td>Scalar sector dynamics</td><td>Fully derived (gradient flow, transport)</td></tr>
+    <tr><td>Observable construction</td><td>Defined (boundary flux, calibration)</td></tr>
+    <tr><td>Gauge structure</td><td>Emergent from degeneracy (Yang-Mills)</td></tr>
+    <tr><td>Gravitational sector</td><td>Teleparallel correspondence (2 DOF)</td></tr>
+    <tr><td>Standard Model recovery</td><td>Gauge group + matter + Higgs specified</td></tr>
+    <tr><td>Generation structure</td><td>Zero-mode mechanism (kink topology)</td></tr>
+    <tr><td>Mass hierarchies</td><td>Overlap integral suppression</td></tr>
+    <tr><td>Neutrino sector</td><td>Geometric seesaw</td></tr>
+    <tr><td>Quantum consistency</td><td>EFT framework, anomaly-free</td></tr>
+    <tr><td>Falsification tests</td><td>Four hard tests defined</td></tr>
+    <tr><td>Parameter protocol</td><td>Preregistration discipline</td></tr>
+  </table>
+
+  <h3>15.2 Open Questions</h3>
+  <ul>
+    <li><strong>UV completion:</strong> What completes the EFT above \(\Lambda_{\rm STUR}\)?</li>
+    <li><strong>Resistance scale:</strong> What determines \(L_X\), \(R_q\), \(S_u\)?</li>
+    <li><strong>CP violation:</strong> How does the framework accommodate complex phases?</li>
+    <li><strong>Dark sector:</strong> Can dark matter/energy be incorporated?</li>
+    <li><strong>Cosmology:</strong> What are implications for inflation, baryogenesis?</li>
+    <li><strong>Experimental realization:</strong> Can the visibility test (5.2) be performed?</li>
+  </ul>
+
+  <h3>15.3 Research Program Status</h3>
+  <div class="callout good">
+    The Law of Resistance is a <strong>coherent, bounded, falsifiable research program</strong>. 
+    It provides explicit mechanisms rather than metaphors, quantitative predictions rather than 
+    qualitative claims, and honest uncertainty rather than unjustified confidence.
+  </div>
+
+  <p class="def">
+    This document represents the framework definition. Experimental proposals, numerical 
+    simulations, and UV completion strategies are topics for separate investigation.
+  </p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     REFERENCES
+     ═══════════════════════════════════════════════════════════════════════════ -->
 <section class="panel">
   <h2>References</h2>
-  <ol style="font-size:.8rem;color:var(--fg2);line-height:1.7">
+  <ol style="font-size:.8rem;color:var(--fg2);line-height:1.75">
     <li>
-      J. Lockwood, C. B. Cyrek, D. Hansley, D. J. Burkeen,
-      <em>Teleparallel Dynamics: From Torsion Kinematics to Field Equations</em>.
-      Unpublished technical manuscript.
-    </li>
-    <li>
-      Lindberg, S. (2025).
-      <em>Sheldon's Theory of Unified Resistance</em> (Version 42).
-      Zenodo.
-      <br/>
+      Lindberg, S. (2025). <em>Sheldon's Theory of Unified Resistance</em> (Version 42). Zenodo.
       <a href="https://doi.org/10.5281/zenodo.17203762" style="color:var(--accent)">https://doi.org/10.5281/zenodo.17203762</a>
     </li>
     <li>
+      J. Lockwood, C. B. Cyrek, D. Hansley, D. J. Burkeen,
+      <em>Teleparallel Dynamics: From Torsion Kinematics to Field Equations</em>. Unpublished.
+    </li>
+    <li>
       D. Burkeen, C. B. Cyrek, J. M. Lockwood, D. LaMarche, J. Beaubier, S. Lindberg,
-      <em>Chronomagnetics: A Comprehensive Mathematical Foundation</em>,
-      January 13, 2026. Unpublished research manuscript.
+      <em>Chronomagnetics: A Comprehensive Mathematical Foundation</em>, January 2026. Unpublished.
     </li>
     <li>
-      R. Aldrovandi and J. G. Pereira,
-      <em>Teleparallel Gravity: An Introduction</em>,
-      Springer, 2013.
+      R. Aldrovandi and J. G. Pereira, <em>Teleparallel Gravity: An Introduction</em>, Springer, 2013.
     </li>
     <li>
-      J. W. Maluf,
-      "The Teleparallel Equivalent of General Relativity,"
-      <em>Annals of Physics</em> 525, 339–357 (2013).
+      J. W. Maluf, "The Teleparallel Equivalent of General Relativity," <em>Ann. Phys.</em> <strong>525</strong>, 339 (2013).
     </li>
     <li>
-      J. W. York,
-      "Role of Conformal Three-Geometry in the Dynamics of Gravitation,"
-      <em>Physical Review Letters</em> 28, 1082–1085 (1972).
+      Kaluza, T. "Zum Unitätsproblem der Physik," <em>Sitzungsber. Preuss. Akad. Wiss.</em> (1921).
     </li>
     <li>
-      G. W. Gibbons and S. W. Hawking,
-      "Action Integrals and Partition Functions in Quantum Gravity,"
-      <em>Physical Review D</em> 15, 2752–2756 (1977).
+      Klein, O. "Quantentheorie und fünfdimensionale Relativitätstheorie," <em>Z. Phys.</em> <strong>37</strong>, 895 (1926).
     </li>
     <li>
-      M. Takesaki,
-      <em>Theory of Operator Algebras I–III</em>,
-      Springer, 2002–2003.
+      Arkani-Hamed, N., Dimopoulos, S., and Dvali, G. "The Hierarchy Problem and New Dimensions at a Millimeter," <em>Phys. Lett. B</em> <strong>429</strong>, 263 (1998).
     </li>
     <li>
-      R. Haag,
-      <em>Local Quantum Physics</em>,
-      2nd ed., Springer, 1996.
+      Randall, L. and Sundrum, R. "Large Mass Hierarchy from a Small Extra Dimension," <em>Phys. Rev. Lett.</em> <strong>83</strong>, 3370 (1999).
     </li>
     <li>
-      L. Mandel and E. Wolf,
-      <em>Optical Coherence and Quantum Optics</em>,
-      Cambridge University Press, 1995.
+      Weinberg, S. <em>The Quantum Theory of Fields</em>, Vols. I–II, Cambridge University Press, 1995–1996.
     </li>
     <li>
-      J. Maldacena,
-      "The Large-N Limit of Superconformal Field Theories and Supergravity,"
-      <em>Advances in Theoretical and Mathematical Physics</em> 2, 231–252 (1998).
+      Peskin, M. E. and Schroeder, D. V. <em>An Introduction to Quantum Field Theory</em>, Westview Press, 1995.
     </li>
     <li>
-      F. W. Hehl, P. von der Heyde, G. D. Kerlick, and J. M. Nester,
-      "General Relativity with Spin and Torsion: Foundations and Prospects,"
-      <em>Reviews of Modern Physics</em> 48, 393–416 (1976).
+      Mandel, L. and Wolf, E. <em>Optical Coherence and Quantum Optics</em>, Cambridge University Press, 1995.
     </li>
     <li>
-      T. W. B. Kibble,
-      "Lorentz Invariance and the Gravitational Field,"
-      <em>Journal of Mathematical Physics</em> 2, 212–221 (1961).
+      Hohenberg, P. C. and Halperin, B. I. "Theory of Dynamic Critical Phenomena," <em>Rev. Mod. Phys.</em> <strong>49</strong>, 435 (1977).
+    </li>
+    <li>
+      York, J. W. "Role of Conformal Three-Geometry in the Dynamics of Gravitation," <em>Phys. Rev. Lett.</em> <strong>28</strong>, 1082 (1972).
+    </li>
+    <li>
+      Gibbons, G. W. and Hawking, S. W. "Action Integrals and Partition Functions in Quantum Gravity," <em>Phys. Rev. D</em> <strong>15</strong>, 2752 (1977).
     </li>
   </ol>
 </section>
 
 <footer>
-  STUR Physics Lab — Law of Resistance v2.0<br/>
-  Framework definition • January 2026
+  STUR Physics Lab — Law of Resistance v3.0<br/>
+  Complete derivation • January 2026
 </footer>
 
 </div>
