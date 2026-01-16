@@ -542,11 +542,64 @@ The coherence scale \(\ell_X\) sets the dimensional magnitude of the X-coordinat
 <!-- NEW: EXPLICIT ACTION AND DERIVATION -->
 
 <section class="panel">
-<h2>2A. Action Functional (Explicit Form)</h2>
+<h2>2A. Action Functional and Normalization Ledger</h2>
 
 <p>
-The STUR dynamics derive from the following 5D action:
+The STUR dynamics derive from a 5D free-energy functional. Before stating the action,
+we establish the <strong>explicit normalization convention</strong> that renders all equations dimensionally consistent.
 </p>
+
+<h3>2A.1 Normalization Ledger (Mandatory)</h3>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Unit consistency requirement:</strong> All quantities below are expressed in terms of reference scales
+\((L_0, T_0, L_X)\). The resistance field \(R\) is strictly dimensionless. All other quantities must be
+expressed consistently with this choice.
+</p>
+
+<p>Define reference scales:</p>
+<ul>
+<li>\(L_0\): reference length scale (domain-dependent: \(\lambda\) for optics, \(\xi_0\) for superconductors)</li>
+<li>\(T_0\): reference time scale (domain-dependent: \(\lambda/c\) for optics, \(\hbar/\Delta\) for superconductors)</li>
+<li>\(L_X\): memory relaxation scale along \(X\)</li>
+</ul>
+
+<p>Introduce dimensionless (barred) coordinates:</p>
+<div class="eq">
+\[
+\bar{x}^\mu = x^\mu / L_0, \quad \bar{t} = t / T_0, \quad \bar{X} = X / L_X
+\]
+</div>
+
+<p>The dimensionless parameters are:</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:1rem 0">
+<thead>
+<tr style="background:rgba(255,100,100,0.2)">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #ff6b6b">Quantity</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #ff6b6b">Dimensional Form</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #ff6b6b">Dimensionless Form</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #ff6b6b">Constraint</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">—</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\bar{R} = R\) (already dimensionless)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Primary field</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(D\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([L^2/T]\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\bar{D} = D T_0 / L_0^2\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Dimensionless diffusion</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(D_X\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([L^2/T]\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\bar{D}_X = D_X T_0 / L_X^2\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">X-diffusion</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\kappa_{\text{cm}}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([L/T]\) (flux scale)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\bar{\kappa}_{\text{cm}} = \kappa_{\text{cm}} T_0 / L_0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Boundary flux</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(V(R)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([T^{-1}]\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\bar{V} = V T_0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Potential (rate scale)</td></tr>
+<tr><td style="padding:0.4rem">\(\chi\)</td><td style="padding:0.4rem">\([T^{-1}]\)</td><td style="padding:0.4rem">\(\bar{\chi} = \chi T_0\)</td><td style="padding:0.4rem">Memory coupling rate</td></tr>
+</tbody>
+</table>
+
+<p class="note" style="background:rgba(74,158,255,0.1);border-left:3px solid #4a9eff;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Critical dimensional check (boundary condition):</strong> The Robin condition
+\(D\, n^A \nabla_A R|_\Sigma = \kappa_{\text{cm}} \cos(\theta/M)\) has LHS units
+\([D][\nabla R] = (L^2/T)(1/L) = L/T\). Therefore \(\kappa_{\text{cm}}\) <em>must</em> have units \([L/T]\)
+(a flux velocity scale), not \([L^{-1}]\). This is enforced by the ledger above.
+</p>
+
+<h3>2A.2 Free-Energy Functional</h3>
 
 <div class="eq">
 \[
@@ -557,55 +610,112 @@ The STUR dynamics derive from the following 5D action:
 </div>
 
 <p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
-<strong>Key distinction:</strong> This is a <em>free-energy functional</em>, not a Lorentzian action. 
-The dynamics are <em>gradient flow</em> (dissipative relaxation toward equilibrium), which naturally 
-produces diffusion-type PDEs. This resolves the apparent conflict between "action principle" and 
+<strong>Key distinction:</strong> This is a <em>free-energy functional</em>, not a Lorentzian action.
+The dynamics are <em>gradient flow</em> (dissipative relaxation toward equilibrium), which naturally
+produces diffusion-type PDEs. This resolves the apparent conflict between "action principle" and
 "dissipative evolution."
 </p>
 
-<h3>Bulk Free Energy</h3>
+<h3>Bulk Free Energy (Dimensionless Form)</h3>
+
+<p>In dimensionless variables (dropping bars for clarity after this point):</p>
 
 <div class="eq">
 \[
 \boxed{
-\mathcal{F}_{\text{bulk}}[R] = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{|g_5|} \left[
-\frac{1}{2} D^{AB} \nabla_A R \nabla_B R
-+ V(R)
-+ \frac{(R - R_{\text{bg}})^2}{2L_X^2}
-- J R
+\mathcal{F}_{\text{bulk}}[R] = \int_{\mathcal{M}^5} d^4\bar{x}\, d\bar{X}\, \sqrt{|\bar{g}_5|} \left[
+\frac{1}{2} \bar{D}^{AB} \bar{\nabla}_A R \bar{\nabla}_B R
++ \bar{V}(R)
++ \frac{(R - R_{\text{bg}})^2}{2}
+- \bar{J} R
 \right]
 }
 \]
 </div>
 
-<p>where (all quantities are dimensionless after normalization by domain reference scales):</p>
+<p>where:</p>
 <ul>
-<li>\(g_5 = g_4 \cdot \ell_X^2\) is the 5D metric determinant</li>
-<li>\(D^{AB} = \text{diag}(D g^{\mu\nu}, D_X \ell_X^{-2})\) is the anisotropic diffusion tensor</li>
-<li>\(V(R)\) is a self-interaction potential (e.g., \(V = \frac{\mu^2}{2}R^2 + \frac{g}{4}R^4\))</li>
-<li>\(L_X\) is the memory relaxation scale</li>
-<li>\(J(x^\mu, X)\) is an external source</li>
+<li>\(\bar{g}_5\) is the dimensionless 5D metric</li>
+<li>\(\bar{D}^{AB} = \text{diag}(\bar{D} \bar{g}^{\mu\nu}, \bar{D}_X)\) is the dimensionless anisotropic diffusion tensor</li>
+<li>\(\bar{V}(R)\) is the dimensionless self-interaction potential (e.g., \(\bar{V} = \frac{\bar{\mu}^2}{2}R^2 + \frac{\bar{g}}{4}R^4\))</li>
+<li>The memory-restoring term \((R - R_{\text{bg}})^2/2\) is already dimensionless</li>
+<li>\(\bar{J}(\bar{x}^\mu, \bar{X})\) is the dimensionless external source</li>
 </ul>
 
 <h3>Holoscreen Boundary Free Energy</h3>
 
 <div class="eq">
 \[
-\mathcal{F}_{\Sigma}[R] = -\int_{\Sigma} d^3\Sigma\, \sqrt{|h|} \left[
-\kappa_{\text{cm}}(\tau) \cos\left(\frac{\theta(\tau)}{M}\right) R
+\mathcal{F}_{\Sigma}[R] = -\int_{\Sigma} d^3\bar{\Sigma}\, \sqrt{|\bar{h}|} \left[
+\bar{\kappa}_{\text{cm}}(\tau) \cos\left(\frac{\theta(\tau)}{M}\right) R
 \right]
 \]
 </div>
 
 <p>
-where \(h\) is the induced metric on \(\Sigma = \partial\mathcal{M}^5\), and \(\theta(\tau)\) 
-is an externally controlled phase parameter (not varied). The same holoscreen coupling that 
+where \(\bar{h}\) is the induced metric on \(\Sigma = \partial\mathcal{M}^5\), and \(\theta(\tau)\)
+is an externally controlled phase parameter (not varied). The same holoscreen coupling that
 sets the boundary condition is what modulates the measured projection.
+</p>
+
+<p class="note">
+<strong>Notational convention:</strong> From Section 2B onward, we work exclusively in dimensionless
+variables and drop the bar notation. All equations are to be understood as dimensionless unless
+explicitly stated otherwise.
 </p>
 </section>
 
 <section class="panel">
-<h2>2B. Gradient Flow Dynamics</h2>
+<h2>2B. Gradient Flow Dynamics and Time Interpretation</h2>
+
+<h3>2B.1 The Two Times: \(t\) vs \(\tau\)</h3>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Critical clarification:</strong> STUR uses two distinct time-like parameters that must not be conflated:
+</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:1rem 0">
+<thead>
+<tr style="background:rgba(167,139,250,0.2)">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Parameter</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Role</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Physical Interpretation</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Covariance Status</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(t\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Relaxation parameter</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Internal evolution toward \(\mathcal{F}\)-minimizing configurations</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Preferred foliation (breaks diff-invariance)</td></tr>
+<tr><td style="padding:0.4rem">\(\tau\)</td><td style="padding:0.4rem">Boundary configuration label</td><td style="padding:0.4rem">Externally controlled experimental protocol parameter</td><td style="padding:0.4rem">Not a spacetime coordinate</td></tr>
+</tbody>
+</table>
+
+<p>
+<strong>Interpretation of \(t\):</strong> The evolution parameter \(t\) in the gradient flow equation is an
+<em>internal relaxation time</em>, analogous to "Monte Carlo time" in statistical mechanics or the flow
+parameter in renormalization group equations. It parameterizes the system's approach to equilibrium
+(or steady state) under the free-energy landscape \(\mathcal{F}_{\text{STUR}}\).
+</p>
+
+<p>
+<strong>Connection to physical time:</strong> In regimes where the system is near a steady state or slowly
+evolving, the relaxation parameter \(t\) can be identified with physical time in a preferred foliation.
+Specifically:
+</p>
+
+<ul>
+<li><strong>Lab experiments:</strong> \(t\) corresponds to laboratory time when the apparatus is in quasi-equilibrium</li>
+<li><strong>Cosmology:</strong> \(t\) corresponds to comoving time \(t_{\text{cosmic}}\) in the FRW foliation</li>
+<li><strong>General:</strong> Observables are computed at fixed points (\(\partial_t R = 0\)) or via \(\tau\)-indexed boundary protocols</li>
+</ul>
+
+<p class="note" style="background:rgba(74,158,255,0.1);border-left:3px solid #4a9eff;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Covariance note:</strong> The gradient flow structure with a preferred \(t\) explicitly breaks
+4D diffeomorphism invariance. This is acceptable because STUR is formulated as a <em>dissipative effective
+theory</em> (Model A/B type), not a fundamental Lorentzian field theory. The preferred foliation is
+the one in which the free-energy functional is defined.
+</p>
+
+<h3>2B.2 Gradient Flow Evolution Law</h3>
 
 <p>
 The STUR evolution law is <strong>gradient flow</strong> on \(\mathcal{F}_{\text{STUR}}\):
@@ -620,19 +730,20 @@ The STUR evolution law is <strong>gradient flow</strong> on \(\mathcal{F}_{\text
 </div>
 
 <p>
-where \(\Gamma > 0\) is the relaxation rate and \(\Omega^\mu\) is a geometric drift vector.
-This is analogous to Model A/B dynamics in statistical field theory (Hohenberg-Halperin classification).
+where \(\Gamma > 0\) is the (dimensionless) relaxation rate and \(\Omega^\mu\) is a geometric drift vector
+(see Section 5 for its constitutive specification). This is analogous to Model A/B dynamics in statistical
+field theory (Hohenberg-Halperin classification).
 </p>
 
 <h3>Functional Derivative</h3>
 
 <p>
-Computing \(\delta \mathcal{F}/\delta R\):
+Computing \(\delta \mathcal{F}/\delta R\) (in dimensionless variables):
 </p>
 
 <div class="eq">
 \[
-\frac{\delta \mathcal{F}_{\text{bulk}}}{\delta R} = -\nabla_A(D^{AB} \nabla_B R) + V'(R) + \frac{R - R_{\text{bg}}}{L_X^2} - J
+\frac{\delta \mathcal{F}_{\text{bulk}}}{\delta R} = -\nabla_A(D^{AB} \nabla_B R) + V'(R) + (R - R_{\text{bg}}) - J
 \]
 </div>
 
@@ -643,7 +754,7 @@ Computing \(\delta \mathcal{F}/\delta R\):
 <div class="eq">
 \[
 \boxed{
-\frac{\partial R}{\partial t} = \Gamma \left[ \nabla_A(D^{AB} \nabla_B R) - V'(R) - \frac{R - R_{\text{bg}}}{L_X^2} + J \right] - \Omega^\mu \nabla_\mu R + S
+\frac{\partial R}{\partial t} = \Gamma \left[ \nabla_A(D^{AB} \nabla_B R) - V'(R) - (R - R_{\text{bg}}) + J \right] - \Omega^\mu \nabla_\mu R + S
 }
 \]
 </div>
@@ -652,16 +763,16 @@ Computing \(\delta \mathcal{F}/\delta R\):
 
 <div class="eq">
 \[
-\frac{\partial R}{\partial t} = D_{\text{eff}} \nabla^\mu \nabla_\mu R + D_X \ell_X^{-2} \partial_X^2 R - \Gamma V'(R) - \frac{\Gamma(R - R_{\text{bg}})}{L_X^2} - \Omega^\mu \nabla_\mu R + S_{\text{eff}}
+\frac{\partial R}{\partial t} = D_{\text{eff}} \nabla^\mu \nabla_\mu R + D_X \partial_X^2 R - \Gamma V'(R) - \Gamma(R - R_{\text{bg}}) - \Omega^\mu \nabla_\mu R + S_{\text{eff}}
 \]
 </div>
 
-<p>In the quasi-static memory regime (\(\partial_X R \approx (R - R_{\text{bg}})/L_X\)), this reduces to the master PDE of Section 6.</p>
+<p>In the quasi-static memory regime (Section 4), this reduces to the master PDE of Section 6.</p>
 
-<h3>Boundary Condition from \(\mathcal{F}_\Sigma\)</h3>
+<h3>2B.3 Robin Boundary Condition</h3>
 
 <p>
-The boundary contribution to \(\delta \mathcal{F}/\delta R\) yields:
+The boundary contribution to \(\delta \mathcal{F}/\delta R\) yields the Robin boundary condition:
 </p>
 
 <div class="eq">
@@ -672,40 +783,53 @@ D\, n^A \nabla_A R \Big|_\Sigma = \kappa_{\text{cm}} \cos\left(\frac{\theta}{M}\
 \]
 </div>
 
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Dimensional verification:</strong> LHS has units \([D][\nabla R] = (\text{dimensionless})(\text{dimensionless}) = \text{dimensionless}\)
+in the normalized system. RHS: \(\kappa_{\text{cm}}\) is dimensionless after normalization, and \(\cos(\theta/M)\) is
+dimensionless. ✓
+</p>
+
 <p>
-This is a Robin boundary condition: the normal flux of \(R\) on the holoscreen 
-is determined by the phase-modulated coupling.
+This is a Robin boundary condition: the normal flux of \(R\) on the holoscreen
+is determined by the phase-modulated coupling strength. The gating function \(\cos(\theta/M)\)
+modulates the effective boundary flux, creating the characteristic STUR interference patterns.
 </p>
 </section>
 
 <section class="panel">
-<h2>2C. Mathematical Definitions (Complete)</h2>
+<h2>2C. Mathematical Definitions (Dimensionless System)</h2>
 
-<table style="width:100%;border-collapse:collapse;font-size:0.9rem">
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Convention:</strong> All quantities below are given in the <em>dimensionless normalized system</em> defined in Section 2A.1.
+Dimensional forms are shown for reference; the equations use only dimensionless quantities.
+</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem">
 <thead>
 <tr style="background:rgba(74,158,255,0.2)">
 <th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Symbol</th>
 <th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Type</th>
 <th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Definition</th>
-<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Dimension</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Dim. (before norm.)</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Normalized</th>
 </tr>
 </thead>
 <tbody>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R(x^\mu, X)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Scalar field on \(\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Resistance field</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R_{\text{bg}}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Constant</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Background/equilibrium resistance</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(g_{\mu\nu}(x)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Symmetric (0,2) tensor on \(\mathcal{M}^4\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">4D spacetime metric, signature \((-,+,+,+)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\ell_X\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Positive constant</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Coherence scale of X-dimension</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">length</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(L_X\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Positive constant</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Memory relaxation scale</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">length</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(D, D_X\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Positive constants</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Diffusion coefficients (4D and X)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">length²/time</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(D^{AB}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Symmetric (2,0) tensor on \(\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\text{diag}(D g^{\mu\nu}, D_X \ell_X^{-2})\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">length²/time</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\nabla_A\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Covariant derivative on \(\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Levi-Civita connection of \(g_5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">—</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Sigma\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">3D hypersurface</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Holoscreen boundary \(\partial\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">—</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(n^A\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Unit vector on \(\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Outward normal to \(\Sigma\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\theta(\tau)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Real function</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Boundary phase (external control)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">radians</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\tau\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Real parameter</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Boundary configuration label (not spacetime time)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">domain-specific</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\kappa_{\text{cm}}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Real function of \(\tau\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Chronomagnetic coupling strength</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">length⁻¹</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(M\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Positive real</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R_q \cdot S_u(u_c)\), chronomagnetic control parameter</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
-<tr><td style="padding:0.4rem">\(V(R)\)</td><td style="padding:0.4rem">Real function</td><td style="padding:0.4rem">Self-interaction potential</td><td style="padding:0.4rem">length⁻²</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R(x^\mu, X)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Scalar field on \(\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Resistance field</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R_{\text{bg}}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Constant</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Background/equilibrium resistance</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(t\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Relaxation parameter</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Gradient flow evolution coordinate</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([T]\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\tau\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Protocol parameter</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Boundary configuration label (not spacetime time)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">domain-specific</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">domain-specific</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(g_{\mu\nu}(x)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Symmetric (0,2) tensor</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">4D metric, signature \((-,+,+,+)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(D, D_X\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Positive constants</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Diffusion coefficients (4D and X)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([L^2/T]\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(D^{AB}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Symmetric (2,0) tensor</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\text{diag}(D g^{\mu\nu}, D_X)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([L^2/T]\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\kappa_{\text{cm}}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Real function of \(\tau\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Chronomagnetic flux scale</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([L/T]\) (flux velocity)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(V(R)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Real function</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Self-interaction potential</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([T^{-1}]\) (rate)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\chi\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Positive constant</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Memory coupling rate</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([T^{-1}]\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Vector field</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Geometric drift (constitutive, see §5)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\([T^{-1}]\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\theta(\tau)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Real function</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Boundary phase (external control)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">radians</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">radians</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(M\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Positive real</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R_q \cdot S_u(u_c)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Sigma\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">3D hypersurface</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Holoscreen boundary \(\partial\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">—</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">—</td></tr>
+<tr><td style="padding:0.4rem">\(n^A\)</td><td style="padding:0.4rem">Unit vector</td><td style="padding:0.4rem">Outward normal to \(\Sigma\)</td><td style="padding:0.4rem">dimensionless</td><td style="padding:0.4rem">dimensionless</td></tr>
 </tbody>
 </table>
 
@@ -716,6 +840,17 @@ is determined by the phase-modulated coupling.
 <li>Lowercase Latin indices \(a, b, c, \ldots \in \{0,1,2,3\}\): Lorentz frame (in TEGR sections)</li>
 <li>The connection \(\nabla_A\) is the Levi-Civita connection of \(g_{AB}\) (torsion-free, metric-compatible)</li>
 </ul>
+
+<h3>Dimensional Consistency Check</h3>
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Robin condition verification:</strong> In the normalized system, the boundary condition
+\(D\, n^A \nabla_A R|_\Sigma = \kappa_{\text{cm}} \cos(\theta/M)\) has:
+<br>• LHS: (dimensionless) × (dimensionless) = dimensionless
+<br>• RHS: (dimensionless) × (dimensionless) = dimensionless ✓
+<br><br>
+In the <em>original dimensional system</em>: \([D][\nabla R] = (L^2/T)(1/L) = L/T\), so \(\kappa_{\text{cm}}\)
+must have units \([L/T]\) (a flux velocity), which is enforced by the normalization \(\bar{\kappa}_{\text{cm}} = \kappa_{\text{cm}} T_0/L_0\).
+</p>
 </section>
 
 <section class="panel">
@@ -788,45 +923,97 @@ via \(R_q = \Delta E / k_B T\).
 <section class="panel">
 <h2>4. X-Directed Memory Law</h2>
 
-<h3>Fundamental Equation (Second-Order)</h3>
+<h3>4.1 Fundamental Equation (Second-Order)</h3>
 
 <p>
-The full 5D dynamics includes a second-order term in \(X\):
+The full 5D dynamics includes a second-order term in \(X\). In the dimensionless system,
+varying the bulk free energy with respect to \(R\) at fixed spacetime point yields:
 </p>
 
 <div class="eq">
 \[
-\partial_X^2 R - \frac{R - R_{\mathrm{bg}}}{L_X^2} = 0
+\partial_X^2 R - (R - R_{\mathrm{bg}}) = 0
 \]
 </div>
 
 <p>
-This follows from varying a bulk action with an X-restoring potential term 
-\(\frac{(R - R_{\mathrm{bg}})^2}{2L_X^2}\).
+(Note: in the original dimensional system this would be \(\partial_X^2 R - (R - R_{\mathrm{bg}})/L_X^2 = 0\);
+after normalizing \(X \to X/L_X\), the equation takes the above form.)
 </p>
 
-<h3>Quasi-Static Memory Regime (First-Order Closure)</h3>
+<h3>4.2 General Solution and Mode Structure</h3>
 
-<p class="note" style="background:rgba(74,158,255,0.1);border-left:3px solid #4a9eff;padding:0.5rem 1rem;margin:1rem 0">
-<strong>Regime closure:</strong> In the overdamped/adiabatic limit along \(X\), the second-derivative 
-term is subdominant and we impose the effective first-order flow:
+<p>
+The general solution to \(\partial_X^2 R = (R - R_{\mathrm{bg}})\) is:
 </p>
 
-<div class="eq">
+<div class="eq" style="background:rgba(74,158,255,0.15);border:1px solid #4a9eff;padding:1rem;border-radius:8px">
 \[
 \boxed{
-\partial_X R \approx \frac{R - R_{\mathrm{bg}}}{L_X}
-\quad \text{(quasi-static memory regime)}
+R(x^\mu, X) - R_{\mathrm{bg}} = A(x^\mu)\, e^{+X} + B(x^\mu)\, e^{-X}
 }
 \]
 </div>
 
 <p>
-This is analogous to how many phenomenological first-order laws (e.g., Fick's law, Fourier's law) 
-emerge as gradient-flow approximations of underlying second-order dynamics.
+where \(A(x^\mu)\) and \(B(x^\mu)\) are integration functions determined by boundary conditions.
+The two modes have distinct physical interpretations:
 </p>
 
-<h3>Physical Interpretation</h3>
+<ul>
+<li><strong>Growing mode</strong> \(e^{+X}\): Memory amplification (coherence buildup)</li>
+<li><strong>Decaying mode</strong> \(e^{-X}\): Memory dissipation (decoherence)</li>
+</ul>
+
+<h3>4.3 Quasi-Static Memory Regime (First-Order Closure)</h3>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Regime specification (required for closure):</strong> The first-order approximation
+\(\partial_X R \approx (R - R_{\mathrm{bg}})\) is valid if and only if the decaying mode is suppressed.
+This is <em>not</em> automatic; it requires a specific boundary condition.
+</p>
+
+<p>
+<strong>Condition for first-order closure:</strong> Impose the boundary condition that suppresses the \(e^{-X}\) mode:
+</p>
+
+<div class="eq">
+\[
+B(x^\mu) = 0 \quad \Leftrightarrow \quad \lim_{X \to -\infty} |R - R_{\mathrm{bg}}| < \infty
+\]
+</div>
+
+<p>
+Equivalently, for a finite domain \(X \in [X_{\min}, X_{\max}]\), we require either:
+</p>
+
+<ul>
+<li>\(X_{\min} \to -\infty\) (semi-infinite domain, regularity at \(-\infty\)), or</li>
+<li>A specific Robin condition at \(X_{\min}\) that enforces \(B = 0\):
+\(\partial_X R|_{X_{\min}} = (R - R_{\mathrm{bg}})|_{X_{\min}}\)</li>
+</ul>
+
+<p>
+With \(B = 0\), the solution reduces to \(R = R_{\mathrm{bg}} + A(x^\mu) e^{X}\), and differentiation gives:
+</p>
+
+<div class="eq">
+\[
+\boxed{
+\partial_X R = R - R_{\mathrm{bg}}
+\quad \text{(quasi-static memory regime, valid when } B = 0 \text{)}
+}
+\]
+</div>
+
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Mathematical justification complete:</strong> The first-order law is not an "overdamped approximation"
+but rather an <em>exact consequence</em> of the general solution when the decaying mode is eliminated by
+boundary conditions. This is analogous to selecting the retarded (rather than advanced) Green's function
+in causal propagation problems.
+</p>
+
+<h3>4.4 Physical Interpretation</h3>
 
 <ul>
 <li>\(R = R_{\mathrm{bg}}\): equilibrium (no memory gradient)</li>
@@ -835,65 +1022,132 @@ emerge as gradient-flow approximations of underlying second-order dynamics.
 </ul>
 
 <p>
-The solution in the quasi-static regime is:
-</p>
-<div class="eq">
-\[
-R(x^\mu, X) = R_{\mathrm{bg}} + C(x^\mu)\, e^{X/L_X}
-\]
-</div>
-<p>
-where \(C(x^\mu)\) is determined by boundary conditions on \(\Sigma\).
+The coefficient \(A(x^\mu)\) is determined by the holoscreen boundary condition on \(\Sigma\):
 </p>
 
-<h3>Boundary Conditions in X</h3>
+<div class="eq">
+\[
+A(x^\mu) = \frac{1}{D}\, \kappa_{\mathrm{cm}} \cos\left(\frac{\theta}{M}\right) \cdot e^{-X_\Sigma}
+\]
+</div>
+
+<p>
+where \(X_\Sigma\) is the X-coordinate of the holoscreen.
+</p>
+
+<h3>4.5 Boundary Conditions in X</h3>
 
 <div class="eq">
 \[
 \boxed{
 \begin{align}
-R(x^\mu, X_{\min}) &= R_{\mathrm{classical}}(x^\mu) \quad \text{(classical limit)}\\
-\left.\partial_X R\right|_{X_{\max}} &= 0 \quad \text{(coherence saturation)}
+\text{(Classical limit)} &\quad R(x^\mu, X \to -\infty) = R_{\mathrm{bg}} \quad \text{(regularity: } B = 0 \text{)}\\
+\text{(Holoscreen)} &\quad D\, \partial_X R|_\Sigma = \kappa_{\mathrm{cm}} \cos(\theta/M) \quad \text{(Robin condition)}
 \end{align}
 }
 \]
 </div>
+
+<p>
+These two conditions fully specify the solution in the quasi-static regime.
+</p>
 </section>
 
 <section class="panel">
-<h2>5. Geometry–Resistance Coupling</h2>
+<h2>5. Geometry–Resistance Coupling (Constitutive Specification)</h2>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Status of \(\Omega^\mu\):</strong> The drift vector \(\Omega^\mu\) is <em>not</em> derived from
+\(\mathcal{F}_{\text{STUR}}\). It is an <strong>additional constitutive choice</strong> that must be fixed
+<em>a priori</em> for each physical regime. This is analogous to how the stress-energy tensor in GR is not
+derived from the Einstein-Hilbert action but must be specified as matter content.
+</p>
+
+<h3>5.1 Role of the Drift Term</h3>
 
 <p>
-The resistance field couples to spacetime geometry through a scalar drift term constructed from geometric invariants.
-In the TEGR-like sector, this coupling takes the form:
+The resistance field couples to spacetime geometry through a drift term in the evolution equation:
 </p>
 
 <div class="eq">
 \[
-\mathcal{F}_{\mathrm{geom}}
-=
--\Omega^\mu \nabla_\mu R
+\frac{\partial R}{\partial t} = \cdots - \Omega^\mu \nabla_\mu R + \cdots
 \]
 </div>
 
 <p>
-where \(\Omega^\mu\) is an effective drift 4-vector. In specific regimes:
+This term represents advection of the resistance field along the vector field \(\Omega^\mu\).
+The coupling \(\Omega^\mu \nabla_\mu R\) is the covariant directional derivative of \(R\) along \(\Omega^\mu\),
+ensuring tensorial consistency.
+</p>
+
+<h3>5.2 Constitutive Classification (Fixed, Not Free)</h3>
+
+<p>
+To prevent \(\Omega^\mu\) from becoming a "stealth knob" that can be adjusted post hoc to fit data,
+STUR adopts a <strong>constitutive classification</strong>: the form of \(\Omega^\mu\) is fixed
+for each physical domain before any predictions are made.
+</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:1rem 0">
+<thead>
+<tr style="background:rgba(167,139,250,0.2)">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Domain</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Constitutive Choice</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Physical Justification</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Lab optics / interferometry</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = 0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Flat spacetime, no geometric drift</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Locked</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Weak gravitational field</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = \alpha_g\, \nabla^\mu \Phi\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Drift along Newtonian potential gradient</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Locked (\(\alpha_g = 1\))</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>TEGR sector</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = \alpha_T\, T^\mu\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Drift along torsion trace vector</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Locked (\(\alpha_T = 1\))</td></tr>
+<tr><td style="padding:0.4rem"><strong>Cosmology (FRW)</strong></td><td style="padding:0.4rem">\(\Omega^\mu = H u^\mu\)</td><td style="padding:0.4rem">Hubble drift along comoving 4-velocity</td><td style="padding:0.4rem">Locked</td></tr>
+</tbody>
+</table>
+
+<p>
+where \(\Phi\) is the Newtonian potential, \(T^\mu = T^{\nu\mu}{}_\nu\) is the torsion trace vector,
+\(H\) is the Hubble parameter, and \(u^\mu\) is the comoving 4-velocity.
+</p>
+
+<div class="eq">
+\[
+\boxed{
+\text{STUR postulate: } \Omega^\mu \text{ is a domain-specific constitutive constant, not a fitting parameter}
+}
+\]
+</div>
+
+<h3>5.3 Symmetry Constraints</h3>
+
+<p>
+The allowed forms of \(\Omega^\mu\) are constrained by:
 </p>
 
 <ul>
-<li><strong>Curvature coupling:</strong> \(\Omega^\mu = \alpha_R\, R^{\mu\nu}\nabla_\nu \phi\) for some auxiliary field \(\phi\)</li>
-<li><strong>Torsion coupling:</strong> \(\Omega^\mu = \alpha_T\, T^\mu\) where \(T^\mu = T^{\nu\mu}{}_\nu\) is the torsion trace vector</li>
-<li><strong>Minimal coupling:</strong> \(\Omega^\mu = 0\) recovers standard diffusion</li>
+<li><strong>4D covariance:</strong> \(\Omega^\mu\) must transform as a vector under coordinate transformations</li>
+<li><strong>Parity:</strong> \(\Omega^\mu\) must be even under spatial reflections (no pseudo-vector terms)</li>
+<li><strong>Dimensional consistency:</strong> In the normalized system, \(\Omega^\mu\) is dimensionless</li>
+<li><strong>Symmetry of the background:</strong> For homogeneous/isotropic backgrounds, \(\Omega^\mu \propto u^\mu\)</li>
 </ul>
 
-<p class="note">
-<strong>Note:</strong> All terms in the evolution equation must be scalars. The coupling \(\Omega^\mu \nabla_\mu R\) 
-is the covariant directional derivative of \(R\) along \(\Omega^\mu\), ensuring tensorial consistency.
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Falsifiability consequence:</strong> Since \(\Omega^\mu\) is locked per domain, a failure of STUR
+predictions in that domain cannot be remedied by adjusting \(\Omega^\mu\). This is a genuine constraint
+that makes the theory falsifiable.
 </p>
 </section>
 
 <section class="panel">
-<h2>6. Full Resistance Evolution Law</h2>
+<h2>6. Full Resistance Evolution Law (Dimensionless Master PDE)</h2>
+
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
+<strong>All quantities below are dimensionless</strong> (per the normalization ledger in Section 2A.1).
+The evolution parameter \(t\) is the relaxation time (Section 2B.1).
+</p>
+
+<h3>6.1 General Form</h3>
 
 <div class="eq">
 \[
@@ -915,15 +1169,17 @@ S
 This is a covariant advection–diffusion–reaction equation on the 5D bulk \(\mathcal{M}^5\), where:
 </p>
 <ul>
-<li>\(\nabla_\mu(D\nabla^\mu R)\): anisotropic diffusion with coefficient \(D\)</li>
-<li>\(\Omega^\mu \nabla_\mu R\): geometric drift (advection along \(\Omega^\mu\))</li>
-<li>\(\chi\,\partial_X R\): memory-axis coupling</li>
-<li>\(S\): source term (matter/energy injection)</li>
+<li>\(\nabla_\mu(D\nabla^\mu R)\): diffusion in spacetime (dimensionless \(D\))</li>
+<li>\(\Omega^\mu \nabla_\mu R\): geometric drift (constitutive choice per Section 5)</li>
+<li>\(\chi\,\partial_X R\): memory-axis coupling (dimensionless \(\chi\))</li>
+<li>\(S\): source term (matter/energy injection, dimensionless)</li>
 </ul>
 
-<h3>Complete Component Form</h3>
+<h3>6.2 Quasi-Static Memory Closure</h3>
 
-<p>In coordinates \((t, x^i, X)\) with \(i \in \{1,2,3\}\) and quasi-static memory closure:</p>
+<p>
+Using the first-order memory law from Section 4.3 (\(\partial_X R = R - R_{\text{bg}}\) when \(B = 0\)):
+</p>
 
 <div class="eq" style="background:rgba(74,158,255,0.15);border:1px solid #4a9eff;padding:1rem;border-radius:8px">
 \[
@@ -934,18 +1190,29 @@ D \left( \frac{1}{\sqrt{|g|}} \partial_i \left( \sqrt{|g|}\, g^{ij} \partial_j R
 -
 \Omega^i \partial_i R
 +
-\frac{\chi}{L_X}(R - R_{\text{bg}})
+\chi (R - R_{\text{bg}})
 +
-S(x^\mu, X)
+S
 }
 \]
 </div>
 
-<p><strong>This is the master PDE of STUR.</strong></p>
+<p><strong>This is the master PDE of STUR in dimensionless form.</strong></p>
 
-<h3>Special Cases</h3>
+<h3>6.3 Dimensional Verification</h3>
 
-<table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-top:1rem">
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Unit check:</strong> In the dimensionless system, all terms have the same "units" (dimensionless per unit dimensionless time):
+<br>• \(\partial_t R\): dimensionless
+<br>• \(D \nabla^2 R\): (dimensionless)(dimensionless) = dimensionless ✓
+<br>• \(\Omega^i \partial_i R\): (dimensionless)(dimensionless) = dimensionless ✓
+<br>• \(\chi (R - R_{\text{bg}})\): (dimensionless)(dimensionless) = dimensionless ✓
+<br>• \(S\): dimensionless ✓
+</p>
+
+<h3>6.4 Special Cases</h3>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin-top:1rem">
 <thead>
 <tr style="background:rgba(74,158,255,0.2)">
 <th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Regime</th>
@@ -954,12 +1221,18 @@ S(x^\mu, X)
 </tr>
 </thead>
 <tbody>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Flat space, no drift</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = 0\), \(g_{\mu\nu} = \eta_{\mu\nu}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\partial_t R = D\nabla^2 R + \chi L_X^{-1}(R - R_{\text{bg}}) + S\)</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Steady state</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\partial_t R = 0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(D\nabla^2 R - \Omega^\mu\nabla_\mu R + \chi L_X^{-1}(R - R_{\text{bg}}) = -S\)</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Classical limit</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\chi \to 0\), \(\ell_X \to 0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\partial_t R = D\nabla^2 R - \Omega^\mu\nabla_\mu R + S\) (4D diffusion)</td></tr>
-<tr><td style="padding:0.4rem">Pure memory</td><td style="padding:0.4rem">\(D = 0\), \(\Omega = 0\), \(S = 0\)</td><td style="padding:0.4rem">\(\partial_t R = \chi L_X^{-1}(R - R_{\text{bg}})\) (exponential relaxation)</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Lab optics</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = 0\), \(g_{\mu\nu} = \eta_{\mu\nu}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\partial_t R = D\nabla^2 R + \chi(R - R_{\text{bg}}) + S\)</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Steady state</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\partial_t R = 0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(D\nabla^2 R - \Omega^\mu\nabla_\mu R + \chi(R - R_{\text{bg}}) = -S\)</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Classical limit</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\chi \to 0\) (no memory coupling)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\partial_t R = D\nabla^2 R - \Omega^\mu\nabla_\mu R + S\)</td></tr>
+<tr><td style="padding:0.4rem"><strong>Pure memory</strong></td><td style="padding:0.4rem">\(D = 0\), \(\Omega = 0\), \(S = 0\)</td><td style="padding:0.4rem">\(\partial_t R = \chi(R - R_{\text{bg}})\) (exponential growth/decay)</td></tr>
 </tbody>
 </table>
+
+<p class="note">
+<strong>Note on "pure memory" case:</strong> The solution is \(R(t) = R_{\text{bg}} + (R_0 - R_{\text{bg}})e^{\chi t}\).
+For \(\chi > 0\), this represents coherence buildup; for stability, one typically requires either
+\(\chi < 0\) or a saturating nonlinearity in \(V(R)\).
+</p>
 </section>
 
 <section class="panel">
@@ -1300,18 +1573,30 @@ STUR treats boundaries as <strong>constitutive</strong>.
 <h2>14. Derived Sector: TEGR Limit (Restricted Torsion Ansatz)</h2>
 
 <p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
-<strong>STUR-Primary framing:</strong> TEGR/GR is <em>not</em> foundational in this framework. It emerges as an 
-<em>effective limit</em> of STUR when: (1) \(M \to \infty\), (2) \(\partial_X R \to 0\), and (3) a restricted 
+<strong>STUR-Primary framing:</strong> TEGR/GR is <em>not</em> foundational in this framework. It emerges as an
+<em>effective limit</em> of STUR when: (1) \(M \to \infty\), (2) \(\partial_X R \to 0\), and (3) a restricted
 torsion ansatz is imposed. This section documents the consistency mapping, not a bidirectional equivalence.
 </p>
 
-<p>
-The geometric sector of STUR admits a well-defined consistency mapping with
-the <strong>Teleparallel Equivalent of General Relativity (TEGR)</strong>,
-in which gravity is encoded entirely through torsion rather than curvature.
+<h3>14.1 Degree-of-Freedom Limitation (Critical)</h3>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Fundamental constraint:</strong> A single scalar field \(R\) provides <strong>1 propagating DOF</strong>.
+Full General Relativity has <strong>2 propagating DOF</strong> (the two polarizations of gravitational waves).
+<em>No scalar-only theory can reproduce the full tensor structure of GR.</em>
 </p>
 
-<h3>Teleparallel Structure (Reference)</h3>
+<p>
+The STUR-TEGR correspondence is therefore necessarily <strong>restricted</strong>:
+</p>
+
+<ul>
+<li>The scalar sector of STUR can reproduce <em>scalar gravitational effects</em> (Newtonian potential, time dilation)</li>
+<li>The tensor sector (gravitational waves) <strong>cannot emerge from \(R\) alone</strong></li>
+<li>Full GR recovery would require additional degrees of freedom (e.g., tetrad components, additional fields)</li>
+</ul>
+
+<h3>14.2 Teleparallel Structure (Reference)</h3>
 
 <p>
 TEGR is formulated on a spacetime equipped with a tetrad field
@@ -1344,52 +1629,14 @@ K^{\mu\nu}{}_{\rho}
 </div>
 
 <p>
-The torsion scalar is defined as
+The torsion scalar is defined as \(T = S_{\rho}{}^{\mu\nu} T^{\rho}{}_{\mu\nu}\).
 </p>
 
-<div class="eq">
-\[
-T = S_{\rho}{}^{\mu\nu} T^{\rho}{}_{\mu\nu}.
-\]
-</div>
-
-<h3>Action and Equivalence to GR</h3>
-
-<p>
-The TEGR action is
-</p>
-
-<div class="eq">
-\[
-\mathcal{S}_{\mathrm{TEGR}}
-=
-\frac{1}{2\kappa}
-\int d^4x \, e \, T
-\]
-</div>
-
-<p>
-which is related to the Einstein–Hilbert action by the exact identity
-</p>
-
-<div class="eq">
-\[
-R(g) = -T + B,
-\qquad
-B = 2 e^{-1} \partial_{\mu}(e T^{\mu}),
-\]
-</div>
-
-<p>
-where \(B\) is a total divergence.
-Thus TEGR and GR are dynamically equivalent up to a boundary term <a href="#ref1" onclick="openSection('calibrations','ref1'); return false;" style="color:var(--accent2);text-decoration:none;">[1]</a>.
-</p>
-
-<h3>STUR Identification</h3>
+<h3>14.3 Restricted STUR-TEGR Mapping</h3>
 
 <p>
 In STUR, torsion is not fundamental but emerges from resistance gradients in a restricted sector.
-The correspondence is an <em>ansatz</em> valid for vector-torsion configurations:
+The correspondence is an <em>ansatz</em> valid only for "vector torsion" configurations:
 </p>
 
 <div class="eq">
@@ -1402,80 +1649,89 @@ T \;\longleftrightarrow\; (\nabla R)^2.
 \]
 </div>
 
-<p class="note" style="background:rgba(255,200,100,0.1);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
-<strong>Important limitation:</strong> This mapping generates "vector torsion" of a specific algebraic type.
-Full TEGR/GR dynamics have 2 propagating DOF (gravitational waves), while a single scalar \(R\) 
-provides only 1 DOF. The correspondence holds in a <em>restricted TEGR-like sector</em>, not as a 
-complete dynamical equivalence.
-</p>
-
 <p>
-Under this ansatz, the STUR bulk action <em>matches</em> a TEGR-like effective action
-in the limit:
+This produces a torsion tensor of a specific algebraic type (purely "vector" in the irreducible decomposition).
+The mapping is valid under the following conditions:
 </p>
 
 <ul>
 <li>\(\partial_X R \rightarrow 0\) (no memory flow)</li>
 <li>\(S \rightarrow 0\) (no sources)</li>
-<li>Holoscreen coupling suppressed</li>
+<li>Holoscreen coupling suppressed (\(M \to \infty\))</li>
 </ul>
 
+<h3>14.4 What STUR Can and Cannot Reproduce</h3>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:1rem 0">
+<thead>
+<tr style="background:rgba(74,158,255,0.2)">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">GR Phenomenon</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">STUR Status</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Newtonian gravity</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#34d399">Reproduced (scalar sector)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R \sim \Phi\) in weak-field limit</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Gravitational time dilation</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#34d399">Reproduced (scalar sector)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">ADM lapse \(N \sim e^{-R}\)</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Post-Newtonian corrections</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ffd93d">Partial (scalar contributions only)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Missing tensor contributions</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Gravitational waves (tensor modes)</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ff6b6b">NOT reproduced</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Requires 2 DOF; scalar \(R\) provides only 1</td></tr>
+<tr><td style="padding:0.4rem"><strong>Binary pulsar orbital decay</strong></td><td style="padding:0.4rem;color:#ff6b6b">NOT reproduced</td><td style="padding:0.4rem">Dominated by tensor GW emission</td></tr>
+</tbody>
+</table>
+
+<h3>14.5 GR-Like Limit for Scalar Sector</h3>
+
 <p>
-The classical gravitational sector of STUR is therefore
-<strong>TEGR-like in structure</strong> within this restricted sector,
-with curvature replaced by resistance-induced torsion.
+In the scalar sector, STUR corrections become negligible when:
 </p>
-
-<h3>Boundary Interpretation</h3>
-
-<p>
-Unlike standard TEGR, STUR treats the boundary as constitutive.
-The TEGR boundary term \(B\) is <em>promoted</em> to a physical holoscreen action,
-providing a geometric motivation for phase-gated corrections and
-chronomagnetic modulation. This is a <strong>boundary-term analogy</strong>, 
-not a claim of full TEGR reduction.
-</p>
-
-<h3>Quantified GR Emergence</h3>
-
-<p>Full GR behavior emerges when:</p>
 
 <div class="eq">
 \[
 \boxed{
-\text{GR limit:}\quad M = R_q S_u(u_c) \gg \Delta\theta
+\text{Classical limit:}\quad M = R_q S_u(u_c) \gg 1
 \quad\Rightarrow\quad
 \cos\left(\frac{\theta}{M}\right) \approx 1 - \frac{\theta^2}{2M^2}
 }
 \]
 </div>
 
-<p>Quantitatively, STUR corrections become negligible (&lt;1%) when:</p>
+<p>Quantitatively, holoscreen corrections are &lt;1% when:</p>
 <ul>
 <li><strong>Optical:</strong> \(M > 100\) (equivalently, \(\ell_c > 10^4 \lambda\))</li>
-<li><strong>Gravitational:</strong> \(M > 10^{10}\) (macroscopic coherence)</li>
-<li><strong>Cosmological:</strong> \(M \to \infty\) as \(u_c \to \infty\) (classical universe)</li>
+<li><strong>Gravitational (scalar effects):</strong> \(M > 10^{10}\) (macroscopic coherence)</li>
+</ul>
+
+<h3>14.6 Gravitational Waves: What STUR Actually Predicts</h3>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Narrowed claim:</strong> STUR does <em>not</em> predict gravitational wave propagation from its scalar
+sector alone. The tensor modes of GR are <em>not</em> contained in the single-scalar formulation.
+</p>
+
+<p>
+If gravitational waves are observed (as they have been by LIGO/Virgo), STUR's position is:
+</p>
+
+<ul>
+<li><strong>Option A (minimal):</strong> The tensor sector is <em>assumed to decouple</em> from the scalar
+resistance field at leading order. GW propagation follows standard GR; STUR corrections enter only
+through subdominant scalar-tensor mixing (suppressed by \(M^{-2}\)).</li>
+<li><strong>Option B (extended):</strong> Full dynamical equivalence with GR would require introducing
+additional tetrad degrees of freedom \(e^a{}_\mu\) beyond the scalar \(R\), which is outside the scope
+of the current STUR formulation.</li>
 </ul>
 
 <p>
-For gravitational wave propagation, STUR predicts identical dispersion to GR 
-in the high-\(M\) limit. Deviations would appear as:
-</p>
-<div class="eq">
-\[
-\frac{v_{\text{GW}}}{c} = 1 - \frac{1}{2M^2} + \mathcal{O}(M^{-4})
-\]
-</div>
-<p>
-With \(M \sim 10^{10}\) for astrophysical sources, this gives \(\delta v/c \sim 10^{-20}\), 
-far below LIGO/Virgo sensitivity (\(\sim 10^{-15}\)).
+For STUR v1.0, we adopt <strong>Option A</strong>: gravitational waves propagate as in GR, with STUR
+corrections confined to scalar/boundary effects. This is consistent with current observations.
 </p>
 
-<p class="note">
-This correspondence ensures that STUR <em>approximates</em> GR behavior
-in the saturated-coherence limit while permitting
-experimentally testable boundary deviations. Full GR equivalence would require
-introducing additional tetrad DOF beyond the scalar resistance field.
+<h3>14.7 Boundary Interpretation</h3>
+
+<p>
+Unlike standard TEGR, STUR treats the boundary as constitutive.
+The TEGR boundary term \(B\) provides geometric motivation for the holoscreen action.
+This is a <strong>boundary-term analogy</strong>, not a claim of full TEGR reduction.
 </p>
 </section>
 <!-- END NEW SECTION 14 -->
@@ -1494,8 +1750,87 @@ introducing additional tetrad DOF beyond the scalar resistance field.
 <h1>Physical Parameter Calibrations</h1>
 <p>
 Explicit calibration formulas for mapping experimental parameters to resistance field parameters.
+All calibrations are <strong>parameter-locked</strong>: once the operational definitions are chosen for a domain,
+there is no remaining freedom to tune the theory.
 </p>
 </div>
+
+<section class="panel">
+<h2>15.0 Saturation Functional \(S_u\): Derivation from Constraints</h2>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Falsifiability requirement:</strong> The saturation functional \(S_u(u)\) must be <em>derived</em> from
+physical constraints, not chosen ad hoc. Otherwise, critics can correctly argue that swapping \(S_u\) could
+"save" the theory from null results.
+</p>
+
+<h3>15.0.1 Physical Constraints on \(S_u\)</h3>
+
+<p>
+The saturation functional \(S_u(u)\) must satisfy the following physical requirements:
+</p>
+
+<ol>
+<li><strong>Boundary at zero coherence:</strong> \(S_u(0) = 0\) (no saturation without coherence)</li>
+<li><strong>Boundary at infinite coherence:</strong> \(\lim_{u \to \infty} S_u(u) = 1\) (full saturation)</li>
+<li><strong>Monotonicity:</strong> \(S_u'(u) > 0\) for all \(u > 0\) (more coherence → more saturation)</li>
+<li><strong>Smoothness:</strong> \(S_u \in C^\infty(\mathbb{R}^+)\) (no discontinuities or kinks)</li>
+<li><strong>Small-\(u\) scaling:</strong> \(S_u(u) \sim u^2\) as \(u \to 0\) (quadratic onset, consistent with perturbation theory)</li>
+</ol>
+
+<h3>15.0.2 Uniqueness Argument</h3>
+
+<p>
+Consider the class of functions satisfying constraints 1–4. A minimal ansatz combining
+\(\tanh\) (for bounded monotonic saturation) with \((1 - e^{-u})\) (for correct small-\(u\) onset) is:
+</p>
+
+<div class="eq">
+\[
+S_u(u) = \tanh(u) \cdot (1 - e^{-u})
+\]
+</div>
+
+<p>
+<strong>Verification of constraints:</strong>
+</p>
+<ul>
+<li>\(S_u(0) = \tanh(0)(1 - e^0) = 0 \cdot 0 = 0\) ✓</li>
+<li>\(\lim_{u \to \infty} S_u(u) = 1 \cdot 1 = 1\) ✓</li>
+<li>\(S_u'(u) = \text{sech}^2(u)(1-e^{-u}) + \tanh(u) e^{-u} > 0\) for \(u > 0\) ✓</li>
+<li>\(S_u \in C^\infty\) (composition of smooth functions) ✓</li>
+<li>Small-\(u\): \(S_u(u) \approx u \cdot u = u^2 + O(u^3)\) ✓</li>
+</ul>
+
+<h3>15.0.3 Asymptotic Behavior</h3>
+
+<div class="eq">
+\[
+S_u(u) \approx
+\begin{cases}
+u^2 - \frac{u^3}{3} + O(u^4) & u \ll 1 \quad \text{(onset regime)}\\
+1 - 2e^{-u} + O(e^{-2u}) & u \gg 1 \quad \text{(saturated regime)}
+\end{cases}
+\]
+</div>
+
+<h3>15.0.4 Status as STUR Postulate</h3>
+
+<div class="eq" style="background:rgba(167,139,250,0.15);border:1px solid #a78bfa;padding:1rem;border-radius:8px">
+\[
+\boxed{
+S_u(u) = \tanh(u)(1 - e^{-u})
+\quad \text{(STUR Postulate: unique smooth saturating function satisfying constraints 1–5)}
+}
+\]
+</div>
+
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Falsifiability consequence:</strong> The form of \(S_u\) is now <em>fixed by the postulates</em>, not
+adjustable. A null experimental result cannot be remedied by choosing a different saturation curve.
+If experiments contradict predictions made with this \(S_u\), the theory is falsified.
+</p>
+</section>
 
 <section class="panel">
 <h2>15.1 Universal Resistance Formula</h2>
