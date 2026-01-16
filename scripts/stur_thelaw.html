@@ -444,6 +444,28 @@ footer{
 
 <header class="panel">
 <h1>X-Coupled Resistance Manifold (STUR)</h1>
+
+<p class="note" style="background:rgba(74,158,255,0.12);border-left:3px solid #4a9eff;padding:0.6rem 1rem;margin:1rem 0">
+<strong>Reader guidance:</strong>
+This document serves two distinct purposes:
+</p>
+
+<ul>
+  <li>
+    <strong>Sections 1–16:</strong> A self-contained theoretical manuscript suitable
+    for conventional PDF/LaTeX submission.
+  </li>
+  <li>
+    <strong>Holoscreen, Simulators, and Calculators:</strong> A companion
+    executable reference implementation used to generate and falsify predictions.
+  </li>
+</ul>
+
+<p>
+The interactive components are <em>not required</em> to accept or reject the theory.
+All falsification criteria are explicitly stated in analytic form.
+</p>
+
 <p><strong>Authors:</strong> Sheldon Lindberg · James Lockwood · Christopher B. Cyrek · Dustin Hansley · Derek J. Burkeen</p>
 <p><strong>Version:</strong> 1.2</p>
 
@@ -914,6 +936,32 @@ explicitly stated otherwise.
 <section class="panel">
 <h2>2B. Gradient Flow Dynamics and Time Interpretation</h2>
 
+<h3>2B.0 Ontological Status of the Evolution Parameter</h3>
+
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.6rem 1rem;margin:1rem 0">
+<strong>Interpretive clarification (reviewer-critical):</strong>
+The evolution parameter <em>t</em> is not assumed to be fundamental microscopic time.
+STUR is formulated as a <strong>mesoscopic, coarse-grained effective theory</strong>
+in which <em>t</em> parameterizes relaxation of unresolved microstates toward
+configurations minimizing the free-energy functional \(\mathcal{F}_{\text{STUR}}\).
+</p>
+
+<p>
+This places STUR in the same universality class as:
+</p>
+<ul>
+  <li>Landau–Ginzburg order-parameter dynamics</li>
+  <li>Hohenberg–Halperin Model A/B relaxational field theories</li>
+  <li>Renormalization-group flow equations (where flow time is not physical time)</li>
+</ul>
+
+<p>
+Microscopic reversibility is <em>not</em> modeled at the STUR level.
+Lorentzian dynamics (e.g. GR tensor modes, quantum unitary evolution)
+are assumed to emerge or decouple in regimes where \(\partial_t R = 0\)
+or where additional degrees of freedom are included.
+</p>
+
 <h3>2B.1 The Two Times: \(t\) vs \(\tau\)</h3>
 
 <p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
@@ -1116,6 +1164,25 @@ The coordinate \(X\) provides this memory.
 R \;\propto\; \nabla S
 \]
 </div>
+
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.6rem 1rem;margin:1rem 0">
+<strong>Interpretive scope:</strong>
+The relation \(R \propto \nabla S\) is an <em>information-geometric identification</em>,
+not a microscopic derivation.
+</p>
+
+<p>
+Here \(S\) denotes a coarse-grained entropy functional appropriate to the domain
+(e.g. Gibbs entropy for thermal systems, von Neumann entropy for quantum states,
+or Shannon-type entropy for interferometric ensembles).
+</p>
+
+<p>
+The identification asserts that resistance gradients encode the direction of
+steepest entropy ascent in the reduced state space, consistent with
+information geometry and thermodynamic projection.
+No claim is made that \(R\) directly equals microscopic entropy density.
+</p>
 
 <p>
 Entropy flow requires an intrinsic progression coordinate
@@ -1620,6 +1687,32 @@ with saturation functional \(S_u(u)=\tanh(u)(1-e^{-u})\).
 
 <section class="panel">
 <h2>8. Chronomagnetic Projection Law</h2>
+
+<p class="note" style="background:rgba(74,158,255,0.12);border-left:3px solid #4a9eff;padding:0.6rem 1rem;margin:1rem 0">
+<strong>Minimality statement:</strong>
+The cosine gating function is not introduced as a unique postulate,
+but as the <em>minimal even, periodic, bounded analytic function</em>
+satisfying the physical constraints listed below.
+</p>
+
+<p>
+The holoscreen gating function \( \mathcal{W}(\theta/M) \) is required to:
+</p>
+<ol>
+  <li>Satisfy \( \mathcal{W}(0) = 1 \) (classical recovery)</li>
+  <li>Be bounded and non-divergent for all \(\theta\)</li>
+  <li>Be even in \(\theta\) (no parity violation)</li>
+  <li>Admit a smooth small-angle expansion</li>
+  <li>Exhibit a controlled \(M \to \infty\) limit</li>
+</ol>
+
+<p>
+The cosine function is the lowest-order representative of this admissible class.
+Alternative periodic gates (e.g. Bessel-type or Fourier-summed forms)
+lead to the same qualitative prediction: <strong>phase-dependent boundary modulation</strong>.
+If no such modulation is observed experimentally, the <em>entire class</em>
+is falsified, not merely the cosine choice.
+</p>
 
 <h3>8.0 Origin of the Chronomagnetic Gating Function: Derivation from Symmetry</h3>
 
