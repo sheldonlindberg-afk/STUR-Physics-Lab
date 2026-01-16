@@ -4436,10 +4436,17 @@ function calculateGravRedshift() {
 // VISIBILITY CALCULATOR (Appendix A)
 // ============================================================
 function updateVisibilityCalc() {
-  const lambda_nm = Math.max(200, +document.getElementById('vis_lambda').value);
-  const Rq = Math.max(1, +document.getElementById('vis_Rq').value);
-  const lc_log = +document.getElementById('vis_lc_log').value;
-  const dL_ratio = +document.getElementById('vis_dL_ratio').value;
+  const el_lambda = document.getElementById('vis_lambda');
+  const el_Rq = document.getElementById('vis_Rq');
+  const el_lc = document.getElementById('vis_lc_log');
+  const el_dL = document.getElementById('vis_dL_ratio');
+
+  if (!el_lambda || !el_Rq || !el_lc || !el_dL) return;
+
+  const lambda_nm = Math.max(200, +el_lambda.value);
+  const Rq = Math.max(1, +el_Rq.value);
+  const lc_log = +el_lc.value;
+  const dL_ratio = +el_dL.value;
   
   // Convert units
   const lambda_m = lambda_nm * 1e-9;
@@ -4461,33 +4468,41 @@ function updateVisibilityCalc() {
   const arg = Math.PI * dL_m / (lambda_m * M);
   const ratio = Math.pow(Math.cos(arg), 2);
   
-  // Update outputs
-  document.getElementById('out_lc').textContent = formatSI(lc_m, 'm');
-  document.getElementById('out_dL').textContent = formatSI(dL_m, 'm');
-  document.getElementById('out_uc').textContent = uc.toFixed(3);
-  document.getElementById('out_Su').textContent = Su_val.toFixed(4);
-  document.getElementById('out_M').textContent = M.toFixed(2);
-  document.getElementById('out_dtheta').textContent = dtheta.toFixed(2);
-  document.getElementById('out_ratio').textContent = ratio.toFixed(4);
+  // Update outputs (with null-guards)
+  const safeSet = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+
+  safeSet('out_lc', formatSI(lc_m, 'm'));
+  safeSet('out_dL', formatSI(dL_m, 'm'));
+  safeSet('out_uc', uc.toFixed(3));
+  safeSet('out_Su', Su_val.toFixed(4));
+  safeSet('out_M', M.toFixed(2));
+  safeSet('out_dtheta', dtheta.toFixed(2));
+  safeSet('out_ratio', ratio.toFixed(4));
   
-  // Update falsification calculator
-  const eps = +document.getElementById('fals_eps').value || 0.01;
-  const delta = +document.getElementById('fals_delta').value || 0.05;
+  // Update falsification calculator (with null-guards)
+  const el_eps = document.getElementById('fals_eps');
+  const el_delta = document.getElementById('fals_delta');
+  const eps = el_eps ? +el_eps.value : 0.01;
+  const delta = el_delta ? +el_delta.value : 0.05;
   const dev = Math.abs(1 - ratio);
-  
-  document.getElementById('fals_ratio').textContent = ratio.toFixed(4);
-  document.getElementById('fals_dev').textContent = dev.toFixed(4);
-  document.getElementById('fals_thresh').textContent = delta.toFixed(3);
-  
-  let verdict;
-  if (dev >= delta) {
-    verdict = "✓ STUR makes testable prediction (deviation ≥ δ)";
-    document.getElementById('fals_verdict').style.color = '#6bcb77';
-  } else {
-    verdict = "— Near classical regime (deviation < δ)";
-    document.getElementById('fals_verdict').style.color = '#ffd93d';
+
+  safeSet('fals_ratio', ratio.toFixed(4));
+  safeSet('fals_dev', dev.toFixed(4));
+  safeSet('fals_thresh', delta.toFixed(3));
+
+  const verdictEl = document.getElementById('fals_verdict');
+  if (verdictEl) {
+    if (dev >= delta) {
+      verdictEl.textContent = "✓ STUR makes testable prediction (deviation ≥ δ)";
+      verdictEl.style.color = '#6bcb77';
+    } else {
+      verdictEl.textContent = "— Near classical regime (deviation < δ)";
+      verdictEl.style.color = '#ffd93d';
+    }
   }
-  document.getElementById('fals_verdict').textContent = verdict;
   
   // Draw sweep plot
   drawVisibilitySweep(lambda_nm, Rq);
@@ -4627,26 +4642,7 @@ function drawVisibilitySweep(lambda_nm, Rq) {
   ctx.fillText('STUR Visibility Ratio (λ=' + lambda_nm + 'nm, Rq=' + Rq + ')', margin.left + plotW/2, 18);
 }
 
-// Add event listeners for visibility calculator
-document.addEventListener('DOMContentLoaded', function() {
-  // Slider updates
-  const lcSlider = document.getElementById('vis_lc_log');
-  const dLSlider = document.getElementById('vis_dL_ratio');
-  
-  if (lcSlider) {
-    lcSlider.addEventListener('input', function() {
-      document.getElementById('vis_lc_val').textContent = Math.pow(10, this.value).toFixed(0);
-    });
-  }
-  if (dLSlider) {
-    dLSlider.addEventListener('input', function() {
-      document.getElementById('vis_dL_val').textContent = parseFloat(this.value).toFixed(2);
-    });
-  }
-  
-  // Initial calculation
-  setTimeout(updateVisibilityCalc, 100);
-});
+// Visibility calculator event listeners moved to unified DOMContentLoaded initializer
 
 // ============================================================
 // HOLOSCREEN SIMULATOR
@@ -5281,12 +5277,33 @@ if (ttCheckEl) {
 if (tauRangeEl) tauRangeEl.addEventListener("input", debouncedRenderTOE);
 
 // ============================================================
-// INITIALIZATION
-// PATCH 3: Single initialization via DOMContentLoaded only
+// INITIALIZATION (single authoritative init)
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
+  // Holoscreen + TOE
   updateHoloscreen();
   renderTOE();
+
+  // Visibility calculator wiring
+  const lcSlider = document.getElementById('vis_lc_log');
+  const dLSlider = document.getElementById('vis_dL_ratio');
+
+  if (lcSlider) {
+    lcSlider.addEventListener('input', () => {
+      const out = document.getElementById('vis_lc_val');
+      if (out) out.textContent = Math.pow(10, lcSlider.value).toFixed(0);
+    });
+  }
+
+  if (dLSlider) {
+    dLSlider.addEventListener('input', () => {
+      const out = document.getElementById('vis_dL_val');
+      if (out) out.textContent = parseFloat(dLSlider.value).toFixed(2);
+    });
+  }
+
+  // Initial visibility compute (once)
+  setTimeout(updateVisibilityCalc, 50);
 });
 </script>
 
