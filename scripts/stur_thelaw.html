@@ -599,6 +599,60 @@ expressed consistently with this choice.
 (a flux velocity scale), not \([L^{-1}]\). This is enforced by the ledger above.
 </p>
 
+<h3>Normalization of the X-Diffusion Coefficient</h3>
+
+<p>
+In the dimensional bulk free-energy functional, the memory-axis term appears as
+</p>
+
+<div class="eq">
+\[
+\frac{1}{2} D_X (\partial_X R)^2 + \frac{1}{2}(R-R_{\mathrm{bg}})^2
+\]
+</div>
+
+<p>
+Varying with respect to \(R\) yields the Euler–Lagrange equation
+</p>
+
+<div class="eq">
+\[
+- D_X \partial_X^2 R + (R - R_{\mathrm{bg}}) = 0
+\]
+</div>
+
+<p>
+In the normalized system defined above, we absorb \(D_X\) into the definition of the X-coordinate by rescaling
+</p>
+
+<div class="eq">
+\[
+X \;\mapsto\; \tilde{X} \equiv X/\sqrt{D_X}
+\]
+</div>
+
+<p>
+Dropping the tilde thereafter, the memory equation becomes
+</p>
+
+<div class="eq" style="background:rgba(52,211,153,0.15);border:1px solid #34d399;padding:1rem;border-radius:8px">
+\[
+\boxed{
+\partial_X^2 R = R - R_{\mathrm{bg}}
+}
+\]
+</div>
+
+<p>
+with no loss of generality.
+</p>
+
+<p class="note" style="background:rgba(167,139,250,0.1);border-left:3px solid #a78bfa;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Interpretation:</strong> The parameter \(D_X\) does not represent an independent physical knob;
+it merely sets the unit scale of the memory coordinate \(X\). All physically meaningful predictions
+depend only on the dimensionless combination \(u_c = \ln(\ell_c/\lambda)\), not on \(D_X\) separately.
+</p>
+
 <h3>2A.2 Free-Energy Functional</h3>
 
 <div class="eq">
@@ -656,6 +710,63 @@ produces diffusion-type PDEs. This resolves the apparent conflict between "actio
 where \(\bar{h}\) is the induced metric on \(\Sigma = \partial\mathcal{M}^5\), and \(\theta(\tau)\)
 is an externally controlled phase parameter (not varied). The same holoscreen coupling that
 sets the boundary condition is what modulates the measured projection.
+</p>
+
+<h3>2A.3 Stabilizing Self-Interaction and Bounded Dynamics</h3>
+
+<p>
+To prevent unphysical runaway solutions when \(\chi > 0\), the free-energy functional includes
+a stabilizing self-interaction potential. We adopt the minimal quartic form:
+</p>
+
+<div class="eq" style="background:rgba(167,139,250,0.15);border:1px solid #a78bfa;padding:1rem;border-radius:8px">
+\[
+\boxed{
+V(R) = \frac{\mu^2}{2}(R-R_{\mathrm{bg}})^2 + \frac{g}{4}(R-R_{\mathrm{bg}})^4,
+\qquad \mu^2 > 0,\; g > 0
+}
+\]
+</div>
+
+<p>
+The functional derivative contributes
+</p>
+
+<div class="eq">
+\[
+V'(R) = \mu^2(R-R_{\mathrm{bg}}) + g(R-R_{\mathrm{bg}})^3
+\]
+</div>
+
+<p>
+Substituting into the gradient-flow equation yields
+</p>
+
+<div class="eq">
+\[
+\partial_t R = \cdots - \Gamma\mu^2(R-R_{\mathrm{bg}}) - \Gamma g(R-R_{\mathrm{bg}})^3 + \chi(R-R_{\mathrm{bg}}) + \cdots
+\]
+</div>
+
+<p>
+The linear growth rate is therefore
+</p>
+
+<div class="eq">
+\[
+\lambda_{\mathrm{eff}} = \chi - \Gamma\mu^2
+\]
+</div>
+
+<ul>
+<li>If \(\chi < \Gamma\mu^2\): equilibrium is linearly stable</li>
+<li>If \(\chi > \Gamma\mu^2\): growth occurs but saturates at
+\(|R-R_{\mathrm{bg}}| \sim \sqrt{(\chi - \Gamma\mu^2)/(\Gamma g)}\)</li>
+</ul>
+
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Conclusion:</strong> The dynamics are globally bounded for all parameter values.
+No runaway solutions exist within the STUR phase space.
 </p>
 
 <p class="note">
@@ -965,52 +1076,77 @@ The two modes have distinct physical interpretations:
 <li><strong>Decaying mode</strong> \(e^{-X}\): Memory dissipation (decoherence)</li>
 </ul>
 
-<h3>4.3 Quasi-Static Memory Regime (First-Order Closure)</h3>
-
-<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
-<strong>Regime specification (required for closure):</strong> The first-order approximation
-\(\partial_X R \approx (R - R_{\mathrm{bg}})\) is valid if and only if the decaying mode is suppressed.
-This is <em>not</em> automatic; it requires a specific boundary condition.
-</p>
+<h3>4.3 Physical Orientation of the Memory Axis and Mode Selection</h3>
 
 <p>
-<strong>Condition for first-order closure:</strong> Impose the boundary condition that suppresses the \(e^{-X}\) mode:
+The general solution of the X-memory equation,
 </p>
 
 <div class="eq">
 \[
-B(x^\mu) = 0 \quad \Leftrightarrow \quad \lim_{X \to -\infty} |R - R_{\mathrm{bg}}| < \infty
+R - R_{\mathrm{bg}} = A(x^\mu)e^{+X} + B(x^\mu)e^{-X}
 \]
 </div>
 
 <p>
-Equivalently, for a finite domain \(X \in [X_{\min}, X_{\max}]\), we require either:
+contains two exponential modes. To ensure physical stability, we must specify the orientation of the memory axis.
 </p>
 
+<p class="note" style="background:rgba(167,139,250,0.15);border-left:3px solid #a78bfa;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Memory axis convention:</strong> We define the \(X\)-coordinate such that:
+<ul style="margin:0.5rem 0 0 0">
+<li>\(X = 0\) corresponds to the holoscreen boundary \(\Sigma\)</li>
+<li>\(X < 0\) corresponds to increasing memory depth into the past</li>
+<li>\(X \to -\infty\) corresponds to deep, saturated memory</li>
+</ul>
+</p>
+
+<p>
+Under this convention:
+</p>
 <ul>
-<li>\(X_{\min} \to -\infty\) (semi-infinite domain, regularity at \(-\infty\)), or</li>
-<li>A specific Robin condition at \(X_{\min}\) that enforces \(B = 0\):
-\(\partial_X R|_{X_{\min}} = (R - R_{\mathrm{bg}})|_{X_{\min}}\)</li>
+<li>\(e^{+X}\) <strong>decays</strong> with increasing memory depth (toward \(X \to -\infty\))</li>
+<li>\(e^{-X}\) <strong>diverges</strong> as \(X \to -\infty\)</li>
 </ul>
 
 <p>
-With \(B = 0\), the solution reduces to \(R = R_{\mathrm{bg}} + A(x^\mu) e^{X}\), and differentiation gives:
+Therefore, physical regularity requires suppression of the diverging mode:
+</p>
+
+<div class="eq" style="background:rgba(255,100,100,0.15);border:1px solid #ff6b6b;padding:1rem;border-radius:8px">
+\[
+\boxed{
+B(x^\mu) = 0 \quad \text{(memory-stable sector)}
+}
+\]
+</div>
+
+<p>
+With this boundary condition,
 </p>
 
 <div class="eq">
 \[
+R(x^\mu,X) = R_{\mathrm{bg}} + A(x^\mu)e^{X}
+\]
+</div>
+
+<p>
+and differentiation yields the first-order memory law:
+</p>
+
+<div class="eq" style="background:rgba(52,211,153,0.15);border:1px solid #34d399;padding:1rem;border-radius:8px">
+\[
 \boxed{
 \partial_X R = R - R_{\mathrm{bg}}
-\quad \text{(quasi-static memory regime, valid when } B = 0 \text{)}
 }
 \]
 </div>
 
 <p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
-<strong>Mathematical justification complete:</strong> The first-order law is not an "overdamped approximation"
-but rather an <em>exact consequence</em> of the general solution when the decaying mode is eliminated by
-boundary conditions. This is analogous to selecting the retarded (rather than advanced) Green's function
-in causal propagation problems.
+<strong>Key point:</strong> This is <em>not</em> an overdamped approximation. It is the unique stable branch
+of the exact second-order equation under physically admissible boundary conditions, analogous to selecting
+retarded Green's functions in causal propagation.
 </p>
 
 <h3>4.4 Physical Interpretation</h3>
@@ -1081,43 +1217,47 @@ The coupling \(\Omega^\mu \nabla_\mu R\) is the covariant directional derivative
 ensuring tensorial consistency.
 </p>
 
-<h3>5.2 Constitutive Classification (Fixed, Not Free)</h3>
+<h3>5.2 Constitutive Drift Table (Version-Locked)</h3>
 
 <p>
 To prevent \(\Omega^\mu\) from becoming a "stealth knob" that can be adjusted post hoc to fit data,
-STUR adopts a <strong>constitutive classification</strong>: the form of \(\Omega^\mu\) is fixed
-for each physical domain before any predictions are made.
+STUR adopts a <strong>version-locked constitutive table</strong>: the form of \(\Omega^\mu\) is fixed
+for each physical domain and cannot be modified without incrementing the theory version.
 </p>
 
 <table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:1rem 0">
 <thead>
-<tr style="background:rgba(167,139,250,0.2)">
-<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Domain</th>
-<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Constitutive Choice</th>
-<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Physical Justification</th>
-<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Status</th>
+<tr style="background:rgba(255,100,100,0.2)">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #ff6b6b">Domain</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #ff6b6b">Constitutive Drift</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #ff6b6b">Fixed Value</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #ff6b6b">Status</th>
 </tr>
 </thead>
 <tbody>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Lab optics / interferometry</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = 0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Flat spacetime, no geometric drift</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Locked</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Weak gravitational field</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = \alpha_g\, \nabla^\mu \Phi\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Drift along Newtonian potential gradient</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Locked (\(\alpha_g = 1\))</td></tr>
-<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>TEGR sector</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = \alpha_T\, T^\mu\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Drift along torsion trace vector</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Locked (\(\alpha_T = 1\))</td></tr>
-<tr><td style="padding:0.4rem"><strong>Cosmology (FRW)</strong></td><td style="padding:0.4rem">\(\Omega^\mu = H u^\mu\)</td><td style="padding:0.4rem">Hubble drift along comoving 4-velocity</td><td style="padding:0.4rem">Locked</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Optical interferometry</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = 0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">exact</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ff6b6b;font-weight:bold">Locked</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Josephson / condensed matter</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = 0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">exact</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ff6b6b;font-weight:bold">Locked</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Weak gravity (scalar sector)</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = \nabla^\mu \Phi\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">coefficient = 1</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ff6b6b;font-weight:bold">Locked</td></tr>
+<tr><td style="padding:0.4rem"><strong>Cosmology (FRW)</strong></td><td style="padding:0.4rem">\(\Omega^\mu = H u^\mu\)</td><td style="padding:0.4rem">exact</td><td style="padding:0.4rem;color:#ff6b6b;font-weight:bold">Locked</td></tr>
 </tbody>
 </table>
 
-<p>
-where \(\Phi\) is the Newtonian potential, \(T^\mu = T^{\nu\mu}{}_\nu\) is the torsion trace vector,
-\(H\) is the Hubble parameter, and \(u^\mu\) is the comoving 4-velocity.
-</p>
+<h3>Audit Rule (Non-Negotiable)</h3>
 
-<div class="eq">
+<div class="eq" style="background:rgba(255,100,100,0.2);border:2px solid #ff6b6b;padding:1rem;border-radius:8px">
 \[
 \boxed{
-\text{STUR postulate: } \Omega^\mu \text{ is a domain-specific constitutive constant, not a fitting parameter}
+\text{Any modification of } \Omega^\mu \text{ constitutes a new theory version (STUR v1.x).}
 }
 \]
 </div>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Non-negotiable:</strong> Post-hoc reclassification of domains or drift terms after experimental
+comparison is <em>forbidden</em>. Failure of predictions within a domain cannot be repaired by altering
+\(\Omega^\mu\). Such modifications would require explicit acknowledgment of theory failure and
+publication of STUR v1.1 or later.
+</p>
 
 <h3>5.3 Symmetry Constraints</h3>
 
@@ -1295,6 +1435,46 @@ with saturation functional \(S_u(u)=\tanh(u)(1-e^{-u})\).
 
 <section class="panel">
 <h2>8. Chronomagnetic Projection Law</h2>
+
+<h3>8.0 Origin of the Chronomagnetic Gating Function</h3>
+
+<p>
+The boundary phase \(\theta\) is an angular control parameter and is therefore compact:
+</p>
+
+<div class="eq">
+\[
+\theta \sim \theta + 2\pi
+\]
+</div>
+
+<p>
+The holoscreen free-energy contribution depends only on dimensionless invariants formed from \(\theta\)
+and the control parameter \(M\). The lowest-order, parity-even, \(2\pi\)-periodic scalar is
+</p>
+
+<div class="eq">
+\[
+\cos(\theta/M)
+\]
+</div>
+
+<p>
+The argument must be \(\theta/M\) rather than \(\theta\) alone because:
+</p>
+
+<ul>
+<li>\(M = R_q S_u(u_c)\) rescales the modular/thermal generator of boundary response</li>
+<li>Large \(M\) corresponds to classical recovery (\(\theta/M \to 0\))</li>
+<li>Small \(M\) enhances phase sensitivity</li>
+</ul>
+
+<p class="note" style="background:rgba(167,139,250,0.1);border-left:3px solid #a78bfa;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Higher harmonics:</strong> Terms like \(\cos(n\theta/M)\) for \(n > 1\) are suppressed by higher-order
+boundary operators and are neglected at leading order in STUR v1.0.
+</p>
+
+<h3>8.1 Gating Function and Observable</h3>
 
 <div class="eq">
 \[
@@ -1942,18 +2122,86 @@ The only inputs are directly measurable quantities.
 </section>
 
 <section class="panel">
-<h2>15.3 Superconductor Calibration</h2>
+<h2>15.3 Superconductors — Hard Observables</h2>
 
-<div class="eq">
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Falsifiability requirement:</strong> STUR predictions for superconductors focus on observables
+that <em>cannot</em> be absorbed into effective temperature or sample-quality parameters.
+</p>
+
+<h3>(i) Meissner Response — Penetration Depth Modification</h3>
+
+<div class="eq" style="background:rgba(167,139,250,0.15);border:1px solid #a78bfa;padding:1rem;border-radius:8px">
 \[
 \boxed{
-I_c^{\mathrm{STUR}}(T) = I_{c0}\left(1 - \frac{T}{T_c}\right)^{3/2} \cdot \tanh(R_q S_u(u_c))
+\lambda_L^{\mathrm{STUR}} = \lambda_L^{\mathrm{BCS}}\left[1 + \frac{1}{M}\right]
 }
 \]
 </div>
 
+<p>
+<strong>Prediction:</strong> History-dependent deviation in magnetic susceptibility at fixed \(T\).
+Slow-cooled vs. quench-cooled samples should show measurably different \(\lambda_L\).
+</p>
+
+<h3>(ii) Resistive Transition Shape</h3>
+
+<p>
+Near \(T_c\), STUR predicts a non-thermal rounding:
+</p>
+
+<div class="eq" style="background:rgba(167,139,250,0.15);border:1px solid #a78bfa;padding:1rem;border-radius:8px">
+\[
+\boxed{
+\rho(T) = \rho_n \left[1 - \tanh(M)\right]
+}
+\]
+</div>
+
+<p>
+<strong>Prediction:</strong> At fixed temperature but differing preparation history, the transition
+width and shape should differ in a way not attributable to disorder or temperature uncertainty.
+</p>
+
+<h3>(iii) Upper Critical Field \(H_{c2}\)</h3>
+
+<div class="eq" style="background:rgba(167,139,250,0.15);border:1px solid #a78bfa;padding:1rem;border-radius:8px">
+\[
+\boxed{
+H_{c2}^{\mathrm{STUR}} = H_{c2}^{\mathrm{BCS}}\left[1 + \frac{1}{M}\right]
+}
+\]
+</div>
+
+<p>
+<strong>Prediction:</strong> Divergence between \(H_{c2}(T)\) curves for slow-cooled vs. quenched samples.
+</p>
+
+<h3>(iv) Phase-Noise Power Spectrum</h3>
+
+<p>
+Josephson phase noise:
+</p>
+
+<div class="eq" style="background:rgba(167,139,250,0.15);border:1px solid #a78bfa;padding:1rem;border-radius:8px">
+\[
+\boxed{
+S_\phi^{\mathrm{STUR}}(f) = S_\phi^{\mathrm{QM}}(f)\cdot \tanh^2(M)
+}
+\]
+</div>
+
+<p>
+<strong>Prediction:</strong> Noise suppression at fixed \(T\) but varying coherence depth falsifies or supports STUR.
+</p>
+
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Key principle:</strong> All four observables compare samples at <em>identical temperature</em>
+but <em>different preparation histories</em>. Temperature-only explanations are excluded by design.
+</p>
+
 <div class="calibration-tool">
-<h4>⚡ Josephson Junction Calculator</h4>
+<h4>Josephson Junction Calculator</h4>
 <div class="calc-grid">
 <div>
 <label>Material:</label>
@@ -2015,6 +2263,58 @@ I_c^{\mathrm{STUR}}(T) = I_{c0}\left(1 - \frac{T}{T_c}\right)^{3/2} \cdot \tanh(
 <button class="calc-button" onclick="calculateGravRedshift()">Calculate</button>
 <div id="cal_grav_result" class="result-box" style="display:none;"></div>
 </div>
+
+<h3>15.4.1 Consistency with Existing Redshift Bounds</h3>
+
+<p>
+Modern optical clock experiments constrain deviations from GR at the level:
+</p>
+
+<div class="eq">
+\[
+\left|\frac{\Delta\nu}{\nu} - \frac{gh}{c^2}\right| \lesssim 10^{-6}
+\]
+</div>
+
+<p>
+STUR predicts a fractional correction:
+</p>
+
+<div class="eq">
+\[
+\frac{1}{M} = \frac{1}{R_q S_u(u_c)}
+\]
+</div>
+
+<p>
+For atomic clocks:
+</p>
+
+<ul>
+<li>\(\ell_c \sim 10^{12}\lambda\) (extremely coherent atomic transitions)</li>
+<li>\(u_c \sim 28\)</li>
+<li>\(S_u(u_c) \approx 1\) (saturated regime)</li>
+<li>\(R_q \sim \pi \ell_c/\lambda \sim 10^{12}\)</li>
+</ul>
+
+<p>
+Hence:
+</p>
+
+<div class="eq" style="background:rgba(52,211,153,0.15);border:1px solid #34d399;padding:1rem;border-radius:8px">
+\[
+\boxed{
+\frac{1}{M} \sim 10^{-12} \ll 10^{-6}
+}
+\]
+</div>
+
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Conclusion:</strong> STUR corrections are far below existing gravitational redshift bounds while
+remaining accessible in optical interferometry where \(\ell_c/\lambda\) is <em>deliberately reduced</em>.
+Atomic clock experiments do not constrain STUR because the correction is 6 orders of magnitude below
+current sensitivity.
+</p>
 </section>
 
 <section class="panel">
@@ -2280,6 +2580,58 @@ Solid curves show V<sub>STUR</sub>/V<sub>QM</sub> for three coherence lengths. D
 <li id="fals_verdict" style="font-weight:bold;color:#4a9eff">—</li>
 </ul>
 </div>
+</section>
+
+<!-- SWEET-SPOT CONDITION -->
+
+<section class="panel">
+<h3>A.5 Sweet-Spot Condition for Detectable Deviation</h3>
+
+<p>Define the deviation:</p>
+
+<div class="eq">
+\[
+\Delta(\ell_c,\Delta L) \equiv 1 - \frac{V_{\mathrm{STUR}}}{V_{\mathrm{QM}}}
+\]
+</div>
+
+<p>STUR predicts a resolvable effect when:</p>
+
+<div class="eq" style="background:rgba(52,211,153,0.15);border:1px solid #34d399;padding:1rem;border-radius:8px">
+\[
+\boxed{
+\Delta(\ell_c,\Delta L) \ge \delta
+}
+\]
+</div>
+
+<p>where \(\delta = 5\varepsilon\) is the experimental detection threshold.</p>
+
+<p>This occurs in the region:</p>
+
+<div class="eq">
+\[
+\boxed{
+\frac{\pi \Delta L}{\lambda R_q S_u(\ln(\ell_c/\lambda))} \sim \mathcal{O}(1)
+}
+\]
+</div>
+
+<p>Equivalently:</p>
+
+<div class="eq" style="background:rgba(167,139,250,0.15);border:1px solid #a78bfa;padding:1rem;border-radius:8px">
+\[
+\boxed{
+0.3 \;\lesssim\; \frac{\Delta L}{\ell_c} \cdot \frac{\ell_c/\lambda}{\pi S_u(\ln(\ell_c/\lambda))} \;\lesssim\; 2
+}
+\]
+</div>
+
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Experimental sweet spot:</strong> This defines the optimal parameter regime for falsification tests:
+moderate coherence and path imbalance, <em>not</em> ultra-coherent lasers. The effect is maximized when
+\(\Delta L / \ell_c \sim 0.5\) and \(\ell_c / \lambda \sim 10^2 - 10^3\).
+</p>
 </section>
 
 <!-- GLOSSARY -->
