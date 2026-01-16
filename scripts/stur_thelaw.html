@@ -727,6 +727,35 @@ and Takesaki (2002) in Appendix C.
 Operator algebras generate intrinsic evolution via a modular Hamiltonian.
 Geometrizing this evolution requires the internal axis \(X\).
 </p>
+
+<h4>Simple Example: Thermal State</h4>
+
+<p>
+For a thermal state at temperature \(T\), the modular Hamiltonian is simply the physical Hamiltonian 
+scaled by inverse temperature:
+</p>
+
+<div class="eq">
+\[
+K_{\text{mod}} = \frac{H}{k_B T}
+\]
+</div>
+
+<p>
+The modular flow parameter \(s\) then satisfies:
+</p>
+
+<div class="eq">
+\[
+\sigma_s(A) = e^{isK_{\text{mod}}} A\, e^{-isK_{\text{mod}}}
+\]
+</div>
+
+<p>
+In STUR, we identify the X-coordinate with the modular parameter: \(X \sim s\). 
+This explains why thermal coherence (at temperature \(T\)) maps naturally to memory depth 
+via \(R_q = \Delta E / k_B T\).
+</p>
 </section>
 
 <section class="panel">
@@ -1033,6 +1062,76 @@ In black hole thermodynamics:
 <p>
 STUR violates Bell-locality but preserves signal locality.
 All nonlocal effects are boundary-mediated and phase-gated.
+</p>
+
+<h3>Cosmological Predictions</h3>
+
+<p>
+STUR makes specific predictions for early-universe observables:
+</p>
+
+<h4>Phase-Gated CMB</h4>
+
+<p>
+At recombination (\(z \approx 1100\), \(\log_{10}(t) \approx 13.0\)), the chronomagnetic parameter was:
+</p>
+
+<div class="eq">
+\[
+M_{\text{rec}} = R_q \cdot S_u\left(\ln\frac{t_{\text{rec}}}{t_P}\right) \approx R_q \cdot S_u(139)
+\]
+</div>
+
+<p>
+For \(R_q \sim 1\), \(M_{\text{rec}} \approx 1\) (transitional regime). This predicts:
+</p>
+
+<ul>
+<li><strong>Acoustic peak modulation:</strong> \(\cos^2(\ell/M_{\text{rec}})\) correction to CMB power spectrum at high \(\ell\)</li>
+<li><strong>Polarization anomaly:</strong> E-mode/B-mode ratio modified by boundary phase at last scattering</li>
+</ul>
+
+<div class="eq">
+\[
+\boxed{
+\frac{C_\ell^{\text{STUR}}}{C_\ell^{\Lambda\text{CDM}}} = 1 - \frac{1}{2M_{\text{rec}}^2}\sin^2\left(\frac{\ell}{\ell_*}\right) + \mathcal{O}(M^{-4})
+}
+\]
+</div>
+
+<p>where \(\ell_* \sim 100\) is the characteristic acoustic scale.</p>
+
+<h4>Primordial Power Spectrum</h4>
+
+<p>
+During inflation, memory effects modify the scalar spectral index:
+</p>
+
+<div class="eq">
+\[
+n_s^{\text{STUR}} = n_s^{\text{standard}} + \frac{2}{M_{\text{inf}}^2}\left(1 - \frac{1}{N_e}\right)
+\]
+</div>
+
+<p>
+where \(N_e \sim 60\) is the number of e-folds. For \(M_{\text{inf}} \gg 1\), this correction is negligible, 
+consistent with Planck constraints.
+</p>
+
+<h4>Dark Energy as Boundary Effect</h4>
+
+<p>
+The cosmological constant may emerge as a holoscreen boundary term:
+</p>
+
+<div class="eq">
+\[
+\Lambda_{\text{eff}} = \Lambda_0 \cdot \cos^2\left(\frac{\theta_{\text{horizon}}}{M_{\text{cosmic}}}\right)
+\]
+</div>
+
+<p>
+As the universe expands, \(M_{\text{cosmic}} \to \infty\) and \(\Lambda_{\text{eff}} \to \Lambda_0\) (de Sitter attractor).
 </p>
 </section>
 
@@ -2146,18 +2245,21 @@ TOE regime thresholds use normalized M scale for visualization purposes.
 <div style="height:12px"></div>
 
 <div class="sim-hud">
-<div class="sim-hudbox">
+<div class="sim-hudbox" title="Information lost to decoherence, measured in bits. Higher values indicate stronger STUR boundary effects.">
 <div class="k">Entropy Leakage</div>
 <div class="v">ΔS: <span id="bitsLost">0</span> bits</div>
 <div class="bar"><div id="bitsBar"></div></div>
 </div>
-<div class="sim-hudbox">
+<div class="sim-hudbox" title="Average phase shift between QM and STUR predictions. Non-zero divergence signals boundary-mediated corrections.">
 <div class="k">Phase Divergence</div>
 <div class="v"><span id="phaseDiv">0</span></div>
 </div>
 <div class="sim-hudbox">
-<div class="k">Export Data</div>
-<button onclick="exportPatternCSV()" style="padding:0.4rem 0.8rem;background:#4a9eff;border:none;border-radius:4px;color:#fff;cursor:pointer;font-size:0.8rem">📥 CSV</button>
+<div class="k">Export</div>
+<div style="display:flex;gap:0.3rem">
+<button onclick="exportPatternCSV()" title="Download pattern data as CSV" style="padding:0.3rem 0.5rem;background:#4a9eff;border:none;border-radius:4px;color:#fff;cursor:pointer;font-size:0.75rem">📥 CSV</button>
+<button onclick="savePatternImage()" title="Save interference plot as PNG" style="padding:0.3rem 0.5rem;background:#6bcb77;border:none;border-radius:4px;color:#fff;cursor:pointer;font-size:0.75rem">🖼️ PNG</button>
+</div>
 </div>
 </div>
 
@@ -2165,7 +2267,7 @@ TOE regime thresholds use normalized M scale for visualization purposes.
 
 <div class="sim-card" style="box-shadow:none">
 <div class="sim-cardhead">
-<div class="h">Chrono Plot</div>
+<div class="h" title="Chronomagnetic parameter M vs cosmic log-time, showing regime transitions">Chrono Plot</div>
 </div>
 <div class="sim-cardbody" style="padding:10px">
 <canvas id="chronoCanvas" width="400" height="200" role="img" aria-label="Chronomagnetic diagnostic plot"></canvas>
@@ -2699,6 +2801,12 @@ k_{\ell n} = \frac{x_{\ell n}}{R} \quad (x_{\ell n}\text{ is }n\text{-th zero of
 S_{\partial M}[e] = -\frac{1}{\kappa}\oint_{\partial M} d^3\Sigma\, e\, T^\mu n_\mu
 \]
 </div>
+
+<p class="note" style="font-size:0.85rem">
+<strong>Index clarification:</strong> Here \(T^\mu = T^{\nu\mu}{}_\nu\) is the torsion trace vector 
+(contraction of torsion tensor), and \(n_\mu\) is the unit normal covector to \(\partial M\). 
+The product \(T^\mu n_\mu\) is a scalar (full index contraction).
+</p>
 
 <p>Then:</p>
 <div class="eq">
@@ -3552,7 +3660,7 @@ const d = 1e-3;
 const cosmicEvents = [
   { name: "CMB", log_t: 12.6, color: "#90ee90" },
   { name: "Dark Ages", log_t: 15.5, color: "#4169e1" },
-  { name: "Reion.", log_t: 16.3, color: "#9370db" },
+  { name: "Reionization", log_t: 16.3, color: "#9370db" },
   { name: "Now", log_t: 17.6, color: "#ffffff" }
 ];
 
@@ -3708,6 +3816,36 @@ function exportPatternCSV() {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+// Save pattern canvas as PNG image
+function savePatternImage() {
+  const canvas = document.getElementById('mainCanvas');
+  if (!canvas) return;
+  
+  const Rq = parseFloat(document.getElementById('rqRange').value);
+  const L0_nm = parseFloat(document.getElementById('l0Range').value);
+  
+  const link = document.createElement('a');
+  link.download = `STUR_interference_Rq${Rq}_L0${L0_nm}nm.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+// Debounce utility for mobile performance
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// Debounced render for slider inputs (50ms delay)
+const debouncedRenderTOE = debounce(renderTOE, 50);
 
 function computePhaseSpace(Rq, L0_nm) {
   const L0 = L0_nm * 1e-9;
@@ -4066,8 +4204,9 @@ if (toggleDiffBtn) {
   });
 }
 
-if (rqRangeEl) rqRangeEl.addEventListener("input", renderTOE);
-if (l0RangeEl) l0RangeEl.addEventListener("input", renderTOE);
+// Use debounced render for continuous slider input (better mobile performance)
+if (rqRangeEl) rqRangeEl.addEventListener("input", debouncedRenderTOE);
+if (l0RangeEl) l0RangeEl.addEventListener("input", debouncedRenderTOE);
 
 if (ttCheckEl) {
   ttCheckEl.addEventListener("change", () => {
@@ -4078,7 +4217,7 @@ if (ttCheckEl) {
   });
 }
 
-if (tauRangeEl) tauRangeEl.addEventListener("input", renderTOE);
+if (tauRangeEl) tauRangeEl.addEventListener("input", debouncedRenderTOE);
 
 // ============================================================
 // INITIALIZATION
