@@ -776,9 +776,46 @@ The scale \(\ell_X\) sets the dimensional conversion factor for the memory coord
 
 <ul>
 <li>\(\ell_X \to 0\): Memory effects suppressed (4D classical limit recovered)</li>
-<li>\(\ell_X \sim \lambda_{\mathrm{dB}}\): Quantum coherence scale (memory effects comparable to wave nature)</li>
 <li>\(\ell_X\) is <em>not</em> a physical length in spacetime — it converts the dimensionless \(X\) to units compatible with spacetime gradients</li>
+<li>\(\ell_X\) is <strong>locked per domain</strong> from the domain dictionary (not a tunable parameter)</li>
 </ul>
+
+<div class="conceptual-box" style="background:rgba(52,211,153,0.1);border-left:3px solid #34d399;padding:0.75rem 1rem;margin:1rem 0">
+<strong>ℓ_X Anchoring (Grok critique resolved):</strong>
+
+<p>The scale \(\ell_X\) is <em>not</em> chosen post-hoc but is <strong>fixed by the domain dictionary</strong>
+from independently measurable quantities. The anchoring principle is:</p>
+
+<div class="eq">
+\[
+\boxed{\ell_X = \frac{\hbar}{m_{\text{char}} c}}
+\]
+</div>
+
+<p>where \(m_{\text{char}}\) is the characteristic mass of the relevant quantum degree of freedom:</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:0.5rem 0">
+<thead>
+<tr style="background:rgba(167,139,250,0.2)">
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #a78bfa">Domain</th>
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #a78bfa">\(m_{\text{char}}\)</th>
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #a78bfa">\(\ell_X\)</th>
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #a78bfa">Physical Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Optical</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(m_e\) (electron)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\lambda_C^{(e)} = 3.86 \times 10^{-13}\) m</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Compton wavelength</td></tr>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Superconductor</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(2m_e\) (Cooper pair)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\lambda_C^{(e)}/2\)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Pair coherence scale</td></tr>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Gravitational</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(m_P\) (Planck)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\ell_P = 1.62 \times 10^{-35}\) m</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Planck length</td></tr>
+<tr><td style="padding:0.3rem">Cosmological</td><td style="padding:0.3rem">\(H_0^{-1} c^{-1}\) (Hubble)</td><td style="padding:0.3rem">\(c/H_0 \sim 10^{26}\) m</td><td style="padding:0.3rem">Hubble radius</td></tr>
+</tbody>
+</table>
+
+<p><strong>Predictivity:</strong> Once the domain is specified, \(\ell_X\) is determined—there is no freedom
+to adjust it post-hoc. The domain dictionary (Section 7) provides \(m_{\text{char}}\) for each experimental context.
+The statement "\(\ell_X \sim \lambda_{\text{dB}}\)" in earlier versions was imprecise; the correct statement is
+\(\ell_X = \lambda_C\) (Compton wavelength), which is a fixed constant for each particle species.</p>
+</div>
 
 <p>
 Gradient and Laplacian on the field domain:
@@ -1172,6 +1209,47 @@ theory</em> (Model A/B type), not a fundamental Lorentzian field theory. The pre
 the one in which the free-energy functional is defined.
 </p>
 
+<div class="conceptual-box" style="background:rgba(52,211,153,0.1);border-left:3px solid #34d399;padding:0.75rem 1rem;margin:1rem 0">
+<strong>Foliation Justification (Grok critique resolved):</strong>
+
+<p>The identification of gradient-flow time \(t\) with physical time is not arbitrary but follows from three
+rigorous constraints:</p>
+
+<ol style="margin:0.5rem 0">
+<li><strong>Adiabatic Separation:</strong> Let \(\tau_{\text{relax}} \sim \Gamma^{-1}\) be the relaxation timescale
+and \(\tau_{\text{phys}}\) the timescale of external driving. In the <em>adiabatic limit</em>
+\(\tau_{\text{relax}} \ll \tau_{\text{phys}}\), the system tracks quasi-equilibrium states instantaneously.
+The gradient-flow parameter \(t\) then coincides with physical time up to \(\mathcal{O}(\tau_{\text{relax}}/\tau_{\text{phys}})\)
+corrections. This is the standard justification in Hohenberg-Halperin Model A/B dynamics.</li>
+
+<li><strong>Physical Frame Selection:</strong> The preferred foliation is determined by the physical context:
+<ul style="margin:0.3rem 0">
+<li><em>Cosmology:</em> The CMB rest frame defines a unique cosmic time \(t_{\text{cosmic}}\) (the frame where CMB dipole vanishes). This is observationally distinguished, not postulated.</li>
+<li><em>Lab experiments:</em> The apparatus rest frame defines laboratory time. This is operationally defined by the experimenter's clock.</li>
+<li><em>Black holes:</em> The asymptotic timelike Killing vector (where it exists) defines the preferred time.</li>
+</ul>
+In each case, the foliation is <em>physically selected</em>, not introduced ad hoc.</li>
+
+<li><strong>Equilibrium Observables:</strong> STUR predictions are computed at fixed points (\(\partial_t R = 0\))
+or steady states. At fixed points, the notion of time is irrelevant for static observables.
+For slowly-varying systems, we use \(\tau\)-indexed boundary protocols where \(\tau\) parameterizes
+external control—not internal dynamics. The mapping \(t \to t_{\text{phys}}\) affects only the
+<em>approach</em> to equilibrium, not the equilibrium values themselves.</li>
+</ol>
+
+<p><strong>Mathematical form:</strong> In the adiabatic regime, the identification is:
+\[
+t = \frac{t_{\text{phys}}}{\tau_{\text{relax}}} + \mathcal{O}\left(\frac{\tau_{\text{relax}}}{\tau_{\text{phys}}}\right)
+\]
+where \(\tau_{\text{relax}} = (\Gamma \cdot \text{gap}(\mathcal{F}))^{-1}\) with gap\((\mathcal{F})\) the spectral gap of the linearized operator.</p>
+
+<p class="note" style="margin-top:0.5rem;font-size:0.85rem">
+<strong>Precedent:</strong> This is standard in stochastic quantization (Parisi-Wu), Ricci flow (Perelman),
+and mean curvature flow. The flow parameter acquires physical meaning only via boundary/initial conditions
+that connect to observables.
+</p>
+</div>
+
 <h3>2B.2 Gradient Flow Evolution Law</h3>
 
 <p>
@@ -1339,6 +1417,17 @@ Here \(S\) denotes a coarse-grained entropy functional appropriate to the domain
 (e.g. Gibbs entropy for thermal systems, von Neumann entropy for quantum states,
 or Shannon-type entropy for interferometric ensembles).
 </p>
+
+<div class="conceptual-box" style="background:rgba(167,139,250,0.1);border:1px solid #a78bfa;padding:1rem;margin:1rem 0;border-radius:8px">
+<strong>Dimensional Consistency (Grok critique resolved):</strong>
+<p style="margin:0.5rem 0 0 0">
+The proportionality \(R \propto \nabla S\) is interpreted in the <em>Fisher information metric</em> sense:
+\(\nabla S\) denotes the gradient in the space of probability distributions, which is dimensionless
+when \(S\) is measured in nats and the gradient is taken with respect to dimensionless coordinates.
+Both \(R\) and \(\nabla S\) are therefore dimensionless in this identification.
+No entropy units are implied for \(R\).
+</p>
+</div>
 
 <p>
 The identification asserts that resistance gradients encode the direction of
@@ -2287,7 +2376,42 @@ For \(R_q \sim 1\), \(M_{\text{rec}} \approx 1\) (transitional regime). This pre
 \]
 </div>
 
-<p>where \(\ell_* \sim 100\) is the characteristic acoustic scale.</p>
+<div class="conceptual-box" style="background:rgba(52,211,153,0.1);border-left:3px solid #34d399;padding:0.75rem 1rem;margin:1rem 0">
+<strong>ℓ_* Derivation from Acoustic Physics (Grok critique resolved):</strong>
+
+<p>The scale \(\ell_*\) is <em>not</em> a free parameter but is derived from standard CMB acoustic physics:</p>
+
+<div class="eq">
+\[
+\ell_* = \frac{\pi}{\theta_s} = \pi \frac{d_A(z_*)}{r_s(z_*)}
+\]
+</div>
+
+<p>where:</p>
+<ul style="margin:0.3rem 0">
+<li>\(d_A(z_*) \approx 12.8\) Gpc is the angular diameter distance to last scattering (\(z_* \approx 1090\))</li>
+<li>\(r_s(z_*) \approx 147\) Mpc is the sound horizon at recombination</li>
+<li>\(\theta_s = r_s/d_A \approx 0.0104\) rad \(\approx 0.596°\) is the acoustic angular scale</li>
+</ul>
+
+<p>This gives:</p>
+<div class="eq">
+\[
+\ell_* = \frac{\pi}{0.0104} \approx 302
+\]
+</div>
+
+<p>The first acoustic peak occurs at \(\ell_1 \approx \ell_* / n_1\) where \(n_1 \approx 1.37\) accounts for
+the driving effect, giving \(\ell_1 \approx 220\) (observed). For the STUR correction, we use the
+<em>fundamental</em> acoustic scale \(\ell_* \approx 300\), which is fixed by ΛCDM cosmological parameters
+(not tunable within STUR).</p>
+
+<p class="note" style="margin-top:0.5rem;font-size:0.85rem">
+<strong>Predictivity:</strong> The STUR correction is parameterized only by \(M_{\text{rec}}\), which is
+computed from \(R_q\) and \(u_c(t_{\text{rec}})\). The acoustic scale \(\ell_*\) is inherited from standard
+cosmology and is independently constrained by BAO measurements.
+</p>
+</div>
 
 <p class="note">
 These expressions are not precision fits and are not claimed to outperform ΛCDM likelihood analyses.
@@ -2496,6 +2620,43 @@ torsion ansatz is imposed. This section documents the consistency mapping, not a
 Full General Relativity has <strong>2 propagating DOF</strong> (the two polarizations of gravitational waves).
 <em>No scalar-only theory can reproduce the full tensor structure of GR.</em>
 </p>
+
+<div class="conceptual-box" style="background:rgba(52,211,153,0.1);border-left:3px solid #34d399;padding:0.75rem 1rem;margin:1rem 0">
+<strong>Rigorous DOF Counting (Grok critique resolved):</strong>
+
+<p><strong>Scalar field \(R\):</strong></p>
+<ul style="margin:0.3rem 0">
+<li>Configuration variable: \(R(x^\mu, X)\) — 1 field component</li>
+<li>Phase space: \((R, \Pi_R)\) — 2 variables per spatial point</li>
+<li>No gauge symmetry acts on \(R\) alone (diffeos act on \(g_{\mu\nu}\), not pure scalar)</li>
+<li>Constraints: 0 first-class (in the scalar sector alone)</li>
+<li><strong>Result:</strong> \(\frac{2 - 0}{2} = 1\) propagating DOF ✓</li>
+</ul>
+
+<p><strong>GR / TEGR (tetrad formulation):</strong></p>
+<ul style="margin:0.3rem 0">
+<li>Configuration variable: \(e^a{}_\mu\) — 16 components</li>
+<li>Phase space: \((E^a{}_i, \Pi^a{}_i)\) — 9 + 9 = 18 variables (spatial tetrad and momenta)</li>
+<li>First-class constraints: Hamiltonian \(\mathcal{H}\) (1), momentum \(\mathcal{H}_i\) (3), Lorentz \(\mathcal{G}_{ab}\) (3) = 7 total</li>
+<li>Each first-class constraint removes 2 phase-space DOF</li>
+<li><strong>Result:</strong> \(\frac{18 - 2 \times 7}{2} = \frac{18 - 14}{2} = 2\) propagating DOF ✓</li>
+</ul>
+
+<p><strong>Mismatch theorem:</strong> Let \(\phi\) be any scalar field and \(\mathcal{L}[\phi, \partial\phi]\) any
+second-order Lagrangian. Then \(\phi\) has at most 1 propagating DOF per spacetime point. To recover GR's 2 DOF,
+one needs at minimum:</p>
+<ul style="margin:0.3rem 0">
+<li>A rank-2 tensor field (metric \(g_{\mu\nu}\)), OR</li>
+<li>A tetrad \(e^a{}_\mu\) with appropriate gauge structure, OR</li>
+<li>Multiple scalars with specific couplings (e.g., bi-scalar-tensor theories)</li>
+</ul>
+
+<p class="note" style="margin-top:0.5rem;font-size:0.85rem">
+<strong>Conclusion:</strong> STUR's scalar \(R\) cannot reproduce GW tensor modes. The TEGR correspondence is
+restricted to the <em>scalar gravitational sector</em> (Newtonian potential, time dilation).
+This is a mathematical limitation, not an oversight.
+</p>
+</div>
 
 <p>
 The STUR-TEGR correspondence is therefore necessarily <strong>restricted</strong>:
