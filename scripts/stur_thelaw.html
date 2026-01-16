@@ -181,6 +181,29 @@ th,td{
 }
 th{color:var(--accent2);font-weight:bold}
 
+/* Output mini-cards (used in Appendix A calculators) */
+.output-box{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  padding:10px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.output-label{
+  font-size:11px;
+  color:var(--fg2);
+  text-transform:uppercase;
+  letter-spacing:.2px;
+}
+.output-value{
+  font-family:var(--mono);
+  font-weight:900;
+  font-size:13px;
+  color:#e2e8f0;
+}
+
 /* Calibration tools */
 .calibration-tool{
   background:rgba(236,72,153,0.05);
