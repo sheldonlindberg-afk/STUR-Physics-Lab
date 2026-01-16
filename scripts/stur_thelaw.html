@@ -524,6 +524,171 @@ The coherence scale \(\ell_X\) sets the dimensional magnitude of the X-coordinat
 </div>
 </section>
 
+<!-- NEW: EXPLICIT ACTION AND DERIVATION -->
+
+<section class="panel">
+<h2>2A. Action Functional (Explicit Form)</h2>
+
+<p>
+The STUR dynamics derive from the following 5D action:
+</p>
+
+<div class="eq">
+\[
+\boxed{
+S_{\text{STUR}}[R] = S_{\text{bulk}}[R] + S_{\Sigma}[R]
+}
+\]
+</div>
+
+<h3>Bulk Action</h3>
+
+<div class="eq">
+\[
+\boxed{
+S_{\text{bulk}} = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{|g_5|} \left[
+-\frac{1}{2} D^{AB} \nabla_A R \nabla_B R
+- V(R)
+- \frac{\lambda}{2}(R - R_{\text{bg}})^2
++ J R
+\right]
+}
+\]
+</div>
+
+<p>where:</p>
+<ul>
+<li>\(g_5 = g_4 \cdot \ell_X^2\) is the 5D metric determinant</li>
+<li>\(D^{AB} = \text{diag}(D g^{\mu\nu}, D_X \ell_X^{-2})\) is the anisotropic diffusion tensor</li>
+<li>\(V(R)\) is a self-interaction potential (e.g., \(V = \frac{\mu^2}{2}R^2 + \frac{g}{4}R^4\))</li>
+<li>\(\lambda/L_X^2\) is the memory-axis restoring coefficient</li>
+<li>\(J(x^\mu, X)\) is an external source</li>
+</ul>
+
+<h3>Boundary Action</h3>
+
+<div class="eq">
+\[
+S_{\Sigma} = \int_{\Sigma} d^3\Sigma\, \sqrt{|h|} \left[
+\kappa_{\text{cm}}(\tau) \cos\left(\frac{\theta(\tau)}{M}\right) R
+\right]
+\]
+</div>
+
+<p>
+where \(h\) is the induced metric on \(\Sigma = \partial\mathcal{M}^5\), and \(\theta(\tau)\) 
+is an externally controlled phase parameter (not varied).
+</p>
+</section>
+
+<section class="panel">
+<h2>2B. Euler–Lagrange Derivation</h2>
+
+<p>
+Varying \(S_{\text{STUR}}\) with respect to \(R\) yields the field equation.
+</p>
+
+<h3>Step 1: Variation of Kinetic Term</h3>
+
+<div class="eq">
+\[
+\delta \int \sqrt{|g_5|}\, D^{AB} \nabla_A R \nabla_B R
+= -2 \int \sqrt{|g_5|}\, \nabla_A(D^{AB} \nabla_B R)\, \delta R
++ \text{boundary terms}
+\]
+</div>
+
+<h3>Step 2: Variation of Potential Terms</h3>
+
+<div class="eq">
+\[
+\delta \int \sqrt{|g_5|} \left[ V(R) + \frac{\lambda}{2}(R - R_{\text{bg}})^2 \right]
+= \int \sqrt{|g_5|} \left[ V'(R) + \lambda(R - R_{\text{bg}}) \right] \delta R
+\]
+</div>
+
+<h3>Step 3: Bulk Field Equation</h3>
+
+<p>Setting \(\delta S_{\text{bulk}} = 0\) gives:</p>
+
+<div class="eq">
+\[
+\boxed{
+\nabla_A(D^{AB} \nabla_B R) - V'(R) - \lambda(R - R_{\text{bg}}) + J = 0
+}
+\]
+</div>
+
+<p>Expanding in components:</p>
+
+<div class="eq">
+\[
+D \nabla^\mu \nabla_\mu R + D_X \ell_X^{-2} \partial_X^2 R - V'(R) - \frac{R - R_{\text{bg}}}{L_X^2} + J = 0
+\]
+</div>
+
+<p>where we identify \(\lambda = 1/L_X^2\).</p>
+
+<h3>Step 4: Boundary Condition from \(S_\Sigma\)</h3>
+
+<p>
+The boundary term from the kinetic variation plus \(S_\Sigma\) yields:
+</p>
+
+<div class="eq">
+\[
+\boxed{
+D\, n^A \nabla_A R \Big|_\Sigma = \kappa_{\text{cm}} \cos\left(\frac{\theta}{M}\right)
+}
+\]
+</div>
+
+<p>
+This is a Robin boundary condition: the normal flux of \(R\) on the holoscreen 
+is determined by the phase-modulated coupling.
+</p>
+</section>
+
+<section class="panel">
+<h2>2C. Mathematical Definitions (Complete)</h2>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.9rem">
+<thead>
+<tr style="background:rgba(74,158,255,0.2)">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Symbol</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Type</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Definition</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Dimension</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R(x^\mu, X)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Scalar field on \(\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Resistance field</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R_{\text{bg}}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Constant</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Background/equilibrium resistance</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(g_{\mu\nu}(x)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Symmetric (0,2) tensor on \(\mathcal{M}^4\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">4D spacetime metric, signature \((-,+,+,+)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\ell_X\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Positive constant</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Coherence scale of X-dimension</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">length</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(L_X\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Positive constant</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Memory relaxation scale</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">length</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(D, D_X\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Positive constants</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Diffusion coefficients (4D and X)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">length²/time</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(D^{AB}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Symmetric (2,0) tensor on \(\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\text{diag}(D g^{\mu\nu}, D_X \ell_X^{-2})\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">length²/time</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\nabla_A\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Covariant derivative on \(\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Levi-Civita connection of \(g_5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">—</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Sigma\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">3D hypersurface</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Holoscreen boundary \(\partial\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">—</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(n^A\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Unit vector on \(\mathcal{M}^5\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Outward normal to \(\Sigma\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\theta(\tau)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Real function</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Boundary phase (external control)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">radians</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\tau\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Real parameter</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Boundary configuration label (not spacetime time)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">domain-specific</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\kappa_{\text{cm}}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Real function of \(\tau\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Chronomagnetic coupling strength</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">length⁻¹</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(M\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Positive real</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R_q \cdot S_u(u_c)\), chronomagnetic control parameter</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">dimensionless</td></tr>
+<tr><td style="padding:0.4rem">\(V(R)\)</td><td style="padding:0.4rem">Real function</td><td style="padding:0.4rem">Self-interaction potential</td><td style="padding:0.4rem">length⁻²</td></tr>
+</tbody>
+</table>
+
+<h3>Index Conventions</h3>
+<ul>
+<li>Greek indices \(\mu, \nu, \rho, \ldots \in \{0,1,2,3\}\): 4D spacetime</li>
+<li>Capital Latin indices \(A, B, C, \ldots \in \{0,1,2,3,5\}\): 5D bulk</li>
+<li>Lowercase Latin indices \(a, b, c, \ldots \in \{0,1,2,3\}\): Lorentz frame (in TEGR sections)</li>
+<li>The connection \(\nabla_A\) is the Levi-Civita connection of \(g_{AB}\) (torsion-free, metric-compatible)</li>
+</ul>
+</section>
+
 <section class="panel">
 <h2>3. Physical Necessity of the X Coordinate</h2>
 
@@ -689,6 +854,46 @@ This is a covariant advection–diffusion–reaction equation on the 5D bulk \(\
 <li>\(\chi\,\partial_X R\): memory-axis coupling</li>
 <li>\(S\): source term (matter/energy injection)</li>
 </ul>
+
+<h3>Complete Component Form</h3>
+
+<p>In coordinates \((t, x^i, X)\) with \(i \in \{1,2,3\}\) and quasi-static memory closure:</p>
+
+<div class="eq" style="background:rgba(74,158,255,0.15);border:1px solid #4a9eff;padding:1rem;border-radius:8px">
+\[
+\boxed{
+\frac{\partial R}{\partial t}
+=
+D \left( \frac{1}{\sqrt{|g|}} \partial_i \left( \sqrt{|g|}\, g^{ij} \partial_j R \right) \right)
+-
+\Omega^i \partial_i R
++
+\frac{\chi}{L_X}(R - R_{\text{bg}})
++
+S(x^\mu, X)
+}
+\]
+</div>
+
+<p><strong>This is the master PDE of STUR.</strong></p>
+
+<h3>Special Cases</h3>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-top:1rem">
+<thead>
+<tr style="background:rgba(74,158,255,0.2)">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Regime</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Condition</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #4a9eff">Reduced Equation</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Flat space, no drift</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu = 0\), \(g_{\mu\nu} = \eta_{\mu\nu}\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\partial_t R = D\nabla^2 R + \chi L_X^{-1}(R - R_{\text{bg}}) + S\)</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Steady state</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\partial_t R = 0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(D\nabla^2 R - \Omega^\mu\nabla_\mu R + \chi L_X^{-1}(R - R_{\text{bg}}) = -S\)</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">Classical limit</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\chi \to 0\), \(\ell_X \to 0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\partial_t R = D\nabla^2 R - \Omega^\mu\nabla_\mu R + S\) (4D diffusion)</td></tr>
+<tr><td style="padding:0.4rem">Pure memory</td><td style="padding:0.4rem">\(D = 0\), \(\Omega = 0\), \(S = 0\)</td><td style="padding:0.4rem">\(\partial_t R = \chi L_X^{-1}(R - R_{\text{bg}})\) (exponential relaxation)</td></tr>
+</tbody>
+</table>
 </section>
 
 <section class="panel">
@@ -1639,16 +1844,40 @@ Solid curves show V<sub>STUR</sub>/V<sub>QM</sub> for three coherence lengths. D
 <li>G. W. Gibbons and S. W. Hawking, "Action integrals and partition functions in quantum gravity," <em>Phys. Rev. D</em> <strong>15</strong>, 2752 (1977). [Boundary action]</li>
 </ol>
 
-<h4>Coherence and Decoherence</h4>
+<h4>Information Geometry</h4>
 <ol start="5">
+<li>S. Amari and H. Nagaoka, <em>Methods of Information Geometry</em>, AMS/Oxford (2000). [Standard reference for Fisher metric and entropy geometry]</li>
+<li>F. Nielsen, "An elementary introduction to information geometry," <em>Entropy</em> <strong>22</strong>, 1100 (2020). [Modern pedagogical review]</li>
+</ol>
+
+<h4>Modular Theory and Operator Algebras</h4>
+<ol start="7">
+<li>M. Takesaki, <em>Theory of Operator Algebras I–III</em>, Springer (2002–2003). [Comprehensive modular theory]</li>
+<li>R. Haag, <em>Local Quantum Physics</em>, 2nd ed., Springer (1996). [Modular flow in QFT context]</li>
+</ol>
+
+<h4>Holography and Boundary CFT</h4>
+<ol start="9">
+<li>J. Maldacena, "The large N limit of superconformal field theories and supergravity," <em>Adv. Theor. Math. Phys.</em> <strong>2</strong>, 231 (1998). [AdS/CFT]</li>
+<li>T. Faulkner, A. Lewkowycz, and J. Maldacena, "Quantum corrections to holographic entanglement entropy," <em>JHEP</em> <strong>11</strong>, 074 (2013). [Boundary entanglement]</li>
+</ol>
+
+<h4>Coherence and Decoherence</h4>
+<ol start="11">
 <li>L. Mandel and E. Wolf, <em>Optical Coherence and Quantum Optics</em>, Cambridge University Press (1995). [Standard coherence reference]</li>
 <li>W. H. Zurek, "Decoherence, einselection, and the quantum origins of the classical," <em>Rev. Mod. Phys.</em> <strong>75</strong>, 715 (2003). [Decoherence review]</li>
 </ol>
 
 <h4>Josephson Physics</h4>
-<ol start="7">
+<ol start="13">
 <li>M. Tinkham, <em>Introduction to Superconductivity</em>, 2nd ed., Dover (2004). [Standard BCS/Josephson reference]</li>
 <li>A. Barone and G. Paternò, <em>Physics and Applications of the Josephson Effect</em>, Wiley (1982). [Josephson applications]</li>
+</ol>
+
+<h4>Einstein–Cartan and Torsion Theories</h4>
+<ol start="15">
+<li>F. W. Hehl et al., "General relativity with spin and torsion: Foundations and prospects," <em>Rev. Mod. Phys.</em> <strong>48</strong>, 393 (1976). [Einstein–Cartan review]</li>
+<li>T. W. B. Kibble, "Lorentz invariance and the gravitational field," <em>J. Math. Phys.</em> <strong>2</strong>, 212 (1961). [Gauge theory of gravity]</li>
 </ol>
 </section>
 
