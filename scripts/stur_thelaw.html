@@ -425,7 +425,7 @@ footer{
   <div class="nav-title">STUR — Integrated Framework v1.0</div>
   <div class="nav-links" role="tablist">
     <button id="manuscript-tab" class="nav-btn active" data-section="manuscript" role="tab" aria-selected="true" aria-controls="manuscript">📄 Manuscript</button>
-    <button id="tegr-tab" class="nav-btn" data-section="tegr" role="tab" aria-selected="false" aria-controls="tegr">📐 TEGR Derivations</button>
+    <button id="tegr-tab" class="nav-btn" data-section="tegr" role="tab" aria-selected="false" aria-controls="tegr">📐 TEGR (Derived)</button>
     <button id="calibrations-tab" class="nav-btn" data-section="calibrations" role="tab" aria-selected="false" aria-controls="calibrations">🔬 Calibrations</button>
     <button id="holoscreen-tab" class="nav-btn" data-section="holoscreen" role="tab" aria-selected="false" aria-controls="holoscreen">🖥️ Holoscreen</button>
     <button id="toesim-tab" class="nav-btn" data-section="toesim" role="tab" aria-selected="false" aria-controls="toesim">🌀 TOE Simulator</button>
@@ -496,6 +496,19 @@ required to encode hysteresis, phase history, and entropy displacement.
 energy scale. Physical dimensions enter only through calibration mappings 
 (Section 15).
 </p>
+
+<div class="conceptual-box" style="background:rgba(74,158,255,0.15);border:2px solid #4a9eff;padding:1rem;margin:1.5rem 0;border-radius:8px">
+<h3 style="margin-top:0;color:#4a9eff">STUR-Primary Commitments</h3>
+<p>This framework is <strong>STUR-primary</strong>: all dynamics derive from a single canonical functional. 
+Other theories (TEGR, GR, QM) appear only as derived limits or restricted sectors.</p>
+<ol style="margin:0.5rem 0">
+<li><strong>Canonical functional</strong> \(\mathcal{F}_{\text{STUR}}[R]\) (free-energy form) generates all dynamics</li>
+<li><strong>Evolution law</strong> is gradient flow of \(\mathcal{F}\) plus geometric drift and sources</li>
+<li><strong>Holoscreen projection</strong> is the only path from bulk \(R\) to measurable observables</li>
+<li><strong>Domain dictionary</strong> maps lab parameters \(\to (R_q, u_c, \theta)\) with no tunable knobs</li>
+<li><strong>TEGR/GR</strong> emerges as the \(M \to \infty\), \(\partial_X R \to 0\) effective sector under a restricted torsion ansatz</li>
+</ol>
+</div>
 </section>
 
 <section class="panel">
@@ -538,40 +551,47 @@ The STUR dynamics derive from the following 5D action:
 <div class="eq">
 \[
 \boxed{
-S_{\text{STUR}}[R] = S_{\text{bulk}}[R] + S_{\Sigma}[R]
+\mathcal{F}_{\text{STUR}}[R] = \mathcal{F}_{\text{bulk}}[R] + \mathcal{F}_{\Sigma}[R]
 }
 \]
 </div>
 
-<h3>Bulk Action</h3>
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Key distinction:</strong> This is a <em>free-energy functional</em>, not a Lorentzian action. 
+The dynamics are <em>gradient flow</em> (dissipative relaxation toward equilibrium), which naturally 
+produces diffusion-type PDEs. This resolves the apparent conflict between "action principle" and 
+"dissipative evolution."
+</p>
+
+<h3>Bulk Free Energy</h3>
 
 <div class="eq">
 \[
 \boxed{
-S_{\text{bulk}} = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{|g_5|} \left[
--\frac{1}{2} D^{AB} \nabla_A R \nabla_B R
-- V(R)
-- \frac{\lambda}{2}(R - R_{\text{bg}})^2
-+ J R
+\mathcal{F}_{\text{bulk}}[R] = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{|g_5|} \left[
+\frac{1}{2} D^{AB} \nabla_A R \nabla_B R
++ V(R)
++ \frac{(R - R_{\text{bg}})^2}{2L_X^2}
+- J R
 \right]
 }
 \]
 </div>
 
-<p>where:</p>
+<p>where (all quantities are dimensionless after normalization by domain reference scales):</p>
 <ul>
 <li>\(g_5 = g_4 \cdot \ell_X^2\) is the 5D metric determinant</li>
 <li>\(D^{AB} = \text{diag}(D g^{\mu\nu}, D_X \ell_X^{-2})\) is the anisotropic diffusion tensor</li>
 <li>\(V(R)\) is a self-interaction potential (e.g., \(V = \frac{\mu^2}{2}R^2 + \frac{g}{4}R^4\))</li>
-<li>\(\lambda/L_X^2\) is the memory-axis restoring coefficient</li>
+<li>\(L_X\) is the memory relaxation scale</li>
 <li>\(J(x^\mu, X)\) is an external source</li>
 </ul>
 
-<h3>Boundary Action</h3>
+<h3>Holoscreen Boundary Free Energy</h3>
 
 <div class="eq">
 \[
-S_{\Sigma} = \int_{\Sigma} d^3\Sigma\, \sqrt{|h|} \left[
+\mathcal{F}_{\Sigma}[R] = -\int_{\Sigma} d^3\Sigma\, \sqrt{|h|} \left[
 \kappa_{\text{cm}}(\tau) \cos\left(\frac{\theta(\tau)}{M}\right) R
 \right]
 \]
@@ -579,62 +599,69 @@ S_{\Sigma} = \int_{\Sigma} d^3\Sigma\, \sqrt{|h|} \left[
 
 <p>
 where \(h\) is the induced metric on \(\Sigma = \partial\mathcal{M}^5\), and \(\theta(\tau)\) 
-is an externally controlled phase parameter (not varied).
+is an externally controlled phase parameter (not varied). The same holoscreen coupling that 
+sets the boundary condition is what modulates the measured projection.
 </p>
 </section>
 
 <section class="panel">
-<h2>2B. Euler–Lagrange Derivation</h2>
+<h2>2B. Gradient Flow Dynamics</h2>
 
 <p>
-Varying \(S_{\text{STUR}}\) with respect to \(R\) yields the field equation.
+The STUR evolution law is <strong>gradient flow</strong> on \(\mathcal{F}_{\text{STUR}}\):
 </p>
-
-<h3>Step 1: Variation of Kinetic Term</h3>
-
-<div class="eq">
-\[
-\delta \int \sqrt{|g_5|}\, D^{AB} \nabla_A R \nabla_B R
-= -2 \int \sqrt{|g_5|}\, \nabla_A(D^{AB} \nabla_B R)\, \delta R
-+ \text{boundary terms}
-\]
-</div>
-
-<h3>Step 2: Variation of Potential Terms</h3>
-
-<div class="eq">
-\[
-\delta \int \sqrt{|g_5|} \left[ V(R) + \frac{\lambda}{2}(R - R_{\text{bg}})^2 \right]
-= \int \sqrt{|g_5|} \left[ V'(R) + \lambda(R - R_{\text{bg}}) \right] \delta R
-\]
-</div>
-
-<h3>Step 3: Bulk Field Equation</h3>
-
-<p>Setting \(\delta S_{\text{bulk}} = 0\) gives:</p>
 
 <div class="eq">
 \[
 \boxed{
-\nabla_A(D^{AB} \nabla_B R) - V'(R) - \lambda(R - R_{\text{bg}}) + J = 0
+\frac{\partial R}{\partial t} = -\Gamma \frac{\delta \mathcal{F}_{\text{STUR}}}{\delta R} - \Omega^\mu \nabla_\mu R + S
 }
 \]
 </div>
 
-<p>Expanding in components:</p>
+<p>
+where \(\Gamma > 0\) is the relaxation rate and \(\Omega^\mu\) is a geometric drift vector.
+This is analogous to Model A/B dynamics in statistical field theory (Hohenberg-Halperin classification).
+</p>
+
+<h3>Functional Derivative</h3>
+
+<p>
+Computing \(\delta \mathcal{F}/\delta R\):
+</p>
 
 <div class="eq">
 \[
-D \nabla^\mu \nabla_\mu R + D_X \ell_X^{-2} \partial_X^2 R - V'(R) - \frac{R - R_{\text{bg}}}{L_X^2} + J = 0
+\frac{\delta \mathcal{F}_{\text{bulk}}}{\delta R} = -\nabla_A(D^{AB} \nabla_B R) + V'(R) + \frac{R - R_{\text{bg}}}{L_X^2} - J
 \]
 </div>
 
-<p>where we identify \(\lambda = 1/L_X^2\).</p>
+<h3>Resulting Evolution Equation</h3>
 
-<h3>Step 4: Boundary Condition from \(S_\Sigma\)</h3>
+<p>Substituting into the gradient flow formula:</p>
+
+<div class="eq">
+\[
+\boxed{
+\frac{\partial R}{\partial t} = \Gamma \left[ \nabla_A(D^{AB} \nabla_B R) - V'(R) - \frac{R - R_{\text{bg}}}{L_X^2} + J \right] - \Omega^\mu \nabla_\mu R + S
+}
+\]
+</div>
+
+<p>Setting \(\Gamma D = D_{\text{eff}}\) (effective diffusion) and absorbing constants:</p>
+
+<div class="eq">
+\[
+\frac{\partial R}{\partial t} = D_{\text{eff}} \nabla^\mu \nabla_\mu R + D_X \ell_X^{-2} \partial_X^2 R - \Gamma V'(R) - \frac{\Gamma(R - R_{\text{bg}})}{L_X^2} - \Omega^\mu \nabla_\mu R + S_{\text{eff}}
+\]
+</div>
+
+<p>In the quasi-static memory regime (\(\partial_X R \approx (R - R_{\text{bg}})/L_X\)), this reduces to the master PDE of Section 6.</p>
+
+<h3>Boundary Condition from \(\mathcal{F}_\Sigma\)</h3>
 
 <p>
-The boundary term from the kinetic variation plus \(S_\Sigma\) yields:
+The boundary contribution to \(\delta \mathcal{F}/\delta R\) yields:
 </p>
 
 <div class="eq">
@@ -1162,65 +1189,59 @@ would violate diffeomorphism invariance by introducing a preferred foliation.
 </section>
 
 <section class="panel">
-<h2>12. Boundary Action Functional</h2>
+<h2>12. Equivalent Formulations (Special Cases)</h2>
+
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Note:</strong> This section presents <em>equivalent rewritings</em> of the canonical STUR functional 
+(Section 2A) for specific contexts. These are not independent definitions—they are derived from the primary 
+gradient-flow framework.
+</p>
+
+<h3>12.1 Equilibrium/Hamiltonian Form</h3>
+
+<p>
+At equilibrium (\(\partial_t R = 0\)), the gradient flow condition \(\delta \mathcal{F}/\delta R = 0\) 
+can be rewritten as the Euler-Lagrange equation of a Lorentzian-style action:
+</p>
 
 <div class="eq">
 \[
-\boxed{
-\mathcal{S}_{\mathrm{STUR}}
-=
-\mathcal{S}_{\mathrm{bulk}}
-+
-\mathcal{S}_{\Sigma}
-}
-\]
-</div>
-
-<h3>Bulk Action</h3>
-
-<div class="eq">
-\[
-\mathcal{S}_{\mathrm{bulk}}
+\mathcal{S}_{\mathrm{eq}}
 =
 \int_{\mathcal{M}^5} \sqrt{|g_5|}\left[
 \frac{1}{2}D\,(\nabla_A R \nabla^A R)
 -
 V(R)
 \right] d^5x
++
+\int_{\Sigma}
+\kappa_{\mathrm{cm}}
+\cos\!\left(\frac{\theta}{M}\right)
+\, R \,
+\sqrt{|h|}\, d^3\Sigma
 \]
 </div>
 
 <p>
-where \(V(R)\) is a potential (e.g., \(V(R) = \frac{\lambda}{4}(R - R_{\mathrm{bg}})^2\) for quadratic stabilization).
+This form is useful for:
 </p>
+<ul>
+<li>Computing static/steady-state configurations</li>
+<li>Connecting to standard variational methods in GR/field theory</li>
+<li>Deriving conserved currents via Noether's theorem</li>
+</ul>
 
-<h3>Holoscreen Boundary Action</h3>
-
-<div class="eq">
-\[
-\boxed{
-\mathcal{S}_{\Sigma}
-=
-\int_{\Sigma}
-\kappa_{\mathrm{cm}}(\tau)
-\cos\!\left(\frac{\theta(\tau)}{M}\right)
-\, R \,
-\sqrt{|h|}\, d^3\Sigma
-}
-\]
-</div>
-
-<h3>Variational Principle</h3>
+<h3>12.2 Variational Principle (Equilibrium)</h3>
 
 <p class="note" style="background:rgba(74,158,255,0.1);border-left:3px solid #4a9eff;padding:0.5rem 1rem;margin:1rem 0">
 <strong>Control vs. dynamical variables:</strong> In the lab-falsifier formulation, the boundary phase 
 \(\theta(\tau)\) is an <em>externally controlled parameter</em> (experimental knob), not a dynamical field.
-The action \(\mathcal{S}_{\mathrm{STUR}}\) is varied only with respect to the bulk field \(R\), 
+The functional is varied only with respect to the bulk field \(R\), 
 not with respect to \(\theta\).
 </p>
 
 <p>
-Varying \(\mathcal{S}_{\mathrm{STUR}}\) with respect to \(R\) yields:
+Varying with respect to \(R\) yields:
 </p>
 <ul>
 <li><strong>Bulk equation:</strong> \(\nabla_A(D\nabla^A R) + V'(R) = 0\) in \(\mathcal{M}^5\)</li>
@@ -1273,19 +1294,24 @@ STUR treats boundaries as <strong>constitutive</strong>.
 </p>
 </section>
 
-<!-- NEW SECTION 14: TEGR CORRESPONDENCE -->
+<!-- NEW SECTION 14: TEGR AS DERIVED SECTOR -->
 
 <section class="panel">
-<h2>14. Teleparallel Gravity (TEGR) Correspondence</h2>
+<h2>14. Derived Sector: TEGR Limit (Restricted Torsion Ansatz)</h2>
 
-<p>
-The geometric sector of STUR admits a well-defined correspondence with
-the <strong>Teleparallel Equivalent of General Relativity (TEGR)</strong>,
-in which gravity is encoded entirely through torsion rather than curvature.
-This section makes the correspondence explicit and fixes notation.
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.5rem 1rem;margin:1rem 0">
+<strong>STUR-Primary framing:</strong> TEGR/GR is <em>not</em> foundational in this framework. It emerges as an 
+<em>effective limit</em> of STUR when: (1) \(M \to \infty\), (2) \(\partial_X R \to 0\), and (3) a restricted 
+torsion ansatz is imposed. This section documents the consistency mapping, not a bidirectional equivalence.
 </p>
 
-<h3>Teleparallel Structure</h3>
+<p>
+The geometric sector of STUR admits a well-defined consistency mapping with
+the <strong>Teleparallel Equivalent of General Relativity (TEGR)</strong>,
+in which gravity is encoded entirely through torsion rather than curvature.
+</p>
+
+<h3>Teleparallel Structure (Reference)</h3>
 
 <p>
 TEGR is formulated on a spacetime equipped with a tetrad field
@@ -2282,16 +2308,23 @@ TOE regime thresholds use normalized M scale for visualization purposes.
 
 <!-- ============================================================ -->
 
-<!-- SECTION: TEGR DERIVATIONS -->
+<!-- SECTION: TEGR DERIVATIONS (DERIVED SECTOR) -->
 
 <!-- ============================================================ -->
 
 <div id="tegr" class="section" role="tabpanel" aria-labelledby="tegr-tab">
 
 <div class="panel">
-<h1>Teleparallel Dynamics: First Principles</h1>
+<h1>Derived Sector: Teleparallel Dynamics</h1>
 <p><strong>Authors:</strong> Sheldon Lindberg · James Lockwood · Christopher B. Cyrek · Dustin Hansley · Derek J. Burkeen</p>
-<p class="note">From torsion kinematics to field equations — complete derivations supporting the STUR framework.</p>
+<p class="note">Complete TEGR derivations for the <em>restricted torsion ansatz</em> sector of STUR. 
+These results apply when \(M \to \infty\) and \(\partial_X R \to 0\).</p>
+</div>
+
+<div class="panel" style="background:rgba(255,200,100,0.1);border:1px solid #ffd93d">
+<p style="margin:0"><strong>⚠️ STUR-Primary Note:</strong> TEGR is a <em>derived effective theory</em> within STUR, 
+not a foundation. The derivations below document consistency with established GR/TEGR results in the appropriate limit. 
+A single scalar \(R\) cannot reproduce full GR's 2 tensor DOF generically—this is a restricted sector mapping.</p>
 </div>
 
 <!-- Section 1: TEGR Field Equation -->
