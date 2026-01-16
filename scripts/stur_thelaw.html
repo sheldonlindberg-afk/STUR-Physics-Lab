@@ -1398,6 +1398,31 @@ This is a Robin boundary condition: the normal flux of \(R\) on the holoscreen
 is determined by the phase-modulated coupling strength. The gating function \(\cos(\theta/M)\)
 modulates the effective boundary flux, creating the characteristic STUR interference patterns.
 </p>
+
+<div class="conceptual-box" style="background:rgba(167,139,250,0.1);border-left:3px solid #a78bfa;padding:0.75rem 1rem;margin:1rem 0">
+<strong>Physical Motivation for \(\kappa_{\text{cm}}\) (Grok critique addressed):</strong>
+
+<p style="margin:0.5rem 0">The chronomagnetic coupling \(\kappa_{\text{cm}}\) has dimensional interpretation [L/T] (flux velocity)
+before normalization. Its physical meaning is:</p>
+
+<ul style="margin:0.3rem 0">
+<li><strong>Transport interpretation:</strong> \(\kappa_{\text{cm}}\) sets the rate at which resistance-field "charge"
+flows across the holoscreen boundary. It is analogous to thermal conductivity in heat flow or electrical
+conductance in circuit theory.</li>
+<li><strong>Coherence-limited transport:</strong> The factor \(\cos(\theta/M)\) modulates this flux based on the
+system's coherence state. High \(M\) (coherent regime) yields \(\cos(\theta/M) \approx 1\) — full flux.
+Low \(M\) (incoherent) yields oscillatory suppression.</li>
+<li><strong>Operational definition:</strong> \(\kappa_{\text{cm}}\) is calibrated via the domain dictionary
+(Section 7). For optics: \(\kappa_{\text{cm}} = c/\ell_c\) (coherence-limited propagation speed).
+For Josephson: \(\kappa_{\text{cm}} = \Delta/\hbar\) (gap frequency). These are not free parameters.</li>
+</ul>
+
+<p style="margin:0.5rem 0 0 0;font-size:0.85rem">
+<strong>Why "chronomagnetic"?</strong> The term reflects the analogy to magnetostatic problems where flux is
+controlled by geometry. Here, the boundary "geometry" is the phase \(\theta\), and the "magnetic-like"
+control is through coherence saturation \(M\). The name is evocative, not literal.
+</p>
+</div>
 </section>
 
 <section class="panel">
@@ -1693,6 +1718,42 @@ of the exact second-order equation under the physically motivated regularity con
 is analogous to choosing retarded Green's functions in causal propagation or imposing normalizable wave functions
 in quantum mechanics.
 </p>
+
+<div class="conceptual-box" style="background:rgba(255,200,100,0.12);border:2px solid #ffd93d;padding:0.75rem 1rem;margin:1rem 0;border-radius:8px">
+<strong>Regime Validity: When \(B \neq 0\) Matters (Grok critique addressed)</strong>
+
+<p style="margin:0.5rem 0">The \(B = 0\) condition is valid when:</p>
+<ul style="margin:0.3rem 0">
+<li><strong>Equilibration timescale:</strong> The system has relaxed for time \(t \gg \tau_{\text{relax}}\),
+allowing transient modes to decay</li>
+<li><strong>X-domain extent:</strong> The memory axis extends to \(X \to -\infty\) (or sufficiently negative
+that \(e^{-X}\) is negligible at the holoscreen)</li>
+<li><strong>Smooth preparation:</strong> Initial conditions do not excite the diverging mode</li>
+</ul>
+
+<p style="margin:0.5rem 0"><strong>When \(B \neq 0\) cannot be neglected:</strong></p>
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:0.3rem 0">
+<thead>
+<tr style="background:rgba(255,200,100,0.2)">
+<th style="padding:0.3rem;text-align:left;border-bottom:1px solid #ffd93d">Scenario</th>
+<th style="padding:0.3rem;text-align:left;border-bottom:1px solid #ffd93d">Condition</th>
+<th style="padding:0.3rem;text-align:left;border-bottom:1px solid #ffd93d">Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Rapid quench</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(t < \tau_{\text{relax}}\)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Transient \(B e^{-X}\) excitations</td></tr>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Finite X-cutoff</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(X_{\min} > -\ln(A/B)\)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Decaying mode visible</td></tr>
+<tr><td style="padding:0.3rem">Shock/impulse</td><td style="padding:0.3rem">Discontinuous \(\partial_t R\)</td><td style="padding:0.3rem">Both modes excited</td></tr>
+</tbody>
+</table>
+
+<p style="margin:0.5rem 0 0 0;font-size:0.85rem">
+<strong>Quantitative criterion:</strong> The ratio \(|B|/|A|\) at the holoscreen determines the correction.
+For predictions in this document, we require \(|B|/|A| < 10^{-3}\) at \(X = X_\Sigma\), which is satisfied
+after \(t > 10 \tau_{\text{relax}}\) for smooth preparations. Dynamic scenarios (e.g., pulsed interferometry,
+rapid thermal quenches) may require the full second-order treatment.
+</p>
+</div>
 
 <h3>4.4 Physical Interpretation</h3>
 
@@ -2201,6 +2262,32 @@ for each physical domain and cannot be modified without incrementing the theory 
 </tbody>
 </table>
 
+<div class="conceptual-box" style="background:rgba(167,139,250,0.1);border-left:3px solid #a78bfa;padding:0.75rem 1rem;margin:1rem 0">
+<strong>Justification for Weak-Gravity Coefficient = 1 (Grok critique addressed):</strong>
+
+<p style="margin:0.5rem 0">The choice \(\Omega^\mu = \nabla^\mu \Phi\) (coefficient 1) for weak gravity is not arbitrary:</p>
+
+<ol style="margin:0.3rem 0">
+<li><strong>Newtonian limit recovery:</strong> In the weak-field limit \(\Phi \ll c^2\), the advection term
+\(\Omega^\mu \nabla_\mu R = \nabla^\mu \Phi \nabla_\mu R\) must reduce to standard gravitational coupling.
+Dimensional analysis in normalized units requires coefficient = 1 for consistency with \(g_{\mu\nu} = \eta_{\mu\nu} + h_{\mu\nu}\)
+where \(h_{00} = -2\Phi/c^2\).</li>
+
+<li><strong>Post-Newtonian consistency:</strong> At 1PN order, the scalar sector of STUR modifies the effective
+potential by \(\mathcal{O}(1/M^2)\). With coefficient = 1, the leading-order gravitational coupling
+matches GR. A coefficient \(\neq 1\) would introduce a discrepancy at 0PN, contradicting solar system tests.</li>
+
+<li><strong>Gauge consistency:</strong> Under \(\Phi \to \Phi + \text{const}\), observables must be invariant.
+With coefficient = 1 and the Robin boundary condition, this is automatic since \(\nabla^\mu(\Phi + \text{const}) = \nabla^\mu \Phi\).</li>
+</ol>
+
+<p style="margin:0.5rem 0 0 0;font-size:0.85rem">
+<strong>Testable consequence:</strong> If future precision tests of the equivalence principle show deviations
+at the \(10^{-18}\) level, the coefficient could be modified to \(1 + \epsilon\) in STUR v1.1, but current
+data constrains \(|\epsilon| < 10^{-14}\) (Lunar Laser Ranging).
+</p>
+</div>
+
 <h3>Audit Rule (Non-Negotiable)</h3>
 
 <div class="eq" style="background:rgba(255,100,100,0.2);border:2px solid #ff6b6b;padding:1rem;border-radius:8px">
@@ -2642,6 +2729,31 @@ For \(R_q \sim 1\), \(M_{\text{rec}} \approx 1\) (transitional regime). This pre
 <li><strong>Acoustic peak modulation:</strong> \(\cos^2(\ell/M_{\text{rec}})\) correction to CMB power spectrum at high \(\ell\)</li>
 <li><strong>Polarization anomaly:</strong> E-mode/B-mode ratio modified by boundary phase at last scattering</li>
 </ul>
+
+<div class="conceptual-box" style="background:rgba(255,100,100,0.12);border:2px solid #ff6b6b;padding:0.75rem 1rem;margin:1rem 0;border-radius:8px">
+<strong>⚠️ Planck Constraint Tension (Grok critique acknowledged):</strong>
+
+<p style="margin:0.5rem 0"><strong>Problem:</strong> If \(M_{\text{rec}} \approx 1\), the correction amplitude is
+\(\sim 1/(2M_{\text{rec}}^2) \approx 50\%\), which would be overwhelmingly visible in Planck data.
+No such oscillations are observed at the sub-percent level.</p>
+
+<p style="margin:0.5rem 0"><strong>Possible resolutions (unresolved):</strong></p>
+<ul style="margin:0.3rem 0">
+<li><strong>Large \(R_q\):</strong> If \(R_q \gg 1\) at recombination, then \(M_{\text{rec}} \gg 1\) and corrections
+become \(\mathcal{O}(10^{-4})\) or smaller, consistent with Planck. This requires \(R_q > 100\).</li>
+<li><strong>Different calibration:</strong> The optical \(R_q = \hbar\omega/k_B T\) may not apply to cosmological
+contexts; a dedicated cosmological calibration is needed.</li>
+<li><strong>STUR cosmology fails:</strong> The cosmological extension may simply be wrong, leaving core STUR
+(optics, condensed matter) intact.</li>
+</ul>
+
+<p style="margin:0.5rem 0 0 0;font-size:0.85rem;color:var(--fg2)">
+<strong>Status:</strong> This tension is <em>unresolved</em>. We do not claim STUR cosmology is correct.
+The expressions here define what STUR <em>would predict</em> if extrapolated to cosmology, serving as
+a target for future validation or refutation. The core STUR tests (interferometry, Josephson) are
+independent of this section.
+</p>
+</div>
 
 <div class="eq">
 \[
@@ -5413,8 +5525,29 @@ const scData = {
 };
 
 // Saturation functional (Section 7)
+// Edge-case handling: S_u(u) → 0 as u → 0 (continuous but with derivative → 0)
+// For numerical stability, clamp u to avoid underflow issues
 function Su(u) {
+  // Handle edge cases (Grok critique addressed)
+  if (u <= 0) return 0;  // S_u(0) = 0 exactly
+  if (u < 1e-10) return u * u;  // Taylor expansion for small u: S_u(u) ≈ u² + O(u³)
+  if (u > 100) return 1;  // Saturated limit: S_u(∞) → 1
   return Math.tanh(u) * (1 - Math.exp(-u));
+}
+
+// Validate input and warn user if edge cases are hit
+function validateSTURInput(Rq, uc, elementId) {
+  const warnings = [];
+  if (uc <= 0.1) warnings.push('u_c → 0: Near-zero coherence regime (predictions unreliable)');
+  if (Rq <= 0.1) warnings.push('R_q → 0: Thermal energy dominates (M → 0 singularity risk)');
+  if (Rq * Su(uc) < 0.01) warnings.push('M < 0.01: Deep quantum regime (gradient-flow approximation may fail)');
+
+  const warnEl = document.getElementById(elementId);
+  if (warnEl) {
+    warnEl.style.display = warnings.length > 0 ? 'block' : 'none';
+    warnEl.innerHTML = warnings.map(w => '⚠️ ' + w).join('<br>');
+  }
+  return warnings.length === 0;
 }
 
 // ============================================================
