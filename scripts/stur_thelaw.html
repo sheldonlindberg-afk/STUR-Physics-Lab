@@ -1459,6 +1459,215 @@ the theory is falsified — not rescued by BC changes.
 </p>
 </section>
 
+<!-- ============================
+     UNIFIED GAUGE STRUCTURE (TOE)
+============================= -->
+<section class="panel">
+<h2>4A. Unified Gauge Structure and Canonical Force Tensor</h2>
+
+<p>
+All interactions in STUR are encoded in a single Lie-algebra–valued curvature
+defined on a principal bundle with structure group
+</p>
+
+<div class="eq">
+\[
+G_{\mathrm{STUR}} = SU(3)_c \times SU(2)_L \times U(1)_Y \times \mathrm{Spin}(1,3)
+\]
+</div>
+
+<p>
+The unified gauge connection is written as a direct sum over the associated Lie algebras:
+</p>
+
+<div class="eq">
+\[
+\mathcal{A}_\mu
+=
+g_3\,G_\mu^A T_A
+\;\oplus\;
+g_2\,W_\mu^I \tau_I
+\;\oplus\;
+g_1\,B_\mu Y
+\;\oplus\;
+\omega_\mu^{ab} J_{ab}
+\]
+</div>
+
+<p>
+where \(T_A\), \(\tau_I\), \(Y\), and \(J_{ab}\) generate the Lie algebra
+\(\mathfrak{g}_{\mathrm{STUR}}\).
+</p>
+
+<p>
+The canonical four-force tensor of STUR is the curvature 2-form:
+</p>
+
+<div class="eq" style="background:rgba(52,211,153,0.15);border:1px solid #34d399;padding:1rem;border-radius:8px">
+\[
+\boxed{
+\mathcal{F}_{\mu\nu}
+=
+\partial_\mu \mathcal{A}_\nu
+-
+\partial_\nu \mathcal{A}_\mu
++
+[\mathcal{A}_\mu,\mathcal{A}_\nu]
+}
+\]
+</div>
+
+<p>
+This object contains the strong, electroweak, and gravitational sectors as
+components of a single geometric curvature.
+</p>
+</section>
+
+<!-- ============================
+     GRAVITATIONAL SECTOR (TETRAD + TORSION)
+============================= -->
+<section class="panel">
+<h2>4B. Gravitational Sector and Torsion Geometry</h2>
+
+<p>
+Gravitation is described by a tetrad field \(e^a{}_\mu\) and spin connection
+\(\omega_\mu^{ab}\) associated with the \(\mathrm{Spin}(1,3)\) factor of
+\(G_{\mathrm{STUR}}\).
+</p>
+
+<h3>Curvature 2-Form</h3>
+<div class="eq">
+\[
+R^{ab}{}_{\mu\nu}
+=
+\partial_\mu \omega_\nu^{ab}
+-
+\partial_\nu \omega_\mu^{ab}
++
+\omega_\mu^{a}{}_{c}\omega_\nu^{cb}
+-
+\omega_\nu^{a}{}_{c}\omega_\mu^{cb}
+\]
+</div>
+
+<h3>Torsion Tensor</h3>
+<p>
+Torsion is defined independently via:
+</p>
+
+<div class="eq">
+\[
+T^a{}_{\mu\nu}
+=
+\partial_\mu e^a{}_\nu
+-
+\partial_\nu e^a{}_\mu
++
+\omega_\mu^{a}{}_{b}e^b{}_\nu
+-
+\omega_\nu^{a}{}_{b}e^b{}_\mu
+\]
+</div>
+
+<p>
+In STUR, torsion represents the geometric manifestation of resistance-induced
+spin and memory flow.
+</p>
+</section>
+
+<!-- ============================
+     CANONICAL FIELD EQUATION
+============================= -->
+<section class="panel">
+<h2>4C. Canonical Field Equation</h2>
+
+<p>
+The dynamics of all interactions follow from a single covariant equation
+defined on the unified bundle:
+</p>
+
+<div class="eq" style="background:rgba(52,211,153,0.15);border:1px solid #34d399;padding:1rem;border-radius:8px">
+\[
+\boxed{
+D_\nu \mathcal{F}^{\nu\mu} = \mathcal{J}^\mu
+}
+\]
+</div>
+
+<p>
+where \(D_\nu\) is the full gauge-covariant derivative constructed from
+\(\mathcal{A}_\nu\), and \(\mathcal{J}^\mu\) is the total matter, spin,
+and resistance current.
+</p>
+
+<p>
+Observable forces correspond to projections of this equation onto
+specific representations of \(G_{\mathrm{STUR}}\).
+</p>
+</section>
+
+<!-- ============================
+     RESISTANCE COUPLING MODULATION
+============================= -->
+<section class="panel">
+<h2>4D. Resistance Field and Coupling Modulation</h2>
+
+<p>
+The resistance field \(R(x)\) enters the theory as a dynamical scalar that
+modulates effective interaction strengths and geometric response.
+</p>
+
+<div class="eq">
+\[
+S =
+\int d^4x \sqrt{-g}
+\Big[
+\frac{1}{2\kappa(R)}\,\mathcal{R}(e,\omega)
+-
+\frac{1}{4}f_3(R)\,G^A_{\mu\nu}G^{A\mu\nu}
+-
+\frac{1}{4}f_2(R)\,W^I_{\mu\nu}W^{I\mu\nu}
+-
+\frac{1}{4}f_1(R)\,B_{\mu\nu}B^{\mu\nu}
++
+\mathcal{L}_{\mathrm{matter}}
++
+\mathcal{L}_R
+\Big]
+\]
+</div>
+
+<p>
+Variations with respect to \(R\) generate resistance-mediated corrections
+across all interaction sectors without introducing additional gauge freedoms.
+</p>
+</section>
+
+<!-- ============================
+     MODULAR LIMIT
+============================= -->
+<section class="panel">
+<h2>4E. Operator Representation and Modular Limit</h2>
+
+<p>
+In algebraic regimes where observables are defined on local operator algebras,
+resistance-induced forces admit an equivalent description via modular flow.
+</p>
+
+<div class="eq" style="background:rgba(167,139,250,0.15);border:1px solid #a78bfa;padding:1rem;border-radius:8px">
+\[
+\langle [K, A^\mu] \rangle
+\;\longleftrightarrow\;
+\Pi_{\mathrm{phys}}\!\left(D_\nu \mathcal{F}^{\nu\mu}\right)
+\]
+</div>
+
+<p>
+where \(K\) is the modular Hamiltonian and \(\Pi_{\mathrm{phys}}\) denotes
+projection onto the physical representation.
+</p>
+</section>
+
 <section class="panel">
 <h2>5. Geometry–Resistance Coupling (Constitutive Specification)</h2>
 
