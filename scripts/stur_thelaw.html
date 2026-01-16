@@ -461,6 +461,48 @@ The framework is <strong>explicitly falsifiable</strong>.
 </p>
 </header>
 
+<!-- ============================
+     SECTION 0: Scope, Claim Hierarchy, and Reader Guide
+============================= -->
+<section class="panel">
+<h2>0. Scope, Claim Hierarchy, and Reader Guide</h2>
+
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.75rem 1rem;margin:1rem 0">
+<strong>Reader guidance:</strong> STUR is a multi-layer framework.
+Not all claims are equal in strength or dependence.
+This section explicitly separates <em>core postulates</em> from <em>derived structure</em> and <em>phenomenological hypotheses</em>.
+</p>
+
+<h3>0.1 Minimal STUR Core (Required)</h3>
+<ul>
+  <li>A single scalar resistance field \(R(x^\mu, X)\) defined on a 5D manifold</li>
+  <li>Gradient-flow (free-energy) evolution, not Lorentzian fundamental dynamics</li>
+  <li>A memory/coherence axis \(X\) encoding hysteresis and modular flow</li>
+  <li>Holoscreen boundary projection as the sole source of observables</li>
+</ul>
+
+<h3>0.2 Derived Structure (Conditional)</h3>
+<ul>
+  <li>Robin-type holoscreen boundary conditions</li>
+  <li>Chronomagnetic phase gating via \(\cos(\theta/M)\)</li>
+  <li>Quasi-static memory closure \(\partial_X R = R - R_{\mathrm{bg}}\)</li>
+</ul>
+
+<h3>0.3 Phenomenological Hypotheses (Testable, Non-Foundational)</h3>
+<ul>
+  <li>Optical interferometry visibility modulation</li>
+  <li>Josephson junction non-thermal deviations</li>
+  <li>Scalar-sector gravitational corrections</li>
+</ul>
+
+<h3>0.4 Explicit Limitations</h3>
+<ul>
+  <li>STUR v1.0 contains <strong>one propagating scalar degree of freedom</strong></li>
+  <li>Tensor gravitational waves are <strong>not generated</strong> by this scalar alone</li>
+  <li>Full GR recovery requires additional DOF beyond the present formulation</li>
+</ul>
+</section>
+
 <section class="panel">
 <h2>1. Foundational Postulate</h2>
 
@@ -702,6 +744,12 @@ produces diffusion-type PDEs. This resolves the apparent conflict between "actio
 </p>
 
 <h3>Bulk Free Energy (Dimensionless Form)</h3>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.75rem 1rem;margin:1rem 0">
+<strong>⚠️ Important:</strong>
+The functional below defines <em>dissipative gradient flow</em>.
+It is <strong>not</strong> a Lorentzian action and does <strong>not</strong> generate causal field equations.
+</p>
 
 <p>In dimensionless variables (dropping bars for clarity after this point):</p>
 
@@ -1759,6 +1807,18 @@ For \(R_q \sim 1\), \(M_{\text{rec}} \approx 1\) (transitional regime). This pre
 
 <p>where \(\ell_* \sim 100\) is the characteristic acoustic scale.</p>
 
+<h5>Order-of-Magnitude Consistency</h5>
+<p class="note">
+For \(M_{\mathrm{rec}} \gtrsim 10\), predicted corrections scale as \(O(M^{-2}) \lesssim 10^{-2}\),
+placing them at or below current Planck sensitivity for high-\(\ell\) modes.
+These effects are therefore expected to be:
+</p>
+<ul>
+  <li>Sub-dominant to ΛCDM nuisance parameters</li>
+  <li>Potentially degenerate with lensing and beam effects</li>
+  <li>Testable only with next-generation CMB experiments</li>
+</ul>
+
 <h4>Primordial Power Spectrum</h4>
 
 <p>
@@ -1830,8 +1890,14 @@ gradient-flow framework.
 
 <h3>12.1 Equilibrium/Hamiltonian Form</h3>
 
+<p class="note" style="background:rgba(255,200,100,0.15);border-left:3px solid #ffd93d;padding:0.75rem 1rem;margin:1rem 0">
+<strong>⚠️ EQUILIBRIUM-ONLY REWRITING:</strong>
+The following action is a <em>static variational reformulation</em>.
+It does not define time evolution and must not be interpreted as fundamental dynamics.
+</p>
+
 <p>
-At equilibrium (\(\partial_t R = 0\)), the gradient flow condition \(\delta \mathcal{F}/\delta R = 0\) 
+At equilibrium (\(\partial_t R = 0\)), the gradient flow condition \(\delta \mathcal{F}/\delta R = 0\)
 can be rewritten as the Euler-Lagrange equation of a Lorentzian-style action:
 </p>
 
@@ -2313,6 +2379,14 @@ The only inputs are directly measurable quantities.
 
 <section class="panel">
 <h2>15.3 Superconductors — Operational Definitions and Hard Observables</h2>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.75rem 1rem;margin:1rem 0">
+<strong>Scope limitation:</strong>
+This section does <em>not</em> claim demonstrated ambient-temperature superconductivity.
+It provides a parameter-locked phenomenological deviation model for
+low-\(T_c\) and high-\(T_c\) Josephson systems.
+No prediction is made here regarding material synthesis or room-temperature stability.
+</p>
 
 <div class="conceptual-box" style="background:rgba(255,100,100,0.1);border:2px solid #ff6b6b;padding:1rem;margin:1.5rem 0;border-radius:8px">
 <strong>Locked Superconductor Falsifier Set (STUR v1.0)</strong>
