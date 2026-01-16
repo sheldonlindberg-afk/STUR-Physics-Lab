@@ -668,6 +668,36 @@ This section explicitly separates <em>core postulates</em> from <em>derived stru
 <section class="panel">
 <h2>1. Foundational Postulate</h2>
 
+<div class="conceptual-box" style="background:rgba(255,200,100,0.12);border:2px solid #ffd93d;padding:1rem;margin:0 0 1.5rem 0;border-radius:8px">
+<strong>Empirical Motivation: Anomalies Addressed by STUR</strong>
+
+<p style="margin:0.5rem 0">STUR is not unmotivated speculation. It addresses specific empirical anomalies
+that current frameworks handle only via <em>ad hoc</em> additions:</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:0.5rem 0">
+<thead>
+<tr style="background:rgba(167,139,250,0.2)">
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #a78bfa">Anomaly</th>
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #a78bfa">Standard Fix</th>
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #a78bfa">STUR Mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Galaxy rotation curves</strong></td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Dark matter halo (undetected)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(R\)-gradient modified Poisson (Appendix A.7)</td></tr>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Quantum decoherence rates</strong></td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Environment tracing (unmeasured DOF)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Boundary-driven \(\cos(\theta/M)\) attenuation</td></tr>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Pioneer anomaly</strong></td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Thermal radiation asymmetry</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\Omega^\mu\)-drift in low-\(R_q\) regime</td></tr>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Flyby anomaly</strong></td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Unmodeled systematics</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Boundary phase shift at perihelion</td></tr>
+<tr><td style="padding:0.3rem"><strong>Non-thermal coherence thresholds</strong></td><td style="padding:0.3rem">None (unexplored)</td><td style="padding:0.3rem">Phase-gated visibility: \(V/V_0 = \cos^2(\theta/M)\)</td></tr>
+</tbody>
+</table>
+
+<p style="margin:0.5rem 0 0 0;font-size:0.85rem;color:var(--fg2)">
+<strong>Falsifiability:</strong> If the interferometry test (below) shows no visibility oscillations at the predicted
+coherence scale, STUR is falsified. If dark matter is directly detected with the standard halo profile, the
+\(R\)-gradient alternative is disfavored. These are not escape clauses—they are genuine tests.
+</p>
+</div>
+
 <div class="eq">
 \[
 \boxed{
@@ -1887,6 +1917,181 @@ resistance-induced forces admit an equivalent description via modular flow.
 <p>
 where \(K\) is the modular Hamiltonian and \(\Pi_{\mathrm{phys}}\) denotes
 projection onto the physical representation.
+</p>
+</section>
+
+<!-- =============================
+     SECTION 4F: CHRONOMAGNETICS–TEGR UNIFICATION
+     ============================= -->
+<section class="panel">
+<h2>4F. Chronomagnetics–TEGR Unification: The Full TOE</h2>
+
+<p class="note" style="background:rgba(52,211,153,0.15);border-left:3px solid #34d399;padding:0.75rem 1rem;margin:1rem 0">
+<strong>TOE Structure:</strong> This section demonstrates how the chronomagnetic control parameter \(M\)
+connects the quantum/optical sector (Sections 8–9) to the gravitational/torsion sector (Sections 4B, 14).
+The unification is through the <em>resistance field \(R\)</em> which underlies both.
+</p>
+
+<h3>4F.1 The Master Unification Diagram</h3>
+
+<div style="background:rgba(0,0,0,0.3);border:2px solid #a78bfa;padding:1.5rem;border-radius:12px;margin:1rem 0;font-family:monospace;font-size:0.85rem">
+<pre style="margin:0;white-space:pre;overflow-x:auto;color:#e0e0e0">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        STUR: UNIFIED THEORY STRUCTURE                       │
+│                         G_STUR = SU(3)×SU(2)×U(1)×Spin(1,3)                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+                    ┌─────────────────────────────────┐
+                    │    CANONICAL FUNCTIONAL         │
+                    │   𝓕_STUR[R] = ∫ d⁵x √g L(R,∇R) │
+                    │     (Free-Energy Form)          │
+                    └─────────────────────────────────┘
+                                      │
+                         Gradient Flow: ∂ₜR = −Γ δ𝓕/δR
+                                      │
+              ┌───────────────────────┼───────────────────────┐
+              │                       │                       │
+              ▼                       ▼                       ▼
+   ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+   │ OPTICAL SECTOR   │    │ GRAVITATIONAL    │    │ COSMOLOGICAL     │
+   │                  │    │ SECTOR           │    │ SECTOR           │
+   │ R_q = ℏω/k_BT    │    │ R → Φ/c²         │    │ R → H²/H_0²      │
+   │ u_c = ln(ℓ_c/λ)  │    │ (Newtonian pot.) │    │ (Hubble flow)    │
+   └──────────────────┘    └──────────────────┘    └──────────────────┘
+              │                       │                       │
+              ▼                       ▼                       ▼
+   ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+   │ CHRONOMAGNETIC   │    │ TEGR TORSION     │    │ CMB CORRECTIONS  │
+   │ PARAMETER        │    │ MAPPING          │    │                  │
+   │                  │    │                  │    │ C_ℓ^STUR/C_ℓ^ΛCDM│
+   │ M = R_q·S_u(u_c) │◄──►│ T^ρ_μν ∝ ∇R     │◄──►│ = 1 - sin²(ℓ/ℓ*) │
+   │                  │    │                  │    │     /2M²_rec     │
+   └──────────────────┘    └──────────────────┘    └──────────────────┘
+              │                       │                       │
+              │              ┌────────┴────────┐              │
+              │              │ UNIFIED SCALING │              │
+              └──────────────┤                 ├──────────────┘
+                             │   M controls:   │
+                             │ • Phase gating  │
+                             │ • Torsion scale │
+                             │ • Classical lim │
+                             └─────────────────┘
+                                      │
+                                      ▼
+                    ┌─────────────────────────────────┐
+                    │    HOLOSCREEN PROJECTION        │
+                    │   𝒲(θ) = cos(θ/M)              │
+                    │   (All observables here)        │
+                    └─────────────────────────────────┘
+</pre>
+</div>
+
+<h3>4F.2 Chronomagnetic–Torsion Correspondence</h3>
+
+<p>The chronomagnetic control parameter \(M\) and the TEGR torsion tensor \(T^{\rho}{}_{\mu\nu}\)
+are related through the resistance field gradient:</p>
+
+<div class="eq" style="background:rgba(167,139,250,0.15);border:2px solid #a78bfa;padding:1rem;border-radius:8px">
+\[
+\boxed{
+T^{\rho}{}_{\mu\nu}^{\text{(STUR)}} = \frac{\ell_P}{M} \left( \delta^{\rho}_\mu \nabla_\nu R - \delta^{\rho}_\nu \nabla_\mu R \right)
+}
+\]
+</div>
+
+<p>This identification ensures:</p>
+<ul>
+<li><strong>Large \(M\) limit:</strong> \(T^{\rho}{}_{\mu\nu} \to 0\), torsion suppressed, GR recovered</li>
+<li><strong>Small \(M\) limit:</strong> Torsion effects become significant, quantum/boundary effects dominate</li>
+<li><strong>Dimensional consistency:</strong> \(\ell_P/M\) carries dimension \([L]\), \(\nabla R\) is \([L^{-1}]\), so \(T\) is dimensionless ✓</li>
+</ul>
+
+<h3>4F.3 The Three Classical Limits</h3>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:1rem 0">
+<thead>
+<tr style="background:rgba(167,139,250,0.2)">
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Limit</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Condition</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Result</th>
+<th style="padding:0.5rem;text-align:left;border-bottom:1px solid #a78bfa">Recovered Theory</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Classical gravity</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(M \to \infty\), \(\partial_X R \to 0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\mathcal{W}(\theta) \to 1\), \(T \to 0\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">GR (scalar sector)</td></tr>
+<tr><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)"><strong>Quantum optics</strong></td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(M \sim \mathcal{O}(1)\), flat spacetime</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\mathcal{W}(\theta) = \cos(\theta/M)\)</td><td style="padding:0.4rem;border-bottom:1px solid rgba(255,255,255,0.1)">STUR visibility law</td></tr>
+<tr><td style="padding:0.4rem"><strong>Cosmology</strong></td><td style="padding:0.4rem">\(M = M_{\text{rec}}(z)\), FRW background</td><td style="padding:0.4rem">Phase-modulated CMB</td><td style="padding:0.4rem">ΛCDM + STUR corrections</td></tr>
+</tbody>
+</table>
+
+<h3>4F.4 Gauge Hierarchy and Sector Coupling</h3>
+
+<p>The full gauge group \(G_{\text{STUR}}\) contains the Standard Model plus gravity:</p>
+
+<div class="eq">
+\[
+G_{\text{STUR}} = \underbrace{SU(3)_c \times SU(2)_L \times U(1)_Y}_{\text{Standard Model}} \times \underbrace{\mathrm{Spin}(1,3)}_{\text{Lorentz/Gravity}}
+\]
+</div>
+
+<p>The resistance field \(R\) couples to all sectors through the modulated coupling:</p>
+
+<div class="eq" style="background:rgba(52,211,153,0.15);border:2px solid #34d399;padding:1rem;border-radius:8px">
+\[
+\boxed{
+g_{\text{eff}}^{(a)} = g^{(a)}_0 \cdot \left(1 + \frac{\kappa_a}{M}\right) = g^{(a)}_0 \cdot \left(1 + \frac{\kappa_a}{R_q \cdot S_u(u_c)}\right)
+}
+\]
+</div>
+
+<p>where \(a \in \{3, 2, 1, \text{grav}\}\) indexes the gauge sectors and \(\kappa_a\) are fixed coupling modulation coefficients:</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin:1rem 0">
+<thead>
+<tr style="background:rgba(52,211,153,0.2)">
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #34d399">Sector</th>
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #34d399">\(\kappa_a\)</th>
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #34d399">Effect at low \(M\)</th>
+<th style="padding:0.4rem;text-align:left;border-bottom:1px solid #34d399">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(SU(3)_c\) (strong)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">0</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">No modification</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ff6b6b;font-weight:bold">Locked</td></tr>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(SU(2)_L\) (weak)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">0</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">No modification</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ff6b6b;font-weight:bold">Locked</td></tr>
+<tr><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(U(1)_Y\) (EM)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">\(\kappa_{\text{em}}\)</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1)">Visibility modulation</td><td style="padding:0.3rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ffd93d;font-weight:bold">Testable</td></tr>
+<tr><td style="padding:0.3rem">\(\mathrm{Spin}(1,3)\) (grav)</td><td style="padding:0.3rem">\(\kappa_{\text{grav}} = 1\)</td><td style="padding:0.3rem">Torsion enhancement</td><td style="padding:0.3rem;color:#ffd93d;font-weight:bold">Testable</td></tr>
+</tbody>
+</table>
+
+<h3>4F.5 Tensor Mode Extension (Future Work)</h3>
+
+<p class="note" style="background:rgba(255,100,100,0.15);border-left:3px solid #ff6b6b;padding:0.5rem 1rem;margin:1rem 0">
+<strong>Current limitation:</strong> STUR v1.0 contains 1 scalar DOF (\(R\)). Full GR requires 2 tensor DOF.
+The following extension pathway is proposed but <em>not yet implemented</em>:
+</p>
+
+<div class="eq">
+\[
+R(x^\mu, X) \longrightarrow \left\{ R(x^\mu, X), \; h_{ij}^{\text{TT}}(x^\mu) \right\}
+\]
+</div>
+
+<p>where \(h_{ij}^{\text{TT}}\) are the transverse-traceless tensor modes, dynamically decoupled from \(R\) in the
+weak-field limit but sourced by \(R\)-gradients through:</p>
+
+<div class="eq">
+\[
+\square h_{ij}^{\text{TT}} = \frac{16\pi G}{c^4} \Pi_{ij}^{kl} T_{kl}[R]
+\]
+</div>
+
+<p>where \(\Pi_{ij}^{kl}\) is the TT projector and \(T_{kl}[R]\) is the effective stress-energy from \(R\)-dynamics.
+This extension would bring STUR to 3 DOF total, sufficient for full GR plus the scalar STUR sector.</p>
+
+<p class="note" style="margin-top:1rem;font-size:0.85rem">
+<strong>Status:</strong> This extension is speculative and requires independent validation. STUR v1.0 predictions
+(interferometry, galaxy rotation, cosmology) do not depend on it.
 </p>
 </section>
 
