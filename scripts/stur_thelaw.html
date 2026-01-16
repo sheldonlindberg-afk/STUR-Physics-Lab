@@ -2973,6 +2973,80 @@ moderate coherence and path imbalance, <em>not</em> ultra-coherent lasers. The e
 </p>
 </section>
 
+<!-- ============================
+     SECTION: Galaxy Rotation & RAR/MDAR Falsifier
+============================= -->
+<div class="panel">
+  <h2>Appendix — Galaxy Rotation Falsifier (RAR / MDAR)</h2>
+
+  <p style="color:var(--fg2)">
+    This appendix defines an <b>audit-grade falsification test</b> for STUR using
+    existing rotation-curve catalogs: the <b>Radial Acceleration Relation (RAR)</b>.
+    It is intentionally <b>not</b> a claim about any single galaxy, and it does not
+    rely on hard-coded points.
+  </p>
+
+  <div class="eq">
+  \[
+  g_{\rm obs}(r)=\frac{v^2(r)}{r},
+  \qquad
+  g_{\rm bar}(r)=\frac{G\,M_{\rm bar}(<r)}{r^2}.
+  \]
+  </div>
+
+  <div class="conceptual-box">
+    <strong>Observed fact (RAR):</strong> In disk galaxies, \(g_{\rm obs}\) tightly correlates with
+    \(g_{\rm bar}\) across radii with low intrinsic scatter. A viable STUR closure must
+    reproduce both the <em>functional form</em> and the <em>small scatter</em> without per-galaxy
+    post-hoc tuning.
+  </div>
+
+  <h3>STUR Closure (locked functional form)</h3>
+  <div class="eq">
+  \[
+  \boxed{
+  g_{\rm STUR}(r)
+  =
+  g_{\rm bar}(r)\Big[1+\mathcal{F}\!\Big(\frac{g_{\rm bar}(r)}{a_\star}\Big)\Big]
+  }
+  \]
+  </div>
+
+  <p class="note">
+    Here \(a_\star\) is a <b>single fixed acceleration scale</b> (global constant), and
+    \(\mathcal{F}\) is a <b>fixed functional</b> determined by the STUR memory / holoscreen
+    saturation choice (no per-galaxy retuning allowed).
+  </p>
+
+  <h3>Pass / Fail Inequality (dataset-ready)</h3>
+  <div class="eq" style="background:rgba(52,211,153,0.10);border-left:3px solid #34d399;padding:1rem;margin:1rem 0">
+  \[
+  \Delta_i \equiv \log_{10} g_{\rm obs}(r_i)-\log_{10} g_{\rm STUR}(r_i),
+  \qquad
+  \boxed{
+  \mathrm{RMS}(\Delta_i)\le \delta
+  }
+  \]
+  </div>
+
+  <p class="note">
+    \(\delta\) is fixed <b>a priori</b> (example: \(\delta=0.06\) dex). STUR is
+    <b>falsified</b> if RMS scatter exceeds \(\delta\), or if the fit requires
+    systematic galaxy-to-galaxy drift in \(a_\star\).
+  </p>
+
+  <h3>Data Requirements (no hard-coded points)</h3>
+  <div class="conceptual-box">
+    <ul>
+      <li>\(v(r)\) rotation curve and uncertainties</li>
+      <li>Baryonic mass model \(M_{\rm bar}(<r)\) (stars + gas)</li>
+      <li>Radius sampling \(\{r_i\}\) and consistent unit handling</li>
+    </ul>
+    If points are digitized from plots, the digitization method and error model must be stated.
+  </div>
+
+</div>
+
 <!-- GLOSSARY -->
 
 <section class="panel" id="glossary">
