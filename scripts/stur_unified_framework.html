@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Unified Teleparallel Framework – STUR · TEGR · HGEM · Chronomagnetics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Unified teleparallel framework organizing TEGR, HGEM, STUR, and Chronomagnetics within a single geometric and experimentally falsifiable structure." />
+  <meta name="author" content="Sheldon Lon Lindberg" />
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-secondary: #8b949e;
+      --text-muted: #6e7681;
+      --accent: #58a6ff;
+      --accent-subtle: rgba(56,139,253,0.15);
+      --success: #3fb950;
+      --success-subtle: rgba(46,160,67,0.15);
+      --warning: #d29922;
+      --warning-subtle: rgba(187,128,9,0.15);
+      --gold: #f0b429;
+      --gold-subtle: rgba(240,180,41,0.12);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    header {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    .pill {
+      display: inline-block;
+      background: var(--accent-subtle);
+      color: var(--accent);
+      padding: 0.3rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(56,139,253,0.3);
+    }
+    header h1 {
+      font-size: 2.2rem;
+      margin: 0 0 0.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    h2 {
+      font-size: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+      margin-top: 3rem;
+      color: var(--text);
+    }
+    h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 2rem;
+    }
+    p { margin: 1rem 0; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .block.warning {
+      border-left: 4px solid var(--warning);
+      background: var(--warning-subtle);
+    }
+    .block.success {
+      border-left: 4px solid var(--success);
+      background: var(--success-subtle);
+    }
+    .block.gold {
+      border-left: 4px solid var(--gold);
+      background: var(--gold-subtle);
+    }
+    .block .title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .block.warning .title { color: var(--warning); }
+    .block.success .title { color: var(--success); }
+    .block.gold .title { color: var(--gold); }
+    .muted { color: var(--text-secondary); margin: 0.5rem 0; font-size: 0.95rem; }
+    .eq {
+      background: rgba(255,255,255,0.03);
+      padding: 1rem;
+      border-radius: 6px;
+      margin: 1rem 0;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+    }
+    .eq.boxed {
+      border: 2px solid var(--accent);
+      background: var(--accent-subtle);
+    }
+    .eq-label {
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+    .card h4 {
+      margin: 0 0 0.5rem;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+    .card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    th {
+      background: var(--surface);
+      font-weight: 600;
+      color: var(--text);
+    }
+    td { color: var(--text-secondary); }
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    .toc h3 {
+      margin: 0 0 1rem;
+      color: var(--text);
+      font-size: 1rem;
+    }
+    .toc ul {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+    .toc li {
+      margin: 0.4rem 0;
+      color: var(--text-secondary);
+    }
+    footer {
+      margin-top: 4rem;
+      padding: 2rem 1rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="pill">Unified Teleparallel Framework</div>
+  <h1>STUR · TEGR · HGEM · Chronomagnetics</h1>
+  <p class="tagline">
+    A torsion-based, gauge-invariant, log-periodic, and experimentally falsifiable
+    teleparallel framework, built from four tightly coupled pillars:
+    TEGR, HGEM, STUR, and Chronomagnetics.
+  </p>
+</header>
+
+<nav class="toc">
+  <h3>Contents</h3>
+  <ul>
+    <li><a href="#sec-intro">1. Overview and Architecture</a></li>
+    <li><a href="#sec-pillars">2. The Four Pillars</a></li>
+    <li><a href="#sec-tegr">3. TEGR: Teleparallel Equivalent of GR</a></li>
+    <li><a href="#sec-hgem">4. HGEM: Linearized Gravitoelectromagnetic Waves</a></li>
+    <li><a href="#sec-stur">5. STUR: Interferometric Holonomy Observable</a></li>
+    <li><a href="#sec-chrono">6. Chronomagnetics: Log-Periodic Modulation</a></li>
+    <li><a href="#sec-unification">7. Unification Structure</a></li>
+    <li><a href="#sec-falsification">8. Falsification and Experimental Tests</a></li>
+    <li><a href="#sec-open">9. Open Problems and Future Work</a></li>
+    <li><a href="#sec-refs">References</a></li>
+  </ul>
+</nav>
+
+<section id="sec-intro">
+  <h2>1. Overview and Architecture</h2>
+
+  <div class="block warning">
+    <div class="title">Scope and Status</div>
+    <p class="muted">
+      This document presents a <strong>unified teleparallel framework</strong>, not a closed
+      ultraviolet-complete Theory of Everything.
+      TEGR (≡ GR) provides the geometric backbone; HGEM describes the linearized wave sector;
+      STUR supplies a phenomenological, interferometrically falsifiable holonomy observable;
+      Chronomagnetics introduces a rigorously defined log-periodic modulation sector.
+    </p>
+    <p class="muted">
+      <strong>No claim is made</strong> that Standard Model parameters, coupling constants, or cosmological
+      initial conditions are derived. All predictions presented are sector-local and
+      experimentally testable. The unification is organizational and geometric, not a claim of
+      ultimate microscopic completeness.
+    </p>
+  </div>
+
+  <p>
+    The teleparallel formulation of gravity replaces curvature with torsion as the geometric
+    carrier of gravitational dynamics. In TEGR (Teleparallel Equivalent of General Relativity),
+    the fundamental variable is the tetrad \(e^a{}_\mu\) rather than the metric \(g_{\mu\nu}\),
+    and gravity is encoded in the contortion tensor \(K^a{}_{bc}\) derived from the Weitzenböck
+    connection.
+  </p>
+
+  <div class="card-grid">
+    <div class="card" style="border-left: 3px solid #58a6ff;">
+      <h4>TEGR</h4>
+      <p>Geometric backbone. Teleparallel gravity equivalent to GR via boundary terms. 
+      Provides the frame field \(e^a{}_\mu\) and torsion tensor \(T^a{}_{bc}\).</p>
+    </div>
+    <div class="card" style="border-left: 3px solid #a371f7;">
+      <h4>HGEM</h4>
+      <p>Linearized wave sector. Gravitoelectromagnetic formulation for weak-field dynamics,
+      connecting to gravitational wave physics.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid #3fb950;">
+      <h4>STUR</h4>
+      <p>Phenomenological observable. Resistance holonomy \(\Phi_R\) measurable via
+      interferometric visibility decay. Falsifiable via Gaussian vs. null model comparison.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid #f0b429;">
+      <h4>Chronomagnetics</h4>
+      <p>Log-periodic modulation. Exact geometric constant \(\lambda = 3722/2705\) from
+      triangle geometry. Modulates effective contortion over cosmological timescales.</p>
+    </div>
+  </div>
+</section>
+
+<section id="sec-pillars">
+  <h2>2. The Four Pillars</h2>
+
+  <div class="block gold">
+    <div class="title">Framework Integrity Statement</div>
+    <p class="muted">
+      All four sectors—TEGR, HGEM, STUR, and Chronomagnetics—are mutually consistent,
+      geometrically coherent, and independently falsifiable.
+      Their unification here is organizational and geometric, not a claim of
+      ultimate microscopic completeness.
+    </p>
+  </div>
+
+  <table>
+    <tr>
+      <th>Pillar</th>
+      <th>Role</th>
+      <th>Key Object</th>
+      <th>Status</th>
+    </tr>
+    <tr>
+      <td><strong>TEGR</strong></td>
+      <td>Geometric backbone</td>
+      <td>Tetrad \(e^a{}_\mu\), torsion \(T^a{}_{bc}\)</td>
+      <td>Established (≡ GR)</td>
+    </tr>
+    <tr>
+      <td><strong>HGEM</strong></td>
+      <td>Wave sector</td>
+      <td>GEM potentials \(\Phi_g, \vec{A}_g\)</td>
+      <td>Derived from linearization</td>
+    </tr>
+    <tr>
+      <td><strong>STUR</strong></td>
+      <td>Observable</td>
+      <td>Holonomy \(\Phi_R = \oint \mathsf{J}_a dx^a\)</td>
+      <td>Phenomenological, falsifiable</td>
+    </tr>
+    <tr>
+      <td><strong>Chronomagnetics</strong></td>
+      <td>Modulation</td>
+      <td>Log-time \(u(t)\), constant \(\lambda\)</td>
+      <td>Mathematically rigorous, phenomenological origin</td>
+    </tr>
+  </table>
+</section>
+
+<section id="sec-tegr">
+  <h2>3. TEGR: Teleparallel Equivalent of GR</h2>
+
+  <h3>3.1 Fundamental Variables</h3>
+
+  <p>
+    In TEGR, gravity is formulated using tetrad (vierbein) fields \(e^a{}_\mu\) satisfying:
+  </p>
+
+  <div class="eq">
+    \[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]
+  </div>
+
+  <p>
+    The Weitzenböck connection \(\Gamma^\lambda_{\mu\nu} = e_a{}^\lambda \partial_\mu e^a{}_\nu\)
+    has zero curvature but nonzero torsion:
+  </p>
+
+  <div class="eq">
+    \[T^a{}_{\mu\nu} = \partial_\mu e^a{}_\nu - \partial_\nu e^a{}_\mu\]
+  </div>
+
+  <h3>3.2 TEGR ≡ GR Equivalence</h3>
+
+  <div class="block success">
+    <div class="title">Theorem — TEGR Equivalence</div>
+    <p class="muted">
+      The TEGR action differs from the Einstein-Hilbert action by a total divergence:
+    </p>
+    <div class="eq boxed">
+      \[S_{\rm TEGR} = \frac{1}{16\pi G} \int d^4x\, e\, T = S_{\rm EH} + \text{boundary term}\]
+    </div>
+    <p class="muted">
+      The field equations are identical to Einstein's equations. TEGR is GR reformulated in torsion language.
+    </p>
+  </div>
+
+  <h3>3.3 Contortion Tensor</h3>
+
+  <div class="eq">
+    \[K^a{}_{bc} = \frac{1}{2}\left(T_{bc}{}^a + T_{cb}{}^a - T^a{}_{bc}\right)\]
+  </div>
+
+  <p>
+    This is the geometric object that STUR parameterizes phenomenologically via \(K_{\rm eff}\).
+  </p>
+</section>
+
+<section id="sec-hgem">
+  <h2>4. HGEM: Linearized Gravitoelectromagnetic Waves</h2>
+
+  <h3>4.1 Weak-Field Approximation</h3>
+
+  <p>
+    In the weak-field limit \(g_{\mu\nu} = \eta_{\mu\nu} + h_{\mu\nu}\), the gravitational field admits 
+    a gravitoelectromagnetic decomposition:
+  </p>
+
+  <div class="eq">
+    \[\vec{E}_g = -\nabla\Phi_g - \frac{\partial \vec{A}_g}{\partial t}, \qquad \vec{B}_g = \nabla \times \vec{A}_g\]
+  </div>
+
+  <div class="block">
+    <div class="title">HGEM Role in the Framework</div>
+    <p class="muted">
+      HGEM provides the linearized dynamics for gravitational wave propagation and detection.
+      It is derived from TEGR, not postulated independently, ensuring geometric consistency.
+    </p>
+  </div>
+</section>
+
+<section id="sec-stur">
+  <h2>5. STUR: Interferometric Holonomy Observable</h2>
+
+  <h3>5.1 The Resistance Holonomy</h3>
+
+  <div class="eq boxed">
+    \[\Phi_R = \oint_{\mathcal{C}} \mathsf{J}_a\, dx^a\]
+  </div>
+
+  <p>
+    This closed-loop phase functional is gauge-invariant by construction (it is the interferometer
+    output) and operationally independent of metric path-length difference \(\Delta L\).
+  </p>
+
+  <h3>5.2 Visibility Prediction</h3>
+
+  <div class="eq boxed">
+    \[V(\Delta L) = V_0 \exp\!\left(-\frac{(\Delta L)^2}{\ell_{\rm coh}^2}\right)\]
+  </div>
+
+  <p>
+    This Gaussian-in-\(\Delta L^2\) scaling is the unique STUR discriminator.
+  </p>
+
+  <div class="block warning">
+    <div class="title">Phenomenological Status</div>
+    <p class="muted">
+      The identification \(\sigma_R \equiv K_{\rm eff}\) is a phenomenological ansatz organizing
+      experimental constraints within teleparallel language. No claim is made that microscopic
+      torsion fluctuates stochastically. The parameter \(K_{\rm eff}\) is an effective
+      laboratory-scale phase-gradient amplitude inferred from visibility statistics.
+    </p>
+  </div>
+</section>
+
+<section id="sec-chrono">
+  <h2>6. Chronomagnetics: Log-Periodic Modulation</h2>
+
+  <h3>6.1 The Geometric Constant</h3>
+
+  <p>
+    Chronomagnetics introduces a log-periodic modulation of tangential contortion,
+    defined from exact triangle geometry and embedded consistently within the
+    teleparallel (TEGR) formalism.
+  </p>
+
+  <p>
+    As established in the Chronomagnetics Mathematical Foundation, the constant
+    \(\lambda = 3722/2705\) is derived from the triangle \(\{116, 138, 144\}\).
+  </p>
+
+  <div class="eq boxed">
+    \[\lambda = \frac{3722}{2705} \approx 1.376\]
+  </div>
+
+  <p>
+    This sector is mathematically rigorous and dimensionally verified, but is
+    presently <strong>phenomenological</strong> with respect to microscopic origin.
+  </p>
+
+  <h3>6.2 Log-Time Parameterization</h3>
+
+  <div class="eq">
+    \[\mathcal{M}(u) = 1 + \epsilon \cos(2\pi u / \ln\lambda), \quad u(t) = \ln\big((t + t_c)/t_0\big)\]
+  </div>
+
+  <div class="block gold">
+    <div class="title">Chronomagnetics and TEGR Compatibility</div>
+    <p class="muted">
+      Chronomagnetics does not modify the TEGR field equations.
+      Instead, it introduces a controlled, gauge-invariant modulation of effective
+      contortion components compatible with teleparallel dynamics.
+    </p>
+  </div>
+</section>
+
+<section id="sec-unification">
+  <h2>7. Unification Structure</h2>
+
+  <div class="eq">
+    \[\text{TEGR} \xrightarrow{\text{linearize}} \text{HGEM} \xrightarrow{\text{matter coupling}} \text{STUR} \xrightarrow{\text{modulate}} \text{Chronomagnetics}\]
+  </div>
+
+  <table>
+    <tr><th>Sector</th><th>Provides</th><th>Does Not Provide</th></tr>
+    <tr>
+      <td>TEGR</td>
+      <td>Geometric backbone, field equations</td>
+      <td>Observable predictions beyond GR</td>
+    </tr>
+    <tr>
+      <td>HGEM</td>
+      <td>Gravitational wave sector</td>
+      <td>Interferometric signatures</td>
+    </tr>
+    <tr>
+      <td>STUR</td>
+      <td>Falsifiable holonomy observable</td>
+      <td>UV completion, SM derivation</td>
+    </tr>
+    <tr>
+      <td>Chronomagnetics</td>
+      <td>Cosmological modulation</td>
+      <td>Microscopic origin of \(\lambda\)</td>
+    </tr>
+  </table>
+</section>
+
+<section id="sec-falsification">
+  <h2>8. Falsification and Experimental Tests</h2>
+
+  <div class="block success">
+    <div class="title">Binary Falsification Criterion</div>
+    <p class="muted">
+      <strong>Frequentist:</strong> Measure \(V(\Delta L)\) at multiple baselines; 
+      fit Gaussian vs. null model; reject at \(5\sigma\) if inconsistent.<br>
+      <strong>Bayesian:</strong> Compute log-evidence difference \(\Delta \ln \mathcal{Z}\);
+      \(> 5\) = decisive support, \(< -5\) = decisive exclusion (Jeffreys scale).
+    </p>
+  </div>
+
+  <table>
+    <tr><th>Source</th><th>Visibility Scaling</th><th>Control</th></tr>
+    <tr><td>Collisional decoherence</td><td>\(e^{-\Gamma t}\)</td><td>Time, pressure</td></tr>
+    <tr><td>ULDM (coherent)</td><td>\(\cos(\omega t)\)</td><td>Frequency</td></tr>
+    <tr style="background: var(--success-subtle);">
+      <td><strong>STUR</strong></td>
+      <td>\(e^{-(\Delta L/\ell)^2}\)</td>
+      <td><strong>Arm separation</strong></td>
+    </tr>
+  </table>
+</section>
+
+<section id="sec-open">
+  <h2>9. Open Problems and Future Work</h2>
+
+  <div class="block success">
+    <div class="title">Status Summary</div>
+    <p class="muted">
+      The unified teleparallel framework is internally consistent, geometrically coherent,
+      and experimentally falsifiable in the STUR sector. Remaining open problems concern
+      enhancement mechanisms, microscopic origins, and experimental reach—not internal consistency.
+    </p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>STUR Enhancement</h4>
+      <p>Derive explicit enhancement factors for loop geometries and optimal experimental configurations.</p>
+    </div>
+    <div class="card">
+      <h4>Chronomagnetic Origin</h4>
+      <p>Determine whether \(\lambda = 3722/2705\) has a deeper microphysical or cosmological origin.</p>
+    </div>
+    <div class="card">
+      <h4>HGEM–STUR Bridge</h4>
+      <p>Establish quantitative connection between GEM wave amplitudes and STUR visibility signatures.</p>
+    </div>
+    <div class="card">
+      <h4>Data Reanalysis</h4>
+      <p>Reanalyze existing interferometry data for Gaussian vs. null model fits.</p>
+    </div>
+  </div>
+</section>
+
+<section id="sec-refs">
+  <h2>References</h2>
+
+  <ol style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.9;">
+    <li>
+      Aldrovandi, R. & Pereira, J. G. (2013).
+      <em>Teleparallel Gravity: An Introduction</em>.
+      Springer.
+    </li>
+    <li>
+      Maluf, J. W. (2013).
+      The teleparallel equivalent of general relativity.
+      <em>Annalen der Physik</em> 525, 339–357.
+    </li>
+    <li>
+      Bahamonde, S., Dialektopoulos, K. F., Levi Said, J., Mifsud, J.,
+      Sanchis-Lozano, M. A., & Zahariade, G. (2023).
+      Teleparallel gravity: From theory to cosmology.
+      <em>Reports on Progress in Physics</em> 86, 026901.
+    </li>
+    <li>
+      Lindberg, S. L. (2026).
+      <em>Foundations of STUR v9.1: Teleparallel Substrate Tests via Interferometric Holonomy</em>.
+      Internal research manuscript.
+    </li>
+    <li>
+      Burkeen, D., Cyrek, C. B., Lockwood, J. M., LaMarche, D., Beaubier, J., & Lindberg, S. L. (2026).
+      <em>Chronomagnetics: A Comprehensive Mathematical Foundation</em>.
+      Internal technical monograph.
+    </li>
+    <li>
+      Lockwood, J. M., Cyrek, C. B., Hansley, D., & Burkeen, D. (2026).
+      <em>Teleparallel Dynamics: First Principles</em>.
+      Internal technical monograph.
+    </li>
+    <li>
+      Kovachy, T., Asenbaum, P., Overstreet, C., Donnelly, C. A.,
+      Dickerson, S. M., Sugarbaker, A., Hogan, J. M., & Kasevich, M. A. (2015).
+      Quantum superposition at the half-metre scale.
+      <em>Nature</em> 528, 530–533.
+    </li>
+    <li>
+      Abe, M., et al. (MAGIS-100 Collaboration) (2021).
+      Matter-wave atomic gradiometer interferometric sensor.
+      <em>Quantum Science and Technology</em> 6, 044003.
+    </li>
+    <li>
+      Bassi, A., Lochan, K., Satin, S., Singh, T. P., & Ulbricht, H. (2013).
+      Models of wave-function collapse.
+      <em>Reviews of Modern Physics</em> 85, 471–527.
+    </li>
+    <li>
+      Graham, P. W., Hogan, J. M., Kasevich, M. A., & Rajendran, S. (2016).
+      New observables for direct detection of axion dark matter.
+      <em>Physical Review D</em> 93, 075029.
+    </li>
+  </ol>
+</section>
+
+<footer>
+  <p><strong>Unified Teleparallel Framework</strong> — STUR · TEGR · HGEM · Chronomagnetics</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+  <p style="margin-top: 1rem;">
+    This page is designed as a standalone reference for the unified teleparallel framework.
+    All sectors are mutually consistent, independently falsifiable, and aligned with
+    STUR v9.1, the Chronomagnetics Mathematical Foundation, and TEGR First-Principles documents.
+  </p>
+</footer>
+
+</div>
+</body>
+</html>
