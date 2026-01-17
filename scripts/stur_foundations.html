@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Foundations of STUR v9.0 — Stochastic Scalar-Matter Coupling Tests</title>
+<title>Foundations of STUR v9.1 — Teleparallel Substrate Tests via Long-Baseline Interferometry</title>
 
 <meta name="author" content="Sheldon Lon Lindberg" />
-<meta name="description" content="STUR v9.0: A 5D framework providing a distinctive Gaussian visibility signature for stochastic scalar-matter couplings, contrasted with coherent ULDM oscillations." />
+<meta name="description" content="STUR v9.1: Teleparallel substrate framework providing a distinctive Gaussian visibility signature via geometric contortion identification, contrasted with coherent ULDM oscillations." />
 <meta name="keywords" content="teleparallel gravity, TEGR, interferometry, quantum coherence, extra dimensions, scalar-matter coupling, falsifiable prediction" />
 
 <script>
@@ -30,6 +31,7 @@ window.MathJax = {
   options: { renderActions: { addMenu: [] } }
 };
 </script>
+
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <style>
@@ -459,6 +461,23 @@ code {
   border-radius: 4px;
 }
 
+/* Inline equation notes */
+.eq-note {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+/* Small definition list */
+.defs {
+  margin: 0.6rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+.defs li { margin: 0.25rem 0; }
+
 /* Critical revision marker */
 .revision-note {
   background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
@@ -473,6 +492,7 @@ code {
   color: var(--error);
 }
 </style>
+
 </head>
 
 <body>
@@ -480,12 +500,12 @@ code {
 
 <header class="masthead">
   <h1>Foundations of STUR</h1>
-  <p class="subtitle">Stochastic Scalar-Matter Coupling Tests via Long-Baseline Interferometry</p>
+  <p class="subtitle">Teleparallel Substrate Tests via Long-Baseline Interferometry</p>
   <div class="meta">
     <span class="badge"><span class="dot success"></span>Falsifiable prediction</span>
     <span class="badge"><span class="dot"></span>Sheldon Lon Lindberg</span>
     <span class="badge"><span class="dot"></span>January 2026</span>
-    <span class="badge"><span class="dot warning"></span>v9.0</span>
+    <span class="badge"><span class="dot warning"></span>v9.1</span>
   </div>
   <div class="toolbar">
     <button class="btn" data-jump="#abstract">Abstract</button>
@@ -498,15 +518,16 @@ code {
 <!-- ══════════════════════════════════════════════════════════════════════════════
      ABSTRACT
      ══════════════════════════════════════════════════════════════════════════════ -->
+
 <section class="section" id="abstract">
   <h2>Abstract</h2>
-  
+
   <p>
     We present <strong>STUR (Sheldon's Theory of Unified Resistance)</strong>, a five-dimensional framework 
     built on a symmetric tensor field \(\Rcal_{AB}\) on the orbifold \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\).
     This document has two objectives:
   </p>
-  
+
   <ol>
     <li><strong>Framework:</strong> Demonstrate that teleparallel gravity (TEGR ≡ GR), Yang-Mills gauge structure, 
     and chiral fermion localization can be organized within a unified geometric language.</li>
@@ -517,15 +538,18 @@ code {
     Gaussian-in-\(\Delta L^2\) form is <strong>distinct from</strong> coherent ultralight dark matter (ULDM) 
     signatures, which produce sinusoidal phase modulation.</li>
   </ol>
-  
+
   <div class="block warning">
-    <div class="title">Critical Clarification (v9.0)</div>
+    <div class="title">Critical Clarification (v9.1)</div>
     <p style="margin:0;color:var(--text-secondary)">
       <strong>Two key limitations:</strong><br>
-      (1) <strong>Magnitude:</strong> The coherence length \(\ell_{\rm coh}\) is not predicted from first principles. 
-      A naive estimate from TeV-scale KK vacuum fluctuations yields \(\ell_{\rm coh} \sim 10^{-59}\) m—roughly 
-      60 orders of magnitude below observable laboratory scales. Observable effects would require additional 
-      light scalar sectors or non-vacuum mechanisms not derived here.<br>
+      (1) <strong>Magnitude (geometric):</strong> In this revision, the coherence scale is set by the
+      <em>teleparallel substrate</em>: shot-to-shot fluctuations in the scalar \(R\) are identified with RMS
+      fluctuations in an effective contortion magnitude \(K_{\rm eff}\) (units m\(^{-1}\)).
+      The coherence length is therefore a geometric radius,
+      \(\ell_{\rm coh} \sim (y K_{\rm eff})^{-1}\).
+      For a UV substrate with \(K_{\rm eff}\sim 10^{59}\) m\(^{-1}\), one obtains \(\ell_{\rm coh}\sim 10^{-59}\) m,
+      which is far below laboratory scales.<br>
       (2) <strong>Regime:</strong> The Gaussian-in-\(\Delta L^2\) form arises specifically in the <em>Markovian 
       fluctuation regime</em> where scalar perturbations are uncorrelated between shots. Coherent ultralight 
       scalar fields (ULDM) produce <em>sinusoidal</em> phase modulation at frequency \(m_\phi/2\pi\), not 
@@ -533,7 +557,7 @@ code {
       not generic scalar-matter coupling.
     </p>
   </div>
-  
+
   <div class="block gold">
     <div class="title">Scope and Claims</div>
     <div class="card-grid">
@@ -564,6 +588,7 @@ code {
 <!-- ══════════════════════════════════════════════════════════════════════════════
      TABLE OF CONTENTS
      ══════════════════════════════════════════════════════════════════════════════ -->
+
 <section class="section" id="contents">
   <h2>Contents</h2>
   <div class="toc">
@@ -571,48 +596,52 @@ code {
     <p><a href="#sec1">1. Motivation and Axioms</a></p>
     <p><a href="#sec2">2. Manifold Structure</a></p>
     <p><a href="#sec3">3. Action and Field Equations</a></p>
-    
-    <p><strong>Part II — Sector Dynamics</strong></p>
-    <p><a href="#sec4">4. Gravitational Sector (TEGR)</a></p>
-    <p><a href="#sec5">5. Gauge Sector</a></p>
-    <p><a href="#sec6">6. Scalar Sector</a></p>
-    
-    <p><strong>Part III — Matter</strong></p>
-    <p><a href="#sec7">7. Fermion Localization</a></p>
-    <p><a href="#sec8">8. Mass Hierarchies</a></p>
-    
-    <p><strong>Part IV — Experimental Prediction</strong></p>
-    <p><a href="#sec9">9. Interferometric Signature</a></p>
-    <p><a href="#sec10">10. Coherence Length Estimates</a></p>
-    <p><a href="#sec11">11. Current Constraints</a></p>
-    <p><a href="#sec12">12. Falsification Protocol</a></p>
-    
-    <p><strong>Part V — Consistency</strong></p>
-    <p><a href="#sec13">13. Limiting Cases</a></p>
-    <p><a href="#sec14">14. Open Problems</a></p>
-    
-    <p><strong>Appendices</strong></p>
-    <p><a href="#appA">A. Notation</a></p>
-    <p><a href="#appB">B. Schwinger-Keldysh Derivation</a></p>
-    <p><a href="#appC">C. Dimensional Analysis</a></p>
-    <p><a href="#refs">References</a></p>
+
+```
+<p><strong>Part II — Sector Dynamics</strong></p>
+<p><a href="#sec4">4. Gravitational Sector (TEGR)</a></p>
+<p><a href="#sec5">5. Gauge Sector</a></p>
+<p><a href="#sec6">6. Scalar Sector</a></p>
+
+<p><strong>Part III — Matter</strong></p>
+<p><a href="#sec7">7. Fermion Localization</a></p>
+<p><a href="#sec8">8. Mass Hierarchies</a></p>
+
+<p><strong>Part IV — Experimental Prediction</strong></p>
+<p><a href="#sec9">9. Interferometric Signature</a></p>
+<p><a href="#sec10">10. Coherence Length Estimates</a></p>
+<p><a href="#sec11">11. Current Constraints</a></p>
+<p><a href="#sec12">12. Falsification Protocol</a></p>
+
+<p><strong>Part V — Consistency</strong></p>
+<p><a href="#sec13">13. Limiting Cases</a></p>
+<p><a href="#sec14">14. Open Problems</a></p>
+
+<p><strong>Appendices</strong></p>
+<p><a href="#appA">A. Notation</a></p>
+<p><a href="#appB">B. Schwinger-Keldysh Derivation</a></p>
+<p><a href="#appC">C. Dimensional Analysis</a></p>
+<p><a href="#refs">References</a></p>
+```
+
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════
      PART I: FRAMEWORK
      ══════════════════════════════════════════════════════════════════════════════ -->
+
 <section class="section" id="sec1">
   <h2>1. Motivation and Axioms</h2>
-  
+
   <h3>1.1 What the Resistance Formalism Provides</h3>
-  
+
   <p>
     Standard 5D Kaluza-Klein theory presents gravity, gauge fields, and scalar moduli as separate ingredients 
     that emerge after dimensional reduction. The "resistance tensor" \(\Rcal_{AB}\) provides an alternative 
     organizational scheme:
   </p>
-  
+
   <ul>
     <li><strong>Unified bookkeeping:</strong> A single symmetric tensor contains gravitational (10), mixed (4), 
     and scalar (1) components. The decomposition follows from the 4+1 split.</li>
@@ -621,7 +650,7 @@ code {
     <li><strong>Gauge structure from degeneracy:</strong> When multiple configurations yield identical physics, 
     the equivalence class defines a gauge group.</li>
   </ul>
-  
+
   <div class="block warning">
     <div class="title">Important Clarification</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -631,9 +660,9 @@ code {
       (3) a framework for the interferometric prediction.
     </p>
   </div>
-  
+
   <h3>1.2 Axioms</h3>
-  
+
   <div class="block gold">
     <div class="title">Axiom I — Arena</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -641,7 +670,7 @@ code {
       and \(X \in [0, L_X]\) parametrizes the orbifold interval.
     </p>
   </div>
-  
+
   <div class="block gold">
     <div class="title">Axiom II — Dynamical Field</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -649,7 +678,7 @@ code {
       are physically equivalent, \(\Rcal_{AB}\) carries an internal degeneracy label.
     </p>
   </div>
-  
+
   <div class="block gold">
     <div class="title">Axiom III — Variational Dynamics</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -658,9 +687,9 @@ code {
       kinetic terms, and bounded-below potential.
     </p>
   </div>
-  
+
   <h3>1.3 What the Axioms Determine</h3>
-  
+
   <div class="block success">
     <div class="title">Theorem 1.1 — Axiomatic Content</div>
     <div class="card-grid">
@@ -688,9 +717,9 @@ code {
 
 <section class="section" id="sec2">
   <h2>2. Manifold Structure</h2>
-  
+
   <h3>2.1 Orbifold Definition</h3>
-  
+
   <div class="block">
     <div class="title">Definition 2.1 — Five-Dimensional Arena</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -698,13 +727,13 @@ code {
       and parity \(X \mapsto -X\).
     </p>
   </div>
-  
+
   <h3>2.2 Metric Ansatz</h3>
   <div class="eq">
     \[\dd s^2_5 = e^{2\sigma(X)} g_{\mu\nu}(x)\, \dd x^\mu \dd x^\nu + r_c^2\, \dd X^2\]
     <div class="eq-label">(2.1)</div>
   </div>
-  
+
   <h3>2.3 Component Decomposition</h3>
   <table>
     <tr><th>Component</th><th>\(\mathbb{Z}_2\) Parity</th><th>Zero Mode</th><th>4D Interpretation</th></tr>
@@ -712,7 +741,7 @@ code {
     <tr><td>\(\Rcal_{\mu 5}\)</td><td>\(-1\)</td><td>No</td><td>KK modes (not gauge connection)</td></tr>
     <tr><td>\(\Rcal_{55}\)</td><td>\(+1\)</td><td>Yes</td><td>Scalar \(R\)</td></tr>
   </table>
-  
+
   <div class="block warning">
     <div class="title">Note on Gauge Fields</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -721,7 +750,7 @@ code {
       decomposition for KK intuition.
     </p>
   </div>
-  
+
   <h3>2.4 Scale Hierarchy</h3>
   <table>
     <tr><th>Scale</th><th>Symbol</th><th>Constraint</th><th>Origin</th></tr>
@@ -733,35 +762,35 @@ code {
 
 <section class="section" id="sec3">
   <h2>3. Action and Field Equations</h2>
-  
+
   <h3>3.1 Total Action</h3>
   <div class="eq law">
     \[\boxed{S_{\rm STUR} = S_{\rm grav} + S_{\rm gauge} + S_{\rm scalar} + S_{\rm matter} + S_{\rm bdy}}\]
     <div class="eq-label">(3.1)</div>
   </div>
-  
+
   <h3>3.2 Component Actions</h3>
-  
+
   <div class="eq boxed">
     \[S_{\rm grav} = \frac{1}{2\kappa_5} \int_{\Mcal^5} \dd^5 x\, e\, \Tcal\]
     <div class="eq-label">(3.2) — Gravitational (TEGR)</div>
   </div>
-  
+
   <div class="eq boxed">
     \[S_{\rm gauge} = -\frac{1}{4g_5^2} \int_{\Mcal^5} \dd^5 x\, e\, \kappa_{IJ}\, \Fcal^I_{MN} \Fcal^{MN,J}\]
     <div class="eq-label">(3.3) — Gauge</div>
   </div>
-  
+
   <div class="eq boxed">
     \[S_{\rm scalar} = \int_{\Mcal^5} \dd^5 x\, e \left[-\frac{1}{2}(\nabla R)^2 - V(R) + \Lcal_{\rm env}(R, \chi)\right]\]
     <div class="eq-label">(3.4) — Scalar + environment</div>
   </div>
-  
+
   <div class="eq boxed">
     \[S_{\rm matter} = \int_{\Mcal^5} \dd^5 x\, e\, \bar{\Psi}\left(i\Gamma^M D_M - yR\right)\Psi\]
     <div class="eq-label">(3.5) — Matter with Yukawa coupling</div>
   </div>
-  
+
   <h3>3.3 Field Equations</h3>
   <div class="eq">
     \[\begin{aligned}
@@ -777,19 +806,20 @@ code {
 <!-- ══════════════════════════════════════════════════════════════════════════════
      PART II: SECTOR DYNAMICS
      ══════════════════════════════════════════════════════════════════════════════ -->
+
 <section class="section" id="sec4">
   <h2>4. Gravitational Sector: Teleparallel Equivalence</h2>
-  
+
   <h3>4.1 Torsion Scalar</h3>
   <div class="eq boxed">
     \[\Tcal = \frac{1}{4}T^{PMN}T_{PMN} + \frac{1}{2}T^{PMN}T_{NPM} - T^P{}_{PM}T^{QM}{}_Q\]
     <div class="eq-label">(4.1)</div>
   </div>
-  
+
   <p>where \(T^P{}_{MN} = e_a^P(\partial_M e^a_N - \partial_N e^a_M)\) is the torsion tensor.</p>
-  
+
   <h3>4.2 TEGR-GR Equivalence</h3>
-  
+
   <div class="block success">
     <div class="title">Theorem 4.1 — Teleparallel Equivalence</div>
     <div class="eq law">
@@ -801,7 +831,7 @@ code {
       they yield identical field equations (Einstein equations).
     </p>
   </div>
-  
+
   <p>
     <strong>Proof sketch:</strong> Express the Ricci scalar in terms of the Weitzenböck connection 
     \(\hat{\Gamma}^P_{MN} = e_a^P \partial_M e^a_N\) (which has torsion but no curvature) and the 
@@ -813,7 +843,7 @@ code {
 
 <section class="section" id="sec5">
   <h2>5. Gauge Sector: Embedding (Not Derivation)</h2>
-  
+
   <div class="block warning">
     <div class="title">Honest Status Statement</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -823,14 +853,14 @@ code {
       is the unique choice. The SM structure is an <em>embedding</em> (input), not a <em>derivation</em> (output).
     </p>
   </div>
-  
+
   <h3>5.1 Gauge Structure from Degeneracy</h3>
   <p>
     If physically equivalent resistance configurations form a manifold with local symmetry group \(G\), 
     then covariance requires a connection \(A_\mu^I\) transforming as \(A_\mu \to g A_\mu g^{-1} + g\partial_\mu g^{-1}\). 
     Kinetic terms for \(A_\mu\) must be gauge-invariant, yielding Yang-Mills.
   </p>
-  
+
   <h3>5.2 Dimensional Reduction</h3>
   <div class="eq boxed">
     \[g_4^2 = \frac{g_5^2}{L_X}\]
@@ -840,21 +870,21 @@ code {
 
 <section class="section" id="sec6">
   <h2>6. Scalar Sector: Effective Dynamics</h2>
-  
+
   <h3>6.1 Microscopic Theory</h3>
   <div class="eq">
     \[\Lcal_{\rm scalar}^{\rm micro} = -\frac{1}{2}(\partial R)^2 - V(R) - \frac{1}{2}(\partial\chi)^2 
     - \frac{1}{2}m_\chi^2 \chi^2 - \lambda R\chi^2\]
     <div class="eq-label">(6.1)</div>
   </div>
-  
+
   <p>
     Here \(\chi\) represents heavy bath modes (KK excitations) with \(m_\chi \sim 1/L_X \gtrsim\) TeV. 
     This is manifestly Lorentz-invariant.
   </p>
-  
+
   <h3>6.2 Effective Langevin Equation</h3>
-  
+
   <div class="block success">
     <div class="title">Theorem 6.1 — Effective Dynamics</div>
     <p style="margin:0 0 0.5rem;color:var(--text-secondary)">
@@ -870,7 +900,7 @@ code {
       relation \(\langle\xi(x)\xi(x')\rangle = 2\Gamma T_{\rm eff}\, \delta^{(4)}(x-x')\).
     </p>
   </div>
-  
+
   <div class="block warning">
     <div class="title">Frame Dependence</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -883,11 +913,12 @@ code {
 <!-- ══════════════════════════════════════════════════════════════════════════════
      PART III: MATTER
      ══════════════════════════════════════════════════════════════════════════════ -->
+
 <section class="section" id="sec7">
   <h2>7. Fermion Localization</h2>
-  
+
   <h3>7.1 Zero-Mode Profile</h3>
-  
+
   <div class="block success">
     <div class="title">Theorem 7.1 — Chiral Localization</div>
     <div class="eq law">
@@ -899,7 +930,7 @@ code {
       \(\mathbb{Z}_2\) projection ensures chirality by removing the opposite-chirality zero mode.
     </p>
   </div>
-  
+
   <p>
     This is standard domain-wall fermion physics (Kaplan 1992). STUR inherits this result from its 
     5D structure; it is not a novel prediction.
@@ -908,19 +939,19 @@ code {
 
 <section class="section" id="sec8">
   <h2>8. Mass Hierarchies</h2>
-  
+
   <div class="block">
     <div class="title">Phenomenological Input</div>
     <p style="margin:0;color:var(--text-secondary)">
       Flavor structure is modeled via wavefunction overlaps. Localization positions are inputs.
     </p>
   </div>
-  
+
   <div class="eq boxed">
     \[y_{\rm eff}^{(ij)} \propto \exp\!\left(-\frac{(X_L^{(i)} - X_R^{(j)})^2}{2\sigma^2}\right)\]
     <div class="eq-label">(8.1)</div>
   </div>
-  
+
   <p>
     The exponential suppression can accommodate large mass hierarchies with \(\mathcal{O}(1)\) 
     5D Yukawa couplings, as in Randall-Sundrum and related models.
@@ -930,52 +961,82 @@ code {
 <!-- ══════════════════════════════════════════════════════════════════════════════
      PART IV: EXPERIMENTAL PREDICTION
      ══════════════════════════════════════════════════════════════════════════════ -->
+
 <section class="section" id="sec9">
   <h2>9. Interferometric Signature</h2>
-  
+
   <h3>9.1 Phase Modification from Yukawa Coupling</h3>
-  
+
   <p>
     The matter action (3.5) contains \(yR\bar{\Psi}\Psi\), which modifies the effective mass: 
     \(m_{\rm eff} = m_0 + yR\). We work in the <strong>non-relativistic atom-interferometry regime</strong> 
     (\(p_0 \simeq mv\), where \(v \ll c\)). In a WKB approximation, the phase accumulated along a path is:
   </p>
-  
+
   <div class="eq">
     \[\phi = \int_{\rm path} p\, \dd\ell = \int_{\rm path} \sqrt{E^2 - m_{\rm eff}^2}\, \dd\ell 
     \approx \int_{\rm path} \left(p_0 - \frac{m_0 y R}{p_0}\right) \dd\ell\]
     <div class="eq-label">(9.1)</div>
   </div>
-  
+
   <p>
     For two paths with lengths \(L_1\) and \(L_2\), the phase difference includes a contribution 
     \(\Delta\phi_R \propto y\bar{R}\, \Delta L\) where \(\bar{R}\) is the spatially averaged scalar 
     and \(\Delta L = L_1 - L_2\).
   </p>
-  
+
   <h3>9.2 Visibility Under Shot-to-Shot Fluctuations</h3>
-  
+
   <p>
     If \(R\) fluctuates between experimental shots with variance \(\sigma_R^2\), the visibility 
     (fringe contrast) is the expectation of \(\cos(\Delta\phi)\):
   </p>
-  
+
   <div class="eq">
     \[V = \langle \cos(\Delta\phi) \rangle = \exp\!\left(-\frac{\langle(\Delta\phi_R)^2\rangle}{2}\right) 
     = \exp\!\left(-\frac{1}{2}\left(\frac{y\sigma_R}{p_0}\right)^2 (\Delta L)^2\right)\]
     <div class="eq-label">(9.2)</div>
   </div>
-  
+
   <p>Defining the coherence length:</p>
-  
+
   <div class="eq law">
     \[\boxed{\ell_{\rm coh} := \frac{p_0}{y\sigma_R} \quad \Rightarrow \quad 
     V(\Delta L) = V_0 \exp\!\left(-\frac{(\Delta L)^2}{\ell_{\rm coh}^2}\right)}\]
     <div class="eq-label">(9.3) — STUR Visibility Prediction</div>
   </div>
-  
+
+  <div class="block gold">
+    <div class="title">Geometric Identification</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      In STUR's teleparallel substrate picture, the stochastic scalar fluctuations are not treated as an
+      arbitrary bath parameter: we identify the shot-to-shot scalar variance with RMS fluctuations of an
+      effective contortion magnitude \(K_{\rm eff}\) (units m\(^{-1}\)) that governs substrate–matter phase gradients:
+    </p>
+    <div class="eq definition">
+      \[\boxed{\sigma_R \equiv K_{\rm eff} \qquad [K_{\rm eff}] = \mathrm{m^{-1}}}\]
+      <div class="eq-label">(9.4)</div>
+      <div class="eq-note">
+        This is an identification of the <em>effective</em> stochastic source entering the Markovian visibility law:
+        the random phase kick per unit path length is set by the substrate contortion scale.
+      </div>
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      With (9.4), the coherence length becomes a geometric radius:
+    </p>
+    <div class="eq boxed">
+      \[\boxed{\ell_{\rm coh} = \frac{p_0}{yK_{\rm eff}} \;\;\approx\;\; \frac{1}{yK_{\rm eff}}
+      \quad \text{(for nonrelativistic atoms with }p_0\sim \mathcal{O}(1)\text{ in natural units)}}\]
+      <div class="eq-label">(9.5)</div>
+    </div>
+    <ul class="defs">
+      <li><strong>Interpretation:</strong> \(K_{\rm eff}^{-1}\) is the substrate interaction radius (contortion radius).</li>
+      <li><strong>Prediction target:</strong> long-baseline interferometry constrains \(K_{\rm eff}\) via \(\ell_{\rm coh}\).</li>
+    </ul>
+  </div>
+
   <h3>9.3 Distinguishing Features</h3>
-  
+
   <table>
     <tr><th>Mechanism</th><th>Visibility Scaling</th><th>Key Discriminator</th></tr>
     <tr><td><strong>STUR (scalar coupling)</strong></td><td>\(\exp(-\Delta L^2 / \ell_{\rm coh}^2)\)</td><td>Gaussian in \(\Delta L^2\)</td></tr>
@@ -983,7 +1044,7 @@ code {
     <tr><td>Source phase noise</td><td>\(\approx\) constant</td><td>Weak \(\Delta L\) dependence</td></tr>
     <tr><td>Gravitational dephasing</td><td>Depends on \(\Delta E \cdot t\)</td><td>Energy-dependent</td></tr>
   </table>
-  
+
   <div class="block success">
     <div class="title">Experimental Signature</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -991,14 +1052,14 @@ code {
       environmental decoherence mechanism in current interferometry produces this scaling.
     </p>
   </div>
-  
+
   <h3>9.4 Contrast with Coherent ULDM Signatures</h3>
-  
+
   <p>
     It is important to distinguish the STUR prediction from coherent ultralight dark matter (ULDM) searches, 
     which dominate current scalar-field interferometry literature:
   </p>
-  
+
   <div class="block warning">
     <div class="title">ULDM vs. STUR Signatures</div>
     <div class="card-grid">
@@ -1024,14 +1085,14 @@ code {
       </div>
     </div>
   </div>
-  
+
   <p>
     The key distinction: ULDM produces <strong>correlated</strong> phase shifts across experimental runs 
     (the field oscillates coherently over timescales \(\tau_{\rm coh} \sim 10^6 / \omega\)), while STUR 
     assumes <strong>uncorrelated</strong> shot-to-shot fluctuations from a Markovian bath. These are 
     complementary search channels—both are worth pursuing in long-baseline interferometers like MAGIS-100.
   </p>
-  
+
   <div class="block">
     <div class="title">When STUR Applies</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -1045,89 +1106,106 @@ code {
 
 <section class="section" id="sec10">
   <h2>10. Coherence Length Estimates</h2>
-  
-  <h3>10.1 Naive KK Vacuum Fluctuations</h3>
-  
+
+  <h3>10.1 Teleparallel Substrate Estimate (Contortion RMS)</h3>
+
   <p>
-    For heavy KK modes (\(m_\chi \gg T_{\rm lab}\)), the dominant fluctuations are quantum vacuum:
+    With the geometric identification (Eq. 9.4), the stochastic source \(\sigma_R\) entering the visibility law 
+    is identified with an effective teleparallel contortion magnitude \(K_{\rm eff}\). The coherence length 
+    therefore measures the inverse contortion scale of the substrate:
   </p>
-  
-  <div class="eq">
-    \[\langle\chi^2\rangle \approx \frac{1}{2m_\chi L^3} \quad \Rightarrow \quad 
-    \sigma_R^2 \sim \frac{\lambda^2 \langle\chi^2\rangle^2}{m_\chi^4} \sim \frac{\lambda^2}{4 m_\chi^6 L^6}\]
+
+  <div class="eq boxed">
+    \[\boxed{\ell_{\rm coh} = \frac{p_0}{yK_{\rm eff}} \;\;\simeq\;\; \frac{1}{yK_{\rm eff}}
+    \quad\Rightarrow\quad K_{\rm eff} \simeq \frac{1}{y\,\ell_{\rm coh}}}\]
     <div class="eq-label">(10.1)</div>
   </div>
-  
+
+  <p>
+    The magnitude of \(K_{\rm eff}\) is a statement about how stiff/UV the substrate geometry is.
+    If the substrate interaction is fundamentally UV (KK/Planck-adjacent), then \(K_{\rm eff}\) is enormous,
+    and \(\ell_{\rm coh}\) becomes correspondingly tiny.
+  </p>
+
   <h3>10.2 Numerical Estimate</h3>
-  
+
   <div class="derivation">
-    <p><strong>Order-of-magnitude calculation</strong> (see Appendix C for details)</p>
-    
-    <div class="step">
-      <span class="step-label">Parameters:</span>
-      \(m_\chi = 5\) TeV \(\approx 2.5 \times 10^{16}\) m\(^{-1}\) (in natural units), 
-      \(L = 10\) m (interferometer size), \(p_0/m \approx v/c \approx 3 \times 10^{-9}\) 
-      (atom velocity), \(y \sim \lambda \sim 1\).
-    </div>
-    
-    <div class="step">
-      <span class="step-label">Scalar fluctuation:</span>
-      \[\sigma_R \sim \frac{\lambda}{2 m_\chi^3 L^3} \sim \frac{1}{2 \cdot (2.5 \times 10^{16})^3 \cdot 10^3} 
-      \sim 3 \times 10^{-53}\ \text{m}^{-1}\]
-    </div>
-    
-    <div class="step">
-      <span class="step-label">Coherence length:</span>
-      \[\ell_{\rm coh} = \frac{p_0}{y\sigma_R} \sim \frac{5 \times 10^{6}}{1 \cdot 3 \times 10^{-53}} 
-      \sim 10^{59}\ \text{m}^{-1} \to \ell_{\rm coh} \sim 10^{-59}\ \text{m}\]
-    </div>
-    
-    <div class="step">
-      <span class="step-label">Conclusion:</span>
-      The naive estimate yields \(\ell_{\rm coh} \sim 10^{-59}\) m—<strong>roughly 60 orders of magnitude</strong> 
-      below observable scales.
-    </div>
+    <p><strong>Order-of-magnitude calculation</strong> (geometric contortion scale)</p>
+
+```
+<div class="step">
+  <span class="step-label">Parameters:</span>
+  Long-baseline interferometer length scale \(L\sim 10\)–\(100\) m, nonrelativistic atoms with
+  \(v/c\sim 10^{-9}\), Yukawa coupling \(y\sim 1\).
+</div>
+
+<div class="step">
+  <span class="step-label">Geometric identification:</span>
+  \(\sigma_R \equiv K_{\rm eff}\) (Eq. 9.4). The problem of estimating \(\ell_{\rm coh}\) is the problem of
+  estimating the substrate contortion RMS.
+</div>
+
+<div class="step">
+  <span class="step-label">UV substrate scale:</span>
+  If the base substrate interaction is UV-stiff, take a representative contortion magnitude
+  \(K_{\rm eff}\sim 10^{59}\) m\(^{-1}\), corresponding to a geometric interaction radius
+  \(r_{\rm sub}\sim K_{\rm eff}^{-1}\sim 10^{-59}\) m.
+</div>
+
+<div class="step">
+  <span class="step-label">Coherence length:</span>
+  \[
+    \ell_{\rm coh} \simeq \frac{1}{yK_{\rm eff}}
+    \sim \frac{1}{1\cdot 10^{59}}\ \mathrm{m}
+    \sim 10^{-59}\ \mathrm{m}.
+  \]
+</div>
+```
+
   </div>
-  
+
   <div class="block error">
     <div class="title">Critical Assessment</div>
     <p style="margin:0;color:var(--text-secondary)">
-      <strong>Observable effects (\(\ell_{\rm coh} \sim 10\)–\(10^3\) m) are NOT predicted by the naive 
-      STUR mechanism with TeV-scale KK modes.</strong> The discrepancy is roughly 60 orders of magnitude. 
-      For the interferometric signature to be detectable, additional mechanisms are required:
+      <strong>If the teleparallel substrate contortion scale is UV (\(K_{\rm eff}\sim 10^{59}\) m\(^{-1}\)),
+      then the resulting coherence length is \(\ell_{\rm coh}\sim 10^{-59}\) m and is unobservable.</strong>
+      Detectable effects (\(\ell_{\rm coh}\sim 10\)–\(10^3\) m) therefore require a substrate realization in which
+      \(K_{\rm eff}\) is many orders of magnitude smaller in the laboratory environment, or is suppressed by
+      species/medium dependence, shielding, or non-equilibrium driving.
     </p>
     <ul style="margin:0.5rem 0 0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary)">
-      <li><strong>Light scalar sector:</strong> A scalar with \(m_\phi \sim 10^{-3}\) eV (cf. ultralight dark matter)</li>
-      <li><strong>Cosmological background:</strong> Residual oscillations from early-universe dynamics</li>
-      <li><strong>Non-equilibrium sources:</strong> Topological defects, domain-wall nucleation</li>
+      <li><strong>Suppressed contortion in-lab:</strong> \(K_{\rm eff}\ll 1\ \mathrm{m^{-1}}\) via environmental/medium dependence</li>
+      <li><strong>Species dependence:</strong> effective \(y\) or coupling channel depends on composition/transition</li>
+      <li><strong>Non-equilibrium driving:</strong> engineered states where \(K_{\rm eff}\) acquires long-range correlations</li>
     </ul>
   </div>
-  
-  <h3>10.3 Model-Independent Parametrization</h3>
-  
+
+  <h3>10.3 Experimental Parametrization</h3>
+
   <p>
-    Given the above, we treat \(\ell_{\rm coh}\) as a <strong>phenomenological parameter</strong> 
-    to be constrained experimentally:
+    Given the above, we treat \(K_{\rm eff}\) (equivalently \(\ell_{\rm coh}\)) as a parameter to be
+    constrained experimentally:
   </p>
-  
+
   <div class="eq boxed">
     \[\text{Visibility law: } V(\Delta L) = V_0 \exp\!\left(-(\Delta L / \ell_{\rm coh})^2\right), 
     \quad \ell_{\rm coh} \in [10, 10^4]\ \text{m (search range)}\]
     <div class="eq-label">(10.2)</div>
   </div>
-  
+
   <p>
-    This reframes STUR's contribution: the theory predicts the <em>functional form</em> (Gaussian in 
-    \(\Delta L^2\)) but not the <em>magnitude</em> (\(\ell_{\rm coh}\)). Experiments constrain or 
-    exclude specific \(\ell_{\rm coh}\) values.
+    This reframes STUR's contribution: the theory predicts the <em>functional form</em> (Gaussian in
+    \(\Delta L^2\)) and provides a <em>geometric interpretation</em> of the magnitude in terms of a substrate
+    contortion scale \(K_{\rm eff}\simeq (y\ell_{\rm coh})^{-1}\). Experiments constrain or exclude specific
+    \(K_{\rm eff}\) values realized in laboratory conditions.
   </p>
 </section>
 
 <section class="section" id="sec11">
   <h2>11. Current Constraints</h2>
-  
+
   <h3>11.1 Existing Data</h3>
-  
+
   <div class="block warning">
     <div class="title">Constraint Methodology</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -1137,7 +1215,7 @@ code {
       so bounds are indicative rather than rigorous.
     </p>
   </div>
-  
+
   <table>
     <tr>
       <th>Experiment</th><th>System</th><th>\(\Delta L_{\rm max}\)</th><th>Indicative Bound</th><th>Notes</th>
@@ -1155,9 +1233,9 @@ code {
       <td>Different systematics</td>
     </tr>
   </table>
-  
+
   <h3>11.2 Visibility Curves (Computed)</h3>
-  
+
   <div class="figure">
     <svg viewBox="0 0 700 340" width="100%" height="auto" role="img" aria-label="Visibility vs path difference">
       <defs>
@@ -1177,108 +1255,111 @@ code {
           <stop offset="100%" style="stop-color:#ec4899"/>
         </linearGradient>
       </defs>
-      
-      <rect x="0" y="0" width="700" height="340" fill="url(#gridPattern)"/>
-      
-      <!-- Axes -->
-      <line x1="70" y1="280" x2="670" y2="280" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-      <line x1="70" y1="40" x2="70" y2="280" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-      
-      <!-- Axis labels -->
-      <text x="370" y="320" fill="rgba(255,255,255,0.7)" font-size="13" text-anchor="middle" font-weight="500">Path Difference ΔL (m)</text>
-      <text x="22" y="160" fill="rgba(255,255,255,0.7)" font-size="13" text-anchor="middle" transform="rotate(-90 22 160)" font-weight="500">Visibility V/V₀</text>
-      
-      <!-- X-axis ticks (0 to 100m) -->
-      <text x="70" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">0</text>
-      <text x="190" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">20</text>
-      <text x="310" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">40</text>
-      <text x="430" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">60</text>
-      <text x="550" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">80</text>
-      <text x="670" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">100</text>
-      
-      <!-- Y-axis ticks -->
-      <text x="58" y="284" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0</text>
-      <text x="58" y="224" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0.25</text>
-      <text x="58" y="164" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0.50</text>
-      <text x="58" y="104" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0.75</text>
-      <text x="58" y="48" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">1.0</text>
-      
-      <!-- Null hypothesis line -->
-      <line x1="70" y1="52" x2="670" y2="52" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="6,4"/>
-      <text x="580" y="42" fill="rgba(255,255,255,0.5)" font-size="11">Null (V = const)</text>
-      
-      <!-- 
-        ACCURATE GAUSSIAN CURVES: V = exp(-(ΔL/ℓ)²)
-        x ranges from 70 to 670 (600 px = 100m), so x = 70 + 6*ΔL
-        y = 280 - 228*V (V=0 at y=280, V=1 at y=52)
-        
-        ℓ_coh = 100m: V(20)=0.961, V(40)=0.852, V(60)=0.698, V(80)=0.527, V(100)=0.368
-        ℓ_coh = 50m: V(20)=0.852, V(40)=0.527, V(60)=0.237, V(80)=0.078, V(100)=0.018
-        ℓ_coh = 30m: V(20)=0.641, V(40)=0.169, V(60)=0.018, V(80)=0.001, V(100)≈0
-      -->
-      
-      <!-- ℓ_coh = 100m (green) -->
-      <path d="M 70,52 
-               C 130,54 190,62 250,78 
-               S 370,122 430,156 
-               S 550,212 610,240 
-               S 650,258 670,264" 
-            stroke="url(#curveGrad1)" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <text x="620" y="252" fill="#34d399" font-size="12" font-weight="600">ℓ = 100m</text>
-      
-      <!-- ℓ_coh = 50m (blue) -->
-      <path d="M 70,52 
-               C 110,58 150,78 190,86 
-               S 270,160 310,200 
-               S 390,252 430,268 
-               S 510,278 670,280" 
-            stroke="url(#curveGrad2)" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <text x="400" y="258" fill="#4a9eff" font-size="12" font-weight="600">ℓ = 50m</text>
-      
-      <!-- ℓ_coh = 30m (pink) -->
-      <path d="M 70,52 
-               C 100,62 130,98 160,134 
-               S 220,212 280,258 
-               S 360,278 670,280" 
-            stroke="url(#curveGrad3)" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <text x="220" y="232" fill="#f472b6" font-size="12" font-weight="600">ℓ = 30m</text>
-      
-      <!-- ULDM coherent oscillation (orange, dashed) - sinusoidal modulation around V₀ -->
-      <path d="M 70,52 
-               C 100,45 130,60 160,48 
-               S 220,58 250,46 
-               S 310,56 340,48 
-               S 400,58 430,46 
-               S 490,56 520,48 
-               S 580,58 610,46 
-               S 650,54 670,50" 
-            stroke="#f59e0b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="8,4"/>
-      <text x="540" y="72" fill="#f59e0b" font-size="11" font-weight="600">ULDM (oscillatory)</text>
-      
-      <!-- Legend box -->
-      <rect x="480" y="85" width="180" height="100" rx="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.15)"/>
-      <text x="495" y="105" fill="rgba(255,255,255,0.9)" font-size="11" font-weight="700">STUR (stochastic):</text>
-      <text x="495" y="122" fill="rgba(255,255,255,0.7)" font-size="10" font-family="monospace">V = V₀ exp(−ΔL²/ℓ²)</text>
-      <text x="495" y="139" fill="rgba(255,255,255,0.6)" font-size="10">Gaussian decay</text>
-      <text x="495" y="158" fill="#f59e0b" font-size="11" font-weight="700">ULDM (coherent):</text>
-      <text x="495" y="175" fill="rgba(255,255,255,0.6)" font-size="10">Sinusoidal modulation</text>
-    </svg>
+
+```
+  <rect x="0" y="0" width="700" height="340" fill="url(#gridPattern)"/>
+  
+  <!-- Axes -->
+  <line x1="70" y1="280" x2="670" y2="280" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+  <line x1="70" y1="40" x2="70" y2="280" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+  
+  <!-- Axis labels -->
+  <text x="370" y="320" fill="rgba(255,255,255,0.7)" font-size="13" text-anchor="middle" font-weight="500">Path Difference ΔL (m)</text>
+  <text x="22" y="160" fill="rgba(255,255,255,0.7)" font-size="13" text-anchor="middle" transform="rotate(-90 22 160)" font-weight="500">Visibility V/V₀</text>
+  
+  <!-- X-axis ticks (0 to 100m) -->
+  <text x="70" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">0</text>
+  <text x="190" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">20</text>
+  <text x="310" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">40</text>
+  <text x="430" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">60</text>
+  <text x="550" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">80</text>
+  <text x="670" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">100</text>
+  
+  <!-- Y-axis ticks -->
+  <text x="58" y="284" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0</text>
+  <text x="58" y="224" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0.25</text>
+  <text x="58" y="164" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0.50</text>
+  <text x="58" y="104" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0.75</text>
+  <text x="58" y="48" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">1.0</text>
+  
+  <!-- Null hypothesis line -->
+  <line x1="70" y1="52" x2="670" y2="52" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="580" y="42" fill="rgba(255,255,255,0.5)" font-size="11">Null (V = const)</text>
+  
+  <!-- 
+    ACCURATE GAUSSIAN CURVES: V = exp(-(ΔL/ℓ)²)
+    x ranges from 70 to 670 (600 px = 100m), so x = 70 + 6*ΔL
+    y = 280 - 228*V (V=0 at y=280, V=1 at y=52)
     
-    <div class="caption">
-      <strong>Figure 1:</strong> Visibility \(V/V_0\) versus path difference \(\Delta L\). Solid curves show 
-      STUR's Gaussian decay \(V = \exp(-(\Delta L/\ell_{\rm coh})^2)\) for three coherence lengths. The dashed 
-      orange curve shows typical <strong>ULDM coherent oscillation</strong> (sinusoidal modulation at frequency 
-      \(m_\phi/2\pi\)). The functional form—Gaussian decay vs. sinusoidal modulation—is the key discriminator 
-      between stochastic (STUR) and coherent (ULDM) scalar signatures.
-    </div>
+    ℓ_coh = 100m: V(20)=0.961, V(40)=0.852, V(60)=0.698, V(80)=0.527, V(100)=0.368
+    ℓ_coh = 50m: V(20)=0.852, V(40)=0.527, V(60)=0.237, V(80)=0.078, V(100)=0.018
+    ℓ_coh = 30m: V(20)=0.641, V(40)=0.169, V(60)=0.018, V(80)=0.001, V(100)≈0
+  -->
+  
+  <!-- ℓ_coh = 100m (green) -->
+  <path d="M 70,52 
+           C 130,54 190,62 250,78 
+           S 370,122 430,156 
+           S 550,212 610,240 
+           S 650,258 670,264" 
+        stroke="url(#curveGrad1)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <text x="620" y="252" fill="#34d399" font-size="12" font-weight="600">ℓ = 100m</text>
+  
+  <!-- ℓ_coh = 50m (blue) -->
+  <path d="M 70,52 
+           C 110,58 150,78 190,86 
+           S 270,160 310,200 
+           S 390,252 430,268 
+           S 510,278 670,280" 
+        stroke="url(#curveGrad2)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <text x="400" y="258" fill="#4a9eff" font-size="12" font-weight="600">ℓ = 50m</text>
+  
+  <!-- ℓ_coh = 30m (pink) -->
+  <path d="M 70,52 
+           C 100,62 130,98 160,134 
+           S 220,212 280,258 
+           S 360,278 670,280" 
+        stroke="url(#curveGrad3)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <text x="220" y="232" fill="#f472b6" font-size="12" font-weight="600">ℓ = 30m</text>
+  
+  <!-- ULDM coherent oscillation (orange, dashed) - sinusoidal modulation around V₀ -->
+  <path d="M 70,52 
+           C 100,45 130,60 160,48 
+           S 220,58 250,46 
+           S 310,56 340,48 
+           S 400,58 430,46 
+           S 490,56 520,48 
+           S 580,58 610,46 
+           S 650,54 670,50" 
+        stroke="#f59e0b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="8,4"/>
+  <text x="540" y="72" fill="#f59e0b" font-size="11" font-weight="600">ULDM (oscillatory)</text>
+  
+  <!-- Legend box -->
+  <rect x="480" y="85" width="180" height="100" rx="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.15)"/>
+  <text x="495" y="105" fill="rgba(255,255,255,0.9)" font-size="11" font-weight="700">STUR (stochastic):</text>
+  <text x="495" y="122" fill="rgba(255,255,255,0.7)" font-size="10" font-family="monospace">V = V₀ exp(−ΔL²/ℓ²)</text>
+  <text x="495" y="139" fill="rgba(255,255,255,0.6)" font-size="10">Gaussian decay</text>
+  <text x="495" y="158" fill="#f59e0b" font-size="11" font-weight="700">ULDM (coherent):</text>
+  <text x="495" y="175" fill="rgba(255,255,255,0.6)" font-size="10">Sinusoidal modulation</text>
+</svg>
+
+<div class="caption">
+  <strong>Figure 1:</strong> Visibility \(V/V_0\) versus path difference \(\Delta L\). Solid curves show 
+  STUR's Gaussian decay \(V = \exp(-(\Delta L/\ell_{\rm coh})^2)\) for three coherence lengths. The dashed 
+  orange curve shows typical <strong>ULDM coherent oscillation</strong> (sinusoidal modulation at frequency 
+  \(m_\phi/2\pi\)). The functional form—Gaussian decay vs. sinusoidal modulation—is the key discriminator 
+  between stochastic (STUR) and coherent (ULDM) scalar signatures.
+</div>
+```
+
   </div>
 </section>
 
 <section class="section" id="sec12">
   <h2>12. Falsification Protocol</h2>
-  
+
   <h3>12.1 Recommended Experiment</h3>
-  
+
   <table>
     <tr><th>Parameter</th><th>Specification</th><th>Purpose</th></tr>
     <tr><td>Platform</td><td>Long-baseline atom interferometer (e.g., MAGIS-100)</td><td>Access \(\Delta L \sim 100\) m</td></tr>
@@ -1287,9 +1368,9 @@ code {
     <tr><td>Precision</td><td>\(\delta V / V_0 < 0.01\)</td><td>Detect 1% visibility changes</td></tr>
     <tr><td>Controls</td><td>Vary velocity, species, timing</td><td>Separate from standard decoherence</td></tr>
   </table>
-  
+
   <h3>12.2 Decision Criteria</h3>
-  
+
   <div class="block error">
     <div class="title">Binary Falsification</div>
     <table style="margin:0.5rem 0 0">
@@ -1311,7 +1392,7 @@ code {
       </tr>
     </table>
   </div>
-  
+
   <div class="block warning">
     <div class="title">Hard Falsification Statement</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -1325,23 +1406,24 @@ code {
 <!-- ══════════════════════════════════════════════════════════════════════════════
      PART V: CONSISTENCY
      ══════════════════════════════════════════════════════════════════════════════ -->
+
 <section class="section" id="sec13">
   <h2>13. Limiting Cases</h2>
-  
+
   <div class="block success">
     <div class="title">GR Limit</div>
     <p style="margin:0;color:var(--text-secondary)">
       \(L_X \to 0\) (decoupled KK modes): TEGR \(\equiv\) GR, scalar and gauge sectors decouple. ✓
     </p>
   </div>
-  
+
   <div class="block success">
     <div class="title">Standard QM Limit</div>
     <p style="margin:0;color:var(--text-secondary)">
       \(\ell_{\rm coh} \to \infty\) (no scalar fluctuations): \(V(\Delta L) \to V_0\) = standard interference. ✓
     </p>
   </div>
-  
+
   <div class="block success">
     <div class="title">SM Limit</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -1352,7 +1434,7 @@ code {
 
 <section class="section" id="sec14">
   <h2>14. Open Problems</h2>
-  
+
   <div class="block error">
     <div class="title">Critical: Observable Coherence Length Without Decoupling</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -1362,7 +1444,7 @@ code {
       the resistance-tensor framework entirely. <strong>This is the central open problem.</strong>
     </p>
   </div>
-  
+
   <div class="block warning">
     <div class="title">Fluctuation Statistics</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -1371,21 +1453,21 @@ code {
       scalar bath correlation timescales relative to experimental shot rates.
     </p>
   </div>
-  
+
   <div class="block">
     <div class="title">Gauge Group Selection</div>
     <p style="margin:0;color:var(--text-secondary)">
       Find a principle uniquely selecting \(SU(3) \times SU(2) \times U(1)\) from the degeneracy structure.
     </p>
   </div>
-  
+
   <div class="block">
     <div class="title">Flavor Structure</div>
     <p style="margin:0;color:var(--text-secondary)">
       Derive fermion localization positions from dynamics rather than phenomenological input.
     </p>
   </div>
-  
+
   <div class="block">
     <div class="title">UV Completion</div>
     <p style="margin:0;color:var(--text-secondary)">
@@ -1397,11 +1479,12 @@ code {
 <!-- ══════════════════════════════════════════════════════════════════════════════
      APPENDICES
      ══════════════════════════════════════════════════════════════════════════════ -->
+
 <section class="section" id="appA">
   <h2>Appendix A: Notation</h2>
-  
+
   <p><strong>Units:</strong> Natural units \(\hbar = c = 1\). Lengths in meters when specified.</p>
-  
+
   <table>
     <tr><th>Index</th><th>Range</th><th>Description</th></tr>
     <tr><td>\(M, N, \ldots\)</td><td>\(0, 1, 2, 3, 5\)</td><td>5D curved indices</td></tr>
@@ -1409,84 +1492,84 @@ code {
     <tr><td>\(a, b, \ldots\)</td><td>\(0, 1, 2, 3, 5\)</td><td>5D flat (Lorentz) indices</td></tr>
     <tr><td>\(I, J, \ldots\)</td><td>\(1, \ldots, \dim G\)</td><td>Gauge algebra indices</td></tr>
   </table>
-  
+
   <p><strong>Metric signature:</strong> \((-,+,+,+,+)\)</p>
-  
+
   <p><strong>Conversions:</strong> 1 eV \(\approx (1.97 \times 10^{-7}\ \text{m})^{-1} \approx 5.07 \times 10^{6}\) m\(^{-1}\); 1 TeV \(\approx 5.07 \times 10^{15}\) m\(^{-1}\).</p>
 </section>
 
 <section class="section" id="appB">
   <h2>Appendix B: Schwinger-Keldysh Derivation</h2>
-  
+
   <p>
     This appendix sketches the derivation of the effective Langevin equation (6.2) from the microscopic 
     theory (6.1) using the Schwinger-Keldysh (closed-time-path) formalism.
   </p>
-  
+
   <h3>B.1 Setup</h3>
-  
+
   <p>
     The generating functional on the closed time contour \(\mathcal{C}\) is:
   </p>
-  
+
   <div class="eq">
     \[Z[J] = \int \mathcal{D}R\, \mathcal{D}\chi\, \exp\!\left(i \int_\mathcal{C} \dd^4 x\, 
     \left[\Lcal_{\rm scalar}^{\rm micro} + J \cdot R\right]\right)\]
     <div class="eq-label">(B.1)</div>
   </div>
-  
+
   <h3>B.2 Integrating Out \(\chi\)</h3>
-  
+
   <p>
     The \(\chi\) path integral is Gaussian. Completing the square:
   </p>
-  
+
   <div class="eq">
     \[\int \mathcal{D}\chi\, \exp\!\left(i \int_\mathcal{C} \left[-\frac{1}{2}\chi(\Box + m_\chi^2)\chi 
     - \lambda R \chi^2\right]\right) = \exp\!\left(-\frac{i}{2}\Tr\ln(G_\chi^{-1}[R])\right)\]
     <div class="eq-label">(B.2)</div>
   </div>
-  
+
   <p>
     where \(G_\chi^{-1}[R] = \Box + m_\chi^2 + 2\lambda R\). Expanding to second order in \(\lambda R\):
   </p>
-  
+
   <div class="eq">
     \[S_{\rm eff}[R] = S_{\rm free}[R] - i\lambda^2 \int_\mathcal{C} \dd^4 x\, \dd^4 x'\, 
     R(x) G_\chi(x,x')^2 R(x') + \mathcal{O}(\lambda^3)\]
     <div class="eq-label">(B.3)</div>
   </div>
-  
+
   <h3>B.3 Influence Functional</h3>
-  
+
   <p>
     Decomposing \(R = R_+ - R_-\) (forward/backward branches) and taking the Keldysh rotation 
     \(R_{\rm cl} = (R_+ + R_-)/2\), \(R_{\rm q} = R_+ - R_-\):
   </p>
-  
+
   <div class="eq">
     \[S_{\rm IF}[R_{\rm cl}, R_{\rm q}] = \int \dd^4 x\, R_{\rm q}\left[-\gamma \dot{R}_{\rm cl} 
     + D\nabla^2 R_{\rm cl}\right] + i\int \dd^4 x\, R_{\rm q}^2 \cdot \gamma T_{\rm eff}\]
     <div class="eq-label">(B.4)</div>
   </div>
-  
+
   <p>
     where \(\gamma \propto \lambda^2 \cdot \text{Im}(G_\chi^2)\) and the fluctuation-dissipation 
     theorem relates the noise kernel to \(\gamma T_{\rm eff}\).
   </p>
-  
+
   <h3>B.4 Langevin Equation</h3>
-  
+
   <p>
     The equation of motion for \(R_{\rm cl}\) in the presence of the stochastic \(R_{\rm q}\) source is:
   </p>
-  
+
   <div class="eq">
     \[\dot{R} + \Gamma(R - R_{\rm eq}) = D\nabla^2 R + \xi, \quad 
     \langle\xi(x)\xi(x')\rangle = 2\Gamma T_{\rm eff}\, \delta^{(4)}(x - x')\]
     <div class="eq-label">(B.5)</div>
   </div>
-  
+
   <p>
     The covariant generalization replaces \(\dot{R}\) with \(u^\mu \partial_\mu R\) where \(u^\mu\) 
     is the bath 4-velocity. See Calzetta & Hu (2008), Chapters 6–8 for the full derivation.
@@ -1495,72 +1578,79 @@ code {
 
 <section class="section" id="appC">
   <h2>Appendix C: Dimensional Analysis</h2>
-  
+
   <p>
     This appendix provides the detailed calculation of the coherence length estimate in Section 10.2.
+    With the geometric identification (Eq. 9.4), the stochastic scalar amplitude \(\sigma_R\) is identified 
+    with a teleparallel contortion scale \(K_{\rm eff}\), so the estimate reduces to an inverse-length conversion.
   </p>
-  
+
   <h3>C.1 Units and Conversions</h3>
-  
+
   <p>In natural units (\(\hbar = c = 1\)):</p>
   <ul>
     <li>Mass \(m\) has dimension [length]\(^{-1}\)</li>
+    <li>\(1\ \text{eV} \approx (1.97 \times 10^{-7}\ \text{m})^{-1} \approx 5.07 \times 10^{6}\) m\(^{-1}\)</li>
     <li>1 TeV \(= 10^{12}\) eV \(\approx 5.07 \times 10^{15}\) m\(^{-1}\)</li>
     <li>Atom velocity \(v \approx 1\) m/s \(\Rightarrow v/c \approx 3.3 \times 10^{-9}\)</li>
   </ul>
-  
-  <h3>C.2 Scalar Fluctuation Variance</h3>
-  
-  <p>From Eq. (10.1), the scalar variance due to vacuum fluctuations of \(\chi\):</p>
-  
+
+  <h3>C.2 Geometric Identification</h3>
+
+  <p>The geometric identification (Eq. 9.4) replaces the KK-vacuum estimate with:</p>
+
   <div class="eq">
-    \[\sigma_R^2 \sim \frac{\lambda^2}{4 m_\chi^6 L^6}\]
+    \[\sigma_R \equiv K_{\rm eff}\]
     <div class="eq-label">(C.1)</div>
   </div>
-  
-  <p>With \(m_\chi = 5\) TeV \(\approx 2.5 \times 10^{16}\) m\(^{-1}\) and \(L = 10\) m:</p>
-  
+
+  <p>
+    For a UV substrate, we take \(K_{\rm eff}\sim 10^{59}\) m\(^{-1}\) as a representative contortion magnitude.
+    This implies a geometric interaction radius \(r_{\rm sub}\sim K_{\rm eff}^{-1}\sim 10^{-59}\) m.
+  </p>
+
   <div class="eq">
-    \[\sigma_R \sim \frac{1}{2 m_\chi^3 L^3} = \frac{1}{2 \cdot (2.5 \times 10^{16})^3 \cdot 10^3} 
-    \approx \frac{1}{3 \times 10^{52}} \approx 3 \times 10^{-53}\ \text{m}^{-1}\]
+    \[K_{\rm eff} \sim 10^{59}\ \mathrm{m^{-1}}
+    \quad\Rightarrow\quad
+    r_{\rm sub} = K_{\rm eff}^{-1} \sim 10^{-59}\ \mathrm{m}\]
     <div class="eq-label">(C.2)</div>
   </div>
-  
+
   <h3>C.3 Coherence Length</h3>
-  
-  <p>From Eq. (9.3), with \(p_0 = m v \approx m \cdot 3 \times 10^{-9}\) (where \(m \sim\) GeV for atoms):</p>
-  
+
+  <p>From Eq. (9.5) with \(\sigma_R \equiv K_{\rm eff}\):</p>
+
   <div class="eq">
-    \[p_0 \sim 10^9\ \text{eV} \cdot 3 \times 10^{-9} = 1\ \text{eV} \approx 5 \times 10^{6}\ \text{m}^{-1}\]
+    \[\ell_{\rm coh} = \frac{p_0}{yK_{\rm eff}} \simeq \frac{1}{yK_{\rm eff}}\]
     <div class="eq-label">(C.3)</div>
   </div>
-  
+
   <p>Therefore:</p>
-  
+
   <div class="eq">
-    \[\ell_{\rm coh} = \frac{p_0}{y \sigma_R} \sim \frac{5 \times 10^{6}}{1 \cdot 3 \times 10^{-53}} 
-    \sim 2 \times 10^{59}\ \text{m}^{-1}\]
+    \[\ell_{\rm coh} \sim \frac{1}{1\cdot 10^{59}}\ \mathrm{m} \sim 10^{-59}\ \mathrm{m}\]
     <div class="eq-label">(C.4)</div>
   </div>
-  
+
   <p>
-    This gives \(\ell_{\rm coh}^{-1} \sim 2 \times 10^{59}\) m\(^{-1}\), 
-    meaning \(\ell_{\rm coh} \sim 5 \times 10^{-60}\) m—still catastrophically below observable scales.
+    This gives \(\ell_{\rm coh}^{-1} \sim 10^{59}\) m\(^{-1}\), meaning \(\ell_{\rm coh} \sim 10^{-59}\) m—
+    catastrophically below observable scales for a UV contortion substrate.
   </p>
-  
+
   <div class="block error">
     <div class="title">Conclusion</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The naive KK vacuum fluctuation mechanism yields \(\ell_{\rm coh} \sim 10^{-59}\) m—roughly 60 orders 
-      of magnitude below observable scales. Any observable effect requires fundamentally different scalar 
-      physics (light scalars, non-equilibrium sources, cosmological backgrounds).
+      In the teleparallel substrate identification \(\sigma_R \equiv K_{\rm eff}\), a UV contortion
+      scale \(K_{\rm eff}\sim 10^{59}\) m\(^{-1}\) yields \(\ell_{\rm coh}\sim 10^{-59}\) m—roughly 60 orders of
+      magnitude below observable scales. Any observable effect therefore requires a laboratory realization in
+      which \(K_{\rm eff}\) is dramatically suppressed or acquires long-range correlations.
     </p>
   </div>
 </section>
 
 <section class="section" id="refs">
   <h2>References</h2>
-  
+
   <ol style="font-size:0.88rem;color:var(--text-secondary);line-height:1.9">
     <li>Aldrovandi, R. & Pereira, J.G. (2013). <em>Teleparallel Gravity: An Introduction</em>. Springer. doi:10.1007/978-94-007-5143-9</li>
     <li>Maluf, J.W. (2013). The teleparallel equivalent of general relativity. <em>Annalen der Physik</em> 525, 339–357.</li>
@@ -1582,10 +1672,10 @@ code {
 </section>
 
 <footer class="footer">
-  <p><strong>Foundations of STUR</strong> — v9.0</p>
+  <p><strong>Foundations of STUR</strong> — v9.1</p>
   <p>© 2026 Sheldon Lon Lindberg</p>
   <p class="citation">
-    Lindberg, S.L. (2026). Foundations of STUR: Stochastic Scalar-Matter Coupling Tests via Long-Baseline Interferometry (v9.0).
+    Lindberg, S.L. (2026). Foundations of STUR: Teleparallel Substrate Tests via Long-Baseline Interferometry (v9.1).
   </p>
 </footer>
 
@@ -1613,7 +1703,7 @@ code {
   
   // Copy citation
   const citeBtn = document.getElementById('copyCite');
-  const citation = `Lindberg, Sheldon Lon (2026). "Foundations of STUR: Stochastic Scalar-Matter Coupling Tests via Long-Baseline Interferometry," v9.0.`;
+  const citation = `Lindberg, Sheldon Lon (2026). "Foundations of STUR: Teleparallel Substrate Tests via Long-Baseline Interferometry," v9.1.`;
   
   if (citeBtn) {
     citeBtn.addEventListener('click', async () => {
