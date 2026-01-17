@@ -168,6 +168,14 @@ a:hover { color: var(--accent-secondary); }
   gap: 0.5rem;
   justify-content: center;
   margin-top: 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(180deg, rgba(10,10,15,.96), rgba(10,10,15,.85));
+  padding: 0.6rem 0.4rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 0 0 12px 12px;
 }
 
 .btn {
@@ -175,12 +183,14 @@ a:hover { color: var(--accent-secondary); }
   border: 1px solid var(--border-strong);
   background: rgba(255, 255, 255, 0.03);
   color: var(--text);
-  padding: 0.5rem 0.85rem;
+  padding: 0.7rem 1.1rem;
   border-radius: 999px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .btn:hover {
@@ -198,6 +208,11 @@ a:hover { color: var(--accent-secondary); }
   background: #5ba8ff;
 }
 
+/* Range inputs (touch-friendly) */
+input[type="range"] {
+  height: 32px;
+}
+
 /* Sections */
 .section {
   background: var(--surface);
@@ -206,6 +221,9 @@ a:hover { color: var(--accent-secondary); }
   padding: 1.5rem;
   margin: 1rem 0;
   box-shadow: var(--shadow);
+}
+@media (max-width: 600px) {
+  .section { padding: 1.2rem 1.1rem; }
 }
 
 .section h2 {
@@ -455,7 +473,11 @@ tr:hover td { background: rgba(255, 255, 255, 0.02); }
   .section { box-shadow: none; break-inside: avoid; border: 1px solid #ccc; }
   .eq { background: #f8f8f8; }
   .masthead h1 { -webkit-text-fill-color: #000; }
-  .btn, .toolbar { display: none; }
+  .toolbar, #hsToggleView, #hsToggleDiff, #hsPrint { display: none; }
+  #hsPrintSummary { display: block !important; background: #f8f8f8; color: #000; border: 1px solid #ccc; }
+  #hsPrintSummary h3 { color: #000; }
+  #hsPrintSummary ul { color: #333; }
+  canvas { max-height: 320px; }
 }
 
 /* Inline code */
@@ -526,6 +548,10 @@ code {
   <p>
     We present <strong>STUR (Sheldon's Theory of Unified Resistance)</strong>, a five-dimensional framework 
     built on a symmetric tensor field \(\Rcal_{AB}\) on the orbifold \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\).
+    This document is intended as a <strong>falsifiable theoretical–experimental framework</strong>, not as a
+    completed ultraviolet (UV) theory or a derivation of Standard Model parameters. Its purpose is to
+    identify a distinctive, testable interferometric signature and to specify the conditions under which
+    that signature can be experimentally confirmed or excluded.
     This document has two objectives:
   </p>
 
@@ -535,7 +561,7 @@ code {
     <li><strong>Experimental signature:</strong> Derive an interferometric visibility prediction for 
     <em>stochastic</em> scalar-matter coupling in the Markovian fluctuation regime. In teleparallel
     formulation, the natural observable is the <em>resistance holonomy</em>
-    \(\Phi_R = \oint R_\mu e^\mu{}_a dx^a\), with visibility:
+    \(\Phi_R = \oint \mathsf{J}_a\, dx^a\) (the measured closed-loop phase functional), with visibility:
     \[V = V_0 \exp\!\left(-\langle\Phi_R^2\rangle/2\right) \;\;\xrightarrow{\;\text{linear path}\;}\;\;
     V(\Delta L) = V_0 \exp\!\left(-(\Delta L / \ell_{\rm coh})^2\right)\]
     The Gaussian form is <strong>distinct from</strong> coherent ultralight dark matter (ULDM) 
@@ -568,6 +594,7 @@ code {
         <strong>Derived from axioms</strong>
         <span style="font-size:0.88rem;color:var(--text-secondary)">
           • TEGR ≡ GR equivalence (boundary term)<br>
+          • Resistance holonomy as the primary teleparallel observable<br>
           • Yang-Mills from local degeneracy covariance<br>
           • Gaussian visibility form from <em>Markovian</em> phase averaging<br>
           • Chiral localization from orbifold + domain wall<br>
@@ -595,6 +622,9 @@ code {
 <section class="section" id="contents">
   <h2>Contents</h2>
   <div class="toc">
+    <!-- NOTE: This table of contents is rendered directly in HTML.
+         Any Markdown-style code fencing has been removed to preserve
+         strict HTML validity for archival and print use. -->
     <p><strong>Part I — Framework</strong></p>
     <p><a href="#sec1">1. Motivation and Axioms</a></p>
     <p><a href="#sec2">2. Manifold Structure</a></p>
@@ -722,6 +752,10 @@ code {
 <section class="section" id="sec2">
   <h2>2. Manifold Structure</h2>
 
+  <!-- ════════════════════════════════════════════════════════════════════════
+       METRIC ANSATZ — EXPLICIT UNPACKING (RED ISSUE HARDENING)
+       ════════════════════════════════════════════════════════════════════════ -->
+
   <h3>2.1 Orbifold Definition</h3>
 
   <div class="block">
@@ -736,6 +770,323 @@ code {
   <div class="eq">
     \[\dd s^2_5 = e^{2\sigma(X)} g_{\mu\nu}(x)\, \dd x^\mu \dd x^\nu + r_c^2\, \dd X^2\]
     <div class="eq-label">(2.1)</div>
+  </div>
+
+  <div class="block gold">
+    <div class="title">Geometric Meaning of the Ansatz</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Equation (2.1) defines a <strong>warped product geometry</strong> between a four-dimensional spacetime
+      \((M^4,g_{\mu\nu})\) and a one-dimensional compact orbifold coordinate \(X\).
+      Each hypersurface of constant \(X\) carries an induced four-dimensional metric
+      \(g^{(4)}_{\mu\nu}(x;X) = e^{2\sigma(X)} g_{\mu\nu}(x)\).
+      The extra dimension has proper line element \(\dd s_X = r_c\,\dd X\).
+    </p>
+  </div>
+
+  <h3>2.2.1 Explicit Variable Breakdown</h3>
+
+  <div class="eq definition">
+    \[
+    \begin{aligned}
+      \dd s_5^2 &:\; \text{Invariant interval in the five-dimensional spacetime} \\
+      e^{2\sigma(X)} &:\; \text{Warp (conformal) factor multiplying the 4D metric} \\
+      \sigma(X) &:\; \text{Warping function controlling how scales vary along } X \\
+      g_{\mu\nu}(x) &:\; \text{Base four-dimensional metric tensor} \\
+      x^\mu &:\; \text{Coordinates on } M^4,\; \mu,\nu=0,1,2,3 \\
+      r_c &:\; \text{Proper radius (length scale) of the compact dimension} \\
+      X &:\; \text{Dimensionless coordinate on } S^1/\mathbb{Z}_2
+    \end{aligned}
+    \]
+  </div>
+
+  <h3>2.2.2 Block-Diagonal Metric Structure</h3>
+
+  <p>
+    In coordinates \(x^A=(x^\mu,X)\), the five-dimensional metric components are:
+  </p>
+
+  <div class="eq boxed">
+    \[
+    g^{(5)}_{AB} =
+    \begin{pmatrix}
+      e^{2\sigma(X)} g_{\mu\nu}(x) & 0 \\
+      0 & r_c^2
+    \end{pmatrix},
+    \qquad
+    g^{(5)\,AB} =
+    \begin{pmatrix}
+      e^{-2\sigma(X)} g^{\mu\nu}(x) & 0 \\
+      0 & r_c^{-2}
+    \end{pmatrix}.
+    \]
+    <div class="eq-label">(2.2)</div>
+  </div>
+
+  <p>
+    The absence of mixed components \(g_{\mu X}\) reflects a coordinate choice in which the
+    four-dimensional slices are orthogonal to the extra dimension.
+  </p>
+
+  <h3>2.2.3 Physical Interpretation</h3>
+
+  <div class="block success">
+    <div class="title">Warped Scaling of Physical Quantities</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      For displacements confined to four-dimensional slices (\(\dd X=0\)),
+      \(\dd s_5 = e^{\sigma(X)} \dd s_4\). Thus physical lengths and time intervals
+      depend on position in the extra dimension.
+      In natural units, this implies that masses and energy scales measured by observers
+      localized at fixed \(X\) scale as \(m_{\rm phys}(X)\propto e^{-\sigma(X)}\).
+    </p>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Source of Five-Dimensional Curvature</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Even if the base metric \(g_{\mu\nu}(x)\) is flat, the spacetime is generically curved in five dimensions
+      whenever \(\sigma'(X)\neq 0\).
+      The curvature arises from variation of the conformal factor along the extra dimension,
+      not from intrinsic curvature of the four-dimensional slices.
+    </p>
+  </div>
+
+  <h3>2.2.4 Proper Length of the Extra Dimension</h3>
+
+  <p>
+    If \(X\) has period \(2\pi\), the proper size of the compact dimension is:
+  </p>
+
+  <div class="eq boxed">
+    \[
+      L_X = \int_0^{2\pi} r_c\,\dd X = 2\pi r_c.
+    \]
+    <div class="eq-label">(2.3)</div>
+  </div>
+
+  <p>
+    The parameter \(r_c\) therefore sets the physical compactification scale and controls
+    the Kaluza–Klein mass gap \(m_{\rm KK}\sim 1/L_X\).
+  </p>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       §2.2.5 BENCHMARK: RANDALL–SUNDRUM WARP AND RADION STABILIZATION
+       ════════════════════════════════════════════════════════════════════════ -->
+
+  <h3>2.2.5 Benchmark: Randall–Sundrum Warp and Radion Stabilization</h3>
+
+  <div class="block warning">
+    <div class="title">Status Statement</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The Randall–Sundrum I geometry and Goldberger–Wise radion stabilization are presented here
+      as a <strong>benchmark extra-dimensional solution</strong>. They are not predictions of STUR.
+      STUR does not require RS1, but must be compatible with it in the appropriate limit.
+    </p>
+  </div>
+
+  <p>
+    Solving the five-dimensional Einstein equations with a negative bulk cosmological constant
+    and brane-localized tensions yields the standard RS1 warp factor:
+  </p>
+
+  <div class="eq boxed">
+    \[
+      \sigma(X) = -k|X|, \qquad
+      \dd s_5^2 = e^{-2k|X|}\eta_{\mu\nu}\dd x^\mu \dd x^\nu + r_c^2 \dd X^2 .
+    \]
+    <div class="eq-label">(2.4)</div>
+  </div>
+
+  <p>
+    The compactification radius \(r_c\) is a modulus in pure RS1 and must be stabilized.
+    Introducing a bulk scalar field \(\Phi\) with brane-localized potentials generates an effective
+    radion potential with a stable minimum:
+  </p>
+
+  <div class="eq boxed">
+    \[
+      k\pi r_c \simeq \frac{1}{\epsilon}\ln\!\left(\frac{v_0}{v_\pi}\right),
+      \qquad \epsilon = \frac{m^2}{4k^2}.
+    \]
+    <div class="eq-label">(2.5)</div>
+  </div>
+
+  <div class="block">
+    <div class="title">Scalar Field Distinction</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The Goldberger–Wise scalar \(\Phi\) is an auxiliary stabilization field in the RS benchmark
+      and is <strong>not identified</strong> with the STUR resistance scalar \(R\), which governs
+      interferometric phase transport. They serve distinct roles: \(\Phi\) fixes the modulus,
+      while \(R\) couples to matter and generates the visibility signature.
+    </p>
+  </div>
+
+  <p>
+    The following subsection performs a strict dimensional analysis of these expressions.
+  </p>
+
+  <!-- ════════════════════════════════════════════════════════════════════════
+       §2.2.6 DIMENSIONAL ANALYSIS (RANDALL–SUNDRUM + GOLDBERGER–WISE)
+       ════════════════════════════════════════════════════════════════════════ -->
+
+  <h3>2.2.6 Dimensional Analysis (Natural Units)</h3>
+
+  <p>
+    We perform a strict dimensional audit of the Randall–Sundrum background and the
+    Goldberger–Wise stabilization mechanism. Throughout, we work in natural units
+    \(\hbar = c = 1\), so all dimensions reduce to powers of mass \(M\), with
+    \([L] = [M^{-1}]\).
+  </p>
+
+  <h4>2.2.6.1 Geometry and Metric Consistency</h4>
+
+  <div class="block">
+    <div class="title">Invariant Interval</div>
+    <ul class="defs">
+      <li>\(\dd s^2\): invariant spacetime interval \([\dd s^2] = L^2 = M^{-2}\)</li>
+      <li>\(\dd x^\mu, \dd X\): coordinates with dimension \(L\)</li>
+      <li>\(\eta_{\mu\nu}\): Minkowski metric, dimensionless</li>
+    </ul>
+  </div>
+
+  <div class="block success">
+    <div class="title">Warp Factor Constraint</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The exponential factor \(e^{-2k|X|}\) must be dimensionless.
+      Since \(X\) has dimension \(L\), the curvature scale \(k\) must carry dimension
+      \([k] = L^{-1} = M\). This identifies \(k\) as the AdS curvature (energy) scale.
+    </p>
+  </div>
+
+  <h4>2.2.6.2 Bulk Scalar Field Dimensions</h4>
+
+  <p>
+    Consider the bulk scalar field \(\Phi\) used in the Goldberger–Wise mechanism.
+    In five dimensions, the scalar kinetic term appears as:
+  </p>
+
+  <div class="eq">
+    \[
+      \mathcal{L}_\Phi^{(5D)} \supset (\partial \Phi)^2 .
+    \]
+  </div>
+
+  <p>
+    The five-dimensional Lagrangian density has mass dimension \([M^5]\).
+    Since \([\partial] = M\), dimensional consistency requires:
+  </p>
+
+  <div class="eq boxed">
+    \[
+      [(\partial \Phi)^2] = M^2 [\Phi]^2 = M^5
+      \quad\Rightarrow\quad
+      [\Phi] = M^{3/2}.
+    \]
+    <div class="eq-label">(2.6)</div>
+  </div>
+
+  <p>
+    Consequently, the boundary values \(v_0\) and \(v_\pi\) inherit the same mass dimension:
+    \([v_0] = [v_\pi] = M^{3/2}\).
+  </p>
+
+  <h4>2.2.6.3 Radion Field and Conformal Scale</h4>
+
+  <p>
+    The radion field is conventionally parameterized by the conformal scale:
+  </p>
+
+  <div class="eq boxed">
+    \[
+      \mu(x) \;\equiv\; k\,e^{-k\pi r_c(x)} .
+    \]
+    <div class="eq-label">(2.7)</div>
+  </div>
+
+  <p>
+    Since the exponential is dimensionless and \([k]=M\), the radion field carries:
+  </p>
+
+  <div class="eq">
+    \[
+      [\mu] = M .
+    \]
+  </div>
+
+  <p>
+    Thus \(\mu\) represents a physical mass scale, corresponding to the redshifted
+    energy scale on the visible (TeV) brane.
+  </p>
+
+  <h4>2.2.6.4 Goldberger–Wise Effective Potential</h4>
+
+  <p>
+    The radion effective potential takes the schematic form:
+  </p>
+
+  <div class="eq law">
+    \[
+      V_{\rm eff}(\mu)
+      \sim
+      \mu^4
+      \left(
+        v_\pi - v_0 \left(\frac{\mu}{k}\right)^\epsilon
+      \right)^2 .
+    \]
+    <div class="eq-label">(2.8)</div>
+  </div>
+
+  <p>
+    We now verify dimensional consistency:
+  </p>
+
+  <ul class="defs">
+    <li>\([\mu^4] = M^4\): correct dimension for a four-dimensional potential density</li>
+    <li>\((\mu/k)^\epsilon\): dimensionless ratio raised to dimensionless power</li>
+    <li>\(v_0, v_\pi\): normalized relative to \(k^{3/2}\) in standard conventions</li>
+  </ul>
+
+  <div class="block success">
+    <div class="title">Dimensional Closure</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      All terms combine consistently to produce a four-dimensional potential
+      with dimension \([M^4]\). No hidden or anomalous mass scales are introduced.
+    </p>
+  </div>
+
+  <h4>2.2.6.5 Logarithmic Stabilization Condition</h4>
+
+  <p>
+    The stabilized radion value satisfies:
+  </p>
+
+  <div class="eq boxed">
+    \[
+      k\pi r_c
+      \;\simeq\;
+      \frac{1}{\epsilon}
+      \ln\!\left(\frac{v_0}{v_\pi}\right).
+    \]
+    <div class="eq-label">(2.9)</div>
+  </div>
+
+  <p>
+    Dimensional consistency is manifest:
+  </p>
+
+  <ul class="defs">
+    <li>\(k\pi r_c\): dimensionless product of inverse length and length</li>
+    <li>\(\epsilon = m^2 / (4k^2)\): dimensionless</li>
+    <li>\(\ln(v_0/v_\pi)\): logarithm of a dimensionless ratio</li>
+  </ul>
+
+  <div class="block gold">
+    <div class="title">Conclusion</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The Goldberger–Wise stabilization mechanism is fully dimensionally consistent.
+      A hierarchy in physical scales emerges from the logarithm of a ratio of
+      mass-dimensioned boundary values, yielding a dimensionless modulus
+      \(k\pi r_c \sim \mathcal{O}(10)\) without fine-tuned parameters.
+    </p>
   </div>
 
   <h3>2.3 Component Decomposition</h3>
@@ -969,6 +1320,53 @@ code {
 <section class="section" id="sec9">
   <h2>9. Interferometric Signature</h2>
 
+  <!-- ════════════════════════════════════════════════════════════════════════
+       RED ISSUE #1: Gauge/Frame Invariance and Operational Meaning
+       ════════════════════════════════════════════════════════════════════════ -->
+
+  <h3>9.0.0 Operational Observability and Frame-Gauge Invariance</h3>
+
+  <div class="block warning">
+    <div class="title">Invariance Requirements</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The interferometer records a <strong>measured phase difference</strong> between two arms. Any quantity used
+      to parameterize this phase must be invariant under: (i) <strong>local Lorentz transformations</strong>
+      (rotations of the tetrad frame) and (ii) <strong>reparameterizations</strong> of the path.
+      The observable is therefore not a frame component, but a closed-loop functional determined by the
+      apparatus geometry and the matter coupling.
+    </p>
+  </div>
+
+  <div class="block gold">
+    <div class="title">Definition — Measured Phase as a Loop Functional</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      For a two-arm interferometer, the measured phase shift is the difference of line integrals along the arms,
+      expressible as a single closed-loop integral over \(\mathcal{C} = \gamma_1 \cup \overline{\gamma_2}\):
+    </p>
+    <div class="eq definition">
+      \[\boxed{
+        \Delta\phi_R \;\equiv\; \oint_{\mathcal{C}} \mathsf{J}_a(x)\, dx^{a}
+      }\]
+      <div class="eq-label">(9.0a)</div>
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      Here \(\mathsf{J}_a\) is the <strong>effective phase-gradient 1-form</strong> induced by the Yukawa coupling
+      in the WKB limit. Because \(\Delta\phi_R\) is the interferometer output, it is gauge-invariant by construction.
+      STUR uses \(\Phi_R\) as a compact parameterization of this measured loop functional.
+    </p>
+  </div>
+
+  <div class="block success">
+    <div class="title">Lemma — Frame (Local Lorentz) Invariance</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Let \(e^a{}_\mu\) be a tetrad and consider a local Lorentz rotation \(e'^a{}_\mu(x) = \Lambda^a{}_b(x)\,e^b{}_\mu(x)\).
+      The measured phase difference \(\Delta\phi_R\) is unchanged because it is defined from the <strong>same matter field</strong>
+      propagating through the <strong>same apparatus</strong>. The scalar interaction along the paths determines the phase;
+      any explicit tetrad decomposition is a representational choice. The observable is the closed-loop functional
+      \(\oint \mathsf{J}\), not any intermediate frame component.
+    </p>
+  </div>
+
   <h3>9.0 Breakdown of the Geometric Path-Length Assumption</h3>
 
   <div class="block warning">
@@ -994,21 +1392,53 @@ code {
     <div class="title">Definition — Resistance Holonomy</div>
     <div class="eq definition">
       \[\boxed{
-        \Phi_R \;\equiv\; \oint_{\mathcal{C}} R_\mu(x)\, e^\mu{}_{a}(x)\, dx^{a}
+        \Phi_R \;\equiv\; \oint_{\mathcal{C}} \mathsf{J}_a(x)\, dx^{a}\quad(\equiv\Delta\phi_R\ \text{as a closed-loop integral})
       }\]
       <div class="eq-label">(9.0)</div>
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
-      Here \(e^\mu{}_a\) is the teleparallel frame field and \(\mathcal{C}\) is a closed interferometric loop.
-      Unlike \(\Delta L\), \(\Phi_R\) can be nonzero even when the total geometric path length vanishes.
+      Here \(\mathsf{J}_a\) is the effective phase-gradient 1-form generated by the Yukawa coupling in the WKB limit.
+      In a convenient representation one may write \(\mathsf{J}_a \propto (y/p_0)\,R\,u_a\) for nonrelativistic transport,
+      but the <strong>observable</strong> is the closed-loop integral itself.
+      Unlike \(\Delta L\), \(\Phi_R\) can be nonzero even when the total geometric path length difference vanishes.
     </p>
   </div>
 
   <p>
-    This quantity is invariant under local Lorentz transformations of the frame and measures
-    <strong>non-integrability of phase transport</strong> induced by the resistance substrate.
-    It is the teleparallel analogue of a Wilson loop.
+    \(\Phi_R\) is a <strong>measured loop functional</strong> (a two-arm phase difference written as a closed-loop integral).
+    It therefore does not depend on the choice of tetrad gauge used to represent the dynamics.
+    Operationally, it measures <strong>non-integrability of phase transport</strong> induced by the resistance substrate—
+    a Wilson-loop analogue for the Yukawa-induced phase-gradient 1-form \(\mathsf{J}\).
   </p>
+
+  <div class="block warning">
+    <div class="title">Important Distinction</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The holonomy \(\Phi_R\) is not defined as "a tetrad component" but as a <strong>closed-loop phase functional</strong>
+      extracted from the interferometer output. Any decomposition into \(R_\mu e^\mu{}_a dx^a\) is a representation choice
+      and must not be confused with a frame-dependent intermediate variable.
+    </p>
+  </div>
+
+  <div class="block success">
+    <div class="title">Gauge-Invariance Statement</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Any claim of "teleparallel observability" is made only at the level of \(\Phi_R\) as an interferometer
+      output functional. No intermediate tetrad component is asserted to be observable. If a change of tetrad gauge
+      alters an intermediate expression, the closed-loop phase \(\Delta\phi_R\) remains unchanged because it is tied to
+      the physical interference fringe readout.
+    </p>
+  </div>
+
+  <div class="block success">
+    <div class="title">Terminology Fixing</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Throughout this document, the term <strong>resistance holonomy</strong> refers exclusively to the
+      closed-loop phase functional \(\Phi_R = \oint_{\mathcal{C}} \mathsf{J}_a\,dx^a\). It is conceptually
+      analogous to a Wilson loop, but is generated by scalar–matter phase transport rather than gauge curvature.
+      After this point, the term will not be re-explained.
+    </p>
+  </div>
 
   <h3>9.1 Phase Modification from Yukawa Coupling</h3>
 
@@ -1071,7 +1501,12 @@ code {
       <div class="eq-label">(9.4)</div>
       <div class="eq-note">
         This is an identification of the <em>effective</em> stochastic source entering the Markovian visibility law:
-        the random phase kick per unit path length is set by the substrate contortion scale.
+        \(\sigma_R\) is defined operationally as the <strong>RMS phase-gradient per unit length</strong> inferred from visibility decay.
+        In teleparallel geometry, a natural geometric parameterization of such random phase gradients is
+        an <strong>effective contortion-fluctuation scale</strong> \(K_{\rm eff}\). Here \(K_{\rm eff}\) denotes an
+        <strong>effective, coarse-grained laboratory-scale parameter</strong> inferred from visibility decay—it is not
+        asserted to equal the fundamental microscopic torsion scale of any ultraviolet completion, but rather
+        summarizes the RMS phase-gradient per unit length experienced by matter waves in the experimental environment.
       </div>
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
@@ -1086,6 +1521,19 @@ code {
       <li><strong>Interpretation:</strong> \(K_{\rm eff}^{-1}\) is the substrate interaction radius (contortion radius).</li>
       <li><strong>Prediction target:</strong> long-baseline interferometry constrains \(K_{\rm eff}\) via \(\ell_{\rm coh}\).</li>
     </ul>
+  </div>
+
+  <div class="block success">
+    <div class="title">Operational Definition of \(K_{\rm eff}\)</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Define the shot-to-shot phase perturbation \(\delta\phi_R\) by \(\Delta\phi_R = \overline{\Delta\phi}_R + \delta\phi_R\).
+      In the Markov limit, \(\delta\phi_R\) is Gaussian with variance \(\langle\delta\phi_R^2\rangle\).
+      The visibility law fixes this variance directly from fringe contrast measurements.
+      We then <strong>define</strong> \(K_{\rm eff}\) by
+      \[\langle\delta\phi_R^2\rangle \equiv (y/p_0)^2 K_{\rm eff}^2 (\Delta L)^2\]
+      in the linear-path regime, so \(K_{\rm eff}\) is the experimentally inferred RMS phase-gradient scale.
+      The teleparallel substrate interpretation provides a geometric explanation for this inferred scale.
+    </p>
   </div>
 
   <h3>9.3 Distinguishing Features</h3>
@@ -1120,6 +1568,7 @@ code {
         <strong>Coherent ULDM (standard)</strong>
         <span style="font-size:0.88rem;color:var(--text-secondary)">
           • Virialized field oscillates at \(\omega = m_\phi c^2/\hbar\)<br>
+          • Coherence time \(\tau_{\rm coh} \gg\) shot separation<br>
           • Phase shift: \(\phi(t) \propto \sin(\omega t)\)<br>
           • Visibility: sinusoidal modulation or mean-field drift<br>
           • Sensitivity: coupling \(g \sim 10^{-15}\)–\(10^{-20}\)<br>
@@ -1192,6 +1641,9 @@ code {
       Lab-parameterized teleparallel coherence simulator implementing
       \(V(\Phi_R) = V_0 \exp(-\Phi_R^2/2)\) where \(\Phi_R = R_q \cdot S_u(\ell_{\rm eff}/L_0)\)
       is the resistance holonomy computed from loop geometry.
+      The parameter \(R_q\) is a <strong>dimensionless effective coupling</strong> absorbing the
+      factors \(y/p_0\) and the RMS phase-gradient normalization. It is not the microscopic Yukawa
+      coupling and is introduced solely for laboratory-level parameterization.
     </div>
 
 ```
@@ -1208,10 +1660,11 @@ code {
   .hs-head{display:flex;justify-content:space-between;gap:.75rem;flex-wrap:wrap;align-items:center;padding:.85rem 1rem;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.03),transparent)}
   .hs-head .h{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted)}
   .hs-body{padding:1rem}
-  .hs-controls{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+  .hs-controls{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
   @media (max-width:520px){.hs-controls{grid-template-columns:1fr}}
   .hs-ctrl{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:.85rem}
   .hs-ctrl label{display:block;font-size:.78rem;font-weight:800;color:rgba(219,234,254,.92)}
+  .hs-ctrl input[type="range"]{height:32px}
   .hs-ctrl .val{margin-top:.35rem;color:var(--text-secondary);font-family:var(--mono);font-size:.82rem}
   .hs-ctrl .hint{margin-top:.45rem;color:var(--text-muted);font-size:.72rem;line-height:1.25}
   .hs-hud{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
@@ -1227,7 +1680,9 @@ code {
   .hs-kv .k{font-size:.72rem;color:var(--text-muted)}
   .hs-kv .v{font-family:var(--mono);font-size:.95rem;font-weight:900;margin-top:.2rem}
   .hs-warn{display:none;margin-top:.75rem;padding:.75rem .85rem;border-radius:14px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#ffedd5;font-size:.78rem}
-  .hs-canvas{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--border)}
+  .hs-canvas{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--border);touch-action:pan-y}
+  @media (max-width:600px){.hs-body canvas{max-height:260px}}
+  #hsPrintSummary{display:none;margin-top:1rem;padding:1rem;background:rgba(255,255,255,.03);border-radius:12px;border:1px solid var(--border)}
 </style>
 
 <div class="hs-grid">
@@ -1241,11 +1696,29 @@ code {
         </span>
         <button class="btn" id="hsToggleView">Switch to Phase Space</button>
         <button class="btn" id="hsToggleDiff">Show Difference</button>
+        <button class="btn primary" id="hsPrint">Print Results</button>
       </div>
     </div>
     <div class="hs-body">
       <canvas id="hsMainCanvas" width="1100" height="420" class="hs-canvas"></canvas>
+      <noscript>
+        <div style="padding:1rem;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);border-radius:12px;color:#ffedd5;font-size:.9rem">
+          <strong>JavaScript required:</strong> The interactive holoscreen requires JavaScript to render visibility curves.
+          The core prediction is V(Φ<sub>R</sub>) = V₀ exp(−Φ<sub>R</sub>²/2), a Gaussian decay in the holonomy parameter.
+          See Eq. (9.3) and Figure 1 (static SVG) for the functional form.
+        </div>
+      </noscript>
       <div class="hs-warn" id="hsWarn"></div>
+      <div id="hsPrintSummary">
+        <h3 style="margin:0 0 .5rem;font-size:.9rem;color:var(--text)">Holoscreen Result Summary</h3>
+        <ul style="font-family:var(--mono);font-size:.85rem;line-height:1.8;list-style:none;padding:0;margin:0">
+          <li>Φ<sub>R</sub> = <span id="hsPrintPhiR">—</span></li>
+          <li>Visibility V = <span id="hsPrintV">—</span></li>
+          <li>u = ℓ<sub>eff</sub> / L<sub>0</sub> = <span id="hsPrintU">—</span></li>
+          <li>Regime = <span id="hsPrintRegime">—</span></li>
+          <li>RMSE vs null = <span id="hsPrintRMSE">—</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -1358,6 +1831,7 @@ code {
 
   const btnView = document.getElementById("hsToggleView");
   const btnDiff = document.getElementById("hsToggleDiff");
+  const btnPrint = document.getElementById("hsPrint");
   const mainTitle = document.getElementById("hsMainTitle");
   const warnLine = document.getElementById("hsWarn");
 
@@ -1387,6 +1861,11 @@ code {
   // ----- Constants
   const LN2_INV = 1.4426950408889634; // 1/ln(2)
   const ULDM_A = 0.15;  // illustrative amplitude
+  
+  // NOTE:
+  // The ULDM curve rendered in this holoscreen is schematic and illustrative only.
+  // It does not correspond to a physical ULDM parameter scan and is included solely
+  // to contrast coherent (sinusoidal) versus stochastic (Gaussian) visibility behavior.
 
   // ----- Saturation operator
   const S_u = (u) => Math.tanh(u) * (1 - Math.exp(-u));
@@ -1624,6 +2103,13 @@ code {
       bitsBar.style.width = Math.min(data.bitsLost*50, 100).toFixed(1) + "%";
       rmseEl.textContent = data.rmse.toFixed(4);
 
+      // Update print summary
+      document.getElementById("hsPrintPhiR").textContent = data.current.PhiR.toFixed(3);
+      document.getElementById("hsPrintV").textContent = data.current.V.toFixed(3);
+      document.getElementById("hsPrintU").textContent = data.current.u.toFixed(2);
+      document.getElementById("hsPrintRegime").textContent = data.current.regime;
+      document.getElementById("hsPrintRMSE").textContent = data.rmse.toFixed(4);
+
       // MAIN CANVAS
       clear(mainCtx, mainCanvas.width, mainCanvas.height);
 
@@ -1736,6 +2222,10 @@ code {
     leffVal.textContent = parseFloat(leffSlider.value).toFixed(2);
     render();
   });
+  btnPrint.addEventListener("click", () => {
+    document.getElementById("hsPrintSummary").style.display = "block";
+    window.print();
+  });
 
   // ----- Init
   render();
@@ -1836,9 +2326,22 @@ code {
       <strong>Resolution:</strong> This conclusion applies only if the experimental observable is
       the geometric path difference \(\Delta L\).
       In a teleparallel formulation, experiments may instead access the resistance holonomy
-      \(\Phi_R = \oint R_\mu e^\mu{}_a dx^a\), which can be macroscopically enhanced by loop topology,
+      \(\Phi_R = \oint \mathsf{J}_a\, dx^a\), which can be macroscopically enhanced by loop topology,
       medium structure, or controlled resistance gradients without requiring large metric distances.
     </p>
+    <div class="eq law" style="margin-top:0.9rem">
+      \[\boxed{
+        \textbf{Key Point:}\;\; \text{The experiment measures }
+        \Phi_R = \oint_{\mathcal{C}} \mathsf{J}_a\,dx^a\text{ (integrated loop holonomy), not local }K_{\rm eff}\text{ directly.}
+      }\]
+      <div class="eq-label">(10.1a)</div>
+      <div class="eq-note">
+        A substrate may be UV-stiff locally (large microscopic torsion scales) while still producing a macroscopic
+        loop holonomy if phase transport is non-integrable in the presence of a resistance-loaded segment,
+        topology, or medium-structured gradients. The "UV catastrophe" pertains only to interpreting the signal as
+        a simple linear-path \(\Delta L\) effect set by a uniform local scale.
+      </div>
+    </div>
     <ul style="margin:0.5rem 0 0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary)">
       <li><strong>Suppressed contortion in-lab:</strong> \(K_{\rm eff}\ll 1\ \mathrm{m^{-1}}\) via environmental/medium dependence</li>
       <li><strong>Species dependence:</strong> effective \(y\) or coupling channel depends on composition/transition</li>
@@ -2128,7 +2631,7 @@ code {
     <p style="margin:0;color:var(--text-secondary)">
       The naive geometric estimate (\(\ell_{\rm coh} \sim 10^{-59}\) m from KK scales) applies only to 
       linear-path experiments using \(\Delta L\) as the control parameter. The teleparallel formulation
-      identifies the <em>resistance holonomy</em> \(\Phi_R = \oint R_\mu e^\mu{}_a dx^a\) as the natural
+      identifies the <em>resistance holonomy</em> \(\Phi_R = \oint \mathsf{J}_a\, dx^a\) as the natural
       observable, which can be macroscopically enhanced by loop topology, medium structure, or controlled
       resistance gradients. <strong>Open task:</strong> derive explicit enhancement factors for specific
       loop geometries and resistance profiles to determine experimental feasibility.
@@ -2275,6 +2778,16 @@ code {
     with a teleparallel contortion scale \(K_{\rm eff}\), so the estimate reduces to an inverse-length conversion.
   </p>
 
+  <div class="block warning">
+    <div class="title">Clarification: \(K_{\rm eff}\) is an Effective (Coarse-Grained) Laboratory Scale</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Throughout, \(K_{\rm eff}\) denotes the <strong>experimentally inferred RMS phase-gradient per unit length</strong>
+      that enters the Markovian visibility law in the linear-path regime. It is a coarse-grained parameter summarizing
+      how the substrate induces random phase transport in the apparatus environment; it is <em>not</em> asserted to equal the
+      fundamental microscopic torsion scale of any UV completion.
+    </p>
+  </div>
+
   <h3>C.1 Units and Conversions</h3>
 
   <p>In natural units (\(\hbar = c = 1\)):</p>
@@ -2341,9 +2854,9 @@ code {
     <div class="title">Resolution via Holonomy</div>
     <p style="margin:0;color:var(--text-secondary)">
       In the teleparallel formulation, the natural observable is the <em>resistance holonomy</em>
-      \(\Phi_R = \oint R_\mu e^\mu{}_a dx^a\). This quantity measures the non-integrability of phase
-      transport around a closed loop and can be nonzero even when \(\Delta L = 0\). Loop topology,
-      medium structure, and controlled resistance gradients can macroscopically enhance \(\Phi_R\)
+      \(\Phi_R = \oint \mathsf{J}_a\, dx^a\) (the closed-loop phase functional). This quantity measures 
+      the non-integrability of phase transport around a closed loop and can be nonzero even when \(\Delta L = 0\). 
+      Loop topology, medium structure, and controlled resistance gradients can macroscopically enhance \(\Phi_R\)
       without requiring large metric baselines. The visibility law \(V = V_0\exp(-\langle\Phi_R^2\rangle/2)\)
       may therefore be testable via Sagnac-type interferometers with resistance-loaded segments.
     </p>
