@@ -1485,15 +1485,17 @@ code {
   <h2>9. Interferometric Signature</h2>
 
   <div class="block warning">
-    <div class="title">Interpretational Scope</div>
+    <div class="title">Interpretational Scope (Final Clarification)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      <strong>No claim is made that microscopic spacetime torsion fluctuates stochastically.</strong>
-      The teleparallel language in this section provides a <em>geometric parameterization</em> of an 
-      effective phase-transport noise inferred from interferometric observables. Terms like "substrate 
-      stiffness" or "geometric resistance" are organizational metaphors, not assertions about the 
-      microphysical origin of the noise. The observable prediction (Gaussian visibility decay) is 
-      independent of whether the underlying physics is literally teleparallel torsion, a stochastic 
-      scalar bath, or some other mechanism producing equivalent phase statistics.
+      <strong>No claim is made that microscopic spacetime torsion or fundamental teleparallel
+      degrees of freedom fluctuate stochastically in the laboratory.</strong>
+      The teleparallel language in this section provides a <strong>phenomenological geometric
+      parameterization</strong> of an <em>effective phase-transport noise</em> inferred from
+      interferometric observables. Terms like "substrate stiffness" or "geometric resistance" 
+      are organizational metaphors, not assertions about the microphysical origin of the noise. 
+      Any microphysical mechanism producing equivalent phase statistics (e.g., stochastic scalar 
+      baths, medium-induced phase gradients, or other non-integrable transport effects) would 
+      yield the same experimental signature.
     </p>
   </div>
 
@@ -1812,7 +1814,7 @@ code {
   </div>
 
   <div class="block gold">
-    <div class="title">Geometric Identification (Phenomenological Ansatz)</div>
+    <div class="title">Geometric Identification (Explicit Phenomenological Ansatz)</div>
     <p style="margin:0;color:var(--text-secondary)">
       In STUR's teleparallel substrate picture, the stochastic scalar fluctuations are not treated as an
       arbitrary bath parameter: we identify the shot-to-shot scalar variance with RMS fluctuations of an
@@ -1826,11 +1828,15 @@ code {
         Its value lies in organizing experimental constraints within a teleparallel language, not in asserting 
         microscopic equivalence between noise amplitude and torsion. \(\sigma_R\) is defined operationally as 
         the <strong>RMS phase-gradient per unit length</strong> inferred from visibility decay.
-        In teleparallel geometry, a natural geometric parameterization of such random phase gradients is
-        an <strong>effective contortion-fluctuation scale</strong> \(K_{\rm eff}\). Here \(K_{\rm eff}\) denotes an
-        <strong>effective, coarse-grained laboratory-scale parameter</strong> inferred from visibility decay—it is not
-        asserted to equal the fundamental microscopic torsion scale of any ultraviolet completion, but rather
-        summarizes the RMS phase-gradient per unit length experienced by matter waves in the experimental environment.
+      </div>
+      <div class="eq-note">
+        The parameter \(K_{\rm eff}\) should be understood as an <strong>effective laboratory-scale
+        phase-gradient amplitude</strong> inferred from visibility statistics, rather than as a direct
+        probe of fundamental torsion or ultraviolet spacetime structure. In teleparallel geometry, 
+        a natural geometric parameterization of such random phase gradients is an effective 
+        contortion-fluctuation scale; here \(K_{\rm eff}\) denotes this <strong>effective, coarse-grained 
+        laboratory-scale parameter</strong>—it is not asserted to equal the fundamental microscopic 
+        torsion scale of any ultraviolet completion.
       </div>
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
@@ -2909,6 +2915,19 @@ code {
 <section class="section" id="sec12">
   <h2>12. Falsification Protocol</h2>
 
+  <div class="block gold">
+    <div class="title">Statistical Interpretation Standard</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      In addition to the frequentist criteria stated below, experimental analyses may employ
+      Bayesian model comparison. A log-evidence difference
+      \(\Delta \ln \mathcal{Z} > 5\) between the Gaussian STUR model
+      \(V(\Delta L) = V_0 e^{-(\Delta L/\ell_{\rm coh})^2}\)
+      and the null model \(V = \text{const}\) constitutes <strong>decisive support</strong>
+      according to the Jeffreys scale. Conversely, \(\Delta \ln \mathcal{Z} < -5\) in favor of 
+      the null model constitutes decisive exclusion of STUR at the tested parameter range.
+    </p>
+  </div>
+
   <h3>12.0 Loop-Based Teleparallel Test (Short Baseline)</h3>
 
   <table>
@@ -3005,6 +3024,18 @@ code {
 
 <section class="section" id="sec14">
   <h2>14. Open Problems</h2>
+
+  <div class="block success">
+    <div class="title">Status After v9.1</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      With the explicit separation between formal bookkeeping variables and effective observables,
+      STUR v9.1 should be read as a <strong>phenomenological interferometric test framework</strong>
+      rather than as a claim of new gravitational microphysics. The remaining open problems
+      concern enhancement mechanisms and experimental reach, not internal consistency. The
+      framework is falsifiable, the predictions are binary, and the experimental protocol is 
+      well-defined.
+    </p>
+  </div>
 
   <div class="block warning">
     <div class="title">Revised: Observable Signature via Loop Holonomy</div>
@@ -3252,6 +3283,18 @@ code {
     A natural objection to the STUR visibility signature is: "Could standard environmental decoherence 
     mechanisms produce a Gaussian decay in \(\Delta L^2\)?" This appendix shows explicitly that they cannot.
   </p>
+
+  <div class="block success">
+    <div class="title">Scope of Exclusion</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      This appendix addresses <em>known and modeled</em> environmental decoherence mechanisms
+      relevant to atom and neutron interferometry. The exclusion applies to mechanisms
+      operating uniformly along interferometer arms. Exotic or engineered environments
+      producing non-uniform, path-dependent stochastic phase gradients would constitute
+      <strong>new physics</strong> rather than standard decoherence—and would themselves be 
+      candidates for the STUR-type signature if they exhibit \(\Delta L^2\) scaling.
+    </p>
+  </div>
 
   <h3>D.1 Standard Decoherence Mechanisms</h3>
 
