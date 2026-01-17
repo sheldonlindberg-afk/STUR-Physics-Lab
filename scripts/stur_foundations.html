@@ -951,10 +951,12 @@ code {
     <div class="title">Fine-Tuning Note</div>
     <p style="margin:0;color:var(--text-secondary)">
       Achieving the TeV-scale radion VEV \(\mu\) requires \(\epsilon \ll 1\) (i.e., \(m \ll k\)), 
-      with the hierarchy set by the exponentially large ratio \(v_0/v_\pi\). This introduces a 
-      fine-tuning of the GW potential parameters—a known issue in RS phenomenology that STUR inherits 
-      but does not resolve. The experimental prediction (Gaussian visibility decay) is independent 
-      of the specific UV mechanism generating the stabilized \(r_c\).
+      with the hierarchy set by the exponentially large ratio \(v_0/v_\pi\). Quantitatively, for 
+      \(\mu \sim\) TeV and \(k \sim M_{\rm Pl}\), one needs \(v_0/v_\pi \sim e^{35}\)—this is an 
+      input tuning, not a prediction. This introduces a fine-tuning of the GW potential parameters—a 
+      known issue in RS phenomenology that STUR inherits but does not resolve. The experimental 
+      prediction (Gaussian visibility decay) is independent of the specific UV mechanism generating 
+      the stabilized \(r_c\).
     </p>
   </div>
 
@@ -1335,6 +1337,31 @@ code {
       are needed for other scalar sources.
     </p>
   </div>
+
+  <div class="block">
+    <div class="title">Regime Transition Analysis</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The signature transitions from stochastic (Gaussian visibility) to coherent (sinusoidal modulation)
+      as the bath correlation time \(\tau_{\rm corr}\) approaches the shot period \(\tau_{\rm shot}\).
+      Representative values for \(\tau_{\rm shot} = 1\) s:
+    </p>
+    <table style="margin:0.5rem 0;font-size:0.88rem">
+      <tr><th>\(m_\chi\)</th><th>\(\tau_{\rm corr}\)</th><th>Regime</th><th>Signature</th></tr>
+      <tr><td>1 TeV</td><td>\(\sim 10^{-27}\) s</td><td>Markovian</td><td>Gaussian \(V \propto e^{-\Phi_R^2}\)</td></tr>
+      <tr><td>1 GeV</td><td>\(\sim 10^{-24}\) s</td><td>Markovian</td><td>Gaussian</td></tr>
+      <tr><td>1 MeV</td><td>\(\sim 10^{-21}\) s</td><td>Markovian</td><td>Gaussian</td></tr>
+      <tr><td>1 keV</td><td>\(\sim 10^{-18}\) s</td><td>Markovian</td><td>Gaussian</td></tr>
+      <tr><td>1 eV</td><td>\(\sim 10^{-15}\) s</td><td>Markovian</td><td>Gaussian</td></tr>
+      <tr><td>1 meV</td><td>\(\sim 10^{-12}\) s</td><td>Markovian</td><td>Gaussian (marginal)</td></tr>
+      <tr><td>\(10^{-22}\) eV (ULDM)</td><td>\(\tau_{\rm coh} \sim 10^6\) s</td><td>Coherent</td><td>Sinusoidal \(V \propto \cos(\omega t)\)</td></tr>
+    </table>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <strong>Key discriminator:</strong> STUR predicts Gaussian visibility decay for \(m_\chi \gtrsim\) meV;
+      ULDM searches target coherent oscillations at \(m_\chi \sim 10^{-22}\)–\(10^{-15}\) eV. The regimes 
+      are well-separated except for intermediate masses (\(\sim\) μeV–meV), where explicit spectral 
+      analysis is required.
+    </p>
+  </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════
@@ -1576,13 +1603,58 @@ code {
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
       The \(N\)-fold winding and \(\sqrt{L/\xi}\) random-walk factors provide macroscopic enhancement.
+      The latter arises from statistically independent phase increments over \(L/\xi\) correlation cells.
       <strong>Example:</strong> For \(N = 100\) turns, \(L = 10\) m per turn, \(\xi = 1\) mm, and 
-      \(y\sigma_R/p_0 \sim 10^{-10}\) (consistent with null current bounds):
+      \(y\sigma_R/p_0 \sim 10^{-10}\) (inferred from \(\ell_{\rm coh} \gtrsim 1\) m constraints in §11,
+      using \(\ell_{\rm coh} \sim p_0/(y\sigma_R)\) and \(p_0 \sim 10^{-24}\) kg·m/s for thermal atoms):
       \[
-        \langle \Phi_R^2 \rangle^{1/2} \sim 10^{-10} \times 100 \times \sqrt{10^4} \sim 10^{-6}\ \text{rad}
+        \langle \Phi_R^2 \rangle^{1/2} \sim 10^{-10} \times 100 \times \sqrt{10^4} \sim 10^{-6}\ \text{radians}
       \]
       This is below current sensitivity but illustrates the scaling. Larger \(N\), longer fibers, or 
       enhanced \(\sigma_R\) (e.g., near domain walls) could yield detectable signals.
+    </p>
+  </div>
+
+  <div class="block">
+    <div class="title">Rigorous Derivation of Enhancement Factor</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The \(\sqrt{L/\xi}\) factor arises from the stochastic integral over uncorrelated cells. 
+      Let the path be divided into \(n = L/\xi\) segments of length \(\xi\), each with independent 
+      phase increment \(\delta\phi_i\) of variance \(\langle \delta\phi_i^2 \rangle = (y\sigma_R \xi / p_0)^2\).
+      The total phase is \(\Phi_R = \sum_{i=1}^n \delta\phi_i\), so:
+    </p>
+    <div class="eq">
+      \[
+        \langle \Phi_R^2 \rangle = \sum_{i=1}^n \langle \delta\phi_i^2 \rangle 
+        = n \cdot \left(\frac{y\sigma_R \xi}{p_0}\right)^2
+        = \frac{L}{\xi} \cdot \left(\frac{y\sigma_R \xi}{p_0}\right)^2
+        = \left(\frac{y\sigma_R}{p_0}\right)^2 L\xi
+      \]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      Hence \(\langle \Phi_R^2 \rangle^{1/2} \propto \sqrt{L\xi} = \xi \sqrt{L/\xi}\), confirming the 
+      random-walk scaling. For fixed \(\sigma_R\), longer paths or larger correlation lengths enhance the signal.
+    </p>
+  </div>
+
+  <div class="block">
+    <div class="title">Model Example: Linear Scalar Gradient</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      For a deterministic linear gradient \(R(x) = R_0 + g\,x\) (constant \(g\)), the phase along a 
+      ring of radius \(r\) centered at origin is:
+    </p>
+    <div class="eq">
+      \[
+        \Phi_R = \frac{y}{p_0} \oint R(x)\, d\ell 
+        = \frac{y}{p_0} \oint (R_0 + g\,x)\, d\ell
+        = \frac{yg}{p_0} \oint x\, d\ell
+      \]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      For a circular path, \(\oint x\, d\ell = \pi r^2\) (enclosed area projection), giving 
+      \(\Phi_R = \pi y g r^2 / p_0\). This shows how <strong>loop area</strong> enhances the holonomy 
+      for gradient configurations—analogous to magnetic flux in Aharonov-Bohm. Stochastic gradients 
+      with RMS \(\langle g^2 \rangle^{1/2} \sim \sigma_R / \xi\) then yield the random-walk scaling above.
     </p>
   </div>
 
@@ -1644,6 +1716,22 @@ code {
     <strong>Interpretation:</strong> Long-baseline experiments probe the linear-path limit (right);
     tabletop loops probe the holonomy \(\Phi_R\) directly (left). Same law, different regime.
   </p>
+
+  <div class="block warning">
+    <div class="title">Gaussian Assumption and Corrections</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Eq. (9.2–9.3) assumes Gaussian phase statistics, valid when shot-to-shot fluctuations arise from 
+      many independent contributions (central limit). For finite shot counts or non-white noise spectra,
+      higher cumulants (kurtosis, etc.) introduce corrections:
+      \[
+        V \approx V_0 \exp\!\left(-\frac{\langle \Phi_R^2 \rangle}{2}\right)
+        \left[1 + \frac{\kappa_4}{8}\langle \Phi_R^2 \rangle^2 + \mathcal{O}(\kappa_6)\right]
+      \]
+      where \(\kappa_4 = \langle \Phi_R^4 \rangle / \langle \Phi_R^2 \rangle^2 - 3\) is the excess kurtosis.
+      For the Markovian regime with many correlation cells, \(\kappa_4 \to 0\) and corrections are negligible.
+      Non-Markovian baths may require explicit simulation or cumulant expansion.
+    </p>
+  </div>
 
   <div class="block gold">
     <div class="title">Geometric Identification</div>
@@ -1752,6 +1840,27 @@ code {
     assumes <strong>uncorrelated</strong> shot-to-shot fluctuations from a Markovian bath. These are 
     complementary search channels—both are worth pursuing in long-baseline interferometers like MAGIS-100.
   </p>
+
+  <div class="block">
+    <div class="title">Relation to Collapse Models</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The stochastic dephasing mechanism in STUR is phenomenologically similar to spontaneous 
+      wave-function collapse models (Bassi et al. 2013), which also predict visibility loss from 
+      stochastic phase noise. Key differences:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.88rem">
+      <li><strong>Source:</strong> Collapse models postulate fundamental noise; STUR derives it from 
+      scalar-matter coupling to a heavy bath.</li>
+      <li><strong>Scaling:</strong> Collapse models typically predict size-dependent (\(\propto N\)) 
+      decoherence; STUR predicts path-length-dependent (\(\propto \Delta L^2\)) visibility decay.</li>
+      <li><strong>Parameter:</strong> Collapse models have free collapse rate \(\lambda\); STUR has 
+      coherence length \(\ell_{\rm coh}\) tied (in principle) to substrate contortion scale.</li>
+    </ul>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      The teleparallel interpretation is the distinguishing feature: STUR attributes dephasing to 
+      geometric (contortion-induced) phase transport, not to fundamental modifications of quantum mechanics.
+    </p>
+  </div>
 
   <div class="block">
     <div class="title">When STUR Applies</div>
