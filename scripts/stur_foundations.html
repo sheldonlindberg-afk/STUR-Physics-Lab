@@ -9,7 +9,7 @@
 <title>Foundations of STUR v9.1 — Teleparallel Substrate Tests via Interferometric Holonomy</title>
 
 <meta name="author" content="Sheldon Lon Lindberg" />
-<meta name="description" content="STUR v9.1: Teleparallel substrate framework providing a distinctive Gaussian visibility signature via geometric contortion identification, contrasted with coherent ULDM oscillations." />
+<meta name="description" content="STUR v9.1: A teleparallel-organized phenomenological framework providing a distinctive Gaussian interferometric visibility signature for stochastic scalar-matter coupling, contrasted with coherent ULDM oscillations." />
 <meta name="keywords" content="teleparallel gravity, TEGR, interferometry, quantum coherence, extra dimensions, scalar-matter coupling, falsifiable prediction" />
 
 <script>
@@ -549,7 +549,9 @@ code {
 
   <p>
     We present <strong>STUR (Sheldon's Theory of Unified Resistance)</strong>, a five-dimensional framework 
-    built on a symmetric tensor field \(\Rcal_{AB}\) on the orbifold \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\).
+    built on a symmetric tensor field \(\Rcal_{AB}\) on the orbifold \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\),
+    used as an <em>organizational and phenomenological framework</em> rather than a source of new
+    ultraviolet gravitational dynamics.
     This document is intended as a <strong>falsifiable theoretical–experimental framework</strong>, not as a
     completed ultraviolet (UV) theory or a derivation of Standard Model parameters. Its purpose is to
     identify a distinctive, testable interferometric signature and to specify the conditions under which
@@ -694,6 +696,19 @@ code {
       in the gravitational sector. The resistance formalism is a reorganization of variables, not new physics. 
       Its value lies in: (1) conceptual unity, (2) natural accommodation of scalar-matter coupling, and 
       (3) a framework for the interferometric prediction.
+    </p>
+  </div>
+
+  <div class="block">
+    <div class="title">Terminology Note: "Resistance" vs. Torsion/Contortion</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The term "resistance" in STUR is <strong>metaphorical</strong>, not a claim of novel geometric content.
+      In the teleparallel formulation (TEGR), gravity is encoded in the <em>contortion tensor</em> 
+      \(K^a{}_{bc}\), which relates the Weitzenböck (teleparallel) and Levi-Civita connections. The 
+      "resistance tensor" \(\mathcal{R}_{AB}\) is a 5D metric whose 4D projection yields frame fields 
+      \(e^a{}_\mu\), from which contortion is derived. The effective parameter \(K_{\rm eff}\) (§9–10) 
+      is phenomenologically linked to an RMS contortion scale but is <strong>operationally defined</strong> 
+      from visibility statistics, not extracted from microscopic torsion components.
     </p>
   </div>
 
@@ -930,6 +945,17 @@ code {
       \qquad \epsilon = \frac{m^2}{4k^2}.
     \]
     <div class="eq-label">(2.5)</div>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Fine-Tuning Note</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Achieving the TeV-scale radion VEV \(\mu\) requires \(\epsilon \ll 1\) (i.e., \(m \ll k\)), 
+      with the hierarchy set by the exponentially large ratio \(v_0/v_\pi\). This introduces a 
+      fine-tuning of the GW potential parameters—a known issue in RS phenomenology that STUR inherits 
+      but does not resolve. The experimental prediction (Gaussian visibility decay) is independent 
+      of the specific UV mechanism generating the stabilized \(r_c\).
+    </p>
   </div>
 
   <div class="block">
@@ -1285,6 +1311,30 @@ code {
       state definition. In the laboratory, \(u^\mu \approx (1, 0, 0, 0)\) for a stationary apparatus.
     </p>
   </div>
+
+  <div class="block">
+    <div class="title">Markovian Validity Estimate</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The Markovian approximation requires \(\tau_{\rm corr} \ll \tau_{\rm shot}\).
+      This condition is satisfied for heavy (KK-scale) bath modes but must be explicitly
+      re-evaluated for lighter or environmentally induced scalar fluctuations.
+      For TeV-scale bath modes (\(m_\chi \sim 1\) TeV):
+    </p>
+    <div class="eq">
+      \[
+        \tau_{\rm corr} \sim \frac{\hbar}{m_\chi c^2} \sim \frac{6.6 \times 10^{-25}\ {\rm eV\cdot s}}{10^{12}\ {\rm eV}}
+        \sim 10^{-27}\ {\rm s}
+      \]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      For atom interferometers with shot rates \(\sim 1\)–\(10\) Hz (\(\tau_{\rm shot} \sim 0.1\)–\(1\) s),
+      the condition \(\tau_{\rm corr} / \tau_{\rm shot} \sim 10^{-27}\) is satisfied by many orders of magnitude.
+      <strong>Caveat:</strong> If the effective bath has lighter modes (sub-eV), correlations may persist 
+      across shots—shifting the signature toward coherent (ULDM-like) modulation. The Markovian regime 
+      applies specifically to heavy (KK-scale) bath excitations; explicit correlation-time measurements
+      are needed for other scalar sources.
+    </p>
+  </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════
@@ -1466,9 +1516,9 @@ code {
   <div class="block gold">
     <div class="title">Lemma — Loop Holonomy as Independent Observable</div>
     <p style="margin:0;color:var(--text-secondary)">
-      In teleparallel gravity with scalar–matter Yukawa coupling, the loop holonomy \(\Phi_R\) is a 
-      <strong>geometrically independent observable</strong> not reducible to the metric path-length 
-      difference \(\Delta L\) of the Levi-Civita formulation.
+      In teleparallel gravity with scalar–matter Yukawa coupling, the loop holonomy \(\Phi_R\) is an 
+      <strong>operationally independent observable</strong> not expressible solely in terms of the 
+      metric path-length difference \(\Delta L\) used in Levi-Civita formulations.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)"><em>Argument:</em>
       In the metric formulation, phase accumulation depends only on proper distance along each arm.
@@ -1479,9 +1529,60 @@ code {
       content of the teleparallel observable.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
-      <strong>Consequence:</strong> The pivot from \(\Delta L\) to \(\Phi_R\) is not post-hoc 
-      reparameterization but reflects a genuine difference between metric and teleparallel 
-      formulations at the level of experimentally accessible quantities.
+      <strong>Consequence:</strong> The pivot from \(\Delta L\) to \(\Phi_R\) is not a redefinition of the
+      same observable, but reflects a distinction between metric-based and teleparallel-based
+      phase transport descriptions when scalar-induced phase gradients are present.
+    </p>
+  </div>
+
+  <div class="block">
+    <div class="title">Explicit Example: Φ_R ≠ 0 with ΔL = 0</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Consider a Sagnac-type interferometer with equal arm lengths (\(\Delta L = 0\)) but a spatially 
+      varying scalar field \(R(x)\). Let \(\gamma_1\) and \(\gamma_2\) be the clockwise and counterclockwise 
+      paths around a ring of radius \(r\).
+    </p>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      If \(R(x)\) has a gradient \(\nabla R \neq 0\) (e.g., from a localized source or stochastic 
+      fluctuation), then:
+    </p>
+    <div class="eq">
+      \[
+        \Phi_R = \oint_{\mathcal{C}} \mathsf{J}_a\, dx^a 
+        \propto \oint \nabla R \cdot d\vec{\ell}
+        = \iint_{\Sigma} (\nabla \times \nabla R) \cdot d\vec{A} + \text{boundary terms}
+      \]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      For a smooth \(R\), the curl vanishes, but for a <strong>stochastically fluctuating</strong> field 
+      with correlation length \(\xi \ll r\), the path integrals along \(\gamma_1\) and \(\gamma_2\) sample 
+      different field realizations, yielding \(\langle \Phi_R^2 \rangle \neq 0\) even though 
+      \(\Delta L = 0\). This is the teleparallel signature: <em>geometry-independent phase noise</em>.
+    </p>
+  </div>
+
+  <div class="block">
+    <div class="title">Illustrative Scaling Estimate (Not a Prediction)</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The following estimate is intended to demonstrate <em>scaling behavior only</em>.
+      It does not constitute a prediction of signal size in any specific apparatus.
+      For a fiber-optic Sagnac loop of perimeter \(L\) with \(N\) windings and scalar gradient 
+      \(|\nabla R| \sim \sigma_R / \xi\) (RMS fluctuation over correlation length \(\xi\)):
+    </p>
+    <div class="eq">
+      \[
+        \langle \Phi_R^2 \rangle^{1/2} \sim \frac{y}{p_0} \cdot \sigma_R \cdot N \cdot \sqrt{\frac{L}{\xi}}
+      \]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      The \(N\)-fold winding and \(\sqrt{L/\xi}\) random-walk factors provide macroscopic enhancement.
+      <strong>Example:</strong> For \(N = 100\) turns, \(L = 10\) m per turn, \(\xi = 1\) mm, and 
+      \(y\sigma_R/p_0 \sim 10^{-10}\) (consistent with null current bounds):
+      \[
+        \langle \Phi_R^2 \rangle^{1/2} \sim 10^{-10} \times 100 \times \sqrt{10^4} \sim 10^{-6}\ \text{rad}
+      \]
+      This is below current sensitivity but illustrates the scaling. Larger \(N\), longer fibers, or 
+      enhanced \(\sigma_R\) (e.g., near domain walls) could yield detectable signals.
     </p>
   </div>
 
@@ -2454,18 +2555,31 @@ code {
       <th>Experiment</th><th>System</th><th>\(\Delta L_{\rm max}\)</th><th>Indicative Bound</th><th>Notes</th>
     </tr>
     <tr>
-      <td>Stanford tower (2017)</td><td>Cs atoms</td><td>~1 m</td><td>\(\ell_{\rm coh} \gtrsim 1\) m</td>
-      <td>Visibility consistent with systematics; no \(\Delta L\)-scan</td>
+      <td>Stanford tower (2017)</td><td>Cs atoms</td><td>~1 m</td><td>\(\ell_{\rm coh} \gtrsim 3\) m</td>
+      <td>V ≈ 90%: \(V = e^{-(\Delta L/\ell)^2} \Rightarrow \ell \gtrsim \Delta L/\sqrt{-\ln V}\)</td>
     </tr>
     <tr>
-      <td>Kovachy et al. (2015)</td><td>Rb atoms</td><td>0.5 m</td><td>\(\ell_{\rm coh} \gtrsim 0.5\) m</td>
-      <td>Single \(\Delta L\) point</td>
+      <td>Kovachy et al. (2015)</td><td>Rb atoms</td><td>0.5 m</td><td>\(\ell_{\rm coh} \gtrsim 1.5\) m</td>
+      <td>V ≈ 90% at single point; same derivation</td>
     </tr>
     <tr>
-      <td>ILL neutron (2000)</td><td>Neutrons</td><td>~0.1 m</td><td>\(\ell_{\rm coh} \gtrsim 0.1\) m</td>
-      <td>Different systematics</td>
+      <td>ILL neutron (2000)</td><td>Neutrons</td><td>~0.1 m</td><td>\(\ell_{\rm coh} \gtrsim 0.3\) m</td>
+      <td>Different systematics; conservative</td>
     </tr>
   </table>
+
+  <div class="block warning">
+    <div class="title">Constraint Derivation</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      These bounds are derived from \(V = \exp(-(\Delta L/\ell_{\rm coh})^2)\), assuming
+      Gaussian shot-to-shot phase statistics and neglecting higher cumulants. For observed visibility 
+      \(V_{\rm obs}\) at path difference \(\Delta L\), the constraint is 
+      \(\ell_{\rm coh} \gtrsim \Delta L / \sqrt{-\ln V_{\rm obs}}\). At \(V = 0.9\), this gives
+      \(\ell_{\rm coh} \gtrsim 3.1\,\Delta L\). These are <strong>indicative only</strong>—a proper 
+      reanalysis of published data fitting Gaussian vs. null models (including systematic error budgets
+      and non-Gaussian corrections) is needed for rigorous bounds.
+    </p>
+  </div>
 
   <h3>11.2 Visibility Curves (Computed)</h3>
 
