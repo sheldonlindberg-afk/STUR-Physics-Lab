@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Foundations of STUR v9.1 — Teleparallel Substrate Tests via Long-Baseline Interferometry</title>
+<title>Foundations of STUR v9.1 — Teleparallel Substrate Tests via Interferometric Holonomy</title>
 
 <meta name="author" content="Sheldon Lon Lindberg" />
 <meta name="description" content="STUR v9.1: Teleparallel substrate framework providing a distinctive Gaussian visibility signature via geometric contortion identification, contrasted with coherent ULDM oscillations." />
@@ -500,13 +500,8 @@ code {
 
 <header class="masthead">
   <h1>Foundations of STUR</h1>
-  <p class="subtitle">Teleparallel Substrate Tests via Long-Baseline Interferometry</p>
-  <div class="meta">
-    <span class="badge"><span class="dot success"></span>Falsifiable prediction</span>
-    <span class="badge"><span class="dot"></span>Sheldon Lon Lindberg</span>
-    <span class="badge"><span class="dot"></span>January 2026</span>
-    <span class="badge"><span class="dot warning"></span>v9.1</span>
-  </div>
+  <p class="subtitle">Teleparallel Substrate Tests via Interferometric Holonomy</p>
+  <p class="author-line" style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
   <div class="toolbar">
     <button class="btn" data-jump="#abstract">Abstract</button>
     <button class="btn" data-jump="#sec9">Prediction</button>
@@ -532,25 +527,27 @@ code {
     <li><strong>Framework:</strong> Demonstrate that teleparallel gravity (TEGR ≡ GR), Yang-Mills gauge structure, 
     and chiral fermion localization can be organized within a unified geometric language.</li>
     <li><strong>Experimental signature:</strong> Derive an interferometric visibility prediction for 
-    <em>stochastic</em> scalar-matter coupling in the Markovian fluctuation regime:
-    \[V(\Delta L) = V_0 \exp\!\left(-(\Delta L / \ell_{\rm coh})^2\right)\]
-    where the coherence length \(\ell_{\rm coh}\) is treated as a phenomenological parameter. This 
-    Gaussian-in-\(\Delta L^2\) form is <strong>distinct from</strong> coherent ultralight dark matter (ULDM) 
+    <em>stochastic</em> scalar-matter coupling in the Markovian fluctuation regime. In teleparallel
+    formulation, the natural observable is the <em>resistance holonomy</em>
+    \(\Phi_R = \oint R_\mu e^\mu{}_a dx^a\), with visibility:
+    \[V = V_0 \exp\!\left(-\langle\Phi_R^2\rangle/2\right) \;\;\xrightarrow{\;\text{linear path}\;}\;\;
+    V(\Delta L) = V_0 \exp\!\left(-(\Delta L / \ell_{\rm coh})^2\right)\]
+    The Gaussian form is <strong>distinct from</strong> coherent ultralight dark matter (ULDM) 
     signatures, which produce sinusoidal phase modulation.</li>
   </ol>
 
   <div class="block warning">
     <div class="title">Critical Clarification (v9.1)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      <strong>Two key limitations:</strong><br>
+      <strong>Two key points:</strong><br>
       (1) <strong>Magnitude (geometric):</strong> In this revision, the coherence scale is set by the
       <em>teleparallel substrate</em>: shot-to-shot fluctuations in the scalar \(R\) are identified with RMS
       fluctuations in an effective contortion magnitude \(K_{\rm eff}\) (units m\(^{-1}\)).
-      The coherence length is therefore a geometric radius,
-      \(\ell_{\rm coh} \sim (y K_{\rm eff})^{-1}\).
-      For a UV substrate with \(K_{\rm eff}\sim 10^{59}\) m\(^{-1}\), one obtains \(\ell_{\rm coh}\sim 10^{-59}\) m,
-      which is far below laboratory scales.<br>
-      (2) <strong>Regime:</strong> The Gaussian-in-\(\Delta L^2\) form arises specifically in the <em>Markovian 
+      For linear-path experiments, \(\ell_{\rm coh} \sim (y K_{\rm eff})^{-1}\).
+      A UV substrate with \(K_{\rm eff}\sim 10^{59}\) m\(^{-1}\) gives \(\ell_{\rm coh}\sim 10^{-59}\) m—unobservable
+      via path difference \(\Delta L\). However, <strong>loop-based experiments</strong> can access the holonomy
+      \(\Phi_R\) directly, which may be macroscopically enhanced by topology and medium structure.<br>
+      (2) <strong>Regime:</strong> The Gaussian form arises in the <em>Markovian 
       fluctuation regime</em> where scalar perturbations are uncorrelated between shots. Coherent ultralight 
       scalar fields (ULDM) produce <em>sinusoidal</em> phase modulation at frequency \(m_\phi/2\pi\), not 
       Gaussian dephasing. The STUR signature is a template for <strong>stochastic, high-dissipation scalar baths</strong>, 
@@ -609,6 +606,7 @@ code {
 
 <p><strong>Part IV — Experimental Prediction</strong></p>
 <p><a href="#sec9">9. Interferometric Signature</a></p>
+<p style="margin-left:1.5rem"><a href="#sec9-holoscreen">9.5 Interactive Holoscreen</a></p>
 <p><a href="#sec10">10. Coherence Length Estimates</a></p>
 <p><a href="#sec11">11. Current Constraints</a></p>
 <p><a href="#sec12">12. Falsification Protocol</a></p>
@@ -965,6 +963,47 @@ code {
 <section class="section" id="sec9">
   <h2>9. Interferometric Signature</h2>
 
+  <h3>9.0 Breakdown of the Geometric Path-Length Assumption</h3>
+
+  <div class="block warning">
+    <div class="title">Key Conceptual Correction</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The analysis above treats the interferometric control parameter as the geometric path difference
+      \(\Delta L\). This is appropriate in metric (Levi–Civita) formulations, but is not the natural
+      observable in a teleparallel theory where gravity and substrate structure are encoded in torsion
+      rather than curvature.
+    </p>
+  </div>
+
+  <p>
+    In teleparallel gravity, physically measurable phase shifts arise from
+    <em>path-dependent frame transport</em>, not from metric distance alone.
+    The correct invariant quantity controlling coherence is therefore a
+    <strong>resistance-weighted path integral</strong>, not \(\Delta L\).
+  </p>
+
+  <h3>9.0.1 Teleparallel Resistance Holonomy</h3>
+
+  <div class="block gold">
+    <div class="title">Definition — Resistance Holonomy</div>
+    <div class="eq definition">
+      \[\boxed{
+        \Phi_R \;\equiv\; \oint_{\mathcal{C}} R_\mu(x)\, e^\mu{}_{a}(x)\, dx^{a}
+      }\]
+      <div class="eq-label">(9.0)</div>
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      Here \(e^\mu{}_a\) is the teleparallel frame field and \(\mathcal{C}\) is a closed interferometric loop.
+      Unlike \(\Delta L\), \(\Phi_R\) can be nonzero even when the total geometric path length vanishes.
+    </p>
+  </div>
+
+  <p>
+    This quantity is invariant under local Lorentz transformations of the frame and measures
+    <strong>non-integrability of phase transport</strong> induced by the resistance substrate.
+    It is the teleparallel analogue of a Wilson loop.
+  </p>
+
   <h3>9.1 Phase Modification from Yukawa Coupling</h3>
 
   <p>
@@ -1001,10 +1040,18 @@ code {
   <p>Defining the coherence length:</p>
 
   <div class="eq law">
-    \[\boxed{\ell_{\rm coh} := \frac{p_0}{y\sigma_R} \quad \Rightarrow \quad 
-    V(\Delta L) = V_0 \exp\!\left(-\frac{(\Delta L)^2}{\ell_{\rm coh}^2}\right)}\]
+    \[\boxed{
+    V = V_0 \exp\!\left(-\frac{\langle \Phi_R^2 \rangle}{2}\right)
+    \;\;\xrightarrow{\;\text{linear path}\;}\;\;
+    V(\Delta L) = V_0 \exp\!\left(-\frac{(\Delta L)^2}{\ell_{\rm coh}^2}\right)
+    }\]
     <div class="eq-label">(9.3) — STUR Visibility Prediction</div>
   </div>
+
+  <p class="eq-note" style="color:var(--text-muted); font-size:0.88rem; margin-top:0.4rem;">
+    <strong>Interpretation:</strong> Long-baseline experiments probe the linear-path limit (right);
+    tabletop loops probe the holonomy \(\Phi_R\) directly (left). Same law, different regime.
+  </p>
 
   <div class="block gold">
     <div class="title">Geometric Identification</div>
@@ -1104,6 +1151,920 @@ code {
   </div>
 </section>
 
+<!-- ══════════════════════════════════════════════════════════════════════════════
+     §9.5 INTERACTIVE HOLOSCREEN (FALSIFICATION INSTRUMENT)
+     ══════════════════════════════════════════════════════════════════════════════ -->
+
+<section class="section" id="sec9-holoscreen">
+  <h2>9.5 Interactive Holoscreen: Visibility Falsifier</h2>
+
+  <div class="block gold">
+    <div class="title">Purpose and Status</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The following holoscreen is an <strong>interactive realization</strong> of the interferometric
+      visibility law derived in Eqs. (9.2)–(9.3). It is provided as a
+      <em>diagnostic and falsification instrument</em>, not as part of the theoretical derivation.
+      All physics inputs are user-controlled; no experimental data are embedded.
+    </p>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Interpretation Guidance</div>
+    <ul style="margin:0;color:var(--text-secondary);font-size:0.95rem">
+      <li>The holoscreen implements the <strong>Markovian stochastic regime</strong> discussed in §9.2.</li>
+      <li>It visualizes the functional dependence \(V(\Delta L)\), not absolute magnitudes.</li>
+      <li>Agreement or disagreement must be assessed via the statistical protocol in §12.</li>
+      <li>Use for <strong>intuition, sweep planning, and null testing</strong> only.</li>
+    </ul>
+  </div>
+
+  <div class="figure">
+    <div class="caption" style="margin-bottom:1rem">
+      <strong>Holoscreen Instrument:</strong>
+      Interactive visibility simulator implementing
+      \(V(\Delta L) = V_0 \exp[-(\Delta L / \ell_{\rm coh})^2]\)
+      and residual-based falsification logic.
+    </div>
+
+```
+<!-- ═══════════════════════════════════════════════════════════════════════
+     BEGIN HOLOSCREEN — v9.1 COMPLIANT IMPLEMENTATION
+     ═══════════════════════════════════════════════════════════════════════ -->
+
+<style>
+  /* Holoscreen-specific styles (namespaced with .holo-) */
+  .holo-container {
+    background: linear-gradient(180deg, #0a1020 0%, #060810 100%);
+    border: 1px solid #1a3060;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    font-family: 'IBM Plex Mono', 'SF Mono', monospace;
+    font-size: 0.85rem;
+    position: relative;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 0 40px rgba(0,50,100,0.2);
+  }
+  .holo-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00e5ff, #ff00e5, #00e5ff);
+    opacity: 0.6;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .holo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0,229,255,0.2);
+  }
+  .holo-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #00e5ff;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 15px rgba(0,229,255,0.5);
+  }
+  .holo-badge {
+    font-size: 0.65rem;
+    color: #00ff6a;
+    border: 1px solid #00ff6a;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+  }
+  
+  .holo-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 900px) {
+    .holo-grid { grid-template-columns: 1fr; }
+  }
+  
+  .holo-panel {
+    background: rgba(5,10,20,0.8);
+    border: 1px solid rgba(30,60,100,0.5);
+    border-radius: 6px;
+    padding: 1rem;
+  }
+  .holo-panel-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #8fa0c0;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid rgba(100,150,200,0.2);
+  }
+  
+  .holo-control {
+    margin-bottom: 1rem;
+  }
+  .holo-control:last-child {
+    margin-bottom: 0;
+  }
+  .holo-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.4rem;
+    font-size: 0.75rem;
+    color: #b0c0d0;
+  }
+  .holo-value {
+    font-family: 'Orbitron', sans-serif;
+    color: #00e5ff;
+    font-size: 0.85rem;
+    text-shadow: 0 0 8px rgba(0,229,255,0.4);
+  }
+  .holo-unit {
+    font-size: 0.65rem;
+    color: #607080;
+    margin-left: 0.3rem;
+  }
+  
+  .holo-slider {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(90deg, #1a3050, #2a5080);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+  }
+  .holo-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #00e5ff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,229,255,0.8);
+  }
+  .holo-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: #00e5ff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,229,255,0.8);
+    border: none;
+  }
+  
+  .holo-derived {
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.3);
+    border-radius: 4px;
+    padding: 0.6rem 0.8rem;
+    margin-top: 1rem;
+  }
+  .holo-derived-label {
+    font-size: 0.65rem;
+    color: #607080;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+  }
+  .holo-derived-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: #00ff6a;
+    text-shadow: 0 0 12px rgba(0,255,106,0.5);
+  }
+  
+  .holo-canvas-wrap {
+    position: relative;
+    background: #030510;
+    border: 1px solid rgba(30,60,100,0.4);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .holo-canvas {
+    display: block;
+    width: 100%;
+    height: 350px;
+  }
+  .holo-canvas-overlay {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 0.6rem;
+    color: rgba(150,180,200,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  
+  .holo-legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.8rem;
+    padding: 0.6rem;
+    background: rgba(10,20,40,0.5);
+    border-radius: 4px;
+    font-size: 0.7rem;
+  }
+  .holo-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .holo-legend-swatch {
+    width: 20px;
+    height: 3px;
+    border-radius: 1px;
+  }
+  
+  .holo-eq-box {
+    background: rgba(255,180,0,0.08);
+    border: 1px solid rgba(255,180,0,0.3);
+    border-radius: 4px;
+    padding: 0.8rem;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .holo-eq-box .MathJax {
+    font-size: 1.1rem !important;
+  }
+  
+  .holo-data-section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(100,150,200,0.2);
+  }
+  .holo-data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+  }
+  .holo-data-point {
+    background: rgba(10,20,40,0.6);
+    border: 1px solid rgba(40,80,120,0.4);
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 0.7rem;
+    cursor: pointer;
+  }
+  .holo-data-point:hover {
+    border-color: rgba(255,51,102,0.5);
+  }
+  .holo-data-point.holo-outlier {
+    border-color: rgba(255,51,102,0.6);
+    background: rgba(255,51,102,0.1);
+  }
+  .holo-data-coords {
+    color: #8fa0c0;
+  }
+  .holo-data-residual {
+    font-size: 0.65rem;
+    margin-top: 0.2rem;
+  }
+  .holo-data-residual.holo-good { color: #00ff6a; }
+  .holo-data-residual.holo-warn { color: #ffb300; }
+  .holo-data-residual.holo-bad { color: #ff3366; }
+  
+  .holo-input-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .holo-input {
+    flex: 1;
+    background: rgba(10,20,40,0.8);
+    border: 1px solid rgba(40,80,120,0.5);
+    border-radius: 4px;
+    padding: 0.4rem 0.6rem;
+    font-family: inherit;
+    font-size: 0.75rem;
+    color: #e8eef5;
+    outline: none;
+  }
+  .holo-input:focus {
+    border-color: #00e5ff;
+    box-shadow: 0 0 8px rgba(0,229,255,0.3);
+  }
+  .holo-input::placeholder {
+    color: #405060;
+  }
+  .holo-btn {
+    background: linear-gradient(180deg, rgba(0,229,255,0.2), rgba(0,229,255,0.1));
+    border: 1px solid rgba(0,229,255,0.4);
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.7rem;
+    color: #00e5ff;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .holo-btn:hover {
+    background: rgba(0,229,255,0.25);
+    box-shadow: 0 0 12px rgba(0,229,255,0.4);
+  }
+  .holo-btn.holo-btn-danger {
+    background: linear-gradient(180deg, rgba(255,51,102,0.2), rgba(255,51,102,0.1));
+    border-color: rgba(255,51,102,0.4);
+    color: #ff3366;
+  }
+  .holo-btn.holo-btn-danger:hover {
+    background: rgba(255,51,102,0.25);
+    box-shadow: 0 0 12px rgba(255,51,102,0.4);
+  }
+  
+  .holo-verdict {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  .holo-verdict.holo-pass {
+    background: rgba(0,255,106,0.1);
+    border: 1px solid rgba(0,255,106,0.4);
+    color: #00ff6a;
+  }
+  .holo-verdict.holo-fail {
+    background: rgba(255,51,102,0.1);
+    border: 1px solid rgba(255,51,102,0.4);
+    color: #ff3366;
+  }
+  .holo-verdict.holo-neutral {
+    background: rgba(100,150,200,0.1);
+    border: 1px solid rgba(100,150,200,0.3);
+    color: #8fa0c0;
+  }
+  .holo-verdict-stat {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    margin-top: 0.3rem;
+  }
+  
+  .holo-export-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+    justify-content: flex-end;
+  }
+</style>
+
+<div class="holo-container" id="holoscreen-v91">
+  <div class="holo-header">
+    <div>
+      <div class="holo-title">STUR VISIBILITY FALSIFIER</div>
+      <div style="font-size:0.6rem;color:#607080;margin-top:0.2rem">
+        Eq. (9.3): V(ΔL) = V₀ exp[−(ΔL/ℓ<sub>coh</sub>)²]
+      </div>
+    </div>
+    <div class="holo-badge">v9.1 COMPLIANT</div>
+  </div>
+  
+  <div class="holo-grid">
+    <!-- LEFT PANEL: CONTROLS -->
+    <div class="holo-panel">
+      <div class="holo-panel-title">Substrate Parameters</div>
+      
+      <div class="holo-control">
+        <div class="holo-label">
+          <span>K<sub>eff</sub> (contortion magnitude)</span>
+          <span class="holo-value" id="holo-keff-val">10<sup>55</sup></span>
+          <span class="holo-unit">m⁻¹</span>
+        </div>
+        <input type="range" class="holo-slider" id="holo-keff" min="50" max="65" step="0.1" value="55">
+        <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:#506070;margin-top:0.2rem">
+          <span>10⁵⁰</span>
+          <span>10⁶⁵</span>
+        </div>
+      </div>
+      
+      <div class="holo-control">
+        <div class="holo-label">
+          <span>y (coupling constant)</span>
+          <span class="holo-value" id="holo-y-val">0.01</span>
+        </div>
+        <input type="range" class="holo-slider" id="holo-y" min="-3" max="-1" step="0.1" value="-2">
+        <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:#506070;margin-top:0.2rem">
+          <span>10⁻³</span>
+          <span>10⁻¹</span>
+        </div>
+      </div>
+      
+      <div class="holo-control">
+        <div class="holo-label">
+          <span>V₀ (baseline visibility)</span>
+          <span class="holo-value" id="holo-v0-val">0.95</span>
+        </div>
+        <input type="range" class="holo-slider" id="holo-v0" min="0.5" max="1" step="0.01" value="0.95">
+      </div>
+      
+      <div class="holo-control">
+        <div class="holo-label">
+          <span>ΔL range (path difference)</span>
+          <span class="holo-value" id="holo-dlmax-val">100</span>
+          <span class="holo-unit">cm</span>
+        </div>
+        <input type="range" class="holo-slider" id="holo-dlmax" min="10" max="500" step="10" value="100">
+      </div>
+      
+      <div class="holo-derived">
+        <div class="holo-derived-label">Derived: Coherence Length</div>
+        <div style="font-size:0.65rem;color:#607080;margin-bottom:0.2rem">
+          ℓ<sub>coh</sub> = 1/(yK<sub>eff</sub>)
+        </div>
+        <div class="holo-derived-value" id="holo-lcoh-val">10⁻⁵³ m</div>
+      </div>
+      
+      <div class="holo-eq-box">
+        <div style="font-size:0.6rem;color:#806000;margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.1em">
+          Geometric Identification (Eq. 9.4)
+        </div>
+        \[\sigma_R \equiv K_{\rm eff}\]
+      </div>
+    </div>
+    
+    <!-- RIGHT PANEL: VISUALIZATION -->
+    <div>
+      <div class="holo-canvas-wrap">
+        <canvas class="holo-canvas" id="holo-canvas"></canvas>
+        <div class="holo-canvas-overlay">V(ΔL) vs ΔL</div>
+      </div>
+      
+      <div class="holo-legend">
+        <div class="holo-legend-item">
+          <div class="holo-legend-swatch" style="background:#00e5ff"></div>
+          <span style="color:#00e5ff">STUR Gaussian</span>
+        </div>
+        <div class="holo-legend-item">
+          <div class="holo-legend-swatch" style="background:#ff00e5;opacity:0.6"></div>
+          <span style="color:#ff00e5">ULDM sinusoidal</span>
+        </div>
+        <div class="holo-legend-item">
+          <div class="holo-legend-swatch" style="background:#ffb300"></div>
+          <span style="color:#ffb300">Data points</span>
+        </div>
+      </div>
+      
+      <!-- DATA INGEST -->
+      <div class="holo-data-section">
+        <div class="holo-panel-title">Experimental Data (Optional)</div>
+        <div style="font-size:0.68rem;color:#607080;margin-bottom:0.5rem">
+          Enter (ΔL, V, σ<sub>V</sub>) to compute χ² against STUR prediction. Click points to remove.
+        </div>
+        
+        <div class="holo-input-row">
+          <input type="text" class="holo-input" id="holo-data-dl" placeholder="ΔL (cm)">
+          <input type="text" class="holo-input" id="holo-data-v" placeholder="V (0–1)">
+          <input type="text" class="holo-input" id="holo-data-err" placeholder="σ (0.01)">
+          <button class="holo-btn" id="holo-add-btn">Add</button>
+          <button class="holo-btn holo-btn-danger" id="holo-clear-btn">Clear</button>
+        </div>
+        
+        <div class="holo-data-grid" id="holo-data-grid"></div>
+        
+        <div class="holo-verdict holo-neutral" id="holo-verdict">
+          <div>Enter data points to compute χ²/dof</div>
+          <div class="holo-verdict-stat">—</div>
+        </div>
+      </div>
+      
+      <div class="holo-export-row">
+        <button class="holo-btn" id="holo-export-png">Export PNG</button>
+        <button class="holo-btn" id="holo-export-csv">Export CSV</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  // ═══════════════════════════════════════════════════════════════════════
+  // STUR v9.1 HOLOSCREEN — VISIBILITY FALSIFIER
+  // Implements: V(ΔL) = V₀ exp[−(ΔL/ℓ_coh)²] with ℓ_coh = 1/(yK_eff)
+  // ═══════════════════════════════════════════════════════════════════════
+  
+  const canvas = document.getElementById('holo-canvas');
+  const ctx = canvas.getContext('2d');
+  
+  // High-DPI handling
+  function setupCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+  }
+  setupCanvas();
+  window.addEventListener('resize', () => { setupCanvas(); draw(); });
+  
+  // State
+  let dataPoints = [];
+  
+  // DOM elements
+  const sliderKeff = document.getElementById('holo-keff');
+  const sliderY = document.getElementById('holo-y');
+  const sliderV0 = document.getElementById('holo-v0');
+  const sliderDLmax = document.getElementById('holo-dlmax');
+  
+  const valKeff = document.getElementById('holo-keff-val');
+  const valY = document.getElementById('holo-y-val');
+  const valV0 = document.getElementById('holo-v0-val');
+  const valDLmax = document.getElementById('holo-dlmax-val');
+  const valLcoh = document.getElementById('holo-lcoh-val');
+  
+  const inputDL = document.getElementById('holo-data-dl');
+  const inputV = document.getElementById('holo-data-v');
+  const inputErr = document.getElementById('holo-data-err');
+  const addBtn = document.getElementById('holo-add-btn');
+  const clearBtn = document.getElementById('holo-clear-btn');
+  const dataGrid = document.getElementById('holo-data-grid');
+  const verdict = document.getElementById('holo-verdict');
+  
+  const exportPNG = document.getElementById('holo-export-png');
+  const exportCSV = document.getElementById('holo-export-csv');
+  
+  // ─────────────────────────────────────────────────────────────────────────
+  // PHYSICS: v9.1 Gaussian visibility law
+  // ─────────────────────────────────────────────────────────────────────────
+  
+  function getParams() {
+    const logKeff = parseFloat(sliderKeff.value);  // exponent
+    const Keff = Math.pow(10, logKeff);            // m^-1
+    const logY = parseFloat(sliderY.value);
+    const y = Math.pow(10, logY);
+    const V0 = parseFloat(sliderV0.value);
+    const DLmax_cm = parseFloat(sliderDLmax.value);
+    
+    // Coherence length: ℓ_coh = 1/(y·K_eff) in meters
+    const lcoh_m = 1.0 / (y * Keff);
+    
+    return { Keff, logKeff, y, logY, V0, DLmax_cm, lcoh_m };
+  }
+  
+  // STUR visibility: V(ΔL) = V₀ exp[−(ΔL/ℓ_coh)²]
+  function V_STUR(dL_m, V0, lcoh_m) {
+    return V0 * Math.exp(-Math.pow(dL_m / lcoh_m, 2));
+  }
+  
+  // ULDM comparison: sinusoidal with matched period (for contrast only)
+  function V_ULDM(dL_m, V0, lcoh_m) {
+    // Use ℓ_coh as effective wavelength for visual comparison
+    const phase = (2 * Math.PI * dL_m) / lcoh_m;
+    return V0 * 0.5 * (1 + Math.cos(phase));
+  }
+  
+  // ─────────────────────────────────────────────────────────────────────────
+  // DISPLAY FORMATTING
+  // ─────────────────────────────────────────────────────────────────────────
+  
+  function formatExp(val) {
+    if (val === 0) return '0';
+    const exp = Math.floor(Math.log10(Math.abs(val)));
+    const mant = val / Math.pow(10, exp);
+    if (Math.abs(mant - 1) < 0.01) return '10<sup>' + exp + '</sup>';
+    return mant.toFixed(1) + '×10<sup>' + exp + '</sup>';
+  }
+  
+  function updateDisplays() {
+    const p = getParams();
+    
+    valKeff.innerHTML = '10<sup>' + p.logKeff.toFixed(1) + '</sup>';
+    valY.textContent = p.y.toExponential(1);
+    valV0.textContent = p.V0.toFixed(2);
+    valDLmax.textContent = p.DLmax_cm.toFixed(0);
+    
+    // Coherence length display
+    if (p.lcoh_m < 1e-100) {
+      valLcoh.textContent = '≈ 0 (UV limit)';
+    } else {
+      valLcoh.innerHTML = formatExp(p.lcoh_m) + ' m';
+    }
+  }
+  
+  // ─────────────────────────────────────────────────────────────────────────
+  // CANVAS RENDERING
+  // ─────────────────────────────────────────────────────────────────────────
+  
+  function draw() {
+    const p = getParams();
+    const rect = canvas.getBoundingClientRect();
+    const W = rect.width;
+    const H = rect.height;
+    
+    const margin = { top: 30, right: 30, bottom: 45, left: 55 };
+    const plotW = W - margin.left - margin.right;
+    const plotH = H - margin.top - margin.bottom;
+    
+    // Clear
+    ctx.fillStyle = '#030510';
+    ctx.fillRect(0, 0, W, H);
+    
+    // Grid
+    ctx.strokeStyle = 'rgba(30,60,100,0.3)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 5; i++) {
+      const x = margin.left + (i / 5) * plotW;
+      const y = margin.top + (i / 5) * plotH;
+      ctx.beginPath();
+      ctx.moveTo(x, margin.top);
+      ctx.lineTo(x, margin.top + plotH);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(margin.left, y);
+      ctx.lineTo(margin.left + plotW, y);
+      ctx.stroke();
+    }
+    
+    // Axes
+    ctx.strokeStyle = 'rgba(100,150,200,0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(margin.left, margin.top);
+    ctx.lineTo(margin.left, margin.top + plotH);
+    ctx.lineTo(margin.left + plotW, margin.top + plotH);
+    ctx.stroke();
+    
+    // Axis labels
+    ctx.fillStyle = '#8fa0c0';
+    ctx.font = '11px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('ΔL (cm)', margin.left + plotW / 2, H - 8);
+    
+    ctx.save();
+    ctx.translate(15, margin.top + plotH / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Visibility V', 0, 0);
+    ctx.restore();
+    
+    // Tick labels
+    ctx.fillStyle = '#607080';
+    ctx.font = '10px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'center';
+    for (let i = 0; i <= 5; i++) {
+      const val = (i / 5) * p.DLmax_cm;
+      const x = margin.left + (i / 5) * plotW;
+      ctx.fillText(val.toFixed(0), x, margin.top + plotH + 15);
+    }
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 5; i++) {
+      const val = 1 - (i / 5);
+      const y = margin.top + (i / 5) * plotH;
+      ctx.fillText(val.toFixed(1), margin.left - 8, y + 4);
+    }
+    
+    // Convert ΔL from cm to m for calculations
+    const DLmax_m = p.DLmax_cm / 100;
+    
+    // ─── STUR Curve (Gaussian) ───
+    ctx.strokeStyle = '#00e5ff';
+    ctx.lineWidth = 2.5;
+    ctx.shadowColor = '#00e5ff';
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    let first = true;
+    for (let px = 0; px <= plotW; px++) {
+      const dL_m = (px / plotW) * DLmax_m;
+      const V = V_STUR(dL_m, p.V0, p.lcoh_m);
+      const x = margin.left + px;
+      const y = margin.top + (1 - V) * plotH;
+      if (first) { ctx.moveTo(x, y); first = false; }
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    
+    // ─── ULDM Curve (sinusoidal, for comparison) ───
+    // Only draw if ℓ_coh is not absurdly small
+    if (p.lcoh_m > 1e-100) {
+      ctx.strokeStyle = 'rgba(255,0,229,0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([6, 4]);
+      ctx.beginPath();
+      first = true;
+      for (let px = 0; px <= plotW; px++) {
+        const dL_m = (px / plotW) * DLmax_m;
+        const V = V_ULDM(dL_m, p.V0, p.lcoh_m);
+        const x = margin.left + px;
+        const y = margin.top + (1 - Math.max(0, Math.min(1, V))) * plotH;
+        if (first) { ctx.moveTo(x, y); first = false; }
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    
+    // ─── Data Points ───
+    dataPoints.forEach(pt => {
+      const px = (pt.dL_cm / p.DLmax_cm) * plotW;
+      const py = (1 - pt.V) * plotH;
+      const x = margin.left + px;
+      const y = margin.top + py;
+      
+      // Error bars
+      if (pt.err > 0) {
+        const errPx = (pt.err / 1) * plotH;
+        ctx.strokeStyle = 'rgba(255,180,0,0.5)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x, y - errPx);
+        ctx.lineTo(x, y + errPx);
+        ctx.moveTo(x - 3, y - errPx);
+        ctx.lineTo(x + 3, y - errPx);
+        ctx.moveTo(x - 3, y + errPx);
+        ctx.lineTo(x + 3, y + errPx);
+        ctx.stroke();
+      }
+      
+      // Point
+      const predicted = V_STUR(pt.dL_cm / 100, p.V0, p.lcoh_m);
+      const residual = Math.abs(pt.V - predicted) / (pt.err || 0.01);
+      const isOutlier = residual > 2;
+      
+      ctx.fillStyle = isOutlier ? '#ff3366' : '#ffb300';
+      ctx.shadowColor = ctx.fillStyle;
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      ctx.arc(x, y, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+    
+    // ─── Note if ℓ_coh is unobservable ───
+    if (p.lcoh_m < p.DLmax_cm / 100 * 1e-10) {
+      ctx.fillStyle = 'rgba(255,180,0,0.8)';
+      ctx.font = '12px "IBM Plex Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('ℓ_coh ≪ ΔL: visibility suppressed to ~0', W / 2, H / 2);
+    }
+  }
+  
+  // ─────────────────────────────────────────────────────────────────────────
+  // DATA MANAGEMENT & χ² CALCULATION
+  // ─────────────────────────────────────────────────────────────────────────
+  
+  function updateData() {
+    const p = getParams();
+    dataGrid.innerHTML = '';
+    
+    dataPoints.forEach((pt, i) => {
+      const predicted = V_STUR(pt.dL_cm / 100, p.V0, p.lcoh_m);
+      const residual = (pt.V - predicted) / (pt.err || 0.01);
+      const absRes = Math.abs(residual);
+      
+      let resClass = 'holo-good';
+      if (absRes > 2) resClass = 'holo-bad';
+      else if (absRes > 1) resClass = 'holo-warn';
+      
+      const div = document.createElement('div');
+      div.className = 'holo-data-point' + (absRes > 2 ? ' holo-outlier' : '');
+      div.innerHTML = '<div class="holo-data-coords">ΔL=' + pt.dL_cm.toFixed(1) + ', V=' + pt.V.toFixed(3) + '</div>' +
+                      '<div class="holo-data-residual ' + resClass + '">r = ' + residual.toFixed(2) + 'σ</div>';
+      div.onclick = function() {
+        dataPoints.splice(i, 1);
+        updateData();
+        draw();
+      };
+      dataGrid.appendChild(div);
+    });
+    
+    // Compute χ²
+    if (dataPoints.length === 0) {
+      verdict.className = 'holo-verdict holo-neutral';
+      verdict.innerHTML = '<div>Enter data points to compute χ²/dof</div><div class="holo-verdict-stat">—</div>';
+    } else {
+      let chi2 = 0;
+      dataPoints.forEach(pt => {
+        const predicted = V_STUR(pt.dL_cm / 100, p.V0, p.lcoh_m);
+        const r = (pt.V - predicted) / (pt.err || 0.01);
+        chi2 += r * r;
+      });
+      const dof = Math.max(1, dataPoints.length - 1);
+      const chi2_dof = chi2 / dof;
+      
+      // Falsification threshold: χ²/dof > 3.84 (95% CL for 1 dof)
+      const threshold = 3.84;
+      
+      if (chi2_dof > threshold) {
+        verdict.className = 'holo-verdict holo-fail';
+        verdict.innerHTML = '<div>⚠ FALSIFICATION SIGNAL (p < 0.05)</div>' +
+                            '<div class="holo-verdict-stat">χ²/dof = ' + chi2_dof.toFixed(2) + ' > ' + threshold + '</div>';
+      } else {
+        verdict.className = 'holo-verdict holo-pass';
+        verdict.innerHTML = '<div>✓ CONSISTENT WITH STUR</div>' +
+                            '<div class="holo-verdict-stat">χ²/dof = ' + chi2_dof.toFixed(2) + '</div>';
+      }
+    }
+  }
+  
+  function addDataPoint() {
+    const dL = parseFloat(inputDL.value);
+    const V = parseFloat(inputV.value);
+    const err = parseFloat(inputErr.value) || 0.01;
+    
+    if (isNaN(dL) || isNaN(V)) return;
+    if (V < 0 || V > 1) return;
+    
+    dataPoints.push({ dL_cm: dL, V: V, err: err });
+    inputDL.value = '';
+    inputV.value = '';
+    inputErr.value = '';
+    updateData();
+    draw();
+  }
+  
+  // ─────────────────────────────────────────────────────────────────────────
+  // EXPORT FUNCTIONS
+  // ─────────────────────────────────────────────────────────────────────────
+  
+  function exportPNGfn() {
+    const link = document.createElement('a');
+    link.download = 'stur_v91_holoscreen.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+  
+  function exportCSVfn() {
+    const p = getParams();
+    let csv = 'STUR v9.1 Holoscreen Export\n';
+    csv += 'K_eff (m^-1),' + p.Keff.toExponential(3) + '\n';
+    csv += 'y (coupling),' + p.y.toExponential(3) + '\n';
+    csv += 'l_coh (m),' + p.lcoh_m.toExponential(3) + '\n';
+    csv += 'V0,' + p.V0 + '\n\n';
+    
+    csv += 'dL_cm,V_obs,sigma,V_STUR,residual_sigma\n';
+    dataPoints.forEach(pt => {
+      const pred = V_STUR(pt.dL_cm / 100, p.V0, p.lcoh_m);
+      const r = (pt.V - pred) / (pt.err || 0.01);
+      csv += pt.dL_cm + ',' + pt.V + ',' + pt.err + ',' + pred.toExponential(4) + ',' + r.toFixed(3) + '\n';
+    });
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.download = 'stur_v91_data.csv';
+    link.href = URL.createObjectURL(blob);
+    link.click();
+  }
+  
+  // ─────────────────────────────────────────────────────────────────────────
+  // EVENT BINDINGS
+  // ─────────────────────────────────────────────────────────────────────────
+  
+  [sliderKeff, sliderY, sliderV0, sliderDLmax].forEach(function(el) {
+    el.addEventListener('input', function() {
+      updateDisplays();
+      updateData();
+      draw();
+    });
+  });
+  
+  addBtn.addEventListener('click', addDataPoint);
+  inputErr.addEventListener('keypress', function(e) { if (e.key === 'Enter') addDataPoint(); });
+  clearBtn.addEventListener('click', function() {
+    dataPoints = [];
+    updateData();
+    draw();
+  });
+  
+  exportPNG.addEventListener('click', exportPNGfn);
+  exportCSV.addEventListener('click', exportCSVfn);
+  
+  // Initial render
+  updateDisplays();
+  updateData();
+  draw();
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     END HOLOSCREEN
+     ═══════════════════════════════════════════════════════════════════════ -->
+```
+
+  </div>
+
+  <div class="block success">
+    <div class="title">Connection to the Theory</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The holoscreen directly visualizes the Gaussian-in-\((\Delta L)^2\) decay derived from
+      shot-to-shot scalar fluctuations (Eq. 9.2), with the coherence length
+      \(\ell_{\rm coh} = (y K_{\rm eff})^{-1}\) interpreted geometrically in §9.2–§10.
+      Persistence of high visibility at predicted suppression points constitutes a
+      <strong>hard falsification</strong> of the STUR signature.
+    </p>
+  </div>
+</section>
+
 <section class="section" id="sec10">
   <h2>10. Coherence Length Estimates</h2>
 
@@ -1173,10 +2134,18 @@ code {
       \(K_{\rm eff}\) is many orders of magnitude smaller in the laboratory environment, or is suppressed by
       species/medium dependence, shielding, or non-equilibrium driving.
     </p>
+    <p style="margin-top:0.6rem;color:var(--text-secondary)">
+      <strong>Resolution:</strong> This conclusion applies only if the experimental observable is
+      the geometric path difference \(\Delta L\).
+      In a teleparallel formulation, experiments may instead access the resistance holonomy
+      \(\Phi_R = \oint R_\mu e^\mu{}_a dx^a\), which can be macroscopically enhanced by loop topology,
+      medium structure, or controlled resistance gradients without requiring large metric distances.
+    </p>
     <ul style="margin:0.5rem 0 0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary)">
       <li><strong>Suppressed contortion in-lab:</strong> \(K_{\rm eff}\ll 1\ \mathrm{m^{-1}}\) via environmental/medium dependence</li>
       <li><strong>Species dependence:</strong> effective \(y\) or coupling channel depends on composition/transition</li>
       <li><strong>Non-equilibrium driving:</strong> engineered states where \(K_{\rm eff}\) acquires long-range correlations</li>
+      <li><strong>Loop holonomy:</strong> closed-path interferometers measure \(\Phi_R\) directly, bypassing the \(\Delta L\) limit</li>
     </ul>
   </div>
 
@@ -1358,7 +2327,26 @@ code {
 <section class="section" id="sec12">
   <h2>12. Falsification Protocol</h2>
 
-  <h3>12.1 Recommended Experiment</h3>
+  <h3>12.0 Loop-Based Teleparallel Test (Short Baseline)</h3>
+
+  <table>
+    <tr><th>Parameter</th><th>Specification</th><th>Purpose</th></tr>
+    <tr><td>Geometry</td><td>Closed-loop interferometer (Sagnac / ring)</td><td>Measure holonomy \(\Phi_R\)</td></tr>
+    <tr><td>Baseline</td><td>\(\sim 0.1\)–\(10\) m</td><td>Avoid long-arm constraints</td></tr>
+    <tr><td>Asymmetry</td><td>Resistance-loaded segment</td><td>Generate nonzero \(\oint R\cdot dx\)</td></tr>
+    <tr><td>Observable</td><td>Visibility vs loop orientation / loading</td><td>Teleparallel signature</td></tr>
+  </table>
+
+  <div class="block success">
+    <div class="title">Key Prediction</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      A nonzero Gaussian visibility decay in a closed-loop interferometer with negligible geometric
+      path difference is a <strong>pure teleparallel resistance signal</strong> and cannot be mimicked
+      by metric curvature or standard environmental decoherence.
+    </p>
+  </div>
+
+  <h3>12.1 Recommended Experiment (Long Baseline)</h3>
 
   <table>
     <tr><th>Parameter</th><th>Specification</th><th>Purpose</th></tr>
@@ -1435,13 +2423,15 @@ code {
 <section class="section" id="sec14">
   <h2>14. Open Problems</h2>
 
-  <div class="block error">
-    <div class="title">Critical: Observable Coherence Length Without Decoupling</div>
+  <div class="block warning">
+    <div class="title">Revised: Observable Signature via Loop Holonomy</div>
     <p style="margin:0;color:var(--text-secondary)">
-      Identify a UV-consistent mechanism producing \(\ell_{\rm coh} \sim 10\)–\(10^3\) m <strong>that retains 
-      connection to the 5D/TEGR structure</strong>. The naive KK estimate fails by ~60 orders of magnitude. 
-      Candidates (ultralight scalars, cosmological backgrounds) risk decoupling the observable signature from 
-      the resistance-tensor framework entirely. <strong>This is the central open problem.</strong>
+      The naive geometric estimate (\(\ell_{\rm coh} \sim 10^{-59}\) m from KK scales) applies only to 
+      linear-path experiments using \(\Delta L\) as the control parameter. The teleparallel formulation
+      identifies the <em>resistance holonomy</em> \(\Phi_R = \oint R_\mu e^\mu{}_a dx^a\) as the natural
+      observable, which can be macroscopically enhanced by loop topology, medium structure, or controlled
+      resistance gradients. <strong>Open task:</strong> derive explicit enhancement factors for specific
+      loop geometries and resistance profiles to determine experimental feasibility.
     </p>
   </div>
 
@@ -1637,13 +2627,25 @@ code {
     catastrophically below observable scales for a UV contortion substrate.
   </p>
 
-  <div class="block error">
-    <div class="title">Conclusion</div>
+  <div class="block warning">
+    <div class="title">Conclusion (Linear-Path Limit)</div>
     <p style="margin:0;color:var(--text-secondary)">
       In the teleparallel substrate identification \(\sigma_R \equiv K_{\rm eff}\), a UV contortion
       scale \(K_{\rm eff}\sim 10^{59}\) m\(^{-1}\) yields \(\ell_{\rm coh}\sim 10^{-59}\) m—roughly 60 orders of
-      magnitude below observable scales. Any observable effect therefore requires a laboratory realization in
-      which \(K_{\rm eff}\) is dramatically suppressed or acquires long-range correlations.
+      magnitude below observable scales. <strong>However,</strong> this analysis assumes the experimental observable
+      is the geometric path difference \(\Delta L\).
+    </p>
+  </div>
+
+  <div class="block success">
+    <div class="title">Resolution via Holonomy</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      In the teleparallel formulation, the natural observable is the <em>resistance holonomy</em>
+      \(\Phi_R = \oint R_\mu e^\mu{}_a dx^a\). This quantity measures the non-integrability of phase
+      transport around a closed loop and can be nonzero even when \(\Delta L = 0\). Loop topology,
+      medium structure, and controlled resistance gradients can macroscopically enhance \(\Phi_R\)
+      without requiring large metric baselines. The visibility law \(V = V_0\exp(-\langle\Phi_R^2\rangle/2)\)
+      may therefore be testable via Sagnac-type interferometers with resistance-loaded segments.
     </p>
   </div>
 </section>
