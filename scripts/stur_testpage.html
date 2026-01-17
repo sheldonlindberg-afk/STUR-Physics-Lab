@@ -1,204 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>STUR — Holoscreen Chronomagnetic Boundary Simulator</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUR Holoscreen: Experiment Alpha-5 (Refactored)</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <style>
+        :root {
+            --neon-blue: #00f2ff;
+            --neon-pink: #ff00ea;
+            --terminal-green: #00ff41;
+            --bg-black: #050505;
+            --panel-hex: rgba(0, 242, 255, 0.05);
+            --warn-orange: #f59e0b;
+        }
+        body {
+            background-color: var(--bg-black);
+            color: var(--neon-blue);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 15px;
+            font-size: 14px;
+        }
+        .disclaimer-banner {
+            border: 1px solid var(--warn-orange);
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warn-orange);
+            padding: 8px;
+            text-align: center;
+            font-size: 0.75rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--neon-blue);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 15px;
+        }
+        .panel {
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            background: var(--panel-hex);
+            padding: 15px;
+            position: relative;
+        }
+        .panel-label {
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: var(--bg-black);
+            padding: 0 5px;
+            font-size: 0.65rem;
+            color: var(--neon-blue);
+        }
+        h2 { font-size: 0.9rem; color: var(--neon-pink); margin-top: 0; text-transform: uppercase; }
+        .slider-group { margin-bottom: 12px; }
+        label { display: block; font-size: 0.8rem; margin-bottom: 4px; }
+        input[type=range] { width: 100%; accent-color: var(--neon-pink); cursor: pointer; }
+        input[type=number] { 
+            background: #111; border: 1px solid var(--neon-blue); color: white; 
+            padding: 3px; font-family: monospace; width: 80px;
+        }
+        
+        /* Visualization */
+        #viz-container {
+            height: 180px;
+            border: 1px solid var(--neon-blue);
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .fringe-canvas {
+            width: 90%;
+            height: 60px;
+            transition: opacity 0.3s ease;
+        }
 
-<!-- MathJax -->
-<script>
-window.MathJax = {
-  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']] },
-  svg: { fontCache:'global' },
-  options:{ renderActions:{ addMenu:[] } }
-};
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+        .output-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.8rem;
+        }
+        .stat { border: 1px solid #222; padding: 8px; background: rgba(0,0,0,0.4); }
+        .stat-val { color: white; font-weight: bold; font-size: 1rem; }
 
-<style>
-:root{
-  color-scheme:dark;
-  --bg:#020617; --panel:#020617; --border:#1f2937;
-  --fg:#e5e7eb; --fg2:#9ca3af;
-  --accent:#ec4899; --accent2:#38bdf8;
-  --radius:16px;
-}
-html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui}
-.page{max-width:1100px;margin:auto;padding:2rem}
-.panel{border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;margin-bottom:1.4rem}
-h1{font-size:1.8rem;letter-spacing:.08em}
-h2{font-size:1.1rem;color:var(--fg2);letter-spacing:.06em;text-transform:uppercase}
-label{font-size:.85rem;color:var(--fg2)}
-input{
-  width:100%;font-family:monospace;font-size:16px;
-  padding:.55rem;border-radius:8px;
-  border:1px solid var(--border);
-  background:#020617;color:var(--fg)
-}
-.kpis{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1rem}
-.kpi{border:1px solid var(--border);border-radius:10px;padding:.7rem}
-.kpi .t{font-size:.7rem;color:var(--fg2);text-transform:uppercase}
-.kpi .v{font-family:monospace;font-size:.9rem}
-.badges{display:flex;gap:.6rem;flex-wrap:wrap}
-.badge{
-  font-family:monospace;font-size:.7rem;
-  padding:.35rem .6rem;border-radius:999px;
-  border:1px solid var(--border)
-}
-.pass{border-color:#22c55e;color:#22c55e}
-.fail{border-color:#fb7185;color:#fb7185}
-.eq{border:1px solid var(--border);border-radius:12px;padding:.7rem;margin:.7rem 0}
-</style>
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        button {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 8px;
+            cursor: pointer;
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+        button:hover { background: var(--neon-blue); color: black; }
+        button.reset { border-color: var(--neon-pink); color: var(--neon-pink); }
+        button.reset:hover { background: var(--neon-pink); color: white; }
+
+        .logic-panel { font-size: 0.75rem; color: #888; line-height: 1.4; }
+        .logic-panel strong { color: var(--neon-blue); }
+
+        #alert-status {
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid var(--neon-pink);
+            margin-top: 10px;
+        }
+    </style>
 </head>
-
 <body>
-<div class="page">
 
-<div class="panel">
-<h1>STUR — Holoscreen Chronomagnetic Boundary Simulator</h1>
-<p style="color:var(--fg2)">
-Implements Sections 7–14 of the STUR manuscript.
-All observables are holoscreen projections.
-</p>
+<div class="disclaimer-banner">
+    [!] HYPOTHESIS VISUALIZATION TOOL: NO LIVE EXPERIMENTAL DATA DISPLAYED. OUTPUTS ARE MODEL-GENERATED.
 </div>
 
-<div class="panel">
-<h2>Boundary Control Parameters</h2>
-
-<label>Resistance Amplitude R<sub>q</sub></label>
-<input id="Rq" type="number" value="50" step="5">
-
-<label style="margin-top:.8rem">Coherence Depth u<sub>c</sub></label>
-<input id="uc" type="number" value="5" step="0.1">
-
-<label style="margin-top:.8rem">Boundary Phase θ (rad)</label>
-<input id="theta" type="number" value="1.0" step="0.05">
-
-<label style="margin-top:.8rem">Chronomagnetic Gain κ<sub>cm</sub></label>
-<input id="kappa" type="number" value="1.0" step="0.1">
+<div class="header">
+    <div>STUR_LAB_DIAGNOSTIC // ALPHA-5</div>
+    <div id="mode-indicator" style="color: var(--terminal-green);">MODE: SIMULATION</div>
+    <div style="font-size: 0.7rem;">REF: LAW_OF_RESISTANCE_V3.2</div>
 </div>
 
-<div class="panel">
-<h2>Holoscreen Quantities</h2>
+<div class="grid-container">
+    <div class="panel">
+        <span class="panel-label">CONTROL_INTERFACE</span>
+        <h2>Parameters</h2>
+        
+        <div class="slider-group">
+            <label>Path Diff. (ΔL): <span id="lbl-dl">20</span> cm</label>
+            <input type="range" id="in-dl" min="0" max="100" value="20" step="1">
+        </div>
 
-<div class="kpis">
-<div class="kpi"><div class="t">Saturation S<sub>u</sub>(u<sub>c</sub>)</div><div id="kSu" class="v">—</div></div>
-<div class="kpi"><div class="t">M = R<sub>q</sub> S<sub>u</sub></div><div id="kM" class="v">—</div></div>
-<div class="kpi"><div class="t">Phase Gate cos(θ/M)</div><div id="kGate" class="v">—</div></div>
-<div class="kpi"><div class="t">K<sub>proj</sub></div><div id="kProj" class="v">—</div></div>
-</div>
+        <div class="slider-group">
+            <label>Phase Scale (ℓ_R): <span id="lbl-lr">50</span> cm</label>
+            <input type="range" id="in-lr" min="1" max="200" value="50" step="1">
+        </div>
 
-<div class="eq">
-\[
-M = R_q S_u(u_c),\quad
-K_{\rm proj} = \kappa_{\rm cm}\cos\!\left(\frac{\theta}{M}\right)
-\]
-</div>
-</div>
+        <div class="slider-group">
+            <label>Effective λ: <span id="lbl-lam">0.5</span> μm</label>
+            <input type="range" id="in-lam" min="0.1" max="2.0" value="0.5" step="0.1">
+        </div>
 
-<div class="panel">
-<h2>Gravitational Calibration (Section 14.4)</h2>
+        <div class="slider-group">
+            <label>Phase Noise (σ_φ): <span id="lbl-noise">0.05</span></label>
+            <input type="range" id="in-noise" min="0" max="0.5" value="0.05" step="0.01">
+        </div>
 
-<div class="kpis">
-<div class="kpi"><div class="t">1 / M</div><div id="kInvM" class="v">—</div></div>
-<div class="kpi"><div class="t">Redshift Multiplier</div><div id="kRed" class="v">—</div></div>
-</div>
+        <div class="panel" style="margin-top:15px; background: rgba(0,0,0,0.5);">
+            <span class="panel-label">MANUAL_INGEST</span>
+            <label style="font-size: 0.7rem;">Observed Visibility (V_obs):</label>
+            <input type="number" id="in-obs" value="1.000" step="0.001" min="0" max="1">
+            <p style="font-size:0.6rem; color:#666; margin:5px 0;">Enter actual lab result to override model.</p>
+        </div>
 
-<div class="eq">
-\[
-\frac{\Delta\nu}{\nu}
-=
-\frac{gh}{c^2}
-\left(1 + \frac{1}{M}\right)
-\]
-</div>
+        <div class="btn-group">
+            <button onclick="toggleMode()" id="mode-btn">Enter Ingest Mode</button>
+            <button class="reset" onclick="resetDefaults()">Reset</button>
+        </div>
+    </div>
 
-<div class="badges" style="margin-top:.6rem">
-<div id="bClassical" class="badge">Classical Limit</div>
-<div id="bSTUR" class="badge">STUR Active</div>
-</div>
-</div>
+    <div class="panel">
+        <span class="panel-label">ANALYSIS_VISUALIZER</span>
+        
+        <div id="viz-container">
+            <canvas id="fringeCanvas" class="fringe-canvas"></canvas>
+        </div>
 
-<div class="panel">
-<h2>ε<sub>Γ</sub> Diagnostic (Section 16)</h2>
+        <div class="output-box">
+            <div class="stat">
+                <label>V_QM (Geometric)</label>
+                <div class="stat-val">1.000</div>
+            </div>
+            <div class="stat">
+                <label>V_STUR (Predicted)</label>
+                <div class="stat-val" id="out-vstur" style="color: var(--neon-pink);">0.000</div>
+            </div>
+            <div class="stat">
+                <label>Δφ_STUR (Shift)</label>
+                <div class="stat-val" id="out-phase">0.00 rad</div>
+            </div>
+            <div class="stat">
+                <label>Residual Error</label>
+                <div class="stat-val" id="out-resid" style="color: var(--terminal-green);">0.000</div>
+            </div>
+        </div>
 
-<div class="kpis">
-<div class="kpi"><div class="t">ε<sub>Γ</sub></div><div id="kEps" class="v">—</div></div>
-</div>
+        <div id="alert-status">IDLE</div>
 
-<div class="eq">
-\[
-\varepsilon_\Gamma(\tau)
-=
-\lambda_\Gamma \dot\chi(\tau)
-\quad,\quad
-\dot\chi = \alpha_\chi K_{\rm proj}
-\]
-</div>
-</div>
-
-<footer style="text-align:center;color:var(--fg2);font-size:.75rem">
-STUR · X-Coupled Resistance Manifold · Holoscreen-Only Physics
-</footer>
-
+        <div class="logic-panel" style="margin-top: 20px; border-top: 1px solid #333; padding-top: 10px;">
+            <strong>STUR Falsifier (v3.1 Ref):</strong><br>
+            \[ \frac{V_{\text{STUR}}}{V_{\text{QM}}} = \cos^2\left( \frac{\pi \Delta L}{\ell_R} \right) \cdot e^{-\sigma_\phi^2/2} \]
+            <strong>Falsification Criteria:</strong> If \( V_{\text{observed}} \approx V_{\text{QM}} \) at regimes where 
+            the \(\cos^2\) term predicts a null, the hypothesis is <strong>INVALIDATED</strong>.
+        </div>
+    </div>
 </div>
 
 <script>
-// Saturation functional (Section 8)
-function Su(u){
-  return Math.tanh(u) * (1 - Math.exp(-u));
-}
+    const inputs = ['in-dl', 'in-lr', 'in-lam', 'in-noise', 'in-obs'];
+    let isIngestMode = false;
 
-function update(){
-  const Rq = +RqEl.value;
-  const uc = +ucEl.value;
-  const th = +thetaEl.value;
-  const kap = +kappaEl.value;
+    function resetDefaults() {
+        document.getElementById('in-dl').value = 20;
+        document.getElementById('in-lr').value = 50;
+        document.getElementById('in-lam').value = 0.5;
+        document.getElementById('in-noise').value = 0.05;
+        document.getElementById('in-obs').value = 1.000;
+        isIngestMode = false;
+        updateUI();
+    }
 
-  const Suv = Su(uc);
-  const M = Rq * Suv;
-  const gate = Math.cos(th / M);
-  const Kproj = kap * gate;
+    function toggleMode() {
+        isIngestMode = !isIngestMode;
+        document.getElementById('mode-btn').innerText = isIngestMode ? "Exit Ingest Mode" : "Enter Ingest Mode";
+        document.getElementById('mode-indicator').innerText = isIngestMode ? "MODE: EXPERIMENTAL DATA INGEST" : "MODE: SIMULATION";
+        document.getElementById('mode-indicator').style.color = isIngestMode ? "var(--neon-pink)" : "var(--terminal-green)";
+        updateUI();
+    }
 
-  const invM = 1 / M;
-  const redMult = 1 + invM;
+    function updateUI() {
+        const dl = parseFloat(document.getElementById('in-dl').value);
+        const lr = parseFloat(document.getElementById('in-lr').value);
+        const lam = parseFloat(document.getElementById('in-lam').value);
+        const noise = parseFloat(document.getElementById('in-noise').value);
+        const vObs = parseFloat(document.getElementById('in-obs').value);
 
-  const alphaChi = 1.0;
-  const lambdaGamma = 1.0;
-  const epsGamma = lambdaGamma * alphaChi * Kproj;
+        document.getElementById('lbl-dl').innerText = dl;
+        document.getElementById('lbl-lr').innerText = lr;
+        document.getElementById('lbl-lam').innerText = lam;
+        document.getElementById('lbl-noise').innerText = noise;
 
-  kSu.textContent = Suv.toFixed(6);
-  kM.textContent = M.toFixed(6);
-  kGate.textContent = gate.toFixed(6);
-  kProj.textContent = Kproj.toFixed(6);
-  kInvM.textContent = invM.toExponential(3);
-  kRed.textContent = redMult.toFixed(6);
-  kEps.textContent = epsGamma.toFixed(6);
+        // Peer-Review Required Correction: Exact STUR cos^2 Law
+        // V = cos^2(pi * dL / lr) * exp(-noise^2 / 2)
+        const sturPred = Math.pow(Math.cos((Math.PI * dl) / lr), 2) * Math.exp(-Math.pow(noise, 2) / 2);
+        const phaseShift = (2 * Math.PI * dl) / lr;
 
-  bClassical.className = "badge " + (M > 100 ? "pass" : "fail");
-  bSTUR.className = "badge " + (M < 100 ? "pass" : "fail");
-}
+        document.getElementById('out-vstur').innerText = sturPred.toFixed(4);
+        document.getElementById('out-phase').innerText = phaseShift.toFixed(2) + " rad";
 
-// Bind
-const RqEl = document.getElementById('Rq');
-const ucEl = document.getElementById('uc');
-const thetaEl = document.getElementById('theta');
-const kappaEl = document.getElementById('kappa');
+        const currentV = isIngestMode ? vObs : sturPred;
+        const residual = Math.abs(currentV - sturPred);
+        document.getElementById('out-resid').innerText = residual.toFixed(4);
 
-const kSu = document.getElementById('kSu');
-const kM = document.getElementById('kM');
-const kGate = document.getElementById('kGate');
-const kProj = document.getElementById('kProj');
-const kInvM = document.getElementById('kInvM');
-const kRed = document.getElementById('kRed');
-const kEps = document.getElementById('kEps');
+        // Alert Logic
+        const alertBox = document.getElementById('alert-status');
+        if (isIngestMode) {
+            if (residual < 0.05) {
+                alertBox.innerText = "DATA CONSISTENT WITH STUR HYPOTHESIS";
+                alertBox.style.color = "var(--terminal-green)";
+                alertBox.style.borderColor = "var(--terminal-green)";
+            } else {
+                alertBox.innerText = "FALSIFICATION TRIGGERED: NON-STUR REGIME";
+                alertBox.style.color = "var(--neon-pink)";
+                alertBox.style.borderColor = "var(--neon-pink)";
+            }
+        } else {
+            alertBox.innerText = "STUR HYPOTHESIS ACTIVE (SIMULATED)";
+            alertBox.style.color = "var(--neon-blue)";
+            alertBox.style.borderColor = "var(--neon-blue)";
+        }
 
-const bClassical = document.getElementById('bClassical');
-const bSTUR = document.getElementById('bSTUR');
+        drawFringes(currentV, phaseShift);
+    }
 
-[RqEl, ucEl, thetaEl, kappaEl].forEach(el => el.addEventListener('input', update));
-update();
+    function drawFringes(visibility, phase) {
+        const canvas = document.getElementById('fringeCanvas');
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width = canvas.offsetWidth;
+        const h = canvas.height = canvas.offsetHeight;
+
+        ctx.clearRect(0,0,w,h);
+        for(let x=0; x<w; x++) {
+            // Standard interference I = 1 + V*cos(kx + phase)
+            const intensity = 0.5 * (1 + visibility * Math.cos(x * 0.2 + phase));
+            ctx.strokeStyle = `rgba(0, 242, 255, ${intensity})`;
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, h);
+            ctx.stroke();
+        }
+    }
+
+    inputs.forEach(id => document.getElementById(id).addEventListener('input', updateUI));
+    window.onload = updateUI;
 </script>
 
 </body>
+</html>
 </html>
