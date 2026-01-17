@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Foundations of STUR v8.1 — A Framework for Scalar-Matter Coupling Tests</title>
+<title>Foundations of STUR v9.0 — Stochastic Scalar-Matter Coupling Tests</title>
 
 <meta name="author" content="Sheldon Lon Lindberg" />
-<meta name="description" content="STUR v8.0: A 5D framework providing a model-independent interferometric test of scalar-matter couplings via Gaussian visibility reduction." />
+<meta name="description" content="STUR v9.0: A 5D framework providing a distinctive Gaussian visibility signature for stochastic scalar-matter couplings, contrasted with coherent ULDM oscillations." />
 <meta name="keywords" content="teleparallel gravity, TEGR, interferometry, quantum coherence, extra dimensions, scalar-matter coupling, falsifiable prediction" />
 
 <script>
@@ -480,12 +480,12 @@ code {
 
 <header class="masthead">
   <h1>Foundations of STUR</h1>
-  <p class="subtitle">A Framework for Testing Scalar-Matter Couplings via Interferometry</p>
+  <p class="subtitle">Stochastic Scalar-Matter Coupling Tests via Long-Baseline Interferometry</p>
   <div class="meta">
     <span class="badge"><span class="dot success"></span>Falsifiable prediction</span>
     <span class="badge"><span class="dot"></span>Sheldon Lon Lindberg</span>
     <span class="badge"><span class="dot"></span>January 2026</span>
-    <span class="badge"><span class="dot warning"></span>v8.1</span>
+    <span class="badge"><span class="dot warning"></span>v9.0</span>
   </div>
   <div class="toolbar">
     <button class="btn" data-jump="#abstract">Abstract</button>
@@ -510,22 +510,27 @@ code {
   <ol>
     <li><strong>Framework:</strong> Demonstrate that teleparallel gravity (TEGR ≡ GR), Yang-Mills gauge structure, 
     and chiral fermion localization can be organized within a unified geometric language.</li>
-    <li><strong>Experimental signature:</strong> Derive a <em>model-independent</em> interferometric visibility 
-    prediction from generic scalar-matter Yukawa coupling:
+    <li><strong>Experimental signature:</strong> Derive an interferometric visibility prediction for 
+    <em>stochastic</em> scalar-matter coupling in the Markovian fluctuation regime:
     \[V(\Delta L) = V_0 \exp\!\left(-(\Delta L / \ell_{\rm coh})^2\right)\]
-    where the coherence length \(\ell_{\rm coh}\) is treated as a phenomenological parameter to be constrained 
-    by experiment.</li>
+    where the coherence length \(\ell_{\rm coh}\) is treated as a phenomenological parameter. This 
+    Gaussian-in-\(\Delta L^2\) form is <strong>distinct from</strong> coherent ultralight dark matter (ULDM) 
+    signatures, which produce sinusoidal phase modulation.</li>
   </ol>
   
   <div class="block warning">
-    <div class="title">Critical Clarification (v8.1)</div>
+    <div class="title">Critical Clarification (v9.0)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      <strong>The coherence length \(\ell_{\rm coh}\) is not predicted from first principles in this document.</strong>
-      A naive estimate from TeV-scale Kaluza-Klein vacuum fluctuations yields \(\ell_{\rm coh} \sim 10^{-59}\) m—roughly 
-      60 orders of magnitude below observable scales. The visibility formula is therefore presented as a 
-      <em>model-independent test</em> of any scalar-matter coupling framework, with \(\ell_{\rm coh}\) as a free 
-      parameter. Observable effects (\(\ell_{\rm coh} \sim 10\text{–}10^3\) m) would require additional light 
-      scalar sectors or non-vacuum fluctuation mechanisms not derived here.
+      <strong>Two key limitations:</strong><br>
+      (1) <strong>Magnitude:</strong> The coherence length \(\ell_{\rm coh}\) is not predicted from first principles. 
+      A naive estimate from TeV-scale KK vacuum fluctuations yields \(\ell_{\rm coh} \sim 10^{-59}\) m—roughly 
+      60 orders of magnitude below observable laboratory scales. Observable effects would require additional 
+      light scalar sectors or non-vacuum mechanisms not derived here.<br>
+      (2) <strong>Regime:</strong> The Gaussian-in-\(\Delta L^2\) form arises specifically in the <em>Markovian 
+      fluctuation regime</em> where scalar perturbations are uncorrelated between shots. Coherent ultralight 
+      scalar fields (ULDM) produce <em>sinusoidal</em> phase modulation at frequency \(m_\phi/2\pi\), not 
+      Gaussian dephasing. The STUR signature is a template for <strong>stochastic, high-dissipation scalar baths</strong>, 
+      not generic scalar-matter coupling.
     </p>
   </div>
   
@@ -537,7 +542,7 @@ code {
         <span style="font-size:0.88rem;color:var(--text-secondary)">
           • TEGR ≡ GR equivalence (boundary term)<br>
           • Yang-Mills from local degeneracy covariance<br>
-          • Gaussian visibility form from phase averaging<br>
+          • Gaussian visibility form from <em>Markovian</em> phase averaging<br>
           • Chiral localization from orbifold + domain wall<br>
           • Exponential Yukawa overlaps
         </span>
@@ -549,7 +554,7 @@ code {
           • Matter representations and generations<br>
           • Numerical coupling values<br>
           • Coherence length \(\ell_{\rm coh}\) magnitude<br>
-          • UV completion details
+          • Fluctuation statistics (stochastic vs. coherent)
         </span>
       </div>
     </div>
@@ -986,6 +991,56 @@ code {
       environmental decoherence mechanism in current interferometry produces this scaling.
     </p>
   </div>
+  
+  <h3>9.4 Contrast with Coherent ULDM Signatures</h3>
+  
+  <p>
+    It is important to distinguish the STUR prediction from coherent ultralight dark matter (ULDM) searches, 
+    which dominate current scalar-field interferometry literature:
+  </p>
+  
+  <div class="block warning">
+    <div class="title">ULDM vs. STUR Signatures</div>
+    <div class="card-grid">
+      <div class="card">
+        <strong>Coherent ULDM (standard)</strong>
+        <span style="font-size:0.88rem;color:var(--text-secondary)">
+          • Virialized field oscillates at \(\omega = m_\phi c^2/\hbar\)<br>
+          • Phase shift: \(\phi(t) \propto \sin(\omega t)\)<br>
+          • Visibility: sinusoidal modulation or mean-field drift<br>
+          • Sensitivity: coupling \(g \sim 10^{-15}\)–\(10^{-20}\)<br>
+          • References: Graham et al. (2016), Badurina et al. (2022)
+        </span>
+      </div>
+      <div class="card">
+        <strong>Stochastic STUR (this work)</strong>
+        <span style="font-size:0.88rem;color:var(--text-secondary)">
+          • Heavy bath modes produce Markovian noise<br>
+          • Phase shift: random \(\delta\phi\) each shot<br>
+          • Visibility: Gaussian decay \(\exp(-\Delta L^2/\ell^2)\)<br>
+          • Sensitivity: \(\ell_{\rm coh}\) as free parameter<br>
+          • Regime: high-dissipation, uncorrelated fluctuations
+        </span>
+      </div>
+    </div>
+  </div>
+  
+  <p>
+    The key distinction: ULDM produces <strong>correlated</strong> phase shifts across experimental runs 
+    (the field oscillates coherently over timescales \(\tau_{\rm coh} \sim 10^6 / \omega\)), while STUR 
+    assumes <strong>uncorrelated</strong> shot-to-shot fluctuations from a Markovian bath. These are 
+    complementary search channels—both are worth pursuing in long-baseline interferometers like MAGIS-100.
+  </p>
+  
+  <div class="block">
+    <div class="title">When STUR Applies</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The Gaussian signature emerges when: (1) scalar fluctuations decorrelate faster than the shot 
+      repetition rate, (2) the noise spectrum is broad compared to experimental bandwidths, and 
+      (3) individual phase kicks are small (\(\delta\phi \ll 2\pi\)) so that visibility decays gradually. 
+      This is characteristic of <em>thermal or quantum baths</em> of heavy modes, not coherent light fields.
+    </p>
+  </div>
 </section>
 
 <section class="section" id="sec10">
@@ -1188,19 +1243,33 @@ code {
             stroke="url(#curveGrad3)" stroke-width="3" fill="none" stroke-linecap="round"/>
       <text x="220" y="232" fill="#f472b6" font-size="12" font-weight="600">ℓ = 30m</text>
       
+      <!-- ULDM coherent oscillation (orange, dashed) - sinusoidal modulation around V₀ -->
+      <path d="M 70,52 
+               C 100,45 130,60 160,48 
+               S 220,58 250,46 
+               S 310,56 340,48 
+               S 400,58 430,46 
+               S 490,56 520,48 
+               S 580,58 610,46 
+               S 650,54 670,50" 
+            stroke="#f59e0b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="8,4"/>
+      <text x="540" y="72" fill="#f59e0b" font-size="11" font-weight="600">ULDM (oscillatory)</text>
+      
       <!-- Legend box -->
-      <rect x="480" y="70" width="180" height="85" rx="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.15)"/>
-      <text x="495" y="92" fill="rgba(255,255,255,0.9)" font-size="12" font-weight="700">STUR Prediction</text>
-      <text x="495" y="112" fill="rgba(255,255,255,0.7)" font-size="11" font-family="monospace">V = V₀ exp(−ΔL²/ℓ²)</text>
-      <text x="495" y="132" fill="rgba(255,255,255,0.6)" font-size="11">Gaussian in ΔL²</text>
-      <text x="495" y="148" fill="rgba(255,255,255,0.5)" font-size="10">(unique signature)</text>
+      <rect x="480" y="85" width="180" height="100" rx="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.15)"/>
+      <text x="495" y="105" fill="rgba(255,255,255,0.9)" font-size="11" font-weight="700">STUR (stochastic):</text>
+      <text x="495" y="122" fill="rgba(255,255,255,0.7)" font-size="10" font-family="monospace">V = V₀ exp(−ΔL²/ℓ²)</text>
+      <text x="495" y="139" fill="rgba(255,255,255,0.6)" font-size="10">Gaussian decay</text>
+      <text x="495" y="158" fill="#f59e0b" font-size="11" font-weight="700">ULDM (coherent):</text>
+      <text x="495" y="175" fill="rgba(255,255,255,0.6)" font-size="10">Sinusoidal modulation</text>
     </svg>
     
     <div class="caption">
-      <strong>Figure 1:</strong> Visibility \(V/V_0\) versus path difference \(\Delta L\) for three 
-      coherence lengths. Curves are computed from \(V = \exp(-(\Delta L/\ell_{\rm coh})^2)\). 
-      At \(\ell_{\rm coh} = 50\) m (blue), visibility drops to \(1/e \approx 0.37\) at \(\Delta L = 50\) m. 
-      The Gaussian-in-\(\Delta L^2\) shape—not the absolute scale—is the STUR discriminator.
+      <strong>Figure 1:</strong> Visibility \(V/V_0\) versus path difference \(\Delta L\). Solid curves show 
+      STUR's Gaussian decay \(V = \exp(-(\Delta L/\ell_{\rm coh})^2)\) for three coherence lengths. The dashed 
+      orange curve shows typical <strong>ULDM coherent oscillation</strong> (sinusoidal modulation at frequency 
+      \(m_\phi/2\pi\)). The functional form—Gaussian decay vs. sinusoidal modulation—is the key discriminator 
+      between stochastic (STUR) and coherent (ULDM) scalar signatures.
     </div>
   </div>
 </section>
@@ -1284,12 +1353,22 @@ code {
 <section class="section" id="sec14">
   <h2>14. Open Problems</h2>
   
-  <div class="block warning">
-    <div class="title">Critical: Observable Coherence Length</div>
+  <div class="block error">
+    <div class="title">Critical: Observable Coherence Length Without Decoupling</div>
     <p style="margin:0;color:var(--text-secondary)">
-      Identify a UV-consistent mechanism producing \(\ell_{\rm coh} \sim 10\)–\(10^3\) m. 
-      The naive KK estimate fails by roughly 60 orders of magnitude. Candidates: ultralight scalars, 
-      cosmological backgrounds, non-equilibrium sources. <strong>This is the central open problem.</strong>
+      Identify a UV-consistent mechanism producing \(\ell_{\rm coh} \sim 10\)–\(10^3\) m <strong>that retains 
+      connection to the 5D/TEGR structure</strong>. The naive KK estimate fails by ~60 orders of magnitude. 
+      Candidates (ultralight scalars, cosmological backgrounds) risk decoupling the observable signature from 
+      the resistance-tensor framework entirely. <strong>This is the central open problem.</strong>
+    </p>
+  </div>
+  
+  <div class="block warning">
+    <div class="title">Fluctuation Statistics</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Determine under what physical conditions the Markovian/stochastic regime (Gaussian decay) applies 
+      versus the coherent ULDM regime (sinusoidal modulation). This requires detailed analysis of the 
+      scalar bath correlation timescales relative to experimental shot rates.
     </p>
   </div>
   
@@ -1496,14 +1575,17 @@ code {
     <li>Asenbaum, P. et al. (2017). Phase shift in an atom interferometer due to spacetime curvature. <em>Phys. Rev. Lett.</em> 118, 183602.</li>
     <li>Abe, M. et al. [MAGIS-100] (2021). Matter-wave atomic gradiometer interferometric sensor. <em>Quantum Sci. Technol.</em> 6, 044003.</li>
     <li>Bassi, A. et al. (2013). Models of wave-function collapse. <em>Rev. Mod. Phys.</em> 85, 471–527.</li>
+    <li>Graham, P.W. et al. (2016). New observables for direct detection of axion dark matter. <em>Phys. Rev. D</em> 93, 075029. [ULDM interferometry]</li>
+    <li>Badurina, L. et al. (2022). Prospective sensitivities of atom interferometers to gravitational waves and ultralight dark matter. <em>Phil. Trans. R. Soc. A</em> 380, 20210060.</li>
+    <li>Arvanitaki, A. et al. (2018). Searching for dilaton dark matter with atomic clocks. <em>Phys. Rev. D</em> 97, 075020.</li>
   </ol>
 </section>
 
 <footer class="footer">
-  <p><strong>Foundations of STUR</strong> — v8.1</p>
+  <p><strong>Foundations of STUR</strong> — v9.0</p>
   <p>© 2026 Sheldon Lon Lindberg</p>
   <p class="citation">
-    Lindberg, S.L. (2026). Foundations of STUR: A Framework for Testing Scalar-Matter Couplings via Interferometry (v8.1).
+    Lindberg, S.L. (2026). Foundations of STUR: Stochastic Scalar-Matter Coupling Tests via Long-Baseline Interferometry (v9.0).
   </p>
 </footer>
 
@@ -1531,7 +1613,7 @@ code {
   
   // Copy citation
   const citeBtn = document.getElementById('copyCite');
-  const citation = `Lindberg, Sheldon Lon (2026). "Foundations of STUR: A Framework for Testing Scalar-Matter Couplings via Interferometry," v8.1.`;
+  const citation = `Lindberg, Sheldon Lon (2026). "Foundations of STUR: Stochastic Scalar-Matter Coupling Tests via Long-Baseline Interferometry," v9.0.`;
   
   if (citeBtn) {
     citeBtn.addEventListener('click', async () => {
