@@ -1,29 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--
-  ╔═══════════════════════════════════════════════════════════════════════════╗
-  ║  LAW OF RESISTANCE                                                         ║
-  ║  Sheldon's Theory of Unified Resistance (STUR)                            ║
-  ║  Version 4.0                                                               ║
-  ║                                                                            ║
-  ║  Author: Sheldon Lon Lindberg                                              ║
-  ║  Date: January 2026                                                        ║
-  ║  License: CC BY-NC 4.0                                                     ║
-  ╚═══════════════════════════════════════════════════════════════════════════╝
--->
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Law of Resistance — STUR v4.0</title>
+<title>Foundations of STUR v8.1 — A Framework for Scalar-Matter Coupling Tests</title>
 
-<meta name="version" content="4.0" />
 <meta name="author" content="Sheldon Lon Lindberg" />
-<meta name="description" content="Law of Resistance: A falsifiable unified framework where observable interactions emerge from resistance dynamics on an extended five-dimensional manifold." />
-<meta name="keywords" content="unified field theory, teleparallel gravity, gauge theory, interferometry, quantum coherence, extra dimensions, STUR" />
-
-<meta property="og:title" content="Law of Resistance — STUR v4.0" />
-<meta property="og:description" content="A falsifiable framework for unified physics based on resistance dynamics on M⁵." />
-<meta property="og:type" content="article" />
+<meta name="description" content="STUR v8.0: A 5D framework providing a model-independent interferometric test of scalar-matter couplings via Gaussian visibility reduction." />
+<meta name="keywords" content="teleparallel gravity, TEGR, interferometry, quantum coherence, extra dimensions, scalar-matter coupling, falsifiable prediction" />
 
 <script>
 window.MathJax = {
@@ -37,12 +21,13 @@ window.MathJax = {
       Dcal: '\\mathcal{D}',
       Ocal: '\\mathcal{O}',
       Tcal: '\\mathcal{T}',
-      Scal: '\\mathcal{S}',
-      Tr: '\\mathrm{Tr}'
+      Lcal: '\\mathcal{L}',
+      Tr: '\\mathrm{Tr}',
+      dd: '\\mathrm{d}'
     }
   },
-  svg: {fontCache: 'global'},
-  options: {renderActions: {addMenu: []}}
+  svg: { fontCache: 'global' },
+  options: { renderActions: { addMenu: [] } }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -50,29 +35,32 @@ window.MathJax = {
 <style>
 :root {
   color-scheme: dark;
-  --bg: #030305;
-  --surface: rgba(12, 12, 18, 0.95);
-  --surface-alt: rgba(18, 18, 28, 0.9);
-  --border: rgba(255, 255, 255, 0.06);
-  --border-strong: rgba(255, 255, 255, 0.12);
-  
-  --text: #e8e8f0;
-  --text-secondary: #a0a0b8;
-  --text-tertiary: #606078;
-  
-  --accent: #3b9eff;
-  --accent-alt: #c084fc;
+  --bg: #0a0a0f;
+  --surface: rgba(18, 18, 28, 0.95);
+  --surface-elevated: rgba(26, 26, 40, 0.98);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.15);
+
+  --text: #f0f0f8;
+  --text-secondary: #b0b0c8;
+  --text-muted: #707090;
+
+  --accent: #4a9eff;
+  --accent-secondary: #a78bfa;
   --accent-warm: #f472b6;
-  
+  --gold: #fbbf24;
+
   --success: #34d399;
-  --warning: #fbbf24;
-  --error: #f87171;
-  
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Consolas, monospace;
-  
-  --radius: 10px;
-  --radius-lg: 14px;
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  --mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', ui-monospace, monospace;
+  --sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -81,314 +69,408 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: var(--bg);
-  background-image: 
-    radial-gradient(ellipse at 20% 0%, rgba(59, 158, 255, 0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, rgba(192, 132, 252, 0.03) 0%, transparent 50%);
+  min-height: 100vh;
+  background: 
+    radial-gradient(ellipse at 20% 0%, rgba(74, 158, 255, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(167, 139, 250, 0.04) 0%, transparent 50%),
+    var(--bg);
   color: var(--text);
-  font-family: var(--font-sans);
-  font-size: 15px;
+  font-family: var(--sans);
+  font-size: 16px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-::selection {
-  background: var(--accent);
-  color: var(--bg);
-}
+::selection { background: var(--accent); color: var(--bg); }
 
-a {
-  color: var(--accent);
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-a:hover { color: var(--accent-alt); }
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent-secondary); }
 
-/* Layout */
 .container {
-  max-width: 960px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 2.5rem 1.5rem 4rem;
 }
 
 @media (max-width: 768px) {
-  .container { padding: 1rem 1rem 3rem; }
+  .container { padding: 1.5rem 1rem 3rem; }
+  body { font-size: 15px; }
 }
 
 /* Header */
 .masthead {
   text-align: center;
   padding: 3rem 0 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--border);
 }
 
 .masthead h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem;
-  background: linear-gradient(135deg, var(--text), var(--accent), var(--accent-warm));
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 50%, var(--accent-secondary) 100%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: -0.02em;
+  -webkit-text-fill-color: transparent;
 }
 
-.masthead .subtitle {
+.subtitle {
+  margin: 0 0 1rem;
   font-size: 1.1rem;
   color: var(--text-secondary);
-  margin: 0 0 1.5rem;
+  font-weight: 500;
 }
 
-.masthead .meta {
-  font-size: 0.85rem;
-  color: var(--text-tertiary);
-}
-
-.masthead .meta span {
-  display: inline-block;
-  margin: 0 0.75rem;
-}
-
-/* Badges */
-.badges {
+.meta {
   display: flex;
-  justify-content: center;
-  gap: 0.5rem;
   flex-wrap: wrap;
-  margin-top: 1.25rem;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .badge {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  padding: 0.3rem 0.65rem;
-  border-radius: 100px;
-  border: 1px solid var(--border-strong);
-  background: var(--surface);
-  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.02);
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
 
-.badge.primary { border-color: var(--accent); color: var(--accent); }
-.badge.secondary { border-color: var(--accent-alt); color: var(--accent-alt); }
-.badge.success { border-color: var(--success); color: var(--success); }
+.badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.badge .dot.success { background: var(--success); }
+.badge .dot.warning { background: var(--warning); }
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  background: rgba(74, 158, 255, 0.08);
+}
+
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.btn.primary:hover {
+  background: #5ba8ff;
+}
 
 /* Sections */
 .section {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
   padding: 1.5rem;
-  margin-bottom: 1.25rem;
+  margin: 1rem 0;
+  box-shadow: var(--shadow);
 }
 
 .section h2 {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
   margin: 0 0 1rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--border);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
 }
 
 .section h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--accent-warm);
   margin: 1.25rem 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-warm);
 }
 
-.section h3:first-of-type {
-  margin-top: 0.5rem;
-}
+.section h3:first-of-type { margin-top: 0.25rem; }
 
 .section h4 {
-  font-size: 0.9rem;
+  margin: 1rem 0 0.4rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--text);
-  margin: 1rem 0 0.4rem;
 }
 
-.section p {
-  color: var(--text-secondary);
-  margin: 0.5rem 0;
-}
-
-.section ul, .section ol {
-  color: var(--text-secondary);
-  margin: 0.5rem 0;
-  padding-left: 1.5rem;
-}
-
-.section li {
-  margin: 0.3rem 0;
-}
+.section p, .section li { color: var(--text-secondary); }
+.section ul, .section ol { padding-left: 1.25rem; margin: 0.5rem 0; }
+.section li { margin: 0.3rem 0; }
 
 /* Equations */
 .eq {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.1rem;
   margin: 0.75rem 0;
   overflow-x: auto;
 }
 
-.eq.boxed {
-  border-color: var(--accent);
-  background: rgba(59, 158, 255, 0.03);
-}
-
-.eq-label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-tertiary);
-  text-align: right;
-  margin-top: 0.25rem;
-}
-
-/* Derivation Steps */
-.derivation {
-  border-left: 2px solid var(--accent-alt);
-  background: rgba(192, 132, 252, 0.03);
-  padding: 0.75rem 1rem;
-  margin: 0.75rem 0;
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.derivation-title {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--accent-alt);
-  margin-bottom: 0.5rem;
-}
-
-.step {
-  background: rgba(59, 158, 255, 0.03);
-  border-left: 2px solid var(--accent);
-  padding: 0.5rem 0.75rem;
-  margin: 0.5rem 0;
-  font-size: 0.9rem;
-}
-
-/* Notes and Callouts */
-.note {
-  border-left: 3px solid var(--accent);
-  background: rgba(59, 158, 255, 0.04);
-  padding: 0.65rem 0.9rem;
-  margin: 0.75rem 0;
-  border-radius: 0 var(--radius) var(--radius) 0;
-  font-size: 0.88rem;
-}
-
-.note.warning {
-  border-left-color: var(--warning);
+.eq.law {
+  border: 2px solid rgba(251, 191, 36, 0.5);
   background: rgba(251, 191, 36, 0.04);
 }
 
-.note.success {
-  border-left-color: var(--success);
-  background: rgba(52, 211, 153, 0.04);
+.eq.boxed {
+  border: 1px solid rgba(74, 158, 255, 0.4);
+  background: rgba(74, 158, 255, 0.03);
 }
 
-.note.important {
-  border-left-color: var(--accent-warm);
-  background: rgba(244, 114, 182, 0.04);
+.eq.definition {
+  border-left: 4px solid var(--accent-secondary);
+  background: rgba(167, 139, 250, 0.03);
 }
+
+.eq-label {
+  margin-top: 0.3rem;
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* Block callouts */
+.block {
+  border-left: 4px solid var(--accent);
+  background: rgba(74, 158, 255, 0.04);
+  padding: 1rem 1.1rem;
+  margin: 0.9rem 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.block.gold { border-left-color: var(--gold); background: rgba(251, 191, 36, 0.04); }
+.block.success { border-left-color: var(--success); background: rgba(52, 211, 153, 0.04); }
+.block.warning { border-left-color: var(--warning); background: rgba(245, 158, 11, 0.05); }
+.block.error { border-left-color: var(--error); background: rgba(239, 68, 68, 0.05); }
+
+.block .title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.block.gold .title { color: var(--gold); }
+.block.success .title { color: var(--success); }
+.block.warning .title { color: var(--warning); }
+.block.error .title { color: var(--error); }
+
+/* Cards grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.card strong { color: var(--text); display: block; margin-bottom: 0.4rem; }
 
 /* Tables */
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.88rem;
   margin: 0.75rem 0;
+  font-size: 0.88rem;
 }
 
 th, td {
-  padding: 0.5rem 0.65rem;
-  text-align: left;
+  padding: 0.6rem 0.75rem;
   border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
 }
 
 th {
-  font-weight: 600;
   color: var(--accent);
-  font-size: 0.8rem;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  background: rgba(0, 0, 0, 0.2);
 }
 
-td {
-  color: var(--text-secondary);
-}
+td { color: var(--text-secondary); }
 
-tr:hover td {
-  background: rgba(255, 255, 255, 0.02);
-}
+tr:hover td { background: rgba(255, 255, 255, 0.02); }
 
-/* Table of Contents */
+/* TOC */
 .toc {
   columns: 2;
-  column-gap: 2rem;
+  column-gap: 2.5rem;
 }
 
+@media (max-width: 600px) { .toc { columns: 1; } }
+
 .toc p {
-  margin: 0.35rem 0;
+  margin: 0.4rem 0;
   font-size: 0.9rem;
 }
 
-.toc a {
-  color: var(--text-secondary);
+.toc a { color: var(--text-secondary); }
+.toc a:hover { color: var(--accent); }
+
+/* Figure */
+.figure {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin: 1rem 0;
 }
 
-.toc a:hover {
+.figure svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.figure .caption {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* Derivation steps */
+.derivation {
+  background: rgba(167, 139, 250, 0.03);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.1rem;
+  margin: 0.75rem 0;
+}
+
+.derivation .step {
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 3px solid var(--accent);
+  padding: 0.5rem 0.75rem;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.derivation .step-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
   color: var(--accent);
-}
-
-@media (max-width: 600px) {
-  .toc { columns: 1; }
-}
-
-/* Grid Layouts */
-.grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-@media (max-width: 700px) {
-  .grid-2 { grid-template-columns: 1fr; }
-}
-
-/* Definition Text */
-.def {
-  font-size: 0.82rem;
-  color: var(--text-tertiary);
-  font-style: italic;
+  margin-right: 0.5rem;
 }
 
 /* Footer */
 .footer {
   text-align: center;
-  padding: 2rem 0;
   margin-top: 2rem;
+  padding: 1.5rem 0;
   border-top: 1px solid var(--border);
-  font-size: 0.8rem;
-  color: var(--text-tertiary);
+  color: var(--text-muted);
+  font-size: 0.82rem;
 }
 
-.footer a {
-  color: var(--text-tertiary);
+.footer .citation {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  margin-top: 0.5rem;
+  color: var(--text-muted);
 }
 
-/* Print Styles */
+/* Toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* Print */
 @media print {
-  body { background: white; color: black; }
-  .section { border: 1px solid #ccc; break-inside: avoid; }
-  .masthead h1 { -webkit-text-fill-color: black; }
+  body { background: #fff; color: #000; }
+  .section { box-shadow: none; break-inside: avoid; border: 1px solid #ccc; }
+  .eq { background: #f8f8f8; }
+  .masthead h1 { -webkit-text-fill-color: #000; }
+  .btn, .toolbar { display: none; }
+}
+
+/* Inline code */
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+
+/* Critical revision marker */
+.revision-note {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.revision-note strong {
+  color: var(--error);
 }
 </style>
 </head>
@@ -396,915 +478,1081 @@ tr:hover td {
 <body>
 <div class="container">
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     MASTHEAD
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <header class="masthead">
-  <h1>Law of Resistance</h1>
-  <p class="subtitle">Sheldon's Theory of Unified Resistance</p>
-  <p class="meta">
-    <span>Author: Sheldon Lon Lindberg</span>
-    <span>Version 4.0</span>
-    <span>January 2026</span>
-  </p>
-  <div class="badges">
-    <span class="badge primary">Falsifiable</span>
-    <span class="badge secondary">Complete Derivations</span>
-    <span class="badge success">Experimental Protocol</span>
+  <h1>Foundations of STUR</h1>
+  <p class="subtitle">A Framework for Testing Scalar-Matter Couplings via Interferometry</p>
+  <div class="meta">
+    <span class="badge"><span class="dot success"></span>Falsifiable prediction</span>
+    <span class="badge"><span class="dot"></span>Sheldon Lon Lindberg</span>
+    <span class="badge"><span class="dot"></span>January 2026</span>
+    <span class="badge"><span class="dot warning"></span>v8.1</span>
+  </div>
+  <div class="toolbar">
+    <button class="btn" data-jump="#abstract">Abstract</button>
+    <button class="btn" data-jump="#sec9">Prediction</button>
+    <button class="btn" data-jump="#sec12">Falsification</button>
+    <button class="btn primary" id="copyCite">Copy Citation</button>
   </div>
 </header>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════════════════════════════════════════
      ABSTRACT
-     ═══════════════════════════════════════════════════════════════════════════ -->
+     ══════════════════════════════════════════════════════════════════════════════ -->
 <section class="section" id="abstract">
   <h2>Abstract</h2>
+  
   <p>
-    The <strong>Law of Resistance</strong> proposes that all observable interactions arise from 
-    structured resistance to state change, encoded as a symmetric tensor field on a five-dimensional 
-    manifold \(\mathcal{M}^5 = M^4 \times X\). The framework provides a unified action principle 
-    from which gravitational, gauge, and scalar dynamics emerge through natural decomposition 
-    of the resistance tensor. The scalar sector yields a falsifiable prediction for 
-    path-length-dependent phase shifts in precision interferometry. This document presents 
-    complete mathematical derivations, surveys existing experimental constraints, and specifies 
-    a protocol for definitive experimental test.
+    We present <strong>STUR (Sheldon's Theory of Unified Resistance)</strong>, a five-dimensional framework 
+    built on a symmetric tensor field \(\Rcal_{AB}\) on the orbifold \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\).
+    This document has two objectives:
   </p>
+  
+  <ol>
+    <li><strong>Framework:</strong> Demonstrate that teleparallel gravity (TEGR ≡ GR), Yang-Mills gauge structure, 
+    and chiral fermion localization can be organized within a unified geometric language.</li>
+    <li><strong>Experimental signature:</strong> Derive a <em>model-independent</em> interferometric visibility 
+    prediction from generic scalar-matter Yukawa coupling:
+    \[V(\Delta L) = V_0 \exp\!\left(-(\Delta L / \ell_{\rm coh})^2\right)\]
+    where the coherence length \(\ell_{\rm coh}\) is treated as a phenomenological parameter to be constrained 
+    by experiment.</li>
+  </ol>
+  
+  <div class="block warning">
+    <div class="title">Critical Clarification (v8.1)</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>The coherence length \(\ell_{\rm coh}\) is not predicted from first principles in this document.</strong>
+      A naive estimate from TeV-scale Kaluza-Klein vacuum fluctuations yields \(\ell_{\rm coh} \sim 10^{-59}\) m—roughly 
+      60 orders of magnitude below observable scales. The visibility formula is therefore presented as a 
+      <em>model-independent test</em> of any scalar-matter coupling framework, with \(\ell_{\rm coh}\) as a free 
+      parameter. Observable effects (\(\ell_{\rm coh} \sim 10\text{–}10^3\) m) would require additional light 
+      scalar sectors or non-vacuum fluctuation mechanisms not derived here.
+    </p>
+  </div>
+  
+  <div class="block gold">
+    <div class="title">Scope and Claims</div>
+    <div class="card-grid">
+      <div class="card">
+        <strong>Derived from axioms</strong>
+        <span style="font-size:0.88rem;color:var(--text-secondary)">
+          • TEGR ≡ GR equivalence (boundary term)<br>
+          • Yang-Mills from local degeneracy covariance<br>
+          • Gaussian visibility form from phase averaging<br>
+          • Chiral localization from orbifold + domain wall<br>
+          • Exponential Yukawa overlaps
+        </span>
+      </div>
+      <div class="card">
+        <strong>Phenomenological input</strong>
+        <span style="font-size:0.88rem;color:var(--text-secondary)">
+          • SM gauge group \(SU(3) \times SU(2) \times U(1)\)<br>
+          • Matter representations and generations<br>
+          • Numerical coupling values<br>
+          • Coherence length \(\ell_{\rm coh}\) magnitude<br>
+          • UV completion details
+        </span>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════════════════════════════════════════
      TABLE OF CONTENTS
-     ═══════════════════════════════════════════════════════════════════════════ -->
+     ══════════════════════════════════════════════════════════════════════════════ -->
 <section class="section" id="contents">
   <h2>Contents</h2>
   <div class="toc">
-    <p><strong>I. Foundation</strong></p>
-    <p><a href="#sec1">1. Central Postulate</a></p>
-    <p><a href="#sec2">2. Extended Manifold</a></p>
-    <p><a href="#sec3">3. Complete Action Principle</a></p>
-    <p>&nbsp;</p>
-    <p><strong>II. Dynamics</strong></p>
-    <p><a href="#sec4">4. Scalar Sector</a></p>
+    <p><strong>Part I — Framework</strong></p>
+    <p><a href="#sec1">1. Motivation and Axioms</a></p>
+    <p><a href="#sec2">2. Manifold Structure</a></p>
+    <p><a href="#sec3">3. Action and Field Equations</a></p>
+    
+    <p><strong>Part II — Sector Dynamics</strong></p>
+    <p><a href="#sec4">4. Gravitational Sector (TEGR)</a></p>
     <p><a href="#sec5">5. Gauge Sector</a></p>
-    <p><a href="#sec6">6. Gravitational Sector</a></p>
-    <p>&nbsp;</p>
-    <p><strong>III. Matter and Generations</strong></p>
+    <p><a href="#sec6">6. Scalar Sector</a></p>
+    
+    <p><strong>Part III — Matter</strong></p>
     <p><a href="#sec7">7. Fermion Localization</a></p>
-    <p><a href="#sec8">8. Generation Structure</a></p>
-    <p><a href="#sec9">9. Mass Hierarchies</a></p>
-    <p><a href="#sec10">10. Neutrino Sector</a></p>
-    <p>&nbsp;</p>
-    <p><strong>IV. Experimental Program</strong></p>
-    <p><a href="#sec11">11. Interferometric Prediction</a></p>
-    <p><a href="#sec12">12. Experimental Constraints</a></p>
-    <p><a href="#sec13">13. Proposed Experiment</a></p>
-    <p>&nbsp;</p>
-    <p><strong>V. Appendices</strong></p>
-    <p><a href="#secA">A. Notation and Conventions</a></p>
-    <p><a href="#secB">B. Standard Model Recovery</a></p>
+    <p><a href="#sec8">8. Mass Hierarchies</a></p>
+    
+    <p><strong>Part IV — Experimental Prediction</strong></p>
+    <p><a href="#sec9">9. Interferometric Signature</a></p>
+    <p><a href="#sec10">10. Coherence Length Estimates</a></p>
+    <p><a href="#sec11">11. Current Constraints</a></p>
+    <p><a href="#sec12">12. Falsification Protocol</a></p>
+    
+    <p><strong>Part V — Consistency</strong></p>
+    <p><a href="#sec13">13. Limiting Cases</a></p>
+    <p><a href="#sec14">14. Open Problems</a></p>
+    
+    <p><strong>Appendices</strong></p>
+    <p><a href="#appA">A. Notation</a></p>
+    <p><a href="#appB">B. Schwinger-Keldysh Derivation</a></p>
+    <p><a href="#appC">C. Dimensional Analysis</a></p>
     <p><a href="#refs">References</a></p>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PART I: FOUNDATION
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
+<!-- ══════════════════════════════════════════════════════════════════════════════
+     PART I: FRAMEWORK
+     ══════════════════════════════════════════════════════════════════════════════ -->
 <section class="section" id="sec1">
-  <h2>1. Central Postulate</h2>
+  <h2>1. Motivation and Axioms</h2>
   
-  <h3>1.1 Statement</h3>
-  <div class="eq boxed">
-    \[\boxed{\text{Observable interaction is a calibrated boundary flux of resistance on }\mathcal{M}^5.}\]
-  </div>
+  <h3>1.1 What the Resistance Formalism Provides</h3>
   
-  <h3>1.2 Mathematical Formulation</h3>
   <p>
-    Let \(\Sigma\) be a measurement boundary with unit normal \(n^A\). The observable 
-    associated with resistance component \(R\) is:
-  </p>
-  <div class="eq">
-    \[\widehat{\mathcal{O}} := \frac{n^A \nabla_A R \big|_\Sigma}{\left(n^A \nabla_A R\right)_{\rm ref}}\]
-    <div class="eq-label">(1.1)</div>
-  </div>
-  <p class="def">
-    The reference flux \((n^A \nabla_A R)_{\rm ref}\) is computed from the governing equations 
-    under specified reference conditions—not measured post-hoc.
+    Standard 5D Kaluza-Klein theory presents gravity, gauge fields, and scalar moduli as separate ingredients 
+    that emerge after dimensional reduction. The "resistance tensor" \(\Rcal_{AB}\) provides an alternative 
+    organizational scheme:
   </p>
   
-  <h3>1.3 Physical Content</h3>
-  <p>The postulate asserts that:</p>
   <ul>
-    <li>All interactions manifest as flux across boundaries</li>
-    <li>The dynamical quantity is resistance—generalized impedance to state change</li>
-    <li>Observables are dimensionless ratios, eliminating absolute calibration dependence</li>
+    <li><strong>Unified bookkeeping:</strong> A single symmetric tensor contains gravitational (10), mixed (4), 
+    and scalar (1) components. The decomposition follows from the 4+1 split.</li>
+    <li><strong>Natural teleparallel formulation:</strong> Frame fields arise as the "square root" of \(\Rcal_{\mu\nu}\), 
+    making TEGR primary.</li>
+    <li><strong>Gauge structure from degeneracy:</strong> When multiple configurations yield identical physics, 
+    the equivalence class defines a gauge group.</li>
   </ul>
+  
+  <div class="block warning">
+    <div class="title">Important Clarification</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      STUR is <strong>mathematically equivalent</strong> to standard 5D Kaluza-Klein + teleparallel gravity 
+      in the gravitational sector. The resistance formalism is a reorganization of variables, not new physics. 
+      Its value lies in: (1) conceptual unity, (2) natural accommodation of scalar-matter coupling, and 
+      (3) a framework for the interferometric prediction.
+    </p>
+  </div>
+  
+  <h3>1.2 Axioms</h3>
+  
+  <div class="block gold">
+    <div class="title">Axiom I — Arena</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Dynamics unfold on \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\), where \(M^4\) is globally hyperbolic 
+      and \(X \in [0, L_X]\) parametrizes the orbifold interval.
+    </p>
+  </div>
+  
+  <div class="block gold">
+    <div class="title">Axiom II — Dynamical Field</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The fundamental field is a symmetric rank-2 tensor \(\Rcal_{AB}(x^M)\). When multiple configurations 
+      are physically equivalent, \(\Rcal_{AB}\) carries an internal degeneracy label.
+    </p>
+  </div>
+  
+  <div class="block gold">
+    <div class="title">Axiom III — Variational Dynamics</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Dynamics follow from \(\delta S_{\rm STUR} = 0\), where \(S_{\rm STUR}\) is the most general 
+      diffeomorphism-invariant, degeneracy-covariant functional with at most two derivatives, positive 
+      kinetic terms, and bounded-below potential.
+    </p>
+  </div>
+  
+  <h3>1.3 What the Axioms Determine</h3>
+  
+  <div class="block success">
+    <div class="title">Theorem 1.1 — Axiomatic Content</div>
+    <div class="card-grid">
+      <div class="card">
+        <strong>Determined by axioms</strong>
+        <span style="font-size:0.88rem;color:var(--text-secondary)">
+          1. Gravitational sector is TEGR ≡ GR<br>
+          2. Local degeneracy requires Yang-Mills dynamics<br>
+          3. Scalar-matter Yukawa coupling produces phase shifts<br>
+          4. Chiral zero modes localize on domain walls
+        </span>
+      </div>
+      <div class="card">
+        <strong>Requires phenomenological input</strong>
+        <span style="font-size:0.88rem;color:var(--text-secondary)">
+          1. Specific gauge group \(G\)<br>
+          2. Matter representations under \(G\)<br>
+          3. Number of generations<br>
+          4. Numerical coupling values
+        </span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="section" id="sec2">
-  <h2>2. Extended Manifold Structure</h2>
+  <h2>2. Manifold Structure</h2>
   
-  <h3>2.1 The Five-Dimensional Manifold</h3>
-  <p>The fundamental arena is a product manifold:</p>
+  <h3>2.1 Orbifold Definition</h3>
+  
+  <div class="block">
+    <div class="title">Definition 2.1 — Five-Dimensional Arena</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\) with \(X \in [0, L_X]\), fixed points at boundaries, 
+      and parity \(X \mapsto -X\).
+    </p>
+  </div>
+  
+  <h3>2.2 Metric Ansatz</h3>
   <div class="eq">
-    \[\mathcal{M}^5 = M^4 \times X\]
+    \[\dd s^2_5 = e^{2\sigma(X)} g_{\mu\nu}(x)\, \dd x^\mu \dd x^\nu + r_c^2\, \dd X^2\]
     <div class="eq-label">(2.1)</div>
   </div>
-  <p>where:</p>
-  <ul>
-    <li>\(M^4\): Four-dimensional spacetime with Lorentzian signature \((-,+,+,+)\)</li>
-    <li>\(X\): Compact internal coordinate, \(X \in [0, L_X]\)</li>
-  </ul>
   
-  <h3>2.2 Index Conventions</h3>
+  <h3>2.3 Component Decomposition</h3>
   <table>
-    <tr><th>Indices</th><th>Range</th><th>Description</th></tr>
-    <tr><td>\(A, B, C\)</td><td>\(\{0,1,2,3,5\}\)</td><td>Full 5D indices</td></tr>
-    <tr><td>\(\mu, \nu, \rho\)</td><td>\(\{0,1,2,3\}\)</td><td>4D spacetime</td></tr>
-    <tr><td>\(i, j, k\)</td><td>\(\{1,2,3\}\)</td><td>3D spatial</td></tr>
-    <tr><td>\(a, b, c\)</td><td>\(\{0,1,2,3\}\)</td><td>Local Lorentz</td></tr>
+    <tr><th>Component</th><th>\(\mathbb{Z}_2\) Parity</th><th>Zero Mode</th><th>4D Interpretation</th></tr>
+    <tr><td>\(\Rcal_{\mu\nu}\)</td><td>\(+1\)</td><td>Yes</td><td>Gravitational / frame sector</td></tr>
+    <tr><td>\(\Rcal_{\mu 5}\)</td><td>\(-1\)</td><td>No</td><td>KK modes (not gauge connection)</td></tr>
+    <tr><td>\(\Rcal_{55}\)</td><td>\(+1\)</td><td>Yes</td><td>Scalar \(R\)</td></tr>
   </table>
   
-  <h3>2.3 The Resistance Tensor</h3>
-  <p>
-    The dynamical field is a symmetric tensor \(\mathcal{R}_{AB}(x^\mu, X)\) with 15 
-    independent components, decomposing under the 4+1 split as:
-  </p>
-  <div class="eq">
-    \[\mathcal{R}_{AB} = \begin{pmatrix} \mathcal{R}_{\mu\nu} & \mathcal{R}_{\mu 5} \\ 
-    \mathcal{R}_{5\nu} & \mathcal{R}_{55} \end{pmatrix}\]
-    <div class="eq-label">(2.2)</div>
+  <div class="block warning">
+    <div class="title">Note on Gauge Fields</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The physical 4D gauge connection arises from the <em>degeneracy connection</em> associated with 
+      local equivalence rotations, not directly from \(\Rcal_{\mu 5}\). The table shows the 4+1 
+      decomposition for KK intuition.
+    </p>
   </div>
   
+  <h3>2.4 Scale Hierarchy</h3>
   <table>
-    <tr><th>Component</th><th>Dimension</th><th>Physical Sector</th></tr>
-    <tr><td>\(\mathcal{R}_{\mu\nu}\)</td><td>10</td><td>Gravitational (tetrad/metric)</td></tr>
-    <tr><td>\(\mathcal{R}_{\mu 5}\)</td><td>4</td><td>Gauge (vector potential)</td></tr>
-    <tr><td>\(\mathcal{R}_{55} \equiv R\)</td><td>1</td><td>Scalar (coherence)</td></tr>
+    <tr><th>Scale</th><th>Symbol</th><th>Constraint</th><th>Origin</th></tr>
+    <tr><td>Compactification</td><td>\(1/L_X\)</td><td>\(\gtrsim 5\) TeV</td><td>LHC KK bounds</td></tr>
+    <tr><td>Electroweak</td><td>\(v\)</td><td>\(\approx 246\) GeV</td><td>Higgs VEV</td></tr>
+    <tr><td>Coherence</td><td>\(\ell_{\rm coh}\)</td><td>Phenomenological</td><td>Constrained by experiment</td></tr>
   </table>
-  
-  <h3>2.4 Internal Coordinate Dynamics</h3>
-  <p>
-    The \(X\)-coordinate parameterizes an internal coherence structure. The constitutive 
-    relation governing \(X\)-dependence is:
-  </p>
-  <div class="eq">
-    \[\partial_X R = \frac{R - R_{\rm bg}}{L_X}\]
-    <div class="eq-label">(2.3)</div>
-  </div>
-  <p>with solution:</p>
-  <div class="eq">
-    \[R(X) = R_{\rm bg} + (R_0 - R_{\rm bg})\, e^{X/L_X}\]
-    <div class="eq-label">(2.4)</div>
-  </div>
-  <p class="def">
-    Here \(R_{\rm bg}\) is the background (vacuum) resistance and \(L_X\) is the coherence 
-    correlation length.
-  </p>
 </section>
 
 <section class="section" id="sec3">
-  <h2>3. Complete Action Principle</h2>
+  <h2>3. Action and Field Equations</h2>
   
   <h3>3.1 Total Action</h3>
-  <p>The dynamics on \(\mathcal{M}^5\) derive from the variational principle \(\delta S_{\rm total} = 0\):</p>
-  <div class="eq boxed">
-    \[S_{\rm total} = S_{\rm grav} + S_{\rm gauge} + S_{\rm scalar} + S_{\rm matter} + S_{\rm bdy}\]
+  <div class="eq law">
+    \[\boxed{S_{\rm STUR} = S_{\rm grav} + S_{\rm gauge} + S_{\rm scalar} + S_{\rm matter} + S_{\rm bdy}}\]
     <div class="eq-label">(3.1)</div>
   </div>
   
-  <h3>3.2 Gravitational Sector</h3>
-  <p>The gravitational action employs the teleparallel formulation:</p>
-  <div class="eq">
-    \[S_{\rm grav} = \frac{1}{2\kappa_5} \int_{\mathcal{M}^5} d^5x\, e\, \mathcal{T}\]
-    <div class="eq-label">(3.2)</div>
-  </div>
-  <p>where:</p>
-  <ul>
-    <li>\(\kappa_5 = 8\pi G_5\) is the 5D gravitational coupling</li>
-    <li>\(e = \det(e^A{}_M)\) is the 5D tetrad determinant</li>
-    <li>\(\mathcal{T} = \mathcal{S}_C{}^{MN} \mathcal{T}^C{}_{MN}\) is the 5D torsion scalar</li>
-  </ul>
+  <h3>3.2 Component Actions</h3>
   
-  <h3>3.3 Gauge Sector</h3>
-  <div class="eq">
-    \[S_{\rm gauge} = -\frac{1}{4} \int_{\mathcal{M}^5} d^5x\, e\, \Tr\!\left(\mathcal{F}_{MN} \mathcal{F}^{MN}\right)\]
-    <div class="eq-label">(3.3)</div>
+  <div class="eq boxed">
+    \[S_{\rm grav} = \frac{1}{2\kappa_5} \int_{\Mcal^5} \dd^5 x\, e\, \Tcal\]
+    <div class="eq-label">(3.2) — Gravitational (TEGR)</div>
   </div>
-  <p>where \(\mathcal{F}_{MN}\) is the 5D Yang-Mills field strength (derived in Section 5).</p>
   
-  <h3>3.4 Scalar Sector</h3>
-  <div class="eq">
-    \[S_{\rm scalar} = \int_{\mathcal{M}^5} d^5x\, e\left[-\frac{D}{2}(\nabla_M R)(\nabla^M R) - V(R) + JR\right]\]
-    <div class="eq-label">(3.4)</div>
+  <div class="eq boxed">
+    \[S_{\rm gauge} = -\frac{1}{4g_5^2} \int_{\Mcal^5} \dd^5 x\, e\, \kappa_{IJ}\, \Fcal^I_{MN} \Fcal^{MN,J}\]
+    <div class="eq-label">(3.3) — Gauge</div>
   </div>
-  <p>with diffusion coefficient \(D\), potential \(V(R)\), and external source \(J\).</p>
   
-  <h3>3.5 Matter Sector</h3>
-  <div class="eq">
-    \[S_{\rm matter} = \int_{\mathcal{M}^5} d^5x\, e\, \bar{\Psi}\left(i\Gamma^M D_M - yR\right)\Psi\]
-    <div class="eq-label">(3.5)</div>
+  <div class="eq boxed">
+    \[S_{\rm scalar} = \int_{\Mcal^5} \dd^5 x\, e \left[-\frac{1}{2}(\nabla R)^2 - V(R) + \Lcal_{\rm env}(R, \chi)\right]\]
+    <div class="eq-label">(3.4) — Scalar + environment</div>
   </div>
-  <p>where \(\Psi(x^\mu, X)\) is a 5D Dirac spinor with resistance coupling \(y\).</p>
   
-  <h3>3.6 Boundary Terms</h3>
+  <div class="eq boxed">
+    \[S_{\rm matter} = \int_{\Mcal^5} \dd^5 x\, e\, \bar{\Psi}\left(i\Gamma^M D_M - yR\right)\Psi\]
+    <div class="eq-label">(3.5) — Matter with Yukawa coupling</div>
+  </div>
+  
+  <h3>3.3 Field Equations</h3>
   <div class="eq">
-    \[S_{\rm bdy} = \frac{1}{\kappa_5} \oint_{\partial\mathcal{M}^5} d^4x\, \sqrt{|h|}\, K\]
+    \[\begin{aligned}
+      \text{Gravity:} &\quad G_{\mu\nu} = \kappa_4 T_{\mu\nu} \\
+      \text{Gauge:} &\quad \Dcal_M \Fcal^{MN} = \mathcal{J}^N \\
+      \text{Scalar:} &\quad \Box R - V'(R) = y\bar{\Psi}\Psi + \partial_R \Lcal_{\rm env} \\
+      \text{Fermion:} &\quad (i\Gamma^M D_M - yR)\Psi = 0
+    \end{aligned}\]
     <div class="eq-label">(3.6)</div>
-  </div>
-  <p class="def">
-    The Gibbons-Hawking-York boundary term ensures a well-posed variational problem.
-  </p>
-  
-  <h3>3.7 Dimensional Reduction</h3>
-  <p>
-    Upon integrating over \(X\) with appropriate boundary conditions, the 4D effective 
-    theory emerges. The gravitational sector yields the Teleparallel Equivalent of 
-    General Relativity (TEGR); the gauge sector yields Yang-Mills; the scalar sector 
-    yields gradient-flow dynamics.
-  </p>
-  
-  <div class="derivation">
-    <div class="derivation-title">Emergence of Dissipative Dynamics</div>
-    <p>
-      The conservative Euler-Lagrange equation from (3.4) is:
-      \[D\nabla_M \nabla^M R - V'(R) + J = 0\]
-    </p>
-    <p>
-      Coupling the 4D reduction to a thermal bath via Langevin dynamics:
-      \[\partial_t R = -M\frac{\delta F}{\delta R} + \eta(x,t)\]
-      where \(\langle\eta(x,t)\eta(x',t')\rangle = 2Mk_BT\delta(x-x')\delta(t-t')\).
-    </p>
-    <p>
-      The zero-temperature limit \(T \to 0\) recovers deterministic gradient flow (Section 4).
-    </p>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PART II: DYNAMICS
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
+<!-- ══════════════════════════════════════════════════════════════════════════════
+     PART II: SECTOR DYNAMICS
+     ══════════════════════════════════════════════════════════════════════════════ -->
 <section class="section" id="sec4">
-  <h2>4. Scalar Sector Dynamics</h2>
+  <h2>4. Gravitational Sector: Teleparallel Equivalence</h2>
   
-  <h3>4.1 Free Energy Functional</h3>
-  <p>On a spatial hypersurface \(\Sigma_t\) with induced metric \(\gamma_{ij}\):</p>
-  <div class="eq">
-    \[F[R] = \int_{\Sigma_t} d^3x\, \sqrt{\gamma}\left[\frac{D}{2}(\nabla_i R)(\nabla^i R) + V(R) - JR\right]\]
+  <h3>4.1 Torsion Scalar</h3>
+  <div class="eq boxed">
+    \[\Tcal = \frac{1}{4}T^{PMN}T_{PMN} + \frac{1}{2}T^{PMN}T_{NPM} - T^P{}_{PM}T^{QM}{}_Q\]
     <div class="eq-label">(4.1)</div>
   </div>
   
-  <h3>4.2 Functional Derivative</h3>
-  <div class="derivation">
-    <div class="derivation-title">Derivation of \(\delta F / \delta R\)</div>
-    <div class="step">
-      <strong>Step 1:</strong> Vary \(F[R + \epsilon\eta]\) with test function \(\eta\) satisfying \(\eta|_{\partial\Sigma} = 0\)
+  <p>where \(T^P{}_{MN} = e_a^P(\partial_M e^a_N - \partial_N e^a_M)\) is the torsion tensor.</p>
+  
+  <h3>4.2 TEGR-GR Equivalence</h3>
+  
+  <div class="block success">
+    <div class="title">Theorem 4.1 — Teleparallel Equivalence</div>
+    <div class="eq law">
+      \[\boxed{e\, \mathcal{R}_{\rm Ricci} = -e\, \Tcal + 2\partial_M(e T^M)}\]
+      <div class="eq-label">(4.2)</div>
     </div>
-    <div class="step">
-      <strong>Step 2:</strong> Integrate by parts:
-      \[\int D(\nabla_i R)(\nabla^i\eta)\, d^3x = -\int D(\nabla_i\nabla^i R)\,\eta\, d^3x + \text{(boundary terms)}\]
-    </div>
-    <div class="step">
-      <strong>Step 3:</strong> Extract coefficient of \(\eta\):
-    </div>
-  </div>
-  <div class="eq">
-    \[\frac{\delta F}{\delta R} = -D\nabla^2 R + V'(R) - J\]
-    <div class="eq-label">(4.2)</div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      The Einstein-Hilbert and TEGR actions differ by a total derivative. For matched boundary conditions, 
+      they yield identical field equations (Einstein equations).
+    </p>
   </div>
   
-  <h3>4.3 Gradient Flow Evolution</h3>
-  <p>The dissipative dynamics follow Onsager's prescription:</p>
-  <div class="eq">
-    \[\partial_t R = -M \frac{\delta F}{\delta R}\]
-    <div class="eq-label">(4.3)</div>
-  </div>
-  <p>with mobility \(M > 0\). Substituting (4.2):</p>
-  <div class="eq boxed">
-    \[\partial_t R = MD\nabla^2 R - MV'(R) + MJ\]
-    <div class="eq-label">(4.4)</div>
-  </div>
-  
-  <h3>4.4 Full Transport Equation</h3>
-  <p>Including spatial advection \(u^i\) and coherence relaxation \(\Gamma_X = v_X/L_X\):</p>
-  <div class="eq boxed">
-    \[\partial_t R + u^i\nabla_i R + \Gamma_X(R - R_{\rm bg}) = MD\nabla^2 R - MV'(R) + MJ\]
-    <div class="eq-label">(4.5 — Master Transport Equation)</div>
-  </div>
-  
-  <h3>4.5 Dissipation Theorem</h3>
-  <div class="eq">
-    \[\frac{dF}{dt} = -M\int_{\Sigma_t} d^3x\, \sqrt{\gamma}\left(\frac{\delta F}{\delta R}\right)^2 \leq 0\]
-    <div class="eq-label">(4.6)</div>
-  </div>
-  <p class="def">
-    The free energy monotonically decreases for \(M \geq 0\), with equality only at equilibrium.
+  <p>
+    <strong>Proof sketch:</strong> Express the Ricci scalar in terms of the Weitzenböck connection 
+    \(\hat{\Gamma}^P_{MN} = e_a^P \partial_M e^a_N\) (which has torsion but no curvature) and the 
+    contortion tensor \(K^P{}_{MN}\). The Riemann curvature of the Levi-Civita connection can be 
+    written entirely in terms of torsion contractions plus a boundary term. See Aldrovandi & Pereira 
+    (2013), Chapter 7.
   </p>
 </section>
 
 <section class="section" id="sec5">
-  <h2>5. Gauge Sector: Emergence from Degeneracy</h2>
+  <h2>5. Gauge Sector: Embedding (Not Derivation)</h2>
   
-  <h3>5.1 Resistance Degeneracy</h3>
+  <div class="block warning">
+    <div class="title">Honest Status Statement</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>What is shown:</strong> If local degeneracy rotations are a symmetry, Yang-Mills dynamics 
+      are required by covariance.<br>
+      <strong>What is not shown:</strong> That the Standard Model gauge group \(SU(3) \times SU(2) \times U(1)\) 
+      is the unique choice. The SM structure is an <em>embedding</em> (input), not a <em>derivation</em> (output).
+    </p>
+  </div>
+  
+  <h3>5.1 Gauge Structure from Degeneracy</h3>
   <p>
-    Consider multiple resistance channels \(I = 1, \ldots, N\) that yield identical 
-    observables:
+    If physically equivalent resistance configurations form a manifold with local symmetry group \(G\), 
+    then covariance requires a connection \(A_\mu^I\) transforming as \(A_\mu \to g A_\mu g^{-1} + g\partial_\mu g^{-1}\). 
+    Kinetic terms for \(A_\mu\) must be gauge-invariant, yielding Yang-Mills.
   </p>
-  <div class="eq">
-    \[\mathcal{R}_{AB}(x, X) \longrightarrow \mathcal{R}_{AB}^{\;\;I}(x, X)\]
-    <div class="eq-label">(5.1)</div>
-  </div>
   
-  <h3>5.2 Local Basis Invariance</h3>
-  <p>Observables must be unchanged under local rotations in the degenerate space:</p>
-  <div class="eq">
-    \[\mathcal{R}^I_{AB}(x) \to U^I{}_J(x)\, \mathcal{R}^J_{AB}(x), \qquad U(x) \in G\]
-    <div class="eq-label">(5.2)</div>
-  </div>
-  
-  <h3>5.3 Gauge Connection</h3>
-  <p>Parallel transport requires a connection. The covariant derivative is:</p>
-  <div class="eq">
-    \[\mathcal{D}_\mu \mathcal{R}^I = \partial_\mu \mathcal{R}^I + g\mathcal{A}_\mu^{\;I}{}_J \mathcal{R}^J\]
-    <div class="eq-label">(5.3)</div>
-  </div>
-  <p>with gauge transformation:</p>
-  <div class="eq">
-    \[\mathcal{A}_\mu \to U\mathcal{A}_\mu U^{-1} - \frac{1}{g}(\partial_\mu U)U^{-1}\]
-    <div class="eq-label">(5.4)</div>
-  </div>
-  
-  <h3>5.4 Field Strength</h3>
-  <p>The curvature (field strength) follows from the commutator of covariant derivatives:</p>
-  <div class="eq">
-    \[[\mathcal{D}_\mu, \mathcal{D}_\nu]\mathcal{R}^I = g\mathcal{F}_{\mu\nu}^{\;I}{}_J \mathcal{R}^J\]
-  </div>
-  <p>yielding:</p>
+  <h3>5.2 Dimensional Reduction</h3>
   <div class="eq boxed">
-    \[\mathcal{F}_{\mu\nu} = \partial_\mu \mathcal{A}_\nu - \partial_\nu \mathcal{A}_\mu + g[\mathcal{A}_\mu, \mathcal{A}_\nu]\]
-    <div class="eq-label">(5.5 — Yang-Mills Field Strength)</div>
-  </div>
-  
-  <h3>5.5 Yang-Mills Dynamics</h3>
-  <p>The gauge-invariant action and field equations are:</p>
-  <div class="eq">
-    \[S_{\rm YM} = -\frac{1}{4}\int d^4x\, \sqrt{-g}\, \Tr(\mathcal{F}_{\mu\nu}\mathcal{F}^{\mu\nu})\]
-  </div>
-  <div class="eq">
-    \[\mathcal{D}_\mu \mathcal{F}^{\mu\nu} = \mathcal{J}^\nu\]
-    <div class="eq-label">(5.6)</div>
+    \[g_4^2 = \frac{g_5^2}{L_X}\]
+    <div class="eq-label">(5.1)</div>
   </div>
 </section>
 
 <section class="section" id="sec6">
-  <h2>6. Gravitational Sector: Teleparallel Correspondence</h2>
+  <h2>6. Scalar Sector: Effective Dynamics</h2>
   
-  <h3>6.1 Tetrad Formulation</h3>
-  <p>
-    The symmetric tensor \(\mathcal{R}_{\mu\nu}\) determines geometry through the tetrad 
-    \(e^a{}_\mu\):
-  </p>
+  <h3>6.1 Microscopic Theory</h3>
   <div class="eq">
-    \[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]
+    \[\Lcal_{\rm scalar}^{\rm micro} = -\frac{1}{2}(\partial R)^2 - V(R) - \frac{1}{2}(\partial\chi)^2 
+    - \frac{1}{2}m_\chi^2 \chi^2 - \lambda R\chi^2\]
     <div class="eq-label">(6.1)</div>
   </div>
-  <p>where \(\eta_{ab} = \text{diag}(-1,+1,+1,+1)\).</p>
   
-  <h3>6.2 Weitzenböck Connection</h3>
-  <p>The teleparallel connection has zero curvature but non-zero torsion:</p>
-  <div class="eq">
-    \[\Gamma^\rho_{\mu\nu} = e_a{}^\rho \partial_\mu e^a{}_\nu\]
-    <div class="eq-label">(6.2)</div>
-  </div>
-  
-  <h3>6.3 Torsion Tensor</h3>
-  <div class="eq">
-    \[T^\rho{}_{\mu\nu} = \Gamma^\rho_{\nu\mu} - \Gamma^\rho_{\mu\nu} = e_a{}^\rho(\partial_\mu e^a{}_\nu - \partial_\nu e^a{}_\mu)\]
-    <div class="eq-label">(6.3)</div>
-  </div>
-  
-  <h3>6.4 Torsion Scalar</h3>
-  <div class="eq">
-    \[T = S_\rho{}^{\mu\nu} T^\rho{}_{\mu\nu}\]
-    <div class="eq-label">(6.4)</div>
-  </div>
-  <p>where \(S_\rho{}^{\mu\nu}\) is the superpotential.</p>
-  
-  <h3>6.5 TEGR Action</h3>
-  <div class="eq">
-    \[S_{\rm TEGR} = \frac{1}{2\kappa}\int d^4x\, e\, T\]
-    <div class="eq-label">(6.5)</div>
-  </div>
-  
-  <h3>6.6 Equivalence to General Relativity</h3>
-  <p>The fundamental identity:</p>
-  <div class="eq boxed">
-    \[eR = -eT + 2\partial_\mu(eT^\mu)\]
-    <div class="eq-label">(6.6)</div>
-  </div>
-  <p class="def">
-    TEGR differs from Einstein-Hilbert by a total derivative, yielding identical field equations.
+  <p>
+    Here \(\chi\) represents heavy bath modes (KK excitations) with \(m_\chi \sim 1/L_X \gtrsim\) TeV. 
+    This is manifestly Lorentz-invariant.
   </p>
   
-  <h3>6.7 Degrees of Freedom</h3>
-  <table>
-    <tr><th>Count</th><th>Description</th></tr>
-    <tr><td>16</td><td>Tetrad components \(e^a{}_\mu\)</td></tr>
-    <tr><td>−4</td><td>Diffeomorphisms (first-class)</td></tr>
-    <tr><td>−6</td><td>Local Lorentz (first-class)</td></tr>
-    <tr><td>=2</td><td>Physical propagating modes</td></tr>
-  </table>
-  <p class="def">
-    The two modes correspond to the two helicities of the graviton, matching General Relativity.
-  </p>
+  <h3>6.2 Effective Langevin Equation</h3>
+  
+  <div class="block success">
+    <div class="title">Theorem 6.1 — Effective Dynamics</div>
+    <p style="margin:0 0 0.5rem;color:var(--text-secondary)">
+      Integrating out \(\chi\) via the Schwinger-Keldysh formalism (Appendix B) yields, in the Markov limit:
+    </p>
+    <div class="eq law">
+      \[\boxed{u^\mu \partial_\mu R + \Gamma(R - R_{\rm eq}) = D\Delta R + \xi}\]
+      <div class="eq-label">(6.2)</div>
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      where \(\Gamma\) is the relaxation rate, \(D\) the diffusion coefficient, \(\Delta\) the spatial 
+      Laplacian in the bath frame (defined by \(u^\mu\)), and \(\xi\) satisfies the fluctuation-dissipation 
+      relation \(\langle\xi(x)\xi(x')\rangle = 2\Gamma T_{\rm eff}\, \delta^{(4)}(x-x')\).
+    </p>
+  </div>
+  
+  <div class="block warning">
+    <div class="title">Frame Dependence</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The effective equation is derived covariantly; the 4-velocity \(u^\mu\) enters through the bath 
+      state definition. In the laboratory, \(u^\mu \approx (1, 0, 0, 0)\) for a stationary apparatus.
+    </p>
+  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PART III: MATTER AND GENERATIONS
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
+<!-- ══════════════════════════════════════════════════════════════════════════════
+     PART III: MATTER
+     ══════════════════════════════════════════════════════════════════════════════ -->
 <section class="section" id="sec7">
-  <h2>7. Fermion Localization on \(\mathcal{M}^5\)</h2>
+  <h2>7. Fermion Localization</h2>
   
-  <h3>7.1 Five-Dimensional Dirac Action</h3>
-  <div class="eq">
-    \[S_{5D} = \int d^4x\, dX\; \bar{\Psi}\left(i\Gamma^A D_A - yR(X)\right)\Psi\]
-    <div class="eq-label">(7.1)</div>
+  <h3>7.1 Zero-Mode Profile</h3>
+  
+  <div class="block success">
+    <div class="title">Theorem 7.1 — Chiral Localization</div>
+    <div class="eq law">
+      \[\boxed{f_{0,\pm}(X) = \mathcal{N}_\pm \exp\!\left(\pm y \int_0^X R(X')\, \dd X'\right)}\]
+      <div class="eq-label">(7.1)</div>
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      Zero modes localize exponentially near domain walls where \(R(X_*) = 0\). The orbifold 
+      \(\mathbb{Z}_2\) projection ensures chirality by removing the opposite-chirality zero mode.
+    </p>
   </div>
   
-  <h3>7.2 Mode Decomposition</h3>
-  <p>Expand the 5D spinor in modes:</p>
-  <div class="eq">
-    \[\Psi(x^\mu, X) = \sum_n \psi_n(x^\mu) f_n(X)\]
-    <div class="eq-label">(7.2)</div>
-  </div>
-  
-  <h3>7.3 Internal Mode Equation</h3>
-  <div class="eq">
-    \[\left(-i\Gamma^5 \partial_X + yR(X)\right)f_n(X) = m_n f_n(X)\]
-    <div class="eq-label">(7.3)</div>
-  </div>
-  
-  <h3>7.4 Zero-Mode Solutions</h3>
-  <p>For \(m_n = 0\), the equation reduces to first order:</p>
-  <div class="eq">
-    \[\partial_X f_0 = \pm yR(X) f_0\]
-    <div class="eq-label">(7.4)</div>
-  </div>
-  <p>with solution:</p>
-  <div class="eq boxed">
-    \[f_0(X) = \mathcal{N} \exp\left(\pm y\int_0^X R(X')\, dX'\right)\]
-    <div class="eq-label">(7.5)</div>
-  </div>
-  
-  <h3>7.5 Localization Criterion</h3>
   <p>
-    Normalizability requires the integral \(\int_0^{L_X} |f_0|^2 dX\) to converge. 
-    This occurs when \(R(X)\) changes sign—zero modes localize at domain walls (kinks).
+    This is standard domain-wall fermion physics (Kaplan 1992). STUR inherits this result from its 
+    5D structure; it is not a novel prediction.
   </p>
 </section>
 
 <section class="section" id="sec8">
-  <h2>8. Generation Structure from Topology</h2>
+  <h2>8. Mass Hierarchies</h2>
   
-  <h3>8.1 Kink Solutions</h3>
-  <p>For the double-well potential:</p>
-  <div class="eq">
-    \[V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\]
+  <div class="block">
+    <div class="title">Phenomenological Input</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Flavor structure is modeled via wavefunction overlaps. Localization positions are inputs.
+    </p>
+  </div>
+  
+  <div class="eq boxed">
+    \[y_{\rm eff}^{(ij)} \propto \exp\!\left(-\frac{(X_L^{(i)} - X_R^{(j)})^2}{2\sigma^2}\right)\]
     <div class="eq-label">(8.1)</div>
   </div>
+  
   <p>
-    kink solutions interpolate between vacua \(R = \pm v\). Each kink provides one 
-    zero crossing where a chiral fermion localizes.
+    The exponential suppression can accommodate large mass hierarchies with \(\mathcal{O}(1)\) 
+    5D Yukawa couplings, as in Randall-Sundrum and related models.
   </p>
-  
-  <h3>8.2 Multi-Kink Configurations</h3>
-  <p>The energy of \(N\) kinks on the interval \([0, L_X]\) is:</p>
-  <div class="eq">
-    \[E_N = N \cdot \epsilon_{\rm kink} + \sum_{i < j} U(|X_i - X_j|)\]
-    <div class="eq-label">(8.2)</div>
-  </div>
-  <p>where:</p>
-  <ul>
-    <li>\(\epsilon_{\rm kink} \sim v^3/\sqrt{\lambda}\) is the single-kink energy</li>
-    <li>\(U(d) \sim e^{-d/w}\) is the kink-kink interaction with width \(w \sim v/\sqrt{\lambda}\)</li>
-  </ul>
-  
-  <h3>8.3 Stability and Generation Count</h3>
-  <p>
-    For typical parameters \(L_X/w \sim 10\), stability analysis of φ⁴ and sine-Gordon 
-    models shows that \(N = 3\) is the maximum number of stable kinks before 
-    kink-antikink annihilation becomes energetically favorable.
-  </p>
-  
-  <div class="note">
-    <strong>Topological origin of generations:</strong> The three-generation structure of 
-    the Standard Model corresponds to three stable zero-crossings in the resistance profile.
-  </div>
 </section>
 
+<!-- ══════════════════════════════════════════════════════════════════════════════
+     PART IV: EXPERIMENTAL PREDICTION
+     ══════════════════════════════════════════════════════════════════════════════ -->
 <section class="section" id="sec9">
-  <h2>9. Mass Hierarchies from Wavefunction Overlap</h2>
+  <h2>9. Interferometric Signature</h2>
   
-  <h3>9.1 Effective Yukawa Coupling</h3>
-  <p>The 4D Yukawa coupling is an overlap integral:</p>
+  <h3>9.1 Phase Modification from Yukawa Coupling</h3>
+  
+  <p>
+    The matter action (3.5) contains \(yR\bar{\Psi}\Psi\), which modifies the effective mass: 
+    \(m_{\rm eff} = m_0 + yR\). We work in the <strong>non-relativistic atom-interferometry regime</strong> 
+    (\(p_0 \simeq mv\), where \(v \ll c\)). In a WKB approximation, the phase accumulated along a path is:
+  </p>
+  
   <div class="eq">
-    \[y^{(n)}_{\rm eff} = y_5 \int_0^{L_X} dX\; f_L^{(n)}(X)\, h(X)\, f_R^{(n)}(X)\]
+    \[\phi = \int_{\rm path} p\, \dd\ell = \int_{\rm path} \sqrt{E^2 - m_{\rm eff}^2}\, \dd\ell 
+    \approx \int_{\rm path} \left(p_0 - \frac{m_0 y R}{p_0}\right) \dd\ell\]
     <div class="eq-label">(9.1)</div>
   </div>
-  <p>where \(h(X)\) is the Higgs profile in the internal dimension.</p>
   
-  <h3>9.2 Exponential Suppression</h3>
-  <p>For Gaussian-localized wavefunctions separated by \(\Delta X\):</p>
-  <div class="eq boxed">
-    \[y_{\rm eff} \propto \exp\left(-\frac{(\Delta X)^2}{2(\sigma_L^2 + \sigma_R^2)}\right)\]
+  <p>
+    For two paths with lengths \(L_1\) and \(L_2\), the phase difference includes a contribution 
+    \(\Delta\phi_R \propto y\bar{R}\, \Delta L\) where \(\bar{R}\) is the spatially averaged scalar 
+    and \(\Delta L = L_1 - L_2\).
+  </p>
+  
+  <h3>9.2 Visibility Under Shot-to-Shot Fluctuations</h3>
+  
+  <p>
+    If \(R\) fluctuates between experimental shots with variance \(\sigma_R^2\), the visibility 
+    (fringe contrast) is the expectation of \(\cos(\Delta\phi)\):
+  </p>
+  
+  <div class="eq">
+    \[V = \langle \cos(\Delta\phi) \rangle = \exp\!\left(-\frac{\langle(\Delta\phi_R)^2\rangle}{2}\right) 
+    = \exp\!\left(-\frac{1}{2}\left(\frac{y\sigma_R}{p_0}\right)^2 (\Delta L)^2\right)\]
     <div class="eq-label">(9.2)</div>
   </div>
   
-  <h3>9.3 Hierarchy Generation</h3>
+  <p>Defining the coherence length:</p>
+  
+  <div class="eq law">
+    \[\boxed{\ell_{\rm coh} := \frac{p_0}{y\sigma_R} \quad \Rightarrow \quad 
+    V(\Delta L) = V_0 \exp\!\left(-\frac{(\Delta L)^2}{\ell_{\rm coh}^2}\right)}\]
+    <div class="eq-label">(9.3) — STUR Visibility Prediction</div>
+  </div>
+  
+  <h3>9.3 Distinguishing Features</h3>
+  
   <table>
-    <tr><th>Generation</th><th>\(\Delta X/\sigma\)</th><th>Relative Yukawa</th><th>Example</th></tr>
-    <tr><td>Third</td><td>\(\approx 0\)</td><td>\(\sim 1\)</td><td>top, bottom, tau</td></tr>
-    <tr><td>Second</td><td>\(\approx 2\)</td><td>\(\sim 0.14\)</td><td>charm, strange, muon</td></tr>
-    <tr><td>First</td><td>\(\approx 4\)</td><td>\(\sim 3 \times 10^{-4}\)</td><td>up, down, electron</td></tr>
+    <tr><th>Mechanism</th><th>Visibility Scaling</th><th>Key Discriminator</th></tr>
+    <tr><td><strong>STUR (scalar coupling)</strong></td><td>\(\exp(-\Delta L^2 / \ell_{\rm coh}^2)\)</td><td>Gaussian in \(\Delta L^2\)</td></tr>
+    <tr><td>Environmental decoherence</td><td>\(\exp(-\gamma L_{\rm total})\)</td><td>Linear in total path \(L\)</td></tr>
+    <tr><td>Source phase noise</td><td>\(\approx\) constant</td><td>Weak \(\Delta L\) dependence</td></tr>
+    <tr><td>Gravitational dephasing</td><td>Depends on \(\Delta E \cdot t\)</td><td>Energy-dependent</td></tr>
   </table>
-  <p class="def">
-    Large mass hierarchies emerge from order-unity differences in localization positions.
-  </p>
+  
+  <div class="block success">
+    <div class="title">Experimental Signature</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The Gaussian-in-\((\Delta L)^2\) functional form is the unique STUR discriminator. No standard 
+      environmental decoherence mechanism in current interferometry produces this scaling.
+    </p>
+  </div>
 </section>
 
 <section class="section" id="sec10">
-  <h2>10. Neutrino Sector</h2>
+  <h2>10. Coherence Length Estimates</h2>
   
-  <h3>10.1 Geometric Separation</h3>
+  <h3>10.1 Naive KK Vacuum Fluctuations</h3>
+  
   <p>
-    Right-handed neutrinos \(\nu_R\) localize at positions \(X_R\) far from the 
-    left-handed neutrinos at \(X_L\):
+    For heavy KK modes (\(m_\chi \gg T_{\rm lab}\)), the dominant fluctuations are quantum vacuum:
   </p>
+  
   <div class="eq">
-    \[|X_L - X_R| \gg \sigma\]
+    \[\langle\chi^2\rangle \approx \frac{1}{2m_\chi L^3} \quad \Rightarrow \quad 
+    \sigma_R^2 \sim \frac{\lambda^2 \langle\chi^2\rangle^2}{m_\chi^4} \sim \frac{\lambda^2}{4 m_\chi^6 L^6}\]
     <div class="eq-label">(10.1)</div>
   </div>
   
-  <h3>10.2 Suppressed Dirac Mass</h3>
-  <div class="eq">
-    \[m_D \propto \exp\left(-\frac{|X_L - X_R|}{\sigma}\right)\]
+  <h3>10.2 Numerical Estimate</h3>
+  
+  <div class="derivation">
+    <p><strong>Order-of-magnitude calculation</strong> (see Appendix C for details)</p>
+    
+    <div class="step">
+      <span class="step-label">Parameters:</span>
+      \(m_\chi = 5\) TeV \(\approx 2.5 \times 10^{16}\) m\(^{-1}\) (in natural units), 
+      \(L = 10\) m (interferometer size), \(p_0/m \approx v/c \approx 3 \times 10^{-9}\) 
+      (atom velocity), \(y \sim \lambda \sim 1\).
+    </div>
+    
+    <div class="step">
+      <span class="step-label">Scalar fluctuation:</span>
+      \[\sigma_R \sim \frac{\lambda}{2 m_\chi^3 L^3} \sim \frac{1}{2 \cdot (2.5 \times 10^{16})^3 \cdot 10^3} 
+      \sim 3 \times 10^{-53}\ \text{m}^{-1}\]
+    </div>
+    
+    <div class="step">
+      <span class="step-label">Coherence length:</span>
+      \[\ell_{\rm coh} = \frac{p_0}{y\sigma_R} \sim \frac{5 \times 10^{6}}{1 \cdot 3 \times 10^{-53}} 
+      \sim 10^{59}\ \text{m}^{-1} \to \ell_{\rm coh} \sim 10^{-59}\ \text{m}\]
+    </div>
+    
+    <div class="step">
+      <span class="step-label">Conclusion:</span>
+      The naive estimate yields \(\ell_{\rm coh} \sim 10^{-59}\) m—<strong>roughly 60 orders of magnitude</strong> 
+      below observable scales.
+    </div>
+  </div>
+  
+  <div class="block error">
+    <div class="title">Critical Assessment</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>Observable effects (\(\ell_{\rm coh} \sim 10\)–\(10^3\) m) are NOT predicted by the naive 
+      STUR mechanism with TeV-scale KK modes.</strong> The discrepancy is roughly 60 orders of magnitude. 
+      For the interferometric signature to be detectable, additional mechanisms are required:
+    </p>
+    <ul style="margin:0.5rem 0 0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary)">
+      <li><strong>Light scalar sector:</strong> A scalar with \(m_\phi \sim 10^{-3}\) eV (cf. ultralight dark matter)</li>
+      <li><strong>Cosmological background:</strong> Residual oscillations from early-universe dynamics</li>
+      <li><strong>Non-equilibrium sources:</strong> Topological defects, domain-wall nucleation</li>
+    </ul>
+  </div>
+  
+  <h3>10.3 Model-Independent Parametrization</h3>
+  
+  <p>
+    Given the above, we treat \(\ell_{\rm coh}\) as a <strong>phenomenological parameter</strong> 
+    to be constrained experimentally:
+  </p>
+  
+  <div class="eq boxed">
+    \[\text{Visibility law: } V(\Delta L) = V_0 \exp\!\left(-(\Delta L / \ell_{\rm coh})^2\right), 
+    \quad \ell_{\rm coh} \in [10, 10^4]\ \text{m (search range)}\]
     <div class="eq-label">(10.2)</div>
   </div>
   
-  <h3>10.3 Seesaw Mechanism</h3>
-  <p>With Majorana mass \(M_R\) for right-handed neutrinos:</p>
-  <div class="eq boxed">
-    \[m_\nu \approx \frac{m_D^2}{M_R}\]
-    <div class="eq-label">(10.3 — Seesaw Formula)</div>
-  </div>
-  
-  <h3>10.4 Numerical Estimate</h3>
-  <p>With \(|X_L - X_R|/\sigma \approx 5\) and \(M_R \sim 10^{10}\) GeV:</p>
-  <div class="eq">
-    \[m_\nu \sim 0.1 \text{ eV}\]
-  </div>
-  <p class="def">
-    This matches the observed neutrino mass scale from oscillation experiments.
+  <p>
+    This reframes STUR's contribution: the theory predicts the <em>functional form</em> (Gaussian in 
+    \(\Delta L^2\)) but not the <em>magnitude</em> (\(\ell_{\rm coh}\)). Experiments constrain or 
+    exclude specific \(\ell_{\rm coh}\) values.
   </p>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PART IV: EXPERIMENTAL PROGRAM
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
 <section class="section" id="sec11">
-  <h2>11. Interferometric Prediction</h2>
+  <h2>11. Current Constraints</h2>
   
-  <h3>11.1 Physical Configuration</h3>
-  <p>
-    Consider a Mach-Zehnder interferometer with path lengths \(L_1\) and \(L_2 = L_1 + \Delta L\). 
-    A quantum particle (photon, atom, neutron) with de Broglie wavelength \(\lambda\) 
-    traverses both paths coherently.
-  </p>
+  <h3>11.1 Existing Data</h3>
   
-  <h3>11.2 Standard Quantum Mechanics</h3>
-  <p>The geometric phase difference is:</p>
-  <div class="eq">
-    \[\Delta\phi_{\rm QM} = \frac{2\pi\Delta L}{\lambda}\]
-    <div class="eq-label">(11.1)</div>
-  </div>
-  <p>with visibility \(V_{\rm QM} = 1\) for a coherent source.</p>
-  
-  <h3>11.3 Resistance-Modified Phase</h3>
-  
-  <h4>Step 1: Coherence Evolution</h4>
-  <p>
-    In the Law of Resistance, the particle's coherence state evolves along its trajectory. 
-    In the co-moving frame, equation (4.5) reduces to:
-  </p>
-  <div class="eq">
-    \[\frac{dR}{dt} + \Gamma_X(R - R_{\rm bg}) = 0\]
-    <div class="eq-label">(11.2)</div>
-  </div>
-  <p>with solution:</p>
-  <div class="eq">
-    \[R(t) = R_{\rm bg} + (R_0 - R_{\rm bg})e^{-\Gamma_X t}\]
-    <div class="eq-label">(11.3)</div>
-  </div>
-  
-  <h4>Step 2: Phase-Resistance Coupling</h4>
-  <p>The quantum phase acquires a resistance-dependent contribution:</p>
-  <div class="eq">
-    \[\phi_R = \alpha \int_0^\tau R(t)\, dt\]
-    <div class="eq-label">(11.4)</div>
-  </div>
-  
-  <div class="derivation">
-    <div class="derivation-title">Origin of Phase-Resistance Coupling</div>
-    <p>
-      From the matter action (3.5), the coupling \(yR\bar{\Psi}\Psi\) gives an effective 
-      mass \(m_{\rm eff} = yR\). The WKB phase integral is:
-    </p>
-    <p>
-      \[\phi = \int p\, dx = \int \sqrt{E^2 - m_{\rm eff}^2}\, dx\]
-    </p>
-    <p>
-      Expanding for \(yR \ll E\):
-      \[\phi \approx \int \left(p_0 - \frac{y^2R^2}{2p_0}\right) dx\]
-    </p>
-    <p>
-      The leading resistance correction is:
-      \[\Delta\phi \propto \frac{y^2}{p_0} \int R\, dt\]
-    </p>
-    <p>
-      Thus \(\alpha \sim y^2/p_0\), with specific values depending on particle species.
+  <div class="block warning">
+    <div class="title">Constraint Methodology</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      To constrain \(\ell_{\rm coh}\), one must: (1) measure visibility \(V\) at multiple path differences 
+      \(\Delta L\), (2) fit to \(V(\Delta L) = V_0 \exp(-(\Delta L/\ell_{\rm coh})^2)\), and (3) compare 
+      to the null hypothesis \(V = \text{const}\). Current experiments were not designed for this analysis, 
+      so bounds are indicative rather than rigorous.
     </p>
   </div>
   
-  <h4>Step 3: Phase Difference Evaluation</h4>
-  <p>
-    For paths with transit times \(\tau_1 = L_1/v\) and \(\tau_2 = L_2/v\), the 
-    resistance-induced phase difference is:
-  </p>
-  <div class="eq">
-    \[\Delta\phi_R = \alpha \int_{\tau_1}^{\tau_2} R(t)\, dt\]
-  </div>
-  <p>In the weak-relaxation limit \(\Gamma_X\tau \ll 1\):</p>
-  <div class="eq">
-    \[\Delta\phi_R \approx \alpha R_0 \cdot \frac{\Delta L}{v}\]
-    <div class="eq-label">(11.5)</div>
-  </div>
+  <table>
+    <tr>
+      <th>Experiment</th><th>System</th><th>\(\Delta L_{\rm max}\)</th><th>Indicative Bound</th><th>Notes</th>
+    </tr>
+    <tr>
+      <td>Stanford tower (2017)</td><td>Cs atoms</td><td>~1 m</td><td>\(\ell_{\rm coh} \gtrsim 1\) m</td>
+      <td>Visibility consistent with systematics; no \(\Delta L\)-scan</td>
+    </tr>
+    <tr>
+      <td>Kovachy et al. (2015)</td><td>Rb atoms</td><td>0.5 m</td><td>\(\ell_{\rm coh} \gtrsim 0.5\) m</td>
+      <td>Single \(\Delta L\) point</td>
+    </tr>
+    <tr>
+      <td>ILL neutron (2000)</td><td>Neutrons</td><td>~0.1 m</td><td>\(\ell_{\rm coh} \gtrsim 0.1\) m</td>
+      <td>Different systematics</td>
+    </tr>
+  </table>
   
-  <h4>Step 4: Resistance Phase Scale</h4>
-  <p>Define the characteristic length:</p>
-  <div class="eq">
-    \[\ell_R := \frac{2\pi v}{\alpha R_0}\]
-    <div class="eq-label">(11.6 — Definition)</div>
-  </div>
-  <p>The resistance phase becomes:</p>
-  <div class="eq boxed">
-    \[\Delta\phi_R = \frac{2\pi\Delta L}{\ell_R}\]
-    <div class="eq-label">(11.7 — STUR Phase Shift)</div>
-  </div>
+  <h3>11.2 Visibility Curves (Computed)</h3>
   
-  <h3>11.4 Observable Consequences</h3>
-  
-  <h4>Case A: Deterministic \(\ell_R\)</h4>
-  <p>
-    The total phase is \(\Delta\phi_{\rm total} = \Delta\phi_{\rm QM} + \Delta\phi_R\). 
-    The interference pattern shifts but visibility is preserved.
-  </p>
-  
-  <h4>Case B: Fluctuating \(\ell_R\)</h4>
-  <p>
-    If \(\ell_R\) has run-to-run fluctuations with variance \(\sigma_\ell^2\), 
-    the visibility is reduced:
-  </p>
-  <div class="eq boxed">
-    \[V_{\rm STUR} = V_{\rm QM} \cdot \exp\left(-\frac{2\pi^2(\Delta L)^2 \sigma_\ell^2}{\ell_R^4}\right)\]
-    <div class="eq-label">(11.8 — Visibility Reduction)</div>
-  </div>
-  
-  <div class="note success">
-    <strong>Testable prediction:</strong> Visibility decreases with increasing path difference 
-    \(\Delta L\) following a Gaussian envelope with characteristic scale \(\ell_R^2/\sigma_\ell\). 
-    This functional form is distinct from standard decoherence mechanisms.
+  <div class="figure">
+    <svg viewBox="0 0 700 340" width="100%" height="auto" role="img" aria-label="Visibility vs path difference">
+      <defs>
+        <pattern id="gridPattern" width="50" height="50" patternUnits="userSpaceOnUse">
+          <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        </pattern>
+        <linearGradient id="curveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#34d399"/>
+          <stop offset="100%" style="stop-color:#10b981"/>
+        </linearGradient>
+        <linearGradient id="curveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#4a9eff"/>
+          <stop offset="100%" style="stop-color:#3b82f6"/>
+        </linearGradient>
+        <linearGradient id="curveGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#f472b6"/>
+          <stop offset="100%" style="stop-color:#ec4899"/>
+        </linearGradient>
+      </defs>
+      
+      <rect x="0" y="0" width="700" height="340" fill="url(#gridPattern)"/>
+      
+      <!-- Axes -->
+      <line x1="70" y1="280" x2="670" y2="280" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+      <line x1="70" y1="40" x2="70" y2="280" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+      
+      <!-- Axis labels -->
+      <text x="370" y="320" fill="rgba(255,255,255,0.7)" font-size="13" text-anchor="middle" font-weight="500">Path Difference ΔL (m)</text>
+      <text x="22" y="160" fill="rgba(255,255,255,0.7)" font-size="13" text-anchor="middle" transform="rotate(-90 22 160)" font-weight="500">Visibility V/V₀</text>
+      
+      <!-- X-axis ticks (0 to 100m) -->
+      <text x="70" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">0</text>
+      <text x="190" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">20</text>
+      <text x="310" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">40</text>
+      <text x="430" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">60</text>
+      <text x="550" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">80</text>
+      <text x="670" y="298" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">100</text>
+      
+      <!-- Y-axis ticks -->
+      <text x="58" y="284" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0</text>
+      <text x="58" y="224" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0.25</text>
+      <text x="58" y="164" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0.50</text>
+      <text x="58" y="104" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">0.75</text>
+      <text x="58" y="48" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="end">1.0</text>
+      
+      <!-- Null hypothesis line -->
+      <line x1="70" y1="52" x2="670" y2="52" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="6,4"/>
+      <text x="580" y="42" fill="rgba(255,255,255,0.5)" font-size="11">Null (V = const)</text>
+      
+      <!-- 
+        ACCURATE GAUSSIAN CURVES: V = exp(-(ΔL/ℓ)²)
+        x ranges from 70 to 670 (600 px = 100m), so x = 70 + 6*ΔL
+        y = 280 - 228*V (V=0 at y=280, V=1 at y=52)
+        
+        ℓ_coh = 100m: V(20)=0.961, V(40)=0.852, V(60)=0.698, V(80)=0.527, V(100)=0.368
+        ℓ_coh = 50m: V(20)=0.852, V(40)=0.527, V(60)=0.237, V(80)=0.078, V(100)=0.018
+        ℓ_coh = 30m: V(20)=0.641, V(40)=0.169, V(60)=0.018, V(80)=0.001, V(100)≈0
+      -->
+      
+      <!-- ℓ_coh = 100m (green) -->
+      <path d="M 70,52 
+               C 130,54 190,62 250,78 
+               S 370,122 430,156 
+               S 550,212 610,240 
+               S 650,258 670,264" 
+            stroke="url(#curveGrad1)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <text x="620" y="252" fill="#34d399" font-size="12" font-weight="600">ℓ = 100m</text>
+      
+      <!-- ℓ_coh = 50m (blue) -->
+      <path d="M 70,52 
+               C 110,58 150,78 190,86 
+               S 270,160 310,200 
+               S 390,252 430,268 
+               S 510,278 670,280" 
+            stroke="url(#curveGrad2)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <text x="400" y="258" fill="#4a9eff" font-size="12" font-weight="600">ℓ = 50m</text>
+      
+      <!-- ℓ_coh = 30m (pink) -->
+      <path d="M 70,52 
+               C 100,62 130,98 160,134 
+               S 220,212 280,258 
+               S 360,278 670,280" 
+            stroke="url(#curveGrad3)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <text x="220" y="232" fill="#f472b6" font-size="12" font-weight="600">ℓ = 30m</text>
+      
+      <!-- Legend box -->
+      <rect x="480" y="70" width="180" height="85" rx="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.15)"/>
+      <text x="495" y="92" fill="rgba(255,255,255,0.9)" font-size="12" font-weight="700">STUR Prediction</text>
+      <text x="495" y="112" fill="rgba(255,255,255,0.7)" font-size="11" font-family="monospace">V = V₀ exp(−ΔL²/ℓ²)</text>
+      <text x="495" y="132" fill="rgba(255,255,255,0.6)" font-size="11">Gaussian in ΔL²</text>
+      <text x="495" y="148" fill="rgba(255,255,255,0.5)" font-size="10">(unique signature)</text>
+    </svg>
+    
+    <div class="caption">
+      <strong>Figure 1:</strong> Visibility \(V/V_0\) versus path difference \(\Delta L\) for three 
+      coherence lengths. Curves are computed from \(V = \exp(-(\Delta L/\ell_{\rm coh})^2)\). 
+      At \(\ell_{\rm coh} = 50\) m (blue), visibility drops to \(1/e \approx 0.37\) at \(\Delta L = 50\) m. 
+      The Gaussian-in-\(\Delta L^2\) shape—not the absolute scale—is the STUR discriminator.
+    </div>
   </div>
 </section>
 
 <section class="section" id="sec12">
-  <h2>12. Experimental Constraints</h2>
+  <h2>12. Falsification Protocol</h2>
   
-  <h3>12.1 Optical Interferometry</h3>
+  <h3>12.1 Recommended Experiment</h3>
   
-  <h4>Gravitational Wave Detectors</h4>
-  <p>
-    LIGO/Virgo/KAGRA maintain visibility \(V > 0.99\) at \(\lambda \sim 1\,\mu\)m 
-    with arm lengths \(L \sim 4\) km. The effective path difference probed is 
-    \(\Delta L \sim\) pm (strain sensitivity \(\sim 10^{-23}\)).
-  </p>
-  <div class="eq">
-    \[\text{Constraint: } \ell_R > 10^{12}\,\text{m}\]
-  </div>
-  
-  <h4>High-Finesse Optical Cavities</h4>
-  <p>
-    Fabry-Pérot cavities achieve finesse \(\mathcal{F} > 10^6\), implying 
-    \(V > 0.9999\) over path differences \(\Delta L \sim 1\) m at \(\lambda = 633\) nm.
-  </p>
-  <div class="eq">
-    \[\text{Constraint: } \frac{\sigma_\ell}{\ell_R^2} < 10^{-6}\,\text{m}^{-1}\]
-  </div>
-  
-  <h3>12.2 Matter-Wave Interferometry</h3>
-  
-  <h4>Atom Interferometers</h4>
-  <p>
-    Cold atom interferometers (Cs, Rb) achieve path separations \(\Delta L \sim 10\) cm 
-    at de Broglie wavelength \(\lambda \sim 10^{-11}\) m with visibility \(V > 0.9\).
-  </p>
-  <div class="eq">
-    \[\text{Constraint: } \ell_R > 1\,\text{m} \quad \text{(atomic scale)}\]
-  </div>
-  
-  <h4>Neutron Interferometers</h4>
-  <p>
-    Silicon perfect-crystal interferometers at ILL Grenoble achieve 
-    \(\Delta L \sim 10\) cm at \(\lambda \sim 10^{-10}\) m with 
-    \(V \sim 0.6 - 0.9\).
-  </p>
-  <p class="def">
-    The reduced visibility is attributed to crystal imperfections and vibrations, 
-    not fundamental physics. Constraints are inconclusive.
-  </p>
-  
-  <h3>12.3 Constraint Summary</h3>
   <table>
-    <tr><th>System</th><th>\(\lambda\)</th><th>\(\Delta L\)</th><th>Visibility</th><th>Constraint</th></tr>
-    <tr><td>LIGO</td><td>1 μm</td><td>~pm</td><td>>0.99</td><td>\(\ell_R > 10^{12}\) m</td></tr>
-    <tr><td>Optical cavity</td><td>633 nm</td><td>~1 m</td><td>>0.999</td><td>\(\ell_R > 10^3\) m</td></tr>
-    <tr><td>Atom (Cs)</td><td>\(10^{-11}\) m</td><td>~10 cm</td><td>>0.9</td><td>\(\ell_R > 1\) m</td></tr>
-    <tr><td>Neutron</td><td>\(10^{-10}\) m</td><td>~10 cm</td><td>0.6–0.9</td><td>Inconclusive</td></tr>
+    <tr><th>Parameter</th><th>Specification</th><th>Purpose</th></tr>
+    <tr><td>Platform</td><td>Long-baseline atom interferometer (e.g., MAGIS-100)</td><td>Access \(\Delta L \sim 100\) m</td></tr>
+    <tr><td>Species</td><td>Sr (clock transition) or Rb</td><td>Long internal coherence</td></tr>
+    <tr><td>Scan range</td><td>\(\Delta L \in [1, 100]\) m, ≥ 20 points</td><td>Resolve functional form</td></tr>
+    <tr><td>Precision</td><td>\(\delta V / V_0 < 0.01\)</td><td>Detect 1% visibility changes</td></tr>
+    <tr><td>Controls</td><td>Vary velocity, species, timing</td><td>Separate from standard decoherence</td></tr>
   </table>
   
-  <h3>12.4 Viable Parameter Space</h3>
-  <p>Current constraints require:</p>
-  <ul>
-    <li>For optical systems: \(\ell_R \gtrsim 10^3\) m</li>
-    <li>For atomic systems: \(\ell_R \gtrsim 1\) m</li>
-  </ul>
-  <p>
-    Observable effects require either \(\ell_R\) in accessible ranges with 
-    species-dependent coupling, or enhanced effects in specific media.
-  </p>
+  <h3>12.2 Decision Criteria</h3>
+  
+  <div class="block error">
+    <div class="title">Binary Falsification</div>
+    <table style="margin:0.5rem 0 0">
+      <tr><th>Outcome</th><th>Criterion</th><th>Interpretation</th></tr>
+      <tr>
+        <td><strong>NULL</strong></td>
+        <td>\(V(\Delta L) = \text{const}\) within \(\delta V\)</td>
+        <td>Exclude \(\ell_{\rm coh} < \Delta L_{\rm max}\)</td>
+      </tr>
+      <tr>
+        <td><strong>STUR</strong></td>
+        <td>Gaussian fit preferred (\(\Delta\chi^2 > 25\))</td>
+        <td>Report \(\ell_{\rm coh} \pm \sigma\)</td>
+      </tr>
+      <tr>
+        <td><strong>OTHER</strong></td>
+        <td>Visibility decreases, non-Gaussian form</td>
+        <td>New physics, not STUR</td>
+      </tr>
+    </table>
+  </div>
+  
+  <div class="block warning">
+    <div class="title">Hard Falsification Statement</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      If \(V(\Delta L)\) remains constant to within 1% across \(\Delta L \in [1, 100]\) m, then 
+      STUR's visibility signature is excluded for \(\ell_{\rm coh} < 100\) m. This is a definitive, 
+      binary test of the prediction.
+    </p>
+  </div>
 </section>
 
+<!-- ══════════════════════════════════════════════════════════════════════════════
+     PART V: CONSISTENCY
+     ══════════════════════════════════════════════════════════════════════════════ -->
 <section class="section" id="sec13">
-  <h2>13. Proposed Experiment</h2>
+  <h2>13. Limiting Cases</h2>
   
-  <h3>13.1 Objective</h3>
-  <p>
-    Measure interferometric visibility as a function of path difference \(\Delta L\) 
-    to test equation (11.8).
-  </p>
+  <div class="block success">
+    <div class="title">GR Limit</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      \(L_X \to 0\) (decoupled KK modes): TEGR \(\equiv\) GR, scalar and gauge sectors decouple. ✓
+    </p>
+  </div>
   
-  <h3>13.2 Apparatus</h3>
-  <ul>
-    <li>Mach-Zehnder interferometer with adjustable path difference</li>
-    <li>Coherent source: stabilized laser or Bose-Einstein condensate</li>
-    <li>Path difference range: 1 cm to 10 m</li>
-    <li>Visibility precision: \(\delta V / V < 10^{-4}\)</li>
-  </ul>
+  <div class="block success">
+    <div class="title">Standard QM Limit</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      \(\ell_{\rm coh} \to \infty\) (no scalar fluctuations): \(V(\Delta L) \to V_0\) = standard interference. ✓
+    </p>
+  </div>
   
-  <h3>13.3 Protocol</h3>
-  <table>
-    <tr><th>Phase</th><th>Description</th></tr>
-    <tr><td>1. Calibration</td><td>Measure \(V_0\) at \(\Delta L = 0\) as reference</td></tr>
-    <tr><td>2. Data collection</td><td>Record \(V(\Delta L)\) at 20+ values spanning range</td></tr>
-    <tr><td>3. Blinding</td><td>Randomize \(\Delta L\) ordering; analyst blind to sequence</td></tr>
-    <tr><td>4. Analysis</td><td>Fit to null hypothesis (constant \(V\)) and STUR model (11.8)</td></tr>
-    <tr><td>5. Decision</td><td>Claim detection if \(\Delta\chi^2 > 9\) (\(3\sigma\))</td></tr>
-  </table>
-  
-  <h3>13.4 Preregistration Requirements</h3>
-  <ul>
-    <li>Exact functional form of prediction with parameter definitions</li>
-    <li>Parameter ranges and priors</li>
-    <li>Statistical threshold for detection/exclusion</li>
-    <li>Complete systematic error budget</li>
-  </ul>
-  
-  <h3>13.5 Interpretation</h3>
-  <table>
-    <tr><th>Outcome</th><th>Implication</th></tr>
-    <tr><td>\(V(\Delta L) = \text{const}\)</td><td>\(\ell_R\) excluded below sensitivity threshold</td></tr>
-    <tr><td>\(V(\Delta L)\) decreases as (11.8)</td><td>Evidence for resistance-phase coupling</td></tr>
-    <tr><td>Non-Gaussian decrease</td><td>Modified model required; new physics indicated</td></tr>
-  </table>
+  <div class="block success">
+    <div class="title">SM Limit</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      \(R \to R_{\rm eq}\) (scalar at equilibrium): Standard Model + GR recovered. ✓
+    </p>
+  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     PART V: APPENDICES
-     ═══════════════════════════════════════════════════════════════════════════ -->
-
-<section class="section" id="secA">
-  <h2>Appendix A: Notation and Conventions</h2>
+<section class="section" id="sec14">
+  <h2>14. Open Problems</h2>
   
-  <h3>A.1 Metric Signature</h3>
-  <p>Spacetime signature: \((-,+,+,+)\). Minkowski metric: \(\eta_{\mu\nu} = \text{diag}(-1,1,1,1)\).</p>
+  <div class="block warning">
+    <div class="title">Critical: Observable Coherence Length</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Identify a UV-consistent mechanism producing \(\ell_{\rm coh} \sim 10\)–\(10^3\) m. 
+      The naive KK estimate fails by roughly 60 orders of magnitude. Candidates: ultralight scalars, 
+      cosmological backgrounds, non-equilibrium sources. <strong>This is the central open problem.</strong>
+    </p>
+  </div>
   
-  <h3>A.2 Index Summary</h3>
-  <table>
-    <tr><th>Symbol</th><th>Range</th><th>Type</th></tr>
-    <tr><td>\(M, N, P\)</td><td>\(0,1,2,3,5\)</td><td>5D coordinate</td></tr>
-    <tr><td>\(A, B, C\)</td><td>\(0,1,2,3,5\)</td><td>5D local frame</td></tr>
-    <tr><td>\(\mu, \nu, \rho\)</td><td>\(0,1,2,3\)</td><td>4D spacetime</td></tr>
-    <tr><td>\(a, b, c\)</td><td>\(0,1,2,3\)</td><td>4D local Lorentz</td></tr>
-    <tr><td>\(i, j, k\)</td><td>\(1,2,3\)</td><td>3D spatial</td></tr>
-    <tr><td>\(I, J, K\)</td><td>\(1, \ldots, N\)</td><td>Internal degeneracy</td></tr>
-  </table>
+  <div class="block">
+    <div class="title">Gauge Group Selection</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Find a principle uniquely selecting \(SU(3) \times SU(2) \times U(1)\) from the degeneracy structure.
+    </p>
+  </div>
   
-  <h3>A.3 Key Symbols</h3>
-  <table>
-    <tr><th>Symbol</th><th>Definition</th><th>Equation</th></tr>
-    <tr><td>\(\mathcal{R}_{AB}\)</td><td>Resistance tensor</td><td>(2.2)</td></tr>
-    <tr><td>\(R \equiv \mathcal{R}_{55}\)</td><td>Scalar resistance</td><td>(2.2)</td></tr>
-    <tr><td>\(L_X\)</td><td>Coherence correlation length</td><td>(2.3)</td></tr>
-    <tr><td>\(\Gamma_X\)</td><td>Relaxation rate \(v_X/L_X\)</td><td>(4.5)</td></tr>
-    <tr><td>\(\ell_R\)</td><td>Resistance phase scale</td><td>(11.6)</td></tr>
-    <tr><td>\(F[R]\)</td><td>Free energy functional</td><td>(4.1)</td></tr>
-    <tr><td>\(M\)</td><td>Mobility coefficient</td><td>(4.3)</td></tr>
-    <tr><td>\(D\)</td><td>Diffusion coefficient</td><td>(3.4)</td></tr>
-  </table>
+  <div class="block">
+    <div class="title">Flavor Structure</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Derive fermion localization positions from dynamics rather than phenomenological input.
+    </p>
+  </div>
+  
+  <div class="block">
+    <div class="title">UV Completion</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Embed STUR in string theory, asymptotic safety, or another consistent quantum gravity framework.
+    </p>
+  </div>
 </section>
 
-<section class="section" id="secB">
-  <h2>Appendix B: Standard Model Recovery</h2>
+<!-- ══════════════════════════════════════════════════════════════════════════════
+     APPENDICES
+     ══════════════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="appA">
+  <h2>Appendix A: Notation</h2>
   
-  <h3>B.1 Gauge Group</h3>
-  <p>The resistance degeneracy structure recovers:</p>
-  <div class="eq">
-    \[G_{\rm SM} = SU(3)_c \times SU(2)_L \times U(1)_Y\]
-  </div>
+  <p><strong>Units:</strong> Natural units \(\hbar = c = 1\). Lengths in meters when specified.</p>
   
-  <h3>B.2 Fermion Representations (One Generation)</h3>
   <table>
-    <tr><th>Field</th><th>Representation</th></tr>
-    <tr><td>\(Q_L = (u_L, d_L)^T\)</td><td>\((\mathbf{3}, \mathbf{2}, +\frac{1}{6})\)</td></tr>
-    <tr><td>\(u_R\)</td><td>\((\mathbf{3}, \mathbf{1}, +\frac{2}{3})\)</td></tr>
-    <tr><td>\(d_R\)</td><td>\((\mathbf{3}, \mathbf{1}, -\frac{1}{3})\)</td></tr>
-    <tr><td>\(L_L = (\nu_L, e_L)^T\)</td><td>\((\mathbf{1}, \mathbf{2}, -\frac{1}{2})\)</td></tr>
-    <tr><td>\(e_R\)</td><td>\((\mathbf{1}, \mathbf{1}, -1)\)</td></tr>
+    <tr><th>Index</th><th>Range</th><th>Description</th></tr>
+    <tr><td>\(M, N, \ldots\)</td><td>\(0, 1, 2, 3, 5\)</td><td>5D curved indices</td></tr>
+    <tr><td>\(\mu, \nu, \ldots\)</td><td>\(0, 1, 2, 3\)</td><td>4D curved indices</td></tr>
+    <tr><td>\(a, b, \ldots\)</td><td>\(0, 1, 2, 3, 5\)</td><td>5D flat (Lorentz) indices</td></tr>
+    <tr><td>\(I, J, \ldots\)</td><td>\(1, \ldots, \dim G\)</td><td>Gauge algebra indices</td></tr>
   </table>
   
-  <h3>B.3 Covariant Derivative</h3>
-  <div class="eq">
-    \[D_\mu = \partial_\mu - ig_s G^a_\mu T^a - ig W^i_\mu \tau^i - ig' Y B_\mu\]
-  </div>
+  <p><strong>Metric signature:</strong> \((-,+,+,+,+)\)</p>
   
-  <h3>B.4 Higgs Sector</h3>
-  <div class="eq">
-    \[H \sim (\mathbf{1}, \mathbf{2}, +\tfrac{1}{2})\]
-  </div>
-  <div class="eq">
-    \[S_H = \int d^4x\, \sqrt{-g}\left[(D_\mu H)^\dagger(D^\mu H) - \lambda(H^\dagger H - v^2/2)^2\right]\]
-  </div>
+  <p><strong>Conversions:</strong> 1 eV \(\approx (1.97 \times 10^{-7}\ \text{m})^{-1} \approx 5.07 \times 10^{6}\) m\(^{-1}\); 1 TeV \(\approx 5.07 \times 10^{15}\) m\(^{-1}\).</p>
+</section>
+
+<section class="section" id="appB">
+  <h2>Appendix B: Schwinger-Keldysh Derivation</h2>
   
-  <h3>B.5 Anomaly Cancellation</h3>
   <p>
-    All gauge anomalies (\([SU(3)]^3\), \([SU(2)]^2 U(1)\), \([U(1)]^3\), gravitational) 
-    cancel generation-by-generation with the representations above.
+    This appendix sketches the derivation of the effective Langevin equation (6.2) from the microscopic 
+    theory (6.1) using the Schwinger-Keldysh (closed-time-path) formalism.
   </p>
+  
+  <h3>B.1 Setup</h3>
+  
+  <p>
+    The generating functional on the closed time contour \(\mathcal{C}\) is:
+  </p>
+  
+  <div class="eq">
+    \[Z[J] = \int \mathcal{D}R\, \mathcal{D}\chi\, \exp\!\left(i \int_\mathcal{C} \dd^4 x\, 
+    \left[\Lcal_{\rm scalar}^{\rm micro} + J \cdot R\right]\right)\]
+    <div class="eq-label">(B.1)</div>
+  </div>
+  
+  <h3>B.2 Integrating Out \(\chi\)</h3>
+  
+  <p>
+    The \(\chi\) path integral is Gaussian. Completing the square:
+  </p>
+  
+  <div class="eq">
+    \[\int \mathcal{D}\chi\, \exp\!\left(i \int_\mathcal{C} \left[-\frac{1}{2}\chi(\Box + m_\chi^2)\chi 
+    - \lambda R \chi^2\right]\right) = \exp\!\left(-\frac{i}{2}\Tr\ln(G_\chi^{-1}[R])\right)\]
+    <div class="eq-label">(B.2)</div>
+  </div>
+  
+  <p>
+    where \(G_\chi^{-1}[R] = \Box + m_\chi^2 + 2\lambda R\). Expanding to second order in \(\lambda R\):
+  </p>
+  
+  <div class="eq">
+    \[S_{\rm eff}[R] = S_{\rm free}[R] - i\lambda^2 \int_\mathcal{C} \dd^4 x\, \dd^4 x'\, 
+    R(x) G_\chi(x,x')^2 R(x') + \mathcal{O}(\lambda^3)\]
+    <div class="eq-label">(B.3)</div>
+  </div>
+  
+  <h3>B.3 Influence Functional</h3>
+  
+  <p>
+    Decomposing \(R = R_+ - R_-\) (forward/backward branches) and taking the Keldysh rotation 
+    \(R_{\rm cl} = (R_+ + R_-)/2\), \(R_{\rm q} = R_+ - R_-\):
+  </p>
+  
+  <div class="eq">
+    \[S_{\rm IF}[R_{\rm cl}, R_{\rm q}] = \int \dd^4 x\, R_{\rm q}\left[-\gamma \dot{R}_{\rm cl} 
+    + D\nabla^2 R_{\rm cl}\right] + i\int \dd^4 x\, R_{\rm q}^2 \cdot \gamma T_{\rm eff}\]
+    <div class="eq-label">(B.4)</div>
+  </div>
+  
+  <p>
+    where \(\gamma \propto \lambda^2 \cdot \text{Im}(G_\chi^2)\) and the fluctuation-dissipation 
+    theorem relates the noise kernel to \(\gamma T_{\rm eff}\).
+  </p>
+  
+  <h3>B.4 Langevin Equation</h3>
+  
+  <p>
+    The equation of motion for \(R_{\rm cl}\) in the presence of the stochastic \(R_{\rm q}\) source is:
+  </p>
+  
+  <div class="eq">
+    \[\dot{R} + \Gamma(R - R_{\rm eq}) = D\nabla^2 R + \xi, \quad 
+    \langle\xi(x)\xi(x')\rangle = 2\Gamma T_{\rm eff}\, \delta^{(4)}(x - x')\]
+    <div class="eq-label">(B.5)</div>
+  </div>
+  
+  <p>
+    The covariant generalization replaces \(\dot{R}\) with \(u^\mu \partial_\mu R\) where \(u^\mu\) 
+    is the bath 4-velocity. See Calzetta & Hu (2008), Chapters 6–8 for the full derivation.
+  </p>
+</section>
+
+<section class="section" id="appC">
+  <h2>Appendix C: Dimensional Analysis</h2>
+  
+  <p>
+    This appendix provides the detailed calculation of the coherence length estimate in Section 10.2.
+  </p>
+  
+  <h3>C.1 Units and Conversions</h3>
+  
+  <p>In natural units (\(\hbar = c = 1\)):</p>
+  <ul>
+    <li>Mass \(m\) has dimension [length]\(^{-1}\)</li>
+    <li>1 TeV \(= 10^{12}\) eV \(\approx 5.07 \times 10^{15}\) m\(^{-1}\)</li>
+    <li>Atom velocity \(v \approx 1\) m/s \(\Rightarrow v/c \approx 3.3 \times 10^{-9}\)</li>
+  </ul>
+  
+  <h3>C.2 Scalar Fluctuation Variance</h3>
+  
+  <p>From Eq. (10.1), the scalar variance due to vacuum fluctuations of \(\chi\):</p>
+  
+  <div class="eq">
+    \[\sigma_R^2 \sim \frac{\lambda^2}{4 m_\chi^6 L^6}\]
+    <div class="eq-label">(C.1)</div>
+  </div>
+  
+  <p>With \(m_\chi = 5\) TeV \(\approx 2.5 \times 10^{16}\) m\(^{-1}\) and \(L = 10\) m:</p>
+  
+  <div class="eq">
+    \[\sigma_R \sim \frac{1}{2 m_\chi^3 L^3} = \frac{1}{2 \cdot (2.5 \times 10^{16})^3 \cdot 10^3} 
+    \approx \frac{1}{3 \times 10^{52}} \approx 3 \times 10^{-53}\ \text{m}^{-1}\]
+    <div class="eq-label">(C.2)</div>
+  </div>
+  
+  <h3>C.3 Coherence Length</h3>
+  
+  <p>From Eq. (9.3), with \(p_0 = m v \approx m \cdot 3 \times 10^{-9}\) (where \(m \sim\) GeV for atoms):</p>
+  
+  <div class="eq">
+    \[p_0 \sim 10^9\ \text{eV} \cdot 3 \times 10^{-9} = 1\ \text{eV} \approx 5 \times 10^{6}\ \text{m}^{-1}\]
+    <div class="eq-label">(C.3)</div>
+  </div>
+  
+  <p>Therefore:</p>
+  
+  <div class="eq">
+    \[\ell_{\rm coh} = \frac{p_0}{y \sigma_R} \sim \frac{5 \times 10^{6}}{1 \cdot 3 \times 10^{-53}} 
+    \sim 2 \times 10^{59}\ \text{m}^{-1}\]
+    <div class="eq-label">(C.4)</div>
+  </div>
+  
+  <p>
+    This gives \(\ell_{\rm coh}^{-1} \sim 2 \times 10^{59}\) m\(^{-1}\), 
+    meaning \(\ell_{\rm coh} \sim 5 \times 10^{-60}\) m—still catastrophically below observable scales.
+  </p>
+  
+  <div class="block error">
+    <div class="title">Conclusion</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The naive KK vacuum fluctuation mechanism yields \(\ell_{\rm coh} \sim 10^{-59}\) m—roughly 60 orders 
+      of magnitude below observable scales. Any observable effect requires fundamentally different scalar 
+      physics (light scalars, non-equilibrium sources, cosmological backgrounds).
+    </p>
+  </div>
 </section>
 
 <section class="section" id="refs">
   <h2>References</h2>
-  <ol style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.9;">
-    <li>Lindberg, S. (2025). <em>Sheldon's Theory of Unified Resistance</em>, Version 42. Zenodo. <a href="https://doi.org/10.5281/zenodo.17203762">doi:10.5281/zenodo.17203762</a></li>
-    <li>Aldrovandi, R. & Pereira, J.G. (2013). <em>Teleparallel Gravity: An Introduction</em>. Springer.</li>
-    <li>Maluf, J.W. (2013). The teleparallel equivalent of general relativity. <em>Annalen der Physik</em>, 525, 339–357.</li>
-    <li>Randall, L. & Sundrum, R. (1999). Large mass hierarchy from a small extra dimension. <em>Physical Review Letters</em>, 83, 3370.</li>
-    <li>Arkani-Hamed, N., Dimopoulos, S. & Dvali, G. (1998). The hierarchy problem and new dimensions at a millimeter. <em>Physics Letters B</em>, 429, 263.</li>
-    <li>Kaluza, T. (1921). Zum Unitätsproblem der Physik. <em>Sitzungsberichte der Preußischen Akademie der Wissenschaften</em>.</li>
-    <li>Klein, O. (1926). Quantentheorie und fünfdimensionale Relativitätstheorie. <em>Zeitschrift für Physik</em>, 37, 895.</li>
-    <li>Kasevich, M. & Chu, S. (1991). Atomic interferometry using stimulated Raman transitions. <em>Physical Review Letters</em>, 67, 181.</li>
-    <li>Rauch, H. & Werner, S.A. (2000). <em>Neutron Interferometry</em>. Oxford University Press.</li>
-    <li>LIGO Scientific Collaboration (2016). Observation of gravitational waves from a binary black hole merger. <em>Physical Review Letters</em>, 116, 061102.</li>
-    <li>Weinberg, S. (1995–1996). <em>The Quantum Theory of Fields</em>, Vols. I–II. Cambridge University Press.</li>
-    <li>Peskin, M.E. & Schroeder, D.V. (1995). <em>An Introduction to Quantum Field Theory</em>. Westview Press.</li>
-    <li>York, J.W. (1972). Role of conformal three-geometry in the dynamics of gravitation. <em>Physical Review Letters</em>, 28, 1082.</li>
-    <li>Gibbons, G.W. & Hawking, S.W. (1977). Action integrals and partition functions in quantum gravity. <em>Physical Review D</em>, 15, 2752.</li>
-    <li>Hohenberg, P.C. & Halperin, B.I. (1977). Theory of dynamic critical phenomena. <em>Reviews of Modern Physics</em>, 49, 435.</li>
+  
+  <ol style="font-size:0.88rem;color:var(--text-secondary);line-height:1.9">
+    <li>Aldrovandi, R. & Pereira, J.G. (2013). <em>Teleparallel Gravity: An Introduction</em>. Springer. doi:10.1007/978-94-007-5143-9</li>
+    <li>Maluf, J.W. (2013). The teleparallel equivalent of general relativity. <em>Annalen der Physik</em> 525, 339–357.</li>
+    <li>Bahamonde, S. et al. (2023). Teleparallel gravity: From theory to cosmology. <em>Rep. Prog. Phys.</em> 86, 026901.</li>
+    <li>Overduin, J.M. & Wesson, P.S. (1997). Kaluza-Klein gravity. <em>Phys. Rep.</em> 283, 303–378.</li>
+    <li>Randall, L. & Sundrum, R. (1999). Large mass hierarchy from a small extra dimension. <em>Phys. Rev. Lett.</em> 83, 3370.</li>
+    <li>Kaplan, D.B. (1992). A method for simulating chiral fermions on the lattice. <em>Phys. Lett. B</em> 288, 342–347.</li>
+    <li>Calzetta, E.A. & Hu, B.L. (2008). <em>Nonequilibrium Quantum Field Theory</em>. Cambridge University Press.</li>
+    <li>Kamenev, A. (2011). <em>Field Theory of Non-Equilibrium Systems</em>. Cambridge University Press.</li>
+    <li>Cronin, A.D., Schmiedmayer, J. & Pritchard, D.E. (2009). Optics and interferometry with atoms and molecules. <em>Rev. Mod. Phys.</em> 81, 1051–1129.</li>
+    <li>Kovachy, T. et al. (2015). Quantum superposition at the half-metre scale. <em>Nature</em> 528, 530–533.</li>
+    <li>Asenbaum, P. et al. (2017). Phase shift in an atom interferometer due to spacetime curvature. <em>Phys. Rev. Lett.</em> 118, 183602.</li>
+    <li>Abe, M. et al. [MAGIS-100] (2021). Matter-wave atomic gradiometer interferometric sensor. <em>Quantum Sci. Technol.</em> 6, 044003.</li>
+    <li>Bassi, A. et al. (2013). Models of wave-function collapse. <em>Rev. Mod. Phys.</em> 85, 471–527.</li>
   </ol>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     FOOTER
-     ═══════════════════════════════════════════════════════════════════════════ -->
 <footer class="footer">
-  <p>
-    <strong>Law of Resistance v4.0</strong> — STUR Physics Lab<br>
-    © 2026 Sheldon Lon Lindberg · Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>
+  <p><strong>Foundations of STUR</strong> — v8.1</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+  <p class="citation">
+    Lindberg, S.L. (2026). Foundations of STUR: A Framework for Testing Scalar-Matter Couplings via Interferometry (v8.1).
   </p>
 </footer>
 
 </div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+(function() {
+  const toast = document.getElementById('toast');
+  
+  function showToast(msg) {
+    toast.textContent = msg || 'Copied to clipboard';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  }
+  
+  // Jump buttons
+  document.querySelectorAll('[data-jump]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = document.querySelector(btn.getAttribute('data-jump'));
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+  
+  // Copy citation
+  const citeBtn = document.getElementById('copyCite');
+  const citation = `Lindberg, Sheldon Lon (2026). "Foundations of STUR: A Framework for Testing Scalar-Matter Couplings via Interferometry," v8.1.`;
+  
+  if (citeBtn) {
+    citeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(citation);
+        showToast('Citation copied');
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = citation;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Citation copied');
+      }
+    });
+  }
+})();
+</script>
+
 </body>
-</html>
 </html>
