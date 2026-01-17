@@ -659,6 +659,7 @@ code {
 <p><a href="#appA">A. Notation</a></p>
 <p><a href="#appB">B. Schwinger-Keldysh Derivation</a></p>
 <p><a href="#appC">C. Dimensional Analysis</a></p>
+<p><a href="#appD">D. Environmental Decoherence Exclusion</a></p>
 <p><a href="#refs">References</a></p>
 ```
 
@@ -1483,6 +1484,19 @@ code {
 <section class="section" id="sec9">
   <h2>9. Interferometric Signature</h2>
 
+  <div class="block warning">
+    <div class="title">Interpretational Scope</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>No claim is made that microscopic spacetime torsion fluctuates stochastically.</strong>
+      The teleparallel language in this section provides a <em>geometric parameterization</em> of an 
+      effective phase-transport noise inferred from interferometric observables. Terms like "substrate 
+      stiffness" or "geometric resistance" are organizational metaphors, not assertions about the 
+      microphysical origin of the noise. The observable prediction (Gaussian visibility decay) is 
+      independent of whether the underlying physics is literally teleparallel torsion, a stochastic 
+      scalar bath, or some other mechanism producing equivalent phase statistics.
+    </p>
+  </div>
+
   <!-- ════════════════════════════════════════════════════════════════════════
        RED ISSUE #1: Gauge/Frame Invariance and Operational Meaning
        ════════════════════════════════════════════════════════════════════════ -->
@@ -1798,7 +1812,7 @@ code {
   </div>
 
   <div class="block gold">
-    <div class="title">Geometric Identification</div>
+    <div class="title">Geometric Identification (Phenomenological Ansatz)</div>
     <p style="margin:0;color:var(--text-secondary)">
       In STUR's teleparallel substrate picture, the stochastic scalar fluctuations are not treated as an
       arbitrary bath parameter: we identify the shot-to-shot scalar variance with RMS fluctuations of an
@@ -1808,8 +1822,10 @@ code {
       \[\boxed{\sigma_R \equiv K_{\rm eff} \qquad [K_{\rm eff}] = \mathrm{m^{-1}}}\]
       <div class="eq-label">(9.4)</div>
       <div class="eq-note">
-        This is an identification of the <em>effective</em> stochastic source entering the Markovian visibility law:
-        \(\sigma_R\) is defined operationally as the <strong>RMS phase-gradient per unit length</strong> inferred from visibility decay.
+        <strong>Equation (9.4) is a phenomenological identification, not a geometric derivation.</strong>
+        Its value lies in organizing experimental constraints within a teleparallel language, not in asserting 
+        microscopic equivalence between noise amplitude and torsion. \(\sigma_R\) is defined operationally as 
+        the <strong>RMS phase-gradient per unit length</strong> inferred from visibility decay.
         In teleparallel geometry, a natural geometric parameterization of such random phase gradients is
         an <strong>effective contortion-fluctuation scale</strong> \(K_{\rm eff}\). Here \(K_{\rm eff}\) denotes an
         <strong>effective, coarse-grained laboratory-scale parameter</strong> inferred from visibility decay—it is not
@@ -3225,6 +3241,150 @@ code {
       Loop topology, medium structure, and controlled resistance gradients can macroscopically enhance \(\Phi_R\)
       without requiring large metric baselines. The visibility law \(V = V_0\exp(-\langle\Phi_R^2\rangle/2)\)
       may therefore be testable via Sagnac-type interferometers with resistance-loaded segments.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="appD">
+  <h2>Appendix D: Environmental Decoherence Exclusion</h2>
+
+  <p>
+    A natural objection to the STUR visibility signature is: "Could standard environmental decoherence 
+    mechanisms produce a Gaussian decay in \(\Delta L^2\)?" This appendix shows explicitly that they cannot.
+  </p>
+
+  <h3>D.1 Standard Decoherence Mechanisms</h3>
+
+  <p>
+    The dominant environmental decoherence sources in atom interferometry are:
+  </p>
+
+  <div class="block">
+    <div class="title">Collisional Decoherence (Background Gas)</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Scattering from residual gas molecules produces localization at rate \(\Gamma_{\rm coll}\).
+      The visibility decay is:
+    </p>
+    <div class="eq">
+      \[
+        V_{\rm coll}(t) = \exp(-\Gamma_{\rm coll}\, t) = \exp\!\left(-n\sigma v_{\rm rel}\, t\right)
+      \]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      where \(n\) is gas density, \(\sigma\) is cross-section, \(v_{\rm rel}\) is relative velocity.
+      <strong>Scaling:</strong> Linear in interrogation time \(t\), independent of \(\Delta L\).
+    </p>
+  </div>
+
+  <div class="block">
+    <div class="title">Photon Scattering (Blackbody Radiation)</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Thermal photon absorption/emission causes momentum diffusion:
+    </p>
+    <div class="eq">
+      \[
+        V_{\rm BB}(t) = \exp(-\Gamma_{\rm BB}\, t) \approx \exp\!\left(-\frac{\alpha_{\rm pol} k_B^4 T^4}{\hbar c^3}\, t\right)
+      \]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <strong>Scaling:</strong> Linear in \(t\), independent of \(\Delta L\).
+    </p>
+  </div>
+
+  <div class="block">
+    <div class="title">Phase Diffusion (Laser/Magnetic Noise)</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Technical noise in beam splitter phases or magnetic field gradients:
+    </p>
+    <div class="eq">
+      \[
+        V_{\rm tech}(t) = \exp\!\left(-\frac{\langle \delta\phi^2 \rangle}{2}\right)
+        \quad \text{where } \langle \delta\phi^2 \rangle \propto t \cdot S_\phi(f)
+      \]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <strong>Scaling:</strong> Linear in \(t\) (for white noise), or power-law in \(t\) (for colored noise).
+      <em>Not</em> dependent on arm separation \(\Delta L\).
+    </p>
+  </div>
+
+  <h3>D.2 Path-Length Dependent Mechanisms</h3>
+
+  <div class="block">
+    <div class="title">Gravitational Gradient Decoherence</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Coupling to gravitational field gradients (e.g., from nearby masses) produces:
+    </p>
+    <div class="eq">
+      \[
+        \Delta\phi_{\rm grav} = \frac{m}{\hbar} \int_{\rm path} \Phi_{\rm grav}(x)\, ds
+        \;\Rightarrow\; \langle \delta\phi^2 \rangle \propto L_{\rm total}
+      \]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <strong>Scaling:</strong> Linear in total path length \(L_{\rm total}\), not \(\Delta L^2\).
+    </p>
+  </div>
+
+  <h3>D.3 The STUR Signature Is Unique</h3>
+
+  <div class="block gold">
+    <div class="title">Discriminator Summary</div>
+    <table style="margin:0.5rem 0;font-size:0.88rem">
+      <tr>
+        <th>Mechanism</th>
+        <th>Visibility Scaling</th>
+        <th>Control Parameter</th>
+      </tr>
+      <tr>
+        <td>Collisional</td>
+        <td>\(V \propto e^{-\Gamma t}\)</td>
+        <td>Time \(t\), pressure</td>
+      </tr>
+      <tr>
+        <td>Blackbody</td>
+        <td>\(V \propto e^{-\Gamma t}\)</td>
+        <td>Time \(t\), temperature</td>
+      </tr>
+      <tr>
+        <td>Technical noise</td>
+        <td>\(V \propto e^{-\alpha t}\) or \(e^{-\alpha t^\beta}\)</td>
+        <td>Time \(t\)</td>
+      </tr>
+      <tr>
+        <td>Gravitational</td>
+        <td>\(V \propto e^{-\gamma L}\)</td>
+        <td>Total path \(L\)</td>
+      </tr>
+      <tr style="background:rgba(74,158,255,0.1)">
+        <td><strong>STUR</strong></td>
+        <td>\(V \propto e^{-(\Delta L)^2/\ell^2}\)</td>
+        <td><strong>Arm separation \(\Delta L\)</strong></td>
+      </tr>
+    </table>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <strong>Key distinction:</strong> STUR predicts visibility decay scaling as 
+      \((\Delta L)^2\)—the <em>square</em> of arm separation—while all standard mechanisms 
+      scale linearly in time \(t\) or total path \(L\). This functional form is the 
+      unique experimental discriminator.
+    </p>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Experimental Test Protocol</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      To exclude environmental decoherence and test STUR:
+    </p>
+    <ol style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.88rem">
+      <li>Vary \(\Delta L\) while holding \(t\), \(L_{\rm total}\), pressure, and temperature fixed.</li>
+      <li>Fit visibility to both \(V = V_0 e^{-\alpha \Delta L}\) (linear) and 
+          \(V = V_0 e^{-(\Delta L/\ell)^2}\) (quadratic).</li>
+      <li>Compute likelihood ratio or Bayesian model comparison.</li>
+      <li>If quadratic model wins with \(> 5\sigma\), STUR is supported; if linear wins, STUR is excluded.</li>
+    </ol>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      The \(\Delta L^2\) scaling is not achievable by any known decoherence mechanism operating 
+      uniformly along the interferometer arms.
     </p>
   </div>
 </section>
