@@ -153,6 +153,21 @@
         margin-left: auto;
         margin-right: auto;
     }
+    .eq-diffusion { color: #4ade80; }
+    .eq-potential { color: #f472b6; }
+    .eq-xcrm { color: #fbbf24; }
+    .eq-torsion { color: #60a5fa; }
+    .eq-quantum { color: #a78bfa; }
+    .eq-matter { color: #22d3ee; }
+    .eq-legend { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; max-width: 960px; margin: 1rem auto; padding: 0.75rem 1rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; font-size: 0.82rem; }
+    .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
+    .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .eq-legend-dot.diffusion { background: #4ade80; }
+    .eq-legend-dot.potential { background: #f472b6; }
+    .eq-legend-dot.xcrm { background: #fbbf24; }
+    .eq-legend-dot.torsion { background: #60a5fa; }
+    .eq-legend-dot.quantum { background: #a78bfa; }
+    .eq-legend-dot.matter { background: #22d3ee; }
 </style>
 
 <script>
@@ -206,6 +221,13 @@ function copyFull() {
 
 <header>
     <h1>STUR 5D Hydrothermal Micro-Pore – Emergent Proto-Cell Simulation</h1>
+    <div class="eq-legend">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
+    </div>
     <h2>Alkaline Vent Physics + FeS/NiS Catalysis + STUR Curvature Selection</h2>
     <div>
         <span class="pill">STUR R(x,t,X)</span>
