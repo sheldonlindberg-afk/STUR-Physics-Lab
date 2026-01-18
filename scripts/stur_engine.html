@@ -380,8 +380,9 @@
       STUR predicts that a scalar resistance field coupled to teleparallel torsion produces a 
       <strong>Gaussian visibility suppression</strong>
       \(V(\Delta L) = V_0\exp[-(\Delta L/\ell_{\rm coh})^2]\)
-      that depends <em>only</em> on interferometer arm separation \(\Delta L\) and is 
-      <strong>independent of particle mass, interrogation time, and internal structure</strong>.
+      that depends dominantly on interferometer arm separation \(\Delta L\) and is
+      <strong>independent of particle mass and internal structure at fixed shot time</strong>,
+      to leading order in the small-holonomy (Gaussian) regime.
       This is the single discriminating observable that distinguishes STUR from decoherence, ULDM, and standard QM.
     </p>
   </div>
@@ -1024,7 +1025,7 @@
       <div class="card" style="border-left:3px solid var(--tegr)"><h4>TEGR Metric</h4><div class="eq">\[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]</div></div>
       <div class="card" style="border-left:3px solid var(--hgem)"><h4>GEM Fields</h4><div class="eq">\[\vec{E}_g = -\nabla\Phi_g - \dot{\vec{A}}_g\]</div></div>
       <div class="card" style="border-left:3px solid var(--stur)"><h4>STUR PDE</h4><div class="eq">\[\partial_t R=\nabla\!\cdot(D\nabla R)-\nabla R\cdot\Omega+\chi\,\partial_X R+S\]</div></div>
-      <div class="card" style="border-left:3px solid var(--stur)"><h4>Resistance Holonomy</h4><div class="eq">\[\Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \nabla R \cdot dx\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>Resistance Holonomy</h4><div class="eq">\[\Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \mathsf{J}_a\, dx^a\]</div></div>
       <div class="card" style="border-left:3px solid var(--stur)"><h4>Visibility Law</h4><div class="eq">\[V = V_0 e^{-\langle\Phi_R^2\rangle/2}\]</div></div>
       <div class="card" style="border-left:3px solid var(--chrono)"><h4>Chronomagnetic Modulation</h4><div class="eq">\[\mathcal{M}(u) = 1 + \epsilon\cos(2\pi u/\ln\lambda)\]</div></div>
       <div class="card" style="border-left:3px solid var(--chrono)"><h4>Coherence Length</h4><div class="eq">\[\ell_{\rm coh} = p_0 / (y\, K_{\rm eff})\]</div></div>
@@ -1117,6 +1118,18 @@
 </ol>
 
   </section>
+
+  <div class="block warning" style="margin:2rem 1.5rem;">
+    <div class="title">Framework Closure Status</div>
+    <p class="muted" style="margin:0">
+      UTEF is an effective field framework closed under
+      symmetry, dynamics, and observable definition.
+      It does not close the theory at the level of
+      absolute parameter prediction (\(\sigma_R\), \(K_{\rm eff}\)),
+      which remain to be fixed by dynamics, symmetry,
+      or experimental measurement.
+    </p>
+  </div>
 
 </div>
 

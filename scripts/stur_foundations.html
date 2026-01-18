@@ -1531,7 +1531,13 @@ code {
   <h4>3.4.2 Coarse-Graining Is Unavoidable</h4>
   <p>
     Any interferometer does not measure \(R(x,X)\) directly. It measures a path-integrated phase:
-    \(\Phi_R = \int_{\text{path}} \nabla R \cdot d\ell\).
+    \(\Phi_R = \oint_{\mathcal{C}} \mathsf{J}_a\, dx^a\).
+  </p>
+  <p class="muted" style="font-size:0.9rem;margin-top:0.5rem;">
+    <strong>Convention:</strong> The resistance holonomy \(\Phi_R\) is defined
+    exclusively as a closed-loop integral of a phase-gradient 1-form.
+    Expressions involving \(\nabla R\) represent a convenient gauge choice
+    and are not the definition of the observable.
   </p>
   <p>
     Because:
@@ -3576,8 +3582,19 @@ code {
       STUR v9.1 should be read as a <strong>phenomenological interferometric test framework</strong>
       rather than as a claim of new gravitational microphysics. The remaining open problems
       concern enhancement mechanisms and experimental reach, not internal consistency. The
-      framework is falsifiable, the predictions are binary, and the experimental protocol is 
+      framework is falsifiable, the predictions are binary, and the experimental protocol is
       well-defined.
+    </p>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Closure Status</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      STUR is closed at the level of <em>observable functional form</em>
+      (Gaussian visibility from holonomy statistics),
+      but not closed at the level of <em>parameter prediction</em>.
+      The magnitude of \(\sigma_R\) / \(K_{\rm eff}\) is not derived
+      from first principles and remains the central open problem.
     </p>
   </div>
 
