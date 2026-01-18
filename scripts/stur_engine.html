@@ -458,7 +458,6 @@
   <section id="sec-stur">
     <h2><span class="section-dot" style="background:var(--stur)"></span> STUR: Law of Unified Resistance</h2>
 
-```
 <h3>Resistance Field Postulate</h3>
 <p>
   STUR posits a real resistance field \(R(x^\mu, X)\) on a 5D resistance manifold, where \(x^\mu\) is the
@@ -583,7 +582,6 @@
     laboratory parameter linking \(R\) to observed visibility statistics.
   </p>
 </div>
-```
 
   </section>
 
@@ -592,8 +590,13 @@
     <p>Chronomagnetics introduces a log-periodic modulation of tangential contortion, defined from exact triangle geometry and embedded consistently within the teleparallel (TEGR) formalism.</p>
     <div class="eq law">\[\boxed{\lambda = \frac{3722}{2705} \approx 1.376}\]<div class="eq-label">(Chronomagnetic Constant)</div></div>
     <p>This is an <em>exactly defined geometric ratio</em> arising from a specific illustrative triangle construction \(\{116, 138, 144\}\). The triangle is not claimed to be unique.</p>
+    <p class="muted">
+      The functional mapping from triangle data to \(\lambda\) is a chosen
+      <strong>demonstrator construction</strong>, not a first-principles derivation.
+      Its purpose is to show that exact rational log-periodic ratios can arise
+      from rigid geometry without invoking numerology.
+    </p>
 
-```
 <h3>Triangle Geometry Derivation</h3>
 <p class="muted">
   The fundamental triangle △ABC with sides \(a = 144, b = 138, c = 116\) provides the geometric basis:
@@ -605,11 +608,11 @@
   </div>
   <div class="card" style="border-left:3px solid var(--chrono)">
     <h4>Area Squared</h4>
-    <div class="eq">\[A^2 = s(s-a)(s-b)(s-c) = 55,414,535\]</div>
+    <div class="eq">\[A^2 = s(s-a)(s-b)(s-c) = 55,414,535 \quad (\sqrt{A^2} \approx 7442.75)\]</div>
   </div>
   <div class="card" style="border-left:3px solid var(--gold)">
     <h4>Construction</h4>
-    <div class="eq">\[\lambda = \frac{\lfloor\sqrt{A^2}\rfloor}{10(s + 3c - 6)} = \frac{7444}{5410} = \frac{3722}{2705}\]</div>
+    <div class="eq">\[\lambda = \frac{\lfloor\sqrt{A^2}\rfloor}{10(s + 3c - 6)} = \frac{7442}{5410} \approx \frac{3722}{2705}\]</div>
   </div>
 </div>
 
@@ -627,23 +630,21 @@
     while preserving TEGR field equations. No claim is made that \(\lambda\) is fundamental.
   </p>
 </div>
-```
 
   </section>
 
   <section id="sec-action">
     <h2><span class="section-dot" style="background:var(--accent)"></span> Action Principle &amp; Coupled Field Equations</h2>
 
-```
 <p>
-  To move STUR from phenomenological ansatz to derived field theory, we define the total action 
-  as the sum of the geometric (torsion) sector and the dynamical resistance sector.
+  To formalize STUR as an <strong>effective transport theory</strong>, we define the resistance action
+  alongside the geometric (torsion) sector. The sectors are coupled but conceptually distinct.
 </p>
 
-<h3>Total Action</h3>
+<h3>Effective Action</h3>
 <div class="eq law">
   \[
-  \boxed{S_{\text{total}} = \frac{1}{16\pi G}\int d^4x\, e\, \mathbb{T} + \int d^4x\, e\, \mathcal{L}_R}
+  \boxed{S_{\text{eff}} = \frac{1}{16\pi G}\int d^4x\, e\, \mathbb{T} \;\oplus\; \int d^4x\, e\, \mathcal{L}_R}
   \]
   <div class="eq-label">(STUR-TEGR Action)</div>
 </div>
@@ -705,23 +706,9 @@
   <div class="eq-label">(STUR Energy-Momentum Tensor)</div>
 </div>
 
-<h3>Effective Gravitational Coupling</h3>
-<div class="eq law">
-  \[
-  \boxed{G_{\text{eff}} = \frac{G}{1 + 16\pi G \alpha R^2}}
-  \]
-  <div class="eq-label">(Effective Newton's Constant)</div>
-</div>
-
-<div class="block success">
-  <div class="title">Physical Consequences</div>
-  <p class="muted">
-    <strong>Vacuum limit:</strong> \(R \to R_{\rm bg} \approx 0\) recovers standard GR.<br>
-    <strong>High-gradient regions:</strong> Gravitational coupling is <em>screened</em> by resistance.<br>
-    <strong>New observable:</strong> Correlated variations between interferometric visibility and local 
-    gravitational measurements.
-  </p>
-</div>
+<!-- Note: Effective gravitational coupling (G_eff) removed from UTEF.
+     STUR coupling enters the phase/holonomy sector only; no modified gravity claim is made.
+     The resistance field affects interferometric visibility, not Newton's constant. -->
 
 <h3>Back-Reaction Structure</h3>
 <div class="card-grid">
@@ -736,17 +723,16 @@
     <p class="muted" style="font-size:0.85rem">Resistance gradients source torsion</p>
   </div>
 </div>
-```
 
   </section>
 
   <section id="sec-solver">
     <h2><span class="section-dot" style="background:var(--purple)"></span> 1D Numerical Solver: R ↔ T Back-Reaction</h2>
 
-```
 <p>
-  The following demonstrates the coupled evolution of the resistance field \(R(x,t)\) 
-  and the torsion perturbation \(h(x,t)\) in a 1D linearized regime.
+  The following demonstrates a <strong>reduced STUR toy model</strong> showing
+  resistance diffusion with XCRM relaxation and torsion-sourced feedback
+  in a 1D linearized regime.
 </p>
 
 <div class="block gold">
@@ -828,12 +814,15 @@
 <div class="block success">
   <div class="title">Numerical Stability — Crank-Nicolson Scheme</div>
   <p class="muted">
-    This solver uses a <strong>semi-implicit Crank-Nicolson</strong> integration scheme, 
+    This solver uses a <strong>semi-implicit Crank-Nicolson</strong> integration scheme,
     which removes the strict CFL stability limit \(\Delta t < \frac{\Delta x^2}{2D}\).
     The tridiagonal system is solved via the Thomas algorithm (TDMA).
   </p>
+  <p class="muted" style="margin-top:0.5rem;font-size:0.85rem;color:var(--text-muted);">
+    <em>Note:</em> This is not the full STUR PDE; it omits \(\Omega\), source terms,
+    and higher-dimensional structure. It is provided for intuition only.
+  </p>
 </div>
-```
 
   </section>
 
@@ -894,7 +883,6 @@
   <section id="sec-falsification">
     <h2><span class="section-dot" style="background:var(--accent)"></span> Falsification Protocol</h2>
 
-```
 <div class="block" style="border-left:4px solid #ef4444; background:rgba(239,68,68,0.08);">
   <div class="title" style="color:#ef4444;">⚠ Hard Falsification Conditions (Non-Negotiable)</div>
   <p class="muted" style="margin-bottom:0.75rem;">
@@ -955,7 +943,6 @@
   <tr class="highlight"><td><strong>MAGIS-100</strong></td><td>100 m</td><td>\(10^{-4}\) rad/√Hz</td><td>\(\approx 1.6 \times 10^{-11}\) m</td></tr>
   <tr><td>Neutron (PF1B)</td><td>~0.1 m</td><td>\(10^{-2}\) rad</td><td>\(\approx 2.0 \times 10^{-9}\) m</td></tr>
 </table>
-```
 
   </section>
 
@@ -968,7 +955,6 @@
       </p>
     </div>
 
-```
 <div class="card-grid">
   <div class="card" style="border-left:3px solid var(--gold)">
     <h4>What is being tested</h4>
@@ -1029,7 +1015,6 @@
 </div>
 
 <pre id="verifierMdBlock" style="white-space:pre-wrap; background:var(--surface-elevated); border:1px solid var(--border); border-radius:12px; padding:1rem; overflow:auto; color:var(--text-secondary); font-size:0.85rem;"></pre>
-```
 
   </section>
 
@@ -1049,7 +1034,6 @@
   <section id="sec-refs">
     <h2><span class="section-dot" style="background:var(--accent)"></span> References</h2>
 
-```
 <ol style="font-size:0.95rem; line-height:1.8; color:var(--text-secondary);">
   <li>
     James Lockwood, Christopher B. Cyrek, Dustin Hansley, and Derek J. Burkeen.
@@ -1131,7 +1115,6 @@
     Internal research manuscript, 2026.
   </li>
 </ol>
-```
 
   </section>
 
@@ -1202,6 +1185,9 @@
 
   // Holoscreen controls
   const rqSlider = document.getElementById('rq-slider');
+  const canvas = document.getElementById('visibilityCanvas');
+  if (!rqSlider || !canvas) return; // Guard: skip if elements missing
+
   const leffSlider = document.getElementById('leff-slider');
   const lcohSlider = document.getElementById('lcoh-slider');
   const deltaLSlider = document.getElementById('deltaL-slider');
@@ -1216,7 +1202,6 @@
   const regimeOutput = document.getElementById('regime-output');
   const statusOutput = document.getElementById('status-output');
   const detectionOutput = document.getElementById('detection-output');
-  const canvas = document.getElementById('visibilityCanvas');
   const ctx = canvas.getContext('2d');
   const colors = { stur: '#3fb950', uldm: '#f0b429', null: '#5a6575', noise: '#f85149', grid: 'rgba(255,255,255,0.1)', axis: 'rgba(255,255,255,0.3)', marker: '#4a9eff', bg: '#0a0e14' };
 
