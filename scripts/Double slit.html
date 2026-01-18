@@ -224,6 +224,43 @@ footer{
   .kpi-grid{grid-template-columns:1fr;}
   h1{margin-top:0.8rem;}
 }
+
+/* === EQUATION TERM COLOR CODING === */
+.eq-diffusion { color: #4ade80; } /* Green - Kinetic/Diffusion */
+.eq-potential { color: #f472b6; } /* Pink - Relaxation Potential */
+.eq-xcrm { color: #fbbf24; }      /* Gold - XCRM Coupling */
+.eq-torsion { color: #60a5fa; }   /* Blue - Torsion Source */
+.eq-quantum { color: #a78bfa; }   /* Violet - Quantum Terms */
+.eq-matter { color: #22d3ee; }    /* Cyan - Matter Sector */
+
+/* Equation Legend */
+.eq-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.82rem;
+}
+.eq-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.eq-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.eq-legend-dot.diffusion { background: #4ade80; }
+.eq-legend-dot.potential { background: #f472b6; }
+.eq-legend-dot.xcrm { background: #fbbf24; }
+.eq-legend-dot.torsion { background: #60a5fa; }
+.eq-legend-dot.quantum { background: #a78bfa; }
+.eq-legend-dot.matter { background: #22d3ee; }
 </style>
 </head>
 
@@ -241,6 +278,15 @@ footer{
 </div>
 
 <h1>STUR Double-Slit — Dataset-Locked Plasmon Coherence</h1>
+
+<!-- Equation Color Legend -->
+<div class="eq-legend" style="max-width:960px;margin:1rem auto;">
+  <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
+  <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
+  <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
+  <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
+  <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
+</div>
 
 <div class="highlight-box">
 <b>Falsification rule (hard).</b><br>
