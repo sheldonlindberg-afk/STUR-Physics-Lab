@@ -3,10 +3,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>STUR Physics Engine — Unified Teleparallel Framework</title>
+  <title>STUR — Unified Teleparallel Effective Framework (UTEF)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="STUR Physics Engine: Unified teleparallel substrate (TEGR) with STUR resistance-field dynamics, HGEM linear limit, and Chronomagnetics log-periodic modulation; includes falsifiable interferometric predictions." />
+  <meta name="description" content="STUR: A unified teleparallel effective framework introducing a scalar resistance field coupled to torsion, yielding falsifiable interferometric visibility predictions." />
   <meta name="author" content="Sheldon Lon Lindberg" />
+  <meta name="generator" content="STUR Physics Engine Single-HTML (Core-Only Export + Verifier + BibTeX + CSL-JSON)" />
 
   <!-- AI / Indexing -->
 
@@ -15,19 +16,19 @@
   {
     "@context": "https://schema.org",
     "@type": "ScholarlyArticle",
-    "name": "STUR Physics Engine — Unified Teleparallel Framework",
+    "name": "STUR — Unified Teleparallel Effective Framework",
     "author": {
       "@type": "Person",
       "name": "Sheldon Lon Lindberg"
     },
     "about": [
       "Teleparallel Gravity",
-      "Unified Resistance Theory",
-      "Gravitoelectromagnetism",
-      "Interferometric Holonomy",
-      "Chronomagnetics"
+      "Scalar Resistance Field",
+      "Torsion Coupling",
+      "Interferometric Visibility",
+      "Falsifiable Predictions"
     ],
-    "keywords": "STUR, teleparallel gravity, torsion, holonomy, interferometry, gravitoelectromagnetism",
+    "keywords": "STUR, teleparallel gravity, torsion, visibility suppression, interferometry, effective field theory",
     "datePublished": "2026-01-01",
     "inLanguage": "en"
   }
@@ -336,6 +337,43 @@
     }
     footer p { margin: 0.5rem 0; }
     .footer-links { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap; }
+    .export-row{
+      display:flex;
+      gap:0.75rem;
+      flex-wrap:wrap;
+      margin-top:0.75rem;
+      align-items:center;
+      justify-content:center;
+    }
+    .pill-control{
+      display:inline-flex;
+      gap:0.5rem;
+      align-items:center;
+      padding:0.45rem 0.75rem;
+      border-radius:999px;
+      border:1px solid rgba(74,158,255,0.35);
+      background:rgba(18,23,31,0.65);
+      color:var(--text-secondary);
+      font-size:0.85rem;
+    }
+    .pill-control select{
+      background:transparent;
+      border:1px solid var(--border);
+      color:var(--text);
+      padding:0.25rem 0.5rem;
+      border-radius:8px;
+      outline:none;
+    }
+    .pill-control input[type="checkbox"]{
+      transform: translateY(1px);
+    }
+    .small-note{
+      font-size:0.85rem;
+      color:var(--text-muted);
+      text-align:center;
+      margin-top:0.5rem;
+      line-height:1.4;
+    }
     /* =========================
        DESKTOP ENHANCEMENTS
        ========================= */
@@ -396,11 +434,10 @@
 
 <header class="hero">
   <div class="hero-content">
-    <div class="engine-badge"><span>⚛</span> STUR Physics Engine</div>
-    <h1>STUR Physics Engine</h1>
+    <div class="engine-badge"><span>⚛</span> UTEF</div>
+    <h1>STUR — Unified Teleparallel Effective Framework</h1>
     <p class="hero-subtitle">
-      Complete Unified Teleparallel Framework — Interactive simulator combining 
-      TEGR gravity, HGEM waves, STUR holonomy, and Chronomagnetics modulation
+      Scalar resistance field coupled to teleparallel torsion — falsifiable interferometric predictions
     </p>
     <div class="pillar-row">
       <div class="pillar-indicator"><span class="pillar-dot tegr"></span>TEGR</div>
@@ -416,13 +453,24 @@
   <div class="block warning">
     <div class="title">Scope and Status</div>
     <p class="muted" style="margin:0">
-      This engine presents a <strong>unified teleparallel substrate</strong> with an explicit
-      <strong>STUR law of unified resistance</strong>. TEGR (≡ GR) provides the geometric backbone;
-      STUR supplies the dynamical resistance field \(R(x^\mu,t,X)\) and its gauge-invariant holonomy;
-      HGEM is the weak-field (linear) limit of the same structure; Chronomagnetics is a controlled,
-      log-periodic modulation of the effective coupling/transport sector over extended timescales.
+      This framework presents a <strong>unified teleparallel effective theory</strong> with an explicit
+      <strong>STUR resistance field</strong> coupled to torsion. TEGR (≡ GR) provides the geometric backbone;
+      STUR supplies the dynamical scalar resistance field \(R(x^\mu,t,X)\) and its gauge-invariant holonomy;
+      HGEM is the weak-field (linear) limit; Chronomagnetics provides log-periodic modulation.
       <strong>No claim is made</strong> that Standard Model parameters, coupling constants, 
-      or cosmological initial conditions are derived.
+      or cosmological initial conditions are derived. This is an <em>effective</em> framework, not a UV-complete theory.
+    </p>
+  </div>
+
+  <div class="block gold">
+    <div class="title">Primary Claim (Single-Test Statement)</div>
+    <p class="muted" style="margin:0">
+      STUR predicts that a scalar resistance field coupled to teleparallel torsion produces a 
+      <strong>Gaussian visibility suppression</strong>
+      \(V(\Delta L) = V_0\exp[-(\Delta L/\ell_{\rm coh})^2]\)
+      that depends <em>only</em> on interferometer arm separation \(\Delta L\) and is 
+      <strong>independent of particle mass, interrogation time, and internal structure</strong>.
+      This is the single discriminating observable that distinguishes STUR from decoherence, ULDM, and standard QM.
     </p>
   </div>
 
@@ -436,8 +484,9 @@
     <a href="#sec-solver" class="nav-card" style="border-color:var(--purple)"><h3>1D Solver</h3><p>R ↔ T back-reaction</p></a>
     <a href="#sec-holoscreen" class="nav-card stur"><h3>Interactive Holoscreen</h3><p>Live visibility calculator</p></a>
     <a href="#sec-detection" class="nav-card chrono"><h3>Detection</h3><p>Template matching</p></a>
-    <a href="#sec-wow" class="nav-card" style="border-color:#ff6b6b"><h3>5D Wow! Linkage</h3><p>Bulk drainage prediction</p></a>
-    <a href="#sec-3body" class="nav-card stur"><h3>3-Body Engine</h3><p>Curvature lock + RK4</p></a>
+    <a href="#sec-falsification" class="nav-card" style="border-color:#ef4444"><h3>Falsification</h3><p>Hard test conditions</p></a>
+    <a href="#sec-verifier" class="nav-card" style="border-color:var(--gold)"><h3>Verifier Appendix</h3><p>How to falsify STUR in 48 hours</p></a>
+    <a href="#sec-wow" class="nav-card" style="border-color:#888"><h3>Speculative Extensions</h3><p>Non-core consistency tests</p></a>
   </nav>
 
   <section id="sec-framework">
@@ -502,16 +551,28 @@
 ```
 <h3>Resistance Field Postulate</h3>
 <p>
-  STUR posits a real resistance field \(R(x^\mu,t,X)\) on teleparallel geometry, where \(X\) is an internal
-  coherence coordinate (X-coupled resistance manifold). Observable departures from ideal transport are
-  governed by the dynamics of \(R\), not by ad hoc stochastic collapse.
+  STUR posits a real resistance field \(R(x^\mu, X)\) on a 5D resistance manifold, where \(x^\mu\) is the
+  physical 4D spacetime coordinate (time included in \(x^\mu\)) and \(X\) is the internal coherence coordinate
+  (the X-Coupled Resistance Manifold, XCRM). Observable departures from ideal transport arise from the
+  dynamics of \(R\) and its \(X\)-relaxation law; no collapse postulate is introduced.
 </p>
 
 <div class="eq law">
   \[
-  R: M_4 \times \mathbb{R}_t \times X \rightarrow \mathbb{R}^{+}
+  R: M_4 \times X \rightarrow \mathbb{R}^{+}
   \]
   <div class="eq-label">(Field Definition)</div>
+</div>
+
+<div class="block">
+  <div class="title">Interpretation of the X Coordinate</div>
+  <p class="muted" style="margin:0">
+    The coordinate \(X\) is <strong>not assumed to represent a physical spacetime dimension</strong>.
+    It functions as an <em>internal coherence coordinate</em> encoding nonlocal resistance memory 
+    within the field. All observable dynamics remain four-dimensional in spacetime.
+    The \(X\)-relaxation term governs how local resistance perturbations return to the background 
+    value \(R_{\rm bg}\) over a characteristic scale \(L_X\).
+  </p>
 </div>
 
 <h3>STUR Evolution Law (Canonical)</h3>
@@ -520,7 +581,7 @@
 </p>
 <div class="eq law">
   \[
-  \frac{\partial R}{\partial t}
+  \partial_{t} R
   =
   \nabla\!\cdot\!\big(D\,\nabla R\big)
   -
@@ -542,15 +603,24 @@
 
 <h3>Observable: Resistance Holonomy</h3>
 <p>
-  The interferometric output is the gauge-invariant resistance holonomy accumulated around a closed loop
-  \(\mathcal{C}\):
+  The interferometric output is the gauge-invariant <em>resistance holonomy</em> accumulated by the
+  STUR transport connection \(\mathcal{A}^{(R)}\) around a closed loop \(\mathcal{C}\).
+  (A scalar gradient \(\nabla R\) alone is exact and gives zero around a closed loop; STUR's observable is
+  the loop integral of the <em>connection</em> built from the XCRM-identified resistance mismatch.)
 </p>
 <div class="eq law">
   \[
-  \Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \nabla R \cdot dx
+  \Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \mathcal{A}^{(R)}_\mu\, dx^\mu,
+  \qquad
+  \mathcal{A}^{(R)}_\mu \equiv \frac{1}{L_X}\big(R(x^\mu,X)-R_{\rm bg}\big)\,n_\mu
   \]
   <div class="eq-label">(Holonomy Observable)</div>
 </div>
+<p class="muted" style="margin-top:0.5rem">
+  Here \(n_\mu\) is the unit tangent co-vector along the transport path segment (so that
+  \(\mathcal{A}^{(R)}_\mu dx^\mu\) reduces to the path-aligned resistance mismatch per unit \(X\)-relaxation length).
+  This is the minimal, explicit, STUR-internal definition that makes \(\Phi_R\) nontrivial on closed loops.
+</p>
 
 <p>
   In the small-phase, many-shot regime, the measured visibility follows from cumulant truncation:
@@ -561,6 +631,54 @@
   \]
   <div class="eq-label">(Visibility from Holonomy Variance)</div>
 </div>
+
+<h3>Derivation: Why STUR Predicts Gaussian Suppression in \(\Delta L\)</h3>
+<p class="muted">
+  The "Gaussian in \(\Delta L\)" is not an assumption; it follows directly once you combine
+  (i) the XCRM closure and (ii) shot-to-shot fluctuations of \(R\) about \(R_{\rm bg}\) induced by the STUR PDE.
+  Let the effective arm separation be \(\Delta L\) and consider the loop difference between the two arms.
+</p>
+<div class="eq boxed">
+  \[
+  \Phi_R \;\approx\; \frac{\Delta L}{L_X}\,\delta R,
+  \qquad
+  \delta R \equiv R - R_{\rm bg}
+  \]
+  <div class="eq-label">(XCRM → Holonomy Scaling)</div>
+</div>
+<p class="muted">
+  Now take the ensemble over repeated shots. If the STUR dynamics place \(\delta R\) in a stationary
+  narrow distribution with finite variance \(\sigma_R^2 \equiv \langle \delta R^2\rangle\), then
+</p>
+<div class="eq boxed">
+  \[
+  \langle \Phi_R^2\rangle \;=\; \left(\frac{\Delta L}{L_X}\right)^2 \langle \delta R^2\rangle
+  \;=\; \left(\frac{\Delta L}{L_X}\right)^2 \sigma_R^2
+  \]
+  <div class="eq-label">(Variance Law)</div>
+</div>
+<p class="muted">
+  Insert this into the cumulant visibility law to obtain the discriminator:
+</p>
+<div class="eq law">
+  \[
+  \boxed{
+  V(\Delta L)
+  =
+  V_0\exp\!\left[-\frac{1}{2}\left(\frac{\sigma_R}{L_X}\right)^2(\Delta L)^2\right]
+  }
+  \qquad
+  \Rightarrow\quad
+  \ell_{\rm coh} \equiv \sqrt{2}\,\frac{L_X}{\sigma_R}
+  \]
+  <div class="eq-label">(STUR Gaussian Visibility Law — Derived)</div>
+</div>
+<p class="muted">
+  This is the precise statement: the Gaussian form arises because \(\Phi_R\) is linear in \(\Delta L\) while
+  the visibility depends on the <em>second cumulant</em> (variance) of \(\Phi_R\), hence \((\Delta L)^2\).
+  Nothing in this derivation depends on particle mass or internal structure; those only affect systematics
+  and whether the apparatus can resolve \(\sigma_R/L_X\).
+</p>
 
 <h3>Visibility Law (Baseline Discriminator)</h3>
 <p>
@@ -649,6 +767,22 @@
   \boxed{S_{\text{total}} = \frac{1}{16\pi G}\int d^4x\, e\, \mathbb{T} + \int d^4x\, e\, \mathcal{L}_R}
   \]
   <div class="eq-label">(STUR-TEGR Action)</div>
+</div>
+
+<div class="eq boxed">
+  \[
+  \lim_{R \to R_{\rm bg}} S_{\text{total}} = S_{\rm EH} \quad \text{(Einstein-Hilbert Action)}
+  \]
+  <div class="eq-label">(Exact GR Recovery in Vacuum)</div>
+</div>
+
+<div class="block success">
+  <div class="title">GR Recovery Guarantee</div>
+  <p class="muted" style="margin:0">
+    In the vacuum limit where all resistance gradients vanish (\(R \to R_{\rm bg}\), \(\nabla R \to 0\)), 
+    the theory reduces <strong>identically</strong> to General Relativity with no residual torsion corrections.
+    TEGR ≡ GR at the level of field equations, and STUR adds no ghost degrees of freedom.
+  </p>
 </div>
 
 <p>Where:</p>
@@ -923,6 +1057,29 @@
 <button id="synthExportBtn" style="width:100%; padding:0.75rem; font-weight:700; border-radius:8px; border:none; background:linear-gradient(135deg,var(--chrono),var(--stur)); color:var(--bg); cursor:pointer; margin-top:0.5rem;">
   📊 Export Synthetic Data (CSV)
 </button>
+
+<!-- Real Data Import -->
+<div class="block gold" style="margin-top:1.5rem;">
+  <div class="title">Real Experimental Data Import</div>
+  <p class="muted" style="margin-bottom:0.75rem;">
+    Upload real interferometric visibility data to <strong>replace all synthetic data</strong>.
+    Once loaded, all plots, detection routines, and exports operate exclusively on real data.
+  </p>
+  <input type="file"
+         id="realDataFileInput"
+         accept=".csv,.txt"
+         style="width:100%; padding:0.5rem; background:var(--surface); border:1px solid var(--border); border-radius:6px; color:var(--text); cursor:pointer;">
+  <p class="muted" style="font-size:0.8rem; margin-top:0.5rem;">
+    Required columns: <code>timestamp</code>, <code>visibility</code><br>
+    Optional: <code>deltaL</code>, <code>noise</code>, <code>lcoh</code>
+  </p>
+  <div id="realDataStatus" style="margin-top:0.75rem; padding:0.5rem; border-radius:6px; display:none;"></div>
+  <button id="clearRealDataBtn" 
+          style="width:100%; margin-top:0.75rem; padding:0.5rem; font-weight:600; border-radius:6px; border:1px solid var(--border); background:transparent; color:var(--text-secondary); cursor:pointer; display:none;"
+          onclick="if(window.STUR_clearRealData) window.STUR_clearRealData();">
+    ↺ Clear Real Data (Revert to Synthetic)
+  </button>
+</div>
 ```
 
   </section>
@@ -983,28 +1140,59 @@
 
   <section id="sec-falsification">
     <h2><span class="section-dot" style="background:var(--accent)"></span> Falsification Protocol</h2>
-    <div class="block gold">
-      <div class="title">Statistical Interpretation Standard</div>
-      <p class="muted"><strong>Frequentist:</strong> Measure \(V(\Delta L)\) at multiple baselines; fit Gaussian vs. null; reject at \(5\sigma\) if inconsistent.<br><strong>Bayesian:</strong> Log-evidence difference \(\Delta \ln \mathcal{Z} > 5\) = decisive support; \(< -5\) = decisive exclusion (Jeffreys scale).</p>
-    </div>
-    <h3>Discriminator Summary</h3>
-    <table>
-      <tr><th>Source</th><th>Visibility Scaling</th><th>Control Parameter</th></tr>
-      <tr><td>Collisional decoherence</td><td>\(e^{-\Gamma t}\)</td><td>Time, pressure</td></tr>
-      <tr><td>Blackbody radiation</td><td>\(e^{-\Gamma t}\)</td><td>Time, temperature</td></tr>
-      <tr><td>ULDM (coherent)</td><td>\(\cos(\omega t)\)</td><td>Frequency</td></tr>
-      <tr class="highlight"><td><strong>STUR</strong></td><td>\(e^{-(\Delta L/\ell)^2}\)</td><td><strong>Arm separation ΔL</strong></td></tr>
-    </table>
-    <h3>Experimental Platforms</h3>
-    <table>
-      <tr><th>Platform</th><th>Baseline</th><th>Test</th></tr>
-      <tr><td>MAGIS-100</td><td>~100 m</td><td>Long-baseline ΔL scan</td></tr>
-      <tr><td>AION</td><td>~10–100 m</td><td>Multi-baseline visibility</td></tr>
-      <tr><td>Sagnac loops</td><td>~1–10 m</td><td>Loop holonomy at ΔL = 0</td></tr>
-      <tr><td>Neutron interferometry</td><td>~0.1 m</td><td>Different systematics</td></tr>
-    </table>
 
 ```
+<div class="block" style="border-left:4px solid #ef4444; background:rgba(239,68,68,0.08);">
+  <div class="title" style="color:#ef4444;">⚠ Hard Falsification Conditions (Non-Negotiable)</div>
+  <p class="muted" style="margin-bottom:0.75rem;">
+    Any single observation below <strong>kills STUR</strong>. No parameter adjustment can save it.
+  </p>
+  <table>
+    <tr><th>Observation</th><th>Outcome</th></tr>
+    <tr>
+      <td>Visibility scales with interrogation time \(t\) rather than arm separation \(\Delta L\)</td>
+      <td style="color:#ef4444;"><strong>STUR FALSIFIED</strong></td>
+    </tr>
+    <tr>
+      <td>Neutron and atom interferometers disagree at identical \(\Delta L\)</td>
+      <td style="color:#ef4444;"><strong>STUR FALSIFIED</strong></td>
+    </tr>
+    <tr>
+      <td>Observed suppression is exponential \(e^{-\Delta L/\ell}\) or linear rather than Gaussian</td>
+      <td style="color:#ef4444;"><strong>STUR FALSIFIED</strong></td>
+    </tr>
+    <tr>
+      <td>No \(\Delta L\)-dependent suppression detected at \(\geq 5\sigma\) with MAGIS-100 sensitivity</td>
+      <td style="color:#ef4444;"><strong>STUR FALSIFIED</strong></td>
+    </tr>
+    <tr>
+      <td>Visibility depends on particle mass or internal structure at fixed \(\Delta L\)</td>
+      <td style="color:#ef4444;"><strong>STUR FALSIFIED</strong></td>
+    </tr>
+  </table>
+</div>
+
+<div class="block gold">
+  <div class="title">Statistical Interpretation Standard</div>
+  <p class="muted"><strong>Frequentist:</strong> Measure \(V(\Delta L)\) at multiple baselines; fit Gaussian vs. null; reject at \(5\sigma\) if inconsistent.<br><strong>Bayesian:</strong> Log-evidence difference \(\Delta \ln \mathcal{Z} > 5\) = decisive support; \(< -5\) = decisive exclusion (Jeffreys scale).</p>
+</div>
+<h3>Discriminator Summary</h3>
+<table>
+  <tr><th>Source</th><th>Visibility Scaling</th><th>Control Parameter</th></tr>
+  <tr><td>Collisional decoherence</td><td>\(e^{-\Gamma t}\)</td><td>Time, pressure</td></tr>
+  <tr><td>Blackbody radiation</td><td>\(e^{-\Gamma t}\)</td><td>Time, temperature</td></tr>
+  <tr><td>ULDM (coherent)</td><td>\(\cos(\omega t)\)</td><td>Frequency</td></tr>
+  <tr class="highlight"><td><strong>STUR</strong></td><td>\(e^{-(\Delta L/\ell)^2}\)</td><td><strong>Arm separation ΔL</strong></td></tr>
+</table>
+<h3>Experimental Platforms</h3>
+<table>
+  <tr><th>Platform</th><th>Baseline</th><th>Test</th></tr>
+  <tr><td>MAGIS-100</td><td>~100 m</td><td>Long-baseline ΔL scan</td></tr>
+  <tr><td>AION</td><td>~10–100 m</td><td>Multi-baseline visibility</td></tr>
+  <tr><td>Sagnac loops</td><td>~1–10 m</td><td>Loop holonomy at ΔL = 0</td></tr>
+  <tr><td>Neutron interferometry</td><td>~0.1 m</td><td>Different systematics</td></tr>
+</table>
+
 <h3>STUR Signal Thresholds</h3>
 <p class="muted">
   The minimum detectable path length difference \(\Delta L\) depends on phase resolution \(\delta\phi\) 
@@ -1023,6 +1211,113 @@
     MAGIS-100 is roughly <strong>two orders of magnitude more sensitive</strong> to torsional "jitter" 
     than neutron beam experiments due to the massive increase in \(k_{\rm eff}\) from LMT pulses.
     This makes it the premier platform for STUR falsification in the deep suppression regime.
+  </p>
+</div>
+
+<!-- TABLE-TOP FALSIFICATION PROTOCOL -->
+<h3 style="margin-top:2rem; border-top:1px solid var(--border); padding-top:1.5rem;">
+  Table-Top Falsification Test (Real-Data Replacement)
+</h3>
+
+<p class="muted">
+  This experiment provides a <strong>direct, table-top falsification test</strong> of the STUR
+  visibility-suppression prediction using a whispering-gallery photon orbit.
+  All synthetic data used elsewhere in this framework may be <strong>fully replaced</strong>
+  by measurements obtained via this protocol.
+</p>
+
+<div class="block gold">
+  <div class="title">Core Testable Claim</div>
+  <p class="muted" style="text-align:center; font-weight:600; margin:0;">
+    Visibility suppression depends on <em>geometric path separation</em>, not photon energy,
+    pulse duration, or cavity dwell time.
+  </p>
+</div>
+
+<h4>Experimental Apparatus (Minimal)</h4>
+<ul style="color:var(--text-secondary); margin:0.75rem 0;">
+  <li>Circular dielectric resonator (glass disk, acrylic ring, optical fiber loop, or polished cavity)</li>
+  <li>Continuous or pulsed laser source (visible or IR)</li>
+  <li>Photodiode or camera for intensity measurement</li>
+  <li>Adjustable launch angle or impact parameter</li>
+  <li>Optional: rotating stage or adjustable mirror for controlled path variation</li>
+</ul>
+<p class="muted" style="font-size:0.85rem;">
+  No cryogenics, vacuum systems, or quantum sources are required.
+  The experiment probes <em>classical photon trajectories</em> under controlled geometry.
+</p>
+
+<h4>Measurement Procedure</h4>
+<ol style="color:var(--text-secondary); margin:0.75rem 0;">
+  <li>Launch light into the circular cavity at an impact parameter close to the cavity radius (near-grazing incidence).</li>
+  <li>Record the internal orbit using scattered light, leakage intensity, or exit intensity after each round-trip.</li>
+  <li>Vary the <strong>effective geometric path length</strong> by adjusting launch angle, changing cavity radius, or introducing controlled path detours.</li>
+  <li>For each configuration, measure the relative output intensity after a fixed number of internal reflections.</li>
+</ol>
+<p class="muted" style="font-size:0.85rem;">
+  Crucially, <strong>do not change laser power during a scan</strong>. Only geometric path separation should vary.
+</p>
+
+<h4>Required Recorded Data (CSV Format)</h4>
+<p class="muted">
+  To replace synthetic data in the STUR framework, record measurements in a CSV file:
+</p>
+<pre style="background:var(--surface); padding:0.75rem; border-radius:6px; font-size:0.85rem; color:var(--text-secondary); overflow-x:auto;">timestamp,visibility,deltaL,noise
+```
+
+0.0,0.9823,0.001,0.005
+1.0,0.9756,0.002,0.006
+2.0,0.9612,0.003,0.004
+…</pre>
+<p class="muted" style="font-size:0.85rem;">
+Only <code>timestamp</code> and <code>visibility</code> are strictly required.
+The STUR importer accepts partial data and records provenance automatically.
+</p>
+
+```
+<h4>STUR Prediction (What Should Be Observed)</h4>
+<div class="eq boxed">
+  \[
+  V(\Delta L) = V_0 \cdot \exp\left[-\left(\frac{\Delta L}{\ell_{\rm coh}}\right)^2\right]
+  \]
+  <div class="eq-label">(Expected Gaussian Suppression)</div>
+</div>
+<p class="muted" style="margin-top:0.5rem;">
+  Key distinguishing features: Gaussian suppression in \(\Delta L\); no dependence on photon wavelength;
+  no dependence on cavity dwell time at fixed geometry.
+</p>
+
+<h4 style="color:#ef4444;">Hard Falsification Conditions (Table-Top)</h4>
+<div class="block" style="border-left:4px solid #ef4444; background:rgba(239,68,68,0.08);">
+  <p class="muted" style="margin:0 0 0.5rem 0; color:#ef4444; font-weight:600;">
+    Any one of the following observations falsifies STUR:
+  </p>
+  <ul style="color:var(--text-secondary); margin:0;">
+    <li>Visibility decays exponentially with time instead of Gaussian with path length</li>
+    <li>Changing laser wavelength changes suppression at fixed geometry</li>
+    <li>Identical path geometry yields different visibility across repeated runs</li>
+    <li>No measurable suppression is observed beyond instrumental noise</li>
+  </ul>
+  <p class="muted" style="margin:0.5rem 0 0 0; font-size:0.85rem;">
+    If falsified here, STUR is falsified globally. No parameter tuning is permitted.
+  </p>
+</div>
+
+<h4>Replacing Synthetic Data</h4>
+<ol style="color:var(--text-secondary); margin:0.75rem 0; font-size:0.9rem;">
+  <li>Upload the CSV using the <strong>Real Experimental Data Import</strong> panel (Chronomagnetics section).</li>
+  <li>Synthetic data is disabled automatically.</li>
+  <li>All plots, fits, detection routines, and exports use real data only.</li>
+  <li>The exported JSON archive records dataset hash and provenance.</li>
+</ol>
+
+<div class="block success">
+  <div class="title">Status of This Test</div>
+  <p class="muted" style="margin:0;">
+    ✔ Reproducible &nbsp;|&nbsp; ✔ Geometry-controlled &nbsp;|&nbsp; ✔ Inexpensive &nbsp;|&nbsp; ✔ Falsifiable<br>
+    <span style="font-size:0.85rem;">
+      This represents the <strong>lowest-barrier experimental entry point</strong> for validating or rejecting STUR.
+    </span>
   </p>
 </div>
 ```
@@ -1065,7 +1360,10 @@
 
 <h3>Python Detection Script</h3>
 <p class="muted">
-  Download and run this script on your exported synthetic data to verify signal recovery:
+  Download and run this script on your exported synthetic <strong>or real</strong> experimental data to verify signal recovery:
+</p>
+<p class="muted" style="font-size:0.8rem;">
+  The script auto-detects dataset type and column schema (synthetic vs real CSV format).
 </p>
 <button id="downloadPythonBtn" style="width:100%; padding:0.75rem; font-weight:700; border-radius:8px; border:none; background:linear-gradient(135deg,#3572A5,#a371f7); color:white; cursor:pointer; margin:1rem 0;">
   🐍 Download Detection Script (Python)
@@ -1074,9 +1372,9 @@
 <div class="block success">
   <div class="title">Verification Protocol</div>
   <p class="muted">
-    <strong>Step 1:</strong> Export synthetic data from the 1D Solver (CSV).<br>
+    <strong>Step 1:</strong> Export synthetic data OR upload real experimental data (CSV).<br>
     <strong>Step 2:</strong> Run the Python template matcher.<br>
-    <strong>Step 3:</strong> Verify recovered \(\epsilon\) matches input (within noise).<br>
+    <strong>Step 3:</strong> Verify recovered \(\epsilon\) matches prediction (within noise).<br>
     <strong>Step 4:</strong> Inspect residuals—should be white noise. Patterns indicate missing physics.
   </p>
 </div>
@@ -1199,10 +1497,22 @@
 
   </section>
 
-  <section id="sec-wow">
-    <h2><span class="section-dot" style="background:#ff6b6b"></span> STUR-Wow Linkage: The 5D Drain Prediction</h2>
+  <section id="sec-wow" data-noncore="true">
+    <h2><span class="section-dot" style="background:#ff6b6b"></span> Speculative Extensions (Non-Core)</h2>
 
 ```
+<div class="block warning">
+  <div class="title">Interpretive Status</div>
+  <p class="muted">
+    The following material (5D Wow! Linkage and 3-Body Engine) is <strong>exploratory</strong> and 
+    not required for the validity of the core STUR visibility prediction. Failure of any extension 
+    does not invalidate the core framework. These sections demonstrate consistency checks and 
+    potential applications, not primary claims.
+  </p>
+</div>
+
+<h3 style="margin-top:2rem;">STUR-Wow Linkage: The 5D Drain Prediction</h3>
+
 <p>
   The 1977 Wow! Signal detected by the Big Ear telescope remains unexplained. STUR provides a 
   <strong>falsifiable prediction</strong>: the signal was a transient leakage from a 5D Proca-type 
@@ -1401,7 +1711,7 @@
 
   </section>
 
-  <section id="sec-3body">
+  <section id="sec-3body" data-noncore="true">
     <h2><span class="section-dot" style="background:var(--stur)"></span> 3-Body Curvature Lock Engine</h2>
 
 ```
@@ -1582,6 +1892,85 @@
     </div>
   </section>
 
+  <section id="sec-verifier">
+    <h2><span class="section-dot" style="background:var(--gold)"></span> VERIFIER Appendix — How to Falsify STUR in 48 Hours</h2>
+    <div class="block gold">
+      <div class="title">One-page protocol (self-contained, reproducible)</div>
+      <p class="muted">
+        This appendix is bundled into the HTML and exported into the JSON archive as <code>verifier_md</code>.
+        It is designed so a home lab / university lab can run a decisive test without needing any STUR-internal tooling.
+      </p>
+    </div>
+
+```
+<div class="card-grid">
+  <div class="card" style="border-left:3px solid var(--gold)">
+    <h4>What is being tested</h4>
+    <p>
+      The STUR discriminator is <strong>Gaussian suppression in arm-separation</strong>:
+      \(V(\Delta L)=V_0\exp(-( \Delta L/\ell_{\mathrm{coh}})^2)\).
+      Competing null sources (ordinary decoherence) generally scale with time/pressure/temperature,
+      not specifically with \(\Delta L^2\) at fixed shot time.
+    </p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--gold)">
+    <h4>What counts as falsification</h4>
+    <p>
+      If, after controlling known decoherence channels, your measured \(V(\Delta L)\) rejects a Gaussian
+      in \(\Delta L^2\) (BIC or evidence) across multiple baselines, STUR's claimed discriminator is excluded
+      for that platform's sensitivity regime.
+    </p>
+  </div>
+</div>
+
+<div class="block">
+  <div class="title">48-hour plan (minimum viable falsification)</div>
+  <div class="muted">
+    <ol style="margin:0.5rem 0 0 1.25rem;">
+      <li><strong>Pick a platform</strong>: tabletop Mach–Zehnder (photons) or atomic interferometer (if available). Use stable optics, fixed shot time \(\tau_{\rm shot}\).</li>
+      <li><strong>Define baselines</strong>: choose ≥ 8 values of arm separation \(\Delta L\) spanning a practical range (e.g., 0 → 5 m). Keep all other knobs fixed.</li>
+      <li><strong>Controls</strong>: run at two pressures (or two temperatures) to characterize ordinary decoherence; keep \(\Delta L\) scan identical in both.</li>
+      <li><strong>Record raw</strong>: for each \(\Delta L\), record visibility estimate \(V\) and uncertainty (or raw fringe data to compute it later).</li>
+      <li><strong>Fit models</strong>:
+        <ul style="margin:0.35rem 0 0.5rem 1.25rem;">
+          <li><strong>STUR</strong>: \(V(\Delta L)=V_0\exp(-( \Delta L/\ell)^2)\)</li>
+          <li><strong>Null</strong>: constant \(V(\Delta L)=V_0\)</li>
+          <li><strong>Alt decoherence</strong> (optional): \(V=V_0\exp(-\gamma)\) where \(\gamma\) depends on time/pressure/temperature, not \(\Delta L^2\)</li>
+        </ul>
+      </li>
+      <li><strong>Decision</strong>: compute BIC (or Bayes evidence). If Gaussian is not preferred (or is decisively rejected), STUR's \(\Delta L^2\) discriminator is falsified in that regime.</li>
+      <li><strong>Publish the dataset</strong>: export JSON archive from this page (core-only), attach your CSV, include hashes, and publish.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="block warning">
+  <div class="title">Dataset format (what to upload here)</div>
+  <p class="muted" style="margin:0">
+    Upload a CSV with header: <code>deltaL,V[,sigma]</code> (meters, unitless visibility, optional uncertainty).
+    Example:
+    <code>0.0,0.998,0.002</code>
+    <code>0.5,0.975,0.002</code>
+    <code>1.0,0.900,0.003</code>
+    If <code>sigma</code> is omitted, a conservative fixed uncertainty may be assumed in your offline analysis.
+  </p>
+</div>
+
+<div class="block success">
+  <div class="title">What this HTML provides</div>
+  <p class="muted" style="margin:0">
+    (i) a clean discriminator plot, (ii) CSV import, (iii) a signed JSON archive (SHA-256),
+    (iv) full references, plus auto-generated BibTeX and CSL-JSON from those references.
+  </p>
+</div>
+
+<pre id="verifierMdBlock"
+```
+
+style=“white-space:pre-wrap; background:var(–surface-elevated); border:1px solid var(–border); border-radius:12px; padding:1rem; overflow:auto; color:var(–text-secondary);”></pre>
+
+  </section>
+
   <section id="sec-refs">
     <h2><span class="section-dot" style="background:var(--accent)"></span> References</h2>
 
@@ -1696,6 +2085,20 @@
 
   </section>
 
+  <!-- Export Mode Toggle -->
+
+  <div class="block gold" style="margin-top:2rem;">
+    <div class="title">Export Mode</div>
+    <label style="display:flex; gap:0.5rem; align-items:center; cursor:pointer;">
+      <input type="checkbox" id="exportIncludeNonCore" style="width:18px; height:18px; cursor:pointer;">
+      <span style="color:var(--text-secondary)">Include non-core exploratory sections (Wow!, 3-Body, etc.)</span>
+    </label>
+    <p class="muted" style="margin-top:0.5rem; font-size:0.8rem;">
+      Default: <strong>Core-only</strong> — exports only the falsifiable STUR framework.<br>
+      Check the box to include speculative extensions for internal use.
+    </p>
+  </div>
+
   <!-- Export Button -->
 
 <button id="exportJsonBtn"
@@ -1729,68 +2132,68 @@ cursor:pointer;">
 ⬇️ Download Full JSON Archive
 </button>
 
+<div class="export-row">
+  <label class="pill-control" title="Choose a license to embed in the exported JSON archive.">
+    Data license:
+    <select id="dataLicenseSelect">
+      <option value="CC0">CC0</option>
+      <option value="CC-BY" selected>CC-BY</option>
+      <option value="CC-BY-SA">CC-BY-SA</option>
+    </select>
+  </label>
+
+  <label class="pill-control" title="Export BibTeX and CSL-JSON derived from the references list.">
+    <input type="checkbox" id="includeCitationsExport" checked />
+    Include BibTeX + CSL-JSON
+  </label>
 </div>
 
-<section id="sec-extensions" style="margin-top:2rem;">
-  <h2><span class="section-dot" style="background:#ec4899"></span> Extension Modules</h2>
-  <p class="muted">
-    The STUR Physics Engine includes companion simulations that extend the core framework
-    to specific astrophysical scenarios and 5D manifold physics.
-  </p>
-  <div class="card-grid">
-    <div class="card" style="border-left:3px solid #ec4899">
-      <h4 style="color:#ec4899">5D Wow! Event Simulation</h4>
-      <p class="muted">
-        Treats the 1977 Wow! signal as a 5D resistance wave packet projecting onto 
-        the Earth-node brane. Includes Proca-HGEM mass term, dual-horn Big Ear geometry,
-        and forensic 6EQUJ5 clone verification with Bayesian evidence.
-      </p>
-      <a href="STUR_Wow_Event.html" 
-         style="display:inline-block; margin-top:0.75rem; padding:0.5rem 1rem; 
-                background:linear-gradient(135deg,#ec4899,#f97316); 
-                color:var(--bg); border-radius:6px; text-decoration:none; font-weight:600;">
-        🛸 Open 5D Wow! Simulation →
-      </a>
-    </div>
-    <div class="card" style="border-left:3px solid #ffaa00">
-      <h4 style="color:#ffaa00">3-Body RK4 — Curvature-Stable Orbits</h4>
-      <p class="muted">
-        Three-body equilateral orbit stabilized by STUR resistance field S(r) = tanh(r/L)(1 − e<sup>−r/L</sup>).
-        RK4 integrator maintains energy to 10<sup>−15</sup> over multiple periods, demonstrating
-        that STUR curvature replaces fine-tuned potentials with a single resistance modulator.
-      </p>
-      <a href="STUR_3Body_RK4.html" 
-         style="display:inline-block; margin-top:0.75rem; padding:0.5rem 1rem; 
-                background:linear-gradient(135deg,#ffaa00,#ffcc33); 
-                color:var(--bg); border-radius:6px; text-decoration:none; font-weight:600;">
-        🔺 Open 3-Body Simulation →
-      </a>
-    </div>
-    <div class="card" style="border-left:3px solid #38bdf8">
-      <h4 style="color:#38bdf8">5D Lab Suite — Macro-Micro Synthesis</h4>
-      <p class="muted">
-        Unified framework linking Wow! (macro) and Sonoluminescence (micro) as manifestations 
-        of χ-coupled resistance dynamics. Includes phase-space comparison, Proca damping analysis,
-        and integrated JSON export bridging cosmological and laboratory scales.
-      </p>
-      <a href="STUR_5D_Lab_Suite.html" 
-         style="display:inline-block; margin-top:0.75rem; padding:0.5rem 1rem; 
-                background:linear-gradient(135deg,#38bdf8,#ec4899); 
-                color:var(--bg); border-radius:6px; text-decoration:none; font-weight:600;">
-        🔬 Open 5D Lab Suite →
-      </a>
-    </div>
-  </div>
-</section>
+<div class="export-row">
+  <button id="downloadBibBtn"
+  style="
+  flex:1; min-width:240px;
+  padding:0.9rem;
+  font-size:1rem;
+  font-weight:800;
+  border-radius:10px;
+  border:1px solid rgba(240,180,41,0.35);
+  background:rgba(240,180,41,0.10);
+  color:var(--text);
+  cursor:pointer;">
+  ⬇️ Download BibTeX (.bib)
+  </button>
+
+<button id="downloadCslBtn"
+style="
+flex:1; min-width:240px;
+padding:0.9rem;
+font-size:1rem;
+font-weight:800;
+border-radius:10px;
+border:1px solid rgba(240,180,41,0.35);
+background:rgba(240,180,41,0.10);
+color:var(--text);
+cursor:pointer;">
+⬇️ Download CSL-JSON (.json)
+</button>
+
+</div>
+
+<div class="small-note">
+  Exports are self-contained and include dataset provenance (hash), export mode (core/full), selected license,
+  and optional BibTeX + CSL-JSON generated directly from the References section.
+</div>
+
+</div>
 
 <footer>
-  <p><strong>STUR Physics Engine</strong> — Unified Teleparallel Framework</p>
+  <p><strong>STUR</strong> — Unified Teleparallel Effective Framework</p>
   <p style="color:var(--text-muted)">© 2026 Sheldon Lon Lindberg</p>
   <p class="muted" style="max-width:700px;margin:1rem auto">
-    TEGR provides the geometric substrate (torsion formulation of GR). STUR provides the governing resistance-field
-    dynamics and the interferometric holonomy/visibility predictions. HGEM is the weak-field linear limit used for
-    wave/regime intuition. Chronomagnetics provides a controlled log-periodic modulation of the STUR coupling sector.
-    This engine is falsifiable and simulable, without claiming ultraviolet completeness or Standard Model parameter derivation.
+    TEGR provides the geometric substrate (torsion formulation equivalent to GR). STUR introduces a scalar 
+    resistance field coupled to torsion, yielding the central observable: Gaussian visibility suppression 
+    dependent only on arm separation. This framework is falsifiable and simulable. It does not claim 
+    ultraviolet completeness or derivation of Standard Model parameters.
   </p>
   <div class="footer-links">
     <a href="#sec-tegr">TEGR</a>
@@ -1798,10 +2201,9 @@ cursor:pointer;">
     <a href="#sec-stur">STUR</a>
     <a href="#sec-chrono">Chronomagnetics</a>
     <a href="#sec-action">Action</a>
-    <a href="#sec-solver">Solver</a>
+    <a href="#sec-falsification">Falsification</a>
     <a href="#sec-holoscreen">Holoscreen</a>
-    <a href="#sec-detection">Detection</a>
-    <a href="#sec-wow">Wow!</a>
+    <a href="#sec-verifier">Verifier</a>
     <a href="#sec-refs">References</a>
   </div>
 </footer>
@@ -1827,6 +2229,52 @@ cursor:pointer;">
   const canvas = document.getElementById('visibilityCanvas');
   const ctx = canvas.getContext('2d');
   const colors = { stur: '#3fb950', uldm: '#f0b429', null: '#5a6575', noise: '#f85149', grid: 'rgba(255,255,255,0.1)', axis: 'rgba(255,255,255,0.3)', marker: '#4a9eff', bg: '#0a0e14' };
+
+  // License + citation export toggles
+  const dataLicenseSelect = document.getElementById('dataLicenseSelect');
+  const includeCitationsExport = document.getElementById('includeCitationsExport');
+
+  // Verifier appendix block
+  const verifierMdBlock = document.getElementById('verifierMdBlock');
+  const VERIFIER_MD = [
+    "# VERIFIER.md — How to falsify STUR in 48 hours",
+    "",
+    "## What STUR predicts (the discriminator)",
+    "STUR predicts a **Gaussian suppression in arm separation**:",
+    "",
+    "V(ΔL) = V0 * exp(-(ΔL/ℓ)^2)",
+    "",
+    "The critical point is that the suppression scales with **ΔL²** at fixed shot time,",
+    "not primarily with time/pressure/temperature like conventional decoherence channels.",
+    "",
+    "## Minimum viable experiment (home or university)",
+    "1) Choose an interferometer (photonic Mach–Zehnder is sufficient).",
+    "2) Fix shot time τ_shot and all environmental knobs.",
+    "3) Scan arm separation ΔL across ≥ 8 values spanning a practical range (e.g., 0 → 5 m).",
+    "4) For each ΔL, estimate visibility V (and σ if available).",
+    "5) Optional controls: repeat the scan at a second pressure/temperature to characterize conventional decoherence.",
+    "",
+    "## Dataset format",
+    "Upload CSV with header: deltaL,V[,sigma]",
+    "Units: deltaL in meters, V unitless, sigma unitless.",
+    "",
+    "## Decision rule (falsification)",
+    "Fit models to V(ΔL):",
+    "- STUR: V0 * exp(-(ΔL/ℓ)^2)",
+    "- Null: constant V0",
+    "Compute BIC (or Bayes evidence).",
+    "",
+    "**Falsified in this regime** if the Gaussian-in-ΔL² model is not preferred or is decisively rejected",
+    "after controlling known decoherence channels.",
+    "",
+    "## Publishing standard",
+    "- Export the JSON archive from the HTML (includes SHA-256).",
+    "- Publish your CSV alongside the archive.",
+    "- Include hardware details: wavelength, baseline geometry, τ_shot, pressure, temperature.",
+    ""
+  ].join("\n");
+  if (verifierMdBlock) verifierMdBlock.textContent = VERIFIER_MD;
+  window.VERIFIER_MD = VERIFIER_MD;
 
   /* ============================
      STUR CORE (PDE + XCRM MODEL)
@@ -1892,6 +2340,48 @@ cursor:pointer;">
     deltaLValue.textContent = deltaL.toFixed(2);
     noiseValue.textContent = noise.toFixed(2);
 
+    // ============================================================
+    // REAL DATA OVERRIDE: When real data is loaded, drive outputs
+    // from actual measurements instead of synthetic model
+    // ============================================================
+    const DS = window.__STUR_DATA_SOURCE__;
+    if (DS && DS.mode === 'real' && Array.isArray(DS.data) && DS.data.length) {
+      // Find row nearest to current slider deltaL (or use latest)
+      let bestRow = DS.data[DS.data.length - 1];
+      if (DS.data.some(r => Number.isFinite(r.deltaL))) {
+        // Dataset has deltaL column - find nearest match
+        let minDist = Infinity;
+        for (const row of DS.data) {
+          if (Number.isFinite(row.deltaL)) {
+            const dist = Math.abs(row.deltaL - deltaL);
+            if (dist < minDist) { minDist = dist; bestRow = row; }
+          }
+        }
+      }
+      
+      // Override visibility display with real measurement
+      const realVis = Number(bestRow.visibility);
+      visibilityOutput.textContent = realVis.toFixed(4) + ' (REAL)';
+      visibilityOutput.className = 'output-value ' + (realVis > 0.5 ? 'highlight' : 'warning');
+      
+      // Override status
+      statusOutput.textContent = 'Real dataset active';
+      statusOutput.className = 'output-value highlight';
+      statusOutput.style.color = 'var(--accent)';
+      
+      // Show real data regime
+      regimeOutput.textContent = `Real data: ${DS.data.length} points`;
+      
+      // Compute holonomy from real visibility (inverse mapping)
+      const realPhiVar = realVis > 0 ? -2 * Math.log(realVis) : 10;
+      const realPhiR = Math.sqrt(Math.max(0, realPhiVar));
+      phiROutput.textContent = realPhiR.toFixed(4) + ' (inferred)';
+      
+      // Still draw canvas (overlay will show real points)
+      drawCanvas(LX, deltaL, noise);
+      return; // Skip synthetic calculations
+    }
+
     // STUR holonomy + visibility via PDE/XCRM
     const dR_dX = xcrmGradient(R, Rbg, LX);
     const phiVar = holonomyVariance(deltaL, dR_dX);
@@ -1929,6 +2419,7 @@ cursor:pointer;">
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);  // Reset transform before scaling
     ctx.scale(dpr, dpr);
     const w = rect.width, h = rect.height;
     const padding = { top: 30, right: 20, bottom: 40, left: 50 };
@@ -2063,10 +2554,39 @@ cursor:pointer;">
       ctx.textAlign = 'left';
       ctx.fillText('V = ' + markerV.toFixed(3), markerX + 10, markerY - 5);
     }
+
+    // ---- Real data overlay (replaces synthetic visually) ----
+    const DS = window.__STUR_DATA_SOURCE__;
+    if (DS && DS.mode === 'real' && Array.isArray(DS.data) && DS.data.length) {
+      const pts = DS.data
+        .filter(r => Number.isFinite(r.visibility) && Number.isFinite(r.deltaL))
+        .map(r => ({ deltaL: r.deltaL, v: r.visibility }));
+
+      if (pts.length) {
+        ctx.fillStyle = 'rgba(74, 158, 255, 0.85)';
+        for (const p of pts) {
+          if (p.deltaL < 0 || p.deltaL > maxDL) continue;
+          const x = toX(p.deltaL);
+          const y = toY(Math.max(0, Math.min(1, p.v)));
+          ctx.beginPath();
+          ctx.arc(x, y, 3.5, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+
+        // Label
+        ctx.fillStyle = 'rgba(74,158,255,0.95)';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('● Real data (' + pts.length + ' pts)', padding.left + 6, padding.top + 14);
+      }
+    }
   }
   [rqSlider, leffSlider, lcohSlider, deltaLSlider, noiseSlider].forEach(s => s.addEventListener('input', update));
   update();
   window.addEventListener('resize', update);
+  
+  // Expose update for real data module to trigger refreshes
+  window.STUR_forceUpdate = update;
 })();
 </script>
 
@@ -2212,6 +2732,7 @@ cursor:pointer;">
     const dpr = window.devicePixelRatio || 1;
     ctx.canvas.width = rect.width * dpr;
     ctx.canvas.height = rect.height * dpr;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);  // Reset transform before scaling
     ctx.scale(dpr, dpr);
     
     const w = rect.width, h = rect.height;
@@ -2410,6 +2931,34 @@ cursor:pointer;">
     return sigma * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
   }
   
+  // ============================================================
+  // GLOBAL DATA SOURCE (SYNTHETIC OR REAL)
+  // Single source of truth used by plots / detection / exports.
+  // ============================================================
+
+  window.__STUR_DATA_SOURCE__ = window.__STUR_DATA_SOURCE__ || {
+    mode: "synthetic",          // "synthetic" | "real"
+    data: [],                   // array of {t, ts, visibility, deltaL?, noise?, lcoh?}
+    schema: {                   // column mapping used on import
+      timestamp: "timestamp",
+      visibility: "visibility",
+      deltaL: "deltaL",
+      noise: "noise",
+      lcoh: "lcoh"
+    },
+    meta: {
+      source: "synthetic",      // "synthetic" | "user-upload"
+      filename: null,
+      importedAtISO: null,
+      sha256: null,
+      rows: 0,
+      notes: ""
+    }
+  };
+
+  // Global cache for synthetic data runs
+  window.__STUR_SYNTHETIC_CACHE__ = window.__STUR_SYNTHETIC_CACHE__ || [];
+
   // Generate synthetic time-series
   function generateSyntheticData(days, samplesPerDay, noiseSigma) {
     const data = [];
@@ -2454,6 +3003,41 @@ cursor:pointer;">
       });
     }
     
+    // Cache the run for export
+    window.__STUR_SYNTHETIC_CACHE__.push({
+      generated_at: new Date().toISOString(),
+      parameters: {
+        days: days,
+        samplesPerDay: samplesPerDay,
+        noiseSigma: noiseSigma,
+        baseLcoh: baseLcoh,
+        deltaL: deltaL,
+        V0: V0
+      },
+      sample_count: data.length,
+      data_preview: data.slice(0, 10) // First 10 rows for verification
+    });
+
+    // Register as global data source (mutate, don't replace)
+    const DS = window.__STUR_DATA_SOURCE__;
+    DS.mode = "synthetic";
+    DS.data = data;
+    DS.meta = {
+      source: "synthetic",
+      generated_at: new Date().toISOString(),
+      sha256: null,
+      rows: data.length,
+      parameters: {
+        days: days,
+        samplesPerDay: samplesPerDay,
+        noiseSigma: noiseSigma,
+        baseLcoh: baseLcoh,
+        deltaL: deltaL,
+        V0: V0
+      },
+      notes: "Synthetic dataset generated"
+    };
+
     return data;
   }
   
@@ -2492,6 +3076,335 @@ cursor:pointer;">
       exportCSV(data, filename);
     });
   }
+
+  // ============================================================
+  // REAL DATA REPLACEMENT ENGINE (Single Source of Truth)
+  // Lucy's enhanced version with robust header aliasing
+  // ============================================================
+  
+  (function() {
+    'use strict';
+
+    const DS = window.__STUR_DATA_SOURCE__;
+    const fileInput = document.getElementById('realDataFileInput');
+    const statusBox = document.getElementById('realDataStatus');
+    const clearBtn = document.getElementById('clearRealDataBtn');
+
+    // ---- Header Aliases (robust column detection) ----
+    const ALIASES = {
+      timestamp: ['timestamp','time','t','date','datetime','utc','unix','seconds','sec'],
+      visibility: ['visibility','vis','v','V','contrast','fringe','fringe_visibility','v_observed','vobserved','v_stur_noisy'],
+      deltaL: ['deltaL','deltal','dl','ΔL','arm','arm_separation','pathdiff','path_difference','pathdiff_m'],
+      noise: ['noise','sigma','σ','unc','uncertainty','stderr','std','stdev','noise_realization'],
+      lcoh: ['lcoh','ell_coh','coh','coherence','coherence_length','lx','Lx','L_X','lcoh_effective']
+    };
+
+    function normKey(s) {
+      return String(s || '')
+        .trim()
+        .replace(/\uFEFF/g, '')
+        .replace(/[^\wΔ]/g, '')
+        .toLowerCase();
+    }
+
+    function findHeaderIndex(headers, logicalName) {
+      const want = ALIASES[logicalName].map(normKey);
+      for (let i = 0; i < headers.length; i++) {
+        const h = normKey(headers[i]);
+        if (want.includes(h)) return i;
+      }
+      return -1;
+    }
+
+    function showStatus(type, msg) {
+      if (!statusBox) return;
+      statusBox.style.display = 'block';
+      statusBox.style.padding = '0.6rem 0.75rem';
+      statusBox.style.borderRadius = '6px';
+      statusBox.style.marginTop = '0.75rem';
+
+      if (type === 'success') {
+        statusBox.style.border = '1px solid rgba(63,185,80,0.45)';
+        statusBox.style.background = 'rgba(63,185,80,0.10)';
+        statusBox.style.color = 'rgba(230, 255, 238, 0.95)';
+      } else if (type === 'warning') {
+        statusBox.style.border = '1px solid rgba(210,153,34,0.55)';
+        statusBox.style.background = 'rgba(210,153,34,0.12)';
+        statusBox.style.color = 'rgba(255, 245, 220, 0.95)';
+      } else if (type === 'error') {
+        statusBox.style.border = '1px solid rgba(248,81,73,0.55)';
+        statusBox.style.background = 'rgba(248,81,73,0.12)';
+        statusBox.style.color = 'rgba(255, 230, 230, 0.95)';
+      }
+
+      statusBox.innerHTML = msg;
+    }
+
+    // ---------- Helpers ----------
+    function parseNumber(x) {
+      if (x === null || x === undefined) return null;
+      const v = Number(String(x).trim());
+      return Number.isFinite(v) ? v : null;
+    }
+
+    function parseTimestamp(x) {
+      const s = String(x).trim();
+      if (!s) return null;
+
+      const asNum = Number(s);
+      if (Number.isFinite(asNum)) {
+        // Heuristic: > 1e12 looks like ms epoch
+        if (asNum > 1e12) return { t: asNum / 1000, ts: new Date(asNum).toISOString() };
+        if (asNum > 1e9)  return { t: asNum, ts: new Date(asNum * 1000).toISOString() };
+        return { t: asNum, ts: null };
+      }
+
+      const d = new Date(s);
+      if (!Number.isNaN(d.getTime())) {
+        return { t: d.getTime() / 1000, ts: d.toISOString() };
+      }
+      return null;
+    }
+
+    function splitCSVLine(line) {
+      const out = [];
+      let cur = '';
+      let inQ = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+          if (inQ && line[i + 1] === '"') { cur += '"'; i++; continue; }
+          inQ = !inQ; continue;
+        }
+        if (!inQ && ch === ',') { out.push(cur); cur = ''; continue; }
+        cur += ch;
+      }
+      out.push(cur);
+      return out.map(v => v.trim());
+    }
+
+    async function sha256Hex(text) {
+      const enc = new TextEncoder();
+      const buf = await crypto.subtle.digest('SHA-256', enc.encode(text));
+      const arr = Array.from(new Uint8Array(buf));
+      return arr.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function validateRows(rows) {
+      if (!rows.length) return { ok: false, reason: 'No data rows found.' };
+
+      let good = 0;
+      for (const r of rows) {
+        if (typeof r.visibility === 'number' && r.visibility >= 0 && r.visibility <= 1) good++;
+      }
+      if (good < Math.max(5, Math.floor(rows.length * 0.5))) {
+        return { ok: false, reason: 'Too many invalid visibility values. Expect visibility in [0,1].' };
+      }
+      return { ok: true, reason: '' };
+    }
+
+    // ---------- Core Import Function ----------
+    async function STUR_loadRealCSV(file) {
+      try {
+        if (!file) throw new Error('No file selected.');
+
+        showStatus('warning', 'Importing real data…');
+
+        const text = await file.text();
+        const lines = text
+          .replace(/\r\n/g, '\n')
+          .replace(/\r/g, '\n')
+          .split('\n')
+          .map(l => l.trim())
+          .filter(l => l.length && !l.startsWith('#'));
+
+        if (lines.length < 2) throw new Error('CSV must include a header row and at least 1 data row.');
+
+        const header = splitCSVLine(lines[0]);
+        
+        // Use robust alias matching
+        const iT = findHeaderIndex(header, 'timestamp');
+        const iV = findHeaderIndex(header, 'visibility');
+        const iDL = findHeaderIndex(header, 'deltaL');
+        const iN = findHeaderIndex(header, 'noise');
+        const iLC = findHeaderIndex(header, 'lcoh');
+
+        if (iT < 0 || iV < 0) {
+          throw new Error('Missing required columns. Need: timestamp, visibility (or aliases like time/t and vis/V).');
+        }
+
+        const rows = [];
+        for (let k = 1; k < lines.length; k++) {
+          const cols = splitCSVLine(lines[k]);
+          if (!cols.length) continue;
+
+          const ts = parseTimestamp(cols[iT]);
+          const vis = parseNumber(cols[iV]);
+
+          if (!ts || vis === null) continue;
+
+          const row = { 
+            t: ts.t, 
+            ts: ts.ts, 
+            timestamp: ts.t,
+            visibility: vis 
+          };
+
+          if (iDL >= 0) {
+            const dl = parseNumber(cols[iDL]);
+            if (dl !== null) row.deltaL = dl;
+          }
+          if (iN >= 0) {
+            const nz = parseNumber(cols[iN]);
+            if (nz !== null) row.noise = nz;
+          }
+          if (iLC >= 0) {
+            const lc = parseNumber(cols[iLC]);
+            if (lc !== null) row.lcoh = lc;
+          }
+          rows.push(row);
+        }
+
+        if (!rows.length) throw new Error('No valid numeric rows found after parsing.');
+
+        rows.sort((a, b) => a.t - b.t);
+
+        const v = validateRows(rows);
+        if (!v.ok) throw new Error(v.reason);
+
+        const hash = await sha256Hex(text);
+
+        // Update global data source (mutate, don't replace)
+        DS.mode = 'real';
+        DS.data = rows;
+        DS.schema = {
+          timestamp: header[iT],
+          visibility: header[iV],
+          deltaL: iDL >= 0 ? header[iDL] : null,
+          noise: iN >= 0 ? header[iN] : null,
+          lcoh: iLC >= 0 ? header[iLC] : null
+        };
+        DS.meta = {
+          source: 'user-upload',
+          filename: file.name,
+          bytes: text.length,
+          importedAtISO: new Date().toISOString(),
+          sha256: hash,
+          rows: rows.length,
+          notes: 'Real data loaded. Synthetic disabled.',
+          timestamp_range: {
+            min: Math.min(...rows.map(r => r.t)),
+            max: Math.max(...rows.map(r => r.t))
+          },
+          visibility_range: {
+            min: Math.min(...rows.map(r => r.visibility)),
+            max: Math.max(...rows.map(r => r.visibility))
+          }
+        };
+
+        // Lock synthetic export button
+        const synthBtn = document.getElementById('synthExportBtn');
+        if (synthBtn) {
+          synthBtn.disabled = true;
+          synthBtn.style.opacity = '0.5';
+          synthBtn.style.cursor = 'not-allowed';
+          synthBtn.textContent = '🔒 Synthetic Disabled (Real Data Loaded)';
+        }
+
+        // Show clear button
+        if (clearBtn) {
+          clearBtn.style.display = 'block';
+        }
+
+        // Trigger hooks
+        if (typeof window.STUR_onDatasetChanged === 'function') {
+          window.STUR_onDatasetChanged(DS);
+        }
+        window.dispatchEvent(new Event('resize'));
+
+        showStatus('success', `
+          <strong>✓ Real data loaded successfully</strong><br>
+          <span style="font-size:0.85rem; color:var(--text-secondary);">
+            File: ${DS.meta.filename}<br>
+            Rows: ${rows.length.toLocaleString()}<br>
+            SHA-256: <code>${hash.slice(0, 16)}…</code><br>
+            Schema: ${DS.schema.timestamp} → timestamp, ${DS.schema.visibility} → visibility<br>
+            <em>All synthetic data replaced. Detection and export now use real data.</em>
+          </span>
+        `);
+
+        return { rows: rows.length, sha256: hash, schema: DS.schema };
+
+      } catch (err) {
+        console.error('[STUR] Import error:', err);
+        showStatus('error', `<strong>✗ Import failed:</strong> ${err.message}`);
+        if (fileInput) fileInput.value = '';
+        throw err;
+      }
+    }
+
+    function STUR_clearRealData() {
+      DS.mode = 'synthetic';
+      DS.data = [];
+      DS.schema = null;
+      DS.meta = {
+        source: 'synthetic',
+        filename: null,
+        importedAtISO: null,
+        sha256: null,
+        rows: 0,
+        notes: 'Real data cleared. Synthetic enabled.'
+      };
+
+      const synthBtn = document.getElementById('synthExportBtn');
+      if (synthBtn) {
+        synthBtn.disabled = false;
+        synthBtn.style.opacity = '';
+        synthBtn.style.cursor = '';
+        synthBtn.textContent = '📊 Export Synthetic Data (CSV)';
+      }
+
+      if (clearBtn) {
+        clearBtn.style.display = 'none';
+      }
+
+      // Trigger hooks
+      if (typeof window.STUR_onDatasetChanged === 'function') {
+        window.STUR_onDatasetChanged(DS);
+      }
+      window.dispatchEvent(new Event('resize'));
+
+      showStatus('warning', 'Real data cleared. Reverted to synthetic mode.');
+    }
+
+    // Hook file input
+    if (fileInput) {
+      fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        await STUR_loadRealCSV(file);
+      });
+    }
+
+    if (clearBtn) clearBtn.addEventListener('click', STUR_clearRealData);
+
+    // ---- Public API ----
+    window.STUR_loadRealCSV = STUR_loadRealCSV;
+    window.STUR_clearRealData = STUR_clearRealData;
+    window.STUR_getDataset = function() {
+      return JSON.parse(JSON.stringify(DS)); // deep copy snapshot
+    };
+    window.STUR_getActiveDataset = function() {
+      return {
+        mode: DS.mode,
+        data: Array.isArray(DS.data) ? DS.data.slice() : [],
+        meta: Object.assign({}, DS.meta || {}),
+        schema: DS.schema ? Object.assign({}, DS.schema) : null
+      };
+    };
+
+  })();
 
   // ========================================
   // PYTHON DETECTION SCRIPT DOWNLOAD
@@ -2569,9 +3482,17 @@ def main():
     print(f"Loading data from: {filename}")
     df = pd.read_csv(filename, comment='#')
     
-    t = df['timestamp'].values
-    v_observed = df['V_stur_noisy'].values
-    v_clean = df['V_stur_clean'].values if 'V_stur_clean' in df.columns else None
+    # Auto-detect data mode: real vs synthetic
+    if 'visibility' in df.columns:
+        print("Data mode: REAL (user-uploaded experimental data)")
+        t = df['timestamp'].values if 'timestamp' in df.columns else df['time'].values if 'time' in df.columns else df['t'].values
+        v_observed = df['visibility'].values
+        v_clean = None  # Real data has no "clean" reference
+    else:
+        print("Data mode: SYNTHETIC (STUR-generated)")
+        t = df['timestamp'].values
+        v_observed = df['V_stur_noisy'].values
+        v_clean = df['V_stur_clean'].values if 'V_stur_clean' in df.columns else None
     
     print(f"Loaded {len(t)} data points spanning {t[-1]:.1f} days")
     
@@ -2836,6 +3757,7 @@ if __name__ == '__main__':
     const dpr = window.devicePixelRatio || 1;
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);  // Reset transform before scaling
     ctx.scale(dpr, dpr);
     canvas.style.width = rect.width + 'px';
     canvas.style.height = rect.height + 'px';
@@ -3059,6 +3981,9 @@ if __name__ == '__main__':
   
   // Draw simulation
   function draw() {
+    const dpr = window.devicePixelRatio || 1;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);  // Reset transform per frame
+    
     const rect = canvas.getBoundingClientRect();
     const W = rect.width;
     const H = rect.height;
@@ -3252,6 +4177,97 @@ if __name__ == '__main__':
   function safeText(el) { return (el && el.innerText) ? el.innerText.trim() : ""; }
   function safeHTML(el) { return (el && el.innerHTML) ? el.innerHTML.trim() : ""; }
 
+  // ===== Reference Parsing → BibTeX + CSL-JSON =====
+  function parseYear(raw) {
+    const m = raw.match(/\b(19|20)\d{2}\b/);
+    return m ? parseInt(m[0], 10) : null;
+  }
+  function guessType(raw) {
+    const s = raw.toLowerCase();
+    if (s.includes("isbn") || s.includes("university press") || s.includes("springer") || s.includes("press")) return "book";
+    if (s.includes("doi:") || s.includes("volume") || s.includes("issue") || s.includes("pages") || s.includes("annalen") || s.includes("reports on progress")) return "article-journal";
+    if (s.includes("monograph") || s.includes("technical") || s.includes("report") || s.includes("manuscript")) return "report";
+    return "misc";
+  }
+  function guessTitle(raw) {
+    const q = raw.match(/"([^"]+)"/);
+    if (q && q[1]) return q[1].trim();
+    return raw;
+  }
+  function guessAuthors(raw) {
+    const firstPeriod = raw.indexOf(".");
+    if (firstPeriod > 0) {
+      const head = raw.slice(0, firstPeriod).trim();
+      if (head.includes(",") || head.toLowerCase().includes(" and ")) return head;
+    }
+    return null;
+  }
+  function bibKeyFromTitle(title, year, idx) {
+    const base = (title || "ref").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+    const short = base.slice(0, 28) || "ref";
+    return `${short}_${year || "noyear"}_${idx}`;
+  }
+  function buildBibTeXEntry(item, idx) {
+    const year = item.year || "????";
+    const key = bibKeyFromTitle(item.title, item.year, idx);
+    const fields = [];
+    fields.push(`  title = {${item.title.replace(/\s+/g, " ").trim()}}`);
+    if (item.author_raw) fields.push(`  author = {${item.author_raw.replace(/\s+/g, " ").trim()}}`);
+    if (item.year) fields.push(`  year = {${item.year}}`);
+    fields.push(`  note = {${item.raw.replace(/\s+/g, " ").trim()}}`);
+    return `@misc{${key},\n${fields.join(",\n")}\n}\n`;
+  }
+  function buildCslItem(item, idx) {
+    const id = `ref-${idx}`;
+    const type = guessType(item.raw);
+    const csl = {
+      id,
+      type,
+      title: item.title,
+      issued: item.year ? { "date-parts": [[item.year]] } : undefined,
+      note: item.raw
+    };
+    if (item.author_raw && item.author_raw.toLowerCase().includes(" and ")) {
+      const parts = item.author_raw.split(/\s+and\s+/i).map(s => s.trim()).filter(Boolean);
+      csl.author = parts.map(p => ({ literal: p }));
+    } else if (item.author_raw) {
+      csl.author = [{ literal: item.author_raw }];
+    }
+    Object.keys(csl).forEach(k => (csl[k] === undefined) && delete csl[k]);
+    return csl;
+  }
+  function extractReferences() {
+    const references = [];
+    let k = 1;
+    document.querySelectorAll("#sec-refs ol li").forEach(li => {
+      const raw = li.innerText.trim();
+      if (!raw) return;
+      references.push({
+        index: k++,
+        raw,
+        title: guessTitle(raw),
+        year: parseYear(raw),
+        author_raw: guessAuthors(raw)
+      });
+    });
+    return references;
+  }
+  function generateBibAndCsl(references) {
+    const bib = references.map((r, i) => buildBibTeXEntry(r, i + 1)).join("\n");
+    const csl = references.map((r, i) => buildCslItem(r, i + 1));
+    return { bibtex: bib, csl_json: csl };
+  }
+  function downloadText(filename, text, mime) {
+    const blob = new Blob([text], { type: mime || "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
   function extractEquationTex(eqEl) {
     const labelEl = eqEl.querySelector(".eq-label");
     const label = labelEl ? safeText(labelEl) : null;
@@ -3265,15 +4281,25 @@ if __name__ == '__main__':
   }
 
   async function collectDocumentJSON() {
-    // Collect all sections with FULL content
+    // Check export mode
+    const includeNonCore = document.getElementById("exportIncludeNonCore")?.checked ?? false;
+    
+    // HARD LOCK: core-only is default and explicit
+    const coreOnly = includeNonCore === false;
+
+    // Collect all sections with FULL content (filter non-core if needed)
     const sections = [];
     document.querySelectorAll("section").forEach(sec => {
+      // Skip non-core sections unless explicitly included
+      if (sec.dataset.noncore && !includeNonCore) return;
+
       const heading = sec.querySelector("h2, h3");
       sections.push({
         id: sec.id || null,
         heading: heading ? heading.innerText.trim() : null,
         text: sec.innerText.trim(),
-        html: sec.outerHTML
+        html: sec.outerHTML,
+        noncore: !!sec.dataset.noncore
       });
     });
 
@@ -3306,6 +4332,65 @@ if __name__ == '__main__':
       });
     }
 
+    // === Interactive state snapshot ===
+    const sliders = {};
+    document.querySelectorAll("input[type=range]").forEach(el => {
+      if (el.id) {
+        sliders[el.id] = {
+          value: el.value,
+          min: el.min,
+          max: el.max,
+          step: el.step
+        };
+      }
+    });
+
+    const canvases = {};
+    document.querySelectorAll("canvas").forEach(c => {
+      if (c.id) {
+        canvases[c.id] = {
+          width: c.width,
+          height: c.height
+        };
+      }
+    });
+
+    // === Solver state with data source ===
+    const activeDataset = window.STUR_getActiveDataset ? window.STUR_getActiveDataset() : { mode: "synthetic", data: [], meta: {} };
+    const dataSource = window.__STUR_DATA_SOURCE__ || activeDataset;
+    
+    // If real data is active, synthetic cache MUST NOT leak into archive
+    const syntheticRuns = dataSource.mode === "real" 
+      ? [] 
+      : (window.__STUR_SYNTHETIC_CACHE__ || []);
+    
+    const solverState = {
+      data_source: dataSource.mode,
+      data_metadata: dataSource.meta || dataSource.metadata || {},
+      data_sample_preview: (dataSource.data || []).slice(0, 10),
+      data_row_count: (dataSource.data || []).length,
+      synthetic_runs: syntheticRuns,
+      chrono: {
+        lambda: 3722 / 2705,
+        epsilon_default: 0.05,
+        log_period: Math.log(3722 / 2705)
+      },
+      detection: {
+        delta_chi2_threshold: 25,
+        bic_strong_evidence: 10,
+        confidence_level: "5σ"
+      }
+    };
+
+    // Get data hash (use cached from import if available, else compute)
+    let dataHash = null;
+    if (dataSource.meta && dataSource.meta.sha256) {
+      dataHash = dataSource.meta.sha256;
+    } else if (dataSource.mode === "real" && dataSource.data && dataSource.data.length > 0) {
+      const rawData = JSON.stringify(dataSource.data);
+      dataHash = await sha256Hex(rawData);
+    }
+
     // Parse schema.org
     const schemaScript = document.querySelector('script[type="application/ld+json"]');
     let schema = {};
@@ -3319,13 +4404,30 @@ if __name__ == '__main__':
     const docHTML = document.documentElement.outerHTML;
     const docText = document.body.innerText.trim();
 
+    // Data license selection (embedded in archive)
+    const dataLicense = document.getElementById("dataLicenseSelect")?.value || "CC-BY";
+
+    // VERIFIER.md (embedded)
+    const verifierMd = (typeof window.VERIFIER_MD !== "undefined") ? window.VERIFIER_MD : null;
+
+    // Optional BibTeX + CSL-JSON
+    const includeCitations = !!document.getElementById("includeCitationsExport")?.checked;
+    const refs = extractReferences();
+    const bibcsl = includeCitations ? generateBibAndCsl(refs) : { bibtex: null, csl_json: null };
+
     // Build archive
     const archive = {
       _type: "STUR_Physics_Engine_Archive",
-      _version: "1.0",
+      _version: "2.3",
       _generated_at: new Date().toISOString(),
       _source_url: location.href,
+      _export_mode: includeNonCore ? "full" : "core-only",
+      _noncore_excluded: !includeNonCore,
+      _core_only_lock: coreOnly,
+      _data_mode: dataSource.mode,
+      _data_hash_sha256: dataHash,
       _hash_sha256: null,
+      data_license: dataLicense,
       metadata: {
         title: document.title,
         author: document.querySelector('meta[name="author"]')?.content || null,
@@ -3348,11 +4450,26 @@ if __name__ == '__main__':
       sections: sections,
       equations: equations,
       references: references,
+      verifier_md: verifierMd,
+      citations: includeCitations ? {
+        generated_from: "sec-refs <ol><li> (innerText, best-effort parsing; raw citations preserved in note fields)",
+        bibtex: bibcsl.bibtex,
+        csl_json: bibcsl.csl_json
+      } : {
+        generated_from: null,
+        bibtex: null,
+        csl_json: null
+      },
       holoscreen_model: {
         functions: ["xcrmGradient", "holonomyVariance", "sturVisibilityFromPDE"],
         parameters: ["R (resistance amplitude)", "L_X (XCRM scale)", "ΔL (arm separation)"],
         output: "V = exp(-⟨Φ_R²⟩/2)"
-      }
+      },
+      interactive_state: {
+        sliders: sliders,
+        canvases: canvases
+      },
+      solver_state: solverState
     };
 
     // Compute SHA-256 hash
@@ -3376,6 +4493,7 @@ if __name__ == '__main__':
             "  STUR PHYSICS ENGINE — MACHINE-READABLE JSON ARCHIVE\n" +
             "═══════════════════════════════════════════════════════════════\n" +
             "  SHA-256: " + json._hash_sha256 + "\n" +
+            "  DATA LICENSE: " + (json.data_license || "CC-BY") + "\n" +
             "═══════════════════════════════════════════════════════════════\n\n" +
             jsonText;
           appendix.style.display = "block";
@@ -3402,6 +4520,26 @@ if __name__ == '__main__':
         a.remove();
         setTimeout(() => URL.revokeObjectURL(a.href), 1000);
       })();
+    });
+  }
+
+  // Download BibTeX button
+  const bibBtn = document.getElementById("downloadBibBtn");
+  if (bibBtn) {
+    bibBtn.addEventListener("click", () => {
+      const refs = extractReferences();
+      const out = generateBibAndCsl(refs);
+      downloadText("STUR_References.bib", out.bibtex, "application/x-bibtex");
+    });
+  }
+
+  // Download CSL-JSON button
+  const cslBtn = document.getElementById("downloadCslBtn");
+  if (cslBtn) {
+    cslBtn.addEventListener("click", () => {
+      const refs = extractReferences();
+      const out = generateBibAndCsl(refs);
+      downloadText("STUR_References_CSL.json", JSON.stringify(out.csl_json, null, 2), "application/json");
     });
   }
 })();
