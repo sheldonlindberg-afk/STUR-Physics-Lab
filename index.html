@@ -5,18 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STUR Physics Lab – Unified Resistance Framework</title>
 
+<!-- STUR Core Visual System -->
+<link rel="stylesheet" href="assets/css/stur-core.css">
+
 <style>
+  /* Index-specific overrides (extends stur-core.css) */
   body {
-    margin: 0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    color: #e6edf3;
-    background: radial-gradient(circle at 25% 25%, #0c0f1a, #000);
-    background-attachment: fixed;
     text-align: center;
-    overflow-x: hidden;
   }
 
-  /* === GLOBAL ANIMATION UTILITIES === */
+  /* === ANIMATIONS (index-specific) === */
   .fade-up {
     opacity: 0;
     transform: translateY(22px);
@@ -30,9 +28,9 @@
     animation: glowPop 1.6s ease forwards;
   }
   @keyframes glowPop {
-    0%   { box-shadow: 0 0 0px #ffaa0000; }
-    60%  { box-shadow: 0 0 30px #ffaa0044; }
-    100% { box-shadow: 0 0 12px #ffaa0022; }
+    0%   { box-shadow: 0 0 0px transparent; }
+    60%  { box-shadow: var(--glow-gold); }
+    100% { box-shadow: 0 0 12px rgba(251, 191, 36, 0.15); }
   }
 
   /* === HEADER === */
@@ -47,27 +45,24 @@
 
   img.logo {
     width: 260px;
-    border-radius: 12px;
-    box-shadow: 0 0 45px #ffaa0088, 0 0 10px #ffaa00 inset;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 45px rgba(251, 191, 36, 0.5), 0 0 10px var(--neon-gold) inset;
     transition: transform 0.6s ease, box-shadow 0.6s ease;
   }
   img.logo:hover {
     transform: scale(1.07);
-    box-shadow: 0 0 55px #ffaa00aa;
+    box-shadow: 0 0 55px rgba(251, 191, 36, 0.65);
   }
 
-  h1 {
-    font-size: 3em;
+  header h1 {
+    font-size: clamp(2rem, 6vw, 3rem);
     margin-top: 20px;
-    color: #ffb347;
-    text-shadow: 0 0 25px #ffaa0066;
   }
 
-  p {
+  header p {
     font-size: 1.15em;
     max-width: 780px;
     margin: 20px auto 45px;
-    color: #c9d1d9;
     line-height: 1.65;
   }
 
@@ -83,26 +78,27 @@
   }
 
   .sim-card {
-    background: #161b22;
-    border-radius: 12px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius-md);
     padding: 20px;
     width: 270px;
-    box-shadow: 0 0 12px #ffaa0022;
-    transition: transform 0.25s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.1);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
   }
 
   .sim-card:hover {
     transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 0 28px #ffaa0044;
+    box-shadow: 0 0 28px rgba(251, 191, 36, 0.2);
   }
 
   .sim-card a {
     text-decoration: none;
-    color: #58a6ff;
+    color: var(--neon-cyan);
     font-weight: bold;
     font-size: 1.15em;
   }
-  .sim-card a:hover { color: #ffb347; }
+  .sim-card a:hover { color: var(--neon-gold); }
 
   /* === ACTION PANEL === */
   .action-panel {
@@ -112,35 +108,36 @@
 
   .action-panel a {
     display: inline-block;
-    background: #0e1624;
-    color: #5ad0ff;
-    border: 1px solid #5ad0ff;
+    background: var(--bg-panel);
+    color: var(--neon-cyan);
+    border: 1px solid var(--neon-cyan);
     padding: 12px 24px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     margin: 6px;
     text-decoration: none;
     font-size: 1.05em;
-    transition: 0.25s ease;
+    transition: var(--transition-normal);
   }
 
   .action-panel a:hover {
-    background: #122034;
-    box-shadow: 0 0 15px #5ad0ff88;
+    background: var(--bg-panel-2);
+    box-shadow: var(--glow-cyan);
   }
 
   .btn-main {
-    background: #ffaa00;
-    color: #000;
+    background: var(--neon-gold);
+    color: var(--bg-abyss);
     padding: 16px 34px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-weight: bold;
-    box-shadow: 0 0 28px #ffaa0088;
+    box-shadow: var(--glow-gold);
     margin-bottom: 20px;
+    border: none;
   }
 
   .btn-main:hover {
-    background: #ffcc33;
-    box-shadow: 0 0 38px #ffcc33aa;
+    background: #fcd34d;
+    box-shadow: 0 0 38px rgba(251, 191, 36, 0.5);
   }
 
   /* === VIDEO PANEL === */
@@ -149,6 +146,7 @@
     display: flex;
     justify-content: center;
     margin: 30px 0 60px;
+    padding: 0 20px;
   }
 
   .video-frame {
@@ -158,16 +156,16 @@
     padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
-    border: 2px solid #0ff;
-    border-radius: 14px;
-    background: #111;
+    border: 2px solid var(--neon-cyan);
+    border-radius: var(--radius-lg);
+    background: var(--bg-abyss);
     animation: fadeUp 1.2s ease forwards, glowVideo 2.5s ease forwards;
   }
 
   @keyframes glowVideo {
-    0%   { box-shadow: 0 0 0px #00ffff00; }
-    70%  { box-shadow: 0 0 40px #00ffff55; }
-    100% { box-shadow: 0 0 18px #00ffff33; }
+    0%   { box-shadow: 0 0 0px transparent; }
+    70%  { box-shadow: 0 0 40px rgba(56, 189, 248, 0.3); }
+    100% { box-shadow: var(--glow-cyan); }
   }
 
   .video-frame iframe {
@@ -177,12 +175,59 @@
     border: none;
   }
 
+  /* === FOOTER === */
   footer {
     margin-top: 80px;
-    padding: 25px;
-    border-top: 1px solid #30363d;
+    padding: 25px 20px;
+    border-top: 1px solid var(--border-dim);
     font-size: 0.92em;
-    color: #8b949e;
+    color: var(--text-muted);
+  }
+
+  /* === SPINE PANEL === */
+  .spine {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+  }
+
+  .spine-inner {
+    background: linear-gradient(135deg, var(--bg-panel) 0%, var(--bg-panel-2) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    box-shadow: var(--glow-cyan);
+  }
+
+  .spine h2 {
+    color: var(--neon-cyan);
+    font-size: 1.3em;
+    margin: 0 0 12px;
+  }
+
+  .action-eq {
+    font-family: var(--font-mono);
+    background: var(--bg-abyss);
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    font-size: 1.1em;
+    color: var(--neon-green);
+    text-align: center;
+    box-shadow: var(--shadow-inset);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+  }
+
+  .term-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+    text-align: left;
+  }
+
+  .term-grid > div {
+    font-size: 0.82em;
+    color: var(--text-muted);
   }
 </style>
 
@@ -195,50 +240,90 @@
 
   <p class="fade-up" style="animation-delay: .3s;">
     <strong>Open Access Unified Resistance Physics Laboratory</strong><br>
-    A live repository of resistance-field simulations exploring electromagnetism, gravity, superconductivity,
-    biological energy systems, and cosmological coupling across scales.  
-    STUR unifies all interactions by treating resistance as an emergent geometric and informational substrate
-    of spacetime, producing a complete four-force tensor obtained from modular Hamiltonians and entropic fields.
-    This is "The Theory of Everything"!
+    A falsifiable research program where all simulations derive from a single action.
+    STUR unifies gravity, electromagnetism, and quantum phenomena via resistance-field geometry
+    coupled to teleparallel torsion and an internal coherence dimension (XCRM).
   </p>
 </header>
 
+<!-- === UNIFIED ACTION SPINE === -->
+<section class="spine fade-up" style="animation-delay:.35s;">
+  <div class="spine-inner">
+    <h2>The Unified Resistance Action</h2>
+    <p style="font-size:0.95em; color:var(--text-secondary); margin-bottom:16px; text-align:left;">
+      Every simulation in this lab is a <strong>projection</strong> of one master action defined on 4D spacetime
+      with an internal coherence dimension X (the XCRM closure):
+    </p>
+    <div class="action-eq">
+      S[R,g,X] = ∫ d⁴x dX √−g [ ½(∇R)² − V(R) + χ R∂<sub>X</sub>R + α R𝕋 ]
+    </div>
+    <div class="term-grid">
+      <div><span class="stur-text-green">½(∇R)²</span> — Diffusion/kinetic</div>
+      <div><span class="stur-text-pink">V(R)</span> — Relaxation potential</div>
+      <div><span class="stur-text-gold">χR∂<sub>X</sub>R</span> — XCRM coupling</div>
+      <div><span class="stur-text-cyan">αR𝕋</span> — Torsion source</div>
+    </div>
+    <p style="font-size:0.85em; color:var(--text-dim); margin-top:14px; margin-bottom:0; border-top:1px solid var(--border-subtle); padding-top:12px;">
+      <strong class="stur-text-violet">Quantum regime:</strong> ℏ ≠ 0 → stationary phase + 1-loop corrections.
+      <strong class="stur-text-cyan">Falsification:</strong> Gaussian visibility V(ΔL), not oscillatory.
+    </p>
+  </div>
+</section>
+
 <!-- === SIM GRID === -->
+<!-- Ordered by epistemic progression: Theory → Framework → Tools → Falsifiable → Derived → Exploratory -->
+
+<p style="font-size:0.9em; color:#64748b; margin-bottom:16px;">
+  <span style="background:#4ade8033; color:#4ade80; padding:2px 8px; border-radius:4px; font-size:0.85em;">START HERE</span>
+  Begin with Foundations, then follow the progression below.
+</p>
+
 <div class="sim-grid fade-up" style="animation-delay:.4s;">
-    <div class="sim-card glow-pop">👨🏻‍⚖️ <a href="scripts/stur_foundations.html">Foundations of Resistance</a></div>
-     <div class="sim-card glow-pop">🏎️ <a href="scripts/stur_engine.html">STUR Engine</a></div>
-    <div class="sim-card glow-pop">🌔 <a href="scripts/stur_unified_framework.html">Unified Framework</a></div>
-    <div class="sim-card glow-pop">🔺<a href="scripts/stur_geometry_verifier.html">Geometry Verifier</a></div>
-    <div class="sim-card glow-pop">🧙‍♂️ <a href="scripts/stur_chronomagnetics.html">STUR/Chronomagnetics</a></div>
-    <div class="sim-card glow-pop">💲 <a href="scripts/stur_superconductor.html">Ambient Superconductor</a></div>
-    <div class="sim-card glow-pop">🛠️ <a href="scripts/stur_sandbox.html">STUR Sand Box</a></div>
-    <div class="sim-card glow-pop">🦠 <a href="scripts/stur_life.html">Emergent Life</a></div>
-    <div class="sim-card glow-pop">📻 <a href="scripts/stur_wow.html">1977 "Wow" Signal</a></div>
-    <div class="sim-card glow-pop">👯‍♀️ <a href="scripts/stur_5duniverse.html">5D Helix Universe</a></div>
-    <div class="sim-card glow-pop">🫵🏻 <a href="scripts/stur_universe.html">Known Universe Model</a></div>
-    <div class="sim-card glow-pop">🧠 <a href="scripts/stur_neuro.html">Neuroplasticity Network</a></div>
-    <div class="sim-card glow-pop">🐚 <a href="scripts/stur_helix.html">TOE Helix Sim</a></div>
-    <div class="sim-card glow-pop">🦶🏻 <a href="scripts/TOE Proof Simulation.html">1 Curve all Forces</a></div>
-    <div class="sim-card glow-pop">💡 <a href="scripts/Double slit.html">Double Slit SIM</a></div>
-    <div class="sim-card glow-pop">⚡ <a href="scripts/stur_arc.html">Resistance Arc Simulator</a></div>
-    <div class="sim-card glow-pop">🔋 <a href="scripts/stur_atp.html">ATP Mitochondria 1000</a></div>
-    <div class="sim-card glow-pop">🔋 <a href="scripts/stur_atp1.html">ATP Mitochondria 1</a></div>
-    <div class="sim-card glow-pop">🌌 <a href="scripts/stur_galaxy.html">Galaxy Curve Model</a></div>
-    <div class="sim-card glow-pop">🧬 <a href="scripts/stur_immunity.html">Universal Immunity Algorithm</a></div>
-    <div class="sim-card glow-pop">💭 <a href="scripts/stur_mindgate.html">Mind Gate</a></div>
-    <div class="sim-card glow-pop">🫀 <a href="scripts/stur_replicator.html">Replicator Model</a></div>
-    <div class="sim-card glow-pop">💎 <a href="scripts/stur_graphene.html">Graphene Model</a></div>
-    <div class="sim-card glow-pop">✨ <a href="scripts/stur_sonolum.html">Sonoluminescence Solver</a></div>
-    <div class="sim-card glow-pop">♾️ <a href="scripts/stur_negative.html">Negative Energy Field</a></div>
-    <div class="sim-card glow-pop">💡 <a href="scripts/stur_tabletop.html">Table Top Resonance Demo</a></div>
-    <div class="sim-card glow-pop">🌠 <a href="scripts/stur_scalar.html">Bounce Energy Scalar Field</a></div>
-    <div class="sim-card glow-pop">🌪 <a href="scripts/stur_torweather.html">Weather Engine</a></div>
-    <div class="sim-card glow-pop">⛩️ <a href="scripts/stur_gate.html">Resistance Gate</a></div>
-    <div class="sim-card glow-pop">💻 <a href="scripts/stur_quantumcomputing.html">Quantum Computer</a></div>
-    <div class="sim-card glow-pop">⚛️ <a href="scripts/stur_plasmaconfinement.html">Plasma Confinement</a></div>
-    <div class="sim-card glow-pop">🥇 <a href="scripts/stur_thegoldenratio.html">The Golden Ratio</a></div>
-    <div class="sim-card glow-pop">🧑‍🧒‍🧒 <a href="scripts/stur_3bodyproblem.html">3 Body Problem</a></div>
-    <div class="sim-card glow-pop">⁉️ <a href="scripts/stur_testpage.html">Test Page</a></div>
+    <!-- === TIER 1: CORE THEORY === -->
+    <div class="sim-card glow-pop" style="border-left:3px solid #4ade80;">📐 <a href="scripts/stur_foundations.html">Foundations of Resistance</a><br><span style="font-size:0.75em;color:#4ade80;">START HERE</span></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #4ade80;">🌐 <a href="scripts/stur_unified_framework.html">Unified Framework</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #4ade80;">🏎️ <a href="scripts/stur_engine.html">STUR Engine</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #4ade80;">🛠️ <a href="scripts/stur_sandbox.html">STUR Sandbox</a></div>
+
+    <!-- === TIER 2: FALSIFIABLE PREDICTIONS === -->
+    <div class="sim-card glow-pop" style="border-left:3px solid #22d3ee;">🔺 <a href="scripts/stur_geometry_verifier.html">Geometry Verifier</a><br><span style="font-size:0.7em;color:#22d3ee;">FALSIFIABLE</span></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #22d3ee;">💡 <a href="scripts/Double slit.html">Double Slit</a><br><span style="font-size:0.7em;color:#22d3ee;">FALSIFIABLE</span></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #22d3ee;">💻 <a href="scripts/stur_quantumcomputing.html">Quantum Computing</a><br><span style="font-size:0.7em;color:#22d3ee;">FALSIFIABLE</span></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #22d3ee;">🧙‍♂️ <a href="scripts/stur_chronomagnetics.html">Chronomagnetics</a><br><span style="font-size:0.7em;color:#22d3ee;">FALSIFIABLE</span></div>
+
+    <!-- === TIER 3: DERIVED APPLICATIONS === -->
+    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">💲 <a href="scripts/stur_superconductor.html">Ambient Superconductor</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">⚡ <a href="scripts/stur_arc.html">Resistance Arc</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">⚛️ <a href="scripts/stur_plasmaconfinement.html">Plasma Confinement</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">💎 <a href="scripts/stur_graphene.html">Graphene Model</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">✨ <a href="scripts/stur_sonolum.html">Sonoluminescence</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">🌠 <a href="scripts/stur_scalar.html">Scalar Field</a></div>
+
+    <!-- === TIER 4: COSMOLOGICAL === -->
+    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">🌌 <a href="scripts/stur_galaxy.html">Galaxy Curve Model</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">👯‍♀️ <a href="scripts/stur_5duniverse.html">5D Helix Universe</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">🫵🏻 <a href="scripts/stur_universe.html">Known Universe</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">🐚 <a href="scripts/stur_helix.html">TOE Helix</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">🦶🏻 <a href="scripts/TOE Proof Simulation.html">1 Curve All Forces</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">📻 <a href="scripts/stur_wow.html">1977 "Wow" Signal</a></div>
+
+    <!-- === TIER 5: BIOLOGICAL / EMERGENT === -->
+    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🦠 <a href="scripts/stur_life.html">Emergent Life</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🔋 <a href="scripts/stur_atp.html">ATP Mitochondria 1000</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🔋 <a href="scripts/stur_atp1.html">ATP Mitochondria 1</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🧬 <a href="scripts/stur_immunity.html">Immunity Algorithm</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🧠 <a href="scripts/stur_neuro.html">Neuroplasticity</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🫀 <a href="scripts/stur_replicator.html">Replicator Model</a></div>
+
+    <!-- === TIER 6: EXPLORATORY === -->
+    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">💭 <a href="scripts/stur_mindgate.html">Mind Gate</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">⛩️ <a href="scripts/stur_gate.html">Resistance Gate</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">♾️ <a href="scripts/stur_negative.html">Negative Energy</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">💡 <a href="scripts/stur_tabletop.html">Tabletop Demo</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">🌪 <a href="scripts/stur_torweather.html">Weather Engine</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">🥇 <a href="scripts/stur_thegoldenratio.html">Golden Ratio</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">🧑‍🧒‍🧒 <a href="scripts/stur_3bodyproblem.html">3 Body Problem</a></div>
+    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">⁉️ <a href="scripts/stur_testpage.html">Test Page</a></div>
 </div>
 
 <!-- === ACTION PANEL === -->
@@ -263,8 +348,20 @@
 </div>
 
 <footer>
+  <div style="margin-bottom:16px;">
+    <span class="stur-dot good" style="margin-right:4px;"></span><span class="stur-text-green" style="font-size:0.85em; margin-right:16px;">Core Theory</span>
+    <span class="stur-dot info" style="margin-right:4px;"></span><span class="stur-text-cyan" style="font-size:0.85em; margin-right:16px;">Falsifiable</span>
+    <span class="stur-dot warn" style="margin-right:4px;"></span><span class="stur-text-gold" style="font-size:0.85em; margin-right:16px;">Derived</span>
+    <span style="display:inline-block; width:10px; height:10px; background:var(--neon-violet); border-radius:50%; box-shadow:var(--glow-violet); margin-right:4px;"></span><span class="stur-text-violet" style="font-size:0.85em; margin-right:16px;">Cosmological</span>
+    <span style="display:inline-block; width:10px; height:10px; background:var(--neon-pink); border-radius:50%; box-shadow:var(--glow-pink); margin-right:4px;"></span><span class="stur-text-pink" style="font-size:0.85em; margin-right:16px;">Biological</span>
+    <span style="display:inline-block; width:10px; height:10px; background:var(--tier-exploratory); border-radius:50%; margin-right:4px;"></span><span class="stur-text-dim" style="font-size:0.85em;">Exploratory</span>
+  </div>
+  <p style="font-size:0.82em; margin-bottom:12px;">
+    STUR survives only if its <strong class="stur-text-cyan">falsifiable predictions</strong> hold.
+    The theory dies if visibility is oscillatory (ULDM), time-dependent, or mass-dependent.
+  </p>
   <p>© 2025 Sheldon Lon Lindberg • STUR Physics Framework • X @that1sheldon<br>
-  Version 3.0 – Hosted via GitHub Pages • CC-BY-4.0 License</p>
+  Version 3.1 – Hosted via GitHub Pages • CC-BY-4.0 License</p>
 </footer>
 
 </body>

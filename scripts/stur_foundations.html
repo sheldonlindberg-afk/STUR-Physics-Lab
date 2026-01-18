@@ -620,6 +620,78 @@ code {
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════
+     THE MASTER ACTION (SPINE)
+     ══════════════════════════════════════════════════════════════════════════════ -->
+
+<section class="section" id="master-action" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--gold);">The Master Action</h2>
+
+  <p style="font-size:1.05rem;color:var(--text);margin-bottom:1.25rem;">
+    <strong>Every simulation and prediction in the STUR Physics Lab derives from this single action.</strong>
+    This is not a collection of unrelated phenomena — it is one theory with many regimes.
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem 1.5rem;">
+    \[\boxed{S_{\rm STUR}[R, g, X] = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{-g}\,
+    \Big[\underbrace{\tfrac{1}{2}(\nabla R)^2}_{\text{diffusion}}
+    - \underbrace{V(R)}_{\text{relaxation}}
+    + \underbrace{\chi\, R\,\partial_X R}_{\text{XCRM}}
+    + \underbrace{\alpha\, R\, \mathbb{T}}_{\text{torsion}}
+    + \mathcal{L}_{\rm matter}\Big]}\]
+    <div class="eq-label" style="color:var(--gold);">(0.1) — The Unified Resistance Action</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
+    <div style="padding:0.9rem;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+      <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Diffusion</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\tfrac{1}{2}(\nabla R)^2\) — Kinetic term driving spatial smoothing</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(244,114,182,0.08);border-radius:8px;border-left:3px solid #f472b6;">
+      <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Relaxation</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(V(R)\) — Potential driving \(R \to R_{\rm bg}\)</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+      <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">XCRM Closure</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\chi R \partial_X R\) — Internal dimension coupling (fixes constants)</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(96,165,250,0.08);border-radius:8px;border-left:3px solid #60a5fa;">
+      <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Torsion Source</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\alpha R \mathbb{T}\) — Teleparallel gravity coupling</div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--accent-secondary);margin-top:1.5rem;">Quantum Regime: The Semi-Classical Expansion</h3>
+
+  <p>
+    In the <strong>quantum regime</strong>, \(\hbar \neq 0\), the action enters via the path integral.
+    The semi-classical expansion proceeds as:
+  </p>
+
+  <div class="eq boxed">
+    \[\langle \mathcal{O} \rangle = \int \mathcal{D}R\, \mathcal{O}[R]\, e^{iS[R]/\hbar}
+    \;\;\xrightarrow{\;\hbar\to 0\;}\;\;
+    \mathcal{O}[\bar{R}] \cdot \exp\!\Big(\tfrac{i}{\hbar}S[\bar{R}]\Big) \cdot
+    \underbrace{\det^{-1/2}\!\Big(\frac{\delta^2 S}{\delta R^2}\Big)}_{\text{1-loop correction}}\]
+    <div class="eq-label">(0.2) — Stationary phase + Gaussian fluctuations</div>
+  </div>
+
+  <ol style="margin-top:1rem;">
+    <li><strong>Classical limit (\(\hbar \to 0\)):</strong> The PDE \(\partial_t R = D\nabla^2 R - V'(R) + \chi\partial_X R + \alpha\mathbb{T}R\) governs evolution. This is what the STUR Engine and Sandbox simulate.</li>
+    <li><strong>Stationary phase:</strong> Quantum amplitudes concentrate on classical paths \(\bar{R}\) satisfying \(\delta S/\delta R = 0\).</li>
+    <li><strong>1-loop correction:</strong> The functional determinant \(\det(\delta^2 S/\delta R^2)\) gives leading quantum corrections. This appears in the Double Slit and Quantum Computing simulations.</li>
+  </ol>
+
+  <div class="block success" style="margin-top:1.25rem;">
+    <div class="title">Falsifiability Criterion</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The key testable prediction: <strong>Gaussian visibility</strong> \(V(\Delta L) = V_0 \exp(-(\Delta L/\ell_{\rm coh})^2)\).
+      If experiments show oscillatory (sinusoidal) behavior, time-dependent suppression, or mass-dependent effects,
+      <span style="color:var(--error);font-weight:600;">STUR is falsified</span>.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════════
      TABLE OF CONTENTS
      ══════════════════════════════════════════════════════════════════════════════ -->
 
@@ -629,39 +701,41 @@ code {
     <!-- NOTE: This table of contents is rendered directly in HTML.
          Any Markdown-style code fencing has been removed to preserve
          strict HTML validity for archival and print use. -->
+    <p style="color:var(--gold);"><strong><a href="#master-action" style="color:var(--gold);">0. The Master Action (Start Here)</a></strong></p>
+
     <p><strong>Part I — Framework</strong></p>
     <p><a href="#sec1">1. Motivation and Axioms</a></p>
     <p><a href="#sec2">2. Manifold Structure</a></p>
     <p><a href="#sec3">3. Action and Field Equations</a></p>
+    <p style="margin-left:1.5rem;color:var(--gold)"><a href="#sec3" style="color:var(--gold)">3.4 Semiclassical Expansion from XCRM</a></p>
 
-```
-<p><strong>Part II — Sector Dynamics</strong></p>
-<p><a href="#sec4">4. Gravitational Sector (TEGR)</a></p>
-<p><a href="#sec5">5. Gauge Sector</a></p>
-<p><a href="#sec6">6. Scalar Sector</a></p>
+    <p><strong>Part II — Sector Dynamics</strong></p>
+    <p><a href="#sec4">4. Gravitational Sector (TEGR)</a></p>
+    <p><a href="#sec5">5. Gauge Sector</a></p>
+    <p style="margin-left:1.5rem;color:var(--success)"><a href="#sec5" style="color:var(--success)">5.3 XCRM Symmetry and Gauge Selection</a></p>
+    <p><a href="#sec6">6. Scalar Sector</a></p>
 
-<p><strong>Part III — Matter</strong></p>
-<p><a href="#sec7">7. Fermion Localization</a></p>
-<p><a href="#sec8">8. Mass Hierarchies</a></p>
+    <p><strong>Part III — Matter</strong></p>
+    <p><a href="#sec7">7. Fermion Localization</a></p>
+    <p><a href="#sec8">8. Mass Hierarchies</a></p>
 
-<p><strong>Part IV — Experimental Prediction</strong></p>
-<p><a href="#sec9">9. Interferometric Signature</a></p>
-<p style="margin-left:1.5rem"><a href="#sec9-holoscreen">9.5 Interactive Holoscreen</a></p>
-<p><a href="#sec10">10. Coherence Length Estimates</a></p>
-<p><a href="#sec11">11. Current Constraints</a></p>
-<p><a href="#sec12">12. Falsification Protocol</a></p>
+    <p><strong>Part IV — Experimental Prediction</strong></p>
+    <p><a href="#sec9">9. Interferometric Signature</a></p>
+    <p style="margin-left:1.5rem"><a href="#sec9-holoscreen">9.5 Interactive Holoscreen</a></p>
+    <p><a href="#sec10">10. Coherence Length Estimates</a></p>
+    <p><a href="#sec11">11. Current Constraints</a></p>
+    <p><a href="#sec12">12. Falsification Protocol</a></p>
 
-<p><strong>Part V — Consistency</strong></p>
-<p><a href="#sec13">13. Limiting Cases</a></p>
-<p><a href="#sec14">14. Open Problems</a></p>
+    <p><strong>Part V — Consistency</strong></p>
+    <p><a href="#sec13">13. Limiting Cases</a></p>
+    <p><a href="#sec14">14. Open Problems</a></p>
 
-<p><strong>Appendices</strong></p>
-<p><a href="#appA">A. Notation</a></p>
-<p><a href="#appB">B. Schwinger-Keldysh Derivation</a></p>
-<p><a href="#appC">C. Dimensional Analysis</a></p>
-<p><a href="#appD">D. Environmental Decoherence Exclusion</a></p>
-<p><a href="#refs">References</a></p>
-```
+    <p><strong>Appendices</strong></p>
+    <p><a href="#appA">A. Notation</a></p>
+    <p><a href="#appB">B. Schwinger-Keldysh Derivation</a></p>
+    <p><a href="#appC">C. Dimensional Analysis</a></p>
+    <p><a href="#appD">D. Environmental Decoherence Exclusion</a></p>
+    <p><a href="#refs">References</a></p>
 
   </div>
 </section>
@@ -1207,6 +1281,139 @@ code {
     \end{aligned}\]
     <div class="eq-label">(3.6)</div>
   </div>
+
+  <h3>3.4 Semiclassical Expansion from XCRM</h3>
+
+  <div class="block gold">
+    <div class="title">Why ℏ Enters Necessarily (Not Stylistically)</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      XCRM + experimental coarse-graining <strong>forces</strong> a semiclassical expansion.
+      This section derives why the quantum regime is not an optional add-on but a necessary
+      consequence of the holonomy-observable structure.
+    </p>
+  </div>
+
+  <h4>3.4.1 XCRM Observables (Operationally)</h4>
+  <p>
+    From the XCRM definition: \(X\) is not spacetime — it parametrizes internal coherence/memory.
+    Observables are <strong>holonomy functionals</strong>:
+  </p>
+  <div class="eq boxed">
+    \[\Phi_R[\mathcal C] = \oint_{\mathcal C} \mathsf{J}_a\, dx^a\]
+    <div class="eq-label">(3.7) — The holonomy observable</div>
+  </div>
+  <p>
+    <strong>Key implication:</strong> Local values of \(R(x,X)\) are <em>not</em> observable.
+    Only coarse-grained loop functionals are.
+  </p>
+
+  <h4>3.4.2 Coarse-Graining Is Unavoidable</h4>
+  <p>
+    Any interferometer does not measure \(R(x,X)\) directly. It measures a path-integrated phase:
+    \(\Phi_R = \int_{\text{path}} \nabla R \cdot d\ell\).
+  </p>
+  <p>
+    Because:
+    <ul>
+      <li>The apparatus has finite resolution</li>
+      <li>The field relaxes in \(X\) via \(\partial_X R = (R - R_{\rm bg})/L_X\)</li>
+    </ul>
+    each shot samples <strong>many microscopic X-configurations</strong>. So operationally:
+  </p>
+  <div class="eq">
+    \[\Phi_R = \sum_{i=1}^{N_{\rm cells}} \delta\phi_i \quad\text{with}\quad N_{\rm cells} \gg 1\]
+    <div class="eq-label">(3.8)</div>
+  </div>
+
+  <h4>3.4.3 Central Limit Theorem ⇒ Gaussian Measure</h4>
+  <p>
+    This is <strong>not optional</strong>. It is forced by statistics.
+  </p>
+  <p>
+    If fluctuations decorrelate over \(X\) on scale \(L_X\), and transport length \(\Delta L \gg L_X\), then:
+  </p>
+  <div class="eq law">
+    \[\Phi_R \;\xrightarrow{\text{coarse-grain}}\; \mathcal{N}(0, \sigma_\Phi^2)\]
+    <div class="eq-label">(3.9) — Central limit for holonomy</div>
+  </div>
+  <p>
+    The <strong>effective path integral measure</strong> for the observable is:
+  </p>
+  <div class="eq boxed">
+    \[\mathcal{D}\Phi_R \;\sim\; \exp\!\left(-\frac{\Phi_R^2}{2\sigma_\Phi^2}\right)\]
+    <div class="eq-label">(3.10) — Gaussian holonomy measure</div>
+  </div>
+  <p>
+    This <em>is already</em> a semiclassical saddle-point structure.
+  </p>
+
+  <h4>3.4.4 Where ℏ Enters</h4>
+  <p>
+    The WKB phase for matter transport is:
+  </p>
+  <div class="eq">
+    \[\psi \sim \exp\!\left(\frac{i}{\hbar} S_{\rm eff}\right)\]
+    <div class="eq-label">(3.11)</div>
+  </div>
+  <p>
+    In STUR, the effective action receives a holonomy correction:
+  </p>
+  <div class="eq boxed">
+    \[S_{\rm eff} = S_0 + \hbar\,\Phi_R\]
+    <div class="eq-label">(3.12) — Action with resistance phase</div>
+  </div>
+  <p>
+    Why? Because \(\Phi_R\) is a <strong>phase functional</strong> — it multiplies the wavefunction
+    exactly like an action correction, and survives only as a coarse-grained stochastic contribution.
+    The expansion parameter is <strong>explicitly ℏ</strong>, not guessed.
+  </p>
+
+  <h4>3.4.5 The 1-Loop Determinant</h4>
+  <p>
+    Expand the action around the background:
+  </p>
+  <div class="eq">
+    \[S[R] = S[R_{\rm bg}] + \frac{1}{2}\int \delta R\,\mathcal{O}\,\delta R + \cdots\]
+    <div class="eq-label">(3.13)</div>
+  </div>
+  <p>
+    where \(\mathcal{O} = -\Box + m_R^2 + \text{(XCRM relaxation)}\). Integrating out \(\delta R\):
+  </p>
+  <div class="eq law">
+    \[Z \sim \exp\!\left(\frac{i}{\hbar}S[R_{\rm bg}]\right)\;\big(\det \mathcal{O}\big)^{-1/2}\]
+    <div class="eq-label">(3.14) — Path integral at 1-loop</div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Physical Interpretation of 1-Loop</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>The STUR 1-loop determinant is not a UV correction to the action.</strong>
+      It fixes the <em>variance</em> of the holonomy distribution:
+      \[\langle \Phi_R^2 \rangle = \hbar^2\,\mathrm{Tr}(\mathcal{O}^{-1}) \times (\text{geometry factor})\]
+      This is why STUR predicts the <em>functional form</em> of visibility without predicting SM couplings.
+    </p>
+  </div>
+
+  <h4>3.4.6 Summary: Semiclassical STUR</h4>
+  <div class="block info">
+    <div class="title">Theorem — Semiclassical Structure from XCRM</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      XCRM relaxation + coarse-grained measurement imply that the resistance contribution enters
+      the matter phase only through a <strong>Gaussian-distributed holonomy</strong>.
+      The resulting visibility law is fixed at one-loop order and
+      <strong>independent of microscopic UV completion</strong>.
+    </p>
+    <div class="eq law" style="margin-top:0.75rem;">
+      \[\boxed{V(\Delta L) = V_0 \exp\!\left[-\frac{1}{2}\left(\frac{\sigma_R}{L_X}\right)^2 (\Delta L)^2\right]}\]
+      <div class="eq-label">(3.15) — The Gaussian visibility law (1-loop prediction)</div>
+    </div>
+  </div>
+
+  <p style="font-size:0.92rem;color:var(--text-muted);margin-top:1rem;">
+    This is exactly what the holoscreen simulator implements. The interactive visualization
+    computes the <strong>1-loop semiclassical prediction</strong> \(V = \exp(-\langle\Phi_R^2\rangle/2)\)
+    derived from XCRM coarse-graining.
+  </p>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════
@@ -1272,6 +1479,122 @@ code {
     \[g_4^2 = \frac{g_5^2}{L_X}\]
     <div class="eq-label">(5.1)</div>
   </div>
+
+  <h3>5.3 XCRM Symmetry and Gauge Selection</h3>
+
+  <div class="block success">
+    <div class="title">Core Definition — XCRM Symmetry</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Physical observables are invariant under local reparameterizations of internal resistance–coherence
+      flow that preserve closed-loop holonomy:
+    </p>
+    <div class="eq law" style="margin-top:0.75rem;">
+      \[R(x,X) \;\longrightarrow\; R'(x,X') \quad \text{such that} \quad
+      \oint_{\mathcal C} \mathsf{J}_a\, dx^a \;\text{ is invariant}\]
+      <div class="eq-label">(5.2) — XCRM Invariance</div>
+    </div>
+  </div>
+
+  <p>
+    This definition immediately implies: (1) \(X\) is <strong>not observable</strong>;
+    (2) only <strong>holonomies</strong> are observable; (3) any redundancy in describing \(R\)
+    that preserves holonomy defines a <strong>gauge symmetry</strong>.
+  </p>
+
+  <h4>5.3.1 Degeneracy Manifold</h4>
+  <p>
+    Let \(\mathcal{D}\) be the space of resistance configurations yielding the same holonomy:
+  </p>
+  <div class="eq">
+    \[\mathcal{D} = \big\{ R \mid \Phi_R[\mathcal C] = \text{const} \big\}\]
+    <div class="eq-label">(5.3)</div>
+  </div>
+  <p>
+    Local changes of basis in \(\mathcal{D}\) are physically invisible. If this degeneracy forms
+    a continuous group, we have:
+  </p>
+  <div class="eq boxed">
+    \[R^I(x) \;\rightarrow\; U^I{}_J(x)\,R^J(x) \quad\text{with}\quad U(x)\in G\]
+    <div class="eq-label">(5.4) — Local degeneracy transformation</div>
+  </div>
+
+  <h4>5.3.2 Why Yang–Mills Is Forced</h4>
+  <p>
+    To define parallel transport of degeneracy labels, a connection must be introduced:
+    \(\mathcal A_\mu = A_\mu^I T_I\). Requiring invariance under:
+  </p>
+  <div class="eq">
+    \[R \to UR, \quad \mathcal A_\mu \to U\mathcal A_\mu U^{-1} + U\partial_\mu U^{-1}\]
+    <div class="eq-label">(5.5)</div>
+  </div>
+  <p>
+    <strong>forces</strong> a Yang–Mills structure. This is not optional — it is a standard theorem
+    (see Aldrovandi & Pereira 2013, Chap. 12).
+  </p>
+
+  <h4>5.3.3 XCRM Constraints on Gauge Groups</h4>
+
+  <div class="block info">
+    <div class="title">Constraint 1 — Compactness</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The resistance kinetic term must be positive definite: \(\int (\nabla R)^2 \ge 0\).
+      This requires the degeneracy metric \(\kappa_{IJ}\) to be positive definite,
+      admitting only <strong>compact Lie groups</strong>: SU(N), SO(N), U(1).
+    </p>
+  </div>
+
+  <div class="block info" style="margin-top:0.75rem;">
+    <div class="title">Constraint 2 — Holonomy Nontriviality</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      If \(G\) is purely Abelian, then \(\Phi_R = \oint \partial_a\theta\,dx^a = 0\) unless
+      singularities are inserted by hand. Therefore, <strong>at least one non-Abelian factor
+      is required</strong> to generate nontrivial resistance holonomy.
+    </p>
+  </div>
+
+  <div class="block info" style="margin-top:0.75rem;">
+    <div class="title">Constraint 3 — Minimality + Chirality</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The theory must: (a) allow chiral fermion localization (enforced via orbifolding),
+      (b) support nontrivial loop holonomy, (c) avoid additional unobserved long-range forces.
+      The <strong>smallest</strong> compact group satisfying all three is:
+    </p>
+    <div class="eq law" style="margin-top:0.5rem;">
+      \[\boxed{SU(3) \times SU(2) \times U(1)}\]
+      <div class="eq-label">(5.6) — Minimal viable gauge group</div>
+    </div>
+  </div>
+
+  <h4>5.3.4 What XCRM Fixes vs Does Not Fix</h4>
+
+  <div class="card-grid" style="margin-top:1rem;">
+    <div class="card">
+      <strong style="color:var(--success)">Fixed by XCRM symmetry</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        • Structure of interactions<br>
+        • Existence of gauge fields<br>
+        • Yang–Mills form of kinetic terms<br>
+        • Yukawa form \(yR\bar\Psi\Psi\)<br>
+        • Quadratic Gaussian visibility law
+      </span>
+    </div>
+    <div class="card">
+      <strong style="color:var(--warning)">Phenomenological inputs (not fixed)</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        • Numerical values of couplings<br>
+        • Fermion representations<br>
+        • Generation count (3)<br>
+        • Absolute mass scales<br>
+        • Coherence length \(\ell_{\rm coh}\) magnitude
+      </span>
+    </div>
+  </div>
+
+  <p style="margin-top:1rem;font-size:0.92rem;color:var(--text-muted)">
+    <strong>Summary:</strong> XCRM symmetry + chirality + holonomy nontriviality + minimality
+    <em>strongly favor</em> the Standard Model gauge group, without claiming uniqueness.
+    This is an honest constraint, not a derivation.
+  </p>
 </section>
 
 <section class="section" id="sec6">
