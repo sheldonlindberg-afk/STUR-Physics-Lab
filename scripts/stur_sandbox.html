@@ -592,7 +592,10 @@ return x;
   <div class="verify-grid" id="verify_grid">
     <div class="verify-card">
       <h4>Mass Conservation</h4>
-      <p>∑R·dx changes only via boundaries</p>
+      <p>∑R·dx within 10% of initial</p>
+      <p style="font-size:.75rem;color:var(--fg3);margin-top:.2rem">
+        Note: Relaxation (R→R<sub>bg</sub>) causes physical mass loss — not numerical error
+      </p>
       <span class="verify-status" id="v_mass">—</span>
     </div>
     <div class="verify-card">
@@ -611,6 +614,10 @@ return x;
       <span class="verify-status" id="v_bound">—</span>
     </div>
   </div>
+  <p style="font-size:.82rem;color:var(--fg3);margin-top:.6rem">
+    <strong>Tip:</strong> For mass conservation, increase L<sub>X</sub> ≫ L or set R<sub>bg</sub> &gt; 0.
+    With strong relaxation, R decays to background — this is physical, not numerical.
+  </p>
 </details>
 ```
 
@@ -620,7 +627,16 @@ return x;
 
   <div class="tab-content" id="tab-visibility">
     <p>
-      Explore STUR visibility prediction. Compare Gaussian (STUR) vs sinusoidal (ULDM) vs constant (null).
+      Explore STUR visibility prediction against competing models in the discriminator space.
+    </p>
+    <p style="font-size:.85rem;color:var(--fg3);margin-bottom:.8rem">
+      <strong>Model comparison:</strong> 
+      <span style="color:var(--stur)">■</span> STUR Gaussian (scalar DM) · 
+      <span style="color:var(--chrono)">■</span> ULDM sinusoidal (wave-like) · 
+      <span style="color:#f472b6">■</span> Quadratic (massive graviton) · 
+      <span style="color:var(--accent)">■</span> Exponential (decoherence).
+      See <a href="https://arxiv.org/abs/2309.09538" target="_blank">arXiv:2309.09538</a>, 
+      <a href="https://arxiv.org/abs/2412.14282" target="_blank">2412.14282</a> for theory.
     </p>
 
 ```
@@ -654,9 +670,11 @@ return x;
 
   <div>
     <div class="canvas-wrap"><canvas id="vis_canvas"></canvas></div>
-    <div style="display:flex;justify-content:center;gap:1.2rem;margin-top:.5rem;font-size:.82rem;flex-wrap:wrap">
+    <div style="display:flex;justify-content:center;gap:.8rem;margin-top:.5rem;font-size:.78rem;flex-wrap:wrap">
       <span><span style="display:inline-block;width:10px;height:10px;background:var(--stur);border-radius:50%"></span> STUR (Gaussian)</span>
       <span><span style="display:inline-block;width:10px;height:10px;background:var(--chrono);border-radius:50%"></span> ULDM (Sinusoidal)</span>
+      <span><span style="display:inline-block;width:10px;height:10px;background:#f472b6;border-radius:50%"></span> Quadratic</span>
+      <span><span style="display:inline-block;width:10px;height:10px;background:var(--accent);border-radius:50%"></span> Exponential</span>
       <span><span style="display:inline-block;width:10px;height:10px;background:var(--fg3);border-radius:50%"></span> Null</span>
       <span><span style="display:inline-block;width:10px;height:10px;background:var(--danger);border-radius:50%"></span> Noise Floor</span>
     </div>
@@ -879,9 +897,212 @@ def stur_visibility(dL, l_coh, V0=1.0):
     """
     return V0 * np.exp(-(dL / l_coh)**2)
 
+def stur_visibility_modulated(dL, l_coh, t_Ma, V0=1.0, epsilon=0.05):
+    """
+    STUR visibility with chronomagnetic modulation.
+    ℓ_coh(t) = ℓ_coh * M(t), where M(t) = 1 + ε cos(2πu/ln λ)
+    """
+    M = chrono_modulation(t_Ma * 1e6, epsilon)
+    l_eff = l_coh * M
+    return V0 * np.exp(-(dL / l_eff)**2)
+
+def derive_l_coh(D, L_X, t_total, sigma_R=1.0):
+    """
+    Derive coherence length from simulation parameters.
+    ℓ_coh ~ sqrt(2) * L_X / σ_R, or dynamically from diffusion scale.
+    
+    Physical interpretation:
+      - L_X: extra-dimensional relaxation scale
+      - D*t: diffusion length scale
+      - Combined: ℓ_coh ~ sqrt(D * t_total) * (L_X / sigma_R)
+    """
+    diffusion_scale = np.sqrt(D * t_total)
+    return np.sqrt(2) * L_X / sigma_R * (1 + diffusion_scale / L_X)
+
 def uldm_visibility(dL, period=1.5, offset=0.5, amplitude=0.4):
-    """ULDM competitor: sinusoidal oscillation"""
+    """ULDM competitor: sinusoidal oscillation (wave-like DM)"""
     return offset + amplitude * np.cos(2 * np.pi * dL / period)
+
+def quadratic_visibility(dL, a=0.02, V0=1.0):
+    """
+    Quadratic model: V = V0 * (1 - a*ΔL²)
+    Appears in massive graviton DM (arXiv:2412.14282) and 
+    small-ΔL limits of decoherence models.
+    """
+    return np.maximum(0, V0 * (1 - a * dL**2))
+
+def exponential_visibility(dL, l_dec, V0=1.0):
+    """
+    Pure exponential: V = V0 * exp(-ΔL/l_dec)
+    Standard decoherence model — distinct from STUR's Gaussian.
+    """
+    return V0 * np.exp(-dL / l_dec)
+
+# ═══════════════════════════════════════════════════════════
+# MODEL COMPARISON STATISTICS
+# ═══════════════════════════════════════════════════════════
+def chi_squared(V_pred, V_obs, V_err):
+    """Compute χ² for model fit"""
+    return sum(((p - o) / e)**2 for p, o, e in zip(V_pred, V_obs, V_err))
+
+def aic(chi2, k, n):
+    """Akaike Information Criterion: AIC = χ² + 2k"""
+    return chi2 + 2 * k
+
+def bic(chi2, k, n):
+    """Bayesian Information Criterion: BIC = χ² + k*ln(n)"""
+    return chi2 + k * np.log(n)
+
+def model_comparison(dL_vals, V_obs, V_err, models):
+    """
+    Compare multiple models using χ², AIC, BIC.
+    
+    models: dict of {'name': (V_pred_array, n_params)}
+    Returns: dict with stats for each model, plus relative evidence
+    
+    Interpretation:
+      - ΔAIC < 2: models indistinguishable
+      - ΔAIC 4-7: some evidence for lower AIC
+      - ΔAIC > 10: strong evidence for lower AIC
+      - Same scale for BIC (often more conservative)
+    """
+    n = len(dL_vals)
+    results = {}
+    
+    for name, (V_pred, k) in models.items():
+        chi2 = chi_squared(V_pred, V_obs, V_err)
+        results[name] = {
+            'chi2': chi2,
+            'chi2_per_dof': chi2 / (n - k),
+            'aic': aic(chi2, k, n),
+            'bic': bic(chi2, k, n),
+            'n_params': k
+        }
+    
+    # Compute relative evidence (Δ from best model)
+    best_aic = min(r['aic'] for r in results.values())
+    best_bic = min(r['bic'] for r in results.values())
+    
+    for name in results:
+        results[name]['delta_aic'] = results[name]['aic'] - best_aic
+        results[name]['delta_bic'] = results[name]['bic'] - best_bic
+        # Akaike weight (relative likelihood)
+        results[name]['akaike_weight'] = np.exp(-results[name]['delta_aic'] / 2)
+    
+    # Normalize weights
+    total_weight = sum(r['akaike_weight'] for r in results.values())
+    for name in results:
+        results[name]['akaike_weight'] /= total_weight
+    
+    return results
+
+# ═══════════════════════════════════════════════════════════
+# PARAMETER OPTIMIZATION (for fair model comparison)
+# ═══════════════════════════════════════════════════════════
+def fit_stur(dL_vals, V_obs, V_err, p0=(3.0, 1.0)):
+    """Fit STUR Gaussian: V = V0 * exp(-(ΔL/l_coh)²)"""
+    from scipy.optimize import curve_fit
+    def model(dL, l_coh, V0):
+        return V0 * np.exp(-(dL / l_coh)**2)
+    try:
+        popt, pcov = curve_fit(model, dL_vals, V_obs, p0=p0, sigma=V_err, 
+                               bounds=([0.1, 0.1], [100, 1.5]))
+        return {'l_coh': popt[0], 'V0': popt[1], 'cov': pcov, 'success': True}
+    except:
+        return {'l_coh': p0[0], 'V0': p0[1], 'success': False}
+
+def fit_uldm(dL_vals, V_obs, V_err, p0=(1.5, 0.5, 0.4)):
+    """Fit ULDM sinusoidal: V = offset + amp * cos(2π ΔL / period)"""
+    from scipy.optimize import curve_fit
+    def model(dL, period, offset, amp):
+        return offset + amp * np.cos(2 * np.pi * dL / period)
+    try:
+        popt, pcov = curve_fit(model, dL_vals, V_obs, p0=p0, sigma=V_err,
+                               bounds=([0.1, 0, 0], [10, 1, 1]))
+        return {'period': popt[0], 'offset': popt[1], 'amp': popt[2], 'cov': pcov, 'success': True}
+    except:
+        return {'period': p0[0], 'offset': p0[1], 'amp': p0[2], 'success': False}
+
+def fit_quadratic(dL_vals, V_obs, V_err, p0=(0.02, 1.0)):
+    """Fit quadratic: V = V0 * (1 - a * ΔL²)"""
+    from scipy.optimize import curve_fit
+    def model(dL, a, V0):
+        return np.maximum(0, V0 * (1 - a * dL**2))
+    try:
+        popt, pcov = curve_fit(model, dL_vals, V_obs, p0=p0, sigma=V_err,
+                               bounds=([0, 0.1], [1, 1.5]))
+        return {'a': popt[0], 'V0': popt[1], 'cov': pcov, 'success': True}
+    except:
+        return {'a': p0[0], 'V0': p0[1], 'success': False}
+
+def fit_exponential(dL_vals, V_obs, V_err, p0=(2.0, 1.0)):
+    """Fit exponential: V = V0 * exp(-ΔL / l_dec)"""
+    from scipy.optimize import curve_fit
+    def model(dL, l_dec, V0):
+        return V0 * np.exp(-dL / l_dec)
+    try:
+        popt, pcov = curve_fit(model, dL_vals, V_obs, p0=p0, sigma=V_err,
+                               bounds=([0.1, 0.1], [100, 1.5]))
+        return {'l_dec': popt[0], 'V0': popt[1], 'cov': pcov, 'success': True}
+    except:
+        return {'l_dec': p0[0], 'V0': p0[1], 'success': False}
+
+def optimized_model_comparison(dL_vals, V_obs, V_err):
+    """
+    Fit all models with optimized parameters, then compare.
+    This is fairer than using fixed parameters.
+    
+    Returns: dict with fitted params, predictions, and comparison stats
+    """
+    results = {}
+    
+    # Fit each model
+    fit_s = fit_stur(dL_vals, V_obs, V_err)
+    fit_u = fit_uldm(dL_vals, V_obs, V_err)
+    fit_q = fit_quadratic(dL_vals, V_obs, V_err)
+    fit_e = fit_exponential(dL_vals, V_obs, V_err)
+    
+    # Generate predictions with fitted params
+    V_stur = np.array([stur_visibility(dl, fit_s['l_coh'], fit_s['V0']) for dl in dL_vals])
+    V_uldm = np.array([uldm_visibility(dl, fit_u['period'], fit_u['offset'], fit_u['amp']) 
+                       for dl in dL_vals])
+    V_quad = np.array([quadratic_visibility(dl, fit_q['a'], fit_q['V0']) for dl in dL_vals])
+    V_exp = np.array([exponential_visibility(dl, fit_e['l_dec'], fit_e['V0']) for dl in dL_vals])
+    V_null = np.ones(len(dL_vals)) * np.mean(V_obs)  # Best constant = mean
+    
+    # Model comparison with fitted predictions
+    models = {
+        'STUR_Gaussian': (V_stur, 2),
+        'ULDM_Sinusoidal': (V_uldm, 3),
+        'Quadratic': (V_quad, 2),
+        'Exponential': (V_exp, 2),
+        'Null': (V_null, 1)
+    }
+    comparison = model_comparison(dL_vals, V_obs, V_err, models)
+    
+    # Add fitted parameters to results
+    comparison['STUR_Gaussian']['fitted_params'] = fit_s
+    comparison['ULDM_Sinusoidal']['fitted_params'] = fit_u
+    comparison['Quadratic']['fitted_params'] = fit_q
+    comparison['Exponential']['fitted_params'] = fit_e
+    comparison['Null']['fitted_params'] = {'V0': float(np.mean(V_obs))}
+    
+    # Determine winner
+    best = min(comparison.keys(), key=lambda k: comparison[k]['aic'])
+    
+    return {
+        'comparison': comparison,
+        'best_model': best,
+        'stur_weight': comparison['STUR_Gaussian']['akaike_weight'],
+        'predictions': {
+            'dL': dL_vals.tolist(),
+            'STUR': V_stur.tolist(),
+            'ULDM': V_uldm.tolist(),
+            'Quadratic': V_quad.tolist(),
+            'Exponential': V_exp.tolist(),
+            'Null': V_null.tolist()
+        }
+    }
 
 # ═══════════════════════════════════════════════════════════
 # CHRONOMAGNETICS
@@ -1010,7 +1231,8 @@ class STURSolver:
         
         current_mass = np.sum(self.R) * self.dx
         mass_change = abs(current_mass - self.initial_mass) / max(abs(self.initial_mass), 1e-10)
-        results['mass_conserved'] = mass_change < 0.5
+        # Tightened from 0.5 to 0.1 (10%) — Crank-Nicolson should conserve better
+        results['mass_conserved'] = mass_change < 0.1
         results['mass_change_frac'] = mass_change
         
         return results
@@ -1058,13 +1280,20 @@ if __name__ == '__main__':
         V = stur_visibility(dL, l_coh)
         print(f"    V(ΔL={dL}m) = {V:.4f}")
     
-    # 3. Export
+    # 3. Export (now includes ULDM for comparison)
+    dL_array = np.linspace(0, 6, 25)
     export = {
-        'meta': {'title': 'STUR Export', 'timestamp': datetime.now().isoformat()},
+        'meta': {'title': 'STUR Export', 'timestamp': datetime.now().isoformat(),
+                 'theory': 'Unified Teleparallel Effective Framework'},
         'solver': solver.to_dict(),
-        'visibility': {'l_coh': l_coh,
-                       'data': [{'dL': dL, 'V': stur_visibility(dL, l_coh)} 
-                                for dL in np.linspace(0, 6, 25)]}
+        'visibility': {
+            'l_coh': l_coh,
+            'stur': [{'dL': float(dL), 'V': float(stur_visibility(dL, l_coh))} 
+                     for dL in dL_array],
+            'uldm': [{'dL': float(dL), 'V': float(uldm_visibility(dL))} 
+                     for dL in dL_array],
+            'discriminator': 'Gaussian (STUR) vs Sinusoidal (ULDM)'
+        }
     }
     with open('stur_export.json', 'w') as f:
         json.dump(export, f, indent=2)
@@ -1102,6 +1331,370 @@ if __name__ == '__main__':
     print("\n" + "="*60)
     print("NEXT: Run parameter study, compare to data, design falsification test")
     print("="*60)
+
+# ═══════════════════════════════════════════════════════════
+# PARAMETER STUDY & FALSIFICATION
+# ═══════════════════════════════════════════════════════════
+# NOTE ON MASS CONSERVATION (from Grok analysis):
+#   - L_X ≤ 20 with R_bg=0: Full decay regardless of L_X
+#   - L_X > 50 with R_bg=0: Partial conservation possible  
+#   - R_bg > 0: Stabilizes baseline, best for conservation
+#   - Recommended: L_X >> L AND R_bg > 0 for conserving regime
+
+def parameter_study(param_ranges, steps=200, num_dL=20, use_dynamic_lcoh=False,
+                    include_model_comparison=True, use_optimized_fits=False,
+                    R_bg=0.0, synthetic_model='uldm'):
+    """
+    Sweep parameters, predict visibility, compute χ² vs synthetic data.
+    
+    param_ranges: {'alpha': [...], 'D': [...], 'L_X': [...]}
+    use_dynamic_lcoh: If True, derive l_coh from D, L_X, t_total
+    include_model_comparison: If True, compare STUR vs ULDM vs Quadratic vs Null
+    use_optimized_fits: If True, use scipy curve_fit for fair comparison
+    R_bg: Background resistance (>0 for conservation regime)
+    synthetic_model: 'uldm' or 'stur' for synthetic data generation
+    
+    Returns: List of result dicts for JSON export
+    
+    EXPERIMENTAL TIMELINE (Jan 2026 update):
+      - MAGIS-100: Laser lab completed Jan 2026, installation end-2027,
+                   first data possible late 2027
+      - AION: 10m prototype results Aug 2025, phased to 100m/km by 2030
+      - Key refs: arXiv:2309.09538, 2412.14282, 2308.02634
+    
+    DISCRIMINATOR SPACE:
+      - STUR: Gaussian exp(-(ΔL/ℓ)²) — scalar field coupling
+      - ULDM: Sinusoidal cos(2πΔL/λ) — wave-like dark matter
+      - Quadratic: 1 - aΔL² — massive graviton / small-ΔL limit
+      - Exponential: exp(-ΔL/ℓ) — standard decoherence
+    """
+    results = []
+    
+    # Synthetic "data" — configurable model
+    dL_vals = np.linspace(0, 6, num_dL)
+    np.random.seed(42)  # Reproducible
+    
+    if synthetic_model == 'stur':
+        V_true = np.array([stur_visibility(dl, l_coh=2.5) for dl in dL_vals])
+        model_note = 'Gaussian (l_coh=2.5m) + noise σ=0.03'
+    else:  # uldm
+        V_true = uldm_visibility(dL_vals)
+        model_note = 'sinusoidal (period=1.5m, offset=0.5, amp=0.4) + noise σ=0.03'
+    
+    synthetic_data = {
+        'dL': dL_vals.tolist(),
+        'V_obs': (V_true + 0.03 * np.random.randn(num_dL)).tolist(),
+        'V_err': [0.03] * num_dL,
+        'note': f'Synthetic {synthetic_model.upper()}-like data for falsification testing',
+        'model': model_note
+    }
+    
+    for alpha in param_ranges.get('alpha', [0.1]):
+        for D in param_ranges.get('D', [0.5]):
+            for L_X in param_ranges.get('L_X', [2.0]):
+                dt = 0.5
+                t_total = steps * dt
+                
+                # Run solver with R_bg option
+                solver = STURSolver(N=100, L=10.0, D=D, L_X=L_X, alpha=alpha, 
+                                    R_bg=R_bg, dt=dt)
+                solver.initialize_gaussian(R0=1.0)
+                solver.run(steps=steps)
+                
+                # Derive or use fixed l_coh
+                if use_dynamic_lcoh:
+                    l_coh = derive_l_coh(D, L_X, t_total)
+                else:
+                    l_coh = param_ranges.get('l_coh', [3.0])[0]
+                
+                # Visibility predictions for all models
+                V_stur = np.array([stur_visibility(dl, l_coh) for dl in dL_vals])
+                V_uldm = np.array([uldm_visibility(dl) for dl in dL_vals])
+                V_quad = np.array([quadratic_visibility(dl, a=0.04) for dl in dL_vals])
+                V_exp = np.array([exponential_visibility(dl, l_dec=2.0) for dl in dL_vals])
+                V_null = np.ones(num_dL)
+                
+                # Chi-squared test vs synthetic data
+                V_obs = np.array(synthetic_data['V_obs'])
+                V_err = np.array(synthetic_data['V_err'])
+                chi2_stur = chi_squared(V_stur, V_obs, V_err)
+                
+                result = {
+                    'params': {'alpha': alpha, 'D': D, 'L_X': L_X, 'l_coh': l_coh,
+                               'l_coh_dynamic': use_dynamic_lcoh, 'steps': steps,
+                               'R_bg': R_bg},
+                    'G_eff_ratio': solver.G_eff_ratio(),
+                    'diagnostics': solver.verify(),
+                    'visibility': {'dL': dL_vals.tolist(), 'V_stur': V_stur.tolist()},
+                    'chi2': float(chi2_stur),
+                    'chi2_per_dof': float(chi2_stur / (num_dL - 1)),
+                    'falsified_5sigma': chi2_stur > 25
+                }
+                
+                # Multi-model comparison
+                if include_model_comparison:
+                    if use_optimized_fits:
+                        # Fair comparison with fitted parameters
+                        opt_results = optimized_model_comparison(dL_vals, V_obs, V_err)
+                        result['model_comparison'] = opt_results['comparison']
+                        result['best_model_aic'] = opt_results['best_model']
+                        result['stur_akaike_weight'] = opt_results['stur_weight']
+                        result['fitted_params'] = {
+                            name: stats.get('fitted_params', {})
+                            for name, stats in opt_results['comparison'].items()
+                        }
+                    else:
+                        # Fixed-parameter comparison (faster but biased)
+                        models = {
+                            'STUR_Gaussian': (V_stur, 2),
+                            'ULDM_Sinusoidal': (V_uldm, 3),
+                            'Quadratic': (V_quad, 2),
+                            'Exponential': (V_exp, 2),
+                            'Null': (V_null, 1)
+                        }
+                        comparison = model_comparison(dL_vals, V_obs, V_err, models)
+                        result['model_comparison'] = comparison
+                        result['best_model_aic'] = min(comparison.keys(), 
+                                                        key=lambda k: comparison[k]['aic'])
+                        result['stur_akaike_weight'] = comparison['STUR_Gaussian']['akaike_weight']
+                
+                results.append(result)
+    
+    return results, synthetic_data
+
+# ═══════════════════════════════════════════════════════════
+# EXPERIMENTAL FALSIFICATION PROTOCOL
+# ═══════════════════════════════════════════════════════════
+# Based on atom interferometry (Rb-87 / Sr-87, Mach-Zehnder geometry)
+# 
+# KEY REFERENCES (Jan 2026 update):
+#   - MAGIS-100: arXiv:2104.02835 (laser lab Jan 2026, data late 2027)
+#   - AION: arXiv:1911.11755 (10m prototype 2025, km by 2030)
+#   - DM searches: arXiv:2205.13546, 2309.09538, 2412.14282
+#
+# DISCRIMINATOR SPACE (from literature):
+#   - Gaussian decay: scalar DM, STUR-like torsion coupling
+#   - Sinusoidal: wave-like ULDM (m_χ ~ 10^-15 - 10^-5 eV)
+#   - Quadratic: massive graviton DM, small-ΔL decoherence
+#   - Exponential: standard environmental decoherence
+#
+# PROTOCOL:
+# 1. Measure V(ΔL) at ΔL = 0.5, 1, 2, 3, 5, 10, 50, 100 m (MAGIS range)
+# 2. Fit to all four models + null (use optimized_model_comparison)
+# 3. Compute AIC/BIC for model selection (ΔAIC > 10 = strong evidence)
+# 4. Report Akaike weights for probability distribution over models
+#
+# HARD KILL CONDITIONS (any one falsifies STUR):
+#   - V scales with interrogation time t, not ΔL
+#   - Neutron vs atom interferometers disagree at same ΔL  
+#   - Oscillatory fit (ULDM) has ΔAIC > 10 over Gaussian
+#   - No ΔL-dependent suppression at ≥5σ with MAGIS-100 sensitivity
+#   - Functional form is pure exponential (not Gaussian)
+#
+# SURVIVAL CONDITIONS:
+#   - Gaussian fit preferred (lowest AIC/BIC)
+#   - Akaike weight for STUR > 0.5
+#   - No oscillations detected
+#   - Mass-independent (neutron = atom at same ΔL)
+
+# ═══════════════════════════════════════════════════════════
+# MODULATED VISIBILITY STUDY (chronomagnetic time-dependence)
+# ═══════════════════════════════════════════════════════════
+def modulated_visibility_study(l_coh=3.0, epsilon_range=[0.01, 0.05, 0.1, 0.2],
+                                t_Ma_range=np.linspace(0.1, 10, 50)):
+    """
+    Study how chronomagnetic modulation affects visibility predictions.
+    
+    High epsilon (>0.1) can produce quasi-oscillatory l_eff(t), potentially
+    mimicking ULDM signatures at specific timescales.
+    
+    Returns: dict with modulation curves and discriminability analysis
+    """
+    results = {'l_coh_base': l_coh, 'epsilon_range': epsilon_range, 
+               't_Ma': t_Ma_range.tolist(), 'curves': {}}
+    
+    dL_test = 3.0  # Fixed test separation
+    
+    for eps in epsilon_range:
+        V_t = [stur_visibility_modulated(dL_test, l_coh, t, V0=1.0, epsilon=eps)
+               for t in t_Ma_range]
+        l_eff_t = [l_coh * chrono_modulation(t * 1e6, eps) for t in t_Ma_range]
+        
+        results['curves'][f'eps={eps}'] = {
+            'V(t)': V_t,
+            'l_eff(t)': l_eff_t,
+            'V_range': (min(V_t), max(V_t)),
+            'l_eff_range': (min(l_eff_t), max(l_eff_t))
+        }
+    
+    return results
+
+# ═══════════════════════════════════════════════════════════
+# MASS CONSERVATION STUDY (large L_X or R_bg > 0 regime)
+# ═══════════════════════════════════════════════════════════
+def conservation_study(L_X_range=[2.0, 5.0, 10.0, 20.0, 50.0, 100.0], 
+                       R_bg_range=[0.0, 0.1, 0.5], steps=500):
+    """
+    Study mass conservation as function of L_X and R_bg.
+    
+    FINDINGS (from Grok analysis):
+      - L_X ≤ 20 with R_bg=0: Full decay (frac≈1.0) regardless
+      - L_X > 50 with R_bg=0: Partial conservation possible
+      - R_bg > 0: Stabilizes baseline, improves conservation
+      - Best regime: L_X >> L AND R_bg > 0
+    
+    Returns: list of dicts with conservation metrics
+    """
+    results = []
+    
+    for R_bg in R_bg_range:
+        for L_X in L_X_range:
+            solver = STURSolver(N=100, L=10.0, D=0.5, L_X=L_X, R_bg=R_bg, dt=0.5)
+            solver.initialize_gaussian(R0=1.0)
+            solver.run(steps=steps)
+            
+            diag = solver.verify()
+            results.append({
+                'L_X': L_X,
+                'R_bg': R_bg,
+                'mass_change_frac': diag['mass_change_frac'],
+                'mass_conserved': diag['mass_conserved'],
+                'R_max': float(np.max(solver.R)),
+                'R_min': float(np.min(solver.R)),
+                'G_eff_ratio': solver.G_eff_ratio(),
+                'regime': 'conserving' if diag['mass_conserved'] else 'relaxing'
+            })
+    
+    return results
+
+# Example usage with OPTIMIZED model comparison (fairer fits):
+# if __name__ == '__main__':
+#     # Generate synthetic Gaussian data (STUR-like) for testing
+#     dL_vals = np.linspace(0, 6, 20)
+#     np.random.seed(123)
+#     V_true = np.array([stur_visibility(dl, l_coh=2.5) for dl in dL_vals])
+#     V_obs = V_true + 0.03 * np.random.randn(len(dL_vals))
+#     V_err = np.array([0.03] * len(dL_vals))
+#     
+#     # Run optimized comparison (fits all models to data)
+#     results = optimized_model_comparison(dL_vals, V_obs, V_err)
+#     
+#     print("Optimized Model Comparison:")
+#     for model, stats in sorted(results['comparison'].items(), 
+#                                 key=lambda x: x[1]['aic']):
+#         print(f"  {model}: ΔAIC={stats['delta_aic']:.1f}, "
+#               f"weight={stats['akaike_weight']:.3f}")
+#         if 'fitted_params' in stats:
+#             print(f"    Fitted: {stats['fitted_params']}")
+#     
+#     print(f"\nBest model: {results['best_model']}")
+#     print(f"STUR Akaike weight: {results['stur_weight']:.4f}")
+
+# ═══════════════════════════════════════════════════════════
+# CHRONOMAGNETIC MIMICRY ANALYSIS
+# ═══════════════════════════════════════════════════════════
+# KEY FINDING (from Grok analysis):
+#   High ε (>0.1) produces quasi-oscillatory V(t) that could mimic ULDM
+#   at specific timescales. This is a potential confounding factor.
+#
+# Discriminator: ULDM oscillates on daily/annual scales (ω_DM ~ m_χ c²/ħ)
+#                STUR+chrono oscillates on Ma scales (ln λ period)
+#
+# Test: Multi-year observations should distinguish the two
+
+def chrono_mimicry_test(l_coh=3.0, dL=3.0, epsilon=0.15, n_points=100):
+    """
+    Test whether chronomagnetic modulation can mimic ULDM oscillations.
+    
+    Returns: analysis dict with V(t) characteristics and ULDM comparison
+    """
+    t_Ma = np.linspace(0.1, 10, n_points)
+    
+    # STUR with chronomagnetic modulation
+    V_stur_mod = [stur_visibility_modulated(dL, l_coh, t, epsilon=epsilon) for t in t_Ma]
+    
+    # Effective ULDM-like fit attempt
+    V_mean = np.mean(V_stur_mod)
+    V_amp = (max(V_stur_mod) - min(V_stur_mod)) / 2
+    
+    # Chrono period in Ma
+    LAMBDA = 3722 / 2705
+    chrono_period_Ma = np.log(LAMBDA) / (2 * np.pi)  # ~0.05 Ma per cycle
+    
+    # ULDM typical period (for m_χ ~ 10^-22 eV): ~year scale
+    # Much faster than chrono Ma scale
+    
+    return {
+        'epsilon': epsilon,
+        'l_coh': l_coh,
+        'dL': dL,
+        'V_range': (min(V_stur_mod), max(V_stur_mod)),
+        'V_amplitude': V_amp,
+        'V_mean': V_mean,
+        'chrono_period_Ma': chrono_period_Ma,
+        'mimics_uldm': V_amp > 0.1,  # Significant oscillation
+        'discriminator': 'timescale',
+        'note': f'Chrono: {chrono_period_Ma:.3f} Ma period vs ULDM: ~year scale'
+    }
+
+# ═══════════════════════════════════════════════════════════
+# FULL ANALYSIS PIPELINE (recommended workflow)
+# ═══════════════════════════════════════════════════════════
+def full_stur_analysis(V_obs, V_err, dL_vals, metadata=None):
+    """
+    Complete STUR analysis pipeline for experimental data.
+    
+    Steps:
+    1. Optimized model comparison (fits all models)
+    2. Best model determination (AIC/BIC)
+    3. STUR survival assessment
+    4. Chrono mimicry check (if ULDM wins)
+    
+    Returns: comprehensive analysis dict
+    """
+    # 1. Optimized comparison
+    opt_results = optimized_model_comparison(dL_vals, V_obs, V_err)
+    
+    # 2. Extract key metrics
+    best = opt_results['best_model']
+    stur_weight = opt_results['stur_weight']
+    stur_stats = opt_results['comparison']['STUR_Gaussian']
+    uldm_stats = opt_results['comparison']['ULDM_Sinusoidal']
+    
+    # 3. STUR survival assessment
+    delta_aic_stur_vs_uldm = stur_stats['delta_aic'] - uldm_stats['delta_aic']
+    
+    survival = {
+        'stur_survives': stur_weight > 0.5,
+        'stur_weight': stur_weight,
+        'best_model': best,
+        'delta_aic_vs_uldm': delta_aic_stur_vs_uldm,
+        'interpretation': None
+    }
+    
+    if stur_weight > 0.5:
+        survival['interpretation'] = 'STUR supported: Gaussian decay preferred'
+    elif best == 'ULDM_Sinusoidal':
+        survival['interpretation'] = 'STUR falsified: Oscillatory pattern detected'
+    elif best == 'Exponential':
+        survival['interpretation'] = 'STUR weakened: Pure exponential preferred over Gaussian'
+    elif best == 'Quadratic':
+        survival['interpretation'] = 'Inconclusive: Quadratic (small-ΔL regime?)'
+    else:
+        survival['interpretation'] = 'No signal: Null hypothesis preferred'
+    
+    # 4. Chrono mimicry check
+    if best == 'ULDM_Sinusoidal' and stur_weight < 0.1:
+        mimicry = chrono_mimicry_test()
+        survival['chrono_mimicry_possible'] = mimicry['mimics_uldm']
+        survival['chrono_discriminator'] = mimicry['note']
+    
+    return {
+        'model_comparison': opt_results,
+        'survival_assessment': survival,
+        'fitted_l_coh': stur_stats['fitted_params'].get('l_coh'),
+        'metadata': metadata or {}
+    }
 </pre>
 
   <div class="btnrow">
@@ -1343,8 +1936,8 @@ function animatePDE() {
   pde.animId = requestAnimationFrame(animatePDE);
 }
 
-// PDE controls
-['D','LX','alpha','R0','N','dt'].forEach(id => {
+// PDE controls with proper formatting
+['D','LX','alpha','R0','dt'].forEach(id => {
   const slider = document.getElementById(id + '_slider');
   const val = document.getElementById(id + '_val');
   if (slider && val) {
@@ -1353,6 +1946,14 @@ function animatePDE() {
     });
   }
 });
+// N is integer
+const nSlider = document.getElementById('N_slider');
+const nVal = document.getElementById('N_val');
+if (nSlider && nVal) {
+  nSlider.addEventListener('input', () => {
+    nVal.textContent = parseInt(nSlider.value);
+  });
+}
 
 document.getElementById('pde_run').addEventListener('click', () => {
   if (pde.running) {
@@ -1393,6 +1994,8 @@ document.getElementById('pde_export').addEventListener('click', () => {
 // ═══════════════════════════════════════════════════════════
 function sturVis(dL, lCoh, V0) { return V0 * Math.exp(-Math.pow(dL/lCoh, 2)); }
 function uldmVis(dL) { return 0.5 + 0.4 * Math.cos(2*Math.PI*dL/1.5); }
+function quadVis(dL, a) { return Math.max(0, 1 - a * dL * dL); }  // Quadratic (massive graviton)
+function expVis(dL, lDec) { return Math.exp(-dL / lDec); }  // Pure exponential (decoherence)
 
 function updateVisibility() {
   const lCoh = parseFloat(document.getElementById('lcoh_slider').value);
@@ -1414,15 +2017,18 @@ function updateVisibility() {
     if (V0 - sturVis(dl, lCoh, V0) > 5*noise) { detect = dl; break; }
   }
   
-  // Δχ² (simplified: assume 10 data points)
+  // Δχ² vs null: deterministic comparison (STUR prediction vs constant V0)
+  // This shows discriminating power — how well STUR explains ΔL-dependence vs flat null
   let chi2_stur = 0, chi2_null = 0;
-  for (let i = 0; i <= 10; i++) {
+  const nPts = 11;
+  for (let i = 0; i < nPts; i++) {
     const dl_i = i * 0.5;
     const v_stur = sturVis(dl_i, lCoh, V0);
     const v_null = V0;
-    const data = v_stur + (Math.random()-0.5)*noise*0.1;
-    chi2_stur += Math.pow((data - v_stur)/(noise || 0.01), 2);
-    chi2_null += Math.pow((data - v_null)/(noise || 0.01), 2);
+    // Deterministic "synthetic observation" = STUR prediction + small systematic offset
+    const v_obs = v_stur * (1 - 0.02 * Math.sin(i * 0.7));  // ~2% deterministic scatter
+    chi2_stur += Math.pow((v_obs - v_stur)/(noise || 0.01), 2);
+    chi2_null += Math.pow((v_obs - v_null)/(noise || 0.01), 2);
   }
   const dChi2 = chi2_null - chi2_stur;
   
@@ -1477,6 +2083,32 @@ function updateVisibility() {
   ctx.stroke();
   ctx.setLineDash([]);
   
+  // Exponential (decoherence) - cyan dashed
+  ctx.strokeStyle = '#22d3ee';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  for (let i = 0; i <= 100; i++) {
+    const dl = (i/100) * maxDL;
+    const v = expVis(dl, lCoh * 0.7);  // Scale to similar range
+    if (i === 0) ctx.moveTo(toX(dl), toY(v)); else ctx.lineTo(toX(dl), toY(v));
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // Quadratic (massive graviton) - pink dotted
+  ctx.strokeStyle = '#f472b6';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([2, 2]);
+  ctx.beginPath();
+  for (let i = 0; i <= 100; i++) {
+    const dl = (i/100) * maxDL;
+    const v = quadVis(dl, 0.04);
+    if (i === 0) ctx.moveTo(toX(dl), toY(v)); else ctx.lineTo(toX(dl), toY(v));
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
   // ULDM
   ctx.strokeStyle = '#fbbf24';
   ctx.lineWidth = 2;
@@ -1488,7 +2120,7 @@ function updateVisibility() {
   }
   ctx.stroke();
   
-  // STUR
+  // STUR (primary - thickest)
   ctx.strokeStyle = '#4ade80';
   ctx.lineWidth = 3;
   ctx.beginPath();
