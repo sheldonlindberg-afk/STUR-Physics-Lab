@@ -4,7 +4,15 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; img-src 'self' data: blob:;" />
+<meta http-equiv="Content-Security-Policy"
+      content="
+      default-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net;
+      style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: blob:;
+      connect-src 'self' blob:;
+      media-src 'self' blob:;
+      " />
 <!-- CSP intentionally permissive to allow MathJax CDN + inline holoscreen JavaScript -->
 <title>Foundations of STUR v9.1 — Teleparallel Substrate Tests via Interferometric Holonomy</title>
 
@@ -178,6 +186,13 @@ a:hover { color: var(--accent-secondary); }
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   border-radius: 0 0 12px 12px;
+  pointer-events: auto;
+}
+
+/* Prevent sticky toolbar from blocking taps on mobile */
+.toolbar + .section,
+.section {
+  scroll-margin-top: 72px;
 }
 
 .btn {
@@ -692,6 +707,211 @@ code {
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════
+     EMERGENCE OF PHYSICAL THEORIES
+     ══════════════════════════════════════════════════════════════════════════════ -->
+
+<section class="section" id="emergence" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(74,158,255,0.04) 100%);">
+  <h2 style="color:var(--accent-secondary);">Emergence of Physical Theories from the STUR Manifold</h2>
+
+  <div class="block success" style="margin-bottom:1.5rem;">
+    <div class="title">The Unifying Principle</div>
+    <p style="margin:0;font-size:1.05rem;color:var(--text);">
+      <strong>All known physical theories arise as different stable observables of the same underlying manifold under different coarse-graining regimes of the STUR action.</strong>
+    </p>
+  </div>
+
+  <p style="font-size:1rem;color:var(--text-secondary);margin-bottom:1.25rem;">
+    Physics is the study of <em>which structures survive coarse-graining</em> under the STUR action.
+    Different physical theories correspond to different <strong>stable observables</strong> of the manifold \(\mathcal{M}^5 = M^4 \times X\)
+    under different observational projections. Quantum mechanics, classical mechanics, gauge theory, and gravity are not
+    separate postulates — they are <strong>different observational projections of one geometry</strong>.
+  </p>
+
+  <!-- Emergence Map Table -->
+  <div style="overflow-x:auto;margin:1.5rem 0;">
+    <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+      <thead>
+        <tr style="background:rgba(167,139,250,0.15);border-bottom:2px solid var(--accent-secondary);">
+          <th style="padding:0.75rem;text-align:left;color:var(--accent-secondary);">Regime</th>
+          <th style="padding:0.75rem;text-align:left;color:var(--accent-secondary);">Surviving Structure</th>
+          <th style="padding:0.75rem;text-align:left;color:var(--accent-secondary);">Emergent Theory</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:0.7rem;color:var(--text-secondary);">\(R \to R_{\rm bg}\), \(\nabla R \to 0\)</td>
+          <td style="padding:0.7rem;color:var(--text-secondary);">Metric + frame only</td>
+          <td style="padding:0.7rem;color:var(--success);font-weight:600;">General Relativity (via TEGR)</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:0.7rem;color:var(--text-secondary);">Degeneracy manifold \(\mathcal{D}\) nontrivial</td>
+          <td style="padding:0.7rem;color:var(--text-secondary);">Holonomy equivalence classes</td>
+          <td style="padding:0.7rem;color:var(--accent);font-weight:600;">Yang–Mills gauge theory</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:0.7rem;color:var(--text-secondary);">X-structure unobservable</td>
+          <td style="padding:0.7rem;color:var(--text-secondary);">Phase factors only</td>
+          <td style="padding:0.7rem;color:var(--accent-secondary);font-weight:600;">Quantum mechanics (\(\hbar\) appears)</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:0.7rem;color:var(--text-secondary);">Many uncorrelated phases (CLT)</td>
+          <td style="padding:0.7rem;color:var(--text-secondary);">Classical trajectories</td>
+          <td style="padding:0.7rem;color:var(--gold);font-weight:600;">Classical mechanics (decoherence)</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:0.7rem;color:var(--text-secondary);">Yukawa coupling + X-localization</td>
+          <td style="padding:0.7rem;color:var(--text-secondary);">Overlap integrals</td>
+          <td style="padding:0.7rem;color:var(--accent-warm);font-weight:600;">Mass hierarchies (Yukawa structure)</td>
+        </tr>
+        <tr>
+          <td style="padding:0.7rem;color:var(--text-secondary);">Slow X-dependence, long-time average</td>
+          <td style="padding:0.7rem;color:var(--text-secondary);">Log-periodic modulation</td>
+          <td style="padding:0.7rem;color:var(--text-muted);font-weight:600;">Cosmological structure</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 0.1: GR Emergence -->
+  <h3 id="em-gr" style="color:var(--success);margin-top:2rem;">0.1 &nbsp; Geometry First: Why GR Emerges</h3>
+
+  <p>
+    <strong>Regime:</strong> \(R \to R_{\rm bg}\), spatial gradients \(\nabla R \to 0\), X-dependence decouples.
+    Only the metric and tetrad frame survive coarse-graining.
+  </p>
+
+  <div class="eq boxed">
+    \[S_{\rm STUR} \xrightarrow{R \to R_{\rm bg}} S_{\rm TEGR} \equiv S_{\rm GR} + \text{boundary term}\]
+    <div class="eq-label">(0.3) — GR as zeroth-order coarse-grained geometry</div>
+  </div>
+
+  <p>
+    <strong>Interpretation:</strong> Gravity is the <em>zeroth-order coarse-grained geometry</em> of the manifold.
+    This explains why GR is universal, classical, and insensitive to microscopic structure —
+    it is what survives when <strong>all resistance structure averages out</strong>.
+  </p>
+
+  <!-- Section 0.2: Yang-Mills Emergence -->
+  <h3 id="em-ym" style="color:var(--accent);margin-top:2rem;">0.2 &nbsp; Gauge Fields: Why Yang–Mills Emerges</h3>
+
+  <p>
+    <strong>Key insight:</strong> When multiple configurations of \(R\) produce the same holonomy, the redundancy defines a gauge symmetry.
+  </p>
+
+  <p>
+    <strong>Regime:</strong> The degeneracy manifold \(\mathcal{D}\) is nontrivial — local basis choices become unobservable,
+    only equivalence classes matter.
+  </p>
+
+  <div class="eq boxed">
+    \[R^I \;\longrightarrow\; U^I{}_J(x)\, R^J
+    \quad\Rightarrow\quad
+    \mathcal{A}_\mu = U^{-1}\partial_\mu U \;\;\text{(connection required for covariance)}\]
+    <div class="eq-label">(0.4) — Gauge symmetry from holonomy degeneracy</div>
+  </div>
+
+  <p>
+    <strong>Interpretation:</strong> Gauge fields are <em>bookkeeping devices for degeneracy under coarse-graining</em>.
+    They are not fundamental forces in the manifold — they are <strong>emergent connections</strong>.
+    This explains why gauge symmetry is exact, why gauge bosons are massless before symmetry breaking,
+    and why different forces share the same mathematical structure.
+  </p>
+
+  <!-- Section 0.3: QM Emergence -->
+  <h3 id="em-qm" style="color:var(--accent-secondary);margin-top:2rem;">0.3 &nbsp; Quantum Mechanics: Why ℏ Appears</h3>
+
+  <p>
+    <strong>Foundational statement:</strong> Quantum mechanics emerges because <em>only phase survives coarse-graining of internal structure</em>.
+  </p>
+
+  <p>
+    <strong>Regime:</strong> X-structure is unobservable, only loop functionals are measurable,
+    many microscopic configurations contribute to each measurement.
+  </p>
+
+  <div class="eq boxed">
+    \[\langle \mathcal{O} \rangle = \int \mathcal{D}R\, \mathcal{O}[R]\, e^{iS[R]/\hbar}
+    \quad\Rightarrow\quad
+    \psi \sim e^{iS/\hbar}\]
+    <div class="eq-label">(0.5) — Phase as the surviving observable</div>
+  </div>
+
+  <p>
+    <strong>Interpretation:</strong> Quantum mechanics is not "fundamental randomness" — it is the
+    <em>effective calculus of phase under unresolved internal structure</em>. The constant \(\hbar\) appears as the
+    scale converting action into phase. This is why path integrals work, semiclassical expansions are universal,
+    and interference is primary.
+  </p>
+
+  <!-- Section 0.4: Classical Emergence -->
+  <h3 id="em-classical" style="color:var(--gold);margin-top:2rem;">0.4 &nbsp; Decoherence and Classicality</h3>
+
+  <p>
+    <strong>Regime:</strong> Many uncorrelated phase contributions, Markovian limit, central limit theorem applies.
+  </p>
+
+  <div class="eq boxed">
+    \[V = \langle e^{i\Phi} \rangle \;\xrightarrow{\text{CLT}}\;
+    \exp\!\left(-\frac{\langle\Phi^2\rangle}{2}\right)\]
+    <div class="eq-label">(0.6) — Classical dominance via phase decoherence</div>
+  </div>
+
+  <p>
+    <strong>Interpretation:</strong> Classical physics emerges when <em>phase information is lost faster than it can be resolved</em>.
+    Classical trajectories dominate because off-shell contributions destructively interfere.
+    This unifies decoherence, classical limits, and why macroscopic objects don't exhibit interference.
+  </p>
+
+  <!-- Section 0.5: Mass Emergence -->
+  <h3 id="em-mass" style="color:var(--accent-warm);margin-top:2rem;">0.5 &nbsp; Matter and Mass: Why Yukawas Matter</h3>
+
+  <p>
+    <strong>Regime:</strong> Fermions propagate through \(R\), Yukawa coupling modifies phase accumulation,
+    localization in X creates exponential overlaps.
+  </p>
+
+  <div class="eq boxed">
+    \[y_{\rm eff} \sim \int f_L(X)\, f_R(X)\, R(X)\, dX\]
+    <div class="eq-label">(0.7) — Effective Yukawa from X-localization overlap</div>
+  </div>
+
+  <p>
+    <strong>Interpretation:</strong> Mass hierarchies emerge from <em>geometric overlap in the internal coherence dimension</em>,
+    not from arbitrary constants. This does not derive specific numbers — it derives <strong>structure</strong>.
+    The observed hierarchy \(m_e \ll m_\mu \ll m_\tau\) corresponds to different localization profiles in X.
+  </p>
+
+  <!-- Section 0.6: Cosmology -->
+  <h3 id="em-cosmo" style="color:var(--text-muted);margin-top:2rem;">0.6 &nbsp; Cosmology: Large-Scale Structure</h3>
+
+  <p>
+    <strong>Regime:</strong> X-dependence slow, long-time averages, modulation survives (chronomagnetics).
+  </p>
+
+  <p>
+    <strong>Result:</strong> Log-periodic modulation of effective parameters. No change to field equations, only scaling.
+  </p>
+
+  <p>
+    <strong>Interpretation:</strong> Cosmology reflects <em>slow residual structure</em> that survives even deeper coarse-graining.
+    The observed large-scale structure is not a separate phenomenon — it is the long-wavelength limit of the same manifold.
+  </p>
+
+  <div class="block warn" style="margin-top:1.5rem;">
+    <div class="title">What This Does NOT Claim</div>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li>No claim of SM derivation or predicting particle masses numerically</li>
+      <li>No claim of UV completion or replacing QFT</li>
+      <li>No claim of modified GR at solar-system scales</li>
+    </ul>
+    <p style="margin:0.75rem 0 0;color:var(--text);">
+      The claim is <strong>structural</strong>: a unifying organizational principle explaining why the same mathematical structures recur across physics.
+    </p>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════════
      TABLE OF CONTENTS
      ══════════════════════════════════════════════════════════════════════════════ -->
 
@@ -702,12 +922,13 @@ code {
          Any Markdown-style code fencing has been removed to preserve
          strict HTML validity for archival and print use. -->
     <p style="color:var(--gold);"><strong><a href="#master-action" style="color:var(--gold);">0. The Master Action (Start Here)</a></strong></p>
+    <p style="margin-left:1.5rem;color:var(--accent-secondary)"><a href="#emergence" style="color:var(--accent-secondary)">0.x Emergence of Physical Theories</a></p>
 
     <p><strong>Part I — Framework</strong></p>
     <p><a href="#sec1">1. Motivation and Axioms</a></p>
     <p><a href="#sec2">2. Manifold Structure</a></p>
     <p><a href="#sec3">3. Action and Field Equations</a></p>
-    <p style="margin-left:1.5rem;color:var(--gold)"><a href="#sec3" style="color:var(--gold)">3.4 Semiclassical Expansion from XCRM</a></p>
+    <p style="margin-left:1.5rem;color:var(--gold)"><a href="#sec3-4" style="color:var(--gold)">3.4 Semiclassical Expansion from XCRM</a></p>
 
     <p><strong>Part II — Sector Dynamics</strong></p>
     <p><a href="#sec4">4. Gravitational Sector (TEGR)</a></p>
