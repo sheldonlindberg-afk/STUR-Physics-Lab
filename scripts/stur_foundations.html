@@ -620,6 +620,78 @@ code {
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════
+     THE MASTER ACTION (SPINE)
+     ══════════════════════════════════════════════════════════════════════════════ -->
+
+<section class="section" id="master-action" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--gold);">The Master Action</h2>
+
+  <p style="font-size:1.05rem;color:var(--text);margin-bottom:1.25rem;">
+    <strong>Every simulation and prediction in the STUR Physics Lab derives from this single action.</strong>
+    This is not a collection of unrelated phenomena — it is one theory with many regimes.
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem 1.5rem;">
+    \[\boxed{S_{\rm STUR}[R, g, X] = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{-g}\,
+    \Big[\underbrace{\tfrac{1}{2}(\nabla R)^2}_{\text{diffusion}}
+    - \underbrace{V(R)}_{\text{relaxation}}
+    + \underbrace{\chi\, R\,\partial_X R}_{\text{XCRM}}
+    + \underbrace{\alpha\, R\, \mathbb{T}}_{\text{torsion}}
+    + \mathcal{L}_{\rm matter}\Big]}\]
+    <div class="eq-label" style="color:var(--gold);">(0.1) — The Unified Resistance Action</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
+    <div style="padding:0.9rem;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+      <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Diffusion</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\tfrac{1}{2}(\nabla R)^2\) — Kinetic term driving spatial smoothing</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(244,114,182,0.08);border-radius:8px;border-left:3px solid #f472b6;">
+      <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Relaxation</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(V(R)\) — Potential driving \(R \to R_{\rm bg}\)</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+      <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">XCRM Closure</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\chi R \partial_X R\) — Internal dimension coupling (fixes constants)</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(96,165,250,0.08);border-radius:8px;border-left:3px solid #60a5fa;">
+      <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Torsion Source</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\alpha R \mathbb{T}\) — Teleparallel gravity coupling</div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--accent-secondary);margin-top:1.5rem;">Quantum Regime: The Semi-Classical Expansion</h3>
+
+  <p>
+    In the <strong>quantum regime</strong>, \(\hbar \neq 0\), the action enters via the path integral.
+    The semi-classical expansion proceeds as:
+  </p>
+
+  <div class="eq boxed">
+    \[\langle \mathcal{O} \rangle = \int \mathcal{D}R\, \mathcal{O}[R]\, e^{iS[R]/\hbar}
+    \;\;\xrightarrow{\;\hbar\to 0\;}\;\;
+    \mathcal{O}[\bar{R}] \cdot \exp\!\Big(\tfrac{i}{\hbar}S[\bar{R}]\Big) \cdot
+    \underbrace{\det^{-1/2}\!\Big(\frac{\delta^2 S}{\delta R^2}\Big)}_{\text{1-loop correction}}\]
+    <div class="eq-label">(0.2) — Stationary phase + Gaussian fluctuations</div>
+  </div>
+
+  <ol style="margin-top:1rem;">
+    <li><strong>Classical limit (\(\hbar \to 0\)):</strong> The PDE \(\partial_t R = D\nabla^2 R - V'(R) + \chi\partial_X R + \alpha\mathbb{T}R\) governs evolution. This is what the STUR Engine and Sandbox simulate.</li>
+    <li><strong>Stationary phase:</strong> Quantum amplitudes concentrate on classical paths \(\bar{R}\) satisfying \(\delta S/\delta R = 0\).</li>
+    <li><strong>1-loop correction:</strong> The functional determinant \(\det(\delta^2 S/\delta R^2)\) gives leading quantum corrections. This appears in the Double Slit and Quantum Computing simulations.</li>
+  </ol>
+
+  <div class="block success" style="margin-top:1.25rem;">
+    <div class="title">Falsifiability Criterion</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The key testable prediction: <strong>Gaussian visibility</strong> \(V(\Delta L) = V_0 \exp(-(\Delta L/\ell_{\rm coh})^2)\).
+      If experiments show oscillatory (sinusoidal) behavior, time-dependent suppression, or mass-dependent effects,
+      <span style="color:var(--error);font-weight:600;">STUR is falsified</span>.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════════
      TABLE OF CONTENTS
      ══════════════════════════════════════════════════════════════════════════════ -->
 
@@ -629,6 +701,8 @@ code {
     <!-- NOTE: This table of contents is rendered directly in HTML.
          Any Markdown-style code fencing has been removed to preserve
          strict HTML validity for archival and print use. -->
+    <p style="color:var(--gold);"><strong><a href="#master-action" style="color:var(--gold);">0. The Master Action (Start Here)</a></strong></p>
+
     <p><strong>Part I — Framework</strong></p>
     <p><a href="#sec1">1. Motivation and Axioms</a></p>
     <p><a href="#sec2">2. Manifold Structure</a></p>
