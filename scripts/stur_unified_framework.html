@@ -227,7 +227,11 @@
     <li><a href="#sec-tegr">3. TEGR: Teleparallel Equivalent of GR</a></li>
     <li><a href="#sec-hgem">4. HGEM: Linearized Gravitoelectromagnetic Waves</a></li>
     <li><a href="#sec-stur">5. STUR: Interferometric Holonomy Observable</a>
-      <ul style="margin:0.3rem 0;"><li>5.3 Coherence Length (Closure)</li></ul>
+      <ul style="margin:0.3rem 0;">
+        <li>5.3 Coherence Length (Closure)</li>
+        <li>5.4 Emergent 4D Equation</li>
+        <li>5.5 Loop Enhancement</li>
+      </ul>
     </li>
     <li><a href="#sec-chrono">6. Chronomagnetics: Phenomenological Log-Periodic Modulation</a></li>
     <li><a href="#sec-unification">7. Unification Structure</a></li>
@@ -254,6 +258,10 @@
       initial conditions are derived. All predictions presented are sector-local and
       experimentally testable. The unification is organizational and geometric, not a claim of
       ultimate microscopic completeness.
+    </p>
+    <p class="muted">
+      After dimensional reduction, STUR constitutes a <strong>one-parameter family of effective models</strong>,
+      parameterized by the dimensionless ratio \(\sigma_R/L_X\), testable across interferometric platforms.
     </p>
   </div>
 
@@ -450,6 +458,38 @@
     free parameter: the ratio \(\sigma_R / L_X\).
   </p>
 
+  <h3>5.4 Emergent 4D Equation (Summary)</h3>
+
+  <p>
+    Integrating the 5D STUR action over the internal coherence coordinate \(X\) in the
+    adiabatic limit yields an effective 4D equation for the coarse-grained resistance field
+    (see Foundations §3.4.7):
+  </p>
+
+  <div class="eq boxed">
+    \[\Box \bar{R} - V'(\bar{R}) - \frac{\chi^2}{L_X^2}(\bar{R} - R_{\rm bg}) + 2\alpha \bar{R}\, \mathbb{T} = 0\]
+  </div>
+
+  <p class="muted">
+    This dimensional reduction closes the XCRM loop and ties all observables to the ratio \(\sigma_R/L_X\).
+  </p>
+
+  <h3>5.5 Loop Enhancement Scaling</h3>
+
+  <p>
+    For closed-loop geometries, Stokes' theorem converts the line holonomy to an area integral,
+    providing a pathway to macroscopic observability:
+  </p>
+
+  <div class="eq boxed">
+    \[\boxed{\langle \Phi_R^2 \rangle \;\approx\; \frac{\sigma_R^2}{L_X^2}\, A_{\rm loop}}\]
+  </div>
+
+  <p class="muted">
+    This scaling follows from Stokes' theorem applied to the resistance holonomy and provides
+    a concrete pathway to macroscopic observability despite microscopic \(L_X\).
+  </p>
+
   <div class="block warning">
     <div class="title">Phenomenological Status</div>
     <p class="muted">
@@ -472,9 +512,10 @@
     teleparallel (TEGR) formalism.
   </p>
   <p class="muted">
-    Chronomagnetics is treated as a phenomenological modulation layer.
+    Chronomagnetics is an <strong>optional phenomenological modulation layer</strong>.
     It does not introduce new field equations and does not claim
     a microscopic derivation of \(\lambda\).
+    None of the STUR closure, derivations, or falsifiable predictions depend on its inclusion.
   </p>
 
   <p>

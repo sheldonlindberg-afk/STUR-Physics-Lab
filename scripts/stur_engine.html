@@ -369,8 +369,10 @@
       <strong>STUR resistance field</strong> coupled to torsion. TEGR (≡ GR) provides the geometric backbone;
       STUR supplies the dynamical scalar resistance field \(R(x^\mu,t,X)\) and its gauge-invariant holonomy;
       HGEM is the weak-field (linear) limit; Chronomagnetics provides log-periodic modulation.
-      <strong>No claim is made</strong> that Standard Model parameters, coupling constants, 
+      <strong>No claim is made</strong> that Standard Model parameters, coupling constants,
       or cosmological initial conditions are derived. This is an <em>effective</em> framework, not a UV-complete theory.
+      After dimensional reduction, STUR constitutes a <strong>one-parameter family of effective models</strong>,
+      parameterized by the dimensionless ratio \(\sigma_R/L_X\), testable across interferometric platforms.
     </p>
   </div>
 
@@ -586,6 +588,33 @@
   </p>
 </div>
 
+<h3>Emergent 4D Equation (Summary)</h3>
+<p>
+  Integrating the 5D STUR action over the internal coherence coordinate \(X\) in the
+  adiabatic limit yields an effective 4D equation for the coarse-grained resistance field
+  (see Foundations §3.4.7):
+</p>
+<div class="eq boxed">
+  \[\Box \bar{R} - V'(\bar{R}) - \frac{\chi^2}{L_X^2}(\bar{R} - R_{\rm bg}) + 2\alpha \bar{R}\, \mathbb{T} = 0\]
+  <div class="eq-label">(Emergent 4D Resistance Equation)</div>
+</div>
+<p class="muted">
+  This dimensional reduction closes the XCRM loop and ties all observables to the ratio \(\sigma_R/L_X\).
+</p>
+
+<h3>Loop Enhancement Scaling</h3>
+<p>
+  For closed-loop geometries, Stokes' theorem converts the line holonomy to an area integral,
+  providing a pathway to macroscopic observability:
+</p>
+<div class="eq boxed">
+  \[\boxed{\langle \Phi_R^2 \rangle \;\approx\; \frac{\sigma_R^2}{L_X^2}\, A_{\rm loop}}\]
+  <div class="eq-label">(Loop Enhancement via Stokes)</div>
+</div>
+<p class="muted">
+  This scaling provides a concrete pathway to macroscopic observability despite microscopic \(L_X\).
+</p>
+
   </section>
 
   <section id="sec-chrono">
@@ -598,6 +627,10 @@
       <strong>demonstrator construction</strong>, not a first-principles derivation.
       Its purpose is to show that exact rational log-periodic ratios can arise
       from rigid geometry without invoking numerology.
+    </p>
+    <p class="muted">
+      Chronomagnetics is an <strong>optional phenomenological modulation layer</strong>.
+      None of the STUR closure, derivations, or falsifiable predictions depend on its inclusion.
     </p>
 
 <h3>Triangle Geometry Derivation</h3>
@@ -747,6 +780,9 @@
     <strong>Boundary conditions:</strong> Dirichlet \(R = R_{\rm bg}\)<br>
     <strong>Initial conditions:</strong> Gaussian perturbation in \(R\), flat \(\mathbb{T} = 0\)
   </p>
+  <p class="muted" style="margin-top:0.5rem;">
+    <em>Note:</em> This solver omits \(\Omega\) and source \(S\); it illustrates stability and scaling only.
+  </p>
 </div>
 
 <h3>Crank-Nicolson Discretization</h3>
@@ -880,6 +916,7 @@
     <div class="block success">
       <div class="title">How to Use</div>
       <p class="muted">Adjust the sliders to explore STUR parameter space. The green curve shows the Gaussian visibility decay predicted by STUR. The orange curve shows illustrative ULDM coherent oscillations. The gray line is the null hypothesis (constant visibility).</p>
+      <p class="muted" style="margin-top:0.5rem;"><em>Note:</em> The ULDM curve is schematic and not mapped to physical ULDM parameters.</p>
     </div>
   </section>
 
