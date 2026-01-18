@@ -421,6 +421,33 @@ footer{
     \[\ell_{\rm coh} = \sqrt{2}\,\frac{L_X}{\sigma_R} = \frac{p_0}{y\,K_{\rm eff}}\]
   </div>
 
+  <h3>Emergent 4D Equation (v9.2 Closure)</h3>
+  <p>
+    Integrating the 5D STUR action over the internal coherence coordinate \(X\) in the adiabatic limit
+    yields an effective 4D equation for the coarse-grained resistance field:
+  </p>
+  <div class="eq boxed">
+    \[\partial_t \bar R = D\nabla^2 \bar R - \Gamma(\bar R - R_{\rm bg}) + \xi\]
+    <div class="eq-label">Emergent 4D — Dimensional Reduction Closure</div>
+  </div>
+  <p style="color:var(--fg3);font-size:0.9rem;">
+    where \(\Gamma \sim 1/L_X\) and \(\xi\) is a Markovian noise term with variance fixed by \(\sigma_R\).
+    This closes the XCRM loop and ties all observables to the ratio \(\sigma_R/L_X\).
+  </p>
+
+  <h3>Loop Enhancement (Area Scaling)</h3>
+  <p>
+    For loop geometries, Stokes' theorem provides enhancement via area accumulation:
+  </p>
+  <div class="eq master">
+    \[\boxed{\langle \Phi_R^2 \rangle_{\rm loop} \approx \frac{\sigma_R^2}{L_X^2}\, A_{\rm loop}}\]
+    <div class="eq-label">Loop Holonomy — Pathway to Macroscopic Observability</div>
+  </div>
+  <p style="color:var(--fg3);font-size:0.9rem;">
+    This scaling provides a concrete pathway to macroscopic observability despite microscopic \(L_X\).
+    The loop-enhanced coherence length scales as \(\ell_{\rm coh}^{\rm loop} = \ell_{\rm coh}^{\rm linear} \cdot \xi/\sqrt{A}\).
+  </p>
+
   <div class="panel good">
     <h4>✓ Why This Is Falsifiable</h4>
     <p>STUR predicts visibility depends on <strong>arm separation ΔL only</strong>, NOT on:</p>
@@ -640,13 +667,17 @@ return x;
       Explore STUR visibility prediction against competing models in the discriminator space.
     </p>
     <p style="font-size:.85rem;color:var(--fg3);margin-bottom:.8rem">
-      <strong>Model comparison:</strong> 
-      <span style="color:var(--stur)">■</span> STUR Gaussian (scalar DM) · 
-      <span style="color:var(--chrono)">■</span> ULDM sinusoidal (wave-like) · 
-      <span style="color:#f472b6">■</span> Quadratic (massive graviton) · 
+      <strong>Model comparison:</strong>
+      <span style="color:var(--stur)">■</span> STUR Gaussian (scalar DM) ·
+      <span style="color:var(--chrono)">■</span> ULDM sinusoidal (wave-like) ·
+      <span style="color:#f472b6">■</span> Quadratic (massive graviton) ·
       <span style="color:var(--accent)">■</span> Exponential (decoherence).
-      See <a href="https://arxiv.org/abs/2309.09538" target="_blank">arXiv:2309.09538</a>, 
+      See <a href="https://arxiv.org/abs/2309.09538" target="_blank">arXiv:2309.09538</a>,
       <a href="https://arxiv.org/abs/2412.14282" target="_blank">2412.14282</a> for theory.
+    </p>
+    <p style="font-size:.8rem;color:var(--fg3);margin-bottom:.8rem;font-style:italic">
+      <em>Note:</em> The ULDM curve is schematic and not mapped to physical ULDM parameters;
+      it is included solely for visual comparison of functional forms.
     </p>
 
 <div class="controls">
@@ -752,10 +783,13 @@ return x;
     <p>
       Chronomagnetics introduces log-periodic modulation via the geometric constant λ = 3722/2705.
     </p>
-    <p style="color:var(--fg3);font-size:0.9rem;margin-top:0.5rem;">
-      <em>Note:</em> Chronomagnetics is a <strong>phenomenological modulation layer</strong>.
-      It does not introduce new field equations and does not claim a microscopic derivation of λ.
-    </p>
+    <div class="panel warn" style="margin:0.8rem 0;">
+      <p style="margin:0;color:var(--fg2);font-size:0.9rem;">
+        <strong>Important:</strong> Chronomagnetics is an <strong>optional phenomenological modulation layer</strong>.
+        None of the STUR closure, derivations, or falsifiable predictions depend on its inclusion.
+        It does not introduce new field equations and does not claim a microscopic derivation of λ.
+      </p>
+    </div>
 
 <div class="grid2">
   <div>
@@ -1717,19 +1751,24 @@ def full_stur_analysis(V_obs, V_err, dL_vals, metadata=None):
 
 <!-- ══════════════════════════════════════════════════════════════════ -->
 
-<div style="margin:1.5rem 0;padding:1rem;background:rgba(251,191,36,0.08);border-left:3px solid var(--warn);border-radius:8px;">
-  <strong style="color:var(--warn);">Framework Closure Status</strong>
+<div style="margin:1.5rem 0;padding:1rem;background:rgba(74,222,128,0.08);border-left:3px solid var(--good);border-radius:8px;">
+  <strong style="color:var(--good);">Framework Closure Status (v9.2)</strong>
   <p style="margin:0.5rem 0 0;color:var(--fg2);font-size:0.9rem;">
-    This sandbox implements a <em>reduced STUR toy model</em> for educational exploration.
-    The framework is closed on observable functional form (Gaussian visibility),
-    but not on absolute parameter prediction (σ<sub>R</sub>, K<sub>eff</sub>).
-    The holonomy \(\Phi_R = \oint \mathcal{A}^{(R)}_\mu dx^\mu\) is the operationally defined observable.
+    <strong>Level 1 (Closed):</strong> Emergent 4D equation via X-integration;
+    coherence length \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\) derived from manifold geometry.<br>
+    <strong>Level 2 (Closed):</strong> Loop enhancement via Stokes' theorem provides observability pathway.<br>
+    <strong>Remaining free parameter:</strong> ratio \(\sigma_R / L_X\) (single-parameter family).
+  </p>
+  <p style="margin:0.5rem 0 0;color:var(--fg3);font-size:0.85rem;">
+    After dimensional reduction, STUR constitutes a <strong>one-parameter family of effective models</strong>,
+    parameterized by the dimensionless ratio \(\sigma_R/L_X\), testable across interferometric platforms.
   </p>
 </div>
 
 <footer>
-  <p>STUR Educational Sandbox — Geometry → Simulation → Verification → Falsification</p>
+  <p>STUR Educational Sandbox v9.2 — Geometry → Simulation → Verification → Falsification</p>
   <p style="margin-top:.3rem">Build simulations that can be killed by experiment.</p>
+  <p style="margin-top:.3rem;font-size:0.8rem;color:var(--fg3);">© 2025 Sheldon Lon Lindberg · CC-BY-4.0</p>
 </footer>
 
 </div>
