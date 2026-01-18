@@ -547,6 +547,20 @@ return x;
       <label>Initial Amplitude R₀: <span id="R0_val">1.00</span></label>
       <input type="range" id="R0_slider" min="0.1" max="3" value="1" step="0.1">
     </div>
+    <div class="control">
+      <label>Background R<sub>bg</sub>: <span id="Rbg_val">0.00</span></label>
+      <input type="range" id="Rbg_slider" min="0" max="1" value="0" step="0.01">
+    </div>
+
+    <!-- Mass Conservation Regime Indicator -->
+    <div id="conservation_indicator" class="conservation-status" style="margin-top:0.8rem;padding:0.6rem;border-radius:8px;border:1px solid var(--border);background:rgba(0,0,0,0.25);">
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem;">
+        <span id="conservation_dot" style="width:10px;height:10px;border-radius:50%;background:var(--warn);box-shadow:0 0 6px var(--warn);"></span>
+        <span style="font-size:0.82rem;font-weight:600;color:var(--fg);">Conservation Regime</span>
+      </div>
+      <div id="conservation_status" style="font-size:0.78rem;color:var(--fg2);">Analyzing parameters...</div>
+      <div id="conservation_tip" style="font-size:0.72rem;color:var(--fg3);margin-top:0.3rem;font-style:italic;"></div>
+    </div>
 
     <h4>Numerical Parameters</h4>
     <div class="control">
@@ -1786,12 +1800,13 @@ function pdeInit() {
   pde.LX = parseFloat(document.getElementById('LX_slider').value);
   pde.alpha = parseFloat(document.getElementById('alpha_slider').value);
   const R0 = parseFloat(document.getElementById('R0_slider').value);
+  pde.R_bg = parseFloat(document.getElementById('Rbg_slider').value);
   pde.dt = parseFloat(document.getElementById('dt_slider').value);
-  
+
   pde.dx = pde.L / pde.N;
   pde.R = new Float64Array(pde.N);
   pde.T = new Float64Array(pde.N);
-  
+
   const center = pde.N / 2;
   const sigma = pde.N / 10;
   for (let i = 0; i < pde.N; i++) {
@@ -1800,6 +1815,61 @@ function pdeInit() {
   pde.timestep = 0;
   pde.initialMass = 0;
   for (let i = 0; i < pde.N; i++) pde.initialMass += pde.R[i] * pde.dx;
+
+  // Update conservation regime indicator
+  updateConservationIndicator();
+}
+
+// Mass Conservation Regime Indicator
+// Based on analysis from mass conservation study:
+//   - L_X ≤ 20 with R_bg=0: Full decay regardless of L_X
+//   - L_X > 50 with R_bg=0: Partial conservation possible
+//   - R_bg > 0: Stabilizes baseline, best for conservation
+//   - Recommended: L_X >> L AND R_bg > 0 for conserving regime
+function updateConservationIndicator() {
+  const LX = parseFloat(document.getElementById('LX_slider').value);
+  const Rbg = parseFloat(document.getElementById('Rbg_slider').value);
+  const L = pde.L; // Domain length = 10
+
+  const dot = document.getElementById('conservation_dot');
+  const status = document.getElementById('conservation_status');
+  const tip = document.getElementById('conservation_tip');
+
+  // Determine conservation regime
+  let regime, color, tipText;
+  const ratio = LX / L;
+
+  if (Rbg > 0.1 && ratio > 2) {
+    // Best regime: R_bg > 0 AND L_X >> L
+    regime = 'Conserving (Optimal)';
+    color = 'var(--good)';
+    tipText = 'R_bg > 0 stabilizes baseline; L_X >> L minimizes relaxation loss.';
+  } else if (Rbg > 0) {
+    // Good: R_bg > 0 provides floor
+    regime = 'Conserving (R_bg Floor)';
+    color = 'var(--good)';
+    tipText = 'R_bg > 0 provides stable baseline. Consider increasing L_X for better conservation.';
+  } else if (ratio > 5) {
+    // Partial: Large L_X delays decay
+    regime = 'Partial Conservation';
+    color = 'var(--warn)';
+    tipText = 'Large L_X delays decay. Set R_bg > 0 for true conservation.';
+  } else if (ratio > 2) {
+    // Weak: L_X > L but not enough
+    regime = 'Weak Conservation';
+    color = 'var(--warn)';
+    tipText = 'L_X > L but relaxation dominates. Increase L_X or set R_bg > 0.';
+  } else {
+    // Non-conserving: Strong relaxation
+    regime = 'Non-Conserving (Decay)';
+    color = 'var(--danger)';
+    tipText = 'R decays to R_bg=0. This is physical (relaxation), not numerical error.';
+  }
+
+  dot.style.background = color;
+  dot.style.boxShadow = '0 0 6px ' + color;
+  status.textContent = regime + ' — L_X/L = ' + ratio.toFixed(1) + ', R_bg = ' + Rbg.toFixed(2);
+  tip.textContent = tipText;
 }
 
 function computeTorsion() {
@@ -1937,12 +2007,16 @@ function animatePDE() {
 }
 
 // PDE controls with proper formatting
-['D','LX','alpha','R0','dt'].forEach(id => {
+['D','LX','alpha','R0','Rbg','dt'].forEach(id => {
   const slider = document.getElementById(id + '_slider');
   const val = document.getElementById(id + '_val');
   if (slider && val) {
     slider.addEventListener('input', () => {
       val.textContent = parseFloat(slider.value).toFixed(2);
+      // Update conservation indicator when LX or Rbg changes
+      if (id === 'LX' || id === 'Rbg') {
+        updateConservationIndicator();
+      }
     });
   }
 });
@@ -1954,6 +2028,9 @@ if (nSlider && nVal) {
     nVal.textContent = parseInt(nSlider.value);
   });
 }
+
+// Initialize conservation indicator on page load
+setTimeout(updateConservationIndicator, 100);
 
 document.getElementById('pde_run').addEventListener('click', () => {
   if (pde.running) {
@@ -1976,10 +2053,21 @@ document.getElementById('pde_reset').addEventListener('click', () => {
 });
 
 document.getElementById('pde_export').addEventListener('click', () => {
+  // Calculate current mass for export
+  let currentMass = 0;
+  for (let i = 0; i < pde.N; i++) currentMass += pde.R[i] * pde.dx;
+  const massRatio = currentMass / Math.max(pde.initialMass, 0.01);
+
   const data = {
     meta: { title: 'STUR PDE Export', timestamp: new Date().toISOString() },
-    params: { N: pde.N, L: pde.L, D: pde.D, LX: pde.LX, alpha: pde.alpha, dt: pde.dt },
-    state: { timestep: pde.timestep, R: Array.from(pde.R), T: Array.from(pde.T) }
+    params: { N: pde.N, L: pde.L, D: pde.D, LX: pde.LX, alpha: pde.alpha, R_bg: pde.R_bg, dt: pde.dt },
+    state: { timestep: pde.timestep, R: Array.from(pde.R), T: Array.from(pde.T) },
+    conservation: {
+      initialMass: pde.initialMass,
+      currentMass: currentMass,
+      massRatio: massRatio,
+      regime: pde.LX / pde.L > 2 || pde.R_bg > 0 ? 'conserving' : 'non-conserving'
+    }
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
   const a = document.createElement('a');
