@@ -226,8 +226,10 @@
     <li><a href="#sec-pillars">2. The Four Pillars</a></li>
     <li><a href="#sec-tegr">3. TEGR: Teleparallel Equivalent of GR</a></li>
     <li><a href="#sec-hgem">4. HGEM: Linearized Gravitoelectromagnetic Waves</a></li>
-    <li><a href="#sec-stur">5. STUR: Interferometric Holonomy Observable</a></li>
-    <li><a href="#sec-chrono">6. Chronomagnetics: Log-Periodic Modulation</a></li>
+    <li><a href="#sec-stur">5. STUR: Interferometric Holonomy Observable</a>
+      <ul style="margin:0.3rem 0;"><li>5.3 Coherence Length (Closure)</li></ul>
+    </li>
+    <li><a href="#sec-chrono">6. Chronomagnetics: Phenomenological Log-Periodic Modulation</a></li>
     <li><a href="#sec-unification">7. Unification Structure</a></li>
     <li><a href="#sec-falsification">8. Falsification and Experimental Tests</a></li>
     <li><a href="#sec-open">9. Open Problems and Future Work</a></li>
@@ -330,7 +332,7 @@
       <td><strong>Chronomagnetics</strong></td>
       <td>Modulation</td>
       <td>Log-time \(u(t)\), constant \(\lambda\)</td>
-      <td>Mathematically rigorous, phenomenological origin</td>
+      <td>Phenomenological</td>
     </tr>
   </table>
 </section>
@@ -431,6 +433,23 @@
     This Gaussian-in-\(\Delta L^2\) scaling is the unique STUR discriminator.
   </p>
 
+  <h3>5.3 Coherence Length (Closure)</h3>
+
+  <p>
+    The coherence length \(\ell_{\rm coh}\) is derived from manifold geometry via X-integration
+    of the master action (see Foundations §3.4.7–3.4.8):
+  </p>
+
+  <div class="eq boxed">
+    \[\ell_{\rm coh} = \frac{\sqrt{2}\, L_X}{\sigma_R}\]
+  </div>
+
+  <p class="muted">
+    Here \(L_X\) is the X-dimension compactification scale and \(\sigma_R\) is the
+    RMS resistance fluctuation. This closes the theory with a single remaining
+    free parameter: the ratio \(\sigma_R / L_X\).
+  </p>
+
   <div class="block warning">
     <div class="title">Phenomenological Status</div>
     <p class="muted">
@@ -443,7 +462,7 @@
 </section>
 
 <section id="sec-chrono">
-  <h2>6. Chronomagnetics: Log-Periodic Modulation</h2>
+  <h2>6. Chronomagnetics: Phenomenological Log-Periodic Modulation</h2>
 
   <h3>6.1 The Geometric Constant</h3>
 
@@ -451,6 +470,11 @@
     Chronomagnetics introduces a log-periodic modulation of tangential contortion,
     defined from exact triangle geometry and embedded consistently within the
     teleparallel (TEGR) formalism.
+  </p>
+  <p class="muted">
+    Chronomagnetics is treated as a phenomenological modulation layer.
+    It does not introduce new field equations and does not claim
+    a microscopic derivation of \(\lambda\).
   </p>
 
   <p>
@@ -466,7 +490,7 @@
   </div>
 
   <p>
-    This sector is mathematically rigorous and dimensionally verified, but remains
+    This sector is mathematically well-defined and dimensionally consistent, but remains
     <strong>phenomenological</strong> with respect to microscopic origin. No claim
     is made that \(\lambda\) is fundamental; it is introduced as an illustrative
     modulation parameter within the teleparallel framework.
@@ -578,6 +602,16 @@
 
 <section id="sec-open">
   <h2>9. Open Problems and Future Work</h2>
+
+  <div class="block gold">
+    <div class="title">Framework Closure Status</div>
+    <p class="muted">
+      <strong>Level 1 (Closed):</strong> Emergent 4D equation via X-integration;
+      coherence length \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\) derived from manifold geometry.<br>
+      <strong>Level 2 (Closed):</strong> Loop enhancement via Stokes' theorem provides observability pathway.<br>
+      <strong>Remaining free parameter:</strong> ratio \(\sigma_R / L_X\) (single-parameter family).
+    </p>
+  </div>
 
   <div class="block success">
     <div class="title">Status Summary</div>

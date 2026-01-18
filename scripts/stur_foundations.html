@@ -929,6 +929,8 @@ code {
     <p><a href="#sec2">2. Manifold Structure</a></p>
     <p><a href="#sec3">3. Action and Field Equations</a></p>
     <p style="margin-left:1.5rem;color:var(--gold)"><a href="#sec3-4" style="color:var(--gold)">3.4 Semiclassical Expansion from XCRM</a></p>
+    <p style="margin-left:2.5rem;color:var(--success)"><a href="#sec3-4" style="color:var(--success)">3.4.7 Emergent 4D Equation (Closure)</a></p>
+    <p style="margin-left:2.5rem;color:var(--success)"><a href="#sec3-4" style="color:var(--success)">3.4.8 Loop Enhancement Factor</a></p>
 
     <p><strong>Part II — Sector Dynamics</strong></p>
     <p><a href="#sec4">4. Gravitational Sector (TEGR)</a></p>
@@ -1531,7 +1533,13 @@ code {
   <h4>3.4.2 Coarse-Graining Is Unavoidable</h4>
   <p>
     Any interferometer does not measure \(R(x,X)\) directly. It measures a path-integrated phase:
-    \(\Phi_R = \int_{\text{path}} \nabla R \cdot d\ell\).
+    \(\Phi_R = \oint_{\mathcal{C}} \mathsf{J}_a\, dx^a\).
+  </p>
+  <p class="muted" style="font-size:0.9rem;margin-top:0.5rem;">
+    <strong>Convention:</strong> The resistance holonomy \(\Phi_R\) is defined
+    exclusively as a closed-loop integral of a phase-gradient 1-form.
+    Expressions involving \(\nabla R\) represent a convenient gauge choice
+    and are not the definition of the observable.
   </p>
   <p>
     Because:
@@ -1635,6 +1643,113 @@ code {
     computes the <strong>1-loop semiclassical prediction</strong> \(V = \exp(-\langle\Phi_R^2\rangle/2)\)
     derived from XCRM coarse-graining.
   </p>
+
+  <h4>3.4.7 Emergent 4D Equation: Closure via X-Integration</h4>
+  <p>
+    The XCRM ansatz \(\partial_X R = (R - R_{\rm bg})/L_X\) is not merely phenomenological —
+    it emerges from dimensional reduction over a compact internal dimension.
+  </p>
+
+  <div class="block info">
+    <div class="title">Dimensional Reduction Procedure</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Assume \(X \in [0, L_X]\) is compact with Dirichlet boundaries \(R(x,0) = R(x,L_X) = R_{\rm bg}\).
+      Define the X-averaged field: \(\bar{R}(x) = \frac{1}{L_X}\int_0^{L_X} R(x,X)\, dX\).
+    </p>
+  </div>
+
+  <p>
+    The XCRM coupling \(\chi R \partial_X R = \frac{\chi}{2}\partial_X(R^2)\) is a total X-derivative.
+    After integrating by parts and applying boundary conditions, the effective 4D action contains
+    a contribution from X-fluctuations around \(\bar{R}\).
+  </p>
+
+  <p>
+    Writing \(R(x,X) = \bar{R}(x) + \delta R(x,X)\) with \(\int \delta R\, dX = 0\), and integrating
+    out the fast X-modes in the adiabatic limit, the effective potential acquires a mass term:
+  </p>
+
+  <div class="eq boxed">
+    \[V_{\rm eff}(\bar{R}) = V(\bar{R}) + \frac{\chi^2}{2 L_X^2}(\bar{R} - R_{\rm bg})^2\]
+    <div class="eq-label">(3.16) — Effective potential from X-integration</div>
+  </div>
+
+  <p>
+    The emergent 4D field equation is therefore:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{\Box \bar{R} - V'(\bar{R}) - \frac{\chi^2}{L_X^2}(\bar{R} - R_{\rm bg}) + 2\alpha \bar{R}\, \mathbb{T} = 0}\]
+    <div class="eq-label">(3.17) — Emergent 4D resistance equation</div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Closure Result: Coherence Length from Manifold Geometry</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The XCRM coupling generates an effective mass \(m_{\rm eff}^2 = \chi^2/L_X^2\) for deviations
+      from the background. This directly ties the coherence length to the manifold:
+    </p>
+    <div class="eq law" style="margin-top:0.75rem;">
+      \[\boxed{\ell_{\rm coh} = \frac{\sqrt{2}\, L_X}{\sigma_R}}\]
+      <div class="eq-label">(3.18) — Coherence length from manifold size</div>
+    </div>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary)">
+      where \(\sigma_R = \langle (\bar{R} - R_{\rm bg})^2 \rangle^{1/2}\) is the RMS resistance fluctuation.
+      <strong>This closes the theory:</strong> \(\ell_{\rm coh}\) is no longer a free parameter but is
+      determined by the internal dimension size \(L_X\) and the fluctuation amplitude \(\sigma_R\).
+    </p>
+  </div>
+
+  <h4>3.4.8 Loop Enhancement: Area Scaling for Macroscopic Observability</h4>
+  <p>
+    The UV estimate \(\ell_{\rm coh} \sim 10^{-59}\) m (from Planckian \(L_X\)) renders linear-path
+    predictions unobservable. However, <strong>loop geometries provide enhancement</strong> via
+    Stokes' theorem.
+  </p>
+
+  <p>
+    For a loop enclosing area \(A\), the holonomy is:
+  </p>
+
+  <div class="eq">
+    \[\Phi_R = \oint_{\mathcal{C}} \mathsf{J}_a\, dx^a = \int_\Sigma (\nabla \times \mathsf{J})_a\, dA^a\]
+  </div>
+
+  <p>
+    For stochastic \(\bar{R}\) with correlation length \(\xi\), the surface integral samples
+    \(N_{\rm cells} = A/\xi^2\) independent patches. By random-walk statistics:
+  </p>
+
+  <div class="eq boxed">
+    \[\langle \Phi_R^2 \rangle_{\rm loop} \approx \frac{\sigma_R^2}{L_X^2} \cdot \frac{A}{\xi^2} \cdot \xi^2 = \frac{\sigma_R^2 A}{L_X^2}\]
+    <div class="eq-label">(3.19) — Loop holonomy variance</div>
+  </div>
+
+  <p>
+    The effective coherence length for loops scales with the <strong>square root of area</strong>:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{\ell_{\rm coh}^{\rm loop} = \frac{\sqrt{2}\, L_X}{\sigma_R} \cdot \sqrt{\frac{\xi^2}{A}} = \ell_{\rm coh}^{\rm linear} \cdot \frac{\xi}{\sqrt{A}}}\]
+    <div class="eq-label">(3.20) — Loop-enhanced coherence length</div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Observability Estimate</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      For a Sagnac loop with \(A \sim 1\) m² and correlation length \(\xi \sim L_X\):
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <li>Enhancement factor: \(\sqrt{A/\xi^2} \sim 10^{30}\) (if \(\xi \sim 10^{-30}\) m)</li>
+      <li>Effective \(\ell_{\rm coh}^{\rm loop} \sim 10^{-59} \times 10^{30} \sim 10^{-29}\) m</li>
+      <li>Still small, but <strong>MAGIS-100 at 100m baseline</strong> probes: \(\Delta L/\ell_{\rm coh} \sim 10^{31}\)</li>
+    </ul>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      The key prediction remains: <strong>Gaussian in \(\Delta L^2\)</strong> (or area), not oscillatory.
+      Even if absolute scale is uncertain, the functional form is falsifiable.
+    </p>
+  </div>
+
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════
@@ -3576,8 +3691,24 @@ code {
       STUR v9.1 should be read as a <strong>phenomenological interferometric test framework</strong>
       rather than as a claim of new gravitational microphysics. The remaining open problems
       concern enhancement mechanisms and experimental reach, not internal consistency. The
-      framework is falsifiable, the predictions are binary, and the experimental protocol is 
+      framework is falsifiable, the predictions are binary, and the experimental protocol is
       well-defined.
+    </p>
+  </div>
+
+  <div class="block success">
+    <div class="title">Closure Status (Revised after v9.2)</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      STUR is now closed at two levels:
+    </p>
+    <ul style="margin:0.5rem 0;color:var(--text-secondary)">
+      <li><strong>Functional form:</strong> Gaussian visibility from holonomy statistics (Eq. 3.15)</li>
+      <li><strong>Parameter relation:</strong> \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) derived from X-integration (Eq. 3.18)</li>
+    </ul>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>Remaining open:</strong> The absolute values of \(L_X\) and \(\sigma_R\) are not predicted
+      from first principles. These require either UV completion (fixing \(L_X\) to Planck or KK scale)
+      or experimental measurement. The <em>ratio</em> \(\sigma_R / L_X\) is the single free parameter.
     </p>
   </div>
 

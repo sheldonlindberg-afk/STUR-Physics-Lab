@@ -350,7 +350,6 @@ footer{
       </p>
     </div>
 
-```
 <div class="panel stur">
   <h3>STUR Resistance Field</h3>
   <p>The resistance field lives on a 5D manifold:</p>
@@ -363,7 +362,6 @@ footer{
     <div class="eq-label">XCRM Closure — exponential decay toward background</div>
   </div>
 </div>
-```
 
   </div>
 
@@ -527,7 +525,6 @@ return x;
       Watch resistance and torsion co-evolve.
     </p>
 
-```
 <div class="controls">
   <div>
     <h4>Physics Parameters</h4>
@@ -633,7 +630,6 @@ return x;
     With strong relaxation, R decays to background — this is physical, not numerical.
   </p>
 </details>
-```
 
   </div>
 
@@ -653,7 +649,6 @@ return x;
       <a href="https://arxiv.org/abs/2412.14282" target="_blank">2412.14282</a> for theory.
     </p>
 
-```
 <div class="controls">
   <div>
     <h4>STUR Parameters</h4>
@@ -694,7 +689,6 @@ return x;
     </div>
   </div>
 </div>
-```
 
   </div>
 
@@ -706,7 +700,6 @@ return x;
       A particle moves on this curve driven by the local slope.
     </p>
 
-```
 <div class="controls">
   <div>
     <h4>Geometry Parameters</h4>
@@ -750,7 +743,6 @@ return x;
     </p>
   </div>
 </div>
-```
 
   </div>
 
@@ -760,15 +752,18 @@ return x;
     <p>
       Chronomagnetics introduces log-periodic modulation via the geometric constant λ = 3722/2705.
     </p>
+    <p style="color:var(--fg3);font-size:0.9rem;margin-top:0.5rem;">
+      <em>Note:</em> Chronomagnetics is a <strong>phenomenological modulation layer</strong>.
+      It does not introduce new field equations and does not claim a microscopic derivation of λ.
+    </p>
 
-```
 <div class="grid2">
   <div>
     <h4>The Chronomagnetic Constant</h4>
     <div class="eq master">
       \[\lambda = \frac{3722}{2705} \approx 1.37597\]
     </div>
-    <p>Derived from triangle geometry with sides {116, 138, 144}.</p>
+    <p>Illustrative triangle construction with sides {116, 138, 144}.</p>
 
     <h4>Log-Time Modulation</h4>
     <div class="eq">
@@ -801,7 +796,6 @@ return x;
     </p>
   </div>
 </div>
-```
 
   </div>
 </section>
@@ -1722,6 +1716,16 @@ def full_stur_analysis(V_obs, V_err, dL_vals, metadata=None):
 <!-- FOOTER -->
 
 <!-- ══════════════════════════════════════════════════════════════════ -->
+
+<div style="margin:1.5rem 0;padding:1rem;background:rgba(251,191,36,0.08);border-left:3px solid var(--warn);border-radius:8px;">
+  <strong style="color:var(--warn);">Framework Closure Status</strong>
+  <p style="margin:0.5rem 0 0;color:var(--fg2);font-size:0.9rem;">
+    This sandbox implements a <em>reduced STUR toy model</em> for educational exploration.
+    The framework is closed on observable functional form (Gaussian visibility),
+    but not on absolute parameter prediction (σ<sub>R</sub>, K<sub>eff</sub>).
+    The holonomy \(\Phi_R = \oint \mathcal{A}^{(R)}_\mu dx^\mu\) is the operationally defined observable.
+  </p>
+</div>
 
 <footer>
   <p>STUR Educational Sandbox — Geometry → Simulation → Verification → Falsification</p>
