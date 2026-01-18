@@ -572,15 +572,17 @@
 <h3>Visibility Law (Baseline Discriminator)</h3>
 <div class="eq law">\[\boxed{V(\Delta L) = V_0 \exp\!\left(-\frac{(\Delta L)^2}{\ell_{\rm coh}^2}\right)}\]<div class="eq-label">(STUR Visibility Prediction)</div></div>
 <div class="card-grid">
-  <div class="card"><h4>Coherence Length</h4><div class="eq">\[\ell_{\rm coh} = \frac{p_0}{y\, K_{\rm eff}}\]</div></div>
+  <div class="card"><h4>Coherence Length (Closure)</h4><div class="eq">\[\ell_{\rm coh} = \frac{\sqrt{2}\, L_X}{\sigma_R}\]</div></div>
+  <div class="card"><h4>Equivalent Form</h4><div class="eq">\[\ell_{\rm coh} = \frac{p_0}{y\, K_{\rm eff}}\]</div></div>
   <div class="card"><h4>Saturation Operator</h4><div class="eq">\[S_u(u) = \tanh(u)(1 - e^{-u})\]</div></div>
 </div>
 <div class="block gold">
-  <div class="title">Parameter Identification</div>
+  <div class="title">Parameter Identification (Closure)</div>
   <p class="muted">
-    \(K_{\rm eff}\) is the effective phase-gradient amplitude induced by the resistance dynamics and inferred
-    from the \(\Delta L\)-scaling. It is not assumed to be stochastic spacetime torsion; it is a calibrated
-    laboratory parameter linking \(R\) to observed visibility statistics.
+    The coherence length is <strong>derived</strong> from X-integration: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\)
+    where \(L_X\) is the internal dimension size and \(\sigma_R\) is the RMS resistance fluctuation.
+    The phenomenological form \(\ell_{\rm coh} = p_0/(y K_{\rm eff})\) uses \(K_{\rm eff} \equiv \sigma_R\)
+    (effective contortion) and applies when momentum \(p_0\) and Yukawa coupling \(y\) are explicit.
   </p>
 </div>
 
@@ -1028,7 +1030,7 @@
       <div class="card" style="border-left:3px solid var(--stur)"><h4>Resistance Holonomy</h4><div class="eq">\[\Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \mathsf{J}_a\, dx^a\]</div></div>
       <div class="card" style="border-left:3px solid var(--stur)"><h4>Visibility Law</h4><div class="eq">\[V = V_0 e^{-\langle\Phi_R^2\rangle/2}\]</div></div>
       <div class="card" style="border-left:3px solid var(--chrono)"><h4>Chronomagnetic Modulation</h4><div class="eq">\[\mathcal{M}(u) = 1 + \epsilon\cos(2\pi u/\ln\lambda)\]</div></div>
-      <div class="card" style="border-left:3px solid var(--chrono)"><h4>Coherence Length</h4><div class="eq">\[\ell_{\rm coh} = p_0 / (y\, K_{\rm eff})\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>Coherence Length</h4><div class="eq">\[\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\]</div></div>
     </div>
   </section>
 
