@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>STUR Physics Engine — Unified Teleparallel Framework</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="STUR Physics Engine: Unified teleparallel substrate (TEGR) with STUR resistance-field dynamics, HGEM linear limit, and Chronomagnetics log-periodic modulation; includes falsifiable interferometric predictions." />
+  <meta name="author" content="Sheldon Lon Lindberg" />
+
+  <!-- AI / Indexing -->
+
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "name": "STUR Physics Engine — Unified Teleparallel Framework",
+    "author": {
+      "@type": "Person",
+      "name": "Sheldon Lon Lindberg"
+    },
+    "about": [
+      "Teleparallel Gravity",
+      "Unified Resistance Theory",
+      "Gravitoelectromagnetism",
+      "Interferometric Holonomy",
+      "Chronomagnetics"
+    ],
+    "keywords": "STUR, teleparallel gravity, torsion, holonomy, interferometry, gravitoelectromagnetism",
+    "datePublished": "2026-01-01",
+    "inLanguage": "en"
+  }
+  </script>
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <style>
+    :root {
+      --bg: #0a0e14;
+      --surface: #12171f;
+      --surface-elevated: #1a2029;
+      --border: #2a3545;
+      --text: #e8edf5;
+      --text-secondary: #8b95a5;
+      --text-muted: #5a6575;
+      --accent: #4a9eff;
+      --accent-glow: rgba(74,158,255,0.3);
+      --success: #3fb950;
+      --success-subtle: rgba(63,185,80,0.12);
+      --warning: #d29922;
+      --warning-subtle: rgba(210,153,34,0.12);
+      --gold: #f0b429;
+      --gold-subtle: rgba(240,180,41,0.1);
+      --purple: #a371f7;
+      --red: #f85149;
+      --tegr: #58a6ff;
+      --hgem: #a371f7;
+      --stur: #3fb950;
+      --chrono: #f0b429;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    /* =========================
+       PHONE-FIRST BASE STYLES
+       ========================= */
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    .hero {
+      position: relative;
+      padding: 4rem 2rem;
+      text-align: center;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(ellipse at 20% 30%, rgba(74,158,255,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(163,113,247,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .engine-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      color: white;
+      padding: 0.5rem 1.25rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .hero h1 {
+      font-size: 2rem;
+      margin: 0 0 0.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 60%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+    .pillar-row {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .pillar-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .pillar-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .pillar-dot.tegr { background: var(--tegr); box-shadow: 0 0 8px var(--tegr); }
+    .pillar-dot.hgem { background: var(--hgem); box-shadow: 0 0 8px var(--hgem); }
+    .pillar-dot.stur { background: var(--stur); box-shadow: 0 0 8px var(--stur); }
+    .pillar-dot.chrono { background: var(--chrono); box-shadow: 0 0 8px var(--chrono); }
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 1.25rem 1rem;
+    }
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .nav-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .nav-card h3 { margin: 0 0 0.25rem; font-size: 1rem; color: var(--text); }
+    .nav-card p { margin: 0; font-size: 0.85rem; color: var(--text-secondary); }
+    .nav-card.tegr { border-left: 3px solid var(--tegr); }
+    .nav-card.hgem { border-left: 3px solid var(--hgem); }
+    .nav-card.stur { border-left: 3px solid var(--stur); }
+    .nav-card.chrono { border-left: 3px solid var(--chrono); }
+    section { margin: 3rem 0; scroll-margin-top: 2rem; }
+    h2 {
+      font-size: 1.75rem;
+      margin: 0 0 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    h2 .section-dot { width: 12px; height: 12px; border-radius: 50%; }
+    h3 { font-size: 1.2rem; color: var(--accent); margin: 2rem 0 1rem; }
+    p { margin: 1rem 0; color: var(--text-secondary); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .block.warning { border-left: 4px solid var(--warning); background: var(--warning-subtle); }
+    .block.success { border-left: 4px solid var(--success); background: var(--success-subtle); }
+    .block.gold { border-left: 4px solid var(--gold); background: var(--gold-subtle); }
+    .block .title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--text); }
+    .block.warning .title { color: var(--warning); }
+    .block.success .title { color: var(--success); }
+    .block.gold .title { color: var(--gold); }
+    .muted { color: var(--text-secondary); font-size: 0.95rem; }
+    .eq {
+      background: var(--surface-elevated);
+      padding: 1.25rem;
+      border-radius: 8px;
+      margin: 1.25rem 0;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+    }
+    .eq.boxed { border: 2px solid var(--accent); background: rgba(74,158,255,0.05); }
+    .eq.law { border: 2px solid var(--gold); background: var(--gold-subtle); }
+    .eq-label { text-align: right; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem; }
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; }
+    th, td { padding: 0.85rem 1rem; text-align: left; border: 1px solid var(--border); }
+    th { background: var(--surface-elevated); font-weight: 600; color: var(--text); }
+    td { color: var(--text-secondary); }
+    tr.highlight { background: var(--success-subtle); }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card h4 { margin: 0 0 0.5rem; color: var(--accent); font-size: 1.05rem; }
+    .card p { margin: 0; font-size: 0.9rem; }
+    .framework-diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .framework-flow {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1.5rem 0;
+    }
+    .flow-box { padding: 1rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .flow-box.tegr { background: rgba(88,166,255,0.15); border: 2px solid var(--tegr); color: var(--tegr); }
+    .flow-box.hgem { background: rgba(163,113,247,0.15); border: 2px solid var(--hgem); color: var(--hgem); }
+    .flow-box.stur { background: rgba(63,185,80,0.15); border: 2px solid var(--stur); color: var(--stur); }
+    .flow-box.chrono { background: rgba(240,180,41,0.15); border: 2px solid var(--chrono); color: var(--chrono); }
+    .flow-arrow { color: var(--text-muted); font-size: 1.5rem; }
+    .holoscreen-container {
+      background: var(--surface);
+      border: 2px solid var(--stur);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      box-shadow: 0 0 30px rgba(63,185,80,0.1);
+    }
+    .holoscreen-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .holoscreen-header h3 { margin: 0; color: var(--stur); }
+    .holoscreen-badge {
+      background: var(--stur);
+      color: var(--bg);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .holoscreen-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    .control-panel { background: var(--surface-elevated); border-radius: 8px; padding: 1.25rem; }
+    .control-group { margin-bottom: 1.25rem; }
+    .control-group:last-child { margin-bottom: 0; }
+    .control-label { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+    .control-value { font-family: 'SF Mono', Monaco, monospace; color: var(--accent); font-weight: 600; }
+    input[type="range"] {
+      width: 100%; height: 6px; -webkit-appearance: none;
+      background: var(--border); border-radius: 3px; outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 18px; height: 18px;
+      background: var(--accent); border-radius: 50%; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(74,158,255,0.4);
+    }
+    .output-display {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    .output-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .output-row:last-child { border-bottom: none; }
+    .output-label { color: var(--text-secondary); }
+    .output-value { font-family: 'SF Mono', Monaco, monospace; font-weight: 600; }
+    .output-value.highlight { color: var(--stur); }
+    .output-value.warning { color: var(--warning); }
+    .canvas-container { background: var(--bg); border-radius: 8px; padding: 1rem; position: relative; }
+    #visibilityCanvas { width: 100%; height: 300px; display: block; }
+    .canvas-legend { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; font-size: 0.85rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .regime-diagram { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin: 2rem 0; }
+    footer {
+      margin-top: 4rem;
+      padding: 2.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      background: var(--surface);
+    }
+    footer p { margin: 0.5rem 0; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap; }
+    /* =========================
+       DESKTOP ENHANCEMENTS
+       ========================= */
+    @media (min-width: 768px) {
+      body { font-size: 16px; line-height: 1.7; }
+      .container { max-width: 1200px; padding: 2rem 1.5rem; }
+      .hero h1 { font-size: 3rem; }
+      .hero-subtitle { font-size: 1.3rem; }
+      .holoscreen-grid { grid-template-columns: 1fr 1.5fr; }
+    }
+    /* =========================
+       PRINT STYLES (PDF EXPORT)
+       ========================= */
+    @media print {
+      body {
+        background: white;
+        color: black;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+      .hero,
+      .nav-grid,
+      .holoscreen-container,
+      .canvas-container,
+      .footer-links,
+      #exportJsonBtn {
+        display: none !important;
+      }
+      .container {
+        max-width: 100%;
+        padding: 0;
+      }
+      section {
+        page-break-inside: avoid;
+      }
+      .eq {
+        background: #f5f5f5;
+        border: 1px solid #ccc;
+      }
+      .block {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+      }
+      #jsonAppendix {
+        display: block !important;
+        page-break-before: always;
+        background: white;
+        color: black;
+        border: 1px solid #ccc;
+        padding: 1rem;
+        font-size: 8px;
+        line-height: 1.3;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-content">
+    <div class="engine-badge"><span>⚛</span> STUR Physics Engine</div>
+    <h1>STUR Physics Engine</h1>
+    <p class="hero-subtitle">
+      Complete Unified Teleparallel Framework — Interactive simulator combining 
+      TEGR gravity, HGEM waves, STUR holonomy, and Chronomagnetics modulation
+    </p>
+    <div class="pillar-row">
+      <div class="pillar-indicator"><span class="pillar-dot tegr"></span>TEGR</div>
+      <div class="pillar-indicator"><span class="pillar-dot hgem"></span>HGEM</div>
+      <div class="pillar-indicator"><span class="pillar-dot stur"></span>STUR</div>
+      <div class="pillar-indicator"><span class="pillar-dot chrono"></span>Chronomagnetics</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="block warning">
+    <div class="title">Scope and Status</div>
+    <p class="muted" style="margin:0">
+      This engine presents a <strong>unified teleparallel substrate</strong> with an explicit
+      <strong>STUR law of unified resistance</strong>. TEGR (≡ GR) provides the geometric backbone;
+      STUR supplies the dynamical resistance field \(R(x^\mu,t,X)\) and its gauge-invariant holonomy;
+      HGEM is the weak-field (linear) limit of the same structure; Chronomagnetics is a controlled,
+      log-periodic modulation of the effective coupling/transport sector over extended timescales.
+      <strong>No claim is made</strong> that Standard Model parameters, coupling constants, 
+      or cosmological initial conditions are derived.
+    </p>
+  </div>
+
+  <nav class="nav-grid">
+    <a href="#sec-framework" class="nav-card"><h3>Framework Architecture</h3><p>Four-pillar structure</p></a>
+    <a href="#sec-tegr" class="nav-card tegr"><h3>TEGR Backbone</h3><p>Teleparallel gravity ≡ GR</p></a>
+    <a href="#sec-hgem" class="nav-card hgem"><h3>HGEM Waves</h3><p>Gravitoelectromagnetic sector</p></a>
+    <a href="#sec-stur" class="nav-card stur"><h3>STUR Holonomy</h3><p>Interferometric observable</p></a>
+    <a href="#sec-chrono" class="nav-card chrono"><h3>Chronomagnetics</h3><p>Log-periodic modulation</p></a>
+    <a href="#sec-action" class="nav-card"><h3>Action Principle</h3><p>Coupled field equations</p></a>
+    <a href="#sec-solver" class="nav-card" style="border-color:var(--purple)"><h3>1D Solver</h3><p>R ↔ T back-reaction</p></a>
+    <a href="#sec-holoscreen" class="nav-card stur"><h3>Interactive Holoscreen</h3><p>Live visibility calculator</p></a>
+  </nav>
+
+  <section id="sec-framework">
+    <h2><span class="section-dot" style="background:var(--accent)"></span> Framework Architecture</h2>
+    <div class="framework-diagram">
+      <p style="margin:0 0 1rem;color:var(--text-secondary)">Unified Teleparallel Framework Hierarchy</p>
+      <div class="framework-flow">
+        <div class="flow-box tegr">TEGR<br><small>Geometry</small></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box stur">STUR<br><small>Law</small></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box hgem">HGEM<br><small>Linear limit</small></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box chrono">Chrono<br><small>Modulation</small></div>
+      </div>
+    </div>
+    <table>
+      <tr><th>Pillar</th><th>Role</th><th>Key Object</th><th>Status</th></tr>
+      <tr><td><strong style="color:var(--tegr)">TEGR</strong></td><td>Geometric backbone</td><td>Tetrad \(e^a{}_\mu\), torsion \(T^a{}_{bc}\)</td><td>Established (≡ GR)</td></tr>
+      <tr><td><strong style="color:var(--stur)">STUR</strong></td><td>Dynamical law</td><td>Resistance field \(R(x^\mu,t,X)\) and holonomy \(\Phi_R\)</td><td>Closed, simulable, falsifiable</td></tr>
+      <tr><td><strong style="color:var(--hgem)">HGEM</strong></td><td>Wave sector</td><td>GEM potentials \(\Phi_g, \vec{A}_g\)</td><td>Derived (weak-field limit)</td></tr>
+      <tr><td><strong style="color:var(--chrono)">Chronomagnetics</strong></td><td>Modulation</td><td>Log-time \(u(t)\), constant \(\lambda\)</td><td>Illustrative, phenomenological</td></tr>
+    </table>
+  </section>
+
+  <section id="sec-tegr">
+    <h2><span class="section-dot" style="background:var(--tegr)"></span> TEGR: Teleparallel Equivalent of GR</h2>
+    <p>In teleparallel gravity, the fundamental variable is the tetrad (frame field) \(e^a{}_\mu\), which encodes gravity through torsion rather than curvature.</p>
+    <div class="card-grid">
+      <div class="card" style="border-left:3px solid var(--tegr)">
+        <h4>Metric from Tetrads</h4>
+        <div class="eq">\[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]</div>
+      </div>
+      <div class="card" style="border-left:3px solid var(--tegr)">
+        <h4>Torsion Tensor</h4>
+        <div class="eq">\[T^a{}_{\mu\nu} = \partial_\mu e^a{}_\nu - \partial_\nu e^a{}_\mu\]</div>
+      </div>
+    </div>
+    <div class="block gold">
+      <div class="title">Theorem — TEGR ≡ GR Equivalence</div>
+      <p class="muted">The TEGR action differs from Einstein-Hilbert by a total divergence. The field equations are <strong>identical</strong> to Einstein's equations.</p>
+      <div class="eq law">\[S_{\rm TEGR} = \frac{1}{16\pi G} \int d^4x\, e\, \mathbf{T} = S_{\rm EH} + \text{boundary term}\]</div>
+    </div>
+    <h3>Contortion Tensor</h3>
+    <div class="eq boxed">\[K^a{}_{bc} = \frac{1}{2}\left(T_{bc}{}^a + T_{cb}{}^a - T^a{}_{bc}\right)\]</div>
+    <p>This is the geometric object STUR parameterizes phenomenologically via \(K_{\rm eff}\).</p>
+  </section>
+
+  <section id="sec-hgem">
+    <h2><span class="section-dot" style="background:var(--hgem)"></span> HGEM: Gravitoelectromagnetic Waves</h2>
+    <p>In the weak-field limit, teleparallel gravity admits a gravitoelectromagnetic decomposition with Maxwell-like field equations.</p>
+    <div class="eq boxed">\[\vec{E}_g = -\nabla\Phi_g - \frac{\partial \vec{A}_g}{\partial t}, \qquad \vec{B}_g = \nabla \times \vec{A}_g \quad (c = 1)\]</div>
+    <div class="block success">
+      <div class="title">HGEM Status</div>
+      <p class="muted">HGEM is a <strong>derived sector</strong>—it follows directly from linearizing the TEGR field equations. No phenomenological input is required.</p>
+    </div>
+  </section>
+
+  <section id="sec-stur">
+    <h2><span class="section-dot" style="background:var(--stur)"></span> STUR: Law of Unified Resistance</h2>
+
+```
+<h3>Resistance Field Postulate</h3>
+<p>
+  STUR posits a real resistance field \(R(x^\mu,t,X)\) on teleparallel geometry, where \(X\) is an internal
+  coherence coordinate (X-coupled resistance manifold). Observable departures from ideal transport are
+  governed by the dynamics of \(R\), not by ad hoc stochastic collapse.
+</p>
+
+<div class="eq law">
+  \[
+  R: M_4 \times \mathbb{R}_t \times X \rightarrow \mathbb{R}^{+}
+  \]
+  <div class="eq-label">(Field Definition)</div>
+</div>
+
+<h3>STUR Evolution Law (Canonical)</h3>
+<p>
+  The resistance field evolves by the closed transport equation:
+</p>
+<div class="eq law">
+  \[
+  \frac{\partial R}{\partial t}
+  =
+  \nabla\!\cdot\!\big(D\,\nabla R\big)
+  -
+  \nabla R\!\cdot\!\Omega
+  +
+  \chi\,\frac{\partial R}{\partial X}
+  +
+  S
+  \]
+  <div class="eq-label">(STUR PDE)</div>
+</div>
+
+<div class="eq boxed">
+  \[
+  \frac{\partial R}{\partial X} = \frac{R - R_{\rm bg}}{L_X}
+  \]
+  <div class="eq-label">(XCRM Closure)</div>
+</div>
+
+<h3>Observable: Resistance Holonomy</h3>
+<p>
+  The interferometric output is the gauge-invariant resistance holonomy accumulated around a closed loop
+  \(\mathcal{C}\):
+</p>
+<div class="eq law">
+  \[
+  \Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \nabla R \cdot dx
+  \]
+  <div class="eq-label">(Holonomy Observable)</div>
+</div>
+
+<p>
+  In the small-phase, many-shot regime, the measured visibility follows from cumulant truncation:
+</p>
+<div class="eq boxed">
+  \[
+  V \approx V_0\,\exp\!\left(-\frac{\langle \Phi_R^2\rangle}{2}\right)
+  \]
+  <div class="eq-label">(Visibility from Holonomy Variance)</div>
+</div>
+
+<h3>Visibility Law (Baseline Discriminator)</h3>
+<p>
+  STUR predicts a Gaussian suppression controlled by arm separation \(\Delta L\):
+</p>
+<div class="eq law">\[\boxed{V(\Delta L) = V_0 \exp\!\left(-\frac{(\Delta L)^2}{\ell_{\rm coh}^2}\right)}\]<div class="eq-label">(STUR Visibility Prediction)</div></div>
+<div class="card-grid">
+  <div class="card"><h4>Coherence Length</h4><div class="eq">\[\ell_{\rm coh} = \frac{p_0}{y\, K_{\rm eff}}\]</div></div>
+  <div class="card"><h4>Saturation Operator</h4><div class="eq">\[S_u(u) = \tanh(u)(1 - e^{-u})\]</div></div>
+</div>
+<div class="block gold">
+  <div class="title">Parameter Identification</div>
+  <p class="muted">
+    \(K_{\rm eff}\) is the effective phase-gradient amplitude induced by the resistance dynamics and inferred
+    from the \(\Delta L\)-scaling. It is not assumed to be stochastic spacetime torsion; it is a calibrated
+    laboratory parameter linking \(R\) to observed visibility statistics.
+  </p>
+</div>
+```
+
+  </section>
+
+  <section id="sec-chrono">
+    <h2><span class="section-dot" style="background:var(--chrono)"></span> Chronomagnetics: Log-Periodic Modulation</h2>
+    <p>Chronomagnetics introduces a log-periodic modulation of tangential contortion, defined from exact triangle geometry and embedded consistently within the teleparallel (TEGR) formalism.</p>
+    <div class="eq law">\[\boxed{\lambda = \frac{3722}{2705} \approx 1.376}\]<div class="eq-label">(Chronomagnetic Constant)</div></div>
+    <p>This is an <em>exactly defined geometric ratio</em> arising from a specific illustrative triangle construction \(\{116, 138, 144\}\). The triangle is not claimed to be unique.</p>
+    <h3>Log-Time Parameterization</h3>
+    <div class="eq boxed">\[\mathcal{M}(u) = 1 + \epsilon \cos(2\pi u / \ln\lambda), \quad u(t) = \ln\big((t + t_c)/t_0\big)\]</div>
+    <div class="block warning">
+      <div class="title">Modulation Target</div>
+      <p class="muted">
+        Chronomagnetics is applied as a controlled modulation of the STUR transport/coupling sector,
+        e.g. \(\chi \rightarrow \chi\,\mathcal{M}(u)\) (and thus the effective coherence length \(\ell_{\rm coh}\)),
+        while preserving TEGR field equations. No claim is made that \(\lambda\) is fundamental.
+      </p>
+    </div>
+  </section>
+
+  <section id="sec-action">
+    <h2><span class="section-dot" style="background:var(--accent)"></span> Action Principle &amp; Coupled Field Equations</h2>
+
+```
+<p>
+  To move STUR from phenomenological ansatz to derived field theory, we define the total action 
+  as the sum of the geometric (torsion) sector and the dynamical resistance sector.
+</p>
+
+<h3>Total Action</h3>
+<div class="eq law">
+  \[
+  \boxed{S_{\text{total}} = \frac{1}{16\pi G}\int d^4x\, e\, \mathbb{T} + \int d^4x\, e\, \mathcal{L}_R}
+  \]
+  <div class="eq-label">(STUR-TEGR Action)</div>
+</div>
+
+<p>Where:</p>
+<ul style="color:var(--text-secondary); margin-left:1.5rem;">
+  <li>\(e = \det(e^a{}_\mu) = \sqrt{-g}\) is the tetrad determinant</li>
+  <li>\(\mathbb{T}\) is the torsion scalar (TEGR Lagrangian)</li>
+  <li>\(\mathcal{L}_R\) is the STUR Lagrangian defined below</li>
+</ul>
+
+<h3>STUR Lagrangian</h3>
+<div class="eq law">
+  \[
+  \boxed{\mathcal{L}_R = -\frac{1}{2}(\nabla_\mu R)(\nabla^\mu R) - V(R) + \alpha\, \mathbb{T}\, R^2}
+  \]
+  <div class="eq-label">(STUR Lagrangian Density)</div>
+</div>
+
+<div class="card-grid">
+  <div class="card" style="border-left:3px solid var(--stur)">
+    <h4>Kinetic Term</h4>
+    <div class="eq">\[-\frac{1}{2}(\nabla_\mu R)(\nabla^\mu R)\]</div>
+    <p class="muted" style="font-size:0.85rem">Standard scalar field gradient energy</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--stur)">
+    <h4>Potential</h4>
+    <div class="eq">\[V(R) = \frac{m_R^2}{2}(R - R_{\rm bg})^2\]</div>
+    <p class="muted" style="font-size:0.85rem">Vacuum relaxation to background</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--gold)">
+    <h4>Torsion-Resistance Coupling</h4>
+    <div class="eq">\[\alpha\, \mathbb{T}\, R^2\]</div>
+    <p class="muted" style="font-size:0.85rem"><strong>The "smoking gun"</strong> — couples geometry to resistance</p>
+  </div>
+</div>
+
+<h3>Coupled Field Equations</h3>
+<p>
+  Varying the action with respect to the tetrad \(e^a{}_\mu\) yields the modified TEGR equations
+  with the STUR energy-momentum tensor as source:
+</p>
+
+<div class="eq law">
+  \[
+  \boxed{\frac{1}{e}\partial_\nu(e\, S_a{}^{\mu\nu}) - T^b{}_{\nu a}S_b{}^{\nu\mu} + \frac{1}{4}\delta_a^\mu \mathbb{T} = 8\pi G\, \mathcal{T}_a{}^\mu(R)}
+  \]
+  <div class="eq-label">(Modified TEGR Field Equations)</div>
+</div>
+
+<p>The STUR Energy-Momentum Tensor:</p>
+<div class="eq boxed">
+  \[
+  \mathcal{T}_a{}^\mu(R) = e_a{}^\nu \left[ \nabla_\nu R \nabla^\mu R - \delta_\nu^\mu \mathcal{L}_R \right] + 2\alpha R^2 \frac{\delta \mathbb{T}}{\delta e^a{}_\mu}
+  \]
+  <div class="eq-label">(STUR Energy-Momentum Tensor)</div>
+</div>
+
+<h3>Effective Gravitational Coupling</h3>
+<p>
+  The coupling term \(\alpha \mathbb{T} R^2\) implies that the effective gravitational constant 
+  is modulated by the local resistance field:
+</p>
+
+<div class="eq law">
+  \[
+  \boxed{G_{\text{eff}} = \frac{G}{1 + 16\pi G \alpha R^2}}
+  \]
+  <div class="eq-label">(Effective Newton's Constant)</div>
+</div>
+
+<div class="block success">
+  <div class="title">Physical Consequences</div>
+  <p class="muted">
+    <strong>Vacuum limit:</strong> \(R \to R_{\rm bg} \approx 0\) recovers standard GR.<br>
+    <strong>High-gradient regions:</strong> Gravitational coupling is <em>screened</em> by resistance.<br>
+    <strong>Chronomagnetic link:</strong> Since \(R\) is modulated by \(\mathcal{M}(u)\), the gravitational 
+    coupling exhibits subtle long-term oscillations.<br>
+    <strong>New observable:</strong> Correlated variations between interferometric visibility and local 
+    gravitational measurements.
+  </p>
+</div>
+
+<h3>Back-Reaction Structure</h3>
+<p>The coupled system evolves as:</p>
+<div class="card-grid">
+  <div class="card" style="border-left:3px solid var(--tegr)">
+    <h4>Geometry → Resistance</h4>
+    <div class="eq">\[\Box_g R + V'(R) = 2\alpha \mathbb{T} R\]</div>
+    <p class="muted" style="font-size:0.85rem">Torsion sources resistance evolution</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--stur)">
+    <h4>Resistance → Geometry</h4>
+    <div class="eq">\[G_{\mu\nu}^{\rm (TEGR)} = 8\pi G_{\rm eff}\, T_{\mu\nu}^{(R)}\]</div>
+    <p class="muted" style="font-size:0.85rem">Resistance gradients source torsion</p>
+  </div>
+</div>
+```
+
+  </section>
+
+  <section id="sec-solver">
+    <h2><span class="section-dot" style="background:var(--purple)"></span> 1D Numerical Solver: R ↔ T Back-Reaction</h2>
+
+```
+<p>
+  The following pseudocode demonstrates the coupled evolution of the resistance field \(R(x,t)\) 
+  and the torsion perturbation \(h(x,t)\) in a 1D linearized regime.
+</p>
+
+<div class="block gold">
+  <div class="title">Solver Configuration</div>
+  <p class="muted">
+    <strong>Domain:</strong> \(x \in [0, L]\) with \(N\) grid points<br>
+    <strong>Time stepping:</strong> Explicit Euler with CFL-limited \(\Delta t\)<br>
+    <strong>Boundary conditions:</strong> Periodic or Dirichlet \(R = R_{\rm bg}\)<br>
+    <strong>Initial conditions:</strong> Gaussian perturbation in \(R\), flat \(h = 0\)
+  </p>
+</div>
+
+<h3>Discretized Equations</h3>
+<div class="eq boxed">
+  \[
+  R_i^{n+1} = R_i^n + \Delta t \left[ D \frac{R_{i+1}^n - 2R_i^n + R_{i-1}^n}{\Delta x^2} - \frac{R_i^n - R_{\rm bg}}{L_X} + 2\alpha \mathbb{T}_i^n R_i^n \right]
+  \]
+  <div class="eq-label">(Resistance Evolution — Finite Difference)</div>
+</div>
+
+<div class="eq boxed">
+  \[
+  \mathbb{T}_i^n \approx \kappa \left( \frac{R_{i+1}^n - R_{i-1}^n}{2\Delta x} \right)^2
+  \]
+  <div class="eq-label">(Torsion Scalar from Resistance Gradient)</div>
+</div>
+
+<div class="eq boxed">
+  \[
+  V_i^n = \exp\left( -\frac{1}{2} \left( \Delta L \cdot \frac{R_i^n - R_{\rm bg}}{L_X} \right)^2 \right)
+  \]
+  <div class="eq-label">(Local Visibility Output)</div>
+</div>
+
+<h3>JavaScript Implementation</h3>
+<div class="solver-container" style="background:var(--surface-elevated); border-radius:12px; padding:1.5rem; margin:1.5rem 0;">
+  <div class="solver-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+    <h4 style="margin:0; color:var(--purple)">STUR-TEGR 1D Solver</h4>
+    <span class="holoscreen-badge" style="background:var(--purple)">Interactive</span>
+  </div>
+  <div class="control-panel" style="margin-bottom:1rem;">
+    <div class="control-group">
+      <div class="control-label"><span>Coupling α</span><span class="control-value" id="alpha-value">0.10</span></div>
+      <input type="range" id="alpha-slider" min="0" max="1" step="0.01" value="0.1">
+    </div>
+    <div class="control-group">
+      <div class="control-label"><span>Diffusion D</span><span class="control-value" id="diffusion-value">0.50</span></div>
+      <input type="range" id="diffusion-slider" min="0.01" max="2" step="0.01" value="0.5">
+    </div>
+    <div class="control-group">
+      <div class="control-label"><span>Initial Amplitude R₀</span><span class="control-value" id="r0-value">1.00</span></div>
+      <input type="range" id="r0-slider" min="0.1" max="3" step="0.1" value="1">
+    </div>
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+    <div>
+      <canvas id="solverCanvasR" style="width:100%; height:180px; background:var(--bg); border-radius:8px;"></canvas>
+      <p style="text-align:center; font-size:0.8rem; color:var(--text-muted); margin-top:0.5rem;">R(x,t) — Resistance Profile</p>
+    </div>
+    <div>
+      <canvas id="solverCanvasT" style="width:100%; height:180px; background:var(--bg); border-radius:8px;"></canvas>
+      <p style="text-align:center; font-size:0.8rem; color:var(--text-muted); margin-top:0.5rem;">𝕋(x,t) — Torsion Scalar</p>
+    </div>
+  </div>
+  <div style="display:flex; gap:1rem; margin-top:1rem;">
+    <button id="solverRunBtn" style="flex:1; padding:0.75rem; font-weight:700; border-radius:8px; border:none; background:var(--stur); color:var(--bg); cursor:pointer;">
+      ▶ Run Simulation
+    </button>
+    <button id="solverResetBtn" style="flex:1; padding:0.75rem; font-weight:700; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text); cursor:pointer;">
+      ↺ Reset
+    </button>
+  </div>
+  <div class="output-display" style="margin-top:1rem;">
+    <div class="output-row">
+      <span class="output-label">Time Step</span>
+      <span class="output-value" id="solver-timestep">0</span>
+    </div>
+    <div class="output-row">
+      <span class="output-label">Max |R - R_bg|</span>
+      <span class="output-value" id="solver-maxR">0.0000</span>
+    </div>
+    <div class="output-row">
+      <span class="output-label">Max 𝕋</span>
+      <span class="output-value" id="solver-maxT">0.0000</span>
+    </div>
+    <div class="output-row">
+      <span class="output-label">G_eff / G</span>
+      <span class="output-value highlight" id="solver-Geff">1.0000</span>
+    </div>
+  </div>
+</div>
+
+<div class="block warning">
+  <div class="title">Numerical Stability</div>
+  <p class="muted">
+    The explicit scheme requires \(\Delta t < \frac{\Delta x^2}{2D}\) (CFL condition). 
+    For strong coupling \(\alpha > 0.5\), the back-reaction can drive instabilities; 
+    in production, use implicit or semi-implicit integration.
+  </p>
+</div>
+```
+
+  </section>
+
+  <section id="sec-holoscreen">
+    <h2><span class="section-dot" style="background:var(--stur)"></span> Interactive Holoscreen</h2>
+    <div class="holoscreen-container">
+      <div class="holoscreen-header">
+        <h3>STUR Visibility Calculator</h3>
+        <span class="holoscreen-badge">Live</span>
+      </div>
+      <div class="holoscreen-grid">
+        <div class="control-panel">
+          <div class="control-group">
+            <div class="control-label"><span>Resistance Coupling R<sub>q</sub></span><span class="control-value" id="rq-value">0.50</span></div>
+            <input type="range" id="rq-slider" min="0.01" max="2" step="0.01" value="0.5">
+          </div>
+          <div class="control-group">
+            <div class="control-label"><span>Effective Path ℓ<sub>eff</sub> (m)</span><span class="control-value" id="leff-value">1.00</span></div>
+            <input type="range" id="leff-slider" min="0.1" max="10" step="0.1" value="1">
+          </div>
+          <div class="control-group">
+            <div class="control-label"><span>Coherence Length ℓ<sub>coh</sub> (m)</span><span class="control-value" id="lcoh-value">3.00</span></div>
+            <input type="range" id="lcoh-slider" min="0.5" max="20" step="0.5" value="3">
+          </div>
+          <div class="control-group">
+            <div class="control-label"><span>Path Difference ΔL (m)</span><span class="control-value" id="deltaL-value">0.50</span></div>
+            <input type="range" id="deltaL-slider" min="0" max="5" step="0.05" value="0.5">
+          </div>
+          <div class="control-group">
+            <div class="control-label"><span>Noise Floor (seismic/thermal)</span><span class="control-value" id="noise-value">0.05</span></div>
+            <input type="range" id="noise-slider" min="0" max="0.3" step="0.01" value="0.05">
+          </div>
+          <div class="output-display">
+            <div class="output-row"><span class="output-label">Holonomy Φ<sub>R</sub></span><span class="output-value" id="phiR-output">—</span></div>
+            <div class="output-row"><span class="output-label">Visibility V</span><span class="output-value highlight" id="visibility-output">—</span></div>
+            <div class="output-row"><span class="output-label">Regime</span><span class="output-value" id="regime-output">—</span></div>
+            <div class="output-row"><span class="output-label">Status</span><span class="output-value" id="status-output">—</span></div>
+            <div class="output-row"><span class="output-label">5σ Detection ΔL</span><span class="output-value" id="detection-output" style="color:var(--gold)">—</span></div>
+          </div>
+        </div>
+        <div class="canvas-container">
+          <canvas id="visibilityCanvas"></canvas>
+          <div class="canvas-legend">
+            <div class="legend-item"><span class="legend-dot" style="background:var(--stur)"></span><span>STUR (Gaussian)</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--chrono)"></span><span>ULDM (Sinusoidal)</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--text-muted)"></span><span>Null (Constant)</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--red)"></span><span>Noise Floor</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="block success">
+      <div class="title">How to Use</div>
+      <p class="muted">Adjust the sliders to explore STUR parameter space. The green curve shows the Gaussian visibility decay predicted by STUR. The orange curve shows illustrative ULDM coherent oscillations. The gray line is the null hypothesis (constant visibility).</p>
+    </div>
+  </section>
+
+  <section id="sec-falsification">
+    <h2><span class="section-dot" style="background:var(--accent)"></span> Falsification Protocol</h2>
+    <div class="block gold">
+      <div class="title">Statistical Interpretation Standard</div>
+      <p class="muted"><strong>Frequentist:</strong> Measure \(V(\Delta L)\) at multiple baselines; fit Gaussian vs. null; reject at \(5\sigma\) if inconsistent.<br><strong>Bayesian:</strong> Log-evidence difference \(\Delta \ln \mathcal{Z} > 5\) = decisive support; \(< -5\) = decisive exclusion (Jeffreys scale).</p>
+    </div>
+    <h3>Discriminator Summary</h3>
+    <table>
+      <tr><th>Source</th><th>Visibility Scaling</th><th>Control Parameter</th></tr>
+      <tr><td>Collisional decoherence</td><td>\(e^{-\Gamma t}\)</td><td>Time, pressure</td></tr>
+      <tr><td>Blackbody radiation</td><td>\(e^{-\Gamma t}\)</td><td>Time, temperature</td></tr>
+      <tr><td>ULDM (coherent)</td><td>\(\cos(\omega t)\)</td><td>Frequency</td></tr>
+      <tr class="highlight"><td><strong>STUR</strong></td><td>\(e^{-(\Delta L/\ell)^2}\)</td><td><strong>Arm separation ΔL</strong></td></tr>
+    </table>
+    <h3>Experimental Platforms</h3>
+    <table>
+      <tr><th>Platform</th><th>Baseline</th><th>Test</th></tr>
+      <tr><td>MAGIS-100</td><td>~100 m</td><td>Long-baseline ΔL scan</td></tr>
+      <tr><td>AION</td><td>~10–100 m</td><td>Multi-baseline visibility</td></tr>
+      <tr><td>Sagnac loops</td><td>~1–10 m</td><td>Loop holonomy at ΔL = 0</td></tr>
+      <tr><td>Neutron interferometry</td><td>~0.1 m</td><td>Different systematics</td></tr>
+    </table>
+  </section>
+
+  <section id="sec-equations">
+    <h2><span class="section-dot" style="background:var(--accent)"></span> Master Equations Summary</h2>
+    <div class="card-grid">
+      <div class="card" style="border-left:3px solid var(--tegr)"><h4>TEGR Metric</h4><div class="eq">\[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]</div></div>
+      <div class="card" style="border-left:3px solid var(--hgem)"><h4>GEM Fields</h4><div class="eq">\[\vec{E}_g = -\nabla\Phi_g - \dot{\vec{A}}_g\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>STUR PDE</h4><div class="eq">\[\partial_t R=\nabla\!\cdot(D\nabla R)-\nabla R\cdot\Omega+\chi\,\partial_X R+S\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>Resistance Holonomy</h4><div class="eq">\[\Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \nabla R \cdot dx\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>Visibility Law</h4><div class="eq">\[V = V_0 e^{-\langle\Phi_R^2\rangle/2}\]</div></div>
+      <div class="card" style="border-left:3px solid var(--chrono)"><h4>Chronomagnetic Modulation</h4><div class="eq">\[\mathcal{M}(u) = 1 + \epsilon\cos(2\pi u/\ln\lambda)\]</div></div>
+      <div class="card" style="border-left:3px solid var(--chrono)"><h4>Coherence Length</h4><div class="eq">\[\ell_{\rm coh} = p_0 / (y\, K_{\rm eff})\]</div></div>
+    </div>
+  </section>
+
+  <section id="sec-refs">
+    <h2><span class="section-dot" style="background:var(--accent)"></span> References</h2>
+
+```
+<ol style="font-size:0.95rem; line-height:1.8; color:var(--text-secondary);">
+
+  <!-- === TELEPARALLEL / GR FOUNDATIONS === -->
+
+  <li>
+    James Lockwood, Christopher B. Cyrek, Dustin Hansley, and Derek J. Burkeen.
+    <em>Teleparallel Dynamics: First Principles — From Torsion Kinematics to Field Equations.</em>
+    Internal technical monograph, January 2026. 
+  </li>
+
+  <li>
+    José W. Maluf.
+    "The Teleparallel Equivalent of General Relativity."
+    <em>Annalen der Physik</em>, Volume 525, Issue 5, pages 339–357, 2013.
+    DOI: 10.1002/andp.201200272.
+  </li>
+
+  <li>
+    Rubens Aldrovandi and José G. Pereira.
+    <em>Teleparallel Gravity: An Introduction.</em>
+    Fundamental Theories of Physics, Volume 173.
+    Springer, Dordrecht, 2013.
+    ISBN 978-94-007-5142-9.
+  </li>
+
+  <li>
+    Sebastian Bahamonde, Konstantinos F. Dialektopoulos, Jackson Levi Said,
+    Jonathan Mifsud, Miguel A. Sanchis-Lozano, and George Zahariade.
+    "Teleparallel Gravity: From Theory to Cosmology."
+    <em>Reports on Progress in Physics</em>, Volume 86, Article 026901, 2023.
+    DOI: 10.1088/1361-6633/ac9ea5.
+  </li>
+
+  <!-- === GRAVITOELECTROMAGNETISM / HGEM === -->
+
+  <li>
+    Ignazio Ciufolini and John Archibald Wheeler.
+    <em>Gravitation and Inertia.</em>
+    Princeton University Press, Princeton, 1995.
+    ISBN 978-0-691-03323-8.
+  </li>
+
+  <li>
+    Bahram Mashhoon.
+    "Gravitoelectromagnetism: A Brief Review."
+    In <em>Reference Frames and Gravitomagnetism</em>,
+    edited by Marco Novello and Gérard d'Agostini.
+    World Scientific, Singapore, 2001.
+  </li>
+
+  <!-- === INTERFEROMETRY / EXPERIMENTAL CONTEXT === -->
+
+  <li>
+    Tim Kovachy, Philipp Asenbaum, Chris Overstreet, Charles A. Donnelly,
+    Sarah M. Dickerson, Adam Sugarbaker, Jason M. Hogan, and Mark A. Kasevich.
+    "Quantum Superposition at the Half-Metre Scale."
+    <em>Nature</em>, Volume 528, pages 530–533, 2015.
+    DOI: 10.1038/nature16155.
+  </li>
+
+  <li>
+    Masaya Abe, Yuta Sakamoto, Takuya Akatsuka, Yasunori Fujii,
+    Jun'ichi Fujimoto, Takumi Fukushima, Shigeo Ichimura,
+    Kenji Kawase, Kazuhiro Kawase, Hiroaki Kawamura,
+    and the MAGIS-100 Collaboration.
+    "Matter-Wave Atomic Gradiometer Interferometric Sensor."
+    <em>Quantum Science and Technology</em>, Volume 6, Article 044003, 2021.
+    DOI: 10.1088/2058-9565/ac1a97.
+  </li>
+
+  <!-- === DECOHERENCE / NULL MODELS === -->
+
+  <li>
+    Angelo Bassi, Kinjalk Lochan, Seema Satin, Tejinder P. Singh,
+    and Hendrik Ulbricht.
+    "Models of Wave-Function Collapse, Underlying Theories,
+    and Experimental Tests."
+    <em>Reviews of Modern Physics</em>, Volume 85, pages 471–527, 2013.
+    DOI: 10.1103/RevModPhys.85.471.
+  </li>
+
+  <!-- === DARK MATTER COMPARISON === -->
+
+  <li>
+    Peter W. Graham, Jason M. Hogan, Mark A. Kasevich,
+    and Surjeet Rajendran.
+    "New Observables for Direct Detection of Axion Dark Matter."
+    <em>Physical Review D</em>, Volume 93, Article 075029, 2016.
+    DOI: 10.1103/PhysRevD.93.075029.
+  </li>
+
+  <!-- === STUR / CHRONOMAGNETICS INTERNAL === -->
+
+  <li>
+    Derek J. Burkeen, Christopher Br. Cyrek, James M. Lockwood,
+    Derek LaMarche, Jay Beaubier, and Sheldon Lon Lindberg.
+    <em>Chronomagnetics: A Comprehensive Mathematical Foundation.</em>
+    Spectrality Institute Technical Monograph, January 13, 2026. 
+  </li>
+
+  <li>
+    Sheldon Lon Lindberg.
+    <em>Foundations of STUR: Teleparallel Substrate Tests via Interferometric Holonomy.</em>
+    Internal research manuscript, 2026.
+  </li>
+
+</ol>
+```
+
+  </section>
+
+  <!-- Export Button -->
+
+<button id="exportJsonBtn"
+style="
+width:100%;
+margin:2rem 0 1rem 0;
+padding:1rem;
+font-size:1rem;
+font-weight:700;
+border-radius:10px;
+border:none;
+background:linear-gradient(135deg,#4a9eff,#a371f7);
+color:#0a0e14;
+cursor:pointer;
+box-shadow: 0 4px 15px rgba(74,158,255,0.3);">
+📄 Export Full JSON + Print PDF
+</button>
+
+<button id="downloadJsonBtn"
+style="
+width:100%;
+margin:0 0 2rem 0;
+padding:1rem;
+font-size:1rem;
+font-weight:700;
+border-radius:10px;
+border:1px solid rgba(74,158,255,0.35);
+background:transparent;
+color:var(--text);
+cursor:pointer;">
+⬇️ Download Full JSON Archive
+</button>
+
+</div>
+
+<footer>
+  <p><strong>STUR Physics Engine</strong> — Unified Teleparallel Framework</p>
+  <p style="color:var(--text-muted)">© 2026 Sheldon Lon Lindberg</p>
+  <p class="muted" style="max-width:700px;margin:1rem auto">
+    TEGR provides the geometric substrate (torsion formulation of GR). STUR provides the governing resistance-field
+    dynamics and the interferometric holonomy/visibility predictions. HGEM is the weak-field linear limit used for
+    wave/regime intuition. Chronomagnetics provides a controlled log-periodic modulation of the STUR coupling sector.
+    This engine is falsifiable and simulable, without claiming ultraviolet completeness or Standard Model parameter derivation.
+  </p>
+  <div class="footer-links">
+    <a href="#sec-tegr">TEGR</a>
+    <a href="#sec-hgem">HGEM</a>
+    <a href="#sec-stur">STUR</a>
+    <a href="#sec-chrono">Chronomagnetics</a>
+    <a href="#sec-action">Action</a>
+    <a href="#sec-solver">Solver</a>
+    <a href="#sec-holoscreen">Holoscreen</a>
+    <a href="#sec-refs">References</a>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+  const rqSlider = document.getElementById('rq-slider');
+  const leffSlider = document.getElementById('leff-slider');
+  const lcohSlider = document.getElementById('lcoh-slider');
+  const deltaLSlider = document.getElementById('deltaL-slider');
+  const noiseSlider = document.getElementById('noise-slider');
+  const rqValue = document.getElementById('rq-value');
+  const leffValue = document.getElementById('leff-value');
+  const lcohValue = document.getElementById('lcoh-value');
+  const deltaLValue = document.getElementById('deltaL-value');
+  const noiseValue = document.getElementById('noise-value');
+  const phiROutput = document.getElementById('phiR-output');
+  const visibilityOutput = document.getElementById('visibility-output');
+  const regimeOutput = document.getElementById('regime-output');
+  const statusOutput = document.getElementById('status-output');
+  const detectionOutput = document.getElementById('detection-output');
+  const canvas = document.getElementById('visibilityCanvas');
+  const ctx = canvas.getContext('2d');
+  const colors = { stur: '#3fb950', uldm: '#f0b429', null: '#5a6575', noise: '#f85149', grid: 'rgba(255,255,255,0.1)', axis: 'rgba(255,255,255,0.3)', marker: '#4a9eff', bg: '#0a0e14' };
+
+  /* ============================
+     STUR CORE (PDE + XCRM MODEL)
+     ============================ */
+
+  // XCRM closure: ∂R/∂X = (R - R_bg) / L_X
+  function xcrmGradient(R, Rbg, LX) {
+    return (R - Rbg) / LX;
+  }
+
+  // Holonomy variance ~ (ΔL * ∂R/∂X)^2
+  function holonomyVariance(deltaL, dR_dX) {
+    return Math.pow(deltaL * dR_dX, 2);
+  }
+
+  // Visibility from cumulant truncation
+  function sturVisibilityFromPDE(deltaL, R, Rbg, LX) {
+    const dR_dX = xcrmGradient(R, Rbg, LX);
+    const phiVar = holonomyVariance(deltaL, dR_dX);
+    return Math.exp(-0.5 * phiVar);
+  }
+
+  function uldmVisibility(deltaL, period) { return 0.5 + 0.4 * Math.cos(2 * Math.PI * deltaL / period); }
+
+  // Find 5σ detection threshold: ΔL where |V_STUR - 1| > 5 * noiseFloor
+  function find5SigmaThreshold(R, Rbg, LX, noiseFloor) {
+    const threshold = 5 * noiseFloor;
+    for (let dl = 0.01; dl <= 10; dl += 0.01) {
+      const v = sturVisibilityFromPDE(dl, R, Rbg, LX);
+      if (1 - v > threshold) return dl;
+    }
+    return null; // No detection possible
+  }
+
+  // State variables for canvas drawing
+  let currentR = 0.5;
+  let currentLX = 3.0;
+  let currentNoise = 0.05;
+  const Rbg = 0.0; // background resistance (reference vacuum)
+
+  function update() {
+    // Slider meanings (STUR-consistent):
+    // Rq   → resistance amplitude R
+    // leff → transport length L (display only)
+    // lcoh → coherence length ≡ L_X (XCRM)
+    // ΔL   → interferometer arm separation
+    // noise → seismic/thermal noise floor
+
+    const R = parseFloat(rqSlider.value);
+    const L = parseFloat(leffSlider.value);
+    const LX = parseFloat(lcohSlider.value);
+    const deltaL = parseFloat(deltaLSlider.value);
+    const noise = parseFloat(noiseSlider.value);
+
+    // Update state for canvas
+    currentR = R;
+    currentLX = LX;
+    currentNoise = noise;
+
+    rqValue.textContent = R.toFixed(2);
+    leffValue.textContent = L.toFixed(2);
+    lcohValue.textContent = LX.toFixed(2);
+    deltaLValue.textContent = deltaL.toFixed(2);
+    noiseValue.textContent = noise.toFixed(2);
+
+    // STUR holonomy + visibility via PDE/XCRM
+    const dR_dX = xcrmGradient(R, Rbg, LX);
+    const phiVar = holonomyVariance(deltaL, dR_dX);
+    const V_deltaL = Math.exp(-0.5 * phiVar);
+    const phiR = Math.sqrt(phiVar);
+
+    phiROutput.textContent = phiR.toFixed(4);
+    visibilityOutput.textContent = V_deltaL.toFixed(4);
+    visibilityOutput.className = 'output-value ' + (V_deltaL > 0.5 ? 'highlight' : 'warning');
+
+    if (phiVar < 0.1) { regimeOutput.textContent = 'Linear (small holonomy)'; }
+    else if (phiVar < 1.0) { regimeOutput.textContent = 'Transition'; }
+    else { regimeOutput.textContent = 'Nonlinear / Saturated'; }
+
+    if (V_deltaL > 0.9) { statusOutput.textContent = 'High visibility'; statusOutput.className = 'output-value highlight'; }
+    else if (V_deltaL > 0.5) { statusOutput.textContent = 'Moderate suppression'; statusOutput.className = 'output-value'; }
+    else if (V_deltaL > 0.1) { statusOutput.textContent = 'Strong suppression'; statusOutput.className = 'output-value warning'; }
+    else { statusOutput.textContent = 'Near-total decoherence'; statusOutput.className = 'output-value warning'; }
+
+    // 5σ detection threshold
+    const detectionDL = find5SigmaThreshold(R, Rbg, LX, noise);
+    if (detectionDL !== null) {
+      detectionOutput.textContent = detectionDL.toFixed(2) + ' m';
+      detectionOutput.style.color = 'var(--stur)';
+    } else {
+      detectionOutput.textContent = '> 10 m (weak signal)';
+      detectionOutput.style.color = 'var(--warning)';
+    }
+
+    drawCanvas(LX, deltaL, noise);
+  }
+
+  function drawCanvas(LX, currentDeltaL, noiseFloor) {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    const w = rect.width, h = rect.height;
+    const padding = { top: 30, right: 20, bottom: 40, left: 50 };
+    const plotW = w - padding.left - padding.right;
+    const plotH = h - padding.top - padding.bottom;
+    ctx.fillStyle = colors.bg;
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = colors.grid;
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 5; i++) {
+      const y = padding.top + (plotH * i / 5);
+      ctx.beginPath(); ctx.moveTo(padding.left, y); ctx.lineTo(w - padding.right, y); ctx.stroke();
+    }
+    ctx.strokeStyle = colors.axis;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(padding.left, padding.top);
+    ctx.lineTo(padding.left, h - padding.bottom);
+    ctx.lineTo(w - padding.right, h - padding.bottom);
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('ΔL (m)', w / 2, h - 8);
+    ctx.save();
+    ctx.translate(15, h / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Visibility V', 0, 0);
+    ctx.restore();
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 5; i++) {
+      const val = 1 - i * 0.2;
+      const y = padding.top + (plotH * i / 5);
+      ctx.fillText(val.toFixed(1), padding.left - 8, y + 4);
+    }
+    ctx.textAlign = 'center';
+    const maxDL = 5;
+    for (let i = 0; i <= 5; i++) {
+      const x = padding.left + (plotW * i / 5);
+      ctx.fillText(i.toString(), x, h - padding.bottom + 15);
+    }
+    const toX = (dl) => padding.left + (dl / maxDL) * plotW;
+    const toY = (v) => padding.top + (1 - v) * plotH;
+
+    // Draw noise floor band (1 - noiseFloor)
+    if (noiseFloor > 0) {
+      ctx.fillStyle = 'rgba(248, 81, 73, 0.15)';
+      const noiseY = toY(1 - noiseFloor);
+      ctx.fillRect(padding.left, noiseY, plotW, h - padding.bottom - noiseY);
+      
+      // Noise floor line
+      ctx.strokeStyle = colors.noise;
+      ctx.lineWidth = 2;
+      ctx.setLineDash([8, 4]);
+      ctx.beginPath();
+      ctx.moveTo(toX(0), noiseY);
+      ctx.lineTo(toX(maxDL), noiseY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      
+      // 5σ threshold line
+      const fiveSigmaY = toY(1 - 5 * noiseFloor);
+      if (5 * noiseFloor < 1) {
+        ctx.strokeStyle = colors.noise;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(toX(0), fiveSigmaY);
+        ctx.lineTo(toX(maxDL), fiveSigmaY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = colors.noise;
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText('5σ', padding.left - 5, fiveSigmaY + 3);
+      }
+    }
+
+    // Null hypothesis
+    ctx.strokeStyle = colors.null;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    ctx.moveTo(toX(0), toY(1));
+    ctx.lineTo(toX(maxDL), toY(1));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // ULDM curve
+    ctx.strokeStyle = colors.uldm;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i <= 100; i++) {
+      const dl = (i / 100) * maxDL;
+      const v = uldmVisibility(dl, 1.5);
+      const x = toX(dl), y = toY(v);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // STUR curve
+    ctx.strokeStyle = colors.stur;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    for (let i = 0; i <= 100; i++) {
+      const dl = (i / 100) * maxDL;
+      const v = sturVisibilityFromPDE(dl, currentR, Rbg, currentLX);
+      const x = toX(dl), y = toY(Math.max(0, v));
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Current point marker
+    if (currentDeltaL <= maxDL) {
+      const markerX = toX(currentDeltaL);
+      const markerV = sturVisibilityFromPDE(currentDeltaL, currentR, Rbg, currentLX);
+      const markerY = toY(markerV);
+      ctx.strokeStyle = colors.marker;
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(markerX, padding.top);
+      ctx.lineTo(markerX, h - padding.bottom);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = colors.marker;
+      ctx.beginPath();
+      ctx.arc(markerX, markerY, 6, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.fillStyle = colors.stur;
+      ctx.font = 'bold 12px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('V = ' + markerV.toFixed(3), markerX + 10, markerY - 5);
+    }
+  }
+  [rqSlider, leffSlider, lcohSlider, deltaLSlider, noiseSlider].forEach(s => s.addEventListener('input', update));
+  update();
+  window.addEventListener('resize', update);
+})();
+</script>
+
+<!-- 1D STUR-TEGR Solver Script -->
+
+<script>
+(function() {
+  'use strict';
+  
+  // Solver parameters
+  const N = 100; // Grid points
+  const L = 10;  // Domain length
+  const dx = L / N;
+  const Rbg = 0.0;
+  const kappa = 1.0; // Torsion-gradient coupling
+  
+  let R = new Float64Array(N);
+  let T = new Float64Array(N);
+  let running = false;
+  let animationId = null;
+  let timestep = 0;
+  
+  // Get DOM elements
+  const alphaSlider = document.getElementById('alpha-slider');
+  const diffusionSlider = document.getElementById('diffusion-slider');
+  const r0Slider = document.getElementById('r0-slider');
+  const alphaValue = document.getElementById('alpha-value');
+  const diffusionValue = document.getElementById('diffusion-value');
+  const r0Value = document.getElementById('r0-value');
+  const runBtn = document.getElementById('solverRunBtn');
+  const resetBtn = document.getElementById('solverResetBtn');
+  const canvasR = document.getElementById('solverCanvasR');
+  const canvasT = document.getElementById('solverCanvasT');
+  const timestepOutput = document.getElementById('solver-timestep');
+  const maxROutput = document.getElementById('solver-maxR');
+  const maxTOutput = document.getElementById('solver-maxT');
+  const GeffOutput = document.getElementById('solver-Geff');
+  
+  if (!canvasR || !canvasT) return; // Exit if elements not found
+  
+  const ctxR = canvasR.getContext('2d');
+  const ctxT = canvasT.getContext('2d');
+  
+  function initializeField(R0) {
+    // Gaussian initial perturbation centered at L/2
+    const center = N / 2;
+    const sigma = N / 10;
+    for (let i = 0; i < N; i++) {
+      R[i] = Rbg + R0 * Math.exp(-Math.pow(i - center, 2) / (2 * sigma * sigma));
+      T[i] = 0;
+    }
+    timestep = 0;
+  }
+  
+  function computeTorsion() {
+    // T ~ κ (∂R/∂x)²
+    for (let i = 1; i < N - 1; i++) {
+      const dRdx = (R[i + 1] - R[i - 1]) / (2 * dx);
+      T[i] = kappa * dRdx * dRdx;
+    }
+    T[0] = T[1];
+    T[N - 1] = T[N - 2];
+  }
+  
+  function evolveR(D, alpha, LX) {
+    const dt = 0.4 * dx * dx / D; // CFL condition
+    const Rnew = new Float64Array(N);
+    
+    for (let i = 1; i < N - 1; i++) {
+      const laplacian = (R[i + 1] - 2 * R[i] + R[i - 1]) / (dx * dx);
+      const relaxation = -(R[i] - Rbg) / LX;
+      const torsionSource = 2 * alpha * T[i] * R[i];
+      Rnew[i] = R[i] + dt * (D * laplacian + relaxation + torsionSource);
+    }
+    
+    // Boundary conditions (Dirichlet)
+    Rnew[0] = Rbg;
+    Rnew[N - 1] = Rbg;
+    
+    R = Rnew;
+  }
+  
+  function drawProfile(ctx, data, color, label, maxVal) {
+    const rect = ctx.canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    ctx.canvas.width = rect.width * dpr;
+    ctx.canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    
+    const w = rect.width, h = rect.height;
+    const pad = { top: 10, right: 10, bottom: 25, left: 35 };
+    const plotW = w - pad.left - pad.right;
+    const plotH = h - pad.top - pad.bottom;
+    
+    // Background
+    ctx.fillStyle = '#0a0e14';
+    ctx.fillRect(0, 0, w, h);
+    
+    // Grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 4; i++) {
+      const y = pad.top + plotH * i / 4;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y);
+      ctx.lineTo(w - pad.right, y);
+      ctx.stroke();
+    }
+    
+    // Axes
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, pad.top);
+    ctx.lineTo(pad.left, h - pad.bottom);
+    ctx.lineTo(w - pad.right, h - pad.bottom);
+    ctx.stroke();
+    
+    // Y-axis labels
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.font = '9px sans-serif';
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 4; i++) {
+      const val = maxVal * (1 - i / 4);
+      const y = pad.top + plotH * i / 4;
+      ctx.fillText(val.toFixed(2), pad.left - 3, y + 3);
+    }
+    
+    // X-axis label
+    ctx.textAlign = 'center';
+    ctx.fillText('x', w / 2, h - 5);
+    
+    // Data curve
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i < N; i++) {
+      const x = pad.left + (i / N) * plotW;
+      const y = pad.top + plotH * (1 - Math.min(data[i], maxVal) / maxVal);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+  
+  function updateOutputs(alpha) {
+    let maxR_val = 0, maxT_val = 0;
+    for (let i = 0; i < N; i++) {
+      if (Math.abs(R[i] - Rbg) > maxR_val) maxR_val = Math.abs(R[i] - Rbg);
+      if (T[i] > maxT_val) maxT_val = T[i];
+    }
+    
+    // Effective G at max R
+    const maxR_actual = Rbg + maxR_val;
+    const Geff_ratio = 1 / (1 + 16 * Math.PI * alpha * maxR_actual * maxR_actual);
+    
+    timestepOutput.textContent = timestep;
+    maxROutput.textContent = maxR_val.toFixed(4);
+    maxTOutput.textContent = maxT_val.toFixed(6);
+    GeffOutput.textContent = Geff_ratio.toFixed(4);
+    
+    return { maxR_val, maxT_val };
+  }
+  
+  function step() {
+    const D = parseFloat(diffusionSlider.value);
+    const alpha = parseFloat(alphaSlider.value);
+    const LX = 2.0; // Fixed coherence scale for solver
+    
+    computeTorsion();
+    evolveR(D, alpha, LX);
+    timestep++;
+    
+    const { maxR_val, maxT_val } = updateOutputs(alpha);
+    
+    // Dynamic scaling
+    const rScale = Math.max(0.5, maxR_val * 1.2);
+    const tScale = Math.max(0.01, maxT_val * 1.5);
+    
+    drawProfile(ctxR, R, '#3fb950', 'R(x)', rScale);
+    drawProfile(ctxT, T, '#a371f7', '𝕋(x)', tScale);
+    
+    if (running) {
+      animationId = requestAnimationFrame(step);
+    }
+  }
+  
+  function reset() {
+    running = false;
+    if (animationId) cancelAnimationFrame(animationId);
+    runBtn.textContent = '▶ Run Simulation';
+    
+    const R0 = parseFloat(r0Slider.value);
+    initializeField(R0);
+    computeTorsion();
+    
+    updateOutputs(parseFloat(alphaSlider.value));
+    drawProfile(ctxR, R, '#3fb950', 'R(x)', R0 * 1.2);
+    drawProfile(ctxT, T, '#a371f7', '𝕋(x)', 0.1);
+  }
+  
+  // Event listeners
+  if (runBtn) {
+    runBtn.addEventListener('click', () => {
+      if (running) {
+        running = false;
+        if (animationId) cancelAnimationFrame(animationId);
+        runBtn.textContent = '▶ Run Simulation';
+      } else {
+        running = true;
+        runBtn.textContent = '⏸ Pause';
+        step();
+      }
+    });
+  }
+  
+  if (resetBtn) {
+    resetBtn.addEventListener('click', reset);
+  }
+  
+  // Slider updates
+  [alphaSlider, diffusionSlider, r0Slider].forEach(s => {
+    if (s) {
+      s.addEventListener('input', () => {
+        alphaValue.textContent = parseFloat(alphaSlider.value).toFixed(2);
+        diffusionValue.textContent = parseFloat(diffusionSlider.value).toFixed(2);
+        r0Value.textContent = parseFloat(r0Slider.value).toFixed(2);
+      });
+    }
+  });
+  
+  // Initialize
+  reset();
+})();
+</script>
+
+<!-- JSON Archive Appendix (print-only) -->
+
+<pre id="jsonAppendix"
+     style="display:none; white-space:pre-wrap; font-size:10px; font-family:monospace; background:#f5f5f5; padding:1rem; border:1px solid #ccc;">
+</pre>
+
+<!-- Export JSON + Print PDF Script -->
+
+<script>
+(function () {
+  'use strict';
+
+  // SHA-256 hash function
+  async function sha256Hex(text) {
+    const enc = new TextEncoder();
+    const buf = await crypto.subtle.digest('SHA-256', enc.encode(text));
+    const arr = Array.from(new Uint8Array(buf));
+    return arr.map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  function safeText(el) { return (el && el.innerText) ? el.innerText.trim() : ""; }
+  function safeHTML(el) { return (el && el.innerHTML) ? el.innerHTML.trim() : ""; }
+
+  function extractEquationTex(eqEl) {
+    const labelEl = eqEl.querySelector(".eq-label");
+    const label = labelEl ? safeText(labelEl) : null;
+    let raw = eqEl.cloneNode(true);
+    if (labelEl) {
+      const lbl = raw.querySelector(".eq-label");
+      if (lbl) lbl.remove();
+    }
+    const tex = safeText(raw);
+    return { label, tex };
+  }
+
+  async function collectDocumentJSON() {
+    // Collect all sections with FULL content
+    const sections = [];
+    document.querySelectorAll("section").forEach(sec => {
+      const heading = sec.querySelector("h2, h3");
+      sections.push({
+        id: sec.id || null,
+        heading: heading ? heading.innerText.trim() : null,
+        text: sec.innerText.trim(),
+        html: sec.outerHTML
+      });
+    });
+
+    // Collect all equations
+    const equations = [];
+    document.querySelectorAll(".eq").forEach((eq, idx) => {
+      const out = extractEquationTex(eq);
+      equations.push({
+        index: idx + 1,
+        label: out.label,
+        tex: out.tex
+      });
+    });
+
+    // Collect references
+    const references = [];
+    const refRoot = document.querySelector("#sec-refs") || document.body;
+    const ols = refRoot.querySelectorAll("ol");
+    if (ols.length) {
+      let k = 1;
+      ols.forEach(ol => {
+        ol.querySelectorAll("li").forEach(li => {
+          references.push({ index: k++, citation: li.innerText.trim() });
+        });
+      });
+    } else {
+      let k = 1;
+      document.querySelectorAll("ol li").forEach(li => {
+        references.push({ index: k++, citation: li.innerText.trim() });
+      });
+    }
+
+    // Parse schema.org
+    const schemaScript = document.querySelector('script[type="application/ld+json"]');
+    let schema = {};
+    try {
+      schema = schemaScript ? JSON.parse(schemaScript.innerText) : {};
+    } catch (e) {
+      schema = { error: "Could not parse schema.org" };
+    }
+
+    // Full document content
+    const docHTML = document.documentElement.outerHTML;
+    const docText = document.body.innerText.trim();
+
+    // Build archive
+    const archive = {
+      _type: "STUR_Physics_Engine_Archive",
+      _version: "1.0",
+      _generated_at: new Date().toISOString(),
+      _source_url: location.href,
+      _hash_sha256: null,
+      metadata: {
+        title: document.title,
+        author: document.querySelector('meta[name="author"]')?.content || null,
+        description: document.querySelector('meta[name="description"]')?.content || null,
+        schema_org: schema
+      },
+      document: {
+        html: docHTML,
+        text: docText
+      },
+      framework: {
+        pillars: ["TEGR", "STUR", "HGEM", "Chronomagnetics"],
+        status: {
+          TEGR: "Established (≡ GR)",
+          STUR: "Closed, simulable, falsifiable",
+          HGEM: "Derived (weak-field limit)",
+          Chronomagnetics: "Illustrative, phenomenological"
+        }
+      },
+      sections: sections,
+      equations: equations,
+      references: references,
+      holoscreen_model: {
+        functions: ["xcrmGradient", "holonomyVariance", "sturVisibilityFromPDE"],
+        parameters: ["R (resistance amplitude)", "L_X (XCRM scale)", "ΔL (arm separation)"],
+        output: "V = exp(-⟨Φ_R²⟩/2)"
+      }
+    };
+
+    // Compute SHA-256 hash
+    const preHash = JSON.stringify(archive, null, 2);
+    archive._hash_sha256 = await sha256Hex(preHash);
+    return archive;
+  }
+
+  // Export + Print PDF button
+  const btn = document.getElementById("exportJsonBtn");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      (async () => {
+        const json = await collectDocumentJSON();
+        const jsonText = JSON.stringify(json, null, 2);
+
+        const appendix = document.getElementById("jsonAppendix");
+        if (appendix) {
+          appendix.textContent =
+            "═══════════════════════════════════════════════════════════════\n" +
+            "  STUR PHYSICS ENGINE — MACHINE-READABLE JSON ARCHIVE\n" +
+            "═══════════════════════════════════════════════════════════════\n" +
+            "  SHA-256: " + json._hash_sha256 + "\n" +
+            "═══════════════════════════════════════════════════════════════\n\n" +
+            jsonText;
+          appendix.style.display = "block";
+        }
+
+        setTimeout(() => { window.print(); }, 300);
+      })();
+    });
+  }
+
+  // Download JSON button
+  const dlBtn = document.getElementById("downloadJsonBtn");
+  if (dlBtn) {
+    dlBtn.addEventListener("click", () => {
+      (async () => {
+        const json = await collectDocumentJSON();
+        const jsonText = JSON.stringify(json, null, 2);
+        const blob = new Blob([jsonText], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "STUR_Physics_Engine_Archive.json";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      })();
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
