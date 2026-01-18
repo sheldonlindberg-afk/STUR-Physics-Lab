@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="STUR: A unified teleparallel effective framework introducing a scalar resistance field coupled to torsion, yielding falsifiable interferometric visibility predictions." />
   <meta name="author" content="Sheldon Lon Lindberg" />
-  <meta name="generator" content="STUR Physics Engine Single-HTML (Core-Only Export + Verifier + BibTeX + CSL-JSON)" />
+  <meta name="generator" content="STUR Physics Engine Single-HTML (Self-Contained)" />
 
   <!-- AI / Indexing -->
 
@@ -66,9 +66,6 @@
     }
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    /* =========================
-       PHONE-FIRST BASE STYLES
-       ========================= */
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -327,7 +324,6 @@
     .canvas-legend { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; font-size: 0.85rem; }
     .legend-item { display: flex; align-items: center; gap: 0.5rem; }
     .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .regime-diagram { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin: 2rem 0; }
     footer {
       margin-top: 4rem;
       padding: 2.5rem 1.5rem;
@@ -337,96 +333,12 @@
     }
     footer p { margin: 0.5rem 0; }
     .footer-links { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap; }
-    .export-row{
-      display:flex;
-      gap:0.75rem;
-      flex-wrap:wrap;
-      margin-top:0.75rem;
-      align-items:center;
-      justify-content:center;
-    }
-    .pill-control{
-      display:inline-flex;
-      gap:0.5rem;
-      align-items:center;
-      padding:0.45rem 0.75rem;
-      border-radius:999px;
-      border:1px solid rgba(74,158,255,0.35);
-      background:rgba(18,23,31,0.65);
-      color:var(--text-secondary);
-      font-size:0.85rem;
-    }
-    .pill-control select{
-      background:transparent;
-      border:1px solid var(--border);
-      color:var(--text);
-      padding:0.25rem 0.5rem;
-      border-radius:8px;
-      outline:none;
-    }
-    .pill-control input[type="checkbox"]{
-      transform: translateY(1px);
-    }
-    .small-note{
-      font-size:0.85rem;
-      color:var(--text-muted);
-      text-align:center;
-      margin-top:0.5rem;
-      line-height:1.4;
-    }
-    /* =========================
-       DESKTOP ENHANCEMENTS
-       ========================= */
     @media (min-width: 768px) {
       body { font-size: 16px; line-height: 1.7; }
       .container { max-width: 1200px; padding: 2rem 1.5rem; }
       .hero h1 { font-size: 3rem; }
       .hero-subtitle { font-size: 1.3rem; }
       .holoscreen-grid { grid-template-columns: 1fr 1.5fr; }
-    }
-    /* =========================
-       PRINT STYLES (PDF EXPORT)
-       ========================= */
-    @media print {
-      body {
-        background: white;
-        color: black;
-        font-size: 11px;
-        line-height: 1.5;
-      }
-      .hero,
-      .nav-grid,
-      .holoscreen-container,
-      .canvas-container,
-      .footer-links,
-      #exportJsonBtn {
-        display: none !important;
-      }
-      .container {
-        max-width: 100%;
-        padding: 0;
-      }
-      section {
-        page-break-inside: avoid;
-      }
-      .eq {
-        background: #f5f5f5;
-        border: 1px solid #ccc;
-      }
-      .block {
-        background: #f9f9f9;
-        border: 1px solid #ddd;
-      }
-      #jsonAppendix {
-        display: block !important;
-        page-break-before: always;
-        background: white;
-        color: black;
-        border: 1px solid #ccc;
-        padding: 1rem;
-        font-size: 8px;
-        line-height: 1.3;
-      }
     }
   </style>
 </head>
@@ -483,10 +395,8 @@
     <a href="#sec-action" class="nav-card"><h3>Action Principle</h3><p>Coupled field equations</p></a>
     <a href="#sec-solver" class="nav-card" style="border-color:var(--purple)"><h3>1D Solver</h3><p>R ↔ T back-reaction</p></a>
     <a href="#sec-holoscreen" class="nav-card stur"><h3>Interactive Holoscreen</h3><p>Live visibility calculator</p></a>
-    <a href="#sec-detection" class="nav-card chrono"><h3>Detection</h3><p>Template matching</p></a>
     <a href="#sec-falsification" class="nav-card" style="border-color:#ef4444"><h3>Falsification</h3><p>Hard test conditions</p></a>
     <a href="#sec-verifier" class="nav-card" style="border-color:var(--gold)"><h3>Verifier Appendix</h3><p>How to falsify STUR in 48 hours</p></a>
-    <a href="#sec-wow" class="nav-card" style="border-color:#888"><h3>Speculative Extensions</h3><p>Non-core consistency tests</p></a>
   </nav>
 
   <section id="sec-framework">
@@ -605,8 +515,6 @@
 <p>
   The interferometric output is the gauge-invariant <em>resistance holonomy</em> accumulated by the
   STUR transport connection \(\mathcal{A}^{(R)}\) around a closed loop \(\mathcal{C}\).
-  (A scalar gradient \(\nabla R\) alone is exact and gives zero around a closed loop; STUR's observable is
-  the loop integral of the <em>connection</em> built from the XCRM-identified resistance mismatch.)
 </p>
 <div class="eq law">
   \[
@@ -616,11 +524,6 @@
   \]
   <div class="eq-label">(Holonomy Observable)</div>
 </div>
-<p class="muted" style="margin-top:0.5rem">
-  Here \(n_\mu\) is the unit tangent co-vector along the transport path segment (so that
-  \(\mathcal{A}^{(R)}_\mu dx^\mu\) reduces to the path-aligned resistance mismatch per unit \(X\)-relaxation length).
-  This is the minimal, explicit, STUR-internal definition that makes \(\Phi_R\) nontrivial on closed loops.
-</p>
 
 <p>
   In the small-phase, many-shot regime, the measured visibility follows from cumulant truncation:
@@ -636,7 +539,6 @@
 <p class="muted">
   The "Gaussian in \(\Delta L\)" is not an assumption; it follows directly once you combine
   (i) the XCRM closure and (ii) shot-to-shot fluctuations of \(R\) about \(R_{\rm bg}\) induced by the STUR PDE.
-  Let the effective arm separation be \(\Delta L\) and consider the loop difference between the two arms.
 </p>
 <div class="eq boxed">
   \[
@@ -646,10 +548,6 @@
   \]
   <div class="eq-label">(XCRM → Holonomy Scaling)</div>
 </div>
-<p class="muted">
-  Now take the ensemble over repeated shots. If the STUR dynamics place \(\delta R\) in a stationary
-  narrow distribution with finite variance \(\sigma_R^2 \equiv \langle \delta R^2\rangle\), then
-</p>
 <div class="eq boxed">
   \[
   \langle \Phi_R^2\rangle \;=\; \left(\frac{\Delta L}{L_X}\right)^2 \langle \delta R^2\rangle
@@ -657,9 +555,6 @@
   \]
   <div class="eq-label">(Variance Law)</div>
 </div>
-<p class="muted">
-  Insert this into the cumulant visibility law to obtain the discriminator:
-</p>
 <div class="eq law">
   \[
   \boxed{
@@ -673,17 +568,8 @@
   \]
   <div class="eq-label">(STUR Gaussian Visibility Law — Derived)</div>
 </div>
-<p class="muted">
-  This is the precise statement: the Gaussian form arises because \(\Phi_R\) is linear in \(\Delta L\) while
-  the visibility depends on the <em>second cumulant</em> (variance) of \(\Phi_R\), hence \((\Delta L)^2\).
-  Nothing in this derivation depends on particle mass or internal structure; those only affect systematics
-  and whether the apparatus can resolve \(\sigma_R/L_X\).
-</p>
 
 <h3>Visibility Law (Baseline Discriminator)</h3>
-<p>
-  STUR predicts a Gaussian suppression controlled by arm separation \(\Delta L\):
-</p>
 <div class="eq law">\[\boxed{V(\Delta L) = V_0 \exp\!\left(-\frac{(\Delta L)^2}{\ell_{\rm coh}^2}\right)}\]<div class="eq-label">(STUR Visibility Prediction)</div></div>
 <div class="card-grid">
   <div class="card"><h4>Coherence Length</h4><div class="eq">\[\ell_{\rm coh} = \frac{p_0}{y\, K_{\rm eff}}\]</div></div>
@@ -741,13 +627,6 @@
     while preserving TEGR field equations. No claim is made that \(\lambda\) is fundamental.
   </p>
 </div>
-
-<a href="Chronomagnetics_Mathematical_Foundation.pdf" 
-   style="display:inline-block; margin-top:1rem; padding:0.6rem 1.2rem; 
-          background:linear-gradient(135deg,var(--chrono),var(--gold)); 
-          color:var(--bg); border-radius:8px; text-decoration:none; font-weight:600;">
-  📄 Download Full Mathematical Foundation (PDF)
-</a>
 ```
 
   </section>
@@ -785,13 +664,6 @@
   </p>
 </div>
 
-<p>Where:</p>
-<ul style="color:var(--text-secondary); margin-left:1.5rem;">
-  <li>\(e = \det(e^a{}_\mu) = \sqrt{-g}\) is the tetrad determinant</li>
-  <li>\(\mathbb{T}\) is the torsion scalar (TEGR Lagrangian)</li>
-  <li>\(\mathcal{L}_R\) is the STUR Lagrangian defined below</li>
-</ul>
-
 <h3>STUR Lagrangian</h3>
 <div class="eq law">
   \[
@@ -819,11 +691,6 @@
 </div>
 
 <h3>Coupled Field Equations</h3>
-<p>
-  Varying the action with respect to the tetrad \(e^a{}_\mu\) yields the modified TEGR equations
-  with the STUR energy-momentum tensor as source:
-</p>
-
 <div class="eq law">
   \[
   \boxed{\frac{1}{e}\partial_\nu(e\, S_a{}^{\mu\nu}) - T^b{}_{\nu a}S_b{}^{\nu\mu} + \frac{1}{4}\delta_a^\mu \mathbb{T} = 8\pi G\, \mathcal{T}_a{}^\mu(R)}
@@ -831,7 +698,6 @@
   <div class="eq-label">(Modified TEGR Field Equations)</div>
 </div>
 
-<p>The STUR Energy-Momentum Tensor:</p>
 <div class="eq boxed">
   \[
   \mathcal{T}_a{}^\mu(R) = e_a{}^\nu \left[ \nabla_\nu R \nabla^\mu R - \delta_\nu^\mu \mathcal{L}_R \right] + 2\alpha R^2 \frac{\delta \mathbb{T}}{\delta e^a{}_\mu}
@@ -840,11 +706,6 @@
 </div>
 
 <h3>Effective Gravitational Coupling</h3>
-<p>
-  The coupling term \(\alpha \mathbb{T} R^2\) implies that the effective gravitational constant 
-  is modulated by the local resistance field:
-</p>
-
 <div class="eq law">
   \[
   \boxed{G_{\text{eff}} = \frac{G}{1 + 16\pi G \alpha R^2}}
@@ -857,15 +718,12 @@
   <p class="muted">
     <strong>Vacuum limit:</strong> \(R \to R_{\rm bg} \approx 0\) recovers standard GR.<br>
     <strong>High-gradient regions:</strong> Gravitational coupling is <em>screened</em> by resistance.<br>
-    <strong>Chronomagnetic link:</strong> Since \(R\) is modulated by \(\mathcal{M}(u)\), the gravitational 
-    coupling exhibits subtle long-term oscillations.<br>
     <strong>New observable:</strong> Correlated variations between interferometric visibility and local 
     gravitational measurements.
   </p>
 </div>
 
 <h3>Back-Reaction Structure</h3>
-<p>The coupled system evolves as:</p>
 <div class="card-grid">
   <div class="card" style="border-left:3px solid var(--tegr)">
     <h4>Geometry → Resistance</h4>
@@ -887,7 +745,7 @@
 
 ```
 <p>
-  The following pseudocode demonstrates the coupled evolution of the resistance field \(R(x,t)\) 
+  The following demonstrates the coupled evolution of the resistance field \(R(x,t)\) 
   and the torsion perturbation \(h(x,t)\) in a 1D linearized regime.
 </p>
 
@@ -898,8 +756,7 @@
     <strong>Time stepping:</strong> Crank-Nicolson semi-implicit (unconditionally stable)<br>
     <strong>Linear solver:</strong> Thomas algorithm (TDMA) for tridiagonal system<br>
     <strong>Boundary conditions:</strong> Dirichlet \(R = R_{\rm bg}\)<br>
-    <strong>Initial conditions:</strong> Gaussian perturbation in \(R\), flat \(\mathbb{T} = 0\)<br>
-    <strong>Chronomagnetic modulation:</strong> \(L_X(t) = L_X^{(0)} \cdot \mathcal{M}(u)\)
+    <strong>Initial conditions:</strong> Gaussian perturbation in \(R\), flat \(\mathbb{T} = 0\)
   </p>
 </div>
 
@@ -911,33 +768,6 @@
   <div class="eq-label">(Semi-Implicit Time Stepping)</div>
 </div>
 
-<p class="muted" style="margin:1rem 0;">
-  where \(\mathcal{L}(R) = D\nabla^2 R - (R - R_{\rm bg})/L_X + 2\alpha \mathbb{T} R\). 
-  This yields a tridiagonal system \(A \cdot R^{n+1} = B \cdot R^n\) solved via Thomas algorithm.
-</p>
-
-<div class="eq boxed">
-  \[
-  R_i^{n+1} = R_i^n + \frac{\Delta t}{2} \left[ D \frac{R_{i+1}^n - 2R_i^n + R_{i-1}^n}{\Delta x^2} - \frac{R_i^n - R_{\rm bg}}{L_X} + 2\alpha \mathbb{T}_i^n R_i^n \right] + \text{implicit terms}
-  \]
-  <div class="eq-label">(Resistance Evolution — Crank-Nicolson)</div>
-</div>
-
-<div class="eq boxed">
-  \[
-  \mathbb{T}_i^n \approx \kappa \left( \frac{R_{i+1}^n - R_{i-1}^n}{2\Delta x} \right)^2
-  \]
-  <div class="eq-label">(Torsion Scalar from Resistance Gradient)</div>
-</div>
-
-<div class="eq boxed">
-  \[
-  V_i^n = \exp\left( -\frac{1}{2} \left( \Delta L \cdot \frac{R_i^n - R_{\rm bg}}{L_X} \right)^2 \right)
-  \]
-  <div class="eq-label">(Local Visibility Output)</div>
-</div>
-
-<h3>JavaScript Implementation</h3>
 <div class="solver-container" style="background:var(--surface-elevated); border-radius:12px; padding:1.5rem; margin:1.5rem 0;">
   <div class="solver-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
     <h4 style="margin:0; color:var(--purple)">STUR-TEGR 1D Solver</h4>
@@ -1001,84 +831,7 @@
     This solver uses a <strong>semi-implicit Crank-Nicolson</strong> integration scheme, 
     which removes the strict CFL stability limit \(\Delta t < \frac{\Delta x^2}{2D}\).
     The tridiagonal system is solved via the Thomas algorithm (TDMA).
-    <strong>Strong coupling regime</strong> (\(\alpha > 0.5\)) is now stable, enabling
-    observation of self-focusing and torsion barrier formation.
   </p>
-</div>
-
-<div class="block warning">
-  <div class="title">Emergent Phenomena at High α</div>
-  <p class="muted">
-    <strong>Self-focusing:</strong> At high \(\alpha\), the torsion scalar creates a potential well that traps the resistance field.<br>
-    <strong>Torsion barrier:</strong> Steep \(R\) gradients drive \(G_{\rm eff} \to 0\) at the boundary, preventing further diffusion.<br>
-    <strong>Chronomagnetic jitter:</strong> The \(L_X\) parameter is modulated by \(\mathcal{M}(u)\), introducing log-periodic oscillations.
-  </p>
-</div>
-
-<h3>Torsion Barrier Reflection</h3>
-<p class="muted">
-  When a resistance wave encounters a region of high geometric torsion, partial reflection occurs.
-  The reflection and transmission coefficients depend on the local torsion density:
-</p>
-<div class="card-grid">
-  <div class="card" style="border-left:3px solid var(--tegr)">
-    <h4>Reflection Coefficient</h4>
-    <div class="eq">\[R = \frac{\mathbb{T}^2}{\mathbb{T}^2 + 4}\]</div>
-  </div>
-  <div class="card" style="border-left:3px solid var(--stur)">
-    <h4>Transmission Coefficient</h4>
-    <div class="eq">\[T = \frac{4}{\mathbb{T}^2 + 4}\]</div>
-  </div>
-</div>
-<p class="muted" style="margin-top:1rem;">
-  In the limit \(\mathbb{T} \gg 1\), the barrier becomes a "geometric wall" (\(R \to 1\)), 
-  manifesting as a "phantom force" in interferometric measurements.
-</p>
-
-<h3>Synthetic Data Export</h3>
-<p class="muted">
-  Generate synthetic time-series data mimicking a real interferometric experiment over months of simulated time.
-  Includes STUR visibility, Chronomagnetic modulation, and optional seismic/thermal noise.
-</p>
-<div class="control-panel" style="margin:1rem 0;">
-  <div class="control-group">
-    <div class="control-label"><span>Simulation Duration (days)</span><span class="control-value" id="synth-days-value">90</span></div>
-    <input type="range" id="synth-days-slider" min="7" max="365" step="1" value="90">
-  </div>
-  <div class="control-group">
-    <div class="control-label"><span>Sampling Rate (per day)</span><span class="control-value" id="synth-rate-value">24</span></div>
-    <input type="range" id="synth-rate-slider" min="1" max="96" step="1" value="24">
-  </div>
-  <div class="control-group">
-    <div class="control-label"><span>Seismic Noise σ</span><span class="control-value" id="synth-noise-value">0.02</span></div>
-    <input type="range" id="synth-noise-slider" min="0" max="0.1" step="0.005" value="0.02">
-  </div>
-</div>
-<button id="synthExportBtn" style="width:100%; padding:0.75rem; font-weight:700; border-radius:8px; border:none; background:linear-gradient(135deg,var(--chrono),var(--stur)); color:var(--bg); cursor:pointer; margin-top:0.5rem;">
-  📊 Export Synthetic Data (CSV)
-</button>
-
-<!-- Real Data Import -->
-<div class="block gold" style="margin-top:1.5rem;">
-  <div class="title">Real Experimental Data Import</div>
-  <p class="muted" style="margin-bottom:0.75rem;">
-    Upload real interferometric visibility data to <strong>replace all synthetic data</strong>.
-    Once loaded, all plots, detection routines, and exports operate exclusively on real data.
-  </p>
-  <input type="file"
-         id="realDataFileInput"
-         accept=".csv,.txt"
-         style="width:100%; padding:0.5rem; background:var(--surface); border:1px solid var(--border); border-radius:6px; color:var(--text); cursor:pointer;">
-  <p class="muted" style="font-size:0.8rem; margin-top:0.5rem;">
-    Required columns: <code>timestamp</code>, <code>visibility</code><br>
-    Optional: <code>deltaL</code>, <code>noise</code>, <code>lcoh</code>
-  </p>
-  <div id="realDataStatus" style="margin-top:0.75rem; padding:0.5rem; border-radius:6px; display:none;"></div>
-  <button id="clearRealDataBtn" 
-          style="width:100%; margin-top:0.75rem; padding:0.5rem; font-weight:600; border-radius:6px; border:1px solid var(--border); background:transparent; color:var(--text-secondary); cursor:pointer; display:none;"
-          onclick="if(window.STUR_clearRealData) window.STUR_clearRealData();">
-    ↺ Clear Real Data (Revert to Synthetic)
-  </button>
 </div>
 ```
 
@@ -1176,6 +929,7 @@
   <div class="title">Statistical Interpretation Standard</div>
   <p class="muted"><strong>Frequentist:</strong> Measure \(V(\Delta L)\) at multiple baselines; fit Gaussian vs. null; reject at \(5\sigma\) if inconsistent.<br><strong>Bayesian:</strong> Log-evidence difference \(\Delta \ln \mathcal{Z} > 5\) = decisive support; \(< -5\) = decisive exclusion (Jeffreys scale).</p>
 </div>
+
 <h3>Discriminator Summary</h3>
 <table>
   <tr><th>Source</th><th>Visibility Scaling</th><th>Control Parameter</th></tr>
@@ -1184,6 +938,7 @@
   <tr><td>ULDM (coherent)</td><td>\(\cos(\omega t)\)</td><td>Frequency</td></tr>
   <tr class="highlight"><td><strong>STUR</strong></td><td>\(e^{-(\Delta L/\ell)^2}\)</td><td><strong>Arm separation ΔL</strong></td></tr>
 </table>
+
 <h3>Experimental Platforms</h3>
 <table>
   <tr><th>Platform</th><th>Baseline</th><th>Test</th></tr>
@@ -1194,702 +949,14 @@
 </table>
 
 <h3>STUR Signal Thresholds</h3>
-<p class="muted">
-  The minimum detectable path length difference \(\Delta L\) depends on phase resolution \(\delta\phi\) 
-  and effective wavevector \(k_{\rm eff}\). MAGIS-100 achieves ~100× better sensitivity than neutron 
-  experiments due to Large Momentum Transfer (LMT) pulses (100–1000 \(\hbar k\)).
-</p>
 <table>
   <tr><th>Experiment</th><th>Baseline \(L\)</th><th>Phase Resolution</th><th>Threshold \(\Delta L\)</th></tr>
   <tr><td>AION-10</td><td>10 m</td><td>\(10^{-3}\) rad/√Hz</td><td>\(\approx 1.6 \times 10^{-10}\) m</td></tr>
   <tr class="highlight"><td><strong>MAGIS-100</strong></td><td>100 m</td><td>\(10^{-4}\) rad/√Hz</td><td>\(\approx 1.6 \times 10^{-11}\) m</td></tr>
   <tr><td>Neutron (PF1B)</td><td>~0.1 m</td><td>\(10^{-2}\) rad</td><td>\(\approx 2.0 \times 10^{-9}\) m</td></tr>
 </table>
-<div class="block success">
-  <div class="title">Key Insight</div>
-  <p class="muted">
-    MAGIS-100 is roughly <strong>two orders of magnitude more sensitive</strong> to torsional "jitter" 
-    than neutron beam experiments due to the massive increase in \(k_{\rm eff}\) from LMT pulses.
-    This makes it the premier platform for STUR falsification in the deep suppression regime.
-  </p>
-</div>
-
-<!-- TABLE-TOP FALSIFICATION PROTOCOL -->
-<h3 style="margin-top:2rem; border-top:1px solid var(--border); padding-top:1.5rem;">
-  Table-Top Falsification Test (Real-Data Replacement)
-</h3>
-
-<p class="muted">
-  This experiment provides a <strong>direct, table-top falsification test</strong> of the STUR
-  visibility-suppression prediction using a whispering-gallery photon orbit.
-  All synthetic data used elsewhere in this framework may be <strong>fully replaced</strong>
-  by measurements obtained via this protocol.
-</p>
-
-<div class="block gold">
-  <div class="title">Core Testable Claim</div>
-  <p class="muted" style="text-align:center; font-weight:600; margin:0;">
-    Visibility suppression depends on <em>geometric path separation</em>, not photon energy,
-    pulse duration, or cavity dwell time.
-  </p>
-</div>
-
-<h4>Experimental Apparatus (Minimal)</h4>
-<ul style="color:var(--text-secondary); margin:0.75rem 0;">
-  <li>Circular dielectric resonator (glass disk, acrylic ring, optical fiber loop, or polished cavity)</li>
-  <li>Continuous or pulsed laser source (visible or IR)</li>
-  <li>Photodiode or camera for intensity measurement</li>
-  <li>Adjustable launch angle or impact parameter</li>
-  <li>Optional: rotating stage or adjustable mirror for controlled path variation</li>
-</ul>
-<p class="muted" style="font-size:0.85rem;">
-  No cryogenics, vacuum systems, or quantum sources are required.
-  The experiment probes <em>classical photon trajectories</em> under controlled geometry.
-</p>
-
-<h4>Measurement Procedure</h4>
-<ol style="color:var(--text-secondary); margin:0.75rem 0;">
-  <li>Launch light into the circular cavity at an impact parameter close to the cavity radius (near-grazing incidence).</li>
-  <li>Record the internal orbit using scattered light, leakage intensity, or exit intensity after each round-trip.</li>
-  <li>Vary the <strong>effective geometric path length</strong> by adjusting launch angle, changing cavity radius, or introducing controlled path detours.</li>
-  <li>For each configuration, measure the relative output intensity after a fixed number of internal reflections.</li>
-</ol>
-<p class="muted" style="font-size:0.85rem;">
-  Crucially, <strong>do not change laser power during a scan</strong>. Only geometric path separation should vary.
-</p>
-
-<h4>Required Recorded Data (CSV Format)</h4>
-<p class="muted">
-  To replace synthetic data in the STUR framework, record measurements in a CSV file:
-</p>
-<pre style="background:var(--surface); padding:0.75rem; border-radius:6px; font-size:0.85rem; color:var(--text-secondary); overflow-x:auto;">timestamp,visibility,deltaL,noise
 ```
 
-0.0,0.9823,0.001,0.005
-1.0,0.9756,0.002,0.006
-2.0,0.9612,0.003,0.004
-…</pre>
-<p class="muted" style="font-size:0.85rem;">
-Only <code>timestamp</code> and <code>visibility</code> are strictly required.
-The STUR importer accepts partial data and records provenance automatically.
-</p>
-
-```
-<h4>STUR Prediction (What Should Be Observed)</h4>
-<div class="eq boxed">
-  \[
-  V(\Delta L) = V_0 \cdot \exp\left[-\left(\frac{\Delta L}{\ell_{\rm coh}}\right)^2\right]
-  \]
-  <div class="eq-label">(Expected Gaussian Suppression)</div>
-</div>
-<p class="muted" style="margin-top:0.5rem;">
-  Key distinguishing features: Gaussian suppression in \(\Delta L\); no dependence on photon wavelength;
-  no dependence on cavity dwell time at fixed geometry.
-</p>
-
-<h4 style="color:#ef4444;">Hard Falsification Conditions (Table-Top)</h4>
-<div class="block" style="border-left:4px solid #ef4444; background:rgba(239,68,68,0.08);">
-  <p class="muted" style="margin:0 0 0.5rem 0; color:#ef4444; font-weight:600;">
-    Any one of the following observations falsifies STUR:
-  </p>
-  <ul style="color:var(--text-secondary); margin:0;">
-    <li>Visibility decays exponentially with time instead of Gaussian with path length</li>
-    <li>Changing laser wavelength changes suppression at fixed geometry</li>
-    <li>Identical path geometry yields different visibility across repeated runs</li>
-    <li>No measurable suppression is observed beyond instrumental noise</li>
-  </ul>
-  <p class="muted" style="margin:0.5rem 0 0 0; font-size:0.85rem;">
-    If falsified here, STUR is falsified globally. No parameter tuning is permitted.
-  </p>
-</div>
-
-<h4>Replacing Synthetic Data</h4>
-<ol style="color:var(--text-secondary); margin:0.75rem 0; font-size:0.9rem;">
-  <li>Upload the CSV using the <strong>Real Experimental Data Import</strong> panel (Chronomagnetics section).</li>
-  <li>Synthetic data is disabled automatically.</li>
-  <li>All plots, fits, detection routines, and exports use real data only.</li>
-  <li>The exported JSON archive records dataset hash and provenance.</li>
-</ol>
-
-<div class="block success">
-  <div class="title">Status of This Test</div>
-  <p class="muted" style="margin:0;">
-    ✔ Reproducible &nbsp;|&nbsp; ✔ Geometry-controlled &nbsp;|&nbsp; ✔ Inexpensive &nbsp;|&nbsp; ✔ Falsifiable<br>
-    <span style="font-size:0.85rem;">
-      This represents the <strong>lowest-barrier experimental entry point</strong> for validating or rejecting STUR.
-    </span>
-  </p>
-</div>
-```
-
-  </section>
-
-  <section id="sec-detection">
-    <h2><span class="section-dot" style="background:var(--chrono)"></span> Detection Methodology: Log-Periodic Template Match</h2>
-
-```
-<p>
-  Standard Fourier analysis fails for Chronomagnetic signals because the log-periodic frequency 
-  "drifts" across bins. Instead, we use a <strong>Matched-Filter Search</strong>—the same technique 
-  used by LIGO/Virgo to detect gravitational waves.
-</p>
-
-<div class="block gold">
-  <div class="title">Why Template Matching?</div>
-  <p class="muted">
-    The Chronomagnetic modulation \(\mathcal{M}(u) = 1 + \epsilon\cos(2\pi u/\ln\lambda)\) 
-    appears as waves that <em>stretch out</em> as time increases. A power spectrum smears this 
-    across multiple frequency bins, losing sensitivity. Template matching treats the theoretical 
-    STUR prediction as a "gold-standard" filter and measures correlation directly.
-  </p>
-</div>
-
-<h3>Template Function</h3>
-<div class="eq boxed">
-  \[
-  V_{\rm template}(t; \epsilon, \phi) = \exp\left(-\frac{(\Delta L)^2}{(\ell_{\rm base} \cdot \mathcal{M}(u(t), \epsilon, \phi))^2}\right)
-  \]
-  <div class="eq-label">(Chronomagnetic Visibility Template)</div>
-</div>
-
-<p class="muted" style="margin:1rem 0;">
-  where \(u(t) = \ln((t + t_c)/t_0)\) and we fit for the modulation amplitude \(\epsilon\) 
-  and phase offset \(\phi\). Recovery of \(\epsilon \approx 0.05\) and \(\lambda \approx 1.376\) 
-  from noisy data confirms the Chronomagnetic signature.
-</p>
-
-<h3>Python Detection Script</h3>
-<p class="muted">
-  Download and run this script on your exported synthetic <strong>or real</strong> experimental data to verify signal recovery:
-</p>
-<p class="muted" style="font-size:0.8rem;">
-  The script auto-detects dataset type and column schema (synthetic vs real CSV format).
-</p>
-<button id="downloadPythonBtn" style="width:100%; padding:0.75rem; font-weight:700; border-radius:8px; border:none; background:linear-gradient(135deg,#3572A5,#a371f7); color:white; cursor:pointer; margin:1rem 0;">
-  🐍 Download Detection Script (Python)
-</button>
-
-<div class="block success">
-  <div class="title">Verification Protocol</div>
-  <p class="muted">
-    <strong>Step 1:</strong> Export synthetic data OR upload real experimental data (CSV).<br>
-    <strong>Step 2:</strong> Run the Python template matcher.<br>
-    <strong>Step 3:</strong> Verify recovered \(\epsilon\) matches prediction (within noise).<br>
-    <strong>Step 4:</strong> Inspect residuals—should be white noise. Patterns indicate missing physics.
-  </p>
-</div>
-
-<h3>Experimental Predictions</h3>
-<p class="muted">
-  STUR predicts different visibility suppression signatures depending on experimental platform.
-  The key discriminator is arm separation \(\Delta L\), not interrogation time.
-</p>
-<table>
-  <tr><th>Platform</th><th>Baseline</th><th>\(\ell_{\rm coh}\) Range</th><th>Expected \(V/V_0\)</th><th>Distinguishing Feature</th></tr>
-  <tr>
-    <td><strong>Neutron Interferometer</strong></td>
-    <td>~0.1 m</td>
-    <td>0.5–5 m</td>
-    <td>0.996–0.999</td>
-    <td>Different mass, nuclear systematics</td>
-  </tr>
-  <tr>
-    <td><strong>Optical Sagnac</strong></td>
-    <td>~1–10 m</td>
-    <td>1–10 m</td>
-    <td>0.90–0.99</td>
-    <td>Photon vs. matter wave</td>
-  </tr>
-  <tr>
-    <td><strong>Atomic Fountain</strong></td>
-    <td>~10 m</td>
-    <td>2–10 m</td>
-    <td>0.85–0.97</td>
-    <td>Variable \(\Delta L\) at fixed \(T\)</td>
-  </tr>
-  <tr class="highlight">
-    <td><strong>MAGIS-100</strong></td>
-    <td>~100 m</td>
-    <td>3–15 m</td>
-    <td>0.01–0.90</td>
-    <td><strong>Deep suppression regime</strong></td>
-  </tr>
-</table>
-
-<div class="block warning">
-  <div class="title">Critical Test: Neutron vs. Atom</div>
-  <p class="muted">
-    If STUR is correct, a neutron interferometer and an atomic fountain with the <em>same</em> 
-    arm separation \(\Delta L\) should show the <em>same</em> visibility suppression—despite 
-    different masses, different interrogation times, and different systematic error profiles.
-    This is the cleanest falsification target.
-  </p>
-</div>
-
-<h3>Model Selection: BIC Test</h3>
-<p class="muted">
-  To determine if the Chronomagnetic model (oscillatory/log-periodic) is statistically superior 
-  to a Linear Drift null hypothesis, we use the <strong>Bayesian Information Criterion (BIC)</strong>.
-  BIC penalizes complexity to prevent overfitting.
-</p>
-
-<div class="eq boxed">
-  \[
-  \text{BIC} = k \ln(n) - 2 \ln(\hat{\mathcal{L}})
-  \]
-  <div class="eq-label">(Bayesian Information Criterion)</div>
-</div>
-
-<p class="muted" style="margin:1rem 0;">
-  where \(k\) = number of parameters, \(n\) = number of data points, and \(\hat{\mathcal{L}}\) = maximum likelihood.
-</p>
-
-<table>
-  <tr><th>Model</th><th>Parameters \(k\)</th><th>Description</th></tr>
-  <tr><td>Linear Drift</td><td>2</td><td>slope + intercept (null hypothesis)</td></tr>
-  <tr class="highlight"><td><strong>Chronomagnetic</strong></td><td>4</td><td>amplitude \(\epsilon\) + frequency + phase + offset</td></tr>
-</table>
-
-<div class="block gold">
-  <div class="title">BIC Decision Rule</div>
-  <p class="muted">
-    \(\Delta\text{BIC} = \text{BIC}_{\rm linear} - \text{BIC}_{\rm STUR}\)<br><br>
-    <strong>\(\Delta\text{BIC} > 10\):</strong> Strong evidence for Chronomagnetic model<br>
-    <strong>\(0 < \Delta\text{BIC} < 10\):</strong> Weak evidence for Chronomagnetic model<br>
-    <strong>\(\Delta\text{BIC} < 0\):</strong> Linear Drift is preferred (STUR disfavored)
-  </p>
-</div>
-
-<h3>Torsion Barrier Physics</h3>
-<p class="muted">
-  When a matter-wave (resistance wave) encounters a region of high geometric torsion \(\mathbb{T}\) 
-  (a "geometric wall"), it undergoes a phase velocity shift and partial reflection. This manifests 
-  as a "phantom force" in the interferometer.
-</p>
-
-<div class="eq boxed">
-  \[
-  R = \frac{\mathbb{T}^2}{\mathbb{T}^2 + 4}, \qquad T = 1 - R
-  \]
-  <div class="eq-label">(Reflection/Transmission at Torsion Barrier)</div>
-</div>
-
-<div class="card-grid">
-  <div class="card" style="border-left:3px solid var(--tegr)">
-    <h4>Weak Torsion (\(\mathbb{T} \ll 1\))</h4>
-    <p class="muted">\(R \approx \mathbb{T}^2/4\), nearly full transmission</p>
-  </div>
-  <div class="card" style="border-left:3px solid var(--stur)">
-    <h4>Strong Torsion (\(\mathbb{T} \gg 1\))</h4>
-    <p class="muted">\(R \to 1\), geometric wall blocks propagation</p>
-  </div>
-</div>
-
-<div class="block success">
-  <div class="title">Observable Signature</div>
-  <p class="muted">
-    The phase discontinuity at the torsion barrier boundary creates a measurable 
-    <strong>differential phase shift</strong> between interferometer arms. In the strong 
-    torsion regime, this appears as anomalous visibility suppression at specific spatial locations.
-  </p>
-</div>
-```
-
-  </section>
-
-  <section id="sec-wow" data-noncore="true">
-    <h2><span class="section-dot" style="background:#ff6b6b"></span> Speculative Extensions (Non-Core)</h2>
-
-```
-<div class="block warning">
-  <div class="title">Interpretive Status</div>
-  <p class="muted">
-    The following material (5D Wow! Linkage and 3-Body Engine) is <strong>exploratory</strong> and 
-    not required for the validity of the core STUR visibility prediction. Failure of any extension 
-    does not invalidate the core framework. These sections demonstrate consistency checks and 
-    potential applications, not primary claims.
-  </p>
-</div>
-
-<h3 style="margin-top:2rem;">STUR-Wow Linkage: The 5D Drain Prediction</h3>
-
-<p>
-  The 1977 Wow! Signal detected by the Big Ear telescope remains unexplained. STUR provides a 
-  <strong>falsifiable prediction</strong>: the signal was a transient leakage from a 5D Proca-type 
-  torsion field, with energy draining into the bulk faster than the telescope's 3-minute horn delay.
-</p>
-
-<div class="block gold">
-  <div class="title">The Horn A/B Asymmetry Problem</div>
-  <p class="muted">
-    Big Ear had two feed horns separated by ~3 minutes of sidereal drift. A persistent astronomical 
-    source should appear in <em>both</em> horns. The Wow! Signal showed <strong>"6EQUJ5"</strong> 
-    in Horn A and <strong>absolute silence</strong> in Horn B. No conventional explanation accounts 
-    for this asymmetry.
-  </p>
-</div>
-
-<h3>Step 1: Proca-Modified HGEM Action</h3>
-<p class="muted">
-  We assume the signal carrier is a "massive" gravito-photon \(A_M\) in the HGEM sector. 
-  Adding a mass term \(\mu\) forces Yukawa-like decay rather than standard \(1/r\):
-</p>
-
-<div class="eq boxed">
-  \[
-  S_{\rm Proca} = \int d^5x \sqrt{-g}\left[-\frac{1}{4}F_{MN}F^{MN} + \frac{\mu^2}{2}A_M A^M + A_M J^M_{\rm STUR}\right]
-  \]
-  <div class="eq-label">(Proca-Modified HGEM Action)</div>
-</div>
-
-<p class="muted" style="margin:1rem 0;">
-  The resulting field equation for the 5D potential \(A_M\):
-</p>
-
-<div class="eq boxed">
-  \[
-  \left(\Box_5 - \mu^2\right)A_M = J^M_{\rm STUR}
-  \]
-  <div class="eq-label">(Massive Gravito-Photon Field Equation)</div>
-</div>
-
-<h3>Step 2: Torsion Barrier Cross-Section</h3>
-<p class="muted">
-  As a Torsion Barrier (localized fluctuation in the 5th dimension \(X\)) passes through the 
-  Earth-node, it acts as a source \(J^M_{\rm STUR}\). The "Visibility Window" \(\Delta\tau\) 
-  is defined by the intersection of the barrier's 5D velocity \(V_X\) and its width \(L_X\):
-</p>
-
-<div class="eq boxed">
-  \[
-  \Delta\tau = \frac{L_X}{V_X}
-  \]
-  <div class="eq-label">(Visibility Window Duration)</div>
-</div>
-
-<div class="card-grid">
-  <div class="card" style="border-left:3px solid #ff6b6b">
-    <h4>Barrier Width \(L_X\)</h4>
-    <p class="muted">Characteristic scale of the 5D torsion structure (~72 seconds in coordinate time)</p>
-  </div>
-  <div class="card" style="border-left:3px solid var(--chrono)">
-    <h4>5D Velocity \(V_X\)</h4>
-    <p class="muted">Propagation speed through the compact dimension</p>
-  </div>
-</div>
-
-<h3>Step 3: Energy Drainage into the Bulk</h3>
-<p class="muted">
-  The core STUR prediction: energy does not just dissipate in 3D space—it <strong>drains into 
-  the 5D bulk</strong>. The resistance field \(R\) follows damped evolution:
-</p>
-
-<div class="eq boxed">
-  \[
-  R(t) = R_0 \, e^{-\gamma t}
-  \]
-  <div class="eq-label">(5D Bulk Drainage Law)</div>
-</div>
-
-<p class="muted" style="margin:1rem 0;">
-  The <strong>Horn B Silence</strong> is predicted by the damping coefficient \(\gamma\). 
-  If the sidereal delay \(\Delta t_{\rm drift} = 180\) s, the signal ratio between Horn A and Horn B is:
-</p>
-
-<div class="eq boxed">
-  \[
-  \frac{R_B}{R_A} = e^{-\gamma \cdot \Delta t_{\rm drift}} = e^{-\gamma \cdot 180}
-  \]
-  <div class="eq-label">(Horn A/B Suppression Ratio)</div>
-</div>
-
-<div class="block success">
-  <div class="title">Quantitative Prediction</div>
-  <p class="muted">
-    Setting \(\gamma = 0.08\) s\(^{-1}\) (constrained by STUR interferometry):<br><br>
-    \(\displaystyle \frac{R_B}{R_A} = e^{-0.08 \times 180} = e^{-14.4} \approx 5.5 \times 10^{-7}\)<br><br>
-    <strong>The signal is suppressed by a factor of nearly 2 million by the time Horn B arrives.</strong>
-    This explains the "6EQUJ5" peak in Horn A and the absolute noise floor in Horn B.
-  </p>
-</div>
-
-<h3>Wow! Clone (MAX) Calculator</h3>
-<p class="muted">
-  Interactive calculation of the 5D drainage suppression for different damping coefficients and delay times.
-</p>
-
-<div class="holoscreen-container" style="border-color:#ff6b6b;">
-  <div class="holoscreen-header">
-    <h3 style="color:#ff6b6b;">5D Bulk Drainage Calculator</h3>
-    <span class="holoscreen-badge" style="background:#ff6b6b;">Wow! Clone</span>
-  </div>
-  <div class="control-panel">
-    <div class="control-group">
-      <div class="control-label"><span>Damping γ (s⁻¹)</span><span class="control-value" id="wow-gamma-value">0.080</span></div>
-      <input type="range" id="wow-gamma-slider" min="0.01" max="0.2" step="0.001" value="0.08">
-    </div>
-    <div class="control-group">
-      <div class="control-label"><span>Horn Delay Δt (s)</span><span class="control-value" id="wow-delay-value">180</span></div>
-      <input type="range" id="wow-delay-slider" min="60" max="300" step="1" value="180">
-    </div>
-    <div class="control-group">
-      <div class="control-label"><span>Barrier Width L<sub>X</sub> (s)</span><span class="control-value" id="wow-lx-value">72</span></div>
-      <input type="range" id="wow-lx-slider" min="10" max="200" step="1" value="72">
-    </div>
-    <div class="control-group">
-      <div class="control-label"><span>Proca Mass μ (10⁻²³ eV)</span><span class="control-value" id="wow-mu-value">1.00</span></div>
-      <input type="range" id="wow-mu-slider" min="0.1" max="10" step="0.1" value="1">
-    </div>
-  </div>
-  <div class="output-display">
-    <div class="output-row">
-      <span class="output-label">Suppression Exponent γΔt</span>
-      <span class="output-value" id="wow-exponent">14.40</span>
-    </div>
-    <div class="output-row">
-      <span class="output-label">Suppression Factor</span>
-      <span class="output-value" id="wow-suppression" style="color:#ff6b6b;">5.50 × 10⁻⁷</span>
-    </div>
-    <div class="output-row">
-      <span class="output-label">Suppression Ratio (1/factor)</span>
-      <span class="output-value" id="wow-ratio">1.82 × 10⁶</span>
-    </div>
-    <div class="output-row">
-      <span class="output-label">Visibility Window Δτ</span>
-      <span class="output-value" id="wow-window">72 s</span>
-    </div>
-    <div class="output-row">
-      <span class="output-label">Yukawa Range (1/μ)</span>
-      <span class="output-value" id="wow-yukawa">1.97 × 10⁸ m</span>
-    </div>
-  </div>
-  <div class="holoscreen-verdict" id="wow-verdict" style="background:linear-gradient(135deg,#ff6b6b,#cc5555);">
-    <span class="verdict-symbol">📡</span>
-    <span class="verdict-text">HORN B SILENCE EXPLAINED</span>
-  </div>
-</div>
-
-<h3>Falsification Criteria</h3>
-<table>
-  <tr><th>Prediction</th><th>STUR Value</th><th>Observable</th><th>Falsification</th></tr>
-  <tr>
-    <td>Horn A/B ratio</td>
-    <td>\(\lesssim 10^{-6}\)</td>
-    <td>SNR in archival data</td>
-    <td>Any Horn B detection at matched frequency</td>
-  </tr>
-  <tr>
-    <td>Signal duration</td>
-    <td>\(\Delta\tau \approx L_X/V_X\)</td>
-    <td>72 ± 5 s</td>
-    <td>Significantly longer or shorter duration</td>
-  </tr>
-  <tr>
-    <td>Non-repeatability</td>
-    <td>5D barrier is transient</td>
-    <td>Single event</td>
-    <td>Periodic detection at same coordinates</td>
-  </tr>
-  <tr class="highlight">
-    <td><strong>Proca mass constraint</strong></td>
-    <td>\(\mu \sim 10^{-23}\) eV</td>
-    <td>Yukawa range ~10⁸ m</td>
-    <td>Detection of long-range gravito-photon</td>
-  </tr>
-</table>
-
-<div class="block warning">
-  <div class="title">Connection to STUR Interferometry</div>
-  <p class="muted">
-    The damping coefficient \(\gamma = 0.08\) s\(^{-1}\) is <em>not</em> a free parameter—it is 
-    constrained by the same Chronomagnetic framework that predicts visibility suppression in 
-    atom interferometers. A detection of the Wow! Signal's "echo" at any delay would simultaneously 
-    falsify STUR predictions for MAGIS-100.
-  </p>
-</div>
-```
-
-  </section>
-
-  <section id="sec-3body" data-noncore="true">
-    <h2><span class="section-dot" style="background:var(--stur)"></span> 3-Body Curvature Lock Engine</h2>
-
-```
-<p>
-  The gravitational 3-body problem is famously chaotic in Newtonian mechanics. Within the STUR resistance 
-  manifold, replacing the \(1/r\) singularity with the Resistance Modulator \(S(r)\) introduces geometric 
-  "stiffness" that stabilizes the equilateral (Lagrange L₄/L₅) configuration.
-</p>
-
-<div class="block gold">
-  <div class="title">STUR Resistance Potential</div>
-  <p class="muted">
-    The regularized potential prevents singularities and creates a "soft buffer" that absorbs perturbations:
-  </p>
-</div>
-
-<div class="eq boxed">
-  \[
-  V_{\text{STUR}}(r) = -\frac{Gm_i m_j\, S(r)}{r}, \qquad S(r) = 1 - e^{-r/L}
-  \]
-  <div class="eq-label">(STUR Gravitational Potential)</div>
-</div>
-
-<p class="muted" style="margin:1rem 0;">
-  For \(r \gg L\), we recover Newton (\(S \to 1\)). For \(r \lesssim L\), the potential flattens.
-  The characteristic length \(L \sim 10^9\) m defines where "resistance" regularizes the force law.
-</p>
-
-<h3>Resistance Restoration Force</h3>
-<div class="eq boxed">
-  \[
-  \vec{F}_{\text{STUR}} = \frac{Gm_i m_j}{r^2}\left[S(r) + \frac{r}{L}(1-S(r))\right]\hat{r}
-  \]
-  <div class="eq-label">(Modified Gravitational Force)</div>
-</div>
-
-<h3>Triangle Locking Mechanism</h3>
-<p class="muted">
-  The STUR manifold introduces curvature-stabilized attractors at Lagrange points. The equilateral 
-  configuration becomes a "locked" state:
-</p>
-<ul style="color:var(--text-secondary);">
-  <li>Energy drift \(\Delta E/E\) remains at floating-point precision (~10⁻¹⁶)</li>
-  <li>Triangle shape preserved across thousands of orbital periods</li>
-  <li>Small perturbations → precession, not ejection</li>
-</ul>
-
-<h3>Interactive 3-Body Simulator</h3>
-<div class="solver-container" style="background:var(--surface-elevated); border-radius:12px; padding:1.5rem; margin:1.5rem 0;">
-  <div class="solver-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-    <h4 style="margin:0; color:var(--stur)">STUR 3-Body RK4 Integrator</h4>
-    <span class="holoscreen-badge" style="background:var(--stur)">Interactive</span>
-  </div>
-  
-  <div style="display:grid; grid-template-columns:1fr 280px; gap:1.5rem;">
-    <div>
-      <canvas id="threeBodyCanvas" style="width:100%; height:350px; background:var(--bg); border-radius:8px;"></canvas>
-      <div style="display:flex; justify-content:space-between; margin-top:0.5rem; font-size:0.75rem; color:var(--text-muted);">
-        <span id="tb-status">● Stable Equilateral</span>
-        <span id="tb-time">t = 0.00 periods</span>
-      </div>
-    </div>
-    
-    <div class="control-panel">
-      <div class="control-group">
-        <div class="control-label"><span>Resistance Length L (×10⁹ m)</span><span class="control-value" id="tb-L-value">1.00</span></div>
-        <input type="range" id="tb-L-slider" min="0.1" max="5" step="0.1" value="1">
-      </div>
-      <div class="control-group">
-        <div class="control-label"><span>Total Mass (×10³⁰ kg)</span><span class="control-value" id="tb-mass-value">6.00</span></div>
-        <input type="range" id="tb-mass-slider" min="1" max="20" step="0.5" value="6">
-      </div>
-      <div class="control-group">
-        <div class="control-label"><span>Orbital Radius (×10⁹ m)</span><span class="control-value" id="tb-radius-value">1.50</span></div>
-        <input type="range" id="tb-radius-slider" min="0.5" max="5" step="0.1" value="1.5">
-      </div>
-      <div class="control-group" style="border-top:1px solid var(--border); padding-top:0.75rem; margin-top:0.5rem;">
-        <div class="control-label"><span style="color:#ef4444;">⚡ Perturbation (%)</span><span class="control-value" id="tb-perturb-value" style="color:#ef4444;">0</span></div>
-        <input type="range" id="tb-perturb-slider" min="0" max="50" step="1" value="0">
-      </div>
-      <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
-        <button id="tb-startBtn" style="flex:1; padding:0.6rem; font-weight:700; border-radius:8px; border:none; background:var(--stur); color:var(--bg); cursor:pointer;">▶ Start</button>
-        <button id="tb-resetBtn" style="flex:1; padding:0.6rem; font-weight:700; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text); cursor:pointer;">↺ Reset</button>
-      </div>
-      <button id="tb-kickBtn" style="width:100%; padding:0.6rem; font-weight:700; border-radius:8px; border:1px solid #ef4444; background:rgba(239,68,68,0.15); color:#ef4444; cursor:pointer; margin-top:0.5rem;">⚡ Inject Torsion Kick</button>
-    </div>
-  </div>
-  
-  <div class="output-display" style="margin-top:1rem; display:grid; grid-template-columns:repeat(4,1fr); gap:0.5rem;">
-    <div class="output-row" style="flex-direction:column; text-align:center;">
-      <span class="output-label">Energy Drift</span>
-      <span class="output-value" id="tb-energy">0.00e+00</span>
-    </div>
-    <div class="output-row" style="flex-direction:column; text-align:center;">
-      <span class="output-label">Triangle Deform</span>
-      <span class="output-value" id="tb-deform">0.00%</span>
-    </div>
-    <div class="output-row" style="flex-direction:column; text-align:center;">
-      <span class="output-label">Angular Mom L_z</span>
-      <span class="output-value" id="tb-Lz">0.00e+00</span>
-    </div>
-    <div class="output-row" style="flex-direction:column; text-align:center;">
-      <span class="output-label">System State</span>
-      <span class="output-value" id="tb-state" style="color:var(--stur);">LOCKED</span>
-    </div>
-  </div>
-</div>
-
-<div class="block warning">
-  <div class="title">Chaotic Perturbation Testing</div>
-  <p class="muted">
-    <strong>Low Perturbation (&lt;2%):</strong> Triangle precesses but remains equilateral. STUR field "locks" symmetry.<br>
-    <strong>Medium Perturbation (2–10%):</strong> Rosette pattern emerges. Triangle oscillates but recovers.<br>
-    <strong>High Perturbation (&gt;10%):</strong> System breaks into hierarchical binary. One mass enters wide eccentric orbit.
-  </p>
-</div>
-
-<h3>STUR Stability Condition</h3>
-<div class="eq boxed">
-  \[
-  \frac{|E_{\text{kick}}|}{|E_{\text{binding}}|} < \frac{S(r_{\text{avg}})}{1 - S(r_{\text{avg}})} \approx \frac{L}{r_{\text{avg}}}
-  \quad \Rightarrow \quad \text{Stable orbit preserved}
-  \]
-  <div class="eq-label">(Stability Threshold)</div>
-</div>
-
-<h3>RK4 Integrator</h3>
-<p class="muted">
-  Unlike Euler or Leapfrog methods, the <strong>RK4 (Runge-Kutta 4th Order)</strong> integrator samples 
-  the STUR field at four points per step, preserving equilateral symmetry across thousands of cycles:
-</p>
-<div class="eq boxed">
-  \[
-  y_{n+1} = y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)
-  \]
-  <div class="eq-label">(RK4 Update Rule)</div>
-</div>
-
-<table>
-  <tr><th>Method</th><th>Order</th><th>Energy Drift (1000 orbits)</th><th>STUR Compatibility</th></tr>
-  <tr><td>Euler</td><td>1st</td><td>~10⁻²</td><td>Poor (numerical heating)</td></tr>
-  <tr><td>Leapfrog</td><td>2nd</td><td>~10⁻⁶</td><td>Good (symplectic)</td></tr>
-  <tr class="highlight"><td><strong>RK4</strong></td><td>4th</td><td>~10⁻¹⁶</td><td><strong>Excellent (curvature-aware)</strong></td></tr>
-</table>
-
-<h3>Multi-Scale STUR Lab</h3>
-<p class="muted">
-  The 3-Body Engine connects to other STUR simulation scales:
-</p>
-<div class="card-grid">
-  <div class="card" style="border-left:3px solid #ec4899">
-    <h4 style="color:#ec4899;">Macro: Wow! Event</h4>
-    <p class="muted">Large-scale 5D torsion barrier passing through a 3D brane</p>
-  </div>
-  <div class="card" style="border-left:3px solid var(--stur)">
-    <h4 style="color:var(--stur);">Meso: 3-Body Lock</h4>
-    <p class="muted">Intermediate "binding" geometry in curvature-stable orbits</p>
-  </div>
-  <div class="card" style="border-left:3px solid var(--chrono)">
-    <h4 style="color:var(--chrono);">Micro: χ-Coupling</h4>
-    <p class="muted">Quantum-scale resistance field effects in matter waves</p>
-  </div>
-</div>
-```
-
-  </section>
-
-  <section id="sec-equations">
-    <h2><span class="section-dot" style="background:var(--accent)"></span> Master Equations Summary</h2>
-    <div class="card-grid">
-      <div class="card" style="border-left:3px solid var(--tegr)"><h4>TEGR Metric</h4><div class="eq">\[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]</div></div>
-      <div class="card" style="border-left:3px solid var(--hgem)"><h4>GEM Fields</h4><div class="eq">\[\vec{E}_g = -\nabla\Phi_g - \dot{\vec{A}}_g\]</div></div>
-      <div class="card" style="border-left:3px solid var(--stur)"><h4>STUR PDE</h4><div class="eq">\[\partial_t R=\nabla\!\cdot(D\nabla R)-\nabla R\cdot\Omega+\chi\,\partial_X R+S\]</div></div>
-      <div class="card" style="border-left:3px solid var(--stur)"><h4>Resistance Holonomy</h4><div class="eq">\[\Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \nabla R \cdot dx\]</div></div>
-      <div class="card" style="border-left:3px solid var(--stur)"><h4>Visibility Law</h4><div class="eq">\[V = V_0 e^{-\langle\Phi_R^2\rangle/2}\]</div></div>
-      <div class="card" style="border-left:3px solid var(--chrono)"><h4>Chronomagnetic Modulation</h4><div class="eq">\[\mathcal{M}(u) = 1 + \epsilon\cos(2\pi u/\ln\lambda)\]</div></div>
-      <div class="card" style="border-left:3px solid var(--chrono)"><h4>Coherence Length</h4><div class="eq">\[\ell_{\rm coh} = p_0 / (y\, K_{\rm eff})\]</div></div>
-    </div>
   </section>
 
   <section id="sec-verifier">
@@ -1897,8 +964,7 @@ The STUR importer accepts partial data and records provenance automatically.
     <div class="block gold">
       <div class="title">One-page protocol (self-contained, reproducible)</div>
       <p class="muted">
-        This appendix is bundled into the HTML and exported into the JSON archive as <code>verifier_md</code>.
-        It is designed so a home lab / university lab can run a decisive test without needing any STUR-internal tooling.
+        This appendix is designed so a home lab / university lab can run a decisive test without needing any STUR-internal tooling.
       </p>
     </div>
 
@@ -1939,36 +1005,45 @@ The STUR importer accepts partial data and records provenance automatically.
         </ul>
       </li>
       <li><strong>Decision</strong>: compute BIC (or Bayes evidence). If Gaussian is not preferred (or is decisively rejected), STUR's \(\Delta L^2\) discriminator is falsified in that regime.</li>
-      <li><strong>Publish the dataset</strong>: export JSON archive from this page (core-only), attach your CSV, include hashes, and publish.</li>
     </ol>
   </div>
 </div>
 
 <div class="block warning">
-  <div class="title">Dataset format (what to upload here)</div>
+  <div class="title">Dataset format</div>
   <p class="muted" style="margin:0">
-    Upload a CSV with header: <code>deltaL,V[,sigma]</code> (meters, unitless visibility, optional uncertainty).
-    Example:
-    <code>0.0,0.998,0.002</code>
-    <code>0.5,0.975,0.002</code>
+    Required CSV format with header: <code>deltaL,V[,sigma]</code> (meters, unitless visibility, optional uncertainty).
+    Example:<br>
+    <code>0.0,0.998,0.002</code><br>
+    <code>0.5,0.975,0.002</code><br>
     <code>1.0,0.900,0.003</code>
-    If <code>sigma</code> is omitted, a conservative fixed uncertainty may be assumed in your offline analysis.
   </p>
 </div>
 
 <div class="block success">
   <div class="title">What this HTML provides</div>
   <p class="muted" style="margin:0">
-    (i) a clean discriminator plot, (ii) CSV import, (iii) a signed JSON archive (SHA-256),
-    (iv) full references, plus auto-generated BibTeX and CSL-JSON from those references.
+    (i) A clean discriminator visualization via interactive holoscreen, (ii) All equations and derivations inline,
+    (iii) Full theoretical framework with falsification criteria, (iv) Complete references.
   </p>
 </div>
 
-<pre id="verifierMdBlock"
+<pre id="verifierMdBlock" style="white-space:pre-wrap; background:var(--surface-elevated); border:1px solid var(--border); border-radius:12px; padding:1rem; overflow:auto; color:var(--text-secondary); font-size:0.85rem;"></pre>
 ```
 
-style=“white-space:pre-wrap; background:var(–surface-elevated); border:1px solid var(–border); border-radius:12px; padding:1rem; overflow:auto; color:var(–text-secondary);”></pre>
+  </section>
 
+  <section id="sec-equations">
+    <h2><span class="section-dot" style="background:var(--accent)"></span> Master Equations Summary</h2>
+    <div class="card-grid">
+      <div class="card" style="border-left:3px solid var(--tegr)"><h4>TEGR Metric</h4><div class="eq">\[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]</div></div>
+      <div class="card" style="border-left:3px solid var(--hgem)"><h4>GEM Fields</h4><div class="eq">\[\vec{E}_g = -\nabla\Phi_g - \dot{\vec{A}}_g\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>STUR PDE</h4><div class="eq">\[\partial_t R=\nabla\!\cdot(D\nabla R)-\nabla R\cdot\Omega+\chi\,\partial_X R+S\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>Resistance Holonomy</h4><div class="eq">\[\Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \nabla R \cdot dx\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>Visibility Law</h4><div class="eq">\[V = V_0 e^{-\langle\Phi_R^2\rangle/2}\]</div></div>
+      <div class="card" style="border-left:3px solid var(--chrono)"><h4>Chronomagnetic Modulation</h4><div class="eq">\[\mathcal{M}(u) = 1 + \epsilon\cos(2\pi u/\ln\lambda)\]</div></div>
+      <div class="card" style="border-left:3px solid var(--chrono)"><h4>Coherence Length</h4><div class="eq">\[\ell_{\rm coh} = p_0 / (y\, K_{\rm eff})\]</div></div>
+    </div>
   </section>
 
   <section id="sec-refs">
@@ -1976,22 +1051,17 @@ style=“white-space:pre-wrap; background:var(–surface-elevated); border:1px s
 
 ```
 <ol style="font-size:0.95rem; line-height:1.8; color:var(--text-secondary);">
-
-  <!-- === TELEPARALLEL / GR FOUNDATIONS === -->
-
   <li>
     James Lockwood, Christopher B. Cyrek, Dustin Hansley, and Derek J. Burkeen.
     <em>Teleparallel Dynamics: First Principles — From Torsion Kinematics to Field Equations.</em>
     Internal technical monograph, January 2026. 
   </li>
-
   <li>
     José W. Maluf.
     "The Teleparallel Equivalent of General Relativity."
     <em>Annalen der Physik</em>, Volume 525, Issue 5, pages 339–357, 2013.
     DOI: 10.1002/andp.201200272.
   </li>
-
   <li>
     Rubens Aldrovandi and José G. Pereira.
     <em>Teleparallel Gravity: An Introduction.</em>
@@ -1999,7 +1069,6 @@ style=“white-space:pre-wrap; background:var(–surface-elevated); border:1px s
     Springer, Dordrecht, 2013.
     ISBN 978-94-007-5142-9.
   </li>
-
   <li>
     Sebastian Bahamonde, Konstantinos F. Dialektopoulos, Jackson Levi Said,
     Jonathan Mifsud, Miguel A. Sanchis-Lozano, and George Zahariade.
@@ -2007,16 +1076,12 @@ style=“white-space:pre-wrap; background:var(–surface-elevated); border:1px s
     <em>Reports on Progress in Physics</em>, Volume 86, Article 026901, 2023.
     DOI: 10.1088/1361-6633/ac9ea5.
   </li>
-
-  <!-- === GRAVITOELECTROMAGNETISM / HGEM === -->
-
   <li>
     Ignazio Ciufolini and John Archibald Wheeler.
     <em>Gravitation and Inertia.</em>
     Princeton University Press, Princeton, 1995.
     ISBN 978-0-691-03323-8.
   </li>
-
   <li>
     Bahram Mashhoon.
     "Gravitoelectromagnetism: A Brief Review."
@@ -2024,9 +1089,6 @@ style=“white-space:pre-wrap; background:var(–surface-elevated); border:1px s
     edited by Marco Novello and Gérard d'Agostini.
     World Scientific, Singapore, 2001.
   </li>
-
-  <!-- === INTERFEROMETRY / EXPERIMENTAL CONTEXT === -->
-
   <li>
     Tim Kovachy, Philipp Asenbaum, Chris Overstreet, Charles A. Donnelly,
     Sarah M. Dickerson, Adam Sugarbaker, Jason M. Hogan, and Mark A. Kasevich.
@@ -2034,7 +1096,6 @@ style=“white-space:pre-wrap; background:var(–surface-elevated); border:1px s
     <em>Nature</em>, Volume 528, pages 530–533, 2015.
     DOI: 10.1038/nature16155.
   </li>
-
   <li>
     Masaya Abe, Yuta Sakamoto, Takuya Akatsuka, Yasunori Fujii,
     Jun'ichi Fujimoto, Takumi Fukushima, Shigeo Ichimura,
@@ -2043,9 +1104,6 @@ style=“white-space:pre-wrap; background:var(–surface-elevated); border:1px s
     <em>Quantum Science and Technology</em>, Volume 6, Article 044003, 2021.
     DOI: 10.1088/2058-9565/ac1a97.
   </li>
-
-  <!-- === DECOHERENCE / NULL MODELS === -->
-
   <li>
     Angelo Bassi, Kinjalk Lochan, Seema Satin, Tejinder P. Singh,
     and Hendrik Ulbricht.
@@ -2054,9 +1112,6 @@ style=“white-space:pre-wrap; background:var(–surface-elevated); border:1px s
     <em>Reviews of Modern Physics</em>, Volume 85, pages 471–527, 2013.
     DOI: 10.1103/RevModPhys.85.471.
   </li>
-
-  <!-- === DARK MATTER COMPARISON === -->
-
   <li>
     Peter W. Graham, Jason M. Hogan, Mark A. Kasevich,
     and Surjeet Rajendran.
@@ -2064,125 +1119,21 @@ style=“white-space:pre-wrap; background:var(–surface-elevated); border:1px s
     <em>Physical Review D</em>, Volume 93, Article 075029, 2016.
     DOI: 10.1103/PhysRevD.93.075029.
   </li>
-
-  <!-- === STUR / CHRONOMAGNETICS INTERNAL === -->
-
   <li>
     Derek J. Burkeen, Christopher Br. Cyrek, James M. Lockwood,
     Derek LaMarche, Jay Beaubier, and Sheldon Lon Lindberg.
     <em>Chronomagnetics: A Comprehensive Mathematical Foundation.</em>
     Spectrality Institute Technical Monograph, January 13, 2026. 
   </li>
-
   <li>
     Sheldon Lon Lindberg.
     <em>Foundations of STUR: Teleparallel Substrate Tests via Interferometric Holonomy.</em>
     Internal research manuscript, 2026.
   </li>
-
 </ol>
 ```
 
   </section>
-
-  <!-- Export Mode Toggle -->
-
-  <div class="block gold" style="margin-top:2rem;">
-    <div class="title">Export Mode</div>
-    <label style="display:flex; gap:0.5rem; align-items:center; cursor:pointer;">
-      <input type="checkbox" id="exportIncludeNonCore" style="width:18px; height:18px; cursor:pointer;">
-      <span style="color:var(--text-secondary)">Include non-core exploratory sections (Wow!, 3-Body, etc.)</span>
-    </label>
-    <p class="muted" style="margin-top:0.5rem; font-size:0.8rem;">
-      Default: <strong>Core-only</strong> — exports only the falsifiable STUR framework.<br>
-      Check the box to include speculative extensions for internal use.
-    </p>
-  </div>
-
-  <!-- Export Button -->
-
-<button id="exportJsonBtn"
-style="
-width:100%;
-margin:2rem 0 1rem 0;
-padding:1rem;
-font-size:1rem;
-font-weight:700;
-border-radius:10px;
-border:none;
-background:linear-gradient(135deg,#4a9eff,#a371f7);
-color:#0a0e14;
-cursor:pointer;
-box-shadow: 0 4px 15px rgba(74,158,255,0.3);">
-📄 Export Full JSON + Print PDF
-</button>
-
-<button id="downloadJsonBtn"
-style="
-width:100%;
-margin:0 0 2rem 0;
-padding:1rem;
-font-size:1rem;
-font-weight:700;
-border-radius:10px;
-border:1px solid rgba(74,158,255,0.35);
-background:transparent;
-color:var(--text);
-cursor:pointer;">
-⬇️ Download Full JSON Archive
-</button>
-
-<div class="export-row">
-  <label class="pill-control" title="Choose a license to embed in the exported JSON archive.">
-    Data license:
-    <select id="dataLicenseSelect">
-      <option value="CC0">CC0</option>
-      <option value="CC-BY" selected>CC-BY</option>
-      <option value="CC-BY-SA">CC-BY-SA</option>
-    </select>
-  </label>
-
-  <label class="pill-control" title="Export BibTeX and CSL-JSON derived from the references list.">
-    <input type="checkbox" id="includeCitationsExport" checked />
-    Include BibTeX + CSL-JSON
-  </label>
-</div>
-
-<div class="export-row">
-  <button id="downloadBibBtn"
-  style="
-  flex:1; min-width:240px;
-  padding:0.9rem;
-  font-size:1rem;
-  font-weight:800;
-  border-radius:10px;
-  border:1px solid rgba(240,180,41,0.35);
-  background:rgba(240,180,41,0.10);
-  color:var(--text);
-  cursor:pointer;">
-  ⬇️ Download BibTeX (.bib)
-  </button>
-
-<button id="downloadCslBtn"
-style="
-flex:1; min-width:240px;
-padding:0.9rem;
-font-size:1rem;
-font-weight:800;
-border-radius:10px;
-border:1px solid rgba(240,180,41,0.35);
-background:rgba(240,180,41,0.10);
-color:var(--text);
-cursor:pointer;">
-⬇️ Download CSL-JSON (.json)
-</button>
-
-</div>
-
-<div class="small-note">
-  Exports are self-contained and include dataset provenance (hash), export mode (core/full), selected license,
-  and optional BibTeX + CSL-JSON generated directly from the References section.
-</div>
 
 </div>
 
@@ -2211,31 +1162,8 @@ cursor:pointer;">
 <script>
 (function() {
   'use strict';
-  const rqSlider = document.getElementById('rq-slider');
-  const leffSlider = document.getElementById('leff-slider');
-  const lcohSlider = document.getElementById('lcoh-slider');
-  const deltaLSlider = document.getElementById('deltaL-slider');
-  const noiseSlider = document.getElementById('noise-slider');
-  const rqValue = document.getElementById('rq-value');
-  const leffValue = document.getElementById('leff-value');
-  const lcohValue = document.getElementById('lcoh-value');
-  const deltaLValue = document.getElementById('deltaL-value');
-  const noiseValue = document.getElementById('noise-value');
-  const phiROutput = document.getElementById('phiR-output');
-  const visibilityOutput = document.getElementById('visibility-output');
-  const regimeOutput = document.getElementById('regime-output');
-  const statusOutput = document.getElementById('status-output');
-  const detectionOutput = document.getElementById('detection-output');
-  const canvas = document.getElementById('visibilityCanvas');
-  const ctx = canvas.getContext('2d');
-  const colors = { stur: '#3fb950', uldm: '#f0b429', null: '#5a6575', noise: '#f85149', grid: 'rgba(255,255,255,0.1)', axis: 'rgba(255,255,255,0.3)', marker: '#4a9eff', bg: '#0a0e14' };
 
-  // License + citation export toggles
-  const dataLicenseSelect = document.getElementById('dataLicenseSelect');
-  const includeCitationsExport = document.getElementById('includeCitationsExport');
-
-  // Verifier appendix block
-  const verifierMdBlock = document.getElementById('verifierMdBlock');
+  // Verifier appendix content
   const VERIFIER_MD = [
     "# VERIFIER.md — How to falsify STUR in 48 hours",
     "",
@@ -2255,7 +1183,7 @@ cursor:pointer;">
     "5) Optional controls: repeat the scan at a second pressure/temperature to characterize conventional decoherence.",
     "",
     "## Dataset format",
-    "Upload CSV with header: deltaL,V[,sigma]",
+    "CSV with header: deltaL,V[,sigma]",
     "Units: deltaL in meters, V unitless, sigma unitless.",
     "",
     "## Decision rule (falsification)",
@@ -2266,70 +1194,72 @@ cursor:pointer;">
     "",
     "**Falsified in this regime** if the Gaussian-in-ΔL² model is not preferred or is decisively rejected",
     "after controlling known decoherence channels.",
-    "",
-    "## Publishing standard",
-    "- Export the JSON archive from the HTML (includes SHA-256).",
-    "- Publish your CSV alongside the archive.",
-    "- Include hardware details: wavelength, baseline geometry, τ_shot, pressure, temperature.",
     ""
   ].join("\n");
-  if (verifierMdBlock) verifierMdBlock.textContent = VERIFIER_MD;
-  window.VERIFIER_MD = VERIFIER_MD;
 
-  /* ============================
-     STUR CORE (PDE + XCRM MODEL)
-     ============================ */
+  const verifierBlock = document.getElementById('verifierMdBlock');
+  if (verifierBlock) verifierBlock.textContent = VERIFIER_MD;
 
-  // XCRM closure: ∂R/∂X = (R - R_bg) / L_X
+  // Holoscreen controls
+  const rqSlider = document.getElementById('rq-slider');
+  const leffSlider = document.getElementById('leff-slider');
+  const lcohSlider = document.getElementById('lcoh-slider');
+  const deltaLSlider = document.getElementById('deltaL-slider');
+  const noiseSlider = document.getElementById('noise-slider');
+  const rqValue = document.getElementById('rq-value');
+  const leffValue = document.getElementById('leff-value');
+  const lcohValue = document.getElementById('lcoh-value');
+  const deltaLValue = document.getElementById('deltaL-value');
+  const noiseValue = document.getElementById('noise-value');
+  const phiROutput = document.getElementById('phiR-output');
+  const visibilityOutput = document.getElementById('visibility-output');
+  const regimeOutput = document.getElementById('regime-output');
+  const statusOutput = document.getElementById('status-output');
+  const detectionOutput = document.getElementById('detection-output');
+  const canvas = document.getElementById('visibilityCanvas');
+  const ctx = canvas.getContext('2d');
+  const colors = { stur: '#3fb950', uldm: '#f0b429', null: '#5a6575', noise: '#f85149', grid: 'rgba(255,255,255,0.1)', axis: 'rgba(255,255,255,0.3)', marker: '#4a9eff', bg: '#0a0e14' };
+
+  // STUR CORE (PDE + XCRM MODEL)
+  const Rbg = 0.0;
+  let currentR = 0.5;
+  let currentLX = 3.0;
+  let currentNoise = 0.05;
+
   function xcrmGradient(R, Rbg, LX) {
     return (R - Rbg) / LX;
   }
 
-  // Holonomy variance ~ (ΔL * ∂R/∂X)^2
   function holonomyVariance(deltaL, dR_dX) {
     return Math.pow(deltaL * dR_dX, 2);
   }
 
-  // Visibility from cumulant truncation
   function sturVisibilityFromPDE(deltaL, R, Rbg, LX) {
     const dR_dX = xcrmGradient(R, Rbg, LX);
     const phiVar = holonomyVariance(deltaL, dR_dX);
     return Math.exp(-0.5 * phiVar);
   }
 
-  function uldmVisibility(deltaL, period) { return 0.5 + 0.4 * Math.cos(2 * Math.PI * deltaL / period); }
+  function uldmVisibility(deltaL, period) { 
+    return 0.5 + 0.4 * Math.cos(2 * Math.PI * deltaL / period); 
+  }
 
-  // Find 5σ detection threshold: ΔL where |V_STUR - 1| > 5 * noiseFloor
   function find5SigmaThreshold(R, Rbg, LX, noiseFloor) {
     const threshold = 5 * noiseFloor;
     for (let dl = 0.01; dl <= 10; dl += 0.01) {
       const v = sturVisibilityFromPDE(dl, R, Rbg, LX);
       if (1 - v > threshold) return dl;
     }
-    return null; // No detection possible
+    return null;
   }
 
-  // State variables for canvas drawing
-  let currentR = 0.5;
-  let currentLX = 3.0;
-  let currentNoise = 0.05;
-  const Rbg = 0.0; // background resistance (reference vacuum)
-
   function update() {
-    // Slider meanings (STUR-consistent):
-    // Rq   → resistance amplitude R
-    // leff → transport length L (display only)
-    // lcoh → coherence length ≡ L_X (XCRM)
-    // ΔL   → interferometer arm separation
-    // noise → seismic/thermal noise floor
-
     const R = parseFloat(rqSlider.value);
     const L = parseFloat(leffSlider.value);
     const LX = parseFloat(lcohSlider.value);
     const deltaL = parseFloat(deltaLSlider.value);
     const noise = parseFloat(noiseSlider.value);
 
-    // Update state for canvas
     currentR = R;
     currentLX = LX;
     currentNoise = noise;
@@ -2340,49 +1270,6 @@ cursor:pointer;">
     deltaLValue.textContent = deltaL.toFixed(2);
     noiseValue.textContent = noise.toFixed(2);
 
-    // ============================================================
-    // REAL DATA OVERRIDE: When real data is loaded, drive outputs
-    // from actual measurements instead of synthetic model
-    // ============================================================
-    const DS = window.__STUR_DATA_SOURCE__;
-    if (DS && DS.mode === 'real' && Array.isArray(DS.data) && DS.data.length) {
-      // Find row nearest to current slider deltaL (or use latest)
-      let bestRow = DS.data[DS.data.length - 1];
-      if (DS.data.some(r => Number.isFinite(r.deltaL))) {
-        // Dataset has deltaL column - find nearest match
-        let minDist = Infinity;
-        for (const row of DS.data) {
-          if (Number.isFinite(row.deltaL)) {
-            const dist = Math.abs(row.deltaL - deltaL);
-            if (dist < minDist) { minDist = dist; bestRow = row; }
-          }
-        }
-      }
-      
-      // Override visibility display with real measurement
-      const realVis = Number(bestRow.visibility);
-      visibilityOutput.textContent = realVis.toFixed(4) + ' (REAL)';
-      visibilityOutput.className = 'output-value ' + (realVis > 0.5 ? 'highlight' : 'warning');
-      
-      // Override status
-      statusOutput.textContent = 'Real dataset active';
-      statusOutput.className = 'output-value highlight';
-      statusOutput.style.color = 'var(--accent)';
-      
-      // Show real data regime
-      regimeOutput.textContent = `Real data: ${DS.data.length} points`;
-      
-      // Compute holonomy from real visibility (inverse mapping)
-      const realPhiVar = realVis > 0 ? -2 * Math.log(realVis) : 10;
-      const realPhiR = Math.sqrt(Math.max(0, realPhiVar));
-      phiROutput.textContent = realPhiR.toFixed(4) + ' (inferred)';
-      
-      // Still draw canvas (overlay will show real points)
-      drawCanvas(LX, deltaL, noise);
-      return; // Skip synthetic calculations
-    }
-
-    // STUR holonomy + visibility via PDE/XCRM
     const dR_dX = xcrmGradient(R, Rbg, LX);
     const phiVar = holonomyVariance(deltaL, dR_dX);
     const V_deltaL = Math.exp(-0.5 * phiVar);
@@ -2401,7 +1288,6 @@ cursor:pointer;">
     else if (V_deltaL > 0.1) { statusOutput.textContent = 'Strong suppression'; statusOutput.className = 'output-value warning'; }
     else { statusOutput.textContent = 'Near-total decoherence'; statusOutput.className = 'output-value warning'; }
 
-    // 5σ detection threshold
     const detectionDL = find5SigmaThreshold(R, Rbg, LX, noise);
     if (detectionDL !== null) {
       detectionOutput.textContent = detectionDL.toFixed(2) + ' m';
@@ -2419,7 +1305,7 @@ cursor:pointer;">
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
-    ctx.setTransform(1, 0, 0, 1, 0, 0);  // Reset transform before scaling
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
     const w = rect.width, h = rect.height;
     const padding = { top: 30, right: 20, bottom: 40, left: 50 };
@@ -2464,13 +1350,11 @@ cursor:pointer;">
     const toX = (dl) => padding.left + (dl / maxDL) * plotW;
     const toY = (v) => padding.top + (1 - v) * plotH;
 
-    // Draw noise floor band (1 - noiseFloor)
+    // Noise floor band
     if (noiseFloor > 0) {
       ctx.fillStyle = 'rgba(248, 81, 73, 0.15)';
       const noiseY = toY(1 - noiseFloor);
       ctx.fillRect(padding.left, noiseY, plotW, h - padding.bottom - noiseY);
-      
-      // Noise floor line
       ctx.strokeStyle = colors.noise;
       ctx.lineWidth = 2;
       ctx.setLineDash([8, 4]);
@@ -2479,8 +1363,6 @@ cursor:pointer;">
       ctx.lineTo(toX(maxDL), noiseY);
       ctx.stroke();
       ctx.setLineDash([]);
-      
-      // 5σ threshold line
       const fiveSigmaY = toY(1 - 5 * noiseFloor);
       if (5 * noiseFloor < 1) {
         ctx.strokeStyle = colors.noise;
@@ -2554,39 +1436,11 @@ cursor:pointer;">
       ctx.textAlign = 'left';
       ctx.fillText('V = ' + markerV.toFixed(3), markerX + 10, markerY - 5);
     }
-
-    // ---- Real data overlay (replaces synthetic visually) ----
-    const DS = window.__STUR_DATA_SOURCE__;
-    if (DS && DS.mode === 'real' && Array.isArray(DS.data) && DS.data.length) {
-      const pts = DS.data
-        .filter(r => Number.isFinite(r.visibility) && Number.isFinite(r.deltaL))
-        .map(r => ({ deltaL: r.deltaL, v: r.visibility }));
-
-      if (pts.length) {
-        ctx.fillStyle = 'rgba(74, 158, 255, 0.85)';
-        for (const p of pts) {
-          if (p.deltaL < 0 || p.deltaL > maxDL) continue;
-          const x = toX(p.deltaL);
-          const y = toY(Math.max(0, Math.min(1, p.v)));
-          ctx.beginPath();
-          ctx.arc(x, y, 3.5, 0, 2 * Math.PI);
-          ctx.fill();
-        }
-
-        // Label
-        ctx.fillStyle = 'rgba(74,158,255,0.95)';
-        ctx.font = '11px sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('● Real data (' + pts.length + ' pts)', padding.left + 6, padding.top + 14);
-      }
-    }
   }
+
   [rqSlider, leffSlider, lcohSlider, deltaLSlider, noiseSlider].forEach(s => s.addEventListener('input', update));
   update();
   window.addEventListener('resize', update);
-  
-  // Expose update for real data module to trigger refreshes
-  window.STUR_forceUpdate = update;
 })();
 </script>
 
@@ -2596,12 +1450,11 @@ cursor:pointer;">
 (function() {
   'use strict';
   
-  // Solver parameters
-  const N = 100; // Grid points
-  const L = 10;  // Domain length
+  const N = 100;
+  const L = 10;
   const dx = L / N;
   const Rbg = 0.0;
-  const kappa = 1.0; // Torsion-gradient coupling
+  const kappa = 1.0;
   
   let R = new Float64Array(N);
   let T = new Float64Array(N);
@@ -2609,7 +1462,6 @@ cursor:pointer;">
   let animationId = null;
   let timestep = 0;
   
-  // Get DOM elements
   const alphaSlider = document.getElementById('alpha-slider');
   const diffusionSlider = document.getElementById('diffusion-slider');
   const r0Slider = document.getElementById('r0-slider');
@@ -2625,13 +1477,12 @@ cursor:pointer;">
   const maxTOutput = document.getElementById('solver-maxT');
   const GeffOutput = document.getElementById('solver-Geff');
   
-  if (!canvasR || !canvasT) return; // Exit if elements not found
+  if (!canvasR || !canvasT) return;
   
   const ctxR = canvasR.getContext('2d');
   const ctxT = canvasT.getContext('2d');
   
   function initializeField(R0) {
-    // Gaussian initial perturbation centered at L/2
     const center = N / 2;
     const sigma = N / 10;
     for (let i = 0; i < N; i++) {
@@ -2642,7 +1493,6 @@ cursor:pointer;">
   }
   
   function computeTorsion() {
-    // T ~ κ (∂R/∂x)²
     for (let i = 1; i < N - 1; i++) {
       const dRdx = (R[i + 1] - R[i - 1]) / (2 * dx);
       T[i] = kappa * dRdx * dRdx;
@@ -2652,51 +1502,39 @@ cursor:pointer;">
   }
   
   function evolveR(D, alpha, LX) {
-    // Crank-Nicolson semi-implicit scheme
-    // Removes strict CFL stability limit: Δt < Δx²/(2D)
-    // Allows larger timesteps and strong coupling without instability
-    
-    const dt = 0.5; // Larger dt now possible with implicit scheme
+    const dt = 0.5;
     const sigma = (D * dt) / (2 * dx * dx);
     
-    // Arrays for Tridiagonal Matrix Algorithm (TDMA)
-    const a = new Float64Array(N); // lower diagonal
-    const b = new Float64Array(N); // main diagonal
-    const c = new Float64Array(N); // upper diagonal
-    const d = new Float64Array(N); // right-hand side
+    const a = new Float64Array(N);
+    const b = new Float64Array(N);
+    const c = new Float64Array(N);
+    const d = new Float64Array(N);
     
     for (let i = 1; i < N - 1; i++) {
-      // Explicit half-step: diffusion + relaxation + torsion source
       const laplacian = (R[i + 1] - 2 * R[i] + R[i - 1]) / (dx * dx);
       const relaxation = -(R[i] - Rbg) / LX;
       const torsionSource = 2 * alpha * T[i] * R[i];
       
       const explicitTerms = R[i] + (dt / 2) * (D * laplacian + relaxation + torsionSource);
       
-      // Matrix coefficients for implicit half-step
       a[i] = -sigma;
       b[i] = 1 + 2 * sigma + (dt / (2 * LX));
       c[i] = -sigma;
       d[i] = explicitTerms;
     }
     
-    // Dirichlet boundary conditions
     b[0] = 1.0; d[0] = Rbg;
     b[N - 1] = 1.0; d[N - 1] = Rbg;
     
-    // Solve tridiagonal system using Thomas algorithm
     R = solveTridiagonal(a, b, c, d);
   }
   
   function solveTridiagonal(a, b, c, d) {
-    // Thomas Algorithm (TDMA) for tridiagonal systems
-    // Solves A·x = d where A is tridiagonal with diagonals a, b, c
     const n = d.length;
     const c_star = new Float64Array(n);
     const d_star = new Float64Array(n);
     const x = new Float64Array(n);
     
-    // Forward sweep
     c_star[0] = c[0] / b[0];
     d_star[0] = d[0] / b[0];
     
@@ -2706,7 +1544,6 @@ cursor:pointer;">
       d_star[i] = (d[i] - a[i] * d_star[i - 1]) * m;
     }
     
-    // Back substitution
     x[n - 1] = d_star[n - 1];
     for (let i = n - 2; i >= 0; i--) {
       x[i] = d_star[i] - c_star[i] * x[i + 1];
@@ -2715,24 +1552,12 @@ cursor:pointer;">
     return x;
   }
   
-  // Chronomagnetic modulation: log-periodic time parameter
-  function getChronoModulation(step, dt_actual) {
-    const t = step * dt_actual;
-    const tc = 1000; // Offset to avoid log singularity
-    const t0 = 1;    // Reference time scale
-    const u = Math.log((t + tc) / t0);
-    const lambda = 3722 / 2705; // Chronomagnetic constant ≈ 1.376
-    const epsilon = 0.05;       // 5% modulation amplitude
-    
-    return 1 + epsilon * Math.cos((2 * Math.PI * u) / Math.log(lambda));
-  }
-  
   function drawProfile(ctx, data, color, label, maxVal) {
     const rect = ctx.canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
     ctx.canvas.width = rect.width * dpr;
     ctx.canvas.height = rect.height * dpr;
-    ctx.setTransform(1, 0, 0, 1, 0, 0);  // Reset transform before scaling
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
     
     const w = rect.width, h = rect.height;
@@ -2740,11 +1565,9 @@ cursor:pointer;">
     const plotW = w - pad.left - pad.right;
     const plotH = h - pad.top - pad.bottom;
     
-    // Background
     ctx.fillStyle = '#0a0e14';
     ctx.fillRect(0, 0, w, h);
     
-    // Grid
     ctx.strokeStyle = 'rgba(255,255,255,0.1)';
     ctx.lineWidth = 1;
     for (let i = 0; i <= 4; i++) {
@@ -2755,7 +1578,6 @@ cursor:pointer;">
       ctx.stroke();
     }
     
-    // Axes
     ctx.strokeStyle = 'rgba(255,255,255,0.3)';
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -2764,7 +1586,6 @@ cursor:pointer;">
     ctx.lineTo(w - pad.right, h - pad.bottom);
     ctx.stroke();
     
-    // Y-axis labels
     ctx.fillStyle = 'rgba(255,255,255,0.5)';
     ctx.font = '9px sans-serif';
     ctx.textAlign = 'right';
@@ -2774,11 +1595,9 @@ cursor:pointer;">
       ctx.fillText(val.toFixed(2), pad.left - 3, y + 3);
     }
     
-    // X-axis label
     ctx.textAlign = 'center';
     ctx.fillText('x', w / 2, h - 5);
     
-    // Data curve
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
     ctx.beginPath();
@@ -2798,7 +1617,6 @@ cursor:pointer;">
       if (T[i] > maxT_val) maxT_val = T[i];
     }
     
-    // Effective G at max R
     const maxR_actual = Rbg + maxR_val;
     const Geff_ratio = 1 / (1 + 16 * Math.PI * alpha * maxR_actual * maxR_actual);
     
@@ -2813,11 +1631,8 @@ cursor:pointer;">
   function step() {
     const D = parseFloat(diffusionSlider.value);
     const alpha = parseFloat(alphaSlider.value);
-    const baseLX = 2.0; // Base coherence scale
-    
-    // Apply Chronomagnetic modulation to coherence length
-    const chronoMod = getChronoModulation(timestep, 0.5);
-    const LX = baseLX * chronoMod;
+    const baseLX = 2.0;
+    const LX = baseLX;
     
     computeTorsion();
     evolveR(D, alpha, LX);
@@ -2825,7 +1640,6 @@ cursor:pointer;">
     
     const { maxR_val, maxT_val } = updateOutputs(alpha);
     
-    // Dynamic scaling
     const rScale = Math.max(0.5, maxR_val * 1.2);
     const tScale = Math.max(0.01, maxT_val * 1.5);
     
@@ -2851,7 +1665,6 @@ cursor:pointer;">
     drawProfile(ctxT, T, '#a371f7', '𝕋(x)', 0.1);
   }
   
-  // Event listeners
   if (runBtn) {
     runBtn.addEventListener('click', () => {
       if (running) {
@@ -2870,7 +1683,6 @@ cursor:pointer;">
     resetBtn.addEventListener('click', reset);
   }
   
-  // Slider updates
   [alphaSlider, diffusionSlider, r0Slider].forEach(s => {
     if (s) {
       s.addEventListener('input', () => {
@@ -2881,1667 +1693,7 @@ cursor:pointer;">
     }
   });
   
-  // Initialize
   reset();
-
-  // ========================================
-  // SYNTHETIC DATA EXPORT MODULE
-  // ========================================
-  
-  const synthDaysSlider = document.getElementById('synth-days-slider');
-  const synthRateSlider = document.getElementById('synth-rate-slider');
-  const synthNoiseSlider = document.getElementById('synth-noise-slider');
-  const synthDaysValue = document.getElementById('synth-days-value');
-  const synthRateValue = document.getElementById('synth-rate-value');
-  const synthNoiseValue = document.getElementById('synth-noise-value');
-  const synthExportBtn = document.getElementById('synthExportBtn');
-  
-  // Slider display updates
-  if (synthDaysSlider) {
-    synthDaysSlider.addEventListener('input', () => {
-      synthDaysValue.textContent = synthDaysSlider.value;
-    });
-  }
-  if (synthRateSlider) {
-    synthRateSlider.addEventListener('input', () => {
-      synthRateValue.textContent = synthRateSlider.value;
-    });
-  }
-  if (synthNoiseSlider) {
-    synthNoiseSlider.addEventListener('input', () => {
-      synthNoiseValue.textContent = parseFloat(synthNoiseSlider.value).toFixed(3);
-    });
-  }
-  
-  // Chronomagnetic modulation for synthetic data
-  function synthChronoMod(dayIndex) {
-    const t = dayIndex * 86400; // seconds
-    const tc = 1e6;  // offset (seconds)
-    const t0 = 86400; // 1 day reference
-    const u = Math.log((t + tc) / t0);
-    const lambda = 3722 / 2705;
-    const epsilon = 0.05;
-    return 1 + epsilon * Math.cos((2 * Math.PI * u) / Math.log(lambda));
-  }
-  
-  // Box-Muller for Gaussian noise
-  function gaussianNoise(sigma) {
-    const u1 = Math.random();
-    const u2 = Math.random();
-    return sigma * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-  }
-  
-  // ============================================================
-  // GLOBAL DATA SOURCE (SYNTHETIC OR REAL)
-  // Single source of truth used by plots / detection / exports.
-  // ============================================================
-
-  window.__STUR_DATA_SOURCE__ = window.__STUR_DATA_SOURCE__ || {
-    mode: "synthetic",          // "synthetic" | "real"
-    data: [],                   // array of {t, ts, visibility, deltaL?, noise?, lcoh?}
-    schema: {                   // column mapping used on import
-      timestamp: "timestamp",
-      visibility: "visibility",
-      deltaL: "deltaL",
-      noise: "noise",
-      lcoh: "lcoh"
-    },
-    meta: {
-      source: "synthetic",      // "synthetic" | "user-upload"
-      filename: null,
-      importedAtISO: null,
-      sha256: null,
-      rows: 0,
-      notes: ""
-    }
-  };
-
-  // Global cache for synthetic data runs
-  window.__STUR_SYNTHETIC_CACHE__ = window.__STUR_SYNTHETIC_CACHE__ || [];
-
-  // Generate synthetic time-series
-  function generateSyntheticData(days, samplesPerDay, noiseSigma) {
-    const data = [];
-    const totalSamples = days * samplesPerDay;
-    
-    // Base parameters
-    const baseLcoh = 3.0;  // meters
-    const deltaL = 0.5;    // meters (fixed arm separation)
-    const V0 = 1.0;
-    
-    for (let i = 0; i < totalSamples; i++) {
-      const dayFraction = i / samplesPerDay;
-      const timestamp = dayFraction; // days from start
-      
-      // Chronomagnetic modulation of coherence length
-      const chronoMod = synthChronoMod(dayFraction);
-      const lcoh = baseLcoh * chronoMod;
-      
-      // STUR visibility prediction
-      const V_stur = V0 * Math.exp(-Math.pow(deltaL / lcoh, 2));
-      
-      // Add seismic/thermal noise
-      const noise = gaussianNoise(noiseSigma);
-      const V_observed = Math.max(0, Math.min(1, V_stur + noise));
-      
-      // ULDM comparison (sinusoidal)
-      const V_uldm = V0 * (0.8 + 0.15 * Math.cos(2 * Math.PI * dayFraction / 30));
-      
-      // Null hypothesis (constant with noise)
-      const V_null = Math.max(0, Math.min(1, V0 * 0.95 + noise));
-      
-      data.push({
-        timestamp: timestamp.toFixed(4),
-        day: Math.floor(dayFraction),
-        chrono_mod: chronoMod.toFixed(6),
-        lcoh_effective: lcoh.toFixed(4),
-        V_stur_clean: V_stur.toFixed(6),
-        V_stur_noisy: V_observed.toFixed(6),
-        V_uldm: V_uldm.toFixed(6),
-        V_null: V_null.toFixed(6),
-        noise_realization: noise.toFixed(6)
-      });
-    }
-    
-    // Cache the run for export
-    window.__STUR_SYNTHETIC_CACHE__.push({
-      generated_at: new Date().toISOString(),
-      parameters: {
-        days: days,
-        samplesPerDay: samplesPerDay,
-        noiseSigma: noiseSigma,
-        baseLcoh: baseLcoh,
-        deltaL: deltaL,
-        V0: V0
-      },
-      sample_count: data.length,
-      data_preview: data.slice(0, 10) // First 10 rows for verification
-    });
-
-    // Register as global data source (mutate, don't replace)
-    const DS = window.__STUR_DATA_SOURCE__;
-    DS.mode = "synthetic";
-    DS.data = data;
-    DS.meta = {
-      source: "synthetic",
-      generated_at: new Date().toISOString(),
-      sha256: null,
-      rows: data.length,
-      parameters: {
-        days: days,
-        samplesPerDay: samplesPerDay,
-        noiseSigma: noiseSigma,
-        baseLcoh: baseLcoh,
-        deltaL: deltaL,
-        V0: V0
-      },
-      notes: "Synthetic dataset generated"
-    };
-
-    return data;
-  }
-  
-  // Export to CSV
-  function exportCSV(data, filename) {
-    const headers = Object.keys(data[0]);
-    const csv = [
-      '# STUR Physics Engine — Synthetic Visibility Data',
-      '# Generated: ' + new Date().toISOString(),
-      '# Chronomagnetic constant λ = 3722/2705 ≈ 1.376',
-      '# Base coherence length: 3.0 m',
-      '# Arm separation ΔL: 0.5 m',
-      '',
-      headers.join(','),
-      ...data.map(row => headers.map(h => row[h]).join(','))
-    ].join('\n');
-    
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  }
-  
-  if (synthExportBtn) {
-    synthExportBtn.addEventListener('click', () => {
-      const days = parseInt(synthDaysSlider.value);
-      const rate = parseInt(synthRateSlider.value);
-      const noise = parseFloat(synthNoiseSlider.value);
-      
-      const data = generateSyntheticData(days, rate, noise);
-      const filename = `STUR_synthetic_${days}d_${rate}samp_${Date.now()}.csv`;
-      exportCSV(data, filename);
-    });
-  }
-
-  // ============================================================
-  // REAL DATA REPLACEMENT ENGINE (Single Source of Truth)
-  // Lucy's enhanced version with robust header aliasing
-  // ============================================================
-  
-  (function() {
-    'use strict';
-
-    const DS = window.__STUR_DATA_SOURCE__;
-    const fileInput = document.getElementById('realDataFileInput');
-    const statusBox = document.getElementById('realDataStatus');
-    const clearBtn = document.getElementById('clearRealDataBtn');
-
-    // ---- Header Aliases (robust column detection) ----
-    const ALIASES = {
-      timestamp: ['timestamp','time','t','date','datetime','utc','unix','seconds','sec'],
-      visibility: ['visibility','vis','v','V','contrast','fringe','fringe_visibility','v_observed','vobserved','v_stur_noisy'],
-      deltaL: ['deltaL','deltal','dl','ΔL','arm','arm_separation','pathdiff','path_difference','pathdiff_m'],
-      noise: ['noise','sigma','σ','unc','uncertainty','stderr','std','stdev','noise_realization'],
-      lcoh: ['lcoh','ell_coh','coh','coherence','coherence_length','lx','Lx','L_X','lcoh_effective']
-    };
-
-    function normKey(s) {
-      return String(s || '')
-        .trim()
-        .replace(/\uFEFF/g, '')
-        .replace(/[^\wΔ]/g, '')
-        .toLowerCase();
-    }
-
-    function findHeaderIndex(headers, logicalName) {
-      const want = ALIASES[logicalName].map(normKey);
-      for (let i = 0; i < headers.length; i++) {
-        const h = normKey(headers[i]);
-        if (want.includes(h)) return i;
-      }
-      return -1;
-    }
-
-    function showStatus(type, msg) {
-      if (!statusBox) return;
-      statusBox.style.display = 'block';
-      statusBox.style.padding = '0.6rem 0.75rem';
-      statusBox.style.borderRadius = '6px';
-      statusBox.style.marginTop = '0.75rem';
-
-      if (type === 'success') {
-        statusBox.style.border = '1px solid rgba(63,185,80,0.45)';
-        statusBox.style.background = 'rgba(63,185,80,0.10)';
-        statusBox.style.color = 'rgba(230, 255, 238, 0.95)';
-      } else if (type === 'warning') {
-        statusBox.style.border = '1px solid rgba(210,153,34,0.55)';
-        statusBox.style.background = 'rgba(210,153,34,0.12)';
-        statusBox.style.color = 'rgba(255, 245, 220, 0.95)';
-      } else if (type === 'error') {
-        statusBox.style.border = '1px solid rgba(248,81,73,0.55)';
-        statusBox.style.background = 'rgba(248,81,73,0.12)';
-        statusBox.style.color = 'rgba(255, 230, 230, 0.95)';
-      }
-
-      statusBox.innerHTML = msg;
-    }
-
-    // ---------- Helpers ----------
-    function parseNumber(x) {
-      if (x === null || x === undefined) return null;
-      const v = Number(String(x).trim());
-      return Number.isFinite(v) ? v : null;
-    }
-
-    function parseTimestamp(x) {
-      const s = String(x).trim();
-      if (!s) return null;
-
-      const asNum = Number(s);
-      if (Number.isFinite(asNum)) {
-        // Heuristic: > 1e12 looks like ms epoch
-        if (asNum > 1e12) return { t: asNum / 1000, ts: new Date(asNum).toISOString() };
-        if (asNum > 1e9)  return { t: asNum, ts: new Date(asNum * 1000).toISOString() };
-        return { t: asNum, ts: null };
-      }
-
-      const d = new Date(s);
-      if (!Number.isNaN(d.getTime())) {
-        return { t: d.getTime() / 1000, ts: d.toISOString() };
-      }
-      return null;
-    }
-
-    function splitCSVLine(line) {
-      const out = [];
-      let cur = '';
-      let inQ = false;
-
-      for (let i = 0; i < line.length; i++) {
-        const ch = line[i];
-        if (ch === '"') {
-          if (inQ && line[i + 1] === '"') { cur += '"'; i++; continue; }
-          inQ = !inQ; continue;
-        }
-        if (!inQ && ch === ',') { out.push(cur); cur = ''; continue; }
-        cur += ch;
-      }
-      out.push(cur);
-      return out.map(v => v.trim());
-    }
-
-    async function sha256Hex(text) {
-      const enc = new TextEncoder();
-      const buf = await crypto.subtle.digest('SHA-256', enc.encode(text));
-      const arr = Array.from(new Uint8Array(buf));
-      return arr.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    function validateRows(rows) {
-      if (!rows.length) return { ok: false, reason: 'No data rows found.' };
-
-      let good = 0;
-      for (const r of rows) {
-        if (typeof r.visibility === 'number' && r.visibility >= 0 && r.visibility <= 1) good++;
-      }
-      if (good < Math.max(5, Math.floor(rows.length * 0.5))) {
-        return { ok: false, reason: 'Too many invalid visibility values. Expect visibility in [0,1].' };
-      }
-      return { ok: true, reason: '' };
-    }
-
-    // ---------- Core Import Function ----------
-    async function STUR_loadRealCSV(file) {
-      try {
-        if (!file) throw new Error('No file selected.');
-
-        showStatus('warning', 'Importing real data…');
-
-        const text = await file.text();
-        const lines = text
-          .replace(/\r\n/g, '\n')
-          .replace(/\r/g, '\n')
-          .split('\n')
-          .map(l => l.trim())
-          .filter(l => l.length && !l.startsWith('#'));
-
-        if (lines.length < 2) throw new Error('CSV must include a header row and at least 1 data row.');
-
-        const header = splitCSVLine(lines[0]);
-        
-        // Use robust alias matching
-        const iT = findHeaderIndex(header, 'timestamp');
-        const iV = findHeaderIndex(header, 'visibility');
-        const iDL = findHeaderIndex(header, 'deltaL');
-        const iN = findHeaderIndex(header, 'noise');
-        const iLC = findHeaderIndex(header, 'lcoh');
-
-        if (iT < 0 || iV < 0) {
-          throw new Error('Missing required columns. Need: timestamp, visibility (or aliases like time/t and vis/V).');
-        }
-
-        const rows = [];
-        for (let k = 1; k < lines.length; k++) {
-          const cols = splitCSVLine(lines[k]);
-          if (!cols.length) continue;
-
-          const ts = parseTimestamp(cols[iT]);
-          const vis = parseNumber(cols[iV]);
-
-          if (!ts || vis === null) continue;
-
-          const row = { 
-            t: ts.t, 
-            ts: ts.ts, 
-            timestamp: ts.t,
-            visibility: vis 
-          };
-
-          if (iDL >= 0) {
-            const dl = parseNumber(cols[iDL]);
-            if (dl !== null) row.deltaL = dl;
-          }
-          if (iN >= 0) {
-            const nz = parseNumber(cols[iN]);
-            if (nz !== null) row.noise = nz;
-          }
-          if (iLC >= 0) {
-            const lc = parseNumber(cols[iLC]);
-            if (lc !== null) row.lcoh = lc;
-          }
-          rows.push(row);
-        }
-
-        if (!rows.length) throw new Error('No valid numeric rows found after parsing.');
-
-        rows.sort((a, b) => a.t - b.t);
-
-        const v = validateRows(rows);
-        if (!v.ok) throw new Error(v.reason);
-
-        const hash = await sha256Hex(text);
-
-        // Update global data source (mutate, don't replace)
-        DS.mode = 'real';
-        DS.data = rows;
-        DS.schema = {
-          timestamp: header[iT],
-          visibility: header[iV],
-          deltaL: iDL >= 0 ? header[iDL] : null,
-          noise: iN >= 0 ? header[iN] : null,
-          lcoh: iLC >= 0 ? header[iLC] : null
-        };
-        DS.meta = {
-          source: 'user-upload',
-          filename: file.name,
-          bytes: text.length,
-          importedAtISO: new Date().toISOString(),
-          sha256: hash,
-          rows: rows.length,
-          notes: 'Real data loaded. Synthetic disabled.',
-          timestamp_range: {
-            min: Math.min(...rows.map(r => r.t)),
-            max: Math.max(...rows.map(r => r.t))
-          },
-          visibility_range: {
-            min: Math.min(...rows.map(r => r.visibility)),
-            max: Math.max(...rows.map(r => r.visibility))
-          }
-        };
-
-        // Lock synthetic export button
-        const synthBtn = document.getElementById('synthExportBtn');
-        if (synthBtn) {
-          synthBtn.disabled = true;
-          synthBtn.style.opacity = '0.5';
-          synthBtn.style.cursor = 'not-allowed';
-          synthBtn.textContent = '🔒 Synthetic Disabled (Real Data Loaded)';
-        }
-
-        // Show clear button
-        if (clearBtn) {
-          clearBtn.style.display = 'block';
-        }
-
-        // Trigger hooks
-        if (typeof window.STUR_onDatasetChanged === 'function') {
-          window.STUR_onDatasetChanged(DS);
-        }
-        window.dispatchEvent(new Event('resize'));
-
-        showStatus('success', `
-          <strong>✓ Real data loaded successfully</strong><br>
-          <span style="font-size:0.85rem; color:var(--text-secondary);">
-            File: ${DS.meta.filename}<br>
-            Rows: ${rows.length.toLocaleString()}<br>
-            SHA-256: <code>${hash.slice(0, 16)}…</code><br>
-            Schema: ${DS.schema.timestamp} → timestamp, ${DS.schema.visibility} → visibility<br>
-            <em>All synthetic data replaced. Detection and export now use real data.</em>
-          </span>
-        `);
-
-        return { rows: rows.length, sha256: hash, schema: DS.schema };
-
-      } catch (err) {
-        console.error('[STUR] Import error:', err);
-        showStatus('error', `<strong>✗ Import failed:</strong> ${err.message}`);
-        if (fileInput) fileInput.value = '';
-        throw err;
-      }
-    }
-
-    function STUR_clearRealData() {
-      DS.mode = 'synthetic';
-      DS.data = [];
-      DS.schema = null;
-      DS.meta = {
-        source: 'synthetic',
-        filename: null,
-        importedAtISO: null,
-        sha256: null,
-        rows: 0,
-        notes: 'Real data cleared. Synthetic enabled.'
-      };
-
-      const synthBtn = document.getElementById('synthExportBtn');
-      if (synthBtn) {
-        synthBtn.disabled = false;
-        synthBtn.style.opacity = '';
-        synthBtn.style.cursor = '';
-        synthBtn.textContent = '📊 Export Synthetic Data (CSV)';
-      }
-
-      if (clearBtn) {
-        clearBtn.style.display = 'none';
-      }
-
-      // Trigger hooks
-      if (typeof window.STUR_onDatasetChanged === 'function') {
-        window.STUR_onDatasetChanged(DS);
-      }
-      window.dispatchEvent(new Event('resize'));
-
-      showStatus('warning', 'Real data cleared. Reverted to synthetic mode.');
-    }
-
-    // Hook file input
-    if (fileInput) {
-      fileInput.addEventListener('change', async (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        await STUR_loadRealCSV(file);
-      });
-    }
-
-    if (clearBtn) clearBtn.addEventListener('click', STUR_clearRealData);
-
-    // ---- Public API ----
-    window.STUR_loadRealCSV = STUR_loadRealCSV;
-    window.STUR_clearRealData = STUR_clearRealData;
-    window.STUR_getDataset = function() {
-      return JSON.parse(JSON.stringify(DS)); // deep copy snapshot
-    };
-    window.STUR_getActiveDataset = function() {
-      return {
-        mode: DS.mode,
-        data: Array.isArray(DS.data) ? DS.data.slice() : [],
-        meta: Object.assign({}, DS.meta || {}),
-        schema: DS.schema ? Object.assign({}, DS.schema) : null
-      };
-    };
-
-  })();
-
-  // ========================================
-  // PYTHON DETECTION SCRIPT DOWNLOAD
-  // ========================================
-  
-  const pythonScript = `#!/usr/bin/env python3
-"""
-STUR Physics Engine — Chronomagnetic Template Matching Detection Script
-========================================================================
-This script performs a matched-filter search for the log-periodic Chronomagnetic
-signature in synthetic visibility data exported from the STUR Physics Engine.
-
-Usage:
-    python stur_detection.py STUR_synthetic_data.csv
-
-Requirements:
-    pip install pandas numpy matplotlib scipy
-"""
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
-import sys
-
-# ============================================================
-# 1. CHRONOMAGNETIC TEMPLATE FUNCTION
-# ============================================================
-
-def chrono_template(t, eps, phase):
-    """
-    Compute the expected visibility given Chronomagnetic modulation.
-    
-    Parameters:
-        t : array-like, time in days
-        eps : float, modulation amplitude (expected ~0.05)
-        phase : float, phase offset
-    
-    Returns:
-        v_pred : array, predicted visibility
-    """
-    # Log-time parameter u
-    tc = 1e6 / 86400  # Offset in days (avoids log singularity)
-    t0 = 1.0          # Reference time scale (days)
-    u = np.log((t + tc) / t0)
-    
-    # Chronomagnetic constant lambda = 3722/2705 ≈ 1.376
-    ln_lambda = np.log(3722 / 2705)
-    
-    # Modulation function M(u)
-    mod = 1 + eps * np.cos((2 * np.pi * u / ln_lambda) + phase)
-    
-    # Convert modulation to visibility via STUR Law
-    # V = exp(-(dL / (L_base * mod))^2)
-    l_base = 3.0  # Base coherence length (meters)
-    dl = 0.5      # Arm separation (meters)
-    v_pred = np.exp(-(dl / (l_base * mod))**2)
-    
-    return v_pred
-
-
-# ============================================================
-# 2. MAIN DETECTION ROUTINE
-# ============================================================
-
-def main():
-    # Load data
-    if len(sys.argv) < 2:
-        print("Usage: python stur_detection.py <csv_file>")
-        print("Using default: STUR_synthetic_data.csv")
-        filename = "STUR_synthetic_data.csv"
-    else:
-        filename = sys.argv[1]
-    
-    print(f"Loading data from: {filename}")
-    df = pd.read_csv(filename, comment='#')
-    
-    # Auto-detect data mode: real vs synthetic
-    if 'visibility' in df.columns:
-        print("Data mode: REAL (user-uploaded experimental data)")
-        t = df['timestamp'].values if 'timestamp' in df.columns else df['time'].values if 'time' in df.columns else df['t'].values
-        v_observed = df['visibility'].values
-        v_clean = None  # Real data has no "clean" reference
-    else:
-        print("Data mode: SYNTHETIC (STUR-generated)")
-        t = df['timestamp'].values
-        v_observed = df['V_stur_noisy'].values
-        v_clean = df['V_stur_clean'].values if 'V_stur_clean' in df.columns else None
-    
-    print(f"Loaded {len(t)} data points spanning {t[-1]:.1f} days")
-    
-    # --------------------------------------------------------
-    # 3. TEMPLATE FIT (Matched Filter)
-    # --------------------------------------------------------
-    print("\\nPerforming template match...")
-    
-    try:
-        popt, pcov = curve_fit(
-            chrono_template, 
-            t, 
-            v_observed, 
-            p0=[0.05, 0],  # Initial guess: eps=0.05, phase=0
-            bounds=([0, -np.pi], [0.3, np.pi])  # Physical bounds
-        )
-        
-        eps_fit, phase_fit = popt
-        eps_err = np.sqrt(pcov[0, 0])
-        phase_err = np.sqrt(pcov[1, 1])
-        
-        print(f"\\n╔══════════════════════════════════════════════╗")
-        print(f"║  DETECTION RESULTS                           ║")
-        print(f"╠══════════════════════════════════════════════╣")
-        print(f"║  Modulation amplitude ε: {eps_fit:.4f} ± {eps_err:.4f}   ║")
-        print(f"║  Phase offset φ:         {phase_fit:.4f} ± {phase_err:.4f}   ║")
-        print(f"║  Expected ε (STUR):      0.0500             ║")
-        print(f"║  Expected λ:             1.3760             ║")
-        print(f"╚══════════════════════════════════════════════╝")
-        
-        # Signal-to-noise ratio
-        v_fit = chrono_template(t, eps_fit, phase_fit)
-        residuals = v_observed - v_fit
-        snr = eps_fit / np.std(residuals)
-        print(f"\\nSignal-to-Noise Ratio: {snr:.2f}")
-        
-        if snr > 5:
-            print("★ Detection significance: > 5σ (STRONG)")
-        elif snr > 3:
-            print("★ Detection significance: > 3σ (MODERATE)")
-        else:
-            print("★ Detection significance: < 3σ (WEAK)")
-        
-        # --------------------------------------------------------
-        # BIC MODEL SELECTION TEST
-        # --------------------------------------------------------
-        print("\\n" + "="*50)
-        print("BIC MODEL COMPARISON")
-        print("="*50)
-        
-        n = len(t)
-        
-        # Model 1: Linear Drift (k=2)
-        linear_coeffs = np.polyfit(t, v_observed, 1)
-        v_linear = np.polyval(linear_coeffs, t)
-        rss_linear = np.sum((v_observed - v_linear)**2)
-        k_linear = 2
-        bic_linear = k_linear * np.log(n) + n * np.log(rss_linear / n)
-        
-        # Model 2: Chronomagnetic (k=4)
-        rss_stur = np.sum(residuals**2)
-        k_stur = 4
-        bic_stur = k_stur * np.log(n) + n * np.log(rss_stur / n)
-        
-        delta_bic = bic_linear - bic_stur
-        
-        print(f"Linear Drift BIC:     {bic_linear:.2f}  (k={k_linear})")
-        print(f"Chronomagnetic BIC:   {bic_stur:.2f}  (k={k_stur})")
-        print(f"ΔBIC (Linear - STUR): {delta_bic:.2f}")
-        
-        if delta_bic > 10:
-            print("\\n★ STRONG EVIDENCE for Chronomagnetic model")
-        elif delta_bic > 0:
-            print("\\n★ Weak evidence for Chronomagnetic model")
-        else:
-            print("\\n★ Linear Drift preferred (STUR disfavored)")
-        
-    except Exception as e:
-        print(f"Template fit failed: {e}")
-        eps_fit, phase_fit = 0.05, 0
-        v_fit = chrono_template(t, eps_fit, phase_fit)
-        residuals = v_observed - v_fit
-    
-    # --------------------------------------------------------
-    # 4. VISUALIZATION
-    # --------------------------------------------------------
-    print("\\nGenerating plots...")
-    
-    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
-    
-    # Panel 1: Raw data + template
-    ax1 = axes[0]
-    ax1.scatter(t, v_observed, s=1, alpha=0.3, c='steelblue', label='Observed (noisy)')
-    ax1.plot(t, chrono_template(t, eps_fit, phase_fit), 'r-', lw=2, 
-             label=f'Best-fit template (ε={eps_fit:.4f})')
-    if v_clean is not None:
-        ax1.plot(t, v_clean, 'g--', lw=1, alpha=0.7, label='True signal (clean)')
-    ax1.set_ylabel('Visibility V')
-    ax1.set_title('STUR Chronomagnetic Template Recovery')
-    ax1.legend(loc='upper right')
-    ax1.set_ylim(0.9, 1.01)
-    
-    # Panel 2: Residuals
-    ax2 = axes[1]
-    ax2.scatter(t, residuals, s=1, alpha=0.3, c='gray')
-    ax2.axhline(0, color='red', linestyle='--', lw=1)
-    ax2.axhline(np.std(residuals), color='orange', linestyle=':', lw=1, label=f'±1σ = {np.std(residuals):.4f}')
-    ax2.axhline(-np.std(residuals), color='orange', linestyle=':', lw=1)
-    ax2.set_ylabel('Residuals')
-    ax2.set_title('Residuals (should be white noise)')
-    ax2.legend()
-    
-    # Panel 3: Chronomagnetic modulation
-    ax3 = axes[2]
-    tc = 1e6 / 86400
-    t0 = 1.0
-    u = np.log((t + tc) / t0)
-    ln_lambda = np.log(3722 / 2705)
-    mod_fit = 1 + eps_fit * np.cos((2 * np.pi * u / ln_lambda) + phase_fit)
-    ax3.plot(t, mod_fit, 'purple', lw=1.5, label=f'M(u) modulation (ε={eps_fit:.4f})')
-    ax3.axhline(1.0, color='gray', linestyle='--', lw=1)
-    ax3.set_xlabel('Time (days)')
-    ax3.set_ylabel('M(u)')
-    ax3.set_title('Recovered Chronomagnetic Modulation')
-    ax3.legend()
-    
-    plt.tight_layout()
-    plt.savefig('stur_detection_results.png', dpi=150)
-    print("\\nSaved: stur_detection_results.png")
-    plt.show()
-
-
-if __name__ == '__main__':
-    main()
-`;
-
-  const downloadPythonBtn = document.getElementById('downloadPythonBtn');
-  if (downloadPythonBtn) {
-    downloadPythonBtn.addEventListener('click', () => {
-      const blob = new Blob([pythonScript], { type: 'text/x-python' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'stur_detection.py';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-    });
-  }
-})();
-</script>
-
-<!-- Wow! Clone (MAX) Calculator Script -->
-
-<script>
-(function() {
-  'use strict';
-  
-  const gammaSlider = document.getElementById('wow-gamma-slider');
-  const delaySlider = document.getElementById('wow-delay-slider');
-  const lxSlider = document.getElementById('wow-lx-slider');
-  const muSlider = document.getElementById('wow-mu-slider');
-  
-  const gammaValue = document.getElementById('wow-gamma-value');
-  const delayValue = document.getElementById('wow-delay-value');
-  const lxValue = document.getElementById('wow-lx-value');
-  const muValue = document.getElementById('wow-mu-value');
-  
-  const exponentOut = document.getElementById('wow-exponent');
-  const suppressionOut = document.getElementById('wow-suppression');
-  const ratioOut = document.getElementById('wow-ratio');
-  const windowOut = document.getElementById('wow-window');
-  const yukawaOut = document.getElementById('wow-yukawa');
-  const verdictEl = document.getElementById('wow-verdict');
-  
-  function formatScientific(num) {
-    if (num === 0) return '0';
-    const exp = Math.floor(Math.log10(Math.abs(num)));
-    const mantissa = num / Math.pow(10, exp);
-    if (exp === 0) return mantissa.toFixed(2);
-    return mantissa.toFixed(2) + ' × 10' + (exp >= 0 ? '⁺' : '⁻').replace('⁺','') + 
-           Math.abs(exp).toString().split('').map(d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]).join('');
-  }
-  
-  function updateWowCalculator() {
-    if (!gammaSlider || !delaySlider) return;
-    
-    const gamma = parseFloat(gammaSlider.value);
-    const delay = parseFloat(delaySlider.value);
-    const lx = parseFloat(lxSlider.value);
-    const mu = parseFloat(muSlider.value);
-    
-    // Update display values
-    gammaValue.textContent = gamma.toFixed(3);
-    delayValue.textContent = delay.toFixed(0);
-    lxValue.textContent = lx.toFixed(0);
-    muValue.textContent = mu.toFixed(2);
-    
-    // Calculate suppression
-    const exponent = gamma * delay;
-    const suppression = Math.exp(-exponent);
-    const ratio = 1 / suppression;
-    
-    // Yukawa range: ℏc / (μ eV) in meters
-    // For μ in units of 10^-23 eV: range = 1.97e-7 / (μ * 1e-23) = 1.97e16 / μ meters... 
-    // Actually: ℏc ≈ 1.97 × 10^-7 eV·m, so range = 1.97e-7 / μ_eV
-    // If μ is in 10^-23 eV units: range = 1.97e-7 / (mu * 1e-23) = 1.97e16 / mu meters
-    // That's too large. Let me recalculate:
-    // Compton wavelength = ℏ/(mc) = ℏc/(mc²) = 1.97×10^-7 eV·m / (μ eV)
-    // For μ = 1e-23 eV: range = 1.97e-7 / 1e-23 = 1.97e16 m (way too large)
-    // Let's use a more reasonable scale: μ ~ 10^-15 eV gives ~200 km range
-    // For the calculator, let's use μ in units that give sensible results
-    const yukawa = (1.97e8) / mu; // Simplified: gives ~10^8 m for mu=1
-    
-    // Update outputs
-    exponentOut.textContent = exponent.toFixed(2);
-    suppressionOut.textContent = formatScientific(suppression);
-    ratioOut.textContent = formatScientific(ratio);
-    windowOut.textContent = lx + ' s';
-    yukawaOut.textContent = formatScientific(yukawa) + ' m';
-    
-    // Update verdict
-    if (suppression < 1e-5) {
-      verdictEl.querySelector('.verdict-text').textContent = 'HORN B SILENCE EXPLAINED';
-      verdictEl.style.background = 'linear-gradient(135deg,#ff6b6b,#cc5555)';
-    } else if (suppression < 1e-2) {
-      verdictEl.querySelector('.verdict-text').textContent = 'PARTIAL SUPPRESSION';
-      verdictEl.style.background = 'linear-gradient(135deg,#f59e0b,#d97706)';
-    } else {
-      verdictEl.querySelector('.verdict-text').textContent = 'INSUFFICIENT DRAINAGE';
-      verdictEl.style.background = 'linear-gradient(135deg,#6b7280,#4b5563)';
-    }
-  }
-  
-  // Attach event listeners
-  if (gammaSlider) {
-    gammaSlider.addEventListener('input', updateWowCalculator);
-    delaySlider.addEventListener('input', updateWowCalculator);
-    lxSlider.addEventListener('input', updateWowCalculator);
-    muSlider.addEventListener('input', updateWowCalculator);
-    
-    // Initial calculation
-    updateWowCalculator();
-  }
-})();
-</script>
-
-<!-- 3-Body STUR Simulator Script -->
-
-<script>
-(function() {
-  'use strict';
-  
-  const canvas = document.getElementById('threeBodyCanvas');
-  if (!canvas) return;
-  
-  const ctx = canvas.getContext('2d');
-  
-  // High DPI support
-  function setupCanvas() {
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.setTransform(1, 0, 0, 1, 0, 0);  // Reset transform before scaling
-    ctx.scale(dpr, dpr);
-    canvas.style.width = rect.width + 'px';
-    canvas.style.height = rect.height + 'px';
-  }
-  setupCanvas();
-  
-  // Physical constants
-  const G = 6.674e-11;
-  
-  // Simulation state
-  let running = false;
-  let animId = null;
-  let time = 0;
-  let period = 1;
-  let initialEnergy = 0;
-  let kickApplied = false;
-  
-  // Bodies: [x, y, vx, vy] for each of 3 masses
-  let bodies = [];
-  let trails = [[], [], []];
-  const maxTrailLength = 500;
-  
-  // Get parameters from sliders
-  const LSlider = document.getElementById('tb-L-slider');
-  const massSlider = document.getElementById('tb-mass-slider');
-  const radiusSlider = document.getElementById('tb-radius-slider');
-  const perturbSlider = document.getElementById('tb-perturb-slider');
-  
-  const LValue = document.getElementById('tb-L-value');
-  const massValue = document.getElementById('tb-mass-value');
-  const radiusValue = document.getElementById('tb-radius-value');
-  const perturbValue = document.getElementById('tb-perturb-value');
-  
-  const statusEl = document.getElementById('tb-status');
-  const timeEl = document.getElementById('tb-time');
-  const energyEl = document.getElementById('tb-energy');
-  const deformEl = document.getElementById('tb-deform');
-  const LzEl = document.getElementById('tb-Lz');
-  const stateEl = document.getElementById('tb-state');
-  
-  const startBtn = document.getElementById('tb-startBtn');
-  const resetBtn = document.getElementById('tb-resetBtn');
-  const kickBtn = document.getElementById('tb-kickBtn');
-  
-  // Update slider displays
-  function updateSliderDisplays() {
-    if (LValue) LValue.textContent = parseFloat(LSlider.value).toFixed(2);
-    if (massValue) massValue.textContent = parseFloat(massSlider.value).toFixed(2);
-    if (radiusValue) radiusValue.textContent = parseFloat(radiusSlider.value).toFixed(2);
-    if (perturbValue) perturbValue.textContent = perturbSlider.value;
-  }
-  
-  [LSlider, massSlider, radiusSlider, perturbSlider].forEach(s => {
-    if (s) s.addEventListener('input', updateSliderDisplays);
-  });
-  updateSliderDisplays();
-  
-  // STUR softening function S(r)
-  function S(r, L) {
-    return 1 - Math.exp(-r / L);
-  }
-  
-  // STUR force magnitude (scalar)
-  function sturForce(r, m1, m2, L) {
-    const sr = S(r, L);
-    const term = sr + (r / L) * (1 - sr);
-    return G * m1 * m2 * term / (r * r);
-  }
-  
-  // Compute accelerations for all bodies
-  function computeAccel(pos, m, L) {
-    const accel = [[0, 0], [0, 0], [0, 0]];
-    
-    for (let i = 0; i < 3; i++) {
-      for (let j = i + 1; j < 3; j++) {
-        const dx = pos[j][0] - pos[i][0];
-        const dy = pos[j][1] - pos[i][1];
-        const r = Math.sqrt(dx * dx + dy * dy) + 1e-10;
-        
-        const F = sturForce(r, m[i], m[j], L);
-        const fx = F * dx / r;
-        const fy = F * dy / r;
-        
-        accel[i][0] += fx / m[i];
-        accel[i][1] += fy / m[i];
-        accel[j][0] -= fx / m[j];
-        accel[j][1] -= fy / m[j];
-      }
-    }
-    return accel;
-  }
-  
-  // RK4 step
-  function rk4Step(pos, vel, m, L, dt) {
-    const n = 3;
-    
-    // k1
-    const a1 = computeAccel(pos, m, L);
-    const k1_pos = vel.map(v => [v[0], v[1]]);
-    const k1_vel = a1;
-    
-    // k2
-    const pos2 = pos.map((p, i) => [p[0] + 0.5*dt*k1_pos[i][0], p[1] + 0.5*dt*k1_pos[i][1]]);
-    const vel2 = vel.map((v, i) => [v[0] + 0.5*dt*k1_vel[i][0], v[1] + 0.5*dt*k1_vel[i][1]]);
-    const a2 = computeAccel(pos2, m, L);
-    const k2_pos = vel2;
-    const k2_vel = a2;
-    
-    // k3
-    const pos3 = pos.map((p, i) => [p[0] + 0.5*dt*k2_pos[i][0], p[1] + 0.5*dt*k2_pos[i][1]]);
-    const vel3 = vel.map((v, i) => [v[0] + 0.5*dt*k2_vel[i][0], v[1] + 0.5*dt*k2_vel[i][1]]);
-    const a3 = computeAccel(pos3, m, L);
-    const k3_pos = vel3;
-    const k3_vel = a3;
-    
-    // k4
-    const pos4 = pos.map((p, i) => [p[0] + dt*k3_pos[i][0], p[1] + dt*k3_pos[i][1]]);
-    const vel4 = vel.map((v, i) => [v[0] + dt*k3_vel[i][0], v[1] + dt*k3_vel[i][1]]);
-    const a4 = computeAccel(pos4, m, L);
-    const k4_pos = vel4;
-    const k4_vel = a4;
-    
-    // Combine
-    const newPos = pos.map((p, i) => [
-      p[0] + (dt/6) * (k1_pos[i][0] + 2*k2_pos[i][0] + 2*k3_pos[i][0] + k4_pos[i][0]),
-      p[1] + (dt/6) * (k1_pos[i][1] + 2*k2_pos[i][1] + 2*k3_pos[i][1] + k4_pos[i][1])
-    ]);
-    const newVel = vel.map((v, i) => [
-      v[0] + (dt/6) * (k1_vel[i][0] + 2*k2_vel[i][0] + 2*k3_vel[i][0] + k4_vel[i][0]),
-      v[1] + (dt/6) * (k1_vel[i][1] + 2*k2_vel[i][1] + 2*k3_vel[i][1] + k4_vel[i][1])
-    ]);
-    
-    return { pos: newPos, vel: newVel };
-  }
-  
-  // Compute total energy
-  function computeEnergy(pos, vel, m, L) {
-    let KE = 0;
-    for (let i = 0; i < 3; i++) {
-      KE += 0.5 * m[i] * (vel[i][0]*vel[i][0] + vel[i][1]*vel[i][1]);
-    }
-    
-    let PE = 0;
-    for (let i = 0; i < 3; i++) {
-      for (let j = i + 1; j < 3; j++) {
-        const dx = pos[j][0] - pos[i][0];
-        const dy = pos[j][1] - pos[i][1];
-        const r = Math.sqrt(dx * dx + dy * dy);
-        PE -= G * m[i] * m[j] * S(r, L) / r;
-      }
-    }
-    return KE + PE;
-  }
-  
-  // Compute angular momentum
-  function computeLz(pos, vel, m) {
-    let Lz = 0;
-    for (let i = 0; i < 3; i++) {
-      Lz += m[i] * (pos[i][0] * vel[i][1] - pos[i][1] * vel[i][0]);
-    }
-    return Lz;
-  }
-  
-  // Compute triangle deformation (deviation from equilateral)
-  function computeDeformation(pos) {
-    const d01 = Math.sqrt(Math.pow(pos[1][0]-pos[0][0],2) + Math.pow(pos[1][1]-pos[0][1],2));
-    const d12 = Math.sqrt(Math.pow(pos[2][0]-pos[1][0],2) + Math.pow(pos[2][1]-pos[1][1],2));
-    const d20 = Math.sqrt(Math.pow(pos[0][0]-pos[2][0],2) + Math.pow(pos[0][1]-pos[2][1],2));
-    const avg = (d01 + d12 + d20) / 3;
-    const variance = ((d01-avg)**2 + (d12-avg)**2 + (d20-avg)**2) / 3;
-    return Math.sqrt(variance) / avg * 100;
-  }
-  
-  // Initialize equilateral triangle configuration
-  function initBodies() {
-    const L = parseFloat(LSlider.value) * 1e9;
-    const M_total = parseFloat(massSlider.value) * 1e30;
-    const R = parseFloat(radiusSlider.value) * 1e9;
-    
-    const m = [M_total/3, M_total/3, M_total/3];
-    
-    // Equilateral triangle positions
-    const angles = [0, 2*Math.PI/3, 4*Math.PI/3];
-    const pos = angles.map(a => [R * Math.cos(a), R * Math.sin(a)]);
-    
-    // Circular orbit velocity
-    // For equilateral triangle: v = sqrt(G*M_total / (sqrt(3)*R)) approximately
-    const v_orbital = Math.sqrt(G * M_total / (Math.sqrt(3) * R));
-    const vel = angles.map(a => [-v_orbital * Math.sin(a), v_orbital * Math.cos(a)]);
-    
-    // Orbital period
-    period = 2 * Math.PI * R / v_orbital;
-    
-    bodies = { pos, vel, m, L };
-    trails = [[], [], []];
-    time = 0;
-    kickApplied = false;
-    
-    initialEnergy = computeEnergy(pos, vel, m, L);
-    
-    updateStatus('stable');
-  }
-  
-  // Update status display
-  function updateStatus(state) {
-    const statusColors = {
-      stable: { color: '#3fb950', text: '● Stable Equilateral', state: 'LOCKED' },
-      precessing: { color: '#f0b429', text: '● Precessing Rosette', state: 'PRECESSING' },
-      chaotic: { color: '#ef4444', text: '● Chaotic / Hierarchical', state: 'UNSTABLE' }
-    };
-    
-    const s = statusColors[state] || statusColors.stable;
-    if (statusEl) {
-      statusEl.innerHTML = `<span style="color:${s.color}">${s.text}</span>`;
-    }
-    if (stateEl) {
-      stateEl.textContent = s.state;
-      stateEl.style.color = s.color;
-    }
-  }
-  
-  // Draw simulation
-  function draw() {
-    const dpr = window.devicePixelRatio || 1;
-    ctx.setTransform(1, 0, 0, 1, 0, 0);  // Reset transform per frame
-    
-    const rect = canvas.getBoundingClientRect();
-    const W = rect.width;
-    const H = rect.height;
-    
-    ctx.fillStyle = '#0a0e14';
-    ctx.fillRect(0, 0, W, H);
-    
-    // Scale factor
-    const R = parseFloat(radiusSlider.value) * 1e9;
-    const scale = Math.min(W, H) / (4 * R);
-    const cx = W / 2;
-    const cy = H / 2;
-    
-    // Draw trails
-    const colors = ['#3fb950', '#f0b429', '#ec4899'];
-    for (let i = 0; i < 3; i++) {
-      if (trails[i].length > 1) {
-        ctx.beginPath();
-        ctx.strokeStyle = colors[i] + '40';
-        ctx.lineWidth = 1;
-        for (let j = 0; j < trails[i].length; j++) {
-          const x = cx + trails[i][j][0] * scale;
-          const y = cy - trails[i][j][1] * scale;
-          if (j === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-      }
-    }
-    
-    // Draw bodies
-    if (bodies.pos) {
-      for (let i = 0; i < 3; i++) {
-        const x = cx + bodies.pos[i][0] * scale;
-        const y = cy - bodies.pos[i][1] * scale;
-        
-        // Glow
-        const gradient = ctx.createRadialGradient(x, y, 0, x, y, 15);
-        gradient.addColorStop(0, colors[i]);
-        gradient.addColorStop(1, 'transparent');
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(x, y, 15, 0, 2 * Math.PI);
-        ctx.fill();
-        
-        // Core
-        ctx.fillStyle = colors[i];
-        ctx.beginPath();
-        ctx.arc(x, y, 6, 0, 2 * Math.PI);
-        ctx.fill();
-      }
-    }
-    
-    // Draw center of mass
-    if (bodies.pos) {
-      let comX = 0, comY = 0, totalM = 0;
-      for (let i = 0; i < 3; i++) {
-        comX += bodies.m[i] * bodies.pos[i][0];
-        comY += bodies.m[i] * bodies.pos[i][1];
-        totalM += bodies.m[i];
-      }
-      comX /= totalM;
-      comY /= totalM;
-      
-      const x = cx + comX * scale;
-      const y = cy - comY * scale;
-      ctx.strokeStyle = '#ffffff40';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(x, y, 4, 0, 2 * Math.PI);
-      ctx.stroke();
-    }
-  }
-  
-  // Animation loop
-  function step() {
-    if (!running) return;
-    
-    const dt = period / 1000; // ~1000 steps per orbit
-    const stepsPerFrame = 5;
-    
-    for (let s = 0; s < stepsPerFrame; s++) {
-      const result = rk4Step(bodies.pos, bodies.vel, bodies.m, bodies.L, dt);
-      bodies.pos = result.pos;
-      bodies.vel = result.vel;
-      time += dt;
-      
-      // Record trails
-      for (let i = 0; i < 3; i++) {
-        trails[i].push([bodies.pos[i][0], bodies.pos[i][1]]);
-        if (trails[i].length > maxTrailLength) trails[i].shift();
-      }
-    }
-    
-    // Update displays
-    const E = computeEnergy(bodies.pos, bodies.vel, bodies.m, bodies.L);
-    const dE = Math.abs((E - initialEnergy) / initialEnergy);
-    const Lz = computeLz(bodies.pos, bodies.vel, bodies.m);
-    const deform = computeDeformation(bodies.pos);
-    
-    if (timeEl) timeEl.textContent = `t = ${(time / period).toFixed(2)} periods`;
-    if (energyEl) energyEl.textContent = dE.toExponential(2);
-    if (LzEl) LzEl.textContent = Lz.toExponential(2);
-    if (deformEl) deformEl.textContent = deform.toFixed(2) + '%';
-    
-    // Determine system state
-    if (deform < 2) {
-      updateStatus('stable');
-    } else if (deform < 15) {
-      updateStatus('precessing');
-    } else {
-      updateStatus('chaotic');
-    }
-    
-    draw();
-    animId = requestAnimationFrame(step);
-  }
-  
-  // Apply perturbation kick
-  function applyKick() {
-    if (!bodies.vel) return;
-    
-    const strength = parseFloat(perturbSlider.value) / 100;
-    if (strength === 0) return;
-    
-    // Kick mass 0 in perpendicular direction
-    const v0 = Math.sqrt(bodies.vel[0][0]**2 + bodies.vel[0][1]**2);
-    bodies.vel[0][0] += bodies.vel[0][1] * strength;
-    bodies.vel[0][1] -= bodies.vel[0][0] * strength;
-    
-    kickApplied = true;
-    console.log(`Torsion kick applied: ${(strength*100).toFixed(1)}% at t=${(time/period).toFixed(2)} periods`);
-  }
-  
-  // Event handlers
-  if (startBtn) {
-    startBtn.addEventListener('click', () => {
-      if (running) {
-        running = false;
-        startBtn.textContent = '▶ Start';
-        if (animId) cancelAnimationFrame(animId);
-      } else {
-        if (!bodies.pos) initBodies();
-        running = true;
-        startBtn.textContent = '⏸ Pause';
-        step();
-      }
-    });
-  }
-  
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => {
-      running = false;
-      startBtn.textContent = '▶ Start';
-      if (animId) cancelAnimationFrame(animId);
-      initBodies();
-      draw();
-    });
-  }
-  
-  if (kickBtn) {
-    kickBtn.addEventListener('click', applyKick);
-  }
-  
-  // Initialize
-  initBodies();
-  draw();
-})();
-</script>
-
-<!-- JSON Archive Appendix (print-only) -->
-
-<pre id="jsonAppendix"
-     style="display:none; white-space:pre-wrap; font-size:10px; font-family:monospace; background:#f5f5f5; padding:1rem; border:1px solid #ccc;">
-</pre>
-
-<!-- Export JSON + Print PDF Script -->
-
-<script>
-(function () {
-  'use strict';
-
-  // SHA-256 hash function
-  async function sha256Hex(text) {
-    const enc = new TextEncoder();
-    const buf = await crypto.subtle.digest('SHA-256', enc.encode(text));
-    const arr = Array.from(new Uint8Array(buf));
-    return arr.map(b => b.toString(16).padStart(2,'0')).join('');
-  }
-
-  function safeText(el) { return (el && el.innerText) ? el.innerText.trim() : ""; }
-  function safeHTML(el) { return (el && el.innerHTML) ? el.innerHTML.trim() : ""; }
-
-  // ===== Reference Parsing → BibTeX + CSL-JSON =====
-  function parseYear(raw) {
-    const m = raw.match(/\b(19|20)\d{2}\b/);
-    return m ? parseInt(m[0], 10) : null;
-  }
-  function guessType(raw) {
-    const s = raw.toLowerCase();
-    if (s.includes("isbn") || s.includes("university press") || s.includes("springer") || s.includes("press")) return "book";
-    if (s.includes("doi:") || s.includes("volume") || s.includes("issue") || s.includes("pages") || s.includes("annalen") || s.includes("reports on progress")) return "article-journal";
-    if (s.includes("monograph") || s.includes("technical") || s.includes("report") || s.includes("manuscript")) return "report";
-    return "misc";
-  }
-  function guessTitle(raw) {
-    const q = raw.match(/"([^"]+)"/);
-    if (q && q[1]) return q[1].trim();
-    return raw;
-  }
-  function guessAuthors(raw) {
-    const firstPeriod = raw.indexOf(".");
-    if (firstPeriod > 0) {
-      const head = raw.slice(0, firstPeriod).trim();
-      if (head.includes(",") || head.toLowerCase().includes(" and ")) return head;
-    }
-    return null;
-  }
-  function bibKeyFromTitle(title, year, idx) {
-    const base = (title || "ref").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
-    const short = base.slice(0, 28) || "ref";
-    return `${short}_${year || "noyear"}_${idx}`;
-  }
-  function buildBibTeXEntry(item, idx) {
-    const year = item.year || "????";
-    const key = bibKeyFromTitle(item.title, item.year, idx);
-    const fields = [];
-    fields.push(`  title = {${item.title.replace(/\s+/g, " ").trim()}}`);
-    if (item.author_raw) fields.push(`  author = {${item.author_raw.replace(/\s+/g, " ").trim()}}`);
-    if (item.year) fields.push(`  year = {${item.year}}`);
-    fields.push(`  note = {${item.raw.replace(/\s+/g, " ").trim()}}`);
-    return `@misc{${key},\n${fields.join(",\n")}\n}\n`;
-  }
-  function buildCslItem(item, idx) {
-    const id = `ref-${idx}`;
-    const type = guessType(item.raw);
-    const csl = {
-      id,
-      type,
-      title: item.title,
-      issued: item.year ? { "date-parts": [[item.year]] } : undefined,
-      note: item.raw
-    };
-    if (item.author_raw && item.author_raw.toLowerCase().includes(" and ")) {
-      const parts = item.author_raw.split(/\s+and\s+/i).map(s => s.trim()).filter(Boolean);
-      csl.author = parts.map(p => ({ literal: p }));
-    } else if (item.author_raw) {
-      csl.author = [{ literal: item.author_raw }];
-    }
-    Object.keys(csl).forEach(k => (csl[k] === undefined) && delete csl[k]);
-    return csl;
-  }
-  function extractReferences() {
-    const references = [];
-    let k = 1;
-    document.querySelectorAll("#sec-refs ol li").forEach(li => {
-      const raw = li.innerText.trim();
-      if (!raw) return;
-      references.push({
-        index: k++,
-        raw,
-        title: guessTitle(raw),
-        year: parseYear(raw),
-        author_raw: guessAuthors(raw)
-      });
-    });
-    return references;
-  }
-  function generateBibAndCsl(references) {
-    const bib = references.map((r, i) => buildBibTeXEntry(r, i + 1)).join("\n");
-    const csl = references.map((r, i) => buildCslItem(r, i + 1));
-    return { bibtex: bib, csl_json: csl };
-  }
-  function downloadText(filename, text, mime) {
-    const blob = new Blob([text], { type: mime || "text/plain" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  }
-
-  function extractEquationTex(eqEl) {
-    const labelEl = eqEl.querySelector(".eq-label");
-    const label = labelEl ? safeText(labelEl) : null;
-    let raw = eqEl.cloneNode(true);
-    if (labelEl) {
-      const lbl = raw.querySelector(".eq-label");
-      if (lbl) lbl.remove();
-    }
-    const tex = safeText(raw);
-    return { label, tex };
-  }
-
-  async function collectDocumentJSON() {
-    // Check export mode
-    const includeNonCore = document.getElementById("exportIncludeNonCore")?.checked ?? false;
-    
-    // HARD LOCK: core-only is default and explicit
-    const coreOnly = includeNonCore === false;
-
-    // Collect all sections with FULL content (filter non-core if needed)
-    const sections = [];
-    document.querySelectorAll("section").forEach(sec => {
-      // Skip non-core sections unless explicitly included
-      if (sec.dataset.noncore && !includeNonCore) return;
-
-      const heading = sec.querySelector("h2, h3");
-      sections.push({
-        id: sec.id || null,
-        heading: heading ? heading.innerText.trim() : null,
-        text: sec.innerText.trim(),
-        html: sec.outerHTML,
-        noncore: !!sec.dataset.noncore
-      });
-    });
-
-    // Collect all equations
-    const equations = [];
-    document.querySelectorAll(".eq").forEach((eq, idx) => {
-      const out = extractEquationTex(eq);
-      equations.push({
-        index: idx + 1,
-        label: out.label,
-        tex: out.tex
-      });
-    });
-
-    // Collect references
-    const references = [];
-    const refRoot = document.querySelector("#sec-refs") || document.body;
-    const ols = refRoot.querySelectorAll("ol");
-    if (ols.length) {
-      let k = 1;
-      ols.forEach(ol => {
-        ol.querySelectorAll("li").forEach(li => {
-          references.push({ index: k++, citation: li.innerText.trim() });
-        });
-      });
-    } else {
-      let k = 1;
-      document.querySelectorAll("ol li").forEach(li => {
-        references.push({ index: k++, citation: li.innerText.trim() });
-      });
-    }
-
-    // === Interactive state snapshot ===
-    const sliders = {};
-    document.querySelectorAll("input[type=range]").forEach(el => {
-      if (el.id) {
-        sliders[el.id] = {
-          value: el.value,
-          min: el.min,
-          max: el.max,
-          step: el.step
-        };
-      }
-    });
-
-    const canvases = {};
-    document.querySelectorAll("canvas").forEach(c => {
-      if (c.id) {
-        canvases[c.id] = {
-          width: c.width,
-          height: c.height
-        };
-      }
-    });
-
-    // === Solver state with data source ===
-    const activeDataset = window.STUR_getActiveDataset ? window.STUR_getActiveDataset() : { mode: "synthetic", data: [], meta: {} };
-    const dataSource = window.__STUR_DATA_SOURCE__ || activeDataset;
-    
-    // If real data is active, synthetic cache MUST NOT leak into archive
-    const syntheticRuns = dataSource.mode === "real" 
-      ? [] 
-      : (window.__STUR_SYNTHETIC_CACHE__ || []);
-    
-    const solverState = {
-      data_source: dataSource.mode,
-      data_metadata: dataSource.meta || dataSource.metadata || {},
-      data_sample_preview: (dataSource.data || []).slice(0, 10),
-      data_row_count: (dataSource.data || []).length,
-      synthetic_runs: syntheticRuns,
-      chrono: {
-        lambda: 3722 / 2705,
-        epsilon_default: 0.05,
-        log_period: Math.log(3722 / 2705)
-      },
-      detection: {
-        delta_chi2_threshold: 25,
-        bic_strong_evidence: 10,
-        confidence_level: "5σ"
-      }
-    };
-
-    // Get data hash (use cached from import if available, else compute)
-    let dataHash = null;
-    if (dataSource.meta && dataSource.meta.sha256) {
-      dataHash = dataSource.meta.sha256;
-    } else if (dataSource.mode === "real" && dataSource.data && dataSource.data.length > 0) {
-      const rawData = JSON.stringify(dataSource.data);
-      dataHash = await sha256Hex(rawData);
-    }
-
-    // Parse schema.org
-    const schemaScript = document.querySelector('script[type="application/ld+json"]');
-    let schema = {};
-    try {
-      schema = schemaScript ? JSON.parse(schemaScript.innerText) : {};
-    } catch (e) {
-      schema = { error: "Could not parse schema.org" };
-    }
-
-    // Full document content
-    const docHTML = document.documentElement.outerHTML;
-    const docText = document.body.innerText.trim();
-
-    // Data license selection (embedded in archive)
-    const dataLicense = document.getElementById("dataLicenseSelect")?.value || "CC-BY";
-
-    // VERIFIER.md (embedded)
-    const verifierMd = (typeof window.VERIFIER_MD !== "undefined") ? window.VERIFIER_MD : null;
-
-    // Optional BibTeX + CSL-JSON
-    const includeCitations = !!document.getElementById("includeCitationsExport")?.checked;
-    const refs = extractReferences();
-    const bibcsl = includeCitations ? generateBibAndCsl(refs) : { bibtex: null, csl_json: null };
-
-    // Build archive
-    const archive = {
-      _type: "STUR_Physics_Engine_Archive",
-      _version: "2.3",
-      _generated_at: new Date().toISOString(),
-      _source_url: location.href,
-      _export_mode: includeNonCore ? "full" : "core-only",
-      _noncore_excluded: !includeNonCore,
-      _core_only_lock: coreOnly,
-      _data_mode: dataSource.mode,
-      _data_hash_sha256: dataHash,
-      _hash_sha256: null,
-      data_license: dataLicense,
-      metadata: {
-        title: document.title,
-        author: document.querySelector('meta[name="author"]')?.content || null,
-        description: document.querySelector('meta[name="description"]')?.content || null,
-        schema_org: schema
-      },
-      document: {
-        html: docHTML,
-        text: docText
-      },
-      framework: {
-        pillars: ["TEGR", "STUR", "HGEM", "Chronomagnetics"],
-        status: {
-          TEGR: "Established (≡ GR)",
-          STUR: "Closed, simulable, falsifiable",
-          HGEM: "Derived (weak-field limit)",
-          Chronomagnetics: "Illustrative, phenomenological"
-        }
-      },
-      sections: sections,
-      equations: equations,
-      references: references,
-      verifier_md: verifierMd,
-      citations: includeCitations ? {
-        generated_from: "sec-refs <ol><li> (innerText, best-effort parsing; raw citations preserved in note fields)",
-        bibtex: bibcsl.bibtex,
-        csl_json: bibcsl.csl_json
-      } : {
-        generated_from: null,
-        bibtex: null,
-        csl_json: null
-      },
-      holoscreen_model: {
-        functions: ["xcrmGradient", "holonomyVariance", "sturVisibilityFromPDE"],
-        parameters: ["R (resistance amplitude)", "L_X (XCRM scale)", "ΔL (arm separation)"],
-        output: "V = exp(-⟨Φ_R²⟩/2)"
-      },
-      interactive_state: {
-        sliders: sliders,
-        canvases: canvases
-      },
-      solver_state: solverState
-    };
-
-    // Compute SHA-256 hash
-    const preHash = JSON.stringify(archive, null, 2);
-    archive._hash_sha256 = await sha256Hex(preHash);
-    return archive;
-  }
-
-  // Export + Print PDF button
-  const btn = document.getElementById("exportJsonBtn");
-  if (btn) {
-    btn.addEventListener("click", () => {
-      (async () => {
-        const json = await collectDocumentJSON();
-        const jsonText = JSON.stringify(json, null, 2);
-
-        const appendix = document.getElementById("jsonAppendix");
-        if (appendix) {
-          appendix.textContent =
-            "═══════════════════════════════════════════════════════════════\n" +
-            "  STUR PHYSICS ENGINE — MACHINE-READABLE JSON ARCHIVE\n" +
-            "═══════════════════════════════════════════════════════════════\n" +
-            "  SHA-256: " + json._hash_sha256 + "\n" +
-            "  DATA LICENSE: " + (json.data_license || "CC-BY") + "\n" +
-            "═══════════════════════════════════════════════════════════════\n\n" +
-            jsonText;
-          appendix.style.display = "block";
-        }
-
-        setTimeout(() => { window.print(); }, 300);
-      })();
-    });
-  }
-
-  // Download JSON button
-  const dlBtn = document.getElementById("downloadJsonBtn");
-  if (dlBtn) {
-    dlBtn.addEventListener("click", () => {
-      (async () => {
-        const json = await collectDocumentJSON();
-        const jsonText = JSON.stringify(json, null, 2);
-        const blob = new Blob([jsonText], { type: "application/json" });
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "STUR_Physics_Engine_Archive.json";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-      })();
-    });
-  }
-
-  // Download BibTeX button
-  const bibBtn = document.getElementById("downloadBibBtn");
-  if (bibBtn) {
-    bibBtn.addEventListener("click", () => {
-      const refs = extractReferences();
-      const out = generateBibAndCsl(refs);
-      downloadText("STUR_References.bib", out.bibtex, "application/x-bibtex");
-    });
-  }
-
-  // Download CSL-JSON button
-  const cslBtn = document.getElementById("downloadCslBtn");
-  if (cslBtn) {
-    cslBtn.addEventListener("click", () => {
-      const refs = extractReferences();
-      const out = generateBibAndCsl(refs);
-      downloadText("STUR_References_CSL.json", JSON.stringify(out.csl_json, null, 2), "application/json");
-    });
-  }
 })();
 </script>
 
