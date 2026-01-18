@@ -1,11 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>STUR Sandbox — Geometry • Simulation • Falsification Loop</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data: https://cdn.jsdelivr.net; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<title>STUR Educational Sandbox — Physics Simulation Mastery</title>
 
-<!-- MathJax (SVG, no menu) -->
+<!-- MathJax -->
+
 <script>
 window.MathJax = {
   tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
@@ -13,6 +16,7 @@ window.MathJax = {
   options: { renderActions: { addMenu: [] } }
 };
 </script>
+
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <style>
@@ -20,856 +24,1787 @@ window.MathJax = {
   color-scheme: dark;
   --bg:#020617;
   --panel:#0b1226;
-  --panel2:#0a0f1f;
-  --border:#1f2937;
-  --fg:#e5e7eb;
-  --fg2:#9ca3af;
-  --fg3:#6b7280;
-  --accent:#ec4899;
-  --accent2:#38bdf8;
-  --good:#34d399;
+  --border:#1e293b;
+  --fg:#e2e8f0;
+  --fg2:#94a3b8;
+  --fg3:#64748b;
+  --accent:#22d3ee;
+  --accent2:#a78bfa;
+  --stur:#4ade80;
+  --tegr:#60a5fa;
+  --hgem:#f472b6;
+  --chrono:#fbbf24;
+  --good:#4ade80;
   --warn:#fbbf24;
-  --danger:#fb7185;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
-  --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  --r:16px;
+  --danger:#f87171;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --r:14px;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;overflow-x:hidden;background:var(--bg);color:var(--fg);font-family:var(--sans)}
-a{color:var(--accent2);text-decoration:none;word-break:break-word}
+html,body{width:100%;overflow-x:hidden;background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6}
+a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
-img,svg,canvas{max-width:100%}
-mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
+mjx-container{display:block;max-width:100%;overflow-x:auto;overflow-y:hidden;}
 
-/* Safe-area + responsive padding */
 .page{
-  max-width:1100px;
+  max-width:1200px;
   margin:auto;
-  padding: clamp(14px, 3.5vw, 28px);
-  padding-left: max(clamp(14px, 3.5vw, 28px), env(safe-area-inset-left));
-  padding-right: max(clamp(14px, 3.5vw, 28px), env(safe-area-inset-right));
-  padding-top: max(clamp(14px, 3.5vw, 28px), env(safe-area-inset-top));
-  padding-bottom: max(clamp(18px, 4vw, 32px), env(safe-area-inset-bottom));
+  padding: clamp(16px, 4vw, 32px);
+  padding-left: max(clamp(16px, 4vw, 32px), env(safe-area-inset-left));
+  padding-right: max(clamp(16px, 4vw, 32px), env(safe-area-inset-right));
 }
 
+/* Header */
 .header{
   border:1px solid var(--border);
   border-radius:var(--r);
-  padding: clamp(12px, 3.2vw, 22px);
-  margin-bottom: clamp(12px, 3vw, 22px);
-  background: radial-gradient(1200px 500px at 20% 0%, rgba(236,72,153,0.12), transparent 45%),
-              radial-gradient(900px 450px at 90% 10%, rgba(56,189,248,0.12), transparent 40%),
-              linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  padding: clamp(20px, 4vw, 32px);
+  margin-bottom: clamp(16px, 3vw, 24px);
+  background: 
+    radial-gradient(ellipse 800px 400px at 20% 0%, rgba(74,222,128,0.12), transparent),
+    radial-gradient(ellipse 600px 350px at 80% 20%, rgba(96,165,250,0.1), transparent),
+    linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  position:relative;
+  overflow:hidden;
+}
+.header::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:0.03;
+  pointer-events:none;
 }
 
 h1{
-  font-size: clamp(1.35rem, 5.8vw, 2.15rem);
-  line-height: 1.1;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-  background: linear-gradient(90deg, #e5e7eb, var(--accent), var(--accent2));
+  font-size: clamp(1.5rem, 5vw, 2.4rem);
+  font-weight:800;
+  letter-spacing:-.02em;
+  background: linear-gradient(135deg, var(--fg) 20%, var(--stur) 50%, var(--tegr) 80%);
   -webkit-background-clip:text;
   color:transparent;
+  margin-bottom:.5rem;
 }
-.subtitle{margin-top:.45rem;color:var(--fg2);line-height:1.6}
-.badges{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
-.badge{
-  font-family:var(--mono);
-  font-size:.78rem;
-  color:var(--fg);
-  border:1px solid var(--border);
-  padding:.28rem .55rem;
-  border-radius:999px;
-  background: rgba(2,6,23,0.55);
-}
+.subtitle{color:var(--fg2);font-size:clamp(0.95rem,3vw,1.05rem);max-width:800px}
 
+.pillars{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.pillar{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-family:var(--mono);font-size:.8rem;
+  padding:.35rem .7rem;border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(0,0,0,0.3);
+}
+.pillar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pillar-dot.tegr{background:var(--tegr);box-shadow:0 0 8px var(--tegr)}
+.pillar-dot.stur{background:var(--stur);box-shadow:0 0 8px var(--stur)}
+.pillar-dot.hgem{background:var(--hgem);box-shadow:0 0 8px var(--hgem)}
+.pillar-dot.chrono{background:var(--chrono);box-shadow:0 0 8px var(--chrono)}
+
+/* Panels */
 .panel{
   border:1px solid var(--border);
   border-radius:var(--r);
-  padding: clamp(12px, 3.2vw, 22px);
-  margin-bottom: clamp(12px, 3vw, 22px);
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding: clamp(16px, 4vw, 24px);
+  margin-bottom: clamp(16px, 3vw, 20px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.005));
 }
+.panel.lesson{border-left:3px solid var(--accent)}
+.panel.tegr{border-left:3px solid var(--tegr)}
+.panel.stur{border-left:3px solid var(--stur)}
+.panel.warn{border-left:3px solid var(--warn);background:rgba(251,191,36,0.05)}
+.panel.danger{border-left:3px solid var(--danger);background:rgba(248,113,113,0.05)}
+.panel.good{border-left:3px solid var(--good);background:rgba(74,222,128,0.05)}
 
 h2{
-  font-size: clamp(0.95rem, 3.6vw, 1.12rem);
-  letter-spacing:.08em;
+  font-size: clamp(1rem, 3.5vw, 1.15rem);
+  font-weight:700;
+  letter-spacing:.04em;
   text-transform:uppercase;
   color:var(--fg2);
-  margin-bottom:.6rem;
+  margin-bottom:.75rem;
+  display:flex;align-items:center;gap:.5rem;
 }
-h3{
-  font-size: clamp(0.92rem, 3.2vw, 1.02rem);
-  color:var(--accent2);
-  margin-top:1rem;
-  margin-bottom:.35rem;
+h2 .num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;
+  background:var(--accent);color:var(--bg);
+  font-size:.85rem;font-weight:800;
 }
-p, li{
-  font-size: clamp(0.95rem, 3.6vw, 1.0rem);
-  color:var(--fg2);
-  line-height:1.65;
+h3{font-size:clamp(0.95rem,3.2vw,1.05rem);color:var(--accent);margin:1rem 0 .5rem}
+h4{font-size:.95rem;color:var(--stur);margin:.8rem 0 .4rem}
+
+p,li{font-size:clamp(0.92rem,3.2vw,0.98rem);color:var(--fg2);margin-bottom:.5rem}
+ul,ol{padding-left:1.3rem}
+strong{color:var(--fg)}
+code{
+  font-family:var(--mono);
+  background:rgba(0,0,0,0.4);
+  padding:.15rem .4rem;
+  border-radius:4px;
+  font-size:.88em;
+  color:var(--stur);
 }
-ul{padding-left:1.2rem}
+
+/* Equations */
 .eq{
   border:1px solid var(--border);
-  border-radius:12px;
-  padding: clamp(10px, 2.8vw, 14px);
+  border-radius:10px;
+  padding: clamp(12px, 3vw, 16px);
   margin:.8rem 0;
   overflow-x:auto;
-  -webkit-overflow-scrolling: touch;
-  background: rgba(2,6,23,0.55);
+  -webkit-overflow-scrolling:touch;
+  background:rgba(0,0,0,0.3);
 }
+.eq.master{border:2px solid var(--stur);background:rgba(74,222,128,0.08)}
+.eq.boxed{border:2px solid var(--accent);background:rgba(34,211,238,0.06)}
+.eq-label{text-align:right;font-size:.78rem;color:var(--fg3);margin-top:.4rem;font-family:var(--mono)}
+
 pre{
-  background: rgba(2,6,23,0.7);
-  color: #a7f3d0;
+  background:rgba(0,0,0,0.5);
+  color:var(--stur);
   border:1px solid var(--border);
-  padding: 1rem;
-  border-radius: 12px;
+  padding:1rem;
+  border-radius:10px;
   overflow-x:auto;
-  font-size: .88rem;
-  -webkit-overflow-scrolling: touch;
-  font-family: var(--mono);
+  font-size:.85rem;
+  line-height:1.5;
+  font-family:var(--mono);
 }
 
-hr{border:none;border-top:1px solid var(--border);margin:1rem 0}
+/* Grid layouts */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:800px){.grid2{grid-template-columns:1fr}}
 
 /* Controls */
-.controls{
-  display:grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 1rem;
-  align-items:start;
-}
-@media (max-width: 820px){
-  .controls{grid-template-columns:1fr}
-}
+.controls{display:grid;grid-template-columns:1fr 1.3fr;gap:1.2rem;align-items:start}
+@media(max-width:900px){.controls{grid-template-columns:1fr}}
 
-.control{
-  display:flex;
-  flex-direction:column;
-  gap:.4rem;
-  margin-bottom:.6rem;
-}
-label{
-  color:var(--fg2);
-  font-size:.92rem;
-}
-input[type="range"]{ width:100% }
-input[type="number"], select{
+.control{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.6rem}
+label{color:var(--fg2);font-size:.88rem}
+input[type="range"]{width:100%;accent-color:var(--stur)}
+input[type="number"],select{
   width:100%;
-  background: rgba(2,6,23,0.65);
+  background:rgba(0,0,0,0.4);
   border:1px solid var(--border);
-  border-radius:10px;
-  padding:.65rem .65rem;
+  border-radius:8px;
+  padding:.55rem;
   color:var(--fg);
   font-family:var(--mono);
-  font-size:16px; /* iOS zoom guard */
+  font-size:16px;
 }
-.btnrow{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.6rem;
-  margin-top:.25rem;
-}
+
+.btnrow{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
 button{
   border:none;
-  border-radius:12px;
-  padding:.75rem 1rem;
-  font-weight:800;
+  border-radius:10px;
+  padding:.65rem 1rem;
+  font-weight:700;
   cursor:pointer;
-  color:#051018;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  font-family: var(--mono);
-  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
-  flex: 1 1 150px;
+  font-family:var(--mono);
+  font-size:.85rem;
+  transition:all .15s ease;
+  flex:1 1 130px;
 }
-button:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px rgba(56,189,248,0.18); filter:saturate(1.1) }
+button.primary{
+  background:linear-gradient(135deg,var(--stur),var(--tegr));
+  color:var(--bg);
+}
+button.primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(74,222,128,0.25)}
 button.secondary{
-  background: rgba(2,6,23,0.65);
+  background:rgba(0,0,0,0.4);
   border:1px solid var(--border);
   color:var(--fg);
-  box-shadow:none;
 }
-button.secondary:hover{ box-shadow:none; }
+button.secondary:hover{border-color:var(--accent)}
 
+/* Canvas */
 .canvas-wrap{
-  margin-top:.8rem;
+  margin-top:.6rem;
   border:1px solid var(--border);
-  border-radius:14px;
+  border-radius:12px;
   overflow:hidden;
   background:#000;
 }
-canvas{
-  display:block;
-  width:100%;
-  height: clamp(200px, 42vw, 300px);
-  background:#000;
-}
+canvas{display:block;width:100%;height:clamp(180px,36vw,260px);background:#000}
 
-.kpi-grid{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap:.75rem;
-  margin-top:.85rem;
-}
-@media (max-width: 720px){
-  .kpi-grid{grid-template-columns:1fr}
-}
+/* KPIs */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.5rem;margin-top:.7rem}
 .kpi{
   border:1px solid var(--border);
-  border-radius:14px;
-  padding:.85rem;
-  background: rgba(2,6,23,0.55);
+  border-radius:10px;
+  padding:.6rem;
+  background:rgba(0,0,0,0.3);
 }
-.kpi .k{ color:var(--fg3); font-size:.8rem; letter-spacing:.06em; text-transform:uppercase }
-.kpi .v{ margin-top:.35rem; font-family:var(--mono); color:var(--fg); font-size:1rem }
+.kpi .k{color:var(--fg3);font-size:.72rem;letter-spacing:.04em;text-transform:uppercase}
+.kpi .v{margin-top:.2rem;font-family:var(--mono);color:var(--fg);font-size:.9rem}
+.kpi .v.good{color:var(--good)}
+.kpi .v.warn{color:var(--warn)}
+.kpi .v.danger{color:var(--danger)}
 
-.energy-wrap{ margin-top:.8rem; }
-.energy-label{ color:var(--fg2); font-size:.9rem; }
-.energy-bar{
-  background:#0b1020;
+/* Tabs */
+.tabs{display:flex;gap:.4rem;margin-bottom:.8rem;flex-wrap:wrap}
+.tab{
+  padding:.5rem .9rem;border-radius:8px;cursor:pointer;
+  background:rgba(0,0,0,0.3);border:1px solid var(--border);
+  color:var(--fg2);font-size:.85rem;font-weight:600;
+  transition:all .15s;
+}
+.tab:hover{border-color:var(--accent)}
+.tab.active{background:var(--stur);color:var(--bg);border-color:var(--stur)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* Verification cards */
+.verify-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;margin-top:.7rem}
+.verify-card{
   border:1px solid var(--border);
-  border-radius:999px;
-  overflow:hidden;
-  height:12px;
-  margin-top:6px;
+  border-radius:10px;
+  padding:.8rem;
+  background:rgba(0,0,0,0.25);
 }
-.energy-inner{
-  height:100%;
-  width:0%;
-  background: linear-gradient(90deg, var(--good), var(--accent2));
-  transition:width 0.08s linear;
+.verify-card h4{margin:0 0 .3rem;font-size:.9rem;color:var(--accent)}
+.verify-card p{font-size:.82rem;margin:0}
+.verify-status{
+  display:inline-block;
+  padding:.15rem .45rem;
+  border-radius:5px;
+  font-size:.75rem;
+  font-weight:700;
+  margin-top:.35rem;
 }
+.verify-status.pass{background:rgba(74,222,128,0.2);color:var(--good)}
+.verify-status.fail{background:rgba(248,113,113,0.2);color:var(--danger)}
+.verify-status.warn{background:rgba(251,191,36,0.2);color:var(--warn)}
 
-details summary{ cursor:pointer; color:var(--fg); font-weight:700; margin-top:.75rem }
+details summary{cursor:pointer;color:var(--fg);font-weight:600;margin-top:.6rem;font-size:.95rem}
+details[open] summary{margin-bottom:.5rem}
+
 .result{
-  margin-top:.65rem;
-  padding: .9rem;
-  border:1px solid var(--border);
-  border-radius:12px;
-  background: rgba(56,189,248,0.08);
-  font-family: var(--mono);
-  font-size:.88rem;
-  color:var(--fg);
+  margin-top:.5rem;padding:.7rem;
+  border:1px solid var(--border);border-radius:10px;
+  background:rgba(34,211,238,0.05);
+  font-family:var(--mono);font-size:.82rem;color:var(--fg);
 }
 
 footer{
-  text-align:center;
-  color:var(--fg3);
-  font-size:.82rem;
-  padding: 1.2rem 0 .4rem;
+  text-align:center;color:var(--fg3);font-size:.8rem;
+  padding:1.5rem 0 .5rem;border-top:1px solid var(--border);margin-top:1rem;
 }
 </style>
+
 </head>
 
 <body>
 <div class="page">
 
-  <header class="header">
-    <h1>STUR Sandbox</h1>
-    <p class="subtitle">
-      A compact, interactive sandbox for exploring a chosen geometry, its analytic derivative, and a minimal dynamical response.
-      The goal is to generate exportable numerical artifacts suitable for downstream falsification and iteration.
-    </p>
-    <div class="badges">
-      <span class="badge">S(u)=tanh(u)(1-e^{-u})</span>
-      <span class="badge">u=r/L₀ (dimensionless)</span>
-      <span class="badge">Analytic dS/dr</span>
-      <span class="badge">DPR-correct canvas</span>
-      <span class="badge">JSON export</span>
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<!-- HEADER -->
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<header class="header">
+  <h1>STUR Educational Sandbox</h1>
+  <p class="subtitle">
+    Master physics simulation methodology through the Unified Teleparallel Effective Framework.
+    Learn to build falsifiable predictions, verify numerical accuracy, and design experiments that can kill your theory.
+  </p>
+  <div class="pillars">
+    <span class="pillar"><span class="pillar-dot tegr"></span>TEGR</span>
+    <span class="pillar"><span class="pillar-dot stur"></span>STUR</span>
+    <span class="pillar"><span class="pillar-dot hgem"></span>HGEM</span>
+    <span class="pillar"><span class="pillar-dot chrono"></span>Chronomagnetics</span>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<!-- LESSON 1: THEORY FOUNDATION -->
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<section class="panel lesson">
+  <h2><span class="num">1</span> Theory Foundation</h2>
+  <p>
+    Before writing simulation code, understand the mathematical structure you're implementing.
+    <strong>STUR</strong> introduces a scalar resistance field \(R(x^\mu, X)\) coupled to teleparallel torsion,
+    producing falsifiable interferometric predictions.
+  </p>
+
+  <div class="grid2">
+    <div class="panel tegr">
+      <h3>TEGR Backbone</h3>
+      <p>Teleparallel gravity uses <strong>tetrads</strong> \(e^a{}_\mu\) instead of the metric directly:</p>
+      <div class="eq">
+        \[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]
+      </div>
+      <p>Gravity appears through <strong>torsion</strong>, not curvature:</p>
+      <div class="eq">
+        \[T^a{}_{\mu\nu} = \partial_\mu e^a{}_\nu - \partial_\nu e^a{}_\mu\]
+      </div>
+      <p style="font-size:.85rem;color:var(--fg3)">
+        <em>Key insight:</em> TEGR ≡ GR at the level of field equations, but offers different coupling options.
+      </p>
     </div>
-  </header>
 
-  <section class="panel">
-    <h2>Purpose</h2>
-    <p>
-      This page provides a minimal, reproducible loop that connects:
-      <b>geometry</b> → <b>analytic derivative</b> → <b>toy dynamics</b> → <b>exportable data</b>.
-      It is intended as a scaffold for building and testing progressively higher-fidelity STUR simulations,
-      including PDE evolutions, boundary-gate models, and higher-dimensional mappings.
-    </p>
+```
+<div class="panel stur">
+  <h3>STUR Resistance Field</h3>
+  <p>The resistance field lives on a 5D manifold:</p>
+  <div class="eq">
+    \[R: M_4 \times X \rightarrow \mathbb{R}^{+}\]
+  </div>
+  <p>The <strong>XCRM closure</strong> relates the X-derivative to relaxation:</p>
+  <div class="eq boxed">
+    \[\frac{\partial R}{\partial X} = \frac{R - R_{\rm bg}}{L_X}\]
+    <div class="eq-label">XCRM Closure — exponential decay toward background</div>
+  </div>
+</div>
+```
 
-    <div class="eq">
-\[
-\boxed{
-S(u)=\tanh(u)\left(1-e^{-u}\right), \quad u=\frac{r}{L_0}
+  </div>
+
+  <h3>The Core STUR Evolution Equation</h3>
+  <p>This is the PDE we implement in simulation:</p>
+  <div class="eq master">
+    \[\boxed{\partial_t R = \nabla\!\cdot\!(D\nabla R) - \nabla R\cdot\Omega + \chi\,\frac{\partial R}{\partial X} + S}\]
+    <div class="eq-label">STUR PDE — Diffusion + Advection + Relaxation + Source</div>
+  </div>
+
+  <div class="panel warn">
+    <h4>⚠️ Simulation Checkpoint</h4>
+    <p>Before coding, identify each term and its numerical requirements:</p>
+    <ul>
+      <li><strong>Diffusion</strong> \(\nabla\!\cdot\!(D\nabla R)\): Second-order spatial derivative → requires implicit method for stability</li>
+      <li><strong>Advection</strong> \(-\nabla R\cdot\Omega\): First-order derivative → can cause numerical oscillations</li>
+      <li><strong>Relaxation</strong> \(\chi\partial_X R = \chi(R-R_{\rm bg})/L_X\): Drives toward equilibrium</li>
+      <li><strong>Source</strong> \(S\): Torsion coupling \(S = 2\alpha \mathbb{T} R\)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<!-- LESSON 2: THE OBSERVABLE -->
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<section class="panel lesson">
+  <h2><span class="num">2</span> The Observable Prediction</h2>
+  <p>
+    A simulation is only useful if it predicts something <strong>measurable</strong>.
+    STUR's key prediction is the <strong>visibility law</strong> — Gaussian suppression with arm separation.
+  </p>
+
+  <h3>Holonomy → Visibility</h3>
+  <p>The resistance holonomy around interferometer path \(\mathcal{C}\):</p>
+  <div class="eq">
+    \[\Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \mathcal{A}^{(R)}_\mu\, dx^\mu, \quad \mathcal{A}^{(R)}_\mu = \frac{1}{L_X}(R - R_{\rm bg})\,n_\mu\]
+  </div>
+
+  <p>In the small-phase regime, visibility follows from Gaussian statistics:</p>
+  <div class="eq boxed">
+    \[V \approx V_0\,\exp\!\left(-\frac{\langle \Phi_R^2\rangle}{2}\right)\]
+    <div class="eq-label">Cumulant Truncation (valid for small phase variance)</div>
+  </div>
+
+  <h3>The Discriminating Prediction</h3>
+  <p>Combining XCRM closure with statistical averaging yields:</p>
+  <div class="eq master">
+    \[\boxed{V(\Delta L) = V_0 \exp\!\left[-\left(\frac{\Delta L}{\ell_{\rm coh}}\right)^{\!2}\right]}\]
+    <div class="eq-label">STUR Visibility Law — THE testable prediction</div>
+  </div>
+
+  <p>Coherence length from theory:</p>
+  <div class="eq">
+    \[\ell_{\rm coh} = \sqrt{2}\,\frac{L_X}{\sigma_R} = \frac{p_0}{y\,K_{\rm eff}}\]
+  </div>
+
+  <div class="panel good">
+    <h4>✓ Why This Is Falsifiable</h4>
+    <p>STUR predicts visibility depends on <strong>arm separation ΔL only</strong>, NOT on:</p>
+    <ul>
+      <li>Particle mass (neutrons and atoms must agree)</li>
+      <li>Interrogation time (unlike decoherence models)</li>
+      <li>Internal structure of the quantum system</li>
+    </ul>
+    <p>Competitors (standard decoherence, ULDM) scale differently. <strong>This is the discriminator.</strong></p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<!-- LESSON 3: NUMERICAL METHODS -->
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<section class="panel lesson">
+  <h2><span class="num">3</span> Numerical Methods</h2>
+  <p>
+    Translating PDEs to code requires careful discretization.
+    We implement <strong>Crank-Nicolson</strong> — a semi-implicit method that's unconditionally stable.
+  </p>
+
+  <h3>Why Not Explicit Euler?</h3>
+  <p>Simple forward Euler has a strict stability limit (CFL condition):</p>
+  <div class="eq">
+    \[\Delta t < \frac{(\Delta x)^2}{2D} \quad \text{(explicit stability limit)}\]
+  </div>
+  <p>This forces tiny timesteps for fine grids. Crank-Nicolson removes this restriction.</p>
+
+  <h3>Crank-Nicolson: Semi-Implicit Averaging</h3>
+  <p>Average the spatial operator between time levels \(n\) and \(n+1\):</p>
+  <div class="eq boxed">
+    \[\frac{R_i^{n+1} - R_i^n}{\Delta t} = \frac{1}{2}\Big[\mathcal{L}(R^n) + \mathcal{L}(R^{n+1})\Big]\]
+    <div class="eq-label">Unconditionally stable for diffusion</div>
+  </div>
+
+  <p>This yields a <strong>tridiagonal system</strong> \(\mathbf{A}\cdot R^{n+1} = \mathbf{b}\), solved efficiently via Thomas algorithm.</p>
+
+  <h3>Code Pattern: Thomas Algorithm (TDMA)</h3>
+<pre>
+// Solve: a[i]·x[i-1] + b[i]·x[i] + c[i]·x[i+1] = d[i]
+function solveTridiagonal(a, b, c, d) {
+  const n = d.length;
+  const cp = new Float64Array(n);  // c-prime
+  const dp = new Float64Array(n);  // d-prime
+  const x  = new Float64Array(n);  // solution
+
+// Forward sweep
+cp[0] = c[0] / b[0];
+dp[0] = d[0] / b[0];
+for (let i = 1; i < n; i++) {
+const m = 1 / (b[i] - a[i] * cp[i-1]);
+cp[i] = c[i] * m;
+dp[i] = (d[i] - a[i] * dp[i-1]) * m;
 }
-\]
-    </div>
 
+// Back substitution
+x[n-1] = dp[n-1];
+for (let i = n-2; i >= 0; i–) {
+x[i] = dp[i] - cp[i] * x[i+1];
+}
+return x;
+}
+</pre>
+
+  <div class="panel warn">
+    <h4>⚠️ Verification Requirements</h4>
+    <p>Before trusting results, verify:</p>
+    <ul>
+      <li><strong>Conservation:</strong> Does total "mass" \(\int R\,dx\) change only via boundaries/sources?</li>
+      <li><strong>Stability:</strong> No NaN/Inf, solution stays bounded for long runs</li>
+      <li><strong>Convergence:</strong> Halving \(\Delta x\) gives same answer (to numerical precision)</li>
+      <li><strong>Consistency:</strong> Known analytic solutions recovered exactly</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<!-- INTERACTIVE SIMULATORS -->
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<section class="panel stur">
+  <h2><span class="num">4</span> Interactive Simulators</h2>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="pde">PDE Solver</div>
+    <div class="tab" data-tab="visibility">Visibility Calculator</div>
+    <div class="tab" data-tab="geometry">Saturation Geometry</div>
+    <div class="tab" data-tab="chrono">Chronomagnetics</div>
+  </div>
+
+  <!-- ═══════════ TAB: PDE SOLVER ═══════════ -->
+
+  <div class="tab-content active" id="tab-pde">
     <p>
-      The demonstrator dynamics uses a simple radial rule driven by the geometry slope:
-      \(F(r)=-\partial_r S(r)\), with linear damping and soft boundary reflections.
-      This is a pedagogical baseline and is not presented as a complete physical model.
-    </p>
-  </section>
-
-  <section class="panel">
-    <h2>Interactive Sandbox</h2>
-
-    <div class="controls">
-      <div>
-        <h3>Parameters</h3>
-
-        <div class="control">
-          <label>L₀ (geometry scale): <span id="L0_val">1.00</span></label>
-          <input type="range" id="L0" min="0.2" max="3" value="1" step="0.05" />
-        </div>
-
-        <div class="control">
-          <label>R<sub>max</sub> (domain extent): <span id="Rmax_val">5.0</span></label>
-          <input type="range" id="Rmax" min="2" max="10" value="5" step="0.25" />
-        </div>
-
-        <div class="control">
-          <label>Damping γ: <span id="gamma_val">0.050</span></label>
-          <input type="range" id="gamma" min="0" max="0.25" value="0.05" step="0.005" />
-        </div>
-
-        <div class="control">
-          <label>Time step dt: <span id="dt_val">0.020</span></label>
-          <input type="range" id="dt" min="0.005" max="0.06" value="0.02" step="0.001" />
-        </div>
-
-        <div class="btnrow">
-          <button id="toggleAnim">▶ Start</button>
-          <button class="secondary" id="kickBtn">⚡ Kick</button>
-          <button class="secondary" id="resetBtn">⟲ Reset</button>
-          <button class="secondary" id="downloadBtn">⬇ Export JSON</button>
-        </div>
-
-        <div class="energy-wrap">
-          <div class="energy-label">Speed indicator (|v| mapped to bar):</div>
-          <div class="energy-bar"><div id="speed_bar" class="energy-inner"></div></div>
-        </div>
-
-        <div class="kpi-grid">
-          <div class="kpi">
-            <div class="k">Phase proxy</div>
-            <div class="v" id="kpi_phase">—</div>
-          </div>
-          <div class="kpi">
-            <div class="k">Local slope dS/dr</div>
-            <div class="v" id="kpi_slope">—</div>
-          </div>
-          <div class="kpi">
-            <div class="k">Force F=-dS/dr</div>
-            <div class="v" id="kpi_force">—</div>
-          </div>
-        </div>
-
-        <details>
-          <summary>Show live numerical output</summary>
-          <pre id="output"></pre>
-        </details>
-      </div>
-
-      <div>
-        <h3>Plot</h3>
-        <p style="margin-bottom:.5rem;color:var(--fg2)">
-          Orange: \(S(r)\). Cyan: particle on the curve. Faint cyan trail: recent history.
-        </p>
-
-        <div class="canvas-wrap">
-          <canvas id="plot"></canvas>
-        </div>
-
-        <div class="result" id="mini_readme">
-          The export includes sampled geometry values (<b>S(r)</b>, <b>dS/dr</b>, and <b>F(r)</b>) along with the simulated trajectory and settings,
-          enabling direct reuse in subsequent models and falsification workflows.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="panel">
-    <h2>STUR 1D → 5D Starter Template (Copy Ready)</h2>
-    <p>
-      This reference template reproduces the same dimensionless geometry \(u=r/L_0\), analytic derivative, and a clean JSON summary.
-      It is compatible with JupyterLite / Pyodide environments (no animation blitting; optional JSON saving only).
+      Implements full STUR PDE with R↔𝕋 back-reaction using Crank-Nicolson.
+      Watch resistance and torsion co-evolve.
     </p>
 
-<pre id="ai_template"># ===============================================================
-# STUR 1D → 5D Manifold Suite — Pyodide/JupyterLite-safe
-# Geometry: S(u)=tanh(u)(1-exp(-u)), u=r/L0
-# ===============================================================
+```
+<div class="controls">
+  <div>
+    <h4>Physics Parameters</h4>
+    <div class="control">
+      <label>Diffusion D: <span id="D_val">0.50</span></label>
+      <input type="range" id="D_slider" min="0.05" max="2" value="0.5" step="0.05">
+    </div>
+    <div class="control">
+      <label>Relaxation L<sub>X</sub>: <span id="LX_val">2.00</span></label>
+      <input type="range" id="LX_slider" min="0.5" max="5" value="2" step="0.1">
+    </div>
+    <div class="control">
+      <label>Torsion Coupling α: <span id="alpha_val">0.10</span></label>
+      <input type="range" id="alpha_slider" min="0" max="1" value="0.1" step="0.01">
+    </div>
+    <div class="control">
+      <label>Initial Amplitude R₀: <span id="R0_val">1.00</span></label>
+      <input type="range" id="R0_slider" min="0.1" max="3" value="1" step="0.1">
+    </div>
+
+    <h4>Numerical Parameters</h4>
+    <div class="control">
+      <label>Grid Points N: <span id="N_val">100</span></label>
+      <input type="range" id="N_slider" min="50" max="200" value="100" step="10">
+    </div>
+    <div class="control">
+      <label>Time Step dt: <span id="dt_val">0.50</span></label>
+      <input type="range" id="dt_slider" min="0.1" max="2" value="0.5" step="0.1">
+    </div>
+
+    <div class="btnrow">
+      <button class="primary" id="pde_run">▶ Run</button>
+      <button class="secondary" id="pde_reset">↺ Reset</button>
+      <button class="secondary" id="pde_export">⬇ Export</button>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="k">Time Step</div><div class="v" id="kpi_step">0</div></div>
+      <div class="kpi"><div class="k">Max |R-R<sub>bg</sub>|</div><div class="v" id="kpi_maxR">—</div></div>
+      <div class="kpi"><div class="k">Max 𝕋</div><div class="v" id="kpi_maxT">—</div></div>
+      <div class="kpi"><div class="k">G<sub>eff</sub>/G</div><div class="v good" id="kpi_Geff">1.0000</div></div>
+      <div class="kpi"><div class="k">Total Mass</div><div class="v" id="kpi_mass">—</div></div>
+      <div class="kpi"><div class="k">Δt·D/Δx² (Info)</div><div class="v" id="kpi_cfl">—</div></div>
+    </div>
+  </div>
+
+  <div>
+    <h4>Field Profiles</h4>
+    <div class="canvas-wrap"><canvas id="pde_canvas_R"></canvas></div>
+    <p style="text-align:center;font-size:.78rem;color:var(--fg3);margin-top:.3rem">
+      R(x,t) — Resistance Field (green)
+    </p>
+    <div class="canvas-wrap" style="margin-top:.4rem"><canvas id="pde_canvas_T"></canvas></div>
+    <p style="text-align:center;font-size:.78rem;color:var(--fg3);margin-top:.3rem">
+      𝕋(x,t) — Torsion Scalar (purple)
+    </p>
+  </div>
+</div>
+
+<details>
+  <summary>Verification Diagnostics</summary>
+  <div class="verify-grid" id="verify_grid">
+    <div class="verify-card">
+      <h4>Mass Conservation</h4>
+      <p>∑R·dx changes only via boundaries</p>
+      <span class="verify-status" id="v_mass">—</span>
+    </div>
+    <div class="verify-card">
+      <h4>Stability</h4>
+      <p>No NaN/Inf values</p>
+      <span class="verify-status" id="v_stable">—</span>
+    </div>
+    <div class="verify-card">
+      <h4>Positivity</h4>
+      <p>R ≥ 0 everywhere</p>
+      <span class="verify-status" id="v_pos">—</span>
+    </div>
+    <div class="verify-card">
+      <h4>Boundedness</h4>
+      <p>|R| &lt; 100</p>
+      <span class="verify-status" id="v_bound">—</span>
+    </div>
+  </div>
+</details>
+```
+
+  </div>
+
+  <!-- ═══════════ TAB: VISIBILITY ═══════════ -->
+
+  <div class="tab-content" id="tab-visibility">
+    <p>
+      Explore STUR visibility prediction. Compare Gaussian (STUR) vs sinusoidal (ULDM) vs constant (null).
+    </p>
+
+```
+<div class="controls">
+  <div>
+    <h4>STUR Parameters</h4>
+    <div class="control">
+      <label>Coherence Length ℓ<sub>coh</sub> (m): <span id="lcoh_val">3.00</span></label>
+      <input type="range" id="lcoh_slider" min="0.5" max="15" value="3" step="0.25">
+    </div>
+    <div class="control">
+      <label>Baseline Visibility V₀: <span id="V0_val">0.95</span></label>
+      <input type="range" id="V0_slider" min="0.5" max="1" value="0.95" step="0.01">
+    </div>
+    <div class="control">
+      <label>Path Difference ΔL (m): <span id="deltaL_val">0.50</span></label>
+      <input type="range" id="deltaL_slider" min="0" max="6" value="0.5" step="0.05">
+    </div>
+    <div class="control">
+      <label>Noise Floor σ: <span id="noise_val">0.03</span></label>
+      <input type="range" id="noise_slider" min="0" max="0.15" value="0.03" step="0.005">
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="k">V (STUR)</div><div class="v good" id="kpi_vis">—</div></div>
+      <div class="kpi"><div class="k">Phase Φ<sub>R</sub></div><div class="v" id="kpi_phi">—</div></div>
+      <div class="kpi"><div class="k">5σ Threshold ΔL</div><div class="v" id="kpi_detect">—</div></div>
+      <div class="kpi"><div class="k">Δχ² vs Null</div><div class="v" id="kpi_chi2">—</div></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="canvas-wrap"><canvas id="vis_canvas"></canvas></div>
+    <div style="display:flex;justify-content:center;gap:1.2rem;margin-top:.5rem;font-size:.82rem;flex-wrap:wrap">
+      <span><span style="display:inline-block;width:10px;height:10px;background:var(--stur);border-radius:50%"></span> STUR (Gaussian)</span>
+      <span><span style="display:inline-block;width:10px;height:10px;background:var(--chrono);border-radius:50%"></span> ULDM (Sinusoidal)</span>
+      <span><span style="display:inline-block;width:10px;height:10px;background:var(--fg3);border-radius:50%"></span> Null</span>
+      <span><span style="display:inline-block;width:10px;height:10px;background:var(--danger);border-radius:50%"></span> Noise Floor</span>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══════════ TAB: GEOMETRY ═══════════ -->
+
+  <div class="tab-content" id="tab-geometry">
+    <p>
+      Explore the saturation operator \(S_u(u) = \tanh(u)(1-e^{-u})\) and its analytic derivative.
+      A particle moves on this curve driven by the local slope.
+    </p>
+
+```
+<div class="controls">
+  <div>
+    <h4>Geometry Parameters</h4>
+    <div class="control">
+      <label>Scale L₀: <span id="L0_val">1.00</span></label>
+      <input type="range" id="L0_slider" min="0.2" max="3" value="1" step="0.05">
+    </div>
+    <div class="control">
+      <label>Domain R<sub>max</sub>: <span id="Rmax_val">5.00</span></label>
+      <input type="range" id="Rmax_slider" min="2" max="10" value="5" step="0.25">
+    </div>
+    <div class="control">
+      <label>Damping γ: <span id="gamma_val">0.050</span></label>
+      <input type="range" id="gamma_slider" min="0" max="0.25" value="0.05" step="0.005">
+    </div>
+    <div class="control">
+      <label>Time Step dt: <span id="geo_dt_val">0.020</span></label>
+      <input type="range" id="geo_dt_slider" min="0.005" max="0.06" value="0.02" step="0.001">
+    </div>
+
+    <div class="btnrow">
+      <button class="primary" id="geo_toggle">▶ Start</button>
+      <button class="secondary" id="geo_kick">⚡ Kick</button>
+      <button class="secondary" id="geo_reset">↺ Reset</button>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="k">Position r</div><div class="v" id="kpi_r">—</div></div>
+      <div class="kpi"><div class="k">Velocity v</div><div class="v" id="kpi_v">—</div></div>
+      <div class="kpi"><div class="k">S(r)</div><div class="v" id="kpi_S">—</div></div>
+      <div class="kpi"><div class="k">dS/dr</div><div class="v" id="kpi_dS">—</div></div>
+      <div class="kpi"><div class="k">Force F</div><div class="v" id="kpi_F">—</div></div>
+      <div class="kpi"><div class="k">u = r/L₀</div><div class="v" id="kpi_u">—</div></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="canvas-wrap"><canvas id="geo_canvas"></canvas></div>
+    <p style="text-align:center;font-size:.78rem;color:var(--fg3);margin-top:.3rem">
+      Orange: S(r). Cyan: particle. Trail: recent history.
+    </p>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══════════ TAB: CHRONOMAGNETICS ═══════════ -->
+
+  <div class="tab-content" id="tab-chrono">
+    <p>
+      Chronomagnetics introduces log-periodic modulation via the geometric constant λ = 3722/2705.
+    </p>
+
+```
+<div class="grid2">
+  <div>
+    <h4>The Chronomagnetic Constant</h4>
+    <div class="eq master">
+      \[\lambda = \frac{3722}{2705} \approx 1.37597\]
+    </div>
+    <p>Derived from triangle geometry with sides {116, 138, 144}.</p>
+
+    <h4>Log-Time Modulation</h4>
+    <div class="eq">
+      \[\mathcal{M}(u) = 1 + \epsilon\cos\!\left(\frac{2\pi u}{\ln\lambda}\right)\]
+    </div>
+    <p>where \(u(t) = \ln((t+t_c)/t_0)\).</p>
+
+    <div class="control" style="margin-top:1rem">
+      <label>Amplitude ε: <span id="eps_val">0.05</span></label>
+      <input type="range" id="eps_slider" min="0" max="0.2" value="0.05" step="0.005">
+    </div>
+    <div class="control">
+      <label>Time (Ma): <span id="time_val">1.00</span></label>
+      <input type="range" id="time_slider" min="0.1" max="10" value="1" step="0.1">
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="k">λ</div><div class="v">1.37597</div></div>
+      <div class="kpi"><div class="k">ln(λ)</div><div class="v">0.31909</div></div>
+      <div class="kpi"><div class="k">M(t)</div><div class="v" id="kpi_M">—</div></div>
+      <div class="kpi"><div class="k">ℓ<sub>coh</sub>·M</div><div class="v" id="kpi_lcohM">—</div></div>
+    </div>
+  </div>
+
+  <div>
+    <h4>Modulation Over Time</h4>
+    <div class="canvas-wrap"><canvas id="chrono_canvas"></canvas></div>
+    <p style="text-align:center;font-size:.78rem;color:var(--fg3);margin-top:.3rem">
+      M(u) — Log-periodic in time (gold)
+    </p>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<!-- LESSON 5: FALSIFICATION -->
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<section class="panel danger">
+  <h2><span class="num">5</span> Verification & Falsification</h2>
+  <p>
+    A simulation is worthless if it can't be falsified.
+    Here's how to design experiments that can <strong>kill</strong> your theory.
+  </p>
+
+  <h3>Verification Hierarchy</h3>
+  <ol>
+    <li><strong>Code verification:</strong> Does the code solve the equations correctly? (Manufactured solutions)</li>
+    <li><strong>Solution verification:</strong> Is the numerical solution converged? (Grid refinement)</li>
+    <li><strong>Validation:</strong> Does simulation match real data? (Comparison to experiment)</li>
+  </ol>
+
+  <h3>STUR Hard Kill Conditions</h3>
+  <p>Any single observation below <strong>kills STUR</strong>. No parameter tweaking saves it:</p>
+
+  <div class="verify-grid" style="margin-top:.8rem">
+    <div class="verify-card" style="border-color:var(--danger)">
+      <h4 style="color:var(--danger)">❌ Time Scaling</h4>
+      <p>Visibility scales with interrogation time t rather than arm separation ΔL</p>
+    </div>
+    <div class="verify-card" style="border-color:var(--danger)">
+      <h4 style="color:var(--danger)">❌ Mass Dependence</h4>
+      <p>Neutron and atom interferometers disagree at identical ΔL</p>
+    </div>
+    <div class="verify-card" style="border-color:var(--danger)">
+      <h4 style="color:var(--danger)">❌ Wrong Functional Form</h4>
+      <p>Suppression is e<sup>−ΔL/ℓ</sup> (linear) or oscillatory, not Gaussian</p>
+    </div>
+    <div class="verify-card" style="border-color:var(--danger)">
+      <h4 style="color:var(--danger)">❌ No Signal at All</h4>
+      <p>No ΔL-dependent suppression at ≥5σ with MAGIS-100 sensitivity</p>
+    </div>
+  </div>
+
+  <h3>Statistical Standards</h3>
+  <div class="eq">
+    \[\text{Frequentist: } 5\sigma \text{ rejection}\quad|\quad \text{Bayesian: } \Delta\ln\mathcal{Z} > 5 \text{ (decisive)}\]
+  </div>
+  <p>For model comparison: \(\Delta\chi^2 > 25\) discriminates STUR from ULDM at 5σ.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<!-- PYTHON TEMPLATE -->
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<section class="panel">
+  <h2><span class="num">6</span> Complete Python Template</h2>
+  <p>
+    Production-ready code implementing the full STUR framework with verification hooks.
+    Copy to JupyterLite or local environment.
+  </p>
+
+<pre id="python_template">"""
+STUR Educational Simulation — Complete Framework
+================================================
+Implements:
+  1. STUR PDE with Crank-Nicolson solver
+  2. Visibility prediction V(ΔL)
+  3. Chronomagnetic modulation M(u)
+  4. Verification diagnostics
+  5. JSON export for falsification workflows
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import json
+from datetime import datetime
 
-# -------------------------------
-# 1) Geometry (dimensionless u)
-# -------------------------------
+# ═══════════════════════════════════════════════════════════
+# CONSTANTS
+# ═══════════════════════════════════════════════════════════
+LAMBDA = 3722 / 2705  # Chronomagnetic constant ≈ 1.37597
+LN_LAMBDA = np.log(LAMBDA)
+
+# ═══════════════════════════════════════════════════════════
+# SATURATION GEOMETRY
+# ═══════════════════════════════════════════════════════════
 def Su(u):
-    return np.tanh(u) * (1.0 - np.exp(-u))
+    """Saturation operator S_u(u) = tanh(u)(1 - e^{-u})"""
+    return np.tanh(u) * (1 - np.exp(-u))
 
 def dSu_du(u):
-    # d/du [tanh(u)(1-e^{-u})]
-    sech2 = 1.0 / np.cosh(u)**2
-    return sech2*(1.0 - np.exp(-u)) + np.tanh(u)*np.exp(-u)
+    """Analytic derivative dS/du"""
+    sech2 = 1 / np.cosh(u)**2
+    return sech2 * (1 - np.exp(-u)) + np.tanh(u) * np.exp(-u)
 
-def S_r(r, L0=1.0):
-    u = r / L0
-    return Su(u)
+# ═══════════════════════════════════════════════════════════
+# VISIBILITY PREDICTION
+# ═══════════════════════════════════════════════════════════
+def stur_visibility(dL, l_coh, V0=1.0):
+    """
+    STUR visibility law: V = V0 * exp(-(ΔL/ℓ_coh)²)
+    This is THE testable prediction.
+    """
+    return V0 * np.exp(-(dL / l_coh)**2)
 
-def dS_dr(r, L0=1.0):
-    u = r / L0
-    return dSu_du(u) / L0
+def uldm_visibility(dL, period=1.5, offset=0.5, amplitude=0.4):
+    """ULDM competitor: sinusoidal oscillation"""
+    return offset + amplitude * np.cos(2 * np.pi * dL / period)
 
-def force(r, L0=1.0):
-    return -dS_dr(r, L0)
+# ═══════════════════════════════════════════════════════════
+# CHRONOMAGNETICS
+# ═══════════════════════════════════════════════════════════
+def chrono_modulation(t, epsilon=0.05, t_c=1e6, t_0=1.0):
+    """
+    Chronomagnetic modulation M(u)
+    u(t) = ln((t + t_c) / t_0)
+    M(u) = 1 + ε cos(2πu / ln λ)
+    """
+    u = np.log((t + t_c) / t_0)
+    return 1 + epsilon * np.cos(2 * np.pi * u / LN_LAMBDA)
 
-# -------------------------------
-# 2) Simple radial dynamics (demo)
-# -------------------------------
-def step(r, v, dt=0.02, L0=1.0, gamma=0.05, Rmax=5.0):
-    F = force(r, L0)
-    v = v + (F - gamma*v) * dt
-    r = r + v * dt
+# ═══════════════════════════════════════════════════════════
+# NUMERICAL SOLVER: CRANK-NICOLSON
+# ═══════════════════════════════════════════════════════════
+def solve_tridiagonal(a, b, c, d):
+    """
+    Thomas algorithm for tridiagonal systems.
+    Solves: a[i]·x[i-1] + b[i]·x[i] + c[i]·x[i+1] = d[i]
+    """
+    n = len(d)
+    cp = np.zeros(n)
+    dp = np.zeros(n)
+    x = np.zeros(n)
+    
+    cp[0] = c[0] / b[0]
+    dp[0] = d[0] / b[0]
+    
+    for i in range(1, n):
+        denom = b[i] - a[i] * cp[i-1]
+        m = 0.0 if abs(denom) < 1e-12 else 1.0 / denom
+        cp[i] = c[i] * m
+        dp[i] = (d[i] - a[i] * dp[i-1]) * m
+    
+    x[n-1] = dp[n-1]
+    for i in range(n-2, -1, -1):
+        x[i] = dp[i] - cp[i] * x[i+1]
+    
+    return x
 
-    # soft wall bounce
-    if r < 0.0:
-        r = 0.0
-        v *= -0.4
-    if r > Rmax:
-        r = Rmax
-        v *= -0.4
-    return r, v, F
+class STURSolver:
+    """
+    1D STUR PDE solver with R ↔ T back-reaction.
+    
+    PDE: ∂R/∂t = D∇²R - (R-R_bg)/L_X + 2αTR
+    Torsion: T ∝ κ(∂R/∂x)²
+    """
+    
+    def __init__(self, N=100, L=10.0, D=0.5, L_X=2.0, 
+                 alpha=0.1, kappa=1.0, R_bg=0.0, dt=0.5):
+        self.N = N
+        self.L = L
+        self.dx = L / N
+        self.D = D
+        self.L_X = L_X
+        self.alpha = alpha
+        self.kappa = kappa
+        self.R_bg = R_bg
+        self.dt = dt
+        
+        self.R = np.zeros(N)
+        self.T = np.zeros(N)
+        self.timestep = 0
+        self.initial_mass = 0.0
+    
+    def initialize_gaussian(self, R0=1.0, width_frac=0.1):
+        """Initialize with Gaussian perturbation"""
+        center = self.N // 2
+        sigma = self.N * width_frac
+        x = np.arange(self.N)
+        self.R = self.R_bg + R0 * np.exp(-(x - center)**2 / (2*sigma**2))
+        self.initial_mass = np.sum(self.R) * self.dx
+        self.timestep = 0
+    
+    def compute_torsion(self):
+        """Compute torsion from resistance gradients"""
+        dRdx = np.zeros(self.N)
+        dRdx[1:-1] = (self.R[2:] - self.R[:-2]) / (2*self.dx)
+        dRdx[0] = dRdx[1]
+        dRdx[-1] = dRdx[-2]
+        self.T = self.kappa * dRdx**2
+    
+    def step(self):
+        """Crank-Nicolson time step"""
+        N, dx, D, L_X, alpha, dt = (
+            self.N, self.dx, self.D, self.L_X, self.alpha, self.dt
+        )
+        sigma = D * dt / (2 * dx**2)
+        
+        a = np.zeros(N)
+        b = np.zeros(N)
+        c = np.zeros(N)
+        d = np.zeros(N)
+        
+        self.compute_torsion()
+        
+        for i in range(1, N-1):
+            laplacian = (self.R[i+1] - 2*self.R[i] + self.R[i-1]) / dx**2
+            relaxation = -(self.R[i] - self.R_bg) / L_X
+            source = 2 * alpha * self.T[i] * self.R[i]
+            explicit = self.R[i] + (dt/2) * (D*laplacian + relaxation + source)
+            
+            a[i] = -sigma
+            b[i] = 1 + 2*sigma + dt/(2*L_X)
+            c[i] = -sigma
+            d[i] = explicit
+        
+        # Dirichlet BCs
+        b[0] = 1.0; d[0] = self.R_bg
+        b[-1] = 1.0; d[-1] = self.R_bg
+        
+        self.R = solve_tridiagonal(a, b, c, d)
+        self.timestep += 1
+    
+    def run(self, steps=100):
+        for _ in range(steps):
+            self.step()
+    
+    def verify(self):
+        """Run verification diagnostics"""
+        results = {}
+        results['stable'] = np.all(np.isfinite(self.R))
+        results['positive'] = np.all(self.R >= -1e-10)
+        results['bounded'] = np.all(np.abs(self.R) < 100)
+        
+        current_mass = np.sum(self.R) * self.dx
+        mass_change = abs(current_mass - self.initial_mass) / max(abs(self.initial_mass), 1e-10)
+        results['mass_conserved'] = mass_change < 0.5
+        results['mass_change_frac'] = mass_change
+        
+        return results
+    
+    def G_eff_ratio(self):
+        """Compute G_eff/G at max R"""
+        R_max = np.max(np.abs(self.R))
+        return 1.0 / (1 + 16*np.pi * self.alpha * R_max**2)
+    
+    def to_dict(self):
+        return {
+            'params': {'N': self.N, 'L': self.L, 'D': self.D, 
+                       'L_X': self.L_X, 'alpha': self.alpha, 'dt': self.dt},
+            'state': {'timestep': self.timestep,
+                      'R': self.R.tolist(), 'T': self.T.tolist()},
+            'diagnostics': self.verify(),
+            'G_eff_ratio': self.G_eff_ratio()
+        }
 
-# -------------------------------
-# 3) Run 1D → 5D labeled suite
-# -------------------------------
-def simulate_dimension(D, L0=1.0, Rmax=5.0, steps=4000, dt=0.02, gamma=0.05):
-    r = 0.6 * Rmax
-    v = 0.0
-    rs = np.zeros(steps)
-    Fs = np.zeros(steps)
-    for i in range(steps):
-        r, v, F = step(r, v, dt=dt, L0=L0, gamma=gamma, Rmax=Rmax)
-        rs[i] = r
-        Fs[i] = F
-
-    summary = {
-        "D": int(D),
-        "L0": float(L0),
-        "Rmax": float(Rmax),
-        "dt": float(dt),
-        "gamma": float(gamma),
-        "r_min": float(rs.min()),
-        "r_max": float(rs.max()),
-        "r_mean": float(rs.mean()),
-        "F_rms": float(np.sqrt(np.mean(Fs**2))),
+# ═══════════════════════════════════════════════════════════
+# MAIN
+# ═══════════════════════════════════════════════════════════
+if __name__ == '__main__':
+    print("="*60)
+    print("STUR Educational Simulation")
+    print("="*60)
+    
+    # 1. PDE Solver
+    solver = STURSolver(N=100, L=10.0, D=0.5, L_X=2.0, alpha=0.1, dt=0.5)
+    solver.initialize_gaussian(R0=1.0)
+    print(f"\n[1] Initialized solver: N={solver.N}, initial_mass={solver.initial_mass:.4f}")
+    
+    solver.run(steps=500)
+    v = solver.verify()
+    print(f"\n[2] After 500 steps:")
+    for k, val in v.items():
+        status = "✓" if (val == True or (isinstance(val, float) and val < 0.5)) else "✗"
+        print(f"    {k}: {val} {status}")
+    print(f"    G_eff/G = {solver.G_eff_ratio():.6f}")
+    
+    # 2. Visibility prediction
+    print(f"\n[3] Visibility predictions (ℓ_coh = 3.0 m):")
+    l_coh = 3.0
+    for dL in [0.5, 1.0, 2.0, 3.0, 5.0]:
+        V = stur_visibility(dL, l_coh)
+        print(f"    V(ΔL={dL}m) = {V:.4f}")
+    
+    # 3. Export
+    export = {
+        'meta': {'title': 'STUR Export', 'timestamp': datetime.now().isoformat()},
+        'solver': solver.to_dict(),
+        'visibility': {'l_coh': l_coh,
+                       'data': [{'dL': dL, 'V': stur_visibility(dL, l_coh)} 
+                                for dL in np.linspace(0, 6, 25)]}
     }
-    return rs, Fs, summary
-
-def run_suite(max_dim=5, L0=1.0, Rmax=5.0, steps=4000, dt=0.02, gamma=0.05):
-    trajs = {}
-    summaries = []
-    for D in range(1, max_dim+1):
-        rs, Fs, s = simulate_dimension(D, L0=L0, Rmax=Rmax, steps=steps, dt=dt, gamma=gamma)
-        trajs[D] = {"r": rs, "F": Fs}
-        summaries.append(s)
-    return trajs, summaries
-
-# -------------------------------
-# 4) Main
-# -------------------------------
-L0 = 1.0
-Rmax = 5.0
-dt = 0.02
-gamma = 0.05
-steps = 2500
-
-trajs, summaries = run_suite(max_dim=5, L0=L0, Rmax=Rmax, steps=steps, dt=dt, gamma=gamma)
-
-# Plot trajectories
-fig, ax = plt.subplots(figsize=(8, 5))
-t = np.arange(steps)
-for D in trajs:
-    ax.plot(t, trajs[D]["r"], label=f"{D}D")
-ax.set_title("STUR 1D → 5D (same geometry, labeled dimensions)")
-ax.set_xlabel("time step")
-ax.set_ylabel("radius r")
-ax.legend()
-plt.tight_layout()
-plt.show()
-
-# Geometry curve
-rgrid = np.linspace(0, Rmax, 600)
-fig2, ax2 = plt.subplots(figsize=(8, 3.2))
-ax2.plot(rgrid, S_r(rgrid, L0=L0))
-ax2.set_title("Geometry S(r)")
-ax2.set_xlabel("r")
-ax2.set_ylabel("S")
-plt.tight_layout()
-plt.show()
-
-# JSON summary (safe: works in JupyterLite; file save may depend on environment)
-print("=== STUR 1D → 5D SUMMARY ===")
-print(json.dumps(summaries, indent=2))
-
-print("\nNEXT PROMPT:\n")
-print(
-    "Using this STUR summary JSON:\n"
-    "1) Choose one D and define a physical interpretation (boundary gate, orbit, junction, optics).\n"
-    "2) Write a Lagrangian or an evolution PDE consistent with STUR (include u_c and M if needed).\n"
-    "3) Implement a falsification-facing simulator (plots + JSON + residual hooks).\n"
-    "4) State a YES/NO experimental signature."
-)
+    with open('stur_export.json', 'w') as f:
+        json.dump(export, f, indent=2)
+    print(f"\n[4] Exported to stur_export.json")
+    
+    # 4. Plot
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+    
+    x = np.linspace(0, solver.L, solver.N)
+    axes[0,0].plot(x, solver.R, 'g-', lw=2)
+    axes[0,0].set_title('R(x) — Resistance')
+    axes[0,0].set_xlabel('x'); axes[0,0].set_ylabel('R')
+    
+    axes[0,1].plot(x, solver.T, 'purple', lw=2)
+    axes[0,1].set_title('T(x) — Torsion')
+    axes[0,1].set_xlabel('x'); axes[0,1].set_ylabel('T')
+    
+    dL = np.linspace(0, 6, 100)
+    axes[1,0].plot(dL, stur_visibility(dL, l_coh), 'g-', lw=2, label='STUR')
+    axes[1,0].plot(dL, uldm_visibility(dL), 'orange', lw=2, label='ULDM')
+    axes[1,0].axhline(1, color='gray', ls='--', label='Null')
+    axes[1,0].set_title('Visibility V(ΔL)')
+    axes[1,0].set_xlabel('ΔL (m)'); axes[1,0].set_ylabel('V')
+    axes[1,0].legend()
+    
+    t = np.linspace(0.1, 10, 200)
+    axes[1,1].plot(t, chrono_modulation(t*1e6), 'gold', lw=2)
+    axes[1,1].set_title('Chronomagnetic M(t)')
+    axes[1,1].set_xlabel('Time (Ma)'); axes[1,1].set_ylabel('M')
+    
+    plt.tight_layout()
+    plt.savefig('stur_results.png', dpi=150)
+    plt.show()
+    
+    print("\n" + "="*60)
+    print("NEXT: Run parameter study, compare to data, design falsification test")
+    print("="*60)
 </pre>
 
-    <div class="btnrow">
-      <button id="copyTemplateBtn">📋 Copy Template</button>
-      <button class="secondary" id="copyNextPromptBtn">🧭 Copy “Next Prompt”</button>
-    </div>
-  </section>
-
-  <section class="panel">
-    <h2>Recommended Next Extensions</h2>
-    <ul>
-      <li><b>Boundary-gate module</b>: add \(M(\tau)=R_qS_u(u_c)\) and a phase parameter \(\theta\) to modulate an observable channel.</li>
-      <li><b>History dependence</b>: add “slow-cool vs fast-quench” presets that alter the evolution of \(u_c\) while preserving the final state.</li>
-      <li><b>Residual hooks</b>: add a model-vs-data residual panel designed as a plug-in interface for external datasets.</li>
-      <li><b>2D/3D lift</b>: replace the 1D radial motion with a 2D/3D trajectory constrained by \(S(r)\).</li>
-    </ul>
-  </section>
-
-  <div class="panel" style="text-align:center;">
-    <button class="secondary" onclick="location.href='../index.html'">← Back to STUR Index</button>
+  <div class="btnrow">
+    <button class="primary" id="copy_python">📋 Copy Template</button>
+    <button class="secondary" id="copy_prompt">🧭 Copy Next Prompt</button>
   </div>
+</section>
 
-  <footer>
-    STUR Sandbox • Geometry → Simulation → Falsification Loop<br>
-    Baseline: \(u=r/L_0\) with analytic derivative and JSON export
-  </footer>
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<!-- FOOTER -->
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<footer>
+  <p>STUR Educational Sandbox — Geometry → Simulation → Verification → Falsification</p>
+  <p style="margin-top:.3rem">Build simulations that can be killed by experiment.</p>
+</footer>
 
 </div>
 
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<!-- JAVASCRIPT -->
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
 <script>
-/* =========================================================
-   STUR Sandbox — Reference Implementation
-   - u=r/L0 (dimensionless)
-   - Analytic derivative dS/dr
-   - DPR-correct canvas rendering
-   - JSON export: settings + geometry samples + trajectory
-========================================================= */
+(function(){
+'use strict';
 
-/* ---------- Geometry: S(u)=tanh(u)(1-e^{-u}) ---------- */
-function Su(u){ return Math.tanh(u) * (1 - Math.exp(-u)); }
-function dSu_du(u){
-  const sech2 = 1 / (Math.cosh(u) * Math.cosh(u));
-  return sech2 * (1 - Math.exp(-u)) + Math.tanh(u) * Math.exp(-u);
-}
-function S_r(r, L0){ return Su(r / L0); }
-function dS_dr(r, L0){ return dSu_du(r / L0) / L0; }
+// ═══════════════════════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════════════════════
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
 
-/* ---------- DOM ---------- */
-const L0_slider = document.getElementById("L0");
-const Rmax_slider = document.getElementById("Rmax");
-const gamma_slider = document.getElementById("gamma");
-const dt_slider = document.getElementById("dt");
-
-const L0_val = document.getElementById("L0_val");
-const Rmax_val = document.getElementById("Rmax_val");
-const gamma_val = document.getElementById("gamma_val");
-const dt_val = document.getElementById("dt_val");
-
-const canvas = document.getElementById("plot");
-const ctx = canvas.getContext("2d");
-const outputEl = document.getElementById("output");
-
-const toggleBtn = document.getElementById("toggleAnim");
-const kickBtn = document.getElementById("kickBtn");
-const resetBtn = document.getElementById("resetBtn");
-const downloadBtn = document.getElementById("downloadBtn");
-const speedBar = document.getElementById("speed_bar");
-
-const kpiPhase = document.getElementById("kpi_phase");
-const kpiSlope = document.getElementById("kpi_slope");
-const kpiForce = document.getElementById("kpi_force");
-
-const copyTemplateBtn = document.getElementById("copyTemplateBtn");
-const copyNextPromptBtn = document.getElementById("copyNextPromptBtn");
-
-/* ---------- Canvas DPR fit ---------- */
-function fitCanvasToCSS(){
+// ═══════════════════════════════════════════════════════════
+// CANVAS UTILITIES
+// ═══════════════════════════════════════════════════════════
+function fitCanvas(canvas) {
   const dpr = Math.max(1, window.devicePixelRatio || 1);
   const rect = canvas.getBoundingClientRect();
-  const w = Math.round(rect.width * dpr);
-  const h = Math.round(rect.height * dpr);
-  if (canvas.width !== w || canvas.height !== h){
-    canvas.width = w; canvas.height = h;
+  canvas.width  = Math.round(rect.width  * dpr);
+  canvas.height = Math.round(rect.height * dpr);
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.scale(dpr, dpr);
+  return { width: rect.width, height: rect.height, ctx };
+}
+
+// ═══════════════════════════════════════════════════════════
+// PDE SOLVER
+// ═══════════════════════════════════════════════════════════
+const pde = {
+  N: 100, L: 10, dx: 0.1, D: 0.5, LX: 2.0, alpha: 0.1, kappa: 1.0,
+  R_bg: 0, dt: 0.5, R: null, T: null, timestep: 0, running: false,
+  animId: null, initialMass: 0
+};
+
+function solveTridiagonal(a, b, c, d) {
+  const n = d.length;
+  const cp = new Float64Array(n);
+  const dp = new Float64Array(n);
+  const x = new Float64Array(n);
+  
+  cp[0] = c[0] / b[0];
+  dp[0] = d[0] / b[0];
+  for (let i = 1; i < n; i++) {
+    const denom = b[i] - a[i] * cp[i-1];
+    const m = Math.abs(denom) < 1e-12 ? 0 : 1 / denom;
+    cp[i] = c[i] * m;
+    dp[i] = (d[i] - a[i] * dp[i-1]) * m;
   }
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // draw in CSS pixels
-  return { width: rect.width, height: rect.height };
+  x[n-1] = dp[n-1];
+  for (let i = n-2; i >= 0; i--) x[i] = dp[i] - cp[i] * x[i+1];
+  return x;
 }
 
-/* ---------- Particle + trail ---------- */
-let particle = { r: 2.5, v: 0 };
-let trail = [];
-let animating = false;
-
-/* ---------- Physics step ---------- */
-function step(L0, Rmax, dt, gamma){
-  const slope = dS_dr(particle.r, L0);
-  const F = -slope;
-
-  particle.v += (F - gamma * particle.v) * dt;
-  particle.r += particle.v * dt;
-
-  // walls
-  if (particle.r < 0){ particle.r = 0; particle.v *= -0.4; }
-  if (particle.r > Rmax){ particle.r = Rmax; particle.v *= -0.4; }
-
-  trail.push(particle.r);
-  if (trail.length > 240) trail.shift();
-
-  return { slope, F };
+function pdeInit() {
+  pde.N = parseInt(document.getElementById('N_slider').value);
+  pde.D = parseFloat(document.getElementById('D_slider').value);
+  pde.LX = parseFloat(document.getElementById('LX_slider').value);
+  pde.alpha = parseFloat(document.getElementById('alpha_slider').value);
+  const R0 = parseFloat(document.getElementById('R0_slider').value);
+  pde.dt = parseFloat(document.getElementById('dt_slider').value);
+  
+  pde.dx = pde.L / pde.N;
+  pde.R = new Float64Array(pde.N);
+  pde.T = new Float64Array(pde.N);
+  
+  const center = pde.N / 2;
+  const sigma = pde.N / 10;
+  for (let i = 0; i < pde.N; i++) {
+    pde.R[i] = pde.R_bg + R0 * Math.exp(-Math.pow(i - center, 2) / (2 * sigma * sigma));
+  }
+  pde.timestep = 0;
+  pde.initialMass = 0;
+  for (let i = 0; i < pde.N; i++) pde.initialMass += pde.R[i] * pde.dx;
 }
 
-/* ---------- Draw ---------- */
-function drawScene(L0, Rmax){
-  const { width: W, height: H } = fitCanvasToCSS();
-  ctx.clearRect(0,0,W,H);
+function computeTorsion() {
+  for (let i = 1; i < pde.N - 1; i++) {
+    const dRdx = (pde.R[i+1] - pde.R[i-1]) / (2 * pde.dx);
+    pde.T[i] = pde.kappa * dRdx * dRdx;
+  }
+  pde.T[0] = pde.T[1];
+  pde.T[pde.N-1] = pde.T[pde.N-2];
+}
 
-  // axis
-  ctx.strokeStyle = "rgba(148,163,184,0.22)";
+function pdeStep() {
+  const { N, dx, D, LX, alpha, dt, R_bg } = pde;
+  const sigma = D * dt / (2 * dx * dx);
+  
+  const a = new Float64Array(N);
+  const b = new Float64Array(N);
+  const c = new Float64Array(N);
+  const d = new Float64Array(N);
+  
+  computeTorsion();
+  
+  for (let i = 1; i < N - 1; i++) {
+    const laplacian = (pde.R[i+1] - 2*pde.R[i] + pde.R[i-1]) / (dx*dx);
+    const relaxation = -(pde.R[i] - R_bg) / LX;
+    const source = 2 * alpha * pde.T[i] * pde.R[i];
+    const explicit = pde.R[i] + (dt/2) * (D*laplacian + relaxation + source);
+    
+    a[i] = -sigma;
+    b[i] = 1 + 2*sigma + dt/(2*LX);
+    c[i] = -sigma;
+    d[i] = explicit;
+  }
+  
+  b[0] = 1; d[0] = R_bg;
+  b[N-1] = 1; d[N-1] = R_bg;
+  
+  pde.R = solveTridiagonal(a, b, c, d);
+  pde.timestep++;
+}
+
+function drawPDE() {
+  // R canvas
+  const canvasR = document.getElementById('pde_canvas_R');
+  const { width: W, height: H, ctx } = fitCanvas(canvasR);
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+  
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    ctx.beginPath(); ctx.moveTo(0, H*i/4); ctx.lineTo(W, H*i/4); ctx.stroke();
+  }
+  
+  let maxR = 0.1;
+  for (let i = 0; i < pde.N; i++) if (Math.abs(pde.R[i]) > maxR) maxR = Math.abs(pde.R[i]);
+  maxR *= 1.2;
+  
+  ctx.strokeStyle = '#4ade80';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i < pde.N; i++) {
+    const x = (i / pde.N) * W;
+    const y = H/2 - (pde.R[i] / maxR) * (H/2);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  
+  // T canvas
+  const canvasT = document.getElementById('pde_canvas_T');
+  const r2 = fitCanvas(canvasT);
+  const ctx2 = r2.ctx;
+  ctx2.fillStyle = '#000'; ctx2.fillRect(0, 0, r2.width, r2.height);
+  
+  ctx2.strokeStyle = 'rgba(255,255,255,0.08)';
+  for (let i = 0; i <= 4; i++) {
+    ctx2.beginPath(); ctx2.moveTo(0, r2.height*i/4); ctx2.lineTo(r2.width, r2.height*i/4); ctx2.stroke();
+  }
+  
+  let maxT = 0.01;
+  for (let i = 0; i < pde.N; i++) if (pde.T[i] > maxT) maxT = pde.T[i];
+  maxT *= 1.5;
+  
+  ctx2.strokeStyle = '#a78bfa';
+  ctx2.lineWidth = 2;
+  ctx2.beginPath();
+  for (let i = 0; i < pde.N; i++) {
+    const x = (i / pde.N) * r2.width;
+    const y = r2.height - (pde.T[i] / maxT) * r2.height;
+    if (i === 0) ctx2.moveTo(x, y); else ctx2.lineTo(x, y);
+  }
+  ctx2.stroke();
+  
+  // KPIs
+  let sumR = 0, maxRv = 0, maxTv = 0;
+  for (let i = 0; i < pde.N; i++) {
+    sumR += pde.R[i] * pde.dx;
+    if (Math.abs(pde.R[i] - pde.R_bg) > maxRv) maxRv = Math.abs(pde.R[i] - pde.R_bg);
+    if (pde.T[i] > maxTv) maxTv = pde.T[i];
+  }
+  const Geff = 1 / (1 + 16 * Math.PI * pde.alpha * maxRv * maxRv);
+  const cfl = pde.D * pde.dt / (pde.dx * pde.dx);
+  
+  document.getElementById('kpi_step').textContent = pde.timestep;
+  document.getElementById('kpi_maxR').textContent = maxRv.toFixed(4);
+  document.getElementById('kpi_maxT').textContent = maxTv.toExponential(2);
+  document.getElementById('kpi_Geff').textContent = Geff.toFixed(4);
+  document.getElementById('kpi_mass').textContent = sumR.toFixed(4);
+  document.getElementById('kpi_cfl').textContent = cfl.toFixed(3);
+  
+  // Verification
+  const massDiff = Math.abs(sumR - pde.initialMass) / Math.max(Math.abs(pde.initialMass), 0.01);
+  let stable = true, positive = true, bounded = true;
+  for (let i = 0; i < pde.N; i++) {
+    if (!isFinite(pde.R[i])) stable = false;
+    if (pde.R[i] < -0.01) positive = false;
+    if (Math.abs(pde.R[i]) > 100) bounded = false;
+  }
+  
+  const setStatus = (id, pass) => {
+    const el = document.getElementById(id);
+    el.textContent = pass ? 'PASS' : 'FAIL';
+    el.className = 'verify-status ' + (pass ? 'pass' : 'fail');
+  };
+  setStatus('v_mass', massDiff < 0.5);
+  setStatus('v_stable', stable);
+  setStatus('v_pos', positive);
+  setStatus('v_bound', bounded);
+}
+
+function animatePDE() {
+  if (!pde.running) return;
+  for (let i = 0; i < 3; i++) pdeStep();
+  drawPDE();
+  pde.animId = requestAnimationFrame(animatePDE);
+}
+
+// PDE controls
+['D','LX','alpha','R0','N','dt'].forEach(id => {
+  const slider = document.getElementById(id + '_slider');
+  const val = document.getElementById(id + '_val');
+  if (slider && val) {
+    slider.addEventListener('input', () => {
+      val.textContent = parseFloat(slider.value).toFixed(2);
+    });
+  }
+});
+
+document.getElementById('pde_run').addEventListener('click', () => {
+  if (pde.running) {
+    pde.running = false;
+    if (pde.animId) cancelAnimationFrame(pde.animId);
+    document.getElementById('pde_run').textContent = '▶ Run';
+  } else {
+    pde.running = true;
+    document.getElementById('pde_run').textContent = '⏸ Pause';
+    animatePDE();
+  }
+});
+
+document.getElementById('pde_reset').addEventListener('click', () => {
+  pde.running = false;
+  if (pde.animId) cancelAnimationFrame(pde.animId);
+  document.getElementById('pde_run').textContent = '▶ Run';
+  pdeInit();
+  drawPDE();
+});
+
+document.getElementById('pde_export').addEventListener('click', () => {
+  const data = {
+    meta: { title: 'STUR PDE Export', timestamp: new Date().toISOString() },
+    params: { N: pde.N, L: pde.L, D: pde.D, LX: pde.LX, alpha: pde.alpha, dt: pde.dt },
+    state: { timestep: pde.timestep, R: Array.from(pde.R), T: Array.from(pde.T) }
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'stur_pde_export.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+// ═══════════════════════════════════════════════════════════
+// VISIBILITY CALCULATOR
+// ═══════════════════════════════════════════════════════════
+function sturVis(dL, lCoh, V0) { return V0 * Math.exp(-Math.pow(dL/lCoh, 2)); }
+function uldmVis(dL) { return 0.5 + 0.4 * Math.cos(2*Math.PI*dL/1.5); }
+
+function updateVisibility() {
+  const lCoh = parseFloat(document.getElementById('lcoh_slider').value);
+  const V0 = parseFloat(document.getElementById('V0_slider').value);
+  const dL = parseFloat(document.getElementById('deltaL_slider').value);
+  const noise = parseFloat(document.getElementById('noise_slider').value);
+  
+  document.getElementById('lcoh_val').textContent = lCoh.toFixed(2);
+  document.getElementById('V0_val').textContent = V0.toFixed(2);
+  document.getElementById('deltaL_val').textContent = dL.toFixed(2);
+  document.getElementById('noise_val').textContent = noise.toFixed(3);
+  
+  const V = sturVis(dL, lCoh, V0);
+  const phi = dL / lCoh;
+  
+  // 5σ threshold
+  let detect = null;
+  for (let dl = 0.01; dl <= 10; dl += 0.01) {
+    if (V0 - sturVis(dl, lCoh, V0) > 5*noise) { detect = dl; break; }
+  }
+  
+  // Δχ² (simplified: assume 10 data points)
+  let chi2_stur = 0, chi2_null = 0;
+  for (let i = 0; i <= 10; i++) {
+    const dl_i = i * 0.5;
+    const v_stur = sturVis(dl_i, lCoh, V0);
+    const v_null = V0;
+    const data = v_stur + (Math.random()-0.5)*noise*0.1;
+    chi2_stur += Math.pow((data - v_stur)/(noise || 0.01), 2);
+    chi2_null += Math.pow((data - v_null)/(noise || 0.01), 2);
+  }
+  const dChi2 = chi2_null - chi2_stur;
+  
+  document.getElementById('kpi_vis').textContent = V.toFixed(4);
+  document.getElementById('kpi_phi').textContent = phi.toFixed(4);
+  document.getElementById('kpi_detect').textContent = detect ? detect.toFixed(2) + ' m' : '> 10 m';
+  document.getElementById('kpi_chi2').textContent = dChi2.toFixed(1);
+  
+  // Draw
+  const canvas = document.getElementById('vis_canvas');
+  const { width: W, height: H, ctx } = fitCanvas(canvas);
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+  
+  const pad = { left: 35, right: 15, top: 15, bottom: 25 };
+  const pW = W - pad.left - pad.right;
+  const pH = H - pad.top - pad.bottom;
+  const maxDL = 6;
+  
+  const toX = dl => pad.left + (dl/maxDL) * pW;
+  const toY = v => pad.top + (1 - v) * pH;
+  
+  // Grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 5; i++) {
+    const y = pad.top + pH * i / 5;
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W-pad.right, y); ctx.stroke();
+  }
+  
+  // Noise floor
+  if (noise > 0) {
+    ctx.fillStyle = 'rgba(248,113,113,0.12)';
+    const noiseY = toY(V0 - 5*noise);
+    ctx.fillRect(pad.left, noiseY, pW, H - pad.bottom - noiseY);
+    
+    ctx.strokeStyle = '#f87171';
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath();
+    ctx.moveTo(toX(0), noiseY);
+    ctx.lineTo(toX(maxDL), noiseY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  
+  // Null
+  ctx.strokeStyle = '#64748b';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(toX(0), toY(V0));
+  ctx.lineTo(toX(maxDL), toY(V0));
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // ULDM
+  ctx.strokeStyle = '#fbbf24';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i <= 100; i++) {
+    const dl = (i/100) * maxDL;
+    const v = uldmVis(dl);
+    if (i === 0) ctx.moveTo(toX(dl), toY(v)); else ctx.lineTo(toX(dl), toY(v));
+  }
+  ctx.stroke();
+  
+  // STUR
+  ctx.strokeStyle = '#4ade80';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  for (let i = 0; i <= 100; i++) {
+    const dl = (i/100) * maxDL;
+    const v = sturVis(dl, lCoh, V0);
+    if (i === 0) ctx.moveTo(toX(dl), toY(v)); else ctx.lineTo(toX(dl), toY(v));
+  }
+  ctx.stroke();
+  
+  // Current point
+  if (dL <= maxDL) {
+    ctx.fillStyle = '#22d3ee';
+    ctx.beginPath();
+    ctx.arc(toX(dL), toY(V), 5, 0, 2*Math.PI);
+    ctx.fill();
+    
+    ctx.fillStyle = '#4ade80';
+    ctx.font = 'bold 10px system-ui';
+    ctx.fillText('V=' + V.toFixed(3), toX(dL) + 8, toY(V) - 4);
+  }
+  
+  // Axes
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.font = '9px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText('ΔL (m)', W/2, H - 5);
+}
+
+['lcoh','V0','deltaL','noise'].forEach(id => {
+  document.getElementById(id + '_slider').addEventListener('input', updateVisibility);
+});
+
+// ═══════════════════════════════════════════════════════════
+// SATURATION GEOMETRY
+// ═══════════════════════════════════════════════════════════
+function Su(u) { return Math.tanh(u) * (1 - Math.exp(-u)); }
+function dSu_du(u) {
+  const sech2 = 1 / Math.pow(Math.cosh(u), 2);
+  return sech2 * (1 - Math.exp(-u)) + Math.tanh(u) * Math.exp(-u);
+}
+
+const geo = { r: 2.5, v: 0, trail: [], running: false, animId: null };
+
+function geoStep(L0, Rmax, dt, gamma) {
+  const u = geo.r / L0;
+  const dSdr = dSu_du(u) / L0;
+  const F = -dSdr;
+  
+  geo.v += (F - gamma * geo.v) * dt;
+  geo.r += geo.v * dt;
+  
+  if (geo.r < 0) { geo.r = 0; geo.v *= -0.4; }
+  if (geo.r > Rmax) { geo.r = Rmax; geo.v *= -0.4; }
+  
+  geo.trail.push(geo.r);
+  if (geo.trail.length > 200) geo.trail.shift();
+  
+  return { dSdr, F };
+}
+
+function drawGeo() {
+  const L0 = parseFloat(document.getElementById('L0_slider').value);
+  const Rmax = parseFloat(document.getElementById('Rmax_slider').value);
+  
+  const canvas = document.getElementById('geo_canvas');
+  const { width: W, height: H, ctx } = fitCanvas(canvas);
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+  
+  // Axis
+  ctx.strokeStyle = 'rgba(255,255,255,0.15)';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(0, H/2);
   ctx.lineTo(W, H/2);
   ctx.stroke();
-
-  // geometry curve S(r)
-  ctx.strokeStyle = "rgba(251,191,36,0.95)";
+  
+  // S(r) curve
+  ctx.strokeStyle = 'rgba(251,191,36,0.9)';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  for (let i=0;i<=Math.floor(W);i++){
-    const r = (i/W)*Rmax;
-    let val = S_r(r, L0);
-    val = Math.max(-1.2, Math.min(1.2, val));
-    const y = H/2 - val*(H*0.4);
-    if (i===0) ctx.moveTo(i, y); else ctx.lineTo(i, y);
+  for (let i = 0; i <= W; i++) {
+    const r = (i/W) * Rmax;
+    const val = Su(r / L0);
+    const y = H/2 - val * (H*0.4);
+    if (i === 0) ctx.moveTo(i, y); else ctx.lineTo(i, y);
   }
   ctx.stroke();
-
-  // trail
-  if (trail.length > 1){
-    for (let i=1;i<trail.length;i++){
-      const r1 = trail[i-1], r2 = trail[i];
+  
+  // Trail
+  if (geo.trail.length > 1) {
+    for (let i = 1; i < geo.trail.length; i++) {
+      const r1 = geo.trail[i-1], r2 = geo.trail[i];
       const x1 = (r1/Rmax)*W, x2 = (r2/Rmax)*W;
-      const y1 = H/2 - S_r(r1, L0)*(H*0.4);
-      const y2 = H/2 - S_r(r2, L0)*(H*0.4);
-
-      ctx.strokeStyle = `rgba(0,255,204,${(i/trail.length)*0.45})`;
+      const y1 = H/2 - Su(r1/L0)*(H*0.4);
+      const y2 = H/2 - Su(r2/L0)*(H*0.4);
+      
+      ctx.strokeStyle = `rgba(34,211,238,${(i/geo.trail.length)*0.5})`;
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(x1,y1);
-      ctx.lineTo(x2,y2);
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
       ctx.stroke();
     }
   }
-
-  // particle
-  const xp = (particle.r/Rmax)*W;
-  const yp = H/2 - S_r(particle.r, L0)*(H*0.4);
-  ctx.fillStyle = "rgba(0,255,204,0.95)";
+  
+  // Particle
+  const xp = (geo.r/Rmax)*W;
+  const yp = H/2 - Su(geo.r/L0)*(H*0.4);
+  ctx.fillStyle = '#22d3ee';
   ctx.beginPath();
-  ctx.arc(xp, yp, 6, 0, 2*Math.PI);
+  ctx.arc(xp, yp, 5, 0, 2*Math.PI);
   ctx.fill();
 }
 
-/* ---------- Update UI ---------- */
-function updateUI(extra){
-  const L0 = parseFloat(L0_slider.value);
-  const Rmax = parseFloat(Rmax_slider.value);
-  const gamma = parseFloat(gamma_slider.value);
-  const dt = parseFloat(dt_slider.value);
-
-  if (particle.r > Rmax) particle.r = Rmax;
-
-  L0_val.textContent = L0.toFixed(2);
-  Rmax_val.textContent = Rmax.toFixed(2);
-  gamma_val.textContent = gamma.toFixed(3);
-  dt_val.textContent = dt.toFixed(3);
-
-  const slope = extra?.slope ?? dS_dr(particle.r, L0);
-  const F = extra?.F ?? (-slope);
-
-  // speed bar
-  const vAbs = Math.abs(particle.v);
-  speedBar.style.width = (Math.min(1, vAbs/3) * 100) + "%";
-
-  // KPI: phase proxy (bounded): atan(v) as a simple phase-like readout
-  const phaseProxy = Math.atan2(particle.v, 1);
-  kpiPhase.textContent = phaseProxy.toFixed(4);
-  kpiSlope.textContent = slope.toExponential(3);
-  kpiForce.textContent = F.toExponential(3);
-
-  outputEl.textContent =
-`STUR Sandbox (dimensionless u=r/L0)
-
-L0     = ${L0}
-Rmax   = ${Rmax}
-gamma  = ${gamma}
-dt     = ${dt}
-
-r      = ${particle.r.toFixed(5)}
-v      = ${particle.v.toFixed(5)}
-u=r/L0 = ${(particle.r/L0).toFixed(5)}
-
-S(r)   = ${S_r(particle.r, L0).toExponential(6)}
-dS/dr  = ${slope.toExponential(6)}
-F      = ${F.toExponential(6)}
-
-trail_len = ${trail.length}`;
-
-  drawScene(L0, Rmax);
+function updateGeo(extra) {
+  const L0 = parseFloat(document.getElementById('L0_slider').value);
+  const Rmax = parseFloat(document.getElementById('Rmax_slider').value);
+  const gamma = parseFloat(document.getElementById('gamma_slider').value);
+  const dt = parseFloat(document.getElementById('geo_dt_slider').value);
+  
+  document.getElementById('L0_val').textContent = L0.toFixed(2);
+  document.getElementById('Rmax_val').textContent = Rmax.toFixed(2);
+  document.getElementById('gamma_val').textContent = gamma.toFixed(3);
+  document.getElementById('geo_dt_val').textContent = dt.toFixed(3);
+  
+  if (geo.r > Rmax) geo.r = Rmax;
+  
+  const u = geo.r / L0;
+  const S = Su(u);
+  const dSdr = extra?.dSdr ?? dSu_du(u) / L0;
+  const F = extra?.F ?? -dSdr;
+  
+  document.getElementById('kpi_r').textContent = geo.r.toFixed(4);
+  document.getElementById('kpi_v').textContent = geo.v.toFixed(4);
+  document.getElementById('kpi_S').textContent = S.toFixed(4);
+  document.getElementById('kpi_dS').textContent = dSdr.toExponential(3);
+  document.getElementById('kpi_F').textContent = F.toExponential(3);
+  document.getElementById('kpi_u').textContent = u.toFixed(4);
+  
+  drawGeo();
 }
 
-/* ---------- Animation ---------- */
-function animate(){
-  if (!animating) return;
-
-  const L0 = parseFloat(L0_slider.value);
-  const Rmax = parseFloat(Rmax_slider.value);
-  const gamma = parseFloat(gamma_slider.value);
-  const dt = parseFloat(dt_slider.value);
-
-  // multiple substeps for stability
+function animateGeo() {
+  if (!geo.running) return;
+  
+  const L0 = parseFloat(document.getElementById('L0_slider').value);
+  const Rmax = parseFloat(document.getElementById('Rmax_slider').value);
+  const gamma = parseFloat(document.getElementById('gamma_slider').value);
+  const dt = parseFloat(document.getElementById('geo_dt_slider').value);
+  
   let last;
-  for (let i=0;i<3;i++){
-    last = step(L0, Rmax, dt, gamma);
-  }
-  updateUI(last);
-
-  requestAnimationFrame(animate);
+  for (let i = 0; i < 3; i++) last = geoStep(L0, Rmax, dt, gamma);
+  updateGeo(last);
+  
+  geo.animId = requestAnimationFrame(animateGeo);
 }
 
-/* ---------- JSON export ---------- */
-function exportJSON(){
-  const L0 = parseFloat(L0_slider.value);
-  const Rmax = parseFloat(Rmax_slider.value);
-  const gamma = parseFloat(gamma_slider.value);
-  const dt = parseFloat(dt_slider.value);
+['L0','Rmax','gamma','geo_dt'].forEach(id => {
+  const slider = document.getElementById(id + '_slider');
+  if (slider) slider.addEventListener('input', () => updateGeo());
+});
 
-  // geometry samples
-  const N = 360;
-  const pts = [];
-  for (let i=0;i<=N;i++){
-    const r = (i/N)*Rmax;
-    pts.push({
-      r,
-      u: r/L0,
-      S: S_r(r, L0),
-      dS_dr: dS_dr(r, L0),
-      F: -dS_dr(r, L0)
-    });
-  }
+document.getElementById('geo_toggle').addEventListener('click', () => {
+  geo.running = !geo.running;
+  document.getElementById('geo_toggle').textContent = geo.running ? '⏸ Pause' : '▶ Start';
+  if (geo.running) animateGeo();
+});
 
-  const payload = {
-    meta: {
-      title: "STUR Sandbox Export",
-      geometry: "S(u)=tanh(u)(1-exp(-u)), u=r/L0",
-      timestamp_iso: new Date().toISOString()
-    },
-    settings: { L0, Rmax, gamma, dt },
-    state: { r: particle.r, v: particle.v },
-    geometry_samples: pts,
-    trajectory_r: trail.slice()
-  };
+document.getElementById('geo_kick').addEventListener('click', () => {
+  const Rmax = parseFloat(document.getElementById('Rmax_slider').value);
+  geo.v = (geo.r <= Rmax/2 ? 1 : -1) * (1.2 + Math.random()*0.8);
+  updateGeo();
+});
 
-  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "stur_sandbox_export.json";
-  a.click();
-  URL.revokeObjectURL(url);
+document.getElementById('geo_reset').addEventListener('click', () => {
+  geo.running = false;
+  if (geo.animId) cancelAnimationFrame(geo.animId);
+  document.getElementById('geo_toggle').textContent = '▶ Start';
+  document.getElementById('L0_slider').value = 1;
+  document.getElementById('Rmax_slider').value = 5;
+  document.getElementById('gamma_slider').value = 0.05;
+  document.getElementById('geo_dt_slider').value = 0.02;
+  geo.r = 2.5;
+  geo.v = 0;
+  geo.trail = [];
+  updateGeo();
+});
+
+// ═══════════════════════════════════════════════════════════
+// CHRONOMAGNETICS
+// ═══════════════════════════════════════════════════════════
+const LAMBDA = 3722 / 2705;
+const LN_LAMBDA = Math.log(LAMBDA);
+
+function chronoMod(t, eps, tc=1e6, t0=1) {
+  const u = Math.log((t + tc) / t0);
+  return 1 + eps * Math.cos(2*Math.PI*u / LN_LAMBDA);
 }
 
-/* ---------- Clipboard helpers ---------- */
-async function copyText(txt){
-  try{
+function updateChrono() {
+  const eps = parseFloat(document.getElementById('eps_slider').value);
+  const time = parseFloat(document.getElementById('time_slider').value);
+  
+  document.getElementById('eps_val').textContent = eps.toFixed(3);
+  document.getElementById('time_val').textContent = time.toFixed(2);
+  
+  const M = chronoMod(time * 1e6, eps);
+  const baseLcoh = 3.0;
+  
+  document.getElementById('kpi_M').textContent = M.toFixed(5);
+  document.getElementById('kpi_lcohM').textContent = (baseLcoh * M).toFixed(4) + ' m';
+  
+  const canvas = document.getElementById('chrono_canvas');
+  const { width: W, height: H, ctx } = fitCanvas(canvas);
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+  
+  ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, H/2);
+  ctx.lineTo(W, H/2);
+  ctx.stroke();
+  
+  ctx.strokeStyle = '#fbbf24';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i <= 200; i++) {
+    const t = 0.1 + (i/200) * 9.9;
+    const m = chronoMod(t * 1e6, eps);
+    const x = (i/200) * W;
+    const y = H/2 - (m - 1) * (H/2) / 0.25;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  
+  const currentX = ((time - 0.1) / 9.9) * W;
+  const currentY = H/2 - (M - 1) * (H/2) / 0.25;
+  ctx.fillStyle = '#22d3ee';
+  ctx.beginPath();
+  ctx.arc(currentX, currentY, 4, 0, 2*Math.PI);
+  ctx.fill();
+}
+
+document.getElementById('eps_slider').addEventListener('input', updateChrono);
+document.getElementById('time_slider').addEventListener('input', updateChrono);
+
+// ═══════════════════════════════════════════════════════════
+// CLIPBOARD
+// ═══════════════════════════════════════════════════════════
+async function copyText(txt) {
+  try {
     await navigator.clipboard.writeText(txt);
     return true;
-  }catch(e){
-    const ta = document.createElement("textarea");
+  } catch {
+    const ta = document.createElement('textarea');
     ta.value = txt;
     document.body.appendChild(ta);
     ta.select();
-    const ok = document.execCommand("copy");
+    const ok = document.execCommand('copy');
     document.body.removeChild(ta);
     return ok;
   }
 }
 
-/* ---------- Events ---------- */
-L0_slider.addEventListener("input", () => updateUI());
-Rmax_slider.addEventListener("input", () => updateUI());
-gamma_slider.addEventListener("input", () => updateUI());
-dt_slider.addEventListener("input", () => updateUI());
-
-toggleBtn.onclick = () => {
-  animating = !animating;
-  toggleBtn.textContent = animating ? "⏸ Pause" : "▶ Start";
-  if (animating) requestAnimationFrame(animate);
-};
-
-kickBtn.onclick = () => {
-  const Rmax = parseFloat(Rmax_slider.value);
-  const dir = (particle.r <= Rmax/2) ? 1 : -1;
-  particle.v = dir * (1.2 + Math.random()*0.9);
-  updateUI();
-};
-
-resetBtn.onclick = () => {
-  L0_slider.value = 1;
-  Rmax_slider.value = 5;
-  gamma_slider.value = 0.05;
-  dt_slider.value = 0.02;
-  particle = { r: 2.5, v: 0 };
-  trail = [];
-  animating = false;
-  toggleBtn.textContent = "▶ Start";
-  updateUI();
-};
-
-downloadBtn.onclick = exportJSON;
-
-copyTemplateBtn.onclick = async () => {
-  const txt = document.getElementById("ai_template").innerText;
+document.getElementById('copy_python').addEventListener('click', async () => {
+  const btn = document.getElementById('copy_python');
+  const txt = document.getElementById('python_template').textContent;
   const ok = await copyText(txt);
-  copyTemplateBtn.textContent = ok ? "✅ Copied" : "⚠️ Copy failed";
-  setTimeout(()=> copyTemplateBtn.textContent="📋 Copy Template", 1200);
-};
+  btn.textContent = ok ? '✅ Copied!' : '❌ Failed';
+  setTimeout(() => btn.textContent = '📋 Copy Template', 1500);
+});
 
-copyNextPromptBtn.onclick = async () => {
-  const prompt =
-`Using the STUR Sandbox export JSON:
+document.getElementById('copy_prompt').addEventListener('click', async () => {
+  const btn = document.getElementById('copy_prompt');
+  const prompt = `Using the STUR framework:
 
-1) Identify the regime (confinement vs saturation) using S(r), dS/dr, and the trajectory.
-2) Replace this toy dynamics with a falsification-facing model:
-   - either a boundary gate (M=R_q S_u(u_c), theta modulation),
-   - or a PDE (diffusion + drift + chi*∂_X R + source).
-3) Add residual hooks (model - data) and export a JSON summary.
-4) State a YES/NO experimental signature that would falsify the model.`;
+1. VERIFY: Run solver, check all diagnostics pass (stability, conservation, positivity)
 
+2. PARAMETER STUDY: Vary α (0→1), document G_eff/G and stability behavior
+
+3. VISIBILITY: For your experimental platform (MAGIS-100, atom interferometer):
+   - Calculate V(ΔL) for baseline range
+   - Find 5σ detection threshold
+   - Compare STUR vs ULDM vs null
+
+4. FALSIFICATION: State YES/NO test:
+   "If [measurement] shows [result], STUR is falsified."
+
+Export all results to JSON.`;
+  
   const ok = await copyText(prompt);
-  copyNextPromptBtn.textContent = ok ? "✅ Copied" : "⚠️ Copy failed";
-  setTimeout(()=> copyNextPromptBtn.textContent="🧭 Copy “Next Prompt”", 1200);
-};
+  btn.textContent = ok ? '✅ Copied!' : '❌ Failed';
+  setTimeout(() => btn.textContent = '🧭 Copy Next Prompt', 1500);
+});
 
-/* ---------- Init ---------- */
-function init(){
-  const Rmax = parseFloat(Rmax_slider.value);
-  particle.r = 0.5 * Rmax;
-  particle.v = 0;
-  updateUI();
-  window.addEventListener("resize", () => updateUI(), {passive:true});
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+function init() {
+  pdeInit();
+  drawPDE();
+  updateVisibility();
+  updateGeo();
+  updateChrono();
+  
+  window.addEventListener('resize', () => {
+    drawPDE();
+    updateVisibility();
+    drawGeo();
+    updateChrono();
+  }, { passive: true });
 }
+
 init();
+})();
 </script>
 
 </body>
