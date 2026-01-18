@@ -514,6 +514,48 @@ code {
   line-height: 1.55;
 }
 
+/* === EQUATION TERM COLOR CODING === */
+.eq-diffusion { color: #4ade80; } /* Green - Kinetic/Diffusion */
+.eq-potential { color: #f472b6; } /* Pink - Relaxation Potential */
+.eq-xcrm { color: #fbbf24; }      /* Gold - XCRM Coupling */
+.eq-torsion { color: #60a5fa; }   /* Blue - Torsion Source */
+.eq-quantum { color: #a78bfa; }   /* Violet - Quantum Terms */
+.eq-matter { color: #22d3ee; }    /* Cyan - Matter Sector */
+
+/* Equation Legend */
+.eq-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+}
+
+.eq-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+}
+
+.eq-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.eq-legend-dot.diffusion { background: #4ade80; box-shadow: 0 0 6px #4ade80; }
+.eq-legend-dot.potential { background: #f472b6; box-shadow: 0 0 6px #f472b6; }
+.eq-legend-dot.xcrm { background: #fbbf24; box-shadow: 0 0 6px #fbbf24; }
+.eq-legend-dot.torsion { background: #60a5fa; box-shadow: 0 0 6px #60a5fa; }
+.eq-legend-dot.quantum { background: #a78bfa; box-shadow: 0 0 6px #a78bfa; }
+.eq-legend-dot.matter { background: #22d3ee; box-shadow: 0 0 6px #22d3ee; }
+
 /* Small definition list */
 .defs {
   margin: 0.6rem 0 0;
@@ -673,6 +715,15 @@ code {
       <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Torsion Source</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\alpha R \mathbb{T}\) — Teleparallel gravity coupling</div>
     </div>
+  </div>
+
+  <!-- Equation Color Legend -->
+  <div class="eq-legend" style="margin-top:1rem;">
+    <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
   </div>
 
   <h3 style="color:var(--accent-secondary);margin-top:1.5rem;">Quantum Regime: The Semi-Classical Expansion</h3>
