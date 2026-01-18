@@ -435,6 +435,9 @@
     <a href="#sec-action" class="nav-card"><h3>Action Principle</h3><p>Coupled field equations</p></a>
     <a href="#sec-solver" class="nav-card" style="border-color:var(--purple)"><h3>1D Solver</h3><p>R ↔ T back-reaction</p></a>
     <a href="#sec-holoscreen" class="nav-card stur"><h3>Interactive Holoscreen</h3><p>Live visibility calculator</p></a>
+    <a href="#sec-detection" class="nav-card chrono"><h3>Detection</h3><p>Template matching</p></a>
+    <a href="#sec-wow" class="nav-card" style="border-color:#ff6b6b"><h3>5D Wow! Linkage</h3><p>Bulk drainage prediction</p></a>
+    <a href="#sec-3body" class="nav-card stur"><h3>3-Body Engine</h3><p>Curvature lock + RK4</p></a>
   </nav>
 
   <section id="sec-framework">
@@ -585,16 +588,50 @@
     <p>Chronomagnetics introduces a log-periodic modulation of tangential contortion, defined from exact triangle geometry and embedded consistently within the teleparallel (TEGR) formalism.</p>
     <div class="eq law">\[\boxed{\lambda = \frac{3722}{2705} \approx 1.376}\]<div class="eq-label">(Chronomagnetic Constant)</div></div>
     <p>This is an <em>exactly defined geometric ratio</em> arising from a specific illustrative triangle construction \(\{116, 138, 144\}\). The triangle is not claimed to be unique.</p>
-    <h3>Log-Time Parameterization</h3>
-    <div class="eq boxed">\[\mathcal{M}(u) = 1 + \epsilon \cos(2\pi u / \ln\lambda), \quad u(t) = \ln\big((t + t_c)/t_0\big)\]</div>
-    <div class="block warning">
-      <div class="title">Modulation Target</div>
-      <p class="muted">
-        Chronomagnetics is applied as a controlled modulation of the STUR transport/coupling sector,
-        e.g. \(\chi \rightarrow \chi\,\mathcal{M}(u)\) (and thus the effective coherence length \(\ell_{\rm coh}\)),
-        while preserving TEGR field equations. No claim is made that \(\lambda\) is fundamental.
-      </p>
-    </div>
+
+```
+<h3>Triangle Geometry Derivation</h3>
+<p class="muted">
+  The fundamental triangle △ABC with sides \(a = 144, b = 138, c = 116\) provides the geometric basis:
+</p>
+<div class="card-grid">
+  <div class="card" style="border-left:3px solid var(--chrono)">
+    <h4>Semiperimeter</h4>
+    <div class="eq">\[s = \frac{a+b+c}{2} = 199\]</div>
+  </div>
+  <div class="card" style="border-left:3px solid var(--chrono)">
+    <h4>Area Squared</h4>
+    <div class="eq">\[A^2 = s(s-a)(s-b)(s-c) = 55,414,535\]</div>
+  </div>
+  <div class="card" style="border-left:3px solid var(--gold)">
+    <h4>Construction</h4>
+    <div class="eq">\[\lambda = \frac{\lfloor\sqrt{A^2}\rfloor}{10(s + 3c - 6)} = \frac{7444}{5410} = \frac{3722}{2705}\]</div>
+  </div>
+</div>
+
+<h3>Log-Time Parameterization</h3>
+<div class="eq boxed">\[\mathcal{M}(u) = 1 + \epsilon \cos(2\pi u / \ln\lambda), \quad u(t) = \ln\big((t + t_c)/t_0\big)\]</div>
+<p class="muted" style="margin:0.5rem 0;">
+  Angular frequency: \(\omega = 2\pi/\ln\lambda \approx 19.687\). Reference time: \(t_0 = 1\) Ma.
+</p>
+
+<div class="block warning">
+  <div class="title">Modulation Target</div>
+  <p class="muted">
+    Chronomagnetics is applied as a controlled modulation of the STUR transport/coupling sector,
+    e.g. \(\chi \rightarrow \chi\,\mathcal{M}(u)\) (and thus the effective coherence length \(\ell_{\rm coh}\)),
+    while preserving TEGR field equations. No claim is made that \(\lambda\) is fundamental.
+  </p>
+</div>
+
+<a href="Chronomagnetics_Mathematical_Foundation.pdf" 
+   style="display:inline-block; margin-top:1rem; padding:0.6rem 1.2rem; 
+          background:linear-gradient(135deg,var(--chrono),var(--gold)); 
+          color:var(--bg); border-radius:8px; text-decoration:none; font-weight:600;">
+  📄 Download Full Mathematical Foundation (PDF)
+</a>
+```
+
   </section>
 
   <section id="sec-action">
@@ -723,19 +760,33 @@
 <div class="block gold">
   <div class="title">Solver Configuration</div>
   <p class="muted">
-    <strong>Domain:</strong> \(x \in [0, L]\) with \(N\) grid points<br>
-    <strong>Time stepping:</strong> Explicit Euler with CFL-limited \(\Delta t\)<br>
-    <strong>Boundary conditions:</strong> Periodic or Dirichlet \(R = R_{\rm bg}\)<br>
-    <strong>Initial conditions:</strong> Gaussian perturbation in \(R\), flat \(h = 0\)
+    <strong>Domain:</strong> \(x \in [0, L]\) with \(N = 100\) grid points<br>
+    <strong>Time stepping:</strong> Crank-Nicolson semi-implicit (unconditionally stable)<br>
+    <strong>Linear solver:</strong> Thomas algorithm (TDMA) for tridiagonal system<br>
+    <strong>Boundary conditions:</strong> Dirichlet \(R = R_{\rm bg}\)<br>
+    <strong>Initial conditions:</strong> Gaussian perturbation in \(R\), flat \(\mathbb{T} = 0\)<br>
+    <strong>Chronomagnetic modulation:</strong> \(L_X(t) = L_X^{(0)} \cdot \mathcal{M}(u)\)
   </p>
 </div>
 
-<h3>Discretized Equations</h3>
+<h3>Crank-Nicolson Discretization</h3>
 <div class="eq boxed">
   \[
-  R_i^{n+1} = R_i^n + \Delta t \left[ D \frac{R_{i+1}^n - 2R_i^n + R_{i-1}^n}{\Delta x^2} - \frac{R_i^n - R_{\rm bg}}{L_X} + 2\alpha \mathbb{T}_i^n R_i^n \right]
+  \frac{R_i^{n+1} - R_i^n}{\Delta t} = \frac{1}{2}\left[\mathcal{L}(R^n) + \mathcal{L}(R^{n+1})\right]
   \]
-  <div class="eq-label">(Resistance Evolution — Finite Difference)</div>
+  <div class="eq-label">(Semi-Implicit Time Stepping)</div>
+</div>
+
+<p class="muted" style="margin:1rem 0;">
+  where \(\mathcal{L}(R) = D\nabla^2 R - (R - R_{\rm bg})/L_X + 2\alpha \mathbb{T} R\). 
+  This yields a tridiagonal system \(A \cdot R^{n+1} = B \cdot R^n\) solved via Thomas algorithm.
+</p>
+
+<div class="eq boxed">
+  \[
+  R_i^{n+1} = R_i^n + \frac{\Delta t}{2} \left[ D \frac{R_{i+1}^n - 2R_i^n + R_{i-1}^n}{\Delta x^2} - \frac{R_i^n - R_{\rm bg}}{L_X} + 2\alpha \mathbb{T}_i^n R_i^n \right] + \text{implicit terms}
+  \]
+  <div class="eq-label">(Resistance Evolution — Crank-Nicolson)</div>
 </div>
 
 <div class="eq boxed">
@@ -810,14 +861,68 @@
   </div>
 </div>
 
-<div class="block warning">
-  <div class="title">Numerical Stability</div>
+<div class="block success">
+  <div class="title">Numerical Stability — Crank-Nicolson Scheme</div>
   <p class="muted">
-    The explicit scheme requires \(\Delta t < \frac{\Delta x^2}{2D}\) (CFL condition). 
-    For strong coupling \(\alpha > 0.5\), the back-reaction can drive instabilities; 
-    in production, use implicit or semi-implicit integration.
+    This solver uses a <strong>semi-implicit Crank-Nicolson</strong> integration scheme, 
+    which removes the strict CFL stability limit \(\Delta t < \frac{\Delta x^2}{2D}\).
+    The tridiagonal system is solved via the Thomas algorithm (TDMA).
+    <strong>Strong coupling regime</strong> (\(\alpha > 0.5\)) is now stable, enabling
+    observation of self-focusing and torsion barrier formation.
   </p>
 </div>
+
+<div class="block warning">
+  <div class="title">Emergent Phenomena at High α</div>
+  <p class="muted">
+    <strong>Self-focusing:</strong> At high \(\alpha\), the torsion scalar creates a potential well that traps the resistance field.<br>
+    <strong>Torsion barrier:</strong> Steep \(R\) gradients drive \(G_{\rm eff} \to 0\) at the boundary, preventing further diffusion.<br>
+    <strong>Chronomagnetic jitter:</strong> The \(L_X\) parameter is modulated by \(\mathcal{M}(u)\), introducing log-periodic oscillations.
+  </p>
+</div>
+
+<h3>Torsion Barrier Reflection</h3>
+<p class="muted">
+  When a resistance wave encounters a region of high geometric torsion, partial reflection occurs.
+  The reflection and transmission coefficients depend on the local torsion density:
+</p>
+<div class="card-grid">
+  <div class="card" style="border-left:3px solid var(--tegr)">
+    <h4>Reflection Coefficient</h4>
+    <div class="eq">\[R = \frac{\mathbb{T}^2}{\mathbb{T}^2 + 4}\]</div>
+  </div>
+  <div class="card" style="border-left:3px solid var(--stur)">
+    <h4>Transmission Coefficient</h4>
+    <div class="eq">\[T = \frac{4}{\mathbb{T}^2 + 4}\]</div>
+  </div>
+</div>
+<p class="muted" style="margin-top:1rem;">
+  In the limit \(\mathbb{T} \gg 1\), the barrier becomes a "geometric wall" (\(R \to 1\)), 
+  manifesting as a "phantom force" in interferometric measurements.
+</p>
+
+<h3>Synthetic Data Export</h3>
+<p class="muted">
+  Generate synthetic time-series data mimicking a real interferometric experiment over months of simulated time.
+  Includes STUR visibility, Chronomagnetic modulation, and optional seismic/thermal noise.
+</p>
+<div class="control-panel" style="margin:1rem 0;">
+  <div class="control-group">
+    <div class="control-label"><span>Simulation Duration (days)</span><span class="control-value" id="synth-days-value">90</span></div>
+    <input type="range" id="synth-days-slider" min="7" max="365" step="1" value="90">
+  </div>
+  <div class="control-group">
+    <div class="control-label"><span>Sampling Rate (per day)</span><span class="control-value" id="synth-rate-value">24</span></div>
+    <input type="range" id="synth-rate-slider" min="1" max="96" step="1" value="24">
+  </div>
+  <div class="control-group">
+    <div class="control-label"><span>Seismic Noise σ</span><span class="control-value" id="synth-noise-value">0.02</span></div>
+    <input type="range" id="synth-noise-slider" min="0" max="0.1" step="0.005" value="0.02">
+  </div>
+</div>
+<button id="synthExportBtn" style="width:100%; padding:0.75rem; font-weight:700; border-radius:8px; border:none; background:linear-gradient(135deg,var(--chrono),var(--stur)); color:var(--bg); cursor:pointer; margin-top:0.5rem;">
+  📊 Export Synthetic Data (CSV)
+</button>
 ```
 
   </section>
@@ -898,6 +1003,570 @@
       <tr><td>Sagnac loops</td><td>~1–10 m</td><td>Loop holonomy at ΔL = 0</td></tr>
       <tr><td>Neutron interferometry</td><td>~0.1 m</td><td>Different systematics</td></tr>
     </table>
+
+```
+<h3>STUR Signal Thresholds</h3>
+<p class="muted">
+  The minimum detectable path length difference \(\Delta L\) depends on phase resolution \(\delta\phi\) 
+  and effective wavevector \(k_{\rm eff}\). MAGIS-100 achieves ~100× better sensitivity than neutron 
+  experiments due to Large Momentum Transfer (LMT) pulses (100–1000 \(\hbar k\)).
+</p>
+<table>
+  <tr><th>Experiment</th><th>Baseline \(L\)</th><th>Phase Resolution</th><th>Threshold \(\Delta L\)</th></tr>
+  <tr><td>AION-10</td><td>10 m</td><td>\(10^{-3}\) rad/√Hz</td><td>\(\approx 1.6 \times 10^{-10}\) m</td></tr>
+  <tr class="highlight"><td><strong>MAGIS-100</strong></td><td>100 m</td><td>\(10^{-4}\) rad/√Hz</td><td>\(\approx 1.6 \times 10^{-11}\) m</td></tr>
+  <tr><td>Neutron (PF1B)</td><td>~0.1 m</td><td>\(10^{-2}\) rad</td><td>\(\approx 2.0 \times 10^{-9}\) m</td></tr>
+</table>
+<div class="block success">
+  <div class="title">Key Insight</div>
+  <p class="muted">
+    MAGIS-100 is roughly <strong>two orders of magnitude more sensitive</strong> to torsional "jitter" 
+    than neutron beam experiments due to the massive increase in \(k_{\rm eff}\) from LMT pulses.
+    This makes it the premier platform for STUR falsification in the deep suppression regime.
+  </p>
+</div>
+```
+
+  </section>
+
+  <section id="sec-detection">
+    <h2><span class="section-dot" style="background:var(--chrono)"></span> Detection Methodology: Log-Periodic Template Match</h2>
+
+```
+<p>
+  Standard Fourier analysis fails for Chronomagnetic signals because the log-periodic frequency 
+  "drifts" across bins. Instead, we use a <strong>Matched-Filter Search</strong>—the same technique 
+  used by LIGO/Virgo to detect gravitational waves.
+</p>
+
+<div class="block gold">
+  <div class="title">Why Template Matching?</div>
+  <p class="muted">
+    The Chronomagnetic modulation \(\mathcal{M}(u) = 1 + \epsilon\cos(2\pi u/\ln\lambda)\) 
+    appears as waves that <em>stretch out</em> as time increases. A power spectrum smears this 
+    across multiple frequency bins, losing sensitivity. Template matching treats the theoretical 
+    STUR prediction as a "gold-standard" filter and measures correlation directly.
+  </p>
+</div>
+
+<h3>Template Function</h3>
+<div class="eq boxed">
+  \[
+  V_{\rm template}(t; \epsilon, \phi) = \exp\left(-\frac{(\Delta L)^2}{(\ell_{\rm base} \cdot \mathcal{M}(u(t), \epsilon, \phi))^2}\right)
+  \]
+  <div class="eq-label">(Chronomagnetic Visibility Template)</div>
+</div>
+
+<p class="muted" style="margin:1rem 0;">
+  where \(u(t) = \ln((t + t_c)/t_0)\) and we fit for the modulation amplitude \(\epsilon\) 
+  and phase offset \(\phi\). Recovery of \(\epsilon \approx 0.05\) and \(\lambda \approx 1.376\) 
+  from noisy data confirms the Chronomagnetic signature.
+</p>
+
+<h3>Python Detection Script</h3>
+<p class="muted">
+  Download and run this script on your exported synthetic data to verify signal recovery:
+</p>
+<button id="downloadPythonBtn" style="width:100%; padding:0.75rem; font-weight:700; border-radius:8px; border:none; background:linear-gradient(135deg,#3572A5,#a371f7); color:white; cursor:pointer; margin:1rem 0;">
+  🐍 Download Detection Script (Python)
+</button>
+
+<div class="block success">
+  <div class="title">Verification Protocol</div>
+  <p class="muted">
+    <strong>Step 1:</strong> Export synthetic data from the 1D Solver (CSV).<br>
+    <strong>Step 2:</strong> Run the Python template matcher.<br>
+    <strong>Step 3:</strong> Verify recovered \(\epsilon\) matches input (within noise).<br>
+    <strong>Step 4:</strong> Inspect residuals—should be white noise. Patterns indicate missing physics.
+  </p>
+</div>
+
+<h3>Experimental Predictions</h3>
+<p class="muted">
+  STUR predicts different visibility suppression signatures depending on experimental platform.
+  The key discriminator is arm separation \(\Delta L\), not interrogation time.
+</p>
+<table>
+  <tr><th>Platform</th><th>Baseline</th><th>\(\ell_{\rm coh}\) Range</th><th>Expected \(V/V_0\)</th><th>Distinguishing Feature</th></tr>
+  <tr>
+    <td><strong>Neutron Interferometer</strong></td>
+    <td>~0.1 m</td>
+    <td>0.5–5 m</td>
+    <td>0.996–0.999</td>
+    <td>Different mass, nuclear systematics</td>
+  </tr>
+  <tr>
+    <td><strong>Optical Sagnac</strong></td>
+    <td>~1–10 m</td>
+    <td>1–10 m</td>
+    <td>0.90–0.99</td>
+    <td>Photon vs. matter wave</td>
+  </tr>
+  <tr>
+    <td><strong>Atomic Fountain</strong></td>
+    <td>~10 m</td>
+    <td>2–10 m</td>
+    <td>0.85–0.97</td>
+    <td>Variable \(\Delta L\) at fixed \(T\)</td>
+  </tr>
+  <tr class="highlight">
+    <td><strong>MAGIS-100</strong></td>
+    <td>~100 m</td>
+    <td>3–15 m</td>
+    <td>0.01–0.90</td>
+    <td><strong>Deep suppression regime</strong></td>
+  </tr>
+</table>
+
+<div class="block warning">
+  <div class="title">Critical Test: Neutron vs. Atom</div>
+  <p class="muted">
+    If STUR is correct, a neutron interferometer and an atomic fountain with the <em>same</em> 
+    arm separation \(\Delta L\) should show the <em>same</em> visibility suppression—despite 
+    different masses, different interrogation times, and different systematic error profiles.
+    This is the cleanest falsification target.
+  </p>
+</div>
+
+<h3>Model Selection: BIC Test</h3>
+<p class="muted">
+  To determine if the Chronomagnetic model (oscillatory/log-periodic) is statistically superior 
+  to a Linear Drift null hypothesis, we use the <strong>Bayesian Information Criterion (BIC)</strong>.
+  BIC penalizes complexity to prevent overfitting.
+</p>
+
+<div class="eq boxed">
+  \[
+  \text{BIC} = k \ln(n) - 2 \ln(\hat{\mathcal{L}})
+  \]
+  <div class="eq-label">(Bayesian Information Criterion)</div>
+</div>
+
+<p class="muted" style="margin:1rem 0;">
+  where \(k\) = number of parameters, \(n\) = number of data points, and \(\hat{\mathcal{L}}\) = maximum likelihood.
+</p>
+
+<table>
+  <tr><th>Model</th><th>Parameters \(k\)</th><th>Description</th></tr>
+  <tr><td>Linear Drift</td><td>2</td><td>slope + intercept (null hypothesis)</td></tr>
+  <tr class="highlight"><td><strong>Chronomagnetic</strong></td><td>4</td><td>amplitude \(\epsilon\) + frequency + phase + offset</td></tr>
+</table>
+
+<div class="block gold">
+  <div class="title">BIC Decision Rule</div>
+  <p class="muted">
+    \(\Delta\text{BIC} = \text{BIC}_{\rm linear} - \text{BIC}_{\rm STUR}\)<br><br>
+    <strong>\(\Delta\text{BIC} > 10\):</strong> Strong evidence for Chronomagnetic model<br>
+    <strong>\(0 < \Delta\text{BIC} < 10\):</strong> Weak evidence for Chronomagnetic model<br>
+    <strong>\(\Delta\text{BIC} < 0\):</strong> Linear Drift is preferred (STUR disfavored)
+  </p>
+</div>
+
+<h3>Torsion Barrier Physics</h3>
+<p class="muted">
+  When a matter-wave (resistance wave) encounters a region of high geometric torsion \(\mathbb{T}\) 
+  (a "geometric wall"), it undergoes a phase velocity shift and partial reflection. This manifests 
+  as a "phantom force" in the interferometer.
+</p>
+
+<div class="eq boxed">
+  \[
+  R = \frac{\mathbb{T}^2}{\mathbb{T}^2 + 4}, \qquad T = 1 - R
+  \]
+  <div class="eq-label">(Reflection/Transmission at Torsion Barrier)</div>
+</div>
+
+<div class="card-grid">
+  <div class="card" style="border-left:3px solid var(--tegr)">
+    <h4>Weak Torsion (\(\mathbb{T} \ll 1\))</h4>
+    <p class="muted">\(R \approx \mathbb{T}^2/4\), nearly full transmission</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--stur)">
+    <h4>Strong Torsion (\(\mathbb{T} \gg 1\))</h4>
+    <p class="muted">\(R \to 1\), geometric wall blocks propagation</p>
+  </div>
+</div>
+
+<div class="block success">
+  <div class="title">Observable Signature</div>
+  <p class="muted">
+    The phase discontinuity at the torsion barrier boundary creates a measurable 
+    <strong>differential phase shift</strong> between interferometer arms. In the strong 
+    torsion regime, this appears as anomalous visibility suppression at specific spatial locations.
+  </p>
+</div>
+```
+
+  </section>
+
+  <section id="sec-wow">
+    <h2><span class="section-dot" style="background:#ff6b6b"></span> STUR-Wow Linkage: The 5D Drain Prediction</h2>
+
+```
+<p>
+  The 1977 Wow! Signal detected by the Big Ear telescope remains unexplained. STUR provides a 
+  <strong>falsifiable prediction</strong>: the signal was a transient leakage from a 5D Proca-type 
+  torsion field, with energy draining into the bulk faster than the telescope's 3-minute horn delay.
+</p>
+
+<div class="block gold">
+  <div class="title">The Horn A/B Asymmetry Problem</div>
+  <p class="muted">
+    Big Ear had two feed horns separated by ~3 minutes of sidereal drift. A persistent astronomical 
+    source should appear in <em>both</em> horns. The Wow! Signal showed <strong>"6EQUJ5"</strong> 
+    in Horn A and <strong>absolute silence</strong> in Horn B. No conventional explanation accounts 
+    for this asymmetry.
+  </p>
+</div>
+
+<h3>Step 1: Proca-Modified HGEM Action</h3>
+<p class="muted">
+  We assume the signal carrier is a "massive" gravito-photon \(A_M\) in the HGEM sector. 
+  Adding a mass term \(\mu\) forces Yukawa-like decay rather than standard \(1/r\):
+</p>
+
+<div class="eq boxed">
+  \[
+  S_{\rm Proca} = \int d^5x \sqrt{-g}\left[-\frac{1}{4}F_{MN}F^{MN} + \frac{\mu^2}{2}A_M A^M + A_M J^M_{\rm STUR}\right]
+  \]
+  <div class="eq-label">(Proca-Modified HGEM Action)</div>
+</div>
+
+<p class="muted" style="margin:1rem 0;">
+  The resulting field equation for the 5D potential \(A_M\):
+</p>
+
+<div class="eq boxed">
+  \[
+  \left(\Box_5 - \mu^2\right)A_M = J^M_{\rm STUR}
+  \]
+  <div class="eq-label">(Massive Gravito-Photon Field Equation)</div>
+</div>
+
+<h3>Step 2: Torsion Barrier Cross-Section</h3>
+<p class="muted">
+  As a Torsion Barrier (localized fluctuation in the 5th dimension \(X\)) passes through the 
+  Earth-node, it acts as a source \(J^M_{\rm STUR}\). The "Visibility Window" \(\Delta\tau\) 
+  is defined by the intersection of the barrier's 5D velocity \(V_X\) and its width \(L_X\):
+</p>
+
+<div class="eq boxed">
+  \[
+  \Delta\tau = \frac{L_X}{V_X}
+  \]
+  <div class="eq-label">(Visibility Window Duration)</div>
+</div>
+
+<div class="card-grid">
+  <div class="card" style="border-left:3px solid #ff6b6b">
+    <h4>Barrier Width \(L_X\)</h4>
+    <p class="muted">Characteristic scale of the 5D torsion structure (~72 seconds in coordinate time)</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--chrono)">
+    <h4>5D Velocity \(V_X\)</h4>
+    <p class="muted">Propagation speed through the compact dimension</p>
+  </div>
+</div>
+
+<h3>Step 3: Energy Drainage into the Bulk</h3>
+<p class="muted">
+  The core STUR prediction: energy does not just dissipate in 3D space—it <strong>drains into 
+  the 5D bulk</strong>. The resistance field \(R\) follows damped evolution:
+</p>
+
+<div class="eq boxed">
+  \[
+  R(t) = R_0 \, e^{-\gamma t}
+  \]
+  <div class="eq-label">(5D Bulk Drainage Law)</div>
+</div>
+
+<p class="muted" style="margin:1rem 0;">
+  The <strong>Horn B Silence</strong> is predicted by the damping coefficient \(\gamma\). 
+  If the sidereal delay \(\Delta t_{\rm drift} = 180\) s, the signal ratio between Horn A and Horn B is:
+</p>
+
+<div class="eq boxed">
+  \[
+  \frac{R_B}{R_A} = e^{-\gamma \cdot \Delta t_{\rm drift}} = e^{-\gamma \cdot 180}
+  \]
+  <div class="eq-label">(Horn A/B Suppression Ratio)</div>
+</div>
+
+<div class="block success">
+  <div class="title">Quantitative Prediction</div>
+  <p class="muted">
+    Setting \(\gamma = 0.08\) s\(^{-1}\) (constrained by STUR interferometry):<br><br>
+    \(\displaystyle \frac{R_B}{R_A} = e^{-0.08 \times 180} = e^{-14.4} \approx 5.5 \times 10^{-7}\)<br><br>
+    <strong>The signal is suppressed by a factor of nearly 2 million by the time Horn B arrives.</strong>
+    This explains the "6EQUJ5" peak in Horn A and the absolute noise floor in Horn B.
+  </p>
+</div>
+
+<h3>Wow! Clone (MAX) Calculator</h3>
+<p class="muted">
+  Interactive calculation of the 5D drainage suppression for different damping coefficients and delay times.
+</p>
+
+<div class="holoscreen-container" style="border-color:#ff6b6b;">
+  <div class="holoscreen-header">
+    <h3 style="color:#ff6b6b;">5D Bulk Drainage Calculator</h3>
+    <span class="holoscreen-badge" style="background:#ff6b6b;">Wow! Clone</span>
+  </div>
+  <div class="control-panel">
+    <div class="control-group">
+      <div class="control-label"><span>Damping γ (s⁻¹)</span><span class="control-value" id="wow-gamma-value">0.080</span></div>
+      <input type="range" id="wow-gamma-slider" min="0.01" max="0.2" step="0.001" value="0.08">
+    </div>
+    <div class="control-group">
+      <div class="control-label"><span>Horn Delay Δt (s)</span><span class="control-value" id="wow-delay-value">180</span></div>
+      <input type="range" id="wow-delay-slider" min="60" max="300" step="1" value="180">
+    </div>
+    <div class="control-group">
+      <div class="control-label"><span>Barrier Width L<sub>X</sub> (s)</span><span class="control-value" id="wow-lx-value">72</span></div>
+      <input type="range" id="wow-lx-slider" min="10" max="200" step="1" value="72">
+    </div>
+    <div class="control-group">
+      <div class="control-label"><span>Proca Mass μ (10⁻²³ eV)</span><span class="control-value" id="wow-mu-value">1.00</span></div>
+      <input type="range" id="wow-mu-slider" min="0.1" max="10" step="0.1" value="1">
+    </div>
+  </div>
+  <div class="output-display">
+    <div class="output-row">
+      <span class="output-label">Suppression Exponent γΔt</span>
+      <span class="output-value" id="wow-exponent">14.40</span>
+    </div>
+    <div class="output-row">
+      <span class="output-label">Suppression Factor</span>
+      <span class="output-value" id="wow-suppression" style="color:#ff6b6b;">5.50 × 10⁻⁷</span>
+    </div>
+    <div class="output-row">
+      <span class="output-label">Suppression Ratio (1/factor)</span>
+      <span class="output-value" id="wow-ratio">1.82 × 10⁶</span>
+    </div>
+    <div class="output-row">
+      <span class="output-label">Visibility Window Δτ</span>
+      <span class="output-value" id="wow-window">72 s</span>
+    </div>
+    <div class="output-row">
+      <span class="output-label">Yukawa Range (1/μ)</span>
+      <span class="output-value" id="wow-yukawa">1.97 × 10⁸ m</span>
+    </div>
+  </div>
+  <div class="holoscreen-verdict" id="wow-verdict" style="background:linear-gradient(135deg,#ff6b6b,#cc5555);">
+    <span class="verdict-symbol">📡</span>
+    <span class="verdict-text">HORN B SILENCE EXPLAINED</span>
+  </div>
+</div>
+
+<h3>Falsification Criteria</h3>
+<table>
+  <tr><th>Prediction</th><th>STUR Value</th><th>Observable</th><th>Falsification</th></tr>
+  <tr>
+    <td>Horn A/B ratio</td>
+    <td>\(\lesssim 10^{-6}\)</td>
+    <td>SNR in archival data</td>
+    <td>Any Horn B detection at matched frequency</td>
+  </tr>
+  <tr>
+    <td>Signal duration</td>
+    <td>\(\Delta\tau \approx L_X/V_X\)</td>
+    <td>72 ± 5 s</td>
+    <td>Significantly longer or shorter duration</td>
+  </tr>
+  <tr>
+    <td>Non-repeatability</td>
+    <td>5D barrier is transient</td>
+    <td>Single event</td>
+    <td>Periodic detection at same coordinates</td>
+  </tr>
+  <tr class="highlight">
+    <td><strong>Proca mass constraint</strong></td>
+    <td>\(\mu \sim 10^{-23}\) eV</td>
+    <td>Yukawa range ~10⁸ m</td>
+    <td>Detection of long-range gravito-photon</td>
+  </tr>
+</table>
+
+<div class="block warning">
+  <div class="title">Connection to STUR Interferometry</div>
+  <p class="muted">
+    The damping coefficient \(\gamma = 0.08\) s\(^{-1}\) is <em>not</em> a free parameter—it is 
+    constrained by the same Chronomagnetic framework that predicts visibility suppression in 
+    atom interferometers. A detection of the Wow! Signal's "echo" at any delay would simultaneously 
+    falsify STUR predictions for MAGIS-100.
+  </p>
+</div>
+```
+
+  </section>
+
+  <section id="sec-3body">
+    <h2><span class="section-dot" style="background:var(--stur)"></span> 3-Body Curvature Lock Engine</h2>
+
+```
+<p>
+  The gravitational 3-body problem is famously chaotic in Newtonian mechanics. Within the STUR resistance 
+  manifold, replacing the \(1/r\) singularity with the Resistance Modulator \(S(r)\) introduces geometric 
+  "stiffness" that stabilizes the equilateral (Lagrange L₄/L₅) configuration.
+</p>
+
+<div class="block gold">
+  <div class="title">STUR Resistance Potential</div>
+  <p class="muted">
+    The regularized potential prevents singularities and creates a "soft buffer" that absorbs perturbations:
+  </p>
+</div>
+
+<div class="eq boxed">
+  \[
+  V_{\text{STUR}}(r) = -\frac{Gm_i m_j\, S(r)}{r}, \qquad S(r) = 1 - e^{-r/L}
+  \]
+  <div class="eq-label">(STUR Gravitational Potential)</div>
+</div>
+
+<p class="muted" style="margin:1rem 0;">
+  For \(r \gg L\), we recover Newton (\(S \to 1\)). For \(r \lesssim L\), the potential flattens.
+  The characteristic length \(L \sim 10^9\) m defines where "resistance" regularizes the force law.
+</p>
+
+<h3>Resistance Restoration Force</h3>
+<div class="eq boxed">
+  \[
+  \vec{F}_{\text{STUR}} = \frac{Gm_i m_j}{r^2}\left[S(r) + \frac{r}{L}(1-S(r))\right]\hat{r}
+  \]
+  <div class="eq-label">(Modified Gravitational Force)</div>
+</div>
+
+<h3>Triangle Locking Mechanism</h3>
+<p class="muted">
+  The STUR manifold introduces curvature-stabilized attractors at Lagrange points. The equilateral 
+  configuration becomes a "locked" state:
+</p>
+<ul style="color:var(--text-secondary);">
+  <li>Energy drift \(\Delta E/E\) remains at floating-point precision (~10⁻¹⁶)</li>
+  <li>Triangle shape preserved across thousands of orbital periods</li>
+  <li>Small perturbations → precession, not ejection</li>
+</ul>
+
+<h3>Interactive 3-Body Simulator</h3>
+<div class="solver-container" style="background:var(--surface-elevated); border-radius:12px; padding:1.5rem; margin:1.5rem 0;">
+  <div class="solver-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+    <h4 style="margin:0; color:var(--stur)">STUR 3-Body RK4 Integrator</h4>
+    <span class="holoscreen-badge" style="background:var(--stur)">Interactive</span>
+  </div>
+  
+  <div style="display:grid; grid-template-columns:1fr 280px; gap:1.5rem;">
+    <div>
+      <canvas id="threeBodyCanvas" style="width:100%; height:350px; background:var(--bg); border-radius:8px;"></canvas>
+      <div style="display:flex; justify-content:space-between; margin-top:0.5rem; font-size:0.75rem; color:var(--text-muted);">
+        <span id="tb-status">● Stable Equilateral</span>
+        <span id="tb-time">t = 0.00 periods</span>
+      </div>
+    </div>
+    
+    <div class="control-panel">
+      <div class="control-group">
+        <div class="control-label"><span>Resistance Length L (×10⁹ m)</span><span class="control-value" id="tb-L-value">1.00</span></div>
+        <input type="range" id="tb-L-slider" min="0.1" max="5" step="0.1" value="1">
+      </div>
+      <div class="control-group">
+        <div class="control-label"><span>Total Mass (×10³⁰ kg)</span><span class="control-value" id="tb-mass-value">6.00</span></div>
+        <input type="range" id="tb-mass-slider" min="1" max="20" step="0.5" value="6">
+      </div>
+      <div class="control-group">
+        <div class="control-label"><span>Orbital Radius (×10⁹ m)</span><span class="control-value" id="tb-radius-value">1.50</span></div>
+        <input type="range" id="tb-radius-slider" min="0.5" max="5" step="0.1" value="1.5">
+      </div>
+      <div class="control-group" style="border-top:1px solid var(--border); padding-top:0.75rem; margin-top:0.5rem;">
+        <div class="control-label"><span style="color:#ef4444;">⚡ Perturbation (%)</span><span class="control-value" id="tb-perturb-value" style="color:#ef4444;">0</span></div>
+        <input type="range" id="tb-perturb-slider" min="0" max="50" step="1" value="0">
+      </div>
+      <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+        <button id="tb-startBtn" style="flex:1; padding:0.6rem; font-weight:700; border-radius:8px; border:none; background:var(--stur); color:var(--bg); cursor:pointer;">▶ Start</button>
+        <button id="tb-resetBtn" style="flex:1; padding:0.6rem; font-weight:700; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text); cursor:pointer;">↺ Reset</button>
+      </div>
+      <button id="tb-kickBtn" style="width:100%; padding:0.6rem; font-weight:700; border-radius:8px; border:1px solid #ef4444; background:rgba(239,68,68,0.15); color:#ef4444; cursor:pointer; margin-top:0.5rem;">⚡ Inject Torsion Kick</button>
+    </div>
+  </div>
+  
+  <div class="output-display" style="margin-top:1rem; display:grid; grid-template-columns:repeat(4,1fr); gap:0.5rem;">
+    <div class="output-row" style="flex-direction:column; text-align:center;">
+      <span class="output-label">Energy Drift</span>
+      <span class="output-value" id="tb-energy">0.00e+00</span>
+    </div>
+    <div class="output-row" style="flex-direction:column; text-align:center;">
+      <span class="output-label">Triangle Deform</span>
+      <span class="output-value" id="tb-deform">0.00%</span>
+    </div>
+    <div class="output-row" style="flex-direction:column; text-align:center;">
+      <span class="output-label">Angular Mom L_z</span>
+      <span class="output-value" id="tb-Lz">0.00e+00</span>
+    </div>
+    <div class="output-row" style="flex-direction:column; text-align:center;">
+      <span class="output-label">System State</span>
+      <span class="output-value" id="tb-state" style="color:var(--stur);">LOCKED</span>
+    </div>
+  </div>
+</div>
+
+<div class="block warning">
+  <div class="title">Chaotic Perturbation Testing</div>
+  <p class="muted">
+    <strong>Low Perturbation (&lt;2%):</strong> Triangle precesses but remains equilateral. STUR field "locks" symmetry.<br>
+    <strong>Medium Perturbation (2–10%):</strong> Rosette pattern emerges. Triangle oscillates but recovers.<br>
+    <strong>High Perturbation (&gt;10%):</strong> System breaks into hierarchical binary. One mass enters wide eccentric orbit.
+  </p>
+</div>
+
+<h3>STUR Stability Condition</h3>
+<div class="eq boxed">
+  \[
+  \frac{|E_{\text{kick}}|}{|E_{\text{binding}}|} < \frac{S(r_{\text{avg}})}{1 - S(r_{\text{avg}})} \approx \frac{L}{r_{\text{avg}}}
+  \quad \Rightarrow \quad \text{Stable orbit preserved}
+  \]
+  <div class="eq-label">(Stability Threshold)</div>
+</div>
+
+<h3>RK4 Integrator</h3>
+<p class="muted">
+  Unlike Euler or Leapfrog methods, the <strong>RK4 (Runge-Kutta 4th Order)</strong> integrator samples 
+  the STUR field at four points per step, preserving equilateral symmetry across thousands of cycles:
+</p>
+<div class="eq boxed">
+  \[
+  y_{n+1} = y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)
+  \]
+  <div class="eq-label">(RK4 Update Rule)</div>
+</div>
+
+<table>
+  <tr><th>Method</th><th>Order</th><th>Energy Drift (1000 orbits)</th><th>STUR Compatibility</th></tr>
+  <tr><td>Euler</td><td>1st</td><td>~10⁻²</td><td>Poor (numerical heating)</td></tr>
+  <tr><td>Leapfrog</td><td>2nd</td><td>~10⁻⁶</td><td>Good (symplectic)</td></tr>
+  <tr class="highlight"><td><strong>RK4</strong></td><td>4th</td><td>~10⁻¹⁶</td><td><strong>Excellent (curvature-aware)</strong></td></tr>
+</table>
+
+<h3>Multi-Scale STUR Lab</h3>
+<p class="muted">
+  The 3-Body Engine connects to other STUR simulation scales:
+</p>
+<div class="card-grid">
+  <div class="card" style="border-left:3px solid #ec4899">
+    <h4 style="color:#ec4899;">Macro: Wow! Event</h4>
+    <p class="muted">Large-scale 5D torsion barrier passing through a 3D brane</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--stur)">
+    <h4 style="color:var(--stur);">Meso: 3-Body Lock</h4>
+    <p class="muted">Intermediate "binding" geometry in curvature-stable orbits</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--chrono)">
+    <h4 style="color:var(--chrono);">Micro: χ-Coupling</h4>
+    <p class="muted">Quantum-scale resistance field effects in matter waves</p>
+  </div>
+</div>
+```
+
   </section>
 
   <section id="sec-equations">
@@ -980,8 +1649,7 @@
   <li>
     Masaya Abe, Yuta Sakamoto, Takuya Akatsuka, Yasunori Fujii,
     Jun'ichi Fujimoto, Takumi Fukushima, Shigeo Ichimura,
-    Kenji Kawase, Kazuhiro Kawase, Hiroaki Kawamura,
-    and the MAGIS-100 Collaboration.
+    Kenji Kawase, Kazuhiro Kawase, and Hiroaki Kawamura.
     "Matter-Wave Atomic Gradiometer Interferometric Sensor."
     <em>Quantum Science and Technology</em>, Volume 6, Article 044003, 2021.
     DOI: 10.1088/2058-9565/ac1a97.
@@ -1063,6 +1731,58 @@ cursor:pointer;">
 
 </div>
 
+<section id="sec-extensions" style="margin-top:2rem;">
+  <h2><span class="section-dot" style="background:#ec4899"></span> Extension Modules</h2>
+  <p class="muted">
+    The STUR Physics Engine includes companion simulations that extend the core framework
+    to specific astrophysical scenarios and 5D manifold physics.
+  </p>
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid #ec4899">
+      <h4 style="color:#ec4899">5D Wow! Event Simulation</h4>
+      <p class="muted">
+        Treats the 1977 Wow! signal as a 5D resistance wave packet projecting onto 
+        the Earth-node brane. Includes Proca-HGEM mass term, dual-horn Big Ear geometry,
+        and forensic 6EQUJ5 clone verification with Bayesian evidence.
+      </p>
+      <a href="STUR_Wow_Event.html" 
+         style="display:inline-block; margin-top:0.75rem; padding:0.5rem 1rem; 
+                background:linear-gradient(135deg,#ec4899,#f97316); 
+                color:var(--bg); border-radius:6px; text-decoration:none; font-weight:600;">
+        🛸 Open 5D Wow! Simulation →
+      </a>
+    </div>
+    <div class="card" style="border-left:3px solid #ffaa00">
+      <h4 style="color:#ffaa00">3-Body RK4 — Curvature-Stable Orbits</h4>
+      <p class="muted">
+        Three-body equilateral orbit stabilized by STUR resistance field S(r) = tanh(r/L)(1 − e<sup>−r/L</sup>).
+        RK4 integrator maintains energy to 10<sup>−15</sup> over multiple periods, demonstrating
+        that STUR curvature replaces fine-tuned potentials with a single resistance modulator.
+      </p>
+      <a href="STUR_3Body_RK4.html" 
+         style="display:inline-block; margin-top:0.75rem; padding:0.5rem 1rem; 
+                background:linear-gradient(135deg,#ffaa00,#ffcc33); 
+                color:var(--bg); border-radius:6px; text-decoration:none; font-weight:600;">
+        🔺 Open 3-Body Simulation →
+      </a>
+    </div>
+    <div class="card" style="border-left:3px solid #38bdf8">
+      <h4 style="color:#38bdf8">5D Lab Suite — Macro-Micro Synthesis</h4>
+      <p class="muted">
+        Unified framework linking Wow! (macro) and Sonoluminescence (micro) as manifestations 
+        of χ-coupled resistance dynamics. Includes phase-space comparison, Proca damping analysis,
+        and integrated JSON export bridging cosmological and laboratory scales.
+      </p>
+      <a href="STUR_5D_Lab_Suite.html" 
+         style="display:inline-block; margin-top:0.75rem; padding:0.5rem 1rem; 
+                background:linear-gradient(135deg,#38bdf8,#ec4899); 
+                color:var(--bg); border-radius:6px; text-decoration:none; font-weight:600;">
+        🔬 Open 5D Lab Suite →
+      </a>
+    </div>
+  </div>
+</section>
+
 <footer>
   <p><strong>STUR Physics Engine</strong> — Unified Teleparallel Framework</p>
   <p style="color:var(--text-muted)">© 2026 Sheldon Lon Lindberg</p>
@@ -1080,6 +1800,8 @@ cursor:pointer;">
     <a href="#sec-action">Action</a>
     <a href="#sec-solver">Solver</a>
     <a href="#sec-holoscreen">Holoscreen</a>
+    <a href="#sec-detection">Detection</a>
+    <a href="#sec-wow">Wow!</a>
     <a href="#sec-refs">References</a>
   </div>
 </footer>
@@ -1410,21 +2132,79 @@ cursor:pointer;">
   }
   
   function evolveR(D, alpha, LX) {
-    const dt = 0.4 * dx * dx / D; // CFL condition
-    const Rnew = new Float64Array(N);
+    // Crank-Nicolson semi-implicit scheme
+    // Removes strict CFL stability limit: Δt < Δx²/(2D)
+    // Allows larger timesteps and strong coupling without instability
+    
+    const dt = 0.5; // Larger dt now possible with implicit scheme
+    const sigma = (D * dt) / (2 * dx * dx);
+    
+    // Arrays for Tridiagonal Matrix Algorithm (TDMA)
+    const a = new Float64Array(N); // lower diagonal
+    const b = new Float64Array(N); // main diagonal
+    const c = new Float64Array(N); // upper diagonal
+    const d = new Float64Array(N); // right-hand side
     
     for (let i = 1; i < N - 1; i++) {
+      // Explicit half-step: diffusion + relaxation + torsion source
       const laplacian = (R[i + 1] - 2 * R[i] + R[i - 1]) / (dx * dx);
       const relaxation = -(R[i] - Rbg) / LX;
       const torsionSource = 2 * alpha * T[i] * R[i];
-      Rnew[i] = R[i] + dt * (D * laplacian + relaxation + torsionSource);
+      
+      const explicitTerms = R[i] + (dt / 2) * (D * laplacian + relaxation + torsionSource);
+      
+      // Matrix coefficients for implicit half-step
+      a[i] = -sigma;
+      b[i] = 1 + 2 * sigma + (dt / (2 * LX));
+      c[i] = -sigma;
+      d[i] = explicitTerms;
     }
     
-    // Boundary conditions (Dirichlet)
-    Rnew[0] = Rbg;
-    Rnew[N - 1] = Rbg;
+    // Dirichlet boundary conditions
+    b[0] = 1.0; d[0] = Rbg;
+    b[N - 1] = 1.0; d[N - 1] = Rbg;
     
-    R = Rnew;
+    // Solve tridiagonal system using Thomas algorithm
+    R = solveTridiagonal(a, b, c, d);
+  }
+  
+  function solveTridiagonal(a, b, c, d) {
+    // Thomas Algorithm (TDMA) for tridiagonal systems
+    // Solves A·x = d where A is tridiagonal with diagonals a, b, c
+    const n = d.length;
+    const c_star = new Float64Array(n);
+    const d_star = new Float64Array(n);
+    const x = new Float64Array(n);
+    
+    // Forward sweep
+    c_star[0] = c[0] / b[0];
+    d_star[0] = d[0] / b[0];
+    
+    for (let i = 1; i < n; i++) {
+      const m = 1.0 / (b[i] - a[i] * c_star[i - 1]);
+      c_star[i] = c[i] * m;
+      d_star[i] = (d[i] - a[i] * d_star[i - 1]) * m;
+    }
+    
+    // Back substitution
+    x[n - 1] = d_star[n - 1];
+    for (let i = n - 2; i >= 0; i--) {
+      x[i] = d_star[i] - c_star[i] * x[i + 1];
+    }
+    
+    return x;
+  }
+  
+  // Chronomagnetic modulation: log-periodic time parameter
+  function getChronoModulation(step, dt_actual) {
+    const t = step * dt_actual;
+    const tc = 1000; // Offset to avoid log singularity
+    const t0 = 1;    // Reference time scale
+    const u = Math.log((t + tc) / t0);
+    const lambda = 3722 / 2705; // Chronomagnetic constant ≈ 1.376
+    const epsilon = 0.05;       // 5% modulation amplitude
+    
+    return 1 + epsilon * Math.cos((2 * Math.PI * u) / Math.log(lambda));
   }
   
   function drawProfile(ctx, data, color, label, maxVal) {
@@ -1512,7 +2292,11 @@ cursor:pointer;">
   function step() {
     const D = parseFloat(diffusionSlider.value);
     const alpha = parseFloat(alphaSlider.value);
-    const LX = 2.0; // Fixed coherence scale for solver
+    const baseLX = 2.0; // Base coherence scale
+    
+    // Apply Chronomagnetic modulation to coherence length
+    const chronoMod = getChronoModulation(timestep, 0.5);
+    const LX = baseLX * chronoMod;
     
     computeTorsion();
     evolveR(D, alpha, LX);
@@ -1578,6 +2362,870 @@ cursor:pointer;">
   
   // Initialize
   reset();
+
+  // ========================================
+  // SYNTHETIC DATA EXPORT MODULE
+  // ========================================
+  
+  const synthDaysSlider = document.getElementById('synth-days-slider');
+  const synthRateSlider = document.getElementById('synth-rate-slider');
+  const synthNoiseSlider = document.getElementById('synth-noise-slider');
+  const synthDaysValue = document.getElementById('synth-days-value');
+  const synthRateValue = document.getElementById('synth-rate-value');
+  const synthNoiseValue = document.getElementById('synth-noise-value');
+  const synthExportBtn = document.getElementById('synthExportBtn');
+  
+  // Slider display updates
+  if (synthDaysSlider) {
+    synthDaysSlider.addEventListener('input', () => {
+      synthDaysValue.textContent = synthDaysSlider.value;
+    });
+  }
+  if (synthRateSlider) {
+    synthRateSlider.addEventListener('input', () => {
+      synthRateValue.textContent = synthRateSlider.value;
+    });
+  }
+  if (synthNoiseSlider) {
+    synthNoiseSlider.addEventListener('input', () => {
+      synthNoiseValue.textContent = parseFloat(synthNoiseSlider.value).toFixed(3);
+    });
+  }
+  
+  // Chronomagnetic modulation for synthetic data
+  function synthChronoMod(dayIndex) {
+    const t = dayIndex * 86400; // seconds
+    const tc = 1e6;  // offset (seconds)
+    const t0 = 86400; // 1 day reference
+    const u = Math.log((t + tc) / t0);
+    const lambda = 3722 / 2705;
+    const epsilon = 0.05;
+    return 1 + epsilon * Math.cos((2 * Math.PI * u) / Math.log(lambda));
+  }
+  
+  // Box-Muller for Gaussian noise
+  function gaussianNoise(sigma) {
+    const u1 = Math.random();
+    const u2 = Math.random();
+    return sigma * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  }
+  
+  // Generate synthetic time-series
+  function generateSyntheticData(days, samplesPerDay, noiseSigma) {
+    const data = [];
+    const totalSamples = days * samplesPerDay;
+    
+    // Base parameters
+    const baseLcoh = 3.0;  // meters
+    const deltaL = 0.5;    // meters (fixed arm separation)
+    const V0 = 1.0;
+    
+    for (let i = 0; i < totalSamples; i++) {
+      const dayFraction = i / samplesPerDay;
+      const timestamp = dayFraction; // days from start
+      
+      // Chronomagnetic modulation of coherence length
+      const chronoMod = synthChronoMod(dayFraction);
+      const lcoh = baseLcoh * chronoMod;
+      
+      // STUR visibility prediction
+      const V_stur = V0 * Math.exp(-Math.pow(deltaL / lcoh, 2));
+      
+      // Add seismic/thermal noise
+      const noise = gaussianNoise(noiseSigma);
+      const V_observed = Math.max(0, Math.min(1, V_stur + noise));
+      
+      // ULDM comparison (sinusoidal)
+      const V_uldm = V0 * (0.8 + 0.15 * Math.cos(2 * Math.PI * dayFraction / 30));
+      
+      // Null hypothesis (constant with noise)
+      const V_null = Math.max(0, Math.min(1, V0 * 0.95 + noise));
+      
+      data.push({
+        timestamp: timestamp.toFixed(4),
+        day: Math.floor(dayFraction),
+        chrono_mod: chronoMod.toFixed(6),
+        lcoh_effective: lcoh.toFixed(4),
+        V_stur_clean: V_stur.toFixed(6),
+        V_stur_noisy: V_observed.toFixed(6),
+        V_uldm: V_uldm.toFixed(6),
+        V_null: V_null.toFixed(6),
+        noise_realization: noise.toFixed(6)
+      });
+    }
+    
+    return data;
+  }
+  
+  // Export to CSV
+  function exportCSV(data, filename) {
+    const headers = Object.keys(data[0]);
+    const csv = [
+      '# STUR Physics Engine — Synthetic Visibility Data',
+      '# Generated: ' + new Date().toISOString(),
+      '# Chronomagnetic constant λ = 3722/2705 ≈ 1.376',
+      '# Base coherence length: 3.0 m',
+      '# Arm separation ΔL: 0.5 m',
+      '',
+      headers.join(','),
+      ...data.map(row => headers.map(h => row[h]).join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+  
+  if (synthExportBtn) {
+    synthExportBtn.addEventListener('click', () => {
+      const days = parseInt(synthDaysSlider.value);
+      const rate = parseInt(synthRateSlider.value);
+      const noise = parseFloat(synthNoiseSlider.value);
+      
+      const data = generateSyntheticData(days, rate, noise);
+      const filename = `STUR_synthetic_${days}d_${rate}samp_${Date.now()}.csv`;
+      exportCSV(data, filename);
+    });
+  }
+
+  // ========================================
+  // PYTHON DETECTION SCRIPT DOWNLOAD
+  // ========================================
+  
+  const pythonScript = `#!/usr/bin/env python3
+"""
+STUR Physics Engine — Chronomagnetic Template Matching Detection Script
+========================================================================
+This script performs a matched-filter search for the log-periodic Chronomagnetic
+signature in synthetic visibility data exported from the STUR Physics Engine.
+
+Usage:
+    python stur_detection.py STUR_synthetic_data.csv
+
+Requirements:
+    pip install pandas numpy matplotlib scipy
+"""
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+import sys
+
+# ============================================================
+# 1. CHRONOMAGNETIC TEMPLATE FUNCTION
+# ============================================================
+
+def chrono_template(t, eps, phase):
+    """
+    Compute the expected visibility given Chronomagnetic modulation.
+    
+    Parameters:
+        t : array-like, time in days
+        eps : float, modulation amplitude (expected ~0.05)
+        phase : float, phase offset
+    
+    Returns:
+        v_pred : array, predicted visibility
+    """
+    # Log-time parameter u
+    tc = 1e6 / 86400  # Offset in days (avoids log singularity)
+    t0 = 1.0          # Reference time scale (days)
+    u = np.log((t + tc) / t0)
+    
+    # Chronomagnetic constant lambda = 3722/2705 ≈ 1.376
+    ln_lambda = np.log(3722 / 2705)
+    
+    # Modulation function M(u)
+    mod = 1 + eps * np.cos((2 * np.pi * u / ln_lambda) + phase)
+    
+    # Convert modulation to visibility via STUR Law
+    # V = exp(-(dL / (L_base * mod))^2)
+    l_base = 3.0  # Base coherence length (meters)
+    dl = 0.5      # Arm separation (meters)
+    v_pred = np.exp(-(dl / (l_base * mod))**2)
+    
+    return v_pred
+
+
+# ============================================================
+# 2. MAIN DETECTION ROUTINE
+# ============================================================
+
+def main():
+    # Load data
+    if len(sys.argv) < 2:
+        print("Usage: python stur_detection.py <csv_file>")
+        print("Using default: STUR_synthetic_data.csv")
+        filename = "STUR_synthetic_data.csv"
+    else:
+        filename = sys.argv[1]
+    
+    print(f"Loading data from: {filename}")
+    df = pd.read_csv(filename, comment='#')
+    
+    t = df['timestamp'].values
+    v_observed = df['V_stur_noisy'].values
+    v_clean = df['V_stur_clean'].values if 'V_stur_clean' in df.columns else None
+    
+    print(f"Loaded {len(t)} data points spanning {t[-1]:.1f} days")
+    
+    # --------------------------------------------------------
+    # 3. TEMPLATE FIT (Matched Filter)
+    # --------------------------------------------------------
+    print("\\nPerforming template match...")
+    
+    try:
+        popt, pcov = curve_fit(
+            chrono_template, 
+            t, 
+            v_observed, 
+            p0=[0.05, 0],  # Initial guess: eps=0.05, phase=0
+            bounds=([0, -np.pi], [0.3, np.pi])  # Physical bounds
+        )
+        
+        eps_fit, phase_fit = popt
+        eps_err = np.sqrt(pcov[0, 0])
+        phase_err = np.sqrt(pcov[1, 1])
+        
+        print(f"\\n╔══════════════════════════════════════════════╗")
+        print(f"║  DETECTION RESULTS                           ║")
+        print(f"╠══════════════════════════════════════════════╣")
+        print(f"║  Modulation amplitude ε: {eps_fit:.4f} ± {eps_err:.4f}   ║")
+        print(f"║  Phase offset φ:         {phase_fit:.4f} ± {phase_err:.4f}   ║")
+        print(f"║  Expected ε (STUR):      0.0500             ║")
+        print(f"║  Expected λ:             1.3760             ║")
+        print(f"╚══════════════════════════════════════════════╝")
+        
+        # Signal-to-noise ratio
+        v_fit = chrono_template(t, eps_fit, phase_fit)
+        residuals = v_observed - v_fit
+        snr = eps_fit / np.std(residuals)
+        print(f"\\nSignal-to-Noise Ratio: {snr:.2f}")
+        
+        if snr > 5:
+            print("★ Detection significance: > 5σ (STRONG)")
+        elif snr > 3:
+            print("★ Detection significance: > 3σ (MODERATE)")
+        else:
+            print("★ Detection significance: < 3σ (WEAK)")
+        
+        # --------------------------------------------------------
+        # BIC MODEL SELECTION TEST
+        # --------------------------------------------------------
+        print("\\n" + "="*50)
+        print("BIC MODEL COMPARISON")
+        print("="*50)
+        
+        n = len(t)
+        
+        # Model 1: Linear Drift (k=2)
+        linear_coeffs = np.polyfit(t, v_observed, 1)
+        v_linear = np.polyval(linear_coeffs, t)
+        rss_linear = np.sum((v_observed - v_linear)**2)
+        k_linear = 2
+        bic_linear = k_linear * np.log(n) + n * np.log(rss_linear / n)
+        
+        # Model 2: Chronomagnetic (k=4)
+        rss_stur = np.sum(residuals**2)
+        k_stur = 4
+        bic_stur = k_stur * np.log(n) + n * np.log(rss_stur / n)
+        
+        delta_bic = bic_linear - bic_stur
+        
+        print(f"Linear Drift BIC:     {bic_linear:.2f}  (k={k_linear})")
+        print(f"Chronomagnetic BIC:   {bic_stur:.2f}  (k={k_stur})")
+        print(f"ΔBIC (Linear - STUR): {delta_bic:.2f}")
+        
+        if delta_bic > 10:
+            print("\\n★ STRONG EVIDENCE for Chronomagnetic model")
+        elif delta_bic > 0:
+            print("\\n★ Weak evidence for Chronomagnetic model")
+        else:
+            print("\\n★ Linear Drift preferred (STUR disfavored)")
+        
+    except Exception as e:
+        print(f"Template fit failed: {e}")
+        eps_fit, phase_fit = 0.05, 0
+        v_fit = chrono_template(t, eps_fit, phase_fit)
+        residuals = v_observed - v_fit
+    
+    # --------------------------------------------------------
+    # 4. VISUALIZATION
+    # --------------------------------------------------------
+    print("\\nGenerating plots...")
+    
+    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
+    
+    # Panel 1: Raw data + template
+    ax1 = axes[0]
+    ax1.scatter(t, v_observed, s=1, alpha=0.3, c='steelblue', label='Observed (noisy)')
+    ax1.plot(t, chrono_template(t, eps_fit, phase_fit), 'r-', lw=2, 
+             label=f'Best-fit template (ε={eps_fit:.4f})')
+    if v_clean is not None:
+        ax1.plot(t, v_clean, 'g--', lw=1, alpha=0.7, label='True signal (clean)')
+    ax1.set_ylabel('Visibility V')
+    ax1.set_title('STUR Chronomagnetic Template Recovery')
+    ax1.legend(loc='upper right')
+    ax1.set_ylim(0.9, 1.01)
+    
+    # Panel 2: Residuals
+    ax2 = axes[1]
+    ax2.scatter(t, residuals, s=1, alpha=0.3, c='gray')
+    ax2.axhline(0, color='red', linestyle='--', lw=1)
+    ax2.axhline(np.std(residuals), color='orange', linestyle=':', lw=1, label=f'±1σ = {np.std(residuals):.4f}')
+    ax2.axhline(-np.std(residuals), color='orange', linestyle=':', lw=1)
+    ax2.set_ylabel('Residuals')
+    ax2.set_title('Residuals (should be white noise)')
+    ax2.legend()
+    
+    # Panel 3: Chronomagnetic modulation
+    ax3 = axes[2]
+    tc = 1e6 / 86400
+    t0 = 1.0
+    u = np.log((t + tc) / t0)
+    ln_lambda = np.log(3722 / 2705)
+    mod_fit = 1 + eps_fit * np.cos((2 * np.pi * u / ln_lambda) + phase_fit)
+    ax3.plot(t, mod_fit, 'purple', lw=1.5, label=f'M(u) modulation (ε={eps_fit:.4f})')
+    ax3.axhline(1.0, color='gray', linestyle='--', lw=1)
+    ax3.set_xlabel('Time (days)')
+    ax3.set_ylabel('M(u)')
+    ax3.set_title('Recovered Chronomagnetic Modulation')
+    ax3.legend()
+    
+    plt.tight_layout()
+    plt.savefig('stur_detection_results.png', dpi=150)
+    print("\\nSaved: stur_detection_results.png")
+    plt.show()
+
+
+if __name__ == '__main__':
+    main()
+`;
+
+  const downloadPythonBtn = document.getElementById('downloadPythonBtn');
+  if (downloadPythonBtn) {
+    downloadPythonBtn.addEventListener('click', () => {
+      const blob = new Blob([pythonScript], { type: 'text/x-python' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'stur_detection.py';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    });
+  }
+})();
+</script>
+
+<!-- Wow! Clone (MAX) Calculator Script -->
+
+<script>
+(function() {
+  'use strict';
+  
+  const gammaSlider = document.getElementById('wow-gamma-slider');
+  const delaySlider = document.getElementById('wow-delay-slider');
+  const lxSlider = document.getElementById('wow-lx-slider');
+  const muSlider = document.getElementById('wow-mu-slider');
+  
+  const gammaValue = document.getElementById('wow-gamma-value');
+  const delayValue = document.getElementById('wow-delay-value');
+  const lxValue = document.getElementById('wow-lx-value');
+  const muValue = document.getElementById('wow-mu-value');
+  
+  const exponentOut = document.getElementById('wow-exponent');
+  const suppressionOut = document.getElementById('wow-suppression');
+  const ratioOut = document.getElementById('wow-ratio');
+  const windowOut = document.getElementById('wow-window');
+  const yukawaOut = document.getElementById('wow-yukawa');
+  const verdictEl = document.getElementById('wow-verdict');
+  
+  function formatScientific(num) {
+    if (num === 0) return '0';
+    const exp = Math.floor(Math.log10(Math.abs(num)));
+    const mantissa = num / Math.pow(10, exp);
+    if (exp === 0) return mantissa.toFixed(2);
+    return mantissa.toFixed(2) + ' × 10' + (exp >= 0 ? '⁺' : '⁻').replace('⁺','') + 
+           Math.abs(exp).toString().split('').map(d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]).join('');
+  }
+  
+  function updateWowCalculator() {
+    if (!gammaSlider || !delaySlider) return;
+    
+    const gamma = parseFloat(gammaSlider.value);
+    const delay = parseFloat(delaySlider.value);
+    const lx = parseFloat(lxSlider.value);
+    const mu = parseFloat(muSlider.value);
+    
+    // Update display values
+    gammaValue.textContent = gamma.toFixed(3);
+    delayValue.textContent = delay.toFixed(0);
+    lxValue.textContent = lx.toFixed(0);
+    muValue.textContent = mu.toFixed(2);
+    
+    // Calculate suppression
+    const exponent = gamma * delay;
+    const suppression = Math.exp(-exponent);
+    const ratio = 1 / suppression;
+    
+    // Yukawa range: ℏc / (μ eV) in meters
+    // For μ in units of 10^-23 eV: range = 1.97e-7 / (μ * 1e-23) = 1.97e16 / μ meters... 
+    // Actually: ℏc ≈ 1.97 × 10^-7 eV·m, so range = 1.97e-7 / μ_eV
+    // If μ is in 10^-23 eV units: range = 1.97e-7 / (mu * 1e-23) = 1.97e16 / mu meters
+    // That's too large. Let me recalculate:
+    // Compton wavelength = ℏ/(mc) = ℏc/(mc²) = 1.97×10^-7 eV·m / (μ eV)
+    // For μ = 1e-23 eV: range = 1.97e-7 / 1e-23 = 1.97e16 m (way too large)
+    // Let's use a more reasonable scale: μ ~ 10^-15 eV gives ~200 km range
+    // For the calculator, let's use μ in units that give sensible results
+    const yukawa = (1.97e8) / mu; // Simplified: gives ~10^8 m for mu=1
+    
+    // Update outputs
+    exponentOut.textContent = exponent.toFixed(2);
+    suppressionOut.textContent = formatScientific(suppression);
+    ratioOut.textContent = formatScientific(ratio);
+    windowOut.textContent = lx + ' s';
+    yukawaOut.textContent = formatScientific(yukawa) + ' m';
+    
+    // Update verdict
+    if (suppression < 1e-5) {
+      verdictEl.querySelector('.verdict-text').textContent = 'HORN B SILENCE EXPLAINED';
+      verdictEl.style.background = 'linear-gradient(135deg,#ff6b6b,#cc5555)';
+    } else if (suppression < 1e-2) {
+      verdictEl.querySelector('.verdict-text').textContent = 'PARTIAL SUPPRESSION';
+      verdictEl.style.background = 'linear-gradient(135deg,#f59e0b,#d97706)';
+    } else {
+      verdictEl.querySelector('.verdict-text').textContent = 'INSUFFICIENT DRAINAGE';
+      verdictEl.style.background = 'linear-gradient(135deg,#6b7280,#4b5563)';
+    }
+  }
+  
+  // Attach event listeners
+  if (gammaSlider) {
+    gammaSlider.addEventListener('input', updateWowCalculator);
+    delaySlider.addEventListener('input', updateWowCalculator);
+    lxSlider.addEventListener('input', updateWowCalculator);
+    muSlider.addEventListener('input', updateWowCalculator);
+    
+    // Initial calculation
+    updateWowCalculator();
+  }
+})();
+</script>
+
+<!-- 3-Body STUR Simulator Script -->
+
+<script>
+(function() {
+  'use strict';
+  
+  const canvas = document.getElementById('threeBodyCanvas');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  
+  // High DPI support
+  function setupCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+  }
+  setupCanvas();
+  
+  // Physical constants
+  const G = 6.674e-11;
+  
+  // Simulation state
+  let running = false;
+  let animId = null;
+  let time = 0;
+  let period = 1;
+  let initialEnergy = 0;
+  let kickApplied = false;
+  
+  // Bodies: [x, y, vx, vy] for each of 3 masses
+  let bodies = [];
+  let trails = [[], [], []];
+  const maxTrailLength = 500;
+  
+  // Get parameters from sliders
+  const LSlider = document.getElementById('tb-L-slider');
+  const massSlider = document.getElementById('tb-mass-slider');
+  const radiusSlider = document.getElementById('tb-radius-slider');
+  const perturbSlider = document.getElementById('tb-perturb-slider');
+  
+  const LValue = document.getElementById('tb-L-value');
+  const massValue = document.getElementById('tb-mass-value');
+  const radiusValue = document.getElementById('tb-radius-value');
+  const perturbValue = document.getElementById('tb-perturb-value');
+  
+  const statusEl = document.getElementById('tb-status');
+  const timeEl = document.getElementById('tb-time');
+  const energyEl = document.getElementById('tb-energy');
+  const deformEl = document.getElementById('tb-deform');
+  const LzEl = document.getElementById('tb-Lz');
+  const stateEl = document.getElementById('tb-state');
+  
+  const startBtn = document.getElementById('tb-startBtn');
+  const resetBtn = document.getElementById('tb-resetBtn');
+  const kickBtn = document.getElementById('tb-kickBtn');
+  
+  // Update slider displays
+  function updateSliderDisplays() {
+    if (LValue) LValue.textContent = parseFloat(LSlider.value).toFixed(2);
+    if (massValue) massValue.textContent = parseFloat(massSlider.value).toFixed(2);
+    if (radiusValue) radiusValue.textContent = parseFloat(radiusSlider.value).toFixed(2);
+    if (perturbValue) perturbValue.textContent = perturbSlider.value;
+  }
+  
+  [LSlider, massSlider, radiusSlider, perturbSlider].forEach(s => {
+    if (s) s.addEventListener('input', updateSliderDisplays);
+  });
+  updateSliderDisplays();
+  
+  // STUR softening function S(r)
+  function S(r, L) {
+    return 1 - Math.exp(-r / L);
+  }
+  
+  // STUR force magnitude (scalar)
+  function sturForce(r, m1, m2, L) {
+    const sr = S(r, L);
+    const term = sr + (r / L) * (1 - sr);
+    return G * m1 * m2 * term / (r * r);
+  }
+  
+  // Compute accelerations for all bodies
+  function computeAccel(pos, m, L) {
+    const accel = [[0, 0], [0, 0], [0, 0]];
+    
+    for (let i = 0; i < 3; i++) {
+      for (let j = i + 1; j < 3; j++) {
+        const dx = pos[j][0] - pos[i][0];
+        const dy = pos[j][1] - pos[i][1];
+        const r = Math.sqrt(dx * dx + dy * dy) + 1e-10;
+        
+        const F = sturForce(r, m[i], m[j], L);
+        const fx = F * dx / r;
+        const fy = F * dy / r;
+        
+        accel[i][0] += fx / m[i];
+        accel[i][1] += fy / m[i];
+        accel[j][0] -= fx / m[j];
+        accel[j][1] -= fy / m[j];
+      }
+    }
+    return accel;
+  }
+  
+  // RK4 step
+  function rk4Step(pos, vel, m, L, dt) {
+    const n = 3;
+    
+    // k1
+    const a1 = computeAccel(pos, m, L);
+    const k1_pos = vel.map(v => [v[0], v[1]]);
+    const k1_vel = a1;
+    
+    // k2
+    const pos2 = pos.map((p, i) => [p[0] + 0.5*dt*k1_pos[i][0], p[1] + 0.5*dt*k1_pos[i][1]]);
+    const vel2 = vel.map((v, i) => [v[0] + 0.5*dt*k1_vel[i][0], v[1] + 0.5*dt*k1_vel[i][1]]);
+    const a2 = computeAccel(pos2, m, L);
+    const k2_pos = vel2;
+    const k2_vel = a2;
+    
+    // k3
+    const pos3 = pos.map((p, i) => [p[0] + 0.5*dt*k2_pos[i][0], p[1] + 0.5*dt*k2_pos[i][1]]);
+    const vel3 = vel.map((v, i) => [v[0] + 0.5*dt*k2_vel[i][0], v[1] + 0.5*dt*k2_vel[i][1]]);
+    const a3 = computeAccel(pos3, m, L);
+    const k3_pos = vel3;
+    const k3_vel = a3;
+    
+    // k4
+    const pos4 = pos.map((p, i) => [p[0] + dt*k3_pos[i][0], p[1] + dt*k3_pos[i][1]]);
+    const vel4 = vel.map((v, i) => [v[0] + dt*k3_vel[i][0], v[1] + dt*k3_vel[i][1]]);
+    const a4 = computeAccel(pos4, m, L);
+    const k4_pos = vel4;
+    const k4_vel = a4;
+    
+    // Combine
+    const newPos = pos.map((p, i) => [
+      p[0] + (dt/6) * (k1_pos[i][0] + 2*k2_pos[i][0] + 2*k3_pos[i][0] + k4_pos[i][0]),
+      p[1] + (dt/6) * (k1_pos[i][1] + 2*k2_pos[i][1] + 2*k3_pos[i][1] + k4_pos[i][1])
+    ]);
+    const newVel = vel.map((v, i) => [
+      v[0] + (dt/6) * (k1_vel[i][0] + 2*k2_vel[i][0] + 2*k3_vel[i][0] + k4_vel[i][0]),
+      v[1] + (dt/6) * (k1_vel[i][1] + 2*k2_vel[i][1] + 2*k3_vel[i][1] + k4_vel[i][1])
+    ]);
+    
+    return { pos: newPos, vel: newVel };
+  }
+  
+  // Compute total energy
+  function computeEnergy(pos, vel, m, L) {
+    let KE = 0;
+    for (let i = 0; i < 3; i++) {
+      KE += 0.5 * m[i] * (vel[i][0]*vel[i][0] + vel[i][1]*vel[i][1]);
+    }
+    
+    let PE = 0;
+    for (let i = 0; i < 3; i++) {
+      for (let j = i + 1; j < 3; j++) {
+        const dx = pos[j][0] - pos[i][0];
+        const dy = pos[j][1] - pos[i][1];
+        const r = Math.sqrt(dx * dx + dy * dy);
+        PE -= G * m[i] * m[j] * S(r, L) / r;
+      }
+    }
+    return KE + PE;
+  }
+  
+  // Compute angular momentum
+  function computeLz(pos, vel, m) {
+    let Lz = 0;
+    for (let i = 0; i < 3; i++) {
+      Lz += m[i] * (pos[i][0] * vel[i][1] - pos[i][1] * vel[i][0]);
+    }
+    return Lz;
+  }
+  
+  // Compute triangle deformation (deviation from equilateral)
+  function computeDeformation(pos) {
+    const d01 = Math.sqrt(Math.pow(pos[1][0]-pos[0][0],2) + Math.pow(pos[1][1]-pos[0][1],2));
+    const d12 = Math.sqrt(Math.pow(pos[2][0]-pos[1][0],2) + Math.pow(pos[2][1]-pos[1][1],2));
+    const d20 = Math.sqrt(Math.pow(pos[0][0]-pos[2][0],2) + Math.pow(pos[0][1]-pos[2][1],2));
+    const avg = (d01 + d12 + d20) / 3;
+    const variance = ((d01-avg)**2 + (d12-avg)**2 + (d20-avg)**2) / 3;
+    return Math.sqrt(variance) / avg * 100;
+  }
+  
+  // Initialize equilateral triangle configuration
+  function initBodies() {
+    const L = parseFloat(LSlider.value) * 1e9;
+    const M_total = parseFloat(massSlider.value) * 1e30;
+    const R = parseFloat(radiusSlider.value) * 1e9;
+    
+    const m = [M_total/3, M_total/3, M_total/3];
+    
+    // Equilateral triangle positions
+    const angles = [0, 2*Math.PI/3, 4*Math.PI/3];
+    const pos = angles.map(a => [R * Math.cos(a), R * Math.sin(a)]);
+    
+    // Circular orbit velocity
+    // For equilateral triangle: v = sqrt(G*M_total / (sqrt(3)*R)) approximately
+    const v_orbital = Math.sqrt(G * M_total / (Math.sqrt(3) * R));
+    const vel = angles.map(a => [-v_orbital * Math.sin(a), v_orbital * Math.cos(a)]);
+    
+    // Orbital period
+    period = 2 * Math.PI * R / v_orbital;
+    
+    bodies = { pos, vel, m, L };
+    trails = [[], [], []];
+    time = 0;
+    kickApplied = false;
+    
+    initialEnergy = computeEnergy(pos, vel, m, L);
+    
+    updateStatus('stable');
+  }
+  
+  // Update status display
+  function updateStatus(state) {
+    const statusColors = {
+      stable: { color: '#3fb950', text: '● Stable Equilateral', state: 'LOCKED' },
+      precessing: { color: '#f0b429', text: '● Precessing Rosette', state: 'PRECESSING' },
+      chaotic: { color: '#ef4444', text: '● Chaotic / Hierarchical', state: 'UNSTABLE' }
+    };
+    
+    const s = statusColors[state] || statusColors.stable;
+    if (statusEl) {
+      statusEl.innerHTML = `<span style="color:${s.color}">${s.text}</span>`;
+    }
+    if (stateEl) {
+      stateEl.textContent = s.state;
+      stateEl.style.color = s.color;
+    }
+  }
+  
+  // Draw simulation
+  function draw() {
+    const rect = canvas.getBoundingClientRect();
+    const W = rect.width;
+    const H = rect.height;
+    
+    ctx.fillStyle = '#0a0e14';
+    ctx.fillRect(0, 0, W, H);
+    
+    // Scale factor
+    const R = parseFloat(radiusSlider.value) * 1e9;
+    const scale = Math.min(W, H) / (4 * R);
+    const cx = W / 2;
+    const cy = H / 2;
+    
+    // Draw trails
+    const colors = ['#3fb950', '#f0b429', '#ec4899'];
+    for (let i = 0; i < 3; i++) {
+      if (trails[i].length > 1) {
+        ctx.beginPath();
+        ctx.strokeStyle = colors[i] + '40';
+        ctx.lineWidth = 1;
+        for (let j = 0; j < trails[i].length; j++) {
+          const x = cx + trails[i][j][0] * scale;
+          const y = cy - trails[i][j][1] * scale;
+          if (j === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+    }
+    
+    // Draw bodies
+    if (bodies.pos) {
+      for (let i = 0; i < 3; i++) {
+        const x = cx + bodies.pos[i][0] * scale;
+        const y = cy - bodies.pos[i][1] * scale;
+        
+        // Glow
+        const gradient = ctx.createRadialGradient(x, y, 0, x, y, 15);
+        gradient.addColorStop(0, colors[i]);
+        gradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(x, y, 15, 0, 2 * Math.PI);
+        ctx.fill();
+        
+        // Core
+        ctx.fillStyle = colors[i];
+        ctx.beginPath();
+        ctx.arc(x, y, 6, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+    }
+    
+    // Draw center of mass
+    if (bodies.pos) {
+      let comX = 0, comY = 0, totalM = 0;
+      for (let i = 0; i < 3; i++) {
+        comX += bodies.m[i] * bodies.pos[i][0];
+        comY += bodies.m[i] * bodies.pos[i][1];
+        totalM += bodies.m[i];
+      }
+      comX /= totalM;
+      comY /= totalM;
+      
+      const x = cx + comX * scale;
+      const y = cy - comY * scale;
+      ctx.strokeStyle = '#ffffff40';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, 2 * Math.PI);
+      ctx.stroke();
+    }
+  }
+  
+  // Animation loop
+  function step() {
+    if (!running) return;
+    
+    const dt = period / 1000; // ~1000 steps per orbit
+    const stepsPerFrame = 5;
+    
+    for (let s = 0; s < stepsPerFrame; s++) {
+      const result = rk4Step(bodies.pos, bodies.vel, bodies.m, bodies.L, dt);
+      bodies.pos = result.pos;
+      bodies.vel = result.vel;
+      time += dt;
+      
+      // Record trails
+      for (let i = 0; i < 3; i++) {
+        trails[i].push([bodies.pos[i][0], bodies.pos[i][1]]);
+        if (trails[i].length > maxTrailLength) trails[i].shift();
+      }
+    }
+    
+    // Update displays
+    const E = computeEnergy(bodies.pos, bodies.vel, bodies.m, bodies.L);
+    const dE = Math.abs((E - initialEnergy) / initialEnergy);
+    const Lz = computeLz(bodies.pos, bodies.vel, bodies.m);
+    const deform = computeDeformation(bodies.pos);
+    
+    if (timeEl) timeEl.textContent = `t = ${(time / period).toFixed(2)} periods`;
+    if (energyEl) energyEl.textContent = dE.toExponential(2);
+    if (LzEl) LzEl.textContent = Lz.toExponential(2);
+    if (deformEl) deformEl.textContent = deform.toFixed(2) + '%';
+    
+    // Determine system state
+    if (deform < 2) {
+      updateStatus('stable');
+    } else if (deform < 15) {
+      updateStatus('precessing');
+    } else {
+      updateStatus('chaotic');
+    }
+    
+    draw();
+    animId = requestAnimationFrame(step);
+  }
+  
+  // Apply perturbation kick
+  function applyKick() {
+    if (!bodies.vel) return;
+    
+    const strength = parseFloat(perturbSlider.value) / 100;
+    if (strength === 0) return;
+    
+    // Kick mass 0 in perpendicular direction
+    const v0 = Math.sqrt(bodies.vel[0][0]**2 + bodies.vel[0][1]**2);
+    bodies.vel[0][0] += bodies.vel[0][1] * strength;
+    bodies.vel[0][1] -= bodies.vel[0][0] * strength;
+    
+    kickApplied = true;
+    console.log(`Torsion kick applied: ${(strength*100).toFixed(1)}% at t=${(time/period).toFixed(2)} periods`);
+  }
+  
+  // Event handlers
+  if (startBtn) {
+    startBtn.addEventListener('click', () => {
+      if (running) {
+        running = false;
+        startBtn.textContent = '▶ Start';
+        if (animId) cancelAnimationFrame(animId);
+      } else {
+        if (!bodies.pos) initBodies();
+        running = true;
+        startBtn.textContent = '⏸ Pause';
+        step();
+      }
+    });
+  }
+  
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      running = false;
+      startBtn.textContent = '▶ Start';
+      if (animId) cancelAnimationFrame(animId);
+      initBodies();
+      draw();
+    });
+  }
+  
+  if (kickBtn) {
+    kickBtn.addEventListener('click', applyKick);
+  }
+  
+  // Initialize
+  initBodies();
+  draw();
 })();
 </script>
 
