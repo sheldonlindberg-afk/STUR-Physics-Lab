@@ -182,7 +182,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
             <div class="stur-eq derived">
                 \[
-                S(r) = \tanh(r/L_0) \cdot \bigl(1 - e^{-r/L_0}\bigr)
+                \color{#f472b6}{S(r)} = \tanh(r/\color{#22d3ee}{L_0}) \cdot \bigl(1 - e^{-r/\color{#22d3ee}{L_0}}\bigr)
                 \]
                 <div class="stur-eq-label">STUR Radial Modulator</div>
             </div>
@@ -191,11 +191,11 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
             <div class="stur-eq derived">
                 \[
-                F_{\text{STUR}}(r) = S(r)\cdot\Bigl[
-                  \underbrace{\frac{k_e q^2}{r^2}}_{\text{EM}}
-                  - \underbrace{\frac{G m_B^2}{r^2}}_{\text{gravity}}
-                  - \underbrace{\frac{a_{s0}(1-e^{-r/\lambda})}{r^2}}_{\text{strong-like}}
-                  + \underbrace{\sigma r}_{\text{string}}
+                \color{#fbbf24}{F_{\text{STUR}}(r)} = \color{#f472b6}{S(r)}\cdot\Bigl[
+                  \underbrace{\frac{k_e q^2}{r^2}}_{\color{#60a5fa}{\text{EM}}}
+                  - \underbrace{\frac{G m_B^2}{r^2}}_{\color{#60a5fa}{\text{gravity}}}
+                  - \underbrace{\frac{a_{s0}(1-e^{-r/\lambda})}{r^2}}_{\color{#4ade80}{\text{strong-like}}}
+                  + \underbrace{\sigma r}_{\color{#22d3ee}{\text{string}}}
                 \Bigr]
                 \]
                 <div class="stur-eq-label">Multi-Force STUR Coupling</div>
