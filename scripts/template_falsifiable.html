@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[PAGE TITLE] — STUR Physics Lab</title>
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <!-- Page-specific styles (minimal, only what's unique) -->
+    <style>
+      /* Add only page-specific overrides here */
+    </style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
+
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
+
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>[PAGE TITLE]</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            [One-paragraph claim: What does this page demonstrate or test?]
+        </p>
+
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status info">
+                <span class="stur-icon icon-target sm"></span>
+                FALSIFIABLE
+            </span>
+        </div>
+    </header>
+
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE TESTS
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24"></span>
+            <h2 class="glass-section-title">What This Page Tests</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> [What is measured or computed?]</p>
+            <p><strong>Geometry:</strong> [What geometric configuration defines this test?]</p>
+            <p><strong>Regime:</strong> [Markovian / Coherent / Loop-enhanced?]</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \alpha\,(\nabla R)^2
+                  \;-\; V(R)
+                  \;+\; \beta\,(\partial_t X)^2
+                  \;-\; U(X - R)
+                  \;+\; L_{\text{torsion}}
+                  \;+\; L_{\text{matter}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
+
+            <p><strong>Limit assumed:</strong> [What simplifications apply to this page?]</p>
+
+            <div class="stur-eq">
+                \[
+                [REDUCED EQUATION FOR THIS PAGE]
+                \]
+                <div class="stur-eq-label">Page-specific reduction</div>
+            </div>
+
+            <p><strong>Key parameter:</strong> The single free ratio \(\sigma_R / L_X\) determines all predictions.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: PREDICTION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Prediction</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>STUR predicts:</strong></p>
+            <ul>
+                <li>[Prediction 1: What curve shape, scaling, or behavior?]</li>
+                <li>[Prediction 2: What dependence on geometry?]</li>
+                <li>[Prediction 3: What independence from non-geometric factors?]</li>
+            </ul>
+
+            <p><strong>Competitor model:</strong> [What does standard theory predict?]</p>
+
+            <!-- Visualization canvas placeholder -->
+            <div class="stur-canvas-frame" style="margin-top:1rem;">
+                <canvas id="prediction-canvas" width="800" height="400"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: FALSIFICATION CRITERIA
+         ============================================================ -->
+    <section class="glass-section falsify">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-x-circle size-24"></span>
+            <h2 class="glass-section-title">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>This page falsifies STUR if:</strong></p>
+            <ul>
+                <li>[Kill condition 1]</li>
+                <li>[Kill condition 2]</li>
+                <li>[Kill condition 3]</li>
+            </ul>
+
+            <!-- Verdict display -->
+            <div class="glass-verdict pending" id="verdict-display">
+                <div class="glass-verdict-icon">
+                    <span class="stur-icon icon-alert-circle lg"></span>
+                </div>
+                <div class="glass-verdict-text">
+                    <div class="glass-verdict-label">Status</div>
+                    <div class="glass-verdict-value">Awaiting data comparison</div>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="glass-metrics" style="margin-top:1rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">RMSE</div>
+                    <div class="glass-metric-value" id="metric-rmse">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">χ²</div>
+                    <div class="glass-metric-value" id="metric-chi2">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">ΔAIC (STUR − Alt)</div>
+                    <div class="glass-metric-value" id="metric-aic">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Verdict</div>
+                    <div class="glass-metric-value" id="metric-verdict">Pending</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+                <button class="glass-btn" onclick="copyScript()">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Repro Script
+                </button>
+            </div>
+
+            <!-- Version stamp -->
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> [page-id] |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a></li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>[Additional references as needed]</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+// Page-specific state
+const PAGE_ID = '[page-id]';
+const pageState = {
+    params: {},
+    predictions: {},
+    results: { fitMetrics: {}, decision: null },
+    data: { x: [], y: [] }
+};
+
+// Set timestamp
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+// Export functions
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
+}
+
+function exportCSV() {
+    // Combine x and y data
+    const rows = pageState.data.x.map((x, i) => ({
+        x: x,
+        y_observed: pageState.data.y[i] || '',
+        y_predicted: pageState.predictions.curve ? pageState.predictions.curve[i] : ''
+    }));
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
+}
+
+function copyScript() {
+    const script = `# STUR Reproduction Script
+# Page: ${PAGE_ID}
+# Framework: v9.2
+# Generated: ${new Date().toISOString()}
+
+import numpy as np
+
+# Parameters
+params = ${JSON.stringify(pageState.params, null, 2)}
+
+# Add your reproduction code here...
+`;
+    STUR.copyToClipboard(script, 'Repro script copied');
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    // Add page-specific initialization here
+});
+</script>
+
+</body>
+</html>
