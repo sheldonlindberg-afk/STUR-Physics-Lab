@@ -232,6 +232,24 @@
   }
 }
 
+/* Share button in nav */
+button.glass-nav-link {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+button.glass-nav-link:hover {
+  background: var(--glass-bg-light);
+  color: var(--neon-cyan);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
 /* === GLASS BUTTONS === */
 .glass-btn {
   display: inline-flex;

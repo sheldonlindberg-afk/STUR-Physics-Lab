@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>STUR Physics Lab — Unified Resistance Framework</title>
 <meta name="description" content="Open access physics laboratory exploring unified resistance field theory. Falsifiable predictions, interactive simulations, and rigorous mathematical foundations.">
+
+<!-- STUR Theme System -->
+<link rel="stylesheet" href="assets/css/stur-core.css">
+<link rel="stylesheet" href="assets/css/stur-glass.css">
+<link rel="stylesheet" href="assets/css/stur-icons.css">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
@@ -23,7 +29,7 @@
     --text-primary: #FFFFFF;
     --text-secondary: #EBEBF5;
     --text-tertiary: #AEAEB2;
-    --text-quaternary: #636366;
+    --text-quaternary: #9aa4b2;  /* Lightened for visibility on dark backgrounds */
 
     /* Accent Palette */
     --accent-blue: #0A84FF;
@@ -502,6 +508,57 @@
 </style>
 </head>
 <body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-beaker lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="index.html" class="glass-nav-link active">Index</a>
+            <a href="scripts/stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="scripts/stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="scripts/stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+                <span class="stur-icon icon-link"></span>
+                Share
+            </button>
+        </div>
+    </nav>
+</header>
+
+<script>
+function shareRepo() {
+    const url = window.location.origin + '/index.html';
+    navigator.clipboard.writeText(url).then(() => {
+        const btn = document.querySelector('.glass-share-btn');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
+        btn.style.color = 'var(--neon-green)';
+        setTimeout(() => {
+            btn.innerHTML = original;
+            btn.style.color = '';
+        }, 2000);
+    }).catch(() => {
+        alert('Link: ' + url);
+    });
+}
+
+// Mobile nav toggle
+document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
+    const links = document.querySelector('.glass-nav-links');
+    const expanded = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', !expanded);
+    links.classList.toggle('open');
+});
+</script>
 
 <div class="container">
   <!-- === HEADER === -->

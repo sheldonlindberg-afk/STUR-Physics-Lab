@@ -81,9 +81,61 @@ canvas{
 </head>
 
 <body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-beaker lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+                <span class="stur-icon icon-link"></span>
+                Share
+            </button>
+        </div>
+    </nav>
+</header>
+
+<script>
+function shareRepo() {
+    const url = window.location.origin + '/index.html';
+    navigator.clipboard.writeText(url).then(() => {
+        const btn = document.querySelector('.glass-share-btn');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
+        btn.style.color = 'var(--neon-green)';
+        setTimeout(() => {
+            btn.innerHTML = original;
+            btn.style.color = '';
+        }, 2000);
+    }).catch(() => {
+        alert('Link: ' + url);
+    });
+}
+
+// Mobile nav toggle
+document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
+    const links = document.querySelector('.glass-nav-links');
+    const expanded = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', !expanded);
+    links.classList.toggle('open');
+});
+</script>
+
 <div class="container">
 <header>
-  <h1>🌌 Holoscreen — Unified Falsification Laboratory</h1>
+  <h1>Holoscreen — Unified Falsification Laboratory</h1>
   <div class="subtitle">
     Boundary-calibrated gauge-invariant formulation with QED recovery validation. Real-time PDE coupling
     resistance field R(x,t) to Schwarzschild geometry via single parameter Γ. Mass-consistent stretched-horizon
