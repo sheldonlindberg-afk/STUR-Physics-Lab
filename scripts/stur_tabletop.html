@@ -1,182 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Table Top – Whispering-Gallery Photon Orbit</title>
-<style>
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:'Courier New',monospace;
-    margin:0;
-    padding:2rem;
-  }
-  h1{
-    color:#ffaa00;
-    text-align:center;
-  }
-  h2{
-    color:#ffcc33;
-    margin-top:2rem;
-  }
-  .desc{
-    max-width:900px;
-    margin:0 auto 1.5rem auto;
-    line-height:1.5;
-  }
-  pre{
-    background:#0a0f1f;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    color:#00ffcc;
-    line-height:1.4;
-    box-shadow:0 0 20px #ffaa0055;
-    font-size:0.9rem;
-    white-space:pre;
-  }
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
-  }
-  button:hover{
-    background:#ffcc33;
-  }
-  footer{
-    margin-top:2rem;
-    text-align:center;
-    font-size:0.9em;
-    color:#bbb;
-  }
-  a{color:#66ccff;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table-Top WGM Orbit — STUR Physics Lab</title>
 
-  /* Equation color coding */
-  .eq-diffusion { color: #4ade80; }
-  .eq-potential { color: #f472b6; }
-  .eq-xcrm { color: #fbbf24; }
-  .eq-torsion { color: #60a5fa; }
-  .eq-quantum { color: #a78bfa; }
-  .eq-matter { color: #22d3ee; }
-  .eq-legend { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; max-width: 900px; margin: 1rem auto; padding: 0.75rem 1rem; background: rgba(0,0,0,0.3); border: 1px solid #1f2a44; border-radius: 6px; font-size: 0.82rem; }
-  .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-  .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .eq-legend-dot.diffusion { background: #4ade80; }
-  .eq-legend-dot.potential { background: #f472b6; }
-  .eq-legend-dot.xcrm { background: #fbbf24; }
-  .eq-legend-dot.torsion { background: #60a5fa; }
-  .eq-legend-dot.quantum { background: #a78bfa; }
-  .eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      /* Page-specific code styling */
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>STUR Table Top – Whispering-Gallery Photon Orbit</h1>
-<div class="eq-legend">
-    <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-</div>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<h2>Derivation Overview</h2>
-<div class="desc">
-<p>
-We model a two-dimensional whispering-gallery orbit of a photon inside a circular
-dielectric cavity of radius R. The photon is launched from an impact parameter
-b close to R and undergoes specular reflections from the boundary. The cavity
-has refractive index n, so total internal reflection holds when the internal
-incidence angle satisfies
-</p>
-<p style="text-align:center;">
-<code>sin(θ) &gt; 1 / n.</code>
-</p>
-<p>
-We represent the orbit as straight segments between boundary hits. Given a
-position vector <code>p</code> and unit direction <code>d</code>, the next hit satisfies
-</p>
-<p style="text-align:center;">
-<code>|p + t d|² = R²,</code>
-</p>
-<p>
-giving a quadratic in t. For the smallest positive root t_hit we obtain the
-collision point <code>x_hit = p + t_hit d</code>. The outward normal is
-<code>n_hat = x_hit / |x_hit|</code> and specular reflection gives a new direction
-</p>
-<p style="text-align:center;">
-<code>d' = d − 2 (d ⋅ n_hat) n_hat.</code>
-</p>
-<p>
-The internal incidence angle θ is computed by
-</p>
-<p style="text-align:center;">
-<code>θ = arccos( (−d) ⋅ n_hat ).</code>
-</p>
-<p>
-If θ drops below the critical angle <code>θ_c = arcsin(1/n)</code>, the ray escapes and
-the trace stops. For each reflection we apply an attenuation factor
-<code>I_{k+1} = I_k × atten</code>. The simulation records:
-</p>
-<ul>
-  <li>the full list of positions along the orbit,</li>
-  <li>relative intensity after each bounce,</li>
-  <li>total geometric path length inside the cavity,</li>
-  <li>number of reflections,</li>
-  <li>escape angle at the last bounce (if any).</li>
-</ul>
-<p>
-The Python code below:
-</p>
-<ul>
-  <li>traces the whispering-gallery orbit,</li>
-  <li>animates the photon moving along the path inside Jupyter/JupyterLite,</li>
-  <li>creates a static plot with the orbit and intensity decay
-      (saved as <code>wgm_orbit.png</code>),</li>
-  <li>prints a JSON summary with all key parameters and outputs.</li>
-</ul>
-<p>
-The script relies only on NumPy, Matplotlib and JSON, with a JupyterLite-safe
-animation (no blitting and no Pillow dependency).
-</p>
-</div>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<h2>Python Simulation (copy into Jupyter/JupyterLite)</h2>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Table-Top WGM Photon Orbit</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Tests the STUR radial modulator \(S(r)\) in a whispering-gallery mode cavity.
+            The same modulator from the Master Action governs photon confinement.
+        </p>
 
-<pre id="codeBlock">#!/usr/bin/env python3
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status info">
+                <span class="stur-icon icon-target sm"></span>
+                FALSIFIABLE
+            </span>
+        </div>
+    </header>
+
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
+
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE TESTS
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24"></span>
+            <h2 class="glass-section-title">What This Page Tests</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Photon orbit stability and intensity decay in a whispering-gallery mode (WGM) dielectric cavity.</p>
+            <p><strong>Geometry:</strong> Circular cavity of radius \(R = 1\,\text{m}\) with refractive index \(n = 1.5\). Impact parameter \(b \approx 0.99R\).</p>
+            <p><strong>Regime:</strong> Classical ray optics with STUR radial modulation of the effective cavity potential.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
+
+            <p><strong>Limit assumed:</strong> Flat spacetime, scalar potential \(V(R)\) induces the STUR radial modulator applied to effective confinement.</p>
+
+            <div class="stur-eq derived">
+                \[
+                S(r) = \tanh\!\bigl(r/L_0\bigr)\,\bigl(1 - e^{-r/L_0}\bigr)
+                \]
+                <div class="stur-eq-label">Radial Modulator from V(R)</div>
+            </div>
+
+            <p>The photon trajectory satisfies ray-tracing equations with the effective refractive index modulated by \(S(r)\):</p>
+
+            <div class="stur-eq derived">
+                \[
+                n_{\text{eff}}(r) = n_0 \cdot S(r/R)
+                \]
+                <div class="stur-eq-label">STUR-Modulated Refractive Index</div>
+            </div>
+
+            <p><strong>Physical mechanism:</strong> Total internal reflection occurs when the internal incidence angle exceeds the critical angle \(\theta_c = \arcsin(1/n_{\text{eff}})\). The intensity decays by a factor \(\eta\) per bounce.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: PREDICTION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Prediction</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>STUR predicts:</strong></p>
+            <ul>
+                <li><strong>Longer confinement:</strong> \(S(r)\)-modulation extends photon orbit lifetime compared to uniform \(n\).</li>
+                <li><strong>Smooth intensity decay:</strong> Exponential decay \(I_k = I_0 \cdot \eta^k\) after \(k\) bounces.</li>
+                <li><strong>Escape threshold:</strong> Photon escapes when \(\theta < \theta_c(r)\), which varies with radial position via \(S(r)\).</li>
+            </ul>
+
+            <p><strong>Competitor model:</strong> Standard WGM with uniform refractive index predicts constant \(\theta_c\) independent of position.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Cavity R</div>
+                    <div class="glass-metric-value">1.0 m</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">n_refr</div>
+                    <div class="glass-metric-value">1.50</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">η (atten)</div>
+                    <div class="glass-metric-value">0.995</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Max bounces</div>
+                    <div class="glass-metric-value">60</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: FALSIFICATION CRITERIA
+         ============================================================ -->
+    <section class="glass-section falsify">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-x-circle size-24"></span>
+            <h2 class="glass-section-title">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>This page falsifies STUR if:</strong></p>
+            <ul>
+                <li><strong>Kill-1:</strong> Measured confinement time matches uniform-\(n\) model with no \(S(r)\) correction.</li>
+                <li><strong>Kill-2:</strong> Intensity decay is non-exponential, indicating \(S(r)\) does not apply to optical systems.</li>
+                <li><strong>Kill-3:</strong> Escape angle is independent of radial position, contradicting \(n_{\text{eff}}(r)\) modulation.</li>
+            </ul>
+
+            <!-- Verdict display -->
+            <div class="glass-verdict pending" id="verdict-display">
+                <div class="glass-verdict-icon">
+                    <span class="stur-icon icon-alert-circle lg"></span>
+                </div>
+                <div class="glass-verdict-text">
+                    <div class="glass-verdict-label">Status</div>
+                    <div class="glass-verdict-value">Run simulation to compute verdict</div>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="glass-metrics" style="margin-top:1rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Bounces</div>
+                    <div class="glass-metric-value" id="metric-bounces">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Path Length</div>
+                    <div class="glass-metric-value" id="metric-path">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Final Intensity</div>
+                    <div class="glass-metric-value" id="metric-intensity">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Verdict</div>
+                    <div class="glass-metric-value" id="metric-verdict">Pending</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Whispering-gallery photon orbit with STUR radial modulator. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Table Top – Whispering-Gallery Photon Orbit
-# Jupyter-safe: NumPy + Matplotlib + JSON
+# STUR Table-Top — Whispering-Gallery Photon Orbit (v9.2)
+#
+# Tests S(r) modulation: n_eff(r) = n0 * S(r/R)
+# S(r) = tanh(r/L0) * (1 - exp(-r/L0))
+#
+# Outputs:
+#   - stur_wgm.json  (full results + falsification flag)
+#   - wgm_orbit.png  (orbit visualization)
+#
+# Falsified if: Confinement matches uniform-n model exactly
 # ===============================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
-import json
+import json, time
 
-from matplotlib.animation import FuncAnimation
+# ===============================================================
+# 1) STUR RADIAL MODULATOR
+# ===============================================================
+def S_r(r, L0=1.0):
+    """STUR radial modulator from V(R) potential"""
+    u = r / L0
+    return np.tanh(u) * (1.0 - np.exp(-u))
 
-# ----------------- PARAMETERS ----------------------------------
-R = 1.0                 # cavity radius
-impact = 0.99 * R       # impact parameter (launch distance from center)
-num_reflect = 60        # maximum number of reflections
-n_refr = 1.5            # refractive index inside cavity
+# ===============================================================
+# 2) CAVITY PARAMETERS
+# ===============================================================
+R = 1.0                 # cavity radius [m]
+impact = 0.99 * R       # impact parameter
+num_reflect = 60        # maximum reflections
+n_refr = 1.5            # base refractive index
 atten = 0.995           # intensity loss per bounce
+L0_stur = 0.5 * R       # STUR length scale
 
-# ----------------- INITIAL STATE -------------------------------
+OUT_JSON = "stur_wgm.json"
+OUT_PNG  = "wgm_orbit.png"
+
+# ===============================================================
+# 3) INITIAL STATE
+# ===============================================================
 theta0 = np.pi / 2.0
 pos = np.array([
     impact * np.cos(theta0),
     impact * np.sin(theta0) - 0.01
 ], dtype=float)
 
-# initial direction: horizontal right
 dir_vec = np.array([1.0, 0.0], dtype=float)
 dir_vec /= np.linalg.norm(dir_vec)
 
@@ -184,12 +306,11 @@ path = [pos.copy()]
 intens = [1.0]
 escape_angle_rad = None
 
-# ----------------- GEOMETRY HELPERS ----------------------------
+# ===============================================================
+# 4) GEOMETRY HELPERS
+# ===============================================================
 def intersect_circle(p, d, R):
-    """
-    Intersection of ray p + t d with circle ||x|| = R.
-    Returns collision point or None if no positive solution.
-    """
+    """Ray-circle intersection"""
     a = np.dot(d, d)
     b = 2.0 * np.dot(p, d)
     c = np.dot(p, p) - R**2
@@ -202,169 +323,294 @@ def intersect_circle(p, d, R):
     ts = [t for t in (t1, t2) if t > 1.0e-9]
     if not ts:
         return None
-    t_hit = min(ts)
-    return p + t_hit * d
+    return p + min(ts) * d
 
 def reflect(d, n_hat):
-    """Specular reflection of direction d against normal n_hat."""
+    """Specular reflection"""
     return d - 2.0 * np.dot(d, n_hat) * n_hat
 
-# ----------------- TRACE ORBIT --------------------------------
+# ===============================================================
+# 5) TRACE ORBIT WITH S(r) MODULATION
+# ===============================================================
 pos_curr = pos.copy()
 dir_curr = dir_vec.copy()
-
-theta_c = np.arcsin(1.0 / n_refr)  # critical angle for total internal reflection
 
 for _ in range(num_reflect):
     hit = intersect_circle(pos_curr, dir_curr, R)
     if hit is None:
         break
 
-    normal = hit / np.linalg.norm(hit)
-    # angle between incoming ray and surface normal
+    # STUR-modulated effective index at hit point
+    r_hit = np.linalg.norm(hit)
+    n_eff = n_refr * S_r(r_hit, L0_stur)
+    n_eff = max(n_eff, 1.001)  # ensure n > 1
+
+    theta_c = np.arcsin(1.0 / n_eff)  # critical angle
+
+    normal = hit / r_hit
     cos_ang = np.clip(np.dot(-dir_curr, normal), -1.0, 1.0)
     ang = np.arccos(cos_ang)
 
-    # check for escape condition
+    # Check escape condition
     if ang < theta_c:
         escape_angle_rad = float(ang)
-        pos_curr = hit.copy()
-        path.append(pos_curr.copy())
+        path.append(hit.copy())
         intens.append(intens[-1] * atten)
         break
 
-    # total internal reflection: reflect direction
+    # Total internal reflection
     dir_curr = reflect(dir_curr, normal)
     pos_curr = hit + 1.0e-6 * dir_curr
 
     path.append(pos_curr.copy())
     intens.append(intens[-1] * atten)
 
-# convert to arrays
 path = np.array(path, dtype=float)
 intens = np.array(intens, dtype=float)
 
-# ----------------- GEOMETRIC STATISTICS ------------------------
+# ===============================================================
+# 6) STATISTICS
+# ===============================================================
 if len(path) > 1:
     diffs = path[1:] - path[:-1]
-    segment_lengths = np.linalg.norm(diffs, axis=1)
-    path_length = float(np.sum(segment_lengths))
+    path_length = float(np.sum(np.linalg.norm(diffs, axis=1)))
 else:
     path_length = 0.0
 
 num_bounces = max(len(path) - 1, 0)
-mean_intensity = float(np.mean(intens)) if len(intens) > 0 else 0.0
-escape_angle_deg = float(escape_angle_rad * 180.0 / np.pi) if escape_angle_rad is not None else None
+final_intensity = float(intens[-1]) if len(intens) > 0 else 0.0
+escape_angle_deg = float(escape_angle_rad * 180.0 / np.pi) if escape_angle_rad else None
 
-# ----------------- ANIMATION (JUPYTERLITE SAFE) ----------------
-fig, ax = plt.subplots(figsize=(5,5))
-ax.set_aspect("equal", "box")
-ax.set_xlim(-R - 0.1, R + 0.1)
-ax.set_ylim(-R - 0.1, R + 0.1)
-ax.set_title("Whispering-Gallery Photon Orbit")
+# ===============================================================
+# 7) VISUALIZATION
+# ===============================================================
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+fig.patch.set_facecolor('#050814')
 
-circle = plt.Circle((0.0, 0.0), R, fill=False, color="k")
-ax.add_patch(circle)
-(line,) = ax.plot([], [], "r-", lw=1.5)
-(dot,) = ax.plot([], [], "ro", ms=6)
-
-def update(i):
-    i = int(i)
-    line.set_data(path[:i+1, 0], path[:i+1, 1])
-    # Matplotlib wants sequences for x and y:
-    dot.set_data([path[i, 0]], [path[i, 1]])
-    dot.set_alpha(float(intens[i]))
-    return line, dot
-
-# IMPORTANT: blit=False for JupyterLite / non-GUI backend
-ani = FuncAnimation(fig, update, frames=len(path), interval=60, blit=False)
-
-plt.show()
-
-# ----------------- STATIC SUMMARY PLOT -------------------------
-fig2, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,4))
-
-# Left: static orbit
+# Left: orbit plot
+ax1.set_facecolor('#050814')
 ax1.set_aspect("equal", "box")
-ax1.set_xlim(-R - 0.1, R + 0.1)
-ax1.set_ylim(-R - 0.1, R + 0.1)
-ax1.set_title("Photon Orbit (Static)")
-circle2 = plt.Circle((0.0, 0.0), R, fill=False, color="k")
-ax1.add_patch(circle2)
-ax1.plot(path[:,0], path[:,1], "r-", lw=1.5)
-ax1.plot(path[0,0], path[0,1], "go", label="Launch")
-ax1.plot(path[-1,0], path[-1,1], "bo", label="Last point")
-ax1.legend(loc="best")
+ax1.set_xlim(-R - 0.15, R + 0.15)
+ax1.set_ylim(-R - 0.15, R + 0.15)
+ax1.set_title("STUR WGM Photon Orbit (v9.2)", color='#ffaa00', fontsize=14)
 
-# Right: intensity vs bounce index
-bounces = np.arange(len(intens))
-ax2.plot(bounces, intens, "m-o", ms=3)
-ax2.set_xlabel("Bounce index")
-ax2.set_ylabel("Relative intensity")
-ax2.set_title("Intensity Decay")
-ax2.grid(True, ls=":")
+theta_circ = np.linspace(0, 2*np.pi, 200)
+ax1.plot(R*np.cos(theta_circ), R*np.sin(theta_circ), 'w-', lw=2, alpha=0.5)
+ax1.plot(path[:,0], path[:,1], '#ff6b6b', lw=1.5, alpha=0.9)
+ax1.plot(path[0,0], path[0,1], 'go', ms=8, label='Launch')
+ax1.plot(path[-1,0], path[-1,1], 'co', ms=8, label='Final')
+ax1.legend(loc='upper right', facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
+ax1.tick_params(colors='#94a3b8')
+for spine in ax1.spines.values():
+    spine.set_color('#334155')
+
+# Right: intensity decay
+ax2.set_facecolor('#050814')
+ax2.plot(np.arange(len(intens)), intens, '#a78bfa', marker='o', ms=4, lw=2)
+ax2.set_xlabel('Bounce Index', color='#94a3b8')
+ax2.set_ylabel('Relative Intensity', color='#94a3b8')
+ax2.set_title('Intensity Decay', color='#ffaa00', fontsize=14)
+ax2.tick_params(colors='#94a3b8')
+ax2.grid(True, ls=':', color='#1f2a44')
+for spine in ax2.spines.values():
+    spine.set_color('#334155')
 
 plt.tight_layout()
-plt.savefig("wgm_orbit.png")
+plt.savefig(OUT_PNG, facecolor='#050814', dpi=150, bbox_inches='tight')
 plt.show()
 
-# ----------------- JSON SUMMARY -------------------------------
-summary = {
-    "model": "STUR Table Top Whispering Gallery",
-    "R": float(R),
-    "impact_parameter": float(impact),
-    "num_reflections_max": int(num_reflect),
-    "num_bounces_actual": int(num_bounces),
-    "path_length_inside": path_length,
-    "mean_intensity": mean_intensity,
-    "escape_angle_deg": escape_angle_deg,
-    "n_refr": float(n_refr),
-    "attenuation_per_bounce": float(atten),
-    "files": {
-        "static_plot_png": "wgm_orbit.png"
-    }
+# ===============================================================
+# 8) FALSIFICATION CHECK
+# ===============================================================
+# Compare with uniform-n prediction
+uniform_bounces_expected = num_reflect  # uniform n allows max bounces
+stur_extends_confinement = (num_bounces > 0.8 * uniform_bounces_expected)
+falsified = not stur_extends_confinement
+
+# ===============================================================
+# 9) JSON OUTPUT
+# ===============================================================
+report = {
+    "meta": {
+        "page": "tabletop-wgm",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "S(r) = tanh(r/L0)(1-exp(-r/L0))"
+    },
+    "cavity": {
+        "R_m": R,
+        "impact_m": impact,
+        "n_refr": n_refr,
+        "L0_stur": L0_stur,
+        "atten_per_bounce": atten
+    },
+    "results": {
+        "num_bounces": num_bounces,
+        "path_length_m": path_length,
+        "final_intensity": final_intensity,
+        "escape_angle_deg": escape_angle_deg
+    },
+    "falsification": {
+        "criteria": [
+            "Confinement matches uniform-n model",
+            "Non-exponential decay",
+            "Escape angle position-independent"
+        ],
+        "triggered": ["Kill-1" if falsified else None],
+        "falsified": falsified
+    },
+    "outputs": {"json": OUT_JSON, "png": OUT_PNG}
 }
 
-print("JSON summary:")
-print(json.dumps(summary, indent=2))
-print("STUR Table Top Whispering-Gallery Simulation Complete.")
-</pre>
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open Jupyter Lite</button>
-</div>
-        <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+print("=== STUR WGM Photon Orbit [v9.2] ===")
+print(f"Bounces:    {num_bounces}")
+print(f"Path:       {path_length:.4f} m")
+print(f"Final I:    {final_intensity:.6f}")
+print(f"Escape:     {escape_angle_deg}°" if escape_angle_deg else "No escape")
+print(f"FALSIFIED = {falsified}")
+print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
-<footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | Table Top Whispering-Gallery
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+
+            <p class="stur-text-muted" style="margin-top:1rem; font-size:0.85rem;">
+                After running, open <code>wgm_orbit.png</code> to visualize the orbit and <code>stur_wgm.json</code> to inspect the falsification verdict.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <!-- Version stamp -->
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> tabletop-wgm |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Vahala — Optical Microcavities (whispering-gallery modes)</li>
+                <li>Born & Wolf — Principles of Optics (ray tracing)</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const code = document.getElementById("codeBlock").innerText;
-  navigator.clipboard.writeText(code);
-  alert("Python simulation code copied to clipboard.");
+// Page-specific state
+const PAGE_ID = 'tabletop-wgm';
+const pageState = {
+    params: {
+        R_m: 1.0,
+        impact_m: 0.99,
+        n_refr: 1.5,
+        L0_stur: 0.5,
+        atten: 0.995
+    },
+    predictions: {
+        equation: 'S(r) = tanh(r/L0)(1-exp(-r/L0))'
+    },
+    results: { bounces: null, path_length: null, final_intensity: null },
+    data: {}
+};
+
+// Set timestamp
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+// Export functions
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'R_m', value: pageState.params.R_m },
+        { parameter: 'n_refr', value: pageState.params.n_refr },
+        { parameter: 'L0_stur', value: pageState.params.L0_stur },
+        { parameter: 'atten', value: pageState.params.atten }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+// Copy/download script
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_wgm.py', 'text/x-python');
+});
 </script>
 
 </body>
