@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Galaxy Rotation Curves</h1>
+        <h1 class="page-title-derived">Galaxy Rotation Curves</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Derives galactic rotation curves from the STUR radial modulator \(S(r)\).
             The same potential \(V(R)\) that governs microscale physics produces flat rotation at galactic scales.
@@ -122,7 +122,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Circular rotation velocity \(v(r)\) vs galactocentric radius for spiral galaxies.</p>
             <p><strong>Scale:</strong> \(r \sim 1-50\,\text{kpc}\), matching JWST Big Wheel observations.</p>
-            <p><strong>Connection:</strong> The STUR scalar modulator modifies effective gravitational potential without invoking dark matter particles.</p>
+            <p><strong>Connection:</strong> The STUR scalar modulator derived from the <a href="stur_foundations.html#master-action" class="core-ref">V(R) potential</a> modifies effective gravitational potential without invoking dark matter particles.</p>
         </div>
     </section>
 
@@ -135,7 +135,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">Master Action</a> from <a href="stur_foundations.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -151,7 +151,7 @@
                 <div class="stur-eq-label">Master Action (v9.2)</div>
             </div>
 
-            <p><strong>Galactic limit:</strong> At large scales, the radial modulator \(S(r)\) modifies the effective gravitational potential:</p>
+            <p><strong>Galactic limit:</strong> At large scales, the <a href="stur_foundations.html#master-action" class="core-ref">radial modulator S(r)</a> modifies the effective gravitational potential:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -492,7 +492,16 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'galaxy-rotation';
 const pageState = {

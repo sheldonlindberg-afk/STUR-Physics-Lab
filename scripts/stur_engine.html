@@ -425,7 +425,7 @@
 <header class="hero">
   <div class="hero-content">
     <div class="engine-badge"><span>⚛</span> UTEF</div>
-    <h1>STUR — Unified Teleparallel Effective Framework</h1>
+    <h1 class="page-title-core">STUR — Unified Teleparallel Effective Framework</h1>
     <p class="hero-subtitle">
       Scalar resistance field coupled to teleparallel torsion — falsifiable interferometric predictions
     </p>
@@ -1860,6 +1860,16 @@
     });
   }
 })();
+</script>
+
+<!-- STUR UI JavaScript -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
 </script>
 </body>
 </html>

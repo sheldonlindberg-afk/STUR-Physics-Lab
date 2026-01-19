@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Mind Gate Implant</h1>
+        <h1 class="page-title-biological">Mind Gate Implant</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Planck-scale unified resistance implant model coupling EM, gravitational, strong-like, spin-magnetic,
             superconducting, and bio-battery sectors through a STUR curvature modulator.
@@ -458,6 +458,43 @@ plt.show()</pre>
     </section>
 
     <!-- ============================================================
+         SECTION: STUR CONNECTION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: #f472b6;">
+        <div class="glass-section-header">
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+            <h2 class="glass-section-title" style="color:#f472b6;">STUR Connection</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Emergent 4D Equation (3.4.7):</strong> The Mind Gate implant model represents the full STUR framework operating at Planck-scale, unifying all force sectors through the resistance field:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \partial_t \bar R = \color{#4ade80}{D\nabla^2 \bar R} \color{#94a3b8}{-} \color{#f472b6}{\Gamma(\bar R - R_{\rm bg})} \color{#94a3b8}{+} \color{#22d3ee}{\xi}
+                \]
+                <div class="stur-eq-label">(3.4.7) Emergent 4D Equation</div>
+            </div>
+
+            <p><strong>Consciousness Interpretation:</strong> At the Planck-scale implant regime, the STUR master action fully unfolds with all coupling terms active:</p>
+            <ul>
+                <li><span class="eq-diffusion">Diffusion term</span>: Resistance field coherence across the implant geometry; superconducting channels maintain nearly constant \(\bar R\) for entanglement stability</li>
+                <li><span class="eq-potential">Relaxation term</span>: The multi-well potential \(V(R)\) generates stable implant configurations where \(\rho + p_r\) remains monotonic (no exotic matter required)</li>
+                <li><span class="eq-torsion">Torsion coupling</span>: Gravitational sector \(F_{\rm grav}\), EM sector \(F_{\rm EM}\), and strong-like confinement \(F_{\rm strong}\) all couple through \(\mathcal{S}(r)\)</li>
+                <li><span class="eq-matter">Matter sector</span>: Bio-battery optimization and superconducting channel forces provide the physical substrate for consciousness interface</li>
+            </ul>
+
+            <p>The implant achieves ACTIVE status when the STUR modulator \(\mathcal{S}(r) = \tanh(r/L_0)(1-e^{-r/L_0})\) produces: (1) stable monotonic \(\rho + p_r\) density profile, (2) endpoint forces below \(10^{-10}\) N, and (3) nearly constant superconducting channel force (entanglement condition). This represents the ultimate biological application of the unified resistance framework.</p>
+
+            <p><strong>Cross-References:</strong></p>
+            <ul style="font-size:0.9rem;">
+                <li><a href="stur_foundations.html">Foundations</a> — Complete Master Action with all coupling terms</li>
+                <li><a href="stur_unified_framework.html#sec-unification">Framework Section 7</a> — Unification structure (TEGR -> HGEM -> STUR -> Chronomagnetics)</li>
+                <li><a href="stur_neuro.html">Neuroplasticity</a> — Neural-level X-dimension coherence tracking</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: CITATIONS
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--border-dim);">
@@ -493,7 +530,16 @@ plt.show()</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'mind-gate-implant';
 const pageState = {

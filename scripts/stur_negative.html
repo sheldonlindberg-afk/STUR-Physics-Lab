@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Negative Energy 5D</h1>
+        <h1 class="page-title-derived">Negative Energy 5D</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Derives exotic stress-energy and wormhole bounds from STUR-X 5D geometry.
             The sideways time axis \(\chi\) tracks information flow through the throat.
@@ -122,7 +122,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Energy condition violations \(\rho + p_r\), entropy bounds, and X-coherence metric \(\kappa_X\).</p>
             <p><strong>Scale:</strong> Planck scale (\(10^{-35}\,\text{m}\)) to atomic (\(10^{-10}\,\text{m}\)).</p>
-            <p><strong>Connection:</strong> The STUR-X 5D modulator \(S_X(r,\chi)\) combines radial curvature with sideways-time coherence.</p>
+            <p><strong>Connection:</strong> The STUR-X 5D modulator \(S_X(r,\chi)\) derived from the <a href="stur_foundations.html#master-action" class="core-ref">S(r) radial modulator</a> combines radial curvature with sideways-time coherence.</p>
         </div>
     </section>
 
@@ -135,7 +135,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">Master Action</a> from <a href="stur_foundations.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -153,7 +153,7 @@
 
             <p><strong>5D geometry:</strong> \(M_4(-+++) \oplus \chi\) with coordinates \((t, r, \theta, \phi, \chi)\).</p>
 
-            <p><strong>STUR-X 5D modulator:</strong></p>
+            <p><strong>STUR-X 5D modulator (from <a href="stur_foundations.html#master-action" class="core-ref">XCRM</a> extension):</strong></p>
 
             <div class="stur-eq derived">
                 \[
@@ -482,7 +482,16 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'negative-energy-5d';
 const pageState = {

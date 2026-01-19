@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Wow! Signal Analysis</h1>
+        <h1 class="page-title-cosmological">Wow! Signal Analysis</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Models the 1977 Wow! signal as a 5D STUR resistance wave packet projection.
             Simulates Big Ear's dual-horn geometry and reconstructs the iconic 6EQUJ5 pattern.
@@ -123,6 +123,36 @@
             <p><strong>Observable:</strong> The 1977 Wow! signal pattern "6EQUJ5" as detected by Big Ear radio telescope.</p>
             <p><strong>Scale:</strong> 72-second transit time with 10-second integration bins, dual-horn geometry separated by 180 seconds.</p>
             <p><strong>Connection:</strong> The STUR 5D resistance field \(R(t,x,X)\) projects a localized wave packet that produces the characteristic SNR profile.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CONNECTION TO CORE THEORY
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--cosmological, #a78bfa);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-link size-24"></span>
+            <h2 class="glass-section-title">Connection to Core Theory</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>The Wow! signal analysis connects to the STUR framework through the 5D wave equation and torsion dynamics:</p>
+
+            <ul>
+                <li><strong>Master Action foundation:</strong> The 5D damped wave equation derives from the <a href="stur_foundations.html#master-action">Master Action (v9.2)</a> torsion term \(L_{\text{torsion}}\), which permits localized wave packet solutions propagating through the brane-bulk manifold.</li>
+
+                <li><strong>Resistance field dynamics:</strong> The resistance field \(R(t,x,X)\) follows the stochastic evolution prescribed by the <a href="stur_foundations.html#langevin">Effective Langevin Equation (6.2)</a>, with the damping coefficient \(\gamma\) and oscillation frequency \(\Omega\) determined by STUR parameters.</li>
+
+                <li><strong>Chronomagnetic interpretation:</strong> The Wow! signal's unique 72-second duration maps to a <a href="stur_chronomagnetics.html">Chronomagnetic</a> transition window where the resistance field briefly achieves coherence between brane (\(x=0\)) and bulk (\(X=0\)) coordinates.</li>
+            </ul>
+
+            <p>In the STUR interpretation, the Wow! signal represents a transient projection of 5D resistance field dynamics onto our 4D radio receiver, explaining both its extreme intensity and non-repetition. The super-Gaussian source envelope matches the theoretical prediction for a coherent bulk-to-brane energy transfer event.</p>
+
+            <p style="margin-top:1rem; font-size:0.85rem; color:var(--text-muted);">
+                <strong>See also:</strong>
+                <a href="stur_foundations.html">Foundations</a> |
+                <a href="stur_chronomagnetics.html">Chronomagnetics</a> |
+                <a href="stur_5duniverse.html">5D Universe</a>
+            </p>
         </div>
     </section>
 
@@ -549,7 +579,16 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'wow-signal';
 const pageState = {

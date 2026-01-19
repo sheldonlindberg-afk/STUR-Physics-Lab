@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Golden Ratio Attractor</h1>
+        <h1 class="page-title-derived">Golden Ratio Attractor</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Derives the perfect resistance ratio \(R^* = E/(I \Phi) \to 1\) as a universal equilibrium.
             Energy, information, and geometric flux self-regulate toward unity coherence.
@@ -122,7 +122,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Perfect Resistance Ratio \(R^* = E/(I \Phi)\) converging to unity attractor.</p>
             <p><strong>Scale:</strong> Universal across all STUR-coupled systems (Replicator, Arc, WGM, Double-Slit, Helix).</p>
-            <p><strong>Connection:</strong> The XCRM coupling \(U(X-R)\) enforces geometric-informational equilibrium via feedback dynamics.</p>
+            <p><strong>Connection:</strong> The <a href="stur_foundations.html#master-action" class="core-ref">XCRM coupling U(X-R)</a> enforces geometric-informational equilibrium via feedback dynamics.</p>
         </div>
     </section>
 
@@ -135,7 +135,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">Master Action</a> from <a href="stur_foundations.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -175,7 +175,7 @@
                 \[
                 \color{#f472b6}{E} \leftarrow \color{#f472b6}{E} - \color{#fbbf24}{k \cdot \Delta} \cdot \color{#f472b6}{E}
                 \]
-                <div class="stur-eq-label">Feedback Coupling (XCRM mechanism)</div>
+                <div class="stur-eq-label">Feedback Coupling (<a href="stur_foundations.html#master-action" class="core-ref">XCRM</a> mechanism)</div>
             </div>
         </div>
     </section>
@@ -435,7 +435,16 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'golden-ratio-attractor';
 const pageState = {

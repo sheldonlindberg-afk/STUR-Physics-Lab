@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Universal Immunity Algorithm</h1>
+        <h1 class="page-title-biological">Universal Immunity Algorithm</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             STUR-based immunodynamic field model treating immune force density as a curvature-regulated field
             with innate, suppressive, and adaptive components plus chemotactic spin-torsion coupling.
@@ -440,6 +440,42 @@ plt.show()</pre>
     </section>
 
     <!-- ============================================================
+         SECTION: STUR CONNECTION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: #f472b6;">
+        <div class="glass-section-header">
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+            <h2 class="glass-section-title" style="color:#f472b6;">STUR Connection</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Emergent 4D Equation (3.4.7):</strong> The STUR resistance field provides a unified framework for understanding immune force dynamics across scales:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \partial_t \bar R = \color{#4ade80}{D\nabla^2 \bar R} \color{#94a3b8}{-} \color{#f472b6}{\Gamma(\bar R - R_{\rm bg})} \color{#94a3b8}{+} \color{#22d3ee}{\xi}
+                \]
+                <div class="stur-eq-label">(3.4.7) Emergent 4D Equation</div>
+            </div>
+
+            <p><strong>Immunodynamic Interpretation:</strong> The time-decaying curvature regulator \(\mathcal{S}(r,t) = \tanh(r/L_0)(1-e^{-r/L_0})e^{-\kappa t}\) directly maps to immune response dynamics:</p>
+            <ul>
+                <li><span class="eq-diffusion">Diffusion term</span>: Immune cell migration and cytokine spreading; chemotactic gradients drive directed motion toward infection sites</li>
+                <li><span class="eq-potential">Relaxation term</span>: Immune response decay rate \(\kappa\); acute infections (flu) have fast relaxation, chronic conditions (HIV) show impaired relaxation</li>
+                <li><span class="eq-torsion">Torsion coupling</span>: The chemotactic force \(F_{\rm chem}(r) = \gamma_{\rm chem} e^{-r/\ell_{\rm chem}} |S_{\rm immune}| |G_{\rm path}|\) represents spin-torsion coupling between immune cells and pathogen gradients</li>
+            </ul>
+
+            <p>The STUR framework explains why large pathogen clusters (\(r \gg L_0\)) trigger full immune activation (\(\mathcal{S} \approx 1\)) while small oligomers (\(r \ll L_0\)) are tolerated (\(\mathcal{S} \sim r^2/L_0^2\)). Disease regimes emerge from different parameter combinations in the unified force field.</p>
+
+            <p><strong>Cross-References:</strong></p>
+            <ul style="font-size:0.9rem;">
+                <li><a href="stur_foundations.html">Foundations</a> — Master Action with torsion coupling \(\alpha R \mathbb{T}\)</li>
+                <li><a href="stur_unified_framework.html#sec-tegr">Framework Section 3</a> — TEGR and contortion tensor</li>
+                <li><a href="stur_atp.html">Mito Population</a> — Cellular stress signaling via ROS/Ca<sup>2+</sup></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: CITATIONS
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--border-dim);">
@@ -475,7 +511,16 @@ plt.show()</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'universal-immunity';
 const pageState = {

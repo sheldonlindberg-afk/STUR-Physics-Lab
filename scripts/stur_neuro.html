@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Neuroplasticity X-Synapse</h1>
+        <h1 class="page-title-biological">Neuroplasticity X-Synapse</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             5D STUR model of axon growth, synapse formation, and STDP learning with X-dimension coherence enhancement.
             Demonstrates how the unified resistance field produces learning advantages.
@@ -513,6 +513,42 @@ plt.show()</pre>
     </section>
 
     <!-- ============================================================
+         SECTION: STUR CONNECTION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: #f472b6;">
+        <div class="glass-section-header">
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+            <h2 class="glass-section-title" style="color:#f472b6;">STUR Connection</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Emergent 4D Equation (3.4.7):</strong> The STUR resistance field provides the substrate for neural plasticity and learning through X-dimension coherence tracking:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \partial_t \bar R = \color{#4ade80}{D\nabla^2 \bar R} \color{#94a3b8}{-} \color{#f472b6}{\Gamma(\bar R - R_{\rm bg})} \color{#94a3b8}{+} \color{#22d3ee}{\xi}
+                \]
+                <div class="stur-eq-label">(3.4.7) Emergent 4D Equation</div>
+            </div>
+
+            <p><strong>Neuroplasticity Interpretation:</strong> The X-dimension coordinate \(\chi(t)\) acts as a "hidden ledger" integrating coherence history, enhancing synaptic learning for aligned pathways:</p>
+            <ul>
+                <li><span class="eq-diffusion">Diffusion term</span>: Axon growth trajectories follow resistance gradients; growth cones navigate toward low-resistance targets</li>
+                <li><span class="eq-potential">Relaxation term</span>: Synaptic weights decay toward baseline in absence of reinforcement; \(\Gamma\) sets the forgetting rate</li>
+                <li><span class="eq-xcrm">XCRM coupling</span>: The X-dimension accumulates coherence history \(\lambda_X = \frac{1}{2}(1 + c_{\rm final}) w_{\rm final}\), providing enhanced LTP \((1+4\lambda_X)\) and reduced LTD \((1-3\lambda_X)\) for STUR-aligned synapses</li>
+            </ul>
+
+            <p>The coherence \(c(t) = \mathbf{S} \cdot \mathbf{B}\) (spin-field alignment) tracks synapse quality in real-time, while the structural weight \(w(t)\) grows when proximity and coherence are simultaneously high. This dual-gating mechanism explains why well-aligned synapses exhibit superior STDP learning.</p>
+
+            <p><strong>Cross-References:</strong></p>
+            <ul style="font-size:0.9rem;">
+                <li><a href="stur_foundations.html">Foundations</a> — Master Action with XCRM coupling term</li>
+                <li><a href="stur_unified_framework.html#sec-stur">Framework Section 5.3</a> — Coherence length closure</li>
+                <li><a href="stur_mindgate.html">Mind Gate</a> — Consciousness and multi-sector force coupling</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: CITATIONS
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--border-dim);">
@@ -548,7 +584,16 @@ plt.show()</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'neuroplasticity-xsynapse';
 const pageState = {

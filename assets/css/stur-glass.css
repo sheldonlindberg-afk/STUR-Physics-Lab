@@ -683,3 +683,162 @@ button.glass-nav-link:hover {
   background-size: 200% 100%;
   animation: glass-shimmer 2s infinite;
 }
+
+/* ============================================================
+   MOBILE-FIRST RESPONSIVE ENHANCEMENTS
+   ============================================================ */
+
+/* Enhanced Mobile Navigation */
+@media (max-width: 768px) {
+  .glass-header {
+    padding: 0.5rem 1rem;
+  }
+
+  .glass-nav {
+    position: relative;
+  }
+
+  .glass-nav-brand {
+    font-size: 1rem;
+  }
+
+  .glass-nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba(5, 7, 12, 0.98);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 1rem;
+    gap: 0.5rem;
+    z-index: 1000;
+  }
+
+  .glass-nav-links.open {
+    display: flex;
+  }
+
+  .glass-nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+
+  .glass-nav-link {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Ensure glass-share-btn works as button in mobile */
+  button.glass-nav-link.glass-share-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Small mobile screens */
+@media (max-width: 480px) {
+  .glass-header {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .glass-nav-brand {
+    font-size: 0.9rem;
+    gap: 0.35rem;
+  }
+
+  .nav-logo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .glass-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .glass-section {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+
+  .glass-verdict {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .glass-modal {
+    margin: 0.5rem;
+    max-height: 90vh;
+  }
+
+  .glass-modal-body {
+    padding: 1rem;
+  }
+}
+
+/* Equation overflow fix for mobile */
+.glass-section .stur-eq,
+.glass-section .eq,
+.stur-eq,
+.eq {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+/* MathJax responsive */
+mjx-container {
+  overflow-x: auto;
+  max-width: 100%;
+  display: block !important;
+}
+
+mjx-container[display="true"] {
+  margin: 0.5em 0 !important;
+}
+
+/* Touch-friendly interactive elements */
+@media (pointer: coarse) {
+  .glass-btn,
+  .glass-nav-link,
+  .glass-nav-toggle {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .glass-input {
+    min-height: 44px;
+    font-size: 16px; /* Prevents iOS zoom */
+  }
+}
+
+/* Prevent horizontal overflow */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Container mobile adjustments */
+@media (max-width: 768px) {
+  .stur-container {
+    padding: 1.25rem 1rem;
+  }
+
+  .stur-container.narrow,
+  .stur-container.wide {
+    padding: 1.25rem 1rem;
+  }
+}
