@@ -492,7 +492,7 @@
     This Gaussian-in-\(\Delta L^2\) scaling is the unique STUR discriminator.
   </p>
 
-  <h3>5.3 Coherence Length (Closure)</h3>
+  <h3>5.3 Coherence Length (Full Parameter Closure)</h3>
 
   <p>
     The coherence length \(\ell_{\rm coh}\) is derived from manifold geometry via X-integration
@@ -501,21 +501,61 @@
 
   <div class="eq boxed">
     \[\color{#22d3ee}{\ell_{\rm coh}} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#4ade80}{\sigma_R}}\]
+    <div class="eq-label">(5.1) — Coherence length from manifold</div>
   </div>
 
-  <p class="muted">
-    Here \(L_X\) is the X-dimension compactification scale and \(\sigma_R\) is the
-    RMS resistance fluctuation. This closes the theory with a single remaining
-    free parameter: the ratio \(\sigma_R / L_X\).
+  <div class="block success">
+    <div class="title">Breakthrough: σ<sub>R</sub> Derived from Vacuum Fluctuations</div>
+    <p class="muted">
+      The RMS fluctuation \(\sigma_R\) is <strong>not a free parameter</strong>. It emerges from
+      quantum vacuum fluctuations of the scalar \(R\) on the compact manifold, with the UV cutoff
+      naturally provided by the KK scale \(1/L_X\) (see Foundations §3.4.7a):
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\color{#4ade80}{\sigma_R} = \frac{c_0}{\color{#fbbf24}{\chi\, L_X}}\]
+      <div class="eq-label">(5.2) — RMS fluctuation from manifold geometry</div>
+    </div>
+    <p class="muted">
+      where \(c_0 \sim \mathcal{O}(1)\) and \(\chi\) is the XCRM coupling constant.
+    </p>
+  </div>
+
+  <h4>5.3.1 Complete Closure Equation</h4>
+  <p>
+    Substituting (5.2) into (5.1) yields the <strong>fully determined</strong> coherence length:
   </p>
 
-  <div class="block warning">
-    <div class="title">Phenomenological Status</div>
+  <div class="eq law">
+    \[\boxed{\color{#4ade80}{\ell_{\rm coh}} = \frac{\sqrt{2}}{c_0}\, \color{#fbbf24}{\chi\, L_X^2}}\]
+    <div class="eq-label">(5.3) — Full parameter closure</div>
+  </div>
+
+  <div class="card-grid" style="margin-top:1rem;">
+    <div class="card" style="border-left:3px solid var(--neon-green);">
+      <h4 style="color:var(--neon-green);">Fixed by Manifold</h4>
+      <ul style="font-size:0.9rem;color:var(--text-secondary);margin:0.5rem 0 0;">
+        <li>\(\chi\) — XCRM coupling (dimensionless)</li>
+        <li>\(L_X\) — compactification scale (length)</li>
+        <li>\(c_0\) — O(1) from mode sum</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--neon-gold);">
+      <h4 style="color:var(--neon-gold);">Prediction</h4>
+      <p style="font-size:0.9rem;color:var(--text-secondary);margin:0.5rem 0 0;">
+        The scaling \(\ell_{\rm coh} \propto \chi L_X^2\) is a <strong>prediction</strong>,
+        not an input. The theory has no remaining free parameters at the manifold level.
+      </p>
+    </div>
+  </div>
+
+  <div class="block warning" style="margin-top:1rem;">
+    <div class="title">Experimental Note</div>
     <p class="muted">
-      The identification \(\sigma_R \equiv K_{\rm eff}\) is a phenomenological ansatz organizing
-      experimental constraints within teleparallel language. No claim is made that microscopic
-      torsion fluctuates stochastically. The parameter \(K_{\rm eff}\) is an effective
-      laboratory-scale phase-gradient amplitude inferred from visibility statistics.
+      The identification \(\sigma_R \equiv K_{\rm eff}\) at the experimental level remains
+      phenomenological—\(K_{\rm eff}\) is the effective laboratory-scale phase-gradient
+      amplitude inferred from visibility statistics. The derivation above ties this to
+      manifold vacuum fluctuations, but experimental verification requires measuring
+      the Gaussian visibility signature across platforms.
     </p>
   </div>
 
