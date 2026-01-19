@@ -373,11 +373,11 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
                 <h3>TEGR Backbone</h3>
                 <p>Teleparallel gravity uses <strong>tetrads</strong> \(e^a{}_\mu\) instead of the metric directly:</p>
                 <div class="eq">
-                    \[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]
+                    \[\color{#fb923c}{g_{\mu\nu}} = \eta_{ab}\, \color{#60a5fa}{e^a{}_\mu}\, \color{#60a5fa}{e^b{}_\nu}\]
                 </div>
                 <p>Gravity appears through <strong>torsion</strong>, not curvature:</p>
                 <div class="eq">
-                    \[T^a{}_{\mu\nu} = \partial_\mu e^a{}_\nu - \partial_\nu e^a{}_\mu\]
+                    \[\color{#60a5fa}{T^a{}_{\mu\nu}} = \partial_\mu \color{#60a5fa}{e^a{}_\nu} - \partial_\nu \color{#60a5fa}{e^a{}_\mu}\]
                 </div>
                 <p style="font-size:.85rem;color:var(--text-dim);">
                     <em>Key insight:</em> TEGR = GR at the level of field equations, but offers different coupling options.
@@ -388,11 +388,11 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
                 <h3>STUR Resistance Field</h3>
                 <p>The resistance field lives on a 5D manifold:</p>
                 <div class="eq">
-                    \[R: M_4 \times X \rightarrow \mathbb{R}^{+}\]
+                    \[\color{#4ade80}{R}: M_4 \times \color{#fbbf24}{X} \rightarrow \mathbb{R}^{+}\]
                 </div>
                 <p>The <strong>XCRM closure</strong> relates the X-derivative to relaxation:</p>
                 <div class="eq boxed">
-                    \[\frac{\partial R}{\partial X} = \frac{R - R_{\rm bg}}{L_X}\]
+                    \[\color{#fbbf24}{\frac{\partial R}{\partial X}} = \frac{\color{#4ade80}{R} - R_{\rm bg}}{\color{#fbbf24}{L_X}}\]
                     <div class="eq-label">XCRM Closure - exponential decay toward background</div>
                 </div>
             </div>
@@ -401,7 +401,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
         <h3>The Core STUR Evolution Equation</h3>
         <p>This is the PDE we implement in simulation:</p>
         <div class="eq master">
-            \[\boxed{\partial_t R = \nabla\!\cdot\!(D\nabla R) - \nabla R\cdot\Omega + \chi\,\frac{\partial R}{\partial X} + S}\]
+            \[\boxed{\partial_t R = \color{#4ade80}{\nabla\!\cdot\!(D\nabla R)} \color{#94a3b8}{-} \color{#60a5fa}{\nabla R\cdot\Omega} \color{#94a3b8}{+} \color{#fbbf24}{\chi\,\frac{\partial R}{\partial X}} \color{#94a3b8}{+} \color{#22d3ee}{S}}\]
             <div class="eq-label">STUR PDE - Diffusion + Advection + Relaxation + Source</div>
         </div>
 
@@ -430,25 +430,25 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
         <h3>Holonomy -> Visibility</h3>
         <p>The resistance holonomy around interferometer path \(\mathcal{C}\):</p>
         <div class="eq">
-            \[\Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \mathcal{A}^{(R)}_\mu\, dx^\mu, \quad \mathcal{A}^{(R)}_\mu = \frac{1}{L_X}(R - R_{\rm bg})\,n_\mu\]
+            \[\color{#c4b5fd}{\Phi_R(\mathcal{C})} = \color{#c4b5fd}{\oint_{\mathcal{C}}} \color{#fbbf24}{\mathcal{A}^{(R)}_\mu}\, dx^\mu, \quad \color{#fbbf24}{\mathcal{A}^{(R)}_\mu} = \frac{1}{\color{#fbbf24}{L_X}}(\color{#4ade80}{R} - R_{\rm bg})\,n_\mu\]
         </div>
 
         <p>In the small-phase regime, visibility follows from Gaussian statistics:</p>
         <div class="eq boxed">
-            \[V \approx V_0\,\exp\!\left(-\frac{\langle \Phi_R^2\rangle}{2}\right)\]
+            \[\color{#f472b6}{V} \approx V_0\,\exp\!\left(-\frac{\color{#c4b5fd}{\langle \Phi_R^2\rangle}}{2}\right)\]
             <div class="eq-label">Cumulant Truncation (valid for small phase variance)</div>
         </div>
 
         <h3>The Discriminating Prediction</h3>
         <p>Combining XCRM closure with statistical averaging yields:</p>
         <div class="eq master">
-            \[\boxed{V(\Delta L) = V_0 \exp\!\left[-\left(\frac{\Delta L}{\ell_{\rm coh}}\right)^{\!2}\right]}\]
+            \[\boxed{\color{#f472b6}{V(\Delta L)} = V_0 \exp\!\left[-\left(\frac{\color{#fb923c}{\Delta L}}{\color{#22d3ee}{\ell_{\rm coh}}}\right)^{\!2}\right]}\]
             <div class="eq-label">STUR Visibility Law - THE testable prediction</div>
         </div>
 
         <p>Coherence length from theory:</p>
         <div class="eq">
-            \[\ell_{\rm coh} = \sqrt{2}\,\frac{L_X}{\sigma_R} = \frac{p_0}{y\,K_{\rm eff}}\]
+            \[\color{#22d3ee}{\ell_{\rm coh}} = \sqrt{2}\,\frac{\color{#fbbf24}{L_X}}{\color{#4ade80}{\sigma_R}} = \frac{\color{#60a5fa}{p_0}}{\color{#fbbf24}{y}\,\color{#4ade80}{K_{\rm eff}}}\]
         </div>
 
         <h3>Emergent 4D Equation (v9.2 Closure)</h3>
@@ -457,7 +457,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
             yields an effective 4D equation for the coarse-grained resistance field:
         </p>
         <div class="eq boxed">
-            \[\partial_t \bar R = D\nabla^2 \bar R - \Gamma(\bar R - R_{\rm bg}) + \xi\]
+            \[\partial_t \bar R = \color{#4ade80}{D\nabla^2 \bar R} \color{#94a3b8}{-} \color{#f472b6}{\Gamma(\bar R - R_{\rm bg})} \color{#94a3b8}{+} \color{#22d3ee}{\xi}\]
             <div class="eq-label">Emergent 4D - Dimensional Reduction Closure</div>
         </div>
         <p style="color:var(--text-dim);font-size:0.9rem;">
@@ -470,7 +470,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
             For loop geometries, Stokes' theorem provides enhancement via area accumulation:
         </p>
         <div class="eq master">
-            \[\boxed{\langle \Phi_R^2 \rangle_{\rm loop} \approx \frac{\sigma_R^2}{L_X^2}\, A_{\rm loop}}\]
+            \[\boxed{\color{#c4b5fd}{\langle \Phi_R^2 \rangle_{\rm loop}} \approx \frac{\color{#4ade80}{\sigma_R^2}}{\color{#fbbf24}{L_X^2}}\, \color{#fb923c}{A_{\rm loop}}}\]
             <div class="eq-label">Loop Holonomy - Pathway to Macroscopic Observability</div>
         </div>
         <p style="color:var(--text-dim);font-size:0.9rem;">
@@ -804,13 +804,13 @@ function solveTridiagonal(a, b, c, d) {
                 <div>
                     <h4>The Chronomagnetic Constant</h4>
                     <div class="eq master">
-                        \[\lambda = \frac{3722}{2705} \approx 1.37597\]
+                        \[\color{#fbbf24}{\lambda} = \frac{3722}{2705} \approx 1.37597\]
                     </div>
                     <p>Illustrative triangle construction with sides {116, 138, 144}.</p>
 
                     <h4>Log-Time Modulation</h4>
                     <div class="eq">
-                        \[\mathcal{M}(u) = 1 + \epsilon\cos\!\left(\frac{2\pi u}{\ln\lambda}\right)\]
+                        \[\color{#f472b6}{\mathcal{M}(u)} = 1 + \epsilon\cos\!\left(\frac{2\pi u}{\ln\color{#fbbf24}{\lambda}}\right)\]
                     </div>
                     <p>where \(u(t) = \ln((t+t_c)/t_0)\).</p>
 
