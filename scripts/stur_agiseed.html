@@ -125,6 +125,23 @@ code.inline {
   border-radius: 6px;
   color: var(--neon-cyan);
 }
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--neon-green, #4ade80);
+  color: var(--bg-abyss, #0a0a0f);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10000;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; }
 </style>
 </head>
 
@@ -147,7 +164,7 @@ code.inline {
             <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
             <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
             <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
-            <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+            <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
             </button>
@@ -155,33 +172,12 @@ code.inline {
     </nav>
 </header>
 
-<script>
-function shareRepo() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        const btn = document.querySelector('.glass-share-btn');
-        const original = btn.innerHTML;
-        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
-        btn.style.color = 'var(--neon-green)';
-        setTimeout(() => {
-            btn.innerHTML = original;
-            btn.style.color = '';
-        }, 2000);
-    }).catch(() => {
-        alert('Link: ' + url);
-    });
-}
-
-// Mobile nav toggle
-document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
-    const links = document.querySelector('.glass-nav-links');
-    const expanded = this.getAttribute('aria-expanded') === 'true';
-    this.setAttribute('aria-expanded', !expanded);
-    links.classList.toggle('open');
-});
-</script>
-
 <h1>STUR Double-Slit — Dataset-Locked Plasmon Coherence</h1>
+
+<!-- Citation Button -->
+<div style="text-align:center; margin:1rem 0;">
+    <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+</div>
 
 <div class="eq-legend">
   <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
@@ -195,7 +191,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 <b>Falsification rule.</b><br>
 This model is <b>falsified</b> if:
 \[
-\mathrm{RMSE}_{\text{STUR}} \ge \mathrm{RMSE}_{\text{QM}}
+\color{#fbbf24}{\mathrm{RMSE}_{\text{STUR}}} \;\ge\; \color{#f472b6}{\mathrm{RMSE}_{\text{QM}}}
 \]
 All quantities below are dataset-locked and emitted to JSON (+ SVG plot).
 </div>
@@ -578,5 +574,42 @@ STUR Physics Lab — falsifiable, dataset-locked physics
 })();
 </script>
 
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+// Citation copy functionality
+(function() {
+  const toast = document.getElementById('toast');
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg || 'Copied to clipboard';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  }
+  
+  const citeBtn = document.getElementById('copyCite');
+  const citation = 'Lindberg, Sheldon Lon (2026). "STUR Double-Slit — Dataset-Locked Plasmon Coherence," STUR Physics Lab.';
+  
+  if (citeBtn) {
+    citeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(citation);
+        showToast('Citation copied');
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = citation;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Citation copied');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>

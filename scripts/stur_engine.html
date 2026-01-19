@@ -376,7 +376,24 @@
     .eq-legend-dot.matter { background: #22d3ee; }
     .eq-legend-dot.integral { background: #c4b5fd; }
     .eq-legend-dot.metric { background: #fb923c; }
-  </style>
+  
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--neon-green, #4ade80);
+  color: var(--bg-abyss, #0a0a0f);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10000;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; }
+</style>
 </head>
 <body>
 
@@ -397,39 +414,13 @@
             <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
             <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
             <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
-            <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+            <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
             </button>
         </div>
     </nav>
 </header>
-
-<script>
-function shareRepo() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        const btn = document.querySelector('.glass-share-btn');
-        const original = btn.innerHTML;
-        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
-        btn.style.color = 'var(--neon-green)';
-        setTimeout(() => {
-            btn.innerHTML = original;
-            btn.style.color = '';
-        }, 2000);
-    }).catch(() => {
-        alert('Link: ' + url);
-    });
-}
-
-// Mobile nav toggle
-document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
-    const links = document.querySelector('.glass-nav-links');
-    const expanded = this.getAttribute('aria-expanded') === 'true';
-    this.setAttribute('aria-expanded', !expanded);
-    links.classList.toggle('open');
-});
-</script>
 
 <header class="hero">
   <div class="hero-content">
@@ -445,7 +436,12 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
       <div class="pillar-indicator"><span class="pillar-dot chrono"></span>Chronomagnetics</div>
     </div>
   </div>
-</header>
+
+        <!-- Citation Button -->
+        <div style="margin-top:1rem;">
+            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+        </div>
+    </header>
 
 <div class="container">
 
@@ -520,27 +516,27 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     <div class="card-grid">
       <div class="card" style="border-left:3px solid var(--tegr)">
         <h4>Metric from Tetrads</h4>
-        <div class="eq">\[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]</div>
+        <div class="eq">\[\color{#fb923c}{g_{\mu\nu}} = \eta_{ab}\, \color{#60a5fa}{e^a{}_\mu}\, \color{#60a5fa}{e^b{}_\nu}\]</div>
       </div>
       <div class="card" style="border-left:3px solid var(--tegr)">
         <h4>Torsion Tensor</h4>
-        <div class="eq">\[T^a{}_{\mu\nu} = \partial_\mu e^a{}_\nu - \partial_\nu e^a{}_\mu\]</div>
+        <div class="eq">\[\color{#60a5fa}{T^a{}_{\mu\nu}} = \partial_\mu \color{#60a5fa}{e^a{}_\nu} - \partial_\nu \color{#60a5fa}{e^a{}_\mu}\]</div>
       </div>
     </div>
     <div class="block gold">
       <div class="title">Theorem — TEGR ≡ GR Equivalence</div>
       <p class="muted">The TEGR action differs from Einstein-Hilbert by a total divergence. The field equations are <strong>identical</strong> to Einstein's equations.</p>
-      <div class="eq law">\[S_{\rm TEGR} = \frac{1}{16\pi G} \int d^4x\, e\, \mathbf{T} = S_{\rm EH} + \text{boundary term}\]</div>
+      <div class="eq law">\[\color{#e2e8f0}{S_{\rm TEGR}} = \frac{1}{16\pi G} \color{#c4b5fd}{\int} d^4x\, e\, \color{#60a5fa}{\mathbf{T}} = \color{#e2e8f0}{S_{\rm EH}} + \text{boundary term}\]</div>
     </div>
     <h3>Contortion Tensor</h3>
-    <div class="eq boxed">\[K^a{}_{bc} = \frac{1}{2}\left(T_{bc}{}^a + T_{cb}{}^a - T^a{}_{bc}\right)\]</div>
+    <div class="eq boxed">\[\color{#60a5fa}{K^a{}_{bc}} = \frac{1}{2}\left(\color{#60a5fa}{T_{bc}{}^a} + \color{#60a5fa}{T_{cb}{}^a} - \color{#60a5fa}{T^a{}_{bc}}\right)\]</div>
     <p>This is the geometric object STUR parameterizes phenomenologically via \(K_{\rm eff}\).</p>
   </section>
 
   <section id="sec-hgem">
     <h2><span class="section-dot" style="background:var(--hgem)"></span> HGEM: Gravitoelectromagnetic Waves</h2>
     <p>In the weak-field limit, teleparallel gravity admits a gravitoelectromagnetic decomposition with Maxwell-like field equations.</p>
-    <div class="eq boxed">\[\vec{E}_g = -\nabla\Phi_g - \frac{\partial \vec{A}_g}{\partial t}, \qquad \vec{B}_g = \nabla \times \vec{A}_g \quad (c = 1)\]</div>
+    <div class="eq boxed">\[\color{#60a5fa}{\vec{E}_g} = -\nabla\color{#f472b6}{\Phi_g} - \frac{\partial \color{#60a5fa}{\vec{A}_g}}{\partial t}, \qquad \color{#60a5fa}{\vec{B}_g} = \nabla \times \color{#60a5fa}{\vec{A}_g} \quad (c = 1)\]</div>
     <div class="block success">
       <div class="title">HGEM Status</div>
       <p class="muted">HGEM is a <strong>derived sector</strong>—it follows directly from linearizing the TEGR field equations. No phenomenological input is required.</p>
@@ -719,7 +715,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   <section id="sec-chrono">
     <h2><span class="section-dot" style="background:var(--chrono)"></span> Chronomagnetics: Log-Periodic Modulation</h2>
     <p>Chronomagnetics introduces a log-periodic modulation of tangential contortion, defined from exact triangle geometry and embedded consistently within the teleparallel (TEGR) formalism.</p>
-    <div class="eq law">\[\boxed{\lambda = \frac{3722}{2705} \approx 1.376}\]<div class="eq-label">(Chronomagnetic Constant)</div></div>
+    <div class="eq law">\[\boxed{\color{#fbbf24}{\lambda} = \frac{3722}{2705} \approx 1.376}\]<div class="eq-label">(Chronomagnetic Constant)</div></div>
     <p>This is an <em>exactly defined geometric ratio</em> arising from a specific illustrative triangle construction \(\{116, 138, 144\}\). The triangle is not claimed to be unique.</p>
     <p class="muted">
       The functional mapping from triangle data to \(\lambda\) is a chosen
@@ -735,20 +731,20 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 <div class="card-grid">
   <div class="card" style="border-left:3px solid var(--chrono)">
     <h4>Semiperimeter</h4>
-    <div class="eq">\[s = \frac{a+b+c}{2} = 199\]</div>
+    <div class="eq">\[\color{#fbbf24}{s} = \frac{a+b+c}{2} = 199\]</div>
   </div>
   <div class="card" style="border-left:3px solid var(--chrono)">
     <h4>Area Squared</h4>
-    <div class="eq">\[A^2 = s(s-a)(s-b)(s-c) = 55,414,535 \quad (\sqrt{A^2} \approx 7442.75)\]</div>
+    <div class="eq">\[\color{#fb923c}{A^2} = \color{#fbbf24}{s}(\color{#fbbf24}{s}-a)(\color{#fbbf24}{s}-b)(\color{#fbbf24}{s}-c) = 55,414,535 \quad (\sqrt{\color{#fb923c}{A^2}} \approx 7442.75)\]</div>
   </div>
   <div class="card" style="border-left:3px solid var(--gold)">
     <h4>Construction</h4>
-    <div class="eq">\[\lambda = \frac{\lfloor\sqrt{A^2}\rfloor}{10(s + 3c - 6)} = \frac{7442}{5410} \approx \frac{3722}{2705}\]</div>
+    <div class="eq">\[\color{#fbbf24}{\lambda} = \frac{\lfloor\sqrt{\color{#fb923c}{A^2}}\rfloor}{10(\color{#fbbf24}{s} + 3c - 6)} = \frac{7442}{5410} \approx \frac{3722}{2705}\]</div>
   </div>
 </div>
 
 <h3>Log-Time Parameterization</h3>
-<div class="eq boxed">\[\mathcal{M}(u) = 1 + \epsilon \cos(2\pi u / \ln\lambda), \quad u(t) = \ln\big((t + t_c)/t_0\big)\]</div>
+<div class="eq boxed">\[\color{#f472b6}{\mathcal{M}(u)} = 1 + \epsilon \cos(2\pi \color{#22d3ee}{u} / \ln\color{#fbbf24}{\lambda}), \quad \color{#22d3ee}{u(t)} = \ln\big((t + t_c)/t_0\big)\]</div>
 <p class="muted" style="margin:0.5rem 0;">
   Angular frequency: \(\omega = 2\pi/\ln\lambda \approx 19.687\). Reference time: \(t_0 = 1\) Ma.
 </p>
@@ -777,14 +773,14 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 <h3>Effective Action</h3>
 <div class="eq law">
   \[
-  \boxed{S_{\text{eff}} = \frac{1}{16\pi G}\int d^4x\, e\, \mathbb{T} \;\oplus\; \int d^4x\, e\, \mathcal{L}_R}
+  \boxed{\color{#e2e8f0}{S_{\text{eff}}} = \frac{1}{16\pi G}\color{#c4b5fd}{\int} d^4x\, e\, \color{#60a5fa}{\mathbb{T}} \;\oplus\; \color{#c4b5fd}{\int} d^4x\, e\, \color{#fbbf24}{\mathcal{L}_R}}
   \]
   <div class="eq-label">(STUR-TEGR Action)</div>
 </div>
 
 <div class="eq boxed">
   \[
-  \lim_{R \to R_{\rm bg}} S_{\text{total}} = S_{\rm EH} \quad \text{(Einstein-Hilbert Action)}
+  \lim_{\color{#fbbf24}{R} \to R_{\rm bg}} \color{#e2e8f0}{S_{\text{total}}} = \color{#e2e8f0}{S_{\rm EH}} \quad \text{(Einstein-Hilbert Action)}
   \]
   <div class="eq-label">(Exact GR Recovery in Vacuum)</div>
 </div>
@@ -801,7 +797,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 <h3>STUR Lagrangian</h3>
 <div class="eq law">
   \[
-  \boxed{\mathcal{L}_R = -\frac{1}{2}(\nabla_\mu R)(\nabla^\mu R) - V(R) + \alpha\, \mathbb{T}\, R^2}
+  \boxed{\color{#fbbf24}{\mathcal{L}_R} = \color{#4ade80}{-\frac{1}{2}(\nabla_\mu R)(\nabla^\mu R)} \color{#94a3b8}{-} \color{#f472b6}{V(R)} \color{#94a3b8}{+} \color{#60a5fa}{\alpha\, \mathbb{T}}\, \color{#fbbf24}{R^2}}
   \]
   <div class="eq-label">(STUR Lagrangian Density)</div>
 </div>
@@ -809,17 +805,17 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 <div class="card-grid">
   <div class="card" style="border-left:3px solid var(--stur)">
     <h4>Kinetic Term</h4>
-    <div class="eq">\[-\frac{1}{2}(\nabla_\mu R)(\nabla^\mu R)\]</div>
+    <div class="eq">\[\color{#4ade80}{-\frac{1}{2}(\nabla_\mu R)(\nabla^\mu R)}\]</div>
     <p class="muted" style="font-size:0.85rem">Standard scalar field gradient energy</p>
   </div>
   <div class="card" style="border-left:3px solid var(--stur)">
     <h4>Potential</h4>
-    <div class="eq">\[V(R) = \frac{m_R^2}{2}(R - R_{\rm bg})^2\]</div>
+    <div class="eq">\[\color{#f472b6}{V(R)} = \frac{m_R^2}{2}(\color{#fbbf24}{R} - R_{\rm bg})^2\]</div>
     <p class="muted" style="font-size:0.85rem">Vacuum relaxation to background</p>
   </div>
   <div class="card" style="border-left:3px solid var(--gold)">
     <h4>Torsion-Resistance Coupling</h4>
-    <div class="eq">\[\alpha\, \mathbb{T}\, R^2\]</div>
+    <div class="eq">\[\color{#60a5fa}{\alpha\, \mathbb{T}}\, \color{#fbbf24}{R^2}\]</div>
     <p class="muted" style="font-size:0.85rem"><strong>The "smoking gun"</strong> — couples geometry to resistance</p>
   </div>
 </div>
@@ -827,14 +823,14 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 <h3>Coupled Field Equations</h3>
 <div class="eq law">
   \[
-  \boxed{\frac{1}{e}\partial_\nu(e\, S_a{}^{\mu\nu}) - T^b{}_{\nu a}S_b{}^{\nu\mu} + \frac{1}{4}\delta_a^\mu \mathbb{T} = 8\pi G\, \mathcal{T}_a{}^\mu(R)}
+  \boxed{\frac{1}{e}\partial_\nu(e\, \color{#60a5fa}{S_a{}^{\mu\nu}}) - \color{#60a5fa}{T^b{}_{\nu a}S_b{}^{\nu\mu}} + \frac{1}{4}\delta_a^\mu \color{#60a5fa}{\mathbb{T}} = 8\pi G\, \color{#22d3ee}{\mathcal{T}_a{}^\mu}(\color{#fbbf24}{R})}
   \]
   <div class="eq-label">(Modified TEGR Field Equations)</div>
 </div>
 
 <div class="eq boxed">
   \[
-  \mathcal{T}_a{}^\mu(R) = e_a{}^\nu \left[ \nabla_\nu R \nabla^\mu R - \delta_\nu^\mu \mathcal{L}_R \right] + 2\alpha R^2 \frac{\delta \mathbb{T}}{\delta e^a{}_\mu}
+  \color{#22d3ee}{\mathcal{T}_a{}^\mu}(\color{#fbbf24}{R}) = e_a{}^\nu \left[ \nabla_\nu \color{#fbbf24}{R} \nabla^\mu \color{#fbbf24}{R} - \delta_\nu^\mu \color{#fbbf24}{\mathcal{L}_R} \right] + 2\color{#60a5fa}{\alpha} \color{#fbbf24}{R^2} \frac{\delta \color{#60a5fa}{\mathbb{T}}}{\delta e^a{}_\mu}
   \]
   <div class="eq-label">(STUR Energy-Momentum Tensor)</div>
 </div>
@@ -847,12 +843,12 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 <div class="card-grid">
   <div class="card" style="border-left:3px solid var(--tegr)">
     <h4>Geometry → Resistance</h4>
-    <div class="eq">\[\Box_g R + V'(R) = 2\alpha \mathbb{T} R\]</div>
+    <div class="eq">\[\color{#4ade80}{\Box_g} \color{#fbbf24}{R} + \color{#f472b6}{V'(R)} = 2\color{#60a5fa}{\alpha \mathbb{T}} \color{#fbbf24}{R}\]</div>
     <p class="muted" style="font-size:0.85rem">Torsion sources resistance evolution</p>
   </div>
   <div class="card" style="border-left:3px solid var(--stur)">
     <h4>Resistance → Geometry</h4>
-    <div class="eq">\[G_{\mu\nu}^{\rm (TEGR)} = 8\pi G_{\rm eff}\, T_{\mu\nu}^{(R)}\]</div>
+    <div class="eq">\[\color{#60a5fa}{G_{\mu\nu}^{\rm (TEGR)}} = 8\pi G_{\rm eff}\, \color{#22d3ee}{T_{\mu\nu}^{(R)}}\]</div>
     <p class="muted" style="font-size:0.85rem">Resistance gradients source torsion</p>
   </div>
 </div>
@@ -1157,13 +1153,13 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   <section id="sec-equations">
     <h2><span class="section-dot" style="background:var(--accent)"></span> Master Equations Summary</h2>
     <div class="card-grid">
-      <div class="card" style="border-left:3px solid var(--tegr)"><h4>TEGR Metric</h4><div class="eq">\[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]</div></div>
-      <div class="card" style="border-left:3px solid var(--hgem)"><h4>GEM Fields</h4><div class="eq">\[\vec{E}_g = -\nabla\Phi_g - \dot{\vec{A}}_g\]</div></div>
-      <div class="card" style="border-left:3px solid var(--stur)"><h4>STUR PDE</h4><div class="eq">\[\partial_t R=\nabla\!\cdot(D\nabla R)-\nabla R\cdot\Omega+\chi\,\partial_X R+S\]</div></div>
-      <div class="card" style="border-left:3px solid var(--stur)"><h4>Resistance Holonomy</h4><div class="eq">\[\Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \mathsf{J}_a\, dx^a\]</div></div>
-      <div class="card" style="border-left:3px solid var(--stur)"><h4>Visibility Law</h4><div class="eq">\[V = V_0 e^{-\langle\Phi_R^2\rangle/2}\]</div></div>
-      <div class="card" style="border-left:3px solid var(--chrono)"><h4>Chronomagnetic Modulation</h4><div class="eq">\[\mathcal{M}(u) = 1 + \epsilon\cos(2\pi u/\ln\lambda)\]</div></div>
-      <div class="card" style="border-left:3px solid var(--stur)"><h4>Coherence Length</h4><div class="eq">\[\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\]</div></div>
+      <div class="card" style="border-left:3px solid var(--tegr)"><h4>TEGR Metric</h4><div class="eq">\[\color{#fb923c}{g_{\mu\nu}} = \eta_{ab}\, \color{#60a5fa}{e^a{}_\mu}\, \color{#60a5fa}{e^b{}_\nu}\]</div></div>
+      <div class="card" style="border-left:3px solid var(--hgem)"><h4>GEM Fields</h4><div class="eq">\[\color{#60a5fa}{\vec{E}_g} = -\nabla\color{#f472b6}{\Phi_g} - \dot{\color{#60a5fa}{\vec{A}_g}}\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>STUR PDE</h4><div class="eq">\[\partial_t \color{#fbbf24}{R}=\color{#4ade80}{\nabla\!\cdot(D\nabla R)}-\nabla \color{#fbbf24}{R}\cdot\Omega+\color{#fbbf24}{\chi}\,\partial_X \color{#fbbf24}{R}+S\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>Resistance Holonomy</h4><div class="eq">\[\color{#c4b5fd}{\Phi_R(\mathcal{C})} = \color{#c4b5fd}{\oint_{\mathcal{C}}} \color{#fbbf24}{\mathsf{J}_a}\, dx^a\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>Visibility Law</h4><div class="eq">\[\color{#f472b6}{V} = V_0 e^{-\color{#c4b5fd}{\langle\Phi_R^2\rangle}/2}\]</div></div>
+      <div class="card" style="border-left:3px solid var(--chrono)"><h4>Chronomagnetic Modulation</h4><div class="eq">\[\color{#f472b6}{\mathcal{M}(u)} = 1 + \epsilon\cos(2\pi \color{#22d3ee}{u}/\ln\color{#fbbf24}{\lambda})\]</div></div>
+      <div class="card" style="border-left:3px solid var(--stur)"><h4>Coherence Length</h4><div class="eq">\[\color{#22d3ee}{\ell_{\rm coh}} = \sqrt{2}\, \color{#fbbf24}{L_X} / \color{#4ade80}{\sigma_R}\]</div></div>
     </div>
   </section>
 
@@ -1828,5 +1824,42 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 })();
 </script>
 
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+// Citation copy functionality
+(function() {
+  const toast = document.getElementById('toast');
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg || 'Copied to clipboard';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  }
+  
+  const citeBtn = document.getElementById('copyCite');
+  const citation = 'Lindberg, Sheldon Lon (2026). "STUR — Unified Teleparallel Effective Framework," STUR Physics Lab.';
+  
+  if (citeBtn) {
+    citeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(citation);
+        showToast('Citation copied');
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = citation;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Citation copied');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>

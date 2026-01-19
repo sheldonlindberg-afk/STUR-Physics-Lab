@@ -43,39 +43,13 @@
             <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
             <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
             <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
-            <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+            <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
             </a>
         </div>
     </nav>
 </header>
-
-<script>
-function shareRepo() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        const btn = document.querySelector('.glass-share-btn');
-        const original = btn.innerHTML;
-        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
-        btn.style.color = 'var(--neon-green)';
-        setTimeout(() => {
-            btn.innerHTML = original;
-            btn.style.color = '';
-        }, 2000);
-    }).catch(() => {
-        alert('Link: ' + url);
-    });
-}
-
-// Mobile nav toggle
-document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
-    const links = document.querySelector('.glass-nav-links');
-    const expanded = this.getAttribute('aria-expanded') === 'true';
-    this.setAttribute('aria-expanded', !expanded);
-    links.classList.toggle('open');
-});
-</script>
 
 <!-- ============================================================
      PAGE HEADER
@@ -125,13 +99,13 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
-                  \alpha\,(\nabla R)^2
-                  \;-\; V(R)
-                  \;+\; \beta\,(\partial_t X)^2
-                  \;-\; U(X - R)
-                  \;+\; L_{\text{torsion}}
-                  \;+\; L_{\text{matter}}
+                \color{#e2e8f0}{S[R,g,X]} = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\color{#4ade80}{\alpha\,(\nabla R)^2}}_{\text{diffusion}}
+                  \;-\; \underbrace{\color{#f472b6}{V(R)}}_{\text{potential}}
+                  \;+\; \underbrace{\color{#fbbf24}{\beta\,(\partial_t X)^2}}_{\text{XCRM}}
+                  \;-\; \underbrace{\color{#fbbf24}{U(X - R)}}_{\text{coupling}}
+                  \;+\; \underbrace{\color{#60a5fa}{L_{\text{torsion}}}}_{\text{gravity}}
+                  \;+\; \underbrace{\color{#22d3ee}{L_{\text{matter}}}}_{\text{fields}}
                 \Bigr]
                 \]
                 <div class="stur-eq-label">Master Action (v9.2)</div>

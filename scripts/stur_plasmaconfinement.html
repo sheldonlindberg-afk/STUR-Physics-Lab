@@ -30,7 +30,24 @@
         color: #00ffcc;
         max-height: 500px;
       }
-    </style>
+    
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--neon-green, #4ade80);
+  color: var(--bg-abyss, #0a0a0f);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10000;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; }
+</style>
 </head>
 <body>
 
@@ -51,39 +68,13 @@
             <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
             <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
             <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
-            <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+            <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
             </a>
         </div>
     </nav>
 </header>
-
-<script>
-function shareRepo() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        const btn = document.querySelector('.glass-share-btn');
-        const original = btn.innerHTML;
-        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
-        btn.style.color = 'var(--neon-green)';
-        setTimeout(() => {
-            btn.innerHTML = original;
-            btn.style.color = '';
-        }, 2000);
-    }).catch(() => {
-        alert('Link: ' + url);
-    });
-}
-
-// Mobile nav toggle
-document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
-    const links = document.querySelector('.glass-nav-links');
-    const expanded = this.getAttribute('aria-expanded') === 'true';
-    this.setAttribute('aria-expanded', !expanded);
-    links.classList.toggle('open');
-});
-</script>
 
 <!-- ============================================================
      PAGE HEADER
@@ -103,6 +94,11 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
                 <span class="stur-icon icon-target sm"></span>
                 FALSIFIABLE
             </span>
+        </div>
+    
+        <!-- Citation Button -->
+        <div style="margin-top:1rem;">
+            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
         </div>
     </header>
 
@@ -159,7 +155,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
             <div class="stur-eq derived">
                 \[
-                \frac{du^\mu}{d\tau} + \Gamma^\mu_{\alpha\beta} u^\alpha u^\beta = \frac{q}{m} \cdot S(r_{\text{phys}}) \cdot F^\mu{}_\nu u^\nu
+                \frac{d\color{#22d3ee}{u^\mu}}{d\tau} + \color{#60a5fa}{\Gamma^\mu_{\alpha\beta}} \color{#22d3ee}{u^\alpha u^\beta} = \frac{q}{m} \cdot \color{#f472b6}{S(r_{\text{phys}})} \cdot \color{#60a5fa}{F^\mu{}_\nu} \color{#22d3ee}{u^\nu}
                 \]
                 <div class="stur-eq-label">STUR-Modified Lorentz Force</div>
             </div>
@@ -168,8 +164,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
             <div class="stur-eq derived">
                 \[
-                S = \tanh(r_{\text{phys}}/L_0)\cdot\bigl(1 - e^{-r_{\text{phys}}/L_0}\bigr), \quad
-                r_{\text{phys}}^2 \approx (1 - 2\Phi/c^2)(x^2 + y^2 + z^2)
+                \color{#f472b6}{S} = \tanh(\color{#fb923c}{r_{\text{phys}}}/\color{#22d3ee}{L_0})\cdot\bigl(1 - e^{-\color{#fb923c}{r_{\text{phys}}}/\color{#22d3ee}{L_0}}\bigr), \quad
+                \color{#fb923c}{r_{\text{phys}}^2} \approx (1 - 2\color{#f472b6}{\Phi}/c^2)(x^2 + y^2 + z^2)
                 \]
                 <div class="stur-eq-label">Physical Radius with GR Correction</div>
             </div>
@@ -661,5 +657,42 @@ document.getElementById('dlBtn').addEventListener('click', function() {
 });
 </script>
 
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+// Citation copy functionality
+(function() {
+  const toast = document.getElementById('toast');
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg || 'Copied to clipboard';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  }
+  
+  const citeBtn = document.getElementById('copyCite');
+  const citation = 'Lindberg, Sheldon Lon (2026). "Plasma Torus 4D," STUR Physics Lab.';
+  
+  if (citeBtn) {
+    citeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(citation);
+        showToast('Citation copied');
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = citation;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Citation copied');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>

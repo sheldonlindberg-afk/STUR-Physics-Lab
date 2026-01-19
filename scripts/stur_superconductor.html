@@ -52,39 +52,13 @@
             <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
             <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
             <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
-            <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+            <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
             </a>
         </div>
     </nav>
 </header>
-
-<script>
-function shareRepo() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        const btn = document.querySelector('.glass-share-btn');
-        const original = btn.innerHTML;
-        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
-        btn.style.color = 'var(--neon-green)';
-        setTimeout(() => {
-            btn.innerHTML = original;
-            btn.style.color = '';
-        }, 2000);
-    }).catch(() => {
-        alert('Link: ' + url);
-    });
-}
-
-// Mobile nav toggle
-document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
-    const links = document.querySelector('.glass-nav-links');
-    const expanded = this.getAttribute('aria-expanded') === 'true';
-    this.setAttribute('aria-expanded', !expanded);
-    links.classList.toggle('open');
-});
-</script>
 
 <!-- ============================================================
      PAGE HEADER
@@ -113,6 +87,11 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
                 See <a href="stur_foundations.html#appE" style="color:#fbbf24;">Appendix E.4</a> for limitations.
                 Results should be interpreted as exploratory fitting, not falsifiable predictions.
             </p>
+        </div>
+
+        <!-- Citation Button -->
+        <div style="margin-top:1rem;">
+            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
         </div>
     </header>
 
@@ -530,6 +509,31 @@ document.getElementById("exportJSON").onclick = function() {
     if (!LAST) return STUR.toast("No data", "warning");
     STUR.exportJSON({...LAST, meta: {page: "holoscreen-ats", version: "v9.2"}}, `holoscreen-ats-${Date.now()}.json`);
 };
+
+// Citation copy functionality
+(function() {
+  const citeBtn = document.getElementById('copyCite');
+  const citation = 'Lindberg, Sheldon Lon (2026). "Holoscreen ATS Discovery," STUR Physics Lab.';
+
+  if (citeBtn) {
+    citeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(citation);
+        STUR.toast('Citation copied', 'success');
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = citation;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        STUR.toast('Citation copied', 'success');
+      }
+    });
+  }
+})();
 </script>
 
 </body>

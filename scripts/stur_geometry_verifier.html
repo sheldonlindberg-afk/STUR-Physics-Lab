@@ -13,8 +13,7 @@
 
 <style>
 /* Page-specific overrides - inherits from stur-core.css */
-body{padding:20px;}
-.container{max-width:1200px;margin:0 auto}
+.container{max-width:1200px;margin:0 auto;padding:0 20px;box-sizing:border-box;overflow-x:hidden;}
 h1{font-size:28px;margin-bottom:8px;color:var(--neon-cyan);font-weight:800}
 .subtitle{color:var(--text-muted);font-size:13px;margin-bottom:24px;line-height:1.5}
 .card{background:var(--bg-panel-2);border:1px solid var(--border-dim);border-radius:12px;padding:20px;margin-bottom:16px}
@@ -51,8 +50,8 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .row{display:flex;gap:12px;flex-wrap:wrap}
 .smallmono{font-family:var(--font-mono);font-size:12px;color:var(--text-muted)}
 canvas{
-  width:100%;border-radius:8px;background:rgba(0,0,0,.3);
-  border:1px solid var(--border-dim);display:block;margin-top:12px
+  width:100%;max-width:100%;height:auto;min-height:200px;border-radius:8px;background:rgba(0,0,0,.3);
+  border:1px solid var(--border-dim);display:block;margin-top:12px;box-sizing:border-box;
 }
 .validation-box{
   padding:12px;border-radius:8px;margin-top:12px;font-family:var(--font-mono);font-size:12px;
@@ -77,6 +76,23 @@ canvas{
   .controls{grid-template-columns:1fr}
   .metrics{grid-template-columns:1fr}
 }
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--neon-green, #4ade80);
+  color: var(--bg-abyss, #0a0a0f);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10000;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; }
 </style>
 </head>
 
@@ -99,7 +115,7 @@ canvas{
             <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
             <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
             <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
-            <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+            <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
             </button>
@@ -107,34 +123,9 @@ canvas{
     </nav>
 </header>
 
-<script>
-function shareRepo() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        const btn = document.querySelector('.glass-share-btn');
-        const original = btn.innerHTML;
-        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
-        btn.style.color = 'var(--neon-green)';
-        setTimeout(() => {
-            btn.innerHTML = original;
-            btn.style.color = '';
-        }, 2000);
-    }).catch(() => {
-        alert('Link: ' + url);
-    });
-}
-
-// Mobile nav toggle
-document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
-    const links = document.querySelector('.glass-nav-links');
-    const expanded = this.getAttribute('aria-expanded') === 'true';
-    this.setAttribute('aria-expanded', !expanded);
-    links.classList.toggle('open');
-});
-</script>
-
+<main class="stur-container">
 <div class="container">
-<header>
+<header style="text-align:center; margin-bottom:2rem; padding-top:1rem;">
   <h1>Holoscreen — Unified Falsification Laboratory</h1>
   <div class="subtitle">
     Boundary-calibrated gauge-invariant formulation with QED recovery validation. Real-time PDE coupling
@@ -150,7 +141,12 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
     <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
   </div>
-</header>
+
+        <!-- Citation Button -->
+        <div style="margin-top:1rem;">
+            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+        </div>
+    </header>
 
 <!-- MASTER CONTROL -->
 
@@ -197,7 +193,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 <div class="card">
   <div class="card-title">🎯 Infall Probe — 3D Radial Visualization</div>
   <canvas id="infallCanvas" width="420" height="420"
-          style="background:radial-gradient(circle at center, #020617 0%, #000 70%);border-radius:50%;">
+          style="background:radial-gradient(circle at center, #020617 0%, #000 70%);border-radius:50%;max-width:420px;margin:0 auto;">
   </canvas>
   <div class="smallmono" style="text-align:center;margin-top:8px">
     Probe infall toward Schwarzschild horizon • Γ controls radial depth • Redshift dimming + causal fade
@@ -411,17 +407,14 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
       </select>
     </div>
 
-```
-<div>
-  <label for="expSteps">Steps</label>
-  <input type="number" id="expSteps" value="30" min="10" max="200" />
-</div>
-
-<div>
-  <label for="expGamma">Fixed Γ (if applicable)</label>
-  <input type="number" id="expGamma" value="0.35" min="0" max="0.6" step="0.01" />
-</div>
-```
+    <div>
+      <label for="expSteps">Steps</label>
+      <input type="number" id="expSteps" value="30" min="10" max="200" />
+    </div>
+    <div>
+      <label for="expGamma">Fixed Γ (if applicable)</label>
+      <input type="number" id="expGamma" value="0.35" min="0" max="0.6" step="0.01" />
+    </div>
 
   </div>
 
@@ -450,6 +443,20 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 </div>
 
 </div>
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_sandbox.html">Sandbox</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
 
 <script>
 /* ================================================================
@@ -1256,5 +1263,42 @@ setInterval(()=>{
 }, 50);
 </script>
 
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+// Citation copy functionality
+(function() {
+  const toast = document.getElementById('toast');
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg || 'Copied to clipboard';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  }
+  
+  const citeBtn = document.getElementById('copyCite');
+  const citation = 'Lindberg, Sheldon Lon (2026). "Holoscreen — Unified Falsification Laboratory," STUR Physics Lab.';
+  
+  if (citeBtn) {
+    citeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(citation);
+        showToast('Citation copied');
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = citation;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Citation copied');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>

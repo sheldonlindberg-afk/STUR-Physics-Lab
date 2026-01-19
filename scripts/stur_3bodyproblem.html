@@ -30,7 +30,24 @@
         color: #00ffcc;
         max-height: 500px;
       }
-    </style>
+    
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--neon-green, #4ade80);
+  color: var(--bg-abyss, #0a0a0f);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10000;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; }
+</style>
 </head>
 <body>
 
@@ -51,39 +68,13 @@
             <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
             <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
             <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
-            <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+            <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
             </a>
         </div>
     </nav>
 </header>
-
-<script>
-function shareRepo() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        const btn = document.querySelector('.glass-share-btn');
-        const original = btn.innerHTML;
-        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
-        btn.style.color = 'var(--neon-green)';
-        setTimeout(() => {
-            btn.innerHTML = original;
-            btn.style.color = '';
-        }, 2000);
-    }).catch(() => {
-        alert('Link: ' + url);
-    });
-}
-
-// Mobile nav toggle
-document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
-    const links = document.querySelector('.glass-nav-links');
-    const expanded = this.getAttribute('aria-expanded') === 'true';
-    this.setAttribute('aria-expanded', !expanded);
-    links.classList.toggle('open');
-});
-</script>
 
 <!-- ============================================================
      PAGE HEADER
@@ -103,6 +94,11 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
                 <span class="stur-icon icon-target sm"></span>
                 FALSIFIABLE
             </span>
+        </div>
+    
+        <!-- Citation Button -->
+        <div style="margin-top:1rem;">
+            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
         </div>
     </header>
 
@@ -160,8 +156,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
             <div class="stur-eq derived">
                 \[
-                V_{ij}(r) = -\frac{G m_i m_j \cdot S(r)}{r}, \quad
-                S(r) = \tanh(r/L_0)\cdot(1 - e^{-r/L_0})
+                \color{#f472b6}{V_{ij}(r)} = -\frac{\color{#60a5fa}{G} m_i m_j \cdot \color{#f472b6}{S(r)}}{\color{#fb923c}{r}}, \quad
+                \color{#f472b6}{S(r)} = \tanh(\color{#fb923c}{r}/\color{#22d3ee}{L_0})\cdot(1 - e^{-\color{#fb923c}{r}/\color{#22d3ee}{L_0}})
                 \]
                 <div class="stur-eq-label">STUR-Modified Gravitational Potential (Eq. E.4)</div>
             </div>
@@ -170,7 +166,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
             <div class="stur-eq derived">
                 \[
-                \mathbf{a}_i = -\sum_{j \neq i} G m_j \frac{d}{dr}\!\left[\frac{S(r)}{r}\right] \frac{\mathbf{r}_{ij}}{r}
+                \color{#4ade80}{\mathbf{a}_i} = -\sum_{j \neq i} \color{#60a5fa}{G} m_j \frac{d}{d\color{#fb923c}{r}}\!\left[\frac{\color{#f472b6}{S(r)}}{\color{#fb923c}{r}}\right] \frac{\mathbf{r}_{ij}}{\color{#fb923c}{r}}
                 \]
                 <div class="stur-eq-label">STUR Gravitational Acceleration</div>
             </div>
@@ -614,5 +610,42 @@ document.getElementById('dlBtn').addEventListener('click', function() {
 });
 </script>
 
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+// Citation copy functionality
+(function() {
+  const toast = document.getElementById('toast');
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg || 'Copied to clipboard';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  }
+  
+  const citeBtn = document.getElementById('copyCite');
+  const citation = 'Lindberg, Sheldon Lon (2026). "3-Body RK4 Orbit," STUR Physics Lab.';
+  
+  if (citeBtn) {
+    citeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(citation);
+        showToast('Citation copied');
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = citation;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Citation copied');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
