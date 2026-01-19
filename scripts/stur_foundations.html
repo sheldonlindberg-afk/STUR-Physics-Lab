@@ -172,57 +172,130 @@ a:hover { color: var(--accent-secondary); }
 .badge .dot.success { background: var(--success); }
 .badge .dot.warning { background: var(--warning); }
 
-.toolbar {
+/* Quick Links - cleaner than buttons */
+.quick-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.6rem 1rem;
   justify-content: center;
   margin-top: 1.25rem;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: linear-gradient(180deg, rgba(10,10,15,.96), rgba(10,10,15,.85));
-  padding: 0.6rem 0.4rem;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border-radius: 0 0 12px 12px;
-  pointer-events: auto;
+  font-size: 0.88rem;
 }
 
-/* Prevent sticky toolbar from blocking taps on mobile */
-.toolbar + .section,
+.quick-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.quick-links a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.quick-links a.primary {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* Scroll margin for sections */
 .section {
-  scroll-margin-top: 72px;
+  scroll-margin-top: 80px;
 }
 
-.btn {
+/* Physics Domain Color Legend - Sticky */
+.physics-legend {
+  position: sticky;
+  top: 60px;
+  z-index: 50;
+  background: linear-gradient(180deg, rgba(5, 10, 20, 0.98), rgba(5, 10, 20, 0.95));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin: 1rem 0 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.physics-legend-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+.physics-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.physics-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.physics-legend-dot.diffusion { background: #4ade80; box-shadow: 0 0 8px rgba(74, 222, 128, 0.5); }
+.physics-legend-dot.potential { background: #f472b6; box-shadow: 0 0 8px rgba(244, 114, 182, 0.5); }
+.physics-legend-dot.xcrm { background: #fbbf24; box-shadow: 0 0 8px rgba(251, 191, 36, 0.5); }
+.physics-legend-dot.torsion { background: #60a5fa; box-shadow: 0 0 8px rgba(96, 165, 250, 0.5); }
+.physics-legend-dot.quantum { background: #a78bfa; box-shadow: 0 0 8px rgba(167, 139, 250, 0.5); }
+.physics-legend-dot.matter { background: #22d3ee; box-shadow: 0 0 8px rgba(34, 211, 238, 0.5); }
+
+@media (max-width: 600px) {
+  .physics-legend {
+    position: relative;
+    top: 0;
+    gap: 0.4rem 1rem;
+    padding: 0.6rem 0.75rem;
+  }
+  .physics-legend-title {
+    margin-bottom: 0.15rem;
+  }
+  .physics-legend-item {
+    font-size: 0.75rem;
+  }
+  .physics-legend-dot {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* Minimal button for citations */
+.cite-btn {
   appearance: none;
   border: 1px solid var(--border-strong);
   background: rgba(255, 255, 255, 0.03);
-  color: var(--text);
-  padding: 0.7rem 1.1rem;
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
   border-radius: 999px;
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
-  min-height: 44px;
-  min-width: 44px;
+  min-height: 40px;
 }
 
-.btn:hover {
-  border-color: var(--accent);
-  background: rgba(74, 158, 255, 0.08);
-}
-
-.btn.primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--bg);
-}
-
-.btn.primary:hover {
-  background: #5ba8ff;
+.cite-btn:hover {
+  border-color: var(--gold);
+  background: rgba(251, 191, 36, 0.08);
+  color: var(--gold);
 }
 
 /* Range inputs (touch-friendly) */
@@ -490,11 +563,13 @@ tr:hover td { background: rgba(255, 255, 255, 0.02); }
   .section { box-shadow: none; break-inside: avoid; border: 1px solid #ccc; }
   .eq { background: #f8f8f8; }
   .masthead h1 { -webkit-text-fill-color: #000; }
-  .toolbar, #hsToggleView, #hsToggleDiff, #hsPrint { display: none; }
+  .quick-links, .physics-legend, #hsToggleView, #hsToggleDiff, #hsPrint { display: none; }
   #hsPrintSummary { display: block !important; background: #f8f8f8; color: #000; border: 1px solid #ccc; }
   #hsPrintSummary h3 { color: #000; }
   #hsPrintSummary ul { color: #333; }
   canvas { max-height: 320px; }
+  /* Print equation colors as black */
+  .eq-diffusion, .eq-potential, .eq-xcrm, .eq-torsion, .eq-quantum, .eq-matter { color: #000; }
 }
 
 /* Inline code */
@@ -615,13 +690,44 @@ code {
   <h1 class="page-title-core">Foundations of STUR</h1>
   <p class="subtitle">Teleparallel Substrate Tests via Interferometric Holonomy</p>
   <p class="author-line" style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
-  <div class="toolbar">
-    <button class="btn" data-jump="#abstract">Abstract</button>
-    <button class="btn" data-jump="#sec9">Prediction</button>
-    <button class="btn" data-jump="#sec12">Falsification</button>
-    <button class="btn primary" id="copyCite">Copy Citation</button>
-  </div>
+  <nav class="quick-links">
+    <a href="#master-action" class="primary">Master Action</a>
+    <a href="#abstract">Abstract</a>
+    <a href="#sec9">Prediction</a>
+    <a href="#sec12">Falsification</a>
+    <a href="#contents">Contents</a>
+    <button class="cite-btn" id="copyCite">Copy Citation</button>
+  </nav>
 </header>
+
+<!-- Physics Domain Color Legend -->
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code — Physics Domains</div>
+  <div class="physics-legend-item">
+    <span class="physics-legend-dot diffusion"></span>
+    <span><span class="eq-diffusion">Diffusion</span> — Kinetic</span>
+  </div>
+  <div class="physics-legend-item">
+    <span class="physics-legend-dot potential"></span>
+    <span><span class="eq-potential">Potential</span> — Relaxation</span>
+  </div>
+  <div class="physics-legend-item">
+    <span class="physics-legend-dot xcrm"></span>
+    <span><span class="eq-xcrm">XCRM</span> — X-Coupling</span>
+  </div>
+  <div class="physics-legend-item">
+    <span class="physics-legend-dot torsion"></span>
+    <span><span class="eq-torsion">Torsion</span> — Gravity</span>
+  </div>
+  <div class="physics-legend-item">
+    <span class="physics-legend-dot quantum"></span>
+    <span><span class="eq-quantum">Quantum</span> — Phase</span>
+  </div>
+  <div class="physics-legend-item">
+    <span class="physics-legend-dot matter"></span>
+    <span><span class="eq-matter">Matter</span> — Fields</span>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════
      ABSTRACT
@@ -741,15 +847,6 @@ code {
       <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Torsion Source</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\alpha R \mathbb{T}\) — Teleparallel gravity coupling</div>
     </div>
-  </div>
-
-  <!-- Equation Color Legend -->
-  <div class="eq-legend" style="margin-top:1rem;">
-    <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
   </div>
 
   <h3 style="color:var(--accent-secondary);margin-top:1.5rem;">Quantum Regime: The Semi-Classical Expansion</h3>
@@ -5098,31 +5195,36 @@ code {
 <script>
 (function() {
   const toast = document.getElementById('toast');
-  
+
   function showToast(msg) {
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
   }
-  
-  // Jump buttons
-  document.querySelectorAll('[data-jump]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const el = document.querySelector(btn.getAttribute('data-jump'));
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Smooth scroll for quick-links (anchor tags)
+  document.querySelectorAll('.quick-links a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const targetId = link.getAttribute('href');
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
   });
-  
+
   // Copy citation
   const citeBtn = document.getElementById('copyCite');
   const citation = `Lindberg, Sheldon Lon (2026). "Foundations of STUR: Teleparallel Substrate Tests via Interferometric Holonomy," v9.2.`;
-  
+
   if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
+    citeBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
       try {
         await navigator.clipboard.writeText(citation);
         showToast('Citation copied');
-      } catch (e) {
+      } catch (err) {
         const ta = document.createElement('textarea');
         ta.value = citation;
         ta.style.position = 'fixed';
