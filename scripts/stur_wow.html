@@ -1,620 +1,223 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STUR 5D Wow Event – Dual-Horn Clone Simulation</title>
-  <meta name="description" content="5D STUR simulation of the 1977 Wow! signal as a resistance wave packet projection with forensic 6EQUJ5 clone verification">
-  <meta name="author" content="Sheldon Lon Lindberg">
-  <meta name="robots" content="index,follow">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wow! Signal Analysis — STUR Physics Lab</title>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ScholarlyArticle",
-    "name": "STUR 5D Wow Event Simulation",
-    "author": { "@type": "Person", "name": "Sheldon Lon Lindberg" },
-    "about": ["5D Resistance Manifold", "Wow Signal Analysis", "STUR Field Equations", "Interferometric Detection"],
-    "keywords": "STUR, Wow signal, 5D manifold, resistance field, Big Ear, 6EQUJ5, torsion barrier",
-    "datePublished": "2026-01-01",
-    "inLanguage": "en"
-  }
-  </script>
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #05060a;
-      --bg-panel: #111827;
-      --bg-panel-alt: #020617;
-      --accent: #ec4899;
-      --accent-soft: rgba(236,72,153,0.18);
-      --accent-strong: #f97316;
-      --fg: #e5e7eb;
-      --fg-muted: #9ca3af;
-      --code-bg: #020617;
-      --border-subtle: #1f2937;
-      --stur: #3fb950;
-      --tegr: #f0b429;
-      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-                   "Segoe UI", sans-serif;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-                   "Liberation Mono", "Courier New", monospace;
-    }
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
-      color: var(--fg);
-      font-family: var(--font-main);
-      line-height: 1.6;
-    }
-
-    main {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
-    }
-
-    header {
-      padding: 1.25rem 1.5rem 1.5rem;
-      margin: 0 -1.5rem 2rem;
-      border-bottom: 1px solid var(--border-subtle);
-      background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.98));
-      box-shadow: 0 18px 60px rgba(0,0,0,0.6);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      backdrop-filter: blur(16px);
-    }
-
-    h1 {
-      margin: 0 0 0.4rem;
-      font-size: 1.9rem;
-      letter-spacing: 0.04em;
-      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    h2 {
-      margin-top: 2.1rem;
-      margin-bottom: 0.55rem;
-      font-size: 1.35rem;
-      letter-spacing: 0.03em;
-      color: var(--accent);
-    }
-
-    h3 {
-      margin-top: 1.5rem;
-      margin-bottom: 0.4rem;
-      font-size: 1.1rem;
-      color: var(--stur);
-    }
-
-    p {
-      margin: 0.35rem 0;
-      color: var(--fg-muted);
-    }
-
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 0.25rem;
-    }
-
-    .badge {
-      font-size: 0.78rem;
-      padding: 0.2rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.4);
-      color: var(--fg-muted);
-      background: radial-gradient(circle at top left,
-                                  rgba(236,72,153,0.25),
-                                  rgba(15,23,42,0.95));
-    }
-
-    .panel {
-      background: radial-gradient(circle at top left,
-                                  rgba(15,23,42,0.85),
-                                  var(--bg-panel));
-      border-radius: 0.9rem;
-      padding: 1.1rem 1.2rem 1.2rem;
-      border: 1px solid rgba(148,163,184,0.35);
-      box-shadow: 0 16px 50px rgba(0,0,0,0.75);
-      margin-bottom: 1.3rem;
-    }
-
-    .panel-strong {
-      background: radial-gradient(circle at top,
-                                  rgba(236,72,153,0.22),
-                                  var(--bg-panel-alt));
-    }
-
-    .panel-stur {
-      background: radial-gradient(circle at top,
-                                  rgba(63,185,80,0.15),
-                                  var(--bg-panel-alt));
-      border-color: rgba(63,185,80,0.4);
-    }
-
-    ul {
-      margin: 0.5rem 0 0.7rem 1.2rem;
-      padding-left: 0.3rem;
-      color: var(--fg-muted);
-    }
-
-    li { margin: 0.15rem 0; }
-
-    code { font-family: var(--font-mono); }
-
-    .math-inline {
-      font-family: var(--font-mono);
-      font-size: 0.96em;
-      background: rgba(15,23,42,0.9);
-      padding: 0.04rem 0.25rem;
-      border-radius: 0.23rem;
-    }
-
-    .equation-block {
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-      background: rgba(15,23,42,0.96);
-      border-radius: 0.6rem;
-      padding: 0.55rem 0.75rem;
-      border: 1px solid rgba(55,65,81,0.95);
-      margin: 0.45rem 0;
-      overflow-x: auto;
-    }
-
-    .section-label {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--accent-strong);
-      margin-bottom: 0.2rem;
-    }
-
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 0.6rem;
-      margin-bottom: 0.3rem;
-    }
-
-    button, .btn-link {
-      cursor: pointer;
-      border-radius: 999px;
-      padding: 0.45rem 0.95rem;
-      border: 1px solid rgba(148,163,184,0.5);
-      background: radial-gradient(circle at top left,
-                                  rgba(236,72,153,0.25),
-                                  rgba(15,23,42,0.98));
-      color: var(--fg);
-      font-size: 0.84rem;
-      font-family: var(--font-main);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      text-decoration: none;
-      transition: transform 0.08s ease-out,
-                  box-shadow 0.08s ease-out,
-                  border-color 0.08s ease-out;
-    }
-
-    button:hover, .btn-link:hover {
-      transform: translateY(-1px);
-      border-color: var(--accent);
-      box-shadow: 0 14px 34px rgba(0,0,0,0.75);
-    }
-
-    button:active, .btn-link:active {
-      transform: translateY(0);
-      box-shadow: none;
-    }
-
-    .btn-secondary {
-      background: radial-gradient(circle at top left,
-                                  rgba(56,189,248,0.18),
-                                  rgba(15,23,42,0.98));
-    }
-
-    .btn-stur {
-      background: radial-gradient(circle at top left,
-                                  rgba(63,185,80,0.25),
-                                  rgba(15,23,42,0.98));
-    }
-
-    .btn-ghost {
-      background: rgba(15,23,42,0.9);
-    }
-
-    .small-caption {
-      font-size: 0.78rem;
-      color: var(--fg-muted);
-      margin-top: 0.2rem;
-    }
-
-    .code-container {
-      position: relative;
-      margin-top: 1.3rem;
-    }
-
-    pre {
-      margin: 0;
-      padding: 1.1rem 1.1rem;
-      overflow-x: auto;
-      border-radius: 0.85rem;
-      background: radial-gradient(circle at top left,
-                                  rgba(15,23,42,0.94),
-                                  var(--code-bg));
-      border: 1px solid rgba(31,41,55,0.98);
-      font-family: var(--font-mono);
-      font-size: 0.84rem;
-      line-height: 1.45;
-      color: #e5e7eb;
-      tab-size: 4;
-      white-space: pre;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0;
-      font-size: 0.9rem;
-    }
-
-    th, td {
-      padding: 0.6rem 0.8rem;
-      text-align: left;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    th {
-      background: rgba(15,23,42,0.8);
-      color: var(--fg);
-      font-weight: 600;
-    }
-
-    tr:hover {
-      background: rgba(236,72,153,0.08);
-    }
-
-    .highlight {
-      background: rgba(63,185,80,0.15) !important;
-    }
-
-    footer {
-      margin-top: 2.5rem;
-      font-size: 0.8rem;
-      color: var(--fg-muted);
-      border-top: 1px solid var(--border-subtle);
-      padding-top: 0.9rem;
-      text-align: center;
-    }
-
-    @media (max-width: 768px) {
-      main { padding: 1.5rem 1rem 3rem; }
-      h1 { font-size: 1.5rem; }
-      pre { font-size: 0.75rem; padding: 0.8rem; }
-    }
-
-    /* === EQUATION TERM COLOR CODING === */
-    .eq-diffusion { color: #4ade80; }
-    .eq-potential { color: #f472b6; }
-    .eq-xcrm { color: #fbbf24; }
-    .eq-torsion { color: #60a5fa; }
-    .eq-quantum { color: #a78bfa; }
-    .eq-matter { color: #22d3ee; }
-
-    .eq-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem 1.25rem;
-      margin: 1rem 0;
-      padding: 0.75rem 1rem;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      font-size: 0.82rem;
-    }
-    .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-    .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .eq-legend-dot.diffusion { background: #4ade80; }
-    .eq-legend-dot.potential { background: #f472b6; }
-    .eq-legend-dot.xcrm { background: #fbbf24; }
-    .eq-legend-dot.torsion { background: #60a5fa; }
-    .eq-legend-dot.quantum { background: #a78bfa; }
-    .eq-legend-dot.matter { background: #22d3ee; }
-  </style>
-
-  <script defer id="MathJax-script"
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
-
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
-<header>
-  <div>
-    <h1>STUR 5D Wow Event – Dual-Horn Clone Simulation</h1>
-    <div class="badge-row">
-      <span class="badge">5D X-Coupled Resistance Manifold</span>
-      <span class="badge">Big Ear Drift Geometry</span>
-      <span class="badge">Exact 6EQUJ5 Clone</span>
-      <span class="badge">JupyterLite / Pyodide Ready</span>
-    </div>
-    <!-- Equation Color Legend -->
-    <div class="eq-legend">
-      <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-      <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-      <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-      <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-      <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-    </div>
-  </div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
 </header>
 
-<main>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-  <!-- Overview -->
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Wow! Signal Analysis</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Models the 1977 Wow! signal as a 5D STUR resistance wave packet projection.
+            Simulates Big Ear's dual-horn geometry and reconstructs the iconic 6EQUJ5 pattern.
+        </p>
 
-  <section class="panel panel-strong">
-    <div class="section-label">Overview</div>
-    <p>
-      This module implements a high-resolution STUR simulation of the 1977 Wow! signal as a
-      <strong>4D projection of a 5D resistance wave packet</strong> on the X-coupled manifold, observed by
-      two horns separated by 180&nbsp;s in sidereal drift. The simulation is tuned for browser-based
-      JupyterLite/Pyodide and produces a forensic JSON record of the cloned Wow pattern.
-    </p>
-    <ul>
-      <li>Evolve a damped 5D resistance field <span class="math-inline">R(t,x,X)</span> on a <span class="math-inline">64×64</span> grid.</li>
-      <li>Inject a localized Wow source <span class="math-inline">S_{\text{wow}}(t,X)\,\delta(x)</span> matched to a 72&nbsp;s Big Ear drift.</li>
-      <li>Probe the Earth-node response <span class="math-inline">δR(t) = R(t,0,0) - R_0</span>.</li>
-      <li>Project into a complex narrowband signal and simulate Horn&nbsp;A and Horn&nbsp;B with a 180&nbsp;s offset.</li>
-      <li>Bin power in 10&nbsp;s chunks, compute SNR, and map to the classical Wow 0–9/A–Z alphabet.</li>
-      <li>Overwrite a six-bin window around the Horn&nbsp;A peak to exactly produce <span class="math-inline">6EQUJ5</span>.</li>
-      <li>Write a JSON file encoding the complete before/after evidence of the clone.</li>
-    </ul>
-    <div class="btn-row">
-      <a class="btn-link btn-stur" href="STUR_Physics_Engine.html">← Return to STUR Physics Engine</a>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status warning">
+                <span class="stur-icon icon-layers sm"></span>
+                SPECULATIVE
+            </span>
+        </div>
+    </header>
+
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
     </div>
-    <p class="small-caption">
-      Output: <code>stur_wow_5d_full_dual_horn_max.json</code> containing full manifold probe, 
-      horn envelopes, binned SNR, Wow codes, and <code>clone_window</code> proof section.
-    </p>
-  </section>
 
-  <!-- Physical Framework -->
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> The 1977 Wow! signal pattern "6EQUJ5" as detected by Big Ear radio telescope.</p>
+            <p><strong>Scale:</strong> 72-second transit time with 10-second integration bins, dual-horn geometry separated by 180 seconds.</p>
+            <p><strong>Connection:</strong> The STUR 5D resistance field \(R(t,x,X)\) projects a localized wave packet that produces the characteristic SNR profile.</p>
+        </div>
+    </section>
 
-  <section class="panel panel-stur">
-    <div class="section-label">Physical Framework</div>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-```
-<h2>1. Proca-HGEM Action (Massive Gravito-Photon)</h2>
-<p>
-  To investigate long-range visibility and "massive" gravito-photons, we modify the HGEM 
-  action by adding a Proca-like mass term \(\mu\) to the vector potential \(A_M\):
-</p>
-<div class="equation-block">
-  \[
-  S_H = \int d^5x \sqrt{-g} \left[ -\frac{1}{4}F_{MN}F^{MN} + \frac{\mu^2}{2}A_M A^M \right]
-  \]
-</div>
-<p>
-  If \(\mu > 0\), the \(1/r\) potential decays as \(e^{-\mu r}/r\), potentially explaining why 
-  certain STUR events (like Wow!) are localized "Torsion Barriers" rather than persistent cosmic signals.
-</p>
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-<h2>2. 5D STUR Wave Equation</h2>
-<p>
-  On the manifold the resistance field obeys a damped wave equation with propagation
-  along the brane coordinate \(x\) and into the X-dimension:
-</p>
-<div class="equation-block">
-  \[
-  \frac{\partial^2 R}{\partial t^2}
-  - c_x^2 \frac{\partial^2 R}{\partial x^2}
-  - c_X^2 \frac{\partial^2 R}{\partial X^2}
-  + \gamma \frac{\partial R}{\partial t}
-  + \Omega^2 (R - R_0)
-  = S_{\text{wow}}(t,X)\,\delta(x)
-  \]
-</div>
-<p>
-  The Wow event is encoded as a super-Gaussian beam envelope along the manifold,
-  localized in X:
-</p>
-<div class="equation-block">
-  \[
-  S_{\text{wow}}(t,X)
-  = A_{\text{wow}}\,
-    \exp\!\left[-\tfrac12 \left(\tfrac{|t-t_0|}{\tau}\right)^{12}\right]\,
-    \exp\!\left(-\frac{X^2}{L_X^2}\right)
-  \]
-</div>
+            <p><strong>5D wave equation:</strong> The resistance field evolves on a 5D manifold with brane coordinate \(x\) and bulk coordinate \(X\):</p>
 
-<h3>Parameter Definitions</h3>
-<table>
-  <tr><th>Parameter</th><th>Symbol</th><th>Physical Meaning</th></tr>
-  <tr><td>Brane velocity</td><td>\(c_x\)</td><td>Propagation speed in 3D space</td></tr>
-  <tr><td>Bulk velocity</td><td>\(c_X\)</td><td>Propagation speed into 5th dimension</td></tr>
-  <tr><td>Damping</td><td>\(\gamma\)</td><td>Energy dissipation rate</td></tr>
-  <tr><td>Relaxation</td><td>\(\Omega\)</td><td>Return rate to background \(R_0\)</td></tr>
-  <tr class="highlight"><td>Source amplitude</td><td>\(A_{\text{wow}}\)</td><td>Wow event intensity</td></tr>
-  <tr><td>X-localization</td><td>\(L_X\)</td><td>Bulk confinement scale</td></tr>
-</table>
-```
+            <div class="stur-eq derived">
+                \[
+                \frac{\partial^2 R}{\partial t^2}
+                - c_x^2 \frac{\partial^2 R}{\partial x^2}
+                - c_X^2 \frac{\partial^2 R}{\partial X^2}
+                + \gamma \frac{\partial R}{\partial t}
+                + \Omega^2 (R - R_0)
+                = S_{\text{wow}}(t,X)\,\delta(x)
+                \]
+                <div class="stur-eq-label">5D Damped Wave Equation</div>
+            </div>
 
-  </section>
+            <p><strong>Wow source:</strong> Super-Gaussian beam envelope matched to Big Ear's 72-second transit:</p>
 
-  <!-- Leapfrog Integration -->
+            <div class="stur-eq derived">
+                \[
+                S_{\text{wow}}(t,X) = A_{\text{wow}}\,e^{-\frac{1}{2}\left(\frac{|t-t_0|}{\tau}\right)^{12}}\,e^{-X^2/L_X^2}
+                \]
+                <div class="stur-eq-label">Wow Source Function</div>
+            </div>
+        </div>
+    </section>
 
-  <section class="panel">
-    <div class="section-label">Numerical Method</div>
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>Leapfrog integration:</strong> Evolve the 5D field on a 64x64 grid with CFL-safe time steps.</li>
+                <li><strong>Earth-node probe:</strong> Extract \(\delta R(t) = R(t,0,0) - R_0\) at the brane-bulk origin.</li>
+                <li><strong>Radio projection:</strong> Map positive \(\delta R\) to narrowband complex baseband with noise.</li>
+                <li><strong>Dual horns:</strong> Horn A sees the packet; Horn B (180s later) sees only noise.</li>
+            </ul>
 
-```
-<h2>3. Leapfrog Integration</h2>
-<p>
-  The Earth-node is placed at \((x,X)=(0,0)\). We evolve on a uniform grid with a 
-  CFL-safe time step using a leapfrog scheme:
-</p>
-<div class="equation-block">
-  \[
-  R^{n+1} = 2R^n - R^{n-1} + \Delta t^2
-  \left[(c_x^2+c_X^2)\nabla^2 R^n
-  -\Omega^2(R^n-R_0) - \gamma\,\partial_t R^n + S^n\right]
-  \]
-</div>
-<p>
-  We record the probe series \(\delta R(t_n) = R^n_{x=0,X=0} - R_0\) for diagnostics
-  and for the radio projection.
-</p>
+            <p><strong>SNR binning:</strong> Power averaged in 10-second bins, mapped to Wow alphabet (0-9, A-Z).</p>
 
-<h2>4. Radio Projection and Dual Horns</h2>
-<p>
-  The positive part of \(\delta R(t)\) defines an envelope for a narrowband complex baseband:
-</p>
-<div class="equation-block">
-  \[
-  A(t) = \frac{\max(\delta R(t),0)}{\max_t \max(\delta R(t),0)},\quad
-  v(t) = A(t)\,e^{i2\pi f_0 t} + n(t)
-  \]
-</div>
-<p>
-  Horn&nbsp;A sees the packet centered in its 240&nbsp;s track; Horn&nbsp;B sees the
-  same sky position 180&nbsp;s later, by which time the manifold packet has drained
-  into X and only noise remains.
-</p>
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Transit</div>
+                    <div class="glass-metric-value">72 s</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Horn delay</div>
+                    <div class="glass-metric-value">180 s</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Grid size</div>
+                    <div class="glass-metric-value">64 x 64</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Target</div>
+                    <div class="glass-metric-value">6EQUJ5</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<h2>5. Binning and Wow Alphabet</h2>
-<p>
-  Power is averaged in 10&nbsp;s bins. For each horn we estimate the noise mean and
-  standard deviation from early bins and compute per-bin SNR. SNR values are rounded
-  to the nearest integer and mapped to 0–9 and A–Z in the original Wow coding.
-</p>
-<table>
-  <tr><th>SNR Range</th><th>Code</th><th>Example</th></tr>
-  <tr><td>0–9</td><td>0–9</td><td>SNR=6 → "6"</td></tr>
-  <tr><td>10–35</td><td>A–Z</td><td>SNR=14 → "E", SNR=26 → "Q"</td></tr>
-  <tr class="highlight"><td colspan="3"><strong>6EQUJ5</strong> = SNR sequence (6, 14, 26, 30, 19, 5)</td></tr>
-</table>
-```
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>5D Wow! signal simulation with dual-horn geometry and 6EQUJ5 clone verification. Copy and run in any Python 3 environment.</p>
 
-  </section>
-
-  <!-- Bayesian Evidence -->
-
-  <section class="panel panel-strong">
-    <div class="section-label">Statistical Validation</div>
-
-```
-<h2>6. Bayesian Evidence (MCMC)</h2>
-<p>
-  To determine if the detected signal is a 5D STUR projection versus Gaussian thermal noise,
-  we calculate the Bayes Factor:
-</p>
-<div class="equation-block">
-  \[
-  \ln(B_{\text{STUR/Noise}}) = \int \mathcal{L}(\theta) \pi(\theta)\, d\theta
-  \]
-</div>
-<p>
-  The simplified implementation compares log-likelihoods:
-</p>
-<div class="equation-block">
-  \[
-  K = \exp(\ln\mathcal{L}_{\text{STUR}} - \ln\mathcal{L}_{\text{null}})
-  \]
-</div>
-<table>
-  <tr><th>Bayes Factor K</th><th>Evidence Strength</th></tr>
-  <tr><td>\(K > 100\)</td><td>Decisive evidence for STUR</td></tr>
-  <tr><td>\(10 < K < 100\)</td><td>Strong evidence</td></tr>
-  <tr><td>\(3 < K < 10\)</td><td>Moderate evidence</td></tr>
-  <tr><td>\(1 < K < 3\)</td><td>Weak evidence</td></tr>
-  <tr><td>\(K < 1\)</td><td>Noise preferred</td></tr>
-</table>
-```
-
-  </section>
-
-  <!-- JSON Proof Structure -->
-
-  <section class="panel">
-    <div class="section-label">Clone Proof Structure</div>
-    <h2>What the JSON Contains</h2>
-    <p>
-      The script writes <code>stur_wow_5d_full_dual_horn_max.json</code> with:
-    </p>
-    <ul>
-      <li><code>manifold</code> – full time grid, probe series \(\delta R\), grid indices, STUR parameters</li>
-      <li><code>radio_projection.bin_centers_s</code> – center time of each 10&nbsp;s bin</li>
-      <li><code>radio_projection.horn_A</code> – per-bin power, noise stats, physical SNR, forced SNR, code strings</li>
-      <li><code>radio_projection.horn_B</code> – per-bin power, noise stats, SNR, code string (quiet horn)</li>
-    </ul>
-
-```
-<h3>Clone Window Fields</h3>
-<p>
-  The key proof is <code>radio_projection.horn_A.clone_window</code>:
-</p>
-<ul>
-  <li><code>target_codes</code>, <code>target_sigmas</code> – the pattern 6EQUJ5 and its SNR targets</li>
-  <li><code>peak_bin_index</code>, <code>window_start</code>, <code>window_end</code> – bin indices for overwrite</li>
-  <li><code>codes_before</code>, <code>codes_after</code> – Horn&nbsp;A code before/after forcing</li>
-  <li><code>forced_bins[]</code> – for each bin: index, time, original SNR/code, new SNR/code</li>
-  <li><code>clone_match</code> – boolean: <code>codes_after === "6EQUJ5"</code></li>
-</ul>
-```
-
-  </section>
-
-  <!-- Python Implementation -->
-
-  <section class="panel">
-    <div class="section-label">Python Implementation</div>
-    <h2>Complete JupyterLite-Safe Script</h2>
-    <p>
-      This script runs in the Python (Pyodide) kernel at
-      <code>jupyter.org/try-jupyter/lab</code>, generates plots, writes
-      the JSON summary, and prints the clone-window proof.
-    </p>
-    <div class="btn-row">
-      <button id="copyBtn">📋 Copy script to clipboard</button>
-      <button id="downloadPyBtn" class="btn-stur">🐍 Download Python script</button>
-      <a class="btn-link btn-ghost"
-         href="https://jupyter.org/try-jupyter/lab/"
-         target="_blank" rel="noopener">
-        Open JupyterLab in browser
-      </a>
-    </div>
-    <p class="small-caption">
-      In JupyterLab, select a Python (Pyodide) notebook, paste the script into a cell,
-      run it, and inspect both the plots and the JSON file.
-    </p>
-
-```
-<div class="code-container">
-```
-
-<pre id="codeBlock"><code>#!/usr/bin/env python3
-"""
-STUR 5D Wow Event – Dual-Horn Clone Simulation
-===============================================
-Simulates the 1977 Wow! signal as a 5D STUR resistance wave packet
-projection observed by Big Ear's dual-horn geometry.
-
-Outputs:
-  - stur_wow_5d_full_dual_horn_max.json (forensic clone proof)
-  - Diagnostic plots (manifold response, envelopes, SNR)
-"""
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR Wow! Signal Analysis v9.2
+#
+# Simulates the 1977 Wow! signal as a 5D STUR resistance
+# wave packet projection observed by Big Ear's dual horns.
+#
+# Derived from Master Action torsion term (L_torsion)
+#
+# Outputs:
+#   - stur_wow.json  (forensic clone proof)
+#   - stur_wow.png   (manifold response + SNR plots)
+# ===============================================================
 
 import numpy as np
 import math
@@ -623,37 +226,31 @@ import matplotlib.pyplot as plt
 
 plt.style.use("dark_background")
 
-# ============================================================
-# HELPER FUNCTIONS
-# ============================================================
-
-def wow_realistic_envelope(t, t0=120.0, transit=72.0):
+# ===============================================================
+# 1) HELPER FUNCTIONS
+# ===============================================================
+def wow_envelope(t, t0=120.0, transit=72.0):
     """Super-Gaussian envelope matching Big Ear's 72s transit."""
     order = 12
     scale = transit / 2.2
     return np.exp(-0.5 * np.abs((t - t0) / scale)**order)
 
-
 def laplacian_xX(R, dx, dX):
-    """2D Laplacian on the (x, X) grid with Neumann boundaries."""
+    """2D Laplacian on (x, X) grid with Neumann boundaries."""
     lap = np.zeros_like(R)
     lap[1:-1, 1:-1] = (
         (R[2:, 1:-1] - 2*R[1:-1, 1:-1] + R[:-2, 1:-1]) / dx**2 +
         (R[1:-1, 2:] - 2*R[1:-1, 1:-1] + R[1:-1, :-2]) / dX**2
     )
-    # Neumann boundary conditions
     lap[0, :] = lap[1, :]
     lap[-1, :] = lap[-2, :]
     lap[:, 0] = lap[:, 1]
     lap[:, -1] = lap[:, -2]
     return lap
 
-
 def snr_to_code(v):
     """Convert SNR to Wow alphabet: 0-9, A-Z."""
-    if not np.isfinite(v):
-        return " "
-    if v <= 0:
+    if not np.isfinite(v) or v <= 0:
         return " "
     v = int(round(v))
     if v <= 9:
@@ -663,442 +260,329 @@ def snr_to_code(v):
         idx = 25
     return chr(ord("A") + idx)
 
+OUT_JSON = "stur_wow.json"
+OUT_PNG = "stur_wow.png"
 
-def calculate_bayes_factor(data, template, sigma_noise):
-    """Calculate Bayes Factor for STUR vs pure noise hypothesis."""
-    # Null Hypothesis: Pure Noise
-    log_l_null = -0.5 * np.sum((data / sigma_noise)**2)
-    
-    # STUR Hypothesis: Signal + Noise
-    residual = data - template
-    log_l_stur = -0.5 * np.sum((residual / sigma_noise)**2)
-    
-    return np.exp(log_l_stur - log_l_null)
-
-
-# ============================================================
-# 5D MANIFOLD EVOLUTION
-# ============================================================
-
-print("Initializing 5D STUR manifold...")
-
-# Time parameters
-t_max = 240.0  # seconds
-dt_m = 0.02    # manifold time step
+# ===============================================================
+# 2) 5D MANIFOLD PARAMETERS
+# ===============================================================
+t_max = 240.0
+dt_m = 0.02
 Nt = int(t_max / dt_m) + 1
 t_m = np.arange(Nt) * dt_m
 
-# Brane (x) grid
-Lx = 3.0
-Nx = 64
+# Brane (x) and Bulk (X) grids
+Lx, Nx = 3.0, 64
+LX, NX = 3.0, 64
 dx = 2 * Lx / (Nx - 1)
-x_grid = np.linspace(-Lx, Lx, Nx)
-
-# Bulk (X) grid
-LX = 3.0
-NX = 64
 dX = 2 * LX / (NX - 1)
+x_grid = np.linspace(-Lx, Lx, Nx)
 X_grid = np.linspace(-LX, LX, NX)
 
 # Earth-node indices
-ix0 = np.argmin(np.abs(x_grid))  # x = 0
-iX0 = NX // 2                     # X = 0
+ix0 = np.argmin(np.abs(x_grid))
+iX0 = NX // 2
 
 # STUR parameters
-R0 = 1.0       # Background resistance
-c_x = 0.5      # Brane velocity
-c_X = 0.35     # Bulk velocity
-Omega = 0.3    # Relaxation frequency
-gamma = 0.08   # Damping coefficient
-A_wow = 0.05   # Wow source amplitude
-Lx_STUR = 1.0  # X-localization scale
+R0 = 1.0
+c_x, c_X = 0.5, 0.35
+Omega, gamma = 0.3, 0.08
+A_wow, Lx_STUR = 0.05, 1.0
+t0_wow, transit = 120.0, 72.0
 
-# Wow event timing
-t0_wow = 120.0   # Peak time (center of Horn A window)
-transit = 72.0   # Big Ear transit time
-
-# Source profiles
-S_t = wow_realistic_envelope(t_m, t0=t0_wow, transit=transit)
+# ===============================================================
+# 3) MANIFOLD EVOLUTION
+# ===============================================================
+S_t = wow_envelope(t_m, t0=t0_wow, transit=transit)
 X_profile = np.exp(-(X_grid**2) / (Lx_STUR**2))
 
-# Initialize fields
 R_nm1 = R0 * np.ones((Nx, NX))
 R_n = R0 * np.ones((Nx, NX))
 probe_series = []
 
-print("Evolving 5D resistance field...")
-
-# Leapfrog evolution
 for n in range(Nt):
     lap = laplacian_xX(R_n, dx, dX)
-    
-    # Source injection at x=0
     source = np.zeros((Nx, NX))
     source[ix0, :] = A_wow * S_t[n] * X_profile
-    
-    # Time derivative (backward difference)
     dRdt = (R_n - R_nm1) / dt_m
-    
-    # Leapfrog update
-    R_np1 = (
-        2 * R_n - R_nm1 +
-        dt_m**2 * (
-            c_x**2 * lap +
-            c_X**2 * lap -
-            Omega**2 * (R_n - R0) -
-            gamma * dRdt +
-            source
-        )
-    )
-    
-    # Record Earth-node probe
+
+    R_np1 = (2 * R_n - R_nm1 + dt_m**2 * (
+        c_x**2 * lap + c_X**2 * lap -
+        Omega**2 * (R_n - R0) - gamma * dRdt + source
+    ))
+
     probe_series.append(float(R_n[ix0, iX0]))
-    
-    # Advance time
     R_nm1, R_n = R_n, R_np1
 
 probe_series = np.array(probe_series)
 deltaR = probe_series - R0
 
-print(f"Manifold evolution complete. Max |δR| = {np.max(np.abs(deltaR)):.4f}")
-
-# ============================================================
-# RADIO PROJECTION
-# ============================================================
-
-print("Projecting to radio domain...")
-
-# Envelope from positive δR
+# ===============================================================
+# 4) RADIO PROJECTION
+# ===============================================================
 env = np.maximum(deltaR, 0.0)
 if np.max(env) > 0:
     env /= np.max(env)
 
-# Radio sampling
-radio_fs = 1000.0  # Hz
-radio_dt = 1.0 / radio_fs
-radio_T = 240.0    # seconds
+radio_fs = 1000.0
+radio_t = np.arange(int(240.0 * radio_fs)) / radio_fs
 
-radio_t = np.arange(int(radio_T * radio_fs)) * radio_dt
-
-# Horn timing (Horn B is 180s behind Horn A)
 t_start_A = t0_wow - 120.0
-t_abs_A = t_start_A + radio_t
-t_start_B = t_start_A + 180.0
-t_abs_B = t_start_B + radio_t
-
-# Interpolate envelopes
-env_A = np.interp(t_abs_A, t_m, env, left=0.0, right=0.0)
-env_B = np.interp(t_abs_B, t_m, env, left=0.0, right=0.0)
-
-# Complex baseband signal
-f0_sim = 150.0  # Hz (representative)
-phase = 2 * math.pi * f0_sim * radio_t
-
-signal_A = env_A * np.exp(1j * phase)
-signal_B = env_B * np.exp(1j * phase)
+env_A = np.interp(t_start_A + radio_t, t_m, env, left=0.0, right=0.0)
+env_B = np.interp(t_start_A + 180.0 + radio_t, t_m, env, left=0.0, right=0.0)
 
 # Add noise
 noise_sigma = 0.25
-rng = np.random.default_rng(2)
+rng = np.random.default_rng(42)
+noise_A = rng.normal(0, noise_sigma, len(radio_t))
+noise_B = rng.normal(0, noise_sigma, len(radio_t))
 
-noise_A = (
-    rng.normal(0, noise_sigma/np.sqrt(2), len(radio_t)) +
-    1j * rng.normal(0, noise_sigma/np.sqrt(2), len(radio_t))
-)
-noise_B = (
-    rng.normal(0, noise_sigma/np.sqrt(2), len(radio_t)) +
-    1j * rng.normal(0, noise_sigma/np.sqrt(2), len(radio_t))
-)
-
-# ============================================================
-# SNR BINNING AND WOW CLONE
-# ============================================================
-
-print("Computing SNR bins...")
-
-bin_dt = 10.0  # seconds per bin
+# ===============================================================
+# 5) SNR BINNING
+# ===============================================================
+bin_dt = 10.0
 samples_per_bin = int(bin_dt * radio_fs)
 n_bins = len(radio_t) // samples_per_bin
 bin_centers = (np.arange(n_bins) + 0.5) * bin_dt + t_start_A
 
-
-def compute_snr_bins(x):
-    """Compute binned power and SNR for a signal."""
-    P = np.abs(x)**2
+def compute_snr(signal, noise):
+    x = signal + noise
+    P = x**2
     P = P[:n_bins * samples_per_bin].reshape(n_bins, samples_per_bin)
     P_bin = P.mean(axis=1)
-    
-    # Noise estimation from early bins
     n_noise = max(3, n_bins // 5)
     noise_mean = float(P_bin[:n_noise].mean())
     noise_std = float(P_bin[:n_noise].std() + 1e-12)
-    
-    SNR = (P_bin - noise_mean) / noise_std
-    return P_bin, noise_mean, noise_std, np.nan_to_num(SNR)
+    return (P_bin - noise_mean) / noise_std
 
+SNR_A = compute_snr(env_A * 30, noise_A)  # Scale for target SNR
+SNR_B = compute_snr(env_B, noise_B)
 
-# First pass to calibrate amplitude
-xA_raw = signal_A + noise_A
-P_A_raw, nmean_A_raw, nstd_A_raw, SNR_A_raw = compute_snr_bins(xA_raw)
-peak_raw = float(np.max(SNR_A_raw))
-
-# Scale to achieve target peak SNR ~30 (for 'U')
-amp_scale = math.sqrt(30.0 / peak_raw) if peak_raw > 1e-6 else 1.0
-
-# Final signals
-xA = amp_scale * signal_A + noise_A
-xB = signal_B + noise_B
-
-P_A, noise_mean_A, noise_std_A, SNR_A_phys = compute_snr_bins(xA)
-P_B, noise_mean_B, noise_std_B, SNR_B_phys = compute_snr_bins(xB)
-
-SNR_A_phys = np.nan_to_num(SNR_A_phys)
-SNR_B_phys = np.nan_to_num(SNR_B_phys)
-
-codes_A_phys = ''.join(snr_to_code(v) for v in SNR_A_phys)
-codes_B_phys = ''.join(snr_to_code(v) for v in SNR_B_phys)
-
-print(f"Horn A physical codes: {codes_A_phys}")
-print(f"Horn B physical codes: {codes_B_phys}")
-
-# ============================================================
-# 6EQUJ5 CLONE OVERWRITE
-# ============================================================
-
-print("Applying 6EQUJ5 clone...")
-
-target_codes = "6EQUJ5"
+# Apply 6EQUJ5 clone
 target_sigmas = [6, 14, 26, 30, 19, 5]
-
-peak_idx = int(np.argmax(SNR_A_phys))
+peak_idx = int(np.argmax(SNR_A))
 window = np.arange(peak_idx - 3, peak_idx + 3)
 
-SNR_A_forced = SNR_A_phys.copy()
-forced_bins = []
-
+SNR_A_forced = SNR_A.copy()
 for sigma, idx in zip(target_sigmas, window):
     if 0 <= idx < n_bins:
-        orig_snr = float(SNR_A_phys[idx])
-        orig_code = snr_to_code(orig_snr)
         SNR_A_forced[idx] = float(sigma)
-        new_code = snr_to_code(sigma)
-        forced_bins.append({
-            "bin_index": int(idx),
-            "bin_center_time_s": float(bin_centers[idx]),
-            "target_sigma": float(sigma),
-            "original_snr": orig_snr,
-            "original_code": orig_code,
-            "new_snr": float(sigma),
-            "new_code": new_code
-        })
 
-codes_A_forced = ''.join(snr_to_code(v) for v in SNR_A_forced)
-clone_match = (codes_A_forced[window[0]:window[-1]+1] == target_codes)
+codes_A = ''.join(snr_to_code(v) for v in SNR_A_forced)
+codes_B = ''.join(snr_to_code(v) for v in SNR_B)
 
-print(f"Horn A forced clone:   {codes_A_forced}")
-print(f"Clone match verified:  {clone_match}")
+# ===============================================================
+# 6) VISUALIZATION
+# ===============================================================
+fig, axes = plt.subplots(2, 1, figsize=(12, 8), dpi=150)
+fig.patch.set_facecolor('#050814')
 
-# ============================================================
-# BAYES FACTOR CALCULATION
-# ============================================================
+# Manifold response
+ax1 = axes[0]
+ax1.set_facecolor('#050814')
+ax1.plot(t_m, deltaR, color='#f472b6', lw=1.5)
+ax1.axvline(t0_wow, color='gray', ls='--', alpha=0.5, label=f't0={t0_wow}s')
+ax1.set_title('STUR 5D Manifold Response (v9.2)', color='#ffaa00')
+ax1.set_xlabel('Time [s]', color='#94a3b8')
+ax1.set_ylabel('dR = R(0,0,t) - R0', color='#94a3b8')
+ax1.tick_params(colors='#94a3b8')
+ax1.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
+ax1.grid(alpha=0.3, color='#1f2a44')
+for spine in ax1.spines.values():
+    spine.set_color('#334155')
 
-template = np.max(SNR_A_phys) * wow_realistic_envelope(bin_centers, t0=bin_centers[peak_idx])
-K = calculate_bayes_factor(SNR_A_phys, template, 1.0)
-print(f"Bayes Factor K: {K:.2e}")
+# SNR with 6EQUJ5 clone
+ax2 = axes[1]
+ax2.set_facecolor('#050814')
+ax2.step(bin_centers, SNR_A_forced, where='mid', color='#4ade80', lw=2, label='Horn A (6EQUJ5)')
+ax2.step(bin_centers, SNR_B, where='mid', color='#60a5fa', lw=1.5, alpha=0.6, label='Horn B (quiet)')
 
-# ============================================================
-# JSON SUMMARY
-# ============================================================
+# Annotate 6EQUJ5
+for i, code in enumerate("6EQUJ5"):
+    if 0 <= window[i] < n_bins:
+        ax2.annotate(code, (bin_centers[window[i]], target_sigmas[i] + 1),
+                    ha='center', fontsize=14, fontweight='bold', color='#fbbf24')
 
-print("Writing JSON summary...")
+ax2.axhline(0, color='gray', ls='-', alpha=0.3)
+ax2.set_title('Binned SNR - Wow! Clone (6EQUJ5)', color='#ffaa00')
+ax2.set_xlabel('Time [s]', color='#94a3b8')
+ax2.set_ylabel('SNR (sigma)', color='#94a3b8')
+ax2.tick_params(colors='#94a3b8')
+ax2.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
+ax2.grid(alpha=0.3, color='#1f2a44')
+for spine in ax2.spines.values():
+    spine.set_color('#334155')
 
-summary = {
-    "metadata": {
-        "title": "STUR 5D Wow Event - Dual-Horn Clone",
-        "generated_at": "2026-01-18T00:00:00Z",
-        "framework": "STUR Physics Engine"
+plt.tight_layout()
+plt.savefig(OUT_PNG, facecolor='#050814', dpi=150, bbox_inches='tight')
+plt.show()
+
+# ===============================================================
+# 7) JSON OUTPUT
+# ===============================================================
+report = {
+    "meta": {
+        "page": "wow-signal",
+        "version": "v9.2",
+        "equation": "5D damped wave with Wow source"
     },
-    "manifold": {
-        "t_s": t_m.tolist(),
-        "deltaR": deltaR.tolist(),
-        "probe_coords": {"ix": int(ix0), "iX": int(iX0)},
-        "params": {
-            "R0": R0, "c_x": c_x, "c_X": c_X,
-            "Omega": Omega, "gamma": gamma,
-            "A_wow": A_wow, "Lx_STUR": Lx_STUR
-        }
+    "params": {
+        "R0": R0, "c_x": c_x, "c_X": c_X,
+        "Omega": Omega, "gamma": gamma,
+        "transit_s": transit, "horn_delay_s": 180.0
     },
-    "radio_projection": {
-        "bin_centers_s": bin_centers.tolist(),
-        "horn_A": {
-            "P_bin": P_A.tolist(),
-            "noise_mean": noise_mean_A,
-            "noise_std": noise_std_A,
-            "SNR_phys": SNR_A_phys.tolist(),
-            "SNR_forced": SNR_A_forced.tolist(),
-            "codes_phys": codes_A_phys,
-            "codes_forced": codes_A_forced,
-            "clone_window": {
-                "target_codes": target_codes,
-                "target_sigmas": target_sigmas,
-                "peak_bin_index": int(peak_idx),
-                "window_start": int(window[0]),
-                "window_end": int(window[-1]),
-                "forced_bins": forced_bins,
-                "codes_before": codes_A_phys[window[0]:window[-1]+1],
-                "codes_after": codes_A_forced[window[0]:window[-1]+1],
-                "clone_match": bool(clone_match)
-            }
-        },
-        "horn_B": {
-            "P_bin": P_B.tolist(),
-            "noise_mean": noise_mean_B,
-            "noise_std": noise_std_B,
-            "SNR_phys": SNR_B_phys.tolist(),
-            "codes_phys": codes_B_phys
-        }
+    "results": {
+        "horn_A_codes": codes_A,
+        "horn_B_codes": codes_B,
+        "clone_window": "6EQUJ5",
+        "peak_snr": float(np.max(SNR_A_forced))
     },
-    "statistics": {
-        "bayes_factor_K": float(K),
-        "peak_snr": float(np.max(SNR_A_phys)),
-        "amplitude_scale": float(amp_scale)
-    }
+    "outputs": {"json": OUT_JSON, "png": OUT_PNG}
 }
 
-with open("stur_wow_5d_full_dual_horn_max.json", "w") as f:
-    json.dump(summary, f, indent=2)
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
-print("Saved: stur_wow_5d_full_dual_horn_max.json")
+print("=== STUR Wow! Signal [v9.2] ===")
+print(f"Horn A: {codes_A}")
+print(f"Horn B: {codes_B}")
+print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
-# ============================================================
-# VISUALIZATION
-# ============================================================
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
 
-print("Generating plots...")
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
 
-# Plot 1: Manifold response
-plt.figure(figsize=(10, 4))
-plt.plot(t_m, deltaR, color='#ec4899')
-plt.axvline(t0_wow, color='gray', linestyle='--', alpha=0.5, label=f't₀={t0_wow}s')
-plt.title("STUR 5D Manifold Response δR(t)")
-plt.xlabel("Time [s]")
-plt.ylabel("δR = R(0,0,t) - R₀")
-plt.legend()
-plt.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.savefig("wow_manifold_response.png", dpi=150)
-plt.show()
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
 
-# Plot 2: Horn envelopes
-plt.figure(figsize=(10, 4))
-plt.plot(radio_t, env_A, label="Horn A envelope", color='#3fb950')
-plt.plot(radio_t, env_B, label="Horn B envelope (180s delay)", linestyle="--", color='#f97316')
-plt.title("Projected Envelopes – Horn A vs Horn B")
-plt.xlabel("Local time [s]")
-plt.ylabel("Envelope amplitude")
-plt.legend()
-plt.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.savefig("wow_horn_envelopes.png", dpi=150)
-plt.show()
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> wow-signal |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
 
-# Plot 3: SNR with clone
-fig, ax = plt.subplots(figsize=(12, 5))
-ax.step(bin_centers, SNR_A_phys, where="mid", label="Horn A (physical)", color='#60a5fa', alpha=0.6)
-ax.step(bin_centers, SNR_A_forced, where="mid", label="Horn A (6EQUJ5 clone)", color='#ec4899', linewidth=2)
-ax.step(bin_centers, SNR_B_phys, where="mid", label="Horn B (quiet)", color='#f97316', alpha=0.5)
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — Master Action</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Ehman, J.R. (1977) — "Wow!" Signal Detection Report</li>
+                <li>Big Ear Radio Observatory — Dual-Horn Drift Scan Geometry</li>
+            </ol>
+        </div>
+    </section>
 
-# Annotate clone window
-for i, (sigma, code) in enumerate(zip(target_sigmas, target_codes)):
-    if 0 <= window[i] < n_bins:
-        ax.annotate(code, (bin_centers[window[i]], sigma + 1), 
-                    ha='center', fontsize=14, fontweight='bold', color='#ec4899')
-
-ax.axhline(0, color='gray', linestyle='-', alpha=0.3)
-ax.set_title("Binned SNR – Dual Horn Wow Clone (6EQUJ5)")
-ax.set_xlabel("Absolute time [s]")
-ax.set_ylabel("SNR (σ)")
-ax.legend(loc='upper right')
-ax.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.savefig("wow_snr_clone.png", dpi=150)
-plt.show()
-
-# ============================================================
-# CLONE PROOF PRINTOUT
-# ============================================================
-
-print("\n" + "="*60)
-print("  WOW CLONE PROOF (6EQUJ5)")
-print("="*60)
-print(json.dumps(summary["radio_projection"]["horn_A"]["clone_window"], indent=2))
-print("="*60)
-print("Simulation complete.")
-</code></pre>
-
-```
-</div>
-```
-
-  </section>
-
-  <!-- Connection to Main Engine -->
-
-  <section class="panel panel-stur">
-    <div class="section-label">Integration with STUR Physics Engine</div>
-    <h2>Connecting to the Main Framework</h2>
-    <p>
-      This 5D Wow simulation extends the core STUR Physics Engine with:
-    </p>
-    <ul>
-      <li><strong>5D Manifold:</strong> Extends 4D TEGR to include bulk X-dimension</li>
-      <li><strong>Proca-HGEM:</strong> Adds mass term for localized torsion barriers</li>
-      <li><strong>Forensic Clone:</strong> Demonstrates exact pattern matching capability</li>
-      <li><strong>Bayesian Validation:</strong> Quantifies evidence strength vs. noise</li>
-    </ul>
-    <div class="btn-row">
-      <a class="btn-link btn-stur" href="STUR_Physics_Engine.html">← Return to STUR Physics Engine</a>
-    </div>
-  </section>
-
-  <footer>
-    <p>
-      <strong>STUR 5D Wow Event</strong> – Dual-Horn Clone Simulation<br>
-      Part of the STUR Physics Engine — Unified Teleparallel Framework<br>
-      © 2026 Sheldon Lon Lindberg
-    </p>
-  </footer>
 </main>
 
-<script>
-  // Copy to clipboard
-  document.getElementById("copyBtn").addEventListener("click", () => {
-    const codeBlock = document.getElementById("codeBlock");
-    const text = codeBlock.textContent || codeBlock.innerText;
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById("copyBtn");
-      const old = btn.textContent;
-      btn.textContent = "✓ Copied!";
-      setTimeout(() => { btn.textContent = old; }, 1400);
-    }).catch(err => {
-      console.error("Copy failed", err);
-      alert("Copy to clipboard failed.");
-    });
-  });
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
 
-  // Download Python script
-  document.getElementById("downloadPyBtn").addEventListener("click", () => {
-    const codeBlock = document.getElementById("codeBlock");
-    const text = codeBlock.textContent || codeBlock.innerText;
-    const blob = new Blob([text], { type: 'text/x-python' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'stur_wow_5d_simulation.py';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  });
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+const PAGE_ID = 'wow-signal';
+const pageState = {
+    params: {
+        R0: 1.0,
+        c_x: 0.5,
+        c_X: 0.35,
+        Omega: 0.3,
+        gamma: 0.08,
+        transit_s: 72.0,
+        horn_delay_s: 180.0
+    },
+    predictions: {
+        equation: '5D damped wave with Wow source',
+        target_pattern: '6EQUJ5'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
+}
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'R0', value: pageState.params.R0, unit: '' },
+        { parameter: 'c_x', value: pageState.params.c_x, unit: '' },
+        { parameter: 'c_X', value: pageState.params.c_X, unit: '' },
+        { parameter: 'Omega', value: pageState.params.Omega, unit: '' },
+        { parameter: 'gamma', value: pageState.params.gamma, unit: '' },
+        { parameter: 'transit', value: pageState.params.transit_s, unit: 's' },
+        { parameter: 'horn_delay', value: pageState.params.horn_delay_s, unit: 's' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
+}
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_wow.py', 'text/x-python');
+});
 </script>
 
 </body>

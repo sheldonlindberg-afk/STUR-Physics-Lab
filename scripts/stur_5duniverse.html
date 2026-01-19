@@ -1,235 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>STUR 5D UGR – Unified Gravity Run v6.1</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5D Unified Gravity — STUR Physics Lab</title>
 
-<style>
-  :root {
-    --bg-main: #02030a;
-    --bg-panel: #050816;
-    --bg-panel-soft: #07101e;
-    --accent: #34d8ff;
-    --accent-soft: rgba(52,216,255,0.2);
-    --accent-strong: #00f2aa;
-    --text-main: #e6edf3;
-    --text-soft: #a5b3c4;
-    --danger: #ff6b81;
-    --radius: 12px;
-    --shadow-soft: 0 0 30px rgba(0, 255, 255, 0.15);
-  }
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-  * { box-sizing: border-box; }
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-  body {
-    margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    color: var(--text-main);
-    background:
-      radial-gradient(circle at 10% 0%, #102040 0, #02030a 45%, #000 80%),
-      radial-gradient(circle at 90% 100%, #041428 0, #02030a 60%, #000 100%);
-  }
-
-  header {
-    text-align: center;
-    padding: 40px 14px 14px;
-  }
-
-  .logo-title {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 14px;
-    border-radius: 999px;
-    border: 1px solid var(--accent-soft);
-    background: rgba(52,216,255,0.08);
-    box-shadow: var(--shadow-soft);
-    font-size: 0.9rem;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-  }
-
-  .logo-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #00f2aa;
-    box-shadow: 0 0 10px #00f2aa;
-  }
-
-  h1 {
-    margin: 14px 0 6px;
-    font-size: 1.6rem;
-  }
-
-  h2 {
-    margin: 0 0 8px;
-    font-size: 1.2rem;
-  }
-
-  main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px 14px 40px;
-  }
-
-  .panel {
-    background: var(--bg-panel);
-    border-radius: var(--radius);
-    padding: 14px;
-    border: 1px solid rgba(255,255,255,.06);
-    margin-bottom: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.6);
-  }
-
-  .panel p {
-    margin: 4px 0 8px;
-    color: var(--text-soft);
-    line-height: 1.5;
-    font-size: 0.92rem;
-  }
-
-  .inline-math {
-    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: 0.85rem;
-    background: rgba(0,0,0,0.35);
-    padding: 1px 4px;
-    border-radius: 4px;
-  }
-
-  pre.code-block {
-    background: #050710;
-    padding: 10px;
-    border-radius: 10px;
-    overflow: auto;
-    font-size: 0.75rem;
-    border: 1px solid rgba(255,255,255,0.05);
-    margin: 8px 0;
-  }
-
-  pre.code-block code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  }
-
-  button {
-    border-radius: 6px;
-    padding: 8px 16px;
-    background: #0f233a;
-    color: #00f2aa;
-    border: 1px solid #00f2aa;
-    cursor: pointer;
-    font-size: 0.85rem;
-    margin: 4px 6px 4px 0;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s ease;
-  }
-
-  button:hover {
-    background: #00f2aa;
-    color: #02030a;
-  }
-
-  button:active {
-    transform: scale(0.98);
-  }
-
-  footer {
-    text-align: center;
-    color: #8893aa;
-    font-size: 0.8rem;
-    margin-top: 30px;
-    padding-bottom: 40px;
-  }
-
-  footer a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  footer a:hover {
-    text-decoration: underline;
-  }
-
-  .small-label {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-soft);
-    margin-top: 15px;
-    display: block;
-  }
-
-  /* === EQUATION TERM COLOR CODING === */
-  .eq-diffusion { color: #4ade80; }
-  .eq-potential { color: #f472b6; }
-  .eq-xcrm { color: #fbbf24; }
-  .eq-torsion { color: #60a5fa; }
-  .eq-quantum { color: #a78bfa; }
-  .eq-matter { color: #22d3ee; }
-
-  .eq-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.25rem;
-    max-width: 900px;
-    margin: 1rem auto;
-    padding: 0.75rem 1rem;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--accent-soft);
-    border-radius: 6px;
-    font-size: 0.82rem;
-  }
-  .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-  .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .eq-legend-dot.diffusion { background: #4ade80; }
-  .eq-legend-dot.potential { background: #f472b6; }
-  .eq-legend-dot.xcrm { background: #fbbf24; }
-  .eq-legend-dot.torsion { background: #60a5fa; }
-  .eq-legend-dot.quantum { background: #a78bfa; }
-  .eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
-
 <body>
-<header>
-  <div class="logo-title">
-    <span class="logo-dot"></span>
-    STUR Physics Lab · 5D Unified Gravity Run
-  </div>
-  <h1>STUR 5D UGR – v6.1 · Infinity Helix ΛCDM + χ-Gravity</h1>
-  <!-- Equation Color Legend -->
-  <div class="eq-legend">
-    <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-  </div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
 </header>
 
-<main>
-  <section class="panel">
-    <h2>How to Run</h2>
-    <p>
-      100% JupyterLite / Pyodide compatible. Copy the script below into a free in-browser Jupyter lab and
-      press <span class="inline-math">Run</span>. All plots and the JSON summary will appear in the notebook.
-    </p>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-    <div class="button-group">
-      <button id="copyBtn">📋 Copy Python Script</button>
-      <button id="openJupyterBtn">☁️ Open Free Jupyter Lab</button>
-      <button id="backIndexBtn">⬅️ Return to STUR Index</button>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>5D Unified Gravity</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Explores cosmological evolution via the STUR 5D tidal operator embedding metric, torsion, and gauge sectors.
+            The extra \(\chi\)-coordinate encodes coherence across baryonic, dark matter, and dark energy strands.
+        </p>
+
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status warning">
+                <span class="stur-icon icon-layers sm"></span>
+                SPECULATIVE
+            </span>
+        </div>
+    </header>
+
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
     </div>
 
-    <span class="small-label">Script: STUR_5D_UGR_v6_1.py</span>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Cosmic evolution of dark matter and dark energy sectors via 5D geodesic deviation.</p>
+            <p><strong>Scale:</strong> Cosmological timescales with \(\tau \sim 8\pi\) representing full cosmic history from recombination to present.</p>
+            <p><strong>Connection:</strong> The 5D tidal operator unifies metric curvature, torsion, and gauge contributions into a single geodesic deviation equation.</p>
+        </div>
+    </section>
 
-    <pre class="code-block" id="codeBlock"><code>#!/usr/bin/env python3
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
+
+            <p><strong>5D extension:</strong> We embed the 4D spacetime in a 5D manifold with coordinates \(x^a = (t, x, y, z, \chi)\), where \(\chi\) is the STUR coherence dimension:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \alpha(\tau, \chi) = \alpha_0 \cos(\omega_\alpha \tau) \cdot \bigl[1 + \epsilon_\chi \sin(\tau) \tanh(\chi)\bigr]
+                \]
+                <div class="stur-eq-label">5D Metric Scale Function</div>
+            </div>
+
+            <p><strong>Sector strands:</strong> Different matter sectors trace helical worldlines with distinct \(\chi\) profiles:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \chi_{\text{baryon}}(\tau) = \chi_0 + K_\chi \sin(\tau), \quad
+                \chi_{\text{DM}}(\tau) = -\chi_0 - 1.2 K_\chi \sin(\tau + 0.4)
+                \]
+                <div class="stur-eq-label">Sector Coherence Strands</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>Infinity helix:</strong> Spatial projection follows a Gerono lemniscate (figure-8) with vertical oscillation.</li>
+                <li><strong>Unified tidal matrix:</strong> \(K^a_{\;b} = K^a_{\;b,\text{metric}} + K^a_{\;b,\text{torsion}} + K^a_{\;b,\text{gauge}}\)</li>
+                <li><strong>Geodesic deviation:</strong> \(\ddot{\eta}^a + K^a_{\;c}(\tau) \eta^c = 0\) governs strand separation.</li>
+            </ul>
+
+            <p><strong>Cosmological background:</strong> Flat \(\Lambda\)CDM with \(H_0 = 67.4\) km/s/Mpc, \(\Omega_m = 0.315\), \(\Omega_\Lambda = 0.685\).</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">tau_max</div>
+                    <div class="glass-metric-value">8 pi</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Grid samples</div>
+                    <div class="glass-metric-value">600</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Cosmic age</div>
+                    <div class="glass-metric-value">13.8 Gyr</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Sectors</div>
+                    <div class="glass-metric-value">3</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>5D unified gravity simulation with metric, torsion, and gauge tidal contributions. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR 5D UGR v6.1 – Unified Tidal Operator
+# STUR 5D UGR v9.2 – Unified Tidal Operator
 #   (Metric + Torsion + Gauge) with Scientific Plots
+#
+# Derives cosmological evolution from 5D geodesic deviation
+# Derived from Master Action torsion and matter terms
 # ===============================================================
 
 import numpy as np
@@ -240,7 +217,7 @@ import matplotlib.pyplot as plt
 plt.style.use("dark_background")
 
 # ---------------------------------------------------------------
-# PHYSICAL CONSTANTS (Planck-ish ΛCDM)
+# PHYSICAL CONSTANTS (Planck-ish LCDM)
 # ---------------------------------------------------------------
 c_si   = 2.99792458e8
 G_si   = 6.67430e-11
@@ -264,17 +241,18 @@ c = 1.0
 # ---------------------------------------------------------------
 # SAMPLING
 # ---------------------------------------------------------------
-TAU_MAX   = 8.0 * np.pi   
-N_SAMPLES = 600           
+TAU_MAX   = 8.0 * np.pi
+N_SAMPLES = 600
 
 # cosmology integration grid
 N_COSMO = 3000
 A_MIN   = 1e-6
 
-MODE = "physical"
+OUT_JSON = "stur_5duniverse.json"
+OUT_PNG  = "stur_5duniverse.png"
 
 # ---------------------------------------------------------------
-# ΛCDM BACKGROUND
+# LCDM BACKGROUND
 # ---------------------------------------------------------------
 def friedmann_E(a):
     return np.sqrt(Omega_r * a**(-4) + Omega_m * a**(-3) + Omega_L)
@@ -288,7 +266,7 @@ def build_cosmo_background():
     t_grid[1:] = np.cumsum(
         0.5 * (integrand[1:] + integrand[:-1]) * (a_grid[1:] - a_grid[:-1])
     )
-    u_t = t_grid / t_grid[-1]   
+    u_t = t_grid / t_grid[-1]
 
     dE_du = np.gradient(E, u_t)
     R_FRW = 6.0 * (dE_du + 2.0 * E**2)
@@ -306,19 +284,7 @@ def build_cosmo_background():
     Ob = frac_b   * Om
     Oc = frac_cdm * Om
 
-    mu = 1.0 / a_grid
-    mu /= mu[-1]
-    log10_mu = np.log10(mu)
-
-    lnE = np.log(E)
-    lnA = np.log(a_grid)
-    dlnE_dlnA = np.gradient(lnE, lnA)
-    q_grid = -1.0 - dlnE_dlnA
-
-    lnE2 = np.log(E**2)
-    dlnE2_dlnA = np.gradient(lnE2, lnA)
-    w_eff_grid = -1.0 - (1.0/3.0) * dlnE2_dlnA
-
+    # Growth factor (simplified)
     g = 1.0 / (a_grid**3 * E**3 + 1e-30)
     G_int = np.zeros_like(a_grid)
     G_int[1:] = np.cumsum(
@@ -327,17 +293,10 @@ def build_cosmo_background():
     D_raw = E * G_int
     D = D_raw / (D_raw[-1] + 1e-30)
 
-    return (
-        a_grid, u_t, E, R_FRW,
-        Or, Om, OL, Ob, Oc,
-        log10_mu, q_grid, w_eff_grid, D
-    )
+    return a_grid, u_t, E, R_FRW, Or, Om, OL, Ob, Oc, D
 
-(
-    A_GRID, U_T, E_GRID, R_GRID,
-    OR_GRID, OM_GRID, OL_GRID, OB_GRID, OC_GRID,
-    LOGMU_GRID, Q_GRID, WEFF_GRID, D_GRID
-) = build_cosmo_background()
+(A_GRID, U_T, E_GRID, R_GRID,
+ OR_GRID, OM_GRID, OL_GRID, OB_GRID, OC_GRID, D_GRID) = build_cosmo_background()
 
 def cosmos_at_u(u_uniform):
     u_uniform = np.asarray(u_uniform)
@@ -347,32 +306,16 @@ def cosmos_at_u(u_uniform):
     Or = np.interp(u_uniform, U_T, OR_GRID)
     Om = np.interp(u_uniform, U_T, OM_GRID)
     OL = np.interp(u_uniform, U_T, OL_GRID)
-    Ob = np.interp(u_uniform, U_T, OB_GRID)
-    Oc = np.interp(u_uniform, U_T, OC_GRID)
-    log10_mu = np.interp(u_uniform, U_T, LOGMU_GRID)
-    q = np.interp(u_uniform, U_T, Q_GRID)
-    w_eff = np.interp(u_uniform, U_T, WEFF_GRID)
     D = np.interp(u_uniform, U_T, D_GRID)
-    return a, E, R, Or, Om, OL, Ob, Oc, log10_mu, q, w_eff, D
+    return a, E, R, Or, Om, OL, D
 
 def tau_and_u():
     tau = np.linspace(0.0, TAU_MAX, N_SAMPLES)
     u   = tau / TAU_MAX
     return tau, u
 
-z_rec = 1090.0
-a_rec_target = 1.0 / (1.0 + z_rec)
-a_L_eq_target = (Omega_m / Omega_L)**(1.0/3.0)
-
-def u_for_scale_factor(a_target):
-    return float(np.interp(a_target, A_GRID, U_T))
-
-U_REC   = u_for_scale_factor(a_rec_target)
-U_L_EQ  = u_for_scale_factor(a_L_eq_target)
-U_SOLAR = 0.97   
-
 # ---------------------------------------------------------------
-# χ(τ) STRANDS
+# chi(tau) STRANDS
 # ---------------------------------------------------------------
 CHI0  = 1.0
 K_CHI = 0.35
@@ -389,31 +332,20 @@ def chi_sector(tau, sector="baryon"):
         return np.zeros_like(tau)
 
 # ---------------------------------------------------------------
-# χ-METRIC SCALE α(τ, χ)
+# chi-METRIC SCALE alpha(tau, chi)
 # ---------------------------------------------------------------
 ALPHA0       = 1.0
 EPS_CHI_PHYS = 0.15
-EPS_CHI_EXT  = 0.55
 OMEGA_A      = 1.0
 
-def is_extreme():
-    return MODE.lower().startswith("ext")
-
-def current_eps_chi():
-    return EPS_CHI_EXT if is_extreme() else EPS_CHI_PHYS
-
 def alpha_of_tau_chi(tau, chi):
-    eps = current_eps_chi()
     base = ALPHA0 * np.cos(OMEGA_A * tau)
-    if not is_extreme():
-        return base * (1.0 + eps * np.sin(tau) * np.tanh(chi))
-    core = 1.0 + eps * np.sin(OMEGA_A * tau) * np.tanh(chi)
-    return base * core**3 + 0.04 * np.sign(base)
+    return base * (1.0 + EPS_CHI_PHYS * np.sin(tau) * np.tanh(chi))
 
 # ---------------------------------------------------------------
-# ∞-SHAPED SPATIAL WORLDLINE
+# INFINITY-SHAPED SPATIAL WORLDLINE
 # ---------------------------------------------------------------
-R_HELIX = 0.5   
+R_HELIX = 0.5
 Z_AMP   = 0.25
 
 def helix_xyz_of_tau(tau, chi):
@@ -458,17 +390,6 @@ def build_reference_worldline():
         "alpha": alpha_of_tau_chi(tau, chi_ref),
     }
 
-def endpoint_mismatch(worldline):
-    x = worldline["x"]; y = worldline["y"]; z = worldline["z"]
-    return {
-        "xyz_mismatch": float(
-            math.sqrt((x[-1]-x[0])**2 + (y[-1]-y[0])**2 + (z[-1]-z[0])**2)
-        )
-    }
-
-def index_for_u(u_array, u_target):
-    return int(np.argmin(np.abs(u_array - u_target)))
-
 # ---------------------------------------------------------------
 # UNIFIED 5D TIDAL MATRIX
 # ---------------------------------------------------------------
@@ -502,7 +423,7 @@ def solve_geodesic_deviation_full(tau, K_total, epsilons):
     h = tau[1] - tau[0]
     n_eps = len(epsilons)
     eta_all = np.zeros((n_eps, 5, N))
-    
+
     for ei, eps in enumerate(epsilons):
         eta = np.array([0.0, eps, eps, 0.0, eps])
         v   = np.zeros(5)
@@ -519,107 +440,208 @@ def solve_geodesic_deviation_full(tau, K_total, epsilons):
             eta_all[ei, :, i + 1] = eta
     return eta_all, np.linalg.norm(eta_all, axis=1)
 
+# ---------------------------------------------------------------
+# MAIN
+# ---------------------------------------------------------------
 def main():
-    w_b, w_dm, w_de, w_ref = build_worldline("baryon"), build_worldline("dm"), build_worldline("de"), build_reference_worldline()
-    tau, u = w_ref["tau"], w_ref["u"]
-    a, E, R, Or, Om, OL, Ob, Oc, lmu, q_u, w_eff_u, D_u = cosmos_at_u(u)
+    w_b = build_worldline("baryon")
+    w_dm = build_worldline("dm")
+    w_de = build_worldline("de")
+    w_ref = build_reference_worldline()
 
-    K_m, K_t, K_g = build_K_components(u, a, R, Or, Om, OL, D_u)
+    tau, u = w_ref["tau"], w_ref["u"]
+    a, E, R, Or, Om, OL, D = cosmos_at_u(u)
+
+    K_m, K_t, K_g = build_K_components(u, a, R, Or, Om, OL, D)
     K_total = K_m + K_t + K_g
     epsilons = [1e-3, 1e-2, 1e-1]
     eta_all, mag_all = solve_geodesic_deviation_full(tau, K_total, epsilons)
 
-    fig = plt.figure(figsize=(7, 6))
-    ax = fig.add_subplot(111, projection="3d")
-    ax.plot(w_b["x"], w_b["y"], w_b["z"], label="Baryons")
-    ax.plot(w_dm["x"], w_dm["y"], w_dm["z"], label="Dark Matter")
-    ax.plot(w_ref["x"], w_ref["y"], w_ref["z"], label="χ-neutral ref", lw=2)
-    ax.set_title("STUR 5D UGR v6.1 – Infinity Helix")
-    ax.legend(); plt.show()
+    # Visualization
+    fig = plt.figure(figsize=(12, 5))
 
-    plt.figure(figsize=(6, 4))
-    for ei, eps in enumerate(epsilons): plt.plot(u, mag_all[ei], label=f"ε={eps}")
-    plt.title("Deviation Magnitude |η(τ)|"); plt.legend(); plt.show()
+    # 3D helix plot
+    ax1 = fig.add_subplot(121, projection="3d")
+    ax1.plot(w_b["x"], w_b["y"], w_b["z"], label="Baryons", color="#4ade80")
+    ax1.plot(w_dm["x"], w_dm["y"], w_dm["z"], label="Dark Matter", color="#f472b6")
+    ax1.plot(w_de["x"], w_de["y"], w_de["z"], label="Dark Energy", color="#fbbf24")
+    ax1.plot(w_ref["x"], w_ref["y"], w_ref["z"], label="Reference", lw=2, color="#60a5fa")
+    ax1.set_title("STUR 5D UGR v9.2 - Infinity Helix", color="#ffaa00")
+    ax1.legend()
 
-    print(json.dumps({"status": "complete", "tau_max": float(TAU_MAX)}, indent=2))
+    # Deviation magnitude
+    ax2 = fig.add_subplot(122)
+    ax2.set_facecolor('#050814')
+    for ei, eps in enumerate(epsilons):
+        ax2.plot(u, mag_all[ei], label=f"eps={eps}")
+    ax2.set_title("Deviation Magnitude |eta(tau)|", color="#ffaa00")
+    ax2.set_xlabel("u = tau/tau_max", color="#94a3b8")
+    ax2.set_ylabel("|eta|", color="#94a3b8")
+    ax2.legend()
+    ax2.grid(alpha=0.3)
+
+    plt.tight_layout()
+    plt.savefig(OUT_PNG, facecolor='#050814', dpi=150)
+    plt.show()
+
+    # JSON output
+    report = {
+        "meta": {
+            "page": "5d-unified-gravity",
+            "version": "v9.2",
+            "equation": "eta''(tau) + K(tau) eta = 0"
+        },
+        "params": {
+            "tau_max": float(TAU_MAX),
+            "n_samples": N_SAMPLES,
+            "H0_km_s_Mpc": H0_km_s_Mpc,
+            "Omega_m": Omega_m,
+            "Omega_L": Omega_L
+        },
+        "outputs": {"json": OUT_JSON, "png": OUT_PNG}
+    }
+
+    with open(OUT_JSON, "w") as f:
+        json.dump(report, f, indent=2)
+
+    print("=== STUR 5D UGR [v9.2] ===")
+    print(f"tau_max:    {TAU_MAX:.4f}")
+    print(f"Samples:    {N_SAMPLES}")
+    print(f"Outputs: {OUT_PNG}, {OUT_JSON}")
 
 if __name__ == "__main__":
-    main()</code></pre>
-  </section>
+    main()</pre>
 
-  <section class="panel">
-    <h2>Derivations &amp; Unified Gravity Setup</h2>
-    
-    <p><strong>5D coordinates and worldline.</strong> We embed a single closed infinity helix in a
-      5D manifold with coordinates
-      <span class="inline-math">x<sup>a</sup> = (t, x, y, z, χ)</span>.
-      The spatial projection is a Gerono lemniscate (∞) with a vertical oscillation:
-    </p>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
 
-    <pre class="code-block">x(τ) = R cos τ
-y(τ) = (R/2) sin(2τ)
-z(τ) = Z_amp sin(2τ)</pre>
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
 
-    <p>
-      The script simulates three χ-strands representing baryons, cold dark matter, and dark energy.
-      By solving the <strong>Geodesic Deviation Equation</strong>:
-      <span class="inline-math">ηᵃ″(τ) + Kᵃ₍c₎(τ) ηᶜ(τ) = 0</span>, we observe how these strands separate over cosmic time.
-    </p>
-  </section>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
 
-  <section class="panel">
-    <h2>Philosophical Statement</h2>
-    <p>
-      In this STUR universe, the extra coordinate <span class="inline-math">χ</span> is not just
-      a mathematical trick. It behaves like a bookkeeping axis for coherence: how tightly
-      information, matter, and geometry stay braided together as the Universe expands.
-    </p>
-  </section>
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> 5d-unified-gravity |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
 
-  <footer>
-    © 2026 STUR Physics Lab · Unified Gravity Run v6.1
-    <br>
-    <a href="https://example.com/stur-index">← Back to STUR Physics Lab Index</a>
-  </footer>
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — Master Action</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Planck 2018 Results — Cosmological Parameters (H0, Omega_m, Omega_L)</li>
+                <li>Kaluza-Klein Theory — 5D Unification of Gravity and Electromagnetism</li>
+            </ol>
+        </div>
+    </section>
+
 </main>
 
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-  // Copy button fix with visual feedback
-  document.getElementById("copyBtn").addEventListener("click", function() {
-    const codeText = document.getElementById("codeBlock").innerText;
-    const btn = this;
-    
-    navigator.clipboard.writeText(codeText).then(() => {
-      const originalText = btn.innerHTML;
-      btn.innerHTML = "✅ Copied!";
-      btn.style.borderColor = "#00f2aa";
-      btn.style.backgroundColor = "rgba(0, 242, 170, 0.2)";
-      
-      setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.style.borderColor = "";
-        btn.style.backgroundColor = "";
-      }, 2000);
-    }).catch(err => {
-      console.error('Failed to copy: ', err);
-      alert("Please select and copy the code manually.");
-    });
-  });
+const PAGE_ID = '5d-unified-gravity';
+const pageState = {
+    params: {
+        tau_max: 8 * Math.PI,
+        n_samples: 600,
+        H0_km_s_Mpc: 67.4,
+        Omega_m: 0.315,
+        Omega_L: 0.685
+    },
+    predictions: {
+        equation: "eta''(tau) + K(tau) eta = 0"
+    },
+    results: {},
+    data: {}
+};
 
-  // Open Jupyter Lab link fix
-  document.getElementById("openJupyterBtn").addEventListener("click", () => {
-    window.open("https://jupyter.org/try-jupyter/lab/", "_blank", "noopener,noreferrer");
-  });
+document.getElementById('timestamp').textContent = new Date().toISOString();
 
-  // Return to Index button fix
-  document.getElementById("backIndexBtn").addEventListener("click", () => {
-    // Navigates back or to a fallback index
-    if (window.history.length > 1) {
-        window.history.back();
-    } else {
-        window.location.href = "index.html";
-    }
-  });
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
+}
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'tau_max', value: pageState.params.tau_max, unit: 'rad' },
+        { parameter: 'n_samples', value: pageState.params.n_samples, unit: '' },
+        { parameter: 'H0', value: pageState.params.H0_km_s_Mpc, unit: 'km/s/Mpc' },
+        { parameter: 'Omega_m', value: pageState.params.Omega_m, unit: '' },
+        { parameter: 'Omega_L', value: pageState.params.Omega_L, unit: '' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
+}
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_5duniverse.py', 'text/x-python');
+});
 </script>
 
 </body>
