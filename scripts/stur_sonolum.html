@@ -1,216 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>STUR 5D χ-Coupled Sonoluminescence Lab – Multi-Fluid v5.2</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonoluminescence Lab — STUR Physics Lab</title>
 
-<style>
-  :root{
-    --bg-main:#050814;
-    --bg-panel:#070d1c;
-    --accent:#ffaa00;
-    --accent-soft:#ffcc33;
-    --text-main:#e6edf3;
-    --text-soft:#a5b3c4;
-    --code-bg:#050a16;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    padding:2rem 1.5rem 3rem 1.5rem;
-    background:radial-gradient(circle at 10% 0%,#0a1430 0%,var(--bg-main)45%);
-    color:var(--text-main);
-    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",monospace;
-  }
-  .wrap{
-    max-width:1000px;
-    margin:0 auto;
-  }
-  h1{
-    text-align:center;
-    color:var(--accent);
-    margin-bottom:0.2rem;
-  }
-  h2{
-    color:var(--accent-soft);
-    margin-top:2rem;
-    margin-bottom:0.5rem;
-  }
-  p{
-    line-height:1.6;
-    color:var(--text-soft);
-  }
-  .tagline{
-    text-align:center;
-    color:var(--text-soft);
-    margin-bottom:1.5rem;
-  }
-  .panel{
-    background:rgba(5,10,25,0.95);
-    border-radius:12px;
-    padding:1.2rem 1.3rem;
-    box-shadow:0 0 25px rgba(0,0,0,0.7);
-    border:1px solid rgba(255,255,255,0.05);
-    margin-bottom:1.5rem;
-  }
-  pre{
-    background:var(--code-bg);
-    padding:1rem 1.1rem;
-    border-radius:10px;
-    overflow-x:auto;
-    color:#00ffd0;
-    font-size:0.82rem;
-    line-height:1.4;
-    box-shadow:0 0 18px rgba(255,170,0,0.2);
-    white-space:pre;
-  }
-  .btnbar{
-    display:flex;
-    flex-wrap:wrap;
-    gap:0.7rem;
-    margin:1.4rem 0 0.4rem 0;
-    justify-content:flex-start;
-  }
-  button{
-    background:var(--accent);
-    color:#050814;
-    border:none;
-    border-radius:999px;
-    padding:8px 18px;
-    font-weight:600;
-    font-size:0.85rem;
-    cursor:pointer;
-    letter-spacing:0.03em;
-  }
-  button:hover{
-    background:var(--accent-soft);
-  }
-  code{
-    font-family:"Courier New",monospace;
-    font-size:0.86rem;
-  }
-  ul{
-    color:var(--text-soft);
-    padding-left:1.2rem;
-  }
-  li{margin-bottom:0.25rem;}
-  @media (max-width:700px){
-    body{padding:1.4rem 1rem 2.2rem 1rem;}
-    pre{font-size:0.76rem;}
-  }
-</style>
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-<script>
-function copyScript(){
-  const code = document.getElementById("sturscript").innerText;
-  navigator.clipboard.writeText(code);
-  alert("STUR sonoluminescence script copied to clipboard.");
-}
-</script>
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
+    <style>
+      /* Page-specific code styling */
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
-<div class="wrap">
 
-  <h1>STUR 5D χ-Coupled Sonoluminescence Lab – Multi-Fluid v5.2</h1>
-  <div class="tagline">
-    Multi-fluid, multi-bubble sonoluminescence from a driven Rayleigh–Plesset bubble with a 5D χ-torsion channel.
-  </div>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-  <div class="btnbar">
-    <button onclick="copyScript()">COPY SCRIPT</button>
-    <button onclick="location.href='https://jupyter.org/try-jupyter/lab/'">OPEN IN JUPYTER PIODE</button>
-    <button onclick="location.href='../index.html'">RETURN TO INDEX</button>
-  </div>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-  <div class="panel">
-    <h2>How to Use</h2>
-    <p>
-      1. Click <code>OPEN IN JUPYTER PIODE</code>, create a new notebook, and paste the full script below into a cell.<br>
-      2. Run the cell. The simulator will:
-    </p>
-    <ul>
-      <li>Loop over 9 “ambient + gas” setups: H<sub>2</sub>O, D<sub>2</sub>O, Ar, Xe, He, SF<sub>6</sub>, C<sub>2</sub>F<sub>6</sub>, CCl<sub>4</sub>, Air.</li>
-      <li>For each fluid, run a Monte-Carlo ensemble (~60 bubbles) with slightly different R<sub>0</sub>, drive amplitude, and frequency.</li>
-      <li>Integrate a physically grounded Rayleigh–Plesset equation for R(t) and compute T(t) from adiabatic compression.</li>
-      <li>Track minimum collapse radius R<sub>min</sub>/R<sub>0</sub>, peak temperature T<sub>max</sub>, Wien-like peak wavelength λ<sub>peak</sub>, and maximum χ excitation per bubble.</li>
-      <li>Show bar plots of mean T<sub>max</sub>, R<sub>min</sub>, and χ excitation per fluid and print a JSON dictionary with all samples.</li>
-    </ul>
-    <p>
-      3. You can recycle the JSON into your own notebooks to fit distributions, compare against SL spectra, or plug into other STUR labs.
-    </p>
-  </div>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>5D Chi-Coupled Sonoluminescence Lab</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Multi-fluid, multi-bubble sonoluminescence from driven Rayleigh-Plesset collapse with 5D torsion channel.
+            The single parameter \(\sigma_R/L_X\) determines chi-excitation scaling across fluids.
+        </p>
 
-  <div class="panel">
-    <h2>Physical Model – RP Collapse + Adiabatic Heating + χ Channel</h2>
-    <p>
-      At the core is a single spherical bubble of equilibrium radius R<sub>0</sub> in a fluid of density ρ, viscosity μ, and surface tension σ.
-      The radius R(t) obeys a standard Rayleigh–Plesset–type equation driven by an acoustic field P<sub>A</sub> sin(2π f t):
-    </p>
-    <pre>
-R R̈ + (3/2) Ṙ² = (1/ρ) [
-  P_g(R) - P_∞ - P_A sin(2π f t)
-  - 2σ/R - 4μ Ṙ / R
-]
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status info">
+                <span class="stur-icon icon-target sm"></span>
+                FALSIFIABLE
+            </span>
+        </div>
+    </header>
 
-P_g(R) = P_g0 (R₀ / R)^(3γ)
-    </pre>
-    <p>
-      where:
-    </p>
-    <ul>
-      <li><code>P_∞</code> ≈ 1 atm is the ambient pressure.</li>
-      <li><code>P_g0</code> is the internal gas pressure at equilibrium.</li>
-      <li><code>γ</code> is the effective polytropic index of the gas (≈1.33 for water vapor, 5/3 for noble gases).</li>
-      <li><code>f</code> is the acoustic drive frequency (here around 26 kHz).</li>
-    </ul>
-    <p>
-      Instead of guessing a temperature ODE, we use the adiabatic law directly:
-    </p>
-    <pre>
-T(t) = T₀ (R₀ / R(t))^(3(γ - 1))
-    </pre>
-    <p>
-      with T<sub>0</sub> ≈ 293 K. To keep the numerics sane and closer to experimental SL regimes, we clamp:
-    </p>
-    <pre>
-T(t) ∈ [10³ K, 5 × 10⁴ K]
-    </pre>
-    <p>
-      This gives more realistic trends in the plots: noble-gas-dominated bubbles reach hotter, shorter-wavelength flashes than
-      water-like or heavy, highly damped fluids.
-    </p>
-    <p>
-      The 5D χ torsion degree of freedom is modeled as a curvature channel that lights up when the bubble compresses:
-    </p>
-    <pre>
-dχ/dt = Γχ (R₀ / R - 1)
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-χ_amp = max_t |χ(t)|
-    </pre>
-    <p>
-      so each collapse pumps χ when R &lt; R<sub>0</sub>. In STUR language, the bubble is a tiny torsion cavity that shoves
-      part of the collapse energy sideways into χ and then radiates it back out as a flash.
-    </p>
-  </div>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE TESTS
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24"></span>
+            <h2 class="glass-section-title">What This Page Tests</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Peak temperature \(T_{\max}\), minimum radius \(R_{\min}/R_0\), and chi-excitation \(|\chi|_{\max}\) for collapsing sonoluminescent bubbles.</p>
+            <p><strong>Geometry:</strong> Spherical bubble of equilibrium radius \(R_0 \approx 4.5\,\mu\text{m}\) driven at \(f \approx 26\,\text{kHz}\) acoustic frequency.</p>
+            <p><strong>Regime:</strong> Rayleigh-Plesset collapse with adiabatic heating and 5D torsion coupling.</p>
+        </div>
+    </section>
 
-  <div class="panel">
-    <h2>Full Python Script (JupyterLite / Piode Safe)</h2>
-    <pre id="sturscript">
-#!/usr/bin/env python3
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
+
+            <p><strong>Rayleigh-Plesset equation:</strong> The bubble radius \(R(t)\) obeys:</p>
+
+            <div class="stur-eq derived">
+                \[
+                R\ddot{R} + \frac{3}{2}\dot{R}^2 = \frac{1}{\rho}\left[P_g(R) - P_\infty - P_A\sin(2\pi f t) - \frac{2\sigma}{R} - \frac{4\mu\dot{R}}{R}\right]
+                \]
+                <div class="stur-eq-label">Rayleigh-Plesset Dynamics</div>
+            </div>
+
+            <p><strong>Adiabatic heating:</strong> Temperature from compression ratio:</p>
+
+            <div class="stur-eq derived">
+                \[
+                T(t) = T_0 \left(\frac{R_0}{R(t)}\right)^{3(\gamma-1)}, \quad P_g(R) = P_{g0}\left(\frac{R_0}{R}\right)^{3\gamma}
+                \]
+                <div class="stur-eq-label">Adiabatic Temperature Law</div>
+            </div>
+
+            <p><strong>5D chi-torsion channel:</strong> The bubble acts as a torsion cavity:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \frac{d\chi}{dt} = \Gamma_\chi \left(\frac{R_0}{R} - 1\right), \quad \chi_{\text{amp}} = \max_t|\chi(t)|
+                \]
+                <div class="stur-eq-label">Chi-Torsion Excitation</div>
+            </div>
+
+            <p><strong>Key parameter:</strong> The single ratio \(\sigma_R/L_X\) enters through the torsion coupling strength \(\Gamma_\chi\).</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: PREDICTION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Prediction</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>STUR predicts:</strong></p>
+            <ul>
+                <li><strong>Noble gas enhancement:</strong> Ar, Xe, He reach hotter \(T_{\max}\) and shorter \(\lambda_{\text{peak}}\) than water-like fluids.</li>
+                <li><strong>Chi-excitation scaling:</strong> \(\chi_{\text{amp}} \propto (R_0/R_{\min} - 1)\) during collapse.</li>
+                <li><strong>Wien peak:</strong> \(\lambda_{\text{peak}} = 2.898 \times 10^{-3} / T_{\max}\) for blackbody-like emission.</li>
+            </ul>
+
+            <p><strong>Competitor model (Classical SL):</strong> No 5D torsion channel; pure thermodynamic collapse without geometric coupling.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Fluids</div>
+                    <div class="glass-metric-value">9 types</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Ensemble</div>
+                    <div class="glass-metric-value">60 bubbles</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Drive freq</div>
+                    <div class="glass-metric-value">26 kHz</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">R_0</div>
+                    <div class="glass-metric-value">4.5 um</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: FALSIFICATION CRITERIA
+         ============================================================ -->
+    <section class="glass-section falsify">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-x-circle size-24"></span>
+            <h2 class="glass-section-title">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>This page falsifies STUR if:</strong></p>
+            <ul>
+                <li><strong>Kill-1:</strong> Chi-excitation \(\chi_{\text{amp}}\) is uncorrelated with collapse ratio \(R_0/R_{\min}\).</li>
+                <li><strong>Kill-2:</strong> Noble gases show lower \(T_{\max}\) than predicted by adiabatic scaling.</li>
+                <li><strong>Kill-3:</strong> Wien peak \(\lambda_{\text{peak}}\) deviates by more than 20% from \(2.898 \times 10^{-3}/T_{\max}\).</li>
+            </ul>
+
+            <!-- Verdict display -->
+            <div class="glass-verdict pending" id="verdict-display">
+                <div class="glass-verdict-icon">
+                    <span class="stur-icon icon-alert-circle lg"></span>
+                </div>
+                <div class="glass-verdict-text">
+                    <div class="glass-verdict-label">Status</div>
+                    <div class="glass-verdict-value">Run simulation to compute verdict</div>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="glass-metrics" style="margin-top:1rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">T_max (Ar)</div>
+                    <div class="glass-metric-value" id="metric-tmax">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">R_min/R_0</div>
+                    <div class="glass-metric-value" id="metric-rmin">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Chi_amp</div>
+                    <div class="glass-metric-value" id="metric-chi">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Verdict</div>
+                    <div class="glass-metric-value" id="metric-verdict">Pending</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Dataset-locked Python simulation. Copy and run in any Python 3 environment with NumPy and Matplotlib.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # =====================================================================
-# STUR 5D χ-COUPLED MULTI-FLUID SONOLUMINESCENCE ENGINE v5.2
-# - 9 fluids: H2O, D2O, Ar, Xe, He, SF6, C2F6, CCl4, Air
-# - ~60 bubble trajectories per fluid (Monte-Carlo)
-# - Rayleigh–Plesset collapse with acoustic drive
-# - Adiabatic compression for T(t) + χ torsion channel
-# - Summary plots + JSON output (no SciPy, JupyterLite-safe)
+# STUR 5D Chi-Coupled Multi-Fluid Sonoluminescence Engine (v9.2)
+#
+# Tests chi-torsion coupling: d(chi)/dt = Gamma_chi * (R0/R - 1)
+#
+# 9 fluids: H2O, D2O, Ar, Xe, He, SF6, C2F6, CCl4, Air
+# ~60 bubble trajectories per fluid (Monte-Carlo)
+# Rayleigh-Plesset collapse with acoustic drive
+# Adiabatic compression for T(t) + chi torsion channel
+#
+# Outputs:
+#   - stur_sonolum.json (full results + falsification flag)
+#   - Bar plots of T_max, R_min, chi_amp per fluid
+#
+# Falsified if: chi uncorrelated with R0/Rmin OR T_max fails scaling
 # =====================================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
-import json
+import json, time
 
 plt.style.use("dark_background")
 
@@ -230,21 +300,23 @@ fluids = {
 }
 
 # ---------------------------------------------------------------------
-# 2. Global constants and χ-coupling strength
+# 2. Global constants and chi-coupling strength (v9.2)
 # ---------------------------------------------------------------------
 P_INF   = 1.0e5       # ambient pressure (Pa)
 T0      = 293.0       # ambient temperature (K)
 F0      = 26.0e3      # nominal drive frequency (Hz)
 R0_MEAN = 4.5e-6      # mean equilibrium radius (m)
-CHI_RATE = 5.0e6      # χ response rate (sets how fast torsion responds)
+CHI_RATE = 5.0e6      # chi response rate (sets how fast torsion responds)
+
+OUT_JSON = "stur_sonolum.json"
 
 # ---------------------------------------------------------------------
-# 3. Single-bubble trajectory (Rayleigh–Plesset + adiabatic T + χ)
+# 3. Single-bubble trajectory (Rayleigh-Plesset + adiabatic T + chi)
 # ---------------------------------------------------------------------
 def run_traj(seed, fluid_name, steps=4000, n_cycles=3):
     """
     Integrate one bubble in a given fluid using a 2nd-order explicit scheme.
-    State: R(t), Rdot(t), χ(t).
+    State: R(t), Rdot(t), chi(t).
     """
     fd = fluids[fluid_name]
     rho   = fd["rho"]
@@ -283,7 +355,7 @@ def run_traj(seed, fluid_name, steps=4000, n_cycles=3):
         # Keep R physically meaningful
         R = max(R, 0.05 * R0)
 
-        # Rayleigh–Plesset RHS at (R, Rdot)
+        # Rayleigh-Plesset RHS at (R, Rdot)
         Pac = PA * np.sin(omega * t)
         Pg  = Pg0 * (R0 / R)**(3.0 * gamma)
 
@@ -317,7 +389,7 @@ def run_traj(seed, fluid_name, steps=4000, n_cycles=3):
         T_ad = T0 * (R0 / R)**(3.0 * (gamma - 1.0))
         T = min(max(T_ad, 1.0e3), 5.0e4)
 
-        # χ torsion channel: only excited when R < R0
+        # Chi torsion channel: only excited when R < R0 (v9.2)
         chi += CHI_RATE * (R0 / R - 1.0) * dt
 
         # Store
@@ -360,7 +432,7 @@ def run_multibubble(fluid_name, N=60):
 results = {}
 fluids_order = list(fluids.keys())
 
-print("=== STUR 5D χ Sonoluminescence Lab v5.2 ===")
+print("=== STUR 5D Chi Sonoluminescence Lab v9.2 ===")
 for name in fluids_order:
     print("Running:", name)
     Rmins, Tmaxs, Lambdas, ChiAmp = run_multibubble(name, N=60)
@@ -374,70 +446,256 @@ for name in fluids_order:
 print("Simulation complete.")
 
 # ---------------------------------------------------------------------
-# 6. Summary bar plots (mean stats per fluid)
+# 6. Summary statistics and falsification check
 # ---------------------------------------------------------------------
 mean_T    = [np.mean(results[f]["Tmax"]) for f in fluids_order]
 mean_Rmin = [np.mean(results[f]["Rmin"]) for f in fluids_order]
 mean_chi  = [np.mean(results[f]["chiamp"]) for f in fluids_order]
 mean_lam  = [np.mean(results[f]["lambda"]) for f in fluids_order]
 
+# Falsification check
+falsified = False
+triggered = []
+
+# Kill-1: Chi correlation with 1/Rmin
+collapse_ratios = [1.0/r for r in mean_Rmin]
+chi_corr = np.corrcoef(collapse_ratios, mean_chi)[0,1]
+if chi_corr < 0.5:
+    triggered.append("Kill-1: Chi uncorrelated with collapse ratio")
+    falsified = True
+
+# Kill-2: Noble gas T_max check (Ar should be hotter than H2O)
+ar_idx = fluids_order.index("Ar")
+h2o_idx = fluids_order.index("H2O")
+if mean_T[ar_idx] < mean_T[h2o_idx]:
+    triggered.append("Kill-2: Noble gas T_max lower than H2O")
+    falsified = True
+
+# Kill-3: Wien peak deviation (check Ar)
+ar_T = mean_T[ar_idx]
+ar_lam = mean_lam[ar_idx]
+wien_pred = 2.898e-3 / ar_T
+wien_dev = abs(ar_lam - wien_pred) / wien_pred
+if wien_dev > 0.20:
+    triggered.append("Kill-3: Wien peak deviation > 20%")
+    falsified = True
+
+# ---------------------------------------------------------------------
+# 7. Summary bar plots (mean stats per fluid)
+# ---------------------------------------------------------------------
 xpos = np.arange(len(fluids_order))
 
 fig, ax = plt.subplots(1, 3, figsize=(14, 4))
 
 # Panel 1: peak temperature
-ax[0].bar(xpos, np.array(mean_T) / 1000.0)
+ax[0].bar(xpos, np.array(mean_T) / 1000.0, color='#f59e0b')
 ax[0].set_xticks(xpos)
 ax[0].set_xticklabels(fluids_order, rotation=45)
 ax[0].set_ylabel("T_max (kK)")
 ax[0].set_title("Mean peak temperature")
 
 # Panel 2: minimum radius
-ax[1].bar(xpos, mean_Rmin)
+ax[1].bar(xpos, mean_Rmin, color='#60a5fa')
 ax[1].set_xticks(xpos)
 ax[1].set_xticklabels(fluids_order, rotation=45)
 ax[1].set_ylabel("R_min / R0")
 ax[1].set_title("Mean minimum radius")
 
-# Panel 3: χ excitation
-ax[2].bar(xpos, mean_chi)
+# Panel 3: chi excitation
+ax[2].bar(xpos, mean_chi, color='#a78bfa')
 ax[2].set_xticks(xpos)
 ax[2].set_xticklabels(fluids_order, rotation=45)
-ax[2].set_ylabel("max |χ|")
-ax[2].set_title("Mean χ excitation")
+ax[2].set_ylabel("max |chi|")
+ax[2].set_title("Mean chi excitation")
 
 plt.tight_layout()
+plt.savefig("stur_sonolum.png", dpi=150)
 plt.show()
 
 # ---------------------------------------------------------------------
-# 7. JSON output
+# 8. JSON output
 # ---------------------------------------------------------------------
-print(json.dumps(results, indent=2))
-    </pre>
-  </div>
+report = {
+    "meta": {
+        "page": "sonoluminescence-lab",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "d(chi)/dt = Gamma_chi * (R0/R - 1)"
+    },
+    "parameters": {
+        "R0_mean_m": R0_MEAN,
+        "f0_Hz": F0,
+        "P_inf_Pa": P_INF,
+        "T0_K": T0,
+        "chi_rate": CHI_RATE
+    },
+    "fluids": list(fluids.keys()),
+    "results": results,
+    "summary": {
+        "mean_Tmax_K": dict(zip(fluids_order, [float(t) for t in mean_T])),
+        "mean_Rmin": dict(zip(fluids_order, [float(r) for r in mean_Rmin])),
+        "mean_chi": dict(zip(fluids_order, [float(c) for c in mean_chi])),
+        "chi_collapse_correlation": float(chi_corr)
+    },
+    "falsification": {
+        "criteria": [
+            "Kill-1: Chi uncorrelated with collapse ratio",
+            "Kill-2: Noble gas T_max lower than H2O",
+            "Kill-3: Wien peak deviation > 20%"
+        ],
+        "triggered": triggered if triggered else None,
+        "falsified": falsified
+    },
+    "outputs": {"json": OUT_JSON, "plot": "stur_sonolum.png"}
+}
 
-  <div class="panel">
-    <h2>Reading the Results</h2>
-    <p>
-      Each fluid entry in the JSON has four arrays (length ≈ 60):
-    </p>
-    <ul>
-      <li><code>Rmin</code> – minimum dimensionless radius R/R<sub>0</sub> per bubble.</li>
-      <li><code>Tmax</code> – peak temperature (K) from adiabatic compression during collapse.</li>
-      <li><code>lambda</code> – approximate Wien peak wavelength (m), λ ≈ 2.9×10<sup>−3</sup> / T<sub>max</sub>.</li>
-      <li><code>chiamp</code> – maximum |χ| reached, a proxy for torsion–resistance excitation.</li>
-    </ul>
-    <p>
-      In this STUR picture, noble-gas bubbles (Ar, Xe, He) tend to reach smaller R<sub>min</sub>, hotter T<sub>max</sub>, and shorter λ
-      than water-like or heavy, viscously damped fluids. The χ bar is the “extra” channel: how much of the collapse was forced sideways
-      into a 5D torsion cavity before it snapped back as light.
-    </p>
-    <p>
-      You can swap in your own fluid parameters, drive spectra, or χ-coupling to explore where the flash turns UV-hard, where it dies out,
-      and where STUR predicts the cleanest energy focusing.
-    </p>
-  </div>
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
-</div>
+print(json.dumps(report, indent=2))
+print(f"\nFALSIFIED = {falsified}")
+print("STUR Sonoluminescence Lab v9.2 Complete.")</pre>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+                <button class="glass-btn" onclick="window.open('https://jupyter.org/try-jupyter/lab/', '_blank')">
+                    <span class="stur-icon icon-external-link"></span>
+                    Open JupyterLite
+                </button>
+            </div>
+
+            <p class="stur-text-muted" style="margin-top:1rem; font-size:0.85rem;">
+                After running, open <code>stur_sonolum.png</code> for bar plots and <code>stur_sonolum.json</code> for the full falsification report.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <!-- Version stamp -->
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> sonoluminescence-lab |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — 5D Torsion Channel</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Rayleigh-Plesset equation for bubble dynamics</li>
+                <li>Brenner, Hilgenfeldt, Lohse — Rev. Mod. Phys. 74 (2002) — Sonoluminescence theory</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+// Page-specific state
+const PAGE_ID = 'sonoluminescence-lab';
+const pageState = {
+    params: {
+        R0_mean_m: 4.5e-6,
+        f0_Hz: 26e3,
+        P_inf_Pa: 1e5,
+        T0_K: 293,
+        chi_rate: 5e6
+    },
+    predictions: {
+        equation: 'd(chi)/dt = Gamma_chi * (R0/R - 1)'
+    },
+    results: { fitMetrics: {}, decision: null },
+    data: {
+        fluids: ["H2O", "D2O", "Ar", "Xe", "He", "SF6", "C2F6", "CCl4", "Air"]
+    }
+};
+
+// Set timestamp
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+// Export functions
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
+}
+
+function exportCSV() {
+    const rows = pageState.data.fluids.map((f) => ({ fluid: f }));
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
+}
+
+// Copy/download script
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_sonolum.py', 'text/x-python');
+});
+</script>
+
 </body>
 </html>

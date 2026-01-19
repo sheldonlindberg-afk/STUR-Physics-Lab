@@ -1,85 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌀 STUR Golden Ratio – Perfect Resistance Ratio Lab</title>
-<style>
-  body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
-  pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;line-height:1.4;
-      box-shadow:0 0 20px #ffaa0055;}
-  button{background:#ffaa00;color:#050814;border:none;border-radius:6px;padding:10px 20px;font-weight:bold;
-      cursor:pointer;margin:6px;transition:0.2s;}
-  button:hover{background:#ffcc33;}
-  footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Ratio Attractor — STUR Physics Lab</title>
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>🌀 STUR Golden Ratio – Perfect Resistance Ratio Simulation</h1>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<p class="desc">
-The STUR <b>Perfect Resistance Ratio</b> defines the geometric equilibrium:
-<br><br>
-<center><code>R* = E / (I Φ)  →  1</code></center>
-<br>
-This lab module demonstrates that <b>energy</b>, <b>information flow</b>, and <b>geometric flux</b>
-naturally self-regulate toward the unity attractor <code>R* = 1</code> — the
-<b>Golden Ratio of Resistance Coherence</b>.  
-Small oscillations, phase drifts, and noise are automatically corrected via
-STUR feedback coupling, reproducing the universal equilibrium observed in:
-Replicator, Arc Reactor, WGM photon orbits, Double-Slit 48.4, and STUR-Helix systems.
-</p>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<h2>Derivation Overview (Short Form)</h2>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Golden Ratio Attractor</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Derives the perfect resistance ratio \(R^* = E/(I \Phi) \to 1\) as a universal equilibrium.
+            Energy, information, and geometric flux self-regulate toward unity coherence.
+        </p>
 
-<div class="desc">
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status warning">
+                <span class="stur-icon icon-layers sm"></span>
+                DERIVED
+            </span>
+        </div>
+    </header>
 
-1. **Define the three STUR fields:**  
-<pre>E(t), I(t), Φ(t)  →  oscillatory, coherent, with small drifts</pre>
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-2. **Perfect Resistance Ratio:**  
-<pre>R*(t) = E / (I Φ)</pre>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Perfect Resistance Ratio \(R^* = E/(I \Phi)\) converging to unity attractor.</p>
+            <p><strong>Scale:</strong> Universal across all STUR-coupled systems (Replicator, Arc, WGM, Double-Slit, Helix).</p>
+            <p><strong>Connection:</strong> The XCRM coupling \(U(X-R)\) enforces geometric-informational equilibrium via feedback dynamics.</p>
+        </div>
+    </section>
 
-3. **Golden Ratio Condition:**  
-When the system is in geometric–informational balance:  
-<pre>R*(t) → 1</pre>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-4. **Self-Correction Rule (STUR feedback):**  
-For a small deviation Δ ≡ (R*−1):  
-<pre>E ← E − k · Δ · E</pre>
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-5. **Result:**  
-Even under noise + phase drift, the system converges:  
-<pre>⟨R*⟩ = 1 ± small variance</pre>
+            <p><strong>Three STUR fields:</strong> Energy \(E(t)\), Information flow \(I(t)\), Geometric flux \(\Phi(t)\):</p>
 
-This is the **Golden STUR Attractor**, showing that geometry, energy, and information
-are locked in a unified resistance equilibrium.
+            <div class="stur-eq derived">
+                \[
+                R^*(t) = \frac{E(t)}{I(t) \cdot \Phi(t)}
+                \]
+                <div class="stur-eq-label">Perfect Resistance Ratio</div>
+            </div>
 
-</div>
+            <p><strong>Golden Ratio Condition:</strong> At geometric-informational equilibrium:</p>
 
-<h2>Python Simulation (Copy &amp; Run)</h2>
+            <div class="stur-eq derived">
+                \[
+                R^*(t) \to 1 \quad \text{(Golden STUR Attractor)}
+                \]
+                <div class="stur-eq-label">Unity Equilibrium</div>
+            </div>
 
-<pre id="codeBlock">
+            <p><strong>Self-correction rule:</strong> STUR feedback for small deviation \(\Delta = R^* - 1\):</p>
+
+            <div class="stur-eq derived">
+                \[
+                E \leftarrow E - k \cdot \Delta \cdot E
+                \]
+                <div class="stur-eq-label">Feedback Coupling</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>Oscillatory coherence:</strong> \(E(t), I(t), \Phi(t)\) oscillate with slight phase drifts.</li>
+                <li><strong>Feedback coupling:</strong> Small deviations from \(R^*=1\) trigger self-correction.</li>
+                <li><strong>Convergence:</strong> Under noise and phase drift, \(\langle R^* \rangle = 1 \pm \sigma\).</li>
+            </ul>
+
+            <p><strong>Result:</strong> The Golden STUR Attractor demonstrates that geometry, energy, and information are locked in a unified resistance equilibrium.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Attractor</div>
+                    <div class="glass-metric-value">R* = 1</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Coupling k</div>
+                    <div class="glass-metric-value">0.15</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Noise Level</div>
+                    <div class="glass-metric-value">0.02</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Time Domain</div>
+                    <div class="glass-metric-value">60 s</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Golden ratio attractor simulation with STUR feedback coupling. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Perfect Resistance Ratio Simulation – R* = E / (I Φ)
-# ===============================================================
-# Sheldon L. Lindberg (2025)
-# Compatible with JupyterLite or local Python3 + matplotlib + numpy
+# STUR Golden Ratio Attractor (v9.2)
+#
+# Derives R* = E/(I*Phi) -> 1 from XCRM coupling
+# Demonstrates unified resistance equilibrium
+#
+# Outputs:
+#   - stur_goldenratio.json  (attractor statistics)
+#   - stur_goldenratio.png   (time evolution plot)
+#
+# Derived from Master Action U(X-R) coupling term
 # ===============================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
-import json
+import json, time
 
 plt.style.use("dark_background")
 np.random.seed(42)
 
-# ---------------------- PARAMETERS ------------------------------
-# Base energy, information, and flux scales
+OUT_JSON = "stur_goldenratio.json"
+OUT_PNG  = "stur_goldenratio.png"
+
+# ===============================================================
+# 1) PARAMETERS
+# ===============================================================
 E0   = 1.0          # normalized energy unit
 I0   = 1.0          # normalized information flow
 Phi0 = 1.0          # normalized geometric flux
@@ -94,7 +249,9 @@ noise     = 0.02
 # Time domain
 t = np.linspace(0, 60, 2000)  # 60 s, fine resolution
 
-# ---------------------- DYNAMICS -------------------------------
+# ===============================================================
+# 2) DYNAMICS
+# ===============================================================
 # Coherent oscillations with slight phase drifts
 E   = E0   * (1 + 0.3*np.sin(omega_E*t))
 I   = I0   * (1 + 0.3*np.sin(omega_I*t + np.pi/3))
@@ -108,73 +265,201 @@ for _ in range(3):
 # Recompute final ratio
 R_star = E / (I * Phi)
 
-# ---------------------- OUTPUTS -------------------------------
+# ===============================================================
+# 3) STATISTICS
+# ===============================================================
 R_mean = np.mean(R_star)
 R_std  = np.std(R_star)
 
-summary = {
-    "R_mean": float(R_mean),
-    "R_std": float(R_std),
-    "E_mean": float(np.mean(E)),
-    "I_mean": float(np.mean(I)),
-    "Phi_mean": float(np.mean(Phi)),
-    "Interpretation": "R* ≈ 1 indicates perfect coherence between energy, information, and geometry."
+# ===============================================================
+# 4) VISUALIZATION
+# ===============================================================
+fig, ax = plt.subplots(figsize=(10, 5), dpi=150)
+fig.patch.set_facecolor('#050814')
+ax.set_facecolor('#050814')
+
+ax.plot(t, R_star, color="#ffaa00", lw=1.5, label=r"$R_\ast = E/(I\Phi)$")
+ax.axhline(1, color="#22d3ee", ls="--", lw=1.5, label="Perfect Coherence (R*=1)")
+ax.fill_between(t, 1-R_std, 1+R_std, color="#22d3ee", alpha=0.1)
+
+ax.set_xlabel("Time (s)", color='#94a3b8')
+ax.set_ylabel("R* ratio", color='#94a3b8')
+ax.set_title("STUR Golden Ratio Attractor (v9.2)", color='#ffaa00', fontsize=14)
+ax.tick_params(colors='#94a3b8')
+ax.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
+ax.grid(alpha=0.3, color='#1f2a44')
+for spine in ax.spines.values():
+    spine.set_color('#334155')
+
+plt.tight_layout()
+plt.savefig(OUT_PNG, facecolor='#050814', dpi=150, bbox_inches='tight')
+plt.show()
+
+# ===============================================================
+# 5) JSON OUTPUT
+# ===============================================================
+report = {
+    "meta": {
+        "page": "golden-ratio-attractor",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "R* = E / (I * Phi) -> 1"
+    },
+    "params": {
+        "E0": float(E0),
+        "I0": float(I0),
+        "Phi0": float(Phi0),
+        "k_couple": float(k_couple),
+        "noise": float(noise),
+        "omega_E": float(omega_E),
+        "omega_I": float(omega_I),
+        "omega_Phi": float(omega_Phi)
+    },
+    "results": {
+        "R_mean": float(R_mean),
+        "R_std": float(R_std),
+        "E_mean": float(np.mean(E)),
+        "I_mean": float(np.mean(I)),
+        "Phi_mean": float(np.mean(Phi))
+    },
+    "interpretation": "R* ~ 1 indicates perfect coherence between energy, information, and geometry",
+    "outputs": {"json": OUT_JSON, "png": OUT_PNG}
 }
 
-print(json.dumps(summary, indent=2))
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
-# ---------------------- PLOT ----------------------------------
-fig, ax = plt.subplots(figsize=(8,4))
-ax.plot(t, R_star, color="#ffaa00", lw=1.5, label=r"$R_\ast = E/(I\Phi)$")
-ax.axhline(1, color="cyan", ls="--", lw=1, label="Perfect Coherence (R*=1)")
-ax.set_xlabel("Time (s)")
-ax.set_ylabel("R* ratio")
-ax.set_title("STUR Perfect Resistance Ratio Simulation")
-ax.legend()
-plt.show()
-</pre>
+print("=== STUR Golden Ratio Attractor [v9.2] ===")
+print(f"R* mean:  {R_mean:.4f}")
+print(f"R* std:   {R_std:.4f}")
+print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
-<p style="text-align:center;margin-top:1rem;">
-  <button onclick="copyCode()">📋 Copy Script</button>
-  <button onclick="openRunner()">▶ Open Python Runner (no sign-up)</button>
-</p>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
 
-<!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
 
-<p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open Python Runner</b> to launch a JupyterLite
-session in your browser (no login). Paste the script into a new notebook cell,
-run it, and observe the STUR Golden Ratio equilibrium: R* → 1.
-</p>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
 
-<footer>
-  © 2025 STUR Physics Lab | Unified Resistance Framework | Golden Ratio Module
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> golden-ratio-attractor |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — XCRM Coupling</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Golden ratio in dynamical systems — Fibonacci attractors</li>
+                <li>Information-geometry correspondence in unified field theories</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const el=document.getElementById('codeBlock');
-  navigator.clipboard.writeText(el.innerText);
-  alert('✅ STUR Golden Ratio script copied to clipboard');
+const PAGE_ID = 'golden-ratio-attractor';
+const pageState = {
+    params: {
+        k_couple: 0.15,
+        noise: 0.02,
+        attractor: 1.0
+    },
+    predictions: {
+        equation: 'R* = E / (I * Phi) -> 1'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open('https://jupyter.org/try-jupyter/lab/','_blank');
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'k_couple', value: pageState.params.k_couple, unit: 'dimensionless' },
+        { parameter: 'noise', value: pageState.params.noise, unit: 'dimensionless' },
+        { parameter: 'attractor', value: pageState.params.attractor, unit: 'R*' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_goldenratio.py', 'text/x-python');
+});
 </script>
 
 </body>

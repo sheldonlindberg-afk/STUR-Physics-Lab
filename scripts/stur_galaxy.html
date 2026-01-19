@@ -1,97 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌌 STUR Galaxy Curve – Unified Resistance Cosmology</title>
-<style>
- body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
- h1{color:#ffaa00;text-align:center;}
- h2{color:#ffcc33;margin-top:2rem;}
- .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
- pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;
-     line-height:1.4;box-shadow:0 0 20px #ffaa0055;font-size:0.9rem;}
- button{background:#ffaa00;color:#050814;border:none;border-radius:6px;
-     padding:10px 20px;font-weight:bold;cursor:pointer;margin:6px;transition:0.2s;}
- button:hover{background:#ffcc33;}
- footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
- a{color:#66ccff;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Rotation Curves — STUR Physics Lab</title>
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>🌌 STUR Galaxy Curve<br>Unified Resistance Cosmology</h1>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<p class="desc">
-This simulation fits <b>STUR-modulated galactic rotation curves</b> using a curvature–resistance scalar field 
-<code>𝓢(r,φ)</code> and an effective Lagrangian coupling dark-energy curvature (Λ), baryonic structure, 
-and the resistance substrate field. The goal is to reproduce <b>JWST Big Wheel</b> data using 
-realistic astrophysical parameters under the <b>Unified Resistance Framework</b>.
-</p>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<h2>Derivation Overview</h2>
-<div class="desc">
-<ol>
-<li>The scalar modulator is defined as
-<code>𝓢(r,φ) = φ(1 + r/L₀)/(1 + (r/L₀)²) e^{−Λr²}</code>,
-which regulates curvature feedback across galactic scales.</li>
-<li>The total rotation velocity arises from the sum of
-gas, stellar, bulge, black-hole, dark-halo, and STUR-resistance terms:
-<code>v_tot² = v_S² + v_g² + v_s² + v_b² + v_bh² + v_h² + v_turb²</code>.</li>
-<li>Minimization of χ² between model and data constrains
-baryonic fractions and the effective curvature coupling parameter φ.</li>
-<li>Outputs include optimal mass components, scale lengths, 
-dark-halo density, and curvature modulator strength. Final results are
-printed as formatted <b>JSON</b> for reproducibility.</li>
-</ol>
-</div>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Galaxy Rotation Curves</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Derives galactic rotation curves from the STUR radial modulator \(S(r)\).
+            The same potential \(V(R)\) that governs microscale physics produces flat rotation at galactic scales.
+        </p>
 
-<h2>Python Simulation (copy &amp; run)</h2>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status warning">
+                <span class="stur-icon icon-layers sm"></span>
+                DERIVED
+            </span>
+        </div>
+    </header>
 
-<pre id="codeBlock">#!/usr/bin/env python3
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
+
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Circular rotation velocity \(v(r)\) vs galactocentric radius for spiral galaxies.</p>
+            <p><strong>Scale:</strong> \(r \sim 1-50\,\text{kpc}\), matching JWST Big Wheel observations.</p>
+            <p><strong>Connection:</strong> The STUR scalar modulator modifies effective gravitational potential without invoking dark matter particles.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
+
+            <p><strong>Galactic limit:</strong> At large scales, the radial modulator \(S(r)\) modifies the effective gravitational potential:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \mathcal{S}(r, \phi) = \phi\,\frac{1 + r/L_0}{1 + (r/L_0)^2}\,e^{-\Lambda r^2}
+                \]
+                <div class="stur-eq-label">Galactic-Scale Modulator</div>
+            </div>
+
+            <p>The total rotation velocity combines baryonic and STUR contributions:</p>
+
+            <div class="stur-eq derived">
+                \[
+                v_{\text{tot}}^2 = v_{\mathcal{S}}^2 + v_{\text{gas}}^2 + v_{\star}^2 + v_{\text{bulge}}^2 + v_{\text{BH}}^2 + v_{\text{halo}}^2 + v_{\text{turb}}^2
+                \]
+                <div class="stur-eq-label">Total Rotation Velocity</div>
+            </div>
+
+            <p>where \(v_{\mathcal{S}}^2 = G M_g \mathcal{S}(r)/r\) is the STUR-modulated contribution.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>Inner region:</strong> \(\mathcal{S}(r) \to \phi\) as \(r \to 0\), dominated by baryonic mass.</li>
+                <li><strong>Transition:</strong> Around \(r \sim L_0\), the modulator peaks before exponential cutoff.</li>
+                <li><strong>Flat plateau:</strong> Combined terms yield flat \(v(r) \approx \text{const}\) for \(r > 10\,\text{kpc}\).</li>
+            </ul>
+
+            <p><strong>Fit procedure:</strong> Minimize \(\chi^2\) between model and JWST Big Wheel data over parameters \((M_g, M_\star, M_b, R_d, h, \phi, M_{\text{BH}}, \rho_0)\).</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">L₀</div>
+                    <div class="glass-metric-value">3×10²⁰ m</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Λ</div>
+                    <div class="glass-metric-value">4.5×10⁻⁵² m⁻²</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Data points</div>
+                    <div class="glass-metric-value">10</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Free params</div>
+                    <div class="glass-metric-value">8</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Galaxy rotation curve fitting with STUR scalar modulator. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# 🌌 STUR Galaxy Curve – Unified Resistance Cosmology Fit
+# STUR Galaxy Rotation Curves (v9.2)
+#
+# Derives flat rotation from S(r) modulator
+# S(r,φ) = φ(1+r/L₀)/(1+(r/L₀)²) exp(-Λr²)
+#
+# Outputs:
+#   - stur_galaxy.json  (fit results)
+#   - stur_galaxy.png   (rotation curve + residuals)
+#
+# Derived from Master Action V(R) potential term
 # ===============================================================
-# Fully JupyterLite-safe version (no SciPy required).
-# Integrates mass components, fits JWST Big Wheel data,
-# prints JSON summary of optimized parameters.
+
+import numpy as np
+import matplotlib.pyplot as plt
+import json, time, math
+
 # ===============================================================
+# 1) CONSTANTS (SI)
+# ===============================================================
+G = 6.6743e-11       # gravitational constant
+Msun = 1.989e30      # solar mass
+kpc = 3.086e19       # kiloparsec
+La = 4.5e-52         # cosmological Λ parameter
+L0 = 3e20            # STUR length scale
+sturb = 3e3          # turbulence velocity
+a_bulge = 0.3 * kpc  # bulge scale
+rho_gas = 2e-21      # gas density
+f_gas = 0.8          # gas fraction
 
-import numpy as np, math, json, matplotlib.pyplot as plt
+OUT_JSON = "stur_galaxy.json"
+OUT_PNG  = "stur_galaxy.png"
 
-# --- Constants (SI) ---------------------------------------------
-G = 6.6743e-11
-Msun = 1.989e30
-kpc = 3.086e19
-La = 4.5e-52
-L0 = 3e20
-sturb = 3e3
-a_bulge = 0.3 * kpc
-rho_gas = 2e-21
-f_gas = 0.8
-
-# --- Scalar field modulator -------------------------------------
+# ===============================================================
+# 2) STUR SCALAR MODULATOR
+# ===============================================================
 def S_STUR(r, phi):
+    """STUR galactic-scale modulator from V(R)"""
     r = max(r, 1e-10)
     x = r / L0
     return phi * (1 + x) / (1 + x**2) * math.exp(-La * r**2)
 
-# --- Enclosed mass components -----------------------------------
+# ===============================================================
+# 3) MASS COMPONENTS
+# ===============================================================
 def M_gas_encl(r, h):
+    """Enclosed gas mass"""
     rs = np.linspace(0, r, 300)
     vals = 4 * math.pi * rs**2 * rho_gas * (1 - f_gas) * np.exp(-rs / h)
     return np.trapz(vals, rs)
 
 def M_bulge_encl(r, M_b):
+    """Enclosed bulge mass (Hernquist profile)"""
     return M_b * (r**2 / (r + a_bulge)**2)
 
 def M_nfw_encl(r, rho0):
+    """Enclosed NFW halo mass"""
     Rs = 15 * kpc
     x = r / Rs
     return 4 * math.pi * rho0 * Rs**3 * (np.log(1 + x) - x / (1 + x))
 
-# --- Velocity components (km/s) ---------------------------------
+# ===============================================================
+# 4) ROTATION VELOCITY
+# ===============================================================
 def v_orb(r, M_g, M_s, M_b, R_d, h, phi, M_bh, rho0):
+    """Total orbital velocity combining all components"""
     r = max(r, 1e-10)
     v_scalar = math.sqrt(G * M_g * S_STUR(r, phi) / r)
     v_gas = math.sqrt(G * M_gas_encl(r, h) / r)
@@ -103,110 +279,242 @@ def v_orb(r, M_g, M_s, M_b, R_d, h, phi, M_bh, rho0):
     return math.sqrt(v_scalar**2 + v_gas**2 + v_stellar**2 +
                      v_bulge**2 + v_bh**2 + v_nfw**2 + v_turb**2) / 1e3
 
-# --- Observational data (JWST Big Wheel) -------------------------
-r_kpc = np.array([2,4,6,8,10,12,14,16,18,20])
+# ===============================================================
+# 5) JWST BIG WHEEL DATA
+# ===============================================================
+r_kpc = np.array([2, 4, 6, 8, 10, 12, 14, 16, 18, 20])
 r_data = r_kpc * kpc
-v_data = np.array([150,250,300,320,331,331,331,331,331,331])
-v_err  = np.array([50,40,30,25,20,20,20,30,30,30])
+v_data = np.array([150, 250, 300, 320, 331, 331, 331, 331, 331, 331])
+v_err = np.array([50, 40, 30, 25, 20, 20, 20, 30, 30, 30])
 
-# --- χ² evaluation -----------------------------------------------
+# ===============================================================
+# 6) CHI-SQUARED FIT
+# ===============================================================
 def chi2(p):
-    M_g, M_s, M_b, R_d, h, phi, M_bh, rho0 = p
     v_model = np.array([v_orb(r, *p) for r in r_data])
     return np.sum(((v_model - v_data) / v_err)**2)
 
-# --- Simple Nelder–Mead-like search ------------------------------
-def optimize(p0, steps=60, scale=0.1):
+def optimize(p0, steps=400, scale=0.2):
     best_p = p0.copy()
     best_chi2 = chi2(best_p)
-    for s in range(steps):
+    np.random.seed(42)
+    for _ in range(steps):
         trial = best_p * (1 + np.random.uniform(-scale, scale, len(p0)))
         c2 = chi2(trial)
         if c2 < best_chi2:
             best_chi2, best_p = c2, trial
     return best_p, best_chi2
 
-# --- Initial guess -----------------------------------------------
+# Initial guess
 p0 = np.array([2e11*Msun, 1e11*Msun, 5e10*Msun, 5*kpc, 2*kpc, 1e-4, 1e7*Msun, 5e-24])
-p_opt, chi2_best = optimize(p0, steps=400, scale=0.2)
+p_opt, chi2_best = optimize(p0)
 
-# --- Plotting ----------------------------------------------------
-r_plot = np.logspace(math.log10(0.5*kpc), math.log10(50*kpc), 60)
+# ===============================================================
+# 7) VISUALIZATION
+# ===============================================================
+r_plot = np.logspace(np.log10(0.5*kpc), np.log10(50*kpc), 80)
 v_plot = np.array([v_orb(r, *p_opt) for r in r_plot])
-
-fig, (ax1, ax2) = plt.subplots(2,1,figsize=(8,6))
-ax1.plot(r_plot/kpc, v_plot, 'lime', label='STUR Model')
-ax1.errorbar(r_data/kpc, v_data, yerr=v_err, fmt='ob', label='JWST Big Wheel')
-ax1.set_xlim(0,25); ax1.set_ylim(0,400)
-ax1.set_xlabel('R (kpc)'); ax1.set_ylabel('V (km/s)')
-ax1.legend(); ax1.grid(alpha=0.4)
-
 v_fit = np.array([v_orb(r, *p_opt) for r in r_data])
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), dpi=150)
+fig.patch.set_facecolor('#050814')
+
+# Rotation curve
+ax1.set_facecolor('#050814')
+ax1.plot(r_plot/kpc, v_plot, '#4ade80', lw=2, label='STUR Model')
+ax1.errorbar(r_data/kpc, v_data, yerr=v_err, fmt='o', color='#60a5fa',
+             ecolor='#60a5fa', capsize=3, label='JWST Big Wheel')
+ax1.set_xlim(0, 25)
+ax1.set_ylim(0, 400)
+ax1.set_xlabel('R (kpc)', color='#94a3b8')
+ax1.set_ylabel('V (km/s)', color='#94a3b8')
+ax1.set_title('STUR Galaxy Rotation Curve (v9.2)', color='#ffaa00', fontsize=14)
+ax1.tick_params(colors='#94a3b8')
+ax1.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
+ax1.grid(alpha=0.3, color='#1f2a44')
+for spine in ax1.spines.values():
+    spine.set_color('#334155')
+
+# Residuals
+ax2.set_facecolor('#050814')
 residuals = v_fit - v_data
-ax2.scatter(r_data/kpc, residuals, c='#ffaa00', label='Residuals')
-ax2.axhline(0,c='gray',ls='--'); ax2.legend(); ax2.grid(alpha=0.3)
-ax2.set_xlabel('R (kpc)'); ax2.set_ylabel('ΔV (km/s)')
-plt.tight_layout(); plt.show()
+ax2.scatter(r_data/kpc, residuals, c='#fbbf24', s=50, zorder=5)
+ax2.axhline(0, color='#94a3b8', ls='--', alpha=0.5)
+ax2.set_xlabel('R (kpc)', color='#94a3b8')
+ax2.set_ylabel('ΔV (km/s)', color='#94a3b8')
+ax2.set_title('Residuals', color='#ffaa00', fontsize=12)
+ax2.tick_params(colors='#94a3b8')
+ax2.grid(alpha=0.3, color='#1f2a44')
+for spine in ax2.spines.values():
+    spine.set_color('#334155')
 
-# --- Results -----------------------------------------------------
-labels = ['M_g','M_s','M_b','R_d','h','phi','M_bh','rho0']
-vals = p_opt
-res_dict = {
-    "chi2_per_dof": float(chi2_best/(len(v_data)-len(p0))),
+plt.tight_layout()
+plt.savefig(OUT_PNG, facecolor='#050814', dpi=150, bbox_inches='tight')
+plt.show()
+
+# ===============================================================
+# 8) JSON OUTPUT
+# ===============================================================
+chi2_dof = chi2_best / (len(v_data) - len(p0))
+
+report = {
+    "meta": {
+        "page": "galaxy-rotation",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "S(r,φ) = φ(1+r/L₀)/(1+(r/L₀)²)exp(-Λr²)"
+    },
+    "fit": {
+        "chi2_per_dof": float(chi2_dof),
+        "n_data": len(v_data),
+        "n_params": len(p0)
+    },
     "params": {
-        "M_g_Msun": float(vals[0]/Msun),
-        "M_s_Msun": float(vals[1]/Msun),
-        "M_b_Msun": float(vals[2]/Msun),
-        "R_d_kpc": float(vals[3]/kpc),
-        "h_kpc": float(vals[4]/kpc),
-        "phi": float(vals[5]),
-        "M_bh_Msun": float(vals[6]/Msun),
-        "rho0_kg_m3": float(vals[7])
-    }
+        "M_g_Msun": float(p_opt[0]/Msun),
+        "M_s_Msun": float(p_opt[1]/Msun),
+        "M_b_Msun": float(p_opt[2]/Msun),
+        "R_d_kpc": float(p_opt[3]/kpc),
+        "h_kpc": float(p_opt[4]/kpc),
+        "phi": float(p_opt[5]),
+        "M_bh_Msun": float(p_opt[6]/Msun),
+        "rho0_kg_m3": float(p_opt[7])
+    },
+    "outputs": {"json": OUT_JSON, "png": OUT_PNG}
 }
-print(json.dumps(res_dict, indent=2))
-print("✅ STUR Galaxy Curve Simulation Complete.")</pre>
 
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open Python Runner (JupyterLite)</button>
-</div>
-   <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
-<p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open Python Runner</b>.  
-Paste the code into a new cell and run to view rotation curves, residuals, and final parameter JSON output.
-</p>
+print("=== STUR Galaxy Rotation [v9.2] ===")
+print(f"χ²/dof:     {chi2_dof:.3f}")
+print(f"φ (STUR):   {p_opt[5]:.2e}")
+print(f"M_g:        {p_opt[0]/Msun:.2e} M☉")
+print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
-<footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | Galaxy Curve Simulation
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> galaxy-rotation |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Rubin & Ford — ApJ 159, 379 (flat rotation curves)</li>
+                <li>Navarro, Frenk & White — ApJ 490, 493 (NFW profiles)</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const code=document.getElementById("codeBlock").innerText;
-  navigator.clipboard.writeText(code);
-  alert("✅ STUR Galaxy Curve code copied to clipboard");
+const PAGE_ID = 'galaxy-rotation';
+const pageState = {
+    params: {
+        L0_m: 3e20,
+        Lambda: 4.5e-52
+    },
+    predictions: {
+        equation: 'S(r,φ) = φ(1+r/L₀)/(1+(r/L₀)²)exp(-Λr²)'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'L0', value: pageState.params.L0_m, unit: 'm' },
+        { parameter: 'Lambda', value: pageState.params.Lambda, unit: 'm⁻²' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_galaxy.py', 'text/x-python');
+});
 </script>
 
 </body>

@@ -1,328 +1,507 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🧬 STUR Universal Immunity Algorithm – Unified Resistance Immunodynamics</title>
-<style>
- body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
- h1{color:#ffaa00;text-align:center;}
- h2{color:#ffcc33;margin-top:2rem;}
- .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
- pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;
-     line-height:1.4;box-shadow:0 0 20px #ffaa0055;font-size:0.9rem;}
- button{background:#ffaa00;color:#050814;border:none;border-radius:6px;
-     padding:10px 20px;font-weight:bold;cursor:pointer;margin:6px;transition:0.2s;}
- button:hover{background:#ffcc33;}
- footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
- a{color:#66ccff;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Immunity — STUR Physics Lab</title>
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>🧬 STUR Universal Immunity Algorithm<br>Unified Resistance Immunodynamics</h1>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<p class="desc">
-This module encodes a <b>universal immunodynamic field</b> in the STUR Unified Resistance framework.  
-The immune force density around a pathogen cluster is treated as a curvature–regulated field
-with innate, suppressive, and adaptive components, plus chemotactic spin–torsion–like coupling.  
-We use realistic biological scales (nm–μm, 10⁹–10¹⁵ cells/m³) to generate an <b>immune map</b>
-for flu-like acute infection, immune-suppressed cancer, and chronic HIV-like collapse, 
-and output a JSON summary for downstream analysis.
-</p>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<h2>Unified Resistance Immune Field</h2>
-<div class="desc">
-<p>
-We model the effective immune force density as
-</p>
-<p style="text-align:center;">
-<code>
-F<sub>immune</sub>(r,t) = 𝓢(r,t) &middot; 
-[ k<sub>innate</sub> C<sub>immune</sub> P<sub>path</sub>/r² 
-− k<sub>suppress</sub> C<sub>reg</sub> P<sub>path</sub>/r²
-+ k<sub>adaptive</sub> ( (1 − e<sup>−r/λ<sub>sig</sub></sup>)/r² + σ<sub>prolif</sub> r ) ]
-+ F<sub>chem</sub>(r) + η(t)
-</code>
-</p>
-<p>
-with STUR curvature regulator
-</p>
-<p style="text-align:center;">
-<code>
-𝓢(r,t) = tanh(r/L₀)(1 − e<sup>−r/L₀</sup>) e<sup>−κt</sup>
-</code>
-</p>
-<p>
-Here <code>r</code> is the distance from a pathogen focus (10⁻⁹–10⁻⁵ m), <code>t</code> is time (s),
-<code>C<sub>immune</sub></code> and <code>C<sub>reg</sub></code> are effector and regulatory cell densities
-(cells/m³), and <code>P<sub>path</sub></code> is pathogen load (cells/m³).
-The coefficients <code>k<sub>innate</sub></code>, <code>k<sub>suppress</sub></code>, <code>k<sub>adaptive</sub></code>
-(tuned in the range 10⁻¹⁶–10⁻¹¹ m³·act/(cells·s)) encode contact/effector strength.
-Short-range adaptive signaling is controlled by <code>λ<sub>sig</sub> ~ nm</code> and
-a proliferation slope <code>σ<sub>prolif</sub></code>.
-</p>
-<p>
-The chemotactic / spin–torsion analogue is captured as
-<code>F<sub>chem</sub>(r) ≈ γ<sub>chem</sub> e<sup>−r/ℓ<sub>chem</sub></sup> |S<sub>immune</sub>| |G<sub>path</sub>|</code>,
-with <code>γ<sub>chem</sub></code> in m²·act/s and <code>ℓ<sub>chem</sub></code> ~ μm.
-For Alzheimer’s-scale Aβ aggregates (r ≈ 10–50 μm, L₀ ≈ 1 μm), the regulator 𝓢(r) ≈ 1,
-releasing full EM/strong-like attraction for large plaques, while suppressing small oligomers
-(<code>r ≪ L₀</code>) as <code>𝓢 ~ r²/L₀²</code>. This naturally reproduces
-selective immune activation and links to tau torsion terms in the inner spin sector.
-</p>
-<p>
-In this page we focus on the radial, spherically averaged immune force,
-compute <b>time–radius force maps</b> for different disease regimes,
-and integrate them into dimensionless “clearance indices” that are exported as JSON.
-</p>
-</div>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Universal Immunity Algorithm</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            STUR-based immunodynamic field model treating immune force density as a curvature-regulated field
+            with innate, suppressive, and adaptive components plus chemotactic spin-torsion coupling.
+        </p>
 
-<h2>Python Simulation (copy &amp; run)</h2>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status danger">
+                <span class="stur-icon icon-layers sm"></span>
+                SPECULATIVE
+            </span>
+        </div>
+    </header>
 
-<pre id="codeBlock">#!/usr/bin/env python3
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
+
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Time-radius immune force maps and clearance indices for flu-like acute, cancer-suppressed, and HIV-collapsed regimes.</p>
+            <p><strong>Scale:</strong> Radial distance \(r \sim 10\,\text{nm}-50\,\mu\text{m}\), time \(T \sim 1\,\text{hr}\).</p>
+            <p><strong>Connection:</strong> The STUR curvature regulator \(\mathcal{S}(r,t)\) modulates immune force density, selectively activating for large pathogen clusters.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
+
+            <p><strong>STUR curvature regulator:</strong></p>
+
+            <div class="stur-eq derived">
+                \[
+                \mathcal{S}(r,t) = \tanh\left(\frac{r}{L_0}\right)\left(1 - e^{-r/L_0}\right) e^{-\kappa t}
+                \]
+                <div class="stur-eq-label">Time-Decaying Curvature Regulator</div>
+            </div>
+
+            <p><strong>Immune force density:</strong></p>
+
+            <div class="stur-eq derived">
+                \[
+                F_{\text{immune}}(r,t) = \mathcal{S}(r,t) \left[ \frac{k_{\text{innate}} C_{\text{immune}} P_{\text{path}}}{r^2} - \frac{k_{\text{suppress}} C_{\text{reg}} P_{\text{path}}}{r^2} + k_{\text{adaptive}} \left( \frac{1 - e^{-r/\lambda_{\text{sig}}}}{r^2} + \sigma_{\text{prolif}} r \right) \right] + F_{\text{chem}}(r)
+                \]
+                <div class="stur-eq-label">Unified Immune Force Field</div>
+            </div>
+
+            <p><strong>Chemotactic coupling:</strong></p>
+
+            <div class="stur-eq derived">
+                \[
+                F_{\text{chem}}(r) = \gamma_{\text{chem}} e^{-r/\ell_{\text{chem}}} |S_{\text{immune}}| |G_{\text{path}}|
+                \]
+                <div class="stur-eq-label">Spin-Torsion Chemotaxis</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>Large plaques (\(r \gg L_0\)):</strong> \(\mathcal{S}(r) \approx 1\), full immune activation.</li>
+                <li><strong>Small oligomers (\(r \ll L_0\)):</strong> \(\mathcal{S}(r) \sim r^2/L_0^2\), suppressed response.</li>
+                <li><strong>Disease regimes:</strong> Flu (acute clearance), Cancer (suppressed), HIV (collapsed).</li>
+            </ul>
+
+            <p><strong>Clearance index:</strong> \(\int_r \int_t |F_{\text{immune}}(r,t)| \, dt \, dr\) quantifies total immune response.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">L0</div>
+                    <div class="glass-metric-value">0.5 um</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">r range</div>
+                    <div class="glass-metric-value">10nm-50um</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">T_max</div>
+                    <div class="glass-metric-value">1 hr</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Modes</div>
+                    <div class="glass-metric-value">3</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>STUR universal immunity algorithm simulating flu, cancer, and HIV immune regimes. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# 🧬 STUR Universal Immunity Algorithm – JupyterLite-safe
+# STUR Universal Immunity Algorithm (v9.2)
+#
+# Implements the STUR immune force field F_immune(r,t):
+#   - Three regimes: flu (acute), cancer (suppressed), HIV (collapse)
+#   - Curvature-regulated immune activation
+#   - Chemotactic spin-torsion coupling
+#
+# Derived from Master Action torsion term
 # ===============================================================
-# - Implements the STUR immune force field F_immune(r,t)
-# - Three regimes: "flu" (acute), "cancer" (suppressed), "HIV" (collapse)
-# - Produces plots + JSON summary of clearance metrics
-# ===============================================================
 
-import numpy as np, math, json, matplotlib.pyplot as plt
+import numpy as np
+import json
+import matplotlib.pyplot as plt
 
-# -------------------- Scales & constants ------------------------
-# Length scales (m)
-L0        = 0.5e-6    # curvature / synapse scale
-lambda_sig= 1.0e-9    # signaling correlation length
-ell_chem  = 5.0e-6    # chemotactic decay length
+# Scales and constants
+L0 = 0.5e-6           # curvature scale (m)
+lambda_sig = 1.0e-9   # signaling correlation length
+ell_chem = 5.0e-6     # chemotactic decay length
 
-# Cell & pathogen densities (cells / m^3)
+# Cell densities (cells/m^3)
 C_immune_base = 5e12
-P_path_flu    = 5e13
+P_path_flu = 5e13
 P_path_cancer = 5e11
-P_path_HIV    = 1e12
+P_path_HIV = 1e12
 
-# Chemotactic spin-analogue scales
-S_immune_mag = 2e-9    # ~ dendritic span
-G_path_mag   = 5e4     # gradient magnitude (1/m)
-# Typical spin/chemotactic coupling
-gamma_chem   = 5e-13   # m^2 * act / s
+# Chemotactic parameters
+S_immune_mag = 2e-9
+G_path_mag = 5e4
+gamma_chem = 5e-13
+sigma_prolif = 1e-2
+kappa_base = 5e-7
 
-# Proliferation slope
-sigma_prolif = 1e-2    # act / (m*s)
-
-# Time decay of STUR gate
-kappa_base   = 5e-7    # s^-1 (slower decay = chronic)
-
-# -------------------- STUR regulator ---------------------------
+# STUR regulator
 def S_reg(r, t, L0=L0, kappa=kappa_base):
-    """
-    STUR synapse-safe regulator 𝓢(r,t) = tanh(r/L0)(1 - exp(-r/L0)) exp(-kappa t)
-    r: array [m], t: array [s] (broadcasted)
-    """
     x = r / L0
     return np.tanh(x) * (1.0 - np.exp(-x)) * np.exp(-kappa * t)
 
-# -------------------- Immune force field -----------------------
+# Immune force field
 def immune_force_radial(r, t, params):
-    """
-    Compute radial immune force F_immune(r,t) (act / m^2).
-    r, t: 2D arrays via broadcasting
-    params: dict with C_immune, C_reg, P_path, k_innate, k_suppress,
-            k_adaptive, kappa_scale, gamma_chem_scale
-    """
     C_immune = params["C_immune"]
-    C_reg    = params["C_reg"]
-    P_path   = params["P_path"]
+    C_reg = params["C_reg"]
+    P_path = params["P_path"]
     k_innate = params["k_innate"]
-    k_suppress  = params["k_suppress"]
-    k_adaptive  = params["k_adaptive"]
+    k_suppress = params["k_suppress"]
+    k_adaptive = params["k_adaptive"]
     kappa_scale = params["kappa_scale"]
     gamma_scale = params["gamma_chem_scale"]
 
     r_eff = np.maximum(r, 1e-9)
     S = S_reg(r_eff, t, L0=L0, kappa=kappa_base * kappa_scale)
 
-    innate_term   = k_innate   * C_immune * P_path / (r_eff**2)
-    suppress_term = k_suppress * C_reg    * P_path / (r_eff**2)
-    adaptive_term = k_adaptive * ((1.0 - np.exp(-r_eff / lambda_sig))/(r_eff**2)
-                                  + sigma_prolif * r_eff)
+    innate_term = k_innate * C_immune * P_path / (r_eff**2)
+    suppress_term = k_suppress * C_reg * P_path / (r_eff**2)
+    adaptive_term = k_adaptive * ((1.0 - np.exp(-r_eff / lambda_sig))/(r_eff**2) + sigma_prolif * r_eff)
 
-    # radial part
     F_rad = S * (innate_term - suppress_term + adaptive_term)
-
-    # chemotactic / torsion-like part (treated as effective radial magnitude)
     F_chem = gamma_chem * gamma_scale * np.exp(-r_eff/ell_chem) * S_immune_mag * G_path_mag
 
-    # noise term η(t) neglected in mean-field (set to 0)
     return F_rad + F_chem
 
-# -------------------- Disease mode parameters -------------------
+# Disease mode parameters
 modes = {
     "flu": {
         "C_immune": C_immune_base,
-        "C_reg":    0.4 * C_immune_base,
-        "P_path":   P_path_flu,
+        "C_reg": 0.4 * C_immune_base,
+        "P_path": P_path_flu,
         "k_innate": 4e-14,
-        "k_suppress":2e-14,
-        "k_adaptive":5e-14,
-        "kappa_scale": 1.0,      # decays on ~1/kappa_base
+        "k_suppress": 2e-14,
+        "k_adaptive": 5e-14,
+        "kappa_scale": 1.0,
         "gamma_chem_scale": 1.0
     },
     "cancer": {
         "C_immune": 0.6 * C_immune_base,
-        "C_reg":    0.9 * C_immune_base,
-        "P_path":   P_path_cancer,
+        "C_reg": 0.9 * C_immune_base,
+        "P_path": P_path_cancer,
         "k_innate": 3e-14,
-        "k_suppress":6e-14,      # strong suppression
-        "k_adaptive":4e-14,
-        "kappa_scale": 0.3,      # more chronic (slower decay)
+        "k_suppress": 6e-14,
+        "k_adaptive": 4e-14,
+        "kappa_scale": 0.3,
         "gamma_chem_scale": 0.7
     },
     "HIV": {
         "C_immune": 0.3 * C_immune_base,
-        "C_reg":    0.7 * C_immune_base,
-        "P_path":   P_path_HIV,
+        "C_reg": 0.7 * C_immune_base,
+        "P_path": P_path_HIV,
         "k_innate": 2e-14,
-        "k_suppress":5e-14,
-        "k_adaptive":2e-14,      # weakened adaptive arm
+        "k_suppress": 5e-14,
+        "k_adaptive": 2e-14,
         "kappa_scale": 0.5,
         "gamma_chem_scale": 0.5
     }
 }
 
-# -------------------- Grids in r and t --------------------------
-# r from 10 nm to 50 μm
+# Grids
 r_vals = np.logspace(-8, -4.3, 128)
-# t from 0 to 1 hour
 Tmax = 3600.0
 t_vals = np.linspace(0.0, Tmax, 160)
+R, T = np.meshgrid(r_vals, t_vals, indexing="ij")
 
-R, T = np.meshgrid(r_vals, t_vals, indexing="ij")  # R: [Nr,Nt], T: [Nr,Nt]
-
-# -------------------- Compute force maps ------------------------
+# Compute force maps
 force_maps = {}
 for name, params in modes.items():
     F = immune_force_radial(R, T, params)
     force_maps[name] = F
 
-# -------------------- Metrics & JSON summary --------------------
+# Compute metrics
 summary = {}
-
 for name, F in force_maps.items():
-    # time-integrated magnitude over t for each radius
     F_int_r = np.trapz(np.abs(F), t_vals, axis=1)
-    # total integrated positive force (clearance index)
     clearance_index = float(np.trapz(F_int_r, r_vals))
-
-    # radius of maximal time-integrated response
     idx_r_peak = int(np.argmax(F_int_r))
     r_peak = float(r_vals[idx_r_peak])
 
-    # time of maximal (absolute) instantaneous response
-    idx_flat = int(np.argmax(np.abs(F)))
-    Nr, Nt = F.shape
-    r_idx = idx_flat // Nt
-    t_idx = idx_flat % Nt
-    r_peak_inst = float(r_vals[r_idx])
-    t_peak_inst = float(t_vals[t_idx])
-    F_peak = float(F[r_idx, t_idx])
-
     summary[name] = {
         "clearance_index": clearance_index,
-        "r_peak_time_integrated_m": r_peak,
-        "r_peak_instantaneous_m": r_peak_inst,
-        "t_peak_instantaneous_s": t_peak_inst,
-        "F_peak_act_per_m2": F_peak
+        "r_peak_m": r_peak
     }
 
-# -------------------- Plotting: F(t) at fixed r* ----------------
-r_probe = 10e-6  # 10 μm probe radius (plaque / cluster scale)
-def nearest_index(arr, x):
-    return int(np.argmin(np.abs(arr - x)))
+print("=== STUR Universal Immunity [v9.2] ===")
+for name, metrics in summary.items():
+    print(f"{name}: clearance={metrics['clearance_index']:.2e}, r_peak={metrics['r_peak_m']*1e6:.2f} um")
 
-idx_probe = nearest_index(r_vals, r_probe)
+# Plots
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+fig.patch.set_facecolor('#050814')
 
-plt.figure(figsize=(10,6))
-for name, color in zip(["flu","cancer","HIV"], ["lime","orange","red"]):
-    F_probe = force_maps[name][idx_probe,:]
-    plt.plot(t_vals/60.0, F_probe, label=name, color=color)
-plt.axhline(0,color="gray",ls="--",alpha=0.5)
-plt.xlabel("time (min)")
-plt.ylabel("F_immune(r=10 μm, t) [act/m²]")
-plt.title("Radial Immune Force at Plaque / Cluster Scale (r ≈ 10 μm)")
-plt.grid(alpha=0.3); plt.legend()
-plt.tight_layout()
-plt.show()
+for ax in axes:
+    ax.set_facecolor('#050814')
+    ax.tick_params(colors='#94a3b8')
+    ax.grid(True, alpha=0.3, color='#1f2a44')
+    for spine in ax.spines.values():
+        spine.set_color('#334155')
 
-# -------------------- Plotting: time-integrated profiles --------
-plt.figure(figsize=(10,6))
-for name, color in zip(["flu","cancer","HIV"], ["lime","orange","red"]):
+# Force at r=10um vs time
+r_probe = 10e-6
+idx_probe = int(np.argmin(np.abs(r_vals - r_probe)))
+colors = {'flu': '#4ade80', 'cancer': '#fbbf24', 'HIV': '#f472b6'}
+
+for name in ["flu", "cancer", "HIV"]:
+    F_probe = force_maps[name][idx_probe, :]
+    axes[0].plot(t_vals/60.0, F_probe, label=name, color=colors[name], lw=2)
+
+axes[0].axhline(0, color='gray', ls='--', alpha=0.5)
+axes[0].set_xlabel("Time (min)", color='#94a3b8')
+axes[0].set_ylabel("F_immune (act/m^2)", color='#94a3b8')
+axes[0].set_title("Immune Force at r=10um", color='#ffaa00')
+axes[0].legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
+
+# Time-integrated profile
+for name in ["flu", "cancer", "HIV"]:
     F = force_maps[name]
     F_int_r = np.trapz(np.abs(F), t_vals, axis=1)
-    plt.loglog(r_vals*1e6, F_int_r, label=name, color=color)
-plt.xlabel("radius r (μm)")
-plt.ylabel("∫ |F_immune(r,t)| dt  [act/m]")
-plt.title("Time-Integrated Immune Response vs Radius")
-plt.grid(alpha=0.3, which="both"); plt.legend()
+    axes[1].loglog(r_vals*1e6, F_int_r, label=name, color=colors[name], lw=2)
+
+axes[1].set_xlabel("Radius r (um)", color='#94a3b8')
+axes[1].set_ylabel("Integrated |F| (act/m)", color='#94a3b8')
+axes[1].set_title("Time-Integrated Immune Response", color='#ffaa00')
+axes[1].legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
+
+fig.suptitle('STUR Universal Immunity Algorithm (v9.2)', color='#ffaa00', fontsize=14)
 plt.tight_layout()
-plt.show()
+plt.show()</pre>
 
-# -------------------- JSON output -------------------------------
-result = {
-    "Tmax_s": float(Tmax),
-    "r_min_m": float(r_vals[0]),
-    "r_max_m": float(r_vals[-1]),
-    "modes": summary
-}
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
 
-print(json.dumps(result, indent=2))
-print("✅ STUR Universal Immunity Algorithm Simulation Complete.")</pre>
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
 
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open Python Runner (JupyterLite)</button>
-</div>
-   <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
 
-<p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open Python Runner</b>.  
-Paste the code into a new cell and run.  
-You will see immune-force time traces at plaque scale, integrated radial profiles,
-and a JSON block summarizing clearance indices and peak-response metrics
-for flu, cancer, and HIV-like regimes.
-</p>
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> universal-immunity |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
 
-<footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | Universal Immunity Algorithm
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Murphy — Janeway's Immunobiology (9th ed)</li>
+                <li>Althaus & De Boer — Implications of CTL-mediated killing of HIV-infected cells</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const code=document.getElementById("codeBlock").innerText;
-  navigator.clipboard.writeText(code);
-  alert("✅ Universal Immunity Algorithm code copied to clipboard");
+const PAGE_ID = 'universal-immunity';
+const pageState = {
+    params: {
+        L0_um: 0.5,
+        r_min_nm: 10,
+        r_max_um: 50,
+        T_max_hr: 1
+    },
+    predictions: {
+        equation: 'S(r,t) = tanh(r/L0)(1-exp(-r/L0))exp(-kappa*t)'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'L0', value: pageState.params.L0_um, unit: 'um' },
+        { parameter: 'r_min', value: pageState.params.r_min_nm, unit: 'nm' },
+        { parameter: 'r_max', value: pageState.params.r_max_um, unit: 'um' },
+        { parameter: 'T_max', value: pageState.params.T_max_hr, unit: 'hr' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_universal_immunity.py', 'text/x-python');
+});
 </script>
 
 </body>

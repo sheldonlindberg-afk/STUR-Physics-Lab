@@ -2,367 +2,667 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Physics Lab – Unified Resistance Framework</title>
-
-<!-- STUR Core Visual System -->
-<link rel="stylesheet" href="assets/css/stur-core.css">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>STUR Physics Lab — Unified Resistance Framework</title>
+<meta name="description" content="Open access physics laboratory exploring unified resistance field theory. Falsifiable predictions, interactive simulations, and rigorous mathematical foundations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
-  /* Index-specific overrides (extends stur-core.css) */
-  body {
-    text-align: center;
+  /* === DESIGN SYSTEM === */
+  :root {
+    --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: 'SF Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* Surface & Background */
+    --bg-primary: #000000;
+    --bg-elevated: #1C1C1E;
+    --bg-secondary: #2C2C2E;
+    --bg-tertiary: #3A3A3C;
+
+    /* Text Hierarchy */
+    --text-primary: #FFFFFF;
+    --text-secondary: #EBEBF5;
+    --text-tertiary: #AEAEB2;
+    --text-quaternary: #636366;
+
+    /* Accent Palette */
+    --accent-blue: #0A84FF;
+    --accent-green: #30D158;
+    --accent-cyan: #64D2FF;
+    --accent-gold: #FFD60A;
+    --accent-violet: #BF5AF2;
+    --accent-pink: #FF375F;
+    --accent-gray: #8E8E93;
+
+    /* Semantic Colors */
+    --tier-core: #30D158;
+    --tier-falsifiable: #64D2FF;
+    --tier-derived: #FFD60A;
+    --tier-cosmological: #BF5AF2;
+    --tier-biological: #FF375F;
+    --tier-exploratory: #8E8E93;
+
+    /* Borders & Separators */
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-standard: rgba(255, 255, 255, 0.12);
+    --separator: rgba(255, 255, 255, 0.06);
+
+    /* Elevation & Effects */
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+    --radius-xl: 28px;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.12);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.16);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.24);
+    --shadow-glow: 0 0 24px rgba(10, 132, 255, 0.15);
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --duration-fast: 0.2s;
+    --duration-normal: 0.3s;
+    --duration-slow: 0.5s;
   }
 
-  /* === ANIMATIONS (index-specific) === */
-  .fade-up {
-    opacity: 0;
-    transform: translateY(22px);
-    animation: fadeUp 1s ease forwards;
+  /* === BASE RESET === */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-  @keyframes fadeUp {
+
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-system);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* === LAYOUT CONTAINER === */
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 0 16px; }
+  }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .glow-pop {
-    animation: glowPop 1.6s ease forwards;
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes glowPop {
-    0%   { box-shadow: 0 0 0px transparent; }
-    60%  { box-shadow: var(--glow-gold); }
-    100% { box-shadow: 0 0 12px rgba(251, 191, 36, 0.15); }
+
+  .animate-in {
+    animation: slideUp var(--duration-slow) var(--ease-out) forwards;
+    opacity: 0;
   }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+  .delay-5 { animation-delay: 0.5s; }
 
   /* === HEADER === */
-  header {
-    padding: 60px 20px 20px;
-    animation: fadeDown 1.5s ease;
-  }
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-25px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .site-header {
+    padding: 64px 0 48px;
+    text-align: center;
+    animation: slideDown var(--duration-slow) var(--ease-out);
   }
 
-  img.logo {
-    width: 260px;
-    border-radius: var(--radius-md);
-    box-shadow: 0 0 45px rgba(251, 191, 36, 0.5), 0 0 10px var(--neon-gold) inset;
-    transition: transform 0.6s ease, box-shadow 0.6s ease;
-  }
-  img.logo:hover {
-    transform: scale(1.07);
-    box-shadow: 0 0 55px rgba(251, 191, 36, 0.65);
+  .logo-mark {
+    width: 180px;
+    height: 180px;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg), 0 0 48px rgba(10, 132, 255, 0.12);
+    transition: transform var(--duration-normal) var(--ease-spring),
+                box-shadow var(--duration-normal) var(--ease-out);
   }
 
-  header h1 {
-    font-size: clamp(2rem, 6vw, 3rem);
-    margin-top: 20px;
+  .logo-mark:hover {
+    transform: scale(1.04);
+    box-shadow: var(--shadow-lg), 0 0 64px rgba(10, 132, 255, 0.2);
   }
 
-  header p {
-    font-size: 1.15em;
-    max-width: 780px;
-    margin: 20px auto 45px;
+  .site-title {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 24px 0 16px;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .site-tagline {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--accent-blue);
+    margin-bottom: 12px;
+  }
+
+  .site-description {
+    font-size: 1rem;
+    color: var(--text-tertiary);
+    max-width: 680px;
+    margin: 0 auto;
     line-height: 1.65;
+  }
+
+  /* === GLASS PANEL (Action Spine) === */
+  .glass-panel {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.04) 100%
+    );
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--border-standard);
+    border-radius: var(--radius-lg);
+    box-shadow:
+      var(--shadow-md),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    padding: 28px 32px;
+    margin: 40px auto 48px;
+    max-width: 880px;
+  }
+
+  .glass-panel h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+
+  .glass-panel .subtitle {
+    font-size: 0.9375rem;
+    color: var(--text-tertiary);
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .equation-display {
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 18px 24px;
+    color: var(--text-secondary);
+    text-align: center;
+    overflow-x: auto;
+  }
+
+  .equation-display .eq-diffusion { color: var(--accent-green); }
+  .equation-display .eq-potential { color: var(--accent-pink); }
+  .equation-display .eq-xcrm { color: var(--accent-gold); }
+  .equation-display .eq-torsion { color: var(--accent-cyan); }
+
+  .term-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin-top: 18px;
+    font-size: 0.8125rem;
+    color: var(--text-quaternary);
+    text-align: left;
+  }
+
+  .panel-footer {
+    font-size: 0.8125rem;
+    color: var(--text-quaternary);
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--separator);
+  }
+
+  .panel-footer strong { font-weight: 600; }
+  .panel-footer .highlight-violet { color: var(--accent-violet); }
+  .panel-footer .highlight-cyan { color: var(--accent-cyan); }
+
+  /* === SECTION HEADERS === */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 48px 0 20px;
+    padding: 0 4px;
+  }
+
+  .section-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .section-badge {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-quaternary);
+    margin-left: auto;
   }
 
   /* === SIMULATION GRID === */
   .sim-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 18px;
-    max-width: 1000px;
-    margin: 0 auto 60px;
-    padding: 0 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
   }
 
   .sim-card {
-    background: var(--bg-panel);
-    border: 1px solid var(--border-dim);
+    position: relative;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
-    padding: 20px;
-    width: 270px;
-    box-shadow: 0 0 12px rgba(251, 191, 36, 0.1);
-    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    padding: 18px 20px;
+    transition:
+      transform var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+    cursor: pointer;
+  }
+
+  .sim-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    bottom: 14px;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--card-accent, var(--accent-gray));
+    opacity: 0.7;
+    transition: opacity var(--duration-fast) var(--ease-out);
   }
 
   .sim-card:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 0 28px rgba(251, 191, 36, 0.2);
+    background: var(--bg-secondary);
+    border-color: var(--border-standard);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .sim-card:hover::before {
+    opacity: 1;
   }
 
   .sim-card a {
     text-decoration: none;
-    color: var(--neon-cyan);
-    font-weight: bold;
-    font-size: 1.15em;
-  }
-  .sim-card a:hover { color: var(--neon-gold); }
-
-  /* === ACTION PANEL === */
-  .action-panel {
-    margin: 50px auto 70px;
-    animation: fadeUp 1.4s ease forwards;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    display: block;
+    padding-left: 12px;
   }
 
-  .action-panel a {
+  .sim-card a:hover {
+    color: var(--accent-blue);
+  }
+
+  .sim-card .card-tag {
     display: inline-block;
-    background: var(--bg-panel);
-    color: var(--neon-cyan);
-    border: 1px solid var(--neon-cyan);
-    padding: 12px 24px;
-    border-radius: var(--radius-sm);
-    margin: 6px;
-    text-decoration: none;
-    font-size: 1.05em;
-    transition: var(--transition-normal);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-top: 6px;
+    margin-left: 12px;
+    opacity: 0.7;
   }
 
-  .action-panel a:hover {
-    background: var(--bg-panel-2);
-    box-shadow: var(--glow-cyan);
-  }
+  /* Tier-specific accent colors */
+  .tier-core { --card-accent: var(--tier-core); }
+  .tier-falsifiable { --card-accent: var(--tier-falsifiable); }
+  .tier-derived { --card-accent: var(--tier-derived); }
+  .tier-cosmological { --card-accent: var(--tier-cosmological); }
+  .tier-biological { --card-accent: var(--tier-biological); }
+  .tier-exploratory { --card-accent: var(--tier-exploratory); }
 
-  .btn-main {
-    background: var(--neon-gold);
-    color: var(--bg-abyss);
-    padding: 16px 34px;
-    border-radius: var(--radius-sm);
-    font-weight: bold;
-    box-shadow: var(--glow-gold);
-    margin-bottom: 20px;
-    border: none;
-  }
-
-  .btn-main:hover {
-    background: #fcd34d;
-    box-shadow: 0 0 38px rgba(251, 191, 36, 0.5);
-  }
-
-  /* === VIDEO PANEL === */
-  .video-wrapper {
-    width: 100%;
+  /* === ACTION BUTTONS === */
+  .action-group {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    margin: 30px 0 60px;
-    padding: 0 20px;
+    gap: 10px;
+    margin: 56px 0 48px;
   }
 
-  .video-frame {
-    width: 100%;
-    max-width: 900px;
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+      background var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+
+  .btn-primary {
+    background: var(--accent-blue);
+    color: var(--text-primary);
+    box-shadow: 0 2px 12px rgba(10, 132, 255, 0.3);
+  }
+
+  .btn-primary:hover {
+    background: #0077ED;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(10, 132, 255, 0.4);
+  }
+
+  .btn-secondary {
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-standard);
+  }
+
+  .btn-secondary:hover {
+    background: var(--bg-secondary);
+    border-color: var(--border-standard);
+  }
+
+  /* === VIDEO SECTION === */
+  .video-section {
+    margin: 48px auto 64px;
+    max-width: 880px;
+  }
+
+  .video-container {
     position: relative;
     padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
-    border: 2px solid var(--neon-cyan);
     border-radius: var(--radius-lg);
-    background: var(--bg-abyss);
-    animation: fadeUp 1.2s ease forwards, glowVideo 2.5s ease forwards;
+    background: var(--bg-elevated);
+    box-shadow: var(--shadow-lg);
   }
 
-  @keyframes glowVideo {
-    0%   { box-shadow: 0 0 0px transparent; }
-    70%  { box-shadow: 0 0 40px rgba(56, 189, 248, 0.3); }
-    100% { box-shadow: var(--glow-cyan); }
-  }
-
-  .video-frame iframe {
+  .video-container iframe {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     border: none;
   }
 
   /* === FOOTER === */
-  footer {
+  .site-footer {
     margin-top: 80px;
-    padding: 25px 20px;
-    border-top: 1px solid var(--border-dim);
-    font-size: 0.92em;
-    color: var(--text-muted);
-  }
-
-  /* === SPINE PANEL === */
-  .spine {
-    max-width: 900px;
-    margin: 0 auto 40px;
-    padding: 0 20px;
-  }
-
-  .spine-inner {
-    background: linear-gradient(135deg, var(--bg-panel) 0%, var(--bg-panel-2) 100%);
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    border-radius: var(--radius-lg);
-    padding: 24px 28px;
-    box-shadow: var(--glow-cyan);
-  }
-
-  .spine h2 {
-    color: var(--neon-cyan);
-    font-size: 1.3em;
-    margin: 0 0 12px;
-  }
-
-  .action-eq {
-    font-family: var(--font-mono);
-    background: var(--bg-abyss);
-    padding: 16px 20px;
-    border-radius: var(--radius-md);
-    font-size: 1.1em;
-    color: var(--neon-green);
+    padding: 32px 0;
+    border-top: 1px solid var(--separator);
     text-align: center;
-    box-shadow: var(--shadow-inset);
-    border: 1px solid rgba(74, 222, 128, 0.2);
   }
 
-  .term-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    margin-top: 16px;
-    text-align: left;
+  .tier-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
   }
 
-  .term-grid > div {
-    font-size: 0.82em;
-    color: var(--text-muted);
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--text-quaternary);
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .footer-note {
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+    max-width: 560px;
+    margin: 0 auto 20px;
+    line-height: 1.6;
+  }
+
+  .footer-note strong {
+    color: var(--accent-cyan);
+    font-weight: 500;
+  }
+
+  .footer-meta {
+    font-size: 0.75rem;
+    color: var(--text-quaternary);
+    line-height: 1.8;
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .site-header { padding: 48px 0 32px; }
+    .logo-mark { width: 140px; height: 140px; }
+    .glass-panel { padding: 20px 18px; margin: 32px 16px; }
+    .equation-display { font-size: 0.8125rem; padding: 14px 16px; }
+    .section-header { margin: 36px 0 16px; }
+    .sim-grid { grid-template-columns: 1fr; gap: 10px; }
+    .action-group { flex-direction: column; align-items: stretch; padding: 0 16px; }
+    .btn { justify-content: center; }
+    .tier-legend { gap: 12px 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .term-legend { grid-template-columns: 1fr 1fr; }
+    .legend-item { font-size: 0.6875rem; }
   }
 </style>
-
 </head>
 <body>
 
-<header>
-  <img src="assets/4.13.png" alt="STUR Physics Logo" class="logo">
-  <h1 class="fade-up">STUR Physics Lab</h1>
+<div class="container">
+  <!-- === HEADER === -->
+  <header class="site-header">
+    <img src="assets/4.13.png" alt="STUR Physics Lab" class="logo-mark">
+    <h1 class="site-title animate-in delay-1">STUR Physics Lab</h1>
+    <p class="site-tagline animate-in delay-2">Open Access Research Laboratory</p>
+    <p class="site-description animate-in delay-3">
+      A falsifiable research program where all simulations derive from a single action.
+      Unifying gravity, electromagnetism, and quantum phenomena via resistance-field geometry
+      coupled to teleparallel torsion.
+    </p>
+  </header>
 
-  <p class="fade-up" style="animation-delay: .3s;">
-    <strong>Open Access Unified Resistance Physics Laboratory</strong><br>
-    A falsifiable research program where all simulations derive from a single action.
-    STUR unifies gravity, electromagnetism, and quantum phenomena via resistance-field geometry
-    coupled to teleparallel torsion and an internal coherence dimension (XCRM).
-  </p>
-</header>
-
-<!-- === UNIFIED ACTION SPINE === -->
-<section class="spine fade-up" style="animation-delay:.35s;">
-  <div class="spine-inner">
+  <!-- === UNIFIED ACTION PANEL === -->
+  <section class="glass-panel animate-in delay-4">
     <h2>The Unified Resistance Action</h2>
-    <p style="font-size:0.95em; color:var(--text-secondary); margin-bottom:16px; text-align:left;">
-      Every simulation in this lab is a <strong>projection</strong> of one master action defined on 4D spacetime
+    <p class="subtitle">
+      Every simulation in this laboratory is a projection of one master action defined on 4D spacetime
       with an internal coherence dimension X (the XCRM closure):
     </p>
-    <div class="action-eq">
-      S[R,g,X] = ∫ d⁴x dX √−g [ ½(∇R)² − V(R) + χ R∂<sub>X</sub>R + α R𝕋 ]
+    <div class="equation-display">
+      S[R,g,X] = ∫ d⁴x dX √−g [ <span class="eq-diffusion">½(∇R)²</span> − <span class="eq-potential">V(R)</span> + <span class="eq-xcrm">χ R∂<sub>X</sub>R</span> + <span class="eq-torsion">α R𝕋</span> ]
     </div>
-    <div class="term-grid">
-      <div><span class="stur-text-green">½(∇R)²</span> — Diffusion/kinetic</div>
-      <div><span class="stur-text-pink">V(R)</span> — Relaxation potential</div>
-      <div><span class="stur-text-gold">χR∂<sub>X</sub>R</span> — XCRM coupling</div>
-      <div><span class="stur-text-cyan">αR𝕋</span> — Torsion source</div>
+    <div class="term-legend">
+      <div><span class="eq-diffusion">½(∇R)²</span> — Diffusion / kinetic</div>
+      <div><span class="eq-potential">V(R)</span> — Relaxation potential</div>
+      <div><span class="eq-xcrm">χR∂<sub>X</sub>R</span> — XCRM coupling</div>
+      <div><span class="eq-torsion">αR𝕋</span> — Torsion source</div>
     </div>
-    <p style="font-size:0.85em; color:var(--text-dim); margin-top:14px; margin-bottom:0; border-top:1px solid var(--border-subtle); padding-top:12px;">
-      <strong class="stur-text-violet">Quantum regime:</strong> ℏ ≠ 0 → stationary phase + 1-loop corrections.
-      <strong class="stur-text-cyan">Falsification:</strong> Gaussian visibility V(ΔL), not oscillatory.
+    <p class="panel-footer">
+      <strong class="highlight-violet">Quantum regime:</strong> ℏ ≠ 0 → stationary phase + 1-loop corrections.
+      <strong class="highlight-cyan">Falsification:</strong> Gaussian visibility V(ΔL), not oscillatory.
     </p>
+  </section>
+
+  <!-- === TIER 1: CORE THEORY === -->
+  <div class="section-header">
+    <span class="section-indicator" style="background: var(--tier-core);"></span>
+    <span class="section-title">Core Theory</span>
+    <span class="section-badge">Start Here</span>
   </div>
-</section>
-
-<!-- === SIM GRID === -->
-<!-- Ordered by epistemic progression: Theory → Framework → Tools → Falsifiable → Derived → Exploratory -->
-
-<p style="font-size:0.9em; color:#64748b; margin-bottom:16px;">
-  <span style="background:#4ade8033; color:#4ade80; padding:2px 8px; border-radius:4px; font-size:0.85em;">START HERE</span>
-  Begin with Foundations, then follow the progression below.
-</p>
-
-<div class="sim-grid fade-up" style="animation-delay:.4s;">
-    <!-- === TIER 1: CORE THEORY === -->
-    <div class="sim-card glow-pop" style="border-left:3px solid #4ade80;">📐 <a href="scripts/stur_foundations.html">Foundations of Resistance</a><br><span style="font-size:0.75em;color:#4ade80;">START HERE</span></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #4ade80;">🌐 <a href="scripts/stur_unified_framework.html">Unified Framework</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #4ade80;">🏎️ <a href="scripts/stur_engine.html">STUR Engine</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #4ade80;">🛠️ <a href="scripts/stur_sandbox.html">STUR Sandbox</a></div>
-
-    <!-- === TIER 2: FALSIFIABLE PREDICTIONS === -->
-    <div class="sim-card glow-pop" style="border-left:3px solid #22d3ee;">🔺 <a href="scripts/stur_geometry_verifier.html">Geometry Verifier</a><br><span style="font-size:0.7em;color:#22d3ee;">FALSIFIABLE</span></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #22d3ee;">💡 <a href="scripts/Double%20slit.html">Double Slit</a><br><span style="font-size:0.7em;color:#22d3ee;">FALSIFIABLE</span></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #22d3ee;">💻 <a href="scripts/stur_quantumcomputing.html">Quantum Computing</a><br><span style="font-size:0.7em;color:#22d3ee;">FALSIFIABLE</span></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #22d3ee;">🧙‍♂️ <a href="scripts/stur_chronomagnetics.html">Chronomagnetics</a><br><span style="font-size:0.7em;color:#22d3ee;">FALSIFIABLE</span></div>
-
-    <!-- === TIER 3: DERIVED APPLICATIONS === -->
-    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">💲 <a href="scripts/stur_superconductor.html">Ambient Superconductor</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">⚡ <a href="scripts/stur_arc.html">Resistance Arc</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">⚛️ <a href="scripts/stur_plasmaconfinement.html">Plasma Confinement</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">💎 <a href="scripts/stur_graphene.html">Graphene Model</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">✨ <a href="scripts/stur_sonolum.html">Sonoluminescence</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #fbbf24;">🌠 <a href="scripts/stur_scalar.html">Scalar Field</a></div>
-
-    <!-- === TIER 4: COSMOLOGICAL === -->
-    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">🌌 <a href="scripts/stur_galaxy.html">Galaxy Curve Model</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">👯‍♀️ <a href="scripts/stur_5duniverse.html">5D Helix Universe</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">🫵🏻 <a href="scripts/stur_universe.html">Known Universe</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">🐚 <a href="scripts/stur_helix.html">TOE Helix</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">🦶🏻 <a href="scripts/TOE%20Proof%20Simulation.html">1 Curve All Forces</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #a78bfa;">📻 <a href="scripts/stur_wow.html">1977 "Wow" Signal</a></div>
-
-    <!-- === TIER 5: BIOLOGICAL / EMERGENT === -->
-    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🦠 <a href="scripts/stur_life.html">Emergent Life</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🔋 <a href="scripts/stur_atp.html">ATP Mitochondria 1000</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🔋 <a href="scripts/stur_atp1.html">ATP Mitochondria 1</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🧬 <a href="scripts/stur_immunity.html">Immunity Algorithm</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🧠 <a href="scripts/stur_neuro.html">Neuroplasticity</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #f472b6;">🫀 <a href="scripts/stur_replicator.html">Replicator Model</a></div>
-
-    <!-- === TIER 6: EXPLORATORY === -->
-    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">💭 <a href="scripts/stur_mindgate.html">Mind Gate</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">⛩️ <a href="scripts/stur_gate.html">Resistance Gate</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">♾️ <a href="scripts/stur_negative.html">Negative Energy</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">💡 <a href="scripts/stur_tabletop.html">Tabletop Demo</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">🌪 <a href="scripts/stur_torweather.html">Weather Engine</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">🥇 <a href="scripts/stur_thegoldenratio.html">Golden Ratio</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">🧑‍🧒‍🧒 <a href="scripts/stur_3bodyproblem.html">3 Body Problem</a></div>
-    <div class="sim-card glow-pop" style="border-left:3px solid #64748b;">⁉️ <a href="scripts/stur_testpage.html">Test Page</a></div>
-</div>
-
-<!-- === ACTION PANEL === -->
-<div class="action-panel fade-up" style="animation-delay:.9s;">
-  <a class="btn-main" href="about.html">🐇 Learn More</a><br>
-
-  <a href="mycitations.html" target="_blank" rel="noopener noreferrer">🐇 Citations</a>
-  <a href="https://www.tiktok.com/@that1sheldon" target="_blank" rel="noopener noreferrer">🎵 TikTok</a>
-  <a href="https://x.com/that1sheldon" target="_blank" rel="noopener noreferrer">✦ X/Twitter</a>
-  <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank" rel="noopener noreferrer">⚛ GitHub</a>
-</div>
-
-<!-- === VIDEO PORTAL === -->
-<div class="video-wrapper fade-up" style="animation-delay:1.1s;">
-  <div class="video-frame">
-    <iframe 
-      src="https://www.youtube.com/embed/ugELY1Hhptg?autoplay=0&mute=0&controls=1"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
+  <div class="sim-grid animate-in delay-5">
+    <div class="sim-card tier-core"><a href="scripts/stur_foundations.html">Foundations of Resistance</a><span class="card-tag" style="color: var(--tier-core);">Entry Point</span></div>
+    <div class="sim-card tier-core"><a href="scripts/stur_unified_framework.html">Unified Framework</a></div>
+    <div class="sim-card tier-core"><a href="scripts/stur_engine.html">STUR Engine</a></div>
+    <div class="sim-card tier-core"><a href="scripts/stur_geometry_verifier.html">Geometry Verifier</a><span class="card-tag" style="color: var(--tier-core);">Validation</span></div>
+    <div class="sim-card tier-core"><a href="scripts/stur_helix.html">Helix TOE Verifier</a></div>
+    <div class="sim-card tier-core"><a href="scripts/stur_unification_reveal.html">Unification Map</a><span class="card-tag" style="color: var(--tier-core);">Overview</span></div>
   </div>
-</div>
 
-<footer>
-  <div style="margin-bottom:16px;">
-    <span class="stur-dot good" style="margin-right:4px;"></span><span class="stur-text-green" style="font-size:0.85em; margin-right:16px;">Core Theory</span>
-    <span class="stur-dot info" style="margin-right:4px;"></span><span class="stur-text-cyan" style="font-size:0.85em; margin-right:16px;">Falsifiable</span>
-    <span class="stur-dot warn" style="margin-right:4px;"></span><span class="stur-text-gold" style="font-size:0.85em; margin-right:16px;">Derived</span>
-    <span style="display:inline-block; width:10px; height:10px; background:var(--neon-violet); border-radius:50%; box-shadow:var(--glow-violet); margin-right:4px;"></span><span class="stur-text-violet" style="font-size:0.85em; margin-right:16px;">Cosmological</span>
-    <span style="display:inline-block; width:10px; height:10px; background:var(--neon-pink); border-radius:50%; box-shadow:var(--glow-pink); margin-right:4px;"></span><span class="stur-text-pink" style="font-size:0.85em; margin-right:16px;">Biological</span>
-    <span style="display:inline-block; width:10px; height:10px; background:var(--tier-exploratory); border-radius:50%; margin-right:4px;"></span><span class="stur-text-dim" style="font-size:0.85em;">Exploratory</span>
+  <!-- === TIER 2: FALSIFIABLE === -->
+  <div class="section-header">
+    <span class="section-indicator" style="background: var(--tier-falsifiable);"></span>
+    <span class="section-title">Falsifiable Predictions</span>
+    <span class="section-badge">Testable</span>
   </div>
-  <p style="font-size:0.82em; margin-bottom:12px;">
-    STUR survives only if its <strong class="stur-text-cyan">falsifiable predictions</strong> hold.
-    The theory dies if visibility is oscillatory (ULDM), time-dependent, or mass-dependent.
-  </p>
-  <p>© 2025 Sheldon Lon Lindberg • STUR Physics Framework • X @that1sheldon<br>
-  Version 3.1 – Hosted via GitHub Pages • CC-BY-4.0 License</p>
-</footer>
+  <div class="sim-grid">
+    <div class="sim-card tier-falsifiable"><a href="scripts/Double%20slit.html">Double Slit Plasmon</a></div>
+    <div class="sim-card tier-falsifiable"><a href="scripts/stur_arc.html">Resistance Arc Simulator</a></div>
+    <div class="sim-card tier-falsifiable"><a href="scripts/stur_plasmaconfinement.html">Plasma Torus 4D</a></div>
+    <div class="sim-card tier-falsifiable"><a href="scripts/stur_superconductor.html">Holoscreen ATS</a></div>
+    <div class="sim-card tier-falsifiable"><a href="scripts/stur_3bodyproblem.html">3-Body RK4 Orbit</a></div>
+    <div class="sim-card tier-falsifiable"><a href="scripts/stur_quantumcomputing.html">Quantum Computing</a></div>
+    <div class="sim-card tier-falsifiable"><a href="scripts/stur_chronomagnetics.html">Chronomagnetics</a></div>
+    <div class="sim-card tier-falsifiable"><a href="scripts/stur_sonolum.html">Sonoluminescence 5D</a></div>
+    <div class="sim-card tier-falsifiable"><a href="scripts/stur_tabletop.html">Whispering Gallery</a></div>
+    <div class="sim-card tier-falsifiable"><a href="scripts/TOE%20Proof%20Simulation.html">TOE Isochrony Proof</a></div>
+    <div class="sim-card tier-falsifiable"><a href="scripts/stur_graphene.html">Graphene-Axion</a></div>
+    <div class="sim-card tier-falsifiable"><a href="scripts/stur_scalar.html">Scalar Bounce</a></div>
+  </div>
+
+  <!-- === TIER 3: DERIVED === -->
+  <div class="section-header">
+    <span class="section-indicator" style="background: var(--tier-derived);"></span>
+    <span class="section-title">Derived Applications</span>
+  </div>
+  <div class="sim-grid">
+    <div class="sim-card tier-derived"><a href="scripts/stur_galaxy.html">Galaxy Rotation Curves</a></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_replicator.html">Stress-Failure Envelope</a></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_thegoldenratio.html">Golden Ratio Attractor</a></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_solidbh.html">Big Bang Origin</a></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_torweather.html">3D Weather Hybrid</a></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_negative.html">Negative Energy 5D</a></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_gate.html">Resistance Corridor</a></div>
+  </div>
+
+  <!-- === TIER 4: COSMOLOGICAL === -->
+  <div class="section-header">
+    <span class="section-indicator" style="background: var(--tier-cosmological);"></span>
+    <span class="section-title">Cosmological</span>
+  </div>
+  <div class="sim-grid">
+    <div class="sim-card tier-cosmological"><a href="scripts/stur_5duniverse.html">5D Unified Gravity</a></div>
+    <div class="sim-card tier-cosmological"><a href="scripts/stur_universe.html">Universe Atlas POV</a></div>
+    <div class="sim-card tier-cosmological"><a href="scripts/stur_wow.html">Wow! Signal Analysis</a></div>
+  </div>
+
+  <!-- === TIER 5: BIOLOGICAL === -->
+  <div class="section-header">
+    <span class="section-indicator" style="background: var(--tier-biological);"></span>
+    <span class="section-title">Biological / Consciousness</span>
+  </div>
+  <div class="sim-grid">
+    <div class="sim-card tier-biological"><a href="scripts/stur_atp.html">Mitochondria Population</a></div>
+    <div class="sim-card tier-biological"><a href="scripts/stur_atp1.html">Mito Life/Death v4</a></div>
+    <div class="sim-card tier-biological"><a href="scripts/stur_life.html">Hydrothermal Proto-Cell</a></div>
+    <div class="sim-card tier-biological"><a href="scripts/stur_neuro.html">Neuroplasticity χ-Synapse</a></div>
+    <div class="sim-card tier-biological"><a href="scripts/stur_immunity.html">Universal Immunity</a></div>
+    <div class="sim-card tier-biological"><a href="scripts/stur_mindgate.html">Mind Gate Implant</a></div>
+  </div>
+
+  <!-- === TIER 6: EXPLORATORY === -->
+  <div class="section-header">
+    <span class="section-indicator" style="background: var(--tier-exploratory);"></span>
+    <span class="section-title">Exploratory / Sandbox</span>
+  </div>
+  <div class="sim-grid">
+    <div class="sim-card tier-exploratory"><a href="scripts/stur_sandbox.html">STUR Sandbox</a><span class="card-tag" style="color: var(--tier-exploratory);">Playground</span></div>
+    <div class="sim-card tier-exploratory"><a href="scripts/stur_testpage.html">Holoscreen Alpha-5</a></div>
+  </div>
+
+  <!-- === ACTION BUTTONS === -->
+  <div class="action-group">
+    <a href="about.html" class="btn btn-primary">Learn More</a>
+    <a href="mycitations.html" class="btn btn-secondary">Citations</a>
+    <a href="https://www.tiktok.com/@that1sheldon" target="_blank" rel="noopener" class="btn btn-secondary">TikTok</a>
+    <a href="https://x.com/that1sheldon" target="_blank" rel="noopener" class="btn btn-secondary">X / Twitter</a>
+    <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank" rel="noopener" class="btn btn-secondary">GitHub</a>
+  </div>
+
+  <!-- === VIDEO === -->
+  <section class="video-section">
+    <div class="video-container">
+      <iframe
+        src="https://www.youtube.com/embed/ugELY1Hhptg?autoplay=0&mute=0&controls=1"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- === FOOTER === -->
+  <footer class="site-footer">
+    <div class="tier-legend">
+      <div class="legend-item"><span class="legend-dot" style="background: var(--tier-core);"></span>Core Theory</div>
+      <div class="legend-item"><span class="legend-dot" style="background: var(--tier-falsifiable);"></span>Falsifiable</div>
+      <div class="legend-item"><span class="legend-dot" style="background: var(--tier-derived);"></span>Derived</div>
+      <div class="legend-item"><span class="legend-dot" style="background: var(--tier-cosmological);"></span>Cosmological</div>
+      <div class="legend-item"><span class="legend-dot" style="background: var(--tier-biological);"></span>Biological</div>
+      <div class="legend-item"><span class="legend-dot" style="background: var(--tier-exploratory);"></span>Exploratory</div>
+    </div>
+    <p class="footer-note">
+      STUR survives only if its <strong>falsifiable predictions</strong> hold.
+      The theory is excluded if visibility is oscillatory (ULDM), time-dependent, or mass-dependent.
+    </p>
+    <p class="footer-meta">
+      © 2025 Sheldon Lon Lindberg · STUR Physics Framework<br>
+      Version 9.2 · CC-BY-4.0 License
+    </p>
+  </footer>
+</div>
 
 </body>
 </html>

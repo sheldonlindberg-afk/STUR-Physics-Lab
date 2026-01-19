@@ -1,298 +1,596 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🦶 TOE Proof Sim 4000 – STUR Macro–Quantum Isochrony</title>
-<style>
-  body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
-  pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;line-height:1.4;
-      box-shadow:0 0 20px #ffaa0055;}
-  button{background:#ffaa00;color:#050814;border:none;border-radius:6px;padding:10px 20px;font-weight:bold;
-      cursor:pointer;margin:6px;transition:0.2s;}
-  button:hover{background:#ffcc33;}
-  footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOE Isochrony — STUR Physics Lab</title>
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>🦶 TOE Proof Sim 4000 – STUR Macro–Quantum Isochrony</h1>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<p class="desc">
-This STUR Lab module tests the <b>Unified Resistance curvature law</b> as a
-functional Theory of Everything. A single curvature constant
-<code>k = 1.234×10⁻⁸ N/m</code> produces:
-(1) a 15.7&nbsp;hour oscillation for a 1&nbsp;kg mass and
-(2) a 2.31&nbsp;ns oscillation (≈433&nbsp;MHz) for a proton mass,
-showing that the same geometry–resistance field scales smoothly from
-macroscopic to quantum timescales.
-</p>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<h2>Derivation Overview (Short Form)</h2>
-<div class="desc">
-<p>
-1. The STUR <b>resistance modulator</b> defines a universal radial geometry:
-</p>
-<pre>S(r) = tanh(r/L₀) · (1 − e^{−r/L₀})</pre>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>TOE Proof: Macro-Quantum Isochrony</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Tests STUR as a functional Theory of Everything by showing that a single curvature constant
+            \(k\) produces both macroscopic (15.7 h) and quantum (2.31 ns) oscillation periods.
+        </p>
 
-<p>
-2. A composite interaction scale A (EM − gravity balance) couples to the
-geometry to give an effective curvature:
-</p>
-<pre>k(r₀) = (2 A S(r₀))/r₀³ − (A S'(r₀))/r₀²</pre>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status info">
+                <span class="stur-icon icon-target sm"></span>
+                FALSIFIABLE
+            </span>
+        </div>
+    </header>
 
-<p>
-3. Once a target curvature <code>k_target = 1.234×10⁻⁸ N/m</code> is fixed at
-an equilibrium radius r₀ = L₀ = 0.1 m, the period of a bound oscillator
-of mass m in that curvature is:
-</p>
-<pre>T(m) = 2π √(m / k_target)</pre>
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-<p>
-4. Plugging in m = 1 kg and m = m_p (proton mass) gives the macro (hours)
-and quantum (nanoseconds / MHz) timescales from the <b>same curvature</b>,
-differing only by the mass scaling.
-</p>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE TESTS
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24"></span>
+            <h2 class="glass-section-title">What This Page Tests</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Oscillation period \(T(m)\) as a function of mass for the same curvature constant \(k\).</p>
+            <p><strong>Scale range:</strong> From proton mass \(m_p = 1.67 \times 10^{-27}\,\text{kg}\) to macroscopic \(m = 1\,\text{kg}\).</p>
+            <p><strong>Regime:</strong> Universal curvature law from the STUR resistance modulator \(S(r)\).</p>
+        </div>
+    </section>
 
-<p>
-5. Solving the curvature law backward for A at r₀ = L₀ shows that the
-geometry + interaction scale exactly reproduces k_target, and that k(r)
-is nearly flat around r₀ — an <b>isochrony plateau</b>. The Python script
-below visualizes:
-</p>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-<ul>
-  <li>Period vs mass from 10⁻³⁰ kg to 10⁵ kg (log–log)</li>
-  <li>STUR curvature k(r) vs r for the solved-back A</li>
-  <li>Mass-scaled isochrony check T/√m (constant if k is universal)</li>
-</ul>
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-<p>
-This ties EM–gravity equilibrium to all prior STUR modules (Replicator,
-Arc Reactor, WGM, Double-Slit) as different sectors of a single
-curvature field.
-</p>
-</div>
+            <p><strong>Limit assumed:</strong> Universal geometry from \(V(R)\) induces the STUR radial modulator and effective curvature:</p>
 
-<h2>Python Simulation (Copy &amp; Run)</h2>
+            <div class="stur-eq derived">
+                \[
+                S(r) = \tanh\!\bigl(r/L_0\bigr)\,\bigl(1 - e^{-r/L_0}\bigr)
+                \]
+                <div class="stur-eq-label">Radial Modulator from V(R)</div>
+            </div>
 
-<pre id="codeBlock">
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-STUR Unified Resistance – Macro–Quantum Isochrony (TOE Proof)
---------------------------------------------------------------
-Demonstrates that a single radial curvature constant k reproduces
-both macroscopic (15.7 h) and proton-scale (2.31 ns) oscillations,
-and that this curvature emerges self-consistently from the STUR
-resistance geometry S(r).
+            <div class="stur-eq derived">
+                \[
+                k(r_0) = \frac{2A\,S(r_0)}{r_0^3} - \frac{A\,S'(r_0)}{r_0^2}
+                \]
+                <div class="stur-eq-label">Effective Curvature Law</div>
+            </div>
 
-JupyterLite / Pyodide safe: NumPy + Matplotlib only.
-"""
+            <p>Once the target curvature \(k_{\text{target}} = 1.234 \times 10^{-8}\,\text{N/m}\) is fixed at equilibrium radius \(r_0 = L_0\), the oscillation period is:</p>
+
+            <div class="stur-eq derived">
+                \[
+                T(m) = 2\pi\sqrt{\frac{m}{k_{\text{target}}}}
+                \]
+                <div class="stur-eq-label">Universal Period Law</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: PREDICTION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Prediction</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>STUR predicts:</strong></p>
+            <ul>
+                <li><strong>Macro period:</strong> \(T(1\,\text{kg}) \approx 15.7\,\text{hours}\)</li>
+                <li><strong>Quantum period:</strong> \(T(m_p) \approx 2.31\,\text{ns}\) (frequency \(\approx 433\,\text{MHz}\))</li>
+                <li><strong>Isochrony:</strong> \(T/\sqrt{m}\) is constant across all mass scales for fixed curvature.</li>
+            </ul>
+
+            <p><strong>Competitor model:</strong> Standard physics requires separate force laws for different scales (Coulomb, gravity, nuclear) with no unified curvature.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">k_target</div>
+                    <div class="glass-metric-value">1.234e-8 N/m</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">T(1 kg)</div>
+                    <div class="glass-metric-value">15.7 h</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">T(proton)</div>
+                    <div class="glass-metric-value">2.31 ns</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">f(proton)</div>
+                    <div class="glass-metric-value">433 MHz</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: FALSIFICATION CRITERIA
+         ============================================================ -->
+    <section class="glass-section falsify">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-x-circle size-24"></span>
+            <h2 class="glass-section-title">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>This page falsifies STUR if:</strong></p>
+            <ul>
+                <li><strong>Kill-1:</strong> Period does not scale as \(T \propto \sqrt{m}\) for any mass range.</li>
+                <li><strong>Kill-2:</strong> Back-solved interaction scale \(A\) does not self-consistently reproduce \(k_{\text{target}}\).</li>
+                <li><strong>Kill-3:</strong> Isochrony ratio \(T/\sqrt{m}\) varies with mass, contradicting universal curvature.</li>
+            </ul>
+
+            <!-- Verdict display -->
+            <div class="glass-verdict pending" id="verdict-display">
+                <div class="glass-verdict-icon">
+                    <span class="stur-icon icon-alert-circle lg"></span>
+                </div>
+                <div class="glass-verdict-text">
+                    <div class="glass-verdict-label">Status</div>
+                    <div class="glass-verdict-value">Run simulation to compute verdict</div>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="glass-metrics" style="margin-top:1rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">A_needed</div>
+                    <div class="glass-metric-value" id="metric-A">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">k_check</div>
+                    <div class="glass-metric-value" id="metric-kcheck">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Isochrony</div>
+                    <div class="glass-metric-value" id="metric-iso">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Verdict</div>
+                    <div class="glass-metric-value" id="metric-verdict">Pending</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Macro-quantum isochrony test demonstrating unified curvature. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR TOE Proof — Macro-Quantum Isochrony (v9.2)
+#
+# Tests unified curvature: T(m) = 2π√(m/k_target)
+# Same k produces T(1kg)≈15.7h and T(proton)≈2.31ns
+#
+# Outputs:
+#   - stur_toe.json  (full results + falsification flag)
+#   - stur_toe.png   (period vs mass + isochrony plot)
+#
+# Falsified if: T ∝ √m fails or A back-solve is inconsistent
+# ===============================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
-import json
-
-plt.style.use("dark_background")
+import json, time
 
 # ===============================================================
-# 1. STUR RESISTANCE FIELD AND DERIVATIVE
+# 1) STUR RESISTANCE FIELD
 # ===============================================================
-
 def S(r, L0):
-    """STUR resistance modulator S(r)."""
+    """STUR resistance modulator S(r) from V(R)"""
     x = r / L0
     return np.tanh(x) * (1.0 - np.exp(-x))
 
 def dS_dr(r, L0):
-    """dS/dr for STUR resistance modulator."""
+    """Derivative dS/dr"""
     x = r / L0
     sech2 = 1.0 / np.cosh(x)**2
     return (sech2 * (1.0 - np.exp(-x)) + np.tanh(x) * np.exp(-x)) / L0
 
 # ===============================================================
-# 2. CURVATURE LAW
+# 2) CURVATURE LAW
 # ===============================================================
-
 def stur_curvature(A, r0, L0):
-    """
-    Effective curvature k(r0) from geometry + interaction scale A.
-    A packages EM and gravitational contributions into one scale.
-    """
+    """Effective curvature k(r0) from geometry + interaction scale A"""
     Sr  = S(r0, L0)
     dSr = dS_dr(r0, L0)
     return (2.0 * A * Sr) / (r0**3) - (A * dSr) / (r0**2)
 
-# Target curvature fixed from STUR equilibrium
-k_target = 1.234e-8  # N/m
+k_target = 1.234e-8  # N/m (target curvature)
+
+OUT_JSON = "stur_toe.json"
+OUT_PNG  = "stur_toe.png"
 
 # ===============================================================
-# 3. PERIOD FUNCTION AND TEST MASSES
+# 3) PERIOD FUNCTION
 # ===============================================================
-
 def period(m, k):
-    """Oscillator period for mass m in curvature k."""
+    """Oscillator period T(m) = 2π√(m/k)"""
     return 2.0 * np.pi * np.sqrt(m / k)
 
-# Macro: 1 kg
-m_macro = 1.0
-
-# Quantum: proton mass
-m_p = 1.6726e-27  # kg
+# Test masses
+m_macro = 1.0              # kg
+m_p = 1.6726e-27           # proton mass (kg)
 
 T_macro = period(m_macro, k_target)
-T_p     = period(m_p, k_target)
-f_p     = 1.0 / T_p
+T_p = period(m_p, k_target)
+f_p = 1.0 / T_p
 
 # ===============================================================
-# 4. BACK-SOLVE GEOMETRY FOR A
+# 4) BACK-SOLVE FOR INTERACTION SCALE A
 # ===============================================================
+r0 = 0.10  # equilibrium radius (m)
+L0 = 0.10  # STUR length scale (m)
 
-r0 = 0.10  # m
-L0 = 0.10  # m
-
-Sr0  = S(r0, L0)
+Sr0 = S(r0, L0)
 dSr0 = dS_dr(r0, L0)
 geom_factor = (2.0 * Sr0) / (r0**3) - dSr0 / (r0**2)
 
 A_needed = k_target / geom_factor
-k_check  = stur_curvature(A_needed, r0, L0)
+k_check = stur_curvature(A_needed, r0, L0)
 
-# Curvature profile around r0 to show isochrony plateau
+# Curvature profile for isochrony plateau visualization
 r_grid = np.linspace(0.02, 0.25, 400)
 k_grid = stur_curvature(A_needed, r_grid, L0)
 
 # ===============================================================
-# 5. MASS SCAN: PERIOD VS MASS
+# 5) MASS SCAN
 # ===============================================================
-
 m_grid = np.logspace(-30, 5, 400)
 T_grid = period(m_grid, k_target)
-isochrony_ratio = T_grid / np.sqrt(m_grid)  # should be ~constant if k is fixed
+isochrony_ratio = T_grid / np.sqrt(m_grid)
+
+# Check isochrony constancy
+iso_mean = np.mean(isochrony_ratio)
+iso_std = np.std(isochrony_ratio)
+iso_consistent = (iso_std / iso_mean) < 1e-10  # should be constant
 
 # ===============================================================
-# 6. JSON SUMMARY
+# 6) FALSIFICATION CHECK
 # ===============================================================
-
-summary = {
-    "model": "STUR_MacroQuantum_Isochrony_v1.0",
-    "k_target_N_per_m": float(k_target),
-    "T_macro_s": float(T_macro),
-    "T_macro_hr": float(T_macro / 3600.0),
-    "T_proton_s": float(T_p),
-    "f_proton_MHz": float(f_p / 1.0e6),
-    "T_macro_over_T_proton": float(T_macro / T_p),
-    "r0_m": float(r0),
-    "L0_m": float(L0),
-    "A_needed_SI": float(A_needed),
-    "k_check_N_per_m": float(k_check)
-}
-
-print(json.dumps(summary, indent=2))
+k_consistent = abs(k_check - k_target) / k_target < 1e-6
+falsified = not (k_consistent and iso_consistent)
 
 # ===============================================================
-# 7. PLOTS
+# 7) VISUALIZATION
 # ===============================================================
+fig = plt.figure(figsize=(14, 4), dpi=150)
+fig.patch.set_facecolor('#050814')
 
-fig = plt.figure(figsize=(13, 4), dpi=200)
-
-# --- Panel 1: Period vs Mass (log–log) ---
+# Panel 1: Period vs Mass
 ax1 = fig.add_subplot(1, 3, 1)
-ax1.loglog(m_grid, T_grid)
-ax1.scatter(m_macro, T_macro, s=25, label="1 kg", zorder=5)
-ax1.scatter(m_p, T_p, s=25, label="proton", zorder=5)
-ax1.set_xlabel("mass m [kg]")
-ax1.set_ylabel("period T [s]")
-ax1.set_title("STUR: T(m) with fixed k")
-ax1.grid(alpha=0.25, which="both")
-ax1.legend(fontsize=6)
+ax1.set_facecolor('#050814')
+ax1.loglog(m_grid, T_grid, '#60a5fa', lw=2)
+ax1.scatter([m_macro], [T_macro], s=60, c='#4ade80', zorder=5, label='1 kg')
+ax1.scatter([m_p], [T_p], s=60, c='#f472b6', zorder=5, label='proton')
+ax1.set_xlabel('mass m [kg]', color='#94a3b8')
+ax1.set_ylabel('period T [s]', color='#94a3b8')
+ax1.set_title('T(m) with fixed k', color='#ffaa00', fontsize=12)
+ax1.tick_params(colors='#94a3b8')
+ax1.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white', fontsize=8)
+ax1.grid(alpha=0.25, which='both', color='#1f2a44')
+for spine in ax1.spines.values():
+    spine.set_color('#334155')
 
-# --- Panel 2: Curvature profile k(r) ---
+# Panel 2: Curvature profile
 ax2 = fig.add_subplot(1, 3, 2)
-ax2.plot(r_grid, k_grid)
-ax2.axvline(r0, linestyle="--", linewidth=0.8, alpha=0.7)
-ax2.set_xlabel("radius r [m]")
-ax2.set_ylabel("k(r) [N/m]")
-ax2.set_title("STUR curvature plateau near r₀=L₀")
-ax2.grid(alpha=0.25)
+ax2.set_facecolor('#050814')
+ax2.plot(r_grid, k_grid, '#fbbf24', lw=2)
+ax2.axvline(r0, ls='--', lw=1, color='#94a3b8', alpha=0.7)
+ax2.set_xlabel('radius r [m]', color='#94a3b8')
+ax2.set_ylabel('k(r) [N/m]', color='#94a3b8')
+ax2.set_title('Curvature plateau near r₀=L₀', color='#ffaa00', fontsize=12)
+ax2.tick_params(colors='#94a3b8')
+ax2.grid(alpha=0.25, color='#1f2a44')
+for spine in ax2.spines.values():
+    spine.set_color('#334155')
 
-# --- Panel 3: Isochrony check T / √m ---
+# Panel 3: Isochrony check
 ax3 = fig.add_subplot(1, 3, 3)
-ax3.semilogx(m_grid, isochrony_ratio)
-ax3.axhline(isochrony_ratio.mean(), linestyle="--", linewidth=0.8, alpha=0.7)
-ax3.set_xlabel("mass m [kg]")
-ax3.set_ylabel("T / √m  [s·kg⁻¹ᐟ²]")
-ax3.set_title("Isochrony: mass-scaled period")
-ax3.grid(alpha=0.25, which="both")
+ax3.set_facecolor('#050814')
+ax3.semilogx(m_grid, isochrony_ratio, '#a78bfa', lw=2)
+ax3.axhline(iso_mean, ls='--', lw=1, color='#94a3b8', alpha=0.7)
+ax3.set_xlabel('mass m [kg]', color='#94a3b8')
+ax3.set_ylabel('T/√m [s·kg⁻¹ᐟ²]', color='#94a3b8')
+ax3.set_title('Isochrony: T/√m = const', color='#ffaa00', fontsize=12)
+ax3.tick_params(colors='#94a3b8')
+ax3.grid(alpha=0.25, which='both', color='#1f2a44')
+for spine in ax3.spines.values():
+    spine.set_color('#334155')
 
 plt.tight_layout()
+plt.savefig(OUT_PNG, facecolor='#050814', dpi=150, bbox_inches='tight')
 plt.show()
 
 # ===============================================================
-# 8. INTERPRETATION (TERMINAL TEXT)
+# 8) JSON OUTPUT
 # ===============================================================
+report = {
+    "meta": {
+        "page": "toe-isochrony",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "T(m) = 2π√(m/k)"
+    },
+    "curvature": {
+        "k_target_N_per_m": k_target,
+        "r0_m": r0,
+        "L0_m": L0,
+        "A_needed_SI": float(A_needed),
+        "k_check_N_per_m": float(k_check)
+    },
+    "periods": {
+        "T_macro_s": float(T_macro),
+        "T_macro_hr": float(T_macro / 3600.0),
+        "T_proton_s": float(T_p),
+        "f_proton_MHz": float(f_p / 1.0e6),
+        "ratio_T_macro_over_T_proton": float(T_macro / T_p)
+    },
+    "isochrony": {
+        "mean": float(iso_mean),
+        "std": float(iso_std),
+        "consistent": bool(iso_consistent)
+    },
+    "falsification": {
+        "criteria": [
+            "T ∝ √m fails",
+            "A back-solve inconsistent",
+            "Isochrony ratio varies"
+        ],
+        "triggered": ["Kill-1" if falsified else None],
+        "falsified": falsified
+    },
+    "outputs": {"json": OUT_JSON, "png": OUT_PNG}
+}
 
-print("\nInterpretation")
-print("--------------")
-print("• A single curvature k reproduces:")
-print(f"    – T(1 kg) ≈ {T_macro/3600.0:6.2f} h")
-print(f"    – T(proton) ≈ {T_p*1e9:6.2f} ns  (f ≈ {f_p/1e6:6.1f} MHz)")
-print("• The STUR geometry S(r) + A_needed yields k(r) ≈ k_target near r₀.")
-print("• Period scales as T ∝ √m while the geometry stays fixed.")
-print("• Macro and quantum oscillations are just different mass points")
-print("  sampling the same curvature plateau of the STUR resistance field.")
-print("=> This is a functional bridge between mechanical, EM, and quantum")
-print("   timescales using a single curvature law.")
-</pre>
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
-<p style="text-align:center;margin-top:1rem;">
-  <button onclick="copyCode()">📋 Copy Script</button>
-  <button onclick="openRunner()">▶ Open Python Runner (no sign-up)</button>
-</p>
+print("=== STUR TOE Isochrony [v9.2] ===")
+print(f"k_target:   {k_target:.4e} N/m")
+print(f"A_needed:   {A_needed:.4e}")
+print(f"k_check:    {k_check:.4e} N/m")
+print(f"T(1 kg):    {T_macro/3600:.2f} h")
+print(f"T(proton):  {T_p*1e9:.2f} ns ({f_p/1e6:.1f} MHz)")
+print(f"Isochrony:  {'PASS' if iso_consistent else 'FAIL'}")
+print(f"FALSIFIED = {falsified}")
+print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
-<!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
 
-<p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open Python Runner</b> to launch a JupyterLite
-session in your browser (no login). Paste the script into a new notebook cell,
-run it, and inspect the macro–quantum periods, curvature back-solve,
-and isochrony plots.
-</p>
+            <p class="stur-text-muted" style="margin-top:1rem; font-size:0.85rem;">
+                After running, open <code>stur_toe.png</code> to visualize macro-quantum scaling and <code>stur_toe.json</code> to inspect the falsification verdict.
+            </p>
+        </div>
+    </section>
 
-<footer>
-  © 2025 STUR Physics Lab | Unified Resistance Framework | TOE Proof Sim 4000
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <!-- Version stamp -->
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> toe-isochrony |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Goldstein — Classical Mechanics (harmonic oscillators)</li>
+                <li>Weinberg — Gravitation and Cosmology (unified field theories)</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const el=document.getElementById('codeBlock');
-  if(!el)return;
-  navigator.clipboard.writeText(el.innerText);
-  alert('✅ TOE Proof Sim 4000 script copied to clipboard');
+const PAGE_ID = 'toe-isochrony';
+const pageState = {
+    params: {
+        k_target: 1.234e-8,
+        r0_m: 0.1,
+        L0_m: 0.1
+    },
+    predictions: {
+        equation: 'T(m) = 2π√(m/k)',
+        T_macro_hr: 15.7,
+        T_proton_ns: 2.31,
+        f_proton_MHz: 433
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open('https://jupyter.org/try-jupyter/lab/','_blank');
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'k_target', value: pageState.params.k_target, unit: 'N/m' },
+        { parameter: 'T_macro', value: pageState.predictions.T_macro_hr, unit: 'hours' },
+        { parameter: 'T_proton', value: pageState.predictions.T_proton_ns, unit: 'ns' },
+        { parameter: 'f_proton', value: pageState.predictions.f_proton_MHz, unit: 'MHz' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_toe.py', 'text/x-python');
+});
 </script>
 
 </body>

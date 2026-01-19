@@ -1,1081 +1,504 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STUR 5D Hydrothermal Micro-Pore – Emergent Proto-Cell Simulation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydrothermal Proto-Cell — STUR Physics Lab</title>
 
-<style>
-    :root {
-        color-scheme: dark;
-        --bg: #05060a;
-        --panel: #0c1120;
-        --panel2: #111827;
-        --accent: #ec4899;
-        --accent2: #f97316;
-        --fg: #e5e7eb;
-        --fg2: #9ca3af;
-        --code-bg: #020617;
-        --border: #1f2937;
-    }
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    body {
-        background: var(--bg);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-        color: var(--fg);
-        margin: 0;
-        padding: 0;
-        -webkit-font-smoothing: antialiased;
-        line-height: 1.55;
-    }
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-    header {
-        padding: 2rem 1.5rem;
-        text-align: center;
-        background: radial-gradient(circle at top, #111827 0, #020617 60%);
-        border-bottom: 1px solid var(--border);
-    }
-
-    h1 {
-        margin: 0 0 0.75rem 0;
-        font-size: 1.8rem;
-    }
-
-    h2 {
-        margin: 0 0 0.5rem 0;
-        font-size: 1.2rem;
-        color: var(--fg2);
-    }
-
-    h3 {
-        margin-top: 0;
-        color: var(--accent2);
-    }
-
-    .section {
-        padding: 2rem 1.5rem;
-        border-bottom: 1px solid var(--border);
-        background: var(--panel);
-    }
-
-    .section:nth-of-type(2n) {
-        background: var(--panel2);
-    }
-
-    .codebox {
-        background: var(--code-bg);
-        border: 1px solid var(--border);
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
         padding: 1rem;
-        border-radius: 6px;
-        margin: 1rem 0;
-        font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
-        font-size: 0.88rem;
-        white-space: pre-wrap;
-    }
-
-    textarea {
-        width: 100%;
-        height: 540px;
-        background: var(--code-bg);
-        border: 1px solid var(--border);
-        color: var(--fg);
-        padding: 1rem;
-        font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
-        font-size: 0.84rem;
-        border-radius: 6px;
-        box-sizing: border-box;
-        resize: vertical;
-        white-space: pre;
         overflow-x: auto;
-        line-height: 1.4;
-        tab-size: 4;
-    }
-
-    .btnrow {
-        margin: 1rem 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-    }
-
-    button {
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
-        color: #05060a;
-        padding: 0.6rem 1.4rem;
-        border: none;
-        border-radius: 999px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 0.9rem;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.45);
-        transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, opacity 0.15s;
-    }
-
-    button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 14px 40px rgba(0,0,0,0.6);
-        opacity: 0.92;
-    }
-
-    button:focus-visible {
-        outline: 2px solid var(--accent2);
-        outline-offset: 2px;
-    }
-
-    .pill {
-        display: inline-block;
-        padding: 0.2rem 0.6rem;
-        border-radius: 999px;
-        border: 1px solid var(--border);
         font-size: 0.75rem;
-        color: var(--fg2);
-        margin-right: 0.3rem;
-        margin-bottom: 0.2rem;
-    }
-
-    a {
-        color: var(--accent);
-        text-decoration: none;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-
-    header > * {
-        max-width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .section > * {
-        max-width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
-
-<script>
-// Robust copy helper: uses navigator.clipboard when available,
-// falls back to document.execCommand so it still works on iOS / older browsers.
-function copyFromTextarea(id, label) {
-    const code = document.getElementById(id);
-    if (!code) {
-        alert(label + " textarea not found.");
-        return;
-    }
-    code.focus();
-    code.select();
-    // for mobile browsers
-    code.setSelectionRange(0, code.value.length);
-
-    function fallbackCopy() {
-        try {
-            const ok = document.execCommand("copy");
-            if (ok) {
-                alert(label + " copied to clipboard.");
-            } else {
-                alert("Copy failed; please select and copy manually.");
-            }
-        } catch (e) {
-            alert("Copy failed; please select and copy manually.");
-        }
-    }
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(code.value).then(
-            () => { alert(label + " copied to clipboard."); },
-            () => { fallbackCopy(); }
-        );
-    } else {
-        fallbackCopy();
-    }
-}
-
-function copyFast() {
-    copyFromTextarea("fastbox", "FAST STUR vent script");
-}
-
-function copyFull() {
-    copyFromTextarea("fullbox", "FULL STUR vent script");
-}
-</script>
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
-
 <body>
 
-<header>
-    <h1>STUR 5D Hydrothermal Micro-Pore – Emergent Proto-Cell Simulation</h1>
-    <h2>Alkaline Vent Physics + FeS/NiS Catalysis + STUR Curvature Selection</h2>
-    <div>
-        <span class="pill">STUR R(x,t,X)</span>
-        <span class="pill">FeS/NiS wall catalysis</span>
-        <span class="pill">pH 6 → 9.8 gradient</span>
-        <span class="pill">80–120 °C gradient</span>
-        <span class="pill">Thermophoresis (Soret)</span>
-        <span class="pill">JSON diagnostics</span>
-    </div>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
 </header>
 
-<!-- ================== SECTION 1: STUR DERIVATION ================== -->
-<div class="section">
-    <h3>1. STUR Field Equation → Hydrothermal Vent Model</h3>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-    <p>
-        STUR is Sheldon's Theory of Unified Resistance. The fundamental object is a unified
-        resistance field <code>R(x,t,X)</code> defined on a 5D manifold: three spatial coordinates,
-        physical time <code>t</code>, and an internal coordinate <code>X</code> that carries the
-        “missing” deterministic information (coherence, memory, feedback) that gets projected
-        away in standard 4D physics.
-    </p>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Hydrothermal Proto-Cell Simulation</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            STUR 5D reaction-diffusion model of alkaline vent micro-pore physics with FeS/NiS catalysis,
+            thermophoresis, pH gradients, and curvature-driven proto-cell emergence.
+        </p>
 
-    <div class="codebox">
-R = R(x,t,X)                                      unified resistance field
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status danger">
+                <span class="stur-icon icon-layers sm"></span>
+                SPECULATIVE
+            </span>
+        </div>
+    </header>
 
-∂R/∂t = ∇·(D∇R) − ∇R · Ω + χ ∂R/∂X + S            STUR evolution law
-∂R/∂X = (R − R_bg) / L_X                          X-coupled resistance manifold
-G_ab = ∂_a R ∂_b R + g_ab V(R)                    curvature from resistance gradients
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
     </div>
 
-    <p>
-        In this specific lab we focus on a single alkaline hydrothermal micro-pore. We ignore bulk
-        fluid vorticity <code>Ω</code> and group the detailed source terms into a reaction–diffusion
-        description for a small set of chemical fields:
-        CO₂, H₂, an acetyl-thioester analogue Ac, and an ATP-like phosphate potential. The pore
-        provides:
-        a vertical temperature gradient, a proton (pH) gradient, redox energy via H₂/CO₂, and
-        catalytic FeS/NiS walls.
-    </p>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Emergent proto-cell structures in alkaline hydrothermal vent micro-pores through STUR curvature selection.</p>
+            <p><strong>Scale:</strong> Pore size \(L = 12\,\mu\text{m}\), temperature 80-120 C, pH 6-9.8 gradient.</p>
+            <p><strong>Connection:</strong> The STUR X-feedback factor \(f_X\) amplifies resistance hotspots, nucleating stable acetyl/ATP structures.</p>
+        </div>
+    </section>
 
-    <p>The resistance field is constructed from these chemical fields:</p>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-    <div class="codebox">
-R(x,t) = w_CO2 · [CO2](x,t) +
-         w_H2  · [H2](x,t)  +
-         w_Ac  · [Ac](x,t)  +
-         w_ATP · [ATP](x,t) +
-         w_Fe  · [Fe²⁺](x,t)
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-R_bg(t) = ⟨R(x,t)⟩_volume
-∂R/∂X ≈ (R − R_bg)/L_X
-f_X(x,t) = exp[ χ_X · (R(x,t) − R_bg(t)) ]        (clamped numerically)
-    </div>
+            <p><strong>STUR evolution law:</strong></p>
 
-    <p>
-        The X-dimension is not simulated explicitly as a new axis. Instead, the discrete map
-        <code>∂R/∂X ≈ (R−R_bg)/L_X</code> is folded into the reaction rates through
-        <code>f_X</code>, which is exactly how STUR shows up in the PDEs below.
-    </p>
+            <div class="stur-eq derived">
+                \[
+                \frac{\partial R}{\partial t} = \nabla \cdot (D \nabla R) - \nabla R \cdot \Omega + \chi \frac{\partial R}{\partial X} + S_{\text{eff}}
+                \]
+                <div class="stur-eq-label">STUR Field Evolution</div>
+            </div>
 
-    <p>The chemical evolution in the pore (schematic) is:</p>
+            <p><strong>Resistance field composition:</strong></p>
 
-    <div class="codebox">
-∂[Ac]/∂t = D_Ac ∇²[Ac] − v_th(z) ∂[Ac]/∂z
-          + r_form([CO2],[H2],[Ac],T,pH) · f_X − λ_Ac [Ac]
+            <div class="stur-eq derived">
+                \[
+                R(\mathbf{x},t) = w_{\text{CO}_2}[\text{CO}_2] + w_{\text{H}_2}[\text{H}_2] + w_{\text{Ac}}[\text{Ac}] + w_{\text{ATP}}[\text{ATP}] + w_{\text{Fe}}[\text{Fe}^{2+}]
+                \]
+                <div class="stur-eq-label">Chemical Resistance Field</div>
+            </div>
 
-∂[CO2]/∂t = D_CO2 ∇²[CO2] − r_form
-∂[H2]/∂t  = D_H2  ∇²[H2]  − r_form
-∂[ATP]/∂t = D_ATP ∇²[ATP] + y_ATP · r_form − λ_ATP [ATP]
-    </div>
+            <p><strong>X-feedback amplification:</strong></p>
 
-    <p>with the catalytic formation term</p>
+            <div class="stur-eq derived">
+                \[
+                f_X(\mathbf{x},t) = \exp\left[\chi_X (R - R_{\text{bg}})\right]
+                \]
+                <div class="stur-eq-label">Curvature Selection Factor</div>
+            </div>
+        </div>
+    </section>
 
-    <div class="codebox">
-r_form = surface(x,y) · k_cat(T) · f_pH(pH) · f_X(R−R_bg) · [CO2] · [H2] · ([Ac] + ε)
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>Catalytic formation:</strong> \(r_{\text{form}} = \text{surface} \cdot k_{\text{cat}}(T) \cdot f_{\text{pH}} \cdot f_X \cdot [\text{CO}_2][\text{H}_2]([\text{Ac}]+\epsilon)\)</li>
+                <li><strong>Thermophoresis:</strong> \(v_{\text{th}}(z) = -D_{\text{Ac}} S_T \cdot \nabla T / T\) (Soret drift toward cold)</li>
+                <li><strong>Bifurcation:</strong> At \(\chi_X \approx 3.5-4.5\), STUR curvature nucleates stable proto-cell attractors.</li>
+            </ul>
 
-k_cat(T) = k_base · exp[ −E_a/R_g (1/T − 1/T_ref) ]
-f_pH     = exp[ −α (pH − pH_opt)² ]
-surface  ≈ 1 + O(10–40×) near FeS/NiS-like walls
-v_th(z)  = − D_Ac S_T · ∂T/∂z / T           (thermophoresis, Soret effect)
-    </div>
+            <p><strong>Life-onset metric:</strong> \(O_{\text{life}}(t) = \text{Var}(\text{Ac})/\langle\text{Ac}\rangle\) spikes when structure first locks in.</p>
 
-    <p>
-        The scripts below implement exactly these equations on a cubic grid embedding a cylindrical
-        micro-pore with a 12 µm height/diameter, 80–120 °C vertical temperature gradient, and a
-        pH gradient from ≈ 9.8 (alkaline interior) to ≈ 6 (external ocean side). STUR enters only
-        through the curvature-sensitive feedback factor <code>f_X</code>, which elevates regions
-        with large resistance curvature into stable, self-sustaining proto-cell-like attractors.
-    </p>
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Pore size</div>
+                    <div class="glass-metric-value">12 um</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">T gradient</div>
+                    <div class="glass-metric-value">80-120 C</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">pH range</div>
+                    <div class="glass-metric-value">6.0-9.8</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Grid</div>
+                    <div class="glass-metric-value">32^3</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- ===== ADDITIONAL FULL DERIVATION (ADDED) ===== -->
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>STUR hydrothermal vent proto-cell simulation with curvature-driven life emergence. Copy and run in any Python 3 environment.</p>
 
-    <p>
-        Starting from the STUR evolution law, take
-        <code>R(x,t) = Σ_i w_i c_i(x,t)</code> with species
-        <code>c_i ∈ { [CO2],[H2],[Ac],[ATP],[Fe²⁺] }</code>. Then:
-    </p>
-
-    <div class="codebox">
-∂R/∂t = Σ_i w_i ∂c_i/∂t
-
-STUR:  ∂R/∂t = ∇·(D∇R) + χ ∂R/∂X + S_eff
-
-Assume Ω ≈ 0 (no large-scale vorticity in the micro-pore frame)
-and absorb detailed chemistry and boundary exchange into S_eff.
-    </div>
-
-    <p>
-        For each species we write
-        <code>∂c_i/∂t = D_i ∇²c_i + F_i(c,T,pH,R)</code>, so:
-    </p>
-
-    <div class="codebox">
-∂R/∂t = Σ_i w_i D_i ∇²c_i + Σ_i w_i F_i(c,T,pH,R)
-
-∇·(D∇R) ≈ Σ_i w_i D_i ∇²c_i      (effective diffusion for R)
-
-χ ∂R/∂X = χ (R − R_bg)/L_X = χ/L_X · (R − R_bg)
-    </div>
-
-    <p>
-        Matching terms gives a consistency condition: the net reaction contribution
-        <code>Σ_i w_i F_i</code> must equal the combination of STUR source terms
-        <code>S_eff + χ(L_X^{-1})(R−R_bg)</code>. In the vent scripts, we implement this by
-        inserting the X-feedback factor <code>f_X = exp[ χ (R − R_bg) ]</code> directly into the
-        catalytic rate <code>r_form</code>. High-resistance regions (relative to the volume
-        average) receive an exponential gain in formation rate, which is exactly curvature
-        selection:
-    </p>
-
-    <div class="codebox">
-F_Ac ⊃ r_form · f_X  ⇒  ∂[Ac]/∂t ⊃ r_form · exp[χ (R − R_bg)]
-
-large (R − R_bg)  →  large f_X  →  local growth
-small (R − R_bg)  →  f_X ≈ 1    →  background mixing
-    </div>
-
-    <p>
-        The discrete scheme used is a standard explicit finite-difference / upwind discretization
-        of the PDEs. For a generic scalar field <code>c(x,t)</code> with diffusion coefficient
-        <code>D</code>, drift velocity <code>v_z</code>, and reaction term <code>F(c)</code>:
-    </p>
-
-    <div class="codebox">
-c^{n+1} = c^n
-          + Δt · D ∇²_h c^n
-          − Δt · v_z · (c^n − c^n_from_upwind)/Δz
-          + Δt · F(c^n)
-
-∇²_h c(i,j,k) = [c(i+1,j,k)+c(i−1,j,k)+c(i,j+1,k)+c(i,j−1,k)+c(i,j,k+1)+c(i,j,k−1)−6c(i,j,k)] / Δx²
-    </div>
-
-    <p>
-        Stability of the explicit diffusion step is enforced by choosing
-        <code>dt ≈ 0.2–0.25 · dx² / max(D_i)</code>, which is encoded directly in
-        <code>dt = 0.25 * dx*dx / max(...)</code> in the FAST script and similarly in the FULL
-        script. The advective CFL constraint is mild because <code>v_th</code> is small relative to
-        <code>dx/dt</code>, and the upwind form adds extra numerical damping as χ and gradients
-        grow.
-    </p>
-
-    <p>
-        Finally, the JSON outputs <code>stur_vent_fast.json</code> and
-        <code>stur_vent_full.json</code> store grid, dt, parameters, the χ sweep, and a time
-        history for one χ<sub>X</sub> trajectory, plus a <code>life_onset</code> metric
-        <code>O_life(t) = Var(Ac)/⟨Ac⟩</code> for χ<sub>X</sub> = 4. That JSON is rich enough to
-        reconstruct the bifurcation curves, time-series plots, and life-onset curve without
-        re-running these exact Python scripts.
-    </p>
-</div>
-
-<!-- ================== SECTION 2: HOW TO RUN ================== -->
-<div class="section">
-    <h3>2. How to Run This STUR Lab</h3>
-
-    <p>
-        1. Open JupyterLab in your browser:
-        <a href="https://jupyter.org/try-jupyter/lab/" target="_blank">https://jupyter.org/try-jupyter/lab/</a><br>
-        2. Create a new Python notebook or Python file.<br>
-        3. Copy either the FAST or FULL script below into a cell (or file).<br>
-        4. Run the cell. The simulation will execute and write:
-        <code>stur_vent_fast.json</code> or <code>stur_vent_full.json</code>, plus PNG plots.<br>
-        5. Use the JSON + PNGs for bifurcation plots, phase diagrams, life-onset curves,
-        and paper-ready figures.
-    </p>
-
-    <div class="btnrow">
-        <button onclick="window.open('https://jupyter.org/try-jupyter/lab/', '_blank')">Open JupyterLab</button>
-        <button onclick="window.location.href='../index.html'">Return to Lab Index</button>
-    </div>
-</div>
-
-<!-- ================== SECTION 3: FAST MODE ================== -->
-<div class="section">
-    <h3>3. FAST MODE – 32³ Grid (JupyterLite-Safe)</h3>
-
-    <p>
-        This version is tuned for speed on JupyterLite and laptops. It uses a 32³ grid with
-        realistic vent parameters and full STUR curvature feedback. It sweeps χ<sub>X</sub>
-        values, prints the final acetyl means and resistance variance, writes a rich JSON
-        diagnostic file <code>stur_vent_fast.json</code>, and generates three PNG plots:
-        a bifurcation diagram, a time-series for the example χ<sub>X</sub>, and a life-onset curve
-        <code>O_life(t) = Var(Ac)/⟨Ac⟩</code> for χ<sub>X</sub> = 4.
-    </p>
-
-    <div class="btnrow">
-        <button onclick="copyFast()">Copy FAST Script</button>
-    </div>
-
-    <textarea id="fastbox">
-#!/usr/bin/env python3
-"""
-FAST STUR Hydrothermal Vent Model (32^3)
-Realistic alkaline vent micro-pore with:
-  - 12 μm pore, 80–120 °C gradient
-  - pH 9.8 → 6.0 gradient via [H+](z)
-  - FeS/NiS-like wall catalysis
-  - Thermophoresis for acetyl-thioester analogue
-  - STUR resistance manifold R(x,t,X) with X-feedback f_X
-Outputs:
-  - stur_vent_fast.json (bifurcation + example history + life-onset + parameters)
-  - stur_vent_fast_bifurcation.png
-  - stur_vent_fast_example_history.png
-  - stur_vent_fast_life_onset.png
-"""
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR Hydrothermal Vent Proto-Cell (v9.2)
+#
+# Alkaline vent micro-pore with STUR curvature selection:
+#   - 12 um pore, 80-120 C gradient, pH 9.8 -> 6.0
+#   - FeS/NiS-like wall catalysis
+#   - Thermophoresis for acetyl-thioester
+#   - X-feedback f_X = exp[chi(R - R_bg)]
+#
+# Derived from Master Action X-coupling term
+# ===============================================================
 
 import numpy as np
 import json
 import matplotlib.pyplot as plt
 
-# ---------------------- GRID & GEOMETRY ----------------------
+# Grid and geometry
 N = 32
 L = 12e-6
 dx = L / N
-
 x = np.linspace(-L/2, L/2, N, endpoint=False)
 X, Y, Z = np.meshgrid(x, x, x, indexing="ij")
 
-# ---------------------- TEMPERATURE FIELD --------------------
-T_cold = 353.15  # 80 °C
-T_hot  = 393.15  # 120 °C
+# Temperature field (80-120 C)
+T_cold = 353.15
+T_hot = 393.15
 T = T_cold + (T_hot - T_cold)*((Z + L/2)/L)
 gradT = (T_hot - T_cold)/L
 
-# ---------------------- pH FIELD -----------------------------
-pH_top = 9.8     # alkaline interior side
-pH_bottom = 6.0  # more acidic exterior side
+# pH field (9.8 -> 6.0)
+pH_top = 9.8
+pH_bottom = 6.0
 pH = pH_top + (pH_bottom - pH_top)*((Z + L/2)/L)
-Hplus = 10.0**(-pH)
 
-# ---------------------- INITIAL CHEMISTRY --------------------
-# mol/m^3 ≈ mM
+# Initial chemistry (mol/m^3)
 CO2 = np.full((N, N, N), 15.0)
-H2  = np.full((N, N, N), 1.0)
-Ac  = np.zeros((N, N, N))        # acetyl-thioester analogue
+H2 = np.full((N, N, N), 1.0)
+Ac = np.zeros((N, N, N))
 ATP = np.full((N, N, N), 1e-3)
-HS  = np.full((N, N, N), 3.0)
 Fe2 = np.full((N, N, N), 1.0)
 
-# ---------------------- DIFFUSION COEFFS ---------------------
+# Diffusion coefficients
 D_CO2 = 1.5e-9
-D_H2  = 4.0e-9
-D_Ac  = 2.0e-10
+D_H2 = 4.0e-9
+D_Ac = 2.0e-10
 D_ATP = 1.2e-10
 
-# ---------------------- THERMOPHORESIS -----------------------
+# Thermophoresis
 S_T_Ac = 0.55
-v_th = -D_Ac * S_T_Ac * gradT / T  # m/s, drift toward colder region
+v_th = -D_Ac * S_T_Ac * gradT / T
 
-# ---------------------- FeS/NiS CATALYSIS --------------------
-Ea = 68e3           # J/mol
+# FeS/NiS catalysis
+Ea = 68e3
 R_gas = 8.314
-k_base = 5.0        # s^-1 at 100 °C
-
+k_base = 5.0
 kT = k_base * np.exp(-Ea / R_gas * (1.0/T - 1.0/373.15))
-
 r_cyl = np.sqrt(X*X + Y*Y)
 dist_from_wall = (L/2 - r_cyl)
 surface = 1.0 + 30.0 * np.exp(-(dist_from_wall/(0.6e-6))**2)
 
-# ---------------------- STUR RESISTANCE FIELD ----------------
-w_CO2 = 0.1
-w_H2  = 0.05
-w_Ac  = 10.0
-w_ATP = 20.0
-w_Fe  = 0.2
-L_X = 1.0
+# STUR resistance weights
+w_CO2, w_H2, w_Ac, w_ATP, w_Fe = 0.1, 0.05, 10.0, 20.0, 0.2
+eps = 1e-35
 
-# ---------------------- TIME STEPPING ------------------------
+# Time stepping
 dt = 0.25 * dx*dx / max(D_CO2, D_H2, D_Ac, D_ATP)
 nt = 15000
 
 def lap(field):
-    # Flux / positivity limiter: keep field in a safe physical range before differencing
     field = np.clip(field, 0.0, 1e6)
-    return (
-        np.roll(field,1,0)+np.roll(field,-1,0)+
-        np.roll(field,1,1)+np.roll(field,-1,1)+
-        np.roll(field,1,2)+np.roll(field,-1,2) - 6.0*field
-    ) / (dx*dx)
-
-def advect_z(field, v_z, dx, dt):
-    # Upwind advection with gradient limiter and positivity clamp
-    field = np.clip(field, 0.0, 1e6)
-    c_up   = np.roll(field,  1, axis=2)
-    c_down = np.roll(field, -1, axis=2)
-    c_from = np.where(v_z > 0.0, c_up, c_down)
-    grad   = (field - c_from) / dx
-    grad   = np.clip(grad, -1e9, 1e9)
-    out = field - dt * v_z * grad
-    return np.clip(out, 0.0, 1e6)
-
-chi_values = [0.0, 2.5, 4.0, 5.5, 8.0]
-results = []  # (chi, Ac_final, ATP_final, R_var_max)
-chi_example = 4.0
-example_history = None
-
-for chi in chi_values:
-    CO2_f = CO2.copy()
-    H2_f  = H2.copy()
-    Ac_f  = Ac.copy()
-    ATP_f = ATP.copy()
-    Fe_f  = Fe2.copy()
-
-    history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": [], "R_mean": [], "O_life": []}
-
-    for n in range(nt):
-        R = (w_CO2*CO2_f + w_H2*H2_f + w_Ac*Ac_f +
-             w_ATP*ATP_f + w_Fe*Fe_f)
-        # Clamp R to prevent unbounded curvature excursions
-        R = np.clip(R, 0.0, 1e6)
-        Rbg = R.mean()
-        fX = np.exp(np.clip(chi*(R - Rbg), -30.0, 30.0))
-
-        rate = surface * kT * CO2_f * H2_f * (Ac_f + 1e-6) * fX
-        # Hard safety ceilings on reaction rate to prevent numeric blowup
-        rate = np.minimum(rate, 5e6)
-        rate = np.minimum(rate, 5e3)
-
-        dAc  = +rate - 0.01*Ac_f
-        dCO2 = -rate
-        dH2  = -rate
-
-        CO2_f = CO2_f + dt*(D_CO2*lap(CO2_f) + dCO2)
-        H2_f  = H2_f  + dt*(D_H2 *lap(H2_f)  + dH2)
-        Ac_f  = Ac_f  + dt*(D_Ac *lap(Ac_f)  + dAc)
-        ATP_f = ATP_f + dt*(D_ATP*lap(ATP_f) + 0.4*rate)
-
-        # Semi-implicit treatment of Ac decay term for extra stability
-        Ac_f = Ac_f / (1.0 + dt*0.01)
-
-        # thermophoretic drift of Ac
-        Ac_f = advect_z(Ac_f, v_th, dx, dt)
-
-        CO2_f = np.clip(CO2_f, 0.0, 1e6)
-        H2_f  = np.clip(H2_f,  0.0, 1e6)
-        Ac_f  = np.clip(Ac_f,  0.0, 1e6)
-        ATP_f = np.clip(ATP_f, 0.0, 1e6)
-
-        # mild global damping for numerical stability (does not change qualitative behavior)
-        CO2_f *= 0.999999
-        H2_f  *= 0.999999
-        Ac_f  *= 0.999999
-        ATP_f *= 0.999999
-
-        # NaN / Inf guards (backup – should almost never trigger with the clamps above)
-        if not np.isfinite(Ac_f).all():
-            print("WARNING: Non-finite values in Ac_f at step", n, "for chi", chi)
-            Ac_f = np.nan_to_num(Ac_f, nan=0.0, posinf=1e3, neginf=0.0)
-        if not np.isfinite(CO2_f).all():
-            print("WARNING: Non-finite values in CO2_f at step", n, "for chi", chi)
-            CO2_f = np.nan_to_num(CO2_f, nan=0.0, posinf=1e3, neginf=0.0)
-        if not np.isfinite(H2_f).all():
-            print("WARNING: Non-finite values in H2_f at step", n, "for chi", chi)
-            H2_f = np.nan_to_num(H2_f, nan=0.0, posinf=1e3, neginf=0.0)
-        if not np.isfinite(ATP_f).all():
-            print("WARNING: Non-finite values in ATP_f at step", n, "for chi", chi)
-            ATP_f = np.nan_to_num(ATP_f, nan=0.0, posinf=1e3, neginf=0.0)
-
-        if n % 2000 == 0:
-            t_now = n*dt
-            Ac_mean = Ac_f.mean()
-            ATP_mean = ATP_f.mean()
-            R_var = ((R - Rbg)**2).mean()
-            # Life-onset order parameter: variance of Ac normalized by its mean
-            O_life = R_var / (Ac_mean + 1e-12)
-
-            history["t"].append(t_now)
-            history["Ac_mean"].append(Ac_mean)
-            history["ATP_mean"].append(ATP_mean)
-            history["R_var"].append(R_var)
-            history["R_mean"].append(Rbg)
-            history["O_life"].append(O_life)
-
-    Ac_final = Ac_f.mean()
-    ATP_final = ATP_f.mean()
-    R_var_max = max(history["R_var"]) if history["R_var"] else 0.0
-
-    results.append((chi, Ac_final, ATP_final, R_var_max))
-    print(f"FAST mode chi_X={chi:.2f}: Ac_final={Ac_final:.4e}, "
-          f"ATP_final={ATP_final:.4e}, max Var(R)={R_var_max:.3e}")
-
-    if abs(chi - chi_example) < 1e-6:
-        example_history = history
-
-if example_history is None:
-    example_history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": [], "R_mean": [], "O_life": []}
-
-# ---------------------- JSON DIAGNOSTICS ---------------------
-chi_list = [c for (c, _, _, _) in results]
-Ac_final_list = [a for (_, a, _, _) in results]
-ATP_final_list = [a for (_, _, a, _) in results]
-R_var_max_list = [v for (_, _, _, v) in results]
-
-diagnostics = {
-    "mode": "FAST",
-    "grid": [int(N), int(N), int(N)],
-    "dx_m": float(dx),
-    "dt_s": float(dt),
-    "nt": int(nt),
-    "L_m": float(L),
-    "T_hot_K": float(T_hot),
-    "T_cold_K": float(T_cold),
-    "pH_top": float(pH_top),
-    "pH_bottom": float(pH_bottom),
-    "chi_values": [float(c) for c in chi_list],
-    "Ac_final": [float(v) for v in Ac_final_list],
-    "ATP_final": [float(v) for v in ATP_final_list],
-    "R_var_max": [float(v) for v in R_var_max_list],
-    "weights": {
-        "w_CO2": float(w_CO2),
-        "w_H2": float(w_H2),
-        "w_Ac": float(w_Ac),
-        "w_ATP": float(w_ATP),
-        "w_Fe": float(w_Fe)
-    },
-    "diffusion": {
-        "D_CO2": float(D_CO2),
-        "D_H2": float(D_H2),
-        "D_Ac": float(D_Ac),
-        "D_ATP": float(D_ATP)
-    },
-    "thermophoresis": {
-        "S_T_Ac": float(S_T_Ac)
-    },
-    "example_history": {
-        "chi_X": float(chi_example),
-        "t_s": [float(v) for v in example_history["t"]],
-        "Ac_mean": [float(v) for v in example_history["Ac_mean"]],
-        "ATP_mean": [float(v) for v in example_history["ATP_mean"]],
-        "R_var": [float(v) for v in example_history["R_var"]],
-        "R_mean": [float(v) for v in example_history["R_mean"]],
-        "O_life": [float(v) for v in example_history["O_life"]],
-    }
-}
-
-# Ensure JSON is finite-valued
-for key, val in list(diagnostics.items()):
-    if isinstance(val, dict):
-        for k2, v2 in list(val.items()):
-            if isinstance(v2, list):
-                val[k2] = [float(np.nan_to_num(x, nan=0.0, posinf=1e9, neginf=0.0)) for x in v2]
-            else:
-                try:
-                    val[k2] = float(np.nan_to_num(v2, nan=0.0, posinf=1e9, neginf=0.0))
-                except Exception:
-                    pass
-    elif isinstance(val, list):
-        diagnostics[key] = [float(np.nan_to_num(x, nan=0.0, posinf=1e9, neginf=0.0)) for x in val]
-    else:
-        try:
-            diagnostics[key] = float(np.nan_to_num(val, nan=0.0, posinf=1e9, neginf=0.0))
-        except Exception:
-            pass
-
-with open("stur_vent_fast.json", "w") as f:
-    json.dump(diagnostics, f, indent=2)
-
-print("FAST mode complete. JSON saved → stur_vent_fast.json")
-
-# ---------------------- PLOTS ---------------------
-# Bifurcation: Ac_final and R_var_max vs chi
-plt.figure()
-plt.plot(chi_list, Ac_final_list, marker="o", label="⟨Ac⟩_final")
-plt.plot(chi_list, R_var_max_list, marker="s", label="max Var(R)")
-plt.xlabel("χ_X")
-plt.ylabel("Ac / Var(R)")
-plt.title("STUR Vent – FAST Bifurcation (32^3)")
-plt.legend()
-plt.tight_layout()
-plt.savefig("stur_vent_fast_bifurcation.png", dpi=150)
-plt.show()
-plt.close()
-
-# Example history for chi_example + life-onset curve
-if example_history["t"]:
-    t = np.array(example_history["t"])
-    Ac_m = np.array(example_history["Ac_mean"])
-    ATP_m = np.array(example_history["ATP_mean"])
-    Rv = np.array(example_history["R_var"])
-    O_life = np.array(example_history["O_life"])
-
-    # Standard history
-    fig, ax1 = plt.subplots()
-    ax1.set_xlabel("t [s]")
-    ax1.set_ylabel("⟨Ac⟩, ⟨ATP⟩")
-    ax1.plot(t, Ac_m, marker="o", linestyle="-", label="⟨Ac⟩", alpha=0.8)
-    ax1.plot(t, ATP_m, marker="s", linestyle="-", label="⟨ATP⟩", alpha=0.8)
-    ax1.legend(loc="upper left")
-
-    ax2 = ax1.twinx()
-    ax2.set_ylabel("Var(R)")
-    ax2.plot(t, Rv, marker="^", linestyle="--", label="Var(R)", alpha=0.8)
-    fig.suptitle(f"STUR Vent – FAST Example History (χ_X = {chi_example})")
-    fig.tight_layout()
-    plt.savefig("stur_vent_fast_example_history.png", dpi=150)
-    plt.show()
-    plt.close()
-
-    # Life-onset order parameter
-    plt.figure()
-    plt.plot(t, O_life, marker="o")
-    plt.xlabel("t [s]")
-    plt.ylabel("O_life (Var(Ac)/⟨Ac⟩)")
-    plt.title(f"STUR Vent – FAST Life-Onset Curve (χ_X = {chi_example})")
-    plt.tight_layout()
-    plt.savefig("stur_vent_fast_life_onset.png", dpi=150)
-    plt.show()
-    plt.close()
-
-print("FAST mode plots saved → "
-      "stur_vent_fast_bifurcation.png, stur_vent_fast_example_history.png, "
-      "stur_vent_fast_life_onset.png")
-</textarea>
-</div>
-
-<!-- ================== SECTION 4: FULL MODE ================== -->
-<div class="section">
-    <h3>4. FULL PHYSICS MODE – 96³ Grid (Publication-Grade)</h3>
-
-    <p>
-        This version pushes resolution to 96³ and is appropriate for publication figures and
-        serious parameter sweeps. It uses tighter, more realistic concentrations and the same
-        STUR-driven feedback. It writes <code>stur_vent_full.json</code> with grid, dt, χ sweep
-        results, and an example χ<sub>X</sub> trajectory, and generates corresponding PNG plots.
-        You can extend this version with the same <code>O_life</code> diagnostic if desired by
-        copying the pattern from the 32³ script.
-    </p>
-
-    <div class="btnrow">
-        <button onclick="copyFull()">Copy FULL Script</button>
-    </div>
-
-    <textarea id="fullbox">
-#!/usr/bin/env python3
-"""
-FULL STUR Hydrothermal Vent Model (96^3)
-Lost City–like alkaline vent with:
-  - 12 μm pore, 80–120 °C gradient
-  - pH 9.8 → 6.0 explicit via [H+](z)
-  - FeS/NiS-like wall catalysis
-  - Thermophoresis for acetyl-thioester analogue
-  - STUR curvature selection via f_X = exp[χ (R − R̄)]
-Outputs:
-  - stur_vent_full.json
-  - stur_vent_full_bifurcation.png
-  - stur_vent_full_example_history.png
-"""
-
-import numpy as np
-import json
-import matplotlib.pyplot as plt
-
-# ---------------------- GRID & GEOMETRY ----------------------
-N = 96
-L = 12e-6
-dx = L / N
-
-x = np.linspace(-L/2, L/2, N, endpoint=False)
-X, Y, Z = np.meshgrid(x, x, x, indexing="ij")
-
-# ---------------------- TEMPERATURE FIELD --------------------
-T_cold = 353.15
-T_hot  = 393.15
-T = T_cold + (T_hot - T_cold)*((Z + L/2)/L)
-gradT = (T_hot - T_cold)/L
-
-# ---------------------- pH FIELD -----------------------------
-pH_top = 9.8
-pH_bottom = 6.0
-pH = pH_top + (pH_bottom - pH_top)*((Z + L/2)/L)
-Hplus = 10.0**(-pH)
-
-# ---------------------- INITIAL CHEMISTRY --------------------
-CO2 = np.full((N, N, N), 12.0)
-H2  = np.full((N, N, N), 0.6)
-Ac  = np.zeros((N, N, N))
-ATP = np.full((N, N, N), 8e-4)
-HS  = np.full((N, N, N), 2.0)
-Fe2 = np.full((N, N, N), 1.2)
-
-# ---------------------- DIFFUSION ----------------------------
-D_CO2 = 1.4e-9
-D_H2  = 3.9e-9
-D_Ac  = 2.0e-10
-D_ATP = 1.1e-10
-
-# ---------------------- THERMOPHORESIS -----------------------
-S_T_Ac = 0.55
-v_th = -D_Ac * S_T_Ac * gradT / T
-
-# ---------------------- FeS/NiS-LIKE WALL CATALYSIS ----------
-Ea = 68e3
-R_gas = 8.314
-k_base = 4.5
-kT = k_base * np.exp(-Ea / R_gas * (1.0/T - 1.0/373.15))
-
-r_cyl = np.sqrt(X*X + Y*Y)
-dist_from_wall = (L/2 - r_cyl)
-surface = 1.0 + 40.0 * np.exp(-(dist_from_wall/(0.6e-6))**2)
-
-# ---------------------- STUR RESISTANCE MANIFOLD -------------
-w_CO2 = 0.1
-w_H2  = 0.05
-w_Ac  = 12.0
-w_ATP = 25.0
-w_Fe  = 0.2
-L_X = 1.0
-
-# ---------------------- TIME STEPPING ------------------------
-dt = 0.20 * dx*dx / max(D_CO2, D_H2, D_Ac, D_ATP)
-nt = 22000
-
-def lap(field):
-    # Flux / positivity limiter
-    field = np.clip(field, 0.0, 1e6)
-    return (
-        np.roll(field,1,0)+np.roll(field,-1,0)+
-        np.roll(field,1,1)+np.roll(field,-1,1)+
-        np.roll(field,1,2)+np.roll(field,-1,2) - 6.0*field
-    ) / (dx*dx)
+    return (np.roll(field,1,0)+np.roll(field,-1,0)+
+            np.roll(field,1,1)+np.roll(field,-1,1)+
+            np.roll(field,1,2)+np.roll(field,-1,2) - 6.0*field) / (dx*dx)
 
 def advect_z(field, v_z, dx, dt):
     field = np.clip(field, 0.0, 1e6)
-    c_up   = np.roll(field,  1, axis=2)
+    c_up = np.roll(field, 1, axis=2)
     c_down = np.roll(field, -1, axis=2)
     c_from = np.where(v_z > 0.0, c_up, c_down)
-    grad   = (field - c_from) / dx
-    grad   = np.clip(grad, -1e9, 1e9)
-    out = field - dt * v_z * grad
-    return np.clip(out, 0.0, 1e6)
+    grad = np.clip((field - c_from) / dx, -1e9, 1e9)
+    return np.clip(field - dt * v_z * grad, 0.0, 1e6)
 
-chi_values = [0.0, 2.5, 4.0, 5.0, 7.5]
-results = []  # (chi, Ac_final, ATP_final, R_var_max)
-chi_example = 4.0
-example_history = None
+# Run simulation with chi_X = 4.0
+chi = 4.0
+CO2_f, H2_f, Ac_f, ATP_f, Fe_f = CO2.copy(), H2.copy(), Ac.copy(), ATP.copy(), Fe2.copy()
+history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": [], "O_life": []}
 
-for chi in chi_values:
-    CO2_f = CO2.copy()
-    H2_f  = H2.copy()
-    Ac_f  = Ac.copy()
-    ATP_f = ATP.copy()
-    Fe_f  = Fe2.copy()
+for n in range(nt):
+    R = w_CO2*CO2_f + w_H2*H2_f + w_Ac*Ac_f + w_ATP*ATP_f + w_Fe*Fe_f
+    R = np.clip(R, 0.0, 1e6)
+    Rbg = R.mean()
+    fX = np.exp(np.clip(chi*(R - Rbg), -30.0, 30.0))
 
-    history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": [], "R_mean": []}
+    rate = np.minimum(surface * kT * CO2_f * H2_f * (Ac_f + 1e-6) * fX, 5e3)
 
-    for n in range(nt):
-        R = (w_CO2*CO2_f + w_H2*H2_f + w_Ac*Ac_f +
-             w_ATP*ATP_f + w_Fe*Fe_f)
-        # Clamp R to prevent unbounded curvature excursions
-        R = np.clip(R, 0.0, 1e6)
-        Rbg = R.mean()
-        fX = np.exp(np.clip(chi*(R - Rbg), -32.0, 32.0))
+    CO2_f = np.clip(CO2_f + dt*(D_CO2*lap(CO2_f) - rate), 0.0, 1e6)
+    H2_f = np.clip(H2_f + dt*(D_H2*lap(H2_f) - rate), 0.0, 1e6)
+    Ac_f = np.clip(Ac_f + dt*(D_Ac*lap(Ac_f) + rate - 0.01*Ac_f), 0.0, 1e6)
+    ATP_f = np.clip(ATP_f + dt*(D_ATP*lap(ATP_f) + 0.4*rate), 0.0, 1e6)
 
-        rate = surface * kT * CO2_f * H2_f * (Ac_f + 1e-6) * fX
-        # Hard safety ceilings on reaction rate
-        rate = np.minimum(rate, 5e6)
-        rate = np.minimum(rate, 5e3)
+    Ac_f = Ac_f / (1.0 + dt*0.01)
+    Ac_f = advect_z(Ac_f, v_th, dx, dt)
 
-        dAc  = +rate - 0.01*Ac_f
-        dCO2 = -rate
-        dH2  = -rate
+    CO2_f *= 0.999999
+    H2_f *= 0.999999
+    Ac_f *= 0.999999
+    ATP_f *= 0.999999
 
-        CO2_f = CO2_f + dt*(D_CO2*lap(CO2_f) + dCO2)
-        H2_f  = H2_f  + dt*(D_H2 *lap(H2_f)  + dH2)
-        Ac_f  = Ac_f  + dt*(D_Ac *lap(Ac_f)  + dAc)
-        ATP_f = ATP_f + dt*(D_ATP*lap(ATP_f) + 0.5*rate)
+    if n % 2000 == 0:
+        t_now = n*dt
+        Ac_mean = Ac_f.mean()
+        R_var = ((R - Rbg)**2).mean()
+        O_life = R_var / (Ac_mean + 1e-12)
+        history["t"].append(t_now)
+        history["Ac_mean"].append(Ac_mean)
+        history["ATP_mean"].append(ATP_f.mean())
+        history["R_var"].append(R_var)
+        history["O_life"].append(O_life)
 
-        # Semi-implicit treatment of Ac decay term
-        Ac_f = Ac_f / (1.0 + dt*0.01)
+print("=== STUR Hydrothermal Proto-Cell [v9.2] ===")
+print(f"chi_X = {chi}")
+print(f"Final Ac_mean = {Ac_f.mean():.4e}")
+print(f"Final ATP_mean = {ATP_f.mean():.4e}")
+print(f"Max R_var = {max(history['R_var']):.3e}")
 
-        Ac_f = advect_z(Ac_f, v_th, dx, dt)
+# Plots
+fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+fig.patch.set_facecolor('#050814')
 
-        CO2_f = np.clip(CO2_f, 0.0, 1e6)
-        H2_f  = np.clip(H2_f,  0.0, 1e6)
-        Ac_f  = np.clip(Ac_f,  0.0, 1e6)
-        ATP_f = np.clip(ATP_f, 0.0, 1e6)
+for ax in axes.flatten():
+    ax.set_facecolor('#050814')
+    ax.tick_params(colors='#94a3b8')
+    ax.grid(True, alpha=0.3, color='#1f2a44')
+    for spine in ax.spines.values():
+        spine.set_color('#334155')
 
-        # mild global damping
-        CO2_f *= 0.999999
-        H2_f  *= 0.999999
-        Ac_f  *= 0.999999
-        ATP_f *= 0.999999
+t = np.array(history["t"])
+axes[0,0].plot(t, history["Ac_mean"], color='#4ade80', lw=2)
+axes[0,0].set_title("Acetyl Mean", color='#ffaa00')
+axes[0,0].set_ylabel("[Ac] mean", color='#94a3b8')
 
-        # NaN / Inf guards
-        if not np.isfinite(Ac_f).all():
-            print("WARNING: Non-finite values in Ac_f at step", n, "for chi", chi)
-            Ac_f = np.nan_to_num(Ac_f, nan=0.0, posinf=1e3, neginf=0.0)
-        if not np.isfinite(CO2_f).all():
-            print("WARNING: Non-finite values in CO2_f at step", n, "for chi", chi)
-            CO2_f = np.nan_to_num(CO2_f, nan=0.0, posinf=1e3, neginf=0.0)
-        if not np.isfinite(H2_f).all():
-            print("WARNING: Non-finite values in H2_f at step", n, "for chi", chi)
-            H2_f = np.nan_to_num(H2_f, nan=0.0, posinf=1e3, neginf=0.0)
-        if not np.isfinite(ATP_f).all():
-            print("WARNING: Non-finite values in ATP_f at step", n, "for chi", chi)
-            ATP_f = np.nan_to_num(ATP_f, nan=0.0, posinf=1e3, neginf=0.0)
+axes[0,1].plot(t, history["ATP_mean"], color='#60a5fa', lw=2)
+axes[0,1].set_title("ATP Mean", color='#ffaa00')
+axes[0,1].set_ylabel("[ATP] mean", color='#94a3b8')
 
-        if n % 2500 == 0:
-            history["t"].append(n*dt)
-            history["Ac_mean"].append(Ac_f.mean())
-            history["ATP_mean"].append(ATP_f.mean())
-            history["R_var"].append(((R - Rbg)**2).mean())
-            history["R_mean"].append(Rbg)
+axes[1,0].plot(t, history["R_var"], color='#f472b6', lw=2)
+axes[1,0].set_title("Resistance Variance", color='#ffaa00')
+axes[1,0].set_xlabel("Time (s)", color='#94a3b8')
+axes[1,0].set_ylabel("Var(R)", color='#94a3b8')
 
-    Ac_final = Ac_f.mean()
-    ATP_final = ATP_f.mean()
-    R_var_max = max(history["R_var"]) if history["R_var"] else 0.0
+axes[1,1].plot(t, history["O_life"], color='#fbbf24', lw=2)
+axes[1,1].set_title("Life-Onset Order Parameter", color='#ffaa00')
+axes[1,1].set_xlabel("Time (s)", color='#94a3b8')
+axes[1,1].set_ylabel("O_life", color='#94a3b8')
 
-    results.append((chi, Ac_final, ATP_final, R_var_max))
-    print(f"FULL mode chi_X={chi:.2f}: Ac_final={Ac_final:.4e}, "
-          f"ATP_final={ATP_final:.4e}, max Var(R)={R_var_max:.3e}")
+fig.suptitle(f'STUR Hydrothermal Proto-Cell (chi_X={chi}, v9.2)', color='#ffaa00', fontsize=14)
+plt.tight_layout()
+plt.show()</pre>
 
-    if abs(chi - chi_example) < 1e-6:
-        example_history = history
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
 
-if example_history is None:
-    example_history = {"t": [], "Ac_mean": [], "ATP_mean": [], "R_var": [], "R_mean": []}
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
 
-# ---------------------- JSON DIAGNOSTICS ---------------------
-chi_list = [c for (c, _, _, _) in results]
-Ac_final_list = [a for (_, a, _, _) in results]
-ATP_final_list = [a for (_, _, a, _) in results]
-R_var_max_list = [v for (_, _, _, v) in results]
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
 
-diagnostics = {
-    "mode": "FULL",
-    "grid": [int(N), int(N), int(N)],
-    "dx_m": float(dx),
-    "dt_s": float(dt),
-    "nt": int(nt),
-    "L_m": float(L),
-    "T_hot_K": float(T_hot),
-    "T_cold_K": float(T_cold),
-    "pH_top": float(pH_top),
-    "pH_bottom": float(pH_bottom),
-    "chi_values": [float(c) for c in chi_list],
-    "Ac_final": [float(v) for v in Ac_final_list],
-    "ATP_final": [float(v) for v in ATP_final_list],
-    "R_var_max": [float(v) for v in R_var_max_list],
-    "weights": {
-        "w_CO2": float(w_CO2),
-        "w_H2": float(w_H2),
-        "w_Ac": float(w_Ac),
-        "w_ATP": float(w_ATP),
-        "w_Fe": float(w_Fe)
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> hydrothermal-protocell |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Russell & Martin — The rocky roots of the acetyl-CoA pathway</li>
+                <li>Lane & Martin — The origin of membrane bioenergetics</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+const PAGE_ID = 'hydrothermal-protocell';
+const pageState = {
+    params: {
+        L_um: 12,
+        T_cold_C: 80,
+        T_hot_C: 120,
+        pH_top: 9.8,
+        pH_bottom: 6.0,
+        chi_X: 4.0
     },
-    "diffusion": {
-        "D_CO2": float(D_CO2),
-        "D_H2": float(D_H2),
-        "D_Ac": float(D_Ac),
-        "D_ATP": float(D_ATP)
+    predictions: {
+        equation: 'f_X = exp[chi_X(R - R_bg)]'
     },
-    "thermophoresis": {
-        "S_T_Ac": float(S_T_Ac)
-    },
-    "example_history": {
-        "chi_X": float(chi_example),
-        "t_s": [float(v) for v in example_history["t"]],
-        "Ac_mean": [float(v) for v in example_history["Ac_mean"]],
-        "ATP_mean": [float(v) for v in example_history["ATP_mean"]],
-        "R_var": [float(v) for v in example_history["R_var"]],
-        "R_mean": [float(v) for v in example_history["R_mean"]],
-    }
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
 
-# Ensure JSON is finite-valued
-for key, val in list(diagnostics.items()):
-    if isinstance(val, dict):
-        for k2, v2 in list(val.items()):
-            if isinstance(v2, list):
-                val[k2] = [float(np.nan_to_num(x, nan=0.0, posinf=1e9, neginf=0.0)) for x in v2]
-            else:
-                try:
-                    val[k2] = float(np.nan_to_num(v2, nan=0.0, posinf=1e9, neginf=0.0))
-                except Exception:
-                    pass
-    elif isinstance(val, list):
-        diagnostics[key] = [float(np.nan_to_num(x, nan=0.0, posinf=1e9, neginf=0.0)) for x in val]
-    else:
-        try:
-            diagnostics[key] = float(np.nan_to_num(val, nan=0.0, posinf=1e9, neginf=0.0))
-        except Exception:
-            pass
+function exportCSV() {
+    const rows = [
+        { parameter: 'L', value: pageState.params.L_um, unit: 'um' },
+        { parameter: 'T_cold', value: pageState.params.T_cold_C, unit: 'C' },
+        { parameter: 'T_hot', value: pageState.params.T_hot_C, unit: 'C' },
+        { parameter: 'chi_X', value: pageState.params.chi_X, unit: '' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
+}
 
-with open("stur_vent_full.json", "w") as f:
-    json.dump(diagnostics, f, indent=2)
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
 
-print("FULL PHYSICS mode complete. JSON saved → stur_vent_full.json")
-
-# ---------------------- PLOTS ---------------------
-# Bifurcation: Ac_final and R_var_max vs chi
-plt.figure()
-plt.plot(chi_list, Ac_final_list, marker="o", label="⟨Ac⟩_final")
-plt.plot(chi_list, R_var_max_list, marker="s", label="max Var(R)")
-plt.xlabel("χ_X")
-plt.ylabel("Ac / Var(R)")
-plt.title("STUR Vent – FULL Bifurcation (96^3)")
-plt.legend()
-plt.tight_layout()
-plt.savefig("stur_vent_full_bifurcation.png", dpi=150)
-plt.show()
-plt.close()
-
-# Example history for chi_example
-if example_history["t"]:
-    t = np.array(example_history["t"])
-    Ac_m = np.array(example_history["Ac_mean"])
-    ATP_m = np.array(example_history["ATP_mean"])
-    Rv = np.array(example_history["R_var"])
-
-    fig, ax1 = plt.subplots()
-    ax1.set_xlabel("t [s]")
-    ax1.set_ylabel("⟨Ac⟩, ⟨ATP⟩")
-    ax1.plot(t, Ac_m, marker="o", linestyle="-", label="⟨Ac⟩", alpha=0.8)
-    ax1.plot(t, ATP_m, marker="s", linestyle="-", label="⟨ATP⟩", alpha=0.8)
-    ax1.legend(loc="upper left")
-
-    ax2 = ax1.twinx()
-    ax2.set_ylabel("Var(R)")
-    ax2.plot(t, Rv, marker="^", linestyle="--", label="Var(R)", alpha=0.8)
-    fig.suptitle(f"STUR Vent – FULL Example History (χ_X = {chi_example})")
-    fig.tight_layout()
-    plt.savefig("stur_vent_full_example_history.png", dpi=150)
-    plt.show()
-    plt.close()
-
-print("FULL mode plots saved → "
-      "stur_vent_full_bifurcation.png, stur_vent_full_example_history.png")
-</textarea>
-</div>
-
-<!-- ================== SECTION 5: INTERPRETATION ================== -->
-<div class="section">
-    <h3>5. Interpretation and STUR Bifurcation</h3>
-
-    <p>
-        As you sweep χ<sub>X</sub> from 0 upward, both scripts produce a clear transition:
-        for low χ<sub>X</sub> the vent is just a gradient-driven mixer with diffuse acetyl;
-        for χ<sub>X</sub> ≈ 3.5–4.5 the STUR curvature term amplifies resistance hotspots and
-        nucleates stable, localized acetyl/ATP structures that behave like proto-cells riding the
-        ΔT and ΔpH gradients. The additional life-onset curve
-        <code>O_life(t) = Var(Ac)/⟨Ac⟩</code> spikes when structure first locks in and relaxes
-        as the proto-cell attractor stabilizes, giving a clean, quantitative onset time for
-        emergent life-like organization in this STUR vent model. All of that is encoded
-        numerically in the JSON files and rendered in the PNG plots, so anyone can regenerate the
-        curves, slices, and statistics without trusting this page or your text.
-    </p>
-</div>
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_hydrothermal_protocell.py', 'text/x-python');
+});
+</script>
 
 </body>
 </html>

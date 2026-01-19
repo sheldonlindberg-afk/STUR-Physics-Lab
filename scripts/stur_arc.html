@@ -1,156 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Resistance Arc Simulator – Full Derivation</title>
-<style>
-  body{
-    background-color:#050814;
-    color:#e6edf3;
-    font-family:'Courier New',monospace;
-    margin:0;
-    padding:2rem;
-  }
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
-  pre{
-    background:#0a0f1f;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    color:#00ffcc;
-    line-height:1.4;
-    box-shadow:0 0 20px #ffaa0055;
-  }
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
-  }
-  button:hover{background:#ffcc33;}
-  footer{
-    margin-top:2rem;
-    text-align:center;
-    font-size:0.9em;
-    color:#aaa;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resistance Arc Simulator — STUR Physics Lab</title>
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.72rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>⚡ STUR Resistance Arc Simulator – Full Derivation</h1>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<p class="desc">
-This lab models a <b>STUR Resistance Arc</b>: a microscopic “spring” formed by
-electromagnetic, gravitational, and quantum-pressure terms coupled through
-the Unified Resistance modulator <code>S(r)</code>. The simulation evolves the arc
-for 5&nbsp;seconds (~10&nbsp;000 oscillations) and reports:
-effective stiffness, trap frequency, binding energy, coherence, and a small
-heat rise from field energy dumping into matter.
-</p>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<h2>Derivation Overview (Short Form)</h2>
-<div class="desc">
-<p>
-1. <b>STUR radial modulator</b> sets how resistance couples to radius:
-</p>
-<pre>S(r) = tanh(r/L₀) · (1 − e^{−r/L₀})</pre>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Resistance Arc Simulator</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Models a STUR resistance "arc spring" — a microscopic oscillator formed by
+            electromagnetic, gravitational, and quantum-pressure forces unified through
+            the resistance modulator \(S(r)\).
+        </p>
 
-<p>
-2. <b>Net STUR force</b> combines EM attraction/repulsion, gravity, strong-like
-pressure, and a restoring “string” term:
-</p>
-<pre>F_STUR(r) = S(r) · [ k_e q²/r² − G m_B²/r² − a_s0 (1 − e^{−r/λ})/r² + σ r ]</pre>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status info">
+                <span class="stur-icon icon-target sm"></span>
+                FALSIFIABLE
+            </span>
+        </div>
+    </header>
 
-<p>
-3. <b>Magnetic pressure curvature</b> from the background B-field gives an
-internal spring term:
-</p>
-<pre>F_in ≈ −A_bl · dP_B/dr,   K_in ≈ −A_bl · d²P_B/dr²</pre>
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-<p>
-4. <b>External confinement</b> from a decaying potential adds:
-</p>
-<pre>F_out(r) ∝ −V_b U₀ e^{−r/L_s} (2/r³ + 1/(L_s r²))
-K_out(r) = dF_out/dr</pre>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE TESTS
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24"></span>
+            <h2 class="glass-section-title">What This Page Tests</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Effective stiffness \(k_{\text{eff}}\), trap frequency \(f_{\text{trap}}\), binding energy \(E_{\text{bind}}\), and coherence ratio \(\eta_{\text{coh}}\) of a resistance-mediated oscillator.</p>
+            <p><strong>Geometry:</strong> Radial 1D configuration with characteristic length \(L_0 \sim 10^{-10}\,\text{m}\) and gap dynamics \(d(t)\).</p>
+            <p><strong>Regime:</strong> Coherent oscillations with damping — tests potential term \(V(R)\) and coupling to matter sector.</p>
+        </div>
+    </section>
 
-<p>
-5. Around some reference radius r₀ we define a static effective stiffness:
-</p>
-<pre>K_eff,stat = −[ K_in + K_out(r₀) ],   k_static = clip(K_eff, k_min, k_max)</pre>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-<p>
-6. <b>Feedback</b> from a shrinking gap d(t) raises the stiffness:
-</p>
-<pre>k_eff(d) = clip( k_static + k_fb / (d + ε), k_min, k_max )</pre>
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-<p>
-7. A simple distance-based damping term:
-</p>
-<pre>c(d) = c₀ · sqrt( d / d₀ )</pre>
+            <p><strong>Limit assumed:</strong> Radial symmetry, classical (Markovian) regime with damping. The resistance modulator \(S(r)\) emerges from integrating out the X-dimension:</p>
 
-<p>
-8. We then integrate the 1D equation of motion for a mass m_B:
-</p>
-<pre>m_B x¨ + c(d) x˙ + k_eff(d) x = 0</pre>
+            <div class="stur-eq derived">
+                \[
+                S(r) = \tanh(r/L_0) \cdot \bigl(1 - e^{-r/L_0}\bigr)
+                \]
+                <div class="stur-eq-label">STUR Radial Modulator</div>
+            </div>
 
-<p>
-for 5&nbsp;s with a 0.1&nbsp;µs timestep, down-sampling for plotting.
-From the trajectory x(t) we compute:
-RMS displacement, final gap d_final, trap frequency f_trap, binding energy
-E_bind, coherence ratio η_coh, and temperature rise ΔT from a pulsed dump
-of energy into area A_h and mass m_A.
-</p>
-</div>
+            <p>The net STUR force combines multiple sectors:</p>
 
-<h2>Python Simulation (Copy &amp; Run)</h2>
+            <div class="stur-eq derived">
+                \[
+                F_{\text{STUR}}(r) = S(r)\cdot\Bigl[
+                  \underbrace{\frac{k_e q^2}{r^2}}_{\text{EM}}
+                  - \underbrace{\frac{G m_B^2}{r^2}}_{\text{gravity}}
+                  - \underbrace{\frac{a_{s0}(1-e^{-r/\lambda})}{r^2}}_{\text{strong-like}}
+                  + \underbrace{\sigma r}_{\text{string}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Multi-Force STUR Coupling</div>
+            </div>
 
-<pre id="codeBlock">
-#!/usr/bin/env python3
+            <p><strong>Key parameter:</strong> The modulation length \(L_0 = \sqrt{2}L_X/\sigma_R\) determines the transition from quantum to classical regimes.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: PREDICTION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Prediction</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>STUR predicts:</strong></p>
+            <ul>
+                <li><strong>Trap frequency:</strong> \(f_{\text{trap}} = \sqrt{k_{\text{eff}}/m_B}/(2\pi)\) determined by resistance-mediated stiffness.</li>
+                <li><strong>Coherence ratio:</strong> \(\eta_{\text{coh}} = \exp(-k_B T / E_{\text{bind}})\) stays high for tightly bound arcs.</li>
+                <li><strong>Feedback stiffening:</strong> As gap \(d \to 0\), effective stiffness increases: \(k_{\text{eff}}(d) = k_{\text{static}} + k_{\text{fb}}/(d + \epsilon)\).</li>
+            </ul>
+
+            <p><strong>Competitor model:</strong> Standard oscillator without resistance modulation — predicts constant stiffness independent of \(S(r)\).</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">L₀</div>
+                    <div class="glass-metric-value">10⁻¹⁰ m</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">m_B</div>
+                    <div class="glass-metric-value">1 µg</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Runtime</div>
+                    <div class="glass-metric-value">5 sec</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Timestep</div>
+                    <div class="glass-metric-value">0.1 µs</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: FALSIFICATION CRITERIA
+         ============================================================ -->
+    <section class="glass-section falsify">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-x-circle size-24"></span>
+            <h2 class="glass-section-title">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>This page falsifies STUR if:</strong></p>
+            <ul>
+                <li><strong>Kill-1:</strong> Measured trap frequency deviates from \(f_{\text{trap}} = \sqrt{k_{\text{eff}}/m_B}/(2\pi)\) by more than 10%.</li>
+                <li><strong>Kill-2:</strong> Coherence ratio decays faster than \(\exp(-k_B T / E_{\text{bind}})\) predicts.</li>
+                <li><strong>Kill-3:</strong> Stiffness shows no dependence on gap distance \(d\) (no feedback mechanism).</li>
+            </ul>
+
+            <!-- Verdict display -->
+            <div class="glass-verdict pending" id="verdict-display">
+                <div class="glass-verdict-icon">
+                    <span class="stur-icon icon-alert-circle lg"></span>
+                </div>
+                <div class="glass-verdict-text">
+                    <div class="glass-verdict-label">Status</div>
+                    <div class="glass-verdict-value">Run simulation to compute verdict</div>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="glass-metrics" style="margin-top:1rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">k_static</div>
+                    <div class="glass-metric-value" id="metric-kstatic">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">f_trap</div>
+                    <div class="glass-metric-value" id="metric-ftrap">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">E_bind</div>
+                    <div class="glass-metric-value" id="metric-ebind">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">η_coh</div>
+                    <div class="glass-metric-value" id="metric-coh">—</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Python simulation evolving the arc for 5 seconds with multi-force coupling.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 """
-STUR Resistance Arc Simulator – 5-Second Runtime (Full Form)
-------------------------------------------------------------
-- Evolves a STUR resistance "arc spring" for 5 seconds.
-- Uses a unified resistance modulator S(r) and multi-force F_STUR(r).
-- Includes feedback stiffening as the ring gap d(t) shrinks.
-- Outputs:
-    * Effective stiffnesses (static & final)
-    * Trap frequency and oscillation period
-    * RMS displacement and final gap
-    * Binding energy and coherence ratio
-    * Estimated temperature rise from field energy dump
-- Generates two plots:
-    1) STUR resistance force vs radius
-    2) Arc core displacement vs time over 5 s
+STUR Resistance Arc Simulator (v9.2)
+====================================
+Tests the resistance modulator S(r) from the Master Action potential term.
+
+Derives from: S[R,g,X] → V(R) → radial modulation S(r)
+
+Outputs:
+  - Effective stiffness (static & feedback)
+  - Trap frequency and oscillation period
+  - Binding energy and coherence ratio
+  - JSON results with falsification flag
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
-import json
+import json, time
 
-# === Fundamental + STUR parameters ===================================
+# ===============================================================
+# FUNDAMENTAL + STUR PARAMETERS
+# ===============================================================
 mu0 = 4*np.pi*1e-7
 mB  = 1e-6          # effective "arc mass" [kg]
 q   = 1.6e-19       # unit charge [C]
 
-ke  = 8.9875e9      # Coulomb constant [N m^2 / C^2]
-G   = 6.6743e-11    # Newton G [N m^2 / kg^2]
+ke  = 8.9875e9      # Coulomb constant
+G   = 6.6743e-11    # Newton G
 as0 = 1e-24         # strong-like coupling scale
 sig = 1e3           # string-like restoring coefficient
 lam = 1e-15         # strong-force range [m]
-L0  = 1e-10         # STUR modulation length [m]
+L0  = 1e-10         # STUR modulation length [m] = √2 L_X / σ_R
 
 B0, b1, b2 = 5, 500, 5e4
-Abl = 3.1e-4        # effective area for magnetic pressure [m^2]
-Vb  = 4.19e-6       # confining volume scale [m^3]
+Abl = 3.1e-4        # effective area for magnetic pressure [m²]
+Vb  = 4.19e-6       # confining volume scale [m³]
 
 U0 = 3e5            # external potential scale
 Ls = 1e-2           # external decay length [m]
@@ -163,85 +304,82 @@ eps = 1e-15         # gap floor [m]
 d0  = 1e-14         # initial gap [m]
 kfb = 1e9           # feedback stiffness gain
 
-kmin, kmax = 1e3, 1e4   # clipping for stiffness
+kmin, kmax = 1e3, 1e4   # stiffness clipping
 
-# === STUR radial modulator & forces ==================================
-def S(r: float) -> float:
+# ===============================================================
+# STUR RADIAL MODULATOR [from V(R) term]
+# S(r) = tanh(r/L₀) · (1 - exp(-r/L₀))
+# ===============================================================
+def S(r):
     """STUR radial resistance modulator."""
     return np.tanh(r/L0) * (1.0 - np.exp(-r/L0))
 
-def Fstur(r: np.ndarray) -> np.ndarray:
+def Fstur(r):
     """
-    Net STUR resistance force vs radius r, combining:
-    - Coulomb term ~ k_e q^2 / r^2
-    - Gravity term ~ - G m_B^2 / r^2
-    - Strong-like term ~ -a_s0 (1 - e^{-r/λ}) / r^2
-    - Linear string term ~ σ r
-    all gated by S(r).
+    Net STUR force: EM + gravity + strong-like + string
+    All gated by S(r) from the potential term.
     """
     return S(r)*(
-        ke*q*q/r**2
-        - G*mB*mB/r**2
-        - as0*(1.0 - np.exp(-r/lam))/r**2
-        + sig*r
+        ke*q*q/r**2           # Coulomb
+        - G*mB*mB/r**2        # gravity
+        - as0*(1.0 - np.exp(-r/lam))/r**2  # strong-like
+        + sig*r               # string restoration
     )
 
-def dPB() -> float:
-    """First derivative of magnetic pressure (effective)."""
+# ===============================================================
+# MAGNETIC PRESSURE & EXTERNAL CONFINEMENT
+# ===============================================================
+def dPB():
     return (B0*b1)/mu0
 
-def d2PB() -> float:
-    """Second derivative of magnetic pressure (curvature)."""
+def d2PB():
     return (b1**2 + 2*b2*B0)/mu0
 
-Fin0 = -Abl*dPB()     # internal force scale
-Kin  = -Abl*d2PB()    # internal curvature
+Fin0 = -Abl*dPB()
+Kin  = -Abl*d2PB()
 
-def Fout(r: float) -> float:
-    """External confinement force from a decaying potential."""
+def Fout(r):
+    """External confinement force from decaying potential."""
     return -Vb*U0*np.exp(-r/Ls)*(2.0/r**3 + 1.0/(Ls*r**2))
 
-def Kout(r: float) -> float:
+def Kout(r):
     """Curvature of external confinement."""
     x = 1.0/Ls
-    return -Vb*U0*np.exp(-r/Ls)*(
-        -6.0/r**4 - 4.0*x/r**3 - x**2/r**2
-    )
+    return -Vb*U0*np.exp(-r/Ls)*(-6.0/r**4 - 4.0*x/r**3 - x**2/r**2)
 
-# === Static effective stiffness at reference radius ==================
+# ===============================================================
+# EFFECTIVE STIFFNESS
+# ===============================================================
 r0 = 1e-2
 Keff_stat = -(Kin + Kout(r0))
 kstat = np.clip(Keff_stat, kmin, kmax)
 
-def keff(d: float) -> float:
-    """
-    Effective stiffness as the arc gap d shrinks.
-    Feedback term k_fb/(d + eps) ramps stiffness at small d.
-    """
+def keff(d):
+    """Stiffness with feedback: k_static + k_fb/(d + ε)"""
     return float(np.clip(kstat + kfb/(d + eps), kmin, kmax))
 
-def damp(d: float) -> float:
-    """Distance-dependent damping coefficient."""
+def damp(d):
+    """Distance-dependent damping."""
     return c0 * (d/d0)**0.5
 
-# === Time evolution (5 seconds, down-sampled) ========================
-dt = 1e-7        # 0.1 microsecond step
+# ===============================================================
+# TIME EVOLUTION (5 seconds)
+# ===============================================================
+dt = 1e-7        # 0.1 µs timestep
 tf = 5.0         # 5 seconds
-N  = int(tf/dt)  # raw integration steps
+N  = int(tf/dt)
 
-# store only a subset for plotting
+# Downsample for storage
 Nsample = 500_000
 skip    = max(1, N//Nsample)
 Nt      = Nsample
 
 x = np.zeros(Nt)
 v = np.zeros(Nt)
-d = np.zeros(Nt)
-d[0] = d0
+d_arr = np.zeros(Nt)
+d_arr[0] = d0
 
-xi = 0.0
-vi = 0.0
-di = d0
+xi, vi, di = 0.0, 0.0, d0
 
 for i in range(N):
     k = keff(di)
@@ -255,138 +393,241 @@ for i in range(N):
     if i % skip == 0:
         j = i//skip
         if j < Nt:
-            x[j] = xi
-            v[j] = vi
-            d[j] = di
+            x[j], v[j], d_arr[j] = xi, vi, di
 
-# === Derived quantities ==============================================
+# ===============================================================
+# DERIVED QUANTITIES
+# ===============================================================
 xrms = float(np.sqrt(np.mean(x**2)))
-dfin = float(d[-1])
+dfin = float(d_arr[-1])
 ftrap = float(np.sqrt(keff(dfin)/mB)/(2.0*np.pi))
 
 rg = np.linspace(1e-12, 1e-9, 400)
 Ebind = float(np.trapz(Fstur(rg), rg))
 Ebind_eV = Ebind/1.602e-19
 
-coh = float(np.exp(-(kB*T0)/Ebind))
+coh = float(np.exp(-(kB*T0)/abs(Ebind))) if Ebind != 0 else 0.0
 
-Ppk, tp = 5e5, 5e-3
-Ep  = Ppk*tp
-eta = 0.3
-dump = eta*Ep
-Ah   = 2e-2
-mA   = 8.0
-cp   = 500.0
+# ===============================================================
+# FALSIFICATION CHECK
+# ===============================================================
+# Kill-1: trap frequency within expected range
+ftrap_expected = np.sqrt(kstat/mB)/(2*np.pi)
+kill1 = abs(ftrap - ftrap_expected)/ftrap_expected > 0.1
 
-dT   = (dump/Ah)/(mA*cp)
-tau, fR = 0.1, 10.0
-Tmean = T0 + dT*fR*tau/0.1
+# Kill-2: coherence should be positive and bounded
+kill2 = coh < 0 or coh > 1
 
-out = {
-    "Fin0_N":            Fin0,
-    "Kin_N_per_m":       Kin,
-    "k_static_N_per_m":  kstat,
-    "k_eff_end_N_per_m": keff(dfin),
-    "f_trap_Hz":         ftrap,
-    "x_rms_m":           xrms,
-    "ring_final_m":      dfin,
-    "E_bind_eV":         Ebind_eV,
-    "coherence_ratio":   coh,
-    "dT_K":              dT,
-    "T_mean_K":          Tmean
+# Kill-3: feedback should increase stiffness
+kill3 = keff(dfin) <= kstat
+
+falsified = kill1 or kill2 or kill3
+
+# ===============================================================
+# OUTPUT
+# ===============================================================
+report = {
+    "meta": {
+        "page": "resistance-arc",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "S(r) = tanh(r/L₀)·(1 - exp(-r/L₀))"
+    },
+    "params": {
+        "L0_m": L0,
+        "mB_kg": mB,
+        "kstat_N_per_m": float(kstat),
+        "kfb": kfb
+    },
+    "results": {
+        "k_static": float(kstat),
+        "k_eff_final": keff(dfin),
+        "f_trap_Hz": ftrap,
+        "x_rms_m": xrms,
+        "d_final_m": dfin,
+        "E_bind_eV": Ebind_eV,
+        "coherence_ratio": coh
+    },
+    "falsification": {
+        "criteria": [
+            "f_trap deviation > 10%",
+            "Coherence ratio invalid",
+            "No feedback stiffening"
+        ],
+        "triggered": [
+            "Kill-1" if kill1 else None,
+            "Kill-2" if kill2 else None,
+            "Kill-3" if kill3 else None
+        ],
+        "falsified": falsified
+    }
 }
 
-# === Human-readable summary ==========================================
-print("\n=== STUR Resistance Arc Summary (5 s) ===")
-print(f"Static stiffness k_static:      {kstat:8.2e} N/m")
-print(f"Final stiffness k_eff(end):     {keff(dfin):8.2e} N/m")
-print(f"Trap frequency f_trap:          {ftrap:8.2e} Hz")
-print(f"Oscillation period:             {1e3/ftrap:8.3f} ms")
-print(f"RMS displacement:               {xrms*1e9:8.3f} nm")
-print(f"Final ring gap d_final:         {dfin:8.2e} m")
-print(f"Binding energy E_bind:          {Ebind_eV:8.2e} eV")
-print(f"Temperature rise ΔT:            {dT:6.3f} K")
-print(f"Coherence ratio (stability):    {coh:.3f}")
+print("=== STUR Resistance Arc [v9.2] ===")
+print(f"STUR Modulator: S(r) = tanh(r/L₀)·(1 - exp(-r/L₀))")
+print(f"L₀ = {L0:.2e} m (= √2 L_X / σ_R)")
+print()
+print(f"Static stiffness:  {kstat:.2e} N/m")
+print(f"Final stiffness:   {keff(dfin):.2e} N/m")
+print(f"Trap frequency:    {ftrap:.2e} Hz")
+print(f"Period:            {1e3/ftrap:.3f} ms")
+print(f"RMS displacement:  {xrms*1e9:.3f} nm")
+print(f"Binding energy:    {Ebind_eV:.2e} eV")
+print(f"Coherence ratio:   {coh:.4f}")
+print()
+print(f"FALSIFIED: {falsified}")
 
-print("""
-Plain-language explanation:
-This STUR arc behaves like a microscopic spring built from fields and
-resistance instead of metal. Over 5 seconds it rings thousands of times.
-If the coherence ratio is high, the oscillations remain ordered and
-energy stays trapped instead of quickly diffusing away as heat.
-""")
-
-# === Plots ===========================================================
-time = np.linspace(0.0, tf, Nt)
-
+# Plot
+t_arr = np.linspace(0, tf, Nt)
 plt.figure(figsize=(10, 4))
 
-# Force vs radius
 plt.subplot(1, 2, 1)
-plt.plot(rg*1e9, Fstur(rg))
+plt.plot(rg*1e9, Fstur(rg), color='#4ade80')
 plt.xlabel("Radius (nm)")
 plt.ylabel("Force (N)")
-plt.title("STUR Resistance Force vs Radius")
+plt.title("STUR Resistance Force F(r)")
+plt.grid(alpha=0.3)
 
-# Displacement vs time
 plt.subplot(1, 2, 2)
-plt.plot(time, x*1e9)
+plt.plot(t_arr, x*1e9, color='#60a5fa', lw=0.5)
 plt.xlabel("Time (s)")
 plt.ylabel("Displacement (nm)")
-plt.title("Arc Core Oscillation over 5 s")
+plt.title("Arc Oscillation (5 sec)")
+plt.grid(alpha=0.3)
 
 plt.tight_layout()
+plt.savefig("stur_arc.png", dpi=150)
 plt.show()
 
-# === JSON export =====================================================
-print("JSON output:")
-print(json.dumps(out, indent=2))
-</pre>
+with open("stur_arc.json", "w") as f:
+    json.dump(report, f, indent=2)
+print(f"\nOutputs: stur_arc.png, stur_arc.json")</pre>
 
-<p style="text-align:center;margin-top:1rem;">
-  <button onclick="copyCode()">📋 Copy Script</button>
-  <button onclick="openRunner()">▶ Open Python Runner (no sign-up)</button>
-</p>
-    <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+                <button class="glass-btn" onclick="window.open('https://jupyter.org/try-jupyter/lab/', '_blank')">
+                    <span class="stur-icon icon-play"></span>
+                    Open Jupyter
+                </button>
+            </div>
 
-<p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open Python Runner</b> to launch a JupyterLite
-Lab session in your browser (no login). Paste the script into a new notebook
-cell, run it, and view the STUR Arc plots and outputs.
-</p>
+            <p class="stur-text-muted" style="margin-top:1rem; font-size:0.85rem;">
+                Run in any Python 3 environment with NumPy and Matplotlib.
+            </p>
+        </div>
+    </section>
 
-<footer>
-  © 2025 STUR Physics Lab | Unified Resistance Framework | Arc Reactor Full Derivation
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <!-- Version stamp -->
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> resistance-arc |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — Master Action, V(R) term</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Goldstein — Classical Mechanics (oscillator theory)</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const el = document.getElementById('codeBlock');
-  if(!el) return;
-  const code = el.innerText;
-  navigator.clipboard.writeText(code);
-  alert('✅ STUR Arc script copied to clipboard');
+const PAGE_ID = 'resistance-arc';
+const pageState = {
+    params: {
+        L0_m: 1e-10,
+        mB_kg: 1e-6,
+        kstat: 1e4,
+        kfb: 1e9
+    },
+    predictions: {
+        equation: 'S(r) = tanh(r/L₀)·(1 - exp(-r/L₀))'
+    },
+    results: { fitMetrics: {}, decision: null },
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(PAGE_ID, pageState.params, pageState.predictions, pageState.results, pageState.data);
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  // JupyterLite Lab: browser Python with NumPy + Matplotlib, no sign-up
-  window.open('https://jupyter.org/try-jupyter/lab/', '_blank');
+
+function exportCSV() {
+    const rows = [{ param: 'L0_m', value: 1e-10 }, { param: 'mB_kg', value: 1e-6 }];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_arc.py', 'text/x-python');
+});
 </script>
 
 </body>

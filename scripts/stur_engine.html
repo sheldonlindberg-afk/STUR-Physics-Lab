@@ -340,6 +340,43 @@
       .hero-subtitle { font-size: 1.3rem; }
       .holoscreen-grid { grid-template-columns: 1fr 1.5fr; }
     }
+
+    /* === EQUATION TERM COLOR CODING === */
+    .eq-diffusion { color: #4ade80; } /* Green - Kinetic/Diffusion */
+    .eq-potential { color: #f472b6; } /* Pink - Relaxation Potential */
+    .eq-xcrm { color: #fbbf24; }      /* Gold - XCRM Coupling */
+    .eq-torsion { color: #60a5fa; }   /* Blue - Torsion Source */
+    .eq-quantum { color: #a78bfa; }   /* Violet - Quantum Terms */
+    .eq-matter { color: #22d3ee; }    /* Cyan - Matter Sector */
+
+    /* Equation Legend */
+    .eq-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      margin: 1rem 0;
+      padding: 0.75rem 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.82rem;
+    }
+    .eq-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .eq-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .eq-legend-dot.diffusion { background: #4ade80; }
+    .eq-legend-dot.potential { background: #f472b6; }
+    .eq-legend-dot.xcrm { background: #fbbf24; }
+    .eq-legend-dot.torsion { background: #60a5fa; }
+    .eq-legend-dot.quantum { background: #a78bfa; }
+    .eq-legend-dot.matter { background: #22d3ee; }
   </style>
 </head>
 <body>
@@ -369,8 +406,12 @@
       <strong>STUR resistance field</strong> coupled to torsion. TEGR (≡ GR) provides the geometric backbone;
       STUR supplies the dynamical scalar resistance field \(R(x^\mu,t,X)\) and its gauge-invariant holonomy;
       HGEM is the weak-field (linear) limit; Chronomagnetics provides log-periodic modulation.
-      <strong>No claim is made</strong> that Standard Model parameters, coupling constants, 
+      <strong>No claim is made</strong> that Standard Model parameters, coupling constants,
       or cosmological initial conditions are derived. This is an <em>effective</em> framework, not a UV-complete theory.
+    </p>
+    <p class="muted" style="margin:0.75rem 0 0">
+      After dimensional reduction, STUR constitutes a <strong>one-parameter family of effective models</strong>,
+      parameterized by the dimensionless ratio \(\sigma_R/L_X\), testable across interferometric platforms.
     </p>
   </div>
 
@@ -458,6 +499,15 @@
 
   <section id="sec-stur">
     <h2><span class="section-dot" style="background:var(--stur)"></span> STUR: Law of Unified Resistance</h2>
+
+  <!-- Equation Color Legend -->
+  <div class="eq-legend">
+    <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
+  </div>
 
 <h3>Resistance Field Postulate</h3>
 <p>
@@ -586,6 +636,32 @@
   </p>
 </div>
 
+<h3>Emergent 4D Equation (Summary)</h3>
+<p>
+  Integrating the 5D STUR action over the internal coherence coordinate \(X\) in the adiabatic limit
+  yields an effective 4D equation for the coarse-grained resistance field (see Foundations §3.4.7):
+</p>
+<div class="eq boxed">
+  \[\partial_t \bar R = D\nabla^2 \bar R - \Gamma(\bar R - R_{\rm bg}) + \xi\]
+</div>
+<p class="muted">
+  where \(\Gamma \sim 1/L_X\) and \(\xi\) is a Markovian noise term with variance fixed by \(\sigma_R\).
+  This dimensional reduction closes the XCRM loop and ties all observables to the ratio \(\sigma_R/L_X\).
+</p>
+
+<h3>Loop Enhancement (Area Scaling)</h3>
+<p>
+  For loop geometries, Stokes' theorem provides enhancement via area accumulation (see Foundations §3.4.8):
+</p>
+<div class="eq law">
+  \[\boxed{\langle \Phi_R^2 \rangle_{\rm loop} \approx \frac{\sigma_R^2}{L_X^2}\, A_{\rm loop}}\]
+</div>
+<p class="muted">
+  This scaling follows from Stokes' theorem applied to the resistance holonomy and provides a concrete
+  pathway to macroscopic observability despite microscopic \(L_X\). The loop-enhanced coherence length
+  scales as \(\ell_{\rm coh}^{\rm loop} = \ell_{\rm coh}^{\rm linear} \cdot \xi/\sqrt{A}\).
+</p>
+
   </section>
 
   <section id="sec-chrono">
@@ -628,7 +704,9 @@
 <div class="block warning">
   <div class="title">Modulation Target</div>
   <p class="muted">
-    Chronomagnetics is applied as a controlled modulation of the STUR transport/coupling sector,
+    Chronomagnetics is an <strong>optional phenomenological modulation layer</strong>.
+    None of the STUR closure, derivations, or falsifiable predictions depend on its inclusion.
+    It is applied as a controlled modulation of the STUR transport/coupling sector,
     e.g. \(\chi \rightarrow \chi\,\mathcal{M}(u)\) (and thus the effective coherence length \(\ell_{\rm coh}\)),
     while preserving TEGR field equations. No claim is made that \(\lambda\) is fundamental.
   </p>
@@ -880,6 +958,9 @@
     <div class="block success">
       <div class="title">How to Use</div>
       <p class="muted">Adjust the sliders to explore STUR parameter space. The green curve shows the Gaussian visibility decay predicted by STUR. The orange curve shows illustrative ULDM coherent oscillations. The gray line is the null hypothesis (constant visibility).</p>
+      <p class="muted" style="margin-top:0.5rem;font-size:0.85rem;color:var(--text-muted);">
+        <em>Note:</em> The ULDM curve is schematic and not mapped to physical ULDM parameters; it is included solely for visual comparison of functional forms.
+      </p>
     </div>
   </section>
 
@@ -1121,15 +1202,13 @@
 
   </section>
 
-  <div class="block warning" style="margin:2rem 1.5rem;">
+  <div class="block gold" style="margin:2rem 1.5rem;">
     <div class="title">Framework Closure Status</div>
     <p class="muted" style="margin:0">
-      UTEF is an effective field framework closed under
-      symmetry, dynamics, and observable definition.
-      It does not close the theory at the level of
-      absolute parameter prediction (\(\sigma_R\), \(K_{\rm eff}\)),
-      which remain to be fixed by dynamics, symmetry,
-      or experimental measurement.
+      <strong>Level 1 (Closed):</strong> Emergent 4D equation via X-integration;
+      coherence length \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\) derived from manifold geometry.<br>
+      <strong>Level 2 (Closed):</strong> Loop enhancement via Stokes' theorem provides observability pathway.<br>
+      <strong>Remaining free parameter:</strong> ratio \(\sigma_R / L_X\) (single-parameter family).
     </p>
   </div>
 

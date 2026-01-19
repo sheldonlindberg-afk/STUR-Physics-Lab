@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUR Unification Map — Framework v9.2</title>
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      /* Page-specific styles */
+      .unification-hero {
+        text-align: center;
+        padding: 3rem 0 2rem;
+      }
+
+      .master-action {
+        max-width: 100%;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+      }
+
+      .limit-map {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
+
+      .limit-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-md);
+        padding: 1.25rem;
+        transition: all var(--transition-normal);
+      }
+
+      .limit-card:hover {
+        border-color: var(--glass-border-active);
+        transform: translateY(-2px);
+      }
+
+      .limit-card.tier-core { border-left: 3px solid var(--tier-core); }
+      .limit-card.tier-falsifiable { border-left: 3px solid var(--tier-falsifiable); }
+      .limit-card.tier-derived { border-left: 3px solid var(--tier-derived); }
+      .limit-card.tier-cosmological { border-left: 3px solid var(--tier-cosmological); }
+      .limit-card.tier-biological { border-left: 3px solid var(--tier-biological); }
+      .limit-card.tier-exploratory { border-left: 3px solid var(--tier-exploratory); }
+
+      .limit-card-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .limit-card-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin: 0;
+      }
+
+      .limit-card-regime {
+        font-size: 0.72rem;
+        font-family: var(--font-mono);
+        color: var(--text-dim);
+        background: rgba(0,0,0,0.3);
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        margin-left: auto;
+      }
+
+      .limit-card-eq {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin: 0.5rem 0;
+        font-family: var(--font-mono);
+      }
+
+      .limit-card-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.82rem;
+        color: var(--neon-cyan);
+        margin-top: 0.5rem;
+      }
+
+      .progress-bar {
+        height: 8px;
+        background: rgba(0,0,0,0.4);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 0.5rem;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.5s ease;
+      }
+
+      .progress-bar-fill.green { background: var(--neon-green); }
+      .progress-bar-fill.gold { background: var(--neon-gold); }
+      .progress-bar-fill.violet { background: var(--neon-violet); }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
+
+      @media (max-width: 600px) {
+        .stats-grid { grid-template-columns: 1fr; }
+      }
+
+      .stat-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-md);
+        padding: 1.25rem;
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        font-family: var(--font-mono);
+        line-height: 1;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-value.green { color: var(--neon-green); }
+      .stat-value.gold { color: var(--neon-gold); }
+      .stat-value.cyan { color: var(--neon-cyan); }
+
+      .stat-label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .tier-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        margin: 1.5rem 0;
+      }
+
+      .tier-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.82rem;
+        color: var(--text-muted);
+      }
+
+      .tier-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+      }
+
+      .tier-dot.core { background: var(--tier-core); }
+      .tier-dot.falsifiable { background: var(--tier-falsifiable); }
+      .tier-dot.derived { background: var(--tier-derived); }
+      .tier-dot.cosmological { background: var(--tier-cosmological); }
+      .tier-dot.biological { background: var(--tier-biological); }
+      .tier-dot.exploratory { background: var(--tier-exploratory); }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
+
+<main class="stur-container">
+
+    <!-- Hero -->
+    <div class="unification-hero">
+        <h1>STUR Unification Map</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto 1rem;">
+            Every page in the STUR Physics Lab derives from a single master action.
+            This map shows how each page connects to the unified framework.
+        </p>
+        <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+            <span class="stur-badge"><span class="stur-dot good"></span> Framework v9.2</span>
+            <span class="stur-badge">XCRM-Closed</span>
+            <span class="stur-badge">One Free Ratio</span>
+        </div>
+    </div>
+
+    <!-- Master Action -->
+    <section class="glass-section" style="border-color: rgba(251, 191, 36, 0.4);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24" style="color:var(--neon-gold)"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-gold);">The Master Action</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>All STUR predictions derive from this single action functional:</p>
+
+            <div class="stur-eq law master-action">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\text{Diffusion}}
+                  \;-\; \underbrace{V(R)}_{\text{Potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2 - U(X - R)}_{\text{XCRM Relaxation}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\text{Gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\text{Fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action — STUR Framework v9.2</div>
+            </div>
+
+            <p><strong>Single free parameter:</strong> The ratio \(\sigma_R / L_X\) determines all interferometric predictions.</p>
+
+            <p><strong>Observable:</strong> Every page maps to the holonomy variance:</p>
+
+            <div class="stur-eq boxed">
+                \[
+                \langle \Phi_R^2 \rangle \;=\; \frac{\sigma_R^2}{L_X^2} \times (\text{geometry factor})
+                \quad\Rightarrow\quad
+                V(\Delta L) = V_0 \exp\!\Bigl(-\tfrac{1}{2}\langle\Phi_R^2\rangle\Bigr)
+                \]
+                <div class="stur-eq-label">Universal Visibility Formula</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Unification Progress -->
+    <section class="glass-section">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Unification Progress</h2>
+        </div>
+        <div class="glass-section-body">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value green" id="stat-falsifiable">4</div>
+                    <div class="stat-label">Fully Falsifiable</div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill green" style="width: 12%"></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value gold" id="stat-hypothesis">18</div>
+                    <div class="stat-label">Hypothesis Generators</div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill gold" style="width: 53%"></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value cyan" id="stat-demo">12</div>
+                    <div class="stat-label">Concept Demos</div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill violet" style="width: 35%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tier-legend">
+                <div class="tier-legend-item"><span class="tier-dot core"></span> Core Theory</div>
+                <div class="tier-legend-item"><span class="tier-dot falsifiable"></span> Falsifiable</div>
+                <div class="tier-legend-item"><span class="tier-dot derived"></span> Derived</div>
+                <div class="tier-legend-item"><span class="tier-dot cosmological"></span> Cosmological</div>
+                <div class="tier-legend-item"><span class="tier-dot biological"></span> Biological</div>
+                <div class="tier-legend-item"><span class="tier-dot exploratory"></span> Exploratory</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Limit Map: Core Theory -->
+    <section class="glass-section" style="border-color: rgba(74, 222, 128, 0.3);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24" style="color:var(--tier-core)"></span>
+            <h2 class="glass-section-title" style="color:var(--tier-core);">Core Theory (Definitions)</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>These pages define the framework. They do not make predictions themselves but establish the axioms from which all predictions derive.</p>
+
+            <div class="limit-map">
+                <div class="limit-card tier-core">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Foundations</h3>
+                        <span class="limit-card-regime">AXIOMS</span>
+                    </div>
+                    <p class="stur-text-muted" style="font-size:0.85rem; margin:0;">
+                        Master action, XCRM closure, holonomy definition, regime classification.
+                    </p>
+                    <div class="limit-card-eq">\(R(x,t,X)\), \(L_X\), \(\sigma_R\), \(\ell_{\text{coh}}\)</div>
+                    <a href="stur_foundations.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View page
+                    </a>
+                </div>
+
+                <div class="limit-card tier-core">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Unified Framework</h3>
+                        <span class="limit-card-regime">SYNTHESIS</span>
+                    </div>
+                    <p class="stur-text-muted" style="font-size:0.85rem; margin:0;">
+                        Emergent 4D equation summary, loop enhancement scaling, regime transitions.
+                    </p>
+                    <div class="limit-card-eq">\(\nabla^2 R = V'(R) + ...\)</div>
+                    <a href="stur_unified_framework.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View page
+                    </a>
+                </div>
+
+                <div class="limit-card tier-core">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Sandbox</h3>
+                        <span class="limit-card-regime">PLAYGROUND</span>
+                    </div>
+                    <p class="stur-text-muted" style="font-size:0.85rem; margin:0;">
+                        Interactive model exploration. Exports in standard schema.
+                    </p>
+                    <div class="limit-card-eq">All regimes accessible</div>
+                    <a href="stur_sandbox.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View page
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Limit Map: Falsifiable Predictions -->
+    <section class="glass-section" style="border-color: rgba(34, 211, 238, 0.3);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24" style="color:var(--tier-falsifiable)"></span>
+            <h2 class="glass-section-title" style="color:var(--tier-falsifiable);">Falsifiable Predictions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>These pages make concrete predictions that can be tested against experimental data. Each includes explicit kill criteria.</p>
+
+            <div class="limit-map">
+                <div class="limit-card tier-falsifiable">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Geometry Verifier</h3>
+                        <span class="limit-card-regime">COHERENT</span>
+                    </div>
+                    <p class="stur-text-muted" style="font-size:0.85rem; margin:0;">
+                        Truth oracle for interferometric tests. Imports CSV, exports verdicts.
+                    </p>
+                    <div class="limit-card-eq">\(V(\Delta L) = V_0 e^{-\sigma_R^2 \Delta L^2 / 2L_X^2}\)</div>
+                    <a href="stur_geometry_verifier.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View page
+                    </a>
+                </div>
+
+                <div class="limit-card tier-falsifiable">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Double Slit</h3>
+                        <span class="limit-card-regime">COHERENT</span>
+                    </div>
+                    <p class="stur-text-muted" style="font-size:0.85rem; margin:0;">
+                        Gaussian visibility suppression in \(\Delta L\). The 48.4 peak prediction.
+                    </p>
+                    <div class="limit-card-eq">\(\langle\Phi_R^2\rangle \propto \Delta L^2\)</div>
+                    <a href="Double slit.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View page
+                    </a>
+                </div>
+
+                <div class="limit-card tier-falsifiable">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Chronomagnetics</h3>
+                        <span class="limit-card-regime">MODULATOR</span>
+                    </div>
+                    <p class="stur-text-muted" style="font-size:0.85rem; margin:0;">
+                        Optional time-dependent modulation layer. Does not affect static predictions.
+                    </p>
+                    <div class="limit-card-eq">\(\omega(t)\) periodic modulation</div>
+                    <a href="stur_chronomagnetics.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View page
+                    </a>
+                </div>
+
+                <div class="limit-card tier-falsifiable">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Quantum Computing</h3>
+                        <span class="limit-card-regime">LOOP-ENHANCED</span>
+                    </div>
+                    <p class="stur-text-muted" style="font-size:0.85rem; margin:0;">
+                        Multi-qubit coherence scaling with gate geometry.
+                    </p>
+                    <div class="limit-card-eq">\(\langle\Phi_R^2\rangle \propto A/L_X^2\)</div>
+                    <a href="stur_quantumcomputing.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View page
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Limit Map: Derived Applications -->
+    <section class="glass-section" style="border-color: rgba(251, 191, 36, 0.3);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-beaker size-24" style="color:var(--tier-derived)"></span>
+            <h2 class="glass-section-title" style="color:var(--tier-derived);">Derived Applications</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>These pages apply the framework to specific physical systems. They make predictions contingent on the core framework being correct.</p>
+
+            <div class="limit-map">
+                <div class="limit-card tier-derived">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Superconductor</h3>
+                        <span class="limit-card-regime">LOOP</span>
+                    </div>
+                    <div class="limit-card-eq">\(\xi_{\text{coh}} \propto L_X\)</div>
+                    <a href="stur_superconductor.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+
+                <div class="limit-card tier-derived">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Arc Reactor</h3>
+                        <span class="limit-card-regime">PLASMA</span>
+                    </div>
+                    <div class="limit-card-eq">Confinement geometry</div>
+                    <a href="stur_arc.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+
+                <div class="limit-card tier-derived">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Plasma Confinement</h3>
+                        <span class="limit-card-regime">PLASMA</span>
+                    </div>
+                    <div class="limit-card-eq">Tokamak geometry</div>
+                    <a href="stur_plasmaconfinement.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+
+                <div class="limit-card tier-derived">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Graphene</h3>
+                        <span class="limit-card-regime">2D LIMIT</span>
+                    </div>
+                    <div class="limit-card-eq">Lattice resistance</div>
+                    <a href="stur_graphene.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+
+                <div class="limit-card tier-derived">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Sonoluminescence</h3>
+                        <span class="limit-card-regime">COLLAPSE</span>
+                    </div>
+                    <div class="limit-card-eq">Bubble dynamics</div>
+                    <a href="stur_sonolum.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+
+                <div class="limit-card tier-derived">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Scalar Fields</h3>
+                        <span class="limit-card-regime">FIELD</span>
+                    </div>
+                    <div class="limit-card-eq">Scalar-matter coupling</div>
+                    <a href="stur_scalar.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Limit Map: Cosmological -->
+    <section class="glass-section" style="border-color: rgba(167, 139, 250, 0.3);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-wave size-24" style="color:var(--tier-cosmological)"></span>
+            <h2 class="glass-section-title" style="color:var(--tier-cosmological);">Cosmological Extensions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>These pages explore cosmological implications. Currently hypothesis generators awaiting observational constraints.</p>
+
+            <div class="limit-map">
+                <div class="limit-card tier-cosmological">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Galaxy Rotation</h3>
+                        <span class="limit-card-regime">LARGE-SCALE</span>
+                    </div>
+                    <a href="stur_galaxy.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+
+                <div class="limit-card tier-cosmological">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">5D Universe</h3>
+                        <span class="limit-card-regime">EXTRA-DIM</span>
+                    </div>
+                    <a href="stur_5duniverse.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+
+                <div class="limit-card tier-cosmological">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Universe Structure</h3>
+                        <span class="limit-card-regime">GLOBAL</span>
+                    </div>
+                    <a href="stur_universe.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+
+                <div class="limit-card tier-cosmological">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Helix Geometry</h3>
+                        <span class="limit-card-regime">TORSION</span>
+                    </div>
+                    <a href="stur_helix.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+
+                <div class="limit-card tier-cosmological">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">TOE Simulation</h3>
+                        <span class="limit-card-regime">UNIFICATION</span>
+                    </div>
+                    <a href="TOE Proof Simulation.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+
+                <div class="limit-card tier-cosmological">
+                    <div class="limit-card-header">
+                        <h3 class="limit-card-title">Wow! Signal</h3>
+                        <span class="limit-card-regime">SPECULATIVE</span>
+                    </div>
+                    <a href="stur_wow.html" class="limit-card-link">
+                        <span class="stur-icon icon-arrow-right"></span> View
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Generate All Predictions -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Generate Combined Report</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export a unified report containing predictions from all falsifiable pages in the standard STUR schema.</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="generateReport()">
+                    <span class="stur-icon icon-download"></span>
+                    Generate All Predictions
+                </button>
+                <button class="glass-btn" onclick="exportLimitTable()">
+                    <span class="stur-icon icon-database"></span>
+                    Export Limit Table
+                </button>
+            </div>
+
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Framework:</strong> STUR v9.2 |
+                <strong>Pages indexed:</strong> 34 |
+                <strong>Last updated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
+
+<!-- Scripts -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+// Set timestamp
+document.getElementById('timestamp').textContent = new Date().toISOString().split('T')[0];
+
+// Limit table data
+const limitTable = [
+    { page: 'Foundations', regime: 'AXIOMS', tier: 'core', status: 'definition' },
+    { page: 'Unified Framework', regime: 'SYNTHESIS', tier: 'core', status: 'definition' },
+    { page: 'Sandbox', regime: 'PLAYGROUND', tier: 'core', status: 'definition' },
+    { page: 'Geometry Verifier', regime: 'COHERENT', tier: 'falsifiable', status: 'falsifiable' },
+    { page: 'Double Slit', regime: 'COHERENT', tier: 'falsifiable', status: 'falsifiable' },
+    { page: 'Chronomagnetics', regime: 'MODULATOR', tier: 'falsifiable', status: 'falsifiable' },
+    { page: 'Quantum Computing', regime: 'LOOP-ENHANCED', tier: 'falsifiable', status: 'falsifiable' },
+    { page: 'Superconductor', regime: 'LOOP', tier: 'derived', status: 'hypothesis' },
+    { page: 'Arc Reactor', regime: 'PLASMA', tier: 'derived', status: 'hypothesis' },
+    { page: 'Plasma Confinement', regime: 'PLASMA', tier: 'derived', status: 'hypothesis' },
+    { page: 'Graphene', regime: '2D LIMIT', tier: 'derived', status: 'hypothesis' },
+    { page: 'Sonoluminescence', regime: 'COLLAPSE', tier: 'derived', status: 'hypothesis' },
+    { page: 'Scalar Fields', regime: 'FIELD', tier: 'derived', status: 'hypothesis' },
+    { page: 'Galaxy Rotation', regime: 'LARGE-SCALE', tier: 'cosmological', status: 'hypothesis' },
+    { page: '5D Universe', regime: 'EXTRA-DIM', tier: 'cosmological', status: 'hypothesis' },
+    { page: 'Universe Structure', regime: 'GLOBAL', tier: 'cosmological', status: 'hypothesis' },
+    { page: 'Helix Geometry', regime: 'TORSION', tier: 'cosmological', status: 'hypothesis' },
+    { page: 'TOE Simulation', regime: 'UNIFICATION', tier: 'cosmological', status: 'demo' },
+    { page: 'Wow! Signal', regime: 'SPECULATIVE', tier: 'cosmological', status: 'demo' }
+];
+
+function generateReport() {
+    const report = {
+        meta: {
+            framework: 'STUR v9.2',
+            generated: new Date().toISOString(),
+            totalPages: 34,
+            falsifiable: 4,
+            hypothesis: 18,
+            demo: 12
+        },
+        masterAction: 'S[R,g,X] = ∫d⁴x√(-g)[α(∇R)² - V(R) + β(∂ₜX)² - U(X-R) + L_torsion + L_matter]',
+        universalPrediction: 'V(ΔL) = V₀ exp(-σ_R²ΔL²/2L_X²)',
+        freeParameter: 'σ_R / L_X',
+        limitTable: limitTable
+    };
+
+    STUR.exportJSON(report, 'stur-unification-report.json');
+}
+
+function exportLimitTable() {
+    STUR.exportCSV(limitTable, 'stur-limit-table.csv');
+}
+</script>
+
+</body>
+</html>

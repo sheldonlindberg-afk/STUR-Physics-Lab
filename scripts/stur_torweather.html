@@ -1,171 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Weather 3D – STUR Unified Resistance Atmosphere</title>
-<style>
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:"Courier New",monospace;
-    margin:0;
-    padding:2rem;
-  }
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  .desc{
-    max-width:900px;
-    margin:0 auto 1.5rem auto;
-    line-height:1.5;
-  }
-  pre{
-    background:#0a0f1f;
-    color:#00ffcc;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    font-size:0.9rem;
-    box-shadow:0 0 18px #ffaa0040;
-    white-space:pre;
-  }
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
-  }
-  button:hover{background:#ffcc33;}
-  footer{
-    text-align:center;
-    font-size:0.9em;
-    color:#999;
-    margin-top:2rem;
-  }
-  a{color:#66ccff;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Weather Hybrid — STUR Physics Lab</title>
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>STUR Weather – 3D Hybrid Atmospheric Simulation</h1>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<h2>STUR Atmospheric Derivation (3D Volume)</h2>
-<div class="desc">
-<p>
-The STUR Unified Resistance framework combines long-range and short-range interactions into a
-single effective force on an atmospheric parcel at position r = (x, y, z):
-</p>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<p style="text-align:center;">
-F<span style="vertical-align:sub;">STUR</span>(r) =
-S(r, L<span style="vertical-align:sub;">0</span>)
-[ k<span style="vertical-align:sub;">e</span> q<span style="vertical-align:sub;">1</span> q<span style="vertical-align:sub;">2</span> / r²
-− G m<span style="vertical-align:sub;">1</span> m<span style="vertical-align:sub;">2</span> / r²
-+ α<span style="vertical-align:sub;">s</span> ( (1 − e<span style="vertical-align:super;">−r/λ</span>) / r² + σ r ) ] r̂,
-</p>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>3D Weather Hybrid</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Derives atmospheric dynamics from STUR unified resistance force.
+            Models microbursts, funnels, and heat domes via the radial modulator \(S(r)\).
+        </p>
 
-<p>
-with radius r = |r|, unit vector r̂ = r / |r|, and STUR radial modulator
-</p>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status warning">
+                <span class="stur-icon icon-layers sm"></span>
+                DERIVED
+            </span>
+        </div>
+    </header>
 
-<p style="text-align:center;">
-S(r, L<span style="vertical-align:sub;">0</span>) = tanh(r / L<span style="vertical-align:sub;">0</span>) (1 − e<span style="vertical-align:super;">−r / L<span style="vertical-align:sub;">0</span></span>).
-</p>
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-<p>
-Each parcel carries (r, v, T, P) and evolves under
-v(t + Δt) = v(t) + (F<span style="vertical-align:sub;">fluid</span> + F<span style="vertical-align:sub;">STUR</span>) Δt
-and r(t + Δt) = r(t) + v(t) Δt, with temperature T and pressure P updated from the vertical
-velocity component and a simple lapse-like rule.
-</p>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Classification of atmospheric parcels into microburst, funnel, and heat dome candidates.</p>
+            <p><strong>Scale:</strong> \(2 \times 2 \times 0.5\,\text{km}\) domain with \(8^3 = 512\) parcels.</p>
+            <p><strong>Connection:</strong> The STUR radial modulator \(S(r)\) adds nonlinear resistance forcing to standard fluid dynamics.</p>
+        </div>
+    </section>
 
-<p>
-Fluid forcing is modeled as F<span style="vertical-align:sub;">fluid</span> = −(1/ρ) ∇P + ν ξ, with ρ the air density
-and ξ a Gaussian noise vector for subgrid turbulence. STUR adds a nonlinear unified resistance
-force that can intensify downdrafts, induce rotation, and modulate buoyancy via T and P.
-</p>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-<p>
-We discretize an 8 × 8 × 8 grid over a 2 km × 2 km × 0.5 km domain. After a finite number of
-steps, each parcel is classified as:
-</p>
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-<ul>
-  <li><b>Microburst candidate</b>: strong downward v<span style="vertical-align:sub;">z</span></li>
-  <li><b>Funnel candidate</b>: large vertical angular momentum L<span style="vertical-align:sub;">z</span> = x v<span style="vertical-align:sub;">y</span> − y v<span style="vertical-align:sub;">x</span></li>
-  <li><b>Heat dome cell</b>: temperature T &gt; 300 K</li>
-</ul>
+            <p><strong>STUR radial modulator:</strong></p>
 
-<p>
-The Python code below evolves the full 3D grid and prints a single JSON object with:
-grid metadata, time information, event counts, field statistics, and full per-cell data.
-</p>
-</div>
+            <div class="stur-eq derived">
+                \[
+                S(r, L_0) = \tanh(r/L_0)(1 - e^{-r/L_0})
+                \]
+                <div class="stur-eq-label">Radial Modulator</div>
+            </div>
 
-<h2>Python Simulation (copy &amp; run)</h2>
+            <p><strong>Total STUR force on atmospheric parcel:</strong></p>
 
-<pre id="codeBlock">#!/usr/bin/env python3
+            <div class="stur-eq derived">
+                \[
+                \mathbf{F}_{\text{STUR}}(\mathbf{r}) = S(r, L_0)\left[\frac{k_e q_1 q_2}{r^2} - \frac{G m_1 m_2}{r^2} + \alpha_s\left(\frac{1 - e^{-r/\lambda}}{r^2} + \sigma r\right)\right]\hat{r}
+                \]
+                <div class="stur-eq-label">Unified Resistance Force</div>
+            </div>
+
+            <p><strong>Parcel dynamics:</strong> \(\mathbf{v}(t + \Delta t) = \mathbf{v}(t) + (\mathbf{F}_{\text{fluid}} + \mathbf{F}_{\text{STUR}})\Delta t\)</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>Microburst:</strong> Strong downward \(v_z < -10\,\text{m/s}\)</li>
+                <li><strong>Funnel:</strong> Large vertical angular momentum \(|L_z| = |x v_y - y v_x| > 0.05\)</li>
+                <li><strong>Heat dome:</strong> Temperature \(T > 300\,\text{K}\)</li>
+            </ul>
+
+            <p><strong>Classification:</strong> After 100 timesteps, each parcel is classified based on its final state.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Grid</div>
+                    <div class="glass-metric-value">8 x 8 x 8</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">dt</div>
+                    <div class="glass-metric-value">0.5 s</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">L0</div>
+                    <div class="glass-metric-value">10^5 m</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Steps</div>
+                    <div class="glass-metric-value">100</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>3D atmospheric simulation with STUR resistance forcing. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Weather 3D – JSON-only STUR atmospheric simulation
+# STUR 3D Weather Hybrid (v9.2)
+#
+# Derives atmospheric events from S(r) radial modulator
+# Classifications: microburst, funnel, heat dome
+#
+# Outputs:
+#   - stur_weather.json  (event classification + field stats)
+#
+# Derived from Master Action S(r) modulator
 # ===============================================================
+
 import numpy as np
-import json
+import json, time
 
-# ====== CONSTANTS ======
+OUT_JSON = "stur_weather.json"
+
+# ===============================================================
+# 1) CONSTANTS
+# ===============================================================
 k_e, G, sigma = 8.9875e9, 6.6743e-11, 1.0e-5
-lam, lB       = 1.0e-15, 1.0e2
-q1, q2        = 1.0e-6, 1.0e-6
-m1, m2        = 1.0e3, 1.0e3
-S_vec         = np.array([0.0, 0.0, 1.0])
-B_vec         = np.array([0.0, 0.0, 1.0])
-rho_air       = 1.2
-g             = 9.81
-nu            = 1.0e-2
+lam, lB = 1.0e-15, 1.0e2
+q1, q2 = 1.0e-6, 1.0e-6
+m1, m2 = 1.0e3, 1.0e3
+S_vec = np.array([0.0, 0.0, 1.0])
+B_vec = np.array([0.0, 0.0, 1.0])
+rho_air = 1.2
+g = 9.81
+nu = 1.0e-2
 
-L0       = 1.0e5
-gamma0   = 1.0e-3
-alpha_s  = 1.0e-9
-dt       = 0.5
-n_steps  = 100
-V_MAX    = 80.0
+L0 = 1.0e5
+gamma0 = 1.0e-3
+alpha_s = 1.0e-9
+dt = 0.5
+n_steps = 100
+V_MAX = 80.0
 
 np.random.seed(0)
 
-# ====== STUR RADIAL MODULATOR AND FORCE ======
+# ===============================================================
+# 2) STUR RADIAL MODULATOR AND FORCE
+# ===============================================================
 def S_r(r, L0):
-    """STUR radial modulator S(r, L0)."""
     return np.tanh(r / L0) * (1.0 - np.exp(-r / L0))
 
 def F_sheldon(r_vec, v_vec):
-    """
-    3D STUR unified resistance force:
-      Coulomb + gravity + short-range term + spin-coupling.
-    v_vec is kept for possible extensions (e.g., shear coupling).
-    """
     r_vec = np.asarray(r_vec, dtype=float)
     r_norm = float(np.linalg.norm(r_vec))
     if r_norm < 1.0e-12:
         return np.zeros(3, dtype=float)
-
     r_hat = r_vec / r_norm
-
-    coul   = k_e * q1 * q2 / (r_norm**2)
-    grav   = -G  * m1 * m2 / (r_norm**2)
+    coul = k_e * q1 * q2 / (r_norm**2)
+    grav = -G * m1 * m2 / (r_norm**2)
     strong = alpha_s * ((1.0 - np.exp(-r_norm / lam)) / (r_norm**2) + sigma * r_norm)
-
     F_rad = S_r(r_norm, L0) * (coul + grav + strong) * r_hat
-
     F_spin3 = gamma0 * np.exp(-r_norm / lB) * np.cross(S_vec, B_vec)
-    F_spin  = F_spin3[:3]
+    return F_rad + F_spin3[:3]
 
-    return F_rad + F_spin
-
-# ====== GRID INITIALIZATION ======
+# ===============================================================
+# 3) GRID INITIALIZATION
+# ===============================================================
 nx, ny, nz = 8, 8, 8
 X, Y, Z = np.meshgrid(
     np.linspace(-1.0e3, 1.0e3, nx),
@@ -175,67 +272,55 @@ X, Y, Z = np.meshgrid(
 
 pos = np.stack([X.flatten(), Y.flatten(), Z.flatten()], axis=-1).astype(float)
 vel = np.zeros_like(pos, dtype=float)
-
 T = np.ones(pos.shape[0], dtype=float) * 290.0
 P = np.ones(pos.shape[0], dtype=float) * 101325.0
 
-# ====== TIME INTEGRATION ======
+# ===============================================================
+# 4) TIME INTEGRATION
+# ===============================================================
 for _ in range(n_steps):
-    # background shear: vx grows with y
     vel[:, 0] = vel[:, 0] + 0.0001 * (pos[:, 1] / 1.0e3)
-
     for i in range(pos.shape[0]):
-        # fluid component (vertical-like via z, plus random turbulence)
         F_fluid = -1.0 / rho_air * np.array([0.0, 0.0, (P[i] - 101325.0) / 50.0])
         F_fluid = F_fluid + nu * np.random.randn(3) * 0.01
-
-        F_stur  = F_sheldon(pos[i], vel[i])
+        F_stur = F_sheldon(pos[i], vel[i])
         F_total = F_fluid + F_stur
-
-        # update velocity
         vel[i] = vel[i] + F_total * dt
-        speed  = float(np.linalg.norm(vel[i]))
+        speed = float(np.linalg.norm(vel[i]))
         if speed > V_MAX:
             vel[i] = vel[i] * (V_MAX / speed)
-
-        # update position
         pos[i] = pos[i] + vel[i] * dt
-
-        # treat z as vertical
         vz = vel[i, 2]
         T[i] = T[i] + (-g / 1000.0) * vz * dt
         P[i] = P[i] - 0.05 * vz * dt
 
-# ====== EVENT CLASSIFICATION ======
+# ===============================================================
+# 5) EVENT CLASSIFICATION
+# ===============================================================
 microburst_mask = vel[:, 2] < -10.0
-
-x = pos[:, 0]
-y = pos[:, 1]
-vx = vel[:, 0]
-vy = vel[:, 1]
-vz = vel[:, 2]
-
+x, y = pos[:, 0], pos[:, 1]
+vx, vy, vz = vel[:, 0], vel[:, 1], vel[:, 2]
 Lz = x * vy - y * vx
 funnels_mask = np.abs(Lz) > 0.05
-
 heat_mask = T > 300.0
-
-# ====== SUMMARY STATISTICS ======
 speed = np.sqrt(vx**2 + vy**2 + vz**2)
 
+# ===============================================================
+# 6) JSON OUTPUT
+# ===============================================================
 summary = {
-    "model": "STUR Weather 3D",
+    "meta": {
+        "page": "3d-weather-hybrid",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "F_STUR = S(r,L0)[F_EM + F_grav + F_strong]"
+    },
     "grid": {
-        "nx": int(nx),
-        "ny": int(ny),
-        "nz": int(nz),
+        "nx": int(nx), "ny": int(ny), "nz": int(nz),
         "n_parcels": int(pos.shape[0]),
-        "x_min_m": float(X.min()),
-        "x_max_m": float(X.max()),
-        "y_min_m": float(Y.min()),
-        "y_max_m": float(Y.max()),
-        "z_min_m": float(Z.min()),
-        "z_max_m": float(Z.max())
+        "x_range_m": [-1000, 1000],
+        "y_range_m": [-1000, 1000],
+        "z_range_m": [0, 500]
     },
     "time": {
         "dt_s": float(dt),
@@ -257,76 +342,145 @@ summary = {
         "P_min_Pa": float(np.min(P)),
         "P_max_Pa": float(np.max(P)),
         "P_mean_Pa": float(np.mean(P)),
-        "vx_min_m_per_s": float(np.min(vx)),
-        "vx_max_m_per_s": float(np.max(vx)),
-        "vx_mean_m_per_s": float(np.mean(vx)),
-        "vy_min_m_per_s": float(np.min(vy)),
-        "vy_max_m_per_s": float(np.max(vy)),
-        "vy_mean_m_per_s": float(np.mean(vy)),
-        "vz_min_m_per_s": float(np.min(vz)),
-        "vz_max_m_per_s": float(np.max(vz)),
-        "vz_mean_m_per_s": float(np.mean(vz)),
         "speed_rms_m_per_s": float(np.sqrt(np.mean(speed**2)))
     }
 }
 
-# full per-cell data (512 parcels)
-cells = []
-for i in range(pos.shape[0]):
-    cells.append({
-        "index": int(i),
-        "x_m": float(pos[i, 0]),
-        "y_m": float(pos[i, 1]),
-        "z_m": float(pos[i, 2]),
-        "vx_m_per_s": float(vx[i]),
-        "vy_m_per_s": float(vy[i]),
-        "vz_m_per_s": float(vz[i]),
-        "T_K": float(T[i]),
-        "P_Pa": float(P[i]),
-        "microburst": bool(microburst_mask[i]),
-        "funnel": bool(funnels_mask[i]),
-        "heat_dome": bool(heat_mask[i])
-    })
+with open(OUT_JSON, "w") as f:
+    json.dump(summary, f, indent=2)
 
-summary["cells"] = cells
+print("=== STUR 3D Weather Hybrid [v9.2] ===")
+print(f"Microbursts: {summary['events']['microbursts_count']}")
+print(f"Funnels:     {summary['events']['funnels_count']}")
+print(f"Heat domes:  {summary['events']['heat_domes_count']}")
+print(f"Output: {OUT_JSON}")</pre>
 
-print(json.dumps(summary, indent=2))</pre>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
 
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open JupyterLite</button>
-</div>
-    <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
 
-<footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | STUR Weather 3D
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> 3d-weather-hybrid |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Atmospheric dynamics — Navier-Stokes equations</li>
+                <li>Microburst and tornado classification criteria</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const code = document.getElementById("codeBlock").innerText;
-  navigator.clipboard.writeText(code);
-  alert("STUR Weather 3D simulation code copied to clipboard.");
+const PAGE_ID = '3d-weather-hybrid';
+const pageState = {
+    params: {
+        L0_m: 1e5,
+        dt_s: 0.5,
+        n_steps: 100
+    },
+    predictions: {
+        equation: 'F_STUR = S(r,L0)[F_EM + F_grav + F_strong]'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'L0', value: pageState.params.L0_m, unit: 'm' },
+        { parameter: 'dt', value: pageState.params.dt_s, unit: 's' },
+        { parameter: 'n_steps', value: pageState.params.n_steps, unit: 'count' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_weather.py', 'text/x-python');
+});
 </script>
 
 </body>

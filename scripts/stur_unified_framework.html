@@ -204,6 +204,43 @@
       color: var(--text-muted);
       font-size: 0.9rem;
     }
+
+    /* === EQUATION TERM COLOR CODING === */
+    .eq-diffusion { color: #4ade80; } /* Green - Kinetic/Diffusion */
+    .eq-potential { color: #f472b6; } /* Pink - Relaxation Potential */
+    .eq-xcrm { color: #fbbf24; }      /* Gold - XCRM Coupling */
+    .eq-torsion { color: #60a5fa; }   /* Blue - Torsion Source */
+    .eq-quantum { color: #a78bfa; }   /* Violet - Quantum Terms */
+    .eq-matter { color: #22d3ee; }    /* Cyan - Matter Sector */
+
+    /* Equation Legend */
+    .eq-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      margin: 1rem 0;
+      padding: 0.75rem 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.82rem;
+    }
+    .eq-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .eq-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .eq-legend-dot.diffusion { background: #4ade80; }
+    .eq-legend-dot.potential { background: #f472b6; }
+    .eq-legend-dot.xcrm { background: #fbbf24; }
+    .eq-legend-dot.torsion { background: #60a5fa; }
+    .eq-legend-dot.quantum { background: #a78bfa; }
+    .eq-legend-dot.matter { background: #22d3ee; }
   </style>
 </head>
 <body>
@@ -254,6 +291,10 @@
       initial conditions are derived. All predictions presented are sector-local and
       experimentally testable. The unification is organizational and geometric, not a claim of
       ultimate microscopic completeness.
+    </p>
+    <p class="muted">
+      After dimensional reduction, STUR constitutes a <strong>one-parameter family of effective models</strong>,
+      parameterized by the dimensionless ratio \(\sigma_R/L_X\), testable across interferometric platforms.
     </p>
   </div>
 
@@ -412,6 +453,15 @@
 <section id="sec-stur">
   <h2>5. STUR: Interferometric Holonomy Observable</h2>
 
+  <!-- Equation Color Legend -->
+  <div class="eq-legend">
+    <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
+  </div>
+
   <h3>5.1 The Resistance Holonomy</h3>
 
   <div class="eq boxed">
@@ -459,6 +509,32 @@
       laboratory-scale phase-gradient amplitude inferred from visibility statistics.
     </p>
   </div>
+
+  <h3>5.4 Emergent 4D Equation (Summary)</h3>
+  <p>
+    Integrating the 5D STUR action over the internal coherence coordinate \(X\) in the adiabatic limit
+    yields an effective 4D equation for the coarse-grained resistance field (see Foundations §3.4.7):
+  </p>
+  <div class="eq boxed">
+    \[\partial_t \bar R = D\nabla^2 \bar R - \Gamma(\bar R - R_{\rm bg}) + \xi\]
+  </div>
+  <p class="muted">
+    where \(\Gamma \sim 1/L_X\) and \(\xi\) is a Markovian noise term with variance fixed by \(\sigma_R\).
+    This dimensional reduction closes the XCRM loop and ties all observables to the ratio \(\sigma_R/L_X\).
+  </p>
+
+  <h3>5.5 Loop Enhancement (Area Scaling)</h3>
+  <p>
+    For loop geometries, Stokes' theorem provides enhancement via area accumulation (see Foundations §3.4.8):
+  </p>
+  <div class="eq boxed">
+    \[\boxed{\langle \Phi_R^2 \rangle_{\rm loop} \approx \frac{\sigma_R^2}{L_X^2}\, A_{\rm loop}}\]
+  </div>
+  <p class="muted">
+    This scaling follows from Stokes' theorem applied to the resistance holonomy and provides a concrete
+    pathway to macroscopic observability despite microscopic \(L_X\). The loop-enhanced coherence length
+    scales as \(\ell_{\rm coh}^{\rm loop} = \ell_{\rm coh}^{\rm linear} \cdot \xi/\sqrt{A}\).
+  </p>
 </section>
 
 <section id="sec-chrono">
@@ -472,7 +548,8 @@
     teleparallel (TEGR) formalism.
   </p>
   <p class="muted">
-    Chronomagnetics is treated as a phenomenological modulation layer.
+    Chronomagnetics is an <strong>optional phenomenological modulation layer</strong>.
+    None of the STUR closure, derivations, or falsifiable predictions depend on its inclusion.
     It does not introduce new field equations and does not claim
     a microscopic derivation of \(\lambda\).
   </p>
@@ -666,7 +743,7 @@
     </li>
     <li>
       Lindberg, S. L. (2026).
-      <em>Foundations of STUR v9.1: Teleparallel Substrate Tests via Interferometric Holonomy</em>.
+      <em>Foundations of STUR v9.2: Teleparallel Substrate Tests via Interferometric Holonomy</em>.
       Internal research manuscript.
     </li>
     <li>
@@ -709,7 +786,7 @@
   <p style="margin-top: 1rem;">
     This page is designed as a standalone reference for the unified teleparallel framework.
     All sectors are mutually consistent, independently falsifiable, and aligned with
-    STUR v9.1, the Chronomagnetics Mathematical Foundation, and TEGR First-Principles documents.
+    STUR v9.2, the Chronomagnetics Mathematical Foundation, and TEGR First-Principles documents.
   </p>
 </footer>
 
