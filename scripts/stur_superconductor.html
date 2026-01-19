@@ -1,351 +1,500 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>HOLOSCREEN_ATS_DISCOVERY_v3.1</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holoscreen ATS — STUR Physics Lab</title>
 
-<!-- MathJax (SVG, no menu) -->
-<script>
-window.MathJax = {
-  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
-  svg: { fontCache: 'global' },
-  options: { renderActions: { addMenu: [] } }
-};
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-<style>
-:root{
-  color-scheme: dark;
-  --bg0:#050816; --bg1:#070b1f; --card:#0b1230; --border:#1b2a55;
-  --fg:#e6edf7; --muted:#94a3b8; --dim:#64748b;
-  --cyan:#00d9ff; --mag:#ff2bd6; --green:#34d399; --yellow:#fbbf24; --red:#fb7185;
-  --mono: ui-monospace, Menlo, Consolas, monospace;
-  --sans: system-ui, -apple-system, sans-serif;
-  --r:16px;
-}
-*{box-sizing:border-box}
-body{
-  margin:0; font-family:var(--sans); color:var(--fg);
-  background:
-    radial-gradient(1200px 700px at 20% 10%, rgba(255,43,214,.12), transparent 60%),
-    linear-gradient(180deg, var(--bg0), var(--bg1));
-}
-.holo{max-width:1300px;margin:0 auto;padding:20px}
-.topbar{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px;border:1px solid var(--border);border-radius:var(--r);
-  background:rgba(11,18,48,.8)
-}
-.grid{display:grid;grid-template-columns:420px 1fr;gap:16px;margin-top:16px}
-@media(max-width:1000px){.grid{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r)}
-.hd{padding:12px;border-bottom:1px solid var(--border);font-size:.8rem;letter-spacing:.12em}
-.bd{padding:14px}
-label{font-size:.8rem;color:var(--muted)}
-input,textarea,button{
-  width:100%;margin-top:6px;margin-bottom:10px;
-  background:rgba(0,0,0,.35);border:1px solid var(--border);
-  color:white;border-radius:8px;padding:8px;font-family:var(--mono)
-}
-button{cursor:pointer;background:linear-gradient(135deg,var(--mag),var(--cyan));color:black;font-weight:700}
-button.ghost{background:transparent;color:white}
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
-.kpi{background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:10px;padding:10px}
-.val{font-family:var(--mono);font-size:1.1rem}
-.val.good{color:var(--green)} .val.bad{color:var(--red)}
-canvas{width:100%;height:260px;background:#000;border-radius:10px;border:1px solid var(--border)}
-.tbl{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.75rem}
-.tbl th,.tbl td{padding:8px;border-bottom:1px solid rgba(255,255,255,.06)}
-.tbl th{color:var(--dim);text-align:left}
-.code{font-family:var(--mono);font-size:.8rem;background:rgba(0,0,0,.4);padding:10px;border-radius:8px}
-.mini{font-size:.7rem;color:var(--dim)}
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-/* === EQUATION TERM COLOR CODING === */
-.eq-diffusion { color: #4ade80; }
-.eq-potential { color: #f472b6; }
-.eq-xcrm { color: #fbbf24; }
-.eq-torsion { color: #60a5fa; }
-.eq-quantum { color: #a78bfa; }
-.eq-matter { color: #22d3ee; }
-
-.eq-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
-  margin: 1rem 0;
-  padding: 0.75rem 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 0.82rem;
-}
-.eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-.eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-.eq-legend-dot.diffusion { background: #4ade80; }
-.eq-legend-dot.potential { background: #f472b6; }
-.eq-legend-dot.xcrm { background: #fbbf24; }
-.eq-legend-dot.torsion { background: #60a5fa; }
-.eq-legend-dot.quantum { background: #a78bfa; }
-.eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <style>
+      .holo-grid { display: grid; grid-template-columns: 380px 1fr; gap: 1rem; }
+      @media(max-width:900px) { .holo-grid { grid-template-columns: 1fr; } }
+      .holo-input { width: 100%; background: rgba(0,0,0,0.35); border: 1px solid var(--border-dim);
+                    color: var(--text-primary); border-radius: 8px; padding: 8px; font-family: var(--font-mono); margin-top: 6px; }
+      textarea.holo-input { resize: vertical; min-height: 100px; }
+      canvas { width: 100%; height: 240px; background: #000; border-radius: 10px; border: 1px solid var(--border-dim); }
+      .data-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+      .data-table th, .data-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; }
+      .data-table th { color: var(--text-dim); }
+      .verdict-good { color: #34d399; }
+      .verdict-bad { color: #fb7185; }
+    </style>
 </head>
-
 <body>
-<div class="holo">
 
-  <div class="topbar">
-    <div>
-      <h1 style="margin:0;font-size:1.15rem">HOLOSCREEN v3.1</h1>
-      <div class="mini">ATS Discovery • Ambient Survivability Falsifier</div>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
+
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
+
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Holoscreen ATS Discovery</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Ambient-Temperature Superconductor (ATS) viability scanner using STUR-modified critical current.
+            Tests candidate formulas against thermal, phonon, isotope, and pressure constraints.
+        </p>
+
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status info">
+                <span class="stur-icon icon-target sm"></span>
+                FALSIFIABLE
+            </span>
+        </div>
+    </header>
+
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
     </div>
-    <div class="mini">Locked Instrument • No Tc Prediction</div>
-  </div>
 
-  <!-- Equation Color Legend -->
-  <div class="eq-legend">
-    <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-  </div>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE TESTS
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24"></span>
+            <h2 class="glass-section-title">What This Page Tests</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> ATS viability score \(V_{\text{ATS}}\), critical current \(I_c^{\text{STUR}}\), and survival under thermal/isotope/phonon gates.</p>
+            <p><strong>Geometry:</strong> Molecular formula determines geometric scale \(u_{\text{geo}}\) and chronon coupling \(u_{\text{chr}}\).</p>
+            <p><strong>Regime:</strong> Cooper-pair coherent regime with STUR-modified BCS pairing.</p>
+        </div>
+    </section>
 
-  <div class="grid">
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-    <!-- INPUTS -->
-    <div class="card">
-      <div class="hd">Inputs</div>
-      <div class="bd">
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-        <label>Candidate Formulas (Bi-on + control)</label>
-        <textarea id="formulas" rows="6">La2C36H45Bi1
+            <p><strong>Limit assumed:</strong> Cooper-pair condensate with STUR-modulated critical current:</p>
+
+            <div class="stur-eq derived">
+                \[
+                I_c^{\text{STUR}} = I_c^{\text{BCS}} \cdot \tanh\bigl(R_q \cdot S(u_{\text{eff}})\bigr)
+                \]
+                <div class="stur-eq-label">STUR-Modified Critical Current</div>
+            </div>
+
+            <p>Where the resistance modulator depends on effective geometric + chronon coupling:</p>
+
+            <div class="stur-eq derived">
+                \[
+                S(u) = \tanh(u)\cdot(1 - e^{-u}), \quad u_{\text{eff}} = u_{\text{geo}} + \beta \cdot u_{\text{chr}}
+                \]
+                <div class="stur-eq-label">Combined Geometric-Chronon Scale</div>
+            </div>
+
+            <p><strong>Key parameter:</strong> The viability integral \(V_{\text{ATS}} = \frac{1}{100}\sum I_c \Delta T\) over the 300-400 K range.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: INTERACTIVE SCANNER
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">ATS Discovery Scanner</h2>
+        </div>
+        <div class="glass-section-body">
+            <div class="holo-grid">
+                <!-- Inputs -->
+                <div>
+                    <label class="stur-text-muted" style="font-size:0.85rem;">Candidate Formulas (one per line)</label>
+                    <textarea id="formulas" class="holo-input">La2C36H45Bi1
 La2C36H45
 La1C40H50Bi1
 La1C40H50</textarea>
 
-        <label>Pairing Proxy Tc (K)</label>
-        <input id="Tc" type="number" value="520">
+                    <label class="stur-text-muted" style="font-size:0.85rem; margin-top:1rem; display:block;">Pairing Proxy Tc (K)</label>
+                    <input id="Tc" type="number" value="520" class="holo-input">
 
-        <label>Chronon Gain β</label>
-        <input id="beta" type="number" value="0.85" step="0.05">
+                    <label class="stur-text-muted" style="font-size:0.85rem; margin-top:0.5rem; display:block;">Chronon Gain β</label>
+                    <input id="beta" type="number" value="0.85" step="0.05" class="holo-input">
 
-        <button id="run">Run Discovery Sweep</button>
+                    <button id="run" class="glass-btn primary" style="width:100%; margin-top:1rem;">
+                        <span class="stur-icon icon-play"></span>
+                        Run Discovery Sweep
+                    </button>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <button id="exportCSV" class="ghost">Export CSV</button>
-          <button id="exportJSON" class="ghost">Export JSON</button>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:0.5rem;">
+                        <button id="exportCSV" class="glass-btn">Export CSV</button>
+                        <button id="exportJSON" class="glass-btn">Export JSON</button>
+                    </div>
+                </div>
+
+                <!-- Visualization -->
+                <div>
+                    <div class="glass-metrics" style="margin-bottom:1rem;">
+                        <div class="glass-metric">
+                            <div class="glass-metric-label">Formula</div>
+                            <div class="glass-metric-value" id="k_formula">—</div>
+                        </div>
+                        <div class="glass-metric">
+                            <div class="glass-metric-label">V_ATS</div>
+                            <div class="glass-metric-value" id="k_viability">—</div>
+                        </div>
+                        <div class="glass-metric">
+                            <div class="glass-metric-label">Verdict</div>
+                            <div class="glass-metric-value" id="k_verdict">—</div>
+                        </div>
+                    </div>
+
+                    <canvas id="plot"></canvas>
+                    <p class="stur-text-muted" style="font-size:0.75rem; margin-top:0.5rem;">
+                        Solid = STUR · Dashed = BCS baseline
+                    </p>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="code" style="margin-top:12px">
-          \[
-          I_c^{STUR}=I_c^{BCS}\tanh(R_q S_u),\quad
-          V_{ATS}=\frac{1}{100}\sum I_c\Delta T
-          \]
+    <!-- ============================================================
+         SECTION: FALSIFICATION CRITERIA
+         ============================================================ -->
+    <section class="glass-section falsify">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-x-circle size-24"></span>
+            <h2 class="glass-section-title">Falsification Criteria</h2>
         </div>
+        <div class="glass-section-body">
+            <p><strong>This page falsifies STUR if:</strong></p>
+            <ul>
+                <li><strong>Kill-1:</strong> Formula passes all gates but measured \(T_c < 300\,\text{K}\) in experiment.</li>
+                <li><strong>Kill-2:</strong> STUR predicts \(I_c > I_c^{\text{BCS}}\) but measurement shows \(I_c \leq I_c^{\text{BCS}}\).</li>
+                <li><strong>Kill-3:</strong> Isotope substitution affects \(T_c\) opposite to STUR prediction.</li>
+            </ul>
 
-      </div>
-    </div>
-
-    <!-- VISUALIZATION -->
-    <div class="card">
-      <div class="hd">Visualization</div>
-      <div class="bd">
-
-        <div class="kpis">
-          <div class="kpi"><div class="mini">Formula</div><div id="k_formula" class="val">—</div></div>
-          <div class="kpi"><div class="mini">V_ATS (norm)</div><div id="k_viability" class="val">—</div></div>
-          <div class="kpi"><div class="mini">Verdict</div><div id="k_verdict" class="val">—</div></div>
+            <!-- Verdict display -->
+            <div class="glass-verdict pending" id="verdict-display">
+                <div class="glass-verdict-icon">
+                    <span class="stur-icon icon-alert-circle lg"></span>
+                </div>
+                <div class="glass-verdict-text">
+                    <div class="glass-verdict-label">Status</div>
+                    <div class="glass-verdict-value">Run scanner to find candidates</div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <canvas id="plot"></canvas>
-        <div class="mini" style="margin-top:6px">
-          Solid = STUR • Dashed = Null (BCS baseline)
+    <!-- ============================================================
+         SECTION: RESULTS TABLE
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-database size-24"></span>
+            <h2 class="glass-section-title">Ranked Candidates</h2>
         </div>
+        <div class="glass-section-body" style="overflow-x:auto;">
+            <table class="data-table" id="rankTbl">
+                <thead>
+                    <tr>
+                        <th>Formula</th><th>u_geo</th><th>u_chr</th><th>V_ATS</th>
+                        <th>β</th><th>Phonon</th><th>Isotope</th><th>P-Proxy</th><th>Verdict</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
 
-      </div>
-    </div>
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — Master Action</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>BCS Theory — Bardeen, Cooper, Schrieffer (1957)</li>
+            </ol>
+        </div>
+    </section>
 
-  </div>
+</main>
 
-  <!-- TABLE -->
-  <div class="card" style="margin-top:16px">
-    <div class="hd">Ranked Candidates (Audit-Grade)</div>
-    <div class="bd" style="overflow:auto">
-      <table class="tbl" id="rankTbl">
-        <thead>
-          <tr>
-            <th>Formula</th><th>u_geo</th><th>u_chr</th><th>V_ATS</th>
-            <th>β</th><th>Phonon</th><th>Isotope</th><th>P-Proxy</th><th>Verdict</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
 
-</div>
-
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
 /* ===========================
-   CONSTANTS
+   CONSTANTS (v9.2)
 =========================== */
 const kB = 1.380649e-23;
-const CHRONON = {La:0.14,C:0.04,H:0.01,Bi:0.42};
-const ANCHOR  = {La:2.0,Bi:3.0};
-const ISOTOPES = {H:[{tag:"D",mu:2.0}],C:[{tag:"13C",mu:1.08}]};
-const ISOTOPE_COUNT = Object.values(ISOTOPES).reduce((a,v)=>a+v.length,0);
-const PHONON_MU = [0.8,1.0,1.2];
-let LAST=null;
+const CHRONON = {La:0.14, C:0.04, H:0.01, Bi:0.42};
+const ANCHOR  = {La:2.0, Bi:3.0};
+const ISOTOPES = {H:[{tag:"D",mu:2.0}], C:[{tag:"13C",mu:1.08}]};
+const ISOTOPE_COUNT = Object.values(ISOTOPES).reduce((a,v)=>a+v.length, 0);
+const PHONON_MU = [0.8, 1.0, 1.2];
+let LAST = null;
 
 /* ===========================
-   CORE PHYSICS
+   CORE PHYSICS [v9.2 S(u)]
 =========================== */
-function Su(u){return Math.tanh(u)*(1-Math.exp(-Math.max(0,u)))}
-function Ic_BCS(T,Tc){return Math.pow(Math.max(0,1-T/Tc),1.5)}
-function Delta_T(T,Tc){return 2.0*kB*Tc*Math.sqrt(Math.max(0,1-T/Tc))}
-
-function u_geo(s,aH=0.12){
-  const C=s.C||0,H=s.H||0;if(!C||!H)return-5;
-  let anc=0;for(let k in s)anc+=(ANCHOR[k]||0)*s[k];
-  return Math.log(Math.sqrt(C)*Math.pow(H/Math.max(1,anc),1/3)/aH);
-}
-function u_chr(s){
-  let tot=0;for(let k in s)tot+=s[k];
-  let v=0;for(let k in s)v+=(CHRONON[k]||0)*(s[k]/tot);
-  return (v-0.08)/0.10;
+function Su(u) {
+    // STUR modulator: S(u) = tanh(u)·(1 - exp(-u))
+    return Math.tanh(u) * (1 - Math.exp(-Math.max(0, u)));
 }
 
-function computeSeries(s,p){
-  const ug=u_geo(s),uc=u_chr(s),ue=ug+p.beta*uc;
-  let V=0,amb=0,series=[];
-  for(let T=200;T<=400;T+=5){
-    const bcs=Ic_BCS(T,p.Tc);
-    const rq=Delta_T(T,p.Tc)/(kB*Math.max(1,T));
-    const stur=bcs*Math.tanh(rq*Su(ue));
-    series.push({T,nullv:bcs,comb:stur});
-    if(T>=300&&T<=400)V+=stur*5;
-    if(T===350)amb=stur;
-  }
-  return {series,ug,uc,ue,Vats:V/100,survives:amb>0};
+function Ic_BCS(T, Tc) {
+    return Math.pow(Math.max(0, 1 - T/Tc), 1.5);
+}
+
+function Delta_T(T, Tc) {
+    return 2.0 * kB * Tc * Math.sqrt(Math.max(0, 1 - T/Tc));
+}
+
+function u_geo(s, aH=0.12) {
+    const C = s.C || 0, H = s.H || 0;
+    if (!C || !H) return -5;
+    let anc = 0;
+    for (let k in s) anc += (ANCHOR[k] || 0) * s[k];
+    return Math.log(Math.sqrt(C) * Math.pow(H / Math.max(1, anc), 1/3) / aH);
+}
+
+function u_chr(s) {
+    let tot = 0;
+    for (let k in s) tot += s[k];
+    let v = 0;
+    for (let k in s) v += (CHRONON[k] || 0) * (s[k] / tot);
+    return (v - 0.08) / 0.10;
+}
+
+function computeSeries(s, p) {
+    const ug = u_geo(s), uc = u_chr(s), ue = ug + p.beta * uc;
+    let V = 0, amb = 0, series = [];
+    for (let T = 200; T <= 400; T += 5) {
+        const bcs = Ic_BCS(T, p.Tc);
+        const rq = Delta_T(T, p.Tc) / (kB * Math.max(1, T));
+        const stur = bcs * Math.tanh(rq * Su(ue));
+        series.push({T, nullv: bcs, comb: stur});
+        if (T >= 300 && T <= 400) V += stur * 5;
+        if (T === 350) amb = stur;
+    }
+    return {series, ug, uc, ue, Vats: V/100, survives: amb > 0};
 }
 
 /* ===========================
    GATES
 =========================== */
-function pressureProxy(s){return Math.abs(1-(s.H||0)/(s.C||1))}
-function isotopeSensitivity(s,p){
-  let pass=0;
-  for(let el in ISOTOPES){
-    if(!s[el])continue;
-    ISOTOPES[el].forEach(i=>{
-      if(computeSeries(s,{...p,Tc:p.Tc/Math.sqrt(i.mu)}).survives)pass++;
-    });
-  }
-  return {pass,robust:pass>=Math.ceil(ISOTOPE_COUNT/2)};
+function pressureProxy(s) {
+    return Math.abs(1 - (s.H || 0) / (s.C || 1));
 }
-function finalVerdict(d){
-  if(!d.survives)return"REJECTED (Thermal)";
-  if(!d.robustOK)return"REJECTED (β)";
-  if(!d.phononOK)return"REJECTED (Phonon)";
-  if(!d.isotopeOK)return"REJECTED (Isotope)";
-  if(d.pressureProxy>0.3)return"REJECTED (Pressure)";
-  return"ATS-VIABLE";
+
+function isotopeSensitivity(s, p) {
+    let pass = 0;
+    for (let el in ISOTOPES) {
+        if (!s[el]) continue;
+        ISOTOPES[el].forEach(i => {
+            if (computeSeries(s, {...p, Tc: p.Tc / Math.sqrt(i.mu)}).survives) pass++;
+        });
+    }
+    return {pass, robust: pass >= Math.ceil(ISOTOPE_COUNT / 2)};
+}
+
+function finalVerdict(d) {
+    if (!d.survives) return "REJECTED (Thermal)";
+    if (!d.robustOK) return "REJECTED (β)";
+    if (!d.phononOK) return "REJECTED (Phonon)";
+    if (!d.isotopeOK) return "REJECTED (Isotope)";
+    if (d.pressureProxy > 0.3) return "REJECTED (Pressure)";
+    return "ATS-VIABLE";
 }
 
 /* ===========================
    EXECUTION
 =========================== */
-function parseFormula(s){
-  const r={};for(const m of s.matchAll(/([A-Z][a-z]?)(\d*)/g))r[m[1]]=+m[2]||1;
-  return Object.keys(r).length?r:null;
+function parseFormula(s) {
+    const r = {};
+    for (const m of s.matchAll(/([A-Z][a-z]?)(\d*)/g)) r[m[1]] = +m[2] || 1;
+    return Object.keys(r).length ? r : null;
 }
 
-function runSweep(){
-  const raw=document.getElementById("formulas").value.split("\n");
-  const p={Tc:+Tc.value,beta:+beta.value};
-  const rows=[];
-  raw.forEach(f=>{
-    const s=parseFormula(f); if(!s)return;
-    const d=computeSeries(s,p);
-    const bOK=computeSeries(s,{...p,beta:0.75}).survives&&computeSeries(s,{...p,beta:0.95}).survives;
-    const phon=PHONON_MU.filter(mu=>computeSeries(s,{...p,Tc:p.Tc/Math.sqrt(mu)}).survives).length>=2;
-    const iso=isotopeSensitivity(s,p);
-    const pp=pressureProxy(s);
-    const verdict=finalVerdict({...d,robustOK:bOK,phononOK:phon,isotopeOK:iso.robust,pressureProxy:pp});
-    rows.push({formula:f,...d,robustOK:bOK,phononOK:phon,isotopeOK:iso.robust,pressureProxy:pp,verdict});
-  });
-  LAST={rows,params:p,ts:new Date().toISOString()};
-  renderTable(rows);
-  if(rows.length)selectRow(0);
+function runSweep() {
+    const raw = document.getElementById("formulas").value.split("\n");
+    const p = {Tc: +document.getElementById("Tc").value, beta: +document.getElementById("beta").value};
+    const rows = [];
+    raw.forEach(f => {
+        const s = parseFormula(f);
+        if (!s) return;
+        const d = computeSeries(s, p);
+        const bOK = computeSeries(s, {...p, beta: 0.75}).survives && computeSeries(s, {...p, beta: 0.95}).survives;
+        const phon = PHONON_MU.filter(mu => computeSeries(s, {...p, Tc: p.Tc / Math.sqrt(mu)}).survives).length >= 2;
+        const iso = isotopeSensitivity(s, p);
+        const pp = pressureProxy(s);
+        const verdict = finalVerdict({...d, robustOK: bOK, phononOK: phon, isotopeOK: iso.robust, pressureProxy: pp});
+        rows.push({formula: f, ...d, robustOK: bOK, phononOK: phon, isotopeOK: iso.robust, pressureProxy: pp, verdict});
+    });
+    LAST = {rows, params: p, ts: new Date().toISOString(), version: "v9.2"};
+    renderTable(rows);
+    if (rows.length) selectRow(0);
 }
 
-function renderTable(rows){
-  const tb=document.querySelector("#rankTbl tbody");tb.innerHTML="";
-  rows.forEach((r,i)=>{
-    const tr=document.createElement("tr");tr.onclick=()=>selectRow(i);
-    tr.innerHTML=`
-      <td>${r.formula}</td>
-      <td>${r.ug.toFixed(2)}</td>
-      <td>${r.uc.toFixed(2)}</td>
-      <td>${r.Vats.toFixed(3)}</td>
-      <td>${r.robustOK?"✔":"✘"}</td>
-      <td>${r.phononOK?"✔":"✘"}</td>
-      <td>${r.isotopeOK?"✔":"✘"}</td>
-      <td>${r.pressureProxy.toFixed(2)}</td>
-      <td style="color:${r.verdict.includes("VIABLE")?"#34d399":"#fb7185"}">${r.verdict}</td>`;
-    tb.appendChild(tr);
-  });
+function renderTable(rows) {
+    const tb = document.querySelector("#rankTbl tbody");
+    tb.innerHTML = "";
+    rows.forEach((r, i) => {
+        const tr = document.createElement("tr");
+        tr.onclick = () => selectRow(i);
+        tr.style.cursor = "pointer";
+        tr.innerHTML = `
+            <td>${r.formula}</td>
+            <td>${r.ug.toFixed(2)}</td>
+            <td>${r.uc.toFixed(2)}</td>
+            <td>${r.Vats.toFixed(3)}</td>
+            <td>${r.robustOK ? "✔" : "✘"}</td>
+            <td>${r.phononOK ? "✔" : "✘"}</td>
+            <td>${r.isotopeOK ? "✔" : "✘"}</td>
+            <td>${r.pressureProxy.toFixed(2)}</td>
+            <td class="${r.verdict.includes('VIABLE') ? 'verdict-good' : 'verdict-bad'}">${r.verdict}</td>`;
+        tb.appendChild(tr);
+    });
 }
 
-function selectRow(i){
-  const r=LAST.rows[i];
-  k_formula.textContent=r.formula;
-  k_viability.textContent=r.Vats.toFixed(3);
-  k_verdict.textContent=r.verdict;
-  k_verdict.className="val "+(r.verdict.includes("VIABLE")?"good":"bad");
-  drawPlot(r.series);
+function selectRow(i) {
+    const r = LAST.rows[i];
+    document.getElementById("k_formula").textContent = r.formula;
+    document.getElementById("k_viability").textContent = r.Vats.toFixed(3);
+    const vEl = document.getElementById("k_verdict");
+    vEl.textContent = r.verdict;
+    vEl.style.color = r.verdict.includes("VIABLE") ? "#34d399" : "#fb7185";
+    drawPlot(r.series);
 }
 
-function drawPlot(series){
-  const c=plot,ctx=c.getContext("2d");ctx.clearRect(0,0,c.width,c.height);
-  const sx=c.width/200,sy=c.height/1.1;
-  ctx.setLineDash([6,6]);ctx.strokeStyle="#777";ctx.beginPath();
-  series.forEach(p=>ctx.lineTo((p.T-200)*sx,c.height-p.nullv*sy));ctx.stroke();
-  ctx.setLineDash([]);ctx.strokeStyle="#00d9ff";ctx.lineWidth=2;ctx.beginPath();
-  series.forEach(p=>ctx.lineTo((p.T-200)*sx,c.height-p.comb*sy));ctx.stroke();
-  ctx.lineWidth=1;
+function drawPlot(series) {
+    const c = document.getElementById("plot");
+    const ctx = c.getContext("2d");
+    c.width = c.offsetWidth;
+    c.height = c.offsetHeight;
+    ctx.clearRect(0, 0, c.width, c.height);
+    const sx = c.width / 200, sy = c.height / 1.1;
+
+    // BCS baseline (dashed)
+    ctx.setLineDash([6, 6]);
+    ctx.strokeStyle = "#777";
+    ctx.beginPath();
+    series.forEach((p, i) => {
+        if (i === 0) ctx.moveTo((p.T - 200) * sx, c.height - p.nullv * sy);
+        else ctx.lineTo((p.T - 200) * sx, c.height - p.nullv * sy);
+    });
+    ctx.stroke();
+
+    // STUR (solid)
+    ctx.setLineDash([]);
+    ctx.strokeStyle = "#00d9ff";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    series.forEach((p, i) => {
+        if (i === 0) ctx.moveTo((p.T - 200) * sx, c.height - p.comb * sy);
+        else ctx.lineTo((p.T - 200) * sx, c.height - p.comb * sy);
+    });
+    ctx.stroke();
+    ctx.lineWidth = 1;
 }
 
 /* ===========================
    EXPORTS
 =========================== */
-function exportCSV(){
-  if(!LAST||!LAST.rows.length)return alert("No data");
-  const h=["Formula","u_geo","u_chr","V_ATS","β","Phonon","Isotope","Pressure","Verdict"];
-  const r=LAST.rows.map(x=>[
-    x.formula,x.ug.toFixed(4),x.uc.toFixed(4),x.Vats.toFixed(4),
-    x.robustOK,x.phononOK,x.isotopeOK,x.pressureProxy.toFixed(4),x.verdict
-  ]);
-  const csv=[h.join(","),...r.map(e=>e.join(","))].join("\n");
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
-  a.download=`HOLOSCREEN_ATS_DISCOVERY_v3.1_${Date.now()}.csv`;
-  a.click();
-}
+document.getElementById("run").onclick = runSweep;
 
-function exportJSON(){
-  if(!LAST)return alert("No data");
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(new Blob([JSON.stringify(LAST,null,2)],{type:"application/json"}));
-  a.download=`HOLOSCREEN_ATS_DISCOVERY_v3.1_${Date.now()}.json`;
-  a.click();
-}
+document.getElementById("exportCSV").onclick = function() {
+    if (!LAST || !LAST.rows.length) return STUR.toast("No data", "warning");
+    const h = ["Formula", "u_geo", "u_chr", "V_ATS", "β_OK", "Phonon", "Isotope", "Pressure", "Verdict"];
+    const r = LAST.rows.map(x => [
+        x.formula, x.ug.toFixed(4), x.uc.toFixed(4), x.Vats.toFixed(4),
+        x.robustOK, x.phononOK, x.isotopeOK, x.pressureProxy.toFixed(4), x.verdict
+    ]);
+    const csv = [h.join(","), ...r.map(e => e.join(","))].join("\n");
+    STUR.download(csv, `holoscreen-ats-${Date.now()}.csv`, "text/csv");
+};
 
-run.onclick=runSweep;
-exportCSV.onclick=exportCSV;
-exportJSON.onclick=exportJSON;
+document.getElementById("exportJSON").onclick = function() {
+    if (!LAST) return STUR.toast("No data", "warning");
+    STUR.exportJSON({...LAST, meta: {page: "holoscreen-ats", version: "v9.2"}}, `holoscreen-ats-${Date.now()}.json`);
+};
 </script>
 
 </body>
