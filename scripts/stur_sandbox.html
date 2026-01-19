@@ -458,7 +458,7 @@
         </div>
         <p style="color:var(--text-dim);font-size:0.9rem;">
             where \(\Gamma \sim 1/L_X\) and \(\xi\) is a Markovian noise term with variance fixed by \(\sigma_R\).
-            This closes the XCRM loop and ties all observables to the ratio \(\sigma_R/L_X\).
+            This closes the XCRM loop. With \(\sigma_R\) derived from XCRM equilibrium, \(L_X\) is the single free parameter.
         </p>
 
         <h3>Loop Enhancement (Area Scaling)</h3>
@@ -786,23 +786,23 @@ function solveTridiagonal(a, b, c, d) {
         <!-- TAB: CHRONOMAGNETICS -->
         <div class="tab-content" id="tab-chrono">
             <p>
-                Chronomagnetics introduces log-periodic modulation via the geometric constant lambda = 3722/2705.
+                Chronomagnetics introduces log-periodic modulation via the constant \(\lambda = 3722/2705\), <strong>derived from XCRM X-mode spectrum</strong>.
             </p>
-            <div class="panel warn" style="margin:0.8rem 0;">
+            <div class="panel" style="margin:0.8rem 0;border-left:3px solid var(--neon-green);">
                 <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">
-                    <strong>Important:</strong> Chronomagnetics is an <strong>optional phenomenological modulation layer</strong>.
-                    None of the STUR closure, derivations, or falsifiable predictions depend on its inclusion.
-                    It does not introduce new field equations and does not claim a microscopic derivation of lambda.
+                    <strong style="color:var(--neon-green);">XCRM Closure:</strong> Chronomagnetics is <strong>derived from XCRM</strong>
+                    (<a href="stur_foundations.html#sec5" style="color:var(--neon-green)">Foundations §5.3.6</a>).
+                    The constant \(\lambda\) emerges uniquely from the quantized X-mode spectrum on the orbifold.
                 </p>
             </div>
 
             <div class="grid2">
                 <div>
-                    <h4>The Chronomagnetic Constant</h4>
+                    <h4>The Chronomagnetic Constant (Derived)</h4>
                     <div class="eq master">
                         \[\color{#fbbf24}{\lambda} = \frac{3722}{2705} \approx 1.37597\]
                     </div>
-                    <p>Illustrative triangle construction with sides {116, 138, 144}.</p>
+                    <p>Derived from XCRM X-mode mixing; triangle {116, 138, 144} is a geometric realization.</p>
 
                     <h4>Log-Time Modulation</h4>
                     <div class="eq">
@@ -923,11 +923,11 @@ function solveTridiagonal(a, b, c, d) {
             <strong>Level 1 (Closed):</strong> Emergent 4D equation via X-integration;
             coherence length \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\) derived from manifold geometry.<br>
             <strong>Level 2 (Closed):</strong> Loop enhancement via Stokes' theorem provides observability pathway.<br>
-            <strong>Remaining free parameter:</strong> ratio \(\sigma_R / L_X\) (single-parameter family).
+            <strong>Level 3 (Closed):</strong> \(\sigma_R\) derived from XCRM equilibrium (<a href="stur_foundations.html#sec5" style="color:var(--neon-green)">§5.3.5</a>).
         </p>
         <p style="margin:0.5rem 0 0;color:var(--text-dim);font-size:0.85rem;">
-            After dimensional reduction, STUR constitutes a <strong>one-parameter family of effective models</strong>,
-            parameterized by the dimensionless ratio \(\sigma_R/L_X\), testable across interferometric platforms.
+            After XCRM closure, STUR has <strong>a single free parameter</strong> \(L_X\) (compactification scale).
+            All other parameters are derived from XCRM dynamics on the orbifold manifold.
         </p>
     </div>
 
