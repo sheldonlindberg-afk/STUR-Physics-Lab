@@ -46,7 +46,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -57,7 +57,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>[PAGE TITLE]</h1>
+        <h1 class="page-title-falsifiable">[PAGE TITLE]</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             [One-paragraph claim: What does this page demonstrate or test?]
         </p>
@@ -322,6 +322,10 @@ params = ${JSON.stringify(pageState.params, null, 2)}
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize STUR navigation
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
     // Add page-specific initialization here
 });
 </script>

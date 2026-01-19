@@ -72,7 +72,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -83,7 +83,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Double-Slit Visibility</h1>
+        <h1 class="page-title-falsifiable">Double-Slit Visibility</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Tests the STUR Gaussian visibility law against standard QM for plasmon-mediated double-slit interference.
             The single parameter \(\sigma_R/L_X\) determines fringe contrast decay.
@@ -621,7 +621,15 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 // Page-specific state
 const PAGE_ID = 'double-slit-visibility';

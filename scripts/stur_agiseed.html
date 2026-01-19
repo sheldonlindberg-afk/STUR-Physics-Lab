@@ -172,7 +172,7 @@ code.inline {
     </nav>
 </header>
 
-<h1>STUR Double-Slit — Dataset-Locked Plasmon Coherence</h1>
+<h1 class="page-title-exploratory">STUR Double-Slit — Dataset-Locked Plasmon Coherence</h1>
 
 <!-- Citation Button -->
 <div style="text-align:center; margin:1rem 0;">
@@ -611,5 +611,16 @@ STUR Physics Lab — falsifiable, dataset-locked physics
   }
 })();
 </script>
+
+<!-- STUR UI JavaScript -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
+
 </body>
 </html>

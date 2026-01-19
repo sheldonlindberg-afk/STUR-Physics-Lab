@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Big Bang Origin</h1>
+        <h1 class="page-title-derived">Big Bang Origin</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Derives a non-singular cosmological origin from STUR resistance saturation.
             The XCRM capacity \(\rho_c\) prevents infinite density, producing a smooth bounce.
@@ -521,7 +521,15 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'big-bang-origin';
 const pageState = {

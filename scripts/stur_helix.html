@@ -96,7 +96,7 @@
     </nav>
 </header>
 
-<h1>STUR Helix TOE Verifier – Geometry + Spectrum</h1>
+<h1 class="page-title-core">STUR Helix TOE Verifier – Geometry + Spectrum</h1>
 
 <!-- Citation Button -->
 <div style="text-align:center; margin:1rem 0;">
@@ -449,6 +449,16 @@ function openRunner(){
     });
   }
 })();
+</script>
+
+<!-- STUR UI JavaScript -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
 </script>
 </body>
 </html>

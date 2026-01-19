@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Neuroplasticity X-Synapse</h1>
+        <h1 class="page-title-biological">Neuroplasticity X-Synapse</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             5D STUR model of axon growth, synapse formation, and STDP learning with X-dimension coherence enhancement.
             Demonstrates how the unified resistance field produces learning advantages.
@@ -548,7 +548,15 @@ plt.show()</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'neuroplasticity-xsynapse';
 const pageState = {

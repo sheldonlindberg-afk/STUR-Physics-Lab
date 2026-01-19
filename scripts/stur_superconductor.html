@@ -55,7 +55,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -66,7 +66,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Holoscreen ATS Discovery</h1>
+        <h1 class="page-title-exploratory">Holoscreen ATS Discovery</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Ambient-Temperature Superconductor (ATS) viability scanner using STUR-modified critical current.
             Tests candidate formulas against thermal, phonon, isotope, and pressure constraints.
@@ -534,6 +534,15 @@ document.getElementById("exportJSON").onclick = function() {
     });
   }
 })();
+</script>
+
+<!-- STUR Nav Initialization -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
 </script>
 
 </body>

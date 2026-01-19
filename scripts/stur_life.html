@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Hydrothermal Proto-Cell Simulation</h1>
+        <h1 class="page-title-biological">Hydrothermal Proto-Cell Simulation</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             STUR 5D reaction-diffusion model of alkaline vent micro-pore physics with FeS/NiS catalysis,
             thermophoresis, pH gradients, and curvature-driven proto-cell emergence.
@@ -469,7 +469,15 @@ plt.show()</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'hydrothermal-protocell';
 const pageState = {

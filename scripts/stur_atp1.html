@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Mitochondria Life/Death v4.0</h1>
+        <h1 class="page-title-biological">Mitochondria Life/Death v4.0</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Single mitochondrion simulated as a STUR object with pmf, ATP, Ca<sup>2+</sup>, ROS, cristae geometry, and swelling,
             all coupled through the resistance scalar \(S(r)\) with state machine transitions.
@@ -568,7 +568,15 @@ plt.show()</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'mito-life-death';
 const pageState = {

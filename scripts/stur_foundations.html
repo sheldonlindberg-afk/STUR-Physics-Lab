@@ -612,7 +612,7 @@ code {
 <div class="container">
 
 <header class="masthead">
-  <h1>Foundations of STUR</h1>
+  <h1 class="page-title-core">Foundations of STUR</h1>
   <p class="subtitle">Teleparallel Substrate Tests via Interferometric Holonomy</p>
   <p class="author-line" style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
   <div class="toolbar">
@@ -4557,5 +4557,14 @@ code {
 })();
 </script>
 
+<!-- STUR UI JavaScript -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 </body>
 </html>

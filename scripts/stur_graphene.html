@@ -71,7 +71,7 @@
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
-            </a>
+            </button>
         </div>
     </nav>
 </header>
@@ -82,7 +82,7 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1>Graphene-Axion Coupler</h1>
+        <h1 class="page-title-falsifiable">Graphene-Axion Coupler</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Tests STUR-predicted axion-like coupling \(g_a\) in graphene Dirac transport.
             The X-bundle coupling modifies scattering time \(\tau\) and Hall conductivity \(\sigma_{xy}\).
@@ -554,7 +554,15 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
+<!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
 <script>
 const PAGE_ID = 'graphene-axion';
 const pageState = {
