@@ -111,6 +111,33 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- First Principles Status -->
+    <div class="glass-section" style="border-color:#64748b;background:rgba(100,116,139,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-info size-24" style="color:#64748b;"></span>
+            <h2 class="glass-section-title" style="color:#64748b;">First Principles Status — Conceptual Application</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.92rem;">
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Inspired by First Principles:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>S(r) radial modulator form — from <a href="stur_foundations.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
+                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_foundations.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Phase-dependent dynamics — XCRM-inspired coherence tracking</li>
+            </ul>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Conceptual / Exploratory:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Access probability model — information-theoretic construct</li>
+                <li>Thermal and phase modulation parameters — phenomenological</li>
+                <li>Shannon entropy application — standard information theory</li>
+            </ul>
+            <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
+                <strong>Note:</strong> This page applies STUR resistance concepts to an abstract "gate corridor" model.
+                The connection to core physics is conceptual. Treat as exploratory visualization of resistance dynamics.
+            </p>
+        </div>
+    </div>
+
     <!-- ============================================================
          SECTION: WHAT THIS PAGE DERIVES
          ============================================================ -->
@@ -166,7 +193,7 @@
                 \[
                 \color{#f472b6}{C(t)} = \sum_i |F_{\text{tot}}(r_i, t)| \Delta r
                 \]
-                <div class="stur-eq-label">Integrated Resistance (from <a href="stur_foundations.html#master-action" class="core-ref">V(R)</a>)</div>
+                <div class="stur-eq-label">Integrated Resistance (from <a href="stur_foundations.html#VR-derivation" class="core-ref">orbifold-derived V(R)</a>)</div>
             </div>
 
             <p><strong>Success probability:</strong> \(P_{\text{success}}(t, \sigma) = \Pr[E_b > E_{\text{need}}]\)</p>

@@ -80,6 +80,40 @@ const STUR_DEFINITIONS = {
   },
 
   // ============================================================
+  // FIRST PRINCIPLES (v9.2+)
+  // ============================================================
+  firstPrinciples: {
+    statement: "STUR makes exactly one adjustable prediction—the coherence length ℓ_coh. Given any two of {χ, L_X, ℓ_coh}, the third is determined. The form of the visibility law V(ΔL) = V₀ exp(-ΔL²/ℓ²_coh) is not adjustable—it follows from Gaussian phase averaging of the XCRM holonomy.",
+
+    singleParameter: "ℓ_coh",
+
+    closureRelation: {
+      formula: "ℓ_coh = √2 · L_X / σ_R",
+      latex: "\\ell_{\\rm coh} = \\frac{\\sqrt{2}\\, L_X}{\\sigma_R}",
+      variables: ["χ", "L_X", "ℓ_coh"],
+      note: "Given any two, the third is determined"
+    },
+
+    nonNegotiable: {
+      form: "Gaussian in ΔL²",
+      formula: "V(ΔL) = V₀ exp(-ΔL²/ℓ²_coh)",
+      latex: "V(\\Delta L) = V_0 \\exp\\!\\left(-\\frac{\\Delta L^2}{\\ell_{\\rm coh}^2}\\right)",
+      derivedFrom: [
+        "XCRM closure: ∂_X R = (R - R_bg)/L_X",
+        "Central limit theorem (many uncorrelated phases)",
+        "Holonomy-visibility relation: V = V₀ exp(-⟨Φ_R²⟩/2)"
+      ]
+    },
+
+    falsifiedIf: [
+      "Visibility is oscillatory (sinusoidal)",
+      "Visibility depends on time (not just ΔL)",
+      "Visibility depends on particle mass at fixed shot time",
+      "Functional form deviates from Gaussian in ΔL²"
+    ]
+  },
+
+  // ============================================================
   // CORE EQUATIONS (LaTeX)
   // ============================================================
   equations: {
@@ -91,13 +125,24 @@ const STUR_DEFINITIONS = {
       tier: "core"
     },
 
-    // Visibility (THE falsifiable prediction)
+    // First Principles closure
+    parameter_closure: {
+      id: "FP.1",
+      name: "Parameter Closure Relation",
+      latex: "\\color{#22d3ee}{\\ell_{\\rm coh}} = \\frac{\\sqrt{2}\\, \\color{#fbbf24}{L_X}}{\\color{#4ade80}{\\sigma_R}}",
+      tier: "core",
+      note: "Given any two of {χ, L_X, ℓ_coh}, the third is determined"
+    },
+
+    // Visibility (THE falsifiable prediction - NON-NEGOTIABLE FORM)
     visibility_gaussian: {
-      id: "9.1",
-      name: "Gaussian Visibility Suppression",
+      id: "FP.2",
+      name: "Non-Negotiable Visibility Law",
       latex: "\\color{#f472b6}{V(\\Delta L)} = V_0 \\exp\\!\\left(-\\frac{(\\color{#fb923c}{\\Delta L})^2}{\\color{#22d3ee}{\\ell_{\\rm coh}}^2}\\right)",
       tier: "falsifiable",
-      is_primary_prediction: true
+      is_primary_prediction: true,
+      is_non_negotiable: true,
+      note: "Form follows from Gaussian phase averaging—NOT adjustable"
     },
 
     // Coherence length (closure)

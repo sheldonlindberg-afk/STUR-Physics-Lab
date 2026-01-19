@@ -112,6 +112,33 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- First Principles Status -->
+    <div class="glass-section" style="border-color:var(--neon-gold);background:rgba(251,191,36,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-alert-triangle size-24" style="color:var(--neon-gold);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-gold);">First Principles Status — Phenomenological Layer</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.92rem;">
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>5D torsion channel structure — from \(L_{\text{torsion}}\) term in Master Action</li>
+                <li>Chi-excitation coupling form: \(d\chi/dt \propto (R_0/R - 1)\) — from <a href="stur_foundations.html#appE" style="color:var(--neon-green)">Appendix E.2</a></li>
+                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_foundations.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+            </ul>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Chi response rate \(\Gamma_\chi = 5 \times 10^6\) — requires experimental calibration</li>
+                <li>Fluid parameters (density, viscosity, surface tension) — standard thermodynamics</li>
+                <li>Rayleigh-Plesset dynamics — classical bubble mechanics (not derived from STUR)</li>
+            </ul>
+            <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
+                <strong>Connection to Core Theory:</strong> The chi-torsion channel emerges from the 5D torsion sector.
+                However, the coupling strength \(\Gamma_\chi\) and chi-scaling are phenomenological extensions requiring experimental validation.
+            </p>
+        </div>
+    </div>
+
     <!-- Falsification Harness -->
     <div class="falsification-harness">
       <h3>Falsification Protocol</h3>
@@ -126,14 +153,14 @@
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Gaussian visibility: V(ΔL) = V₀ exp(−(ΔL/ℓ_coh)²)</p>
+          <p>Chi-torsion excitation: \(d\chi/dt = \Gamma_\chi(R_0/R - 1)\); chi amplitude correlates with collapse ratio \(R_0/R_{\min}\).</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Δχ², Bayes factor, or likelihood ratio</p>
+          <p>Correlation \(\text{corr}(\chi_{\text{amp}}, R_0/R_{\min})\), Wien peak deviation, noble gas \(T_{\max}\) ordering</p>
         </div>
       </div>
-      <a href="stur_foundations.html#sec9" class="core-ref">Core Definition: Eq. (9.1)</a>
+      <a href="stur_foundations.html#appE" class="core-ref">Core Definition: 5D Torsion Channel (App. E)</a>
     </div>
 
     <!-- ============================================================

@@ -111,6 +111,33 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- First Principles Status -->
+    <div class="glass-section" style="border-color:var(--neon-gold);background:rgba(251,191,36,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-alert-triangle size-24" style="color:var(--neon-gold);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-gold);">First Principles Status — Phenomenological Application</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.92rem;">
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Energy requirement structure: \(E_{\text{need}} = \int V(R)\,dV\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a></li>
+                <li>Entropy-energy coupling: \(\Delta S_{\text{eff}} \cdot T\) — thermodynamic consistency</li>
+                <li>Resistance equilibrium concept: \(R^* = E/(I \cdot \Phi)\) — from XCRM coupling</li>
+            </ul>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Replication timescale \(t \sim 60\,\text{s}\) — biological constraint</li>
+                <li>Mass range \(10^{-6}\) to \(10\,\text{kg}\) — phenomenological domain</li>
+                <li>Failure mode thresholds — empirical classification boundaries</li>
+                <li>Information flow \(I(t)\) and geometric flux \(\Phi(t)\) — operational definitions</li>
+            </ul>
+            <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
+                <strong>Connection to Core Theory:</strong> The energy-entropy formalism connects to <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-gold)">orbifold-derived V(R) (§2.5)</a>, but the specific
+                replicator dynamics require biological and engineering inputs not derivable from the Master Action.
+            </p>
+        </div>
+    </div>
+
     <!-- ============================================================
          SECTION: WHAT THIS PAGE DERIVES
          ============================================================ -->
@@ -122,7 +149,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Failure-mode classification (stable, power-limited, biology-limited) across mass and time scales.</p>
             <p><strong>Scale:</strong> Mass range \(10^{-6}\) to \(10\,\text{kg}\), replication times \(t \sim 60\,\text{s}\).</p>
-            <p><strong>Connection:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">V(R) potential</a> determines energy requirements and entropy gradients that govern replicator stability.</p>
+            <p><strong>Connection:</strong> The STUR <a href="stur_foundations.html#VR-derivation" class="core-ref">orbifold-derived V(R) potential (§2.5)</a> determines energy requirements and entropy gradients that govern replicator stability.</p>
         </div>
     </section>
 
@@ -151,7 +178,7 @@
                 <div class="stur-eq-label">Master Action (v9.2)</div>
             </div>
 
-            <p><strong>Replicator limit:</strong> The energy requirement for replication is derived from the <a href="stur_foundations.html#master-action" class="core-ref">resistance potential V(R)</a>:</p>
+            <p><strong>Replicator limit:</strong> The energy requirement for replication is derived from the <a href="stur_foundations.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a>:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -230,14 +257,14 @@
 # ===============================================================
 # STUR Replicator - Stress-Failure Envelope (v9.2)
 #
-# Derives failure-mode boundaries from V(R) potential
+# Derives failure-mode boundaries from orbifold-derived V(R) (§2.5)
 # Classifications: stable, power-limited, biology-limited
 #
 # Outputs:
 #   - stur_replicator.json  (classification results)
 #   - stur_replicator.png   (failure envelope plots)
 #
-# Derived from Master Action V(R) potential term
+# Derived from orbifold-derived V(R) potential (Foundations §2.5)
 # ===============================================================
 
 import numpy as np

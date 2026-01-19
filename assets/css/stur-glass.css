@@ -18,6 +18,7 @@
   --glass-bg-light: rgba(255, 255, 255, 0.05);
   --glass-bg-medium: rgba(255, 255, 255, 0.08);
   --glass-bg-dark: rgba(0, 0, 0, 0.3);
+  --glass-bg-solid: rgba(15, 23, 42, 0.95);  /* High opacity for nav readability */
 
   /* Glass borders */
   --glass-border: rgba(255, 255, 255, 0.08);
@@ -142,7 +143,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--glass-bg-dark);
+  background: var(--glass-bg-solid);
   backdrop-filter: blur(var(--glass-blur-heavy));
   -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
   border-bottom: 1px solid var(--glass-border);
@@ -216,6 +217,18 @@
 }
 
 @media (max-width: 768px) {
+  .glass-header {
+    padding: 0.5rem 1rem;
+  }
+
+  .glass-nav {
+    position: relative;
+  }
+
+  .glass-nav-brand {
+    font-size: 1rem;
+  }
+
   .glass-nav-links {
     display: none;
     position: absolute;
@@ -223,20 +236,63 @@
     left: 0;
     right: 0;
     flex-direction: column;
-    background: var(--glass-bg-dark);
+    background: var(--glass-bg-solid);
     backdrop-filter: blur(var(--glass-blur-heavy));
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
     border-bottom: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
     padding: 1rem;
     gap: 0.5rem;
+    z-index: 1000;
   }
 
   .glass-nav-links.open {
     display: flex;
+    animation: navSlideDown 0.2s ease-out;
+  }
+
+  @keyframes navSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .glass-nav-toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-left: auto;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+
+  .glass-nav-link {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    transition: background 0.2s ease;
+  }
+
+  .glass-nav-link:hover,
+  .glass-nav-link:focus {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Ensure glass-share-btn works as button in mobile */
+  button.glass-nav-link.glass-share-btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -688,66 +744,8 @@ button.glass-nav-link:hover {
    MOBILE-FIRST RESPONSIVE ENHANCEMENTS
    ============================================================ */
 
-/* Enhanced Mobile Navigation */
-@media (max-width: 768px) {
-  .glass-header {
-    padding: 0.5rem 1rem;
-  }
-
-  .glass-nav {
-    position: relative;
-  }
-
-  .glass-nav-brand {
-    font-size: 1rem;
-  }
-
-  .glass-nav-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background: rgba(5, 7, 12, 0.98);
-    backdrop-filter: blur(32px);
-    -webkit-backdrop-filter: blur(32px);
-    border-bottom: 1px solid var(--glass-border);
-    padding: 1rem;
-    gap: 0.5rem;
-    z-index: 1000;
-  }
-
-  .glass-nav-links.open {
-    display: flex;
-  }
-
-  .glass-nav-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-  }
-
-  .glass-nav-link {
-    width: 100%;
-    text-align: center;
-    padding: 0.75rem 1rem;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Ensure glass-share-btn works as button in mobile */
-  button.glass-nav-link.glass-share-btn {
-    width: 100%;
-    justify-content: center;
-  }
-}
+/* Note: Primary mobile nav styles are defined earlier in this file
+   These are additional enhancements for mobile */
 
 /* Small mobile screens */
 @media (max-width: 480px) {

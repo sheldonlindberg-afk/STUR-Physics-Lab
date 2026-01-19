@@ -112,6 +112,33 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- First Principles Status -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-check-circle size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">First Principles Status — Derived Application</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.92rem;">
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>STUR modulator form: \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) — from <a href="stur_foundations.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
+                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_foundations.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Resistance-mediated dynamics — S(r) gates all force contributions</li>
+            </ul>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Modulation length \(L_0 = 10^{-10}\,\text{m}\) — atomic scale chosen for this domain</li>
+                <li>Force coefficients (Coulomb \(k_e\), gravity \(G\), string tension \(\sigma\))</li>
+                <li>Feedback stiffness gain \(k_{\text{fb}}\) — phenomenological parameter</li>
+            </ul>
+            <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
+                <strong>Connection to Core Theory:</strong> The modulator S(r) emerges from the potential term V(R) in the Master Action.
+                The functional form is non-negotiable; only the length scale \(L_0\) is domain-specific.
+            </p>
+        </div>
+    </div>
+
     <!-- Falsification Harness -->
     <div class="falsification-harness">
       <h3>Falsification Protocol</h3>
@@ -126,14 +153,14 @@
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Gaussian visibility: V(ΔL) = V₀ exp(−(ΔL/ℓ_coh)²)</p>
+          <p>Radius-dependent stiffness: \(k_{\text{eff}}(d) = k_{\text{static}} + k_{\text{fb}}/(d + \epsilon)\); trap frequency \(f = \sqrt{k_{\text{eff}}/m}/(2\pi)\) follows from S(r)-modulated force.</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Δχ², Bayes factor, or likelihood ratio</p>
+          <p>Stiffness ratio \(k_{\text{eff}}/k_{\text{static}}\), trap frequency deviation, coherence ratio \(\eta_{\text{coh}}\)</p>
         </div>
       </div>
-      <a href="stur_foundations.html#sec9" class="core-ref">Core Definition: Eq. (9.1)</a>
+      <a href="stur_foundations.html#sec3" class="core-ref">Core Definition: S(r) Modulator (§3)</a>
     </div>
 
     <!-- ============================================================

@@ -111,6 +111,32 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- First Principles Status -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-check-circle size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">First Principles Status — Derived Application</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.92rem;">
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>STUR modulator form: \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a></li>
+                <li>Effective curvature law: \(k(r_0) = 2AS(r_0)/r_0^3 - AS'(r_0)/r_0^2\)</li>
+                <li>Universal period: \(T(m) = 2\pi\sqrt{m/k}\) — harmonic oscillator with geometric curvature</li>
+            </ul>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Curvature target \(k_{\text{target}} = 1.234 \times 10^{-8}\,\text{N/m}\) — chosen to match macro period</li>
+                <li>Equilibrium radius \(r_0 = L_0 = 0.1\,\text{m}\) — scale-dependent parameter</li>
+                <li>Interaction scale \(A\) — back-solved from target curvature</li>
+            </ul>
+            <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
+                <strong>Connection to Core Theory:</strong> The isochrony relation \(T \propto \sqrt{m}\) at fixed curvature is a direct consequence of the S(r) modulator form.
+                The curvature plateau near \(r_0 = L_0\) is a geometric feature, not an assumption.
+            </p>
+        </div>
+    </div>
+
     <!-- Falsification Harness -->
     <div class="falsification-harness">
       <h3>Falsification Protocol</h3>
@@ -125,14 +151,14 @@
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Gaussian visibility: V(ΔL) = V₀ exp(−(ΔL/ℓ_coh)²)</p>
+          <p>Universal isochrony: \(T(m) = 2\pi\sqrt{m/k}\) with same \(k\) across all mass scales; \(T/\sqrt{m} = \text{const}\).</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Δχ², Bayes factor, or likelihood ratio</p>
+          <p>Isochrony ratio variance, curvature self-consistency (\(k_{\text{check}} = k_{\text{target}}\)), \(T \propto \sqrt{m}\) scaling</p>
         </div>
       </div>
-      <a href="stur_foundations.html#sec9" class="core-ref">Core Definition: Eq. (9.1)</a>
+      <a href="stur_foundations.html#sec3" class="core-ref">Core Definition: S(r) Modulator (§3)</a>
     </div>
 
     <!-- ============================================================
@@ -175,13 +201,13 @@
                 <div class="stur-eq-label">Master Action (v9.2)</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> Universal geometry from \(V(R)\) induces the STUR radial modulator and effective curvature:</p>
+            <p><strong>Limit assumed:</strong> Universal geometry from <a href="stur_foundations.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a> induces the STUR radial modulator and effective curvature:</p>
 
             <div class="stur-eq derived">
                 \[
                 \color{#f472b6}{S(r)} = \tanh\!\bigl(\color{#fb923c}{r}/\color{#22d3ee}{L_0}\bigr)\,\bigl(1 - e^{-\color{#fb923c}{r}/\color{#22d3ee}{L_0}}\bigr)
                 \]
-                <div class="stur-eq-label">Radial Modulator from V(R)</div>
+                <div class="stur-eq-label">Radial Modulator from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived V(R)</a></div>
             </div>
 
             <div class="stur-eq derived">
@@ -323,7 +349,7 @@ import json, time
 # 1) STUR RESISTANCE FIELD
 # ===============================================================
 def S(r, L0):
-    """STUR resistance modulator S(r) from V(R)"""
+    """STUR resistance modulator S(r) from orbifold-derived V(R) (§2.5)"""
     x = r / L0
     return np.tanh(x) * (1.0 - np.exp(-x))
 
