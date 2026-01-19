@@ -458,6 +458,41 @@
     </p>
   </div>
 
+  <h3>Derivation Chain: V(R) → S(r) Saturation Operator</h3>
+
+  <p>The saturation operator \(S(r)\) used in gravitational simulations emerges from the potential term \(V(R)\) in the Master Action via a rigorous derivation (see <a href="stur_foundations.html#appE">Foundations Appendix E</a>):</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--success)">
+      <h4>Step 1: Scalar-Torsion Coupling</h4>
+      <p>The scalar sector \(S_{\rm scalar}\) contains the term \(\alpha R\, \mathbb{T}\) coupling resistance to torsion. In the weak-field limit, \(\mathbb{T} \to -2\nabla^2\Phi_N/c^2\).</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--success)">
+      <h4>Step 2: Double-Well Solution</h4>
+      <p>For \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\), the kink solution \(R_0(r) = v\tanh(r/\xi)\) yields \(f(R_0/v) = \tanh(r/\xi)\).</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--success)">
+      <h4>Step 3: XCRM Relaxation</h4>
+      <p>X-integration adds an exponential approach factor \((1-e^{-r/L_0})\) from equilibrium relaxation dynamics.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--success)">
+      <h4>Step 4: Final Form</h4>
+      <div class="eq" style="margin:0.5rem 0;padding:0.75rem;">
+        \[\boxed{S(r) = \tanh(r/L_0)(1-e^{-r/L_0})}\]
+      </div>
+      <p style="margin-top:0.5rem;">with \(L_0 = \ell_{\rm coh}\) (coherence length).</p>
+    </div>
+  </div>
+
+  <div class="block success" style="margin-top:1rem;">
+    <div class="title">Scale-Invariant Application</div>
+    <p class="muted">
+      The <strong>same functional form</strong> applies at all scales—microscale (3-body orbits), stellar, and galactic (rotation curves).
+      Only the characteristic length \(L_0\) changes to match the local coherence environment.
+      This is not an assumption; it follows from the structure of V(R).
+    </p>
+  </div>
+
 </section>
 
 <section id="sec-pillars">
