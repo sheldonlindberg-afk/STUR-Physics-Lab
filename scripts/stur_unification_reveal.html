@@ -240,14 +240,23 @@
             <div class="stur-eq law master-action">
                 \[
                 S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
-                  \underbrace{\alpha\,(\nabla R)^2}_{\text{Diffusion}}
-                  \;-\; \underbrace{V(R)}_{\text{Potential}}
-                  \;+\; \underbrace{\beta\,(\partial_t X)^2 - U(X - R)}_{\text{XCRM Relaxation}}
-                  \;+\; \underbrace{L_{\text{torsion}}}_{\text{Gravity}}
-                  \;+\; \underbrace{L_{\text{matter}}}_{\text{Fields}}
+                  \underbrace{\color{#4ade80}{\alpha\,(\nabla R)^2}}_{\color{#4ade80}\text{Diffusion}}
+                  \;-\; \underbrace{\color{#f472b6}{V(R)}}_{\color{#f472b6}\text{Potential}}
+                  \;+\; \underbrace{\color{#fbbf24}{\beta\,(\partial_t X)^2 - U(X - R)}}_{\color{#fbbf24}\text{XCRM Relaxation}}
+                  \;+\; \underbrace{\color{#60a5fa}{L_{\text{torsion}}}}_{\color{#60a5fa}\text{Gravity}}
+                  \;+\; \underbrace{\color{#22d3ee}{L_{\text{matter}}}}_{\color{#22d3ee}\text{Fields}}
                 \Bigr]
                 \]
                 <div class="stur-eq-label">Master Action — STUR Framework v9.2</div>
+            </div>
+
+            <!-- Equation Color Legend -->
+            <div class="eq-legend" style="margin-top:1rem;">
+                <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
+                <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
+                <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
+                <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
+                <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
             </div>
 
             <p><strong>Single free parameter:</strong> The ratio \(\sigma_R / L_X\) determines all interferometric predictions.</p>
@@ -256,7 +265,7 @@
 
             <div class="stur-eq boxed">
                 \[
-                \langle \Phi_R^2 \rangle \;=\; \frac{\sigma_R^2}{L_X^2} \times (\text{geometry factor})
+                \langle \Phi_R^2 \rangle \;=\; \color{#fbbf24}{\frac{\sigma_R^2}{L_X^2}} \times (\text{geometry factor})
                 \quad\Rightarrow\quad
                 V(\Delta L) = V_0 \exp\!\Bigl(-\tfrac{1}{2}\langle\Phi_R^2\rangle\Bigr)
                 \]

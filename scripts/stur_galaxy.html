@@ -82,11 +82,11 @@
 
     <!-- Equation Legend -->
     <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
-        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
     <!-- ============================================================
@@ -133,16 +133,16 @@
 
             <div class="stur-eq derived">
                 \[
-                \mathcal{S}(r, \phi) = \phi\,\frac{1 + r/L_0}{1 + (r/L_0)^2}\,e^{-\Lambda r^2}
+                \color{#f472b6}{\mathcal{S}(r, \phi)} = \phi\,\frac{1 + r/L_0}{1 + (r/L_0)^2}\,e^{-\Lambda r^2}
                 \]
-                <div class="stur-eq-label">Galactic-Scale Modulator</div>
+                <div class="stur-eq-label">Galactic-Scale Modulator (from V(R) potential)</div>
             </div>
 
             <p>The total rotation velocity combines baryonic and STUR contributions:</p>
 
             <div class="stur-eq derived">
                 \[
-                v_{\text{tot}}^2 = v_{\mathcal{S}}^2 + v_{\text{gas}}^2 + v_{\star}^2 + v_{\text{bulge}}^2 + v_{\text{BH}}^2 + v_{\text{halo}}^2 + v_{\text{turb}}^2
+                v_{\text{tot}}^2 = \color{#f472b6}{v_{\mathcal{S}}^2} + \color{#22d3ee}{v_{\text{gas}}^2 + v_{\star}^2 + v_{\text{bulge}}^2 + v_{\text{BH}}^2 + v_{\text{halo}}^2} + \color{#4ade80}{v_{\text{turb}}^2}
                 \]
                 <div class="stur-eq-label">Total Rotation Velocity</div>
             </div>

@@ -27,11 +27,12 @@
 
     /* Accent Palette */
     --accent-blue: #0A84FF;
-    --accent-green: #30D158;
-    --accent-cyan: #64D2FF;
-    --accent-gold: #FFD60A;
+    --accent-green: #4ade80;    /* Diffusion - Kinetic */
+    --accent-cyan: #22d3ee;     /* Matter - Fields */
+    --accent-gold: #fbbf24;     /* XCRM - X-coupling */
     --accent-violet: #BF5AF2;
-    --accent-pink: #FF375F;
+    --accent-pink: #f472b6;     /* Potential - Relaxation */
+    --accent-torsion: #60a5fa;  /* Torsion - Gravity */
     --accent-gray: #8E8E93;
 
     /* Semantic Colors */
@@ -223,7 +224,8 @@
   .equation-display .eq-diffusion { color: var(--accent-green); }
   .equation-display .eq-potential { color: var(--accent-pink); }
   .equation-display .eq-xcrm { color: var(--accent-gold); }
-  .equation-display .eq-torsion { color: var(--accent-cyan); }
+  .equation-display .eq-torsion { color: var(--accent-torsion); }
+  .equation-display .eq-matter { color: var(--accent-cyan); }
 
   .term-legend {
     display: grid;
@@ -522,13 +524,14 @@
       with an internal coherence dimension X (the XCRM closure):
     </p>
     <div class="equation-display">
-      S[R,g,X] = ∫ d⁴x dX √−g [ <span class="eq-diffusion">½(∇R)²</span> − <span class="eq-potential">V(R)</span> + <span class="eq-xcrm">χ R∂<sub>X</sub>R</span> + <span class="eq-torsion">α R𝕋</span> ]
+      S[R,g,X] = ∫ d⁴x dX √−g [ <span class="eq-diffusion">½(∇R)²</span> − <span class="eq-potential">V(R)</span> + <span class="eq-xcrm">χ R∂<sub>X</sub>R</span> + <span class="eq-torsion">α R𝕋</span> + <span class="eq-matter">ℒ<sub>matter</sub></span> ]
     </div>
     <div class="term-legend">
       <div><span class="eq-diffusion">½(∇R)²</span> — Diffusion / kinetic</div>
       <div><span class="eq-potential">V(R)</span> — Relaxation potential</div>
       <div><span class="eq-xcrm">χR∂<sub>X</sub>R</span> — XCRM coupling</div>
       <div><span class="eq-torsion">αR𝕋</span> — Torsion source</div>
+      <div><span class="eq-matter">ℒ<sub>matter</sub></span> — Matter fields</div>
     </div>
     <p class="panel-footer">
       <strong class="highlight-violet">Quantum regime:</strong> ℏ ≠ 0 → stationary phase + 1-loop corrections.
