@@ -352,6 +352,40 @@ pre {
   padding: 0.85rem 1.1rem;
   margin: 0.75rem 0;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+/* MathJax mobile-friendly display */
+.MathJax {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  max-width: 100% !important;
+}
+
+.MathJax_Display {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  max-width: 100% !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+mjx-container {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  max-width: 100% !important;
+  display: block !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 600px) {
+  mjx-container {
+    font-size: 85% !important;
+  }
+
+  .stur-eq {
+    padding: 0.6rem 0.8rem;
+  }
 }
 
 .stur-eq.law {
