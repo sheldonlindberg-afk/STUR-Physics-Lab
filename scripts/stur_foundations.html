@@ -675,8 +675,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     <em>stochastic</em> scalar-matter coupling in the Markovian fluctuation regime. In teleparallel
     formulation, the natural observable is the <em>resistance holonomy</em>
     \(\Phi_R = \oint \mathsf{J}_a\, dx^a\) (the measured closed-loop phase functional), with visibility:
-    \[V = V_0 \exp\!\left(-\langle\Phi_R^2\rangle/2\right) \;\;\xrightarrow{\;\text{linear path}\;}\;\;
-    V(\Delta L) = V_0 \exp\!\left(-(\Delta L / \ell_{\rm coh})^2\right)\]
+    \[\color{#f472b6}{V} = V_0 \exp\!\left(-\color{#c4b5fd}{\langle\Phi_R^2\rangle}/2\right) \;\;\xrightarrow{\;\text{linear path}\;}\;\;
+    \color{#f472b6}{V(\Delta L)} = V_0 \exp\!\left(-(\color{#fb923c}{\Delta L} / \color{#22d3ee}{\ell_{\rm coh}})^2\right)\]
     The Gaussian form is <strong>distinct from</strong> coherent ultralight dark matter (ULDM) 
     signatures, which produce sinusoidal phase modulation.</li>
   </ol>
@@ -786,10 +786,10 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq boxed">
-    \[\langle \mathcal{O} \rangle = \int \mathcal{D}R\, \mathcal{O}[R]\, e^{iS[R]/\hbar}
+    \[\color{#c4b5fd}{\langle \mathcal{O} \rangle} = \color{#c4b5fd}{\int} \mathcal{D}R\, \mathcal{O}[R]\, e^{i\color{#e2e8f0}{S[R]}/\hbar}
     \;\;\xrightarrow{\;\hbar\to 0\;}\;\;
-    \mathcal{O}[\bar{R}] \cdot \exp\!\Big(\tfrac{i}{\hbar}S[\bar{R}]\Big) \cdot
-    \underbrace{\det^{-1/2}\!\Big(\frac{\delta^2 S}{\delta R^2}\Big)}_{\text{1-loop correction}}\]
+    \mathcal{O}[\bar{R}] \cdot \exp\!\Big(\tfrac{i}{\hbar}\color{#e2e8f0}{S[\bar{R}]}\Big) \cdot
+    \underbrace{\color{#94a3b8}{\det^{-1/2}}\!\Big(\frac{\delta^2 S}{\delta R^2}\Big)}_{\text{1-loop correction}}\]
     <div class="eq-label">(0.2) — Stationary phase + Gaussian fluctuations</div>
   </div>
 
@@ -884,7 +884,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq boxed">
-    \[S_{\rm STUR} \xrightarrow{R \to R_{\rm bg}} S_{\rm TEGR} \equiv S_{\rm GR} + \text{boundary term}\]
+    \[\color{#e2e8f0}{S_{\rm STUR}} \xrightarrow{R \to R_{\rm bg}} \color{#60a5fa}{S_{\rm TEGR}} \equiv \color{#60a5fa}{S_{\rm GR}} + \text{boundary term}\]
     <div class="eq-label">(0.3) — GR as zeroth-order coarse-grained geometry</div>
   </div>
 
@@ -907,9 +907,9 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq boxed">
-    \[R^I \;\longrightarrow\; U^I{}_J(x)\, R^J
+    \[\color{#fbbf24}{R^I} \;\longrightarrow\; \color{#94a3b8}{U^I{}_J(x)}\, \color{#fbbf24}{R^J}
     \quad\Rightarrow\quad
-    \mathcal{A}_\mu = U^{-1}\partial_\mu U \;\;\text{(connection required for covariance)}\]
+    \color{#60a5fa}{\mathcal{A}_\mu} = U^{-1}\partial_\mu U \;\;\text{(connection required for covariance)}\]
     <div class="eq-label">(0.4) — Gauge symmetry from holonomy degeneracy</div>
   </div>
 
@@ -933,9 +933,9 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq boxed">
-    \[\langle \mathcal{O} \rangle = \int \mathcal{D}R\, \mathcal{O}[R]\, e^{iS[R]/\hbar}
+    \[\color{#c4b5fd}{\langle \mathcal{O} \rangle} = \color{#c4b5fd}{\int} \mathcal{D}R\, \mathcal{O}[R]\, e^{i\color{#e2e8f0}{S[R]}/\hbar}
     \quad\Rightarrow\quad
-    \psi \sim e^{iS/\hbar}\]
+    \color{#22d3ee}{\psi} \sim e^{i\color{#e2e8f0}{S}/\hbar}\]
     <div class="eq-label">(0.5) — Phase as the surviving observable</div>
   </div>
 
@@ -954,8 +954,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq boxed">
-    \[V = \langle e^{i\Phi} \rangle \;\xrightarrow{\text{CLT}}\;
-    \exp\!\left(-\frac{\langle\Phi^2\rangle}{2}\right)\]
+    \[\color{#f472b6}{V} = \langle e^{i\color{#c4b5fd}{\Phi}} \rangle \;\xrightarrow{\text{CLT}}\;
+    \exp\!\left(-\frac{\langle\color{#c4b5fd}{\Phi}^2\rangle}{2}\right)\]
     <div class="eq-label">(0.6) — Classical dominance via phase decoherence</div>
   </div>
 
@@ -974,7 +974,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq boxed">
-    \[y_{\rm eff} \sim \int f_L(X)\, f_R(X)\, R(X)\, dX\]
+    \[\color{#22d3ee}{y_{\rm eff}} \sim \color{#c4b5fd}{\int} \color{#22d3ee}{f_L(X)\, f_R(X)}\, \color{#fbbf24}{R(X)}\, dX\]
     <div class="eq-label">(0.7) — Effective Yukawa from X-localization overlap</div>
   </div>
 
@@ -1207,7 +1207,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
   <h3>2.2 Metric Ansatz</h3>
   <div class="eq">
-    \[\dd s^2_5 = e^{2\sigma(X)} g_{\mu\nu}(x)\, \dd x^\mu \dd x^\nu + r_c^2\, \dd X^2\]
+    \[\color{#fb923c}{\dd s^2_5} = \color{#fbbf24}{e^{2\sigma(X)}} \color{#fb923c}{g_{\mu\nu}(x)}\, \dd x^\mu \dd x^\nu + \color{#fbbf24}{r_c^2}\, \dd X^2\]
     <div class="eq-label">(2.1)</div>
   </div>
 
@@ -1297,7 +1297,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
   <div class="eq boxed">
     \[
-      L_X = \int_0^{2\pi} r_c\,\dd X = 2\pi r_c.
+      \color{#fbbf24}{L_X} = \color{#c4b5fd}{\int_0^{2\pi}} \color{#fbbf24}{r_c}\,\dd X = 2\pi \color{#fbbf24}{r_c}.
     \]
     <div class="eq-label">(2.3)</div>
   </div>
@@ -1329,8 +1329,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
   <div class="eq boxed">
     \[
-      \sigma(X) = -k|X|, \qquad
-      \dd s_5^2 = e^{-2k|X|}\eta_{\mu\nu}\dd x^\mu \dd x^\nu + r_c^2 \dd X^2 .
+      \color{#fbbf24}{\sigma(X)} = -k|X|, \qquad
+      \color{#fb923c}{\dd s_5^2} = \color{#fbbf24}{e^{-2k|X|}}\color{#fb923c}{\eta_{\mu\nu}}\dd x^\mu \dd x^\nu + \color{#fbbf24}{r_c^2} \dd X^2 .
     \]
     <div class="eq-label">(2.4)</div>
   </div>
@@ -1343,7 +1343,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
   <div class="eq boxed">
     \[
-      k\pi r_c \simeq \frac{1}{\epsilon}\ln\!\left(\frac{v_0}{v_\pi}\right),
+      k\pi \color{#fbbf24}{r_c} \simeq \frac{1}{\epsilon}\ln\!\left(\frac{v_0}{v_\pi}\right),
       \qquad \epsilon = \frac{m^2}{4k^2}.
     \]
     <div class="eq-label">(2.5)</div>
@@ -1572,19 +1572,19 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
   <h3>3.1 Total Action</h3>
   <div class="eq law">
-    \[\boxed{S_{\rm STUR} = S_{\rm grav} + S_{\rm gauge} + S_{\rm scalar} + S_{\rm matter} + S_{\rm bdy}}\]
+    \[\boxed{\color{#e2e8f0}{S_{\rm STUR}} = \color{#60a5fa}{S_{\rm grav}} + \color{#60a5fa}{S_{\rm gauge}} + \color{#4ade80}{S_{\rm scalar}} + \color{#22d3ee}{S_{\rm matter}} + S_{\rm bdy}}\]
     <div class="eq-label">(3.1)</div>
   </div>
 
   <h3>3.2 Component Actions</h3>
 
   <div class="eq boxed">
-    \[S_{\rm grav} = \frac{1}{2\kappa_5} \int_{\Mcal^5} \dd^5 x\, e\, \Tcal\]
+    \[\color{#60a5fa}{S_{\rm grav}} = \frac{1}{2\kappa_5} \color{#c4b5fd}{\int_{\Mcal^5}} \dd^5 x\, e\, \color{#60a5fa}{\Tcal}\]
     <div class="eq-label">(3.2) — Gravitational (TEGR)</div>
   </div>
 
   <div class="eq boxed">
-    \[S_{\rm gauge} = -\frac{1}{4g_5^2} \int_{\Mcal^5} \dd^5 x\, e\, \kappa_{IJ}\, \Fcal^I_{MN} \Fcal^{MN,J}\]
+    \[\color{#60a5fa}{S_{\rm gauge}} = -\frac{1}{4g_5^2} \color{#c4b5fd}{\int_{\Mcal^5}} \dd^5 x\, e\, \kappa_{IJ}\, \color{#60a5fa}{\Fcal^I_{MN} \Fcal^{MN,J}}\]
     <div class="eq-label">(3.3) — Gauge</div>
   </div>
 
@@ -1626,7 +1626,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     Observables are <strong>holonomy functionals</strong>:
   </p>
   <div class="eq boxed">
-    \[\Phi_R[\mathcal C] = \oint_{\mathcal C} \mathsf{J}_a\, dx^a\]
+    \[\color{#c4b5fd}{\Phi_R[\mathcal C]} = \color{#c4b5fd}{\oint_{\mathcal C}} \color{#fbbf24}{\mathsf{J}_a}\, dx^a\]
     <div class="eq-label">(3.7) — The holonomy observable</div>
   </div>
   <p>
@@ -1654,7 +1654,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     each shot samples <strong>many microscopic X-configurations</strong>. So operationally:
   </p>
   <div class="eq">
-    \[\Phi_R = \sum_{i=1}^{N_{\rm cells}} \delta\phi_i \quad\text{with}\quad N_{\rm cells} \gg 1\]
+    \[\color{#c4b5fd}{\Phi_R} = \sum_{i=1}^{N_{\rm cells}} \delta\phi_i \quad\text{with}\quad N_{\rm cells} \gg 1\]
     <div class="eq-label">(3.8)</div>
   </div>
 
@@ -1666,14 +1666,14 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     If fluctuations decorrelate over \(X\) on scale \(L_X\), and transport length \(\Delta L \gg L_X\), then:
   </p>
   <div class="eq law">
-    \[\Phi_R \;\xrightarrow{\text{coarse-grain}}\; \mathcal{N}(0, \sigma_\Phi^2)\]
+    \[\color{#c4b5fd}{\Phi_R} \;\xrightarrow{\text{coarse-grain}}\; \mathcal{N}(0, \sigma_\Phi^2)\]
     <div class="eq-label">(3.9) — Central limit for holonomy</div>
   </div>
   <p>
     The <strong>effective path integral measure</strong> for the observable is:
   </p>
   <div class="eq boxed">
-    \[\mathcal{D}\Phi_R \;\sim\; \exp\!\left(-\frac{\Phi_R^2}{2\sigma_\Phi^2}\right)\]
+    \[\mathcal{D}\color{#c4b5fd}{\Phi_R} \;\sim\; \exp\!\left(-\frac{\color{#c4b5fd}{\Phi_R}^2}{2\sigma_\Phi^2}\right)\]
     <div class="eq-label">(3.10) — Gaussian holonomy measure</div>
   </div>
   <p>
@@ -1685,14 +1685,14 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     The WKB phase for matter transport is:
   </p>
   <div class="eq">
-    \[\psi \sim \exp\!\left(\frac{i}{\hbar} S_{\rm eff}\right)\]
+    \[\color{#22d3ee}{\psi} \sim \exp\!\left(\frac{i}{\hbar} \color{#e2e8f0}{S_{\rm eff}}\right)\]
     <div class="eq-label">(3.11)</div>
   </div>
   <p>
     In STUR, the effective action receives a holonomy correction:
   </p>
   <div class="eq boxed">
-    \[S_{\rm eff} = S_0 + \hbar\,\Phi_R\]
+    \[\color{#e2e8f0}{S_{\rm eff}} = \color{#e2e8f0}{S_0} + \hbar\,\color{#c4b5fd}{\Phi_R}\]
     <div class="eq-label">(3.12) — Action with resistance phase</div>
   </div>
   <p>
@@ -1706,14 +1706,14 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     Expand the action around the background:
   </p>
   <div class="eq">
-    \[S[R] = S[R_{\rm bg}] + \frac{1}{2}\int \delta R\,\mathcal{O}\,\delta R + \cdots\]
+    \[\color{#e2e8f0}{S[R]} = \color{#e2e8f0}{S[R_{\rm bg}]} + \frac{1}{2}\color{#c4b5fd}{\int} \delta R\,\color{#94a3b8}{\mathcal{O}}\,\delta R + \cdots\]
     <div class="eq-label">(3.13)</div>
   </div>
   <p>
     where \(\mathcal{O} = -\Box + m_R^2 + \text{(XCRM relaxation)}\). Integrating out \(\delta R\):
   </p>
   <div class="eq law">
-    \[Z \sim \exp\!\left(\frac{i}{\hbar}S[R_{\rm bg}]\right)\;\big(\det \mathcal{O}\big)^{-1/2}\]
+    \[Z \sim \exp\!\left(\frac{i}{\hbar}\color{#e2e8f0}{S[R_{\rm bg}]}\right)\;\big(\color{#94a3b8}{\det \mathcal{O}}\big)^{-1/2}\]
     <div class="eq-label">(3.14) — Path integral at 1-loop</div>
   </div>
 
@@ -1737,7 +1737,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
       <strong>independent of microscopic UV completion</strong>.
     </p>
     <div class="eq law" style="margin-top:0.75rem;">
-      \[\boxed{V(\Delta L) = V_0 \exp\!\left[-\frac{1}{2}\left(\frac{\sigma_R}{L_X}\right)^2 (\Delta L)^2\right]}\]
+      \[\boxed{\color{#f472b6}{V(\Delta L)} = V_0 \exp\!\left[-\frac{1}{2}\left(\frac{\color{#fbbf24}{\sigma_R}}{\color{#fbbf24}{L_X}}\right)^2 (\color{#fb923c}{\Delta L})^2\right]}\]
       <div class="eq-label">(3.15) — The Gaussian visibility law (1-loop prediction)</div>
     </div>
   </div>
@@ -1794,7 +1794,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
       from the background. This directly ties the coherence length to the manifold:
     </p>
     <div class="eq law" style="margin-top:0.75rem;">
-      \[\boxed{\ell_{\rm coh} = \frac{\sqrt{2}\, L_X}{\sigma_R}}\]
+      \[\boxed{\color{#4ade80}{\ell_{\rm coh}} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#fbbf24}{\sigma_R}}}\]
       <div class="eq-label">(3.18) — Coherence length from manifold size</div>
     </div>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary)">
@@ -1816,7 +1816,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq">
-    \[\Phi_R = \oint_{\mathcal{C}} \mathsf{J}_a\, dx^a = \int_\Sigma (\nabla \times \mathsf{J})_a\, dA^a\]
+    \[\color{#c4b5fd}{\Phi_R} = \color{#c4b5fd}{\oint_{\mathcal{C}}} \color{#fbbf24}{\mathsf{J}_a}\, dx^a = \color{#c4b5fd}{\int_\Sigma} (\nabla \times \color{#fbbf24}{\mathsf{J}})_a\, dA^a\]
   </div>
 
   <p>
@@ -1825,7 +1825,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq boxed">
-    \[\langle \Phi_R^2 \rangle_{\rm loop} \approx \frac{\sigma_R^2}{L_X^2} \cdot \frac{A}{\xi^2} \cdot \xi^2 = \frac{\sigma_R^2 A}{L_X^2}\]
+    \[\langle \color{#c4b5fd}{\Phi_R}^2 \rangle_{\rm loop} \approx \frac{\color{#fbbf24}{\sigma_R}^2}{\color{#fbbf24}{L_X}^2} \cdot \frac{A}{\xi^2} \cdot \xi^2 = \frac{\color{#fbbf24}{\sigma_R}^2 A}{\color{#fbbf24}{L_X}^2}\]
     <div class="eq-label">(3.19) — Loop holonomy variance</div>
   </div>
 
@@ -1834,7 +1834,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq law">
-    \[\boxed{\ell_{\rm coh}^{\rm loop} = \frac{\sqrt{2}\, L_X}{\sigma_R} \cdot \sqrt{\frac{\xi^2}{A}} = \ell_{\rm coh}^{\rm linear} \cdot \frac{\xi}{\sqrt{A}}}\]
+    \[\boxed{\color{#4ade80}{\ell_{\rm coh}^{\rm loop}} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#fbbf24}{\sigma_R}} \cdot \sqrt{\frac{\xi^2}{A}} = \color{#4ade80}{\ell_{\rm coh}^{\rm linear}} \cdot \frac{\xi}{\sqrt{A}}}\]
     <div class="eq-label">(3.20) — Loop-enhanced coherence length</div>
   </div>
 
@@ -1865,7 +1865,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
   <h3>4.1 Torsion Scalar</h3>
   <div class="eq boxed">
-    \[\Tcal = \frac{1}{4}T^{PMN}T_{PMN} + \frac{1}{2}T^{PMN}T_{NPM} - T^P{}_{PM}T^{QM}{}_Q\]
+    \[\color{#60a5fa}{\Tcal} = \frac{1}{4}\color{#60a5fa}{T^{PMN}T_{PMN}} + \frac{1}{2}\color{#60a5fa}{T^{PMN}T_{NPM}} - \color{#60a5fa}{T^P{}_{PM}T^{QM}{}_Q}\]
     <div class="eq-label">(4.1)</div>
   </div>
 
@@ -1876,7 +1876,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   <div class="block success">
     <div class="title">Theorem 4.1 — Teleparallel Equivalence</div>
     <div class="eq law">
-      \[\boxed{e\, \mathcal{R}_{\rm Ricci} = -e\, \Tcal + 2\partial_M(e T^M)}\]
+      \[\boxed{\color{#fb923c}{e}\, \color{#60a5fa}{\mathcal{R}_{\rm Ricci}} = -\color{#fb923c}{e}\, \color{#60a5fa}{\Tcal} + 2\partial_M(\color{#fb923c}{e} \color{#60a5fa}{T^M})}\]
       <div class="eq-label">(4.2)</div>
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
@@ -1916,7 +1916,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
   <h3>5.2 Dimensional Reduction</h3>
   <div class="eq boxed">
-    \[g_4^2 = \frac{g_5^2}{L_X}\]
+    \[\color{#60a5fa}{g_4^2} = \frac{\color{#60a5fa}{g_5^2}}{\color{#fbbf24}{L_X}}\]
     <div class="eq-label">(5.1)</div>
   </div>
 
@@ -2060,7 +2060,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
       Integrating out \(\chi\) via the Schwinger-Keldysh formalism (Appendix B) yields, in the Markov limit:
     </p>
     <div class="eq law">
-      \[\boxed{u^\mu \partial_\mu R + \Gamma(R - R_{\rm eq}) = D\Delta R + \xi}\]
+      \[\boxed{u^\mu \partial_\mu \color{#fbbf24}{R} + \color{#f472b6}{\Gamma}(\color{#fbbf24}{R} - R_{\rm eq}) = \color{#4ade80}{D}\Delta \color{#fbbf24}{R} + \xi}\]
       <div class="eq-label">(6.2)</div>
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
@@ -2337,7 +2337,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     </p>
     <div class="eq definition">
       \[
-        \Phi_R \;\equiv\; \Delta\phi_R \;=\; \oint_{\mathcal{C}} \mathsf{J}_a(x)\, dx^{a}
+        \color{#c4b5fd}{\Phi_R} \;\equiv\; \Delta\phi_R \;=\; \color{#c4b5fd}{\oint_{\mathcal{C}}} \color{#fbbf24}{\mathsf{J}_a(x)}\, dx^{a}
       \]
       <div class="eq-label">(9.0)</div>
     </div>
@@ -2520,8 +2520,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq">
-    \[\phi = \int_{\rm path} p\, \dd\ell = \int_{\rm path} \sqrt{E^2 - m_{\rm eff}^2}\, \dd\ell 
-    \approx \int_{\rm path} \left(p_0 - \frac{m_0 y R}{p_0}\right) \dd\ell\]
+    \[\phi = \color{#c4b5fd}{\int_{\rm path}} p\, \dd\ell = \color{#c4b5fd}{\int_{\rm path}} \sqrt{E^2 - \color{#22d3ee}{m_{\rm eff}}^2}\, \dd\ell
+    \approx \color{#c4b5fd}{\int_{\rm path}} \left(p_0 - \frac{m_0 \color{#22d3ee}{y} \color{#fbbf24}{R}}{p_0}\right) \dd\ell\]
     <div class="eq-label">(9.1)</div>
   </div>
 
@@ -2539,8 +2539,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq">
-    \[V = \langle \cos(\Delta\phi) \rangle = \exp\!\left(-\frac{\langle(\Delta\phi_R)^2\rangle}{2}\right) 
-    = \exp\!\left(-\frac{1}{2}\left(\frac{y\sigma_R}{p_0}\right)^2 (\Delta L)^2\right)\]
+    \[\color{#f472b6}{V} = \langle \cos(\Delta\phi) \rangle = \exp\!\left(-\frac{\langle(\Delta\phi_R)^2\rangle}{2}\right)
+    = \exp\!\left(-\frac{1}{2}\left(\frac{\color{#22d3ee}{y}\color{#fbbf24}{\sigma_R}}{p_0}\right)^2 (\color{#fb923c}{\Delta L})^2\right)\]
     <div class="eq-label">(9.2)</div>
   </div>
 
@@ -2548,9 +2548,9 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
   <div class="eq law">
     \[\boxed{
-    V = V_0 \exp\!\left(-\frac{\langle \Phi_R^2 \rangle}{2}\right)
+    \color{#f472b6}{V} = V_0 \exp\!\left(-\frac{\langle \color{#c4b5fd}{\Phi_R}^2 \rangle}{2}\right)
     \;\;\xrightarrow{\;\text{linear path}\;}\;\;
-    V(\Delta L) = V_0 \exp\!\left(-\frac{(\Delta L)^2}{\ell_{\rm coh}^2}\right)
+    \color{#f472b6}{V(\Delta L)} = V_0 \exp\!\left(-\frac{(\color{#fb923c}{\Delta L})^2}{\color{#4ade80}{\ell_{\rm coh}}^2}\right)
     }\]
     <div class="eq-label">(9.3) — STUR Visibility Prediction</div>
   </div>
@@ -2584,7 +2584,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
       effective contortion magnitude \(K_{\rm eff}\) (units m\(^{-1}\)) that governs substrate–matter phase gradients:
     </p>
     <div class="eq definition">
-      \[\boxed{\sigma_R \equiv K_{\rm eff} \qquad [K_{\rm eff}] = \mathrm{m^{-1}}}\]
+      \[\boxed{\color{#fbbf24}{\sigma_R} \equiv \color{#60a5fa}{K_{\rm eff}} \qquad [\color{#60a5fa}{K_{\rm eff}}] = \mathrm{m^{-1}}}\]
       <div class="eq-label">(9.4)</div>
       <div class="eq-note">
         <strong>Equation (9.4) is a phenomenological identification, not a geometric derivation.</strong>
@@ -2606,7 +2606,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
       With (9.4), the coherence length becomes a geometric radius:
     </p>
     <div class="eq boxed">
-      \[\boxed{\ell_{\rm coh} = \frac{p_0}{yK_{\rm eff}} \;\;\approx\;\; \frac{1}{yK_{\rm eff}}
+      \[\boxed{\color{#4ade80}{\ell_{\rm coh}} = \frac{p_0}{\color{#22d3ee}{y}\color{#60a5fa}{K_{\rm eff}}} \;\;\approx\;\; \frac{1}{\color{#22d3ee}{y}\color{#60a5fa}{K_{\rm eff}}}
       \quad \text{(for nonrelativistic atoms with }p_0\sim \mathcal{O}(1)\text{ in natural units)}}\]
       <div class="eq-label">(9.5)</div>
     </div>
@@ -3399,8 +3399,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq boxed">
-    \[\boxed{\ell_{\rm coh} = \frac{p_0}{yK_{\rm eff}} \;\;\simeq\;\; \frac{1}{yK_{\rm eff}}
-    \quad\Rightarrow\quad K_{\rm eff} \simeq \frac{1}{y\,\ell_{\rm coh}}}\]
+    \[\boxed{\color{#4ade80}{\ell_{\rm coh}} = \frac{p_0}{\color{#22d3ee}{y}\color{#60a5fa}{K_{\rm eff}}} \;\;\simeq\;\; \frac{1}{\color{#22d3ee}{y}\color{#60a5fa}{K_{\rm eff}}}
+    \quad\Rightarrow\quad \color{#60a5fa}{K_{\rm eff}} \simeq \frac{1}{\color{#22d3ee}{y}\,\color{#4ade80}{\ell_{\rm coh}}}}\]
     <div class="eq-label">(10.1)</div>
   </div>
 
@@ -3467,7 +3467,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     <div class="eq law" style="margin-top:0.9rem">
       \[\boxed{
         \textbf{Key Point:}\;\; \text{The experiment measures }
-        \Phi_R = \oint_{\mathcal{C}} \mathsf{J}_a\,dx^a\text{ (integrated loop holonomy), not local }K_{\rm eff}\text{ directly.}
+        \color{#c4b5fd}{\Phi_R} = \color{#c4b5fd}{\oint_{\mathcal{C}}} \color{#fbbf24}{\mathsf{J}_a}\,dx^a\text{ (integrated loop holonomy), not local }\color{#60a5fa}{K_{\rm eff}}\text{ directly.}
       }\]
       <div class="eq-label">(10.1a)</div>
       <div class="eq-note">
@@ -3493,8 +3493,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq boxed">
-    \[\text{Visibility law: } V(\Delta L) = V_0 \exp\!\left(-(\Delta L / \ell_{\rm coh})^2\right), 
-    \quad \ell_{\rm coh} \in [10, 10^4]\ \text{m (search range)}\]
+    \[\text{Visibility law: } \color{#f472b6}{V(\Delta L)} = V_0 \exp\!\left(-(\color{#fb923c}{\Delta L} / \color{#4ade80}{\ell_{\rm coh}})^2\right),
+    \quad \color{#4ade80}{\ell_{\rm coh}} \in [10, 10^4]\ \text{m (search range)}\]
     <div class="eq-label">(10.2)</div>
   </div>
 
@@ -3896,8 +3896,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq">
-    \[Z[J] = \int \mathcal{D}R\, \mathcal{D}\chi\, \exp\!\left(i \int_\mathcal{C} \dd^4 x\, 
-    \left[\Lcal_{\rm scalar}^{\rm micro} + J \cdot R\right]\right)\]
+    \[Z[J] = \color{#c4b5fd}{\int} \mathcal{D}R\, \mathcal{D}\chi\, \exp\!\left(i \color{#c4b5fd}{\int_\mathcal{C}} \dd^4 x\,
+    \left[\color{#4ade80}{\Lcal_{\rm scalar}^{\rm micro}} + J \cdot \color{#fbbf24}{R}\right]\right)\]
     <div class="eq-label">(B.1)</div>
   </div>
 
@@ -3908,8 +3908,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq">
-    \[\int \mathcal{D}\chi\, \exp\!\left(i \int_\mathcal{C} \left[-\frac{1}{2}\chi(\Box + m_\chi^2)\chi 
-    - \lambda R \chi^2\right]\right) = \exp\!\left(-\frac{i}{2}\Tr\ln(G_\chi^{-1}[R])\right)\]
+    \[\color{#c4b5fd}{\int} \mathcal{D}\chi\, \exp\!\left(i \color{#c4b5fd}{\int_\mathcal{C}} \left[-\frac{1}{2}\color{#fbbf24}{\chi}(\Box + m_\chi^2)\color{#fbbf24}{\chi}
+    - \lambda \color{#fbbf24}{R} \color{#fbbf24}{\chi}^2\right]\right) = \exp\!\left(-\frac{i}{2}\Tr\ln(G_\chi^{-1}[\color{#fbbf24}{R}])\right)\]
     <div class="eq-label">(B.2)</div>
   </div>
 
@@ -3918,8 +3918,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq">
-    \[S_{\rm eff}[R] = S_{\rm free}[R] - i\lambda^2 \int_\mathcal{C} \dd^4 x\, \dd^4 x'\, 
-    R(x) G_\chi(x,x')^2 R(x') + \mathcal{O}(\lambda^3)\]
+    \[\color{#e2e8f0}{S_{\rm eff}[R]} = \color{#e2e8f0}{S_{\rm free}[R]} - i\lambda^2 \color{#c4b5fd}{\int_\mathcal{C}} \dd^4 x\, \dd^4 x'\,
+    \color{#fbbf24}{R(x)} G_\chi(x,x')^2 \color{#fbbf24}{R(x')} + \mathcal{O}(\lambda^3)\]
     <div class="eq-label">(B.3)</div>
   </div>
 
@@ -3931,8 +3931,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq">
-    \[S_{\rm IF}[R_{\rm cl}, R_{\rm q}] = \int \dd^4 x\, R_{\rm q}\left[-\gamma \dot{R}_{\rm cl} 
-    + D\nabla^2 R_{\rm cl}\right] + i\int \dd^4 x\, R_{\rm q}^2 \cdot \gamma T_{\rm eff}\]
+    \[\color{#e2e8f0}{S_{\rm IF}}[\color{#fbbf24}{R_{\rm cl}}, R_{\rm q}] = \color{#c4b5fd}{\int} \dd^4 x\, R_{\rm q}\left[-\color{#f472b6}{\gamma} \dot{R}_{\rm cl}
+    + \color{#4ade80}{D}\nabla^2 \color{#fbbf24}{R_{\rm cl}}\right] + i\color{#c4b5fd}{\int} \dd^4 x\, R_{\rm q}^2 \cdot \color{#f472b6}{\gamma} T_{\rm eff}\]
     <div class="eq-label">(B.4)</div>
   </div>
 
@@ -3948,8 +3948,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq">
-    \[\dot{R} + \Gamma(R - R_{\rm eq}) = D\nabla^2 R + \xi, \quad 
-    \langle\xi(x)\xi(x')\rangle = 2\Gamma T_{\rm eff}\, \delta^{(4)}(x - x')\]
+    \[\dot{\color{#fbbf24}{R}} + \color{#f472b6}{\Gamma}(\color{#fbbf24}{R} - R_{\rm eq}) = \color{#4ade80}{D}\nabla^2 \color{#fbbf24}{R} + \xi, \quad
+    \langle\xi(x)\xi(x')\rangle = 2\color{#f472b6}{\Gamma} T_{\rm eff}\, \delta^{(4)}(x - x')\]
     <div class="eq-label">(B.5)</div>
   </div>
 
@@ -3993,7 +3993,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   <p>The geometric identification (Eq. 9.4) replaces the KK-vacuum estimate with:</p>
 
   <div class="eq">
-    \[\sigma_R \equiv K_{\rm eff}\]
+    \[\color{#fbbf24}{\sigma_R} \equiv \color{#60a5fa}{K_{\rm eff}}\]
     <div class="eq-label">(C.1)</div>
   </div>
 
@@ -4005,9 +4005,9 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   </p>
 
   <div class="eq">
-    \[K_{\rm eff} \sim 10^{59}\ \mathrm{m^{-1}}
+    \[\color{#60a5fa}{K_{\rm eff}} \sim 10^{59}\ \mathrm{m^{-1}}
     \quad\Rightarrow\quad
-    r_{\rm sub} = K_{\rm eff}^{-1} \sim 10^{-59}\ \mathrm{m}\]
+    r_{\rm sub} = \color{#60a5fa}{K_{\rm eff}}^{-1} \sim 10^{-59}\ \mathrm{m}\]
     <div class="eq-label">(C.2)</div>
   </div>
 
@@ -4016,14 +4016,14 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   <p>From Eq. (9.5) with \(\sigma_R \equiv K_{\rm eff}\):</p>
 
   <div class="eq">
-    \[\ell_{\rm coh} = \frac{p_0}{yK_{\rm eff}} \simeq \frac{1}{yK_{\rm eff}}\]
+    \[\color{#4ade80}{\ell_{\rm coh}} = \frac{p_0}{\color{#22d3ee}{y}\color{#60a5fa}{K_{\rm eff}}} \simeq \frac{1}{\color{#22d3ee}{y}\color{#60a5fa}{K_{\rm eff}}}\]
     <div class="eq-label">(C.3)</div>
   </div>
 
   <p>Therefore:</p>
 
   <div class="eq">
-    \[\ell_{\rm coh} \sim \frac{1}{1\cdot 10^{59}}\ \mathrm{m} \sim 10^{-59}\ \mathrm{m}\]
+    \[\color{#4ade80}{\ell_{\rm coh}} \sim \frac{1}{1\cdot 10^{59}}\ \mathrm{m} \sim 10^{-59}\ \mathrm{m}\]
     <div class="eq-label">(C.4)</div>
   </div>
 
@@ -4239,7 +4239,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
   <div class="eq">
     \[
-      S_{\rm scalar} = \int d^5x\, e\, \left[-\frac{1}{2}(\nabla R)^2 - V(R) + \alpha R\, \mathbb{T}\right]
+      \color{#4ade80}{S_{\rm scalar}} = \color{#c4b5fd}{\int} d^5x\, e\, \left[\color{#4ade80}{-\frac{1}{2}(\nabla R)^2} \color{#f472b6}{- V(R)} + \color{#60a5fa}{\alpha R\, \mathbb{T}}\right]
     \]
     <div class="eq-label">(E.1)</div>
   </div>
@@ -4259,7 +4259,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
   <div class="eq boxed">
     \[
-      \Phi_{\rm eff}(r) = \Phi_N(r) \cdot f\bigl(R_0(r)/R_{\rm bg}\bigr)
+      \color{#f472b6}{\Phi_{\rm eff}(r)} = \Phi_N(r) \cdot f\bigl(\color{#fbbf24}{R_0(r)}/R_{\rm bg}\bigr)
     \]
     <div class="eq-label">(E.2)</div>
   </div>
@@ -4312,7 +4312,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
       coherence length from the XCRM integration:
     </p>
     <div class="eq law" style="margin-top:0.75rem;">
-      \[\boxed{L_0 = \frac{\sqrt{2}\, L_X}{\sigma_R} = \ell_{\rm coh}}\]
+      \[\boxed{\color{#fb923c}{L_0} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#fbbf24}{\sigma_R}} = \color{#4ade80}{\ell_{\rm coh}}}\]
       <div class="eq-label">(E.5)</div>
     </div>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary)">
@@ -4349,7 +4349,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
   <div class="eq">
     \[
-      \frac{d\chi}{dt} = \Gamma_\chi \left(\frac{R_0}{R} - 1\right)
+      \frac{d\color{#fbbf24}{\chi}}{dt} = \color{#f472b6}{\Gamma_\chi} \left(\frac{R_0}{\color{#fbbf24}{R}} - 1\right)
     \]
     <div class="eq-label">(E.6)</div>
   </div>
@@ -4403,7 +4403,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
       The chi excitation rate \(\Gamma_\chi\) is identified with the XCRM relaxation rate:
     </p>
     <div class="eq law" style="margin-top:0.75rem;">
-      \[\boxed{\Gamma_\chi = \frac{\alpha \sigma_R}{L_X} = \alpha \cdot \frac{\sigma_R^2}{\sqrt{2}\, \sigma_R} = \frac{\alpha}{\ell_{\rm coh}}}\]
+      \[\boxed{\color{#f472b6}{\Gamma_\chi} = \frac{\color{#60a5fa}{\alpha} \color{#fbbf24}{\sigma_R}}{\color{#fbbf24}{L_X}} = \color{#60a5fa}{\alpha} \cdot \frac{\color{#fbbf24}{\sigma_R}^2}{\sqrt{2}\, \color{#fbbf24}{\sigma_R}} = \frac{\color{#60a5fa}{\alpha}}{\color{#4ade80}{\ell_{\rm coh}}}}\]
       <div class="eq-label">(E.9)</div>
     </div>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary)">
