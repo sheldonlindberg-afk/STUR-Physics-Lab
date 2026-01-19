@@ -202,7 +202,24 @@
     }
 
     /* Equation term color coding and legend now in stur-core.css */
-  </style>
+  
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--neon-green, #4ade80);
+  color: var(--bg-abyss, #0a0a0f);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10000;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; }
+</style>
 </head>
 <body>
 
@@ -267,7 +284,12 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     teleparallel framework, built from four tightly coupled pillars:
     TEGR, HGEM, STUR, and Chronomagnetics.
   </p>
-</header>
+
+        <!-- Citation Button -->
+        <div style="margin-top:1rem;">
+            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+        </div>
+    </header>
 
 <nav class="toc">
   <h3>Contents</h3>
@@ -804,5 +826,42 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 </footer>
 
 </div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+// Citation copy functionality
+(function() {
+  const toast = document.getElementById('toast');
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg || 'Copied to clipboard';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  }
+  
+  const citeBtn = document.getElementById('copyCite');
+  const citation = 'Lindberg, Sheldon Lon (2026). "STUR · TEGR · HGEM · Chronomagnetics," STUR Physics Lab.';
+  
+  if (citeBtn) {
+    citeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(citation);
+        showToast('Citation copied');
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = citation;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Citation copied');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
