@@ -269,6 +269,7 @@
   <h3>Contents</h3>
   <ul>
     <li><a href="#sec-intro">1. Overview and Architecture</a></li>
+    <li style="color:var(--success);"><a href="#sec-first-principles" style="color:var(--success);">1.1 First Principles Derivation Chain</a></li>
     <li><a href="#sec-pillars">2. The Four Pillars</a></li>
     <li><a href="#sec-tegr">3. TEGR: Teleparallel Equivalent of GR</a></li>
     <li><a href="#sec-hgem">4. HGEM: Linearized Gravitoelectromagnetic Waves</a></li>
@@ -338,6 +339,125 @@
       Modulates effective contortion over extended timescales.</p>
     </div>
   </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════════
+     FIRST PRINCIPLES DERIVATION CHAIN
+     ════════════════════════════════════════════════════════════════════════════════ -->
+<section id="sec-first-principles">
+  <h2>1.1 First Principles Derivation Chain</h2>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">The Single Adjustable Prediction</div>
+    <p class="muted" style="font-size:1rem;line-height:1.65;">
+      <strong style="color:var(--text);">STUR makes exactly one adjustable prediction — the coherence length \(\ell_{\rm coh}\).</strong>
+      Given any two of \(\{\chi,\, L_X,\, \ell_{\rm coh}\}\), the third is determined.
+      The Gaussian form \(V(\Delta L) = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) is <strong>not adjustable</strong> —
+      it follows necessarily from Gaussian phase averaging of the XCRM holonomy.
+    </p>
+  </div>
+
+  <h3>What Arises Naturally from the Manifold</h3>
+
+  <p>The following results are <strong>derived from first principles</strong> given the 5D manifold structure
+  \(\mathcal{M}^5 = M^4 \times S^1/\mathbb{Z}_2\) and the STUR action:</p>
+
+  <table>
+    <tr><th>Result</th><th>Derivation</th><th>Reference</th></tr>
+    <tr style="background:var(--success-subtle);">
+      <td><strong>TEGR ≡ GR</strong></td>
+      <td>Boundary term theorem: \(e\mathcal{R} = -e\mathcal{T} + 2\partial_M(eT^M)\)</td>
+      <td>Eq. (4.2), Aldrovandi & Pereira 2013</td>
+    </tr>
+    <tr style="background:var(--success-subtle);">
+      <td><strong>Yang-Mills from degeneracy</strong></td>
+      <td>Local degeneracy covariance forces connection \(\mathcal{A}_\mu\)</td>
+      <td>Foundations §5.3</td>
+    </tr>
+    <tr style="background:var(--success-subtle);">
+      <td><strong>Gaussian visibility form</strong></td>
+      <td>Central limit theorem + XCRM closure: \(V = V_0 \exp(-\langle\Phi_R^2\rangle/2)\)</td>
+      <td>Foundations §3.4.3–3.4.6</td>
+    </tr>
+    <tr style="background:var(--success-subtle);">
+      <td><strong>Coherence length closure</strong></td>
+      <td>X-integration of master action: \(\ell_{\rm coh} = \sqrt{2}\,L_X/\sigma_R\)</td>
+      <td>Foundations §3.4.7, Eq. (FP.1)</td>
+    </tr>
+    <tr style="background:var(--success-subtle);">
+      <td><strong>Loop enhancement</strong></td>
+      <td>Stokes' theorem: \(\langle\Phi_R^2\rangle_{\rm loop} \propto A/L_X^2\)</td>
+      <td>Foundations §3.4.8</td>
+    </tr>
+    <tr style="background:var(--success-subtle);">
+      <td><strong>Chiral fermion localization</strong></td>
+      <td>Orbifold \(\mathbb{Z}_2\) parity + domain wall profile</td>
+      <td>Foundations §7</td>
+    </tr>
+    <tr style="background:var(--success-subtle);">
+      <td><strong>Yukawa hierarchy structure</strong></td>
+      <td>Exponential overlaps in X: \(y_{\rm eff} \sim \int f_L f_R R\, dX\)</td>
+      <td>Foundations §8</td>
+    </tr>
+    <tr style="background:var(--success-subtle);">
+      <td><strong>HGEM sector</strong></td>
+      <td>Weak-field linearization of TEGR</td>
+      <td>§4 below</td>
+    </tr>
+  </table>
+
+  <h3>What Requires Phenomenological Input (Constraints)</h3>
+
+  <p>The following quantities are <strong>not derived</strong> and must be supplied as phenomenological input or determined experimentally:</p>
+
+  <table>
+    <tr><th>Input</th><th>Role</th><th>Status</th></tr>
+    <tr style="background:var(--warning-subtle);">
+      <td><strong>\(L_X\)</strong> (compactification scale)</td>
+      <td>Sets KK mass gap \(m_{\rm KK} \sim 1/L_X\)</td>
+      <td>Constrained: \(\gtrsim 5\) TeV (LHC bounds)</td>
+    </tr>
+    <tr style="background:var(--warning-subtle);">
+      <td><strong>\(\sigma_R\)</strong> (RMS fluctuation)</td>
+      <td>Enters coherence length via \(\ell_{\rm coh} = \sqrt{2}L_X/\sigma_R\)</td>
+      <td>Phenomenological; inferred from visibility data</td>
+    </tr>
+    <tr style="background:var(--warning-subtle);">
+      <td><strong>\(V(R)\)</strong> (potential form)</td>
+      <td>Drives relaxation to background \(R_{\rm bg}\)</td>
+      <td>Not specified; polynomial or exponential assumed</td>
+    </tr>
+    <tr style="background:var(--warning-subtle);">
+      <td><strong>Gauge group \(G\)</strong></td>
+      <td>Determines force structure</td>
+      <td>Phenomenological: \(SU(3) \times SU(2) \times U(1)\) input</td>
+    </tr>
+    <tr style="background:var(--warning-subtle);">
+      <td><strong>Matter representations</strong></td>
+      <td>Particle content</td>
+      <td>Phenomenological: SM fermions input</td>
+    </tr>
+    <tr style="background:var(--warning-subtle);">
+      <td><strong>Coupling constants</strong></td>
+      <td>\(\alpha_s, \alpha_{\rm EM}, G_F\)</td>
+      <td>Phenomenological; not derived</td>
+    </tr>
+    <tr style="background:var(--warning-subtle);">
+      <td><strong>\(\lambda = 3722/2705\)</strong></td>
+      <td>Chronomagnetics modulation constant</td>
+      <td>Illustrative geometric construction; not unique</td>
+    </tr>
+  </table>
+
+  <div class="block warning">
+    <div class="title">Critical Distinction</div>
+    <p class="muted">
+      <strong>The ratio \(\sigma_R/L_X\) is the single remaining free parameter</strong> after all derivations.
+      This ratio determines \(\ell_{\rm coh}\) and thereby all interferometric predictions.
+      However, the <em>functional form</em> \(V \propto \exp(-\Delta L^2)\) is <strong>derived</strong>, not assumed.
+    </p>
+  </div>
+
 </section>
 
 <section id="sec-pillars">
