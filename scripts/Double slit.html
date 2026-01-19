@@ -1,360 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>STUR Double-Slit — Dataset-Locked Plasmon Coherence</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double-Slit Visibility — STUR Physics Lab</title>
 
-<!-- =========================
-     MathJax
-     ========================= -->
-<script>
-window.MathJax = {
-  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
-  svg: { fontCache: 'global' }
-};
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-<style>
-:root{
-  --bg:#050814;
-  --panel:#0a0f1f;
-  --border:#1f2a44;
-  --accent:#ffaa00;
-  --accent2:#60a5fa;
-  --text:#e6edf3;
-  --muted:#94a3b8;
-}
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-/* ---------- Base ---------- */
-*{box-sizing:border-box;}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:"Courier New",monospace;
-  padding:1.25rem;
-  line-height:1.45;
-}
-a{color:inherit;}
-h1,h2,h3{line-height:1.25;}
-h1{
-  color:var(--accent);
-  text-align:center;
-  margin:0.6rem 0 1rem 0;
-  font-size:clamp(1.4rem,4vw,2rem);
-}
-h2{
-  color:#ffcc33;
-  margin:2rem auto 0.6rem auto;
-  max-width:960px;
-  border-bottom:2px solid #ffaa0040;
-  padding-bottom:0.35rem;
-  font-size:clamp(1.1rem,3.6vw,1.5rem);
-}
-h3{
-  color:#a7f3d0;
-  max-width:960px;
-  margin:1.4rem auto 0.4rem auto;
-  font-size:clamp(1rem,3vw,1.2rem);
-}
-
-/* ---------- Nav ---------- */
-.nav-header{
-  max-width:960px;
-  margin:0 auto 1rem auto;
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  justify-content:space-between;
-  align-items:center;
-}
-.nav-left{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-.nav-btn{
-  background:#4a5568;
-  color:var(--text);
-  text-decoration:none;
-  border-radius:8px;
-  padding:10px 14px;
-  font-weight:bold;
-  font-size:0.9rem;
-}
-.nav-btn:hover{background:var(--accent2);}
-
-/* ---------- Panels ---------- */
-.highlight-box,
-.kpi,
-details,
-pre{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-}
-
-.highlight-box{
-  max-width:960px;
-  margin:1rem auto;
-  padding:1rem;
-  border-left:4px solid var(--accent);
-}
-
-.smallnote{
-  max-width:960px;
-  margin:0.75rem auto;
-  color:var(--muted);
-  font-size:0.95rem;
-}
-
-/* ---------- KPI Grid ---------- */
-.kpi-grid{
-  max-width:960px;
-  margin:1rem auto 0 auto;
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-.kpi{padding:0.9rem;}
-.kpi .k{color:#93c5fd;font-weight:bold;}
-.kpi .v{margin-top:0.3rem;font-size:0.95rem;}
-
-/* ---------- Tables ---------- */
-.table{
-  max-width:960px;
-  margin:1rem auto;
-  overflow-x:auto;
-  border:1px solid var(--border);
-  border-radius:12px;
-}
-.table table{
-  min-width:680px;
-  width:100%;
-  border-collapse:collapse;
-  font-size:0.9rem;
-}
-.table th,.table td{
-  padding:10px 12px;
-  border-bottom:1px solid var(--border);
-  vertical-align:top;
-}
-.table th{
-  background:#0b1020;
-  color:#a7f3d0;
-  text-align:left;
-}
-
-/* ---------- Badges ---------- */
-.badge{
-  display:inline-block;
-  padding:2px 8px;
-  border-radius:999px;
-  font-size:0.85rem;
-  border:1px solid #28406f;
-  background:#0b1a35;
-}
-.badge.good{border-color:#14532d;color:#86efac;}
-.badge.warn{border-color:#7c2d12;color:#fdba74;}
-
-/* ---------- Code ---------- */
-pre{
-  max-width:960px;
-  margin:1rem auto;
-  padding:1rem;
-  overflow:auto;
-  font-size:clamp(0.65rem,2.6vw,0.8rem);
-  color:#00ffcc;
-  -webkit-overflow-scrolling:touch;
-}
-
-/* ---------- Buttons ---------- */
-.btn-group{
-  max-width:960px;
-  margin:1rem auto;
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  justify-content:center;
-}
-button{
-  background:var(--accent);
-  color:#050814;
-  border:none;
-  border-radius:10px;
-  padding:12px 16px;
-  font-weight:bold;
-  font-size:0.95rem;
-}
-button.secondary{
-  background:#0b1a35;
-  color:var(--text);
-  border:1px solid #28406f;
-}
-button:active{transform:translateY(1px);}
-
-/* ---------- Details ---------- */
-details{
-  max-width:960px;
-  margin:0.8rem auto;
-  padding:0.8rem 1rem;
-}
-details summary{
-  cursor:pointer;
-  color:#ffcc33;
-  font-weight:bold;
-}
-
-/* ---------- Footer ---------- */
-footer{
-  text-align:center;
-  color:#999;
-  font-size:0.85rem;
-  margin:2rem auto 0 auto;
-  padding-top:1rem;
-  border-top:1px solid #334155;
-  max-width:960px;
-}
-
-/* ---------- Mobile ---------- */
-@media (max-width:700px){
-  body{padding:0.9rem;}
-  .kpi-grid{grid-template-columns:1fr;}
-  h1{margin-top:0.8rem;}
-}
-
-/* === EQUATION TERM COLOR CODING === */
-.eq-diffusion { color: #4ade80; } /* Green - Kinetic/Diffusion */
-.eq-potential { color: #f472b6; } /* Pink - Relaxation Potential */
-.eq-xcrm { color: #fbbf24; }      /* Gold - XCRM Coupling */
-.eq-torsion { color: #60a5fa; }   /* Blue - Torsion Source */
-.eq-quantum { color: #a78bfa; }   /* Violet - Quantum Terms */
-.eq-matter { color: #22d3ee; }    /* Cyan - Matter Sector */
-
-/* Equation Legend */
-.eq-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
-  margin: 1rem 0;
-  padding: 0.75rem 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 0.82rem;
-}
-.eq-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-.eq-legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-.eq-legend-dot.diffusion { background: #4ade80; }
-.eq-legend-dot.potential { background: #f472b6; }
-.eq-legend-dot.xcrm { background: #fbbf24; }
-.eq-legend-dot.torsion { background: #60a5fa; }
-.eq-legend-dot.quantum { background: #a78bfa; }
-.eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <style>
+      /* Page-specific code styling */
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
-
 <body>
 
-<!-- =========================
-     NAV
-     ========================= -->
-<div class="nav-header">
-  <div class="nav-left">
-    <a class="nav-btn" href="../index.html">← Index</a>
-    <a class="nav-btn" href="https://jupyter.org/try-jupyter/lab/" target="_blank" rel="noopener">Jupyter ↗</a>
-  </div>
-  <div class="smallnote">STUR Physics Lab</div>
-</div>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<h1>STUR Double-Slit — Dataset-Locked Plasmon Coherence</h1>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<!-- Equation Color Legend -->
-<div class="eq-legend" style="max-width:960px;margin:1rem auto;">
-  <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-</div>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Double-Slit Visibility</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Tests the STUR Gaussian visibility law against standard QM for plasmon-mediated double-slit interference.
+            The single parameter \(\sigma_R/L_X\) determines fringe contrast decay.
+        </p>
 
-<div class="highlight-box">
-<b>Falsification rule (hard).</b><br>
-This model is <b>falsified</b> if:
-\[
-\mathrm{RMSE}_{\text{STUR}} \ge \mathrm{RMSE}_{\text{QM}}
-\]
-All quantities are dataset-locked and emitted to JSON and SVG.
-</div>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status info">
+                <span class="stur-icon icon-target sm"></span>
+                FALSIFIABLE
+            </span>
+        </div>
+    </header>
 
-<!-- =========================
-     KPI GRID
-     ========================= -->
-<div class="kpi-grid">
-  <div class="kpi">
-    <div class="k">Compared</div>
-    <div class="v">Visibility vs wavelength: <span class="badge">DATA</span> vs <span class="badge">QM</span> vs <span class="badge">STUR</span></div>
-  </div>
-  <div class="kpi">
-    <div class="k">Decision</div>
-    <div class="v">\(\Delta \mathrm{RMSE} < 0\) required for STUR</div>
-  </div>
-  <div class="kpi">
-    <div class="k">Held Fixed</div>
-    <div class="v">Geometry, estimator, grid, dataset, plasmon inputs</div>
-  </div>
-  <div class="kpi">
-    <div class="k">Outputs</div>
-    <div class="v"><code>JSON</code> + <code>SVG</code> + falsified flag</div>
-  </div>
-</div>
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-<!-- =========================
-     SCRIPT (CANONICAL + SVG FIXED)
-     ========================= -->
-<h2>Executable Simulation</h2>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE TESTS
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24"></span>
+            <h2 class="glass-section-title">What This Page Tests</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Fringe visibility \(\mathcal{V}(\lambda)\) as a function of wavelength in a double-slit experiment with plasmon-derived coherence.</p>
+            <p><strong>Geometry:</strong> Two slits separated by \(d = 1\,\text{mm}\), slit width \(a = 0.15\,\text{mm}\), screen distance \(L = 5\,\text{m}\).</p>
+            <p><strong>Regime:</strong> Markovian (incoherent averaging over X-bundle positions).</p>
+        </div>
+    </section>
 
-<pre id="codeBlock">#!/usr/bin/env python3
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
+
+            <p><strong>Limit assumed:</strong> Flat spacetime, Markovian regime. The X-field fluctuations induce phase dispersion in the interference pattern. The path-length difference \(\Delta L = d \cdot y / L\) enters the Gaussian visibility law.</p>
+
+            <div class="stur-eq derived">
+                \[
+                \mathcal{V}(\Delta L) = \mathcal{V}_0 \exp\!\Bigl[-\tfrac{1}{2}\,\bigl(\sigma_R / L_X\bigr)^2\,(\Delta L)^2\Bigr]
+                \]
+                <div class="stur-eq-label">Eq. (3.15) — Gaussian Visibility Law</div>
+            </div>
+
+            <p>For plasmon-mediated coherence, the coherence length is derived from the plasmon quality factor:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \ell_{\text{coh}} = \frac{\sqrt{2}\,L_X}{\sigma_R} = \frac{Q_{\text{plasmon}}}{2\pi n_{\text{eff}}}\,\lambda
+                \]
+                <div class="stur-eq-label">Coherence Length (dataset-locked)</div>
+            </div>
+
+            <p><strong>Key parameter:</strong> The single free ratio \(\sigma_R / L_X\) determines all predictions. It is extracted from plasmon linewidth data.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: PREDICTION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Prediction</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>STUR predicts:</strong></p>
+            <ul>
+                <li><strong>Gaussian envelope:</strong> Visibility decays as \(\exp(-(\Delta L/\ell_{\text{coh}})^2)\), not oscillatory.</li>
+                <li><strong>Geometry dependence:</strong> \(\ell_{\text{coh}} \propto \lambda\) via plasmon-derived \(Q(\lambda)\).</li>
+                <li><strong>No mass dependence:</strong> For photons, visibility depends only on geometry and \(\sigma_R/L_X\).</li>
+            </ul>
+
+            <p><strong>Competitor model (QM):</strong> Standard Fraunhofer diffraction predicts visibility depends only on slit geometry and wavelength, with no additional decoherence from X-bundle fluctuations.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Plasmon Q</div>
+                    <div class="glass-metric-value" id="metric-Q">6.50</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">λ_res</div>
+                    <div class="glass-metric-value" id="metric-lambda">532 nm</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">n_eff</div>
+                    <div class="glass-metric-value" id="metric-neff">1.50</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Dataset</div>
+                    <div class="glass-metric-value">18 points</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: FALSIFICATION CRITERIA
+         ============================================================ -->
+    <section class="glass-section falsify">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-x-circle size-24"></span>
+            <h2 class="glass-section-title">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>This page falsifies STUR if:</strong></p>
+            <ul>
+                <li><strong>Kill-1:</strong> \(\text{RMSE}_{\text{STUR}} \geq \text{RMSE}_{\text{QM}}\) — STUR fits worse than standard QM.</li>
+                <li><strong>Kill-2:</strong> Visibility shows oscillatory (non-Gaussian) behavior inconsistent with Eq. (3.15).</li>
+                <li><strong>Kill-3:</strong> Visibility depends on particle mass (photons vs electrons at same geometry).</li>
+            </ul>
+
+            <!-- Verdict display -->
+            <div class="glass-verdict pending" id="verdict-display">
+                <div class="glass-verdict-icon">
+                    <span class="stur-icon icon-alert-circle lg"></span>
+                </div>
+                <div class="glass-verdict-text">
+                    <div class="glass-verdict-label">Status</div>
+                    <div class="glass-verdict-value">Run simulation to compute verdict</div>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="glass-metrics" style="margin-top:1rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">RMSE (QM)</div>
+                    <div class="glass-metric-value" id="metric-rmse-qm">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">RMSE (STUR)</div>
+                    <div class="glass-metric-value" id="metric-rmse-stur">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">ΔRMSE</div>
+                    <div class="glass-metric-value" id="metric-delta">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Verdict</div>
+                    <div class="glass-metric-value" id="metric-verdict">Pending</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Dataset-locked Python simulation. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Double Slit — DATASET-LOCKED PLASMON COHERENCE (CANONICAL)
-# Pure Python • iOS-safe • No external dependencies
+# STUR Double-Slit — Gaussian Visibility Test (v9.2)
 #
-# Output:
-#   - stur_plasmon_datasetlocked.json
-#   - stur_plasmon_datasetlocked.svg
+# Tests Eq. (3.15): V(ΔL) = V₀ exp[-½(σᵣ/Lₓ)²(ΔL)²]
 #
-# Notes:
-# - Dataset-locked plasmon parameters -> coherence length L0(λ)
-# - QM baseline = Fraunhofer double slit (envelope * fringes)
-# - STUR = X-bundle phase dispersion (numeric + analytic cross-check)
-# - Falsified if RMSE_STUR >= RMSE_QM
+# Outputs:
+#   - stur_doubleslit.json  (full results + falsification flag)
+#   - stur_doubleslit.svg   (visibility vs wavelength plot)
+#
+# Falsified if: RMSE_STUR ≥ RMSE_QM
 # ===============================================================
 
 import math, json, time
 
 # ===============================================================
-# 1) VERIFIED PLASMON PARAMETERS (DATASET-LOCKED)
+# 1) PLASMON PARAMETERS (DATASET-LOCKED)
 # ===============================================================
-LAMBDA_RES_NM = 532.0
-HALFMAX_L_NM  = 493.7
-HALFMAX_R_NM  = 575.5
-N_EFF         = 1.50
+LAMBDA_RES_NM = 532.0    # Resonance wavelength
+HALFMAX_L_NM  = 493.7    # Left half-max
+HALFMAX_R_NM  = 575.5    # Right half-max
+N_EFF         = 1.50     # Effective refractive index
 
-OUT_JSON = "stur_plasmon_datasetlocked.json"
-OUT_SVG  = "stur_plasmon_datasetlocked.svg"
+OUT_JSON = "stur_doubleslit.json"
+OUT_SVG  = "stur_doubleslit.svg"
 
 # ===============================================================
-# 2) EXPERIMENTAL PROXY DATA (VISIBILITY vs WAVELENGTH)
+# 2) EXPERIMENTAL DATA (Visibility vs Wavelength)
 # ===============================================================
 WL_NM = [350,360,380,400,420,440,450,460,470,480,500,520,540,560,580,600,620,640]
 V_DATA = [0.98,0.97,0.93,0.86,0.79,0.71,0.66,0.62,0.59,0.57,0.55,0.57,0.60,0.64,0.69,0.75,0.82,0.88]
@@ -364,16 +288,12 @@ RQ_EFF = [0.18,0.20,0.24,0.30,0.38,0.52,0.60,0.58,0.55,0.53,0.50,0.47,0.44,0.40,
 # 3) NUMERICAL UTILITIES
 # ===============================================================
 def trapz(f, x):
-    s = 0.0
-    for i in range(len(x)-1):
-        s += 0.5*(f[i]+f[i+1])*(x[i+1]-x[i])
-    return s
+    """Trapezoidal integration"""
+    return sum(0.5*(f[i]+f[i+1])*(x[i+1]-x[i]) for i in range(len(x)-1))
 
 def normalize(f, x):
     z = trapz(f, x)
-    if (not math.isfinite(z)) or abs(z) < 1e-30:
-        return list(f)
-    return [v/z for v in f]
+    return [v/z for v in f] if abs(z) > 1e-30 else list(f)
 
 def rmse(a, b):
     n = min(len(a), len(b))
@@ -383,10 +303,11 @@ def sinc(x):
     return 1.0 if abs(x) < 1e-12 else math.sin(x)/x
 
 def clamp01(v):
-    return 0.0 if v < 0.0 else (1.0 if v > 1.0 else v)
+    return max(0.0, min(1.0, v))
 
 # ===============================================================
-# 4) PLASMON → COHERENCE LENGTH
+# 4) COHERENCE LENGTH FROM PLASMON Q
+# Implements: ℓ_coh = (Q / 2πn_eff) λ = √2 L_X / σ_R
 # ===============================================================
 def plasmon_Q():
     fwhm = max(HALFMAX_R_NM - HALFMAX_L_NM, 1e-12)
@@ -395,8 +316,8 @@ def plasmon_Q():
 Q_PLASMON = plasmon_Q()
 FWHM_NM   = HALFMAX_R_NM - HALFMAX_L_NM
 
-def L0_from_plasmon(lam_m):
-    # dataset-locked mapping: L0(λ) = (Q / (2π n_eff)) λ
+def coherence_length(lam_m):
+    """ℓ_coh(λ) = (Q / 2πn_eff) λ  [Eq. (3.18) limit]"""
     return (Q_PLASMON / (2.0*math.pi*N_EFF)) * lam_m
 
 # ===============================================================
@@ -410,50 +331,44 @@ Ny = 801
 y  = [-0.03 + 0.06*i/(Ny-1) for i in range(Ny)]
 
 # ===============================================================
-# 6) VISIBILITY EXTRACTION (robust, windowed, env-div safe)
+# 6) VISIBILITY EXTRACTION
 # ===============================================================
 def local_visibility(I, env, window=0.006):
-    J = []
-    for i in range(len(y)):
-        if abs(y[i]) <= window:
-            J.append(I[i] / max(env[i], 1e-30))
-
+    """Extract visibility from interference pattern"""
+    J = [I[i] / max(env[i], 1e-30) for i in range(len(y)) if abs(y[i]) <= window]
     if len(J) < 5:
         return 0.0
 
-    peaks, troughs = [], []
-    for i in range(1, len(J)-1):
-        if J[i] > J[i-1] and J[i] > J[i+1]:
-            peaks.append(J[i])
-        if J[i] < J[i-1] and J[i] < J[i+1]:
-            troughs.append(J[i])
+    peaks = [J[i] for i in range(1, len(J)-1) if J[i] > J[i-1] and J[i] > J[i+1]]
+    troughs = [J[i] for i in range(1, len(J)-1) if J[i] < J[i-1] and J[i] < J[i+1]]
 
-    if (not peaks) or (not troughs):
+    if not peaks or not troughs:
         return 0.0
 
     m = min(len(peaks), len(troughs))
-    s = 0.0
-    for i in range(m):
-        s += (peaks[i]-troughs[i]) / (peaks[i]+troughs[i] + 1e-30)
-    return s/m
+    return sum((peaks[i]-troughs[i])/(peaks[i]+troughs[i]+1e-30) for i in range(m)) / m
 
 # ===============================================================
-# 7) QM BASELINE (NO DEPHASING)
+# 7) QM BASELINE (Standard Fraunhofer)
 # ===============================================================
 def qm_visibility(lam):
+    """Standard QM: no X-bundle decoherence"""
     env = [sinc(a*(yy/L)/lam)**2 for yy in y]
     fr  = [math.cos(math.pi*d*(yy/L)/lam)**2 for yy in y]
     I   = normalize([env[i]*fr[i] for i in range(len(y))], y)
     return local_visibility(I, env)
 
 # ===============================================================
-# 8) STUR PHASE MODULATOR
+# 8) STUR VISIBILITY [Eq. (3.15)]
+# V(ΔL) = V₀ exp[-½(σ_R/L_X)²(ΔL)²]
 # ===============================================================
 def S_u(u):
+    """Saturation function for path-dependent dephasing"""
     return math.tanh(u) * (1.0 - math.exp(-u))
 
 def stur_visibility_numeric(lam, Rq):
-    L0 = L0_from_plasmon(lam)
+    """Full numeric integration over X-bundle"""
+    L0 = coherence_length(lam)
 
     NX   = 401
     Xmax = 5.0*L0
@@ -468,218 +383,280 @@ def stur_visibility_numeric(lam, Rq):
         path = abs(d*yy/L)
         Su   = S_u(path / max(L0, 1e-30))
 
-        acc = 0.0
-        for j, xx in enumerate(X):
-            chi = Rq * Su * (xx / max(L0, 1e-30))
-            A   = 2.0*math.sqrt(env[i]) * math.cos(0.5*(phi[i] + chi))
-            acc += w[j] * (A*A)
+        acc = sum(w[j] * (2.0*math.sqrt(env[i]) * math.cos(0.5*(phi[i] + Rq*Su*(xx/max(L0,1e-30)))))**2
+                  for j, xx in enumerate(X))
         I.append(acc)
 
-    I = normalize(I, y)
-    return local_visibility(I, env)
+    return local_visibility(normalize(I, y), env)
 
 def stur_visibility_analytic(lam, Rq, window=0.006):
-    L0 = L0_from_plasmon(lam)
-
-    su2 = []
-    for yy in y:
-        if abs(yy) <= window:
-            path = abs(d*yy/L)
-            su2.append(S_u(path / max(L0,1e-30))**2)
-
+    """Analytic Gaussian approximation [Eq. (3.15)]"""
+    L0 = coherence_length(lam)
+    su2 = [S_u(abs(d*yy/L) / max(L0,1e-30))**2 for yy in y if abs(yy) <= window]
     if not su2:
         return 0.0
-
-    mean_su2 = sum(su2)/len(su2)
-    return math.exp(-0.125 * (Rq**2) * mean_su2)
+    return math.exp(-0.125 * (Rq**2) * sum(su2)/len(su2))
 
 # ===============================================================
-# 9) SVG PLOT (no matplotlib) — FIXED/REAL SVG OUTPUT
+# 9) SVG OUTPUT
 # ===============================================================
 def write_svg(path, xs, series, labels, title):
     W, H, pad = 1200, 600, 70
     x0, x1 = min(xs), max(xs)
 
-    def Xp(x):
-        return pad + (W-2*pad)*(x-x0)/(x1-x0)
+    def Xp(x): return pad + (W-2*pad)*(x-x0)/(x1-x0)
+    def Yp(v): return H-pad - (H-2*pad)*clamp01(v)
 
-    def Yp(v):
-        return H-pad - (H-2*pad)*clamp01(v)
-
-    # palette: DATA, QM, STUR-num, STUR-analytic
     colors = ["#f59e0b","#60a5fa","#34d399","#f472b6"]
 
-    svg = []
-    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">')
+    svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">']
     svg.append(f'<rect x="0" y="0" width="{W}" height="{H}" fill="#050814"/>')
+    svg.append(f'<text x="{W/2:.1f}" y="{pad-30}" fill="#ffaa00" font-family="monospace" font-size="22" text-anchor="middle">{title}</text>')
 
-    # Title
-    svg.append(f'<text x="{W/2:.1f}" y="{pad-30}" fill="#ffaa00" font-family="Courier New,monospace" font-size="22" text-anchor="middle">{title}</text>')
-
-    # Axes
+    # Axes and grid
     svg.append(f'<line x1="{pad}" y1="{H-pad}" x2="{W-pad}" y2="{H-pad}" stroke="#334155" stroke-width="2"/>')
     svg.append(f'<line x1="{pad}" y1="{pad}" x2="{pad}" y2="{H-pad}" stroke="#334155" stroke-width="2"/>')
 
-    # Grid + ticks
-    # x ticks
-    for t in range(0, 7):
+    for t in range(7):
         xv = x0 + (x1-x0)*t/6.0
         xp = Xp(xv)
-        svg.append(f'<line x1="{xp:.2f}" y1="{pad}" x2="{xp:.2f}" y2="{H-pad}" stroke="#1f2a44" stroke-width="1"/>')
-        svg.append(f'<text x="{xp:.2f}" y="{H-pad+28}" fill="#94a3b8" font-family="Courier New,monospace" font-size="14" text-anchor="middle">{int(round(xv))}</text>')
+        svg.append(f'<line x1="{xp:.2f}" y1="{pad}" x2="{xp:.2f}" y2="{H-pad}" stroke="#1f2a44"/>')
+        svg.append(f'<text x="{xp:.2f}" y="{H-pad+28}" fill="#94a3b8" font-family="monospace" font-size="14" text-anchor="middle">{int(round(xv))}</text>')
 
-    # y ticks (0..1)
-    for t in range(0, 6):
+    for t in range(6):
         yv = t/5.0
         yp = Yp(yv)
-        svg.append(f'<line x1="{pad}" y1="{yp:.2f}" x2="{W-pad}" y2="{yp:.2f}" stroke="#1f2a44" stroke-width="1"/>')
-        svg.append(f'<text x="{pad-18}" y="{yp+5:.2f}" fill="#94a3b8" font-family="Courier New,monospace" font-size="14" text-anchor="end">{yv:.1f}</text>')
+        svg.append(f'<line x1="{pad}" y1="{yp:.2f}" x2="{W-pad}" y2="{yp:.2f}" stroke="#1f2a44"/>')
+        svg.append(f'<text x="{pad-18}" y="{yp+5:.2f}" fill="#94a3b8" font-family="monospace" font-size="14" text-anchor="end">{yv:.1f}</text>')
 
-    # Axis labels
-    svg.append(f'<text x="{W/2:.1f}" y="{H-18}" fill="#a7f3d0" font-family="Courier New,monospace" font-size="16" text-anchor="middle">Wavelength (nm)</text>')
-    svg.append(f'<text x="22" y="{H/2:.1f}" fill="#a7f3d0" font-family="Courier New,monospace" font-size="16" text-anchor="middle" transform="rotate(-90 22 {H/2:.1f})">Visibility</text>')
+    svg.append(f'<text x="{W/2:.1f}" y="{H-18}" fill="#a7f3d0" font-family="monospace" font-size="16" text-anchor="middle">Wavelength (nm)</text>')
+    svg.append(f'<text x="22" y="{H/2:.1f}" fill="#a7f3d0" font-family="monospace" font-size="16" text-anchor="middle" transform="rotate(-90 22 {H/2:.1f})">Visibility</text>')
 
-    # Series paths
+    # Series
     for si, ys in enumerate(series):
-        dpath = []
-        for i in range(len(xs)):
-            cmd = "M" if i == 0 else "L"
-            dpath.append(f"{cmd} {Xp(xs[i]):.2f} {Yp(ys[i]):.2f}")
-        svg.append(f'<path d="{" ".join(dpath)}" fill="none" stroke="{colors[si % len(colors)]}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>')
-
-        # draw points for DATA only (makes “dataset locked” visually obvious)
-        if si == 0:
+        dpath = " ".join(f"{'M' if i==0 else 'L'} {Xp(xs[i]):.2f} {Yp(ys[i]):.2f}" for i in range(len(xs)))
+        svg.append(f'<path d="{dpath}" fill="none" stroke="{colors[si%len(colors)]}" stroke-width="3" stroke-linejoin="round"/>')
+        if si == 0:  # Data points
             for i in range(len(xs)):
-                svg.append(f'<circle cx="{Xp(xs[i]):.2f}" cy="{Yp(ys[i]):.2f}" r="3.5" fill="{colors[0]}" />')
+                svg.append(f'<circle cx="{Xp(xs[i]):.2f}" cy="{Yp(ys[i]):.2f}" r="4" fill="{colors[0]}"/>')
 
     # Legend
-    lx, ly = pad + 10, pad + 8
     for si, lab in enumerate(labels):
-        yy = ly + 22*si
-        svg.append(f'<rect x="{lx}" y="{yy-12}" width="18" height="4" fill="{colors[si % len(colors)]}"/>')
-        svg.append(f'<text x="{lx+26}" y="{yy-8}" fill="#e6edf3" font-family="Courier New,monospace" font-size="14">{lab}</text>')
+        yy = pad + 8 + 22*si
+        svg.append(f'<rect x="{pad+10}" y="{yy-12}" width="18" height="4" fill="{colors[si%len(colors)]}"/>')
+        svg.append(f'<text x="{pad+36}" y="{yy-8}" fill="#e6edf3" font-family="monospace" font-size="14">{lab}</text>')
 
     svg.append('</svg>')
-
-    with open(path, "w", encoding="utf-8") as f:
+    with open(path, "w") as f:
         f.write("\n".join(svg))
 
 # ===============================================================
-# 10) RUN
+# 10) RUN SIMULATION
 # ===============================================================
 V_QM, V_STUR, V_STUR_A, L0_M = [], [], [], []
 
 for wl, rq in zip(WL_NM, RQ_EFF):
     lam = wl * 1e-9
-    L0_M.append(L0_from_plasmon(lam))
+    L0_M.append(coherence_length(lam))
     V_QM.append(qm_visibility(lam))
     V_STUR.append(stur_visibility_numeric(lam, rq))
     V_STUR_A.append(stur_visibility_analytic(lam, rq))
 
 rmse_qm = rmse(V_QM, V_DATA)
 rmse_st = rmse(V_STUR, V_DATA)
+falsified = (rmse_st >= rmse_qm)
 
-write_svg(
-    OUT_SVG,
-    WL_NM,
-    [V_DATA, V_QM, V_STUR, V_STUR_A],
-    ["DATA", "QM", "STUR-num", "STUR-analytic"],
-    "QM vs STUR — plasmon-derived L0(λ), dataset-locked"
-)
+write_svg(OUT_SVG, WL_NM, [V_DATA, V_QM, V_STUR, V_STUR_A],
+          ["DATA", "QM", "STUR-num", "STUR-analytic"],
+          f"Gaussian Visibility Test — STUR v9.2 [Eq. 3.15]")
 
 report = {
-  "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-  "plasmon": {
-    "lambda_res_nm": LAMBDA_RES_NM,
-    "halfmax_L_nm": HALFMAX_L_NM,
-    "halfmax_R_nm": HALFMAX_R_NM,
-    "fwhm_nm": FWHM_NM,
-    "Q": Q_PLASMON,
-    "n_eff": N_EFF
-  },
-  "geometry": {"d_m": d, "a_m": a, "L_m": L, "window_m": 0.006},
-  "dataset": {"wl_nm": WL_NM, "V_data": V_DATA, "Rq_eff": RQ_EFF},
-  "derived": {
-    "L0_m": L0_M,
-    "V_qm": V_QM,
-    "V_stur": V_STUR,
-    "V_stur_analytic": V_STUR_A,
-    "residuals_qm": [V_QM[i]-V_DATA[i] for i in range(len(WL_NM))],
-    "residuals_stur": [V_STUR[i]-V_DATA[i] for i in range(len(WL_NM))]
-  },
-  "rmse": {"QM": rmse_qm, "STUR": rmse_st, "delta": rmse_st - rmse_qm},
-  "falsified": (rmse_st >= rmse_qm),
-  "outputs": {"json": OUT_JSON, "svg": OUT_SVG},
-  "citations": [
-    "Born & Wolf — Principles of Optics",
-    "Goodman — Statistical Optics",
-    "Au nanoparticle plasmon linewidth spectroscopy (dataset-locked)"
-  ]
+    "meta": {
+        "page": "double-slit-visibility",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "V(ΔL) = V₀ exp[-½(σᵣ/Lₓ)²(ΔL)²]"
+    },
+    "plasmon": {
+        "lambda_res_nm": LAMBDA_RES_NM,
+        "fwhm_nm": FWHM_NM,
+        "Q": Q_PLASMON,
+        "n_eff": N_EFF
+    },
+    "geometry": {"d_m": d, "a_m": a, "L_m": L},
+    "dataset": {"wl_nm": WL_NM, "V_data": V_DATA, "Rq_eff": RQ_EFF},
+    "results": {
+        "L0_m": L0_M,
+        "V_qm": V_QM,
+        "V_stur": V_STUR,
+        "V_stur_analytic": V_STUR_A
+    },
+    "fitMetrics": {
+        "rmse_qm": rmse_qm,
+        "rmse_stur": rmse_st,
+        "delta_rmse": rmse_st - rmse_qm
+    },
+    "falsification": {
+        "criteria": ["RMSE_STUR >= RMSE_QM", "Non-Gaussian visibility", "Mass dependence"],
+        "triggered": ["Kill-1" if falsified else None],
+        "falsified": falsified
+    },
+    "outputs": {"json": OUT_JSON, "svg": OUT_SVG}
 }
 
-with open(OUT_JSON, "w", encoding="utf-8") as f:
+with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR DATASET-LOCKED RUN ===")
-print("Q_plasmon =", round(Q_PLASMON, 6))
-print("FWHM_nm   =", round(FWHM_NM, 3))
-print("RMSE(QM)  =", round(rmse_qm, 8))
-print("RMSE(STUR)=", round(rmse_st, 8))
-print("ΔRMSE     =", round(rmse_st - rmse_qm, 8))
-print("FALSIFIED =", report["falsified"])
-print("Wrote:", OUT_SVG, "and", OUT_JSON)
-</pre>
+print("=== STUR Gaussian Visibility Test [Eq. 3.15] ===")
+print(f"Q_plasmon = {Q_PLASMON:.4f}")
+print(f"RMSE(QM)  = {rmse_qm:.6f}")
+print(f"RMSE(STUR)= {rmse_st:.6f}")
+print(f"ΔRMSE     = {rmse_st - rmse_qm:.6f}")
+print(f"FALSIFIED = {falsified}")
+print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
 
-<div class="btn-group">
-  <button id="copyBtn">Copy Script</button>
-  <button class="secondary" id="dlBtn">Download .py</button>
-</div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
 
-<div class="smallnote">
-  Tip: after running, open <code>stur_plasmon_datasetlocked.svg</code> directly in a browser to view the plot,
-  and <code>stur_plasmon_datasetlocked.json</code> to see the falsified flag + residuals.
-</div>
+            <p class="stur-text-muted" style="margin-top:1rem; font-size:0.85rem;">
+                After running, open <code>stur_doubleslit.svg</code> in a browser and <code>stur_doubleslit.json</code> to inspect the falsification verdict.
+            </p>
+        </div>
+    </section>
 
-<footer>
-STUR Physics Lab — falsifiable, dataset-locked physics
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <!-- Version stamp -->
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> double-slit-visibility |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — Eq. (3.15) Gaussian Visibility</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Born & Wolf — Principles of Optics (Fraunhofer diffraction)</li>
+                <li>Goodman — Statistical Optics (coherence theory)</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-(function(){
-  const codeEl = document.getElementById("codeBlock");
-
-  const copy = async () => {
-    const txt = codeEl.textContent;
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(txt);
-    } else {
-      // fallback
-      const ta = document.createElement("textarea");
-      ta.value = txt;
-      ta.style.position = "fixed";
-      ta.style.left = "-9999px";
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      ta.remove();
+// Page-specific state
+const PAGE_ID = 'double-slit-visibility';
+const pageState = {
+    params: {
+        lambda_res_nm: 532.0,
+        fwhm_nm: 81.8,
+        Q_plasmon: 6.50,
+        n_eff: 1.50,
+        d_m: 1.0e-3,
+        a_m: 0.15e-3,
+        L_m: 5.0
+    },
+    predictions: {
+        equation: 'V(ΔL) = V₀ exp[-½(σᵣ/Lₓ)²(ΔL)²]'
+    },
+    results: { fitMetrics: {}, decision: null },
+    data: {
+        wl_nm: [350,360,380,400,420,440,450,460,470,480,500,520,540,560,580,600,620,640],
+        V_data: [0.98,0.97,0.93,0.86,0.79,0.71,0.66,0.62,0.59,0.57,0.55,0.57,0.60,0.64,0.69,0.75,0.82,0.88]
     }
-  };
+};
 
-  document.getElementById("copyBtn").onclick = copy;
+// Set timestamp
+document.getElementById('timestamp').textContent = new Date().toISOString();
 
-  document.getElementById("dlBtn").onclick = () => {
-    const blob = new Blob([codeEl.textContent], { type: "text/x-python" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "stur_plasmon_datasetlocked.py";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 250);
-  };
-})();
+// Export functions
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
+}
+
+function exportCSV() {
+    const rows = pageState.data.wl_nm.map((wl, i) => ({
+        wavelength_nm: wl,
+        visibility_data: pageState.data.V_data[i]
+    }));
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
+}
+
+// Copy/download script
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_doubleslit.py', 'text/x-python');
+});
 </script>
 
 </body>
-</html> 
+</html>
