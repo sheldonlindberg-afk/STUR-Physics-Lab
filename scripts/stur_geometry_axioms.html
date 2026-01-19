@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Geometry & Axioms — Orbifold Structure and Metric Ansatz</title>
+<meta name="description" content="The geometric foundations of STUR: the five-dimensional orbifold manifold, metric ansatz, and core axioms from which all physics emerges via XCRM.">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}', dd: '\\mathrm{d}' }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_geometry_axioms.html" class="glass-nav-link active">Geometry</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>Geometry & Axioms</h1>
+  <p class="subtitle">The Five-Dimensional Orbifold Structure</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- SECTION 1: AXIOMS -->
+<section class="section" id="sec1">
+  <h2>1. Motivation and Axioms</h2>
+
+  <h3>1.1 What the Resistance Formalism Provides</h3>
+
+  <p>
+    The STUR framework organizes gravitational, gauge, scalar, and matter sectors through a single geometric object:
+    the resistance tensor \(\Rcal_{AB}\) on a five-dimensional orbifold. This provides:
+  </p>
+
+  <ul>
+    <li><strong>Teleparallel gravity:</strong> The gravitational sector is Teleparallel Equivalent to General Relativity (TEGR ≡ GR)</li>
+    <li><strong>Gauge structure:</strong> Yang–Mills gauge fields emerge from local degeneracy covariance of the XCRM term</li>
+    <li><strong>Matter coupling:</strong> Scalar-matter Yukawa coupling produces the interferometric phase signature</li>
+    <li><strong>Chiral localization:</strong> Fermion zero modes localize on domain walls in the extra dimension</li>
+  </ul>
+
+  <h3>1.2 The Four Core Axioms</h3>
+
+  <div class="block gold">
+    <div class="title">Axiom 1 — Geometric Arena</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Physics takes place on the five-dimensional orbifold \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\) with
+      a warped metric and a symmetric resistance tensor field \(\Rcal_{AB}\).
+    </p>
+  </div>
+
+  <div class="block gold">
+    <div class="title">Axiom 2 — XCRM Closure</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The XCRM term \(\chi R \partial_X R\) couples the resistance field to the internal dimension,
+      providing parameter closure and generating gauge structure through degeneracy.
+    </p>
+  </div>
+
+  <div class="block gold">
+    <div class="title">Axiom 3 — Teleparallel Gravity</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The torsion coupling \(\alpha R \mathbb{T}\) identifies the gravitational sector with TEGR,
+      which is dynamically equivalent to General Relativity (differing only by a boundary term).
+    </p>
+  </div>
+
+  <div class="block gold">
+    <div class="title">Axiom 4 — Matter Transport</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Matter fields couple to \(R\) via Yukawa interactions, so fermion propagation accumulates
+      phase proportional to the integrated resistance along worldlines.
+    </p>
+  </div>
+
+  <h3>1.3 What the Axioms Determine</h3>
+
+  <div class="card-grid">
+    <div class="card">
+      <strong>Determined by axioms</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        • TEGR ≡ GR gravitational dynamics<br>
+        • Yang–Mills gauge structure from XCRM degeneracy<br>
+        • Gaussian visibility law form<br>
+        • Chiral fermion localization on domain walls
+      </span>
+    </div>
+    <div class="card">
+      <strong>Requires phenomenological input</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        • Specific gauge group \(G\)<br>
+        • Matter representations<br>
+        • Number of generations<br>
+        • Numerical coupling values
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: MANIFOLD STRUCTURE -->
+<section class="section" id="sec2">
+  <h2>2. Manifold Structure</h2>
+
+  <h3>2.1 Orbifold Definition</h3>
+
+  <div class="block">
+    <div class="title">Definition 2.1 — Five-Dimensional Arena</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\) with coordinate \(X \in [0, L_X]\), fixed points at the
+      orbifold boundaries \(X = 0\) and \(X = L_X\), and parity symmetry \(X \mapsto -X\).
+    </p>
+  </div>
+
+  <p>
+    The orbifold structure is essential for chiral fermion localization and provides natural boundary
+    conditions for the resistance field. The \(\mathbb{Z}_2\) parity projects out unwanted zero modes
+    and ensures four-dimensional chirality emerges from the five-dimensional theory.
+  </p>
+
+  <h3>2.2 Metric Ansatz</h3>
+
+  <div class="eq law">
+    \[\color{#fb923c}{\dd s^2_5} = \color{#fbbf24}{e^{2\sigma(X)}} \color{#fb923c}{g_{\mu\nu}(x)}\, \dd x^\mu \dd x^\nu + \color{#fbbf24}{r_c^2}\, \dd X^2\]
+    <div class="eq-label">(2.1) — Warped Product Metric</div>
+  </div>
+
+  <div class="block gold">
+    <div class="title">Geometric Meaning of the Ansatz</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Equation (2.1) defines a <strong>warped product geometry</strong> between four-dimensional spacetime
+      \((M^4, g_{\mu\nu})\) and a compact orbifold coordinate \(X\). Each constant-\(X\) hypersurface
+      carries induced metric \(g^{(4)}_{\mu\nu}(x;X) = e^{2\sigma(X)} g_{\mu\nu}(x)\).
+    </p>
+  </div>
+
+  <h3>2.2.1 Variable Breakdown</h3>
+
+  <div class="eq definition">
+    \[
+    \begin{aligned}
+      \dd s_5^2 &:\; \text{Invariant interval in five-dimensional spacetime} \\
+      e^{2\sigma(X)} &:\; \text{Warp (conformal) factor} \\
+      \sigma(X) &:\; \text{Warping function along } X \\
+      g_{\mu\nu}(x) &:\; \text{Base four-dimensional metric tensor} \\
+      r_c &:\; \text{Proper radius of the compact dimension} \\
+      X &:\; \text{Dimensionless orbifold coordinate}
+    \end{aligned}
+    \]
+  </div>
+
+  <h3>2.2.2 Block-Diagonal Structure</h3>
+
+  <p>In coordinates \(x^A = (x^\mu, X)\), the five-dimensional metric is block-diagonal:</p>
+
+  <div class="eq boxed">
+    \[
+    g^{(5)}_{AB} =
+    \begin{pmatrix}
+      e^{2\sigma(X)} g_{\mu\nu}(x) & 0 \\
+      0 & r_c^2
+    \end{pmatrix}
+    \]
+    <div class="eq-label">(2.2)</div>
+  </div>
+
+  <p>
+    The absence of mixed components \(g_{\mu X}\) reflects a coordinate choice where four-dimensional
+    slices are orthogonal to the extra dimension—a natural gauge for the XCRM framework.
+  </p>
+
+  <h3>2.2.3 Physical Interpretation</h3>
+
+  <div class="block success">
+    <div class="title">Warped Scaling</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      For displacements confined to constant-\(X\) slices, \(\dd s_5 = e^{\sigma(X)} \dd s_4\).
+      Physical masses and energy scales measured at position \(X\) scale as
+      \(m_{\rm phys}(X) \propto e^{-\sigma(X)}\). This is the geometric origin of mass hierarchies.
+    </p>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Curvature Source</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Even if \(g_{\mu\nu}(x)\) is flat, the five-dimensional spacetime is curved whenever
+      \(\sigma'(X) \neq 0\). Curvature arises from variation of the warp factor, not from
+      intrinsic four-dimensional curvature.
+    </p>
+  </div>
+
+  <h3>2.2.4 Proper Length of the Extra Dimension</h3>
+
+  <div class="eq boxed">
+    \[\color{#fbbf24}{L_X} = \int_0^{2\pi} \color{#fbbf24}{r_c}\,\dd X = 2\pi \color{#fbbf24}{r_c}\]
+    <div class="eq-label">(2.3)</div>
+  </div>
+
+  <p>
+    The compactification radius \(r_c\) sets the physical scale and controls the Kaluza–Klein
+    mass gap: \(m_{\rm KK} \sim 1/L_X\). Through the XCRM closure relation, \(L_X\) directly
+    determines the coherence length \(\ell_{\rm coh}\).
+  </p>
+</section>
+
+<!-- XCRM CONNECTION -->
+<section class="section" id="xcrm-geometry" style="border-left:4px solid var(--gold);">
+  <h2 style="color:var(--gold);">How XCRM Uses This Geometry</h2>
+
+  <p>
+    The XCRM term \(\chi R \partial_X R\) operates on this geometric structure:
+  </p>
+
+  <ul>
+    <li><strong>The \(\partial_X\) derivative</strong> probes variation along the compact dimension</li>
+    <li><strong>The product \(R \partial_X R\)</strong> creates a nonlinear self-coupling that breaks scale invariance</li>
+    <li><strong>The coupling \(\chi\)</strong> sets the strength of internal-dimension effects</li>
+    <li><strong>The warp factor \(e^{\sigma(X)}\)</strong> modulates how XCRM effects manifest at different \(X\)</li>
+  </ul>
+
+  <div class="block gold">
+    <div class="title">The Central XCRM Equation</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      At equilibrium, the XCRM term enforces the closure condition:
+    </p>
+    <div class="eq law" style="margin-top:0.75rem;">
+      \[\partial_X R = \frac{R - R_{\rm bg}}{L_X}\]
+      <div class="eq-label">(2.4) — XCRM Closure Condition</div>
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      This relates the X-gradient of the resistance field to its deviation from background,
+      with the internal dimension size \(L_X\) as the characteristic scale.
+    </p>
+  </div>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_core_theory.html" class="prev">Core Theory</a>
+  <a href="stur_xcrm_closure.html" class="next">XCRM Closure</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Geometry & Axioms</strong> — v9.2</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>
