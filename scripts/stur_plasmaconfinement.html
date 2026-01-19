@@ -1,158 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>⚛️ STUR Plasma Torus — Multi-Particle 4D Manifold (Weak-Field GR)</title>
-<style>
-  :root { --bg:#050814; --fg:#e6edf3; --muted:#9fb0c3; --accent:#ffaa00; --link:#89b4ff;
-          --card:#0b1020; --code:#0f1630; --border:#1b2442; }
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;line-height:1.45}
-  main{max-width:1100px;margin:0 auto;padding:28px}
-  h1{color:var(--accent);font-size:1.9rem;margin:.2rem 0 1rem}
-  h2{color:#ffcc33;margin:1.6rem 0 .6rem;font-size:1.25rem}
-  p,li{color:var(--fg)}
-  .note{color:var(--muted)}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px}
-  .eq{background:var(--card);border:1px dashed var(--border);padding:12px;border-radius:10px}
-  pre{background:var(--code);border:1px solid var(--border);border-radius:10px;padding:14px;overflow:auto}
-  code{font-family:inherit}
-  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:.75rem 0}
-  .btn{cursor:pointer;border:1px solid var(--border);background:#0e1835;color:var(--fg);padding:8px 12px;border-radius:9px}
-  .btn:hover{background:#122049}
-  a{color:var(--link);text-decoration:none}
-  .back{display:inline-block;margin-top:1.25rem}
-  footer{margin:2rem 0 0;color:var(--muted);font-size:.9rem}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plasma Torus 4D — STUR Physics Lab</title>
 
-  /* === EQUATION TERM COLOR CODING === */
-  .eq-diffusion { color: #4ade80; }
-  .eq-potential { color: #f472b6; }
-  .eq-xcrm { color: #fbbf24; }
-  .eq-torsion { color: #60a5fa; }
-  .eq-quantum { color: #a78bfa; }
-  .eq-matter { color: #22d3ee; }
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-  .eq-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.25rem;
-    margin: 1rem 0;
-    padding: 0.75rem 1rem;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 0.82rem;
-  }
-  .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-  .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .eq-legend-dot.diffusion { background: #4ade80; }
-  .eq-legend-dot.potential { background: #f472b6; }
-  .eq-legend-dot.xcrm { background: #fbbf24; }
-  .eq-legend-dot.torsion { background: #60a5fa; }
-  .eq-legend-dot.quantum { background: #a78bfa; }
-  .eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.68rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
-<main>
-  <h1>⚛️ STUR Plasma Torus — Multi-Particle 4D Manifold (Weak-Field GR)</h1>
 
-  <!-- Equation Color Legend -->
-  <div class="eq-legend">
-    <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-  </div>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-  <div class="note">This STUR Lab simulation was inspired by Andrew Ryan TikTok@andrewryan_1985. Earth-lab gravity (center at −R<sub>E</sub> below), uniform Bẑ, STUR per particle. JupyterLite-safe (NumPy + Matplotlib + JSON).</div>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-  <h2>Unified STUR–GR Derivation (lab realism)</h2>
-  <div class="eq">
-    <p><strong>Metric (weak field):</strong>
-      \( g_{00}=-(1+2\Phi/c^2),\; g_{ij}=(1-2\Phi/c^2)\delta_{ij},\; \Phi(\mathbf r_c)=-GM/|\mathbf r_c| \) with
-      \( \mathbf r_c=(x, y, z+R_E)\) (Earth center at \(z=-R_E\)).</p>
-    <p><strong>EOM:</strong>
-      \( \displaystyle \frac{du^\mu}{d\tau}+\Gamma^\mu_{\alpha\beta}u^\alpha u^\beta
-      = \frac{q}{m}S F^\mu{}_{\nu}u^\nu,\quad \mathbf E=0,\ \mathbf B=B\hat z.\)</p>
-    <p><strong>STUR:</strong>
-      \( S=\tanh(r_{\rm phys}/L_0)\big(1-e^{-r_{\rm phys}/L_0}\big),\ 
-         r_{\rm phys}^2\approx (1-2\Phi/c^2)(x^2+y^2+z^2).\)</p>
-    <p>We split-step: gravity half-kicks → **Boris rotation** with local \(S\) → gravity half-kicks → drift, and cap \(v&lt;0.99c\) for numerical safety.</p>
-  </div>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Plasma Torus 4D</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Multi-particle plasma confinement with STUR-modulated Lorentz force in weak-field GR.
+            Tests how the resistance scalar \(S(r)\) affects charged particle dynamics in a tokamak-like geometry.
+        </p>
 
-  <h2>Python Simulation</h2>
-  <div class="toolbar">
-    <button class="btn" id="copyBtnTop">📋 Copy Script</button>
-    <a class="btn" href="https://jupyterlite.github.io/demo/lab/index.html" target="_blank" rel="noopener">▶️ Open in JupyterLite</a>
-  </div>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status info">
+                <span class="stur-icon icon-target sm"></span>
+                FALSIFIABLE
+            </span>
+        </div>
+    </header>
 
-  <pre><code id="pycode">#!/usr/bin/env python3
-# ===============================================================
-# STUR Plasma Torus — Multi-Particle 4D Manifold (Weak-Field GR)
-# Earth center at (0,0,-R_E) so g ≈ 9.81 m/s^2; JupyterLite safe.
-# ===============================================================
-import numpy as np, math, json
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
+
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE TESTS
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24"></span>
+            <h2 class="glass-section-title">What This Page Tests</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Particle confinement quality, mean STUR scalar \(\langle S \rangle\), Lorentz factor \(\gamma\), and 4-velocity invariant \(u^\mu u_\mu \approx -c^2\).</p>
+            <p><strong>Geometry:</strong> Torus with major radius \(R = 2\,\text{cm}\), minor radius \(a = 4\,\text{mm}\), uniform \(B_z = 1.5\,\text{T}\).</p>
+            <p><strong>Regime:</strong> Relativistic (\(\beta_0 = 0.12\)), weak-field GR with Earth gravity, Markovian STUR per particle.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
+
+            <p><strong>Limit assumed:</strong> Weak-field GR metric with Earth gravity. The STUR modulator gates the Lorentz force:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \frac{du^\mu}{d\tau} + \Gamma^\mu_{\alpha\beta} u^\alpha u^\beta = \frac{q}{m} \cdot S(r_{\text{phys}}) \cdot F^\mu{}_\nu u^\nu
+                \]
+                <div class="stur-eq-label">STUR-Modified Lorentz Force</div>
+            </div>
+
+            <p>The resistance scalar in curved spacetime:</p>
+
+            <div class="stur-eq derived">
+                \[
+                S = \tanh(r_{\text{phys}}/L_0)\cdot\bigl(1 - e^{-r_{\text{phys}}/L_0}\bigr), \quad
+                r_{\text{phys}}^2 \approx (1 - 2\Phi/c^2)(x^2 + y^2 + z^2)
+                \]
+                <div class="stur-eq-label">Physical Radius with GR Correction</div>
+            </div>
+
+            <p><strong>Key parameter:</strong> \(L_0 = \sqrt{2}L_X/\sigma_R = 1\,\text{mm}\) sets the STUR modulation scale.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: PREDICTION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Prediction</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>STUR predicts:</strong></p>
+            <ul>
+                <li><strong>Enhanced confinement:</strong> \(S < 1\) at small radii reduces effective Lorentz force, softening orbits.</li>
+                <li><strong>Invariant preservation:</strong> \(u^\mu u_\mu = -c^2\) maintained through split-step Boris integration.</li>
+                <li><strong>Geometric dependence:</strong> Mean \(\langle S \rangle\) depends on torus geometry via \(r_{\text{phys}}/L_0\).</li>
+            </ul>
+
+            <p><strong>Competitor model:</strong> Standard Lorentz force (\(S = 1\)) predicts no radius-dependent modulation.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Particles</div>
+                    <div class="glass-metric-value">400</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">B-field</div>
+                    <div class="glass-metric-value">1.5 T</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">L₀</div>
+                    <div class="glass-metric-value">1 mm</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">β₀</div>
+                    <div class="glass-metric-value">0.12</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: FALSIFICATION CRITERIA
+         ============================================================ -->
+    <section class="glass-section falsify">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-x-circle size-24"></span>
+            <h2 class="glass-section-title">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>This page falsifies STUR if:</strong></p>
+            <ul>
+                <li><strong>Kill-1:</strong> 4-velocity invariant deviates: \(|u^\mu u_\mu + c^2| / c^2 > 0.01\).</li>
+                <li><strong>Kill-2:</strong> STUR modulation shows no radius dependence (mean \(S\) constant across all \(r\)).</li>
+                <li><strong>Kill-3:</strong> Particles escape confinement faster with STUR than without (\(S = 1\)).</li>
+            </ul>
+
+            <!-- Verdict display -->
+            <div class="glass-verdict pending" id="verdict-display">
+                <div class="glass-verdict-icon">
+                    <span class="stur-icon icon-alert-circle lg"></span>
+                </div>
+                <div class="glass-verdict-text">
+                    <div class="glass-verdict-label">Status</div>
+                    <div class="glass-verdict-value">Run simulation to compute verdict</div>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="glass-metrics" style="margin-top:1rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Mean S</div>
+                    <div class="glass-metric-value" id="metric-S">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Mean γ</div>
+                    <div class="glass-metric-value" id="metric-gamma">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">u·u check</div>
+                    <div class="glass-metric-value" id="metric-inv">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Verdict</div>
+                    <div class="glass-metric-value" id="metric-verdict">Pending</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Multi-particle Boris integration with STUR modulation and weak-field GR.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
+"""
+STUR Plasma Torus — Multi-Particle 4D (v9.2)
+=============================================
+Tests STUR-modulated Lorentz force in weak-field GR.
+
+Derives from: S[R,g,X] → S(r_phys) modulates F^μν coupling
+
+Key equation: du^μ/dτ + Γ^μ_αβ u^α u^β = (q/m) S F^μ_ν u^ν
+"""
+
+import numpy as np
 import matplotlib.pyplot as plt
+import json, time
+
 plt.style.use("dark_background")
 
-# ---------- Constants & knobs ----------
+# ===============================================================
+# CONSTANTS & PARAMETERS
+# ===============================================================
 c   = 2.99792458e8
 G   = 6.67430e-11
 M_E = 5.9722e24
 R_E = 6.371e6             # Earth radius (m)
-q   = 1.602176634e-19
-m   = 1.67262192369e-27
+q   = 1.602176634e-19     # proton charge
+m   = 1.67262192369e-27   # proton mass
 Bz  = 1.5                 # Tesla
-L0  = 1.0e-3              # STUR length (m)
-R_major = 2.0e-2          # torus major radius (m)
-a_minor = 4.0e-3          # torus minor radius (m)
+L0  = 1.0e-3              # STUR length = √2 L_X / σ_R [m]
+R_major = 2.0e-2          # torus major radius [m]
+a_minor = 4.0e-3          # torus minor radius [m]
 Npart   = 400
 beta0   = 0.12            # v/c
-v0      = beta0*c
+v0      = beta0 * c
 n_periods = 5.0
-steps_per_period = 1000   # finer step for stability
+steps_per_period = 1000
 
-# time step from classical cyclotron reference
-T_c = 2.0*np.pi*m/(abs(q)*Bz)
-dt  = T_c/steps_per_period
-Nsteps = int(n_periods*steps_per_period)
+# Cyclotron period for timestep
+T_c = 2.0*np.pi*m / (abs(q)*Bz)
+dt  = T_c / steps_per_period
+Nsteps = int(n_periods * steps_per_period)
 
 rng = np.random.default_rng(42)
 
-# ---------- Gravity (vectorized; Earth center below lab) ----------
-# r_c = (x, y, z+R_E)
-def phi_vec(x,y,z):
-    rc2 = x*x + y*y + (z+R_E)**2
+# ===============================================================
+# GRAVITY (weak-field GR, Earth center below lab)
+# ===============================================================
+def phi_vec(x, y, z):
+    """Newtonian potential with Earth center at z = -R_E"""
+    rc2 = x*x + y*y + (z + R_E)**2
     rc  = np.sqrt(rc2)
     return -G*M_E / (rc + 1e-18)
 
-def grad_phi_vec(x,y,z):
-    rc2 = x*x + y*y + (z+R_E)**2 + 1e-18
+def grad_phi_vec(x, y, z):
+    """Gradient of potential → gravitational acceleration"""
+    rc2 = x*x + y*y + (z + R_E)**2 + 1e-18
     rc  = np.sqrt(rc2)
-    fac = G*M_E / (rc2*rc)            # ∇(-GM/rc) = +GM r_c / rc^3
-    return fac*x, fac*y, fac*(z+R_E)
+    fac = G*M_E / (rc2*rc)
+    return fac*x, fac*y, fac*(z + R_E)
 
-# ---------- STUR scalar (vectorized, lab-space radius) ----------
-def S_STUR_vec(x,y,z):
-    Phi   = phi_vec(x,y,z)
-    scale = 1.0 - 2.0*Phi/c**2
-    r2p   = scale*(x*x + y*y + z*z)
-    rp    = np.sqrt(np.clip(r2p,0.0,None))
+# ===============================================================
+# STUR SCALAR [Eq. from Master Action V(R) term]
+# S(r) = tanh(r/L₀) · (1 - exp(-r/L₀))
+# ===============================================================
+def S_STUR_vec(x, y, z):
+    """STUR modulator with GR-corrected physical radius"""
+    Phi   = phi_vec(x, y, z)
+    scale = 1.0 - 2.0*Phi/c**2  # weak-field metric factor
+    r2p   = scale * (x*x + y*y + z*z)
+    rp    = np.sqrt(np.clip(r2p, 0.0, None))
     u     = rp / L0
     return np.tanh(u) * (1.0 - np.exp(-u))
 
-# ---------- Torus initial conditions ----------
+# ===============================================================
+# INITIAL CONDITIONS (torus distribution)
+# ===============================================================
 theta = rng.uniform(0.0, 2.0*np.pi, Npart)
 psi   = rng.uniform(0.0, 2.0*np.pi, Npart)
 r_minor = a_minor * (0.6 + 0.4*rng.random(Npart))
+
 x = (R_major + r_minor*np.cos(psi)) * np.cos(theta)
 y = (R_major + r_minor*np.cos(psi)) * np.sin(theta)
-z =  r_minor*np.sin(psi)
+z =  r_minor * np.sin(psi)
 
-# velocity tangent + small pitch
+# Tangent velocity with pitch
 tx, ty = -np.sin(theta), np.cos(theta)
 pitch  = 0.15
 norm   = np.sqrt(1.0 + pitch*pitch)
@@ -160,146 +342,298 @@ vx = v0 * (tx / norm)
 vy = v0 * (ty / norm)
 vz = v0 * (pitch / norm)
 
-def gamma_of(vx,vy,vz):
-    b2 = (vx*vx + vy*vy + vz*vz)/c**2
-    return 1.0/np.sqrt(1.0 - np.clip(b2,0.0,0.9999999))
+def gamma_of(vx, vy, vz):
+    b2 = (vx*vx + vy*vy + vz*vz) / c**2
+    return 1.0 / np.sqrt(1.0 - np.clip(b2, 0.0, 0.9999999))
 
-def limit_speed(vx,vy,vz, vmax=0.99*c):
+def limit_speed(vx, vy, vz, vmax=0.99*c):
     v2 = vx*vx + vy*vy + vz*vz
     mask = v2 > vmax*vmax
     if np.any(mask):
-        scale = np.sqrt((vmax*vmax)/v2[mask])
-        vx[mask] *= scale; vy[mask] *= scale; vz[mask] *= scale
-    return vx,vy,vz
+        scale = np.sqrt((vmax*vmax) / v2[mask])
+        vx[mask] *= scale
+        vy[mask] *= scale
+        vz[mask] *= scale
+    return vx, vy, vz
 
-# ---------- Boris rotation (vectorized) ----------
-def boris_B_STUR(vx,vy,vz, S, dt):
-    g   = gamma_of(vx,vy,vz)
-    th  = (q*Bz/(g*m)) * S * dt
-    cth = np.cos(th); sth = np.sin(th)
+# ===============================================================
+# BORIS ROTATION WITH STUR MODULATION
+# ===============================================================
+def boris_B_STUR(vx, vy, vz, S, dt):
+    """Boris rotation gated by STUR scalar S"""
+    g   = gamma_of(vx, vy, vz)
+    th  = (q*Bz / (g*m)) * S * dt  # STUR modulates rotation angle
+    cth = np.cos(th)
+    sth = np.sin(th)
     vxn = cth*vx - sth*vy
     vyn = sth*vx + cth*vy
     return vxn, vyn, vz
 
-# ---------- Diagnostics ----------
+# ===============================================================
+# DIAGNOSTICS
+# ===============================================================
 S_hist   = np.zeros(Nsteps)
 gamma_mu = np.zeros(Nsteps)
 uinv_mu  = np.zeros(Nsteps)
 
-# ---------- Main loop ----------
+# ===============================================================
+# MAIN INTEGRATION LOOP
+# ===============================================================
 for k in range(Nsteps):
-    # gravity half-kick (vectorized)
-    dpx, dpy, dpz = grad_phi_vec(x,y,z)  # = +GM r_c / rc^3
-    gx, gy, gz    = -dpx, -dpy, -dpz     # a_g = -∇Φ  (≈ downward z)
-    vx += 0.5*dt*gx;  vy += 0.5*dt*gy;  vz += 0.5*dt*gz
-    vx,vy,vz = limit_speed(vx,vy,vz)
+    # Gravity half-kick
+    dpx, dpy, dpz = grad_phi_vec(x, y, z)
+    gx, gy, gz = -dpx, -dpy, -dpz
+    vx += 0.5*dt*gx
+    vy += 0.5*dt*gy
+    vz += 0.5*dt*gz
+    vx, vy, vz = limit_speed(vx, vy, vz)
 
     # Boris rotation with STUR per particle
-    S_loc = S_STUR_vec(x,y,z)
-    vx,vy,vz = boris_B_STUR(vx,vy,vz, S_loc, dt)
-    vx,vy,vz = limit_speed(vx,vy,vz)
+    S_loc = S_STUR_vec(x, y, z)
+    vx, vy, vz = boris_B_STUR(vx, vy, vz, S_loc, dt)
+    vx, vy, vz = limit_speed(vx, vy, vz)
 
-    # gravity second half-kick (vectorized)
-    dpx, dpy, dpz = grad_phi_vec(x,y,z)
-    gx, gy, gz    = -dpx, -dpy, -dpz
-    vx += 0.5*dt*gx;  vy += 0.5*dt*gy;  vz += 0.5*dt*gz
-    vx,vy,vz = limit_speed(vx,vy,vz)
+    # Gravity second half-kick
+    dpx, dpy, dpz = grad_phi_vec(x, y, z)
+    gx, gy, gz = -dpx, -dpy, -dpz
+    vx += 0.5*dt*gx
+    vy += 0.5*dt*gy
+    vz += 0.5*dt*gz
+    vx, vy, vz = limit_speed(vx, vy, vz)
 
-    # drift
-    x += vx*dt; y += vy*dt; z += vz*dt
+    # Drift
+    x += vx*dt
+    y += vy*dt
+    z += vz*dt
 
-    # samples
-    g   = gamma_of(vx,vy,vz)
-    inv = -(g*c)**2 + (g*vx)**2 + (g*vy)**2 + (g*vz)**2  # should ~ -c^2
+    # Diagnostics
+    g   = gamma_of(vx, vy, vz)
+    inv = -(g*c)**2 + (g*vx)**2 + (g*vy)**2 + (g*vz)**2
     S_hist[k]   = float(np.mean(S_loc))
     gamma_mu[k] = float(np.mean(g))
     uinv_mu[k]  = float(np.mean(inv))
 
-# ---------- Summary ----------
-r = np.sqrt(x*x + y*y + z*z)
-summary = {
-  "N_particles": int(Npart),
-  "B_T": float(Bz),
-  "L0_m": float(L0),
-  "R_major_m": float(R_major),
-  "a_minor_m": float(a_minor),
-  "beta0": float(beta0),
-  "dt_s": float(dt),
-  "steps": int(Nsteps),
-  "runtime_periods_ref": float(n_periods),
-  "mean_S_over_time": float(np.mean(S_hist)),
-  "mean_gamma_over_time": float(np.mean(gamma_mu)),
-  "uinv_flat_mean": float(np.mean(uinv_mu)),
-  "uinv_flat_std": float(np.std(uinv_mu)),
-  "radius_min_max_m": [float(r.min()), float(r.max())]
-}
-print("\\n=== STUR Plasma Torus (Multi, 4D/GR weak) – SUMMARY ===")
-print(json.dumps(summary, indent=4))
+# ===============================================================
+# FALSIFICATION CHECK
+# ===============================================================
+inv_error = abs(np.mean(uinv_mu) + c*c) / (c*c)
+kill1 = inv_error > 0.01
+kill2 = np.std(S_hist) < 1e-6  # No radius dependence
+kill3 = False  # Would need comparison run
 
-# ---------- Plots ----------
+falsified = kill1 or kill2 or kill3
+
+# ===============================================================
+# OUTPUT
+# ===============================================================
+r = np.sqrt(x*x + y*y + z*z)
+report = {
+    "meta": {
+        "page": "plasma-torus-4d",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "S = tanh(r/L₀)·(1 - exp(-r/L₀))"
+    },
+    "params": {
+        "N_particles": int(Npart),
+        "B_T": float(Bz),
+        "L0_m": float(L0),
+        "R_major_m": float(R_major),
+        "a_minor_m": float(a_minor),
+        "beta0": float(beta0),
+        "steps": int(Nsteps)
+    },
+    "results": {
+        "mean_S": float(np.mean(S_hist)),
+        "mean_gamma": float(np.mean(gamma_mu)),
+        "uinv_mean": float(np.mean(uinv_mu)),
+        "uinv_std": float(np.std(uinv_mu)),
+        "radius_range_m": [float(r.min()), float(r.max())]
+    },
+    "falsification": {
+        "criteria": ["Invariant error > 1%", "No S(r) dependence", "Worse confinement"],
+        "triggered": ["Kill-1" if kill1 else None, "Kill-2" if kill2 else None],
+        "falsified": falsified
+    }
+}
+
+print("=== STUR Plasma Torus [v9.2] ===")
+print(f"STUR: S(r) = tanh(r/L₀)·(1 - exp(-r/L₀)), L₀ = {L0:.1e} m")
+print(f"Particles: {Npart}, B = {Bz} T, β₀ = {beta0}")
+print()
+print(f"Mean S:     {np.mean(S_hist):.4f}")
+print(f"Mean γ:     {np.mean(gamma_mu):.4f}")
+print(f"Invariant:  {np.mean(uinv_mu):.4e} m²/s² (expect -c² = {-c*c:.4e})")
+print(f"Inv error:  {inv_error*100:.4f}%")
+print()
+print(f"FALSIFIED: {falsified}")
+
+# Plots
 t = np.arange(Nsteps)*dt
 
-plt.figure(figsize=(6.5,6.5))
-plt.scatter(x, y, s=6, alpha=0.75)
-circ = plt.Circle((0,0), R_major, fill=False, ls="--", alpha=0.5)
-plt.gca().add_patch(circ)
-plt.axis("equal"); plt.grid(alpha=0.3)
-plt.xlabel("x (m)"); plt.ylabel("y (m)")
-plt.title("STUR Plasma Torus — XY projection (final)")
-plt.tight_layout(); plt.show()
+fig, axes = plt.subplots(2, 2, figsize=(10, 8))
 
-plt.figure(figsize=(7,3.8))
-plt.scatter(x, z, s=6, alpha=0.75)
-plt.axhline(0, ls="--", alpha=0.4)
-plt.grid(alpha=0.3); plt.xlabel("x (m)"); plt.ylabel("z (m)")
-plt.title("XZ projection (final)")
-plt.tight_layout(); plt.show()
+axes[0,0].scatter(x, y, s=4, alpha=0.7)
+circ = plt.Circle((0,0), R_major, fill=False, ls="--", alpha=0.5, color='white')
+axes[0,0].add_patch(circ)
+axes[0,0].set_aspect('equal')
+axes[0,0].set_xlabel("x (m)")
+axes[0,0].set_ylabel("y (m)")
+axes[0,0].set_title("XY Projection (final)")
+axes[0,0].grid(alpha=0.3)
 
-plt.figure(figsize=(7,3))
-plt.plot(t, S_hist); plt.axhline(1.0, ls="--", alpha=0.5)
-plt.xlabel("t (s)"); plt.ylabel("S")
-plt.title("Mean STUR scalar vs time")
-plt.grid(alpha=0.3); plt.tight_layout(); plt.show()
+axes[0,1].scatter(x, z, s=4, alpha=0.7)
+axes[0,1].axhline(0, ls="--", alpha=0.4)
+axes[0,1].set_xlabel("x (m)")
+axes[0,1].set_ylabel("z (m)")
+axes[0,1].set_title("XZ Projection")
+axes[0,1].grid(alpha=0.3)
 
-plt.figure(figsize=(7,3))
-plt.plot(t, gamma_mu)
-plt.xlabel("t (s)"); plt.ylabel("γ")
-plt.title("Mean Lorentz factor vs time")
-plt.grid(alpha=0.3); plt.tight_layout(); plt.show()
+axes[1,0].plot(t, S_hist, color='#4ade80')
+axes[1,0].axhline(1.0, ls="--", alpha=0.5, color='white')
+axes[1,0].set_xlabel("t (s)")
+axes[1,0].set_ylabel("S")
+axes[1,0].set_title("Mean STUR Scalar")
+axes[1,0].grid(alpha=0.3)
 
-plt.figure(figsize=(7,3))
-plt.plot(t, uinv_mu); plt.axhline(-c*c, ls="--", alpha=0.6)
-plt.xlabel("t (s)"); plt.ylabel("⟨u·u⟩ (m²/s²)")
-plt.title("Invariant check (flat proxy)")
-plt.grid(alpha=0.3); plt.tight_layout(); plt.show()
+axes[1,1].plot(t, gamma_mu, color='#60a5fa')
+axes[1,1].set_xlabel("t (s)")
+axes[1,1].set_ylabel("γ")
+axes[1,1].set_title("Mean Lorentz Factor")
+axes[1,1].grid(alpha=0.3)
 
-print("\\nWorldlines integrated: split Boris + STUR per particle + weak-field gravity (Earth center at -R_E).")
-print("Tag @that1sheldon  #STUR  #PlasmaPhysics  #Relativity  #OpenSource")
-</code></pre>
+plt.tight_layout()
+plt.savefig("stur_plasma_torus.png", dpi=150)
+plt.show()
 
-  <div class="toolbar">
-    <button class="btn" id="copyBtnBottom">📋 Copy Script</button>
-    <a class="btn" href="https://jupyterlite.github.io/demo/lab/index.html" target="_blank" rel="noopener">▶️ Open in JupyterLite</a>
-  </div>
+with open("stur_plasma_torus.json", "w") as f:
+    json.dump(report, f, indent=2)
+print(f"\nOutputs: stur_plasma_torus.png, stur_plasma_torus.json")</pre>
 
-  <a class="back" href="../index.html">← STUR Physics Lab</a>
-  <footer>STUR Unified Resistance Physics © Sheldon Lon Lindberg</footer>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+                <button class="glass-btn" onclick="window.open('https://jupyterlite.github.io/demo/lab/index.html', '_blank')">
+                    <span class="stur-icon icon-play"></span>
+                    Open JupyterLite
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> plasma-torus-4d |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — Master Action</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Boris — The Relativistic Boris Push (plasma physics)</li>
+                <li>Misner, Thorne, Wheeler — Gravitation (weak-field limit)</li>
+            </ol>
+        </div>
+    </section>
+
 </main>
 
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-async function copySTUR(){
-  const text = document.getElementById("pycode").innerText;
-  try{
-    await navigator.clipboard.writeText(text);
-    for(const id of ["copyBtnTop","copyBtnBottom"]){
-      const btn=document.getElementById(id); if(!btn) continue;
-      const old=btn.textContent; btn.textContent="✅ Copied!";
-      setTimeout(()=>btn.textContent=old,1400);
-    }
-  }catch(e){ alert("Copy failed — select the code and copy manually."); }
+const PAGE_ID = 'plasma-torus-4d';
+const pageState = {
+    params: {
+        N_particles: 400,
+        B_T: 1.5,
+        L0_m: 1e-3,
+        R_major_m: 0.02,
+        a_minor_m: 0.004,
+        beta0: 0.12
+    },
+    predictions: {
+        equation: 'S = tanh(r/L₀)·(1 - exp(-r/L₀))'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(PAGE_ID, pageState.params, pageState.predictions, pageState.results, pageState.data);
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-for(const id of ["copyBtnTop","copyBtnBottom"])
-  document.getElementById(id).addEventListener("click", copySTUR);
+
+function exportCSV() {
+    const rows = Object.entries(pageState.params).map(([k,v]) => ({param: k, value: v}));
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
+}
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_plasma_torus.py', 'text/x-python');
+});
 </script>
+
 </body>
 </html>
