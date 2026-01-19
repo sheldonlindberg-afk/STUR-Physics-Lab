@@ -784,6 +784,91 @@ code {
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════
+     FIRST PRINCIPLES STATEMENT
+     ══════════════════════════════════════════════════════════════════════════════ -->
+
+<section class="section" id="first-principles" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">First Principles Statement</h2>
+
+  <div class="block gold" style="margin-bottom:1.5rem;border-width:2px;">
+    <div class="title" style="font-size:0.9rem;">The Single Adjustable Prediction</div>
+    <p style="margin:0;font-size:1.1rem;color:var(--text);line-height:1.7;">
+      <strong>STUR makes exactly one adjustable prediction — the coherence length \(\ell_{\rm coh}\).</strong>
+    </p>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:1rem;line-height:1.65;">
+      Given any two of \(\{\chi,\, L_X,\, \ell_{\rm coh}\}\), the third is determined by the closure relation:
+    </p>
+    <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);">
+      \[\boxed{\color{#22d3ee}{\ell_{\rm coh}} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#fbbf24}{\chi}\, \color{#4ade80}{\sigma_R / \chi}} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#4ade80}{\sigma_R}}}\]
+      <div class="eq-label" style="color:var(--gold);">(FP.1) — Parameter Closure Relation</div>
+    </div>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.95rem;">
+      where \(\chi\) is the XCRM coupling constant, \(L_X\) is the internal dimension size, and
+      \(\sigma_R\) is the RMS resistance fluctuation (which depends on \(\chi\) through the dynamics).
+    </p>
+  </div>
+
+  <div class="block" style="border-left-color:var(--error);background:rgba(239,68,68,0.06);margin-bottom:1.25rem;">
+    <div class="title" style="color:var(--error);">Non-Negotiable: The Gaussian Form</div>
+    <p style="margin:0;color:var(--text-secondary);font-size:1rem;line-height:1.65;">
+      <strong style="color:var(--text);">The form of the visibility law is NOT adjustable.</strong>
+      It follows necessarily from Gaussian phase averaging of the XCRM holonomy:
+    </p>
+    <div class="eq law" style="margin:1rem 0;">
+      \[\boxed{\color{#f472b6}{V(\Delta L)} = V_0 \exp\!\left(-\frac{(\color{#fb923c}{\Delta L})^2}{\color{#22d3ee}{\ell_{\rm coh}}^2}\right)}\]
+      <div class="eq-label">(FP.2) — The Non-Negotiable Visibility Law</div>
+    </div>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.95rem;">
+      This Gaussian dependence on \(\Delta L^2\) is a <strong>mathematical consequence</strong> of:
+    </p>
+    <ol style="margin:0.5rem 0 0 1.25rem;color:var(--text-secondary);font-size:0.92rem;">
+      <li>The XCRM closure: \(\partial_X R = (R - R_{\rm bg})/L_X\)</li>
+      <li>Central limit theorem applied to many uncorrelated phase contributions</li>
+      <li>The holonomy-visibility relation: \(V = V_0 \exp(-\langle\Phi_R^2\rangle/2)\)</li>
+    </ol>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.95rem;">
+      Any deviation from this functional form — oscillatory, exponential in \(\Delta L\), time-dependent,
+      or mass-dependent — <span style="color:var(--error);font-weight:600;">falsifies STUR</span>.
+    </p>
+  </div>
+
+  <div class="card-grid" style="margin-top:1.5rem;">
+    <div class="card" style="border:1px solid var(--success);background:rgba(74,222,128,0.04);">
+      <strong style="color:var(--success);">What STUR predicts (derived)</strong>
+      <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
+        <li>Gaussian functional form \(V \propto \exp(-\Delta L^2)\)</li>
+        <li>Quadratic dependence on arm separation</li>
+        <li>Mass-independence at fixed shot time</li>
+        <li>Time-independence (at equilibrium)</li>
+        <li>Area scaling for loop geometries</li>
+      </ul>
+    </div>
+    <div class="card" style="border:1px solid var(--warning);background:rgba(251,191,36,0.04);">
+      <strong style="color:var(--warning);">What STUR does NOT predict (free parameter)</strong>
+      <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
+        <li>The numerical value of \(\ell_{\rm coh}\)</li>
+        <li>The absolute magnitude of visibility suppression</li>
+        <li>The specific values of \(\chi\), \(L_X\), or \(\sigma_R\) individually</li>
+      </ul>
+      <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-muted);">
+        These must be determined experimentally or from UV completion.
+      </p>
+    </div>
+  </div>
+
+  <div class="block success" style="margin-top:1.5rem;">
+    <div class="title">Experimental Strategy</div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.95rem;line-height:1.6;">
+      <strong>Step 1:</strong> Measure visibility \(V\) at multiple arm separations \(\Delta L\).<br>
+      <strong>Step 2:</strong> Fit to \(V = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) to extract \(\ell_{\rm coh}\).<br>
+      <strong>Step 3:</strong> Test the functional form — if it's not Gaussian in \(\Delta L^2\), STUR is falsified.<br>
+      <strong>Step 4:</strong> Verify mass-independence and time-independence as consistency checks.
+    </p>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════════
      EMERGENCE OF PHYSICAL THEORIES
      ══════════════════════════════════════════════════════════════════════════════ -->
 
@@ -999,7 +1084,8 @@ code {
          Any Markdown-style code fencing has been removed to preserve
          strict HTML validity for archival and print use. -->
     <p style="color:var(--gold);"><strong><a href="#master-action" style="color:var(--gold);">0. The Master Action (Start Here)</a></strong></p>
-    <p style="margin-left:1.5rem;color:var(--accent-secondary)"><a href="#emergence" style="color:var(--accent-secondary)">0.x Emergence of Physical Theories</a></p>
+    <p style="margin-left:1.5rem;color:var(--success)"><a href="#first-principles" style="color:var(--success)">0.1 First Principles Statement (Single Parameter)</a></p>
+    <p style="margin-left:1.5rem;color:var(--accent-secondary)"><a href="#emergence" style="color:var(--accent-secondary)">0.2 Emergence of Physical Theories</a></p>
 
     <p><strong>Part I — Framework</strong></p>
     <p><a href="#sec1">1. Motivation and Axioms</a></p>
