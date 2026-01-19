@@ -1,69 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR-ATP Mito Sim 5.5 – 1000 Mito Population (Inspired by Martin Picard X@MitoPsychoBio)</title>
-<style>
-body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
-h1{color:#ffaa00;text-align:center;}
-h2{color:#ffcc33;margin-top:2rem;}
-.desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
-pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;
-    line-height:1.4;box-shadow:0 0 20px #ffaa0055;}
-button{background:#ffaa00;color:#050814;border:none;border-radius:6px;
-    padding:10px 20px;font-weight:bold;cursor:pointer;margin:6px;transition:0.2s;}
-button:hover{background:#ffcc33;}
-footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
-.eq-diffusion { color: #4ade80; }
-.eq-potential { color: #f472b6; }
-.eq-xcrm { color: #fbbf24; }
-.eq-torsion { color: #60a5fa; }
-.eq-quantum { color: #a78bfa; }
-.eq-matter { color: #22d3ee; }
-.eq-legend { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; max-width: 900px; margin: 1rem auto; padding: 0.75rem 1rem; background: rgba(0,0,0,0.3); border: 1px solid #1f2a44; border-radius: 6px; font-size: 0.82rem; }
-.eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-.eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-.eq-legend-dot.diffusion { background: #4ade80; }
-.eq-legend-dot.potential { background: #f472b6; }
-.eq-legend-dot.xcrm { background: #fbbf24; }
-.eq-legend-dot.torsion { background: #60a5fa; }
-.eq-legend-dot.quantum { background: #a78bfa; }
-.eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mitochondria Population — STUR Physics Lab</title>
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>STUR-ATP Mito Sim 5.5 – 1000 Mito Population</h1>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<div class="eq-legend">
-  <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-</div>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<p class="desc">
-Full mitochondrial population simulation under the <b>STUR Unified Resistance Framework</b>.  
-Each mitochondrion behaves as a resistance oscillator coupled through <code>S_STUR(r)</code>,  
-governing curvature-dependent potential U(r), feedback tunneling, ROS generation,  
-Ca²⁺ loading, mPTP opening, and thermal balance.  
-Three physiological modes – healthy, uncoupled, apoptotic – are simulated in parallel.
-</p>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Mitochondria Population Dynamics</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Simulates 1000 mitochondria as STUR resistance oscillators coupled through \(S(r)\),
+            modeling pmf, ATP, ROS, Ca<sup>2+</sup>, mPTP, and thermal balance across physiological regimes.
+        </p>
 
-<h2>Derivation Overview (Condensed)</h2>
-<div class="desc">
-<ol>
-<li><code>S_STUR(r,L₀)=tanh(r/L₀)(1−e^{−r/L₀})</code> couples curvature to resistance.</li>
-<li>Coupled ODEs evolve pmf(t), ATP(t), ROS, T(t), Damage, Ca²⁺, mPTP state.</li>
-<li>Population statistics over 100 s demonstrate bioenergetic stability and failure pathways.</li>
-</ol>
-</div>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status danger">
+                <span class="stur-icon icon-layers sm"></span>
+                SPECULATIVE
+            </span>
+        </div>
+    </header>
 
-<h2>Python Simulation (copy &amp; run)</h2>
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-<pre id="codeBlock">
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Population-level bioenergetic dynamics of 1000 mitochondria under varying physiological conditions.</p>
+            <p><strong>Scale:</strong> Cristae curvature \(r \sim 0.25-1.0\,\mu\text{m}\), simulation time \(T = 100\,\text{s}\).</p>
+            <p><strong>Connection:</strong> The STUR scalar modulator \(S(r)\) couples membrane curvature to proton pumping efficiency, ROS production, and mPTP opening probability.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
+
+            <p><strong>Bioenergetic limit:</strong> The STUR resistance scalar regulates cristae geometry:</p>
+
+            <div class="stur-eq derived">
+                \[
+                S(r, L_0) = \tanh\left(\frac{r}{L_0}\right) \left(1 - e^{-r/L_0}\right)
+                \]
+                <div class="stur-eq-label">Curvature-Resistance Coupling</div>
+            </div>
+
+            <p>Coupled ODEs evolve population state variables:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \frac{d(\text{pmf})}{dt} = \frac{P_{\text{drive}} - \text{leak} \cdot \text{pmf} - \gamma_{\text{ATP}} \cdot \text{ATP}_{\text{use}} - 2\times10^{-3} \cdot \text{ROS}}{C_{\text{eff}}}
+                \]
+                <div class="stur-eq-label">Proton-Motive Force Evolution</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>Healthy mode:</strong> High curvature alignment yields large \(S(r)\), efficient proton throughput, stable pmf.</li>
+                <li><strong>Uncoupled mode:</strong> Elevated leak, reduced ATP efficiency, heat-mode respiration.</li>
+                <li><strong>Apoptotic mode:</strong> Ca<sup>2+</sup>/ROS bursts trigger mPTP opening when damage exceeds threshold.</li>
+            </ul>
+
+            <p><strong>Population statistics:</strong> Each mitochondrion has jittered parameters (lognormal distribution) to model biological heterogeneity.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">L0</div>
+                    <div class="glass-metric-value">0.25 um</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">N_mito</div>
+                    <div class="glass-metric-value">1000</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">T_max</div>
+                    <div class="glass-metric-value">100 s</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Modes</div>
+                    <div class="glass-metric-value">3</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Full mitochondrial population simulation under the STUR Unified Resistance Framework. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR Mitochondria Population Dynamics (v9.2)
+#
+# Simulates 1000 mitochondria as STUR resistance oscillators
+# S(r,L0) = tanh(r/L0)(1 - exp(-r/L0))
+#
+# Outputs:
+#   - Population statistics for pmf, ATP, Damage, Ca2+, mPTP
+#   - Comparison of healthy, uncoupled, apoptotic modes
+#
+# Derived from Master Action V(R) potential term
+# ===============================================================
+
 import math, numpy as np, matplotlib.pyplot as plt
 
 # --- Core STUR functions ---
@@ -101,7 +250,7 @@ def run_sim(MODE="healthy", Tmax=100.0, dt=0.002, N_mito=1000):
     k_damage, k_leak_damage, D_thresh, pmf_mptp = 1e-5, 5.0, 0.5, 140.0
     Ca0_uM, k_Ca_in_base, k_Ca_in_ROS, k_Ca_clear, Ca_thresh_uM = 0.1, 0.005, 0.05, 0.05, 0.5
 
-    def jitter(v, s): 
+    def jitter(v, s):
         return v * np.random.lognormal(0, s, N_mito).astype(np.float64)
 
     k_drive0_vec = jitter(k_drive0, 0.1)
@@ -165,9 +314,11 @@ colors = ["tab:green", "tab:orange", "tab:red"]
 labels = ["Healthy", "Uncoupled", "Apoptotic"]
 
 results = [run_sim(m) for m in modes]
-print("✅ Simulation complete.")
+print("=== STUR Mitochondria Population [v9.2] ===")
+print("Simulation complete.")
 
 fig, axes = plt.subplots(3, 2, figsize=(12, 10), sharex=True)
+fig.patch.set_facecolor('#050814')
 (ax1, ax2, ax3, ax4, ax5, ax6) = axes.flatten()
 
 for res, c, lab in zip(results, colors, labels):
@@ -178,59 +329,151 @@ for res, c, lab in zip(results, colors, labels):
     ax4.plot(t, res["Ca"], color=c)
     ax5.plot(t, res["mptp"], color=c)
 
-ax1.set_ylabel("pmf (mV)")
-ax2.set_ylabel("ATP")
-ax3.set_ylabel("Damage")
-ax4.set_ylabel("Ca²⁺")
-ax5.set_ylabel("mPTP fraction")
+for ax in [ax1, ax2, ax3, ax4, ax5]:
+    ax.set_facecolor('#050814')
+    ax.tick_params(colors='#94a3b8')
+    ax.grid(True, alpha=0.3, color='#1f2a44')
+    for spine in ax.spines.values():
+        spine.set_color('#334155')
+
+ax1.set_ylabel("pmf (mV)", color='#94a3b8')
+ax2.set_ylabel("ATP", color='#94a3b8')
+ax3.set_ylabel("Damage", color='#94a3b8')
+ax4.set_ylabel("Ca2+", color='#94a3b8')
+ax5.set_ylabel("mPTP fraction", color='#94a3b8')
 ax6.axis("off")
-ax1.legend()
-for ax in axes.flatten():
-    ax.grid(True, alpha=0.3)
+ax1.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
+ax1.set_title('STUR Mitochondria Population (v9.2)', color='#ffaa00', fontsize=14)
 plt.tight_layout()
-plt.show()
-</pre>
+plt.show()</pre>
 
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open Python Runner (JupyterLite)</button>
-</div>
-      <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
 
-<p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open Python Runner</b>.  
-In JupyterLite, paste the code into a new cell and run it to see the population plots and outputs.
-</p>
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
 
-<footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | STUR-ATP Mito Sim 5.5
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> mito-population |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Martin Picard — Mitochondrial psychobiology (X@MitoPsychoBio)</li>
+                <li>Mitchell — Chemiosmotic coupling in oxidative phosphorylation</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const code=document.getElementById("codeBlock").innerText;
-  navigator.clipboard.writeText(code);
-  alert("✅ STUR-ATP Mito Sim 5.5 code copied to clipboard");
+const PAGE_ID = 'mito-population';
+const pageState = {
+    params: {
+        L0_um: 0.25,
+        N_mito: 1000,
+        T_max_s: 100,
+        dt_s: 0.002
+    },
+    predictions: {
+        equation: 'S(r,L0) = tanh(r/L0)(1 - exp(-r/L0))'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'L0', value: pageState.params.L0_um, unit: 'um' },
+        { parameter: 'N_mito', value: pageState.params.N_mito, unit: 'count' },
+        { parameter: 'T_max', value: pageState.params.T_max_s, unit: 's' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_mito_population.py', 'text/x-python');
+});
 </script>
 
 </body>

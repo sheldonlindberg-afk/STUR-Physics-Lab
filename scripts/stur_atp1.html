@@ -1,290 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>STUR Mitochondria Lab — Life/Death v4.0</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mito Life/Death v4 — STUR Physics Lab</title>
 
-<style>
-  :root {
-    --bg-main: #02030a;
-    --bg-panel: #050816;
-    --bg-soft: #07101e;
-    --accent: #34d8ff;
-    --accent-soft: rgba(52,216,255,0.2);
-    --accent-strong: #00f2aa;
-    --text-main: #e6edf3;
-    --text-soft: #a5b3c4;
-    --danger: #ff6b81;
-    --radius: 14px;
-    --shadow-soft: 0 0 30px rgba(0,255,255,0.18);
-    --code-bg: #04070f;
-    --border-soft: #152238;
-  }
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-  * { box-sizing: border-box; }
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-  body {
-    margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: radial-gradient(circle at top, #05081a 0, #02030a 52%, #000000 100%);
-    color: var(--text-main);
-    line-height: 1.55;
-  }
-
-  .container {
-    max-width: 960px;
-    margin: 32px auto 80px;
-    padding: 0 16px;
-  }
-
-  h1, h2, h3 {
-    color: var(--accent);
-    margin-top: 0;
-  }
-
-  h1 {
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-  .subtitle {
-    text-align: center;
-    color: var(--text-soft);
-    max-width: 720px;
-    margin: 0 auto 24px;
-    font-size: 0.98rem;
-  }
-
-  .panel {
-    background: var(--bg-panel);
-    padding: 20px 22px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border-soft);
-    box-shadow: var(--shadow-soft);
-    margin-bottom: 26px;
-  }
-
-  .panel-soft {
-    background: var(--bg-soft);
-  }
-
-  .btn-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
-
-  .btn, .copy-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 16px;
-    border-radius: var(--radius);
-    border: 1px solid var(--accent-soft);
-    background: linear-gradient(135deg, var(--accent-strong), var(--accent));
-    color: #02030a;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-decoration: none;
-    cursor: pointer;
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.08s ease;
-    white-space: nowrap;
-  }
-
-  .btn.secondary {
-    background: #07101e;
-    color: var(--text-main);
-    border-color: var(--border-soft);
-    box-shadow: 0 0 0 rgba(0,0,0,0);
-  }
-
-  .btn:hover, .copy-btn:hover {
-    filter: brightness(1.05);
-    transform: translateY(-1px);
-    box-shadow: 0 0 36px rgba(0,255,255,0.25);
-  }
-
-  .copy-btn {
-    background: #07101e;
-    color: var(--text-soft);
-    font-weight: 500;
-    padding: 6px 11px;
-    font-size: 0.82rem;
-    border-radius: 999px;
-    float: right;
-    margin-top: -6px;
-    margin-right: -4px;
-  }
-
-  pre, code {
-    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: 0.84rem;
-  }
-
-  pre {
-    background: var(--code-bg);
-    padding: 16px 14px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border-soft);
-    overflow-x: auto;
-    margin-top: 10px;
-  }
-
-  .equation {
-    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: 0.9rem;
-    background: rgba(4,7,18,0.9);
-    border-radius: 10px;
-    padding: 10px 12px;
-    border: 1px solid var(--border-soft);
-    margin: 8px 0 4px;
-    overflow-x: auto;
-  }
-
-  .tag {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 999px;
-    border: 1px solid var(--accent-soft);
-    color: var(--accent);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  ul {
-    padding-left: 18px;
-    margin-top: 6px;
-  }
-
-  @media (max-width: 640px) {
-    .panel { padding: 16px 14px; }
-    pre { font-size: 0.8rem; }
-  }
-  .eq-diffusion { color: #4ade80; }
-  .eq-potential { color: #f472b6; }
-  .eq-xcrm { color: #fbbf24; }
-  .eq-torsion { color: #60a5fa; }
-  .eq-quantum { color: #a78bfa; }
-  .eq-matter { color: #22d3ee; }
-  .eq-legend { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; margin: 1rem 0; padding: 0.75rem 1rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; font-size: 0.82rem; }
-  .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-  .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .eq-legend-dot.diffusion { background: #4ade80; }
-  .eq-legend-dot.potential { background: #f472b6; }
-  .eq-legend-dot.xcrm { background: #fbbf24; }
-  .eq-legend-dot.torsion { background: #60a5fa; }
-  .eq-legend-dot.quantum { background: #a78bfa; }
-  .eq-legend-dot.matter { background: #22d3ee; }
-</style>
-
-<script>
-function copyCode() {
-  const el = document.getElementById("code-block");
-  const text = el.innerText;
-  navigator.clipboard.writeText(text).then(
-    () => alert("STUR Mitochondria v4.0 code copied."),
-    () => alert("Copy failed – try selecting manually.")
-  );
-}
-</script>
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
-
 <body>
-<div class="container">
 
-  <h1>STUR Mitochondria Lab — Life/Death v4.0</h1>
-  <div class="eq-legend">
-    <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-  </div>
-  <p class="subtitle">
-    A single mitochondrion simulated as a STUR object: pmf, ATP, Ca²⁺, ROS, cristae geometry and swelling,
-    all coupled through the resistance scalar <code>S(r)</code> and a small state machine
-    (healthy → stressed → pre-apoptotic → uncoupled → mPTP).
-  </p>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-  <!-- BUTTONS -->
-  <div class="panel panel-soft">
-    <div class="btn-row">
-      <a class="btn" target="_blank" href="https://jupyterlite.github.io/demo/lab/index.html">
-        🚀 Run in Free JupyterLite (Pyodide)
-      </a>
-      <a class="btn secondary" href="../index.html">
-        ⬅ Return to STUR Index
-      </a>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
+
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Mitochondria Life/Death v4.0</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Single mitochondrion simulated as a STUR object with pmf, ATP, Ca<sup>2+</sup>, ROS, cristae geometry, and swelling,
+            all coupled through the resistance scalar \(S(r)\) with state machine transitions.
+        </p>
+
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status danger">
+                <span class="stur-icon icon-layers sm"></span>
+                SPECULATIVE
+            </span>
+        </div>
+    </header>
+
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
     </div>
-  </div>
 
-  <!-- SHORT DERIVATION -->
-  <div class="panel">
-    <h2>1. STUR Geometry → Bioenergetic Coherence</h2>
-    <span class="tag">Curvature &amp; Resistance</span>
-    <p>
-      The inner membrane cristae define an effective curvature scale <code>r</code>. The STUR scalar compresses
-      that geometry into a single coherence number:
-    </p>
-    <div class="equation">
-      S(r) = tanh(r / L₀) · (1 − e<sup>−r / L₀</sup>)
-    </div>
-    <p>
-      High curvature alignment and ordered cristae give large <code>S</code>, lowering effective resistance and
-      boosting proton throughput. Low <code>S</code> corresponds to swollen, fragmented geometry and decoherent
-      flows. We combine state-dependent curvature with dynamic cristae order <code>geom</code>:
-    </p>
-    <div class="equation">
-      S<sub>val</sub> = S<sub>base</sub> · (0.5 + 0.5·geom)  
-      <br>
-      gain = 1 + 1.8·S<sub>val</sub>
-    </div>
-    <p>
-      This <code>gain</code> factor multiplies ETC pumping and ATP synthase flux in real time.
-    </p>
-  </div>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Single-mitochondrion state trajectory through healthy, stressed, pre-apoptotic, uncoupled, and mPTP states.</p>
+            <p><strong>Scale:</strong> Cristae curvature \(r \sim 0.1-1.8\,L_0\), simulation time \(T = 60\,\text{s}\).</p>
+            <p><strong>Connection:</strong> STUR coherence \(S(r)\) couples geometry to bioenergetic efficiency, where high coherence yields stable oxidative phosphorylation.</p>
+        </div>
+    </section>
 
-  <div class="panel">
-    <h2>2. pmf, Leak, ATP, and Stress Fields</h2>
-    <span class="tag">One Battery, Many Loops</span>
-    <p>
-      The proton-motive force obeys:
-    </p>
-    <div class="equation">
-      d(pmf)/dt = J<sub>ETC</sub> − J<sub>leak</sub> − J<sub>ATP</sub>
-    </div>
-    <p>
-      where:
-    </p>
-    <ul>
-      <li><b>J<sub>ETC</sub></b> ∝ NADH · (1 − pmf / PMF<sub>max</sub>) · gain</li>
-      <li><b>J<sub>leak</sub></b> ∝ pmf · (1 + 0.5·(volume − 1))</li>
-      <li><b>J<sub>ATP</sub></b> ∝ workload(t) · pmf · gain</li>
-    </ul>
-    <p>
-      Ca²⁺ and ROS respond to workload and pmf, then feed back to geometry and swelling, which modify leak
-      and coherence. The state machine simply labels regimes where thresholds in pmf, Ca²⁺ and ROS are
-      crossed.
-    </p>
-  </div>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-  <!-- PYTHON SCRIPT -->
-  <div class="panel">
-    <h2>Python Simulation Script</h2>
-    <button class="copy-btn" onclick="copyCode()">⧉ Copy code</button>
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-<pre id="code-block"><code>#!/usr/bin/env python3
+            <p><strong>Bioenergetic coherence:</strong> The STUR scalar compresses cristae geometry into a coherence number:</p>
+
+            <div class="stur-eq derived">
+                \[
+                S(r) = \tanh\left(\frac{r}{L_0}\right) \left(1 - e^{-r/L_0}\right)
+                \]
+                <div class="stur-eq-label">Curvature-Coherence Coupling</div>
+            </div>
+
+            <p>State-dependent coherence with dynamic cristae order:</p>
+
+            <div class="stur-eq derived">
+                \[
+                S_{\text{val}} = S_{\text{base}} \cdot (0.5 + 0.5 \cdot \text{geom}), \quad \text{gain} = 1 + 1.8 \cdot S_{\text{val}}
+                \]
+                <div class="stur-eq-label">Coherence Gain Factor</div>
+            </div>
+
+            <p>Proton-motive force dynamics:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \frac{d(\text{pmf})}{dt} = J_{\text{ETC}} - J_{\text{leak}} - J_{\text{ATP}}
+                \]
+                <div class="stur-eq-label">PMF Evolution</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>High \(S(r)\):</strong> Ordered cristae, low resistance, efficient proton throughput.</li>
+                <li><strong>Low \(S(r)\):</strong> Swollen/fragmented geometry, decoherent flows, elevated leak.</li>
+                <li><strong>State machine:</strong> healthy -> stressed -> pre_apoptotic -> uncoupled -> mPTP</li>
+            </ul>
+
+            <p><strong>Flux equations:</strong></p>
+            <ul>
+                <li>\(J_{\text{ETC}} \propto \text{NADH} \cdot (1 - \text{pmf}/\text{PMF}_{\max}) \cdot \text{gain}\)</li>
+                <li>\(J_{\text{leak}} \propto \text{pmf} \cdot (1 + 0.5 \cdot (\text{volume} - 1))\)</li>
+                <li>\(J_{\text{ATP}} \propto \text{workload}(t) \cdot \text{pmf} \cdot \text{gain}\)</li>
+            </ul>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">PMF_max</div>
+                    <div class="glass-metric-value">220 mV</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">PMF_healthy</div>
+                    <div class="glass-metric-value">150 mV</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">L0</div>
+                    <div class="glass-metric-value">1.0</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">States</div>
+                    <div class="glass-metric-value">5</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Full single-mitochondrion life/death simulation with STUR coherence regimes. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Mitochondria Lab – Life/Death v4.0
-#   • STUR coherence regimes
-#   • pmf, ATP, Ca²⁺, ROS, cristae geometry, swelling
-#   • State machine: healthy → stressed → pre_apoptotic → uncoupled → mPTP
-#   • Matplotlib plots (Pyodide/JupyterLite safe)
-#   • JSON summary export
+# STUR Mitochondria Lab - Life/Death v4.0 (v9.2)
+#
+# Single mitochondrion with STUR coherence regimes:
+#   - pmf, ATP, Ca2+, ROS, cristae geometry, swelling
+#   - State machine: healthy -> stressed -> pre_apoptotic -> uncoupled -> mPTP
+#
+# Derived from Master Action V(R) potential term
 # ===============================================================
 
 import numpy as np
@@ -297,12 +234,10 @@ CA_BASELINE = 0.1
 ROS_BASELINE = 0.05
 L0 = 1.0   # STUR curvature length
 
-
 def stur_scalar(r, L0=L0):
     """STUR resistance scalar S(r) = tanh(r/L0) * (1 - exp(-r/L0))."""
     x = r / L0
     return np.tanh(x) * (1.0 - np.exp(-x))
-
 
 def preset_state(mode):
     """Convenience presets for initial conditions."""
@@ -314,9 +249,7 @@ def preset_state(mode):
         return dict(S_radius_healthy=0.9, pmf_init=110.0, NADH_init=0.55)
     if mode == "uncoupled":
         return dict(S_radius_healthy=0.25, pmf_init=70.0, NADH_init=0.30)
-    # default
     return dict(S_radius_healthy=1.8, pmf_init=165.0, NADH_init=0.90)
-
 
 def run_mito_sim_full(
     T_final=60.0,
@@ -327,7 +260,6 @@ def run_mito_sim_full(
     workload_mode="pulse",
 ):
     """Full single-mitochondrion simulation."""
-
     N = int(T_final / dt)
     t = np.linspace(0.0, T_final, N)
 
@@ -362,9 +294,8 @@ def run_mito_sim_full(
     }
 
     def W(ti):
-        """Workload profile."""
         if workload_mode == "pulse":
-            if 0.2*T_final &lt; ti &lt; 0.8*T_final:
+            if 0.2*T_final < ti < 0.8*T_final:
                 return 0.7 + 1.4*(np.sin(np.pi*(ti-0.2*T_final)/(0.6*T_final)))**2
             return 0.5
         return 1.0
@@ -378,7 +309,6 @@ def run_mito_sim_full(
 
         pmf_i = pmf[i]
         NADH_i = NADH[i]
-        ATP_i = ATP[i]
         Ca_i = Ca_m[i]
         ROS_i = ROS[i]
         G_i = geom[i]
@@ -404,13 +334,13 @@ def run_mito_sim_full(
         # ATP
         prod = 0.04 * J_ATP
         use = 0.8 * W(t[i])
-        ATP_next = max(0.0, ATP_i + (prod - use) * dt)
+        ATP_next = max(0.0, ATP[i] + (prod - use) * dt)
 
         # NADH
         dNADH = -0.15 * ETC_drive + 0.1 * (0.8 - NADH_i)
         NADH_next = np.clip(NADH_i + dNADH * dt, 0.0, 1.0)
 
-        # Ca²⁺
+        # Ca2+
         Ca_drive = 0.3 * W(t[i]) * (1.0 + (180.0 - pmf_i)/140.0)
         Ca_in = 0.3 * Ca_drive
         Ca_out = 0.08 * Ca_i * (2.0 if s in ("mPTP","uncoupled") else 1.0)
@@ -440,34 +370,28 @@ def run_mito_sim_full(
         geom[i+1] = G_next
         volume[i+1] = V_next
 
-        # --------- State transitions ---------
+        # State transitions
         ns = s
-
-        if (not event["mPTP_opened"] and Ca_i &gt; Ca_thr and ROS_i &gt; ROS_thr and pmf_i &lt; pmf_stress):
+        if (not event["mPTP_opened"] and Ca_i > Ca_thr and ROS_i > ROS_thr and pmf_i < pmf_stress):
             ns = "mPTP"
             event["mPTP_opened"] = True
             event["mPTP_time"] = t[i]
-
         elif s == "healthy":
-            if pmf_i &lt; pmf_stress or ROS_i &gt; 0.4 or Ca_i &gt; 0.6:
+            if pmf_i < pmf_stress or ROS_i > 0.4 or Ca_i > 0.6:
                 ns = "stressed"
-
         elif s == "stressed":
-            if pmf_i &lt; pmf_stress*0.8 or ROS_i &gt; 0.7 or Ca_i &gt; 0.9:
+            if pmf_i < pmf_stress*0.8 or ROS_i > 0.7 or Ca_i > 0.9:
                 ns = "pre_apoptotic"
-            elif pmf_i &gt; pmf_stress and ROS_i &lt; 0.3 and Ca_i &lt; 0.5:
+            elif pmf_i > pmf_stress and ROS_i < 0.3 and Ca_i < 0.5:
                 ns = "healthy"
-
         elif s == "pre_apoptotic":
-            if pmf_i &lt; pmf_collapse or ROS_i &gt; 1.0 or Ca_i &gt; 1.1:
+            if pmf_i < pmf_collapse or ROS_i > 1.0 or Ca_i > 1.1:
                 ns = "uncoupled"
-            elif pmf_i &gt; pmf_stress and ROS_i &lt; 0.4 and Ca_i &lt; 0.7:
+            elif pmf_i > pmf_stress and ROS_i < 0.4 and Ca_i < 0.7:
                 ns = "stressed"
-
         elif s == "uncoupled":
-            if pmf_i &lt; pmf_collapse*0.5 and ROS_i &gt; 1.1:
+            if pmf_i < pmf_collapse*0.5 and ROS_i > 1.1:
                 ns = "mPTP"
-
         states[i+1] = ns
 
     summary = {
@@ -480,11 +404,9 @@ def run_mito_sim_full(
         "geom_final": float(geom[-1]),
         "volume_final": float(volume[-1]),
         "mPTP_opened": event["mPTP_opened"],
-        "mPTP_time": float(event["mPTP_time"]) if event["mPTP_time"] is not None else None,
+        "mPTP_time": float(event["mPTP_time"]) if event["mPTP_time"] else None,
     }
-
     return t, pmf, ATP, Ca_m, ROS, states, summary
-
 
 def phenotype(summary):
     st = summary["state_final"]
@@ -493,73 +415,186 @@ def phenotype(summary):
     if st == "uncoupled":
         return "Uncoupled heat-mode respiration, low ATP efficiency."
     if st == "pre_apoptotic":
-        return "Cristae instability with Ca²⁺/ROS bursts."
+        return "Cristae instability with Ca2+/ROS bursts."
     if st == "stressed":
         return "Reduced efficiency with elevated leak."
     return "Stable oxidative phosphorylation with coherent geometry."
 
+# Run simulation
+cfg = preset_state("healthy")
+t, pmf, ATP, Ca_m, ROS, states, summary = run_mito_sim_full(**cfg)
 
-# ===============================================================
-# RUN + PLOTS
-# ===============================================================
-if __name__ == "__main__":
-    cfg = preset_state("healthy")
-    t, pmf, ATP, Ca_m, ROS, states, summary = run_mito_sim_full(**cfg)
+print("=== STUR Mitochondria Life/Death [v9.2] ===")
+for k, v in summary.items():
+    print(f"{k:20s} = {v}")
+print("\nPhenotype:", phenotype(summary))
 
-    print("Start running......\n")
-    print("=== STUR Mitochondria Lab – v4.0 Summary ===")
-    for k, v in summary.items():
-        print(f"{k:20s} = {v}")
-    print("\nPhenotype:", phenotype(summary))
-    print("\nStop running......")
+# Plots
+fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+fig.patch.set_facecolor('#050814')
+(ax1, ax2), (ax3, ax4) = axes
 
-    # Plot: pmf
-    plt.figure(figsize=(6,3))
-    plt.plot(t, pmf)
-    plt.title("Proton-Motive Force (ΔΨm)")
-    plt.xlabel("Time (s)")
-    plt.ylabel("mV")
-    plt.grid(True, alpha=0.3)
-    plt.show()
+for ax in axes.flatten():
+    ax.set_facecolor('#050814')
+    ax.tick_params(colors='#94a3b8')
+    ax.grid(True, alpha=0.3, color='#1f2a44')
+    for spine in ax.spines.values():
+        spine.set_color('#334155')
 
-    # Plot: ATP
-    plt.figure(figsize=(6,3))
-    plt.plot(t, ATP)
-    plt.title("ATP Production")
-    plt.xlabel("Time (s)")
-    plt.ylabel("ATP (a.u.)")
-    plt.grid(True, alpha=0.3)
-    plt.show()
+ax1.plot(t, pmf, color='#4ade80', lw=2)
+ax1.set_title("Proton-Motive Force", color='#ffaa00')
+ax1.set_ylabel("mV", color='#94a3b8')
 
-    # Plot: Ca²⁺ and ROS
-    plt.figure(figsize=(6,3))
-    plt.plot(t, Ca_m, label="Ca²⁺")
-    plt.plot(t, ROS, label="ROS")
-    plt.title("Stress Signals")
-    plt.xlabel("Time (s)")
-    plt.ylabel("a.u.")
-    plt.grid(True, alpha=0.3)
-    plt.legend()
-    plt.show()
+ax2.plot(t, ATP, color='#60a5fa', lw=2)
+ax2.set_title("ATP Production", color='#ffaa00')
+ax2.set_ylabel("ATP (a.u.)", color='#94a3b8')
 
-    # Plot: state timeline
-    state_map = {"healthy":0, "stressed":1, "pre_apoptotic":2, "uncoupled":3, "mPTP":4}
-    numeric_states = np.array([state_map[s] for s in states])
+ax3.plot(t, Ca_m, label="Ca2+", color='#f472b6', lw=2)
+ax3.plot(t, ROS, label="ROS", color='#fbbf24', lw=2)
+ax3.set_title("Stress Signals", color='#ffaa00')
+ax3.set_xlabel("Time (s)", color='#94a3b8')
+ax3.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
 
-    plt.figure(figsize=(6,2))
-    plt.step(t, numeric_states, where="post")
-    plt.yticks(list(state_map.values()), list(state_map.keys()))
-    plt.title("State Timeline")
-    plt.xlabel("Time (s)")
-    plt.grid(True, alpha=0.3)
-    plt.show()
+state_map = {"healthy":0, "stressed":1, "pre_apoptotic":2, "uncoupled":3, "mPTP":4}
+numeric_states = np.array([state_map[s] for s in states])
+ax4.step(t, numeric_states, where="post", color='#22d3ee', lw=2)
+ax4.set_yticks(list(state_map.values()))
+ax4.set_yticklabels(list(state_map.keys()))
+ax4.set_title("State Timeline", color='#ffaa00')
+ax4.set_xlabel("Time (s)", color='#94a3b8')
 
-    # JSON summary
-    with open("summary.json", "w") as f:
-        json.dump(summary, f, indent=2)
-</code></pre>
-  </div>
+fig.suptitle('STUR Mito Life/Death v4.0 (v9.2)', color='#ffaa00', fontsize=14)
+plt.tight_layout()
+plt.show()</pre>
 
-</div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> mito-life-death |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Bernardi — The mitochondrial permeability transition pore</li>
+                <li>Nicholls & Ferguson — Bioenergetics (4th ed)</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+const PAGE_ID = 'mito-life-death';
+const pageState = {
+    params: {
+        L0: 1.0,
+        PMF_MAX_mV: 220,
+        PMF_HEALTHY_mV: 150,
+        T_final_s: 60
+    },
+    predictions: {
+        equation: 'S(r) = tanh(r/L0)(1 - exp(-r/L0))'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
+}
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'L0', value: pageState.params.L0, unit: '' },
+        { parameter: 'PMF_MAX', value: pageState.params.PMF_MAX_mV, unit: 'mV' },
+        { parameter: 'PMF_HEALTHY', value: pageState.params.PMF_HEALTHY_mV, unit: 'mV' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
+}
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_mito_life_death.py', 'text/x-python');
+});
+</script>
+
 </body>
 </html>
