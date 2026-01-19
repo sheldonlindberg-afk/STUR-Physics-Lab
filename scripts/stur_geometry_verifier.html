@@ -5,115 +5,78 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>Holoscreen — Unified Falsification Laboratory</title>
+
+<!-- STUR Theme System -->
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+
 <style>
-:root{
-  --bg:#0a0e27;--card:#141b3d;--border:#1f2d5c;--text:#e2e8f0;--muted:#94a3b8;
-  --accent:#60a5fa;--good:#34d399;--warn:#fbbf24;--danger:#fb7185;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --sans: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:20px;line-height:1.6}
+/* Page-specific overrides - inherits from stur-core.css */
+body{padding:20px;}
 .container{max-width:1200px;margin:0 auto}
-h1{font-size:28px;margin-bottom:8px;color:var(--accent);font-weight:800}
-.subtitle{color:var(--muted);font-size:13px;margin-bottom:24px;line-height:1.5}
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
-.card-title{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
+h1{font-size:28px;margin-bottom:8px;color:var(--neon-cyan);font-weight:800}
+.subtitle{color:var(--text-muted);font-size:13px;margin-bottom:24px;line-height:1.5}
+.card{background:var(--bg-panel-2);border:1px solid var(--border-dim);border-radius:12px;padding:20px;margin-bottom:16px}
+.card-title{font-size:15px;font-weight:700;color:var(--neon-cyan);margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
 .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:20px}
-label{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;font-weight:700}
+label{display:block;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;font-weight:700}
 input[type="range"]{width:100%;height:40px}
 input[type="number"],select{
-  width:100%;background:#0a0e27;border:1px solid var(--border);color:var(--text);
-  padding:10px;border-radius:8px;font-family:var(--mono);font-size:14px
+  width:100%;background:var(--bg-panel);border:1px solid var(--border-dim);color:var(--text-main);
+  padding:10px;border-radius:8px;font-family:var(--font-mono);font-size:14px
 }
 .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
 .metric{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:16px;border-radius:10px}
-.metric-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
-.metric-value{font-family:var(--mono);font-size:22px;font-weight:800;color:var(--text)}
-.metric-value.accent{color:var(--accent)}
-.metric-value.good{color:var(--good)}
-.metric-value.warn{color:var(--warn)}
+.metric-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.metric-value{font-family:var(--font-mono);font-size:22px;font-weight:800;color:var(--text-main)}
+.metric-value.accent{color:var(--neon-cyan)}
+.metric-value.good{color:var(--neon-green)}
+.metric-value.warn{color:var(--neon-gold)}
 .badge{
-  display:inline-block;font-family:var(--mono);font-size:11px;padding:4px 12px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:var(--text);margin-left:8px
+  display:inline-block;font-family:var(--font-mono);font-size:11px;padding:4px 12px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:var(--text-main);margin-left:8px
 }
-.badge.good{border-color:rgba(52,211,153,.4);color:#bfffea;background:rgba(52,211,153,.1)}
+.badge.good{border-color:rgba(74,222,128,.4);color:#bfffea;background:rgba(74,222,128,.1)}
 .badge.warn{border-color:rgba(251,191,36,.4);color:#ffe6a8;background:rgba(251,191,36,.1)}
-.badge.danger{border-color:rgba(251,113,133,.4);color:#ffd0d8;background:rgba(251,113,133,.1)}
+.badge.danger{border-color:rgba(248,113,113,.4);color:#ffd0d8;background:rgba(248,113,113,.1)}
 button{
-  background:var(--accent);color:#000;border:none;padding:12px 18px;border-radius:8px;
+  background:var(--neon-cyan);color:#000;border:none;padding:12px 18px;border-radius:8px;
   font-weight:700;font-size:13px;cursor:pointer;margin-right:8px;margin-bottom:8px
 }
-button.secondary{background:rgba(255,255,255,.12);color:var(--text)}
+button.secondary{background:rgba(255,255,255,.12);color:var(--text-main)}
 button:hover{opacity:.9}
 button:active{transform:translateY(1px)}
 button:disabled{opacity:.4;cursor:not-allowed}
 .row{display:flex;gap:12px;flex-wrap:wrap}
-.smallmono{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.smallmono{font-family:var(--font-mono);font-size:12px;color:var(--text-muted)}
 canvas{
   width:100%;border-radius:8px;background:rgba(0,0,0,.3);
-  border:1px solid var(--border);display:block;margin-top:12px
+  border:1px solid var(--border-dim);display:block;margin-top:12px
 }
 .validation-box{
-  padding:12px;border-radius:8px;margin-top:12px;font-family:var(--mono);font-size:12px;
+  padding:12px;border-radius:8px;margin-top:12px;font-family:var(--font-mono);font-size:12px;
   border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02)
 }
-.validation-box.pass{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3);color:#bfffea}
-.validation-box.fail{background:rgba(251,113,133,.08);border-color:rgba(251,113,133,.3);color:#ffd0d8}
-.validation-box.neutral{background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.3);color:#bfdbfe}
-.tooltip{position:relative;cursor:help;border-bottom:1px dotted var(--muted)}
+.validation-box.pass{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.3);color:#bfffea}
+.validation-box.fail{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.3);color:#ffd0d8}
+.validation-box.neutral{background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.3);color:#bfdbfe}
+.tooltip{position:relative;cursor:help;border-bottom:1px dotted var(--text-muted)}
 .tooltip:hover::after{
   content:attr(data-tip);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);
-  background:rgba(20,27,61,0.98);color:var(--text);padding:8px 12px;border-radius:6px;
-  font-size:11px;white-space:nowrap;z-index:1000;border:1px solid var(--border);
-  box-shadow:0 4px 12px rgba(0,0,0,0.3);margin-bottom:8px;font-family:var(--sans);
+  background:var(--bg-panel-2);color:var(--text-main);padding:8px 12px;border-radius:6px;
+  font-size:11px;white-space:nowrap;z-index:1000;border:1px solid var(--border-dim);
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);margin-bottom:8px;font-family:var(--font-sans);
   line-height:1.4;max-width:300px;white-space:normal;
 }
 .tooltip:hover::before{
   content:"";position:absolute;bottom:100%;left:50%;transform:translateX(-50%);
-  border:6px solid transparent;border-top-color:var(--border);margin-bottom:2px;
+  border:6px solid transparent;border-top-color:var(--border-dim);margin-bottom:2px;
 }
 @media(max-width:768px){
   .controls{grid-template-columns:1fr}
   .metrics{grid-template-columns:1fr}
 }
-
-/* === EQUATION TERM COLOR CODING === */
-.eq-diffusion { color: #4ade80; } /* Green - Kinetic/Diffusion */
-.eq-potential { color: #f472b6; } /* Pink - Relaxation Potential */
-.eq-xcrm { color: #fbbf24; }      /* Gold - XCRM Coupling */
-.eq-torsion { color: #60a5fa; }   /* Blue - Torsion Source */
-.eq-quantum { color: #a78bfa; }   /* Violet - Quantum Terms */
-.eq-matter { color: #22d3ee; }    /* Cyan - Matter Sector */
-
-/* Equation Legend */
-.eq-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
-  margin: 1rem 0;
-  padding: 0.75rem 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 0.82rem;
-}
-.eq-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-.eq-legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-.eq-legend-dot.diffusion { background: #4ade80; }
-.eq-legend-dot.potential { background: #f472b6; }
-.eq-legend-dot.xcrm { background: #fbbf24; }
-.eq-legend-dot.torsion { background: #60a5fa; }
-.eq-legend-dot.quantum { background: #a78bfa; }
-.eq-legend-dot.matter { background: #22d3ee; }
 </style>
 </head>
 
