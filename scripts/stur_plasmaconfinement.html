@@ -111,6 +111,39 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- First Principles Status -->
+    <div class="glass-section" style="border-color:var(--neon-cyan);background:rgba(34,211,238,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-check-circle size-24" style="color:var(--neon-cyan);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-cyan);">First Principles Status — Derived Application</h2>
+        </div>
+        <div class="glass-section-body">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+                <div>
+                    <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
+                    <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
+                        <li><strong>STUR modulator form:</strong> \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\)</li>
+                        <li><strong>Coherence length closure:</strong> \(L_0 = \sqrt{2}L_X/\sigma_R\)</li>
+                        <li><strong>GR coupling:</strong> Weak-field metric correction</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;">Phenomenological Inputs</h4>
+                    <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
+                        <li><strong>\(L_0 = 1\) mm:</strong> Tokamak-scale coherence (phenomenological)</li>
+                        <li><strong>Torus geometry:</strong> \(R = 2\) cm, \(a = 4\) mm</li>
+                        <li><strong>Magnetic field:</strong> \(B_z = 1.5\) T</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(34,211,238,0.08);border-radius:8px;font-size:0.85rem;">
+                <strong style="color:var(--neon-cyan);">Connection to Core Theory:</strong>
+                This page tests the <em>torsion sector</em> in the relativistic plasma limit.
+                The FORM of \(S(r)\) is derived; the SCALE \(L_0 = 1\) mm is a phenomenological input for laboratory plasmas.
+            </div>
+        </div>
+    </div>
+
     <!-- Falsification Harness -->
     <div class="falsification-harness">
       <h3>Falsification Protocol</h3>
@@ -125,14 +158,14 @@
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Gaussian visibility: V(ΔL) = V₀ exp(−(ΔL/ℓ_coh)²)</p>
+          <p>Radius-dependent confinement: \(S(r) < 1\) at small \(r\) reduces effective Lorentz force, modifying particle orbits.</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Δχ², Bayes factor, or likelihood ratio</p>
+          <p>Confinement time, \(\langle S \rangle\) statistics, orbit deviation from standard Lorentz</p>
         </div>
       </div>
-      <a href="stur_foundations.html#sec9" class="core-ref">Core Definition: Eq. (9.1)</a>
+      <a href="stur_foundations.html#sec3" class="core-ref">Core Definition: Torsion Sector</a>
     </div>
 
     <!-- ============================================================

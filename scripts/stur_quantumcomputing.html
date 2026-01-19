@@ -111,6 +111,37 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- First Principles Status -->
+    <div class="glass-section" style="border-color:var(--neon-violet);background:rgba(167,139,250,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-alert-circle size-24" style="color:var(--neon-violet);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-violet);">First Principles Status — Exploratory Extension</h2>
+        </div>
+        <div class="glass-section-body">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+                <div>
+                    <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
+                    <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
+                        <li><strong>STUR modulator form:</strong> \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\)</li>
+                        <li><strong>Unitary evolution:</strong> \(R_{\rm STUR}\) is Hermitian</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;">Phenomenological Inputs</h4>
+                    <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
+                        <li><strong>\(L_0 = 1\):</strong> Lattice units (phenomenological)</li>
+                        <li><strong>Lattice size:</strong> \(N = 6\) sites</li>
+                        <li><strong>Hopping strength:</strong> \(J = 1\)</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(167,139,250,0.08);border-radius:8px;font-size:0.85rem;">
+                <strong style="color:var(--neon-violet);">Exploratory Status:</strong>
+                This page extends STUR to quantum lattice systems. The lattice generator \(R_{\rm STUR}\) is a <em>hypothesis</em> for how the resistance field modulates quantum coherence. The connection to \(\sigma_R/L_X\) in physical units requires further theoretical development.
+            </div>
+        </div>
+    </div>
+
     <!-- Falsification Harness -->
     <div class="falsification-harness">
       <h3>Falsification Protocol</h3>
@@ -125,14 +156,14 @@
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Gaussian visibility: V(ΔL) = V₀ exp(−(ΔL/ℓ_coh)²)</p>
+          <p>Deterministic unitary evolution: \(R_{\rm STUR}\) maintains flux conservation \(\Phi_R(t) = \text{const}\) and bounded entanglement entropy.</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Δχ², Bayes factor, or likelihood ratio</p>
+          <p>Flux conservation \(\Delta\Phi_R\), entropy growth rate, continuity residual \(\mathcal{C}\)</p>
         </div>
       </div>
-      <a href="stur_foundations.html#sec9" class="core-ref">Core Definition: Eq. (9.1)</a>
+      <a href="stur_foundations.html#sec3" class="core-ref">Core Definition: XCRM Sector</a>
     </div>
 
     <!-- ============================================================

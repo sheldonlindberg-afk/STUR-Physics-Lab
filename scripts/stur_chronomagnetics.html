@@ -112,6 +112,40 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- First Principles Status -->
+    <div class="glass-section" style="border-color:var(--neon-gold);background:rgba(251,191,36,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-alert-circle size-24" style="color:var(--neon-gold);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-gold);">First Principles Status — Phenomenological Layer</h2>
+        </div>
+        <div class="glass-section-body">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+                <div>
+                    <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
+                    <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
+                        <li><strong>STUR modulator form:</strong> \(S_u(u) = \tanh(u)(1 - e^{-u})\)</li>
+                        <li><strong>Bounded saturation:</strong> \(M \to \text{finite}\) as \(t \to \infty\)</li>
+                        <li><strong>Coherence suppression:</strong> \(\exp(-R_q \cdot S_u)\)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;">Phenomenological Inputs</h4>
+                    <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
+                        <li><strong>\(R_q\) range:</strong> 0.2 – 2.5 (curvature parameter)</li>
+                        <li><strong>\(\lambda = 3722/2705\):</strong> Log-periodic constant (geometric construction)</li>
+                        <li><strong>Cosmic epoch mapping:</strong> \(\tau\) from Planck to present</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.08);border-radius:8px;font-size:0.85rem;">
+                <strong style="color:var(--neon-gold);">Note:</strong>
+                Chronomagnetics is an <em>optional phenomenological modulation layer</em> (Foundations §6).
+                The core STUR falsifiable prediction (Gaussian visibility) does NOT depend on Chronomagnetics.
+                This page tests the bounded-invariant structure of the modulation sector.
+            </div>
+        </div>
+    </div>
+
     <!-- Falsification Harness -->
     <div class="falsification-harness">
       <h3>Falsification Protocol</h3>
@@ -126,14 +160,14 @@
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Gaussian visibility: V(ΔL) = V₀ exp(−(ΔL/ℓ_coh)²)</p>
+          <p>Bounded modulation: \(M = R_q \cdot S_u(u_c) < 1\) at all epochs; saturation operator prevents divergence.</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Δχ², Bayes factor, or likelihood ratio</p>
+          <p>\(M_{\max}\), phase divergence, RMSE vs QM interference</p>
         </div>
       </div>
-      <a href="stur_foundations.html#sec9" class="core-ref">Core Definition: Eq. (9.1)</a>
+      <a href="stur_foundations.html#sec6" class="core-ref">Core Definition: Foundations §6 (Chronomagnetics)</a>
     </div>
 
     <!-- ============================================================

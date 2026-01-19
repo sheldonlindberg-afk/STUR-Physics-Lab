@@ -112,6 +112,39 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- First Principles Status -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-check-circle size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">First Principles Status — Falsifiable</h2>
+        </div>
+        <div class="glass-section-body">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+                <div>
+                    <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
+                    <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
+                        <li><strong>Gaussian visibility form:</strong> \(V(\Delta L) = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\)</li>
+                        <li><strong>Coherence length closure:</strong> \(\ell_{\rm coh} = \sqrt{2}\,L_X/\sigma_R\)</li>
+                        <li><strong>Quadratic \(\Delta L\) dependence</strong> (from CLT + XCRM)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;">Phenomenological Inputs</h4>
+                    <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
+                        <li><strong>Plasmon Q factor:</strong> Measured linewidth → \(\sigma_R/L_X\)</li>
+                        <li><strong>Slit geometry:</strong> d, a, L (experimental setup)</li>
+                        <li><strong>Wavelength range:</strong> UV to visible</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(239,68,68,0.06);border-radius:8px;font-size:0.85rem;">
+                <strong style="color:var(--neon-pink);">Non-Negotiable Test:</strong>
+                The Gaussian form \(V \propto \exp(-\Delta L^2)\) is <em>derived</em>, not assumed.
+                If data shows oscillatory or linear-\(\Delta L\) behavior, <strong>STUR is falsified</strong>.
+            </div>
+        </div>
+    </div>
+
     <!-- Falsification Harness -->
     <div class="falsification-harness">
       <h3>Falsification Protocol</h3>

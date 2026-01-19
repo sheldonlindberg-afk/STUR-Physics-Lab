@@ -111,6 +111,32 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- First Principles Status -->
+    <div class="glass-section" style="border-color:var(--neon-gold);background:rgba(251,191,36,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-alert-triangle size-24" style="color:var(--neon-gold);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-gold);">First Principles Status — Phenomenological Layer</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.92rem;">
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>X-bundle coupling structure: \(U(X-R)\) in Master Action induces matter-field interactions</li>
+                <li>Axion-like coupling form: \(\mathcal{L} = g_a \phi \bar{\psi}\gamma^5\psi\) from X-bundle sector</li>
+                <li>Coupling existence — predicted by XCRM term structure</li>
+            </ul>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Coupling constants: \(g_0 = 10^{-12}\), amplitude \(C = 5 \times 10^{-6}\), exponent \(p = 0.65\)</li>
+                <li>Graphene transport parameters — Drude model, Fermi velocity, effective mass</li>
+                <li>Sub-linear scaling exponent \(p\) — phenomenological (screening effects)</li>
+            </ul>
+            <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
+                <strong>Connection to Core Theory:</strong> The X-bundle coupling arises from the XCRM sector of the Master Action.
+                However, the specific coupling strength and scaling law are phenomenological predictions requiring experimental verification.
+            </p>
+        </div>
+    </div>
+
     <!-- Falsification Harness -->
     <div class="falsification-harness">
       <h3>Falsification Protocol</h3>
@@ -125,14 +151,14 @@
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Gaussian visibility: V(ΔL) = V₀ exp(−(ΔL/ℓ_coh)²)</p>
+          <p>Sub-linear scattering shift: \(\Delta\tau/\tau = C(g_a/g_0)^p\) with \(p < 1\); Hall response \(\Delta\sigma_{xy} \propto 2\Delta\tau/\tau\).</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Δχ², Bayes factor, or likelihood ratio</p>
+          <p>Scaling exponent \(p\), conductivity ratio at \(g_a = 10^{-10}\) vs \(10^{-12}\), sub-linear verification</p>
         </div>
       </div>
-      <a href="stur_foundations.html#sec9" class="core-ref">Core Definition: Eq. (9.1)</a>
+      <a href="stur_foundations.html#sec5" class="core-ref">Core Definition: XCRM Coupling (§5)</a>
     </div>
 
     <!-- ============================================================
