@@ -125,7 +125,7 @@
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
                         <li><strong>Potential form:</strong> \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
                         <li><strong>Gaussian visibility form:</strong> \(V(\Delta L) = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
-                        <li><strong>Coherence length closure:</strong> \(\ell_{\rm coh} = \sqrt{2}\,L_X/\sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">Eq. 3.18</a></li>
+                        <li><strong>Coherence length closure:</strong> \(\ell_{\rm coh} = \sqrt{2}\,L_X/(y\sigma_R)\) with \(y=1\) — from <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-green)">Technical Appendix Eq. B.9</a></li>
                         <li><strong>Quadratic \(\Delta L\) dependence</strong> (from CLT + XCRM)</li>
                     </ul>
                 </div>
@@ -223,12 +223,17 @@
 
             <div class="stur-eq derived">
                 \[
-                \color{#22d3ee}{\ell_{\text{coh}}} = \frac{\sqrt{2}\,\color{#fbbf24}{L_X}}{\color{#4ade80}{\sigma_R}} = \frac{Q_{\text{plasmon}}}{2\pi n_{\text{eff}}}\,\lambda
+                \color{#22d3ee}{\ell_{\text{coh}}} = \frac{\sqrt{2}\,\color{#fbbf24}{L_X}}{\color{#a78bfa}{y}\,\color{#4ade80}{\sigma_R}} = \frac{Q_{\text{plasmon}}}{2\pi n_{\text{eff}}}\,\lambda
                 \]
-                <div class="stur-eq-label">Coherence Length (dataset-locked)</div>
+                <div class="stur-eq-label">Coherence Length — <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-cyan)">Tech. Appendix Eq. B.9</a></div>
             </div>
 
-            <p><strong>Key parameter:</strong> \(L_X\) is the single free parameter; \(\sigma_R\) is <a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">derived from XCRM</a>. The ratio is extracted from plasmon linewidth data for experimental validation.</p>
+            <p><strong>Key parameters:</strong></p>
+            <ul style="font-size:0.9rem;color:var(--text-secondary);">
+              <li>\(L_X\) — internal dimension size (single free parameter)</li>
+              <li>\(\sigma_R\) — resistance fluctuation RMS (<a href="stur_technical_appendix.html#parameter-definitions" style="color:var(--neon-green)">Eq. A.6: derived from XCRM equilibrium</a>)</li>
+              <li>\(y\) — Yukawa coupling (set to \(y=1\) in simulations)</li>
+            </ul>
         </div>
     </section>
 
@@ -387,8 +392,10 @@ def clamp01(v):
 
 # ===============================================================
 # 4) COHERENCE LENGTH FROM PLASMON Q
-# Implements: ℓ_coh = (Q / 2πn_eff) λ = √2 L_X / σ_R
+# Implements: ℓ_coh = √2 L_X / (y σ_R)  [Tech. Appendix Eq. B.9]
+# With y=1 (default Yukawa coupling), this becomes ℓ_coh = √2 L_X / σ_R
 # ===============================================================
+Y_YUKAWA = 1.0  # Yukawa coupling (dimensionless) — see Tech. Appendix
 def plasmon_Q():
     fwhm = max(HALFMAX_R_NM - HALFMAX_L_NM, 1e-12)
     return LAMBDA_RES_NM / fwhm

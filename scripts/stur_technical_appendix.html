@@ -330,22 +330,31 @@ window.MathJax = {
   </div>
 
   <p>
-    For uncorrelated segments (\(|i - j| > 1\)), only diagonal terms survive:
+    The key insight is that the two interferometer arms (separated by \(\Delta L\)) sample <strong>different regions</strong>
+    of the resistance field. Within each arm, the field gradient \(\partial_x R\) varies slowly over correlation length \(L_X\),
+    but between arms, the gradients are uncorrelated. This gives:
   </p>
 
   <div class="eq boxed">
-    \[\langle \Phi_R^2 \rangle = y^2 \cdot N \cdot 2\sigma_R^2 = 2 y^2 \sigma_R^2 \cdot \frac{\Delta L}{L_X}\]
-    <div class="eq-label">(B.8)</div>
+    \[\langle \Phi_R^2 \rangle = 2 y^2 \langle (\partial_x R)^2 \rangle (\Delta L)^2 = 2 y^2 \frac{\sigma_R^2}{L_X^2} (\Delta L)^2\]
+    <div class="eq-label">(B.8) — Holonomy variance (quadratic in ΔL)</div>
   </div>
 
   <p>
+    where we used \(\langle (\partial_x R)^2 \rangle \sim \sigma_R^2 / L_X^2\) (gradient variance from dimensional analysis).
     Defining the coherence length:
   </p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{\ell_{\rm coh}^2 \equiv \frac{L_X}{y^2 \sigma_R^2} \;\;\Rightarrow\;\; \ell_{\rm coh} = \frac{\sqrt{L_X}}{y \sigma_R}}\]
+    \[\boxed{\ell_{\rm coh} \equiv \frac{L_X}{y \sigma_R}} \quad \text{or equivalently} \quad \ell_{\rm coh} = \frac{\sqrt{2}\, L_X}{y \sigma_R}\]
     <div class="eq-label" style="color:var(--gold);">(B.9) — Coherence length definition</div>
   </div>
+
+  <p style="font-size:0.9rem;color:var(--text-muted);">
+    <em>Convention:</em> The factor of \(\sqrt{2}\) depends on whether we define \(\langle \Phi_R^2 \rangle = (\Delta L/\ell_{\rm coh})^2\)
+    or \(\langle \Phi_R^2 \rangle = 2(\Delta L/\ell_{\rm coh})^2\). Both conventions appear in the literature.
+    <strong>All STUR simulations use \(\ell_{\rm coh} = \sqrt{2}\, L_X / (y \sigma_R)\) with \(y = 1\) as the default.</strong>
+  </p>
 
   <p>
     We obtain the key result:
@@ -425,6 +434,62 @@ window.MathJax = {
     </ol>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
       <strong>No approximations beyond CLT validity.</strong> The result is exact in the limit \(\Delta L \gg L_X\).
+    </p>
+  </div>
+
+  <h3 style="margin-top:2rem;">B.6 Saturation Operator for Finite Path Lengths</h3>
+
+  <p>
+    The Gaussian visibility law (B.15) assumes \(\Delta L \gg L_X\) (CLT regime). For finite path lengths,
+    the holonomy accumulation saturates. We define the <strong>saturation operator</strong>:
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--accent);padding:1.25rem;">
+    \[\boxed{S_u(u) = \tanh(u)\bigl(1 - e^{-u}\bigr)}\]
+    <div class="eq-label" style="color:var(--accent);">(B.16) — Saturation Operator</div>
+  </div>
+
+  <p>
+    where \(u = \Delta L / \ell_{\rm coh}\) is the dimensionless path ratio. Properties:
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1rem 0;">
+    <div style="padding:0.9rem;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+      <div style="font-size:0.78rem;color:#4ade80;font-weight:600;">Small-u Limit</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
+        \(S_u(u) \approx u^2\) for \(u \ll 1\)<br>
+        Recovers quadratic \((\Delta L)^2\) dependence
+      </div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+      <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;">Large-u Limit</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
+        \(S_u(u) \to 1\) for \(u \gg 1\)<br>
+        Complete decoherence (saturation)
+      </div>
+    </div>
+  </div>
+
+  <p>
+    The <strong>generalized visibility</strong> including saturation is:
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{V(\Delta L) = V_0 \exp\!\left(-\frac{R_q^2 \, S_u^2(u)}{2}\right)}\]
+    <div class="eq-label" style="color:var(--gold);">(B.17) — Generalized Visibility with Saturation</div>
+  </div>
+
+  <p>
+    Here \(R_q\) is the <strong>resistance quantum</strong> — the characteristic holonomy magnitude
+    set by the coupling \(y\sigma_R\). When \(R_q \cdot S_u(u) \ll 1\), this reduces to the Gaussian form (B.15).
+  </p>
+
+  <div class="block" style="border-left-color:var(--accent-secondary);">
+    <div class="title" style="color:var(--accent-secondary);">Simulation Note</div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      All STUR simulations (Holoscreen, Sandbox, Double-Slit) implement (B.17) with the saturation operator.
+      The holonomy \(\Phi_R = R_q \cdot S_u(\Delta L / \ell_{\rm coh})\) captures both the linear buildup
+      (\(\Delta L \ll \ell_{\rm coh}\)) and saturated (\(\Delta L \gg \ell_{\rm coh}\)) regimes.
     </p>
   </div>
 </section>
