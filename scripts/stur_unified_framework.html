@@ -422,10 +422,10 @@
       <td>Enters coherence length via \(\ell_{\rm coh} = \sqrt{2}L_X/\sigma_R\)</td>
       <td>Phenomenological; inferred from visibility data</td>
     </tr>
-    <tr style="background:var(--warning-subtle);">
+    <tr style="background:var(--success-subtle);">
       <td><strong>\(V(R)\)</strong> (potential form)</td>
       <td>Drives relaxation to background \(R_{\rm bg}\)</td>
-      <td>Not specified; polynomial or exponential assumed</td>
+      <td><strong style="color:var(--success)">Derived</strong> from orbifold topology (<a href="stur_foundations.html#VR-derivation" style="color:var(--stur)">§2.5</a>)</td>
     </tr>
     <tr style="background:var(--warning-subtle);">
       <td><strong>Gauge group \(G\)</strong></td>
@@ -460,7 +460,7 @@
 
   <h3>Derivation Chain: V(R) → S(r) Saturation Operator</h3>
 
-  <p>The saturation operator \(S(r)\) used in gravitational simulations emerges from the potential term \(V(R)\) in the Master Action via a rigorous derivation (see <a href="stur_foundations.html#appE">Foundations Appendix E</a>):</p>
+  <p>The saturation operator \(S(r)\) used in gravitational simulations emerges from the potential term \(V(R)\) — which is itself <strong>derived from the orbifold topology</strong> (<a href="stur_foundations.html#VR-derivation">Foundations §2.5</a>). The complete derivation chain is given in <a href="stur_foundations.html#appE">Appendix E</a>:</p>
 
   <div class="card-grid">
     <div class="card" style="border-left:3px solid var(--success)">
@@ -468,8 +468,8 @@
       <p>The scalar sector \(S_{\rm scalar}\) contains the term \(\alpha R\, \mathbb{T}\) coupling resistance to torsion. In the weak-field limit, \(\mathbb{T} \to -2\nabla^2\Phi_N/c^2\).</p>
     </div>
     <div class="card" style="border-left:3px solid var(--success)">
-      <h4>Step 2: Double-Well Solution</h4>
-      <p>For \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\), the kink solution \(R_0(r) = v\tanh(r/\xi)\) yields \(f(R_0/v) = \tanh(r/\xi)\).</p>
+      <h4>Step 2: Orbifold-Derived Double-Well</h4>
+      <p>The orbifold topology <strong>forces</strong> \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) (see <a href="stur_foundations.html#VR-derivation" style="color:var(--stur)">§2.5</a>). The resulting kink \(R_0(r) = v\tanh(r/\xi)\) yields \(f(R_0/v) = \tanh(r/\xi)\).</p>
     </div>
     <div class="card" style="border-left:3px solid var(--success)">
       <h4>Step 3: XCRM Relaxation</h4>
@@ -489,7 +489,7 @@
     <p class="muted">
       The <strong>same functional form</strong> applies at all scales—microscale (3-body orbits), stellar, and galactic (rotation curves).
       Only the characteristic length \(L_0\) changes to match the local coherence environment.
-      This is not an assumption; it follows from the structure of V(R).
+      This is not an assumption; it follows from the <strong>orbifold-derived</strong> form of V(R) (<a href="stur_foundations.html#VR-derivation" style="color:var(--success)">§2.5</a>).
     </p>
   </div>
 
