@@ -82,11 +82,11 @@
 
     <!-- Equation Legend -->
     <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
-        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
     <!-- ============================================================
@@ -135,18 +135,18 @@
 
             <div class="stur-eq derived">
                 \[
-                S_X(r, \chi) = S_0(r) \cdot e^{-(\chi/\chi_0)^2} \cdot \frac{1}{1 + (\chi/\chi_c)^2}
+                \color{#fbbf24}{S_X(r, \chi)} = \color{#f472b6}{S_0(r)} \cdot e^{-(\chi/\chi_0)^2} \cdot \frac{1}{1 + (\chi/\chi_c)^2}
                 \]
-                <div class="stur-eq-label">5D Modulator</div>
+                <div class="stur-eq-label">5D Modulator (XCRM extended)</div>
             </div>
 
             <p><strong>X-coherence metric:</strong></p>
 
             <div class="stur-eq derived">
                 \[
-                \kappa_X(r, \chi) = \frac{S_X^2}{1 + |\rho + p_r|/\rho_P}
+                \color{#fbbf24}{\kappa_X(r, \chi)} = \frac{\color{#fbbf24}{S_X^2}}{1 + \color{#22d3ee}{|\rho + p_r|}/\rho_P}
                 \]
-                <div class="stur-eq-label">Coherence Indicator</div>
+                <div class="stur-eq-label">X-Coherence Indicator</div>
             </div>
         </div>
     </section>

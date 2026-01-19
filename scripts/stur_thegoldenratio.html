@@ -82,11 +82,11 @@
 
     <!-- Equation Legend -->
     <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
-        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
     <!-- ============================================================
@@ -133,7 +133,7 @@
 
             <div class="stur-eq derived">
                 \[
-                R^*(t) = \frac{E(t)}{I(t) \cdot \Phi(t)}
+                R^*(t) = \frac{\color{#f472b6}{E(t)}}{\color{#fbbf24}{I(t)} \cdot \color{#60a5fa}{\Phi(t)}}
                 \]
                 <div class="stur-eq-label">Perfect Resistance Ratio</div>
             </div>
@@ -142,7 +142,7 @@
 
             <div class="stur-eq derived">
                 \[
-                R^*(t) \to 1 \quad \text{(Golden STUR Attractor)}
+                \color{#fbbf24}{R^*(t) \to 1} \quad \text{(Golden STUR Attractor)}
                 \]
                 <div class="stur-eq-label">Unity Equilibrium</div>
             </div>
@@ -151,9 +151,9 @@
 
             <div class="stur-eq derived">
                 \[
-                E \leftarrow E - k \cdot \Delta \cdot E
+                \color{#f472b6}{E} \leftarrow \color{#f472b6}{E} - \color{#fbbf24}{k \cdot \Delta} \cdot \color{#f472b6}{E}
                 \]
-                <div class="stur-eq-label">Feedback Coupling</div>
+                <div class="stur-eq-label">Feedback Coupling (XCRM mechanism)</div>
             </div>
         </div>
     </section>

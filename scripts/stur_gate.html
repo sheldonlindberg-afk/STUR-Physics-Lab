@@ -82,11 +82,11 @@
 
     <!-- Equation Legend -->
     <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
-        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
     <!-- ============================================================
@@ -133,7 +133,7 @@
 
             <div class="stur-eq derived">
                 \[
-                F_{\text{tot}}(r,t) = S(r)[F_{\text{EM}} + F_G + F_S] + F_{\text{sp}} + F_{\text{SC}}(t) + F_v + F_d + F_b(t)
+                F_{\text{tot}}(r,t) = \color{#f472b6}{S(r)}[\color{#22d3ee}{F_{\text{EM}}} + \color{#60a5fa}{F_G} + \color{#fbbf24}{F_S}] + \color{#4ade80}{F_{\text{sp}} + F_{\text{SC}}(t) + F_v + F_d + F_b(t)}
                 \]
                 <div class="stur-eq-label">Corridor Force</div>
             </div>
@@ -142,9 +142,9 @@
 
             <div class="stur-eq derived">
                 \[
-                C(t) = \sum_i |F_{\text{tot}}(r_i, t)| \Delta r
+                \color{#f472b6}{C(t)} = \sum_i |F_{\text{tot}}(r_i, t)| \Delta r
                 \]
-                <div class="stur-eq-label">Integrated Resistance</div>
+                <div class="stur-eq-label">Integrated Resistance (from V(R))</div>
             </div>
 
             <p><strong>Success probability:</strong> \(P_{\text{success}}(t, \sigma) = \Pr[E_b > E_{\text{need}}]\)</p>
@@ -153,9 +153,9 @@
 
             <div class="stur-eq derived">
                 \[
-                S_{\text{info}}(P) = -P \log_2 P - (1-P) \log_2(1-P)
+                \color{#fbbf24}{S_{\text{info}}(P)} = -P \log_2 P - (1-P) \log_2(1-P)
                 \]
-                <div class="stur-eq-label">Shannon Entropy</div>
+                <div class="stur-eq-label">Shannon Entropy (XCRM information measure)</div>
             </div>
         </div>
     </section>

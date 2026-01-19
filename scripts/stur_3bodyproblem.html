@@ -82,11 +82,11 @@
 
     <!-- Equation Legend -->
     <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
-        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
-        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
     <!-- ============================================================
@@ -129,14 +129,15 @@
                 <div class="stur-eq-label">Master Action (v9.2)</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> Classical Newtonian limit with STUR-modified gravitational potential:</p>
+            <p><strong>Limit assumed:</strong> Classical Newtonian limit with STUR-modified gravitational potential
+               (see <a href="stur_foundations.html#appE">Appendix E.1</a> for derivation from Master Action):</p>
 
             <div class="stur-eq derived">
                 \[
                 V_{ij}(r) = -\frac{G m_i m_j \cdot S(r)}{r}, \quad
                 S(r) = \tanh(r/L_0)\cdot(1 - e^{-r/L_0})
                 \]
-                <div class="stur-eq-label">STUR-Modified Gravitational Potential</div>
+                <div class="stur-eq-label">STUR-Modified Gravitational Potential (Eq. E.4)</div>
             </div>
 
             <p>The acceleration derives from the gradient of \(S(r)/r\):</p>
@@ -148,7 +149,8 @@
                 <div class="stur-eq-label">STUR Gravitational Acceleration</div>
             </div>
 
-            <p><strong>Key parameter:</strong> \(L_0 = 10^9\,\text{m}\) determines the scale where STUR effects become significant.</p>
+            <p><strong>Key parameter:</strong> \(L_0 = \ell_{\rm coh} = \sqrt{2}L_X/\sigma_R\) (Eq. E.5). The value \(L_0 = 10^9\,\text{m}\)
+               corresponds to a specific realization of the STUR coherence length at astrophysical scales.</p>
         </div>
     </section>
 
