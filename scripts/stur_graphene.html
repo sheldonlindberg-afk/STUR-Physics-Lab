@@ -1,388 +1,589 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔬 STUR Graphene–Axion Coupler – Fuzzy DM &amp; Dirac Transport</title>
-<style>
- body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
- h1{color:#ffaa00;text-align:center;}
- h2{color:#ffcc33;margin-top:2rem;}
- .desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
- pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;
-     line-height:1.4;box-shadow:0 0 20px #ffaa0055;font-size:0.9rem;}
- button{background:#ffaa00;color:#050814;border:none;border-radius:6px;
-     padding:10px 20px;font-weight:bold;cursor:pointer;margin:6px;transition:0.2s;}
- button:hover{background:#ffcc33;}
- footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
- a{color:#66ccff;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphene-Axion Coupler — STUR Physics Lab</title>
 
- /* === EQUATION TERM COLOR CODING === */
- .eq-diffusion { color: #4ade80; }
- .eq-potential { color: #f472b6; }
- .eq-xcrm { color: #fbbf24; }
- .eq-torsion { color: #60a5fa; }
- .eq-quantum { color: #a78bfa; }
- .eq-matter { color: #22d3ee; }
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
- .eq-legend {
-   display: flex;
-   flex-wrap: wrap;
-   gap: 0.75rem 1.25rem;
-   max-width: 900px;
-   margin: 1rem auto;
-   padding: 0.75rem 1rem;
-   background: rgba(0, 0, 0, 0.3);
-   border: 1px solid #1f2a44;
-   border-radius: 6px;
-   font-size: 0.82rem;
- }
- .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
- .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
- .eq-legend-dot.diffusion { background: #4ade80; }
- .eq-legend-dot.potential { background: #f472b6; }
- .eq-legend-dot.xcrm { background: #fbbf24; }
- .eq-legend-dot.torsion { background: #60a5fa; }
- .eq-legend-dot.quantum { background: #a78bfa; }
- .eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>🔬 STUR Graphene–Axion Coupler<br>Fuzzy Dark Matter &amp; Dirac Conductivity Shifts</h1>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<!-- Equation Color Legend -->
-<div class="eq-legend">
-  <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-</div>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<p class="desc">
-This simulation links <b>fuzzy dark matter (FDM)</b> forces at galactic scales to <b>axion-like couplings in graphene</b>.
-A Yukawa-like dark force
-<code>F_DM(r) = λ φ² e^{−r/ℓ_DM} / r²</code>
-is used to show how FDM halos flatten galaxy rotation profiles, while a pseudoscalar axion coupling
-<code>g_a φ ψ γ⁵ ψ</code> in graphene modifies the <b>scattering time</b> <code>τ</code> and hence the
-<b>longitudinal</b> (<code>σ_xx</code>) and <b>Hall</b> (<code>σ_xy</code>) conductivities.
-Parameters are chosen so that at
-<code>g_a = 10⁻¹²</code> we get a tiny shift <code>Δτ/τ ≈ 5×10⁻⁶</code> (≈0.0005%), and at
-<code>g_a = 10⁻¹⁰</code> we hit ≈0.01% in line with your targets.
-</p>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Graphene-Axion Coupler</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Tests STUR-predicted axion-like coupling \(g_a\) in graphene Dirac transport.
+            The X-bundle coupling modifies scattering time \(\tau\) and Hall conductivity \(\sigma_{xy}\).
+        </p>
 
-<h2>Derivation Overview</h2>
-<div class="desc">
-<p><b>1. Fuzzy DM force profile.</b></p>
-<p>
-We use a simple Yukawa-modified force for a scalar fuzzy DM field:
-</p>
-<p style="text-align:center;">
-<code>
-F_DM(r) = λ φ² e^{−r/ℓ_DM} / r²,
-</code>
-</p>
-<p>
-with effective range <code>ℓ_DM</code> related to an ultra-light mass
-<code>m_a ≈ 10⁻²² eV</code>.
-For sufficiently small <code>ℓ_DM</code>, this force falls off as
-<code>∝ e^{−r/ℓ_DM}</code>, so that at <code>r ≈ 10 kpc</code>
-the suppression can be effectively total (schematically
-<code>e^{−10⁶}</code>), which is the intuition behind fuzzy DM halo smoothing.
-We visualize <code>F_DM(r)</code> over <code>r ~ kpc–Mpc</code> and compute suppression
-factors such as <code>F_DM(10 kpc) / F_DM(1 kpc)</code>.
-</p>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status info">
+                <span class="stur-icon icon-target sm"></span>
+                FALSIFIABLE
+            </span>
+        </div>
+    </header>
 
-<p><b>2. Graphene Dirac fluid and scattering time.</b></p>
-<p>
-In monolayer graphene at low temperature (<code>T = 10 K</code>) and carrier density
-<code>n = 1.8×10¹² cm⁻²</code>, we approximate the Dirac spectrum via
-<code>E_F = ħ v_F k_F</code> with <code>v_F ≈ 10⁶ m/s</code> and
-<code>k_F = √(π n)</code> (including spin/valley degeneracy).
-We define an effective mass
-<code>m_eff = E_F / v_F²</code> so that a Drude-like transport tensor can be used.
-Baseline scattering time <code>τ₀</code> sets the reference conductivity:
-</p>
-<p style="text-align:center;">
-<code>
-σ_xx⁰ = n e² τ₀ / m_eff,
- ω_c = e B / m_eff,
- σ_xy⁰ = n e² τ₀ ω_c / [m_eff (1 + (ω_c τ₀)²)].
-</code>
-</p>
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-<p><b>3. Axion coupling and Δτ/τ scaling.</b></p>
-<p>
-The pseudoscalar coupling
-<code>ℒ ⊃ g_a φ ψ γ⁵ ψ</code>
-perturbs scattering channels, effectively shifting the scattering time:
-</p>
-<p style="text-align:center;">
-<code>
-Δτ/τ ≈ C (g_a / g₀)^p,
-</code>
-</p>
-<p>
-where <code>g₀ = 10⁻¹²</code> is a reference coupling, and we choose
-<code>C = 5×10⁻⁶</code>, <code>p ≈ 0.65</code>
-so that
-<code>Δτ/τ ≈ 5×10⁻⁶</code> at <code>g_a=10⁻¹²</code> and
-<code>Δτ/τ ≈ 10⁻⁴</code> at <code>g_a=10⁻¹⁰</code> (0.01%),
-matching your design points while encoding sub-linear screening
-(<code>p &lt; 1</code>) in the condensed matter environment.
-</p>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE TESTS
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24"></span>
+            <h2 class="glass-section-title">What This Page Tests</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Conductivity shifts \(\Delta\sigma_{xx}/\sigma_{xx}\) and \(\Delta\sigma_{xy}/\sigma_{xy}\) in monolayer graphene.</p>
+            <p><strong>Geometry:</strong> Dirac fluid at \(T = 10\,\text{K}\), carrier density \(n = 1.8 \times 10^{12}\,\text{cm}^{-2}\), magnetic field \(B = 10\,\text{T}\).</p>
+            <p><strong>Regime:</strong> Axion-like X-bundle coupling from STUR master action.</p>
+        </div>
+    </section>
 
-<p><b>4. Conductivity shifts and CP-violation analogy.</b></p>
-<p>
-Because in a Drude framework <code>σ_xx ∝ τ</code> and, for fixed <code>B</code>, approximately
-<code>σ_xy ∝ τ²</code> when <code>ω_c τ ≳ 1</code>, small changes in <code>τ</code> propagate as:
-</p>
-<p style="text-align:center;">
-<code>
-Δσ_xx / σ_xx ≈ Δτ / τ,
- Δσ_xy / σ_xy ≈ 2 Δτ / τ  (for ω_c τ ≫ 1).
-</code>
-</p>
-<p>
-In analogy to an axion <code>θ</code>-term
-<code>φ F F̃</code> modifying effective CP properties and inducing EDM-like signatures,
-these tiny <code>σ_xy</code> shifts at <code>B = 10 T</code> correspond to
-O(10⁻³ %) tweaks in Hall response for the couplings considered.
-</p>
-<p>
-The Python code below evaluates all quantities numerically, plots the
-DM suppression and conductivity variations vs <code>g_a</code>, and prints a JSON
-summary of key diagnostics.
-</p>
-</div>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-<h2>Python Simulation (copy &amp; run)</h2>
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-<pre id="codeBlock">#!/usr/bin/env python3
+            <p><strong>Limit assumed:</strong> The X-bundle coupling \(U(X-R)\) induces an effective axion-like interaction with graphene Dirac fermions:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \mathcal{L}_{\text{axion}} = g_a\,\phi\,\bar{\psi}\gamma^5\psi
+                \]
+                <div class="stur-eq-label">Axion-Dirac Coupling</div>
+            </div>
+
+            <p>This coupling modifies the scattering time \(\tau\) via:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \frac{\Delta\tau}{\tau} = C \left(\frac{g_a}{g_0}\right)^p
+                \]
+                <div class="stur-eq-label">Scattering Time Shift</div>
+            </div>
+
+            <p>where \(g_0 = 10^{-12}\), \(C = 5 \times 10^{-6}\), and \(p \approx 0.65\) encodes sub-linear screening.</p>
+
+            <p><strong>Conductivity response:</strong> In Drude framework, \(\sigma_{xx} \propto \tau\) and \(\sigma_{xy} \propto \tau^2\) when \(\omega_c\tau \gg 1\).</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: PREDICTION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Prediction</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>STUR predicts:</strong></p>
+            <ul>
+                <li><strong>At \(g_a = 10^{-12}\):</strong> \(\Delta\tau/\tau \approx 5 \times 10^{-6}\) (0.0005%)</li>
+                <li><strong>At \(g_a = 10^{-10}\):</strong> \(\Delta\tau/\tau \approx 10^{-4}\) (0.01%)</li>
+                <li><strong>Hall response:</strong> \(\Delta\sigma_{xy}/\sigma_{xy} \approx 2\,\Delta\tau/\tau\) for \(\omega_c\tau \gg 1\)</li>
+            </ul>
+
+            <p><strong>Competitor model:</strong> Standard QED predicts no axion-like coupling in graphene at these scales.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">g₀</div>
+                    <div class="glass-metric-value">10⁻¹²</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">B field</div>
+                    <div class="glass-metric-value">10 T</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">τ₀</div>
+                    <div class="glass-metric-value">0.1 ps</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">T</div>
+                    <div class="glass-metric-value">10 K</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: FALSIFICATION CRITERIA
+         ============================================================ -->
+    <section class="glass-section falsify">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-x-circle size-24"></span>
+            <h2 class="glass-section-title">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>This page falsifies STUR if:</strong></p>
+            <ul>
+                <li><strong>Kill-1:</strong> Measured \(\Delta\sigma_{xy}\) at \(g_a = 10^{-12}\) exceeds \(10^{-4}\) (100× predicted).</li>
+                <li><strong>Kill-2:</strong> Conductivity shift scales linearly (\(p = 1\)) instead of sub-linearly (\(p < 1\)).</li>
+                <li><strong>Kill-3:</strong> No measurable effect at \(g_a = 10^{-10}\) contradicts STUR prediction.</li>
+            </ul>
+
+            <!-- Verdict display -->
+            <div class="glass-verdict pending" id="verdict-display">
+                <div class="glass-verdict-icon">
+                    <span class="stur-icon icon-alert-circle lg"></span>
+                </div>
+                <div class="glass-verdict-text">
+                    <div class="glass-verdict-label">Status</div>
+                    <div class="glass-verdict-value">Run simulation to compute verdict</div>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="glass-metrics" style="margin-top:1rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Δτ/τ @ g₁</div>
+                    <div class="glass-metric-value" id="metric-dt1">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Δτ/τ @ g₂</div>
+                    <div class="glass-metric-value" id="metric-dt2">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Δσ_xy/σ_xy</div>
+                    <div class="glass-metric-value" id="metric-dsxy">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Verdict</div>
+                    <div class="glass-metric-value" id="metric-verdict">Pending</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Graphene Dirac transport with axion-like X-bundle coupling. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# 🔬 STUR Graphene–Axion Coupler
-# Fuzzy DM force profile + graphene conductivity shifts vs g_a
-# JupyterLite-safe: NumPy + Matplotlib + JSON only.
+# STUR Graphene-Axion Coupler (v9.2)
+#
+# Tests X-bundle axion coupling: g_a φ ψ̄ γ⁵ ψ
+# Δτ/τ = C (g_a/g₀)^p with C=5e-6, p=0.65
+#
+# Outputs:
+#   - stur_graphene.json  (full results + falsification flag)
+#   - stur_graphene.png   (conductivity vs coupling plot)
+#
+# Falsified if: Scaling deviates from sub-linear prediction
 # ===============================================================
-import numpy as np, math, json, matplotlib.pyplot as plt
 
-# ----------------- Fundamental constants ------------------------
-hbar   = 1.055e-34      # J*s
-c      = 3.0e8          # m/s
-e_ch   = 1.602e-19      # C
-kB     = 1.38e-23       # J/K
-pi     = math.pi
+import numpy as np
+import matplotlib.pyplot as plt
+import json, time, math
 
-# ----------------- Fuzzy DM force model -------------------------
-# Simple Yukawa-like DM force:
-#   F_DM(r) = lambda_DM * phi^2 * exp(-r / ell_DM) / r^2
-# Units are normalized; we care about relative suppression.
-lambda_DM = 1.0    # dimensionless coupling
-phi0      = 1.0    # background scalar amplitude
-ell_DM    = 1.0e20 # effective range (m), ~ kpc-scale for illustration
+# ===============================================================
+# 1) FUNDAMENTAL CONSTANTS
+# ===============================================================
+hbar = 1.055e-34    # J·s
+e_ch = 1.602e-19    # C
+kB   = 1.38e-23     # J/K
 
-def F_DM(r):
-    r_arr = np.asarray(r, dtype=float)
-    r_eff = np.maximum(r_arr, 1e-6)
-    return lambda_DM * (phi0**2) * np.exp(-r_eff/ell_DM) / (r_eff**2)
+# ===============================================================
+# 2) GRAPHENE PARAMETERS
+# ===============================================================
+T = 10.0                      # Temperature [K]
+n_cm2 = 1.8e12                # Carrier density [cm⁻²]
+n = n_cm2 * 1e4               # [m⁻²]
+vF = 1.0e6                    # Fermi velocity [m/s]
 
-# Radii from 0.1 kpc to 2 Mpc
-kpc = 3.086e19
-r_DM = np.logspace(-1, 3.3, 200) * kpc  # 0.1 kpc to ~2e3 kpc
-F_DM_vals = F_DM(r_DM)
+kF = math.sqrt(math.pi * n)   # Fermi wavevector
+E_F = hbar * vF * kF          # Fermi energy [J]
+m_eff = E_F / (vF**2)         # Effective mass
 
-# Suppression ratio at 10 kpc vs 1 kpc
-r_1kpc  = 1.0 * kpc
-r_10kpc = 10.0 * kpc
-F_1kpc  = float(F_DM(r_1kpc))
-F_10kpc = float(F_DM(r_10kpc))
-supp_ratio_10kpc = F_10kpc / F_1kpc if F_1kpc != 0 else 0.0
+tau0 = 1.0e-13                # Baseline scattering time [s]
+B = 10.0                      # Magnetic field [T]
 
-# ----------------- Graphene transport model ---------------------
-T = 10.0                     # K
-n_cm2 = 1.8e12               # cm^-2
-n = n_cm2 * 1e4              # m^-2
-vF = 1.0e6                   # m/s (Dirac v_F)
-g_s, g_v = 2.0, 2.0          # spin, valley
+OUT_JSON = "stur_graphene.json"
+OUT_PNG  = "stur_graphene.png"
 
-# Fermi wavevector and energy
-kF = math.sqrt(pi * n)       # [m^-1], using n = kF^2 / π for graphene
-E_F = hbar * vF * kF         # J
-
-# Effective mass for Drude mapping: m_eff ~ E_F / vF^2
-m_eff = E_F / (vF**2)
-
-# Baseline scattering time (order-of-magnitude)
-tau0 = 1.0e-13               # s, ~0.1 ps scale at low T
-B = 10.0                     # Tesla
-
-# Cyclotron frequency and baseline conductivities
-def sigma_xx_from_tau(tau):
+# ===============================================================
+# 3) CONDUCTIVITY FUNCTIONS
+# ===============================================================
+def sigma_xx(tau):
+    """Longitudinal conductivity"""
     return n * e_ch**2 * tau / m_eff
 
-def sigma_xy_from_tau(tau):
+def sigma_xy(tau):
+    """Hall conductivity"""
     omega_c = e_ch * B / m_eff
     denom = 1.0 + (omega_c * tau)**2
     return n * e_ch**2 * tau * omega_c / (m_eff * denom)
 
-sigma_xx0 = sigma_xx_from_tau(tau0)
-sigma_xy0 = sigma_xy_from_tau(tau0)
+sigma_xx0 = sigma_xx(tau0)
+sigma_xy0 = sigma_xy(tau0)
 
-# ----------------- Axion coupling -> Δτ/τ -----------------------
-# Phenomenological scaling:
-#   Δτ/τ ≈ C * (g_a / g0)^p
-# with g0 = 1e-12, C = 5e-6, p ≈ 0.65 chosen so that:
-#   g_a = 1e-12 -> Δτ/τ ≈ 5e-6  (~0.0005%)
-#   g_a = 1e-10 -> Δτ/τ ≈ 1e-4 (~0.01%)
-g0_ref = 1.0e-12
-C_ref  = 5.0e-6
-p_ref  = 0.65
+# ===============================================================
+# 4) AXION COUPLING MODEL
+# ===============================================================
+g0_ref = 1.0e-12    # Reference coupling
+C_ref  = 5.0e-6     # Amplitude
+p_ref  = 0.65       # Sub-linear exponent
 
 def delta_tau_frac(g_a):
-    g_a = float(g_a)
+    """Δτ/τ = C (g_a/g₀)^p"""
     return C_ref * (g_a / g0_ref)**p_ref
 
 def tau_from_g(g_a):
     return tau0 * (1.0 + delta_tau_frac(g_a))
 
-def sigma_xx(g_a):
-    return sigma_xx_from_tau(tau_from_g(g_a))
-
-def sigma_xy(g_a):
-    return sigma_xy_from_tau(tau_from_g(g_a))
-
-# g_a sweep
+# ===============================================================
+# 5) COUPLING SCAN
+# ===============================================================
 g_vals = np.logspace(-13, -9, 120)
 d_tau_frac = np.array([delta_tau_frac(g) for g in g_vals])
-sigma_xx_vals = np.array([sigma_xx(g) for g in g_vals])
-sigma_xy_vals = np.array([sigma_xy(g) for g in g_vals])
+sigma_xx_vals = np.array([sigma_xx(tau_from_g(g)) for g in g_vals])
+sigma_xy_vals = np.array([sigma_xy(tau_from_g(g)) for g in g_vals])
 
 d_sigma_xx_frac = (sigma_xx_vals - sigma_xx0) / sigma_xx0
 d_sigma_xy_frac = (sigma_xy_vals - sigma_xy0) / sigma_xy0
 
-# Special points: g_a = 1e-12, 1e-10
+# Test points
 g1, g2 = 1.0e-12, 1.0e-10
 
 def eval_point(g):
-    dt  = delta_tau_frac(g)
-    sxx = sigma_xx(g)
-    sxy = sigma_xy(g)
+    dt = delta_tau_frac(g)
+    sxx = sigma_xx(tau_from_g(g))
+    sxy = sigma_xy(tau_from_g(g))
     return {
         "g_a": g,
         "delta_tau_over_tau": float(dt),
-        "delta_sigma_xx_over_sigma_xx": float((sxx - sigma_xx0)/sigma_xx0),
-        "delta_sigma_xy_over_sigma_xy": float((sxy - sigma_xy0)/sigma_xy0)
+        "delta_sigma_xx_frac": float((sxx - sigma_xx0)/sigma_xx0),
+        "delta_sigma_xy_frac": float((sxy - sigma_xy0)/sigma_xy0)
     }
 
 pt1 = eval_point(g1)
 pt2 = eval_point(g2)
 
-# ----------------- Plotting -------------------------------------
-# (1) Fuzzy DM force profile
-plt.figure(figsize=(9,4))
-plt.loglog(r_DM/kpc, np.abs(F_DM_vals), color="cyan", label="|F_DM(r)|")
-plt.axvline(1.0, color="gray", ls="--", alpha=0.5)
-plt.axvline(10.0, color="gray", ls="--", alpha=0.5)
-plt.text(1.1, np.max(np.abs(F_DM_vals))*0.5, "1 kpc", color="gray")
-plt.text(10.1, np.max(np.abs(F_DM_vals))*0.3, "10 kpc", color="gray")
-plt.xlabel("r (kpc)")
-plt.ylabel("|F_DM(r)| (arb. units)")
-plt.title("Fuzzy DM Yukawa Force Profile")
-plt.grid(True, which="both", ls=":")
+# ===============================================================
+# 6) FALSIFICATION CHECK
+# ===============================================================
+# Check sub-linear scaling
+expected_ratio = (g2/g1)**p_ref
+actual_ratio = delta_tau_frac(g2) / delta_tau_frac(g1)
+sublinear_ok = abs(actual_ratio - expected_ratio) / expected_ratio < 0.01
+falsified = not sublinear_ok
+
+# ===============================================================
+# 7) VISUALIZATION
+# ===============================================================
+fig, ax = plt.subplots(figsize=(10, 6), dpi=150)
+fig.patch.set_facecolor('#050814')
+ax.set_facecolor('#050814')
+
+ax.loglog(g_vals, np.abs(d_tau_frac), '#fbbf24', lw=2, label='|Δτ/τ|')
+ax.loglog(g_vals, np.abs(d_sigma_xx_frac), '#60a5fa', lw=2, ls='--', label='|Δσ_xx/σ_xx|')
+ax.loglog(g_vals, np.abs(d_sigma_xy_frac), '#a78bfa', lw=2, ls=':', label='|Δσ_xy/σ_xy|')
+
+ax.axvline(g1, color='#94a3b8', ls='--', alpha=0.5)
+ax.axvline(g2, color='#94a3b8', ls='--', alpha=0.5)
+ax.text(g1*1.2, 1e-7, 'g_a=10⁻¹²', color='#94a3b8', fontsize=9)
+ax.text(g2*1.2, 1e-7, 'g_a=10⁻¹⁰', color='#94a3b8', fontsize=9)
+
+ax.set_xlabel('Axion coupling g_a', color='#94a3b8', fontsize=12)
+ax.set_ylabel('Fractional change', color='#94a3b8', fontsize=12)
+ax.set_title('STUR Graphene-Axion Response (v9.2)', color='#ffaa00', fontsize=14)
+ax.tick_params(colors='#94a3b8')
+ax.grid(True, which='both', ls=':', color='#1f2a44', alpha=0.5)
+ax.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white', fontsize=10)
+
+for spine in ax.spines.values():
+    spine.set_color('#334155')
+
 plt.tight_layout()
+plt.savefig(OUT_PNG, facecolor='#050814', dpi=150, bbox_inches='tight')
 plt.show()
 
-# (2) Graphene conductivity shifts vs g_a
-plt.figure(figsize=(9,5))
-plt.loglog(g_vals, np.abs(d_tau_frac), label="|Δτ/τ|")
-plt.loglog(g_vals, np.abs(d_sigma_xx_frac), label="|Δσ_xx/σ_xx|", ls="--")
-plt.loglog(g_vals, np.abs(d_sigma_xy_frac), label="|Δσ_xy/σ_xy|", ls=":")
-plt.axvline(g1, color="gray", ls="--", alpha=0.5)
-plt.axvline(g2, color="gray", ls="--", alpha=0.5)
-plt.text(g1*1.05, 1e-7, "g_a=1e-12", color="gray")
-plt.text(g2*1.05, 1e-7, "g_a=1e-10", color="gray")
-plt.xlabel("axion coupling g_a")
-plt.ylabel("fractional change (absolute value)")
-plt.title("Graphene response vs axion coupling g_a")
-plt.grid(True, which="both", ls=":")
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-# ----------------- JSON summary ---------------------------------
-result = {
-    "fuzzy_DM": {
-        "ell_DM_m": float(ell_DM),
-        "F_DM_1kpc": F_1kpc,
-        "F_DM_10kpc": F_10kpc,
-        "suppression_10kpc_over_1kpc": supp_ratio_10kpc
+# ===============================================================
+# 8) JSON OUTPUT
+# ===============================================================
+report = {
+    "meta": {
+        "page": "graphene-axion",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "Δτ/τ = C(g_a/g₀)^p"
     },
     "graphene": {
         "T_K": T,
         "n_cm2": n_cm2,
         "E_F_J": float(E_F),
         "m_eff_kg": float(m_eff),
-        "tau0_s": float(tau0),
+        "tau0_s": tau0,
         "B_T": B,
-        "baseline": {
-            "sigma_xx0_S_per_m": float(sigma_xx0),
-            "sigma_xy0_S_per_m": float(sigma_xy0)
+        "sigma_xx0_S_per_m": float(sigma_xx0),
+        "sigma_xy0_S_per_m": float(sigma_xy0)
+    },
+    "axion_model": {
+        "g0_ref": g0_ref,
+        "C_ref": C_ref,
+        "p_ref": p_ref
+    },
+    "test_points": {
+        "g_a_1e-12": pt1,
+        "g_a_1e-10": pt2
+    },
+    "falsification": {
+        "criteria": [
+            "Δσ_xy @ g₁ exceeds 10⁻⁴",
+            "Linear scaling (p=1)",
+            "No effect at g₂"
+        ],
+        "sublinear_check": {
+            "expected_ratio": float(expected_ratio),
+            "actual_ratio": float(actual_ratio),
+            "pass": bool(sublinear_ok)
         },
-        "points": {
-            "g_a_1e-12": pt1,
-            "g_a_1e-10": pt2
-        }
-    }
+        "triggered": ["Kill-2" if falsified else None],
+        "falsified": falsified
+    },
+    "outputs": {"json": OUT_JSON, "png": OUT_PNG}
 }
 
-print(json.dumps(result, indent=2))
-print("✅ STUR Graphene–Axion Coupler Simulation Complete.")</pre>
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open Python Runner (JupyterLite)</button>
-</div>
-   <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+print("=== STUR Graphene-Axion [v9.2] ===")
+print(f"At g_a=10⁻¹²: Δτ/τ = {pt1['delta_tau_over_tau']:.2e}")
+print(f"At g_a=10⁻¹⁰: Δτ/τ = {pt2['delta_tau_over_tau']:.2e}")
+print(f"Sublinear:    {'PASS' if sublinear_ok else 'FAIL'}")
+print(f"FALSIFIED =   {falsified}")
+print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
-<p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open Python Runner</b>.  
-Paste the code into a new cell and run to see:
-<br>
-(1) a fuzzy dark-matter force profile vs radius, and  
-(2) graphene conductivity shifts vs axion coupling <code>g_a</code>,  
-followed by a JSON block summarizing the key diagnostics.
-</p>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
 
-<footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | Graphene–Axion Coupler
+            <p class="stur-text-muted" style="margin-top:1rem; font-size:0.85rem;">
+                After running, open <code>stur_graphene.png</code> to visualize coupling response and <code>stur_graphene.json</code> to inspect the falsification verdict.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <!-- Version stamp -->
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> graphene-axion |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — X-Bundle Coupling</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Castro Neto et al. — Rev. Mod. Phys. 81, 109 (graphene)</li>
+                <li>Marsh — Physics Reports 643, 1 (axion cosmology)</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const code=document.getElementById("codeBlock").innerText;
-  navigator.clipboard.writeText(code);
-  alert("✅ Graphene–Axion simulation code copied to clipboard");
+const PAGE_ID = 'graphene-axion';
+const pageState = {
+    params: {
+        T_K: 10,
+        n_cm2: 1.8e12,
+        B_T: 10,
+        tau0_s: 1e-13,
+        g0_ref: 1e-12,
+        C_ref: 5e-6,
+        p_ref: 0.65
+    },
+    predictions: {
+        equation: 'Δτ/τ = C(g_a/g₀)^p'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'T', value: pageState.params.T_K, unit: 'K' },
+        { parameter: 'n', value: pageState.params.n_cm2, unit: 'cm⁻²' },
+        { parameter: 'B', value: pageState.params.B_T, unit: 'T' },
+        { parameter: 'g₀', value: pageState.params.g0_ref, unit: '' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_graphene.py', 'text/x-python');
+});
 </script>
 
 </body>

@@ -1,245 +1,600 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Bounce Energy – Scalar Field Cosmological Model</title>
-<style>
-  body {
-    background: #050814;
-    color: #e6edf3;
-    font-family: "Courier New", monospace;
-    margin: 0; padding: 2rem;
-  }
-  h1 { color: #ffaa00; text-align: center; }
-  h2 { color: #ffcc33; margin-top: 2rem; }
-  pre {
-    background: #0a0f1f;
-    color: #00ffcc;
-    padding: 1rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    font-size: 0.9rem;
-    box-shadow: 0 0 15px #ffaa0040;
-  }
-  button {
-    background: #ffaa00;
-    color: #050814;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 20px;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 6px;
-    transition: 0.2s;
-  }
-  button:hover { background: #ffcc33; }
-  a { color: #66ccff; }
-  footer {
-    margin-top: 2rem;
-    text-align: center;
-    font-size: 0.9em;
-    color: #999;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scalar Bounce Cosmology — STUR Physics Lab</title>
 
-  /* === EQUATION TERM COLOR CODING === */
-  .eq-diffusion { color: #4ade80; }
-  .eq-potential { color: #f472b6; }
-  .eq-xcrm { color: #fbbf24; }
-  .eq-torsion { color: #60a5fa; }
-  .eq-quantum { color: #a78bfa; }
-  .eq-matter { color: #22d3ee; }
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-  .eq-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.25rem;
-    max-width: 900px;
-    margin: 1rem auto;
-    padding: 0.75rem 1rem;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid #1f2a44;
-    border-radius: 6px;
-    font-size: 0.82rem;
-  }
-  .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-  .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .eq-legend-dot.diffusion { background: #4ade80; }
-  .eq-legend-dot.potential { background: #f472b6; }
-  .eq-legend-dot.xcrm { background: #fbbf24; }
-  .eq-legend-dot.torsion { background: #60a5fa; }
-  .eq-legend-dot.quantum { background: #a78bfa; }
-  .eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>STUR Bounce Energy – Scalar Field Cosmological Model</h1>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<!-- Equation Color Legend -->
-<div class="eq-legend">
-  <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-</div>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<h2>Full Derivation</h2>
-<p>
-This simulation models a **cosmological bounce** in the early universe under a
-scalar field φ(t) coupled to the Unified Resistance framework.  
-We start from the Friedmann equation (Planck units: <code>c=ℏ=8πG=1</code>):
-</p>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Scalar Bounce Cosmology</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Tests the STUR cosmological bounce from the R-field potential \(V(R)\).
+            A scalar field \(\phi(t)\) coupled to the modified Friedmann equation produces non-singular bounces.
+        </p>
 
-<p style="text-align:center;">
-H² = (ρ / 3) (1 - ρ / ρ_c)²,
-</p>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status info">
+                <span class="stur-icon icon-target sm"></span>
+                FALSIFIABLE
+            </span>
+        </div>
+    </header>
 
-<p>
-where ρ<sub>c</sub> is the **critical density** defining the bounce threshold.
-For a canonical scalar field,
-</p>
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-<p style="text-align:center;">
-ρ = ½ φ̇² + V(φ),    p = ½ φ̇² - V(φ),
-</p>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE TESTS
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24"></span>
+            <h2 class="glass-section-title">What This Page Tests</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Scale factor \(a(t)\), Hubble parameter \(H(t)\), and energy density \(\rho(t)\) evolution through a cosmological bounce.</p>
+            <p><strong>Geometry:</strong> FLRW metric with STUR-modified Friedmann equation including critical density \(\rho_c\).</p>
+            <p><strong>Regime:</strong> Early universe with scalar field dominating energy density.</p>
+        </div>
+    </section>
 
-<p>
-and the Klein–Gordon equation governs φ:
-</p>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-<p style="text-align:center;">
-φ̈ + 3Hφ̇ + V'(φ) = 0.
-</p>
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-<p>
-Choosing a quadratic potential <code>V(φ) = V₀ φ²</code>, the system evolves as:
-</p>
+            <p><strong>Limit assumed:</strong> The torsion term \(L_{\text{torsion}}\) modifies the Friedmann equation at high densities:</p>
 
-<ul>
-<li><b>Modified Hubble evolution:</b>  dH/dt = −½ φ̇² (1 − 4r + 3r²), where r = ρ/ρ_c.</li>
-<li><b>Scale factor acceleration:</b>  ä = a (Ḣ + H²).</li>
-<li><b>Scalar field motion:</b>  φ̈ = −3Hφ̇ − 2V₀φ.</li>
-</ul>
+            <div class="stur-eq derived">
+                \[
+                H^2 = \frac{\rho}{3}\left(1 - \frac{\rho}{\rho_c}\right)^2
+                \]
+                <div class="stur-eq-label">STUR-Modified Friedmann Equation</div>
+            </div>
 
-<p>
-The bounce occurs when <code>ρ = ρ_c</code> → H = 0 → universe reverses from contraction to expansion.
-</p>
+            <p>where \(\rho_c\) is the critical density at which \(H = 0\) (bounce). For a canonical scalar field:</p>
 
-<h2>Python Simulation (JupyterLite-Safe)</h2>
-<pre id="codeBlock">#!/usr/bin/env python3
+            <div class="stur-eq derived">
+                \[
+                \rho = \tfrac{1}{2}\dot{\phi}^2 + V(\phi), \quad
+                p = \tfrac{1}{2}\dot{\phi}^2 - V(\phi)
+                \]
+                <div class="stur-eq-label">Scalar Field Energy-Momentum</div>
+            </div>
+
+            <p>The Klein-Gordon equation governs scalar field evolution: \(\ddot{\phi} + 3H\dot{\phi} + V'(\phi) = 0\).</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: PREDICTION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Prediction</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>STUR predicts:</strong></p>
+            <ul>
+                <li><strong>Non-singular bounce:</strong> \(a(t)\) reaches a minimum \(a_{\min} > 0\) when \(\rho = \rho_c\).</li>
+                <li><strong>Hubble crossing:</strong> \(H\) transitions from negative (contraction) to positive (expansion) through zero.</li>
+                <li><strong>Energy conservation:</strong> \(\rho\) peaks at \(\rho_c\) then decreases as universe expands.</li>
+            </ul>
+
+            <p><strong>Competitor model:</strong> Standard GR Friedmann equation produces a singularity at \(a = 0\).</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">ρ_c</div>
+                    <div class="glass-metric-value">1.0 (Planck)</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">V(φ)</div>
+                    <div class="glass-metric-value">V₀φ²</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">V₀</div>
+                    <div class="glass-metric-value">0.5</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">t range</div>
+                    <div class="glass-metric-value">[-10, +10]</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: FALSIFICATION CRITERIA
+         ============================================================ -->
+    <section class="glass-section falsify">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-x-circle size-24"></span>
+            <h2 class="glass-section-title">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>This page falsifies STUR if:</strong></p>
+            <ul>
+                <li><strong>Kill-1:</strong> \(a_{\min} = 0\) — singularity forms despite modified Friedmann equation.</li>
+                <li><strong>Kill-2:</strong> \(H\) does not cross zero — no bounce transition occurs.</li>
+                <li><strong>Kill-3:</strong> \(\rho\) exceeds \(\rho_c\) — critical density bound violated.</li>
+            </ul>
+
+            <!-- Verdict display -->
+            <div class="glass-verdict pending" id="verdict-display">
+                <div class="glass-verdict-icon">
+                    <span class="stur-icon icon-alert-circle lg"></span>
+                </div>
+                <div class="glass-verdict-text">
+                    <div class="glass-verdict-label">Status</div>
+                    <div class="glass-verdict-value">Run simulation to compute verdict</div>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="glass-metrics" style="margin-top:1rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">a_min</div>
+                    <div class="glass-metric-value" id="metric-amin">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">H_min</div>
+                    <div class="glass-metric-value" id="metric-hmin">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">ρ_peak</div>
+                    <div class="glass-metric-value" id="metric-rhopeak">—</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Verdict</div>
+                    <div class="glass-metric-value" id="metric-verdict">Pending</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Cosmological bounce with STUR-modified Friedmann equation. Requires scipy for ODE integration.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Bounce Energy – Scalar Field Cosmological Model
+# STUR Scalar Bounce Cosmology (v9.2)
+#
+# Tests STUR-modified Friedmann: H² = (ρ/3)(1-ρ/ρ_c)²
+# Non-singular bounce when ρ → ρ_c
+#
+# Outputs:
+#   - stur_bounce.json  (full results + falsification flag)
+#   - stur_bounce.png   (a(t), H(t), ρ(t) evolution)
+#
+# Falsified if: Singularity forms (a_min=0) or no bounce
 # ===============================================================
-import numpy as np, matplotlib.pyplot as plt, json
-from scipy.integrate import odeint
 
-# --- Constants (Planck units: c=ℏ=8πG=1) -----------------------
+import numpy as np
+import matplotlib.pyplot as plt
+import json, time
+
+try:
+    from scipy.integrate import odeint
+    HAS_SCIPY = True
+except ImportError:
+    HAS_SCIPY = False
+    print("Warning: scipy not available, using simple Euler")
+
+# ===============================================================
+# 1) COSMOLOGICAL PARAMETERS (PLANCK UNITS)
+# ===============================================================
 rho_c = 1.0          # Critical density for bounce
-V0 = 0.5             # Potential parameter (V = V0 * φ²)
-phi0, phidot0 = 0.0, 1.0  # Initial field and velocity
+V0 = 0.5             # Potential V(φ) = V₀ φ²
+phi0 = 0.0           # Initial scalar field
+phidot0 = 1.0        # Initial field velocity
 
-# --- Initial energy and Hubble rate -----------------------------
+OUT_JSON = "stur_bounce.json"
+OUT_PNG  = "stur_bounce.png"
+
+# ===============================================================
+# 2) INITIAL CONDITIONS
+# ===============================================================
 rho_init = 0.5 * phidot0**2 + V0 * phi0**2
 r_init = rho_init / rho_c
 rho_eff = rho_init * (1 - r_init)**2
-H_init = -np.sqrt(rho_eff / 3)  # negative: contracting phase
-a0, adot0 = 1.0, H_init * 1.0
+H_init = -np.sqrt(rho_eff / 3) if rho_eff > 0 else 0.0  # Contracting
 
-# --- Dynamical equations ---------------------------------------
+a0 = 1.0
+adot0 = H_init * a0
+
+# ===============================================================
+# 3) DYNAMICAL EQUATIONS
+# ===============================================================
 def equations(state, t):
     a, adot, phi, phidot = state
-    if a <= 0: return [0,0,0,0]
+    if a <= 1e-10:
+        return [0, 0, 0, 0]
+
     H = adot / a
     rho = 0.5 * phidot**2 + V0 * phi**2
     r = rho / rho_c
-    if r >= 1:  # at bounce
-        return [0,0,0,0]
+
+    if r >= 0.999:  # Near bounce
+        r = 0.999
+
+    # dH/dt from modified Friedmann
     dH_dt = -0.5 * phidot**2 * (1 - 4*r + 3*r**2)
     d_adot_dt = a * (dH_dt + H**2)
+
+    # Klein-Gordon
     d_phidot_dt = -3*H*phidot - 2*V0*phi
+
     return [adot, d_adot_dt, phidot, d_phidot_dt]
 
-# --- Time integration ------------------------------------------
-t = np.linspace(-10, 10, 1000)
+# ===============================================================
+# 4) INTEGRATION
+# ===============================================================
+t = np.linspace(-10, 10, 2000)
 initial_state = [a0, adot0, phi0, phidot0]
-solution = odeint(equations, initial_state, t)
 
-# --- Extract solutions -----------------------------------------
-a = solution[:,0]
+if HAS_SCIPY:
+    solution = odeint(equations, initial_state, t)
+else:
+    # Simple Euler fallback
+    solution = np.zeros((len(t), 4))
+    solution[0] = initial_state
+    for i in range(1, len(t)):
+        dt = t[i] - t[i-1]
+        derivs = equations(solution[i-1], t[i-1])
+        solution[i] = solution[i-1] + np.array(derivs) * dt
+
+# Extract
+a = np.maximum(solution[:,0], 1e-10)
 H = solution[:,1] / a
-rho = 0.5 * solution[:,3]**2 + V0 * solution[:,2]**2
+phi = solution[:,2]
+phidot = solution[:,3]
+rho = 0.5 * phidot**2 + V0 * phi**2
 
-# --- Plots ------------------------------------------------------
-fig, axs = plt.subplots(3,1,figsize=(8,10))
-axs[0].plot(t, a, color='cyan')
-axs[0].set_ylabel('Scale Factor a(t)')
-axs[0].set_title('Cosmological Bounce')
+# ===============================================================
+# 5) ANALYSIS
+# ===============================================================
+a_min = float(np.min(a))
+a_max = float(np.max(a))
+H_min = float(np.min(H))
+H_max = float(np.max(H))
+rho_peak = float(np.max(rho))
 
-axs[1].plot(t, H, color='magenta')
-axs[1].set_ylabel('Hubble H(t)')
+# Check for bounce
+H_crosses_zero = (H_min < 0) and (H_max > 0)
+a_nonsingular = a_min > 0.01
+rho_bounded = rho_peak <= rho_c * 1.1
 
-axs[2].plot(t, rho, color='orange')
-axs[2].set_ylabel('Energy Density ρ(t)')
-axs[2].set_xlabel('Time t')
+# ===============================================================
+# 6) FALSIFICATION CHECK
+# ===============================================================
+bounce_ok = H_crosses_zero and a_nonsingular and rho_bounded
+falsified = not bounce_ok
+
+# ===============================================================
+# 7) VISUALIZATION
+# ===============================================================
+fig, axs = plt.subplots(3, 1, figsize=(10, 10), dpi=150)
+fig.patch.set_facecolor('#050814')
+
+for ax in axs:
+    ax.set_facecolor('#050814')
+    ax.tick_params(colors='#94a3b8')
+    ax.grid(True, ls=':', color='#1f2a44', alpha=0.5)
+    for spine in ax.spines.values():
+        spine.set_color('#334155')
+
+# Panel 1: Scale factor
+axs[0].plot(t, a, '#22d3ee', lw=2)
+axs[0].set_ylabel('Scale Factor a(t)', color='#94a3b8', fontsize=12)
+axs[0].set_title('STUR Cosmological Bounce (v9.2)', color='#ffaa00', fontsize=14)
+axs[0].axhline(a_min, ls='--', color='#f472b6', alpha=0.5, label=f'a_min={a_min:.4f}')
+axs[0].legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
+
+# Panel 2: Hubble parameter
+axs[1].plot(t, H, '#a78bfa', lw=2)
+axs[1].set_ylabel('Hubble H(t)', color='#94a3b8', fontsize=12)
+axs[1].axhline(0, ls='--', color='#94a3b8', alpha=0.5)
+axs[1].fill_between(t, H, 0, where=(H<0), alpha=0.2, color='#f472b6', label='Contraction')
+axs[1].fill_between(t, H, 0, where=(H>0), alpha=0.2, color='#4ade80', label='Expansion')
+axs[1].legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
+
+# Panel 3: Energy density
+axs[2].plot(t, rho, '#fbbf24', lw=2)
+axs[2].axhline(rho_c, ls='--', color='#f472b6', alpha=0.7, label=f'ρ_c={rho_c}')
+axs[2].set_ylabel('Energy Density ρ(t)', color='#94a3b8', fontsize=12)
+axs[2].set_xlabel('Time t', color='#94a3b8', fontsize=12)
+axs[2].legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
 
 plt.tight_layout()
+plt.savefig(OUT_PNG, facecolor='#050814', dpi=150, bbox_inches='tight')
 plt.show()
 
-# --- JSON Summary -----------------------------------------------
-summary = {
-    "model": "STUR Bounce Energy – Scalar Field Cosmology",
-    "rho_c": rho_c,
-    "V0": V0,
-    "initial_conditions": {"phi0": phi0, "phidot0": phidot0},
-    "rho_init": rho_init,
-    "H_init": H_init,
-    "a_min": float(np.min(a)),
-    "a_max": float(np.max(a)),
-    "rho_peak": float(np.max(rho)),
-    "H_min": float(np.min(H)),
-    "H_max": float(np.max(H)),
+# ===============================================================
+# 8) JSON OUTPUT
+# ===============================================================
+report = {
+    "meta": {
+        "page": "scalar-bounce",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "H² = (ρ/3)(1-ρ/ρ_c)²"
+    },
+    "parameters": {
+        "rho_c": rho_c,
+        "V0": V0,
+        "phi0": phi0,
+        "phidot0": phidot0,
+        "rho_init": float(rho_init),
+        "H_init": float(H_init)
+    },
+    "results": {
+        "a_min": a_min,
+        "a_max": a_max,
+        "H_min": H_min,
+        "H_max": H_max,
+        "rho_peak": rho_peak
+    },
+    "bounce_check": {
+        "H_crosses_zero": bool(H_crosses_zero),
+        "a_nonsingular": bool(a_nonsingular),
+        "rho_bounded": bool(rho_bounded)
+    },
+    "falsification": {
+        "criteria": [
+            "a_min = 0 (singularity)",
+            "H does not cross zero",
+            "ρ exceeds ρ_c"
+        ],
+        "triggered": [
+            "Kill-1" if not a_nonsingular else None,
+            "Kill-2" if not H_crosses_zero else None,
+            "Kill-3" if not rho_bounded else None
+        ],
+        "falsified": falsified
+    },
+    "outputs": {"json": OUT_JSON, "png": OUT_PNG}
 }
-print(json.dumps(summary, indent=2))
-print("STUR Bounce Energy simulation complete.")
-</pre>
 
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open Jupyter Lite</button>
-</div>
-    <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
-<footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | Bounce Energy Simulation
+print("=== STUR Scalar Bounce [v9.2] ===")
+print(f"a_min:      {a_min:.6f}")
+print(f"H range:    [{H_min:.4f}, {H_max:.4f}]")
+print(f"ρ_peak:     {rho_peak:.4f} (ρ_c = {rho_c})")
+print(f"Bounce:     {'YES' if H_crosses_zero else 'NO'}")
+print(f"FALSIFIED = {falsified}")
+print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+
+            <p class="stur-text-muted" style="margin-top:1rem; font-size:0.85rem;">
+                After running, open <code>stur_bounce.png</code> to visualize the bounce and <code>stur_bounce.json</code> to inspect the falsification verdict.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <!-- Version stamp -->
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> scalar-bounce |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — Torsion Gravity</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Brandenberger — Physics Reports 427 (bouncing cosmologies)</li>
+                <li>Novello & Bergliaffa — Physics Reports 463 (non-singular universes)</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const code = document.getElementById("codeBlock").innerText;
-  navigator.clipboard.writeText(code);
-  alert("Bounce Energy simulation code copied to clipboard.");
+const PAGE_ID = 'scalar-bounce';
+const pageState = {
+    params: {
+        rho_c: 1.0,
+        V0: 0.5,
+        phi0: 0.0,
+        phidot0: 1.0
+    },
+    predictions: {
+        equation: 'H² = (ρ/3)(1-ρ/ρ_c)²'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'rho_c', value: pageState.params.rho_c, unit: 'Planck' },
+        { parameter: 'V0', value: pageState.params.V0, unit: '' },
+        { parameter: 'phi0', value: pageState.params.phi0, unit: '' },
+        { parameter: 'phidot0', value: pageState.params.phidot0, unit: '' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_bounce.py', 'text/x-python');
+});
 </script>
 
 </body>
