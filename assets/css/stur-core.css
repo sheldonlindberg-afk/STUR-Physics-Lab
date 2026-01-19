@@ -387,19 +387,35 @@ pre {
 */
 
 :root {
-  --eq-diffusion: #4ade80;
-  --eq-potential: #f472b6;
-  --eq-xcrm: #fbbf24;
-  --eq-torsion: #60a5fa;
-  --eq-matter: #22d3ee;
+  /* Physics term colors */
+  --eq-diffusion: #4ade80;   /* Green - Kinetic/diffusion terms */
+  --eq-potential: #f472b6;   /* Pink - Potential/relaxation */
+  --eq-xcrm: #fbbf24;        /* Gold - XCRM coupling */
+  --eq-torsion: #60a5fa;     /* Blue - Torsion/gravity */
+  --eq-matter: #22d3ee;      /* Cyan - Matter fields */
+
+  /* Structural/notation colors */
+  --eq-action: #e2e8f0;      /* Silver - Action functional S */
+  --eq-integral: #c4b5fd;    /* Violet - Integration measure */
+  --eq-metric: #fb923c;      /* Orange - Metric/spacetime √−g */
+  --eq-operator: #94a3b8;    /* Slate - Operators =, +, − */
+  --eq-bracket: #64748b;     /* Gray - Brackets [], () */
 }
 
 /* Equation term color classes (for HTML span elements) */
+/* Physics terms */
 .eq-diffusion { color: var(--eq-diffusion); }
 .eq-potential { color: var(--eq-potential); }
 .eq-xcrm { color: var(--eq-xcrm); }
 .eq-torsion { color: var(--eq-torsion); }
 .eq-matter { color: var(--eq-matter); }
+
+/* Structural terms */
+.eq-action { color: var(--eq-action); font-weight: 600; }
+.eq-integral { color: var(--eq-integral); }
+.eq-metric { color: var(--eq-metric); }
+.eq-operator { color: var(--eq-operator); }
+.eq-bracket { color: var(--eq-bracket); }
 
 /* Equation legend system */
 .eq-legend {
@@ -434,6 +450,9 @@ pre {
 .eq-legend-dot.xcrm { background: var(--eq-xcrm); box-shadow: 0 0 8px rgba(251, 191, 36, 0.4); }
 .eq-legend-dot.torsion { background: var(--eq-torsion); box-shadow: 0 0 8px rgba(96, 165, 250, 0.4); }
 .eq-legend-dot.matter { background: var(--eq-matter); box-shadow: 0 0 8px rgba(34, 211, 238, 0.4); }
+.eq-legend-dot.action { background: var(--eq-action); box-shadow: 0 0 8px rgba(226, 232, 240, 0.4); }
+.eq-legend-dot.integral { background: var(--eq-integral); box-shadow: 0 0 8px rgba(196, 181, 253, 0.4); }
+.eq-legend-dot.metric { background: var(--eq-metric); box-shadow: 0 0 8px rgba(251, 146, 60, 0.4); }
 
 /* Equation derived markers (for showing which terms are derived vs fundamental) */
 .stur-eq.derived {
@@ -460,6 +479,11 @@ pre {
 .equation-display .eq-xcrm { color: var(--eq-xcrm); }
 .equation-display .eq-torsion { color: var(--eq-torsion); }
 .equation-display .eq-matter { color: var(--eq-matter); }
+.equation-display .eq-action { color: var(--eq-action); font-weight: 600; }
+.equation-display .eq-integral { color: var(--eq-integral); }
+.equation-display .eq-metric { color: var(--eq-metric); }
+.equation-display .eq-operator { color: var(--eq-operator); }
+.equation-display .eq-bracket { color: var(--eq-bracket); }
 
 /* Term legend grid (for below equations) */
 .term-legend {
@@ -477,6 +501,9 @@ pre {
 .term-legend .eq-xcrm { color: var(--eq-xcrm); }
 .term-legend .eq-torsion { color: var(--eq-torsion); }
 .term-legend .eq-matter { color: var(--eq-matter); }
+.term-legend .eq-action { color: var(--eq-action); }
+.term-legend .eq-integral { color: var(--eq-integral); }
+.term-legend .eq-metric { color: var(--eq-metric); }
 
 /* Panel footer for equation notes */
 .panel-footer {

@@ -189,7 +189,8 @@
   font-size: 0.88rem;
   font-weight: 500;
   transition: all var(--transition-fast);
-  border: 1px solid transparent;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .glass-nav-link:hover {
