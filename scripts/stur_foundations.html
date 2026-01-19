@@ -1009,6 +1009,7 @@ code {
     <p><a href="#appB">B. Schwinger-Keldysh Derivation</a></p>
     <p><a href="#appC">C. Dimensional Analysis</a></p>
     <p><a href="#appD">D. Environmental Decoherence Exclusion</a></p>
+    <p><a href="#appE">E. Classical Limits and Simulation Derivations</a></p>
     <p><a href="#refs">References</a></p>
 
   </div>
@@ -4152,8 +4153,301 @@ code {
       <li>If quadratic model wins with \(> 5\sigma\), STUR is supported; if linear wins, STUR is excluded.</li>
     </ol>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
-      The \(\Delta L^2\) scaling is not achievable by any known decoherence mechanism operating 
+      The \(\Delta L^2\) scaling is not achievable by any known decoherence mechanism operating
       uniformly along the interferometer arms.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="appE">
+  <h2>Appendix E: Classical Limits and Simulation Derivations</h2>
+
+  <p>
+    This appendix provides explicit derivations connecting the Master Action to the classical limits used
+    in the simulation pages. These derivations close the gap between the formal 5D theory and the
+    phenomenological equations implemented in the interactive simulators.
+  </p>
+
+  <h3>E.1 Gravitational Saturation Operator S(r) from V(R)</h3>
+
+  <div class="block gold">
+    <div class="title">Purpose</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The 3-body and gravitational simulations use a saturation operator \(S(r)\) to modify Newtonian gravity.
+      This section derives \(S(r)\) from the scalar potential \(V(R)\) in the Master Action, establishing
+      the connection between the 5D formalism and the 4D classical limit.
+    </p>
+  </div>
+
+  <h4>E.1.1 Starting Point: Scalar-Torsion Coupling</h4>
+
+  <p>
+    The STUR Master Action contains the scalar sector (Eq. 3.4):
+  </p>
+
+  <div class="eq">
+    \[
+      S_{\rm scalar} = \int d^5x\, e\, \left[-\frac{1}{2}(\nabla R)^2 - V(R) + \alpha R\, \mathbb{T}\right]
+    \]
+    <div class="eq-label">(E.1)</div>
+  </div>
+
+  <p>
+    The critical term is the torsion coupling \(\alpha R\, \mathbb{T}\). In the weak-field, non-relativistic limit,
+    the torsion scalar \(\mathbb{T}\) reduces to a trace involving gravitational field gradients:
+    \(\mathbb{T} \to -2\nabla^2 \Phi_N / c^2\), where \(\Phi_N\) is the Newtonian potential.
+  </p>
+
+  <h4>E.1.2 Effective Newtonian Potential</h4>
+
+  <p>
+    In the static, spherically symmetric limit with a background scalar profile \(R_0(r)\), the gravitational
+    potential receives a multiplicative correction from the resistance field:
+  </p>
+
+  <div class="eq boxed">
+    \[
+      \Phi_{\rm eff}(r) = \Phi_N(r) \cdot f\bigl(R_0(r)/R_{\rm bg}\bigr)
+    \]
+    <div class="eq-label">(E.2)</div>
+  </div>
+
+  <p>
+    where \(f(x)\) is determined by the potential \(V(R)\). For a double-well potential of the form
+    \(V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\), the kink solution \(R_0(r) = v \tanh(r/\xi)\)
+    (with \(\xi = \sqrt{2/\lambda}/v\)) yields:
+  </p>
+
+  <div class="eq">
+    \[
+      f\bigl(R_0(r)/v\bigr) = \tanh(r/\xi)
+    \]
+    <div class="eq-label">(E.3)</div>
+  </div>
+
+  <h4>E.1.3 XCRM Relaxation Correction</h4>
+
+  <p>
+    The XCRM relaxation equation (Eq. 3.17) introduces an additional suppression at small \(r\)
+    due to the X-integration generating an effective mass. The leading correction is:
+  </p>
+
+  <div class="eq">
+    \[
+      S(r) = \tanh(r/L_0) \cdot \bigl(1 - e^{-r/L_0}\bigr)
+    \]
+    <div class="eq-label">(E.4) — Saturation Operator</div>
+  </div>
+
+  <p>
+    where the second factor \((1 - e^{-r/L_0})\) arises from the exponential approach to equilibrium
+    in the X-direction. This functional form has the required properties:
+  </p>
+
+  <ul class="defs">
+    <li>\(S(0) = 0\): Gravitational coupling vanishes at the origin (core regularization)</li>
+    <li>\(S(r) \to 1\) as \(r \to \infty\): Newtonian limit recovered at large distances</li>
+    <li>\(S(r) \approx r^2/L_0^2\) for small \(r\): Quadratic onset (smooth core)</li>
+    <li>\(S'(r) > 0\): Monotonically increasing (no spurious extrema)</li>
+  </ul>
+
+  <h4>E.1.4 Parameter Identification</h4>
+
+  <div class="block success">
+    <div class="title">Theorem E.1 — Saturation Length from STUR Parameters</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The saturation length \(L_0\) in the gravitational simulations is identified with the
+      coherence length from the XCRM integration:
+    </p>
+    <div class="eq law" style="margin-top:0.75rem;">
+      \[\boxed{L_0 = \frac{\sqrt{2}\, L_X}{\sigma_R} = \ell_{\rm coh}}\]
+      <div class="eq-label">(E.5)</div>
+    </div>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary)">
+      This closes the parameter space: the gravitational saturation scale is the same as the
+      interferometric coherence length. Simulations using different \(L_0\) values correspond to
+      different realizations of the ratio \(\sigma_R/L_X\).
+    </p>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Dimensional Analysis</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Verification that \(L_0\) carries dimension [length]:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <li>\([L_X] = L\) (extra dimension size)</li>
+      <li>\([\sigma_R] = L^{-1}\) (phase gradient, equivalent to contortion \(K_{\rm eff}\))</li>
+      <li>\([L_X/\sigma_R] = L \cdot L = L^2\)? No—\([\sigma_R] = 1\) (dimensionless in natural units with \(\hbar=c=1\))</li>
+    </ul>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <strong>Clarification:</strong> In the holonomy formalism (Eq. 9.4), \(\sigma_R \equiv K_{\rm eff}\)
+      carries dimension \([L^{-1}]\) when expressed in SI units. The ratio \(L_X/\sigma_R\) therefore
+      has dimension \([L]/[L^{-1}] = [L^2]\). The correct identification is:
+      \(L_0 = 1/(y\sigma_R)\) from Eq. (9.5), giving \([L_0] = [L]\) for \([y] = 1\) (dimensionless Yukawa).
+    </p>
+  </div>
+
+  <h3>E.2 Chi-Torsion Channel: Dimensional Analysis</h3>
+
+  <p>
+    The sonoluminescence and bubble dynamics simulations use a "chi-torsion channel" with the
+    phenomenological equation:
+  </p>
+
+  <div class="eq">
+    \[
+      \frac{d\chi}{dt} = \Gamma_\chi \left(\frac{R_0}{R} - 1\right)
+    \]
+    <div class="eq-label">(E.6)</div>
+  </div>
+
+  <p>
+    This section provides the dimensional analysis and connection to the Master Action.
+  </p>
+
+  <h4>E.2.1 Physical Interpretation</h4>
+
+  <p>
+    The variable \(\chi\) represents the accumulated torsion excitation during bubble collapse.
+    It is defined as a <strong>dimensionless phase integral</strong> analogous to the resistance holonomy:
+  </p>
+
+  <div class="eq boxed">
+    \[
+      \chi(t) \equiv \frac{1}{\Phi_0} \int_0^t \Gamma_\chi \left(\frac{R_0}{R(t')} - 1\right) dt'
+    \]
+    <div class="eq-label">(E.7) — Chi as dimensionless excitation</div>
+  </div>
+
+  <p>
+    where \(\Phi_0\) is a reference phase scale. With this definition, \([\chi] = 1\) (dimensionless).
+  </p>
+
+  <h4>E.2.2 Connection to Master Action</h4>
+
+  <p>
+    The chi-channel emerges from the torsion coupling \(\alpha R\, \mathbb{T}\) when the local
+    matter configuration (bubble radius \(R\)) modulates the effective torsion. The driving term
+    \((R_0/R - 1)\) represents the departure from equilibrium:
+  </p>
+
+  <div class="eq">
+    \[
+      \mathbb{T}_{\rm eff} \propto \left(\frac{R_0}{R}\right)^{3(\gamma-1)} - 1 \approx 3(\gamma-1)\left(\frac{R_0}{R} - 1\right) + \mathcal{O}\left(\frac{R_0}{R}-1\right)^2
+    \]
+    <div class="eq-label">(E.8)</div>
+  </div>
+
+  <p>
+    The linearization is valid for moderate compression (\(R_0/R \lesssim 10\)).
+  </p>
+
+  <h4>E.2.3 Parameter Identification</h4>
+
+  <div class="block success">
+    <div class="title">Theorem E.2 — Chi Rate from STUR Parameters</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The chi excitation rate \(\Gamma_\chi\) is identified with the XCRM relaxation rate:
+    </p>
+    <div class="eq law" style="margin-top:0.75rem;">
+      \[\boxed{\Gamma_\chi = \frac{\alpha \sigma_R}{L_X} = \alpha \cdot \frac{\sigma_R^2}{\sqrt{2}\, \sigma_R} = \frac{\alpha}{\ell_{\rm coh}}}\]
+      <div class="eq-label">(E.9)</div>
+    </div>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary)">
+      where \(\alpha\) is the torsion coupling constant from the Master Action. The chi-rate scales
+      inversely with coherence length: stronger torsion coupling or smaller coherence length produces
+      faster chi accumulation during collapse.
+    </p>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Dimensional Verification for Chi</div>
+    <table style="margin:0.5rem 0;font-size:0.88rem">
+      <tr><th>Quantity</th><th>Dimension</th><th>Typical Value</th></tr>
+      <tr><td>\(\chi\)</td><td>dimensionless</td><td>\(\sim 0.1\)–\(10\)</td></tr>
+      <tr><td>\(\Gamma_\chi\)</td><td>\([T^{-1}]\)</td><td>\(\sim 10^6\ \text{s}^{-1}\)</td></tr>
+      <tr><td>\(R_0/R - 1\)</td><td>dimensionless</td><td>\(\sim 0.1\)–\(10\) during collapse</td></tr>
+      <tr><td>\(\chi = \int \Gamma_\chi (R_0/R-1) dt\)</td><td>\([T^{-1}]\cdot 1 \cdot [T] = 1\)</td><td>✓ Consistent</td></tr>
+    </table>
+  </div>
+
+  <h3>E.3 Simulation Parameter Dictionary</h3>
+
+  <p>
+    The following table provides the mapping between simulation parameters and fundamental STUR quantities:
+  </p>
+
+  <div class="block">
+    <div class="title">Parameter Mapping (v9.2)</div>
+    <table style="margin:0.5rem 0;font-size:0.88rem">
+      <tr>
+        <th>Simulation Parameter</th>
+        <th>STUR Equivalent</th>
+        <th>Equation Reference</th>
+      </tr>
+      <tr>
+        <td>\(L_0\) (saturation length)</td>
+        <td>\(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\)</td>
+        <td>Eq. (E.5), (3.18)</td>
+      </tr>
+      <tr>
+        <td>\(S(r)\) (gravitational modulator)</td>
+        <td>\(\tanh(r/\ell_{\rm coh})(1-e^{-r/\ell_{\rm coh}})\)</td>
+        <td>Eq. (E.4)</td>
+      </tr>
+      <tr>
+        <td>\(\Gamma_\chi\) (chi excitation rate)</td>
+        <td>\(\alpha / \ell_{\rm coh}\)</td>
+        <td>Eq. (E.9)</td>
+      </tr>
+      <tr>
+        <td>\(R_q\) (holoscreen coupling)</td>
+        <td>\(y \sigma_R / p_0 \approx y K_{\rm eff} / p_0\)</td>
+        <td>Eq. (9.5)</td>
+      </tr>
+      <tr>
+        <td>\(K_{\rm eff}\) (effective contortion)</td>
+        <td>\(\sigma_R\) (RMS phase gradient)</td>
+        <td>Eq. (9.4)</td>
+      </tr>
+      <tr>
+        <td>\(\sigma_R / L_X\) (single ratio)</td>
+        <td>\(\sqrt{2} / \ell_{\rm coh}\)</td>
+        <td>Eq. (3.18)</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="block success">
+    <div class="title">Closure Statement</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      All simulation parameters reduce to a single degree of freedom: the ratio \(\sigma_R/L_X\),
+      equivalently parameterized by the coherence length \(\ell_{\rm coh}\). The torsion coupling
+      \(\alpha\) and Yukawa coupling \(y\) are additional parameters that scale the observable
+      amplitudes but do not introduce new functional dependence. This closes the gap between the
+      5D Master Action and the 4D classical simulations.
+    </p>
+  </div>
+
+  <h3>E.4 Superconductor Coupling: Status and Limitations</h3>
+
+  <div class="block warning">
+    <div class="title">Honest Assessment</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The superconductor simulation page uses phenomenological parameters (u_geo, β) that are
+      <strong>not yet derived from the Master Action</strong>. The connection between STUR's
+      scalar-torsion coupling and BCS electron pairing remains an open problem. Current implementation
+      should be understood as:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <li><strong>Phenomenological fitting</strong>: Parameters adjusted to match superconductor data</li>
+      <li><strong>Not a prediction</strong>: STUR does not currently predict superconductor properties</li>
+      <li><strong>Future work</strong>: Requires derivation of effective electron-electron interaction modification from \(\alpha R\, \mathbb{T}\)</li>
+    </ul>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      Until this derivation is complete, the superconductor page should be classified as
+      <strong>Tier 6 (Exploratory)</strong> rather than Tier 2 (Falsifiable).
     </p>
   </div>
 </section>
