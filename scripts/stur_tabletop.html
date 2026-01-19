@@ -166,7 +166,7 @@
           <p>Photon bounce count, intensity decay rate, escape angle vs radius</p>
         </div>
       </div>
-      <a href="stur_foundations.html#sec3" class="core-ref">Core Definition: Potential Sector V(R)</a>
+      <a href="stur_foundations.html#VR-derivation" class="core-ref">Core Definition: Orbifold-Derived V(R) (§2.5)</a>
     </div>
 
     <!-- ============================================================
@@ -209,13 +209,13 @@
                 <div class="stur-eq-label">Master Action (v9.2)</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> Flat spacetime, scalar potential \(V(R)\) induces the STUR radial modulator applied to effective confinement.</p>
+            <p><strong>Limit assumed:</strong> Flat spacetime, <a href="stur_foundations.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a> induces the STUR radial modulator applied to effective confinement.</p>
 
             <div class="stur-eq derived">
                 \[
                 \color{#f472b6}{S(r)} = \tanh\!\bigl(\color{#fb923c}{r}/\color{#22d3ee}{L_0}\bigr)\,\bigl(1 - e^{-\color{#fb923c}{r}/\color{#22d3ee}{L_0}}\bigr)
                 \]
-                <div class="stur-eq-label">Radial Modulator from V(R)</div>
+                <div class="stur-eq-label">Radial Modulator from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived V(R)</a></div>
             </div>
 
             <p>The photon trajectory satisfies ray-tracing equations with the effective refractive index modulated by \(S(r)\):</p>
@@ -352,7 +352,7 @@ import json, time
 # 1) STUR RADIAL MODULATOR
 # ===============================================================
 def S_r(r, L0=1.0):
-    """STUR radial modulator from V(R) potential"""
+    """STUR radial modulator from orbifold-derived V(R) (§2.5)"""
     u = r / L0
     return np.tanh(u) * (1.0 - np.exp(-u))
 

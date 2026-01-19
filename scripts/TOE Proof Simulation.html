@@ -120,7 +120,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>STUR modulator form: \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) — from V(R) potential</li>
+                <li>STUR modulator form: \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a></li>
                 <li>Effective curvature law: \(k(r_0) = 2AS(r_0)/r_0^3 - AS'(r_0)/r_0^2\)</li>
                 <li>Universal period: \(T(m) = 2\pi\sqrt{m/k}\) — harmonic oscillator with geometric curvature</li>
             </ul>
@@ -201,13 +201,13 @@
                 <div class="stur-eq-label">Master Action (v9.2)</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> Universal geometry from \(V(R)\) induces the STUR radial modulator and effective curvature:</p>
+            <p><strong>Limit assumed:</strong> Universal geometry from <a href="stur_foundations.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a> induces the STUR radial modulator and effective curvature:</p>
 
             <div class="stur-eq derived">
                 \[
                 \color{#f472b6}{S(r)} = \tanh\!\bigl(\color{#fb923c}{r}/\color{#22d3ee}{L_0}\bigr)\,\bigl(1 - e^{-\color{#fb923c}{r}/\color{#22d3ee}{L_0}}\bigr)
                 \]
-                <div class="stur-eq-label">Radial Modulator from V(R)</div>
+                <div class="stur-eq-label">Radial Modulator from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived V(R)</a></div>
             </div>
 
             <div class="stur-eq derived">
@@ -349,7 +349,7 @@ import json, time
 # 1) STUR RESISTANCE FIELD
 # ===============================================================
 def S(r, L0):
-    """STUR resistance modulator S(r) from V(R)"""
+    """STUR resistance modulator S(r) from orbifold-derived V(R) (§2.5)"""
     x = r / L0
     return np.tanh(x) * (1.0 - np.exp(-x))
 

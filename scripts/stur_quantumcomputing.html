@@ -333,7 +333,7 @@ STUR QC Lattice — Deterministic Continuity (v9.2)
 ==================================================
 Tests STUR-modulated quantum evolution on 1D lattice.
 
-Derives from: Master Action → R_STUR generator → i hbar dPsi/dt = R_STUR Psi
+Derives from: Orbifold topology (§2.5) → V(R) → R_STUR generator → i hbar dPsi/dt = R_STUR Psi
 """
 
 import numpy as np
@@ -346,7 +346,7 @@ from numpy.linalg import eig
 plt.style.use("dark_background")
 
 # ===============================================================
-# STUR MODULATOR [from V(R) term]
+# STUR MODULATOR [from orbifold-derived V(R), §2.5]
 # S(r) = tanh(r/L₀) · (1 - exp(-r/L₀))
 # ===============================================================
 def S_STUR(r, L0):

@@ -85,7 +85,7 @@
         <h1 class="page-title-derived">Galaxy Rotation Curves</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Derives galactic rotation curves from the STUR radial modulator \(S(r)\).
-            The same potential \(V(R)\) that governs microscale physics produces flat rotation at galactic scales.
+            The same <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived potential V(R)</a> that governs microscale physics produces flat rotation at galactic scales.
         </p>
 
         <!-- Status Badge -->
@@ -120,7 +120,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Modulator existence: S(r) arises from V(R) potential in Master Action</li>
+                <li>Modulator existence: S(r) arises from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R)</a> potential (<a href="stur_foundations.html#appE" style="color:var(--neon-green)">App. E</a>)</li>
                 <li>Gravitational coupling: \(L_{\text{torsion}}\) sector modifies effective potential</li>
                 <li>Scale-dependent suppression: S(r) → 0 at small r, S(r) → 1 at intermediate scales</li>
             </ul>
@@ -133,7 +133,7 @@
                 <li>NFW halo profile — standard dark matter assumption (comparison baseline)</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
-                <strong>Connection to Core Theory:</strong> The modulator S(r) emerges from V(R), but the specific galactic-scale
+                <strong>Connection to Core Theory:</strong> The modulator S(r) emerges from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-gold)">orbifold-derived V(R) (§2.5)</a>, but the specific galactic-scale
                 form differs from the microscale \(S(r) = \tanh(r/L_0)(1-e^{-r/L_0})\). Both should arise as different limits
                 of V(R) — this connection requires explicit derivation to achieve full first-principles status.
             </p>
@@ -151,7 +151,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Circular rotation velocity \(v(r)\) vs galactocentric radius for spiral galaxies.</p>
             <p><strong>Scale:</strong> \(r \sim 1-50\,\text{kpc}\), matching JWST Big Wheel observations.</p>
-            <p><strong>Connection:</strong> The STUR scalar modulator derived from the <a href="stur_foundations.html#master-action" class="core-ref">V(R) potential</a> modifies effective gravitational potential without invoking dark matter particles.</p>
+            <p><strong>Connection:</strong> The STUR scalar modulator derived from the <a href="stur_foundations.html#VR-derivation" class="core-ref">orbifold-derived V(R) potential (§2.5)</a> modifies effective gravitational potential without invoking dark matter particles.</p>
         </div>
     </section>
 
@@ -186,7 +186,7 @@
                 \[
                 \color{#f472b6}{\mathcal{S}(r, \phi)} = \phi\,\frac{1 + r/L_0}{1 + (r/L_0)^2}\,e^{-\Lambda r^2}
                 \]
-                <div class="stur-eq-label">Galactic-Scale Modulator (from V(R) potential)</div>
+                <div class="stur-eq-label">Galactic-Scale Modulator (from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived V(R)</a>)</div>
             </div>
 
             <p>The total rotation velocity combines baryonic and STUR contributions:</p>
@@ -263,7 +263,7 @@
 #   - stur_galaxy.json  (fit results)
 #   - stur_galaxy.png   (rotation curve + residuals)
 #
-# Derived from Master Action V(R) potential term
+# Derived from orbifold-derived V(R) potential (Foundations §2.5)
 # ===============================================================
 
 import numpy as np
@@ -290,7 +290,7 @@ OUT_PNG  = "stur_galaxy.png"
 # 2) STUR SCALAR MODULATOR
 # ===============================================================
 def S_STUR(r, phi):
-    """STUR galactic-scale modulator from V(R)"""
+    """STUR galactic-scale modulator from orbifold-derived V(R) (§2.5)"""
     r = max(r, 1e-10)
     x = r / L0
     return phi * (1 + x) / (1 + x**2) * math.exp(-La * r**2)
