@@ -413,6 +413,42 @@ plt.show()</pre>
     </section>
 
     <!-- ============================================================
+         SECTION: STUR CONNECTION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: #f472b6;">
+        <div class="glass-section-header">
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+            <h2 class="glass-section-title" style="color:#f472b6;">STUR Connection</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Emergent 4D Equation (3.4.7):</strong> The STUR framework describes how resistance fields evolve through diffusion, relaxation, and stochastic fluctuations:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \partial_t \bar R = \color{#4ade80}{D\nabla^2 \bar R} \color{#94a3b8}{-} \color{#f472b6}{\Gamma(\bar R - R_{\rm bg})} \color{#94a3b8}{+} \color{#22d3ee}{\xi}
+                \]
+                <div class="stur-eq-label">(3.4.7) Emergent 4D Equation</div>
+            </div>
+
+            <p><strong>Biological Interpretation:</strong> In mitochondrial populations, this equation manifests as:</p>
+            <ul>
+                <li><span class="eq-diffusion">Diffusion term</span>: Spatial coupling between neighboring mitochondria through cristae network dynamics and metabolic signaling</li>
+                <li><span class="eq-potential">Relaxation term</span>: Homeostatic regulation driving pmf toward baseline levels; damaged mitochondria experience stronger relaxation toward dysfunction states</li>
+                <li><span class="eq-matter">Noise term</span>: Stochastic fluctuations in ROS production, Ca<sup>2+</sup> transients, and metabolic demand</li>
+            </ul>
+
+            <p>The curvature-resistance coupling \(S(r)\) acts as the biological resistance modulator, where cristae geometry directly regulates proton throughput efficiency. High \(S(r)\) corresponds to ordered cristae and efficient ATP production; low \(S(r)\) indicates swollen/fragmented geometry and metabolic dysfunction.</p>
+
+            <p><strong>Cross-References:</strong></p>
+            <ul style="font-size:0.9rem;">
+                <li><a href="stur_foundations.html">Foundations</a> — Master Action and S(r) derivation</li>
+                <li><a href="stur_unified_framework.html#sec-stur">Framework Section 5</a> — Coherence length closure (Eq. 5.3)</li>
+                <li><a href="stur_atp1.html">Mito Life/Death</a> — Single-mitochondrion state machine</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: CITATIONS
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--border-dim);">
@@ -450,6 +486,7 @@ plt.show()</pre>
      ============================================================ -->
 <!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof STUR !== 'undefined' && STUR.initNav) {

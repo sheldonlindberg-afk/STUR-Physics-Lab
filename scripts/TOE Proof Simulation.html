@@ -111,6 +111,30 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- Falsification Harness -->
+    <div class="falsification-harness">
+      <h3>Falsification Protocol</h3>
+      <div class="harness-grid">
+        <div class="harness-section observable">
+          <h4>Observable</h4>
+          <p>Oscillation period \(T(m)\) as a function of mass, isochrony ratio \(T/\sqrt{m}\), back-solved interaction scale \(A\). Scale range from proton mass \(m_p = 1.67 \times 10^{-27}\,\text{kg}\) to macroscopic \(m = 1\,\text{kg}\).</p>
+        </div>
+        <div class="harness-section null-model">
+          <h4>Null Model (Standard Physics)</h4>
+          <p>Standard physics requires separate force laws for different scales (Coulomb, gravity, nuclear) with no unified curvature constant.</p>
+        </div>
+        <div class="harness-section stur-prediction">
+          <h4>STUR Prediction</h4>
+          <p>Gaussian visibility: V(ΔL) = V₀ exp(−(ΔL/ℓ_coh)²)</p>
+        </div>
+        <div class="harness-section metric">
+          <h4>Falsification Metric</h4>
+          <p>Δχ², Bayes factor, or likelihood ratio</p>
+        </div>
+      </div>
+      <a href="stur_foundations.html#sec9" class="core-ref">Core Definition: Eq. (9.1)</a>
+    </div>
+
     <!-- ============================================================
          SECTION: WHAT THIS PAGE TESTS
          ============================================================ -->
@@ -564,6 +588,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      ============================================================ -->
 <!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof STUR !== 'undefined' && STUR.initNav) {

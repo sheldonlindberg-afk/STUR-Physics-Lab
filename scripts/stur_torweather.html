@@ -122,7 +122,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Classification of atmospheric parcels into microburst, funnel, and heat dome candidates.</p>
             <p><strong>Scale:</strong> \(2 \times 2 \times 0.5\,\text{km}\) domain with \(8^3 = 512\) parcels.</p>
-            <p><strong>Connection:</strong> The STUR radial modulator \(S(r)\) adds nonlinear resistance forcing to standard fluid dynamics.</p>
+            <p><strong>Connection:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">radial modulator S(r)</a> adds nonlinear resistance forcing to standard fluid dynamics.</p>
         </div>
     </section>
 
@@ -135,7 +135,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">Master Action</a> from <a href="stur_foundations.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -151,7 +151,7 @@
                 <div class="stur-eq-label">Master Action (v9.2)</div>
             </div>
 
-            <p><strong>STUR radial modulator:</strong></p>
+            <p><strong>STUR <a href="stur_foundations.html#master-action" class="core-ref">radial modulator</a>:</strong></p>
 
             <div class="stur-eq derived">
                 \[
@@ -458,6 +458,7 @@ print(f"Output: {OUT_JSON}")</pre>
      ============================================================ -->
 <!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof STUR !== 'undefined' && STUR.initNav) {

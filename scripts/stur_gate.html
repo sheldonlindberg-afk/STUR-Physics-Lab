@@ -122,7 +122,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Access probability \(P_{\text{success}}\) and Shannon information entropy \(S_{\text{info}}\).</p>
             <p><strong>Scale:</strong> Radial corridor \(r \in [10, 50]\) (arbitrary units), control phase \(t \in [0, 0.4]\,\text{s}\).</p>
-            <p><strong>Connection:</strong> The STUR radial modulator \(S(r)\) combines electromagnetic, gravitational, and short-range forces.</p>
+            <p><strong>Connection:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">radial modulator S(r)</a> combines electromagnetic, gravitational, and short-range forces.</p>
         </div>
     </section>
 
@@ -135,7 +135,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">Master Action</a> from <a href="stur_foundations.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -166,7 +166,7 @@
                 \[
                 \color{#f472b6}{C(t)} = \sum_i |F_{\text{tot}}(r_i, t)| \Delta r
                 \]
-                <div class="stur-eq-label">Integrated Resistance (from V(R))</div>
+                <div class="stur-eq-label">Integrated Resistance (from <a href="stur_foundations.html#master-action" class="core-ref">V(R)</a>)</div>
             </div>
 
             <p><strong>Success probability:</strong> \(P_{\text{success}}(t, \sigma) = \Pr[E_b > E_{\text{need}}]\)</p>
@@ -177,7 +177,7 @@
                 \[
                 \color{#fbbf24}{S_{\text{info}}(P)} = -P \log_2 P - (1-P) \log_2(1-P)
                 \]
-                <div class="stur-eq-label">Shannon Entropy (XCRM information measure)</div>
+                <div class="stur-eq-label">Shannon Entropy (<a href="stur_foundations.html#master-action" class="core-ref">XCRM</a> information measure)</div>
             </div>
         </div>
     </section>
@@ -511,6 +511,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      ============================================================ -->
 <!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof STUR !== 'undefined' && STUR.initNav) {

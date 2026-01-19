@@ -533,6 +533,42 @@ plt.show()</pre>
     </section>
 
     <!-- ============================================================
+         SECTION: STUR CONNECTION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: #f472b6;">
+        <div class="glass-section-header">
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+            <h2 class="glass-section-title" style="color:#f472b6;">STUR Connection</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Emergent 4D Equation (3.4.7):</strong> The STUR resistance field evolution describes the fundamental dynamics underlying mitochondrial state transitions:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \partial_t \bar R = \color{#4ade80}{D\nabla^2 \bar R} \color{#94a3b8}{-} \color{#f472b6}{\Gamma(\bar R - R_{\rm bg})} \color{#94a3b8}{+} \color{#22d3ee}{\xi}
+                \]
+                <div class="stur-eq-label">(3.4.7) Emergent 4D Equation</div>
+            </div>
+
+            <p><strong>Biological Interpretation:</strong> The state machine (healthy -> stressed -> pre_apoptotic -> uncoupled -> mPTP) corresponds to bifurcations in the resistance field potential \(V(R)\):</p>
+            <ul>
+                <li><span class="eq-diffusion">Diffusion term</span>: Spatial coherence of cristae geometry; high \(S(r)\) promotes ordered membrane structure</li>
+                <li><span class="eq-potential">Relaxation term</span>: The potential \(V(R)\) has multiple minima corresponding to each state; transitions occur when fluctuations exceed barrier heights</li>
+                <li><span class="eq-matter">Noise term</span>: Ca<sup>2+</sup> bursts, ROS spikes, and ATP demand fluctuations drive stochastic state hopping</li>
+            </ul>
+
+            <p>The STUR coherence scalar \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) directly couples cristae curvature radius to bioenergetic efficiency. State transitions occur when the effective resistance \(\bar R\) crosses critical thresholds in the multi-well potential landscape.</p>
+
+            <p><strong>Cross-References:</strong></p>
+            <ul style="font-size:0.9rem;">
+                <li><a href="stur_foundations.html">Foundations</a> — Master Action and V(R) potential term</li>
+                <li><a href="stur_unified_framework.html#sec-stur">Framework Section 5.4</a> — Emergent 4D equation derivation</li>
+                <li><a href="stur_atp.html">Mito Population</a> — Population-level dynamics with heterogeneity</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: CITATIONS
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--border-dim);">
@@ -570,6 +606,7 @@ plt.show()</pre>
      ============================================================ -->
 <!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof STUR !== 'undefined' && STUR.initNav) {

@@ -111,6 +111,30 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- Falsification Harness -->
+    <div class="falsification-harness">
+      <h3>Falsification Protocol</h3>
+      <div class="harness-grid">
+        <div class="harness-section observable">
+          <h4>Observable</h4>
+          <p>Entanglement entropy \(S_A(t)\), resistance flux \(\Phi_R(t)\), local densities \(\rho_i(t)\), continuity residual \(\mathcal{C}\). 1D lattice geometry with \(N = 6\) sites, hopping \(J = 1\), resistance modulator \(\xi\).</p>
+        </div>
+        <div class="harness-section null-model">
+          <h4>Null Model (Standard Physics)</h4>
+          <p>Standard tight-binding (\(\xi = 0\)) predicts no resistance-flux coupling and unitary Schrodinger evolution.</p>
+        </div>
+        <div class="harness-section stur-prediction">
+          <h4>STUR Prediction</h4>
+          <p>Gaussian visibility: V(ΔL) = V₀ exp(−(ΔL/ℓ_coh)²)</p>
+        </div>
+        <div class="harness-section metric">
+          <h4>Falsification Metric</h4>
+          <p>Δχ², Bayes factor, or likelihood ratio</p>
+        </div>
+      </div>
+      <a href="stur_foundations.html#sec9" class="core-ref">Core Definition: Eq. (9.1)</a>
+    </div>
+
     <!-- ============================================================
          SECTION: WHAT THIS PAGE TESTS
          ============================================================ -->
@@ -591,6 +615,7 @@ print(f"\nOutputs: stur_qc_lattice.png, stur_qc_lattice.json")</pre>
      ============================================================ -->
 <!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof STUR !== 'undefined' && STUR.initNav) {

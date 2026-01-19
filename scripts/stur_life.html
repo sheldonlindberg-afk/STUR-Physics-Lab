@@ -434,6 +434,42 @@ plt.show()</pre>
     </section>
 
     <!-- ============================================================
+         SECTION: STUR CONNECTION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: #f472b6;">
+        <div class="glass-section-header">
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+            <h2 class="glass-section-title" style="color:#f472b6;">STUR Connection</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Emergent 4D Equation (3.4.7):</strong> The STUR resistance field evolution provides the physical basis for proto-cell emergence in hydrothermal vent environments:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \partial_t \bar R = \color{#4ade80}{D\nabla^2 \bar R} \color{#94a3b8}{-} \color{#f472b6}{\Gamma(\bar R - R_{\rm bg})} \color{#94a3b8}{+} \color{#22d3ee}{\xi}
+                \]
+                <div class="stur-eq-label">(3.4.7) Emergent 4D Equation</div>
+            </div>
+
+            <p><strong>Origin of Life Interpretation:</strong> The X-feedback amplification factor \(f_X = \exp[\chi_X(R - R_{\rm bg})]\) derives from the XCRM coupling term in the master action:</p>
+            <ul>
+                <li><span class="eq-diffusion">Diffusion term</span>: Spatial transport of reactants (CO<sub>2</sub>, H<sub>2</sub>, acetyl-thioesters) through the pore, coupled with thermophoretic Soret drift</li>
+                <li><span class="eq-potential">Relaxation term</span>: Chemical equilibration toward background concentrations; catalytic surfaces lower effective \(\Gamma\)</li>
+                <li><span class="eq-xcrm">XCRM coupling</span>: The X-dimension provides positive feedback amplification of resistance hotspots, nucleating stable proto-cell attractors at critical \(\chi_X \approx 3.5-4.5\)</li>
+            </ul>
+
+            <p>At the critical coupling strength, the STUR framework predicts a bifurcation from homogeneous chemistry to spatially organized proto-cellular structures. The life-onset order parameter \(O_{\rm life} = \text{Var}(R)/\langle R \rangle\) spikes when structure first locks in, marking the transition from geochemistry to biochemistry.</p>
+
+            <p><strong>Cross-References:</strong></p>
+            <ul style="font-size:0.9rem;">
+                <li><a href="stur_foundations.html">Foundations</a> — Master Action with XCRM coupling \(\chi R \partial_X R\)</li>
+                <li><a href="stur_unified_framework.html#sec-stur">Framework Section 5</a> — X-dimension integration and coherence</li>
+                <li><a href="stur_atp.html">Mito Population</a> — Modern bioenergetics as evolved STUR systems</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: CITATIONS
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--border-dim);">
@@ -471,6 +507,7 @@ plt.show()</pre>
      ============================================================ -->
 <!-- STUR UI JavaScript -->
 <script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof STUR !== 'undefined' && STUR.initNav) {
