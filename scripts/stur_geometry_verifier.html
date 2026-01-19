@@ -13,8 +13,7 @@
 
 <style>
 /* Page-specific overrides - inherits from stur-core.css */
-body{padding:20px;}
-.container{max-width:1200px;margin:0 auto}
+.container{max-width:1200px;margin:0 auto;padding:0 20px;box-sizing:border-box;overflow-x:hidden;}
 h1{font-size:28px;margin-bottom:8px;color:var(--neon-cyan);font-weight:800}
 .subtitle{color:var(--text-muted);font-size:13px;margin-bottom:24px;line-height:1.5}
 .card{background:var(--bg-panel-2);border:1px solid var(--border-dim);border-radius:12px;padding:20px;margin-bottom:16px}
@@ -51,8 +50,8 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .row{display:flex;gap:12px;flex-wrap:wrap}
 .smallmono{font-family:var(--font-mono);font-size:12px;color:var(--text-muted)}
 canvas{
-  width:100%;border-radius:8px;background:rgba(0,0,0,.3);
-  border:1px solid var(--border-dim);display:block;margin-top:12px
+  width:100%;max-width:100%;height:auto;min-height:200px;border-radius:8px;background:rgba(0,0,0,.3);
+  border:1px solid var(--border-dim);display:block;margin-top:12px;box-sizing:border-box;
 }
 .validation-box{
   padding:12px;border-radius:8px;margin-top:12px;font-family:var(--font-mono);font-size:12px;
@@ -150,8 +149,9 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 });
 </script>
 
+<main class="stur-container">
 <div class="container">
-<header>
+<header style="text-align:center; margin-bottom:2rem; padding-top:1rem;">
   <h1>Holoscreen — Unified Falsification Laboratory</h1>
   <div class="subtitle">
     Boundary-calibrated gauge-invariant formulation with QED recovery validation. Real-time PDE coupling
@@ -219,7 +219,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 <div class="card">
   <div class="card-title">🎯 Infall Probe — 3D Radial Visualization</div>
   <canvas id="infallCanvas" width="420" height="420"
-          style="background:radial-gradient(circle at center, #020617 0%, #000 70%);border-radius:50%;">
+          style="background:radial-gradient(circle at center, #020617 0%, #000 70%);border-radius:50%;max-width:420px;margin:0 auto;">
   </canvas>
   <div class="smallmono" style="text-align:center;margin-top:8px">
     Probe infall toward Schwarzschild horizon • Γ controls radial depth • Redshift dimming + causal fade
@@ -433,17 +433,14 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
       </select>
     </div>
 
-```
-<div>
-  <label for="expSteps">Steps</label>
-  <input type="number" id="expSteps" value="30" min="10" max="200" />
-</div>
-
-<div>
-  <label for="expGamma">Fixed Γ (if applicable)</label>
-  <input type="number" id="expGamma" value="0.35" min="0" max="0.6" step="0.01" />
-</div>
-```
+    <div>
+      <label for="expSteps">Steps</label>
+      <input type="number" id="expSteps" value="30" min="10" max="200" />
+    </div>
+    <div>
+      <label for="expGamma">Fixed Γ (if applicable)</label>
+      <input type="number" id="expGamma" value="0.35" min="0" max="0.6" step="0.01" />
+    </div>
 
   </div>
 
@@ -472,6 +469,20 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 </div>
 
 </div>
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_sandbox.html">Sandbox</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
 
 <script>
 /* ================================================================
