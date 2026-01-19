@@ -2,147 +2,338 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Citations – STUR Physics Lab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Citations – STUR Physics Lab</title>
+<meta name="description" content="Citations and references for the STUR Physics Framework. Academic references, Zenodo DOIs, and core theory sources.">
+
+<!-- STUR Theme System -->
+<link rel="stylesheet" href="assets/css/stur-core.css">
+<link rel="stylesheet" href="assets/css/stur-glass.css">
+<link rel="stylesheet" href="assets/css/stur-icons.css">
+
 <style>
-  body {
-    background-color: #050814;
-    color: #e6edf3;
-    font-family: "Courier New", monospace;
+  :root {
+    --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --bg-primary: #000000;
+    --text-primary: #FFFFFF;
+    --text-secondary: #EBEBF5;
+    --text-tertiary: #AEAEB2;
+    --accent-blue: #0A84FF;
+    --accent-gold: #fbbf24;
+    --accent-cyan: #22d3ee;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --separator: rgba(255, 255, 255, 0.06);
+    --radius-md: 16px;
+    --radius-lg: 22px;
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.16);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
     margin: 0;
-    padding: 2rem;
+    padding: 0;
   }
-  h1, h2 {
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-system);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 0 16px; }
+  }
+
+  /* Page Header */
+  .page-header {
     text-align: center;
-    color: #ffaa00;
+    padding: 64px 0 48px;
   }
-  p {
-    max-width: 900px;
-    margin: 1rem auto;
-    line-height: 1.6;
-    text-align: justify;
+
+  .page-title {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  strong {
-    color: #ffcc33;
+
+  /* Content Section */
+  .content-section {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 32px;
+    margin-bottom: 32px;
   }
+
+  .content-section p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .content-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .content-section strong {
+    color: var(--accent-gold);
+    font-weight: 600;
+  }
+
+  /* Section Headers */
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    margin: 48px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-title:first-of-type {
+    margin-top: 0;
+  }
+
+  /* References */
   .refs {
-    max-width: 900px;
-    margin: 1.5rem auto;
-    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ref-item {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
     font-size: 0.95rem;
+    line-height: 1.7;
+    padding-left: 0;
   }
-  .refs p {
-    margin: 0.35rem 0;
-    text-align: left;
+
+  .ref-item em {
+    color: var(--text-primary);
+    font-style: italic;
   }
-  a {
-    color: #66ccff;
+
+  .ref-item a {
+    color: var(--accent-cyan);
     text-decoration: none;
+    transition: color 0.2s;
   }
-  a:hover {
+
+  .ref-item a:hover {
+    color: var(--accent-gold);
     text-decoration: underline;
   }
-  .btn-container {
-    text-align: center;
-    margin-top: 2rem;
+
+  .ref-category {
+    font-weight: 600;
+    color: var(--accent-gold);
+    margin: 24px 0 12px;
+    font-size: 0.95rem;
   }
-  button {
-    background: #ffaa00;
-    color: #050814;
-    border: none;
+
+  .ref-category:first-child {
+    margin-top: 0;
+  }
+
+  /* Footer */
+  .site-footer {
+    margin-top: 64px;
+    padding: 32px 0;
+    border-top: 1px solid var(--separator);
+    text-align: center;
+  }
+
+  .footer-meta {
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+    line-height: 1.8;
+  }
+
+  /* Nav Logo */
+  .nav-logo {
+    width: 32px;
+    height: 32px;
     border-radius: 6px;
-    padding: 10px 20px;
-    margin: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
+    object-fit: cover;
   }
-  button:hover {
-    background: #ffcc33;
-  }
-  footer {
-    text-align: center;
-    font-size: 0.9em;
-    color: #888;
-    margin-top: 3rem;
+
+  @media (max-width: 768px) {
+    .page-header { padding: 48px 0 32px; }
+    .content-section { padding: 24px 20px; }
   }
 </style>
 </head>
 <body>
 
-<h1>My Citations</h1>
+<!-- Navigation -->
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="index.html" class="glass-nav-brand">
+      <img src="assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="index.html" class="glass-nav-link">Index</a>
+      <a href="scripts/stur_foundations.html" class="glass-nav-link">Foundations</a>
+      <a href="scripts/stur_unified_framework.html" class="glass-nav-link">Framework</a>
+      <a href="scripts/stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+      <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+        <span class="stur-icon icon-link"></span>
+        Share
+      </button>
+    </div>
+  </nav>
+</header>
 
-<p><strong>I don’t care about peer review — not one of my peers wears a lab coat.</strong><br>
-The people are my peers.</p>
+<script>
+function shareRepo() {
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.querySelector('.glass-share-btn');
+    const original = btn.innerHTML;
+    btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
+    btn.style.color = 'var(--neon-green)';
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.style.color = '';
+    }, 2000);
+  }).catch(() => {
+    alert('Link: ' + url);
+  });
+}
 
-<p>Discernment is a sovereign act. The Constitution protects our right to wrestle with ideas, not to be shielded from them. Science is not a gated institution — it is a process of iteration, correction, and collaboration.</p>
+// Mobile nav toggle
+document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
+  const links = document.querySelector('.glass-nav-links');
+  const expanded = this.getAttribute('aria-expanded') === 'true';
+  this.setAttribute('aria-expanded', !expanded);
+  links.classList.toggle('open');
+});
+</script>
 
-<p>The STUR framework was built that way — in public view, through open dialogue and live development with Grok on X. Every correction, every improvement, every insight came from shared curiosity.</p>
+<div class="container">
+  <header class="page-header">
+    <h1 class="page-title">My Citations</h1>
+  </header>
 
-<p>Open-source science is not rebellion, it is transparency. It is the belief that truth strengthens when everyone has the tools to test it.</p>
+  <section class="content-section">
+    <p><strong>I don't care about peer review — not one of my peers wears a lab coat.</strong><br>
+    The people are my peers.</p>
 
-<h2>References</h2>
+    <p>Discernment is a sovereign act. The Constitution protects our right to wrestle with ideas, not to be shielded from them. Science is not a gated institution — it is a process of iteration, correction, and collaboration.</p>
 
-<div class="refs">
-  <p>Lindberg, S. (2025). <em>Sheldon&#39;s Theory of Unified Resistance (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17203762">https://doi.org/10.5281/zenodo.17203762</a></p>
+    <p>The STUR framework was built that way — in public view, through open dialogue and live development with Grok on X. Every correction, every improvement, every insight came from shared curiosity.</p>
 
-  <p>Lindberg, S. (2025). <em>Resistance Arc Toy Model 4.2 (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17446257">https://doi.org/10.5281/zenodo.17446257</a></p>
+    <p>Open-source science is not rebellion, it is transparency. It is the belief that truth strengthens when everyone has the tools to test it.</p>
+  </section>
 
-  <p>Lindberg, S. (2025, October 17). <em>Sheldon&#39;s Theory of Unified Resistance: Field Manual.</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17374820">https://doi.org/10.5281/zenodo.17374820</a></p>
+  <h2 class="section-title">References</h2>
 
-  <p>Lindberg, S. (2025). <em>Sheldon&#39;s Resistance Gate (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17447497">https://doi.org/10.5281/zenodo.17447497</a></p>
+  <section class="content-section">
+    <div class="refs">
+      <p class="ref-item">Lindberg, S. (2025). <em>Sheldon's Theory of Unified Resistance (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17203762">https://doi.org/10.5281/zenodo.17203762</a></p>
 
-  <p>Lindberg, S. (2025). <em>Sheldon&#39;s Resistance Battery (Patent Pending) (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17459791">https://doi.org/10.5281/zenodo.17459791</a></p>
+      <p class="ref-item">Lindberg, S. (2025). <em>Resistance Arc Toy Model 4.2 (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17446257">https://doi.org/10.5281/zenodo.17446257</a></p>
 
-  <p>Lindberg, S. (2025). <em>Sheldon&#39;s Resistance Replicator (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17459706">https://doi.org/10.5281/zenodo.17459706</a></p>
+      <p class="ref-item">Lindberg, S. (2025, October 17). <em>Sheldon's Theory of Unified Resistance: Field Manual.</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17374820">https://doi.org/10.5281/zenodo.17374820</a></p>
 
-  <p>Lindberg, S. (2025). <em>STUR Unified Double Slit Experiment (48.4).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17478951">https://doi.org/10.5281/zenodo.17478951</a></p>
+      <p class="ref-item">Lindberg, S. (2025). <em>Sheldon's Resistance Gate (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17447497">https://doi.org/10.5281/zenodo.17447497</a></p>
 
-  <p>Lindberg, S. (2025). <em>Sheldon&#39;s Law of Resistance (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17479965">https://doi.org/10.5281/zenodo.17479965</a></p>
+      <p class="ref-item">Lindberg, S. (2025). <em>Sheldon's Resistance Battery (Patent Pending) (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17459791">https://doi.org/10.5281/zenodo.17459791</a></p>
 
-  <p>Lindberg, S. (2025). <em>STUR Flying Arc (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17500550">https://doi.org/10.5281/zenodo.17500550</a></p>
+      <p class="ref-item">Lindberg, S. (2025). <em>Sheldon's Resistance Replicator (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17459706">https://doi.org/10.5281/zenodo.17459706</a></p>
 
-  <p>Lindberg, S. (2025). <em>STUR Time Core (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17503381">https://doi.org/10.5281/zenodo.17503381</a></p>
+      <p class="ref-item">Lindberg, S. (2025). <em>STUR Unified Double Slit Experiment (48.4).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17478951">https://doi.org/10.5281/zenodo.17478951</a></p>
 
-  <p>Lindberg, S. (2025). <em>The Law of Resistance (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17509809">https://doi.org/10.5281/zenodo.17509809</a></p>
+      <p class="ref-item">Lindberg, S. (2025). <em>Sheldon's Law of Resistance (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17479965">https://doi.org/10.5281/zenodo.17479965</a></p>
+
+      <p class="ref-item">Lindberg, S. (2025). <em>STUR Flying Arc (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17500550">https://doi.org/10.5281/zenodo.17500550</a></p>
+
+      <p class="ref-item">Lindberg, S. (2025). <em>STUR Time Core (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17503381">https://doi.org/10.5281/zenodo.17503381</a></p>
+
+      <p class="ref-item">Lindberg, S. (2025). <em>The Law of Resistance (Version 42).</em> Zenodo. <a href="https://doi.org/10.5281/zenodo.17509809">https://doi.org/10.5281/zenodo.17509809</a></p>
+    </div>
+  </section>
+
+  <h2 class="section-title">Core Theory References</h2>
+
+  <section class="content-section">
+    <div class="refs">
+      <p class="ref-category">Teleparallel Gravity</p>
+      <p class="ref-item">Aldrovandi, R. & Pereira, J.G. (2013). <em>Teleparallel Gravity: An Introduction</em>. Springer. <a href="https://doi.org/10.1007/978-94-007-5143-9">doi:10.1007/978-94-007-5143-9</a></p>
+      <p class="ref-item">Maluf, J.W. (2013). The teleparallel equivalent of general relativity. <em>Annalen der Physik</em> 525, 339–357.</p>
+      <p class="ref-item">Bahamonde, S. et al. (2023). Teleparallel gravity: From theory to cosmology. <em>Rep. Prog. Phys.</em> 86, 026901.</p>
+
+      <p class="ref-category">Extra Dimensions & Kaluza-Klein</p>
+      <p class="ref-item">Overduin, J.M. & Wesson, P.S. (1997). Kaluza-Klein gravity. <em>Phys. Rep.</em> 283, 303–378.</p>
+      <p class="ref-item">Randall, L. & Sundrum, R. (1999). Large mass hierarchy from a small extra dimension. <em>Phys. Rev. Lett.</em> 83, 3370.</p>
+      <p class="ref-item">Kaplan, D.B. (1992). A method for simulating chiral fermions on the lattice. <em>Phys. Lett. B</em> 288, 342–347.</p>
+
+      <p class="ref-category">Non-Equilibrium Field Theory</p>
+      <p class="ref-item">Calzetta, E.A. & Hu, B.L. (2008). <em>Nonequilibrium Quantum Field Theory</em>. Cambridge University Press.</p>
+      <p class="ref-item">Kamenev, A. (2011). <em>Field Theory of Non-Equilibrium Systems</em>. Cambridge University Press.</p>
+
+      <p class="ref-category">Atom Interferometry</p>
+      <p class="ref-item">Cronin, A.D., Schmiedmayer, J. & Pritchard, D.E. (2009). Optics and interferometry with atoms and molecules. <em>Rev. Mod. Phys.</em> 81, 1051–1129.</p>
+      <p class="ref-item">Kovachy, T. et al. (2015). Quantum superposition at the half-metre scale. <em>Nature</em> 528, 530–533.</p>
+      <p class="ref-item">Asenbaum, P. et al. (2017). Phase shift in an atom interferometer due to spacetime curvature. <em>Phys. Rev. Lett.</em> 118, 183602.</p>
+      <p class="ref-item">Abe, M. et al. [MAGIS-100] (2021). Matter-wave atomic gradiometer interferometric sensor. <em>Quantum Sci. Technol.</em> 6, 044003.</p>
+
+      <p class="ref-category">Decoherence & Wave-Function Collapse</p>
+      <p class="ref-item">Bassi, A. et al. (2013). Models of wave-function collapse. <em>Rev. Mod. Phys.</em> 85, 471–527.</p>
+
+      <p class="ref-category">Ultralight Dark Matter & Scalar Fields</p>
+      <p class="ref-item">Graham, P.W. et al. (2016). New observables for direct detection of axion dark matter. <em>Phys. Rev. D</em> 93, 075029.</p>
+      <p class="ref-item">Badurina, L. et al. (2022). Prospective sensitivities of atom interferometers to gravitational waves and ultralight dark matter. <em>Phil. Trans. R. Soc. A</em> 380, 20210060.</p>
+      <p class="ref-item">Arvanitaki, A. et al. (2018). Searching for dilaton dark matter with atomic clocks. <em>Phys. Rev. D</em> 97, 075020.</p>
+      <p class="ref-item">Hui, L. et al. (2017). Ultralight scalars as cosmological dark matter. <em>Phys. Rev. D</em> 95, 043541.</p>
+    </div>
+  </section>
+
+  <h2 class="section-title">Unpublished Work</h2>
+
+  <section class="content-section">
+    <div class="refs">
+      <p class="ref-category">Teleparallel Dynamics</p>
+      <p class="ref-item">Lockwood, J., Cyrek, C.B., Hansley, D. & Burkeen, D.J. (2026). <em>Teleparallel Dynamics: First Principles — From Torsion Kinematics to Field Equations.</em> Unpublished technical manuscript, 32 pages. January 2026. Primary topics: Teleparallel Equivalent of General Relativity (TEGR), torsion tensor formalism, inertial spin connection, gravitoelectromagnetism (GEM), harmonic GEM (HGEM), bimetric teleparallel extensions.</p>
+
+      <p class="ref-category">Chronomagnetics</p>
+      <p class="ref-item">Burkeen, D., Cyrek, C.B., Lockwood, J.M., LaMarche, D., Beaubier, J. & Lindberg, S. (2026). <em>Chronomagnetics: A Comprehensive Mathematical Foundation.</em> Spectrality Institute, Generative Lab. GPT-5.2 Extended / Sonnet 4.5 technical monograph, 27 pages. January 13, 2026. Primary topics: log-periodic dynamics, triangle-derived constants, teleparallel gravity coupling, chronomagnetic flux phase, dimensional verification, cosmological and geological predictions.</p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p class="footer-meta">
+      © 2025 Sheldon Lon Lindberg · X@that1sheldon · STUR Physics Lab<br>
+      Citations Index · CC-BY-4.0 License
+    </p>
+  </footer>
 </div>
-
-<h2>Core Theory References</h2>
-
-<div class="refs">
-  <p><strong>Teleparallel Gravity</strong></p>
-  <p>Aldrovandi, R. & Pereira, J.G. (2013). <em>Teleparallel Gravity: An Introduction</em>. Springer. <a href="https://doi.org/10.1007/978-94-007-5143-9">doi:10.1007/978-94-007-5143-9</a></p>
-  <p>Maluf, J.W. (2013). The teleparallel equivalent of general relativity. <em>Annalen der Physik</em> 525, 339–357.</p>
-  <p>Bahamonde, S. et al. (2023). Teleparallel gravity: From theory to cosmology. <em>Rep. Prog. Phys.</em> 86, 026901.</p>
-
-  <p><strong>Extra Dimensions & Kaluza-Klein</strong></p>
-  <p>Overduin, J.M. & Wesson, P.S. (1997). Kaluza-Klein gravity. <em>Phys. Rep.</em> 283, 303–378.</p>
-  <p>Randall, L. & Sundrum, R. (1999). Large mass hierarchy from a small extra dimension. <em>Phys. Rev. Lett.</em> 83, 3370.</p>
-  <p>Kaplan, D.B. (1992). A method for simulating chiral fermions on the lattice. <em>Phys. Lett. B</em> 288, 342–347.</p>
-
-  <p><strong>Non-Equilibrium Field Theory</strong></p>
-  <p>Calzetta, E.A. & Hu, B.L. (2008). <em>Nonequilibrium Quantum Field Theory</em>. Cambridge University Press.</p>
-  <p>Kamenev, A. (2011). <em>Field Theory of Non-Equilibrium Systems</em>. Cambridge University Press.</p>
-
-  <p><strong>Atom Interferometry</strong></p>
-  <p>Cronin, A.D., Schmiedmayer, J. & Pritchard, D.E. (2009). Optics and interferometry with atoms and molecules. <em>Rev. Mod. Phys.</em> 81, 1051–1129.</p>
-  <p>Kovachy, T. et al. (2015). Quantum superposition at the half-metre scale. <em>Nature</em> 528, 530–533.</p>
-  <p>Asenbaum, P. et al. (2017). Phase shift in an atom interferometer due to spacetime curvature. <em>Phys. Rev. Lett.</em> 118, 183602.</p>
-  <p>Abe, M. et al. [MAGIS-100] (2021). Matter-wave atomic gradiometer interferometric sensor. <em>Quantum Sci. Technol.</em> 6, 044003.</p>
-
-  <p><strong>Decoherence & Wave-Function Collapse</strong></p>
-  <p>Bassi, A. et al. (2013). Models of wave-function collapse. <em>Rev. Mod. Phys.</em> 85, 471–527.</p>
-
-  <p><strong>Ultralight Dark Matter & Scalar Fields</strong></p>
-  <p>Graham, P.W. et al. (2016). New observables for direct detection of axion dark matter. <em>Phys. Rev. D</em> 93, 075029.</p>
-  <p>Badurina, L. et al. (2022). Prospective sensitivities of atom interferometers to gravitational waves and ultralight dark matter. <em>Phil. Trans. R. Soc. A</em> 380, 20210060.</p>
-  <p>Arvanitaki, A. et al. (2018). Searching for dilaton dark matter with atomic clocks. <em>Phys. Rev. D</em> 97, 075020.</p>
-  <p>Hui, L. et al. (2017). Ultralight scalars as cosmological dark matter. <em>Phys. Rev. D</em> 95, 043541.</p>
-</div>
-
-<footer>
-  © 2025 Sheldon Lon Lindberg · X@that1sheldon · STUR Physics Lab · Citations Index
-</footer>
 
 </body>
 </html>

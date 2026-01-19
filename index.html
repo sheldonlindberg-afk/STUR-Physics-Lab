@@ -232,6 +232,15 @@
   .equation-display .eq-xcrm { color: var(--accent-gold); }
   .equation-display .eq-torsion { color: var(--accent-torsion); }
   .equation-display .eq-matter { color: var(--accent-cyan); }
+  .equation-display .eq-action { color: #e2e8f0; font-weight: 600; }
+  .equation-display .eq-integral { color: #c4b5fd; }
+  .equation-display .eq-metric { color: #fb923c; }
+  .equation-display .eq-operator { color: #94a3b8; }
+  .equation-display .eq-bracket { color: #64748b; }
+
+  .term-legend .eq-action { color: #e2e8f0; }
+  .term-legend .eq-integral { color: #c4b5fd; }
+  .term-legend .eq-metric { color: #fb923c; }
 
   .term-legend {
     display: grid;
@@ -488,6 +497,14 @@
     line-height: 1.8;
   }
 
+  /* === NAV LOGO === */
+  .nav-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    object-fit: cover;
+  }
+
   /* === RESPONSIVE === */
   @media (max-width: 768px) {
     .site-header { padding: 48px 0 32px; }
@@ -515,7 +532,7 @@
 <header class="glass-header">
     <nav class="glass-nav">
         <a href="index.html" class="glass-nav-brand">
-            <span class="stur-icon icon-beaker lg"></span>
+            <img src="assets/4.13.png" alt="STUR" class="nav-logo">
             STUR Lab
         </a>
         <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -536,7 +553,7 @@
 
 <script>
 function shareRepo() {
-    const url = window.location.origin + '/index.html';
+    const url = window.location.href;
     navigator.clipboard.writeText(url).then(() => {
         const btn = document.querySelector('.glass-share-btn');
         const original = btn.innerHTML;
@@ -581,9 +598,12 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
       with an internal coherence dimension X (the XCRM closure):
     </p>
     <div class="equation-display">
-      S[R,g,X] = ∫ d⁴x dX √−g [ <span class="eq-diffusion">½(∇R)²</span> − <span class="eq-potential">V(R)</span> + <span class="eq-xcrm">χ R∂<sub>X</sub>R</span> + <span class="eq-torsion">α R𝕋</span> + <span class="eq-matter">ℒ<sub>matter</sub></span> ]
+      <span class="eq-action">S[R,g,X]</span> <span class="eq-operator">=</span> <span class="eq-integral">∫ d⁴x dX</span> <span class="eq-metric">√−g</span> <span class="eq-bracket">[</span> <span class="eq-diffusion">½(∇R)²</span> <span class="eq-operator">−</span> <span class="eq-potential">V(R)</span> <span class="eq-operator">+</span> <span class="eq-xcrm">χ R∂<sub>X</sub>R</span> <span class="eq-operator">+</span> <span class="eq-torsion">α R𝕋</span> <span class="eq-operator">+</span> <span class="eq-matter">ℒ<sub>matter</sub></span> <span class="eq-bracket">]</span>
     </div>
     <div class="term-legend">
+      <div><span class="eq-action">S[R,g,X]</span> — Action functional</div>
+      <div><span class="eq-integral">∫ d⁴x dX</span> — Integration measure</div>
+      <div><span class="eq-metric">√−g</span> — Spacetime volume</div>
       <div><span class="eq-diffusion">½(∇R)²</span> — Diffusion / kinetic</div>
       <div><span class="eq-potential">V(R)</span> — Relaxation potential</div>
       <div><span class="eq-xcrm">χR∂<sub>X</sub>R</span> — XCRM coupling</div>
@@ -720,6 +740,12 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     <p class="footer-meta">
       © 2025 Sheldon Lon Lindberg · STUR Physics Framework<br>
       Version 9.2 · CC-BY-4.0 License
+    </p>
+    <p class="footer-meta" style="margin-top: 16px; opacity: 0.7;">
+      <a href="https://github.com" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">
+        <span class="stur-icon icon-github" style="vertical-align: middle; margin-right: 4px;"></span>
+        Hosted on GitHub
+      </a>
     </p>
   </footer>
 </div>

@@ -374,6 +374,8 @@
     .eq-legend-dot.torsion { background: #60a5fa; }
     .eq-legend-dot.quantum { background: #a78bfa; }
     .eq-legend-dot.matter { background: #22d3ee; }
+    .eq-legend-dot.integral { background: #c4b5fd; }
+    .eq-legend-dot.metric { background: #fb923c; }
   </style>
 </head>
 <body>
@@ -384,7 +386,7 @@
 <header class="glass-header">
     <nav class="glass-nav">
         <a href="../index.html" class="glass-nav-brand">
-            <span class="stur-icon icon-beaker lg"></span>
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
             STUR Lab
         </a>
         <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -405,7 +407,7 @@
 
 <script>
 function shareRepo() {
-    const url = window.location.origin + '/index.html';
+    const url = window.location.href;
     navigator.clipboard.writeText(url).then(() => {
         const btn = document.querySelector('.glass-share-btn');
         const original = btn.innerHTML;
@@ -555,6 +557,8 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
     <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
     <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
     <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot integral"></span><span class="eq-integral">Holonomy</span> — Phase</div>
+    <div class="eq-legend-item"><span class="eq-legend-dot metric"></span><span class="eq-metric">ΔL / Area</span> — Geometry</div>
   </div>
 
 <h3>Resistance Field Postulate</h3>
@@ -591,20 +595,20 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   \[
   \partial_{t} R
   =
-  \nabla\!\cdot\!\big(D\,\nabla R\big)
-  -
-  \nabla R\!\cdot\!\Omega
-  +
-  \chi\,\frac{\partial R}{\partial X}
-  +
-  S
+  \color{#4ade80}{\nabla\!\cdot\!\big(D\,\nabla R\big)}
+  \color{#94a3b8}{-}
+  \color{#60a5fa}{\nabla R\!\cdot\!\Omega}
+  \color{#94a3b8}{+}
+  \color{#fbbf24}{\chi\,\frac{\partial R}{\partial X}}
+  \color{#94a3b8}{+}
+  \color{#22d3ee}{S}
   \]
   <div class="eq-label">(STUR PDE)</div>
 </div>
 
 <div class="eq boxed">
   \[
-  \frac{\partial R}{\partial X} = \frac{R - R_{\rm bg}}{L_X}
+  \color{#fbbf24}{\frac{\partial R}{\partial X} = \frac{R - R_{\rm bg}}{L_X}}
   \]
   <div class="eq-label">(XCRM Closure)</div>
 </div>
@@ -616,9 +620,9 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 </p>
 <div class="eq law">
   \[
-  \Phi_R(\mathcal{C}) = \oint_{\mathcal{C}} \mathcal{A}^{(R)}_\mu\, dx^\mu,
+  \color{#c4b5fd}{\Phi_R(\mathcal{C})} = \color{#c4b5fd}{\oint_{\mathcal{C}}} \color{#fbbf24}{\mathcal{A}^{(R)}_\mu}\, dx^\mu,
   \qquad
-  \mathcal{A}^{(R)}_\mu \equiv \frac{1}{L_X}\big(R(x^\mu,X)-R_{\rm bg}\big)\,n_\mu
+  \color{#fbbf24}{\mathcal{A}^{(R)}_\mu} \equiv \frac{1}{\color{#fbbf24}{L_X}}\big(R(x^\mu,X)-R_{\rm bg}\big)\,n_\mu
   \]
   <div class="eq-label">(Holonomy Observable)</div>
 </div>
@@ -628,7 +632,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 </p>
 <div class="eq boxed">
   \[
-  V \approx V_0\,\exp\!\left(-\frac{\langle \Phi_R^2\rangle}{2}\right)
+  \color{#f472b6}{V} \approx V_0\,\exp\!\left(-\frac{\color{#c4b5fd}{\langle \Phi_R^2\rangle}}{2}\right)
   \]
   <div class="eq-label">(Visibility from Holonomy Variance)</div>
 </div>
@@ -640,39 +644,39 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 </p>
 <div class="eq boxed">
   \[
-  \Phi_R \;\approx\; \frac{\Delta L}{L_X}\,\delta R,
+  \color{#c4b5fd}{\Phi_R} \;\approx\; \frac{\color{#fb923c}{\Delta L}}{\color{#fbbf24}{L_X}}\,\color{#4ade80}{\delta R},
   \qquad
-  \delta R \equiv R - R_{\rm bg}
+  \color{#4ade80}{\delta R} \equiv R - R_{\rm bg}
   \]
   <div class="eq-label">(XCRM → Holonomy Scaling)</div>
 </div>
 <div class="eq boxed">
   \[
-  \langle \Phi_R^2\rangle \;=\; \left(\frac{\Delta L}{L_X}\right)^2 \langle \delta R^2\rangle
-  \;=\; \left(\frac{\Delta L}{L_X}\right)^2 \sigma_R^2
+  \color{#c4b5fd}{\langle \Phi_R^2\rangle} \;=\; \left(\frac{\color{#fb923c}{\Delta L}}{\color{#fbbf24}{L_X}}\right)^2 \langle \delta R^2\rangle
+  \;=\; \left(\frac{\color{#fb923c}{\Delta L}}{\color{#fbbf24}{L_X}}\right)^2 \color{#4ade80}{\sigma_R^2}
   \]
   <div class="eq-label">(Variance Law)</div>
 </div>
 <div class="eq law">
   \[
   \boxed{
-  V(\Delta L)
+  \color{#f472b6}{V(\Delta L)}
   =
-  V_0\exp\!\left[-\frac{1}{2}\left(\frac{\sigma_R}{L_X}\right)^2(\Delta L)^2\right]
+  V_0\exp\!\left[-\frac{1}{2}\left(\frac{\color{#4ade80}{\sigma_R}}{\color{#fbbf24}{L_X}}\right)^2(\color{#fb923c}{\Delta L})^2\right]
   }
   \qquad
   \Rightarrow\quad
-  \ell_{\rm coh} \equiv \sqrt{2}\,\frac{L_X}{\sigma_R}
+  \color{#22d3ee}{\ell_{\rm coh}} \equiv \sqrt{2}\,\frac{\color{#fbbf24}{L_X}}{\color{#4ade80}{\sigma_R}}
   \]
   <div class="eq-label">(STUR Gaussian Visibility Law — Derived)</div>
 </div>
 
 <h3>Visibility Law (Baseline Discriminator)</h3>
-<div class="eq law">\[\boxed{V(\Delta L) = V_0 \exp\!\left(-\frac{(\Delta L)^2}{\ell_{\rm coh}^2}\right)}\]<div class="eq-label">(STUR Visibility Prediction)</div></div>
+<div class="eq law">\[\boxed{\color{#f472b6}{V(\Delta L)} = V_0 \exp\!\left(-\frac{(\color{#fb923c}{\Delta L})^2}{\color{#22d3ee}{\ell_{\rm coh}}^2}\right)}\]<div class="eq-label">(STUR Visibility Prediction)</div></div>
 <div class="card-grid">
-  <div class="card"><h4>Coherence Length (Closure)</h4><div class="eq">\[\ell_{\rm coh} = \frac{\sqrt{2}\, L_X}{\sigma_R}\]</div></div>
-  <div class="card"><h4>Equivalent Form</h4><div class="eq">\[\ell_{\rm coh} = \frac{p_0}{y\, K_{\rm eff}}\]</div></div>
-  <div class="card"><h4>Saturation Operator</h4><div class="eq">\[S_u(u) = \tanh(u)(1 - e^{-u})\]</div></div>
+  <div class="card"><h4>Coherence Length (Closure)</h4><div class="eq">\[\color{#22d3ee}{\ell_{\rm coh}} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#4ade80}{\sigma_R}}\]</div></div>
+  <div class="card"><h4>Equivalent Form</h4><div class="eq">\[\color{#22d3ee}{\ell_{\rm coh}} = \frac{\color{#60a5fa}{p_0}}{\color{#fbbf24}{y}\, \color{#4ade80}{K_{\rm eff}}}\]</div></div>
+  <div class="card"><h4>Saturation Operator</h4><div class="eq">\[\color{#f472b6}{S_u(u)} = \tanh(u)(1 - e^{-u})\]</div></div>
 </div>
 <div class="block gold">
   <div class="title">Parameter Identification (Closure)</div>
@@ -690,7 +694,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   yields an effective 4D equation for the coarse-grained resistance field (see Foundations §3.4.7):
 </p>
 <div class="eq boxed">
-  \[\partial_t \bar R = D\nabla^2 \bar R - \Gamma(\bar R - R_{\rm bg}) + \xi\]
+  \[\partial_t \bar R = \color{#4ade80}{D\nabla^2 \bar R} \color{#94a3b8}{-} \color{#f472b6}{\Gamma(\bar R - R_{\rm bg})} \color{#94a3b8}{+} \color{#22d3ee}{\xi}\]
 </div>
 <p class="muted">
   where \(\Gamma \sim 1/L_X\) and \(\xi\) is a Markovian noise term with variance fixed by \(\sigma_R\).
@@ -702,7 +706,7 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
   For loop geometries, Stokes' theorem provides enhancement via area accumulation (see Foundations §3.4.8):
 </p>
 <div class="eq law">
-  \[\boxed{\langle \Phi_R^2 \rangle_{\rm loop} \approx \frac{\sigma_R^2}{L_X^2}\, A_{\rm loop}}\]
+  \[\boxed{\color{#c4b5fd}{\langle \Phi_R^2 \rangle_{\rm loop}} \approx \frac{\color{#4ade80}{\sigma_R^2}}{\color{#fbbf24}{L_X^2}}\, \color{#fb923c}{A_{\rm loop}}}\]
 </div>
 <p class="muted">
   This scaling follows from Stokes' theorem applied to the resistance holonomy and provides a concrete

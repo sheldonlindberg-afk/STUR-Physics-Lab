@@ -244,7 +244,7 @@
 <header class="glass-header">
     <nav class="glass-nav">
         <a href="../index.html" class="glass-nav-brand">
-            <span class="stur-icon icon-beaker lg"></span>
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
             STUR Lab
         </a>
         <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -262,6 +262,32 @@
         </div>
     </nav>
 </header>
+
+<script>
+function shareRepo() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        const btn = document.querySelector('.glass-share-btn');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
+        btn.style.color = 'var(--neon-green)';
+        setTimeout(() => {
+            btn.innerHTML = original;
+            btn.style.color = '';
+        }, 2000);
+    }).catch(() => {
+        alert('Link: ' + url);
+    });
+}
+
+// Mobile nav toggle
+document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
+    const links = document.querySelector('.glass-nav-links');
+    const expanded = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', !expanded);
+    links.classList.toggle('open');
+});
+</script>
 
 <!-- ============================================================
      PAGE HEADER
@@ -308,7 +334,7 @@
          ============================================================ -->
     <section class="glass-section law">
         <div class="glass-section-header">
-            <span class="stur-icon icon-beaker size-24"></span>
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
             <h2 class="glass-section-title">Master Action (v9.2)</h2>
         </div>
         <div class="glass-section-body">
