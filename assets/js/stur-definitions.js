@@ -102,10 +102,28 @@ const STUR_DEFINITIONS = {
 
     // Coherence length (closure)
     coherence_length: {
-      id: "5.3",
+      id: "3.18",
       name: "Coherence Length Closure",
       latex: "\\color{#22d3ee}{\\ell_{\\rm coh}} = \\frac{\\sqrt{2}\\, \\color{#fbbf24}{L_X}}{\\color{#4ade80}{\\sigma_R}}",
       tier: "core"
+    },
+
+    // σ_R from vacuum fluctuations (full closure)
+    sigma_R_derived: {
+      id: "3.18d",
+      name: "RMS Fluctuation from Manifold",
+      latex: "\\color{#4ade80}{\\sigma_R} = \\frac{c_0}{\\color{#fbbf24}{\\chi\\, L_X}}",
+      tier: "core",
+      note: "Derived from vacuum fluctuations with KK cutoff"
+    },
+
+    // Full closure equation
+    coherence_full_closure: {
+      id: "3.18e",
+      name: "Full Parameter Closure",
+      latex: "\\color{#4ade80}{\\ell_{\\rm coh}} = \\frac{\\sqrt{2}}{c_0}\\, \\color{#fbbf24}{\\chi\\, L_X^2}",
+      tier: "core",
+      note: "No free parameters beyond χ and L_X"
     },
 
     // Holonomy

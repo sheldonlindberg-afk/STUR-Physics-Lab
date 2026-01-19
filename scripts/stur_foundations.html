@@ -1778,6 +1778,149 @@ code {
     </p>
   </div>
 
+  <h4>3.4.7a Deriving σ<sub>R</sub> from Manifold Vacuum Fluctuations</h4>
+
+  <div class="block gold">
+    <div class="title">Fine-Tuning Resolution: σ<sub>R</sub> from First Principles</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The fluctuation amplitude \(\sigma_R\) need not be a free parameter. It emerges naturally from
+      quantum vacuum fluctuations of the scalar \(R\) on the compact manifold, with the UV cutoff
+      set by the manifold geometry itself.
+    </p>
+  </div>
+
+  <p>
+    The scalar field \(R\) satisfies the emergent 4D equation (3.17) with effective mass
+    \(m_{\rm eff}^2 = \chi^2/L_X^2\). On a compact manifold with characteristic scale \(L_X\),
+    the vacuum two-point function is:
+  </p>
+
+  <div class="eq">
+    \[\langle (\bar{R} - R_{\rm bg})^2 \rangle = \int \frac{d^4k}{(2\pi)^4} \frac{1}{k^2 + m_{\rm eff}^2}\]
+    <div class="eq-label">(3.18a)</div>
+  </div>
+
+  <p>
+    The integral diverges in the UV and requires regularization. The <strong>natural cutoff</strong>
+    on the orbifold \(\mathcal{M}^5\) is provided by the KK scale:
+  </p>
+
+  <div class="eq boxed">
+    \[\Lambda_{\rm UV} = \frac{1}{L_X} \quad \text{(first KK mode)}\]
+    <div class="eq-label">(3.18b) — Natural UV cutoff from geometry</div>
+  </div>
+
+  <p>
+    With this cutoff, the vacuum fluctuation integral evaluates to:
+  </p>
+
+  <div class="eq">
+    \[\sigma_R^2 = \langle (\bar{R} - R_{\rm bg})^2 \rangle \sim \int_0^{1/L_X} \frac{k^3\, dk}{k^2 + \chi^2/L_X^2}
+    \sim \frac{1}{L_X^2} \cdot \frac{1}{\chi^2} = \frac{1}{\chi^2 L_X^2}\]
+    <div class="eq-label">(3.18c)</div>
+  </div>
+
+  <p>
+    Therefore:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{\color{#4ade80}{\sigma_R} = \frac{c_0}{\color{#fbbf24}{\chi\, L_X}}}\]
+    <div class="eq-label">(3.18d) — RMS fluctuation from manifold geometry</div>
+  </div>
+
+  <p>
+    where \(c_0 \sim \mathcal{O}(1)\) is a dimensionless constant from the detailed mode sum
+    (exact value depends on boundary conditions and zero-mode subtraction).
+  </p>
+
+  <h4>3.4.7b Full Closure: ℓ<sub>coh</sub> from χ and L<sub>X</sub> Alone</h4>
+
+  <p>
+    Substituting (3.18d) into (3.18):
+  </p>
+
+  <div class="eq law">
+    \[\color{#4ade80}{\ell_{\rm coh}} = \frac{\sqrt{2}\, L_X}{\sigma_R}
+    = \frac{\sqrt{2}\, L_X}{c_0 / (\chi L_X)}
+    = \boxed{\frac{\sqrt{2}}{c_0}\, \color{#fbbf24}{\chi\, L_X^2}}\]
+    <div class="eq-label">(3.18e) — Coherence length fully determined by manifold</div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Theorem 3.2 — Complete Parameter Closure</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The coherence length is <strong>fully determined</strong> by two manifold parameters:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <li>\(\chi\) — the XCRM coupling (dimensionless)</li>
+      <li>\(L_X\) — the compactification scale (length)</li>
+    </ul>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      No additional phenomenological inputs are required at the manifold level.
+      The scaling \(\ell_{\rm coh} \propto \chi L_X^2\) is a <strong>prediction</strong>, not an input.
+    </p>
+  </div>
+
+  <h4>3.4.7c Numerical Estimates</h4>
+
+  <table style="margin:1rem 0;font-size:0.9rem;">
+    <tr>
+      <th>Regime</th>
+      <th>\(L_X\)</th>
+      <th>\(\chi\)</th>
+      <th>\(\ell_{\rm coh}\)</th>
+      <th>Comment</th>
+    </tr>
+    <tr>
+      <td>Planck scale</td>
+      <td>\(\ell_P \sim 10^{-35}\) m</td>
+      <td>\(\sim 1\)</td>
+      <td>\(\sim 10^{-70}\) m</td>
+      <td>Unobservable via ΔL</td>
+    </tr>
+    <tr>
+      <td>GUT scale</td>
+      <td>\(\sim 10^{-32}\) m</td>
+      <td>\(\sim 1\)</td>
+      <td>\(\sim 10^{-64}\) m</td>
+      <td>Unobservable via ΔL</td>
+    </tr>
+    <tr>
+      <td>TeV scale (LHC bound)</td>
+      <td>\(\sim 10^{-19}\) m</td>
+      <td>\(\sim 1\)</td>
+      <td>\(\sim 10^{-38}\) m</td>
+      <td>Loop enhancement needed</td>
+    </tr>
+    <tr>
+      <td>Large extra dim.</td>
+      <td>\(\sim 10^{-6}\) m (mm)</td>
+      <td>\(\sim 10^{-15}\)</td>
+      <td>\(\sim 10^{-27}\) m</td>
+      <td>Requires small χ</td>
+    </tr>
+  </table>
+
+  <div class="block warning">
+    <div class="title">Magnitude Problem and Resolution Strategy</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      For natural \(\chi \sim \mathcal{O}(1)\) and \(L_X\) at the LHC-constrained TeV scale,
+      linear-path visibility effects remain far below observational reach.
+      <strong>Two strategies provide potential observability:</strong>
+    </p>
+    <ol style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <li><strong>Loop enhancement</strong> (§3.4.8): Area-scaling via Stokes' theorem amplifies
+          the effective phase variance by \(\sqrt{A/\xi^2}\).</li>
+      <li><strong>Media-dependent coupling</strong>: In condensed matter, effective \(\chi_{\rm eff}\)
+          may be enhanced by collective effects, giving \(\ell_{\rm coh}^{\rm eff} \gg \ell_{\rm coh}^{\rm vac}\).</li>
+    </ol>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      The <strong>functional form</strong> (Gaussian in ΔL² or area) remains the falsifiable prediction,
+      independent of the absolute magnitude.
+    </p>
+  </div>
+
   <h4>3.4.8 Loop Enhancement: Area Scaling for Macroscopic Observability</h4>
   <p>
     The UV estimate \(\ell_{\rm coh} \sim 10^{-59}\) m (from Planckian \(L_X\)) renders linear-path
