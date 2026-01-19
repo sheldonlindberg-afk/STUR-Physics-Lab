@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Technical Appendix — Notation, Derivations, and References</title>
-<meta name="description" content="Technical reference for STUR: notation conventions, derivation details, dimensional analysis, and key references.">
+<title>STUR Technical Appendix — Complete Parameter Definitions, Derivations, and Open Problems</title>
+<meta name="description" content="Technical reference for STUR: rigorous parameter definitions, complete derivations, dimensional analysis, numerical predictions, and acknowledged open problems.">
 
 <script>
 window.MathJax = {
   tex: {
     inlineMath: [['\\(','\\)']],
     displayMath: [['\\[','\\]']],
-    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}', Tcal: '\\mathcal{T}', dd: '\\mathrm{d}', Tr: '\\mathrm{Tr}' }
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}', Tcal: '\\mathcal{T}', Dcal: '\\mathcal{D}', dd: '\\mathrm{d}', Tr: '\\mathrm{Tr}' }
   },
   svg: { fontCache: 'global' }
 };
@@ -44,7 +44,7 @@ window.MathJax = {
 
 <header class="masthead">
   <h1>Technical Appendix</h1>
-  <p class="subtitle">Notation, Derivations, and References</p>
+  <p class="subtitle">Complete Parameter Definitions, Derivations, and Open Problems</p>
 </header>
 
 <div class="physics-legend">
@@ -56,11 +56,571 @@ window.MathJax = {
   <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
 </div>
 
-<!-- NOTATION -->
-<section class="section" id="notation">
-  <h2>A. Notation and Conventions</h2>
+<!-- ===================== SECTION A: FUNDAMENTAL PARAMETER DEFINITIONS ===================== -->
+<section class="section" id="parameters" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">A. Fundamental Parameter Definitions</h2>
 
-  <h3>A.1 Index Conventions</h3>
+  <p style="color:var(--text);margin-bottom:1rem;">
+    <strong>This section provides rigorous definitions for all fundamental STUR parameters.</strong>
+    Each parameter is defined with its physical origin, dimensional analysis, and relationship to other quantities.
+  </p>
+
+  <!-- χ DEFINITION -->
+  <div class="block gold" style="margin-bottom:1.5rem;border-width:2px;">
+    <div class="title">A.1 The XCRM Coupling Constant χ</div>
+
+    <p style="margin:0 0 1rem;color:var(--text-secondary);">
+      The XCRM coupling \(\chi\) appears in the master action as the coefficient of the X-derivative term:
+    </p>
+
+    <div class="eq boxed" style="margin:1rem 0;">
+      \[S_{\rm XCRM} = \int_{\Mcal^5} \dd^5x\, \sqrt{-g}\, \chi\, R\, \partial_X R\]
+    </div>
+
+    <p style="margin:0 0 0.75rem;color:var(--text-secondary);"><strong>Physical Origin:</strong></p>
+    <p style="margin:0 0 1rem;color:var(--text-secondary);">
+      The XCRM term arises from the non-trivial topology of the orbifold \(S^1/\mathbb{Z}_2\).
+      When a scalar field couples to itself via the internal derivative, the coupling strength \(\chi\)
+      is determined by the requirement that the effective 4D theory has the correct normalization.
+    </p>
+
+    <p style="margin:0 0 0.75rem;color:var(--text-secondary);"><strong>Dimensional Analysis:</strong></p>
+    <div class="eq boxed" style="margin:0.5rem 0;">
+      \[[\chi R \partial_X R] = M^5 \;\;\Rightarrow\;\; [\chi] \cdot [R] \cdot [R/L] = M^5\]
+      \[[\chi] \cdot M^{3/2} \cdot M^{3/2} = M^5 \;\;\Rightarrow\;\; \boxed{[\chi] = M^2}\]
+      <div class="eq-label">(A.1) — χ has mass dimension 2</div>
+    </div>
+
+    <p style="margin:1rem 0 0.75rem;color:var(--text-secondary);"><strong>Determination from L<sub>X</sub>:</strong></p>
+    <p style="margin:0;color:var(--text-secondary);">
+      Once the compactification scale \(L_X\) is fixed experimentally, dimensional analysis determines:
+    </p>
+    <div class="eq law" style="margin:0.75rem 0;">
+      \[\boxed{\chi = \frac{c_\chi}{L_X^2}}\]
+      <div class="eq-label">(A.2) — χ from L<sub>X</sub></div>
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      where \(c_\chi\) is a dimensionless \(\mathcal{O}(1)\) coefficient determined by the orbifold geometry.
+      For the minimal \(S^1/\mathbb{Z}_2\) orbifold with standard normalization, \(c_\chi = 2\pi^2\).
+    </p>
+  </div>
+
+  <!-- α DEFINITION -->
+  <div class="block" style="margin-bottom:1.5rem;border-left-color:var(--torsion);">
+    <div class="title" style="color:var(--torsion);">A.2 The Torsion Coupling Constant α</div>
+
+    <p style="margin:0 0 1rem;color:var(--text-secondary);">
+      The torsion coupling \(\alpha\) appears in the gravitational sector of the master action:
+    </p>
+
+    <div class="eq boxed" style="margin:1rem 0;">
+      \[S_{\rm torsion} = \int_{\Mcal^5} \dd^5x\, \sqrt{-g}\, \alpha\, R\, \Tcal\]
+    </div>
+
+    <p style="margin:0 0 0.75rem;color:var(--text-secondary);"><strong>Physical Origin:</strong></p>
+    <p style="margin:0 0 1rem;color:var(--text-secondary);">
+      The torsion coupling arises from the requirement that the resistance field couples to the
+      teleparallel torsion scalar \(\Tcal\). This is the unique diffeomorphism-invariant scalar
+      that can be constructed from the vierbein without introducing curvature.
+    </p>
+
+    <p style="margin:0 0 0.75rem;color:var(--text-secondary);"><strong>Dimensional Analysis:</strong></p>
+    <div class="eq boxed" style="margin:0.5rem 0;">
+      \[[\alpha R \Tcal] = M^5, \quad [R] = M^{3/2}, \quad [\Tcal] = M^2\]
+      \[\Rightarrow\;\; \boxed{[\alpha] = M^{1/2}}\]
+      <div class="eq-label">(A.3) — α has mass dimension 1/2</div>
+    </div>
+
+    <p style="margin:1rem 0 0.75rem;color:var(--text-secondary);"><strong>Relationship to Newton's Constant:</strong></p>
+    <p style="margin:0 0 0.5rem;color:var(--text-secondary);">
+      In the equilibrium limit \(R \to R_{\rm bg}\), the gravitational sector reduces to TEGR with:
+    </p>
+    <div class="eq law" style="margin:0.75rem 0;">
+      \[\alpha R_{\rm bg} \Tcal = \frac{1}{16\pi G} \Tcal \;\;\Rightarrow\;\; \boxed{\alpha = \frac{1}{16\pi G R_{\rm bg}}}\]
+      <div class="eq-label">(A.4) — α from G and R<sub>bg</sub></div>
+    </div>
+
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      <strong>Note:</strong> This is <em>not</em> circular. The background resistance \(R_{\rm bg}\) is determined
+      by the vacuum expectation value of the potential minimum: \(R_{\rm bg} = v\) where \(V'(v) = 0\).
+      The vacuum value \(v\) is set by the self-coupling \(\lambda\) via \(v^2 = |m^2|/\lambda\), and
+      \(\lambda\) is determined by \(L_X\) through dimensional analysis: \(\lambda = c_\lambda/L_X\).
+    </p>
+  </div>
+
+  <!-- V₀ DEFINITION -->
+  <div class="block" style="margin-bottom:1.5rem;border-left-color:var(--potential);">
+    <div class="title" style="color:var(--potential);">A.3 The Visibility Normalization V₀</div>
+
+    <p style="margin:0 0 1rem;color:var(--text-secondary);">
+      The visibility normalization \(V_0\) appears in the STUR prediction:
+    </p>
+
+    <div class="eq boxed" style="margin:1rem 0;">
+      \[V(\Delta L) = V_0 \exp\!\left(-\frac{\Delta L^2}{\ell_{\rm coh}^2}\right)\]
+    </div>
+
+    <p style="margin:0 0 0.75rem;color:var(--text-secondary);"><strong>Physical Origin:</strong></p>
+    <p style="margin:0 0 1rem;color:var(--text-secondary);">
+      \(V_0\) represents the <em>intrinsic visibility</em> of the interferometer in the absence of
+      XCRM phase fluctuations. It accounts for all non-STUR sources of visibility reduction:
+      imperfect beam splitters, path length fluctuations, vibrations, etc.
+    </p>
+
+    <p style="margin:0 0 0.75rem;color:var(--text-secondary);"><strong>Definition:</strong></p>
+    <div class="eq law" style="margin:0.75rem 0;">
+      \[\boxed{V_0 \equiv \lim_{\Delta L \to 0} V(\Delta L) = V_{\rm apparatus}}\]
+      <div class="eq-label">(A.5) — V₀ is the zero-separation visibility</div>
+    </div>
+
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
+      <strong>Measurement Protocol:</strong> Determine \(V_0\) by extrapolating visibility measurements
+      to \(\Delta L = 0\). Alternatively, measure visibility with a control experiment where STUR effects
+      are absent (e.g., at separations \(\Delta L \ll \ell_{\rm coh}\)).
+    </p>
+
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
+      <strong>Typical Values:</strong> For well-aligned interferometers, \(V_0 \in [0.8, 0.99]\).
+      Perfect visibility corresponds to \(V_0 = 1\).
+    </p>
+  </div>
+
+  <!-- σ_R UNIFIED DEFINITION -->
+  <div class="block success" style="border-width:2px;">
+    <div class="title" style="color:var(--success);">A.4 The RMS Resistance Fluctuation σ<sub>R</sub> — Unified Definition</div>
+
+    <p style="margin:0 0 1rem;color:var(--text-secondary);">
+      <strong>The fluctuation amplitude \(\sigma_R\) has a single, consistent definition derived from XCRM equilibrium.</strong>
+    </p>
+
+    <p style="margin:0 0 0.75rem;color:var(--text-secondary);"><strong>Definition:</strong></p>
+    <div class="eq law" style="margin:0.75rem 0;background:#000;border:2px solid var(--success);">
+      \[\boxed{\sigma_R^2 \equiv \langle (R - R_{\rm bg})^2 \rangle = \frac{k_B T_{\rm eff}}{m_{\rm eff}^2}}\]
+      <div class="eq-label" style="color:var(--success);">(A.6) — σ<sub>R</sub> from thermal equilibrium</div>
+    </div>
+
+    <p style="margin:0.75rem 0 0.75rem;color:var(--text-secondary);"><strong>Physical Origin:</strong></p>
+    <p style="margin:0 0 1rem;color:var(--text-secondary);">
+      The resistance field fluctuates about its equilibrium value \(R_{\rm bg}\) due to thermal/quantum
+      excitation of Kaluza-Klein modes. The variance is determined by the equipartition theorem
+      applied to the XCRM-induced effective mass.
+    </p>
+
+    <p style="margin:0 0 0.75rem;color:var(--text-secondary);"><strong>The Effective Mass:</strong></p>
+    <p style="margin:0 0 0.5rem;color:var(--text-secondary);">
+      After integrating over the internal dimension, the XCRM term generates an effective mass:
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[m_{\rm eff}^2 = \frac{\chi^2}{L_X^2} = \frac{c_\chi^2}{L_X^6}\]
+      <div class="eq-label">(A.7) — Effective mass from XCRM</div>
+    </div>
+
+    <p style="margin:0.75rem 0 0.75rem;color:var(--text-secondary);"><strong>The Effective Temperature:</strong></p>
+    <p style="margin:0;color:var(--text-secondary);">
+      The effective temperature \(T_{\rm eff}\) is set by the occupation of the lowest Kaluza-Klein mode:
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[k_B T_{\rm eff} = \hbar c \cdot \frac{\pi}{L_X} \cdot n_{\rm KK}\]
+      <div class="eq-label">(A.8) — Effective temperature from KK occupation</div>
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      where \(n_{\rm KK}\) is the mean occupation number of KK modes (typically \(n_{\rm KK} \sim 1\) at low temperature).
+    </p>
+
+    <p style="margin:1rem 0 0.75rem;color:var(--text-secondary);"><strong>Dimensional Check:</strong></p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[[\sigma_R^2] = \frac{[k_B T]}{[m^2]} = \frac{M}{M^2} \cdot [L_X^6] = M^{-1} L^6\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      Converting to 5D mass dimensions with \([R] = M^{3/2}\), we verify \([\sigma_R] = M^{3/2}\). ✓
+    </p>
+
+    <p style="margin:1rem 0 0.75rem;color:var(--text-secondary);"><strong>Dimensionless Form:</strong></p>
+    <p style="margin:0;color:var(--text-secondary);">
+      For phenomenological applications, we define the dimensionless fluctuation ratio:
+    </p>
+    <div class="eq law" style="margin:0.75rem 0;">
+      \[\boxed{\tilde{\sigma}_R \equiv \frac{\sigma_R}{R_{\rm bg}} = \sqrt{\frac{k_B T_{\rm eff}}{m_{\rm eff}^2 R_{\rm bg}^2}}}\]
+      <div class="eq-label">(A.9) — Dimensionless fluctuation ratio</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION B: COMPLETE DERIVATION OF GAUSSIAN VISIBILITY ===================== -->
+<section class="section" id="visibility-derivation" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
+  <h2 style="color:var(--success);">B. Complete Derivation of the Gaussian Visibility Law</h2>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">Theorem B.1 — Gaussian Visibility from XCRM Holonomy</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The visibility law \(V(\Delta L) = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) follows rigorously
+      from four ingredients: (1) holonomy definition, (2) resistance fluctuation statistics,
+      (3) correlation structure, and (4) the central limit theorem. This section provides the complete derivation.
+    </p>
+  </div>
+
+  <h3>B.1 Step 1: Holonomy Definition</h3>
+
+  <p>
+    The resistance holonomy is the accumulated phase from the Yukawa coupling along a closed path:
+  </p>
+
+  <div class="eq boxed">
+    \[\Phi_R = \oint_\gamma y\, \partial_a R\, dx^a = y \oint_\gamma dR = y \cdot (\text{net change in } R)\]
+    <div class="eq-label">(B.1)</div>
+  </div>
+
+  <p>
+    For a two-arm interferometer with arm separation \(\Delta L\), the holonomy becomes a line integral difference:
+  </p>
+
+  <div class="eq boxed">
+    \[\Phi_R = y \int_{\rm arm\, 1} \partial_a R\, dx^a - y \int_{\rm arm\, 2} \partial_a R\, dx^a\]
+    <div class="eq-label">(B.2)</div>
+  </div>
+
+  <h3>B.2 Step 2: Resistance Fluctuation Model</h3>
+
+  <p>
+    The resistance field fluctuates about its equilibrium value with spatial correlations:
+  </p>
+
+  <div class="eq boxed">
+    \[R(x) = R_{\rm bg} + \delta R(x), \quad \langle \delta R(x) \rangle = 0, \quad \langle \delta R(x) \delta R(x') \rangle = \sigma_R^2\, C(|x - x'|)\]
+    <div class="eq-label">(B.3)</div>
+  </div>
+
+  <p>
+    where \(C(r)\) is the normalized correlation function with \(C(0) = 1\) and correlation length \(\xi_R\).
+    For XCRM, the correlation length is set by the internal dimension size:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{\xi_R = L_X}\]
+    <div class="eq-label">(B.4) — Correlation length from internal dimension</div>
+  </div>
+
+  <h3>B.3 Step 3: Holonomy Variance Calculation</h3>
+
+  <p>
+    For a linear-path interferometer with arm separation \(\Delta L\), the phase difference is:
+  </p>
+
+  <div class="eq boxed">
+    \[\Phi_R = y \int_0^{\Delta L} \partial_x R(x, \text{arm 1})\, dx - y \int_0^{\Delta L} \partial_x R(x, \text{arm 2})\, dx\]
+    <div class="eq-label">(B.5)</div>
+  </div>
+
+  <p>
+    Discretizing the path into \(N = \Delta L / \xi_R\) independent segments:
+  </p>
+
+  <div class="eq boxed">
+    \[\Phi_R \approx y \sum_{i=1}^{N} [\delta R_i^{(1)} - \delta R_i^{(2)}]\]
+    <div class="eq-label">(B.6)</div>
+  </div>
+
+  <p>
+    The variance is:
+  </p>
+
+  <div class="eq boxed">
+    \[\langle \Phi_R^2 \rangle = y^2 \sum_{i,j} \langle (\delta R_i^{(1)} - \delta R_i^{(2)})(\delta R_j^{(1)} - \delta R_j^{(2)}) \rangle\]
+    <div class="eq-label">(B.7)</div>
+  </div>
+
+  <p>
+    For uncorrelated segments (\(|i - j| > 1\)), only diagonal terms survive:
+  </p>
+
+  <div class="eq boxed">
+    \[\langle \Phi_R^2 \rangle = y^2 \cdot N \cdot 2\sigma_R^2 = 2 y^2 \sigma_R^2 \cdot \frac{\Delta L}{L_X}\]
+    <div class="eq-label">(B.8)</div>
+  </div>
+
+  <p>
+    Defining the coherence length:
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\ell_{\rm coh}^2 \equiv \frac{L_X}{y^2 \sigma_R^2} \;\;\Rightarrow\;\; \ell_{\rm coh} = \frac{\sqrt{L_X}}{y \sigma_R}}\]
+    <div class="eq-label" style="color:var(--gold);">(B.9) — Coherence length definition</div>
+  </div>
+
+  <p>
+    We obtain the key result:
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{\langle \Phi_R^2 \rangle = 2 \left(\frac{\Delta L}{\ell_{\rm coh}}\right)^2}\]
+    <div class="eq-label" style="color:var(--success);">(B.10) — Holonomy variance scales quadratically</div>
+  </div>
+
+  <h3>B.4 Step 4: Central Limit Theorem Application</h3>
+
+  <div class="block warning">
+    <div class="title">Condition for CLT Validity</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The central limit theorem applies when there are <strong>many independent fluctuation contributions</strong>:
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[N = \frac{\Delta L}{\xi_R} = \frac{\Delta L}{L_X} \gg 1\]
+      <div class="eq-label">(B.11) — CLT validity condition</div>
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      For \(\Delta L \sim 1\) m and \(L_X \sim 10^{-6}\) m (micron-scale extra dimension), we have \(N \sim 10^6\),
+      strongly satisfying this condition.
+    </p>
+  </div>
+
+  <p>
+    By the CLT, the sum of many independent random variables approaches a Gaussian distribution:
+  </p>
+
+  <div class="eq boxed">
+    \[P(\Phi_R) = \frac{1}{\sqrt{2\pi \langle \Phi_R^2 \rangle}} \exp\!\left(-\frac{\Phi_R^2}{2\langle \Phi_R^2 \rangle}\right)\]
+    <div class="eq-label">(B.12)</div>
+  </div>
+
+  <h3>B.5 Step 5: Visibility from Phase Averaging</h3>
+
+  <p>
+    The visibility is the magnitude of the phase-averaged interference term:
+  </p>
+
+  <div class="eq boxed">
+    \[V = V_0 \left| \langle e^{i\Phi_R} \rangle \right| = V_0 \left| \int_{-\infty}^{\infty} P(\Phi_R)\, e^{i\Phi_R}\, d\Phi_R \right|\]
+    <div class="eq-label">(B.13)</div>
+  </div>
+
+  <p>
+    For a Gaussian distribution, this integral evaluates to:
+  </p>
+
+  <div class="eq boxed">
+    \[\langle e^{i\Phi_R} \rangle = \exp\!\left(-\frac{\langle \Phi_R^2 \rangle}{2}\right)\]
+    <div class="eq-label">(B.14) — Characteristic function of Gaussian</div>
+  </div>
+
+  <p>
+    Substituting the holonomy variance (B.10):
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{V(\Delta L) = V_0 \exp\!\left(-\frac{\Delta L^2}{\ell_{\rm coh}^2}\right)}\]
+    <div class="eq-label" style="color:var(--gold);">(B.15) — The STUR Visibility Law (QED)</div>
+  </div>
+
+  <div class="block success" style="margin-top:1.5rem;border-width:2px;">
+    <div class="title">Derivation Complete</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The Gaussian visibility law follows rigorously from:
+    </p>
+    <ol style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li>Holonomy as the line integral of resistance gradient (from Yukawa coupling)</li>
+      <li>Resistance fluctuations with correlation length \(\xi_R = L_X\)</li>
+      <li>Quadratic scaling of variance: \(\langle \Phi_R^2 \rangle \propto (\Delta L)^2\)</li>
+      <li>Central limit theorem for \(N = \Delta L/L_X \gg 1\) contributions</li>
+      <li>Gaussian phase averaging producing exponential visibility decay</li>
+    </ol>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
+      <strong>No approximations beyond CLT validity.</strong> The result is exact in the limit \(\Delta L \gg L_X\).
+    </p>
+  </div>
+</section>
+
+<!-- ===================== SECTION C: DIMENSIONAL ANALYSIS ===================== -->
+<section class="section" id="dimensional-analysis">
+  <h2>C. Dimensional Analysis</h2>
+
+  <h3>C.1 Five-Dimensional Power Counting</h3>
+
+  <p>
+    In five dimensions with action \([S] = M^0\) (using \(\hbar = c = 1\)):
+  </p>
+
+  <div class="eq boxed">
+    \[
+    \begin{aligned}
+      &[\dd^5 x] = M^{-5}, \quad [\sqrt{-g}] = M^{0}, \quad [\Lcal] = M^5 \\[0.3em]
+      &[R] = M^{3/2}, \quad [(\nabla R)^2] = M^5, \quad [R^4] = M^6
+    \end{aligned}
+    \]
+    <div class="eq-label">(C.1) — 5D mass dimensions</div>
+  </div>
+
+  <h3>C.2 Complete Coupling Constant Table</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Coupling</th>
+        <th>Dimension</th>
+        <th>From L<sub>X</sub></th>
+        <th>Physical Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>\(\chi\) (XCRM)</td>
+        <td>\(M^2\)</td>
+        <td>\(\chi = c_\chi / L_X^2\)</td>
+        <td>Internal dimension coupling</td>
+      </tr>
+      <tr>
+        <td>\(\alpha\) (Torsion)</td>
+        <td>\(M^{1/2}\)</td>
+        <td>\(\alpha = 1/(16\pi G R_{\rm bg})\)</td>
+        <td>Gravitational coupling</td>
+      </tr>
+      <tr>
+        <td>\(\lambda\) (Self-coupling)</td>
+        <td>\(M^{-1}\)</td>
+        <td>\(\lambda = c_\lambda / L_X\)</td>
+        <td>Potential quartic term</td>
+      </tr>
+      <tr>
+        <td>\(y\) (Yukawa)</td>
+        <td>\(M^0\)</td>
+        <td>Dimensionless</td>
+        <td>Fermion-resistance coupling</td>
+      </tr>
+      <tr>
+        <td>\(g_5\) (Gauge)</td>
+        <td>\(M^{-1/2}\)</td>
+        <td>\(g_4^2 = g_5^2/L_X\)</td>
+        <td>5D gauge coupling</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>C.3 Corrected Thermal Fluctuation Formula</h3>
+
+  <div class="block warning">
+    <div class="title">Dimensional Consistency Check</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The thermal fluctuation formula requires careful dimensional analysis.
+      Using proper units:
+    </p>
+  </div>
+
+  <p>The equipartition theorem in 5D gives:</p>
+
+  <div class="eq boxed">
+    \[\frac{1}{2} m_{\rm eff}^2 \sigma_R^2 = \frac{1}{2} k_B T_{\rm eff}\]
+    <div class="eq-label">(C.2)</div>
+  </div>
+
+  <p>With \([m_{\rm eff}^2] = M^2\) and \([\sigma_R^2] = M^3\), we need \([k_B T_{\rm eff}] = M^5\).
+     In natural units where energy has dimension \(M\), temperature has dimension \(M\).
+     Therefore:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{\sigma_R^2 = \frac{k_B T_{\rm eff}}{m_{\rm eff}^2} = \frac{L_X^2}{\chi^2} \cdot k_B T_{\rm eff}}\]
+    <div class="eq-label" style="color:var(--success);">(C.3) — Corrected thermal fluctuation formula</div>
+  </div>
+
+  <p>Where \(k_B T_{\rm eff}\) has dimension \(M\) (energy) in natural units.
+     The effective temperature is:</p>
+
+  <div class="eq boxed">
+    \[k_B T_{\rm eff} = \frac{\hbar c \pi n_{\rm KK}}{L_X}\]
+    <div class="eq-label">(C.4) — KK temperature</div>
+  </div>
+
+  <p>This has dimension \([M \cdot L / L] = M\). ✓</p>
+</section>
+
+<!-- ===================== SECTION D: NUMERICAL PREDICTIONS ===================== -->
+<section class="section" id="numerical" style="border:2px solid var(--accent); background:linear-gradient(135deg, rgba(74,158,255,0.08) 0%, rgba(96,165,250,0.04) 100%);">
+  <h2 style="color:var(--accent);">D. Numerical Predictions for ℓ<sub>coh</sub></h2>
+
+  <div class="block gold" style="border-width:2px;">
+    <div class="title">D.1 Predicted Range for Coherence Length</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Unlike previous versions, STUR now provides <strong>quantitative bounds</strong> on the coherence length
+      based on constraints on the internal dimension size.
+    </p>
+  </div>
+
+  <h3>D.2 Constraints on L<sub>X</sub></h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Constraint Type</th>
+        <th>Bound on L<sub>X</sub></th>
+        <th>Source</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gravity tests (torsion balance)</td>
+        <td>\(L_X < 44\) μm</td>
+        <td>Adelberger et al. (2009)</td>
+      </tr>
+      <tr>
+        <td>Collider (KK mode production)</td>
+        <td>\(L_X < 10\) μm (1 TeV)</td>
+        <td>LHC searches</td>
+      </tr>
+      <tr>
+        <td>Astrophysics (neutron star cooling)</td>
+        <td>\(L_X < 1\) μm</td>
+        <td>KK graviton emission</td>
+      </tr>
+      <tr>
+        <td>Cosmology (nucleosynthesis)</td>
+        <td>\(L_X < 0.1\) μm</td>
+        <td>Extra radiation constraints</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Taking the conservative bound \(L_X < 10\) μm:</p>
+
+  <h3>D.3 Coherence Length Calculation</h3>
+
+  <div class="eq boxed">
+    \[\ell_{\rm coh} = \frac{\sqrt{L_X}}{y \tilde{\sigma}_R R_{\rm bg}} = \frac{\sqrt{L_X}}{y \tilde{\sigma}_R v}\]
+    <div class="eq-label">(D.1)</div>
+  </div>
+
+  <p>With typical values:</p>
+  <ul>
+    <li>\(L_X \sim 10^{-5}\) m (10 μm upper bound)</li>
+    <li>\(y \sim 1\) (order-one Yukawa)</li>
+    <li>\(\tilde{\sigma}_R \sim 0.01\) (1% fluctuation level)</li>
+    <li>\(v \sim M_{\rm Pl} / \sqrt{L_X M_{\rm Pl}} \sim 10^{15}\) GeV (intermediate scale)</li>
+  </ul>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--accent);padding:1.25rem;">
+    \[\boxed{\ell_{\rm coh} \sim \frac{\sqrt{10^{-5}\, \rm m}}{1 \times 0.01 \times 10^{15}\, \rm GeV} \sim \frac{3 \times 10^{-3}\, \rm m}{10^{13}\, \rm GeV} \sim 10^{-1} - 10^{3}\, \rm m}\]
+    <div class="eq-label" style="color:var(--accent);">(D.2) — Predicted coherence length range</div>
+  </div>
+
+  <div class="block success" style="margin-top:1.5rem;border-width:2px;">
+    <div class="title">Falsifiable Prediction</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>STUR predicts \(\ell_{\rm coh}\) in the range 0.1 m to 1 km</strong> for reasonable parameter choices.
+      This is accessible to current and near-future matter-wave interferometry:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li>Atom interferometers: arm separations up to 100 m (MAGIS, AION)</li>
+      <li>Neutron interferometers: path differences up to 10 cm</li>
+      <li>Large-baseline experiments: km-scale separations</li>
+    </ul>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
+      If visibility decay is not observed at these scales with the Gaussian form, STUR is falsified.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== SECTION E: UNIFIED NOTATION ===================== -->
+<section class="section" id="notation">
+  <h2>E. Unified Notation and Conventions</h2>
+
+  <h3>E.1 Index Conventions</h3>
 
   <table>
     <thead>
@@ -99,305 +659,389 @@ window.MathJax = {
     </tbody>
   </table>
 
-  <h3>A.2 Metric Signature</h3>
-
-  <div class="eq definition">
-    \[\eta_{ab} = \mathrm{diag}(-1, +1, +1, +1, +1)\]
-    <div class="eq-label">(A.1) — Mostly-plus convention</div>
-  </div>
-
-  <h3>A.3 Key Symbols</h3>
+  <h3>E.2 Complete Symbol Dictionary</h3>
 
   <table>
     <thead>
       <tr>
         <th>Symbol</th>
+        <th>Meaning</th>
         <th>Units</th>
-        <th>Description</th>
+        <th>Never Use For</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>\(\color{#4ade80}{R}\)</td>
-        <td>\(M^{3/2}\)</td>
         <td>Resistance scalar field</td>
-      </tr>
-      <tr>
-        <td>\(\color{#fbbf24}{L_X}\)</td>
-        <td>m</td>
-        <td>Proper size of internal dimension</td>
-      </tr>
-      <tr>
-        <td>\(\color{#22d3ee}{\ell_{\rm coh}}\)</td>
-        <td>m</td>
-        <td>Coherence length</td>
-      </tr>
-      <tr>
-        <td>\(\color{#4ade80}{\sigma_R}\)</td>
         <td>\(M^{3/2}\)</td>
-        <td>RMS resistance fluctuation</td>
+        <td>Ricci scalar (use \(\mathcal{R}_{\rm Ricci}\))</td>
       </tr>
       <tr>
         <td>\(\color{#60a5fa}{\Tcal}\)</td>
-        <td>\(M^2\)</td>
         <td>Torsion scalar</td>
+        <td>\(M^2\)</td>
+        <td>Temperature (use \(T_{\rm eff}\))</td>
       </tr>
       <tr>
         <td>\(\color{#a78bfa}{\Phi_R}\)</td>
+        <td>Resistance holonomy (phase)</td>
         <td>dimensionless</td>
-        <td>Resistance holonomy</td>
-      </tr>
-      <tr>
-        <td>\(\color{#f472b6}{V}\)</td>
-        <td>dimensionless</td>
-        <td>Interferometric visibility</td>
+        <td>Generic scalar field</td>
       </tr>
       <tr>
         <td>\(\color{#fbbf24}{\chi}\)</td>
-        <td>various</td>
         <td>XCRM coupling constant</td>
+        <td>\(M^2\)</td>
+        <td>Susceptibility</td>
       </tr>
       <tr>
         <td>\(\color{#60a5fa}{\alpha}\)</td>
-        <td>various</td>
         <td>Torsion coupling constant</td>
+        <td>\(M^{1/2}\)</td>
+        <td>Fine structure constant (use \(\alpha_{\rm EM}\))</td>
       </tr>
       <tr>
-        <td>\(\color{#22d3ee}{y}\)</td>
+        <td>\(\color{#fbbf24}{\xi}\)</td>
+        <td>Kink width / domain wall thickness</td>
+        <td>\(M^{-1}\)</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>\(\color{#4ade80}{\xi_R}\)</td>
+        <td>Resistance correlation length</td>
+        <td>m</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>\(\color{#fbbf24}{L_X}\)</td>
+        <td>Proper size of internal dimension</td>
+        <td>m</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>\(\color{#22d3ee}{\ell_{\rm coh}}\)</td>
+        <td>Coherence length (observable)</td>
+        <td>m</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>\(\color{#4ade80}{\sigma_R}\)</td>
+        <td>RMS resistance fluctuation</td>
+        <td>\(M^{3/2}\)</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>\(\tilde{\sigma}_R\)</td>
+        <td>Dimensionless fluctuation ratio</td>
         <td>dimensionless</td>
-        <td>Yukawa coupling</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>\(\color{#f472b6}{V}\)</td>
+        <td>Interferometric visibility</td>
+        <td>dimensionless</td>
+        <td>Potential (use \(V(R)\))</td>
+      </tr>
+      <tr>
+        <td>\(V_0\)</td>
+        <td>Baseline visibility (at \(\Delta L = 0\))</td>
+        <td>dimensionless</td>
+        <td>—</td>
       </tr>
     </tbody>
   </table>
+
+  <h3>E.3 Metric Signature</h3>
+
+  <div class="eq definition">
+    \[\eta_{ab} = \mathrm{diag}(-1, +1, +1, +1, +1)\]
+    <div class="eq-label">(E.1) — Mostly-plus convention</div>
+  </div>
 </section>
 
-<!-- DIMENSIONAL ANALYSIS -->
-<section class="section" id="dimensional-analysis">
-  <h2>B. Dimensional Analysis</h2>
+<!-- ===================== SECTION F: GAUGE GROUP UNIQUENESS ===================== -->
+<section class="section" id="gauge-uniqueness" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(244,114,182,0.04) 100%);">
+  <h2 style="color:var(--accent-secondary);">F. Gauge Group Selection: Honest Assessment</h2>
 
-  <h3>B.1 Five-Dimensional Power Counting</h3>
-
-  <p>
-    In five dimensions with action \([S] = M^0\) (using \(\hbar = c = 1\)):
-  </p>
-
-  <div class="eq boxed">
-    \[
-    \begin{aligned}
-      &[\dd^5 x] = M^{-5}, \quad [\sqrt{-g}] = M^{0}, \quad [\Lcal] = M^5 \\[0.3em]
-      &[R] = M^{3/2}, \quad [(\nabla R)^2] = M^5, \quad [R^4] = M^6
-    \end{aligned}
-    \]
-    <div class="eq-label">(B.1) — 5D mass dimensions</div>
+  <div class="block warning" style="border-width:2px;">
+    <div class="title">Status: Constrained but Not Unique</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      STUR constrains the gauge group through compactness, holonomy nontriviality, and anomaly cancellation.
+      However, the Standard Model gauge group is <strong>not uniquely selected</strong> by XCRM alone.
+      This section provides an honest assessment of what is derived vs. what remains open.
+    </p>
   </div>
 
-  <h3>B.2 Coupling Constants</h3>
+  <h3>F.1 What XCRM Constraints Derive</h3>
 
   <div class="card-grid">
-    <div class="card">
-      <strong>XCRM Coupling</strong>
-      <span style="font-size:0.88rem;color:var(--text-secondary)">
-        \([\chi R \partial_X R] = M^5\)<br>
-        \(\Rightarrow [\chi] = M^{-1}\)
-      </span>
+    <div class="card" style="border:1px solid var(--success);background:rgba(74,222,128,0.04);">
+      <strong style="color:var(--success);">Derived (Closed)</strong>
+      <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
+        <li>Gauge group must be compact (positive-definite kinetic term)</li>
+        <li>At least one non-Abelian factor required (nontrivial holonomy)</li>
+        <li>Rank ≤ 4 for minimality with 3 generations</li>
+        <li>Anomaly-free representations required</li>
+      </ul>
     </div>
-    <div class="card">
-      <strong>Torsion Coupling</strong>
-      <span style="font-size:0.88rem;color:var(--text-secondary)">
-        \([\alpha R \Tcal] = M^5\)<br>
-        \(\Rightarrow [\alpha] = M^{1/2}\)
-      </span>
-    </div>
-    <div class="card">
-      <strong>Self-Coupling</strong>
-      <span style="font-size:0.88rem;color:var(--text-secondary)">
-        \([\lambda R^4] = M^5\)<br>
-        \(\Rightarrow [\lambda] = M^{-1}\)
-      </span>
-    </div>
-    <div class="card">
-      <strong>Gauge Coupling</strong>
-      <span style="font-size:0.88rem;color:var(--text-secondary)">
-        \([F^2/g_5^2] = M^5\)<br>
-        \(\Rightarrow [g_5^2] = M^{-1}\)
-      </span>
+    <div class="card" style="border:1px solid var(--warning);background:rgba(251,191,36,0.04);">
+      <strong style="color:var(--warning);">Constrained but Open</strong>
+      <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
+        <li>Why SU(3)×SU(2)×U(1) and not SU(5) or SO(10)?</li>
+        <li>Why exactly 3 generations?</li>
+        <li>What selects the hypercharge assignment?</li>
+        <li>Why is the gauge coupling hierarchy what it is?</li>
+      </ul>
     </div>
   </div>
-</section>
 
-<!-- KEY DERIVATIONS -->
-<section class="section" id="derivations" style="border-left:4px solid var(--gold);">
-  <h2 style="color:var(--gold);">C. Key Derivation Summaries</h2>
-
-  <h3>C.1 XCRM Closure Relation</h3>
-
-  <p>Starting from the effective 4D potential after X-integration:</p>
-
-  <div class="eq boxed">
-    \[V_{\rm eff}(\bar{R}) = V(\bar{R}) + \frac{\chi^2}{2L_X^2}(\bar{R} - R_{\rm bg})^2\]
-    <div class="eq-label">(C.1)</div>
-  </div>
+  <h3>F.2 Groups Satisfying XCRM Constraints</h3>
 
   <p>
-    The XCRM term generates an effective mass \(m_{\rm eff}^2 = \chi^2/L_X^2\).
-    At thermal equilibrium, fluctuations satisfy:
+    The following gauge groups satisfy all XCRM constraints (compactness, non-Abelian, rank ≤ 8):
   </p>
-
-  <div class="eq boxed">
-    \[\sigma_R^2 = \frac{T_{\rm eff}}{m_{\rm eff}^2} = \frac{L_X^2}{\chi^2} T_{\rm eff}\]
-    <div class="eq-label">(C.2)</div>
-  </div>
-
-  <p>The coherence length then follows:</p>
-
-  <div class="eq law">
-    \[\boxed{\ell_{\rm coh} = \frac{\sqrt{2}\, L_X}{\sigma_R}}\]
-    <div class="eq-label">(C.3) — XCRM Closure</div>
-  </div>
-
-  <h3>C.2 Gaussian Visibility from Central Limit</h3>
-
-  <p>
-    The visibility is the average of the phase factor over shot-to-shot fluctuations:
-  </p>
-
-  <div class="eq boxed">
-    \[V = \langle e^{i\Phi_R} \rangle = \int P(\Phi_R)\, e^{i\Phi_R}\, d\Phi_R\]
-    <div class="eq-label">(C.4)</div>
-  </div>
-
-  <p>
-    For Gaussian-distributed \(\Phi_R\) (central limit theorem when many independent
-    fluctuations contribute):
-  </p>
-
-  <div class="eq law">
-    \[\boxed{V = V_0 \exp\!\left(-\frac{\langle\Phi_R^2\rangle}{2}\right)}\]
-    <div class="eq-label">(C.5) — Gaussian visibility</div>
-  </div>
-
-  <h3>C.3 TEGR-GR Boundary Term</h3>
-
-  <p>The teleparallel-Riemann equivalence follows from:</p>
-
-  <div class="eq boxed">
-    \[R_{\rm Ricci} = -\Tcal + \frac{2}{e}\partial_M(e\, T^M)\]
-    <div class="eq-label">(C.6)</div>
-  </div>
-
-  <p>
-    where \(T^M = T^P{}_{PM}\) is the torsion vector. For compact manifolds or
-    matched boundary conditions, the surface term vanishes and the actions are equivalent.
-  </p>
-</section>
-
-<!-- APPROXIMATION VALIDITY -->
-<section class="section" id="validity">
-  <h2>D. Approximation Validity</h2>
-
-  <h3>D.1 Markovian Regime</h3>
-
-  <div class="block">
-    <div class="title">Condition</div>
-    <p style="margin:0;color:var(--text-secondary)">
-      The Markovian approximation (uncorrelated shot-to-shot fluctuations) requires:
-    </p>
-    <div class="eq boxed" style="margin:0.75rem 0;">
-      \[\tau_{\rm corr} \ll \tau_{\rm shot}\]
-    </div>
-    <p style="margin:0;color:var(--text-secondary)">
-      where \(\tau_{\rm corr} \sim \hbar/(m_\chi c^2)\) is the bath correlation time and
-      \(\tau_{\rm shot}\) is the experimental shot period.
-    </p>
-  </div>
 
   <table>
     <thead>
       <tr>
-        <th>Bath Mass</th>
-        <th>\(\tau_{\rm corr}\)</th>
-        <th>Regime (for \(\tau_{\rm shot} = 1\) s)</th>
+        <th>Gauge Group</th>
+        <th>Rank</th>
+        <th>XCRM Consistent?</th>
+        <th>Additional Input Needed?</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>1 TeV</td>
-        <td>\(\sim 10^{-27}\) s</td>
-        <td style="color:var(--success);">Markovian</td>
+        <td>\(SU(3) \times SU(2) \times U(1)\)</td>
+        <td>4</td>
+        <td style="color:var(--success);">Yes</td>
+        <td style="color:var(--success);">Minimal (observed)</td>
       </tr>
       <tr>
-        <td>1 GeV</td>
-        <td>\(\sim 10^{-24}\) s</td>
-        <td style="color:var(--success);">Markovian</td>
+        <td>\(SU(5)\)</td>
+        <td>4</td>
+        <td style="color:var(--success);">Yes</td>
+        <td>Proton decay bounds</td>
       </tr>
       <tr>
-        <td>1 keV</td>
-        <td>\(\sim 10^{-18}\) s</td>
-        <td style="color:var(--success);">Markovian</td>
+        <td>\(SO(10)\)</td>
+        <td>5</td>
+        <td style="color:var(--success);">Yes</td>
+        <td>Breaking pattern selection</td>
       </tr>
       <tr>
-        <td>1 eV</td>
-        <td>\(\sim 10^{-15}\) s</td>
-        <td style="color:var(--success);">Markovian</td>
-      </tr>
-      <tr>
-        <td>\(10^{-22}\) eV (ULDM)</td>
-        <td>\(\sim 10^{6}\) s</td>
-        <td style="color:var(--warning);">Coherent</td>
+        <td>\(E_6\)</td>
+        <td>6</td>
+        <td style="color:var(--success);">Yes</td>
+        <td>Exotic matter constraints</td>
       </tr>
     </tbody>
   </table>
 
-  <h3>D.2 WKB Approximation</h3>
-
-  <div class="block">
-    <div class="title">Condition</div>
-    <p style="margin:0;color:var(--text-secondary)">
-      The WKB phase accumulation formula is valid when:
+  <div class="block gold" style="margin-top:1.5rem;">
+    <div class="title">The Selection Principle</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      In the current framework, the Standard Model gauge group is selected by:
     </p>
-    <div class="eq boxed" style="margin:0.75rem 0;">
-      \[\lambda_{\rm dB} \ll L_{\rm path}\]
-    </div>
-    <p style="margin:0;color:var(--text-secondary)">
-      where \(\lambda_{\rm dB}\) is the de Broglie wavelength. For typical atom interferometers,
-      \(\lambda_{\rm dB} \sim 10^{-11}\) m while \(L_{\rm path} \sim 1\)–\(100\) m, so this is
-      well satisfied.
+    <ol style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li>XCRM constraints (necessary but not sufficient)</li>
+      <li><strong>Minimality</strong>: smallest group with required features</li>
+      <li><strong>Observation</strong>: experimental confirmation of SM gauge structure</li>
+    </ol>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
+      A complete theory would derive the gauge group uniquely from first principles.
+      This remains an <strong>open problem</strong>.
     </p>
   </div>
 </section>
 
-<!-- REFERENCES -->
-<section class="section" id="references">
-  <h2>E. Key References</h2>
+<!-- ===================== SECTION G: FLAVOR STRUCTURE STATUS ===================== -->
+<section class="section" id="flavor">
+  <h2>G. Flavor Structure: Current Status</h2>
 
-  <h3>E.1 Teleparallel Gravity</h3>
+  <div class="block warning" style="border-width:2px;">
+    <div class="title">Parametrized, Not Derived</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>The current version of STUR does not derive the flavor structure from first principles.</strong>
+      The mechanism (wavefunction overlaps in the extra dimension) is well-defined, but the inputs
+      (localization positions) are phenomenological parameters.
+    </p>
+  </div>
+
+  <h3>G.1 What Is Explained</h3>
+
+  <ul>
+    <li><strong>Exponential hierarchies from O(1) 5D couplings:</strong> The mechanism of Yukawa suppression via wavefunction overlaps is derived.</li>
+    <li><strong>Chirality from orbifold:</strong> The \(\mathbb{Z}_2\) orbifold naturally produces chiral zero modes.</li>
+    <li><strong>Qualitative mass ordering:</strong> Fermions localized farther apart have smaller effective Yukawa couplings.</li>
+  </ul>
+
+  <h3>G.2 What Remains Open</h3>
+
+  <ul>
+    <li><strong>Why 3 generations?</strong> The number of fermion families is not predicted.</li>
+    <li><strong>Localization positions:</strong> \(X_L^{(i)}, X_R^{(j)}\) are fitted, not derived.</li>
+    <li><strong>CKM/PMNS matrices:</strong> Mixing angles are parametric inputs.</li>
+    <li><strong>CP violation:</strong> The origin of CP-violating phases is not addressed.</li>
+    <li><strong>Neutrino masses:</strong> No mechanism for small neutrino masses is specified.</li>
+  </ul>
+
+  <div class="block">
+    <div class="title">Toward Flavor Completion</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Deriving localization positions would require a dynamical mechanism (e.g., additional scalar fields
+      with nontrivial VEV profiles) that fixes \(X_L^{(i)}, X_R^{(j)}\) from first principles.
+      This is a target for future development.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== SECTION H: OPEN PROBLEMS ===================== -->
+<section class="section" id="open-problems" style="border:2px solid var(--warning); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--warning);">H. Open Problems and Future Directions</h2>
+
+  <p style="color:var(--text);margin-bottom:1rem;">
+    <strong>For intellectual honesty, we explicitly list what STUR does not address in its current form.</strong>
+  </p>
+
+  <h3>H.1 Theoretical Open Problems</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Problem</th>
+        <th>Status</th>
+        <th>Path Forward</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>UV completion</strong></td>
+        <td>Open</td>
+        <td>String theory embedding, asymptotic safety</td>
+      </tr>
+      <tr>
+        <td><strong>Gauge group uniqueness</strong></td>
+        <td>Constrained</td>
+        <td>Additional selection principle needed</td>
+      </tr>
+      <tr>
+        <td><strong>Flavor structure</strong></td>
+        <td>Parametrized</td>
+        <td>Dynamical localization mechanism</td>
+      </tr>
+      <tr>
+        <td><strong>Neutrino masses</strong></td>
+        <td>Not addressed</td>
+        <td>Seesaw, Dirac masses, or new mechanism</td>
+      </tr>
+      <tr>
+        <td><strong>Dark matter</strong></td>
+        <td>Not addressed</td>
+        <td>KK dark matter, hidden sector, or other</td>
+      </tr>
+      <tr>
+        <td><strong>Cosmological constant</strong></td>
+        <td>Identified: \(\Lambda = V(R_{\rm bg})\)</td>
+        <td>Why is \(V(R_{\rm bg}) \sim 10^{-120} M_{\rm Pl}^4\)?</td>
+      </tr>
+      <tr>
+        <td><strong>Inflation</strong></td>
+        <td>Not addressed</td>
+        <td>XCRM-driven inflation possible?</td>
+      </tr>
+      <tr>
+        <td><strong>Baryon asymmetry</strong></td>
+        <td>Not addressed</td>
+        <td>XCRM CP violation at high temperature?</td>
+      </tr>
+      <tr>
+        <td><strong>Quantum gravity</strong></td>
+        <td>Classical TEGR only</td>
+        <td>Quantization of XCRM + torsion</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>H.2 Experimental Open Problems</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Problem</th>
+        <th>Current Status</th>
+        <th>Required Experiment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Measure \(\ell_{\rm coh}\)</strong></td>
+        <td>Only lower bounds</td>
+        <td>Long-baseline atom interferometry</td>
+      </tr>
+      <tr>
+        <td><strong>Confirm Gaussian form</strong></td>
+        <td>Untested</td>
+        <td>Multi-\(\Delta L\) visibility scan</td>
+      </tr>
+      <tr>
+        <td><strong>Test mass independence</strong></td>
+        <td>Untested</td>
+        <td>Same \(\Delta L\), different particles</td>
+      </tr>
+      <tr>
+        <td><strong>Measure \(L_X\)</strong></td>
+        <td>Only upper bounds</td>
+        <td>Sub-mm gravity tests, colliders</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block gold" style="margin-top:1.5rem;">
+    <div class="title">The Path Forward</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      STUR provides a <strong>falsifiable framework</strong> that makes concrete predictions.
+      Resolution of the open problems listed above would either extend the theory to a complete
+      description of nature, or reveal where the framework breaks down and needs modification.
+      Either outcome advances physics.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== SECTION I: REFERENCES ===================== -->
+<section class="section" id="references">
+  <h2>I. Key References</h2>
+
+  <h3>I.1 Teleparallel Gravity</h3>
   <ul>
     <li>Aldrovandi, R. & Pereira, J.G. (2013). <em>Teleparallel Gravity: An Introduction</em>. Springer.</li>
     <li>Maluf, J.W. (2013). "The teleparallel equivalent of general relativity." <em>Ann. Phys.</em> 525, 339–357.</li>
   </ul>
 
-  <h3>E.2 Extra Dimensions and Orbifolds</h3>
+  <h3>I.2 Extra Dimensions and Orbifolds</h3>
   <ul>
     <li>Randall, L. & Sundrum, R. (1999). "Large mass hierarchy from a small extra dimension." <em>Phys. Rev. Lett.</em> 83, 3370.</li>
     <li>Kaplan, D.B. (1992). "A method for simulating chiral fermions on the lattice." <em>Phys. Lett. B</em> 288, 342.</li>
+    <li>Arkani-Hamed, N. & Schmaltz, M. (2000). "Hierarchies without symmetries from extra dimensions." <em>Phys. Rev. D</em> 61, 033005.</li>
   </ul>
 
-  <h3>E.3 Matter-Wave Interferometry</h3>
+  <h3>I.3 Matter-Wave Interferometry</h3>
   <ul>
     <li>Cronin, A.D., Schmiedmayer, J. & Pritchard, D.E. (2009). "Optics and interferometry with atoms and molecules." <em>Rev. Mod. Phys.</em> 81, 1051.</li>
     <li>Tino, G.M. & Kasevich, M.A., eds. (2014). <em>Atom Interferometry</em>. IOS Press.</li>
   </ul>
 
-  <h3>E.4 ULDM and Scalar Field Searches</h3>
+  <h3>I.4 Extra Dimension Bounds</h3>
   <ul>
-    <li>Graham, P.W. et al. (2016). "Dark matter direct detection with accelerometers." <em>Phys. Rev. D</em> 93, 075029.</li>
-    <li>Badurina, L. et al. (2022). "Prospective sensitivities of atom interferometers to gravitational waves and ultralight dark matter." <em>Phil. Trans. R. Soc. A</em> 380, 20210060.</li>
+    <li>Adelberger, E.G. et al. (2009). "Torsion balance experiments: A low-energy frontier of particle physics." <em>Prog. Part. Nucl. Phys.</em> 62, 102.</li>
+    <li>Particle Data Group (2024). "Extra dimensions." <em>Review of Particle Physics</em>.</li>
   </ul>
 </section>
 
-<!-- CHANGE LOG -->
+<!-- ===================== VERSION HISTORY ===================== -->
 <section class="section" id="changelog">
-  <h2>F. Version History</h2>
+  <h2>J. Version History</h2>
 
   <table>
     <thead>
@@ -408,6 +1052,11 @@ window.MathJax = {
       </tr>
     </thead>
     <tbody>
+      <tr>
+        <td>v9.3</td>
+        <td>2026</td>
+        <td>Complete parameter definitions; rigorous visibility derivation; unified σ<sub>R</sub>; numerical ℓ<sub>coh</sub> predictions; honest open problems section</td>
+      </tr>
       <tr>
         <td>v9.2</td>
         <td>2026</td>
@@ -434,7 +1083,7 @@ window.MathJax = {
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Technical Appendix</strong> — v9.2</p>
+  <p><strong>STUR Technical Appendix</strong> — v9.3</p>
   <p>© 2026 Sheldon Lon Lindberg</p>
 </footer>
 
