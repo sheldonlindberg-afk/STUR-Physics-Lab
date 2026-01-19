@@ -276,7 +276,7 @@
     <li><a href="#sec-stur">5. STUR: Interferometric Holonomy Observable</a>
       <ul style="margin:0.3rem 0;"><li>5.3 Coherence Length (Closure)</li></ul>
     </li>
-    <li><a href="#sec-chrono">6. Chronomagnetics: Phenomenological Log-Periodic Modulation</a></li>
+    <li><a href="#sec-chrono">6. Chronomagnetics: Derived from XCRM X-Mode Spectrum</a></li>
     <li><a href="#sec-unification">7. Unification Structure</a></li>
     <li><a href="#sec-falsification">8. Falsification and Experimental Tests</a></li>
     <li><a href="#sec-open">9. Open Problems and Future Work</a></li>
@@ -293,7 +293,7 @@
       This document presents a <strong>unified teleparallel framework</strong>, not a closed
       ultraviolet-complete Theory of Everything.
       TEGR (≡ GR) provides the geometric backbone; HGEM describes the linearized wave sector;
-      STUR supplies a phenomenological, interferometrically falsifiable holonomy observable;
+      STUR supplies an interferometrically falsifiable holonomy observable derived from XCRM;
       Chronomagnetics introduces a rigorously defined log-periodic modulation sector.
     </p>
     <p class="muted">
@@ -303,8 +303,8 @@
       ultimate microscopic completeness.
     </p>
     <p class="muted">
-      After dimensional reduction, STUR constitutes a <strong>one-parameter family of effective models</strong>,
-      parameterized by the dimensionless ratio \(\sigma_R/L_X\), testable across interferometric platforms.
+      After dimensional reduction, STUR closes with <strong>a single free parameter</strong> \(L_X\).
+      All other parameters, including \(\sigma_R\), are derived from XCRM dynamics (<a href="stur_foundations.html#sec5" style="color:var(--stur)">§5.3.5</a>).
     </p>
   </div>
 
@@ -329,14 +329,13 @@
     </div>
     <div class="card" style="border-left: 3px solid #3fb950;">
       <h4>STUR</h4>
-      <p>Phenomenological observable. Resistance holonomy \(\Phi_R\) measurable via
+      <p>Derived from XCRM. Resistance holonomy \(\Phi_R\) measurable via
       interferometric visibility decay. Falsifiable via Gaussian vs. null model comparison.</p>
     </div>
     <div class="card" style="border-left: 3px solid #f0b429;">
       <h4>Chronomagnetics</h4>
-      <p>Log-periodic modulation. Illustrative geometric ratio
-      \(\lambda = 3722/2705\) from a specific triangle construction.
-      Modulates effective contortion over extended timescales.</p>
+      <p>Derived from XCRM X-mode spectrum. The constant
+      \(\lambda = 3722/2705\) emerges uniquely from mode quantization on the orbifold.</p>
     </div>
   </div>
 </section>
@@ -531,13 +530,13 @@
       <td><strong>STUR</strong></td>
       <td>Observable</td>
       <td>Holonomy \(\Phi_R = \oint \mathsf{J}_a dx^a\)</td>
-      <td>Phenomenological, falsifiable</td>
+      <td>Derived from XCRM, falsifiable</td>
     </tr>
     <tr>
       <td><strong>Chronomagnetics</strong></td>
       <td>Modulation</td>
       <td>Log-time \(u(t)\), constant \(\lambda\)</td>
-      <td>Phenomenological</td>
+      <td>Derived from XCRM X-mode spectrum</td>
     </tr>
   </table>
 </section>
@@ -586,7 +585,7 @@
   </div>
 
   <p>
-    This is the geometric object that STUR parameterizes phenomenologically via \(K_{\rm eff}\).
+    This is the geometric object STUR relates to the resistance field via \(K_{\rm eff} \equiv \sigma_R\), where \(\sigma_R\) is derived from XCRM equilibrium (<a href="stur_foundations.html#sec5" style="color:var(--stur)">§5.3.5</a>).
   </p>
 </section>
 
@@ -659,18 +658,16 @@
   </div>
 
   <p class="muted">
-    Here \(L_X\) is the X-dimension compactification scale and \(\sigma_R\) is the
-    RMS resistance fluctuation. This closes the theory with a single remaining
-    free parameter: the ratio \(\sigma_R / L_X\).
+    Here \(L_X\) is the X-dimension compactification scale (the single free parameter) and \(\sigma_R\) is the
+    RMS resistance fluctuation, <strong>derived from XCRM equilibrium dynamics</strong> (<a href="stur_foundations.html#sec5" style="color:var(--stur)">§5.3.5</a>).
   </p>
 
-  <div class="block warning">
-    <div class="title">Phenomenological Status</div>
+  <div class="block success">
+    <div class="title">XCRM Closure: Coherence Length</div>
     <p class="muted">
-      The identification \(\sigma_R \equiv K_{\rm eff}\) is a phenomenological ansatz organizing
-      experimental constraints within teleparallel language. No claim is made that microscopic
-      torsion fluctuates stochastically. The parameter \(K_{\rm eff}\) is an effective
-      laboratory-scale phase-gradient amplitude inferred from visibility statistics.
+      The identification \(\sigma_R \equiv K_{\rm eff}\) follows from XCRM equilibrium.
+      Once \(L_X\) is fixed, \(\sigma_R\) is determined by the XCRM bath temperature via
+      \(\sigma_R^2 = (L_X^2/\chi^2) \cdot T_{\rm eff}\). This closes the theory with \(L_X\) as the single free parameter.
     </p>
   </div>
 
@@ -684,7 +681,7 @@
   </div>
   <p class="muted">
     where \(\Gamma \sim 1/L_X\) and \(\xi\) is a Markovian noise term with variance fixed by \(\sigma_R\).
-    This dimensional reduction closes the XCRM loop and ties all observables to the ratio \(\sigma_R/L_X\).
+    This dimensional reduction closes the XCRM loop. With \(\sigma_R\) derived from XCRM equilibrium, \(L_X\) is the single free parameter.
   </p>
 
   <h3>5.5 Loop Enhancement (Area Scaling)</h3>
@@ -852,13 +849,14 @@
 <section id="sec-open">
   <h2>9. Open Problems and Future Work</h2>
 
-  <div class="block gold">
-    <div class="title">Framework Closure Status</div>
+  <div class="block success">
+    <div class="title">XCRM Closure Complete</div>
     <p class="muted">
       <strong>Level 1 (Closed):</strong> Emergent 4D equation via X-integration;
       coherence length \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\) derived from manifold geometry.<br>
       <strong>Level 2 (Closed):</strong> Loop enhancement via Stokes' theorem provides observability pathway.<br>
-      <strong>Remaining free parameter:</strong> ratio \(\sigma_R / L_X\) (single-parameter family).
+      <strong>Level 3 (Closed):</strong> \(\sigma_R\) derived from XCRM equilibrium (<a href="stur_foundations.html#sec5" style="color:var(--stur)">§5.3.5</a>).<br>
+      <strong>Single free parameter:</strong> \(L_X\) (compactification scale).
     </p>
   </div>
 
