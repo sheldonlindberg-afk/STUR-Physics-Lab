@@ -64,6 +64,292 @@
   };
 
   // ============================================================
+  // SHARE FUNCTIONALITY
+  // ============================================================
+
+  let shareMenuEl = null;
+
+  /**
+   * Social share platforms configuration
+   */
+  const sharePlatforms = [
+    {
+      id: 'copy',
+      label: 'Copy Link',
+      icon: 'link',
+      color: '#4ade80',
+      action: 'copy'
+    },
+    {
+      id: 'x',
+      label: 'X (Twitter)',
+      icon: 'x',
+      color: '#000000',
+      url: 'https://twitter.com/intent/tweet?url={url}&text={title}'
+    },
+    {
+      id: 'facebook',
+      label: 'Facebook',
+      icon: 'facebook',
+      color: '#1877f2',
+      url: 'https://www.facebook.com/sharer/sharer.php?u={url}'
+    },
+    {
+      id: 'linkedin',
+      label: 'LinkedIn',
+      icon: 'linkedin',
+      color: '#0a66c2',
+      url: 'https://www.linkedin.com/sharing/share-offsite/?url={url}'
+    },
+    {
+      id: 'reddit',
+      label: 'Reddit',
+      icon: 'reddit',
+      color: '#ff4500',
+      url: 'https://reddit.com/submit?url={url}&title={title}'
+    },
+    {
+      id: 'email',
+      label: 'Email',
+      icon: 'mail',
+      color: '#64748b',
+      url: 'mailto:?subject={title}&body={url}'
+    }
+  ];
+
+  /**
+   * Create share menu element
+   */
+  function createShareMenu() {
+    if (shareMenuEl) return shareMenuEl;
+
+    shareMenuEl = STUR.createElement('div', {
+      id: 'stur-share-menu',
+      className: 'stur-share-menu'
+    });
+
+    shareMenuEl.innerHTML = `
+      <div class="stur-share-menu-content">
+        <div class="stur-share-menu-header">
+          <span>Share</span>
+          <button class="stur-share-menu-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="stur-share-menu-options">
+          ${sharePlatforms.map(p => `
+            <button class="stur-share-option" data-platform="${p.id}" style="--platform-color: ${p.color}">
+              <span class="stur-share-icon stur-share-icon-${p.icon}"></span>
+              <span class="stur-share-label">${p.label}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    // Add styles if not already present
+    if (!document.getElementById('stur-share-styles')) {
+      const styles = document.createElement('style');
+      styles.id = 'stur-share-styles';
+      styles.textContent = `
+        .stur-share-menu {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(4px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.2s, visibility 0.2s;
+        }
+        .stur-share-menu.open {
+          opacity: 1;
+          visibility: visible;
+        }
+        .stur-share-menu-content {
+          background: var(--bg-panel, #0f172a);
+          border: 1px solid var(--border-dim, #334155);
+          border-radius: 16px;
+          padding: 0;
+          min-width: 280px;
+          max-width: 90vw;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+          transform: scale(0.95);
+          transition: transform 0.2s;
+        }
+        .stur-share-menu.open .stur-share-menu-content {
+          transform: scale(1);
+        }
+        .stur-share-menu-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px 20px;
+          border-bottom: 1px solid var(--border-dim, #334155);
+          font-weight: 600;
+          font-size: 15px;
+          color: var(--text-main, #f1f5f9);
+        }
+        .stur-share-menu-close {
+          background: none;
+          border: none;
+          color: var(--text-muted, #94a3b8);
+          font-size: 24px;
+          cursor: pointer;
+          padding: 0;
+          line-height: 1;
+          transition: color 0.15s;
+        }
+        .stur-share-menu-close:hover {
+          color: var(--text-main, #f1f5f9);
+        }
+        .stur-share-menu-options {
+          padding: 12px;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 8px;
+        }
+        .stur-share-option {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          padding: 16px 12px;
+          background: var(--bg-panel-2, #1e293b);
+          border: 1px solid transparent;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: all 0.15s;
+          color: var(--text-main, #f1f5f9);
+        }
+        .stur-share-option:hover {
+          background: rgba(255, 255, 255, 0.08);
+          border-color: var(--platform-color);
+          transform: translateY(-2px);
+        }
+        .stur-share-option:active {
+          transform: translateY(0);
+        }
+        .stur-share-icon {
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 8px;
+          background: var(--platform-color);
+          color: white;
+          font-size: 16px;
+          font-weight: bold;
+        }
+        .stur-share-icon-link::before { content: "🔗"; }
+        .stur-share-icon-x::before { content: "𝕏"; font-family: serif; }
+        .stur-share-icon-facebook::before { content: "f"; font-family: Georgia, serif; }
+        .stur-share-icon-linkedin::before { content: "in"; font-size: 12px; font-weight: 700; }
+        .stur-share-icon-reddit::before { content: "r/"; font-size: 11px; }
+        .stur-share-icon-mail::before { content: "✉"; }
+        .stur-share-label {
+          font-size: 11px;
+          color: var(--text-muted, #94a3b8);
+          text-align: center;
+        }
+        @media (max-width: 400px) {
+          .stur-share-menu-options {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+      `;
+      document.head.appendChild(styles);
+    }
+
+    document.body.appendChild(shareMenuEl);
+
+    // Close button handler
+    shareMenuEl.querySelector('.stur-share-menu-close').addEventListener('click', () => {
+      STUR.closeShareMenu();
+    });
+
+    // Click outside to close
+    shareMenuEl.addEventListener('click', (e) => {
+      if (e.target === shareMenuEl) {
+        STUR.closeShareMenu();
+      }
+    });
+
+    // Platform button handlers
+    shareMenuEl.querySelectorAll('.stur-share-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const platformId = btn.dataset.platform;
+        const platform = sharePlatforms.find(p => p.id === platformId);
+        if (platform) {
+          handleShare(platform);
+        }
+      });
+    });
+
+    return shareMenuEl;
+  }
+
+  /**
+   * Handle share action for a platform
+   */
+  function handleShare(platform) {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(document.title);
+
+    if (platform.action === 'copy') {
+      STUR.copyToClipboard(window.location.href, 'Link copied!');
+      STUR.closeShareMenu();
+    } else if (platform.url) {
+      const shareUrl = platform.url
+        .replace('{url}', url)
+        .replace('{title}', title);
+      window.open(shareUrl, '_blank', 'width=600,height=400,menubar=no,toolbar=no');
+      STUR.closeShareMenu();
+    }
+  }
+
+  /**
+   * Open share menu
+   */
+  STUR.openShareMenu = function() {
+    const menu = createShareMenu();
+    requestAnimationFrame(() => {
+      menu.classList.add('open');
+    });
+    document.body.style.overflow = 'hidden';
+  };
+
+  /**
+   * Close share menu
+   */
+  STUR.closeShareMenu = function() {
+    if (shareMenuEl) {
+      shareMenuEl.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  };
+
+  /**
+   * Share function for nav button (replaces old shareRepo)
+   */
+  STUR.share = function() {
+    // Try native share API first (mobile)
+    if (navigator.share) {
+      navigator.share({
+        title: document.title,
+        url: window.location.href
+      }).catch(() => {
+        // User cancelled or error, fall back to menu
+        STUR.openShareMenu();
+      });
+    } else {
+      STUR.openShareMenu();
+    }
+  };
+
+  // ============================================================
   // CLIPBOARD / COPY UTILITIES
   // ============================================================
 

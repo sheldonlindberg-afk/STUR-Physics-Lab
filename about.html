@@ -178,39 +178,13 @@
       <a href="scripts/stur_foundations.html" class="glass-nav-link">Foundations</a>
       <a href="scripts/stur_unified_framework.html" class="glass-nav-link">Framework</a>
       <a href="scripts/stur_sandbox.html" class="glass-nav-link">Sandbox</a>
-      <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+      <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
         <span class="stur-icon icon-link"></span>
         Share
       </button>
     </div>
   </nav>
 </header>
-
-<script>
-function shareRepo() {
-  const url = window.location.href;
-  navigator.clipboard.writeText(url).then(() => {
-    const btn = document.querySelector('.glass-share-btn');
-    const original = btn.innerHTML;
-    btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
-    btn.style.color = 'var(--neon-green)';
-    setTimeout(() => {
-      btn.innerHTML = original;
-      btn.style.color = '';
-    }, 2000);
-  }).catch(() => {
-    alert('Link: ' + url);
-  });
-}
-
-// Mobile nav toggle
-document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
-  const links = document.querySelector('.glass-nav-links');
-  const expanded = this.getAttribute('aria-expanded') === 'true';
-  this.setAttribute('aria-expanded', !expanded);
-  links.classList.toggle('open');
-});
-</script>
 
 <div class="container">
   <header class="page-header">
