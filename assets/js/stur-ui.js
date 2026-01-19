@@ -697,7 +697,7 @@
   STUR.createNavHTML = function(currentPage) {
     const pages = [
       { id: 'index', label: 'Index', href: '../index.html' },
-      { id: 'foundations', label: 'Foundations', href: 'stur_foundations.html' },
+      { id: 'foundations', label: 'Foundations', href: 'stur_core_theory.html' },
       { id: 'unified', label: 'Framework', href: 'stur_unified_framework.html' },
       { id: 'verifier', label: 'Verifier', href: 'stur_geometry_verifier.html' },
       { id: 'sandbox', label: 'Sandbox', href: 'stur_sandbox.html' }

@@ -65,9 +65,9 @@
         </button>
         <div class="glass-nav-links">
             <a href="../index.html" class="glass-nav-link">Index</a>
-            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
-            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
-            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+            <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
@@ -120,9 +120,9 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Inspired by First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
-                <li>S(r) radial modulator form — from <a href="stur_foundations.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_foundations.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>S(r) radial modulator form — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
+                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
                 <li>Phase-dependent dynamics — XCRM-inspired coherence tracking</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Conceptual / Exploratory:</strong></p>
@@ -149,7 +149,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Access probability \(P_{\text{success}}\) and Shannon information entropy \(S_{\text{info}}\).</p>
             <p><strong>Scale:</strong> Radial corridor \(r \in [10, 50]\) (arbitrary units), control phase \(t \in [0, 0.4]\,\text{s}\).</p>
-            <p><strong>Connection:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">radial modulator S(r)</a> combines electromagnetic, gravitational, and short-range forces.</p>
+            <p><strong>Connection:</strong> The STUR <a href="stur_core_theory.html#master-action" class="core-ref">radial modulator S(r)</a> combines electromagnetic, gravitational, and short-range forces.</p>
         </div>
     </section>
 
@@ -162,7 +162,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">Master Action</a> from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR <a href="stur_core_theory.html#master-action" class="core-ref">Master Action</a> from <a href="stur_core_theory.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -193,7 +193,7 @@
                 \[
                 \color{#f472b6}{C(t)} = \sum_i |F_{\text{tot}}(r_i, t)| \Delta r
                 \]
-                <div class="stur-eq-label">Integrated Resistance (from <a href="stur_foundations.html#VR-derivation" class="core-ref">orbifold-derived V(R)</a>)</div>
+                <div class="stur-eq-label">Integrated Resistance (from <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R)</a>)</div>
             </div>
 
             <p><strong>Success probability:</strong> \(P_{\text{success}}(t, \sigma) = \Pr[E_b > E_{\text{need}}]\)</p>
@@ -204,7 +204,7 @@
                 \[
                 \color{#fbbf24}{S_{\text{info}}(P)} = -P \log_2 P - (1-P) \log_2(1-P)
                 \]
-                <div class="stur-eq-label">Shannon Entropy (<a href="stur_foundations.html#master-action" class="core-ref">XCRM</a> information measure)</div>
+                <div class="stur-eq-label">Shannon Entropy (<a href="stur_core_theory.html#master-action" class="core-ref">XCRM</a> information measure)</div>
             </div>
         </div>
     </section>
@@ -510,7 +510,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Foundations, <a href="stur_core_theory.html">stur_core_theory.html</a> — S(r) Radial Modulator</li>
                 <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
                 <li>Shannon entropy — information theory</li>
                 <li>Stochastic access control — reliability engineering</li>
@@ -526,7 +526,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
     <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
     <p>
-        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
         <a href="stur_geometry_verifier.html">Verifier</a> ·
         <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
