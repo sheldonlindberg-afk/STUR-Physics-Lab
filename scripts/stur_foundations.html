@@ -4400,6 +4400,53 @@ code {
     </p>
   </div>
 
+  <h4>E.1.5 Scale-Invariant Unification: From 3-Body to Galaxies</h4>
+
+  <div class="block success">
+    <div class="title">Theorem E.2 — Universal S(r) Across Scales</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The saturation operator \(S(r)\) derived from V(R) applies identically at all scales with
+      only the characteristic length \(L_0\) changing to match the local coherence scale:
+    </p>
+    <div class="eq law" style="margin-top:0.75rem;">
+      \[\boxed{S(r) = \tanh(r/L_0)(1-e^{-r/L_0}) \quad \text{for } L_0 \in \{L_\text{micro}, L_\text{stellar}, L_\text{galactic}\}}\]
+      <div class="eq-label">(E.5b) — Scale-Invariant Saturation</div>
+    </div>
+  </div>
+
+  <p>
+    This unification is non-trivial: the <em>same functional form</em> derived from the scalar potential
+    \(V(R)\) governs gravitational corrections at:
+  </p>
+
+  <ul class="defs">
+    <li><strong>Microscale (\(L_0 \sim 10^{-10}\text{ m}\)):</strong> 3-body orbital dynamics, atomic-scale binding modifications</li>
+    <li><strong>Stellar scale (\(L_0 \sim 10^{6}\text{ m}\)):</strong> Binary star systems, planetary orbit corrections</li>
+    <li><strong>Galactic scale (\(L_0 \sim 1-10\text{ kpc}\)):</strong> Rotation curve flatness without dark matter halos</li>
+  </ul>
+
+  <div class="block gold">
+    <div class="title">Galactic Rotation Curves</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      At galactic scales, the modified gravitational potential with \(S(r)\) yields rotational velocity:
+    </p>
+    <div class="eq" style="margin-top:0.75rem;">
+      \[v_{\rm rot}(r) = \sqrt{\frac{GM(r)}{r} \cdot S(r)} \xrightarrow{r \gg L_0} \sqrt{\frac{GM(r)}{r}}\]
+      <div class="eq-label">(E.5c)</div>
+    </div>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary)">
+      The S(r) suppression at small r effectively distributes gravitational influence,
+      producing flat rotation curves consistent with observations—without invoking dark matter.
+      See the <a href="stur_galaxy.html">Galaxy Rotation</a> simulation for interactive verification.
+    </p>
+  </div>
+
+  <p>
+    <strong>Key insight:</strong> The scale \(L_0 = \ell_{\rm coh}\) is set by the local coherence environment.
+    In galactic contexts, \(L_0\) emerges from the collective X-field coherence of the baryonic matter
+    distribution, not from any additional parameters. This maintains the single-parameter structure of STUR.
+  </p>
+
   <h3>E.2 Chi-Torsion Channel: Dimensional Analysis</h3>
 
   <p>
