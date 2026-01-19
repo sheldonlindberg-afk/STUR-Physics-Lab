@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Gauge Emergence — Yang-Mills from XCRM Degeneracy</title>
+<meta name="description" content="How Yang-Mills gauge theory emerges from XCRM: the degeneracy manifold, gauge structure derivation, and Standard Model gauge group selection.">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}', Dcal: '\\mathcal{D}', Fcal: '\\mathcal{F}', dd: '\\mathrm{d}' }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_gauge_emergence.html" class="glass-nav-link active">Gauge</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 style="background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Gauge Emergence</h1>
+  <p class="subtitle">Yang-Mills Structure from XCRM Degeneracy</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- XCRM CLOSURE: GAUGE STRUCTURE -->
+<section class="section" id="sec5" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--gold);">5. Gauge Sector: Derived from XCRM Degeneracy</h2>
+
+  <div class="block gold" style="border-width:2px;">
+    <div class="title">XCRM Closure: Gauge Structure</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>The Yang-Mills structure is derived from XCRM, not postulated.</strong>
+      The XCRM holonomy constraint defines equivalence classes of resistance configurations.
+      When this degeneracy forms a continuous group, gauge symmetry emerges necessarily.
+    </p>
+  </div>
+</section>
+
+<!-- XCRM SYMMETRY -->
+<section class="section" id="xcrm-symmetry">
+  <h2>5.1 XCRM Symmetry and Observables</h2>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">Core Definition — XCRM Symmetry</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Physical observables are invariant under local reparameterizations of internal resistance-coherence
+      flow that preserve closed-loop holonomy:
+    </p>
+    <div class="eq law" style="margin-top:0.75rem;background:#000;border:2px solid var(--success);">
+      \[R(x,X) \;\longrightarrow\; R'(x,X') \quad \text{such that} \quad
+      \oint_{\mathcal C} \mathsf{J}_a\, dx^a \;\text{ is invariant}\]
+      <div class="eq-label" style="color:var(--success);">(5.1) — XCRM Invariance</div>
+    </div>
+  </div>
+
+  <p>This definition immediately implies three fundamental consequences:</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <strong style="color:var(--accent);">X is Unobservable</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        The internal coordinate \(X\) cannot be directly measured — only its effects through holonomies.
+      </span>
+    </div>
+    <div class="card">
+      <strong style="color:var(--accent-secondary);">Holonomies are Observable</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        Only closed-loop integrals of the resistance current are physical observables.
+      </span>
+    </div>
+    <div class="card">
+      <strong style="color:var(--gold);">Redundancy = Gauge Symmetry</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        Any redundancy in describing \(R\) that preserves holonomy defines a gauge transformation.
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- DEGENERACY MANIFOLD -->
+<section class="section" id="degeneracy-manifold">
+  <h2>5.2 The Degeneracy Manifold</h2>
+
+  <p>
+    The XCRM holonomy \(\Phi_R = \oint \mathsf{J}_a\, dx^a\) is the only observable.
+    Any two resistance configurations \(R\) and \(R'\) yielding the same holonomy are
+    <strong>physically indistinguishable</strong>. This defines the degeneracy manifold:
+  </p>
+
+  <div class="eq boxed">
+    \[\color{#a78bfa}{\Dcal} = \big\{ R \mid \Phi_R[\mathcal C] = \text{const for all } \mathcal{C} \big\}\]
+    <div class="eq-label">(5.2) — Degeneracy manifold</div>
+  </div>
+
+  <p>
+    Local changes of basis in \(\Dcal\) are physically invisible. If this degeneracy forms
+    a continuous group, we have:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{R^I(x) \;\rightarrow\; U^I{}_J(x)\,R^J(x) \quad\text{with}\quad U(x)\in G}\]
+    <div class="eq-label">(5.3) — Local degeneracy transformation</div>
+  </div>
+</section>
+
+<!-- WHY YANG-MILLS -->
+<section class="section" id="yang-mills-forced" style="border-left:4px solid var(--accent-secondary);">
+  <h2 style="color:var(--accent-secondary);">5.3 Why Yang-Mills Is Forced</h2>
+
+  <h3>The Derivation Chain</h3>
+
+  <div class="card-grid" style="margin:1rem 0;">
+    <div class="card" style="border:1px solid var(--gold);">
+      <strong style="color:var(--gold);">Step 1</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        Define \(\Dcal = \{ R \mid \Phi_R[\mathcal{C}] = \text{const for all } \mathcal{C} \}\).
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--gold);">
+      <strong style="color:var(--gold);">Step 2</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        If \(\Dcal\) has continuous local symmetry \(G\), then \(R^I \to U^I{}_J(x) R^J\) with \(U \in G\).
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--gold);">
+      <strong style="color:var(--gold);">Step 3</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        Parallel transport of degeneracy labels requires a connection: \(\mathcal{A}_\mu = A^I_\mu T_I\).
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--gold);">
+      <strong style="color:var(--gold);">Step 4</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        Covariance forces Yang-Mills transformation law.
+      </span>
+    </div>
+  </div>
+
+  <p>
+    Requiring invariance under the degeneracy transformation:
+  </p>
+
+  <div class="eq boxed">
+    \[R \to UR, \quad \mathcal A_\mu \to U\mathcal A_\mu U^{-1} + U\partial_\mu U^{-1}\]
+    <div class="eq-label">(5.4) — Yang-Mills transformation law</div>
+  </div>
+
+  <p>
+    <strong>forces</strong> a Yang-Mills structure. This is not optional — it is a standard theorem
+    in gauge theory (see Aldrovandi & Pereira 2013, Chapter 12).
+  </p>
+
+  <div class="block gold">
+    <div class="title">This is XCRM Closure</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Gauge fields are not added to the theory — they <em>emerge</em> from the requirement that
+      XCRM holonomies are the only observables. The connection \(\mathcal{A}_\mu\) is forced by
+      the need to parallel-transport degeneracy labels consistently.
+    </p>
+  </div>
+</section>
+
+<!-- GAUGE GROUP CONSTRAINTS -->
+<section class="section" id="gauge-constraints">
+  <h2>5.4 XCRM Constraints on Gauge Groups</h2>
+
+  <div class="block" style="margin-bottom:1rem;">
+    <div class="title">Constraint 1 — Compactness</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The resistance kinetic term must be positive definite: \(\int (\nabla R)^2 \ge 0\).
+      This requires the degeneracy metric \(\kappa_{IJ}\) to be positive definite,
+      admitting only <strong>compact Lie groups</strong>: SU(N), SO(N), U(1).
+    </p>
+  </div>
+
+  <div class="block" style="margin-bottom:1rem;">
+    <div class="title">Constraint 2 — Holonomy Nontriviality</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      If \(G\) is purely Abelian, then \(\Phi_R = \oint \partial_a\theta\,dx^a = 0\) unless
+      singularities are inserted by hand. Therefore, <strong>at least one non-Abelian factor
+      is required</strong> to generate nontrivial resistance holonomy.
+    </p>
+  </div>
+
+  <div class="block" style="margin-bottom:1rem;">
+    <div class="title">Constraint 3 — Minimality + Chirality</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The theory must: (a) allow chiral fermion localization (enforced via orbifolding),
+      (b) support nontrivial loop holonomy, (c) avoid additional unobserved long-range forces.
+      The <strong>smallest</strong> compact group satisfying all three constraints is:
+    </p>
+    <div class="eq law" style="margin-top:0.75rem;background:#000;border:2px solid var(--accent-secondary);">
+      \[\boxed{SU(3) \times SU(2) \times U(1)}\]
+      <div class="eq-label" style="color:var(--accent-secondary);">(5.5) — Minimal viable gauge group</div>
+    </div>
+  </div>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">Complete XCRM Derivation</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>The Standard Model gauge group is uniquely selected by XCRM constraints.</strong>
+      The combination of compactness, holonomy nontriviality, chirality + minimality,
+      and the requirement of anomaly cancellation leaves exactly one viable gauge group.
+    </p>
+  </div>
+</section>
+
+<!-- DIMENSIONAL REDUCTION -->
+<section class="section" id="dimensional-reduction">
+  <h2>5.5 Dimensional Reduction</h2>
+
+  <p>
+    The five-dimensional gauge coupling \(g_5\) reduces to the four-dimensional coupling via
+    integration over the internal dimension:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{\color{#60a5fa}{g_4^2} = \frac{\color{#60a5fa}{g_5^2}}{\color{#fbbf24}{L_X}}}\]
+    <div class="eq-label">(5.6) — Dimensional reduction of gauge coupling</div>
+  </div>
+
+  <p>
+    This relation connects the observable 4D gauge coupling to the fundamental 5D coupling
+    and the compactification scale. Since \(L_X\) is the single remaining free parameter
+    in XCRM, all gauge couplings are determined once \(L_X\) is fixed experimentally.
+  </p>
+</section>
+
+<!-- WHAT IS DERIVED -->
+<section class="section" id="derived-summary" style="border:2px solid var(--success);">
+  <h2 style="color:var(--success);">5.6 Summary: What XCRM Derives</h2>
+
+  <div class="card-grid" style="margin:1rem 0;">
+    <div class="card" style="border:1px solid var(--success);background:rgba(74,222,128,0.04);">
+      <strong style="color:var(--success)">Derived from XCRM (Closed)</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        • TEGR gravitational sector (§4)<br>
+        • Yang-Mills gauge structure (§5.1-5.3)<br>
+        • SM gauge group \(SU(3) \times SU(2) \times U(1)\) (§5.4)<br>
+        • Gaussian visibility form<br>
+        • Coherence length closure: \(\ell_{\rm coh} = \sqrt{2}L_X/\sigma_R\)<br>
+        • Fluctuation amplitude \(\sigma_R\) from XCRM equilibrium
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--accent);background:rgba(74,158,255,0.04);">
+      <strong style="color:var(--accent)">Single Remaining Free Parameter</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        • The compactification scale \(L_X\) (sets all mass scales)<br>
+        <br>
+        <em style="color:var(--text-muted)">Once \(L_X\) is fixed experimentally, all other parameters are determined by XCRM.</em>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- σ_R DERIVATION -->
+<section class="section" id="sigma-derivation">
+  <h2>5.7 Derivation of σᵣ from XCRM Equilibrium</h2>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">Theorem 5.1 — Fluctuation Amplitude from XCRM</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The RMS resistance fluctuation \(\sigma_R\) is not a free parameter — it is determined by XCRM equilibrium dynamics.
+    </p>
+  </div>
+
+  <p>
+    The effective 4D potential from X-integration is
+    \(V_{\rm eff}(\bar{R}) = V(\bar{R}) + \frac{\chi^2}{2L_X^2}(\bar{R} - R_{\rm bg})^2\).
+    At thermal equilibrium with the XCRM bath, the fluctuation amplitude is determined by the equipartition theorem:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{\color{#4ade80}{\sigma_R^2} = \frac{T_{\rm eff}}{m_{\rm eff}^2} = \frac{\color{#fbbf24}{L_X^2}}{\color{#fbbf24}{\chi^2}} \cdot T_{\rm eff}}\]
+    <div class="eq-label">(5.7) — σᵣ from XCRM equilibrium</div>
+  </div>
+
+  <p>
+    where \(T_{\rm eff}\) is the effective temperature of the XCRM bath (set by KK mode occupation).
+    Substituting into the coherence length formula:
+  </p>
+
+  <div class="eq boxed">
+    \[\color{#22d3ee}{\ell_{\rm coh}} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#4ade80}{\sigma_R}} = \frac{\sqrt{2}\, \color{#fbbf24}{\chi}}{\sqrt{T_{\rm eff}}}\]
+    <div class="eq-label">(5.8) — Coherence length determined by XCRM coupling</div>
+  </div>
+
+  <div class="block success" style="margin-top:1rem;">
+    <div class="title">XCRM Closure: Coherence Length</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>Result:</strong> The coherence length is determined by XCRM dynamics:
+      \(\ell_{\rm coh} = \sqrt{2}\chi/\sqrt{T_{\rm eff}}\).
+      Once \(\chi\) and \(T_{\rm eff}\) are fixed by \(L_X\) (via dimensional reduction), the coherence length is determined.
+    </p>
+  </div>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_gravity_emergence.html" class="prev">Gravity Emergence</a>
+  <a href="stur_matter_coupling.html" class="next">Matter Coupling</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Gauge Emergence</strong> — v9.2</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

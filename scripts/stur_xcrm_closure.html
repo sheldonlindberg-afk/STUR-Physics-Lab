@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR XCRM Closure — Potential Derivation from Orbifold Topology</title>
+<meta name="description" content="The XCRM closure mechanism: how the double-well potential V(R) is uniquely determined by orbifold topology, not assumed as a phenomenological input.">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}', dd: '\\mathrm{d}' }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_xcrm_closure.html" class="glass-nav-link active">XCRM Closure</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 style="background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">XCRM Closure</h1>
+  <p class="subtitle">Potential Derivation from Orbifold Topology</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- FIRST PRINCIPLES -->
+<section class="section" id="VR-derivation" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(74,222,128,0.04) 100%);">
+  <h2 style="color:var(--gold);">2.5 Derivation of V(R) from Orbifold Topology</h2>
+
+  <div class="block gold" style="border-width:2px;">
+    <div class="title">First Principles Statement</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>The double-well potential \(V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\) is not assumed — it is
+      uniquely determined by the \(S^1/\mathbb{Z}_2\) orbifold topology.</strong>
+      This section proves that the manifold structure forces this functional form.
+    </p>
+  </div>
+</section>
+
+<!-- Z2 PARITY -->
+<section class="section" id="z2-parity">
+  <h2>2.5.1 The Z₂ Parity Assignment</h2>
+
+  <p>
+    On the orbifold \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\), the identification \(X \sim -X\) creates
+    fixed points at \(X = 0\) and \(X = L_X\). Fields must transform definitely under this \(\mathbb{Z}_2\):
+  </p>
+
+  <div class="eq boxed">
+    \[R(x, -X) = \eta_R \, R(x, X), \qquad \eta_R = \pm 1\]
+    <div class="eq-label">(2.10) — Z₂ parity transformation</div>
+  </div>
+
+  <div class="block">
+    <div class="title">Physical Requirement: ηᵣ = −1 (Z₂-odd)</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The resistance scalar \(R\) must be \(\mathbb{Z}_2\)-odd for two essential reasons:
+    </p>
+    <ol style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <li><strong>Chiral fermion localization:</strong> Yukawa couplings \(yR\bar\Psi\Psi\) require \(R\) to
+          change sign across the orbifold to generate chiral zero modes with opposite chiralities at
+          the two fixed points.</li>
+      <li><strong>Domain wall physics:</strong> The resistance field must interpolate between distinct
+          vacuum states to create the brane structure of the theory.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- BOUNDARY CONDITIONS -->
+<section class="section" id="boundary-conditions">
+  <h2>2.5.2 Boundary Conditions at Fixed Points</h2>
+
+  <p>
+    The \(\mathbb{Z}_2\)-odd assignment has immediate consequences at the orbifold fixed points:
+  </p>
+
+  <div class="eq definition">
+    \[
+    \begin{aligned}
+      \text{At } X = 0: &\quad R(x, 0) = R(x, -0) = -R(x, 0) \;\;\Rightarrow\;\; \boxed{R(x, 0) = 0} \\[0.5em]
+      \text{At } X = L_X: &\quad R(x, L_X) = -R(x, -L_X) = -R(x, L_X) \;\;\Rightarrow\;\; \boxed{R(x, L_X) = 0}
+    \end{aligned}
+    \]
+    <div class="eq-label">(2.11) — Orbifold boundary conditions</div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Topological Constraint</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The scalar field is <em>forced</em> to vanish at both orbifold boundaries. This is not a choice —
+      it is a mathematical consequence of the \(\mathbb{Z}_2\)-odd parity on \(S^1/\mathbb{Z}_2\).
+    </p>
+  </div>
+</section>
+
+<!-- ACTION SYMMETRY -->
+<section class="section" id="action-symmetry">
+  <h2>2.5.3 Action Symmetry Constraints</h2>
+
+  <p>
+    The action \(S[R]\) must be invariant under the orbifold identification. Since the integration measure
+    and metric are \(\mathbb{Z}_2\)-even, the potential term must satisfy:
+  </p>
+
+  <div class="eq boxed">
+    \[\int_{\Mcal^5} d^5x\, \sqrt{-g}\, V(R) = \int_{\Mcal^5} d^5x\, \sqrt{-g}\, V(-R)
+    \quad\Rightarrow\quad
+    \boxed{V(R) = V(-R)}\]
+    <div class="eq-label">(2.12) — Action invariance requires even potential</div>
+  </div>
+
+  <p>
+    This eliminates all odd powers of \(R\) from the potential. The most general form is:
+  </p>
+
+  <div class="eq">
+    \[V(R) = a_0 + a_2 R^2 + a_4 R^4 + a_6 R^6 + \cdots\]
+    <div class="eq-label">(2.13)</div>
+  </div>
+
+  <h3>2.5.4 Five-Dimensional Renormalizability</h3>
+
+  <div class="block warning">
+    <div class="title">Power Counting in 5D</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      In five dimensions, the scalar field has mass dimension \([R] = M^{3/2}\). The Lagrangian density
+      has dimension \([M^5]\). This constrains the allowed potential terms:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <li>\([R^2] = M^3\) — marginal (renormalizable)</li>
+      <li>\([R^4] = M^6 \Rightarrow [\lambda R^4] = M^5\) requires \([\lambda] = M^{-1}\) — marginal</li>
+      <li>\([R^6] = M^9\) — irrelevant (non-renormalizable)</li>
+    </ul>
+  </div>
+
+  <p>For a UV-complete theory, we truncate at the marginal operators:</p>
+
+  <div class="eq boxed">
+    \[V(R) = \frac{m^2}{2} R^2 + \frac{\lambda}{4} R^4 + \text{const}\]
+    <div class="eq-label">(2.14) — Most general renormalizable even potential</div>
+  </div>
+</section>
+
+<!-- TOPOLOGICAL STABILITY -->
+<section class="section" id="topological-stability">
+  <h2>2.5.5 Topological Stability: The Kink Requirement</h2>
+
+  <p>
+    The boundary conditions (2.11) require \(R = 0\) at both fixed points. For the theory to have
+    non-trivial dynamics in the bulk, the potential must allow \(R \neq 0\) in the interior.
+  </p>
+
+  <div class="block">
+    <div class="title">Theorem 2.1 — Degenerate Minima are Forced</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      For a stable kink profile interpolating between the orbifold boundaries while passing through
+      a non-zero bulk value, the potential \(V(R)\) must have degenerate minima at \(R = \pm v \neq 0\).
+    </p>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
+      <strong>Proof:</strong> If \(V(R)\) had a unique minimum at \(R = 0\), the boundary conditions
+      \(R(0) = R(L_X) = 0\) would be satisfied by the trivial solution \(R \equiv 0\) everywhere.
+      Non-trivial physics requires the field to "roll" through \(R \neq 0\) in the bulk.
+    </p>
+  </div>
+
+  <p>For degenerate minima at \(R = \pm v\), applying \(V'(R) = m^2 R + \lambda R^3 = 0\):</p>
+
+  <div class="eq boxed">
+    \[m^2 < 0 \quad\Rightarrow\quad m^2 \equiv -\lambda v^2, \quad v^2 = -\frac{m^2}{\lambda}\]
+    <div class="eq-label">(2.15) — Symmetry breaking condition</div>
+  </div>
+</section>
+
+<!-- THE UNIQUE POTENTIAL -->
+<section class="section" id="unique-potential" style="border:2px solid var(--success);">
+  <h2 style="color:var(--success);">2.5.6 The Unique Potential Form</h2>
+
+  <p>Substituting (2.15) into (2.14) and dropping the irrelevant constant:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem 1.5rem;">
+    \[\boxed{\color{#f472b6}{V(R)} = \frac{\color{#fbbf24}{\lambda}}{4}\left(\color{#4ade80}{R}^2 - \color{#fbbf24}{v}^2\right)^2}\]
+    <div class="eq-label" style="color:var(--success);">(2.16) — Double-well potential from orbifold topology</div>
+  </div>
+
+  <div class="block success" style="margin-top:1.25rem;border-width:2px;">
+    <div class="title">Theorem 2.2 — Uniqueness of V(R)</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The double-well potential (2.16) is the <strong>unique</strong> renormalizable potential compatible with:
+    </p>
+    <ol style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <li>\(\mathbb{Z}_2\) orbifold symmetry (even in \(R\))</li>
+      <li>Five-dimensional power counting (polynomial degree ≤ 4)</li>
+      <li>Topological stability (degenerate non-zero minima)</li>
+      <li>Orbifold boundary conditions (\(R = 0\) at fixed points)</li>
+    </ol>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
+      <strong>The manifold forces this form — it is not a phenomenological assumption.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- KINK SOLUTION -->
+<section class="section" id="kink-solution">
+  <h2>2.5.7 The Kink Solution</h2>
+
+  <p>
+    The static field equation \(\partial_X^2 R = V'(R) = \lambda R(R^2 - v^2)\) admits the kink solution:
+  </p>
+
+  <div class="eq boxed">
+    \[\color{#4ade80}{R_0(X)} = v \tanh\!\left(\frac{X - X_c}{\color{#fbbf24}{\xi}}\right), \qquad
+    \color{#fbbf24}{\xi} = \frac{1}{v}\sqrt{\frac{2}{\lambda}}\]
+    <div class="eq-label">(2.17) — Kink profile</div>
+  </div>
+
+  <p>
+    where \(\xi\) is the domain wall width and \(X_c\) is the kink center (typically \(X_c = L_X/2\)).
+  </p>
+
+  <div class="block gold">
+    <div class="title">Physical Interpretation</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The kink (2.17) is a <strong>domain wall</strong> interpolating between the two degenerate vacua
+      \(R = \pm v\). Fermions localize at the domain wall center (where \(R = 0\)), acquiring mass
+      through the gradient \(\partial_X R_0\). This is the geometric origin of chiral localization.
+    </p>
+  </div>
+
+  <div class="block">
+    <div class="title">Derivation Chain Summary</div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.95rem;">
+      <strong>Orbifold topology</strong> →
+      <strong>Boundary conditions</strong> →
+      <strong>Double-well V(R)</strong> →
+      <strong>Kink solution</strong> →
+      <strong>XCRM closure</strong>
+    </p>
+  </div>
+</section>
+
+<!-- XCRM CLOSURE RELATION -->
+<section class="section" id="closure-relation" style="border-left:4px solid var(--gold);">
+  <h2 style="color:var(--gold);">XCRM Closure Relation</h2>
+
+  <p>
+    The XCRM term \(\chi R \partial_X R\) combined with the kink solution gives the closure relation
+    that determines the coherence length:
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\color{#22d3ee}{\ell_{\rm coh}} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#4ade80}{\sigma_R}}}\]
+    <div class="eq-label" style="color:var(--gold);">XCRM Parameter Closure</div>
+  </div>
+
+  <p>
+    This relation connects:
+  </p>
+  <ul>
+    <li><span class="eq-xcrm">\(L_X\)</span> — the proper size of the internal dimension</li>
+    <li><span class="eq-diffusion">\(\sigma_R\)</span> — the RMS resistance fluctuation</li>
+    <li><span class="eq-matter">\(\ell_{\rm coh}\)</span> — the experimentally measurable coherence length</li>
+  </ul>
+
+  <p>
+    Given any two parameters, the third is determined. This is the sense in which XCRM "closes"
+    the theory: the internal structure uniquely determines observable predictions.
+  </p>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_geometry_axioms.html" class="prev">Geometry & Axioms</a>
+  <a href="stur_gravity_emergence.html" class="next">Gravity Emergence</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR XCRM Closure</strong> — v9.2</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

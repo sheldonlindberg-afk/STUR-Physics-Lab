@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Matter Coupling — Fermion Localization and Mass Hierarchies</title>
+<meta name="description" content="How matter couples to the XCRM framework: fermion localization on domain walls, Yukawa interactions, and the geometric origin of mass hierarchies.">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}', dd: '\\mathrm{d}' }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_matter_coupling.html" class="glass-nav-link active">Matter</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 style="background: linear-gradient(135deg, var(--matter) 0%, var(--accent-warm) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Matter Coupling</h1>
+  <p class="subtitle">Fermion Localization and Mass Hierarchies</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- MATTER ACTION -->
+<section class="section" id="matter-action" style="border:2px solid var(--matter); background:linear-gradient(135deg, rgba(34,211,238,0.06) 0%, rgba(244,114,182,0.04) 100%);">
+  <h2 style="color:var(--matter);">6. Matter Sector: XCRM Coupling</h2>
+
+  <h3>6.1 The Matter Action</h3>
+
+  <p>
+    The matter sector of STUR couples fermions to the resistance field through Yukawa interactions:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{S_{\rm matter} = \int_{\Mcal^5} \dd^5 x\, e\, \color{#22d3ee}{\bar{\Psi}\left(i\Gamma^M D_M - yR\right)\Psi}}\]
+    <div class="eq-label">(6.1) — Matter action with Yukawa coupling</div>
+  </div>
+
+  <p>
+    Here \(\Psi\) is a five-dimensional spinor, \(\Gamma^M\) are the 5D Dirac matrices,
+    \(D_M\) is the covariant derivative, and \(y\) is the Yukawa coupling constant.
+  </p>
+
+  <div class="block gold">
+    <div class="title">The Yukawa Coupling</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The term \(yR\bar{\Psi}\Psi\) couples fermions to the resistance field. This coupling:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <li>Modifies the effective fermion mass: \(m_{\rm eff} = m_0 + yR\)</li>
+      <li>Generates phase shifts in interferometry through mass variation</li>
+      <li>Enables chiral fermion localization on domain walls</li>
+      <li>Creates exponential Yukawa hierarchies from X-localization overlap</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FERMION LOCALIZATION -->
+<section class="section" id="fermion-localization">
+  <h2>7. Fermion Localization</h2>
+
+  <h3>7.1 Zero-Mode Profile</h3>
+
+  <p>
+    In the presence of a kink solution \(R_0(X)\) that interpolates between vacuum values \(\pm v\),
+    five-dimensional fermions develop localized zero modes. The profile is determined by the
+    Dirac equation with the position-dependent mass \(m(X) = yR_0(X)\).
+  </p>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">Theorem 7.1 — Chiral Localization</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The fermionic zero modes have the profile:
+    </p>
+    <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--success);">
+      \[\boxed{\color{#22d3ee}{f_{0,\pm}(X)} = \mathcal{N}_\pm \exp\!\left(\pm \color{#fbbf24}{y} \int_0^X \color{#4ade80}{R(X')}\, \dd X'\right)}\]
+      <div class="eq-label" style="color:var(--success);">(7.1) — Zero-mode profile</div>
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      Zero modes localize exponentially near domain walls where \(R(X_*) = 0\). The orbifold
+      \(\mathbb{Z}_2\) projection ensures chirality by removing the opposite-chirality zero mode.
+    </p>
+  </div>
+
+  <h3>7.2 Physical Mechanism</h3>
+
+  <div class="card-grid">
+    <div class="card" style="border:1px solid var(--matter);">
+      <strong style="color:var(--matter);">Left-Handed Modes</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        \(f_{0,-}(X)\) localizes where \(R\) transitions from positive to negative values.
+        The profile decays exponentially away from the domain wall.
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--accent-warm);">
+      <strong style="color:var(--accent-warm);">Right-Handed Modes</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        \(f_{0,+}(X)\) localizes at the opposite boundary. The orbifold projection removes
+        one chirality at each boundary, ensuring 4D chirality.
+      </span>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="title">Domain Wall Physics</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      This is standard domain-wall fermion physics (Kaplan 1992). STUR inherits this result from its
+      5D orbifold structure. The kink solution \(R_0(X) = v\tanh((X-X_c)/\xi)\) naturally provides
+      the sign-changing mass profile required for chiral localization.
+    </p>
+  </div>
+</section>
+
+<!-- MASS HIERARCHIES -->
+<section class="section" id="mass-hierarchies" style="border-left:4px solid var(--accent-warm);">
+  <h2 style="color:var(--accent-warm);">8. Mass Hierarchies</h2>
+
+  <h3>8.1 Effective Yukawa from Overlap</h3>
+
+  <p>
+    The four-dimensional effective Yukawa coupling between localized fermions is determined by
+    the overlap of their wavefunctions in the extra dimension:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{\color{#22d3ee}{y_{\rm eff}^{(ij)}} \propto \exp\!\left(-\frac{(\color{#fbbf24}{X_L^{(i)}} - \color{#fbbf24}{X_R^{(j)}})^2}{2\sigma^2}\right)}\]
+    <div class="eq-label">(8.1) — Effective Yukawa from X-localization overlap</div>
+  </div>
+
+  <p>
+    where \(X_L^{(i)}\) and \(X_R^{(j)}\) are the localization positions of the left-handed
+    fermion \(i\) and right-handed fermion \(j\), and \(\sigma\) characterizes the wavefunction width.
+  </p>
+
+  <h3>8.2 Exponential Suppression</h3>
+
+  <div class="block success">
+    <div class="title">Hierarchy Generation</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The exponential suppression can accommodate large mass hierarchies with \(\mathcal{O}(1)\)
+      five-dimensional Yukawa couplings. Small changes in localization positions produce
+      exponentially different effective couplings.
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\frac{m_e}{m_\tau} \sim \exp\!\left(-\frac{\Delta X^2}{2\sigma^2}\right) \sim 10^{-4}\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The observed hierarchy \(m_e \ll m_\mu \ll m_\tau\) corresponds to different localization
+      profiles in X, not to fine-tuned 5D Yukawa couplings.
+    </p>
+  </div>
+
+  <h3>8.3 Flavor Structure</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Generation</th>
+        <th>Relative Position</th>
+        <th>Overlap Factor</th>
+        <th>Mass Scale</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1st (e, u, d)</td>
+        <td>Far separation</td>
+        <td>\(\sim 10^{-6}\)</td>
+        <td style="color:var(--matter);">MeV</td>
+      </tr>
+      <tr>
+        <td>2nd (μ, c, s)</td>
+        <td>Intermediate</td>
+        <td>\(\sim 10^{-3}\)</td>
+        <td style="color:var(--accent);">GeV</td>
+      </tr>
+      <tr>
+        <td>3rd (τ, t, b)</td>
+        <td>Close proximity</td>
+        <td>\(\sim 1\)</td>
+        <td style="color:var(--gold);">~100 GeV</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block warning">
+    <div class="title">Phenomenological Input</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Flavor structure is modeled via wavefunction overlaps. The localization positions
+      \(X_L^{(i)}, X_R^{(j)}\) are phenomenological inputs in the current framework.
+      A complete theory would derive these positions from dynamics.
+    </p>
+  </div>
+</section>
+
+<!-- INTERFEROMETRIC PHASE -->
+<section class="section" id="phase-modification">
+  <h2>9. Phase Modification from Yukawa Coupling</h2>
+
+  <h3>9.1 WKB Phase Accumulation</h3>
+
+  <p>
+    The Yukawa coupling \(yR\bar{\Psi}\Psi\) modifies the effective mass: \(m_{\rm eff} = m_0 + yR\).
+    In the <strong>non-relativistic atom interferometry regime</strong> (\(p_0 \simeq mv\), where \(v \ll c\)),
+    the WKB phase accumulated along a path is:
+  </p>
+
+  <div class="eq boxed">
+    \[\phi = \color{#a78bfa}{\int_{\rm path}} p\, \dd\ell \approx \color{#a78bfa}{\int_{\rm path}} \left(p_0 - \frac{m_0 \color{#22d3ee}{y} \color{#fbbf24}{R}}{p_0}\right) \dd\ell\]
+    <div class="eq-label">(9.1) — WKB phase with Yukawa correction</div>
+  </div>
+
+  <h3>9.2 Resistance Holonomy</h3>
+
+  <p>
+    For a two-arm interferometer, the measured phase shift is the difference of line integrals,
+    expressible as a closed-loop integral:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{\color{#a78bfa}{\Phi_R} \equiv \Delta\phi_R = \color{#a78bfa}{\oint_{\mathcal{C}}} \color{#fbbf24}{\mathsf{J}_a(x)}\, dx^{a}}\]
+    <div class="eq-label">(9.2) — Resistance holonomy</div>
+  </div>
+
+  <p>
+    Here \(\mathsf{J}_a\) is the <strong>effective phase-gradient 1-form</strong> induced by the Yukawa coupling.
+    The holonomy \(\Phi_R\) is gauge-invariant by construction — it is the interferometer output.
+  </p>
+
+  <div class="block gold">
+    <div class="title">Physical Interpretation</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The resistance holonomy measures <strong>non-integrability of phase transport</strong> induced by
+      the resistance substrate. It is a Wilson-loop analogue for the Yukawa-induced phase-gradient 1-form.
+      Unlike the geometric path difference \(\Delta L\), the holonomy \(\Phi_R\) can be nonzero even when
+      the total path length difference vanishes.
+    </p>
+  </div>
+</section>
+
+<!-- VISIBILITY FROM FLUCTUATIONS -->
+<section class="section" id="visibility" style="border:2px solid var(--potential); background:linear-gradient(135deg, rgba(244,114,182,0.06) 0%, rgba(251,191,36,0.04) 100%);">
+  <h2 style="color:var(--potential);">9.3 Visibility Under Shot-to-Shot Fluctuations</h2>
+
+  <p>
+    If \(R\) fluctuates between experimental shots with variance \(\sigma_R^2\), the visibility
+    (fringe contrast) is the expectation of \(\cos(\Delta\phi)\):
+  </p>
+
+  <div class="eq boxed">
+    \[\color{#f472b6}{V} = \langle \cos(\Delta\phi) \rangle = \exp\!\left(-\frac{\langle(\Delta\phi_R)^2\rangle}{2}\right)\]
+    <div class="eq-label">(9.3)</div>
+  </div>
+
+  <p>
+    For Gaussian-distributed phases (many independent fluctuations, central limit theorem):
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--potential);padding:1.25rem;">
+    \[\boxed{
+    \color{#f472b6}{V} = V_0 \exp\!\left(-\frac{\langle \color{#a78bfa}{\Phi_R}^2 \rangle}{2}\right)
+    \;\;\xrightarrow{\;\text{linear path}\;}\;\;
+    \color{#f472b6}{V(\Delta L)} = V_0 \exp\!\left(-\frac{(\color{#fb923c}{\Delta L})^2}{\color{#4ade80}{\ell_{\rm coh}}^2}\right)
+    }\]
+    <div class="eq-label" style="color:var(--potential);">(9.4) — STUR Visibility Prediction</div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Regime Interpretation</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>Long-baseline experiments</strong> probe the linear-path limit (right side), where
+      visibility decays as a Gaussian in path difference squared.
+      <strong>Tabletop loops</strong> probe the holonomy \(\Phi_R\) directly (left side), where
+      area enhancement may be significant.
+    </p>
+  </div>
+</section>
+
+<!-- CONNECTION TO PREDICTIONS -->
+<section class="section" id="connection">
+  <h2>Connection to STUR Predictions</h2>
+
+  <div class="block gold">
+    <div class="title">The Complete Chain</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>Orbifold topology</strong> →
+      <strong>Kink solution</strong> →
+      <strong>Fermion localization</strong> →
+      <strong>Yukawa coupling</strong> →
+      <strong>Phase modification</strong> →
+      <strong>Gaussian visibility</strong>
+    </p>
+  </div>
+
+  <p>
+    The matter coupling completes the chain from XCRM geometry to observable predictions:
+  </p>
+
+  <ol>
+    <li>The orbifold structure forces a kink profile in \(R(X)\)</li>
+    <li>Fermions localize on the kink via the Yukawa coupling</li>
+    <li>Propagating fermions accumulate phase proportional to \(\int R\, d\ell\)</li>
+    <li>Stochastic fluctuations in \(R\) produce shot-to-shot phase variance</li>
+    <li>The Gaussian visibility law follows from central limit averaging</li>
+  </ol>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">Falsifiability</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The <strong>Gaussian form</strong> of visibility decay in \(\Delta L^2\) is the non-negotiable
+      prediction of STUR matter coupling. Any deviation — oscillatory, linear in \(\Delta L\),
+      time-dependent, or mass-dependent — falsifies this sector of the theory.
+    </p>
+  </div>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_gauge_emergence.html" class="prev">Gauge Emergence</a>
+  <a href="stur_predictions.html" class="next">Predictions</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Matter Coupling</strong> — v9.2</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

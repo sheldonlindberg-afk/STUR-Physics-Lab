@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Technical Appendix — Notation, Derivations, and References</title>
+<meta name="description" content="Technical reference for STUR: notation conventions, derivation details, dimensional analysis, and key references.">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}', Tcal: '\\mathcal{T}', dd: '\\mathrm{d}', Tr: '\\mathrm{Tr}' }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_technical_appendix.html" class="glass-nav-link active">Appendix</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>Technical Appendix</h1>
+  <p class="subtitle">Notation, Derivations, and References</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- NOTATION -->
+<section class="section" id="notation">
+  <h2>A. Notation and Conventions</h2>
+
+  <h3>A.1 Index Conventions</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Symbol</th>
+        <th>Range</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>\(M, N, P, \ldots\)</td>
+        <td>\(0, 1, 2, 3, 5\)</td>
+        <td>Five-dimensional spacetime indices</td>
+      </tr>
+      <tr>
+        <td>\(\mu, \nu, \rho, \ldots\)</td>
+        <td>\(0, 1, 2, 3\)</td>
+        <td>Four-dimensional spacetime indices</td>
+      </tr>
+      <tr>
+        <td>\(a, b, c, \ldots\)</td>
+        <td>\(0, 1, 2, 3, 5\)</td>
+        <td>Five-dimensional tangent space (Lorentz) indices</td>
+      </tr>
+      <tr>
+        <td>\(i, j, k, \ldots\)</td>
+        <td>\(1, 2, 3\)</td>
+        <td>Spatial indices</td>
+      </tr>
+      <tr>
+        <td>\(I, J, K, \ldots\)</td>
+        <td>Lie algebra</td>
+        <td>Gauge group indices</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>A.2 Metric Signature</h3>
+
+  <div class="eq definition">
+    \[\eta_{ab} = \mathrm{diag}(-1, +1, +1, +1, +1)\]
+    <div class="eq-label">(A.1) — Mostly-plus convention</div>
+  </div>
+
+  <h3>A.3 Key Symbols</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Symbol</th>
+        <th>Units</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>\(\color{#4ade80}{R}\)</td>
+        <td>\(M^{3/2}\)</td>
+        <td>Resistance scalar field</td>
+      </tr>
+      <tr>
+        <td>\(\color{#fbbf24}{L_X}\)</td>
+        <td>m</td>
+        <td>Proper size of internal dimension</td>
+      </tr>
+      <tr>
+        <td>\(\color{#22d3ee}{\ell_{\rm coh}}\)</td>
+        <td>m</td>
+        <td>Coherence length</td>
+      </tr>
+      <tr>
+        <td>\(\color{#4ade80}{\sigma_R}\)</td>
+        <td>\(M^{3/2}\)</td>
+        <td>RMS resistance fluctuation</td>
+      </tr>
+      <tr>
+        <td>\(\color{#60a5fa}{\Tcal}\)</td>
+        <td>\(M^2\)</td>
+        <td>Torsion scalar</td>
+      </tr>
+      <tr>
+        <td>\(\color{#a78bfa}{\Phi_R}\)</td>
+        <td>dimensionless</td>
+        <td>Resistance holonomy</td>
+      </tr>
+      <tr>
+        <td>\(\color{#f472b6}{V}\)</td>
+        <td>dimensionless</td>
+        <td>Interferometric visibility</td>
+      </tr>
+      <tr>
+        <td>\(\color{#fbbf24}{\chi}\)</td>
+        <td>various</td>
+        <td>XCRM coupling constant</td>
+      </tr>
+      <tr>
+        <td>\(\color{#60a5fa}{\alpha}\)</td>
+        <td>various</td>
+        <td>Torsion coupling constant</td>
+      </tr>
+      <tr>
+        <td>\(\color{#22d3ee}{y}\)</td>
+        <td>dimensionless</td>
+        <td>Yukawa coupling</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- DIMENSIONAL ANALYSIS -->
+<section class="section" id="dimensional-analysis">
+  <h2>B. Dimensional Analysis</h2>
+
+  <h3>B.1 Five-Dimensional Power Counting</h3>
+
+  <p>
+    In five dimensions with action \([S] = M^0\) (using \(\hbar = c = 1\)):
+  </p>
+
+  <div class="eq boxed">
+    \[
+    \begin{aligned}
+      &[\dd^5 x] = M^{-5}, \quad [\sqrt{-g}] = M^{0}, \quad [\Lcal] = M^5 \\[0.3em]
+      &[R] = M^{3/2}, \quad [(\nabla R)^2] = M^5, \quad [R^4] = M^6
+    \end{aligned}
+    \]
+    <div class="eq-label">(B.1) — 5D mass dimensions</div>
+  </div>
+
+  <h3>B.2 Coupling Constants</h3>
+
+  <div class="card-grid">
+    <div class="card">
+      <strong>XCRM Coupling</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        \([\chi R \partial_X R] = M^5\)<br>
+        \(\Rightarrow [\chi] = M^{-1}\)
+      </span>
+    </div>
+    <div class="card">
+      <strong>Torsion Coupling</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        \([\alpha R \Tcal] = M^5\)<br>
+        \(\Rightarrow [\alpha] = M^{1/2}\)
+      </span>
+    </div>
+    <div class="card">
+      <strong>Self-Coupling</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        \([\lambda R^4] = M^5\)<br>
+        \(\Rightarrow [\lambda] = M^{-1}\)
+      </span>
+    </div>
+    <div class="card">
+      <strong>Gauge Coupling</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        \([F^2/g_5^2] = M^5\)<br>
+        \(\Rightarrow [g_5^2] = M^{-1}\)
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- KEY DERIVATIONS -->
+<section class="section" id="derivations" style="border-left:4px solid var(--gold);">
+  <h2 style="color:var(--gold);">C. Key Derivation Summaries</h2>
+
+  <h3>C.1 XCRM Closure Relation</h3>
+
+  <p>Starting from the effective 4D potential after X-integration:</p>
+
+  <div class="eq boxed">
+    \[V_{\rm eff}(\bar{R}) = V(\bar{R}) + \frac{\chi^2}{2L_X^2}(\bar{R} - R_{\rm bg})^2\]
+    <div class="eq-label">(C.1)</div>
+  </div>
+
+  <p>
+    The XCRM term generates an effective mass \(m_{\rm eff}^2 = \chi^2/L_X^2\).
+    At thermal equilibrium, fluctuations satisfy:
+  </p>
+
+  <div class="eq boxed">
+    \[\sigma_R^2 = \frac{T_{\rm eff}}{m_{\rm eff}^2} = \frac{L_X^2}{\chi^2} T_{\rm eff}\]
+    <div class="eq-label">(C.2)</div>
+  </div>
+
+  <p>The coherence length then follows:</p>
+
+  <div class="eq law">
+    \[\boxed{\ell_{\rm coh} = \frac{\sqrt{2}\, L_X}{\sigma_R}}\]
+    <div class="eq-label">(C.3) — XCRM Closure</div>
+  </div>
+
+  <h3>C.2 Gaussian Visibility from Central Limit</h3>
+
+  <p>
+    The visibility is the average of the phase factor over shot-to-shot fluctuations:
+  </p>
+
+  <div class="eq boxed">
+    \[V = \langle e^{i\Phi_R} \rangle = \int P(\Phi_R)\, e^{i\Phi_R}\, d\Phi_R\]
+    <div class="eq-label">(C.4)</div>
+  </div>
+
+  <p>
+    For Gaussian-distributed \(\Phi_R\) (central limit theorem when many independent
+    fluctuations contribute):
+  </p>
+
+  <div class="eq law">
+    \[\boxed{V = V_0 \exp\!\left(-\frac{\langle\Phi_R^2\rangle}{2}\right)}\]
+    <div class="eq-label">(C.5) — Gaussian visibility</div>
+  </div>
+
+  <h3>C.3 TEGR-GR Boundary Term</h3>
+
+  <p>The teleparallel-Riemann equivalence follows from:</p>
+
+  <div class="eq boxed">
+    \[R_{\rm Ricci} = -\Tcal + \frac{2}{e}\partial_M(e\, T^M)\]
+    <div class="eq-label">(C.6)</div>
+  </div>
+
+  <p>
+    where \(T^M = T^P{}_{PM}\) is the torsion vector. For compact manifolds or
+    matched boundary conditions, the surface term vanishes and the actions are equivalent.
+  </p>
+</section>
+
+<!-- APPROXIMATION VALIDITY -->
+<section class="section" id="validity">
+  <h2>D. Approximation Validity</h2>
+
+  <h3>D.1 Markovian Regime</h3>
+
+  <div class="block">
+    <div class="title">Condition</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The Markovian approximation (uncorrelated shot-to-shot fluctuations) requires:
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\tau_{\rm corr} \ll \tau_{\rm shot}\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary)">
+      where \(\tau_{\rm corr} \sim \hbar/(m_\chi c^2)\) is the bath correlation time and
+      \(\tau_{\rm shot}\) is the experimental shot period.
+    </p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Bath Mass</th>
+        <th>\(\tau_{\rm corr}\)</th>
+        <th>Regime (for \(\tau_{\rm shot} = 1\) s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1 TeV</td>
+        <td>\(\sim 10^{-27}\) s</td>
+        <td style="color:var(--success);">Markovian</td>
+      </tr>
+      <tr>
+        <td>1 GeV</td>
+        <td>\(\sim 10^{-24}\) s</td>
+        <td style="color:var(--success);">Markovian</td>
+      </tr>
+      <tr>
+        <td>1 keV</td>
+        <td>\(\sim 10^{-18}\) s</td>
+        <td style="color:var(--success);">Markovian</td>
+      </tr>
+      <tr>
+        <td>1 eV</td>
+        <td>\(\sim 10^{-15}\) s</td>
+        <td style="color:var(--success);">Markovian</td>
+      </tr>
+      <tr>
+        <td>\(10^{-22}\) eV (ULDM)</td>
+        <td>\(\sim 10^{6}\) s</td>
+        <td style="color:var(--warning);">Coherent</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>D.2 WKB Approximation</h3>
+
+  <div class="block">
+    <div class="title">Condition</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The WKB phase accumulation formula is valid when:
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\lambda_{\rm dB} \ll L_{\rm path}\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary)">
+      where \(\lambda_{\rm dB}\) is the de Broglie wavelength. For typical atom interferometers,
+      \(\lambda_{\rm dB} \sim 10^{-11}\) m while \(L_{\rm path} \sim 1\)–\(100\) m, so this is
+      well satisfied.
+    </p>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section class="section" id="references">
+  <h2>E. Key References</h2>
+
+  <h3>E.1 Teleparallel Gravity</h3>
+  <ul>
+    <li>Aldrovandi, R. & Pereira, J.G. (2013). <em>Teleparallel Gravity: An Introduction</em>. Springer.</li>
+    <li>Maluf, J.W. (2013). "The teleparallel equivalent of general relativity." <em>Ann. Phys.</em> 525, 339–357.</li>
+  </ul>
+
+  <h3>E.2 Extra Dimensions and Orbifolds</h3>
+  <ul>
+    <li>Randall, L. & Sundrum, R. (1999). "Large mass hierarchy from a small extra dimension." <em>Phys. Rev. Lett.</em> 83, 3370.</li>
+    <li>Kaplan, D.B. (1992). "A method for simulating chiral fermions on the lattice." <em>Phys. Lett. B</em> 288, 342.</li>
+  </ul>
+
+  <h3>E.3 Matter-Wave Interferometry</h3>
+  <ul>
+    <li>Cronin, A.D., Schmiedmayer, J. & Pritchard, D.E. (2009). "Optics and interferometry with atoms and molecules." <em>Rev. Mod. Phys.</em> 81, 1051.</li>
+    <li>Tino, G.M. & Kasevich, M.A., eds. (2014). <em>Atom Interferometry</em>. IOS Press.</li>
+  </ul>
+
+  <h3>E.4 ULDM and Scalar Field Searches</h3>
+  <ul>
+    <li>Graham, P.W. et al. (2016). "Dark matter direct detection with accelerometers." <em>Phys. Rev. D</em> 93, 075029.</li>
+    <li>Badurina, L. et al. (2022). "Prospective sensitivities of atom interferometers to gravitational waves and ultralight dark matter." <em>Phil. Trans. R. Soc. A</em> 380, 20210060.</li>
+  </ul>
+</section>
+
+<!-- CHANGE LOG -->
+<section class="section" id="changelog">
+  <h2>F. Version History</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Version</th>
+        <th>Date</th>
+        <th>Changes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>v9.2</td>
+        <td>2026</td>
+        <td>XCRM closure completed; all sectors derived from first principles; single free parameter \(L_X\)</td>
+      </tr>
+      <tr>
+        <td>v9.1</td>
+        <td>2025</td>
+        <td>Added gauge emergence from degeneracy; chronomagnetics derivation</td>
+      </tr>
+      <tr>
+        <td>v9.0</td>
+        <td>2025</td>
+        <td>Teleparallel formulation; holoscreen interactive simulator</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_holoscreen.html" class="prev">Holoscreen</a>
+  <a href="stur_core_theory.html" class="next">Core Theory</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Technical Appendix</strong> — v9.2</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

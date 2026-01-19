@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Holoscreen — Interactive Visibility Simulator</title>
+<meta name="description" content="Interactive visualization of the STUR visibility law: explore how resistance holonomy affects interferometric fringe contrast.">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}' }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+
+<style>
+/* Holoscreen specific styles */
+.hs-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:.9rem}
+@media (max-width:980px){.hs-grid{grid-template-columns:1fr}}
+.hs-card{background:rgba(0,0,0,.18);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.hs-head{display:flex;justify-content:space-between;gap:.75rem;flex-wrap:wrap;align-items:center;padding:.85rem 1rem;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.03),transparent)}
+.hs-head .h{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted)}
+.hs-body{padding:1rem}
+.hs-controls{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:520px){.hs-controls{grid-template-columns:1fr}}
+.hs-ctrl{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:.85rem}
+.hs-ctrl label{display:block;font-size:.78rem;font-weight:800;color:rgba(219,234,254,.92)}
+.hs-ctrl input[type="range"]{height:32px;width:100%}
+.hs-ctrl .val{margin-top:.35rem;color:var(--text-secondary);font-family:var(--mono);font-size:.82rem}
+.hs-ctrl .hint{margin-top:.45rem;color:var(--text-muted);font-size:.72rem;line-height:1.25}
+.hs-hud{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
+@media (max-width:760px){.hs-hud{grid-template-columns:1fr}}
+.hs-hudbox{border-radius:14px;border:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.22);padding:.85rem;font-family:var(--mono)}
+.hs-hudbox .k{font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em}
+.hs-hudbox .v{margin-top:.35rem;font-size:1.15rem;font-weight:900}
+.hs-bar{height:6px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;margin-top:.55rem}
+.hs-bar>div{height:100%;background:rgba(52,211,153,.85);width:0%}
+.hs-small{font-size:.72rem;color:var(--text-muted);margin-top:.55rem;line-height:1.25}
+.hs-kv{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.6rem}
+.hs-kv>div{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:.65rem}
+.hs-kv .k{font-size:.72rem;color:var(--text-muted)}
+.hs-kv .v{font-family:var(--mono);font-size:.95rem;font-weight:900;margin-top:.2rem}
+.hs-warn{display:none;margin-top:.75rem;padding:.75rem .85rem;border-radius:14px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#ffedd5;font-size:.78rem}
+.hs-canvas{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--border);touch-action:pan-y}
+@media (max-width:600px){.hs-body canvas{max-height:260px}}
+#hsPrintSummary{display:none;margin-top:1rem;padding:1rem;background:rgba(255,255,255,.03);border-radius:12px;border:1px solid var(--border)}
+.btn{appearance:none;border:1px solid var(--border-strong);background:rgba(255,255,255,.03);color:var(--text-secondary);padding:.4rem .75rem;border-radius:8px;font-size:.78rem;cursor:pointer;transition:all .2s}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{border-color:var(--gold);color:var(--gold)}
+.btn.primary:hover{background:rgba(251,191,36,.1)}
+</style>
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link active">Holoscreen</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 style="background: linear-gradient(135deg, var(--success) 0%, var(--accent) 50%, var(--gold) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Holoscreen</h1>
+  <p class="subtitle">Interactive Visibility Simulator</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- PURPOSE AND STATUS -->
+<section class="section" id="purpose" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(74,222,128,0.04) 100%);">
+  <h2 style="color:var(--gold);">Purpose and Status</h2>
+
+  <div class="block gold">
+    <div class="title">Interactive Realization</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The holoscreen is an <strong>interactive realization</strong> of the interferometric
+      visibility law derived in the STUR framework. It is provided as a
+      <em>diagnostic and falsification instrument</em>, not as part of the theoretical derivation.
+      All physics inputs are user-controlled; no experimental data are embedded.
+    </p>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Interpretation Guidance</div>
+    <ul style="margin:0;color:var(--text-secondary);font-size:0.95rem">
+      <li>The holoscreen implements the <strong>Markovian stochastic regime</strong>.</li>
+      <li>It visualizes the functional dependence \(V(\Phi_R)\), not absolute magnitudes.</li>
+      <li>Agreement or disagreement must be assessed via the statistical protocol in the Falsification page.</li>
+      <li>Use for <strong>intuition, sweep planning, and null testing</strong> only.</li>
+      <li><strong>Units note:</strong> The interface displays \(L_0\) in nm and \(\ell_{\rm eff}\) in meters; internal calculations convert to SI.</li>
+      <li><strong>ULDM curve caveat:</strong> The orange ULDM curve is illustrative only and is <em>not</em> a physical mapping between \(\Phi_R\) and ULDM parameters.</li>
+    </ul>
+  </div>
+
+  <div class="eq law" style="margin:1rem 0;">
+    \[\boxed{\color{#f472b6}{V(\Phi_R)} = V_0 \exp\!\left(-\frac{\color{#a78bfa}{\Phi_R}^2}{2}\right)}\]
+    <div class="eq-label">The STUR Visibility Law</div>
+  </div>
+</section>
+
+<!-- HOLOSCREEN INSTRUMENT -->
+<section class="section" id="holoscreen-instrument">
+  <h2>Interactive Holoscreen: Visibility Falsifier</h2>
+
+  <div class="figure">
+    <div class="caption" style="margin-bottom:1rem">
+      <strong>Holoscreen Instrument:</strong>
+      Lab-parameterized teleparallel coherence simulator implementing
+      \(V(\Phi_R) = V_0 \exp(-\Phi_R^2/2)\) where \(\Phi_R = R_q \cdot S_u(\ell_{\rm eff}/L_0)\)
+      is the resistance holonomy computed from loop geometry.
+    </div>
+  </div>
+
+  <div class="hs-grid">
+    <!-- LEFT: MAIN VIEW -->
+    <div class="hs-card">
+      <div class="hs-head">
+        <div class="h" id="hsMainTitle">Visibility vs Holonomy Phi_R</div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">
+          <span style="font-family:var(--mono);font-size:.78rem;color:var(--text-muted)">
+            Null: gray | STUR: green | ULDM: amber
+          </span>
+          <button class="btn" id="hsToggleView">Switch to Phase Space</button>
+          <button class="btn" id="hsToggleDiff">Show Difference</button>
+          <button class="btn primary" id="hsPrint">Print Results</button>
+        </div>
+      </div>
+      <div class="hs-body">
+        <canvas id="hsMainCanvas" width="1100" height="420" class="hs-canvas"></canvas>
+        <noscript>
+          <div style="padding:1rem;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);border-radius:12px;color:#ffedd5;font-size:.9rem">
+            <strong>JavaScript required:</strong> The interactive holoscreen requires JavaScript to render visibility curves.
+          </div>
+        </noscript>
+        <div class="hs-warn" id="hsWarn"></div>
+        <div id="hsPrintSummary">
+          <h3 style="margin:0 0 .5rem;font-size:.9rem;color:var(--text)">Holoscreen Result Summary</h3>
+          <ul style="font-family:var(--mono);font-size:.85rem;line-height:1.8;list-style:none;padding:0;margin:0">
+            <li>Phi_R = <span id="hsPrintPhiR">-</span></li>
+            <li>Visibility V = <span id="hsPrintV">-</span></li>
+            <li>u = l_eff / L_0 = <span id="hsPrintU">-</span></li>
+            <li>Regime = <span id="hsPrintRegime">-</span></li>
+            <li>RMSE vs null = <span id="hsPrintRMSE">-</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: CONTROLS + HUD -->
+    <div class="hs-card">
+      <div class="hs-head">
+        <div class="h">Lab Controls + Diagnostics</div>
+        <div style="font-family:var(--mono);font-size:.78rem;color:var(--text-muted)">Phi_R mode</div>
+      </div>
+      <div class="hs-body">
+        <div class="hs-controls">
+          <div class="hs-ctrl">
+            <label>R_q (Resistance / Phase Strength)</label>
+            <input id="hsRq" type="range" min="0.2" max="2.5" step="0.05" value="1.80">
+            <div class="val">R_q = <span id="hsRqVal">1.80</span></div>
+            <div class="hint">
+              Visibility: <span style="color:rgba(220,252,231,.92)">V = exp(-Phi_R^2/2)</span><br>
+              where Phi_R = R_q * S_u(l_eff/L_0)
+            </div>
+          </div>
+
+          <div class="hs-ctrl">
+            <label>L_0 (Saturation Length)</label>
+            <input id="hsL0" type="range" min="50" max="500" step="10" value="120">
+            <div class="val">L_0 = <span id="hsL0Val">120</span> nm</div>
+            <div class="hint">
+              Saturation operator: S_u(u) = tanh(u)(1-e^(-u))<br>
+              Small-u limit recovers Gaussian in (Delta L)^2.
+            </div>
+          </div>
+
+          <div class="hs-ctrl">
+            <label>Loop Geometry (l_eff)</label>
+            <select id="hsLoopGeom" style="width:100%;padding:.45rem;border-radius:10px;background:rgba(0,0,0,.25);color:var(--text);border:1px solid var(--border)">
+              <option value="ring_1m">Ring interferometer (R = 0.16 m, l ~ 1 m)</option>
+              <option value="ring_10m">Ring interferometer (R = 1.6 m, l ~ 10 m)</option>
+              <option value="sagnac">Sagnac loop (area-enhanced, l ~ 25 m)</option>
+              <option value="fiber_100m">Fiber loop (l = 100 m)</option>
+              <option value="custom">Custom l_eff</option>
+            </select>
+            <input id="hsLeff" type="range" min="0.1" max="200" step="0.1" value="1" style="margin-top:8px" disabled>
+            <div class="val">l_eff = <span id="hsLeffVal">1.00</span> m</div>
+            <div class="hint">
+              Delta L = 0 (common-path); signal is purely teleparallel holonomy Phi_R.
+            </div>
+          </div>
+
+          <div class="hs-ctrl">
+            <label>Holonomy Diagnostic</label>
+            <div class="hs-kv">
+              <div><div class="k">Phi_R</div><div class="v" id="hsPhiR">0.000</div></div>
+              <div><div class="k">S_u(u)</div><div class="v" id="hsSu">0.000</div></div>
+              <div><div class="k">u = l/L_0</div><div class="v" id="hsU">0.00</div></div>
+              <div><div class="k">V(Phi_R)</div><div class="v" id="hsV">1.000</div></div>
+            </div>
+            <div class="hint" style="margin-top:10px">
+              Regime: <span id="hsRegime" style="color:rgba(219,234,254,.92)">pre-saturation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hs-hud">
+          <div class="hs-hudbox">
+            <div class="k">Visibility Loss (Info Proxy)</div>
+            <div class="v">Delta S: <span style="color:#fff" id="hsBits">0.000</span> <span style="font-size:.78rem;color:var(--text-muted)">bits</span></div>
+            <div class="hs-bar"><div id="hsBitsBar"></div></div>
+            <div class="hs-small">Delta S = (1-V) / ln(2) at current Phi_R.</div>
+          </div>
+          <div class="hs-hudbox">
+            <div class="k">RMSE vs Null</div>
+            <div class="v"><span style="color:#fff" id="hsRMSE">0.0000</span></div>
+            <div class="hs-small">Deviation from null (standard QM with no stochastic scalar coupling).</div>
+          </div>
+        </div>
+
+        <div class="hs-card" style="margin-top:.85rem;box-shadow:none;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.16)">
+          <div class="hs-head" style="border-radius:14px 14px 0 0">
+            <div class="h">Saturation Curve S_u(u)</div>
+            <div style="font-family:var(--mono);font-size:.78rem;color:var(--text-muted)">Current u marked</div>
+          </div>
+          <div class="hs-body" style="padding:.65rem">
+            <canvas id="hsSatCanvas" width="520" height="220" class="hs-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECTION TO THEORY -->
+<section class="section" id="connection">
+  <h2>Connection to the Theory</h2>
+
+  <div class="block success">
+    <div class="title">What the Holoscreen Visualizes</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The holoscreen directly visualizes the Gaussian-in-\(\Phi_R^2\) decay derived from
+      teleparallel holonomy, with \(\Phi_R = R_q \cdot S_u(\ell_{\rm eff}/L_0)\)
+      computed from loop geometry and the saturation operator. The \(\Delta L\)-based
+      coherence length emerges in the linear-path limit; the holonomy view eliminates
+      the coherence-length catastrophe by making loop topology the primary observable.
+    </p>
+  </div>
+
+  <div class="block error" style="border-width:2px;">
+    <div class="title">Falsification Criterion</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Persistence of high visibility at predicted suppression points constitutes a
+      <strong>hard falsification</strong> of the STUR signature. If the Gaussian form is not
+      observed, or if oscillatory/linear behavior appears instead, STUR is excluded.
+    </p>
+  </div>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_falsification.html" class="prev">Falsification</a>
+  <a href="stur_technical_appendix.html" class="next">Technical Appendix</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Holoscreen</strong> — v9.2</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+(function(){
+  // STUR HOLOSCREEN — LAB-PARAMETERIZED Phi_R IMPLEMENTATION
+  // Physics:
+  //   S_u(u) = tanh(u)(1 - exp(-u))         [saturation operator]
+  //   Phi_R = Rq * S_u(l_eff / L0)          [resistance holonomy]
+  //   V(Phi_R) = exp(-Phi_R^2 / 2)          [visibility law]
+
+  // DOM elements
+  const mainCanvas = document.getElementById("hsMainCanvas");
+  const mainCtx = mainCanvas.getContext("2d");
+  const satCanvas = document.getElementById("hsSatCanvas");
+  const satCtx = satCanvas.getContext("2d");
+
+  const btnView = document.getElementById("hsToggleView");
+  const btnDiff = document.getElementById("hsToggleDiff");
+  const btnPrint = document.getElementById("hsPrint");
+  const mainTitle = document.getElementById("hsMainTitle");
+  const warnLine = document.getElementById("hsWarn");
+
+  const rqRange = document.getElementById("hsRq");
+  const l0Range = document.getElementById("hsL0");
+  const loopSel = document.getElementById("hsLoopGeom");
+  const leffSlider = document.getElementById("hsLeff");
+
+  const rqVal = document.getElementById("hsRqVal");
+  const l0Val = document.getElementById("hsL0Val");
+  const leffVal = document.getElementById("hsLeffVal");
+
+  const phiREl = document.getElementById("hsPhiR");
+  const suEl = document.getElementById("hsSu");
+  const uEl = document.getElementById("hsU");
+  const vEl = document.getElementById("hsV");
+  const regimeEl = document.getElementById("hsRegime");
+
+  const bitsEl = document.getElementById("hsBits");
+  const bitsBar = document.getElementById("hsBitsBar");
+  const rmseEl = document.getElementById("hsRMSE");
+
+  let viewMode = "curve";
+  let showDiff = false;
+
+  const LN2_INV = 1.4426950408889634;
+  const ULDM_A = 0.15;
+
+  const S_u = (u) => Math.tanh(u) * (1 - Math.exp(-u));
+
+  function loopEffectiveLength(kind, customVal){
+    switch(kind){
+      case "ring_1m":    return 2*Math.PI*0.16;
+      case "ring_10m":   return 2*Math.PI*1.6;
+      case "sagnac":     return 25.0;
+      case "fiber_100m": return 100.0;
+      case "custom":     return Math.max(0.1, customVal || 1.0);
+      default:           return 1.0;
+    }
+  }
+
+  function clamp01(x){ return x<0?0:(x>1?1:x); }
+
+  function clear(ctx,w,h){
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = "rgba(255,255,255,0.02)";
+    ctx.fillRect(0,0,w,h);
+  }
+
+  function drawAxes(ctx,w,h,x0,x1,y0,y1,opts={}){
+    const padL = opts.padL ?? 58, padR = opts.padR ?? 18, padT = opts.padT ?? 18, padB = opts.padB ?? 46;
+    const gx0=padL, gx1=w-padR, gy0=padT, gy1=h-padB;
+
+    ctx.strokeStyle="rgba(255,255,255,0.08)";
+    ctx.lineWidth=1;
+    const n=6;
+    for(let i=0;i<=n;i++){
+      const t=i/n;
+      const x=gx0+t*(gx1-gx0);
+      ctx.beginPath(); ctx.moveTo(x,gy0); ctx.lineTo(x,gy1); ctx.stroke();
+      const y=gy0+t*(gy1-gy0);
+      ctx.beginPath(); ctx.moveTo(gx0,y); ctx.lineTo(gx1,y); ctx.stroke();
+    }
+    ctx.strokeStyle="rgba(255,255,255,0.12)";
+    ctx.strokeRect(gx0,gy0,gx1-gx0,gy1-gy0);
+
+    ctx.fillStyle="rgba(226,232,240,0.85)";
+    ctx.font="12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+    if(opts.xlabel){
+      ctx.textAlign="center";
+      ctx.fillText(opts.xlabel,(gx0+gx1)/2,h-12);
+    }
+    if(opts.ylabel){
+      ctx.save();
+      ctx.translate(14,(gy0+gy1)/2);
+      ctx.rotate(-Math.PI/2);
+      ctx.textAlign="center";
+      ctx.fillText(opts.ylabel,0,0);
+      ctx.restore();
+    }
+    return {gx0,gx1,gy0,gy1,x0,x1,y0,y1};
+  }
+  function mapX(fr,x){ return fr.gx0 + (x-fr.x0)*(fr.gx1-fr.gx0)/(fr.x1-fr.x0); }
+  function mapY(fr,y){ return fr.gy1 - (y-fr.y0)*(fr.gy1-fr.gy0)/(fr.y1-fr.y0); }
+
+  function drawLine(ctx,fr,xs,ys,color,width=2,dash=null){
+    ctx.save();
+    ctx.strokeStyle=color; ctx.lineWidth=width;
+    if(dash) ctx.setLineDash(dash);
+    ctx.beginPath();
+    for(let i=0;i<xs.length;i++){
+      const X=mapX(fr,xs[i]), Y=mapY(fr,ys[i]);
+      if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+    }
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawLegend(ctx,items,x,y){
+    ctx.save();
+    ctx.font="12px system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+    ctx.textAlign="left";
+    let yy=y;
+    for(const it of items){
+      ctx.fillStyle=it.color; ctx.fillRect(x,yy-9,10,10);
+      ctx.fillStyle="rgba(226,232,240,0.90)";
+      ctx.fillText(it.label,x+14,yy);
+      yy+=16;
+    }
+    ctx.restore();
+  }
+
+  function computeCurves(Rq, L0_nm, loopKind, leffCustom){
+    const L0 = Math.max(L0_nm*1e-9, 1e-30);
+    const leff = loopEffectiveLength(loopKind, leffCustom);
+
+    const N=401;
+    const xs=new Array(N);
+    const Vnull=new Array(N);
+    const Vstur=new Array(N);
+    const Vuldm=new Array(N);
+    const diff=new Array(N);
+
+    const PHI_MAX = 6.0;
+
+    const u_current = leff / L0;
+    const Su_current = S_u(u_current);
+    const PhiR_current = Rq * Su_current;
+    const V_current = Math.exp(-0.5 * PhiR_current * PhiR_current);
+
+    for(let i=0;i<N;i++){
+      const phi = (i/(N-1))*PHI_MAX;
+      xs[i]=phi;
+      const V = Math.exp(-0.5*phi*phi);
+      Vstur[i]=V;
+      Vnull[i]=1.0;
+      const Vdm = clamp01(1.0 - ULDM_A*Math.sin(phi*1.5));
+      Vuldm[i]=Vdm;
+      diff[i]=Vstur[i]-Vnull[i];
+    }
+
+    let sse=0;
+    for(let i=0;i<N;i++){
+      const e=Vstur[i]-Vnull[i];
+      sse += e*e;
+    }
+    const rmse=Math.sqrt(sse/N);
+    const bitsLost = (1 - V_current) * LN2_INV;
+
+    let regime="pre-saturation";
+    if(u_current > 1.0) regime="transitional";
+    if(u_current > 3.0) regime="saturated";
+
+    return {
+      xs, Vnull, Vstur, Vuldm, diff, rmse, bitsLost,
+      current: { u: u_current, Su: Su_current, PhiR: PhiR_current, V: V_current, regime, leff }
+    };
+  }
+
+  function computePhaseSpace(Rq, L0_nm, loopKind, leffCustom){
+    const N=320;
+    const ptsQM=new Array(N);
+    const ptsST=new Array(N);
+    for(let i=0;i<N;i++){
+      const phi = (i/(N-1))*6.0;
+      const V = Math.exp(-0.5*phi*phi);
+      const ph = phi * Math.PI / 3;
+      ptsQM[i]={x:Math.cos(ph), y:Math.sin(ph)};
+      ptsST[i]={x:V*Math.cos(ph), y:V*Math.sin(ph)};
+    }
+    return {ptsQM, ptsST};
+  }
+
+  function drawPoints(ctx,fr,pts,color,r=2){
+    ctx.save();
+    ctx.fillStyle=color;
+    for(const p of pts){
+      const X=mapX(fr,p.x), Y=mapY(fr,p.y);
+      ctx.beginPath(); ctx.arc(X,Y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function renderSaturation(u_current){
+    clear(satCtx, satCanvas.width, satCanvas.height);
+    const fr = drawAxes(satCtx, satCanvas.width, satCanvas.height, 0, 8, 0, 1.05, {
+      xlabel:"u = l_eff / L_0", ylabel:"S_u(u)", padL:48, padB:36
+    });
+
+    const N=201;
+    const xs=[], ys=[];
+    for(let i=0;i<N;i++){
+      const u = (i/(N-1))*8;
+      xs.push(u);
+      ys.push(S_u(u));
+    }
+    drawLine(satCtx, fr, xs, ys, "rgba(52,211,153,0.95)", 2.5);
+
+    if(u_current >= 0 && u_current <= 8){
+      const X = mapX(fr, u_current);
+      const Y = mapY(fr, S_u(u_current));
+      satCtx.save();
+      satCtx.strokeStyle="rgba(245,158,11,0.9)";
+      satCtx.setLineDash([4,4]);
+      satCtx.beginPath(); satCtx.moveTo(X,fr.gy1); satCtx.lineTo(X,Y); satCtx.stroke();
+      satCtx.beginPath(); satCtx.moveTo(fr.gx0,Y); satCtx.lineTo(X,Y); satCtx.stroke();
+      satCtx.restore();
+
+      satCtx.fillStyle="rgba(245,158,11,0.95)";
+      satCtx.beginPath(); satCtx.arc(X,Y,5,0,Math.PI*2); satCtx.fill();
+    }
+  }
+
+  function render(){
+    try{
+      warnLine.style.display="none";
+      warnLine.textContent="";
+
+      const Rq = parseFloat(rqRange.value);
+      const L0nm = parseFloat(l0Range.value);
+      const loopKind = loopSel.value;
+      const leffCustom = parseFloat(leffSlider.value);
+
+      rqVal.textContent = Rq.toFixed(2);
+      l0Val.textContent = Math.round(L0nm).toString();
+
+      const leff = loopEffectiveLength(loopKind, leffCustom);
+      leffVal.textContent = leff.toFixed(2);
+
+      const data = computeCurves(Rq, L0nm, loopKind, leffCustom);
+
+      phiREl.textContent = data.current.PhiR.toFixed(3);
+      suEl.textContent = data.current.Su.toFixed(3);
+      uEl.textContent = data.current.u.toFixed(2);
+      vEl.textContent = data.current.V.toFixed(3);
+      regimeEl.textContent = data.current.regime;
+
+      bitsEl.textContent = data.bitsLost.toFixed(3);
+      bitsBar.style.width = Math.min(data.bitsLost*50, 100).toFixed(1) + "%";
+      rmseEl.textContent = data.rmse.toFixed(4);
+
+      document.getElementById("hsPrintPhiR").textContent = data.current.PhiR.toFixed(3);
+      document.getElementById("hsPrintV").textContent = data.current.V.toFixed(3);
+      document.getElementById("hsPrintU").textContent = data.current.u.toFixed(2);
+      document.getElementById("hsPrintRegime").textContent = data.current.regime;
+      document.getElementById("hsPrintRMSE").textContent = data.rmse.toFixed(4);
+
+      clear(mainCtx, mainCanvas.width, mainCanvas.height);
+
+      if(viewMode === "curve"){
+        mainTitle.textContent = showDiff ? "Difference (STUR - Null)" : "Visibility vs Holonomy Phi_R";
+
+        const xs = data.xs;
+        let ymin=0, ymax=1.05;
+        if(showDiff){
+          ymin=Math.min(...data.diff)-0.1;
+          ymax=Math.max(...data.diff)+0.1;
+        }
+
+        const fr = drawAxes(mainCtx, mainCanvas.width, mainCanvas.height, 0, 6, ymin, ymax, {
+          xlabel:"Holonomy Phi_R (dimensionless)",
+          ylabel: showDiff ? "Delta V" : "Visibility V/V_0",
+          padL:64
+        });
+
+        drawLine(mainCtx, fr, xs, data.Vnull, "rgba(255,255,255,0.40)", 2.2, [6,4]);
+
+        if(!showDiff){
+          drawLine(mainCtx, fr, xs, data.Vstur, "rgba(52,211,153,0.95)", 2.8);
+          drawLine(mainCtx, fr, xs, data.Vuldm, "rgba(245,158,11,0.95)", 2.4, [8,4]);
+
+          if(data.current.PhiR >= 0 && data.current.PhiR <= 6){
+            const X = mapX(fr, data.current.PhiR);
+            const Y = mapY(fr, data.current.V);
+            mainCtx.save();
+            mainCtx.strokeStyle="rgba(167,139,250,0.9)";
+            mainCtx.setLineDash([4,4]);
+            mainCtx.beginPath(); mainCtx.moveTo(X,fr.gy1); mainCtx.lineTo(X,Y); mainCtx.stroke();
+            mainCtx.restore();
+            mainCtx.fillStyle="rgba(167,139,250,0.95)";
+            mainCtx.beginPath(); mainCtx.arc(X,Y,6,0,Math.PI*2); mainCtx.fill();
+          }
+
+          drawLegend(mainCtx, [
+            {label:"Null (standard QM, no scalar)", color:"rgba(255,255,255,0.40)"},
+            {label:"STUR V(Phi_R) = exp(-Phi_R^2/2)", color:"rgba(52,211,153,0.95)"},
+            {label:"ULDM (schematic, not physical)", color:"rgba(245,158,11,0.95)"},
+            {label:"Current loop config", color:"rgba(167,139,250,0.95)"}
+          ], fr.gx0+10, fr.gy0+18);
+        } else {
+          drawLine(mainCtx, fr, xs, data.diff, "rgba(167,139,250,0.95)", 2.8);
+          drawLegend(mainCtx, [{label:"STUR - Null", color:"rgba(167,139,250,0.95)"}], fr.gx0+10, fr.gy0+18);
+        }
+      } else {
+        mainTitle.textContent="Wavefunction Phase-Space: QM circle vs STUR spiral";
+
+        const fr=drawAxes(mainCtx, mainCanvas.width, mainCanvas.height, -1.1, 1.1, -1.1, 1.1, {
+          xlabel:"Re(psi)", ylabel:"Im(psi)", padL:64
+        });
+
+        mainCtx.save();
+        mainCtx.strokeStyle="rgba(255,255,255,0.18)";
+        mainCtx.lineWidth=1.5;
+        mainCtx.beginPath();
+        for(let k=0;k<=240;k++){
+          const th=(k/240)*Math.PI*2;
+          const X=mapX(fr,Math.cos(th));
+          const Y=mapY(fr,Math.sin(th));
+          if(k===0) mainCtx.moveTo(X,Y); else mainCtx.lineTo(X,Y);
+        }
+        mainCtx.stroke();
+        mainCtx.restore();
+
+        const ps=computePhaseSpace(parseFloat(rqRange.value), parseFloat(l0Range.value), loopSel.value, parseFloat(leffSlider.value));
+        drawPoints(mainCtx, fr, ps.ptsQM, "rgba(37,99,235,0.95)", 2.0);
+        drawPoints(mainCtx, fr, ps.ptsST, "rgba(52,211,153,0.95)", 2.0);
+        drawLegend(mainCtx, [
+          {label:"QM (unit circle)", color:"rgba(37,99,235,0.95)"},
+          {label:"STUR (inward spiral)", color:"rgba(52,211,153,0.95)"}
+        ], fr.gx0+10, fr.gy0+18);
+      }
+
+      renderSaturation(data.current.u);
+
+    } catch(err){
+      warnLine.style.display="block";
+      warnLine.textContent="Runtime error: " + (err && err.message ? err.message : String(err));
+      console.error(err);
+    }
+  }
+
+  btnView.addEventListener("click", () => {
+    viewMode = (viewMode==="curve") ? "phase" : "curve";
+    btnView.textContent = (viewMode==="curve") ? "Switch to Phase Space" : "Switch to Visibility Curves";
+    render();
+  });
+  btnDiff.addEventListener("click", () => {
+    showDiff = !showDiff;
+    btnDiff.textContent = showDiff ? "Show Curves" : "Show Difference";
+    render();
+  });
+  rqRange.addEventListener("input", render);
+  l0Range.addEventListener("input", render);
+  loopSel.addEventListener("change", () => {
+    const isCustom = loopSel.value === "custom";
+    leffSlider.disabled = !isCustom;
+    render();
+  });
+  leffSlider.addEventListener("input", () => {
+    leffVal.textContent = parseFloat(leffSlider.value).toFixed(2);
+    render();
+  });
+  btnPrint.addEventListener("click", () => {
+    document.getElementById("hsPrintSummary").style.display = "block";
+    window.print();
+  });
+
+  // Initialize navigation
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+
+  // Initial render
+  render();
+})();
+</script>
+</body>
+</html>
