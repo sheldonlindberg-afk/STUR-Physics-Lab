@@ -441,6 +441,59 @@ pre {
   background: rgba(96, 165, 250, 0.03);
 }
 
+/* HTML equation display (non-MathJax, same as index.html) */
+.equation-display {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  padding: 18px 24px;
+  color: var(--text-secondary);
+  text-align: center;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.equation-display .eq-diffusion { color: var(--eq-diffusion); }
+.equation-display .eq-potential { color: var(--eq-potential); }
+.equation-display .eq-xcrm { color: var(--eq-xcrm); }
+.equation-display .eq-torsion { color: var(--eq-torsion); }
+.equation-display .eq-matter { color: var(--eq-matter); }
+
+/* Term legend grid (for below equations) */
+.term-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin-top: 1rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  text-align: left;
+}
+
+.term-legend .eq-diffusion { color: var(--eq-diffusion); }
+.term-legend .eq-potential { color: var(--eq-potential); }
+.term-legend .eq-xcrm { color: var(--eq-xcrm); }
+.term-legend .eq-torsion { color: var(--eq-torsion); }
+.term-legend .eq-matter { color: var(--eq-matter); }
+
+/* Panel footer for equation notes */
+.panel-footer {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--border-dim);
+}
+
+.panel-footer strong { font-weight: 600; }
+.panel-footer .highlight-green { color: var(--eq-diffusion); }
+.panel-footer .highlight-pink { color: var(--eq-potential); }
+.panel-footer .highlight-gold { color: var(--eq-xcrm); }
+.panel-footer .highlight-blue { color: var(--eq-torsion); }
+.panel-footer .highlight-cyan { color: var(--eq-matter); }
+
 /* === STATUS INDICATORS === */
 .stur-status {
   display: inline-flex;
