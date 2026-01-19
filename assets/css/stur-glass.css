@@ -205,14 +205,27 @@
   border-color: rgba(56, 189, 248, 0.2);
 }
 
-/* Mobile nav toggle */
+/* Mobile nav toggle - HAMBURGER MENU */
 .glass-nav-toggle {
   display: none;
-  background: none;
-  border: none;
-  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #ffffff;
   padding: 0.5rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.glass-nav-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.glass-nav-toggle .stur-icon {
+  color: #ffffff;
+  width: 24px;
+  height: 24px;
 }
 
 @media (max-width: 768px) {
@@ -235,8 +248,12 @@
   }
 
   .glass-nav-toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-left: auto;
+    width: 44px;
+    height: 44px;
   }
 }
 
@@ -700,6 +717,7 @@ button.glass-nav-link:hover {
 
   .glass-nav-brand {
     font-size: 1rem;
+    color: #fbbf24; /* Gold for brand visibility */
   }
 
   .glass-nav-links {
@@ -712,10 +730,11 @@ button.glass-nav-link:hover {
     background: rgba(5, 7, 12, 0.98);
     backdrop-filter: blur(32px);
     -webkit-backdrop-filter: blur(32px);
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom: 2px solid rgba(56, 189, 248, 0.3);
     padding: 1rem;
     gap: 0.5rem;
     z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   }
 
   .glass-nav-links.open {
@@ -730,6 +749,15 @@ button.glass-nav-link:hover {
     width: 44px;
     height: 44px;
     min-width: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+  }
+
+  .glass-nav-toggle .stur-icon {
+    color: #ffffff;
+    width: 24px;
+    height: 24px;
   }
 
   .glass-nav-link {
@@ -740,12 +768,31 @@ button.glass-nav-link:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .glass-nav-link:hover {
+    background: rgba(56, 189, 248, 0.15);
+    border-color: rgba(56, 189, 248, 0.3);
+    color: #22d3ee;
+  }
+
+  .glass-nav-link.active {
+    background: rgba(56, 189, 248, 0.2);
+    border-color: rgba(56, 189, 248, 0.4);
+    color: #22d3ee;
   }
 
   /* Ensure glass-share-btn works as button in mobile */
   button.glass-nav-link.glass-share-btn {
     width: 100%;
     justify-content: center;
+    color: #ffffff;
   }
 }
 
