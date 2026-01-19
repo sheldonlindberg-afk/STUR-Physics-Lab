@@ -1,71 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🍱 STUR Replicator – Stress-to-Failure Visualization</title>
-<style>
-body{background:#050814;color:#e6edf3;font-family:'Courier New',monospace;margin:0;padding:2rem;}
-h1{color:#ffaa00;text-align:center;}
-h2{color:#ffcc33;margin-top:2rem;}
-.desc{max-width:900px;margin:0 auto 1.5rem auto;line-height:1.5;}
-pre{background:#0a0f1f;padding:1rem;border-radius:8px;overflow-x:auto;color:#00ffcc;
-    line-height:1.4;box-shadow:0 0 20px #ffaa0055;font-size:0.9rem;}
-footer{margin-top:2rem;text-align:center;font-size:0.9em;color:#aaa;}
-a{color:#66ccff;}
-button{background:#0e1624;color:#5ad0ff;border:1px solid #5ad0ff;
-       padding:8px 14px;border-radius:6px;cursor:pointer;
-       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-       font-size:0.9em;margin:4px;transition:background 0.3s;}
-button:hover{background:#152033;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress-Failure Envelope — STUR Physics Lab</title>
 
-/* Equation color coding */
-.eq-diffusion { color: #4ade80; }
-.eq-potential { color: #f472b6; }
-.eq-xcrm { color: #fbbf24; }
-.eq-torsion { color: #60a5fa; }
-.eq-quantum { color: #a78bfa; }
-.eq-matter { color: #22d3ee; }
-.eq-legend { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; max-width: 900px; margin: 1rem auto; padding: 0.75rem 1rem; background: rgba(0,0,0,0.3); border: 1px solid #1f2a44; border-radius: 6px; font-size: 0.82rem; }
-.eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-.eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-.eq-legend-dot.diffusion { background: #4ade80; }
-.eq-legend-dot.potential { background: #f472b6; }
-.eq-legend-dot.xcrm { background: #fbbf24; }
-.eq-legend-dot.torsion { background: #60a5fa; }
-.eq-legend-dot.quantum { background: #a78bfa; }
-.eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>🍱 STUR Replicator<br>Stress-to-Failure Envelope Visualization</h1>
-<div class="eq-legend">
-    <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-</div>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<p class="desc">
-<b>Step 4</b> of the STUR Replicator chain — deterministic, JupyterLite-safe simulation and visualization.  
-It analyzes your <code>results</code> array from Step 1 and produces JSON summaries and three plots:
-failure-mode envelope, energy fraction, and entropy gradient.
-</p>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<h2>Python Simulation + Visualization (copy & run in JupyterLite)</h2>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Stress-Failure Envelope</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Derives failure-mode boundaries from STUR resistance dynamics.
+            Analyzes replicator stress regimes across mass, time, and energy scales.
+        </p>
 
-<pre id="codeBlock">#!/usr/bin/env python3
-"""
-STUR Replicator – Step 4 (Standalone Visualizer)
-------------------------------------------------
-Compatible with JupyterLite (Pyodide). No external files, no try/except.
-"""
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status warning">
+                <span class="stur-icon icon-layers sm"></span>
+                DERIVED
+            </span>
+        </div>
+    </header>
 
-import numpy as np, matplotlib.pyplot as plt, json
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-# --- Optional tiny demo dataset so plots render even without Step 1 ---
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Failure-mode classification (stable, power-limited, biology-limited) across mass and time scales.</p>
+            <p><strong>Scale:</strong> Mass range \(10^{-6}\) to \(10\,\text{kg}\), replication times \(t \sim 60\,\text{s}\).</p>
+            <p><strong>Connection:</strong> The STUR potential \(V(R)\) determines energy requirements and entropy gradients that govern replicator stability.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
+
+            <p><strong>Replicator limit:</strong> The energy requirement for replication is derived from the resistance potential:</p>
+
+            <div class="stur-eq derived">
+                \[
+                E_{\text{need}} = \int V(R)\,dV + \Delta S_{\text{eff}} \cdot T
+                \]
+                <div class="stur-eq-label">Replication Energy Requirement</div>
+            </div>
+
+            <p><strong>Perfect Resistance Ratio:</strong> System equilibrium defined by:</p>
+
+            <div class="stur-eq derived">
+                \[
+                R^* = \frac{E}{I \cdot \Phi} \to 1
+                \]
+                <div class="stur-eq-label">Golden Ratio Condition</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>Power-limited regime:</strong> \(E_{\text{need}} > E_{\text{available}}\), insufficient energy density.</li>
+                <li><strong>Biology-limited regime:</strong> Entropy gradient \(dS_{\text{eff}}\) exceeds coherence threshold.</li>
+                <li><strong>Stable regime:</strong> Energy budget satisfied and entropy gradients bounded.</li>
+            </ul>
+
+            <p><strong>Classification criteria:</strong></p>
+            <ul>
+                <li>Compute \(E_{\text{need}}/mc^2\) ratio for each mass class</li>
+                <li>Evaluate worst-case entropy gradient \(dS_{\text{worst}}\)</li>
+                <li>Assign failure mode based on dominant constraint</li>
+            </ul>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Mass Range</div>
+                    <div class="glass-metric-value">10^-6 - 10 kg</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Time Scale</div>
+                    <div class="glass-metric-value">60 s</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Classes</div>
+                    <div class="glass-metric-value">inert, food, organ</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Failure Modes</div>
+                    <div class="glass-metric-value">3</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Stress-failure envelope visualization with STUR replicator dynamics. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR Replicator - Stress-Failure Envelope (v9.2)
+#
+# Derives failure-mode boundaries from V(R) potential
+# Classifications: stable, power-limited, biology-limited
+#
+# Outputs:
+#   - stur_replicator.json  (classification results)
+#   - stur_replicator.png   (failure envelope plots)
+#
+# Derived from Master Action V(R) potential term
+# ===============================================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+import json, time
+
+# ===============================================================
+# 1) SAMPLE DATA (from Step 1 replicator chain)
+# ===============================================================
 results = [
     {"class":"inert","mass_kg":1e-6,"t_s":60,"failure_mode":"power","ratio_vs_mc2":1e-12,"dS_worst":0.1},
     {"class":"inert","mass_kg":1e-3,"t_s":60,"failure_mode":"stable","ratio_vs_mc2":1e-9,"dS_worst":0.05},
@@ -74,110 +233,276 @@ results = [
     {"class":"organ","mass_kg":5.0,"t_s":60,"failure_mode":"stable","ratio_vs_mc2":5e-7,"dS_worst":0.15}
 ]
 
-# --- Helper: collect arrays for plotting at a given time ---
-def get_arrays_for_time(results,t_sel):
-    out={}
+OUT_JSON = "stur_replicator.json"
+OUT_PNG  = "stur_replicator.png"
+
+# ===============================================================
+# 2) HELPER FUNCTIONS
+# ===============================================================
+def get_arrays_for_time(results, t_sel):
+    out = {}
     for r in results:
-        if abs(r["t_s"]-t_sel)<1e-9:
-            c=r["class"]
-            out.setdefault(c,{"mass":[],"ratio":[],"mode":[],"dS_worst":[]})
+        if abs(r["t_s"] - t_sel) < 1e-9:
+            c = r["class"]
+            out.setdefault(c, {"mass":[], "ratio":[], "mode":[], "dS_worst":[]})
             out[c]["mass"].append(r["mass_kg"])
             out[c]["ratio"].append(r["ratio_vs_mc2"])
             out[c]["mode"].append(r["failure_mode"])
             out[c]["dS_worst"].append(r["dS_worst"])
     for c in out:
-        idx=np.argsort(out[c]["mass"])
-        for k in out[c]: out[c][k]=list(np.array(out[c][k])[idx])
+        idx = np.argsort(out[c]["mass"])
+        for k in out[c]:
+            out[c][k] = list(np.array(out[c][k])[idx])
     return out
 
-mode_color={"stable":"green","power":"orange","biology":"red"}
-mode_marker={"stable":"o","power":"^","biology":"s"}
+mode_color = {"stable": "#4ade80", "power": "#fbbf24", "biology": "#f472b6"}
+mode_marker = {"stable": "o", "power": "^", "biology": "s"}
+mode_numeric = {"power": 0, "biology": 1, "stable": 2}
 
-def scatter_mode(ax,mass,val,mode,cls,y_label,title):
-    for m,v,fm in zip(mass,val,mode):
-        ax.scatter(m,v,c=mode_color[fm],marker=mode_marker[fm],
-                   edgecolors="black",alpha=0.8,label=f"{cls}-{fm}")
-    ax.set_xscale("log"); ax.set_xlabel("Mass (kg)")
-    ax.set_ylabel(y_label); ax.set_title(title)
-    ax.grid(True,which="both",ls=":"); ax.legend(fontsize=7)
+# ===============================================================
+# 3) VISUALIZATION
+# ===============================================================
+fig, axes = plt.subplots(1, 3, figsize=(14, 4), dpi=150)
+fig.patch.set_facecolor('#050814')
 
-mode_numeric={"power":0,"biology":1,"stable":2}
+t = 60
+d = get_arrays_for_time(results, t)
 
-def plot_failure_mode_step(results,t):
-    d=get_arrays_for_time(results,t); plt.figure(figsize=(7,4))
-    for i,c in enumerate(["inert","food","organ"]):
-        if c not in d: continue
-        m=np.array(d[c]["mass"]); y=np.array([mode_numeric[x] for x in d[c]["mode"]])
-        o=np.argsort(m); plt.step(m[o],y[o]+0.05*i,where="post",label=f"{c}(t={t}s)")
-    plt.xscale("log"); plt.yticks([0,1,2],["power","bio","stable"])
-    plt.xlabel("Mass (kg)"); plt.ylabel("Mode")
-    plt.title(f"Failure-Mode Envelope @ t={t}s")
-    plt.legend(fontsize=8); plt.grid(True,which="both",ls=":")
-    plt.tight_layout(); plt.show()
+# Plot 1: Failure-Mode Envelope
+ax1 = axes[0]
+ax1.set_facecolor('#050814')
+for i, c in enumerate(["inert", "food", "organ"]):
+    if c not in d:
+        continue
+    m = np.array(d[c]["mass"])
+    y = np.array([mode_numeric[x] for x in d[c]["mode"]])
+    o = np.argsort(m)
+    ax1.step(m[o], y[o] + 0.05*i, where="post", label=f"{c}(t={t}s)", lw=2)
+ax1.set_xscale("log")
+ax1.set_yticks([0, 1, 2])
+ax1.set_yticklabels(["power", "bio", "stable"])
+ax1.set_xlabel("Mass (kg)", color='#94a3b8')
+ax1.set_ylabel("Mode", color='#94a3b8')
+ax1.set_title(f"Failure-Mode Envelope @ t={t}s", color='#ffaa00')
+ax1.tick_params(colors='#94a3b8')
+ax1.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white', fontsize=8)
+ax1.grid(alpha=0.3, color='#1f2a44')
+for spine in ax1.spines.values():
+    spine.set_color('#334155')
 
-def plot_ratio_scatter(results,t):
-    d=get_arrays_for_time(results,t); plt.figure(figsize=(7,4))
-    for c in ["inert","food","organ"]:
-        if c not in d: continue
-        for m,r,fm in zip(d[c]["mass"],d[c]["ratio"],d[c]["mode"]):
-            plt.scatter(m,r,c=mode_color[fm],marker=mode_marker[fm],
-                        edgecolors="black",alpha=0.8,label=f"{c}-{fm}")
-    plt.xscale("log"); plt.yscale("log")
-    plt.xlabel("Mass (kg)"); plt.ylabel("E_need / (m c²)")
-    plt.title(f"Energy Fraction @ t={t}s")
-    plt.grid(True,which="both",ls=":")
-    h,l=plt.gca().get_legend_handles_labels()
-    plt.legend(dict(zip(l,h)).values(),dict(zip(l,h)).keys(),fontsize=7)
-    plt.tight_layout(); plt.show()
+# Plot 2: Energy Fraction
+ax2 = axes[1]
+ax2.set_facecolor('#050814')
+for c in ["inert", "food", "organ"]:
+    if c not in d:
+        continue
+    for m, r, fm in zip(d[c]["mass"], d[c]["ratio"], d[c]["mode"]):
+        ax2.scatter(m, r, c=mode_color[fm], marker=mode_marker[fm],
+                    edgecolors="black", alpha=0.8, s=80)
+ax2.set_xscale("log")
+ax2.set_yscale("log")
+ax2.set_xlabel("Mass (kg)", color='#94a3b8')
+ax2.set_ylabel("E_need / (m c^2)", color='#94a3b8')
+ax2.set_title(f"Energy Fraction @ t={t}s", color='#ffaa00')
+ax2.tick_params(colors='#94a3b8')
+ax2.grid(alpha=0.3, color='#1f2a44')
+for spine in ax2.spines.values():
+    spine.set_color('#334155')
 
-def plot_dS_vs_mass(results,t):
-    d=get_arrays_for_time(results,t); fig,ax=plt.subplots(figsize=(7,4))
-    for c in ["inert","food","organ"]:
-        if c not in d: continue
-        scatter_mode(ax,d[c]["mass"],d[c]["dS_worst"],d[c]["mode"],c,
-                     "Worst-case dS_eff","Entropy Gradient vs Mass @ t="+str(t))
-    plt.tight_layout(); plt.show()
+# Plot 3: Entropy Gradient
+ax3 = axes[2]
+ax3.set_facecolor('#050814')
+for c in ["inert", "food", "organ"]:
+    if c not in d:
+        continue
+    for m, ds, fm in zip(d[c]["mass"], d[c]["dS_worst"], d[c]["mode"]):
+        ax3.scatter(m, ds, c=mode_color[fm], marker=mode_marker[fm],
+                    edgecolors="black", alpha=0.8, s=80)
+ax3.set_xscale("log")
+ax3.set_xlabel("Mass (kg)", color='#94a3b8')
+ax3.set_ylabel("Worst-case dS_eff", color='#94a3b8')
+ax3.set_title(f"Entropy Gradient @ t={t}s", color='#ffaa00')
+ax3.tick_params(colors='#94a3b8')
+ax3.grid(alpha=0.3, color='#1f2a44')
+for spine in ax3.spines.values():
+    spine.set_color('#334155')
 
+plt.tight_layout()
+plt.savefig(OUT_PNG, facecolor='#050814', dpi=150, bbox_inches='tight')
+plt.show()
+
+# ===============================================================
+# 4) SUMMARY STATISTICS
+# ===============================================================
 def summarize_results(results):
-    out={"n_total":len(results),"classes":{},
-         "times_s":sorted({float(r["t_s"]) for r in results})}
+    out = {"n_total": len(results), "classes": {},
+           "times_s": sorted({float(r["t_s"]) for r in results})}
     for c in sorted({r["class"] for r in results}):
-        s=[r for r in results if r["class"]==c]; out["classes"][c]={"count":len(s),"failure_modes":{}}
-        for fm in ["stable","power","biology"]:
-            s2=[r for r in s if r["failure_mode"]==fm]
-            if not s2: continue
-            m=np.array([r["mass_kg"] for r in s2]); R=np.array([r["ratio_vs_mc2"] for r in s2])
-            D=np.array([r["dS_worst"] for r in s2])
-            out["classes"][c]["failure_modes"][fm]={"count":len(s2),
-              "mass_kg_min":float(m.min()),"mass_kg_max":float(m.max()),
-              "ratio_vs_mc2_median":float(np.median(R)),"dS_worst_mean":float(D.mean())}
+        s = [r for r in results if r["class"] == c]
+        out["classes"][c] = {"count": len(s), "failure_modes": {}}
+        for fm in ["stable", "power", "biology"]:
+            s2 = [r for r in s if r["failure_mode"] == fm]
+            if not s2:
+                continue
+            m = np.array([r["mass_kg"] for r in s2])
+            R = np.array([r["ratio_vs_mc2"] for r in s2])
+            D = np.array([r["dS_worst"] for r in s2])
+            out["classes"][c]["failure_modes"][fm] = {
+                "count": len(s2),
+                "mass_kg_min": float(m.min()),
+                "mass_kg_max": float(m.max()),
+                "ratio_vs_mc2_median": float(np.median(R)),
+                "dS_worst_mean": float(D.mean())
+            }
     return out
 
-# --- Always safe, no try/except ---
-print(json.dumps(summarize_results(results),indent=2))
-plot_failure_mode_step(results,60)
-plot_ratio_scatter(results,60)
-plot_dS_vs_mass(results,60)
-</pre>
+# ===============================================================
+# 5) JSON OUTPUT
+# ===============================================================
+report = {
+    "meta": {
+        "page": "stress-failure-envelope",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "E_need = integral V(R) dV + dS_eff * T"
+    },
+    "summary": summarize_results(results),
+    "outputs": {"json": OUT_JSON, "png": OUT_PNG}
+}
 
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open in JupyterLite</button>
-  <a href="../index.html" style="display:inline-block;background:#0e1624;color:#5ad0ff;
-     border:1px solid #5ad0ff;padding:8px 14px;border-radius:6px;text-decoration:none;
-     font-size:0.9em;margin:4px;">← STUR Physics Lab</a>
-</div>
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
-<footer>© 2025 STUR Physics Lab | Unified Resistance Framework | Replicator Step 4</footer>
+print("=== STUR Replicator Stress-Failure [v9.2] ===")
+print(f"Total samples: {report['summary']['n_total']}")
+print(f"Classes: {list(report['summary']['classes'].keys())}")
+print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> stress-failure-envelope |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — V(R) Potential</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Thermodynamic replication bounds — Landauer's principle</li>
+                <li>Entropy production in self-replicating systems</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  navigator.clipboard.writeText(document.getElementById("codeBlock").innerText);
-  alert("✅ Code copied to clipboard");
+const PAGE_ID = 'stress-failure-envelope';
+const pageState = {
+    params: {
+        mass_range_kg: [1e-6, 10],
+        time_scale_s: 60
+    },
+    predictions: {
+        equation: 'E_need = integral V(R) dV + dS_eff * T'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'mass_min_kg', value: pageState.params.mass_range_kg[0], unit: 'kg' },
+        { parameter: 'mass_max_kg', value: pageState.params.mass_range_kg[1], unit: 'kg' },
+        { parameter: 'time_scale', value: pageState.params.time_scale_s, unit: 's' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_replicator.py', 'text/x-python');
+});
 </script>
 
 </body>

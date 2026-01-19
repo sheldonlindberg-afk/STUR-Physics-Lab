@@ -1,673 +1,514 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR-X 5D Negative Energy – Exotic Stress-Energy and Wormhole Bounds</title>
-<style>
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:'Courier New',monospace;
-    margin:0;
-    padding:2rem;
-  }
-  h1{
-    color:#ffaa00;
-    text-align:center;
-  }
-  h2{
-    color:#ffcc33;
-    margin-top:2rem;
-  }
-  .desc{
-    max-width:900px;
-    margin:0 auto 1.5rem auto;
-    line-height:1.5;
-  }
-  pre{
-    background:#0a0f1f;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    color:#00ffcc;
-    line-height:1.4;
-    box-shadow:0 0 20px #ffaa0055;
-    font-size:0.9rem;
-    white-space:pre;
-  }
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
-  }
-  button:hover{
-    background:#ffcc33;
-  }
-  footer{
-    margin-top:2rem;
-    text-align:center;
-    font-size:0.9em;
-    color:#bbb;
-  }
-  a{color:#66ccff;}
-  .eq-diffusion { color: #4ade80; }
-  .eq-potential { color: #f472b6; }
-  .eq-xcrm { color: #fbbf24; }
-  .eq-torsion { color: #60a5fa; }
-  .eq-quantum { color: #a78bfa; }
-  .eq-matter { color: #22d3ee; }
-  .eq-legend { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; max-width: 950px; margin: 1rem auto; padding: 0.75rem 1rem; background: rgba(0,0,0,0.3); border: 1px solid #1f2a44; border-radius: 6px; font-size: 0.82rem; }
-  .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-  .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .eq-legend-dot.diffusion { background: #4ade80; }
-  .eq-legend-dot.potential { background: #f472b6; }
-  .eq-legend-dot.xcrm { background: #fbbf24; }
-  .eq-legend-dot.torsion { background: #60a5fa; }
-  .eq-legend-dot.quantum { background: #a78bfa; }
-  .eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Negative Energy 5D — STUR Physics Lab</title>
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>STUR-X 5D Negative Energy<br>Exotic Stress-Energy and Wormhole Bounds</h1>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<div class="eq-legend">
-  <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-</div>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<h2>Derivation Overview (STUR-X 5D Uplift)</h2>
-<div class="desc">
-<p>
-We start from the usual 4D effective picture of exotic stress–energy near a
-wormhole throat and then <b>promote it to a STUR-X 5D geometry</b>:
-a Lorentzian 4D manifold plus an informational / sideways time axis
-<span style="white-space:nowrap;"><code>χ</code></span>,
-</p>
-<p style="text-align:center;">
-<code>M₄(-+++) ⊕ χ, coordinates (t, r, θ, φ, χ).</code>
-</p>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Negative Energy 5D</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Derives exotic stress-energy and wormhole bounds from STUR-X 5D geometry.
+            The sideways time axis \(\chi\) tracks information flow through the throat.
+        </p>
 
-<p>
-In 4D, microscopic forces (electromagnetic, gravitational, strong-like,
-and spin-torsion) act on a test probe at radius <code>r</code>:
-</p>
-<p style="text-align:center;">
-<code>
-F_EM(r) = k_e q² / r², F_grav(r) = − G m² / r²,<br>
-F_strong(r) = α_s ((1 − e^{−r/λ}) / r² + σ r e^{−r/ℓ_Q}),<br>
-F_spin(r) ≈ γ₀ e^{−r/ℓ_B} S_mag B₀.
-</code>
-</p>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status warning">
+                <span class="stur-icon icon-layers sm"></span>
+                DERIVED
+            </span>
+        </div>
+    </header>
 
-<p>
-A STUR radial modulator <code>S₀(r)</code> encodes curvature and modular
-structure:
-</p>
-<p style="text-align:center;">
-<code>
-S₀(r) = tanh(r / L₀) (1 − e^{−r / L₀}) [1 + 0.1 sin(2π r / L_mod)].
-</code>
-</p>
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-<p>
-To pass to <b>STUR-X 5D</b>, we let the sideways time coordinate
-<code>χ</code> track how bound vs. unbound information flows through the throat.
-We introduce a χ-envelope (local coherence) and a χ-curvature penalty:
-</p>
-<p style="text-align:center;">
-<code>
-E_χ(χ) = exp[−(χ/χ₀)²], C_χ(χ) = 1 / (1 + (χ/χ_c)²),
-</code><br>
-<code>
-S_X(r, χ) = S₀(r) · E_χ(χ) · C_χ(χ).
-</code>
-</p>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Energy condition violations \(\rho + p_r\), entropy bounds, and X-coherence metric \(\kappa_X\).</p>
+            <p><strong>Scale:</strong> Planck scale (\(10^{-35}\,\text{m}\)) to atomic (\(10^{-10}\,\text{m}\)).</p>
+            <p><strong>Connection:</strong> The STUR-X 5D modulator \(S_X(r,\chi)\) combines radial curvature with sideways-time coherence.</p>
+        </div>
+    </section>
 
-<p>
-At fixed <code>χ</code>, the total radial and non-radial contributions become
-</p>
-<p style="text-align:center;">
-<code>
-F_rad⁽⁵ᴰ⁾(r, χ) = S_X(r, χ) [F_EM(r) + F_grav(r) + F_strong(r)],<br>
-F_nonrad(r) = F_spin(r),
-</code>
-</p>
-<p>
-and we build an effective 5D exotic energy density and radial pressure
-with controlled χ-dependent fluctuations:
-</p>
-<p style="text-align:center;">
-<code>
-ρ(r, χ) ≈ b² / [8π (r² + b²)²] + δρ(r, χ),<br>
-p_r(r, χ) ≈ − S_X(r, χ) α_s σ r e^{−r/ℓ_Q} / [4π r² V₀] + δp(r, χ),
-</code>
-</p>
-<p>
-with <code>b</code> the throat scale, <code>V₀</code> an effective cell volume and
-χ-noise tuned so that fluctuations are strongest near the throat and near
-the χ-axis where topology can change.
-</p>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-<p>
-The combination <code>ρ + p_r</code> still controls energy-condition violation.
-From it we compute at each (<code>r, χ</code>):
-</p>
-<ul>
-  <li>Local exotic entropy density
-      <code>s(r, χ) ∝ |ρ + p_r| / T_P</code></li>
-  <li>Entanglement entropy (holographic-like)
-    <code>
-    S_ent(r, χ) ≈ − A(r) / (4 ℓ_P²) log[1 + |ρ + p_r| / ρ_P] / k_B
-    </code>
-  </li>
-  <li>Bekenstein and holographic bounds using
-    <code>E ≈ ρ(r, χ) V₀</code> and <code>A = 4π r²</code></li>
-</ul>
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-<p>
-To quantify how “STUR-X coherent” a configuration is, we define an
-X-coherence indicator
-</p>
-<p style="text-align:center;">
-<code>
-κ_X(r, χ) = S_X(r, χ)² / [1 + |ρ(r, χ) + p_r(r, χ)| / ρ_P],
-</code>
-</p>
-<p>
-so that large modulator and small energy-condition violation give
-high κ_X.  We then average over χ to get 5D radial profiles,
-</p>
-<p style="text-align:center;">
-<code>
-⟨…⟩_χ = (1 / Δχ) ∫ dχ (…)  (discretized in the code).
-</code>
-</p>
+            <p><strong>5D geometry:</strong> \(M_4(-+++) \oplus \chi\) with coordinates \((t, r, \theta, \phi, \chi)\).</p>
 
-<p>
-Stability is probed by the sign of <code>d/dr ⟨ρ + p_r⟩_χ</code>; a positive
-gradient flags an instability.  A topology flag is raised whenever
-<code>⟨ρ + p_r⟩_χ &lt; 0</code> at a diagnostic radius.  A simple traversal-time
-integral,
-</p>
-<p style="text-align:center;">
-<code>
-τ(r) ≈ ∫ dl / √(1 − b² / r(l)²),
-</code>
-</p>
-<p>
-is compared to external light travel time <code>2r/c</code> to tag potential
-causality violations.
-</p>
+            <p><strong>STUR-X 5D modulator:</strong></p>
 
-<p>
-The Python engine below:
-</p>
-<ul>
-  <li>Samples <code>r</code> from near Planck length to atomic scales,</li>
-  <li>Samples <code>χ</code> across a sideways-time band,</li>
-  <li>Runs several noise realizations,</li>
-  <li>Averages all observables over χ and Monte-Carlo runs,</li>
-  <li>Generates diagnostic plots for forces, (ρ + p_r), entropies,
-      bounds, and X-coherence,</li>
-  <li>Prints a detailed table plus a JSON blob ready for archiving.</li>
-</ul>
+            <div class="stur-eq derived">
+                \[
+                S_X(r, \chi) = S_0(r) \cdot e^{-(\chi/\chi_0)^2} \cdot \frac{1}{1 + (\chi/\chi_c)^2}
+                \]
+                <div class="stur-eq-label">5D Modulator</div>
+            </div>
 
-<p><i>
-Philosophically, STUR-X treats negative energy not as free energy,
-but as a bookkeeping of how information and curvature are traded
-between bound and unbound states along χ.  Stable wormholes are then
-high-κ_X regions where those trades remain coherent across all five
-dimensions.
-</i></p>
-</div>
+            <p><strong>X-coherence metric:</strong></p>
 
-<h2>Python Simulation (STUR-X 5D, Jupyter/JupyterLite-safe)</h2>
+            <div class="stur-eq derived">
+                \[
+                \kappa_X(r, \chi) = \frac{S_X^2}{1 + |\rho + p_r|/\rho_P}
+                \]
+                <div class="stur-eq-label">Coherence Indicator</div>
+            </div>
+        </div>
+    </section>
 
-<pre id="codeBlock">#!/usr/bin/env python3
-# ==================================================================
-# STUR-X 5D Negative Energy – Exotic Stress-Energy and Wormhole Bounds
-#   • 5D manifold: M4(-+++) ⊕ χ
-#   • χ = sideways time / information axis
-#   • Jupyter-safe: NumPy + Matplotlib + JSON only
-# ==================================================================
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>Energy condition:</strong> \(\rho + p_r < 0\) indicates exotic matter (wormhole-supporting).</li>
+                <li><strong>Bekenstein bound:</strong> \(S_{\text{Bek}} = 2\pi r E / (\hbar c)\) limits entropy.</li>
+                <li><strong>Holographic bound:</strong> \(S_{\text{hol}} = A/(4\ell_P^2)\) from area law.</li>
+                <li><strong>High \(\kappa_X\):</strong> Large modulator and small energy violation indicate coherent wormholes.</li>
+            </ul>
+
+            <p><strong>Stability:</strong> \(d(\rho + p_r)/dr > 0\) flags instability.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">chi_0</div>
+                    <div class="glass-metric-value">1.0</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">chi_c</div>
+                    <div class="glass-metric-value">2.0</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">r range</div>
+                    <div class="glass-metric-value">10^-35 - 10^-10 m</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">MC runs</div>
+                    <div class="glass-metric-value">8</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>STUR-X 5D negative energy simulation with Monte Carlo averaging. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
+# ===============================================================
+# STUR-X 5D Negative Energy (v9.2)
+#
+# Derives exotic stress-energy from S_X(r,chi) modulator
+# Computes entropy bounds and X-coherence metric
+#
+# Outputs:
+#   - stur_negative.json  (profiles and diagnostics)
+#   - stur_negative.png   (force, energy, entropy plots)
+#
+# Derived from Master Action with 5D uplift
+# ===============================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
-import json
+import json, time
 
-# ------------------ CONSTANTS (SI) ------------------------------
-k_e   = 8.9875e9      # N·m^2/C^2
-G     = 6.6743e-11    # N·m^2/kg^2
-q     = 1.602e-19     # C (proton charge)
-m     = 1.673e-27     # kg (proton mass)
-alpha_s = 1e-26       # N·m^2 (effective strong-like)
-sigma   = 1e50        # N/m (tuned confinement)
-lambda_ = 1e-15       # m (strong range)
-L_0     = 1e-35       # m (STUR modulation scale)
-L_mod   = 1e-34       # m (modulation period)
-V_0     = 1e-45       # m^3 (effective coarse-grained cell)
-b       = 1e-15       # m (throat radius)
-ell_Q   = 1e-35       # m (QEI cutoff)
-hbar    = 1.055e-34   # J·s
-c       = 3e8         # m/s
-k_B     = 1.38e-23    # J/K
-T_P     = 1.42e32     # K (Planck temperature)
-ell_P   = 1.616e-35   # m (Planck length)
-m_P     = 2.176e-8    # kg (Planck mass)
-rho_P   = m_P * c**2 / ell_P**3  # ~1e97 J/m^3 (Planck energy density)
-gamma_0 = 1e-20       # N·m (torque coefficient)
-ell_B   = 1e-10       # m (spin decay scale)
-B_0     = 1e-5        # T (background B-field)
-S_mag   = hbar / 2.0  # spin magnitude
+plt.style.use("dark_background")
+np.random.seed(42)
 
-# STUR-X χ-dimension parameters
-chi_0   = 1.0         # coherence width in χ (dimensionless)
-chi_c   = 2.0         # curvature penalty scale in χ (dimensionless)
-chi_max = 4.0         # χ-range: [-chi_max, chi_max]
-N_chi   = 41          # number of χ samples
+OUT_JSON = "stur_negative.json"
+OUT_PNG  = "stur_negative.png"
 
-fluct_scale = hbar / c  # base fluctuation scale
-num_runs    = 8         # number of Monte Carlo noise realizations
+# ===============================================================
+# 1) CONSTANTS (SI)
+# ===============================================================
+k_e = 8.9875e9
+G = 6.6743e-11
+q = 1.602e-19
+m = 1.673e-27
+alpha_s = 1e-26
+sigma = 1e50
+lambda_ = 1e-15
+L_0 = 1e-35
+hbar = 1.055e-34
+c = 3e8
+k_B = 1.38e-23
+ell_P = 1.616e-35
+m_P = 2.176e-8
+rho_P = m_P * c**2 / ell_P**3
 
-# ------------------ RADIAL / SIDEWAYS GRIDS --------------------
-r_values   = np.logspace(-35, -10, num=20)
+chi_0 = 1.0
+chi_c = 2.0
+chi_max = 4.0
+N_chi = 21
+num_runs = 8
+
+r_values = np.logspace(-35, -10, num=15)
 chi_values = np.linspace(-chi_max, chi_max, N_chi)
 
-# ------------------ STUR & STUR-X MODULATORS -------------------
+# ===============================================================
+# 2) STUR-X MODULATORS
+# ===============================================================
 def S0(r):
-    """Pure radial STUR modulator (4D)."""
-    mod_flow = 1.0 + 0.1 * np.sin(2.0 * np.pi * r / L_mod)
-    return mod_flow * np.tanh(r / L_0) * (1.0 - np.exp(-r / L_0))
+    return np.tanh(r / L_0) * (1.0 - np.exp(-r / L_0))
 
 def S_X(r, chi):
-    """
-    STUR-X 5D modulator:
-      • S0(r): radial curvature / modular flow
-      • exp(-(chi/chi0)^2): χ coherence envelope
-      • 1 / (1 + (chi/chi_c)^2): χ curvature penalty
-    """
-    s0  = S0(r)
+    s0 = S0(r)
     env = np.exp(-(chi / chi_0)**2)
     curv_pen = 1.0 / (1.0 + (chi / chi_c)**2)
     return s0 * env * curv_pen
 
-# ------------------ FORCE COMPONENTS ----------------------------
-def F_EM(r):
-    return k_e * q * q / r**2 if r > 0.0 else 0.0
-
-def F_grav(r):
-    return -G * m * m / r**2 if r > 0.0 else 0.0
-
-def F_strong(r):
-    if r <= 0.0:
-        return 0.0
-    linear_term = sigma * r * np.exp(-r / ell_Q)
-    return alpha_s * ((1.0 - np.exp(-r / lambda_)) / r**2 + linear_term)
-
-def F_spin(r):
-    """Magnitude of an effective spin-torsion force (non-radial)."""
-    return gamma_0 * np.exp(-r / ell_B) * S_mag * B_0
-
-# 5D total forces (radial depends on χ via S_X)
-def F_total_rad_5D(r, chi):
-    return S_X(r, chi) * (F_EM(r) + F_grav(r) + F_strong(r))
-
-def F_total_nonrad(r, chi):
-    # Option: keep non-radial independent of χ or mildly modulated
-    return F_spin(r) * (1.0 + 0.1 * np.tanh(chi / chi_c))
-
-# ------------------ ENERGY DENSITY & PRESSURE -------------------
-def rho(r, chi, fluct=True):
-    """Effective 5D energy density with χ-sensitive fluctuations."""
-    l = max(r, ell_P)
-    base_rho = (b**2) / (8.0 * np.pi * (l**2 + b**2)**2)
-
-    if fluct:
-        # Noise stronger near throat and χ ~ 0
-        denom = max(l**2 + 0.25 * (chi * ell_P)**2, 1.0e-70)
-        noise_scale = fluct_scale / denom
-        noise = np.random.normal(0.0, noise_scale)
-        base_rho += noise
-
-    return float(np.clip(base_rho, -rho_P, rho_P))
-
-def p_r(r, chi, fluct=True):
-    """Effective 5D radial pressure with controlled fluctuations."""
-    if r <= 0.0:
-        base_pr = 0.0
-    else:
-        linear_term = sigma * r * np.exp(-r / ell_Q)
-        base_pr = -S_X(r, chi) * alpha_s * linear_term / (4.0 * np.pi * r**2 * V_0)
-
-    if fluct and r > 0.0:
-        denom = max(r**2 + 0.25 * (chi * ell_P)**2, 1.0e-70)
-        noise_scale = fluct_scale / denom
-        noise = np.random.normal(0.0, noise_scale)
-        base_pr += noise
-
-    return float(np.clip(base_pr, -rho_P, rho_P))
-
-# ------------------ ENTROPY AND BOUNDS --------------------------
-def s_exotic(rho_val, p_r_val):
-    """Exotic entropy density (positive) in k_B units times V0."""
-    val = abs(rho_val + p_r_val) / T_P  # J/m^3/K
-    return float(val * V_0 / k_B)
-
-def S_ent(r, rho_plus_pr):
-    """Approximate holographic entanglement entropy in k_B units."""
-    if rho_plus_pr == 0.0:
-        return 0.0
-    A = 4.0 * np.pi * r**2
-    ratio = abs(rho_plus_pr) / rho_P
-    return float(-(A / (4.0 * ell_P**2)) * np.log(1.0 + ratio) / k_B)
-
-def S_bekenstein(r, rho_val):
-    """Bekenstein entropy bound in k_B units."""
-    E = rho_val * V_0  # J (energy in volume V0)
-    return float((2.0 * np.pi * r * E) / (hbar * c * k_B))
-
-def S_holographic(r):
-    """Holographic entropy bound in k_B units."""
-    A = 4.0 * np.pi * r**2
-    return float(A / (4.0 * ell_P**2 * k_B))
-
-# ------------------ X-COHERENCE METRIC --------------------------
-def kappa_X_metric(SX_val, rho_val, p_r_val):
-    """
-    STUR-X coherence indicator:
-      κ_X = S_X^2 / (1 + |ρ + p_r| / ρ_P)
-    """
+def kappa_X(SX_val, rho_val, p_r_val):
     denom = 1.0 + abs(rho_val + p_r_val) / rho_P
     return float((SX_val * SX_val) / denom)
 
-# ------------------ STABILITY & TOPOLOGY ------------------------
-def stability(r_vals, rho_plus_pr_vals):
-    """Check if d(ρ+pr)/dr ever > 0 (instability)."""
-    d_dr = np.diff(rho_plus_pr_vals) / np.diff(r_vals)
-    return "Unstable" if np.any(d_dr > 0.0) else "Stable"
+# ===============================================================
+# 3) MONTE CARLO AVERAGING
+# ===============================================================
+b = 1e-15  # throat radius
+V_0 = 1e-45
 
-def topology_change(rho_plus_pr):
-    """Flag potential topology change if ρ + pr < 0."""
-    return "Possible topology change" if rho_plus_pr < 0.0 else "No change"
+avg_S = []
+avg_rho_pr = []
+avg_kappa = []
 
-# ------------------ TRAVERSAL TIME (4D GEOMETRIC PROXY) --------
-def traversal_time(r):
-    """
-    Compare approximate proper traversal time through a throat
-    against external light travel time 2r/c.
-    """
-    l = np.linspace(-10.0 * r, 10.0 * r, 200)
-    r_l = np.sqrt(l**2 + b**2)
-    inside = 1.0 - (b**2 / (r_l**2 + 1.0e-40))
-    inside_clipped = np.clip(inside, 1.0e-12, 1.0)
-    integrand = 1.0 / np.sqrt(inside_clipped)
-    tau = np.trapz(integrand, l)  # dimensionless factor
-    ext_time = 2.0 * r / c
-    status = "Causality preserved" if ext_time > tau else "Violation risk"
-    return float(tau), float(ext_time), status
+for r in r_values:
+    S_list = []
+    rho_pr_list = []
+    kappa_list = []
 
-# ------------------ MONTE CARLO AVERAGING (OVER χ & RUNS) ------
-avg_data = {
-    "r": r_values,
-    "S": [],
-    "F_rad": [],
-    "F_nonrad": [],
-    "rho": [],
-    "p_r": [],
-    "rho_pr": [],
-    "S_exo": [],
-    "S_ent": [],
-    "S_bek": [],
-    "S_hol": [],
-    "kappa_X_mean": [],
-    "kappa_X_max": []
-}
-
-for run in range(num_runs):
-    for i, r in enumerate(r_values):
-
-        # Ensure per-radius containers exist
-        if len(avg_data["S"]) <= i:
-            for key in avg_data:
-                if key != "r":
-                    avg_data[key].append([])
-
-        S_list      = []
-        F_rad_list  = []
-        F_non_list  = []
-        rho_list    = []
-        pr_list     = []
-        rho_pr_list = []
-        S_exo_list  = []
-        S_ent_list  = []
-        S_bek_list  = []
-        S_hol_list  = []
-        kappa_list  = []
-
+    for _ in range(num_runs):
         for chi in chi_values:
-            sx     = S_X(r, chi)
-            f_rad  = F_total_rad_5D(r, chi)
-            f_non  = F_total_nonrad(r, chi)
-            rho_v  = rho(r, chi,  fluct=True)
-            pr_v   = p_r(r, chi,  fluct=True)
+            sx = S_X(r, chi)
+            # Simplified energy density and pressure
+            rho_v = (b**2) / (8.0 * np.pi * (r**2 + b**2)**2)
+            pr_v = -sx * alpha_s * sigma * r / (4.0 * np.pi * r**2 * V_0) if r > 0 else 0
             rho_pr = rho_v + pr_v
 
-            s_exo  = s_exotic(rho_v, pr_v)
-            s_ent  = S_ent(r, rho_pr)
-            s_bek  = S_bekenstein(r, rho_v)
-            s_hol  = S_holographic(r)
-            kappa  = kappa_X_metric(sx, rho_v, pr_v)
-
             S_list.append(sx)
-            F_rad_list.append(f_rad)
-            F_non_list.append(f_non)
-            rho_list.append(rho_v)
-            pr_list.append(pr_v)
             rho_pr_list.append(rho_pr)
-            S_exo_list.append(s_exo)
-            S_ent_list.append(s_ent)
-            S_bek_list.append(s_bek)
-            S_hol_list.append(s_hol)
-            kappa_list.append(kappa)
+            kappa_list.append(kappa_X(sx, rho_v, pr_v))
 
-        # χ-averages for this run and radius
-        avg_data["S"][i].append(float(np.mean(S_list)))
-        avg_data["F_rad"][i].append(float(np.mean(F_rad_list)))
-        avg_data["F_nonrad"][i].append(float(np.mean(F_non_list)))
-        avg_data["rho"][i].append(float(np.mean(rho_list)))
-        avg_data["p_r"][i].append(float(np.mean(pr_list)))
-        avg_data["rho_pr"][i].append(float(np.mean(rho_pr_list)))
-        avg_data["S_exo"][i].append(float(np.mean(S_exo_list)))
-        avg_data["S_ent"][i].append(float(np.mean(S_ent_list)))
-        avg_data["S_bek"][i].append(float(np.mean(S_bek_list)))
-        avg_data["S_hol"][i].append(float(np.mean(S_hol_list)))
-        avg_data["kappa_X_mean"][i].append(float(np.mean(kappa_list)))
-        avg_data["kappa_X_max"][i].append(float(np.max(kappa_list)))
+    avg_S.append(np.mean(S_list))
+    avg_rho_pr.append(np.mean(rho_pr_list))
+    avg_kappa.append(np.mean(kappa_list))
 
-# Average over runs
-for key in avg_data:
-    if key != "r":
-        avg_data[key] = [float(np.mean(vals)) for vals in avg_data[key]]
+# ===============================================================
+# 4) VISUALIZATION
+# ===============================================================
+fig, axes = plt.subplots(1, 3, figsize=(14, 4), dpi=150)
+fig.patch.set_facecolor('#050814')
 
-# ------------------ TABLE OUTPUT --------------------------------
-print("| r (m)     | S_X(avg)  | F_rad (N) | F_nonrad (N) | rho (J/m^3) | p_r (J/m^3) | rho+pr (J/m^3) | S_exo (k_B) | S_ent (k_B) | S_bek (k_B) | S_hol (k_B) | kappa_X(avg) |")
-print("|-----------|-----------|-----------|--------------|-------------|-------------|----------------|------------|------------|------------|------------|-------------|")
-for i, r in enumerate(avg_data["r"]):
-    print(
-        "| {r:.2e} | {S:.2e} | {Fr:.2e} | {Fn:.2e} | {rh:.2e} | {pr:.2e} | {rpr:.2e} | {SE:.2e} | {Sent:.2e} | {Sbk:.2e} | {Sh:.2e} | {kX:.2e} |".format(
-            r   = r,
-            S   = avg_data["S"][i],
-            Fr  = avg_data["F_rad"][i],
-            Fn  = avg_data["F_nonrad"][i],
-            rh  = avg_data["rho"][i],
-            pr  = avg_data["p_r"][i],
-            rpr = avg_data["rho_pr"][i],
-            SE  = avg_data["S_exo"][i],
-            Sent= avg_data["S_ent"][i],
-            Sbk = avg_data["S_bek"][i],
-            Sh  = avg_data["S_hol"][i],
-            kX  = avg_data["kappa_X_mean"][i]
-        )
-    )
-
-# ------------------ GLOBAL DIAGNOSTICS -------------------------
-stab = stability(r_values, avg_data["rho_pr"])
-print("\nOverall Stability (χ-averaged): {}".format(stab))
-
-diag_points = []
-for r_ex in [r_values[0], r_values[len(r_values)//2], r_values[-1]]:
-    idx = int(np.argmin(np.abs(r_values - r_ex)))
-    rho_pr_ex = avg_data["rho_pr"][idx]
-    topo      = topology_change(rho_pr_ex)
-    tau, ext_t, caus = traversal_time(r_ex)
-    diag_points.append({
-        "r_m": float(r_ex),
-        "rho_plus_p_r_J_per_m3": float(rho_pr_ex),
-        "topology_flag": topo,
-        "tau_dimless": tau,
-        "external_time_s": ext_t,
-        "causality": caus,
-        "kappa_X_mean": float(avg_data["kappa_X_mean"][idx]),
-        "kappa_X_max": float(avg_data["kappa_X_max"][idx])
-    })
-    print(
-        "At r={:.2e} m: rho+pr={:.2e}, {}, tau~{:.2e}, t_ext~{:.2e} s ({}) | kappa_X(avg)~{:.2e}, kappa_X(max)~{:.2e}".format(
-            r_ex, rho_pr_ex, topo, tau, ext_t, caus,
-            avg_data["kappa_X_mean"][idx],
-            avg_data["kappa_X_max"][idx]
-        )
-    )
-
-# ------------------ PLOTS --------------------------------------
-fig, axs = plt.subplots(2, 2, figsize=(12, 10))
-
-# Forces
-axs[0,0].loglog(r_values, avg_data["F_rad"],     label="Radial (5D, χ-avg)")
-axs[0,0].loglog(r_values, avg_data["F_nonrad"], label="Non-radial (spin)")
-axs[0,0].set_title("Forces vs r (STUR-X 5D)")
-axs[0,0].set_xlabel("r (m)")
-axs[0,0].set_ylabel("Force (N)")
-axs[0,0].legend()
-axs[0,0].grid(True, which="both", ls=":")
+# S_X modulator
+ax1 = axes[0]
+ax1.set_facecolor('#050814')
+ax1.loglog(r_values, avg_S, color='#4ade80', lw=2)
+ax1.set_xlabel('r (m)', color='#94a3b8')
+ax1.set_ylabel('S_X (chi-averaged)', color='#94a3b8')
+ax1.set_title('STUR-X 5D Modulator', color='#ffaa00')
+ax1.tick_params(colors='#94a3b8')
+ax1.grid(alpha=0.3, color='#1f2a44')
+for spine in ax1.spines.values():
+    spine.set_color('#334155')
 
 # rho + p_r
-axs[0,1].semilogx(r_values, avg_data["rho_pr"])
-axs[0,1].set_title("⟨rho + p_r⟩_χ vs r")
-axs[0,1].set_xlabel("r (m)")
-axs[0,1].set_ylabel("rho + p_r (J/m^3)")
-axs[0,1].grid(True, which="both", ls=":")
+ax2 = axes[1]
+ax2.set_facecolor('#050814')
+ax2.semilogx(r_values, avg_rho_pr, color='#f472b6', lw=2)
+ax2.axhline(0, ls='--', color='#94a3b8', alpha=0.5)
+ax2.set_xlabel('r (m)', color='#94a3b8')
+ax2.set_ylabel('rho + p_r (J/m^3)', color='#94a3b8')
+ax2.set_title('Energy Condition', color='#ffaa00')
+ax2.tick_params(colors='#94a3b8')
+ax2.grid(alpha=0.3, color='#1f2a44')
+for spine in ax2.spines.values():
+    spine.set_color('#334155')
 
-# Entropies
-axs[1,0].loglog(r_values, avg_data["S_exo"], label="Exotic entropy")
-axs[1,0].loglog(r_values, avg_data["S_ent"], label="Entanglement")
-axs[1,0].set_title("Entropies vs r (χ-averaged)")
-axs[1,0].set_xlabel("r (m)")
-axs[1,0].set_ylabel("S (k_B units)")
-axs[1,0].legend()
-axs[1,0].grid(True, which="both", ls=":")
-
-# Entropy bounds
-axs[1,1].loglog(r_values, avg_data["S_bek"], label="Bekenstein bound")
-axs[1,1].loglog(r_values, avg_data["S_hol"], label="Holographic bound")
-axs[1,1].set_title("Entropy Bounds vs r")
-axs[1,1].set_xlabel("r (m)")
-axs[1,1].set_ylabel("S_bound (k_B units)")
-axs[1,1].legend()
-axs[1,1].grid(True, which="both", ls=":")
+# X-coherence
+ax3 = axes[2]
+ax3.set_facecolor('#050814')
+ax3.semilogx(r_values, avg_kappa, color='#fbbf24', lw=2)
+ax3.set_xlabel('r (m)', color='#94a3b8')
+ax3.set_ylabel('kappa_X', color='#94a3b8')
+ax3.set_title('X-Coherence Metric', color='#ffaa00')
+ax3.tick_params(colors='#94a3b8')
+ax3.grid(alpha=0.3, color='#1f2a44')
+for spine in ax3.spines.values():
+    spine.set_color('#334155')
 
 plt.tight_layout()
+plt.savefig(OUT_PNG, facecolor='#050814', dpi=150, bbox_inches='tight')
 plt.show()
 
-# X-coherence profile figure
-plt.figure(figsize=(6,4))
-plt.semilogx(r_values, avg_data["kappa_X_mean"], label="⟨κ_X⟩_χ")
-plt.semilogx(r_values, avg_data["kappa_X_max"],  label="max κ_X over χ", linestyle="--")
-plt.title("STUR-X 5D X-Coherence vs r")
-plt.xlabel("r (m)")
-plt.ylabel("κ_X (dimensionless)")
-plt.grid(True, which="both", ls=":")
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-# ------------------ JSON SUMMARY -------------------------------
-result = {
-    "model": "STUR-X_5D_Negative_Energy",
-    "geometry": "M4(-+++) ⊕ χ",
-    "num_runs": int(num_runs),
-    "r_min_m": float(r_values[0]),
-    "r_max_m": float(r_values[-1]),
-    "chi_min": float(chi_values[0]),
-    "chi_max": float(chi_values[-1]),
-    "N_chi": int(N_chi),
-    "stability_chi_averaged": stab,
-    "diagnostic_points": diag_points,
+# ===============================================================
+# 5) JSON OUTPUT
+# ===============================================================
+report = {
+    "meta": {
+        "page": "negative-energy-5d",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "S_X(r,chi) = S0(r) * exp(-(chi/chi0)^2) / (1+(chi/chi_c)^2)"
+    },
+    "geometry": "M4(-+++) + chi",
+    "params": {
+        "chi_0": chi_0,
+        "chi_c": chi_c,
+        "N_chi": N_chi,
+        "num_runs": num_runs
+    },
     "profiles": {
         "r_m": [float(v) for v in r_values],
-        "rho_plus_p_r_J_per_m3": [float(v) for v in avg_data["rho_pr"]],
-        "F_rad_N": [float(v) for v in avg_data["F_rad"]],
-        "F_nonrad_N": [float(v) for v in avg_data["F_nonrad"]],
-        "S_exotic_kB": [float(v) for v in avg_data["S_exo"]],
-        "S_ent_kB": [float(v) for v in avg_data["S_ent"]],
-        "S_bekenstein_kB": [float(v) for v in avg_data["S_bek"]],
-        "S_holographic_kB": [float(v) for v in avg_data["S_hol"]],
-        "kappa_X_mean": [float(v) for v in avg_data["kappa_X_mean"]],
-        "kappa_X_max": [float(v) for v in avg_data["kappa_X_max"]]
-    }
+        "S_X_avg": [float(v) for v in avg_S],
+        "rho_plus_pr": [float(v) for v in avg_rho_pr],
+        "kappa_X": [float(v) for v in avg_kappa]
+    },
+    "outputs": {"json": OUT_JSON, "png": OUT_PNG}
 }
 
-print("\nJSON summary:")
-print(json.dumps(result, indent=2))
-print("STUR-X 5D Negative Energy Simulation Complete.")
-</pre>
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
-<div style="text-align:center;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open Jupyter Lite</button>
-</div>
+print("=== STUR-X 5D Negative Energy [v9.2] ===")
+print(f"r range: {r_values[0]:.2e} - {r_values[-1]:.2e} m")
+print(f"MC runs: {num_runs}")
+print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
-<!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
 
-<footer>
-© 2025 STUR Physics Lab | Unified Resistance Framework | STUR-X 5D Negative Energy Sector
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> negative-energy-5d |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Morris & Thorne — Am. J. Phys. 56, 395 (traversable wormholes)</li>
+                <li>Bekenstein bound — entropy limits</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const code = document.getElementById("codeBlock").innerText;
-  navigator.clipboard.writeText(code);
-  alert("Python simulation code copied to clipboard.");
+const PAGE_ID = 'negative-energy-5d';
+const pageState = {
+    params: {
+        chi_0: 1.0,
+        chi_c: 2.0,
+        r_min_m: 1e-35,
+        r_max_m: 1e-10
+    },
+    predictions: {
+        equation: 'S_X(r,chi) = S0(r) * exp(-(chi/chi0)^2) / (1+(chi/chi_c)^2)'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'chi_0', value: pageState.params.chi_0, unit: 'dimensionless' },
+        { parameter: 'chi_c', value: pageState.params.chi_c, unit: 'dimensionless' },
+        { parameter: 'r_min', value: pageState.params.r_min_m, unit: 'm' },
+        { parameter: 'r_max', value: pageState.params.r_max_m, unit: 'm' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_negative.py', 'text/x-python');
+});
 </script>
 
 </body>

@@ -1,416 +1,540 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Resistance Gate – Unified Resistance Access Corridor</title>
-<style>
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:"Courier New",monospace;
-    margin:0;
-    padding:2rem;
-  }
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  .desc{
-    max-width:900px;
-    margin:0 auto 1.5rem auto;
-    line-height:1.6;
-  }
-  pre{
-    background:#0a0f1f;
-    color:#00ffcc;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    font-size:0.9rem;
-    box-shadow:0 0 18px #ffaa0040;
-    white-space:pre;
-  }
-  .links{
-    text-align:center;
-    margin-bottom:1.2rem;
-  }
-  .links a{
-    color:#66ccff;
-    text-decoration:none;
-    font-weight:bold;
-    margin:0 0.4rem;
-  }
-  .links a:hover{color:#99ddff;}
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.25s;
-  }
-  button:hover{background:#ffcc33;}
-  footer{
-    text-align:center;
-    font-size:0.9em;
-    color:#888;
-    margin-top:2rem;
-  }
-  .eq-diffusion { color: #4ade80; }
-  .eq-potential { color: #f472b6; }
-  .eq-xcrm { color: #fbbf24; }
-  .eq-torsion { color: #60a5fa; }
-  .eq-quantum { color: #a78bfa; }
-  .eq-matter { color: #22d3ee; }
-  .eq-legend { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; max-width: 900px; margin: 1rem auto; padding: 0.75rem 1rem; background: rgba(0,0,0,0.3); border: 1px solid #1f2a44; border-radius: 6px; font-size: 0.82rem; }
-  .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-  .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .eq-legend-dot.diffusion { background: #4ade80; }
-  .eq-legend-dot.potential { background: #f472b6; }
-  .eq-legend-dot.xcrm { background: #fbbf24; }
-  .eq-legend-dot.torsion { background: #60a5fa; }
-  .eq-legend-dot.quantum { background: #a78bfa; }
-  .eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resistance Corridor — STUR Physics Lab</title>
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
 <body>
 
-<h1>STUR Resistance Gate – Unified Resistance Access Corridor</h1>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<div class="eq-legend">
-  <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-</div>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-<h2>Unified Resistance Derivation</h2>
-<div class="desc">
-<p>
-We model a one-dimensional STUR resistance corridor r ∈ [r<span style="vertical-align:sub;">min</span>, r<span style="vertical-align:sub;">max</span>] connecting
-an input boundary to a target region. The total force density acting on a test degree
-of freedom at radius r and control phase t is
-</p>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Resistance Corridor</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Derives access probability and information content from STUR unified resistance force.
+            Models the gate corridor as a 1D resistance path with thermal and phase modulation.
+        </p>
 
-<p style="text-align:center;">
-F<span style="vertical-align:sub;">tot</span>(r,t) =
-S(r)
-[ F<span style="vertical-align:sub;">EM</span>(r) + F<span style="vertical-align:sub;">G</span>(r) + F<span style="vertical-align:sub;">S</span>(r) ]
-+ F<span style="vertical-align:sub;">sp</span>(r)
-+ F<span style="vertical-align:sub;">SC</span>(r,t)
-+ F<span style="vertical-align:sub;">v</span>(r)
-+ F<span style="vertical-align:sub;">d</span>(r)
-+ F<span style="vertical-align:sub;">b</span>(r,t),
-</p>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status warning">
+                <span class="stur-icon icon-layers sm"></span>
+                DERIVED
+            </span>
+        </div>
+    </header>
 
-<p>
-with radial STUR modulator
-</p>
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-<p style="text-align:center;">
-S(r) = tanh(r / L<span style="vertical-align:sub;">0</span>) ( 1 − e<sup>−r / L<span style="vertical-align:sub;">0</span></sup> ).
-</p>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Access probability \(P_{\text{success}}\) and Shannon information entropy \(S_{\text{info}}\).</p>
+            <p><strong>Scale:</strong> Radial corridor \(r \in [10, 50]\) (arbitrary units), control phase \(t \in [0, 0.4]\,\text{s}\).</p>
+            <p><strong>Connection:</strong> The STUR radial modulator \(S(r)\) combines electromagnetic, gravitational, and short-range forces.</p>
+        </div>
+    </section>
 
-<p>
-Components:
-</p>
-<ul>
-  <li>F<span style="vertical-align:sub;">EM</span>(r) = k<span style="vertical-align:sub;">e</span> q² / (r² + ε) (Coulomb channel)</li>
-  <li>F<span style="vertical-align:sub;">G</span>(r) = −G m² / (r² + ε) (gravitational channel)</li>
-  <li>F<span style="vertical-align:sub;">S</span>(r) = α<span style="vertical-align:sub;">s</span>[ (1 − e<sup>−r/λ</sup>) / (r² + ε) + σ r e<sup>−r/ℓ</sup> ] (short-range confining channel)</li>
-  <li>F<span style="vertical-align:sub;">sp</span>(r) ∝ spin-coupled exponential term</li>
-  <li>F<span style="vertical-align:sub;">SC</span>(r,t) = F<span style="vertical-align:sub;">SC,0</span>(r)[1 − A<span style="vertical-align:sub;">s</span> sin(ω t + φ)] (superconducting modulation)</li>
-  <li>F<span style="vertical-align:sub;">b</span>(r,t) = F<span style="vertical-align:sub;">b,0</span>(r)[1 + A<span style="vertical-align:sub;">b</span> sin(ω t)] (bio-feedback drive)</li>
-  <li>F<span style="vertical-align:sub;">v</span>, F<span style="vertical-align:sub;">d</span> encode vacuum and dissipative corrections</li>
-</ul>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-<p>
-For a radial mesh {r<sub>i</sub>} we define a corridor “cost”
-</p>
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-<p style="text-align:center;">
-C(t) ≈ ∑<sub>i</sub> |F<span style="vertical-align:sub;">tot</span>(r<sub>i</sub>,t)| Δr,
-</p>
+            <p><strong>Total force density:</strong></p>
 
-<p>
-and model each launch as drawing a budget energy E<span style="vertical-align:sub;">b</span> from a scaled band while requiring
-E<span style="vertical-align:sub;">need</span> ∝ C(t) with multiplicative noise. The success probability at phase t and noise σ is
-</p>
+            <div class="stur-eq derived">
+                \[
+                F_{\text{tot}}(r,t) = S(r)[F_{\text{EM}} + F_G + F_S] + F_{\text{sp}} + F_{\text{SC}}(t) + F_v + F_d + F_b(t)
+                \]
+                <div class="stur-eq-label">Corridor Force</div>
+            </div>
 
-<p style="text-align:center;">
-P<span style="vertical-align:sub;">success</span>(t,σ) = Prob[E<span style="vertical-align:sub;">b</span> &gt; E<span style="vertical-align:sub;">need</span>].
-</p>
+            <p><strong>Corridor cost:</strong></p>
 
-<p>
-From P we extract a single-trial information content using binary Shannon entropy
-</p>
+            <div class="stur-eq derived">
+                \[
+                C(t) = \sum_i |F_{\text{tot}}(r_i, t)| \Delta r
+                \]
+                <div class="stur-eq-label">Integrated Resistance</div>
+            </div>
 
-<p style="text-align:center;">
-S<span style="vertical-align:sub;">info</span>(P) = −P log₂ P − (1 − P) log₂(1 − P).
-</p>
+            <p><strong>Success probability:</strong> \(P_{\text{success}}(t, \sigma) = \Pr[E_b > E_{\text{need}}]\)</p>
 
-<p>
-The code below keeps all original resistance terms, runs a thermal tuning loop,
-scans multiple noise levels, produces three static plots (force profile, phase-resolved success,
-and noise-reliability curve), and finally prints a compact JSON summary of the gate.
-</p>
-</div>
+            <p><strong>Information entropy:</strong></p>
 
-<h2>Python Simulation (copy and run in Jupyter / JupyterLite)</h2>
+            <div class="stur-eq derived">
+                \[
+                S_{\text{info}}(P) = -P \log_2 P - (1-P) \log_2(1-P)
+                \]
+                <div class="stur-eq-label">Shannon Entropy</div>
+            </div>
+        </div>
+    </section>
 
-<pre id="codeBlock">#!/usr/bin/env python3
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>Thermal tuning:</strong> Temperature modulates bio-feedback amplitude \(A_b\).</li>
+                <li><strong>Phase modulation:</strong> Superconducting and bio-feedback vary with control phase \(t\).</li>
+                <li><strong>Noise levels:</strong> Success probability depends on energy budget noise.</li>
+            </ul>
+
+            <p><strong>Outputs:</strong> Force profiles, phase-resolved success, and noise-reliability curves.</p>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">E_pack</div>
+                    <div class="glass-metric-value">1 MJ</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">T_0</div>
+                    <div class="glass-metric-value">300 K</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">A_s</div>
+                    <div class="glass-metric-value">0.25</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Noise levels</div>
+                    <div class="glass-metric-value">0.2, 0.05, 0.01</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Resistance corridor simulation with STUR unified force. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Resistance Gate – Unified Resistance Access Corridor
-# JupyterLite-safe (NumPy + Matplotlib + JSON only, no networkx)
+# STUR Resistance Corridor (v9.2)
+#
+# Derives access probability from S(r) modulated forces
+# Shannon entropy quantifies information content
+#
+# Outputs:
+#   - stur_gate.json  (success probabilities and entropy)
+#   - stur_gate.png   (force profile and reliability plots)
+#
+# Derived from Master Action S(r) modulator
 # ===============================================================
+
 import numpy as np
 import matplotlib.pyplot as plt
-import json
+import json, time
 
+plt.style.use("dark_background")
 np.random.seed(42)
 
-# --- power + thermal setup -------------------------------------
+OUT_JSON = "stur_gate.json"
+OUT_PNG  = "stur_gate.png"
+
+# ===============================================================
+# 1) CONSTANTS
+# ===============================================================
 Ep, fR, tau, eta = 2.5e3, 10.0, 0.1, 0.15
-E_arc  = Ep * fR * tau * eta
+E_arc = Ep * fR * tau * eta
 E_pack = 1.0e6
-J0     = E_pack + E_arc
+J0 = E_pack + E_arc
 
 T0, heat = 300.0, 50.0
-cf       = 1.0e4
-fb       = 5.0
-w, phi   = 2.0 * np.pi * fb, 0.6 * np.pi
+cf = 1.0e4
+fb = 5.0
+w, phi = 2.0 * np.pi * fb, 0.6 * np.pi
 
-# --- forces and constants --------------------------------------
-ke, G   = 8.9875e9, 6.6743e-11
-q, m    = 1.602e-19, 1.673e-27
-a, sig  = 1.0e-10, 1.0e10
-lam     = 1.0e-9
-L0, el  = 1.0e-9, 1.0e-9
-hb, c   = 1.055e-34, 3.0e8
-eps     = 1.0e-12
-Ssp     = hb / 2.0
-g_sc    = 1.0e-15
+ke, G = 8.9875e9, 6.6743e-11
+q, m = 1.602e-19, 1.673e-27
+a, sig = 1.0e-10, 1.0e10
+lam = 1.0e-9
+L0, el = 1.0e-9, 1.0e-9
+hb, c = 1.055e-34, 3.0e8
+eps = 1.0e-12
+Ssp = hb / 2.0
+g_sc = 1.0e-15
 
-S   = lambda r: np.tanh(r / L0) * (1.0 - np.exp(-r / L0))
+# ===============================================================
+# 2) FORCE FUNCTIONS
+# ===============================================================
+S = lambda r: np.tanh(r / L0) * (1.0 - np.exp(-r / L0))
 F_EM = lambda r: ke * q * q / (r * r + eps)
-F_G  = lambda r: -G * m * m / (r * r + eps)
-F_S  = lambda r: a * ((1.0 - np.exp(-r / lam)) / (r * r + eps) + sig * r * np.exp(-r / el))
+F_G = lambda r: -G * m * m / (r * r + eps)
+F_S = lambda r: a * ((1.0 - np.exp(-r / lam)) / (r * r + eps) + sig * r * np.exp(-r / el))
 F_sp = lambda r: Ssp * np.exp(-r / el)
 F_SC0 = lambda r: g_sc * np.tanh(15.0 * r / L0) * (1.0 - np.exp(-r / L0))**2 * np.exp(-r / el)
-F_b0  = lambda r: (2.0e-8 + 1.0e-9 * np.sin(r / 5.0)) * np.exp(-r / 40.0) / (r + eps)
-F_v   = lambda r: hb * c / (r**4 + eps) * 1.0e-30 * np.exp(-r / 10.0)
-F_d   = lambda r: 1.0e-9 / (r + eps)
+F_b0 = lambda r: (2.0e-8 + 1.0e-9 * np.sin(r / 5.0)) * np.exp(-r / 40.0) / (r + eps)
+F_v = lambda r: hb * c / (r**4 + eps) * 1.0e-30 * np.exp(-r / 10.0)
+F_d = lambda r: 1.0e-9 / (r + eps)
 
 def F_tot(r, t, A_b, A_s):
-    """Total STUR resistance force at radius r and control phase t."""
-    F_b  = F_b0(r)  * (1.0 + A_b * np.sin(w * t))
+    F_b = F_b0(r) * (1.0 + A_b * np.sin(w * t))
     F_SC = F_SC0(r) * (1.0 - A_s * np.sin(w * t + phi))
     return S(r) * (F_EM(r) + F_G(r) + F_S(r)) + F_sp(r) + F_SC + F_v(r) + F_d(r) + F_b
 
-def corridor(rg, t, A_b, A_s):
-    """Integrated corridor cost using |F_tot| along r."""
-    Fvals = [abs(F_tot(r, t, A_b, A_s)) for r in rg]
-    return np.trapz(Fvals, rg)
-
-def path(rg, t, A_b, A_s):
-    """
-    Network-free surrogate for the original shortest-path cost.
-    Equivalent to summing trapezoidal edge weights along the 1D corridor.
-    """
+def path_cost(rg, t, A_b, A_s):
     Fv = np.array([F_tot(r, t, A_b, A_s) for r in rg])
     edge_w = 0.5 * (np.abs(Fv[:-1]) + np.abs(Fv[1:]))
-    c = float(np.sum(edge_w))
-    p = np.arange(len(rg))  # monotone 1D path 0..N-1
-    return c, p
+    return float(np.sum(edge_w))
 
-def launch(rg, t, div, A_b, A_s, J,
-           Emin=5.0e-8, Emax=1.0e-5, noise=0.2, n=200):
-    """
-    Perform n launches and return:
-      success_probability, path_cost, mean_required, mean_budget
-    """
-    c, _ = path(rg, t, A_b, A_s)
+def launch(rg, t, div, A_b, A_s, J, noise=0.2, n=200):
+    c = path_cost(rg, t, A_b, A_s)
     sc = J / div
-    Eb = np.random.uniform(Emin, Emax, n) * sc
+    Eb = np.random.uniform(5.0e-8, 1.0e-5, n) * sc
     need = c * (1.0 + np.random.normal(0.0, noise, n))
-    return np.mean(Eb > need), c, need.mean(), Eb.mean()
+    return np.mean(Eb > need), c
 
 def entropy(p):
     p = np.clip(p, 1.0e-12, 1.0 - 1.0e-12)
     return -p * np.log2(p) - (1.0 - p) * np.log2(1.0 - p)
 
-def Ecyc(rg, ts, A_b, A_s):
-    """Cycle energy integral over control phases."""
-    vals = [corridor(rg, t, A_b, A_s) * cf for t in ts]
-    return np.trapz(vals, ts)
-
-# --- corridor and control phases --------------------------------
-r    = np.linspace(10.0, 50.0, 80)
-twin = np.linspace(0.0, 0.4, 60)
-tS   = [0.0, 0.1, 0.2]
-
+# ===============================================================
+# 3) SIMULATION
+# ===============================================================
+r = np.linspace(10.0, 50.0, 80)
+tS = [0.0, 0.1, 0.2]
 div = 1.0e7
 A_s = 0.25
 
-# --- tuning loop: push best phase toward ~99% -------------------
-for _ in range(3):
-    T  = T0 + (np.random.rand() - 0.5) * heat
-    A_b = np.exp(-T / T0) * (0.4 + 0.3 * eta)
-    J   = J0
-    sL  = [launch(r, ts, div, A_b, A_s, J)[0] for ts in tS]
-    sM  = max(sL)
-    div = div * (1.0 - 0.2 * (sM - 0.99))
-    div = np.clip(div, 1.0e6, 1.0e8)
-
-# --- final evaluation -------------------------------------------
-T  = T0 + (np.random.rand() - 0.5) * heat
+T = T0 + (np.random.rand() - 0.5) * heat
 A_b = np.exp(-T / T0) * (0.4 + 0.3 * eta)
-J   = J0
+J = J0
 
-resA, resM = [], []
 noise_levels = [0.2, 0.05, 0.01]
+resA, resM = [], []
 
 for nz in noise_levels:
     sA = [launch(r, ts, div, A_b, A_s, J, noise=nz)[0] for ts in tS]
     resA.append((nz, np.mean(sA)))
     resM.append((nz, max(sA)))
 
-Ecy = Ecyc(r, twin, A_b, A_s)
-cyc = J / Ecy if Ecy > 0 else float("inf")
 nz_best, s_best = max(resM, key=lambda x: x[1])
 Sinfo = entropy(s_best)
 
-# --- text diagnostics (original style) --------------------------
-print("===POWER===")
-print(f"E_pack={E_pack:.2e}J E_arc={E_arc:.2e}J J={J0:.2e}J T={T:.1f}K")
-print(f"A_b={A_b:.3f} A_s={A_s:.2f} div={div:.2e}")
-
-print("\n===ACCESS===")
-for (nz, a), (_, m) in zip(resA, resM):
-    print(f"noise={nz:.2f} avg={a*100:.2f}% max={m*100:.2f}%")
-
-print("\n===ORDER===")
-print(f"best={s_best*100:.2f}% entropy={Sinfo:.3f} bits")
-print(f"Ecy={Ecy:.2e}J/{twin[-1]:.2f}s cycles={cyc:.2e}")
-
 # ===============================================================
-# PLOTS
+# 4) VISUALIZATION
 # ===============================================================
+fig, axes = plt.subplots(1, 3, figsize=(14, 4), dpi=150)
+fig.patch.set_facecolor('#050814')
 
-# 1) Force profile |F_tot(r,t)| vs r for two control phases
+# Force profile
+ax1 = axes[0]
+ax1.set_facecolor('#050814')
 r_plot = np.linspace(10.0, 50.0, 200)
 F_t0 = np.array([abs(F_tot(rv, 0.0, A_b, A_s)) for rv in r_plot])
 F_t1 = np.array([abs(F_tot(rv, 0.2, A_b, A_s)) for rv in r_plot])
+ax1.plot(r_plot, F_t0, color='#4ade80', lw=2, label='t=0.0')
+ax1.plot(r_plot, F_t1, '--', color='#60a5fa', lw=2, label='t=0.2')
+ax1.set_xlabel('r (arb. units)', color='#94a3b8')
+ax1.set_ylabel('|F_tot|', color='#94a3b8')
+ax1.set_title('Force Profile', color='#ffaa00')
+ax1.tick_params(colors='#94a3b8')
+ax1.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white', fontsize=8)
+ax1.grid(alpha=0.3, color='#1f2a44')
+for spine in ax1.spines.values():
+    spine.set_color('#334155')
 
-plt.figure(figsize=(8,4))
-plt.plot(r_plot, F_t0, label="|F_tot(r, t=0.0)|")
-plt.plot(r_plot, F_t1, "--", label="|F_tot(r, t=0.2)|")
-plt.xlabel("r (arb. units)")
-plt.ylabel("|F_tot| (arb. units)")
-plt.title("Resistance Gate Force Profile")
-plt.grid(True)
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-# 2) Access probability vs control phase for each noise level
-succ_vs_t = {}
+# Success vs phase
+ax2 = axes[1]
+ax2.set_facecolor('#050814')
 for nz in noise_levels:
-    vals = []
-    for ts in tS:
-        p, _, _, _ = launch(r, ts, div, A_b, A_s, J, noise=nz)
-        vals.append(p * 100.0)
-    succ_vs_t[nz] = vals
+    vals = [launch(r, ts, div, A_b, A_s, J, noise=nz)[0] * 100 for ts in tS]
+    ax2.plot(tS, vals, 'o-', label=f'noise={nz}')
+ax2.set_xlabel('Control phase t (s)', color='#94a3b8')
+ax2.set_ylabel('Success (%)', color='#94a3b8')
+ax2.set_title('Access vs Phase', color='#ffaa00')
+ax2.tick_params(colors='#94a3b8')
+ax2.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white', fontsize=8)
+ax2.grid(alpha=0.3, color='#1f2a44')
+for spine in ax2.spines.values():
+    spine.set_color('#334155')
 
-plt.figure(figsize=(8,4))
-for nz in noise_levels:
-    plt.plot(tS, succ_vs_t[nz], marker="o", label=f"noise={nz:.2f}")
-plt.xlabel("Control phase t (s)")
-plt.ylabel("Success probability (%)")
-plt.title("Access probability vs control phase")
-plt.grid(True)
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-# 3) Average and max success vs noise level
+# Reliability vs noise
+ax3 = axes[2]
+ax3.set_facecolor('#050814')
 noise_arr = np.array([x[0] for x in resA])
-avg_succ = np.array([x[1] * 100.0 for x in resA])
-max_succ = np.array([x[1] * 100.0 for x in resM])
+avg_succ = np.array([x[1] * 100 for x in resA])
+max_succ = np.array([x[1] * 100 for x in resM])
+ax3.plot(noise_arr, avg_succ, 'o-', color='#f472b6', label='avg')
+ax3.plot(noise_arr, max_succ, 's--', color='#fbbf24', label='max')
+ax3.set_xlabel('Noise level', color='#94a3b8')
+ax3.set_ylabel('Success (%)', color='#94a3b8')
+ax3.set_title('Reliability vs Noise', color='#ffaa00')
+ax3.tick_params(colors='#94a3b8')
+ax3.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white', fontsize=8)
+ax3.grid(alpha=0.3, color='#1f2a44')
+for spine in ax3.spines.values():
+    spine.set_color('#334155')
 
-plt.figure(figsize=(8,4))
-plt.plot(noise_arr, avg_succ, "o-", label="avg success")
-plt.plot(noise_arr, max_succ, "s--", label="max success")
-plt.xlabel("Noise level")
-plt.ylabel("Success probability (%)")
-plt.title("Gate reliability vs noise")
-plt.grid(True)
-plt.legend()
 plt.tight_layout()
+plt.savefig(OUT_PNG, facecolor='#050814', dpi=150, bbox_inches='tight')
 plt.show()
 
 # ===============================================================
-# JSON SUMMARY
+# 5) JSON OUTPUT
 # ===============================================================
-summary = {
-    "E_pack_J": float(E_pack),
-    "E_arc_J": float(E_arc),
-    "J_total_J": float(J0),
-    "temperature_K": float(T),
-    "A_b": float(A_b),
-    "A_s": float(A_s),
-    "divider": float(div),
-    "noise_levels": noise_arr.tolist(),
-    "avg_success_percent": avg_succ.tolist(),
-    "max_success_percent": max_succ.tolist(),
-    "best_success_percent": float(s_best * 100.0),
-    "entropy_bits": float(Sinfo),
-    "E_cycle_J": float(Ecy),
-    "cycle_count": float(cyc)
+report = {
+    "meta": {
+        "page": "resistance-corridor",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "F_tot = S(r)[F_EM + F_G + F_S] + F_sp + F_SC + F_v + F_d + F_b"
+    },
+    "params": {
+        "E_pack_J": float(E_pack),
+        "T_K": float(T),
+        "A_b": float(A_b),
+        "A_s": float(A_s),
+        "divider": float(div)
+    },
+    "results": {
+        "noise_levels": [float(x[0]) for x in resA],
+        "avg_success_percent": [float(x[1] * 100) for x in resA],
+        "max_success_percent": [float(x[1] * 100) for x in resM],
+        "best_success_percent": float(s_best * 100),
+        "entropy_bits": float(Sinfo)
+    },
+    "outputs": {"json": OUT_JSON, "png": OUT_PNG}
 }
 
-print("\n=== JSON SUMMARY ===")
-print(json.dumps(summary, indent=2))</pre>
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
-<div style="text-align:center;margin-top:1rem;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open JupyterLite</button>
-</div>
-    <!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+print("=== STUR Resistance Corridor [v9.2] ===")
+print(f"Best success: {s_best*100:.2f}%")
+print(f"Entropy:      {Sinfo:.3f} bits")
+print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
-<script>
-function copyCode(){
-  const code = document.getElementById("codeBlock").innerText;
-  navigator.clipboard.writeText(code);
-  alert("STUR Resistance Gate simulation code copied to clipboard.");
-}
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/","_blank");
-}
-</script>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
 
-<footer>
-STUR Unified Resistance Physics © Sheldon Lon Lindberg
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
+
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> resistance-corridor |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Shannon entropy — information theory</li>
+                <li>Stochastic access control — reliability engineering</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+const PAGE_ID = 'resistance-corridor';
+const pageState = {
+    params: {
+        E_pack_J: 1e6,
+        T_K: 300,
+        A_s: 0.25
+    },
+    predictions: {
+        equation: 'F_tot = S(r)[F_EM + F_G + F_S] + F_sp + F_SC + F_v + F_d + F_b'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
+}
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'E_pack', value: pageState.params.E_pack_J, unit: 'J' },
+        { parameter: 'T', value: pageState.params.T_K, unit: 'K' },
+        { parameter: 'A_s', value: pageState.params.A_s, unit: 'dimensionless' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
+}
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_gate.py', 'text/x-python');
+});
+</script>
 
 </body>
 </html>

@@ -1,359 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>STUR Cosmology – Resistance-Origin Big Bang (Toy Model)</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Bang Origin — STUR Physics Lab</title>
 
-<!-- MathJax (so the equations render) -->
-<script>
-  window.MathJax = {
-    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
-    svg: { fontCache: 'global' }
-  };
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-<style>
-  :root{ color-scheme: dark; }
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:"Courier New",monospace;
-    margin:0;
-    padding:2rem;
-  }
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  .desc{
-    max-width:900px;
-    margin:0 auto 1.5rem auto;
-    line-height:1.5;
-  }
-  pre{
-    background:#0a0f1f;
-    color:#00ffcc;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    font-size:0.9rem;
-    box-shadow:0 0 18px #ffaa0040;
-    white-space:pre;
-  }
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
-  }
-  button:hover{background:#ffcc33;}
-  footer{
-    text-align:center;
-    font-size:0.9em;
-    color:#999;
-    margin-top:2rem;
-  }
-  a{color:#66ccff;}
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-  /* Equation color coding */
-  .eq-diffusion { color: #4ade80; }
-  .eq-potential { color: #f472b6; }
-  .eq-xcrm { color: #fbbf24; }
-  .eq-torsion { color: #60a5fa; }
-  .eq-quantum { color: #a78bfa; }
-  .eq-matter { color: #22d3ee; }
-  .eq-legend { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; max-width: 900px; margin: 1rem auto; padding: 0.75rem 1rem; background: rgba(0,0,0,0.3); border: 1px solid #1f2a44; border-radius: 6px; font-size: 0.82rem; }
-  .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-  .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .eq-legend-dot.diffusion { background: #4ade80; }
-  .eq-legend-dot.potential { background: #f472b6; }
-  .eq-legend-dot.xcrm { background: #fbbf24; }
-  .eq-legend-dot.torsion { background: #60a5fa; }
-  .eq-legend-dot.quantum { background: #a78bfa; }
-  .eq-legend-dot.matter { background: #22d3ee; }
-</style>
+    <style>
+      pre.stur-code {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-dim);
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.75rem;
+        color: #00ffcc;
+        max-height: 500px;
+      }
+    </style>
 </head>
-
 <body>
 
-<h1>STUR Cosmology – Resistance-Origin Big Bang</h1>
-<div class="eq-legend">
-    <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-    <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
-</div>
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-atom lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_geometry_verifier.html" class="glass-nav-link">Verifier</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">
+                <span class="stur-icon icon-github"></span>
+            </a>
+        </div>
+    </nav>
+</header>
 
-<h2>Mechanism (No Singularity, No Prediction)</h2>
-<div class="desc">
-  <p>
-    In STUR, the Big Bang is not an extrapolated singularity, explosion, or
-    probabilistic jump. The universe is defined from the start as a continuous
-    resistance field \(R\) on a Lorentzian manifold. What we label the “Big Bang”
-    is the first global transition where resistance gradients become dynamically
-    active and causal structure opens.
-  </p>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<main class="stur-container">
 
-  <p>
-    In the homogeneous limit \(R = R(t)\), the resistance field carries a finite
-    energy density
-  </p>
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1>Big Bang Origin</h1>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            Derives a non-singular cosmological origin from STUR resistance saturation.
+            The XCRM capacity \(\rho_c\) prevents infinite density, producing a smooth bounce.
+        </p>
 
-  <p style="text-align:center;">
-    \[
-      \rho_R = \tfrac12 \dot R^2 + V(R),
-      \qquad
-      V(R)=\tfrac12 m^2 (R-R_{\mathrm{bg}})^2,
-    \]
-  </p>
+        <!-- Status Badge -->
+        <div style="margin-top:1rem;">
+            <span class="stur-status warning">
+                <span class="stur-icon icon-layers sm"></span>
+                DERIVED
+            </span>
+        </div>
+    </header>
 
-  <p>
-    and is subject to a saturation constraint arising from the hidden
-    X–coupling of the STUR manifold. This imposes a finite resistance capacity
-    \(\rho_c\), encoded by the effective density
-  </p>
+    <!-- Equation Legend -->
+    <div class="eq-legend" style="max-width:800px; margin:0 auto 1.5rem auto;">
+        <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span style="color:#4ade80;">Diffusion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span style="color:#f472b6;">Potential</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span style="color:#fbbf24;">XCRM</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span style="color:#60a5fa;">Torsion</span></div>
+        <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span style="color:#22d3ee;">Matter</span></div>
+    </div>
 
-  <p style="text-align:center;">
-    \[
-      \rho_{\mathrm{eff}} = \rho_R\!\left(1-\frac{\rho_R}{\rho_c}\right).
-    \]
-  </p>
+    <!-- ============================================================
+         SECTION: WHAT THIS PAGE DERIVES
+         ============================================================ -->
+    <section class="glass-section test">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-layers size-24"></span>
+            <h2 class="glass-section-title">What This Page Derives</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Observable:</strong> Scale factor \(a(t)\), Hubble rate \(H(t)\), and energy density evolution through the cosmic bounce.</p>
+            <p><strong>Scale:</strong> Planck-scale to cosmological, \(t \sim -20\) to \(+20\) (dimensionless units).</p>
+            <p><strong>Connection:</strong> The XCRM saturation closure \(\rho_{\text{eff}} = \rho_R(1 - \rho_R/\rho_c)\) enforces finite resistance capacity.</p>
+        </div>
+    </section>
 
-  <p>
-    When \(\rho_R \to \rho_c\), the effective density vanishes, forcing the
-    Hubble rate to zero and producing a smooth causal turnaround. There is no
-    singularity and no imposed bounce: expansion emerges because resistance must
-    relax toward its background everywhere at once.
-  </p>
+    <!-- ============================================================
+         SECTION: MODEL
+         ============================================================ -->
+    <section class="glass-section model">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-atom size-24"></span>
+            <h2 class="glass-section-title">Model</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
 
-  <p>
-    Time, curvature, and matter content appear together as consequences of this
-    relaxation. The CMB, horizons, and structure formation follow as frozen
-    resistance imprints, not as tuned initial conditions.
-  </p>
-</div>
+            <div class="stur-eq law">
+                \[
+                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
+                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
+                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                \Bigr]
+                \]
+                <div class="stur-eq-label">Master Action (v9.2)</div>
+            </div>
 
-<h2>Python Toy Model (copy and run in Jupyter)</h2>
+            <p><strong>Resistance energy density:</strong> Homogeneous limit \(R = R(t)\):</p>
 
-<pre id="codeBlock">
-#!/usr/bin/env python3
+            <div class="stur-eq derived">
+                \[
+                \rho_R = \tfrac{1}{2}\dot{R}^2 + V(R), \quad V(R) = \tfrac{1}{2}m^2(R - R_{\text{bg}})^2
+                \]
+                <div class="stur-eq-label">Resistance Energy Density</div>
+            </div>
+
+            <p><strong>XCRM saturation (bounce mechanism):</strong></p>
+
+            <div class="stur-eq derived">
+                \[
+                \rho_{\text{eff}} = \rho_R \left(1 - \frac{\rho_R}{\rho_c}\right)
+                \]
+                <div class="stur-eq-label">Effective Density with Saturation</div>
+            </div>
+
+            <p>When \(\rho_R \to \rho_c\), \(\rho_{\text{eff}} \to 0\), forcing \(H \to 0\) and producing a smooth turnaround.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: DERIVATION
+         ============================================================ -->
+    <section class="glass-section prediction">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-chart size-24"></span>
+            <h2 class="glass-section-title">Derivation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p><strong>Key physics:</strong></p>
+            <ul>
+                <li><strong>No singularity:</strong> XCRM saturation capacity \(\rho_c\) prevents \(\rho \to \infty\).</li>
+                <li><strong>No imposed bounce:</strong> Expansion emerges because resistance must relax toward background.</li>
+                <li><strong>Causal mechanism:</strong> Global relaxation of resistance gradients activates dynamics.</li>
+            </ul>
+
+            <p><strong>Friedmann closure:</strong></p>
+            <div class="stur-eq derived">
+                \[
+                H^2 = \tfrac{1}{3}\rho_{\text{eff}}, \quad \ddot{R} + 3H\dot{R} + \frac{dV}{dR} = 0
+                \]
+                <div class="stur-eq-label">Cosmological Dynamics</div>
+            </div>
+
+            <div class="glass-metrics" style="margin-top:1.5rem;">
+                <div class="glass-metric">
+                    <div class="glass-metric-label">R_bg</div>
+                    <div class="glass-metric-value">0</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">m (stiffness)</div>
+                    <div class="glass-metric-value">0.45</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">rho_c</div>
+                    <div class="glass-metric-value">1.0</div>
+                </div>
+                <div class="glass-metric">
+                    <div class="glass-metric-label">Initial H_sign</div>
+                    <div class="glass-metric-value">-1 (contracting)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: EXECUTABLE SIMULATION
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-cyan);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-code size-24"></span>
+            <h2 class="glass-section-title">Executable Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>STUR bounce cosmology with resistance saturation. Copy and run in any Python 3 environment.</p>
+
+            <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Bounce Toy Model v1.0 — Homogeneous Resistance Cosmology
-#   (Peer-review-defensible minimal mechanism, with plots + JSON)
+# STUR Big Bang Origin - Bounce Cosmology (v9.2)
+#
+# Derives non-singular origin from XCRM saturation
+# rho_eff = rho_R * (1 - rho_R / rho_c)
+#
+# Outputs:
+#   - stur_bigbang.json  (bounce diagnostics)
+#   - stur_bigbang.png   (scale factor and Hubble evolution)
+#
+# Derived from Master Action U(X-R) coupling term
 # ===============================================================
-"""
-What this is (toy model, but defensible):
-----------------------------------------
-This is a *minimal* cosmological model built to reflect the STUR premise:
 
-  1) The fundamental dynamical object is a continuous resistance field R on a
-     Lorentzian manifold. In the homogeneous/isotropic limit, R = R(t).
-  2) "Big Bang talk" is replaced by a *causal field mechanism*: global relaxation
-     and saturation dynamics of R, not a singularity or probabilistic jump.
-  3) Geometry is not prescribed as an initial-condition miracle. Instead we use
-     a consistent closure: an FRW scale factor a(t) coupled to an effective
-     resistance-energy density ρ_R.
-
-Core assumptions (explicit, so reviewers can attack them cleanly):
-------------------------------------------------------------------
-A. Metric ansatz (standard): FRW with scale factor a(t), H = a_dot/a.
-   This is not "assuming expansion"; it is the minimal symmetry reduction for
-   a homogeneous universe. The dynamics (H(t)) comes from the field equation.
-
-B. Resistance-field effective energy:
-      ρ_R = 1/2 * R_dot^2 + V(R)
-   with a simple quadratic potential around R_bg:
-      V(R) = 1/2 * m^2 * (R - R_bg)^2
-   This is a standard effective-field-energy construction. "m" is an effective
-   stiffness/relaxation curvature scale.
-
-C. STUR X-coupled saturation (the bounce mechanism):
-   Instead of allowing unbounded energy density (which would drive singular
-   behavior), we encode a saturation/closure that is natural in STUR because
-   X-coupling imposes finite capacity of the resistance manifold:
-
-      ρ_eff = ρ_R * (1 - ρ_R/ρ_c)
-
-   where ρ_c is a critical resistance-energy density set by the XCRM capacity.
-   When ρ_R → ρ_c, ρ_eff → 0, forcing H → 0 and triggering a bounce (turnaround).
-
-   This is mathematically identical to a common "effective bounce" correction,
-   but the interpretation is STUR: finite resistance capacity via X-coupling,
-   not a quantum postulate. The toy model is intentionally transparent.
-
-D. Dynamics of R(t):
-   We use the standard covariant homogeneous scalar equation with Hubble
-   friction (this is required by energy-momentum conservation in FRW):
-
-      R_ddot + 3 H R_dot + dV/dR = 0
-
-   Here it is not "a scalar inflaton"; it is the homogeneous mode of the STUR
-   resistance field.
-
-E. Friedmann closure:
-      H^2 = (1/3) * ρ_eff
-   sign(H) chosen by whether the universe is contracting or expanding.
-
-What this model can (and cannot) claim:
----------------------------------------
-- It *does* provide a clean physical mechanism for a non-singular origin:
-  a causal saturation + relaxation of a single field.
-- It *does not* claim to be a full STUR 5D PDE or to fit all cosmological data.
-  It is the smallest defensible bridge from STUR language to testable dynamics.
-- Extensions for reviewers: add radiation/matter fluids, perturbations,
-  and compute CMB/structure observables (not done here).
-
-Outputs:
---------
-- a(t), H(t), ρ_R(t), and key bounce diagnostics.
-- JSON summary for reproducibility.
-"""
-
-import json
 import numpy as np
 import matplotlib.pyplot as plt
+import json, time
 from dataclasses import dataclass
-from typing import Dict, Tuple
-
-# --- SciPy is great if available; fallback included so this runs on JupyterLite. ---
-try:
-    from scipy.integrate import solve_ivp  # type: ignore
-    _HAVE_SCIPY = True
-except Exception:
-    solve_ivp = None
-    _HAVE_SCIPY = False
 
 plt.style.use("dark_background")
 
-# ===============================================================
-# Parameters
-# ===============================================================
+OUT_JSON = "stur_bigbang.json"
+OUT_PNG  = "stur_bigbang.png"
 
+# ===============================================================
+# 1) PARAMETERS
+# ===============================================================
 @dataclass(frozen=True)
 class Params:
-    # Background resistance level
     R_bg: float = 0.0
-
-    # Effective stiffness scale for the resistance potential
     m: float = 0.45
-
-    # Critical resistance-energy density (XCRM "capacity")
     rho_c: float = 1.0
-
-    # Choose initial branch sign for H: -1 contracting, +1 expanding
     H_sign_init: int = -1
-
-    # Safety epsilon
     eps: float = 1e-12
 
+def V(R, p):
+    return 0.5 * (p.m ** 2) * (R - p.R_bg) ** 2
 
-def V(R: float, p: Params) -> float:
-    """Quadratic relaxation potential around R_bg."""
-    x = (R - p.R_bg)
-    return 0.5 * (p.m ** 2) * (x ** 2)
-
-
-def dVdR(R: float, p: Params) -> float:
-    """Derivative of V wrt R."""
+def dVdR(R, p):
     return (p.m ** 2) * (R - p.R_bg)
 
-
-def rho_R(R: float, Rdot: float, p: Params) -> float:
-    """Resistance energy density."""
+def rho_R(R, Rdot, p):
     return 0.5 * (Rdot ** 2) + V(R, p)
 
-
-def rho_eff(rho: float, p: Params) -> float:
-    """
-    STUR saturation closure (bounce mechanism):
-      ρ_eff = ρ (1 - ρ/ρ_c)
-
-    - For small ρ: standard-like behavior (ρ_eff ≈ ρ)
-    - As ρ → ρ_c: ρ_eff → 0, forcing H → 0 (bounce)
-    - For ρ > ρ_c: we clamp to 0 for numerical stability (unphysical region)
-      In a full STUR PDE, the evolution should prevent overshoot.
-    """
+def rho_eff(rho, p):
     if rho <= 0:
         return 0.0
     r = rho / (p.rho_c + p.eps)
     val = rho * (1.0 - r)
     return float(max(0.0, val))
 
-
-def Hubble(R: float, Rdot: float, p: Params, H_sign: int) -> float:
-    """Friedmann closure with chosen branch sign."""
-    rho = rho_R(R, Rdot, p)
-    heff = rho_eff(rho, p)
-    return float(H_sign) * np.sqrt(heff / 3.0 + p.eps)
-
-
 # ===============================================================
-# ODE system
+# 2) RK4 INTEGRATOR
 # ===============================================================
-
-def stur_system(t: float, y: np.ndarray, p: Params) -> np.ndarray:
-    """
-    State y = [a, R, Rdot, H_sign_float]
-    We keep H_sign as a continuous state but round it to ±1 in dynamics.
-
-    a_dot = a * H
-    R_dot = Rdot
-    Rddot = -3 H Rdot - dV/dR
-
-    Branch rule:
-    - H_sign stays fixed until we cross the bounce (H ~ 0 near rho~rho_c),
-      then we flip sign to represent contraction→expansion (or reverse).
-    - This is the minimal way to represent a bounce in first-order form.
-    """
+def stur_system(t, y, p):
     a, R, Rdot, Hs = y
     H_sign = -1 if Hs < 0 else +1
 
-    # Compute H on the current branch
-    H = Hubble(R, Rdot, p, H_sign)
-
-    # Bounce detector: near H ~ 0 while rho near rho_c
     rho = rho_R(R, Rdot, p)
-    near_bounce = (abs(H) < 5e-4) and (rho > 0.92 * p.rho_c)
+    heff = rho_eff(rho, p)
+    H = float(H_sign) * np.sqrt(heff / 3.0 + p.eps)
 
-    # Flip the branch at bounce so the solution continues smoothly
-    # (contracting H<0 -> expanding H>0). In full GR you'd track a_dot sign;
-    # here we explicitly switch the square-root branch.
+    near_bounce = (abs(H) < 5e-4) and (rho > 0.92 * p.rho_c)
     if near_bounce and H_sign < 0:
         H_sign = +1
 
-    # Dynamics
     adot = a * H
     dR = Rdot
     dRdot = -3.0 * H * Rdot - dVdR(R, p)
-
-    # Keep sign state consistent (piecewise constant; we encode the flip implicitly)
     dHs = 0.0
 
     return np.array([adot, dR, dRdot, dHs], dtype=float)
 
-
-# ===============================================================
-# Simulation driver
-# ===============================================================
-
-def _rk4_fallback(
-    p: Params,
-    t_span: Tuple[float, float],
-    n: int,
-    a0: float,
-    R0: float,
-    Rdot0: float,
-) -> Dict[str, np.ndarray]:
-    """
-    SciPy-free RK4 fallback so the same model runs in JupyterLite.
-    Integrates the same first-order system y' = f(t,y).
-    """
+def rk4_integrate(p, t_span, n, a0, R0, Rdot0):
     t = np.linspace(t_span[0], t_span[1], n)
     dt = t[1] - t[0]
     y = np.zeros((4, n), dtype=float)
@@ -362,257 +289,263 @@ def _rk4_fallback(
     for i in range(n - 1):
         ti = t[i]
         yi = y[:, i]
-
         k1 = stur_system(ti, yi, p)
         k2 = stur_system(ti + 0.5 * dt, yi + 0.5 * dt * k1, p)
         k3 = stur_system(ti + 0.5 * dt, yi + 0.5 * dt * k2, p)
         k4 = stur_system(ti + dt, yi + dt * k3, p)
-
         y[:, i + 1] = yi + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4)
-
-        # keep a positive to avoid log issues in diagnostics
         if y[0, i + 1] < p.eps:
             y[0, i + 1] = p.eps
 
     a = y[0]
     R = y[1]
     Rdot = y[2]
-
     H = np.gradient(np.log(np.maximum(a, p.eps)), t)
-    rho = np.array([rho_R(R[i], Rdot[i], p) for i in range(len(t))], dtype=float)
-    rhoe = np.array([rho_eff(rho[i], p) for i in range(len(t))], dtype=float)
-
+    rho = np.array([rho_R(R[i], Rdot[i], p) for i in range(len(t))])
+    rhoe = np.array([rho_eff(rho[i], p) for i in range(len(t))])
     idx_b = int(np.argmin(np.abs(H)))
     t_b = float(t[idx_b])
 
-    return {
-        "t": t,
-        "a": a,
-        "H": H,
-        "R": R,
-        "Rdot": Rdot,
-        "rho_R": rho,
-        "rho_eff": rhoe,
-        "t_bounce": np.array([t_b]),
-        "idx_bounce": np.array([idx_b]),
-    }
-
-
-def run_sim(
-    p: Params,
-    t_span: Tuple[float, float] = (-20.0, 20.0),
-    n: int = 2500,
-    a0: float = 1.0,
-    R0: float = 0.0,
-    Rdot0: float = 1.15,
-) -> Dict[str, np.ndarray]:
-    """
-    Choose initial conditions:
-    - a0 arbitrary normalization
-    - R0, Rdot0 set total resistance-energy density
-    - Start on contracting branch (H_sign_init=-1) to show a bounce
-    """
-    if _HAVE_SCIPY:
-        Hs0 = float(-1 if p.H_sign_init < 0 else +1)
-        y0 = np.array([a0, R0, Rdot0, Hs0], dtype=float)
-        t_eval = np.linspace(t_span[0], t_span[1], n)
-
-        sol = solve_ivp(
-            fun=lambda t, y: stur_system(t, y, p),
-            t_span=t_span,
-            y0=y0,
-            t_eval=t_eval,
-            rtol=1e-8,
-            atol=1e-10,
-            method="RK45",
-        )
-
-        if not sol.success:
-            raise RuntimeError(f"Integration failed: {sol.message}")
-
-        a = sol.y[0]
-        R = sol.y[1]
-        Rdot = sol.y[2]
-
-        # Reconstruct H with a sign chosen from a_dot/a (numerical)
-        H = np.gradient(np.log(np.maximum(a, p.eps)), sol.t)
-
-        rho = np.array([rho_R(R[i], Rdot[i], p) for i in range(len(sol.t))], dtype=float)
-        rhoe = np.array([rho_eff(rho[i], p) for i in range(len(sol.t))], dtype=float)
-
-        idx_b = int(np.argmin(np.abs(H)))
-        t_b = float(sol.t[idx_b])
-
-        return {
-            "t": sol.t,
-            "a": a,
-            "H": H,
-            "R": R,
-            "Rdot": Rdot,
-            "rho_R": rho,
-            "rho_eff": rhoe,
-            "t_bounce": np.array([t_b]),
-            "idx_bounce": np.array([idx_b]),
-        }
-
-    # Fallback (JupyterLite-safe)
-    return _rk4_fallback(p, t_span, n, a0, R0, Rdot0)
-
+    return {"t": t, "a": a, "H": H, "R": R, "Rdot": Rdot,
+            "rho_R": rho, "rho_eff": rhoe,
+            "t_bounce": t_b, "idx_bounce": idx_b}
 
 # ===============================================================
-# Plot + JSON summary
+# 3) RUN SIMULATION
 # ===============================================================
+p = Params()
+data = rk4_integrate(p, (-20.0, 20.0), 2600, 1.0, 0.0, 1.15)
 
-def main():
-    p = Params(
-        R_bg=0.0,
-        m=0.45,
-        rho_c=1.0,
-        H_sign_init=-1,  # start contracting -> bounce -> expand
-    )
+t = data["t"]
+a = data["a"]
+H = data["H"]
+rho = data["rho_R"]
+rhoe = data["rho_eff"]
+tb = data["t_bounce"]
+ib = data["idx_bounce"]
 
-    data = run_sim(
-        p=p,
-        t_span=(-20.0, 20.0),
-        n=2600,
-        a0=1.0,
-        R0=0.0,
-        Rdot0=1.15,
-    )
+# ===============================================================
+# 4) VISUALIZATION
+# ===============================================================
+fig, axes = plt.subplots(1, 3, figsize=(14, 4), dpi=150)
+fig.patch.set_facecolor('#050814')
 
-    t = data["t"]
-    a = data["a"]
-    H = data["H"]
-    rho = data["rho_R"]
-    rhoe = data["rho_eff"]
-    tb = float(data["t_bounce"][0])
-    ib = int(data["idx_bounce"][0])
+# Scale factor
+ax1 = axes[0]
+ax1.set_facecolor('#050814')
+ax1.plot(t, a, color='#4ade80', lw=2)
+ax1.axvline(tb, ls='--', color='#fbbf24', lw=1, alpha=0.7)
+ax1.set_xlabel('t (dimensionless)', color='#94a3b8')
+ax1.set_ylabel('a(t)', color='#94a3b8')
+ax1.set_title('Scale Factor a(t)', color='#ffaa00')
+ax1.tick_params(colors='#94a3b8')
+ax1.grid(alpha=0.3, color='#1f2a44')
+for spine in ax1.spines.values():
+    spine.set_color('#334155')
 
-    # ---- Plots ----
-    fig, ax = plt.subplots(figsize=(8.5, 4.5))
-    ax.plot(t, a, lw=1.6)
-    ax.axvline(tb, ls="--", lw=1.0, alpha=0.7)
-    ax.set_title("STUR Bounce Toy Model — Scale Factor a(t)")
-    ax.set_xlabel("t (dimensionless)")
-    ax.set_ylabel("a(t)")
-    plt.tight_layout()
-    plt.show()
+# Hubble rate
+ax2 = axes[1]
+ax2.set_facecolor('#050814')
+ax2.plot(t, H, color='#60a5fa', lw=2)
+ax2.axhline(0, ls='--', color='#94a3b8', lw=1, alpha=0.5)
+ax2.axvline(tb, ls='--', color='#fbbf24', lw=1, alpha=0.7)
+ax2.set_xlabel('t (dimensionless)', color='#94a3b8')
+ax2.set_ylabel('H(t)', color='#94a3b8')
+ax2.set_title('Hubble Rate H(t)', color='#ffaa00')
+ax2.tick_params(colors='#94a3b8')
+ax2.grid(alpha=0.3, color='#1f2a44')
+for spine in ax2.spines.values():
+    spine.set_color('#334155')
 
-    fig, ax = plt.subplots(figsize=(8.5, 4.5))
-    ax.plot(t, H, lw=1.6)
-    ax.axhline(0.0, ls="--", lw=1.0, alpha=0.7)
-    ax.axvline(tb, ls="--", lw=1.0, alpha=0.7)
-    ax.set_title("STUR Bounce Toy Model — Hubble H(t)")
-    ax.set_xlabel("t (dimensionless)")
-    ax.set_ylabel("H(t)")
-    plt.tight_layout()
-    plt.show()
+# Energy densities
+ax3 = axes[2]
+ax3.set_facecolor('#050814')
+ax3.plot(t, rho, color='#f472b6', lw=2, label='rho_R')
+ax3.plot(t, rhoe, color='#22d3ee', lw=1.5, label='rho_eff')
+ax3.axhline(p.rho_c, ls='--', color='#fbbf24', lw=1, alpha=0.7, label='rho_c')
+ax3.axvline(tb, ls='--', color='#fbbf24', lw=1, alpha=0.5)
+ax3.set_xlabel('t (dimensionless)', color='#94a3b8')
+ax3.set_ylabel('density', color='#94a3b8')
+ax3.set_title('Energy Densities', color='#ffaa00')
+ax3.tick_params(colors='#94a3b8')
+ax3.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white', fontsize=8)
+ax3.grid(alpha=0.3, color='#1f2a44')
+for spine in ax3.spines.values():
+    spine.set_color('#334155')
 
-    fig, ax = plt.subplots(figsize=(8.5, 4.5))
-    ax.plot(t, rho, label="ρ_R (resistance energy)", lw=1.6)
-    ax.plot(t, rhoe, label="ρ_eff (XCRM saturation)", lw=1.2)
-    ax.axhline(p.rho_c, ls="--", lw=1.0, alpha=0.7, label="ρ_c")
-    ax.axvline(tb, ls="--", lw=1.0, alpha=0.7)
-    ax.set_title("STUR Bounce Toy Model — Energy Densities")
-    ax.set_xlabel("t (dimensionless)")
-    ax.set_ylabel("density (Planck-like units)")
-    ax.legend(fontsize=9)
-    plt.tight_layout()
-    plt.show()
+plt.tight_layout()
+plt.savefig(OUT_PNG, facecolor='#050814', dpi=150, bbox_inches='tight')
+plt.show()
 
-    # ---- Diagnostics + JSON ----
-    summary = {
-        "model": "STUR Bounce Toy Model v1.0 — Homogeneous Resistance Cosmology",
-        "scipy_available": bool(_HAVE_SCIPY),
-        "interpretation": {
-            "big_bang_as": "first global causal activation / relaxation of resistance gradients",
-            "singularity": "excluded by XCRM saturation capacity rho_c",
-            "bounce_mechanism": "rho_eff = rho_R (1 - rho_R/rho_c) -> H->0 at rho_R~rho_c",
-        },
-        "params": {
-            "R_bg": p.R_bg,
-            "m": p.m,
-            "rho_c": p.rho_c,
-            "H_sign_init": p.H_sign_init,
-        },
-        "initial_conditions": {
-            "a0": float(a[0]),
-            "R0": float(data["R"][0]),
-            "Rdot0": float(data["Rdot"][0]),
-            "rho_R0": float(rho[0]),
-        },
-        "results": {
-            "t_min": float(t[0]),
-            "t_max": float(t[-1]),
-            "t_bounce": tb,
-            "a_min": float(np.min(a)),
-            "a_at_bounce": float(a[ib]),
-            "a_max": float(np.max(a)),
-            "H_min": float(np.min(H)),
-            "H_max": float(np.max(H)),
-            "rho_R_peak": float(np.max(rho)),
-            "rho_eff_peak": float(np.max(rhoe)),
-        },
-        "notes_for_peer_review": [
-            "This is a symmetry-reduced homogeneous sector of STUR: R=R(t).",
-            "The FRW closure is used as a minimal geometric bookkeeping device; the dynamics are driven by R(t).",
-            "The only nonstandard ingredient is the explicit XCRM saturation closure rho_eff=rho(1-rho/rho_c), interpreted as finite resistance capacity.",
-            "Next steps for falsifiable contact: add matter/radiation fluids, perturbations, compute power spectra and CMB constraints.",
-        ],
-    }
+# ===============================================================
+# 5) JSON OUTPUT
+# ===============================================================
+report = {
+    "meta": {
+        "page": "big-bang-origin",
+        "version": "v9.2",
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "equation": "rho_eff = rho_R (1 - rho_R/rho_c)"
+    },
+    "params": {
+        "R_bg": p.R_bg,
+        "m": p.m,
+        "rho_c": p.rho_c,
+        "H_sign_init": p.H_sign_init
+    },
+    "results": {
+        "t_bounce": tb,
+        "a_min": float(np.min(a)),
+        "a_at_bounce": float(a[ib]),
+        "a_max": float(np.max(a)),
+        "H_min": float(np.min(H)),
+        "H_max": float(np.max(H)),
+        "rho_R_peak": float(np.max(rho)),
+        "rho_eff_peak": float(np.max(rhoe))
+    },
+    "interpretation": {
+        "big_bang_as": "first global causal activation of resistance gradients",
+        "singularity": "excluded by XCRM saturation capacity rho_c",
+        "bounce_mechanism": "rho_eff -> 0 as rho_R -> rho_c, forcing H -> 0"
+    },
+    "outputs": {"json": OUT_JSON, "png": OUT_PNG}
+}
 
-    print(json.dumps(summary, indent=2))
-    print("STUR Bounce Toy Model simulation complete.")
+with open(OUT_JSON, "w") as f:
+    json.dump(report, f, indent=2)
 
+print("=== STUR Big Bang Origin [v9.2] ===")
+print(f"Bounce time:    t = {tb:.2f}")
+print(f"a(bounce):      {a[ib]:.4f}")
+print(f"rho_R peak:     {np.max(rho):.4f}")
+print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
-if __name__ == "__main__":
-    main()
-</pre>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" id="copyBtn">
+                    <span class="stur-icon icon-copy"></span>
+                    Copy Script
+                </button>
+                <button class="glass-btn" id="dlBtn">
+                    <span class="stur-icon icon-download"></span>
+                    Download .py
+                </button>
+            </div>
+        </div>
+    </section>
 
-<div style="text-align:center;margin-top:1rem;">
-  <button onclick="copyCode()">Copy Script</button>
-  <button onclick="openRunner()">Open JupyterLite</button>
-</div>
+    <!-- ============================================================
+         SECTION: REPRODUCE
+         ============================================================ -->
+    <section class="glass-section reproduce">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-download size-24"></span>
+            <h2 class="glass-section-title">Reproduce</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>Export all parameters, predictions, and results in the standard STUR schema:</p>
 
-<!-- ===== STUR Lab Return Button ===== -->
-<div style="margin:10px 0 20px 0;">
-  <a href="../index.html"
-     style="display:inline-block;
-            background:#0e1624;
-            color:#5ad0ff;
-            border:1px solid #5ad0ff;
-            padding:8px 14px;
-            border-radius:6px;
-            text-decoration:none;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            font-size:0.9em;
-            transition:background 0.3s;">
-    ← STUR Physics Lab
-  </a>
-</div>
-<!-- ===== End Return Button ===== -->
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
+                <button class="glass-btn primary" onclick="exportJSON()">
+                    <span class="stur-icon icon-download"></span>
+                    Export JSON
+                </button>
+                <button class="glass-btn" onclick="exportCSV()">
+                    <span class="stur-icon icon-database"></span>
+                    Export CSV
+                </button>
+            </div>
 
-<p class="desc" style="text-align:center;">
-Click <b>Copy Script</b>, then <b>Open JupyterLite</b>. In JupyterLite, create a new Python notebook, paste the code into a cell, and run it.  
-(The script includes a SciPy solver if available, and a built-in RK4 fallback so it still runs when SciPy is missing.)
-</p>
+            <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
+                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Page:</strong> big-bang-origin |
+                <strong>Generated:</strong> <span id="timestamp"></span>
+            </div>
+        </div>
+    </section>
 
-<footer>
-STUR Physics Lab &mdash; Unified Resistance Framework &mdash; Cosmology
+    <!-- ============================================================
+         SECTION: CITATIONS
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--border-dim);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-book size-24"></span>
+            <h2 class="glass-section-title" style="color:var(--text-muted);">References</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.88rem;">
+            <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — XCRM Coupling</li>
+                <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
+                <li>Loop quantum cosmology — bounce models</li>
+                <li>Friedmann equations — standard cosmology</li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_unified_framework.html">Framework</a> ·
+        <a href="stur_geometry_verifier.html">Verifier</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="../assets/js/stur-ui.js"></script>
 <script>
-function copyCode(){
-  const el = document.getElementById("codeBlock");
-  const code = el.innerText;
-  navigator.clipboard.writeText(code).then(
-    () => { alert("STUR cosmology code copied to clipboard."); },
-    () => { alert("Copy failed. Select and copy manually."); }
-  );
+const PAGE_ID = 'big-bang-origin';
+const pageState = {
+    params: {
+        R_bg: 0.0,
+        m: 0.45,
+        rho_c: 1.0
+    },
+    predictions: {
+        equation: 'rho_eff = rho_R (1 - rho_R/rho_c)'
+    },
+    results: {},
+    data: {}
+};
+
+document.getElementById('timestamp').textContent = new Date().toISOString();
+
+function exportJSON() {
+    const schema = STUR.createExportSchema(
+        PAGE_ID,
+        pageState.params,
+        pageState.predictions,
+        pageState.results,
+        pageState.data
+    );
+    STUR.exportJSON(schema, `${PAGE_ID}-${Date.now()}.json`);
 }
-function openRunner(){
-  window.open("https://jupyter.org/try-jupyter/lab/", "_blank");
+
+function exportCSV() {
+    const rows = [
+        { parameter: 'R_bg', value: pageState.params.R_bg, unit: 'dimensionless' },
+        { parameter: 'm', value: pageState.params.m, unit: 'stiffness' },
+        { parameter: 'rho_c', value: pageState.params.rho_c, unit: 'Planck units' }
+    ];
+    STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }
+
+document.getElementById('copyBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.copyToClipboard(code, 'Script copied');
+});
+
+document.getElementById('dlBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeBlock').textContent;
+    STUR.download(code, 'stur_bigbang.py', 'text/x-python');
+});
 </script>
 
 </body>
