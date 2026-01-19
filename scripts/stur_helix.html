@@ -4,83 +4,106 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STUR Helix TOE Verifier – Geometry + Spectrum</title>
+
+<!-- STUR Theme System -->
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+
 <style>
-  body{
-    background:#050814;
-    color:#e6edf3;
-    font-family:"Courier New",monospace;
-    margin:0;
-    padding:2rem;
-  }
-  h1{color:#ffaa00;text-align:center;}
-  h2{color:#ffcc33;margin-top:2rem;}
-  .desc{
-    max-width:950px;
-    margin:0 auto 1.5rem auto;
-    line-height:1.6;
-  }
-  pre{
-    background:#0a0f1f;
-    color:#00ffcc;
-    padding:1rem;
-    border-radius:8px;
-    overflow-x:auto;
-    font-size:0.9rem;
-    box-shadow:0 0 18px #ffaa0040;
-    white-space:pre;
-  }
-  code{color:#ffcc66;}
-  button{
-    background:#ffaa00;
-    color:#050814;
-    border:none;
-    border-radius:6px;
-    padding:10px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:6px;
-    transition:0.2s;
-  }
-  button:hover{background:#ffcc33;}
-  footer{
-    text-align:center;
-    font-size:0.9em;
-    color:#999;
-    margin-top:2rem;
-  }
-  a{color:#66ccff;}
-
-  /* === EQUATION TERM COLOR CODING === */
-  .eq-diffusion { color: #4ade80; }
-  .eq-potential { color: #f472b6; }
-  .eq-xcrm { color: #fbbf24; }
-  .eq-torsion { color: #60a5fa; }
-  .eq-quantum { color: #a78bfa; }
-  .eq-matter { color: #22d3ee; }
-
-  .eq-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.25rem;
+  /* Page-specific overrides */
+  body { padding: 2rem; font-family: var(--font-mono); }
+  h1 { color: var(--neon-gold); text-align: center; }
+  h2 { color: var(--neon-gold); margin-top: 2rem; }
+  .desc {
     max-width: 950px;
-    margin: 1rem auto;
-    padding: 0.75rem 1rem;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid #1f2a44;
-    border-radius: 6px;
-    font-size: 0.82rem;
+    margin: 0 auto 1.5rem auto;
+    line-height: 1.6;
   }
-  .eq-legend-item { display: flex; align-items: center; gap: 0.35rem; }
-  .eq-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .eq-legend-dot.diffusion { background: #4ade80; }
-  .eq-legend-dot.potential { background: #f472b6; }
-  .eq-legend-dot.xcrm { background: #fbbf24; }
-  .eq-legend-dot.torsion { background: #60a5fa; }
-  .eq-legend-dot.quantum { background: #a78bfa; }
-  .eq-legend-dot.matter { background: #22d3ee; }
+  pre {
+    background: var(--bg-panel);
+    color: var(--neon-green);
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    box-shadow: var(--glow-gold);
+    white-space: pre;
+  }
+  code { color: var(--neon-gold); }
+  button {
+    background: var(--neon-gold);
+    color: var(--bg-abyss);
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 6px;
+    transition: var(--transition-fast);
+  }
+  button:hover { filter: brightness(1.15); }
+  footer {
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--text-muted);
+    margin-top: 2rem;
+  }
+  a { color: var(--neon-cyan); }
 </style>
 </head>
 <body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-beaker lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+                <span class="stur-icon icon-link"></span>
+                Share
+            </button>
+        </div>
+    </nav>
+</header>
+
+<script>
+function shareRepo() {
+    const url = window.location.origin + '/index.html';
+    navigator.clipboard.writeText(url).then(() => {
+        const btn = document.querySelector('.glass-share-btn');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
+        btn.style.color = 'var(--neon-green)';
+        setTimeout(() => {
+            btn.innerHTML = original;
+            btn.style.color = '';
+        }, 2000);
+    }).catch(() => {
+        alert('Link: ' + url);
+    });
+}
+
+// Mobile nav toggle
+document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
+    const links = document.querySelector('.glass-nav-links');
+    const expanded = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', !expanded);
+    links.classList.toggle('open');
+});
+</script>
 
 <h1>STUR Helix TOE Verifier – Geometry + Spectrum</h1>
 

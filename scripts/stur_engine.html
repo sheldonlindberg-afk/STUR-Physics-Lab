@@ -40,40 +40,37 @@
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <!-- STUR Theme System -->
+  <link rel="stylesheet" href="../assets/css/stur-core.css">
+  <link rel="stylesheet" href="../assets/css/stur-glass.css">
+  <link rel="stylesheet" href="../assets/css/stur-icons.css">
+
   <style>
+    /* Page-specific overrides - semantic aliases for this document */
     :root {
-      --bg: #0a0e14;
-      --surface: #12171f;
-      --surface-elevated: #1a2029;
-      --border: #2a3545;
-      --text: #e8edf5;
-      --text-secondary: #8b95a5;
-      --text-muted: #5a6575;
-      --accent: #4a9eff;
-      --accent-glow: rgba(74,158,255,0.3);
-      --success: #3fb950;
-      --success-subtle: rgba(63,185,80,0.12);
-      --warning: #d29922;
-      --warning-subtle: rgba(210,153,34,0.12);
-      --gold: #f0b429;
-      --gold-subtle: rgba(240,180,41,0.1);
-      --purple: #a371f7;
-      --red: #f85149;
-      --tegr: #58a6ff;
-      --hgem: #a371f7;
-      --stur: #3fb950;
-      --chrono: #f0b429;
+      --bg: var(--bg-deep);
+      --surface: var(--bg-panel);
+      --surface-elevated: var(--bg-elevated);
+      --border: var(--border-dim);
+      --text: var(--text-main);
+      --text-secondary: var(--text-secondary);
+      --accent: var(--neon-cyan);
+      --accent-glow: rgba(56,189,248,0.3);
+      --success: var(--neon-green);
+      --success-subtle: rgba(74,222,128,0.12);
+      --warning: var(--neon-gold);
+      --warning-subtle: rgba(251,191,36,0.12);
+      --gold: var(--neon-gold);
+      --gold-subtle: rgba(251,191,36,0.1);
+      --purple: var(--neon-violet);
+      --red: var(--neon-red);
+      --tegr: var(--neon-cyan);
+      --hgem: var(--neon-violet);
+      --stur: var(--neon-green);
+      --chrono: var(--neon-gold);
     }
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      font-size: 15px;
-    }
+    body { line-height: 1.6; font-size: 15px; }
     .hero {
       position: relative;
       padding: 4rem 2rem;
@@ -380,6 +377,57 @@
   </style>
 </head>
 <body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">
+            <span class="stur-icon icon-beaker lg"></span>
+            STUR Lab
+        </a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
+            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
+            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+                <span class="stur-icon icon-link"></span>
+                Share
+            </button>
+        </div>
+    </nav>
+</header>
+
+<script>
+function shareRepo() {
+    const url = window.location.origin + '/index.html';
+    navigator.clipboard.writeText(url).then(() => {
+        const btn = document.querySelector('.glass-share-btn');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
+        btn.style.color = 'var(--neon-green)';
+        setTimeout(() => {
+            btn.innerHTML = original;
+            btn.style.color = '';
+        }, 2000);
+    }).catch(() => {
+        alert('Link: ' + url);
+    });
+}
+
+// Mobile nav toggle
+document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
+    const links = document.querySelector('.glass-nav-links');
+    const expanded = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', !expanded);
+    links.classList.toggle('open');
+});
+</script>
 
 <header class="hero">
   <div class="hero-content">
