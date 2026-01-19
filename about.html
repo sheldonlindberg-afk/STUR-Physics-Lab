@@ -2,105 +2,257 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About – STUR Theory of Unified Resistance</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>About – STUR Physics Lab</title>
+<meta name="description" content="About the STUR Framework - Sheldon's Theory of Unified Resistance. Open source physics uniting electromagnetism, gravity, and quantum mechanics.">
+
+<!-- STUR Theme System -->
+<link rel="stylesheet" href="assets/css/stur-core.css">
+<link rel="stylesheet" href="assets/css/stur-glass.css">
+<link rel="stylesheet" href="assets/css/stur-icons.css">
+
 <style>
-  body {
-    background-color: #050814;
-    color: #e6edf3;
-    font-family: "Courier New", monospace;
+  :root {
+    --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --bg-primary: #000000;
+    --text-primary: #FFFFFF;
+    --text-secondary: #EBEBF5;
+    --text-tertiary: #AEAEB2;
+    --accent-blue: #0A84FF;
+    --accent-gold: #fbbf24;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --separator: rgba(255, 255, 255, 0.06);
+    --radius-md: 16px;
+    --radius-lg: 22px;
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.16);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
     margin: 0;
-    padding: 2rem;
+    padding: 0;
   }
-  h1, h2 {
-    text-align: center;
-    color: #ffaa00;
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
   }
-  p {
+
+  body {
+    font-family: var(--font-system);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
     max-width: 900px;
-    margin: 1rem auto;
-    line-height: 1.6;
-    text-align: justify;
+    margin: 0 auto;
+    padding: 0 24px;
   }
-  strong {
-    color: #ffcc33;
+
+  @media (max-width: 640px) {
+    .container { padding: 0 16px; }
   }
-  .btn-container {
+
+  /* Page Header */
+  .page-header {
     text-align: center;
-    margin-top: 2rem;
+    padding: 64px 0 48px;
   }
-  button {
-    background: #ffaa00;
-    color: #050814;
-    border: none;
+
+  .page-title {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Content Section */
+  .content-section {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+
+  .content-section p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .content-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .content-section strong {
+    color: var(--accent-gold);
+    font-weight: 600;
+  }
+
+  /* Social Links */
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 48px 0;
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    color: var(--neon-cyan);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .social-link:hover {
+    background: rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* Footer */
+  .site-footer {
+    margin-top: 64px;
+    padding: 32px 0;
+    border-top: 1px solid var(--separator);
+    text-align: center;
+  }
+
+  .footer-meta {
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+    line-height: 1.8;
+  }
+
+  /* Nav Logo */
+  .nav-logo {
+    width: 32px;
+    height: 32px;
     border-radius: 6px;
-    padding: 10px 20px;
-    margin: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
+    object-fit: cover;
   }
-  button:hover {
-    background: #ffcc33;
-  }
-  footer {
-    text-align: center;
-    font-size: 0.9em;
-    color: #888;
-    margin-top: 3rem;
+
+  @media (max-width: 768px) {
+    .page-header { padding: 48px 0 32px; }
+    .content-section { padding: 24px 20px; }
+    .social-links { flex-direction: column; align-items: stretch; padding: 0 16px; }
+    .social-link { justify-content: center; }
   }
 </style>
 </head>
 <body>
 
-<h1>About the STUR Framework</h1>
+<!-- Navigation -->
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="index.html" class="glass-nav-brand">
+      <img src="assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="index.html" class="glass-nav-link">Index</a>
+      <a href="scripts/stur_foundations.html" class="glass-nav-link">Foundations</a>
+      <a href="scripts/stur_unified_framework.html" class="glass-nav-link">Framework</a>
+      <a href="scripts/stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+      <button class="glass-nav-link glass-share-btn" onclick="shareRepo()" title="Copy link to clipboard">
+        <span class="stur-icon icon-link"></span>
+        Share
+      </button>
+    </div>
+  </nav>
+</header>
 
-<p><strong>Sheldon’s Theory of Unified Resistance (STUR)</strong> is an open-source framework uniting electromagnetism, gravity, and quantum mechanics under a single resistance-based field formalism. Every equation, every simulator, and every derivation published here is the product of continuous iteration — physics evolved through logic, mathematics, and public dialogue.</p>
+<script>
+function shareRepo() {
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.querySelector('.glass-share-btn');
+    const original = btn.innerHTML;
+    btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
+    btn.style.color = 'var(--neon-green)';
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.style.color = '';
+    }, 2000);
+  }).catch(() => {
+    alert('Link: ' + url);
+  });
+}
 
-<p>STUR is open source because science itself is open source. No discovery belongs to a single individual — it belongs to the human process of questioning, testing, and refining. Transparency allows others to explore, replicate, and challenge ideas, and through that challenge, knowledge becomes stronger. The framework thrives because it is visible, testable, and accountable to everyone who studies it.</p>
+// Mobile nav toggle
+document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
+  const links = document.querySelector('.glass-nav-links');
+  const expanded = this.getAttribute('aria-expanded') === 'true';
+  this.setAttribute('aria-expanded', !expanded);
+  links.classList.toggle('open');
+});
+</script>
 
-<p>The simulations presented here — from quantum-scale resonators to cosmological fields — were developed collaboratively and iteratively, including live sessions with <strong>Grok on X</strong> and the open community of thinkers, skeptics, and engineers who engage with these concepts. Each iteration represents the essence of scientific inquiry: curiosity refined through repetition.</p>
+<div class="container">
+  <header class="page-header">
+    <h1 class="page-title">About the STUR Framework</h1>
+  </header>
 
-<p>We welcome <strong>scrutiny, exploration, and creativity</strong>. The STUR Physics Lab exists not to protect ideas but to stress-test them, improve them, and evolve them. Whether you are a student, a physicist, or simply curious, you are invited to engage, reproduce, and expand these models.</p>
+  <section class="content-section">
+    <p><strong>Sheldon's Theory of Unified Resistance (STUR)</strong> is an open-source framework uniting electromagnetism, gravity, and quantum mechanics under a single resistance-based field formalism. Every equation, every simulator, and every derivation published here is the product of continuous iteration — physics evolved through logic, mathematics, and public dialogue.</p>
 
-<p>Humanity stands at a precipice of both <strong>educational transformation</strong> and <strong>scientific revolution</strong>. Artificial intelligence, open collaboration, and self-publishing have dissolved the traditional barriers to discovery. Knowledge is no longer contained — it’s shared, remixed, and amplified by every new mind that encounters it. STUR exists to be a part of that transformation — a demonstration that unified physics can also mean <strong>unified participation</strong>.</p>
+    <p>STUR is open source because science itself is open source. No discovery belongs to a single individual — it belongs to the human process of questioning, testing, and refining. Transparency allows others to explore, replicate, and challenge ideas, and through that challenge, knowledge becomes stronger. The framework thrives because it is visible, testable, and accountable to everyone who studies it.</p>
 
-<p>The work continues. The math refines. The physics evolve. Every contribution, every simulation, and every honest question brings us one iteration closer to truth.</p>
+    <p>The simulations presented here — from quantum-scale resonators to cosmological fields — were developed collaboratively and iteratively, including live sessions with <strong>Grok on X</strong> and the open community of thinkers, skeptics, and engineers who engage with these concepts. Each iteration represents the essence of scientific inquiry: curiosity refined through repetition.</p>
 
-   <div style="margin:20px 0;text-align:center;">
+    <p>We welcome <strong>scrutiny, exploration, and creativity</strong>. The STUR Physics Lab exists not to protect ideas but to stress-test them, improve them, and evolve them. Whether you are a student, a physicist, or simply curious, you are invited to engage, reproduce, and expand these models.</p>
 
-  <!-- TikTok -->
-  <a href="https://www.tiktok.com/@that1sheldon" target="_blank"
-     style="display:inline-block;background:#0e1624;color:#5ad0ff;
-            border:1px solid #5ad0ff;padding:10px 18px;border-radius:8px;
-            margin:6px;text-decoration:none;font-family:-apple-system,
-            BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:1em;">
-    🎵 TikTok: @that1sheldon
-  </a>
+    <p>Humanity stands at a precipice of both <strong>educational transformation</strong> and <strong>scientific revolution</strong>. Artificial intelligence, open collaboration, and self-publishing have dissolved the traditional barriers to discovery. Knowledge is no longer contained — it's shared, remixed, and amplified by every new mind that encounters it. STUR exists to be a part of that transformation — a demonstration that unified physics can also mean <strong>unified participation</strong>.</p>
 
-  <!-- X / Twitter -->
-  <a href="https://x.com/that1sheldon" target="_blank"
-     style="display:inline-block;background:#0e1624;color:#5ad0ff;
-            border:1px solid #5ad0ff;padding:10px 18px;border-radius:8px;
-            margin:6px;text-decoration:none;font-family:-apple-system,
-            BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:1em;">
-    ✦ X: @that1sheldon
-  </a>
+    <p>The work continues. The math refines. The physics evolve. Every contribution, every simulation, and every honest question brings us one iteration closer to truth.</p>
+  </section>
 
-  <!-- GitHub -->
-  <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank"
-     style="display:inline-block;background:#0e1624;color:#5ad0ff;
-            border:1px solid #5ad0ff;padding:10px 18px;border-radius:8px;
-            margin:6px;text-decoration:none;font-family:-apple-system,
-            BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:1em;">
-    ⚛ GitHub: STUR Physics Lab
-  </a>
+  <div class="social-links">
+    <a href="https://www.tiktok.com/@that1sheldon" target="_blank" rel="noopener" class="social-link">
+      <span class="stur-icon icon-external"></span>
+      TikTok: @that1sheldon
+    </a>
+    <a href="https://x.com/that1sheldon" target="_blank" rel="noopener" class="social-link">
+      <span class="stur-icon icon-external"></span>
+      X: @that1sheldon
+    </a>
+    <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank" rel="noopener" class="social-link">
+      <span class="stur-icon icon-github"></span>
+      GitHub: STUR Physics Lab
+    </a>
+  </div>
 
+  <footer class="site-footer">
+    <p class="footer-meta">
+      © 2025 Sheldon Lon Lindberg · STUR Physics Framework<br>
+      Version 9.2 · CC-BY-4.0 License
+    </p>
+  </footer>
 </div>
-
-<footer>
-  © 2025 Sheldon Lon Lindberg · STUR Physics Framework · Version 3.0 · Hosted via GitHub Pages · CC-BY-4.0 License
-</footer>
 
 </body>
 </html>

@@ -590,7 +590,7 @@ code {
 <header class="glass-header">
     <nav class="glass-nav">
         <a href="../index.html" class="glass-nav-brand">
-            <span class="stur-icon icon-beaker lg"></span>
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
             STUR Lab
         </a>
         <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -611,7 +611,7 @@ code {
 
 <script>
 function shareRepo() {
-    const url = window.location.origin + '/index.html';
+    const url = window.location.href;
     navigator.clipboard.writeText(url).then(() => {
         const btn = document.querySelector('.glass-share-btn');
         const original = btn.innerHTML;

@@ -193,7 +193,7 @@
 <header class="glass-header">
     <nav class="glass-nav">
         <a href="../index.html" class="glass-nav-brand">
-            <span class="stur-icon icon-beaker lg"></span>
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
             STUR Lab
         </a>
         <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -211,6 +211,32 @@
         </div>
     </nav>
 </header>
+
+<script>
+function shareRepo() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        const btn = document.querySelector('.glass-share-btn');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
+        btn.style.color = 'var(--neon-green)';
+        setTimeout(() => {
+            btn.innerHTML = original;
+            btn.style.color = '';
+        }, 2000);
+    }).catch(() => {
+        alert('Link: ' + url);
+    });
+}
+
+// Mobile nav toggle
+document.querySelector('.glass-nav-toggle')?.addEventListener('click', function() {
+    const links = document.querySelector('.glass-nav-links');
+    const expanded = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', !expanded);
+    links.classList.toggle('open');
+});
+</script>
 
 <main class="stur-container">
 
@@ -231,7 +257,7 @@
     <!-- Master Action -->
     <section class="glass-section" style="border-color: rgba(251, 191, 36, 0.4);">
         <div class="glass-section-header">
-            <span class="stur-icon icon-beaker size-24" style="color:var(--neon-gold)"></span>
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
             <h2 class="glass-section-title" style="color:var(--neon-gold);">The Master Action</h2>
         </div>
         <div class="glass-section-body">
@@ -443,7 +469,7 @@
     <!-- Limit Map: Derived Applications -->
     <section class="glass-section" style="border-color: rgba(251, 191, 36, 0.3);">
         <div class="glass-section-header">
-            <span class="stur-icon icon-beaker size-24" style="color:var(--tier-derived)"></span>
+            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
             <h2 class="glass-section-title" style="color:var(--tier-derived);">Derived Applications</h2>
         </div>
         <div class="glass-section-body">
