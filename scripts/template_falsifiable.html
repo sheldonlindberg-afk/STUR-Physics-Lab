@@ -125,13 +125,13 @@ document.querySelector('.glass-nav-toggle')?.addEventListener('click', function(
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
-                  \alpha\,(\nabla R)^2
-                  \;-\; V(R)
-                  \;+\; \beta\,(\partial_t X)^2
-                  \;-\; U(X - R)
-                  \;+\; L_{\text{torsion}}
-                  \;+\; L_{\text{matter}}
+                \color{#e2e8f0}{S[R,g,X]} = \int d^4x\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\color{#4ade80}{\alpha\,(\nabla R)^2}}_{\text{diffusion}}
+                  \;-\; \underbrace{\color{#f472b6}{V(R)}}_{\text{potential}}
+                  \;+\; \underbrace{\color{#fbbf24}{\beta\,(\partial_t X)^2}}_{\text{XCRM}}
+                  \;-\; \underbrace{\color{#fbbf24}{U(X - R)}}_{\text{coupling}}
+                  \;+\; \underbrace{\color{#60a5fa}{L_{\text{torsion}}}}_{\text{gravity}}
+                  \;+\; \underbrace{\color{#22d3ee}{L_{\text{matter}}}}_{\text{fields}}
                 \Bigr]
                 \]
                 <div class="stur-eq-label">Master Action (v9.2)</div>
