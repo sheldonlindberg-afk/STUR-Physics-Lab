@@ -80,7 +80,7 @@
         <h1 class="page-title-falsifiable">TOE Proof: Macro-Quantum Isochrony</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Tests STUR as a functional Theory of Everything by showing that a single curvature constant
-            \(k\) produces both macroscopic (15.7 h) and quantum (2.31 ns) oscillation periods.
+            \(\Tor{k}\) produces both macroscopic (15.7 h) and quantum (2.31 ns) oscillation periods.
         </p>
 
         <!-- Status Badge -->
@@ -116,19 +116,19 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>STUR modulator form: \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a></li>
-                <li>Effective curvature law: \(k(r_0) = 2AS(r_0)/r_0^3 - AS'(r_0)/r_0^2\)</li>
-                <li>Universal period: \(T(m) = 2\pi\sqrt{m/k}\) — harmonic oscillator with geometric curvature</li>
+                <li>STUR modulator form: \(\XCRM{S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})}\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a></li>
+                <li>Effective curvature law: \(\Tor{k(r_0) = 2AS(r_0)/r_0^3 - AS'(r_0)/r_0^2}\)</li>
+                <li>Universal period: \(\XCRM{T(m)} = 2\pi\sqrt{\Matt{m}/\Tor{k}}\) — harmonic oscillator with geometric curvature</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Curvature target \(k_{\text{target}} = 1.234 \times 10^{-8}\,\text{N/m}\) — chosen to match macro period</li>
-                <li>Equilibrium radius \(r_0 = L_0 = 0.1\,\text{m}\) — scale-dependent parameter</li>
-                <li>Interaction scale \(A\) — back-solved from target curvature</li>
+                <li>Curvature target \(\Tor{k_{\text{target}} = 1.234 \times 10^{-8}\,\text{N/m}}\) — chosen to match macro period</li>
+                <li>Equilibrium radius \(\Matt{r_0 = L_0 = 0.1\,\text{m}}\) — scale-dependent parameter</li>
+                <li>Interaction scale \(\Pot{A}\) — back-solved from target curvature</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
-                <strong>Connection to Core Theory:</strong> The isochrony relation \(T \propto \sqrt{m}\) at fixed curvature is a direct consequence of the S(r) modulator form.
-                The curvature plateau near \(r_0 = L_0\) is a geometric feature, not an assumption.
+                <strong>Connection to Core Theory:</strong> The isochrony relation \(\XCRM{T} \propto \sqrt{\Matt{m}}\) at fixed curvature is a direct consequence of the \(\XCRM{S(r)}\) modulator form.
+                The curvature plateau near \(\Matt{r_0 = L_0}\) is a geometric feature, not an assumption.
             </p>
         </div>
     </div>
@@ -139,7 +139,7 @@
       <div class="harness-grid">
         <div class="harness-section observable">
           <h4>Observable</h4>
-          <p>Oscillation period \(T(m)\) as a function of mass, isochrony ratio \(T/\sqrt{m}\), back-solved interaction scale \(A\). Scale range from proton mass \(m_p = 1.67 \times 10^{-27}\,\text{kg}\) to macroscopic \(m = 1\,\text{kg}\).</p>
+          <p>Oscillation period \(\XCRM{T(m)}\) as a function of mass, isochrony ratio \(\XCRM{T}/\sqrt{\Matt{m}}\), back-solved interaction scale \(\Pot{A}\). Scale range from proton mass \(\Matt{m_p = 1.67 \times 10^{-27}\,\text{kg}}\) to macroscopic \(\Matt{m = 1\,\text{kg}}\).</p>
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
@@ -147,11 +147,11 @@
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Universal isochrony: \(T(m) = 2\pi\sqrt{m/k}\) with same \(k\) across all mass scales; \(T/\sqrt{m} = \text{const}\).</p>
+          <p>Universal isochrony: \(\XCRM{T(m)} = 2\pi\sqrt{\Matt{m}/\Tor{k}}\) with same \(\Tor{k}\) across all mass scales; \(\XCRM{T}/\sqrt{\Matt{m}} = \text{const}\).</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Isochrony ratio variance, curvature self-consistency (\(k_{\text{check}} = k_{\text{target}}\)), \(T \propto \sqrt{m}\) scaling</p>
+          <p>Isochrony ratio variance, curvature self-consistency (\(\Tor{k_{\text{check}} = k_{\text{target}}}\)), \(\XCRM{T} \propto \sqrt{\Matt{m}}\) scaling</p>
         </div>
       </div>
       <a href="stur_core_theory.html#sec3" class="core-ref">Core Definition: S(r) Modulator (§3)</a>
@@ -166,9 +166,9 @@
             <h2 class="glass-section-title">What This Page Tests</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Oscillation period \(T(m)\) as a function of mass for the same curvature constant \(k\).</p>
-            <p><strong>Scale range:</strong> From proton mass \(m_p = 1.67 \times 10^{-27}\,\text{kg}\) to macroscopic \(m = 1\,\text{kg}\).</p>
-            <p><strong>Regime:</strong> Universal curvature law from the STUR resistance modulator \(S(r)\).</p>
+            <p><strong>Observable:</strong> Oscillation period \(\XCRM{T(m)}\) as a function of mass for the same curvature constant \(\Tor{k}\).</p>
+            <p><strong>Scale range:</strong> From proton mass \(\Matt{m_p = 1.67 \times 10^{-27}\,\text{kg}}\) to macroscopic \(\Matt{m = 1\,\text{kg}}\).</p>
+            <p><strong>Regime:</strong> Universal curvature law from the STUR resistance modulator \(\XCRM{S(r)}\).</p>
         </div>
     </section>
 
@@ -213,7 +213,7 @@
                 <div class="stur-eq-label">Effective Curvature Law</div>
             </div>
 
-            <p>Once the target curvature \(k_{\text{target}} = 1.234 \times 10^{-8}\,\text{N/m}\) is fixed at equilibrium radius \(r_0 = L_0\), the oscillation period is:</p>
+            <p>Once the target curvature \(\Tor{k_{\text{target}} = 1.234 \times 10^{-8}\,\text{N/m}}\) is fixed at equilibrium radius \(\Matt{r_0 = L_0}\), the oscillation period is:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -235,9 +235,9 @@
         <div class="glass-section-body">
             <p><strong>STUR predicts:</strong></p>
             <ul>
-                <li><strong>Macro period:</strong> \(T(1\,\text{kg}) \approx 15.7\,\text{hours}\)</li>
-                <li><strong>Quantum period:</strong> \(T(m_p) \approx 2.31\,\text{ns}\) (frequency \(\approx 433\,\text{MHz}\))</li>
-                <li><strong>Isochrony:</strong> \(T/\sqrt{m}\) is constant across all mass scales for fixed curvature.</li>
+                <li><strong>Macro period:</strong> \(\XCRM{T(1\,\text{kg}) \approx 15.7\,\text{hours}}\)</li>
+                <li><strong>Quantum period:</strong> \(\XCRM{T(m_p) \approx 2.31\,\text{ns}}\) (frequency \(\Matt{\approx 433\,\text{MHz}}\))</li>
+                <li><strong>Isochrony:</strong> \(\XCRM{T}/\sqrt{\Matt{m}}\) is constant across all mass scales for fixed curvature.</li>
             </ul>
 
             <p><strong>Competitor model:</strong> Standard physics requires separate force laws for different scales (Coulomb, gravity, nuclear) with no unified curvature.</p>
@@ -274,9 +274,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Period does not scale as \(T \propto \sqrt{m}\) for any mass range.</li>
-                <li><strong>Kill-2:</strong> Back-solved interaction scale \(A\) does not self-consistently reproduce \(k_{\text{target}}\).</li>
-                <li><strong>Kill-3:</strong> Isochrony ratio \(T/\sqrt{m}\) varies with mass, contradicting universal curvature.</li>
+                <li><strong>Kill-1:</strong> Period does not scale as \(\XCRM{T} \propto \sqrt{\Matt{m}}\) for any mass range.</li>
+                <li><strong>Kill-2:</strong> Back-solved interaction scale \(\Pot{A}\) does not self-consistently reproduce \(\Tor{k_{\text{target}}}\).</li>
+                <li><strong>Kill-3:</strong> Isochrony ratio \(\XCRM{T}/\sqrt{\Matt{m}}\) varies with mass, contradicting universal curvature.</li>
             </ul>
 
             <!-- Verdict display -->

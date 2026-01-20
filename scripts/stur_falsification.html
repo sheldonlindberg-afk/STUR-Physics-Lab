@@ -63,11 +63,11 @@
       The theory predicts:
     </p>
     <div class="eq law" style="margin:1rem 0;background:#000;">
-      \[\boxed{V(\Delta L) = V_0 \exp\!\left(-\frac{\Delta L^2}{\ell_{\rm coh}^2}\right)}\]
+      \[\boxed{\Matt{V(\Delta L)} = \Matt{V_0} \exp\!\left(-\frac{\Matt{\Delta L}^2}{\Matt{\ell_{\rm coh}}^2}\right)}\]
     </div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.95rem;">
-      This functional form is <strong>not adjustable</strong>. Only the parameter \(\ell_{\rm coh}\)
-      can vary. The Gaussian dependence on \(\Delta L^2\) follows necessarily from XCRM holonomy
+      This functional form is <strong>not adjustable</strong>. Only the parameter \(\Matt{\ell_{\rm coh}}\)
+      can vary. The Gaussian dependence on \(\Matt{\Delta L^2}\) follows necessarily from \(\XCRM{\text{XCRM}}\) holonomy
       averaging under the central limit theorem.
     </p>
   </div>
@@ -81,8 +81,8 @@
     <div class="card" style="border:2px solid var(--success);background:rgba(74,222,128,0.06);">
       <strong style="color:var(--success);">STUR Consistent</strong>
       <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
-        <li>Visibility decays as Gaussian in \(\Delta L^2\)</li>
-        <li>No temporal oscillation at fixed \(\Delta L\)</li>
+        <li>Visibility decays as Gaussian in \(\Matt{\Delta L^2}\)</li>
+        <li>No temporal oscillation at fixed \(\Matt{\Delta L}\)</li>
         <li>Mass-independent at fixed shot time</li>
         <li>Area scaling for loop geometries</li>
         <li>Single coherence length fits all data</li>
@@ -91,9 +91,9 @@
     <div class="card" style="border:2px solid var(--error);background:rgba(239,68,68,0.06);">
       <strong style="color:var(--error);">STUR Falsified</strong>
       <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
-        <li>Visibility linear in \(\Delta L\) (not quadratic)</li>
+        <li>Visibility linear in \(\Matt{\Delta L}\) (not quadratic)</li>
         <li>Sinusoidal temporal modulation</li>
-        <li>Mass-dependent visibility at fixed \(\Delta L\)</li>
+        <li>Mass-dependent visibility at fixed \(\Matt{\Delta L}\)</li>
         <li>Exponential (not Gaussian) decay</li>
         <li>Multiple coherence lengths required</li>
       </ul>
@@ -113,8 +113,8 @@
     <tbody>
       <tr>
         <td><strong>Functional form</strong></td>
-        <td>\(\ln V \propto -\Delta L^2\)</td>
-        <td>\(\ln V \propto -\Delta L\) or oscillatory</td>
+        <td>\(\ln \Matt{V} \propto -\Matt{\Delta L}^2\)</td>
+        <td>\(\ln \Matt{V} \propto -\Matt{\Delta L}\) or oscillatory</td>
       </tr>
       <tr>
         <td><strong>Time dependence</strong></td>
@@ -123,12 +123,12 @@
       </tr>
       <tr>
         <td><strong>Mass dependence</strong></td>
-        <td>None (at fixed \(\Delta L\))</td>
-        <td>\(V\) depends on particle mass</td>
+        <td>None (at fixed \(\Matt{\Delta L}\))</td>
+        <td>\(\Matt{V}\) depends on particle mass</td>
       </tr>
       <tr>
         <td><strong>Temperature dependence</strong></td>
-        <td>Weak (via \(\sigma_R\))</td>
+        <td>Weak (via \(\Diff{\sigma_R}\))</td>
         <td>Strong thermal activation</td>
       </tr>
       <tr>
@@ -146,31 +146,31 @@
 
   <h3>Step 1: Baseline Measurement</h3>
   <p>
-    Measure visibility \(V\) at multiple arm separations \(\Delta L_1, \Delta L_2, \ldots, \Delta L_n\)
+    Measure visibility \(\Matt{V}\) at multiple arm separations \(\Matt{\Delta L_1, \Delta L_2, \ldots, \Delta L_n}\)
     spanning at least one decade.
   </p>
 
   <h3>Step 2: Functional Form Test</h3>
   <p>
-    Plot \(\ln(V/V_0)\) versus \(\Delta L^2\). STUR predicts a <strong>straight line</strong> with
-    slope \(-1/\ell_{\rm coh}^2\).
+    Plot \(\ln(\Matt{V}/\Matt{V_0})\) versus \(\Matt{\Delta L}^2\). STUR predicts a <strong>straight line</strong> with
+    slope \(-1/\Matt{\ell_{\rm coh}}^2\).
   </p>
 
   <div class="eq boxed">
-    \[\ln\!\left(\frac{V}{V_0}\right) = -\frac{\Delta L^2}{\ell_{\rm coh}^2} \quad\Rightarrow\quad \text{linear in } \Delta L^2\]
+    \[\ln\!\left(\frac{\Matt{V}}{\Matt{V_0}}\right) = -\frac{\Matt{\Delta L}^2}{\Matt{\ell_{\rm coh}}^2} \quad\Rightarrow\quad \text{linear in } \Matt{\Delta L}^2\]
     <div class="eq-label">(12.1) — Linearized Test</div>
   </div>
 
   <h3>Step 3: Time-Series Check</h3>
   <p>
-    At fixed \(\Delta L\), measure visibility over time. STUR predicts <strong>no systematic
+    At fixed \(\Matt{\Delta L}\), measure visibility over time. STUR predicts <strong>no systematic
     temporal variation</strong> (only statistical noise).
   </p>
 
   <h3>Step 4: Mass Independence Check</h3>
   <p>
     Repeat measurements with different particle masses (e.g., neutrons vs atoms). STUR predicts
-    <strong>identical visibility curves</strong> when normalized to the same \(\Delta L\).
+    <strong>identical visibility curves</strong> when normalized to the same \(\Matt{\Delta L}\).
   </p>
 
   <h3>Step 5: Loop Geometry Test</h3>
@@ -190,7 +190,7 @@
       STUR does <strong>not</strong> predict:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li>The numerical value of \(\ell_{\rm coh}\) (must be measured)</li>
+      <li>The numerical value of \(\Matt{\ell_{\rm coh}}\) (must be measured)</li>
       <li>The specific substrate (UV completion) producing the fluctuations</li>
       <li>Standard Model parameters (gauge group, masses, mixings)</li>
       <li>Whether the coherence scale is accessible to current experiments</li>
@@ -200,7 +200,7 @@
   <p>
     These limitations do not compromise falsifiability. The <em>form</em> of the visibility law is
     fixed by the axioms; only the <em>scale</em> is a free parameter. A single measurement of
-    \(\ell_{\rm coh}\) at one \(\Delta L\) predicts visibility at all other separations.
+    \(\Matt{\ell_{\rm coh}}\) at one \(\Matt{\Delta L}\) predicts visibility at all other separations.
   </p>
 </section>
 
@@ -220,7 +220,7 @@
       <tr>
         <th>Experiment</th>
         <th>Particle</th>
-        <th>\(\Delta L_{\rm max}\)</th>
+        <th>\(\Matt{\Delta L_{\rm max}}\)</th>
         <th>Constraint</th>
       </tr>
     </thead>
@@ -229,19 +229,19 @@
         <td>Neutron interferometry</td>
         <td>Neutron</td>
         <td>∼ 10 cm</td>
-        <td>\(\ell_{\rm coh} > 10\) cm</td>
+        <td>\(\Matt{\ell_{\rm coh}} > 10\) cm</td>
       </tr>
       <tr>
         <td>Atom interferometry</td>
         <td>Rb, Cs</td>
         <td>∼ 1 m</td>
-        <td>\(\ell_{\rm coh} > 1\) m</td>
+        <td>\(\Matt{\ell_{\rm coh}} > 1\) m</td>
       </tr>
       <tr>
         <td>Molecule interferometry</td>
         <td>C₆₀, larger</td>
         <td>∼ 1 mm</td>
-        <td>\(\ell_{\rm coh} > 1\) mm</td>
+        <td>\(\Matt{\ell_{\rm coh}} > 1\) mm</td>
       </tr>
     </tbody>
   </table>
@@ -249,7 +249,7 @@
   <div class="block">
     <div class="title">Interpretation</div>
     <p style="margin:0;color:var(--text-secondary);">
-      Current null results are consistent with STUR if \(\ell_{\rm coh} \gtrsim 1\) m. Smaller
+      Current null results are consistent with STUR if \(\Matt{\ell_{\rm coh}} \gtrsim 1\) m. Smaller
       coherence lengths would have produced observable visibility decay in existing experiments.
       This sets a lower bound but does not falsify the theory.
     </p>
@@ -269,10 +269,10 @@
     <div class="title" style="color:#4ade80;">Mathematically Established</div>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
       <li><strong>Gaussian visibility form:</strong> Follows from CLT phase averaging (Appendix B)</li>
-      <li><strong>Coherence length:</strong> \(\ell_{\rm coh} = \sqrt{2}\, L_X / (y\,\sigma_R)\) from dimensional analysis</li>
-      <li><strong>TEGR emergence:</strong> Equilibrium limit recovers teleparallel gravity</li>
+      <li><strong>Coherence length:</strong> \(\Matt{\ell_{\rm coh}} = \sqrt{2}\, \XCRM{L_X} / (\Quant{y}\,\Diff{\sigma_R})\) from dimensional analysis</li>
+      <li><strong>TEGR emergence:</strong> Equilibrium limit recovers \(\Tor{\text{teleparallel gravity}}\)</li>
       <li><strong>3 generations:</strong> Explicit APS index calculation gives |I| = 3 (Appendix F.4.1)</li>
-      <li><strong>MHP variational solutions:</strong> Closed-form fermion positions from ∂Ω/∂X = 0 (F.3.1)</li>
+      <li><strong>MHP variational solutions:</strong> Closed-form fermion positions from \(\XCRM{\partial\Omega/\partial X} = 0\) (F.3.1)</li>
       <li><strong>All-orders UV finiteness:</strong> 1-loop (F.7.1) + inductive multi-loop proof (F.7.2)</li>
     </ul>
   </div>
@@ -280,24 +280,24 @@
   <div class="block gold" style="margin-top:1rem;">
     <div class="title" style="color:#fbbf24;">Formalized (Verification Encouraged)</div>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li><strong>SM gauge group:</strong> MHP holonomy cost minimization (Eq. F.5)</li>
-      <li><strong>DHP cosmological extension:</strong> Path integral formulation stated (Eq. F.12)</li>
+      <li><strong>SM gauge group:</strong> MHP \(\Quant{\text{holonomy}}\) cost minimization (Eq. F.5)</li>
+      <li><strong>DHP cosmological extension:</strong> \(\Quant{\text{Path integral}}\) formulation stated (Eq. F.12)</li>
     </ul>
   </div>
 
   <div class="block warning" style="margin-top:1rem;">
     <div class="title" style="color:var(--warning);">Conjectured (Mechanism Proposed)</div>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li><strong>Λ problem resolution:</strong> DHP holonomy cancellation proposed. <em>Not demonstrated.</em></li>
-      <li><strong>Quantum gravity:</strong> Finite holonomy path integral claimed. <em>Full proof not provided.</em></li>
+      <li><strong>Λ problem resolution:</strong> DHP \(\Quant{\text{holonomy}}\) cancellation proposed. <em>Not demonstrated.</em></li>
+      <li><strong>\(\Quant{\text{Quantum gravity}}\):</strong> Finite \(\Quant{\text{holonomy}}\) path integral claimed. <em>Full proof not provided.</em></li>
     </ul>
   </div>
 
   <div class="block error" style="margin-top:1rem;">
     <div class="title" style="color:var(--error);">Free Parameters (Must Be Measured)</div>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li><strong>L<sub>X</sub>:</strong> Compactification scale — not determined from first principles</li>
-      <li><strong>λ:</strong> Self-coupling — sets vacuum expectation value</li>
+      <li><strong>\(\XCRM{L_X}\):</strong> Compactification scale — not determined from first principles</li>
+      <li><strong>\(\Pot{\lambda}\):</strong> Self-coupling — sets vacuum expectation value</li>
     </ul>
   </div>
 
@@ -307,7 +307,7 @@
       STUR provides a <strong>falsifiable target</strong> for experimental physics. The theory
       stands or falls on the Gaussian visibility prediction. This prediction is <strong>mathematically
       established</strong> regardless of the status of MHP/DHP extensions. Either experiments will
-      confirm this form (determining \(\ell_{\rm coh}\)), or they will falsify STUR by revealing
+      confirm this form (determining \(\Matt{\ell_{\rm coh}}\)), or they will falsify STUR by revealing
       a different functional dependence.
     </p>
   </div>
@@ -318,7 +318,7 @@
   <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
     <strong style="color:var(--gold);">See Also:</strong>
     <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a>
-    — complete derivation of the Gaussian visibility law, numerical \(\ell_{\rm coh}\) predictions, and falsifiability analysis.
+    — complete derivation of the Gaussian visibility law, numerical \(\Matt{\ell_{\rm coh}}\) predictions, and falsifiability analysis.
   </p>
 </section>
 
