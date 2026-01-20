@@ -294,7 +294,7 @@ a:hover { color: var(--accent-secondary); }
 
 .cite-btn:hover {
   border-color: var(--gold);
-  background: rgba(251, 191, 36, 0.08);
+  background: rgba(251, 191, 36, 0.04);
   color: var(--gold);
 }
 
@@ -391,8 +391,8 @@ input[type="range"] {
 
 .block.gold { border-left-color: var(--gold); background: rgba(251, 191, 36, 0.04); }
 .block.success { border-left-color: var(--success); background: rgba(52, 211, 153, 0.04); }
-.block.warning { border-left-color: var(--warning); background: rgba(245, 158, 11, 0.05); }
-.block.error { border-left-color: var(--error); background: rgba(239, 68, 68, 0.05); }
+.block.warning { border-left-color: var(--warning); background: rgba(245, 158, 11, 0.04); }
+.block.error { border-left-color: var(--error); background: rgba(239, 68, 68, 0.04); }
 
 .block .title {
   font-size: 0.75rem;
@@ -445,7 +445,7 @@ th {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 td { color: var(--text-secondary); }
@@ -503,7 +503,7 @@ tr:hover td { background: rgba(255, 255, 255, 0.02); }
 }
 
 .derivation .step {
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.04);
   border-left: 3px solid var(--accent);
   padding: 0.5rem 0.75rem;
   margin: 0.5rem 0;
@@ -831,19 +831,19 @@ code {
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
-    <div style="padding:0.9rem;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+    <div style="padding:0.9rem;background:rgba(74,222,128,0.04);border-radius:8px;border-left:3px solid #4ade80;">
       <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Diffusion</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\tfrac{1}{2}(\nabla R)^2\) — Kinetic term driving spatial smoothing</div>
     </div>
-    <div style="padding:0.9rem;background:rgba(244,114,182,0.08);border-radius:8px;border-left:3px solid #f472b6;">
+    <div style="padding:0.9rem;background:rgba(244,114,182,0.04);border-radius:8px;border-left:3px solid #f472b6;">
       <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Relaxation</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(V(R)\) — Potential driving \(R \to R_{\rm bg}\)</div>
     </div>
-    <div style="padding:0.9rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+    <div style="padding:0.9rem;background:rgba(251,191,36,0.04);border-radius:8px;border-left:3px solid #fbbf24;">
       <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">XCRM Closure</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\chi R \partial_X R\) — Internal dimension coupling (fixes constants)</div>
     </div>
-    <div style="padding:0.9rem;background:rgba(96,165,250,0.08);border-radius:8px;border-left:3px solid #60a5fa;">
+    <div style="padding:0.9rem;background:rgba(96,165,250,0.04);border-radius:8px;border-left:3px solid #60a5fa;">
       <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Torsion Source</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\alpha R \mathbb{T}\) — Teleparallel gravity coupling</div>
     </div>
@@ -969,7 +969,7 @@ code {
      EMERGENCE OF PHYSICAL THEORIES
      ══════════════════════════════════════════════════════════════════════════════ -->
 
-<section class="section" id="emergence" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(74,158,255,0.04) 100%);">
+<section class="section" id="emergence" style="border:2px solid var(--accent-secondary); background:rgba(255,255,255,0.02);">
   <h2 style="color:var(--accent-secondary);">Emergence of Physical Theories from the STUR Manifold</h2>
 
   <div class="block success" style="margin-bottom:1.5rem;">
@@ -990,7 +990,7 @@ code {
   <div style="overflow-x:auto;margin:1.5rem 0;">
     <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
       <thead>
-        <tr style="background:rgba(167,139,250,0.15);border-bottom:2px solid var(--accent-secondary);">
+        <tr style="background:rgba(167,139,250,0.04);border-bottom:2px solid var(--accent-secondary);">
           <th style="padding:0.75rem;text-align:left;color:var(--accent-secondary);">Regime</th>
           <th style="padding:0.75rem;text-align:left;color:var(--accent-secondary);">Surviving Structure</th>
           <th style="padding:0.75rem;text-align:left;color:var(--accent-secondary);">Emergent Theory</th>
@@ -4781,7 +4781,7 @@ code {
         <td>\(V \propto e^{-\gamma L}\)</td>
         <td>Total path \(L\)</td>
       </tr>
-      <tr style="background:rgba(74,158,255,0.1)">
+      <tr style="background:rgba(74,158,255,0.04)">
         <td><strong>STUR</strong></td>
         <td>\(V \propto e^{-(\Delta L)^2/\ell^2}\)</td>
         <td><strong>Arm separation \(\Delta L\)</strong></td>
