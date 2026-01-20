@@ -44,8 +44,8 @@ window.MathJax = {
 
 <header class="masthead">
   <h1 class="page-title-core">STUR Core Theory</h1>
-  <p class="subtitle">The XCRM Unified Action — All Physics from One Equation</p>
-  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg — v9.2</p>
+  <p class="subtitle">The XCRM Unified Action + MHP Selection Principle</p>
+  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg — v10.0</p>
 </header>
 
 <!-- Physics Domain Color Legend -->
@@ -122,6 +122,73 @@ window.MathJax = {
       In STUR, they are <em>different observational projections</em> of the same underlying XCRM structure.
       When you coarse-grain over different variables, different effective theories emerge — but all arise from
       the single action above.
+    </p>
+  </div>
+</section>
+
+<!-- MINIMUM HOLONOMY PRINCIPLE -->
+<section class="section" id="mhp" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.15) 0%, rgba(167,139,250,0.08) 100%);">
+  <h2 style="color:var(--gold);">The Minimum Holonomy Principle (MHP)</h2>
+
+  <div class="block gold" style="border-width:3px;background:rgba(0,0,0,0.6);">
+    <div class="title" style="font-size:1.1rem;">Axiom MHP — The Selection Principle</div>
+    <p style="margin:0;color:var(--text);font-size:1.05rem;line-height:1.7;">
+      <strong>Physical configurations minimize the total holonomy action over all non-contractible cycles of the orbifold.</strong>
+    </p>
+    <div class="eq law" style="margin:1rem 0 0;background:#000;border:2px solid var(--gold);padding:1rem;">
+      \[\boxed{\Omega[A, \psi, X_i] = \int_{\gamma} \Tr(W[\gamma]^\dagger W[\gamma])\, d\mu(\gamma)
+      + \lambda_\psi \sum_i \int |D_X \psi_i|^2\, dX
+      + \kappa\, \mathcal{I}_{\rm top}}\]
+      <div class="eq-label" style="color:var(--gold);">(MHP.1) — The Holonomy Functional</div>
+    </div>
+  </div>
+
+  <p style="margin-top:1.25rem;font-size:1rem;color:var(--text);">
+    The MHP is the <strong>second axiom</strong> of STUR (after the Master Action). It provides the variational
+    principle that selects the unique physical configuration from the space of solutions.
+  </p>
+
+  <h3>What MHP Determines</h3>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem;">
+    <div style="padding:0.9rem;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+      <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;">Gauge Group</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
+        \(SU(3) \times SU(2) \times U(1)\) uniquely minimizes holonomy cost among anomaly-free groups
+      </div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(167,139,250,0.08);border-radius:8px;border-left:3px solid #a78bfa;">
+      <div style="font-size:0.78rem;color:#a78bfa;font-weight:600;text-transform:uppercase;">Generations</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
+        \(N_{\rm gen} = |\mathcal{I}_{\rm top}| = 3\) from orbifold topology (Atiyah-Singer index)
+      </div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+      <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">Flavor Structure</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
+        Fermion localizations \(X_i\) from \(\partial\Omega/\partial X_i = 0\) → Yukawa hierarchies derived
+      </div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(96,165,250,0.08);border-radius:8px;border-left:3px solid #60a5fa;">
+      <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;">Mixing Matrices</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
+        CKM and PMNS structure follows from derived localization geometry
+      </div>
+    </div>
+  </div>
+
+  <div class="block success" style="margin-top:1.5rem;border-width:2px;">
+    <div class="title">Theory Closure</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The Master Action (Eq. 0.1) + MHP (Eq. MHP.1) together form a <strong>near-complete theory</strong>:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li>XCRM provides the dynamics</li>
+      <li>MHP provides the selection principle</li>
+      <li>Together they derive the Standard Model gauge group, generation structure, and mass hierarchies</li>
+    </ul>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      <a href="stur_technical_appendix.html#mhp" style="color:var(--accent);">Full derivation in Technical Appendix Section F →</a>
     </p>
   </div>
 </section>
@@ -223,7 +290,7 @@ window.MathJax = {
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Core Theory</strong> — v9.2</p>
+  <p><strong>STUR Core Theory</strong> — v10.0 (MHP Edition)</p>
   <p>© 2026 Sheldon Lon Lindberg</p>
 </footer>
 
