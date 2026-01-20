@@ -86,30 +86,30 @@
   -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
 }
 
-/* Glass with colored tint */
+/* Glass with subtle colored accents (minimal tint) */
 .glass.tint-cyan {
-  background: rgba(56, 189, 248, 0.05);
-  border-color: rgba(56, 189, 248, 0.15);
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(56, 189, 248, 0.12);
 }
 
 .glass.tint-green {
-  background: rgba(74, 222, 128, 0.05);
-  border-color: rgba(74, 222, 128, 0.15);
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(74, 222, 128, 0.12);
 }
 
 .glass.tint-gold {
-  background: rgba(251, 191, 36, 0.05);
-  border-color: rgba(251, 191, 36, 0.15);
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(251, 191, 36, 0.12);
 }
 
 .glass.tint-violet {
-  background: rgba(167, 139, 250, 0.05);
-  border-color: rgba(167, 139, 250, 0.15);
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(167, 139, 250, 0.12);
 }
 
 .glass.tint-danger {
-  background: rgba(248, 113, 113, 0.05);
-  border-color: rgba(248, 113, 113, 0.15);
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(248, 113, 113, 0.12);
 }
 
 /* === GLASS CARDS === */
@@ -211,9 +211,9 @@
 }
 
 .glass-nav-link.active {
-  color: var(--neon-cyan);
-  background: rgba(56, 189, 248, 0.1);
-  border-color: rgba(56, 189, 248, 0.2);
+  color: var(--neon-gold);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(251, 191, 36, 0.2);
 }
 
 /* Mobile nav toggle - hamburger button */
@@ -341,9 +341,9 @@
   }
 
   .glass-nav-link.active {
-    color: var(--neon-cyan);
-    background: rgba(56, 189, 248, 0.15);
-    border-color: rgba(56, 189, 248, 0.3);
+    color: var(--neon-gold);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(251, 191, 36, 0.25);
   }
 
   /* Share button in mobile menu */
@@ -377,8 +377,8 @@ button.glass-nav-link {
 
 button.glass-nav-link:hover {
   background: var(--glass-bg-light);
-  color: var(--neon-cyan);
-  border-color: rgba(56, 189, 248, 0.3);
+  color: var(--neon-green);
+  border-color: rgba(74, 222, 128, 0.3);
 }
 
 /* === GLASS BUTTONS === */
@@ -469,8 +469,8 @@ button.glass-nav-link:hover {
 
 .glass-input:focus {
   outline: none;
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
 }
 
 .glass-input::placeholder {
@@ -610,29 +610,29 @@ button.glass-nav-link:hover {
   line-height: 1.7;
 }
 
-/* Section types */
+/* Section types (subtle border accents only) */
 .glass-section.test {
-  border-color: rgba(56, 189, 248, 0.3);
+  border-color: rgba(56, 189, 248, 0.15);
 }
 .glass-section.test .glass-section-title { color: var(--neon-cyan); }
 
 .glass-section.model {
-  border-color: rgba(167, 139, 250, 0.3);
+  border-color: rgba(167, 139, 250, 0.15);
 }
 .glass-section.model .glass-section-title { color: var(--neon-violet); }
 
 .glass-section.prediction {
-  border-color: rgba(74, 222, 128, 0.3);
+  border-color: rgba(74, 222, 128, 0.15);
 }
 .glass-section.prediction .glass-section-title { color: var(--neon-green); }
 
 .glass-section.falsify {
-  border-color: rgba(248, 113, 113, 0.3);
+  border-color: rgba(248, 113, 113, 0.15);
 }
 .glass-section.falsify .glass-section-title { color: var(--neon-red); }
 
 .glass-section.reproduce {
-  border-color: rgba(251, 191, 36, 0.3);
+  border-color: rgba(251, 191, 36, 0.15);
 }
 .glass-section.reproduce .glass-section-title { color: var(--neon-gold); }
 

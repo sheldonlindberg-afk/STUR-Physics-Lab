@@ -111,7 +111,7 @@ window.MathJax = {
   color: #000;
 }
 .btn-group .secondary {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
   color: var(--text);
   border: 1px solid rgba(255,255,255,0.2);
 }
@@ -156,7 +156,7 @@ window.MathJax = {
 </header>
 
 <!-- CRITICAL DISCLAIMER -->
-<div class="block warning" style="border:2px solid #ef4444; background:rgba(239,68,68,0.1); margin-bottom:2rem;">
+<div class="block warning" style="border:2px solid #ef4444; background:rgba(239,68,68,0.04); margin-bottom:2rem;">
   <div class="title" style="color:#ef4444;">Important Disclaimer</div>
   <p style="margin:0;color:var(--text);">
     <strong>This is a conceptual simulation, not actual XCRM field evolution.</strong>
@@ -239,19 +239,19 @@ window.MathJax = {
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
-    <div style="padding:0.9rem;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+    <div style="padding:0.9rem;background:rgba(74,222,128,0.04);border-radius:8px;border-left:3px solid #4ade80;">
       <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;">Diffusion</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(D_i \nabla^2 R_i\) — Spatial smoothing via 3D Laplacian</div>
     </div>
-    <div style="padding:0.9rem;background:rgba(244,114,182,0.08);border-radius:8px;border-left:3px solid #f472b6;">
+    <div style="padding:0.9rem;background:rgba(244,114,182,0.04);border-radius:8px;border-left:3px solid #f472b6;">
       <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;">Nonlinear Stability</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(-\lambda(R - R_{\rm bg})^3\) — Prevents runaway growth</div>
     </div>
-    <div style="padding:0.9rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+    <div style="padding:0.9rem;background:rgba(251,191,36,0.04);border-radius:8px;border-left:3px solid #fbbf24;">
       <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">XCRM Coupling</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\chi (R - R_{\rm bg})/L_X\) — Internal dimension feedback</div>
     </div>
-    <div style="padding:0.9rem;background:rgba(96,165,250,0.08);border-radius:8px;border-left:3px solid #60a5fa;">
+    <div style="padding:0.9rem;background:rgba(96,165,250,0.04);border-radius:8px;border-left:3px solid #60a5fa;">
       <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;">Memory Coupling</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(k_i X_i\) — Persistent state influences dynamics</div>
     </div>
@@ -268,7 +268,7 @@ window.MathJax = {
 </section>
 
 <!-- ARCHITECTURE -->
-<section class="section" id="architecture" style="border:2px solid var(--accent); background:linear-gradient(135deg, rgba(74,158,255,0.08) 0%, rgba(96,165,250,0.04) 100%);">
+<section class="section" id="architecture" style="border:2px solid var(--accent); background:rgba(255,255,255,0.02);">
   <h2 style="color:var(--accent);">Five-Layer Architecture</h2>
 
   <p style="color:var(--text);margin-bottom:1rem;">
@@ -359,7 +359,7 @@ window.MathJax = {
   <div style="overflow-x:auto;margin:1rem 0;">
     <table style="width:100%;font-size:0.88rem;">
       <thead>
-        <tr style="background:rgba(251,191,36,0.15);">
+        <tr style="background:rgba(251,191,36,0.04);">
           <th style="color:var(--gold);">XCRM-Inspired Term</th>
           <th style="color:var(--gold);">Cognitive Analog</th>
           <th style="color:var(--gold);">Intended Function</th>
@@ -945,7 +945,7 @@ if __name__ == "__main__":
 </section>
 
 <!-- LIMITATIONS AND FUTURE WORK -->
-<section class="section" id="limitations" style="border:2px solid #94a3b8; background:rgba(148,163,184,0.05);">
+<section class="section" id="limitations" style="border:2px solid #94a3b8; background:rgba(148,163,184,0.04);">
   <h2 style="color:#94a3b8;">Limitations and Future Work</h2>
 
   <div style="display:grid;gap:1rem;margin:1rem 0;">
