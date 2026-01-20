@@ -983,6 +983,20 @@ mjx-container[display="true"] {
   margin: 0.5em 0 !important;
 }
 
+/* Hide MathJax assistive/menu elements that can render as broken buttons */
+mjx-assistive-mml,
+.MathJax_MenuClose,
+.MathJax_HoverArrow,
+mjx-container button,
+mjx-container [role="button"] {
+  display: none !important;
+}
+
+/* Ensure MathJax elements inside lists don't create unwanted elements */
+li mjx-container {
+  display: inline-block !important;
+}
+
 /* Touch-friendly interactive elements */
 @media (pointer: coarse) {
   .glass-btn,

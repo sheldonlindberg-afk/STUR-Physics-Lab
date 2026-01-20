@@ -84,11 +84,7 @@ window.MathJax = {
     fontCache: 'global'
   },
   options: {
-    enableMenu: true,
-    menuOptions: {
-      settings: {
-        zoom: 'Click'
-      }
-    }
+    // Disable context menu to prevent broken button rendering
+    enableMenu: false
   }
 };
