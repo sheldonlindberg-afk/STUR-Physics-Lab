@@ -625,6 +625,7 @@
   STUR.initNav = function() {
     const toggle = STUR.$('.glass-nav-toggle');
     const links = STUR.$('.glass-nav-links');
+    const header = STUR.$('.glass-header');
 
     if (toggle && links) {
       // Toggle menu open/close
@@ -634,25 +635,35 @@
         if (shouldOpen) {
           links.classList.add('open');
           toggle.setAttribute('aria-expanded', 'true');
+          toggle.innerHTML = '<span class="stur-icon icon-x lg"></span>';
           document.body.style.overflow = 'hidden';
         } else {
           links.classList.remove('open');
           toggle.setAttribute('aria-expanded', 'false');
+          toggle.innerHTML = '<span class="stur-icon icon-menu lg"></span>';
           document.body.style.overflow = '';
         }
       };
 
-      // Toggle button click
-      toggle.addEventListener('click', (e) => {
+      // Toggle button click - use both click and touchend for mobile reliability
+      const handleToggle = (e) => {
+        e.preventDefault();
         e.stopPropagation();
         toggleMenu();
-      });
+      };
+
+      toggle.addEventListener('click', handleToggle);
+      toggle.addEventListener('touchend', handleToggle, { passive: false });
 
       // Close menu when clicking on a nav link (but not the share button which opens a modal)
       links.querySelectorAll('.glass-nav-link:not(.glass-share-btn)').forEach(link => {
-        link.addEventListener('click', () => {
-          toggleMenu(true);
-        });
+        const closeHandler = (e) => {
+          // Don't close for external links that open in new tab
+          if (!link.getAttribute('target')) {
+            toggleMenu(true);
+          }
+        };
+        link.addEventListener('click', closeHandler);
       });
 
       // Close menu when share button is clicked (share modal will open)
@@ -671,6 +682,15 @@
           toggleMenu(true);
         }
       });
+
+      // Close on touch outside for mobile
+      document.addEventListener('touchstart', (e) => {
+        if (links.classList.contains('open') &&
+            !toggle.contains(e.target) &&
+            !links.contains(e.target)) {
+          toggleMenu(true);
+        }
+      }, { passive: true });
 
       // Close on Escape key
       document.addEventListener('keydown', (e) => {
@@ -797,6 +817,81 @@
     }
 
     return verdict;
+  };
+
+  // ============================================================
+  // MATHJAX EQUATION COLOR SYSTEM
+  // ============================================================
+
+  /**
+   * Physics domain colors for equation color coding
+   */
+  STUR.eqColors = {
+    diffusion: '#4ade80',  // Green - Kinetic/Diffusion: ½(∇R)²
+    potential: '#f472b6',  // Pink - Relaxation Potential: V(R)
+    xcrm: '#fbbf24',       // Gold - XCRM Coupling: χR∂_X R
+    torsion: '#60a5fa',    // Blue - Torsion Source: αR𝕋
+    quantum: '#a78bfa',    // Violet - Loop corrections, holonomy
+    matter: '#22d3ee'      // Cyan - Matter fields: ℒ_matter
+  };
+
+  /**
+   * Configure MathJax with STUR color macros
+   * Call this before MathJax loads or use MathJax.startup.promise
+   */
+  STUR.configureMathJax = function() {
+    // Extend MathJax configuration with STUR macros
+    if (typeof window.MathJax === 'undefined') {
+      window.MathJax = { tex: { macros: {} }, svg: { fontCache: 'global' } };
+    }
+    if (!window.MathJax.tex) window.MathJax.tex = {};
+    if (!window.MathJax.tex.macros) window.MathJax.tex.macros = {};
+
+    // Add color macros for physics domains
+    Object.assign(window.MathJax.tex.macros, {
+      // Physics domain color macros
+      Diff: ['\\color{' + STUR.eqColors.diffusion + '}{#1}', 1],
+      Pot: ['\\color{' + STUR.eqColors.potential + '}{#1}', 1],
+      XCRM: ['\\color{' + STUR.eqColors.xcrm + '}{#1}', 1],
+      Tor: ['\\color{' + STUR.eqColors.torsion + '}{#1}', 1],
+      Quant: ['\\color{' + STUR.eqColors.quantum + '}{#1}', 1],
+      Matt: ['\\color{' + STUR.eqColors.matter + '}{#1}', 1],
+      // Common physics symbols
+      Rcal: '\\mathcal{R}',
+      Mcal: '\\mathcal{M}',
+      Lcal: '\\mathcal{L}',
+      Tcal: '\\mathcal{T}'
+    });
+
+    // If MathJax already loaded, re-typeset
+    if (window.MathJax && window.MathJax.typeset) {
+      window.MathJax.typeset();
+    }
+  };
+
+  /**
+   * Add equation legend to page if not present
+   */
+  STUR.addEquationLegend = function(containerId) {
+    const container = document.getElementById(containerId) || document.querySelector('.container');
+    if (!container || container.querySelector('.physics-legend')) return;
+
+    const legend = STUR.createElement('div', { className: 'physics-legend' });
+    legend.innerHTML = `
+      <div class="physics-legend-title">Equation Color Code — Physics Domains</div>
+      <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+      <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+      <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+      <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+      <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+      <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+    `;
+    const firstSection = container.querySelector('.section, .glass-panel');
+    if (firstSection) {
+      container.insertBefore(legend, firstSection);
+    } else {
+      container.prepend(legend);
+    }
   };
 
   // ============================================================

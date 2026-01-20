@@ -11,7 +11,20 @@ window.MathJax = {
   tex: {
     inlineMath: [['\\(','\\)']],
     displayMath: [['\\[','\\]']],
-    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}' }
+    macros: {
+      // Physics domain color macros - use these for consistent color coding
+      Diff: ['\\color{#4ade80}{#1}', 1],   // Green - Diffusion
+      Pot: ['\\color{#f472b6}{#1}', 1],    // Pink - Potential
+      XCRM: ['\\color{#fbbf24}{#1}', 1],   // Gold - XCRM
+      Tor: ['\\color{#60a5fa}{#1}', 1],    // Blue - Torsion
+      Quant: ['\\color{#a78bfa}{#1}', 1],  // Violet - Quantum
+      Matt: ['\\color{#22d3ee}{#1}', 1],   // Cyan - Matter
+      // Common symbols
+      Rcal: '\\mathcal{R}',
+      Mcal: '\\mathcal{M}',
+      Lcal: '\\mathcal{L}',
+      Tcal: '\\mathcal{T}'
+    }
   },
   svg: { fontCache: 'global' }
 };
