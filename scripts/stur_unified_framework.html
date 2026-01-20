@@ -299,16 +299,16 @@
       ultimate microscopic completeness.
     </p>
     <p class="muted">
-      After dimensional reduction, STUR closes with <strong>a single free parameter</strong> \(L_X\).
-      All other parameters, including \(\sigma_R\), are derived from XCRM dynamics (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).
+      After dimensional reduction, STUR closes with <strong>a single free parameter</strong> \(\XCRM{L_X}\).
+      All other parameters, including \(\Diff{\sigma_R}\), are derived from XCRM dynamics (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).
     </p>
   </div>
 
   <p>
     The teleparallel formulation of gravity replaces curvature with torsion as the geometric
     carrier of gravitational dynamics. In TEGR (Teleparallel Equivalent of General Relativity),
-    the fundamental variable is the tetrad \(e^a{}_\mu\) rather than the metric \(g_{\mu\nu}\),
-    and gravity is encoded in the contortion tensor \(K^a{}_{bc}\) derived from the Weitzenböck
+    the fundamental variable is the tetrad \(\Tor{e^a{}_\mu}\) rather than the metric \(\Tor{g_{\mu\nu}}\),
+    and gravity is encoded in the contortion tensor \(\Tor{K^a{}_{bc}}\) derived from the Weitzenböck
     connection.
   </p>
 
@@ -316,7 +316,7 @@
     <div class="card" style="border-left: 3px solid #58a6ff;">
       <h4>TEGR</h4>
       <p>Geometric backbone. Teleparallel gravity equivalent to GR via boundary terms. 
-      Provides the frame field \(e^a{}_\mu\) and torsion tensor \(T^a{}_{bc}\).</p>
+      Provides the frame field \(\Tor{e^a{}_\mu}\) and torsion tensor \(\Tor{T^a{}_{bc}}\).</p>
     </div>
     <div class="card" style="border-left: 3px solid #a371f7;">
       <h4>HGEM</h4>
@@ -325,13 +325,13 @@
     </div>
     <div class="card" style="border-left: 3px solid #3fb950;">
       <h4>STUR</h4>
-      <p>Derived from XCRM. Resistance holonomy \(\Phi_R\) measurable via
+      <p>Derived from XCRM. Resistance holonomy \(\Quant{\Phi_R}\) measurable via
       interferometric visibility decay. Falsifiable via Gaussian vs. null model comparison.</p>
     </div>
     <div class="card" style="border-left: 3px solid #f0b429;">
       <h4>Chronomagnetics</h4>
       <p>Derived from XCRM X-mode spectrum. The constant
-      \(\lambda = 3722/2705\) emerges uniquely from mode quantization on the orbifold.</p>
+      \(\XCRM{\lambda = 3722/2705}\) emerges uniquely from mode quantization on the orbifold.</p>
     </div>
   </div>
 </section>
@@ -345,9 +345,9 @@
   <div class="block success" style="border-width:2px;">
     <div class="title">The Single Adjustable Prediction</div>
     <p class="muted" style="font-size:1rem;line-height:1.65;">
-      <strong style="color:var(--text);">STUR makes exactly one adjustable prediction — the coherence length \(\ell_{\rm coh}\).</strong>
-      Given any two of \(\{\chi,\, L_X,\, \ell_{\rm coh}\}\), the third is determined.
-      The Gaussian form \(V(\Delta L) = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) is <strong>not adjustable</strong> —
+      <strong style="color:var(--text);">STUR makes exactly one adjustable prediction — the coherence length \(\Matt{\ell_{\rm coh}}\).</strong>
+      Given any two of \(\{\XCRM{\chi},\, \XCRM{L_X},\, \Matt{\ell_{\rm coh}}\}\), the third is determined.
+      The Gaussian form \(\Pot{V(\Delta L)} = V_0 \exp(-\Delta L^2/\Matt{\ell_{\rm coh}}^2)\) is <strong>not adjustable</strong> —
       it follows necessarily from Gaussian phase averaging of the XCRM holonomy.
     </p>
   </div>
@@ -355,33 +355,33 @@
   <h3>What Arises Naturally from the Manifold</h3>
 
   <p>The following results are <strong>derived from first principles</strong> given the 5D manifold structure
-  \(\mathcal{M}^5 = M^4 \times S^1/\mathbb{Z}_2\) and the STUR action:</p>
+  \(\Quant{\mathcal{M}^5 = M^4 \times S^1/\mathbb{Z}_2}\) and the STUR action:</p>
 
   <table>
     <tr><th>Result</th><th>Derivation</th><th>Reference</th></tr>
     <tr style="background:var(--success-subtle);">
       <td><strong>TEGR ≡ GR</strong></td>
-      <td>Boundary term theorem: \(e\mathcal{R} = -e\mathcal{T} + 2\partial_M(eT^M)\)</td>
+      <td>Boundary term theorem: \(\Tor{e\mathcal{R} = -e\mathcal{T} + 2\partial_M(eT^M)}\)</td>
       <td>Eq. (4.2), Aldrovandi & Pereira 2013</td>
     </tr>
     <tr style="background:var(--success-subtle);">
       <td><strong>Yang-Mills from degeneracy</strong></td>
-      <td>Local degeneracy covariance forces connection \(\mathcal{A}_\mu\)</td>
+      <td>Local degeneracy covariance forces connection \(\Tor{\mathcal{A}_\mu}\)</td>
       <td>Foundations §5.3</td>
     </tr>
     <tr style="background:var(--success-subtle);">
       <td><strong>Gaussian visibility form</strong></td>
-      <td>Central limit theorem + XCRM closure: \(V = V_0 \exp(-\langle\Phi_R^2\rangle/2)\)</td>
+      <td>Central limit theorem + XCRM closure: \(\Pot{V} = V_0 \exp(-\langle\Quant{\Phi_R}^2\rangle/2)\)</td>
       <td>Foundations §3.4.3–3.4.6</td>
     </tr>
     <tr style="background:var(--success-subtle);">
       <td><strong>Coherence length closure</strong></td>
-      <td>X-integration of master action: \(\ell_{\rm coh} = \sqrt{2}\,L_X/\sigma_R\)</td>
+      <td>X-integration of master action: \(\Matt{\ell_{\rm coh}} = \sqrt{2}\,\XCRM{L_X}/\Diff{\sigma_R}\)</td>
       <td>Foundations §3.4.7, Eq. (FP.1)</td>
     </tr>
     <tr style="background:var(--success-subtle);">
       <td><strong>Loop enhancement</strong></td>
-      <td>Stokes' theorem: \(\langle\Phi_R^2\rangle_{\rm loop} \propto A/L_X^2\)</td>
+      <td>Stokes' theorem: \(\langle\Quant{\Phi_R}^2\rangle_{\rm loop} \propto A/\XCRM{L_X}^2\)</td>
       <td>Foundations §3.4.8</td>
     </tr>
     <tr style="background:var(--success-subtle);">
@@ -391,7 +391,7 @@
     </tr>
     <tr style="background:var(--success-subtle);">
       <td><strong>Yukawa hierarchy structure</strong></td>
-      <td>Exponential overlaps in X: \(y_{\rm eff} \sim \int f_L f_R R\, dX\)</td>
+      <td>Exponential overlaps in X: \(\Quant{y_{\rm eff}} \sim \int f_L f_R R\, dX\)</td>
       <td>Foundations §8</td>
     </tr>
     <tr style="background:var(--success-subtle);">
@@ -403,27 +403,27 @@
 
   <h3>XCRM Closure: What Is Derived</h3>
 
-  <p>All key quantities are <strong>derived from XCRM first principles</strong>. The single remaining free parameter is \(L_X\):</p>
+  <p>All key quantities are <strong>derived from XCRM first principles</strong>. The single remaining free parameter is \(\XCRM{L_X}\):</p>
 
   <table>
     <tr><th>Quantity</th><th>Role</th><th>Derivation Status</th></tr>
     <tr style="background:var(--warning-subtle);">
-      <td><strong>\(L_X\)</strong> (compactification scale)</td>
-      <td>Sets KK mass gap \(m_{\rm KK} \sim 1/L_X\)</td>
+      <td><strong>\(\XCRM{L_X}\)</strong> (compactification scale)</td>
+      <td>Sets KK mass gap \(m_{\rm KK} \sim 1/\XCRM{L_X}\)</td>
       <td><strong style="color:var(--warning)">Single free parameter</strong> (constrained: \(\gtrsim 5\) TeV)</td>
     </tr>
     <tr style="background:var(--success-subtle);">
-      <td><strong>\(\sigma_R\)</strong> (RMS fluctuation)</td>
-      <td>Enters coherence length via \(\ell_{\rm coh} = \sqrt{2}L_X/\sigma_R\)</td>
+      <td><strong>\(\Diff{\sigma_R}\)</strong> (RMS fluctuation)</td>
+      <td>Enters coherence length via \(\Matt{\ell_{\rm coh}} = \sqrt{2}\XCRM{L_X}/\Diff{\sigma_R}\)</td>
       <td><strong style="color:var(--success)">Derived</strong> from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>)</td>
     </tr>
     <tr style="background:var(--success-subtle);">
-      <td><strong>\(V(R)\)</strong> (potential form)</td>
-      <td>Drives relaxation to background \(R_{\rm bg}\)</td>
+      <td><strong>\(\Pot{V(R)}\)</strong> (potential form)</td>
+      <td>Drives relaxation to background \(\Pot{R_{\rm bg}}\)</td>
       <td><strong style="color:var(--success)">Derived</strong> from orbifold topology (<a href="stur_core_theory.html#VR-derivation" style="color:var(--stur)">§2.5</a>)</td>
     </tr>
     <tr style="background:var(--success-subtle);">
-      <td><strong>Gauge group \(G\)</strong></td>
+      <td><strong>Gauge group \(\Matt{G}\)</strong></td>
       <td>Determines force structure</td>
       <td><strong style="color:var(--success)">Derived</strong> from XCRM degeneracy constraints (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.3</a>)</td>
     </tr>
@@ -433,7 +433,7 @@
       <td><strong style="color:var(--success)">Derived</strong> as XCRM equilibrium limit (<a href="stur_core_theory.html#sec4" style="color:var(--stur)">§4.3</a>)</td>
     </tr>
     <tr style="background:var(--success-subtle);">
-      <td><strong>\(\lambda = 3722/2705\)</strong></td>
+      <td><strong>\(\XCRM{\lambda = 3722/2705}\)</strong></td>
       <td>Chronomagnetics modulation constant</td>
       <td><strong style="color:var(--success)">Derived</strong> from XCRM X-mode spectrum (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.6</a>)</td>
     </tr>
@@ -447,35 +447,35 @@
   <div class="block success">
     <div class="title">XCRM Closure Complete</div>
     <p class="muted">
-      <strong>All sectors close via XCRM.</strong> Once the compactification scale \(L_X\) is fixed experimentally,
-      all other parameters—including \(\sigma_R\), gauge structure, gravitational coupling, and chronomagnetics—are
-      uniquely determined by XCRM dynamics. The functional form \(V \propto \exp(-\Delta L^2)\) is derived, not assumed.
+      <strong>All sectors close via XCRM.</strong> Once the compactification scale \(\XCRM{L_X}\) is fixed experimentally,
+      all other parameters—including \(\Diff{\sigma_R}\), gauge structure, gravitational coupling, and chronomagnetics—are
+      uniquely determined by XCRM dynamics. The functional form \(\Pot{V} \propto \exp(-\XCRM{\Delta L}^2)\) is derived, not assumed.
     </p>
   </div>
 
   <h3>Derivation Chain: V(R) → S(r) Saturation Operator</h3>
 
-  <p>The saturation operator \(S(r)\) used in gravitational simulations emerges from the potential term \(V(R)\) — which is itself <strong>derived from the orbifold topology</strong> (<a href="stur_core_theory.html#VR-derivation">Foundations §2.5</a>). The complete derivation chain is given in <a href="stur_core_theory.html#appE">Appendix E</a>:</p>
+  <p>The saturation operator \(\XCRM{S(r)}\) used in gravitational simulations emerges from the potential term \(\Pot{V(R)}\) — which is itself <strong>derived from the orbifold topology</strong> (<a href="stur_core_theory.html#VR-derivation">Foundations §2.5</a>). The complete derivation chain is given in <a href="stur_core_theory.html#appE">Appendix E</a>:</p>
 
   <div class="card-grid">
     <div class="card" style="border-left:3px solid var(--success)">
       <h4>Step 1: Scalar-Torsion Coupling</h4>
-      <p>The scalar sector \(S_{\rm scalar}\) contains the term \(\alpha R\, \mathbb{T}\) coupling resistance to torsion. In the weak-field limit, \(\mathbb{T} \to -2\nabla^2\Phi_N/c^2\).</p>
+      <p>The scalar sector \(S_{\rm scalar}\) contains the term \(\Tor{\alpha R\, \mathbb{T}}\) coupling resistance to torsion. In the weak-field limit, \(\Tor{\mathbb{T}} \to -2\nabla^2\Pot{\Phi_N}/c^2\).</p>
     </div>
     <div class="card" style="border-left:3px solid var(--success)">
       <h4>Step 2: Orbifold-Derived Double-Well</h4>
-      <p>The orbifold topology <strong>forces</strong> \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) (see <a href="stur_core_theory.html#VR-derivation" style="color:var(--stur)">§2.5</a>). The resulting kink \(R_0(r) = v\tanh(r/\xi)\) yields \(f(R_0/v) = \tanh(r/\xi)\).</p>
+      <p>The orbifold topology <strong>forces</strong> \(\Pot{V(R)} = \frac{\lambda}{4}(R^2-v^2)^2\) (see <a href="stur_core_theory.html#VR-derivation" style="color:var(--stur)">§2.5</a>). The resulting kink \(\Pot{R_0(r)} = v\tanh(r/\xi)\) yields \(f(\Pot{R_0}/v) = \tanh(r/\xi)\).</p>
     </div>
     <div class="card" style="border-left:3px solid var(--success)">
       <h4>Step 3: XCRM Relaxation</h4>
-      <p>X-integration adds an exponential approach factor \((1-e^{-r/L_0})\) from equilibrium relaxation dynamics.</p>
+      <p>X-integration adds an exponential approach factor \(\XCRM{(1-e^{-r/L_0})}\) from equilibrium relaxation dynamics.</p>
     </div>
     <div class="card" style="border-left:3px solid var(--success)">
       <h4>Step 4: Final Form</h4>
       <div class="eq" style="margin:0.5rem 0;padding:0.75rem;">
-        \[\boxed{S(r) = \tanh(r/L_0)(1-e^{-r/L_0})}\]
+        \[\boxed{\XCRM{S(r)} = \tanh(r/L_0)(1-e^{-r/L_0})}\]
       </div>
-      <p style="margin-top:0.5rem;">with \(L_0 = \ell_{\rm coh}\) (coherence length).</p>
+      <p style="margin-top:0.5rem;">with \(L_0 = \Matt{\ell_{\rm coh}}\) (coherence length).</p>
     </div>
   </div>
 
@@ -483,8 +483,8 @@
     <div class="title">Scale-Invariant Application</div>
     <p class="muted">
       The <strong>same functional form</strong> applies at all scales—microscale (3-body orbits), stellar, and galactic (rotation curves).
-      Only the characteristic length \(L_0\) changes to match the local coherence environment.
-      This is not an assumption; it follows from the <strong>orbifold-derived</strong> form of V(R) (<a href="stur_core_theory.html#VR-derivation" style="color:var(--success)">§2.5</a>).
+      Only the characteristic length \(\XCRM{L_0}\) changes to match the local coherence environment.
+      This is not an assumption; it follows from the <strong>orbifold-derived</strong> form of \(\Pot{V(R)}\) (<a href="stur_core_theory.html#VR-derivation" style="color:var(--success)">§2.5</a>).
     </p>
   </div>
 
@@ -513,25 +513,25 @@
     <tr>
       <td><strong>TEGR</strong></td>
       <td>Geometric backbone</td>
-      <td>Tetrad \(e^a{}_\mu\), torsion \(T^a{}_{bc}\)</td>
+      <td>Tetrad \(\Tor{e^a{}_\mu}\), torsion \(\Tor{T^a{}_{bc}}\)</td>
       <td>Established (≡ GR)</td>
     </tr>
     <tr>
       <td><strong>HGEM</strong></td>
       <td>Wave sector</td>
-      <td>GEM potentials \(\Phi_g, \vec{A}_g\)</td>
+      <td>GEM potentials \(\Pot{\Phi_g}, \Tor{\vec{A}_g}\)</td>
       <td>Derived from linearization</td>
     </tr>
     <tr>
       <td><strong>STUR</strong></td>
       <td>Observable</td>
-      <td>Holonomy \(\Phi_R = \oint \mathsf{J}_a dx^a\)</td>
+      <td>Holonomy \(\Quant{\Phi_R} = \oint \XCRM{\mathsf{J}_a} dx^a\)</td>
       <td>Derived from XCRM, falsifiable</td>
     </tr>
     <tr>
       <td><strong>Chronomagnetics</strong></td>
       <td>Modulation</td>
-      <td>Log-time \(u(t)\), constant \(\lambda\)</td>
+      <td>Log-time \(\XCRM{u(t)}\), constant \(\XCRM{\lambda}\)</td>
       <td>Derived from XCRM X-mode spectrum</td>
     </tr>
   </table>
@@ -543,20 +543,20 @@
   <h3>3.1 Fundamental Variables</h3>
 
   <p>
-    In TEGR, gravity is formulated using tetrad (vierbein) fields \(e^a{}_\mu\) satisfying:
+    In TEGR, gravity is formulated using tetrad (vierbein) fields \(\Tor{e^a{}_\mu}\) satisfying:
   </p>
 
   <div class="eq">
-    \[g_{\mu\nu} = \eta_{ab}\, e^a{}_\mu\, e^b{}_\nu\]
+    \[\Tor{g_{\mu\nu}} = \eta_{ab}\, \Tor{e^a{}_\mu}\, \Tor{e^b{}_\nu}\]
   </div>
 
   <p>
-    The Weitzenböck connection \(\Gamma^\lambda_{\mu\nu} = e_a{}^\lambda \partial_\mu e^a{}_\nu\)
+    The Weitzenböck connection \(\Tor{\Gamma^\lambda_{\mu\nu}} = \Tor{e_a{}^\lambda} \partial_\mu \Tor{e^a{}_\nu}\)
     has zero curvature but nonzero torsion:
   </p>
 
   <div class="eq">
-    \[T^a{}_{\mu\nu} = \partial_\mu e^a{}_\nu - \partial_\nu e^a{}_\mu\]
+    \[\Tor{T^a{}_{\mu\nu}} = \partial_\mu \Tor{e^a{}_\nu} - \partial_\nu \Tor{e^a{}_\mu}\]
   </div>
 
   <h3>3.2 TEGR ≡ GR Equivalence</h3>
@@ -567,7 +567,7 @@
       The TEGR action differs from the Einstein-Hilbert action by a total divergence:
     </p>
     <div class="eq boxed">
-      \[S_{\rm TEGR} = \frac{1}{16\pi G} \int d^4x\, e\, T = S_{\rm EH} + \text{boundary term}\]
+      \[S_{\rm TEGR} = \frac{1}{16\pi G} \int d^4x\, e\, \Tor{T} = S_{\rm EH} + \text{boundary term}\]
     </div>
     <p class="muted">
       The field equations are identical to Einstein's equations. TEGR is GR reformulated in torsion language.
@@ -577,11 +577,11 @@
   <h3>3.3 Contortion Tensor</h3>
 
   <div class="eq">
-    \[K^a{}_{bc} = \frac{1}{2}\left(T_{bc}{}^a + T_{cb}{}^a - T^a{}_{bc}\right)\]
+    \[\Tor{K^a{}_{bc}} = \frac{1}{2}\left(\Tor{T_{bc}{}^a} + \Tor{T_{cb}{}^a} - \Tor{T^a{}_{bc}}\right)\]
   </div>
 
   <p>
-    This is the geometric object STUR relates to the resistance field via \(K_{\rm eff} \equiv \sigma_R\), where \(\sigma_R\) is derived from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).
+    This is the geometric object STUR relates to the resistance field via \(\Tor{K_{\rm eff}} \equiv \Diff{\sigma_R}\), where \(\Diff{\sigma_R}\) is derived from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).
   </p>
 </section>
 
@@ -591,7 +591,7 @@
   <h3>4.1 Weak-Field Approximation</h3>
 
   <p>
-    In the weak-field limit \(g_{\mu\nu} = \eta_{\mu\nu} + h_{\mu\nu}\), the gravitational field admits 
+    In the weak-field limit \(\Tor{g_{\mu\nu}} = \eta_{\mu\nu} + \Tor{h_{\mu\nu}}\), the gravitational field admits
     a gravitoelectromagnetic decomposition:
   </p>
 
@@ -630,7 +630,7 @@
 
   <p>
     This closed-loop phase functional is gauge-invariant by construction (it is the interferometer
-    output) and operationally independent of metric path-length difference \(\Delta L\).
+    output) and operationally independent of metric path-length difference \(\XCRM{\Delta L}\).
   </p>
 
   <h3>5.2 Visibility Prediction</h3>
@@ -640,13 +640,13 @@
   </div>
 
   <p>
-    This Gaussian-in-\(\Delta L^2\) scaling is the unique STUR discriminator.
+    This Gaussian-in-\(\XCRM{\Delta L}^2\) scaling is the unique STUR discriminator.
   </p>
 
   <h3>5.3 Coherence Length (Closure)</h3>
 
   <p>
-    The coherence length \(\ell_{\rm coh}\) is derived from manifold geometry via X-integration
+    The coherence length \(\Matt{\ell_{\rm coh}}\) is derived from manifold geometry via X-integration
     of the master action (see Foundations §3.4.7–3.4.8):
   </p>
 
@@ -655,30 +655,30 @@
   </div>
 
   <p class="muted">
-    Here \(L_X\) is the X-dimension compactification scale (the single free parameter) and \(\sigma_R\) is the
+    Here \(\XCRM{L_X}\) is the X-dimension compactification scale (the single free parameter) and \(\Diff{\sigma_R}\) is the
     RMS resistance fluctuation, <strong>derived from XCRM equilibrium dynamics</strong> (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).
   </p>
 
   <div class="block success">
     <div class="title">XCRM Closure: Coherence Length</div>
     <p class="muted">
-      The identification \(\sigma_R \equiv K_{\rm eff}\) follows from XCRM equilibrium.
-      Once \(L_X\) is fixed, \(\sigma_R\) is determined by the XCRM bath temperature via
-      \(\sigma_R^2 = (L_X^2/\chi^2) \cdot T_{\rm eff}\). This closes the theory with \(L_X\) as the single free parameter.
+      The identification \(\Diff{\sigma_R} \equiv \Tor{K_{\rm eff}}\) follows from XCRM equilibrium.
+      Once \(\XCRM{L_X}\) is fixed, \(\Diff{\sigma_R}\) is determined by the XCRM bath temperature via
+      \(\Diff{\sigma_R}^2 = (\XCRM{L_X}^2/\XCRM{\chi}^2) \cdot T_{\rm eff}\). This closes the theory with \(\XCRM{L_X}\) as the single free parameter.
     </p>
   </div>
 
   <h3>5.4 Emergent 4D Equation (Summary)</h3>
   <p>
-    Integrating the 5D STUR action over the internal coherence coordinate \(X\) in the adiabatic limit
+    Integrating the 5D STUR action over the internal coherence coordinate \(\XCRM{X}\) in the adiabatic limit
     yields an effective 4D equation for the coarse-grained resistance field (see Foundations §3.4.7):
   </p>
   <div class="eq boxed">
     \[\partial_t \bar R = \color{#4ade80}{D\nabla^2 \bar R} \color{#94a3b8}{-} \color{#f472b6}{\Gamma(\bar R - R_{\rm bg})} \color{#94a3b8}{+} \color{#22d3ee}{\xi}\]
   </div>
   <p class="muted">
-    where \(\Gamma \sim 1/L_X\) and \(\xi\) is a Markovian noise term with variance fixed by \(\sigma_R\).
-    This dimensional reduction closes the XCRM loop. With \(\sigma_R\) derived from XCRM equilibrium, \(L_X\) is the single free parameter.
+    where \(\Pot{\Gamma} \sim 1/\XCRM{L_X}\) and \(\Matt{\xi}\) is a Markovian noise term with variance fixed by \(\Diff{\sigma_R}\).
+    This dimensional reduction closes the XCRM loop. With \(\Diff{\sigma_R}\) derived from XCRM equilibrium, \(\XCRM{L_X}\) is the single free parameter.
   </p>
 
   <h3>5.5 Loop Enhancement (Area Scaling)</h3>
@@ -690,8 +690,8 @@
   </div>
   <p class="muted">
     This scaling follows from Stokes' theorem applied to the resistance holonomy and provides a concrete
-    pathway to macroscopic observability despite microscopic \(L_X\). The loop-enhanced coherence length
-    scales as \(\ell_{\rm coh}^{\rm loop} = \ell_{\rm coh}^{\rm linear} \cdot \xi/\sqrt{A}\).
+    pathway to macroscopic observability despite microscopic \(\XCRM{L_X}\). The loop-enhanced coherence length
+    scales as \(\Matt{\ell_{\rm coh}^{\rm loop}} = \Matt{\ell_{\rm coh}^{\rm linear}} \cdot \xi/\sqrt{A}\).
   </p>
 </section>
 
@@ -703,21 +703,21 @@
   <p>
     Chronomagnetics introduces a log-periodic modulation of tangential contortion,
     <strong>derived from the quantized X-mode spectrum</strong> of XCRM dynamics on the
-    orbifold \(S^1/\mathbb{Z}_2\).
+    orbifold \(\Quant{S^1/\mathbb{Z}_2}\).
   </p>
 
   <div class="block success">
     <div class="title">XCRM Closure: Chronomagnetics</div>
     <p class="muted">
       Chronomagnetics is <strong>derived from XCRM</strong>, not phenomenological.
-      The constant \(\lambda = 3722/2705\) emerges uniquely from the X-mode spectrum
+      The constant \(\XCRM{\lambda = 3722/2705}\) emerges uniquely from the X-mode spectrum
       and XCRM mode-mixing dynamics (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">Foundations §5.3.6</a>).
     </p>
   </div>
 
   <p>
-    On the orbifold interval \(X \in [0, L_X]\), the X-modes satisfy quantization conditions.
-    The XCRM coupling \(\chi R \partial_X R\) mixes adjacent modes, and the ratio of
+    On the orbifold interval \(X \in [0, \XCRM{L_X}]\), the X-modes satisfy quantization conditions.
+    The XCRM coupling \(\XCRM{\chi R \partial_X R}\) mixes adjacent modes, and the ratio of
     mode energies for low-lying transitions defines the log-periodic constant:
   </p>
 
@@ -752,7 +752,7 @@
   <p>
     At present, Chronomagnetics makes no standalone detection claim.
     Its potential observational imprint would appear as a slow, log-periodic
-    modulation of inferred coherence scales (e.g., \(\ell_{\rm coh}\)) in
+    modulation of inferred coherence scales (e.g., \(\Matt{\ell_{\rm coh}}\)) in
     long-baseline interferometric data or in precision clock-comparison residuals
     over extended timescales.
   </p>
@@ -784,7 +784,7 @@
     </tr>
     <tr>
       <td>Chronomagnetics</td>
-      <td>Cosmological modulation, \(\lambda = 3722/2705\)</td>
+      <td>Cosmological modulation, \(\XCRM{\lambda = 3722/2705}\)</td>
       <td>XCRM X-mode spectrum (§5.3.6)</td>
     </tr>
   </table>
@@ -792,7 +792,7 @@
   <div class="block success" style="margin-top:1rem;">
     <div class="title">Complete XCRM Closure</div>
     <p class="muted">
-      <strong>All four pillars derive from XCRM.</strong> The theory closes with a single free parameter (\(L_X\)).
+      <strong>All four pillars derive from XCRM.</strong> The theory closes with a single free parameter (\(\XCRM{L_X}\)).
     </p>
   </div>
 </section>
@@ -803,41 +803,41 @@
   <div class="block success">
     <div class="title">Binary Falsification Criterion</div>
     <p class="muted">
-      <strong>Frequentist:</strong> Measure \(V(\Delta L)\) at multiple baselines; 
+      <strong>Frequentist:</strong> Measure \(\Pot{V(\Delta L)}\) at multiple baselines; 
       fit Gaussian vs. null model; reject at \(5\sigma\) if inconsistent.<br>
-      <strong>Bayesian:</strong> Compute log-evidence difference \(\Delta \ln \mathcal{Z}\);
+      <strong>Bayesian:</strong> Compute log-evidence difference \(\Quant{\Delta \ln \mathcal{Z}}\);
       \(> 5\) = decisive support, \(< -5\) = decisive exclusion (Jeffreys scale).
     </p>
   </div>
 
   <table>
     <tr><th>Source</th><th>Visibility Scaling</th><th>Control</th></tr>
-    <tr><td>Collisional decoherence</td><td>\(e^{-\Gamma t}\)</td><td>Time, pressure</td></tr>
+    <tr><td>Collisional decoherence</td><td>\(\Pot{e^{-\Gamma t}}\)</td><td>Time, pressure</td></tr>
     <tr><td>ULDM (coherent)</td><td>\(\cos(\omega t)\)</td><td>Frequency</td></tr>
     <tr style="background: var(--success-subtle);">
       <td><strong>STUR</strong></td>
-      <td>\(e^{-(\Delta L/\ell)^2}\)</td>
+      <td>\(\Pot{e^{-(\Delta L/\ell)^2}}\)</td>
       <td><strong>Arm separation</strong></td>
     </tr>
   </table>
 
   <p class="muted">
     Unless otherwise stated, the experimental regime assumes a representative
-    shot duration \(\tau_{\rm shot} = 1\,\mathrm{s}\).
+    shot duration \(\Matt{\tau_{\rm shot}} = 1\,\mathrm{s}\).
   </p>
 
   <h3>8.1 Experimental Platforms</h3>
 
   <table>
     <tr><th>Platform</th><th>Baseline</th><th>Test</th></tr>
-    <tr><td>MAGIS-100</td><td>~100 m</td><td>Long-baseline \(\Delta L\) scan</td></tr>
+    <tr><td>MAGIS-100</td><td>~100 m</td><td>Long-baseline \(\XCRM{\Delta L}\) scan</td></tr>
     <tr><td>AION</td><td>~10–100 m</td><td>Multi-baseline visibility</td></tr>
-    <tr><td>Sagnac loops</td><td>~1–10 m</td><td>Loop holonomy at \(\Delta L = 0\)</td></tr>
+    <tr><td>Sagnac loops</td><td>~1–10 m</td><td>Loop holonomy at \(\XCRM{\Delta L} = 0\)</td></tr>
     <tr><td>Neutron interferometry</td><td>~0.1 m</td><td>Different systematics</td></tr>
   </table>
 
   <p class="muted">
-    For representative laboratory sensitivities \(V_0 \sim 10^{-3}\),
+    For representative laboratory sensitivities \(\Pot{V_0} \sim 10^{-3}\),
     exclusion or detection at decisive significance would require on the order
     of \(N \sim 10^6\) interferometric shots, depending on baseline stability.
   </p>
@@ -850,10 +850,10 @@
     <div class="title">XCRM Closure Complete</div>
     <p class="muted">
       <strong>Level 1 (Closed):</strong> Emergent 4D equation via X-integration;
-      coherence length \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\) derived from manifold geometry.<br>
+      coherence length \(\Matt{\ell_{\rm coh}} = \sqrt{2}\, \XCRM{L_X} / \Diff{\sigma_R}\) derived from manifold geometry.<br>
       <strong>Level 2 (Closed):</strong> Loop enhancement via Stokes' theorem provides observability pathway.<br>
-      <strong>Level 3 (Closed):</strong> \(\sigma_R\) derived from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).<br>
-      <strong>Single free parameter:</strong> \(L_X\) (compactification scale).
+      <strong>Level 3 (Closed):</strong> \(\Diff{\sigma_R}\) derived from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).<br>
+      <strong>Single free parameter:</strong> \(\XCRM{L_X}\) (compactification scale).
     </p>
   </div>
 
@@ -875,7 +875,7 @@
     </div>
     <div class="card">
       <h4>Chronomagnetic Origin</h4>
-      <p>Determine whether \(\lambda = 3722/2705\) has a deeper microphysical or cosmological origin.</p>
+      <p>Determine whether \(\XCRM{\lambda = 3722/2705}\) has a deeper microphysical or cosmological origin.</p>
     </div>
     <div class="card">
       <h4>HGEM–STUR Bridge</h4>
