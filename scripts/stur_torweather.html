@@ -80,7 +80,7 @@
         <h1 class="page-title-derived">3D Weather Hybrid</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Derives atmospheric dynamics from STUR unified resistance force.
-            Models microbursts, funnels, and heat domes via the radial modulator \(S(r)\).
+            Models microbursts, funnels, and heat domes via the radial modulator \(\Pot{S(r)}\).
         </p>
 
         <!-- Status Badge -->
@@ -143,7 +143,7 @@
         </div>
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Classification of atmospheric parcels into microburst, funnel, and heat dome candidates.</p>
-            <p><strong>Scale:</strong> \(2 \times 2 \times 0.5\,\text{km}\) domain with \(8^3 = 512\) parcels.</p>
+            <p><strong>Scale:</strong> \(\Matt{2 \times 2 \times 0.5\,\text{km}}\) domain with \(\Matt{8^3 = 512}\) parcels.</p>
             <p><strong>Connection:</strong> The STUR <a href="stur_core_theory.html#master-action" class="core-ref">radial modulator S(r)</a> adds nonlinear resistance forcing to standard fluid dynamics.</p>
         </div>
     </section>
@@ -191,7 +191,7 @@
                 <div class="stur-eq-label">Unified Resistance Force</div>
             </div>
 
-            <p><strong>Parcel dynamics:</strong> \(\mathbf{v}(t + \Delta t) = \mathbf{v}(t) + (\mathbf{F}_{\text{fluid}} + \mathbf{F}_{\text{STUR}})\Delta t\)</p>
+            <p><strong>Parcel dynamics:</strong> \(\Matt{\mathbf{v}}(\Matt{t} + \Matt{\Delta t}) = \Matt{\mathbf{v}}(\Matt{t}) + (\Matt{\mathbf{F}_{\text{fluid}}} + \Pot{\mathbf{F}_{\text{STUR}}})\Matt{\Delta t}\)</p>
         </div>
     </section>
 
@@ -206,9 +206,9 @@
         <div class="glass-section-body">
             <p><strong>Key physics:</strong></p>
             <ul>
-                <li><strong>Microburst:</strong> Strong downward \(v_z < -10\,\text{m/s}\)</li>
-                <li><strong>Funnel:</strong> Large vertical angular momentum \(|L_z| = |x v_y - y v_x| > 0.05\)</li>
-                <li><strong>Heat dome:</strong> Temperature \(T > 300\,\text{K}\)</li>
+                <li><strong>Microburst:</strong> Strong downward \(\Matt{v_z} < -10\,\text{m/s}\)</li>
+                <li><strong>Funnel:</strong> Large vertical angular momentum \(\Tor{|L_z|} = |\Matt{x} \Matt{v_y} - \Matt{y} \Matt{v_x}| > 0.05\)</li>
+                <li><strong>Heat dome:</strong> Temperature \(\Matt{T} > 300\,\text{K}\)</li>
             </ul>
 
             <p><strong>Classification:</strong> After 100 timesteps, each parcel is classified based on its final state.</p>

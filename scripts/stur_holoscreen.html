@@ -105,11 +105,11 @@
     <div class="title">Interpretation Guidance</div>
     <ul style="margin:0;color:var(--text-secondary);font-size:0.95rem">
       <li>The holoscreen implements the <strong>Markovian stochastic regime</strong>.</li>
-      <li>It visualizes the functional dependence \(V(\Phi_R)\), not absolute magnitudes.</li>
+      <li>It visualizes the functional dependence \(\Matt{V}(\Quant{\Phi_R})\), not absolute magnitudes.</li>
       <li>Agreement or disagreement must be assessed via the statistical protocol in the Falsification page.</li>
       <li>Use for <strong>intuition, sweep planning, and null testing</strong> only.</li>
-      <li><strong>Units note:</strong> The interface displays \(L_0\) in nm and \(\ell_{\rm eff}\) in meters; internal calculations convert to SI.</li>
-      <li><strong>ULDM curve caveat:</strong> The orange ULDM curve is illustrative only and is <em>not</em> a physical mapping between \(\Phi_R\) and ULDM parameters.</li>
+      <li><strong>Units note:</strong> The interface displays \(\XCRM{L_0}\) in nm and \(\Matt{\ell_{\rm eff}}\) in meters; internal calculations convert to SI.</li>
+      <li><strong>ULDM curve caveat:</strong> The orange ULDM curve is illustrative only and is <em>not</em> a physical mapping between \(\Quant{\Phi_R}\) and ULDM parameters.</li>
     </ul>
   </div>
 
@@ -121,9 +121,9 @@
   <div class="block" style="border-left-color:var(--accent-secondary);margin-top:1rem;">
     <div class="title" style="color:var(--accent-secondary);">Holonomy Parameterization</div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-      The holonomy \(\Phi_R = R_q \cdot S_u(\ell_{\rm eff}/L_0)\) where \(S_u(u) = \tanh(u)(1-e^{-u})\)
+      The holonomy \(\Quant{\Phi_R} = \Diff{R_q} \cdot \XCRM{S_u}(\Matt{\ell_{\rm eff}}/\XCRM{L_0})\) where \(\XCRM{S_u(u)} = \tanh(\XCRM{u})(1-e^{-\XCRM{u}})\)
       is the saturation operator (<a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--accent);">Eq. B.16</a>).
-      In the small-\(u\) limit, this reduces to the standard path-difference form.
+      In the small-\(\XCRM{u}\) limit, this reduces to the standard path-difference form.
     </p>
   </div>
 </section>
@@ -136,7 +136,7 @@
     <div class="caption" style="margin-bottom:1rem">
       <strong>Holoscreen Instrument:</strong>
       Lab-parameterized teleparallel coherence simulator implementing
-      \(V(\Phi_R) = V_0 \exp(-\Phi_R^2/2)\) where \(\Phi_R = R_q \cdot S_u(\ell_{\rm eff}/L_0)\)
+      \(\Matt{V}(\Quant{\Phi_R}) = \Matt{V_0} \exp(-\Quant{\Phi_R}^2/2)\) where \(\Quant{\Phi_R} = \Diff{R_q} \cdot \XCRM{S_u}(\Matt{\ell_{\rm eff}}/\XCRM{L_0})\)
       is the resistance holonomy computed from loop geometry.
     </div>
   </div>
@@ -269,9 +269,9 @@
   <div class="block success">
     <div class="title">What the Holoscreen Visualizes</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The holoscreen directly visualizes the Gaussian-in-\(\Phi_R^2\) decay derived from
-      teleparallel holonomy, with \(\Phi_R = R_q \cdot S_u(\ell_{\rm eff}/L_0)\)
-      computed from loop geometry and the saturation operator. The \(\Delta L\)-based
+      The holoscreen directly visualizes the Gaussian-in-\(\Quant{\Phi_R}^2\) decay derived from
+      teleparallel holonomy, with \(\Quant{\Phi_R} = \Diff{R_q} \cdot \XCRM{S_u}(\Matt{\ell_{\rm eff}}/\XCRM{L_0})\)
+      computed from loop geometry and the saturation operator. The \(\Matt{\Delta L}\)-based
       coherence length emerges in the linear-path limit; the holonomy view eliminates
       the coherence-length catastrophe by making loop topology the primary observable.
     </p>

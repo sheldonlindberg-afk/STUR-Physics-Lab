@@ -11,6 +11,10 @@
 <link rel="stylesheet" href="../assets/css/stur-glass.css">
 <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
 <style>
 /* Page-specific overrides - inherits from stur-core.css */
 .container{max-width:1200px;margin:0 auto;padding:0 20px;box-sizing:border-box;overflow-x:hidden;}
@@ -129,7 +133,7 @@ canvas{
   <h1 class="page-title-core">Holoscreen — Unified Falsification Laboratory</h1>
   <div class="subtitle">
     Boundary-calibrated gauge-invariant formulation with QED recovery validation. Real-time PDE coupling
-    resistance field R(x,t) to Schwarzschild geometry via single parameter Γ. Mass-consistent stretched-horizon
+    resistance field \(\Diff{R}(x,t)\) to Schwarzschild geometry via single parameter \(\Pot{\Gamma}\). Mass-consistent stretched-horizon
     dynamics with causal boundary conditions, TVD advection, and rigorous experimental falsification protocols.
     <strong>By Sheldon Lindberg, James Lockwood, Derek Burkeen, Christopher Br. Cyrek.</strong>
   </div>
@@ -156,16 +160,16 @@ canvas{
     <div>
       <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;font-weight:700;">Derived from First Principles</div>
       <ul style="margin:0;padding-left:1.2rem;font-size:13px;color:var(--text-secondary);">
-        <li><strong style="color:var(--neon-green);">Gaussian visibility form:</strong> V = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>)</li>
-        <li><strong style="color:var(--neon-green);">Coherence length closure:</strong> ℓ<sub>coh</sub> = √2 L<sub>X</sub>/σ<sub>R</sub></li>
-        <li><strong style="color:var(--neon-green);">Schwarzschild geometry:</strong> Standard GR (TEGR ≡ GR)</li>
-        <li><strong style="color:var(--neon-green);">QED beta function:</strong> β = 2/(3π) (Standard Model)</li>
+        <li><strong style="color:var(--neon-green);">Gaussian visibility form:</strong> \(\Matt{V} = \Matt{V_0} \exp(-\Delta L^2/\Matt{\ell_{\rm coh}^2})\)</li>
+        <li><strong style="color:var(--neon-green);">Coherence length closure:</strong> \(\Matt{\ell_{\rm coh}} = \sqrt{2}\,\XCRM{L_X}/\Diff{\sigma_R}\)</li>
+        <li><strong style="color:var(--neon-green);">Schwarzschild geometry:</strong> Standard GR (\(\Tor{\text{TEGR}} \equiv \text{GR}\))</li>
+        <li><strong style="color:var(--neon-green);">QED beta function:</strong> \(\Quant{\beta} = 2/(3\pi)\) (Standard Model)</li>
       </ul>
     </div>
     <div>
       <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;font-weight:700;">Phenomenological Inputs (Not Derived)</div>
       <ul style="margin:0;padding-left:1.2rem;font-size:13px;color:var(--text-secondary);">
-        <li><strong style="color:var(--neon-gold);">PDE coefficients:</strong> D, A, P, vin, relaxK, sinkK₀</li>
+        <li><strong style="color:var(--neon-gold);">PDE coefficients:</strong> \(\Diff{D}\), \(A\), \(P\), \(v_{\rm in}\), \(\Pot{\lambda_{\rm relax}}\), \(\Pot{K_0}\)</li>
         <li><strong style="color:var(--neon-gold);">Black hole mass:</strong> User input</li>
         <li><strong style="color:var(--neon-gold);">Stretched horizon width:</strong> 10m (heuristic)</li>
         <li><strong style="color:var(--neon-gold);">NIST reference values:</strong> Experimental input</li>
@@ -174,11 +178,11 @@ canvas{
   </div>
   <div style="margin-top:12px;padding:10px;background:rgba(239,68,68,0.06);border-radius:6px;font-size:12px;color:var(--text-secondary);">
     <strong style="color:var(--neon-pink);">Non-Negotiable Test:</strong>
-    The Gaussian form V ∝ exp(−ΔL²) is <em>derived</em>, not assumed.
-    If χ² comparison shows oscillatory or linear-ΔL behavior is a better fit, STUR is falsified.
+    The Gaussian form \(\Matt{V} \propto \exp(-\Delta L^2)\) is <em>derived</em>, not assumed.
+    If \(\XCRM{\chi^2}\) comparison shows oscillatory or linear-\(\Delta L\) behavior is a better fit, STUR is falsified.
   </div>
   <div style="margin-top:10px;padding:8px 10px;background:rgba(74,222,128,0.06);border-radius:6px;font-size:11px;color:var(--text-muted);">
-    <strong>Derivation chain:</strong> Orbifold topology (<a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">§2.5</a>) → V(R) potential → coherence length closure.
+    <strong>Derivation chain:</strong> Orbifold topology (<a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">§2.5</a>) → \(\Pot{V(R)}\) potential → coherence length closure.
     See <a href="stur_core_theory.html#master-action" style="color:var(--neon-green)">Foundations §0</a> for the Master Action and
     <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a> for XCRM semiclassical expansion.
   </div>
@@ -187,27 +191,27 @@ canvas{
 <!-- MASTER CONTROL -->
 
 <div class="card">
-  <div class="card-title">⚙️ Master Boundary Control (Γ)</div>
+  <div class="card-title">⚙️ Master Boundary Control (\(\Pot{\Gamma}\))</div>
   <div class="controls">
     <div>
-      <label for="gamma">Γ Position (0 = far outside, 1 = deep inside horizon)</label>
+      <label for="gamma">\(\Pot{\Gamma}\) Position (0 = far outside, 1 = deep inside horizon)</label>
       <input type="range" id="gamma" min="0" max="1" step="0.0001" value="0.150" />
       <div style="margin-top:12px;font-family:var(--mono);font-size:14px">
-        Γ = <span id="gVal">0.1500</span> |
-        r/r<sub>s</sub> = <span id="rrs">—</span>
+        \(\Pot{\Gamma}\) = <span id="gVal">0.1500</span> |
+        \(\Tor{r}/\Tor{r_s}\) = <span id="rrs">—</span>
         <span id="status" class="badge">—</span>
       </div>
       <div class="smallmono" style="margin-top:6px">
-        σ = <span id="sigmaVal">—</span> m (<span id="sigmaCellsVal">—</span> cells) • Stretched-horizon band: |r − r<sub>s</sub>| ≤ 10 m
+        \(\Diff{\sigma}\) = <span id="sigmaVal">—</span> m (<span id="sigmaCellsVal">—</span> cells) • Stretched-horizon band: \(|\Tor{r} - \Tor{r_s}| \leq 10\) m
       </div>
     </div>
     <div>
       <label for="bhMass">Black Hole Mass (M☉)</label>
       <input type="number" id="bhMass" min="1" max="1e9" step="1" value="10" />
       <div class="smallmono" style="margin-top:10px">
-        r<sub>s</sub>: <span id="rs_m">—</span> m<br/>
-        r: <span id="r_m">—</span> m<br/>
-        T<sub>H</sub>: <span id="TH_quick">—</span> K
+        \(\Tor{r_s}\): <span id="rs_m">—</span> m<br/>
+        \(\Tor{r}\): <span id="r_m">—</span> m<br/>
+        \(\Matt{T_H}\): <span id="TH_quick">—</span> K
       </div>
     </div>
     <div>
@@ -232,7 +236,7 @@ canvas{
           style="background:radial-gradient(circle at center, #020617 0%, #000 70%);border-radius:50%;max-width:420px;margin:0 auto;">
   </canvas>
   <div class="smallmono" style="text-align:center;margin-top:8px">
-    Probe infall toward Schwarzschild horizon • Γ controls radial depth • Redshift dimming + causal fade
+    Probe infall toward Schwarzschild horizon • \(\Pot{\Gamma}\) controls radial depth • Redshift dimming + causal fade
   </div>
 </div>
 
@@ -242,22 +246,22 @@ canvas{
   <div class="card-title">🔒 Gauge-Invariant Boundary Observables</div>
   <div class="metrics">
     <div class="metric">
-      <div class="metric-label"><span class="tooltip" data-tip="Difference in flux integrals between geometric and field boundaries - gauge-invariant observable">Q<sub>Δ</sub> = ∫<sub>Σ</sub> (⋆F<sub>g</sub> − ⋆F<sub>f</sub>)</span></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Difference in flux integrals between geometric and field boundaries - gauge-invariant observable">\(\Quant{Q_\Delta} = \int_\Sigma (\star F_g - \star F_f)\)</span></div>
       <div id="m_Qdelta" class="metric-value accent">—</div>
       <div class="smallmono">Coulombs (×10<sup>−19</sup>)</div>
     </div>
     <div class="metric">
-      <div class="metric-label"><span class="tooltip" data-tip="Charge difference normalized by elementary charge - dimensionless canonical variable">q<sub>Δ</sub> = Q<sub>Δ</sub>/e</span></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Charge difference normalized by elementary charge - dimensionless canonical variable">\(\Quant{q_\Delta} = \Quant{Q_\Delta}/e\)</span></div>
       <div id="m_qdelta" class="metric-value">—</div>
       <div class="smallmono">Dimensionless</div>
     </div>
     <div class="metric">
-      <div class="metric-label"><span class="tooltip" data-tip="Canonical phase conjugate to boundary position Γ - evolves via Josephson relation">θ = 2πq<sub>Δ</sub></span></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Canonical phase conjugate to boundary position Γ - evolves via Josephson relation">\(\Quant{\theta} = 2\pi \Quant{q_\Delta}\)</span></div>
       <div id="m_theta" class="metric-value">—</div>
       <div class="smallmono">Canonical phase (rad)</div>
     </div>
     <div class="metric">
-      <div class="metric-label"><span class="tooltip" data-tip="Poisson bracket {θ,q_Δ}_Γ - should equal 2π for canonical conjugacy">{θ, q<sub>Δ</sub>}<sub>Γ</sub></span></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Poisson bracket {θ,q_Δ}_Γ - should equal 2π for canonical conjugacy">\(\{\Quant{\theta}, \Quant{q_\Delta}\}_{\Pot{\Gamma}}\)</span></div>
       <div id="m_bracket" class="metric-value accent">—</div>
       <div class="smallmono">Poisson bracket</div>
     </div>
@@ -279,25 +283,25 @@ canvas{
       <input type="number" id="E_high" value="91.1876" step="0.001" />
     </div>
     <div>
-      <label for="alpha_inv_0">α<sup>−1</sup>(0) CODATA</label>
+      <label for="alpha_inv_0">\(\Quant{\alpha^{-1}}(0)\) CODATA</label>
       <input type="number" id="alpha_inv_0" value="137.035999084" step="0.000000001" />
     </div>
   </div>
   <div class="metrics">
     <div class="metric">
-      <div class="metric-label">β = 2/(3π)</div>
+      <div class="metric-label">\(\Quant{\beta} = 2/(3\pi)\)</div>
       <div id="m_beta" class="metric-value accent">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">α<sup>−1</sup>(M<sub>Z</sub>) Predicted</div>
+      <div class="metric-label">\(\Quant{\alpha^{-1}}(M_Z)\) Predicted</div>
       <div id="m_alphaPred" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">α<sup>−1</sup>(M<sub>Z</sub>) Literature</div>
+      <div class="metric-label">\(\Quant{\alpha^{-1}}(M_Z)\) Literature</div>
       <div id="m_alphaLit" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">Δα<sup>−1</sup></div>
+      <div class="metric-label">\(\Delta\Quant{\alpha^{-1}}\)</div>
       <div id="m_alphaError" class="metric-value good">—</div>
     </div>
   </div>
@@ -311,19 +315,19 @@ canvas{
   <div class="card-title">🌊 STUR Resistance Field — Spatial Profile</div>
   <div class="metrics">
     <div class="metric">
-      <div class="metric-label">Mean ⟨R⟩</div>
+      <div class="metric-label">Mean \(\langle \Diff{R} \rangle\)</div>
       <div id="m_Ravg" class="metric-value accent">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">Probe R(Γ)</div>
+      <div class="metric-label">Probe \(\Diff{R}(\Pot{\Gamma})\)</div>
       <div id="m_Rprobe" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">Flux ⟨S⟩</div>
+      <div class="metric-label">Flux \(\langle \XCRM{S} \rangle\)</div>
       <div id="m_Savg" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">∂R/∂t RMS</div>
+      <div class="metric-label">\(\partial \Diff{R}/\partial t\) RMS</div>
       <div id="m_Rdot" class="metric-value">—</div>
     </div>
   </div>
@@ -339,7 +343,7 @@ canvas{
   <div class="card-title">⚫ Event Horizon Physics</div>
   <div class="metrics">
     <div class="metric">
-      <div class="metric-label">Redshift √(1−r<sub>s</sub>/r)</div>
+      <div class="metric-label">Redshift \(\sqrt{1-\Tor{r_s}/\Tor{r}}\)</div>
       <div id="m_red" class="metric-value">—</div>
     </div>
     <div class="metric">
@@ -347,11 +351,11 @@ canvas{
       <div id="m_freq" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">Gate |ℛ(Γ)|</div>
+      <div class="metric-label">Gate \(|\Quant{\mathcal{R}}(\Pot{\Gamma})|\)</div>
       <div id="m_refl" class="metric-value accent">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">T<sub>H</sub> (K)</div>
+      <div class="metric-label">\(\Matt{T_H}\) (K)</div>
       <div id="m_TH" class="metric-value">—</div>
     </div>
   </div>
@@ -378,23 +382,23 @@ canvas{
   </div>
   <div class="metrics">
     <div class="metric">
-      <div class="metric-label"><span class="tooltip" data-tip="Fringe visibility factor from resistance decoherence: exp(-R(Γ))">Visibility e<sup>−R(Γ)</sup></span></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Fringe visibility factor from resistance decoherence: exp(-R(Γ))">\(\Matt{V} = e^{-\Diff{R}(\Pot{\Gamma})}\)</span></div>
       <div id="m_vis" class="metric-value accent">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label"><span class="tooltip" data-tip="Chi-squared fit of pure quantum mechanics to experimental data">χ²<sub>QM</sub></span></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Chi-squared fit of pure quantum mechanics to experimental data">\(\XCRM{\chi^2_{\rm QM}}\)</span></div>
       <div id="chi1" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label"><span class="tooltip" data-tip="Chi-squared fit of STUR-modified interference to experimental data">χ²<sub>STUR</sub></span></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Chi-squared fit of STUR-modified interference to experimental data">\(\XCRM{\chi^2_{\rm STUR}}\)</span></div>
       <div id="chi2" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label"><span class="tooltip" data-tip="Difference in chi-squared: positive means STUR fits better than QM">Δχ²</span></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Difference in chi-squared: positive means STUR fits better than QM">\(\Delta\XCRM{\chi^2}\)</span></div>
       <div id="m_dchi" class="metric-value good">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label"><span class="tooltip" data-tip="Significance proxy (not rigorous): √|Δχ²| > 3 suggests distinguishable theories">√|Δχ²| proxy</span></div>
+      <div class="metric-label"><span class="tooltip" data-tip="Significance proxy (not rigorous): √|Δχ²| > 3 suggests distinguishable theories">\(\sqrt{|\Delta\XCRM{\chi^2}|}\) proxy</span></div>
       <div id="m_sigma" class="metric-value">—</div>
     </div>
   </div>
@@ -408,15 +412,15 @@ canvas{
   <div class="card-title">🔌 Josephson Interface</div>
   <div class="metrics">
     <div class="metric">
-      <div class="metric-label">θ<sub>J</sub></div>
+      <div class="metric-label">\(\Quant{\theta_J}\)</div>
       <div id="m_thetaJ" class="metric-value">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">κ = Φ<sub>Σ</sub>/Φ<sub>0</sub></div>
+      <div class="metric-label">\(\Quant{\kappa} = \Phi_\Sigma/\Phi_0\)</div>
       <div id="m_kappa" class="metric-value accent">—</div>
     </div>
     <div class="metric">
-      <div class="metric-label">V<sub>J</sub> (μV)</div>
+      <div class="metric-label">\(\Quant{V_J}\) (μV)</div>
       <div id="m_VJ" class="metric-value">—</div>
     </div>
     <div class="metric">
@@ -437,8 +441,8 @@ canvas{
       <label for="expMode">Experiment</label>
       <select id="expMode">
         <option value="none">Off (Live Mode)</option>
-        <option value="gamma_sweep">Γ Sweep → Δχ²(Γ)</option>
-        <option value="steady_state">Steady State @ Γ</option>
+        <option value="gamma_sweep">\(\Pot{\Gamma}\) Sweep → \(\Delta\XCRM{\chi^2}(\Pot{\Gamma})\)</option>
+        <option value="steady_state">Steady State @ \(\Pot{\Gamma}\)</option>
         <option value="wavelength">Wavelength Sensitivity</option>
       </select>
     </div>
@@ -448,7 +452,7 @@ canvas{
       <input type="number" id="expSteps" value="30" min="10" max="200" />
     </div>
     <div>
-      <label for="expGamma">Fixed Γ (if applicable)</label>
+      <label for="expGamma">Fixed \(\Pot{\Gamma}\) (if applicable)</label>
       <input type="number" id="expGamma" value="0.35" min="0" max="0.6" step="0.01" />
     </div>
 

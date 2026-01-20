@@ -58,7 +58,7 @@
 
   <p>
     The STUR framework organizes gravitational, gauge, scalar, and matter sectors through a single geometric object:
-    the resistance tensor \(\Rcal_{AB}\) on a five-dimensional orbifold. This provides:
+    the resistance tensor \(\Diff{\Rcal_{AB}}\) on a five-dimensional orbifold. This provides:
   </p>
 
   <ul>
@@ -73,15 +73,15 @@
   <div class="block gold">
     <div class="title">Axiom 1 — Geometric Arena</div>
     <p style="margin:0;color:var(--text-secondary)">
-      Physics takes place on the five-dimensional orbifold \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\) with
-      a warped metric and a symmetric resistance tensor field \(\Rcal_{AB}\).
+      Physics takes place on the five-dimensional orbifold \(\XCRM{\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2}\) with
+      a warped metric and a symmetric resistance tensor field \(\Diff{\Rcal_{AB}}\).
     </p>
   </div>
 
   <div class="block gold">
     <div class="title">Axiom 2 — XCRM Closure</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The XCRM term \(\chi R \partial_X R\) couples the resistance field to the internal dimension,
+      The XCRM term \(\XCRM{\chi R \partial_X R}\) couples the resistance field to the internal dimension,
       providing parameter closure and generating gauge structure through degeneracy.
     </p>
   </div>
@@ -89,7 +89,7 @@
   <div class="block gold">
     <div class="title">Axiom 3 — Teleparallel Gravity</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The torsion coupling \(\alpha R \mathbb{T}\) identifies the gravitational sector with TEGR,
+      The torsion coupling \(\Tor{\alpha R \mathbb{T}}\) identifies the gravitational sector with TEGR,
       which is dynamically equivalent to General Relativity (differing only by a boundary term).
     </p>
   </div>
@@ -97,7 +97,7 @@
   <div class="block gold">
     <div class="title">Axiom 4 — Matter Transport</div>
     <p style="margin:0;color:var(--text-secondary)">
-      Matter fields couple to \(R\) via Yukawa interactions, so fermion propagation accumulates
+      Matter fields couple to \(\Diff{R}\) via Yukawa interactions, so fermion propagation accumulates
       phase proportional to the integrated resistance along worldlines.
     </p>
   </div>
@@ -117,7 +117,7 @@
     <div class="card">
       <strong>Requires phenomenological input</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        • Specific gauge group \(G\)<br>
+        • Specific gauge group \(\XCRM{G}\)<br>
         • Matter representations<br>
         • Number of generations<br>
         • Numerical coupling values
@@ -135,14 +135,14 @@
   <div class="block">
     <div class="title">Definition 2.1 — Five-Dimensional Arena</div>
     <p style="margin:0;color:var(--text-secondary)">
-      \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\) with coordinate \(X \in [0, L_X]\), fixed points at the
-      orbifold boundaries \(X = 0\) and \(X = L_X\), and parity symmetry \(X \mapsto -X\).
+      \(\XCRM{\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2}\) with coordinate \(\XCRM{X \in [0, L_X]}\), fixed points at the
+      orbifold boundaries \(\XCRM{X = 0}\) and \(\XCRM{X = L_X}\), and parity symmetry \(\XCRM{X \mapsto -X}\).
     </p>
   </div>
 
   <p>
     The orbifold structure is essential for chiral fermion localization and provides natural boundary
-    conditions for the resistance field. The \(\mathbb{Z}_2\) parity projects out unwanted zero modes
+    conditions for the resistance field. The \(\XCRM{\mathbb{Z}_2}\) parity projects out unwanted zero modes
     and ensures four-dimensional chirality emerges from the five-dimensional theory.
   </p>
 
@@ -157,8 +157,8 @@
     <div class="title">Geometric Meaning of the Ansatz</div>
     <p style="margin:0;color:var(--text-secondary)">
       Equation (2.1) defines a <strong>warped product geometry</strong> between four-dimensional spacetime
-      \((M^4, g_{\mu\nu})\) and a compact orbifold coordinate \(X\). Each constant-\(X\) hypersurface
-      carries induced metric \(g^{(4)}_{\mu\nu}(x;X) = e^{2\sigma(X)} g_{\mu\nu}(x)\).
+      \(\Tor{(M^4, g_{\mu\nu})}\) and a compact orbifold coordinate \(\XCRM{X}\). Each constant-\(\XCRM{X}\) hypersurface
+      carries induced metric \(\Tor{g^{(4)}_{\mu\nu}(x;X) = e^{2\sigma(X)} g_{\mu\nu}(x)}\).
     </p>
   </div>
 
@@ -167,33 +167,33 @@
   <div class="eq definition">
     \[
     \begin{aligned}
-      \dd s_5^2 &:\; \text{Invariant interval in five-dimensional spacetime} \\
-      e^{2\sigma(X)} &:\; \text{Warp (conformal) factor} \\
-      \sigma(X) &:\; \text{Warping function along } X \\
-      g_{\mu\nu}(x) &:\; \text{Base four-dimensional metric tensor} \\
-      r_c &:\; \text{Proper radius of the compact dimension} \\
-      X &:\; \text{Dimensionless orbifold coordinate}
+      \Tor{\dd s_5^2} &:\; \text{Invariant interval in five-dimensional spacetime} \\
+      \XCRM{e^{2\sigma(X)}} &:\; \text{Warp (conformal) factor} \\
+      \XCRM{\sigma(X)} &:\; \text{Warping function along } X \\
+      \Tor{g_{\mu\nu}(x)} &:\; \text{Base four-dimensional metric tensor} \\
+      \XCRM{r_c} &:\; \text{Proper radius of the compact dimension} \\
+      \XCRM{X} &:\; \text{Dimensionless orbifold coordinate}
     \end{aligned}
     \]
   </div>
 
   <h3>2.2.2 Block-Diagonal Structure</h3>
 
-  <p>In coordinates \(x^A = (x^\mu, X)\), the five-dimensional metric is block-diagonal:</p>
+  <p>In coordinates \(\Tor{x^A = (x^\mu, X)}\), the five-dimensional metric is block-diagonal:</p>
 
   <div class="eq boxed">
     \[
-    g^{(5)}_{AB} =
+    \Tor{g^{(5)}_{AB}} =
     \begin{pmatrix}
-      e^{2\sigma(X)} g_{\mu\nu}(x) & 0 \\
-      0 & r_c^2
+      \XCRM{e^{2\sigma(X)}} \Tor{g_{\mu\nu}(x)} & 0 \\
+      0 & \XCRM{r_c^2}
     \end{pmatrix}
     \]
     <div class="eq-label">(2.2)</div>
   </div>
 
   <p>
-    The absence of mixed components \(g_{\mu X}\) reflects a coordinate choice where four-dimensional
+    The absence of mixed components \(\Tor{g_{\mu X}}\) reflects a coordinate choice where four-dimensional
     slices are orthogonal to the extra dimension—a natural gauge for the XCRM framework.
   </p>
 
@@ -202,17 +202,17 @@
   <div class="block success">
     <div class="title">Warped Scaling</div>
     <p style="margin:0;color:var(--text-secondary)">
-      For displacements confined to constant-\(X\) slices, \(\dd s_5 = e^{\sigma(X)} \dd s_4\).
-      Physical masses and energy scales measured at position \(X\) scale as
-      \(m_{\rm phys}(X) \propto e^{-\sigma(X)}\). This is the geometric origin of mass hierarchies.
+      For displacements confined to constant-\(\XCRM{X}\) slices, \(\Tor{\dd s_5 = e^{\sigma(X)} \dd s_4}\).
+      Physical masses and energy scales measured at position \(\XCRM{X}\) scale as
+      \(\Matt{m_{\rm phys}(X) \propto e^{-\sigma(X)}}\). This is the geometric origin of mass hierarchies.
     </p>
   </div>
 
   <div class="block warning">
     <div class="title">Curvature Source</div>
     <p style="margin:0;color:var(--text-secondary)">
-      Even if \(g_{\mu\nu}(x)\) is flat, the five-dimensional spacetime is curved whenever
-      \(\sigma'(X) \neq 0\). Curvature arises from variation of the warp factor, not from
+      Even if \(\Tor{g_{\mu\nu}(x)}\) is flat, the five-dimensional spacetime is curved whenever
+      \(\XCRM{\sigma'(X) \neq 0}\). Curvature arises from variation of the warp factor, not from
       intrinsic four-dimensional curvature.
     </p>
   </div>
@@ -225,9 +225,9 @@
   </div>
 
   <p>
-    The compactification radius \(r_c\) sets the physical scale and controls the Kaluza–Klein
-    mass gap: \(m_{\rm KK} \sim 1/L_X\). Through the XCRM closure relation, \(L_X\) directly
-    determines the coherence length \(\ell_{\rm coh}\).
+    The compactification radius \(\XCRM{r_c}\) sets the physical scale and controls the Kaluza–Klein
+    mass gap: \(\Matt{m_{\rm KK} \sim 1/L_X}\). Through the XCRM closure relation, \(\XCRM{L_X}\) directly
+    determines the coherence length \(\Matt{\ell_{\rm coh}}\).
   </p>
 </section>
 
@@ -236,14 +236,14 @@
   <h2 style="color:var(--gold);">How XCRM Uses This Geometry</h2>
 
   <p>
-    The XCRM term \(\chi R \partial_X R\) operates on this geometric structure:
+    The XCRM term \(\XCRM{\chi R \partial_X R}\) operates on this geometric structure:
   </p>
 
   <ul>
-    <li><strong>The \(\partial_X\) derivative</strong> probes variation along the compact dimension</li>
-    <li><strong>The product \(R \partial_X R\)</strong> creates a nonlinear self-coupling that breaks scale invariance</li>
-    <li><strong>The coupling \(\chi\)</strong> sets the strength of internal-dimension effects</li>
-    <li><strong>The warp factor \(e^{\sigma(X)}\)</strong> modulates how XCRM effects manifest at different \(X\)</li>
+    <li><strong>The \(\XCRM{\partial_X}\) derivative</strong> probes variation along the compact dimension</li>
+    <li><strong>The product \(\XCRM{R \partial_X R}\)</strong> creates a nonlinear self-coupling that breaks scale invariance</li>
+    <li><strong>The coupling \(\XCRM{\chi}\)</strong> sets the strength of internal-dimension effects</li>
+    <li><strong>The warp factor \(\XCRM{e^{\sigma(X)}}\)</strong> modulates how XCRM effects manifest at different \(\XCRM{X}\)</li>
   </ul>
 
   <div class="block gold">
@@ -252,12 +252,12 @@
       At equilibrium, the XCRM term enforces the closure condition:
     </p>
     <div class="eq law" style="margin-top:0.75rem;">
-      \[\partial_X R = \frac{R - R_{\rm bg}}{L_X}\]
+      \[\XCRM{\partial_X R = \frac{R - R_{\rm bg}}{L_X}}\]
       <div class="eq-label">(2.4) — XCRM Closure Condition</div>
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       This relates the X-gradient of the resistance field to its deviation from background,
-      with the internal dimension size \(L_X\) as the characteristic scale.
+      with the internal dimension size \(\XCRM{L_X}\) as the characteristic scale.
     </p>
   </div>
 </section>

@@ -75,8 +75,8 @@
       flow that preserve closed-loop holonomy:
     </p>
     <div class="eq law" style="margin-top:0.75rem;background:#000;border:2px solid var(--warning);">
-      \[R(x,X) \;\longrightarrow\; R'(x,X') \quad \text{such that} \quad
-      \oint_{\mathcal C} \mathsf{J}_a\, dx^a \;\text{ is invariant}\]
+      \[\Diff{R}(x,\XCRM{X}) \;\longrightarrow\; \Diff{R'}(x,\XCRM{X'}) \quad \text{such that} \quad
+      \oint_{\mathcal C} \XCRM{\mathsf{J}_a}\, dx^a \;\text{ is invariant}\]
       <div class="eq-label" style="color:var(--warning);">(5.1) — XCRM Invariance</div>
     </div>
     <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.9rem;font-style:italic;">
@@ -93,7 +93,7 @@
     <div class="card">
       <strong style="color:var(--accent);">X is Unobservable</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        The internal coordinate \(X\) cannot be directly measured — only its effects through holonomies.
+        The internal coordinate \(\XCRM{X}\) cannot be directly measured — only its effects through holonomies.
       </span>
     </div>
     <div class="card">
@@ -105,7 +105,7 @@
     <div class="card">
       <strong style="color:var(--gold);">Redundancy = Gauge Symmetry</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        Any redundancy in describing \(R\) that preserves holonomy defines a gauge transformation.
+        Any redundancy in describing \(\Diff{R}\) that preserves holonomy defines a gauge transformation.
       </span>
     </div>
   </div>
@@ -116,8 +116,8 @@
   <h2>5.2 The Degeneracy Manifold</h2>
 
   <p>
-    The XCRM holonomy \(\Phi_R = \oint \mathsf{J}_a\, dx^a\) is the only observable.
-    Any two resistance configurations \(R\) and \(R'\) yielding the same holonomy are
+    The XCRM holonomy \(\Quant{\Phi_R} = \oint \XCRM{\mathsf{J}_a}\, dx^a\) is the only observable.
+    Any two resistance configurations \(\Diff{R}\) and \(\Diff{R'}\) yielding the same holonomy are
     <strong>physically indistinguishable</strong>. This defines the degeneracy manifold:
   </p>
 
@@ -127,12 +127,12 @@
   </div>
 
   <p>
-    Local changes of basis in \(\Dcal\) are physically invisible. If this degeneracy forms
+    Local changes of basis in \(\Quant{\Dcal}\) are physically invisible. If this degeneracy forms
     a continuous group, we have:
   </p>
 
   <div class="eq law">
-    \[\boxed{R^I(x) \;\rightarrow\; U^I{}_J(x)\,R^J(x) \quad\text{with}\quad U(x)\in G}\]
+    \[\boxed{\Diff{R^I(x)} \;\rightarrow\; \Quant{U^I{}_J(x)}\,\Diff{R^J(x)} \quad\text{with}\quad \Quant{U(x)\in G}}\]
     <div class="eq-label">(5.3) — Local degeneracy transformation</div>
   </div>
 </section>
@@ -147,19 +147,19 @@
     <div class="card" style="border:1px solid var(--gold);">
       <strong style="color:var(--gold);">Step 1</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        Define \(\Dcal = \{ R \mid \Phi_R[\mathcal{C}] = \text{const for all } \mathcal{C} \}\).
+        Define \(\Quant{\Dcal} = \{ \Diff{R} \mid \Quant{\Phi_R}[\mathcal{C}] = \text{const for all } \mathcal{C} \}\).
       </span>
     </div>
     <div class="card" style="border:1px solid var(--gold);">
       <strong style="color:var(--gold);">Step 2</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        If \(\Dcal\) has continuous local symmetry \(G\), then \(R^I \to U^I{}_J(x) R^J\) with \(U \in G\).
+        If \(\Quant{\Dcal}\) has continuous local symmetry \(\Quant{G}\), then \(\Diff{R^I} \to \Quant{U^I{}_J(x)} \Diff{R^J}\) with \(\Quant{U \in G}\).
       </span>
     </div>
     <div class="card" style="border:1px solid var(--gold);">
       <strong style="color:var(--gold);">Step 3</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        Parallel transport of degeneracy labels requires a connection: \(\mathcal{A}_\mu = A^I_\mu T_I\).
+        Parallel transport of degeneracy labels requires a connection: \(\Quant{\mathcal{A}_\mu = A^I_\mu T_I}\).
       </span>
     </div>
     <div class="card" style="border:1px solid var(--gold);">
@@ -175,7 +175,7 @@
   </p>
 
   <div class="eq boxed">
-    \[R \to UR, \quad \mathcal A_\mu \to U\mathcal A_\mu U^{-1} + U\partial_\mu U^{-1}\]
+    \[\Diff{R} \to \Quant{U}\Diff{R}, \quad \Quant{\mathcal A_\mu} \to \Quant{U\mathcal A_\mu U^{-1} + U\partial_\mu U^{-1}}\]
     <div class="eq-label">(5.4) — Yang-Mills transformation law</div>
   </div>
 
@@ -188,7 +188,7 @@
     <div class="title">This is XCRM Closure</div>
     <p style="margin:0;color:var(--text-secondary)">
       Gauge fields are not added to the theory — they <em>emerge</em> from the requirement that
-      XCRM holonomies are the only observables. The connection \(\mathcal{A}_\mu\) is forced by
+      XCRM holonomies are the only observables. The connection \(\Quant{\mathcal{A}_\mu}\) is forced by
       the need to parallel-transport degeneracy labels consistently.
     </p>
   </div>
@@ -201,16 +201,16 @@
   <div class="block" style="margin-bottom:1rem;">
     <div class="title">Constraint 1 — Compactness</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The resistance kinetic term must be positive definite: \(\int (\nabla R)^2 \ge 0\).
-      This requires the degeneracy metric \(\kappa_{IJ}\) to be positive definite,
-      admitting only <strong>compact Lie groups</strong>: SU(N), SO(N), U(1).
+      The resistance kinetic term must be positive definite: \(\Diff{\int (\nabla R)^2 \ge 0}\).
+      This requires the degeneracy metric \(\Tor{\kappa_{IJ}}\) to be positive definite,
+      admitting only <strong>compact Lie groups</strong>: \(\Quant{SU(N)}\), \(\Quant{SO(N)}\), \(\Quant{U(1)}\).
     </p>
   </div>
 
   <div class="block" style="margin-bottom:1rem;">
     <div class="title">Constraint 2 — Holonomy Nontriviality</div>
     <p style="margin:0;color:var(--text-secondary)">
-      If \(G\) is purely Abelian, then \(\Phi_R = \oint \partial_a\theta\,dx^a = 0\) unless
+      If \(\Quant{G}\) is purely Abelian, then \(\Quant{\Phi_R = \oint \partial_a\theta\,dx^a = 0}\) unless
       singularities are inserted by hand. Therefore, <strong>at least one non-Abelian factor
       is required</strong> to generate nontrivial resistance holonomy.
     </p>
@@ -224,7 +224,7 @@
       The <strong>smallest</strong> compact group satisfying all three constraints is:
     </p>
     <div class="eq law" style="margin-top:0.75rem;background:#000;border:2px solid var(--accent-secondary);">
-      \[\boxed{SU(3) \times SU(2) \times U(1)}\]
+      \[\boxed{\Quant{SU(3) \times SU(2) \times U(1)}}\]
       <div class="eq-label" style="color:var(--accent-secondary);">(5.5) — Minimal viable gauge group</div>
     </div>
   </div>
@@ -234,7 +234,7 @@
     <p style="margin:0;color:var(--text-secondary)">
       <strong>The Standard Model gauge group is strongly constrained—but not uniquely determined—by XCRM.</strong>
       The combination of compactness, holonomy nontriviality, and chirality constraints rules out many gauge groups,
-      but other candidates (SU(5), SO(10), Pati-Salam) also satisfy these requirements. Additional selection
+      but other candidates (\(\Quant{SU(5)}\), \(\Quant{SO(10)}\), Pati-Salam) also satisfy these requirements. Additional selection
       criteria from MHP holonomy minimization are conjectured but not yet rigorously derived.
     </p>
   </div>
@@ -245,7 +245,7 @@
   <h2>5.5 Dimensional Reduction</h2>
 
   <p>
-    The five-dimensional gauge coupling \(g_5\) reduces to the four-dimensional coupling via
+    The five-dimensional gauge coupling \(\Quant{g_5}\) reduces to the four-dimensional coupling via
     integration over the internal dimension:
   </p>
 
@@ -256,8 +256,8 @@
 
   <p>
     This relation connects the observable 4D gauge coupling to the fundamental 5D coupling
-    and the compactification scale. Since \(L_X\) is the single remaining free parameter
-    in XCRM, all gauge couplings are determined once \(L_X\) is fixed experimentally.
+    and the compactification scale. Since \(\XCRM{L_X}\) is the single remaining free parameter
+    in XCRM, all gauge couplings are determined once \(\XCRM{L_X}\) is fixed experimentally.
   </p>
 </section>
 
@@ -274,15 +274,15 @@
         • SM gauge group selection (§5.4) — <em style="color:var(--warning);">constrained, not unique</em><br>
         • Gaussian visibility form — <em style="color:var(--success);">established (CLT)</em><br>
         • Coherence length relation — <em style="color:var(--success);">established</em><br>
-        • \(\sigma_R\) from equilibrium — <em style="color:var(--warning);">requires T_eff input</em>
+        • \(\Diff{\sigma_R}\) from equilibrium — <em style="color:var(--warning);">requires T_eff input</em>
       </span>
     </div>
     <div class="card" style="border:1px solid var(--accent);background:rgba(74,158,255,0.04);">
       <strong style="color:var(--accent)">Single Remaining Free Parameter</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        • The compactification scale \(L_X\) (sets all mass scales)<br>
+        • The compactification scale \(\XCRM{L_X}\) (sets all mass scales)<br>
         <br>
-        <em style="color:var(--text-muted)">Once \(L_X\) is fixed experimentally, all other parameters are determined by XCRM.</em>
+        <em style="color:var(--text-muted)">Once \(\XCRM{L_X}\) is fixed experimentally, all other parameters are determined by XCRM.</em>
       </span>
     </div>
   </div>
@@ -295,13 +295,13 @@
   <div class="block success" style="border-width:2px;">
     <div class="title">Theorem 5.1 — Fluctuation Amplitude from XCRM</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The RMS resistance fluctuation \(\sigma_R\) is not a free parameter — it is determined by XCRM equilibrium dynamics.
+      The RMS resistance fluctuation \(\Diff{\sigma_R}\) is not a free parameter — it is determined by XCRM equilibrium dynamics.
     </p>
   </div>
 
   <p>
     The effective 4D potential from X-integration is
-    \(V_{\rm eff}(\bar{R}) = V(\bar{R}) + \frac{\chi^2}{2L_X^2}(\bar{R} - R_{\rm bg})^2\).
+    \(\Pot{V_{\rm eff}(\bar{R})} = \Pot{V(\bar{R})} + \frac{\XCRM{\chi^2}}{2\XCRM{L_X^2}}(\Diff{\bar{R}} - \Diff{R_{\rm bg}})^2\).
     At thermal equilibrium with the XCRM bath, the fluctuation amplitude is determined by the equipartition theorem:
   </p>
 
@@ -311,7 +311,7 @@
   </div>
 
   <p>
-    where \(T_{\rm eff}\) is the effective temperature of the XCRM bath (set by KK mode occupation).
+    where \(\Matt{T_{\rm eff}}\) is the effective temperature of the XCRM bath (set by KK mode occupation).
     Substituting into the coherence length formula:
   </p>
 
@@ -324,8 +324,8 @@
     <div class="title">XCRM Closure: Coherence Length</div>
     <p style="margin:0;color:var(--text-secondary)">
       <strong>Result:</strong> The coherence length is determined by XCRM dynamics:
-      \(\ell_{\rm coh} = \sqrt{2}\chi/\sqrt{T_{\rm eff}}\).
-      Once \(\chi\) and \(T_{\rm eff}\) are fixed by \(L_X\) (via dimensional reduction), the coherence length is determined.
+      \(\Matt{\ell_{\rm coh}} = \sqrt{2}\XCRM{\chi}/\sqrt{\Matt{T_{\rm eff}}}\).
+      Once \(\XCRM{\chi}\) and \(\Matt{T_{\rm eff}}\) are fixed by \(\XCRM{L_X}\) (via dimensional reduction), the coherence length is determined.
     </p>
   </div>
 </section>

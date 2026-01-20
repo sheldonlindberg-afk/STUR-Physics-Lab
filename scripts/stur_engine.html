@@ -446,14 +446,14 @@
     <p class="muted" style="margin:0">
       This framework presents a <strong>unified teleparallel effective theory</strong> with an explicit
       <strong>STUR resistance field</strong> coupled to torsion. TEGR (≡ GR) provides the geometric backbone;
-      STUR supplies the dynamical scalar resistance field \(R(x^\mu,t,X)\) and its gauge-invariant holonomy;
+      STUR supplies the dynamical scalar resistance field \(\XCRM{R(x^\mu,t,X)}\) and its gauge-invariant holonomy;
       HGEM is the weak-field (linear) limit; Chronomagnetics provides log-periodic modulation.
       <strong>No claim is made</strong> that Standard Model parameters, coupling constants,
       or cosmological initial conditions are derived. This is an <em>effective</em> framework, not a UV-complete theory.
     </p>
     <p class="muted" style="margin:0.75rem 0 0">
-      After dimensional reduction, STUR closes with <strong>a single free parameter</strong> \(L_X\).
-      All other parameters including \(\sigma_R\) are derived from XCRM dynamics (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).
+      After dimensional reduction, STUR closes with <strong>a single free parameter</strong> \(\XCRM{L_X}\).
+      All other parameters including \(\Diff{\sigma_R}\) are derived from XCRM dynamics (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).
     </p>
   </div>
 
@@ -462,8 +462,8 @@
     <p class="muted" style="margin:0">
       STUR predicts that a scalar resistance field coupled to teleparallel torsion produces a
       <strong>Gaussian visibility suppression</strong>
-      \(V(\Delta L) = V_0\exp[-(\Delta L/\ell_{\rm coh})^2]\)
-      that depends dominantly on interferometer arm separation \(\Delta L\) and is
+      \(\Pot{V(\Delta L)} = V_0\exp[-(\Matt{\Delta L}/\Matt{\ell_{\rm coh}})^2]\)
+      that depends dominantly on interferometer arm separation \(\Matt{\Delta L}\) and is
       <strong>independent of particle mass and internal structure at fixed shot time</strong>,
       to leading order in the small-holonomy (Gaussian) regime.
       This is the single discriminating observable that distinguishes STUR from decoherence, ULDM, and standard QM.
@@ -474,14 +474,14 @@
   <div class="block success" style="border-left:4px solid var(--stur);margin-top:1rem;">
     <div class="title" style="color:var(--stur);">First Principles Statement</div>
     <p class="muted" style="margin:0;font-size:0.95rem;line-height:1.65;">
-      <strong style="color:var(--text);">STUR makes exactly one adjustable prediction — the coherence length \(\ell_{\rm coh}\).</strong>
-      Given any two of \(\{\chi,\, L_X,\, \ell_{\rm coh}\}\), the third is determined by the closure relation
-      \(\ell_{\rm coh} = \sqrt{2}\,L_X/\sigma_R\).
+      <strong style="color:var(--text);">STUR makes exactly one adjustable prediction — the coherence length \(\Matt{\ell_{\rm coh}}\).</strong>
+      Given any two of \(\{\XCRM{\chi},\, \XCRM{L_X},\, \Matt{\ell_{\rm coh}}\}\), the third is determined by the closure relation
+      \(\Matt{\ell_{\rm coh}} = \sqrt{2}\,\XCRM{L_X}/\Diff{\sigma_R}\).
     </p>
     <p class="muted" style="margin:0.75rem 0 0;font-size:0.95rem;line-height:1.65;">
-      <strong style="color:var(--error);">The form of the visibility law \(V(\Delta L) = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) is NOT adjustable</strong>
+      <strong style="color:var(--error);">The form of the visibility law \(\Pot{V(\Delta L)} = V_0 \exp(-\Matt{\Delta L}^2/\Matt{\ell_{\rm coh}}^2)\) is NOT adjustable</strong>
       — it follows necessarily from Gaussian phase averaging of the XCRM holonomy.
-      Any deviation from Gaussian \(\Delta L^2\) dependence falsifies STUR.
+      Any deviation from Gaussian \(\Matt{\Delta L^2}\) dependence falsifies STUR.
     </p>
     <p class="muted" style="margin:0.75rem 0 0;font-size:0.9rem;line-height:1.55;">
       <strong>Derivation chain:</strong> Orbifold topology (<a href="stur_core_theory.html#VR-derivation" style="color:var(--stur)">§2.5</a>) → V(R) potential → S(r) modulator → coherence length closure.
@@ -519,16 +519,16 @@
     </div>
     <table>
       <tr><th>Pillar</th><th>Role</th><th>Key Object</th><th>Status</th></tr>
-      <tr><td><strong style="color:var(--tegr)">TEGR</strong></td><td>Geometric backbone</td><td>Tetrad \(e^a{}_\mu\), torsion \(T^a{}_{bc}\)</td><td>Established (≡ GR)</td></tr>
-      <tr><td><strong style="color:var(--stur)">STUR</strong></td><td>Dynamical law</td><td>Resistance field \(R(x^\mu,t,X)\) and holonomy \(\Phi_R\)</td><td>Closed, simulable, falsifiable</td></tr>
-      <tr><td><strong style="color:var(--hgem)">HGEM</strong></td><td>Wave sector</td><td>GEM potentials \(\Phi_g, \vec{A}_g\)</td><td>Derived (weak-field limit)</td></tr>
-      <tr><td><strong style="color:var(--chrono)">Chronomagnetics</strong></td><td>Modulation</td><td>Log-time \(u(t)\), constant \(\lambda\)</td><td>Derived from XCRM X-mode spectrum</td></tr>
+      <tr><td><strong style="color:var(--tegr)">TEGR</strong></td><td>Geometric backbone</td><td>Tetrad \(\Tor{e^a{}_\mu}\), torsion \(\Tor{T^a{}_{bc}}\)</td><td>Established (≡ GR)</td></tr>
+      <tr><td><strong style="color:var(--stur)">STUR</strong></td><td>Dynamical law</td><td>Resistance field \(\XCRM{R(x^\mu,t,X)}\) and holonomy \(\Quant{\Phi_R}\)</td><td>Closed, simulable, falsifiable</td></tr>
+      <tr><td><strong style="color:var(--hgem)">HGEM</strong></td><td>Wave sector</td><td>GEM potentials \(\Pot{\Phi_g}, \Tor{\vec{A}_g}\)</td><td>Derived (weak-field limit)</td></tr>
+      <tr><td><strong style="color:var(--chrono)">Chronomagnetics</strong></td><td>Modulation</td><td>Log-time \(\XCRM{u(t)}\), constant \(\Pot{\lambda}\)</td><td>Derived from XCRM X-mode spectrum</td></tr>
     </table>
   </section>
 
   <section id="sec-tegr">
     <h2><span class="section-dot" style="background:var(--tegr)"></span> TEGR: Teleparallel Equivalent of GR</h2>
-    <p>In teleparallel gravity, the fundamental variable is the tetrad (frame field) \(e^a{}_\mu\), which encodes gravity through torsion rather than curvature.</p>
+    <p>In teleparallel gravity, the fundamental variable is the tetrad (frame field) \(\Tor{e^a{}_\mu}\), which encodes gravity through torsion rather than curvature.</p>
     <div class="card-grid">
       <div class="card" style="border-left:3px solid var(--tegr)">
         <h4>Metric from Tetrads</h4>
@@ -546,7 +546,7 @@
     </div>
     <h3>Contortion Tensor</h3>
     <div class="eq boxed">\[\color{#60a5fa}{K^a{}_{bc}} = \frac{1}{2}\left(\color{#60a5fa}{T_{bc}{}^a} + \color{#60a5fa}{T_{cb}{}^a} - \color{#60a5fa}{T^a{}_{bc}}\right)\]</div>
-    <p>This is the geometric object STUR relates to the resistance field via \(K_{\rm eff} \equiv \sigma_R\), where \(\sigma_R\) is derived from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).</p>
+    <p>This is the geometric object STUR relates to the resistance field via \(\Tor{K_{\rm eff}} \equiv \Diff{\sigma_R}\), where \(\Diff{\sigma_R}\) is derived from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).</p>
   </section>
 
   <section id="sec-hgem">
@@ -576,10 +576,10 @@
 
 <h3>Resistance Field Postulate</h3>
 <p>
-  STUR posits a real resistance field \(R(x^\mu, X)\) on a 5D resistance manifold, where \(x^\mu\) is the
-  physical 4D spacetime coordinate (time included in \(x^\mu\)) and \(X\) is the internal coherence coordinate
+  STUR posits a real resistance field \(\XCRM{R(x^\mu, X)}\) on a 5D resistance manifold, where \(x^\mu\) is the
+  physical 4D spacetime coordinate (time included in \(x^\mu\)) and \(\XCRM{X}\) is the internal coherence coordinate
   (the X-Coupled Resistance Manifold, XCRM). Observable departures from ideal transport arise from the
-  dynamics of \(R\) and its \(X\)-relaxation law; no collapse postulate is introduced.
+  dynamics of \(\XCRM{R}\) and its \(\XCRM{X}\)-relaxation law; no collapse postulate is introduced.
 </p>
 
 <div class="eq law">
@@ -592,11 +592,11 @@
 <div class="block">
   <div class="title">Interpretation of the X Coordinate</div>
   <p class="muted" style="margin:0">
-    The coordinate \(X\) is <strong>not assumed to represent a physical spacetime dimension</strong>.
-    It functions as an <em>internal coherence coordinate</em> encoding nonlocal resistance memory 
+    The coordinate \(\XCRM{X}\) is <strong>not assumed to represent a physical spacetime dimension</strong>.
+    It functions as an <em>internal coherence coordinate</em> encoding nonlocal resistance memory
     within the field. All observable dynamics remain four-dimensional in spacetime.
-    The \(X\)-relaxation term governs how local resistance perturbations return to the background 
-    value \(R_{\rm bg}\) over a characteristic scale \(L_X\).
+    The \(\XCRM{X}\)-relaxation term governs how local resistance perturbations return to the background
+    value \(\XCRM{R_{\rm bg}}\) over a characteristic scale \(\XCRM{L_X}\).
   </p>
 </div>
 
@@ -629,7 +629,7 @@
 <h3>Observable: Resistance Holonomy</h3>
 <p>
   The interferometric output is the gauge-invariant <em>resistance holonomy</em> accumulated by the
-  STUR transport connection \(\mathcal{A}^{(R)}\) around a closed loop \(\mathcal{C}\).
+  STUR transport connection \(\XCRM{\mathcal{A}^{(R)}}\) around a closed loop \(\Quant{\mathcal{C}}\).
 </p>
 <div class="eq law">
   \[
@@ -650,10 +650,10 @@
   <div class="eq-label">(Visibility from Holonomy Variance)</div>
 </div>
 
-<h3>Derivation: Why STUR Predicts Gaussian Suppression in \(\Delta L\)</h3>
+<h3>Derivation: Why STUR Predicts Gaussian Suppression in \(\Matt{\Delta L}\)</h3>
 <p class="muted">
-  The "Gaussian in \(\Delta L\)" is not an assumption; it follows directly once you combine
-  (i) the XCRM closure and (ii) shot-to-shot fluctuations of \(R\) about \(R_{\rm bg}\) induced by the STUR PDE.
+  The "Gaussian in \(\Matt{\Delta L}\)" is not an assumption; it follows directly once you combine
+  (i) the XCRM closure and (ii) shot-to-shot fluctuations of \(\XCRM{R}\) about \(\XCRM{R_{\rm bg}}\) induced by the STUR PDE.
 </p>
 <div class="eq boxed">
   \[
@@ -694,24 +694,24 @@
 <div class="block success">
   <div class="title">XCRM Closure: All Parameters Derived</div>
   <p class="muted">
-    The coherence length is <strong>derived</strong> from X-integration: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\)
-    where \(L_X\) is the single free parameter and \(\sigma_R\) is <strong>derived from XCRM equilibrium</strong>
+    The coherence length is <strong>derived</strong> from X-integration: \(\Matt{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / \Diff{\sigma_R}\)
+    where \(\XCRM{L_X}\) is the single free parameter and \(\Diff{\sigma_R}\) is <strong>derived from XCRM equilibrium</strong>
     (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).
-    The equivalent form \(\ell_{\rm coh} = p_0/(y K_{\rm eff})\) uses \(K_{\rm eff} \equiv \sigma_R\).
+    The equivalent form \(\Matt{\ell_{\rm coh}} = \Tor{p_0}/(\Quant{y}\, \Tor{K_{\rm eff}})\) uses \(\Tor{K_{\rm eff}} \equiv \Diff{\sigma_R}\).
   </p>
 </div>
 
 <h3>Emergent 4D Equation (Summary)</h3>
 <p>
-  Integrating the 5D STUR action over the internal coherence coordinate \(X\) in the adiabatic limit
+  Integrating the 5D STUR action over the internal coherence coordinate \(\XCRM{X}\) in the adiabatic limit
   yields an effective 4D equation for the coarse-grained resistance field (see Foundations §3.4.7):
 </p>
 <div class="eq boxed">
   \[\partial_t \bar R = \color{#4ade80}{D\nabla^2 \bar R} \color{#94a3b8}{-} \color{#f472b6}{\Gamma(\bar R - R_{\rm bg})} \color{#94a3b8}{+} \color{#22d3ee}{\xi}\]
 </div>
 <p class="muted">
-  where \(\Gamma \sim 1/L_X\) and \(\xi\) is a Markovian noise term with variance fixed by \(\sigma_R\).
-  This dimensional reduction closes the XCRM loop. With \(\sigma_R\) derived from XCRM equilibrium, \(L_X\) is the single free parameter.
+  where \(\Pot{\Gamma} \sim 1/\XCRM{L_X}\) and \(\Matt{\xi}\) is a Markovian noise term with variance fixed by \(\Diff{\sigma_R}\).
+  This dimensional reduction closes the XCRM loop. With \(\Diff{\sigma_R}\) derived from XCRM equilibrium, \(\XCRM{L_X}\) is the single free parameter.
 </p>
 
 <h3>Loop Enhancement (Area Scaling)</h3>
@@ -723,8 +723,8 @@
 </div>
 <p class="muted">
   This scaling follows from Stokes' theorem applied to the resistance holonomy and provides a concrete
-  pathway to macroscopic observability despite microscopic \(L_X\). The loop-enhanced coherence length
-  scales as \(\ell_{\rm coh}^{\rm loop} = \ell_{\rm coh}^{\rm linear} \cdot \xi/\sqrt{A}\).
+  pathway to macroscopic observability despite microscopic \(\XCRM{L_X}\). The loop-enhanced coherence length
+  scales as \(\Matt{\ell_{\rm coh}^{\rm loop}} = \Matt{\ell_{\rm coh}^{\rm linear}} \cdot \Matt{\xi}/\sqrt{A}\).
 </p>
 
   </section>
@@ -733,9 +733,9 @@
     <h2><span class="section-dot" style="background:var(--chrono)"></span> Chronomagnetics: Log-Periodic Modulation</h2>
     <p>Chronomagnetics introduces a log-periodic modulation of tangential contortion, defined from exact triangle geometry and embedded consistently within the teleparallel (TEGR) formalism.</p>
     <div class="eq law">\[\boxed{\color{#fbbf24}{\lambda} = \frac{3722}{2705} \approx 1.376}\]<div class="eq-label">(Chronomagnetic Constant)</div></div>
-    <p>This is an <em>exactly defined geometric ratio</em> arising from a specific illustrative triangle construction \(\{116, 138, 144\}\). The triangle is not claimed to be unique.</p>
+    <p>This is an <em>exactly defined geometric ratio</em> arising from a specific illustrative triangle construction \(\Matt{\{116, 138, 144\}}\). The triangle is not claimed to be unique.</p>
     <p class="muted">
-      The functional mapping from triangle data to \(\lambda\) is a chosen
+      The functional mapping from triangle data to \(\Pot{\lambda}\) is a chosen
       <strong>demonstrator construction</strong>, not a first-principles derivation.
       Its purpose is to show that exact rational log-periodic ratios can arise
       from rigid geometry without invoking numerology.
@@ -743,7 +743,7 @@
 
 <h3>Triangle Geometry Derivation</h3>
 <p class="muted">
-  The fundamental triangle △ABC with sides \(a = 144, b = 138, c = 116\) provides the geometric basis:
+  The fundamental triangle △ABC with sides \(\Matt{a = 144, b = 138, c = 116}\) provides the geometric basis:
 </p>
 <div class="card-grid">
   <div class="card" style="border-left:3px solid var(--chrono)">
@@ -763,15 +763,15 @@
 <h3>Log-Time Parameterization</h3>
 <div class="eq boxed">\[\color{#f472b6}{\mathcal{M}(u)} = 1 + \epsilon \cos(2\pi \color{#22d3ee}{u} / \ln\color{#fbbf24}{\lambda}), \quad \color{#22d3ee}{u(t)} = \ln\big((t + t_c)/t_0\big)\]</div>
 <p class="muted" style="margin:0.5rem 0;">
-  Angular frequency: \(\omega = 2\pi/\ln\lambda \approx 19.687\). Reference time: \(t_0 = 1\) Ma.
+  Angular frequency: \(\XCRM{\omega} = 2\pi/\ln\Pot{\lambda} \approx 19.687\). Reference time: \(\Matt{t_0} = 1\) Ma.
 </p>
 
 <div class="block success">
   <div class="title">XCRM Closure: Chronomagnetics</div>
   <p class="muted">
     Chronomagnetics is <strong>derived from XCRM X-mode spectrum</strong> (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">Foundations §5.3.6</a>).
-    The constant \(\lambda = 3722/2705\) emerges uniquely from the quantized X-mode spectrum on the orbifold.
-    It modulates the STUR transport/coupling sector via \(\chi \rightarrow \chi\,\mathcal{M}(u)\),
+    The constant \(\Pot{\lambda} = 3722/2705\) emerges uniquely from the quantized X-mode spectrum on the orbifold.
+    It modulates the STUR transport/coupling sector via \(\XCRM{\chi} \rightarrow \XCRM{\chi}\,\Pot{\mathcal{M}(u)}\),
     while preserving TEGR field equations.
   </p>
 </div>
@@ -804,7 +804,7 @@
 <div class="block success">
   <div class="title">GR Recovery Guarantee</div>
   <p class="muted" style="margin:0">
-    In the vacuum limit where all resistance gradients vanish (\(R \to R_{\rm bg}\), \(\nabla R \to 0\)), 
+    In the vacuum limit where all resistance gradients vanish (\(\XCRM{R} \to \XCRM{R_{\rm bg}}\), \(\Diff{\nabla R} \to 0\)),
     the theory reduces <strong>identically</strong> to General Relativity with no residual torsion corrections.
     TEGR ≡ GR at the level of field equations, and STUR adds no ghost degrees of freedom.
   </p>
@@ -827,7 +827,7 @@
   <div class="card" style="border-left:3px solid var(--stur)">
     <h4>Potential (Linearized)</h4>
     <div class="eq">\[\color{#f472b6}{V(R)} \approx \frac{m_R^2}{2}(\color{#fbbf24}{R} - R_{\rm bg})^2\]</div>
-    <p class="muted" style="font-size:0.85rem">Linearized near minimum; full form \(V(R)=\frac{\lambda}{4}(R^2-v^2)^2\) derived from orbifold (<a href="stur_core_theory.html#VR-derivation" style="color:var(--stur)">§2.5</a>)</p>
+    <p class="muted" style="font-size:0.85rem">Linearized near minimum; full form \(\Pot{V(R)}=\frac{\Pot{\lambda}}{4}(\XCRM{R}^2-v^2)^2\) derived from orbifold (<a href="stur_core_theory.html#VR-derivation" style="color:var(--stur)">§2.5</a>)</p>
   </div>
   <div class="card" style="border-left:3px solid var(--gold)">
     <h4>Torsion-Resistance Coupling</h4>
@@ -883,11 +883,11 @@
 <div class="block gold">
   <div class="title">Solver Configuration</div>
   <p class="muted">
-    <strong>Domain:</strong> \(x \in [0, L]\) with \(N = 100\) grid points<br>
+    <strong>Domain:</strong> \(\Matt{x \in [0, L]}\) with \(N = 100\) grid points<br>
     <strong>Time stepping:</strong> Crank-Nicolson semi-implicit (unconditionally stable)<br>
     <strong>Linear solver:</strong> Thomas algorithm (TDMA) for tridiagonal system<br>
-    <strong>Boundary conditions:</strong> Dirichlet \(R = R_{\rm bg}\)<br>
-    <strong>Initial conditions:</strong> Gaussian perturbation in \(R\), flat \(\mathbb{T} = 0\)
+    <strong>Boundary conditions:</strong> Dirichlet \(\XCRM{R = R_{\rm bg}}\)<br>
+    <strong>Initial conditions:</strong> Gaussian perturbation in \(\XCRM{R}\), flat \(\Tor{\mathbb{T} = 0}\)
   </p>
 </div>
 
@@ -960,11 +960,11 @@
   <div class="title">Numerical Stability — Crank-Nicolson Scheme</div>
   <p class="muted">
     This solver uses a <strong>semi-implicit Crank-Nicolson</strong> integration scheme,
-    which removes the strict CFL stability limit \(\Delta t < \frac{\Delta x^2}{2D}\).
+    which removes the strict CFL stability limit \(\Diff{\Delta t < \frac{\Delta x^2}{2D}}\).
     The tridiagonal system is solved via the Thomas algorithm (TDMA).
   </p>
   <p class="muted" style="margin-top:0.5rem;font-size:0.85rem;color:var(--text-muted);">
-    <em>Note:</em> This is not the full STUR PDE; it omits \(\Omega\), source terms,
+    <em>Note:</em> This is not the full STUR PDE; it omits \(\Tor{\Omega}\), source terms,
     and higher-dimensional structure. It is provided for intuition only.
   </p>
 </div>
@@ -1039,23 +1039,23 @@
   <table>
     <tr><th>Observation</th><th>Outcome</th></tr>
     <tr>
-      <td>Visibility scales with interrogation time \(t\) rather than arm separation \(\Delta L\)</td>
+      <td>Visibility scales with interrogation time \(\Matt{t}\) rather than arm separation \(\Matt{\Delta L}\)</td>
       <td style="color:#ef4444;"><strong>STUR FALSIFIED</strong></td>
     </tr>
     <tr>
-      <td>Neutron and atom interferometers disagree at identical \(\Delta L\)</td>
+      <td>Neutron and atom interferometers disagree at identical \(\Matt{\Delta L}\)</td>
       <td style="color:#ef4444;"><strong>STUR FALSIFIED</strong></td>
     </tr>
     <tr>
-      <td>Observed suppression is exponential \(e^{-\Delta L/\ell}\) or linear rather than Gaussian</td>
+      <td>Observed suppression is exponential \(\Pot{e^{-\Matt{\Delta L}/\Matt{\ell}}}\) or linear rather than Gaussian</td>
       <td style="color:#ef4444;"><strong>STUR FALSIFIED</strong></td>
     </tr>
     <tr>
-      <td>No \(\Delta L\)-dependent suppression detected at \(\geq 5\sigma\) with MAGIS-100 sensitivity</td>
+      <td>No \(\Matt{\Delta L}\)-dependent suppression detected at \(\geq 5\sigma\) with MAGIS-100 sensitivity</td>
       <td style="color:#ef4444;"><strong>STUR FALSIFIED</strong></td>
     </tr>
     <tr>
-      <td>Visibility depends on particle mass or internal structure at fixed \(\Delta L\)</td>
+      <td>Visibility depends on particle mass or internal structure at fixed \(\Matt{\Delta L}\)</td>
       <td style="color:#ef4444;"><strong>STUR FALSIFIED</strong></td>
     </tr>
   </table>
@@ -1063,16 +1063,16 @@
 
 <div class="block gold">
   <div class="title">Statistical Interpretation Standard</div>
-  <p class="muted"><strong>Frequentist:</strong> Measure \(V(\Delta L)\) at multiple baselines; fit Gaussian vs. null; reject at \(5\sigma\) if inconsistent.<br><strong>Bayesian:</strong> Log-evidence difference \(\Delta \ln \mathcal{Z} > 5\) = decisive support; \(< -5\) = decisive exclusion (Jeffreys scale).</p>
+  <p class="muted"><strong>Frequentist:</strong> Measure \(\Pot{V(\Matt{\Delta L})}\) at multiple baselines; fit Gaussian vs. null; reject at \(5\sigma\) if inconsistent.<br><strong>Bayesian:</strong> Log-evidence difference \(\Quant{\Delta \ln \mathcal{Z}} > 5\) = decisive support; \(< -5\) = decisive exclusion (Jeffreys scale).</p>
 </div>
 
 <h3>Discriminator Summary</h3>
 <table>
   <tr><th>Source</th><th>Visibility Scaling</th><th>Control Parameter</th></tr>
-  <tr><td>Collisional decoherence</td><td>\(e^{-\Gamma t}\)</td><td>Time, pressure</td></tr>
-  <tr><td>Blackbody radiation</td><td>\(e^{-\Gamma t}\)</td><td>Time, temperature</td></tr>
-  <tr><td>ULDM (coherent)</td><td>\(\cos(\omega t)\)</td><td>Frequency</td></tr>
-  <tr class="highlight"><td><strong>STUR</strong></td><td>\(e^{-(\Delta L/\ell)^2}\)</td><td><strong>Arm separation ΔL</strong></td></tr>
+  <tr><td>Collisional decoherence</td><td>\(\Pot{e^{-\Pot{\Gamma} \Matt{t}}}\)</td><td>Time, pressure</td></tr>
+  <tr><td>Blackbody radiation</td><td>\(\Pot{e^{-\Pot{\Gamma} \Matt{t}}}\)</td><td>Time, temperature</td></tr>
+  <tr><td>ULDM (coherent)</td><td>\(\XCRM{\cos(\omega \Matt{t})}\)</td><td>Frequency</td></tr>
+  <tr class="highlight"><td><strong>STUR</strong></td><td>\(\Pot{e^{-(\Matt{\Delta L}/\Matt{\ell})^2}}\)</td><td><strong>Arm separation ΔL</strong></td></tr>
 </table>
 
 <h3>Experimental Platforms</h3>
@@ -1086,10 +1086,10 @@
 
 <h3>STUR Signal Thresholds</h3>
 <table>
-  <tr><th>Experiment</th><th>Baseline \(L\)</th><th>Phase Resolution</th><th>Threshold \(\Delta L\)</th></tr>
-  <tr><td>AION-10</td><td>10 m</td><td>\(10^{-3}\) rad/√Hz</td><td>\(\approx 1.6 \times 10^{-10}\) m</td></tr>
-  <tr class="highlight"><td><strong>MAGIS-100</strong></td><td>100 m</td><td>\(10^{-4}\) rad/√Hz</td><td>\(\approx 1.6 \times 10^{-11}\) m</td></tr>
-  <tr><td>Neutron (PF1B)</td><td>~0.1 m</td><td>\(10^{-2}\) rad</td><td>\(\approx 2.0 \times 10^{-9}\) m</td></tr>
+  <tr><th>Experiment</th><th>Baseline \(\Matt{L}\)</th><th>Phase Resolution</th><th>Threshold \(\Matt{\Delta L}\)</th></tr>
+  <tr><td>AION-10</td><td>10 m</td><td>\(\Quant{10^{-3}}\) rad/√Hz</td><td>\(\Matt{\approx 1.6 \times 10^{-10}}\) m</td></tr>
+  <tr class="highlight"><td><strong>MAGIS-100</strong></td><td>100 m</td><td>\(\Quant{10^{-4}}\) rad/√Hz</td><td>\(\Matt{\approx 1.6 \times 10^{-11}}\) m</td></tr>
+  <tr><td>Neutron (PF1B)</td><td>~0.1 m</td><td>\(\Quant{10^{-2}}\) rad</td><td>\(\Matt{\approx 2.0 \times 10^{-9}}\) m</td></tr>
 </table>
 
   </section>
@@ -1108,16 +1108,16 @@
     <h4>What is being tested</h4>
     <p>
       The STUR discriminator is <strong>Gaussian suppression in arm-separation</strong>:
-      \(V(\Delta L)=V_0\exp(-( \Delta L/\ell_{\mathrm{coh}})^2)\).
+      \(\Pot{V(\Matt{\Delta L})}=V_0\exp(-(\Matt{\Delta L}/\Matt{\ell_{\mathrm{coh}}})^2)\).
       Competing null sources (ordinary decoherence) generally scale with time/pressure/temperature,
-      not specifically with \(\Delta L^2\) at fixed shot time.
+      not specifically with \(\Matt{\Delta L^2}\) at fixed shot time.
     </p>
   </div>
   <div class="card" style="border-left:3px solid var(--gold)">
     <h4>What counts as falsification</h4>
     <p>
-      If, after controlling known decoherence channels, your measured \(V(\Delta L)\) rejects a Gaussian
-      in \(\Delta L^2\) (BIC or evidence) across multiple baselines, STUR's claimed discriminator is excluded
+      If, after controlling known decoherence channels, your measured \(\Pot{V(\Matt{\Delta L})}\) rejects a Gaussian
+      in \(\Matt{\Delta L^2}\) (BIC or evidence) across multiple baselines, STUR's claimed discriminator is excluded
       for that platform's sensitivity regime.
     </p>
   </div>
@@ -1127,18 +1127,18 @@
   <div class="title">48-hour plan (minimum viable falsification)</div>
   <div class="muted">
     <ol style="margin:0.5rem 0 0 1.25rem;">
-      <li><strong>Pick a platform</strong>: tabletop Mach–Zehnder (photons) or atomic interferometer (if available). Use stable optics, fixed shot time \(\tau_{\rm shot}\).</li>
-      <li><strong>Define baselines</strong>: choose ≥ 8 values of arm separation \(\Delta L\) spanning a practical range (e.g., 0 → 5 m). Keep all other knobs fixed.</li>
-      <li><strong>Controls</strong>: run at two pressures (or two temperatures) to characterize ordinary decoherence; keep \(\Delta L\) scan identical in both.</li>
-      <li><strong>Record raw</strong>: for each \(\Delta L\), record visibility estimate \(V\) and uncertainty (or raw fringe data to compute it later).</li>
+      <li><strong>Pick a platform</strong>: tabletop Mach–Zehnder (photons) or atomic interferometer (if available). Use stable optics, fixed shot time \(\Matt{\tau_{\rm shot}}\).</li>
+      <li><strong>Define baselines</strong>: choose ≥ 8 values of arm separation \(\Matt{\Delta L}\) spanning a practical range (e.g., 0 → 5 m). Keep all other knobs fixed.</li>
+      <li><strong>Controls</strong>: run at two pressures (or two temperatures) to characterize ordinary decoherence; keep \(\Matt{\Delta L}\) scan identical in both.</li>
+      <li><strong>Record raw</strong>: for each \(\Matt{\Delta L}\), record visibility estimate \(\Pot{V}\) and uncertainty (or raw fringe data to compute it later).</li>
       <li><strong>Fit models</strong>:
         <ul style="margin:0.35rem 0 0.5rem 1.25rem;">
-          <li><strong>STUR</strong>: \(V(\Delta L)=V_0\exp(-( \Delta L/\ell)^2)\)</li>
-          <li><strong>Null</strong>: constant \(V(\Delta L)=V_0\)</li>
-          <li><strong>Alt decoherence</strong> (optional): \(V=V_0\exp(-\gamma)\) where \(\gamma\) depends on time/pressure/temperature, not \(\Delta L^2\)</li>
+          <li><strong>STUR</strong>: \(\Pot{V(\Matt{\Delta L})}=V_0\exp(-(\Matt{\Delta L}/\Matt{\ell})^2)\)</li>
+          <li><strong>Null</strong>: constant \(\Pot{V(\Matt{\Delta L})}=V_0\)</li>
+          <li><strong>Alt decoherence</strong> (optional): \(\Pot{V}=V_0\exp(-\Pot{\gamma})\) where \(\Pot{\gamma}\) depends on time/pressure/temperature, not \(\Matt{\Delta L^2}\)</li>
         </ul>
       </li>
-      <li><strong>Decision</strong>: compute BIC (or Bayes evidence). If Gaussian is not preferred (or is decisively rejected), STUR's \(\Delta L^2\) discriminator is falsified in that regime.</li>
+      <li><strong>Decision</strong>: compute BIC (or Bayes evidence). If Gaussian is not preferred (or is decisively rejected), STUR's \(\Matt{\Delta L^2}\) discriminator is falsified in that regime.</li>
     </ol>
   </div>
 </div>
@@ -1270,10 +1270,10 @@
     <div class="title">XCRM Closure Complete</div>
     <p class="muted" style="margin:0">
       <strong>Level 1 (Closed):</strong> Emergent 4D equation via X-integration;
-      coherence length \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\) derived from manifold geometry.<br>
+      coherence length \(\Matt{\ell_{\rm coh}} = \sqrt{2}\, \XCRM{L_X} / \Diff{\sigma_R}\) derived from manifold geometry.<br>
       <strong>Level 2 (Closed):</strong> Loop enhancement via Stokes' theorem provides observability pathway.<br>
-      <strong>Level 3 (Closed):</strong> \(\sigma_R\) derived from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).<br>
-      <strong>Single free parameter:</strong> \(L_X\) (compactification scale).
+      <strong>Level 3 (Closed):</strong> \(\Diff{\sigma_R}\) derived from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">§5.3.5</a>).<br>
+      <strong>Single free parameter:</strong> \(\XCRM{L_X}\) (compactification scale).
     </p>
   </div>
 

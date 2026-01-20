@@ -80,7 +80,7 @@
     <header style="text-align:center; margin-bottom:2rem;">
         <h1 class="page-title-falsifiable">Table-Top WGM Photon Orbit</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            Tests the STUR radial modulator \(S(r)\) in a whispering-gallery mode cavity.
+            Tests the STUR radial modulator \(\Pot{S(r)}\) in a whispering-gallery mode cavity.
             The same modulator from the Master Action governs photon confinement.
         </p>
 
@@ -119,16 +119,16 @@
                 <div>
                     <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>STUR modulator form:</strong> \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) — <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-green)">Tech. Appendix Eq. B.16</a></li>
-                        <li><strong>Coherence length closure:</strong> \(L_0 = \ell_{\rm coh} = \sqrt{2}L_X/(y\sigma_R)\) with \(y=1\) — <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-green)">Eq. B.9</a></li>
-                        <li><strong>Refraction limit:</strong> \(S(r) \to 1\) recovers standard optics</li>
+                        <li><strong>STUR modulator form:</strong> \(\Pot{S(r)} = \tanh(\Diff{r}/\Matt{L_0})(1 - e^{-\Diff{r}/\Matt{L_0}})\) — <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-green)">Tech. Appendix Eq. B.16</a></li>
+                        <li><strong>Coherence length closure:</strong> \(\Matt{L_0} = \Matt{\ell_{\rm coh}} = \sqrt{2}\XCRM{L_X}/(\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\) — <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-green)">Eq. B.9</a></li>
+                        <li><strong>Refraction limit:</strong> \(\Pot{S(r)} \to 1\) recovers standard optics</li>
                     </ul>
                 </div>
                 <div>
                     <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;">Phenomenological Inputs</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
                         <li><strong>Cavity radius:</strong> \(R = 1\) m</li>
-                        <li><strong>Refractive index:</strong> \(n_0 = 1.5\)</li>
+                        <li><strong>Refractive index:</strong> \(\Matt{n_0} = 1.5\)</li>
                         <li><strong>Impact parameter:</strong> \(b \approx 0.99R\)</li>
                     </ul>
                 </div>
@@ -136,7 +136,7 @@
             <div style="margin-top:1rem;padding:0.75rem;background:rgba(34,211,238,0.04);border-radius:8px;font-size:0.85rem;">
                 <strong style="color:var(--neon-cyan);">Connection to Core Theory:</strong>
                 This page tests the <em>potential sector</em> in the ray optics limit.
-                The FORM of \(S(r)\) is derived; the SCALE \(L_0\) must be fit from photon lifetime data.
+                The FORM of \(\Pot{S(r)}\) is derived; the SCALE \(\Matt{L_0}\) must be fit from photon lifetime data.
             </div>
         </div>
     </div>
@@ -147,15 +147,15 @@
       <div class="harness-grid">
         <div class="harness-section observable">
           <h4>Observable</h4>
-          <p>Photon orbit stability, intensity decay \(I_k = I_0 \cdot \eta^k\), escape angle \(\theta_c(r)\), path length, number of bounces. Circular WGM cavity with \(R = 1\,\text{m}\), \(n = 1.5\), impact parameter \(b \approx 0.99R\).</p>
+          <p>Photon orbit stability, intensity decay \(\Matt{I_k} = \Matt{I_0} \cdot \Pot{\eta}^k\), escape angle \(\Matt{\theta_c}(\Diff{r})\), path length, number of bounces. Circular WGM cavity with \(R = 1\,\text{m}\), \(\Matt{n} = 1.5\), impact parameter \(b \approx 0.99R\).</p>
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
-          <p>Uniform refractive index \(n\) predicts constant critical angle \(\theta_c\) independent of radial position; no \(S(r)\) modulation.</p>
+          <p>Uniform refractive index \(\Matt{n}\) predicts constant critical angle \(\Matt{\theta_c}\) independent of radial position; no \(\Pot{S(r)}\) modulation.</p>
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Radial-dependent confinement: \(n_{\rm eff}(r) = n_0 \cdot S(r/R)\) extends photon orbit lifetime via radius-dependent critical angle.</p>
+          <p>Radial-dependent confinement: \(\Matt{n_{\rm eff}}(\Diff{r}) = \Matt{n_0} \cdot \Pot{S}(\Diff{r}/R)\) extends photon orbit lifetime via radius-dependent critical angle.</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
@@ -175,7 +175,7 @@
         </div>
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Photon orbit stability and intensity decay in a whispering-gallery mode (WGM) dielectric cavity.</p>
-            <p><strong>Geometry:</strong> Circular cavity of radius \(R = 1\,\text{m}\) with refractive index \(n = 1.5\). Impact parameter \(b \approx 0.99R\).</p>
+            <p><strong>Geometry:</strong> Circular cavity of radius \(R = 1\,\text{m}\) with refractive index \(\Matt{n} = 1.5\). Impact parameter \(b \approx 0.99R\).</p>
             <p><strong>Regime:</strong> Classical ray optics with STUR radial modulation of the effective cavity potential.</p>
         </div>
     </section>
@@ -214,7 +214,7 @@
                 <div class="stur-eq-label">Radial Modulator from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived V(R)</a></div>
             </div>
 
-            <p>The photon trajectory satisfies ray-tracing equations with the effective refractive index modulated by \(S(r)\):</p>
+            <p>The photon trajectory satisfies ray-tracing equations with the effective refractive index modulated by \(\Pot{S(r)}\):</p>
 
             <div class="stur-eq derived">
                 \[
@@ -223,7 +223,7 @@
                 <div class="stur-eq-label">STUR-Modulated Refractive Index</div>
             </div>
 
-            <p><strong>Physical mechanism:</strong> Total internal reflection occurs when the internal incidence angle exceeds the critical angle \(\theta_c = \arcsin(1/n_{\text{eff}})\). The intensity decays by a factor \(\eta\) per bounce.</p>
+            <p><strong>Physical mechanism:</strong> Total internal reflection occurs when the internal incidence angle exceeds the critical angle \(\Matt{\theta_c} = \arcsin(1/\Matt{n_{\text{eff}}})\). The intensity decays by a factor \(\Pot{\eta}\) per bounce.</p>
         </div>
     </section>
 
@@ -238,12 +238,12 @@
         <div class="glass-section-body">
             <p><strong>STUR predicts:</strong></p>
             <ul>
-                <li><strong>Longer confinement:</strong> \(S(r)\)-modulation extends photon orbit lifetime compared to uniform \(n\).</li>
-                <li><strong>Smooth intensity decay:</strong> Exponential decay \(I_k = I_0 \cdot \eta^k\) after \(k\) bounces.</li>
-                <li><strong>Escape threshold:</strong> Photon escapes when \(\theta < \theta_c(r)\), which varies with radial position via \(S(r)\).</li>
+                <li><strong>Longer confinement:</strong> \(\Pot{S(r)}\)-modulation extends photon orbit lifetime compared to uniform \(\Matt{n}\).</li>
+                <li><strong>Smooth intensity decay:</strong> Exponential decay \(\Matt{I_k} = \Matt{I_0} \cdot \Pot{\eta}^k\) after \(k\) bounces.</li>
+                <li><strong>Escape threshold:</strong> Photon escapes when \(\theta < \Matt{\theta_c}(\Diff{r})\), which varies with radial position via \(\Pot{S(r)}\).</li>
             </ul>
 
-            <p><strong>Competitor model:</strong> Standard WGM with uniform refractive index predicts constant \(\theta_c\) independent of position.</p>
+            <p><strong>Competitor model:</strong> Standard WGM with uniform refractive index predicts constant \(\Matt{\theta_c}\) independent of position.</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
@@ -277,9 +277,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Measured confinement time matches uniform-\(n\) model with no \(S(r)\) correction.</li>
-                <li><strong>Kill-2:</strong> Intensity decay is non-exponential, indicating \(S(r)\) does not apply to optical systems.</li>
-                <li><strong>Kill-3:</strong> Escape angle is independent of radial position, contradicting \(n_{\text{eff}}(r)\) modulation.</li>
+                <li><strong>Kill-1:</strong> Measured confinement time matches uniform-\(\Matt{n}\) model with no \(\Pot{S(r)}\) correction.</li>
+                <li><strong>Kill-2:</strong> Intensity decay is non-exponential, indicating \(\Pot{S(r)}\) does not apply to optical systems.</li>
+                <li><strong>Kill-3:</strong> Escape angle is independent of radial position, contradicting \(\Matt{n_{\text{eff}}}(\Diff{r})\) modulation.</li>
             </ul>
 
             <!-- Verdict display -->

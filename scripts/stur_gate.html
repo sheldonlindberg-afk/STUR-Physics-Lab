@@ -116,9 +116,9 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Inspired by First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>Potential form \(\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-\Pot{v}^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
                 <li>S(r) radial modulator form — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Coherence length: \(\Diff{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / (\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
                 <li>Phase-dependent dynamics — XCRM-inspired coherence tracking</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Conceptual / Exploratory:</strong></p>
@@ -143,8 +143,8 @@
             <h2 class="glass-section-title">What This Page Derives</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Access probability \(P_{\text{success}}\) and Shannon information entropy \(S_{\text{info}}\).</p>
-            <p><strong>Scale:</strong> Radial corridor \(r \in [10, 50]\) (arbitrary units), control phase \(t \in [0, 0.4]\,\text{s}\).</p>
+            <p><strong>Observable:</strong> Access probability \(\Matt{P_{\text{success}}}\) and Shannon information entropy \(\XCRM{S_{\text{info}}}\).</p>
+            <p><strong>Scale:</strong> Radial corridor \(\Diff{r} \in [10, 50]\) (arbitrary units), control phase \(\Matt{t} \in [0, 0.4]\,\text{s}\).</p>
             <p><strong>Connection:</strong> The STUR <a href="stur_core_theory.html#master-action" class="core-ref">radial modulator S(r)</a> combines electromagnetic, gravitational, and short-range forces.</p>
         </div>
     </section>
@@ -192,7 +192,7 @@
                 <div class="stur-eq-label">Integrated Resistance (from <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R)</a>)</div>
             </div>
 
-            <p><strong>Success probability:</strong> \(P_{\text{success}}(t, \sigma) = \Pr[E_b > E_{\text{need}}]\)</p>
+            <p><strong>Success probability:</strong> \(\Matt{P_{\text{success}}}(\Matt{t}, \Diff{\sigma}) = \Pr[\Pot{E_b} > \Pot{E_{\text{need}}}]\)</p>
 
             <p><strong>Information entropy:</strong></p>
 
@@ -216,8 +216,8 @@
         <div class="glass-section-body">
             <p><strong>Key physics:</strong></p>
             <ul>
-                <li><strong>Thermal tuning:</strong> Temperature modulates bio-feedback amplitude \(A_b\).</li>
-                <li><strong>Phase modulation:</strong> Superconducting and bio-feedback vary with control phase \(t\).</li>
+                <li><strong>Thermal tuning:</strong> Temperature modulates bio-feedback amplitude \(\Matt{A_b}\).</li>
+                <li><strong>Phase modulation:</strong> Superconducting and bio-feedback vary with control phase \(\Matt{t}\).</li>
                 <li><strong>Noise levels:</strong> Success probability depends on energy budget noise.</li>
             </ul>
 

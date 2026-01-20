@@ -211,13 +211,13 @@
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
       The equations below are <strong>inspired by</strong> STUR physics but are <em>not</em> a discretization of the
       actual Master Action. True XCRM evolution would require 5D spacetime integration with the resistance field
-      \(R(x^\mu, X)\) depending on the extra dimension. Here we use simplified 3D analogs for computational exploration.
+      \(\Diff{R}(x^\mu, \XCRM{X})\) depending on the extra dimension. Here we use simplified 3D analogs for computational exploration.
     </p>
   </div>
 
   <p style="color:var(--text);margin-bottom:1rem;">
-    The AGI Seed evolves five "resistance-like" fields \(R_1, R_2, R_3, R_4, R_5\) on 3D lattices,
-    coupled to three memory fields \(X_1, X_2, X_3\). The dynamics are structurally analogous to XCRM,
+    The AGI Seed evolves five "resistance-like" fields \(\Diff{R_1}, \Diff{R_2}, \Diff{R_3}, \Diff{R_4}, \Diff{R_5}\) on 3D lattices,
+    coupled to three memory fields \(\XCRM{X_1}, \XCRM{X_2}, \XCRM{X_3}\). The dynamics are structurally analogous to XCRM,
     but operate in a different mathematical regime.
   </p>
 
@@ -234,25 +234,25 @@
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
     <div style="padding:0.9rem;background:rgba(74,222,128,0.04);border-radius:8px;border-left:3px solid #4ade80;">
       <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;">Diffusion</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(D_i \nabla^2 R_i\) — Spatial smoothing via 3D Laplacian</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Diff{D_i \nabla^2 R_i}\) — Spatial smoothing via 3D Laplacian</div>
     </div>
     <div style="padding:0.9rem;background:rgba(244,114,182,0.04);border-radius:8px;border-left:3px solid #f472b6;">
       <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;">Nonlinear Stability</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(-\lambda(R - R_{\rm bg})^3\) — Prevents runaway growth</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(-\Pot{\lambda}(\Diff{R} - \Diff{R_{\rm bg}})^3\) — Prevents runaway growth</div>
     </div>
     <div style="padding:0.9rem;background:rgba(251,191,36,0.04);border-radius:8px;border-left:3px solid #fbbf24;">
       <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">XCRM Coupling</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\chi (R - R_{\rm bg})/L_X\) — Internal dimension feedback</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\XCRM{\chi} (\Diff{R} - \Diff{R_{\rm bg}})/\XCRM{L_X}\) — Internal dimension feedback</div>
     </div>
     <div style="padding:0.9rem;background:rgba(96,165,250,0.04);border-radius:8px;border-left:3px solid #60a5fa;">
       <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;">Memory Coupling</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(k_i X_i\) — Persistent state influences dynamics</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Tor{k_i} \XCRM{X_i}\) — Persistent state influences dynamics</div>
     </div>
   </div>
 
   <h3 style="color:var(--accent-secondary);margin-top:2rem;">Memory Field Dynamics</h3>
   <p style="color:var(--text-secondary);">
-    Each memory field \(X_i\) evolves to track its corresponding resistance manifold:
+    Each memory field \(\XCRM{X_i}\) evolves to track its corresponding resistance manifold:
   </p>
   <div class="eq" style="margin:1rem 0;">
     \[\frac{\partial X_i}{\partial t} = -\color{#f472b6}{\gamma_i X_i} + \color{#fbbf24}{\chi_{X_i}(R_i - \langle R_i \rangle)} + \color{#22d3ee}{\Lambda_{\rm sym} \cdot \Sigma(R_i - X_i)}\]
@@ -273,27 +273,27 @@
     <div class="layer-row" style="border-left:4px solid #22d3ee;">
       <span class="layer-label" style="color:#22d3ee;">R1</span>
       <span class="layer-desc"><strong>Sensory Manifold</strong> — Fast dynamics, external input processing (32³ grid)</span>
-      <span class="layer-eq">\(\Delta t = 0.005\)</span>
+      <span class="layer-eq">\(\Matt{\Delta t} = 0.005\)</span>
     </div>
     <div class="layer-row" style="border-left:4px solid #fbbf24;">
       <span class="layer-label" style="color:#fbbf24;">R2</span>
       <span class="layer-desc"><strong>Associative Manifold</strong> — Working memory, pattern binding (32³ grid)</span>
-      <span class="layer-eq">\(\Delta t = 0.005\)</span>
+      <span class="layer-eq">\(\Matt{\Delta t} = 0.005\)</span>
     </div>
     <div class="layer-row" style="border-left:4px solid #4ade80;">
       <span class="layer-label" style="color:#4ade80;">R3</span>
       <span class="layer-desc"><strong>Stabilizer Manifold</strong> — Homeostatic regulation, dampening (32³ grid)</span>
-      <span class="layer-eq">\(\Delta t = 0.005\)</span>
+      <span class="layer-eq">\(\Matt{\Delta t} = 0.005\)</span>
     </div>
     <div class="layer-row" style="border-left:4px solid #a78bfa;">
       <span class="layer-label" style="color:#a78bfa;">R4</span>
       <span class="layer-desc"><strong>Predictive Core</strong> — Goal-seeking drift, meta-control (8³ grid)</span>
-      <span class="layer-eq">\(\Delta t = 0.05\)</span>
+      <span class="layer-eq">\(\Matt{\Delta t} = 0.05\)</span>
     </div>
     <div class="layer-row" style="border-left:4px solid #f472b6;">
       <span class="layer-label" style="color:#f472b6;">R5</span>
       <span class="layer-desc"><strong>Meta-Control Layer</strong> — Exploration/exploitation budget (4³ grid)</span>
-      <span class="layer-eq">\(\Delta t = 0.5\)</span>
+      <span class="layer-eq">\(\Matt{\Delta t} = 0.5\)</span>
     </div>
   </div>
 
@@ -314,11 +314,11 @@
   <div class="arch-grid">
     <div class="arch-card" style="border-color:rgba(251,191,36,0.4);">
       <h4 style="color:#fbbf24;">Policy Network</h4>
-      <p>Linear RL policy trained with TD(0) updates. Modulates substrate parameters \((D_1, \chi_{X2}, \Omega_1, \Omega_2, \Omega_3)\) based on a 29-dimensional state vector.</p>
+      <p>Linear RL policy trained with TD(0) updates. Modulates substrate parameters \((\Diff{D_1}, \XCRM{\chi_{X2}}, \Omega_1, \Omega_2, \Omega_3)\) based on a 29-dimensional state vector.</p>
     </div>
     <div class="arch-card" style="border-color:rgba(167,139,250,0.4);">
       <h4 style="color:#a78bfa;">Symbolic Memory</h4>
-      <p>Compresses R2 curvature patterns into discrete proto-symbols. Learns transition statistics \(T(i \to j)\) for sequential pattern recognition.</p>
+      <p>Compresses R2 curvature patterns into discrete proto-symbols. Learns transition statistics \(\Matt{T(i \to j)}\) for sequential pattern recognition.</p>
     </div>
     <div class="arch-card" style="border-color:rgba(74,222,128,0.4);">
       <h4 style="color:#4ade80;">Adaptive Planner</h4>
@@ -946,7 +946,7 @@ if __name__ == "__main__":
       <div class="title" style="color:#ef4444;">What This Simulation Does NOT Demonstrate</div>
       <ul style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
         <li>That cognition emerges from actual XCRM physics</li>
-        <li>That the 5D resistance field \(R(x^\mu, X)\) exists in biological or artificial brains</li>
+        <li>That the 5D resistance field \(\Diff{R}(x^\mu, \XCRM{X})\) exists in biological or artificial brains</li>
         <li>That the Master Action governs neural dynamics</li>
         <li>That the chosen parameters have any physical meaning beyond computational utility</li>
       </ul>

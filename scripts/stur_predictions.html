@@ -67,8 +67,8 @@
   </div>
 
   <p>
-    Here \(y\) is the Yukawa coupling strength and \(\mathsf{J}_a = y\,\partial_a R\) is the resistance
-    current. The holonomy \(\Phi_R\) determines the phase difference between interferometer arms.
+    Here \(\Quant{y}\) is the Yukawa coupling strength and \(\XCRM{\mathsf{J}_a = y\,\partial_a R}\) is the resistance
+    current. The holonomy \(\Quant{\Phi_R}\) determines the phase difference between interferometer arms.
   </p>
 
   <h3>9.2 Visibility from Phase Averaging</h3>
@@ -96,12 +96,12 @@
   <h3>9.3 Linear Path Limit</h3>
 
   <p>
-    For a linear-path interferometer with arm separation \(\Delta L\), the XCRM holonomy variance scales
+    For a linear-path interferometer with arm separation \(\Matt{\Delta L}\), the XCRM holonomy variance scales
     quadratically:
   </p>
 
   <div class="eq boxed">
-    \[\langle\Phi_R^2\rangle = \left(\frac{\Delta L}{\ell_{\rm coh}}\right)^2\]
+    \[\langle\Quant{\Phi_R}^2\rangle = \left(\frac{\Matt{\Delta L}}{\Matt{\ell_{\rm coh}}}\right)^2\]
     <div class="eq-label">(9.4)</div>
   </div>
 
@@ -138,8 +138,8 @@
   </div>
 
   <p>
-    where \(L_X\) is the proper size of the internal dimension, \(y\) is the Yukawa coupling strength,
-    and \(\sigma_R\) is the RMS resistance fluctuation.
+    where \(\XCRM{L_X}\) is the proper size of the internal dimension, \(\Quant{y}\) is the Yukawa coupling strength,
+    and \(\Diff{\sigma_R}\) is the RMS resistance fluctuation.
   </p>
 
   <h3>10.2 Teleparallel Substrate Estimate</h3>
@@ -149,17 +149,17 @@
   </p>
 
   <div class="eq boxed">
-    \[\sigma_R \sim y\, K_{\rm eff}\]
+    \[\Diff{\sigma_R} \sim \Quant{y}\, \Tor{K_{\rm eff}}\]
     <div class="eq-label">(10.2)</div>
   </div>
 
   <p>
-    where \(K_{\rm eff}\) is the effective contortion magnitude (units: m⁻¹) and \(y\) is the Yukawa coupling.
+    where \(\Tor{K_{\rm eff}}\) is the effective contortion magnitude (units: m⁻¹) and \(\Quant{y}\) is the Yukawa coupling.
     This gives:
   </p>
 
   <div class="eq boxed">
-    \[\ell_{\rm coh} \sim \frac{1}{y\, K_{\rm eff}}\]
+    \[\Matt{\ell_{\rm coh}} \sim \frac{1}{\Quant{y}\, \Tor{K_{\rm eff}}}\]
     <div class="eq-label">(10.3)</div>
   </div>
 
@@ -169,28 +169,28 @@
     <thead>
       <tr>
         <th>Substrate</th>
-        <th>\(K_{\rm eff}\) (m⁻¹)</th>
-        <th>\(\ell_{\rm coh}\)</th>
+        <th>\(\Tor{K_{\rm eff}}\) (m⁻¹)</th>
+        <th>\(\Matt{\ell_{\rm coh}}\)</th>
         <th>Observable?</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>Planck-scale (UV)</td>
-        <td>\(\sim 10^{59}\)</td>
-        <td>\(\sim 10^{-59}\) m</td>
+        <td>\(\Tor{\sim 10^{59}}\)</td>
+        <td>\(\Matt{\sim 10^{-59}}\) m</td>
         <td style="color:var(--error);">No (via ΔL)</td>
       </tr>
       <tr>
         <td>Enhanced medium</td>
-        <td>\(\sim 10^{-3}\)</td>
-        <td>\(\sim 10^{3}\) m</td>
+        <td>\(\Tor{\sim 10^{-3}}\)</td>
+        <td>\(\Matt{\sim 10^{3}}\) m</td>
         <td style="color:var(--success);">Yes (loop-based)</td>
       </tr>
       <tr>
         <td>Topological defect</td>
-        <td>\(\sim 1\)</td>
-        <td>\(\sim 1\) m</td>
+        <td>\(\Tor{\sim 1}\)</td>
+        <td>\(\Matt{\sim 1}\) m</td>
         <td style="color:var(--success);">Yes (tabletop)</td>
       </tr>
     </tbody>
@@ -200,7 +200,7 @@
     <div class="title">Critical Point</div>
     <p style="margin:0;color:var(--text-secondary)">
       For Planck-scale substrates, linear-path experiments cannot probe the coherence length.
-      However, <strong>loop-based experiments</strong> can access the holonomy \(\Phi_R\) directly,
+      However, <strong>loop-based experiments</strong> can access the holonomy \(\Quant{\Phi_R}\) directly,
       which may be enhanced by topology and medium structure.
     </p>
   </div>
@@ -209,9 +209,9 @@
     <div class="title">Uncertainty Acknowledgment</div>
     <p style="margin:0;color:var(--text-secondary)">
       <strong>The coherence length estimates span 4+ orders of magnitude</strong> (10⁻⁵⁹ m to 10³ m)
-      because the key parameters \(L_X\) and \(K_{\rm eff}\) are unknown. Without an independent
-      determination of the compactification scale \(L_X\), the theory cannot make a sharp numerical
-      prediction for \(\ell_{\rm coh}\). Current null results (\(\ell_{\rm coh} > 1\) m from atom
+      because the key parameters \(\XCRM{L_X}\) and \(\Tor{K_{\rm eff}}\) are unknown. Without an independent
+      determination of the compactification scale \(\XCRM{L_X}\), the theory cannot make a sharp numerical
+      prediction for \(\Matt{\ell_{\rm coh}}\). Current null results (\(\Matt{\ell_{\rm coh}} > 1\) m from atom
       interferometry) are consistent but do not strongly constrain the theory.
     </p>
     <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.9rem;">
@@ -248,22 +248,22 @@
       <tr>
         <td>Time dependence</td>
         <td>None (equilibrium)</td>
-        <td>Sinusoidal at \(m_\phi/2\pi\)</td>
+        <td>Sinusoidal at \(\Matt{m_\phi/2\pi}\)</td>
       </tr>
       <tr>
         <td>Visibility form</td>
-        <td>\(\exp(-\Delta L^2/\ell^2)\)</td>
-        <td>\(\cos(\omega t)\) modulation</td>
+        <td>\(\Matt{\exp(-\Delta L^2/\ell^2)}\)</td>
+        <td>\(\Matt{\cos(\omega t)}\) modulation</td>
       </tr>
       <tr>
         <td>Mass dependence</td>
         <td>None</td>
-        <td>Frequency \(\propto m_\phi\)</td>
+        <td>Frequency \(\Matt{\propto m_\phi}\)</td>
       </tr>
       <tr>
         <td>Spatial pattern</td>
-        <td>Quadratic in \(\Delta L\)</td>
-        <td>Linear in \(\Delta L\)</td>
+        <td>Quadratic in \(\Matt{\Delta L}\)</td>
+        <td>Linear in \(\Matt{\Delta L}\)</td>
       </tr>
     </tbody>
   </table>
@@ -272,8 +272,8 @@
     <div class="title">Experimental Discrimination</div>
     <p style="margin:0;color:var(--text-secondary)">
       <strong>Key test:</strong> Measure visibility at multiple arm separations. If the log-visibility
-      is linear in \(\Delta L^2\) (not \(\Delta L\)) and shows no temporal oscillation, the signature
-      is consistent with STUR. If oscillatory or linear in \(\Delta L\), STUR is excluded.
+      is linear in \(\Matt{\Delta L^2}\) (not \(\Matt{\Delta L}\)) and shows no temporal oscillation, the signature
+      is consistent with STUR. If oscillatory or linear in \(\Matt{\Delta L}\), STUR is excluded.
     </p>
   </div>
 </section>
@@ -297,12 +297,12 @@
   </p>
 
   <div class="eq boxed">
-    \[V = V_0 \exp\!\left(-\frac{A_{\rm loop}^2}{A_{\rm coh}^2}\right)\]
+    \[\Matt{V} = V_0 \exp\!\left(-\frac{\Matt{A_{\rm loop}}^2}{\Matt{A_{\rm coh}}^2}\right)\]
     <div class="eq-label">(9.7) — Loop Visibility</div>
   </div>
 
   <p>
-    where \(A_{\rm coh}\) is a characteristic coherence area determined by the substrate properties.
+    where \(\Matt{A_{\rm coh}}\) is a characteristic coherence area determined by the substrate properties.
   </p>
 </section>
 
@@ -311,7 +311,7 @@
   <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
     <strong style="color:var(--gold);">See Also:</strong>
     <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a>
-    — rigorous derivations, numerical predictions for \(\ell_{\rm coh}\), unified notation, and complete theory closure.
+    — rigorous derivations, numerical predictions for \(\Matt{\ell_{\rm coh}}\), unified notation, and complete theory closure.
   </p>
 </section>
 

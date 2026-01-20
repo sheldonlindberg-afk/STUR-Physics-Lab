@@ -76,19 +76,19 @@
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
     <div style="padding:0.9rem;background:rgba(74,222,128,0.04);border-radius:8px;border-left:3px solid #4ade80;">
       <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;">Diffusion</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\tfrac{1}{2}(\nabla R)^2\) — Kinetic term driving spatial smoothing</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Diff{\tfrac{1}{2}(\nabla R)^2}\) — Kinetic term driving spatial smoothing</div>
     </div>
     <div style="padding:0.9rem;background:rgba(244,114,182,0.04);border-radius:8px;border-left:3px solid #f472b6;">
       <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;">Relaxation</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(V(R)\) — Potential driving \(R \to R_{\rm bg}\)</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Pot{V(R)}\) — Potential driving \(\Pot{R \to R_{\rm bg}}\)</div>
     </div>
     <div style="padding:0.9rem;background:rgba(251,191,36,0.04);border-radius:8px;border-left:3px solid #fbbf24;">
       <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">XCRM Closure</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\chi R \partial_X R\) — Internal dimension coupling (fixes constants)</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\XCRM{\chi R \partial_X R}\) — Internal dimension coupling (fixes constants)</div>
     </div>
     <div style="padding:0.9rem;background:rgba(96,165,250,0.04);border-radius:8px;border-left:3px solid #60a5fa;">
       <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;">Torsion Source</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\alpha R \mathbb{T}\) — Teleparallel gravity coupling</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Tor{\alpha R \mathbb{T}}\) — Teleparallel gravity coupling</div>
     </div>
   </div>
 </section>
@@ -98,13 +98,13 @@
   <h2 style="color:var(--gold);">XCRM: The Central Mechanism</h2>
 
   <p style="font-size:1rem;color:var(--text);margin-bottom:1rem;">
-    The <strong>X-Cross Resistance Mechanism (XCRM)</strong> is the term \(\chi R \partial_X R\) that couples
-    the resistance field \(R\) to its own gradient along the internal dimension \(X\). This single term is
+    The <strong>X-Cross Resistance Mechanism (XCRM)</strong> is the term \(\XCRM{\chi R \partial_X R}\) that couples
+    the resistance field \(\XCRM{R}\) to its own gradient along the internal dimension \(\XCRM{X}\). This single term is
     responsible for:
   </p>
 
   <ul>
-    <li><strong>Parameter closure:</strong> Fixes the coherence length in terms of \(\chi\) and \(L_X\)</li>
+    <li><strong>Parameter closure:</strong> Fixes the coherence length in terms of \(\XCRM{\chi}\) and \(\XCRM{L_X}\)</li>
     <li><strong>Gauge emergence:</strong> XCRM degeneracy under local rotations produces gauge symmetry</li>
     <li><strong>Gravity coupling:</strong> XCRM sets the scale of torsion-matter interaction</li>
     <li><strong>Quantum phase:</strong> XCRM holonomy determines the interferometric visibility signature</li>
@@ -149,13 +149,13 @@
     <div style="padding:0.9rem;background:rgba(74,222,128,0.04);border-radius:8px;border-left:3px solid #4ade80;">
       <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;">Gauge Group</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
-        \(SU(3) \times SU(2) \times U(1)\) uniquely minimizes holonomy cost among anomaly-free groups
+        \(\Quant{SU(3) \times SU(2) \times U(1)}\) uniquely minimizes holonomy cost among anomaly-free groups
       </div>
     </div>
     <div style="padding:0.9rem;background:rgba(167,139,250,0.04);border-radius:8px;border-left:3px solid #a78bfa;">
       <div style="font-size:0.78rem;color:#a78bfa;font-weight:600;text-transform:uppercase;">Generations</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
-        \(N_{\rm gen} = |\mathcal{I}_{\rm top}| = 3\) from orbifold topology (Atiyah-Singer index)
+        \(\Quant{N_{\rm gen} = |\mathcal{I}_{\rm top}| = 3}\) from orbifold topology (Atiyah-Singer index)
       </div>
     </div>
     <div style="padding:0.9rem;background:rgba(251,191,36,0.04);border-radius:8px;border-left:3px solid #fbbf24;">
@@ -231,7 +231,7 @@
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
       <li><strong>3 axioms:</strong> Master Action, MHP, DHP</li>
-      <li><strong>2 parameters:</strong> \(L_X\) (dimension size), \(\lambda\) (self-coupling)</li>
+      <li><strong>2 parameters:</strong> \(\XCRM{L_X}\) (dimension size), \(\Pot{\lambda}\) (self-coupling)</li>
       <li><strong>13 problems closed:</strong> All gauge, flavor, cosmological, and quantum gravity questions answered</li>
     </ul>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
@@ -250,14 +250,14 @@
       <strong>STUR makes exactly one adjustable prediction — the coherence length \(\ell_{\rm coh}\).</strong>
     </p>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
-      Given any two of \(\{\chi,\, L_X,\, \ell_{\rm coh}\}\), the third is determined by the closure relation:
+      Given any two of \(\{\XCRM{\chi},\, \XCRM{L_X},\, \Matt{\ell_{\rm coh}}\}\), the third is determined by the closure relation:
     </p>
     <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);">
       \[\boxed{\color{#22d3ee}{\ell_{\rm coh}} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#a78bfa}{y}\,\color{#4ade80}{\sigma_R}}}\]
       <div class="eq-label" style="color:var(--gold);">(FP.1) — Parameter Closure Relation (<a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--accent);">Tech. Appendix Eq. B.9</a>)</div>
     </div>
     <p style="margin:0;color:var(--text-muted);font-size:0.85rem;">
-      where \(y\) is the Yukawa coupling (simulations use \(y=1\)) and \(\sigma_R\) is the resistance fluctuation RMS
+      where \(\Quant{y}\) is the Yukawa coupling (simulations use \(\Quant{y=1}\)) and \(\Diff{\sigma_R}\) is the resistance fluctuation RMS
       (<a href="stur_technical_appendix.html#parameter-definitions" style="color:var(--accent);">Eq. A.6</a>).
     </p>
   </div>
@@ -300,11 +300,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>\(R \to R_{\rm bg}\), \(\nabla R \to 0\)</td><td>Metric + frame only</td><td style="color:var(--success);font-weight:600;">General Relativity (TEGR)</td></tr>
-        <tr><td>Degeneracy manifold nontrivial</td><td>Holonomy equivalence classes</td><td style="color:var(--accent);font-weight:600;">Yang–Mills gauge theory</td></tr>
-        <tr><td>X-structure unobservable</td><td>Phase factors only</td><td style="color:var(--accent-secondary);font-weight:600;">Quantum mechanics</td></tr>
-        <tr><td>Many uncorrelated phases (CLT)</td><td>Classical trajectories</td><td style="color:var(--gold);font-weight:600;">Classical mechanics</td></tr>
-        <tr><td>Yukawa + X-localization</td><td>Overlap integrals</td><td style="color:var(--accent-warm);font-weight:600;">Mass hierarchies</td></tr>
+        <tr><td>\(\Pot{R \to R_{\rm bg}}\), \(\Diff{\nabla R \to 0}\)</td><td>Metric + frame only</td><td style="color:var(--success);font-weight:600;">General Relativity (TEGR)</td></tr>
+        <tr><td>\(\Quant{\text{Degeneracy manifold nontrivial}}\)</td><td>Holonomy equivalence classes</td><td style="color:var(--accent);font-weight:600;">Yang–Mills gauge theory</td></tr>
+        <tr><td>\(\XCRM{\text{X-structure unobservable}}\)</td><td>Phase factors only</td><td style="color:var(--accent-secondary);font-weight:600;">Quantum mechanics</td></tr>
+        <tr><td>\(\Quant{\text{Many uncorrelated phases (CLT)}}\)</td><td>Classical trajectories</td><td style="color:var(--gold);font-weight:600;">Classical mechanics</td></tr>
+        <tr><td>\(\Matt{\text{Yukawa + X-localization}}\)</td><td>Overlap integrals</td><td style="color:var(--accent-warm);font-weight:600;">Mass hierarchies</td></tr>
       </tbody>
     </table>
   </div>

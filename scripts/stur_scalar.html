@@ -80,7 +80,7 @@
         <h1 class="page-title-falsifiable">Scalar Bounce Cosmology</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Tests the STUR cosmological bounce from the <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived R-field potential V(R)</a>.
-            A scalar field \(\phi(t)\) coupled to the modified Friedmann equation produces non-singular bounces.
+            A scalar field \(\Matt{\phi(t)}\) coupled to the modified Friedmann equation produces non-singular bounces.
         </p>
 
         <!-- Status Badge -->
@@ -116,19 +116,19 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Modified Friedmann equation: \(H^2 = (\rho/3)(1 - \rho/\rho_c)^2\) — from torsion gravity sector</li>
+                <li>Modified Friedmann equation: \(\Tor{H^2} = (\Matt{\rho}/3)(1 - \Matt{\rho}/\Pot{\rho_c})^2\) — from torsion gravity sector</li>
                 <li>Non-singular bounce mechanism — torsion induces effective repulsion at high density</li>
-                <li>Bounce structure: \(H = 0\) when \(\rho = \rho_c\) — geometric consequence of \(L_{\text{torsion}}\)</li>
+                <li>Bounce structure: \(\Tor{H} = 0\) when \(\Matt{\rho} = \Pot{\rho_c}\) — geometric consequence of \(\Tor{L_{\text{torsion}}}\)</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Critical density \(\rho_c = 1.0\) (Planck units) — sets bounce scale</li>
-                <li>Scalar field potential \(V(\phi) = V_0 \phi^2\) — standard inflation-like potential</li>
-                <li>Initial conditions \(\phi_0, \dot{\phi}_0\) — determine specific trajectory</li>
+                <li>Critical density \(\Pot{\rho_c} = 1.0\) (Planck units) — sets bounce scale</li>
+                <li>Scalar field potential \(\Pot{V(\phi)} = \Pot{V_0} \Matt{\phi}^2\) — standard inflation-like potential</li>
+                <li>Initial conditions \(\Matt{\phi_0, \dot{\phi}_0}\) — determine specific trajectory</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
-                <strong>Connection to Core Theory:</strong> The modified Friedmann equation emerges from the torsion gravity sector \(L_{\text{torsion}}\).
-                The bounce mechanism is a geometric consequence; only \(\rho_c\) and the scalar potential are phenomenological choices.
+                <strong>Connection to Core Theory:</strong> The modified Friedmann equation emerges from the torsion gravity sector \(\Tor{L_{\text{torsion}}}\).
+                The bounce mechanism is a geometric consequence; only \(\Pot{\rho_c}\) and the scalar potential are phenomenological choices.
             </p>
         </div>
     </div>
@@ -139,19 +139,19 @@
       <div class="harness-grid">
         <div class="harness-section observable">
           <h4>Observable</h4>
-          <p>Scale factor \(a(t)\), Hubble parameter \(H(t)\), energy density \(\rho(t)\), bounce minimum \(a_{\min}\). FLRW cosmology with scalar field \(\phi(t)\), critical density \(\rho_c = 1.0\) (Planck units).</p>
+          <p>Scale factor \(\Tor{a(t)}\), Hubble parameter \(\Tor{H(t)}\), energy density \(\Matt{\rho(t)}\), bounce minimum \(\Tor{a_{\min}}\). FLRW cosmology with scalar field \(\Matt{\phi(t)}\), critical density \(\Pot{\rho_c} = 1.0\) (Planck units).</p>
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
-          <p>Standard GR Friedmann equation produces a singularity at \(a = 0\); no bounce mechanism from modified gravity.</p>
+          <p>Standard GR Friedmann equation produces a singularity at \(\Tor{a} = 0\); no bounce mechanism from modified gravity.</p>
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Non-singular bounce: \(H^2 = (\rho/3)(1 - \rho/\rho_c)^2\); \(a_{\min} > 0\) when \(\rho \to \rho_c\); Hubble crosses zero.</p>
+          <p>Non-singular bounce: \(\Tor{H^2} = (\Matt{\rho}/3)(1 - \Matt{\rho}/\Pot{\rho_c})^2\); \(\Tor{a_{\min}} > 0\) when \(\Matt{\rho} \to \Pot{\rho_c}\); Hubble crosses zero.</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Minimum scale factor \(a_{\min}\), Hubble zero-crossing, density bound \(\rho_{\max} \leq \rho_c\)</p>
+          <p>Minimum scale factor \(\Tor{a_{\min}}\), Hubble zero-crossing, density bound \(\Matt{\rho_{\max}} \leq \Pot{\rho_c}\)</p>
         </div>
       </div>
       <a href="stur_core_theory.html#sec6" class="core-ref">Core Definition: Torsion Gravity (§6)</a>
@@ -166,8 +166,8 @@
             <h2 class="glass-section-title">What This Page Tests</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Scale factor \(a(t)\), Hubble parameter \(H(t)\), and energy density \(\rho(t)\) evolution through a cosmological bounce.</p>
-            <p><strong>Geometry:</strong> FLRW metric with STUR-modified Friedmann equation including critical density \(\rho_c\).</p>
+            <p><strong>Observable:</strong> Scale factor \(\Tor{a(t)}\), Hubble parameter \(\Tor{H(t)}\), and energy density \(\Matt{\rho(t)}\) evolution through a cosmological bounce.</p>
+            <p><strong>Geometry:</strong> FLRW metric with STUR-modified Friedmann equation including critical density \(\Pot{\rho_c}\).</p>
             <p><strong>Regime:</strong> Early universe with scalar field dominating energy density.</p>
         </div>
     </section>
@@ -197,7 +197,7 @@
                 <div class="stur-eq-label">Master Action</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> The torsion term \(L_{\text{torsion}}\) modifies the Friedmann equation at high densities:</p>
+            <p><strong>Limit assumed:</strong> The torsion term \(\Tor{L_{\text{torsion}}}\) modifies the Friedmann equation at high densities:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -206,7 +206,7 @@
                 <div class="stur-eq-label">STUR-Modified Friedmann Equation</div>
             </div>
 
-            <p>where \(\rho_c\) is the critical density at which \(H = 0\) (bounce). For a canonical scalar field:</p>
+            <p>where \(\Pot{\rho_c}\) is the critical density at which \(\Tor{H} = 0\) (bounce). For a canonical scalar field:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -216,7 +216,7 @@
                 <div class="stur-eq-label">Scalar Field Energy-Momentum</div>
             </div>
 
-            <p>The Klein-Gordon equation governs scalar field evolution: \(\ddot{\phi} + 3H\dot{\phi} + V'(\phi) = 0\).</p>
+            <p>The Klein-Gordon equation governs scalar field evolution: \(\Matt{\ddot{\phi}} + 3\Tor{H}\Matt{\dot{\phi}} + \Pot{V'(\phi)} = 0\).</p>
         </div>
     </section>
 
@@ -231,12 +231,12 @@
         <div class="glass-section-body">
             <p><strong>STUR predicts:</strong></p>
             <ul>
-                <li><strong>Non-singular bounce:</strong> \(a(t)\) reaches a minimum \(a_{\min} > 0\) when \(\rho = \rho_c\).</li>
-                <li><strong>Hubble crossing:</strong> \(H\) transitions from negative (contraction) to positive (expansion) through zero.</li>
-                <li><strong>Energy conservation:</strong> \(\rho\) peaks at \(\rho_c\) then decreases as universe expands.</li>
+                <li><strong>Non-singular bounce:</strong> \(\Tor{a(t)}\) reaches a minimum \(\Tor{a_{\min}} > 0\) when \(\Matt{\rho} = \Pot{\rho_c}\).</li>
+                <li><strong>Hubble crossing:</strong> \(\Tor{H}\) transitions from negative (contraction) to positive (expansion) through zero.</li>
+                <li><strong>Energy conservation:</strong> \(\Matt{\rho}\) peaks at \(\Pot{\rho_c}\) then decreases as universe expands.</li>
             </ul>
 
-            <p><strong>Competitor model:</strong> Standard GR Friedmann equation produces a singularity at \(a = 0\).</p>
+            <p><strong>Competitor model:</strong> Standard GR Friedmann equation produces a singularity at \(\Tor{a} = 0\).</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
@@ -270,9 +270,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> \(a_{\min} = 0\) — singularity forms despite modified Friedmann equation.</li>
-                <li><strong>Kill-2:</strong> \(H\) does not cross zero — no bounce transition occurs.</li>
-                <li><strong>Kill-3:</strong> \(\rho\) exceeds \(\rho_c\) — critical density bound violated.</li>
+                <li><strong>Kill-1:</strong> \(\Tor{a_{\min}} = 0\) — singularity forms despite modified Friedmann equation.</li>
+                <li><strong>Kill-2:</strong> \(\Tor{H}\) does not cross zero — no bounce transition occurs.</li>
+                <li><strong>Kill-3:</strong> \(\Matt{\rho}\) exceeds \(\Pot{\rho_c}\) — critical density bound violated.</li>
             </ul>
 
             <!-- Verdict display -->

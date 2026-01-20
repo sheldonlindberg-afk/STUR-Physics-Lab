@@ -80,7 +80,7 @@
         <h1 class="page-title-biological">Mitochondria Life/Death v4.0</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Single mitochondrion simulated as a STUR object with pmf, ATP, Ca<sup>2+</sup>, ROS, cristae geometry, and swelling,
-            all coupled through the resistance scalar \(S(r)\) with state machine transitions.
+            all coupled through the resistance scalar \(\Diff{S(r)}\) with state machine transitions.
         </p>
 
         <!-- Status Badge -->
@@ -116,15 +116,15 @@
         <div class="glass-section-body" style="font-size:0.97rem;">
             <p style="margin-bottom:0.7rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--neon-green);">
-                <li>Coherence function \(S(r)\) mathematical form — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
+                <li>Coherence function \(\Diff{S(r)}\) mathematical form — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived \(\Pot{V(R)}\) (§2.5)</a></li>
                 <li>Stochastic Langevin dynamics — from effective field theory</li>
                 <li>Curvature-coherence coupling — from diffusion sector</li>
             </ul>
             <p style="margin-bottom:0.7rem;"><strong style="color:#64748b;">Speculative Mappings:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:#64748b;">
-                <li>Cristae curvature \(\leftrightarrow\) resistance field radius — phenomenological analogy</li>
+                <li>Cristae curvature \(\leftrightarrow\) resistance field radius \(\Diff{r}\) — phenomenological analogy</li>
                 <li>Mitochondrial states \(\leftrightarrow\) coherence regimes — not derived from Master Action</li>
-                <li>Bioenergetic efficiency \(\leftrightarrow\) \(S(r)\) value — qualitative mapping only</li>
+                <li>Bioenergetic efficiency \(\leftrightarrow\) \(\Diff{S(r)}\) value — qualitative mapping only</li>
             </ul>
             <p style="color:#94a3b8;font-size:0.9rem;"><em>Note: This page explores whether STUR mathematics could describe mitochondrial dynamics. The biological mappings are speculative and require experimental validation.</em></p>
         </div>
@@ -140,8 +140,8 @@
         </div>
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Single-mitochondrion state trajectory through healthy, stressed, pre-apoptotic, uncoupled, and mPTP states.</p>
-            <p><strong>Scale:</strong> Cristae curvature \(r \sim 0.1-1.8\,L_0\), simulation time \(T = 60\,\text{s}\).</p>
-            <p><strong>Connection:</strong> STUR coherence \(S(r)\) couples geometry to bioenergetic efficiency, where high coherence yields stable oxidative phosphorylation.</p>
+            <p><strong>Scale:</strong> Cristae curvature \(\Diff{r} \sim 0.1\text{-}1.8\,\Diff{L_0}\), simulation time \(\Matt{T} = 60\,\text{s}\).</p>
+            <p><strong>Connection:</strong> STUR coherence \(\Diff{S(r)}\) couples geometry to bioenergetic efficiency, where high coherence yields stable oxidative phosphorylation.</p>
         </div>
     </section>
 
@@ -174,7 +174,7 @@
 
             <div class="stur-eq derived">
                 \[
-                S(r) = \tanh\left(\frac{r}{L_0}\right) \left(1 - e^{-r/L_0}\right)
+                \Diff{S(r)} = \tanh\left(\frac{\Diff{r}}{\Diff{L_0}}\right) \left(1 - e^{-\Diff{r}/\Diff{L_0}}\right)
                 \]
                 <div class="stur-eq-label">Curvature-Coherence Coupling</div>
             </div>
@@ -183,7 +183,7 @@
 
             <div class="stur-eq derived">
                 \[
-                S_{\text{val}} = S_{\text{base}} \cdot (0.5 + 0.5 \cdot \text{geom}), \quad \text{gain} = 1 + 1.8 \cdot S_{\text{val}}
+                \Diff{S_{\text{val}}} = \Diff{S_{\text{base}}} \cdot (0.5 + 0.5 \cdot \text{geom}), \quad \text{gain} = 1 + 1.8 \cdot \Diff{S_{\text{val}}}
                 \]
                 <div class="stur-eq-label">Coherence Gain Factor</div>
             </div>
@@ -192,7 +192,7 @@
 
             <div class="stur-eq derived">
                 \[
-                \frac{d(\text{pmf})}{dt} = J_{\text{ETC}} - J_{\text{leak}} - J_{\text{ATP}}
+                \frac{d(\Matt{\text{pmf}})}{d\Matt{t}} = \Matt{J_{\text{ETC}}} - \Matt{J_{\text{leak}}} - \Matt{J_{\text{ATP}}}
                 \]
                 <div class="stur-eq-label">PMF Evolution</div>
             </div>
@@ -210,16 +210,16 @@
         <div class="glass-section-body">
             <p><strong>Key physics:</strong></p>
             <ul>
-                <li><strong>High \(S(r)\):</strong> Ordered cristae, low resistance, efficient proton throughput.</li>
-                <li><strong>Low \(S(r)\):</strong> Swollen/fragmented geometry, decoherent flows, elevated leak.</li>
+                <li><strong>High \(\Diff{S(r)}\):</strong> Ordered cristae, low resistance, efficient proton throughput.</li>
+                <li><strong>Low \(\Diff{S(r)}\):</strong> Swollen/fragmented geometry, decoherent flows, elevated leak.</li>
                 <li><strong>State machine:</strong> healthy -> stressed -> pre_apoptotic -> uncoupled -> mPTP</li>
             </ul>
 
             <p><strong>Flux equations:</strong></p>
             <ul>
-                <li>\(J_{\text{ETC}} \propto \text{NADH} \cdot (1 - \text{pmf}/\text{PMF}_{\max}) \cdot \text{gain}\)</li>
-                <li>\(J_{\text{leak}} \propto \text{pmf} \cdot (1 + 0.5 \cdot (\text{volume} - 1))\)</li>
-                <li>\(J_{\text{ATP}} \propto \text{workload}(t) \cdot \text{pmf} \cdot \text{gain}\)</li>
+                <li>\(\Matt{J_{\text{ETC}}} \propto \Matt{\text{NADH}} \cdot (1 - \Matt{\text{pmf}}/\Matt{\text{PMF}_{\max}}) \cdot \text{gain}\)</li>
+                <li>\(\Matt{J_{\text{leak}}} \propto \Matt{\text{pmf}} \cdot (1 + 0.5 \cdot (\text{volume} - 1))\)</li>
+                <li>\(\Matt{J_{\text{ATP}}} \propto \text{workload}(\Matt{t}) \cdot \Matt{\text{pmf}} \cdot \text{gain}\)</li>
             </ul>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
@@ -569,14 +569,14 @@ plt.show()</pre>
                 <div class="stur-eq-label">(3.4.7) Emergent 4D Equation</div>
             </div>
 
-            <p><strong>Biological Interpretation:</strong> The state machine (healthy -> stressed -> pre_apoptotic -> uncoupled -> mPTP) corresponds to bifurcations in the resistance field potential \(V(R)\):</p>
+            <p><strong>Biological Interpretation:</strong> The state machine (healthy -> stressed -> pre_apoptotic -> uncoupled -> mPTP) corresponds to bifurcations in the resistance field potential \(\Pot{V(R)}\):</p>
             <ul>
-                <li><span class="eq-diffusion">Diffusion term</span>: Spatial coherence of cristae geometry; high \(S(r)\) promotes ordered membrane structure</li>
-                <li><span class="eq-potential">Relaxation term</span>: The potential \(V(R)\) has multiple minima corresponding to each state; transitions occur when fluctuations exceed barrier heights</li>
+                <li><span class="eq-diffusion">Diffusion term</span>: Spatial coherence of cristae geometry; high \(\Diff{S(r)}\) promotes ordered membrane structure</li>
+                <li><span class="eq-potential">Relaxation term</span>: The potential \(\Pot{V(R)}\) has multiple minima corresponding to each state; transitions occur when fluctuations exceed barrier heights</li>
                 <li><span class="eq-matter">Noise term</span>: Ca<sup>2+</sup> bursts, ROS spikes, and ATP demand fluctuations drive stochastic state hopping</li>
             </ul>
 
-            <p>The STUR coherence scalar \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) directly couples cristae curvature radius to bioenergetic efficiency. State transitions occur when the effective resistance \(\bar R\) crosses critical thresholds in the multi-well potential landscape.</p>
+            <p>The STUR coherence scalar \(\Diff{S(r)} = \tanh(\Diff{r}/\Diff{L_0})(1 - e^{-\Diff{r}/\Diff{L_0}})\) directly couples cristae curvature radius to bioenergetic efficiency. State transitions occur when the effective resistance \(\Diff{\bar R}\) crosses critical thresholds in the multi-well potential landscape.</p>
 
             <p><strong>Cross-References:</strong></p>
             <ul style="font-size:0.9rem;">

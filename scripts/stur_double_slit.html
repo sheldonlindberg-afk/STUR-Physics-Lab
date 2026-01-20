@@ -81,7 +81,7 @@
         <h1 class="page-title-falsifiable">Double-Slit Visibility</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Tests the STUR Gaussian visibility law against standard QM for plasmon-mediated double-slit interference.
-            The single parameter \(\sigma_R/L_X\) determines fringe contrast decay.
+            The single parameter \(\Diff{\sigma_R}/\XCRM{L_X}\) determines fringe contrast decay.
         </p>
 
         <!-- Status Badge -->
@@ -119,16 +119,16 @@
                 <div>
                     <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>Potential form:</strong> \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
-                        <li><strong>Gaussian visibility form:</strong> \(V(\Delta L) = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
-                        <li><strong>Coherence length closure:</strong> \(\ell_{\rm coh} = \sqrt{2}\,L_X/(y\sigma_R)\) with \(y=1\) — from <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-green)">Technical Appendix Eq. B.9</a></li>
-                        <li><strong>Quadratic \(\Delta L\) dependence</strong> (from CLT + XCRM)</li>
+                        <li><strong>Potential form:</strong> \(\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                        <li><strong>Gaussian visibility form:</strong> \(\Matt{V(\Delta L)} = \Matt{V_0} \exp(-\Matt{\Delta L}^2/\Matt{\ell_{\rm coh}}^2)\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                        <li><strong>Coherence length closure:</strong> \(\Matt{\ell_{\rm coh}} = \sqrt{2}\,\XCRM{L_X}/(\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\) — from <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-green)">Technical Appendix Eq. B.9</a></li>
+                        <li><strong>Quadratic \(\Matt{\Delta L}\) dependence</strong> (from CLT + XCRM)</li>
                     </ul>
                 </div>
                 <div>
                     <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;">Phenomenological Inputs</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>Plasmon Q factor:</strong> Measured linewidth → \(\sigma_R/L_X\)</li>
+                        <li><strong>Plasmon Q factor:</strong> Measured linewidth → \(\Diff{\sigma_R}/\XCRM{L_X}\)</li>
                         <li><strong>Slit geometry:</strong> d, a, L (experimental setup)</li>
                         <li><strong>Wavelength range:</strong> UV to visible</li>
                     </ul>
@@ -136,8 +136,8 @@
             </div>
             <div style="margin-top:1rem;padding:0.75rem;background:rgba(239,68,68,0.06);border-radius:8px;font-size:0.85rem;">
                 <strong style="color:var(--neon-pink);">Non-Negotiable Test:</strong>
-                The Gaussian form \(V \propto \exp(-\Delta L^2)\) is <em>derived</em>, not assumed.
-                If data shows oscillatory or linear-\(\Delta L\) behavior, <strong>STUR is falsified</strong>.
+                The Gaussian form \(\Matt{V} \propto \exp(-\Matt{\Delta L}^2)\) is <em>derived</em>, not assumed.
+                If data shows oscillatory or linear-\(\Matt{\Delta L}\) behavior, <strong>STUR is falsified</strong>.
             </div>
         </div>
     </div>
@@ -148,7 +148,7 @@
       <div class="harness-grid">
         <div class="harness-section observable">
           <h4>Observable</h4>
-          <p>Fringe visibility \(\mathcal{V}(\lambda)\) as a function of wavelength, double-slit geometry with \(d = 1\,\text{mm}\), \(a = 0.15\,\text{mm}\), \(L = 5\,\text{m}\).</p>
+          <p>Fringe visibility \(\Matt{\mathcal{V}(\lambda)}\) as a function of wavelength, double-slit geometry with \(\Matt{d} = 1\,\text{mm}\), \(\Matt{a} = 0.15\,\text{mm}\), \(\Matt{L} = 5\,\text{m}\).</p>
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
@@ -175,8 +175,8 @@
             <h2 class="glass-section-title">What This Page Tests</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Fringe visibility \(\mathcal{V}(\lambda)\) as a function of wavelength in a double-slit experiment with plasmon-derived coherence.</p>
-            <p><strong>Geometry:</strong> Two slits separated by \(d = 1\,\text{mm}\), slit width \(a = 0.15\,\text{mm}\), screen distance \(L = 5\,\text{m}\).</p>
+            <p><strong>Observable:</strong> Fringe visibility \(\Matt{\mathcal{V}(\lambda)}\) as a function of wavelength in a double-slit experiment with plasmon-derived coherence.</p>
+            <p><strong>Geometry:</strong> Two slits separated by \(\Matt{d} = 1\,\text{mm}\), slit width \(\Matt{a} = 0.15\,\text{mm}\), screen distance \(\Matt{L} = 5\,\text{m}\).</p>
             <p><strong>Regime:</strong> Markovian (incoherent averaging over X-bundle positions).</p>
         </div>
     </section>
@@ -206,7 +206,7 @@
                 <div class="stur-eq-label">Master Action</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> Flat spacetime, Markovian regime. The X-field fluctuations induce phase dispersion in the interference pattern. The path-length difference \(\Delta L = d \cdot y / L\) enters the Gaussian visibility law.</p>
+            <p><strong>Limit assumed:</strong> Flat spacetime, Markovian regime. The X-field fluctuations induce phase dispersion in the interference pattern. The path-length difference \(\Matt{\Delta L} = \Matt{d} \cdot y / \Matt{L}\) enters the Gaussian visibility law.</p>
 
             <div class="stur-eq derived">
                 \[
@@ -226,9 +226,9 @@
 
             <p><strong>Key parameters:</strong></p>
             <ul style="font-size:0.9rem;color:var(--text-secondary);">
-              <li>\(L_X\) — internal dimension size (single free parameter)</li>
-              <li>\(\sigma_R\) — resistance fluctuation RMS (<a href="stur_technical_appendix.html#parameter-definitions" style="color:var(--neon-green)">Eq. A.6: derived from XCRM equilibrium</a>)</li>
-              <li>\(y\) — Yukawa coupling (set to \(y=1\) in simulations)</li>
+              <li>\(\XCRM{L_X}\) — internal dimension size (single free parameter)</li>
+              <li>\(\Diff{\sigma_R}\) — resistance fluctuation RMS (<a href="stur_technical_appendix.html#parameter-definitions" style="color:var(--neon-green)">Eq. A.6: derived from XCRM equilibrium</a>)</li>
+              <li>\(\Quant{y}\) — Yukawa coupling (set to \(\Quant{y}=1\) in simulations)</li>
             </ul>
         </div>
     </section>
@@ -244,9 +244,9 @@
         <div class="glass-section-body">
             <p><strong>STUR predicts:</strong></p>
             <ul>
-                <li><strong>Gaussian envelope:</strong> Visibility decays as \(\exp(-(\Delta L/\ell_{\text{coh}})^2)\), not oscillatory.</li>
-                <li><strong>Geometry dependence:</strong> \(\ell_{\text{coh}} \propto \lambda\) via plasmon-derived \(Q(\lambda)\).</li>
-                <li><strong>No mass dependence:</strong> For photons, visibility depends only on geometry and \(\sigma_R/L_X\).</li>
+                <li><strong>Gaussian envelope:</strong> Visibility decays as \(\exp(-(\Matt{\Delta L}/\Matt{\ell_{\text{coh}}})^2)\), not oscillatory.</li>
+                <li><strong>Geometry dependence:</strong> \(\Matt{\ell_{\text{coh}}} \propto \lambda\) via plasmon-derived \(Q(\lambda)\).</li>
+                <li><strong>No mass dependence:</strong> For photons, visibility depends only on geometry and \(\Diff{\sigma_R}/\XCRM{L_X}\).</li>
             </ul>
 
             <p><strong>Competitor model (QM):</strong> Standard Fraunhofer diffraction predicts visibility depends only on slit geometry and wavelength, with no additional decoherence from X-bundle fluctuations.</p>

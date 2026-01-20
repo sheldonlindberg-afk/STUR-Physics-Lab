@@ -66,17 +66,17 @@
   </div>
 
   <p>
-    Here \(\Psi\) is a five-dimensional spinor, \(\Gamma^M\) are the 5D Dirac matrices,
-    \(D_M\) is the covariant derivative, and \(y\) is the Yukawa coupling constant.
+    Here \(\Matt{\Psi}\) is a five-dimensional spinor, \(\Matt{\Gamma^M}\) are the 5D Dirac matrices,
+    \(\Diff{D_M}\) is the covariant derivative, and \(\Quant{y}\) is the Yukawa coupling constant.
   </p>
 
   <div class="block gold">
     <div class="title">The Yukawa Coupling</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The term \(yR\bar{\Psi}\Psi\) couples fermions to the resistance field. This coupling:
+      The term \(\Quant{y}\Diff{R}\Matt{\bar{\Psi}\Psi}\) couples fermions to the resistance field. This coupling:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary)">
-      <li>Modifies the effective fermion mass: \(m_{\rm eff} = m_0 + yR\)</li>
+      <li>Modifies the effective fermion mass: \(\Matt{m_{\rm eff}} = \Matt{m_0} + \Quant{y}\Diff{R}\)</li>
       <li>Generates phase shifts in interferometry through mass variation</li>
       <li>Enables chiral fermion localization on domain walls</li>
       <li>Creates exponential Yukawa hierarchies from X-localization overlap</li>
@@ -91,9 +91,9 @@
   <h3>7.1 Zero-Mode Profile</h3>
 
   <p>
-    In the presence of a kink solution \(R_0(X)\) that interpolates between vacuum values \(\pm v\),
+    In the presence of a kink solution \(\Diff{R_0}(\XCRM{X})\) that interpolates between vacuum values \(\pm \Pot{v}\),
     five-dimensional fermions develop localized zero modes. The profile is determined by the
-    Dirac equation with the position-dependent mass \(m(X) = yR_0(X)\).
+    Dirac equation with the position-dependent mass \(\Matt{m}(\XCRM{X}) = \Quant{y}\Diff{R_0}(\XCRM{X})\).
   </p>
 
   <div class="block success" style="border-width:2px;">
@@ -106,8 +106,8 @@
       <div class="eq-label" style="color:var(--success);">(7.1) — Zero-mode profile</div>
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
-      Zero modes localize exponentially near domain walls where \(R(X_*) = 0\). The orbifold
-      \(\mathbb{Z}_2\) projection ensures chirality by removing the opposite-chirality zero mode.
+      Zero modes localize exponentially near domain walls where \(\Diff{R}(\XCRM{X_*}) = 0\). The orbifold
+      \(\XCRM{\mathbb{Z}_2}\) projection ensures chirality by removing the opposite-chirality zero mode.
     </p>
   </div>
 
@@ -117,14 +117,14 @@
     <div class="card" style="border:1px solid var(--matter);">
       <strong style="color:var(--matter);">Left-Handed Modes</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        \(f_{0,-}(X)\) localizes where \(R\) transitions from positive to negative values.
+        \(\Matt{f_{0,-}}(\XCRM{X})\) localizes where \(\Diff{R}\) transitions from positive to negative values.
         The profile decays exponentially away from the domain wall.
       </span>
     </div>
     <div class="card" style="border:1px solid var(--accent-warm);">
       <strong style="color:var(--accent-warm);">Right-Handed Modes</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        \(f_{0,+}(X)\) localizes at the opposite boundary. The orbifold projection removes
+        \(\Matt{f_{0,+}}(\XCRM{X})\) localizes at the opposite boundary. The orbifold projection removes
         one chirality at each boundary, ensuring 4D chirality.
       </span>
     </div>
@@ -134,7 +134,7 @@
     <div class="title">Domain Wall Physics</div>
     <p style="margin:0;color:var(--text-secondary)">
       This is standard domain-wall fermion physics (Kaplan 1992). STUR inherits this result from its
-      5D orbifold structure. The kink solution \(R_0(X) = v\tanh((X-X_c)/\xi)\) naturally provides
+      5D orbifold structure. The kink solution \(\Diff{R_0}(\XCRM{X}) = \Pot{v}\tanh((\XCRM{X}-\XCRM{X_c})/\Diff{\xi})\) naturally provides
       the sign-changing mass profile required for chiral localization.
     </p>
   </div>
@@ -157,8 +157,8 @@
   </div>
 
   <p>
-    where \(X_L^{(i)}\) and \(X_R^{(j)}\) are the localization positions of the left-handed
-    fermion \(i\) and right-handed fermion \(j\), and \(\sigma\) characterizes the wavefunction width.
+    where \(\XCRM{X_L^{(i)}}\) and \(\XCRM{X_R^{(j)}}\) are the localization positions of the left-handed
+    fermion \(\Matt{i}\) and right-handed fermion \(\Matt{j}\), and \(\Diff{\sigma}\) characterizes the wavefunction width.
   </p>
 
   <h3>8.2 Exponential Suppression</h3>
@@ -171,11 +171,11 @@
       exponentially different effective couplings.
     </p>
     <div class="eq boxed" style="margin:0.75rem 0;">
-      \[\frac{m_e}{m_\tau} \sim \exp\!\left(-\frac{\Delta X^2}{2\sigma^2}\right) \sim 10^{-4}\]
+      \[\frac{\Matt{m_e}}{\Matt{m_\tau}} \sim \exp\!\left(-\frac{\XCRM{\Delta X}^2}{2\Diff{\sigma}^2}\right) \sim 10^{-4}\]
     </div>
     <p style="margin:0;color:var(--text-secondary)">
-      The observed hierarchy \(m_e \ll m_\mu \ll m_\tau\) corresponds to different localization
-      profiles in X, not to fine-tuned 5D Yukawa couplings.
+      The observed hierarchy \(\Matt{m_e} \ll \Matt{m_\mu} \ll \Matt{m_\tau}\) corresponds to different localization
+      profiles in \(\XCRM{X}\), not to fine-tuned 5D Yukawa couplings.
     </p>
   </div>
 
@@ -216,7 +216,7 @@
     <div class="title">Phenomenological Input</div>
     <p style="margin:0;color:var(--text-secondary)">
       Flavor structure is modeled via wavefunction overlaps. The localization positions
-      \(X_L^{(i)}, X_R^{(j)}\) are phenomenological inputs in the current framework.
+      \(\XCRM{X_L^{(i)}}, \XCRM{X_R^{(j)}}\) are phenomenological inputs in the current framework.
       A complete theory would derive these positions from dynamics.
     </p>
   </div>
@@ -229,8 +229,8 @@
   <h3>9.1 WKB Phase Accumulation</h3>
 
   <p>
-    The Yukawa coupling \(yR\bar{\Psi}\Psi\) modifies the effective mass: \(m_{\rm eff} = m_0 + yR\).
-    In the <strong>non-relativistic atom interferometry regime</strong> (\(p_0 \simeq mv\), where \(v \ll c\)),
+    The Yukawa coupling \(\Quant{y}\Diff{R}\Matt{\bar{\Psi}\Psi}\) modifies the effective mass: \(\Matt{m_{\rm eff}} = \Matt{m_0} + \Quant{y}\Diff{R}\).
+    In the <strong>non-relativistic atom interferometry regime</strong> (\(\Matt{p_0} \simeq \Matt{m}\Matt{v}\), where \(\Matt{v} \ll c\)),
     the WKB phase accumulated along a path is:
   </p>
 
@@ -252,8 +252,8 @@
   </div>
 
   <p>
-    Here \(\mathsf{J}_a\) is the <strong>effective phase-gradient 1-form</strong> induced by the Yukawa coupling.
-    The holonomy \(\Phi_R\) is gauge-invariant by construction — it is the interferometer output.
+    Here \(\XCRM{\mathsf{J}_a}\) is the <strong>effective phase-gradient 1-form</strong> induced by the Yukawa coupling.
+    The holonomy \(\Quant{\Phi_R}\) is gauge-invariant by construction — it is the interferometer output.
   </p>
 
   <div class="block gold">
@@ -261,7 +261,7 @@
     <p style="margin:0;color:var(--text-secondary)">
       The resistance holonomy measures <strong>non-integrability of phase transport</strong> induced by
       the resistance substrate. It is a Wilson-loop analogue for the Yukawa-induced phase-gradient 1-form.
-      Unlike the geometric path difference \(\Delta L\), the holonomy \(\Phi_R\) can be nonzero even when
+      Unlike the geometric path difference \(\Matt{\Delta L}\), the holonomy \(\Quant{\Phi_R}\) can be nonzero even when
       the total path length difference vanishes.
     </p>
   </div>
@@ -272,7 +272,7 @@
   <h2 style="color:var(--potential);">9.3 Visibility Under Shot-to-Shot Fluctuations</h2>
 
   <p>
-    If \(R\) fluctuates between experimental shots with variance \(\sigma_R^2\), the visibility
+    If \(\Diff{R}\) fluctuates between experimental shots with variance \(\Diff{\sigma_R^2}\), the visibility
     (fringe contrast) is the expectation of \(\cos(\Delta\phi)\):
   </p>
 
@@ -299,7 +299,7 @@
     <p style="margin:0;color:var(--text-secondary)">
       <strong>Long-baseline experiments</strong> probe the linear-path limit (right side), where
       visibility decays as a Gaussian in path difference squared.
-      <strong>Tabletop loops</strong> probe the holonomy \(\Phi_R\) directly (left side), where
+      <strong>Tabletop loops</strong> probe the holonomy \(\Quant{\Phi_R}\) directly (left side), where
       area enhancement may be significant.
     </p>
   </div>
@@ -326,18 +326,18 @@
   </p>
 
   <ol>
-    <li>The orbifold structure forces a kink profile in \(R(X)\)</li>
+    <li>The orbifold structure forces a kink profile in \(\Diff{R}(\XCRM{X})\)</li>
     <li>Fermions localize on the kink via the Yukawa coupling</li>
-    <li>Propagating fermions accumulate phase proportional to \(\int R\, d\ell\)</li>
-    <li>Stochastic fluctuations in \(R\) produce shot-to-shot phase variance</li>
+    <li>Propagating fermions accumulate phase proportional to \(\int \Diff{R}\, d\ell\)</li>
+    <li>Stochastic fluctuations in \(\Diff{R}\) produce shot-to-shot phase variance</li>
     <li>The Gaussian visibility law follows from central limit averaging</li>
   </ol>
 
   <div class="block success" style="border-width:2px;">
     <div class="title">Falsifiability</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The <strong>Gaussian form</strong> of visibility decay in \(\Delta L^2\) is the non-negotiable
-      prediction of STUR matter coupling. Any deviation — oscillatory, linear in \(\Delta L\),
+      The <strong>Gaussian form</strong> of visibility decay in \(\Matt{\Delta L}^2\) is the non-negotiable
+      prediction of STUR matter coupling. Any deviation — oscillatory, linear in \(\Matt{\Delta L}\),
       time-dependent, or mass-dependent — falsifies this sector of the theory.
     </p>
   </div>

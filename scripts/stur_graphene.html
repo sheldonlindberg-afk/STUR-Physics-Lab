@@ -79,8 +79,8 @@
     <header style="text-align:center; margin-bottom:2rem;">
         <h1 class="page-title-falsifiable">Graphene-Axion Coupler</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            Tests STUR-predicted axion-like coupling \(g_a\) in graphene Dirac transport.
-            The X-bundle coupling modifies scattering time \(\tau\) and Hall conductivity \(\sigma_{xy}\).
+            Tests STUR-predicted axion-like coupling \(\XCRM{g_a}\) in graphene Dirac transport.
+            The X-bundle coupling modifies scattering time \(\Matt{\tau}\) and Hall conductivity \(\Matt{\sigma_{xy}}\).
         </p>
 
         <!-- Status Badge -->
@@ -116,14 +116,14 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
-                <li>X-bundle coupling structure: \(U(X-R)\) in Master Action induces matter-field interactions</li>
-                <li>Axion-like coupling form: \(\mathcal{L} = g_a \phi \bar{\psi}\gamma^5\psi\) from X-bundle sector</li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Potential form \(\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-\Diff{v}^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>X-bundle coupling structure: \(\XCRM{U(X-R)}\) in Master Action induces matter-field interactions</li>
+                <li>Axion-like coupling form: \(\Matt{\mathcal{L}} = \XCRM{g_a} \XCRM{\phi} \Matt{\bar{\psi}}\gamma^5\Matt{\psi}\) from X-bundle sector</li>
+                <li>Coherence length: \(\Matt{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / (\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Coupling constants: \(g_0 = 10^{-12}\), amplitude \(C = 5 \times 10^{-6}\), exponent \(p = 0.65\)</li>
+                <li>Coupling constants: \(\XCRM{g_0} = 10^{-12}\), amplitude \(C = 5 \times 10^{-6}\), exponent \(p = 0.65\)</li>
                 <li>Graphene transport parameters — Drude model, Fermi velocity, effective mass</li>
                 <li>Sub-linear scaling exponent \(p\) — phenomenological (screening effects)</li>
             </ul>
@@ -140,7 +140,7 @@
       <div class="harness-grid">
         <div class="harness-section observable">
           <h4>Observable</h4>
-          <p>Conductivity shifts \(\Delta\sigma_{xx}/\sigma_{xx}\) and \(\Delta\sigma_{xy}/\sigma_{xy}\), scattering time ratio \(\Delta\tau/\tau\). Monolayer graphene at \(T = 10\,\text{K}\), \(n = 1.8 \times 10^{12}\,\text{cm}^{-2}\), \(B = 10\,\text{T}\).</p>
+          <p>Conductivity shifts \(\Matt{\Delta\sigma_{xx}}/\Matt{\sigma_{xx}}\) and \(\Matt{\Delta\sigma_{xy}}/\Matt{\sigma_{xy}}\), scattering time ratio \(\Matt{\Delta\tau}/\Matt{\tau}\). Monolayer graphene at \(\Matt{T} = 10\,\text{K}\), \(\Matt{n} = 1.8 \times 10^{12}\,\text{cm}^{-2}\), \(\Tor{B} = 10\,\text{T}\).</p>
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
@@ -148,11 +148,11 @@
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Sub-linear scattering shift: \(\Delta\tau/\tau = C(g_a/g_0)^p\) with \(p < 1\); Hall response \(\Delta\sigma_{xy} \propto 2\Delta\tau/\tau\).</p>
+          <p>Sub-linear scattering shift: \(\Matt{\Delta\tau}/\Matt{\tau} = C(\XCRM{g_a}/\XCRM{g_0})^p\) with \(p < 1\); Hall response \(\Matt{\Delta\sigma_{xy}} \propto 2\Matt{\Delta\tau}/\Matt{\tau}\).</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Scaling exponent \(p\), conductivity ratio at \(g_a = 10^{-10}\) vs \(10^{-12}\), sub-linear verification</p>
+          <p>Scaling exponent \(p\), conductivity ratio at \(\XCRM{g_a} = 10^{-10}\) vs \(10^{-12}\), sub-linear verification</p>
         </div>
       </div>
       <a href="stur_core_theory.html#sec5" class="core-ref">Core Definition: XCRM Coupling (§5)</a>
@@ -167,8 +167,8 @@
             <h2 class="glass-section-title">What This Page Tests</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Conductivity shifts \(\Delta\sigma_{xx}/\sigma_{xx}\) and \(\Delta\sigma_{xy}/\sigma_{xy}\) in monolayer graphene.</p>
-            <p><strong>Geometry:</strong> Dirac fluid at \(T = 10\,\text{K}\), carrier density \(n = 1.8 \times 10^{12}\,\text{cm}^{-2}\), magnetic field \(B = 10\,\text{T}\).</p>
+            <p><strong>Observable:</strong> Conductivity shifts \(\Matt{\Delta\sigma_{xx}}/\Matt{\sigma_{xx}}\) and \(\Matt{\Delta\sigma_{xy}}/\Matt{\sigma_{xy}}\) in monolayer graphene.</p>
+            <p><strong>Geometry:</strong> Dirac fluid at \(\Matt{T} = 10\,\text{K}\), carrier density \(\Matt{n} = 1.8 \times 10^{12}\,\text{cm}^{-2}\), magnetic field \(\Tor{B} = 10\,\text{T}\).</p>
             <p><strong>Regime:</strong> Axion-like X-bundle coupling from STUR master action.</p>
         </div>
     </section>
@@ -198,7 +198,7 @@
                 <div class="stur-eq-label">Master Action</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> The X-bundle coupling \(U(X-R)\) induces an effective axion-like interaction with graphene Dirac fermions:</p>
+            <p><strong>Limit assumed:</strong> The X-bundle coupling \(\XCRM{U(X-R)}\) induces an effective axion-like interaction with graphene Dirac fermions:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -207,7 +207,7 @@
                 <div class="stur-eq-label">Axion-Dirac Coupling</div>
             </div>
 
-            <p>This coupling modifies the scattering time \(\tau\) via:</p>
+            <p>This coupling modifies the scattering time \(\Matt{\tau}\) via:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -216,9 +216,9 @@
                 <div class="stur-eq-label">Scattering Time Shift</div>
             </div>
 
-            <p>where \(g_0 = 10^{-12}\), \(C = 5 \times 10^{-6}\), and \(p \approx 0.65\) encodes sub-linear screening.</p>
+            <p>where \(\XCRM{g_0} = 10^{-12}\), \(C = 5 \times 10^{-6}\), and \(p \approx 0.65\) encodes sub-linear screening.</p>
 
-            <p><strong>Conductivity response:</strong> In Drude framework, \(\sigma_{xx} \propto \tau\) and \(\sigma_{xy} \propto \tau^2\) when \(\omega_c\tau \gg 1\).</p>
+            <p><strong>Conductivity response:</strong> In Drude framework, \(\Matt{\sigma_{xx}} \propto \Matt{\tau}\) and \(\Matt{\sigma_{xy}} \propto \Matt{\tau}^2\) when \(\Matt{\omega_c}\Matt{\tau} \gg 1\).</p>
         </div>
     </section>
 
@@ -233,9 +233,9 @@
         <div class="glass-section-body">
             <p><strong>STUR predicts:</strong></p>
             <ul>
-                <li><strong>At \(g_a = 10^{-12}\):</strong> \(\Delta\tau/\tau \approx 5 \times 10^{-6}\) (0.0005%)</li>
-                <li><strong>At \(g_a = 10^{-10}\):</strong> \(\Delta\tau/\tau \approx 10^{-4}\) (0.01%)</li>
-                <li><strong>Hall response:</strong> \(\Delta\sigma_{xy}/\sigma_{xy} \approx 2\,\Delta\tau/\tau\) for \(\omega_c\tau \gg 1\)</li>
+                <li><strong>At \(\XCRM{g_a} = 10^{-12}\):</strong> \(\Matt{\Delta\tau}/\Matt{\tau} \approx 5 \times 10^{-6}\) (0.0005%)</li>
+                <li><strong>At \(\XCRM{g_a} = 10^{-10}\):</strong> \(\Matt{\Delta\tau}/\Matt{\tau} \approx 10^{-4}\) (0.01%)</li>
+                <li><strong>Hall response:</strong> \(\Matt{\Delta\sigma_{xy}}/\Matt{\sigma_{xy}} \approx 2\,\Matt{\Delta\tau}/\Matt{\tau}\) for \(\Matt{\omega_c}\Matt{\tau} \gg 1\)</li>
             </ul>
 
             <p><strong>Competitor model:</strong> Standard QED predicts no axion-like coupling in graphene at these scales.</p>
@@ -272,9 +272,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Measured \(\Delta\sigma_{xy}\) at \(g_a = 10^{-12}\) exceeds \(10^{-4}\) (100× predicted).</li>
+                <li><strong>Kill-1:</strong> Measured \(\Matt{\Delta\sigma_{xy}}\) at \(\XCRM{g_a} = 10^{-12}\) exceeds \(10^{-4}\) (100x predicted).</li>
                 <li><strong>Kill-2:</strong> Conductivity shift scales linearly (\(p = 1\)) instead of sub-linearly (\(p < 1\)).</li>
-                <li><strong>Kill-3:</strong> No measurable effect at \(g_a = 10^{-10}\) contradicts STUR prediction.</li>
+                <li><strong>Kill-3:</strong> No measurable effect at \(\XCRM{g_a} = 10^{-10}\) contradicts STUR prediction.</li>
             </ul>
 
             <!-- Verdict display -->

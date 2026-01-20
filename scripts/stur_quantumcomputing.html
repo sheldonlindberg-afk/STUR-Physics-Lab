@@ -118,22 +118,22 @@
                 <div>
                     <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>STUR modulator form:</strong> \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\)</li>
-                        <li><strong>Unitary evolution:</strong> \(R_{\rm STUR}\) is Hermitian</li>
+                        <li><strong>STUR modulator form:</strong> \(\XCRM{S(r)} = \tanh(r/\XCRM{L_0})(1 - e^{-r/\XCRM{L_0}})\)</li>
+                        <li><strong>Unitary evolution:</strong> \(\XCRM{R_{\rm STUR}}\) is Hermitian</li>
                     </ul>
                 </div>
                 <div>
                     <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;">Phenomenological Inputs</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>\(L_0 = 1\):</strong> Lattice units (phenomenological)</li>
-                        <li><strong>Lattice size:</strong> \(N = 6\) sites</li>
-                        <li><strong>Hopping strength:</strong> \(J = 1\)</li>
+                        <li><strong>\(\XCRM{L_0} = 1\):</strong> Lattice units (phenomenological)</li>
+                        <li><strong>Lattice size:</strong> \(\Matt{N} = 6\) sites</li>
+                        <li><strong>Hopping strength:</strong> \(\Diff{J} = 1\)</li>
                     </ul>
                 </div>
             </div>
             <div style="margin-top:1rem;padding:0.75rem;background:rgba(167,139,250,0.04);border-radius:8px;font-size:0.85rem;">
                 <strong style="color:var(--neon-violet);">Exploratory Status:</strong>
-                This page extends STUR to quantum lattice systems. The lattice generator \(R_{\rm STUR}\) is a <em>hypothesis</em> for how the resistance field modulates quantum coherence. The connection to \(\sigma_R/L_X\) in physical units requires further theoretical development.
+                This page extends STUR to quantum lattice systems. The lattice generator \(\XCRM{R_{\rm STUR}}\) is a <em>hypothesis</em> for how the resistance field modulates quantum coherence. The connection to \(\Diff{\sigma_R}/\XCRM{L_X}\) in physical units requires further theoretical development.
             </div>
         </div>
     </div>
@@ -144,19 +144,19 @@
       <div class="harness-grid">
         <div class="harness-section observable">
           <h4>Observable</h4>
-          <p>Entanglement entropy \(S_A(t)\), resistance flux \(\Phi_R(t)\), local densities \(\rho_i(t)\), continuity residual \(\mathcal{C}\). 1D lattice geometry with \(N = 6\) sites, hopping \(J = 1\), resistance modulator \(\xi\).</p>
+          <p>Entanglement entropy \(\Quant{S_A(t)}\), resistance flux \(\Quant{\Phi_R(t)}\), local densities \(\Matt{\rho_i(t)}\), continuity residual \(\Diff{\mathcal{C}}\). 1D lattice geometry with \(\Matt{N} = 6\) sites, hopping \(\Diff{J} = 1\), resistance modulator \(\XCRM{\xi}\).</p>
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
-          <p>Standard tight-binding (\(\xi = 0\)) predicts no resistance-flux coupling and unitary Schrodinger evolution.</p>
+          <p>Standard tight-binding (\(\XCRM{\xi} = 0\)) predicts no resistance-flux coupling and unitary Schrodinger evolution.</p>
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Deterministic unitary evolution: \(R_{\rm STUR}\) maintains flux conservation \(\Phi_R(t) = \text{const}\) and bounded entanglement entropy.</p>
+          <p>Deterministic unitary evolution: \(\XCRM{R_{\rm STUR}}\) maintains flux conservation \(\Quant{\Phi_R(t)} = \text{const}\) and bounded entanglement entropy.</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Flux conservation \(\Delta\Phi_R\), entropy growth rate, continuity residual \(\mathcal{C}\)</p>
+          <p>Flux conservation \(\Quant{\Delta\Phi_R}\), entropy growth rate, continuity residual \(\Diff{\mathcal{C}}\)</p>
         </div>
       </div>
       <a href="stur_core_theory.html#sec3" class="core-ref">Core Definition: XCRM Sector</a>
@@ -171,7 +171,7 @@
             <h2 class="glass-section-title">What This Page Tests</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Entanglement entropy \(S_A(t)\), resistance flux \(\Phi_R(t)\), local densities \(\rho_i(t)\), and continuity residual.</p>
+            <p><strong>Observable:</strong> Entanglement entropy \(\Quant{S_A(t)}\), resistance flux \(\Quant{\Phi_R(t)}\), local densities \(\Matt{\rho_i(t)}\), and continuity residual.</p>
             <p><strong>Geometry:</strong> 1D lattice with N = 6 sites, 3|3 bipartition for entanglement.</p>
             <p><strong>Regime:</strong> Coherent quantum evolution with deterministic STUR generator.</p>
         </div>
@@ -211,7 +211,7 @@
                 <div class="stur-eq-label">STUR Quantum Evolution</div>
             </div>
 
-            <p>The resistance generator \(R_{\text{STUR}}\) includes on-site, XX+YY coupling, and transverse terms:</p>
+            <p>The resistance generator \(\XCRM{R_{\text{STUR}}}\) includes on-site, XX+YY coupling, and transverse terms:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -220,7 +220,7 @@
                 <div class="stur-eq-label">Lattice Resistance Generator</div>
             </div>
 
-            <p><strong>Key parameter:</strong> \(L_0 = 1\) (lattice units) determines STUR modulation scale.</p>
+            <p><strong>Key parameter:</strong> \(\XCRM{L_0} = 1\) (lattice units) determines STUR modulation scale.</p>
         </div>
     </section>
 
@@ -235,9 +235,9 @@
         <div class="glass-section-body">
             <p><strong>STUR predicts:</strong></p>
             <ul>
-                <li><strong>Deterministic evolution:</strong> No collapse — pure unitary evolution under \(R_{\text{STUR}}\).</li>
-                <li><strong>Flux conservation:</strong> Resistance flux \(\Phi_R = \text{Re}(\Psi^\dagger R \Psi)\) remains bounded.</li>
-                <li><strong>Continuity:</strong> \(\partial_t \rho_i + \sum_j J_{i \to j} \approx 0\) (residual \(< 10^{-10}\)).</li>
+                <li><strong>Deterministic evolution:</strong> No collapse — pure unitary evolution under \(\XCRM{R_{\text{STUR}}}\).</li>
+                <li><strong>Flux conservation:</strong> Resistance flux \(\Quant{\Phi_R} = \text{Re}(\Matt{\Psi}^\dagger \XCRM{R} \Matt{\Psi})\) remains bounded.</li>
+                <li><strong>Continuity:</strong> \(\Diff{\partial_t} \Matt{\rho_i} + \sum_j \Diff{J_{i \to j}} \approx 0\) (residual \(< 10^{-10}\)).</li>
             </ul>
 
             <p><strong>Competitor model:</strong> Standard QM with probabilistic collapse — STUR predicts deterministic flow.</p>
@@ -274,8 +274,8 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Continuity residual \(|\partial_t \rho_i + \sum_j J_{i \to j}| > 10^{-8}\).</li>
-                <li><strong>Kill-2:</strong> Flux drift \(|\Delta \Phi_R / \Phi_R| > 0.01\) over simulation time.</li>
+                <li><strong>Kill-1:</strong> Continuity residual \(|\Diff{\partial_t} \Matt{\rho_i} + \sum_j \Diff{J_{i \to j}}| > 10^{-8}\).</li>
+                <li><strong>Kill-2:</strong> Flux drift \(|\Quant{\Delta \Phi_R} / \Quant{\Phi_R}| > 0.01\) over simulation time.</li>
                 <li><strong>Kill-3:</strong> Entanglement entropy exceeds maximum theoretical bound for bipartition.</li>
             </ul>
 

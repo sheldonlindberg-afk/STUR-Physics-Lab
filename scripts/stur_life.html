@@ -116,9 +116,9 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Inspired by First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>Potential form \(\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
                 <li>Reaction-diffusion structure — from STUR kinetic term</li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Coherence length: \(\Diff{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / \Diff{\sigma_R}\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
                 <li>Curvature-driven selection — S(r) modulator from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Speculative / Phenomenological:</strong></p>
@@ -144,8 +144,8 @@
         </div>
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Emergent proto-cell structures in alkaline hydrothermal vent micro-pores through STUR curvature selection.</p>
-            <p><strong>Scale:</strong> Pore size \(L = 12\,\mu\text{m}\), temperature 80-120 C, pH 6-9.8 gradient.</p>
-            <p><strong>Connection:</strong> The STUR X-feedback factor \(f_X\) amplifies resistance hotspots, nucleating stable acetyl/ATP structures.</p>
+            <p><strong>Scale:</strong> Pore size \(\Matt{L} = 12\,\mu\text{m}\), temperature 80-120 C, pH 6-9.8 gradient.</p>
+            <p><strong>Connection:</strong> The STUR X-feedback factor \(\XCRM{f_X}\) amplifies resistance hotspots, nucleating stable acetyl/ATP structures.</p>
         </div>
     </section>
 
@@ -178,7 +178,7 @@
 
             <div class="stur-eq derived">
                 \[
-                \frac{\partial R}{\partial t} = \nabla \cdot (D \nabla R) - \nabla R \cdot \Omega + \chi \frac{\partial R}{\partial X} + S_{\text{eff}}
+                \Diff{\frac{\partial R}{\partial t}} = \Diff{\nabla \cdot (D \nabla R)} - \Diff{\nabla R \cdot \Omega} + \XCRM{\chi \frac{\partial R}{\partial X}} + \Matt{S_{\text{eff}}}
                 \]
                 <div class="stur-eq-label">STUR Field Evolution</div>
             </div>
@@ -187,7 +187,7 @@
 
             <div class="stur-eq derived">
                 \[
-                R(\mathbf{x},t) = w_{\text{CO}_2}[\text{CO}_2] + w_{\text{H}_2}[\text{H}_2] + w_{\text{Ac}}[\text{Ac}] + w_{\text{ATP}}[\text{ATP}] + w_{\text{Fe}}[\text{Fe}^{2+}]
+                \Diff{R}(\mathbf{x},\Matt{t}) = \Matt{w_{\text{CO}_2}[\text{CO}_2] + w_{\text{H}_2}[\text{H}_2] + w_{\text{Ac}}[\text{Ac}] + w_{\text{ATP}}[\text{ATP}] + w_{\text{Fe}}[\text{Fe}^{2+}]}
                 \]
                 <div class="stur-eq-label">Chemical Resistance Field</div>
             </div>
@@ -196,7 +196,7 @@
 
             <div class="stur-eq derived">
                 \[
-                f_X(\mathbf{x},t) = \exp\left[\chi_X (R - R_{\text{bg}})\right]
+                \XCRM{f_X}(\mathbf{x},\Matt{t}) = \exp\left[\XCRM{\chi_X} (\Diff{R} - \Diff{R_{\text{bg}}})\right]
                 \]
                 <div class="stur-eq-label">Curvature Selection Factor</div>
             </div>
@@ -214,12 +214,12 @@
         <div class="glass-section-body">
             <p><strong>Key physics:</strong></p>
             <ul>
-                <li><strong>Catalytic formation:</strong> \(r_{\text{form}} = \text{surface} \cdot k_{\text{cat}}(T) \cdot f_{\text{pH}} \cdot f_X \cdot [\text{CO}_2][\text{H}_2]([\text{Ac}]+\epsilon)\)</li>
-                <li><strong>Thermophoresis:</strong> \(v_{\text{th}}(z) = -D_{\text{Ac}} S_T \cdot \nabla T / T\) (Soret drift toward cold)</li>
-                <li><strong>Bifurcation:</strong> At \(\chi_X \approx 3.5-4.5\), STUR curvature nucleates stable proto-cell attractors.</li>
+                <li><strong>Catalytic formation:</strong> \(\Matt{r_{\text{form}}} = \text{surface} \cdot \Matt{k_{\text{cat}}(T)} \cdot f_{\text{pH}} \cdot \XCRM{f_X} \cdot \Matt{[\text{CO}_2][\text{H}_2]([\text{Ac}]+\epsilon)}\)</li>
+                <li><strong>Thermophoresis:</strong> \(\Diff{v_{\text{th}}}(z) = -\Diff{D_{\text{Ac}}} \Matt{S_T} \cdot \Matt{\nabla T / T}\) (Soret drift toward cold)</li>
+                <li><strong>Bifurcation:</strong> At \(\XCRM{\chi_X} \approx 3.5-4.5\), STUR curvature nucleates stable proto-cell attractors.</li>
             </ul>
 
-            <p><strong>Life-onset metric:</strong> \(O_{\text{life}}(t) = \text{Var}(\text{Ac})/\langle\text{Ac}\rangle\) spikes when structure first locks in.</p>
+            <p><strong>Life-onset metric:</strong> \(\Quant{O_{\text{life}}}(\Matt{t}) = \text{Var}(\Matt{\text{Ac}})/\langle\Matt{\text{Ac}}\rangle\) spikes when structure first locks in.</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
@@ -474,18 +474,18 @@ plt.show()</pre>
                 <div class="stur-eq-label">(3.4.7) Emergent 4D Equation</div>
             </div>
 
-            <p><strong>Origin of Life Interpretation:</strong> The X-feedback amplification factor \(f_X = \exp[\chi_X(R - R_{\rm bg})]\) derives from the XCRM coupling term in the master action:</p>
+            <p><strong>Origin of Life Interpretation:</strong> The X-feedback amplification factor \(\XCRM{f_X} = \exp[\XCRM{\chi_X}(\Diff{R} - \Diff{R_{\rm bg}})]\) derives from the XCRM coupling term in the master action:</p>
             <ul>
                 <li><span class="eq-diffusion">Diffusion term</span>: Spatial transport of reactants (CO<sub>2</sub>, H<sub>2</sub>, acetyl-thioesters) through the pore, coupled with thermophoretic Soret drift</li>
-                <li><span class="eq-potential">Relaxation term</span>: Chemical equilibration toward background concentrations; catalytic surfaces lower effective \(\Gamma\)</li>
-                <li><span class="eq-xcrm">XCRM coupling</span>: The X-dimension provides positive feedback amplification of resistance hotspots, nucleating stable proto-cell attractors at critical \(\chi_X \approx 3.5-4.5\)</li>
+                <li><span class="eq-potential">Relaxation term</span>: Chemical equilibration toward background concentrations; catalytic surfaces lower effective \(\Pot{\Gamma}\)</li>
+                <li><span class="eq-xcrm">XCRM coupling</span>: The X-dimension provides positive feedback amplification of resistance hotspots, nucleating stable proto-cell attractors at critical \(\XCRM{\chi_X} \approx 3.5-4.5\)</li>
             </ul>
 
-            <p>At the critical coupling strength, the STUR framework predicts a bifurcation from homogeneous chemistry to spatially organized proto-cellular structures. The life-onset order parameter \(O_{\rm life} = \text{Var}(R)/\langle R \rangle\) spikes when structure first locks in, marking the transition from geochemistry to biochemistry.</p>
+            <p>At the critical coupling strength, the STUR framework predicts a bifurcation from homogeneous chemistry to spatially organized proto-cellular structures. The life-onset order parameter \(\Quant{O_{\rm life}} = \text{Var}(\Diff{R})/\langle \Diff{R} \rangle\) spikes when structure first locks in, marking the transition from geochemistry to biochemistry.</p>
 
             <p><strong>Cross-References:</strong></p>
             <ul style="font-size:0.9rem;">
-                <li><a href="stur_core_theory.html">Foundations</a> — Master Action with XCRM coupling \(\chi R \partial_X R\)</li>
+                <li><a href="stur_core_theory.html">Foundations</a> — Master Action with XCRM coupling \(\XCRM{\chi} \Diff{R} \XCRM{\partial_X R}\)</li>
                 <li><a href="stur_unified_framework.html#sec-stur">Framework Section 5</a> — X-dimension integration and coherence</li>
                 <li><a href="stur_atp.html">Mito Population</a> — Modern bioenergetics as evolved STUR systems</li>
             </ul>

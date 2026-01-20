@@ -57,8 +57,8 @@
   <div class="block gold" style="border-width:2px;">
     <div class="title">First Principles Statement</div>
     <p style="margin:0;color:var(--text-secondary)">
-      <strong>The double-well potential \(V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\) is not assumed — it is
-      uniquely determined by the \(S^1/\mathbb{Z}_2\) orbifold topology.</strong>
+      <strong>The double-well potential \(\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2 - \Pot{v}^2)^2\) is not assumed — it is
+      uniquely determined by the \(\XCRM{S^1/\mathbb{Z}_2}\) orbifold topology.</strong>
       This section proves that the manifold structure forces this functional form.
     </p>
   </div>
@@ -69,22 +69,22 @@
   <h2>2.5.1 The Z₂ Parity Assignment</h2>
 
   <p>
-    On the orbifold \(\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2\), the identification \(X \sim -X\) creates
-    fixed points at \(X = 0\) and \(X = L_X\). Fields must transform definitely under this \(\mathbb{Z}_2\):
+    On the orbifold \(\XCRM{\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2}\), the identification \(\XCRM{X \sim -X}\) creates
+    fixed points at \(\XCRM{X = 0}\) and \(\XCRM{X = L_X}\). Fields must transform definitely under this \(\XCRM{\mathbb{Z}_2}\):
   </p>
 
   <div class="eq boxed">
-    \[R(x, -X) = \eta_R \, R(x, X), \qquad \eta_R = \pm 1\]
+    \[\Diff{R}(x, -\XCRM{X}) = \Pot{\eta_R} \, \Diff{R}(x, \XCRM{X}), \qquad \Pot{\eta_R} = \pm 1\]
     <div class="eq-label">(2.10) — Z₂ parity transformation</div>
   </div>
 
   <div class="block">
     <div class="title">Physical Requirement: ηᵣ = −1 (Z₂-odd)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The resistance scalar \(R\) must be \(\mathbb{Z}_2\)-odd for two essential reasons:
+      The resistance scalar \(\Diff{R}\) must be \(\XCRM{\mathbb{Z}_2}\)-odd for two essential reasons:
     </p>
     <ol style="margin:0.5rem 0 0;color:var(--text-secondary)">
-      <li><strong>Chiral fermion localization:</strong> Yukawa couplings \(yR\bar\Psi\Psi\) require \(R\) to
+      <li><strong>Chiral fermion localization:</strong> Yukawa couplings \(\Quant{y}\Diff{R}\Matt{\bar\Psi\Psi}\) require \(\Diff{R}\) to
           change sign across the orbifold to generate chiral zero modes with opposite chiralities at
           the two fixed points.</li>
       <li><strong>Domain wall physics:</strong> The resistance field must interpolate between distinct
@@ -98,14 +98,14 @@
   <h2>2.5.2 Boundary Conditions at Fixed Points</h2>
 
   <p>
-    The \(\mathbb{Z}_2\)-odd assignment has immediate consequences at the orbifold fixed points:
+    The \(\XCRM{\mathbb{Z}_2}\)-odd assignment has immediate consequences at the orbifold fixed points:
   </p>
 
   <div class="eq definition">
     \[
     \begin{aligned}
-      \text{At } X = 0: &\quad R(x, 0) = R(x, -0) = -R(x, 0) \;\;\Rightarrow\;\; \boxed{R(x, 0) = 0} \\[0.5em]
-      \text{At } X = L_X: &\quad R(x, L_X) = -R(x, -L_X) = -R(x, L_X) \;\;\Rightarrow\;\; \boxed{R(x, L_X) = 0}
+      \text{At } \XCRM{X} = 0: &\quad \Diff{R}(x, 0) = \Diff{R}(x, -0) = -\Diff{R}(x, 0) \;\;\Rightarrow\;\; \boxed{\Diff{R}(x, 0) = 0} \\[0.5em]
+      \text{At } \XCRM{X} = \XCRM{L_X}: &\quad \Diff{R}(x, \XCRM{L_X}) = -\Diff{R}(x, -\XCRM{L_X}) = -\Diff{R}(x, \XCRM{L_X}) \;\;\Rightarrow\;\; \boxed{\Diff{R}(x, \XCRM{L_X}) = 0}
     \end{aligned}
     \]
     <div class="eq-label">(2.11) — Orbifold boundary conditions</div>
@@ -115,7 +115,7 @@
     <div class="title">Topological Constraint</div>
     <p style="margin:0;color:var(--text-secondary)">
       The scalar field is <em>forced</em> to vanish at both orbifold boundaries. This is not a choice —
-      it is a mathematical consequence of the \(\mathbb{Z}_2\)-odd parity on \(S^1/\mathbb{Z}_2\).
+      it is a mathematical consequence of the \(\XCRM{\mathbb{Z}_2}\)-odd parity on \(\XCRM{S^1/\mathbb{Z}_2}\).
     </p>
   </div>
 </section>
@@ -125,23 +125,23 @@
   <h2>2.5.3 Action Symmetry Constraints</h2>
 
   <p>
-    The action \(S[R]\) must be invariant under the orbifold identification. Since the integration measure
-    and metric are \(\mathbb{Z}_2\)-even, the potential term must satisfy:
+    The action \(\Pot{S}[\Diff{R}]\) must be invariant under the orbifold identification. Since the integration measure
+    and metric are \(\XCRM{\mathbb{Z}_2}\)-even, the potential term must satisfy:
   </p>
 
   <div class="eq boxed">
-    \[\int_{\Mcal^5} d^5x\, \sqrt{-g}\, V(R) = \int_{\Mcal^5} d^5x\, \sqrt{-g}\, V(-R)
+    \[\int_{\XCRM{\Mcal^5}} d^5x\, \sqrt{-\Tor{g}}\, \Pot{V}(\Diff{R}) = \int_{\XCRM{\Mcal^5}} d^5x\, \sqrt{-\Tor{g}}\, \Pot{V}(-\Diff{R})
     \quad\Rightarrow\quad
-    \boxed{V(R) = V(-R)}\]
+    \boxed{\Pot{V}(\Diff{R}) = \Pot{V}(-\Diff{R})}\]
     <div class="eq-label">(2.12) — Action invariance requires even potential</div>
   </div>
 
   <p>
-    This eliminates all odd powers of \(R\) from the potential. The most general form is:
+    This eliminates all odd powers of \(\Diff{R}\) from the potential. The most general form is:
   </p>
 
   <div class="eq">
-    \[V(R) = a_0 + a_2 R^2 + a_4 R^4 + a_6 R^6 + \cdots\]
+    \[\Pot{V}(\Diff{R}) = a_0 + a_2 \Diff{R}^2 + a_4 \Diff{R}^4 + a_6 \Diff{R}^6 + \cdots\]
     <div class="eq-label">(2.13)</div>
   </div>
 
@@ -150,20 +150,20 @@
   <div class="block warning">
     <div class="title">Power Counting in 5D</div>
     <p style="margin:0;color:var(--text-secondary)">
-      In five dimensions, the scalar field has mass dimension \([R] = M^{3/2}\). The Lagrangian density
+      In five dimensions, the scalar field has mass dimension \([\Diff{R}] = M^{3/2}\). The Lagrangian density
       has dimension \([M^5]\). This constrains the allowed potential terms:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary)">
-      <li>\([R^2] = M^3\) — marginal (renormalizable)</li>
-      <li>\([R^4] = M^6 \Rightarrow [\lambda R^4] = M^5\) requires \([\lambda] = M^{-1}\) — marginal</li>
-      <li>\([R^6] = M^9\) — irrelevant (non-renormalizable)</li>
+      <li>\([\Diff{R}^2] = M^3\) — marginal (renormalizable)</li>
+      <li>\([\Diff{R}^4] = M^6 \Rightarrow [\Pot{\lambda} \Diff{R}^4] = M^5\) requires \([\Pot{\lambda}] = M^{-1}\) — marginal</li>
+      <li>\([\Diff{R}^6] = M^9\) — irrelevant (non-renormalizable)</li>
     </ul>
   </div>
 
   <p>For a UV-complete theory, we truncate at the marginal operators:</p>
 
   <div class="eq boxed">
-    \[V(R) = \frac{m^2}{2} R^2 + \frac{\lambda}{4} R^4 + \text{const}\]
+    \[\Pot{V}(\Diff{R}) = \frac{m^2}{2} \Diff{R}^2 + \frac{\Pot{\lambda}}{4} \Diff{R}^4 + \text{const}\]
     <div class="eq-label">(2.14) — Most general renormalizable even potential</div>
   </div>
 </section>
@@ -173,27 +173,27 @@
   <h2>2.5.5 Topological Stability: The Kink Requirement</h2>
 
   <p>
-    The boundary conditions (2.11) require \(R = 0\) at both fixed points. For the theory to have
-    non-trivial dynamics in the bulk, the potential must allow \(R \neq 0\) in the interior.
+    The boundary conditions (2.11) require \(\Diff{R} = 0\) at both fixed points. For the theory to have
+    non-trivial dynamics in the bulk, the potential must allow \(\Diff{R} \neq 0\) in the interior.
   </p>
 
   <div class="block">
     <div class="title">Theorem 2.1 — Degenerate Minima are Forced</div>
     <p style="margin:0;color:var(--text-secondary)">
       For a stable kink profile interpolating between the orbifold boundaries while passing through
-      a non-zero bulk value, the potential \(V(R)\) must have degenerate minima at \(R = \pm v \neq 0\).
+      a non-zero bulk value, the potential \(\Pot{V}(\Diff{R})\) must have degenerate minima at \(\Diff{R} = \pm \Pot{v} \neq 0\).
     </p>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
-      <strong>Proof:</strong> If \(V(R)\) had a unique minimum at \(R = 0\), the boundary conditions
-      \(R(0) = R(L_X) = 0\) would be satisfied by the trivial solution \(R \equiv 0\) everywhere.
-      Non-trivial physics requires the field to "roll" through \(R \neq 0\) in the bulk.
+      <strong>Proof:</strong> If \(\Pot{V}(\Diff{R})\) had a unique minimum at \(\Diff{R} = 0\), the boundary conditions
+      \(\Diff{R}(0) = \Diff{R}(\XCRM{L_X}) = 0\) would be satisfied by the trivial solution \(\Diff{R} \equiv 0\) everywhere.
+      Non-trivial physics requires the field to "roll" through \(\Diff{R} \neq 0\) in the bulk.
     </p>
   </div>
 
-  <p>For degenerate minima at \(R = \pm v\), applying \(V'(R) = m^2 R + \lambda R^3 = 0\):</p>
+  <p>For degenerate minima at \(\Diff{R} = \pm \Pot{v}\), applying \(\Pot{V'}(\Diff{R}) = m^2 \Diff{R} + \Pot{\lambda} \Diff{R}^3 = 0\):</p>
 
   <div class="eq boxed">
-    \[m^2 < 0 \quad\Rightarrow\quad m^2 \equiv -\lambda v^2, \quad v^2 = -\frac{m^2}{\lambda}\]
+    \[m^2 < 0 \quad\Rightarrow\quad m^2 \equiv -\Pot{\lambda} \Pot{v}^2, \quad \Pot{v}^2 = -\frac{m^2}{\Pot{\lambda}}\]
     <div class="eq-label">(2.15) — Symmetry breaking condition</div>
   </div>
 </section>
@@ -215,10 +215,10 @@
       The double-well potential (2.16) is the <strong>unique</strong> renormalizable potential compatible with:
     </p>
     <ol style="margin:0.5rem 0 0;color:var(--text-secondary)">
-      <li>\(\mathbb{Z}_2\) orbifold symmetry (even in \(R\))</li>
+      <li>\(\XCRM{\mathbb{Z}_2}\) orbifold symmetry (even in \(\Diff{R}\))</li>
       <li>Five-dimensional power counting (polynomial degree ≤ 4)</li>
       <li>Topological stability (degenerate non-zero minima)</li>
-      <li>Orbifold boundary conditions (\(R = 0\) at fixed points)</li>
+      <li>Orbifold boundary conditions (\(\Diff{R} = 0\) at fixed points)</li>
     </ol>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
       <strong>The manifold forces this form — it is not a phenomenological assumption.</strong>
@@ -231,7 +231,7 @@
   <h2>2.5.7 The Kink Solution</h2>
 
   <p>
-    The static field equation \(\partial_X^2 R = V'(R) = \lambda R(R^2 - v^2)\) admits the kink solution:
+    The static field equation \(\XCRM{\partial_X}^2 \Diff{R} = \Pot{V'}(\Diff{R}) = \Pot{\lambda} \Diff{R}(\Diff{R}^2 - \Pot{v}^2)\) admits the kink solution:
   </p>
 
   <div class="eq boxed">
@@ -241,15 +241,15 @@
   </div>
 
   <p>
-    where \(\xi\) is the domain wall width and \(X_c\) is the kink center (typically \(X_c = L_X/2\)).
+    where \(\XCRM{\xi}\) is the domain wall width and \(\XCRM{X_c}\) is the kink center (typically \(\XCRM{X_c} = \XCRM{L_X}/2\)).
   </p>
 
   <div class="block gold">
     <div class="title">Physical Interpretation</div>
     <p style="margin:0;color:var(--text-secondary)">
       The kink (2.17) is a <strong>domain wall</strong> interpolating between the two degenerate vacua
-      \(R = \pm v\). Fermions localize at the domain wall center (where \(R = 0\)), acquiring mass
-      through the gradient \(\partial_X R_0\). This is the geometric origin of chiral localization.
+      \(\Diff{R} = \pm \Pot{v}\). Fermions localize at the domain wall center (where \(\Diff{R} = 0\)), acquiring mass
+      through the gradient \(\XCRM{\partial_X} \Diff{R_0}\). This is the geometric origin of chiral localization.
     </p>
   </div>
 
@@ -270,7 +270,7 @@
   <h2 style="color:var(--gold);">XCRM Closure Relation</h2>
 
   <p>
-    The XCRM term \(\chi R \partial_X R\) combined with the kink solution gives the closure relation
+    The XCRM term \(\XCRM{\chi} \Diff{R} \XCRM{\partial_X} \Diff{R}\) combined with the kink solution gives the closure relation
     that determines the coherence length:
   </p>
 
