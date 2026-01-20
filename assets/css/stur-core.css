@@ -454,6 +454,7 @@ pre {
   height: 10px;
   border-radius: 50%;
   flex-shrink: 0;
+  background: var(--text-dim);  /* Default fallback color */
 }
 
 .eq-legend-dot.diffusion { background: var(--eq-diffusion); box-shadow: 0 0 8px rgba(74, 222, 128, 0.4); }
