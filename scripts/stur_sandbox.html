@@ -356,14 +356,14 @@
 
         <p>
             Before writing simulation code, understand the mathematical structure you're implementing.
-            <strong>STUR</strong> introduces a scalar resistance field \(R(x^\mu, X)\) coupled to teleparallel torsion,
+            <strong>STUR</strong> introduces a scalar resistance field \(\Diff{R}(x^\mu, \XCRM{X})\) coupled to teleparallel torsion,
             producing falsifiable interferometric predictions.
         </p>
 
         <div class="grid2">
             <div class="panel tegr">
                 <h3>TEGR Backbone</h3>
-                <p>Teleparallel gravity uses <strong>tetrads</strong> \(e^a{}_\mu\) instead of the metric directly:</p>
+                <p>Teleparallel gravity uses <strong>tetrads</strong> \(\Tor{e^a{}_\mu}\) instead of the metric directly:</p>
                 <div class="eq">
                     \[\color{#fb923c}{g_{\mu\nu}} = \eta_{ab}\, \color{#60a5fa}{e^a{}_\mu}\, \color{#60a5fa}{e^b{}_\nu}\]
                 </div>
@@ -401,10 +401,10 @@
             <h4>Simulation Checkpoint</h4>
             <p>Before coding, identify each term and its numerical requirements:</p>
             <ul>
-                <li><strong>Diffusion</strong> \(\nabla\!\cdot\!(D\nabla R)\): Second-order spatial derivative - requires implicit method for stability</li>
-                <li><strong>Advection</strong> \(-\nabla R\cdot\Omega\): First-order derivative - can cause numerical oscillations</li>
-                <li><strong>Relaxation</strong> \(\chi\partial_X R = \chi(R-R_{\rm bg})/L_X\): Drives toward equilibrium</li>
-                <li><strong>Source</strong> \(S\): Torsion coupling \(S = 2\alpha \mathbb{T} R\)</li>
+                <li><strong>Diffusion</strong> \(\Diff{\nabla\!\cdot\!(D\nabla R)}\): Second-order spatial derivative - requires implicit method for stability</li>
+                <li><strong>Advection</strong> \(-\Diff{\nabla R}\cdot\Tor{\Omega}\): First-order derivative - can cause numerical oscillations</li>
+                <li><strong>Relaxation</strong> \(\XCRM{\chi}\XCRM{\partial_X} \Diff{R} = \XCRM{\chi}(\Diff{R}-R_{\rm bg})/\XCRM{L_X}\): Drives toward equilibrium</li>
+                <li><strong>Source</strong> \(\Matt{S}\): Torsion coupling \(\Matt{S} = 2\Tor{\alpha} \Tor{\mathbb{T}} \Diff{R}\)</li>
             </ul>
         </div>
     </section>
@@ -441,12 +441,12 @@
         <p>Coherence length from theory (<a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-green)">Tech. Appendix Eq. B.9</a>):</p>
         <div class="eq">
             \[\color{#22d3ee}{\ell_{\rm coh}} = \frac{\sqrt{2}\,\color{#fbbf24}{L_X}}{\color{#a78bfa}{y}\,\color{#4ade80}{\sigma_R}}\]
-            <div class="eq-label">With \(y=1\) (default): \(\ell_{\rm coh} = \sqrt{2}\,L_X/\sigma_R\)</div>
+            <div class="eq-label">With \(\Quant{y}=1\) (default): \(\Matt{\ell_{\rm coh}} = \sqrt{2}\,\XCRM{L_X}/\Diff{\sigma_R}\)</div>
         </div>
 
         <h3>Emergent 4D Equation (Closure)</h3>
         <p>
-            Integrating the 5D STUR action over the internal coherence coordinate \(X\) in the adiabatic limit
+            Integrating the 5D STUR action over the internal coherence coordinate \(\XCRM{X}\) in the adiabatic limit
             yields an effective 4D equation for the coarse-grained resistance field:
         </p>
         <div class="eq boxed">
@@ -454,8 +454,8 @@
             <div class="eq-label">Emergent 4D - Dimensional Reduction Closure</div>
         </div>
         <p style="color:var(--text-dim);font-size:0.9rem;">
-            where \(\Gamma \sim 1/L_X\) and \(\xi\) is a Markovian noise term with variance fixed by \(\sigma_R\).
-            This closes the XCRM loop. With \(\sigma_R\) derived from XCRM equilibrium, \(L_X\) is the single free parameter.
+            where \(\Pot{\Gamma} \sim 1/\XCRM{L_X}\) and \(\Matt{\xi}\) is a Markovian noise term with variance fixed by \(\Diff{\sigma_R}\).
+            This closes the XCRM loop. With \(\Diff{\sigma_R}\) derived from XCRM equilibrium, \(\XCRM{L_X}\) is the single free parameter.
         </p>
 
         <h3>Loop Enhancement (Area Scaling)</h3>
@@ -467,13 +467,13 @@
             <div class="eq-label">Loop Holonomy - Pathway to Macroscopic Observability</div>
         </div>
         <p style="color:var(--text-dim);font-size:0.9rem;">
-            This scaling provides a concrete pathway to macroscopic observability despite microscopic \(L_X\).
-            The loop-enhanced coherence length scales as \(\ell_{\rm coh}^{\rm loop} = \ell_{\rm coh}^{\rm linear} \cdot \xi/\sqrt{A}\).
+            This scaling provides a concrete pathway to macroscopic observability despite microscopic \(\XCRM{L_X}\).
+            The loop-enhanced coherence length scales as \(\Matt{\ell_{\rm coh}^{\rm loop}} = \Matt{\ell_{\rm coh}^{\rm linear}} \cdot \Matt{\xi}/\sqrt{A}\).
         </p>
 
         <div class="panel good">
             <h4>Why This Is Falsifiable</h4>
-            <p>STUR predicts visibility depends on <strong>arm separation dL only</strong>, NOT on:</p>
+            <p>STUR predicts visibility depends on <strong>arm separation \(\Matt{\Delta L}\) only</strong>, NOT on:</p>
             <ul>
                 <li>Particle mass (neutrons and atoms must agree)</li>
                 <li>Interrogation time (unlike decoherence models)</li>
@@ -496,18 +496,18 @@
         <h3>Why Not Explicit Euler?</h3>
         <p>Simple forward Euler has a strict stability limit (CFL condition):</p>
         <div class="eq">
-            \[\Delta t < \frac{(\Delta x)^2}{2D} \quad \text{(explicit stability limit)}\]
+            \[\Delta t < \frac{(\Delta x)^2}{2\Diff{D}} \quad \text{(explicit stability limit)}\]
         </div>
         <p>This forces tiny timesteps for fine grids. Crank-Nicolson removes this restriction.</p>
 
         <h3>Crank-Nicolson: Semi-Implicit Averaging</h3>
         <p>Average the spatial operator between time levels \(n\) and \(n+1\):</p>
         <div class="eq boxed">
-            \[\frac{R_i^{n+1} - R_i^n}{\Delta t} = \frac{1}{2}\Big[\mathcal{L}(R^n) + \mathcal{L}(R^{n+1})\Big]\]
+            \[\frac{\Diff{R}_i^{n+1} - \Diff{R}_i^n}{\Delta t} = \frac{1}{2}\Big[\mathcal{L}(\Diff{R}^n) + \mathcal{L}(\Diff{R}^{n+1})\Big]\]
             <div class="eq-label">Unconditionally stable for diffusion</div>
         </div>
 
-        <p>This yields a <strong>tridiagonal system</strong> \(\mathbf{A}\cdot R^{n+1} = \mathbf{b}\), solved efficiently via Thomas algorithm.</p>
+        <p>This yields a <strong>tridiagonal system</strong> \(\mathbf{A}\cdot \Diff{R}^{n+1} = \mathbf{b}\), solved efficiently via Thomas algorithm.</p>
 
         <h3>Code Pattern: Thomas Algorithm (TDMA)</h3>
         <pre class="stur-code">// Solve: a[i]*x[i-1] + b[i]*x[i] + c[i]*x[i+1] = d[i]
@@ -538,7 +538,7 @@ function solveTridiagonal(a, b, c, d) {
             <h4>Verification Requirements</h4>
             <p>Before trusting results, verify:</p>
             <ul>
-                <li><strong>Conservation:</strong> Does total "mass" \(\int R\,dx\) change only via boundaries/sources?</li>
+                <li><strong>Conservation:</strong> Does total "mass" \(\int \Diff{R}\,dx\) change only via boundaries/sources?</li>
                 <li><strong>Stability:</strong> No NaN/Inf, solution stays bounded for long runs</li>
                 <li><strong>Convergence:</strong> Halving \(\Delta x\) gives same answer (to numerical precision)</li>
                 <li><strong>Consistency:</strong> Known analytic solutions recovered exactly</li>
@@ -731,7 +731,7 @@ function solveTridiagonal(a, b, c, d) {
         <!-- TAB: GEOMETRY -->
         <div class="tab-content" id="tab-geometry">
             <p>
-                Explore the saturation operator \(S_u(u) = \tanh(u)(1-e^{-u})\) and its analytic derivative.
+                Explore the saturation operator \(\XCRM{S(u)} = \tanh(u)(1-e^{-u})\) and its analytic derivative.
                 A particle moves on this curve driven by the local slope.
             </p>
 
@@ -783,13 +783,13 @@ function solveTridiagonal(a, b, c, d) {
         <!-- TAB: CHRONOMAGNETICS -->
         <div class="tab-content" id="tab-chrono">
             <p>
-                Chronomagnetics introduces log-periodic modulation via the constant \(\lambda = 3722/2705\), <strong>derived from XCRM X-mode spectrum</strong>.
+                Chronomagnetics introduces log-periodic modulation via the constant \(\XCRM{\lambda} = 3722/2705\), <strong>derived from XCRM X-mode spectrum</strong>.
             </p>
             <div class="panel" style="margin:0.8rem 0;border-left:3px solid var(--neon-green);">
                 <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">
                     <strong style="color:var(--neon-green);">XCRM Closure:</strong> Chronomagnetics is <strong>derived from XCRM</strong>
                     (<a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">Foundations §5.3.6</a>).
-                    The constant \(\lambda\) emerges uniquely from the quantized X-mode spectrum on the orbifold.
+                    The constant \(\XCRM{\lambda}\) emerges uniquely from the quantized X-mode spectrum on the orbifold.
                 </p>
             </div>
 
@@ -805,7 +805,7 @@ function solveTridiagonal(a, b, c, d) {
                     <div class="eq">
                         \[\color{#f472b6}{\mathcal{M}(u)} = 1 + \epsilon\cos\!\left(\frac{2\pi u}{\ln\color{#fbbf24}{\lambda}}\right)\]
                     </div>
-                    <p>where \(u(t) = \ln((t+t_c)/t_0)\).</p>
+                    <p>where \(\XCRM{u}(t) = \ln((t+t_c)/t_0)\).</p>
 
                     <div class="control" style="margin-top:1rem">
                         <label>Amplitude epsilon: <span id="eps_val">0.05</span></label>
@@ -858,11 +858,11 @@ function solveTridiagonal(a, b, c, d) {
         <div class="verify-grid" style="margin-top:.8rem">
             <div class="verify-card" style="border-color:#f87171">
                 <h4 style="color:#f87171">Time Scaling</h4>
-                <p>Visibility scales with interrogation time t rather than arm separation dL</p>
+                <p>Visibility scales with interrogation time \(t\) rather than arm separation \(\Matt{\Delta L}\)</p>
             </div>
             <div class="verify-card" style="border-color:#f87171">
                 <h4 style="color:#f87171">Mass Dependence</h4>
-                <p>Neutron and atom interferometers disagree at identical dL</p>
+                <p>Neutron and atom interferometers disagree at identical \(\Matt{\Delta L}\)</p>
             </div>
             <div class="verify-card" style="border-color:#f87171">
                 <h4 style="color:#f87171">Wrong Functional Form</h4>
@@ -870,7 +870,7 @@ function solveTridiagonal(a, b, c, d) {
             </div>
             <div class="verify-card" style="border-color:#f87171">
                 <h4 style="color:#f87171">No Signal at All</h4>
-                <p>No dL-dependent suppression at >=5sigma with MAGIS-100 sensitivity</p>
+                <p>No \(\Matt{\Delta L}\)-dependent suppression at >=5sigma with MAGIS-100 sensitivity</p>
             </div>
         </div>
 
@@ -918,12 +918,12 @@ function solveTridiagonal(a, b, c, d) {
         <strong style="color:var(--neon-green);">Framework Closure Status</strong>
         <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.9rem;">
             <strong>Level 1 (Closed):</strong> Emergent 4D equation via X-integration;
-            coherence length \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\) derived from manifold geometry.<br>
+            coherence length \(\Matt{\ell_{\rm coh}} = \sqrt{2}\, \XCRM{L_X} / \Diff{\sigma_R}\) derived from manifold geometry.<br>
             <strong>Level 2 (Closed):</strong> Loop enhancement via Stokes' theorem provides observability pathway.<br>
-            <strong>Level 3 (Closed):</strong> \(\sigma_R\) derived from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">§5.3.5</a>).
+            <strong>Level 3 (Closed):</strong> \(\Diff{\sigma_R}\) derived from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">§5.3.5</a>).
         </p>
         <p style="margin:0.5rem 0 0;color:var(--text-dim);font-size:0.85rem;">
-            After XCRM closure, STUR has <strong>a single free parameter</strong> \(L_X\) (compactification scale).
+            After XCRM closure, STUR has <strong>a single free parameter</strong> \(\XCRM{L_X}\) (compactification scale).
             All other parameters are derived from XCRM dynamics on the orbifold manifold.
         </p>
     </div>
