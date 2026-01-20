@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -127,7 +122,7 @@
                         <li><strong>STUR modulator form:</strong> \(S_u(u) = \tanh(u)(1 - e^{-u})\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
                         <li><strong>Bounded saturation:</strong> \(M \to \text{finite}\) as \(t \to \infty\)</li>
                         <li><strong>Coherence suppression:</strong> \(\exp(-R_q \cdot S_u)\) — follows from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
-                        <li><strong>Coherence length:</strong> \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                        <li><strong>Coherence length:</strong> \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
                         <li><strong>\(\lambda = 3722/2705\):</strong> Derived from XCRM X-mode spectrum — from <a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">§5.3.6</a></li>
                     </ul>
                 </div>

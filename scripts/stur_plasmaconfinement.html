@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -124,7 +119,7 @@
                     <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
                         <li><strong>STUR modulator form:</strong> \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\)</li>
-                        <li><strong>Coherence length closure:</strong> \(L_0 = \sqrt{2}L_X/\sigma_R\)</li>
+                        <li><strong>Coherence length closure:</strong> \(L_0 = \sqrt{2}L_X/(y\sigma_R)\) with \(y=1\)</li>
                         <li><strong>GR coupling:</strong> Weak-field metric correction</li>
                     </ul>
                 </div>
