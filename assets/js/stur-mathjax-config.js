@@ -85,6 +85,12 @@ window.MathJax = {
   },
   options: {
     // Disable context menu to prevent broken button rendering
-    enableMenu: false
+    enableMenu: false,
+    // Disable assistive MathML which renders as broken buttons
+    enableAssistiveMml: false,
+    // Disable speech text generation
+    enableSpeech: false,
+    // Disable exploration features
+    enableExplorer: false
   }
 };

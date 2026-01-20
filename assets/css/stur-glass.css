@@ -1048,9 +1048,24 @@ mjx-container[display="true"] {
 mjx-assistive-mml,
 .MathJax_MenuClose,
 .MathJax_HoverArrow,
+.MathJax_Preview,
 mjx-container button,
-mjx-container [role="button"] {
+mjx-container [role="button"],
+mjx-container [data-action],
+mjx-container .MJX-TEX + *:not(mjx-math),
+[class*="MathJax"] button,
+[class*="MathJax"] [role="button"],
+maction,
+mjx-maction,
+mjx-container + button,
+mjx-container + [role="button"] {
   display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  pointer-events: none !important;
 }
 
 /* Ensure MathJax elements inside lists don't create unwanted elements */
