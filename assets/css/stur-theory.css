@@ -61,10 +61,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(ellipse at 20% 0%, rgba(74, 158, 255, 0.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, rgba(167, 139, 250, 0.04) 0%, transparent 50%),
-    var(--bg);
+  background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
   font-size: 16px;
@@ -183,7 +180,7 @@ a:hover { color: var(--accent-secondary); }
 
 .page-nav a:hover {
   color: var(--accent);
-  background: rgba(56, 189, 248, 0.08);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .page-nav .prev::before { content: "← "; }
@@ -196,10 +193,10 @@ a:hover { color: var(--accent-secondary); }
   position: sticky;
   top: 60px;
   z-index: 50;
-  background: linear-gradient(180deg, rgba(5, 10, 20, 0.98), rgba(5, 10, 20, 0.95));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
+  background: rgba(5, 7, 12, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-sm);
   padding: 0.75rem 1rem;
   margin: 1rem 0 1.5rem;
@@ -270,12 +267,14 @@ a:hover { color: var(--accent-secondary); }
    SECTIONS
    ============================================================ */
 .section {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius);
   padding: 1.5rem;
   margin: 1rem 0;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
   scroll-margin-top: 80px;
 }
 
@@ -318,8 +317,10 @@ a:hover { color: var(--accent-secondary); }
    EQUATIONS
    ============================================================ */
 .eq {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-sm);
   padding: 0.85rem 1.1rem;
   margin: 0.75rem 0;
@@ -327,18 +328,18 @@ a:hover { color: var(--accent-secondary); }
 }
 
 .eq.law {
-  border: 2px solid rgba(251, 191, 36, 0.5);
-  background: rgba(251, 191, 36, 0.04);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  background: rgba(251, 191, 36, 0.02);
 }
 
 .eq.boxed {
-  border: 1px solid rgba(74, 158, 255, 0.4);
-  background: rgba(74, 158, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .eq.definition {
-  border-left: 4px solid var(--accent-secondary);
-  background: rgba(167, 139, 250, 0.03);
+  border-left: 3px solid var(--accent-secondary);
+  background: rgba(167, 139, 250, 0.02);
 }
 
 .eq-label {
@@ -353,17 +354,19 @@ a:hover { color: var(--accent-secondary); }
    BLOCK CALLOUTS
    ============================================================ */
 .block {
-  border-left: 4px solid var(--accent);
-  background: rgba(74, 158, 255, 0.04);
+  border-left: 3px solid var(--accent);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 1rem 1.1rem;
   margin: 0.9rem 0;
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
-.block.gold { border-left-color: var(--gold); background: rgba(251, 191, 36, 0.04); }
-.block.success { border-left-color: var(--success); background: rgba(52, 211, 153, 0.04); }
-.block.warning { border-left-color: var(--warning); background: rgba(245, 158, 11, 0.05); }
-.block.error { border-left-color: var(--error); background: rgba(239, 68, 68, 0.05); }
+.block.gold { border-left-color: var(--gold); background: rgba(251, 191, 36, 0.02); }
+.block.success { border-left-color: var(--success); background: rgba(52, 211, 153, 0.02); }
+.block.warning { border-left-color: var(--warning); background: rgba(245, 158, 11, 0.02); }
+.block.error { border-left-color: var(--error); background: rgba(239, 68, 68, 0.02); }
 
 .block .title {
   font-size: 0.75rem;
@@ -389,10 +392,12 @@ a:hover { color: var(--accent-secondary); }
 }
 
 .card {
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-sm);
   padding: 0.9rem 1rem;
-  background: rgba(255, 255, 255, 0.015);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .card strong { color: var(--text); display: block; margin-bottom: 0.4rem; }
@@ -449,8 +454,10 @@ tr:hover td { background: rgba(255, 255, 255, 0.02); }
    FIGURES
    ============================================================ */
 .figure {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--border-strong);
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius);
   padding: 1.25rem;
   margin: 1rem 0;
@@ -476,15 +483,15 @@ tr:hover td { background: rgba(255, 255, 255, 0.02); }
    DERIVATION STEPS
    ============================================================ */
 .derivation {
-  background: rgba(167, 139, 250, 0.03);
-  border: 1px solid rgba(167, 139, 250, 0.2);
+  background: rgba(167, 139, 250, 0.02);
+  border: 1px solid rgba(167, 139, 250, 0.12);
   border-radius: var(--radius-sm);
   padding: 1rem 1.1rem;
   margin: 0.75rem 0;
 }
 
 .derivation .step {
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.2);
   border-left: 3px solid var(--accent);
   padding: 0.5rem 0.75rem;
   margin: 0.5rem 0;
