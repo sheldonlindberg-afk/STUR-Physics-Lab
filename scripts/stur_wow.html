@@ -116,9 +116,9 @@
         <div class="glass-section-body" style="font-size:0.97rem;">
             <p style="margin-bottom:0.7rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--neon-green);">
-                <li>5D damped wave equation — from torsion sector \(L_{\text{torsion}}\)</li>
-                <li>Resistance field dynamics \(R(t,x,X)\) — from Langevin equation</li>
-                <li>Wave packet localization — from XCRM coupling \(U(X-R)\)</li>
+                <li>5D damped wave equation — from torsion sector \(\Tor{L_{\text{torsion}}}\)</li>
+                <li>Resistance field dynamics \(\Diff{R(t,x,X)}\) — from Langevin equation</li>
+                <li>Wave packet localization — from XCRM coupling \(\XCRM{U(X-R)}\)</li>
             </ul>
             <p style="margin-bottom:0.7rem;"><strong style="color:#64748b;">Speculative Interpretations:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:#64748b;">
@@ -141,7 +141,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> The 1977 Wow! signal pattern "6EQUJ5" as detected by Big Ear radio telescope.</p>
             <p><strong>Scale:</strong> 72-second transit time with 10-second integration bins, dual-horn geometry separated by 180 seconds.</p>
-            <p><strong>Connection:</strong> The STUR 5D resistance field \(R(t,x,X)\) projects a localized wave packet that produces the characteristic SNR profile.</p>
+            <p><strong>Connection:</strong> The STUR 5D resistance field \(\Diff{R(t,x,X)}\) projects a localized wave packet that produces the characteristic SNR profile.</p>
         </div>
     </section>
 
@@ -157,11 +157,11 @@
             <p>The Wow! signal analysis connects to the STUR framework through the 5D wave equation and torsion dynamics:</p>
 
             <ul>
-                <li><strong>Master Action foundation:</strong> The 5D damped wave equation derives from the <a href="stur_core_theory.html#master-action">Master Action</a> torsion term \(L_{\text{torsion}}\), which permits localized wave packet solutions propagating through the brane-bulk manifold.</li>
+                <li><strong>Master Action foundation:</strong> The 5D damped wave equation derives from the <a href="stur_core_theory.html#master-action">Master Action</a> torsion term \(\Tor{L_{\text{torsion}}}\), which permits localized wave packet solutions propagating through the brane-bulk manifold.</li>
 
-                <li><strong>Resistance field dynamics:</strong> The resistance field \(R(t,x,X)\) follows the stochastic evolution prescribed by the <a href="stur_core_theory.html#langevin">Effective Langevin Equation (6.2)</a>, with the damping coefficient \(\gamma\) and oscillation frequency \(\Omega\) determined by STUR parameters.</li>
+                <li><strong>Resistance field dynamics:</strong> The resistance field \(\Diff{R(t,x,X)}\) follows the stochastic evolution prescribed by the <a href="stur_core_theory.html#langevin">Effective Langevin Equation (6.2)</a>, with the damping coefficient \(\Pot{\gamma}\) and oscillation frequency \(\Pot{\Omega}\) determined by STUR parameters.</li>
 
-                <li><strong>Chronomagnetic interpretation:</strong> The Wow! signal's unique 72-second duration maps to a <a href="stur_chronomagnetics.html">Chronomagnetic</a> transition window where the resistance field briefly achieves coherence between brane (\(x=0\)) and bulk (\(X=0\)) coordinates.</li>
+                <li><strong>Chronomagnetic interpretation:</strong> The Wow! signal's unique 72-second duration maps to a <a href="stur_chronomagnetics.html">Chronomagnetic</a> transition window where the resistance field briefly achieves coherence between brane (\(\Diff{x}=0\)) and bulk (\(\XCRM{X}=0\)) coordinates.</li>
             </ul>
 
             <p>In the STUR interpretation, the Wow! signal represents a transient projection of 5D resistance field dynamics onto our 4D radio receiver, explaining both its extreme intensity and non-repetition. The super-Gaussian source envelope matches the theoretical prediction for a coherent bulk-to-brane energy transfer event.</p>
@@ -200,7 +200,7 @@
                 <div class="stur-eq-label">Master Action</div>
             </div>
 
-            <p><strong>5D wave equation:</strong> The resistance field evolves on a 5D manifold with brane coordinate \(x\) and bulk coordinate \(X\):</p>
+            <p><strong>5D wave equation:</strong> The resistance field evolves on a 5D manifold with brane coordinate \(\Diff{x}\) and bulk coordinate \(\XCRM{X}\):</p>
 
             <div class="stur-eq derived">
                 \[
@@ -237,8 +237,8 @@
             <p><strong>Key physics:</strong></p>
             <ul>
                 <li><strong>Leapfrog integration:</strong> Evolve the 5D field on a 64x64 grid with CFL-safe time steps.</li>
-                <li><strong>Earth-node probe:</strong> Extract \(\delta R(t) = R(t,0,0) - R_0\) at the brane-bulk origin.</li>
-                <li><strong>Radio projection:</strong> Map positive \(\delta R\) to narrowband complex baseband with noise.</li>
+                <li><strong>Earth-node probe:</strong> Extract \(\Diff{\delta R(t) = R(t,0,0) - R_0}\) at the brane-bulk origin.</li>
+                <li><strong>Radio projection:</strong> Map positive \(\Diff{\delta R}\) to narrowband complex baseband with noise.</li>
                 <li><strong>Dual horns:</strong> Horn A sees the packet; Horn B (180s later) sees only noise.</li>
             </ul>
 

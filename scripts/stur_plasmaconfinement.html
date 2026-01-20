@@ -80,7 +80,7 @@
         <h1 class="page-title-falsifiable">Plasma Torus 4D</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Multi-particle plasma confinement with STUR-modulated Lorentz force in weak-field GR.
-            Tests how the resistance scalar \(S(r)\) affects charged particle dynamics in a tokamak-like geometry.
+            Tests how the resistance scalar \(\XCRM{S(r)}\) affects charged particle dynamics in a tokamak-like geometry.
         </p>
 
         <!-- Status Badge -->
@@ -118,24 +118,24 @@
                 <div>
                     <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>STUR modulator form:</strong> \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\)</li>
-                        <li><strong>Coherence length closure:</strong> \(L_0 = \sqrt{2}L_X/(y\sigma_R)\) with \(y=1\)</li>
+                        <li><strong>STUR modulator form:</strong> \(\XCRM{S(r)} = \tanh(r/\Matt{L_0})(1 - e^{-r/\Matt{L_0}})\)</li>
+                        <li><strong>Coherence length closure:</strong> \(\Matt{L_0} = \sqrt{2}\XCRM{L_X}/(\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\)</li>
                         <li><strong>GR coupling:</strong> Weak-field metric correction</li>
                     </ul>
                 </div>
                 <div>
                     <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;">Phenomenological Inputs</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>\(L_0 = 1\) mm:</strong> Tokamak-scale coherence (phenomenological)</li>
-                        <li><strong>Torus geometry:</strong> \(R = 2\) cm, \(a = 4\) mm</li>
-                        <li><strong>Magnetic field:</strong> \(B_z = 1.5\) T</li>
+                        <li><strong>\(\Matt{L_0} = 1\) mm:</strong> Tokamak-scale coherence (phenomenological)</li>
+                        <li><strong>Torus geometry:</strong> \(\Tor{R} = 2\) cm, \(\Tor{a} = 4\) mm</li>
+                        <li><strong>Magnetic field:</strong> \(\Matt{B_z} = 1.5\) T</li>
                     </ul>
                 </div>
             </div>
             <div style="margin-top:1rem;padding:0.75rem;background:rgba(34,211,238,0.04);border-radius:8px;font-size:0.85rem;">
                 <strong style="color:var(--neon-cyan);">Connection to Core Theory:</strong>
                 This page tests the <em>torsion sector</em> in the relativistic plasma limit.
-                The FORM of \(S(r)\) is derived; the SCALE \(L_0 = 1\) mm is a phenomenological input for laboratory plasmas.
+                The FORM of \(\XCRM{S(r)}\) is derived; the SCALE \(\Matt{L_0} = 1\) mm is a phenomenological input for laboratory plasmas.
             </div>
         </div>
     </div>
@@ -146,19 +146,19 @@
       <div class="harness-grid">
         <div class="harness-section observable">
           <h4>Observable</h4>
-          <p>Particle confinement, mean STUR scalar \(\langle S \rangle\), Lorentz factor \(\gamma\), 4-velocity invariant \(u^\mu u_\mu\). Torus geometry with \(R = 2\,\text{cm}\), \(a = 4\,\text{mm}\), \(B_z = 1.5\,\text{T}\).</p>
+          <p>Particle confinement, mean STUR scalar \(\XCRM{\langle S \rangle}\), Lorentz factor \(\Matt{\gamma}\), 4-velocity invariant \(\Matt{u^\mu u_\mu}\). Torus geometry with \(\Tor{R} = 2\,\text{cm}\), \(\Tor{a} = 4\,\text{mm}\), \(\Matt{B_z} = 1.5\,\text{T}\).</p>
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
-          <p>Standard Lorentz force (\(S = 1\)) predicts no radius-dependent modulation.</p>
+          <p>Standard Lorentz force (\(\XCRM{S} = 1\)) predicts no radius-dependent modulation.</p>
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Radius-dependent confinement: \(S(r) < 1\) at small \(r\) reduces effective Lorentz force, modifying particle orbits.</p>
+          <p>Radius-dependent confinement: \(\XCRM{S(r)} < 1\) at small \(\Tor{r}\) reduces effective Lorentz force, modifying particle orbits.</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Confinement time, \(\langle S \rangle\) statistics, orbit deviation from standard Lorentz</p>
+          <p>Confinement time, \(\XCRM{\langle S \rangle}\) statistics, orbit deviation from standard Lorentz</p>
         </div>
       </div>
       <a href="stur_core_theory.html#sec3" class="core-ref">Core Definition: Torsion Sector</a>
@@ -173,9 +173,9 @@
             <h2 class="glass-section-title">What This Page Tests</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Particle confinement quality, mean STUR scalar \(\langle S \rangle\), Lorentz factor \(\gamma\), and 4-velocity invariant \(u^\mu u_\mu \approx -c^2\).</p>
-            <p><strong>Geometry:</strong> Torus with major radius \(R = 2\,\text{cm}\), minor radius \(a = 4\,\text{mm}\), uniform \(B_z = 1.5\,\text{T}\).</p>
-            <p><strong>Regime:</strong> Relativistic (\(\beta_0 = 0.12\)), weak-field GR with Earth gravity, Markovian STUR per particle.</p>
+            <p><strong>Observable:</strong> Particle confinement quality, mean STUR scalar \(\XCRM{\langle S \rangle}\), Lorentz factor \(\Matt{\gamma}\), and 4-velocity invariant \(\Matt{u^\mu u_\mu} \approx -c^2\).</p>
+            <p><strong>Geometry:</strong> Torus with major radius \(\Tor{R} = 2\,\text{cm}\), minor radius \(\Tor{a} = 4\,\text{mm}\), uniform \(\Matt{B_z} = 1.5\,\text{T}\).</p>
+            <p><strong>Regime:</strong> Relativistic (\(\Matt{\beta_0} = 0.12\)), weak-field GR with Earth gravity, Markovian STUR per particle.</p>
         </div>
     </section>
 
@@ -223,7 +223,7 @@
                 <div class="stur-eq-label">Physical Radius with GR Correction</div>
             </div>
 
-            <p><strong>Key parameter:</strong> \(L_0 = \sqrt{2}L_X/\sigma_R = 1\,\text{mm}\) sets the STUR modulation scale.</p>
+            <p><strong>Key parameter:</strong> \(\Matt{L_0} = \sqrt{2}\XCRM{L_X}/\Diff{\sigma_R} = 1\,\text{mm}\) sets the STUR modulation scale.</p>
         </div>
     </section>
 
@@ -238,12 +238,12 @@
         <div class="glass-section-body">
             <p><strong>STUR predicts:</strong></p>
             <ul>
-                <li><strong>Enhanced confinement:</strong> \(S < 1\) at small radii reduces effective Lorentz force, softening orbits.</li>
-                <li><strong>Invariant preservation:</strong> \(u^\mu u_\mu = -c^2\) maintained through split-step Boris integration.</li>
-                <li><strong>Geometric dependence:</strong> Mean \(\langle S \rangle\) depends on torus geometry via \(r_{\text{phys}}/L_0\).</li>
+                <li><strong>Enhanced confinement:</strong> \(\XCRM{S} < 1\) at small radii reduces effective Lorentz force, softening orbits.</li>
+                <li><strong>Invariant preservation:</strong> \(\Matt{u^\mu u_\mu} = -c^2\) maintained through split-step Boris integration.</li>
+                <li><strong>Geometric dependence:</strong> Mean \(\XCRM{\langle S \rangle}\) depends on torus geometry via \(\Tor{r_{\text{phys}}}/\Matt{L_0}\).</li>
             </ul>
 
-            <p><strong>Competitor model:</strong> Standard Lorentz force (\(S = 1\)) predicts no radius-dependent modulation.</p>
+            <p><strong>Competitor model:</strong> Standard Lorentz force (\(\XCRM{S} = 1\)) predicts no radius-dependent modulation.</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
@@ -277,9 +277,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> 4-velocity invariant deviates: \(|u^\mu u_\mu + c^2| / c^2 > 0.01\).</li>
-                <li><strong>Kill-2:</strong> STUR modulation shows no radius dependence (mean \(S\) constant across all \(r\)).</li>
-                <li><strong>Kill-3:</strong> Particles escape confinement faster with STUR than without (\(S = 1\)).</li>
+                <li><strong>Kill-1:</strong> 4-velocity invariant deviates: \(|\Matt{u^\mu u_\mu} + c^2| / c^2 > 0.01\).</li>
+                <li><strong>Kill-2:</strong> STUR modulation shows no radius dependence (mean \(\XCRM{S}\) constant across all \(\Tor{r}\)).</li>
+                <li><strong>Kill-3:</strong> Particles escape confinement faster with STUR than without (\(\XCRM{S} = 1\)).</li>
             </ul>
 
             <!-- Verdict display -->

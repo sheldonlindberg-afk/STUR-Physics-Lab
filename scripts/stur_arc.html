@@ -81,7 +81,7 @@
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Models a STUR resistance "arc spring" — a microscopic oscillator formed by
             electromagnetic, gravitational, and quantum-pressure forces unified through
-            the resistance modulator \(S(r)\).
+            the resistance modulator \(\XCRM{S(r)}\).
         </p>
 
         <!-- Status Badge -->
@@ -117,20 +117,20 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
-                <li>STUR modulator form: \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Potential form \(\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>STUR modulator form: \(\XCRM{S(r)} = \tanh(r/\Matt{L_0})(1 - e^{-r/\Matt{L_0}})\) — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
+                <li>Coherence length: \(\Matt{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / (\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
                 <li>Resistance-mediated dynamics — S(r) gates all force contributions</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Modulation length \(L_0 = 10^{-10}\,\text{m}\) — atomic scale chosen for this domain</li>
-                <li>Force coefficients (Coulomb \(k_e\), gravity \(G\), string tension \(\sigma\))</li>
-                <li>Feedback stiffness gain \(k_{\text{fb}}\) — phenomenological parameter</li>
+                <li>Modulation length \(\Matt{L_0} = 10^{-10}\,\text{m}\) — atomic scale chosen for this domain</li>
+                <li>Force coefficients (Coulomb \(\Tor{k_e}\), gravity \(\Tor{G}\), string tension \(\Matt{\sigma}\))</li>
+                <li>Feedback stiffness gain \(\Diff{k_{\text{fb}}}\) — phenomenological parameter</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
-                <strong>Connection to Core Theory:</strong> The modulator S(r) emerges from the potential term V(R) in the Master Action.
-                The functional form is non-negotiable; only the length scale \(L_0\) is domain-specific.
+                <strong>Connection to Core Theory:</strong> The modulator \(\XCRM{S(r)}\) emerges from the potential term \(\Pot{V(R)}\) in the Master Action.
+                The functional form is non-negotiable; only the length scale \(\Matt{L_0}\) is domain-specific.
             </p>
         </div>
     </div>
@@ -141,19 +141,19 @@
       <div class="harness-grid">
         <div class="harness-section observable">
           <h4>Observable</h4>
-          <p>Effective stiffness \(k_{\text{eff}}\), trap frequency \(f_{\text{trap}}\), binding energy \(E_{\text{bind}}\), coherence ratio \(\eta_{\text{coh}}\). Radial 1D geometry with \(L_0 \sim 10^{-10}\,\text{m}\).</p>
+          <p>Effective stiffness \(\Diff{k_{\text{eff}}}\), trap frequency \(\Diff{f_{\text{trap}}}\), binding energy \(\Pot{E_{\text{bind}}}\), coherence ratio \(\Matt{\eta_{\text{coh}}}\). Radial 1D geometry with \(\Matt{L_0} \sim 10^{-10}\,\text{m}\).</p>
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
-          <p>Standard oscillator without resistance modulation predicts constant stiffness independent of \(S(r)\).</p>
+          <p>Standard oscillator without resistance modulation predicts constant stiffness independent of \(\XCRM{S(r)}\).</p>
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Radius-dependent stiffness: \(k_{\text{eff}}(d) = k_{\text{static}} + k_{\text{fb}}/(d + \epsilon)\); trap frequency \(f = \sqrt{k_{\text{eff}}/m}/(2\pi)\) follows from S(r)-modulated force.</p>
+          <p>Radius-dependent stiffness: \(\Diff{k_{\text{eff}}}(d) = \Diff{k_{\text{static}}} + \Diff{k_{\text{fb}}}/(d + \epsilon)\); trap frequency \(\Diff{f} = \sqrt{\Diff{k_{\text{eff}}}/\Matt{m}}/(2\pi)\) follows from \(\XCRM{S(r)}\)-modulated force.</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Stiffness ratio \(k_{\text{eff}}/k_{\text{static}}\), trap frequency deviation, coherence ratio \(\eta_{\text{coh}}\)</p>
+          <p>Stiffness ratio \(\Diff{k_{\text{eff}}}/\Diff{k_{\text{static}}}\), trap frequency deviation, coherence ratio \(\Matt{\eta_{\text{coh}}}\)</p>
         </div>
       </div>
       <a href="stur_core_theory.html#sec3" class="core-ref">Core Definition: S(r) Modulator (§3)</a>
@@ -168,9 +168,9 @@
             <h2 class="glass-section-title">What This Page Tests</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Effective stiffness \(k_{\text{eff}}\), trap frequency \(f_{\text{trap}}\), binding energy \(E_{\text{bind}}\), and coherence ratio \(\eta_{\text{coh}}\) of a resistance-mediated oscillator.</p>
-            <p><strong>Geometry:</strong> Radial 1D configuration with characteristic length \(L_0 \sim 10^{-10}\,\text{m}\) and gap dynamics \(d(t)\).</p>
-            <p><strong>Regime:</strong> Coherent oscillations with damping — tests potential term \(V(R)\) and coupling to matter sector.</p>
+            <p><strong>Observable:</strong> Effective stiffness \(\Diff{k_{\text{eff}}}\), trap frequency \(\Diff{f_{\text{trap}}}\), binding energy \(\Pot{E_{\text{bind}}}\), and coherence ratio \(\Matt{\eta_{\text{coh}}}\) of a resistance-mediated oscillator.</p>
+            <p><strong>Geometry:</strong> Radial 1D configuration with characteristic length \(\Matt{L_0} \sim 10^{-10}\,\text{m}\) and gap dynamics \(\Matt{d(t)}\).</p>
+            <p><strong>Regime:</strong> Coherent oscillations with damping — tests potential term \(\Pot{V(R)}\) and coupling to matter sector.</p>
         </div>
     </section>
 
@@ -199,7 +199,7 @@
                 <div class="stur-eq-label">Master Action</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> Radial symmetry, classical (Markovian) regime with damping. The resistance modulator \(S(r)\) emerges from integrating out the X-dimension:</p>
+            <p><strong>Limit assumed:</strong> Radial symmetry, classical (Markovian) regime with damping. The resistance modulator \(\XCRM{S(r)}\) emerges from integrating out the X-dimension:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -222,7 +222,7 @@
                 <div class="stur-eq-label">Multi-Force STUR Coupling</div>
             </div>
 
-            <p><strong>Key parameter:</strong> The modulation length \(L_0 = \sqrt{2}L_X/\sigma_R\) determines the transition from quantum to classical regimes.</p>
+            <p><strong>Key parameter:</strong> The modulation length \(\Matt{L_0} = \sqrt{2}\XCRM{L_X}/\Diff{\sigma_R}\) determines the transition from quantum to classical regimes.</p>
         </div>
     </section>
 
@@ -237,12 +237,12 @@
         <div class="glass-section-body">
             <p><strong>STUR predicts:</strong></p>
             <ul>
-                <li><strong>Trap frequency:</strong> \(f_{\text{trap}} = \sqrt{k_{\text{eff}}/m_B}/(2\pi)\) determined by resistance-mediated stiffness.</li>
-                <li><strong>Coherence ratio:</strong> \(\eta_{\text{coh}} = \exp(-k_B T / E_{\text{bind}})\) stays high for tightly bound arcs.</li>
-                <li><strong>Feedback stiffening:</strong> As gap \(d \to 0\), effective stiffness increases: \(k_{\text{eff}}(d) = k_{\text{static}} + k_{\text{fb}}/(d + \epsilon)\).</li>
+                <li><strong>Trap frequency:</strong> \(\Diff{f_{\text{trap}}} = \sqrt{\Diff{k_{\text{eff}}}/\Matt{m_B}}/(2\pi)\) determined by resistance-mediated stiffness.</li>
+                <li><strong>Coherence ratio:</strong> \(\Matt{\eta_{\text{coh}}} = \exp(-k_B T / \Pot{E_{\text{bind}}})\) stays high for tightly bound arcs.</li>
+                <li><strong>Feedback stiffening:</strong> As gap \(\Matt{d} \to 0\), effective stiffness increases: \(\Diff{k_{\text{eff}}}(d) = \Diff{k_{\text{static}}} + \Diff{k_{\text{fb}}}/(d + \epsilon)\).</li>
             </ul>
 
-            <p><strong>Competitor model:</strong> Standard oscillator without resistance modulation — predicts constant stiffness independent of \(S(r)\).</p>
+            <p><strong>Competitor model:</strong> Standard oscillator without resistance modulation — predicts constant stiffness independent of \(\XCRM{S(r)}\).</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
@@ -276,9 +276,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Measured trap frequency deviates from \(f_{\text{trap}} = \sqrt{k_{\text{eff}}/m_B}/(2\pi)\) by more than 10%.</li>
-                <li><strong>Kill-2:</strong> Coherence ratio decays faster than \(\exp(-k_B T / E_{\text{bind}})\) predicts.</li>
-                <li><strong>Kill-3:</strong> Stiffness shows no dependence on gap distance \(d\) (no feedback mechanism).</li>
+                <li><strong>Kill-1:</strong> Measured trap frequency deviates from \(\Diff{f_{\text{trap}}} = \sqrt{\Diff{k_{\text{eff}}}/\Matt{m_B}}/(2\pi)\) by more than 10%.</li>
+                <li><strong>Kill-2:</strong> Coherence ratio decays faster than \(\exp(-k_B T / \Pot{E_{\text{bind}}})\) predicts.</li>
+                <li><strong>Kill-3:</strong> Stiffness shows no dependence on gap distance \(\Matt{d}\) (no feedback mechanism).</li>
             </ul>
 
             <!-- Verdict display -->

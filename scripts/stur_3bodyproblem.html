@@ -80,7 +80,7 @@
         <h1 class="page-title-falsifiable">3-Body RK4 Orbit</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Tests STUR-modified gravity in the classic 3-body problem. The resistance modulator
-            \(S(r)\) stabilizes equilateral orbits that would be chaotic in pure Newtonian gravity.
+            \(\XCRM{S(r)}\) stabilizes equilateral orbits that would be chaotic in pure Newtonian gravity.
         </p>
 
         <!-- Status Badge -->
@@ -118,16 +118,16 @@
                 <div>
                     <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>STUR modulator form:</strong> \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\)</li>
-                        <li><strong>Coherence length closure:</strong> \(L_0 = \ell_{\rm coh} = \sqrt{2}L_X/(y\sigma_R)\) with \(y=1\)</li>
-                        <li><strong>Newtonian limit:</strong> \(S(r) \to 1\) as \(r \gg L_0\)</li>
+                        <li><strong>STUR modulator form:</strong> \(\XCRM{S(r)} = \tanh(r/\Matt{L_0})(1 - e^{-r/\Matt{L_0}})\)</li>
+                        <li><strong>Coherence length closure:</strong> \(\Matt{L_0} = \Matt{\ell_{\rm coh}} = \sqrt{2}\XCRM{L_X}/(\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\)</li>
+                        <li><strong>Newtonian limit:</strong> \(\XCRM{S(r)} \to 1\) as \(r \gg \Matt{L_0}\)</li>
                     </ul>
                 </div>
                 <div>
                     <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;">Phenomenological Inputs</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>\(L_0 = 10^9\) m:</strong> Astrophysical coherence scale (phenomenological)</li>
-                        <li><strong>Mass:</strong> \(m = 10^{24}\) kg (Earth-like)</li>
+                        <li><strong>\(\Matt{L_0} = 10^9\) m:</strong> Astrophysical coherence scale (phenomenological)</li>
+                        <li><strong>Mass:</strong> \(\Matt{m} = 10^{24}\) kg (Earth-like)</li>
                         <li><strong>RK4 parameters:</strong> dt, steps/period (numerical)</li>
                     </ul>
                 </div>
@@ -135,8 +135,8 @@
             <div style="margin-top:1rem;padding:0.75rem;background:rgba(34,211,238,0.04);border-radius:8px;font-size:0.85rem;">
                 <strong style="color:var(--neon-cyan);">Connection to Core Theory:</strong>
                 This page tests the <em>torsion sector</em> of the Master Action in the classical limit.
-                The specific value \(L_0 = 10^9\) m is a phenomenological realization of \(\ell_{\rm coh}\) at astrophysical scales.
-                The FORM of \(S(r)\) is derived; the SCALE \(L_0\) is input.
+                The specific value \(\Matt{L_0} = 10^9\) m is a phenomenological realization of \(\Matt{\ell_{\rm coh}}\) at astrophysical scales.
+                The FORM of \(\XCRM{S(r)}\) is derived; the SCALE \(\Matt{L_0}\) is input.
             </div>
         </div>
     </div>
@@ -147,19 +147,19 @@
       <div class="harness-grid">
         <div class="harness-section observable">
           <h4>Observable</h4>
-          <p>Energy conservation \(\Delta E/E\), orbital stability, period regularity, triangle shape parameter \(\Delta_{abc}\). Equilateral triangle geometry with three equal masses (\(m = 10^{24}\,\text{kg}\)), \(L_0 = 10^9\,\text{m}\).</p>
+          <p>Energy conservation \(\Diff{\Delta E/E}\), orbital stability, period regularity, triangle shape parameter \(\Delta_{abc}\). Equilateral triangle geometry with three equal masses (\(\Matt{m} = 10^{24}\,\text{kg}\)), \(\Matt{L_0} = 10^9\,\text{m}\).</p>
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
-          <p>Newtonian gravity with no \(S(r)\) correction predicts chaotic instability and energy drift in general 3-body configurations.</p>
+          <p>Newtonian gravity with no \(\XCRM{S(r)}\) correction predicts chaotic instability and energy drift in general 3-body configurations.</p>
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Stable equilateral orbits: \(\Delta E/E < 10^{-15}\), \(S(r)\) regularizes short-range behavior preventing chaos.</p>
+          <p>Stable equilateral orbits: \(\Diff{\Delta E/E} < 10^{-15}\), \(\XCRM{S(r)}\) regularizes short-range behavior preventing chaos.</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Energy drift \(\Delta E/E\), Lyapunov exponent, orbital period variance</p>
+          <p>Energy drift \(\Diff{\Delta E/E}\), Lyapunov exponent, orbital period variance</p>
         </div>
       </div>
       <a href="stur_core_theory.html#appE" class="core-ref">Core Definition: Appendix E (Classical Limit)</a>
@@ -174,8 +174,8 @@
             <h2 class="glass-section-title">What This Page Tests</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Energy conservation \(\Delta E/E\), orbital stability, and period regularity over multiple orbits.</p>
-            <p><strong>Geometry:</strong> Equilateral triangle with side \(r = \sqrt{3}R\), three equal masses \(m = 10^{24}\,\text{kg}\).</p>
+            <p><strong>Observable:</strong> Energy conservation \(\Diff{\Delta E/E}\), orbital stability, and period regularity over multiple orbits.</p>
+            <p><strong>Geometry:</strong> Equilateral triangle with side \(r = \sqrt{3}R\), three equal masses \(\Matt{m} = 10^{24}\,\text{kg}\).</p>
             <p><strong>Regime:</strong> Classical gravitational (torsion sector from Master Action) with STUR regularization.</p>
         </div>
     </section>
@@ -216,7 +216,7 @@
                 <div class="stur-eq-label">STUR-Modified Gravitational Potential (Eq. E.4)</div>
             </div>
 
-            <p>The acceleration derives from the gradient of \(S(r)/r\):</p>
+            <p>The acceleration derives from the gradient of \(\XCRM{S(r)}/r\):</p>
 
             <div class="stur-eq derived">
                 \[
@@ -225,7 +225,7 @@
                 <div class="stur-eq-label">STUR Gravitational Acceleration</div>
             </div>
 
-            <p><strong>Key parameter:</strong> \(L_0 = \ell_{\rm coh} = \sqrt{2}L_X/\sigma_R\) (Eq. E.5). The value \(L_0 = 10^9\,\text{m}\)
+            <p><strong>Key parameter:</strong> \(\Matt{L_0} = \Matt{\ell_{\rm coh}} = \sqrt{2}\XCRM{L_X}/\Diff{\sigma_R}\) (Eq. E.5). The value \(\Matt{L_0} = 10^9\,\text{m}\)
                corresponds to a specific realization of the STUR coherence length at astrophysical scales.</p>
         </div>
     </section>
@@ -242,11 +242,11 @@
             <p><strong>STUR predicts:</strong></p>
             <ul>
                 <li><strong>Stable orbits:</strong> Equilateral configuration remains stable over many periods.</li>
-                <li><strong>Energy conservation:</strong> \(\Delta E/E \lesssim 10^{-15}\) with RK4 integration.</li>
-                <li><strong>STUR orbital frequency:</strong> \(\omega^2 = -3Gm \cdot \frac{d}{dr}[S(r)/r] / r\).</li>
+                <li><strong>Energy conservation:</strong> \(\Diff{\Delta E/E} \lesssim 10^{-15}\) with RK4 integration.</li>
+                <li><strong>STUR orbital frequency:</strong> \(\omega^2 = -3\Tor{G}\Matt{m} \cdot \frac{d}{dr}[\XCRM{S(r)}/r] / r\).</li>
             </ul>
 
-            <p><strong>Competitor model:</strong> Newtonian gravity (\(S = 1\)) shows chaotic instability for general 3-body configurations.</p>
+            <p><strong>Competitor model:</strong> Newtonian gravity (\(\XCRM{S} = 1\)) shows chaotic instability for general 3-body configurations.</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
@@ -280,9 +280,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Energy drift \(|\Delta E/E| > 10^{-10}\) despite correct integration.</li>
+                <li><strong>Kill-1:</strong> Energy drift \(|\Diff{\Delta E/E}| > 10^{-10}\) despite correct integration.</li>
                 <li><strong>Kill-2:</strong> Orbits become chaotic/unstable faster than Newtonian prediction.</li>
-                <li><strong>Kill-3:</strong> STUR orbital frequency \(\omega\) deviates from observed value by more than 1%.</li>
+                <li><strong>Kill-3:</strong> STUR orbital frequency \(\Tor{\omega}\) deviates from observed value by more than 1%.</li>
             </ul>
 
             <!-- Verdict display -->

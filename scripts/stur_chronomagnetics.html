@@ -81,7 +81,7 @@
         <h1 class="page-title-falsifiable">Chronomagnetics Simulator</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Tests the STUR time-travel diagnostic layer via the chronomagnetic modulation index.
-            The single parameter \(\sigma_R/L_X\) determines bounded invariants across cosmic epochs.
+            The single parameter \(\Diff{\sigma_R}/\XCRM{L_X}\) determines bounded invariants across cosmic epochs.
         </p>
 
         <!-- Status Badge -->
@@ -119,25 +119,25 @@
                 <div>
                     <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>STUR modulator form:</strong> \(S_u(u) = \tanh(u)(1 - e^{-u})\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
-                        <li><strong>Bounded saturation:</strong> \(M \to \text{finite}\) as \(t \to \infty\)</li>
-                        <li><strong>Coherence suppression:</strong> \(\exp(-R_q \cdot S_u)\) — follows from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
-                        <li><strong>Coherence length:</strong> \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
-                        <li><strong>\(\lambda = 3722/2705\):</strong> Derived from XCRM X-mode spectrum — from <a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">§5.3.6</a></li>
+                        <li><strong>STUR modulator form:</strong> \(\XCRM{S_u(u)} = \tanh(u)(1 - e^{-u})\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
+                        <li><strong>Bounded saturation:</strong> \(\Pot{M} \to \text{finite}\) as \(t \to \infty\)</li>
+                        <li><strong>Coherence suppression:</strong> \(\exp(-\Diff{R_q} \cdot \XCRM{S_u})\) — follows from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
+                        <li><strong>Coherence length:</strong> \(\Matt{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / (\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                        <li><strong>\(\Pot{\lambda} = 3722/2705\):</strong> Derived from XCRM X-mode spectrum — from <a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">§5.3.6</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 style="color:var(--neon-cyan);font-size:0.85rem;margin:0 0 0.5rem;">Simulation Parameters</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>\(R_q\) range:</strong> 0.2 – 2.5 (curvature parameter for visualization)</li>
-                        <li><strong>Cosmic epoch mapping:</strong> \(\tau\) from Planck to present</li>
+                        <li><strong>\(\Diff{R_q}\) range:</strong> 0.2 – 2.5 (curvature parameter for visualization)</li>
+                        <li><strong>Cosmic epoch mapping:</strong> \(\Tor{\tau}\) from Planck to present</li>
                     </ul>
                 </div>
             </div>
             <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.04);border-radius:8px;font-size:0.85rem;">
                 <strong style="color:var(--neon-green);">XCRM Closure:</strong>
                 Chronomagnetics is <em>derived from XCRM X-mode spectrum</em> (<a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">Foundations §5.3.6</a>).
-                The constant \(\lambda = 3722/2705\) emerges uniquely from quantized X-modes on the orbifold.
+                The constant \(\Pot{\lambda} = 3722/2705\) emerges uniquely from quantized X-modes on the orbifold.
                 This page tests the bounded-invariant structure of the derived modulation sector.
             </div>
         </div>
@@ -149,7 +149,7 @@
       <div class="harness-grid">
         <div class="harness-section observable">
           <h4>Observable</h4>
-          <p>Chronomagnetic modulation index \(M = R_q \cdot S_u(u_c)\), cosmic epoch transitions, R-field curvature \(R_q(t)\), XCRM modulator \(S_u\). Cosmological geometry spanning Planck epoch to present (\(\tau \in [-43.27, 17.6]\)).</p>
+          <p>Chronomagnetic modulation index \(\Pot{M} = \Diff{R_q} \cdot \XCRM{S_u(u_c)}\), cosmic epoch transitions, R-field curvature \(\Diff{R_q(t)}\), XCRM modulator \(\XCRM{S_u}\). Cosmological geometry spanning Planck epoch to present (\(\Tor{\tau} \in [-43.27, 17.6]\)).</p>
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
@@ -157,11 +157,11 @@
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Bounded modulation: \(M = R_q \cdot S_u(u_c) < 1\) at all epochs; saturation operator prevents divergence.</p>
+          <p>Bounded modulation: \(\Pot{M} = \Diff{R_q} \cdot \XCRM{S_u(u_c)} < 1\) at all epochs; saturation operator prevents divergence.</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>\(M_{\max}\), phase divergence, RMSE vs QM interference</p>
+          <p>\(\Pot{M_{\max}}\), phase divergence, RMSE vs QM interference</p>
         </div>
       </div>
       <a href="stur_core_theory.html#sec6" class="core-ref">Core Definition: Foundations §6 (Chronomagnetics)</a>
@@ -176,9 +176,9 @@
             <h2 class="glass-section-title">What This Page Tests</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Chronomagnetic modulation index \(M = R_q \cdot S_u(u_c)\) as a diagnostic for cosmic epoch transitions.</p>
-            <p><strong>Geometry:</strong> Time-travel parameter \(\tau\) maps log-time from Planck epoch (\(-43.27\)) to present (\(17.6\)).</p>
-            <p><strong>Regime:</strong> Bounded source dynamics with saturation operator \(S_u(u) = \tanh(u)(1 - e^{-u})\).</p>
+            <p><strong>Observable:</strong> Chronomagnetic modulation index \(\Pot{M} = \Diff{R_q} \cdot \XCRM{S_u(u_c)}\) as a diagnostic for cosmic epoch transitions.</p>
+            <p><strong>Geometry:</strong> Time-travel parameter \(\Tor{\tau}\) maps log-time from Planck epoch (\(-43.27\)) to present (\(17.6\)).</p>
+            <p><strong>Regime:</strong> Bounded source dynamics with saturation operator \(\XCRM{S_u(u)} = \tanh(u)(1 - e^{-u})\).</p>
         </div>
     </section>
 
@@ -225,7 +225,7 @@
                 <div class="stur-eq-label">Chronomagnetic Index</div>
             </div>
 
-            <p><strong>Key parameter:</strong> \(L_X\) is the single free parameter; \(\sigma_R\) is <a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">derived from XCRM</a>. The coherence suppression \(\text{coh} = \exp(-R_q \cdot S_u)\) and phase damping \(\exp(-\frac{1}{2}(R_q \cdot S_u)^2)\) follow from the closure.</p>
+            <p><strong>Key parameter:</strong> \(\XCRM{L_X}\) is the single free parameter; \(\Diff{\sigma_R}\) is <a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">derived from XCRM</a>. The coherence suppression \(\Matt{\text{coh}} = \exp(-\Diff{R_q} \cdot \XCRM{S_u})\) and phase damping \(\exp(-\frac{1}{2}(\Diff{R_q} \cdot \XCRM{S_u})^2)\) follow from the closure.</p>
         </div>
     </section>
 
@@ -240,9 +240,9 @@
         <div class="glass-section-body">
             <p><strong>STUR predicts:</strong></p>
             <ul>
-                <li><strong>Bounded invariants:</strong> M saturates to finite values even as \(t \to \infty\).</li>
-                <li><strong>Regime transitions:</strong> Pre-saturation (\(M < 0.3\)), transitional (\(0.3 < M < 0.8\)), saturated (\(M > 0.8\)).</li>
-                <li><strong>Entropy export:</strong> Vacuum information leakage \(\Delta S = \langle 1 - \text{coh} \rangle / \ln 2\) bits.</li>
+                <li><strong>Bounded invariants:</strong> \(\Pot{M}\) saturates to finite values even as \(t \to \infty\).</li>
+                <li><strong>Regime transitions:</strong> Pre-saturation (\(\Pot{M} < 0.3\)), transitional (\(0.3 < \Pot{M} < 0.8\)), saturated (\(\Pot{M} > 0.8\)).</li>
+                <li><strong>Entropy export:</strong> Vacuum information leakage \(\Matt{\Delta S} = \langle 1 - \Matt{\text{coh}} \rangle / \ln 2\) bits.</li>
             </ul>
 
             <p><strong>Competitor model (Standard cosmology):</strong> No bounded saturation operator; divergent responses at extreme epochs.</p>
@@ -279,9 +279,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Modulation index \(M\) diverges at any cosmic epoch (saturation fails).</li>
-                <li><strong>Kill-2:</strong> RMSE between STUR and QM interference exceeds 5% at any \(R_q\).</li>
-                <li><strong>Kill-3:</strong> Phase divergence exceeds \(\pi/2\) in any regime (decoherence breakdown).</li>
+                <li><strong>Kill-1:</strong> Modulation index \(\Pot{M}\) diverges at any cosmic epoch (saturation fails).</li>
+                <li><strong>Kill-2:</strong> RMSE between STUR and QM interference exceeds 5% at any \(\Diff{R_q}\).</li>
+                <li><strong>Kill-3:</strong> Phase divergence exceeds \(\Quant{\pi/2}\) in any regime (decoherence breakdown).</li>
             </ul>
 
             <!-- Verdict display -->

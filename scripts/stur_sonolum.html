@@ -81,7 +81,7 @@
         <h1 class="page-title-falsifiable">5D Chi-Coupled Sonoluminescence Lab</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Multi-fluid, multi-bubble sonoluminescence from driven Rayleigh-Plesset collapse with 5D torsion channel.
-            The single parameter \(\sigma_R/L_X\) determines chi-excitation scaling across fluids.
+            The single parameter \(\Diff{\sigma_R}/\XCRM{L_X}\) determines chi-excitation scaling across fluids.
         </p>
 
         <!-- Status Badge -->
@@ -117,20 +117,20 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
-                <li>5D torsion channel structure — from \(L_{\text{torsion}}\) term in Master Action</li>
-                <li>Chi-excitation coupling form: \(d\chi/dt \propto (R_0/R - 1)\) — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E.2</a></li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Potential form \(\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>5D torsion channel structure — from \(\Tor{L_{\text{torsion}}}\) term in Master Action</li>
+                <li>Chi-excitation coupling form: \(d\XCRM{\chi}/dt \propto (\Diff{R_0}/\Diff{R} - 1)\) — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E.2</a></li>
+                <li>Coherence length: \(\Matt{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / (\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Chi response rate \(\Gamma_\chi = 5 \times 10^6\) — requires experimental calibration</li>
+                <li>Chi response rate \(\Pot{\Gamma_\chi} = 5 \times 10^6\) — requires experimental calibration</li>
                 <li>Fluid parameters (density, viscosity, surface tension) — standard thermodynamics</li>
                 <li>Rayleigh-Plesset dynamics — classical bubble mechanics (not derived from STUR)</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
                 <strong>Connection to Core Theory:</strong> The chi-torsion channel emerges from the 5D torsion sector.
-                However, the coupling strength \(\Gamma_\chi\) and chi-scaling are phenomenological extensions requiring experimental validation.
+                However, the coupling strength \(\Pot{\Gamma_\chi}\) and chi-scaling are phenomenological extensions requiring experimental validation.
             </p>
         </div>
     </div>
@@ -141,7 +141,7 @@
       <div class="harness-grid">
         <div class="harness-section observable">
           <h4>Observable</h4>
-          <p>Peak temperature \(T_{\max}\), minimum radius \(R_{\min}/R_0\), chi-excitation \(|\chi|_{\max}\), Wien peak wavelength \(\lambda_{\text{peak}}\). Spherical bubble geometry with \(R_0 \approx 4.5\,\mu\text{m}\), \(f \approx 26\,\text{kHz}\).</p>
+          <p>Peak temperature \(\Matt{T_{\max}}\), minimum radius \(\Diff{R_{\min}}/\Diff{R_0}\), chi-excitation \(|\XCRM{\chi}|_{\max}\), Wien peak wavelength \(\Matt{\lambda_{\text{peak}}}\). Spherical bubble geometry with \(\Diff{R_0} \approx 4.5\,\mu\text{m}\), \(f \approx 26\,\text{kHz}\).</p>
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
@@ -149,11 +149,11 @@
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
-          <p>Chi-torsion excitation: \(d\chi/dt = \Gamma_\chi(R_0/R - 1)\); chi amplitude correlates with collapse ratio \(R_0/R_{\min}\).</p>
+          <p>Chi-torsion excitation: \(d\XCRM{\chi}/dt = \Pot{\Gamma_\chi}(\Diff{R_0}/\Diff{R} - 1)\); chi amplitude correlates with collapse ratio \(\Diff{R_0}/\Diff{R_{\min}}\).</p>
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Correlation \(\text{corr}(\chi_{\text{amp}}, R_0/R_{\min})\), Wien peak deviation, noble gas \(T_{\max}\) ordering</p>
+          <p>Correlation \(\text{corr}(\XCRM{\chi_{\text{amp}}}, \Diff{R_0}/\Diff{R_{\min}})\), Wien peak deviation, noble gas \(\Matt{T_{\max}}\) ordering</p>
         </div>
       </div>
       <a href="stur_core_theory.html#appE" class="core-ref">Core Definition: 5D Torsion Channel (App. E)</a>
@@ -168,8 +168,8 @@
             <h2 class="glass-section-title">What This Page Tests</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Peak temperature \(T_{\max}\), minimum radius \(R_{\min}/R_0\), and chi-excitation \(|\chi|_{\max}\) for collapsing sonoluminescent bubbles.</p>
-            <p><strong>Geometry:</strong> Spherical bubble of equilibrium radius \(R_0 \approx 4.5\,\mu\text{m}\) driven at \(f \approx 26\,\text{kHz}\) acoustic frequency.</p>
+            <p><strong>Observable:</strong> Peak temperature \(\Matt{T_{\max}}\), minimum radius \(\Diff{R_{\min}}/\Diff{R_0}\), and chi-excitation \(|\XCRM{\chi}|_{\max}\) for collapsing sonoluminescent bubbles.</p>
+            <p><strong>Geometry:</strong> Spherical bubble of equilibrium radius \(\Diff{R_0} \approx 4.5\,\mu\text{m}\) driven at \(f \approx 26\,\text{kHz}\) acoustic frequency.</p>
             <p><strong>Regime:</strong> Rayleigh-Plesset collapse with adiabatic heating and 5D torsion coupling.</p>
         </div>
     </section>
@@ -199,7 +199,7 @@
                 <div class="stur-eq-label">Master Action</div>
             </div>
 
-            <p><strong>Rayleigh-Plesset equation:</strong> The bubble radius \(R(t)\) obeys:</p>
+            <p><strong>Rayleigh-Plesset equation:</strong> The bubble radius \(\Diff{R(t)}\) obeys:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -227,7 +227,7 @@
                 <div class="stur-eq-label">Chi-Torsion Excitation (Eq. E.6)</div>
             </div>
 
-            <p><strong>Key parameter:</strong> \(\Gamma_\chi = \alpha/\ell_{\rm coh}\) (Eq. E.9), where \(\alpha\) is the torsion coupling.
+            <p><strong>Key parameter:</strong> \(\Pot{\Gamma_\chi} = \Tor{\alpha}/\Matt{\ell_{\rm coh}}\) (Eq. E.9), where \(\Tor{\alpha}\) is the torsion coupling.
                The chi variable is dimensionless per Eq. E.7, representing accumulated phase excitation.</p>
         </div>
     </section>
@@ -243,9 +243,9 @@
         <div class="glass-section-body">
             <p><strong>STUR predicts:</strong></p>
             <ul>
-                <li><strong>Noble gas enhancement:</strong> Ar, Xe, He reach hotter \(T_{\max}\) and shorter \(\lambda_{\text{peak}}\) than water-like fluids.</li>
-                <li><strong>Chi-excitation scaling:</strong> \(\chi_{\text{amp}} \propto (R_0/R_{\min} - 1)\) during collapse.</li>
-                <li><strong>Wien peak:</strong> \(\lambda_{\text{peak}} = 2.898 \times 10^{-3} / T_{\max}\) for blackbody-like emission.</li>
+                <li><strong>Noble gas enhancement:</strong> Ar, Xe, He reach hotter \(\Matt{T_{\max}}\) and shorter \(\Matt{\lambda_{\text{peak}}}\) than water-like fluids.</li>
+                <li><strong>Chi-excitation scaling:</strong> \(\XCRM{\chi_{\text{amp}}} \propto (\Diff{R_0}/\Diff{R_{\min}} - 1)\) during collapse.</li>
+                <li><strong>Wien peak:</strong> \(\Matt{\lambda_{\text{peak}}} = 2.898 \times 10^{-3} / \Matt{T_{\max}}\) for blackbody-like emission.</li>
             </ul>
 
             <p><strong>Competitor model (Classical SL):</strong> No 5D torsion channel; pure thermodynamic collapse without geometric coupling.</p>
@@ -282,9 +282,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Chi-excitation \(\chi_{\text{amp}}\) is uncorrelated with collapse ratio \(R_0/R_{\min}\).</li>
-                <li><strong>Kill-2:</strong> Noble gases show lower \(T_{\max}\) than predicted by adiabatic scaling.</li>
-                <li><strong>Kill-3:</strong> Wien peak \(\lambda_{\text{peak}}\) deviates by more than 20% from \(2.898 \times 10^{-3}/T_{\max}\).</li>
+                <li><strong>Kill-1:</strong> Chi-excitation \(\XCRM{\chi_{\text{amp}}}\) is uncorrelated with collapse ratio \(\Diff{R_0}/\Diff{R_{\min}}\).</li>
+                <li><strong>Kill-2:</strong> Noble gases show lower \(\Matt{T_{\max}}\) than predicted by adiabatic scaling.</li>
+                <li><strong>Kill-3:</strong> Wien peak \(\Matt{\lambda_{\text{peak}}}\) deviates by more than 20% from \(2.898 \times 10^{-3}/\Matt{T_{\max}}\).</li>
             </ul>
 
             <!-- Verdict display -->
