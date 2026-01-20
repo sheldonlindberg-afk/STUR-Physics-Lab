@@ -401,6 +401,7 @@ pre {
   --eq-potential: #f472b6;   /* Pink - Potential/relaxation */
   --eq-xcrm: #fbbf24;        /* Gold - XCRM coupling */
   --eq-torsion: #60a5fa;     /* Blue - Torsion/gravity */
+  --eq-quantum: #a78bfa;     /* Violet - Loop corrections/holonomy */
   --eq-matter: #22d3ee;      /* Cyan - Matter fields */
 
   /* Structural/notation colors */
@@ -417,6 +418,7 @@ pre {
 .eq-potential { color: var(--eq-potential); }
 .eq-xcrm { color: var(--eq-xcrm); }
 .eq-torsion { color: var(--eq-torsion); }
+.eq-quantum { color: var(--eq-quantum); }
 .eq-matter { color: var(--eq-matter); }
 
 /* Structural terms */
@@ -458,6 +460,7 @@ pre {
 .eq-legend-dot.potential { background: var(--eq-potential); box-shadow: 0 0 8px rgba(244, 114, 182, 0.4); }
 .eq-legend-dot.xcrm { background: var(--eq-xcrm); box-shadow: 0 0 8px rgba(251, 191, 36, 0.4); }
 .eq-legend-dot.torsion { background: var(--eq-torsion); box-shadow: 0 0 8px rgba(96, 165, 250, 0.4); }
+.eq-legend-dot.quantum { background: #a78bfa; box-shadow: 0 0 8px rgba(167, 139, 250, 0.4); }
 .eq-legend-dot.matter { background: var(--eq-matter); box-shadow: 0 0 8px rgba(34, 211, 238, 0.4); }
 .eq-legend-dot.action { background: var(--eq-action); box-shadow: 0 0 8px rgba(226, 232, 240, 0.4); }
 .eq-legend-dot.integral { background: var(--eq-integral); box-shadow: 0 0 8px rgba(196, 181, 253, 0.4); }
