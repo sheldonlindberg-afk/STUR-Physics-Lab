@@ -55,6 +55,8 @@ window.MathJax = {
       Tcal: '\\mathcal{T}',
       Hcal: '\\mathcal{H}',
       Ocal: '\\mathcal{O}',
+      Fcal: '\\mathcal{F}',
+      Dcal: '\\mathcal{D}',
 
       // Bold symbols
       bR: '\\mathbf{R}',
