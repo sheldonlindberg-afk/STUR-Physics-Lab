@@ -11,7 +11,20 @@ window.MathJax = {
   tex: {
     inlineMath: [['\\(','\\)']],
     displayMath: [['\\[','\\]']],
-    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}' }
+    macros: {
+      // Physics domain color macros - use these for consistent color coding
+      Diff: ['\\color{#4ade80}{#1}', 1],   // Green - Diffusion
+      Pot: ['\\color{#f472b6}{#1}', 1],    // Pink - Potential
+      XCRM: ['\\color{#fbbf24}{#1}', 1],   // Gold - XCRM
+      Tor: ['\\color{#60a5fa}{#1}', 1],    // Blue - Torsion
+      Quant: ['\\color{#a78bfa}{#1}', 1],  // Violet - Quantum
+      Matt: ['\\color{#22d3ee}{#1}', 1],   // Cyan - Matter
+      // Common symbols
+      Rcal: '\\mathcal{R}',
+      Mcal: '\\mathcal{M}',
+      Lcal: '\\mathcal{L}',
+      Tcal: '\\mathcal{T}'
+    }
   },
   svg: { fontCache: 'global' }
 };
@@ -44,8 +57,8 @@ window.MathJax = {
 
 <header class="masthead">
   <h1 class="page-title-core">STUR Core Theory</h1>
-  <p class="subtitle">Complete Theory: XCRM + MHP + DHP — All Physics from Three Axioms</p>
-  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg — v11.0 (Complete Theory)</p>
+  <p class="subtitle">Unified Framework: XCRM + MHP + DHP — Three Axioms, Testable Predictions</p>
+  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg — v11.0 · <em>Not yet peer-reviewed</em></p>
 </header>
 
 <!-- Physics Domain Color Legend -->
@@ -335,6 +348,24 @@ window.MathJax = {
   </div>
 </section>
 
+<!-- OPEN ISSUES -->
+<section class="section" id="open-issues" style="border:2px solid var(--warning);background:rgba(251,191,36,0.04);">
+  <h2 style="color:var(--warning);">Open Issues & Caveats</h2>
+  <p style="color:var(--text-secondary);margin-bottom:1rem;">
+    This framework makes specific testable predictions but also contains conjectural elements that require further development:
+  </p>
+  <ul style="color:var(--text-secondary);line-height:1.8;">
+    <li><strong style="color:var(--success);">Established:</strong> Gaussian visibility form from CLT, double-well from orbifold topology, coherence length relation, TEGR emergence in equilibrium.</li>
+    <li><strong style="color:var(--warning);">Conjectured:</strong> SM gauge group unique selection (only constrained, not uniquely derived), exactly 3 generations from index theorem (requires additional orbifold structure).</li>
+    <li><strong style="color:var(--warning);">Incomplete:</strong> MHP/DHP variational principles are stated but not fully formalized mathematically. UV completion claimed but 1-loop calculations not provided.</li>
+    <li><strong style="color:var(--error);">Unknown:</strong> The value of L<sub>X</sub> (compactification scale) is not determined from first principles—it must be measured experimentally.</li>
+  </ul>
+  <p style="color:var(--text-muted);font-size:0.9rem;margin-top:1rem;">
+    The core falsifiable prediction (Gaussian visibility) is mathematically sound regardless of these open issues.
+    See the <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a> for detailed status of each claim.
+  </p>
+</section>
+
 <!-- PAGE NAVIGATION -->
 <nav class="page-nav">
   <span></span>
@@ -342,8 +373,8 @@ window.MathJax = {
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Core Theory</strong> — v11.0 (Complete Theory)</p>
-  <p>© 2026 Sheldon Lon Lindberg</p>
+  <p><strong>STUR Core Theory</strong> — v11.0</p>
+  <p>© 2026 Sheldon Lon Lindberg · <em>Pre-print; not yet peer-reviewed</em></p>
 </footer>
 
 </div>

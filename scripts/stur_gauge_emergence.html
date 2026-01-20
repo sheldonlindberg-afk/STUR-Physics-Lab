@@ -6,16 +6,8 @@
 <title>STUR Gauge Emergence — Yang-Mills from XCRM Degeneracy</title>
 <meta name="description" content="How Yang-Mills gauge theory emerges from XCRM: the degeneracy manifold, gauge structure derivation, and Standard Model gauge group selection.">
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(','\\)']],
-    displayMath: [['\\[','\\]']],
-    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}', Dcal: '\\mathcal{D}', Fcal: '\\mathcal{F}', dd: '\\mathrm{d}' }
-  },
-  svg: { fontCache: 'global' }
-};
-</script>
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <link rel="stylesheet" href="../assets/css/stur-core.css">
@@ -75,17 +67,23 @@ window.MathJax = {
 <section class="section" id="xcrm-symmetry">
   <h2>5.1 XCRM Symmetry and Observables</h2>
 
-  <div class="block success" style="border-width:2px;">
-    <div class="title">Core Definition — XCRM Symmetry</div>
+  <div class="block" style="border-width:2px;border-color:var(--warning);">
+    <div class="title" style="color:var(--warning);">Core Definition — XCRM Symmetry (Assumption)</div>
     <p style="margin:0;color:var(--text-secondary)">
       Physical observables are invariant under local reparameterizations of internal resistance-coherence
       flow that preserve closed-loop holonomy:
     </p>
-    <div class="eq law" style="margin-top:0.75rem;background:#000;border:2px solid var(--success);">
+    <div class="eq law" style="margin-top:0.75rem;background:#000;border:2px solid var(--warning);">
       \[R(x,X) \;\longrightarrow\; R'(x,X') \quad \text{such that} \quad
       \oint_{\mathcal C} \mathsf{J}_a\, dx^a \;\text{ is invariant}\]
-      <div class="eq-label" style="color:var(--success);">(5.1) — XCRM Invariance</div>
+      <div class="eq-label" style="color:var(--warning);">(5.1) — XCRM Invariance</div>
     </div>
+    <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.9rem;font-style:italic;">
+      <strong>Methodological note:</strong> This definition embeds gauge-like structure (holonomy invariance)
+      as an assumption. The derivation shows that IF observables depend only on closed-loop holonomies,
+      THEN Yang-Mills structure follows. This is the standard fiber bundle → gauge theory correspondence,
+      not a first-principles derivation of gauge symmetry from non-gauge axioms.
+    </p>
   </div>
 
   <p>This definition immediately implies three fundamental consequences:</p>
@@ -230,12 +228,13 @@ window.MathJax = {
     </div>
   </div>
 
-  <div class="block success" style="border-width:2px;">
-    <div class="title">Complete XCRM Derivation</div>
+  <div class="block warning" style="border-width:2px;">
+    <div class="title">XCRM Gauge Constraints (Open Problem)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      <strong>The Standard Model gauge group is uniquely selected by XCRM constraints.</strong>
-      The combination of compactness, holonomy nontriviality, chirality + minimality,
-      and the requirement of anomaly cancellation leaves exactly one viable gauge group.
+      <strong>The Standard Model gauge group is strongly constrained—but not uniquely determined—by XCRM.</strong>
+      The combination of compactness, holonomy nontriviality, and chirality constraints rules out many gauge groups,
+      but other candidates (SU(5), SO(10), Pati-Salam) also satisfy these requirements. Additional selection
+      criteria from MHP holonomy minimization are conjectured but not yet rigorously derived.
     </p>
   </div>
 </section>
@@ -266,15 +265,15 @@ window.MathJax = {
   <h2 style="color:var(--success);">5.6 Summary: What XCRM Derives</h2>
 
   <div class="card-grid" style="margin:1rem 0;">
-    <div class="card" style="border:1px solid var(--success);background:rgba(74,222,128,0.04);">
-      <strong style="color:var(--success)">Derived from XCRM (Closed)</strong>
+    <div class="card" style="border:1px solid var(--accent);background:rgba(74,158,255,0.04);">
+      <strong style="color:var(--accent)">XCRM Derivations (Status)</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        • TEGR gravitational sector (§4)<br>
-        • Yang-Mills gauge structure (§5.1-5.3)<br>
-        • SM gauge group \(SU(3) \times SU(2) \times U(1)\) (§5.4)<br>
-        • Gaussian visibility form<br>
-        • Coherence length closure: \(\ell_{\rm coh} = \sqrt{2}L_X/\sigma_R\)<br>
-        • Fluctuation amplitude \(\sigma_R\) from XCRM equilibrium
+        • TEGR gravitational sector (§4) — <em style="color:var(--success);">established</em><br>
+        • Yang-Mills gauge structure (§5.1-5.3) — <em style="color:var(--success);">established</em><br>
+        • SM gauge group selection (§5.4) — <em style="color:var(--warning);">constrained, not unique</em><br>
+        • Gaussian visibility form — <em style="color:var(--success);">established (CLT)</em><br>
+        • Coherence length relation — <em style="color:var(--success);">established</em><br>
+        • \(\sigma_R\) from equilibrium — <em style="color:var(--warning);">requires T_eff input</em>
       </span>
     </div>
     <div class="card" style="border:1px solid var(--accent);background:rgba(74,158,255,0.04);">

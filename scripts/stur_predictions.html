@@ -6,16 +6,8 @@
 <title>STUR Predictions — Interferometric Signature from XCRM</title>
 <meta name="description" content="The falsifiable predictions of STUR: Gaussian visibility decay from XCRM holonomy, coherence length estimates, and distinguishing features from ULDM.">
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(','\\)']],
-    displayMath: [['\\[','\\]']],
-    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}', dd: '\\mathrm{d}' }
-  },
-  svg: { fontCache: 'global' }
-};
-</script>
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <link rel="stylesheet" href="../assets/css/stur-core.css">
@@ -209,6 +201,22 @@ window.MathJax = {
       For Planck-scale substrates, linear-path experiments cannot probe the coherence length.
       However, <strong>loop-based experiments</strong> can access the holonomy \(\Phi_R\) directly,
       which may be enhanced by topology and medium structure.
+    </p>
+  </div>
+
+  <div class="block error" style="margin-top:1.25rem;">
+    <div class="title">Uncertainty Acknowledgment</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>The coherence length estimates span 4+ orders of magnitude</strong> (10⁻⁵⁹ m to 10³ m)
+      because the key parameters \(L_X\) and \(K_{\rm eff}\) are unknown. Without an independent
+      determination of the compactification scale \(L_X\), the theory cannot make a sharp numerical
+      prediction for \(\ell_{\rm coh}\). Current null results (\(\ell_{\rm coh} > 1\) m from atom
+      interferometry) are consistent but do not strongly constrain the theory.
+    </p>
+    <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.9rem;">
+      <strong>What IS predicted sharply:</strong> The functional form V(ΔL) = V₀ exp(−ΔL²/ℓ²_coh) —
+      Gaussian in ΔL², no oscillations, no time dependence. This is testable regardless of the
+      unknown value of ℓ_coh.
     </p>
   </div>
 </section>
