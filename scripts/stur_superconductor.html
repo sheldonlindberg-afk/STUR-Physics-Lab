@@ -110,21 +110,21 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
-                <li>STUR modulator form: \(S(u) = \tanh(u)(1 - e^{-u})\) — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
-                <li>Bounded saturation: \(S \to 1\) as \(u \to \infty\)</li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Potential form \(\Pot{V(R) = \frac{\lambda}{4}(R^2-v^2)^2}\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>STUR modulator form: \(\XCRM{S(u) = \tanh(u)(1 - e^{-u})}\) — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
+                <li>Bounded saturation: \(\XCRM{S \to 1}\) as \(u \to \infty\)</li>
+                <li>Coherence length: \(\Diff{\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)}\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Geometric scale \(u_{\rm geo}\) — derived from molecular formula (heuristic mapping)</li>
-                <li>Chronon coupling \(u_{\rm chr}\) and gain \(\beta\) — phenomenological parameters</li>
-                <li>BCS baseline \(I_c^{\rm BCS}\) — standard BCS theory (not derived from STUR)</li>
-                <li>Pairing proxy \(T_c\) — user input / experimental estimate</li>
+                <li>Geometric scale \(\Diff{u_{\rm geo}}\) — derived from molecular formula (heuristic mapping)</li>
+                <li>Chronon coupling \(\XCRM{u_{\rm chr}}\) and gain \(\XCRM{\beta}\) — phenomenological parameters</li>
+                <li>BCS baseline \(\Matt{I_c^{\rm BCS}}\) — standard BCS theory (not derived from STUR)</li>
+                <li>Pairing proxy \(\Matt{T_c}\) — user input / experimental estimate</li>
                 <li>Thermal/isotope/phonon gates — phenomenological thresholds</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
-                <strong>Note:</strong> The STUR-modified critical current formula \(I_c^{\rm STUR} = I_c^{\rm BCS} \cdot \tanh(R_q \cdot S(u_{\rm eff}))\) is
+                <strong>Note:</strong> The STUR-modified critical current formula \(\XCRM{I_c^{\rm STUR}} = \Matt{I_c^{\rm BCS}} \cdot \tanh(R_q \cdot \XCRM{S(u_{\rm eff})})\) is
                 a <em>phenomenological ansatz</em> inspired by STUR, not rigorously derived. Connection to core predictions is exploratory.
             </p>
         </div>
@@ -139,8 +139,8 @@
             <h2 class="glass-section-title">What This Page Tests</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> ATS viability score \(V_{\text{ATS}}\), critical current \(I_c^{\text{STUR}}\), and survival under thermal/isotope/phonon gates.</p>
-            <p><strong>Geometry:</strong> Molecular formula determines geometric scale \(u_{\text{geo}}\) and chronon coupling \(u_{\text{chr}}\).</p>
+            <p><strong>Observable:</strong> ATS viability score \(\XCRM{V_{\text{ATS}}}\), critical current \(\XCRM{I_c^{\text{STUR}}}\), and survival under thermal/isotope/phonon gates.</p>
+            <p><strong>Geometry:</strong> Molecular formula determines geometric scale \(\Diff{u_{\text{geo}}}\) and chronon coupling \(\XCRM{u_{\text{chr}}}\).</p>
             <p><strong>Regime:</strong> Cooper-pair coherent regime with STUR-modified BCS pairing.</p>
         </div>
     </section>
@@ -174,7 +174,7 @@
 
             <div class="stur-eq derived">
                 \[
-                I_c^{\text{STUR}} = I_c^{\text{BCS}} \cdot \tanh\bigl(R_q \cdot S(u_{\text{eff}})\bigr)
+                \XCRM{I_c^{\text{STUR}}} = \Matt{I_c^{\text{BCS}}} \cdot \tanh\bigl(R_q \cdot \XCRM{S(u_{\text{eff}})}\bigr)
                 \]
                 <div class="stur-eq-label">STUR-Modified Critical Current</div>
             </div>
@@ -183,12 +183,12 @@
 
             <div class="stur-eq derived">
                 \[
-                S(u) = \tanh(u)\cdot(1 - e^{-u}), \quad u_{\text{eff}} = u_{\text{geo}} + \beta \cdot u_{\text{chr}}
+                \XCRM{S(u) = \tanh(u)\cdot(1 - e^{-u})}, \quad u_{\text{eff}} = \Diff{u_{\text{geo}}} + \XCRM{\beta \cdot u_{\text{chr}}}
                 \]
                 <div class="stur-eq-label">Combined Geometric-Chronon Scale</div>
             </div>
 
-            <p><strong>Key parameter:</strong> The viability integral \(V_{\text{ATS}} = \frac{1}{100}\sum I_c \Delta T\) over the 300-400 K range.</p>
+            <p><strong>Key parameter:</strong> The viability integral \(\XCRM{V_{\text{ATS}} = \frac{1}{100}\sum I_c \Delta T}\) over the 300-400 K range.</p>
         </div>
     </section>
 
