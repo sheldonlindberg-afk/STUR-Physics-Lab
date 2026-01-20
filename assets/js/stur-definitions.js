@@ -4,12 +4,68 @@
  * Canonical symbols, units, constants, and mappings for the STUR Physics Lab.
  * All pages should reference this single source of truth.
  *
- * @version 1.0.0
+ * @version 11.0 — Complete Theory (MHP + DHP)
  * @author Sheldon Lon Lindberg
  */
 
 const STUR_DEFINITIONS = {
-  version: "9.2",
+  version: "11.0",
+  versionName: "Complete Theory",
+
+  // ============================================================
+  // THE THREE AXIOMS
+  // ============================================================
+  axioms: {
+    masterAction: {
+      id: "Axiom 1",
+      name: "The Master Action",
+      description: "Defines the dynamics of the resistance field R on the 5D orbifold",
+      equation: "S_STUR = ∫ [½(∇R)² - V(R) + χR∂_X R + αR𝕋 + ℒ_matter] d⁵x"
+    },
+    mhp: {
+      id: "Axiom 2",
+      name: "Minimum Holonomy Principle (MHP)",
+      description: "Physical configurations minimize total holonomy action over non-contractible cycles",
+      equation: "Ω[A,ψ,X_i] = ∫ Tr(W†W) dμ + λ_ψ Σ∫|D_X ψ_i|² dX + κ·I_top",
+      closes: ["Gauge group", "Generations", "Flavor structure", "Yukawa hierarchies", "CKM/PMNS"]
+    },
+    dhp: {
+      id: "Axiom 3",
+      name: "Dynamical Holonomy Principle (DHP)",
+      description: "Universe evolves along path of minimum integrated holonomy action",
+      equation: "Ω_DHP[history] = ∫₀^t_f Ω[config(t)] dt",
+      closes: ["UV completion", "Neutrino masses", "CP violation", "Dark matter", "Λ problem", "Inflation", "Baryogenesis", "Quantum gravity"]
+    }
+  },
+
+  // ============================================================
+  // THEORY CLOSURE STATUS
+  // ============================================================
+  closure: {
+    status: "COMPLETE",
+    problemsClosed: 13,
+    problemsRemaining: 0,
+    freeParameters: 2,
+    parameters: {
+      L_X: { name: "Internal dimension size", range: "0.1-10 μm" },
+      lambda: { name: "R-field self-coupling", determines: "v = R_bg" }
+    },
+    closedProblems: [
+      { name: "Gauge group", mechanism: "MHP holonomy minimization", equation: "F.5" },
+      { name: "3 generations", mechanism: "Topological index", equation: "F.11" },
+      { name: "Flavor structure", mechanism: "MHP localization", equation: "F.8" },
+      { name: "Yukawa hierarchies", mechanism: "Wavefunction overlaps", equation: "F.9" },
+      { name: "CKM/PMNS", mechanism: "Localization geometry", equation: "H" },
+      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14" },
+      { name: "Neutrino masses", mechanism: "Maximal separation", equation: "F.16" },
+      { name: "CP violation", mechanism: "Holonomy phase mismatch", equation: "F.18" },
+      { name: "Dark matter", mechanism: "KK parity → LKP", equation: "F.20" },
+      { name: "Cosmological constant", mechanism: "DHP holonomy cancellation", equation: "F.22" },
+      { name: "Inflation", mechanism: "R-field slow-roll", equation: "F.24" },
+      { name: "Baryon asymmetry", mechanism: "XCRM phase transition", equation: "F.25" },
+      { name: "Quantum gravity", mechanism: "Holonomy path integral", equation: "F.27" }
+    ]
+  },
 
   // ============================================================
   // CORE CONSTANTS
@@ -80,18 +136,18 @@ const STUR_DEFINITIONS = {
   },
 
   // ============================================================
-  // FIRST PRINCIPLES (v9.2+)
+  // FIRST PRINCIPLES (v11.0 — Complete Theory)
   // ============================================================
   firstPrinciples: {
-    statement: "STUR makes exactly one adjustable prediction—the coherence length ℓ_coh. Given any two of {χ, L_X, ℓ_coh}, the third is determined. The form of the visibility law V(ΔL) = V₀ exp(-ΔL²/ℓ²_coh) is not adjustable—it follows from Gaussian phase averaging of the XCRM holonomy.",
+    statement: "STUR is a complete theory built on three axioms: (1) Master Action, (2) Minimum Holonomy Principle (MHP), (3) Dynamical Holonomy Principle (DHP). Together they determine all physics from two free parameters: L_X and λ.",
 
-    singleParameter: "ℓ_coh",
+    freeParameters: ["L_X (internal dimension size)", "λ (R-field self-coupling)"],
 
     closureRelation: {
-      formula: "ℓ_coh = √2 · L_X / σ_R",
-      latex: "\\ell_{\\rm coh} = \\frac{\\sqrt{2}\\, L_X}{\\sigma_R}",
-      variables: ["χ", "L_X", "ℓ_coh"],
-      note: "Given any two, the third is determined"
+      formula: "ℓ_coh = √2 · L_X / (y·σ_R)",
+      latex: "\\ell_{\\rm coh} = \\frac{\\sqrt{2}\\, L_X}{y\\,\\sigma_R}",
+      variables: ["L_X", "σ_R", "y"],
+      note: "Coherence length determined by internal dimension and fluctuations"
     },
 
     nonNegotiable: {
@@ -99,11 +155,30 @@ const STUR_DEFINITIONS = {
       formula: "V(ΔL) = V₀ exp(-ΔL²/ℓ²_coh)",
       latex: "V(\\Delta L) = V_0 \\exp\\!\\left(-\\frac{\\Delta L^2}{\\ell_{\\rm coh}^2}\\right)",
       derivedFrom: [
-        "XCRM closure: ∂_X R = (R - R_bg)/L_X",
+        "XCRM holonomy variance: ⟨Φ_R²⟩ = 2(ΔL/ℓ_coh)²",
         "Central limit theorem (many uncorrelated phases)",
-        "Holonomy-visibility relation: V = V₀ exp(-⟨Φ_R²⟩/2)"
+        "Gaussian phase averaging: V = V₀ exp(-⟨Φ_R²⟩/2)"
       ]
     },
+
+    mhpCloses: [
+      "Gauge group uniqueness (SM minimizes Ω)",
+      "Generation number (topological index = 3)",
+      "Flavor structure (localization from ∂Ω/∂X_i = 0)",
+      "Yukawa hierarchies (wavefunction overlaps)",
+      "CKM/PMNS matrices (localization geometry)"
+    ],
+
+    dhpCloses: [
+      "UV completion (holonomy self-regulation)",
+      "Neutrino masses (maximal localization separation)",
+      "CP violation (holonomy phase mismatch)",
+      "Dark matter (KK parity stabilizes LKP)",
+      "Cosmological constant (DHP forbids eternal de Sitter)",
+      "Inflation (R-field slow-roll)",
+      "Baryogenesis (XCRM phase transition)",
+      "Quantum gravity (finite holonomy path integral)"
+    ],
 
     falsifiedIf: [
       "Visibility is oscillatory (sinusoidal)",

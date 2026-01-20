@@ -174,7 +174,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>STUR <a href="stur_core_theory.html#master-action" class="core-ref">radial modulator</a>:</strong></p>
@@ -251,7 +251,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR 3D Weather Hybrid (v9.2)
+# STUR 3D Weather Hybrid (v11.0)
 #
 # Derives atmospheric events from S(r) radial modulator
 # Classifications: microburst, funnel, heat dome
@@ -359,7 +359,7 @@ speed = np.sqrt(vx**2 + vy**2 + vz**2)
 summary = {
     "meta": {
         "page": "3d-weather-hybrid",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "F_STUR = S(r,L0)[F_EM + F_grav + F_strong]"
     },
@@ -397,7 +397,7 @@ summary = {
 with open(OUT_JSON, "w") as f:
     json.dump(summary, f, indent=2)
 
-print("=== STUR 3D Weather Hybrid [v9.2] ===")
+print("=== STUR 3D Weather Hybrid [v11.0] ===")
 print(f"Microbursts: {summary['events']['microbursts_count']}")
 print(f"Funnels:     {summary['events']['funnels_count']}")
 print(f"Heat domes:  {summary['events']['heat_domes_count']}")
@@ -439,7 +439,7 @@ print(f"Output: {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> 3d-weather-hybrid |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -470,7 +470,7 @@ print(f"Output: {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

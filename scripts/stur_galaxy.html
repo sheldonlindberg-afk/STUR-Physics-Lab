@@ -177,7 +177,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Galactic limit:</strong> At large scales, the <a href="stur_core_theory.html#master-action" class="core-ref">radial modulator S(r)</a> modifies the effective gravitational potential:</p>
@@ -254,7 +254,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Galaxy Rotation Curves (v9.2)
+# STUR Galaxy Rotation Curves (v11.0)
 #
 # Derives flat rotation from S(r) modulator
 # S(r,φ) = φ(1+r/L₀)/(1+(r/L₀)²) exp(-Λr²)
@@ -379,7 +379,7 @@ ax1.set_xlim(0, 25)
 ax1.set_ylim(0, 400)
 ax1.set_xlabel('R (kpc)', color='#94a3b8')
 ax1.set_ylabel('V (km/s)', color='#94a3b8')
-ax1.set_title('STUR Galaxy Rotation Curve (v9.2)', color='#ffaa00', fontsize=14)
+ax1.set_title('STUR Galaxy Rotation Curve (v11.0)', color='#ffaa00', fontsize=14)
 ax1.tick_params(colors='#94a3b8')
 ax1.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
 ax1.grid(alpha=0.3, color='#1f2a44')
@@ -411,7 +411,7 @@ chi2_dof = chi2_best / (len(v_data) - len(p0))
 report = {
     "meta": {
         "page": "galaxy-rotation",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "S(r,φ) = φ(1+r/L₀)/(1+(r/L₀)²)exp(-Λr²)"
     },
@@ -436,7 +436,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Galaxy Rotation [v9.2] ===")
+print("=== STUR Galaxy Rotation [v11.0] ===")
 print(f"χ²/dof:     {chi2_dof:.3f}")
 print(f"φ (STUR):   {p_opt[5]:.2e}")
 print(f"M_g:        {p_opt[0]/Msun:.2e} M☉")
@@ -478,7 +478,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> galaxy-rotation |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -509,7 +509,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

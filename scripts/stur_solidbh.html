@@ -175,7 +175,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Resistance energy density:</strong> Homogeneous limit \(R = R(t)\):</p>
@@ -258,7 +258,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Big Bang Origin - Bounce Cosmology (v9.2)
+# STUR Big Bang Origin - Bounce Cosmology (v11.0)
 #
 # Derives non-singular origin from XCRM saturation
 # rho_eff = rho_R * (1 - rho_R / rho_c)
@@ -432,7 +432,7 @@ plt.show()
 report = {
     "meta": {
         "page": "big-bang-origin",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "rho_eff = rho_R (1 - rho_R/rho_c)"
     },
@@ -463,7 +463,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Big Bang Origin [v9.2] ===")
+print("=== STUR Big Bang Origin [v11.0] ===")
 print(f"Bounce time:    t = {tb:.2f}")
 print(f"a(bounce):      {a[ib]:.4f}")
 print(f"rho_R peak:     {np.max(rho):.4f}")
@@ -505,7 +505,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> big-bang-origin |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -536,7 +536,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

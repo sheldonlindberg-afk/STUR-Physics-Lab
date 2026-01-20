@@ -175,7 +175,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Total force density:</strong></p>
@@ -261,7 +261,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Resistance Corridor (v9.2)
+# STUR Resistance Corridor (v11.0)
 #
 # Derives access probability from S(r) modulated forces
 # Shannon entropy quantifies information content
@@ -428,7 +428,7 @@ plt.show()
 report = {
     "meta": {
         "page": "resistance-corridor",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "F_tot = S(r)[F_EM + F_G + F_S] + F_sp + F_SC + F_v + F_d + F_b"
     },
@@ -452,7 +452,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Resistance Corridor [v9.2] ===")
+print("=== STUR Resistance Corridor [v11.0] ===")
 print(f"Best success: {s_best*100:.2f}%")
 print(f"Entropy:      {Sinfo:.3f} bits")
 print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
@@ -493,7 +493,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> resistance-corridor |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -524,7 +524,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

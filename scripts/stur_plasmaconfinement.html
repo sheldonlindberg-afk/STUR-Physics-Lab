@@ -205,7 +205,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Limit assumed:</strong> Weak-field GR metric with Earth gravity. The STUR modulator gates the Lorentz force:</p>
@@ -332,7 +332,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 """
-STUR Plasma Torus — Multi-Particle 4D (v9.2)
+STUR Plasma Torus — Multi-Particle 4D (v11.0)
 =============================================
 Tests STUR-modulated Lorentz force in weak-field GR.
 
@@ -509,7 +509,7 @@ r = np.sqrt(x*x + y*y + z*z)
 report = {
     "meta": {
         "page": "plasma-torus-4d",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "S = tanh(r/L₀)·(1 - exp(-r/L₀))"
     },
@@ -536,7 +536,7 @@ report = {
     }
 }
 
-print("=== STUR Plasma Torus [v9.2] ===")
+print("=== STUR Plasma Torus [v11.0] ===")
 print(f"STUR: S(r) = tanh(r/L₀)·(1 - exp(-r/L₀)), L₀ = {L0:.1e} m")
 print(f"Particles: {Npart}, B = {Bz} T, β₀ = {beta0}")
 print()
@@ -629,7 +629,7 @@ print(f"\nOutputs: stur_plasma_torus.png, stur_plasma_torus.json")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> plasma-torus-4d |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -660,7 +660,7 @@ print(f"\nOutputs: stur_plasma_torus.png, stur_plasma_torus.json")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

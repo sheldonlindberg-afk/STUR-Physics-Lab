@@ -331,7 +331,7 @@
     <section class="glass-section law">
         <div class="glass-section-header">
             <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
-            <h2 class="glass-section-title">Master Action (v9.2)</h2>
+            <h2 class="glass-section-title">Master Action (v11.0)</h2>
         </div>
         <div class="glass-section-body">
             <p>The complete STUR master action from which all simulations derive:</p>
@@ -347,7 +347,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
         </div>
     </section>
@@ -448,7 +448,7 @@
             <div class="eq-label">With \(y=1\) (default): \(\ell_{\rm coh} = \sqrt{2}\,L_X/\sigma_R\)</div>
         </div>
 
-        <h3>Emergent 4D Equation (v9.2 Closure)</h3>
+        <h3>Emergent 4D Equation (v11.0 Closure)</h3>
         <p>
             Integrating the 5D STUR action over the internal coherence coordinate \(X\) in the adiabatic limit
             yields an effective 4D equation for the coarse-grained resistance field:
@@ -908,7 +908,7 @@ function solveTridiagonal(a, b, c, d) {
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> sandbox |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -919,7 +919,7 @@ function solveTridiagonal(a, b, c, d) {
          FRAMEWORK CLOSURE STATUS
          ============================================================ -->
     <div style="margin:1.5rem 0;padding:1rem;background:rgba(74,222,128,0.08);border-left:3px solid var(--neon-green);border-radius:8px;">
-        <strong style="color:var(--neon-green);">Framework Closure Status (v9.2)</strong>
+        <strong style="color:var(--neon-green);">Framework Closure Status (v11.0)</strong>
         <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.9rem;">
             <strong>Level 1 (Closed):</strong> Emergent 4D equation via X-integration;
             coherence length \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\) derived from manifold geometry.<br>
@@ -939,7 +939,7 @@ function solveTridiagonal(a, b, c, d) {
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 - A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 - A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> |
         <a href="stur_unified_framework.html">Framework</a> |
@@ -1297,7 +1297,7 @@ document.getElementById('pde_export').addEventListener('click', () => {
     const massRatio = currentMass / Math.max(pde.initialMass, 0.01);
 
     const data = {
-        meta: { title: 'STUR PDE Export', timestamp: new Date().toISOString(), version: 'v9.2' },
+        meta: { title: 'STUR PDE Export', timestamp: new Date().toISOString(), version: 'v11.0' },
         params: { N: pde.N, L: pde.L, D: pde.D, LX: pde.LX, alpha: pde.alpha, R_bg: pde.R_bg, dt: pde.dt },
         state: { timestep: pde.timestep, R: Array.from(pde.R), T: Array.from(pde.T) },
         conservation: {

@@ -208,7 +208,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Saturation function:</strong> The STUR modulator bounds all dynamical responses:</p>
@@ -334,7 +334,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Chronomagnetics Simulator (v9.2)
+# STUR Chronomagnetics Simulator (v11.0)
 #
 # Tests bounded source dynamics via chronomagnetic modulation index:
 #   M = Rq * S_u(u_c)
@@ -350,7 +350,7 @@
 import math, json, time
 
 # ===============================================================
-# 1) CONSTANTS AND PARAMETERS (v9.2)
+# 1) CONSTANTS AND PARAMETERS (v11.0)
 # ===============================================================
 RQ_MAX = 2.5
 LAM = 500e-9        # wavelength [m]
@@ -466,7 +466,7 @@ def write_svg(path, data, chrono):
 
     svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">']
     svg.append(f'<rect x="0" y="0" width="{W}" height="{H}" fill="#050814"/>')
-    svg.append(f'<text x="{W/2:.1f}" y="35" fill="#ffaa00" font-family="monospace" font-size="20" text-anchor="middle">STUR Chronomagnetics v9.2 - Bounded Invariants Test</text>')
+    svg.append(f'<text x="{W/2:.1f}" y="35" fill="#ffaa00" font-family="monospace" font-size="20" text-anchor="middle">STUR Chronomagnetics v11.0 - Bounded Invariants Test</text>')
 
     # Panel 1: Interference pattern (top)
     ph = 280
@@ -586,7 +586,7 @@ write_svg(OUT_SVG, data, chrono)
 report = {
     "meta": {
         "page": "chronomagnetics-simulator",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "M = Rq * S_u(u_c), S_u(u) = tanh(u)*(1-exp(-u))"
     },
@@ -625,7 +625,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Chronomagnetics Simulator [v9.2] ===")
+print("=== STUR Chronomagnetics Simulator [v11.0] ===")
 print(f"Rq = {Rq_test}, L0 = {L0_test} nm")
 print(f"M = {chrono['M']:.4f}, Regime = {chrono['regime']}")
 print(f"RMSE = {data['rmse']:.6f}")
@@ -675,7 +675,7 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> chronomagnetics-simulator |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -706,7 +706,7 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

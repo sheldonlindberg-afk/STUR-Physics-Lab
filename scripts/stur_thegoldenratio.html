@@ -175,7 +175,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Three STUR fields:</strong> Energy \(E(t)\), Information flow \(I(t)\), Geometric flux \(\Phi(t)\):</p>
@@ -259,7 +259,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Golden Ratio Attractor (v9.2)
+# STUR Golden Ratio Attractor (v11.0)
 #
 # Derives R* = E/(I*Phi) -> 1 from XCRM coupling
 # Demonstrates unified resistance equilibrium
@@ -333,7 +333,7 @@ ax.fill_between(t, 1-R_std, 1+R_std, color="#22d3ee", alpha=0.1)
 
 ax.set_xlabel("Time (s)", color='#94a3b8')
 ax.set_ylabel("R* ratio", color='#94a3b8')
-ax.set_title("STUR Golden Ratio Attractor (v9.2)", color='#ffaa00', fontsize=14)
+ax.set_title("STUR Golden Ratio Attractor (v11.0)", color='#ffaa00', fontsize=14)
 ax.tick_params(colors='#94a3b8')
 ax.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
 ax.grid(alpha=0.3, color='#1f2a44')
@@ -350,7 +350,7 @@ plt.show()
 report = {
     "meta": {
         "page": "golden-ratio-attractor",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "R* = E / (I * Phi) -> 1"
     },
@@ -378,7 +378,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Golden Ratio Attractor [v9.2] ===")
+print("=== STUR Golden Ratio Attractor [v11.0] ===")
 print(f"R* mean:  {R_mean:.4f}")
 print(f"R* std:   {R_std:.4f}")
 print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
@@ -419,7 +419,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> golden-ratio-attractor |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -450,7 +450,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

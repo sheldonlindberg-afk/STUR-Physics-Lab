@@ -200,7 +200,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Limit assumed:</strong> Radial symmetry, classical (Markovian) regime with damping. The resistance modulator \(S(r)\) emerges from integrating out the X-dimension:</p>
@@ -331,7 +331,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 """
-STUR Resistance Arc Simulator (v9.2)
+STUR Resistance Arc Simulator (v11.0)
 ====================================
 Tests the resistance modulator S(r) from the Master Action potential term.
 
@@ -502,7 +502,7 @@ falsified = kill1 or kill2 or kill3
 report = {
     "meta": {
         "page": "resistance-arc",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "S(r) = tanh(r/L₀)·(1 - exp(-r/L₀))"
     },
@@ -536,7 +536,7 @@ report = {
     }
 }
 
-print("=== STUR Resistance Arc [v9.2] ===")
+print("=== STUR Resistance Arc [v11.0] ===")
 print(f"STUR Modulator: S(r) = tanh(r/L₀)·(1 - exp(-r/L₀))")
 print(f"L₀ = {L0:.2e} m (= √2 L_X / σ_R)")
 print()
@@ -621,7 +621,7 @@ print(f"\nOutputs: stur_arc.png, stur_arc.json")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> resistance-arc |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -651,7 +651,7 @@ print(f"\nOutputs: stur_arc.png, stur_arc.json")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

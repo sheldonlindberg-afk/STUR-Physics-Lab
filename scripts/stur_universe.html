@@ -201,7 +201,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>STUR coherence profile:</strong> Derived from the potential term, the coherence function governs radial energy transport:</p>
@@ -278,7 +278,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Universe Atlas v9.2 – Earth POV Skybox
+# STUR Universe Atlas v11.0 – Earth POV Skybox
 #
 # Derives cosmic structure map from S(r) coherence function
 # Derived from Master Action V(R) potential term
@@ -474,7 +474,7 @@ z_norm = np.clip(z_fog / Z_MAX, 0.0, 1.0)
 # 3D Skeleton
 fig = plt.figure(figsize=(10, 10))
 ax = fig.add_subplot(111, projection="3d")
-ax.set_title("STUR Universe Atlas v9.2 - 3D Skeleton", color="#ffaa00")
+ax.set_title("STUR Universe Atlas v11.0 - 3D Skeleton", color="#ffaa00")
 
 # Fog
 colors = plt.cm.plasma(z_norm)
@@ -512,7 +512,7 @@ plt.show()
 report = {
     "meta": {
         "page": "universe-atlas",
-        "version": "v9.2",
+        "version": "v11.0",
         "equation": "S(r) = tanh(r/L0) * (1 - exp(-r/L0))"
     },
     "cosmology": {
@@ -529,7 +529,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Universe Atlas [v9.2] ===")
+print("=== STUR Universe Atlas [v11.0] ===")
 print(f"Structures: {len(structures)}")
 print(f"R_max:      {R_MAX_MPC:.1f} Mpc")
 print(f"Outputs: {OUT_PNG_3D}, {OUT_JSON}")</pre>
@@ -570,7 +570,7 @@ print(f"Outputs: {OUT_PNG_3D}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> universe-atlas |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -602,7 +602,7 @@ print(f"Outputs: {OUT_PNG_3D}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

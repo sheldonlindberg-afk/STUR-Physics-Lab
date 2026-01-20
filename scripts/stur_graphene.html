@@ -199,7 +199,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Limit assumed:</strong> The X-bundle coupling \(U(X-R)\) induces an effective axion-like interaction with graphene Dirac fermions:</p>
@@ -327,7 +327,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Graphene-Axion Coupler (v9.2)
+# STUR Graphene-Axion Coupler (v11.0)
 #
 # Tests X-bundle axion coupling: g_a φ ψ̄ γ⁵ ψ
 # Δτ/τ = C (g_a/g₀)^p with C=5e-6, p=0.65
@@ -453,7 +453,7 @@ ax.text(g2*1.2, 1e-7, 'g_a=10⁻¹⁰', color='#94a3b8', fontsize=9)
 
 ax.set_xlabel('Axion coupling g_a', color='#94a3b8', fontsize=12)
 ax.set_ylabel('Fractional change', color='#94a3b8', fontsize=12)
-ax.set_title('STUR Graphene-Axion Response (v9.2)', color='#ffaa00', fontsize=14)
+ax.set_title('STUR Graphene-Axion Response (v11.0)', color='#ffaa00', fontsize=14)
 ax.tick_params(colors='#94a3b8')
 ax.grid(True, which='both', ls=':', color='#1f2a44', alpha=0.5)
 ax.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white', fontsize=10)
@@ -471,7 +471,7 @@ plt.show()
 report = {
     "meta": {
         "page": "graphene-axion",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "Δτ/τ = C(g_a/g₀)^p"
     },
@@ -514,7 +514,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Graphene-Axion [v9.2] ===")
+print("=== STUR Graphene-Axion [v11.0] ===")
 print(f"At g_a=10⁻¹²: Δτ/τ = {pt1['delta_tau_over_tau']:.2e}")
 print(f"At g_a=10⁻¹⁰: Δτ/τ = {pt2['delta_tau_over_tau']:.2e}")
 print(f"Sublinear:    {'PASS' if sublinear_ok else 'FAIL'}")
@@ -562,7 +562,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> graphene-axion |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -593,7 +593,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

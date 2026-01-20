@@ -171,7 +171,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>STUR curvature regulator:</strong></p>
@@ -255,7 +255,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Universal Immunity Algorithm (v9.2)
+# STUR Universal Immunity Algorithm (v11.0)
 #
 # Implements the STUR immune force field F_immune(r,t):
 #   - Three regimes: flu (acute), cancer (suppressed), HIV (collapse)
@@ -374,7 +374,7 @@ for name, F in force_maps.items():
         "r_peak_m": r_peak
     }
 
-print("=== STUR Universal Immunity [v9.2] ===")
+print("=== STUR Universal Immunity [v11.0] ===")
 for name, metrics in summary.items():
     print(f"{name}: clearance={metrics['clearance_index']:.2e}, r_peak={metrics['r_peak_m']*1e6:.2f} um")
 
@@ -415,7 +415,7 @@ axes[1].set_ylabel("Integrated |F| (act/m)", color='#94a3b8')
 axes[1].set_title("Time-Integrated Immune Response", color='#ffaa00')
 axes[1].legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
 
-fig.suptitle('STUR Universal Immunity Algorithm (v9.2)', color='#ffaa00', fontsize=14)
+fig.suptitle('STUR Universal Immunity Algorithm (v11.0)', color='#ffaa00', fontsize=14)
 plt.tight_layout()
 plt.show()</pre>
 
@@ -455,7 +455,7 @@ plt.show()</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> universal-immunity |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -522,7 +522,7 @@ plt.show()</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

@@ -175,7 +175,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>STUR evolution law:</strong></p>
@@ -259,7 +259,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Hydrothermal Vent Proto-Cell (v9.2)
+# STUR Hydrothermal Vent Proto-Cell (v11.0)
 #
 # Alkaline vent micro-pore with STUR curvature selection:
 #   - 12 um pore, 80-120 C gradient, pH 9.8 -> 6.0
@@ -377,7 +377,7 @@ for n in range(nt):
         history["R_var"].append(R_var)
         history["O_life"].append(O_life)
 
-print("=== STUR Hydrothermal Proto-Cell [v9.2] ===")
+print("=== STUR Hydrothermal Proto-Cell [v11.0] ===")
 print(f"chi_X = {chi}")
 print(f"Final Ac_mean = {Ac_f.mean():.4e}")
 print(f"Final ATP_mean = {ATP_f.mean():.4e}")
@@ -413,7 +413,7 @@ axes[1,1].set_title("Life-Onset Order Parameter", color='#ffaa00')
 axes[1,1].set_xlabel("Time (s)", color='#94a3b8')
 axes[1,1].set_ylabel("O_life", color='#94a3b8')
 
-fig.suptitle(f'STUR Hydrothermal Proto-Cell (chi_X={chi}, v9.2)', color='#ffaa00', fontsize=14)
+fig.suptitle(f'STUR Hydrothermal Proto-Cell (chi_X={chi}, v11.0)', color='#ffaa00', fontsize=14)
 plt.tight_layout()
 plt.show()</pre>
 
@@ -453,7 +453,7 @@ plt.show()</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> hydrothermal-protocell |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -520,7 +520,7 @@ plt.show()</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

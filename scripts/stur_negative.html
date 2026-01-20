@@ -176,7 +176,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>5D geometry:</strong> \(M_4(-+++) \oplus \chi\) with coordinates \((t, r, \theta, \phi, \chi)\).</p>
@@ -254,7 +254,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR-X 5D Negative Energy (v9.2)
+# STUR-X 5D Negative Energy (v11.0)
 #
 # Derives exotic stress-energy from S_X(r,chi) modulator
 # Computes entropy bounds and X-coherence metric
@@ -403,7 +403,7 @@ plt.show()
 report = {
     "meta": {
         "page": "negative-energy-5d",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "S_X(r,chi) = S0(r) * exp(-(chi/chi0)^2) / (1+(chi/chi_c)^2)"
     },
@@ -426,7 +426,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR-X 5D Negative Energy [v9.2] ===")
+print("=== STUR-X 5D Negative Energy [v11.0] ===")
 print(f"r range: {r_values[0]:.2e} - {r_values[-1]:.2e} m")
 print(f"MC runs: {num_runs}")
 print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
@@ -467,7 +467,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> negative-energy-5d |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -498,7 +498,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

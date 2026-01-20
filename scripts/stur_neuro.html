@@ -176,7 +176,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Unified Resistance Lagrangian (axon growth):</strong></p>
@@ -260,7 +260,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Neuroplasticity Lab v5.1 - 5D X-Synapse (v9.2)
+# STUR Neuroplasticity Lab v5.1 - 5D X-Synapse (v11.0)
 #
 # Axon growth under Unified Resistance Lagrangian:
 #   - Coherence c(t) = S.B, structural weight w(t), X-dim chi(t)
@@ -346,7 +346,7 @@ chi_hist = np.array(chi_hist)
 r_final, c_final, w_final = float(rs[-1]), float(cs[-1]), float(ws[-1])
 lambda_X = float(np.clip(0.5 * (1.0 + c_final) * w_final, 0.0, 1.5))
 
-print("=== STUR Neuroplasticity [v9.2] ===")
+print("=== STUR Neuroplasticity [v11.0] ===")
 print(f"r_final = {r_final:.3f} um")
 print(f"c_final = {c_final:.3f}")
 print(f"w_final = {w_final:.3f}")
@@ -493,7 +493,7 @@ axes[1,1].set_title("STDP Competition", color='#ffaa00')
 axes[1,1].set_xlabel("Time (ms)", color='#94a3b8')
 axes[1,1].legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
 
-fig.suptitle('STUR Neuroplasticity X-Synapse (v9.2)', color='#ffaa00', fontsize=14)
+fig.suptitle('STUR Neuroplasticity X-Synapse (v11.0)', color='#ffaa00', fontsize=14)
 plt.tight_layout()
 plt.show()</pre>
 
@@ -533,7 +533,7 @@ plt.show()</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> neuroplasticity-xsynapse |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -600,7 +600,7 @@ plt.show()</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

@@ -1,8 +1,27 @@
 /**
  * STUR Theory Pages - Shared Styles
- * Used across all XCRM theory documentation pages
+ * Version 11.0 (Complete Theory: XCRM + MHP + DHP)
+ * Used across all STUR theory documentation pages
  *
  * Requires: stur-core.css, stur-glass.css, stur-icons.css
+ *
+ * === PHYSICS DOMAIN COLOR CODING ===
+ * Educational color scheme for equation terms:
+ *
+ *   DIFFUSION (#4ade80 Green)    - Kinetic terms: ½(∇R)²
+ *   POTENTIAL (#f472b6 Pink)     - Relaxation: V(R)
+ *   XCRM      (#fbbf24 Gold)     - X-Coupling: χR∂_X R
+ *   TORSION   (#60a5fa Blue)     - Gravity: αR𝕋
+ *   MATTER    (#22d3ee Cyan)     - Matter fields: ℒ_matter
+ *   QUANTUM   (#a78bfa Violet)   - Loop corrections, holonomy
+ *
+ * === THREE AXIOMS (v11.0) ===
+ * 1. Master Action - Defines dynamics
+ * 2. MHP - Selects ground state (gauge, generations, flavor)
+ * 3. DHP - Governs evolution (cosmology, QG)
+ *
+ * Two free parameters: L_X, λ
+ * All 13 problems closed.
  */
 
 /* ============================================================

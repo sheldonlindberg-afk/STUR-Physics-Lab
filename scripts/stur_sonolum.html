@@ -200,7 +200,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Rayleigh-Plesset equation:</strong> The bubble radius \(R(t)\) obeys:</p>
@@ -337,7 +337,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # =====================================================================
-# STUR 5D Chi-Coupled Multi-Fluid Sonoluminescence Engine (v9.2)
+# STUR 5D Chi-Coupled Multi-Fluid Sonoluminescence Engine (v11.0)
 #
 # Tests chi-torsion coupling: d(chi)/dt = Gamma_chi * (R0/R - 1)
 #
@@ -375,7 +375,7 @@ fluids = {
 }
 
 # ---------------------------------------------------------------------
-# 2. Global constants and chi-coupling strength (v9.2)
+# 2. Global constants and chi-coupling strength (v11.0)
 # ---------------------------------------------------------------------
 P_INF   = 1.0e5       # ambient pressure (Pa)
 T0      = 293.0       # ambient temperature (K)
@@ -464,7 +464,7 @@ def run_traj(seed, fluid_name, steps=4000, n_cycles=3):
         T_ad = T0 * (R0 / R)**(3.0 * (gamma - 1.0))
         T = min(max(T_ad, 1.0e3), 5.0e4)
 
-        # Chi torsion channel: only excited when R < R0 (v9.2)
+        # Chi torsion channel: only excited when R < R0 (v11.0)
         chi += CHI_RATE * (R0 / R - 1.0) * dt
 
         # Store
@@ -507,7 +507,7 @@ def run_multibubble(fluid_name, N=60):
 results = {}
 fluids_order = list(fluids.keys())
 
-print("=== STUR 5D Chi Sonoluminescence Lab v9.2 ===")
+print("=== STUR 5D Chi Sonoluminescence Lab v11.0 ===")
 for name in fluids_order:
     print("Running:", name)
     Rmins, Tmaxs, Lambdas, ChiAmp = run_multibubble(name, N=60)
@@ -593,7 +593,7 @@ plt.show()
 report = {
     "meta": {
         "page": "sonoluminescence-lab",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "d(chi)/dt = Gamma_chi * (R0/R - 1)"
     },
@@ -629,7 +629,7 @@ with open(OUT_JSON, "w") as f:
 
 print(json.dumps(report, indent=2))
 print(f"\nFALSIFIED = {falsified}")
-print("STUR Sonoluminescence Lab v9.2 Complete.")</pre>
+print("STUR Sonoluminescence Lab v11.0 Complete.")</pre>
 
             <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
                 <button class="glass-btn primary" id="copyBtn">
@@ -676,7 +676,7 @@ print("STUR Sonoluminescence Lab v9.2 Complete.")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> sonoluminescence-lab |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -707,7 +707,7 @@ print("STUR Sonoluminescence Lab v9.2 Complete.")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

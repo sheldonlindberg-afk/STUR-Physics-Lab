@@ -203,7 +203,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Limit assumed:</strong> Discrete lattice quantum system with STUR-modulated Schrödinger evolution:</p>
@@ -329,7 +329,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 """
-STUR QC Lattice — Deterministic Continuity (v9.2)
+STUR QC Lattice — Deterministic Continuity (v11.0)
 ==================================================
 Tests STUR-modulated quantum evolution on 1D lattice.
 
@@ -474,7 +474,7 @@ t_final = 5.0
 n_steps = 200
 dim = 2**N
 
-print(f"=== STUR QC Lattice [v9.2] ===")
+print(f"=== STUR QC Lattice [v11.0] ===")
 print(f"Building R_STUR for N = {N}, dim = {dim}")
 
 R_full, positions = build_R_STUR(N, L0, 1.0, h0, J0, Omega)
@@ -507,7 +507,7 @@ falsified = kill1 or kill2 or kill3
 report = {
     "meta": {
         "page": "qc-lattice",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "i hbar dPsi/dt = R_STUR Psi"
     },
@@ -602,7 +602,7 @@ print(f"\nOutputs: stur_qc_lattice.png, stur_qc_lattice.json")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> qc-lattice |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -632,7 +632,7 @@ print(f"\nOutputs: stur_qc_lattice.png, stur_qc_lattice.json")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
