@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -98,7 +93,7 @@
     
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -124,7 +119,7 @@
                 <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
                 <li>XCRM saturation: \(\rho_{\text{eff}} = \rho_R(1 - \rho_R/\rho_c)\) — from XCRM closure structure</li>
                 <li>Non-singular bounce mechanism — resistance capacity prevents divergence</li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
@@ -176,7 +171,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Resistance energy density:</strong> Homogeneous limit \(R = R(t)\):</p>
@@ -259,7 +254,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Big Bang Origin - Bounce Cosmology (v11.0)
+# STUR Big Bang Origin - Bounce Cosmology
 #
 # Derives non-singular origin from XCRM saturation
 # rho_eff = rho_R * (1 - rho_R / rho_c)
@@ -433,7 +428,7 @@ plt.show()
 report = {
     "meta": {
         "page": "big-bang-origin",
-        "version": "v11.0",
+        "version": "",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "rho_eff = rho_R (1 - rho_R/rho_c)"
     },
@@ -464,7 +459,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Big Bang Origin [v11.0] ===")
+print("=== STUR Big Bang Origin ===")
 print(f"Bounce time:    t = {tb:.2f}")
 print(f"a(bounce):      {a[ib]:.4f}")
 print(f"rho_R peak:     {np.max(rho):.4f}")
@@ -506,7 +501,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> big-bang-origin |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -537,7 +532,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
@@ -619,28 +614,6 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "Big Bang Origin," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>

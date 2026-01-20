@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -98,7 +93,7 @@
     
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -175,7 +170,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Bioenergetic limit:</strong> The STUR resistance scalar regulates cristae geometry:</p>
@@ -250,7 +245,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Mitochondria Population Dynamics (v11.0)
+# STUR Mitochondria Population Dynamics
 #
 # Simulates 1000 mitochondria as STUR resistance oscillators
 # S(r,L0) = tanh(r/L0)(1 - exp(-r/L0))
@@ -363,7 +358,7 @@ colors = ["tab:green", "tab:orange", "tab:red"]
 labels = ["Healthy", "Uncoupled", "Apoptotic"]
 
 results = [run_sim(m) for m in modes]
-print("=== STUR Mitochondria Population [v11.0] ===")
+print("=== STUR Mitochondria Population ===")
 print("Simulation complete.")
 
 fig, axes = plt.subplots(3, 2, figsize=(12, 10), sharex=True)
@@ -392,7 +387,7 @@ ax4.set_ylabel("Ca2+", color='#94a3b8')
 ax5.set_ylabel("mPTP fraction", color='#94a3b8')
 ax6.axis("off")
 ax1.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
-ax1.set_title('STUR Mitochondria Population (v11.0)', color='#ffaa00', fontsize=14)
+ax1.set_title('STUR Mitochondria Population', color='#ffaa00', fontsize=14)
 plt.tight_layout()
 plt.show()</pre>
 
@@ -432,7 +427,7 @@ plt.show()</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> mito-population |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -499,7 +494,7 @@ plt.show()</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
@@ -582,28 +577,6 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "Mitochondria Population Dynamics," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>

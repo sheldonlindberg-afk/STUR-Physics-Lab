@@ -3,20 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUR Unification Map — Framework v11.0</title>
+    <title>STUR Unification Map — Framework</title>
 
     <!-- STUR Theme System -->
     <link rel="stylesheet" href="../assets/css/stur-core.css">
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -239,13 +234,13 @@
             This map shows how each page connects to the unified framework.
         </p>
         <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
-            <span class="stur-badge"><span class="stur-dot good"></span> Framework v11.0</span>
+            <span class="stur-badge"><span class="stur-dot good"></span> Framework</span>
             <span class="stur-badge">XCRM-Closed</span>
             <span class="stur-badge">One Free Ratio</span>
         </div>
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </div>
 
@@ -268,7 +263,7 @@
                   \;+\; \underbrace{\color{#22d3ee}{L_{\text{matter}}}}_{\color{#22d3ee}\text{Fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action — STUR Framework v11.0</div>
+                <div class="stur-eq-label">Master Action — STUR Framework</div>
             </div>
 
             <!-- Equation Color Legend -->
@@ -657,7 +652,7 @@
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Framework:</strong> STUR v11.0 |
+                <strong>Framework:</strong> STUR |
                 <strong>Pages indexed:</strong> 34 |
                 <strong>Last updated:</strong> <span id="timestamp"></span>
             </div>
@@ -668,7 +663,7 @@
 
 <!-- Footer -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
@@ -716,7 +711,7 @@ const limitTable = [
 function generateReport() {
     const report = {
         meta: {
-            framework: 'STUR v11.0',
+            framework: 'STUR',
             generated: new Date().toISOString(),
             totalPages: 34,
             falsifiable: 4,
@@ -749,28 +744,6 @@ function exportLimitTable() {
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "STUR Unification Map," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>

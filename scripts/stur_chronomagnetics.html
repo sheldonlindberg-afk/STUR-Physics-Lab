@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -99,7 +94,7 @@
     
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -127,7 +122,7 @@
                         <li><strong>STUR modulator form:</strong> \(S_u(u) = \tanh(u)(1 - e^{-u})\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
                         <li><strong>Bounded saturation:</strong> \(M \to \text{finite}\) as \(t \to \infty\)</li>
                         <li><strong>Coherence suppression:</strong> \(\exp(-R_q \cdot S_u)\) — follows from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
-                        <li><strong>Coherence length:</strong> \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                        <li><strong>Coherence length:</strong> \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
                         <li><strong>\(\lambda = 3722/2705\):</strong> Derived from XCRM X-mode spectrum — from <a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">§5.3.6</a></li>
                     </ul>
                 </div>
@@ -209,7 +204,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Saturation function:</strong> The STUR modulator bounds all dynamical responses:</p>
@@ -335,7 +330,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Chronomagnetics Simulator (v11.0)
+# STUR Chronomagnetics Simulator
 #
 # Tests bounded source dynamics via chronomagnetic modulation index:
 #   M = Rq * S_u(u_c)
@@ -351,7 +346,7 @@
 import math, json, time
 
 # ===============================================================
-# 1) CONSTANTS AND PARAMETERS (v11.0)
+# 1) CONSTANTS AND PARAMETERS
 # ===============================================================
 RQ_MAX = 2.5
 LAM = 500e-9        # wavelength [m]
@@ -467,7 +462,7 @@ def write_svg(path, data, chrono):
 
     svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">']
     svg.append(f'<rect x="0" y="0" width="{W}" height="{H}" fill="#050814"/>')
-    svg.append(f'<text x="{W/2:.1f}" y="35" fill="#ffaa00" font-family="monospace" font-size="20" text-anchor="middle">STUR Chronomagnetics v11.0 - Bounded Invariants Test</text>')
+    svg.append(f'<text x="{W/2:.1f}" y="35" fill="#ffaa00" font-family="monospace" font-size="20" text-anchor="middle">STUR Chronomagnetics - Bounded Invariants Test</text>')
 
     # Panel 1: Interference pattern (top)
     ph = 280
@@ -587,7 +582,7 @@ write_svg(OUT_SVG, data, chrono)
 report = {
     "meta": {
         "page": "chronomagnetics-simulator",
-        "version": "v11.0",
+        "version": "",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "M = Rq * S_u(u_c), S_u(u) = tanh(u)*(1-exp(-u))"
     },
@@ -626,7 +621,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Chronomagnetics Simulator [v11.0] ===")
+print("=== STUR Chronomagnetics Simulator ===")
 print(f"Rq = {Rq_test}, L0 = {L0_test} nm")
 print(f"M = {chrono['M']:.4f}, Regime = {chrono['regime']}")
 print(f"RMSE = {data['rmse']:.6f}")
@@ -676,7 +671,7 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> chronomagnetics-simulator |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -707,7 +702,7 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
@@ -802,28 +797,6 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "Chronomagnetics Simulator," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>

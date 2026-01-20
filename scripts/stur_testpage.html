@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -251,7 +246,7 @@
     
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -280,7 +275,7 @@
     <section class="glass-section law">
         <div class="glass-section-header">
             <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
-            <h2 class="glass-section-title">Master Action (v11.0)</h2>
+            <h2 class="glass-section-title">Master Action</h2>
         </div>
         <div class="glass-section-body">
             <p>The complete STUR master action governing interferometric visibility:</p>
@@ -296,7 +291,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
         </div>
     </section>
@@ -375,7 +370,7 @@
             <div id="alert-status">IDLE</div>
 
             <div class="logic-panel">
-                <strong>STUR Falsifier (v11.0):</strong><br>
+                <strong>STUR Falsifier:</strong><br>
                 \[ \frac{V_{\text{STUR}}}{V_{\text{QM}}} = \cos^2\left( \frac{\pi \Delta L}{\ell_R} \right) \cdot e^{-\sigma_\phi^2/2} \]
                 <p style="margin-top:0.75rem;">
                     <strong>Falsification Criteria:</strong> If \( V_{\text{observed}} \approx V_{\text{QM}} \) at regimes where
@@ -408,7 +403,7 @@
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> holoscreen-alpha5 |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -438,7 +433,7 @@
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 - A falsifiable unified framework</p>
+    <p>STUR Physics Lab - A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> |
         <a href="stur_unified_framework.html">Framework</a> |
@@ -596,28 +591,6 @@ window.onload = updateUI;
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "Holoscreen Alpha-5," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>

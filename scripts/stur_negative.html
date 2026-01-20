@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -98,7 +93,7 @@
     
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -123,7 +118,7 @@
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
                 <li>5D manifold structure: \(\mathcal{M}^5 = M^4 \times S^1/\mathbb{Z}_2\) from STUR foundations</li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
                 <li>Modified energy conditions from torsion sector</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Speculative Components:</strong></p>
@@ -177,7 +172,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>5D geometry:</strong> \(M_4(-+++) \oplus \chi\) with coordinates \((t, r, \theta, \phi, \chi)\).</p>
@@ -255,7 +250,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR-X 5D Negative Energy (v11.0)
+# STUR-X 5D Negative Energy
 #
 # Derives exotic stress-energy from S_X(r,chi) modulator
 # Computes entropy bounds and X-coherence metric
@@ -404,7 +399,7 @@ plt.show()
 report = {
     "meta": {
         "page": "negative-energy-5d",
-        "version": "v11.0",
+        "version": "",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "S_X(r,chi) = S0(r) * exp(-(chi/chi0)^2) / (1+(chi/chi_c)^2)"
     },
@@ -427,7 +422,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR-X 5D Negative Energy [v11.0] ===")
+print("=== STUR-X 5D Negative Energy ===")
 print(f"r range: {r_values[0]:.2e} - {r_values[-1]:.2e} m")
 print(f"MC runs: {num_runs}")
 print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
@@ -468,7 +463,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> negative-energy-5d |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -499,7 +494,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
@@ -583,28 +578,6 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "Negative Energy 5D," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>

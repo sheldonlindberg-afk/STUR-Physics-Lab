@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -83,7 +78,7 @@
         <!-- Honest Status Block -->
         <div class="glass-section warning" style="margin-top:1rem; max-width:700px; margin-left:auto; margin-right:auto; padding:1rem; border-left:3px solid #fbbf24;">
             <p style="margin:0; color:var(--text-secondary); font-size:0.9rem;">
-                <strong>Status (v11.0):</strong> This page uses phenomenological parameters not yet derived from the STUR Master Action.
+                <strong>Status:</strong> This page uses phenomenological parameters not yet derived from the STUR Master Action.
                 See <a href="stur_core_theory.html#appE" style="color:#fbbf24;">Appendix E.4</a> for limitations.
                 Results should be interpreted as exploratory fitting, not falsifiable predictions.
             </p>
@@ -91,7 +86,7 @@
 
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -104,6 +99,36 @@
         <div class="eq-legend-item"><span class="eq-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
+
+    <!-- ============================================================
+         SECTION: FIRST PRINCIPLES STATUS
+         ============================================================ -->
+    <section class="glass-section" style="border-left:3px solid var(--neon-gold);background:rgba(251,191,36,0.04);">
+        <div class="glass-section-header">
+            <h2 class="glass-section-title" style="color:var(--neon-gold);">First Principles Status — Phenomenological Layer</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.92rem;">
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>STUR modulator form: \(S(u) = \tanh(u)(1 - e^{-u})\) — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
+                <li>Bounded saturation: \(S \to 1\) as \(u \to \infty\)</li>
+                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+            </ul>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Geometric scale \(u_{\rm geo}\) — derived from molecular formula (heuristic mapping)</li>
+                <li>Chronon coupling \(u_{\rm chr}\) and gain \(\beta\) — phenomenological parameters</li>
+                <li>BCS baseline \(I_c^{\rm BCS}\) — standard BCS theory (not derived from STUR)</li>
+                <li>Pairing proxy \(T_c\) — user input / experimental estimate</li>
+                <li>Thermal/isotope/phonon gates — phenomenological thresholds</li>
+            </ul>
+            <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
+                <strong>Note:</strong> The STUR-modified critical current formula \(I_c^{\rm STUR} = I_c^{\rm BCS} \cdot \tanh(R_q \cdot S(u_{\rm eff}))\) is
+                a <em>phenomenological ansatz</em> inspired by STUR, not rigorously derived. Connection to core predictions is exploratory.
+            </p>
+        </div>
+    </section>
 
     <!-- ============================================================
          SECTION: WHAT THIS PAGE TESTS
@@ -142,7 +167,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Limit assumed:</strong> Cooper-pair condensate with STUR-modulated critical current:</p>
@@ -301,7 +326,7 @@ La1C40H50</textarea>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
@@ -317,7 +342,7 @@ La1C40H50</textarea>
 <script src="../assets/js/stur-definitions.js"></script>
 <script>
 /* ===========================
-   CONSTANTS (v11.0)
+   CONSTANTS
 =========================== */
 const kB = 1.380649e-23;
 const CHRONON = {La:0.14, C:0.04, H:0.01, Bi:0.42};
@@ -328,7 +353,7 @@ const PHONON_MU = [0.8, 1.0, 1.2];
 let LAST = null;
 
 /* ===========================
-   CORE PHYSICS [v11.0 S(u)]
+   CORE PHYSICS [S(u)]
 =========================== */
 function Su(u) {
     // STUR modulator: S(u) = tanh(u)·(1 - exp(-u))
@@ -424,7 +449,7 @@ function runSweep() {
         const verdict = finalVerdict({...d, robustOK: bOK, phononOK: phon, isotopeOK: iso.robust, pressureProxy: pp});
         rows.push({formula: f, ...d, robustOK: bOK, phononOK: phon, isotopeOK: iso.robust, pressureProxy: pp, verdict});
     });
-    LAST = {rows, params: p, ts: new Date().toISOString(), version: "v11.0"};
+    LAST = {rows, params: p, ts: new Date().toISOString(), version: ""};
     renderTable(rows);
     if (rows.length) selectRow(0);
 }
@@ -509,32 +534,11 @@ document.getElementById("exportCSV").onclick = function() {
 
 document.getElementById("exportJSON").onclick = function() {
     if (!LAST) return STUR.toast("No data", "warning");
-    STUR.exportJSON({...LAST, meta: {page: "holoscreen-ats", version: "v11.0"}}, `holoscreen-ats-${Date.now()}.json`);
+    STUR.exportJSON({...LAST, meta: {page: "holoscreen-ats", version: ""}}, `holoscreen-ats-${Date.now()}.json`);
 };
 
 // Citation copy functionality
 (function() {
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "Holoscreen ATS Discovery," STUR Physics Lab.';
-
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        STUR.toast('Citation copied', 'success');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        STUR.toast('Citation copied', 'success');
-      }
-    });
-  }
 })();
 </script>
 

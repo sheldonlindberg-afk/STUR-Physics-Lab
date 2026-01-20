@@ -7,13 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Unified teleparallel framework organizing TEGR, HGEM, STUR, and Chronomagnetics within a single geometric and experimentally falsifiable structure." />
   <meta name="author" content="Sheldon Lon Lindberg" />
-  <script>
-    MathJax = {
-      tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
-      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
-    };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <!-- STUR MathJax with physics domain color macros -->
+  <script src="../assets/js/stur-mathjax-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 
   <!-- STUR Theme System -->
   <link rel="stylesheet" href="../assets/css/stur-core.css">
@@ -261,7 +257,7 @@
 
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -848,7 +844,7 @@
 </section>
 
 <section id="sec-open">
-  <h2>9. Future Directions (v11.0 — All Problems Closed)</h2>
+  <h2>9. Future Directions (All Problems Closed)</h2>
 
   <div class="block success">
     <div class="title">XCRM Closure Complete</div>
@@ -914,7 +910,7 @@
     </li>
     <li>
       Lindberg, S. L. (2026).
-      <em>Foundations of STUR v11.0: Teleparallel Substrate Tests via Interferometric Holonomy</em>.
+      <em>Foundations of STUR: Teleparallel Substrate Tests via Interferometric Holonomy</em>.
       Internal research manuscript.
     </li>
     <li>
@@ -957,7 +953,7 @@
   <p style="margin-top: 1rem;">
     This page is designed as a standalone reference for the unified teleparallel framework.
     All sectors are mutually consistent, independently falsifiable, and aligned with
-    STUR v11.0, the Chronomagnetics Mathematical Foundation, and TEGR First-Principles documents.
+    STUR, the Chronomagnetics Mathematical Foundation, and TEGR First-Principles documents.
   </p>
 </footer>
 
@@ -974,28 +970,6 @@
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "STUR · TEGR · HGEM · Chronomagnetics," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>

@@ -1,5 +1,5 @@
 /**
- * STUR MathJax Configuration v11.0
+ * STUR MathJax Configuration
  * Shared MathJax setup with physics domain color macros
  *
  * Include BEFORE MathJax:
@@ -55,6 +55,8 @@ window.MathJax = {
       Tcal: '\\mathcal{T}',
       Hcal: '\\mathcal{H}',
       Ocal: '\\mathcal{O}',
+      Fcal: '\\mathcal{F}',
+      Dcal: '\\mathcal{D}',
 
       // Bold symbols
       bR: '\\mathbf{R}',
@@ -82,11 +84,7 @@ window.MathJax = {
     fontCache: 'global'
   },
   options: {
-    enableMenu: true,
-    menuOptions: {
-      settings: {
-        zoom: 'Click'
-      }
-    }
+    // Disable context menu to prevent broken button rendering
+    enableMenu: false
   }
 };

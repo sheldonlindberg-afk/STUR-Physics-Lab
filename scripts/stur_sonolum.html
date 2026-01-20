@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -99,7 +94,7 @@
     
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -125,7 +120,7 @@
                 <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
                 <li>5D torsion channel structure — from \(L_{\text{torsion}}\) term in Master Action</li>
                 <li>Chi-excitation coupling form: \(d\chi/dt \propto (R_0/R - 1)\) — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E.2</a></li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
@@ -201,7 +196,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Rayleigh-Plesset equation:</strong> The bubble radius \(R(t)\) obeys:</p>
@@ -338,7 +333,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # =====================================================================
-# STUR 5D Chi-Coupled Multi-Fluid Sonoluminescence Engine (v11.0)
+# STUR 5D Chi-Coupled Multi-Fluid Sonoluminescence Engine
 #
 # Tests chi-torsion coupling: d(chi)/dt = Gamma_chi * (R0/R - 1)
 #
@@ -376,7 +371,7 @@ fluids = {
 }
 
 # ---------------------------------------------------------------------
-# 2. Global constants and chi-coupling strength (v11.0)
+# 2. Global constants and chi-coupling strength
 # ---------------------------------------------------------------------
 P_INF   = 1.0e5       # ambient pressure (Pa)
 T0      = 293.0       # ambient temperature (K)
@@ -465,7 +460,7 @@ def run_traj(seed, fluid_name, steps=4000, n_cycles=3):
         T_ad = T0 * (R0 / R)**(3.0 * (gamma - 1.0))
         T = min(max(T_ad, 1.0e3), 5.0e4)
 
-        # Chi torsion channel: only excited when R < R0 (v11.0)
+        # Chi torsion channel: only excited when R < R0
         chi += CHI_RATE * (R0 / R - 1.0) * dt
 
         # Store
@@ -508,7 +503,7 @@ def run_multibubble(fluid_name, N=60):
 results = {}
 fluids_order = list(fluids.keys())
 
-print("=== STUR 5D Chi Sonoluminescence Lab v11.0 ===")
+print("=== STUR 5D Chi Sonoluminescence Lab ===")
 for name in fluids_order:
     print("Running:", name)
     Rmins, Tmaxs, Lambdas, ChiAmp = run_multibubble(name, N=60)
@@ -594,7 +589,7 @@ plt.show()
 report = {
     "meta": {
         "page": "sonoluminescence-lab",
-        "version": "v11.0",
+        "version": "",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "d(chi)/dt = Gamma_chi * (R0/R - 1)"
     },
@@ -630,7 +625,7 @@ with open(OUT_JSON, "w") as f:
 
 print(json.dumps(report, indent=2))
 print(f"\nFALSIFIED = {falsified}")
-print("STUR Sonoluminescence Lab v11.0 Complete.")</pre>
+print("STUR Sonoluminescence Lab Complete.")</pre>
 
             <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
                 <button class="glass-btn primary" id="copyBtn">
@@ -677,7 +672,7 @@ print("STUR Sonoluminescence Lab v11.0 Complete.")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> sonoluminescence-lab |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -708,7 +703,7 @@ print("STUR Sonoluminescence Lab v11.0 Complete.")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
@@ -794,28 +789,6 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "5D Chi-Coupled Sonoluminescence Lab," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>

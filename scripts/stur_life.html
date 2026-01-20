@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -98,7 +93,7 @@
     
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -176,7 +171,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>STUR evolution law:</strong></p>
@@ -260,7 +255,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Hydrothermal Vent Proto-Cell (v11.0)
+# STUR Hydrothermal Vent Proto-Cell
 #
 # Alkaline vent micro-pore with STUR curvature selection:
 #   - 12 um pore, 80-120 C gradient, pH 9.8 -> 6.0
@@ -378,7 +373,7 @@ for n in range(nt):
         history["R_var"].append(R_var)
         history["O_life"].append(O_life)
 
-print("=== STUR Hydrothermal Proto-Cell [v11.0] ===")
+print("=== STUR Hydrothermal Proto-Cell ===")
 print(f"chi_X = {chi}")
 print(f"Final Ac_mean = {Ac_f.mean():.4e}")
 print(f"Final ATP_mean = {ATP_f.mean():.4e}")
@@ -414,7 +409,7 @@ axes[1,1].set_title("Life-Onset Order Parameter", color='#ffaa00')
 axes[1,1].set_xlabel("Time (s)", color='#94a3b8')
 axes[1,1].set_ylabel("O_life", color='#94a3b8')
 
-fig.suptitle(f'STUR Hydrothermal Proto-Cell (chi_X={chi}, v11.0)', color='#ffaa00', fontsize=14)
+fig.suptitle(f'STUR Hydrothermal Proto-Cell (chi_X={chi})', color='#ffaa00', fontsize=14)
 plt.tight_layout()
 plt.show()</pre>
 
@@ -454,7 +449,7 @@ plt.show()</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> hydrothermal-protocell |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -521,7 +516,7 @@ plt.show()</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
@@ -607,28 +602,6 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "Hydrothermal Proto-Cell Simulation," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>

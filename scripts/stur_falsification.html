@@ -6,16 +6,8 @@
 <title>STUR Falsification — Experimental Protocol and Decision Criteria</title>
 <meta name="description" content="The falsification protocol for STUR: experimental requirements, decision criteria, and what observations would definitively exclude the XCRM framework.">
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(','\\)']],
-    displayMath: [['\\[','\\]']],
-    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}' }
-  },
-  svg: { fontCache: 'global' }
-};
-</script>
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <link rel="stylesheet" href="../assets/css/stur-core.css">
@@ -45,6 +37,7 @@ window.MathJax = {
 <header class="masthead">
   <h1 style="background: linear-gradient(135deg, var(--error) 0%, var(--gold) 50%, var(--text) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Falsification Protocol</h1>
   <p class="subtitle">How to Test and Potentially Exclude STUR</p>
+  <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
 
 <div class="physics-legend">
@@ -265,29 +258,57 @@ window.MathJax = {
 
 <!-- THEORETICAL STATUS -->
 <section class="section" id="sec14">
-  <h2>14. Theoretical Status (v11.0)</h2>
+  <h2>14. Theoretical Status</h2>
+
+  <p style="color:var(--text-secondary);margin-bottom:1rem;">
+    The framework makes specific testable predictions. Below is a rigorous classification matching the
+    <a href="stur_core_theory.html#open-issues" style="color:var(--accent);">Core Theory claim status</a>:
+  </p>
 
   <div class="block success" style="background:rgba(74,222,128,0.04);border-color:rgba(74,222,128,0.3);">
-    <div class="title" style="color:#4ade80;">Complete Theory — All Problems Closed</div>
-    <p style="margin:0;color:var(--text-secondary);">
-      With MHP + DHP, all 13 fundamental problems are now <strong>closed</strong>:
-    </p>
-    <ul style="margin-top:0.5rem;color:var(--text-secondary);">
-      <li><strong style="color:#4ade80;">UV completion:</strong> Holonomy self-regulation (DHP F.7)</li>
-      <li><strong style="color:#4ade80;">Coherence length:</strong> Derived: \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\)</li>
-      <li><strong style="color:#4ade80;">Loop enhancement:</strong> Stokes' theorem pathway established</li>
-      <li><strong style="color:#4ade80;">Cosmological signatures:</strong> DHP inflation + baryogenesis (F.12)</li>
-      <li><strong style="color:#4ade80;">Quantum gravity:</strong> Finite holonomy path integral (F.13)</li>
+    <div class="title" style="color:#4ade80;">Mathematically Established</div>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li><strong>Gaussian visibility form:</strong> Follows from CLT phase averaging (Appendix B)</li>
+      <li><strong>Coherence length:</strong> \(\ell_{\rm coh} = \sqrt{2}\, L_X / (y\,\sigma_R)\) from dimensional analysis</li>
+      <li><strong>TEGR emergence:</strong> Equilibrium limit recovers teleparallel gravity</li>
+      <li><strong>3 generations:</strong> Explicit APS index calculation gives |I| = 3 (Appendix F.4.1)</li>
+      <li><strong>MHP variational solutions:</strong> Closed-form fermion positions from ∂Ω/∂X = 0 (F.3.1)</li>
+      <li><strong>All-orders UV finiteness:</strong> 1-loop (F.7.1) + inductive multi-loop proof (F.7.2)</li>
     </ul>
   </div>
 
-  <div class="block gold">
+  <div class="block gold" style="margin-top:1rem;">
+    <div class="title" style="color:#fbbf24;">Formalized (Verification Encouraged)</div>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li><strong>SM gauge group:</strong> MHP holonomy cost minimization (Eq. F.5)</li>
+      <li><strong>DHP cosmological extension:</strong> Path integral formulation stated (Eq. F.12)</li>
+    </ul>
+  </div>
+
+  <div class="block warning" style="margin-top:1rem;">
+    <div class="title" style="color:var(--warning);">Conjectured (Mechanism Proposed)</div>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li><strong>Λ problem resolution:</strong> DHP holonomy cancellation proposed. <em>Not demonstrated.</em></li>
+      <li><strong>Quantum gravity:</strong> Finite holonomy path integral claimed. <em>Full proof not provided.</em></li>
+    </ul>
+  </div>
+
+  <div class="block error" style="margin-top:1rem;">
+    <div class="title" style="color:var(--error);">Free Parameters (Must Be Measured)</div>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li><strong>L<sub>X</sub>:</strong> Compactification scale — not determined from first principles</li>
+      <li><strong>λ:</strong> Self-coupling — sets vacuum expectation value</li>
+    </ul>
+  </div>
+
+  <div class="block" style="margin-top:1.5rem;border-color:var(--accent);">
     <div class="title">The Path Forward</div>
     <p style="margin:0;color:var(--text-secondary);">
       STUR provides a <strong>falsifiable target</strong> for experimental physics. The theory
-      stands or falls on the Gaussian visibility prediction. Either experiments will confirm this
-      form (determining \(\ell_{\rm coh}\)), or they will falsify STUR by revealing a different
-      functional dependence.
+      stands or falls on the Gaussian visibility prediction. This prediction is <strong>mathematically
+      established</strong> regardless of the status of MHP/DHP extensions. Either experiments will
+      confirm this form (determining \(\ell_{\rm coh}\)), or they will falsify STUR by revealing
+      a different functional dependence.
     </p>
   </div>
 </section>
@@ -308,7 +329,7 @@ window.MathJax = {
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Falsification Protocol</strong> — v11.0</p>
+  <p><strong>STUR Falsification Protocol</strong></p>
   <p>© 2026 Sheldon Lon Lindberg</p>
 </footer>
 

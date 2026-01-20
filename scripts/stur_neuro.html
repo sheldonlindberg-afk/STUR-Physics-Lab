@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -98,7 +93,7 @@
     
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -177,7 +172,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Unified Resistance Lagrangian (axon growth):</strong></p>
@@ -261,7 +256,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Neuroplasticity Lab v5.1 - 5D X-Synapse (v11.0)
+# STUR Neuroplasticity Lab v5.1 - 5D X-Synapse
 #
 # Axon growth under Unified Resistance Lagrangian:
 #   - Coherence c(t) = S.B, structural weight w(t), X-dim chi(t)
@@ -347,7 +342,7 @@ chi_hist = np.array(chi_hist)
 r_final, c_final, w_final = float(rs[-1]), float(cs[-1]), float(ws[-1])
 lambda_X = float(np.clip(0.5 * (1.0 + c_final) * w_final, 0.0, 1.5))
 
-print("=== STUR Neuroplasticity [v11.0] ===")
+print("=== STUR Neuroplasticity ===")
 print(f"r_final = {r_final:.3f} um")
 print(f"c_final = {c_final:.3f}")
 print(f"w_final = {w_final:.3f}")
@@ -494,7 +489,7 @@ axes[1,1].set_title("STDP Competition", color='#ffaa00')
 axes[1,1].set_xlabel("Time (ms)", color='#94a3b8')
 axes[1,1].legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
 
-fig.suptitle('STUR Neuroplasticity X-Synapse (v11.0)', color='#ffaa00', fontsize=14)
+fig.suptitle('STUR Neuroplasticity X-Synapse', color='#ffaa00', fontsize=14)
 plt.tight_layout()
 plt.show()</pre>
 
@@ -534,7 +529,7 @@ plt.show()</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> neuroplasticity-xsynapse |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -601,7 +596,7 @@ plt.show()</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
@@ -685,28 +680,6 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "Neuroplasticity X-Synapse," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>

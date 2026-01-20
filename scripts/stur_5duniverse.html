@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -98,7 +93,7 @@
     
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -166,7 +161,7 @@
             <p>The 5D unified gravity model derives directly from the STUR framework through several key connections:</p>
 
             <ul>
-                <li><strong>Master Action derivation:</strong> The 5D metric extension emerges from the <a href="stur_core_theory.html#master-action">Master Action (v11.0)</a> when the torsion term \(L_{\text{torsion}}\) is promoted to a full 5D manifold with the coherence coordinate \(\chi\).</li>
+                <li><strong>Master Action derivation:</strong> The 5D metric extension emerges from the <a href="stur_core_theory.html#master-action">Master Action</a> when the torsion term \(L_{\text{torsion}}\) is promoted to a full 5D manifold with the coherence coordinate \(\chi\).</li>
 
                 <li><strong>Chronomagnetic coupling:</strong> The sector strands \(\chi_{\text{baryon}}(\tau)\) and \(\chi_{\text{DM}}(\tau)\) follow the log-time parameterization from the <a href="stur_core_theory.html#langevin">Effective Langevin Equation (6.2)</a>, which governs stochastic resistance dynamics at cosmological scales.</li>
 
@@ -206,7 +201,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>5D extension:</strong> We embed the 4D spacetime in a 5D manifold with coordinates \(x^a = (t, x, y, z, \chi)\), where \(\chi\) is the STUR coherence dimension:</p>
@@ -282,7 +277,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR 5D UGR v11.0 – Unified Tidal Operator
+# STUR 5D UGR – Unified Tidal Operator
 #   (Metric + Torsion + Gauge) with Scientific Plots
 #
 # Derives cosmological evolution from 5D geodesic deviation
@@ -546,7 +541,7 @@ def main():
     ax1.plot(w_dm["x"], w_dm["y"], w_dm["z"], label="Dark Matter", color="#f472b6")
     ax1.plot(w_de["x"], w_de["y"], w_de["z"], label="Dark Energy", color="#fbbf24")
     ax1.plot(w_ref["x"], w_ref["y"], w_ref["z"], label="Reference", lw=2, color="#60a5fa")
-    ax1.set_title("STUR 5D UGR v11.0 - Infinity Helix", color="#ffaa00")
+    ax1.set_title("STUR 5D UGR - Infinity Helix", color="#ffaa00")
     ax1.legend()
 
     # Deviation magnitude
@@ -568,7 +563,7 @@ def main():
     report = {
         "meta": {
             "page": "5d-unified-gravity",
-            "version": "v11.0",
+            "version": "",
             "equation": "eta''(tau) + K(tau) eta = 0"
         },
         "params": {
@@ -584,7 +579,7 @@ def main():
     with open(OUT_JSON, "w") as f:
         json.dump(report, f, indent=2)
 
-    print("=== STUR 5D UGR [v11.0] ===")
+    print("=== STUR 5D UGR ===")
     print(f"tau_max:    {TAU_MAX:.4f}")
     print(f"Samples:    {N_SAMPLES}")
     print(f"Outputs: {OUT_PNG}, {OUT_JSON}")
@@ -628,7 +623,7 @@ if __name__ == "__main__":
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> 5d-unified-gravity |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -659,7 +654,7 @@ if __name__ == "__main__":
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
@@ -745,28 +740,6 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "5D Unified Gravity," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>

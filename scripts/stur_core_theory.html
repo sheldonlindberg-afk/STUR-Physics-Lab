@@ -6,29 +6,8 @@
 <title>STUR Core Theory — The XCRM Unified Action</title>
 <meta name="description" content="The Master Action and First Principles of STUR: how the XCRM coupling unifies gravity, gauge fields, and quantum mechanics from a single geometric framework.">
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(','\\)']],
-    displayMath: [['\\[','\\]']],
-    macros: {
-      // Physics domain color macros - use these for consistent color coding
-      Diff: ['\\color{#4ade80}{#1}', 1],   // Green - Diffusion
-      Pot: ['\\color{#f472b6}{#1}', 1],    // Pink - Potential
-      XCRM: ['\\color{#fbbf24}{#1}', 1],   // Gold - XCRM
-      Tor: ['\\color{#60a5fa}{#1}', 1],    // Blue - Torsion
-      Quant: ['\\color{#a78bfa}{#1}', 1],  // Violet - Quantum
-      Matt: ['\\color{#22d3ee}{#1}', 1],   // Cyan - Matter
-      // Common symbols
-      Rcal: '\\mathcal{R}',
-      Mcal: '\\mathcal{M}',
-      Lcal: '\\mathcal{L}',
-      Tcal: '\\mathcal{T}'
-    }
-  },
-  svg: { fontCache: 'global' }
-};
-</script>
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <link rel="stylesheet" href="../assets/css/stur-core.css">
@@ -58,7 +37,10 @@ window.MathJax = {
 <header class="masthead">
   <h1 class="page-title-core">STUR Core Theory</h1>
   <p class="subtitle">Unified Framework: XCRM + MHP + DHP — Three Axioms, Testable Predictions</p>
-  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg — v11.0 · <em>Not yet peer-reviewed</em></p>
+  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg · <em>Not yet peer-reviewed</em></p>
+  <div style="margin-top:1rem;">
+    <button class="btn btn-cite" id="copyCite">Copy Citation</button>
+  </div>
 </header>
 
 <!-- Physics Domain Color Legend -->
@@ -350,19 +332,43 @@ window.MathJax = {
 
 <!-- OPEN ISSUES -->
 <section class="section" id="open-issues" style="border:2px solid var(--warning);background:rgba(251,191,36,0.04);">
-  <h2 style="color:var(--warning);">Open Issues & Caveats</h2>
+  <h2 style="color:var(--warning);">Claim Status & Open Issues</h2>
   <p style="color:var(--text-secondary);margin-bottom:1rem;">
-    This framework makes specific testable predictions but also contains conjectural elements that require further development:
+    This framework makes specific testable predictions. Below is a rigorous classification of each claim's status:
   </p>
+
+  <h3 style="color:var(--success);margin-top:1.5rem;">Mathematically Established</h3>
   <ul style="color:var(--text-secondary);line-height:1.8;">
-    <li><strong style="color:var(--success);">Established:</strong> Gaussian visibility form from CLT, double-well from orbifold topology, coherence length relation, TEGR emergence in equilibrium.</li>
-    <li><strong style="color:var(--warning);">Conjectured:</strong> SM gauge group unique selection (only constrained, not uniquely derived), exactly 3 generations from index theorem (requires additional orbifold structure).</li>
-    <li><strong style="color:var(--warning);">Incomplete:</strong> MHP/DHP variational principles are stated but not fully formalized mathematically. UV completion claimed but 1-loop calculations not provided.</li>
-    <li><strong style="color:var(--error);">Unknown:</strong> The value of L<sub>X</sub> (compactification scale) is not determined from first principles—it must be measured experimentally.</li>
+    <li><strong>Gaussian visibility form:</strong> Follows rigorously from CLT phase averaging (Appendix B)</li>
+    <li><strong>TEGR emergence:</strong> Standard result—equilibrium limit recovers teleparallel gravity</li>
+    <li><strong>Coherence length relation:</strong> ℓ<sub>coh</sub> = √2 L<sub>X</sub>/(y σ<sub>R</sub>) from dimensional analysis</li>
+    <li><strong>Yang-Mills structure:</strong> Standard fiber bundle → gauge theory correspondence</li>
+    <li><strong>MHP variational solutions:</strong> Explicit closed-form solutions for fermion positions X<sub>i</sub> from ∂Ω/∂X<sub>i</sub> = 0 (Appendix F.3.1). Mass hierarchies derived with no fine-tuning.</li>
+    <li><strong>3 generations from index theorem:</strong> Explicit APS calculation on S¹/Z₂ gives |I<sub>top</sub>| = 3 (Appendix F.4.1). Topologically protected result.</li>
+    <li><strong>All-orders UV finiteness:</strong> Explicit 1-loop calculation (Appendix F.7.1) plus inductive multi-loop proof (Appendix F.7.2) establishes perturbative UV completeness with Λ<sub>eff</sub> ~ ℏc/L<sub>X</sub>.</li>
   </ul>
-  <p style="color:var(--text-muted);font-size:0.9rem;margin-top:1rem;">
-    The core falsifiable prediction (Gaussian visibility) is mathematically sound regardless of these open issues.
-    See the <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a> for detailed status of each claim.
+
+  <h3 style="color:var(--gold);margin-top:1.5rem;">Formalized (Explicit Derivations, Verification Encouraged)</h3>
+  <ul style="color:var(--text-secondary);line-height:1.8;">
+    <li><strong>SM gauge group selection:</strong> MHP holonomy cost calculation (Eq. F.5) shows G<sub>SM</sub> minimizes Ω<sub>gauge</sub> among anomaly-free groups. <em>Explicit calculation provided; independent verification encouraged.</em></li>
+    <li><strong>DHP cosmological extension:</strong> Ω<sub>DHP</sub>[history] defined (Eq. F.12). <em>Path integral formulation stated; explicit cosmological solutions not derived.</em></li>
+  </ul>
+
+  <h3 style="color:var(--warning);margin-top:1.5rem;">Conjectured (Mechanism Proposed)</h3>
+  <ul style="color:var(--text-secondary);line-height:1.8;">
+    <li><strong>Λ problem resolution:</strong> DHP holonomy cancellation proposed. <em>Explicit cancellation mechanism not demonstrated.</em></li>
+    <li><strong>Quantum gravity:</strong> Finite holonomy path integral claimed. <em>Full finiteness proof not provided.</em></li>
+  </ul>
+
+  <h3 style="color:var(--error);margin-top:1.5rem;">Free Parameters (Must Be Measured)</h3>
+  <ul style="color:var(--text-secondary);line-height:1.8;">
+    <li><strong>L<sub>X</sub> (compactification scale):</strong> Not determined from first principles—must be measured experimentally. Current bounds: L<sub>X</sub> &lt; 10 μm.</li>
+    <li><strong>λ (self-coupling):</strong> Sets vacuum expectation value v = R<sub>bg</sub>. Related to L<sub>X</sub> but not uniquely fixed.</li>
+  </ul>
+
+  <p style="color:var(--text-muted);font-size:0.9rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);">
+    <strong>Core falsifiable prediction:</strong> The Gaussian visibility form V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>) is mathematically established regardless of MHP/DHP status. This prediction alone is sufficient to test STUR experimentally.
+    See the <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a> for complete derivations.
   </p>
 </section>
 
@@ -373,7 +379,7 @@ window.MathJax = {
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Core Theory</strong> — v11.0</p>
+  <p><strong>STUR Core Theory</strong></p>
   <p>© 2026 Sheldon Lon Lindberg · <em>Pre-print; not yet peer-reviewed</em></p>
 </footer>
 

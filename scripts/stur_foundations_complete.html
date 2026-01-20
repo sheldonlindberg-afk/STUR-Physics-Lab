@@ -14,34 +14,14 @@
       media-src 'self' blob:;
       " />
 <!-- CSP intentionally permissive to allow MathJax CDN + inline holoscreen JavaScript -->
-<title>Foundations of STUR v11.0 — Teleparallel Substrate Tests via Interferometric Holonomy</title>
+<title>Foundations of STUR — Teleparallel Substrate Tests via Interferometric Holonomy</title>
 
 <meta name="author" content="Sheldon Lon Lindberg" />
-<meta name="description" content="STUR v11.0: A teleparallel-organized phenomenological framework providing a distinctive Gaussian interferometric visibility signature for stochastic scalar-matter coupling, contrasted with coherent ULDM oscillations." />
+<meta name="description" content="STUR: A teleparallel-organized phenomenological framework providing a distinctive Gaussian interferometric visibility signature for stochastic scalar-matter coupling, contrasted with coherent ULDM oscillations." />
 <meta name="keywords" content="teleparallel gravity, TEGR, interferometry, quantum coherence, extra dimensions, scalar-matter coupling, falsifiable prediction" />
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(','\\)']],
-    displayMath: [['\\[','\\]']],
-    macros: {
-      Rcal: '\\mathcal{R}',
-      Mcal: '\\mathcal{M}',
-      Fcal: '\\mathcal{F}',
-      Dcal: '\\mathcal{D}',
-      Ocal: '\\mathcal{O}',
-      Tcal: '\\mathcal{T}',
-      Lcal: '\\mathcal{L}',
-      Tr: '\\mathrm{Tr}',
-      dd: '\\mathrm{d}'
-    }
-  },
-  svg: { fontCache: 'global' },
-  options: { renderActions: { addMenu: [] } }
-};
-</script>
-
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <!-- Fonts used by the holoscreen UI -->
@@ -762,7 +742,7 @@ code {
   </ol>
 
   <div class="block warning">
-    <div class="title">Critical Clarification (v11.0)</div>
+    <div class="title">Critical Clarification</div>
     <p style="margin:0;color:var(--text-secondary)">
       <strong>Two key points:</strong><br>
       (1) <strong>Magnitude (geometric):</strong> In this revision, the coherence scale is set by the
@@ -3372,7 +3352,7 @@ code {
 
 ```
 <!-- ═══════════════════════════════════════════════════════════════════════
-     BEGIN HOLOSCREEN — v11.0 (LAB-PARAMETERIZED: Rq, L0, Loop Geometry, Φ_R)
+     BEGIN HOLOSCREEN (LAB-PARAMETERIZED: Rq, L0, Loop Geometry, Φ_R)
      ═══════════════════════════════════════════════════════════════════════ -->
 
 
@@ -4392,10 +4372,10 @@ code {
   <h2>14. Future Research Directions</h2>
 
   <div class="block success">
-    <div class="title">Status After v11.0</div>
+    <div class="title">Status Current</div>
     <p style="margin:0;color:var(--text-secondary)">
       With the explicit separation between formal bookkeeping variables and effective observables,
-      STUR v11.0 should be read as a <strong>phenomenological interferometric test framework</strong>
+      STUR should be read as a <strong>phenomenological interferometric test framework</strong>
       rather than as a claim of new gravitational microphysics. The remaining open problems
       concern enhancement mechanisms and experimental reach, not internal consistency. The
       framework is falsifiable, the predictions are binary, and the experimental protocol is
@@ -4404,7 +4384,7 @@ code {
   </div>
 
   <div class="block success">
-    <div class="title">Closure Status (Revised after v11.0)</div>
+    <div class="title">Closure Status (Revised current)</div>
     <p style="margin:0;color:var(--text-secondary)">
       STUR is now closed at two levels:
     </p>
@@ -5083,7 +5063,7 @@ code {
   </p>
 
   <div class="block">
-    <div class="title">Parameter Mapping (v11.0)</div>
+    <div class="title">Parameter Mapping</div>
     <table style="margin:0.5rem 0;font-size:0.88rem">
       <tr>
         <th>Simulation Parameter</th>
@@ -5181,10 +5161,10 @@ code {
 </section>
 
 <footer class="footer">
-  <p><strong>Foundations of STUR</strong> — v11.0</p>
+  <p><strong>Foundations of STUR</strong></p>
   <p>© 2026 Sheldon Lon Lindberg</p>
   <p class="citation">
-    Lindberg, S.L. (2026). Foundations of STUR: Teleparallel Substrate Tests via Interferometric Holonomy (v11.0).
+    Lindberg, S.L. (2026). Foundations of STUR: Teleparallel Substrate Tests via Interferometric Holonomy.
   </p>
 </footer>
 
@@ -5214,29 +5194,6 @@ code {
     });
   });
 
-  // Copy citation
-  const citeBtn = document.getElementById('copyCite');
-  const citation = `Lindberg, Sheldon Lon (2026). "Foundations of STUR: Teleparallel Substrate Tests via Interferometric Holonomy," v11.0.`;
-
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (err) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
-  }
 })();
 </script>
 

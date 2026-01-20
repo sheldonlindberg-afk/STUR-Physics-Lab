@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-    <!-- MathJax -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-        svg: { fontCache: 'global' }
-      };
-    </script>
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
@@ -99,7 +94,7 @@
     
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
-            <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+            <button class="btn btn-cite" id="copyCite">Copy Citation</button>
         </div>
     </header>
 
@@ -124,7 +119,7 @@
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
                 <li>STUR modulator form: \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\) with \(y=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
                 <li>Resistance-mediated dynamics — S(r) gates all force contributions</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
@@ -201,7 +196,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Limit assumed:</strong> Radial symmetry, classical (Markovian) regime with damping. The resistance modulator \(S(r)\) emerges from integrating out the X-dimension:</p>
@@ -332,7 +327,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 """
-STUR Resistance Arc Simulator (v11.0)
+STUR Resistance Arc Simulator
 ====================================
 Tests the resistance modulator S(r) from the Master Action potential term.
 
@@ -503,7 +498,7 @@ falsified = kill1 or kill2 or kill3
 report = {
     "meta": {
         "page": "resistance-arc",
-        "version": "v11.0",
+        "version": "",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "S(r) = tanh(r/L₀)·(1 - exp(-r/L₀))"
     },
@@ -537,7 +532,7 @@ report = {
     }
 }
 
-print("=== STUR Resistance Arc [v11.0] ===")
+print("=== STUR Resistance Arc ===")
 print(f"STUR Modulator: S(r) = tanh(r/L₀)·(1 - exp(-r/L₀))")
 print(f"L₀ = {L0:.2e} m (= √2 L_X / σ_R)")
 print()
@@ -622,7 +617,7 @@ print(f"\nOutputs: stur_arc.png, stur_arc.json")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> resistance-arc |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -652,7 +647,7 @@ print(f"\nOutputs: stur_arc.png, stur_arc.json")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
@@ -725,28 +720,6 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.textContent = msg || 'Copied to clipboard';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "Resistance Arc Simulator," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
   }
 })();
 </script>
