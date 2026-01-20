@@ -116,14 +116,14 @@
         <div class="glass-section-body" style="font-size:0.97rem;">
             <p style="margin-bottom:0.7rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--neon-green);">
-                <li>Curvature regulator \(\mathcal{S}(r,t)\) functional form — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
-                <li>Scale-dependent modulation — from diffusion term \(\alpha(\nabla R)^2\)</li>
+                <li>Curvature regulator \(\XCRM{\mathcal{S}}(\Diff{r},\Matt{t})\) functional form — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
+                <li>Scale-dependent modulation — from diffusion term \(\Tor{\alpha}(\Diff{\nabla R})^2\)</li>
                 <li>Stochastic noise spectrum — from Langevin equation</li>
             </ul>
             <p style="margin-bottom:0.7rem;"><strong style="color:#64748b;">Speculative Mappings:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:#64748b;">
                 <li>Pathogen cluster radius \(\leftrightarrow\) STUR r-parameter — phenomenological analogy</li>
-                <li>Immune force density \(\leftrightarrow\) \(\mathcal{S}(r,t)\) — conceptual mapping</li>
+                <li>Immune force density \(\leftrightarrow\) \(\XCRM{\mathcal{S}}(\Diff{r},\Matt{t})\) — conceptual mapping</li>
                 <li>Flu/cancer/HIV regimes \(\leftrightarrow\) coherence states — not derived from Master Action</li>
             </ul>
             <p style="color:#94a3b8;font-size:0.9rem;"><em>Note: This page explores whether STUR curvature mathematics could model immune response dynamics. The biological mappings are speculative analogies.</em></p>
@@ -140,8 +140,8 @@
         </div>
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Time-radius immune force maps and clearance indices for flu-like acute, cancer-suppressed, and HIV-collapsed regimes.</p>
-            <p><strong>Scale:</strong> Radial distance \(r \sim 10\,\text{nm}-50\,\mu\text{m}\), time \(T \sim 1\,\text{hr}\).</p>
-            <p><strong>Connection:</strong> The STUR curvature regulator \(\mathcal{S}(r,t)\) modulates immune force density, selectively activating for large pathogen clusters.</p>
+            <p><strong>Scale:</strong> Radial distance \(\Diff{r} \sim 10\,\text{nm}-50\,\mu\text{m}\), time \(\Matt{T} \sim 1\,\text{hr}\).</p>
+            <p><strong>Connection:</strong> The STUR curvature regulator \(\XCRM{\mathcal{S}}(\Diff{r},\Matt{t})\) modulates immune force density, selectively activating for large pathogen clusters.</p>
         </div>
     </section>
 
@@ -174,7 +174,7 @@
 
             <div class="stur-eq derived">
                 \[
-                \mathcal{S}(r,t) = \tanh\left(\frac{r}{L_0}\right)\left(1 - e^{-r/L_0}\right) e^{-\kappa t}
+                \XCRM{\mathcal{S}}(\Diff{r},\Matt{t}) = \tanh\left(\frac{\Diff{r}}{\XCRM{L_0}}\right)\left(1 - e^{-\Diff{r}/\XCRM{L_0}}\right) e^{-\Pot{\kappa} \Matt{t}}
                 \]
                 <div class="stur-eq-label">Time-Decaying Curvature Regulator</div>
             </div>
@@ -183,7 +183,7 @@
 
             <div class="stur-eq derived">
                 \[
-                F_{\text{immune}}(r,t) = \mathcal{S}(r,t) \left[ \frac{k_{\text{innate}} C_{\text{immune}} P_{\text{path}}}{r^2} - \frac{k_{\text{suppress}} C_{\text{reg}} P_{\text{path}}}{r^2} + k_{\text{adaptive}} \left( \frac{1 - e^{-r/\lambda_{\text{sig}}}}{r^2} + \sigma_{\text{prolif}} r \right) \right] + F_{\text{chem}}(r)
+                \Matt{F_{\text{immune}}}(\Diff{r},\Matt{t}) = \XCRM{\mathcal{S}}(\Diff{r},\Matt{t}) \left[ \frac{\Pot{k_{\text{innate}}} \Matt{C_{\text{immune}}} \Matt{P_{\text{path}}}}{\Diff{r}^2} - \frac{\Pot{k_{\text{suppress}}} \Matt{C_{\text{reg}}} \Matt{P_{\text{path}}}}{\Diff{r}^2} + \Pot{k_{\text{adaptive}}} \left( \frac{1 - e^{-\Diff{r}/\Pot{\lambda_{\text{sig}}}}}{\Diff{r}^2} + \Diff{\sigma_{\text{prolif}}} \Diff{r} \right) \right] + \Matt{F_{\text{chem}}}(\Diff{r})
                 \]
                 <div class="stur-eq-label">Unified Immune Force Field</div>
             </div>
@@ -192,7 +192,7 @@
 
             <div class="stur-eq derived">
                 \[
-                F_{\text{chem}}(r) = \gamma_{\text{chem}} e^{-r/\ell_{\text{chem}}} |S_{\text{immune}}| |G_{\text{path}}|
+                \Matt{F_{\text{chem}}}(\Diff{r}) = \Pot{\gamma_{\text{chem}}} e^{-\Diff{r}/\XCRM{\ell_{\text{chem}}}} |\Tor{S_{\text{immune}}}| |\Diff{G_{\text{path}}}|
                 \]
                 <div class="stur-eq-label">Spin-Torsion Chemotaxis</div>
             </div>
@@ -210,12 +210,12 @@
         <div class="glass-section-body">
             <p><strong>Key physics:</strong></p>
             <ul>
-                <li><strong>Large plaques (\(r \gg L_0\)):</strong> \(\mathcal{S}(r) \approx 1\), full immune activation.</li>
-                <li><strong>Small oligomers (\(r \ll L_0\)):</strong> \(\mathcal{S}(r) \sim r^2/L_0^2\), suppressed response.</li>
+                <li><strong>Large plaques (\(\Diff{r} \gg \XCRM{L_0}\)):</strong> \(\XCRM{\mathcal{S}}(\Diff{r}) \approx 1\), full immune activation.</li>
+                <li><strong>Small oligomers (\(\Diff{r} \ll \XCRM{L_0}\)):</strong> \(\XCRM{\mathcal{S}}(\Diff{r}) \sim \Diff{r}^2/\XCRM{L_0}^2\), suppressed response.</li>
                 <li><strong>Disease regimes:</strong> Flu (acute clearance), Cancer (suppressed), HIV (collapsed).</li>
             </ul>
 
-            <p><strong>Clearance index:</strong> \(\int_r \int_t |F_{\text{immune}}(r,t)| \, dt \, dr\) quantifies total immune response.</p>
+            <p><strong>Clearance index:</strong> \(\int_{\Diff{r}} \int_{\Matt{t}} |\Matt{F_{\text{immune}}}(\Diff{r},\Matt{t})| \, d\Matt{t} \, d\Diff{r}\) quantifies total immune response.</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
@@ -476,18 +476,18 @@ plt.show()</pre>
                 <div class="stur-eq-label">(3.4.7) Emergent 4D Equation</div>
             </div>
 
-            <p><strong>Immunodynamic Interpretation:</strong> The time-decaying curvature regulator \(\mathcal{S}(r,t) = \tanh(r/L_0)(1-e^{-r/L_0})e^{-\kappa t}\) directly maps to immune response dynamics:</p>
+            <p><strong>Immunodynamic Interpretation:</strong> The time-decaying curvature regulator \(\XCRM{\mathcal{S}}(\Diff{r},\Matt{t}) = \tanh(\Diff{r}/\XCRM{L_0})(1-e^{-\Diff{r}/\XCRM{L_0}})e^{-\Pot{\kappa} \Matt{t}}\) directly maps to immune response dynamics:</p>
             <ul>
                 <li><span class="eq-diffusion">Diffusion term</span>: Immune cell migration and cytokine spreading; chemotactic gradients drive directed motion toward infection sites</li>
-                <li><span class="eq-potential">Relaxation term</span>: Immune response decay rate \(\kappa\); acute infections (flu) have fast relaxation, chronic conditions (HIV) show impaired relaxation</li>
-                <li><span class="eq-torsion">Torsion coupling</span>: The chemotactic force \(F_{\rm chem}(r) = \gamma_{\rm chem} e^{-r/\ell_{\rm chem}} |S_{\rm immune}| |G_{\rm path}|\) represents spin-torsion coupling between immune cells and pathogen gradients</li>
+                <li><span class="eq-potential">Relaxation term</span>: Immune response decay rate \(\Pot{\kappa}\); acute infections (flu) have fast relaxation, chronic conditions (HIV) show impaired relaxation</li>
+                <li><span class="eq-torsion">Torsion coupling</span>: The chemotactic force \(\Matt{F_{\rm chem}}(\Diff{r}) = \Pot{\gamma_{\rm chem}} e^{-\Diff{r}/\XCRM{\ell_{\rm chem}}} |\Tor{S_{\rm immune}}| |\Diff{G_{\rm path}}|\) represents spin-torsion coupling between immune cells and pathogen gradients</li>
             </ul>
 
-            <p>The STUR framework explains why large pathogen clusters (\(r \gg L_0\)) trigger full immune activation (\(\mathcal{S} \approx 1\)) while small oligomers (\(r \ll L_0\)) are tolerated (\(\mathcal{S} \sim r^2/L_0^2\)). Disease regimes emerge from different parameter combinations in the unified force field.</p>
+            <p>The STUR framework explains why large pathogen clusters (\(\Diff{r} \gg \XCRM{L_0}\)) trigger full immune activation (\(\XCRM{\mathcal{S}} \approx 1\)) while small oligomers (\(\Diff{r} \ll \XCRM{L_0}\)) are tolerated (\(\XCRM{\mathcal{S}} \sim \Diff{r}^2/\XCRM{L_0}^2\)). Disease regimes emerge from different parameter combinations in the unified force field.</p>
 
             <p><strong>Cross-References:</strong></p>
             <ul style="font-size:0.9rem;">
-                <li><a href="stur_core_theory.html">Foundations</a> — Master Action with torsion coupling \(\alpha R \mathbb{T}\)</li>
+                <li><a href="stur_core_theory.html">Foundations</a> — Master Action with torsion coupling \(\Tor{\alpha} \Diff{R} \Tor{\mathbb{T}}\)</li>
                 <li><a href="stur_unified_framework.html#sec-tegr">Framework Section 3</a> — TEGR and contortion tensor</li>
                 <li><a href="stur_atp.html">Mito Population</a> — Cellular stress signaling via ROS/Ca<sup>2+</sup></li>
             </ul>

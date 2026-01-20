@@ -116,16 +116,16 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Inspired by First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Potential form \(\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>Coherence length: \(\Diff{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / \Diff{\sigma_R}\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
                 <li>X-coordinate concept: coherence tracking as "hidden ledger" (XCRM)</li>
                 <li>Resistance Lagrangian form applied to axon dynamics</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Speculative / Phenomenological:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>STDP enhancement factors \((1+4\lambda_X), (1-3\lambda_X)\) — phenomenological ansatz</li>
+                <li>STDP enhancement factors \((1+4\XCRM{\lambda_X}), (1-3\XCRM{\lambda_X})\) — phenomenological ansatz</li>
                 <li>Axon growth Lagrangian — applied neuroscience, not derived from Master Action</li>
-                <li>Spin-field alignment \(c(t) = \mathbf{S} \cdot \mathbf{B}\) — metaphorical application</li>
+                <li>Spin-field alignment \(\XCRM{c}(\Matt{t}) = \mathbf{S} \cdot \mathbf{B}\) — metaphorical application</li>
                 <li>Hodgkin-Huxley dynamics — standard neuroscience (not STUR-derived)</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
@@ -145,8 +145,8 @@
         </div>
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Axon growth trajectories, synapse weight evolution, and STDP learning curves comparing classical vs STUR-enhanced synapses.</p>
-            <p><strong>Scale:</strong> Axon growth over \(\sim 40\,\mu\text{m}\), Hodgkin-Huxley neuron dynamics over \(120\,\text{ms}\).</p>
-            <p><strong>Connection:</strong> The X-dimension coordinate \(\chi(t)\) tracks coherence history, providing enhanced LTP and reduced LTD for aligned synapses.</p>
+            <p><strong>Scale:</strong> Axon growth over \(\sim 40\,\mu\text{m}\), Hodgkin-Huxley neuron dynamics over \(120\,\Matt{\text{ms}}\).</p>
+            <p><strong>Connection:</strong> The X-dimension coordinate \(\XCRM{\chi}(\Matt{t})\) tracks coherence history, providing enhanced LTP and reduced LTD for aligned synapses.</p>
         </div>
     </section>
 
@@ -179,7 +179,7 @@
 
             <div class="stur-eq derived">
                 \[
-                \mathcal{L} = \frac{1}{2}\mu(\dot{r}^2 + r^2\dot{\theta}^2) - U(r) - \gamma_0 e^{-r/\ell_B} \mathbf{S} \cdot \mathbf{B}
+                \mathcal{L} = \Diff{\frac{1}{2}\mu(\dot{r}^2 + r^2\dot{\theta}^2)} - \Pot{U(r)} - \XCRM{\gamma_0 e^{-r/\ell_B} \mathbf{S} \cdot \mathbf{B}}
                 \]
                 <div class="stur-eq-label">Axon Growth Lagrangian</div>
             </div>
@@ -188,7 +188,7 @@
 
             <div class="stur-eq derived">
                 \[
-                \dot{\chi} = k_\chi(c - c_0) - \gamma_\chi \chi, \quad \lambda_X = \frac{1}{2}(1 + c_{\text{final}}) w_{\text{final}}
+                \XCRM{\dot{\chi}} = k_\chi(\XCRM{c} - c_0) - \Pot{\gamma_\chi} \XCRM{\chi}, \quad \XCRM{\lambda_X} = \frac{1}{2}(1 + \XCRM{c_{\text{final}}}) \Matt{w_{\text{final}}}
                 \]
                 <div class="stur-eq-label">X-Coordinate Evolution</div>
             </div>
@@ -197,7 +197,7 @@
 
             <div class="stur-eq derived">
                 \[
-                \Delta w_{\text{STUR}} = (1 + 4\lambda_X) A_+ e^{-\Delta t/\tau_+} \text{ (LTP)}, \quad -(1 - 3\lambda_X)_+ A_- e^{-\Delta t/\tau_-} \text{ (LTD)}
+                \Matt{\Delta w_{\text{STUR}}} = (1 + 4\XCRM{\lambda_X}) A_+ e^{-\Delta \Matt{t}/\tau_+} \text{ (LTP)}, \quad -(1 - 3\XCRM{\lambda_X})_+ A_- e^{-\Delta \Matt{t}/\tau_-} \text{ (LTD)}
                 \]
                 <div class="stur-eq-label">STUR STDP Rule</div>
             </div>
@@ -215,12 +215,12 @@
         <div class="glass-section-body">
             <p><strong>Key physics:</strong></p>
             <ul>
-                <li><strong>Coherence \(c(t) = \mathbf{S} \cdot \mathbf{B}\):</strong> Spin-field alignment tracks synapse quality.</li>
-                <li><strong>Structural weight \(w(t)\):</strong> Grows when proximity and coherence are both high.</li>
-                <li><strong>X-dimension \(\chi(t)\):</strong> Integrates coherence history, providing "hidden ledger" of successful paths.</li>
+                <li><strong>Coherence \(\XCRM{c}(\Matt{t}) = \mathbf{S} \cdot \mathbf{B}\):</strong> Spin-field alignment tracks synapse quality.</li>
+                <li><strong>Structural weight \(\Matt{w}(\Matt{t})\):</strong> Grows when proximity and coherence are both high.</li>
+                <li><strong>X-dimension \(\XCRM{\chi}(\Matt{t})\):</strong> Integrates coherence history, providing "hidden ledger" of successful paths.</li>
             </ul>
 
-            <p><strong>Learning advantage:</strong> STUR synapses receive \((1+4\lambda_X)\) boost to LTP and \((1-3\lambda_X)\) reduction in LTD.</p>
+            <p><strong>Learning advantage:</strong> STUR synapses receive \((1+4\XCRM{\lambda_X})\) boost to LTP and \((1-3\XCRM{\lambda_X})\) reduction in LTD.</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
@@ -554,14 +554,14 @@ plt.show()</pre>
                 <div class="stur-eq-label">(3.4.7) Emergent 4D Equation</div>
             </div>
 
-            <p><strong>Neuroplasticity Interpretation:</strong> The X-dimension coordinate \(\chi(t)\) acts as a "hidden ledger" integrating coherence history, enhancing synaptic learning for aligned pathways:</p>
+            <p><strong>Neuroplasticity Interpretation:</strong> The X-dimension coordinate \(\XCRM{\chi}(\Matt{t})\) acts as a "hidden ledger" integrating coherence history, enhancing synaptic learning for aligned pathways:</p>
             <ul>
                 <li><span class="eq-diffusion">Diffusion term</span>: Axon growth trajectories follow resistance gradients; growth cones navigate toward low-resistance targets</li>
-                <li><span class="eq-potential">Relaxation term</span>: Synaptic weights decay toward baseline in absence of reinforcement; \(\Gamma\) sets the forgetting rate</li>
-                <li><span class="eq-xcrm">XCRM coupling</span>: The X-dimension accumulates coherence history \(\lambda_X = \frac{1}{2}(1 + c_{\rm final}) w_{\rm final}\), providing enhanced LTP \((1+4\lambda_X)\) and reduced LTD \((1-3\lambda_X)\) for STUR-aligned synapses</li>
+                <li><span class="eq-potential">Relaxation term</span>: Synaptic weights decay toward baseline in absence of reinforcement; \(\Pot{\Gamma}\) sets the forgetting rate</li>
+                <li><span class="eq-xcrm">XCRM coupling</span>: The X-dimension accumulates coherence history \(\XCRM{\lambda_X} = \frac{1}{2}(1 + \XCRM{c_{\rm final}}) \Matt{w_{\rm final}}\), providing enhanced LTP \((1+4\XCRM{\lambda_X})\) and reduced LTD \((1-3\XCRM{\lambda_X})\) for STUR-aligned synapses</li>
             </ul>
 
-            <p>The coherence \(c(t) = \mathbf{S} \cdot \mathbf{B}\) (spin-field alignment) tracks synapse quality in real-time, while the structural weight \(w(t)\) grows when proximity and coherence are simultaneously high. This dual-gating mechanism explains why well-aligned synapses exhibit superior STDP learning.</p>
+            <p>The coherence \(\XCRM{c}(\Matt{t}) = \mathbf{S} \cdot \mathbf{B}\) (spin-field alignment) tracks synapse quality in real-time, while the structural weight \(\Matt{w}(\Matt{t})\) grows when proximity and coherence are simultaneously high. This dual-gating mechanism explains why well-aligned synapses exhibit superior STDP learning.</p>
 
             <p><strong>Cross-References:</strong></p>
             <ul style="font-size:0.9rem;">

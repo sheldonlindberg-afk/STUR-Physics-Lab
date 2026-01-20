@@ -116,8 +116,8 @@
         <div class="glass-section-body" style="font-size:0.97rem;">
             <p style="margin-bottom:0.7rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--neon-green);">
-                <li>STUR modulator \(\mathcal{S}(r)\) form — from V(R) potential sector</li>
-                <li>Force superposition framework — from matter sector \(L_{\text{matter}}\)</li>
+                <li>STUR modulator \(\XCRM{\mathcal{S}(r)}\) form — from \(\Pot{V(R)}\) potential sector</li>
+                <li>Force superposition framework — from matter sector \(\Matt{L_{\text{matter}}}\)</li>
                 <li>Curvature-scale regulation — from diffusion term</li>
             </ul>
             <p style="margin-bottom:0.7rem;"><strong style="color:#64748b;">Speculative Elements:</strong></p>
@@ -140,8 +140,8 @@
         </div>
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Force budget analysis across EM, gravity, strong, superconducting, and bio-battery sectors for implant stability.</p>
-            <p><strong>Scale:</strong> Radial range \(r \sim 10^{-8}-10^{-6}\,\text{m}\), Planck-scale curvature modulation.</p>
-            <p><strong>Connection:</strong> The STUR modulator \(\mathcal{S}(r)\) regulates force superposition to achieve stable, low-force, entangled implant configuration.</p>
+            <p><strong>Scale:</strong> Radial range \(\Diff{r} \sim 10^{-8}-10^{-6}\,\text{m}\), Planck-scale curvature modulation.</p>
+            <p><strong>Connection:</strong> The STUR modulator \(\XCRM{\mathcal{S}(r)}\) regulates force superposition to achieve stable, low-force, entangled implant configuration.</p>
         </div>
     </section>
 
@@ -174,7 +174,7 @@
 
             <div class="stur-eq derived">
                 \[
-                \mathcal{S}(r) = \tanh\left(\frac{r}{L_0}\right)\left(1 - e^{-r/L_0}\right), \quad L_0 \sim \ell_P
+                \XCRM{\mathcal{S}(r)} = \tanh\left(\frac{\Diff{r}}{\Pot{L_0}}\right)\left(1 - e^{-\Diff{r}/\Pot{L_0}}\right), \quad \Pot{L_0} \sim \Quant{\ell_P}
                 \]
                 <div class="stur-eq-label">Planck-Scale Modulator</div>
             </div>
@@ -183,17 +183,17 @@
 
             <div class="stur-eq derived">
                 \[
-                F_{\text{total}}(r) = \mathcal{S}(r) \left[ F_{\text{EM}}(r) + F_{\text{grav}}(r) + F_{\text{strong}}(r) \right] + F_{\text{sc}}(r) + F_{\text{battery}}(r)
+                \Matt{F_{\text{total}}(r)} = \XCRM{\mathcal{S}(r)} \left[ \Matt{F_{\text{EM}}(r)} + \Tor{F_{\text{grav}}(r)} + \Matt{F_{\text{strong}}(r)} \right] + \Matt{F_{\text{sc}}(r)} + \Matt{F_{\text{battery}}(r)}
                 \]
                 <div class="stur-eq-label">Superposed Force Budget</div>
             </div>
 
             <p><strong>Individual force sectors:</strong></p>
             <ul>
-                <li><strong>EM:</strong> \(F_{\text{EM}} = k_e q^2 / (r^2 + \epsilon)\)</li>
-                <li><strong>Gravity:</strong> \(F_{\text{grav}} = -G m^2 / (r^2 + \epsilon)\)</li>
-                <li><strong>Strong-like:</strong> \(F_{\text{strong}} = \alpha_s \left( \frac{1 - e^{-r/\lambda}}{r^2 + \epsilon} + \sigma r e^{-r/\ell_Q} \right)\)</li>
-                <li><strong>Superconducting:</strong> \(F_{\text{sc}}(r) \propto \sum_i \gamma_{\text{sc},i} \mathcal{S}_i(r) e^{-r/\ell_B}\)</li>
+                <li><strong>EM:</strong> \(\Matt{F_{\text{EM}}} = k_e q^2 / (\Diff{r}^2 + \epsilon)\)</li>
+                <li><strong>Gravity:</strong> \(\Tor{F_{\text{grav}}} = -\Tor{G} m^2 / (\Diff{r}^2 + \epsilon)\)</li>
+                <li><strong>Strong-like:</strong> \(\Matt{F_{\text{strong}}} = \Tor{\alpha_s} \left( \frac{1 - e^{-\Diff{r}/\Pot{\lambda}}}{\Diff{r}^2 + \epsilon} + \Diff{\sigma} \Diff{r} e^{-\Diff{r}/\Quant{\ell_Q}} \right)\)</li>
+                <li><strong>Superconducting:</strong> \(\Matt{F_{\text{sc}}(r)} \propto \sum_i \Pot{\gamma_{\text{sc},i}} \XCRM{\mathcal{S}_i(r)} e^{-\Diff{r}/\ell_B}\)</li>
             </ul>
         </div>
     </section>
@@ -209,8 +209,8 @@
         <div class="glass-section-body">
             <p><strong>Key physics:</strong></p>
             <ul>
-                <li><strong>Stability:</strong> Monotonic \(\rho + p_r\) and tiny endpoint forces (\(< 10^{-10}\,\text{N}\)).</li>
-                <li><strong>Entanglement:</strong> Nearly constant superconducting channel force \(F_{\text{sc}}(r)\) across the band.</li>
+                <li><strong>Stability:</strong> Monotonic \(\Matt{\rho + p_r}\) and tiny endpoint forces (\(< 10^{-10}\,\text{N}\)).</li>
+                <li><strong>Entanglement:</strong> Nearly constant superconducting channel force \(\Matt{F_{\text{sc}}(r)}\) across the band.</li>
                 <li><strong>No negative energy:</strong> Positive energy density profile throughout.</li>
             </ul>
 
@@ -496,13 +496,13 @@ plt.show()</pre>
 
             <p><strong>Consciousness Interpretation:</strong> At the Planck-scale implant regime, the STUR master action fully unfolds with all coupling terms active:</p>
             <ul>
-                <li><span class="eq-diffusion">Diffusion term</span>: Resistance field coherence across the implant geometry; superconducting channels maintain nearly constant \(\bar R\) for entanglement stability</li>
-                <li><span class="eq-potential">Relaxation term</span>: The multi-well potential \(V(R)\) generates stable implant configurations where \(\rho + p_r\) remains monotonic (no exotic matter required)</li>
-                <li><span class="eq-torsion">Torsion coupling</span>: Gravitational sector \(F_{\rm grav}\), EM sector \(F_{\rm EM}\), and strong-like confinement \(F_{\rm strong}\) all couple through \(\mathcal{S}(r)\)</li>
+                <li><span class="eq-diffusion">Diffusion term</span>: Resistance field coherence across the implant geometry; superconducting channels maintain nearly constant \(\Diff{\bar R}\) for entanglement stability</li>
+                <li><span class="eq-potential">Relaxation term</span>: The multi-well potential \(\Pot{V(R)}\) generates stable implant configurations where \(\Matt{\rho + p_r}\) remains monotonic (no exotic matter required)</li>
+                <li><span class="eq-torsion">Torsion coupling</span>: Gravitational sector \(\Tor{F_{\rm grav}}\), EM sector \(\Matt{F_{\rm EM}}\), and strong-like confinement \(\Matt{F_{\rm strong}}\) all couple through \(\XCRM{\mathcal{S}(r)}\)</li>
                 <li><span class="eq-matter">Matter sector</span>: Bio-battery optimization and superconducting channel forces provide the physical substrate for consciousness interface</li>
             </ul>
 
-            <p>The implant achieves ACTIVE status when the STUR modulator \(\mathcal{S}(r) = \tanh(r/L_0)(1-e^{-r/L_0})\) produces: (1) stable monotonic \(\rho + p_r\) density profile, (2) endpoint forces below \(10^{-10}\) N, and (3) nearly constant superconducting channel force (entanglement condition). This represents the ultimate biological application of the unified resistance framework.</p>
+            <p>The implant achieves ACTIVE status when the STUR modulator \(\XCRM{\mathcal{S}(r)} = \tanh(\Diff{r}/\Pot{L_0})(1-e^{-\Diff{r}/\Pot{L_0}})\) produces: (1) stable monotonic \(\Matt{\rho + p_r}\) density profile, (2) endpoint forces below \(10^{-10}\) N, and (3) nearly constant superconducting channel force (entanglement condition). This represents the ultimate biological application of the unified resistance framework.</p>
 
             <p><strong>Cross-References:</strong></p>
             <ul style="font-size:0.9rem;">

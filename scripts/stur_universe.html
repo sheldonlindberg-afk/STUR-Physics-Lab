@@ -116,9 +116,9 @@
         <div class="glass-section-body" style="font-size:0.97rem;">
             <p style="margin-bottom:0.7rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--neon-green);">
-                <li>Coherence function form \(S(r) = \tanh(r/L_0)(1-e^{-r/L_0})\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
-                <li>Helix geodesic paths — from torsion sector \(L_{\text{torsion}}\)</li>
-                <li>Energy transport channels — from diffusion term \(\alpha(\nabla R)^2\)</li>
+                <li>Coherence function form \(\XCRM{S}(r) = \tanh(r/\XCRM{L_0})(1-e^{-r/\XCRM{L_0}})\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
+                <li>Helix geodesic paths — from torsion sector \(\Tor{L_{\text{torsion}}}\)</li>
+                <li>Energy transport channels — from diffusion term \(\Diff{\alpha}(\Diff{\nabla R})^2\)</li>
             </ul>
             <p style="margin-bottom:0.7rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--neon-gold);">
@@ -141,7 +141,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Full-sky STUR coherence map from Earth's point of view with helix flow paths.</p>
             <p><strong>Scale:</strong> Comoving distances up to \(z \sim 20\) (over 13 Gpc), covering the observable universe.</p>
-            <p><strong>Connection:</strong> The STUR coherence function \(S(r)\) weights how effectively each radial scale transmits energy and information.</p>
+            <p><strong>Connection:</strong> The STUR coherence function \(\XCRM{S}(r)\) weights how effectively each radial scale transmits energy and information.</p>
         </div>
     </section>
 
@@ -157,7 +157,7 @@
             <p>The Universe Atlas POV derives from the STUR framework through the coherence function and helix geometry:</p>
 
             <ul>
-                <li><strong>Master Action origin:</strong> The coherence function \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) emerges directly from the <a href="stur_core_theory.html#VR-derivation">orbifold-derived V(R) potential (§2.5)</a>, which governs energy transport efficiency across cosmic scales.</li>
+                <li><strong>Master Action origin:</strong> The coherence function \(\XCRM{S}(r) = \tanh(r/\XCRM{L_0})(1 - e^{-r/\XCRM{L_0}})\) emerges directly from the <a href="stur_core_theory.html#VR-derivation">orbifold-derived V(R) potential (§2.5)</a>, which governs energy transport efficiency across cosmic scales.</li>
 
                 <li><strong>Langevin dynamics:</strong> The helix funnel paths connecting Earth to distant structures follow geodesics modulated by the stochastic dynamics of the <a href="stur_core_theory.html#langevin">Effective Langevin Equation (6.2)</a>. This explains why energy and information flow preferentially along certain cosmic filaments.</li>
 
@@ -204,7 +204,7 @@
 
             <div class="stur-eq derived">
                 \[
-                S(r) = \tanh\!\left(\frac{r}{L_0}\right) \cdot \left(1 - e^{-r/L_0}\right)
+                \XCRM{S}(r) = \tanh\!\left(\frac{r}{\XCRM{L_0}}\right) \cdot \left(1 - e^{-r/\XCRM{L_0}}\right)
                 \]
                 <div class="stur-eq-label">STUR Coherence Function</div>
             </div>
@@ -213,12 +213,12 @@
 
             <div class="stur-eq derived">
                 \[
-                \vec{r}(s) = r(s)\,\hat{a} + R_{\text{helix}}(s)\bigl[\cos\Phi(s)\,\hat{e}_1 + \sin\Phi(s)\,\hat{e}_2\bigr]
+                \vec{r}(s) = r(s)\,\hat{a} + \Diff{R_{\text{helix}}}(s)\bigl[\cos\Quant{\Phi}(s)\,\hat{e}_1 + \sin\Quant{\Phi}(s)\,\hat{e}_2\bigr]
                 \]
                 <div class="stur-eq-label">Helix Funnel Path</div>
             </div>
 
-            <p>where \(r(s)\) runs from Earth to the structure distance and \(R_{\text{helix}}(s)\) is modulated by \(S(r)\).</p>
+            <p>where \(r(s)\) runs from Earth to the structure distance and \(\Diff{R_{\text{helix}}}(s)\) is modulated by \(\XCRM{S}(r)\).</p>
         </div>
     </section>
 
@@ -233,8 +233,8 @@
         <div class="glass-section-body">
             <p><strong>Key physics:</strong></p>
             <ul>
-                <li><strong>Cosmology:</strong> Flat \(\Lambda\)CDM with \(H_0 = 70\) km/s/Mpc, \(\Omega_m = 0.3\), \(\Omega_\Lambda = 0.7\).</li>
-                <li><strong>Distance ladder:</strong> Comoving distance \(D_C(z) = \int_0^z \frac{c\,dz'}{H(z')}\) computed numerically.</li>
+                <li><strong>Cosmology:</strong> Flat \(\Tor{\Lambda}\)CDM with \(\Tor{H_0} = 70\) km/s/Mpc, \(\Matt{\Omega_m} = 0.3\), \(\Tor{\Omega_\Lambda} = 0.7\).</li>
+                <li><strong>Distance ladder:</strong> Comoving distance \(D_C(z) = \int_0^z \frac{c\,dz'}{\Tor{H}(z')}\) computed numerically.</li>
                 <li><strong>Skybox projection:</strong> 6-face cube map (RIGHT, LEFT, TOP, BOTTOM, FRONT, BACK) for VR/game integration.</li>
             </ul>
 

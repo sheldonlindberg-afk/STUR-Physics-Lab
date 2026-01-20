@@ -79,7 +79,7 @@
     <header style="text-align:center; margin-bottom:2rem;">
         <h1 class="page-title-derived">Galaxy Rotation Curves</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            Derives galactic rotation curves from the STUR radial modulator \(S(r)\).
+            Derives galactic rotation curves from the STUR radial modulator \(\XCRM{S(r)}\).
             The same <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived potential V(R)</a> that governs microscale physics produces flat rotation at galactic scales.
         </p>
 
@@ -117,20 +117,20 @@
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>Modulator existence: S(r) arises from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R)</a> potential (<a href="stur_core_theory.html#appE" style="color:var(--neon-green)">App. E</a>)</li>
-                <li>Gravitational coupling: \(L_{\text{torsion}}\) sector modifies effective potential</li>
+                <li>Gravitational coupling: \(\Tor{L_{\text{torsion}}}\) sector modifies effective potential</li>
                 <li>Scale-dependent suppression: S(r) → 0 at small r, S(r) → 1 at intermediate scales</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Galactic modulator form: \(\mathcal{S}(r,\phi) = \phi(1+r/L_0)/(1+(r/L_0)^2)e^{-\Lambda r^2}\) — galactic-scale ansatz</li>
-                <li>Length scale \(L_0 = 3 \times 10^{20}\,\text{m}\) — fitted to rotation data</li>
-                <li>Cosmological cutoff \(\Lambda = 4.5 \times 10^{-52}\,\text{m}^{-2}\) — phenomenological</li>
-                <li>Baryonic parameters (\(M_g, M_\star, M_b, R_d, h\)) — standard astrophysics</li>
+                <li>Galactic modulator form: \(\XCRM{\mathcal{S}(r,\phi)} = \XCRM{\phi}(1+\Matt{r}/\XCRM{L_0})/(1+(\Matt{r}/\XCRM{L_0})^2)e^{-\Pot{\Lambda} \Matt{r}^2}\) — galactic-scale ansatz</li>
+                <li>Length scale \(\XCRM{L_0} = 3 \times 10^{20}\,\text{m}\) — fitted to rotation data</li>
+                <li>Cosmological cutoff \(\Pot{\Lambda} = 4.5 \times 10^{-52}\,\text{m}^{-2}\) — phenomenological</li>
+                <li>Baryonic parameters (\(\Tor{M_g}, \Matt{M_\star}, \Tor{M_b}, \Matt{R_d}, \Matt{h}\)) — standard astrophysics</li>
                 <li>NFW halo profile — standard dark matter assumption (comparison baseline)</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
                 <strong>Connection to Core Theory:</strong> The modulator S(r) emerges from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-gold)">orbifold-derived V(R) (§2.5)</a>, but the specific galactic-scale
-                form differs from the microscale \(S(r) = \tanh(r/L_0)(1-e^{-r/L_0})\). Both should arise as different limits
+                form differs from the microscale \(\XCRM{S(r)} = \tanh(\Matt{r}/\XCRM{L_0})(1-e^{-\Matt{r}/\XCRM{L_0}})\). Both should arise as different limits
                 of V(R) — this connection requires explicit derivation to achieve full first-principles status.
             </p>
         </div>
@@ -145,8 +145,8 @@
             <h2 class="glass-section-title">What This Page Derives</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Circular rotation velocity \(v(r)\) vs galactocentric radius for spiral galaxies.</p>
-            <p><strong>Scale:</strong> \(r \sim 1-50\,\text{kpc}\), matching JWST Big Wheel observations.</p>
+            <p><strong>Observable:</strong> Circular rotation velocity \(\Matt{v(r)}\) vs galactocentric radius for spiral galaxies.</p>
+            <p><strong>Scale:</strong> \(\Matt{r} \sim 1-50\,\text{kpc}\), matching JWST Big Wheel observations.</p>
             <p><strong>Connection:</strong> The STUR scalar modulator derived from the <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R) potential (§2.5)</a> modifies effective gravitational potential without invoking dark matter particles.</p>
         </div>
     </section>
@@ -194,7 +194,7 @@
                 <div class="stur-eq-label">Total Rotation Velocity</div>
             </div>
 
-            <p>where \(v_{\mathcal{S}}^2 = G M_g \mathcal{S}(r)/r\) is the STUR-modulated contribution.</p>
+            <p>where \(\Matt{v_{\mathcal{S}}^2} = \Tor{G} \Tor{M_g} \XCRM{\mathcal{S}(r)}/\Matt{r}\) is the STUR-modulated contribution.</p>
         </div>
     </section>
 
@@ -209,12 +209,12 @@
         <div class="glass-section-body">
             <p><strong>Key physics:</strong></p>
             <ul>
-                <li><strong>Inner region:</strong> \(\mathcal{S}(r) \to \phi\) as \(r \to 0\), dominated by baryonic mass.</li>
-                <li><strong>Transition:</strong> Around \(r \sim L_0\), the modulator peaks before exponential cutoff.</li>
-                <li><strong>Flat plateau:</strong> Combined terms yield flat \(v(r) \approx \text{const}\) for \(r > 10\,\text{kpc}\).</li>
+                <li><strong>Inner region:</strong> \(\XCRM{\mathcal{S}(r)} \to \XCRM{\phi}\) as \(\Matt{r} \to 0\), dominated by baryonic mass.</li>
+                <li><strong>Transition:</strong> Around \(\Matt{r} \sim \XCRM{L_0}\), the modulator peaks before exponential cutoff.</li>
+                <li><strong>Flat plateau:</strong> Combined terms yield flat \(\Matt{v(r)} \approx \text{const}\) for \(\Matt{r} > 10\,\text{kpc}\).</li>
             </ul>
 
-            <p><strong>Fit procedure:</strong> Minimize \(\chi^2\) between model and JWST Big Wheel data over parameters \((M_g, M_\star, M_b, R_d, h, \phi, M_{\text{BH}}, \rho_0)\).</p>
+            <p><strong>Fit procedure:</strong> Minimize \(\Quant{\chi^2}\) between model and JWST Big Wheel data over parameters \((\Tor{M_g}, \Matt{M_\star}, \Tor{M_b}, \Matt{R_d}, \Matt{h}, \XCRM{\phi}, \Tor{M_{\text{BH}}}, \Matt{\rho_0})\).</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">

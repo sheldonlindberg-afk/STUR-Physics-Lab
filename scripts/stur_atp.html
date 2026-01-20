@@ -79,7 +79,7 @@
     <header style="text-align:center; margin-bottom:2rem;">
         <h1 class="page-title-biological">Mitochondria Population Dynamics</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            Simulates 1000 mitochondria as STUR resistance oscillators coupled through \(S(r)\),
+            Simulates 1000 mitochondria as STUR resistance oscillators coupled through \(\XCRM{S(r)}\),
             modeling pmf, ATP, ROS, Ca<sup>2+</sup>, mPTP, and thermal balance across physiological regimes.
         </p>
 
@@ -143,8 +143,8 @@
         </div>
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Population-level bioenergetic dynamics of 1000 mitochondria under varying physiological conditions.</p>
-            <p><strong>Scale:</strong> Cristae curvature \(r \sim 0.25-1.0\,\mu\text{m}\), simulation time \(T = 100\,\text{s}\).</p>
-            <p><strong>Connection:</strong> The STUR scalar modulator \(S(r)\) couples membrane curvature to proton pumping efficiency, ROS production, and mPTP opening probability.</p>
+            <p><strong>Scale:</strong> Cristae curvature \(\XCRM{r} \sim 0.25\text{--}1.0\,\mu\text{m}\), simulation time \(\Matt{T} = 100\,\text{s}\).</p>
+            <p><strong>Connection:</strong> The STUR scalar modulator \(\XCRM{S(r)}\) couples membrane curvature to proton pumping efficiency, ROS production, and mPTP opening probability.</p>
         </div>
     </section>
 
@@ -177,7 +177,7 @@
 
             <div class="stur-eq derived">
                 \[
-                S(r, L_0) = \tanh\left(\frac{r}{L_0}\right) \left(1 - e^{-r/L_0}\right)
+                \XCRM{S}(\XCRM{r}, \XCRM{L_0}) = \tanh\!\left(\frac{\XCRM{r}}{\XCRM{L_0}}\right) \left(1 - e^{-\XCRM{r}/\XCRM{L_0}}\right)
                 \]
                 <div class="stur-eq-label">Curvature-Resistance Coupling</div>
             </div>
@@ -186,7 +186,7 @@
 
             <div class="stur-eq derived">
                 \[
-                \frac{d(\text{pmf})}{dt} = \frac{P_{\text{drive}} - \text{leak} \cdot \text{pmf} - \gamma_{\text{ATP}} \cdot \text{ATP}_{\text{use}} - 2\times10^{-3} \cdot \text{ROS}}{C_{\text{eff}}}
+                \frac{d(\Pot{\text{pmf}})}{d\Matt{t}} = \frac{\Pot{P_{\text{drive}}} - \Diff{\text{leak}} \cdot \Pot{\text{pmf}} - \Pot{\gamma_{\text{ATP}}} \cdot \Pot{\text{ATP}_{\text{use}}} - 2\times10^{-3} \cdot \Matt{\text{ROS}}}{\Diff{C_{\text{eff}}}}
                 \]
                 <div class="stur-eq-label">Proton-Motive Force Evolution</div>
             </div>
@@ -204,7 +204,7 @@
         <div class="glass-section-body">
             <p><strong>Key physics:</strong></p>
             <ul>
-                <li><strong>Healthy mode:</strong> High curvature alignment yields large \(S(r)\), efficient proton throughput, stable pmf.</li>
+                <li><strong>Healthy mode:</strong> High curvature alignment yields large \(\XCRM{S(r)}\), efficient proton throughput, stable pmf.</li>
                 <li><strong>Uncoupled mode:</strong> Elevated leak, reduced ATP efficiency, heat-mode respiration.</li>
                 <li><strong>Apoptotic mode:</strong> Ca<sup>2+</sup>/ROS bursts trigger mPTP opening when damage exceeds threshold.</li>
             </ul>
@@ -459,7 +459,7 @@ plt.show()</pre>
                 <li><span class="eq-matter">Noise term</span>: Stochastic fluctuations in ROS production, Ca<sup>2+</sup> transients, and metabolic demand</li>
             </ul>
 
-            <p>The curvature-resistance coupling \(S(r)\) acts as the biological resistance modulator, where cristae geometry directly regulates proton throughput efficiency. High \(S(r)\) corresponds to ordered cristae and efficient ATP production; low \(S(r)\) indicates swollen/fragmented geometry and metabolic dysfunction.</p>
+            <p>The curvature-resistance coupling \(\XCRM{S(r)}\) acts as the biological resistance modulator, where cristae geometry directly regulates proton throughput efficiency. High \(\XCRM{S(r)}\) corresponds to ordered cristae and efficient ATP production; low \(\XCRM{S(r)}\) indicates swollen/fragmented geometry and metabolic dysfunction.</p>
 
             <p><strong>Cross-References:</strong></p>
             <ul style="font-size:0.9rem;">
