@@ -258,25 +258,31 @@
 /* Mobile nav toggle - hamburger button */
 .glass-nav-toggle {
   display: none;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border-light);
   border-radius: var(--radius-sm);
   color: var(--text-main);
   padding: 0.5rem;
   cursor: pointer;
   z-index: 102;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  /* Critical for mobile touch */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .glass-nav-toggle:hover,
 .glass-nav-toggle:focus {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
   border-color: var(--glass-border-active);
   outline: none;
 }
 
 .glass-nav-toggle:active {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(0.95);
 }
 
 /* ============================================================
@@ -309,13 +315,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
     flex-shrink: 0;
     order: 2;
-    -webkit-tap-highlight-color: transparent;
+    /* Ensure toggle is always clickable */
+    position: relative;
+    z-index: 102;
   }
 
   /* Mobile dropdown menu */

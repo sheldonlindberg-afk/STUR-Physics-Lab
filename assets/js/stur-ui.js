@@ -617,113 +617,126 @@
   // NAVIGATION UTILITIES
   // ============================================================
 
+  // Track if nav has been initialized to prevent double-init
+  let navInitialized = false;
+
   /**
-   * Initialize mobile nav toggle
+   * Initialize mobile nav toggle - robust, mobile-first implementation
    */
   STUR.initNav = function() {
+    // Prevent double initialization
+    if (navInitialized) return;
+
     const toggle = STUR.$('.glass-nav-toggle');
     const links = STUR.$('.glass-nav-links');
-    const header = STUR.$('.glass-header');
 
-    if (toggle && links) {
-      // Toggle menu open/close
-      const toggleMenu = (forceClose) => {
-        const shouldOpen = forceClose === true ? false : !links.classList.contains('open');
-
-        if (shouldOpen) {
-          links.classList.add('open');
-          toggle.setAttribute('aria-expanded', 'true');
-          toggle.innerHTML = '<span class="stur-icon icon-x lg"></span>';
-          document.body.style.overflow = 'hidden';
-        } else {
-          links.classList.remove('open');
-          toggle.setAttribute('aria-expanded', 'false');
-          toggle.innerHTML = '<span class="stur-icon icon-menu lg"></span>';
-          document.body.style.overflow = '';
-        }
-      };
-
-      // Toggle button - prevent double-firing on mobile (touchend + click)
-      let touchHandled = false;
-
-      const handleToggle = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        // On touch devices, touchend fires before click
-        // Set flag to prevent click from also firing
-        if (e.type === 'touchend') {
-          touchHandled = true;
-          setTimeout(() => { touchHandled = false; }, 300);
-        }
-
-        // Skip click if we just handled a touch
-        if (e.type === 'click' && touchHandled) {
-          return;
-        }
-
-        toggleMenu();
-      };
-
-      toggle.addEventListener('click', handleToggle);
-      toggle.addEventListener('touchend', handleToggle, { passive: false });
-
-      // Close menu when clicking on a nav link (but not the share button which opens a modal)
-      links.querySelectorAll('.glass-nav-link:not(.glass-share-btn)').forEach(link => {
-        const closeHandler = (e) => {
-          // Don't close for external links that open in new tab
-          if (!link.getAttribute('target')) {
-            toggleMenu(true);
-          }
-        };
-        link.addEventListener('click', closeHandler);
-      });
-
-      // Close menu when share button is clicked (share modal will open)
-      const shareBtn = links.querySelector('.glass-share-btn');
-      if (shareBtn) {
-        shareBtn.addEventListener('click', () => {
-          toggleMenu(true);
-        });
-      }
-
-      // Close on click outside (only when menu is open)
-      document.addEventListener('click', (e) => {
-        if (links.classList.contains('open') &&
-            !toggle.contains(e.target) &&
-            !links.contains(e.target)) {
-          toggleMenu(true);
-        }
-      });
-
-      // Close on touch outside for mobile
-      document.addEventListener('touchstart', (e) => {
-        if (links.classList.contains('open') &&
-            !toggle.contains(e.target) &&
-            !links.contains(e.target)) {
-          toggleMenu(true);
-        }
-      }, { passive: true });
-
-      // Close on Escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && links.classList.contains('open')) {
-          toggleMenu(true);
-          toggle.focus(); // Return focus to toggle button
-        }
-      });
-
-      // Handle resize - close menu if screen becomes larger than mobile breakpoint
-      let resizeTimeout;
-      window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-          if (window.innerWidth > 768 && links.classList.contains('open')) {
-            toggleMenu(true);
-          }
-        }, 100);
-      });
+    if (!toggle || !links) {
+      // Elements not found, skip init
+      return;
     }
+
+    navInitialized = true;
+
+    // State
+    let isOpen = false;
+
+    /**
+     * Open the mobile menu
+     */
+    const openMenu = () => {
+      if (isOpen) return;
+      isOpen = true;
+      links.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.innerHTML = '<span class="stur-icon icon-x lg"></span>';
+      document.body.style.overflow = 'hidden';
+    };
+
+    /**
+     * Close the mobile menu
+     */
+    const closeMenu = () => {
+      if (!isOpen) return;
+      isOpen = false;
+      links.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.innerHTML = '<span class="stur-icon icon-menu lg"></span>';
+      document.body.style.overflow = '';
+    };
+
+    /**
+     * Toggle the mobile menu
+     */
+    const toggleMenu = () => {
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    };
+
+    // ============================================================
+    // TOGGLE BUTTON - Simple click handler only
+    // Using only click (not touchend) prevents double-firing issues
+    // Modern mobile browsers handle click properly with ~300ms delay removed
+    // ============================================================
+    toggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    // ============================================================
+    // MENU LINK CLICKS - Close menu when a link is clicked
+    // Use event delegation for reliability
+    // ============================================================
+    links.addEventListener('click', function(e) {
+      const link = e.target.closest('.glass-nav-link');
+      if (!link) return;
+
+      // Always close menu after clicking a link
+      // Share button will open its own modal, but menu should still close
+      closeMenu();
+    });
+
+    // ============================================================
+    // CLOSE ON OUTSIDE CLICK - Using capture phase for reliability
+    // ============================================================
+    document.addEventListener('click', function(e) {
+      if (!isOpen) return;
+
+      // Check if click is outside both toggle and menu
+      if (!toggle.contains(e.target) && !links.contains(e.target)) {
+        closeMenu();
+      }
+    }, true); // Use capture phase
+
+    // ============================================================
+    // CLOSE ON ESCAPE KEY
+    // ============================================================
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && isOpen) {
+        closeMenu();
+        toggle.focus();
+      }
+    });
+
+    // ============================================================
+    // CLOSE ON RESIZE to desktop
+    // ============================================================
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        // Close if resized to desktop width
+        if (window.innerWidth > 768 && isOpen) {
+          closeMenu();
+        }
+      }, 150);
+    });
+
+    // Expose close function for programmatic use
+    STUR.closeNav = closeMenu;
   };
 
   /**
