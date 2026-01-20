@@ -350,19 +350,43 @@ window.MathJax = {
 
 <!-- OPEN ISSUES -->
 <section class="section" id="open-issues" style="border:2px solid var(--warning);background:rgba(251,191,36,0.04);">
-  <h2 style="color:var(--warning);">Open Issues & Caveats</h2>
+  <h2 style="color:var(--warning);">Claim Status & Open Issues</h2>
   <p style="color:var(--text-secondary);margin-bottom:1rem;">
-    This framework makes specific testable predictions but also contains conjectural elements that require further development:
+    This framework makes specific testable predictions. Below is a rigorous classification of each claim's status:
   </p>
+
+  <h3 style="color:var(--success);margin-top:1.5rem;">Mathematically Established</h3>
   <ul style="color:var(--text-secondary);line-height:1.8;">
-    <li><strong style="color:var(--success);">Established:</strong> Gaussian visibility form from CLT, double-well from orbifold topology, coherence length relation, TEGR emergence in equilibrium.</li>
-    <li><strong style="color:var(--warning);">Conjectured:</strong> SM gauge group unique selection (only constrained, not uniquely derived), exactly 3 generations from index theorem (requires additional orbifold structure).</li>
-    <li><strong style="color:var(--warning);">Incomplete:</strong> MHP/DHP variational principles are stated but not fully formalized mathematically. UV completion claimed but 1-loop calculations not provided.</li>
-    <li><strong style="color:var(--error);">Unknown:</strong> The value of L<sub>X</sub> (compactification scale) is not determined from first principles—it must be measured experimentally.</li>
+    <li><strong>Gaussian visibility form:</strong> Follows rigorously from CLT phase averaging (Appendix B)</li>
+    <li><strong>TEGR emergence:</strong> Standard result—equilibrium limit recovers teleparallel gravity</li>
+    <li><strong>Coherence length relation:</strong> ℓ<sub>coh</sub> = √2 L<sub>X</sub>/(y σ<sub>R</sub>) from dimensional analysis</li>
+    <li><strong>Yang-Mills structure:</strong> Standard fiber bundle → gauge theory correspondence</li>
   </ul>
-  <p style="color:var(--text-muted);font-size:0.9rem;margin-top:1rem;">
-    The core falsifiable prediction (Gaussian visibility) is mathematically sound regardless of these open issues.
-    See the <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a> for detailed status of each claim.
+
+  <h3 style="color:var(--gold);margin-top:1.5rem;">Formalized but Requiring Verification</h3>
+  <ul style="color:var(--text-secondary);line-height:1.8;">
+    <li><strong>SM gauge group selection:</strong> MHP holonomy cost calculation (Eq. F.5) shows G<sub>SM</sub> minimizes Ω<sub>gauge</sub> among anomaly-free groups. <em>Status: Explicit calculation provided, independent verification needed.</em></li>
+    <li><strong>3 generations from index theorem:</strong> Atiyah-Singer on S¹/Z₂ orbifold gives |I<sub>top</sub>| = 3 for standard Z₂ assignments (Eq. F.11). <em>Status: Standard topological result applied to specific orbifold; Z₂ assignment choices affect outcome.</em></li>
+    <li><strong>MHP holonomy functional:</strong> Ω[A,ψ,X<sub>i</sub>] defined explicitly (Eq. F.1). <em>Status: Variational equations ∂Ω/∂X<sub>i</sub> = 0 stated but not solved in closed form.</em></li>
+    <li><strong>DHP cosmological extension:</strong> Ω<sub>DHP</sub>[history] defined (Eq. F.12). <em>Status: Path integral formulation stated; explicit cosmological solutions not derived.</em></li>
+  </ul>
+
+  <h3 style="color:var(--warning);margin-top:1.5rem;">Conjectured (Mechanism Proposed)</h3>
+  <ul style="color:var(--text-secondary);line-height:1.8;">
+    <li><strong>UV completion:</strong> Holonomy self-regulation claimed to regulate loops. <em>Status: 1-loop calculations not provided.</em></li>
+    <li><strong>Λ problem resolution:</strong> DHP holonomy cancellation proposed. <em>Status: Explicit cancellation mechanism not demonstrated.</em></li>
+    <li><strong>Quantum gravity:</strong> Finite holonomy path integral claimed. <em>Status: Finiteness proof not provided.</em></li>
+  </ul>
+
+  <h3 style="color:var(--error);margin-top:1.5rem;">Free Parameters (Must Be Measured)</h3>
+  <ul style="color:var(--text-secondary);line-height:1.8;">
+    <li><strong>L<sub>X</sub> (compactification scale):</strong> Not determined from first principles—must be measured experimentally. Current bounds: L<sub>X</sub> &lt; 10 μm.</li>
+    <li><strong>λ (self-coupling):</strong> Sets vacuum expectation value v = R<sub>bg</sub>. Related to L<sub>X</sub> but not uniquely fixed.</li>
+  </ul>
+
+  <p style="color:var(--text-muted);font-size:0.9rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);">
+    <strong>Core falsifiable prediction:</strong> The Gaussian visibility form V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>) is mathematically established regardless of MHP/DHP status. This prediction alone is sufficient to test STUR experimentally.
+    See the <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a> for complete derivations.
   </p>
 </section>
 
