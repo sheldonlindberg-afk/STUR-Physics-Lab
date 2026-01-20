@@ -5194,29 +5194,6 @@ code {
     });
   });
 
-  // Copy citation
-  const citeBtn = document.getElementById('copyCite');
-  const citation = `Lindberg, Sheldon Lon (2026). "Foundations of STUR: Teleparallel Substrate Tests via Interferometric Holonomy,".`;
-
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (err) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
-  }
 })();
 </script>
 

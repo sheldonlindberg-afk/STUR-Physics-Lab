@@ -457,6 +457,64 @@
   };
 
   // ============================================================
+  // CITATION SYSTEM
+  // ============================================================
+
+  /**
+   * Generate citation text for the current page
+   * Format: Lindberg, Sheldon Lon (2026). "{Page Title}," STUR Physics Lab.
+   */
+  STUR.getCitation = function() {
+    // Get page title, clean up common suffixes
+    let title = document.title || 'STUR Physics Lab';
+    title = title
+      .replace(/\s*[—–-]\s*STUR\s*(Physics\s*)?Lab\s*$/i, '')
+      .replace(/\s*\|\s*STUR\s*(Physics\s*)?Lab\s*$/i, '')
+      .trim();
+
+    // If title is empty or just "STUR", use a default
+    if (!title || title.toLowerCase() === 'stur') {
+      title = 'STUR Physics Lab';
+    }
+
+    return `Lindberg, Sheldon Lon (2026). "${title}," STUR Physics Lab. ${window.location.href}`;
+  };
+
+  /**
+   * Copy citation to clipboard
+   */
+  STUR.copyCitation = function() {
+    const citation = STUR.getCitation();
+    return STUR.copyToClipboard(citation, 'Citation copied');
+  };
+
+  /**
+   * Initialize citation buttons on the page
+   * Looks for elements with data-cite attribute or id="copyCite"
+   */
+  STUR.initCitation = function() {
+    // Handle legacy copyCite buttons
+    const legacyBtn = document.getElementById('copyCite');
+    if (legacyBtn) {
+      // Remove any existing click handlers by cloning
+      const newBtn = legacyBtn.cloneNode(true);
+      legacyBtn.parentNode.replaceChild(newBtn, legacyBtn);
+      newBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        STUR.copyCitation();
+      });
+    }
+
+    // Handle data-cite buttons
+    STUR.$$('[data-cite]').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        STUR.copyCitation();
+      });
+    });
+  };
+
+  // ============================================================
   // TOAST / NOTIFICATION SYSTEM
   // ============================================================
 
@@ -996,6 +1054,7 @@
   STUR.init = function() {
     STUR.initNav();
     STUR.initModals();
+    STUR.initCitation();
 
     // Add global keyboard handlers
     document.addEventListener('keydown', (e) => {
