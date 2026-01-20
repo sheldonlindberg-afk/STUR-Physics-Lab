@@ -65,9 +65,9 @@
         </button>
         <div class="glass-nav-links">
             <a href="../index.html" class="glass-nav-link">Index</a>
-            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
-            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
-            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+            <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
@@ -120,7 +120,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Energy requirement structure: \(E_{\text{need}} = \int V(R)\,dV\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a></li>
+                <li>Energy requirement structure: \(E_{\text{need}} = \int V(R)\,dV\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a></li>
                 <li>Entropy-energy coupling: \(\Delta S_{\text{eff}} \cdot T\) — thermodynamic consistency</li>
                 <li>Resistance equilibrium concept: \(R^* = E/(I \cdot \Phi)\) — from XCRM coupling</li>
             </ul>
@@ -132,7 +132,7 @@
                 <li>Information flow \(I(t)\) and geometric flux \(\Phi(t)\) — operational definitions</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
-                <strong>Connection to Core Theory:</strong> The energy-entropy formalism connects to <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-gold)">orbifold-derived V(R) (§2.5)</a>, but the specific
+                <strong>Connection to Core Theory:</strong> The energy-entropy formalism connects to <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-gold)">orbifold-derived V(R) (§2.5)</a>, but the specific
                 replicator dynamics require biological and engineering inputs not derivable from the Master Action.
             </p>
         </div>
@@ -149,7 +149,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Failure-mode classification (stable, power-limited, biology-limited) across mass and time scales.</p>
             <p><strong>Scale:</strong> Mass range \(10^{-6}\) to \(10\,\text{kg}\), replication times \(t \sim 60\,\text{s}\).</p>
-            <p><strong>Connection:</strong> The STUR <a href="stur_foundations.html#VR-derivation" class="core-ref">orbifold-derived V(R) potential (§2.5)</a> determines energy requirements and entropy gradients that govern replicator stability.</p>
+            <p><strong>Connection:</strong> The STUR <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R) potential (§2.5)</a> determines energy requirements and entropy gradients that govern replicator stability.</p>
         </div>
     </section>
 
@@ -162,7 +162,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">Master Action</a> from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR <a href="stur_core_theory.html#master-action" class="core-ref">Master Action</a> from <a href="stur_core_theory.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -175,10 +175,10 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
-            <p><strong>Replicator limit:</strong> The energy requirement for replication is derived from the <a href="stur_foundations.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a>:</p>
+            <p><strong>Replicator limit:</strong> The energy requirement for replication is derived from the <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a>:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -255,7 +255,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Replicator - Stress-Failure Envelope (v9.2)
+# STUR Replicator - Stress-Failure Envelope (v11.0)
 #
 # Derives failure-mode boundaries from orbifold-derived V(R) (§2.5)
 # Classifications: stable, power-limited, biology-limited
@@ -411,7 +411,7 @@ def summarize_results(results):
 report = {
     "meta": {
         "page": "stress-failure-envelope",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "E_need = integral V(R) dV + dS_eff * T"
     },
@@ -422,7 +422,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Replicator Stress-Failure [v9.2] ===")
+print("=== STUR Replicator Stress-Failure [v11.0] ===")
 print(f"Total samples: {report['summary']['n_total']}")
 print(f"Classes: {list(report['summary']['classes'].keys())}")
 print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
@@ -463,7 +463,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> stress-failure-envelope |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -480,7 +480,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — V(R) Potential</li>
+                <li>STUR Foundations, <a href="stur_core_theory.html">stur_core_theory.html</a> — V(R) Potential</li>
                 <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
                 <li>Thermodynamic replication bounds — Landauer's principle</li>
                 <li>Entropy production in self-replicating systems</li>
@@ -494,9 +494,9 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
-        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
         <a href="stur_geometry_verifier.html">Verifier</a> ·
         <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>

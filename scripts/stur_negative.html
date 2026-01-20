@@ -65,9 +65,9 @@
         </button>
         <div class="glass-nav-links">
             <a href="../index.html" class="glass-nav-link">Index</a>
-            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
-            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
-            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+            <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
@@ -120,9 +120,9 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Inspired by First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
                 <li>5D manifold structure: \(\mathcal{M}^5 = M^4 \times S^1/\mathbb{Z}_2\) from STUR foundations</li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_foundations.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
                 <li>Modified energy conditions from torsion sector</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Speculative Components:</strong></p>
@@ -150,7 +150,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Energy condition violations \(\rho + p_r\), entropy bounds, and X-coherence metric \(\kappa_X\).</p>
             <p><strong>Scale:</strong> Planck scale (\(10^{-35}\,\text{m}\)) to atomic (\(10^{-10}\,\text{m}\)).</p>
-            <p><strong>Connection:</strong> The STUR-X 5D modulator \(S_X(r,\chi)\) derived from the <a href="stur_foundations.html#master-action" class="core-ref">S(r) radial modulator</a> combines radial curvature with sideways-time coherence.</p>
+            <p><strong>Connection:</strong> The STUR-X 5D modulator \(S_X(r,\chi)\) derived from the <a href="stur_core_theory.html#master-action" class="core-ref">S(r) radial modulator</a> combines radial curvature with sideways-time coherence.</p>
         </div>
     </section>
 
@@ -163,7 +163,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">Master Action</a> from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR <a href="stur_core_theory.html#master-action" class="core-ref">Master Action</a> from <a href="stur_core_theory.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -176,12 +176,12 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>5D geometry:</strong> \(M_4(-+++) \oplus \chi\) with coordinates \((t, r, \theta, \phi, \chi)\).</p>
 
-            <p><strong>STUR-X 5D modulator (from <a href="stur_foundations.html#master-action" class="core-ref">XCRM</a> extension):</strong></p>
+            <p><strong>STUR-X 5D modulator (from <a href="stur_core_theory.html#master-action" class="core-ref">XCRM</a> extension):</strong></p>
 
             <div class="stur-eq derived">
                 \[
@@ -254,7 +254,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR-X 5D Negative Energy (v9.2)
+# STUR-X 5D Negative Energy (v11.0)
 #
 # Derives exotic stress-energy from S_X(r,chi) modulator
 # Computes entropy bounds and X-coherence metric
@@ -403,7 +403,7 @@ plt.show()
 report = {
     "meta": {
         "page": "negative-energy-5d",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "S_X(r,chi) = S0(r) * exp(-(chi/chi0)^2) / (1+(chi/chi_c)^2)"
     },
@@ -426,7 +426,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR-X 5D Negative Energy [v9.2] ===")
+print("=== STUR-X 5D Negative Energy [v11.0] ===")
 print(f"r range: {r_values[0]:.2e} - {r_values[-1]:.2e} m")
 print(f"MC runs: {num_runs}")
 print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
@@ -467,7 +467,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> negative-energy-5d |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -484,7 +484,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Foundations, <a href="stur_core_theory.html">stur_core_theory.html</a> — S(r) Radial Modulator</li>
                 <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
                 <li>Morris & Thorne — Am. J. Phys. 56, 395 (traversable wormholes)</li>
                 <li>Bekenstein bound — entropy limits</li>
@@ -498,9 +498,9 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
-        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
         <a href="stur_geometry_verifier.html">Verifier</a> ·
         <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>

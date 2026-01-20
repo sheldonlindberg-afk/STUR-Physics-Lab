@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Predictions — Interferometric Signature from XCRM</title>
+<meta name="description" content="The falsifiable predictions of STUR: Gaussian visibility decay from XCRM holonomy, coherence length estimates, and distinguishing features from ULDM.">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}', dd: '\\mathrm{d}' }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_predictions.html" class="glass-nav-link active">Predictions</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>Interferometric Predictions</h1>
+  <p class="subtitle">The Falsifiable Signature of XCRM Holonomy</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- RESISTANCE HOLONOMY -->
+<section class="section" id="sec9" style="border:2px solid var(--accent); background:linear-gradient(135deg, rgba(56,189,248,0.06) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--accent);">9. The Interferometric Signature</h2>
+
+  <h3>9.1 Resistance Holonomy from XCRM</h3>
+
+  <p>
+    In teleparallel formulation, the natural observable is the <strong>resistance holonomy</strong>—the
+    accumulated phase from XCRM coupling along a closed path:
+  </p>
+
+  <div class="eq law">
+    \[\color{#fbbf24}{\Phi_R} = \oint_\gamma \color{#22d3ee}{\mathsf{J}_a}\, dx^a = \oint_\gamma \color{#fbbf24}{y\, \partial_a R}\, dx^a\]
+    <div class="eq-label">(9.1) — Resistance Holonomy</div>
+  </div>
+
+  <p>
+    Here \(y\) is the Yukawa coupling strength and \(\mathsf{J}_a = y\,\partial_a R\) is the resistance
+    current. The holonomy \(\Phi_R\) determines the phase difference between interferometer arms.
+  </p>
+
+  <h3>9.2 Visibility from Phase Averaging</h3>
+
+  <p>
+    When resistance fluctuations are stochastic (Markovian limit), the visibility is determined by
+    averaging over the phase distribution:
+  </p>
+
+  <div class="eq boxed">
+    \[\color{#f472b6}{V} = \left|\langle e^{i\color{#fbbf24}{\Phi_R}} \rangle\right| = \left|\int P(\Phi_R)\, e^{i\Phi_R}\, d\Phi_R\right|\]
+    <div class="eq-label">(9.2)</div>
+  </div>
+
+  <p>
+    For Gaussian-distributed phases (central limit theorem applies when many uncorrelated fluctuations
+    contribute), this becomes:
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\color{#f472b6}{V} = V_0 \exp\!\left(-\frac{\langle\color{#fbbf24}{\Phi_R}^2\rangle}{2}\right)}\]
+    <div class="eq-label" style="color:var(--gold);">(9.3) — Gaussian Visibility Law</div>
+  </div>
+
+  <h3>9.3 Linear Path Limit</h3>
+
+  <p>
+    For a linear-path interferometer with arm separation \(\Delta L\), the XCRM holonomy variance scales
+    quadratically:
+  </p>
+
+  <div class="eq boxed">
+    \[\langle\Phi_R^2\rangle = \left(\frac{\Delta L}{\ell_{\rm coh}}\right)^2\]
+    <div class="eq-label">(9.4)</div>
+  </div>
+
+  <p>Substituting into (9.3) gives the fundamental prediction:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\color{#f472b6}{V(\Delta L)} = V_0 \exp\!\left(-\frac{(\color{#fb923c}{\Delta L})^2}{(\color{#22d3ee}{\ell_{\rm coh}})^2}\right)}\]
+    <div class="eq-label" style="color:var(--gold);">(9.5) — The STUR Visibility Prediction</div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Key Feature: Gaussian in ΔL²</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The visibility decays as a <strong>Gaussian function of path difference squared</strong>.
+      This is not an approximation—it follows necessarily from Gaussian phase averaging of XCRM holonomy.
+      Any deviation from this form falsifies the theory.
+    </p>
+  </div>
+</section>
+
+<!-- COHERENCE LENGTH -->
+<section class="section" id="sec10">
+  <h2>10. Coherence Length Estimates</h2>
+
+  <h3>10.1 XCRM Closure Relation</h3>
+
+  <p>
+    The coherence length is determined by the XCRM closure relation:
+  </p>
+
+  <div class="eq law">
+    \[\color{#22d3ee}{\ell_{\rm coh}} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#4ade80}{\sigma_R}}\]
+    <div class="eq-label">(10.1)</div>
+  </div>
+
+  <p>
+    where \(L_X\) is the proper size of the internal dimension and \(\sigma_R\) is the RMS
+    resistance fluctuation.
+  </p>
+
+  <h3>10.2 Teleparallel Substrate Estimate</h3>
+
+  <p>
+    In the teleparallel interpretation, resistance fluctuations are identified with contortion fluctuations:
+  </p>
+
+  <div class="eq boxed">
+    \[\sigma_R \sim y\, K_{\rm eff}\]
+    <div class="eq-label">(10.2)</div>
+  </div>
+
+  <p>
+    where \(K_{\rm eff}\) is the effective contortion magnitude (units: m⁻¹) and \(y\) is the Yukawa coupling.
+    This gives:
+  </p>
+
+  <div class="eq boxed">
+    \[\ell_{\rm coh} \sim \frac{1}{y\, K_{\rm eff}}\]
+    <div class="eq-label">(10.3)</div>
+  </div>
+
+  <h3>10.3 Observable Regimes</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Substrate</th>
+        <th>\(K_{\rm eff}\) (m⁻¹)</th>
+        <th>\(\ell_{\rm coh}\)</th>
+        <th>Observable?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Planck-scale (UV)</td>
+        <td>\(\sim 10^{59}\)</td>
+        <td>\(\sim 10^{-59}\) m</td>
+        <td style="color:var(--error);">No (via ΔL)</td>
+      </tr>
+      <tr>
+        <td>Enhanced medium</td>
+        <td>\(\sim 10^{-3}\)</td>
+        <td>\(\sim 10^{3}\) m</td>
+        <td style="color:var(--success);">Yes (loop-based)</td>
+      </tr>
+      <tr>
+        <td>Topological defect</td>
+        <td>\(\sim 1\)</td>
+        <td>\(\sim 1\) m</td>
+        <td style="color:var(--success);">Yes (tabletop)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block warning">
+    <div class="title">Critical Point</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      For Planck-scale substrates, linear-path experiments cannot probe the coherence length.
+      However, <strong>loop-based experiments</strong> can access the holonomy \(\Phi_R\) directly,
+      which may be enhanced by topology and medium structure.
+    </p>
+  </div>
+</section>
+
+<!-- DISTINGUISHING FEATURES -->
+<section class="section" id="sec9-distinguish" style="border:2px solid var(--warning);">
+  <h2 style="color:var(--warning);">Distinguishing STUR from ULDM</h2>
+
+  <p>
+    Coherent ultralight dark matter (ULDM) produces a <em>different</em> signature that can be
+    experimentally distinguished from STUR:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th style="color:var(--gold);">STUR (XCRM)</th>
+        <th style="color:var(--accent-secondary);">ULDM</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Phase distribution</td>
+        <td>Gaussian (stochastic)</td>
+        <td>Coherent oscillation</td>
+      </tr>
+      <tr>
+        <td>Time dependence</td>
+        <td>None (equilibrium)</td>
+        <td>Sinusoidal at \(m_\phi/2\pi\)</td>
+      </tr>
+      <tr>
+        <td>Visibility form</td>
+        <td>\(\exp(-\Delta L^2/\ell^2)\)</td>
+        <td>\(\cos(\omega t)\) modulation</td>
+      </tr>
+      <tr>
+        <td>Mass dependence</td>
+        <td>None</td>
+        <td>Frequency \(\propto m_\phi\)</td>
+      </tr>
+      <tr>
+        <td>Spatial pattern</td>
+        <td>Quadratic in \(\Delta L\)</td>
+        <td>Linear in \(\Delta L\)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block success">
+    <div class="title">Experimental Discrimination</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>Key test:</strong> Measure visibility at multiple arm separations. If the log-visibility
+      is linear in \(\Delta L^2\) (not \(\Delta L\)) and shows no temporal oscillation, the signature
+      is consistent with STUR. If oscillatory or linear in \(\Delta L\), STUR is excluded.
+    </p>
+  </div>
+</section>
+
+<!-- AREA LAW FOR LOOPS -->
+<section class="section" id="area-law">
+  <h2>Loop Geometry and Area Scaling</h2>
+
+  <p>
+    For closed-loop interferometers, the XCRM holonomy scales with the enclosed area:
+  </p>
+
+  <div class="eq law">
+    \[\Phi_R \propto \int_\Sigma \color{#60a5fa}{\mathbb{T}_{ab}}\, dA^{ab} \propto \color{#fb923c}{A_{\rm loop}}\]
+    <div class="eq-label">(9.6) — Area Scaling</div>
+  </div>
+
+  <p>
+    This is analogous to the Aharonov-Bohm effect but for the resistance (torsion) field rather than
+    the electromagnetic potential. The visibility then becomes:
+  </p>
+
+  <div class="eq boxed">
+    \[V = V_0 \exp\!\left(-\frac{A_{\rm loop}^2}{A_{\rm coh}^2}\right)\]
+    <div class="eq-label">(9.7) — Loop Visibility</div>
+  </div>
+
+  <p>
+    where \(A_{\rm coh}\) is a characteristic coherence area determined by the substrate properties.
+  </p>
+</section>
+
+<!-- SEE ALSO -->
+<section class="section" style="background:rgba(251,191,36,0.05);border:1px solid rgba(251,191,36,0.2);padding:1rem 1.5rem;">
+  <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+    <strong style="color:var(--gold);">See Also:</strong>
+    <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a>
+    — rigorous derivations, numerical predictions for \(\ell_{\rm coh}\), unified notation, and complete theory closure (v11.0).
+  </p>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_matter_coupling.html" class="prev">Matter Coupling</a>
+  <a href="stur_falsification.html" class="next">Falsification</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Predictions</strong> — v11.0</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

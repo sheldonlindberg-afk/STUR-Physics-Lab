@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Core Theory — The XCRM Unified Action</title>
+<meta name="description" content="The Master Action and First Principles of STUR: how the XCRM coupling unifies gravity, gauge fields, and quantum mechanics from a single geometric framework.">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}' }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link active">Core Theory</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+      <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 class="page-title-core">STUR Core Theory</h1>
+  <p class="subtitle">Complete Theory: XCRM + MHP + DHP — All Physics from Three Axioms</p>
+  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg — v11.0 (Complete Theory)</p>
+</header>
+
+<!-- Physics Domain Color Legend -->
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code — Physics Domains</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- MASTER ACTION -->
+<section class="section" id="master-action" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--gold);">The Master Action</h2>
+
+  <p style="font-size:1.05rem;color:var(--text);margin-bottom:1.25rem;">
+    <strong>Every simulation and prediction in the STUR Physics Lab derives from this single action.</strong>
+    This is not a collection of unrelated phenomena — it is one theory with many regimes.
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem 1.5rem;">
+    \[\boxed{S_{\rm STUR}[R, g, X] = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{-g}\,
+    \Big[\underbrace{\color{#4ade80}{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
+    - \underbrace{\color{#f472b6}{V(R)}}_{\color{#f472b6}\text{relaxation}}
+    + \underbrace{\color{#fbbf24}{\chi\, R\,\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
+    + \underbrace{\color{#60a5fa}{\alpha\, R\, \mathbb{T}}}_{\color{#60a5fa}\text{torsion}}
+    + \color{#22d3ee}{\mathcal{L}_{\rm matter}}\Big]}\]
+    <div class="eq-label" style="color:var(--gold);">(0.1) — The Unified Resistance Action</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
+    <div style="padding:0.9rem;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+      <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;">Diffusion</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\tfrac{1}{2}(\nabla R)^2\) — Kinetic term driving spatial smoothing</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(244,114,182,0.08);border-radius:8px;border-left:3px solid #f472b6;">
+      <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;">Relaxation</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(V(R)\) — Potential driving \(R \to R_{\rm bg}\)</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+      <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">XCRM Closure</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\chi R \partial_X R\) — Internal dimension coupling (fixes constants)</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(96,165,250,0.08);border-radius:8px;border-left:3px solid #60a5fa;">
+      <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;">Torsion Source</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\alpha R \mathbb{T}\) — Teleparallel gravity coupling</div>
+    </div>
+  </div>
+</section>
+
+<!-- XCRM: THE CENTRAL MECHANISM -->
+<section class="section" id="xcrm-mechanism" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">XCRM: The Central Mechanism</h2>
+
+  <p style="font-size:1rem;color:var(--text);margin-bottom:1rem;">
+    The <strong>X-Cross Resistance Mechanism (XCRM)</strong> is the term \(\chi R \partial_X R\) that couples
+    the resistance field \(R\) to its own gradient along the internal dimension \(X\). This single term is
+    responsible for:
+  </p>
+
+  <ul>
+    <li><strong>Parameter closure:</strong> Fixes the coherence length in terms of \(\chi\) and \(L_X\)</li>
+    <li><strong>Gauge emergence:</strong> XCRM degeneracy under local rotations produces gauge symmetry</li>
+    <li><strong>Gravity coupling:</strong> XCRM sets the scale of torsion-matter interaction</li>
+    <li><strong>Quantum phase:</strong> XCRM holonomy determines the interferometric visibility signature</li>
+  </ul>
+
+  <div class="block gold">
+    <div class="title">Why XCRM Unifies Physics</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      In standard physics, gravity, gauge forces, and quantum mechanics are separate postulates.
+      In STUR, they are <em>different observational projections</em> of the same underlying XCRM structure.
+      When you coarse-grain over different variables, different effective theories emerge — but all arise from
+      the single action above.
+    </p>
+  </div>
+</section>
+
+<!-- MINIMUM HOLONOMY PRINCIPLE -->
+<section class="section" id="mhp" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.15) 0%, rgba(167,139,250,0.08) 100%);">
+  <h2 style="color:var(--gold);">The Minimum Holonomy Principle (MHP)</h2>
+
+  <div class="block gold" style="border-width:3px;background:rgba(0,0,0,0.6);">
+    <div class="title" style="font-size:1.1rem;">Axiom MHP — The Selection Principle</div>
+    <p style="margin:0;color:var(--text);font-size:1.05rem;line-height:1.7;">
+      <strong>Physical configurations minimize the total holonomy action over all non-contractible cycles of the orbifold.</strong>
+    </p>
+    <div class="eq law" style="margin:1rem 0 0;background:#000;border:2px solid var(--gold);padding:1rem;">
+      \[\boxed{\Omega[A, \psi, X_i] = \int_{\gamma} \Tr(W[\gamma]^\dagger W[\gamma])\, d\mu(\gamma)
+      + \lambda_\psi \sum_i \int |D_X \psi_i|^2\, dX
+      + \kappa\, \mathcal{I}_{\rm top}}\]
+      <div class="eq-label" style="color:var(--gold);">(MHP.1) — The Holonomy Functional</div>
+    </div>
+  </div>
+
+  <p style="margin-top:1.25rem;font-size:1rem;color:var(--text);">
+    The MHP is the <strong>second axiom</strong> of STUR (after the Master Action). It provides the variational
+    principle that selects the unique physical configuration from the space of solutions.
+  </p>
+
+  <h3>What MHP Determines</h3>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem;">
+    <div style="padding:0.9rem;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+      <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;">Gauge Group</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
+        \(SU(3) \times SU(2) \times U(1)\) uniquely minimizes holonomy cost among anomaly-free groups
+      </div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(167,139,250,0.08);border-radius:8px;border-left:3px solid #a78bfa;">
+      <div style="font-size:0.78rem;color:#a78bfa;font-weight:600;text-transform:uppercase;">Generations</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
+        \(N_{\rm gen} = |\mathcal{I}_{\rm top}| = 3\) from orbifold topology (Atiyah-Singer index)
+      </div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+      <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">Flavor Structure</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
+        Fermion localizations \(X_i\) from \(\partial\Omega/\partial X_i = 0\) → Yukawa hierarchies derived
+      </div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(96,165,250,0.08);border-radius:8px;border-left:3px solid #60a5fa;">
+      <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;">Mixing Matrices</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">
+        CKM and PMNS structure follows from derived localization geometry
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:2rem;">The Dynamical Holonomy Principle (DHP)</h3>
+
+  <div class="block gold" style="border-width:2px;background:rgba(0,0,0,0.4);">
+    <div class="title">Axiom DHP — The Dynamical Selection Principle</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.6;">
+      <strong>The universe evolves along the path of minimum integrated holonomy action.</strong>
+    </p>
+    <div class="eq law" style="margin:0.75rem 0 0;background:#000;border:2px solid var(--gold);padding:0.75rem;">
+      \[\boxed{\Omega_{\rm DHP}[\text{history}] = \int_0^{t_f} \Omega[\text{config}(t)]\, dt}\]
+      <div class="eq-label" style="color:var(--gold);">(DHP.1) — Dynamical Holonomy Functional</div>
+    </div>
+  </div>
+
+  <p style="margin-top:1rem;">
+    DHP extends MHP from static configurations to cosmological evolution, closing:
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.75rem;margin-top:0.75rem;">
+    <div style="padding:0.6rem;background:rgba(74,222,128,0.08);border-radius:6px;border-left:2px solid #4ade80;font-size:0.85rem;">
+      <span style="color:#4ade80;font-weight:600;">UV completion</span><br>
+      <span style="color:var(--text-secondary);">Holonomy self-regulation</span>
+    </div>
+    <div style="padding:0.6rem;background:rgba(167,139,250,0.08);border-radius:6px;border-left:2px solid #a78bfa;font-size:0.85rem;">
+      <span style="color:#a78bfa;font-weight:600;">Neutrino masses</span><br>
+      <span style="color:var(--text-secondary);">Maximal separation</span>
+    </div>
+    <div style="padding:0.6rem;background:rgba(251,191,36,0.08);border-radius:6px;border-left:2px solid #fbbf24;font-size:0.85rem;">
+      <span style="color:#fbbf24;font-weight:600;">CP violation</span><br>
+      <span style="color:var(--text-secondary);">Holonomy phases</span>
+    </div>
+    <div style="padding:0.6rem;background:rgba(96,165,250,0.08);border-radius:6px;border-left:2px solid #60a5fa;font-size:0.85rem;">
+      <span style="color:#60a5fa;font-weight:600;">Dark matter</span><br>
+      <span style="color:var(--text-secondary);">KK parity LKP</span>
+    </div>
+    <div style="padding:0.6rem;background:rgba(244,114,182,0.08);border-radius:6px;border-left:2px solid #f472b6;font-size:0.85rem;">
+      <span style="color:#f472b6;font-weight:600;">Λ problem</span><br>
+      <span style="color:var(--text-secondary);">Holonomy cancellation</span>
+    </div>
+    <div style="padding:0.6rem;background:rgba(34,211,238,0.08);border-radius:6px;border-left:2px solid #22d3ee;font-size:0.85rem;">
+      <span style="color:#22d3ee;font-weight:600;">Inflation</span><br>
+      <span style="color:var(--text-secondary);">R-field slow-roll</span>
+    </div>
+    <div style="padding:0.6rem;background:rgba(74,222,128,0.08);border-radius:6px;border-left:2px solid #4ade80;font-size:0.85rem;">
+      <span style="color:#4ade80;font-weight:600;">Baryogenesis</span><br>
+      <span style="color:var(--text-secondary);">XCRM phase transition</span>
+    </div>
+    <div style="padding:0.6rem;background:rgba(167,139,250,0.08);border-radius:6px;border-left:2px solid #a78bfa;font-size:0.85rem;">
+      <span style="color:#a78bfa;font-weight:600;">Quantum gravity</span><br>
+      <span style="color:var(--text-secondary);">Holonomy path integral</span>
+    </div>
+  </div>
+
+  <div class="block success" style="margin-top:1.5rem;border-width:3px;">
+    <div class="title" style="font-size:1.1rem;">COMPLETE THEORY</div>
+    <p style="margin:0;color:var(--text);">
+      <strong>XCRM + MHP + DHP = Complete theory of fundamental physics.</strong>
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li><strong>3 axioms:</strong> Master Action, MHP, DHP</li>
+      <li><strong>2 parameters:</strong> \(L_X\) (dimension size), \(\lambda\) (self-coupling)</li>
+      <li><strong>13 problems closed:</strong> All gauge, flavor, cosmological, and quantum gravity questions answered</li>
+    </ul>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      <a href="stur_technical_appendix.html#mhp" style="color:var(--accent);">Complete derivations in Technical Appendix Sections F.1-F.14 →</a>
+    </p>
+  </div>
+</section>
+
+<!-- FIRST PRINCIPLES -->
+<section class="section" id="first-principles" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">First Principles Statement</h2>
+
+  <div class="block gold" style="margin-bottom:1.5rem;border-width:2px;">
+    <div class="title" style="font-size:0.9rem;">The Single Adjustable Prediction</div>
+    <p style="margin:0;font-size:1.1rem;color:var(--text);line-height:1.7;">
+      <strong>STUR makes exactly one adjustable prediction — the coherence length \(\ell_{\rm coh}\).</strong>
+    </p>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
+      Given any two of \(\{\chi,\, L_X,\, \ell_{\rm coh}\}\), the third is determined by the closure relation:
+    </p>
+    <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);">
+      \[\boxed{\color{#22d3ee}{\ell_{\rm coh}} = \frac{\sqrt{2}\, \color{#fbbf24}{L_X}}{\color{#a78bfa}{y}\,\color{#4ade80}{\sigma_R}}}\]
+      <div class="eq-label" style="color:var(--gold);">(FP.1) — Parameter Closure Relation (<a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--accent);">Tech. Appendix Eq. B.9</a>)</div>
+    </div>
+    <p style="margin:0;color:var(--text-muted);font-size:0.85rem;">
+      where \(y\) is the Yukawa coupling (simulations use \(y=1\)) and \(\sigma_R\) is the resistance fluctuation RMS
+      (<a href="stur_technical_appendix.html#parameter-definitions" style="color:var(--accent);">Eq. A.6</a>).
+    </p>
+  </div>
+
+  <div class="block" style="border-left-color:var(--error);background:rgba(239,68,68,0.06);">
+    <div class="title" style="color:var(--error);">Non-Negotiable: The Gaussian Form</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong style="color:var(--text);">The form of the visibility law is NOT adjustable.</strong>
+      It follows necessarily from Gaussian phase averaging of the XCRM holonomy:
+    </p>
+    <div class="eq law" style="margin:1rem 0;">
+      \[\boxed{\color{#f472b6}{V(\Delta L)} = V_0 \exp\!\left(-\frac{(\color{#fb923c}{\Delta L})^2}{\color{#22d3ee}{\ell_{\rm coh}}^2}\right)}\]
+      <div class="eq-label">(FP.2) — The Non-Negotiable Visibility Law</div>
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.92rem;">
+      Any deviation from this functional form — oscillatory, exponential in \(\Delta L\), time-dependent,
+      or mass-dependent — <span style="color:var(--error);font-weight:600;">falsifies STUR</span>.
+    </p>
+  </div>
+</section>
+
+<!-- EMERGENCE TABLE -->
+<section class="section" id="emergence" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(74,158,255,0.04) 100%);">
+  <h2 style="color:var(--accent-secondary);">Emergence from XCRM</h2>
+
+  <div class="block success" style="margin-bottom:1.5rem;">
+    <div class="title">The Unifying Principle</div>
+    <p style="margin:0;font-size:1.05rem;color:var(--text);">
+      <strong>All known physical theories arise as different stable observables of the XCRM action under different coarse-graining regimes.</strong>
+    </p>
+  </div>
+
+  <div style="overflow-x:auto;margin:1rem 0;">
+    <table style="width:100%;font-size:0.88rem;">
+      <thead>
+        <tr style="background:rgba(167,139,250,0.15);">
+          <th style="color:var(--accent-secondary);">Regime</th>
+          <th style="color:var(--accent-secondary);">Surviving Structure</th>
+          <th style="color:var(--accent-secondary);">Emergent Theory</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>\(R \to R_{\rm bg}\), \(\nabla R \to 0\)</td><td>Metric + frame only</td><td style="color:var(--success);font-weight:600;">General Relativity (TEGR)</td></tr>
+        <tr><td>Degeneracy manifold nontrivial</td><td>Holonomy equivalence classes</td><td style="color:var(--accent);font-weight:600;">Yang–Mills gauge theory</td></tr>
+        <tr><td>X-structure unobservable</td><td>Phase factors only</td><td style="color:var(--accent-secondary);font-weight:600;">Quantum mechanics</td></tr>
+        <tr><td>Many uncorrelated phases (CLT)</td><td>Classical trajectories</td><td style="color:var(--gold);font-weight:600;">Classical mechanics</td></tr>
+        <tr><td>Yukawa + X-localization</td><td>Overlap integrals</td><td style="color:var(--accent-warm);font-weight:600;">Mass hierarchies</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- THEORY NAVIGATION -->
+<section class="section" id="contents">
+  <h2>Theory Documentation</h2>
+  <p style="color:var(--text-secondary);margin-bottom:1rem;">
+    The full STUR theory is split across the following pages for accessibility:
+  </p>
+  <div class="toc">
+    <p><strong style="color:var(--gold);">1.</strong> <a href="stur_core_theory.html">Core Theory</a> — Master Action, XCRM, First Principles (this page)</p>
+    <p><strong style="color:var(--gold);">2.</strong> <a href="stur_geometry_axioms.html">Geometry & Axioms</a> — Orbifold structure, metric ansatz</p>
+    <p><strong style="color:var(--gold);">3.</strong> <a href="stur_xcrm_closure.html">XCRM Closure</a> — Potential derivation, dimensional analysis</p>
+    <p><strong style="color:var(--gold);">4.</strong> <a href="stur_gravity_emergence.html">Gravity Emergence</a> — Teleparallel equivalence, field equations</p>
+    <p><strong style="color:var(--gold);">5.</strong> <a href="stur_gauge_emergence.html">Gauge Emergence</a> — Yang-Mills from XCRM degeneracy</p>
+    <p><strong style="color:var(--gold);">6.</strong> <a href="stur_matter_coupling.html">Matter Coupling</a> — Fermions, mass hierarchies</p>
+    <p><strong style="color:var(--gold);">7.</strong> <a href="stur_predictions.html">Predictions</a> — Interferometric signature, coherence length</p>
+    <p><strong style="color:var(--gold);">8.</strong> <a href="stur_falsification.html">Falsification</a> — Experimental protocol, decision criteria</p>
+    <p><strong style="color:var(--gold);">9.</strong> <a href="stur_holoscreen.html">Holoscreen</a> — Interactive visibility simulator</p>
+    <p><strong style="color:var(--gold);">10.</strong> <a href="stur_technical_appendix.html">Technical Appendix</a> — Derivations, notation</p>
+  </div>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <span></span>
+  <a href="stur_geometry_axioms.html" class="next">Geometry & Axioms</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Core Theory</strong> — v11.0 (Complete Theory)</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) {
+    STUR.initNav();
+  }
+});
+</script>
+</body>
+</html>

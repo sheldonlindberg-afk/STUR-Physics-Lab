@@ -66,9 +66,9 @@
         </button>
         <div class="glass-nav-links">
             <a href="../index.html" class="glass-nav-link">Index</a>
-            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
-            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
-            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+            <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
@@ -123,11 +123,11 @@
                 <div>
                     <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Derived from First Principles</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
-                        <li><strong>STUR modulator form:</strong> \(S_u(u) = \tanh(u)(1 - e^{-u})\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
+                        <li><strong>STUR modulator form:</strong> \(S_u(u) = \tanh(u)(1 - e^{-u})\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
                         <li><strong>Bounded saturation:</strong> \(M \to \text{finite}\) as \(t \to \infty\)</li>
-                        <li><strong>Coherence suppression:</strong> \(\exp(-R_q \cdot S_u)\) — follows from <a href="stur_foundations.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
-                        <li><strong>Coherence length:</strong> \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_foundations.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
-                        <li><strong>\(\lambda = 3722/2705\):</strong> Derived from XCRM X-mode spectrum — from <a href="stur_foundations.html#sec5" style="color:var(--neon-green)">§5.3.6</a></li>
+                        <li><strong>Coherence suppression:</strong> \(\exp(-R_q \cdot S_u)\) — follows from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
+                        <li><strong>Coherence length:</strong> \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                        <li><strong>\(\lambda = 3722/2705\):</strong> Derived from XCRM X-mode spectrum — from <a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">§5.3.6</a></li>
                     </ul>
                 </div>
                 <div>
@@ -140,7 +140,7 @@
             </div>
             <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;font-size:0.85rem;">
                 <strong style="color:var(--neon-green);">XCRM Closure:</strong>
-                Chronomagnetics is <em>derived from XCRM X-mode spectrum</em> (<a href="stur_foundations.html#sec5" style="color:var(--neon-green)">Foundations §5.3.6</a>).
+                Chronomagnetics is <em>derived from XCRM X-mode spectrum</em> (<a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">Foundations §5.3.6</a>).
                 The constant \(\lambda = 3722/2705\) emerges uniquely from quantized X-modes on the orbifold.
                 This page tests the bounded-invariant structure of the derived modulation sector.
             </div>
@@ -168,7 +168,7 @@
           <p>\(M_{\max}\), phase divergence, RMSE vs QM interference</p>
         </div>
       </div>
-      <a href="stur_foundations.html#sec6" class="core-ref">Core Definition: Foundations §6 (Chronomagnetics)</a>
+      <a href="stur_core_theory.html#sec6" class="core-ref">Core Definition: Foundations §6 (Chronomagnetics)</a>
     </div>
 
     <!-- ============================================================
@@ -195,7 +195,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_core_theory.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -208,7 +208,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Saturation function:</strong> The STUR modulator bounds all dynamical responses:</p>
@@ -229,7 +229,7 @@
                 <div class="stur-eq-label">Chronomagnetic Index</div>
             </div>
 
-            <p><strong>Key parameter:</strong> \(L_X\) is the single free parameter; \(\sigma_R\) is <a href="stur_foundations.html#sec5" style="color:var(--neon-green)">derived from XCRM</a>. The coherence suppression \(\text{coh} = \exp(-R_q \cdot S_u)\) and phase damping \(\exp(-\frac{1}{2}(R_q \cdot S_u)^2)\) follow from the closure.</p>
+            <p><strong>Key parameter:</strong> \(L_X\) is the single free parameter; \(\sigma_R\) is <a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">derived from XCRM</a>. The coherence suppression \(\text{coh} = \exp(-R_q \cdot S_u)\) and phase damping \(\exp(-\frac{1}{2}(R_q \cdot S_u)^2)\) follow from the closure.</p>
         </div>
     </section>
 
@@ -334,7 +334,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Chronomagnetics Simulator (v9.2)
+# STUR Chronomagnetics Simulator (v11.0)
 #
 # Tests bounded source dynamics via chronomagnetic modulation index:
 #   M = Rq * S_u(u_c)
@@ -350,7 +350,7 @@
 import math, json, time
 
 # ===============================================================
-# 1) CONSTANTS AND PARAMETERS (v9.2)
+# 1) CONSTANTS AND PARAMETERS (v11.0)
 # ===============================================================
 RQ_MAX = 2.5
 LAM = 500e-9        # wavelength [m]
@@ -466,7 +466,7 @@ def write_svg(path, data, chrono):
 
     svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">']
     svg.append(f'<rect x="0" y="0" width="{W}" height="{H}" fill="#050814"/>')
-    svg.append(f'<text x="{W/2:.1f}" y="35" fill="#ffaa00" font-family="monospace" font-size="20" text-anchor="middle">STUR Chronomagnetics v9.2 - Bounded Invariants Test</text>')
+    svg.append(f'<text x="{W/2:.1f}" y="35" fill="#ffaa00" font-family="monospace" font-size="20" text-anchor="middle">STUR Chronomagnetics v11.0 - Bounded Invariants Test</text>')
 
     # Panel 1: Interference pattern (top)
     ph = 280
@@ -586,7 +586,7 @@ write_svg(OUT_SVG, data, chrono)
 report = {
     "meta": {
         "page": "chronomagnetics-simulator",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "M = Rq * S_u(u_c), S_u(u) = tanh(u)*(1-exp(-u))"
     },
@@ -625,7 +625,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Chronomagnetics Simulator [v9.2] ===")
+print("=== STUR Chronomagnetics Simulator [v11.0] ===")
 print(f"Rq = {Rq_test}, L0 = {L0_test} nm")
 print(f"M = {chrono['M']:.4f}, Regime = {chrono['regime']}")
 print(f"RMSE = {data['rmse']:.6f}")
@@ -675,7 +675,7 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> chronomagnetics-simulator |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -692,7 +692,7 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — Eq. (2.3) Saturation Operator</li>
+                <li>STUR Foundations, <a href="stur_core_theory.html">stur_core_theory.html</a> — Eq. (2.3) Saturation Operator</li>
                 <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
                 <li>Cosmological time mapping from Planck to present epoch</li>
                 <li>Authors: Sheldon Lindberg, Christopher Br. Cyrek, Derek Burkeen, J. M. Lockwood</li>
@@ -706,9 +706,9 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
-        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
         <a href="stur_geometry_verifier.html">Verifier</a> ·
         <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>

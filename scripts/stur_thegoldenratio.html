@@ -65,9 +65,9 @@
         </button>
         <div class="glass-nav-links">
             <a href="../index.html" class="glass-nav-link">Index</a>
-            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
-            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
-            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+            <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
@@ -122,7 +122,7 @@
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>XCRM feedback mechanism: U(X-R) coupling drives equilibration</li>
                 <li>Energy-information-geometry triad: conceptual extension of Master Action sectors</li>
-                <li>Self-correction dynamics: motivated by <a href="stur_foundations.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a> relaxation toward \(R_{\rm bg}\)</li>
+                <li>Self-correction dynamics: motivated by <a href="stur_core_theory.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a> relaxation toward \(R_{\rm bg}\)</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Conceptual Extensions:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
@@ -149,7 +149,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Perfect Resistance Ratio \(R^* = E/(I \Phi)\) converging to unity attractor.</p>
             <p><strong>Scale:</strong> Universal across all STUR-coupled systems (Replicator, Arc, WGM, Double-Slit, Helix).</p>
-            <p><strong>Connection:</strong> The <a href="stur_foundations.html#master-action" class="core-ref">XCRM coupling U(X-R)</a> enforces geometric-informational equilibrium via feedback dynamics.</p>
+            <p><strong>Connection:</strong> The <a href="stur_core_theory.html#master-action" class="core-ref">XCRM coupling U(X-R)</a> enforces geometric-informational equilibrium via feedback dynamics.</p>
         </div>
     </section>
 
@@ -162,7 +162,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR <a href="stur_foundations.html#master-action" class="core-ref">Master Action</a> from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR <a href="stur_core_theory.html#master-action" class="core-ref">Master Action</a> from <a href="stur_core_theory.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -175,7 +175,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Three STUR fields:</strong> Energy \(E(t)\), Information flow \(I(t)\), Geometric flux \(\Phi(t)\):</p>
@@ -202,7 +202,7 @@
                 \[
                 \color{#f472b6}{E} \leftarrow \color{#f472b6}{E} - \color{#fbbf24}{k \cdot \Delta} \cdot \color{#f472b6}{E}
                 \]
-                <div class="stur-eq-label">Feedback Coupling (<a href="stur_foundations.html#master-action" class="core-ref">XCRM</a> mechanism)</div>
+                <div class="stur-eq-label">Feedback Coupling (<a href="stur_core_theory.html#master-action" class="core-ref">XCRM</a> mechanism)</div>
             </div>
         </div>
     </section>
@@ -259,7 +259,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Golden Ratio Attractor (v9.2)
+# STUR Golden Ratio Attractor (v11.0)
 #
 # Derives R* = E/(I*Phi) -> 1 from XCRM coupling
 # Demonstrates unified resistance equilibrium
@@ -333,7 +333,7 @@ ax.fill_between(t, 1-R_std, 1+R_std, color="#22d3ee", alpha=0.1)
 
 ax.set_xlabel("Time (s)", color='#94a3b8')
 ax.set_ylabel("R* ratio", color='#94a3b8')
-ax.set_title("STUR Golden Ratio Attractor (v9.2)", color='#ffaa00', fontsize=14)
+ax.set_title("STUR Golden Ratio Attractor (v11.0)", color='#ffaa00', fontsize=14)
 ax.tick_params(colors='#94a3b8')
 ax.legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
 ax.grid(alpha=0.3, color='#1f2a44')
@@ -350,7 +350,7 @@ plt.show()
 report = {
     "meta": {
         "page": "golden-ratio-attractor",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "R* = E / (I * Phi) -> 1"
     },
@@ -378,7 +378,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Golden Ratio Attractor [v9.2] ===")
+print("=== STUR Golden Ratio Attractor [v11.0] ===")
 print(f"R* mean:  {R_mean:.4f}")
 print(f"R* std:   {R_std:.4f}")
 print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
@@ -419,7 +419,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> golden-ratio-attractor |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -436,7 +436,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — XCRM Coupling</li>
+                <li>STUR Foundations, <a href="stur_core_theory.html">stur_core_theory.html</a> — XCRM Coupling</li>
                 <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
                 <li>Golden ratio in dynamical systems — Fibonacci attractors</li>
                 <li>Information-geometry correspondence in unified field theories</li>
@@ -450,9 +450,9 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
-        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
         <a href="stur_geometry_verifier.html">Verifier</a> ·
         <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>

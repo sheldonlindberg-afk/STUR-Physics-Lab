@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Gravity Emergence — Teleparallel Sector from XCRM</title>
+<meta name="description" content="How General Relativity emerges from XCRM: the teleparallel equivalent of GR as the equilibrium limit of resistance dynamics.">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}', Tcal: '\\mathcal{T}', dd: '\\mathrm{d}' }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_gravity_emergence.html" class="glass-nav-link active">Gravity</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 style="background: linear-gradient(135deg, var(--torsion) 0%, var(--accent-secondary) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Gravity Emergence</h1>
+  <p class="subtitle">Teleparallel Equivalence from XCRM Equilibrium</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- TORSION SCALAR -->
+<section class="section" id="sec4" style="border:2px solid var(--torsion); background:linear-gradient(135deg, rgba(96,165,250,0.06) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--torsion);">4. Gravitational Sector: Teleparallel Equivalence</h2>
+
+  <h3>4.1 The Torsion Scalar</h3>
+
+  <p>
+    In the teleparallel formulation of gravity, the fundamental geometric object is the <strong>torsion tensor</strong>,
+    defined in terms of the vierbein (frame field) \(e^a_M\):
+  </p>
+
+  <div class="eq boxed">
+    \[\color{#60a5fa}{T^P{}_{MN}} = e_a^P(\partial_M e^a_N - \partial_N e^a_M)\]
+    <div class="eq-label">(4.0) — Torsion tensor</div>
+  </div>
+
+  <p>
+    The gravitational action is built from the <strong>torsion scalar</strong>, a specific contraction of the torsion tensor:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{\color{#60a5fa}{\Tcal} = \frac{1}{4}\color{#60a5fa}{T^{PMN}T_{PMN}} + \frac{1}{2}\color{#60a5fa}{T^{PMN}T_{NPM}} - \color{#60a5fa}{T^P{}_{PM}T^{QM}{}_Q}}\]
+    <div class="eq-label">(4.1) — Torsion scalar</div>
+  </div>
+
+  <div class="block">
+    <div class="title">Teleparallel vs Riemannian Geometry</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      In standard General Relativity, gravity is described by spacetime curvature (the Riemann tensor).
+      In teleparallel gravity, the <em>same</em> physics is described by torsion instead.
+      The Weitzenböck connection \(\hat{\Gamma}^P_{MN} = e_a^P \partial_M e^a_N\) has torsion but
+      <strong>no curvature</strong> — the opposite of the Levi-Civita connection.
+    </p>
+  </div>
+</section>
+
+<!-- TEGR-GR EQUIVALENCE -->
+<section class="section" id="tegr-equivalence">
+  <h2>4.2 TEGR-GR Equivalence Theorem</h2>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">Theorem 4.1 — Teleparallel Equivalence</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The Teleparallel Equivalent of General Relativity (TEGR) and the Einstein-Hilbert formulation
+      differ only by a total derivative:
+    </p>
+    <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--success);">
+      \[\boxed{\color{#fb923c}{e}\, \color{#60a5fa}{\mathcal{R}_{\rm Ricci}} = -\color{#fb923c}{e}\, \color{#60a5fa}{\Tcal} + 2\partial_M(\color{#fb923c}{e} \color{#60a5fa}{T^M})}\]
+      <div class="eq-label" style="color:var(--success);">(4.2) — TEGR-GR Equivalence</div>
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      Here \(e = \det(e^a_M)\) is the vierbein determinant, \(\mathcal{R}_{\rm Ricci}\) is the Ricci scalar,
+      \(\Tcal\) is the torsion scalar, and \(T^M = T^P{}_{PM}\) is the torsion vector.
+    </p>
+  </div>
+
+  <h3>Physical Implications</h3>
+
+  <p>
+    For matched boundary conditions (where the total derivative integrates to zero), the two formulations yield:
+  </p>
+
+  <ul>
+    <li><strong>Identical field equations</strong> — the Einstein equations</li>
+    <li><strong>Identical predictions</strong> — all gravitational phenomena (perihelion precession, light bending, gravitational waves)</li>
+    <li><strong>Different conceptual interpretation</strong> — geometry (curvature) vs dynamics (torsion)</li>
+  </ul>
+
+  <div class="block warning">
+    <div class="title">Proof Sketch</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Express the Ricci scalar in terms of the Weitzenböck connection and the contortion tensor
+      \(K^P{}_{MN} = \frac{1}{2}(T^P{}_{MN} + T_M{}^P{}_N + T_N{}^P{}_M)\).
+      The Riemann curvature of the Levi-Civita connection can be written entirely in terms of
+      torsion contractions plus a boundary term. See Aldrovandi & Pereira (2013), Chapter 7.
+    </p>
+  </div>
+</section>
+
+<!-- TEGR FROM XCRM -->
+<section class="section" id="tegr-from-xcrm" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">4.3 TEGR Emergence from XCRM</h2>
+
+  <div class="block gold" style="border-width:2px;">
+    <div class="title">Theorem 4.2 — TEGR as XCRM Ground State</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>TEGR is not an independent postulate — it emerges from XCRM in the resistance equilibrium limit.</strong>
+      When the resistance field relaxes to its background value \(R \to R_{\rm bg}\), the XCRM coupling vanishes
+      and the master action reduces exactly to the TEGR gravitational sector.
+    </p>
+  </div>
+
+  <h3>Derivation: The Equilibrium Limit</h3>
+
+  <p>
+    Starting from the master action (Eq. 0.1 in Core Theory), consider the limit where resistance fluctuations
+    are suppressed:
+  </p>
+
+  <div class="card-grid" style="margin:1rem 0;">
+    <div class="card" style="border:1px solid var(--gold);">
+      <strong style="color:var(--gold);">Step 1: Equilibrium Condition</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        In the equilibrium limit \(R \to R_{\rm bg}\), the deviation \(\delta R = R - R_{\rm bg} \to 0\).
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--gold);">
+      <strong style="color:var(--gold);">Step 2: XCRM Term Vanishes</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        \(\chi R \partial_X R = \frac{\chi}{2}\partial_X(R^2) \to 0\) since \(R_{\rm bg}\) is X-independent at equilibrium.
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--gold);">
+      <strong style="color:var(--gold);">Step 3: Diffusion Term Vanishes</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        \((\nabla R)^2 \to (\nabla R_{\rm bg})^2 = 0\) for uniform background.
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--gold);">
+      <strong style="color:var(--gold);">Step 4: Potential Becomes Constant</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        \(V(R) \to V(R_{\rm bg}) \equiv \Lambda_{\rm eff}\) — effective cosmological constant.
+      </span>
+    </div>
+  </div>
+
+  <h3>Step 5: Gravitational Coupling Identification</h3>
+
+  <p>
+    The torsion coupling simplifies:
+  </p>
+
+  <div class="eq boxed">
+    \[\alpha R \mathbb{T} \;\to\; \alpha R_{\rm bg} \mathbb{T} = \frac{1}{16\pi G}\mathbb{T}\]
+    <div class="eq-label">(4.2.1) — Newton's constant identification</div>
+  </div>
+
+  <p>
+    where we identify the gravitational constant as:
+  </p>
+
+  <div class="eq law">
+    \[\boxed{\color{#4ade80}{G} = \frac{1}{16\pi \color{#fbbf24}{\alpha} \color{#4ade80}{R_{\rm bg}}}}\]
+    <div class="eq-label">(4.2.2) — Newton's constant from XCRM</div>
+  </div>
+
+  <h3>The Emergent TEGR Action</h3>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;">
+    \[\boxed{S_{\rm STUR}[R \to R_{\rm bg}] = \int d^4x\, \sqrt{-g}\,\left[\frac{1}{16\pi G}\color{#60a5fa}{\mathbb{T}} - \Lambda_{\rm eff} + \color{#22d3ee}{\mathcal{L}_{\rm matter}}\right] = S_{\rm TEGR}}\]
+    <div class="eq-label" style="color:var(--success);">(4.3) — TEGR as XCRM equilibrium limit</div>
+  </div>
+
+  <div class="block success" style="margin-top:1.25rem;border-width:2px;">
+    <div class="title">XCRM Closure: Gravitational Sector</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>Result:</strong> General Relativity (via TEGR) is the <em>ground state</em> of the XCRM dynamics.
+      The gravitational sector is not an additional postulate — it is what remains when resistance fluctuations
+      are integrated out. This closes the gravitational sector within XCRM.
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <li><span class="eq-diffusion">Newton's constant emerges:</span> \(G = 1/(16\pi \alpha R_{\rm bg})\)</li>
+      <li><span class="eq-potential">Cosmological constant emerges:</span> \(\Lambda_{\rm eff} = V(R_{\rm bg})\)</li>
+      <li><span class="eq-torsion">TEGR field equations hold exactly</span> in the \(R \to R_{\rm bg}\) limit</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PHYSICAL INTERPRETATION -->
+<section class="section" id="interpretation">
+  <h2>4.4 Physical Interpretation</h2>
+
+  <div class="block gold">
+    <div class="title">Gravity as Long-Wavelength XCRM</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>Gravity is the long-wavelength, low-energy limit of XCRM dynamics.</strong>
+      Spacetime geometry emerges from the equilibration of the resistance field.
+      Deviations from equilibrium (\(\delta R \neq 0\)) produce the interferometric signatures
+      that distinguish STUR from pure GR.
+    </p>
+  </div>
+
+  <h3>What This Means</h3>
+
+  <div class="card-grid">
+    <div class="card" style="border:1px solid var(--success);background:rgba(74,222,128,0.04);">
+      <strong style="color:var(--success);">At Large Scales</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        Resistance equilibrates rapidly<br>
+        \(R \approx R_{\rm bg}\) everywhere<br>
+        Pure GR/TEGR dynamics<br>
+        No observable STUR signatures
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--gold);background:rgba(251,191,36,0.04);">
+      <strong style="color:var(--gold);">At Interferometric Scales</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        Resistance fluctuations matter<br>
+        \(\delta R \neq 0\) detectable<br>
+        Gaussian visibility decay<br>
+        STUR signatures emerge
+      </span>
+    </div>
+  </div>
+
+  <h3>Hierarchy of Emergence</h3>
+
+  <p>
+    The gravitational sector sits at a specific level in the XCRM emergence hierarchy:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Level</th>
+        <th>Regime</th>
+        <th>Emergent Theory</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Microscopic</td>
+        <td>Full XCRM dynamics</td>
+        <td style="color:var(--gold);font-weight:600;">STUR (with visibility signatures)</td>
+      </tr>
+      <tr>
+        <td>Macroscopic</td>
+        <td>\(R \to R_{\rm bg}\)</td>
+        <td style="color:var(--torsion);font-weight:600;">TEGR (Teleparallel Gravity)</td>
+      </tr>
+      <tr>
+        <td>Equivalent</td>
+        <td>Boundary conditions matched</td>
+        <td style="color:var(--success);font-weight:600;">General Relativity</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block">
+    <div class="title">Why Teleparallel and Not Metric Gravity?</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The XCRM action naturally couples to torsion (\(\alpha R \mathbb{T}\)) rather than curvature.
+      This is because the resistance field couples to <em>frames</em> (vierbeins), not directly to the metric.
+      The teleparallel formulation preserves this structure while being dynamically equivalent to Einstein gravity.
+    </p>
+  </div>
+</section>
+
+<!-- OBSERVATIONAL CONSEQUENCES -->
+<section class="section" id="consequences" style="border-left:4px solid var(--accent);">
+  <h2 style="color:var(--accent);">4.5 Observational Consequences</h2>
+
+  <p>
+    The XCRM origin of gravity has testable consequences beyond standard GR:
+  </p>
+
+  <div class="card-grid">
+    <div class="card" style="border:1px solid var(--accent);">
+      <strong style="color:var(--accent);">Interferometric Signatures</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        Resistance fluctuations produce the Gaussian visibility decay that is STUR's primary prediction.
+        This is absent in pure GR.
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--accent-secondary);">
+      <strong style="color:var(--accent-secondary);">Cosmological Constant</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        \(\Lambda_{\rm eff} = V(R_{\rm bg})\) is determined by the resistance potential minimum,
+        potentially explaining the cosmological constant problem.
+      </span>
+    </div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Key Result</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      STUR reproduces all predictions of General Relativity in the equilibrium limit while making
+      <strong>additional falsifiable predictions</strong> (the Gaussian visibility law) that GR does not make.
+      This is the hallmark of a proper extension rather than a mere reformulation.
+    </p>
+  </div>
+</section>
+
+<!-- SEE ALSO -->
+<section class="section" style="background:rgba(251,191,36,0.05);border:1px solid rgba(251,191,36,0.2);padding:1rem 1.5rem;">
+  <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+    <strong style="color:var(--gold);">See Also:</strong>
+    <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a>
+    — α definition from TEGR matching (Section A), dimensional analysis of gravity-torsion coupling (Section C).
+  </p>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_xcrm_closure.html" class="prev">XCRM Closure</a>
+  <a href="stur_gauge_emergence.html" class="next">Gauge Emergence</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Gravity Emergence</strong> — v11.0</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

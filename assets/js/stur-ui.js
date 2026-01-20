@@ -1,6 +1,7 @@
 /**
- * STUR UI Utilities v1.0
+ * STUR UI Utilities v11.0
  * Shared JavaScript for all STUR Physics Lab pages
+ * Complete Theory Edition (MHP + DHP)
  *
  * Import via: <script src="../assets/js/stur-ui.js"></script>
  */
@@ -9,8 +10,9 @@
   'use strict';
 
   const STUR = {
-    version: '1.0.0',
-    framework: 'v9.2'
+    version: '11.0.0',
+    framework: 'v11.0',
+    versionName: 'Complete Theory'
   };
 
   // ============================================================
@@ -153,110 +155,173 @@
         .stur-share-menu {
           position: fixed;
           inset: 0;
-          background: rgba(0, 0, 0, 0.6);
-          backdrop-filter: blur(4px);
+          background: rgba(0, 0, 0, 0.75);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
           display: flex;
-          align-items: center;
+          align-items: flex-end;
           justify-content: center;
           z-index: 10000;
           opacity: 0;
           visibility: hidden;
-          transition: opacity 0.2s, visibility 0.2s;
+          transition: opacity 0.25s ease, visibility 0.25s ease;
+          padding: 0;
+          padding-bottom: env(safe-area-inset-bottom, 0);
         }
         .stur-share-menu.open {
           opacity: 1;
           visibility: visible;
         }
         .stur-share-menu-content {
-          background: var(--bg-panel, #0f172a);
-          border: 1px solid var(--border-dim, #334155);
-          border-radius: 16px;
+          background: linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, rgba(10, 15, 30, 0.99) 100%);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-bottom: none;
+          border-radius: 20px 20px 0 0;
           padding: 0;
-          min-width: 280px;
-          max-width: 90vw;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-          transform: scale(0.95);
-          transition: transform 0.2s;
+          width: 100%;
+          max-width: 420px;
+          max-height: 85vh;
+          box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+          transform: translateY(100%);
+          transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+          overflow: hidden;
         }
         .stur-share-menu.open .stur-share-menu-content {
-          transform: scale(1);
+          transform: translateY(0);
         }
         .stur-share-menu-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 16px 20px;
-          border-bottom: 1px solid var(--border-dim, #334155);
+          padding: 18px 20px 14px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
           font-weight: 600;
-          font-size: 15px;
+          font-size: 17px;
           color: var(--text-main, #f1f5f9);
         }
+        .stur-share-menu-header::before {
+          content: '';
+          position: absolute;
+          top: 8px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 36px;
+          height: 4px;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 2px;
+        }
         .stur-share-menu-close {
-          background: none;
+          background: rgba(255, 255, 255, 0.1);
           border: none;
           color: var(--text-muted, #94a3b8);
-          font-size: 24px;
+          font-size: 20px;
           cursor: pointer;
           padding: 0;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           line-height: 1;
-          transition: color 0.15s;
+          transition: background 0.15s, color 0.15s;
         }
-        .stur-share-menu-close:hover {
+        .stur-share-menu-close:hover,
+        .stur-share-menu-close:focus {
+          background: rgba(255, 255, 255, 0.15);
           color: var(--text-main, #f1f5f9);
         }
         .stur-share-menu-options {
-          padding: 12px;
+          padding: 16px 16px 24px;
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 8px;
+          gap: 12px;
         }
         .stur-share-option {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 8px;
-          padding: 16px 12px;
-          background: var(--bg-panel-2, #1e293b);
-          border: 1px solid transparent;
-          border-radius: 12px;
+          gap: 10px;
+          padding: 18px 12px;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          border-radius: 14px;
           cursor: pointer;
-          transition: all 0.15s;
+          transition: all 0.2s ease;
           color: var(--text-main, #f1f5f9);
+          -webkit-tap-highlight-color: transparent;
+          min-height: 90px;
         }
-        .stur-share-option:hover {
+        .stur-share-option:hover,
+        .stur-share-option:focus {
           background: rgba(255, 255, 255, 0.08);
           border-color: var(--platform-color);
-          transform: translateY(-2px);
+          transform: scale(1.02);
+          outline: none;
         }
         .stur-share-option:active {
-          transform: translateY(0);
+          transform: scale(0.97);
+          background: rgba(255, 255, 255, 0.12);
         }
         .stur-share-icon {
-          width: 32px;
-          height: 32px;
+          width: 44px;
+          height: 44px;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 8px;
+          border-radius: 12px;
           background: var(--platform-color);
           color: white;
-          font-size: 16px;
+          font-size: 18px;
           font-weight: bold;
+          flex-shrink: 0;
         }
-        .stur-share-icon-link::before { content: "🔗"; }
-        .stur-share-icon-x::before { content: "𝕏"; font-family: serif; }
-        .stur-share-icon-facebook::before { content: "f"; font-family: Georgia, serif; }
-        .stur-share-icon-linkedin::before { content: "in"; font-size: 12px; font-weight: 700; }
-        .stur-share-icon-reddit::before { content: "r/"; font-size: 11px; }
-        .stur-share-icon-mail::before { content: "✉"; }
+        .stur-share-icon-link::before { content: "🔗"; font-size: 20px; }
+        .stur-share-icon-x::before { content: "𝕏"; font-family: serif; font-size: 20px; }
+        .stur-share-icon-facebook::before { content: "f"; font-family: Georgia, serif; font-size: 22px; }
+        .stur-share-icon-linkedin::before { content: "in"; font-size: 14px; font-weight: 700; }
+        .stur-share-icon-reddit::before { content: "r/"; font-size: 13px; }
+        .stur-share-icon-mail::before { content: "✉"; font-size: 18px; }
         .stur-share-label {
-          font-size: 11px;
+          font-size: 12px;
+          font-weight: 500;
           color: var(--text-muted, #94a3b8);
           text-align: center;
+          line-height: 1.3;
         }
-        @media (max-width: 400px) {
+        /* Desktop: center the modal */
+        @media (min-width: 481px) {
+          .stur-share-menu {
+            align-items: center;
+            padding: 1.5rem;
+          }
+          .stur-share-menu-content {
+            border-radius: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.95) translateY(20px);
+            max-width: 380px;
+          }
+          .stur-share-menu.open .stur-share-menu-content {
+            transform: scale(1) translateY(0);
+          }
+          .stur-share-menu-header::before {
+            display: none;
+          }
+        }
+        /* Small mobile: 2-column grid */
+        @media (max-width: 360px) {
           .stur-share-menu-options {
             grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 14px 14px 20px;
+          }
+          .stur-share-option {
+            padding: 14px 10px;
+            min-height: 80px;
+          }
+          .stur-share-icon {
+            width: 40px;
+            height: 40px;
           }
         }
       `;
@@ -409,9 +474,21 @@
     // Create container if needed
     if (!toastContainer) {
       toastContainer = STUR.createElement('div', {
-        id: 'stur-toast-container',
-        style: 'position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:0.5rem;'
+        id: 'stur-toast-container'
       });
+      // Apply styles that work well on mobile
+      toastContainer.style.cssText = `
+        position: fixed;
+        bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+        left: 1rem;
+        right: 1rem;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        pointer-events: none;
+      `;
       document.body.appendChild(toastContainer);
     }
 
@@ -419,6 +496,11 @@
     const toast = STUR.createElement('div', {
       className: `glass-toast ${type}`
     });
+
+    // Make toast clickable/dismissible
+    toast.style.pointerEvents = 'auto';
+    toast.style.maxWidth = '360px';
+    toast.style.width = '100%';
 
     // Icon based on type
     const iconMap = {
@@ -429,9 +511,15 @@
     };
 
     toast.innerHTML = `
-      <span class="stur-icon icon-${iconMap[type] || 'info'} md" style="color:var(--neon-${type === 'error' ? 'red' : type === 'success' ? 'green' : type === 'warning' ? 'gold' : 'cyan'})"></span>
+      <span class="stur-icon icon-${iconMap[type] || 'info'} md" style="color:var(--neon-${type === 'error' ? 'red' : type === 'success' ? 'green' : type === 'warning' ? 'gold' : 'cyan'});flex-shrink:0"></span>
       <span style="flex:1">${message}</span>
     `;
+
+    // Allow dismissing by clicking
+    toast.addEventListener('click', () => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    });
 
     toastContainer.appendChild(toast);
 
@@ -539,17 +627,68 @@
     const links = STUR.$('.glass-nav-links');
 
     if (toggle && links) {
-      toggle.addEventListener('click', () => {
-        links.classList.toggle('open');
-        toggle.setAttribute('aria-expanded', links.classList.contains('open'));
-      });
+      // Toggle menu open/close
+      const toggleMenu = (forceClose) => {
+        const shouldOpen = forceClose === true ? false : !links.classList.contains('open');
 
-      // Close on click outside
-      document.addEventListener('click', (e) => {
-        if (!toggle.contains(e.target) && !links.contains(e.target)) {
+        if (shouldOpen) {
+          links.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+          document.body.style.overflow = 'hidden';
+        } else {
           links.classList.remove('open');
           toggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
         }
+      };
+
+      // Toggle button click
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      // Close menu when clicking on a nav link (but not the share button which opens a modal)
+      links.querySelectorAll('.glass-nav-link:not(.glass-share-btn)').forEach(link => {
+        link.addEventListener('click', () => {
+          toggleMenu(true);
+        });
+      });
+
+      // Close menu when share button is clicked (share modal will open)
+      const shareBtn = links.querySelector('.glass-share-btn');
+      if (shareBtn) {
+        shareBtn.addEventListener('click', () => {
+          toggleMenu(true);
+        });
+      }
+
+      // Close on click outside (only when menu is open)
+      document.addEventListener('click', (e) => {
+        if (links.classList.contains('open') &&
+            !toggle.contains(e.target) &&
+            !links.contains(e.target)) {
+          toggleMenu(true);
+        }
+      });
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && links.classList.contains('open')) {
+          toggleMenu(true);
+          toggle.focus(); // Return focus to toggle button
+        }
+      });
+
+      // Handle resize - close menu if screen becomes larger than mobile breakpoint
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          if (window.innerWidth > 768 && links.classList.contains('open')) {
+            toggleMenu(true);
+          }
+        }, 100);
       });
     }
   };
@@ -560,7 +699,7 @@
   STUR.createNavHTML = function(currentPage) {
     const pages = [
       { id: 'index', label: 'Index', href: '../index.html' },
-      { id: 'foundations', label: 'Foundations', href: 'stur_foundations.html' },
+      { id: 'foundations', label: 'Foundations', href: 'stur_core_theory.html' },
       { id: 'unified', label: 'Framework', href: 'stur_unified_framework.html' },
       { id: 'verifier', label: 'Verifier', href: 'stur_geometry_verifier.html' },
       { id: 'sandbox', label: 'Sandbox', href: 'stur_sandbox.html' }
@@ -737,9 +876,16 @@
     STUR.initNav();
     STUR.initModals();
 
-    // Add keyboard handlers
+    // Add global keyboard handlers
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
+        // Close share menu if open
+        if (shareMenuEl && shareMenuEl.classList.contains('open')) {
+          STUR.closeShareMenu();
+          return;
+        }
+
+        // Close any open modals
         STUR.$$('.glass-modal-overlay.open').forEach(overlay => {
           overlay.classList.remove('open');
           document.body.style.overflow = '';

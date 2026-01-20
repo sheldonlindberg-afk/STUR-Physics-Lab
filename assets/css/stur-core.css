@@ -1,10 +1,19 @@
 /* ============================================================
-   STUR CORE VISUAL SYSTEM v1.0
+   STUR CORE VISUAL SYSTEM v11.0
    Abyss Black • Dim Neon • Coherence First
+   Complete Theory: XCRM + MHP + DHP
 
    This is the canonical CSS for all STUR Physics Lab pages.
    Import via: <link rel="stylesheet" href="../assets/css/stur-core.css">
    (adjust path based on page location)
+
+   Physics Domain Colors:
+   - Diffusion (#4ade80 Green) — Kinetic terms ½(∇R)²
+   - Potential (#f472b6 Pink) — Relaxation V(R)
+   - XCRM (#fbbf24 Gold) — X-Coupling χR∂ₓR
+   - Torsion (#60a5fa Blue) — Gravity αR𝕋
+   - Matter (#22d3ee Cyan) — Matter fields
+   - Quantum (#a78bfa Violet) — Loop corrections
    ============================================================ */
 
 /* === ROOT VARIABLES === */

@@ -269,9 +269,9 @@
         </button>
         <div class="glass-nav-links">
             <a href="../index.html" class="glass-nav-link">Index</a>
-            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
-            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
-            <a href="stur_sandbox.html" class="glass-nav-link active">Sandbox</a>
+            <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+            <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
@@ -331,7 +331,7 @@
     <section class="glass-section law">
         <div class="glass-section-header">
             <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
-            <h2 class="glass-section-title">Master Action (v9.2)</h2>
+            <h2 class="glass-section-title">Master Action (v11.0)</h2>
         </div>
         <div class="glass-section-body">
             <p>The complete STUR master action from which all simulations derive:</p>
@@ -347,7 +347,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
         </div>
     </section>
@@ -442,12 +442,13 @@
             <div class="eq-label">STUR Visibility Law - THE testable prediction</div>
         </div>
 
-        <p>Coherence length from theory:</p>
+        <p>Coherence length from theory (<a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-green)">Tech. Appendix Eq. B.9</a>):</p>
         <div class="eq">
-            \[\color{#22d3ee}{\ell_{\rm coh}} = \sqrt{2}\,\frac{\color{#fbbf24}{L_X}}{\color{#4ade80}{\sigma_R}} = \frac{\color{#60a5fa}{p_0}}{\color{#fbbf24}{y}\,\color{#4ade80}{K_{\rm eff}}}\]
+            \[\color{#22d3ee}{\ell_{\rm coh}} = \frac{\sqrt{2}\,\color{#fbbf24}{L_X}}{\color{#a78bfa}{y}\,\color{#4ade80}{\sigma_R}}\]
+            <div class="eq-label">With \(y=1\) (default): \(\ell_{\rm coh} = \sqrt{2}\,L_X/\sigma_R\)</div>
         </div>
 
-        <h3>Emergent 4D Equation (v9.2 Closure)</h3>
+        <h3>Emergent 4D Equation (v11.0 Closure)</h3>
         <p>
             Integrating the 5D STUR action over the internal coherence coordinate \(X\) in the adiabatic limit
             yields an effective 4D equation for the coarse-grained resistance field:
@@ -791,7 +792,7 @@ function solveTridiagonal(a, b, c, d) {
             <div class="panel" style="margin:0.8rem 0;border-left:3px solid var(--neon-green);">
                 <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">
                     <strong style="color:var(--neon-green);">XCRM Closure:</strong> Chronomagnetics is <strong>derived from XCRM</strong>
-                    (<a href="stur_foundations.html#sec5" style="color:var(--neon-green)">Foundations §5.3.6</a>).
+                    (<a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">Foundations §5.3.6</a>).
                     The constant \(\lambda\) emerges uniquely from the quantized X-mode spectrum on the orbifold.
                 </p>
             </div>
@@ -907,7 +908,7 @@ function solveTridiagonal(a, b, c, d) {
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> sandbox |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -918,12 +919,12 @@ function solveTridiagonal(a, b, c, d) {
          FRAMEWORK CLOSURE STATUS
          ============================================================ -->
     <div style="margin:1.5rem 0;padding:1rem;background:rgba(74,222,128,0.08);border-left:3px solid var(--neon-green);border-radius:8px;">
-        <strong style="color:var(--neon-green);">Framework Closure Status (v9.2)</strong>
+        <strong style="color:var(--neon-green);">Framework Closure Status (v11.0)</strong>
         <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.9rem;">
             <strong>Level 1 (Closed):</strong> Emergent 4D equation via X-integration;
             coherence length \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\) derived from manifold geometry.<br>
             <strong>Level 2 (Closed):</strong> Loop enhancement via Stokes' theorem provides observability pathway.<br>
-            <strong>Level 3 (Closed):</strong> \(\sigma_R\) derived from XCRM equilibrium (<a href="stur_foundations.html#sec5" style="color:var(--neon-green)">§5.3.5</a>).
+            <strong>Level 3 (Closed):</strong> \(\sigma_R\) derived from XCRM equilibrium (<a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">§5.3.5</a>).
         </p>
         <p style="margin:0.5rem 0 0;color:var(--text-dim);font-size:0.85rem;">
             After XCRM closure, STUR has <strong>a single free parameter</strong> \(L_X\) (compactification scale).
@@ -938,9 +939,9 @@ function solveTridiagonal(a, b, c, d) {
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 - A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 - A falsifiable unified framework</p>
     <p>
-        <a href="stur_foundations.html">Foundations</a> |
+        <a href="stur_core_theory.html">Foundations</a> |
         <a href="stur_unified_framework.html">Framework</a> |
         <a href="stur_geometry_verifier.html">Verifier</a> |
         <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
@@ -1296,7 +1297,7 @@ document.getElementById('pde_export').addEventListener('click', () => {
     const massRatio = currentMass / Math.max(pde.initialMass, 0.01);
 
     const data = {
-        meta: { title: 'STUR PDE Export', timestamp: new Date().toISOString(), version: 'v9.2' },
+        meta: { title: 'STUR PDE Export', timestamp: new Date().toISOString(), version: 'v11.0' },
         params: { N: pde.N, L: pde.L, D: pde.D, LX: pde.LX, alpha: pde.alpha, R_bg: pde.R_bg, dt: pde.dt },
         state: { timestep: pde.timestep, R: Array.from(pde.R), T: Array.from(pde.T) },
         conservation: {

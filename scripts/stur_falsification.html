@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Falsification — Experimental Protocol and Decision Criteria</title>
+<meta name="description" content="The falsification protocol for STUR: experimental requirements, decision criteria, and what observations would definitively exclude the XCRM framework.">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}' }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_falsification.html" class="glass-nav-link active">Falsification</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 style="background: linear-gradient(135deg, var(--error) 0%, var(--gold) 50%, var(--text) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Falsification Protocol</h1>
+  <p class="subtitle">How to Test and Potentially Exclude STUR</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- FALSIFIABILITY STATEMENT -->
+<section class="section" id="falsifiability" style="border:2px solid var(--error); background:linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(251,191,36,0.04) 100%);">
+  <h2 style="color:var(--error);">12. Falsifiability Statement</h2>
+
+  <div class="block error" style="border-width:2px;">
+    <div class="title">Core Falsifiability Claim</div>
+    <p style="margin:0;font-size:1.05rem;color:var(--text);">
+      <strong>STUR makes exactly one non-negotiable prediction: the Gaussian form of visibility decay.</strong>
+    </p>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
+      The theory predicts:
+    </p>
+    <div class="eq law" style="margin:1rem 0;background:#000;">
+      \[\boxed{V(\Delta L) = V_0 \exp\!\left(-\frac{\Delta L^2}{\ell_{\rm coh}^2}\right)}\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.95rem;">
+      This functional form is <strong>not adjustable</strong>. Only the parameter \(\ell_{\rm coh}\)
+      can vary. The Gaussian dependence on \(\Delta L^2\) follows necessarily from XCRM holonomy
+      averaging under the central limit theorem.
+    </p>
+  </div>
+</section>
+
+<!-- DECISION CRITERIA -->
+<section class="section" id="sec12-criteria">
+  <h2>12.1 Decision Criteria</h2>
+
+  <div class="card-grid" style="margin-bottom:1.5rem;">
+    <div class="card" style="border:2px solid var(--success);background:rgba(74,222,128,0.06);">
+      <strong style="color:var(--success);">STUR Consistent</strong>
+      <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
+        <li>Visibility decays as Gaussian in \(\Delta L^2\)</li>
+        <li>No temporal oscillation at fixed \(\Delta L\)</li>
+        <li>Mass-independent at fixed shot time</li>
+        <li>Area scaling for loop geometries</li>
+        <li>Single coherence length fits all data</li>
+      </ul>
+    </div>
+    <div class="card" style="border:2px solid var(--error);background:rgba(239,68,68,0.06);">
+      <strong style="color:var(--error);">STUR Falsified</strong>
+      <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
+        <li>Visibility linear in \(\Delta L\) (not quadratic)</li>
+        <li>Sinusoidal temporal modulation</li>
+        <li>Mass-dependent visibility at fixed \(\Delta L\)</li>
+        <li>Exponential (not Gaussian) decay</li>
+        <li>Multiple coherence lengths required</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>12.2 Specific Falsification Tests</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Test</th>
+        <th>STUR Prediction</th>
+        <th>Falsifying Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Functional form</strong></td>
+        <td>\(\ln V \propto -\Delta L^2\)</td>
+        <td>\(\ln V \propto -\Delta L\) or oscillatory</td>
+      </tr>
+      <tr>
+        <td><strong>Time dependence</strong></td>
+        <td>None (at equilibrium)</td>
+        <td>Periodic modulation at any frequency</td>
+      </tr>
+      <tr>
+        <td><strong>Mass dependence</strong></td>
+        <td>None (at fixed \(\Delta L\))</td>
+        <td>\(V\) depends on particle mass</td>
+      </tr>
+      <tr>
+        <td><strong>Temperature dependence</strong></td>
+        <td>Weak (via \(\sigma_R\))</td>
+        <td>Strong thermal activation</td>
+      </tr>
+      <tr>
+        <td><strong>Loop vs linear</strong></td>
+        <td>Area scaling for loops</td>
+        <td>No area enhancement</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- EXPERIMENTAL PROTOCOL -->
+<section class="section" id="sec12-protocol" style="border-left:4px solid var(--gold);">
+  <h2 style="color:var(--gold);">12.3 Recommended Experimental Protocol</h2>
+
+  <h3>Step 1: Baseline Measurement</h3>
+  <p>
+    Measure visibility \(V\) at multiple arm separations \(\Delta L_1, \Delta L_2, \ldots, \Delta L_n\)
+    spanning at least one decade.
+  </p>
+
+  <h3>Step 2: Functional Form Test</h3>
+  <p>
+    Plot \(\ln(V/V_0)\) versus \(\Delta L^2\). STUR predicts a <strong>straight line</strong> with
+    slope \(-1/\ell_{\rm coh}^2\).
+  </p>
+
+  <div class="eq boxed">
+    \[\ln\!\left(\frac{V}{V_0}\right) = -\frac{\Delta L^2}{\ell_{\rm coh}^2} \quad\Rightarrow\quad \text{linear in } \Delta L^2\]
+    <div class="eq-label">(12.1) — Linearized Test</div>
+  </div>
+
+  <h3>Step 3: Time-Series Check</h3>
+  <p>
+    At fixed \(\Delta L\), measure visibility over time. STUR predicts <strong>no systematic
+    temporal variation</strong> (only statistical noise).
+  </p>
+
+  <h3>Step 4: Mass Independence Check</h3>
+  <p>
+    Repeat measurements with different particle masses (e.g., neutrons vs atoms). STUR predicts
+    <strong>identical visibility curves</strong> when normalized to the same \(\Delta L\).
+  </p>
+
+  <h3>Step 5: Loop Geometry Test</h3>
+  <p>
+    For loop interferometers, verify that visibility scales with <strong>enclosed area squared</strong>,
+    not linear path length.
+  </p>
+</section>
+
+<!-- WHAT STUR CANNOT PREDICT -->
+<section class="section" id="sec12-limits">
+  <h2>12.4 What STUR Cannot Predict</h2>
+
+  <div class="block warning">
+    <div class="title">Phenomenological Inputs</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      STUR does <strong>not</strong> predict:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li>The numerical value of \(\ell_{\rm coh}\) (must be measured)</li>
+      <li>The specific substrate (UV completion) producing the fluctuations</li>
+      <li>Standard Model parameters (gauge group, masses, mixings)</li>
+      <li>Whether the coherence scale is accessible to current experiments</li>
+    </ul>
+  </div>
+
+  <p>
+    These limitations do not compromise falsifiability. The <em>form</em> of the visibility law is
+    fixed by the axioms; only the <em>scale</em> is a free parameter. A single measurement of
+    \(\ell_{\rm coh}\) at one \(\Delta L\) predicts visibility at all other separations.
+  </p>
+</section>
+
+<!-- CURRENT CONSTRAINTS -->
+<section class="section" id="sec11">
+  <h2>11. Current Experimental Constraints</h2>
+
+  <h3>11.1 Existing Data</h3>
+
+  <p>
+    Current matter-wave interferometry experiments (neutron, atom, molecule) place lower bounds on
+    the coherence length:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Experiment</th>
+        <th>Particle</th>
+        <th>\(\Delta L_{\rm max}\)</th>
+        <th>Constraint</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Neutron interferometry</td>
+        <td>Neutron</td>
+        <td>∼ 10 cm</td>
+        <td>\(\ell_{\rm coh} > 10\) cm</td>
+      </tr>
+      <tr>
+        <td>Atom interferometry</td>
+        <td>Rb, Cs</td>
+        <td>∼ 1 m</td>
+        <td>\(\ell_{\rm coh} > 1\) m</td>
+      </tr>
+      <tr>
+        <td>Molecule interferometry</td>
+        <td>C₆₀, larger</td>
+        <td>∼ 1 mm</td>
+        <td>\(\ell_{\rm coh} > 1\) mm</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block">
+    <div class="title">Interpretation</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Current null results are consistent with STUR if \(\ell_{\rm coh} \gtrsim 1\) m. Smaller
+      coherence lengths would have produced observable visibility decay in existing experiments.
+      This sets a lower bound but does not falsify the theory.
+    </p>
+  </div>
+</section>
+
+<!-- THEORETICAL STATUS -->
+<section class="section" id="sec14">
+  <h2>14. Theoretical Status (v11.0)</h2>
+
+  <div class="block success" style="background:rgba(74,222,128,0.08);border-color:rgba(74,222,128,0.3);">
+    <div class="title" style="color:#4ade80;">Complete Theory — All Problems Closed</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      With MHP + DHP, all 13 fundamental problems are now <strong>closed</strong>:
+    </p>
+    <ul style="margin-top:0.5rem;color:var(--text-secondary);">
+      <li><strong style="color:#4ade80;">UV completion:</strong> Holonomy self-regulation (DHP F.7)</li>
+      <li><strong style="color:#4ade80;">Coherence length:</strong> Derived: \(\ell_{\rm coh} = \sqrt{2}\, L_X / \sigma_R\)</li>
+      <li><strong style="color:#4ade80;">Loop enhancement:</strong> Stokes' theorem pathway established</li>
+      <li><strong style="color:#4ade80;">Cosmological signatures:</strong> DHP inflation + baryogenesis (F.12)</li>
+      <li><strong style="color:#4ade80;">Quantum gravity:</strong> Finite holonomy path integral (F.13)</li>
+    </ul>
+  </div>
+
+  <div class="block gold">
+    <div class="title">The Path Forward</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      STUR provides a <strong>falsifiable target</strong> for experimental physics. The theory
+      stands or falls on the Gaussian visibility prediction. Either experiments will confirm this
+      form (determining \(\ell_{\rm coh}\)), or they will falsify STUR by revealing a different
+      functional dependence.
+    </p>
+  </div>
+</section>
+
+<!-- SEE ALSO -->
+<section class="section" style="background:rgba(251,191,36,0.05);border:1px solid rgba(251,191,36,0.2);padding:1rem 1.5rem;">
+  <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+    <strong style="color:var(--gold);">See Also:</strong>
+    <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a>
+    — complete derivation of the Gaussian visibility law, numerical \(\ell_{\rm coh}\) predictions, and falsifiability analysis.
+  </p>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_predictions.html" class="prev">Predictions</a>
+  <a href="stur_holoscreen.html" class="next">Holoscreen</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Falsification Protocol</strong> — v11.0</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

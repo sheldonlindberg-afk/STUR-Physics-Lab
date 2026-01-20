@@ -65,9 +65,9 @@
         </button>
         <div class="glass-nav-links">
             <a href="../index.html" class="glass-nav-link">Index</a>
-            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
-            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
-            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+            <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
@@ -84,7 +84,7 @@
     <header style="text-align:center; margin-bottom:2rem;">
         <h1 class="page-title-falsifiable">Scalar Bounce Cosmology</h1>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            Tests the STUR cosmological bounce from the <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived R-field potential V(R)</a>.
+            Tests the STUR cosmological bounce from the <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived R-field potential V(R)</a>.
             A scalar field \(\phi(t)\) coupled to the modified Friedmann equation produces non-singular bounces.
         </p>
 
@@ -158,7 +158,7 @@
           <p>Minimum scale factor \(a_{\min}\), Hubble zero-crossing, density bound \(\rho_{\max} \leq \rho_c\)</p>
         </div>
       </div>
-      <a href="stur_foundations.html#sec6" class="core-ref">Core Definition: Torsion Gravity (§6)</a>
+      <a href="stur_core_theory.html#sec6" class="core-ref">Core Definition: Torsion Gravity (§6)</a>
     </div>
 
     <!-- ============================================================
@@ -185,7 +185,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_core_theory.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -198,7 +198,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Limit assumed:</strong> The torsion term \(L_{\text{torsion}}\) modifies the Friedmann equation at high densities:</p>
@@ -325,7 +325,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Scalar Bounce Cosmology (v9.2)
+# STUR Scalar Bounce Cosmology (v11.0)
 #
 # Tests STUR-modified Friedmann: H² = (ρ/3)(1-ρ/ρ_c)²
 # Non-singular bounce when ρ → ρ_c
@@ -454,7 +454,7 @@ for ax in axs:
 # Panel 1: Scale factor
 axs[0].plot(t, a, '#22d3ee', lw=2)
 axs[0].set_ylabel('Scale Factor a(t)', color='#94a3b8', fontsize=12)
-axs[0].set_title('STUR Cosmological Bounce (v9.2)', color='#ffaa00', fontsize=14)
+axs[0].set_title('STUR Cosmological Bounce (v11.0)', color='#ffaa00', fontsize=14)
 axs[0].axhline(a_min, ls='--', color='#f472b6', alpha=0.5, label=f'a_min={a_min:.4f}')
 axs[0].legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
 
@@ -483,7 +483,7 @@ plt.show()
 report = {
     "meta": {
         "page": "scalar-bounce",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "H² = (ρ/3)(1-ρ/ρ_c)²"
     },
@@ -526,7 +526,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Scalar Bounce [v9.2] ===")
+print("=== STUR Scalar Bounce [v11.0] ===")
 print(f"a_min:      {a_min:.6f}")
 print(f"H range:    [{H_min:.4f}, {H_max:.4f}]")
 print(f"ρ_peak:     {rho_peak:.4f} (ρ_c = {rho_c})")
@@ -575,7 +575,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> scalar-bounce |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -592,7 +592,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — Torsion Gravity</li>
+                <li>STUR Foundations, <a href="stur_core_theory.html">stur_core_theory.html</a> — Torsion Gravity</li>
                 <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
                 <li>Brandenberger — Physics Reports 427 (bouncing cosmologies)</li>
                 <li>Novello & Bergliaffa — Physics Reports 463 (non-singular universes)</li>
@@ -606,9 +606,9 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
-        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
         <a href="stur_geometry_verifier.html">Verifier</a> ·
         <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>

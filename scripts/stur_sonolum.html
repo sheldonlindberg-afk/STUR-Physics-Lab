@@ -66,9 +66,9 @@
         </button>
         <div class="glass-nav-links">
             <a href="../index.html" class="glass-nav-link">Index</a>
-            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
-            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
-            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+            <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
@@ -121,10 +121,10 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
+                <li>Potential form \(V(R) = \frac{\lambda}{4}(R^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
                 <li>5D torsion channel structure — from \(L_{\text{torsion}}\) term in Master Action</li>
-                <li>Chi-excitation coupling form: \(d\chi/dt \propto (R_0/R - 1)\) — from <a href="stur_foundations.html#appE" style="color:var(--neon-green)">Appendix E.2</a></li>
-                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_foundations.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
+                <li>Chi-excitation coupling form: \(d\chi/dt \propto (R_0/R - 1)\) — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E.2</a></li>
+                <li>Coherence length: \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
@@ -160,7 +160,7 @@
           <p>Correlation \(\text{corr}(\chi_{\text{amp}}, R_0/R_{\min})\), Wien peak deviation, noble gas \(T_{\max}\) ordering</p>
         </div>
       </div>
-      <a href="stur_foundations.html#appE" class="core-ref">Core Definition: 5D Torsion Channel (App. E)</a>
+      <a href="stur_core_theory.html#appE" class="core-ref">Core Definition: 5D Torsion Channel (App. E)</a>
     </div>
 
     <!-- ============================================================
@@ -187,7 +187,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_core_theory.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -200,7 +200,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Rayleigh-Plesset equation:</strong> The bubble radius \(R(t)\) obeys:</p>
@@ -222,7 +222,7 @@
             </div>
 
             <p><strong>5D chi-torsion channel:</strong> The bubble acts as a torsion cavity
-               (see <a href="stur_foundations.html#appE">Appendix E.2</a> for dimensional analysis and derivation):</p>
+               (see <a href="stur_core_theory.html#appE">Appendix E.2</a> for dimensional analysis and derivation):</p>
 
             <div class="stur-eq derived">
                 \[
@@ -337,7 +337,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # =====================================================================
-# STUR 5D Chi-Coupled Multi-Fluid Sonoluminescence Engine (v9.2)
+# STUR 5D Chi-Coupled Multi-Fluid Sonoluminescence Engine (v11.0)
 #
 # Tests chi-torsion coupling: d(chi)/dt = Gamma_chi * (R0/R - 1)
 #
@@ -375,7 +375,7 @@ fluids = {
 }
 
 # ---------------------------------------------------------------------
-# 2. Global constants and chi-coupling strength (v9.2)
+# 2. Global constants and chi-coupling strength (v11.0)
 # ---------------------------------------------------------------------
 P_INF   = 1.0e5       # ambient pressure (Pa)
 T0      = 293.0       # ambient temperature (K)
@@ -464,7 +464,7 @@ def run_traj(seed, fluid_name, steps=4000, n_cycles=3):
         T_ad = T0 * (R0 / R)**(3.0 * (gamma - 1.0))
         T = min(max(T_ad, 1.0e3), 5.0e4)
 
-        # Chi torsion channel: only excited when R < R0 (v9.2)
+        # Chi torsion channel: only excited when R < R0 (v11.0)
         chi += CHI_RATE * (R0 / R - 1.0) * dt
 
         # Store
@@ -507,7 +507,7 @@ def run_multibubble(fluid_name, N=60):
 results = {}
 fluids_order = list(fluids.keys())
 
-print("=== STUR 5D Chi Sonoluminescence Lab v9.2 ===")
+print("=== STUR 5D Chi Sonoluminescence Lab v11.0 ===")
 for name in fluids_order:
     print("Running:", name)
     Rmins, Tmaxs, Lambdas, ChiAmp = run_multibubble(name, N=60)
@@ -593,7 +593,7 @@ plt.show()
 report = {
     "meta": {
         "page": "sonoluminescence-lab",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "d(chi)/dt = Gamma_chi * (R0/R - 1)"
     },
@@ -629,7 +629,7 @@ with open(OUT_JSON, "w") as f:
 
 print(json.dumps(report, indent=2))
 print(f"\nFALSIFIED = {falsified}")
-print("STUR Sonoluminescence Lab v9.2 Complete.")</pre>
+print("STUR Sonoluminescence Lab v11.0 Complete.")</pre>
 
             <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
                 <button class="glass-btn primary" id="copyBtn">
@@ -676,7 +676,7 @@ print("STUR Sonoluminescence Lab v9.2 Complete.")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> sonoluminescence-lab |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -693,7 +693,7 @@ print("STUR Sonoluminescence Lab v9.2 Complete.")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — 5D Torsion Channel</li>
+                <li>STUR Foundations, <a href="stur_core_theory.html">stur_core_theory.html</a> — 5D Torsion Channel</li>
                 <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
                 <li>Rayleigh-Plesset equation for bubble dynamics</li>
                 <li>Brenner, Hilgenfeldt, Lohse — Rev. Mod. Phys. 74 (2002) — Sonoluminescence theory</li>
@@ -707,9 +707,9 @@ print("STUR Sonoluminescence Lab v9.2 Complete.")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
-        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
         <a href="stur_geometry_verifier.html">Verifier</a> ·
         <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>

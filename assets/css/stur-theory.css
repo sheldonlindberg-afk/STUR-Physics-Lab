@@ -1,0 +1,622 @@
+/**
+ * STUR Theory Pages - Shared Styles
+ * Version 11.0 (Complete Theory: XCRM + MHP + DHP)
+ * Used across all STUR theory documentation pages
+ *
+ * Requires: stur-core.css, stur-glass.css, stur-icons.css
+ *
+ * === PHYSICS DOMAIN COLOR CODING ===
+ * Educational color scheme for equation terms:
+ *
+ *   DIFFUSION (#4ade80 Green)    - Kinetic terms: ½(∇R)²
+ *   POTENTIAL (#f472b6 Pink)     - Relaxation: V(R)
+ *   XCRM      (#fbbf24 Gold)     - X-Coupling: χR∂_X R
+ *   TORSION   (#60a5fa Blue)     - Gravity: αR𝕋
+ *   MATTER    (#22d3ee Cyan)     - Matter fields: ℒ_matter
+ *   QUANTUM   (#a78bfa Violet)   - Loop corrections, holonomy
+ *
+ * === THREE AXIOMS (v11.0) ===
+ * 1. Master Action - Defines dynamics
+ * 2. MHP - Selects ground state (gauge, generations, flavor)
+ * 3. DHP - Governs evolution (cosmology, QG)
+ *
+ * Two free parameters: L_X, λ
+ * All 13 problems closed.
+ */
+
+/* ============================================================
+   ROOT VARIABLE ALIASES (for theory pages)
+   ============================================================ */
+:root {
+  /* Semantic aliases mapping to stur-core.css */
+  --bg: var(--bg-abyss);
+  --surface: var(--bg-panel);
+  --surface-elevated: var(--bg-elevated);
+  --border: var(--border-subtle);
+  --border-strong: var(--border-strong);
+  --text: var(--text-main);
+  --text-secondary: var(--text-secondary);
+  --accent: var(--neon-cyan);
+  --accent-secondary: var(--neon-violet);
+  --accent-warm: var(--neon-pink);
+  --gold: var(--neon-gold);
+  --success: var(--neon-green);
+  --warning: var(--neon-gold);
+  --error: var(--neon-red);
+  --mono: var(--font-mono);
+  --sans: var(--font-sans);
+  --radius: var(--radius-md);
+  --radius-sm: var(--radius-sm);
+  --shadow: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(74, 158, 255, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(167, 139, 250, 0.04) 0%, transparent 50%),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: var(--accent); color: var(--bg); }
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent-secondary); }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 1.5rem 1rem 3rem; }
+  body { font-size: 15px; }
+}
+
+/* ============================================================
+   MASTHEAD / PAGE HEADER
+   ============================================================ */
+.masthead {
+  text-align: center;
+  padding: 3rem 0 2rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.masthead h1 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 50%, var(--accent-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Core Theory title style - gold gradient */
+.page-title-core {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--text) 50%, var(--accent) 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.subtitle {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ============================================================
+   NAVIGATION / QUICK LINKS
+   ============================================================ */
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  justify-content: center;
+  margin-top: 1.25rem;
+  font-size: 0.88rem;
+}
+
+.quick-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.quick-links a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.quick-links a.primary {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* Page navigation between theory sections */
+.page-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.page-nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.page-nav a:hover {
+  color: var(--accent);
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.page-nav .prev::before { content: "← "; }
+.page-nav .next::after { content: " →"; }
+
+/* ============================================================
+   PHYSICS DOMAIN COLOR LEGEND
+   ============================================================ */
+.physics-legend {
+  position: sticky;
+  top: 60px;
+  z-index: 50;
+  background: linear-gradient(180deg, rgba(5, 10, 20, 0.98), rgba(5, 10, 20, 0.95));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin: 1rem 0 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.physics-legend-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+.physics-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.physics-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.physics-legend-dot.diffusion { background: #4ade80; box-shadow: 0 0 8px rgba(74, 222, 128, 0.5); }
+.physics-legend-dot.potential { background: #f472b6; box-shadow: 0 0 8px rgba(244, 114, 182, 0.5); }
+.physics-legend-dot.xcrm { background: #fbbf24; box-shadow: 0 0 8px rgba(251, 191, 36, 0.5); }
+.physics-legend-dot.torsion { background: #60a5fa; box-shadow: 0 0 8px rgba(96, 165, 250, 0.5); }
+.physics-legend-dot.quantum { background: #a78bfa; box-shadow: 0 0 8px rgba(167, 139, 250, 0.5); }
+.physics-legend-dot.matter { background: #22d3ee; box-shadow: 0 0 8px rgba(34, 211, 238, 0.5); }
+
+@media (max-width: 600px) {
+  .physics-legend {
+    position: relative;
+    top: 0;
+    gap: 0.4rem 1rem;
+    padding: 0.6rem 0.75rem;
+  }
+  .physics-legend-title { margin-bottom: 0.15rem; }
+  .physics-legend-item { font-size: 0.75rem; }
+  .physics-legend-dot { width: 8px; height: 8px; }
+}
+
+/* ============================================================
+   EQUATION TERM COLOR CODING
+   ============================================================ */
+.eq-diffusion { color: #4ade80; } /* Green - Kinetic/Diffusion */
+.eq-potential { color: #f472b6; } /* Pink - Relaxation Potential */
+.eq-xcrm { color: #fbbf24; }      /* Gold - XCRM Coupling */
+.eq-torsion { color: #60a5fa; }   /* Blue - Torsion Source */
+.eq-quantum { color: #a78bfa; }   /* Violet - Quantum Terms */
+.eq-matter { color: #22d3ee; }    /* Cyan - Matter Sector */
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: var(--shadow);
+  scroll-margin-top: 80px;
+}
+
+@media (max-width: 600px) {
+  .section { padding: 1.2rem 1.1rem; }
+}
+
+.section h2 {
+  margin: 0 0 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.section h3 {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-warm);
+}
+
+.section h3:first-of-type { margin-top: 0.25rem; }
+
+.section h4 {
+  margin: 1rem 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.section p, .section li { color: var(--text-secondary); }
+.section ul, .section ol { padding-left: 1.25rem; margin: 0.5rem 0; }
+.section li { margin: 0.3rem 0; }
+
+/* ============================================================
+   EQUATIONS
+   ============================================================ */
+.eq {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.1rem;
+  margin: 0.75rem 0;
+  overflow-x: auto;
+}
+
+.eq.law {
+  border: 2px solid rgba(251, 191, 36, 0.5);
+  background: rgba(251, 191, 36, 0.04);
+}
+
+.eq.boxed {
+  border: 1px solid rgba(74, 158, 255, 0.4);
+  background: rgba(74, 158, 255, 0.03);
+}
+
+.eq.definition {
+  border-left: 4px solid var(--accent-secondary);
+  background: rgba(167, 139, 250, 0.03);
+}
+
+.eq-label {
+  margin-top: 0.3rem;
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   BLOCK CALLOUTS
+   ============================================================ */
+.block {
+  border-left: 4px solid var(--accent);
+  background: rgba(74, 158, 255, 0.04);
+  padding: 1rem 1.1rem;
+  margin: 0.9rem 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.block.gold { border-left-color: var(--gold); background: rgba(251, 191, 36, 0.04); }
+.block.success { border-left-color: var(--success); background: rgba(52, 211, 153, 0.04); }
+.block.warning { border-left-color: var(--warning); background: rgba(245, 158, 11, 0.05); }
+.block.error { border-left-color: var(--error); background: rgba(239, 68, 68, 0.05); }
+
+.block .title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.block.gold .title { color: var(--gold); }
+.block.success .title { color: var(--success); }
+.block.warning .title { color: var(--warning); }
+.block.error .title { color: var(--error); }
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.card strong { color: var(--text); display: block; margin-bottom: 0.4rem; }
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+  font-size: 0.88rem;
+}
+
+th, td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+td { color: var(--text-secondary); }
+
+tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+/* ============================================================
+   TABLE OF CONTENTS
+   ============================================================ */
+.toc {
+  columns: 2;
+  column-gap: 2.5rem;
+}
+
+@media (max-width: 600px) { .toc { columns: 1; } }
+
+.toc p {
+  margin: 0.4rem 0;
+  font-size: 0.9rem;
+}
+
+.toc a { color: var(--text-secondary); }
+.toc a:hover { color: var(--accent); }
+
+/* ============================================================
+   FIGURES
+   ============================================================ */
+.figure {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin: 1rem 0;
+}
+
+.figure svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.figure .caption {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   DERIVATION STEPS
+   ============================================================ */
+.derivation {
+  background: rgba(167, 139, 250, 0.03);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.1rem;
+  margin: 0.75rem 0;
+}
+
+.derivation .step {
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 3px solid var(--accent);
+  padding: 0.5rem 0.75rem;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.derivation .step-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-right: 0.5rem;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.footer .citation {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   TOAST NOTIFICATIONS
+   ============================================================ */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.cite-btn {
+  appearance: none;
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 40px;
+}
+
+.cite-btn:hover {
+  border-color: var(--gold);
+  background: rgba(251, 191, 36, 0.08);
+  color: var(--gold);
+}
+
+/* ============================================================
+   INLINE CODE
+   ============================================================ */
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+@media print {
+  body { background: #fff; color: #000; }
+  .section { box-shadow: none; break-inside: avoid; border: 1px solid #ccc; }
+  .eq { background: #f8f8f8; }
+  .masthead h1 { -webkit-text-fill-color: #000; }
+  .quick-links, .physics-legend, .page-nav { display: none; }
+  .eq-diffusion, .eq-potential, .eq-xcrm, .eq-torsion, .eq-quantum, .eq-matter { color: #000; }
+}
+
+/* ============================================================
+   BADGES / META
+   ============================================================ */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.02);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.badge .dot.success { background: var(--success); }
+.badge .dot.warning { background: var(--warning); }

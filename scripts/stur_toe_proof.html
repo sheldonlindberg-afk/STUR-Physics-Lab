@@ -65,9 +65,9 @@
         </button>
         <div class="glass-nav-links">
             <a href="../index.html" class="glass-nav-link">Index</a>
-            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
-            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
-            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+            <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
@@ -120,7 +120,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>STUR modulator form: \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) — from <a href="stur_foundations.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a></li>
+                <li>STUR modulator form: \(S(r) = \tanh(r/L_0)(1 - e^{-r/L_0})\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a></li>
                 <li>Effective curvature law: \(k(r_0) = 2AS(r_0)/r_0^3 - AS'(r_0)/r_0^2\)</li>
                 <li>Universal period: \(T(m) = 2\pi\sqrt{m/k}\) — harmonic oscillator with geometric curvature</li>
             </ul>
@@ -158,7 +158,7 @@
           <p>Isochrony ratio variance, curvature self-consistency (\(k_{\text{check}} = k_{\text{target}}\)), \(T \propto \sqrt{m}\) scaling</p>
         </div>
       </div>
-      <a href="stur_foundations.html#sec3" class="core-ref">Core Definition: S(r) Modulator (§3)</a>
+      <a href="stur_core_theory.html#sec3" class="core-ref">Core Definition: S(r) Modulator (§3)</a>
     </div>
 
     <!-- ============================================================
@@ -185,7 +185,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_core_theory.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -198,16 +198,16 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> Universal geometry from <a href="stur_foundations.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a> induces the STUR radial modulator and effective curvature:</p>
+            <p><strong>Limit assumed:</strong> Universal geometry from <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a> induces the STUR radial modulator and effective curvature:</p>
 
             <div class="stur-eq derived">
                 \[
                 \color{#f472b6}{S(r)} = \tanh\!\bigl(\color{#fb923c}{r}/\color{#22d3ee}{L_0}\bigr)\,\bigl(1 - e^{-\color{#fb923c}{r}/\color{#22d3ee}{L_0}}\bigr)
                 \]
-                <div class="stur-eq-label">Radial Modulator from <a href="stur_foundations.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived V(R)</a></div>
+                <div class="stur-eq-label">Radial Modulator from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived V(R)</a></div>
             </div>
 
             <div class="stur-eq derived">
@@ -329,7 +329,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR TOE Proof — Macro-Quantum Isochrony (v9.2)
+# STUR TOE Proof — Macro-Quantum Isochrony (v11.0)
 #
 # Tests unified curvature: T(m) = 2π√(m/k_target)
 # Same k produces T(1kg)≈15.7h and T(proton)≈2.31ns
@@ -480,7 +480,7 @@ plt.show()
 report = {
     "meta": {
         "page": "toe-isochrony",
-        "version": "v9.2",
+        "version": "v11.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "T(m) = 2π√(m/k)"
     },
@@ -518,7 +518,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR TOE Isochrony [v9.2] ===")
+print("=== STUR TOE Isochrony [v11.0] ===")
 print(f"k_target:   {k_target:.4e} N/m")
 print(f"A_needed:   {A_needed:.4e}")
 print(f"k_check:    {k_check:.4e} N/m")
@@ -569,7 +569,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v9.2 |
+                <strong>Version:</strong> STUR Framework v11.0 |
                 <strong>Page:</strong> toe-isochrony |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -586,7 +586,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — S(r) Radial Modulator</li>
+                <li>STUR Foundations, <a href="stur_core_theory.html">stur_core_theory.html</a> — S(r) Radial Modulator</li>
                 <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
                 <li>Goldstein — Classical Mechanics (harmonic oscillators)</li>
                 <li>Weinberg — Gravitation and Cosmology (unified field theories)</li>
@@ -600,9 +600,9 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
-        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
         <a href="stur_geometry_verifier.html">Verifier</a> ·
         <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>

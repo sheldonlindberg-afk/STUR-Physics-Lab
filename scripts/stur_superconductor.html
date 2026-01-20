@@ -49,9 +49,9 @@
         </button>
         <div class="glass-nav-links">
             <a href="../index.html" class="glass-nav-link">Index</a>
-            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
-            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
-            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+            <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+            <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
             <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
                 <span class="stur-icon icon-link"></span>
                 Share
@@ -83,8 +83,8 @@
         <!-- Honest Status Block -->
         <div class="glass-section warning" style="margin-top:1rem; max-width:700px; margin-left:auto; margin-right:auto; padding:1rem; border-left:3px solid #fbbf24;">
             <p style="margin:0; color:var(--text-secondary); font-size:0.9rem;">
-                <strong>Status (v9.2):</strong> This page uses phenomenological parameters not yet derived from the STUR Master Action.
-                See <a href="stur_foundations.html#appE" style="color:#fbbf24;">Appendix E.4</a> for limitations.
+                <strong>Status (v11.0):</strong> This page uses phenomenological parameters not yet derived from the STUR Master Action.
+                See <a href="stur_core_theory.html#appE" style="color:#fbbf24;">Appendix E.4</a> for limitations.
                 Results should be interpreted as exploratory fitting, not falsifiable predictions.
             </p>
         </div>
@@ -128,7 +128,7 @@
             <h2 class="glass-section-title">Model</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_foundations.html">Foundations</a>:</p>
+            <p><strong>Starting point:</strong> The STUR master action from <a href="stur_core_theory.html">Foundations</a>:</p>
 
             <div class="stur-eq law">
                 \[
@@ -141,7 +141,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v9.2)</div>
+                <div class="stur-eq-label">Master Action (v11.0)</div>
             </div>
 
             <p><strong>Limit assumed:</strong> Cooper-pair condensate with STUR-modulated critical current:</p>
@@ -287,7 +287,7 @@ La1C40H50</textarea>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR Foundations, <a href="stur_foundations.html">stur_foundations.html</a> — Master Action</li>
+                <li>STUR Foundations, <a href="stur_core_theory.html">stur_core_theory.html</a> — Master Action</li>
                 <li>STUR Unified Framework, <a href="stur_unified_framework.html">stur_unified_framework.html</a></li>
                 <li>BCS Theory — Bardeen, Cooper, Schrieffer (1957)</li>
             </ol>
@@ -300,9 +300,9 @@ La1C40H50</textarea>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v9.2 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
     <p>
-        <a href="stur_foundations.html">Foundations</a> ·
+        <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·
         <a href="stur_geometry_verifier.html">Verifier</a> ·
         <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
@@ -316,7 +316,7 @@ La1C40H50</textarea>
 <script src="../assets/js/stur-definitions.js"></script>
 <script>
 /* ===========================
-   CONSTANTS (v9.2)
+   CONSTANTS (v11.0)
 =========================== */
 const kB = 1.380649e-23;
 const CHRONON = {La:0.14, C:0.04, H:0.01, Bi:0.42};
@@ -327,7 +327,7 @@ const PHONON_MU = [0.8, 1.0, 1.2];
 let LAST = null;
 
 /* ===========================
-   CORE PHYSICS [v9.2 S(u)]
+   CORE PHYSICS [v11.0 S(u)]
 =========================== */
 function Su(u) {
     // STUR modulator: S(u) = tanh(u)·(1 - exp(-u))
@@ -423,7 +423,7 @@ function runSweep() {
         const verdict = finalVerdict({...d, robustOK: bOK, phononOK: phon, isotopeOK: iso.robust, pressureProxy: pp});
         rows.push({formula: f, ...d, robustOK: bOK, phononOK: phon, isotopeOK: iso.robust, pressureProxy: pp, verdict});
     });
-    LAST = {rows, params: p, ts: new Date().toISOString(), version: "v9.2"};
+    LAST = {rows, params: p, ts: new Date().toISOString(), version: "v11.0"};
     renderTable(rows);
     if (rows.length) selectRow(0);
 }
@@ -508,7 +508,7 @@ document.getElementById("exportCSV").onclick = function() {
 
 document.getElementById("exportJSON").onclick = function() {
     if (!LAST) return STUR.toast("No data", "warning");
-    STUR.exportJSON({...LAST, meta: {page: "holoscreen-ats", version: "v9.2"}}, `holoscreen-ats-${Date.now()}.json`);
+    STUR.exportJSON({...LAST, meta: {page: "holoscreen-ats", version: "v11.0"}}, `holoscreen-ats-${Date.now()}.json`);
 };
 
 // Citation copy functionality

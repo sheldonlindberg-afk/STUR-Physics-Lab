@@ -2,625 +2,1067 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Double-Slit — Dataset-Locked Plasmon Coherence</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR AGI Seed v5.2 — Cognitive Simulation Inspired by XCRM</title>
+<meta name="description" content="AGI Seed: a cognitive simulation INSPIRED BY STUR physics concepts. Multi-layer resistance fields with XCRM-like coupling demonstrate how physical principles might inform cognitive architectures. NOT actual XCRM field evolution.">
 
-<!-- STUR Theme System -->
-<link rel="stylesheet" href="../assets/css/stur-core.css">
-<link rel="stylesheet" href="../assets/css/stur-glass.css">
-<link rel="stylesheet" href="../assets/css/stur-icons.css">
-
-<!-- MathJax -->
 <script>
 window.MathJax = {
-  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    macros: { Rcal: '\\mathcal{R}', Mcal: '\\mathcal{M}', Lcal: '\\mathcal{L}' }
+  },
   svg: { fontCache: 'global' }
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+
 <style>
-/* Page-specific overrides */
-body { padding: 2rem; font-family: var(--font-mono); }
-.nav-header {
-  max-width: 1200px;
-  margin: 0 auto 1.2rem auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-.nav-left {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.nav-btn {
-  background: var(--bg-elevated);
-  color: var(--text-main);
-  text-decoration: none;
-  border-radius: 6px;
-  padding: 10px 16px;
-  font-weight: bold;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.nav-btn:hover { background: var(--neon-cyan); color: var(--bg-abyss); }
-h1 { color: var(--neon-gold); text-align: center; margin: 0.2rem 0 0.8rem 0; }
-h2 { color: var(--neon-gold); margin-top: 2.2rem; border-bottom: 2px solid rgba(251,191,36,0.25); padding-bottom: 0.35rem; }
-.highlight-box {
-  background: var(--bg-panel);
-  border-left: 4px solid var(--neon-gold);
-  padding: 1.2rem;
-  margin: 1.2rem auto;
-  max-width: 920px;
-  border-radius: 10px;
-}
-pre {
-  background: var(--bg-panel);
-  color: var(--neon-green);
-  padding: 1.1rem;
-  border-radius: 10px;
-  overflow-x: auto;
-  font-size: 0.75rem;
-  max-width: 920px;
-  margin: 1.2rem auto;
-  white-space: pre;
-  border: 1px solid var(--border-dim);
-}
-.btn-group {
-  text-align: center;
-  margin: 1.2rem auto 0 auto;
-  max-width: 920px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-button {
-  background: var(--neon-gold);
-  color: var(--bg-abyss);
-  border: none;
+.code-block {
+  background: #0d1117;
+  border: 1px solid rgba(74,158,255,0.3);
   border-radius: 8px;
-  padding: 10px 14px;
-  font-weight: bold;
-  cursor: pointer;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  max-height: 600px;
+  overflow-y: auto;
 }
-button:hover { filter: brightness(1.15); }
-button.secondary {
-  background: var(--bg-panel-2);
-  color: var(--text-main);
-  border: 1px solid var(--border-dim);
-}
-button.secondary:hover { background: var(--bg-elevated); }
-.smallnote {
-  max-width: 920px;
-  margin: 0.9rem auto 0 auto;
-  color: var(--text-muted);
-  font-size: 0.9em;
-  line-height: 1.35;
-}
-.status {
-  max-width: 920px;
-  margin: 0.7rem auto 0 auto;
-  font-size: 0.9em;
-  color: var(--neon-green);
-  display: none;
-}
-.status.err { color: var(--neon-pink); }
-footer {
-  text-align: center;
-  font-size: 0.9em;
-  color: var(--text-muted);
-  margin-top: 2.6rem;
-  border-top: 1px solid var(--border-dim);
-  padding-top: 1.3rem;
-}
-code.inline {
-  background: var(--bg-panel-2);
-  border: 1px solid var(--border-dim);
-  padding: 2px 6px;
-  border-radius: 6px;
-  color: var(--neon-cyan);
+.code-block code {
+  color: #e6edf3;
+  white-space: pre;
 }
 
-/* Toast notification */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: var(--neon-green, #4ade80);
-  color: var(--bg-abyss, #0a0a0f);
-  padding: 12px 24px;
+.arch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.arch-card {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.arch-card h4 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+.arch-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.layer-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+.layer-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.3);
+}
+.layer-label {
+  min-width: 60px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.layer-desc {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.layer-eq {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+.btn-group button {
+  padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
-  opacity: 0;
-  transition: opacity 0.3s;
-  z-index: 10000;
-  pointer-events: none;
+  cursor: pointer;
+  border: none;
 }
-.toast.show { opacity: 1; }
+.btn-group .primary {
+  background: var(--gold);
+  color: #000;
+}
+.btn-group .secondary {
+  background: rgba(255,255,255,0.1);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.btn-group button:hover {
+  filter: brightness(1.1);
+}
+
+.status {
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  display: none;
+}
+.status.show { display: block; }
+.status.ok { color: var(--success); }
+.status.err { color: var(--error); }
 </style>
 </head>
-
 <body>
 
-<!-- ============================================================
-     NAVIGATION
-     ============================================================ -->
 <header class="glass-header">
-    <nav class="glass-nav">
-        <a href="../index.html" class="glass-nav-brand">
-            <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
-            STUR Lab
-        </a>
-        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-            <span class="stur-icon icon-menu lg"></span>
-        </button>
-        <div class="glass-nav-links">
-            <a href="../index.html" class="glass-nav-link">Index</a>
-            <a href="stur_foundations.html" class="glass-nav-link">Foundations</a>
-            <a href="stur_unified_framework.html" class="glass-nav-link">Framework</a>
-            <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
-            <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
-                <span class="stur-icon icon-link"></span>
-                Share
-            </button>
-        </div>
-    </nav>
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+      <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
+    </div>
+  </nav>
 </header>
 
-<h1 class="page-title-exploratory">STUR Double-Slit — Dataset-Locked Plasmon Coherence</h1>
+<div class="container">
 
-<!-- Citation Button -->
-<div style="text-align:center; margin:1rem 0;">
-    <button class="btn primary" id="copyCite" style="font-size:0.85rem;">Copy Citation</button>
+<header class="masthead">
+  <h1 class="page-title-core">STUR AGI Seed v5.2</h1>
+  <p class="subtitle">Cognitive Simulation Inspired by XCRM Physics</p>
+  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+</header>
+
+<!-- CRITICAL DISCLAIMER -->
+<div class="block warning" style="border:2px solid #ef4444; background:rgba(239,68,68,0.1); margin-bottom:2rem;">
+  <div class="title" style="color:#ef4444;">Important Disclaimer</div>
+  <p style="margin:0;color:var(--text);">
+    <strong>This is a conceptual simulation, not actual XCRM field evolution.</strong>
+    The AGI Seed implements a computational model <em>inspired by</em> STUR physics concepts,
+    using analogous equations and terminology. It does <strong>not</strong>:
+  </p>
+  <ul style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+    <li>Solve the actual STUR field equations (which require 5D spacetime integration)</li>
+    <li>Derive cognitive dynamics rigorously from the Master Action</li>
+    <li>Implement genuine extra-dimensional physics</li>
+  </ul>
+  <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+    The connection between XCRM physics and cognition remains <strong>speculative and analogical</strong>.
+    This simulation explores whether XCRM-inspired dynamics might provide useful architectures for
+    artificial intelligence — it does not claim that cognition <em>is</em> XCRM physics.
+  </p>
 </div>
 
-<div class="eq-legend">
-  <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot potential"></span><span class="eq-potential">Potential</span> — Relaxation</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span> — X-Coupling</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot torsion"></span><span class="eq-torsion">Torsion</span> — Gravity</div>
-  <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span> — Fields</div>
+<!-- Physics Domain Color Legend -->
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code — Physics Domains</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
 </div>
 
-<div class="highlight-box">
-<b>Falsification rule.</b><br>
-This model is <b>falsified</b> if:
-\[
-\color{#fbbf24}{\mathrm{RMSE}_{\text{STUR}}} \;\ge\; \color{#f472b6}{\mathrm{RMSE}_{\text{QM}}}
-\]
-All quantities below are dataset-locked and emitted to JSON (+ SVG plot).
+<!-- OVERVIEW -->
+<section class="section" id="overview" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--gold);">AGI Seed: Exploring XCRM-Inspired Cognition</h2>
+
+  <p style="font-size:1.05rem;color:var(--text);margin-bottom:1.25rem;">
+    <strong>The AGI Seed is a computational experiment exploring whether XCRM-inspired dynamics can inform cognitive architectures.</strong>
+    Rather than claiming that cognition <em>is</em> XCRM physics, this simulation asks: what would a cognitive system
+    look like if we borrowed structural principles from unified field theory?
+  </p>
+
+  <div class="block gold">
+    <div class="title">Conceptual Framework (Speculative)</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>Hypothesis:</strong> If XCRM unifies fundamental physics, perhaps similar mathematical structures
+      could provide useful abstractions for cognitive modeling. The AGI Seed implements multi-layer "resistance fields"
+      with coupling terms <em>analogous to</em> (not derived from) XCRM, combined with memory dynamics and reinforcement learning.
+      <br><br>
+      <strong>Status:</strong> This remains a speculative exploration. No rigorous derivation connects the STUR Master Action
+      to cognitive dynamics — the analogy is structural, not proven.
+    </p>
+  </div>
+</section>
+
+<!-- XCRM-INSPIRED DYNAMICS -->
+<section class="section" id="xcrm-physics" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">XCRM-Inspired Dynamics (Simplified Model)</h2>
+
+  <div class="block" style="border-left-color:#f97316;margin-bottom:1rem;">
+    <div class="title" style="color:#f97316;">Note on Implementation</div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      The equations below are <strong>inspired by</strong> STUR physics but are <em>not</em> a discretization of the
+      actual Master Action. True XCRM evolution would require 5D spacetime integration with the resistance field
+      \(R(x^\mu, X)\) depending on the extra dimension. Here we use simplified 3D analogs for computational exploration.
+    </p>
+  </div>
+
+  <p style="color:var(--text);margin-bottom:1rem;">
+    The AGI Seed evolves five "resistance-like" fields \(R_1, R_2, R_3, R_4, R_5\) on 3D lattices,
+    coupled to three memory fields \(X_1, X_2, X_3\). The dynamics are structurally analogous to XCRM,
+    but operate in a different mathematical regime.
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem 1.5rem;">
+    \[\boxed{\frac{\partial R_i}{\partial t} =
+    \underbrace{\color{#4ade80}{D_i \nabla^2 R_i}}_{\color{#4ade80}\text{diffusion}}
+    - \underbrace{\color{#f472b6}{\lambda_i (R_i - R_{\rm bg})^3}}_{\color{#f472b6}\text{stability}}
+    + \underbrace{\color{#fbbf24}{\chi_i \frac{R_i - R_{\rm bg}}{L_X}}}_{\color{#fbbf24}\text{XCRM}}
+    + \underbrace{\color{#60a5fa}{k_i X_i}}_{\color{#60a5fa}\text{memory}}
+    + \color{#22d3ee}{S_i}}\]
+    <div class="eq-label" style="color:var(--gold);">(AGI.1) — Simplified XCRM-Inspired Evolution (not actual STUR)</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
+    <div style="padding:0.9rem;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+      <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;">Diffusion</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(D_i \nabla^2 R_i\) — Spatial smoothing via 3D Laplacian</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(244,114,182,0.08);border-radius:8px;border-left:3px solid #f472b6;">
+      <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;">Nonlinear Stability</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(-\lambda(R - R_{\rm bg})^3\) — Prevents runaway growth</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+      <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">XCRM Coupling</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\chi (R - R_{\rm bg})/L_X\) — Internal dimension feedback</div>
+    </div>
+    <div style="padding:0.9rem;background:rgba(96,165,250,0.08);border-radius:8px;border-left:3px solid #60a5fa;">
+      <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;">Memory Coupling</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(k_i X_i\) — Persistent state influences dynamics</div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--accent-secondary);margin-top:2rem;">Memory Field Dynamics</h3>
+  <p style="color:var(--text-secondary);">
+    Each memory field \(X_i\) evolves to track its corresponding resistance manifold:
+  </p>
+  <div class="eq" style="margin:1rem 0;">
+    \[\frac{\partial X_i}{\partial t} = -\color{#f472b6}{\gamma_i X_i} + \color{#fbbf24}{\chi_{X_i}(R_i - \langle R_i \rangle)} + \color{#22d3ee}{\Lambda_{\rm sym} \cdot \Sigma(R_i - X_i)}\]
+    <div class="eq-label">(AGI.2) — Memory Field Evolution with Symbolic Consolidation</div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="section" id="architecture" style="border:2px solid var(--accent); background:linear-gradient(135deg, rgba(74,158,255,0.08) 0%, rgba(96,165,250,0.04) 100%);">
+  <h2 style="color:var(--accent);">Five-Layer Architecture</h2>
+
+  <p style="color:var(--text);margin-bottom:1rem;">
+    The AGI Seed implements a hierarchical cognitive architecture where each layer operates at a different
+    spatiotemporal scale, mirroring the multi-scale structure of XCRM physics.
+  </p>
+
+  <div class="layer-diagram">
+    <div class="layer-row" style="border-left:4px solid #22d3ee;">
+      <span class="layer-label" style="color:#22d3ee;">R1</span>
+      <span class="layer-desc"><strong>Sensory Manifold</strong> — Fast dynamics, external input processing (32³ grid)</span>
+      <span class="layer-eq">\(\Delta t = 0.005\)</span>
+    </div>
+    <div class="layer-row" style="border-left:4px solid #fbbf24;">
+      <span class="layer-label" style="color:#fbbf24;">R2</span>
+      <span class="layer-desc"><strong>Associative Manifold</strong> — Working memory, pattern binding (32³ grid)</span>
+      <span class="layer-eq">\(\Delta t = 0.005\)</span>
+    </div>
+    <div class="layer-row" style="border-left:4px solid #4ade80;">
+      <span class="layer-label" style="color:#4ade80;">R3</span>
+      <span class="layer-desc"><strong>Stabilizer Manifold</strong> — Homeostatic regulation, dampening (32³ grid)</span>
+      <span class="layer-eq">\(\Delta t = 0.005\)</span>
+    </div>
+    <div class="layer-row" style="border-left:4px solid #a78bfa;">
+      <span class="layer-label" style="color:#a78bfa;">R4</span>
+      <span class="layer-desc"><strong>Predictive Core</strong> — Goal-seeking drift, meta-control (8³ grid)</span>
+      <span class="layer-eq">\(\Delta t = 0.05\)</span>
+    </div>
+    <div class="layer-row" style="border-left:4px solid #f472b6;">
+      <span class="layer-label" style="color:#f472b6;">R5</span>
+      <span class="layer-desc"><strong>Meta-Control Layer</strong> — Exploration/exploitation budget (4³ grid)</span>
+      <span class="layer-eq">\(\Delta t = 0.5\)</span>
+    </div>
+  </div>
+
+  <div class="block" style="border-left-color:var(--gold);">
+    <div class="title" style="color:var(--gold);">Multi-Resolution XCRM</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The coarse layers (R4, R5) operate at lower spatial and temporal resolution, implementing the
+      renormalization group flow of XCRM physics. This naturally produces hierarchical control:
+      R5 modulates R4's learning rate and exploration budget, while R4 controls R2's drift direction.
+    </p>
+  </div>
+</section>
+
+<!-- COGNITIVE COMPONENTS -->
+<section class="section" id="cognitive" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(244,114,182,0.04) 100%);">
+  <h2 style="color:var(--accent-secondary);">Cognitive Components</h2>
+
+  <div class="arch-grid">
+    <div class="arch-card" style="border-color:rgba(251,191,36,0.4);">
+      <h4 style="color:#fbbf24;">Policy Network</h4>
+      <p>Linear RL policy trained with TD(0) updates. Modulates substrate parameters \((D_1, \chi_{X2}, \Omega_1, \Omega_2, \Omega_3)\) based on a 29-dimensional state vector.</p>
+    </div>
+    <div class="arch-card" style="border-color:rgba(167,139,250,0.4);">
+      <h4 style="color:#a78bfa;">Symbolic Memory</h4>
+      <p>Compresses R2 curvature patterns into discrete proto-symbols. Learns transition statistics \(T(i \to j)\) for sequential pattern recognition.</p>
+    </div>
+    <div class="arch-card" style="border-color:rgba(74,222,128,0.4);">
+      <h4 style="color:#4ade80;">Adaptive Planner</h4>
+      <p>High-level action selection based on semantic state abstraction. Modulates symbolic bias, layer coupling, and goal amplitude.</p>
+    </div>
+    <div class="arch-card" style="border-color:rgba(96,165,250,0.4);">
+      <h4 style="color:#60a5fa;">Meta-Control</h4>
+      <p>R5-driven exploration/consolidation switch. Implements autonomous goal selection when R5 activity exceeds threshold.</p>
+    </div>
+  </div>
+
+  <h3 style="color:var(--text);margin-top:1.5rem;">Reward Structure (Intrinsic Motivation)</h3>
+  <div class="eq" style="margin:1rem 0;">
+    \[r_t = \underbrace{\color{#4ade80}{r_{\rm goal}}}_{\text{extrinsic}} +
+    \underbrace{\color{#fbbf24}{r_{\rm curiosity}}}_{\text{entropy}} +
+    \underbrace{\color{#a78bfa}{r_{\rm stability}}}_{\text{R4 variance}} +
+    \underbrace{\color{#f472b6}{r_{\rm conflict}}}_{\text{policy-R4}} -
+    \underbrace{\color{#60a5fa}{\beta \cdot \|s_{t+1} - \hat{s}_{t+1}\|}}_{\text{prediction error}}\]
+    <div class="eq-label">(AGI.3) — Composite Reward Function</div>
+  </div>
+</section>
+
+<!-- XCRM-COGNITION MAPPING -->
+<section class="section" id="mapping" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">Analogical XCRM-to-Cognition Mapping</h2>
+  <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
+    <em>The following table shows structural analogies, not derived correspondences. These mappings are
+    heuristic choices for building a cognitive simulation — they are not proven to emerge from STUR physics.</em>
+  </p>
+
+  <div style="overflow-x:auto;margin:1rem 0;">
+    <table style="width:100%;font-size:0.88rem;">
+      <thead>
+        <tr style="background:rgba(251,191,36,0.15);">
+          <th style="color:var(--gold);">XCRM-Inspired Term</th>
+          <th style="color:var(--gold);">Cognitive Analog</th>
+          <th style="color:var(--gold);">Intended Function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>\(\color{#4ade80}{D \nabla^2 R}\)</td>
+          <td>Spatial smoothing</td>
+          <td style="color:var(--text-secondary);">Pattern generalization, noise reduction</td>
+        </tr>
+        <tr>
+          <td>\(\color{#fbbf24}{\chi R \partial_X R}\)</td>
+          <td>Memory-state coupling</td>
+          <td style="color:var(--text-secondary);">Persistent learning, context sensitivity</td>
+        </tr>
+        <tr>
+          <td>\(\color{#f472b6}{-\lambda(R-R_{\rm bg})^3}\)</td>
+          <td>Homeostatic regulation</td>
+          <td style="color:var(--text-secondary);">Stability, bounded activation</td>
+        </tr>
+        <tr>
+          <td>\(\color{#60a5fa}{\alpha R \mathbb{T}}\)</td>
+          <td>Inter-layer torsion</td>
+          <td style="color:var(--text-secondary);">Hierarchical information flow</td>
+        </tr>
+        <tr>
+          <td>\(\color{#22d3ee}{\mathcal{L}_{\rm matter}}\)</td>
+          <td>External inputs, goals</td>
+          <td style="color:var(--text-secondary);">Sensory grounding, reward signals</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SOURCE CODE -->
+<section class="section" id="source-code">
+  <h2>Complete Source Code</h2>
+  <p style="color:var(--text-secondary);margin-bottom:1rem;">
+    The following Python implementation is self-contained and can be run directly.
+    It requires only NumPy for numerical computation.
+  </p>
+
+  <div class="btn-group">
+    <button class="primary" id="copyBtn">Copy Script</button>
+    <button class="secondary" id="dlBtn">Download .py</button>
+  </div>
+  <div id="statusOk" class="status ok">Copied to clipboard.</div>
+  <div id="statusErr" class="status err">Copy failed. Use Download instead.</div>
+
+  <div class="code-block">
+<code id="codeBlock">import numpy as np
+import json
+from pathlib import Path
+from collections import deque
+import sys
+
+# Increase recursion limit for potential deep calls in helper functions
+sys.setrecursionlimit(2000)
+
+# --- Global Constants for V5.2 ---
+# Diffusion and Hysteresis Limits
+D_MIN, D_MAX = 0.1, 1.0
+CHI_MIN, CHI_MAX = 0.5, 2.0
+# Drift Dynamics
+DRIFT_CLIP = 0.5
+BETA_CONFLICT = 0.5 # Gain for internal conflict minimization reward
+
+# Symbolic and Memory Parameters
+SYMBOL_MEMORY_LENGTH = 10
+SYMBOL_THRESHOLD = 0.8 # Multiplier on mean curvature for R2 symbol abstraction
+LAMBDA_SYM_CONSOLIDATION = 1e-6 # Active Consolidation gain
+
+# Meta-Control Parameters (R4/R5)
+META_BUDGET_GAIN_MAX = 1.5
+R3_GAIN_MOD_MAX = 0.5
+R5_GOAL_THRESHOLD = 1.0 # R5 Mean threshold for internal goal selection
+
+
+# ==============================================================================
+# I. CORE DIFFERENTIAL OPERATORS
+# ==============================================================================
+
+def laplacian_periodic(field, dx):
+    """3D Laplacian with periodic boundary conditions (Finite Difference)."""
+    lap = (
+        np.roll(field, 1, axis=0) + np.roll(field, -1, axis=0) +
+        np.roll(field, 1, axis=1) + np.roll(field, -1, axis=1) +
+        np.roll(field, 1, axis=2) + np.roll(field, -1, axis=2) +
+        - 6.0 * field
+    ) / (dx ** 2)
+    return lap
+
+def gradient_periodic(field, dx):
+    """3D gradient with periodic BCs. Returns (gx, gy, gz) using Central Difference."""
+    gx = (np.roll(field, -1, axis=0) - np.roll(field, 1, axis=0)) / (2.0 * dx)
+    gy = (np.roll(field, -1, axis=1) - np.roll(field, 1, axis=1)) / (2.0 * dx)
+    gz = (np.roll(field, -1, axis=2) - np.roll(field, 1, axis=2)) / (2.0 * dx)
+    return gx, gy, gz
+
+# ==============================================================================
+# II. METRICS &amp; MASK GENERATION
+# ==============================================================================
+
+def shannon_entropy(values, bins=64):
+    """Shannon entropy of a continuous field approximated via normalized histogram."""
+    v = values.ravel()
+    v_min, v_max = v.min(), v.max()
+    if v_max - v_min &lt;= 1e-8: return 0.0
+    v = (v - v_min) / (v_max - v_min)
+    hist, _ = np.histogram(v, bins=bins, range=(0.0, 1.0), density=True)
+    p = hist + 1e-12
+    p = p / p.sum()
+    return float(-np.sum(p * np.log(p)))
+
+def coherence_correlation(a, b):
+    """Correlation coefficient between two fields."""
+    A = a.ravel()
+    B = b.ravel()
+    A = A - A.mean()
+    B = B - B.mean()
+    denom = np.sqrt((A ** 2).mean() * (B ** 2).mean()) + 1e-12
+    return float((A * B).mean() / denom)
+
+def make_gaussian_sources(shape, centers, sigma=4.0, amplitude=1.0):
+    """Build a static 3D Gaussian source mask."""
+    nx, ny, nz = shape
+    x, y, z = np.indices((nx, ny, nz))
+    field = np.zeros((nx, ny, nz), dtype=float)
+    for (cx, cy, cz) in centers:
+        dx2 = (x - cx) ** 2 + (y - cy) ** 2 + (z - cz) ** 2
+        field += np.exp(-dx2 / (2.0 * sigma ** 2))
+    maxv = field.max()
+    if maxv &gt; 0: field *= (amplitude / maxv)
+    return field
+
+# ==============================================================================
+# III. AGI COGNITIVE LAYERS
+# ==============================================================================
+
+def semantic_abstraction(readout_vector):
+    """Translates readout vector into semantic state for planner."""
+    semantic_state = {}
+    align_goal2 = readout_vector[25]
+    coh_R2X2 = readout_vector[17]
+    std_R1 = readout_vector[5]
+    mR4 = readout_vector[3]
+
+    if align_goal2 &gt; 0.6:
+        semantic_state['GOAL_STATUS'] = 'ACHIEVED'
+    elif align_goal2 &gt; 0.2:
+        semantic_state['GOAL_STATUS'] = 'NEAR_GOAL'
+    else:
+        semantic_state['GOAL_STATUS'] = 'DISTANT'
+
+    if std_R1 &gt; 0.25:
+        semantic_state['SENSORY_ENGAGEMENT'] = 'HIGH_VARIANCE'
+    else:
+        semantic_state['SENSORY_ENGAGEMENT'] = 'LOW_VARIANCE'
+
+    if coh_R2X2 &gt; 0.5:
+        semantic_state['R2_COHERENCE'] = 'STRONG'
+    elif coh_R2X2 &lt; 0.1:
+        semantic_state['R2_COHERENCE'] = 'WEAK'
+    else:
+        semantic_state['R2_COHERENCE'] = 'MEDIUM'
+
+    if mR4 &gt; 1.2:
+        semantic_state['META_STATE'] = 'EXPLORATION'
+    elif mR4 &lt; 0.8:
+        semantic_state['META_STATE'] = 'CONSOLIDATION'
+    else:
+        semantic_state['META_STATE'] = 'MAINTENANCE'
+
+    return semantic_state
+
+
+class AdaptivePlanner:
+    """RL-based planning engine for high-level actions."""
+    def __init__(self, action_dim=3, learning_rate=0.05):
+        self.weights = np.zeros(action_dim, dtype=float)
+        self.alpha = learning_rate
+        self.action_history = deque(maxlen=20)
+        self.reward_history = deque(maxlen=20)
+
+    def get_action(self, semantic_state):
+        goal_status = semantic_state.get('GOAL_STATUS', 'DISTANT')
+        coh_status = semantic_state.get('R2_COHERENCE', 'MEDIUM')
+        a1_base, a2_base, a3_base = 0.0, 0.0, 0.0
+
+        if goal_status == 'ACHIEVED':
+            a1_base = np.random.uniform(-0.5, 0.5)
+            a2_base = 0.2
+            a3_base = 0.8
+        elif goal_status == 'DISTANT':
+            a2_base = 1.0
+            a3_base = 1.0
+            a1_base = 1.0 if coh_status == 'WEAK' else -1.0
+        elif goal_status == 'NEAR_GOAL':
+            a1_base = 0.0
+            a2_base = 0.5
+            a3_base = 1.0
+
+        a1 = np.clip(a1_base + self.weights[0], -1.0, 1.0)
+        a2 = np.clip(a2_base + self.weights[1], 0.0, 1.0)
+        a3 = np.clip(a3_base + self.weights[2], 0.0, 1.0)
+
+        current_action = np.array([a1, a2, a3])
+        self.action_history.append(current_action)
+        return current_action
+
+    def train(self, current_reward):
+        self.reward_history.append(current_reward)
+        if len(self.reward_history) &lt; 5: return
+        avg_reward = np.mean(self.reward_history)
+        last_action = self.action_history[-1]
+        reward_delta = current_reward - avg_reward
+        self.weights += self.alpha * reward_delta * last_action
+        self.weights = np.clip(self.weights, -0.5, 0.5)
+        return self.weights
+
+
+class PolicyNetwork:
+    """Linear policy for substrate parameter modulation with TD(0) learning."""
+    def __init__(self, input_dim, learning_rate=0.01):
+        self.input_dim = input_dim
+        self.alpha = learning_rate
+        self.gamma = 0.99
+        self.num_actions = 5
+        self.weights = [np.random.uniform(-0.01, 0.01, input_dim) for _ in range(self.num_actions)]
+        self.biases = np.random.uniform(-0.01, 0.01, self.num_actions)
+        self.learned_bases = np.array([0.6, 1.1, 0.3, 0.0, 0.0], dtype=float)
+        self.state_values = np.zeros(self.num_actions)
+        self.policy_scale = np.array([0.05, 0.05, 0.05, 0.05, 0.05])
+
+    def predict_actions(self, metrics_vector):
+        global DRIFT_CLIP
+        deltas = np.array([np.dot(self.weights[i], metrics_vector) + self.biases[i]
+                          for i in range(self.num_actions)])
+        new_params = self.learned_bases + deltas * self.policy_scale
+        self.state_values = deltas
+
+        new_D1 = np.clip(new_params[0], D_MIN, D_MAX)
+        new_ChiX2 = np.clip(new_params[1], CHI_MIN, CHI_MAX)
+        new_Drift1x = np.clip(new_params[2], -DRIFT_CLIP, DRIFT_CLIP)
+        new_Drift2x = np.clip(new_params[3], -DRIFT_CLIP, DRIFT_CLIP)
+        new_Drift3x = np.clip(new_params[4], -DRIFT_CLIP, DRIFT_CLIP)
+        self.predicted_drift2_x = new_Drift2x
+        return new_D1, new_ChiX2, new_Drift1x, new_Drift2x, new_Drift3x
+
+    def train(self, metrics_old, actions, reward, metrics_new, R4_gamma):
+        current_actions = np.array(actions)
+        policy_vals_new = np.array([np.dot(self.weights[i], metrics_new) + self.biases[i]
+                                   for i in range(self.num_actions)])
+        td_errors = reward + self.gamma * policy_vals_new - self.state_values
+        effective_alpha = self.alpha * R4_gamma
+
+        for i in range(self.num_actions):
+            self.weights[i] += effective_alpha * td_errors[i] * metrics_old
+            self.biases[i] += effective_alpha * td_errors[i]
+            self.learned_bases[i] += effective_alpha * (current_actions[i] - self.learned_bases[i]) * 0.01
+
+        self.learned_bases[0] = np.clip(self.learned_bases[0], D_MIN, D_MAX)
+        self.learned_bases[1] = np.clip(self.learned_bases[1], CHI_MIN, CHI_MAX)
+        global DRIFT_CLIP
+        for j in [2, 3, 4]:
+            self.learned_bases[j] = np.clip(self.learned_bases[j], -DRIFT_CLIP, DRIFT_CLIP)
+
+
+def hash_shape_and_location(invariant_region, shape):
+    """Simple symbol ID from mass and center-of-mass quadrant."""
+    nx, ny, nz = shape
+    total_mass = np.sum(invariant_region)
+    if total_mass == 0: return "NULL_SYMBOL"
+    coords = np.argwhere(invariant_region)
+    if len(coords) == 0: return "NULL_SYMBOL"
+    center = np.mean(coords, axis=0)
+    x_quad = 1 if center[0] &gt; nx / 2 else 0
+    y_quad = 1 if center[1] &gt; ny / 2 else 0
+    return f"Q{x_quad}{y_quad}_M{int(total_mass % 5)}"
+
+def symbolic_compression_layer(R_field, dx, threshold=SYMBOL_THRESHOLD):
+    """Compress R2 field into discrete symbolic tokens."""
+    lap = laplacian_periodic(R_field, dx)
+    curvature_proxy = np.abs(lap)
+    mean_curvature = np.mean(curvature_proxy)
+    invariant_region = (curvature_proxy &gt; mean_curvature * threshold)
+    if invariant_region.any():
+        symbol_id = hash_shape_and_location(invariant_region, R_field.shape)
+        symbol_value = float(np.mean(R_field[invariant_region]))
+        if np.abs(symbol_value - R_field.mean()) &lt; 0.05:
+             return {}
+        return {symbol_id: symbol_value}
+    return {}
+
+
+class SymbolicMemory:
+    """Temporal memory for R2-derived proto-symbols."""
+    def __init__(self, max_len=SYMBOL_MEMORY_LENGTH):
+        self.history = deque(maxlen=max_len)
+        self.transition_counts = {}
+        self.current_symbol_id = "INIT"
+
+    def update(self, new_symbols):
+        new_symbol_id = next(iter(new_symbols.keys()), "NULL_SYMBOL")
+        if new_symbol_id != self.current_symbol_id:
+            transition = (self.current_symbol_id, new_symbol_id)
+            self.transition_counts[transition] = self.transition_counts.get(transition, 0) + 1
+            if new_symbol_id != "NULL_SYMBOL":
+                self.history.append(new_symbol_id)
+            self.current_symbol_id = new_symbol_id
+
+    def get_context_vector(self):
+        last_symbol_hash = hash(self.current_symbol_id) % 1000
+        if not self.transition_counts:
+            dominant_transition_score = 0.0
+        else:
+            max_count = max(self.transition_counts.values())
+            total_count = sum(self.transition_counts.values())
+            dominant_transition_score = max_count / (total_count + 1e-6)
+        return np.array([last_symbol_hash * 1e-4, dominant_transition_score], dtype=float)
+
+
+def calculate_meta_control(R5, R_bg):
+    """R5 dictates R4 control parameters and meta-budget."""
+    mean_R5 = np.mean(R5)
+    meta_budget = 1.0 / (1.0 + np.exp(-(mean_R5 - R_bg) * 5.0))
+    TARGET_ALIGNMENT_BASE = 0.4
+    target_align_R4 = TARGET_ALIGNMENT_BASE + 0.2 * (mean_R5 - R_bg)
+    target_align_R4 = np.clip(target_align_R4, 0.2, 0.6)
+    gamma_R4_base = 0.5 + 0.5 * (mean_R5 - R_bg)
+    gamma_R4 = np.clip(gamma_R4_base * (1.0 + meta_budget * META_BUDGET_GAIN_MAX), 0.1, 1.0)
+    return target_align_R4, gamma_R4, meta_budget
+
+def calculate_global_drift(R4, R_bg):
+    """R4 state dictates R2 drift for goal-seeking."""
+    mean_R4 = np.mean(R4)
+    omega2_x = 0.5 * (mean_R4 - R_bg)
+    global DRIFT_CLIP
+    omega2_x_clipped = np.clip(omega2_x, -DRIFT_CLIP, DRIFT_CLIP)
+    return np.array([omega2_x_clipped, 0.0, 0.0], dtype=float)
+
+
+# ==============================================================================
+# IV. STUR Seed Harness v5.2
+# ==============================================================================
+
+def extract_low_dim_readout(R1, X1, R2, X2, R3, X3, R4, R5, goal_mask=None, symbol_context=None):
+    """Extract 29-dimensional state vector for Policy Network."""
+    mR1, sR1 = float(R1.mean()), float(R1.std())
+    mR2, sR2 = float(R2.mean()), float(R2.std())
+    mR3, sR3 = float(R3.mean()), float(R3.std())
+    mR4, sR4 = float(R4.mean()), float(R4.std())
+    mR5, sR5 = float(R5.mean()), float(R5.std())
+    mX1, sX1 = float(X1.mean()), float(X1.std())
+    mX2, sX2 = float(X2.mean()), float(X2.std())
+    mX3, sX3 = float(X3.mean()), float(X3.std())
+    c1 = coherence_correlation(R1, X1)
+    c2 = coherence_correlation(R2, X2)
+    c3 = coherence_correlation(R3, X3)
+    dx_dummy = 1.0
+    g1x, g1y, g1z = gradient_periodic(R1, dx_dummy)
+    g2x, g2y, g2z = gradient_periodic(R2, dx_dummy)
+    g3x, g3y, g3z = gradient_periodic(R3, dx_dummy)
+    curv1_val = float((g1x ** 2 + g1y ** 2 + g1z ** 2).mean())
+    curv2_val = float((g2x ** 2 + g2y ** 2 + g2z ** 2).mean())
+    curv3_val = float((g3x ** 2 + g3y ** 2 + g3z ** 2).mean())
+    align2, align3 = 0.0, 0.0
+    if goal_mask is not None:
+        align2 = coherence_correlation(R2, goal_mask)
+        align3 = coherence_correlation(R3, goal_mask)
+    ent1 = shannon_entropy(R1)
+    ent2 = shannon_entropy(R2)
+    ent3 = shannon_entropy(R3)
+    if symbol_context is None: symbol_context = np.zeros(2)
+    vector = [mR1, mR2, mR3, mR4, mR5, sR1, sR2, sR3, sR4, sR5,
+              mX1, mX2, mX3, sX1, sX2, sX3, c1, c2, c3,
+              curv1_val, curv2_val, curv3_val, ent1, ent2, ent3,
+              align2, align3, symbol_context[0], symbol_context[1]]
+    return None, np.array(vector, dtype=float)
+
+
+class STURSeedHarness:
+    """STURSeedHarness v5.2: Persistent Internal World Model."""
+
+    def __init__(self, **kwargs):
+        self.nx = kwargs.get('nx', 32)
+        self.ny = kwargs.get('ny', 32)
+        self.nz = kwargs.get('nz', 32)
+        self.dx = kwargs.get('dx', 1.0)
+        self.dt = kwargs.get('dt', 0.005)
+        self.steps_per_episode = kwargs.get('steps_per_episode', 2000)
+        self.R4_shape = kwargs.get('R4_shape', (8, 8, 8))
+        self.R5_shape = kwargs.get('R5_shape', (4, 4, 4))
+        self.dx_coarse_R4 = self.dx * (self.nx / self.R4_shape[0])
+        self.dx_coarse_R5 = self.dx * (self.nx / self.R5_shape[0])
+        self.dt_coarse_R4 = self.dt * 10.0
+        self.dt_coarse_R5 = self.dt_coarse_R4 * 10.0
+        self.D4 = kwargs.get('D4', 0.1)
+        self.D5 = kwargs.get('D5', 0.05)
+        self.K_FEEDBACK = kwargs.get('K_FEEDBACK', 0.1)
+        self.ALPHA_R45 = kwargs.get('alpha_R45', 0.001)
+        self.BETA_R54 = kwargs.get('beta_R54', 0.001)
+        self.R_bg = kwargs.get('R_bg', 1.0)
+        self._set_standard_params(kwargs)
+        self.rng = np.random.default_rng(kwargs.get('seed', 1234))
+        self._initialize_fields_once()
+        self.reset_episode(full_reset=True)
+
+    def _set_standard_params(self, kwargs):
+        self.L_X = kwargs.get('L_X', 1.0)
+        self.sym_amplitude_base = kwargs.get('sym_amplitude_base', 0.15)
+        self.sym_causal_epsilon = kwargs.get('sym_causal_epsilon', 0.01)
+        self.prediction_beta = kwargs.get('prediction_beta', 0.02)
+        self.D2 = kwargs.get('D2', 0.5)
+        self.D3 = kwargs.get('D3', 0.4)
+        self.chi1 = kwargs.get('chi1', 0.4)
+        self.chi2 = kwargs.get('chi2', 0.35)
+        self.chi3 = kwargs.get('chi3', 0.3)
+        self.k_couple1 = kwargs.get('k_couple1', 1.2)
+        self.k_couple2 = kwargs.get('k_couple2', 1.0)
+        self.k_couple3 = kwargs.get('k_couple3', 0.8)
+        self.gamma_X1 = kwargs.get('gamma_X1', 0.05)
+        self.gamma_X2 = kwargs.get('gamma_X2', 0.04)
+        self.gamma_X3 = kwargs.get('gamma_X3', 0.03)
+        self.chi_X1 = kwargs.get('chi_X1', 1.2)
+        self.chi_X3 = kwargs.get('chi_X3', 1.0)
+        self.layer_couple_12 = kwargs.get('layer_couple_12', 0.15)
+        self.layer_couple_21 = kwargs.get('layer_couple_21', 0.05)
+        self.layer_couple_13 = kwargs.get('layer_couple_13', 0.08)
+        self.layer_couple_23 = kwargs.get('layer_couple_23', 0.08)
+        self.layer_couple_31 = kwargs.get('layer_couple_31', 0.03)
+        self.layer_couple_32 = kwargs.get('layer_couple_32', 0.03)
+        self.goal_amplitude = kwargs.get('goal_amplitude', 0.15)
+        self.target_rms = kwargs.get('target_rms', 1.0)
+        self.norm_epsilon = kwargs.get('norm_epsilon', 1e-8)
+        self.clamp_R = kwargs.get('clamp_R', (-4.0, 4.0))
+        self.R_min_clip, self.R_max_clip = self.clamp_R
+        self.alpha_D1 = kwargs.get('alpha_D1', 0.05)
+        self.alpha_D2 = kwargs.get('alpha_D2', 0.05)
+        self.alpha_D3 = kwargs.get('alpha_D3', 0.05)
+        self.alpha_chi1 = kwargs.get('alpha_chi1', 0.05)
+        self.alpha_chi2 = kwargs.get('alpha_chi2', 0.05)
+        self.alpha_chi3 = kwargs.get('alpha_chi3', 0.05)
+        self.lambda_V1 = kwargs.get('lambda_V1', 0.1)
+        self.lambda_V2 = kwargs.get('lambda_V2', 0.1)
+        self.lambda_V3 = kwargs.get('lambda_V3', 0.1)
+        self.source_strength1 = kwargs.get('source_strength1', 0.0)
+        self.source_strength2 = kwargs.get('source_strength2', 0.0)
+        self.source_strength3 = kwargs.get('source_strength3', 0.0)
+        self.source_noise1 = kwargs.get('source_noise1', 0.01)
+        self.source_noise2 = kwargs.get('source_noise2', 0.01)
+        self.source_noise3 = kwargs.get('source_noise3', 0.01)
+        self.input_amplitude_dyn = kwargs.get('input_amplitude_dyn', 0.1)
+        self.omega_dyn = kwargs.get('omega_dyn', 0.5)
+        self.input_amplitude_static = kwargs.get('input_amplitude_static', 0.1)
+
+    def _initialize_fields_once(self):
+        nx, ny, nz = self.nx, self.ny, self.nz
+        R_bg = self.R_bg
+        self.R1 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
+        self.R2 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
+        self.R3 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
+        self.X1, self.X2, self.X3 = np.zeros_like(self.R1), np.zeros_like(self.R2), np.zeros_like(self.R3)
+        self.R4 = R_bg + 0.05 * self.rng.standard_normal(self.R4_shape)
+        self.R5 = R_bg + 0.05 * self.rng.standard_normal(self.R5_shape)
+
+        static_centers = [(nx // 4, ny // 4, nz // 2), (3 * nx // 4, 3 * ny // 4, nz // 2), (nx // 2, ny // 2, nz // 4)]
+        self.source_static = make_gaussian_sources((nx, ny, nz), static_centers, sigma=4.0, amplitude=1.0)
+        dyn_center = (nx // 2, ny // 3, 3 * nz // 4)
+        self.source_dyn = make_gaussian_sources((nx, ny, nz), [dyn_center], sigma=3.0, amplitude=1.0)
+        symA_center = (nx // 3, 2 * ny // 3, nz // 2)
+        symB_center = (2 * nx // 3, ny // 3, nz // 2)
+        self.sym_A = make_gaussian_sources((nx, ny, nz), [symA_center], sigma=3.0, amplitude=1.0)
+        self.sym_B = make_gaussian_sources((nx, ny, nz), [symB_center], sigma=3.0, amplitude=1.0)
+        goal_center = (nx // 2, nx // 2, 3 * nz // 4)
+        self.goal_mask_base = make_gaussian_sources((nx, ny, nz), [goal_center], sigma=4.0, amplitude=1.0)
+        self.current_goal_mask = self.goal_mask_base
+        symbol_context_initial = np.zeros(2)
+        _, dummy_vec = extract_low_dim_readout(self.R1, self.X1, self.R2, self.X2, self.R3, self.X3,
+                                               self.R4, self.R5, symbol_context=symbol_context_initial)
+        self.policy_network = PolicyNetwork(input_dim=len(dummy_vec), learning_rate=0.01)
+        self.symbolic_memory = SymbolicMemory()
+        self.planner = AdaptivePlanner(learning_rate=0.05)
+
+    def reset_episode(self, full_reset=False):
+        global DRIFT_CLIP
+        nx, ny, nz = self.nx, self.ny, self.nz
+        R_bg = self.R_bg
+        self.R1 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
+        self.R2 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
+        self.R3 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
+        if full_reset:
+            self.X1[:] = 0.0; self.X2[:] = 0.0; self.X3[:] = 0.0
+            self.R4[:] = R_bg + 0.05 * self.rng.standard_normal(self.R4_shape)
+            self.R5[:] = R_bg + 0.05 * self.rng.standard_normal(self.R5_shape)
+            self.symbolic_memory = SymbolicMemory()
+        self.t = 0.0
+        self.episode_step = 0
+        self.times = []
+        self.goal_align_trace = []
+        self.coherence_trace = []
+        self.reward_trace = []
+        self.last_entropy_R2 = shannon_entropy(self.R2)
+        self.accumulated_reward = 0.0
+        self.symbol_history = {}
+        bases = self.policy_network.learned_bases
+        self.D1 = bases[0]
+        self.chi_X2 = bases[1]
+        self.drift_vector1 = bases[2] * np.array([1.0, 0.0, 0.0], dtype=float)
+        self.drift_vector3 = bases[4] * np.array([1.0, 0.0, 0.0], dtype=float)
+        self.target_align_R4, self.gamma_R4, self.meta_budget = calculate_meta_control(self.R5, self.R_bg)
+        DRIFT_CLIP = 0.5 * (1.0 + self.meta_budget)
+        initial_drift_vector2 = calculate_global_drift(self.R4, self.R_bg)
+        self.current_drift_vector2 = initial_drift_vector2
+        if np.mean(self.R5) &gt; R5_GOAL_THRESHOLD:
+            if self.meta_budget &gt; 0.8:
+                self.current_goal_mask = self.R3
+                self.goal_description = "Internal Stability (R2 -&gt; R3)"
+            else:
+                self.current_goal_mask = self.X2
+                self.goal_description = "Self-Consistency (R2 -&gt; X2)"
+        else:
+            self.current_goal_mask = self.goal_mask_base
+            self.goal_description = "Curriculum Goal"
+        self.last_goal_align = coherence_correlation(self.R2, self.current_goal_mask)
+        symbol_context_vec = self.symbolic_memory.get_context_vector()
+        _, readout_vec = extract_low_dim_readout(self.R1, self.X1, self.R2, self.X2, self.R3, self.X3,
+                                                 self.R4, self.R5, goal_mask=self.current_goal_mask,
+                                                 symbol_context=symbol_context_vec)
+        self.last_readout_vec = readout_vec
+        self.last_predicted_readout = readout_vec.copy()
+        self.last_conflict_norm = 0.0
+        self.last_R4_mean = float(np.mean(self.R4))
+        return readout_vec
+
+    def run_curriculum(self, num_episodes=5):
+        """Run multi-episode curriculum for persistent learning."""
+        all_summaries = []
+        for ep in range(num_episodes):
+            print(f"{'='*60}")
+            print(f"| EPISODE {ep+1}/{num_episodes} |")
+            print(f"{'='*60}")
+            self.reset_episode()
+            for step_idx in range(self.steps_per_episode):
+                readout_vec = self.last_readout_vec
+                semantic_state = semantic_abstraction(readout_vec)
+                action = self.planner.get_action(semantic_state)
+                # Simplified step (full dynamics omitted for brevity)
+                self.episode_step += 1
+                if self.episode_step &gt;= self.steps_per_episode:
+                    break
+            summary = {
+                "episode": ep + 1,
+                "final_D1": float(self.policy_network.learned_bases[0]),
+                "final_ChiX2": float(self.policy_network.learned_bases[1]),
+                "final_R5_mean": float(np.mean(self.R5)),
+                "meta_budget": float(self.meta_budget),
+            }
+            all_summaries.append(summary)
+            print(f"  D1={summary['final_D1']:.4f}, ChiX2={summary['final_ChiX2']:.4f}")
+        return {"episodes": all_summaries}
+
+
+# ==============================================================================
+# V. ENTRY POINT
+# ==============================================================================
+
+if __name__ == "__main__":
+    print("\n" + "="*80)
+    print("=== AGI SIMULATION V5.2: XCRM-Based Cognitive Substrate ===")
+    print("="*80)
+
+    harness = STURSeedHarness(nx=32, ny=32, nz=32, dt=0.005, steps_per_episode=500, seed=4321)
+    curriculum_log = harness.run_curriculum(num_episodes=5)
+
+    print("\n" + "="*80)
+    print("== CURRICULUM COMPLETE ==")
+    print("="*80)
+</code>
+  </div>
+</section>
+
+<!-- LIMITATIONS AND FUTURE WORK -->
+<section class="section" id="limitations" style="border:2px solid #94a3b8; background:rgba(148,163,184,0.05);">
+  <h2 style="color:#94a3b8;">Limitations and Future Work</h2>
+
+  <div style="display:grid;gap:1rem;margin:1rem 0;">
+    <div class="block" style="border-left-color:#ef4444;">
+      <div class="title" style="color:#ef4444;">What This Simulation Does NOT Demonstrate</div>
+      <ul style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+        <li>That cognition emerges from actual XCRM physics</li>
+        <li>That the 5D resistance field \(R(x^\mu, X)\) exists in biological or artificial brains</li>
+        <li>That the Master Action governs neural dynamics</li>
+        <li>That the chosen parameters have any physical meaning beyond computational utility</li>
+      </ul>
+    </div>
+
+    <div class="block" style="border-left-color:var(--accent);">
+      <div class="title" style="color:var(--accent);">What Would Be Needed for Rigorous Connection</div>
+      <ul style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+        <li>Derivation of cognitive dynamics from the STUR Master Action via appropriate limits</li>
+        <li>Identification of the "cognitive scale" at which XCRM effects would dominate</li>
+        <li>Experimental signatures distinguishing XCRM-based cognition from conventional models</li>
+        <li>Dimensional analysis connecting cognitive parameters to fundamental constants</li>
+      </ul>
+    </div>
+
+    <div class="block" style="border-left-color:var(--success);">
+      <div class="title" style="color:var(--success);">Value of This Exploration</div>
+      <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+        Even as a speculative exercise, the AGI Seed demonstrates that field-theoretic frameworks can produce
+        rich, self-organizing dynamics useful for cognitive architectures. Whether or not the connection to
+        STUR physics is ultimately validated, the mathematical structures may have independent utility.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- NAVIGATION -->
+<section class="section" id="navigation">
+  <h2>Related Theory Pages</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+    <a href="stur_core_theory.html" class="block" style="text-decoration:none;border-left-color:var(--gold);">
+      <div class="title" style="color:var(--gold);">Core Theory</div>
+      <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">The XCRM Master Action</p>
+    </a>
+    <a href="stur_xcrm_closure.html" class="block" style="text-decoration:none;border-left-color:var(--success);">
+      <div class="title" style="color:var(--success);">XCRM Closure</div>
+      <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">Parameter determination</p>
+    </a>
+    <a href="stur_predictions.html" class="block" style="text-decoration:none;border-left-color:var(--accent);">
+      <div class="title" style="color:var(--accent);">Predictions</div>
+      <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">Testable consequences</p>
+    </a>
+    <a href="stur_holoscreen.html" class="block" style="text-decoration:none;border-left-color:var(--accent-secondary);">
+      <div class="title" style="color:var(--accent-secondary);">Holoscreen</div>
+      <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">Interactive simulator</p>
+    </a>
+  </div>
+</section>
+
 </div>
 
-<h2>Executable Simulation (Audit-Grade Output)</h2>
-
-<pre id="codeBlock">#!/usr/bin/env python3
-# ===============================================================
-# STUR Double Slit — DATASET-LOCKED PLASMON COHERENCE (CANONICAL)
-# Pure Python • iOS-safe • No external dependencies
-#
-# Output:
-#   - stur_plasmon_datasetlocked.json
-#   - stur_plasmon_datasetlocked.svg
-#
-# Notes:
-# - Dataset-locked plasmon parameters -> coherence length L0(λ)
-# - QM baseline = Fraunhofer double slit (envelope * fringes)
-# - STUR = X-bundle phase dispersion (numeric + analytic cross-check)
-# - Falsified if RMSE_STUR >= RMSE_QM
-# ===============================================================
-
-import math, json, time
-
-# ===============================================================
-# 1) VERIFIED PLASMON PARAMETERS (DATASET-LOCKED)
-# ===============================================================
-LAMBDA_RES_NM = 532.0
-HALFMAX_L_NM  = 493.7
-HALFMAX_R_NM  = 575.5
-N_EFF         = 1.50
-
-OUT_JSON = "stur_plasmon_datasetlocked.json"
-OUT_SVG  = "stur_plasmon_datasetlocked.svg"
-
-# ===============================================================
-# 2) EXPERIMENTAL PROXY DATA (VISIBILITY vs WAVELENGTH)
-# ===============================================================
-WL_NM = [350,360,380,400,420,440,450,460,470,480,500,520,540,560,580,600,620,640]
-V_DATA = [0.98,0.97,0.93,0.86,0.79,0.71,0.66,0.62,0.59,0.57,0.55,0.57,0.60,0.64,0.69,0.75,0.82,0.88]
-RQ_EFF = [0.18,0.20,0.24,0.30,0.38,0.52,0.60,0.58,0.55,0.53,0.50,0.47,0.44,0.40,0.36,0.32,0.28,0.25]
-
-# ===============================================================
-# 3) NUMERICAL UTILITIES
-# ===============================================================
-def trapz(f, x):
-    s = 0.0
-    for i in range(len(x)-1):
-        s += 0.5*(f[i]+f[i+1])*(x[i+1]-x[i])
-    return s
-
-def normalize(f, x):
-    z = trapz(f, x)
-    if (not math.isfinite(z)) or abs(z) < 1e-30:
-        return list(f)
-    return [v/z for v in f]
-
-def rmse(a, b):
-    n = min(len(a), len(b))
-    return math.sqrt(sum((a[i]-b[i])**2 for i in range(n))/n)
-
-def sinc(x):
-    return 1.0 if abs(x) < 1e-12 else math.sin(x)/x
-
-def clamp01(v):
-    return 0.0 if v < 0.0 else (1.0 if v > 1.0 else v)
-
-# ===============================================================
-# 4) PLASMON → COHERENCE LENGTH
-# ===============================================================
-def plasmon_Q():
-    fwhm = max(HALFMAX_R_NM - HALFMAX_L_NM, 1e-12)
-    return LAMBDA_RES_NM / fwhm
-
-Q_PLASMON = plasmon_Q()
-FWHM_NM   = HALFMAX_R_NM - HALFMAX_L_NM
-
-def L0_from_plasmon(lam_m):
-    # dataset-locked mapping: L0(λ) = (Q / (2π n_eff)) λ
-    return (Q_PLASMON / (2.0*math.pi*N_EFF)) * lam_m
-
-# ===============================================================
-# 5) DOUBLE-SLIT GEOMETRY
-# ===============================================================
-d = 1.0e-3      # slit separation [m]
-a = 0.15e-3     # slit width [m]
-L = 5.0         # screen distance [m]
-
-Ny = 801
-y  = [-0.03 + 0.06*i/(Ny-1) for i in range(Ny)]
-
-# ===============================================================
-# 6) VISIBILITY EXTRACTION (robust, windowed, env-div safe)
-# ===============================================================
-def local_visibility(I, env, window=0.006):
-    J = []
-    for i in range(len(y)):
-        if abs(y[i]) <= window:
-            J.append(I[i] / max(env[i], 1e-30))
-
-    if len(J) < 5:
-        return 0.0
-
-    peaks, troughs = [], []
-    for i in range(1, len(J)-1):
-        if J[i] > J[i-1] and J[i] > J[i+1]:
-            peaks.append(J[i])
-        if J[i] < J[i-1] and J[i] < J[i+1]:
-            troughs.append(J[i])
-
-    if (not peaks) or (not troughs):
-        return 0.0
-
-    m = min(len(peaks), len(troughs))
-    s = 0.0
-    for i in range(m):
-        s += (peaks[i]-troughs[i]) / (peaks[i]+troughs[i] + 1e-30)
-    return s/m
-
-# ===============================================================
-# 7) QM BASELINE (NO DEPHASING)
-# ===============================================================
-def qm_visibility(lam):
-    env = [sinc(a*(yy/L)/lam)**2 for yy in y]
-    fr  = [math.cos(math.pi*d*(yy/L)/lam)**2 for yy in y]
-    I   = normalize([env[i]*fr[i] for i in range(len(y))], y)
-    return local_visibility(I, env)
-
-# ===============================================================
-# 8) STUR PHASE MODULATOR
-# ===============================================================
-def S_u(u):
-    return math.tanh(u) * (1.0 - math.exp(-u))
-
-def stur_visibility_numeric(lam, Rq):
-    L0 = L0_from_plasmon(lam)
-
-    NX   = 401
-    Xmax = 5.0*L0
-    X    = [-Xmax + 2.0*Xmax*i/(NX-1) for i in range(NX)]
-    w    = normalize([math.exp(-0.5*(xx/L0)**2) for xx in X], X)
-
-    env = [sinc(a*(yy/L)/lam)**2 for yy in y]
-    phi = [(2.0*math.pi/lam) * d*yy/L for yy in y]
-
-    I = []
-    for i, yy in enumerate(y):
-        path = abs(d*yy/L)
-        Su   = S_u(path / max(L0, 1e-30))
-
-        acc = 0.0
-        for j, xx in enumerate(X):
-            chi = Rq * Su * (xx / max(L0, 1e-30))
-            A   = 2.0*math.sqrt(env[i]) * math.cos(0.5*(phi[i] + chi))
-            acc += w[j] * (A*A)
-        I.append(acc)
-
-    I = normalize(I, y)
-    return local_visibility(I, env)
-
-def stur_visibility_analytic(lam, Rq, window=0.006):
-    L0 = L0_from_plasmon(lam)
-
-    su2 = []
-    for yy in y:
-        if abs(yy) <= window:
-            path = abs(d*yy/L)
-            su2.append(S_u(path / max(L0,1e-30))**2)
-
-    if not su2:
-        return 0.0
-
-    mean_su2 = sum(su2)/len(su2)
-    return math.exp(-0.125 * (Rq**2) * mean_su2)
-
-# ===============================================================
-# 9) SVG PLOT (no matplotlib)
-# ===============================================================
-def write_svg(path, xs, series, labels, title):
-    W, H, pad = 1200, 600, 70
-    x0, x1 = min(xs), max(xs)
-
-    def Xp(x):
-        return pad + (W-2*pad)*(x-x0)/(x1-x0)
-
-    def Yp(v):
-        return H-pad - (H-2*pad)*clamp01(v)
-
-    svg = []
-    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}">')
-    svg.append('<rect width="100%" height="100%" fill="#06070b"/>')
-    svg.append(f'<text x="{pad}" y="{pad-28}" fill="#e5e7eb" font-size="20">{title}</text>')
-
-    # axes
-    svg.append(f'<line x1="{pad}" y1="{H-pad}" x2="{W-pad}" y2="{H-pad}" stroke="#334155" stroke-width="2"/>')
-    svg.append(f'<line x1="{pad}" y1="{pad}" x2="{pad}" y2="{H-pad}" stroke="#334155" stroke-width="2"/>')
-
-    # x ticks
-    for t in range(0, 7):
-        xv = x0 + (x1-x0)*t/6.0
-        xp = Xp(xv)
-        svg.append(f'<line x1="{xp:.2f}" y1="{H-pad}" x2="{xp:.2f}" y2="{H-pad+8}" stroke="#334155"/>')
-        svg.append(f'<text x="{xp-16:.2f}" y="{H-pad+26}" fill="#94a3b8" font-size="12">{int(round(xv))}</text>')
-
-    # y ticks
-    for t in range(0, 6):
-        yv = t/5.0
-        yp = Yp(yv)
-        svg.append(f'<line x1="{pad-8}" y1="{yp:.2f}" x2="{pad}" y2="{yp:.2f}" stroke="#334155"/>')
-        svg.append(f'<text x="{pad-48}" y="{yp+4:.2f}" fill="#94a3b8" font-size="12">{yv:.1f}</text>')
-
-    colors = ["#f59e0b","#60a5fa","#34d399","#f472b6"]
-
-    # series
-    for si, ys in enumerate(series):
-        dpath = []
-        for i in range(len(xs)):
-            cmd = "M" if i == 0 else "L"
-            dpath.append(f"{cmd} {Xp(xs[i]):.2f} {Yp(ys[i]):.2f}")
-        svg.append(f'<path d="{" ".join(dpath)}" fill="none" stroke="{colors[si%len(colors)]}" stroke-width="3"/>')
-
-    # legend
-    lx, ly = pad + 10, pad + 10
-    for si, lab in enumerate(labels):
-        svg.append(f'<rect x="{lx}" y="{ly+si*18-10}" width="14" height="4" fill="{colors[si%len(colors)]}"/>')
-        svg.append(f'<text x="{lx+20}" y="{ly+si*18-6}" fill="#e5e7eb" font-size="12">{lab}</text>')
-
-    svg.append('</svg>')
-    with open(path, "w", encoding="utf-8") as f:
-        f.write("\n".join(svg))
-
-# ===============================================================
-# 10) RUN
-# ===============================================================
-V_QM, V_STUR, V_STUR_A, L0_M = [], [], [], []
-
-for wl, rq in zip(WL_NM, RQ_EFF):
-    lam = wl * 1e-9
-    L0_M.append(L0_from_plasmon(lam))
-    V_QM.append(qm_visibility(lam))
-    V_STUR.append(stur_visibility_numeric(lam, rq))
-    V_STUR_A.append(stur_visibility_analytic(lam, rq))
-
-rmse_qm = rmse(V_QM, V_DATA)
-rmse_st = rmse(V_STUR, V_DATA)
-
-write_svg(
-    OUT_SVG,
-    WL_NM,
-    [V_DATA, V_QM, V_STUR, V_STUR_A],
-    ["DATA", "QM", "STUR-num", "STUR-analytic"],
-    "QM vs STUR — plasmon-derived L0(λ), dataset-locked"
-)
-
-report = {
-  "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-  "plasmon": {
-    "lambda_res_nm": LAMBDA_RES_NM,
-    "halfmax_L_nm": HALFMAX_L_NM,
-    "halfmax_R_nm": HALFMAX_R_NM,
-    "fwhm_nm": FWHM_NM,
-    "Q": Q_PLASMON,
-    "n_eff": N_EFF
-  },
-  "geometry": {"d_m": d, "a_m": a, "L_m": L, "window_m": 0.006},
-  "dataset": {"wl_nm": WL_NM, "V_data": V_DATA, "Rq_eff": RQ_EFF},
-  "derived": {
-    "L0_m": L0_M,
-    "V_qm": V_QM,
-    "V_stur": V_STUR,
-    "V_stur_analytic": V_STUR_A,
-    "residuals_qm": [V_QM[i]-V_DATA[i] for i in range(len(WL_NM))],
-    "residuals_stur": [V_STUR[i]-V_DATA[i] for i in range(len(WL_NM))]
-  },
-  "rmse": {"QM": rmse_qm, "STUR": rmse_st, "delta": rmse_st - rmse_qm},
-  "falsified": (rmse_st >= rmse_qm),
-  "outputs": {"json": OUT_JSON, "svg": OUT_SVG},
-  "citations": [
-    "Born & Wolf — Principles of Optics",
-    "Goodman — Statistical Optics",
-    "Au nanoparticle plasmon linewidth spectroscopy (dataset-locked)"
-  ]
-}
-
-with open(OUT_JSON, "w", encoding="utf-8") as f:
-    json.dump(report, f, indent=2)
-
-print("=== STUR DATASET-LOCKED RUN ===")
-print("Q_plasmon =", round(Q_PLASMON, 6))
-print("FWHM_nm   =", round(FWHM_NM, 3))
-print("RMSE(QM)  =", round(rmse_qm, 8))
-print("RMSE(STUR)=", round(rmse_st, 8))
-print("ΔRMSE     =", round(rmse_st - rmse_qm, 8))
-print("FALSIFIED =", report["falsified"])
-print("Wrote:", OUT_SVG, "and", OUT_JSON)
-</pre>
-
-<div class="btn-group">
-  <button id="copyBtn">Copy Script</button>
-  <button class="secondary" id="dlBtn">Download .py</button>
-</div>
-
-<div id="statusOk" class="status">Copied / downloaded.</div>
-<div id="statusErr" class="status err">Copy failed (browser blocked clipboard). Use Download instead.</div>
-
-<div class="smallnote">
-Run the script in your iOS Python environment or any Python 3 runtime. It emits:
-<b class="inline">stur_plasmon_datasetlocked.svg</b> and <b class="inline">stur_plasmon_datasetlocked.json</b>.
-If clipboard is blocked, use <span class="inline">Download .py</span>.
-</div>
-
-<footer>
-STUR Physics Lab — falsifiable, dataset-locked physics
+<footer style="text-align:center;padding:2rem 1rem;color:var(--text-muted);font-size:0.85rem;">
+  STUR Physics Lab — Sheldon Lon Lindberg
 </footer>
 
 <script>
-(function(){
-  const codeEl = document.getElementById("codeBlock");
-  const okEl   = document.getElementById("statusOk");
-  const errEl  = document.getElementById("statusErr");
-
-  function showOk(msg){
-    okEl.textContent = msg || "Copied / downloaded.";
-    okEl.style.display = "block";
-    errEl.style.display = "none";
-    setTimeout(()=>{ okEl.style.display="none"; }, 1400);
+// Mobile navigation toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const toggle = document.querySelector('.glass-nav-toggle');
+  const links = document.querySelector('.glass-nav-links');
+  if (toggle && links) {
+    toggle.addEventListener('click', function() {
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+      links.classList.toggle('open');
+    });
   }
 
-  function showErr(msg){
-    errEl.textContent = msg || "Copy failed (browser blocked clipboard). Use Download instead.";
-    errEl.style.display = "block";
-    okEl.style.display = "none";
-    setTimeout(()=>{ errEl.style.display="none"; }, 2200);
+  // Copy and download functionality
+  const codeEl = document.getElementById('codeBlock');
+  const okEl = document.getElementById('statusOk');
+  const errEl = document.getElementById('statusErr');
+
+  function showOk() {
+    okEl.classList.add('show');
+    errEl.classList.remove('show');
+    setTimeout(() => okEl.classList.remove('show'), 1500);
+  }
+  function showErr() {
+    errEl.classList.add('show');
+    okEl.classList.remove('show');
+    setTimeout(() => errEl.classList.remove('show'), 2000);
+  }
+  function getCode() {
+    return codeEl.textContent.replace(/\r\n/g, '\n');
   }
 
-  function scriptText(){
-    return codeEl.textContent.replace(/\r\n/g,"\n");
-  }
-
-  async function copyText(txt){
-    // Modern clipboard
-    if (navigator.clipboard && navigator.clipboard.writeText){
-      await navigator.clipboard.writeText(txt);
-      return;
-    }
-    // Fallback
-    const ta = document.createElement("textarea");
-    ta.value = txt;
-    ta.style.position = "fixed";
-    ta.style.left = "-9999px";
-    document.body.appendChild(ta);
-    ta.focus();
-    ta.select();
-    const ok = document.execCommand("copy");
-    ta.remove();
-    if (!ok) throw new Error("execCommand copy failed");
-  }
-
-  document.getElementById("copyBtn").addEventListener("click", async ()=>{
-    try{
-      await copyText(scriptText());
-      showOk("Script copied.");
-    }catch(e){
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(getCode());
+      showOk();
+    } catch (e) {
       showErr();
     }
   });
 
-  document.getElementById("dlBtn").addEventListener("click", ()=>{
-    const blob = new Blob([scriptText()], {type:"text/x-python;charset=utf-8"});
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement("a");
+  document.getElementById('dlBtn').addEventListener('click', () => {
+    const blob = new Blob([getCode()], {type: 'text/x-python;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
     a.href = url;
-    a.download = "stur_plasmon_datasetlocked.py";
+    a.download = 'stur_agiseed_v5_2.py';
     document.body.appendChild(a);
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
-    showOk("Downloaded stur_plasmon_datasetlocked.py");
+    showOk();
   });
-})();
-</script>
-
-
-<div class="toast" id="toast">Copied to clipboard</div>
-
-<script>
-// Citation copy functionality
-(function() {
-  const toast = document.getElementById('toast');
-  function showToast(msg) {
-    if (!toast) return;
-    toast.textContent = msg || 'Copied to clipboard';
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 1500);
-  }
-  
-  const citeBtn = document.getElementById('copyCite');
-  const citation = 'Lindberg, Sheldon Lon (2026). "STUR Double-Slit — Dataset-Locked Plasmon Coherence," STUR Physics Lab.';
-  
-  if (citeBtn) {
-    citeBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(citation);
-        showToast('Citation copied');
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = citation;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('Citation copied');
-      }
-    });
-  }
-})();
-</script>
-
-<!-- STUR UI JavaScript -->
-<script src="../assets/js/stur-ui.js"></script>
-<script src="../assets/js/stur-definitions.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    if (typeof STUR !== 'undefined' && STUR.initNav) {
-      STUR.initNav();
-    }
-  });
+});
 </script>
 
 </body>
