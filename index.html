@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>STUR Physics Lab — Complete Theory v11.0</title>
-<meta name="description" content="Complete theory of physics from three axioms (Master Action + MHP + DHP). All 13 fundamental problems closed with two free parameters. Falsifiable predictions, interactive simulations, and rigorous mathematical foundations on the 5D orbifold S¹/Z₂.">
+<meta name="description" content="Unified physics framework from three axioms (Master Action + MHP + DHP). Addresses 13 fundamental problems with two free parameters. Falsifiable predictions, interactive simulations, and mathematical foundations on the 5D orbifold S¹/Z₂. Status: Core predictions testable, some derivations conjectural.">
 
 <!-- STUR Theme System -->
 <link rel="stylesheet" href="assets/css/stur-core.css">
@@ -556,11 +556,11 @@
   <header class="site-header">
     <img src="assets/4.13.png" alt="STUR Physics Lab" class="logo-mark">
     <h1 class="site-title animate-in delay-1">STUR Physics Lab</h1>
-    <p class="site-tagline animate-in delay-2">Complete Theory — Three Axioms, All Physics</p>
+    <p class="site-tagline animate-in delay-2">Unified Framework — Three Axioms, Testable Predictions</p>
     <p class="site-description animate-in delay-3">
-      A <strong>complete theory</strong> where all physics derives from three axioms.
-      Master Action + MHP + DHP unify gravity, gauge forces, matter, and cosmology
-      via resistance-field geometry on the 5D orbifold S¹/Z₂.
+      A <strong>unified framework</strong> proposing that fundamental physics derives from three axioms.
+      Master Action + MHP + DHP aim to unify gravity, gauge forces, matter, and cosmology
+      via resistance-field geometry on the 5D orbifold S¹/Z₂. <em>Core prediction: Gaussian visibility decay.</em>
     </p>
   </header>
 
@@ -604,7 +604,7 @@
       </div>
       <p style="margin-top: 10px; text-align: center; color: var(--text-quaternary);">
         Two free parameters: <strong style="color:#22d3ee;">L<sub>X</sub></strong> (orbifold size), <strong style="color:#22d3ee;">λ</strong> (R-field coupling).
-        <strong style="color:#4ade80;">All 13 problems closed.</strong>
+        <strong style="color:#fbbf24;">13 problems addressed</strong> — see <a href="scripts/stur_technical_appendix.html" style="color:#a78bfa;">status table</a> for proven vs. conjectured.
       </p>
     </div>
   </section>
@@ -631,6 +631,48 @@
     <p style="margin-top:12px;font-size:0.75rem;color:var(--text-quaternary);">
       <strong>Reference:</strong> <a href="scripts/stur_technical_appendix.html" style="color:#a78bfa;">Technical Appendix</a> (derivations, parameters, open problems) ·
       <a href="scripts/stur_falsification.html" style="color:var(--tier-falsifiable);">Falsification Protocol</a> (kill criteria)
+    </p>
+  </section>
+
+  <!-- === CURRENT STATUS SECTION === -->
+  <section class="glass-panel" style="margin-top:24px;padding:20px 24px;background:linear-gradient(135deg, rgba(74,222,128,0.06) 0%, rgba(251,191,36,0.04) 100%);border:1px solid rgba(74,222,128,0.3);">
+    <h2 style="font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#4ade80;"></span>
+      Current Status: What's Proven vs. Proposed
+    </h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:12px;font-size:0.8125rem;">
+      <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+        <strong style="color:#4ade80;">Established (Mathematically Proven)</strong>
+        <ul style="margin:8px 0 0 16px;color:var(--text-tertiary);line-height:1.6;">
+          <li>Gaussian visibility from CLT phase averaging</li>
+          <li>Double-well potential from orbifold topology</li>
+          <li>Coherence length relation: ℓ<sub>coh</sub> = √2 L<sub>X</sub>/σ<sub>R</sub></li>
+          <li>TEGR emergence in equilibrium limit</li>
+          <li>Yang-Mills structure from degeneracy manifold</li>
+        </ul>
+      </div>
+      <div style="padding:12px;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+        <strong style="color:#fbbf24;">Conjectured (Proposed, Not Yet Proven)</strong>
+        <ul style="margin:8px 0 0 16px;color:var(--text-tertiary);line-height:1.6;">
+          <li>SM gauge group unique selection (constrained only)</li>
+          <li>Exactly 3 generations from index theorem</li>
+          <li>MHP/DHP holonomy principles (stated, not formalized)</li>
+          <li>UV completion via self-regulation</li>
+          <li>Specific L<sub>X</sub> value determination</li>
+        </ul>
+      </div>
+      <div style="padding:12px;background:rgba(255,55,95,0.08);border-radius:8px;border-left:3px solid #ff375f;">
+        <strong style="color:#ff375f;">Speculative (Exploratory Extensions)</strong>
+        <ul style="margin:8px 0 0 16px;color:var(--text-tertiary);line-height:1.6;">
+          <li>Biological applications (consciousness, ATP)</li>
+          <li>Cosmological applications (warp drives, etc.)</li>
+          <li>Specific numerical predictions for L<sub>X</sub></li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:12px;font-size:0.75rem;color:var(--text-quaternary);text-align:center;">
+      <strong>Key falsifiable prediction:</strong> Visibility V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>) — Gaussian in ΔL², no time dependence, no mass dependence.
+      <br>This prediction is testable with current interferometer technology (MAGIS-100, AION, Sagnac loops).
     </p>
   </section>
 
@@ -690,15 +732,19 @@
   <div class="section-header">
     <span class="section-indicator" style="background: var(--tier-derived);"></span>
     <span class="section-title">Derived Applications</span>
+    <span class="section-badge" style="background:rgba(255,214,10,0.15);color:#ffd60a;">Mixed Status</span>
+  </div>
+  <div style="padding:10px 16px;margin-bottom:12px;background:rgba(255,214,10,0.06);border-radius:8px;border-left:3px solid #ffd60a;font-size:0.8rem;color:var(--text-tertiary);">
+    <strong style="color:#ffd60a;">Note:</strong> These applications vary in derivation rigor. Galaxy rotation curves follow from TEGR modifications; others (warp drives, etc.) are exploratory.
   </div>
   <div class="sim-grid">
-    <div class="sim-card tier-derived"><a href="scripts/stur_galaxy.html">Galaxy Rotation Curves</a></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_galaxy.html">Galaxy Rotation Curves</a><span class="card-tag" style="color:var(--success);">TEGR-derived</span></div>
     <div class="sim-card tier-derived"><a href="scripts/stur_replicator.html">Stress-Failure Envelope</a></div>
-    <div class="sim-card tier-derived"><a href="scripts/stur_thegoldenratio.html">Golden Ratio Attractor</a></div>
-    <div class="sim-card tier-derived"><a href="scripts/stur_solidbh.html">Big Bang Origin</a></div>
-    <div class="sim-card tier-derived"><a href="scripts/stur_torweather.html">3D Weather Hybrid</a></div>
-    <div class="sim-card tier-derived"><a href="scripts/stur_negative.html">Negative Energy 5D</a></div>
-    <div class="sim-card tier-derived"><a href="scripts/stur_gate.html">Resistance Corridor</a></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_thegoldenratio.html">Golden Ratio Attractor</a><span class="card-tag" style="color:#ffd60a;">Exploratory</span></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_solidbh.html">Big Bang Origin</a><span class="card-tag" style="color:#ffd60a;">Exploratory</span></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_torweather.html">3D Weather Hybrid</a><span class="card-tag" style="color:#ffd60a;">Exploratory</span></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_negative.html">Negative Energy 5D</a><span class="card-tag" style="color:#ff375f;">Speculative</span></div>
+    <div class="sim-card tier-derived"><a href="scripts/stur_gate.html">Resistance Corridor</a><span class="card-tag" style="color:#ff375f;">Speculative</span></div>
   </div>
 
   <!-- === TIER 4: COSMOLOGICAL === -->
@@ -716,14 +762,18 @@
   <div class="section-header">
     <span class="section-indicator" style="background: var(--tier-biological);"></span>
     <span class="section-title">Biological / Consciousness</span>
+    <span class="section-badge" style="background:rgba(255,55,95,0.15);color:#ff375f;">Highly Speculative</span>
+  </div>
+  <div style="padding:10px 16px;margin-bottom:12px;background:rgba(255,55,95,0.06);border-radius:8px;border-left:3px solid #ff375f;font-size:0.8rem;color:var(--text-tertiary);">
+    <strong style="color:#ff375f;">Caveat:</strong> These applications extend STUR concepts to biological systems without rigorous derivation from the core axioms. They are exploratory thought experiments, not established predictions. Connection to the falsifiable visibility prediction is indirect at best.
   </div>
   <div class="sim-grid">
-    <div class="sim-card tier-biological"><a href="scripts/stur_atp.html">Mitochondria Population</a></div>
-    <div class="sim-card tier-biological"><a href="scripts/stur_atp1.html">Mito Life/Death v4</a></div>
-    <div class="sim-card tier-biological"><a href="scripts/stur_life.html">Hydrothermal Proto-Cell</a></div>
-    <div class="sim-card tier-biological"><a href="scripts/stur_neuro.html">Neuroplasticity χ-Synapse</a></div>
-    <div class="sim-card tier-biological"><a href="scripts/stur_immunity.html">Universal Immunity</a></div>
-    <div class="sim-card tier-biological"><a href="scripts/stur_mindgate.html">Mind Gate Implant</a></div>
+    <div class="sim-card tier-biological"><a href="scripts/stur_atp.html">Mitochondria Population</a><span class="card-tag" style="color:#ff375f;">Speculative</span></div>
+    <div class="sim-card tier-biological"><a href="scripts/stur_atp1.html">Mito Life/Death v4</a><span class="card-tag" style="color:#ff375f;">Speculative</span></div>
+    <div class="sim-card tier-biological"><a href="scripts/stur_life.html">Hydrothermal Proto-Cell</a><span class="card-tag" style="color:#ff375f;">Speculative</span></div>
+    <div class="sim-card tier-biological"><a href="scripts/stur_neuro.html">Neuroplasticity χ-Synapse</a><span class="card-tag" style="color:#ff375f;">Speculative</span></div>
+    <div class="sim-card tier-biological"><a href="scripts/stur_immunity.html">Universal Immunity</a><span class="card-tag" style="color:#ff375f;">Speculative</span></div>
+    <div class="sim-card tier-biological"><a href="scripts/stur_mindgate.html">Mind Gate Implant</a><span class="card-tag" style="color:#ff375f;">Speculative</span></div>
   </div>
 
   <!-- === TIER 6: EXPLORATORY === -->
@@ -790,7 +840,7 @@
     </p>
     <p class="footer-meta">
       © 2026 Sheldon Lon Lindberg · STUR Physics Framework<br>
-      Version 11.0 (Complete Theory) · CC-BY-4.0 License
+      Version 11.0 · CC-BY-4.0 License · <em>Not yet peer-reviewed</em>
     </p>
     <p class="footer-meta" style="margin-top: 16px; opacity: 0.7;">
       <a href="https://github.com" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">
