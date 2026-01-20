@@ -199,7 +199,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Limit assumed:</strong> Universal geometry from <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a> induces the STUR radial modulator and effective curvature:</p>
@@ -330,7 +330,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR TOE Proof — Macro-Quantum Isochrony (v11.0)
+# STUR TOE Proof — Macro-Quantum Isochrony
 #
 # Tests unified curvature: T(m) = 2π√(m/k_target)
 # Same k produces T(1kg)≈15.7h and T(proton)≈2.31ns
@@ -481,7 +481,7 @@ plt.show()
 report = {
     "meta": {
         "page": "toe-isochrony",
-        "version": "v11.0",
+        "version": "",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "T(m) = 2π√(m/k)"
     },
@@ -519,7 +519,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR TOE Isochrony [v11.0] ===")
+print("=== STUR TOE Isochrony ===")
 print(f"k_target:   {k_target:.4e} N/m")
 print(f"A_needed:   {A_needed:.4e}")
 print(f"k_check:    {k_check:.4e} N/m")
@@ -570,7 +570,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> toe-isochrony |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -601,7 +601,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

@@ -1,5 +1,5 @@
 /**
- * STUR UI Utilities v11.0
+ * STUR UI Utilities
  * Shared JavaScript for all STUR Physics Lab pages
  * Complete Theory Edition (MHP + DHP)
  *
@@ -10,8 +10,6 @@
   'use strict';
 
   const STUR = {
-    version: '11.0.0',
-    framework: 'v11.0',
     versionName: 'Complete Theory'
   };
 

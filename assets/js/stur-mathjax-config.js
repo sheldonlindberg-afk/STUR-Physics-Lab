@@ -1,5 +1,5 @@
 /**
- * STUR MathJax Configuration v11.0
+ * STUR MathJax Configuration
  * Shared MathJax setup with physics domain color macros
  *
  * Include BEFORE MathJax:

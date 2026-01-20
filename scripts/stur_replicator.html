@@ -176,7 +176,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Replicator limit:</strong> The energy requirement for replication is derived from the <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a>:</p>
@@ -256,7 +256,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Replicator - Stress-Failure Envelope (v11.0)
+# STUR Replicator - Stress-Failure Envelope
 #
 # Derives failure-mode boundaries from orbifold-derived V(R) (§2.5)
 # Classifications: stable, power-limited, biology-limited
@@ -412,7 +412,7 @@ def summarize_results(results):
 report = {
     "meta": {
         "page": "stress-failure-envelope",
-        "version": "v11.0",
+        "version": "",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "E_need = integral V(R) dV + dS_eff * T"
     },
@@ -423,7 +423,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Replicator Stress-Failure [v11.0] ===")
+print("=== STUR Replicator Stress-Failure ===")
 print(f"Total samples: {report['summary']['n_total']}")
 print(f"Classes: {list(report['summary']['classes'].keys())}")
 print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
@@ -464,7 +464,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> stress-failure-envelope |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -495,7 +495,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

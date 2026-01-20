@@ -199,7 +199,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Limit assumed:</strong> The torsion term \(L_{\text{torsion}}\) modifies the Friedmann equation at high densities:</p>
@@ -326,7 +326,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Scalar Bounce Cosmology (v11.0)
+# STUR Scalar Bounce Cosmology
 #
 # Tests STUR-modified Friedmann: H² = (ρ/3)(1-ρ/ρ_c)²
 # Non-singular bounce when ρ → ρ_c
@@ -455,7 +455,7 @@ for ax in axs:
 # Panel 1: Scale factor
 axs[0].plot(t, a, '#22d3ee', lw=2)
 axs[0].set_ylabel('Scale Factor a(t)', color='#94a3b8', fontsize=12)
-axs[0].set_title('STUR Cosmological Bounce (v11.0)', color='#ffaa00', fontsize=14)
+axs[0].set_title('STUR Cosmological Bounce', color='#ffaa00', fontsize=14)
 axs[0].axhline(a_min, ls='--', color='#f472b6', alpha=0.5, label=f'a_min={a_min:.4f}')
 axs[0].legend(facecolor='#0a0f1f', edgecolor='#334155', labelcolor='white')
 
@@ -484,7 +484,7 @@ plt.show()
 report = {
     "meta": {
         "page": "scalar-bounce",
-        "version": "v11.0",
+        "version": "",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "H² = (ρ/3)(1-ρ/ρ_c)²"
     },
@@ -527,7 +527,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Scalar Bounce [v11.0] ===")
+print("=== STUR Scalar Bounce ===")
 print(f"a_min:      {a_min:.6f}")
 print(f"H range:    [{H_min:.4f}, {H_max:.4f}]")
 print(f"ρ_peak:     {rho_peak:.4f} (ρ_c = {rho_c})")
@@ -576,7 +576,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> scalar-bounce |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -607,7 +607,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

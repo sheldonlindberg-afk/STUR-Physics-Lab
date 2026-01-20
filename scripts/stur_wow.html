@@ -162,7 +162,7 @@
             <p>The Wow! signal analysis connects to the STUR framework through the 5D wave equation and torsion dynamics:</p>
 
             <ul>
-                <li><strong>Master Action foundation:</strong> The 5D damped wave equation derives from the <a href="stur_core_theory.html#master-action">Master Action (v11.0)</a> torsion term \(L_{\text{torsion}}\), which permits localized wave packet solutions propagating through the brane-bulk manifold.</li>
+                <li><strong>Master Action foundation:</strong> The 5D damped wave equation derives from the <a href="stur_core_theory.html#master-action">Master Action</a> torsion term \(L_{\text{torsion}}\), which permits localized wave packet solutions propagating through the brane-bulk manifold.</li>
 
                 <li><strong>Resistance field dynamics:</strong> The resistance field \(R(t,x,X)\) follows the stochastic evolution prescribed by the <a href="stur_core_theory.html#langevin">Effective Langevin Equation (6.2)</a>, with the damping coefficient \(\gamma\) and oscillation frequency \(\Omega\) determined by STUR parameters.</li>
 
@@ -202,7 +202,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>5D wave equation:</strong> The resistance field evolves on a 5D manifold with brane coordinate \(x\) and bulk coordinate \(X\):</p>
@@ -283,7 +283,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Wow! Signal Analysis v11.0
+# STUR Wow! Signal Analysis
 #
 # Simulates the 1977 Wow! signal as a 5D STUR resistance
 # wave packet projection observed by Big Ear's dual horns.
@@ -458,7 +458,7 @@ ax1 = axes[0]
 ax1.set_facecolor('#050814')
 ax1.plot(t_m, deltaR, color='#f472b6', lw=1.5)
 ax1.axvline(t0_wow, color='gray', ls='--', alpha=0.5, label=f't0={t0_wow}s')
-ax1.set_title('STUR 5D Manifold Response (v11.0)', color='#ffaa00')
+ax1.set_title('STUR 5D Manifold Response', color='#ffaa00')
 ax1.set_xlabel('Time [s]', color='#94a3b8')
 ax1.set_ylabel('dR = R(0,0,t) - R0', color='#94a3b8')
 ax1.tick_params(colors='#94a3b8')
@@ -499,7 +499,7 @@ plt.show()
 report = {
     "meta": {
         "page": "wow-signal",
-        "version": "v11.0",
+        "version": "",
         "equation": "5D damped wave with Wow source"
     },
     "params": {
@@ -519,7 +519,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR Wow! Signal [v11.0] ===")
+print("=== STUR Wow! Signal ===")
 print(f"Horn A: {codes_A}")
 print(f"Horn B: {codes_B}")
 print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
@@ -560,7 +560,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> wow-signal |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -591,7 +591,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

@@ -207,7 +207,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Limit assumed:</strong> Classical Newtonian limit with STUR-modified gravitational potential
@@ -336,7 +336,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 """
-STUR 3-Body RK4 Orbit (v11.0)
+STUR 3-Body RK4 Orbit
 ============================
 Tests STUR-modified gravity in equilateral 3-body configuration.
 
@@ -477,7 +477,7 @@ falsified = kill1 or kill2 or kill3
 report = {
     "meta": {
         "page": "3-body-rk4",
-        "version": "v11.0",
+        "version": "",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "V_ij(r) = -G m_i m_j S(r) / r"
     },
@@ -502,7 +502,7 @@ report = {
     }
 }
 
-print("=== STUR 3-Body RK4 [v11.0] ===")
+print("=== STUR 3-Body RK4 ===")
 print(f"STUR: S(r) = tanh(r/L₀)·(1 - exp(-r/L₀)), L₀ = {L:.1e} m")
 print(f"Period: {T:.4e} s ({T/3.15576e7:.4f} yr)")
 print(f"Energy drift: ΔE/E = {dE_rel:.4e}")
@@ -585,7 +585,7 @@ print(f"\nOutputs: stur_3body.png, stur_3body.json")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> 3-body-rk4 |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -616,7 +616,7 @@ print(f"\nOutputs: stur_3body.png, stur_3body.json")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

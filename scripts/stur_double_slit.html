@@ -208,7 +208,7 @@
                   \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (v11.0)</div>
+                <div class="stur-eq-label">Master Action</div>
             </div>
 
             <p><strong>Limit assumed:</strong> Flat spacetime, Markovian regime. The X-field fluctuations induce phase dispersion in the interference pattern. The path-length difference \(\Delta L = d \cdot y / L\) enters the Gaussian visibility law.</p>
@@ -339,7 +339,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Double-Slit — Gaussian Visibility Test (v11.0)
+# STUR Double-Slit — Gaussian Visibility Test
 #
 # Tests Eq. (3.15): V(ΔL) = V₀ exp[-½(σᵣ/Lₓ)²(ΔL)²]
 #
@@ -556,12 +556,12 @@ falsified = (rmse_st >= rmse_qm)
 
 write_svg(OUT_SVG, WL_NM, [V_DATA, V_QM, V_STUR, V_STUR_A],
           ["DATA", "QM", "STUR-num", "STUR-analytic"],
-          f"Gaussian Visibility Test — STUR v11.0 [Eq. 3.15]")
+          f"Gaussian Visibility Test — STUR [Eq. 3.15]")
 
 report = {
     "meta": {
         "page": "double-slit-visibility",
-        "version": "v11.0",
+        "version": "",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "V(ΔL) = V₀ exp[-½(σᵣ/Lₓ)²(ΔL)²]"
     },
@@ -644,7 +644,7 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Framework v11.0 |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> double-slit-visibility |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -675,7 +675,7 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v11.0 — A falsifiable unified framework</p>
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
     <p>
         <a href="stur_core_theory.html">Foundations</a> ·
         <a href="stur_unified_framework.html">Framework</a> ·

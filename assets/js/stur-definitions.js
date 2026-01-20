@@ -4,12 +4,11 @@
  * Canonical symbols, units, constants, and mappings for the STUR Physics Lab.
  * All pages should reference this single source of truth.
  *
- * @version 11.0 — Complete Theory (MHP + DHP)
+ * Complete Theory (MHP + DHP)
  * @author Sheldon Lon Lindberg
  */
 
 const STUR_DEFINITIONS = {
-  version: "11.0",
   versionName: "Complete Theory",
 
   // ============================================================
@@ -136,7 +135,7 @@ const STUR_DEFINITIONS = {
   },
 
   // ============================================================
-  // FIRST PRINCIPLES (v11.0 — Complete Theory)
+  // FIRST PRINCIPLES — Complete Theory
   // ============================================================
   firstPrinciples: {
     statement: "STUR is a complete theory built on three axioms: (1) Master Action, (2) Minimum Holonomy Principle (MHP), (3) Dynamical Holonomy Principle (DHP). Together they determine all physics from two free parameters: L_X and λ.",
