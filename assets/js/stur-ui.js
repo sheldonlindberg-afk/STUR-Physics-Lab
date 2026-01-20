@@ -645,10 +645,25 @@
         }
       };
 
-      // Toggle button click - use both click and touchend for mobile reliability
+      // Toggle button - prevent double-firing on mobile (touchend + click)
+      let touchHandled = false;
+
       const handleToggle = (e) => {
         e.preventDefault();
         e.stopPropagation();
+
+        // On touch devices, touchend fires before click
+        // Set flag to prevent click from also firing
+        if (e.type === 'touchend') {
+          touchHandled = true;
+          setTimeout(() => { touchHandled = false; }, 300);
+        }
+
+        // Skip click if we just handled a touch
+        if (e.type === 'click' && touchHandled) {
+          return;
+        }
+
         toggleMenu();
       };
 
