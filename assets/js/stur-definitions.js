@@ -206,10 +206,10 @@ const STUR_DEFINITIONS = {
   },
 
   // ============================================================
-  // FIRST PRINCIPLES — Two-Axiom Framework
+  // FIRST PRINCIPLES — Three-Axiom Framework
   // ============================================================
   firstPrinciples: {
-    statement: "STUR is a unified framework built on two axioms: (1) Master Action, (2) Dynamical Holonomy Principle (DHP). MHP is derived from the path integral saddle point condition. L_X is dynamically stabilized by Casimir-holonomy balance.",
+    statement: "STUR is a unified framework built on three axioms: (1) Master Action, (2) Dynamical Holonomy Principle (DHP), (3) Topological Flavor Principle (TFP). All 19 physics problems fully derived from geometry. L_X is dynamically stabilized by Casimir-holonomy balance.",
 
     freeParameters: ["L_X (internal dimension size, dynamically stabilized)"],
 
