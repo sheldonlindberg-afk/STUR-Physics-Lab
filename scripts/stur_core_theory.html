@@ -25,9 +25,9 @@
     </button>
     <div class="glass-nav-links">
       <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_learn.html" class="glass-nav-link">Learn</a>
       <a href="stur_core_theory.html" class="glass-nav-link active">Core Theory</a>
       <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
-      <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
     </div>
   </nav>
 </header>
@@ -95,6 +95,72 @@
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Tor{\alpha R \mathbb{T}}\) — Teleparallel gravity coupling</div>
     </div>
   </div>
+
+  <!-- EDUCATIONAL: Prerequisites for understanding the Master Action -->
+  <details class="learn-box prerequisite">
+    <summary>
+      Prerequisites: What You Need to Know
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <p>
+        <strong>To understand this action, you need:</strong>
+      </p>
+      <ul>
+        <li><strong>Actions in physics:</strong> All dynamics come from extremizing \(S = \int \mathcal{L}\, d^nx\). Classical paths minimize \(S\); quantum mechanics sums over all paths weighted by \(e^{iS/\hbar}\).</li>
+        <li><strong>Scalar fields:</strong> A scalar field \(\phi(x)\) assigns a number to each spacetime point. The resistance field \(R\) is such a scalar in 5D.</li>
+        <li><strong>Extra dimensions:</strong> Our 4D universe may be embedded in a 5D space with a compact extra dimension \(X\).</li>
+      </ul>
+      <p style="margin-top:0.75rem;">
+        <a href="stur_learn.html#prerequisites" style="color:var(--accent);">Full prerequisites tutorial →</a>
+      </p>
+    </div>
+  </details>
+
+  <!-- EDUCATIONAL: Comparison to Standard Physics -->
+  <details class="learn-box comparison">
+    <summary>
+      How This Differs from Standard Model + GR
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <table class="comparison-table">
+        <tr>
+          <th>Aspect</th>
+          <th class="standard">Standard Approach</th>
+          <th class="stur">STUR</th>
+        </tr>
+        <tr>
+          <td>Gravity</td>
+          <td>Postulated (Einstein-Hilbert action)</td>
+          <td>Emerges from \(\alpha R \mathbb{T}\) equilibrium</td>
+        </tr>
+        <tr>
+          <td>Gauge forces</td>
+          <td>Postulated (Yang-Mills action)</td>
+          <td>Emerge from XCRM degeneracy</td>
+        </tr>
+        <tr>
+          <td>Particle masses</td>
+          <td>Free parameters (~20+)</td>
+          <td>From Yukawa × localization overlap</td>
+        </tr>
+        <tr>
+          <td>Unification</td>
+          <td>GR and QM separate</td>
+          <td>Both from single 5D action</td>
+        </tr>
+        <tr>
+          <td>Testability</td>
+          <td>Many parameters to fit</td>
+          <td>One prediction: Gaussian visibility</td>
+        </tr>
+      </table>
+      <p style="margin-top:0.75rem;">
+        The key difference: standard physics <em>postulates</em> separate theories for each force. STUR <em>derives</em> them all from the geometric structure of the extra dimension.
+      </p>
+    </div>
+  </details>
 </section>
 
 <!-- XCRM: THE CENTRAL MECHANISM -->
@@ -123,6 +189,53 @@
       the single action above.
     </p>
   </div>
+
+  <!-- EDUCATIONAL: Physical Intuition for XCRM -->
+  <details class="learn-box analogy">
+    <summary>
+      Physical Intuition: What XCRM Does
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <div class="intuition-block">
+        <div class="intuition-header">Think of It Like This</div>
+        <p>
+          Imagine the resistance field \(R\) as the "density" of a 5D fluid. The XCRM term \(\chi R \partial_X R\)
+          is like a current that flows in the \(X\) direction whenever \(R\) varies. This current:
+        </p>
+        <ul>
+          <li>Creates "channels" where matter prefers to exist (fermion localization)</li>
+          <li>Generates forces when configurations have different "costs" (gauge emergence)</li>
+          <li>Couples to spacetime geometry, producing gravity effects (torsion coupling)</li>
+        </ul>
+      </div>
+      <p>
+        The term \(R \partial_X R\) is special because it couples the field to its <em>own gradient</em> in the extra dimension.
+        This self-referential structure is what allows STUR to close on itself—no external inputs needed.
+      </p>
+    </div>
+  </details>
+
+  <!-- EDUCATIONAL: Technical Detail for Advanced Readers -->
+  <details class="learn-box derivation">
+    <summary>
+      Technical: Why This Term Is Unique
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p>
+        The XCRM term \(\chi R \partial_X R\) is the <strong>unique</strong> first-order X-derivative coupling allowed by:
+      </p>
+      <ul>
+        <li><strong>Z₂ symmetry:</strong> The orbifold requires \(R(-X) = -R(X)\). The term \(R\partial_X R\) is even under this.</li>
+        <li><strong>Renormalizability:</strong> In 5D, dimension counting limits us to terms with \([mass]^{5}\) or less.</li>
+        <li><strong>Lorentz invariance:</strong> The 4D Lorentz symmetry must be preserved.</li>
+      </ul>
+      <p>
+        Higher-order terms like \(R^2 \partial_X R\) or \((\partial_X R)^2\) either violate Z₂, break power counting, or are already included in the kinetic term.
+      </p>
+    </div>
+  </details>
 </section>
 
 <!-- MINIMUM HOLONOMY PRINCIPLE -->
@@ -153,6 +266,59 @@
   <p style="margin-top:1.25rem;font-size:1rem;color:var(--text);">
     MHP is <strong>not an independent axiom</strong> — it emerges from the structure of the path integral on orbifolds. This reduces STUR to <strong>two axioms</strong>: Master Action + DHP.
   </p>
+
+  <!-- EDUCATIONAL: What is holonomy? -->
+  <details class="learn-box analogy">
+    <summary>
+      What Is Holonomy? An Intuitive Explanation
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <div class="intuition-block">
+        <div class="intuition-header">The Concept</div>
+        <p>
+          <strong>Holonomy</strong> measures how much something changes when transported around a closed loop.
+        </p>
+        <ul>
+          <li><strong>Familiar example:</strong> Walk around a sphere from North Pole to equator to another point on equator and back to North Pole. You'll arrive facing a different direction than you started. That rotation is holonomy.</li>
+          <li><strong>In gauge theory:</strong> Transport a particle's quantum phase around a loop. The phase shift is the holonomy.</li>
+          <li><strong>In STUR:</strong> The "resistance holonomy" is the phase accumulated when traversing the orbifold.</li>
+        </ul>
+      </div>
+      <p>
+        MHP says: <strong>physical configurations minimize total holonomy cost</strong>. Think of it as the universe preferring "boring" phase structures over "exciting" ones.
+      </p>
+    </div>
+  </details>
+
+  <!-- EDUCATIONAL: How path integral gives MHP -->
+  <details class="learn-box derivation">
+    <summary>
+      How the Path Integral Derives MHP
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p>The path integral on the orbifold includes a sum over gauge configurations:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.3);">
+        \[Z = \int \mathcal{D}A\, e^{iS[A]}\]
+      </div>
+      <p>The Faddeev-Popov procedure for gauge-fixing produces a Jacobian—the <strong>Vandermonde determinant</strong>:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.3);">
+        \[\Delta_{\rm FP}[\mathbf{h}] = \prod_{i < j} |e^{2\pi i h_i} - e^{2\pi i h_j}|^2 = \prod_{i < j} 4\sin^2(\pi(h_i - h_j))\]
+      </div>
+      <p>Taking the log gives an <strong>effective potential</strong> in holonomy space:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.3);">
+        \[V_{\rm eff}[\mathbf{h}] = -\sum_{i < j} \log|\sin(\pi(h_i - h_j))|\]
+      </div>
+      <p>
+        The physical ground state is the <strong>saddle point</strong> of this effective potential—exactly MHP.
+        This is standard QFT (Gross-Pisarski-Yaffe, Hosotani mechanism) applied to the orbifold.
+      </p>
+      <p style="margin-top:0.75rem;">
+        <a href="stur_mhp_derivation.html" style="color:var(--accent);">See the complete derivation →</a>
+      </p>
+    </div>
+  </details>
 
   <h3>What MHP Determines</h3>
 

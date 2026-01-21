@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Learn STUR — From Standard Physics to Unified Theory</title>
+<meta name="description" content="Educational guide to STUR physics: prerequisites, step-by-step derivations, comparisons to standard physics, and worked examples at multiple levels.">
+
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_learn.html" class="glass-nav-link active">Learn</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>Learn STUR Physics</h1>
+  <p class="subtitle">From Standard Physics to Unified Theory</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    Multi-level educational guide with expandable depth
+  </p>
+</header>
+
+<!-- LEARNING PATH OVERVIEW -->
+<section class="section" id="overview">
+  <h2>Your Learning Path</h2>
+
+  <p>
+    This guide teaches the physics behind STUR at multiple levels. Expand sections matching your background,
+    skip what you already know, and dive deeper where you're curious.
+  </p>
+
+  <div class="learning-path">
+    <div class="path-item">
+      <div class="path-marker">1</div>
+      <div class="path-content">
+        <div class="path-title">Prerequisites</div>
+        <div class="path-desc">Review the standard physics concepts STUR builds upon: spacetime geometry, quantum mechanics, and extra dimensions.</div>
+      </div>
+    </div>
+    <div class="path-item">
+      <div class="path-marker">2</div>
+      <div class="path-content">
+        <div class="path-title">Core Concepts</div>
+        <div class="path-desc">Understand STUR's key ideas: the resistance field R, orbifold geometry, and how standard physics emerges.</div>
+      </div>
+    </div>
+    <div class="path-item">
+      <div class="path-marker">3</div>
+      <div class="path-content">
+        <div class="path-title">The Two Axioms</div>
+        <div class="path-desc">Learn the complete foundation: the Master Action and Dynamical Holonomy Principle.</div>
+      </div>
+    </div>
+    <div class="path-item">
+      <div class="path-marker">4</div>
+      <div class="path-content">
+        <div class="path-title">Predictions & Tests</div>
+        <div class="path-desc">See how STUR makes falsifiable predictions and how experiments can test (or exclude) the theory.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 1: PREREQUISITES -->
+<section class="section" id="prerequisites">
+  <h2>1. Prerequisites from Standard Physics</h2>
+
+  <p>
+    STUR unifies concepts from general relativity, quantum field theory, and Kaluza-Klein theory.
+    Here's what you need to know from each.
+  </p>
+
+  <!-- SPACETIME GEOMETRY -->
+  <details class="learn-box prerequisite">
+    <summary>
+      Spacetime Geometry
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <p>
+        <strong>Key idea:</strong> Space and time form a unified 4-dimensional "spacetime" where distances
+        are measured using the <em>metric tensor</em> \(g_{\mu\nu}\).
+      </p>
+
+      <div class="intuition-block">
+        <div class="intuition-header">Physical Intuition</div>
+        <p>
+          Think of the metric as a "ruler" that tells you how to measure distances. In flat space,
+          the Pythagorean theorem works: \(ds^2 = dx^2 + dy^2 + dz^2\). In curved spacetime (near massive
+          objects), the ruler stretches and bends, changing how distances work.
+        </p>
+      </div>
+
+      <p><strong>The metric tensor</strong> encodes all geometric information:</p>
+      <div class="eq">
+        \[ds^2 = g_{\mu\nu}\, dx^\mu\, dx^\nu\]
+      </div>
+      <p>
+        For flat Minkowski spacetime: \(ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2\)
+      </p>
+
+      <!-- Nested deeper level -->
+      <details class="learn-box derivation">
+        <summary>
+          Why the minus sign?
+          <span class="learn-level intermediate">Intermediate</span>
+        </summary>
+        <div class="learn-content">
+          <p>
+            The minus sign on \(dt^2\) encodes causality. For light rays, \(ds^2 = 0\), giving the
+            speed of light relation. For massive particles, \(ds^2 < 0\) (timelike), ensuring they
+            move slower than light. For \(ds^2 > 0\) (spacelike), no causal connection exists.
+          </p>
+          <p>
+            This "signature" \((-,+,+,+)\) is called the Lorentzian signature and is fundamental
+            to relativity.
+          </p>
+        </div>
+      </details>
+
+      <p><strong>What STUR uses:</strong> The 4D metric \(g_{\mu\nu}\) appears in the Master Action, but
+      STUR extends spacetime to 5 dimensions with a special structure.</p>
+    </div>
+  </details>
+
+  <!-- GENERAL RELATIVITY -->
+  <details class="learn-box prerequisite">
+    <summary>
+      General Relativity Basics
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <p>
+        <strong>Key idea:</strong> Gravity isn't a force—it's the curvature of spacetime caused by
+        mass and energy. Objects follow the straightest possible paths (geodesics) through curved spacetime.
+      </p>
+
+      <div class="intuition-block">
+        <div class="intuition-header">Physical Intuition</div>
+        <p>
+          Imagine a bowling ball on a stretched rubber sheet. It creates a dip, and marbles roll
+          toward it—not because of a "force," but because the surface is curved. Similarly, the
+          Sun curves spacetime, and Earth follows a geodesic that looks like an orbit.
+        </p>
+      </div>
+
+      <p><strong>Einstein's equation</strong> relates geometry to matter:</p>
+      <div class="eq">
+        \[G_{\mu\nu} = \frac{8\pi G}{c^4} T_{\mu\nu}\]
+      </div>
+      <p>
+        Left side: spacetime curvature. Right side: energy-momentum of matter.
+      </p>
+
+      <details class="learn-box comparison">
+        <summary>
+          GR vs TEGR: Two Equivalent Formulations
+          <span class="learn-level intermediate">Intermediate</span>
+        </summary>
+        <div class="learn-content">
+          <p>
+            General Relativity can be written two equivalent ways:
+          </p>
+          <table class="comparison-table">
+            <tr>
+              <th>Aspect</th>
+              <th class="standard">GR (Einstein)</th>
+              <th class="stur">TEGR (Teleparallel)</th>
+            </tr>
+            <tr>
+              <td>Fundamental object</td>
+              <td>Metric \(g_{\mu\nu}\)</td>
+              <td>Tetrad \(e^a_\mu\)</td>
+            </tr>
+            <tr>
+              <td>Connection</td>
+              <td>Levi-Civita (curved)</td>
+              <td>Weitzenböck (flat)</td>
+            </tr>
+            <tr>
+              <td>Gravity source</td>
+              <td>Curvature \(R\)</td>
+              <td>Torsion \(\mathbb{T}\)</td>
+            </tr>
+            <tr>
+              <td>Predictions</td>
+              <td colspan="2" style="text-align:center;">Identical for all tests</td>
+            </tr>
+          </table>
+          <p>
+            <strong>Why this matters for STUR:</strong> STUR naturally produces TEGR (torsion-based gravity)
+            in its equilibrium limit. Since TEGR = GR observationally, STUR recovers all of general relativity.
+          </p>
+        </div>
+      </details>
+
+      <p><strong>What STUR uses:</strong> Rather than postulating Einstein's equation, STUR <em>derives</em>
+      gravity (in TEGR form) from the equilibrium limit of the resistance field.</p>
+    </div>
+  </details>
+
+  <!-- QUANTUM FIELD THEORY -->
+  <details class="learn-box prerequisite">
+    <summary>
+      Quantum Field Theory Essentials
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>
+        <strong>Key idea:</strong> Particles are excitations of underlying quantum fields that permeate
+        all of spacetime. The dynamics are encoded in the <em>action</em> \(S\), and quantum mechanics
+        enters through the path integral.
+      </p>
+
+      <div class="intuition-block">
+        <div class="intuition-header">Physical Intuition</div>
+        <p>
+          Think of a field like a mattress. Press it and release—waves propagate. In QFT, the "mattress"
+          is the quantum field, and the "waves" are particles. The electron field fills all of space;
+          an electron is a localized ripple in that field.
+        </p>
+      </div>
+
+      <p><strong>The action</strong> determines all dynamics:</p>
+      <div class="eq">
+        \[S = \int d^4x\, \mathcal{L}(\phi, \partial_\mu\phi)\]
+      </div>
+      <p>
+        where \(\mathcal{L}\) is the Lagrangian density. Classical physics: minimize \(S\).
+        Quantum physics: sum over all paths weighted by \(e^{iS/\hbar}\).
+      </p>
+
+      <details class="learn-box example">
+        <summary>
+          Example: Scalar Field
+          <span class="learn-level intermediate">Intermediate</span>
+        </summary>
+        <div class="learn-content">
+          <p>The simplest field is a scalar (spin-0) field \(\phi(x)\). Its Lagrangian is:</p>
+          <div class="eq">
+            \[\mathcal{L} = \frac{1}{2}(\partial_\mu\phi)^2 - \frac{1}{2}m^2\phi^2 - V(\phi)\]
+          </div>
+          <p>
+            <strong>First term:</strong> kinetic energy (field gradients).<br>
+            <strong>Second term:</strong> mass term.<br>
+            <strong>Third term:</strong> potential (self-interactions).
+          </p>
+          <p>
+            <strong>STUR connection:</strong> The resistance field \(R\) is a scalar field with exactly
+            this structure, but its potential \(V(R)\) is uniquely fixed by the orbifold topology.
+          </p>
+        </div>
+      </details>
+
+      <details class="learn-box derivation">
+        <summary>
+          Path Integral Formulation
+          <span class="learn-level advanced">Advanced</span>
+        </summary>
+        <div class="learn-content">
+          <p>
+            In quantum mechanics, probabilities come from summing over all possible histories:
+          </p>
+          <div class="eq">
+            \[Z = \int \mathcal{D}\phi\, e^{iS[\phi]/\hbar}\]
+          </div>
+          <p>
+            This "path integral" \(Z\) is the partition function. Physical quantities come from
+            functional derivatives of \(\ln Z\).
+          </p>
+          <p>
+            <strong>Why this matters:</strong> STUR's MHP (Minimized Holonomy Principle) emerges from
+            the path integral. The ground state is selected by saddle-point conditions on the holonomy,
+            not postulated.
+          </p>
+        </div>
+      </details>
+
+      <p><strong>What STUR uses:</strong> The Master Action is a 5D action for the resistance field \(R\),
+      the metric, gauge fields, and matter. All STUR physics derives from this single action.</p>
+    </div>
+  </details>
+
+  <!-- EXTRA DIMENSIONS -->
+  <details class="learn-box prerequisite">
+    <summary>
+      Extra Dimensions & Kaluza-Klein Theory
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>
+        <strong>Key idea:</strong> If spacetime has more than 4 dimensions, and the extra dimensions
+        are small and compact, we wouldn't directly see them—but their effects would appear as
+        forces and particles in 4D.
+      </p>
+
+      <div class="intuition-block">
+        <div class="intuition-header">Physical Intuition</div>
+        <p>
+          Imagine an ant on a garden hose. From far away, the hose looks 1D (a line). But the ant
+          knows there's a circular direction wrapped around. Similarly, our 4D spacetime might have
+          tiny circular dimensions we can't directly see.
+        </p>
+      </div>
+
+      <p><strong>Kaluza-Klein unification (1921):</strong></p>
+      <ul>
+        <li>Start with 5D gravity (just the metric, nothing else)</li>
+        <li>Compactify the 5th dimension on a circle \(S^1\)</li>
+        <li>Result: 4D gravity + electromagnetism + a scalar field</li>
+      </ul>
+      <p>
+        Electromagnetism emerges geometrically! The photon is the "off-diagonal" part of the 5D metric.
+      </p>
+
+      <details class="learn-box comparison">
+        <summary>
+          Standard KK vs STUR Geometry
+          <span class="learn-level advanced">Advanced</span>
+        </summary>
+        <div class="learn-content">
+          <table class="comparison-table">
+            <tr>
+              <th>Aspect</th>
+              <th class="standard">Standard Kaluza-Klein</th>
+              <th class="stur">STUR</th>
+            </tr>
+            <tr>
+              <td>Extra dimension</td>
+              <td>Circle \(S^1\)</td>
+              <td>Orbifold \(S^1/\mathbb{Z}_2\)</td>
+            </tr>
+            <tr>
+              <td>Topology</td>
+              <td>Periodic</td>
+              <td>Interval with boundaries</td>
+            </tr>
+            <tr>
+              <td>Key field</td>
+              <td>Modulus (size of \(S^1\))</td>
+              <td>Resistance field \(R(x,X)\)</td>
+            </tr>
+            <tr>
+              <td>Modulus stability</td>
+              <td>Unstable (problem)</td>
+              <td>Stabilized by Casimir-holonomy</td>
+            </tr>
+            <tr>
+              <td>Gauge fields</td>
+              <td>U(1) only</td>
+              <td>Full SM gauge group possible</td>
+            </tr>
+          </table>
+          <p>
+            The orbifold \(S^1/\mathbb{Z}_2\) is like a circle folded in half—it has two fixed points
+            (boundaries) at \(X = 0\) and \(X = L_X\). This topology forces the resistance field to
+            have specific boundary conditions, which uniquely determines its potential \(V(R)\).
+          </p>
+        </div>
+      </details>
+
+      <p><strong>What STUR uses:</strong> The 5D spacetime \(M^4 \times S^1/\mathbb{Z}_2\) is fundamental.
+      The orbifold structure (not just a circle) forces the potential, creates domain walls where matter
+      localizes, and enables gauge symmetry to emerge from geometry.</p>
+    </div>
+  </details>
+</section>
+
+<!-- SECTION 2: CORE STUR CONCEPTS -->
+<section class="section" id="core-concepts">
+  <h2>2. Core STUR Concepts</h2>
+
+  <p>
+    With the prerequisites in place, here are STUR's central ideas explained step by step.
+  </p>
+
+  <!-- THE RESISTANCE FIELD -->
+  <details class="learn-box analogy" open>
+    <summary>
+      The Resistance Field R
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <p>
+        <strong>What it is:</strong> A scalar field \(R(x^\mu, X)\) that lives in all 5 dimensions.
+        It "resists" rapid changes in the extra dimension \(X\).
+      </p>
+
+      <div class="intuition-block">
+        <div class="intuition-header">Physical Intuition</div>
+        <p>
+          Think of \(R\) like the density in a fluid. When you try to push fluid from one region
+          to another, it resists. The resistance field similarly mediates how physics in 4D connects
+          to the extra dimension. High resistance = strong coupling between dimensions.
+        </p>
+      </div>
+
+      <p><strong>Key properties:</strong></p>
+      <ul>
+        <li><strong>Z₂-odd:</strong> \(R(-X) = -R(X)\), forced by orbifold symmetry</li>
+        <li><strong>Boundary conditions:</strong> \(R(0) = R(L_X) = 0\) at orbifold fixed points</li>
+        <li><strong>Kink solution:</strong> Forms a domain wall shape \(R_0(X) = v \cdot \tanh[(X-X_c)/\xi]\)</li>
+      </ul>
+
+      <details class="learn-box derivation">
+        <summary>
+          Why Z₂-odd? The Orbifold Forces It
+          <span class="learn-level intermediate">Intermediate</span>
+        </summary>
+        <div class="learn-content">
+          <p>
+            The orbifold \(S^1/\mathbb{Z}_2\) identifies points \(X \leftrightarrow -X\). For the
+            action to be invariant, fields must transform consistently:
+          </p>
+          <ul>
+            <li><strong>Z₂-even:</strong> \(\phi(-X) = +\phi(X)\) (allowed everywhere)</li>
+            <li><strong>Z₂-odd:</strong> \(\phi(-X) = -\phi(X)\) (must vanish at \(X=0\))</li>
+          </ul>
+          <p>
+            The resistance field \(R\) is assigned Z₂-odd parity. This isn't arbitrary—it's required
+            for the XCRM coupling \(\chi R \partial_X R\) to be well-defined and for fermion mass
+            generation to work.
+          </p>
+          <p>
+            <strong>Consequence:</strong> \(R\) must vanish at the boundaries, forcing it to interpolate
+            between \(R = -v\) and \(R = +v\) as a domain wall (kink).
+          </p>
+        </div>
+      </details>
+
+      <p><strong>Physical consequences:</strong></p>
+      <ul>
+        <li>The kink creates a "domain wall" where our 4D universe lives</li>
+        <li>Fermions get mass from coupling to \(R\) (Yukawa coupling)</li>
+        <li>Gravity emerges from \(R\)'s equilibrium state</li>
+        <li>Visibility decay in interferometers comes from \(R\) fluctuations</li>
+      </ul>
+    </div>
+  </details>
+
+  <!-- THE UNIQUE POTENTIAL -->
+  <details class="learn-box derivation">
+    <summary>
+      Why V(R) Is Uniquely Determined
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>
+        <strong>Claim:</strong> The potential for \(R\) is not a free choice—topology forces
+        it to be a double-well:
+      </p>
+      <div class="eq law">
+        \[V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\]
+      </div>
+
+      <div class="walkthrough">
+        <div class="step">
+          <div class="step-content">
+            <strong>Step 1: Symmetry requirement</strong>
+            The action must be invariant under \(X \to -X\). Since \(R\) is Z₂-odd, \(V(R)\) must be
+            Z₂-even: \(V(-R) = V(R)\). This means only even powers of \(R\).
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <strong>Step 2: Renormalizability</strong>
+            In 5D, only terms up to \(R^4\) are renormalizable (power counting). So:
+            \(V(R) = a + bR^2 + cR^4\).
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <strong>Step 3: Topological stability</strong>
+            The kink solution interpolating between \(R = \pm v\) requires degenerate minima.
+            This forces \(b < 0\) (tachyonic mass) and \(c > 0\) (stability).
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <strong>Step 4: Unique form</strong>
+            Combining these: \(V(R) = \lambda(R^2 - v^2)^2/4\). The constant \(a\) is fixed by
+            requiring \(V(R = \pm v) = 0\).
+          </div>
+        </div>
+      </div>
+
+      <div class="block success">
+        <div class="title">No Free Parameters in V(R)</div>
+        <p style="margin:0;color:var(--text-secondary)">
+          Unlike most theories where potentials are chosen by hand, STUR's potential is
+          <strong>derived</strong> from geometry. The only parameters (\(\lambda\), \(v\)) are
+          determined by the orbifold size \(L_X\) and stabilization conditions.
+        </p>
+      </div>
+    </div>
+  </details>
+
+  <!-- EMERGENCE OF STANDARD PHYSICS -->
+  <details class="learn-box comparison">
+    <summary>
+      How Standard Physics Emerges
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>
+        STUR doesn't replace standard physics—it derives it. Here's how each piece emerges:
+      </p>
+
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-title" style="color:#60a5fa;">Gravity (GR/TEGR)</div>
+          <div class="concept-desc">
+            When \(R \to R_{\rm bg}\) (equilibrium), the torsion coupling \(\alpha R \mathbb{T}\)
+            becomes \((1/16\pi G)\mathbb{T}\), which is TEGR = GR.
+          </div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title" style="color:#a78bfa;">Gauge Forces</div>
+          <div class="concept-desc">
+            Degeneracies in the XCRM field create a manifold with continuous symmetries.
+            These become the gauge groups \(SU(3) \times SU(2) \times U(1)\).
+          </div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title" style="color:#22d3ee;">Fermion Masses</div>
+          <div class="concept-desc">
+            Fermions couple to \(R\) via Yukawa terms \(yR\bar\psi\psi\). The kink profile
+            gives mass hierarchies through localization.
+          </div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title" style="color:#4ade80;">Quantum Mechanics</div>
+          <div class="concept-desc">
+            The path integral over \(R\) configurations produces quantum effects. MHP
+            selects the ground state via saddle-point conditions.
+          </div>
+        </div>
+      </div>
+
+      <details class="learn-box example">
+        <summary>
+          Worked Example: Newton's Constant
+          <span class="learn-level advanced">Advanced</span>
+        </summary>
+        <div class="learn-content">
+          <p>
+            <strong>Goal:</strong> Show that \(G = 1/(16\pi\alpha R_{\rm bg})\).
+          </p>
+          <div class="walkthrough">
+            <div class="step">
+              <div class="step-content">
+                <strong>Start with the torsion coupling</strong>
+                The Master Action contains \(\alpha R \mathbb{T}\) where \(\mathbb{T}\) is the
+                torsion scalar and \(\alpha\) is a coupling constant.
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-content">
+                <strong>Take the equilibrium limit</strong>
+                For slowly-varying \(R\), fluctuations average out and \(R \to R_{\rm bg}\)
+                (background value). The term becomes \(\alpha R_{\rm bg} \mathbb{T}\).
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-content">
+                <strong>Compare to TEGR</strong>
+                TEGR has action \((1/16\pi G)\int \mathbb{T}\, d^4x\). Matching coefficients:
+                \[\alpha R_{\rm bg} = \frac{1}{16\pi G}\]
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-content">
+                <strong>Result</strong>
+                Newton's constant is determined by STUR parameters:
+                \[G = \frac{1}{16\pi \alpha R_{\rm bg}}\]
+                Gravity isn't fundamental—it emerges from the resistance field equilibrium.
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </details>
+</section>
+
+<!-- SECTION 3: THE TWO AXIOMS -->
+<section class="section" id="axioms" style="border:2px solid var(--gold);">
+  <h2 style="color:var(--gold);">3. The Two Axioms</h2>
+
+  <p>
+    All of STUR physics derives from exactly two postulates. Everything else—including the
+    MHP (Minimized Holonomy Principle)—is derived, not assumed.
+  </p>
+
+  <div class="block gold">
+    <div class="title">Axiom 1: The Master Action</div>
+    <p style="margin:0.5rem 0;color:var(--text-secondary)">
+      Physics is described by an action on the 5D orbifold \(M^4 \times S^1/\mathbb{Z}_2\):
+    </p>
+    <div class="eq law">
+      \[\XCRM{S_{\rm STUR}} = \int d^5x\, \sqrt{-g}\, \Big[\Diff{\tfrac{1}{2}(\nabla R)^2} - \Pot{V(R)} + \XCRM{\chi R\partial_X R} + \Tor{\alpha R \mathbb{T}} + \Matt{\mathcal{L}_{\rm matter}}\Big]\]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.88rem;">
+      <span class="eq-diffusion">Green</span>: Kinetic |
+      <span class="eq-potential">Pink</span>: Potential |
+      <span class="eq-xcrm">Gold</span>: XCRM coupling |
+      <span class="eq-torsion">Blue</span>: Torsion |
+      <span class="eq-matter">Cyan</span>: Matter
+    </p>
+  </div>
+
+  <details class="learn-box analogy">
+    <summary>
+      Understanding Each Term
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <table class="comparison-table">
+        <tr>
+          <th>Term</th>
+          <th>Physical Meaning</th>
+          <th>What It Does</th>
+        </tr>
+        <tr>
+          <td style="color:#4ade80;">\(\tfrac{1}{2}(\nabla R)^2\)</td>
+          <td>Kinetic energy</td>
+          <td>Penalizes rapid spatial changes in \(R\)</td>
+        </tr>
+        <tr>
+          <td style="color:#f472b6;">\(V(R)\)</td>
+          <td>Potential energy</td>
+          <td>Creates double-well with minima at \(R = \pm v\)</td>
+        </tr>
+        <tr>
+          <td style="color:#fbbf24;">\(\chi R\partial_X R\)</td>
+          <td>XCRM coupling</td>
+          <td>Couples \(R\) to its own X-gradient (the key new term)</td>
+        </tr>
+        <tr>
+          <td style="color:#60a5fa;">\(\alpha R \mathbb{T}\)</td>
+          <td>Torsion coupling</td>
+          <td>Links \(R\) to gravity; gives GR in equilibrium</td>
+        </tr>
+        <tr>
+          <td style="color:#22d3ee;">\(\mathcal{L}_{\rm matter}\)</td>
+          <td>Matter sector</td>
+          <td>Standard Model fields coupled to \(R\)</td>
+        </tr>
+      </table>
+
+      <div class="intuition-block">
+        <div class="intuition-header">The XCRM Term Is Special</div>
+        <p>
+          The \(\chi R \partial_X R\) term is what makes STUR different from ordinary Kaluza-Klein.
+          It creates a "resistance current" that flows in the extra dimension, couples to holonomy,
+          and produces the testable visibility prediction.
+        </p>
+      </div>
+    </div>
+  </details>
+
+  <div class="block gold" style="margin-top:1.5rem;">
+    <div class="title">Axiom 2: The Dynamical Holonomy Principle (DHP)</div>
+    <p style="margin:0.5rem 0;color:var(--text-secondary)">
+      The universe evolves to minimize the integrated holonomy:
+    </p>
+    <div class="eq law">
+      \[\delta \Omega_{\rm DHP} = 0 \quad \text{where} \quad \Omega_{\rm DHP} = \int dt\, \langle |\Phi_R|^2 \rangle\]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.92rem;">
+      This variational principle governs cosmological evolution and quantum gravity.
+    </p>
+  </div>
+
+  <details class="learn-box comparison">
+    <summary>
+      DHP vs Other Variational Principles
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <table class="comparison-table">
+        <tr>
+          <th>Principle</th>
+          <th>What's Minimized</th>
+          <th>What It Governs</th>
+        </tr>
+        <tr>
+          <td>Least Action</td>
+          <td>Action \(S\)</td>
+          <td>Classical particle/field dynamics</td>
+        </tr>
+        <tr>
+          <td>MHP</td>
+          <td>Holonomy \(|\Phi_R|\)</td>
+          <td>Ground state selection (derived from path integral)</td>
+        </tr>
+        <tr>
+          <td style="color:var(--gold);">DHP</td>
+          <td>Integrated holonomy \(\Omega\)</td>
+          <td>Cosmological evolution, quantum gravity</td>
+        </tr>
+      </table>
+      <p>
+        MHP is not an axiom—it's derived from the path integral saddle-point condition.
+        DHP is the dynamical extension that governs how the universe evolves.
+      </p>
+    </div>
+  </details>
+
+  <div class="block success" style="margin-top:1.5rem;">
+    <div class="title">What These 2 Axioms Produce</div>
+    <ul style="margin:0.5rem 0;color:var(--text-secondary);">
+      <li><strong>7 rigorously established results:</strong> Gaussian visibility, TEGR emergence, energy conditions, MHP derivation, moduli stabilization, DHP equations, XCRM closure</li>
+      <li><strong>8 well-motivated proposals:</strong> SM gauge group, 3 generations, Yukawa hierarchies, UV finiteness, dark matter (LKP), neutrino masses, CP violation, cosmological constant</li>
+      <li><strong>1 dynamically stabilized parameter:</strong> \(L_X\) (the orbifold size)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SECTION 4: PREDICTIONS & TESTS -->
+<section class="section" id="predictions">
+  <h2>4. The Falsifiable Prediction</h2>
+
+  <p>
+    STUR makes one sharp, testable prediction: the visibility in interferometers decays as a
+    Gaussian function of path difference squared.
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\color{#f472b6}{V(\Delta L)} = V_0 \exp\!\left(-\frac{(\color{#fb923c}{\Delta L})^2}{(\color{#22d3ee}{\ell_{\rm coh}})^2}\right)}\]
+    <div class="eq-label" style="color:var(--gold);">The STUR Visibility Prediction</div>
+  </div>
+
+  <details class="learn-box derivation">
+    <summary>
+      Step-by-Step Derivation
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <div class="walkthrough">
+        <div class="step">
+          <div class="step-content">
+            <strong>Fermions couple to R via Yukawa</strong>
+            The matter Lagrangian contains \(yR\bar\psi\psi\). This makes the effective mass
+            \(m_{\rm eff} = m_0 + yR\), which fluctuates with \(R\).
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <strong>Phase accumulates along paths</strong>
+            In an interferometer, particles travel different paths. The phase along each path
+            depends on the local mass: \(\phi = \int p\, d\ell\), where \(p\) includes \(R\)-dependent corrections.
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <strong>Define the resistance holonomy</strong>
+            The phase difference between arms is the "resistance holonomy":
+            \[\Phi_R = \oint_\gamma y\, \partial_a R\, dx^a\]
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <strong>Apply Central Limit Theorem</strong>
+            Many uncorrelated \(R\) fluctuations contribute to \(\Phi_R\). By CLT, the phase
+            distribution is Gaussian: \(P(\Phi_R) \propto \exp(-\Phi_R^2/2\sigma^2)\).
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <strong>Compute visibility</strong>
+            Visibility is \(V = |\langle e^{i\Phi_R}\rangle|\). For Gaussian phases:
+            \[V = \exp(-\langle\Phi_R^2\rangle/2)\]
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <strong>Phase variance scales as ΔL²</strong>
+            For linear paths, \(\langle\Phi_R^2\rangle = (\Delta L/\ell_{\rm coh})^2\).
+            Substituting: \(V = V_0\exp(-\Delta L^2/\ell_{\rm coh}^2)\).
+          </div>
+        </div>
+      </div>
+
+      <div class="block success">
+        <div class="title">This Is a Theorem, Not a Model</div>
+        <p style="margin:0;color:var(--text-secondary)">
+          Given STUR's axioms, the Gaussian visibility law follows mathematically from the
+          Central Limit Theorem. Any deviation from Gaussian form falsifies the theory.
+        </p>
+      </div>
+    </div>
+  </details>
+
+  <details class="learn-box comparison">
+    <summary>
+      How to Distinguish STUR from Alternatives
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <p>If you see visibility decay in an interferometer, how do you know if it's STUR or something else (like ultra-light dark matter)?</p>
+
+      <table class="comparison-table">
+        <tr>
+          <th>Feature</th>
+          <th class="stur">STUR</th>
+          <th class="standard">ULDM</th>
+        </tr>
+        <tr>
+          <td>Functional form</td>
+          <td>Gaussian in \(\Delta L^2\)</td>
+          <td>Cosine oscillation</td>
+        </tr>
+        <tr>
+          <td>Time dependence</td>
+          <td>None (equilibrium)</td>
+          <td>Sinusoidal at \(m_\phi/2\pi\)</td>
+        </tr>
+        <tr>
+          <td>Mass dependence</td>
+          <td>None</td>
+          <td>Frequency \(\propto m_\phi\)</td>
+        </tr>
+        <tr>
+          <td>Spatial scaling</td>
+          <td>Quadratic in \(\Delta L\)</td>
+          <td>Linear in \(\Delta L\)</td>
+        </tr>
+      </table>
+
+      <div class="block warning">
+        <div class="title">Kill Criteria for STUR</div>
+        <ul style="margin:0.5rem 0;color:var(--text-secondary);">
+          <li>Visibility linear in \(\Delta L\) (not quadratic) → STUR falsified</li>
+          <li>Time-oscillating visibility → STUR falsified</li>
+          <li>Mass-dependent coherence length → STUR falsified</li>
+          <li>Exponential (not Gaussian) decay → STUR falsified</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+</section>
+
+<!-- NEXT STEPS -->
+<section class="section" id="next-steps" style="background:rgba(251,191,36,0.04);border:1px solid rgba(251,191,36,0.2);">
+  <h2 style="color:var(--gold);">Continue Your Learning</h2>
+
+  <div class="concept-grid">
+    <div class="concept-card" style="border-color:rgba(251,191,36,0.2);">
+      <div class="concept-title" style="color:var(--gold);">Core Theory</div>
+      <div class="concept-desc">
+        Full technical presentation with all derivations and color-coded equations.
+      </div>
+      <p style="margin-top:0.75rem;"><a href="stur_core_theory.html" style="color:var(--gold);">Read Core Theory →</a></p>
+    </div>
+    <div class="concept-card" style="border-color:rgba(167,139,250,0.2);">
+      <div class="concept-title" style="color:#a78bfa;">MHP Derivation</div>
+      <div class="concept-desc">
+        How the Minimized Holonomy Principle emerges from the path integral.
+      </div>
+      <p style="margin-top:0.75rem;"><a href="stur_mhp_derivation.html" style="color:#a78bfa;">Read Derivation →</a></p>
+    </div>
+    <div class="concept-card" style="border-color:rgba(74,222,128,0.2);">
+      <div class="concept-title" style="color:#4ade80;">Predictions</div>
+      <div class="concept-desc">
+        Detailed interferometric predictions and coherence length estimates.
+      </div>
+      <p style="margin-top:0.75rem;"><a href="stur_predictions.html" style="color:#4ade80;">See Predictions →</a></p>
+    </div>
+    <div class="concept-card" style="border-color:rgba(248,113,113,0.2);">
+      <div class="concept-title" style="color:#f87171;">Falsification</div>
+      <div class="concept-desc">
+        Experimental protocols and criteria for excluding STUR.
+      </div>
+      <p style="margin-top:0.75rem;"><a href="stur_falsification.html" style="color:#f87171;">Test Protocol →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="../index.html" class="prev">Index</a>
+  <a href="stur_core_theory.html" class="next">Core Theory</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>Learn STUR Physics</strong></p>
+  <p>Educational Guide</p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

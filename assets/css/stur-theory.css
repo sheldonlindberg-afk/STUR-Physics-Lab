@@ -596,6 +596,363 @@ code {
 }
 
 /* ============================================================
+   EDUCATIONAL / COLLAPSIBLE SECTIONS
+   Multi-level expandable content for teaching physics
+   ============================================================ */
+
+/* Base expandable container */
+.learn-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  margin: 0.75rem 0;
+  overflow: hidden;
+}
+
+.learn-box summary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+  transition: background 0.2s, color 0.2s;
+  list-style: none;
+  user-select: none;
+}
+
+.learn-box summary::-webkit-details-marker { display: none; }
+
+.learn-box summary::before {
+  content: "▸";
+  font-size: 0.75rem;
+  color: var(--accent);
+  transition: transform 0.2s;
+}
+
+.learn-box[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.learn-box summary:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.learn-box .learn-content {
+  padding: 0 1rem 1rem;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Level indicators - tags showing depth */
+.learn-level {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  margin-left: auto;
+}
+
+.learn-level.beginner {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+}
+
+.learn-level.intermediate {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+}
+
+.learn-level.advanced {
+  background: rgba(167, 139, 250, 0.15);
+  color: #a78bfa;
+}
+
+/* Specific box types */
+.learn-box.prerequisite {
+  border-color: rgba(96, 165, 250, 0.2);
+  background: rgba(96, 165, 250, 0.02);
+}
+
+.learn-box.prerequisite summary { color: #60a5fa; }
+.learn-box.prerequisite summary::before { color: #60a5fa; }
+
+.learn-box.analogy {
+  border-color: rgba(74, 222, 128, 0.2);
+  background: rgba(74, 222, 128, 0.02);
+}
+
+.learn-box.analogy summary { color: #4ade80; }
+.learn-box.analogy summary::before { color: #4ade80; }
+
+.learn-box.derivation {
+  border-color: rgba(167, 139, 250, 0.2);
+  background: rgba(167, 139, 250, 0.02);
+}
+
+.learn-box.derivation summary { color: #a78bfa; }
+.learn-box.derivation summary::before { color: #a78bfa; }
+
+.learn-box.comparison {
+  border-color: rgba(251, 191, 36, 0.2);
+  background: rgba(251, 191, 36, 0.02);
+}
+
+.learn-box.comparison summary { color: #fbbf24; }
+.learn-box.comparison summary::before { color: #fbbf24; }
+
+.learn-box.example {
+  border-color: rgba(34, 211, 238, 0.2);
+  background: rgba(34, 211, 238, 0.02);
+}
+
+.learn-box.example summary { color: #22d3ee; }
+.learn-box.example summary::before { color: #22d3ee; }
+
+/* Nested learn boxes */
+.learn-box .learn-box {
+  margin: 0.5rem 0;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* Step-by-step walkthrough */
+.walkthrough {
+  counter-reset: step;
+}
+
+.walkthrough .step {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--accent);
+}
+
+.walkthrough .step::before {
+  counter-increment: step;
+  content: counter(step);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.walkthrough .step-content {
+  flex: 1;
+}
+
+.walkthrough .step-content strong {
+  display: block;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+/* Concept cards for teaching */
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.concept-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+}
+
+.concept-card .concept-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.concept-card .concept-title {
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.concept-card .concept-desc {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* Physics intuition blocks */
+.intuition-block {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.05) 0%, rgba(167, 139, 250, 0.05) 100%);
+  border: 1px solid rgba(251, 191, 36, 0.15);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin: 1rem 0;
+}
+
+.intuition-block .intuition-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.intuition-block .intuition-header::before {
+  content: "💡";
+}
+
+/* Standard physics comparison table */
+.comparison-table {
+  width: 100%;
+  margin: 0.75rem 0;
+  border-collapse: collapse;
+}
+
+.comparison-table th {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comparison-table th:first-child {
+  color: var(--text-muted);
+}
+
+.comparison-table th.standard {
+  color: #60a5fa;
+}
+
+.comparison-table th.stur {
+  color: var(--gold);
+}
+
+.comparison-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+.comparison-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Learning path / roadmap */
+.learning-path {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 1rem 0;
+}
+
+.learning-path .path-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  position: relative;
+}
+
+.learning-path .path-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 40px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), rgba(255, 255, 255, 0.1));
+}
+
+.learning-path .path-marker {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.learning-path .path-content {
+  flex: 1;
+}
+
+.learning-path .path-title {
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.learning-path .path-desc {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+/* Mobile responsiveness for educational elements */
+@media (max-width: 600px) {
+  .learn-box summary {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .learn-level {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .learn-box .learn-content {
+    padding: 0 0.85rem 0.85rem;
+    font-size: 0.88rem;
+  }
+
+  .concept-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .walkthrough .step {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .walkthrough .step::before {
+    align-self: flex-start;
+  }
+
+  .intuition-block {
+    padding: 1rem;
+  }
+}
+
+/* ============================================================
    BADGES / META
    ============================================================ */
 .meta {

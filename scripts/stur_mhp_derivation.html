@@ -25,9 +25,9 @@
     </button>
     <div class="glass-nav-links">
       <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_learn.html" class="glass-nav-link">Learn</a>
       <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
       <a href="stur_mhp_derivation.html" class="glass-nav-link active">MHP Derivation</a>
-      <a href="stur_technical_appendix.html" class="glass-nav-link">Appendix</a>
     </div>
   </nav>
 </header>
@@ -78,6 +78,50 @@
   </div>
 </section>
 
+<!-- EDUCATIONAL: Prerequisites for this derivation -->
+<section class="section" style="background:rgba(96,165,250,0.04);border:1px solid rgba(96,165,250,0.2);">
+  <h2 style="color:#60a5fa;">Before You Read This Derivation</h2>
+
+  <details class="learn-box prerequisite" open>
+    <summary>
+      Prerequisites You Need
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>This derivation assumes familiarity with:</strong></p>
+      <ul>
+        <li><strong>Path integrals:</strong> \(Z = \int \mathcal{D}\phi\, e^{iS[\phi]}\) and saddle-point approximations</li>
+        <li><strong>Gauge theory:</strong> Gauge transformations, Wilson loops \(W = \mathcal{P}e^{i\oint A}\)</li>
+        <li><strong>Faddeev-Popov:</strong> The gauge-fixing procedure that introduces ghost fields and a determinant</li>
+      </ul>
+      <p style="margin-top:0.75rem;">
+        <a href="stur_learn.html#prerequisites" style="color:var(--accent);">Learn these prerequisites first →</a>
+      </p>
+    </div>
+  </details>
+
+  <details class="learn-box analogy">
+    <summary>
+      The Big Picture: What We're Proving
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <div class="intuition-block">
+        <div class="intuition-header">Key Insight</div>
+        <p>
+          In quantum theory, physical configurations aren't just "allowed"—they have different <strong>weights</strong>
+          in the path integral. When we properly account for gauge symmetry on the orbifold, we find that
+          configurations with <strong>smaller holonomy</strong> are exponentially favored.
+        </p>
+      </div>
+      <p>
+        <strong>The result:</strong> MHP isn't a new assumption. It's what you get when you correctly do QFT on an orbifold.
+        The universe "wants" to minimize holonomy because that's what the math says is most probable.
+      </p>
+    </div>
+  </details>
+</section>
+
 <!-- SECTION 1: MHP DERIVATION -->
 <section class="section" id="mhp-derivation" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
   <h2 style="color:var(--success);">1. Deriving MHP from the Path Integral</h2>
@@ -88,6 +132,32 @@
       <strong>The Minimum Holonomy Principle is not an independent axiom—it is the saddle point condition for the holonomy-weighted path integral.</strong>
     </p>
   </div>
+
+  <!-- EDUCATIONAL: What is a saddle point? -->
+  <details class="learn-box example">
+    <summary>
+      What Is a Saddle Point Condition?
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <p>
+        In the path integral, we sum over all possible field configurations. In the classical limit (\(\hbar \to 0\)),
+        the sum is dominated by configurations where the action is <strong>stationary</strong>: \(\delta S = 0\).
+      </p>
+      <p>
+        These are called "saddle points" because the action is like a surface, and stationary points are where
+        the surface is flat (neither increasing nor decreasing in any direction).
+      </p>
+      <div class="intuition-block">
+        <div class="intuition-header">Analogy</div>
+        <p>
+          Imagine summing \(e^{-x^2}\) over all \(x\). Most of the contribution comes from near \(x=0\)
+          where the exponent is largest. Similarly, in the path integral, most contribution comes from
+          configurations that minimize the effective action.
+        </p>
+      </div>
+    </div>
+  </details>
 
   <h3>1.1 The Fundamental Path Integral</h3>
 
