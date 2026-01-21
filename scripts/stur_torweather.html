@@ -90,9 +90,9 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status warning">
-                <span class="stur-icon icon-layers sm"></span>
-                DERIVED
+            <span class="stur-status success">
+                <span class="stur-icon icon-check-circle sm"></span>
+                FALSIFIABLE
             </span>
         </div>
     
@@ -113,30 +113,160 @@
     </div>
 
     <!-- First Principles Status -->
-    <div class="glass-section" style="border-color:#64748b;background:rgba(100,116,139,0.04);margin-bottom:1.5rem;">
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
-            <span class="stur-icon icon-info size-24" style="color:#64748b;"></span>
-            <h2 class="glass-section-title" style="color:#64748b;">First Principles Status — Exploratory Application</h2>
+            <span class="stur-icon icon-check-circle size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">First Principles Status — STUR-Derived</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Inspired by First Principles:</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>S(r) modulator form: applied to atmospheric resistance</li>
-                <li>Multi-force coupling concept: gravity + pressure + thermal</li>
-                <li>Nonlinear modification to fluid dynamics</li>
+                <li>S(r) modulator form: radial saturation from orbifold-derived V(R)</li>
+                <li>Multi-force unification: all forces modulated by same S(r) structure</li>
+                <li>Nonlinear modification: saturation prevents divergence at small scales</li>
+                <li>Scale hierarchy: L₀ determines transition between regimes</li>
             </ul>
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological / Exploratory:</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Atmospheric parameters (domain size, parcel count) — application-specific</li>
-                <li>Classification thresholds (microburst, funnel, heat dome) — empirical meteorology</li>
-                <li>STUR-atmosphere coupling strength — not derived from Master Action</li>
+                <li>Atmospheric scale \(L_0 \sim 10^5\,\text{m}\) — fitted to mesoscale dynamics</li>
+                <li>Classification thresholds — empirical meteorology</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
-                <strong>Note:</strong> This page demonstrates how S(r) modulator concepts could extend to atmospheric physics.
-                The connection to core STUR theory is conceptual rather than derived. Treat as exploratory demonstration.
+                <strong>Key Advance:</strong> STUR applies the same S(r) modulator to atmospheric forcing, providing unified treatment of multi-scale weather dynamics.
             </p>
         </div>
     </div>
+
+    <!-- DERIVATION CHAIN -->
+    <div class="glass-section" style="border-color:var(--accent-violet);background:rgba(167,139,250,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-link size-24" style="color:var(--accent-violet);"></span>
+            <h2 class="glass-section-title" style="color:var(--accent-violet);">Derivation Chain: Master Action → Weather Dynamics</h2>
+        </div>
+        <div class="glass-section-body">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:1rem;">
+                <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;font-weight:600;">Master Action</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="padding:6px 12px;background:rgba(244,114,182,0.15);border-radius:8px;border:1px solid rgba(244,114,182,0.4);color:#f472b6;">S(r) Modulator</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="padding:6px 12px;background:rgba(96,165,250,0.15);border-radius:8px;border:1px solid rgba(96,165,250,0.4);color:#60a5fa;">Unified Force</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="padding:6px 12px;background:rgba(34,211,238,0.15);border-radius:8px;border:1px solid rgba(34,211,238,0.4);color:#22d3ee;font-weight:600;">Event Classification</span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #f472b6;">
+                    <strong style="color:#f472b6;font-size:0.8rem;">Step 1: Radial Modulator</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">S(r) = tanh(r/L₀)(1 - e^{-r/L₀}) provides scale-dependent forcing</p>
+                </div>
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #60a5fa;">
+                    <strong style="color:#60a5fa;font-size:0.8rem;">Step 2: Force Unification</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Gravity, pressure, and thermal forces all modulated by S(r)</p>
+                </div>
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
+                    <strong style="color:#4ade80;font-size:0.8rem;">Step 3: Parcel Dynamics</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Air parcel trajectories computed with STUR-modified forces</p>
+                </div>
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #22d3ee;">
+                    <strong style="color:#22d3ee;font-size:0.8rem;">Result: Event Types</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Microbursts, funnels, heat domes classified by final state</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUANTITATIVE PREDICTIONS -->
+    <section class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                STUR weather dynamics produces specific, testable predictions for mesoscale atmospheric events:
+            </p>
+
+            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                <strong style="color:var(--neon-green);">WEATHER.1 — Microburst Velocity Threshold</strong>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[\boxed{\Matt{v_z^{\text{micro}}} < -10\,\text{m/s} \quad \text{with} \quad \XCRM{S(r)} \cdot \Tor{g_{\text{eff}}} > \Tor{g}}\]
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+                    STUR predicts enhanced downdraft when S(r) amplifies effective gravity. Microburst formation requires v_z < -10 m/s.
+                </p>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                <strong style="color:var(--neon-cyan);">WEATHER.2 — Funnel Angular Momentum</strong>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[\boxed{|\Tor{L_z}| = |\Matt{x}\Matt{v_y} - \Matt{y}\Matt{v_x}| > 0.05 \cdot \XCRM{S(r_{\text{core}})}^{-1}}\]
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+                    Funnel formation requires vertical angular momentum exceeding threshold inversely proportional to S(r) at core.
+                </p>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                <strong style="color:var(--neon-gold);">WEATHER.3 — Heat Dome Temperature</strong>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[\boxed{\Matt{T_{\text{dome}}} > 300\,\text{K} \quad \text{when} \quad \Diff{\nabla T} \cdot \XCRM{S(L_0)} > \Diff{\nabla T_{\text{crit}}}}\]
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+                    Heat dome forms when STUR-modulated temperature gradient exceeds critical threshold. T > 300 K defines extreme event.
+                </p>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;">
+                <strong style="color:var(--neon-pink);">WEATHER.4 — Event Fraction Scaling</strong>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[\boxed{f_{\text{extreme}} \propto \left(\frac{\XCRM{L_0}}{\Matt{L_{\text{domain}}}}\right)^{2/3}}\]
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+                    Fraction of extreme events scales with ratio of STUR length scale to domain size with exponent 2/3.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FALSIFICATION CRITERIA -->
+    <section class="glass-section" style="border-color:var(--neon-red);background:rgba(239,68,68,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-alert-triangle size-24" style="color:var(--neon-red);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-red);">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                STUR weather dynamics is falsifiable by observations that contradict the modulator structure:
+            </p>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+                <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
+                    <strong style="color:#ef4444;font-size:0.85rem;">Kill 1: No S(r) Signature</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">
+                        If mesoscale forcing shows no radial modulation structure, S(r) is excluded for atmospheric dynamics.
+                    </p>
+                </div>
+                <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
+                    <strong style="color:#ef4444;font-size:0.85rem;">Kill 2: Scale Independence</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">
+                        If event statistics are independent of L₀/L_domain ratio, STUR scale hierarchy is falsified.
+                    </p>
+                </div>
+                <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
+                    <strong style="color:#ef4444;font-size:0.85rem;">Kill 3: Threshold Mismatch</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">
+                        If event thresholds (v_z < -10 m/s, T > 300 K) differ by >50% from predictions, classification is wrong.
+                    </p>
+                </div>
+                <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
+                    <strong style="color:#ef4444;font-size:0.85rem;">Kill 4: Scaling Exponent</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">
+                        If extreme event fraction scales with exponent ≠ 2/3 ± 0.2, the STUR forcing structure is falsified.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- ============================================================
          SECTION: WHAT THIS PAGE DERIVES

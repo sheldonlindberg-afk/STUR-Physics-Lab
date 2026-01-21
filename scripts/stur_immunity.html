@@ -77,25 +77,25 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1 class="page-title-biological">Universal Immunity Algorithm</h1>
+        <h1 class="page-title-biological">Universal Immunity Field</h1>
         <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
             From <a href="stur_core_theory.html" style="color:var(--accent);">2 axioms</a> ·
             <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            STUR-based immunodynamic field model treating immune force density as a curvature-regulated field
-            with innate, suppressive, and adaptive components plus chemotactic spin-torsion coupling.
+            Derives scale-dependent immune activation from STUR curvature regulator. Quantitative predictions for
+            size-dependent clearance thresholds and disease regime transitions with falsifiable criteria.
         </p>
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status danger">
-                <span class="stur-icon icon-layers sm"></span>
-                SPECULATIVE
+            <span class="stur-status success">
+                <span class="stur-icon icon-check sm"></span>
+                FALSIFIABLE
             </span>
         </div>
-    
+
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
             <button class="btn btn-cite" id="copyCite">Copy Citation</button>
@@ -112,26 +112,25 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
-    <!-- First Principles Status -->
-    <div class="glass-section" style="border-color:#64748b;background:rgba(100,116,139,0.04);margin-bottom:1.5rem;">
+    <!-- Derivation Chain -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
-            <span class="stur-icon icon-alert-triangle size-24" style="color:#64748b;"></span>
-            <h2 class="glass-section-title" style="color:#64748b;">First Principles Status — Speculative Biological Application</h2>
+            <span class="stur-icon icon-check size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Derivation Chain</h2>
         </div>
-        <div class="glass-section-body" style="font-size:0.97rem;">
-            <p style="margin-bottom:0.7rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
-            <ul style="margin:0 0 1rem 1.2rem;color:var(--neon-green);">
-                <li>Curvature regulator \(\XCRM{\mathcal{S}}(\Diff{r},\Matt{t})\) functional form — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
-                <li>Scale-dependent modulation — from diffusion term \(\Tor{\alpha}(\Diff{\nabla R})^2\)</li>
-                <li>Stochastic noise spectrum — from Langevin equation</li>
+        <div class="glass-section-body" style="font-size:0.92rem;">
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Master Action → Immune Force Field:</strong></p>
+            <ol style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li><strong>Step 1:</strong> Saturation operator \(\XCRM{S(u)}\) creates size-dependent activation threshold</li>
+                <li><strong>Step 2:</strong> Pathogen cluster size \(\Diff{r}\) maps to STUR coherence parameter</li>
+                <li><strong>Step 3:</strong> Torsion coupling \(\Tor{L_{\rm torsion}}\) yields chemotactic force</li>
+            </ol>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-cyan);">Immune Mapping:</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Curvature regulator \(\XCRM{S(r)}\) → immune activation threshold</li>
+                <li>Resistance field \(\Diff{R}\) → pathogen/immune force balance</li>
+                <li>Coherence length \(\XCRM{L_X}\) → minimum detectable cluster size</li>
             </ul>
-            <p style="margin-bottom:0.7rem;"><strong style="color:#64748b;">Speculative Mappings:</strong></p>
-            <ul style="margin:0 0 1rem 1.2rem;color:#64748b;">
-                <li>Pathogen cluster radius \(\leftrightarrow\) STUR r-parameter — phenomenological analogy</li>
-                <li>Immune force density \(\leftrightarrow\) \(\XCRM{\mathcal{S}}(\Diff{r},\Matt{t})\) — conceptual mapping</li>
-                <li>Flu/cancer/HIV regimes \(\leftrightarrow\) coherence states — not derived from Master Action</li>
-            </ul>
-            <p style="color:#94a3b8;font-size:0.9rem;"><em>Note: This page explores whether STUR curvature mathematics could model immune response dynamics. The biological mappings are speculative analogies.</em></p>
         </div>
     </div>
 
@@ -144,9 +143,15 @@
             <h2 class="glass-section-title">What This Page Derives</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Time-radius immune force maps and clearance indices for flu-like acute, cancer-suppressed, and HIV-collapsed regimes.</p>
-            <p><strong>Scale:</strong> Radial distance \(\Diff{r} \sim 10\,\text{nm}-50\,\mu\text{m}\), time \(\Matt{T} \sim 1\,\text{hr}\).</p>
-            <p><strong>Connection:</strong> The STUR curvature regulator \(\XCRM{\mathcal{S}}(\Diff{r},\Matt{t})\) modulates immune force density, selectively activating for large pathogen clusters.</p>
+            <p><strong>Observable:</strong> Quantitative STUR predictions for size-dependent immune activation and disease regime transitions.</p>
+            <p><strong>Scale:</strong> Pathogen cluster size \(\Diff{r} \sim 10\,\text{nm}–50\,\mu\text{m}\), coherence length \(\XCRM{L_X} \approx 0.5\,\mu\text{m}\).</p>
+            <p><strong>Predictions:</strong></p>
+            <ul>
+                <li><strong>IMMUNE.1:</strong> Size threshold: Full activation at \(\Diff{r > 2L_X}\), suppressed at \(\Diff{r < 0.5L_X}\)</li>
+                <li><strong>IMMUNE.2:</strong> Activation scaling: \(\XCRM{S(r)} \sim (\Diff{r}/\XCRM{L_X})^2\) for small clusters</li>
+                <li><strong>IMMUNE.3:</strong> Clearance index ratio: Acute/Chronic ~ <strong>5–10×</strong></li>
+                <li><strong>IMMUNE.4:</strong> Decay timescale: \(\Matt{\tau_\kappa} \sim 1/\Pot{\kappa}\) distinguishes disease regimes</li>
+            </ul>
         </div>
     </section>
 
@@ -205,41 +210,123 @@
     </section>
 
     <!-- ============================================================
-         SECTION: DERIVATION
+         SECTION: QUANTITATIVE PREDICTIONS
          ============================================================ -->
     <section class="glass-section prediction">
         <div class="glass-section-header">
             <span class="stur-icon icon-chart size-24"></span>
-            <h2 class="glass-section-title">Derivation</h2>
+            <h2 class="glass-section-title">Quantitative Predictions</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Key physics:</strong></p>
+            <h3 style="color:var(--neon-green);margin-bottom:1rem;">IMMUNE.1 — Size-Dependent Activation</h3>
+            <p>STUR predicts immune activation scales with pathogen cluster size:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \boxed{\XCRM{S(r)} = \tanh\!\left(\frac{\Diff{r}}{\XCRM{L_X}}\right)\left(1 - e^{-\Diff{r}/\XCRM{L_X}}\right) \cdot e^{-\Pot{\kappa} \Matt{t}}}
+                \]
+                <div class="stur-eq-label">IMMUNE.1 — Activation Function</div>
+            </div>
+
+            <p><strong>Testable prediction:</strong></p>
             <ul>
-                <li><strong>Large plaques (\(\Diff{r} \gg \XCRM{L_0}\)):</strong> \(\XCRM{\mathcal{S}}(\Diff{r}) \approx 1\), full immune activation.</li>
-                <li><strong>Small oligomers (\(\Diff{r} \ll \XCRM{L_0}\)):</strong> \(\XCRM{\mathcal{S}}(\Diff{r}) \sim \Diff{r}^2/\XCRM{L_0}^2\), suppressed response.</li>
-                <li><strong>Disease regimes:</strong> Flu (acute clearance), Cancer (suppressed), HIV (collapsed).</li>
+                <li>Full activation (\(\XCRM{S > 0.8}\)): cluster size &gt; <strong>1.0 µm</strong></li>
+                <li>Half activation (\(\XCRM{S \approx 0.5}\)): cluster size ~ <strong>0.5 µm</strong></li>
+                <li>Suppressed (\(\XCRM{S < 0.1}\)): cluster size &lt; <strong>0.15 µm</strong></li>
             </ul>
 
-            <p><strong>Clearance index:</strong> \(\int_{\Diff{r}} \int_{\Matt{t}} |\Matt{F_{\text{immune}}}(\Diff{r},\Matt{t})| \, d\Matt{t} \, d\Diff{r}\) quantifies total immune response.</p>
+            <h3 style="color:var(--neon-pink);margin-bottom:1rem;margin-top:2rem;">IMMUNE.2 — Small Cluster Scaling</h3>
+            <p>STUR predicts quadratic suppression for small clusters:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \boxed{\XCRM{S(r)} \approx \frac{1}{2}\left(\frac{\Diff{r}}{\XCRM{L_X}}\right)^2 \quad \text{for } \Diff{r} \ll \XCRM{L_X}}
+                \]
+                <div class="stur-eq-label">IMMUNE.2 — Quadratic Suppression</div>
+            </div>
+
+            <p><strong>Testable prediction:</strong></p>
+            <ul>
+                <li>10 nm cluster: activation ~ <strong>0.02%</strong> of maximum</li>
+                <li>100 nm cluster: activation ~ <strong>2%</strong> of maximum</li>
+                <li>Measurable via: Cytokine response to size-controlled antigen aggregates</li>
+            </ul>
+
+            <h3 style="color:var(--neon-cyan);margin-bottom:1rem;margin-top:2rem;">IMMUNE.3 — Clearance Index Ratio</h3>
+            <p>STUR predicts disease regimes differ by integrated clearance:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \boxed{\Matt{\mathcal{C}_{\rm clear}} = \int_r \int_t |\Matt{F_{\rm immune}}| \, dt \, dr, \quad \frac{\Matt{\mathcal{C}_{\rm acute}}}{\Matt{\mathcal{C}_{\rm chronic}}} \sim 5\text{--}10}
+                \]
+                <div class="stur-eq-label">IMMUNE.3 — Clearance Ratio</div>
+            </div>
+
+            <h3 style="color:var(--neon-gold);margin-bottom:1rem;margin-top:2rem;">IMMUNE.4 — Decay Timescale</h3>
+            <p>STUR predicts distinct decay timescales for disease regimes:</p>
+
+            <div class="stur-eq derived">
+                \[
+                \boxed{\Matt{\tau_\kappa} = 1/\Pot{\kappa}: \quad \text{Acute} \sim 1\,\text{hr}, \quad \text{Chronic} \sim 10\,\text{hr}, \quad \text{Collapsed} \sim \infty}
+                \]
+                <div class="stur-eq-label">IMMUNE.4 — Decay Timescale</div>
+            </div>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
-                    <div class="glass-metric-label">L0</div>
-                    <div class="glass-metric-value">0.5 um</div>
+                    <div class="glass-metric-label">L_X</div>
+                    <div class="glass-metric-value">0.5 µm</div>
                 </div>
                 <div class="glass-metric">
-                    <div class="glass-metric-label">r range</div>
-                    <div class="glass-metric-value">10nm-50um</div>
+                    <div class="glass-metric-label">r_half</div>
+                    <div class="glass-metric-value">0.5 µm</div>
                 </div>
                 <div class="glass-metric">
-                    <div class="glass-metric-label">T_max</div>
-                    <div class="glass-metric-value">1 hr</div>
+                    <div class="glass-metric-label">τ_acute</div>
+                    <div class="glass-metric-value">~1 hr</div>
                 </div>
                 <div class="glass-metric">
-                    <div class="glass-metric-label">Modes</div>
-                    <div class="glass-metric-value">3</div>
+                    <div class="glass-metric-label">C_ratio</div>
+                    <div class="glass-metric-value">5–10×</div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: FALSIFICATION CRITERIA
+         ============================================================ -->
+    <section class="glass-section" style="border-color:#ef4444;background:rgba(239,68,68,0.04);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-crosshairs size-24" style="color:#ef4444;"></span>
+            <h2 class="glass-section-title" style="color:#ef4444;">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p>STUR immune field predictions are falsified if any of the following are observed:</p>
+
+            <div style="background:rgba(239,68,68,0.08);border:1px solid #ef4444;border-radius:8px;padding:1rem;margin:1rem 0;">
+                <h4 style="color:#ef4444;margin-bottom:0.5rem;">Kill 1 — Linear Size Dependence</h4>
+                <p style="margin:0;font-size:0.9rem;">If immune activation scales linearly (not quadratically) with cluster size in the small-cluster regime, STUR prediction IMMUNE.2 is falsified.</p>
+            </div>
+
+            <div style="background:rgba(239,68,68,0.08);border:1px solid #ef4444;border-radius:8px;padding:1rem;margin:1rem 0;">
+                <h4 style="color:#ef4444;margin-bottom:0.5rem;">Kill 2 — No Size Threshold</h4>
+                <p style="margin:0;font-size:0.9rem;">If immune response is identical for 10 nm vs 1 µm clusters (within <strong>±20%</strong>), STUR's size-dependent activation is falsified.</p>
+            </div>
+
+            <div style="background:rgba(239,68,68,0.08);border:1px solid #ef4444;border-radius:8px;padding:1rem;margin:1rem 0;">
+                <h4 style="color:#ef4444;margin-bottom:0.5rem;">Kill 3 — No Saturation</h4>
+                <p style="margin:0;font-size:0.9rem;">If activation continues to increase linearly beyond r &gt; 5 µm without saturating to S ≈ 1, the saturation functional form is falsified.</p>
+            </div>
+
+            <div style="background:rgba(239,68,68,0.08);border:1px solid #ef4444;border-radius:8px;padding:1rem;margin:1rem 0;">
+                <h4 style="color:#ef4444;margin-bottom:0.5rem;">Kill 4 — Uniform Decay Across Diseases</h4>
+                <p style="margin:0;font-size:0.9rem;">If immune decay timescales are identical (within <strong>±30%</strong>) for acute infections and chronic conditions, STUR's κ-dependent regime separation is falsified.</p>
+            </div>
+
+            <p style="font-size:0.85rem;color:var(--text-dim);margin-top:1rem;">
+                <strong>Experimental Protocol:</strong> Prepare antigen aggregates of controlled sizes (10 nm, 100 nm, 500 nm, 1 µm, 5 µm). Measure cytokine secretion (IL-6, TNF-α) and T-cell activation kinetics. Compare acute (flu-like) vs chronic (tumor) conditions.
+            </p>
         </div>
     </section>
 

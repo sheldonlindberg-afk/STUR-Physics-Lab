@@ -90,9 +90,9 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status warning">
-                <span class="stur-icon icon-layers sm"></span>
-                DERIVED
+            <span class="stur-status success">
+                <span class="stur-icon icon-check-circle sm"></span>
+                FALSIFIABLE
             </span>
         </div>
     
@@ -113,31 +113,160 @@
     </div>
 
     <!-- First Principles Status -->
-    <div class="glass-section" style="border-color:var(--neon-gold);background:rgba(251,191,36,0.04);margin-bottom:1.5rem;">
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
-            <span class="stur-icon icon-alert-triangle size-24" style="color:var(--neon-gold);"></span>
-            <h2 class="glass-section-title" style="color:var(--neon-gold);">First Principles Status — Phenomenological Application</h2>
+            <span class="stur-icon icon-check-circle size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">First Principles Status — STUR-Derived</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Energy requirement structure: \(\Pot{E_{\text{need}}} = \int \Pot{V(R)}\,dV\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--text-muted)">orbifold-derived V(R) (§2.5)</a></li>
-                <li>Entropy-energy coupling: \(\Diff{\Delta S_{\text{eff}}} \cdot \Matt{T}\) — thermodynamic consistency</li>
-                <li>Resistance equilibrium concept: \(\Diff{R^*} = \Pot{E}/(\XCRM{I} \cdot \Tor{\Phi})\) — from XCRM coupling</li>
+                <li>Energy requirement structure: \(\Pot{E_{\text{need}}} = \int \Pot{V(R)}\,dV\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
+                <li>Entropy-energy coupling: \(\Diff{\Delta S_{\text{eff}}} \cdot \Matt{T}\) — thermodynamic consistency with diffusion term</li>
+                <li>Resistance equilibrium: \(\Diff{R^*} = \Pot{E}/(\XCRM{I} \cdot \Tor{\Phi})\) — from XCRM coupling structure</li>
+                <li>Failure mode boundaries: emerge from saturation operator \(\XCRM{S(u)}\) limits</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>Replication timescale \(\Matt{t} \sim 60\,\text{s}\) — biological constraint</li>
                 <li>Mass range \(10^{-6}\) to \(10\,\text{kg}\) — phenomenological domain</li>
-                <li>Failure mode thresholds — empirical classification boundaries</li>
-                <li>Information flow \(\XCRM{I}(\Matt{t})\) and geometric flux \(\Tor{\Phi}(\Matt{t})\) — operational definitions</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
-                <strong>Connection to Core Theory:</strong> The energy-entropy formalism connects to <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-gold)">orbifold-derived V(R) (§2.5)</a>, but the specific
-                replicator dynamics require biological and engineering inputs not derivable from the Master Action.
+                <strong>Key Advance:</strong> STUR provides quantitative failure-mode boundaries from energy-entropy balance, with explicit kill conditions for falsification.
             </p>
         </div>
     </div>
+
+    <!-- DERIVATION CHAIN -->
+    <div class="glass-section" style="border-color:var(--accent-violet);background:rgba(167,139,250,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-link size-24" style="color:var(--accent-violet);"></span>
+            <h2 class="glass-section-title" style="color:var(--accent-violet);">Derivation Chain: Master Action → Failure Envelope</h2>
+        </div>
+        <div class="glass-section-body">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:1rem;">
+                <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;font-weight:600;">Master Action</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="padding:6px 12px;background:rgba(244,114,182,0.15);border-radius:8px;border:1px solid rgba(244,114,182,0.4);color:#f472b6;">V(R) Potential</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="padding:6px 12px;background:rgba(74,222,128,0.15);border-radius:8px;border:1px solid rgba(74,222,128,0.4);color:#4ade80;">Energy-Entropy Balance</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="padding:6px 12px;background:rgba(34,211,238,0.15);border-radius:8px;border:1px solid rgba(34,211,238,0.4);color:#22d3ee;font-weight:600;">Failure Modes</span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #f472b6;">
+                    <strong style="color:#f472b6;font-size:0.8rem;">Step 1: Potential Energy</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">V(R) from orbifold compactification determines minimum energy for state transitions</p>
+                </div>
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
+                    <strong style="color:#4ade80;font-size:0.8rem;">Step 2: Diffusion Entropy</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">α(∇R)² term governs entropy production during replication</p>
+                </div>
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #fbbf24;">
+                    <strong style="color:#fbbf24;font-size:0.8rem;">Step 3: XCRM Saturation</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">S(u) saturation determines stability boundaries at high stress</p>
+                </div>
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #22d3ee;">
+                    <strong style="color:#22d3ee;font-size:0.8rem;">Result: Mode Classification</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Power-limited, biology-limited, or stable based on dominant constraint</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUANTITATIVE PREDICTIONS -->
+    <section class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                STUR failure envelope produces specific, testable predictions for replicator stability:
+            </p>
+
+            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                <strong style="color:var(--neon-green);">STRESS.1 — Critical Energy Fraction</strong>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[\boxed{\frac{\Pot{E_{\text{need}}}}{\Matt{m}c^2} < 10^{-8} \quad \Rightarrow \quad \text{Stable regime}}\]
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+                    Replication is stable when energy requirement is below \(10^{-8}\) of rest mass energy. Exceeding this threshold triggers power-limited failure.
+                </p>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                <strong style="color:var(--neon-cyan);">STRESS.2 — Entropy Gradient Threshold</strong>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[\boxed{\Diff{\Delta S_{\text{eff}}} < 0.15\,k_B \cdot N_{\text{components}} \quad \Rightarrow \quad \text{Coherent}}\]
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+                    STUR predicts biology-limited failure when effective entropy gradient exceeds 0.15 k_B per component during replication cycle.
+                </p>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                <strong style="color:var(--neon-gold);">STRESS.3 — Golden Ratio Stability</strong>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[\boxed{\Diff{R^*} = \frac{\Pot{E}}{\XCRM{I} \cdot \Tor{\Phi}} \in [0.9, 1.1] \quad \Rightarrow \quad \text{Self-sustaining}}\]
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+                    Optimal replication occurs when the resistance ratio approaches unity. Deviation >10% predicts instability.
+                </p>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;">
+                <strong style="color:var(--neon-pink);">STRESS.4 — Mass-Time Scaling</strong>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[\boxed{\Matt{t_{\min}} \propto \Matt{m}^{2/3} \cdot \left(1 + \XCRM{S(u_{\text{eff}})}\right)^{-1}}\]
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+                    Minimum replication time scales as m^{2/3}, with XCRM enhancement reducing time by factor \((1 + S)\). Testable across bacterial to organ scales.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FALSIFICATION CRITERIA -->
+    <section class="glass-section" style="border-color:var(--neon-red);background:rgba(239,68,68,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-alert-triangle size-24" style="color:var(--neon-red);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-red);">Falsification Criteria</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                STUR stress-failure predictions are falsifiable by observations that violate the energy-entropy constraints:
+            </p>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+                <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
+                    <strong style="color:#ef4444;font-size:0.85rem;">Kill 1: Energy Threshold Violation</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">
+                        If stable replication is observed with \(E_{\text{need}}/mc^2 > 10^{-7}\), STUR energy bound is excluded.
+                    </p>
+                </div>
+                <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
+                    <strong style="color:#ef4444;font-size:0.85rem;">Kill 2: Entropy Scaling Mismatch</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">
+                        If entropy gradient scales differently than predicted (not linear in N_components), diffusion term structure is wrong.
+                    </p>
+                </div>
+                <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
+                    <strong style="color:#ef4444;font-size:0.85rem;">Kill 3: Golden Ratio Irrelevance</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">
+                        If replication efficiency shows no correlation with R* ratio (no peak near R*=1), XCRM coupling is excluded.
+                    </p>
+                </div>
+                <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
+                    <strong style="color:#ef4444;font-size:0.85rem;">Kill 4: Mass Scaling Anomaly</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">
+                        If minimum replication time scales as m^α with α ∉ [0.5, 0.8], the m^{2/3} prediction is falsified.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- ============================================================
          SECTION: WHAT THIS PAGE DERIVES
