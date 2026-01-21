@@ -91,8 +91,8 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status info">
-                <span class="stur-icon icon-target sm"></span>
+            <span class="stur-status success">
+                <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
         </div>
@@ -190,6 +190,77 @@
             <div style="margin-top:1rem;padding:10px 14px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
                 <strong style="color:#ef4444;font-size:0.85rem;">Falsification Criterion:</strong>
                 <span style="font-size:0.85rem;color:var(--text-secondary);">If M(τ) diverges at any epoch, or shows periodic temporal modulation characteristic of ULDM, <strong>STUR is excluded</strong>.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         QUANTITATIVE PREDICTIONS
+         ============================================================ -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
+                All predictions derived from DHP constraint via saturation operator \(\XCRM{S_u(u)} = \tanh(u)(1 - e^{-u})\).
+            </p>
+
+            <!-- CHRONO.1 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-green);">
+                <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.9rem;">CHRONO.1 — Bounded Modulation Index</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Pot{M(\tau)} = \Diff{R_q} \cdot \XCRM{S_u(u_c)} < 1 \quad \forall \tau \in [\text{Planck}, \text{Now}]
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    The chronomagnetic index remains bounded at all cosmic epochs due to saturation.
+                    <br><strong>Threshold:</strong> \(\Pot{M_{\max}} < 2.5\) for all physically realizable \(\Diff{R_q}\).
+                </p>
+            </div>
+
+            <!-- CHRONO.2 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-cyan);">
+                <h4 style="color:var(--neon-cyan);margin:0 0 0.5rem;font-size:0.9rem;">CHRONO.2 — RMSE vs Standard QM Interference</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \text{RMSE}_{\text{STUR-QM}} < 5\%
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    STUR interference patterns must match QM predictions within 5% RMSE.
+                    <br><strong>Uncertainty:</strong> ±1% from numerical integration.
+                </p>
+            </div>
+
+            <!-- CHRONO.3 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--accent-violet);">
+                <h4 style="color:var(--accent-violet);margin:0 0 0.5rem;font-size:0.9rem;">CHRONO.3 — Phase Divergence Bound</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Matt{\Delta\phi} = \frac{1}{2}\phi(1 - \Matt{D}) < \frac{\pi}{2}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Phase divergence from decoherence must remain below \(\pi/2\) radians.
+                    <br><strong>Test:</strong> If \(\Matt{\Delta\phi} \geq \pi/2\), STUR coherence mechanism is falsified.
+                </p>
+            </div>
+
+            <!-- CHRONO.4 -->
+            <div style="margin-bottom:0;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-gold);">
+                <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">CHRONO.4 — Entropy Export Rate</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Matt{\Delta S} = \frac{\langle 1 - \Matt{\text{coh}} \rangle}{\ln 2} \quad \text{bits}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Vacuum information leakage scales with coherence loss.
+                    <br><strong>Expected:</strong> \(\Matt{\Delta S} \lesssim 0.5\) bits for typical \(\Diff{R_q} \sim 1.8\).
+                </p>
             </div>
         </div>
     </div>

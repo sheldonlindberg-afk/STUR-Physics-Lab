@@ -91,8 +91,8 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status info">
-                <span class="stur-icon icon-target sm"></span>
+            <span class="stur-status success">
+                <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
         </div>
@@ -182,6 +182,77 @@
             <div style="margin-top:1rem;padding:10px 14px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
                 <strong style="color:#ef4444;font-size:0.85rem;">Falsification Criterion:</strong>
                 <span style="font-size:0.85rem;color:var(--text-secondary);">If arc dynamics deviate from V(R) form or show behavior inconsistent with XCRM equations of motion, <strong>STUR is excluded</strong>.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         QUANTITATIVE PREDICTIONS
+         ============================================================ -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
+                All predictions derived from Master Action via resistance modulator \(\XCRM{S(r)} = \tanh(r/\Matt{L_0})(1 - e^{-r/\Matt{L_0}})\).
+            </p>
+
+            <!-- ARC.1 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-green);">
+                <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.9rem;">ARC.1 — Trap Frequency from Effective Stiffness</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Diff{f_{\rm trap}} = \frac{1}{2\pi}\sqrt{\frac{\Diff{k_{\rm eff}}}{\Matt{m_B}}} = \frac{1}{2\pi}\sqrt{\frac{\Diff{k_{\rm stat}} + \Diff{k_{\rm fb}}/(\Matt{d}+\epsilon)}{\Matt{m_B}}}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    For \(\Matt{m_B} = 1\,\mu\text{g}\), \(\Diff{k_{\rm stat}} \approx 10^4\,\text{N/m}\): \(\Diff{f_{\rm trap}} \approx 500\,\text{Hz}\).
+                    <br><strong>Uncertainty:</strong> ±10% from stiffness measurement and mass calibration.
+                </p>
+            </div>
+
+            <!-- ARC.2 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-cyan);">
+                <h4 style="color:var(--neon-cyan);margin:0 0 0.5rem;font-size:0.9rem;">ARC.2 — Coherence Ratio (Thermal Stability)</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Matt{\eta_{\rm coh}} = \exp\!\Bigl(-\frac{k_B T}{\Pot{E_{\rm bind}}}\Bigr)
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    At \(T = 300\,\text{K}\), for tightly bound arcs with \(\Pot{E_{\rm bind}} \gtrsim 0.1\,\text{eV}\): \(\Matt{\eta_{\rm coh}} > 0.95\).
+                    <br><strong>Uncertainty:</strong> ±5% from temperature fluctuations.
+                </p>
+            </div>
+
+            <!-- ARC.3 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--accent-violet);">
+                <h4 style="color:var(--accent-violet);margin:0 0 0.5rem;font-size:0.9rem;">ARC.3 — Feedback Stiffening Ratio</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \frac{\Diff{k_{\rm eff}(\Matt{d})}}{\Diff{k_{\rm stat}}} > 1 \quad \text{for all } \Matt{d} > 0
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    As gap distance decreases, stiffness must increase due to XCRM feedback.
+                    <br><strong>Threshold:</strong> Ratio must exceed 1.1 at \(\Matt{d} = 10^{-14}\,\text{m}\).
+                </p>
+            </div>
+
+            <!-- ARC.4 -->
+            <div style="margin-bottom:0;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-gold);">
+                <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">ARC.4 — Modulator Saturation Behavior</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \XCRM{S(r)} \to 1 \quad \text{as } r \gg \Matt{L_0}; \quad \XCRM{S(r)} \to 0 \quad \text{as } r \to 0
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    For \(\Matt{L_0} = 10^{-10}\,\text{m}\), modulator reaches 90% saturation at \(r \approx 2.5 \Matt{L_0}\).
+                    <br><strong>Test:</strong> Measure force scaling; must follow \(\XCRM{S(r)}\) profile within ±8%.
+                </p>
             </div>
         </div>
     </div>

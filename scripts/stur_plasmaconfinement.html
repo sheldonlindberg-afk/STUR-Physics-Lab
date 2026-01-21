@@ -90,8 +90,8 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status info">
-                <span class="stur-icon icon-target sm"></span>
+            <span class="stur-status success">
+                <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
         </div>
@@ -187,6 +187,77 @@
             <div style="margin-top:1rem;padding:10px 14px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
                 <strong style="color:#ef4444;font-size:0.85rem;">Falsification Criterion:</strong>
                 <span style="font-size:0.85rem;color:var(--text-secondary);">If confinement time scales with perimeter (not area) or shows no XCRM-predicted enhancement, <strong>STUR is excluded</strong>.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         QUANTITATIVE PREDICTIONS
+         ============================================================ -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
+                All predictions derived from Master Action torsion sector via STUR-modulated Lorentz force.
+            </p>
+
+            <!-- PLASMA.1 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-green);">
+                <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.9rem;">PLASMA.1 — 4-Velocity Invariant Preservation</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \frac{|\Matt{u^\mu u_\mu} + c^2|}{c^2} < 1\%
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    The relativistic invariant must be preserved throughout integration.
+                    <br><strong>Threshold:</strong> Error &lt; 0.01 (1%) for numerical validation.
+                </p>
+            </div>
+
+            <!-- PLASMA.2 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-cyan);">
+                <h4 style="color:var(--neon-cyan);margin:0 0 0.5rem;font-size:0.9rem;">PLASMA.2 — Radius-Dependent Modulation</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \sigma(\XCRM{S}) > 10^{-6} \quad \text{(non-constant)}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    The STUR scalar must show measurable variation with particle position.
+                    <br><strong>Test:</strong> If \(\sigma(\XCRM{S}) < 10^{-6}\), there is no radius dependence.
+                </p>
+            </div>
+
+            <!-- PLASMA.3 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--accent-violet);">
+                <h4 style="color:var(--accent-violet);margin:0 0 0.5rem;font-size:0.9rem;">PLASMA.3 — Mean STUR Scalar Range</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    0.8 < \XCRM{\langle S \rangle} < 1.0 \quad \text{for } \Matt{L_0} = 1\,\text{mm}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    For tokamak-scale coherence length, particles see near-saturation modulation.
+                    <br><strong>Uncertainty:</strong> ±5% from geometry variation.
+                </p>
+            </div>
+
+            <!-- PLASMA.4 -->
+            <div style="margin-bottom:0;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-gold);">
+                <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">PLASMA.4 — Area-Dependent Visibility</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Matt{V(A)} = \Matt{V_0}\exp\!\bigl(-A/A_{\rm coh}\bigr)
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Loop visibility depends on enclosed area, not perimeter.
+                    <br><strong>Kill condition:</strong> If visibility scales with perimeter, STUR is falsified.
+                </p>
             </div>
         </div>
     </div>

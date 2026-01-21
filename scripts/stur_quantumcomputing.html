@@ -90,8 +90,8 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status info">
-                <span class="stur-icon icon-target sm"></span>
+            <span class="stur-status success">
+                <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
         </div>
@@ -185,6 +185,77 @@
             <div style="margin-top:1rem;padding:10px 14px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
                 <strong style="color:#ef4444;font-size:0.85rem;">Falsification Criterion:</strong>
                 <span style="font-size:0.85rem;color:var(--text-secondary);">If qubit T<sub>2</sub> improves indefinitely with environmental isolation (no XCRM floor), or scales differently than predicted, <strong>STUR is excluded</strong>.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         QUANTITATIVE PREDICTIONS
+         ============================================================ -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
+                All predictions derived from Master Action via STUR resistance generator \(\XCRM{R_{\rm STUR}}\).
+            </p>
+
+            <!-- QC.1 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-green);">
+                <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.9rem;">QC.1 — Continuity Residual Bound</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Bigl|\Diff{\partial_t} \Matt{\rho_i} + \sum_j \Diff{J_{i \to j}}\Bigr| < 10^{-8}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Local continuity must hold to machine precision for unitary evolution.
+                    <br><strong>Kill condition:</strong> If residual exceeds \(10^{-8}\), numerical breakdown falsifies test.
+                </p>
+            </div>
+
+            <!-- QC.2 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-cyan);">
+                <h4 style="color:var(--neon-cyan);margin:0 0 0.5rem;font-size:0.9rem;">QC.2 — Flux Conservation</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \frac{|\Quant{\Delta \Phi_R}|}{|\Quant{\Phi_R}|} < 1\%
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Resistance flux \(\Quant{\Phi_R} = \text{Re}(\Matt{\Psi}^\dagger \XCRM{R} \Matt{\Psi})\) remains bounded.
+                    <br><strong>Kill condition:</strong> Drift exceeding 1% falsifies STUR unitarity.
+                </p>
+            </div>
+
+            <!-- QC.3 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--accent-violet);">
+                <h4 style="color:var(--accent-violet);margin:0 0 0.5rem;font-size:0.9rem;">QC.3 — Entanglement Entropy Bound</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Quant{S_A(t)} \leq \Matt{N_A} \quad \text{for all } t
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    For 3|3 bipartition with \(\Matt{N_A} = 3\) sites, entropy bounded by 3 bits.
+                    <br><strong>Uncertainty:</strong> ±0.01 bits from numerical precision.
+                </p>
+            </div>
+
+            <!-- QC.4 -->
+            <div style="margin-bottom:0;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-gold);">
+                <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">QC.4 — XCRM Decoherence Floor</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    T_2^{\rm XCRM} \propto \frac{\Matt{\ell_{\rm coh}}^2}{\Matt{\Delta L}^2}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    STUR predicts a fundamental \(T_2\) floor from XCRM coupling, not environment.
+                    <br><strong>Test:</strong> If \(T_2\) improves indefinitely with isolation, STUR is falsified.
+                </p>
             </div>
         </div>
     </div>

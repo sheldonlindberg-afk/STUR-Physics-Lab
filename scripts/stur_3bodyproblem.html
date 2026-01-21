@@ -90,8 +90,8 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status info">
-                <span class="stur-icon icon-target sm"></span>
+            <span class="stur-status success">
+                <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
         </div>
@@ -187,6 +187,77 @@
             <div style="margin-top:1rem;padding:10px 14px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
                 <strong style="color:#ef4444;font-size:0.85rem;">Falsification Criterion:</strong>
                 <span style="font-size:0.85rem;color:var(--text-secondary);">If 3-body dynamics show no XCRM deviations at predicted scales or match pure Newtonian exactly, <strong>STUR is excluded</strong>.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         QUANTITATIVE PREDICTIONS
+         ============================================================ -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
+                All predictions derived from torsion sector via STUR-modified gravitational potential (Eq. E.4).
+            </p>
+
+            <!-- 3BODY.1 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-green);">
+                <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.9rem;">3BODY.1 — Energy Conservation</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \frac{|\Diff{\Delta E}|}{|\Diff{E_0}|} < 10^{-10}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    RK4 integration must preserve total energy to machine precision.
+                    <br><strong>Kill condition:</strong> Drift &gt; \(10^{-10}\) indicates numerical instability.
+                </p>
+            </div>
+
+            <!-- 3BODY.2 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-cyan);">
+                <h4 style="color:var(--neon-cyan);margin:0 0 0.5rem;font-size:0.9rem;">3BODY.2 — STUR Orbital Frequency</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Tor{\omega}^2 = -3\Tor{G}\Matt{m} \cdot \frac{d}{dr}\!\left[\frac{\XCRM{S(r)}}{r}\right] \cdot \frac{1}{r}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    For \(\Matt{L_0} = 10^9\,\text{m}\), \(\Matt{m} = 10^{24}\,\text{kg}\): \(T \approx 10^8\,\text{s}\) (few years).
+                    <br><strong>Uncertainty:</strong> ±1% from numerical integration.
+                </p>
+            </div>
+
+            <!-- 3BODY.3 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--accent-violet);">
+                <h4 style="color:var(--accent-violet);margin:0 0 0.5rem;font-size:0.9rem;">3BODY.3 — Equilateral Stability</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \text{Lyapunov exponent } \lambda_{\rm STUR} < \lambda_{\rm Newton}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    STUR predicts enhanced stability due to \(\XCRM{S(r)}\) regularization at short range.
+                    <br><strong>Test:</strong> Compare chaos onset with pure Newtonian (\(\XCRM{S}=1\)).
+                </p>
+            </div>
+
+            <!-- 3BODY.4 -->
+            <div style="margin-bottom:0;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-gold);">
+                <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">3BODY.4 — Modulator Saturation Regime</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \XCRM{S(r)} \to 1 \quad \text{as } r \gg \Matt{L_0}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    At \(r \gtrsim 3\Matt{L_0}\), STUR approaches Newtonian limit.
+                    <br><strong>Threshold:</strong> \(\XCRM{S(r)} > 0.95\) for \(r > 2.5 \times 10^9\,\text{m}\).
+                </p>
             </div>
         </div>
     </div>

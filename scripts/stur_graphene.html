@@ -90,8 +90,8 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status info">
-                <span class="stur-icon icon-target sm"></span>
+            <span class="stur-status success">
+                <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
         </div>
@@ -180,6 +180,77 @@
             <div style="margin-top:1rem;padding:10px 14px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
                 <strong style="color:#ef4444;font-size:0.85rem;">Falsification Criterion:</strong>
                 <span style="font-size:0.85rem;color:var(--text-secondary);">If graphene shows no anomalous magneto-optical response at predicted scales, or response differs from XCRM form, <strong>STUR is excluded</strong>.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         QUANTITATIVE PREDICTIONS
+         ============================================================ -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
+                All predictions derived from Master Action via XCRM axion-like coupling to Dirac electrons.
+            </p>
+
+            <!-- GRAPHENE.1 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-green);">
+                <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.9rem;">GRAPHENE.1 — Scattering Time Shift at \(g_a = 10^{-12}\)</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \frac{\Matt{\Delta\tau}}{\Matt{\tau}} = C\Bigl(\frac{\XCRM{g_a}}{\XCRM{g_0}}\Bigr)^p \approx 5 \times 10^{-6}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    For \(C = 5 \times 10^{-6}\), \(p = 0.65\), \(\XCRM{g_0} = 10^{-12}\): scattering shift ≈ 0.0005%.
+                    <br><strong>Uncertainty:</strong> ±20% from coupling calibration.
+                </p>
+            </div>
+
+            <!-- GRAPHENE.2 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-cyan);">
+                <h4 style="color:var(--neon-cyan);margin:0 0 0.5rem;font-size:0.9rem;">GRAPHENE.2 — Scattering Time Shift at \(g_a = 10^{-10}\)</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \frac{\Matt{\Delta\tau}}{\Matt{\tau}} \approx 10^{-4} \quad (0.01\%)
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Two orders of magnitude increase in coupling yields sub-linear enhancement.
+                    <br><strong>Kill condition:</strong> If no effect at \(g_a = 10^{-10}\), STUR is falsified.
+                </p>
+            </div>
+
+            <!-- GRAPHENE.3 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--accent-violet);">
+                <h4 style="color:var(--accent-violet);margin:0 0 0.5rem;font-size:0.9rem;">GRAPHENE.3 — Sub-Linear Scaling Exponent</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    p = 0.65 \pm 0.10 \quad (p < 1 \text{ required})
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Screening effects enforce sub-linear scaling; linear (\(p = 1\)) falsifies XCRM model.
+                    <br><strong>Test:</strong> Fit \(\log(\Matt{\Delta\tau}/\Matt{\tau})\) vs \(\log(\XCRM{g_a}/\XCRM{g_0})\).
+                </p>
+            </div>
+
+            <!-- GRAPHENE.4 -->
+            <div style="margin-bottom:0;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-gold);">
+                <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">GRAPHENE.4 — Hall Conductivity Enhancement</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \frac{\Matt{\Delta\sigma_{xy}}}{\Matt{\sigma_{xy}}} \approx 2\,\frac{\Matt{\Delta\tau}}{\Matt{\tau}}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Hall response is roughly double the scattering shift in high-field limit.
+                    <br><strong>Threshold:</strong> Kill if \(\Matt{\Delta\sigma_{xy}}/\Matt{\sigma_{xy}}\) exceeds \(10^{-4}\) at \(\XCRM{g_a} = 10^{-12}\).
+                </p>
             </div>
         </div>
     </div>

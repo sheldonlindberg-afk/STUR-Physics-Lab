@@ -91,8 +91,8 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status info">
-                <span class="stur-icon icon-target sm"></span>
+            <span class="stur-status success">
+                <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
         </div>
@@ -181,6 +181,77 @@
             <div style="margin-top:1rem;padding:10px 14px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
                 <strong style="color:#ef4444;font-size:0.85rem;">Falsification Criterion:</strong>
                 <span style="font-size:0.85rem;color:var(--text-secondary);">If sonoluminescence spectrum shows no XCRM signatures or matches purely thermal prediction, <strong>STUR is excluded</strong>.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         QUANTITATIVE PREDICTIONS
+         ============================================================ -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
+                All predictions derived from 5D torsion channel via chi-torsion coupling equation (Eq. E.6).
+            </p>
+
+            <!-- SONO.1 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-green);">
+                <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.9rem;">SONO.1 — Chi-Collapse Correlation</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \text{corr}\bigl(\XCRM{\chi_{\text{amp}}},\, \Diff{R_0}/\Diff{R_{\min}}\bigr) > 0.5
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Chi excitation amplitude must correlate with bubble collapse ratio.
+                    <br><strong>Kill condition:</strong> If correlation &lt; 0.5, chi-torsion coupling is falsified.
+                </p>
+            </div>
+
+            <!-- SONO.2 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-cyan);">
+                <h4 style="color:var(--neon-cyan);margin:0 0 0.5rem;font-size:0.9rem;">SONO.2 — Noble Gas Temperature Enhancement</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Matt{T_{\max}^{\rm Ar}} > \Matt{T_{\max}^{\rm H_2O}}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Noble gases (Ar, Xe, He) reach higher peak temperatures due to \(\gamma \approx 5/3\).
+                    <br><strong>Expected:</strong> \(\Matt{T_{\max}^{\rm Ar}} \approx 30{,}000\,\text{K}\) vs \(\Matt{T_{\max}^{\rm H_2O}} \approx 20{,}000\,\text{K}\).
+                </p>
+            </div>
+
+            <!-- SONO.3 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--accent-violet);">
+                <h4 style="color:var(--accent-violet);margin:0 0 0.5rem;font-size:0.9rem;">SONO.3 — Wien Peak Consistency</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \frac{|\Matt{\lambda_{\text{peak}}} - 2.898 \times 10^{-3}/\Matt{T_{\max}}|}{2.898 \times 10^{-3}/\Matt{T_{\max}}} < 20\%
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Emission peak must follow Wien's law within 20% tolerance.
+                    <br><strong>Kill condition:</strong> Deviation &gt; 20% indicates non-thermal mechanism.
+                </p>
+            </div>
+
+            <!-- SONO.4 -->
+            <div style="margin-bottom:0;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-gold);">
+                <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">SONO.4 — Chi Response Rate Scale</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Pot{\Gamma_\chi} \sim 5 \times 10^6 \,\text{s}^{-1}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Phenomenological chi response rate for typical bubble dynamics.
+                    <br><strong>Uncertainty:</strong> ±50% requires experimental calibration.
+                </p>
             </div>
         </div>
     </div>

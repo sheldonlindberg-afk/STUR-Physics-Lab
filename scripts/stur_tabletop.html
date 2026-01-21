@@ -91,8 +91,8 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status info">
-                <span class="stur-icon icon-target sm"></span>
+            <span class="stur-status success">
+                <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
         </div>
@@ -188,6 +188,77 @@
             <div style="margin-top:1rem;padding:10px 14px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
                 <strong style="color:#ef4444;font-size:0.85rem;">Falsification Criterion:</strong>
                 <span style="font-size:0.85rem;color:var(--text-secondary);">If photon lifetime matches uniform-index prediction with no radial modulation, or if S(r) form differs from derived tanh·(1−e<sup>−r</sup>), <strong>STUR is excluded</strong>.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         QUANTITATIVE PREDICTIONS
+         ============================================================ -->
+    <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-target size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
+                All predictions derived from Master Action potential sector via STUR radial modulator \(\Pot{S(r)}\).
+            </p>
+
+            <!-- WGM.1 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-green);">
+                <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.9rem;">WGM.1 — Extended Confinement Time</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    N_{\rm bounces}^{\rm STUR} > 0.8\, N_{\rm bounces}^{\rm uniform}
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    STUR predicts at least 80% of max bounces due to \(\Pot{S(r)}\)-modulation.
+                    <br><strong>Kill condition:</strong> If bounces match uniform-\(\Matt{n}\) exactly, no STUR effect.
+                </p>
+            </div>
+
+            <!-- WGM.2 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-cyan);">
+                <h4 style="color:var(--neon-cyan);margin:0 0 0.5rem;font-size:0.9rem;">WGM.2 — Exponential Intensity Decay</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Matt{I_k} = \Matt{I_0} \cdot \Pot{\eta}^k, \quad \Pot{\eta} = 0.995
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Intensity decays exponentially with each bounce.
+                    <br><strong>Kill condition:</strong> Non-exponential decay falsifies smooth \(\Pot{S(r)}\) profile.
+                </p>
+            </div>
+
+            <!-- WGM.3 -->
+            <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--accent-violet);">
+                <h4 style="color:var(--accent-violet);margin:0 0 0.5rem;font-size:0.9rem;">WGM.3 — Radius-Dependent Critical Angle</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Matt{\theta_c}(\Diff{r}) = \arcsin\!\bigl(1/[\Matt{n_0}\,\Pot{S}(\Diff{r}/R)]\bigr)
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Critical angle varies with radial position via \(\Pot{S(r)}\) modulation.
+                    <br><strong>Kill condition:</strong> Position-independent \(\Matt{\theta_c}\) falsifies STUR.
+                </p>
+            </div>
+
+            <!-- WGM.4 -->
+            <div style="margin-bottom:0;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid var(--neon-gold);">
+                <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">WGM.4 — Path Length Enhancement</h4>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[
+                    \Matt{L_{\rm path}} > 2\pi R \cdot N_{\rm bounces} / 4
+                    \]
+                </div>
+                <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
+                    Total path length depends on number of bounces and cavity radius.
+                    <br><strong>Typical:</strong> For \(R = 1\) m, \(N = 50\): \(\Matt{L_{\rm path}} \gtrsim 25\) m.
+                </p>
             </div>
         </div>
     </div>
