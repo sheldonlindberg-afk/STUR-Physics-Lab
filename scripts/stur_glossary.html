@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Glossary — Definitions and Terminology</title>
+<meta name="description" content="Comprehensive glossary of STUR-specific terms, parameters, and concepts. Essential reference for understanding the unified resistance framework.">
+
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_glossary.html" class="glass-nav-link active">Glossary</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 style="background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Glossary</h1>
+  <p class="subtitle">STUR Terminology and Definitions</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- QUICK NAVIGATION -->
+<section class="section" style="background:rgba(251,191,36,0.04);border:1px solid rgba(251,191,36,0.2);padding:1rem 1.5rem;">
+  <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+    <strong style="color:var(--gold);">Jump to:</strong>
+    <a href="#core-concepts" style="color:var(--accent);margin:0 0.5rem;">Core Concepts</a> |
+    <a href="#parameters" style="color:var(--accent);margin:0 0.5rem;">Parameters</a> |
+    <a href="#axioms" style="color:var(--accent);margin:0 0.5rem;">Axioms</a> |
+    <a href="#mathematical" style="color:var(--accent);margin:0 0.5rem;">Mathematical Objects</a> |
+    <a href="#experimental" style="color:var(--accent);margin:0 0.5rem;">Experimental Terms</a>
+  </p>
+</section>
+
+<!-- CORE CONCEPTS -->
+<section class="section" id="core-concepts" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">Core Concepts</h2>
+
+  <div class="block gold" style="margin-bottom:1.5rem;">
+    <div class="title">STUR — Sheldon's Theory of Unified Resistance</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      A unified physics framework proposing that fundamental physics emerges from a single resistance field
+      \(\XCRM{R(x^\mu, X)}\) defined on a 5D orbifold manifold \(M_4 \times S^1/\mathbb{Z}_2\).
+      The theory claims to derive gravity (via TEGR), gauge forces, matter, and cosmology from three axioms.
+    </p>
+    <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.9rem;">
+      <strong>See:</strong> <a href="stur_core_theory.html" style="color:var(--accent);">Core Theory</a>
+    </p>
+  </div>
+
+  <div class="block" style="margin-bottom:1.5rem;border-left-color:var(--gold);">
+    <div class="title" style="color:var(--gold);">XCRM — X-Coupled Resistance Manifold</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The central mechanism of STUR. The resistance field \(\XCRM{R}\) couples to an internal coordinate
+      \(\XCRM{X}\) via the term \(\XCRM{\chi R \partial_X R}\) in the master action. This coupling:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li>Generates the resistance holonomy observable</li>
+      <li>Closes the parameter space (only \(\XCRM{L_X}\) is free)</li>
+      <li>Produces the Gaussian visibility prediction</li>
+    </ul>
+    <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.9rem;">
+      <strong>See:</strong> <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM Closure</a>
+    </p>
+  </div>
+
+  <div class="block" style="margin-bottom:1.5rem;border-left-color:var(--torsion);">
+    <div class="title" style="color:var(--torsion);">TEGR — Teleparallel Equivalent of General Relativity</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      A reformulation of General Relativity using torsion instead of curvature. In TEGR, the fundamental
+      object is the vierbein (frame field) \(\Tor{e^a_\mu}\), and gravity is encoded in the torsion tensor
+      rather than the Riemann curvature. TEGR and GR are dynamically equivalent but conceptually different.
+    </p>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      <strong>STUR claim:</strong> TEGR emerges as the equilibrium limit of XCRM dynamics when \(\Diff{R \to R_{\rm bg}}\).
+    </p>
+    <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.9rem;">
+      <strong>See:</strong> <a href="stur_gravity_emergence.html" style="color:var(--accent);">Gravity Emergence</a>
+    </p>
+  </div>
+
+  <div class="block" style="margin-bottom:1.5rem;border-left-color:var(--accent);">
+    <div class="title" style="color:var(--accent);">R-field — Resistance Field</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The fundamental dynamical variable in STUR. A real scalar field \(\XCRM{R(x^\mu, X)}\) defined on
+      the 5D orbifold, representing "resistance to change" in the fabric of spacetime. The R-field:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li>Has background value \(\Diff{R_{\rm bg}}\) at equilibrium</li>
+      <li>Fluctuates with RMS amplitude \(\Diff{\sigma_R}\)</li>
+      <li>Couples to torsion via \(\Tor{\alpha R \mathbb{T}}\)</li>
+      <li>Obeys Z₂ parity: R is Z₂-odd</li>
+    </ul>
+  </div>
+
+  <div class="block" style="border-left-color:var(--quantum);">
+    <div class="title" style="color:var(--quantum);">Resistance Holonomy \(\Quant{\Phi_R}\)</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The accumulated phase from XCRM coupling along a closed path. This is the primary observable that
+      STUR predicts for interferometric experiments:
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\Quant{\Phi_R} = \oint_\gamma \Quant{y}\, \Diff{\partial_a R}\, dx^a\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      The visibility is determined by averaging over the phase distribution: \(\Matt{V} = V_0 |\langle e^{i\Phi_R} \rangle|\).
+    </p>
+  </div>
+</section>
+
+<!-- PARAMETERS -->
+<section class="section" id="parameters">
+  <h2>Parameters</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Symbol</th>
+        <th>Name</th>
+        <th>Definition</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:var(--gold);font-weight:600;">\(\XCRM{L_X}\)</td>
+        <td>Compactification Scale</td>
+        <td>Proper size of the internal dimension (orbifold interval length)</td>
+        <td style="color:var(--warning);">Free (must be measured)</td>
+      </tr>
+      <tr>
+        <td style="color:var(--potential);font-weight:600;">\(\Pot{\lambda}\)</td>
+        <td>Self-Coupling</td>
+        <td>Quartic coefficient in V(R); related to L_X by \(\lambda = c_\lambda/L_X\)</td>
+        <td style="color:var(--warning);">Derived from L_X</td>
+      </tr>
+      <tr>
+        <td style="color:var(--gold);font-weight:600;">\(\XCRM{\chi}\)</td>
+        <td>XCRM Coupling</td>
+        <td>Coefficient of \(\chi R \partial_X R\); dimension \(M^2\)</td>
+        <td style="color:var(--success);">Derived: \(\chi = c_\chi/L_X^2\)</td>
+      </tr>
+      <tr>
+        <td style="color:var(--torsion);font-weight:600;">\(\Tor{\alpha}\)</td>
+        <td>Torsion Coupling</td>
+        <td>Coefficient of \(\alpha R \mathbb{T}\); determines G</td>
+        <td style="color:var(--success);">Derived: \(\alpha = 1/(16\pi G R_{\rm bg})\)</td>
+      </tr>
+      <tr>
+        <td style="color:var(--diffusion);font-weight:600;">\(\Diff{\sigma_R}\)</td>
+        <td>RMS Fluctuation</td>
+        <td>Root-mean-square of resistance fluctuations</td>
+        <td style="color:var(--success);">Derived from XCRM equilibrium</td>
+      </tr>
+      <tr>
+        <td style="color:var(--diffusion);font-weight:600;">\(\Diff{R_{\rm bg}}\)</td>
+        <td>Background Resistance</td>
+        <td>Equilibrium value of R; equals vacuum expectation value v</td>
+        <td style="color:var(--success);">Derived from V(R) minimum</td>
+      </tr>
+      <tr>
+        <td style="color:var(--matter);font-weight:600;">\(\Matt{\ell_{\rm coh}}\)</td>
+        <td>Coherence Length</td>
+        <td>Scale at which visibility decays to 1/e</td>
+        <td style="color:var(--success);">Derived: \(\ell_{\rm coh} = \sqrt{2} L_X/(y\sigma_R)\)</td>
+      </tr>
+      <tr>
+        <td style="color:var(--quantum);font-weight:600;">\(\Quant{y}\)</td>
+        <td>Yukawa Coupling</td>
+        <td>Fermion-resistance coupling strength (dimensionless)</td>
+        <td style="color:var(--text-muted);">Set to y=1 in simulations</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block success" style="margin-top:1rem;">
+    <div class="title">Parameter Closure</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      After XCRM closure, STUR has <strong>one free parameter</strong>: the compactification scale \(\XCRM{L_X}\).
+      All other parameters are derived from L_X through XCRM dynamics and dimensional analysis.
+    </p>
+  </div>
+</section>
+
+<!-- AXIOMS -->
+<section class="section" id="axioms" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
+  <h2 style="color:var(--success);">The Three Axioms</h2>
+
+  <div class="block gold" style="margin-bottom:1.5rem;border-width:2px;">
+    <div class="title">Axiom 1 — Master Action</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      All dynamics derive from a single action functional on the 5D orbifold:
+    </p>
+    <div class="eq law" style="margin:0.75rem 0;">
+      \[S[R,g,X] = \int d^4x\, dX\, \sqrt{-g}\, \bigl[\tfrac{1}{2}(\nabla R)^2 - V(R) + \chi R\partial_X R + \alpha R\mathbb{T} + \mathcal{L}_{\rm matter}\bigr]\]
+    </div>
+    <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">
+      This axiom defines the dynamical content. All other STUR results follow from varying this action.
+    </p>
+  </div>
+
+  <div class="block" style="margin-bottom:1.5rem;border-left-color:var(--accent);">
+    <div class="title" style="color:var(--accent);">Axiom 2 — MHP (Minimal Holonomy Principle)</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The ground state is selected by minimizing the holonomy functional \(\XCRM{\Omega}\):
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\XCRM{\Omega[\text{config}]} = \int |\text{holonomy around all cycles}|^2\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      <strong>Claims to solve (5 problems):</strong> Gauge group selection (G_SM), 3 generations, fermion localization,
+      Yukawa hierarchies, neutrino masses.
+    </p>
+  </div>
+
+  <div class="block" style="border-left-color:var(--accent-secondary);">
+    <div class="title" style="color:var(--accent-secondary);">Axiom 3 — DHP (Dynamical Holonomy Principle)</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Time evolution is governed by the requirement that holonomy remains finite for all times:
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\XCRM{\Omega(t)} < \infty \quad \forall t\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      <strong>Claims to solve (8 problems):</strong> Cosmological constant, hierarchy problem, UV finiteness,
+      dark matter, inflation, baryogenesis, CP violation, quantum gravity.
+    </p>
+  </div>
+</section>
+
+<!-- MATHEMATICAL OBJECTS -->
+<section class="section" id="mathematical">
+  <h2>Mathematical Objects</h2>
+
+  <div class="card-grid">
+    <div class="card" style="border:1px solid var(--torsion);">
+      <strong style="color:var(--torsion);">Torsion Tensor \(\Tor{T^P{}_{MN}}\)</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);margin:0.5rem 0 0;">
+        Antisymmetric part of the Weitzenböck connection. Encodes gravity in teleparallel formulation.
+        \(\Tor{T^P{}_{MN}} = e_a^P(\partial_M e^a_N - \partial_N e^a_M)\)
+      </p>
+    </div>
+    <div class="card" style="border:1px solid var(--torsion);">
+      <strong style="color:var(--torsion);">Torsion Scalar \(\Tor{\mathbb{T}}\)</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);margin:0.5rem 0 0;">
+        Specific contraction of torsion tensor appearing in TEGR action. Related to Ricci scalar
+        by a total derivative: \(e\mathcal{R} = -e\mathbb{T} + \text{boundary}\).
+      </p>
+    </div>
+    <div class="card" style="border:1px solid var(--potential);">
+      <strong style="color:var(--potential);">Potential V(R)</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);margin:0.5rem 0 0;">
+        Derived from orbifold topology: \(\Pot{V(R)} = \frac{\lambda}{4}(R^2 - v^2)^2\).
+        Mexican hat form with degenerate minima at \(\pm v\).
+      </p>
+    </div>
+    <div class="card" style="border:1px solid var(--gold);">
+      <strong style="color:var(--gold);">Orbifold \(S^1/\mathbb{Z}_2\)</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);margin:0.5rem 0 0;">
+        The internal manifold: a circle with Z₂ identification. Has two fixed points at X=0 and X=L_X.
+        The R-field is Z₂-odd, giving boundary conditions R(0) = R(L_X) = 0.
+      </p>
+    </div>
+    <div class="card" style="border:1px solid var(--quantum);">
+      <strong style="color:var(--quantum);">Saturation Operator \(\XCRM{S_u(u)}\)</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);margin:0.5rem 0 0;">
+        Interpolates between linear and saturated regimes:
+        \(\XCRM{S_u(u)} = \tanh(u)(1 - e^{-u})\) where \(u = \Delta L/\ell_{\rm coh}\).
+      </p>
+    </div>
+    <div class="card" style="border:1px solid var(--success);">
+      <strong style="color:var(--success);">Visibility \(\Matt{V(\Delta L)}\)</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);margin:0.5rem 0 0;">
+        The primary STUR observable. Gaussian in ΔL²:
+        \(\Matt{V} = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\). Testable in interferometers.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIMENTAL TERMS -->
+<section class="section" id="experimental" style="border-left:4px solid var(--error);">
+  <h2 style="color:var(--error);">Experimental Terms</h2>
+
+  <div class="block error" style="margin-bottom:1.5rem;">
+    <div class="title">Falsification</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The process of testing whether STUR's predictions match experimental data. STUR is <strong>falsified</strong> if:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li>Visibility is linear in ΔL (not quadratic)</li>
+      <li>Temporal oscillations are observed</li>
+      <li>Mass dependence is detected at fixed ΔL</li>
+      <li>Multiple coherence lengths are required</li>
+    </ul>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Term</th>
+        <th>Definition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>\(\Matt{\Delta L}\)</strong></td>
+        <td>Interferometer arm separation (path length difference)</td>
+      </tr>
+      <tr>
+        <td><strong>\(\Matt{V_0}\)</strong></td>
+        <td>Intrinsic visibility at ΔL→0 (apparatus-dependent)</td>
+      </tr>
+      <tr>
+        <td><strong>MAGIS-100</strong></td>
+        <td>Matter-wave Atomic Gradiometer Interferometric Sensor (100m baseline)</td>
+      </tr>
+      <tr>
+        <td><strong>AION</strong></td>
+        <td>Atom Interferometer Observatory and Network (UK project)</td>
+      </tr>
+      <tr>
+        <td><strong>ULDM</strong></td>
+        <td>Ultralight Dark Matter — a competing explanation for visibility anomalies</td>
+      </tr>
+      <tr>
+        <td><strong>Sagnac Loop</strong></td>
+        <td>Closed-loop interferometer geometry; STUR predicts area-enhanced effects</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SEE ALSO -->
+<section class="section" style="background:rgba(251,191,36,0.04);border:1px solid rgba(251,191,36,0.2);padding:1rem 1.5rem;">
+  <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+    <strong style="color:var(--gold);">Related Pages:</strong>
+    <a href="stur_core_theory.html" style="color:var(--accent);margin:0 0.5rem;">Core Theory</a> |
+    <a href="stur_technical_appendix.html" style="color:var(--accent);margin:0 0.5rem;">Technical Appendix</a> |
+    <a href="stur_falsification.html" style="color:var(--accent);margin:0 0.5rem;">Falsification Protocol</a> |
+    <a href="stur_predictions.html" style="color:var(--accent);margin:0 0.5rem;">Predictions</a>
+  </p>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_core_theory.html" class="prev">Core Theory</a>
+  <a href="stur_technical_appendix.html" class="next">Technical Appendix</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Glossary</strong></p>
+  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>
