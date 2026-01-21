@@ -580,6 +580,7 @@
         </button>
         <div class="glass-nav-links">
             <a href="index.html" class="glass-nav-link active">Index</a>
+            <a href="scripts/stur_learn.html" class="glass-nav-link">Learn</a>
             <a href="scripts/stur_core_theory.html" class="glass-nav-link">Core Theory</a>
             <a href="scripts/stur_predictions.html" class="glass-nav-link">Predictions</a>
             <a href="scripts/stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
@@ -672,9 +673,9 @@
     </h2>
     <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:6px;font-size:0.75rem;">
       <a href="scripts/stur_core_theory.html" style="color:var(--tier-core);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(48,209,88,0.12);border:1px solid rgba(48,209,88,0.3);text-align:center;">1. Core</a>
-      <a href="scripts/stur_mhp_derivation.html" style="color:#4ade80;text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);text-align:center;">2. MHP</a>
-      <a href="scripts/stur_geometry_axioms.html" style="color:#a78bfa;text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.3);text-align:center;">3. Geometry</a>
-      <a href="scripts/stur_xcrm_closure.html" style="color:var(--accent-gold);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);text-align:center;">4. XCRM</a>
+      <a href="scripts/stur_geometry_axioms.html" style="color:#a78bfa;text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.3);text-align:center;">2. Geometry</a>
+      <a href="scripts/stur_xcrm_closure.html" style="color:var(--accent-gold);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);text-align:center;">3. XCRM</a>
+      <a href="scripts/stur_mhp_derivation.html" style="color:#4ade80;text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);text-align:center;">4. MHP</a>
       <a href="scripts/stur_gravity_emergence.html" style="color:var(--accent-torsion);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.3);text-align:center;">5. Gravity</a>
       <a href="scripts/stur_gauge_emergence.html" style="color:var(--accent-cyan);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(34,211,238,0.12);border:1px solid rgba(34,211,238,0.3);text-align:center;">6. Gauge</a>
       <a href="scripts/stur_predictions.html" style="color:var(--tier-falsifiable);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(100,210,255,0.12);border:1px solid rgba(100,210,255,0.3);text-align:center;">7. Predict</a>
@@ -686,11 +687,27 @@
     </p>
   </section>
 
+  <!-- === NEW: LEARN STUR === -->
+  <div class="section-header">
+    <span class="section-indicator" style="background: #60a5fa;"></span>
+    <span class="section-title">Learn STUR</span>
+    <span class="section-badge">Educational</span>
+  </div>
+  <div class="sim-grid animate-in delay-5">
+    <div class="sim-card" style="--card-accent: #60a5fa; grid-column: span 2; background: linear-gradient(135deg, rgba(96,165,250,0.08) 0%, rgba(167,139,250,0.04) 100%);">
+      <a href="scripts/stur_learn.html" style="display:flex;flex-direction:column;gap:0.5rem;">
+        <strong style="font-size:1.1rem;color:var(--text-primary);">Learn STUR Physics</strong>
+        <span style="font-size:0.9rem;color:var(--text-tertiary);line-height:1.5;">Multi-level tutorial: prerequisites, step-by-step derivations, comparisons to standard physics. Start here if you're new.</span>
+      </a>
+      <span class="card-tag" style="color: #60a5fa;">Tutorial</span>
+    </div>
+  </div>
+
   <!-- === TIER 1: CORE THEORY === -->
   <div class="section-header">
     <span class="section-indicator" style="background: var(--tier-core);"></span>
     <span class="section-title">Core Theory</span>
-    <span class="section-badge">Start Here</span>
+    <span class="section-badge">Technical</span>
   </div>
   <div class="sim-grid animate-in delay-5">
     <div class="sim-card tier-core"><a href="scripts/stur_core_theory.html">Core Theory</a><span class="card-tag" style="color: var(--tier-core);">Entry Point</span></div>
@@ -708,15 +725,15 @@
     <span class="section-badge">Deep Dive</span>
   </div>
   <div class="sim-grid">
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_mhp_derivation.html">MHP Derivation</a><span class="card-tag" style="color: #4ade80;">NEW: Path Integral</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_technical_appendix.html">Technical Appendix</a><span class="card-tag" style="color: #a78bfa;">Derivations</span></div>
     <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_geometry_axioms.html">Geometry & Axioms</a><span class="card-tag" style="color: #a78bfa;">5D Structure</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_xcrm_closure.html">XCRM Closure</a><span class="card-tag" style="color: #a78bfa;">Central Mechanism</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_gravity_emergence.html">Gravity Emergence</a><span class="card-tag" style="color: #a78bfa;">Teleparallel</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_gauge_emergence.html">Gauge Emergence</a><span class="card-tag" style="color: #a78bfa;">Standard Model</span></div>
+    <div class="sim-card" style="--card-accent: #fbbf24;"><a href="scripts/stur_xcrm_closure.html">XCRM Closure</a><span class="card-tag" style="color: #fbbf24;">Central Mechanism</span></div>
+    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_mhp_derivation.html">MHP Derivation</a><span class="card-tag" style="color: #4ade80;">From Path Integral</span></div>
+    <div class="sim-card" style="--card-accent: #60a5fa;"><a href="scripts/stur_gravity_emergence.html">Gravity Emergence</a><span class="card-tag" style="color: #60a5fa;">Teleparallel</span></div>
+    <div class="sim-card" style="--card-accent: #22d3ee;"><a href="scripts/stur_gauge_emergence.html">Gauge Emergence</a><span class="card-tag" style="color: #22d3ee;">Standard Model</span></div>
     <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_matter_coupling.html">Matter Coupling</a><span class="card-tag" style="color: #a78bfa;">Fermions</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_falsification.html">Falsification Protocol</a><span class="card-tag" style="color: #a78bfa;">Kill Criteria</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_predictions.html">Predictions Overview</a><span class="card-tag" style="color: #a78bfa;">ℓ<sub>coh</sub></span></div>
+    <div class="sim-card" style="--card-accent: #64D2FF;"><a href="scripts/stur_predictions.html">Predictions Overview</a><span class="card-tag" style="color: #64D2FF;">ℓ<sub>coh</sub></span></div>
+    <div class="sim-card" style="--card-accent: #ef4444;"><a href="scripts/stur_falsification.html">Falsification Protocol</a><span class="card-tag" style="color: #ef4444;">Kill Criteria</span></div>
+    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_technical_appendix.html">Technical Appendix</a><span class="card-tag" style="color: #a78bfa;">Derivations</span></div>
   </div>
 
   <!-- === TIER 2: FALSIFIABLE === -->

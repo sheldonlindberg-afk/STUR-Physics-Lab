@@ -12,7 +12,7 @@ const STUR_DEFINITIONS = {
   versionName: "Complete Theory",
 
   // ============================================================
-  // THE THREE AXIOMS
+  // THE TWO AXIOMS (MHP is derived from path integral)
   // ============================================================
   axioms: {
     masterAction: {
@@ -21,32 +21,34 @@ const STUR_DEFINITIONS = {
       description: "Defines the dynamics of the resistance field R on the 5D orbifold",
       equation: "S_STUR = ∫ [½(∇R)² - V(R) + χR∂_X R + αR𝕋 + ℒ_matter] d⁵x"
     },
-    mhp: {
-      id: "Derived",
-      name: "Minimum Holonomy Principle (MHP)",
-      description: "Derived from path integral saddle point conditions — physical configurations minimize total holonomy action",
-      equation: "Ω[A,ψ,X_i] = ∫ Tr(W†W) dμ + λ_ψ Σ∫|D_X ψ_i|² dX + κ·I_top",
-      closes: ["Gauge group", "Generations", "Flavor structure", "Yukawa hierarchies", "CKM/PMNS"],
-      derivedFrom: "Path integral Faddeev-Popov procedure (see stur_mhp_derivation.html)"
-    },
     dhp: {
       id: "Axiom 2",
       name: "Dynamical Holonomy Principle (DHP)",
       description: "Universe evolves along path of minimum integrated holonomy action",
       equation: "Ω_DHP[history] = ∫₀^t_f Ω[config(t)] dt",
       closes: ["UV completion", "Neutrino masses", "CP violation", "Dark matter", "Λ problem", "Inflation", "Baryogenesis", "Quantum gravity"]
+    },
+    mhp: {
+      id: "Derived",
+      name: "Minimum Holonomy Principle (MHP)",
+      description: "Derived from path integral saddle point conditions — physical configurations minimize total holonomy action",
+      equation: "Ω[A,ψ,X_i] = ∫ Tr(W†W) dμ + λ_ψ Σ∫|D_X ψ_i|² dX + κ·I_top",
+      closes: ["Gauge group", "Generations", "Flavor structure", "Yukawa hierarchies", "CKM/PMNS"],
+      derivedFrom: "Path integral Faddeev-Popov procedure (see stur_mhp_derivation.html)",
+      status: "NOT an axiom — derived from Axiom 1 via path integral"
     }
   },
 
   // ============================================================
-  // THEORY CLOSURE STATUS — MATHEMATICALLY COMPLETE
+  // THEORY CLOSURE STATUS — UNIFIED FRAMEWORK
   // ============================================================
   closure: {
-    status: "MATHEMATICALLY_COMPLETE",
-    statusLabel: "All mechanisms have explicit derivations",
-    problemsClosed: 13,
-    problemsRemaining: 0,
-    measurementParameters: 2, // Theory-determined, requiring experimental input
+    status: "UNIFIED_FRAMEWORK",
+    statusLabel: "7 rigorously established, 8 well-motivated proposals",
+    problemsAddressed: 15,
+    rigorouslyEstablished: 7,
+    wellMotivatedProposals: 8,
+    measurementParameters: 1, // L_X dynamically stabilized but requires experimental measurement
     parameters: {
       L_X: {
         name: "Internal dimension size",
@@ -157,12 +159,12 @@ const STUR_DEFINITIONS = {
   },
 
   // ============================================================
-  // FIRST PRINCIPLES — Complete Theory
+  // FIRST PRINCIPLES — Two-Axiom Framework
   // ============================================================
   firstPrinciples: {
-    statement: "STUR is a complete theory built on three axioms: (1) Master Action, (2) Minimum Holonomy Principle (MHP), (3) Dynamical Holonomy Principle (DHP). Together they determine all physics from two free parameters: L_X and λ.",
+    statement: "STUR is a unified framework built on two axioms: (1) Master Action, (2) Dynamical Holonomy Principle (DHP). MHP is derived from the path integral saddle point condition. L_X is dynamically stabilized by Casimir-holonomy balance.",
 
-    freeParameters: ["L_X (internal dimension size)", "λ (R-field self-coupling)"],
+    freeParameters: ["L_X (internal dimension size, dynamically stabilized)"],
 
     closureRelation: {
       formula: "ℓ_coh = √2 · L_X / (y·σ_R)",

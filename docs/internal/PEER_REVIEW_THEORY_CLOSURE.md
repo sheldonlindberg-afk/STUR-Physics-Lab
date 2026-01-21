@@ -1,3 +1,9 @@
+> **INTERNAL DOCUMENT — NOT FOR PUBLIC DISPLAY**
+>
+> This document is for repository maintainers only. It is not linked from any public-facing pages on the STUR Physics Lab website.
+
+---
+
 # STUR Physics Lab: Peer Review of Theory Closure and Reasoning
 
 **Reviewer:** Claude (AI Peer Review)

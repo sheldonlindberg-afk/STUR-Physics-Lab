@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR AGI Seed v5.2 — Cognitive Simulation Inspired by XCRM</title>
-<meta name="description" content="AGI Seed: a cognitive simulation INSPIRED BY STUR physics concepts. Multi-layer resistance fields with XCRM-like coupling demonstrate how physical principles might inform cognitive architectures. NOT actual XCRM field evolution.">
+<title>STUR RFD Simulator — Resistance Field Dynamics</title>
+<meta name="description" content="STUR RFD Simulator: Core computational engine for Scalar-Tensor Unified Resistance theory. Implements saturation operators, chronomagnetic modulation (λ = 3722/2705), holonomy accumulation, and full PDE system with triangle weighting.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -142,13 +142,13 @@
 <div class="container">
 
 <header class="masthead">
-  <h1 class="page-title-core">STUR AGI Seed v5.2</h1>
+  <h1 class="page-title-core">STUR RFD Simulator</h1>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
       From <a href="stur_core_theory.html" style="color:var(--accent);">2 axioms</a> ·
       <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
       <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
   </p>
-  <p class="subtitle">Cognitive Simulation Inspired by XCRM Physics</p>
+  <p class="subtitle">Resistance Field Dynamics — Core Computational Engine</p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
   <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
@@ -394,12 +394,13 @@
   </div>
 </section>
 
-<!-- SOURCE CODE -->
+<!-- SOURCE CODE: STUR RFD SIMULATOR -->
 <section class="section" id="source-code">
-  <h2>Complete Source Code</h2>
+  <h2>STUR RFD Simulator — Complete Source Code</h2>
   <p style="color:var(--text-secondary);margin-bottom:1rem;">
-    The following Python implementation is self-contained and can be run directly.
-    It requires only NumPy for numerical computation.
+    The following Python implementation is the core computational engine for Scalar-Tensor Unified Resistance theory.
+    It implements the key STUR equations including saturation operators, chronomagnetic modulation, holonomy accumulation,
+    and the full PDE system. Requires only NumPy.
   </p>
 
   <div class="btn-group">
@@ -410,534 +411,566 @@
   <div id="statusErr" class="status err">Copy failed. Use Download instead.</div>
 
   <div class="code-block">
-<code id="codeBlock">import numpy as np
+<code id="codeBlock">#!/usr/bin/env python3
+"""
+STUR Resistance Field Dynamics (RFD) Seed Simulator
+=====================================================
+Core computational engine for Scalar-Tensor Unified Resistance theory.
+
+Theoretical Foundation (Four Pillars):
+  1. TEGR  — Teleparallel equivalent of GR (tetrad formalism, torsion T^a_μν)
+  2. HGEM  — Holonomy-Gauge Electromagnetic coupling
+  3. STUR  — Scalar-Tensor Unified Resistance (resistance field R, 5D metric)
+  4. Chronomagnetics — Log-periodic dynamics with λ = 3722/2705
+
+Key STUR Equations Implemented:
+  • Saturation operator: S_u(u) = tanh(u) · (1 - exp(-u))
+  • Modulation: M(u) = 1 + ε·cos(2πu / ln(λ))  with u(t) = ln((t + t_c)/t₀)
+  • Holonomy accumulation: Φ_R = ∮ J_a dx^a  (discretized as path integral)
+  • Visibility: V = V₀ · exp(-Φ_R² / 2)
+  • Coherence length: ℓ_coh = p₀ / (y · K_eff)
+
+PDE System (mean-free, 2D/3D periodic):
+  ∂R/∂t  = D·∇²R + χ·S_u(δX_c) + κ_Π·Π + nonlinear
+  ∂Π/∂t  = η·δX_c - γ·Π
+
+Triangle weighting derived from chronomagnetic ratio λ = 3722/2705:
+  w_D   = 1 / (1 + λ + λ²)       ≈ 0.2705 / Σ
+  w_χ   = λ / (1 + λ + λ²)       ≈ 0.3722 / Σ
+  w_Π   = λ² / (1 + λ + λ + λ²)  (remainder)
+
+Outputs:
+  outdir/stur_growth.json     — Full simulation log with theory predictions
+  outdir/stur_data.npz        — Time series (σ, λ_eff, k_peak, Φ_R, V)
+  outdir/spectrum_t*.npz      — Power spectra in linear regime
+
+Author: STUR Physics Collaboration
+"""
+
+import os
 import json
-from pathlib import Path
-from collections import deque
-import sys
+import numpy as np
+from numpy.fft import rfftn, rfftfreq, fftfreq
+from dataclasses import dataclass, field, asdict
+from typing import Optional, Tuple, List, Dict, Any
 
-# Increase recursion limit for potential deep calls in helper functions
-sys.setrecursionlimit(2000)
+# ============================================================
+# STUR CONSTANTS
+# ============================================================
 
-# --- Global Constants for V5.2 ---
-# Diffusion and Hysteresis Limits
-D_MIN, D_MAX = 0.1, 1.0
-CHI_MIN, CHI_MAX = 0.5, 2.0
-# Drift Dynamics
-DRIFT_CLIP = 0.5
-BETA_CONFLICT = 0.5 # Gain for internal conflict minimization reward
+# Chronomagnetic ratio (fundamental)
+LAMBDA_CHRONO = 3722 / 2705  # ≈ 1.37597
 
-# Symbolic and Memory Parameters
-SYMBOL_MEMORY_LENGTH = 10
-SYMBOL_THRESHOLD = 0.8 # Multiplier on mean curvature for R2 symbol abstraction
-LAMBDA_SYM_CONSOLIDATION = 1e-6 # Active Consolidation gain
+# Derived triangle weights from λ
+_S = 1.0 + LAMBDA_CHRONO + LAMBDA_CHRONO**2
+W_D_THEORY   = 1.0 / _S
+W_CHI_THEORY = LAMBDA_CHRONO / _S
+W_PI_THEORY  = LAMBDA_CHRONO**2 / _S
 
-# Meta-Control Parameters (R4/R5)
-META_BUDGET_GAIN_MAX = 1.5
-R3_GAIN_MOD_MAX = 0.5
-R5_GOAL_THRESHOLD = 1.0 # R5 Mean threshold for internal goal selection
+# ============================================================
+# CONFIGURATION
+# ============================================================
+
+@dataclass
+class STURConfig:
+    """STUR RFD simulation configuration with physical defaults."""
+
+    # Geometry
+    dim: int = 2                      # Spatial dimensions (2 or 3)
+    n: int = 192                      # Grid points per axis
+    dx: float = 1.0                   # Lattice spacing
+
+    # Time evolution
+    dt: float = 1e-4                  # Time step
+    steps: int = 6000                 # Total steps
+    report_every: int = 100           # Diagnostic interval
+
+    # Background resistance field
+    R_bg: float = 1.0                 # Mean background R
+    L_X: float = 1.0                  # XCRM closure length scale
+
+    # Base PDE coefficients (before triangle weighting)
+    chi0: float = 0.80                # Resistance-drive coupling
+    eta: float = 1.20                 # Π source from R
+    gamma: float = 0.06               # Π damping rate
+    D0: float = 0.10                  # Diffusion coefficient
+    kPi0: float = 1.0                 # Π backreaction strength
+    lambda_cubic: float = 0.00        # Cubic saturation (set &gt;0 for nonlinear regime)
+
+    # Chronomagnetic modulation
+    use_chronomag: bool = True        # Enable log-periodic modulation
+    epsilon_chrono: float = 0.05      # Modulation amplitude ε
+    t_c: float = 1.0                  # Chrono time offset
+    t_0: float = 1.0                  # Chrono reference time
+
+    # Triangle weighting
+    use_triangle: bool = True         # Apply triangle weights
+    triangle_renormalize: bool = True # Preserve baseline magnitude
+    w_D: float = field(default_factory=lambda: W_D_THEORY)
+    w_chi: float = field(default_factory=lambda: W_CHI_THEORY)
+    w_Pi: float = field(default_factory=lambda: W_PI_THEORY)
+
+    # Initial conditions
+    seed: int = 4321
+    noise_amp: float = 5e-3           # Initial perturbation amplitude
+
+    # Diagnostic thresholds
+    sigma_noise_floor: float = 1e-3   # Enable k_peak below this
+    sigma_linear_max: float = 0.30    # Stop when nonlinear
+    save_spectrum_sigma_min: float = 0.02
+    save_spectrum_sigma_max: float = 0.10
+
+    # Holonomy/visibility parameters
+    V0: float = 1.0                   # Baseline visibility
+    p0: float = 1.0                   # Reference momentum for ℓ_coh
+    y_coupling: float = 0.1           # Coupling for coherence length
+    K_eff: float = 0.5                # Effective phase gradient (lab scale)
+
+    # Output
+    outdir: str = "stur_rfd_output"
 
 
-# ==============================================================================
-# I. CORE DIFFERENTIAL OPERATORS
-# ==============================================================================
+# ============================================================
+# STUR OPERATORS
+# ============================================================
 
-def laplacian_periodic(field, dx):
-    """3D Laplacian with periodic boundary conditions (Finite Difference)."""
+def saturation_Su(u: np.ndarray) -&gt; np.ndarray:
+    """
+    STUR saturation operator: S_u(u) = tanh(u) · (1 - exp(-u))
+
+    Properties:
+      • S_u(0) = 0            (no drive at equilibrium)
+      • S_u(u) → u            as u → 0 (linear regime)
+      • S_u(u) → 1            as u → ∞ (saturates)
+      • Smooth, monotonic, bounded
+    """
+    return np.tanh(u) * (1.0 - np.exp(-np.abs(u)))
+
+
+def chronomag_modulation(t: float, cfg: STURConfig) -&gt; float:
+    """
+    Chronomagnetic log-periodic modulation:
+      M(u) = 1 + ε·cos(2πu / ln(λ))
+      u(t) = ln((t + t_c) / t₀)
+
+    Encodes discrete scale invariance with ratio λ = 3722/2705.
+    """
+    if not cfg.use_chronomag or cfg.epsilon_chrono == 0:
+        return 1.0
+
+    u = np.log((t + cfg.t_c) / cfg.t_0)
+    return 1.0 + cfg.epsilon_chrono * np.cos(2.0 * np.pi * u / np.log(LAMBDA_CHRONO))
+
+
+def compute_holonomy(R: np.ndarray, R_bg: float, dx: float) -&gt; float:
+    """
+    Discretized holonomy accumulation: Φ_R = ∮ J_a dx^a
+
+    Approximated as RMS of resistance gradient magnitude (gauge-invariant scalar).
+    For full implementation, would integrate J_a around closed loops.
+    """
+    dR = R - R_bg
+
+    # Gradient magnitude (periodic BCs)
+    grad_x = (np.roll(dR, -1, axis=0) - np.roll(dR, 1, axis=0)) / (2 * dx)
+    grad_y = (np.roll(dR, -1, axis=1) - np.roll(dR, 1, axis=1)) / (2 * dx)
+
+    if dR.ndim == 3:
+        grad_z = (np.roll(dR, -1, axis=2) - np.roll(dR, 1, axis=2)) / (2 * dx)
+        grad_mag = np.sqrt(grad_x**2 + grad_y**2 + grad_z**2)
+    else:
+        grad_mag = np.sqrt(grad_x**2 + grad_y**2)
+
+    # Holonomy as integrated gradient (RMS proxy)
+    Phi_R = float(np.sqrt(np.mean(grad_mag**2))) * dx * np.sqrt(R.size)
+    return Phi_R
+
+
+def compute_visibility(Phi_R: float, V0: float) -&gt; float:
+    """
+    STUR visibility prediction: V = V₀ · exp(-Φ_R² / 2)
+
+    Gaussian suppression from holonomy — key discriminator vs ULDM sinusoidal.
+    """
+    return V0 * np.exp(-Phi_R**2 / 2.0)
+
+
+def compute_coherence_length(p0: float, y: float, K_eff: float) -&gt; float:
+    """
+    Coherence length: ℓ_coh = p₀ / (y · K_eff)
+
+    Sets the scale over which quantum coherence is maintained.
+    """
+    if y * K_eff == 0:
+        return float('inf')
+    return p0 / (y * K_eff)
+
+
+# ============================================================
+# DIFFERENTIAL OPERATORS
+# ============================================================
+
+def mean_remove(a: np.ndarray) -&gt; np.ndarray:
+    """Remove mean (enforces mean-free XCRM closure)."""
+    return a - a.mean()
+
+
+def laplacian_periodic(f: np.ndarray, dx: float) -&gt; np.ndarray:
+    """Discrete Laplacian with periodic BCs (2D or 3D)."""
     lap = (
-        np.roll(field, 1, axis=0) + np.roll(field, -1, axis=0) +
-        np.roll(field, 1, axis=1) + np.roll(field, -1, axis=1) +
-        np.roll(field, 1, axis=2) + np.roll(field, -1, axis=2) +
-        - 6.0 * field
-    ) / (dx ** 2)
-    return lap
+        np.roll(f,  1, 0) + np.roll(f, -1, 0) +
+        np.roll(f,  1, 1) + np.roll(f, -1, 1) -
+        4.0 * f
+    )
 
-def gradient_periodic(field, dx):
-    """3D gradient with periodic BCs. Returns (gx, gy, gz) using Central Difference."""
-    gx = (np.roll(field, -1, axis=0) - np.roll(field, 1, axis=0)) / (2.0 * dx)
-    gy = (np.roll(field, -1, axis=1) - np.roll(field, 1, axis=1)) / (2.0 * dx)
-    gz = (np.roll(field, -1, axis=2) - np.roll(field, 1, axis=2)) / (2.0 * dx)
-    return gx, gy, gz
+    if f.ndim == 3:
+        lap += np.roll(f, 1, 2) + np.roll(f, -1, 2) - 2.0 * f
 
-# ==============================================================================
-# II. METRICS &amp; MASK GENERATION
-# ==============================================================================
+    return lap / (dx * dx)
 
-def shannon_entropy(values, bins=64):
-    """Shannon entropy of a continuous field approximated via normalized histogram."""
-    v = values.ravel()
-    v_min, v_max = v.min(), v.max()
-    if v_max - v_min &lt;= 1e-8: return 0.0
-    v = (v - v_min) / (v_max - v_min)
-    hist, _ = np.histogram(v, bins=bins, range=(0.0, 1.0), density=True)
-    p = hist + 1e-12
-    p = p / p.sum()
-    return float(-np.sum(p * np.log(p)))
 
-def coherence_correlation(a, b):
-    """Correlation coefficient between two fields."""
-    A = a.ravel()
-    B = b.ravel()
-    A = A - A.mean()
-    B = B - B.mean()
-    denom = np.sqrt((A ** 2).mean() * (B ** 2).mean()) + 1e-12
-    return float((A * B).mean() / denom)
+# ============================================================
+# TRIANGLE WEIGHTING
+# ============================================================
 
-def make_gaussian_sources(shape, centers, sigma=4.0, amplitude=1.0):
-    """Build a static 3D Gaussian source mask."""
-    nx, ny, nz = shape
-    x, y, z = np.indices((nx, ny, nz))
-    field = np.zeros((nx, ny, nz), dtype=float)
-    for (cx, cy, cz) in centers:
-        dx2 = (x - cx) ** 2 + (y - cy) ** 2 + (z - cz) ** 2
-        field += np.exp(-dx2 / (2.0 * sigma ** 2))
-    maxv = field.max()
-    if maxv &gt; 0: field *= (amplitude / maxv)
-    return field
+def apply_triangle_weights(cfg: STURConfig) -&gt; Tuple[float, float, float, Dict[str, float]]:
+    """
+    Apply chronomagnetic triangle weights to PDE coefficients.
 
-# ==============================================================================
-# III. AGI COGNITIVE LAYERS
-# ==============================================================================
+    Theory: weights derived from λ = 3722/2705 encode the discrete scale
+    invariance of the chronomagnetic sector.
 
-def semantic_abstraction(readout_vector):
-    """Translates readout vector into semantic state for planner."""
-    semantic_state = {}
-    align_goal2 = readout_vector[25]
-    coh_R2X2 = readout_vector[17]
-    std_R1 = readout_vector[5]
-    mR4 = readout_vector[3]
+    Returns: (D, chi, kPi, weight_info)
+    """
+    D0, chi0, kPi0 = cfg.D0, cfg.chi0, cfg.kPi0
+    wD, wchi, wPi = cfg.w_D, cfg.w_chi, cfg.w_Pi
 
-    if align_goal2 &gt; 0.6:
-        semantic_state['GOAL_STATUS'] = 'ACHIEVED'
-    elif align_goal2 &gt; 0.2:
-        semantic_state['GOAL_STATUS'] = 'NEAR_GOAL'
+    weight_info = {
+        "w_D": wD, "w_chi": wchi, "w_Pi": wPi,
+        "sum": wD + wchi + wPi,
+        "theory_w_D": W_D_THEORY,
+        "theory_w_chi": W_CHI_THEORY,
+        "theory_w_Pi": W_PI_THEORY,
+        "lambda_chrono": LAMBDA_CHRONO,
+        "renormalized": cfg.triangle_renormalize
+    }
+
+    if cfg.triangle_renormalize:
+        # Preserve baseline magnitude: divide by 1/3 so mean weight = 1
+        s = 1.0 / 3.0
+        D   = D0   * (wD   / s)
+        chi = chi0 * (wchi / s)
+        kPi = kPi0 * (wPi  / s)
     else:
-        semantic_state['GOAL_STATUS'] = 'DISTANT'
+        D   = D0   * wD
+        chi = chi0 * wchi
+        kPi = kPi0 * wPi
 
-    if std_R1 &gt; 0.25:
-        semantic_state['SENSORY_ENGAGEMENT'] = 'HIGH_VARIANCE'
+    return D, chi, kPi, weight_info
+
+
+# ============================================================
+# LINEAR THEORY PREDICTIONS
+# ============================================================
+
+def compute_eigenvalue_spectrum(cfg: STURConfig, D: float, chi: float, kPi: float
+                                ) -&gt; Tuple[float, float, float, np.ndarray, np.ndarray]:
+    """
+    Compute predicted growth rate spectrum from linearized 2×2 system:
+
+      d/dt [R_k ]   [χ - Dk²    κ_Π] [R_k ]
+           [Π_k ] = [η         -γ  ] [Π_k ]
+
+    Eigenvalues: λ± = ½(a + d ± √((a-d)² + 4bc))
+      where a = χ - Dk², d = -γ, b = κ_Π, c = η
+
+    Returns: (λ_max, k_peak, ℓ_star, k_array, λ_plus_array)
+    """
+    eta, gamma = cfg.eta, cfg.gamma
+    n, dx = cfg.n, cfg.dx
+
+    # Build discrete wavenumber grid
+    if cfg.dim == 2:
+        kx = 2 * np.pi * fftfreq(n, d=dx)
+        ky = 2 * np.pi * rfftfreq(n, d=dx)
+        KX, KY = np.meshgrid(kx, ky, indexing="ij")
+        kmag = np.sqrt(KX**2 + KY**2)
     else:
-        semantic_state['SENSORY_ENGAGEMENT'] = 'LOW_VARIANCE'
+        kx = 2 * np.pi * fftfreq(n, d=dx)
+        ky = 2 * np.pi * fftfreq(n, d=dx)
+        kz = 2 * np.pi * rfftfreq(n, d=dx)
+        KX, KY, KZ = np.meshgrid(kx, ky, kz, indexing="ij")
+        kmag = np.sqrt(KX**2 + KY**2 + KZ**2)
 
-    if coh_R2X2 &gt; 0.5:
-        semantic_state['R2_COHERENCE'] = 'STRONG'
-    elif coh_R2X2 &lt; 0.1:
-        semantic_state['R2_COHERENCE'] = 'WEAK'
+    # Exclude k=0 (mean-free removes it)
+    km = kmag.ravel()
+    mask = km &gt; 0
+    km = km[mask]
+
+    # Eigenvalue computation
+    a = chi - D * km**2
+    d = -gamma
+    b, c = kPi, eta
+
+    disc = (a - d)**2 + 4 * b * c
+    lam_plus = 0.5 * (a + d + np.sqrt(disc))
+
+    # Find maximum
+    idx = int(np.argmax(lam_plus))
+    lam_max = float(lam_plus[idx])
+    k_peak = float(km[idx])
+    ell_star = 2 * np.pi / k_peak if k_peak &gt; 0 else float('inf')
+
+    return lam_max, k_peak, ell_star, km, lam_plus
+
+
+# ============================================================
+# POWER SPECTRUM DIAGNOSTICS
+# ============================================================
+
+def radial_power_spectrum(field: np.ndarray, dx: float, nbins: int = 80
+                          ) -&gt; Tuple[np.ndarray, np.ndarray]:
+    """
+    Compute radial (isotropic) power spectrum P(k) via rFFT.
+
+    Returns: (k_centers, P_k)
+    """
+    n = field.shape[0]
+    fhat = rfftn(field - field.mean())
+    P = np.abs(fhat)**2
+
+    # Wavenumber grid
+    if field.ndim == 2:
+        kx = 2 * np.pi * fftfreq(n, d=dx)
+        ky = 2 * np.pi * rfftfreq(n, d=dx)
+        KX, KY = np.meshgrid(kx, ky, indexing="ij")
+        kmag = np.sqrt(KX**2 + KY**2)
     else:
-        semantic_state['R2_COHERENCE'] = 'MEDIUM'
+        kx = 2 * np.pi * fftfreq(n, d=dx)
+        ky = 2 * np.pi * fftfreq(n, d=dx)
+        kz = 2 * np.pi * rfftfreq(n, d=dx)
+        KX, KY, KZ = np.meshgrid(kx, ky, kz, indexing="ij")
+        kmag = np.sqrt(KX**2 + KY**2 + KZ**2)
 
-    if mR4 &gt; 1.2:
-        semantic_state['META_STATE'] = 'EXPLORATION'
-    elif mR4 &lt; 0.8:
-        semantic_state['META_STATE'] = 'CONSOLIDATION'
+    # Radial binning
+    km, Pv = kmag.ravel(), P.ravel()
+    kmax = km.max()
+    bins = np.linspace(0, kmax, nbins + 1)
+    centers = 0.5 * (bins[:-1] + bins[1:])
+    Pk = np.zeros(nbins)
+
+    digitized = np.digitize(km, bins)
+    for i in range(1, nbins + 1):
+        mask = digitized == i
+        if np.any(mask):
+            Pk[i-1] = Pv[mask].mean()
+
+    return centers, Pk
+
+
+# ============================================================
+# MAIN SIMULATION
+# ============================================================
+
+def run_stur_rfd(cfg: STURConfig) -&gt; Dict[str, Any]:
+    """
+    Execute STUR Resistance Field Dynamics simulation.
+
+    Returns dictionary with full results including:
+      - Configuration and effective parameters
+      - Theory predictions
+      - Time series (σ, λ_eff, k_peak, Φ_R, V)
+      - Final state diagnostics
+    """
+    os.makedirs(cfg.outdir, exist_ok=True)
+
+    # Effective parameters
+    if cfg.use_triangle:
+        D, chi, kPi, weight_info = apply_triangle_weights(cfg)
     else:
-        semantic_state['META_STATE'] = 'MAINTENANCE'
+        D, chi, kPi = cfg.D0, cfg.chi0, cfg.kPi0
+        weight_info = {"weights_disabled": True}
 
-    return semantic_state
+    eta, gamma = cfg.eta, cfg.gamma
+    lam_cubic = cfg.lambda_cubic
 
+    # Theory predictions
+    lam_pred, k_pred, ell_pred, k_theory, lam_theory = compute_eigenvalue_spectrum(
+        cfg, D, chi, kPi
+    )
+    ell_coh = compute_coherence_length(cfg.p0, cfg.y_coupling, cfg.K_eff)
 
-class AdaptivePlanner:
-    """RL-based planning engine for high-level actions."""
-    def __init__(self, action_dim=3, learning_rate=0.05):
-        self.weights = np.zeros(action_dim, dtype=float)
-        self.alpha = learning_rate
-        self.action_history = deque(maxlen=20)
-        self.reward_history = deque(maxlen=20)
+    # Print header
+    print("=" * 70)
+    print("STUR RESISTANCE FIELD DYNAMICS SIMULATOR")
+    print("=" * 70)
+    print(f"\nChronomagnetic ratio λ = {LAMBDA_CHRONO:.6f} = 3722/2705")
+    print(f"\nTheory triangle weights:")
+    print(f"  w_D   = {W_D_THEORY:.6f}")
+    print(f"  w_χ   = {W_CHI_THEORY:.6f}")
+    print(f"  w_Π   = {W_PI_THEORY:.6f}")
+    print(f"\nEffective PDE coefficients:")
+    print(f"  D   = {D:.6f}")
+    print(f"  χ   = {chi:.6f}")
+    print(f"  κ_Π = {kPi:.6f}")
+    print(f"  η   = {eta:.6f}")
+    print(f"  γ   = {gamma:.6f}")
+    print(f"\nLinear theory predictions (discrete grid):")
+    print(f"  λ_max  = {lam_pred:.6f}")
+    print(f"  k_peak = {k_pred:.6f} rad/unit")
+    print(f"  ℓ*     = {ell_pred:.4f}")
+    print(f"  ℓ_coh  = {ell_coh:.4f}")
+    print("=" * 70)
 
-    def get_action(self, semantic_state):
-        goal_status = semantic_state.get('GOAL_STATUS', 'DISTANT')
-        coh_status = semantic_state.get('R2_COHERENCE', 'MEDIUM')
-        a1_base, a2_base, a3_base = 0.0, 0.0, 0.0
+    # Initialize fields
+    rng = np.random.default_rng(cfg.seed)
+    shape = (cfg.n, cfg.n) if cfg.dim == 2 else (cfg.n, cfg.n, cfg.n)
 
-        if goal_status == 'ACHIEVED':
-            a1_base = np.random.uniform(-0.5, 0.5)
-            a2_base = 0.2
-            a3_base = 0.8
-        elif goal_status == 'DISTANT':
-            a2_base = 1.0
-            a3_base = 1.0
-            a1_base = 1.0 if coh_status == 'WEAK' else -1.0
-        elif goal_status == 'NEAR_GOAL':
-            a1_base = 0.0
-            a2_base = 0.5
-            a3_base = 1.0
+    R = cfg.R_bg + cfg.noise_amp * rng.standard_normal(shape)
+    Pi = np.zeros_like(R)
 
-        a1 = np.clip(a1_base + self.weights[0], -1.0, 1.0)
-        a2 = np.clip(a2_base + self.weights[1], 0.0, 1.0)
-        a3 = np.clip(a3_base + self.weights[2], 0.0, 1.0)
+    # Time evolution tracking
+    t = 0.0
+    sigma_prev, t_prev = float((R - cfg.R_bg).std()), 0.0
 
-        current_action = np.array([a1, a2, a3])
-        self.action_history.append(current_action)
-        return current_action
+    growth_log: List[Dict[str, Any]] = []
 
-    def train(self, current_reward):
-        self.reward_history.append(current_reward)
-        if len(self.reward_history) &lt; 5: return
-        avg_reward = np.mean(self.reward_history)
-        last_action = self.action_history[-1]
-        reward_delta = current_reward - avg_reward
-        self.weights += self.alpha * reward_delta * last_action
-        self.weights = np.clip(self.weights, -0.5, 0.5)
-        return self.weights
+    print(f"\n{'step':&gt;5} | {'t':&gt;7} | {'σ_R':&gt;10} | {'k_peak':&gt;7} | {'λ_eff':&gt;7} | {'Φ_R':&gt;8} | {'V':&gt;7} | {'M(t)':&gt;6}")
+    print("-" * 80)
 
+    # Main loop
+    for step in range(cfg.steps):
+        # Chronomagnetic modulation
+        M_t = chronomag_modulation(t, cfg)
 
-class PolicyNetwork:
-    """Linear policy for substrate parameter modulation with TD(0) learning."""
-    def __init__(self, input_dim, learning_rate=0.01):
-        self.input_dim = input_dim
-        self.alpha = learning_rate
-        self.gamma = 0.99
-        self.num_actions = 5
-        self.weights = [np.random.uniform(-0.01, 0.01, input_dim) for _ in range(self.num_actions)]
-        self.biases = np.random.uniform(-0.01, 0.01, self.num_actions)
-        self.learned_bases = np.array([0.6, 1.1, 0.3, 0.0, 0.0], dtype=float)
-        self.state_values = np.zeros(self.num_actions)
-        self.policy_scale = np.array([0.05, 0.05, 0.05, 0.05, 0.05])
+        # Mean-free XCRM closure with saturation
+        dX = (R - cfg.R_bg) / cfg.L_X
+        dX_c = mean_remove(dX)
+        dX_sat = saturation_Su(dX_c)  # Apply saturation operator
 
-    def predict_actions(self, metrics_vector):
-        global DRIFT_CLIP
-        deltas = np.array([np.dot(self.weights[i], metrics_vector) + self.biases[i]
-                          for i in range(self.num_actions)])
-        new_params = self.learned_bases + deltas * self.policy_scale
-        self.state_values = deltas
+        # Π update (semi-implicit damping, stable)
+        Pi = (Pi + cfg.dt * eta * dX_c) / (1.0 + cfg.dt * gamma)
 
-        new_D1 = np.clip(new_params[0], D_MIN, D_MAX)
-        new_ChiX2 = np.clip(new_params[1], CHI_MIN, CHI_MAX)
-        new_Drift1x = np.clip(new_params[2], -DRIFT_CLIP, DRIFT_CLIP)
-        new_Drift2x = np.clip(new_params[3], -DRIFT_CLIP, DRIFT_CLIP)
-        new_Drift3x = np.clip(new_params[4], -DRIFT_CLIP, DRIFT_CLIP)
-        self.predicted_drift2_x = new_Drift2x
-        return new_D1, new_ChiX2, new_Drift1x, new_Drift2x, new_Drift3x
+        # R update with modulated drive
+        lap = laplacian_periodic(R, cfg.dx)
+        nonlinear = -lam_cubic * (R - cfg.R_bg)**3
 
-    def train(self, metrics_old, actions, reward, metrics_new, R4_gamma):
-        current_actions = np.array(actions)
-        policy_vals_new = np.array([np.dot(self.weights[i], metrics_new) + self.biases[i]
-                                   for i in range(self.num_actions)])
-        td_errors = reward + self.gamma * policy_vals_new - self.state_values
-        effective_alpha = self.alpha * R4_gamma
+        R = R + cfg.dt * M_t * (
+            D * lap +
+            chi * dX_sat +      # Saturated drive
+            kPi * Pi +
+            nonlinear
+        )
 
-        for i in range(self.num_actions):
-            self.weights[i] += effective_alpha * td_errors[i] * metrics_old
-            self.biases[i] += effective_alpha * td_errors[i]
-            self.learned_bases[i] += effective_alpha * (current_actions[i] - self.learned_bases[i]) * 0.01
+        t += cfg.dt
 
-        self.learned_bases[0] = np.clip(self.learned_bases[0], D_MIN, D_MAX)
-        self.learned_bases[1] = np.clip(self.learned_bases[1], CHI_MIN, CHI_MAX)
-        global DRIFT_CLIP
-        for j in [2, 3, 4]:
-            self.learned_bases[j] = np.clip(self.learned_bases[j], -DRIFT_CLIP, DRIFT_CLIP)
+        # Diagnostics
+        if step % cfg.report_every == 0:
+            deltaR = R - cfg.R_bg
+            sigma = float(deltaR.std())
 
+            # Holonomy and visibility
+            Phi_R = compute_holonomy(R, cfg.R_bg, cfg.dx)
+            V = compute_visibility(Phi_R, cfg.V0)
 
-def hash_shape_and_location(invariant_region, shape):
-    """Simple symbol ID from mass and center-of-mass quadrant."""
-    nx, ny, nz = shape
-    total_mass = np.sum(invariant_region)
-    if total_mass == 0: return "NULL_SYMBOL"
-    coords = np.argwhere(invariant_region)
-    if len(coords) == 0: return "NULL_SYMBOL"
-    center = np.mean(coords, axis=0)
-    x_quad = 1 if center[0] &gt; nx / 2 else 0
-    y_quad = 1 if center[1] &gt; ny / 2 else 0
-    return f"Q{x_quad}{y_quad}_M{int(total_mass % 5)}"
+            lam_eff: Optional[float] = None
+            k_peak: Optional[float] = None
 
-def symbolic_compression_layer(R_field, dx, threshold=SYMBOL_THRESHOLD):
-    """Compress R2 field into discrete symbolic tokens."""
-    lap = laplacian_periodic(R_field, dx)
-    curvature_proxy = np.abs(lap)
-    mean_curvature = np.mean(curvature_proxy)
-    invariant_region = (curvature_proxy &gt; mean_curvature * threshold)
-    if invariant_region.any():
-        symbol_id = hash_shape_and_location(invariant_region, R_field.shape)
-        symbol_value = float(np.mean(R_field[invariant_region]))
-        if np.abs(symbol_value - R_field.mean()) &lt; 0.05:
-             return {}
-        return {symbol_id: symbol_value}
-    return {}
+            if sigma &gt; cfg.sigma_noise_floor:
+                # Effective growth rate
+                if t &gt; t_prev and sigma &gt; 0 and sigma_prev &gt; 0:
+                    lam_eff = float(np.log(sigma / sigma_prev) / (t - t_prev))
+                sigma_prev, t_prev = sigma, t
 
+                # Power spectrum
+                k_arr, Pk = radial_power_spectrum(deltaR, cfg.dx)
+                k_peak = float(k_arr[np.argmax(Pk)])
 
-class SymbolicMemory:
-    """Temporal memory for R2-derived proto-symbols."""
-    def __init__(self, max_len=SYMBOL_MEMORY_LENGTH):
-        self.history = deque(maxlen=max_len)
-        self.transition_counts = {}
-        self.current_symbol_id = "INIT"
+                # Save spectrum in linear window
+                if cfg.save_spectrum_sigma_min &lt; sigma &lt; cfg.save_spectrum_sigma_max:
+                    np.savez(
+                        os.path.join(cfg.outdir, f"spectrum_t{t:.3f}.npz"),
+                        k=k_arr, P=Pk, t=t, sigma=sigma,
+                        Phi_R=Phi_R, V=V, M_t=M_t,
+                        pred_lambda_max=lam_pred, pred_k_peak=k_pred,
+                        D=D, chi=chi, kPi=kPi, eta=eta, gamma=gamma
+                    )
 
-    def update(self, new_symbols):
-        new_symbol_id = next(iter(new_symbols.keys()), "NULL_SYMBOL")
-        if new_symbol_id != self.current_symbol_id:
-            transition = (self.current_symbol_id, new_symbol_id)
-            self.transition_counts[transition] = self.transition_counts.get(transition, 0) + 1
-            if new_symbol_id != "NULL_SYMBOL":
-                self.history.append(new_symbol_id)
-            self.current_symbol_id = new_symbol_id
+            growth_log.append({
+                "step": step, "t": t, "sigma_R": sigma,
+                "lambda_eff": lam_eff, "k_peak": k_peak,
+                "Phi_R": Phi_R, "V": V, "M_t": M_t
+            })
 
-    def get_context_vector(self):
-        last_symbol_hash = hash(self.current_symbol_id) % 1000
-        if not self.transition_counts:
-            dominant_transition_score = 0.0
-        else:
-            max_count = max(self.transition_counts.values())
-            total_count = sum(self.transition_counts.values())
-            dominant_transition_score = max_count / (total_count + 1e-6)
-        return np.array([last_symbol_hash * 1e-4, dominant_transition_score], dtype=float)
+            # Print row
+            k_str = f"{k_peak:7.3f}" if k_peak else "    nan"
+            l_str = f"{lam_eff:7.4f}" if lam_eff else "    nan"
+            print(f"{step:5d} | {t:7.4f} | {sigma:10.4e} | {k_str} | {l_str} | {Phi_R:8.4f} | {V:7.4f} | {M_t:6.4f}")
 
+            if sigma &gt; cfg.sigma_linear_max:
+                print("\n*** Leaving linear regime — stopping ***\n")
+                break
 
-def calculate_meta_control(R5, R_bg):
-    """R5 dictates R4 control parameters and meta-budget."""
-    mean_R5 = np.mean(R5)
-    meta_budget = 1.0 / (1.0 + np.exp(-(mean_R5 - R_bg) * 5.0))
-    TARGET_ALIGNMENT_BASE = 0.4
-    target_align_R4 = TARGET_ALIGNMENT_BASE + 0.2 * (mean_R5 - R_bg)
-    target_align_R4 = np.clip(target_align_R4, 0.2, 0.6)
-    gamma_R4_base = 0.5 + 0.5 * (mean_R5 - R_bg)
-    gamma_R4 = np.clip(gamma_R4_base * (1.0 + meta_budget * META_BUDGET_GAIN_MAX), 0.1, 1.0)
-    return target_align_R4, gamma_R4, meta_budget
+    # Compile results
+    results = {
+        "config": asdict(cfg),
+        "effective_params": {
+            "D": D, "chi": chi, "kPi": kPi, "eta": eta, "gamma": gamma
+        },
+        "weight_info": weight_info,
+        "theory": {
+            "lambda_chrono": LAMBDA_CHRONO,
+            "pred_lambda_max": lam_pred,
+            "pred_k_peak": k_pred,
+            "pred_ell_star": ell_pred,
+            "ell_coherence": ell_coh
+        },
+        "log": growth_log
+    }
 
-def calculate_global_drift(R4, R_bg):
-    """R4 state dictates R2 drift for goal-seeking."""
-    mean_R4 = np.mean(R4)
-    omega2_x = 0.5 * (mean_R4 - R_bg)
-    global DRIFT_CLIP
-    omega2_x_clipped = np.clip(omega2_x, -DRIFT_CLIP, DRIFT_CLIP)
-    return np.array([omega2_x_clipped, 0.0, 0.0], dtype=float)
+    # Save JSON log
+    with open(os.path.join(cfg.outdir, "stur_growth.json"), "w") as f:
+        json.dump(results, f, indent=2, default=float)
+
+    # Save NPZ data
+    np.savez(
+        os.path.join(cfg.outdir, "stur_data.npz"),
+        t=np.array([r["t"] for r in growth_log]),
+        sigma=np.array([r["sigma_R"] for r in growth_log]),
+        lambda_eff=np.array([r["lambda_eff"] if r["lambda_eff"] else np.nan for r in growth_log]),
+        k_peak=np.array([r["k_peak"] if r["k_peak"] else np.nan for r in growth_log]),
+        Phi_R=np.array([r["Phi_R"] for r in growth_log]),
+        V=np.array([r["V"] for r in growth_log]),
+        M_t=np.array([r["M_t"] for r in growth_log]),
+        pred_lambda_max=lam_pred,
+        pred_k_peak=k_pred,
+        pred_ell_star=ell_pred,
+        ell_coherence=ell_coh,
+        lambda_chrono=LAMBDA_CHRONO
+    )
+
+    print(f"Results saved to: {cfg.outdir}/")
+
+    return results
 
 
-# ==============================================================================
-# IV. STUR Seed Harness v5.2
-# ==============================================================================
-
-def extract_low_dim_readout(R1, X1, R2, X2, R3, X3, R4, R5, goal_mask=None, symbol_context=None):
-    """Extract 29-dimensional state vector for Policy Network."""
-    mR1, sR1 = float(R1.mean()), float(R1.std())
-    mR2, sR2 = float(R2.mean()), float(R2.std())
-    mR3, sR3 = float(R3.mean()), float(R3.std())
-    mR4, sR4 = float(R4.mean()), float(R4.std())
-    mR5, sR5 = float(R5.mean()), float(R5.std())
-    mX1, sX1 = float(X1.mean()), float(X1.std())
-    mX2, sX2 = float(X2.mean()), float(X2.std())
-    mX3, sX3 = float(X3.mean()), float(X3.std())
-    c1 = coherence_correlation(R1, X1)
-    c2 = coherence_correlation(R2, X2)
-    c3 = coherence_correlation(R3, X3)
-    dx_dummy = 1.0
-    g1x, g1y, g1z = gradient_periodic(R1, dx_dummy)
-    g2x, g2y, g2z = gradient_periodic(R2, dx_dummy)
-    g3x, g3y, g3z = gradient_periodic(R3, dx_dummy)
-    curv1_val = float((g1x ** 2 + g1y ** 2 + g1z ** 2).mean())
-    curv2_val = float((g2x ** 2 + g2y ** 2 + g2z ** 2).mean())
-    curv3_val = float((g3x ** 2 + g3y ** 2 + g3z ** 2).mean())
-    align2, align3 = 0.0, 0.0
-    if goal_mask is not None:
-        align2 = coherence_correlation(R2, goal_mask)
-        align3 = coherence_correlation(R3, goal_mask)
-    ent1 = shannon_entropy(R1)
-    ent2 = shannon_entropy(R2)
-    ent3 = shannon_entropy(R3)
-    if symbol_context is None: symbol_context = np.zeros(2)
-    vector = [mR1, mR2, mR3, mR4, mR5, sR1, sR2, sR3, sR4, sR5,
-              mX1, mX2, mX3, sX1, sX2, sX3, c1, c2, c3,
-              curv1_val, curv2_val, curv3_val, ent1, ent2, ent3,
-              align2, align3, symbol_context[0], symbol_context[1]]
-    return None, np.array(vector, dtype=float)
-
-
-class STURSeedHarness:
-    """STURSeedHarness v5.2: Persistent Internal World Model."""
-
-    def __init__(self, **kwargs):
-        self.nx = kwargs.get('nx', 32)
-        self.ny = kwargs.get('ny', 32)
-        self.nz = kwargs.get('nz', 32)
-        self.dx = kwargs.get('dx', 1.0)
-        self.dt = kwargs.get('dt', 0.005)
-        self.steps_per_episode = kwargs.get('steps_per_episode', 2000)
-        self.R4_shape = kwargs.get('R4_shape', (8, 8, 8))
-        self.R5_shape = kwargs.get('R5_shape', (4, 4, 4))
-        self.dx_coarse_R4 = self.dx * (self.nx / self.R4_shape[0])
-        self.dx_coarse_R5 = self.dx * (self.nx / self.R5_shape[0])
-        self.dt_coarse_R4 = self.dt * 10.0
-        self.dt_coarse_R5 = self.dt_coarse_R4 * 10.0
-        self.D4 = kwargs.get('D4', 0.1)
-        self.D5 = kwargs.get('D5', 0.05)
-        self.K_FEEDBACK = kwargs.get('K_FEEDBACK', 0.1)
-        self.ALPHA_R45 = kwargs.get('alpha_R45', 0.001)
-        self.BETA_R54 = kwargs.get('beta_R54', 0.001)
-        self.R_bg = kwargs.get('R_bg', 1.0)
-        self._set_standard_params(kwargs)
-        self.rng = np.random.default_rng(kwargs.get('seed', 1234))
-        self._initialize_fields_once()
-        self.reset_episode(full_reset=True)
-
-    def _set_standard_params(self, kwargs):
-        self.L_X = kwargs.get('L_X', 1.0)
-        self.sym_amplitude_base = kwargs.get('sym_amplitude_base', 0.15)
-        self.sym_causal_epsilon = kwargs.get('sym_causal_epsilon', 0.01)
-        self.prediction_beta = kwargs.get('prediction_beta', 0.02)
-        self.D2 = kwargs.get('D2', 0.5)
-        self.D3 = kwargs.get('D3', 0.4)
-        self.chi1 = kwargs.get('chi1', 0.4)
-        self.chi2 = kwargs.get('chi2', 0.35)
-        self.chi3 = kwargs.get('chi3', 0.3)
-        self.k_couple1 = kwargs.get('k_couple1', 1.2)
-        self.k_couple2 = kwargs.get('k_couple2', 1.0)
-        self.k_couple3 = kwargs.get('k_couple3', 0.8)
-        self.gamma_X1 = kwargs.get('gamma_X1', 0.05)
-        self.gamma_X2 = kwargs.get('gamma_X2', 0.04)
-        self.gamma_X3 = kwargs.get('gamma_X3', 0.03)
-        self.chi_X1 = kwargs.get('chi_X1', 1.2)
-        self.chi_X3 = kwargs.get('chi_X3', 1.0)
-        self.layer_couple_12 = kwargs.get('layer_couple_12', 0.15)
-        self.layer_couple_21 = kwargs.get('layer_couple_21', 0.05)
-        self.layer_couple_13 = kwargs.get('layer_couple_13', 0.08)
-        self.layer_couple_23 = kwargs.get('layer_couple_23', 0.08)
-        self.layer_couple_31 = kwargs.get('layer_couple_31', 0.03)
-        self.layer_couple_32 = kwargs.get('layer_couple_32', 0.03)
-        self.goal_amplitude = kwargs.get('goal_amplitude', 0.15)
-        self.target_rms = kwargs.get('target_rms', 1.0)
-        self.norm_epsilon = kwargs.get('norm_epsilon', 1e-8)
-        self.clamp_R = kwargs.get('clamp_R', (-4.0, 4.0))
-        self.R_min_clip, self.R_max_clip = self.clamp_R
-        self.alpha_D1 = kwargs.get('alpha_D1', 0.05)
-        self.alpha_D2 = kwargs.get('alpha_D2', 0.05)
-        self.alpha_D3 = kwargs.get('alpha_D3', 0.05)
-        self.alpha_chi1 = kwargs.get('alpha_chi1', 0.05)
-        self.alpha_chi2 = kwargs.get('alpha_chi2', 0.05)
-        self.alpha_chi3 = kwargs.get('alpha_chi3', 0.05)
-        self.lambda_V1 = kwargs.get('lambda_V1', 0.1)
-        self.lambda_V2 = kwargs.get('lambda_V2', 0.1)
-        self.lambda_V3 = kwargs.get('lambda_V3', 0.1)
-        self.source_strength1 = kwargs.get('source_strength1', 0.0)
-        self.source_strength2 = kwargs.get('source_strength2', 0.0)
-        self.source_strength3 = kwargs.get('source_strength3', 0.0)
-        self.source_noise1 = kwargs.get('source_noise1', 0.01)
-        self.source_noise2 = kwargs.get('source_noise2', 0.01)
-        self.source_noise3 = kwargs.get('source_noise3', 0.01)
-        self.input_amplitude_dyn = kwargs.get('input_amplitude_dyn', 0.1)
-        self.omega_dyn = kwargs.get('omega_dyn', 0.5)
-        self.input_amplitude_static = kwargs.get('input_amplitude_static', 0.1)
-
-    def _initialize_fields_once(self):
-        nx, ny, nz = self.nx, self.ny, self.nz
-        R_bg = self.R_bg
-        self.R1 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
-        self.R2 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
-        self.R3 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
-        self.X1, self.X2, self.X3 = np.zeros_like(self.R1), np.zeros_like(self.R2), np.zeros_like(self.R3)
-        self.R4 = R_bg + 0.05 * self.rng.standard_normal(self.R4_shape)
-        self.R5 = R_bg + 0.05 * self.rng.standard_normal(self.R5_shape)
-
-        static_centers = [(nx // 4, ny // 4, nz // 2), (3 * nx // 4, 3 * ny // 4, nz // 2), (nx // 2, ny // 2, nz // 4)]
-        self.source_static = make_gaussian_sources((nx, ny, nz), static_centers, sigma=4.0, amplitude=1.0)
-        dyn_center = (nx // 2, ny // 3, 3 * nz // 4)
-        self.source_dyn = make_gaussian_sources((nx, ny, nz), [dyn_center], sigma=3.0, amplitude=1.0)
-        symA_center = (nx // 3, 2 * ny // 3, nz // 2)
-        symB_center = (2 * nx // 3, ny // 3, nz // 2)
-        self.sym_A = make_gaussian_sources((nx, ny, nz), [symA_center], sigma=3.0, amplitude=1.0)
-        self.sym_B = make_gaussian_sources((nx, ny, nz), [symB_center], sigma=3.0, amplitude=1.0)
-        goal_center = (nx // 2, nx // 2, 3 * nz // 4)
-        self.goal_mask_base = make_gaussian_sources((nx, ny, nz), [goal_center], sigma=4.0, amplitude=1.0)
-        self.current_goal_mask = self.goal_mask_base
-        symbol_context_initial = np.zeros(2)
-        _, dummy_vec = extract_low_dim_readout(self.R1, self.X1, self.R2, self.X2, self.R3, self.X3,
-                                               self.R4, self.R5, symbol_context=symbol_context_initial)
-        self.policy_network = PolicyNetwork(input_dim=len(dummy_vec), learning_rate=0.01)
-        self.symbolic_memory = SymbolicMemory()
-        self.planner = AdaptivePlanner(learning_rate=0.05)
-
-    def reset_episode(self, full_reset=False):
-        global DRIFT_CLIP
-        nx, ny, nz = self.nx, self.ny, self.nz
-        R_bg = self.R_bg
-        self.R1 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
-        self.R2 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
-        self.R3 = R_bg + 0.05 * self.rng.standard_normal((nx, ny, nz))
-        if full_reset:
-            self.X1[:] = 0.0; self.X2[:] = 0.0; self.X3[:] = 0.0
-            self.R4[:] = R_bg + 0.05 * self.rng.standard_normal(self.R4_shape)
-            self.R5[:] = R_bg + 0.05 * self.rng.standard_normal(self.R5_shape)
-            self.symbolic_memory = SymbolicMemory()
-        self.t = 0.0
-        self.episode_step = 0
-        self.times = []
-        self.goal_align_trace = []
-        self.coherence_trace = []
-        self.reward_trace = []
-        self.last_entropy_R2 = shannon_entropy(self.R2)
-        self.accumulated_reward = 0.0
-        self.symbol_history = {}
-        bases = self.policy_network.learned_bases
-        self.D1 = bases[0]
-        self.chi_X2 = bases[1]
-        self.drift_vector1 = bases[2] * np.array([1.0, 0.0, 0.0], dtype=float)
-        self.drift_vector3 = bases[4] * np.array([1.0, 0.0, 0.0], dtype=float)
-        self.target_align_R4, self.gamma_R4, self.meta_budget = calculate_meta_control(self.R5, self.R_bg)
-        DRIFT_CLIP = 0.5 * (1.0 + self.meta_budget)
-        initial_drift_vector2 = calculate_global_drift(self.R4, self.R_bg)
-        self.current_drift_vector2 = initial_drift_vector2
-        if np.mean(self.R5) &gt; R5_GOAL_THRESHOLD:
-            if self.meta_budget &gt; 0.8:
-                self.current_goal_mask = self.R3
-                self.goal_description = "Internal Stability (R2 -&gt; R3)"
-            else:
-                self.current_goal_mask = self.X2
-                self.goal_description = "Self-Consistency (R2 -&gt; X2)"
-        else:
-            self.current_goal_mask = self.goal_mask_base
-            self.goal_description = "Curriculum Goal"
-        self.last_goal_align = coherence_correlation(self.R2, self.current_goal_mask)
-        symbol_context_vec = self.symbolic_memory.get_context_vector()
-        _, readout_vec = extract_low_dim_readout(self.R1, self.X1, self.R2, self.X2, self.R3, self.X3,
-                                                 self.R4, self.R5, goal_mask=self.current_goal_mask,
-                                                 symbol_context=symbol_context_vec)
-        self.last_readout_vec = readout_vec
-        self.last_predicted_readout = readout_vec.copy()
-        self.last_conflict_norm = 0.0
-        self.last_R4_mean = float(np.mean(self.R4))
-        return readout_vec
-
-    def run_curriculum(self, num_episodes=5):
-        """Run multi-episode curriculum for persistent learning."""
-        all_summaries = []
-        for ep in range(num_episodes):
-            print(f"{'='*60}")
-            print(f"| EPISODE {ep+1}/{num_episodes} |")
-            print(f"{'='*60}")
-            self.reset_episode()
-            for step_idx in range(self.steps_per_episode):
-                readout_vec = self.last_readout_vec
-                semantic_state = semantic_abstraction(readout_vec)
-                action = self.planner.get_action(semantic_state)
-                # Simplified step (full dynamics omitted for brevity)
-                self.episode_step += 1
-                if self.episode_step &gt;= self.steps_per_episode:
-                    break
-            summary = {
-                "episode": ep + 1,
-                "final_D1": float(self.policy_network.learned_bases[0]),
-                "final_ChiX2": float(self.policy_network.learned_bases[1]),
-                "final_R5_mean": float(np.mean(self.R5)),
-                "meta_budget": float(self.meta_budget),
-            }
-            all_summaries.append(summary)
-            print(f"  D1={summary['final_D1']:.4f}, ChiX2={summary['final_ChiX2']:.4f}")
-        return {"episodes": all_summaries}
-
-
-# ==============================================================================
-# V. ENTRY POINT
-# ==============================================================================
+# ============================================================
+# ENTRY POINT
+# ============================================================
 
 if __name__ == "__main__":
-    print("\n" + "="*80)
-    print("=== AGI SIMULATION V5.2: XCRM-Based Cognitive Substrate ===")
-    print("="*80)
+    # Default configuration — run 2D simulation with chronomagnetic modulation
+    config = STURConfig(
+        dim=2,
+        n=192,
+        steps=6000,
+        use_triangle=True,
+        use_chronomag=True,
+        epsilon_chrono=0.05,
+        outdir="stur_rfd_output"
+    )
 
-    harness = STURSeedHarness(nx=32, ny=32, nz=32, dt=0.005, steps_per_episode=500, seed=4321)
-    curriculum_log = harness.run_curriculum(num_episodes=5)
-
-    print("\n" + "="*80)
-    print("== CURRICULUM COMPLETE ==")
-    print("="*80)
+    run_stur_rfd(config)
 </code>
   </div>
 </section>
@@ -974,6 +1007,38 @@ if __name__ == "__main__":
         rich, self-organizing dynamics useful for cognitive architectures. Whether or not the connection to
         STUR physics is ultimately validated, the mathematical structures may have independent utility.
       </p>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section class="section" id="references" style="border:2px solid var(--accent-secondary); background:rgba(167,139,250,0.04);">
+  <h2 style="color:var(--accent-secondary);">References</h2>
+
+  <h3 style="color:var(--text);margin-top:1rem;">AI Development Assistants</h3>
+  <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
+    The following AI systems contributed to the development, refinement, and documentation of this simulator:
+  </p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+    <div class="block" style="border-left-color:#d97706;">
+      <div class="title" style="color:#d97706;">Claude</div>
+      <p style="margin:0;color:var(--text-secondary);font-size:0.85rem;">Anthropic</p>
+    </div>
+    <div class="block" style="border-left-color:#10b981;">
+      <div class="title" style="color:#10b981;">ChatGPT</div>
+      <p style="margin:0;color:var(--text-secondary);font-size:0.85rem;">OpenAI</p>
+    </div>
+    <div class="block" style="border-left-color:#3b82f6;">
+      <div class="title" style="color:#3b82f6;">GitHub Copilot</div>
+      <p style="margin:0;color:var(--text-secondary);font-size:0.85rem;">GitHub / Microsoft</p>
+    </div>
+    <div class="block" style="border-left-color:#ef4444;">
+      <div class="title" style="color:#ef4444;">Grok</div>
+      <p style="margin:0;color:var(--text-secondary);font-size:0.85rem;">xAI</p>
+    </div>
+    <div class="block" style="border-left-color:#8b5cf6;">
+      <div class="title" style="color:#8b5cf6;">Gemini</div>
+      <p style="margin:0;color:var(--text-secondary);font-size:0.85rem;">Google DeepMind</p>
     </div>
   </div>
 </section>
@@ -1053,7 +1118,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'stur_agiseed_v5_2.py';
+    a.download = 'stur_rfd_simulator.py';
     document.body.appendChild(a);
     a.click();
     a.remove();

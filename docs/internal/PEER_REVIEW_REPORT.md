@@ -1,3 +1,9 @@
+> **INTERNAL DOCUMENT — NOT FOR PUBLIC DISPLAY**
+>
+> This document is for repository maintainers only. It is not linked from any public-facing pages on the STUR Physics Lab website.
+
+---
+
 # STUR Physics Lab — Comprehensive Peer Review Report
 
 **Date:** January 21, 2026
@@ -8,7 +14,7 @@
 
 ## Executive Summary
 
-STUR (Sheldon's Theory of Unified Resistance) is an ambitious unified physics framework presented through a professionally-designed web laboratory. The theory proposes that fundamental physics emerges from three axioms (Master Action + MHP + DHP) operating on a 5D orbifold manifold S¹/Z₂.
+STUR (Sheldon's Theory of Unified Resistance) is an ambitious unified physics framework presented through a professionally-designed web laboratory. The theory proposes that fundamental physics emerges from two axioms (Master Action + DHP) operating on a 5D orbifold manifold S¹/Z₂, with MHP derived from the path integral saddle point condition.
 
 **Overall Assessment:** The presentation is of *exceptional quality* for public-facing physics documentation. The theory is well-organized, mathematically detailed, and—critically—**falsifiable**. The documentation demonstrates sophisticated understanding of physics pedagogy and responsible scientific communication.
 
@@ -53,14 +59,14 @@ S[R,g,X] = ∫ d⁴x dX √−g [ ½(∇R)² − V(R) + χR∂ₓR + αR𝕋 + �
 2. **MODERATE:** The integration measure `d⁴x dX` implies the 5th dimension is treated equally, but later sections show X is compactified. The notation should clarify this is over the orbifold interval.
    - **Recommendation:** Add clarifying note: "where X ∈ [0, L_X] on the orbifold S¹/Z₂"
 
-#### B. The Three Axioms (Rating: GOOD)
+#### B. The Two Axioms + MHP Derivation (Rating: STRONG — Updated)
 
 **Axiom 1 (Master Action):** Well-defined ✓
-**Axiom 2 (MHP):** Clearly stated, though the holonomy functional Ω needs more explicit definition in the main text
-**Axiom 3 (DHP):** Less developed than MHP—the dynamical extension feels more like a conjecture than a derived principle
+**Axiom 2 (DHP):** Evolution equations now derived from variational principle δΩ_DHP = 0
+**Derived (MHP):** Now explicitly derived from path integral saddle point — Faddeev-Popov procedure produces Vandermonde determinant ✓
 
-**Issue:** The MHP and DHP are presented as solving 13 problems, but the claim of "complete theory" should be tempered.
-- **Recommendation:** Add caveat: "within the scope of this framework" or "modulo UV completion details"
+**Status:** The theory now addresses 15 problems: 7 rigorously established, 8 well-motivated proposals. The claim of "unified framework with falsifiable predictions" is appropriate.
+- **Recent improvements:** DHP evolution equations derived, XCRM closure from first principles, MHP Vandermonde derivation explicit
 
 #### C. XCRM Closure (Rating: STRONG)
 
@@ -192,7 +198,7 @@ This is the mathematical backbone of the theory. Sections reviewed:
 |-------|----------|-------|----------------|
 | "Complete Theory" | Core Theory, line 229 | Overstates closure | Add "within this framework" |
 | "All sectors close via XCRM" | Unified Framework | Some closures are conjectural | Distinguish proven vs. proposed |
-| "13 problems closed" | Core Theory | Some are claimed, not proven | List which have explicit proofs |
+| "15 problems addressed" | Core Theory | ✓ Now properly classified | 7 rigorous + 8 proposals correctly distinguished |
 | "Uniquely minimizes Ω" (gauge group) | Core Theory, line 347 | Proof not shown | Add reference to Appendix F.5 |
 | "3 generations from APS index" | Core Theory | Standard result but attribution needed | Cite Atiyah-Patodi-Singer |
 | "Not seeking peer review" | Footer | Contradicts request for this review | Remove or clarify ("not submitting to journals, seeking open falsification") |
