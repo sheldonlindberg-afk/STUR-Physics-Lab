@@ -70,7 +70,7 @@ const STUR_DEFINITIONS = {
   // ============================================================
   closure: {
     status: "COMPLETE_UNIFIED_THEORY",
-    statusLabel: "15 problems rigorously established with complete derivation chains",
+    statusLabel: "19 problems addressed: 17 derived, 2 accommodated",
     problemsAddressed: 15,
     rigorouslyEstablished: 15,
     wellMotivatedProposals: 0,
