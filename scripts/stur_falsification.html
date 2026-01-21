@@ -37,6 +37,12 @@
 <header class="masthead">
   <h1 style="background: linear-gradient(135deg, var(--error) 0%, var(--gold) 50%, var(--text) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Falsification Protocol</h1>
   <p class="subtitle">How to Test and Potentially Exclude STUR</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    <a href="stur_core_theory.html" style="color:var(--accent);">2 axioms</a> ·
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
+    <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">L<sub>X</sub> stabilized</a> ·
+    <a href="stur_mhp_derivation.html#assumptions" style="color:var(--accent);">Explicit assumptions</a>
+  </p>
   <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
 
@@ -258,58 +264,62 @@
 
 <!-- THEORETICAL STATUS -->
 <section class="section" id="sec14">
-  <h2>14. Framework Status: Mathematical Foundations</h2>
+  <h2>14. Framework Status: Derivation Classification</h2>
 
   <p style="color:var(--text-secondary);margin-bottom:1rem;">
-    The STUR framework is mathematically complete—all mechanisms have explicit derivations.
-    See the <a href="stur_technical_appendix.html#mhp" style="color:var(--accent);">Technical Appendix</a> for full proofs.
+    Scientific integrity requires distinguishing what is rigorously established from what is proposed.
+    STUR now rests on <strong>two axioms</strong> (Master Action + DHP) — <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP is derived from the path integral</a>.
   </p>
 
   <div class="block success" style="background:rgba(74,222,128,0.04);border-color:rgba(74,222,128,0.3);border-width:2px;">
-    <div class="title" style="color:#4ade80;">Mathematically Established — Complete Theory</div>
+    <div class="title" style="color:#4ade80;">Rigorously Established (5 results)</div>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li><strong>Gaussian visibility form:</strong> Follows from CLT phase averaging (Appendix B)</li>
-      <li><strong>Coherence length:</strong> \(\Matt{\ell_{\rm coh}} = \sqrt{2}\, \XCRM{L_X} / (\Quant{y}\,\Diff{\sigma_R})\) from XCRM closure</li>
-      <li><strong>TEGR emergence:</strong> Equilibrium limit recovers \(\Tor{\text{teleparallel gravity}}\) (Section 4)</li>
-      <li><strong>Yang-Mills structure:</strong> Derived from XCRM degeneracy covariance (Section 5)</li>
-      <li><strong>SM gauge group selection:</strong> MHP holonomy cost minimization—G<sub>SM</sub> uniquely minimizes Ω (Eq. F.5)</li>
-      <li><strong>3 generations:</strong> Explicit APS index calculation gives |I| = 3 (Appendix F.4.1)</li>
-      <li><strong>MHP variational solutions:</strong> Closed-form fermion positions from \(\XCRM{\partial\Omega/\partial X} = 0\) (F.3.1)</li>
-      <li><strong>Yukawa hierarchies:</strong> Derived from MHP localization—6 orders of magnitude emerge geometrically (F.9d)</li>
-      <li><strong>All-orders UV finiteness:</strong> 1-loop calculation (F.7.1) + inductive multi-loop proof (F.7.2)</li>
-      <li><strong>DHP cosmological framework:</strong> Dynamical holonomy functional formulated (Eq. F.12)</li>
-      <li><strong>Λ problem resolution:</strong> DHP requires finite \(\Quant{\Omega}\) ⇒ \(\Lambda \to 0\) asymptotically (Eq. F.22)</li>
-      <li><strong>Quantum gravity:</strong> Holonomy-weighted path integral is UV-finite (Eq. F.27)</li>
-      <li><strong>Neutrino masses:</strong> Maximal localization separation gives \(m_\nu \sim 10^{-12}\) naturally (F.16)</li>
-      <li><strong>CP violation:</strong> Holonomy phase mismatch at orbifold fixed points (F.18)</li>
-      <li><strong>Dark matter:</strong> KK parity stabilizes LKP with correct relic abundance (F.20)</li>
-      <li><strong>Inflation:</strong> R-field slow-roll gives 60 e-foldings naturally (F.24)</li>
-      <li><strong>Baryogenesis:</strong> XCRM first-order phase transition satisfies Sakharov conditions (F.25)</li>
+      <li><strong>Gaussian visibility form:</strong> Follows from CLT phase averaging — mathematical theorem (Appendix B)</li>
+      <li><strong>TEGR emergence:</strong> Equilibrium limit recovers GR — standard result (Section 4)</li>
+      <li><strong>Energy conditions:</strong> All standard energy conditions satisfied (<a href="stur_energy_conditions.html" style="color:var(--accent);">explicit calculation</a>)</li>
+      <li><strong>MHP derivation:</strong> Path integral saddle point condition — established QFT (<a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP Derivation</a>)</li>
+      <li><strong>Moduli stabilization:</strong> Casimir-holonomy balance fixes L<sub>X</sub> (<a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">Stabilization</a>)</li>
     </ul>
   </div>
 
   <div class="block gold" style="margin-top:1rem;border-width:2px;">
-    <div class="title" style="color:#fbbf24;">Theory-Determined Parameters (Measurement Required)</div>
-    <p style="margin:0 0 0.5rem;color:var(--text-secondary);">
-      The theory determines all physics from two parameters whose values must be measured experimentally:
-    </p>
+    <div class="title" style="color:#fbbf24;">Well-Motivated Proposals (8 mechanisms)</div>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li><strong>\(\XCRM{L_X}\):</strong> Compactification scale — determines all mass scales, gauge couplings, and coherence length. Current bound: \(L_X < 10\) μm.</li>
-      <li><strong>\(\Pot{\lambda}\):</strong> Self-coupling — sets \(v = R_{\rm bg}\). Related to \(L_X\) through dimensional analysis: \(\lambda = c_\lambda/L_X\).</li>
+      <li><strong>SM gauge group:</strong> Local minimum of holonomy cost among viable groups (not proven unique)</li>
+      <li><strong>3 generations:</strong> APS index = 3 <em>given</em> SM flux quantization n=3 (consistency check)</li>
+      <li><strong>Yukawa hierarchies:</strong> Localization framework accommodates observed masses (fit, not predicted)</li>
+      <li><strong>UV finiteness:</strong> 1-loop shown explicitly; all-orders argued but not proven</li>
+      <li><strong>Dark matter (LKP):</strong> Standard KK mechanism from orbifold structure</li>
+      <li><strong>Neutrino masses:</strong> Maximal separation mechanism proposed</li>
+      <li><strong>CP violation:</strong> Holonomy phase mechanism outlined</li>
+      <li><strong>Cosmological constant:</strong> DHP suggests Λ → 0 asymptotically (qualitative)</li>
     </ul>
-    <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.9rem;">
-      <em>These are not "free" in the sense of theoretical ambiguity—the theory uniquely determines their role. They are "free" only in requiring experimental input, like \(G\), \(\hbar\), or \(c\) in other theories.</em>
+  </div>
+
+  <div class="block" style="margin-top:1rem;border-width:2px;border-left-color:var(--error);">
+    <div class="title" style="color:var(--error);">Requires Further Work</div>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li><strong>DHP dynamical equations:</strong> Evolution equations not yet derived</li>
+      <li><strong>Inflation details:</strong> R-field slow-roll outlined but not fully calculated</li>
+      <li><strong>Baryogenesis:</strong> Sakharov conditions claimed but not verified</li>
+      <li><strong>Numerical fermion masses:</strong> Framework exists but no ab initio predictions</li>
+    </ul>
+  </div>
+
+  <div class="block" style="margin-top:1rem;border-width:2px;border-left-color:var(--accent);">
+    <div class="title" style="color:var(--accent);">Dynamically Determined Parameter</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>\(\XCRM{L_X}\):</strong> <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">Stabilized by Casimir-holonomy balance</a> at L<sub>X</sub>* ~ 0.1-10 μm. Determines ℓ<sub>coh</sub>, which sets the falsification scale.
     </p>
   </div>
 
   <div class="block success" style="margin-top:1.5rem;border-color:var(--success);border-width:2px;">
-    <div class="title" style="color:var(--success);">Key Falsifiable Prediction</div>
+    <div class="title" style="color:var(--success);">Key Falsifiable Prediction (Non-Negotiable)</div>
     <p style="margin:0;color:var(--text-secondary);">
       <strong>Visibility:</strong> \(\Matt{V(\Delta L)} = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) — Gaussian in \(\Delta L^2\), no time dependence, no mass dependence.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      This prediction is testable with current interferometer technology (MAGIS-100, AION, Sagnac loops).
-      The theory stands or falls on this single non-negotiable form.
+      Testable with MAGIS-100, AION, and Sagnac loops. <strong>The theory stands or falls on this prediction.</strong>
     </p>
   </div>
 </section>

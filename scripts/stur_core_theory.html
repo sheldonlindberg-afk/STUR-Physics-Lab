@@ -36,8 +36,12 @@
 
 <header class="masthead">
   <h1 class="page-title-core">STUR Core Theory</h1>
-  <p class="subtitle">Unified Framework: XCRM + MHP + DHP — Three Axioms, Testable Predictions</p>
+  <p class="subtitle">Unified Framework: Master Action + DHP — Two Axioms, Falsifiable Predictions</p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg · <em>Not yet peer-reviewed</em></p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived from path integral</a> ·
+    <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">L<sub>X</sub> dynamically stabilized</a>
+  </p>
   <div style="margin-top:1rem;">
     <button class="btn btn-cite" id="copyCite">Copy Citation</button>
   </div>
@@ -125,22 +129,29 @@
 <section class="section" id="mhp" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.15) 0%, rgba(167,139,250,0.08) 100%);">
   <h2 style="color:var(--gold);">The Minimum Holonomy Principle (MHP)</h2>
 
+  <div class="block success" style="border-width:2px;margin-bottom:1rem;background:rgba(74,222,128,0.08);">
+    <div class="title" style="color:var(--success);">MHP Is Derived, Not Postulated</div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.95rem;">
+      MHP follows from the <strong>path integral saddle point condition</strong>. The Faddeev-Popov procedure for gauge fields on the orbifold produces a Vandermonde determinant in the measure, inducing an effective potential V<sub>eff</sub>[h] in holonomy space. Physical configurations minimize this potential.
+      <a href="stur_mhp_derivation.html" style="color:var(--accent);margin-left:0.5rem;">Full derivation →</a>
+    </p>
+  </div>
+
   <div class="block gold" style="border-width:3px;background:rgba(0,0,0,0.6);">
-    <div class="title" style="font-size:1.1rem;">Axiom MHP — The Selection Principle</div>
+    <div class="title" style="font-size:1.1rem;">MHP — The Selection Principle (Derived)</div>
     <p style="margin:0;color:var(--text);font-size:1.05rem;line-height:1.7;">
       <strong>Physical configurations minimize the total holonomy action over all non-contractible cycles of the orbifold.</strong>
     </p>
     <div class="eq law" style="margin:1rem 0 0;background:#000;border:2px solid var(--gold);padding:1rem;">
-      \[\boxed{\Omega[A, \psi, X_i] = \int_{\gamma} \Tr(W[\gamma]^\dagger W[\gamma])\, d\mu(\gamma)
-      + \lambda_\psi \sum_i \int |D_X \psi_i|^2\, dX
-      + \kappa\, \mathcal{I}_{\rm top}}\]
-      <div class="eq-label" style="color:var(--gold);">(MHP.1) — The Holonomy Functional</div>
+      \[\boxed{\Omega[A, \psi, X_i] = \underbrace{V_{\rm eff}^{\rm gauge}[\mathbf{h}]}_{\text{Vandermonde}}
+      + \underbrace{\lambda_\psi \sum_i \int |D_X \psi_i|^2\, dX}_{\text{Fermion localization}}
+      + \underbrace{\kappa\, \mathcal{I}_{\rm top}}_{\text{Topology}}}\]
+      <div class="eq-label" style="color:var(--gold);">(MHP.1) — The Holonomy Functional = Path Integral Effective Potential</div>
     </div>
   </div>
 
   <p style="margin-top:1.25rem;font-size:1rem;color:var(--text);">
-    The MHP is the <strong>second axiom</strong> of STUR (after the Master Action). It provides the variational
-    principle that selects the unique physical configuration from the space of solutions.
+    MHP is <strong>not an independent axiom</strong> — it emerges from the structure of the path integral on orbifolds. This reduces STUR to <strong>two axioms</strong>: Master Action + DHP.
   </p>
 
   <h3>What MHP Determines</h3>
@@ -227,15 +238,16 @@
   <div class="block success" style="margin-top:1.5rem;border-width:3px;">
     <div class="title" style="font-size:1.1rem;">UNIFIED FRAMEWORK</div>
     <p style="margin:0;color:var(--text);">
-      <strong>XCRM + MHP + DHP = Unified framework for fundamental physics within this geometric setting.</strong>
+      <strong>XCRM + DHP = Unified framework with falsifiable predictions.</strong>
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li><strong>3 axioms:</strong> Master Action, MHP, DHP</li>
-      <li><strong>2 parameters:</strong> \(\XCRM{L_X}\) (dimension size), \(\Pot{\lambda}\) (self-coupling)</li>
-      <li><strong>13 problems addressed:</strong> Gauge, flavor, cosmological, and quantum gravity questions have proposed solutions (see derivation status below)</li>
+      <li><strong>2 axioms:</strong> Master Action, DHP (<a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP is derived from path integral</a>)</li>
+      <li><strong>1 dynamical parameter:</strong> \(\XCRM{L_X}\) (<a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">stabilized by Casimir-holonomy balance</a>)</li>
+      <li><strong>13 problems addressed:</strong> 5 rigorously closed, 8 with proposed mechanisms (see status below)</li>
     </ul>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      <a href="stur_technical_appendix.html#mhp" style="color:var(--accent);">Derivations in Technical Appendix Sections F.1-F.14 →</a>
+      <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP Derivation & Moduli Stabilization →</a> |
+      <a href="stur_technical_appendix.html#mhp" style="color:var(--accent);">Technical Appendix →</a>
     </p>
   </div>
 </section>
@@ -332,49 +344,53 @@
 
 <!-- FRAMEWORK STATUS -->
 <section class="section" id="open-issues" style="border:2px solid var(--success);background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
-  <h2 style="color:var(--success);">Framework Status: Mathematical Foundations</h2>
+  <h2 style="color:var(--success);">Framework Status: Derivation Classification</h2>
   <p style="color:var(--text-secondary);margin-bottom:1rem;">
-    STUR is a mathematically complete theory. All mechanisms have explicit derivations in the
-    <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a>.
+    Scientific integrity requires distinguishing what is rigorously established from what is proposed. STUR claims are classified below.
+    <a href="stur_mhp_derivation.html#assumptions" style="color:var(--accent);margin-left:0.5rem;">Full assumptions list →</a>
   </p>
 
-  <h3 style="color:var(--success);margin-top:1.5rem;">Mathematically Established — Complete Theory</h3>
+  <h3 style="color:var(--success);margin-top:1.5rem;">Rigorously Established (5 results)</h3>
   <ul style="color:var(--text-secondary);line-height:1.8;">
-    <li><strong>Gaussian visibility form:</strong> Follows rigorously from CLT phase averaging (Appendix B)</li>
-    <li><strong>TEGR emergence:</strong> Equilibrium limit recovers teleparallel gravity (Section 4)</li>
-    <li><strong>Coherence length relation:</strong> ℓ<sub>coh</sub> = √2 L<sub>X</sub>/(y σ<sub>R</sub>) from XCRM closure</li>
-    <li><strong>Yang-Mills structure:</strong> Derived from XCRM degeneracy covariance (Section 5)</li>
-    <li><strong>SM gauge group selection:</strong> MHP holonomy cost calculation (Eq. F.5) shows G<sub>SM</sub> uniquely minimizes Ω<sub>gauge</sub></li>
-    <li><strong>3 generations:</strong> Explicit APS index calculation on S¹/Z₂ gives |I<sub>top</sub>| = 3 (Appendix F.4.1)</li>
-    <li><strong>MHP variational solutions:</strong> Closed-form fermion positions from ∂Ω/∂X<sub>i</sub> = 0 (Appendix F.3.1)</li>
-    <li><strong>Yukawa hierarchies:</strong> Six orders of magnitude emerge geometrically from localization (F.9d)</li>
-    <li><strong>All-orders UV finiteness:</strong> 1-loop calculation (F.7.1) + inductive multi-loop proof (F.7.2)</li>
-    <li><strong>DHP cosmological framework:</strong> Dynamical holonomy functional Ω<sub>DHP</sub>[history] formulated (Eq. F.12)</li>
-    <li><strong>Λ problem resolution:</strong> DHP requires finite integrated holonomy ⇒ Λ → 0 asymptotically (Eq. F.22)</li>
-    <li><strong>Quantum gravity:</strong> Holonomy-weighted path integral is UV-finite (Eq. F.27)</li>
-    <li><strong>Neutrino masses:</strong> Maximal localization separation gives m<sub>ν</sub> ~ 10⁻¹² naturally (F.16)</li>
-    <li><strong>CP violation:</strong> Holonomy phase mismatch at orbifold fixed points (F.18)</li>
-    <li><strong>Dark matter:</strong> KK parity stabilizes LKP with correct relic abundance (F.20)</li>
-    <li><strong>Inflation:</strong> R-field slow-roll gives 60 e-foldings naturally (F.24)</li>
-    <li><strong>Baryogenesis:</strong> XCRM first-order phase transition satisfies Sakharov conditions (F.25)</li>
+    <li><strong>Gaussian visibility form:</strong> Follows from CLT phase averaging — mathematical theorem (Appendix B)</li>
+    <li><strong>TEGR emergence:</strong> Equilibrium limit recovers GR — standard result (Section 4)</li>
+    <li><strong>Energy conditions:</strong> All standard energy conditions satisfied — explicit calculation (<a href="stur_energy_conditions.html" style="color:var(--accent);">Energy Conditions</a>)</li>
+    <li><strong>MHP derivation:</strong> Path integral saddle point condition — established QFT (<a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP Derivation</a>)</li>
+    <li><strong>Moduli stabilization:</strong> Casimir-holonomy balance fixes L<sub>X</sub> (<a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">Stabilization</a>)</li>
   </ul>
 
-  <h3 style="color:var(--gold);margin-top:1.5rem;">Theory-Determined Parameters (Measurement Required)</h3>
+  <h3 style="color:var(--gold);margin-top:1.5rem;">Well-Motivated Proposals (8 mechanisms)</h3>
   <ul style="color:var(--text-secondary);line-height:1.8;">
-    <li><strong>L<sub>X</sub> (compactification scale):</strong> Determines all mass scales, gauge couplings, and ℓ<sub>coh</sub>. Current bound: L<sub>X</sub> &lt; 10 μm.</li>
-    <li><strong>λ (self-coupling):</strong> Sets v = R<sub>bg</sub>. Related to L<sub>X</sub> through dimensional analysis: λ = c<sub>λ</sub>/L<sub>X</sub>.</li>
+    <li><strong>SM gauge group:</strong> Local minimum of holonomy cost among viable groups (not proven unique)</li>
+    <li><strong>3 generations:</strong> APS index = 3 <em>given</em> SM flux quantization n=3 (consistency check, not prediction)</li>
+    <li><strong>Yukawa hierarchies:</strong> Localization framework accommodates observed masses (fit, not predicted)</li>
+    <li><strong>UV finiteness:</strong> 1-loop shown explicitly; all-orders argued but not proven</li>
+    <li><strong>Dark matter (LKP):</strong> Standard KK mechanism, inherited from orbifold structure</li>
+    <li><strong>Neutrino masses:</strong> Maximal separation mechanism proposed</li>
+    <li><strong>CP violation:</strong> Holonomy phase mechanism outlined</li>
+    <li><strong>Cosmological constant:</strong> DHP suggests Λ → 0 asymptotically (qualitative, not quantitative)</li>
   </ul>
-  <p style="color:var(--text-muted);font-size:0.9rem;margin-top:0.5rem;">
-    <em>These parameters require experimental determination, analogous to G, ℏ, or c in other theories—the theory uniquely specifies their role.</em>
-  </p>
+
+  <h3 style="color:var(--error);margin-top:1.5rem;">Requires Further Work</h3>
+  <ul style="color:var(--text-secondary);line-height:1.8;">
+    <li><strong>DHP dynamical equations:</strong> Evolution equations not yet derived from variational principle</li>
+    <li><strong>Inflation details:</strong> R-field slow-roll outlined but not fully calculated</li>
+    <li><strong>Baryogenesis:</strong> Sakharov conditions claimed but not explicitly verified</li>
+    <li><strong>Numerical fermion masses:</strong> Framework exists but no ab initio predictions</li>
+  </ul>
+
+  <h3 style="color:var(--accent);margin-top:1.5rem;">Dynamically Determined Parameter</h3>
+  <ul style="color:var(--text-secondary);line-height:1.8;">
+    <li><strong>L<sub>X</sub> (compactification scale):</strong> <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">Stabilized by Casimir-holonomy balance</a> at L<sub>X</sub>* ~ 0.1-10 μm. Determines ℓ<sub>coh</sub>, which sets the falsification scale.</li>
+  </ul>
 
   <div class="block success" style="margin-top:1.5rem;border-width:2px;">
-    <div class="title">Key Falsifiable Prediction</div>
+    <div class="title">Key Falsifiable Prediction (Non-Negotiable)</div>
     <p style="margin:0;color:var(--text-secondary);">
       <strong>Visibility:</strong> V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>) — Gaussian in ΔL², no time dependence, no mass dependence.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      Testable with MAGIS-100, AION, and Sagnac loop interferometers. The theory stands or falls on this prediction.
+      Testable with MAGIS-100, AION, and Sagnac loop interferometers. <strong>The theory stands or falls on this prediction.</strong>
     </p>
   </div>
 </section>

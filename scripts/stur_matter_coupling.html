@@ -37,6 +37,11 @@
 <header class="masthead">
   <h1 style="background: linear-gradient(135deg, var(--matter) 0%, var(--accent-warm) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Matter Coupling</h1>
   <p class="subtitle">Fermion Localization and Mass Hierarchies</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    From <a href="stur_core_theory.html" style="color:var(--accent);">2 axioms</a> ·
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
+    <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">L<sub>X</sub> stabilized</a>
+  </p>
   <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
 
@@ -48,6 +53,55 @@
   <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
   <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
   <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- DERIVATION CHAIN -->
+<div class="glass-section" style="border-color:var(--matter);background:rgba(34,211,238,0.04);margin-bottom:1.5rem;">
+    <div class="glass-section-header">
+        <span class="stur-icon icon-link size-24" style="color:var(--matter);"></span>
+        <h2 class="glass-section-title" style="color:var(--matter);">Derivation Chain: Kink → Fermions → Visibility Prediction</h2>
+    </div>
+    <div class="glass-section-body">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:1rem;">
+            <span style="padding:6px 12px;background:rgba(244,114,182,0.15);border-radius:8px;border:1px solid rgba(244,114,182,0.4);color:#f472b6;font-weight:600;">V(R) Kink</span>
+            <span style="color:var(--text-muted);">→</span>
+            <span style="padding:6px 12px;background:rgba(34,211,238,0.15);border-radius:8px;border:1px solid rgba(34,211,238,0.4);color:#22d3ee;">Domain Wall</span>
+            <span style="color:var(--text-muted);">→</span>
+            <span style="padding:6px 12px;background:rgba(167,139,250,0.15);border-radius:8px;border:1px solid rgba(167,139,250,0.4);color:#a78bfa;">Fermion Localization</span>
+            <span style="color:var(--text-muted);">→</span>
+            <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;">Yukawa Coupling</span>
+            <span style="color:var(--text-muted);">→</span>
+            <span style="padding:6px 12px;background:rgba(74,222,128,0.15);border-radius:8px;border:1px solid rgba(74,222,128,0.4);color:#4ade80;font-weight:600;">V(ΔL) Gaussian</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+            <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #f472b6;">
+                <strong style="color:#f472b6;font-size:0.8rem;">Kink from XCRM</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">R₀(X) = v tanh((X-X<sub>c</sub>)/ξ)</p>
+                <a href="stur_xcrm_closure.html#kink-solution" style="font-size:0.75rem;color:var(--accent);">→ XCRM Closure</a>
+            </div>
+            <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #22d3ee;">
+                <strong style="color:#22d3ee;font-size:0.8rem;">Chiral Zero Modes</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Z₂ projects out one chirality (Kaplan mechanism)</p>
+            </div>
+            <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #fbbf24;">
+                <strong style="color:#fbbf24;font-size:0.8rem;">Phase Accumulation</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Φ<sub>R</sub> = ∮ yR dx from Yukawa coupling</p>
+            </div>
+            <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
+                <strong style="color:#4ade80;font-size:0.8rem;">Gaussian Visibility</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">CLT averaging → V(ΔL) = V₀ exp(−ΔL²/ℓ²)</p>
+                <a href="stur_predictions.html" style="font-size:0.75rem;color:var(--accent);">→ Predictions</a>
+            </div>
+        </div>
+
+        <div style="margin-top:1rem;padding:10px 14px;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.3);">
+            <strong style="color:#4ade80;font-size:0.85rem;">Falsifiable Prediction</strong>
+            <span style="font-size:0.85rem;color:var(--text-secondary);">
+                The Gaussian form follows from the Central Limit Theorem (mathematical theorem). Any deviation falsifies STUR matter coupling.
+            </span>
+        </div>
+    </div>
 </div>
 
 <!-- MATTER ACTION -->
@@ -347,8 +401,9 @@
 <section class="section" style="background:rgba(251,191,36,0.04);border:1px solid rgba(251,191,36,0.2);padding:1rem 1.5rem;">
   <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
     <strong style="color:var(--gold);">See Also:</strong>
-    <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a>
-    — flavor structure status (Section G), acknowledgment of parametrized Yukawa matrices and open CKM derivation.
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP Derivation</a> — path integral origin of MHP |
+    <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a> — Gaussian visibility from matter-R coupling |
+    <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a> — flavor structure status (Section G)
   </p>
 </section>
 

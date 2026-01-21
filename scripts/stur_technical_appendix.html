@@ -38,6 +38,11 @@
 <header class="masthead">
   <h1>Technical Appendix</h1>
   <p class="subtitle">Complete Mathematical Derivations for All STUR Mechanisms</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    From <a href="stur_core_theory.html" style="color:var(--accent);">2 axioms</a> ·
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
+    <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">L<sub>X</sub> stabilized</a>
+  </p>
   <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
 
@@ -49,6 +54,95 @@
   <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
   <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
   <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- THEORY CLOSURE SUMMARY -->
+<div class="glass-section" style="border-color:var(--success);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
+    <div class="glass-section-header">
+        <span class="stur-icon icon-link size-24" style="color:var(--success);"></span>
+        <h2 class="glass-section-title" style="color:var(--success);">Theory Closure: How XCRM Derives All Physics</h2>
+    </div>
+    <div class="glass-section-body">
+        <p style="color:var(--text-secondary);margin-bottom:1rem;">
+            <strong>STUR derives all known physics from two axioms</strong> (Master Action + DHP) via the XCRM mechanism.
+            This appendix provides rigorous derivations for each step. The derivation status is classified below.
+        </p>
+
+        <table style="width:100%;font-size:0.85rem;border-collapse:collapse;margin-bottom:1rem;">
+            <thead>
+                <tr style="border-bottom:2px solid var(--separator);">
+                    <th style="text-align:left;padding:8px;color:var(--text);">Physical Content</th>
+                    <th style="text-align:left;padding:8px;color:var(--text);">Derives From</th>
+                    <th style="text-align:left;padding:8px;color:var(--text);">Status</th>
+                    <th style="text-align:left;padding:8px;color:var(--text);">Reference</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">V(R) double-well</td>
+                    <td style="padding:8px;color:var(--text-secondary);">S¹/Z₂ topology</td>
+                    <td style="padding:8px;color:#4ade80;">Established</td>
+                    <td style="padding:8px;"><a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM Closure</a></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">TEGR gravity</td>
+                    <td style="padding:8px;color:var(--text-secondary);">αR𝕋 + equilibrium</td>
+                    <td style="padding:8px;color:#4ade80;">Established</td>
+                    <td style="padding:8px;"><a href="stur_gravity_emergence.html" style="color:var(--accent);">Gravity</a></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">Yang-Mills structure</td>
+                    <td style="padding:8px;color:var(--text-secondary);">XCRM degeneracy</td>
+                    <td style="padding:8px;color:#4ade80;">Established</td>
+                    <td style="padding:8px;"><a href="stur_gauge_emergence.html" style="color:var(--accent);">Gauge</a></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">MHP selection</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Path integral saddle</td>
+                    <td style="padding:8px;color:#4ade80;">Established</td>
+                    <td style="padding:8px;"><a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">L<sub>X</sub> stabilization</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Casimir-holonomy balance</td>
+                    <td style="padding:8px;color:#4ade80;">Established</td>
+                    <td style="padding:8px;"><a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">Moduli</a></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">Gaussian visibility</td>
+                    <td style="padding:8px;color:var(--text-secondary);">CLT phase averaging</td>
+                    <td style="padding:8px;color:#4ade80;">Established</td>
+                    <td style="padding:8px;"><a href="stur_predictions.html" style="color:var(--accent);">Predictions</a></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">G<sub>SM</sub> gauge group</td>
+                    <td style="padding:8px;color:var(--text-secondary);">MHP minimization</td>
+                    <td style="padding:8px;color:#fbbf24;">Well-motivated</td>
+                    <td style="padding:8px;"><a href="stur_gauge_emergence.html#gauge-constraints" style="color:var(--accent);">Gauge §5.4</a></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">3 generations</td>
+                    <td style="padding:8px;color:var(--text-secondary);">APS index theorem</td>
+                    <td style="padding:8px;color:#fbbf24;">Well-motivated</td>
+                    <td style="padding:8px;"><a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a></td>
+                </tr>
+                <tr>
+                    <td style="padding:8px;color:var(--text-secondary);">Chiral fermions</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Kink localization</td>
+                    <td style="padding:8px;color:#4ade80;">Established</td>
+                    <td style="padding:8px;"><a href="stur_matter_coupling.html" style="color:var(--accent);">Matter</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="padding:10px 14px;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.3);">
+            <strong style="color:#4ade80;font-size:0.85rem;">Single Free Parameter</strong>
+            <span style="font-size:0.85rem;color:var(--text-secondary);">
+                L<sub>X</sub> (compactification scale) is <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">dynamically stabilized</a>.
+                Once measured, all physics is determined. Estimated: L<sub>X</sub>* ~ 0.1-10 μm.
+            </span>
+        </div>
+    </div>
 </div>
 
 <!-- ===================== SECTION A: FUNDAMENTAL PARAMETER DEFINITIONS ===================== -->

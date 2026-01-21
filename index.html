@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>STUR Physics Lab — Unified Framework</title>
-<meta name="description" content="Mathematically complete unified physics framework from three axioms (Master Action + MHP + DHP). All mechanisms explicitly derived with two measurement-required parameters. Falsifiable prediction: Gaussian visibility decay V(ΔL) = V₀ exp(−ΔL²/ℓ²_coh) on the 5D orbifold S¹/Z₂.">
+<meta name="description" content="Unified physics framework from two axioms (Master Action + DHP). MHP derived from path integral. L_X dynamically stabilized. Falsifiable prediction: Gaussian visibility decay V(ΔL) = V₀ exp(−ΔL²/ℓ²_coh) on the 5D orbifold S¹/Z₂.">
 
 <!-- STUR Theme System -->
 <link rel="stylesheet" href="assets/css/stur-core.css">
@@ -611,10 +611,10 @@
   <header class="site-header">
     <img src="assets/4.13.png" alt="STUR Physics Lab" class="logo-mark">
     <h1 class="site-title animate-in delay-1">STUR Physics Lab</h1>
-    <p class="site-tagline animate-in delay-2">Unified Framework — Three Axioms, Testable Predictions</p>
+    <p class="site-tagline animate-in delay-2">Unified Framework — Two Axioms, Falsifiable Predictions</p>
     <p class="site-description animate-in delay-3">
-      A <strong>unified framework</strong> proposing that fundamental physics derives from three axioms.
-      Master Action + MHP + DHP aim to unify gravity, gauge forces, matter, and cosmology
+      A <strong>unified framework</strong> proposing that fundamental physics derives from two axioms.
+      Master Action + DHP (MHP is derived from path integral) unify gravity, gauge forces, matter, and cosmology
       via resistance-field geometry on the 5D orbifold S¹/Z₂. <em>Core prediction: Gaussian visibility decay.</em>
     </p>
   </header>
@@ -645,21 +645,21 @@
     </p>
 
     <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--separator); font-size: 0.8125rem;">
-      <strong style="color: var(--tier-core);">Complete Theory:</strong>
+      <strong style="color: var(--tier-core);">Framework Structure:</strong>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin-top: 10px; color: var(--text-quaternary);">
         <div style="padding: 8px 12px; background: rgba(251,191,36,0.08); border-radius: 8px; border-left: 3px solid #fbbf24;">
           <strong style="color:#fbbf24;">Axiom 1:</strong> Master Action — defines dynamics
         </div>
-        <div style="padding: 8px 12px; background: rgba(74,222,128,0.08); border-radius: 8px; border-left: 3px solid #4ade80;">
-          <strong style="color:#4ade80;">Axiom 2:</strong> MHP — selects ground state (5 problems)
-        </div>
         <div style="padding: 8px 12px; background: rgba(167,139,250,0.08); border-radius: 8px; border-left: 3px solid #a78bfa;">
-          <strong style="color:#a78bfa;">Axiom 3:</strong> DHP — governs evolution (8 problems)
+          <strong style="color:#a78bfa;">Axiom 2:</strong> DHP — governs evolution
+        </div>
+        <div style="padding: 8px 12px; background: rgba(74,222,128,0.08); border-radius: 8px; border-left: 3px solid #4ade80;">
+          <strong style="color:#4ade80;">Derived:</strong> <a href="scripts/stur_mhp_derivation.html" style="color:#4ade80;">MHP from path integral</a>
         </div>
       </div>
       <p style="margin-top: 10px; text-align: center; color: var(--text-quaternary);">
-        Two free parameters: <strong style="color:#22d3ee;">L<sub>X</sub></strong> (orbifold size), <strong style="color:#22d3ee;">λ</strong> (R-field coupling).
-        See <a href="scripts/stur_technical_appendix.html" style="color:#a78bfa;">Technical Appendix</a> for complete derivations.
+        One dynamical parameter: <strong style="color:#22d3ee;">L<sub>X</sub></strong> (<a href="scripts/stur_mhp_derivation.html#moduli" style="color:#22d3ee;">stabilized by Casimir-holonomy balance</a>).
+        See <a href="scripts/stur_mhp_derivation.html" style="color:#a78bfa;">MHP Derivation</a> | <a href="scripts/stur_technical_appendix.html" style="color:#a78bfa;">Technical Appendix</a>
       </p>
     </div>
   </section>
@@ -670,18 +670,19 @@
       <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#a78bfa;"></span>
       Reading Order
     </h2>
-    <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:6px;font-size:0.75rem;">
+    <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:6px;font-size:0.75rem;">
       <a href="scripts/stur_core_theory.html" style="color:var(--tier-core);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(48,209,88,0.12);border:1px solid rgba(48,209,88,0.3);text-align:center;">1. Core</a>
-      <a href="scripts/stur_geometry_axioms.html" style="color:#a78bfa;text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.3);text-align:center;">2. Geometry</a>
-      <a href="scripts/stur_xcrm_closure.html" style="color:var(--accent-gold);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);text-align:center;">3. XCRM</a>
-      <a href="scripts/stur_gravity_emergence.html" style="color:var(--accent-torsion);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.3);text-align:center;">4. Gravity</a>
-      <a href="scripts/stur_gauge_emergence.html" style="color:var(--accent-cyan);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(34,211,238,0.12);border:1px solid rgba(34,211,238,0.3);text-align:center;">5. Gauge</a>
-      <a href="scripts/stur_predictions.html" style="color:var(--tier-falsifiable);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(100,210,255,0.12);border:1px solid rgba(100,210,255,0.3);text-align:center;">6. Predict</a>
+      <a href="scripts/stur_mhp_derivation.html" style="color:#4ade80;text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);text-align:center;">2. MHP</a>
+      <a href="scripts/stur_geometry_axioms.html" style="color:#a78bfa;text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.3);text-align:center;">3. Geometry</a>
+      <a href="scripts/stur_xcrm_closure.html" style="color:var(--accent-gold);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);text-align:center;">4. XCRM</a>
+      <a href="scripts/stur_gravity_emergence.html" style="color:var(--accent-torsion);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.3);text-align:center;">5. Gravity</a>
+      <a href="scripts/stur_gauge_emergence.html" style="color:var(--accent-cyan);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(34,211,238,0.12);border:1px solid rgba(34,211,238,0.3);text-align:center;">6. Gauge</a>
+      <a href="scripts/stur_predictions.html" style="color:var(--tier-falsifiable);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(100,210,255,0.12);border:1px solid rgba(100,210,255,0.3);text-align:center;">7. Predict</a>
+      <a href="scripts/stur_falsification.html" style="color:var(--error);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);text-align:center;">8. Falsify</a>
     </div>
     <p style="margin-top:10px;font-size:0.7rem;color:var(--text-quaternary);text-align:center;">
       <a href="scripts/stur_glossary.html" style="color:#fbbf24;">Glossary</a> ·
-      <a href="scripts/stur_technical_appendix.html" style="color:#a78bfa;">Technical Appendix</a> ·
-      <a href="scripts/stur_falsification.html" style="color:var(--tier-falsifiable);">Falsification</a>
+      <a href="scripts/stur_technical_appendix.html" style="color:#a78bfa;">Technical Appendix</a>
     </p>
   </section>
 
@@ -707,6 +708,7 @@
     <span class="section-badge">Deep Dive</span>
   </div>
   <div class="sim-grid">
+    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_mhp_derivation.html">MHP Derivation</a><span class="card-tag" style="color: #4ade80;">NEW: Path Integral</span></div>
     <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_technical_appendix.html">Technical Appendix</a><span class="card-tag" style="color: #a78bfa;">Derivations</span></div>
     <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_geometry_axioms.html">Geometry & Axioms</a><span class="card-tag" style="color: #a78bfa;">5D Structure</span></div>
     <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_xcrm_closure.html">XCRM Closure</a><span class="card-tag" style="color: #a78bfa;">Central Mechanism</span></div>

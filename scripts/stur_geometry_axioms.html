@@ -37,6 +37,11 @@
 <header class="masthead">
   <h1>Geometry & Axioms</h1>
   <p class="subtitle">The Five-Dimensional Orbifold Structure</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    From <a href="stur_core_theory.html" style="color:var(--accent);">2 axioms</a> ·
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
+    <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">L<sub>X</sub> stabilized</a>
+  </p>
   <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
 
@@ -48,6 +53,61 @@
   <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
   <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
   <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- MASTER DERIVATION CHAIN -->
+<div class="glass-section" style="border-color:var(--gold);background:rgba(251,191,36,0.04);margin-bottom:1.5rem;">
+    <div class="glass-section-header">
+        <span class="stur-icon icon-link size-24" style="color:var(--gold);"></span>
+        <h2 class="glass-section-title" style="color:var(--gold);">Complete Derivation Chain: Geometry → All Physics</h2>
+    </div>
+    <div class="glass-section-body">
+        <p style="color:var(--text-secondary);margin-bottom:1rem;">
+            The 5D orbifold geometry is the foundation from which <strong>all physical content</strong> derives via XCRM.
+            This page documents the geometric arena; subsequent pages show each derivation explicitly.
+        </p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;margin-bottom:1rem;">
+            <div style="padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #fbbf24;">
+                <strong style="color:#fbbf24;font-size:0.8rem;">Geometry</strong>
+                <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-secondary);">M⁴ × S¹/Z₂ orbifold with warped metric</p>
+                <span style="font-size:0.7rem;color:var(--text-muted);">This page</span>
+            </div>
+            <div style="padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #22d3ee;">
+                <strong style="color:#22d3ee;font-size:0.8rem;">→ V(R) Potential</strong>
+                <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-secondary);">Z₂ parity forces double-well form</p>
+                <a href="stur_xcrm_closure.html" style="font-size:0.7rem;color:var(--accent);">XCRM Closure →</a>
+            </div>
+            <div style="padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #60a5fa;">
+                <strong style="color:#60a5fa;font-size:0.8rem;">→ TEGR Gravity</strong>
+                <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-secondary);">αR𝕋 → GR at equilibrium</p>
+                <a href="stur_gravity_emergence.html" style="font-size:0.7rem;color:var(--accent);">Gravity Emergence →</a>
+            </div>
+            <div style="padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #a78bfa;">
+                <strong style="color:#a78bfa;font-size:0.8rem;">→ Yang-Mills</strong>
+                <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-secondary);">XCRM degeneracy → gauge structure</p>
+                <a href="stur_gauge_emergence.html" style="font-size:0.7rem;color:var(--accent);">Gauge Emergence →</a>
+            </div>
+            <div style="padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #f472b6;">
+                <strong style="color:#f472b6;font-size:0.8rem;">→ Matter Coupling</strong>
+                <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-secondary);">Domain wall fermion localization</p>
+                <a href="stur_matter_coupling.html" style="font-size:0.7rem;color:var(--accent);">Matter Coupling →</a>
+            </div>
+            <div style="padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
+                <strong style="color:#4ade80;font-size:0.8rem;">→ MHP Selection</strong>
+                <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-secondary);">Path integral → gauge group, generations</p>
+                <a href="stur_mhp_derivation.html" style="font-size:0.7rem;color:var(--accent);">MHP Derivation →</a>
+            </div>
+        </div>
+
+        <div style="padding:10px 14px;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.3);">
+            <strong style="color:#4ade80;font-size:0.85rem;">Theory Closure Status</strong>
+            <span style="font-size:0.85rem;color:var(--text-secondary);">
+                All known physics (gravity, SM gauge group, matter) derives from the Master Action on this geometry.
+                L<sub>X</sub> is the single <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">dynamically stabilized</a> parameter.
+            </span>
+        </div>
+    </div>
 </div>
 
 <!-- SECTION 1: AXIOMS -->
@@ -68,58 +128,94 @@
     <li><strong>Chiral localization:</strong> Fermion zero modes localize on domain walls in the extra dimension</li>
   </ul>
 
-  <h3>1.2 The Four Core Axioms</h3>
+  <h3>1.2 The Two Core Axioms</h3>
 
-  <div class="block gold">
-    <div class="title">Axiom 1 — Geometric Arena</div>
+  <p style="color:var(--text-secondary);margin-bottom:1rem;">
+    STUR is built from <strong>two axioms</strong>. MHP (previously considered a third axiom) is now
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">derived from the path integral</a>.
+  </p>
+
+  <div class="block gold" style="border-width:2px;">
+    <div class="title">Axiom 1 — The Master Action</div>
     <p style="margin:0;color:var(--text-secondary)">
-      Physics takes place on the five-dimensional orbifold \(\XCRM{\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2}\) with
-      a warped metric and a symmetric resistance tensor field \(\Diff{\Rcal_{AB}}\).
+      Physics is governed by the unified resistance action on the five-dimensional orbifold
+      \(\XCRM{\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2}\):
+    </p>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      S = ∫d⁵x √-g [½(∇R)² + V(R) + χR∂<sub>X</sub>R + αR𝕋 + ℒ<sub>matter</sub>]
+    </p>
+    <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
+      This single action contains gravity (αR𝕋), gauge structure (from XCRM degeneracy),
+      scalar dynamics, and matter coupling.
     </p>
   </div>
 
-  <div class="block gold">
-    <div class="title">Axiom 2 — XCRM Closure</div>
+  <div class="block gold" style="border-width:2px;">
+    <div class="title">Axiom 2 — Dynamic Holonomy Principle (DHP)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The XCRM term \(\XCRM{\chi R \partial_X R}\) couples the resistance field to the internal dimension,
-      providing parameter closure and generating gauge structure through degeneracy.
+      The universe evolves toward configurations that minimize holonomy cost. The resistance field
+      \(\Diff{R}\) relaxes toward equilibrium \(\Diff{R_{\rm bg}}\) while preserving topological structure.
+    </p>
+    <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
+      DHP governs cosmological evolution and drives the late-time approach to equilibrium.
     </p>
   </div>
 
-  <div class="block gold">
-    <div class="title">Axiom 3 — Teleparallel Gravity</div>
+  <div class="block success" style="margin-top:1rem;">
+    <div class="title">Derived: Minimum Holonomy Principle (MHP)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The torsion coupling \(\Tor{\alpha R \mathbb{T}}\) identifies the gravitational sector with TEGR,
-      which is dynamically equivalent to General Relativity (differing only by a boundary term).
+      MHP follows from the <strong>path integral saddle point condition</strong>. The Faddeev-Popov
+      procedure produces a Vandermonde determinant that induces an effective potential in holonomy space.
+      <a href="stur_mhp_derivation.html" style="color:var(--accent);margin-left:0.5rem;">Full derivation →</a>
     </p>
   </div>
 
-  <div class="block gold">
-    <div class="title">Axiom 4 — Matter Transport</div>
-    <p style="margin:0;color:var(--text-secondary)">
-      Matter fields couple to \(\Diff{R}\) via Yukawa interactions, so fermion propagation accumulates
-      phase proportional to the integrated resistance along worldlines.
-    </p>
+  <h3>1.3 What the Axioms Contain</h3>
+
+  <p style="color:var(--text-secondary);margin-bottom:0.75rem;">
+    The Master Action encodes all physical content:
+  </p>
+
+  <div class="card-grid" style="margin-bottom:1rem;">
+    <div class="card" style="border:1px solid var(--torsion);">
+      <strong style="color:var(--torsion);">Teleparallel Gravity</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        The term \(\Tor{\alpha R \mathbb{T}}\) couples resistance to torsion, yielding TEGR ≡ GR at equilibrium.
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--gold);">
+      <strong style="color:var(--gold);">XCRM Closure</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        The term \(\XCRM{\chi R \partial_X R}\) couples resistance to the internal dimension, generating gauge structure.
+      </span>
+    </div>
+    <div class="card" style="border:1px solid var(--matter);">
+      <strong style="color:var(--matter);">Matter Transport</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        Yukawa couplings \(\Quant{y}R\bar\Psi\Psi\) cause fermions to accumulate phase along worldlines.
+      </span>
+    </div>
   </div>
 
-  <h3>1.3 What the Axioms Determine</h3>
+  <h3>1.4 What the Framework Determines</h3>
 
   <div class="card-grid">
     <div class="card" style="border:1px solid var(--success);background:rgba(74,222,128,0.04);">
-      <strong style="color:var(--success);">Determined by Axioms + MHP</strong>
+      <strong style="color:var(--success);">Rigorously Established</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        • TEGR ≡ GR gravitational dynamics<br>
+        • TEGR ≡ GR gravitational dynamics (equilibrium limit)<br>
         • Yang–Mills gauge structure from XCRM degeneracy<br>
-        • Gaussian visibility law form<br>
-        • Chiral fermion localization on domain walls
+        • Gaussian visibility law form (CLT theorem)<br>
+        • <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP from path integral</a><br>
+        • <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">L<sub>X</sub> stabilized</a> by Casimir-holonomy balance
       </span>
     </div>
-    <div class="card" style="border:1px solid var(--success);background:rgba(74,222,128,0.04);">
-      <strong style="color:var(--success);">Derived from MHP Minimization</strong>
+    <div class="card" style="border:1px solid var(--gold);background:rgba(251,191,36,0.04);">
+      <strong style="color:var(--gold);">Well-Motivated Proposals</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        • Gauge group: G<sub>SM</sub> uniquely minimizes Ω (Eq. F.5)<br>
-        • Matter representations: From anomaly cancellation<br>
-        • 3 generations: APS index theorem (Eq. F.11)<br>
+        • Gauge group: G<sub>SM</sub> minimizes Ω (local minimum, not proven unique)<br>
+        • 3 generations: APS index = 3 given SM flux quantization<br>
+        • Chiral fermion localization on domain walls<br>
         • Coupling values: From L<sub>X</sub> via dimensional reduction
       </span>
     </div>
@@ -260,6 +356,16 @@
       with the internal dimension size \(\XCRM{L_X}\) as the characteristic scale.
     </p>
   </div>
+</section>
+
+<!-- SEE ALSO -->
+<section class="section" style="background:rgba(251,191,36,0.04);border:1px solid rgba(251,191,36,0.2);padding:1rem 1.5rem;">
+  <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+    <strong style="color:var(--gold);">See Also:</strong>
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP Derivation</a> — path integral origin, Vandermonde determinant |
+    <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">Moduli Stabilization</a> — Casimir-holonomy balance fixes L<sub>X</sub> |
+    <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM Closure</a> — V(R) derivation from topology
+  </p>
 </section>
 
 <!-- PAGE NAVIGATION -->
