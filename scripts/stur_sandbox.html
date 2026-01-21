@@ -802,8 +802,8 @@ function solveTridiagonal(a, b, c, d) {
                         <input type="range" id="V0_slider" min="0.5" max="1" value="0.95" step="0.01">
                     </div>
                     <div class="control">
-                        <label>Path Difference dL (m): <span id="deltaL_val">2.00</span></label>
-                        <input type="range" id="deltaL_slider" min="0" max="6" value="2.0" step="0.05">
+                        <label>Path Difference dL (m): <span id="deltaL_val">3.00</span></label>
+                        <input type="range" id="deltaL_slider" min="0" max="6" value="3.0" step="0.05">
                     </div>
                     <div class="control">
                         <label>Noise Floor sigma: <span id="noise_val">0.03</span></label>
@@ -916,8 +916,8 @@ function solveTridiagonal(a, b, c, d) {
                         <input type="range" id="eps_slider" min="0" max="0.2" value="0.08" step="0.005">
                     </div>
                     <div class="control">
-                        <label>Time (Ma): <span id="time_val">1.00</span></label>
-                        <input type="range" id="time_slider" min="0.1" max="10" value="1" step="0.1">
+                        <label>Time (Ma): <span id="time_val">5.00</span></label>
+                        <input type="range" id="time_slider" min="0.1" max="10" value="5" step="0.1">
                     </div>
 
                     <div class="kpi-grid">
@@ -2180,7 +2180,7 @@ function dSu_du(u) {
     return sech2 * (1 - Math.exp(-u)) + Math.tanh(u) * Math.exp(-u);
 }
 
-const geo = { r: 2.5, v: 0, trail: [], running: false, animId: null };
+const geo = { r: 1.0, v: 0, trail: [], running: false, animId: null };
 
 function geoStep(L0, Rmax, dt, gamma) {
     const u = geo.r / L0;
@@ -2317,7 +2317,7 @@ document.getElementById('geo_reset').addEventListener('click', () => {
     document.getElementById('Rmax_slider').value = 5;
     document.getElementById('gamma_slider').value = 0.08;
     document.getElementById('geo_dt_slider').value = 0.02;
-    geo.r = 2.5;
+    geo.r = 1.0;
     geo.v = 0;
     geo.trail = [];
     updateGeo();
