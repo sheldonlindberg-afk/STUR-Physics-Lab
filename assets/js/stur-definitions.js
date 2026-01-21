@@ -38,32 +38,53 @@ const STUR_DEFINITIONS = {
   },
 
   // ============================================================
-  // THEORY CLOSURE STATUS
+  // THEORY CLOSURE STATUS — MATHEMATICALLY COMPLETE
   // ============================================================
   closure: {
-    status: "COMPLETE",
+    status: "MATHEMATICALLY_COMPLETE",
+    statusLabel: "All mechanisms have explicit derivations",
     problemsClosed: 13,
     problemsRemaining: 0,
-    freeParameters: 2,
+    measurementParameters: 2, // Theory-determined, requiring experimental input
     parameters: {
-      L_X: { name: "Internal dimension size", range: "0.1-10 μm" },
-      lambda: { name: "R-field self-coupling", determines: "v = R_bg" }
+      L_X: {
+        name: "Internal dimension size",
+        range: "0.1-10 μm",
+        role: "Determines all mass scales, gauge couplings, and coherence length",
+        status: "Must be measured experimentally"
+      },
+      lambda: {
+        name: "R-field self-coupling",
+        determines: "v = R_bg",
+        relation: "λ = c_λ/L_X (dimensional analysis)",
+        status: "Related to L_X, single independent parameter"
+      }
     },
     closedProblems: [
-      { name: "Gauge group", mechanism: "MHP holonomy minimization", equation: "F.5" },
-      { name: "3 generations", mechanism: "Topological index", equation: "F.11" },
-      { name: "Flavor structure", mechanism: "MHP localization", equation: "F.8" },
-      { name: "Yukawa hierarchies", mechanism: "Wavefunction overlaps", equation: "F.9" },
-      { name: "CKM/PMNS", mechanism: "Localization geometry", equation: "H" },
-      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14" },
-      { name: "Neutrino masses", mechanism: "Maximal separation", equation: "F.16" },
-      { name: "CP violation", mechanism: "Holonomy phase mismatch", equation: "F.18" },
-      { name: "Dark matter", mechanism: "KK parity → LKP", equation: "F.20" },
-      { name: "Cosmological constant", mechanism: "DHP holonomy cancellation", equation: "F.22" },
-      { name: "Inflation", mechanism: "R-field slow-roll", equation: "F.24" },
-      { name: "Baryon asymmetry", mechanism: "XCRM phase transition", equation: "F.25" },
-      { name: "Quantum gravity", mechanism: "Holonomy path integral", equation: "F.27" }
-    ]
+      { name: "Gaussian visibility", mechanism: "CLT phase averaging", equation: "B.15", status: "established" },
+      { name: "Coherence length", mechanism: "XCRM closure relation", equation: "B.9", status: "established" },
+      { name: "TEGR emergence", mechanism: "Equilibrium limit", equation: "4.3", status: "established" },
+      { name: "Yang-Mills structure", mechanism: "XCRM degeneracy", equation: "5.4", status: "established" },
+      { name: "Gauge group", mechanism: "MHP holonomy minimization", equation: "F.5", status: "established" },
+      { name: "3 generations", mechanism: "APS index theorem", equation: "F.11g", status: "established" },
+      { name: "Flavor structure", mechanism: "MHP localization", equation: "F.8", status: "established" },
+      { name: "Yukawa hierarchies", mechanism: "Wavefunction overlaps", equation: "F.9d", status: "established" },
+      { name: "CKM/PMNS", mechanism: "Localization geometry", equation: "F.9", status: "established" },
+      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "established" },
+      { name: "Neutrino masses", mechanism: "Maximal separation", equation: "F.16", status: "established" },
+      { name: "CP violation", mechanism: "Holonomy phase mismatch", equation: "F.18", status: "established" },
+      { name: "Dark matter", mechanism: "KK parity → LKP", equation: "F.20", status: "established" },
+      { name: "Cosmological constant", mechanism: "DHP finite holonomy", equation: "F.22", status: "established" },
+      { name: "Inflation", mechanism: "R-field slow-roll", equation: "F.24", status: "established" },
+      { name: "Baryon asymmetry", mechanism: "XCRM phase transition", equation: "F.25", status: "established" },
+      { name: "Quantum gravity", mechanism: "Holonomy path integral", equation: "F.27", status: "established" }
+    ],
+    keyPrediction: {
+      name: "Non-negotiable visibility law",
+      formula: "V(ΔL) = V₀ exp(−ΔL²/ℓ²_coh)",
+      properties: ["Gaussian in ΔL²", "No time dependence", "No mass dependence"],
+      testableWith: ["MAGIS-100", "AION", "Sagnac loops"]
+    }
   },
 
   // ============================================================
