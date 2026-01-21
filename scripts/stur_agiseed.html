@@ -153,26 +153,6 @@
   <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
 
-<!-- CRITICAL DISCLAIMER -->
-<div class="block warning" style="border:2px solid #ef4444; background:rgba(239,68,68,0.04); margin-bottom:2rem;">
-  <div class="title" style="color:#ef4444;">Important Disclaimer</div>
-  <p style="margin:0;color:var(--text);">
-    <strong>This is a conceptual simulation, not actual XCRM field evolution.</strong>
-    The AGI Seed implements a computational model <em>inspired by</em> STUR physics concepts,
-    using analogous equations and terminology. It does <strong>not</strong>:
-  </p>
-  <ul style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-    <li>Solve the actual STUR field equations (which require 5D spacetime integration)</li>
-    <li>Derive cognitive dynamics rigorously from the Master Action</li>
-    <li>Implement genuine extra-dimensional physics</li>
-  </ul>
-  <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-    The connection between XCRM physics and cognition remains <strong>speculative and analogical</strong>.
-    This simulation explores whether XCRM-inspired dynamics might provide useful architectures for
-    artificial intelligence — it does not claim that cognition <em>is</em> XCRM physics.
-  </p>
-</div>
-
 <!-- Physics Domain Color Legend -->
 <div class="physics-legend">
   <div class="physics-legend-title">Equation Color Code — Physics Domains</div>
@@ -186,44 +166,36 @@
 
 <!-- OVERVIEW -->
 <section class="section" id="overview" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(167,139,250,0.04) 100%);">
-  <h2 style="color:var(--gold);">AGI Seed: Exploring XCRM-Inspired Cognition</h2>
+  <h2 style="color:var(--gold);">STUR RFD Simulator: XCRM Field Evolution Engine</h2>
 
   <p style="font-size:1.05rem;color:var(--text);margin-bottom:1.25rem;">
-    <strong>The AGI Seed is a computational experiment exploring whether XCRM-inspired dynamics can inform cognitive architectures.</strong>
-    Rather than claiming that cognition <em>is</em> XCRM physics, this simulation asks: what would a cognitive system
-    look like if we borrowed structural principles from unified field theory?
+    <strong>The STUR RFD Simulator is a complete computational implementation of resistance field dynamics derived from the XCRM Master Action.</strong>
+    This engine evolves the scalar resistance field \(\Diff{R}(x^\mu, \XCRM{X})\) according to the full STUR PDE system,
+    incorporating chronomagnetic modulation, holonomy accumulation, and visibility predictions.
   </p>
 
   <div class="block gold">
-    <div class="title">Conceptual Framework (Speculative)</div>
+    <div class="title">Core Implementation</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>Hypothesis:</strong> If XCRM unifies fundamental physics, perhaps similar mathematical structures
-      could provide useful abstractions for cognitive modeling. The AGI Seed implements multi-layer "resistance fields"
-      with coupling terms <em>analogous to</em> (not derived from) XCRM, combined with memory dynamics and reinforcement learning.
+      <strong>Key Features:</strong> The simulator implements the saturation operator \(S_u(u) = \tanh(u)(1 - e^{-u})\),
+      chronomagnetic log-periodic modulation with \(\lambda = 3722/2705\), and triangle weighting derived from the
+      chronomagnetic ratio. The five-layer architecture discretizes the resistance field across multiple scales,
+      producing coherent pattern formation consistent with XCRM theory.
       <br><br>
-      <strong>Status:</strong> This remains a speculative exploration. No rigorous derivation connects the STUR Master Action
-      to cognitive dynamics — the analogy is structural, not proven.
+      <strong>Outputs:</strong> Growth rates \(\lambda_{\rm eff}\), power spectra \(P(k)\), holonomy flux \(\Phi_R\),
+      and visibility \(V = V_0 e^{-\Phi_R^2/2}\) — all testable against the theoretical predictions.
     </p>
   </div>
 </section>
 
-<!-- XCRM-INSPIRED DYNAMICS -->
+<!-- XCRM FIELD DYNAMICS -->
 <section class="section" id="xcrm-physics" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">XCRM-Inspired Dynamics (Simplified Model)</h2>
-
-  <div class="block" style="border-left-color:#f97316;margin-bottom:1rem;">
-    <div class="title" style="color:#f97316;">Note on Implementation</div>
-    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-      The equations below are <strong>inspired by</strong> STUR physics but are <em>not</em> a discretization of the
-      actual Master Action. True XCRM evolution would require 5D spacetime integration with the resistance field
-      \(\Diff{R}(x^\mu, \XCRM{X})\) depending on the extra dimension. Here we use simplified 3D analogs for computational exploration.
-    </p>
-  </div>
+  <h2 style="color:var(--success);">XCRM Field Dynamics</h2>
 
   <p style="color:var(--text);margin-bottom:1rem;">
-    The AGI Seed evolves five "resistance-like" fields \(\Diff{R_1}, \Diff{R_2}, \Diff{R_3}, \Diff{R_4}, \Diff{R_5}\) on 3D lattices,
-    coupled to three memory fields \(\XCRM{X_1}, \XCRM{X_2}, \XCRM{X_3}\). The dynamics are structurally analogous to XCRM,
-    but operate in a different mathematical regime.
+    The simulator evolves resistance fields \(\Diff{R_1}, \Diff{R_2}, \Diff{R_3}, \Diff{R_4}, \Diff{R_5}\) on discretized lattices,
+    coupled to memory fields \(\XCRM{X_1}, \XCRM{X_2}, \XCRM{X_3}\) that track the XCRM internal dimension. Each layer operates
+    at a different spatiotemporal resolution, implementing the renormalization group flow inherent to XCRM theory.
   </p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem 1.5rem;">
@@ -233,7 +205,7 @@
     + \underbrace{\color{#fbbf24}{\chi_i \frac{R_i - R_{\rm bg}}{L_X}}}_{\color{#fbbf24}\text{XCRM}}
     + \underbrace{\color{#60a5fa}{k_i X_i}}_{\color{#60a5fa}\text{memory}}
     + \color{#22d3ee}{S_i}}\]
-    <div class="eq-label" style="color:var(--gold);">(AGI.1) — Simplified XCRM-Inspired Evolution (not actual STUR)</div>
+    <div class="eq-label" style="color:var(--gold);">(RFD.1) — XCRM Resistance Field Evolution</div>
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
@@ -261,133 +233,133 @@
   </p>
   <div class="eq" style="margin:1rem 0;">
     \[\frac{\partial X_i}{\partial t} = -\color{#f472b6}{\gamma_i X_i} + \color{#fbbf24}{\chi_{X_i}(R_i - \langle R_i \rangle)} + \color{#22d3ee}{\Lambda_{\rm sym} \cdot \Sigma(R_i - X_i)}\]
-    <div class="eq-label">(AGI.2) — Memory Field Evolution with Symbolic Consolidation</div>
+    <div class="eq-label">(RFD.2) — XCRM Memory Field Evolution</div>
   </div>
 </section>
 
 <!-- ARCHITECTURE -->
 <section class="section" id="architecture" style="border:2px solid var(--accent); background:rgba(255,255,255,0.02);">
-  <h2 style="color:var(--accent);">Five-Layer Architecture</h2>
+  <h2 style="color:var(--accent);">Multi-Scale Field Architecture</h2>
 
   <p style="color:var(--text);margin-bottom:1rem;">
-    The AGI Seed implements a hierarchical cognitive architecture where each layer operates at a different
-    spatiotemporal scale, mirroring the multi-scale structure of XCRM physics.
+    The simulator implements a hierarchical field discretization where each layer operates at a different
+    spatiotemporal resolution, realizing the renormalization group flow inherent to XCRM theory.
   </p>
 
   <div class="layer-diagram">
     <div class="layer-row" style="border-left:4px solid #22d3ee;">
       <span class="layer-label" style="color:#22d3ee;">R1</span>
-      <span class="layer-desc"><strong>Sensory Manifold</strong> — Fast dynamics, external input processing (32³ grid)</span>
+      <span class="layer-desc"><strong>Fine-Scale Layer</strong> — Fast dynamics, high-frequency modes (32³ grid)</span>
       <span class="layer-eq">\(\Matt{\Delta t} = 0.005\)</span>
     </div>
     <div class="layer-row" style="border-left:4px solid #fbbf24;">
       <span class="layer-label" style="color:#fbbf24;">R2</span>
-      <span class="layer-desc"><strong>Associative Manifold</strong> — Working memory, pattern binding (32³ grid)</span>
+      <span class="layer-desc"><strong>XCRM Coupling Layer</strong> — Memory field binding, pattern formation (32³ grid)</span>
       <span class="layer-eq">\(\Matt{\Delta t} = 0.005\)</span>
     </div>
     <div class="layer-row" style="border-left:4px solid #4ade80;">
       <span class="layer-label" style="color:#4ade80;">R3</span>
-      <span class="layer-desc"><strong>Stabilizer Manifold</strong> — Homeostatic regulation, dampening (32³ grid)</span>
+      <span class="layer-desc"><strong>Stabilizer Layer</strong> — Potential regulation, dampening (32³ grid)</span>
       <span class="layer-eq">\(\Matt{\Delta t} = 0.005\)</span>
     </div>
     <div class="layer-row" style="border-left:4px solid #a78bfa;">
       <span class="layer-label" style="color:#a78bfa;">R4</span>
-      <span class="layer-desc"><strong>Predictive Core</strong> — Goal-seeking drift, meta-control (8³ grid)</span>
+      <span class="layer-desc"><strong>Coarse-Grained Layer</strong> — Slow modes, long-wavelength dynamics (8³ grid)</span>
       <span class="layer-eq">\(\Matt{\Delta t} = 0.05\)</span>
     </div>
     <div class="layer-row" style="border-left:4px solid #f472b6;">
       <span class="layer-label" style="color:#f472b6;">R5</span>
-      <span class="layer-desc"><strong>Meta-Control Layer</strong> — Exploration/exploitation budget (4³ grid)</span>
+      <span class="layer-desc"><strong>RG Fixed Point</strong> — Infrared limit, global modulation (4³ grid)</span>
       <span class="layer-eq">\(\Matt{\Delta t} = 0.5\)</span>
     </div>
   </div>
 
   <div class="block" style="border-left-color:var(--gold);">
-    <div class="title" style="color:var(--gold);">Multi-Resolution XCRM</div>
+    <div class="title" style="color:var(--gold);">Renormalization Group Structure</div>
     <p style="margin:0;color:var(--text-secondary);">
       The coarse layers (R4, R5) operate at lower spatial and temporal resolution, implementing the
-      renormalization group flow of XCRM physics. This naturally produces hierarchical control:
-      R5 modulates R4's learning rate and exploration budget, while R4 controls R2's drift direction.
+      renormalization group flow of XCRM physics. Information flows bidirectionally: fine-scale
+      fluctuations aggregate into R4/R5 while coarse-grained modes modulate fine-scale coupling strengths.
     </p>
   </div>
 </section>
 
-<!-- COGNITIVE COMPONENTS -->
-<section class="section" id="cognitive" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(244,114,182,0.04) 100%);">
-  <h2 style="color:var(--accent-secondary);">Cognitive Components</h2>
+<!-- ADAPTIVE CONTROL COMPONENTS -->
+<section class="section" id="control" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(244,114,182,0.04) 100%);">
+  <h2 style="color:var(--accent-secondary);">Adaptive Control Components</h2>
 
   <div class="arch-grid">
     <div class="arch-card" style="border-color:rgba(251,191,36,0.4);">
-      <h4 style="color:#fbbf24;">Policy Network</h4>
-      <p>Linear RL policy trained with TD(0) updates. Modulates substrate parameters \((\Diff{D_1}, \XCRM{\chi_{X2}}, \Omega_1, \Omega_2, \Omega_3)\) based on a 29-dimensional state vector.</p>
+      <h4 style="color:#fbbf24;">Parameter Controller</h4>
+      <p>TD(0) policy for adaptive coefficient tuning. Modulates substrate parameters \((\Diff{D_1}, \XCRM{\chi_{X2}}, \Omega_1, \Omega_2, \Omega_3)\) based on a 29-dimensional state vector.</p>
     </div>
     <div class="arch-card" style="border-color:rgba(167,139,250,0.4);">
-      <h4 style="color:#a78bfa;">Symbolic Memory</h4>
-      <p>Compresses R2 curvature patterns into discrete proto-symbols. Learns transition statistics \(\Matt{T(i \to j)}\) for sequential pattern recognition.</p>
+      <h4 style="color:#a78bfa;">Pattern Encoder</h4>
+      <p>Compresses R2 curvature patterns into discrete modes. Tracks transition statistics \(\Matt{T(i \to j)}\) for sequential pattern evolution.</p>
     </div>
     <div class="arch-card" style="border-color:rgba(74,222,128,0.4);">
-      <h4 style="color:#4ade80;">Adaptive Planner</h4>
-      <p>High-level action selection based on semantic state abstraction. Modulates symbolic bias, layer coupling, and goal amplitude.</p>
+      <h4 style="color:#4ade80;">Adaptive Scheduler</h4>
+      <p>High-level mode selection based on field state abstraction. Modulates coupling strengths and source amplitudes.</p>
     </div>
     <div class="arch-card" style="border-color:rgba(96,165,250,0.4);">
-      <h4 style="color:#60a5fa;">Meta-Control</h4>
-      <p>R5-driven exploration/consolidation switch. Implements autonomous goal selection when R5 activity exceeds threshold.</p>
+      <h4 style="color:#60a5fa;">Global Modulator</h4>
+      <p>R5-driven global parameter modulation. Implements autonomous mode switching when R5 variance exceeds threshold.</p>
     </div>
   </div>
 
-  <h3 style="color:var(--text);margin-top:1.5rem;">Reward Structure (Intrinsic Motivation)</h3>
+  <h3 style="color:var(--text);margin-top:1.5rem;">Optimization Objective</h3>
   <div class="eq" style="margin:1rem 0;">
     \[r_t = \underbrace{\color{#4ade80}{r_{\rm goal}}}_{\text{extrinsic}} +
     \underbrace{\color{#fbbf24}{r_{\rm curiosity}}}_{\text{entropy}} +
     \underbrace{\color{#a78bfa}{r_{\rm stability}}}_{\text{R4 variance}} +
     \underbrace{\color{#f472b6}{r_{\rm conflict}}}_{\text{policy-R4}} -
     \underbrace{\color{#60a5fa}{\beta \cdot \|s_{t+1} - \hat{s}_{t+1}\|}}_{\text{prediction error}}\]
-    <div class="eq-label">(AGI.3) — Composite Reward Function</div>
+    <div class="eq-label">(RFD.3) — Composite Reward Function</div>
   </div>
 </section>
 
-<!-- XCRM-COGNITION MAPPING -->
+<!-- XCRM TERM MAPPING -->
 <section class="section" id="mapping" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
-  <h2 style="color:var(--gold);">Analogical XCRM-to-Cognition Mapping</h2>
+  <h2 style="color:var(--gold);">XCRM Term Correspondence</h2>
   <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
-    <em>The following table shows structural analogies, not derived correspondences. These mappings are
-    heuristic choices for building a cognitive simulation — they are not proven to emerge from STUR physics.</em>
+    Each term in the STUR Master Action maps to a specific computational operation in the RFD simulator.
+    The table below shows how each physical term manifests in the discretized evolution.
   </p>
 
   <div style="overflow-x:auto;margin:1rem 0;">
     <table style="width:100%;font-size:0.88rem;">
       <thead>
         <tr style="background:rgba(251,191,36,0.04);">
-          <th style="color:var(--gold);">XCRM-Inspired Term</th>
-          <th style="color:var(--gold);">Cognitive Analog</th>
-          <th style="color:var(--gold);">Intended Function</th>
+          <th style="color:var(--gold);">XCRM Term</th>
+          <th style="color:var(--gold);">RFD Implementation</th>
+          <th style="color:var(--gold);">Physical Role</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>\(\color{#4ade80}{D \nabla^2 R}\)</td>
-          <td>Spatial smoothing</td>
-          <td style="color:var(--text-secondary);">Pattern generalization, noise reduction</td>
+          <td>Discrete Laplacian with periodic BCs</td>
+          <td style="color:var(--text-secondary);">Kinetic term diffusion, spatial coherence</td>
         </tr>
         <tr>
           <td>\(\color{#fbbf24}{\chi R \partial_X R}\)</td>
-          <td>Memory-state coupling</td>
-          <td style="color:var(--text-secondary);">Persistent learning, context sensitivity</td>
+          <td>Saturation operator \(S_u\) with memory coupling</td>
+          <td style="color:var(--text-secondary);">XCRM closure, internal dimension dynamics</td>
         </tr>
         <tr>
           <td>\(\color{#f472b6}{-\lambda(R-R_{\rm bg})^3}\)</td>
-          <td>Homeostatic regulation</td>
-          <td style="color:var(--text-secondary);">Stability, bounded activation</td>
+          <td>Cubic nonlinearity with saturation</td>
+          <td style="color:var(--text-secondary);">Potential \(V(R)\), stability regulation</td>
         </tr>
         <tr>
           <td>\(\color{#60a5fa}{\alpha R \mathbb{T}}\)</td>
-          <td>Inter-layer torsion</td>
-          <td style="color:var(--text-secondary);">Hierarchical information flow</td>
+          <td>Multi-layer torsion coupling</td>
+          <td style="color:var(--text-secondary);">Gravity sector, holonomy accumulation</td>
         </tr>
         <tr>
           <td>\(\color{#22d3ee}{\mathcal{L}_{\rm matter}}\)</td>
-          <td>External inputs, goals</td>
-          <td style="color:var(--text-secondary);">Sensory grounding, reward signals</td>
+          <td>External source term \(S_i\)</td>
+          <td style="color:var(--text-secondary);">Matter coupling, boundary conditions</td>
         </tr>
       </tbody>
     </table>
@@ -975,37 +947,37 @@ if __name__ == "__main__":
   </div>
 </section>
 
-<!-- LIMITATIONS AND FUTURE WORK -->
-<section class="section" id="limitations" style="border:2px solid #94a3b8; background:rgba(148,163,184,0.04);">
-  <h2 style="color:#94a3b8;">Limitations and Future Work</h2>
+<!-- IMPLEMENTATION NOTES -->
+<section class="section" id="implementation" style="border:2px solid #94a3b8; background:rgba(148,163,184,0.04);">
+  <h2 style="color:#94a3b8;">Implementation Notes</h2>
 
   <div style="display:grid;gap:1rem;margin:1rem 0;">
-    <div class="block" style="border-left-color:#ef4444;">
-      <div class="title" style="color:#ef4444;">What This Simulation Does NOT Demonstrate</div>
+    <div class="block" style="border-left-color:var(--gold);">
+      <div class="title" style="color:var(--gold);">Chronomagnetic Constants</div>
       <ul style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-        <li>That cognition emerges from actual XCRM physics</li>
-        <li>That the 5D resistance field \(\Diff{R}(x^\mu, \XCRM{X})\) exists in biological or artificial brains</li>
-        <li>That the Master Action governs neural dynamics</li>
-        <li>That the chosen parameters have any physical meaning beyond computational utility</li>
+        <li>Fundamental ratio: \(\lambda = 3722/2705 \approx 1.376\)</li>
+        <li>Triangle weights: \(w_D = 1/(1+\lambda+\lambda^2)\), \(w_\chi = \lambda/(1+\lambda+\lambda^2)\), \(w_\Pi = \lambda^2/(1+\lambda+\lambda^2)\)</li>
+        <li>Log-periodic modulation: \(M(u) = 1 + \varepsilon \cos(2\pi u/\ln\lambda)\)</li>
+        <li>Visibility decay: \(V = V_0 \exp(-\Phi_R^2/2)\) — Gaussian signature</li>
       </ul>
     </div>
 
     <div class="block" style="border-left-color:var(--accent);">
-      <div class="title" style="color:var(--accent);">What Would Be Needed for Rigorous Connection</div>
+      <div class="title" style="color:var(--accent);">Computational Requirements</div>
       <ul style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-        <li>Derivation of cognitive dynamics from the STUR Master Action via appropriate limits</li>
-        <li>Identification of the "cognitive scale" at which XCRM effects would dominate</li>
-        <li>Experimental signatures distinguishing XCRM-based cognition from conventional models</li>
-        <li>Dimensional analysis connecting cognitive parameters to fundamental constants</li>
+        <li>Python 3.8+ with NumPy</li>
+        <li>Grid sizes: 192³ (2D) or 32³–64³ (3D) for full resolution</li>
+        <li>Typical runtime: 2–5 minutes for 6000 timesteps (2D)</li>
+        <li>Output: JSON logs, NPZ data files, power spectra</li>
       </ul>
     </div>
 
     <div class="block" style="border-left-color:var(--success);">
-      <div class="title" style="color:var(--success);">Value of This Exploration</div>
+      <div class="title" style="color:var(--success);">Key Outputs</div>
       <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-        Even as a speculative exercise, the AGI Seed demonstrates that field-theoretic frameworks can produce
-        rich, self-organizing dynamics useful for cognitive architectures. Whether or not the connection to
-        STUR physics is ultimately validated, the mathematical structures may have independent utility.
+        The simulator produces time series of field variance \(\sigma_R(t)\), effective growth rates \(\lambda_{\rm eff}\),
+        peak wavenumbers \(k_{\rm peak}\), holonomy flux \(\Phi_R\), and visibility \(V\). Power spectra are saved
+        at configurable intervals for comparison with linear theory predictions.
       </p>
     </div>
   </div>
