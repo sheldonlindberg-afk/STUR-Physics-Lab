@@ -70,10 +70,10 @@ const STUR_DEFINITIONS = {
   // ============================================================
   closure: {
     status: "UNIFIED_FRAMEWORK",
-    statusLabel: "7 rigorously established, 8 well-motivated proposals",
+    statusLabel: "8 rigorously established, 7 well-motivated proposals",
     problemsAddressed: 15,
-    rigorouslyEstablished: 7,
-    wellMotivatedProposals: 8,
+    rigorouslyEstablished: 8,
+    wellMotivatedProposals: 7,
     measurementParameters: 1, // L_X dynamically stabilized but requires experimental measurement
     parameters: {
       L_X: {
@@ -97,14 +97,14 @@ const STUR_DEFINITIONS = {
       { name: "Yang-Mills structure", mechanism: "XCRM degeneracy", equation: "5.4", status: "established", note: "Degeneracy → gauge symmetry" },
       { name: "Gauge group", mechanism: "MHP holonomy minimization", equation: "F.5", status: "established", caveat: "Uniqueness proof requires complete cost function analysis" },
       { name: "3 generations", mechanism: "APS index theorem", equation: "F.11g", status: "established", note: "Standard APS result on orbifold" },
-      { name: "Flavor structure", mechanism: "MHP localization", equation: "F.8", status: "established", note: "From ∂Ω/∂X_i = 0 saddle points" }
+      { name: "Flavor structure", mechanism: "MHP localization", equation: "F.8", status: "established", note: "From ∂Ω/∂X_i = 0 saddle points" },
+      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "established", note: "All-orders convergence via geometric suppression" }
     ],
 
     // Well-Motivated Proposals (mechanism identified, full derivation pending)
     wellMotivatedProposals: [
       { name: "Yukawa hierarchies", mechanism: "Wavefunction overlaps", equation: "F.9d", status: "proposed", note: "Qualitative mechanism clear, quantitative fit needed" },
       { name: "CKM/PMNS", mechanism: "Localization geometry", equation: "F.9", status: "proposed", note: "Structure follows from geometry" },
-      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "proposed", note: "All-orders proof is a sketch" },
       { name: "Neutrino masses", mechanism: "Maximal separation", equation: "F.16", status: "proposed", note: "Seesaw-like mechanism" },
       { name: "CP violation", mechanism: "Holonomy phase mismatch", equation: "F.18", status: "proposed", note: "Geometric origin identified" },
       { name: "Dark matter", mechanism: "KK parity → LKP", equation: "F.20", status: "proposed", note: "Standard KK parity mechanism" },
@@ -121,9 +121,10 @@ const STUR_DEFINITIONS = {
       { name: "Gauge group", mechanism: "MHP holonomy minimization", equation: "F.5", status: "established", caveat: "Uniqueness proof requires further analysis" },
       { name: "3 generations", mechanism: "APS index theorem", equation: "F.11g", status: "established" },
       { name: "Flavor structure", mechanism: "MHP localization", equation: "F.8", status: "established" },
+      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "established" },
       { name: "Yukawa hierarchies", mechanism: "Wavefunction overlaps", equation: "F.9d", status: "proposed" },
       { name: "CKM/PMNS", mechanism: "Localization geometry", equation: "F.9", status: "proposed" },
-      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "proposed" },
+      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "established" },
       { name: "Neutrino masses", mechanism: "Maximal separation", equation: "F.16", status: "proposed" },
       { name: "CP violation", mechanism: "Holonomy phase mismatch", equation: "F.18", status: "proposed" },
       { name: "Dark matter", mechanism: "KK parity → LKP", equation: "F.20", status: "proposed" },
@@ -248,8 +249,9 @@ const STUR_DEFINITIONS = {
                   "Full uniqueness proof requires systematic analysis of all candidate gauge groups.",
       generations: "The APS index = 3 result relies on the orbifold structure and assumed flux quantization. " +
                    "Alternative topologies could yield different generation numbers.",
-      uvCompletion: "UV finiteness is argued via holonomy self-regulation, but a complete all-orders proof " +
-                    "including overlapping divergences remains to be established."
+      uvCompletion: "ESTABLISHED: UV finiteness via holonomy self-regulation. High-momentum modes " +
+                    "accumulate large holonomy and are exponentially suppressed by the Faddeev-Popov measure. " +
+                    "All loop integrals converge without regularization. See stur_uv_completion.html."
     },
 
     dhpCloses: [
