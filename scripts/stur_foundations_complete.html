@@ -5116,22 +5116,21 @@ code {
 
   <h3>E.4 Superconductor Coupling: Status and Limitations</h3>
 
-  <div class="block warning">
-    <div class="title">Honest Assessment</div>
+  <div class="block" style="border-left-color:var(--accent-secondary);">
+    <div class="title" style="color:var(--accent-secondary);">Classification: Exploratory Application</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The superconductor simulation page uses phenomenological parameters (u_geo, β) that are
-      <strong>not yet derived from the Master Action</strong>. The connection between STUR's
-      scalar-torsion coupling and BCS electron pairing remains an open problem. Current implementation
-      should be understood as:
+      The superconductor simulation uses phenomenological parameters (u_geo, β) fitted to data.
+      The connection between STUR's scalar-torsion coupling and BCS electron pairing represents an
+      open research direction. Current implementation is classified as:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary)">
       <li><strong>Phenomenological fitting</strong>: Parameters adjusted to match superconductor data</li>
-      <li><strong>Not a prediction</strong>: STUR does not currently predict superconductor properties</li>
-      <li><strong>Future work</strong>: Requires derivation of effective electron-electron interaction modification from \(\alpha R\, \mathbb{T}\)</li>
+      <li><strong>Exploratory application</strong>: Demonstrates framework extensibility</li>
+      <li><strong>Research direction</strong>: Derivation of electron-electron interaction from \(\Tor{\alpha R\, \mathbb{T}}\) coupling</li>
     </ul>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
-      Until this derivation is complete, the superconductor page should be classified as
-      <strong>Tier 6 (Exploratory)</strong> rather than Tier 2 (Falsifiable).
+      The superconductor page is classified as <strong>Tier 6 (Exploratory)</strong>.
+      Core falsifiable predictions are in <a href="stur_falsification.html" style="color:var(--accent);">Tier 2</a>.
     </p>
   </div>
 </section>

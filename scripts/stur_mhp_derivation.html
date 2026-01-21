@@ -36,8 +36,8 @@
 
 <header class="masthead">
   <h1>MHP Derivation & Moduli Stabilization</h1>
-  <p class="subtitle">Closing the Foundational Gaps in STUR</p>
-  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg · <em>Foundational Theory v2.0</em></p>
+  <p class="subtitle">Path Integral Origin of Holonomy Minimization</p>
+  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
 </header>
 
 <div class="physics-legend">
@@ -52,10 +52,10 @@
 
 <!-- EXECUTIVE SUMMARY -->
 <section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--gold);">Executive Summary: Framework Closure</h2>
+  <h2 style="color:var(--gold);">Executive Summary</h2>
 
   <p style="color:var(--text);font-size:1.05rem;">
-    This document addresses four foundational gaps identified in the theory review:
+    This document establishes four foundational results:
   </p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.25rem 0;">
@@ -94,7 +94,7 @@
   <p>The quantum theory of XCRM is defined by:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
-    \[\boxed{Z = \int \mathcal{D}[g, A, \psi, R]\; e^{iS_{\rm STUR}[g, A, \psi, R]}}\]
+    \[\boxed{\Quant{Z} = \int \mathcal{D}[\Tor{g}, \Quant{A}, \Matt{\psi}, \Diff{R}]\; e^{i\XCRM{S_{\rm STUR}}[\Tor{g}, \Quant{A}, \Matt{\psi}, \Diff{R}]}}\]
     <div class="eq-label" style="color:var(--gold);">(1.1) — STUR Path Integral</div>
   </div>
 
@@ -183,7 +183,7 @@
     where \(\alpha\) runs over all roots of \(G\). The determinant in the adjoint is:
   </p>
   <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);padding:1rem;">
-    \[\boxed{\det_{\rm adj}(1 - W) = \prod_{\alpha \in \text{roots}} (1 - e^{i\alpha \cdot \mathbf{h}}) = \prod_{\alpha > 0} |1 - e^{i\alpha \cdot \mathbf{h}}|^2}\]
+    \[\boxed{\det_{\rm adj}(1 - \Quant{W}) = \prod_{\alpha \in \text{roots}} (1 - e^{i\alpha \cdot \Quant{\mathbf{h}}}) = \prod_{\alpha > 0} |1 - e^{i\alpha \cdot \Quant{\mathbf{h}}}|^2}\]
     <div class="eq-label" style="color:var(--gold);">(1.3f) — Vandermonde structure derived</div>
   </div>
 
@@ -192,7 +192,7 @@
     For \(G = SU(N)\), the roots are \(\alpha_{ij} = e_i - e_j\) for \(i \neq j\), giving:
   </p>
   <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid #4ade80;padding:1rem;">
-    \[\boxed{\Delta_{\rm FP}^{SU(N)} = \prod_{i < j} |e^{i\pi h_i} - e^{i\pi h_j}|^2 = \prod_{i < j} 4\sin^2\!\left(\frac{\pi(h_i - h_j)}{2}\right)}\]
+    \[\boxed{\Quant{\Delta_{\rm FP}^{SU(N)}} = \prod_{i < j} |e^{i\pi \Quant{h_i}} - e^{i\pi \Quant{h_j}}|^2 = \prod_{i < j} 4\sin^2\!\left(\frac{\pi(\Quant{h_i} - \Quant{h_j})}{2}\right)}\]
     <div class="eq-label" style="color:#4ade80;">(1.3g) — SU(N) Vandermonde determinant</div>
   </div>
 
@@ -218,7 +218,7 @@
   <p>Rewriting the measure as an effective potential:</p>
 
   <div class="eq boxed">
-    \[d\mu[W] = e^{-V_{\rm eff}[\mathbf{h}]}\, d\mathbf{h}, \quad V_{\rm eff}[\mathbf{h}] = -2\sum_{\alpha > 0} \ln|2\sin(\pi\alpha \cdot \mathbf{h}/2)|\]
+    \[d\mu[\Quant{W}] = e^{-\Pot{V_{\rm eff}}[\Quant{\mathbf{h}}]}\, d\Quant{\mathbf{h}}, \quad \Pot{V_{\rm eff}}[\Quant{\mathbf{h}}] = -2\sum_{\alpha > 0} \ln|2\sin(\pi\alpha \cdot \Quant{\mathbf{h}}/2)|\]
     <div class="eq-label">(1.4) — Effective holonomy potential</div>
   </div>
 
@@ -234,7 +234,7 @@
   <p>In the semiclassical limit, the holonomy integral is dominated by:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
-    \[\boxed{\frac{\partial V_{\rm eff}}{\partial h_a} = 0 \quad \Leftrightarrow \quad \mathbf{h}^* = \arg\min_{\mathbf{h}} V_{\rm eff}[\mathbf{h}]}\]
+    \[\boxed{\frac{\partial \Pot{V_{\rm eff}}}{\partial \Quant{h_a}} = 0 \quad \Leftrightarrow \quad \Quant{\mathbf{h}^*} = \arg\min_{\Quant{\mathbf{h}}} \Pot{V_{\rm eff}}[\Quant{\mathbf{h}}]}\]
     <div class="eq-label" style="color:var(--gold);">(1.6) — Saddle point = Holonomy minimization</div>
   </div>
 
@@ -434,14 +434,14 @@
   <div class="block gold" style="margin:1.5rem 0;border-width:3px;background:rgba(0,0,0,0.6);">
     <div class="title" style="font-size:1.2rem;">Axiom 1: The Master Action</div>
     <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);padding:1rem;">
-      \[S_{\rm STUR} = \int d^5x\, \sqrt{-g}\, \Big[\tfrac{1}{2}(\nabla R)^2 - V(R) + \chi R\partial_X R + \alpha R \mathbb{T} + \mathcal{L}_{\rm matter}\Big]\]
+      \[\XCRM{S_{\rm STUR}} = \int d^5x\, \sqrt{-\Tor{g}}\, \Big[\Diff{\tfrac{1}{2}(\nabla R)^2} - \Pot{V(R)} + \XCRM{\chi R\partial_X R} + \Tor{\alpha R \mathbb{T}} + \Matt{\mathcal{L}_{\rm matter}}\Big]\]
     </div>
   </div>
 
   <div class="block gold" style="margin:1.5rem 0;border-width:3px;background:rgba(0,0,0,0.6);">
     <div class="title" style="font-size:1.2rem;">Axiom 2: The Dynamical Holonomy Principle (DHP)</div>
     <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);padding:1rem;">
-      \[\Omega_{\rm DHP}[\text{history}] = \int_0^{t_f} \Omega[\text{config}(t)]\, dt\]
+      \[\Quant{\Omega_{\rm DHP}}[\text{history}] = \int_0^{t_f} \Quant{\Omega}[\text{config}(t)]\, dt\]
     </div>
   </div>
 
