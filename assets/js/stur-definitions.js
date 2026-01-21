@@ -22,14 +22,15 @@ const STUR_DEFINITIONS = {
       equation: "S_STUR = ∫ [½(∇R)² - V(R) + χR∂_X R + αR𝕋 + ℒ_matter] d⁵x"
     },
     mhp: {
-      id: "Axiom 2",
+      id: "Derived",
       name: "Minimum Holonomy Principle (MHP)",
-      description: "Physical configurations minimize total holonomy action over non-contractible cycles",
+      description: "Derived from path integral saddle point conditions — physical configurations minimize total holonomy action",
       equation: "Ω[A,ψ,X_i] = ∫ Tr(W†W) dμ + λ_ψ Σ∫|D_X ψ_i|² dX + κ·I_top",
-      closes: ["Gauge group", "Generations", "Flavor structure", "Yukawa hierarchies", "CKM/PMNS"]
+      closes: ["Gauge group", "Generations", "Flavor structure", "Yukawa hierarchies", "CKM/PMNS"],
+      derivedFrom: "Path integral Faddeev-Popov procedure (see stur_mhp_derivation.html)"
     },
     dhp: {
-      id: "Axiom 3",
+      id: "Axiom 2",
       name: "Dynamical Holonomy Principle (DHP)",
       description: "Universe evolves along path of minimum integrated holonomy action",
       equation: "Ω_DHP[history] = ∫₀^t_f Ω[config(t)] dt",
