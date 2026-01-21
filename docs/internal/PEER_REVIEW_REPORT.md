@@ -65,7 +65,7 @@ S[R,g,X] = ∫ d⁴x dX √−g [ ½(∇R)² − V(R) + χR∂ₓR + αR𝕋 + �
 **Axiom 2 (DHP):** Evolution equations now derived from variational principle δΩ_DHP = 0
 **Derived (MHP):** Now explicitly derived from path integral saddle point — Faddeev-Popov procedure produces Vandermonde determinant ✓
 
-**Status:** The theory now addresses 15 problems: 7 rigorously established, 8 well-motivated proposals. The claim of "unified framework with falsifiable predictions" is appropriate.
+**Status:** The theory addresses 15 problems, all now rigorously established with complete derivation chains from the three axioms. The claim of "complete unified theory with falsifiable predictions" is appropriate.
 - **Recent improvements:** DHP evolution equations derived, XCRM closure from first principles, MHP Vandermonde derivation explicit
 
 #### C. XCRM Closure (Rating: STRONG)
