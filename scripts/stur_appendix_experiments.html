@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Appendix E — Worked Experimental Examples</title>
+<meta name="description" content="Numerical predictions for MAGIS-100, AION, and tabletop Sagnac experiments with concrete parameter values.">
+
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_technical_appendix.html" class="glass-nav-link">Appendix Index</a>
+      <a href="stur_appendix_experiments.html" class="glass-nav-link active">E: Experiments</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>Appendix E: Worked Experimental Examples</h1>
+  <p class="subtitle">Numerical Predictions for MAGIS-100, AION, and Sagnac Loops</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    Part of <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a>
+  </p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- INTRODUCTION -->
+<section class="section" id="intro">
+  <h2>E.1 Purpose and Methodology</h2>
+
+  <p>
+    This appendix provides <strong>concrete numerical examples</strong> of STUR predictions for specific
+    experimental platforms. The goal is to demonstrate how the theory maps to measurable quantities
+    and to provide falsification benchmarks.
+  </p>
+
+  <div class="block warning">
+    <div class="title">Coherence Length Uncertainty</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>Important:</strong> The numerical value of \(\Matt{\ell_{\rm coh}}\) is uncertain by several orders
+      of magnitude because \(\XCRM{L_X}\) is unknown. These examples use representative values spanning
+      the plausible range. The <strong>functional form</strong> (Gaussian in \(\Delta L^2\)) is the robust prediction.
+    </p>
+  </div>
+
+  <h3>STUR Visibility Formula</h3>
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\Matt{V(\Delta L)} = \Matt{V_0} \exp\!\left(-\frac{\Matt{\Delta L}^2}{\Matt{\ell_{\rm coh}}^2}\right)}\]
+    <div class="eq-label" style="color:var(--gold);">(E.1) — Master prediction</div>
+  </div>
+</section>
+
+<!-- MAGIS-100 -->
+<section class="section" id="magis-100" style="border:2px solid var(--accent); background:linear-gradient(135deg, rgba(56,189,248,0.08) 0%, rgba(56,189,248,0.02) 100%);">
+  <h2 style="color:var(--accent);">E.2 MAGIS-100: Long-Baseline Atom Interferometry</h2>
+
+  <h3>Experimental Parameters</h3>
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Symbol</th><th>Value</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Baseline length</td><td>\(\Matt{L_{\rm base}}\)</td><td>100 m</td><td>Fermilab vertical shaft</td></tr>
+      <tr><td>Maximum arm separation</td><td>\(\Matt{\Delta L_{\rm max}}\)</td><td>~10 m</td><td>Large momentum transfer</td></tr>
+      <tr><td>Atom species</td><td>—</td><td>Sr-87</td><td>Clock transition</td></tr>
+      <tr><td>Interrogation time</td><td>\(\Matt{T}\)</td><td>~1-2 s</td><td>Free-fall duration</td></tr>
+      <tr><td>Shot rate</td><td>—</td><td>~10/hour</td><td>Estimated</td></tr>
+      <tr><td>Intrinsic visibility</td><td>\(\Matt{V_0}\)</td><td>~0.8-0.95</td><td>Apparatus-limited</td></tr>
+    </tbody>
+  </table>
+
+  <h3>STUR Predictions for MAGIS-100</h3>
+
+  <div class="block success">
+    <div class="title">Scenario A: \(\ell_{\rm coh} = 1\) m (Detectable)</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      If the coherence length is \(\Matt{\ell_{\rm coh}} = 1\) m, MAGIS-100 would observe dramatic visibility decay:
+    </p>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>\(\Matt{\Delta L}\) (m)</th><th>\(\Matt{V/V_0}\)</th><th>Visibility Drop</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>0.1</td><td>0.990</td><td>1% suppression</td></tr>
+      <tr><td>0.5</td><td>0.779</td><td>22% suppression</td></tr>
+      <tr><td>1.0</td><td>0.368</td><td>63% suppression (1/e point)</td></tr>
+      <tr><td>2.0</td><td>0.018</td><td>98% suppression</td></tr>
+      <tr><td>5.0</td><td>\(1.4 \times 10^{-11}\)</td><td>Effective zero</td></tr>
+    </tbody>
+  </table>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\text{At } \Matt{\Delta L} = 1 \text{ m}: \quad \Matt{V} = V_0 \cdot e^{-1} \approx 0.37 \cdot V_0\]
+    <div class="eq-label">(E.2) — Characteristic visibility at \(\Delta L = \ell_{\rm coh}\)</div>
+  </div>
+
+  <div class="block">
+    <div class="title">Scenario B: \(\ell_{\rm coh} = 100\) m (Near current bounds)</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      If \(\Matt{\ell_{\rm coh}} = 100\) m, the effect is subtle but measurable:
+    </p>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>\(\Matt{\Delta L}\) (m)</th><th>\(\Matt{V/V_0}\)</th><th>Visibility Drop</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1.0</td><td>0.9999</td><td>0.01% suppression</td></tr>
+      <tr><td>5.0</td><td>0.9975</td><td>0.25% suppression</td></tr>
+      <tr><td>10.0</td><td>0.990</td><td>1% suppression</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Detection Strategy</h3>
+  <ol>
+    <li>Measure \(\Matt{V(\Delta L)}\) at multiple arm separations: 0.1, 0.5, 1, 2, 5, 10 m</li>
+    <li>Plot \(\ln(V/V_0)\) vs. \(\Matt{\Delta L^2}\)</li>
+    <li>STUR predicts a <strong>straight line</strong> with slope \(-1/\Matt{\ell_{\rm coh}^2}\)</li>
+    <li>Extract \(\Matt{\ell_{\rm coh}}\) from the slope, or establish lower bound if null</li>
+  </ol>
+
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--success);">
+    \[\boxed{\ln\!\left(\frac{\Matt{V}}{\Matt{V_0}}\right) = -\frac{\Matt{\Delta L}^2}{\Matt{\ell_{\rm coh}}^2} \quad \Rightarrow \quad \text{slope} = -\frac{1}{\Matt{\ell_{\rm coh}}^2}}\]
+    <div class="eq-label" style="color:var(--success);">(E.3) — Linear test for STUR</div>
+  </div>
+</section>
+
+<!-- AION -->
+<section class="section" id="aion" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(167,139,250,0.02) 100%);">
+  <h2 style="color:var(--accent-secondary);">E.3 AION: Multi-Stage Gradiometer</h2>
+
+  <h3>Experimental Parameters</h3>
+  <table>
+    <thead>
+      <tr><th>Stage</th><th>Baseline</th><th>\(\Matt{\Delta L_{\rm max}}\)</th><th>Location</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>AION-10</td><td>10 m</td><td>~1 m</td><td>Oxford (operational)</td></tr>
+      <tr><td>AION-100</td><td>100 m</td><td>~10 m</td><td>STFC Boulby (planned)</td></tr>
+      <tr><td>AION-km</td><td>1 km</td><td>~100 m</td><td>Future (proposed)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Multi-Baseline Strategy</h3>
+  <p>
+    AION's staged approach provides an ideal platform for STUR tests. By comparing visibility
+    across different baseline lengths, systematic uncertainties cancel:
+  </p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\frac{\ln(V_1/V_0)}{\ln(V_2/V_0)} = \frac{\Matt{\Delta L_1}^2}{\Matt{\Delta L_2}^2}\]
+    <div class="eq-label">(E.4) — Ratio test (independent of \(\ell_{\rm coh}\))</div>
+  </div>
+
+  <p>
+    This ratio depends <strong>only on geometry</strong>, not on the unknown coherence length.
+    Deviation from this ratio falsifies STUR.
+  </p>
+
+  <h3>Sensitivity Estimates</h3>
+  <table>
+    <thead>
+      <tr><th>Stage</th><th>\(\Matt{\ell_{\rm coh}}\) sensitivity</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>AION-10</td><td>\(\gtrsim 0.1\) m</td><td>Proof of concept</td></tr>
+      <tr><td>AION-100</td><td>\(\gtrsim 10\) m</td><td>Comparable to MAGIS-100</td></tr>
+      <tr><td>AION-km</td><td>\(\gtrsim 100\) m</td><td>Frontier sensitivity</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SAGNAC LOOPS -->
+<section class="section" id="sagnac" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">E.4 Tabletop Sagnac Loops: Area Enhancement</h2>
+
+  <p>
+    Sagnac interferometers probe a <strong>different regime</strong> than linear-path experiments.
+    For closed loops, the XCRM holonomy depends on <strong>enclosed area</strong>, not path difference.
+  </p>
+
+  <h3>Loop Visibility Formula</h3>
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\Matt{V_{\rm loop}} = V_0 \exp\!\left(-\frac{\Matt{A_{\rm loop}}^2}{\Matt{A_{\rm coh}}^2}\right)}\]
+    <div class="eq-label" style="color:var(--gold);">(E.5) — Loop visibility (area scaling)</div>
+  </div>
+
+  <p>where the coherence area is:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\Matt{A_{\rm coh}} = \frac{\XCRM{L_X}^2}{\Diff{\sigma_R}} = \Matt{\ell_{\rm coh}} \cdot \XCRM{L_X}\]
+    <div class="eq-label">(E.6) — Coherence area</div>
+  </div>
+
+  <h3>Example: 1 m² Sagnac Loop</h3>
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Loop area</td><td>\(\Matt{A} = 1\) m²</td></tr>
+      <tr><td>Perimeter</td><td>\(\Matt{P} = 4\) m (square)</td></tr>
+      <tr><td>Effective \(\Delta L\)</td><td>0 (closed loop)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="block success">
+    <div class="title">Key Advantage: Zero Path Difference</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Unlike linear interferometers, Sagnac loops have \(\Matt{\Delta L} = 0\) (both arms traverse the same path).
+      This eliminates standard decoherence mechanisms that depend on path-length difference.
+      <strong>Any visibility decay in a perfect Sagnac loop must come from area-dependent effects like STUR.</strong>
+    </p>
+  </div>
+
+  <h3>Area Enhancement Factor</h3>
+  <p>
+    Comparing loop and linear geometries at the same total path length \(L\):
+  </p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\frac{\langle \Quant{\Phi_R}^2 \rangle_{\rm loop}}{\langle \Quant{\Phi_R}^2 \rangle_{\rm linear}} = \frac{A/\XCRM{L_X}^2}{(\Delta L/\Matt{\ell_{\rm coh}})^2} \sim \frac{L^2}{4\XCRM{L_X}^2}\]
+    <div class="eq-label">(E.7) — Loop enhancement factor</div>
+  </div>
+
+  <p>
+    For \(L = 4\) m and \(\XCRM{L_X} = 1\) μm, the enhancement is \(\sim 10^{12}\) — enabling macroscopic
+    observability even with microscopic \(\XCRM{L_X}\).
+  </p>
+</section>
+
+<!-- NUMERICAL SUMMARY -->
+<section class="section" id="summary" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(74,222,128,0.02) 100%);">
+  <h2 style="color:var(--success);">E.5 Numerical Prediction Summary</h2>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">What STUR Predicts (Robust)</div>
+    <ul style="margin:0;color:var(--text-secondary);">
+      <li><strong>Functional form:</strong> \(\ln(V/V_0) \propto -\Matt{\Delta L}^2\) (linear in \(\Delta L^2\))</li>
+      <li><strong>No time dependence:</strong> Visibility is constant at fixed \(\Matt{\Delta L}\)</li>
+      <li><strong>No mass dependence:</strong> Same curve for atoms, neutrons, molecules</li>
+      <li><strong>Area scaling for loops:</strong> \(\ln(V/V_0) \propto -\Matt{A}^2\)</li>
+      <li><strong>Single parameter:</strong> One \(\Matt{\ell_{\rm coh}}\) fits all data</li>
+    </ul>
+  </div>
+
+  <div class="block warning" style="margin-top:1rem;">
+    <div class="title">What STUR Cannot Predict (Yet)</div>
+    <ul style="margin:0;color:var(--text-secondary);">
+      <li>The numerical value of \(\Matt{\ell_{\rm coh}}\) (depends on unknown \(\XCRM{L_X}\))</li>
+      <li>Estimated range: \(\Matt{\ell_{\rm coh}} \in [10^{-59}\) m, \(10^3\) m\(]\)</li>
+      <li>Current bounds from null results: \(\Matt{\ell_{\rm coh}} \gtrsim 1\) m</li>
+    </ul>
+  </div>
+
+  <h3>Decision Matrix</h3>
+  <table>
+    <thead>
+      <tr><th>Observation</th><th>Interpretation</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>\(\ln(V/V_0)\) linear in \(\Matt{\Delta L^2}\), no time/mass dependence</td>
+        <td style="color:var(--success);"><strong>STUR consistent</strong> — extract \(\Matt{\ell_{\rm coh}}\)</td>
+      </tr>
+      <tr>
+        <td>\(\ln(V/V_0)\) linear in \(\Matt{\Delta L}\) (not \(\Matt{\Delta L^2}\))</td>
+        <td style="color:var(--error);"><strong>STUR falsified</strong></td>
+      </tr>
+      <tr>
+        <td>Sinusoidal time modulation</td>
+        <td style="color:var(--error);"><strong>STUR falsified</strong> (suggests ULDM)</td>
+      </tr>
+      <tr>
+        <td>Mass-dependent visibility</td>
+        <td style="color:var(--error);"><strong>STUR falsified</strong></td>
+      </tr>
+      <tr>
+        <td>No visibility decay at any \(\Matt{\Delta L}\)</td>
+        <td style="color:var(--gold);"><strong>STUR consistent</strong> — \(\Matt{\ell_{\rm coh}} > \Matt{\Delta L_{\rm max}}\)</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_appendix_casimir.html" class="prev">D: Casimir-Holonomy</a>
+  <a href="stur_technical_appendix.html" class="next">Appendix Index</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Appendix E: Worked Experimental Examples</strong></p>
+  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>
