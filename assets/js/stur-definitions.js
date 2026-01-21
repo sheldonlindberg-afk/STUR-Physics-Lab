@@ -4,12 +4,19 @@
  * Canonical symbols, units, constants, and mappings for the STUR Physics Lab.
  * All pages should reference this single source of truth.
  *
- * Complete Theory (MHP + DHP)
+ * Unified Framework (Master Action + DHP)
  * @author Sheldon Lon Lindberg
+ * @version 1.0.0
  */
 
 const STUR_DEFINITIONS = {
-  versionName: "Complete Theory",
+  versionName: "Unified Framework",
+  versionNumber: "1.0.0",
+
+  // Theory status caveat - displayed where appropriate
+  theoryCaveat: "STUR is a theoretical framework with falsifiable predictions. " +
+    "Derivations are complete within the stated axioms and assumptions. " +
+    "Ultimate validity depends on experimental testing of the visibility prediction.",
 
   // ============================================================
   // THE TWO AXIOMS (MHP is derived from path integral)
@@ -35,7 +42,26 @@ const STUR_DEFINITIONS = {
       equation: "Ω[A,ψ,X_i] = ∫ Tr(W†W) dμ + λ_ψ Σ∫|D_X ψ_i|² dX + κ·I_top",
       closes: ["Gauge group", "Generations", "Flavor structure", "Yukawa hierarchies", "CKM/PMNS"],
       derivedFrom: "Path integral Faddeev-Popov procedure (see stur_mhp_derivation.html)",
-      status: "NOT an axiom — derived from Axiom 1 via path integral"
+      status: "NOT an axiom — derived from Axiom 1 via path integral",
+
+      // Physical Motivation for MHP
+      physicalMotivation: {
+        summary: "MHP emerges from quantum field theory on compact spaces, not from ad hoc postulation",
+        mechanisms: [
+          "Path integral weights configurations by e^{iS}: saddle points dominate in classical limit",
+          "On orbifolds, gauge-fixing introduces Vandermonde determinant from Faddeev-Popov procedure",
+          "Vandermonde determinant exponentially suppresses large holonomy configurations",
+          "Net effect: quantum mechanics on orbifold naturally selects minimum holonomy"
+        ],
+        analogy: "Just as entropy maximization emerges from counting microstates, MHP emerges from counting gauge orbits",
+        relation_to_physics: [
+          "Similar to how lowest-energy states dominate thermodynamics",
+          "Analogous to path-of-least-action in classical mechanics",
+          "Related to holonomy costs in loop quantum gravity"
+        ],
+        caveat: "The specific form of the holonomy cost function (Ω) determines which gauge group is selected; " +
+                "the claim that SU(3)×SU(2)×U(1) uniquely minimizes Ω requires complete analysis of all possible groups"
+      }
     }
   },
 
@@ -63,24 +89,47 @@ const STUR_DEFINITIONS = {
         status: "Related to L_X, single independent parameter"
       }
     },
+    // Rigorously Established (complete derivation chains from axioms)
+    rigorouslyEstablishedProblems: [
+      { name: "Gaussian visibility", mechanism: "CLT phase averaging", equation: "B.15", status: "established", note: "Direct from XCRM variance + CLT" },
+      { name: "Coherence length", mechanism: "XCRM closure relation", equation: "B.9", status: "established", note: "Follows from parameter closure" },
+      { name: "TEGR emergence", mechanism: "Equilibrium limit", equation: "4.3", status: "established", note: "TEGR ≡ GR is standard result" },
+      { name: "Yang-Mills structure", mechanism: "XCRM degeneracy", equation: "5.4", status: "established", note: "Degeneracy → gauge symmetry" },
+      { name: "Gauge group", mechanism: "MHP holonomy minimization", equation: "F.5", status: "established", caveat: "Uniqueness proof requires complete cost function analysis" },
+      { name: "3 generations", mechanism: "APS index theorem", equation: "F.11g", status: "established", note: "Standard APS result on orbifold" },
+      { name: "Flavor structure", mechanism: "MHP localization", equation: "F.8", status: "established", note: "From ∂Ω/∂X_i = 0 saddle points" }
+    ],
+
+    // Well-Motivated Proposals (mechanism identified, full derivation pending)
+    wellMotivatedProposals: [
+      { name: "Yukawa hierarchies", mechanism: "Wavefunction overlaps", equation: "F.9d", status: "proposed", note: "Qualitative mechanism clear, quantitative fit needed" },
+      { name: "CKM/PMNS", mechanism: "Localization geometry", equation: "F.9", status: "proposed", note: "Structure follows from geometry" },
+      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "proposed", note: "All-orders proof is a sketch" },
+      { name: "Neutrino masses", mechanism: "Maximal separation", equation: "F.16", status: "proposed", note: "Seesaw-like mechanism" },
+      { name: "CP violation", mechanism: "Holonomy phase mismatch", equation: "F.18", status: "proposed", note: "Geometric origin identified" },
+      { name: "Dark matter", mechanism: "KK parity → LKP", equation: "F.20", status: "proposed", note: "Standard KK parity mechanism" },
+      { name: "Cosmological constant", mechanism: "DHP finite holonomy", equation: "F.22", status: "proposed", note: "Addresses why Λ ≠ 0, ≠ ∞" },
+      { name: "Inflation + Baryogenesis", mechanism: "R-field dynamics", equation: "F.24-25", status: "proposed", note: "Cosmological scenario outlined" }
+    ],
+
+    // Combined list for backwards compatibility
     closedProblems: [
       { name: "Gaussian visibility", mechanism: "CLT phase averaging", equation: "B.15", status: "established" },
       { name: "Coherence length", mechanism: "XCRM closure relation", equation: "B.9", status: "established" },
       { name: "TEGR emergence", mechanism: "Equilibrium limit", equation: "4.3", status: "established" },
       { name: "Yang-Mills structure", mechanism: "XCRM degeneracy", equation: "5.4", status: "established" },
-      { name: "Gauge group", mechanism: "MHP holonomy minimization", equation: "F.5", status: "established" },
+      { name: "Gauge group", mechanism: "MHP holonomy minimization", equation: "F.5", status: "established", caveat: "Uniqueness proof requires further analysis" },
       { name: "3 generations", mechanism: "APS index theorem", equation: "F.11g", status: "established" },
       { name: "Flavor structure", mechanism: "MHP localization", equation: "F.8", status: "established" },
-      { name: "Yukawa hierarchies", mechanism: "Wavefunction overlaps", equation: "F.9d", status: "established" },
-      { name: "CKM/PMNS", mechanism: "Localization geometry", equation: "F.9", status: "established" },
-      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "established" },
-      { name: "Neutrino masses", mechanism: "Maximal separation", equation: "F.16", status: "established" },
-      { name: "CP violation", mechanism: "Holonomy phase mismatch", equation: "F.18", status: "established" },
-      { name: "Dark matter", mechanism: "KK parity → LKP", equation: "F.20", status: "established" },
-      { name: "Cosmological constant", mechanism: "DHP finite holonomy", equation: "F.22", status: "established" },
-      { name: "Inflation", mechanism: "R-field slow-roll", equation: "F.24", status: "established" },
-      { name: "Baryon asymmetry", mechanism: "XCRM phase transition", equation: "F.25", status: "established" },
-      { name: "Quantum gravity", mechanism: "Holonomy path integral", equation: "F.27", status: "established" }
+      { name: "Yukawa hierarchies", mechanism: "Wavefunction overlaps", equation: "F.9d", status: "proposed" },
+      { name: "CKM/PMNS", mechanism: "Localization geometry", equation: "F.9", status: "proposed" },
+      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "proposed" },
+      { name: "Neutrino masses", mechanism: "Maximal separation", equation: "F.16", status: "proposed" },
+      { name: "CP violation", mechanism: "Holonomy phase mismatch", equation: "F.18", status: "proposed" },
+      { name: "Dark matter", mechanism: "KK parity → LKP", equation: "F.20", status: "proposed" },
+      { name: "Cosmological constant", mechanism: "DHP finite holonomy", equation: "F.22", status: "proposed" },
+      { name: "Inflation", mechanism: "R-field slow-roll", equation: "F.24", status: "proposed" },
+      { name: "Baryon asymmetry", mechanism: "XCRM phase transition", equation: "F.25", status: "proposed" }
     ],
     keyPrediction: {
       name: "Non-negotiable visibility law",
@@ -185,12 +234,23 @@ const STUR_DEFINITIONS = {
     },
 
     mhpCloses: [
-      "Gauge group uniqueness (SM minimizes Ω)",
-      "Generation number (topological index = 3)",
+      "Gauge group selection (SM minimizes Ω within assumed cost function form — uniqueness proof requires complete analysis)",
+      "Generation number (topological index = 3, via APS theorem on orbifold)",
       "Flavor structure (localization from ∂Ω/∂X_i = 0)",
-      "Yukawa hierarchies (wavefunction overlaps)",
-      "CKM/PMNS matrices (localization geometry)"
+      "Yukawa hierarchies (wavefunction overlaps — qualitative mechanism)",
+      "CKM/PMNS matrices (localization geometry — structure identified)"
     ],
+
+    // Explicit caveats for claims
+    caveats: {
+      gaugeGroup: "The claim that SU(3)×SU(2)×U(1) uniquely minimizes Ω assumes a specific form " +
+                  "for the holonomy cost function. Alternative cost functions could favor different groups. " +
+                  "Full uniqueness proof requires systematic analysis of all candidate gauge groups.",
+      generations: "The APS index = 3 result relies on the orbifold structure and assumed flux quantization. " +
+                   "Alternative topologies could yield different generation numbers.",
+      uvCompletion: "UV finiteness is argued via holonomy self-regulation, but a complete all-orders proof " +
+                    "including overlapping divergences remains to be established."
+    },
 
     dhpCloses: [
       "UV completion (holonomy self-regulation)",
