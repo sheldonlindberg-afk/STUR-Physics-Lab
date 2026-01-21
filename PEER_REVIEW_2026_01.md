@@ -92,7 +92,14 @@ The existing THEORY_CORE_REVIEW.md acknowledges limitations and gaps. This intel
 
 ## III. Critical Gaps and Weaknesses
 
-### 3.1 HIGH PRIORITY: Axiom Motivation
+> **UPDATE (January 21, 2026):** All critical gaps identified in this review have been addressed with new documentation:
+> - Axiom Motivation → [stur_action_uniqueness.html](scripts/stur_action_uniqueness.html)
+> - DHP Equations → [stur_dhp_equations.html](scripts/stur_dhp_equations.html)
+> - UV Finiteness → [stur_uv_finiteness_proof.html](scripts/stur_uv_finiteness_proof.html)
+> - Experimental Protocol → [stur_experimental_protocol.html](scripts/stur_experimental_protocol.html)
+> - Open Problems → [stur_open_problems.html](scripts/stur_open_problems.html)
+
+### 3.1 HIGH PRIORITY: Axiom Motivation [ADDRESSED]
 
 **Issue:** Why should nature obey these specific axioms?
 
