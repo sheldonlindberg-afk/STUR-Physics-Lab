@@ -507,20 +507,48 @@
 
   /* === RESPONSIVE === */
   @media (max-width: 768px) {
-    .site-header { padding: 48px 0 32px; }
-    .logo-mark { width: 140px; height: 140px; }
-    .glass-panel { padding: 20px 18px; margin: 32px 16px; }
-    .equation-display { font-size: 0.8125rem; padding: 14px 16px; }
-    .section-header { margin: 36px 0 16px; }
-    .sim-grid { grid-template-columns: 1fr; gap: 10px; }
-    .action-group { flex-direction: column; align-items: stretch; padding: 0 16px; }
-    .btn { justify-content: center; }
-    .tier-legend { gap: 12px 20px; }
+    .container { padding: 0 12px; }
+    .site-header { padding: 32px 0 24px; }
+    .logo-mark { width: 120px; height: 120px; }
+    .site-title { font-size: 1.75rem; margin: 16px 0 12px; }
+    .site-tagline { font-size: 1rem; }
+    .site-description { font-size: 0.9rem; line-height: 1.5; }
+    .glass-panel { padding: 16px 14px; margin: 20px 0; border-radius: 12px; }
+    .glass-panel h2 { font-size: 1rem; }
+    .glass-panel .subtitle { font-size: 0.85rem; }
+    .equation-display { font-size: 0.7rem; padding: 12px 10px; overflow-x: auto; white-space: nowrap; }
+    .term-legend { grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.7rem; }
+    .panel-footer { font-size: 0.75rem; }
+    .section-header { margin: 28px 0 12px; padding: 0; }
+    .section-title { font-size: 0.7rem; }
+    .section-badge { font-size: 0.6rem; padding: 2px 6px; }
+    .sim-grid { grid-template-columns: 1fr; gap: 8px; }
+    .sim-card { padding: 14px 16px; border-radius: 10px; }
+    .sim-card a { font-size: 0.875rem; }
+    .sim-card .card-tag { font-size: 0.6rem; margin-top: 4px; }
+    .action-group { flex-direction: column; align-items: stretch; padding: 0; gap: 8px; margin: 40px 0; }
+    .btn { justify-content: center; padding: 14px 20px; font-size: 0.9rem; }
+    .tier-legend { gap: 8px 16px; }
+    .legend-item { font-size: 0.65rem; }
+    .video-section { margin: 32px auto 48px; }
+    .site-footer { margin-top: 48px; padding: 24px 0; }
+    .footer-note { font-size: 0.75rem; padding: 0 8px; }
+    .footer-meta { font-size: 0.7rem; }
   }
 
   @media (max-width: 480px) {
-    .term-legend { grid-template-columns: 1fr 1fr; }
-    .legend-item { font-size: 0.6875rem; }
+    .container { padding: 0 10px; }
+    .site-header { padding: 24px 0 20px; }
+    .logo-mark { width: 100px; height: 100px; }
+    .site-title { font-size: 1.5rem; }
+    .site-tagline { font-size: 0.9rem; }
+    .site-description { font-size: 0.85rem; }
+    .glass-panel { padding: 14px 12px; margin: 16px 0; }
+    .equation-display { font-size: 0.65rem; padding: 10px 8px; }
+    .term-legend { grid-template-columns: 1fr; gap: 4px; font-size: 0.65rem; }
+    .sim-card { padding: 12px 14px; }
+    .sim-card a { font-size: 0.8rem; }
+    .legend-item { font-size: 0.6rem; }
   }
 </style>
 </head>
@@ -637,76 +665,22 @@
   </section>
 
   <!-- === THEORY LEARNING PATH === -->
-  <section class="glass-panel" style="margin-top:24px;padding:20px 24px;background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(74,222,128,0.04) 100%);">
-    <h2 style="font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
-      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#a78bfa;"></span>
-      Recommended Reading Order
+  <section class="glass-panel" style="margin-top:20px;padding:16px 18px;background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(74,222,128,0.04) 100%);">
+    <h2 style="font-size:0.9rem;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+      <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#a78bfa;"></span>
+      Reading Order
     </h2>
-    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.8125rem;">
-      <a href="scripts/stur_core_theory.html" style="color:var(--tier-core);text-decoration:none;padding:6px 12px;border-radius:8px;background:rgba(48,209,88,0.12);border:1px solid rgba(48,209,88,0.3);">1. Core Theory</a>
-      <span style="color:var(--text-quaternary);">→</span>
-      <a href="scripts/stur_geometry_axioms.html" style="color:#a78bfa;text-decoration:none;padding:6px 12px;border-radius:8px;background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.3);">2. Geometry</a>
-      <span style="color:var(--text-quaternary);">→</span>
-      <a href="scripts/stur_xcrm_closure.html" style="color:var(--accent-gold);text-decoration:none;padding:6px 12px;border-radius:8px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);">3. XCRM</a>
-      <span style="color:var(--text-quaternary);">→</span>
-      <a href="scripts/stur_gravity_emergence.html" style="color:var(--accent-torsion);text-decoration:none;padding:6px 12px;border-radius:8px;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.3);">4. Gravity</a>
-      <span style="color:var(--text-quaternary);">→</span>
-      <a href="scripts/stur_gauge_emergence.html" style="color:var(--accent-cyan);text-decoration:none;padding:6px 12px;border-radius:8px;background:rgba(34,211,238,0.12);border:1px solid rgba(34,211,238,0.3);">5. Gauge</a>
-      <span style="color:var(--text-quaternary);">→</span>
-      <a href="scripts/stur_predictions.html" style="color:var(--tier-falsifiable);text-decoration:none;padding:6px 12px;border-radius:8px;background:rgba(100,210,255,0.12);border:1px solid rgba(100,210,255,0.3);">6. Predictions</a>
+    <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:6px;font-size:0.75rem;">
+      <a href="scripts/stur_core_theory.html" style="color:var(--tier-core);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(48,209,88,0.12);border:1px solid rgba(48,209,88,0.3);text-align:center;">1. Core</a>
+      <a href="scripts/stur_geometry_axioms.html" style="color:#a78bfa;text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.3);text-align:center;">2. Geometry</a>
+      <a href="scripts/stur_xcrm_closure.html" style="color:var(--accent-gold);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);text-align:center;">3. XCRM</a>
+      <a href="scripts/stur_gravity_emergence.html" style="color:var(--accent-torsion);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.3);text-align:center;">4. Gravity</a>
+      <a href="scripts/stur_gauge_emergence.html" style="color:var(--accent-cyan);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(34,211,238,0.12);border:1px solid rgba(34,211,238,0.3);text-align:center;">5. Gauge</a>
+      <a href="scripts/stur_predictions.html" style="color:var(--tier-falsifiable);text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(100,210,255,0.12);border:1px solid rgba(100,210,255,0.3);text-align:center;">6. Predict</a>
     </div>
-    <p style="margin-top:12px;font-size:0.75rem;color:var(--text-quaternary);">
-      <strong>Reference:</strong> <a href="scripts/stur_technical_appendix.html" style="color:#a78bfa;">Technical Appendix</a> (complete derivations for all 17 mechanisms) ·
-      <a href="scripts/stur_falsification.html" style="color:var(--tier-falsifiable);">Falsification Protocol</a> (kill criteria)
-    </p>
-  </section>
-
-  <!-- === CURRENT STATUS SECTION === -->
-  <section class="glass-panel" style="margin-top:24px;padding:20px 24px;background:linear-gradient(135deg, rgba(74,222,128,0.06) 0%, rgba(251,191,36,0.04) 100%);border:1px solid rgba(74,222,128,0.3);">
-    <h2 style="font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
-      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#4ade80;"></span>
-      Framework Status: Mathematical Foundations
-    </h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:12px;font-size:0.8125rem;">
-      <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
-        <strong style="color:#4ade80;">Mathematically Established</strong>
-        <ul style="margin:8px 0 0 16px;color:var(--text-tertiary);line-height:1.6;">
-          <li>Gaussian visibility from CLT phase averaging</li>
-          <li>Coherence length: ℓ<sub>coh</sub> = √2 L<sub>X</sub>/(y σ<sub>R</sub>)</li>
-          <li>TEGR emergence in equilibrium limit</li>
-          <li>Yang-Mills structure from degeneracy</li>
-          <li>SM gauge group selection (MHP F.5)</li>
-          <li>3 generations from index theorem (F.4.1)</li>
-          <li>MHP variational solutions (F.3.1)</li>
-          <li>All-orders UV finiteness (F.7.1-2)</li>
-        </ul>
-      </div>
-      <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
-        <strong style="color:#4ade80;">Formalized with Explicit Derivations</strong>
-        <ul style="margin:8px 0 0 16px;color:var(--text-tertiary);line-height:1.6;">
-          <li>DHP cosmological framework (F.12)</li>
-          <li>Λ problem resolution (F.22)</li>
-          <li>Quantum gravity finiteness (F.27)</li>
-          <li>Neutrino masses (F.16)</li>
-          <li>CP violation (F.18)</li>
-          <li>Dark matter from KK parity (F.20)</li>
-          <li>Inflation (F.24), Baryogenesis (F.25)</li>
-        </ul>
-      </div>
-      <div style="padding:12px;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
-        <strong style="color:#fbbf24;">Theory-Determined Parameters</strong>
-        <ul style="margin:8px 0 0 16px;color:var(--text-tertiary);line-height:1.6;">
-          <li>L<sub>X</sub> compactification scale <em style="opacity:0.7;">[must measure]</em></li>
-          <li>λ self-coupling <em style="opacity:0.7;">[must measure]</em></li>
-        </ul>
-        <p style="margin:10px 0 0;font-size:0.75rem;color:var(--text-quaternary);">
-          <em>These require experimental input, like G, ℏ, or c in other theories—not "free" in the sense of theoretical ambiguity.</em>
-        </p>
-      </div>
-    </div>
-    <p style="margin-top:12px;font-size:0.75rem;color:var(--text-quaternary);text-align:center;">
-      <strong>Key falsifiable prediction:</strong> Visibility V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>) — Gaussian in ΔL², no time dependence, no mass dependence.
-      <br>This prediction is testable with current interferometer technology (MAGIS-100, AION, Sagnac loops).
+    <p style="margin-top:10px;font-size:0.7rem;color:var(--text-quaternary);text-align:center;">
+      <a href="scripts/stur_technical_appendix.html" style="color:#a78bfa;">Technical Appendix</a> ·
+      <a href="scripts/stur_falsification.html" style="color:var(--tier-falsifiable);">Falsification</a>
     </p>
   </section>
 

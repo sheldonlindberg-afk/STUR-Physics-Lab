@@ -627,3 +627,206 @@ code {
 
 .badge .dot.success { background: var(--success); }
 .badge .dot.warning { background: var(--warning); }
+
+/* ============================================================
+   ENHANCED MOBILE RESPONSIVE STYLES
+   ============================================================ */
+
+/* Tablet breakpoint */
+@media (max-width: 768px) {
+  .masthead {
+    padding: 2rem 0 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .masthead h1 {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  /* Grid layouts - 2 columns on tablet, 1 on phone */
+  [style*="grid-template-columns: repeat(auto-fit"] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Equations need horizontal scroll */
+  .eq, .eq.law, .eq.boxed, .eq.definition {
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Tables responsive */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.8rem;
+  }
+
+  th, td {
+    padding: 0.5rem 0.6rem;
+    white-space: nowrap;
+  }
+
+  /* Block callouts */
+  .block {
+    padding: 0.85rem 1rem;
+    margin: 0.75rem 0;
+  }
+
+  /* Quick links wrap better */
+  .quick-links {
+    gap: 0.5rem 0.75rem;
+    font-size: 0.82rem;
+  }
+
+  /* Page navigation stacks on narrow screens */
+  .page-nav {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .page-nav a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* TOC single column */
+  .toc {
+    columns: 1;
+  }
+
+  .toc p {
+    font-size: 0.85rem;
+    margin: 0.35rem 0;
+  }
+
+  /* Figure containers */
+  .figure {
+    padding: 1rem;
+    margin: 0.75rem 0;
+  }
+
+  /* Cards */
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .card {
+    padding: 0.75rem 0.9rem;
+  }
+}
+
+/* Phone breakpoint */
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  .masthead {
+    padding: 1.5rem 0 1rem;
+  }
+
+  .masthead h1 {
+    font-size: 1.4rem;
+    line-height: 1.25;
+  }
+
+  .subtitle {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  /* All grid layouts single column */
+  [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 0.6rem !important;
+  }
+
+  /* Section padding reduced */
+  .section {
+    padding: 1rem 0.9rem;
+    margin: 0.6rem 0;
+    border-radius: 10px;
+  }
+
+  .section h2 {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+  }
+
+  .section h3 {
+    font-size: 0.95rem;
+    margin: 1rem 0 0.4rem;
+  }
+
+  /* Equations even smaller */
+  .eq, .eq.law, .eq.boxed {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+
+  .eq-label {
+    font-size: 0.65rem;
+  }
+
+  /* Block callouts compact */
+  .block {
+    padding: 0.75rem 0.85rem;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .block .title {
+    font-size: 0.7rem;
+    margin-bottom: 0.4rem;
+  }
+
+  /* Table improvements */
+  table {
+    font-size: 0.75rem;
+  }
+
+  th, td {
+    padding: 0.4rem 0.5rem;
+  }
+
+  /* Footer compact */
+  .footer {
+    margin-top: 1.5rem;
+    padding: 1rem 0;
+    font-size: 0.75rem;
+  }
+
+  /* Inline term explanations in grid */
+  [style*="padding:0.9rem"] {
+    padding: 0.7rem !important;
+  }
+
+  [style*="padding:0.6rem"] {
+    padding: 0.5rem !important;
+  }
+
+  /* Smaller font for term descriptions */
+  [style*="font-size:0.9rem"] {
+    font-size: 0.82rem !important;
+  }
+
+  [style*="font-size:0.78rem"] {
+    font-size: 0.72rem !important;
+  }
+
+  /* Buttons */
+  .cite-btn, .btn, .btn-cite {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.78rem;
+  }
+}
