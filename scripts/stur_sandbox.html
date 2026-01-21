@@ -674,24 +674,24 @@ function solveTridiagonal(a, b, c, d) {
                 <div>
                     <h4>Physics Parameters</h4>
                     <div class="control">
-                        <label>Diffusion D: <span id="D_val">0.50</span></label>
-                        <input type="range" id="D_slider" min="0.05" max="2" value="0.5" step="0.05">
+                        <label>Diffusion D: <span id="D_val">0.30</span></label>
+                        <input type="range" id="D_slider" min="0.05" max="2" value="0.3" step="0.05">
                     </div>
                     <div class="control">
-                        <label>Relaxation L<sub>X</sub>: <span id="LX_val">2.00</span></label>
-                        <input type="range" id="LX_slider" min="0.5" max="5" value="2" step="0.1">
+                        <label>Relaxation L<sub>X</sub>: <span id="LX_val">4.50</span></label>
+                        <input type="range" id="LX_slider" min="0.5" max="8" value="4.5" step="0.1">
                     </div>
                     <div class="control">
-                        <label>Torsion Coupling alpha: <span id="alpha_val">0.10</span></label>
-                        <input type="range" id="alpha_slider" min="0" max="1" value="0.1" step="0.01">
+                        <label>Torsion Coupling alpha: <span id="alpha_val">0.35</span></label>
+                        <input type="range" id="alpha_slider" min="0" max="1" value="0.35" step="0.01">
                     </div>
                     <div class="control">
-                        <label>Initial Amplitude R0: <span id="R0_val">1.00</span></label>
-                        <input type="range" id="R0_slider" min="0.1" max="3" value="1" step="0.1">
+                        <label>Initial Amplitude R0: <span id="R0_val">1.50</span></label>
+                        <input type="range" id="R0_slider" min="0.1" max="3" value="1.5" step="0.1">
                     </div>
                     <div class="control">
-                        <label>Background R<sub>bg</sub>: <span id="Rbg_val">0.00</span></label>
-                        <input type="range" id="Rbg_slider" min="0" max="1" value="0" step="0.01">
+                        <label>Background R<sub>bg</sub>: <span id="Rbg_val">0.20</span></label>
+                        <input type="range" id="Rbg_slider" min="0" max="1" value="0.2" step="0.01">
                     </div>
 
                     <!-- Mass Conservation Regime Indicator -->
@@ -710,8 +710,8 @@ function solveTridiagonal(a, b, c, d) {
                         <input type="range" id="N_slider" min="50" max="200" value="100" step="10">
                     </div>
                     <div class="control">
-                        <label>Time Step dt: <span id="dt_val">0.50</span></label>
-                        <input type="range" id="dt_slider" min="0.1" max="2" value="0.5" step="0.1">
+                        <label>Time Step dt: <span id="dt_val">0.25</span></label>
+                        <input type="range" id="dt_slider" min="0.1" max="2" value="0.25" step="0.05">
                     </div>
 
                     <div class="btnrow">
@@ -802,8 +802,8 @@ function solveTridiagonal(a, b, c, d) {
                         <input type="range" id="V0_slider" min="0.5" max="1" value="0.95" step="0.01">
                     </div>
                     <div class="control">
-                        <label>Path Difference dL (m): <span id="deltaL_val">0.50</span></label>
-                        <input type="range" id="deltaL_slider" min="0" max="6" value="0.5" step="0.05">
+                        <label>Path Difference dL (m): <span id="deltaL_val">2.00</span></label>
+                        <input type="range" id="deltaL_slider" min="0" max="6" value="2.0" step="0.05">
                     </div>
                     <div class="control">
                         <label>Noise Floor sigma: <span id="noise_val">0.03</span></label>
@@ -851,8 +851,8 @@ function solveTridiagonal(a, b, c, d) {
                         <input type="range" id="Rmax_slider" min="2" max="10" value="5" step="0.25">
                     </div>
                     <div class="control">
-                        <label>Damping gamma: <span id="gamma_val">0.050</span></label>
-                        <input type="range" id="gamma_slider" min="0" max="0.25" value="0.05" step="0.005">
+                        <label>Damping gamma: <span id="gamma_val">0.080</span></label>
+                        <input type="range" id="gamma_slider" min="0" max="0.25" value="0.08" step="0.005">
                     </div>
                     <div class="control">
                         <label>Time Step dt: <span id="geo_dt_val">0.020</span></label>
@@ -912,8 +912,8 @@ function solveTridiagonal(a, b, c, d) {
                     <p>where \(\XCRM{u}(t) = \ln((t+t_c)/t_0)\).</p>
 
                     <div class="control" style="margin-top:1rem">
-                        <label>Amplitude epsilon: <span id="eps_val">0.05</span></label>
-                        <input type="range" id="eps_slider" min="0" max="0.2" value="0.05" step="0.005">
+                        <label>Amplitude epsilon: <span id="eps_val">0.08</span></label>
+                        <input type="range" id="eps_slider" min="0" max="0.2" value="0.08" step="0.005">
                     </div>
                     <div class="control">
                         <label>Time (Ma): <span id="time_val">1.00</span></label>
@@ -1693,6 +1693,14 @@ document.querySelectorAll('.tab').forEach(tab => {
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         tab.classList.add('active');
         document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+
+        // Trigger visualization updates when switching tabs
+        const tabName = tab.dataset.tab;
+        setTimeout(() => {
+            if (tabName === 'visibility') updateVisibility();
+            if (tabName === 'geometry') { updateGeo(); drawGeo(); }
+            if (tabName === 'chrono') updateChrono();
+        }, 50);
     });
 });
 
@@ -1714,8 +1722,8 @@ function fitCanvas(canvas) {
 // PDE SOLVER
 // ===============================================================
 const pde = {
-    N: 100, L: 10, dx: 0.1, D: 0.5, LX: 2.0, alpha: 0.1, kappa: 1.0,
-    R_bg: 0, dt: 0.5, R: null, T: null, timestep: 0, running: false,
+    N: 100, L: 10, dx: 0.1, D: 0.3, LX: 4.5, alpha: 0.35, kappa: 1.0,
+    R_bg: 0.2, dt: 0.25, R: null, T: null, timestep: 0, running: false,
     animId: null, initialMass: 0
 };
 
@@ -2307,7 +2315,7 @@ document.getElementById('geo_reset').addEventListener('click', () => {
     document.getElementById('geo_toggle').textContent = 'Start';
     document.getElementById('L0_slider').value = 1;
     document.getElementById('Rmax_slider').value = 5;
-    document.getElementById('gamma_slider').value = 0.05;
+    document.getElementById('gamma_slider').value = 0.08;
     document.getElementById('geo_dt_slider').value = 0.02;
     geo.r = 2.5;
     geo.v = 0;
