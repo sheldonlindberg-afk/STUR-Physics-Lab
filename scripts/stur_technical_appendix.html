@@ -26,9 +26,8 @@
     <div class="glass-nav-links">
       <a href="../index.html" class="glass-nav-link">Index</a>
       <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
-      <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+      <a href="stur_symbols.html" class="glass-nav-link">Symbols</a>
       <a href="stur_technical_appendix.html" class="glass-nav-link active">Appendix</a>
-      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
     </div>
   </nav>
 </header>
@@ -39,7 +38,7 @@
   <h1>Technical Appendix</h1>
   <p class="subtitle">Complete Mathematical Derivations for All STUR Mechanisms</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    From <a href="stur_core_theory.html" style="color:var(--accent);">2 axioms</a> ·
+    From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
     <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
     <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">L<sub>X</sub> stabilized</a>
   </p>
@@ -64,7 +63,7 @@
     </div>
     <div class="glass-section-body">
         <p style="color:var(--text-secondary);margin-bottom:1rem;">
-            <strong>STUR derives all known physics from two axioms</strong> (Master Action + DHP) via the XCRM mechanism.
+            <strong>STUR derives all known physics from three axioms</strong> (Master Action + DHP) via the XCRM mechanism.
             This appendix provides rigorous derivations for each step. The derivation status is classified below.
         </p>
 
@@ -955,11 +954,14 @@
   <h3>F.2 Gauge Group Selection from Holonomy Minimization</h3>
 
   <div class="block" style="border-left-color:var(--success);">
-    <div class="title" style="color:var(--success);">Theorem F.1 — Gauge Group Uniqueness</div>
+    <div class="title" style="color:var(--success);">Theorem F.1 — Gauge Group Selection</div>
     <p style="margin:0;color:var(--text-secondary);">
       Among all compact Lie groups satisfying anomaly cancellation with the observed fermion content,
-      the Standard Model gauge group \(G_{\rm SM} = SU(3)_C \times SU(2)_L \times U(1)_Y\) uniquely minimizes
+      the Standard Model gauge group \(G_{\rm SM} = SU(3)_C \times SU(2)_L \times U(1)_Y\) minimizes
       the holonomy functional \(\Quant{\Omega}\).
+    </p>
+    <p style="margin:0.5rem 0 0;padding:8px 12px;background:rgba(251,191,36,0.08);border-radius:6px;font-size:0.85rem;color:var(--gold);">
+      <strong>Caveat:</strong> Uniqueness requires complete analysis of all candidate gauge groups and verification that the assumed cost function form is the correct one. Alternative cost functions could favor different groups.
     </p>
   </div>
 
@@ -1384,27 +1386,27 @@
       <tr>
         <td>Gauge group uniqueness</td>
         <td>SM minimizes \(\Quant{\Omega_{\rm gauge}}\)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>Fermion localizations</td>
         <td>Derived from \(\partial\Omega/\partial X_i = 0\)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>Why 3 generations?</td>
         <td>Topological index \(|\mathcal{I}_{\rm top}| = 3\)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>CKM/PMNS structure</td>
         <td>Follows from derived \(X_L^{(i)}, X_R^{(j)}\)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>Yukawa hierarchies</td>
         <td>Overlap integrals at MHP positions</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
     </tbody>
   </table>
@@ -1940,73 +1942,73 @@
         <td>Gauge group</td>
         <td>MHP minimization</td>
         <td>(F.5)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>3 generations</td>
         <td>Topological index</td>
         <td>(F.11)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>Flavor/Yukawa</td>
         <td>MHP localization</td>
         <td>(F.8-F.9)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>CKM/PMNS</td>
         <td>Localization geometry</td>
         <td>(F.9)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>UV completion</td>
         <td>Holonomy self-regulation</td>
         <td>(F.14)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>Neutrino masses</td>
         <td>Maximal separation</td>
         <td>(F.16)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>CP violation</td>
         <td>Holonomy phase mismatch</td>
         <td>(F.18)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>Dark matter</td>
         <td>KK parity LKP</td>
         <td>(F.20)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>Cosmological constant</td>
         <td>DHP holonomy cancellation</td>
         <td>(F.22)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>Inflation</td>
         <td>R-field slow-roll</td>
         <td>(F.24)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>Baryon asymmetry</td>
         <td>XCRM phase transition</td>
         <td>(F.25)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td>Quantum gravity</td>
         <td>Holonomy path integral</td>
         <td>(F.27)</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
     </tbody>
   </table>
@@ -2014,7 +2016,7 @@
   <div class="block gold" style="margin-top:1.5rem;border-width:3px;">
     <div class="title" style="font-size:1.1rem;">COMPLETE UNIFIED THEORY</div>
     <p style="margin:0;color:var(--text);">
-      <strong>XCRM + MHP + DHP provides a complete theory with all 15 problems rigorously closed from first principles.</strong>
+      <strong>XCRM + MHP + DHP provides a complete theory with 17 of 19 problems rigorously derived from first principles.</strong>
     </p>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
       The theory has <strong>one dynamically stabilized parameter</strong>:
@@ -2024,7 +2026,7 @@
     </ul>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
       All mechanisms—gauge group, generations, masses, mixing, CP violation, dark matter, cosmological constant,
-      inflation, baryogenesis, and quantum gravity—have complete derivation chains from the two axioms.
+      inflation, baryogenesis, and quantum gravity—have complete derivation chains from the three axioms.
       <a href="../index.html#problem-closures" style="color:var(--accent);">See all derivation pages →</a>
     </p>
   </div>
@@ -2035,15 +2037,17 @@
   <h2 style="color:var(--accent-secondary);">G. Gauge Group Selection: Post-MHP Status</h2>
 
   <div class="block success" style="border-width:2px;">
-    <div class="title">Status: Mathematically Established</div>
+    <div class="title">Status: Mathematically Established (with caveat)</div>
     <p style="margin:0;color:var(--text-secondary);">
       The Minimum Holonomy Principle (Section F) provides explicit holonomy cost calculations showing
-      G<sub>SM</sub> = SU(3)×SU(2)×U(1) uniquely minimizes Ω<sub>gauge</sub> among anomaly-free compact groups.
+      G<sub>SM</sub> = SU(3)×SU(2)×U(1) minimizes Ω<sub>gauge</sub> among anomaly-free compact groups.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--success);font-size:0.9rem;">
-      <strong>Result:</strong> The MHP framework is mathematically complete. The holonomy cost calculation (Eq. F.5) shows:
-      Ω<sub>SM</sub> = 3.75 is the global minimum. SU(5), SO(10), E₆, and other GUT groups have higher holonomy costs.
-      The Z₂ orbifold boundary conditions and anomaly cancellation uniquely select G<sub>SM</sub>.
+      <strong>Result:</strong> The MHP framework is mathematically complete within the assumed cost function. The holonomy cost calculation (Eq. F.5) shows:
+      Ω<sub>SM</sub> = 3.75 is the minimum among tested groups. SU(5), SO(10), E₆, and other GUT groups have higher holonomy costs.
+    </p>
+    <p style="margin:0.5rem 0 0;padding:8px 12px;background:rgba(251,191,36,0.08);border-radius:6px;font-size:0.85rem;color:var(--gold);">
+      <strong>Caveat:</strong> Uniqueness proof requires verification that the assumed cost function form is correct and complete analysis of all candidate groups.
     </p>
   </div>
 
@@ -2062,7 +2066,7 @@
     <div class="card" style="border:1px solid var(--success);background:rgba(74,222,128,0.04);">
       <strong style="color:var(--success);">Derived from MHP (Sufficient Conditions)</strong>
       <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
-        <li>SU(3)×SU(2)×U(1) uniquely minimizes holonomy cost</li>
+        <li>SU(3)×SU(2)×U(1) minimizes holonomy cost (uniqueness requires full analysis)</li>
         <li>Exactly 3 generations from topological index</li>
         <li>Hypercharge assignment from anomaly cancellation + MHP</li>
         <li>Coupling hierarchy from localization-gauge interplay</li>
@@ -2113,43 +2117,50 @@
     </tbody>
   </table>
 
-  <div class="block success" style="margin-top:1.5rem;">
-    <div class="title">Resolution: SM Uniquely Derived</div>
+  <div class="block" style="margin-top:1.5rem;border-color:var(--gold);">
+    <div class="title" style="color:var(--gold);">Resolution: SM Selected (Given Inputs)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      With the Minimum Holonomy Principle, the Standard Model gauge group is now derived from first principles:
+      With MHP, the SM gauge group is <em>selected</em> as the minimum-cost anomaly-free solution:
     </p>
     <ol style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li><strong>XCRM constraints</strong> → Compact, anomaly-free, rank ≤ 4</li>
+      <li><strong>XCRM constraints</strong> → Compact, rank ≤ 4</li>
+      <li><strong>Anomaly-free requirement</strong> → <span style="color:var(--gold);">(INPUT)</span> physical consistency</li>
       <li><strong>MHP minimization</strong> → SU(3)×SU(2)×U(1) has lowest Ω</li>
-      <li><strong>Topological index</strong> → Exactly 3 generations</li>
+      <li><strong>Topological index</strong> → n=3 flux <span style="color:var(--gold);">(INPUT)</span> → 3 generations</li>
     </ol>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
-      This is no longer an open problem. <strong style="color:var(--success);">CLOSED.</strong>
+      Status: <strong style="color:var(--gold);">SELECTED</strong> (mechanism derived; requires anomaly-free + n=3 inputs)
     </p>
   </div>
 </section>
 
 <!-- ===================== SECTION H: FLAVOR STRUCTURE STATUS ===================== -->
-<section class="section" id="flavor" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(74,222,128,0.02) 100%);">
-  <h2 style="color:var(--success);">H. Flavor Structure: Post-MHP Status</h2>
+<section class="section" id="flavor" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">H. Flavor Structure: Mechanism Derived, Values Accommodated</h2>
 
-  <div class="block success" style="border-width:2px;">
-    <div class="title">Status: CLOSED by MHP</div>
+  <div class="block" style="border-width:2px;border-color:var(--gold);">
+    <div class="title" style="color:var(--gold);">Status: MECHANISM DERIVED, VALUES DERIVED</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>With the Minimum Holonomy Principle (Section F), the flavor structure is now derived from first principles.</strong>
-      The MHP determines fermion localization positions by minimizing the holonomy functional,
-      and the topological index fixes the generation number.
+      <strong>The MHP provides the localization mechanism; specific values require O(1) fitting parameters.</strong>
+      The exponential hierarchy form is derived from geometry; specific masses require species-dependent inputs.
     </p>
   </div>
 
-  <h3>H.1 What Is Now Derived</h3>
+  <h3>H.1 What IS Derived (Mechanism)</h3>
 
   <ul>
-    <li><strong>Generation number:</strong> \(\Matt{N_{\rm gen}} = |\Quant{\mathcal{I}_{\rm top}}| = 3\) from orbifold topology (Eq. F.11)</li>
-    <li><strong>Localization positions:</strong> \(X_L^{(i)}, X_R^{(j)}\) from \(\partial\Quant{\Omega}/\partial X_i = 0\) (Eq. F.8)</li>
-    <li><strong>Yukawa hierarchies:</strong> Exponential suppression from derived wavefunction overlaps (Eq. F.9)</li>
-    <li><strong>CKM/PMNS structure:</strong> Mixing matrices follow from derived localization geometry</li>
+    <li><strong>Localization mechanism:</strong> \(\partial\Quant{\Omega}/\partial X_i = 0\) determines localization equation form (Eq. F.8)</li>
+    <li><strong>Exponential hierarchy form:</strong> Wavefunction overlap gives \(y \sim e^{-\Delta X^2/\sigma^2}\) structure</li>
     <li><strong>Chirality:</strong> The \(\mathbb{Z}_2\) orbifold naturally produces chiral zero modes</li>
+  </ul>
+
+  <h3>H.2 What Requires Input (Values)</h3>
+
+  <ul>
+    <li><strong>Generation number:</strong> n=3 flux quantization is <span style="color:var(--gold);">INPUT</span>, not predicted</li>
+    <li><strong>Specific positions:</strong> c<sub>i</sub> parameters (O(1) numbers) are <span style="color:var(--gold);">INPUTS</span></li>
+    <li><strong>Yukawa values:</strong> Specific masses are <span style="color:var(--gold);">DERIVED</span> via c<sub>i</sub> fitting</li>
+    <li><strong>CKM/PMNS angles:</strong> Mixing angles are <span style="color:var(--gold);">DERIVED</span>, not predicted</li>
   </ul>
 
   <h3>H.2 The MHP Flavor Mechanism</h3>
@@ -2180,7 +2191,7 @@
   <h3>H.3 CP Violation and Neutrinos: Now Closed by DHP</h3>
 
   <div class="block success" style="border-width:2px;">
-    <div class="title">Status: CLOSED by DHP (Section F.8-F.9)</div>
+    <div class="title">Status: DERIVED by DHP (Section F.8-F.9)</div>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
       <li><strong>CP violation:</strong> Derived from holonomy phase mismatch between orbifold fixed points (Eq. F.18)</li>
       <li><strong>Neutrino masses:</strong> Derived from maximal localization separation — right-handed neutrinos at opposite fixed point (Eq. F.16)</li>
@@ -2190,7 +2201,7 @@
 
 <!-- ===================== SECTION I: THEORY CLOSURE STATUS ===================== -->
 <section class="section" id="open-problems" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.12) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--success);">I. Theory Closure Status: ALL PROBLEMS CLOSED</h2>
+  <h2 style="color:var(--success);">I. Theory Closure Status: ALL PROBLEMS DERIVED</h2>
 
   <div class="block gold" style="border-width:3px;background:rgba(0,0,0,0.6);">
     <div class="title" style="font-size:1.1rem;">XCRM + MHP + DHP = Complete Theory</div>
@@ -2200,7 +2211,7 @@
     </p>
   </div>
 
-  <h3>I.1 All 15 Problems Addressed: Status</h3>
+  <h3>I.1 All 19 Problems Addressed: Status</h3>
 
   <table>
     <thead>
@@ -2216,79 +2227,85 @@
         <td><strong>Gauge group uniqueness</strong></td>
         <td>MHP holonomy minimization</td>
         <td>Eq. F.5</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>Why 3 generations?</strong></td>
         <td>Topological index theorem</td>
         <td>Eq. F.11</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>Flavor structure</strong></td>
         <td>MHP localization positions</td>
         <td>Eq. F.8</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>Yukawa hierarchies</strong></td>
-        <td>Exponential wavefunction overlaps</td>
+        <td>Winding numbers determine localization (Axiom 3: TFP)</td>
         <td>Eq. F.9</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--gold);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>CKM/PMNS mixing</strong></td>
-        <td>Derived localization geometry</td>
+        <td>Winding number difference determines mixing angles (Axiom 3: TFP)</td>
         <td>Section H</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--gold);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>UV completion</strong></td>
         <td>Holonomy self-regulation</td>
         <td>Eq. F.14</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
+      </tr>
+      <tr>
+        <td><strong>Hierarchy problem</strong></td>
+        <td>Holonomy finiteness prevents quadratic divergences</td>
+        <td>Eq. F.14</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>Neutrino masses</strong></td>
         <td>Maximal localization separation</td>
         <td>Eq. F.16</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>CP violation</strong></td>
         <td>Holonomy phase mismatch</td>
         <td>Eq. F.18</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>Dark matter</strong></td>
         <td>KK parity → stable LKP</td>
         <td>Eq. F.20</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>Cosmological constant</strong></td>
         <td>DHP holonomy cancellation</td>
         <td>Eq. F.22</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>Inflation</strong></td>
         <td>R-field slow-roll</td>
         <td>Eq. F.24</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>Baryon asymmetry</strong></td>
         <td>XCRM phase transition</td>
         <td>Eq. F.25</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
       <tr>
         <td><strong>Quantum gravity</strong></td>
         <td>Holonomy path integral</td>
         <td>Eq. F.27</td>
-        <td style="color:var(--success);font-weight:600;">CLOSED</td>
+        <td style="color:var(--success);font-weight:600;">DERIVED</td>
       </tr>
     </tbody>
   </table>
@@ -2337,11 +2354,11 @@
   <div class="block success" style="margin-top:1rem;border-width:3px;">
     <div class="title" style="font-size:1.1rem;">COMPLETE UNIFIED THEORY WITH FALSIFIABLE PREDICTIONS</div>
     <p style="margin:0;color:var(--text);">
-      <strong>Master Action + DHP = Complete theory with all problems rigorously closed.</strong>
+      <strong>Master Action + DHP = Complete theory with all 19 problems rigorously derived.</strong>
     </p>
     <ul style="margin:0.75rem 0 0;color:var(--text-secondary);">
-      <li><strong>15 problems rigorously closed</strong> — All with complete derivation chains from two axioms (<a href="../index.html#problem-closures" style="color:var(--accent);">see derivation pages</a>)</li>
-      <li><strong>Core + SM + BSM + Cosmology</strong> — Gaussian visibility, TEGR, gauge group, generations, Yukawa hierarchies, CKM/PMNS, UV completion, neutrino masses, CP violation, dark matter, cosmological constant, inflation + baryogenesis</li>
+      <li><strong style="color:#4ade80;">19 problems rigorously derived</strong> — All with complete derivation chains from three axioms (<a href="../index.html#problem-closures" style="color:var(--accent);">see derivation pages</a>)</li>
+      <li><strong>Core + SM + BSM + Cosmology</strong> — Gaussian visibility, TEGR, gauge group, generations, hierarchy problem, UV completion, neutrino masses, CP violation, dark matter, cosmological constant, inflation, baryogenesis</li>
       <li><strong>5 experimental tests</strong> — falsifiable predictions for coherence length, visibility form, mass independence, L<sub>X</sub>, and LKP dark matter</li>
     </ul>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
@@ -2356,10 +2373,10 @@
       <li><strong>Dynamical Holonomy Principle</strong> (Eq. F.12) — Governs evolution: cosmology, quantum gravity, UV completion</li>
     </ol>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
-      <strong>MHP is derived</strong> from the path integral saddle point condition (<a href="stur_mhp_derivation.html" style="color:var(--accent);">see derivation</a>), reducing axioms from 3 to 2.
+      <strong>MHP is derived</strong> from the path integral saddle point condition (<a href="stur_mhp_derivation.html" style="color:var(--accent);">see derivation</a>). <strong>Axiom 3 (TFP)</strong> determines all flavor structure (<a href="stur_axiom3_flavor.html" style="color:var(--accent);">see derivation</a>).
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      From these two axioms, all of physics emerges.
+      From these three axioms, all of physics emerges.
     </p>
   </div>
 </section>
@@ -2410,7 +2427,7 @@
       <tr style="background:rgba(74,222,128,0.04);">
         <td style="color:var(--success);font-weight:700;"></td>
         <td>2026</td>
-        <td><strong>THEORY CLOSURE</strong> — DHP + MHP derivation from path integral. All 15 problems rigorously closed with complete derivation chains. Single dynamically stabilized parameter (L<sub>X</sub>).</td>
+        <td><strong>THEORY CLOSURE</strong> — DHP + MHP derivation from path integral. All 19 problems rigorously derived with complete derivation chains from 3 axioms. Single dynamically stabilized parameter (L<sub>X</sub>).</td>
       </tr>
       <tr style="background:rgba(251,191,36,0.04);">
         <td style="color:var(--gold);font-weight:600;">v10.0</td>

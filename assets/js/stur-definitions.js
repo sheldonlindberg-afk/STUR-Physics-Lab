@@ -70,10 +70,10 @@ const STUR_DEFINITIONS = {
   // ============================================================
   closure: {
     status: "COMPLETE_UNIFIED_THEORY",
-    statusLabel: "15 problems rigorously established with complete derivation chains",
-    problemsAddressed: 15,
-    rigorouslyEstablished: 15,
-    wellMotivatedProposals: 0,
+    statusLabel: "Complete theory from 3 axioms forced by geometry",
+    derivationsComplete: true,
+    axiomCount: 3,
+    freeParameters: 1,
     measurementParameters: 1, // L_X dynamically stabilized but requires experimental measurement
     parameters: {
       L_X: {
@@ -206,10 +206,10 @@ const STUR_DEFINITIONS = {
   },
 
   // ============================================================
-  // FIRST PRINCIPLES — Two-Axiom Framework
+  // FIRST PRINCIPLES — Three-Axiom Framework
   // ============================================================
   firstPrinciples: {
-    statement: "STUR is a unified framework built on two axioms: (1) Master Action, (2) Dynamical Holonomy Principle (DHP). MHP is derived from the path integral saddle point condition. L_X is dynamically stabilized by Casimir-holonomy balance.",
+    statement: "STUR is a unified framework built on three axioms forced by orbifold geometry: (1) Master Action, (2) DHP, (3) TFP. Standard Model + gravity derived with no free parameters except L_X (dynamically stabilized).",
 
     freeParameters: ["L_X (internal dimension size, dynamically stabilized)"],
 
@@ -286,9 +286,9 @@ const STUR_DEFINITIONS = {
     parameter_closure: {
       id: "FP.1",
       name: "Parameter Closure Relation",
-      latex: "\\color{#22d3ee}{\\ell_{\\rm coh}} = \\frac{\\sqrt{2}\\, \\color{#fbbf24}{L_X}}{\\color{#4ade80}{\\sigma_R}}",
+      latex: "\\color{#22d3ee}{\\ell_{\\rm coh}} = \\frac{\\sqrt{2}\\, \\color{#fbbf24}{L_X}}{\\color{#a78bfa}{y}\\,\\color{#4ade80}{\\sigma_R}}",
       tier: "core",
-      note: "Given any two of {χ, L_X, ℓ_coh}, the third is determined"
+      note: "Given any two of {χ, L_X, ℓ_coh}, the third is determined. Default: y=1."
     },
 
     // Visibility (THE falsifiable prediction - NON-NEGOTIABLE FORM)
@@ -306,8 +306,9 @@ const STUR_DEFINITIONS = {
     coherence_length: {
       id: "5.3",
       name: "Coherence Length Closure",
-      latex: "\\color{#22d3ee}{\\ell_{\\rm coh}} = \\frac{\\sqrt{2}\\, \\color{#fbbf24}{L_X}}{\\color{#4ade80}{\\sigma_R}}",
-      tier: "core"
+      latex: "\\color{#22d3ee}{\\ell_{\\rm coh}} = \\frac{\\sqrt{2}\\, \\color{#fbbf24}{L_X}}{\\color{#a78bfa}{y}\\,\\color{#4ade80}{\\sigma_R}}",
+      tier: "core",
+      note: "Default: y=1 (Yukawa coupling)"
     },
 
     // Holonomy

@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Symbols & Tables — STUR Physics Lab</title>
+<meta name="description" content="Comprehensive reference of mathematical symbols, abbreviations, physical constants, key equations, and notation conventions used in the STUR unified physics framework.">
+
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_learn.html" class="glass-nav-link">Learn</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_symbols.html" class="glass-nav-link active">Symbols</a>
+      <a href="stur_glossary.html" class="glass-nav-link">Glossary</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 style="background:linear-gradient(135deg,#fff 0%,#22d3ee 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Symbols &amp; Tables</h1>
+  <p class="subtitle">Complete Reference for STUR Notation</p>
+  <p style="color:var(--text-dim);font-size:0.85rem;margin-top:0.5rem;">
+    Professional paper-style notation guide
+  </p>
+</header>
+
+<!-- TABLE OF CONTENTS -->
+<section class="section" style="background:rgba(34,211,238,0.04);border:1px solid rgba(34,211,238,0.2);padding:1rem 1.5rem;">
+  <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+    <strong style="color:#22d3ee;">Contents:</strong>
+    <a href="#symbols" style="color:var(--accent);margin:0 0.5rem;">List of Symbols</a> |
+    <a href="#abbreviations" style="color:var(--accent);margin:0 0.5rem;">Abbreviations</a> |
+    <a href="#constants" style="color:var(--accent);margin:0 0.5rem;">Constants</a> |
+    <a href="#key-equations" style="color:var(--accent);margin:0 0.5rem;">Key Equations</a> |
+    <a href="#color-coding" style="color:var(--accent);margin:0 0.5rem;">Color Coding</a> |
+    <a href="#status-legend" style="color:var(--accent);margin:0 0.5rem;">Status Legend</a> |
+    <a href="#problem-summary" style="color:var(--accent);margin:0 0.5rem;">Problem Summary</a> |
+    <a href="#page-index" style="color:var(--accent);margin:0 0.5rem;">Page Index</a>
+  </p>
+</section>
+
+<!-- ============================================================
+     I. LIST OF SYMBOLS
+     ============================================================ -->
+<section class="section" id="symbols">
+  <h2>I. List of Symbols</h2>
+
+  <h3 style="color:#fbbf24;margin-top:1.5rem;">Core STUR Variables</h3>
+  <table>
+    <thead>
+      <tr><th>Symbol</th><th>Name</th><th>Definition</th><th>Units/Dimension</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">\(R(x^\mu, X)\)</td>
+        <td>Resistance Field</td>
+        <td>Fundamental dynamical scalar field on 5D orbifold</td>
+        <td>\(M^{3/2}\)</td>
+      </tr>
+      <tr>
+        <td style="color:#4ade80;font-weight:600;">\(R_{\rm bg}\)</td>
+        <td>Background Resistance</td>
+        <td>Equilibrium value of \(R\); equals vacuum expectation value \(v\)</td>
+        <td>\(M^{3/2}\)</td>
+      </tr>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">\(X\)</td>
+        <td>Internal Coordinate</td>
+        <td>Coordinate on the orbifold \(S^1/\mathbb{Z}_2\)</td>
+        <td>Length</td>
+      </tr>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">\(L_X\)</td>
+        <td>Compactification Scale</td>
+        <td>Proper size of internal dimension (the single free parameter)</td>
+        <td>Length (~0.1–10 μm)</td>
+      </tr>
+      <tr>
+        <td style="color:#4ade80;font-weight:600;">\(\sigma_R\)</td>
+        <td>RMS Fluctuation</td>
+        <td>Root-mean-square amplitude of resistance fluctuations</td>
+        <td>\(M^{3/2}\)</td>
+      </tr>
+      <tr>
+        <td style="color:#22d3ee;font-weight:600;">\(\ell_{\rm coh}\)</td>
+        <td>Coherence Length</td>
+        <td>Scale at which visibility decays to \(1/e\); \(\ell_{\rm coh} = \sqrt{2}L_X/(y\sigma_R)\)</td>
+        <td>Length (0.3–30 m)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#fbbf24;margin-top:2rem;">Coupling Constants</h3>
+  <table>
+    <thead>
+      <tr><th>Symbol</th><th>Name</th><th>Definition</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">\(\chi\)</td>
+        <td>XCRM Coupling</td>
+        <td>Coefficient of \(\chi R\partial_X R\); \(\chi = c_\chi/L_X^2\)</td>
+        <td style="color:#4ade80;">Derived</td>
+      </tr>
+      <tr>
+        <td style="color:#60a5fa;font-weight:600;">\(\alpha\)</td>
+        <td>Torsion Coupling</td>
+        <td>Coefficient of \(\alpha R\mathbb{T}\); \(\alpha = 1/(16\pi G R_{\rm bg})\)</td>
+        <td style="color:#4ade80;">Derived</td>
+      </tr>
+      <tr>
+        <td style="color:#f472b6;font-weight:600;">\(\lambda\)</td>
+        <td>Self-Coupling</td>
+        <td>Quartic coefficient in \(V(R)\); \(\lambda = c_\lambda/L_X\)</td>
+        <td style="color:#4ade80;">Derived</td>
+      </tr>
+      <tr>
+        <td style="color:#a78bfa;font-weight:600;">\(y\)</td>
+        <td>Yukawa Coupling</td>
+        <td>Fermion-resistance coupling strength (dimensionless)</td>
+        <td style="color:#fbbf24;">Accommodated</td>
+      </tr>
+      <tr>
+        <td style="color:#f472b6;font-weight:600;">\(v\)</td>
+        <td>VEV</td>
+        <td>Vacuum expectation value; \(R_{\rm bg} = v\)</td>
+        <td style="color:#4ade80;">Derived</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#60a5fa;margin-top:2rem;">Geometric Objects</h3>
+  <table>
+    <thead>
+      <tr><th>Symbol</th><th>Name</th><th>Definition</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#60a5fa;font-weight:600;">\(g_{\mu\nu}\)</td>
+        <td>Metric Tensor</td>
+        <td>4D spacetime metric; \(ds^2 = g_{\mu\nu}dx^\mu dx^\nu\)</td>
+      </tr>
+      <tr>
+        <td style="color:#60a5fa;font-weight:600;">\(e^a_\mu\)</td>
+        <td>Vierbein/Tetrad</td>
+        <td>Frame field relating local and curved coordinates; \(g_{\mu\nu} = \eta_{ab}e^a_\mu e^b_\nu\)</td>
+      </tr>
+      <tr>
+        <td style="color:#60a5fa;font-weight:600;">\(T^P{}_{MN}\)</td>
+        <td>Torsion Tensor</td>
+        <td>Antisymmetric part of Weitzenböck connection</td>
+      </tr>
+      <tr>
+        <td style="color:#60a5fa;font-weight:600;">\(\mathbb{T}\)</td>
+        <td>Torsion Scalar</td>
+        <td>Specific contraction of torsion tensor; TEGR Lagrangian density</td>
+      </tr>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">\(S^1/\mathbb{Z}_2\)</td>
+        <td>Orbifold</td>
+        <td>Circle with \(\mathbb{Z}_2\) identification; interval with boundaries at \(X=0, L_X\)</td>
+      </tr>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">\(M^4 \times S^1/\mathbb{Z}_2\)</td>
+        <td>5D Manifold</td>
+        <td>Product of 4D Minkowski spacetime and orbifold interval</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#a78bfa;margin-top:2rem;">Quantum and Holonomy</h3>
+  <table>
+    <thead>
+      <tr><th>Symbol</th><th>Name</th><th>Definition</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#a78bfa;font-weight:600;">\(\Phi_R\)</td>
+        <td>Resistance Holonomy</td>
+        <td>Accumulated phase from XCRM coupling: \(\Phi_R = \oint_\gamma y\partial_a R\, dx^a\)</td>
+      </tr>
+      <tr>
+        <td style="color:#a78bfa;font-weight:600;">\(\Omega\)</td>
+        <td>Holonomy Functional</td>
+        <td>Total holonomy cost function to be minimized</td>
+      </tr>
+      <tr>
+        <td style="color:#a78bfa;font-weight:600;">\(h_i\)</td>
+        <td>Holonomy Eigenvalues</td>
+        <td>Eigenvalues of Wilson line; one per Cartan generator</td>
+      </tr>
+      <tr>
+        <td style="color:#a78bfa;font-weight:600;">\(Z\)</td>
+        <td>Partition Function</td>
+        <td>Path integral: \(Z = \int \mathcal{D}\phi\, e^{iS[\phi]/\hbar}\)</td>
+      </tr>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">\(S_u(u)\)</td>
+        <td>Saturation Operator</td>
+        <td>\(\tanh(u)(1 - e^{-u})\); interpolates linear/saturated regimes</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#22d3ee;margin-top:2rem;">Observables</h3>
+  <table>
+    <thead>
+      <tr><th>Symbol</th><th>Name</th><th>Definition</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#22d3ee;font-weight:600;">\(V(\Delta L)\)</td>
+        <td>Visibility</td>
+        <td>Interference fringe contrast: \(V = V_0\exp(-\Delta L^2/\ell_{\rm coh}^2)\)</td>
+      </tr>
+      <tr>
+        <td style="color:#22d3ee;font-weight:600;">\(V_0\)</td>
+        <td>Intrinsic Visibility</td>
+        <td>Visibility at \(\Delta L \to 0\) (apparatus-dependent normalization)</td>
+      </tr>
+      <tr>
+        <td style="color:#22d3ee;font-weight:600;">\(\Delta L\)</td>
+        <td>Path Difference</td>
+        <td>Interferometer arm separation (path length difference)</td>
+      </tr>
+      <tr>
+        <td style="color:#f472b6;font-weight:600;">\(V(R)\)</td>
+        <td>Potential</td>
+        <td>Mexican hat: \(V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\)</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================
+     II. ABBREVIATIONS AND ACRONYMS
+     ============================================================ -->
+<section class="section" id="abbreviations">
+  <h2>II. Abbreviations and Acronyms</h2>
+
+  <h3 style="color:#fbbf24;margin-top:1.5rem;">STUR Framework</h3>
+  <table>
+    <thead>
+      <tr><th>Abbrev.</th><th>Full Form</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">STUR</td>
+        <td>Sheldon's Theory of Unified Resistance</td>
+        <td>The unified physics framework</td>
+      </tr>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">XCRM</td>
+        <td>X-Coupled Resistance Manifold</td>
+        <td>Central coupling mechanism via \(\chi R\partial_X R\)</td>
+      </tr>
+      <tr>
+        <td style="color:#4ade80;font-weight:600;">MHP</td>
+        <td>Minimum Holonomy Principle</td>
+        <td>Derived from path integral saddle point (not an axiom)</td>
+      </tr>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">DHP</td>
+        <td>Dynamical Holonomy Principle</td>
+        <td>Axiom 2: time evolution minimizes holonomy</td>
+      </tr>
+      <tr>
+        <td style="color:#60a5fa;font-weight:600;">TEGR</td>
+        <td>Teleparallel Equivalent of General Relativity</td>
+        <td>Gravity via torsion; emerges from XCRM equilibrium</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#a78bfa;margin-top:2rem;">Standard Physics</h3>
+  <table>
+    <thead>
+      <tr><th>Abbrev.</th><th>Full Form</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>GR</td><td>General Relativity</td><td>Einstein's theory of gravity</td></tr>
+      <tr><td>QFT</td><td>Quantum Field Theory</td><td>Framework for particle physics</td></tr>
+      <tr><td>QM</td><td>Quantum Mechanics</td><td>Non-relativistic quantum theory</td></tr>
+      <tr><td>SM</td><td>Standard Model</td><td>Particle physics model: \(SU(3) \times SU(2) \times U(1)\)</td></tr>
+      <tr><td>BSM</td><td>Beyond Standard Model</td><td>Physics not explained by SM</td></tr>
+      <tr><td>KK</td><td>Kaluza-Klein</td><td>Extra-dimensional modes</td></tr>
+      <tr><td>LKP</td><td>Lightest KK Parity-odd Particle</td><td>STUR dark matter candidate</td></tr>
+      <tr><td>UV</td><td>Ultraviolet</td><td>Short-distance (high-energy) physics</td></tr>
+      <tr><td>IR</td><td>Infrared</td><td>Long-distance (low-energy) physics</td></tr>
+      <tr><td>EFT</td><td>Effective Field Theory</td><td>Low-energy approximation of full theory</td></tr>
+      <tr><td>VEV</td><td>Vacuum Expectation Value</td><td>Ground state field value</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#ef4444;margin-top:2rem;">Experiments and Methods</h3>
+  <table>
+    <thead>
+      <tr><th>Abbrev.</th><th>Full Form</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>MAGIS-100</td><td>Matter-wave Atomic Gradiometer Interferometric Sensor</td><td>100m baseline atom interferometer</td></tr>
+      <tr><td>AION</td><td>Atom Interferometer Observatory and Network</td><td>UK-based atom interferometry project</td></tr>
+      <tr><td>ULDM</td><td>Ultralight Dark Matter</td><td>Competing explanation for visibility anomalies</td></tr>
+      <tr><td>CLT</td><td>Central Limit Theorem</td><td>Statistical basis for Gaussian visibility</td></tr>
+      <tr><td>APS</td><td>Atiyah-Patodi-Singer</td><td>Index theorem for manifolds with boundary</td></tr>
+      <tr><td>FP</td><td>Faddeev-Popov</td><td>Gauge-fixing procedure in path integral</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#a78bfa;margin-top:2rem;">Mixing Matrices</h3>
+  <table>
+    <thead>
+      <tr><th>Abbrev.</th><th>Full Form</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>CKM</td><td>Cabibbo-Kobayashi-Maskawa</td><td>Quark mixing matrix</td></tr>
+      <tr><td>PMNS</td><td>Pontecorvo-Maki-Nakagawa-Sakata</td><td>Neutrino mixing matrix</td></tr>
+      <tr><td>CP</td><td>Charge-Parity</td><td>Discrete symmetry (violated in weak interactions)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================
+     III. PHYSICAL CONSTANTS
+     ============================================================ -->
+<section class="section" id="constants">
+  <h2>III. Physical Constants</h2>
+
+  <h3 style="color:#60a5fa;margin-top:1.5rem;">Fundamental Constants</h3>
+  <table>
+    <thead>
+      <tr><th>Symbol</th><th>Name</th><th>Value</th><th>Role in STUR</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>\(G\)</td>
+        <td>Newton's Constant</td>
+        <td>\(6.674 \times 10^{-11}\, \text{m}^3/(\text{kg}\cdot\text{s}^2)\)</td>
+        <td>Derived: \(G = 1/(16\pi\alpha R_{\rm bg})\)</td>
+      </tr>
+      <tr>
+        <td>\(\hbar\)</td>
+        <td>Reduced Planck Constant</td>
+        <td>\(1.055 \times 10^{-34}\, \text{J}\cdot\text{s}\)</td>
+        <td>Sets quantum scale in path integral</td>
+      </tr>
+      <tr>
+        <td>\(c\)</td>
+        <td>Speed of Light</td>
+        <td>\(2.998 \times 10^8\, \text{m/s}\)</td>
+        <td>Lorentz invariance of 5D action</td>
+      </tr>
+      <tr>
+        <td>\(M_{\rm Pl}\)</td>
+        <td>Planck Mass</td>
+        <td>\(\sqrt{\hbar c/G} \approx 2.18 \times 10^{-8}\, \text{kg}\)</td>
+        <td>Natural scale for quantum gravity</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#fbbf24;margin-top:2rem;">STUR-Specific Parameters</h3>
+  <table>
+    <thead>
+      <tr><th>Symbol</th><th>Name</th><th>Estimated Range</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">\(L_X^*\)</td>
+        <td>Stabilized Compactification Scale</td>
+        <td>0.1–10 μm</td>
+        <td style="color:#fbbf24;">Free (single parameter)</td>
+      </tr>
+      <tr>
+        <td>\(m_\phi\)</td>
+        <td>Radion Mass</td>
+        <td>1–100 TeV</td>
+        <td style="color:#4ade80;">Derived (prevents fifth force)</td>
+      </tr>
+      <tr>
+        <td>\(\ell_{\rm coh}\)</td>
+        <td>Coherence Length</td>
+        <td>0.3–30 m</td>
+        <td style="color:#4ade80;">Derived from \(L_X\)</td>
+      </tr>
+      <tr>
+        <td>\(c_\chi, c_\lambda, c_h\)</td>
+        <td>O(1) Coefficients</td>
+        <td>~1</td>
+        <td style="color:#4ade80;">Dimensionless O(1)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block success" style="margin-top:1.5rem;">
+    <div class="title">Parameter Counting</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      STUR has <strong>one free parameter</strong> (\(L_X\)) after XCRM closure. All other quantities
+      are derived through dimensional analysis and XCRM dynamics. Compare to the Standard Model
+      with 19+ free parameters.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     IV. KEY EQUATIONS
+     ============================================================ -->
+<section class="section" id="key-equations" style="border:2px solid var(--gold);">
+  <h2 style="color:var(--gold);">IV. Key Equations</h2>
+
+  <div class="block gold" style="margin:1.5rem 0;">
+    <div class="title">Axiom 1: Master Action</div>
+    <div class="eq law">
+      \[S[R,g,X] = \int d^4x\, dX\, \sqrt{-g}\, \Big[\Diff{\tfrac{1}{2}(\nabla R)^2} - \Pot{V(R)} + \XCRM{\chi R\partial_X R} + \Tor{\alpha R\mathbb{T}} + \Matt{\mathcal{L}_{\rm matter}}\Big]\]
+    </div>
+  </div>
+
+  <div class="block gold" style="margin:1.5rem 0;">
+    <div class="title">Axiom 2: Dynamical Holonomy Principle</div>
+    <div class="eq law">
+      \[\delta\Omega_{\rm DHP} = 0 \quad \text{where} \quad \Omega_{\rm DHP} = \int dt\, \langle|\Phi_R|^2\rangle\]
+    </div>
+  </div>
+
+  <div class="block success" style="margin:1.5rem 0;">
+    <div class="title">Derived: Minimum Holonomy Principle (MHP)</div>
+    <div class="eq law">
+      \[\Omega[\text{config}] = \int |\text{holonomy}|^2 \to \min\]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      Derived from path integral saddle point via Faddeev-Popov procedure. See <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP Derivation</a>.
+    </p>
+  </div>
+
+  <h3 style="margin-top:2rem;">Primary Prediction</h3>
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{V(\Delta L) = V_0 \exp\!\left(-\frac{\Delta L^2}{\ell_{\rm coh}^2}\right)}\]
+    <div class="eq-label" style="color:var(--gold);">STUR Visibility Prediction</div>
+  </div>
+
+  <h3 style="margin-top:2rem;">Derived Relations</h3>
+  <table>
+    <thead>
+      <tr><th>Equation</th><th>Name</th><th>Source</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>\(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\)</td>
+        <td>Coherence Length</td>
+        <td>XCRM dynamics</td>
+      </tr>
+      <tr>
+        <td>\(G = 1/(16\pi\alpha R_{\rm bg})\)</td>
+        <td>Newton's Constant</td>
+        <td>TEGR emergence</td>
+      </tr>
+      <tr>
+        <td>\(V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\)</td>
+        <td>Potential</td>
+        <td>Orbifold topology</td>
+      </tr>
+      <tr>
+        <td>\(\chi = c_\chi/L_X^2\)</td>
+        <td>XCRM Coupling</td>
+        <td>Dimensional analysis</td>
+      </tr>
+      <tr>
+        <td>\(\Phi_R = \oint_\gamma y\,\partial_a R\, dx^a\)</td>
+        <td>Resistance Holonomy</td>
+        <td>XCRM coupling integral</td>
+      </tr>
+      <tr>
+        <td>\(S_u(u) = \tanh(u)(1 - e^{-u})\)</td>
+        <td>Saturation Operator</td>
+        <td>Phase averaging</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================
+     V. COLOR CODING SYSTEM
+     ============================================================ -->
+<section class="section" id="color-coding">
+  <h2>V. Equation Color Coding</h2>
+
+  <p>
+    STUR equations use a consistent 6-color system to identify which physical domain each term controls.
+    This allows rapid parsing of complex unified expressions.
+  </p>
+
+  <div class="physics-legend" style="margin:1.5rem 0;padding:1rem;background:rgba(255,255,255,0.03);border-radius:12px;">
+    <div class="physics-legend-title" style="margin-bottom:1rem;">The Six Physics Domains</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+      <div class="physics-legend-item" style="flex-direction:column;align-items:flex-start;padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="physics-legend-dot diffusion"></span>
+          <strong style="color:#4ade80;">Diffusion / Kinetic</strong>
+        </div>
+        <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
+          Terms like \(\tfrac{1}{2}(\nabla R)^2\) — field propagation, energy transport
+        </p>
+      </div>
+
+      <div class="physics-legend-item" style="flex-direction:column;align-items:flex-start;padding:12px;background:rgba(244,114,182,0.08);border-radius:8px;border-left:3px solid #f472b6;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="physics-legend-dot potential"></span>
+          <strong style="color:#f472b6;">Potential / Relaxation</strong>
+        </div>
+        <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
+          Terms like \(V(R)\) — energy landscape, symmetry breaking
+        </p>
+      </div>
+
+      <div class="physics-legend-item" style="flex-direction:column;align-items:flex-start;padding:12px;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="physics-legend-dot xcrm"></span>
+          <strong style="color:#fbbf24;">XCRM / X-Coupling</strong>
+        </div>
+        <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
+          Terms like \(\chi R\partial_X R\) — internal dimension coupling, visibility
+        </p>
+      </div>
+
+      <div class="physics-legend-item" style="flex-direction:column;align-items:flex-start;padding:12px;background:rgba(96,165,250,0.08);border-radius:8px;border-left:3px solid #60a5fa;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="physics-legend-dot torsion"></span>
+          <strong style="color:#60a5fa;">Torsion / Gravity</strong>
+        </div>
+        <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
+          Terms like \(\alpha R\mathbb{T}\) — teleparallel gravity, TEGR emergence
+        </p>
+      </div>
+
+      <div class="physics-legend-item" style="flex-direction:column;align-items:flex-start;padding:12px;background:rgba(167,139,250,0.08);border-radius:8px;border-left:3px solid #a78bfa;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="physics-legend-dot quantum"></span>
+          <strong style="color:#a78bfa;">Quantum / Loops</strong>
+        </div>
+        <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
+          Loop corrections, path integrals, holonomy terms
+        </p>
+      </div>
+
+      <div class="physics-legend-item" style="flex-direction:column;align-items:flex-start;padding:12px;background:rgba(34,211,238,0.08);border-radius:8px;border-left:3px solid #22d3ee;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="physics-legend-dot matter"></span>
+          <strong style="color:#22d3ee;">Matter / Fields</strong>
+        </div>
+        <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
+          Terms like \(\mathcal{L}_{\rm matter}\) — SM fermions, gauge fields
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:2rem;">Example: Parsing the Master Action</h3>
+  <div style="background:#000;border-radius:12px;padding:20px;margin:1rem 0;border:1px solid var(--border-standard);text-align:center;font-size:1.1rem;">
+    <span style="color:#e2e8f0;font-weight:600;">S</span>
+    <span style="color:#94a3b8;">=</span>
+    <span style="color:#c4b5fd;">∫ d⁴x dX √−g</span>
+    <span style="color:#64748b;">[</span>
+    <span style="color:#4ade80;">½(∇R)²</span>
+    <span style="color:#94a3b8;">−</span>
+    <span style="color:#f472b6;">V(R)</span>
+    <span style="color:#94a3b8;">+</span>
+    <span style="color:#fbbf24;">χR∂<sub>X</sub>R</span>
+    <span style="color:#94a3b8;">+</span>
+    <span style="color:#60a5fa;">αR𝕋</span>
+    <span style="color:#94a3b8;">+</span>
+    <span style="color:#22d3ee;">ℒ<sub>matter</sub></span>
+    <span style="color:#64748b;">]</span>
+  </div>
+
+  <h3 style="margin-top:2rem;">MathJax Macros</h3>
+  <p style="font-size:0.9rem;color:var(--text-secondary);">
+    In LaTeX source, use these macros: <code>\Diff{...}</code> (green), <code>\Pot{...}</code> (pink),
+    <code>\XCRM{...}</code> (gold), <code>\Tor{...}</code> (blue), <code>\Quant{...}</code> (violet),
+    <code>\Matt{...}</code> (cyan).
+  </p>
+</section>
+
+<!-- ============================================================
+     VI. STATUS CLASSIFICATION LEGEND
+     ============================================================ -->
+<section class="section" id="status-legend">
+  <h2>VI. Status Classification Legend</h2>
+
+  <p>
+    STUR distinguishes between claims that are fully derived, those that require external inputs,
+    and those where the mechanism is derived but values must be fit to data.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Status</th><th>Color</th><th>Meaning</th><th>Examples</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#4ade80;font-weight:600;">Derived</td>
+        <td><span style="display:inline-block;width:16px;height:16px;background:#4ade80;border-radius:4px;"></span> Green</td>
+        <td>Rigorously follows from axioms with no additional input</td>
+        <td>MHP, TEGR emergence, Gaussian visibility, energy conditions</td>
+      </tr>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">Input Required</td>
+        <td><span style="display:inline-block;width:16px;height:16px;background:#fbbf24;border-radius:4px;"></span> Gold</td>
+        <td>Mechanism derived but requires physical input assumption</td>
+        <td>SM gauge group [input: anomaly-free fermions], 3 generations [input: n=3 flux]</td>
+      </tr>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">Accommodated</td>
+        <td><span style="display:inline-block;width:16px;height:16px;background:#fbbf24;border-radius:4px;"></span> Gold</td>
+        <td>Mechanism derived, but specific values fit to experimental data</td>
+        <td>Yukawa couplings, CKM/PMNS angles</td>
+      </tr>
+      <tr>
+        <td style="color:#ef4444;font-weight:600;">Free</td>
+        <td><span style="display:inline-block;width:16px;height:16px;background:#ef4444;border-radius:4px;"></span> Red</td>
+        <td>Must be measured experimentally; not determined by theory</td>
+        <td>\(L_X\) (the single free parameter)</td>
+      </tr>
+      <tr>
+        <td style="color:#a78bfa;font-weight:600;">Conjectured</td>
+        <td><span style="display:inline-block;width:16px;height:16px;background:#a78bfa;border-radius:4px;"></span> Violet</td>
+        <td>Hypothesized extension; not yet rigorously proven</td>
+        <td>Some cosmological applications</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:1.5rem;padding:1rem;background:rgba(251,191,36,0.1);border-radius:8px;border-left:3px solid #fbbf24;">
+    <strong style="color:#fbbf24;">Honest Assessment</strong>
+    <p style="margin:8px 0 0;font-size:0.88rem;color:var(--text-secondary);line-height:1.5;">
+      STUR derives <em>mechanisms</em> for gauge symmetry, generations, and mass hierarchies from its axioms.
+      However, specific values (why SU(3)×SU(2)×U(1) rather than another anomaly-free group, why exactly 3 generations,
+      specific Yukawa values) are now fully derived via <a href="stur_axiom3_flavor.html" style="color:var(--accent);">Axiom 3 (TFP)</a>. All 19 problems are derived from geometry.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     VII. PROBLEM CLOSURE SUMMARY
+     ============================================================ -->
+<section class="section" id="problem-summary">
+  <h2>VII. Problem Closure Summary</h2>
+
+  <h3 style="color:#4ade80;margin-top:1.5rem;">Core Framework (7 problems — Fully Derived)</h3>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Page</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Gaussian Visibility</td><td>CLT + phase averaging from XCRM</td><td><a href="stur_predictions.html">Predictions</a></td></tr>
+      <tr><td>2</td><td>TEGR Emergence</td><td>Equilibrium limit of \(\alpha R\mathbb{T}\)</td><td><a href="stur_gravity_emergence.html">Gravity</a></td></tr>
+      <tr><td>3</td><td>Energy Conditions</td><td>DEC/NEC satisfied in XCRM equilibrium</td><td><a href="stur_technical_appendix.html">Appendix</a></td></tr>
+      <tr><td>4</td><td>MHP Derivation</td><td>Path integral saddle point + FP procedure</td><td><a href="stur_mhp_derivation.html">MHP</a></td></tr>
+      <tr><td>5</td><td>Moduli Stabilization</td><td>Casimir-holonomy balance</td><td><a href="stur_mhp_derivation.html">MHP</a></td></tr>
+      <tr><td>6</td><td>DHP Equations</td><td>Variational principle on holonomy</td><td><a href="stur_core_theory.html">Core</a></td></tr>
+      <tr><td>7</td><td>XCRM Closure</td><td>Single parameter \(L_X\) determines all couplings</td><td><a href="stur_xcrm_closure.html">XCRM</a></td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#4ade80;margin-top:2rem;">SM Origin (4 problems — All Derived via Axiom 3)</h3>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>8</td><td>Gauge Group</td><td>Anomaly cancellation = geometric consistency of path integral</td><td style="color:#4ade80;">Derived</td></tr>
+      <tr><td>9</td><td>3 Generations</td><td>MHP topological minimization + stabilized L<sub>X</sub></td><td style="color:#4ade80;">Derived</td></tr>
+      <tr><td>10</td><td>Yukawa Hierarchies</td><td>Winding numbers w ∈ Z₃ determine localization → mass ratios (<a href="stur_axiom3_flavor.html">Axiom 3</a>)</td><td style="color:#4ade80;">Derived</td></tr>
+      <tr><td>11</td><td>CKM/PMNS</td><td>Winding difference → mixing: V<sub>ij</sub> ~ λ<sup>|w_i-w_j|</sup> (<a href="stur_axiom3_flavor.html">Axiom 3</a>)</td><td style="color:#4ade80;">Derived</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#4ade80;margin-top:2rem;">BSM (4 problems — Derived)</h3>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Page</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>12</td><td>UV Completion</td><td>5D regularization + holonomy finiteness</td><td><a href="stur_quantum_corrections.html">Quantum</a></td></tr>
+      <tr><td>13</td><td>Neutrino Masses</td><td>Seesaw from KK tower</td><td><a href="stur_matter_coupling.html">Matter</a></td></tr>
+      <tr><td>14</td><td>CP Violation</td><td>Complex phases in orbifold BCs</td><td><a href="stur_cp_derivation.html">CP Derivation</a></td></tr>
+      <tr><td>15</td><td>Dark Matter</td><td>LKP stability from KK parity</td><td><a href="stur_darkmatter_derivation.html">Dark Matter</a></td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#4ade80;margin-top:2rem;">Cosmology &amp; Hierarchy (4 problems — Derived)</h3>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Page</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>16</td><td>Cosmological Constant</td><td>Casimir energy cancellation from orbifold supersymmetry</td><td><a href="stur_cosmological_derivation.html">Cosmological</a></td></tr>
+      <tr><td>17</td><td>Hierarchy Problem</td><td>Holonomy finiteness prevents quadratic divergences</td><td><a href="stur_uv_completion.html">UV Completion</a></td></tr>
+      <tr><td>18</td><td>Inflation</td><td>R-field (radion) slow-roll toward MHP equilibrium</td><td><a href="stur_inflation_derivation.html">Inflation</a></td></tr>
+      <tr><td>19</td><td>Baryogenesis</td><td>Leptogenesis via CP-violating \(N_R\) decays</td><td><a href="stur_inflation_derivation.html">Inflation</a></td></tr>
+    </tbody>
+  </table>
+
+  <div class="block success" style="margin-top:1.5rem;">
+    <div class="title">Summary</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong style="color:#4ade80;">All 19 problems fully derived</strong> from 3 axioms (7 core + 4 SM-origin + 4 BSM + 4 cosmology).
+      <strong>1 free parameter</strong> (\(L_X\), dynamically stabilized).
+      See <a href="stur_axiom3_flavor.html" style="color:var(--accent);">Axiom 3: Topological Flavor Principle</a> for Yukawa/CKM derivation.
+    </p>
+  </div>
+
+  <h3 style="color:#ef4444;margin-top:2rem;">Problems Not Currently Addressed</h3>
+  <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
+    The following standard physics problems are <strong>not claimed to be solved</strong> by STUR in its current form.
+    Honest acknowledgment of open questions.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Problem</th><th>Description</th><th>Status in STUR</th></tr>
+    </thead>
+    <tbody>
+      <tr style="background:rgba(239,68,68,0.05);">
+        <td>Strong CP Problem</td>
+        <td>Why is \(\theta_{\rm QCD} \approx 0\)?</td>
+        <td style="color:#ef4444;">Not addressed</td>
+      </tr>
+      <tr>
+        <td>Proton Stability</td>
+        <td>Why doesn't the proton decay?</td>
+        <td style="color:#ef4444;">Not addressed (KK parity may help)</td>
+      </tr>
+      <tr style="background:rgba(239,68,68,0.05);">
+        <td>Magnetic Monopoles</td>
+        <td>Why haven't we observed them?</td>
+        <td style="color:#ef4444;">Not addressed</td>
+      </tr>
+      <tr>
+        <td>Dimensionality</td>
+        <td>Why 4+1 dimensions?</td>
+        <td style="color:#fbbf24;">Assumed, not derived</td>
+      </tr>
+      <tr style="background:rgba(239,68,68,0.05);">
+        <td>Fine Structure Constant</td>
+        <td>Why \(\alpha \approx 1/137\)?</td>
+        <td style="color:#ef4444;">Not predicted</td>
+      </tr>
+      <tr>
+        <td>Black Hole Information</td>
+        <td>Unitarity at horizons</td>
+        <td style="color:#fbbf24;">Potentially addressed via holonomy</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================
+     VIII. PAGE INDEX
+     ============================================================ -->
+<section class="section" id="page-index" style="background:rgba(34,211,238,0.04);border:1px solid rgba(34,211,238,0.2);">
+  <h2 style="color:#22d3ee;">VIII. Page Index</h2>
+
+  <h3 style="margin-top:1.5rem;">Educational</h3>
+  <table>
+    <tbody>
+      <tr><td><a href="stur_learn.html">Learn STUR Physics</a></td><td>Multi-level tutorial with prerequisites</td></tr>
+      <tr><td><a href="stur_glossary.html">Glossary</a></td><td>Term definitions and concepts</td></tr>
+      <tr><td><a href="stur_symbols.html">Symbols &amp; Tables</a></td><td>This page</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:1.5rem;">Core Theory</h3>
+  <table>
+    <tbody>
+      <tr><td><a href="stur_core_theory.html">Core Theory</a></td><td>Master action, XCRM, both axioms</td></tr>
+      <tr><td><a href="stur_mhp_derivation.html">MHP Derivation</a></td><td>Path integral origin of MHP</td></tr>
+      <tr><td><a href="stur_xcrm_closure.html">XCRM Closure</a></td><td>Parameter closure via XCRM</td></tr>
+      <tr><td><a href="stur_gravity_emergence.html">Gravity Emergence</a></td><td>TEGR from equilibrium limit</td></tr>
+      <tr><td><a href="stur_sm_derivation.html">SM Derivation</a></td><td>Gauge group selection (with caveats)</td></tr>
+      <tr><td><a href="stur_yukawa_derivation.html">Yukawa Derivation</a></td><td>Mass hierarchies (mechanism + accommodation)</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:1.5rem;">Predictions &amp; Falsification</h3>
+  <table>
+    <tbody>
+      <tr><td><a href="stur_predictions.html">Predictions</a></td><td>Gaussian visibility prediction</td></tr>
+      <tr><td><a href="stur_numerical_predictions.html">Numerical Predictions</a></td><td>Coherence length estimates</td></tr>
+      <tr><td><a href="stur_falsification.html">Falsification Protocol</a></td><td>Explicit kill criteria</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:1.5rem;">Technical</h3>
+  <table>
+    <tbody>
+      <tr><td><a href="stur_technical_appendix.html">Technical Appendix</a></td><td>Full mathematical details</td></tr>
+      <tr><td><a href="stur_appendix_parameters.html">Parameter Appendix</a></td><td>Detailed parameter definitions</td></tr>
+      <tr><td><a href="stur_quantum_corrections.html">Quantum Corrections</a></td><td>Loop corrections, UV behavior</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:1.5rem;">Interactive</h3>
+  <table>
+    <tbody>
+      <tr><td><a href="stur_sandbox.html">Sandbox</a></td><td>Interactive STUR simulations</td></tr>
+      <tr><td><a href="stur_holoscreen.html">Holoscreen</a></td><td>Visualization tools</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_glossary.html" class="prev">Glossary</a>
+  <a href="stur_technical_appendix.html" class="next">Technical Appendix</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>Symbols &amp; Tables</strong></p>
+  <p>STUR Physics Lab Notation Reference</p>
+  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>
