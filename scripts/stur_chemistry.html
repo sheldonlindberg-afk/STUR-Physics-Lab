@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUR Chemistry — Coherence-Enhanced Chemical Bonding</title>
+    <meta name="description" content="STUR predictions for chemistry: enhanced covalent bonding, modified activation energies, catalysis enhancement, and quantum tunneling rates derived from the XCRM Master Action.">
+
+    <!-- STUR Theme System -->
+    <link rel="stylesheet" href="../assets/css/stur-core.css">
+    <link rel="stylesheet" href="../assets/css/stur-glass.css">
+    <link rel="stylesheet" href="../assets/css/stur-icons.css">
+    <link rel="stylesheet" href="../assets/css/stur-theory.css">
+
+    <!-- STUR MathJax with physics domain color macros -->
+    <script src="../assets/js/stur-mathjax-config.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+      .chem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+      .chem-card { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 1.25rem; }
+      .chem-card h4 { margin: 0 0 0.75rem; font-size: 1rem; }
+      .chem-card p { margin: 0; font-size: 0.9rem; color: var(--text-secondary); }
+      .calc-grid { display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; }
+      @media(max-width:800px) { .calc-grid { grid-template-columns: 1fr; } }
+      .calc-input { width: 100%; background: rgba(0,0,0,0.35); border: 1px solid var(--border-dim); color: var(--text-primary); border-radius: 8px; padding: 8px 12px; font-family: var(--font-mono); margin-top: 6px; }
+      .calc-result { background: rgba(0,0,0,0.5); border-radius: 10px; padding: 1.25rem; border: 1px solid rgba(255,255,255,0.1); }
+      .result-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+      .result-label { color: var(--text-muted); font-size: 0.85rem; }
+      .result-value { font-family: var(--font-mono); font-weight: 600; }
+      .verdict-enhanced { color: #4ade80; }
+      .verdict-standard { color: #fbbf24; }
+      .verdict-weak { color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<header class="glass-header">
+    <nav class="glass-nav">
+        <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="stur-icon icon-menu lg"></span>
+        </button>
+        <div class="glass-nav-links">
+            <a href="../index.html" class="glass-nav-link">Index</a>
+            <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+            <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="stur_superconductor.html" class="glass-nav-link">Superconductor</a>
+        </div>
+    </nav>
+</header>
+
+<!-- PAGE CONTENT -->
+<main class="stur-container">
+
+    <header style="text-align:center; margin-bottom:2rem;">
+        <h1 class="page-title-core">STUR Chemistry</h1>
+        <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+            From <a href="stur_core_theory.html" style="color:var(--accent);">2 axioms</a> ·
+            <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM closure</a> ·
+            <a href="stur_superconductor.html" style="color:var(--accent);">Superconductor</a>
+        </p>
+        <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
+            STUR predicts coherence enhancement in chemical systems through the same mechanism that enables
+            ambient-temperature superconductivity: the saturation operator \(S(u)\) modifies electron pairing,
+            activation energies, and quantum tunneling rates.
+        </p>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top:0.5rem;">Sheldon Lon Lindberg</p>
+        <div style="margin-top:1rem;"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
+    </header>
+
+    <!-- Physics Domain Color Legend -->
+    <div class="physics-legend">
+        <div class="physics-legend-title">Equation Color Code — Physics Domains</div>
+        <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion/Kinetic</span></div>
+        <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+        <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+        <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+        <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+        <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+    </div>
+
+    <!-- ============================================================
+         SECTION: DERIVATION FROM MASTER ACTION
+         ============================================================ -->
+    <section class="section" style="border:2px solid var(--success); background:rgba(74,222,128,0.04);">
+        <h2 style="color:var(--success);">Derivation from STUR Master Action</h2>
+
+        <p style="margin-bottom:1rem;">
+            Chemical bonding involves electron pairing — the same fundamental process that creates Cooper pairs in superconductors.
+            STUR's coherence enhancement applies whenever electrons form correlated pairs, making chemistry a natural extension
+            of the superconductivity prediction.
+        </p>
+
+        <h4 style="color:var(--gold);margin-bottom:0.5rem;">Step 1: Electron Pair Coherence</h4>
+        <p style="margin-bottom:0.5rem;">
+            In covalent bonding, electron pairs occupy molecular orbitals with characteristic coherence length \(\xi_{\rm bond}\).
+            From the <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM closure</a>, this coherence is enhanced:
+        </p>
+        <div class="eq" style="margin:0.75rem 0;">
+            \[\Matt{\xi_{\rm bond}^{\rm STUR}} = \Matt{\xi_{\rm bond}^{\rm QM}} \cdot \left(1 + \XCRM{S(u_{\rm eff})}\right)\]
+            <div class="eq-label">(CHEM.1) — STUR-Enhanced Bond Coherence</div>
+        </div>
+
+        <h4 style="color:var(--gold);margin-bottom:0.5rem;margin-top:1rem;">Step 2: Bond Energy Enhancement</h4>
+        <p style="margin-bottom:0.5rem;">
+            Bond dissociation energy \(D_e\) scales with the overlap integral, which increases with coherence length.
+            The STUR-modified bond energy becomes:
+        </p>
+        <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem 1.5rem;">
+            \[\boxed{\Matt{D_e^{\rm STUR}} = \Matt{D_e^{\rm QM}} \cdot \left(1 + \XCRM{S(u_{\rm eff})} \cdot \frac{\Diff{\sigma_R}}{\XCRM{L_X}}\right)}\]
+            <div class="eq-label" style="color:var(--success);">(CHEM.2) — STUR Bond Energy (Key Prediction)</div>
+        </div>
+
+        <h4 style="color:var(--gold);margin-bottom:0.5rem;margin-top:1rem;">Step 3: Effective Coupling for Molecules</h4>
+        <p style="margin-bottom:0.5rem;">
+            The molecular effective coupling \(u_{\rm eff}\) is determined by atomic composition:
+        </p>
+        <div class="eq" style="margin:0.75rem 0;">
+            \[\XCRM{u_{\rm eff}} = \Diff{u_{\rm geo}} + \XCRM{\beta \cdot u_{\rm chr}}\]
+        </div>
+        <p style="margin-bottom:0.5rem;">where the geometric and chronon terms are:</p>
+        <div class="eq" style="margin:0.75rem 0;">
+            \[\Diff{u_{\rm geo}} = \ln\!\left(\frac{\sqrt{n_C} \cdot (n_H / n_{\rm heavy})^{1/3}}{a_0}\right), \quad
+            \XCRM{u_{\rm chr}} = \sum_i \XCRM{\chi_i} \cdot \frac{n_i}{n_{\rm total}}\]
+            <div class="eq-label">(CHEM.3) — Geometric and Chronon Coupling</div>
+        </div>
+
+        <div class="block success" style="margin-top:1rem;">
+            <div class="title">Key Insight</div>
+            <p style="margin:0;color:var(--text-secondary);">
+                The same saturation operator \(\XCRM{S(u) = \tanh(u)(1 - e^{-u})}\) that enhances Cooper pair coherence
+                in superconductors enhances electron pair coherence in chemical bonds. Materials with high hydrogen content
+                and heavy atom anchors (La, Bi, transition metals) should show the strongest STUR effects.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: BOND ENERGY PREDICTIONS
+         ============================================================ -->
+    <section class="section" style="border:2px solid #4ade80; background:rgba(74,222,128,0.04);">
+        <h2 style="color:#4ade80;">Prediction 1: Enhanced Covalent Bonding</h2>
+
+        <p style="margin-bottom:1rem;">
+            STUR predicts that certain molecular systems will exhibit bond dissociation energies
+            higher than calculated by standard quantum chemistry methods (DFT, CCSD(T), etc.).
+        </p>
+
+        <div class="eq law" style="background:#000;border:2px solid #4ade80;padding:1.25rem 1.5rem;">
+            \[\boxed{\frac{\Matt{D_e^{\rm STUR}}}{\Matt{D_e^{\rm QM}}} = 1 + \XCRM{S(u_{\rm eff})} \cdot \frac{\Diff{\sigma_R}}{\XCRM{L_X}}}\]
+            <div class="eq-label" style="color:#4ade80;">(CHEM.4) — Bond Energy Enhancement Ratio</div>
+        </div>
+
+        <h4 style="color:var(--text);margin-top:1.5rem;">Quantitative Predictions</h4>
+        <div class="chem-grid">
+            <div class="chem-card" style="border-left:3px solid #4ade80;">
+                <h4 style="color:#4ade80;">Hydrogen-Rich Organics</h4>
+                <p>For molecules with \(n_H/n_C > 2\) and heavy atom anchors:<br>
+                \(\Matt{D_e^{\rm STUR}} / \Matt{D_e^{\rm QM}} \approx 1.05\text{–}1.15\)</p>
+            </div>
+            <div class="chem-card" style="border-left:3px solid #fbbf24;">
+                <h4 style="color:#fbbf24;">Metal Hydrides</h4>
+                <p>LaH₁₀-type compounds at ambient pressure:<br>
+                \(\Matt{D_e^{\rm STUR}} / \Matt{D_e^{\rm QM}} \approx 1.10\text{–}1.25\)</p>
+            </div>
+            <div class="chem-card" style="border-left:3px solid #60a5fa;">
+                <h4 style="color:#60a5fa;">Transition Metal Complexes</h4>
+                <p>Organometallic compounds with multiple hydrides:<br>
+                \(\Matt{D_e^{\rm STUR}} / \Matt{D_e^{\rm QM}} \approx 1.03\text{–}1.08\)</p>
+            </div>
+        </div>
+
+        <div class="block" style="border-left-color:#ef4444;background:rgba(239,68,68,0.04);margin-top:1rem;">
+            <div class="title" style="color:#ef4444;">Falsification Criterion</div>
+            <p style="margin:0;color:var(--text-secondary);">
+                <strong>Kill condition:</strong> Experimental bond dissociation energies for materials with \(\XCRM{u_{\rm eff}} > 1.5\)
+                match DFT/CCSD(T) predictions within 2% (i.e., no STUR enhancement observed).
+                <br><strong>Threshold:</strong> \(|D_e^{\rm exp} - D_e^{\rm QM}| / D_e^{\rm QM} < 0.02\) for ≥5 high-\(u_{\rm eff}\) compounds.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: ACTIVATION ENERGY PREDICTIONS
+         ============================================================ -->
+    <section class="section" style="border:2px solid #fbbf24; background:rgba(251,191,36,0.04);">
+        <h2 style="color:#fbbf24;">Prediction 2: Modified Activation Energies</h2>
+
+        <p style="margin-bottom:1rem;">
+            The transition state in chemical reactions involves partial bond formation/breaking.
+            STUR's coherence enhancement lowers the energy of the transition state relative to reactants,
+            reducing the activation barrier.
+        </p>
+
+        <div class="eq law" style="background:#000;border:2px solid #fbbf24;padding:1.25rem 1.5rem;">
+            \[\boxed{\Pot{E_a^{\rm STUR}} = \Pot{E_a^{\rm TST}} \cdot \exp\!\left(-\XCRM{S(u_{\rm eff})} \cdot \frac{\Diff{\sigma_R}}{\XCRM{L_X}}\right)}\]
+            <div class="eq-label" style="color:#fbbf24;">(CHEM.5) — STUR Activation Energy Reduction</div>
+        </div>
+
+        <p style="margin-top:1rem;">
+            This leads to enhanced reaction rates via the Arrhenius equation:
+        </p>
+        <div class="eq" style="margin:0.75rem 0;">
+            \[\frac{\Diff{k^{\rm STUR}}}{\Diff{k^{\rm TST}}} = \exp\!\left(\frac{\Pot{E_a^{\rm TST}} - \Pot{E_a^{\rm STUR}}}{k_B T}\right)
+            = \exp\!\left(\frac{\Pot{E_a^{\rm TST}}}{k_B T} \cdot \XCRM{S(u_{\rm eff})} \cdot \frac{\Diff{\sigma_R}}{\XCRM{L_X}}\right)\]
+            <div class="eq-label">(CHEM.6) — Rate Enhancement Factor</div>
+        </div>
+
+        <h4 style="color:var(--text);margin-top:1.5rem;">Numerical Estimates</h4>
+        <div class="chem-grid">
+            <div class="chem-card" style="border-left:3px solid #fbbf24;">
+                <h4 style="color:#fbbf24;">High-\(u_{\rm eff}\) Reactions</h4>
+                <p>For \(\XCRM{u_{\rm eff}} \approx 2.0\):<br>
+                \(\Pot{E_a^{\rm STUR}} / \Pot{E_a^{\rm TST}} \approx 0.85\text{–}0.92\)<br>
+                Rate enhancement: 2–10× at 300 K</p>
+            </div>
+            <div class="chem-card" style="border-left:3px solid #a78bfa;">
+                <h4 style="color:#a78bfa;">Moderate-\(u_{\rm eff}\) Reactions</h4>
+                <p>For \(\XCRM{u_{\rm eff}} \approx 1.0\):<br>
+                \(\Pot{E_a^{\rm STUR}} / \Pot{E_a^{\rm TST}} \approx 0.94\text{–}0.97\)<br>
+                Rate enhancement: 1.2–2× at 300 K</p>
+            </div>
+        </div>
+
+        <div class="block" style="border-left-color:#ef4444;background:rgba(239,68,68,0.04);margin-top:1rem;">
+            <div class="title" style="color:#ef4444;">Falsification Criterion</div>
+            <p style="margin:0;color:var(--text-secondary);">
+                <strong>Kill condition:</strong> Measured activation energies for high-\(u_{\rm eff}\) reactions
+                match transition state theory predictions within 5%.
+                <br><strong>Threshold:</strong> \(|E_a^{\rm exp} - E_a^{\rm TST}| / E_a^{\rm TST} < 0.05\) for ≥5 reactions with \(u_{\rm eff} > 1.5\).
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: CATALYSIS PREDICTIONS
+         ============================================================ -->
+    <section class="section" style="border:2px solid #22d3ee; background:rgba(34,211,238,0.04);">
+        <h2 style="color:#22d3ee;">Prediction 3: Catalysis Enhancement</h2>
+
+        <p style="margin-bottom:1rem;">
+            Catalysts function by lowering activation barriers. STUR predicts that catalyst effectiveness
+            correlates with the geometric-chronon coupling of the catalyst-substrate complex.
+        </p>
+
+        <div class="eq law" style="background:#000;border:2px solid #22d3ee;padding:1.25rem 1.5rem;">
+            \[\boxed{\Matt{\text{TOF}^{\rm STUR}} = \Matt{\text{TOF}^{\rm classical}} \cdot \left(1 + \XCRM{S(u_{\rm cat})} \cdot \Gamma_{\rm cat}\right)}\]
+            <div class="eq-label" style="color:#22d3ee;">(CHEM.7) — STUR Turnover Frequency Enhancement</div>
+        </div>
+
+        <p style="margin-top:1rem;">where \(\Gamma_{\rm cat}\) is a catalyst-specific enhancement factor:</p>
+        <div class="eq" style="margin:0.75rem 0;">
+            \[\Gamma_{\rm cat} = \frac{\Diff{\sigma_R}}{\XCRM{L_X}} \cdot \frac{A_{\rm active}}{A_{\rm ref}}\]
+            <div class="eq-label">(CHEM.8) — Catalyst Enhancement Factor</div>
+        </div>
+
+        <h4 style="color:var(--text);margin-top:1.5rem;">STUR-Optimal Catalyst Design Principles</h4>
+        <div class="chem-grid">
+            <div class="chem-card" style="border-left:3px solid #22d3ee;">
+                <h4 style="color:#22d3ee;">Heavy Metal Centers</h4>
+                <p>Catalysts with La, Bi, Pt, Pd increase \(\XCRM{u_{\rm chr}}\), enhancing coherence at the active site.</p>
+            </div>
+            <div class="chem-card" style="border-left:3px solid #4ade80;">
+                <h4 style="color:#4ade80;">Hydrogen-Rich Ligands</h4>
+                <p>Ligand frameworks with high H:C ratios increase \(\Diff{u_{\rm geo}}\), maximizing STUR effects.</p>
+            </div>
+            <div class="chem-card" style="border-left:3px solid #f472b6;">
+                <h4 style="color:#f472b6;">Optimal Architecture</h4>
+                <p>The ideal STUR catalyst combines heavy metal centers with hydrogen-rich organic scaffolds.</p>
+            </div>
+        </div>
+
+        <div class="block" style="border-left-color:#ef4444;background:rgba(239,68,68,0.04);margin-top:1rem;">
+            <div class="title" style="color:#ef4444;">Falsification Criterion</div>
+            <p style="margin:0;color:var(--text-secondary);">
+                <strong>Kill condition:</strong> Catalyst TOF shows no correlation with \(u_{\rm eff}\) across a series
+                of structurally similar catalysts with varying heavy atom content.
+                <br><strong>Threshold:</strong> Pearson correlation \(r(\text{TOF}, u_{\rm eff}) < 0.3\) across ≥8 catalysts.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: AROMATIC STABILITY
+         ============================================================ -->
+    <section class="section" style="border:2px solid #a78bfa; background:rgba(167,139,250,0.04);">
+        <h2 style="color:#a78bfa;">Prediction 4: Enhanced Aromatic Stability</h2>
+
+        <p style="margin-bottom:1rem;">
+            Aromatic compounds derive stability from electron delocalization. STUR's coherence enhancement
+            should increase resonance stabilization energy beyond Hückel predictions.
+        </p>
+
+        <div class="eq law" style="background:#000;border:2px solid #a78bfa;padding:1.25rem 1.5rem;">
+            \[\boxed{\Quant{\Delta H_{\rm res}^{\rm STUR}} = \Quant{\Delta H_{\rm res}^{\rm Hückel}} \cdot \left(1 + \frac{\XCRM{S(u_{\rm eff})}}{2}\right)}\]
+            <div class="eq-label" style="color:#a78bfa;">(CHEM.9) — STUR Resonance Energy Enhancement</div>
+        </div>
+
+        <h4 style="color:var(--text);margin-top:1.5rem;">Predictions for Specific Systems</h4>
+        <div class="chem-grid">
+            <div class="chem-card" style="border-left:3px solid #a78bfa;">
+                <h4 style="color:#a78bfa;">Benzene</h4>
+                <p>\(u_{\rm eff} \approx 0.8\), \(S(u) \approx 0.35\)<br>
+                Predicted enhancement: ~18%<br>
+                \(\Quant{\Delta H_{\rm res}^{\rm STUR}} \approx 43\) kcal/mol (vs. 36 Hückel)</p>
+            </div>
+            <div class="chem-card" style="border-left:3px solid #f472b6;">
+                <h4 style="color:#f472b6;">Metallocenes</h4>
+                <p>Ferrocene: \(u_{\rm eff} \approx 1.2\), \(S(u) \approx 0.52\)<br>
+                Predicted enhancement: ~26%<br>
+                Should show anomalously high ring stability</p>
+            </div>
+            <div class="chem-card" style="border-left:3px solid #fbbf24;">
+                <h4 style="color:#fbbf24;">Heavy-Atom Aromatics</h4>
+                <p>Bismuthbenzene analogs: \(u_{\rm eff} \approx 1.8\)<br>
+                Predicted enhancement: ~35%<br>
+                May explain unusual stability of heavy-atom aromatics</p>
+            </div>
+        </div>
+
+        <div class="block" style="border-left-color:#ef4444;background:rgba(239,68,68,0.04);margin-top:1rem;">
+            <div class="title" style="color:#ef4444;">Falsification Criterion</div>
+            <p style="margin:0;color:var(--text-secondary);">
+                <strong>Kill condition:</strong> Measured resonance energies match Hückel/DFT predictions within 5%
+                for aromatic systems with heavy-atom substituents.
+                <br><strong>Threshold:</strong> \(|\Delta H_{\rm res}^{\rm exp} - \Delta H_{\rm res}^{\rm Hückel}| / \Delta H_{\rm res}^{\rm Hückel} < 0.05\) for ≥5 systems with \(u_{\rm eff} > 1.0\).
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: QUANTUM TUNNELING
+         ============================================================ -->
+    <section class="section" style="border:2px solid #60a5fa; background:rgba(96,165,250,0.04);">
+        <h2 style="color:#60a5fa;">Prediction 5: Modified Quantum Tunneling</h2>
+
+        <p style="margin-bottom:1rem;">
+            Quantum tunneling rates depend on the coherence of the tunneling particle.
+            STUR's visibility formula directly applies to tunneling probability.
+        </p>
+
+        <div class="eq law" style="background:#000;border:2px solid #60a5fa;padding:1.25rem 1.5rem;">
+            \[\boxed{\Quant{P_{\rm tunnel}^{\rm STUR}} = \Quant{P_{\rm tunnel}^{\rm WKB}} \cdot \exp\!\left(-\frac{\Matt{\Delta L}^2}{\Matt{\ell_{\rm coh}}^2}\right) \cdot \left(1 + \XCRM{S(u_{\rm eff})}\right)}\]
+            <div class="eq-label" style="color:#60a5fa;">(CHEM.10) — STUR Tunneling Probability</div>
+        </div>
+
+        <p style="margin-top:1rem;">
+            For proton and hydride transfer reactions, where tunneling is significant:
+        </p>
+        <div class="eq" style="margin:0.75rem 0;">
+            \[\frac{\Quant{k_{\rm tunnel}^{\rm STUR}}}{\Quant{k_{\rm tunnel}^{\rm WKB}}} = 1 + \XCRM{S(u_{\rm eff})} \cdot \left(1 - \frac{\Matt{\Delta L}^2}{\Matt{\ell_{\rm coh}}^2}\right)\]
+            <div class="eq-label">(CHEM.11) — Tunneling Rate Enhancement</div>
+        </div>
+
+        <h4 style="color:var(--text);margin-top:1.5rem;">Key Applications</h4>
+        <div class="chem-grid">
+            <div class="chem-card" style="border-left:3px solid #60a5fa;">
+                <h4 style="color:#60a5fa;">Enzyme Catalysis</h4>
+                <p>Many enzymes rely on proton tunneling. STUR predicts enhanced rates in
+                enzymes with heavy metal cofactors (Fe, Zn, Mo).</p>
+            </div>
+            <div class="chem-card" style="border-left:3px solid #4ade80;">
+                <h4 style="color:#4ade80;">Hydrogen Transfer</h4>
+                <p>H-atom transfer reactions should show \(u_{\rm eff}\)-dependent kinetic isotope effects
+                deviating from semiclassical predictions.</p>
+            </div>
+        </div>
+
+        <div class="block" style="border-left-color:#ef4444;background:rgba(239,68,68,0.04);margin-top:1rem;">
+            <div class="title" style="color:#ef4444;">Falsification Criterion</div>
+            <p style="margin:0;color:var(--text-secondary);">
+                <strong>Kill condition:</strong> Kinetic isotope effects in high-\(u_{\rm eff}\) systems match
+                semiclassical (Bigeleisen-Mayer) predictions within 10%.
+                <br><strong>Threshold:</strong> \(|{\rm KIE}^{\rm exp} - {\rm KIE}^{\rm semi}| / {\rm KIE}^{\rm semi} < 0.10\) for ≥5 reactions.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: INTERACTIVE CALCULATOR
+         ============================================================ -->
+    <section class="section" style="border:2px solid var(--gold); background:rgba(251,191,36,0.04);">
+        <h2 style="color:var(--gold);">STUR Chemistry Calculator</h2>
+
+        <p style="margin-bottom:1rem;">
+            Calculate STUR predictions for molecular systems. Enter a molecular formula to compute
+            the effective coupling and predicted enhancements.
+        </p>
+
+        <div class="calc-grid">
+            <div>
+                <label style="color:var(--text-muted);font-size:0.85rem;">Molecular Formula</label>
+                <input type="text" id="formula" class="calc-input" value="La2C36H45Bi1" placeholder="e.g., C6H6, LaH10">
+
+                <label style="color:var(--text-muted);font-size:0.85rem;margin-top:1rem;display:block;">Chronon Gain β</label>
+                <input type="number" id="beta" class="calc-input" value="0.85" step="0.05">
+
+                <label style="color:var(--text-muted);font-size:0.85rem;margin-top:1rem;display:block;">Reference Bond Energy (kJ/mol)</label>
+                <input type="number" id="refDe" class="calc-input" value="400" step="10">
+
+                <label style="color:var(--text-muted);font-size:0.85rem;margin-top:1rem;display:block;">Reference Activation Energy (kJ/mol)</label>
+                <input type="number" id="refEa" class="calc-input" value="80" step="5">
+
+                <button id="calcBtn" class="glass-btn primary" style="width:100%;margin-top:1rem;">
+                    <span class="stur-icon icon-calculator"></span>
+                    Calculate STUR Effects
+                </button>
+            </div>
+
+            <div class="calc-result">
+                <h4 style="margin:0 0 1rem;color:var(--gold);">Results</h4>
+
+                <div class="result-row">
+                    <span class="result-label">Formula</span>
+                    <span class="result-value" id="r_formula">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">u_geo</span>
+                    <span class="result-value" id="r_ugeo">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">u_chr</span>
+                    <span class="result-value" id="r_uchr">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">u_eff</span>
+                    <span class="result-value" id="r_ueff">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">S(u_eff)</span>
+                    <span class="result-value" id="r_Su">—</span>
+                </div>
+                <div class="result-row" style="border-top:2px solid rgba(255,255,255,0.1);margin-top:0.5rem;padding-top:1rem;">
+                    <span class="result-label">Bond Energy Enhancement</span>
+                    <span class="result-value" id="r_De" style="color:#4ade80;">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">D_e^STUR (kJ/mol)</span>
+                    <span class="result-value" id="r_DeVal">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Activation Energy Reduction</span>
+                    <span class="result-value" id="r_Ea" style="color:#fbbf24;">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">E_a^STUR (kJ/mol)</span>
+                    <span class="result-value" id="r_EaVal">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Rate Enhancement (300 K)</span>
+                    <span class="result-value" id="r_rate" style="color:#22d3ee;">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Resonance Enhancement</span>
+                    <span class="result-value" id="r_res" style="color:#a78bfa;">—</span>
+                </div>
+                <div class="result-row" style="border-top:2px solid rgba(255,255,255,0.1);margin-top:0.5rem;padding-top:1rem;">
+                    <span class="result-label">STUR Effect Level</span>
+                    <span class="result-value" id="r_verdict">—</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: SUMMARY FALSIFICATION
+         ============================================================ -->
+    <section class="section" style="border:2px solid #ef4444; background:rgba(239,68,68,0.04);">
+        <h2 style="color:#ef4444;">Falsification Summary</h2>
+
+        <p style="margin-bottom:1rem;"><strong>STUR's chemistry predictions are falsified if any of the following are observed:</strong></p>
+
+        <div style="display:grid;gap:0.75rem;">
+            <div class="block" style="border-left-color:#ef4444;">
+                <div class="title" style="color:#ef4444;">Kill-1: Bond Energy Null</div>
+                <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+                    High-\(u_{\rm eff}\) compounds show bond energies matching QM predictions within 2%.
+                </p>
+            </div>
+            <div class="block" style="border-left-color:#ef4444;">
+                <div class="title" style="color:#ef4444;">Kill-2: Activation Energy Null</div>
+                <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+                    Reaction kinetics for high-\(u_{\rm eff}\) systems match TST predictions within 5%.
+                </p>
+            </div>
+            <div class="block" style="border-left-color:#ef4444;">
+                <div class="title" style="color:#ef4444;">Kill-3: Catalysis Null</div>
+                <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+                    Catalyst TOF shows no correlation with \(u_{\rm eff}\) (\(r < 0.3\)).
+                </p>
+            </div>
+            <div class="block" style="border-left-color:#ef4444;">
+                <div class="title" style="color:#ef4444;">Kill-4: Aromaticity Null</div>
+                <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+                    Heavy-atom aromatics show resonance energies matching Hückel within 5%.
+                </p>
+            </div>
+            <div class="block" style="border-left-color:#ef4444;">
+                <div class="title" style="color:#ef4444;">Kill-5: Tunneling Null</div>
+                <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+                    Kinetic isotope effects match semiclassical predictions within 10%.
+                </p>
+            </div>
+        </div>
+
+        <div class="block success" style="margin-top:1.5rem;">
+            <div class="title">Experimental Test Strategy</div>
+            <p style="margin:0;color:var(--text-secondary);">
+                The most direct test is to synthesize a series of compounds with systematically varying \(u_{\rm eff}\)
+                (e.g., varying H:C ratio while keeping heavy-atom anchors constant) and measure bond dissociation energies
+                or reaction kinetics. A positive correlation between \(u_{\rm eff}\) and the enhancement ratio would
+                support STUR; null correlation falsifies the chemistry predictions.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION: REFERENCES
+         ============================================================ -->
+    <section class="section" style="border:2px solid var(--border-dim);">
+        <h2 style="color:var(--text-muted);">References</h2>
+        <ol style="margin:0;padding-left:1.5rem;color:var(--text-muted);font-size:0.9rem;">
+            <li>STUR Core Theory — <a href="stur_core_theory.html" style="color:var(--accent);">Master Action derivation</a></li>
+            <li>STUR XCRM Closure — <a href="stur_xcrm_closure.html" style="color:var(--accent);">Coherence length derivation</a></li>
+            <li>STUR Superconductor — <a href="stur_superconductor.html" style="color:var(--accent);">Parallel Cooper pair analysis</a></li>
+            <li>STUR Predictions — <a href="stur_predictions.html" style="color:var(--accent);">Visibility law and falsification</a></li>
+        </ol>
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
+    <p>STUR Physics Lab — A falsifiable unified framework</p>
+    <p>
+        <a href="stur_core_theory.html">Core Theory</a> ·
+        <a href="stur_predictions.html">Predictions</a> ·
+        <a href="stur_superconductor.html">Superconductor</a> ·
+        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
+    </p>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+/* STUR Chemistry Calculator */
+const CHRONON = {La: 0.14, C: 0.04, H: 0.01, Bi: 0.42, Fe: 0.18, Pt: 0.35, Pd: 0.30, Zn: 0.12, N: 0.03, O: 0.03, S: 0.08};
+const ANCHOR = {La: 2.0, Bi: 3.0, Fe: 1.5, Pt: 2.5, Pd: 2.2, Zn: 1.2};
+const SIGMA_LX = 0.15; // σ_R / L_X ratio
+
+function parseFormula(s) {
+    const r = {};
+    for (const m of s.matchAll(/([A-Z][a-z]?)(\d*)/g)) {
+        if (m[1]) r[m[1]] = +m[2] || 1;
+    }
+    return Object.keys(r).length ? r : null;
+}
+
+function Su(u) {
+    return Math.tanh(u) * (1 - Math.exp(-Math.max(0, u)));
+}
+
+function u_geo(s, aH = 0.12) {
+    const C = s.C || 0, H = s.H || 0;
+    if (!C && !H) return 0;
+    let anc = 0;
+    for (let k in s) anc += (ANCHOR[k] || 0) * s[k];
+    if (anc === 0) anc = 1;
+    const val = Math.sqrt(Math.max(1, C)) * Math.pow(Math.max(1, H) / anc, 1/3) / aH;
+    return Math.log(Math.max(0.01, val));
+}
+
+function u_chr(s) {
+    let tot = 0;
+    for (let k in s) tot += s[k];
+    if (tot === 0) return 0;
+    let v = 0;
+    for (let k in s) v += (CHRONON[k] || 0.02) * (s[k] / tot);
+    return (v - 0.04) / 0.10;
+}
+
+function calculate() {
+    const formula = document.getElementById('formula').value;
+    const beta = parseFloat(document.getElementById('beta').value) || 0.85;
+    const refDe = parseFloat(document.getElementById('refDe').value) || 400;
+    const refEa = parseFloat(document.getElementById('refEa').value) || 80;
+
+    const s = parseFormula(formula);
+    if (!s) {
+        document.getElementById('r_formula').textContent = 'Invalid formula';
+        return;
+    }
+
+    const ug = u_geo(s);
+    const uc = u_chr(s);
+    const ue = ug + beta * uc;
+    const su = Su(ue);
+
+    // Calculate enhancements
+    const deEnhance = 1 + su * SIGMA_LX;
+    const eaReduce = Math.exp(-su * SIGMA_LX);
+    const deStur = refDe * deEnhance;
+    const eaStur = refEa * eaReduce;
+
+    // Rate enhancement at 300 K
+    const kBT = 8.314 * 300 / 1000; // kJ/mol
+    const rateEnhance = Math.exp((refEa - eaStur) / kBT);
+
+    // Resonance enhancement
+    const resEnhance = 1 + su / 2;
+
+    // Verdict
+    let verdict, verdictClass;
+    if (ue > 1.5) {
+        verdict = 'STRONG STUR';
+        verdictClass = 'verdict-enhanced';
+    } else if (ue > 0.8) {
+        verdict = 'MODERATE STUR';
+        verdictClass = 'verdict-standard';
+    } else {
+        verdict = 'WEAK STUR';
+        verdictClass = 'verdict-weak';
+    }
+
+    // Display results
+    document.getElementById('r_formula').textContent = formula;
+    document.getElementById('r_ugeo').textContent = ug.toFixed(3);
+    document.getElementById('r_uchr').textContent = uc.toFixed(3);
+    document.getElementById('r_ueff').textContent = ue.toFixed(3);
+    document.getElementById('r_Su').textContent = su.toFixed(4);
+    document.getElementById('r_De').textContent = '+' + ((deEnhance - 1) * 100).toFixed(1) + '%';
+    document.getElementById('r_DeVal').textContent = deStur.toFixed(1);
+    document.getElementById('r_Ea').textContent = '-' + ((1 - eaReduce) * 100).toFixed(1) + '%';
+    document.getElementById('r_EaVal').textContent = eaStur.toFixed(1);
+    document.getElementById('r_rate').textContent = rateEnhance.toFixed(2) + '×';
+    document.getElementById('r_res').textContent = '+' + ((resEnhance - 1) * 100).toFixed(1) + '%';
+
+    const verdictEl = document.getElementById('r_verdict');
+    verdictEl.textContent = verdict;
+    verdictEl.className = 'result-value ' + verdictClass;
+}
+
+document.getElementById('calcBtn').addEventListener('click', calculate);
+document.getElementById('formula').addEventListener('keypress', (e) => { if (e.key === 'Enter') calculate(); });
+
+// Initial calculation
+calculate();
+</script>
+
+<!-- Mobile Nav -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.querySelector('.glass-nav-toggle');
+    const links = document.querySelector('.glass-nav-links');
+    if (toggle && links) {
+        toggle.addEventListener('click', function() {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            links.classList.toggle('open');
+        });
+    }
+});
+</script>
+
+</body>
+</html>
