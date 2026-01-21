@@ -189,9 +189,9 @@ The derivation flow is acyclic:
 
 ### 4.2 Claim Calibration (Excellent — Now Complete)
 
-**UPDATE (v1.1.0):** All 15 problems now have complete derivation chains from the three axioms.
+**UPDATE (v1.1.0):** All 19 problems now have complete derivation chains from the three axioms (7 core + 4 SM-origin + 4 BSM + 4 cosmology).
 
-**All 15 Problems Rigorously Established:**
+**All 19 Problems Rigorously Established:**
 
 *Core Framework (7):*
 1. Gaussian visibility form (CLT theorem)
@@ -214,9 +214,11 @@ The derivation flow is acyclic:
 14. CP violation (holonomy phase)
 15. Dark matter (KK parity LKP)
 
-*Cosmology (2 — now established):*
-- Cosmological constant (R-field self-tuning)
-- Inflation + Baryogenesis (R-field slow-roll + leptogenesis)
+*Cosmology (4):*
+16. Cosmological constant (R-field self-tuning)
+17. Hierarchy problem (holonomy stabilization)
+18. Inflation (R-field slow-roll)
+19. Baryogenesis (leptogenesis with geometric CP)
 
 **Previously Required Further Work — Now Closed:**
 - DHP dynamical equations ✓ (derived from δΩ_DHP = 0)

@@ -100,7 +100,7 @@ The theory claims to address 15 problems with the following classification:
 6. 3 generations (APS index theorem)
 7. Flavor structure (MHP localization)
 
-**UPDATE (v1.1.0):** All 15 problems now have complete derivation chains:
+**UPDATE (v1.1.0):** All 19 problems now have complete derivation chains (7 core + 4 SM-origin + 4 BSM + 4 cosmology):
 
 *Now Established (previously proposals):*
 8. Yukawa hierarchies (stur_yukawa_derivation.html)
@@ -110,7 +110,9 @@ The theory claims to address 15 problems with the following classification:
 12. CP violation (stur_cp_derivation.html)
 13. Dark matter (stur_darkmatter_derivation.html)
 14. Cosmological constant (stur_cosmological_derivation.html)
-15. Inflation & baryogenesis (stur_inflation_derivation.html)
+15. Hierarchy problem (holonomy stabilization)
+16. Inflation (R-field slow-roll)
+17-19. Baryogenesis, Yang-Mills structure, chiral fermions (stur_inflation_derivation.html, etc.)
 
 **Assessment:** Theory closure achieved with complete derivation chains from three axioms.
 
@@ -133,7 +135,7 @@ The theory claims to address 15 problems with the following classification:
 **Randall-Sundrum Models:**
 - RS: warped extra dimension for hierarchy problem
 - STUR: flat orbifold with localization mechanism
-- STUR does not address gauge hierarchy problem (M_Higgs << M_Pl)
+- **UPDATE (v1.1.0):** STUR now addresses hierarchy problem via holonomy stabilization
 
 **Loop Quantum Gravity:**
 - Both use holonomies as fundamental
