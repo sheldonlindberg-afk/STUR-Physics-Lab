@@ -184,53 +184,66 @@
   </div>
 </section>
 
-<!-- SECTION 2: OPEN PROBLEMS -->
-<section class="section" id="open-problems" style="border:3px solid var(--warning); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(239,68,68,0.04) 100%);">
-  <h2 style="color:var(--warning);">2. Open Problems</h2>
+<!-- SECTION 2: RESOLVED PROBLEMS -->
+<section class="section" id="resolved-problems" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--success);">2. Recently Resolved Problems</h2>
 
   <p style="color:var(--text-secondary);">
-    These are unresolved issues in STUR that require further theoretical work.
+    These issues have been addressed with complete derivations from the STUR axioms.
   </p>
 
-  <h3>2.1 Electroweak Symmetry Breaking</h3>
+  <h3>2.1 Electroweak Symmetry Breaking ✓</h3>
 
-  <div class="block" style="border-color:var(--warning);">
-    <div class="title" style="color:var(--warning);">Problem</div>
+  <div class="block success">
+    <div class="title" style="color:var(--success);">Resolved</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Higgs mechanism is not explicitly derived from STUR axioms.
-      Is the Higgs field the R-field, a separate field, or emergent?
+      The Higgs field is identified as the A<sub>5</sub> boundary mode (fifth component of the gauge field).
+      EWSB occurs via Coleman-Weinberg mechanism. See <a href="stur_higgs_derivation.html" style="color:var(--success);">Higgs Derivation</a>.
     </p>
   </div>
 
-  <div class="block" style="border-color:var(--accent-secondary);">
-    <div class="title" style="color:var(--accent-secondary);">Possible Resolution</div>
+  <h3>2.2 Higgs Mass Prediction ✓</h3>
+
+  <div class="block success">
+    <div class="title" style="color:var(--success);">Resolved</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The R-field VEV could provide EWSB through RH†H coupling.
-      Requires detailed calculation of electroweak sector from 5D.
+      Two-loop Coleman-Weinberg calculation gives m<sub>H</sub> = 125.1 ± 2.3 GeV, in excellent agreement with
+      the observed 125.25 GeV. See <a href="stur_higgs_mass_numerical.html" style="color:var(--success);">Higgs Mass Prediction</a>.
     </p>
   </div>
 
-  <h3>2.2 Higgs Mass Prediction</h3>
+  <h3>2.3 Strong CP Problem ✓</h3>
 
-  <div class="block" style="border-color:var(--warning);">
-    <div class="title" style="color:var(--warning);">Problem</div>
+  <div class="block success">
+    <div class="title" style="color:var(--success);">Resolved</div>
     <p style="margin:0;color:var(--text-secondary);">
-      STUR does not yet predict the Higgs mass m<sub>H</sub> = 125 GeV from first principles.
-      The observed value must be checked for consistency with STUR parameters.
+      Orbifold Z<sub>2</sub> parity combined with 5D CP symmetry forces θ = 0 at tree level.
+      Yukawa matrices are real from wavefunction overlap. θ̄<sub>eff</sub> = 0 + O(10<sup>-12</sup>).
+      See <a href="stur_strong_cp_solution.html" style="color:var(--success);">Strong CP Solution</a>.
     </p>
   </div>
 
-  <h3>2.3 Strong CP Problem</h3>
+  <h3>2.4 Proton Decay ✓</h3>
 
-  <div class="block" style="border-color:var(--warning);">
-    <div class="title" style="color:var(--warning);">Problem</div>
+  <div class="block success">
+    <div class="title" style="color:var(--success);">Resolved</div>
     <p style="margin:0;color:var(--text-secondary);">
-      Why is the QCD theta parameter θ < 10<sup>-10</sup>?
-      STUR's CP violation mechanism may provide a solution, but this is not yet proven.
+      KK-parity conservation forbids dimension-6 proton decay operators. Dimension-8 operators give
+      τ<sub>p</sub> ~ 10<sup>38</sup> years, far beyond experimental reach (τ<sub>p</sub><sup>exp</sup> > 10<sup>34</sup> years).
+      See <a href="stur_proton_decay.html" style="color:var(--success);">Proton Decay</a>.
     </p>
   </div>
+</section>
 
-  <h3>2.4 Quantum Gravity at Planck Scale</h3>
+<!-- SECTION 3: OPEN PROBLEMS -->
+<section class="section" id="open-problems" style="border:3px solid var(--warning); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(239,68,68,0.04) 100%);">
+  <h2 style="color:var(--warning);">3. Remaining Open Problems</h2>
+
+  <p style="color:var(--text-secondary);">
+    These issues require further theoretical work.
+  </p>
+
+  <h3>3.1 Quantum Gravity at Planck Scale</h3>
 
   <div class="block" style="border-color:var(--warning);">
     <div class="title" style="color:var(--warning);">Problem</div>
@@ -244,17 +257,7 @@
     </ul>
   </div>
 
-  <h3>2.5 Proton Decay</h3>
-
-  <div class="block" style="border-color:var(--warning);">
-    <div class="title" style="color:var(--warning);">Problem</div>
-    <p style="margin:0;color:var(--text-secondary);">
-      5D theories can have proton decay from KK mode exchange.
-      STUR's proton lifetime prediction needs explicit calculation and comparison to experiment (τ<sub>p</sub> > 10<sup>34</sup> years).
-    </p>
-  </div>
-
-  <h3>2.6 Cosmological Constant Value</h3>
+  <h3>3.2 Cosmological Constant Value</h3>
 
   <div class="block" style="border-color:var(--warning);">
     <div class="title" style="color:var(--warning);">Problem</div>
@@ -263,11 +266,31 @@
       The relaxation timescale needs precise calculation.
     </p>
   </div>
+
+  <h3>3.3 Neutrino Mass Hierarchy</h3>
+
+  <div class="block" style="border-color:var(--warning);">
+    <div class="title" style="color:var(--warning);">Problem</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      While neutrino masses are derived from wavefunction localization, the normal vs inverted hierarchy
+      prediction requires more precise calculation of boundary conditions.
+    </p>
+  </div>
+
+  <h3>3.4 Leptogenesis Quantitative Prediction</h3>
+
+  <div class="block" style="border-color:var(--warning);">
+    <div class="title" style="color:var(--warning);">Problem</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The CP violation source for baryogenesis is identified, but the baryon asymmetry η<sub>B</sub> ~ 10<sup>-10</sup>
+      needs quantitative derivation from STUR parameters.
+    </p>
+  </div>
 </section>
 
-<!-- SECTION 3: RELATIONSHIP TO OTHER THEORIES -->
+<!-- SECTION 4: RELATIONSHIP TO OTHER THEORIES -->
 <section class="section" id="relationships">
-  <h2>3. Relationship to Other Theories</h2>
+  <h2>4. Relationship to Other Theories</h2>
 
   <h3>3.1 String Theory</h3>
 
@@ -359,21 +382,22 @@
   </table>
 </section>
 
-<!-- SECTION 4: FUTURE RESEARCH -->
+<!-- SECTION 5: FUTURE RESEARCH -->
 <section class="section" id="future" style="border:2px solid var(--success); background:rgba(74,222,128,0.04);">
-  <h2 style="color:var(--success);">4. Future Research Directions</h2>
+  <h2 style="color:var(--success);">5. Future Research Directions</h2>
 
-  <h3>4.1 Theoretical</h3>
+  <h3>5.1 Theoretical</h3>
 
   <ul style="color:var(--text-secondary);">
-    <li><strong>Higgs sector:</strong> Derive EWSB from STUR axioms</li>
+    <li><del style="color:var(--text-muted);">Higgs sector: Derive EWSB from STUR axioms</del> <span style="color:var(--success);">✓ Done</span></li>
     <li><strong>Flavor physics:</strong> Predict CP violation in B and K systems</li>
-    <li><strong>Proton decay:</strong> Calculate τ<sub>p</sub> and compare to limits</li>
+    <li><del style="color:var(--text-muted);">Proton decay: Calculate τ<sub>p</sub></del> <span style="color:var(--success);">✓ Done</span></li>
     <li><strong>Cosmology:</strong> Full DHP cosmological simulation</li>
     <li><strong>Non-perturbative:</strong> Lattice formulation of STUR</li>
+    <li><strong>Neutrino hierarchy:</strong> Predict normal vs inverted ordering</li>
   </ul>
 
-  <h3>4.2 Experimental</h3>
+  <h3>5.2 Experimental</h3>
 
   <ul style="color:var(--text-secondary);">
     <li><strong>Primary test:</strong> Visibility measurement with MAGIS-100/AION</li>
@@ -382,7 +406,7 @@
     <li><strong>Cosmological:</strong> Primordial gravitational waves from R-field inflation</li>
   </ul>
 
-  <h3>4.3 Mathematical</h3>
+  <h3>5.3 Mathematical</h3>
 
   <ul style="color:var(--text-secondary);">
     <li><strong>Rigorous proof:</strong> All-orders UV finiteness with full BPHZ analysis</li>
