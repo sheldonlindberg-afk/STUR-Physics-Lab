@@ -1565,16 +1565,16 @@ print("═" * 70)
     <script>
     function copySTURScript() {
         const script = document.getElementById('sturVerificationScript').textContent;
-        navigator.clipboard.writeText(script).then(() =&gt; {
+        navigator.clipboard.writeText(script).then(() => {
             const btn = document.getElementById('copyScriptBtn');
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = '&lt;span class="stur-icon icon-check"&gt;&lt;/span&gt; Copied!';
+            btn.innerHTML = '<span class="stur-icon icon-check"></span> Copied!';
             btn.style.background = 'var(--neon-green)';
-            setTimeout(() =&gt; {
+            setTimeout(() => {
                 btn.innerHTML = originalHTML;
                 btn.style.background = '';
             }, 2000);
-        }).catch(err =&gt; {
+        }).catch(err => {
             console.error('Copy failed:', err);
             alert('Copy failed. Please select and copy manually.');
         });
