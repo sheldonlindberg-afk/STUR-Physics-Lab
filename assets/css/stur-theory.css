@@ -104,15 +104,15 @@ a:hover { color: var(--accent-secondary); }
   font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 50%, var(--accent-secondary) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--neon-cyan, #22d3ee) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Core Theory title style - gold gradient */
+/* Core Theory title style - white to cyan gradient */
 .page-title-core {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--text) 50%, var(--accent) 100%) !important;
+  background: linear-gradient(135deg, #ffffff 0%, var(--neon-cyan, #22d3ee) 100%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   -webkit-text-fill-color: transparent !important;

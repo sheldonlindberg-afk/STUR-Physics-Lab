@@ -172,19 +172,31 @@
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 1.1rem;
-  color: var(--neon-gold);
+  color: #ffffff;
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
   z-index: 101;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  transition: all 0.2s ease;
+}
+
+.glass-nav-brand:hover {
+  color: var(--neon-cyan);
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
 }
 
 .nav-logo {
   width: 32px;
   height: 32px;
-  border-radius: 6px;
+  border-radius: 10px;
   object-fit: cover;
   flex-shrink: 0;
 }
@@ -198,7 +210,7 @@
 
 .glass-nav-link {
   padding: 0.5rem 0.85rem;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md, 12px);
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.88rem;
@@ -216,9 +228,10 @@
 }
 
 .glass-nav-link.active {
-  color: var(--neon-gold);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(251, 191, 36, 0.2);
+  color: var(--neon-cyan);
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.15);
 }
 
 /* Social icons in nav header */
@@ -449,9 +462,10 @@
   }
 
   .glass-nav-link.active {
-    color: var(--neon-gold);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(251, 191, 36, 0.25);
+    color: var(--neon-cyan);
+    background: rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.35);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
   }
 
   /* Share button in mobile menu */
@@ -546,9 +560,15 @@ button.glass-nav-link:hover {
 }
 
 .glass-btn.gold {
-  background: rgba(251, 191, 36, 0.15);
-  border-color: rgba(251, 191, 36, 0.3);
-  color: var(--neon-gold);
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.3);
+  color: var(--neon-cyan);
+}
+
+.glass-btn.gold:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
 }
 
 .glass-btn.sm {
@@ -611,12 +631,12 @@ button.glass-nav-link:hover {
   border-color: rgba(255, 255, 255, 0.15);
 }
 
-/* Citation button - styled to match banner with pill shape */
+/* Citation button - liquid glass with cyan glow */
 .btn.cite,
 .btn-cite {
-  background: rgba(251, 191, 36, 0.12);
-  color: var(--neon-gold, #fbbf24);
-  border: 1px solid rgba(251, 191, 36, 0.25);
+  background: rgba(56, 189, 248, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(56, 189, 248, 0.25);
   font-size: 0.8rem;
   padding: 0.5rem 1.25rem;
   border-radius: var(--radius-full, 999px);
@@ -624,10 +644,11 @@ button.glass-nav-link:hover {
 
 .btn.cite:hover,
 .btn-cite:hover {
-  background: rgba(251, 191, 36, 0.2);
-  border-color: rgba(251, 191, 36, 0.4);
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: var(--neon-cyan);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
 }
 
 /* === GLASS INPUTS === */
