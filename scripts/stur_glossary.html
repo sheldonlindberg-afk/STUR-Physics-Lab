@@ -108,6 +108,84 @@
     </p>
   </div>
 
+  <!-- ORBIFOLD VISUAL EXPLANATION -->
+  <div class="block" style="margin-bottom:1.5rem;border-left-color:var(--accent-secondary);border-width:3px;">
+    <div class="title" style="color:var(--accent-secondary);font-size:1.1rem;">Orbifold S¹/Z₂ — The Shape of the Extra Dimension</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      An <strong>orbifold</strong> is a geometric space with special "folding" symmetry. STUR uses the simplest orbifold: a circle folded in half.
+    </p>
+
+    <!-- Visual Diagram -->
+    <div style="display:flex;flex-wrap:wrap;gap:24px;margin:1.25rem 0;align-items:center;justify-content:center;">
+      <!-- Step 1: Circle -->
+      <div style="text-align:center;">
+        <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:8px;">Step 1: Start with a circle</div>
+        <svg width="100" height="100" viewBox="0 0 100 100" style="display:block;margin:0 auto;">
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#a78bfa" stroke-width="3"/>
+          <circle cx="50" cy="10" r="5" fill="#fbbf24"/>
+          <circle cx="50" cy="90" r="5" fill="#fbbf24"/>
+          <text x="50" y="55" text-anchor="middle" fill="#94a3b8" font-size="12">S¹</text>
+        </svg>
+        <div style="font-size:0.7rem;color:var(--text-quaternary);">Circle (S¹)</div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="font-size:1.5rem;color:var(--text-muted);">→</div>
+
+      <!-- Step 2: Fold -->
+      <div style="text-align:center;">
+        <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:8px;">Step 2: Fold in half (Z₂)</div>
+        <svg width="100" height="100" viewBox="0 0 100 100" style="display:block;margin:0 auto;">
+          <path d="M 50 10 Q 90 50 50 90" fill="none" stroke="#a78bfa" stroke-width="3"/>
+          <path d="M 50 10 Q 10 50 50 90" fill="none" stroke="#a78bfa" stroke-width="3" stroke-dasharray="5,5" opacity="0.4"/>
+          <circle cx="50" cy="10" r="5" fill="#fbbf24"/>
+          <circle cx="50" cy="90" r="5" fill="#fbbf24"/>
+          <path d="M 30 50 L 45 50 M 40 45 L 45 50 L 40 55" stroke="#ef4444" stroke-width="2" fill="none"/>
+        </svg>
+        <div style="font-size:0.7rem;color:var(--text-quaternary);">Folding...</div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="font-size:1.5rem;color:var(--text-muted);">→</div>
+
+      <!-- Step 3: Orbifold -->
+      <div style="text-align:center;">
+        <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:8px;">Step 3: Result is a line segment</div>
+        <svg width="100" height="100" viewBox="0 0 100 100" style="display:block;margin:0 auto;">
+          <line x1="50" y1="15" x2="50" y2="85" stroke="#a78bfa" stroke-width="4"/>
+          <circle cx="50" cy="15" r="6" fill="#fbbf24" stroke="#fbbf24" stroke-width="2"/>
+          <circle cx="50" cy="85" r="6" fill="#fbbf24" stroke="#fbbf24" stroke-width="2"/>
+          <text x="65" y="18" fill="#fbbf24" font-size="10">X = 0</text>
+          <text x="65" y="88" fill="#fbbf24" font-size="10">X = L_X</text>
+          <text x="50" y="55" text-anchor="middle" fill="#94a3b8" font-size="10">S¹/Z₂</text>
+        </svg>
+        <div style="font-size:0.7rem;color:var(--text-quaternary);">Orbifold with boundaries</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(167,139,250,0.08);padding:12px 16px;border-radius:8px;margin-top:0.75rem;">
+      <strong style="color:var(--accent-secondary);font-size:0.85rem;">Plain English:</strong>
+      <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);line-height:1.6;">
+        An orbifold is like a circle that's been <strong>folded in half</strong>, creating a line segment with two special <strong>boundary points</strong>
+        (shown in gold). These boundaries are called "fixed points" because they don't move when you fold. The "Z₂" means the fold identifies
+        opposite points: if you walk one way around the original circle, you end up at the same spot as walking the other way.
+      </p>
+    </div>
+
+    <div style="background:rgba(74,222,128,0.08);padding:12px 16px;border-radius:8px;margin-top:0.75rem;">
+      <strong style="color:#4ade80;font-size:0.85rem;">Why This Matters for Physics:</strong>
+      <ul style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);line-height:1.7;">
+        <li>The boundary conditions at X = 0 and X = L_X <strong>force</strong> the potential V(R) to have a specific double-well shape</li>
+        <li>Matter (fermions) gets <strong>trapped</strong> at the boundaries—this is where we live in 4D</li>
+        <li>The <strong>winding number</strong> around this shape determines how many particle generations exist (answer: 3)</li>
+      </ul>
+    </div>
+
+    <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.85rem;">
+      <strong>Size:</strong> L_X ~ 0.1-10 μm (about the size of a bacterium to a human cell—tiny, but not Planck-scale tiny)
+    </p>
+  </div>
+
   <div class="block" style="margin-bottom:1.5rem;border-left-color:var(--accent);">
     <div class="title" style="color:var(--accent);">R-field — Resistance Field</div>
     <p style="margin:0;color:var(--text-secondary);">
@@ -213,7 +291,7 @@
 
 <!-- AXIOMS -->
 <section class="section" id="axioms" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
-  <h2 style="color:var(--success);">The Two Axioms</h2>
+  <h2 style="color:var(--success);">The Three Axioms</h2>
 
   <div class="block gold" style="margin-bottom:1.5rem;border-width:2px;">
     <div class="title">Axiom 1 — Master Action</div>
@@ -306,6 +384,120 @@
         \(\Matt{V} = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\). Testable in interferometers.
       </p>
     </div>
+  </div>
+</section>
+
+<!-- VISIBILITY EXPLAINED FOR NOVICES -->
+<section class="section" id="visibility-explained" style="border:2px solid var(--matter); background:linear-gradient(135deg, rgba(34,211,238,0.08) 0%, rgba(34,211,238,0.02) 100%);">
+  <h2 style="color:var(--matter);">What is "Visibility"? (Novice Explanation)</h2>
+
+  <p style="font-size:1rem;color:var(--text);margin-bottom:1.25rem;">
+    STUR's main prediction involves <strong>visibility decay</strong> in interferometers. Here's what that means, explained from scratch.
+  </p>
+
+  <!-- What is an interferometer? -->
+  <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:20px;margin-bottom:1.25rem;border:1px solid var(--border-subtle);">
+    <h3 style="color:var(--matter);font-size:0.95rem;margin-bottom:0.75rem;">What is an Interferometer?</h3>
+    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:1rem;">
+      An interferometer splits a beam (of light or atoms) into two paths, sends them different ways, then recombines them.
+      When the beams meet again, they <strong>interfere</strong>—creating a pattern of bright and dark stripes called <em>fringes</em>.
+    </p>
+
+    <!-- Simple Diagram -->
+    <div style="display:flex;justify-content:center;margin:1rem 0;">
+      <svg width="320" height="140" viewBox="0 0 320 140" style="max-width:100%;">
+        <!-- Source -->
+        <circle cx="30" cy="70" r="15" fill="#fbbf24"/>
+        <text x="30" y="74" text-anchor="middle" fill="#000" font-size="10" font-weight="bold">Source</text>
+
+        <!-- Splitter -->
+        <rect x="70" y="55" width="20" height="30" fill="#a78bfa" rx="3"/>
+        <text x="80" y="100" text-anchor="middle" fill="#94a3b8" font-size="9">Split</text>
+
+        <!-- Top path -->
+        <line x1="90" y1="60" x2="150" y2="60" stroke="#22d3ee" stroke-width="2"/>
+        <line x1="150" y1="60" x2="150" y2="30" stroke="#22d3ee" stroke-width="2"/>
+        <line x1="150" y1="30" x2="210" y2="30" stroke="#22d3ee" stroke-width="2"/>
+        <line x1="210" y1="30" x2="210" y2="60" stroke="#22d3ee" stroke-width="2"/>
+        <text x="180" y="22" text-anchor="middle" fill="#22d3ee" font-size="9">Path A</text>
+
+        <!-- Bottom path -->
+        <line x1="90" y1="80" x2="150" y2="80" stroke="#f472b6" stroke-width="2"/>
+        <line x1="150" y1="80" x2="150" y2="110" stroke="#f472b6" stroke-width="2"/>
+        <line x1="150" y1="110" x2="210" y2="110" stroke="#f472b6" stroke-width="2"/>
+        <line x1="210" y1="110" x2="210" y2="80" stroke="#f472b6" stroke-width="2"/>
+        <text x="180" y="125" text-anchor="middle" fill="#f472b6" font-size="9">Path B</text>
+
+        <!-- Recombiner -->
+        <rect x="210" y="55" width="20" height="30" fill="#a78bfa" rx="3"/>
+        <text x="220" y="100" text-anchor="middle" fill="#94a3b8" font-size="9">Recombine</text>
+
+        <!-- Detector with fringes -->
+        <rect x="260" y="45" width="50" height="50" fill="#1a1a2e" stroke="#4ade80" stroke-width="2" rx="5"/>
+        <line x1="268" y1="55" x2="268" y2="85" stroke="#4ade80" stroke-width="2"/>
+        <line x1="278" y1="55" x2="278" y2="85" stroke="#1a1a2e" stroke-width="2"/>
+        <line x1="288" y1="55" x2="288" y2="85" stroke="#4ade80" stroke-width="2"/>
+        <line x1="298" y1="55" x2="298" y2="85" stroke="#1a1a2e" stroke-width="2"/>
+        <text x="285" y="108" text-anchor="middle" fill="#4ade80" font-size="9">Fringes!</text>
+      </svg>
+    </div>
+
+    <p style="color:var(--text-tertiary);font-size:0.85rem;line-height:1.6;">
+      The pattern depends on the <strong>path difference</strong> (ΔL)—how much longer one path is than the other.
+      Change ΔL, and the fringes shift.
+    </p>
+  </div>
+
+  <!-- What is Visibility? -->
+  <div style="background:rgba(74,222,128,0.06);border-radius:12px;padding:20px;margin-bottom:1.25rem;border-left:3px solid #4ade80;">
+    <h3 style="color:#4ade80;font-size:0.95rem;margin-bottom:0.75rem;">What is "Visibility"?</h3>
+    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">
+      <strong>Visibility measures how clear the fringes are.</strong>
+    </p>
+    <ul style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;margin:0.75rem 0;">
+      <li><strong>V = 100%:</strong> Perfect fringes—bright stripes are maximally bright, dark stripes are completely dark</li>
+      <li><strong>V = 50%:</strong> Faded fringes—you can still see the pattern, but it's less distinct</li>
+      <li><strong>V = 0%:</strong> No fringes—just uniform gray, pattern completely washed out</li>
+    </ul>
+
+    <!-- Visibility examples -->
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:1rem;">
+      <div style="text-align:center;">
+        <div style="width:80px;height:40px;background:repeating-linear-gradient(90deg,#4ade80,#4ade80 8px,#0a0a0f 8px,#0a0a0f 16px);border-radius:4px;"></div>
+        <div style="font-size:0.75rem;color:#4ade80;margin-top:4px;">V = 100%</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="width:80px;height:40px;background:repeating-linear-gradient(90deg,#4ade80aa,#4ade80aa 8px,#2a2a3f 8px,#2a2a3f 16px);border-radius:4px;"></div>
+        <div style="font-size:0.75rem;color:#fbbf24;margin-top:4px;">V = 50%</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="width:80px;height:40px;background:#3a3a4f;border-radius:4px;"></div>
+        <div style="font-size:0.75rem;color:#ef4444;margin-top:4px;">V = 0%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What STUR predicts -->
+  <div style="background:rgba(251,191,36,0.08);border-radius:12px;padding:20px;border:2px solid #fbbf24;">
+    <h3 style="color:#fbbf24;font-size:0.95rem;margin-bottom:0.75rem;">What STUR Predicts</h3>
+    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:0.75rem;">
+      Standard physics says visibility should stay near 100% (assuming a good apparatus).
+      <strong>STUR predicts visibility decreases as path difference increases</strong>—and in a very specific way:
+    </p>
+    <div style="background:#000;border-radius:8px;padding:16px;text-align:center;margin:1rem 0;">
+      <span style="color:#fbbf24;font-size:1.1rem;font-family:serif;">V(ΔL) = V₀ · e<sup>−ΔL²/ℓ²</sup></span>
+    </div>
+    <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:1.7;">
+      <li><strong>Gaussian</strong> — the decay is smooth and bell-curve-shaped (ΔL² in the exponent)</li>
+      <li><strong>No oscillations</strong> — just steady decay, no wiggles</li>
+      <li><strong>No time dependence</strong> — same pattern whether you wait 1 second or 1 hour</li>
+      <li><strong>Coherence length ℓ</strong> — the scale where visibility drops to ~37% (estimated 0.3–30 m)</li>
+    </ul>
+
+    <p style="color:var(--text-tertiary);font-size:0.85rem;margin-top:1rem;">
+      <strong>Everyday scale:</strong> The coherence length (0.3–30 m) is about the length of a car to a small building.
+      This is measurable with current technology!
+    </p>
   </div>
 </section>
 

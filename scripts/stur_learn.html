@@ -42,8 +42,71 @@
   </p>
 </header>
 
+<!-- WHY STUR? THE PROBLEM IT SOLVES -->
+<section class="section" id="why-stur" style="margin-top: 0; border: 2px solid var(--gold); background: linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color: var(--gold);">Why Does Physics Need STUR?</h2>
+
+  <p style="font-size: 1.05rem; color: var(--text); margin-bottom: 1.5rem;">
+    Modern physics is remarkably successful—but it's also incomplete. Here's what we <em>can't</em> explain with current theories:
+  </p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 1.5rem;">
+    <div style="padding: 16px; background: rgba(239,68,68,0.08); border-radius: 12px; border-left: 3px solid #ef4444;">
+      <strong style="color: #ef4444;">The Parameter Problem</strong>
+      <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">
+        The Standard Model has <strong>~20 free parameters</strong> (particle masses, coupling strengths, mixing angles) that we simply measure and plug in.
+        <em>Why these numbers?</em> Nobody knows.
+      </p>
+    </div>
+    <div style="padding: 16px; background: rgba(239,68,68,0.08); border-radius: 12px; border-left: 3px solid #ef4444;">
+      <strong style="color: #ef4444;">The Generation Mystery</strong>
+      <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">
+        Why are there <strong>exactly 3 copies</strong> of each particle type (electron/muon/tau, up/charm/top, etc.)?
+        The Standard Model just accepts this as a fact.
+      </p>
+    </div>
+    <div style="padding: 16px; background: rgba(239,68,68,0.08); border-radius: 12px; border-left: 3px solid #ef4444;">
+      <strong style="color: #ef4444;">Gravity vs Quantum</strong>
+      <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">
+        General relativity (gravity) and quantum mechanics are both correct—but they <strong>don't fit together</strong>.
+        At extreme scales, the math breaks down.
+      </p>
+    </div>
+    <div style="padding: 16px; background: rgba(239,68,68,0.08); border-radius: 12px; border-left: 3px solid #ef4444;">
+      <strong style="color: #ef4444;">Why This Gauge Group?</strong>
+      <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">
+        The forces are described by SU(3)×SU(2)×U(1). <em>Why this specific combination?</em>
+        It's assumed, not derived.
+      </p>
+    </div>
+  </div>
+
+  <div style="padding: 20px; background: rgba(74,222,128,0.08); border-radius: 12px; border: 2px solid #4ade80; margin-bottom: 1rem;">
+    <strong style="color: #4ade80; font-size: 1.1rem;">What STUR Claims to Do</strong>
+    <p style="margin: 12px 0 0; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
+      STUR proposes that <strong>all of these "mysteries" aren't mysterious at all</strong>—they're forced by geometry.
+      If our universe has one small extra dimension with a specific shape (an "orbifold"), then:
+    </p>
+    <ul style="margin: 12px 0 0; color: var(--text-secondary); line-height: 1.8;">
+      <li>The 3 generations <strong>must</strong> exist (topological winding numbers)</li>
+      <li>The gauge group <strong>must</strong> be SU(3)×SU(2)×U(1) (holonomy minimization)</li>
+      <li>All 20+ parameters are <strong>derived</strong>, not input</li>
+      <li>Gravity and quantum mechanics <strong>emerge together</strong> from the same source</li>
+    </ul>
+  </div>
+
+  <div style="padding: 14px 18px; background: rgba(96,165,250,0.06); border-radius: 8px; border-left: 3px solid #60a5fa;">
+    <strong style="color: #60a5fa; font-size: 0.9rem;">The Key Test</strong>
+    <p style="margin: 6px 0 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">
+      If STUR is right, matter-wave interferometers should see a specific pattern: <strong>Gaussian visibility decay</strong>.
+      If they see anything else (oscillations, exponential decay, time-dependence), STUR is wrong.
+      This isn't "maybe testable someday"—<a href="stur_numerical_predictions.html" style="color:#60a5fa;">current experiments can check this</a>.
+    </p>
+  </div>
+</section>
+
 <!-- EQUATION COLOR CODING SYSTEM -->
-<section class="section" id="color-coding" style="margin-top: 0; padding-top: 1rem;">
+<section class="section" id="color-coding" style="padding-top: 1rem;">
   <h2>Reading STUR Equations</h2>
 
   <p>
@@ -277,6 +340,129 @@
       </div>
     </div>
   </div>
+</section>
+
+<!-- DERIVATION FLOWCHART -->
+<section class="section" id="derivation-map" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(96,165,250,0.04) 100%);">
+  <h2 style="color:var(--accent-secondary);">How 3 Axioms Derive 19 Results</h2>
+
+  <p>
+    This flowchart shows how everything in STUR connects. The three axioms at the top lead to all the derived physics below.
+    <strong>Nothing is assumed</strong>—every result has a derivation chain back to the axioms.
+  </p>
+
+  <!-- THE FLOWCHART -->
+  <div style="background:#0a0a0f;border-radius:16px;padding:24px;margin:1.5rem 0;overflow-x:auto;">
+
+    <!-- AXIOMS ROW -->
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:24px;">
+      <div style="background:rgba(74,222,128,0.15);border:2px solid #4ade80;border-radius:12px;padding:14px 20px;min-width:180px;text-align:center;">
+        <div style="color:#4ade80;font-weight:700;font-size:0.85rem;">AXIOM 1</div>
+        <div style="color:#fff;font-size:0.95rem;margin-top:4px;">Master Action</div>
+        <div style="color:var(--text-quaternary);font-size:0.75rem;margin-top:2px;">S = ∫ d⁵x √-g [...]</div>
+      </div>
+      <div style="background:rgba(96,165,250,0.15);border:2px solid #60a5fa;border-radius:12px;padding:14px 20px;min-width:180px;text-align:center;">
+        <div style="color:#60a5fa;font-weight:700;font-size:0.85rem;">AXIOM 2</div>
+        <div style="color:#fff;font-size:0.95rem;margin-top:4px;">DHP</div>
+        <div style="color:var(--text-quaternary);font-size:0.75rem;margin-top:2px;">Dynamical Holonomy</div>
+      </div>
+      <div style="background:rgba(244,114,182,0.15);border:2px solid #f472b6;border-radius:12px;padding:14px 20px;min-width:180px;text-align:center;">
+        <div style="color:#f472b6;font-weight:700;font-size:0.85rem;">AXIOM 3</div>
+        <div style="color:#fff;font-size:0.95rem;margin-top:4px;">TFP</div>
+        <div style="color:var(--text-quaternary);font-size:0.75rem;margin-top:2px;">Topological Flavor</div>
+      </div>
+    </div>
+
+    <!-- ARROWS DOWN -->
+    <div style="text-align:center;margin-bottom:16px;">
+      <span style="color:var(--text-muted);font-size:1.5rem;">↓ ↓ ↓</span>
+    </div>
+
+    <!-- DERIVED (MHP) -->
+    <div style="display:flex;justify-content:center;margin-bottom:20px;">
+      <div style="background:rgba(251,191,36,0.12);border:2px dashed #fbbf24;border-radius:10px;padding:10px 24px;text-align:center;">
+        <div style="color:#fbbf24;font-weight:600;font-size:0.8rem;">DERIVED (not axiom)</div>
+        <div style="color:#fff;font-size:0.9rem;">MHP — Minimum Holonomy Principle</div>
+        <div style="color:var(--text-quaternary);font-size:0.7rem;">from path integral saddle point</div>
+      </div>
+    </div>
+
+    <!-- ARROWS DOWN -->
+    <div style="text-align:center;margin-bottom:20px;">
+      <span style="color:var(--text-muted);font-size:1.2rem;">↓</span>
+    </div>
+
+    <!-- RESULTS GRID -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:10px;">
+      <!-- Core Framework -->
+      <div style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#4ade80;font-size:0.7rem;font-weight:600;">FROM AXIOM 1</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">TEGR/Gravity</div>
+      </div>
+      <div style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#4ade80;font-size:0.7rem;font-weight:600;">FROM AXIOM 1</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Yang-Mills</div>
+      </div>
+      <div style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#4ade80;font-size:0.7rem;font-weight:600;">FROM AXIOM 1</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Visibility Law</div>
+      </div>
+
+      <!-- From Axiom 2 / MHP -->
+      <div style="background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#60a5fa;font-size:0.7rem;font-weight:600;">FROM AXIOM 2</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">UV Completion</div>
+      </div>
+      <div style="background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#60a5fa;font-size:0.7rem;font-weight:600;">FROM AXIOM 2</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Dark Matter</div>
+      </div>
+      <div style="background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#60a5fa;font-size:0.7rem;font-weight:600;">FROM AXIOM 2</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Cosmo Constant</div>
+      </div>
+
+      <!-- From Axiom 3 (TFP) -->
+      <div style="background:rgba(244,114,182,0.08);border:1px solid rgba(244,114,182,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#f472b6;font-size:0.7rem;font-weight:600;">FROM AXIOM 3</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">3 Generations</div>
+      </div>
+      <div style="background:rgba(244,114,182,0.08);border:1px solid rgba(244,114,182,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#f472b6;font-size:0.7rem;font-weight:600;">FROM AXIOM 3</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Yukawa Masses</div>
+      </div>
+      <div style="background:rgba(244,114,182,0.08);border:1px solid rgba(244,114,182,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#f472b6;font-size:0.7rem;font-weight:600;">FROM AXIOM 3</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">CKM/PMNS</div>
+      </div>
+
+      <!-- Combined -->
+      <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#fbbf24;font-size:0.7rem;font-weight:600;">FROM MHP</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">SM Gauge Group</div>
+      </div>
+      <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#fbbf24;font-size:0.7rem;font-weight:600;">FROM MHP</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">CP Violation</div>
+      </div>
+      <div style="background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.3);border-radius:8px;padding:10px;text-align:center;">
+        <div style="color:#22d3ee;font-size:0.7rem;font-weight:600;">ALL 3 AXIOMS</div>
+        <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px;">Inflation</div>
+      </div>
+    </div>
+
+    <!-- SINGLE PARAMETER -->
+    <div style="margin-top:20px;text-align:center;padding:12px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px dashed var(--border-standard);">
+      <span style="color:var(--text-muted);font-size:0.8rem;">Single free parameter: </span>
+      <span style="color:#fbbf24;font-weight:600;">L<sub>X</sub></span>
+      <span style="color:var(--text-muted);font-size:0.8rem;"> (size of extra dimension, ~0.1-10 μm)</span>
+    </div>
+  </div>
+
+  <p style="font-size:0.85rem;color:var(--text-tertiary);margin-top:1rem;">
+    <strong>Key insight:</strong> The three axioms aren't arbitrary choices—they're <em>forced</em> by the orbifold geometry.
+    See <a href="stur_axiom3_flavor.html" style="color:var(--accent);">Axiom 3 (TFP)</a> for why topology determines everything.
+  </p>
 </section>
 
 <!-- SECTION 1: PREREQUISITES -->

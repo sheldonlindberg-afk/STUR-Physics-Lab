@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR FAQ — Frequently Asked Questions</title>
+<meta name="description" content="Common questions about STUR physics: Is it testable? How is it different from string theory? Has it been peer-reviewed? Honest answers to skeptical questions.">
+
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_learn.html" class="glass-nav-link">Learn</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_faq.html" class="glass-nav-link active">FAQ</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 style="background:linear-gradient(135deg,#fff 0%,#fbbf24 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Frequently Asked Questions</h1>
+  <p class="subtitle">Honest Answers to Skeptical Questions</p>
+</header>
+
+<!-- QUICK NAVIGATION -->
+<section class="section" style="background:rgba(251,191,36,0.04);border:1px solid rgba(251,191,36,0.2);padding:1rem 1.5rem;">
+  <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+    <strong style="color:var(--gold);">Jump to:</strong>
+    <a href="#credibility" style="color:var(--accent);margin:0 0.5rem;">Credibility</a> |
+    <a href="#testability" style="color:var(--accent);margin:0 0.5rem;">Testability</a> |
+    <a href="#comparison" style="color:var(--accent);margin:0 0.5rem;">Comparison to Others</a> |
+    <a href="#technical" style="color:var(--accent);margin:0 0.5rem;">Technical Questions</a>
+  </p>
+</section>
+
+<!-- CREDIBILITY QUESTIONS -->
+<section class="section" id="credibility" style="border:2px solid var(--error); background:linear-gradient(135deg, rgba(239,68,68,0.06) 0%, rgba(239,68,68,0.02) 100%);">
+  <h2 style="color:var(--error);">Credibility & Skepticism</h2>
+
+  <details class="learn-box" open>
+    <summary style="color:var(--text);">
+      <strong>"Is this just another crackpot theory?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Fair question.</strong> Here's how to evaluate it:</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:12px;margin:1rem 0;">
+        <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+          <strong style="color:#4ade80;">Signs this is serious:</strong>
+          <ul style="margin:8px 0 0;font-size:0.85rem;color:var(--text-secondary);">
+            <li>Explicit falsification criteria</li>
+            <li>Quantitative predictions (not just qualitative)</li>
+            <li>Distinguishes "established" vs "proposed"</li>
+            <li>Acknowledges gaps and limitations</li>
+            <li>Uses standard mathematical framework</li>
+          </ul>
+        </div>
+        <div style="padding:12px;background:rgba(239,68,68,0.08);border-radius:8px;border-left:3px solid #ef4444;">
+          <strong style="color:#ef4444;">Red flags to watch for:</strong>
+          <ul style="margin:8px 0 0;font-size:0.85rem;color:var(--text-secondary);">
+            <li>Claims certainty without evidence</li>
+            <li>Immune to falsification</li>
+            <li>Invokes conspiracy against acceptance</li>
+            <li>Dismisses all criticism</li>
+            <li>No quantitative predictions</li>
+          </ul>
+        </div>
+      </div>
+
+      <p style="color:var(--text-secondary);font-size:0.9rem;">
+        <strong>Bottom line:</strong> STUR makes a specific, testable prediction (Gaussian visibility decay with ℓ ~ 0.3-30 m).
+        If experiments show something else, STUR is wrong. That's how science works.
+        Read the <a href="stur_falsification.html" style="color:var(--accent);">Falsification Protocol</a> to see exactly what would kill the theory.
+      </p>
+    </div>
+  </details>
+
+  <details class="learn-box">
+    <summary style="color:var(--text);">
+      <strong>"Has this been peer-reviewed?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Not in the traditional sense.</strong> STUR has not been published in a peer-reviewed physics journal.</p>
+
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:1rem;">
+        <strong>What exists:</strong>
+      </p>
+      <ul style="color:var(--text-secondary);font-size:0.9rem;">
+        <li>Internal review documents (see <code>/docs/internal/</code>) with critical analysis</li>
+        <li>This documentation, which attempts to meet scientific standards for clarity and falsifiability</li>
+        <li>Open-source code and derivations anyone can check</li>
+      </ul>
+
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:1rem;">
+        <strong>What doesn't exist (yet):</strong>
+      </p>
+      <ul style="color:var(--text-secondary);font-size:0.9rem;">
+        <li>Publication in Physical Review, JHEP, or similar</li>
+        <li>Independent verification by other physicists</li>
+        <li>Experimental confirmation of the predictions</li>
+      </ul>
+
+      <div style="background:rgba(251,191,36,0.08);padding:12px 16px;border-radius:8px;margin-top:1rem;border-left:3px solid #fbbf24;">
+        <strong style="color:#fbbf24;">Honest assessment:</strong>
+        <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
+          Until STUR's predictions are tested experimentally, it should be treated as a <em>hypothesis</em>, not established physics.
+          The documentation here is meant to make the claims clear enough to evaluate and test.
+        </p>
+      </div>
+    </div>
+  </details>
+
+  <details class="learn-box">
+    <summary style="color:var(--text);">
+      <strong>"Who created this theory?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p>
+        STUR was developed by <strong>Sheldon Lon Lindberg</strong>.
+        See the <a href="../about.html" style="color:var(--accent);">About page</a> for background information.
+      </p>
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.75rem;">
+        The theory's validity doesn't depend on who created it—it depends on whether the predictions match experiments.
+        History is full of examples of outsiders making contributions (Ramanujan, Faraday) and insiders making mistakes.
+        <strong>Check the math and the predictions, not the credentials.</strong>
+      </p>
+    </div>
+  </details>
+</section>
+
+<!-- TESTABILITY QUESTIONS -->
+<section class="section" id="testability" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.06) 0%, rgba(74,222,128,0.02) 100%);">
+  <h2 style="color:var(--success);">Testability</h2>
+
+  <details class="learn-box" open>
+    <summary style="color:var(--text);">
+      <strong>"Can STUR actually be tested?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Yes, with current or near-future technology.</strong></p>
+
+      <p style="color:var(--text-secondary);margin-top:1rem;">STUR predicts:</p>
+      <div style="background:#000;border-radius:8px;padding:16px;text-align:center;margin:1rem 0;">
+        <span style="color:#4ade80;font-size:1.1rem;">V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>)</span>
+      </div>
+
+      <p style="color:var(--text-secondary);">
+        The coherence length ℓ<sub>coh</sub> is estimated at <strong>0.3–30 meters</strong>. This is within range of:
+      </p>
+      <ul style="color:var(--text-secondary);font-size:0.9rem;">
+        <li><strong>MAGIS-100</strong> — 100m baseline atom interferometer at Fermilab</li>
+        <li><strong>AION</strong> — UK-based atom interferometer network</li>
+        <li><strong>Existing Sagnac loops</strong> — could see area-enhanced effects</li>
+      </ul>
+
+      <p style="color:var(--text-tertiary);font-size:0.85rem;margin-top:1rem;">
+        See <a href="stur_numerical_predictions.html" style="color:var(--accent);">Numerical Predictions</a> for concrete numbers.
+      </p>
+    </div>
+  </details>
+
+  <details class="learn-box">
+    <summary style="color:var(--text);">
+      <strong>"What would prove STUR wrong?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Any of these observations would falsify STUR:</strong></p>
+
+      <table style="width:100%;font-size:0.9rem;margin:1rem 0;">
+        <tr style="border-bottom:1px solid var(--separator);">
+          <td style="padding:8px;color:var(--error);font-weight:600;">Linear decay</td>
+          <td style="padding:8px;color:var(--text-secondary);">V ∝ exp(−ΔL/ℓ) instead of exp(−ΔL²/ℓ²)</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--separator);">
+          <td style="padding:8px;color:var(--error);font-weight:600;">Oscillations</td>
+          <td style="padding:8px;color:var(--text-secondary);">Periodic wiggles in visibility vs. ΔL</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--separator);">
+          <td style="padding:8px;color:var(--error);font-weight:600;">Time dependence</td>
+          <td style="padding:8px;color:var(--text-secondary);">Visibility changes over time at fixed ΔL</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--separator);">
+          <td style="padding:8px;color:var(--error);font-weight:600;">Mass dependence</td>
+          <td style="padding:8px;color:var(--text-secondary);">Different particles give different ℓ at same ΔL</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;color:var(--error);font-weight:600;">Multiple coherence lengths</td>
+          <td style="padding:8px;color:var(--text-secondary);">Data requires two or more ℓ values to fit</td>
+        </tr>
+      </table>
+
+      <p style="color:var(--text-tertiary);font-size:0.85rem;">
+        Full details at <a href="stur_falsification.html" style="color:var(--accent);">Falsification Protocol</a>.
+      </p>
+    </div>
+  </details>
+
+  <details class="learn-box">
+    <summary style="color:var(--text);">
+      <strong>"Why hasn't anyone tested this already?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p style="color:var(--text-secondary);">
+        <strong>The prediction is new, and the required precision is challenging.</strong>
+      </p>
+      <p style="color:var(--text-secondary);margin-top:0.75rem;">
+        Matter-wave interferometers with ~10m+ baselines are relatively recent technology.
+        Most existing experiments weren't designed to look for Gaussian visibility decay—they're optimized for other measurements
+        (gravitational waves, fundamental constants, etc.).
+      </p>
+      <p style="color:var(--text-secondary);margin-top:0.75rem;">
+        The experiments that <em>could</em> test STUR (MAGIS-100, AION) are currently being built or commissioned.
+      </p>
+    </div>
+  </details>
+</section>
+
+<!-- COMPARISON QUESTIONS -->
+<section class="section" id="comparison" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(167,139,250,0.02) 100%);">
+  <h2 style="color:var(--accent-secondary);">Comparison to Other Theories</h2>
+
+  <details class="learn-box" open>
+    <summary style="color:var(--text);">
+      <strong>"How is STUR different from string theory?"</strong>
+    </summary>
+    <div class="learn-content">
+      <table style="width:100%;font-size:0.85rem;margin:1rem 0;">
+        <thead>
+          <tr style="border-bottom:2px solid var(--separator);">
+            <th style="padding:8px;text-align:left;">Aspect</th>
+            <th style="padding:8px;text-align:left;">String Theory</th>
+            <th style="padding:8px;text-align:left;">STUR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--separator);">
+            <td style="padding:8px;color:var(--text-secondary);">Extra dimensions</td>
+            <td style="padding:8px;color:var(--text-tertiary);">6-7 (10D or 11D total)</td>
+            <td style="padding:8px;color:var(--text-tertiary);">1 (5D total)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--separator);">
+            <td style="padding:8px;color:var(--text-secondary);">Size of extra dims</td>
+            <td style="padding:8px;color:var(--text-tertiary);">Planck scale (~10⁻³⁵ m)</td>
+            <td style="padding:8px;color:var(--text-tertiary);">Microns (~10⁻⁶ m)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--separator);">
+            <td style="padding:8px;color:var(--text-secondary);">Free parameters</td>
+            <td style="padding:8px;color:var(--text-tertiary);">Many (landscape problem)</td>
+            <td style="padding:8px;color:var(--text-tertiary);">One (L<sub>X</sub>)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--separator);">
+            <td style="padding:8px;color:var(--text-secondary);">Testable prediction</td>
+            <td style="padding:8px;color:var(--text-tertiary);">No (too high energy)</td>
+            <td style="padding:8px;color:var(--text-tertiary);">Yes (interferometry)</td>
+          </tr>
+          <tr>
+            <td style="padding:8px;color:var(--text-secondary);">Mathematical status</td>
+            <td style="padding:8px;color:var(--text-tertiary);">Well-developed, no unique vacuum</td>
+            <td style="padding:8px;color:var(--text-tertiary);">Claims unique predictions</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="color:var(--text-tertiary);font-size:0.85rem;">
+        <strong>Key difference:</strong> String theory's extra dimensions are too small to test directly.
+        STUR's single extra dimension is large enough (~μm) to have observable effects in interferometers.
+      </p>
+    </div>
+  </details>
+
+  <details class="learn-box">
+    <summary style="color:var(--text);">
+      <strong>"Why geometry? Why should shape determine physics?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p style="color:var(--text-secondary);">
+        This idea has a long history in physics:
+      </p>
+      <ul style="color:var(--text-secondary);font-size:0.9rem;margin:0.75rem 0;line-height:1.8;">
+        <li><strong>General Relativity (1915):</strong> Gravity is curvature of spacetime geometry</li>
+        <li><strong>Kaluza-Klein (1921):</strong> Electromagnetism from 5D geometry</li>
+        <li><strong>Gauge theories:</strong> Forces from local symmetry of internal spaces</li>
+        <li><strong>Topology:</strong> Quantized quantities (charges) from non-contractible loops</li>
+      </ul>
+      <p style="color:var(--text-secondary);font-size:0.9rem;">
+        STUR extends this: the orbifold's topology forces certain configurations.
+        Winding numbers (how many times you wrap around) determine particle generations.
+        Holonomy minimization selects the gauge group.
+      </p>
+    </div>
+  </details>
+</section>
+
+<!-- TECHNICAL QUESTIONS -->
+<section class="section" id="technical" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">Technical Questions</h2>
+
+  <details class="learn-box">
+    <summary style="color:var(--text);">
+      <strong>"What is the 'resistance field' resisting?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p style="color:var(--text-secondary);">
+        The name is intuitive shorthand. Technically, \(R(x,X)\) is a scalar field on the 5D orbifold that:
+      </p>
+      <ul style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">
+        <li>Has a double-well potential V(R) forced by the orbifold boundary conditions</li>
+        <li>Creates domain walls where matter localizes</li>
+        <li>Couples to torsion to produce gravitational effects</li>
+        <li>Fluctuates around equilibrium, causing the predicted visibility decay</li>
+      </ul>
+      <p style="color:var(--text-tertiary);font-size:0.85rem;margin-top:0.75rem;">
+        Think of it like "resistance to being away from equilibrium"—the field wants to sit in one of the potential minima,
+        and fluctuations around that equilibrium have physical consequences.
+      </p>
+    </div>
+  </details>
+
+  <details class="learn-box">
+    <summary style="color:var(--text);">
+      <strong>"Why 3 axioms instead of 2?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p style="color:var(--text-secondary);">
+        The three axioms serve distinct roles:
+      </p>
+      <ol style="color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">
+        <li><strong>Master Action (Axiom 1):</strong> Defines what exists and how it evolves—the basic dynamics</li>
+        <li><strong>DHP (Axiom 2):</strong> Governs time evolution and cosmology—ensures holonomy stays finite</li>
+        <li><strong>TFP (Axiom 3):</strong> Determines flavor structure—winding numbers label generations</li>
+      </ol>
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.75rem;">
+        <strong>Note:</strong> MHP (Minimum Holonomy Principle) is <em>derived</em> from the path integral, not an axiom.
+        See <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP Derivation</a>.
+      </p>
+    </div>
+  </details>
+
+  <details class="learn-box">
+    <summary style="color:var(--text);">
+      <strong>"What does the '19 problems' claim mean?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p style="color:var(--text-secondary);">
+        STUR claims to derive 19 physical results from the 3 axioms:
+      </p>
+      <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:1.7;">
+        <li><strong>7 Core:</strong> Visibility law, coherence, TEGR, Yang-Mills, MHP, moduli, DHP equations</li>
+        <li><strong>4 SM-origin:</strong> Gauge group, 3 generations, Yukawa hierarchies, CKM/PMNS</li>
+        <li><strong>4 BSM:</strong> UV completion, neutrino masses, CP violation, dark matter</li>
+        <li><strong>4 Cosmology:</strong> Λ, hierarchy problem, inflation, baryogenesis</li>
+      </ul>
+      <p style="color:var(--text-tertiary);font-size:0.85rem;margin-top:0.75rem;">
+        Each has a derivation page. "Derived" means there's a chain of reasoning from axioms to result—
+        see <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a> for full proofs.
+      </p>
+    </div>
+  </details>
+</section>
+
+<!-- STILL HAVE QUESTIONS? -->
+<section class="section" style="background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2);padding:1.5rem;">
+  <h3 style="color:#60a5fa;margin-bottom:0.75rem;">Still Have Questions?</h3>
+  <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
+    The best way to understand STUR is to work through the derivations yourself.
+  </p>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;">
+    <a href="stur_learn.html" style="padding:10px 16px;background:rgba(96,165,250,0.15);border-radius:8px;color:#60a5fa;text-decoration:none;font-size:0.9rem;">Start Learning →</a>
+    <a href="stur_core_theory.html" style="padding:10px 16px;background:rgba(74,222,128,0.15);border-radius:8px;color:#4ade80;text-decoration:none;font-size:0.9rem;">Core Theory →</a>
+    <a href="stur_falsification.html" style="padding:10px 16px;background:rgba(239,68,68,0.15);border-radius:8px;color:#ef4444;text-decoration:none;font-size:0.9rem;">Falsification →</a>
+  </div>
+</section>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_learn.html" class="prev">Learn STUR</a>
+  <a href="stur_glossary.html" class="next">Glossary</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR FAQ</strong></p>
+  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

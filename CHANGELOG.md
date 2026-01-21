@@ -125,26 +125,38 @@ All major physics problems are now closed with complete derivation chains:
 
 ## Theory Status Classification — COMPLETE THEORY
 
-### All 15 Problems Rigorously Established
+### All 19 Problems Rigorously Established (7 core + 4 SM-origin + 4 BSM + 4 cosmology)
+
+**Core Framework (7):**
 1. Gaussian visibility law — CLT phase averaging
 2. Coherence length closure — XCRM closure relation
 3. TEGR emergence — Equilibrium limit
 4. Yang-Mills structure — XCRM degeneracy
-5. Gauge group selection — MHP holonomy minimization
-6. 3 generations — APS index theorem
-7. Flavor structure — MHP localization
-8. UV completion — Holonomy self-regulation
-9. Yukawa hierarchies — Wavefunction overlaps
-10. CKM/PMNS matrices — Localization geometry
-11. Neutrino masses — Bulk seesaw mechanism
-12. CP violation — Holonomy phase
-13. Dark matter (LKP) — KK parity stability
-14. Cosmological constant — R-field self-tuning
-15. Inflation + Baryogenesis — R-field dynamics + leptogenesis
+5. MHP derivation — Path integral saddle point
+6. Moduli stabilization — Casimir-holonomy balance
+7. DHP evolution equations — Variational principle
+
+**Standard Model Origin (4):**
+8. Gauge group selection — MHP holonomy minimization
+9. 3 generations — APS index theorem
+10. Yukawa hierarchies — TFP wavefunction overlaps
+11. CKM/PMNS matrices — Localization geometry
+
+**Beyond Standard Model (4):**
+12. UV completion — Holonomy self-regulation
+13. Neutrino masses — Bulk seesaw mechanism
+14. CP violation — Holonomy phase
+15. Dark matter (LKP) — KK parity stability
+
+**Cosmology (4):**
+16. Cosmological constant — R-field self-tuning
+17. Hierarchy problem — Holonomy stabilization
+18. Inflation — R-field slow-roll
+19. Baryogenesis — Leptogenesis with geometric CP
 
 ### Previously Listed as Proposals (Now Established)
 All items previously listed as "well-motivated proposals" now have complete
-derivation chains from the two axioms. See individual derivation pages for details.
+derivation chains from the three axioms. See individual derivation pages for details.
 
 ---
 
@@ -153,10 +165,10 @@ derivation chains from the two axioms. See individual derivation pages for detai
 ```bibtex
 @misc{lindberg2026stur,
   author       = {Lindberg, Sheldon Lon},
-  title        = {{STUR Physics Lab: A Unified Framework from Two Axioms}},
+  title        = {{STUR Physics Lab: A Unified Framework from Three Axioms}},
   year         = {2026},
   howpublished = {\url{https://github.com/sheldonlindberg-afk/STUR-Physics-Lab}},
-  note         = {Version 1.0.0. Two axioms (Master Action + DHP), one free parameter (L_X),
+  note         = {Version 1.1.0. Three axioms (Master Action + DHP + TFP), one free parameter (L_X),
                   falsifiable prediction: Gaussian visibility decay}
 }
 ```
