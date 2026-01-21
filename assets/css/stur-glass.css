@@ -143,14 +143,19 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--glass-bg-solid);
-  backdrop-filter: blur(var(--glass-blur-heavy));
-  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
-  border-bottom: 1px solid var(--glass-border);
+  /* Black liquid glass effect */
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(var(--glass-blur-heavy)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(150%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   padding: 0.75rem 1.5rem;
   /* Safe area support for modern phones */
   padding-left: max(1.5rem, env(safe-area-inset-left));
   padding-right: max(1.5rem, env(safe-area-inset-right));
+  /* Subtle inner glow for liquid glass effect */
+  box-shadow:
+    inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+    0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .glass-nav {
@@ -296,8 +301,14 @@
   }
 
   .glass-nav {
-    position: relative;
+    position: static; /* Allow dropdown to position relative to header */
     flex-wrap: nowrap;
+  }
+
+  .glass-header {
+    position: sticky;
+    top: 0;
+    /* Ensure dropdown positions relative to header */
   }
 
   .glass-nav-brand {
@@ -326,30 +337,42 @@
     z-index: 102;
   }
 
-  /* Mobile dropdown menu */
+  /* Mobile dropdown menu - stays within header when closed */
   .glass-nav-links {
-    display: none;
-    position: fixed;
-    top: 0;
+    /* Hidden by default - use visibility + opacity for better performance */
+    position: absolute;
+    top: 100%;
     left: 0;
     right: 0;
-    bottom: 0;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.98);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    padding: 5rem 1.5rem 2rem;
-    padding-bottom: max(2rem, env(safe-area-inset-bottom));
-    gap: 0.75rem;
+    /* Black liquid glass dropdown */
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1rem 1.5rem;
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    gap: 0.5rem;
     z-index: 99;
+    margin-left: 0;
+    /* Hidden state */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    /* Limit height and allow scrolling within dropdown */
+    max-height: calc(100vh - 60px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    margin-left: 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   }
 
   .glass-nav-links.open {
-    display: flex;
-    animation: mobileNavFadeIn 0.25s ease-out;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
   }
 
   @keyframes mobileNavFadeIn {
