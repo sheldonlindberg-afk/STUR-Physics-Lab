@@ -28,6 +28,9 @@
       <a href="stur_learn.html" class="glass-nav-link active">Learn</a>
       <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
       <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+      <a href="https://colab.research.google.com/" target="_blank" class="glass-nav-link" style="color:#fbbf24;">
+        <span style="font-size:0.85em;">▶</span> Colab
+      </a>
     </div>
   </nav>
 </header>
@@ -1059,6 +1062,134 @@
   </details>
 </section>
 
+<!-- RUN SIMULATIONS -->
+<section class="section" id="run-simulations" style="background:rgba(74,222,128,0.04);border:1px solid rgba(74,222,128,0.2);">
+  <h2 style="color:#4ade80;">Run Simulations & Verify Derivations</h2>
+
+  <p>
+    STUR is an <strong>open-source physics framework</strong> designed for learners of all ages and knowledge levels.
+    Every prediction, derivation, and simulation is freely available for you to run, modify, and explore.
+  </p>
+
+  <div class="intuition-block" style="border-color:#4ade80;">
+    <div class="intuition-header" style="color:#4ade80;">Why Open Source Matters</div>
+    <p>
+      Unlike traditional physics papers locked behind paywalls, STUR provides executable code for every claim.
+      You don't have to trust the equations—you can run them yourself and see the results. This makes physics
+      accessible to students, hobbyists, and researchers alike.
+    </p>
+  </div>
+
+  <h3 style="margin-top:1.5rem;">Getting Started with Google Colab</h3>
+
+  <p>
+    <a href="https://colab.research.google.com/" target="_blank" style="color:#fbbf24;font-weight:600;">Google Colab</a>
+    is a free, cloud-based Python environment that requires no installation. Simply copy any STUR simulation
+    script, paste it into a Colab notebook, and click "Run"—the results appear in seconds.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:1rem;">
+    <div style="padding:20px;background:rgba(251,191,36,0.08);border-radius:12px;border:1px solid rgba(251,191,36,0.3);">
+      <strong style="color:#fbbf24;font-size:1rem;">Step 1: Open Google Colab</strong>
+      <p style="margin:10px 0;font-size:0.85rem;color:var(--text-tertiary);line-height:1.6;">
+        Visit <a href="https://colab.research.google.com/" target="_blank" style="color:#fbbf24;">colab.research.google.com</a>
+        and click "New Notebook". No account required for basic use, but signing in with Google saves your work.
+      </p>
+    </div>
+
+    <div style="padding:20px;background:rgba(74,222,128,0.08);border-radius:12px;border:1px solid rgba(74,222,128,0.3);">
+      <strong style="color:#4ade80;font-size:1rem;">Step 2: Copy a STUR Script</strong>
+      <p style="margin:10px 0;font-size:0.85rem;color:var(--text-tertiary);line-height:1.6;">
+        Every simulation page (like <a href="stur_double_slit.html" style="color:#4ade80;">Double-Slit</a> or
+        <a href="stur_toe_proof.html" style="color:#4ade80;">TOE Proof</a>) has a "Copy Script" button.
+        Click it to copy the Python code.
+      </p>
+    </div>
+
+    <div style="padding:20px;background:rgba(167,139,250,0.08);border-radius:12px;border:1px solid rgba(167,139,250,0.3);">
+      <strong style="color:#a78bfa;font-size:1rem;">Step 3: Paste & Run</strong>
+      <p style="margin:10px 0;font-size:0.85rem;color:var(--text-tertiary);line-height:1.6;">
+        Paste the code into a Colab cell and press <kbd style="background:#333;padding:2px 6px;border-radius:4px;">Shift+Enter</kbd>.
+        Watch the simulation run and see plots appear showing STUR predictions.
+      </p>
+    </div>
+
+    <div style="padding:20px;background:rgba(34,211,238,0.08);border-radius:12px;border:1px solid rgba(34,211,238,0.3);">
+      <strong style="color:#22d3ee;font-size:1rem;">Step 4: Experiment & Learn</strong>
+      <p style="margin:10px 0;font-size:0.85rem;color:var(--text-tertiary);line-height:1.6;">
+        Change parameters, modify equations, and see how the physics responds. This is how real understanding develops—
+        by playing with the math yourself.
+      </p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:2rem;">The STUR Sandbox</h3>
+
+  <p>
+    For interactive exploration without copying code, use the
+    <a href="stur_sandbox.html" style="color:#fbbf24;font-weight:600;">STUR Sandbox</a>—a dedicated environment
+    where you can adjust parameters with sliders and see STUR physics in real-time.
+  </p>
+
+  <div style="padding:20px;background:rgba(251,191,36,0.06);border-radius:12px;border-left:3px solid #fbbf24;margin-top:1rem;">
+    <strong style="color:#fbbf24;">What You Can Do in the Sandbox:</strong>
+    <ul style="margin:10px 0 0 20px;color:var(--text-tertiary);font-size:0.9rem;">
+      <li>Visualize the resistance field kink profile \(R(X)\)</li>
+      <li>Explore how coherence length changes with parameters</li>
+      <li>See Gaussian visibility decay as you vary path difference</li>
+      <li>Cross-check derivations against first-principles equations</li>
+    </ul>
+    <p style="margin-top:1rem;">
+      <a href="stur_sandbox.html" style="color:#fbbf24;font-weight:600;">Open the Sandbox →</a>
+    </p>
+  </div>
+
+  <h3 style="margin-top:2rem;">STUR for All Ages & Knowledge Levels</h3>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:1rem;">
+    <div style="padding:16px;background:rgba(96,165,250,0.08);border-radius:10px;border-left:3px solid #60a5fa;">
+      <strong style="color:#60a5fa;font-size:0.95rem;">Middle School & High School</strong>
+      <p style="margin:8px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
+        Run the visual simulations to see how unified physics works. No calculus required—just curiosity
+        about how waves, particles, and gravity connect.
+      </p>
+    </div>
+
+    <div style="padding:16px;background:rgba(74,222,128,0.08);border-radius:10px;border-left:3px solid #4ade80;">
+      <strong style="color:#4ade80;font-size:0.95rem;">Undergraduates</strong>
+      <p style="margin:8px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
+        Follow the derivations step-by-step. The color-coded equations show which physics domain each
+        term controls. Perfect for learning field theory concepts.
+      </p>
+    </div>
+
+    <div style="padding:16px;background:rgba(167,139,250,0.08);border-radius:10px;border-left:3px solid #a78bfa;">
+      <strong style="color:#a78bfa;font-size:0.95rem;">Graduate Students & Researchers</strong>
+      <p style="margin:8px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
+        Dive into the <a href="stur_technical_appendix.html" style="color:#a78bfa;">Technical Appendix</a>
+        for full rigor. Modify simulations to test edge cases. Propose experiments.
+      </p>
+    </div>
+
+    <div style="padding:16px;background:rgba(251,191,36,0.08);border-radius:10px;border-left:3px solid #fbbf24;">
+      <strong style="color:#fbbf24;font-size:0.95rem;">Citizen Scientists & Hobbyists</strong>
+      <p style="margin:8px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
+        Physics belongs to everyone. STUR's open-source approach means you can verify claims, find bugs,
+        and contribute—no PhD required.
+      </p>
+    </div>
+  </div>
+
+  <div class="block success" style="margin-top:1.5rem;">
+    <div class="title">The Promise of Open Physics</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      Every equation on this site has runnable code. Every prediction has explicit falsification criteria.
+      STUR invites skepticism: if it's wrong, <em>you</em> can find out by running the simulations.
+      That's how science should work.
+    </p>
+  </div>
+</section>
+
 <!-- NEXT STEPS -->
 <section class="section" id="next-steps" style="background:rgba(251,191,36,0.04);border:1px solid rgba(251,191,36,0.2);">
   <h2 style="color:var(--gold);">Continue Your Learning</h2>
@@ -1091,6 +1222,20 @@
         Experimental protocols and criteria for excluding STUR.
       </div>
       <p style="margin-top:0.75rem;"><a href="stur_falsification.html" style="color:#f87171;">Test Protocol →</a></p>
+    </div>
+    <div class="concept-card" style="border-color:rgba(251,191,36,0.3);">
+      <div class="concept-title" style="color:#fbbf24;">Sandbox</div>
+      <div class="concept-desc">
+        Interactive environment to explore STUR physics with sliders and real-time visualization.
+      </div>
+      <p style="margin-top:0.75rem;"><a href="stur_sandbox.html" style="color:#fbbf24;">Open Sandbox →</a></p>
+    </div>
+    <div class="concept-card" style="border-color:rgba(34,211,238,0.2);">
+      <div class="concept-title" style="color:#22d3ee;">Google Colab</div>
+      <div class="concept-desc">
+        Run STUR simulations in the cloud—no installation required. Free and accessible to all.
+      </div>
+      <p style="margin-top:0.75rem;"><a href="https://colab.research.google.com/" target="_blank" style="color:#22d3ee;">Open Colab →</a></p>
     </div>
   </div>
 </section>
