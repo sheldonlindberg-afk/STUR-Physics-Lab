@@ -55,6 +55,52 @@
   <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
 </div>
 
+<!-- DERIVATION CHAIN -->
+<div class="glass-section" style="border-color:var(--accent-secondary);background:rgba(167,139,250,0.04);margin-bottom:1.5rem;">
+    <div class="glass-section-header">
+        <span class="stur-icon icon-link size-24" style="color:var(--accent-secondary);"></span>
+        <h2 class="glass-section-title" style="color:var(--accent-secondary);">Derivation Chain: XCRM → Yang-Mills → Standard Model</h2>
+    </div>
+    <div class="glass-section-body">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:1rem;">
+            <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;font-weight:600;">XCRM: χR∂<sub>X</sub>R</span>
+            <span style="color:var(--text-muted);">→</span>
+            <span style="padding:6px 12px;background:rgba(167,139,250,0.15);border-radius:8px;border:1px solid rgba(167,139,250,0.4);color:#a78bfa;">Holonomy Invariance</span>
+            <span style="color:var(--text-muted);">→</span>
+            <span style="padding:6px 12px;background:rgba(34,211,238,0.15);border-radius:8px;border:1px solid rgba(34,211,238,0.4);color:#22d3ee;">Degeneracy Manifold 𝒟</span>
+            <span style="color:var(--text-muted);">→</span>
+            <span style="padding:6px 12px;background:rgba(96,165,250,0.15);border-radius:8px;border:1px solid rgba(96,165,250,0.4);color:#60a5fa;font-weight:600;">Yang-Mills Structure</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+            <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #fbbf24;">
+                <strong style="color:#fbbf24;font-size:0.8rem;">Step 1: XCRM Symmetry</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Only closed-loop holonomies are observable</p>
+            </div>
+            <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #a78bfa;">
+                <strong style="color:#a78bfa;font-size:0.8rem;">Step 2: Degeneracy</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Configurations with same holonomy are equivalent</p>
+            </div>
+            <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #60a5fa;">
+                <strong style="color:#60a5fa;font-size:0.8rem;">Step 3: Connection</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Parallel transport requires gauge connection A<sub>μ</sub></p>
+            </div>
+            <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
+                <strong style="color:#4ade80;font-size:0.8rem;">Step 4: MHP Selection</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">G<sub>SM</sub> = SU(3)×SU(2)×U(1) minimizes Ω</p>
+                <a href="stur_mhp_derivation.html" style="font-size:0.75rem;color:var(--accent);">→ MHP Derivation</a>
+            </div>
+        </div>
+
+        <div style="margin-top:1rem;padding:10px 14px;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.3);">
+            <strong style="color:#4ade80;font-size:0.85rem;">Status: Yang-Mills Structure Established</strong>
+            <span style="font-size:0.85rem;color:var(--text-secondary);">
+                Gauge structure follows from fiber bundle theory (standard result). MHP selects G<sub>SM</sub> as local minimum (well-motivated, not proven unique).
+            </span>
+        </div>
+    </div>
+</div>
+
 <!-- XCRM CLOSURE: GAUGE STRUCTURE -->
 <section class="section" id="sec5" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(167,139,250,0.04) 100%);">
   <h2 style="color:var(--gold);">5. Gauge Sector: Derived from XCRM Degeneracy</h2>
