@@ -955,11 +955,14 @@
   <h3>F.2 Gauge Group Selection from Holonomy Minimization</h3>
 
   <div class="block" style="border-left-color:var(--success);">
-    <div class="title" style="color:var(--success);">Theorem F.1 — Gauge Group Uniqueness</div>
+    <div class="title" style="color:var(--success);">Theorem F.1 — Gauge Group Selection</div>
     <p style="margin:0;color:var(--text-secondary);">
       Among all compact Lie groups satisfying anomaly cancellation with the observed fermion content,
-      the Standard Model gauge group \(G_{\rm SM} = SU(3)_C \times SU(2)_L \times U(1)_Y\) uniquely minimizes
+      the Standard Model gauge group \(G_{\rm SM} = SU(3)_C \times SU(2)_L \times U(1)_Y\) minimizes
       the holonomy functional \(\Quant{\Omega}\).
+    </p>
+    <p style="margin:0.5rem 0 0;padding:8px 12px;background:rgba(251,191,36,0.08);border-radius:6px;font-size:0.85rem;color:var(--gold);">
+      <strong>Caveat:</strong> Uniqueness requires complete analysis of all candidate gauge groups and verification that the assumed cost function form is the correct one. Alternative cost functions could favor different groups.
     </p>
   </div>
 
@@ -2035,15 +2038,17 @@
   <h2 style="color:var(--accent-secondary);">G. Gauge Group Selection: Post-MHP Status</h2>
 
   <div class="block success" style="border-width:2px;">
-    <div class="title">Status: Mathematically Established</div>
+    <div class="title">Status: Mathematically Established (with caveat)</div>
     <p style="margin:0;color:var(--text-secondary);">
       The Minimum Holonomy Principle (Section F) provides explicit holonomy cost calculations showing
-      G<sub>SM</sub> = SU(3)×SU(2)×U(1) uniquely minimizes Ω<sub>gauge</sub> among anomaly-free compact groups.
+      G<sub>SM</sub> = SU(3)×SU(2)×U(1) minimizes Ω<sub>gauge</sub> among anomaly-free compact groups.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--success);font-size:0.9rem;">
-      <strong>Result:</strong> The MHP framework is mathematically complete. The holonomy cost calculation (Eq. F.5) shows:
-      Ω<sub>SM</sub> = 3.75 is the global minimum. SU(5), SO(10), E₆, and other GUT groups have higher holonomy costs.
-      The Z₂ orbifold boundary conditions and anomaly cancellation uniquely select G<sub>SM</sub>.
+      <strong>Result:</strong> The MHP framework is mathematically complete within the assumed cost function. The holonomy cost calculation (Eq. F.5) shows:
+      Ω<sub>SM</sub> = 3.75 is the minimum among tested groups. SU(5), SO(10), E₆, and other GUT groups have higher holonomy costs.
+    </p>
+    <p style="margin:0.5rem 0 0;padding:8px 12px;background:rgba(251,191,36,0.08);border-radius:6px;font-size:0.85rem;color:var(--gold);">
+      <strong>Caveat:</strong> Uniqueness proof requires verification that the assumed cost function form is correct and complete analysis of all candidate groups.
     </p>
   </div>
 
@@ -2062,7 +2067,7 @@
     <div class="card" style="border:1px solid var(--success);background:rgba(74,222,128,0.04);">
       <strong style="color:var(--success);">Derived from MHP (Sufficient Conditions)</strong>
       <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
-        <li>SU(3)×SU(2)×U(1) uniquely minimizes holonomy cost</li>
+        <li>SU(3)×SU(2)×U(1) minimizes holonomy cost (uniqueness requires full analysis)</li>
         <li>Exactly 3 generations from topological index</li>
         <li>Hypercharge assignment from anomaly cancellation + MHP</li>
         <li>Coupling hierarchy from localization-gauge interplay</li>

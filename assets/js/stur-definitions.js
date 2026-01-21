@@ -286,9 +286,9 @@ const STUR_DEFINITIONS = {
     parameter_closure: {
       id: "FP.1",
       name: "Parameter Closure Relation",
-      latex: "\\color{#22d3ee}{\\ell_{\\rm coh}} = \\frac{\\sqrt{2}\\, \\color{#fbbf24}{L_X}}{\\color{#4ade80}{\\sigma_R}}",
+      latex: "\\color{#22d3ee}{\\ell_{\\rm coh}} = \\frac{\\sqrt{2}\\, \\color{#fbbf24}{L_X}}{\\color{#a78bfa}{y}\\,\\color{#4ade80}{\\sigma_R}}",
       tier: "core",
-      note: "Given any two of {χ, L_X, ℓ_coh}, the third is determined"
+      note: "Given any two of {χ, L_X, ℓ_coh}, the third is determined. Default: y=1."
     },
 
     // Visibility (THE falsifiable prediction - NON-NEGOTIABLE FORM)
@@ -306,8 +306,9 @@ const STUR_DEFINITIONS = {
     coherence_length: {
       id: "5.3",
       name: "Coherence Length Closure",
-      latex: "\\color{#22d3ee}{\\ell_{\\rm coh}} = \\frac{\\sqrt{2}\\, \\color{#fbbf24}{L_X}}{\\color{#4ade80}{\\sigma_R}}",
-      tier: "core"
+      latex: "\\color{#22d3ee}{\\ell_{\\rm coh}} = \\frac{\\sqrt{2}\\, \\color{#fbbf24}{L_X}}{\\color{#a78bfa}{y}\\,\\color{#4ade80}{\\sigma_R}}",
+      tier: "core",
+      note: "Default: y=1 (Yukawa coupling)"
     },
 
     // Holonomy
