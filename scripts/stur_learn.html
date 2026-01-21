@@ -148,13 +148,103 @@
   </div>
 </section>
 
-<!-- LEARNING PATH OVERVIEW -->
-<section class="section" id="overview">
-  <h2>Your Learning Path</h2>
+<!-- CHOOSE YOUR ENTRY POINT -->
+<section class="section" id="entry-points">
+  <h2>Choose Your Entry Point</h2>
 
   <p>
-    This guide teaches the physics behind STUR at multiple levels. Expand sections matching your background,
-    skip what you already know, and dive deeper where you're curious.
+    Your background determines the fastest path through STUR. Pick the description that fits you best:
+  </p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 1.5rem;">
+    <div style="padding: 20px; background: linear-gradient(135deg, rgba(96,165,250,0.08) 0%, rgba(96,165,250,0.02) 100%); border-radius: 12px; border: 1px solid rgba(96,165,250,0.2);">
+      <strong style="color: #60a5fa; font-size: 1rem;">General Audience</strong>
+      <p style="margin: 10px 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">
+        Curious but no physics background? Start with the intuition blocks in <a href="#prerequisites" style="color:#60a5fa;">Prerequisites</a>,
+        then read <a href="stur_core_theory.html" style="color:#60a5fa;">Core Theory</a> focusing on the "What it means" sections.
+      </p>
+      <div style="font-size: 0.75rem; color: var(--text-quaternary);">~30 min to grasp the main idea</div>
+    </div>
+
+    <div style="padding: 20px; background: linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(74,222,128,0.02) 100%); border-radius: 12px; border: 1px solid rgba(74,222,128,0.2);">
+      <strong style="color: #4ade80; font-size: 1rem;">Physics Student</strong>
+      <p style="margin: 10px 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">
+        Know some QM and GR? Skip prerequisites, go straight to <a href="stur_core_theory.html" style="color:#4ade80;">Core Theory</a> →
+        <a href="stur_mhp_derivation.html" style="color:#4ade80;">MHP Derivation</a> → <a href="stur_predictions.html" style="color:#4ade80;">Predictions</a>.
+      </p>
+      <div style="font-size: 0.75rem; color: var(--text-quaternary);">~2 hours for solid understanding</div>
+    </div>
+
+    <div style="padding: 20px; background: linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(167,139,250,0.02) 100%); border-radius: 12px; border: 1px solid rgba(167,139,250,0.2);">
+      <strong style="color: #a78bfa; font-size: 1rem;">Working Physicist</strong>
+      <p style="margin: 10px 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">
+        Want to evaluate the claims? Start with <a href="stur_technical_appendix.html" style="color:#a78bfa;">Technical Appendix</a> and
+        <a href="stur_falsification.html" style="color:#a78bfa;">Falsification Protocol</a>. Check <a href="stur_sm_derivation.html" style="color:#a78bfa;">SM Derivation</a> for the gauge group proof.
+      </p>
+      <div style="font-size: 0.75rem; color: var(--text-quaternary);">Full rigor available</div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY QUESTIONS -->
+<section class="section" id="key-questions">
+  <h2>What Do You Want to Understand?</h2>
+
+  <p>
+    Jump directly to what interests you most:
+  </p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; margin-top: 1rem;">
+    <a href="stur_gravity_emergence.html" style="text-decoration: none; display: block; padding: 14px 18px; background: rgba(96,165,250,0.06); border-radius: 10px; border-left: 3px solid #60a5fa; transition: background 0.2s;">
+      <strong style="color: #60a5fa; font-size: 0.9rem;">"How does gravity emerge?"</strong>
+      <p style="margin: 6px 0 0; font-size: 0.8rem; color: var(--text-tertiary);">
+        The resistance field at equilibrium produces TEGR, which equals GR observationally.
+      </p>
+    </a>
+
+    <a href="stur_sm_derivation.html" style="text-decoration: none; display: block; padding: 14px 18px; background: rgba(74,222,128,0.06); border-radius: 10px; border-left: 3px solid #4ade80; transition: background 0.2s;">
+      <strong style="color: #4ade80; font-size: 0.9rem;">"Why SU(3)×SU(2)×U(1)?"</strong>
+      <p style="margin: 6px 0 0; font-size: 0.8rem; color: var(--text-tertiary);">
+        The Standard Model gauge group is uniquely selected by anomaly cancellation + holonomy minimization.
+      </p>
+    </a>
+
+    <a href="stur_numerical_predictions.html" style="text-decoration: none; display: block; padding: 14px 18px; background: rgba(251,191,36,0.06); border-radius: 10px; border-left: 3px solid #fbbf24; transition: background 0.2s;">
+      <strong style="color: #fbbf24; font-size: 0.9rem;">"What exactly does STUR predict?"</strong>
+      <p style="margin: 6px 0 0; font-size: 0.8rem; color: var(--text-tertiary);">
+        Gaussian visibility decay with coherence length 0.3–30 m, testable in current interferometers.
+      </p>
+    </a>
+
+    <a href="stur_falsification.html" style="text-decoration: none; display: block; padding: 14px 18px; background: rgba(239,68,68,0.06); border-radius: 10px; border-left: 3px solid #ef4444; transition: background 0.2s;">
+      <strong style="color: #ef4444; font-size: 0.9rem;">"How could STUR be wrong?"</strong>
+      <p style="margin: 6px 0 0; font-size: 0.8rem; color: var(--text-tertiary);">
+        Exponential (not Gaussian) decay, oscillations, or time-dependence would kill the theory.
+      </p>
+    </a>
+
+    <a href="stur_mhp_derivation.html" style="text-decoration: none; display: block; padding: 14px 18px; background: rgba(167,139,250,0.06); border-radius: 10px; border-left: 3px solid #a78bfa; transition: background 0.2s;">
+      <strong style="color: #a78bfa; font-size: 0.9rem;">"What's special about having only 2 axioms?"</strong>
+      <p style="margin: 6px 0 0; font-size: 0.8rem; color: var(--text-tertiary);">
+        MHP (the quantum selection principle) is derived from path integral, not postulated.
+      </p>
+    </a>
+
+    <a href="stur_quantum_corrections.html" style="text-decoration: none; display: block; padding: 14px 18px; background: rgba(244,114,182,0.06); border-radius: 10px; border-left: 3px solid #f472b6; transition: background 0.2s;">
+      <strong style="color: #f472b6; font-size: 0.9rem;">"Is STUR mathematically consistent?"</strong>
+      <p style="margin: 6px 0 0; font-size: 0.8rem; color: var(--text-tertiary);">
+        One-loop renormalizable as an EFT. Quantum corrections to predictions are ~0.1%.
+      </p>
+    </a>
+  </div>
+</section>
+
+<!-- LEARNING PATH OVERVIEW -->
+<section class="section" id="overview">
+  <h2>Structured Learning Path</h2>
+
+  <p>
+    If you prefer a linear approach, follow this sequence. Each step builds on the previous one.
   </p>
 
   <div class="learning-path">
