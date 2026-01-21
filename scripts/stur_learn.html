@@ -42,16 +42,111 @@
   </p>
 </header>
 
-<!-- EQUATION COLOR LEGEND -->
-<div class="physics-legend" style="margin-bottom: 1.5rem;">
-  <div class="physics-legend-title">Equation Color Code</div>
-  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion (Kinetic)</span></div>
-  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential (Relaxation)</span></div>
-  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM (X-Coupling)</span></div>
-  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion (Gravity)</span></div>
-  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum (Loops)</span></div>
-  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter (Fields)</span></div>
-</div>
+<!-- EQUATION COLOR CODING SYSTEM -->
+<section class="section" id="color-coding" style="margin-top: 0; padding-top: 1rem;">
+  <h2>Reading STUR Equations</h2>
+
+  <p>
+    STUR equations combine terms from different physical domains into unified expressions.
+    To help you identify which part of an equation controls which physics, we use a
+    consistent color-coding system throughout this site.
+  </p>
+
+  <div style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 20px; margin: 1.5rem 0; border: 1px solid var(--border-subtle);">
+    <h3 style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1rem;">The Six Physics Domains</h3>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+      <div style="padding: 12px 16px; background: rgba(74,222,128,0.08); border-radius: 8px; border-left: 3px solid #4ade80;">
+        <strong style="color: #4ade80;">Diffusion / Kinetic</strong>
+        <p style="margin: 6px 0 0; font-size: 0.85rem; color: var(--text-tertiary);">
+          Terms like ½(∇R)² — how the field propagates through space.
+          Controls wave-like behavior and energy transport.
+        </p>
+      </div>
+
+      <div style="padding: 12px 16px; background: rgba(244,114,182,0.08); border-radius: 8px; border-left: 3px solid #f472b6;">
+        <strong style="color: #f472b6;">Potential / Relaxation</strong>
+        <p style="margin: 6px 0 0; font-size: 0.85rem; color: var(--text-tertiary);">
+          Terms like V(R) — the energy landscape the field moves in.
+          Determines equilibrium states and symmetry breaking.
+        </p>
+      </div>
+
+      <div style="padding: 12px 16px; background: rgba(251,191,36,0.08); border-radius: 8px; border-left: 3px solid #fbbf24;">
+        <strong style="color: #fbbf24;">XCRM / X-Coupling</strong>
+        <p style="margin: 6px 0 0; font-size: 0.85rem; color: var(--text-tertiary);">
+          Terms like χR∂<sub>X</sub>R — coupling along the internal dimension.
+          The mechanism that produces coherence length and visibility effects.
+        </p>
+      </div>
+
+      <div style="padding: 12px 16px; background: rgba(96,165,250,0.08); border-radius: 8px; border-left: 3px solid #60a5fa;">
+        <strong style="color: #60a5fa;">Torsion / Gravity</strong>
+        <p style="margin: 6px 0 0; font-size: 0.85rem; color: var(--text-tertiary);">
+          Terms like αR𝕋 — coupling to spacetime torsion.
+          How the resistance field sources gravitational effects (TEGR).
+        </p>
+      </div>
+
+      <div style="padding: 12px 16px; background: rgba(167,139,250,0.08); border-radius: 8px; border-left: 3px solid #a78bfa;">
+        <strong style="color: #a78bfa;">Quantum / Loops</strong>
+        <p style="margin: 6px 0 0; font-size: 0.85rem; color: var(--text-tertiary);">
+          Loop corrections, path integrals, holonomy terms.
+          Quantum mechanical effects and the MHP selection principle.
+        </p>
+      </div>
+
+      <div style="padding: 12px 16px; background: rgba(34,211,238,0.08); border-radius: 8px; border-left: 3px solid #22d3ee;">
+        <strong style="color: #22d3ee;">Matter / Fields</strong>
+        <p style="margin: 6px 0 0; font-size: 0.85rem; color: var(--text-tertiary);">
+          Terms like ℒ<sub>matter</sub> — Standard Model fermions and gauge fields.
+          How ordinary matter couples to the resistance field.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 1.5rem;">Example: Parsing the Master Action</h3>
+
+  <p>
+    Here's how color-coding helps you read the unified action at a glance:
+  </p>
+
+  <div style="background: #000; border-radius: 12px; padding: 20px; margin: 1rem 0; border: 1px solid var(--border-standard); text-align: center; font-size: 1.1rem;">
+    <span style="color: #e2e8f0; font-weight: 600;">S</span>
+    <span style="color: #94a3b8;">=</span>
+    <span style="color: #c4b5fd;">∫ d⁴x dX √−g</span>
+    <span style="color: #64748b;">[</span>
+    <span style="color: #4ade80;">½(∇R)²</span>
+    <span style="color: #94a3b8;">−</span>
+    <span style="color: #f472b6;">V(R)</span>
+    <span style="color: #94a3b8;">+</span>
+    <span style="color: #fbbf24;">χR∂<sub>X</sub>R</span>
+    <span style="color: #94a3b8;">+</span>
+    <span style="color: #60a5fa;">αR𝕋</span>
+    <span style="color: #94a3b8;">+</span>
+    <span style="color: #22d3ee;">ℒ<sub>matter</sub></span>
+    <span style="color: #64748b;">]</span>
+  </div>
+
+  <p style="font-size: 0.9rem; color: var(--text-tertiary);">
+    At a glance: <span style="color: #4ade80;">green</span> controls propagation,
+    <span style="color: #f472b6;">pink</span> sets the vacuum structure,
+    <span style="color: #fbbf24;">gold</span> creates the coherence effects we measure,
+    <span style="color: #60a5fa;">blue</span> generates gravity, and
+    <span style="color: #22d3ee;">cyan</span> is everything else in physics.
+  </p>
+
+  <div style="background: rgba(74,222,128,0.06); border-radius: 8px; padding: 14px 18px; margin-top: 1.5rem; border-left: 3px solid #4ade80;">
+    <strong style="color: #4ade80; font-size: 0.9rem;">Why This Helps</strong>
+    <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.6;">
+      When you see a new equation, the colors instantly tell you what physical effects are involved.
+      If you're trying to understand gravity in STUR, look for <span style="color: #60a5fa;">blue terms</span>.
+      If you want to understand the interferometry prediction, focus on <span style="color: #fbbf24;">gold terms</span>.
+      The colors turn a wall of symbols into a map of physics.
+    </p>
+  </div>
+</section>
 
 <!-- LEARNING PATH OVERVIEW -->
 <section class="section" id="overview">
