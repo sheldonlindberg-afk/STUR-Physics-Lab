@@ -286,13 +286,14 @@ pre {
 }
 
 /* === BUTTONS (LIQUID GLASS) === */
+/* Modern 2026 pill-shaped buttons with liquid glass effect */
 .stur-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.65rem 1.25rem;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full, 999px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
@@ -302,7 +303,7 @@ pre {
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all var(--transition-normal);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
   min-height: 44px;
   min-width: 44px;

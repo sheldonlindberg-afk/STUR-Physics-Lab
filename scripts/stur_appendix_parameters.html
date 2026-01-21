@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Appendix A — Fundamental Parameter Definitions</title>
+<meta name="description" content="Complete parameter definitions for STUR: chi, alpha, V0, sigma_R with physical origins and dimensional analysis.">
+
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_technical_appendix.html" class="glass-nav-link">Appendix Index</a>
+      <a href="stur_appendix_parameters.html" class="glass-nav-link active">A: Parameters</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>Appendix A: Fundamental Parameters</h1>
+  <p class="subtitle">Complete Definitions with Physical Origins</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    From <a href="stur_core_theory.html" style="color:var(--accent);">2 axioms</a> ·
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
+    Part of <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a>
+  </p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- OVERVIEW -->
+<section class="section" id="overview" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">Parameter Overview</h2>
+
+  <p>STUR contains the following fundamental parameters, all derived from or constrained by the single free parameter \(\XCRM{L_X}\):</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Symbol</th>
+        <th>Dimension</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>XCRM coupling</td>
+        <td>\(\XCRM{\chi}\)</td>
+        <td>\(M^2\)</td>
+        <td style="color:var(--success);">Derived from \(L_X\)</td>
+      </tr>
+      <tr>
+        <td>Torsion coupling</td>
+        <td>\(\Tor{\alpha}\)</td>
+        <td>\(M^{1/2}\)</td>
+        <td style="color:var(--success);">Fixed by G</td>
+      </tr>
+      <tr>
+        <td>Visibility normalization</td>
+        <td>\(\Matt{V_0}\)</td>
+        <td>Dimensionless</td>
+        <td style="color:var(--gold);">Apparatus-dependent</td>
+      </tr>
+      <tr>
+        <td>RMS fluctuation</td>
+        <td>\(\Diff{\sigma_R}\)</td>
+        <td>\(M^{3/2}\)</td>
+        <td style="color:var(--success);">Derived from equilibrium</td>
+      </tr>
+      <tr>
+        <td>Compactification scale</td>
+        <td>\(\XCRM{L_X}\)</td>
+        <td>\(L\)</td>
+        <td style="color:var(--gold);">Single free parameter</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- CHI DEFINITION -->
+<section class="section" id="chi">
+  <h2>A.1 The XCRM Coupling Constant \(\chi\)</h2>
+
+  <div class="block gold" style="border-width:2px;">
+    <div class="title">Definition</div>
+    <p style="margin:0 0 1rem;color:var(--text-secondary);">
+      The XCRM coupling \(\XCRM{\chi}\) appears in the master action as the coefficient of the X-derivative term:
+    </p>
+    <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);">
+      \[\boxed{\XCRM{S_{\rm XCRM}} = \int_{\Mcal^5} \dd^5x\, \sqrt{-g}\, \XCRM{\chi}\, \Diff{R}\, \XCRM{\partial_X R}}\]
+      <div class="eq-label" style="color:var(--gold);">(A.1) — XCRM action term</div>
+    </div>
+  </div>
+
+  <h3>Physical Origin</h3>
+  <p>
+    The XCRM term arises from the non-trivial topology of the orbifold \(\XCRM{S^1/\mathbb{Z}_2}\).
+    When a scalar field couples to itself via the internal derivative, the coupling strength \(\XCRM{\chi}\)
+    is determined by the requirement that the effective 4D theory has the correct normalization.
+  </p>
+
+  <h3>Dimensional Analysis</h3>
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[[\XCRM{\chi} \Diff{R} \XCRM{\partial_X R}] = M^5 \;\;\Rightarrow\;\; [\XCRM{\chi}] \cdot [\Diff{R}] \cdot [\Diff{R}/L] = M^5\]
+    \[[\XCRM{\chi}] \cdot M^{3/2} \cdot M^{3/2} = M^5 \;\;\Rightarrow\;\; \boxed{[\XCRM{\chi}] = M^2}\]
+    <div class="eq-label">(A.2) — \(\chi\) has mass dimension 2</div>
+  </div>
+
+  <h3>Determination from \(L_X\)</h3>
+  <p>
+    Once the compactification scale \(\XCRM{L_X}\) is fixed experimentally, dimensional analysis determines:
+  </p>
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--success);">
+    \[\boxed{\XCRM{\chi} = \frac{c_\chi}{\XCRM{L_X}^2}}\]
+    <div class="eq-label" style="color:var(--success);">(A.3) — \(\chi\) from \(L_X\)</div>
+  </div>
+  <p style="color:var(--text-secondary);font-size:0.9rem;">
+    where \(c_\chi\) is a dimensionless \(\mathcal{O}(1)\) coefficient determined by the orbifold geometry.
+    For the minimal \(\XCRM{S^1/\mathbb{Z}_2}\) orbifold with standard normalization, \(c_\chi = 2\pi^2\).
+  </p>
+</section>
+
+<!-- ALPHA DEFINITION -->
+<section class="section" id="alpha">
+  <h2>A.2 The Torsion Coupling Constant \(\alpha\)</h2>
+
+  <div class="block" style="border-left-color:var(--torsion);border-width:2px;">
+    <div class="title" style="color:var(--torsion);">Definition</div>
+    <p style="margin:0 0 1rem;color:var(--text-secondary);">
+      The torsion coupling \(\Tor{\alpha}\) appears in the gravitational sector of the master action:
+    </p>
+    <div class="eq law" style="margin:1rem 0;">
+      \[\boxed{\Tor{S_{\rm torsion}} = \int_{\Mcal^5} \dd^5x\, \sqrt{-g}\, \Tor{\alpha}\, \Diff{R}\, \Tor{\Tcal}}\]
+      <div class="eq-label">(A.4) — Torsion action term</div>
+    </div>
+  </div>
+
+  <h3>Physical Origin</h3>
+  <p>
+    The torsion coupling arises from the requirement that the resistance field couples to the
+    teleparallel torsion scalar \(\Tor{\Tcal}\). This is the unique diffeomorphism-invariant scalar
+    that can be constructed from the vierbein without introducing curvature.
+  </p>
+
+  <h3>Dimensional Analysis</h3>
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[[\Tor{\alpha} \Diff{R} \Tor{\Tcal}] = M^5, \quad [\Diff{R}] = M^{3/2}, \quad [\Tor{\Tcal}] = M^2\]
+    \[\Rightarrow\;\; \boxed{[\Tor{\alpha}] = M^{1/2}}\]
+    <div class="eq-label">(A.5) — \(\alpha\) has mass dimension 1/2</div>
+  </div>
+
+  <h3>Relationship to Newton's Constant</h3>
+  <p>
+    In the equilibrium limit \(\Diff{R} \to \Diff{R_{\rm bg}}\), the gravitational sector reduces to TEGR with:
+  </p>
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--torsion);">
+    \[\Tor{\alpha} \Diff{R_{\rm bg}} \Tor{\Tcal} = \frac{1}{16\pi G} \Tor{\Tcal} \;\;\Rightarrow\;\; \boxed{\Tor{\alpha} = \frac{1}{16\pi G \Diff{R_{\rm bg}}}}\]
+    <div class="eq-label" style="color:var(--torsion);">(A.6) — \(\alpha\) from G and \(R_{\rm bg}\)</div>
+  </div>
+
+  <div class="block">
+    <div class="title">Non-Circularity Note</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      This is <em>not</em> circular. The background resistance \(\Diff{R_{\rm bg}}\) is determined
+      by the vacuum expectation value of the potential minimum: \(\Diff{R_{\rm bg}} = v\) where \(\Pot{V'(v)} = 0\).
+      The vacuum value \(v\) is set by the self-coupling \(\Pot{\lambda}\) via \(v^2 = |m^2|/\Pot{\lambda}\), and
+      \(\Pot{\lambda}\) is determined by \(\XCRM{L_X}\) through dimensional analysis: \(\Pot{\lambda} = c_\lambda/\XCRM{L_X}\).
+    </p>
+  </div>
+</section>
+
+<!-- V0 DEFINITION -->
+<section class="section" id="v0">
+  <h2>A.3 The Visibility Normalization \(V_0\)</h2>
+
+  <div class="block" style="border-left-color:var(--potential);border-width:2px;">
+    <div class="title" style="color:var(--potential);">Definition</div>
+    <p style="margin:0 0 1rem;color:var(--text-secondary);">
+      The visibility normalization \(\Matt{V_0}\) appears in the STUR prediction:
+    </p>
+    <div class="eq law" style="margin:1rem 0;">
+      \[\boxed{\Matt{V(\Delta L)} = \Matt{V_0} \exp\!\left(-\frac{\Delta L^2}{\Matt{\ell_{\rm coh}}^2}\right)}\]
+      <div class="eq-label">(A.7) — STUR visibility prediction</div>
+    </div>
+  </div>
+
+  <h3>Physical Origin</h3>
+  <p>
+    \(\Matt{V_0}\) represents the <em>intrinsic visibility</em> of the interferometer in the absence of
+    XCRM phase fluctuations. It accounts for all non-STUR sources of visibility reduction:
+    imperfect beam splitters, path length fluctuations, vibrations, etc.
+  </p>
+
+  <h3>Operational Definition</h3>
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--potential);">
+    \[\boxed{\Matt{V_0} \equiv \lim_{\Delta L \to 0} \Matt{V(\Delta L)} = \Matt{V_{\rm apparatus}}}\]
+    <div class="eq-label" style="color:var(--potential);">(A.8) — \(V_0\) is the zero-separation visibility</div>
+  </div>
+
+  <p>
+    <strong>Measurement Protocol:</strong> Determine \(\Matt{V_0}\) by extrapolating visibility measurements
+    to \(\Delta L = 0\). Alternatively, measure visibility with a control experiment where STUR effects
+    are absent (e.g., at separations \(\Delta L \ll \Matt{\ell_{\rm coh}}\)).
+  </p>
+
+  <p>
+    <strong>Typical Values:</strong> For well-aligned interferometers, \(\Matt{V_0} \in [0.8, 0.99]\).
+    Perfect visibility corresponds to \(\Matt{V_0} = 1\).
+  </p>
+</section>
+
+<!-- SIGMA_R DEFINITION -->
+<section class="section" id="sigma-r" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(74,222,128,0.02) 100%);">
+  <h2 style="color:var(--success);">A.4 The RMS Resistance Fluctuation \(\sigma_R\)</h2>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">XCRM Closure: \(\sigma_R\) is Derived</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>The fluctuation amplitude \(\Diff{\sigma_R}\) has a single, consistent definition derived from XCRM equilibrium.</strong>
+      This is not a free parameter — it is uniquely determined by the compactification scale \(\XCRM{L_X}\).
+    </p>
+  </div>
+
+  <h3>Definition</h3>
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--success);">
+    \[\boxed{\Diff{\sigma_R}^2 \equiv \langle (\Diff{R} - \Diff{R_{\rm bg}})^2 \rangle = \frac{k_B \Matt{T_{\rm eff}}}{m_{\rm eff}^2}}\]
+    <div class="eq-label" style="color:var(--success);">(A.9) — \(\sigma_R\) from thermal equilibrium</div>
+  </div>
+
+  <h3>Physical Origin</h3>
+  <p>
+    The resistance field fluctuates about its equilibrium value \(\Diff{R_{\rm bg}}\) due to thermal/quantum
+    excitation of Kaluza-Klein modes. The variance is determined by the equipartition theorem
+    applied to the XCRM-induced effective mass.
+  </p>
+
+  <h3>The Effective Mass</h3>
+  <p>
+    After integrating over the internal dimension, the XCRM term generates an effective mass:
+  </p>
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[m_{\rm eff}^2 = \frac{\XCRM{\chi}^2}{\XCRM{L_X}^2} = \frac{c_\chi^2}{\XCRM{L_X}^6}\]
+    <div class="eq-label">(A.10) — Effective mass from XCRM</div>
+  </div>
+
+  <h3>The Effective Temperature</h3>
+  <p>
+    The effective temperature \(\Matt{T_{\rm eff}}\) is set by the occupation of the lowest Kaluza-Klein mode:
+  </p>
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[k_B \Matt{T_{\rm eff}} = \hbar c \cdot \frac{\pi}{\XCRM{L_X}} \cdot n_{\rm KK}\]
+    <div class="eq-label">(A.11) — Effective temperature from KK occupation</div>
+  </div>
+  <p style="color:var(--text-secondary);font-size:0.9rem;">
+    where \(n_{\rm KK}\) is the mean occupation number of KK modes (typically \(n_{\rm KK} \sim 1\) at low temperature).
+  </p>
+
+  <h3>Dimensionless Form</h3>
+  <p>
+    For phenomenological applications, we define the dimensionless fluctuation ratio:
+  </p>
+  <div class="eq law" style="margin:1rem 0;">
+    \[\boxed{\tilde{\sigma}_R \equiv \frac{\Diff{\sigma_R}}{\Diff{R_{\rm bg}}} = \sqrt{\frac{k_B \Matt{T_{\rm eff}}}{m_{\rm eff}^2 \Diff{R_{\rm bg}}^2}}}\]
+    <div class="eq-label">(A.12) — Dimensionless fluctuation ratio</div>
+  </div>
+</section>
+
+<!-- NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_technical_appendix.html" class="prev">Appendix Index</a>
+  <a href="stur_appendix_visibility.html" class="next">B: Visibility Derivation</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Appendix A: Fundamental Parameters</strong></p>
+  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

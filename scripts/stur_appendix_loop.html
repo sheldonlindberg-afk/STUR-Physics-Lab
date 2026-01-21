@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Appendix C — Loop Geometry and Area Scaling Derivation</title>
+<meta name="description" content="Complete derivation of area scaling for loop interferometers: Stokes theorem application, enhancement factors, and loop vs linear comparison.">
+
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_technical_appendix.html" class="glass-nav-link">Appendix Index</a>
+      <a href="stur_appendix_loop.html" class="glass-nav-link active">C: Loop Geometry</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>Appendix C: Loop Geometry and Area Scaling</h1>
+  <p class="subtitle">Derivation of Area Enhancement for Closed-Loop Interferometers</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    From <a href="stur_core_theory.html" style="color:var(--accent);">2 axioms</a> ·
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
+    Part of <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a>
+  </p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- INTRODUCTION -->
+<section class="section" id="intro" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">C.1 Why Loop Geometry Matters</h2>
+
+  <div class="block gold" style="border-width:2px;">
+    <div class="title">Key Insight: Area vs. Path</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Linear interferometers measure visibility as a function of <strong>path difference</strong> \(\Matt{\Delta L}\).
+      Loop interferometers (Sagnac, ring) measure visibility as a function of <strong>enclosed area</strong> \(\Matt{A}\).
+      For STUR, loops can provide <strong>orders of magnitude enhancement</strong> over linear geometries.
+    </p>
+  </div>
+
+  <p>
+    This appendix provides a complete derivation of the area-scaling law for closed-loop interferometers,
+    starting from Stokes' theorem applied to the XCRM holonomy.
+  </p>
+</section>
+
+<!-- HOLONOMY REVIEW -->
+<section class="section" id="holonomy">
+  <h2>C.2 XCRM Holonomy: Line vs. Surface Integral</h2>
+
+  <h3>Definition</h3>
+  <p>
+    The XCRM holonomy is defined as a line integral of the resistance current around a closed path:
+  </p>
+
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);">
+    \[\boxed{\Quant{\Phi_R} = \oint_{\partial\Sigma} \XCRM{\mathsf{J}_a}\, dx^a}\]
+    <div class="eq-label" style="color:var(--gold);">(C.1) — Holonomy as line integral</div>
+  </div>
+
+  <p>where \(\XCRM{\mathsf{J}_a} = y\,\partial_a R\) is the phase-gradient 1-form induced by the Yukawa coupling.</p>
+
+  <h3>Stokes' Theorem</h3>
+  <p>
+    By Stokes' theorem, this line integral can be converted to a surface integral over any surface \(\Sigma\) bounded by the loop:
+  </p>
+
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--accent);">
+    \[\boxed{\Quant{\Phi_R} = \oint_{\partial\Sigma} \XCRM{\mathsf{J}_a}\, dx^a = \int_\Sigma (\nabla \times \XCRM{\mathsf{J}}) \cdot d\mathbf{A} = \int_\Sigma \XCRM{\mathsf{F}_{ab}}\, dA^{ab}}\]
+    <div class="eq-label" style="color:var(--accent);">(C.2) — Stokes' theorem application</div>
+  </div>
+
+  <p>
+    where \(\XCRM{\mathsf{F}_{ab}} = \partial_a \mathsf{J}_b - \partial_b \mathsf{J}_a = y(\partial_a \partial_b R - \partial_b \partial_a R)\) is the curvature of the resistance 1-form.
+  </p>
+
+  <div class="block">
+    <div class="title">Key Point: Non-Zero Curvature</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      For a smooth \(\Diff{R(x)}\) field, the curvature \(\XCRM{\mathsf{F}_{ab}}\) would vanish identically.
+      However, <strong>stochastic fluctuations</strong> in \(\Diff{R}\) generate non-zero effective curvature
+      when averaged over the XCRM bath. This is analogous to how Brownian motion generates effective
+      diffusion even though individual particle paths are deterministic.
+    </p>
+  </div>
+</section>
+
+<!-- VARIANCE CALCULATION -->
+<section class="section" id="variance" style="border-left:4px solid var(--success);">
+  <h2 style="color:var(--success);">C.3 Holonomy Variance for Loop Geometry</h2>
+
+  <h3>Setup</h3>
+  <p>
+    Consider a planar loop of area \(\Matt{A_{\rm loop}}\) in the \((x,y)\) plane. The holonomy is:
+  </p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\Quant{\Phi_R} = \int_\Sigma \XCRM{\mathsf{F}_{xy}}\, dA = \int_\Sigma y (\partial_x \partial_y - \partial_y \partial_x)\Diff{R}\, dA\]
+    <div class="eq-label">(C.3) — Holonomy for planar loop</div>
+  </div>
+
+  <h3>Fluctuation Model</h3>
+  <p>
+    The resistance fluctuations have the correlation structure:
+  </p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\langle \Diff{\delta R}(\mathbf{x}) \Diff{\delta R}(\mathbf{x'}) \rangle = \Diff{\sigma_R}^2\, C(|\mathbf{x} - \mathbf{x'}|/\XCRM{L_X})\]
+    <div class="eq-label">(C.4) — Two-point correlation</div>
+  </div>
+
+  <p>
+    where \(C(u)\) is a dimensionless correlation function with \(C(0) = 1\) and \(C(u) \to 0\) for \(u \gg 1\).
+  </p>
+
+  <h3>Variance Calculation</h3>
+  <p>
+    The holonomy variance involves a four-point integral:
+  </p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\langle \Quant{\Phi_R}^2 \rangle = y^2 \int_\Sigma \int_\Sigma \langle \XCRM{\mathsf{F}_{xy}}(\mathbf{x}) \XCRM{\mathsf{F}_{xy}}(\mathbf{x'}) \rangle\, dA\, dA'\]
+    <div class="eq-label">(C.5) — Variance integral</div>
+  </div>
+
+  <p>
+    The curvature-curvature correlator involves fourth derivatives of the R-correlator. For a Gaussian random field:
+  </p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\langle \XCRM{\mathsf{F}_{xy}}(\mathbf{x}) \XCRM{\mathsf{F}_{xy}}(\mathbf{x'}) \rangle \sim \frac{y^2 \Diff{\sigma_R}^2}{\XCRM{L_X}^4}\, \delta^{(2)}(\mathbf{x} - \mathbf{x'})\]
+    <div class="eq-label">(C.6) — Curvature correlator (white-noise limit)</div>
+  </div>
+
+  <p>
+    where the delta function arises because fluctuations at separations \(\gg \XCRM{L_X}\) are uncorrelated.
+    Substituting:
+  </p>
+
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--success);padding:1.25rem;">
+    \[\boxed{\langle \Quant{\Phi_R}^2 \rangle_{\rm loop} = \frac{y^2 \Diff{\sigma_R}^2}{\XCRM{L_X}^4} \cdot \Matt{A_{\rm loop}}}\]
+    <div class="eq-label" style="color:var(--success);">(C.7) — Holonomy variance for loops (area scaling)</div>
+  </div>
+</section>
+
+<!-- VISIBILITY LAW -->
+<section class="section" id="visibility" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(74,222,128,0.02) 100%);">
+  <h2 style="color:var(--success);">C.4 Loop Visibility Law</h2>
+
+  <p>
+    Following the same Gaussian averaging as for linear interferometers (see <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>):
+  </p>
+
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--success);padding:1.25rem;">
+    \[\boxed{\Matt{V_{\rm loop}} = V_0 \exp\!\left(-\frac{\langle \Quant{\Phi_R}^2 \rangle_{\rm loop}}{2}\right) = V_0 \exp\!\left(-\frac{\Matt{A_{\rm loop}}^2}{\Matt{A_{\rm coh}}^2}\right)}\]
+    <div class="eq-label" style="color:var(--success);">(C.8) — Loop visibility law</div>
+  </div>
+
+  <p>where the <strong>coherence area</strong> is:</p>
+
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);">
+    \[\boxed{\Matt{A_{\rm coh}} = \frac{\XCRM{L_X}^2}{y \Diff{\sigma_R}} = \Matt{\ell_{\rm coh}} \cdot \XCRM{L_X}}\]
+    <div class="eq-label" style="color:var(--gold);">(C.9) — Coherence area definition</div>
+  </div>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">Key Result: Quadratic in Area</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Loop visibility decays as \(\exp(-A^2/A_{\rm coh}^2)\) — <strong>quadratic in enclosed area</strong>,
+      not linear in perimeter. This is the direct analog of the linear-path result \(\exp(-\Delta L^2/\ell_{\rm coh}^2)\).
+    </p>
+  </div>
+</section>
+
+<!-- ENHANCEMENT FACTOR -->
+<section class="section" id="enhancement">
+  <h2>C.5 Loop Enhancement Factor</h2>
+
+  <h3>Comparison: Loop vs. Linear</h3>
+  <p>
+    Consider a square loop of side \(L\) (perimeter \(4L\), area \(L^2\)) and a linear interferometer
+    with path difference \(\Matt{\Delta L} = L\). The holonomy variances are:
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Geometry</th><th>\(\langle \Phi_R^2 \rangle\)</th><th>Scaling</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Linear (path diff. \(\Delta L\))</td>
+        <td>\(\dfrac{y^2 \sigma_R^2}{L_X^2} \cdot \Delta L^2\)</td>
+        <td>\(\propto \Delta L^2\)</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.1);">
+        <td>Loop (area \(A = L^2\))</td>
+        <td>\(\dfrac{y^2 \sigma_R^2}{L_X^4} \cdot A\)</td>
+        <td>\(\propto A = L^2\)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Enhancement Ratio</h3>
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\frac{\langle \Phi_R^2 \rangle_{\rm loop}}{\langle \Phi_R^2 \rangle_{\rm linear}} = \frac{A/L_X^4}{\Delta L^2/L_X^2} = \frac{A}{L_X^2 \cdot \Delta L^2}}\]
+    <div class="eq-label" style="color:var(--gold);">(C.10) — Loop enhancement ratio</div>
+  </div>
+
+  <h3>Numerical Example</h3>
+  <p>
+    For a 1 m × 1 m square loop (\(A = 1\) m², \(\Delta L_{\rm eff} = 1\) m for the linear equivalent)
+    with \(\XCRM{L_X} = 1\) μm:
+  </p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\text{Enhancement} = \frac{1 \text{ m}^2}{(10^{-6} \text{ m})^2 \cdot (1 \text{ m})^2} = \frac{1}{10^{-12}} = 10^{12}\]
+    <div class="eq-label">(C.11) — Example: trillion-fold enhancement</div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Implication: Macroscopic Observability</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Even with microscopic \(\XCRM{L_X} \sim 1\) μm, loop geometries can amplify the STUR signal by
+      factors of \(10^{12}\) or more. This provides a pathway to experimental detection even if the
+      linear-path coherence length is astronomically large.
+    </p>
+  </div>
+</section>
+
+<!-- OPTIMAL GEOMETRY -->
+<section class="section" id="optimal">
+  <h2>C.6 Optimal Loop Design</h2>
+
+  <h3>Maximizing Signal</h3>
+  <p>
+    For a fixed perimeter \(P\), the enclosed area is maximized by a <strong>circular loop</strong>:
+  </p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[A_{\rm circle} = \frac{P^2}{4\pi} \quad \text{vs.} \quad A_{\rm square} = \frac{P^2}{16}\]
+    <div class="eq-label">(C.12) — Circle vs. square</div>
+  </div>
+
+  <p>
+    A circle provides \(\pi/4 \approx 1.27\times\) more area than a square of the same perimeter.
+  </p>
+
+  <h3>Practical Considerations</h3>
+  <table>
+    <thead>
+      <tr><th>Factor</th><th>Consideration</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Area maximization</td><td>Circle > Square > Rectangle</td></tr>
+      <tr><td>Beam alignment</td><td>Squares/rectangles easier to align</td></tr>
+      <tr><td>Vibration isolation</td><td>Smaller loops easier to stabilize</td></tr>
+      <tr><td>Enhancement vs. signal</td><td>Trade-off: larger area = more enhancement but harder to control</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Multi-Pass Enhancement</h3>
+  <p>
+    For \(N\) passes around the same loop (e.g., using mirrors), the effective area scales as:
+  </p>
+
+  <div class="eq law" style="margin:1rem 0;">
+    \[\boxed{\Matt{A_{\rm eff}} = N^2 \cdot \Matt{A_{\rm single}}}\]
+    <div class="eq-label">(C.13) — Multi-pass enhancement</div>
+  </div>
+
+  <p>
+    The \(N^2\) scaling (not \(N\)) arises because phase accumulates coherently over multiple passes.
+  </p>
+</section>
+
+<!-- SAGNAC SPECIFICS -->
+<section class="section" id="sagnac">
+  <h2>C.7 Sagnac Interferometer Specifics</h2>
+
+  <div class="block gold">
+    <div class="title">Sagnac Advantage: Zero Path Difference</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      In a Sagnac interferometer, counter-propagating beams traverse the <strong>same path</strong> in opposite directions.
+      The geometric path difference is \(\Matt{\Delta L} = 0\), eliminating standard decoherence mechanisms.
+      <strong>Any visibility decay must arise from area-dependent effects like STUR.</strong>
+    </p>
+  </div>
+
+  <h3>Sagnac Holonomy</h3>
+  <p>
+    For a Sagnac loop of area \(\Matt{A}\), the XCRM holonomy difference between CW and CCW paths is:
+  </p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\Quant{\Delta\Phi_R^{\rm Sagnac}} = \Quant{\Phi_R^{\rm CW}} - \Quant{\Phi_R^{\rm CCW}} = 2 \int_\Sigma \XCRM{\mathsf{F}_{xy}}\, dA\]
+    <div class="eq-label">(C.14) — Sagnac holonomy difference</div>
+  </div>
+
+  <p>
+    The factor of 2 arises because CW and CCW traverse the boundary in opposite senses, picking up
+    opposite signs of the holonomy.
+  </p>
+
+  <h3>Sagnac Visibility</h3>
+  <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--success);">
+    \[\boxed{\Matt{V_{\rm Sagnac}} = V_0 \exp\!\left(-2 \cdot \frac{\Matt{A}^2}{\Matt{A_{\rm coh}}^2}\right)}\]
+    <div class="eq-label" style="color:var(--success);">(C.15) — Sagnac visibility (factor of 2 enhancement)</div>
+  </div>
+
+  <p>
+    The extra factor of 2 in the exponent represents a \(\sqrt{2}\) enhancement in sensitivity
+    compared to a single-pass loop.
+  </p>
+</section>
+
+<!-- SUMMARY -->
+<section class="section" id="summary">
+  <h2>C.8 Summary Table</h2>
+
+  <table>
+    <thead>
+      <tr><th>Geometry</th><th>Visibility Law</th><th>Coherence Scale</th><th>Enhancement</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Linear (two-arm)</td>
+        <td>\(V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\)</td>
+        <td>\(\ell_{\rm coh} = \sqrt{2} L_X / (y\sigma_R)\)</td>
+        <td>1 (baseline)</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.1);">
+        <td>Loop (single pass)</td>
+        <td>\(V_0 \exp(-A^2/A_{\rm coh}^2)\)</td>
+        <td>\(A_{\rm coh} = \ell_{\rm coh} \cdot L_X\)</td>
+        <td>\(\sim A/(L_X^2 \cdot \Delta L^2)\)</td>
+      </tr>
+      <tr style="background:rgba(251,191,36,0.1);">
+        <td>Sagnac</td>
+        <td>\(V_0 \exp(-2A^2/A_{\rm coh}^2)\)</td>
+        <td>\(A_{\rm coh}/\sqrt{2}\)</td>
+        <td>\(\sqrt{2} \times\) loop</td>
+      </tr>
+      <tr style="background:rgba(167,139,250,0.1);">
+        <td>Multi-pass (\(N\))</td>
+        <td>\(V_0 \exp(-N^4 A^2/A_{\rm coh}^2)\)</td>
+        <td>\(A_{\rm coh}/N^2\)</td>
+        <td>\(N^4 \times\) single pass</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- NAVIGATION -->
+<nav class="page-nav">
+  <a href="stur_appendix_visibility.html" class="prev">B: Visibility Derivation</a>
+  <a href="stur_appendix_casimir.html" class="next">D: Casimir-Holonomy</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Appendix C: Loop Geometry and Area Scaling</strong></p>
+  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>
