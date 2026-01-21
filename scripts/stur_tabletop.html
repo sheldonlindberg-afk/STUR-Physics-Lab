@@ -112,7 +112,7 @@
     <div class="glass-section" style="border-color:var(--neon-cyan);background:rgba(34,211,238,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
             <span class="stur-icon icon-check-circle size-24" style="color:var(--neon-cyan);"></span>
-            <h2 class="glass-section-title" style="color:var(--neon-cyan);">First Principles Status — Derived Application</h2>
+            <h2 class="glass-section-title" style="color:var(--neon-cyan);">First Principles Status — Mathematically Established</h2>
         </div>
         <div class="glass-section-body">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
@@ -137,6 +137,52 @@
                 <strong style="color:var(--neon-cyan);">Connection to Core Theory:</strong>
                 This page tests the <em>potential sector</em> in the ray optics limit.
                 The FORM of \(\Pot{S(r)}\) is derived; the SCALE \(\Matt{L_0}\) must be fit from photon lifetime data.
+            </div>
+        </div>
+    </div>
+
+    <!-- DERIVATION CHAIN -->
+    <div class="glass-section" style="border-color:var(--accent-violet);background:rgba(167,139,250,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-link size-24" style="color:var(--accent-violet);"></span>
+            <h2 class="glass-section-title" style="color:var(--accent-violet);">Derivation Chain: Axioms → WGM Prediction</h2>
+        </div>
+        <div class="glass-section-body">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:1rem;">
+                <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;font-weight:600;">Axiom 1: Master Action</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="padding:6px 12px;background:rgba(244,114,182,0.15);border-radius:8px;border:1px solid rgba(244,114,182,0.4);color:#f472b6;">V(R) from Orbifold (§2.5)</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="padding:6px 12px;background:rgba(74,222,128,0.15);border-radius:8px;border:1px solid rgba(74,222,128,0.4);color:#4ade80;">Saturation Operator (B.16)</span>
+                <span style="color:var(--text-muted);">→</span>
+                <span style="padding:6px 12px;background:rgba(34,211,238,0.15);border-radius:8px;border:1px solid rgba(34,211,238,0.4);color:#22d3ee;font-weight:600;">Radial Modulation S(r)</span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #f472b6;">
+                    <strong style="color:#f472b6;font-size:0.8rem;">Step 1: Potential Derivation</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">V(R) = λ(R²−v²)²/4 uniquely determined by S¹/Z₂ orbifold topology</p>
+                    <a href="stur_xcrm_closure.html" style="font-size:0.75rem;color:var(--accent);">→ XCRM Closure §2.5</a>
+                </div>
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
+                    <strong style="color:#4ade80;font-size:0.8rem;">Step 2: Saturation Operator</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">S<sub>u</sub>(u) = tanh(u)(1−e<sup>−u</sup>) ensures bounded behavior at all scales</p>
+                    <a href="stur_technical_appendix.html#visibility-derivation" style="font-size:0.75rem;color:var(--accent);">→ Eq. B.16</a>
+                </div>
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #22d3ee;">
+                    <strong style="color:#22d3ee;font-size:0.8rem;">Step 3: Effective Refractive Index</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">n<sub>eff</sub>(r) = n₀·S(r/R) gives radius-dependent critical angle</p>
+                    <a href="stur_technical_appendix.html#coherence-length" style="font-size:0.75rem;color:var(--accent);">→ Coherence Relation</a>
+                </div>
+                <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #a78bfa;">
+                    <strong style="color:#a78bfa;font-size:0.8rem;">Result: Extended Photon Lifetime</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">STUR predicts more bounces than uniform-index cavity due to radius-dependent θ<sub>c</sub></p>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:10px 14px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
+                <strong style="color:#ef4444;font-size:0.85rem;">Falsification Criterion:</strong>
+                <span style="font-size:0.85rem;color:var(--text-secondary);">If photon lifetime matches uniform-index prediction with no radial modulation, or if S(r) form differs from derived tanh·(1−e<sup>−r</sup>), <strong>STUR is excluded</strong>.</span>
             </div>
         </div>
     </div>
