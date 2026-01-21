@@ -490,23 +490,24 @@ button.glass-nav-link:hover {
 }
 
 /* === GLASS BUTTONS === */
+/* Modern 2026 liquid glass pill buttons */
 .glass-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.6rem 1.1rem;
+  padding: 0.65rem 1.25rem;
   background: var(--glass-bg-light);
   backdrop-filter: blur(var(--glass-blur-light));
   -webkit-backdrop-filter: blur(var(--glass-blur-light));
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full, 999px);
   color: var(--text-main);
   font-family: var(--font-mono);
   font-size: 0.88rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   min-height: 40px;
   text-decoration: none;
 }
@@ -515,6 +516,8 @@ button.glass-nav-link:hover {
   background: var(--glass-bg-medium);
   border-color: var(--glass-border-active);
   text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .glass-btn:active {
@@ -561,20 +564,23 @@ button.glass-nav-link:hover {
 }
 
 /* === STANDARD BUTTON STYLES (global .btn classes) === */
+/* Modern 2026 pill-shaped buttons with liquid glass effect */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.65rem 1.25rem;
-  border-radius: var(--radius-md);
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--radius-full, 999px);
   font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
   border: 1px solid transparent;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-tap-highlight-color: transparent;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .btn.primary,
@@ -605,20 +611,23 @@ button.glass-nav-link:hover {
   border-color: rgba(255, 255, 255, 0.15);
 }
 
-/* Citation button - styled to match banner */
+/* Citation button - styled to match banner with pill shape */
 .btn.cite,
 .btn-cite {
   background: rgba(251, 191, 36, 0.12);
   color: var(--neon-gold, #fbbf24);
   border: 1px solid rgba(251, 191, 36, 0.25);
   font-size: 0.8rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-full, 999px);
 }
 
 .btn.cite:hover,
 .btn-cite:hover {
   background: rgba(251, 191, 36, 0.2);
   border-color: rgba(251, 191, 36, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
 }
 
 /* === GLASS INPUTS === */

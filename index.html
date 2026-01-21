@@ -384,20 +384,20 @@
     margin: 56px 0 48px;
   }
 
+  /* Modern 2026 pill-shaped buttons */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     padding: 12px 24px;
-    border-radius: var(--radius-md);
+    border-radius: 999px;
     font-size: 0.9375rem;
     font-weight: 500;
     text-decoration: none;
-    transition:
-      background var(--duration-fast) var(--ease-out),
-      transform var(--duration-fast) var(--ease-out),
-      box-shadow var(--duration-fast) var(--ease-out);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .btn-primary {

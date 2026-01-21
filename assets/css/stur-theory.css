@@ -15,12 +15,12 @@
  *   MATTER    (#22d3ee Cyan)     - Matter fields: ℒ_matter
  *   QUANTUM   (#a78bfa Violet)   - Loop corrections, holonomy
  *
- * === THREE AXIOMS ===
- * 1. Master Action - Defines dynamics
- * 2. MHP - Selects ground state (gauge, generations, flavor)
- * 3. DHP - Governs evolution (cosmology, QG)
+ * === TWO AXIOMS + MHP DERIVED ===
+ * Axiom 1: Master Action - Defines dynamics
+ * Axiom 2: DHP - Governs evolution (cosmology, QG)
+ * Derived: MHP emerges from path integral (selects ground state)
  *
- * Two free parameters: L_X, λ
+ * One dynamical parameter: L_X (stabilized via Casimir-holonomy)
  * All 13 problems closed.
  */
 
@@ -174,8 +174,8 @@ a:hover { color: var(--accent-secondary); }
   gap: 0.4rem;
   color: var(--text-secondary);
   padding: 0.5rem 0.75rem;
-  border-radius: var(--radius-sm);
-  transition: all 0.2s;
+  border-radius: 999px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .page-nav a:hover {
