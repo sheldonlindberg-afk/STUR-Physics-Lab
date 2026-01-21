@@ -1,3 +1,9 @@
+> **INTERNAL DOCUMENT — NOT FOR PUBLIC DISPLAY**
+>
+> This document is for repository maintainers only. It is not linked from any public-facing pages on the STUR Physics Lab website.
+
+---
+
 # STUR Physics Lab — Comprehensive Peer Review Report
 
 **Date:** January 21, 2026
