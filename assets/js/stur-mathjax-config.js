@@ -28,23 +28,25 @@ window.MathJax = {
       // ============================================================
       // PHYSICS DOMAIN COLOR MACROS
       // ============================================================
+      // Using ## to escape # in hex codes (MathJax macro parameter escape)
+
       // Diffusion - Green (#4ade80) - Kinetic terms, gradient energy
-      Diff: ['\\color{#4ade80}{#1}', 1],
+      Diff: ['{\\color{##4ade80}#1}', 1],
 
       // Potential - Pink (#f472b6) - Relaxation potential V(R)
-      Pot: ['\\color{#f472b6}{#1}', 1],
+      Pot: ['{\\color{##f472b6}#1}', 1],
 
       // XCRM - Gold (#fbbf24) - X-Cross Resistance Mechanism coupling
-      XCRM: ['\\color{#fbbf24}{#1}', 1],
+      XCRM: ['{\\color{##fbbf24}#1}', 1],
 
       // Torsion - Blue (#60a5fa) - Gravity, teleparallel torsion
-      Tor: ['\\color{#60a5fa}{#1}', 1],
+      Tor: ['{\\color{##60a5fa}#1}', 1],
 
       // Quantum - Violet (#a78bfa) - Loop corrections, holonomy
-      Quant: ['\\color{#a78bfa}{#1}', 1],
+      Quant: ['{\\color{##a78bfa}#1}', 1],
 
       // Matter - Cyan (#22d3ee) - Standard Model matter sector
-      Matt: ['\\color{#22d3ee}{#1}', 1],
+      Matt: ['{\\color{##22d3ee}#1}', 1],
 
       // ============================================================
       // COMMON SYMBOL MACROS
