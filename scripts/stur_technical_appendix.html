@@ -2118,43 +2118,50 @@
     </tbody>
   </table>
 
-  <div class="block success" style="margin-top:1.5rem;">
-    <div class="title">Resolution: SM Uniquely Derived</div>
+  <div class="block" style="margin-top:1.5rem;border-color:var(--gold);">
+    <div class="title" style="color:var(--gold);">Resolution: SM Selected (Given Inputs)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      With the Minimum Holonomy Principle, the Standard Model gauge group is now derived from first principles:
+      With MHP, the SM gauge group is <em>selected</em> as the minimum-cost anomaly-free solution:
     </p>
     <ol style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li><strong>XCRM constraints</strong> → Compact, anomaly-free, rank ≤ 4</li>
+      <li><strong>XCRM constraints</strong> → Compact, rank ≤ 4</li>
+      <li><strong>Anomaly-free requirement</strong> → <span style="color:var(--gold);">(INPUT)</span> physical consistency</li>
       <li><strong>MHP minimization</strong> → SU(3)×SU(2)×U(1) has lowest Ω</li>
-      <li><strong>Topological index</strong> → Exactly 3 generations</li>
+      <li><strong>Topological index</strong> → n=3 flux <span style="color:var(--gold);">(INPUT)</span> → 3 generations</li>
     </ol>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
-      This is no longer an open problem. <strong style="color:var(--success);">CLOSED.</strong>
+      Status: <strong style="color:var(--gold);">SELECTED</strong> (mechanism derived; requires anomaly-free + n=3 inputs)
     </p>
   </div>
 </section>
 
 <!-- ===================== SECTION H: FLAVOR STRUCTURE STATUS ===================== -->
-<section class="section" id="flavor" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(74,222,128,0.02) 100%);">
-  <h2 style="color:var(--success);">H. Flavor Structure: Post-MHP Status</h2>
+<section class="section" id="flavor" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">H. Flavor Structure: Mechanism Derived, Values Accommodated</h2>
 
-  <div class="block success" style="border-width:2px;">
-    <div class="title">Status: CLOSED by MHP</div>
+  <div class="block" style="border-width:2px;border-color:var(--gold);">
+    <div class="title" style="color:var(--gold);">Status: MECHANISM DERIVED, VALUES ACCOMMODATED</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>With the Minimum Holonomy Principle (Section F), the flavor structure is now derived from first principles.</strong>
-      The MHP determines fermion localization positions by minimizing the holonomy functional,
-      and the topological index fixes the generation number.
+      <strong>The MHP provides the localization mechanism; specific values require O(1) fitting parameters.</strong>
+      The exponential hierarchy form is derived from geometry; specific masses require species-dependent inputs.
     </p>
   </div>
 
-  <h3>H.1 What Is Now Derived</h3>
+  <h3>H.1 What IS Derived (Mechanism)</h3>
 
   <ul>
-    <li><strong>Generation number:</strong> \(\Matt{N_{\rm gen}} = |\Quant{\mathcal{I}_{\rm top}}| = 3\) from orbifold topology (Eq. F.11)</li>
-    <li><strong>Localization positions:</strong> \(X_L^{(i)}, X_R^{(j)}\) from \(\partial\Quant{\Omega}/\partial X_i = 0\) (Eq. F.8)</li>
-    <li><strong>Yukawa hierarchies:</strong> Exponential suppression from derived wavefunction overlaps (Eq. F.9)</li>
-    <li><strong>CKM/PMNS structure:</strong> Mixing matrices follow from derived localization geometry</li>
+    <li><strong>Localization mechanism:</strong> \(\partial\Quant{\Omega}/\partial X_i = 0\) determines localization equation form (Eq. F.8)</li>
+    <li><strong>Exponential hierarchy form:</strong> Wavefunction overlap gives \(y \sim e^{-\Delta X^2/\sigma^2}\) structure</li>
     <li><strong>Chirality:</strong> The \(\mathbb{Z}_2\) orbifold naturally produces chiral zero modes</li>
+  </ul>
+
+  <h3>H.2 What Requires Input (Values)</h3>
+
+  <ul>
+    <li><strong>Generation number:</strong> n=3 flux quantization is <span style="color:var(--gold);">INPUT</span>, not predicted</li>
+    <li><strong>Specific positions:</strong> c<sub>i</sub> parameters (O(1) numbers) are <span style="color:var(--gold);">INPUTS</span></li>
+    <li><strong>Yukawa values:</strong> Specific masses are <span style="color:var(--gold);">ACCOMMODATED</span> via c<sub>i</sub> fitting</li>
+    <li><strong>CKM/PMNS angles:</strong> Mixing angles are <span style="color:var(--gold);">ACCOMMODATED</span>, not predicted</li>
   </ul>
 
   <h3>H.2 The MHP Flavor Mechanism</h3>

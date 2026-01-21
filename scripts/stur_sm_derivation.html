@@ -59,26 +59,26 @@
 <div class="glass-section" style="border-color:var(--success);background:rgba(74,222,128,0.06);margin-bottom:1.5rem;">
     <div class="glass-section-header">
         <span class="stur-icon icon-link size-24" style="color:var(--success);"></span>
-        <h2 class="glass-section-title" style="color:var(--success);">Main Theorem: Unique Gauge Group Selection</h2>
+        <h2 class="glass-section-title" style="color:var(--success);">Main Theorem: Gauge Group Selection</h2>
     </div>
     <div class="glass-section-body">
         <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.6);">
-            <div class="title" style="font-size:1.1rem;">Theorem 1.1 — Standard Model Uniqueness</div>
+            <div class="title" style="font-size:1.1rem;">Theorem 1.1 — Standard Model Selection</div>
             <p style="margin:0;color:var(--text);font-size:1.05rem;line-height:1.7;">
-                <strong>The Standard Model gauge group G<sub>SM</sub> = SU(3)<sub>C</sub> × SU(2)<sub>L</sub> × U(1)<sub>Y</sub> is the unique solution satisfying:</strong>
+                <strong>G<sub>SM</sub> = SU(3)<sub>C</sub> × SU(2)<sub>L</sub> × U(1)<sub>Y</sub> is selected as the minimum-cost anomaly-free solution satisfying:</strong>
             </p>
             <ol style="margin:0.75rem 0 0;color:var(--text-secondary);line-height:1.8;">
                 <li>Orbifold consistency on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub></li>
                 <li>Chiral fermion localization at fixed points</li>
-                <li>Complete anomaly cancellation</li>
+                <li>Complete anomaly cancellation (requires anomaly-free input)</li>
                 <li>Minimum holonomy cost functional Ω[G]</li>
                 <li>Non-trivial XCRM coupling</li>
             </ol>
         </div>
 
-        <p style="color:var(--text-secondary);margin-top:1rem;">
-            This page provides the complete mathematical proof. Each constraint eliminates classes of gauge groups
-            until only G<sub>SM</sub> remains.
+        <p style="color:var(--text-secondary);margin-top:1rem;padding:0.5rem 0.75rem;background:rgba(251,191,36,0.08);border-radius:6px;font-size:0.9rem;">
+            <strong style="color:var(--gold);">Note:</strong> This is a <em>selection</em> theorem, not a pure prediction.
+            The requirement of anomaly-free fermions is a physical consistency condition (input), not derived from STUR axioms alone.
         </p>
     </div>
 </div>
@@ -649,21 +649,31 @@
 <section class="section" id="derivation-summary" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
   <h2 style="color:var(--success);">7. Complete Derivation Summary</h2>
 
+  <!-- IMPORTANT CAVEAT -->
+  <div style="margin-bottom:1.25rem;padding:0.85rem 1rem;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">
+    <strong style="color:var(--gold);">Required Inputs (not derived):</strong>
+    <ul style="margin:0.5rem 0 0;font-size:0.88rem;color:var(--text-secondary);">
+      <li>Requirement of anomaly-free chiral fermions (physical consistency)</li>
+      <li>Assumption that we seek the minimal anomaly-free solution</li>
+      <li>Orbifold geometry M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> (Axiom 1)</li>
+    </ul>
+  </div>
+
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.6);">
-    <div class="title" style="font-size:1.1rem;">Theorem 1.1 (Complete Proof)</div>
+    <div class="title" style="font-size:1.1rem;">Theorem 1.1 — Selection (Given Inputs Above)</div>
     <p style="margin:0;color:var(--text);line-height:1.8;">
-      Starting from the STUR Master Action on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub>, we have derived:
+      Starting from the STUR Master Action on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub>, we have shown:
     </p>
     <ol style="margin:0.75rem 0;color:var(--text-secondary);line-height:2;">
       <li><strong>Orbifold constraints</strong> → Only SU(N) groups allow chiral spectra (§1)</li>
       <li><strong>Chirality requirement</strong> → Complex representations needed (§2)</li>
-      <li><strong>Anomaly cancellation</strong> → Unique fermion content per generation (§3)</li>
+      <li><strong>Anomaly cancellation</strong> → SM content is minimal anomaly-free solution (§3)</li>
       <li><strong>Hypercharge quantization</strong> → Y ∈ (1/6)Z from topology (§4)</li>
       <li><strong>MHP minimization</strong> → G<sub>SM</sub> has minimum holonomy cost (§5)</li>
       <li><strong>Coupling relations</strong> → sin²θ<sub>W</sub> = 0.231 at M<sub>Z</sub> (§6)</li>
     </ol>
     <p style="margin:0;color:var(--text);">
-      <strong>The Standard Model gauge group and matter content are uniquely derived from STUR axioms. QED.</strong>
+      <strong>G<sub>SM</sub> is selected as the unique minimum-cost anomaly-free gauge group on the orbifold.</strong>
     </p>
   </div>
 
