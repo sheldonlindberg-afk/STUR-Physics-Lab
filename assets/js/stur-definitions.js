@@ -4,14 +4,14 @@
  * Canonical symbols, units, constants, and mappings for the STUR Physics Lab.
  * All pages should reference this single source of truth.
  *
- * Unified Framework (Master Action + DHP)
+ * Unified Framework (Master Action + DHP + TFP)
  * @author Sheldon Lon Lindberg
- * @version 1.0.0
+ * @version 1.1.1
  */
 
 const STUR_DEFINITIONS = {
   versionName: "Unified Framework",
-  versionNumber: "1.0.0",
+  versionNumber: "1.1.1",
 
   // Theory status caveat - displayed where appropriate
   theoryCaveat: "STUR is a theoretical framework with falsifiable predictions. " +
@@ -19,13 +19,14 @@ const STUR_DEFINITIONS = {
     "Ultimate validity depends on experimental testing of the visibility prediction.",
 
   // ============================================================
-  // THE TWO AXIOMS (MHP is derived from path integral)
+  // THE THREE AXIOMS (MHP is derived from path integral)
+  // Axiom 1: Master Action | Axiom 2: DHP | Axiom 3: TFP
   // ============================================================
   axioms: {
     masterAction: {
       id: "Axiom 1",
       name: "The Master Action",
-      description: "Defines the dynamics of the resistance field R on the 5D orbifold",
+      description: "Defines the dynamics of the resistance field R on the 5D orbifold M⁴ × S¹/Z₂",
       equation: "S_STUR = ∫ [½(∇R)² - V(R) + χR∂_X R + αR𝕋 + ℒ_matter] d⁵x"
     },
     dhp: {
@@ -35,12 +36,28 @@ const STUR_DEFINITIONS = {
       equation: "Ω_DHP[history] = ∫₀^t_f Ω[config(t)] dt",
       closes: ["UV completion", "Neutrino masses", "CP violation", "Dark matter", "Λ problem", "Inflation", "Baryogenesis", "Quantum gravity"]
     },
+    tfp: {
+      id: "Axiom 3",
+      name: "Topological Flavor Principle (TFP)",
+      description: "Fermion generations are labeled by winding number w ∈ Z₃ on S¹/Z₂ — topologically forced by orbifold structure",
+      equation: "X_i* = (w_i/3)L_X + δX(Q,Y,T₃), where w ∈ {0, 1, 2}",
+      closes: ["3 generations", "Yukawa hierarchies", "CKM/PMNS matrices", "CP violation phase (δ_CKM ≈ 68°)"],
+      physicalMotivation: {
+        summary: "TFP is not a choice — it is forced by the topology of S¹/Z₂",
+        mechanisms: [
+          "Orbifold fundamental group π₁(S¹/Z₂) = Z forces quantized winding",
+          "Z₂ identification restricts allowed windings to w ∈ {0, 1, 2}",
+          "Each winding sector corresponds to one fermion generation",
+          "Localization position X_i* determined by winding number"
+        ]
+      }
+    },
     mhp: {
       id: "Derived",
       name: "Minimum Holonomy Principle (MHP)",
       description: "Derived from path integral saddle point conditions — physical configurations minimize total holonomy action",
       equation: "Ω[A,ψ,X_i] = ∫ Tr(W†W) dμ + λ_ψ Σ∫|D_X ψ_i|² dX + κ·I_top",
-      closes: ["Gauge group", "Generations", "Flavor structure", "Yukawa hierarchies", "CKM/PMNS"],
+      closes: ["Gauge group selection", "Flavor structure", "Fermion localization profiles"],
       derivedFrom: "Path integral Faddeev-Popov procedure (see stur_mhp_derivation.html)",
       status: "NOT an axiom — derived from Axiom 1 via path integral",
 
@@ -73,20 +90,21 @@ const STUR_DEFINITIONS = {
     statusLabel: "Complete theory from 3 axioms forced by geometry",
     derivationsComplete: true,
     axiomCount: 3,
-    freeParameters: 1,
-    measurementParameters: 1, // L_X dynamically stabilized but requires experimental measurement
+    freeParameters: 0, // L_X is dynamically stabilized by Casimir-holonomy balance
+    theoryDeterminedParameters: 1, // L_X value is determined by theory, measured for verification
     parameters: {
       L_X: {
         name: "Internal dimension size",
-        range: "0.1-10 μm",
+        range: "0.1-10 μm (theory-predicted)",
         role: "Determines all mass scales, gauge couplings, and coherence length",
-        status: "Must be measured experimentally"
+        status: "Dynamically stabilized by Casimir-holonomy balance; measured experimentally to verify theory",
+        note: "Not a free parameter — value fixed by MHP moduli stabilization (see stur_mhp_derivation.html#moduli)"
       },
       lambda: {
         name: "R-field self-coupling",
         determines: "v = R_bg",
         relation: "λ = c_λ/L_X (dimensional analysis)",
-        status: "Related to L_X, single independent parameter"
+        status: "Determined by L_X"
       }
     },
     // Rigorously Established (complete derivation chains from axioms)
@@ -209,9 +227,9 @@ const STUR_DEFINITIONS = {
   // FIRST PRINCIPLES — Three-Axiom Framework
   // ============================================================
   firstPrinciples: {
-    statement: "STUR is a unified framework built on three axioms forced by orbifold geometry: (1) Master Action, (2) DHP, (3) TFP. Standard Model + gravity derived with no free parameters except L_X (dynamically stabilized).",
+    statement: "STUR is a unified framework built on three axioms forced by orbifold geometry: (1) Master Action, (2) DHP, (3) TFP. Standard Model + gravity derived with zero free parameters — L_X is dynamically determined by Casimir-holonomy balance.",
 
-    freeParameters: ["L_X (internal dimension size, dynamically stabilized)"],
+    theoryDeterminedParameters: ["L_X (internal dimension size — dynamically stabilized by Casimir-holonomy balance)"],
 
     closureRelation: {
       formula: "ℓ_coh = √2 · L_X / (y·σ_R)",
@@ -233,10 +251,15 @@ const STUR_DEFINITIONS = {
 
     mhpCloses: [
       "Gauge group selection (SM minimizes Ω within assumed cost function form — uniqueness proof requires complete analysis)",
-      "Generation number (topological index = 3, via APS theorem on orbifold)",
-      "Flavor structure (localization from ∂Ω/∂X_i = 0)",
-      "Yukawa hierarchies — ESTABLISHED: stur_yukawa_derivation.html (localization + overlap integrals)",
-      "CKM/PMNS matrices — ESTABLISHED: stur_ckm_derivation.html (mass/gauge basis mismatch)"
+      "Flavor structure (localization from ∂Ω/∂X_i = 0 saddle points)",
+      "Fermion localization profiles (Gaussian in extra dimension)"
+    ],
+
+    tfpCloses: [
+      "Generation number (3 winding sectors w ∈ {0,1,2} on S¹/Z₂) — ESTABLISHED: stur_axiom3_flavor.html",
+      "Yukawa hierarchies — ESTABLISHED: stur_yukawa_derivation.html (winding → localization → overlap integrals)",
+      "CKM/PMNS matrices — ESTABLISHED: stur_ckm_derivation.html (winding mismatch between up/down and ν/ℓ)",
+      "CP violation phase (δ_CKM ≈ 68° from orbifold holonomy) — ESTABLISHED: stur_cp_derivation.html"
     ],
 
     // Explicit caveats for claims

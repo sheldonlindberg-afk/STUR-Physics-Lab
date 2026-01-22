@@ -168,7 +168,7 @@ derivation chains from the three axioms. See individual derivation pages for det
   title        = {{STUR Physics Lab: A Unified Framework from Three Axioms}},
   year         = {2026},
   howpublished = {\url{https://github.com/sheldonlindberg-afk/STUR-Physics-Lab}},
-  note         = {Version 1.1.0. Three axioms (Master Action + DHP + TFP), one free parameter (L_X),
+  note         = {Version 1.1.1. Three axioms (Master Action + DHP + TFP), zero free parameters (L_X dynamically stabilized),
                   falsifiable prediction: Gaussian visibility decay}
 }
 ```
