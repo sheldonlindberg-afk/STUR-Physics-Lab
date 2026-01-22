@@ -177,12 +177,21 @@
 .feature-pill .pill-icon svg {
   width: 16px;
   height: 16px;
-  stroke: #4ade80;
   stroke-width: 2.5;
   fill: none;
 }
 
-/* Primary Actions - Liquid Glass Buttons */
+/* Individual pill colors matching category cards */
+.feature-pill.axioms { color: #4ade80; border-color: rgba(74, 222, 128, 0.25); }
+.feature-pill.axioms .pill-icon svg { stroke: #4ade80; }
+.feature-pill.derived { color: #a78bfa; border-color: rgba(167, 139, 250, 0.25); }
+.feature-pill.derived .pill-icon svg { stroke: #a78bfa; }
+.feature-pill.physics { color: #60a5fa; border-color: rgba(96, 165, 250, 0.25); }
+.feature-pill.physics .pill-icon svg { stroke: #60a5fa; }
+.feature-pill.testable { color: #ef4444; border-color: rgba(239, 68, 68, 0.25); }
+.feature-pill.testable .pill-icon svg { stroke: #ef4444; }
+
+/* Primary Actions - Modern Gradient Buttons */
 .action-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -199,33 +208,47 @@
   font-weight: 600;
   border-radius: var(--radius-md);
   text-decoration: none;
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  position: relative;
+  overflow: hidden;
 }
 
+.btn-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-glass:hover::before {
+  opacity: 1;
+}
+
+/* Learn STUR - Vibrant cyan-to-green gradient */
 .btn-glass.primary {
-  background: linear-gradient(135deg, rgba(96, 165, 250, 0.9) 0%, rgba(167, 139, 250, 0.9) 100%);
+  background: linear-gradient(135deg, #22d3ee 0%, #4ade80 100%);
   color: #000;
-  box-shadow: 0 4px 24px rgba(96, 165, 250, 0.3);
+  box-shadow: 0 4px 20px rgba(34, 211, 238, 0.35), 0 0 0 1px rgba(255,255,255,0.1) inset;
 }
 
 .btn-glass.primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 32px rgba(96, 165, 250, 0.4);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(34, 211, 238, 0.5), 0 0 0 1px rgba(255,255,255,0.2) inset;
 }
 
+/* Core Theory - Deep violet-to-pink gradient */
 .btn-glass.secondary {
-  background: rgba(74, 222, 128, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-color: rgba(74, 222, 128, 0.3);
-  color: #4ade80;
+  background: linear-gradient(135deg, #a78bfa 0%, #f472b6 100%);
+  color: #000;
+  box-shadow: 0 4px 20px rgba(167, 139, 250, 0.35), 0 0 0 1px rgba(255,255,255,0.1) inset;
 }
 
 .btn-glass.secondary:hover {
-  background: rgba(74, 222, 128, 0.15);
-  border-color: rgba(74, 222, 128, 0.5);
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(167, 139, 250, 0.5), 0 0 0 1px rgba(255,255,255,0.2) inset;
 }
 
 /* ============================================================
@@ -501,9 +524,6 @@
 </head>
 <body>
 
-<!-- Skip to Content Link (Accessibility) -->
-<a href="#main-content" class="skip-to-content">Skip to main content</a>
-
 <!-- ============================================================
      NAVIGATION
      ============================================================ -->
@@ -555,31 +575,32 @@
     <div class="intro-glass animate-in delay-2">
       <p class="intro-text">
         STUR derives the Standard Model, general relativity, and quantum mechanics from
-        <strong>three axioms</strong> on a 5D orbifold.
-        Minimal free parameters after moduli stabilization. One falsifiable prediction.
+        <strong>three axioms</strong> on a 5D orbifold. The X-Cross Resistance Mechanism (XCRM)
+        couples the resistance field R to extra-dimensional gradients, generating gauge fields,
+        mass hierarchies, and quantum coherence from geometry.
       </p>
 
       <!-- Feature Pills -->
       <div class="feature-pills">
-        <div class="feature-pill">
+        <div class="feature-pill axioms">
           <span class="pill-icon">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </span>
           3 Axioms
         </div>
-        <div class="feature-pill">
+        <div class="feature-pill derived">
           <span class="pill-icon">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </span>
-          Minimal Parameters
+          Fully Derived
         </div>
-        <div class="feature-pill">
+        <div class="feature-pill physics">
           <span class="pill-icon">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </span>
           All SM + Gravity
         </div>
-        <div class="feature-pill">
+        <div class="feature-pill testable">
           <span class="pill-icon">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </span>
@@ -654,7 +675,7 @@
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
         </div>
         <div class="card-title">Falsifiable Predictions</div>
-        <div class="card-desc">Gaussian visibility decay V(dL) = V0 exp(-dL^2/l^2). Explicit kill criteria. No moving goalposts.</div>
+        <div class="card-desc">Gaussian visibility decay V(ΔL) = V₀ exp(-ΔL²/ℓ²). Explicit falsification criteria. No moving goalposts.</div>
         <div class="card-meta">l_coh = 0.3-30 m  •  Testable</div>
       </a>
 
@@ -708,10 +729,10 @@
   <div class="falsification-glass animate-in delay-4">
     <p class="glass-title">
       <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      How to Kill This Theory
+      Falsification Criteria
     </p>
     <p>
-      STUR predicts <strong>Gaussian visibility decay</strong>: V(dL) = V0 exp(-dL^2/l^2<sub>coh</sub>).
+      STUR predicts <strong>Gaussian visibility decay</strong>: V(ΔL) = V₀ exp(-ΔL²/ℓ²<sub>coh</sub>).
       The theory is <strong>excluded</strong> if visibility is oscillatory, time-dependent, or mass-dependent.
       See <a href="scripts/stur_falsification.html">full falsification protocol</a>.
     </p>

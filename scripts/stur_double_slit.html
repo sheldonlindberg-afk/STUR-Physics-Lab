@@ -541,9 +541,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> \(\text{RMSE}_{\text{STUR}} \geq \text{RMSE}_{\text{QM}}\) — STUR fits worse than standard QM.</li>
-                <li><strong>Kill-2:</strong> Visibility shows oscillatory (non-Gaussian) behavior inconsistent with Eq. (3.15).</li>
-                <li><strong>Kill-3:</strong> Visibility depends on particle mass (photons vs electrons at same geometry).</li>
+                <li><strong>Exclusion-1:</strong> \(\text{RMSE}_{\text{STUR}} \geq \text{RMSE}_{\text{QM}}\) — STUR fits worse than standard QM.</li>
+                <li><strong>Exclusion-2:</strong> Visibility shows oscillatory (non-Gaussian) behavior inconsistent with Eq. (3.15).</li>
+                <li><strong>Exclusion-3:</strong> Visibility depends on particle mass (photons vs electrons at same geometry).</li>
             </ul>
 
             <!-- Verdict display -->
@@ -839,7 +839,7 @@ report = {
     },
     "falsification": {
         "criteria": ["RMSE_STUR >= RMSE_QM", "Non-Gaussian visibility", "Mass dependence"],
-        "triggered": ["Kill-1" if falsified else None],
+        "triggered": ["Exclusion-1" if falsified else None],
         "falsified": falsified
     },
     "outputs": {"json": OUT_JSON, "svg": OUT_SVG}

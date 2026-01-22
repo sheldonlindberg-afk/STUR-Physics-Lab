@@ -215,7 +215,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     STUR predicts at least 80% of max bounces due to \(\Pot{S(r)}\)-modulation.
-                    <br><strong>Kill condition:</strong> If bounces match uniform-\(\Matt{n}\) exactly, no STUR effect.
+                    <br><strong>Exclusion condition:</strong> If bounces match uniform-\(\Matt{n}\) exactly, no STUR effect.
                 </p>
             </div>
 
@@ -229,7 +229,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Intensity decays exponentially with each bounce.
-                    <br><strong>Kill condition:</strong> Non-exponential decay falsifies smooth \(\Pot{S(r)}\) profile.
+                    <br><strong>Exclusion condition:</strong> Non-exponential decay falsifies smooth \(\Pot{S(r)}\) profile.
                 </p>
             </div>
 
@@ -243,7 +243,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Critical angle varies with radial position via \(\Pot{S(r)}\) modulation.
-                    <br><strong>Kill condition:</strong> Position-independent \(\Matt{\theta_c}\) falsifies STUR.
+                    <br><strong>Exclusion condition:</strong> Position-independent \(\Matt{\theta_c}\) falsifies STUR.
                 </p>
             </div>
 
@@ -398,9 +398,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Measured confinement time matches uniform-\(\Matt{n}\) model with no \(\Pot{S(r)}\) correction.</li>
-                <li><strong>Kill-2:</strong> Intensity decay is non-exponential, indicating \(\Pot{S(r)}\) does not apply to optical systems.</li>
-                <li><strong>Kill-3:</strong> Escape angle is independent of radial position, contradicting \(\Matt{n_{\text{eff}}}(\Diff{r})\) modulation.</li>
+                <li><strong>Exclusion-1:</strong> Measured confinement time matches uniform-\(\Matt{n}\) model with no \(\Pot{S(r)}\) correction.</li>
+                <li><strong>Exclusion-2:</strong> Intensity decay is non-exponential, indicating \(\Pot{S(r)}\) does not apply to optical systems.</li>
+                <li><strong>Exclusion-3:</strong> Escape angle is independent of radial position, contradicting \(\Matt{n_{\text{eff}}}(\Diff{r})\) modulation.</li>
             </ul>
 
             <!-- Verdict display -->
@@ -652,7 +652,7 @@ report = {
             "Non-exponential decay",
             "Escape angle position-independent"
         ],
-        "triggered": ["Kill-1" if falsified else None],
+        "triggered": ["Exclusion-1" if falsified else None],
         "falsified": falsified
     },
     "outputs": {"json": OUT_JSON, "png": OUT_PNG}

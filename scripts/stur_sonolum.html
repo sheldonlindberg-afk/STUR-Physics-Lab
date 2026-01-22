@@ -208,7 +208,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Chi excitation amplitude must correlate with bubble collapse ratio.
-                    <br><strong>Kill condition:</strong> If correlation &lt; 0.5, chi-torsion coupling is falsified.
+                    <br><strong>Exclusion condition:</strong> If correlation &lt; 0.5, chi-torsion coupling is falsified.
                 </p>
             </div>
 
@@ -236,7 +236,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Emission peak must follow Wien's law within 20% tolerance.
-                    <br><strong>Kill condition:</strong> Deviation &gt; 20% indicates non-thermal mechanism.
+                    <br><strong>Exclusion condition:</strong> Deviation &gt; 20% indicates non-thermal mechanism.
                 </p>
             </div>
 
@@ -402,9 +402,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Chi-excitation \(\XCRM{\chi_{\text{amp}}}\) is uncorrelated with collapse ratio \(\Diff{R_0}/\Diff{R_{\min}}\).</li>
-                <li><strong>Kill-2:</strong> Noble gases show lower \(\Matt{T_{\max}}\) than predicted by adiabatic scaling.</li>
-                <li><strong>Kill-3:</strong> Wien peak \(\Matt{\lambda_{\text{peak}}}\) deviates by more than 20% from \(2.898 \times 10^{-3}/\Matt{T_{\max}}\).</li>
+                <li><strong>Exclusion-1:</strong> Chi-excitation \(\XCRM{\chi_{\text{amp}}}\) is uncorrelated with collapse ratio \(\Diff{R_0}/\Diff{R_{\min}}\).</li>
+                <li><strong>Exclusion-2:</strong> Noble gases show lower \(\Matt{T_{\max}}\) than predicted by adiabatic scaling.</li>
+                <li><strong>Exclusion-3:</strong> Wien peak \(\Matt{\lambda_{\text{peak}}}\) deviates by more than 20% from \(2.898 \times 10^{-3}/\Matt{T_{\max}}\).</li>
             </ul>
 
             <!-- Verdict display -->
@@ -648,27 +648,27 @@ mean_lam  = [np.mean(results[f]["lambda"]) for f in fluids_order]
 falsified = False
 triggered = []
 
-# Kill-1: Chi correlation with 1/Rmin
+# Exclusion-1: Chi correlation with 1/Rmin
 collapse_ratios = [1.0/r for r in mean_Rmin]
 chi_corr = np.corrcoef(collapse_ratios, mean_chi)[0,1]
 if chi_corr < 0.5:
-    triggered.append("Kill-1: Chi uncorrelated with collapse ratio")
+    triggered.append("Exclusion-1: Chi uncorrelated with collapse ratio")
     falsified = True
 
-# Kill-2: Noble gas T_max check (Ar should be hotter than H2O)
+# Exclusion-2: Noble gas T_max check (Ar should be hotter than H2O)
 ar_idx = fluids_order.index("Ar")
 h2o_idx = fluids_order.index("H2O")
 if mean_T[ar_idx] < mean_T[h2o_idx]:
-    triggered.append("Kill-2: Noble gas T_max lower than H2O")
+    triggered.append("Exclusion-2: Noble gas T_max lower than H2O")
     falsified = True
 
-# Kill-3: Wien peak deviation (check Ar)
+# Exclusion-3: Wien peak deviation (check Ar)
 ar_T = mean_T[ar_idx]
 ar_lam = mean_lam[ar_idx]
 wien_pred = 2.898e-3 / ar_T
 wien_dev = abs(ar_lam - wien_pred) / wien_pred
 if wien_dev > 0.20:
-    triggered.append("Kill-3: Wien peak deviation > 20%")
+    triggered.append("Exclusion-3: Wien peak deviation > 20%")
     falsified = True
 
 # ---------------------------------------------------------------------
@@ -730,9 +730,9 @@ report = {
     },
     "falsification": {
         "criteria": [
-            "Kill-1: Chi uncorrelated with collapse ratio",
-            "Kill-2: Noble gas T_max lower than H2O",
-            "Kill-3: Wien peak deviation > 20%"
+            "Exclusion-1: Chi uncorrelated with collapse ratio",
+            "Exclusion-2: Noble gas T_max lower than H2O",
+            "Exclusion-3: Wien peak deviation > 20%"
         ],
         "triggered": triggered if triggered else None,
         "falsified": falsified
