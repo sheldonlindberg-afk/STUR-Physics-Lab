@@ -409,6 +409,85 @@
   </div>
 </section>
 
+<!-- MAGIS-100 HOLOSCREEN SIMULATION -->
+<section class="section" id="magis-simulation" style="border:2px solid var(--accent); background:linear-gradient(135deg, rgba(96,165,250,0.08) 0%, rgba(139,92,246,0.06) 100%);">
+  <h2 style="color:var(--accent);">MAGIS-100 Falsification Simulation</h2>
+
+  <p>
+    Interactive visualization of STUR visibility predictions against <strong>MAGIS-100</strong> experimental capabilities.
+    The Matter-wave Atomic Gradiometer Interferometric Sensor achieves wavepacket separations up to ~10m,
+    directly probing STUR's predicted coherence length range (0.3–30 m).
+    <a href="matter-wave-atomic-gradiometer-interferometric-sensor-magis-100.pdf" target="_blank" style="color:var(--accent);margin-left:0.5rem;">
+      <span class="stur-icon icon-file" style="font-size:0.9em;"></span> View MAGIS-100 Paper (PDF)
+    </a>
+  </p>
+
+  <!-- MAGIS-100 Specs Card -->
+  <div class="block" style="margin:1rem 0;border-color:var(--accent);background:rgba(96,165,250,0.05);">
+    <div class="title" style="color:var(--accent);">MAGIS-100 Specifications</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.75rem;font-size:0.85rem;color:var(--text-secondary);">
+      <div><strong style="color:var(--gold);">Baseline:</strong> 100 m vertical</div>
+      <div><strong style="color:var(--gold);">Atoms:</strong> ⁸⁷Sr, ⁸⁸Sr</div>
+      <div><strong style="color:var(--gold);">Transition:</strong> 698 nm clock</div>
+      <div><strong style="color:var(--gold);">LMT kicks:</strong> n ≤ 4×10⁴</div>
+      <div><strong style="color:var(--gold);">Phase noise:</strong> 10⁻³ rad/√Hz</div>
+      <div><strong style="color:var(--gold);">Max ΔL:</strong> ~10 m</div>
+    </div>
+  </div>
+
+  <!-- Holoscreen Canvas Container -->
+  <div id="holoscreen-container" style="position:relative;width:100%;margin:1.5rem 0;">
+    <canvas id="holoscreen-canvas" style="width:100%;height:320px;border-radius:12px;background:linear-gradient(180deg,#0a0a12 0%,#0f0f1a 100%);box-shadow:0 0 30px rgba(96,165,250,0.15),inset 0 0 60px rgba(0,0,0,0.5);"></canvas>
+
+    <!-- Holoscreen Overlay Labels -->
+    <div id="holo-outcome" style="position:absolute;top:12px;right:16px;padding:6px 14px;border-radius:6px;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.3s ease;"></div>
+  </div>
+
+  <!-- Controls -->
+  <div style="display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;margin:1rem 0;padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border:1px solid rgba(96,165,250,0.2);">
+    <div>
+      <label style="display:block;font-size:0.85rem;color:var(--text-secondary);margin-bottom:0.5rem;">
+        Coherence Length ℓ<sub>coh</sub>: <strong id="lcoh-value" style="color:var(--gold);">3.0 m</strong>
+      </label>
+      <input type="range" id="lcoh-slider" min="0.3" max="30" step="0.1" value="3"
+        style="width:100%;accent-color:var(--gold);cursor:pointer;">
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:0.75rem;color:var(--text-muted);">STUR Prediction Range</div>
+      <div style="font-size:0.9rem;color:var(--accent);">0.3 – 30 m</div>
+    </div>
+  </div>
+
+  <!-- Prediction Readout -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;">
+    <div style="text-align:center;padding:0.75rem;background:rgba(0,0,0,0.2);border-radius:8px;border:1px solid rgba(251,191,36,0.3);">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">At ΔL = 1m</div>
+      <div id="vis-1m" style="font-size:1.1rem;font-weight:600;color:var(--gold);">—</div>
+    </div>
+    <div style="text-align:center;padding:0.75rem;background:rgba(0,0,0,0.2);border-radius:8px;border:1px solid rgba(251,191,36,0.3);">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">At ΔL = 5m</div>
+      <div id="vis-5m" style="font-size:1.1rem;font-weight:600;color:var(--gold);">—</div>
+    </div>
+    <div style="text-align:center;padding:0.75rem;background:rgba(0,0,0,0.2);border-radius:8px;border:1px solid rgba(251,191,36,0.3);">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">At ΔL = 10m</div>
+      <div id="vis-10m" style="font-size:1.1rem;font-weight:600;color:var(--gold);">—</div>
+    </div>
+  </div>
+
+  <!-- Interpretation Guide -->
+  <div class="block success" style="margin-top:1.25rem;">
+    <div class="title">Falsification Decision Matrix</div>
+    <div style="font-size:0.88rem;color:var(--text-secondary);line-height:1.7;">
+      <p style="margin:0 0 0.5rem;"><strong style="color:var(--success);">STUR Validated:</strong>
+        Visibility follows V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>) with ℓ<sub>coh</sub> ∈ [0.3, 30] m, no oscillations, mass-independent.</p>
+      <p style="margin:0 0 0.5rem;"><strong style="color:var(--error);">STUR Falsified:</strong>
+        Visibility constant (ℓ<sub>coh</sub> > 100 m), OR oscillatory in time, OR mass-dependent between ⁸⁷Sr/⁸⁸Sr.</p>
+      <p style="margin:0;"><strong style="color:var(--gold);">Critical Test:</strong>
+        If Gaussian decay detected with ℓ<sub>coh</sub> ~ 1–10 m, STUR makes sharp prediction that MAGIS-100 can verify.</p>
+    </div>
+  </div>
+</section>
+
 <!-- AREA LAW FOR LOOPS -->
 <section class="section" id="area-law">
   <h2>Loop Geometry and Area Scaling</h2>
@@ -445,6 +524,10 @@
     <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a> — rigorous derivations |
     <a href="stur_falsification.html" style="color:var(--accent);">Falsification Protocol</a> — experimental tests
   </p>
+  <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+    <strong style="color:var(--accent);">References:</strong>
+    <a href="matter-wave-atomic-gradiometer-interferometric-sensor-magis-100.pdf" target="_blank" style="color:var(--accent);">MAGIS-100 Paper</a> — Matter-wave Atomic Gradiometer Interferometric Sensor (Fermilab, 100m baseline)
+  </p>
 </section>
 
 <!-- PAGE NAVIGATION -->
@@ -464,6 +547,238 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+
+  // ═══════════════════════════════════════════════════════════════
+  // MAGIS-100 HOLOSCREEN SIMULATION
+  // ═══════════════════════════════════════════════════════════════
+  const canvas = document.getElementById('holoscreen-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const slider = document.getElementById('lcoh-slider');
+  const lcohValue = document.getElementById('lcoh-value');
+  const outcome = document.getElementById('holo-outcome');
+  const vis1m = document.getElementById('vis-1m');
+  const vis5m = document.getElementById('vis-5m');
+  const vis10m = document.getElementById('vis-10m');
+
+  // High DPI canvas scaling
+  function setupCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    return { width: rect.width, height: rect.height };
+  }
+
+  // STUR Visibility Function: V(ΔL) = V₀ exp(-ΔL²/ℓ²_coh)
+  function visibility(deltaL, lcoh) {
+    return Math.exp(-(deltaL * deltaL) / (lcoh * lcoh));
+  }
+
+  // Color interpolation for visibility
+  function visColor(v) {
+    // Green (high) → Gold (medium) → Red (low)
+    if (v > 0.5) {
+      const t = (v - 0.5) * 2;
+      return `rgb(${Math.round(251 - t * 177)}, ${Math.round(191 + t * 31)}, ${Math.round(36 + t * 92)})`;
+    } else {
+      const t = v * 2;
+      return `rgb(${Math.round(239 + t * 12)}, ${Math.round(68 + t * 123)}, ${Math.round(68 - t * 32)})`;
+    }
+  }
+
+  function drawSimulation(lcoh) {
+    const { width, height } = setupCanvas();
+    const padding = { top: 40, right: 30, bottom: 50, left: 60 };
+    const plotW = width - padding.left - padding.right;
+    const plotH = height - padding.top - padding.bottom;
+
+    // Clear with dark background
+    ctx.fillStyle = '#0a0a12';
+    ctx.fillRect(0, 0, width, height);
+
+    // Grid lines with glow
+    ctx.strokeStyle = 'rgba(96, 165, 250, 0.1)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 10; i++) {
+      const x = padding.left + (i / 10) * plotW;
+      ctx.beginPath();
+      ctx.moveTo(x, padding.top);
+      ctx.lineTo(x, height - padding.bottom);
+      ctx.stroke();
+    }
+    for (let i = 0; i <= 5; i++) {
+      const y = padding.top + (i / 5) * plotH;
+      ctx.beginPath();
+      ctx.moveTo(padding.left, y);
+      ctx.lineTo(width - padding.right, y);
+      ctx.stroke();
+    }
+
+    // MAGIS-100 operating range (0–10m) - highlight zone
+    const magisMaxDL = 10;
+    const maxDL = 15; // x-axis max
+    const magisEndX = padding.left + (magisMaxDL / maxDL) * plotW;
+
+    ctx.fillStyle = 'rgba(96, 165, 250, 0.08)';
+    ctx.fillRect(padding.left, padding.top, magisEndX - padding.left, plotH);
+
+    ctx.strokeStyle = 'rgba(96, 165, 250, 0.4)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    ctx.moveTo(magisEndX, padding.top);
+    ctx.lineTo(magisEndX, height - padding.bottom);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Label MAGIS range
+    ctx.fillStyle = 'rgba(96, 165, 250, 0.7)';
+    ctx.font = '11px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('MAGIS-100 Range', (padding.left + magisEndX) / 2, padding.top + 20);
+
+    // Draw STUR visibility curve with glow effect
+    ctx.shadowColor = 'rgba(251, 191, 36, 0.6)';
+    ctx.shadowBlur = 15;
+    ctx.strokeStyle = '#fbbf24';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+
+    for (let i = 0; i <= 150; i++) {
+      const deltaL = (i / 150) * maxDL;
+      const v = visibility(deltaL, lcoh);
+      const x = padding.left + (deltaL / maxDL) * plotW;
+      const y = padding.top + (1 - v) * plotH;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // Draw reference points at 1m, 5m, 10m
+    const refPoints = [1, 5, 10];
+    refPoints.forEach(dl => {
+      const v = visibility(dl, lcoh);
+      const x = padding.left + (dl / maxDL) * plotW;
+      const y = padding.top + (1 - v) * plotH;
+
+      // Glow point
+      ctx.beginPath();
+      ctx.arc(x, y, 8, 0, Math.PI * 2);
+      ctx.fillStyle = visColor(v);
+      ctx.shadowColor = visColor(v);
+      ctx.shadowBlur = 20;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Inner dot
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff';
+      ctx.fill();
+    });
+
+    // Axes labels
+    ctx.fillStyle = '#9ca3af';
+    ctx.font = '12px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Path Difference ΔL (m)', width / 2, height - 10);
+
+    ctx.save();
+    ctx.translate(15, height / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Visibility V/V₀', 0, 0);
+    ctx.restore();
+
+    // X-axis ticks
+    ctx.fillStyle = '#6b7280';
+    ctx.font = '10px system-ui, sans-serif';
+    for (let i = 0; i <= 15; i += 5) {
+      const x = padding.left + (i / maxDL) * plotW;
+      ctx.fillText(i.toString(), x, height - padding.bottom + 15);
+    }
+
+    // Y-axis ticks
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 5; i++) {
+      const v = i / 5;
+      const y = padding.top + (1 - v) * plotH;
+      ctx.fillText(v.toFixed(1), padding.left - 8, y + 4);
+    }
+
+    // Title with coherence length
+    ctx.fillStyle = '#e5e7eb';
+    ctx.font = 'bold 14px system-ui, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(`STUR Gaussian Decay: V = V₀ exp(−ΔL²/ℓ²coh)`, padding.left, 25);
+
+    ctx.fillStyle = '#fbbf24';
+    ctx.font = '13px system-ui, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(`ℓcoh = ${lcoh.toFixed(1)} m`, width - padding.right, 25);
+  }
+
+  function updateSimulation() {
+    const lcoh = parseFloat(slider.value);
+    lcohValue.textContent = lcoh.toFixed(1) + ' m';
+
+    // Update visibility readouts
+    const v1 = visibility(1, lcoh);
+    const v5 = visibility(5, lcoh);
+    const v10 = visibility(10, lcoh);
+
+    vis1m.textContent = (v1 * 100).toFixed(1) + '%';
+    vis1m.style.color = visColor(v1);
+    vis5m.textContent = (v5 * 100).toFixed(1) + '%';
+    vis5m.style.color = visColor(v5);
+    vis10m.textContent = (v10 * 100).toFixed(1) + '%';
+    vis10m.style.color = visColor(v10);
+
+    // Update outcome indicator
+    if (lcoh < 1) {
+      outcome.textContent = 'Strong Signal';
+      outcome.style.background = 'rgba(74, 222, 128, 0.2)';
+      outcome.style.color = '#4ade80';
+      outcome.style.border = '1px solid rgba(74, 222, 128, 0.5)';
+    } else if (lcoh < 10) {
+      outcome.textContent = 'Detectable';
+      outcome.style.background = 'rgba(251, 191, 36, 0.2)';
+      outcome.style.color = '#fbbf24';
+      outcome.style.border = '1px solid rgba(251, 191, 36, 0.5)';
+    } else if (lcoh < 30) {
+      outcome.textContent = 'Marginal';
+      outcome.style.background = 'rgba(251, 146, 60, 0.2)';
+      outcome.style.color = '#fb923c';
+      outcome.style.border = '1px solid rgba(251, 146, 60, 0.5)';
+    } else {
+      outcome.textContent = 'Below Threshold';
+      outcome.style.background = 'rgba(239, 68, 68, 0.2)';
+      outcome.style.color = '#ef4444';
+      outcome.style.border = '1px solid rgba(239, 68, 68, 0.5)';
+    }
+
+    drawSimulation(lcoh);
+  }
+
+  // Color function for readouts
+  function visColor(v) {
+    if (v > 0.5) {
+      const t = (v - 0.5) * 2;
+      return `rgb(${Math.round(251 - t * 177)}, ${Math.round(191 + t * 31)}, ${Math.round(36 + t * 92)})`;
+    } else {
+      const t = v * 2;
+      return `rgb(${Math.round(239 + t * 12)}, ${Math.round(68 + t * 123)}, ${Math.round(68 - t * 32)})`;
+    }
+  }
+
+  slider.addEventListener('input', updateSimulation);
+  window.addEventListener('resize', updateSimulation);
+
+  // Initial render
+  updateSimulation();
 });
 </script>
 </body>

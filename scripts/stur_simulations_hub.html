@@ -25,7 +25,9 @@
 .hub-card .desc { font-size: 0.8rem; color: var(--text-tertiary); line-height: 1.4; }
 .hub-card .tag { display: inline-block; margin-top: 8px; padding: 2px 8px; background: rgba(251,191,36,0.15); color: var(--hub-color); border-radius: 4px; font-size: 0.7rem; }
 .hub-card .tag.interactive { background: rgba(34,211,238,0.15); color: #22d3ee; }
-.hub-card .tag.falsifiable { background: rgba(239,68,68,0.15); color: #ef4444; }
+.hub-card .tag.live { background: rgba(74,222,128,0.15); color: #4ade80; }
+.falsifiable-banner { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; margin-bottom: 24px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; font-size: 0.85rem; color: #ef4444; }
+.falsifiable-banner .icon { font-size: 1.1rem; }
 .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-tertiary); text-decoration: none; font-size: 0.85rem; margin-bottom: 20px; }
 .back-link:hover { color: var(--text-primary); }
 </style>
@@ -58,6 +60,12 @@
     <p>Interactive demonstrations of STUR predictions. Each simulation includes falsification criteria—if results deviate, the theory is excluded.</p>
   </div>
 
+  <!-- Universal Falsification Statement -->
+  <div class="falsifiable-banner">
+    <span class="icon">⊗</span>
+    <strong>All simulations are falsifiable.</strong> Each page defines explicit exclusion criteria. STUR is excluded if any prediction fails.
+  </div>
+
   <!-- INTERFEROMETRY -->
   <section class="hub-section">
     <div class="hub-section-title">Interferometry & Visibility</div>
@@ -65,7 +73,7 @@
       <a href="stur_double_slit.html" class="hub-card">
         <div class="title">Double Slit Plasmon</div>
         <div class="desc">Gaussian visibility decay V(ΔL) = V₀ exp(−ΔL²/ℓ²)</div>
-        <span class="tag falsifiable">Falsifiable</span>
+        <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_tabletop.html" class="hub-card">
         <div class="title">Whispering Gallery Mode</div>
@@ -104,7 +112,7 @@
       <a href="stur_superconductor.html" class="hub-card">
         <div class="title">Ambient-Temp Superconductor</div>
         <div class="desc">STUR coherence mechanism for high-Tc prediction</div>
-        <span class="tag falsifiable">Falsifiable</span>
+        <span class="tag interactive">Interactive</span>
       </a>
     </div>
   </section>
@@ -137,13 +145,13 @@
       </a>
       <a href="stur_sonolum.html" class="hub-card">
         <div class="title">Sonoluminescence 5D</div>
-        <div class="desc">Bubble collapse and light emission</div>
-        <span class="tag interactive">Interactive</span>
+        <div class="desc">Chi-torsion bubble collapse with live falsification</div>
+        <span class="tag live">Live Sim</span>
       </a>
       <a href="stur_graphene.html" class="hub-card">
         <div class="title">Graphene-Axion</div>
         <div class="desc">Axion-like coupling in graphene</div>
-        <span class="tag falsifiable">Falsifiable</span>
+        <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_scalar.html" class="hub-card">
         <div class="title">Scalar Bounce</div>
