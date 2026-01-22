@@ -9,7 +9,7 @@
  * - Images: Cache-first
  */
 
-const CACHE_VERSION = 'stur-v1.0.0';
+const CACHE_VERSION = 'stur-v2.4.0';
 const CACHE_NAME = `stur-cache-${CACHE_VERSION}`;
 
 // Core shell files - always cache these
@@ -25,7 +25,9 @@ const SHELL_ASSETS = [
   '/assets/css/stur-theory.css',
   '/assets/js/stur-ui.js',
   '/assets/js/stur-definitions.js',
-  '/assets/js/stur-mathjax-config.js'
+  '/assets/js/stur-version.js',
+  '/assets/js/stur-mathjax-config.js',
+  '/assets/4.13.png'
 ];
 
 // Theory pages - cache on navigation

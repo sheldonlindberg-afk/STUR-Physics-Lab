@@ -462,7 +462,7 @@
 
   /**
    * Generate citation text for the current page
-   * Format: Lindberg, Sheldon Lon (2026). "{Page Title}," STUR Physics Lab.
+   * Format: Lindberg, Sheldon Lon (YEAR). "{Page Title}," STUR Physics Lab.
    */
   STUR.getCitation = function() {
     // Get page title, clean up common suffixes
@@ -477,7 +477,10 @@
       title = 'STUR Physics Lab';
     }
 
-    return `Lindberg, Sheldon Lon (2026). "${title}," STUR Physics Lab. ${window.location.href}`;
+    // Use current year for citation
+    const year = new Date().getFullYear();
+
+    return `Lindberg, Sheldon Lon (${year}). "${title}," STUR Physics Lab. ${window.location.href}`;
   };
 
   /**
@@ -1174,8 +1177,31 @@
 
   /**
    * Get diagnostic report for debugging
+   * Uses modern PerformanceNavigationTiming API with fallback
    */
   STUR.getDiagnostics = function() {
+    // Get performance metrics using modern API
+    let performanceMetrics = null;
+    if (window.performance) {
+      // Try modern PerformanceNavigationTiming API first
+      const navEntries = performance.getEntriesByType('navigation');
+      if (navEntries && navEntries.length > 0) {
+        const nav = navEntries[0];
+        performanceMetrics = {
+          loadTime: Math.round(nav.loadEventEnd - nav.startTime),
+          domReady: Math.round(nav.domContentLoadedEventEnd - nav.startTime),
+          ttfb: Math.round(nav.responseStart - nav.requestStart),
+          domInteractive: Math.round(nav.domInteractive - nav.startTime)
+        };
+      } else if (performance.timing) {
+        // Fallback to deprecated timing API for older browsers
+        performanceMetrics = {
+          loadTime: performance.timing.loadEventEnd - performance.timing.navigationStart,
+          domReady: performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart
+        };
+      }
+    }
+
     return {
       version: STUR.version,
       versionName: STUR.versionName,
@@ -1191,10 +1217,7 @@
         title: document.title,
         readyState: document.readyState
       },
-      performance: window.performance ? {
-        loadTime: performance.timing.loadEventEnd - performance.timing.navigationStart,
-        domReady: performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart
-      } : null,
+      performance: performanceMetrics,
       storage: {
         localStorage: typeof localStorage !== 'undefined',
         sessionStorage: typeof sessionStorage !== 'undefined',

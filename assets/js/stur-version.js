@@ -20,10 +20,13 @@
     // Theory status - IMMUTABLE after publication
     theoryStatus: {
       complete: true,
-      axiomCount: 3,
+      axiomCount: 0, // v2.4: Axiom-free — XCRM is derived necessity, not axiom
+      derivedPrinciples: 4, // XCRM → Master Action → DHP → TFP → MHP
       freeParameters: 0,
       closedProblems: 15,
-      lastModified: '2026-01-22'
+      lastModified: '2026-01-22',
+      version: '2.4',
+      versionName: 'Axiom-Free Unified Framework'
     },
 
     // Prediction registry - each prediction is timestamped and checksummed
@@ -174,21 +177,93 @@
     // Methods
 
     /**
-     * Verify equation integrity by recalculating checksum
+     * Compute SHA-256 hash of a string using Web Crypto API
+     * @param {string} text - Text to hash
+     * @returns {Promise<string>} - Hex-encoded SHA-256 hash
      */
-    verifyEquation: function(eqId) {
+    computeSHA256: async function(text) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return 'sha256:' + hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    },
+
+    /**
+     * Verify equation integrity by recalculating checksum
+     * @param {string} eqId - Equation ID to verify
+     * @returns {Promise<Object>} - Verification result
+     */
+    verifyEquation: async function(eqId) {
       const eq = this.equations[eqId];
       if (!eq) return { valid: false, error: 'Equation not found' };
 
-      // In production, this would compute actual SHA-256
-      // For now, return stored checksum for display
+      try {
+        // Compute actual SHA-256 of the LaTeX content
+        const computedChecksum = await this.computeSHA256(eq.latex);
+        const storedChecksum = eq.checksum;
+        const valid = computedChecksum === storedChecksum;
+
+        return {
+          valid: valid,
+          equation: eq.name,
+          storedChecksum: storedChecksum,
+          computedChecksum: computedChecksum,
+          registeredDate: eq.registeredDate,
+          tier: eq.tier,
+          integrityStatus: valid ? 'VERIFIED' : 'MISMATCH — equation may have been modified'
+        };
+      } catch (error) {
+        return {
+          valid: false,
+          error: 'Checksum computation failed: ' + error.message
+        };
+      }
+    },
+
+    /**
+     * Verify all equations and return integrity report
+     * @returns {Promise<Object>} - Full integrity report
+     */
+    verifyAllEquations: async function() {
+      const results = {};
+      let allValid = true;
+
+      for (const eqId of Object.keys(this.equations)) {
+        const result = await this.verifyEquation(eqId);
+        results[eqId] = result;
+        if (!result.valid) allValid = false;
+      }
+
       return {
-        valid: true,
-        equation: eq.name,
-        checksum: eq.checksum,
-        registeredDate: eq.registeredDate,
-        tier: eq.tier
+        overallStatus: allValid ? 'ALL VERIFIED' : 'INTEGRITY ISSUES DETECTED',
+        verifiedAt: new Date().toISOString(),
+        equations: results
       };
+    },
+
+    /**
+     * Regenerate checksums for all equations (development utility)
+     * Run this once to generate correct checksums, then freeze
+     * @returns {Promise<Object>} - New checksums for all equations
+     */
+    regenerateChecksums: async function() {
+      const newChecksums = {};
+      console.log('Regenerating equation checksums...');
+
+      for (const [eqId, eq] of Object.entries(this.equations)) {
+        const checksum = await this.computeSHA256(eq.latex);
+        newChecksums[eqId] = {
+          name: eq.name,
+          latex: eq.latex,
+          checksum: checksum
+        };
+        console.log(`${eqId}: ${checksum}`);
+      }
+
+      console.log('Copy these checksums to update the equations registry:');
+      console.log(JSON.stringify(newChecksums, null, 2));
+      return newChecksums;
     },
 
     /**
@@ -273,10 +348,11 @@
      * Get human-readable theory summary
      */
     getSummary: function() {
-      return `STUR Physics Lab v${this.version}
+      return `STUR Physics Lab v${this.version} (${this.theoryStatus.versionName})
 Released: ${this.releaseDate}
-Status: ${this.theoryStatus.complete ? 'Complete' : 'In Development'}
-Axioms: ${this.theoryStatus.axiomCount}
+Status: ${this.theoryStatus.complete ? 'Complete — Axiom-Free' : 'In Development'}
+Axioms: ${this.theoryStatus.axiomCount} (XCRM is derived necessity)
+Derived Principles: ${this.theoryStatus.derivedPrinciples}
 Free Parameters: ${this.theoryStatus.freeParameters}
 Closed Problems: ${this.theoryStatus.closedProblems}
 Registered Predictions: ${Object.keys(this.predictions).length}
@@ -297,7 +373,7 @@ Registered Equations: ${Object.keys(this.equations).length}`;
   global.STUR.VERSION = STUR_VERSION;
 
   // Console info on load
-  console.log('%c STUR Physics Lab ', 'background: #4ade80; color: #0a0a0f; font-weight: bold; padding: 4px 8px; border-radius: 4px;');
-  console.log(`Version ${STUR_VERSION.version} | ${STUR_VERSION.theoryStatus.axiomCount} Axioms | ${STUR_VERSION.theoryStatus.freeParameters} Free Parameters`);
+  console.log('%c STUR Physics Lab v2.4 ', 'background: #4ade80; color: #0a0a0f; font-weight: bold; padding: 4px 8px; border-radius: 4px;');
+  console.log(`Version ${STUR_VERSION.version} | Axiom-Free | ${STUR_VERSION.theoryStatus.freeParameters} Free Parameters | ${STUR_VERSION.theoryStatus.derivedPrinciples} Derived Principles`);
 
 })(typeof window !== 'undefined' ? window : global);
