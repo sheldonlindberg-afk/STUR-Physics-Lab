@@ -14,9 +14,10 @@ const STUR_DEFINITIONS = {
   versionNumber: "1.1.1",
 
   // Theory status caveat - displayed where appropriate
-  theoryCaveat: "STUR is a theoretical framework with falsifiable predictions. " +
-    "Derivations are complete within the stated axioms and assumptions. " +
-    "Ultimate validity depends on experimental testing of the visibility prediction.",
+  theoryCaveat: "STUR is a candidate unified framework with falsifiable predictions. " +
+    "Mechanisms are derived from 3 axioms; some numerical values require calibration. " +
+    "Ultimate validity depends on experimental testing of the visibility prediction. " +
+    "See DERIVATION_CHAIN.md for formal derivation status of each result.",
 
   // ============================================================
   // THE THREE AXIOMS (MHP is derived from path integral)
@@ -84,14 +85,15 @@ const STUR_DEFINITIONS = {
 
   // ============================================================
   // THEORY CLOSURE STATUS — CANDIDATE FRAMEWORK
+  // See DERIVATION_CHAIN.md for complete formal analysis
   // ============================================================
   closure: {
     status: "CANDIDATE_FRAMEWORK",
-    statusLabel: "Candidate framework from 3 axioms motivated by geometry",
-    derivationsComplete: false,
+    statusLabel: "Candidate unified framework: mechanisms derived, some values calibrated",
+    derivationsComplete: false, // Some mechanisms need further rigorous proof
     axiomCount: 3,
-    freeParameters: 1, // One effective ratio remains after stabilization (L_X/σ_R)
-    theoryDeterminedParameters: 1, // L_X value is determined by theory, measured for verification
+    freeParameters: 1, // L_X/σ_R ratio is effectively a parameter (determines ℓ_coh)
+    theoryDeterminedParameters: 1, // L_X stabilized by Casimir-holonomy balance
     parameters: {
       L_X: {
         name: "Internal dimension size",
@@ -108,22 +110,24 @@ const STUR_DEFINITIONS = {
       }
     },
     // Rigorously Established (complete derivation chains from axioms)
+    // Status levels: "established" = mathematical theorem, "mechanism" = form derived, values calibrated, "proposed" = mechanism outlined
     rigorouslyEstablishedProblems: [
-      { name: "Gaussian visibility", mechanism: "CLT phase averaging", equation: "B.15", status: "established", note: "Direct from XCRM variance + CLT" },
-      { name: "Coherence length", mechanism: "XCRM closure relation", equation: "B.9", status: "established", note: "Follows from parameter closure" },
-      { name: "TEGR emergence", mechanism: "Equilibrium limit", equation: "4.3", status: "established", note: "TEGR ≡ GR is standard result" },
+      { name: "Gaussian visibility", mechanism: "CLT phase averaging", equation: "B.15", status: "established", note: "Mathematical theorem: CLT + Gaussian averaging" },
+      { name: "Coherence length", mechanism: "XCRM closure relation", equation: "B.9", status: "established", note: "Follows from parameter closure given L_X, σ_R" },
+      { name: "TEGR emergence", mechanism: "Equilibrium limit", equation: "4.3", status: "established", note: "TEGR ≡ GR is standard mathematical identity" },
+      { name: "MHP derivation", mechanism: "Path integral saddle point", equation: "1.5", status: "established", note: "Standard Faddeev-Popov + Vandermonde" },
       { name: "Yang-Mills structure", mechanism: "XCRM degeneracy", equation: "5.4", status: "established", note: "Degeneracy → gauge symmetry" },
-      { name: "Gauge group", mechanism: "MHP holonomy minimization", equation: "F.5", status: "established", caveat: "Uniqueness proof requires complete cost function analysis" },
-      { name: "3 generations", mechanism: "APS index theorem", equation: "F.11g", status: "established", note: "Standard APS result on orbifold" },
-      { name: "Flavor structure", mechanism: "MHP localization", equation: "F.8", status: "established", note: "From ∂Ω/∂X_i = 0 saddle points" },
-      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "established", note: "All-orders convergence via geometric suppression", derivation: "stur_uv_completion.html" },
-      { name: "Yukawa hierarchies", mechanism: "Wavefunction overlaps", equation: "F.9d", status: "established", note: "MHP localization + Higgs overlap gives exponential hierarchy", derivation: "stur_yukawa_derivation.html" },
-      { name: "CKM/PMNS matrices", mechanism: "Localization geometry", equation: "F.9", status: "established", note: "Mass/gauge basis mismatch from different localization profiles", derivation: "stur_ckm_derivation.html" },
-      { name: "Neutrino masses", mechanism: "Bulk seesaw", equation: "F.16", status: "established", note: "Bulk N_R + holonomy Majorana mass + seesaw", derivation: "stur_neutrino_derivation.html" },
-      { name: "CP violation", mechanism: "Holonomy phase", equation: "F.18", status: "established", note: "Spontaneous CP from complex holonomy vacuum", derivation: "stur_cp_derivation.html" },
-      { name: "Dark matter (LKP)", mechanism: "KK parity stability", equation: "F.20", status: "established", note: "Orbifold Z_2 gives stable LKP, relic abundance matches", derivation: "stur_darkmatter_derivation.html" },
-      { name: "Cosmological constant", mechanism: "R-field self-tuning", equation: "F.22", status: "established", note: "Holonomy self-adjustment + H_0 timescale sets residual Λ", derivation: "stur_cosmological_derivation.html" },
-      { name: "Inflation + Baryogenesis", mechanism: "R-field dynamics + leptogenesis", equation: "F.24-25", status: "established", note: "MHP flat potential + geometric CP phases → η_B", derivation: "stur_inflation_derivation.html" }
+      { name: "Gauge group", mechanism: "MHP holonomy minimization", equation: "F.5", status: "mechanism", caveat: "SM strongly constrained; uniqueness requires cost function specification" },
+      { name: "3 generations", mechanism: "Winding topology + selection", equation: "F.11g", status: "mechanism", note: "Topology forces discrete generations; n=3 involves calibration" },
+      { name: "Flavor structure", mechanism: "MHP localization", equation: "F.8", status: "mechanism", note: "From ∂Ω/∂X_i = 0; localization positions derived" },
+      { name: "UV completion", mechanism: "Holonomy self-regulation", equation: "F.14h", status: "proposed", note: "Mechanism outlined; all-orders proof in progress", derivation: "stur_uv_completion.html" },
+      { name: "Yukawa hierarchies", mechanism: "Wavefunction overlaps", equation: "F.9d", status: "mechanism", note: "Exponential form derived; λ≈0.22 calibrated", derivation: "stur_yukawa_derivation.html" },
+      { name: "CKM/PMNS matrices", mechanism: "Localization geometry", equation: "F.9", status: "mechanism", note: "Wolfenstein structure derived; A,ρ,η calibrated", derivation: "stur_ckm_derivation.html" },
+      { name: "Neutrino masses", mechanism: "Bulk seesaw", equation: "F.16", status: "mechanism", note: "Bulk N_R + seesaw mechanism", derivation: "stur_neutrino_derivation.html" },
+      { name: "CP violation", mechanism: "Holonomy phase", equation: "F.18", status: "mechanism", note: "Spontaneous CP from complex holonomy vacuum", derivation: "stur_cp_derivation.html" },
+      { name: "Dark matter (LKP)", mechanism: "KK parity stability", equation: "F.20", status: "mechanism", note: "Orbifold Z_2 gives stable LKP; mass depends on L_X", derivation: "stur_darkmatter_derivation.html" },
+      { name: "Cosmological constant", mechanism: "R-field self-tuning", equation: "F.22", status: "proposed", note: "Mechanism outlined; rigorous proof needed", derivation: "stur_cosmological_derivation.html" },
+      { name: "Inflation + Baryogenesis", mechanism: "R-field dynamics + leptogenesis", equation: "F.24-25", status: "mechanism", note: "R-field slow-roll + geometric CP phases", derivation: "stur_inflation_derivation.html" }
     ],
 
     // Well-Motivated Proposals (all now established with complete derivations)
@@ -225,11 +229,12 @@ const STUR_DEFINITIONS = {
 
   // ============================================================
   // FIRST PRINCIPLES — Three-Axiom Framework
+  // See DERIVATION_CHAIN.md for formal status of each derivation
   // ============================================================
   firstPrinciples: {
-    statement: "STUR is a candidate unified framework built on three axioms on an orbifold: (1) Master Action, (2) DHP, (3) TFP. Standard Model + gravity strongly constrained with minimal free parameters — L_X is dynamically stabilized by Casimir-holonomy balance.",
+    statement: "STUR is a candidate unified framework built on three axioms on an orbifold: (1) Master Action, (2) DHP, (3) TFP. Standard Model + gravity mechanisms derived; some numerical values require calibration. L_X is dynamically stabilized by Casimir-holonomy balance.",
 
-    theoryDeterminedParameters: ["L_X (internal dimension size — dynamically stabilized by Casimir-holonomy balance)"],
+    theoryDeterminedParameters: ["L_X (internal dimension size — dynamically stabilized; value depends on O(1) coefficients)"],
 
     closureRelation: {
       formula: "ℓ_coh = √2 · L_X / (y·σ_R)",
