@@ -400,8 +400,93 @@
 }
 
 /* ============================================================
-   QUICK LINKS - LIQUID GLASS
+   QUICK LINKS - LIQUID GLASS BUTTONS
    ============================================================ */
+.quick-links-section {
+  padding: 48px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.quick-links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quick-link-btn {
+  padding: 14px 24px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+  /* Blue liquid glass by default */
+  color: var(--neon-cyan, #38bdf8);
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(56, 189, 248, 0.03) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  box-shadow:
+    0 4px 16px rgba(56, 189, 248, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quick-link-btn:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(56, 189, 248, 0.1) 100%);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow:
+    0 6px 24px rgba(56, 189, 248, 0.25),
+    0 0 16px rgba(56, 189, 248, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.quick-link-btn:active {
+  transform: translateY(0);
+}
+
+/* Academic documents - GREEN accent */
+.quick-links-grid.academic {
+  margin-top: 1rem;
+}
+
+.quick-link-btn.academic {
+  color: var(--neon-green, #4ade80);
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.1) 0%, rgba(74, 222, 128, 0.04) 100%);
+  border-color: rgba(74, 222, 128, 0.3);
+  box-shadow:
+    0 4px 16px rgba(74, 222, 128, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.quick-link-btn.academic:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.22) 0%, rgba(74, 222, 128, 0.12) 100%);
+  border-color: rgba(74, 222, 128, 0.5);
+  box-shadow:
+    0 6px 24px rgba(74, 222, 128, 0.2),
+    0 0 16px rgba(74, 222, 128, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+  .quick-links-grid {
+    gap: 8px;
+  }
+  .quick-link-btn {
+    padding: 12px 18px;
+    font-size: 0.85rem;
+    flex: 1 1 auto;
+    min-width: 140px;
+  }
+}
+
 /* ============================================================
    FOOTER - LIQUID GLASS
    ============================================================ */
@@ -660,16 +745,35 @@
     </div>
   </section>
 
+  <!-- === QUICK LINKS === -->
+  <section class="quick-links-section animate-in delay-4">
+    <div class="section-header">
+      <p class="section-label">Quick Links</p>
+    </div>
+    <div class="quick-links-grid">
+      <a href="scripts/stur_falsification.html" class="quick-link-btn">Falsification Protocol</a>
+      <a href="scripts/stur_numerical_predictions.html" class="quick-link-btn">Numerical Predictions</a>
+      <a href="scripts/stur_faq.html" class="quick-link-btn">FAQ</a>
+      <a href="scripts/stur_glossary.html" class="quick-link-btn">Glossary</a>
+      <a href="about.html" class="quick-link-btn">About</a>
+      <a href="scripts/stur_symbols.html" class="quick-link-btn">References</a>
+      <a href="sitemap.html" class="quick-link-btn">Full Site Map</a>
+    </div>
+    <!-- Academic Documents -->
+    <div class="section-header" style="margin-top:2rem;">
+      <p class="section-label" style="color:var(--neon-green);">Academic Review</p>
+    </div>
+    <div class="quick-links-grid academic">
+      <a href="DERIVATION_CHAIN.md" class="quick-link-btn academic">Derivation Chain</a>
+      <a href="PEER_REVIEW.md" class="quick-link-btn academic">Peer Review</a>
+    </div>
+  </section>
+
   <!-- === FOOTER === -->
   <footer class="site-footer">
     <p class="footer-meta">
       © 2026 Sheldon Lon Lindberg · STUR Physics Framework<br>
       CC-BY-4.0 License · <em>Open for scrutiny and falsification testing</em>
-    </p>
-    <p class="footer-meta" style="margin-top:0.5rem;font-size:0.85rem;">
-      <a href="DERIVATION_CHAIN.md" style="color:var(--accent);">Derivation Chain</a> ·
-      <a href="PEER_REVIEW.md" style="color:var(--accent);">Peer Review</a> ·
-      <a href="scripts/stur_core_theory.html" style="color:var(--accent);">Core Theory</a>
     </p>
   </footer>
 </div>
