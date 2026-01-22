@@ -35,12 +35,20 @@
 <div class="container">
 
 <header class="masthead">
-  <h1 class="page-title-core">CKM Matrix: Numerical Derivation</h1>
+  <h1 class="page-title-falsifiable">CKM Matrix: Numerical Derivation</h1>
   <p class="subtitle">All 4 Independent Parameters from Orbifold Geometry</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
     From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
-    <a href="stur_fermion_masses.html" style="color:var(--accent);">Fermion masses</a>
+    <a href="stur_fermion_masses.html" style="color:var(--accent);">Fermion masses</a> ·
+    <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
   </p>
+  <!-- Status Badge -->
+  <div style="margin-top:1rem;">
+    <span class="stur-status success">
+      <span class="stur-icon icon-check sm"></span>
+      FALSIFIABLE
+    </span>
+  </div>
 </header>
 
 <!-- EXECUTIVE SUMMARY -->
@@ -76,6 +84,19 @@
       <tr><td>\(|V_{tb}|\)</td><td>0.9991</td><td>0.999118 ± 0.000031</td><td style="color:var(--success);">0.002%</td></tr>
     </tbody>
   </table>
+
+  <!-- Falsification Criteria -->
+  <div style="margin-top:1.5rem;padding:1rem;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
+    <h4 style="color:#ef4444;font-size:0.9rem;margin:0 0 0.75rem;">Falsification Criteria</h4>
+    <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
+      <li><strong>Kill-1:</strong> Any |V<sub>ij</sub>| deviates from PDG by > 3σ<sub>exp</sub></li>
+      <li><strong>Kill-2:</strong> Jarlskog invariant J<sub>CP</sub> measurement disagrees with STUR prediction at > 3σ</li>
+      <li><strong>Kill-3:</strong> Unitarity triangle closure fails: |V<sub>ud</sub>|² + |V<sub>us</sub>|² + |V<sub>ub</sub>|² ≠ 1 at > 2σ</li>
+    </ul>
+    <p style="margin:0.75rem 0 0;font-size:0.85rem;color:var(--text-muted);">
+      <strong>Current status:</strong> All 9 elements within 2% of PDG — <span style="color:var(--neon-green);">maximum deviation: 1.7% (V<sub>ts</sub>)</span>
+    </p>
+  </div>
 </section>
 
 <!-- DERIVATION -->
