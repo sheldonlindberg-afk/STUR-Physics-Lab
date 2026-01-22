@@ -85,7 +85,7 @@
       </div>
 
       <p style="color:var(--text-secondary);font-size:0.9rem;">
-        <strong>Bottom line:</strong> STUR makes a specific, testable prediction (Gaussian visibility decay with ℓ ~ 0.3-30 m).
+        <strong>Bottom line:</strong> STUR makes specific, testable predictions (Gaussian visibility decay, fifth-force signal at α ~ 10²-10³ for λ ~ 1-10 μm).
         If experiments show something else, STUR is wrong. That's how science works.
         Read the <a href="stur_falsification.html" style="color:var(--accent);">Falsification Protocol</a> to see exactly what would falsify the theory.
       </p>
@@ -103,7 +103,9 @@
         <strong>What exists:</strong>
       </p>
       <ul style="color:var(--text-secondary);font-size:0.9rem;">
-        <li>Complete derivation chain document with theorem-proof structure</li>
+        <li>Complete derivation chain document (v2.0) with theorem-proof structure</li>
+        <li>Explicit one-loop UV finiteness calculation</li>
+        <li>Fifth-force constraint analysis showing experimental consistency</li>
         <li>Documentation meeting scientific standards for clarity and falsifiability</li>
         <li>Open-source code and derivations anyone can check</li>
       </ul>
@@ -263,7 +265,7 @@
           <tr style="border-bottom:1px solid var(--separator);">
             <td style="padding:8px;color:var(--text-secondary);">Free parameters</td>
             <td style="padding:8px;color:var(--text-tertiary);">Many (landscape problem)</td>
-            <td style="padding:8px;color:var(--text-tertiary);">One (L<sub>X</sub>)</td>
+            <td style="padding:8px;color:var(--text-tertiary);">4 calibrated (L<sub>X</sub>/σ, A, ρ, η)</td>
           </tr>
           <tr style="border-bottom:1px solid var(--separator);">
             <td style="padding:8px;color:var(--text-secondary);">Testable prediction</td>
@@ -359,17 +361,58 @@
     </summary>
     <div class="learn-content">
       <p style="color:var(--text-secondary);">
-        STUR claims to derive 19 physical results from the 3 axioms:
+        STUR claims to derive 19+ physical results from the 3 axioms:
       </p>
       <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:1.7;">
         <li><strong>7 Core:</strong> Visibility law, coherence, TEGR, Yang-Mills, MHP, moduli, DHP equations</li>
         <li><strong>4 SM-origin:</strong> Gauge group, 3 generations, Yukawa hierarchies, CKM/PMNS</li>
         <li><strong>4 BSM:</strong> UV completion, neutrino masses, CP violation, dark matter</li>
         <li><strong>4 Cosmology:</strong> Λ, hierarchy problem, inflation, baryogenesis</li>
+        <li><strong>2 Experimental:</strong> Fifth-force compatibility, collider bounds consistency</li>
       </ul>
       <p style="color:var(--text-tertiary);font-size:0.85rem;margin-top:0.75rem;">
-        Each has a derivation page. "Derived" means there's a chain of reasoning from axioms to result—
-        see <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a> for full proofs.
+        Each has a derivation page. See <a href="../DERIVATION_CHAIN.md" style="color:var(--accent);">DERIVATION_CHAIN.md</a> for the complete formal derivation reference.
+      </p>
+    </div>
+  </details>
+
+  <details class="learn-box">
+    <summary style="color:var(--text);">
+      <strong>"Is STUR UV-finite? How is that proven?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p style="color:var(--text-secondary);">
+        <strong>Yes, with explicit calculation.</strong> The derivation chain (§9.1) provides a complete one-loop calculation showing:
+      </p>
+      <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:1.7;">
+        <li>High-momentum modes acquire suppression factor exp[-c<sub>H</sub>|k|L<sub>X</sub>]</li>
+        <li>This arises from the gauge-invariant Faddeev-Popov measure on the orbifold</li>
+        <li>All loop integrals converge without regularization</li>
+        <li>Generalization to all orders proven via momentum conservation argument</li>
+      </ul>
+      <p style="color:var(--text-tertiary);font-size:0.85rem;margin-top:0.75rem;">
+        The same mechanism that selects the gauge group (MHP) also regulates UV divergences.
+        See <a href="stur_uv_completion.html" style="color:var(--accent);">UV Completion</a> for details.
+      </p>
+    </div>
+  </details>
+
+  <details class="learn-box">
+    <summary style="color:var(--text);">
+      <strong>"Doesn't L<sub>X</sub> ~ μm violate fifth-force bounds?"</strong>
+    </summary>
+    <div class="learn-content">
+      <p style="color:var(--text-secondary);">
+        <strong>No, due to XCRM screening.</strong> While naive estimates give α ~ 10⁵, the XCRM term provides a screening mechanism:
+      </p>
+      <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:1.7;">
+        <li>Matter localized at orbifold fixed points experiences maximal screening</li>
+        <li>Effective fifth-force strength: α ~ 10² (for L<sub>X</sub> ~ 10 μm)</li>
+        <li>Current bounds: α < 10⁴ at λ = 10 μm — <strong>STUR passes</strong></li>
+        <li>Testable prediction: Next-gen experiments (ARIADNE) may see signal at α ~ 10²</li>
+      </ul>
+      <p style="color:var(--text-tertiary);font-size:0.85rem;margin-top:0.75rem;">
+        See <a href="../DERIVATION_CHAIN.md" style="color:var(--accent);">DERIVATION_CHAIN.md §10</a> for the full analysis.
       </p>
     </div>
   </details>
