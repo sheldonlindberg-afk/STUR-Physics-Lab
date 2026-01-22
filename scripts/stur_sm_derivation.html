@@ -77,9 +77,9 @@
     </div>
     <div class="glass-section-body">
         <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.6);">
-            <div class="title" style="font-size:1.1rem;">Theorem 1.1 — Standard Model Derived from Geometry</div>
+            <div class="title" style="font-size:1.1rem;">Theorem 1.1 — Standard Model Strongly Constrained by Geometry</div>
             <p style="margin:0;color:var(--text);font-size:1.05rem;line-height:1.7;">
-                <strong>G<sub>SM</sub> = SU(3)<sub>C</sub> × SU(2)<sub>L</sub> × U(1)<sub>Y</sub> is uniquely derived from Axiom 1:</strong>
+                <strong>G<sub>SM</sub> = SU(3)<sub>C</sub> × SU(2)<sub>L</sub> × U(1)<sub>Y</sub> is strongly constrained by Axiom 1:</strong>
             </p>
             <ol style="margin:0.75rem 0 0;color:var(--text-secondary);line-height:1.8;">
                 <li>Orbifold consistency on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> (Axiom 1)</li>
@@ -695,11 +695,32 @@
     <div class="eq-label">(5B.3)</div>
   </div>
 
-  <h3>5B.3 The R-Field Kink Fixes the Coefficients</h3>
+  <h3>5B.3 The R-Field Kink and η-Invariant Calculation</h3>
 
   <p>
     The key insight: the Z<sub>2</sub>-odd kink profile R<sub>0</sub>(X) = v·tanh[(X - X<sub>c</sub>)/ξ] determines the boundary eta invariants:
   </p>
+
+  <!-- EXPLICIT η-INVARIANT CALCULATION -->
+  <div class="block" style="border-width:2px;border-color:var(--accent-secondary);background:rgba(167,139,250,0.08);margin:1rem 0;">
+    <div class="title" style="color:var(--accent-secondary);">Explicit η-Invariant Calculation</div>
+    <p style="margin:0 0 0.75rem;color:var(--text-secondary);">
+      The η-invariant of the Dirac operator D = iγ<sup>5</sup>∂<sub>X</sub> + yR(X) on an interval with boundary conditions is:
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\eta(X_{\rm bdy}) = \frac{1}{\pi}\arctan\left(\frac{yR(X_{\rm bdy})}{\sqrt{m^2 - y^2R^2}}\right) + \text{integer}\]
+    </div>
+    <p style="margin:0.5rem 0;color:var(--text-secondary);font-size:0.9rem;">
+      For the kink profile R(X) = v·tanh((X - X<sub>c</sub>)/ξ):
+    </p>
+    <ul style="margin:0.5rem 0;color:var(--text-secondary);font-size:0.9rem;">
+      <li>At X = 0 (before kink center): R → 0⁺ implies η(0) = +1/2 (mod integers)</li>
+      <li>At X = L<sub>X</sub> (after kink center): R → 0⁻ implies η(L<sub>X</sub>) = -1/2 (mod integers)</li>
+    </ul>
+    <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.85rem;">
+      <strong style="color:var(--gold);">Caveat:</strong> This calculation assumes the specific kink profile form. Different R(X) backgrounds would give different η values. The kink form is motivated by the Z₂-odd requirement but is not uniquely forced.
+    </p>
+  </div>
 
   <div class="walkthrough" style="margin:1rem 0;">
     <div class="step">
@@ -743,15 +764,19 @@
   </div>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
-    <div class="title" style="font-size:1.1rem;">Result: Three Generations Are Derived</div>
+    <div class="title" style="font-size:1.1rem;">Result: Three Generations from Mechanism + Calibration</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>The stabilized orbifold size L<sub>X</sub>* and the R-field boundary conditions uniquely determine n<sub>gen</sub> = 3.</strong>
-      No external flux quantization input is required — the number of generations follows from MHP + moduli stabilization.
+      <strong>The generation mechanism (topological winding + moduli stabilization) is derived.</strong>
+      The specific number n<sub>gen</sub> = 3 follows from coefficients (c<sub>χ</sub>, c<sub>α</sub>) that are constrained to reproduce observation.
     </p>
     <div class="eq law" style="margin-top:0.75rem;background:#000;border:2px solid var(--success);">
-      \[\boxed{n_{\rm gen} = 3 \;\text{ (derived from MHP + stabilized } L_X^*)}\]
+      \[\boxed{n_{\rm gen} = 3 \;\text{ (mechanism derived, coefficients calibrated)}}\]
       <div class="eq-label" style="color:var(--success);">(5B.6) — Three generations theorem</div>
     </div>
+    <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.85rem;">
+      <strong style="color:var(--gold);">What's derived:</strong> The exponential hierarchy, the topological origin, the mechanism. <br>
+      <strong style="color:var(--gold);">What's calibrated:</strong> The ratio c<sub>χ</sub>/c<sub>α</sub> that gives exactly 3.
+    </p>
   </div>
 </section>
 
@@ -814,14 +839,24 @@
 
   <!-- DERIVATION STATUS -->
   <div style="margin-bottom:1.25rem;padding:0.85rem 1rem;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:8px;">
-    <strong style="color:var(--success);">Fully Derived from Axiom 1:</strong>
+    <strong style="color:var(--success);">Strongly Constrained by Axiom 1:</strong>
     <ul style="margin:0.5rem 0 0;font-size:0.88rem;color:var(--text-secondary);">
       <li><strong>Anomaly cancellation</strong> — geometric consistency of path integral (§3)</li>
       <li><strong>Minimal solution selection</strong> — MHP selects minimum holonomy (§5)</li>
       <li><strong>Orbifold geometry</strong> — M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> is Axiom 1</li>
     </ul>
+  </div>
+
+  <!-- EXPLICIT ASSUMPTIONS -->
+  <div style="margin-bottom:1.25rem;padding:0.85rem 1rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">
+    <strong style="color:var(--gold);">Explicit Assumptions:</strong>
+    <ul style="margin:0.5rem 0 0;font-size:0.88rem;color:var(--text-secondary);">
+      <li><strong>Cost function form</strong> — Ω[G] = Σ C₂(G_a)·vol(π₁) + λ·rank(G) + μ·N_exotic (coefficients λ, μ not derived)</li>
+      <li><strong>Minimality criterion</strong> — "Minimal anomaly-free solution" assumes no additional exotic matter</li>
+      <li><strong>Hypercharge normalization</strong> — Y = Q - T₃ convention is standard but chosen</li>
+    </ul>
     <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-tertiary);">
-      No external physical assumptions required beyond the three axioms.
+      The gauge group is <em>strongly constrained</em> by these conditions, not uniquely forced by geometry alone.
     </p>
   </div>
 
@@ -839,7 +874,7 @@
       <li><strong>Coupling relations</strong> → sin²θ<sub>W</sub> = 0.231 at M<sub>Z</sub> (§6)</li>
     </ol>
     <p style="margin:0;color:var(--text);">
-      <strong>G<sub>SM</sub> is selected as the unique minimum-cost anomaly-free gauge group on the orbifold.</strong>
+      <strong>G<sub>SM</sub> is strongly constrained as the minimum-cost anomaly-free gauge group on the orbifold.</strong>
     </p>
   </div>
 
@@ -847,7 +882,7 @@
     <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
       <strong style="color:#4ade80;font-size:0.9rem;">Gauge Group</strong>
       <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-secondary);">
-        SU(3) × SU(2) × U(1) — uniquely selected
+        SU(3) × SU(2) × U(1) — strongly constrained
       </p>
     </div>
     <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
