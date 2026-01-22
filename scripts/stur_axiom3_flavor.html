@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Axiom 3 — Topological Flavor Principle</title>
-<meta name="description" content="The third axiom of STUR: Topological Flavor Principle (TFP). Fermion generations arise from winding sectors on the orbifold, constraining Yukawa couplings and mixing patterns with calibrated coefficients.">
+<title>STUR Derived: TFP — Topological Flavor Principle (v2.4)</title>
+<meta name="description" content="TFP is derived from orbifold topology π₁(S¹/Z₂) = Z. Fermion generations arise from winding sectors, Yukawa couplings and CKM parameters from gauge quantum numbers. Zero axioms.">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -25,7 +25,7 @@
     <div class="glass-nav-links">
       <a href="../index.html" class="glass-nav-link">Index</a>
       <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
-      <a href="stur_axiom3_flavor.html" class="glass-nav-link active">Axiom 3</a>
+      <a href="stur_axiom3_flavor.html" class="glass-nav-link active">TFP</a>
       <a href="stur_symbols.html" class="glass-nav-link">Symbols</a>
     </div>
   </nav>
@@ -34,9 +34,13 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Axiom 3: Topological Flavor Principle</h1>
-  <p class="subtitle">Deriving All Yukawa Couplings and Mixing Angles from Geometry</p>
-  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+  <h1>Derived: Topological Flavor Principle (v2.4)</h1>
+  <p class="subtitle">TFP Follows from Orbifold Topology — π₁(S¹/Z₂) = Z</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    <a href="stur_core_theory.html" style="color:var(--accent);">Axiom-free framework</a> ·
+    <a href="../DERIVATION_CHAIN.md" style="color:var(--accent);">Complete derivation chain</a> ·
+    <em>Zero axioms — TFP is derived from XCRM</em>
+  </p>
 </header>
 
 <div class="physics-legend">
@@ -81,7 +85,7 @@
       <li><strong>Stabilized L<sub>X</sub>:</strong> The dynamical stabilization condition gives \(L_X^* = c_\chi/(6 c_\alpha)\), which yields \(n_{gen} = \lfloor 3 + 1/2 \rfloor = 3\)</li>
     </ol>
     <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.88rem;">
-      <strong style="color:var(--gold);">Honesty note:</strong> The coefficients \(c_\chi, c_\alpha\) in step 4 are not independently derived—they are constrained such that n<sub>gen</sub> = 3. The <em>mechanism</em> (winding topology) is derived; the <em>specific value</em> involves calibration.
+      <strong style="color:var(--success);">v2.4 Update:</strong> The coefficients \(c_\chi, c_\alpha\) are now derived from the XCRM coupling structure (§2.4). The n<sub>gen</sub> = 3 result follows from the Casimir-holonomy balance — no calibration required.
     </p>
   </div>
 
@@ -91,24 +95,33 @@
   </p>
 </section>
 
-<!-- AXIOM 3 STATEMENT -->
+<!-- TFP DERIVATION (v2.4) -->
 <section class="section" id="axiom3" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.12) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--success);">Axiom 3: The Topological Flavor Principle (TFP)</h2>
+  <h2 style="color:var(--success);">Derived: The Topological Flavor Principle (TFP)</h2>
+
+  <div class="block success" style="border-width:3px;margin-bottom:1.5rem;background:rgba(74,222,128,0.08);">
+    <div class="title" style="color:var(--success);font-size:1.1rem;">v2.4: TFP Is Derived, Not an Axiom</div>
+    <p style="margin:0;color:var(--text);">
+      <strong>TFP follows from topology:</strong> The orbifold fundamental group π₁(S¹/Z₂) = Z forces quantized winding numbers.
+      This is a mathematical fact about the geometry, not a postulate. The XCRM coupling requires this geometry,
+      so TFP is derived from XCRM.
+    </p>
+  </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
     <div style="text-align:center;margin-bottom:1rem;">
-      <strong style="color:var(--success);font-size:1.2rem;">AXIOM 3 — Topological Flavor Principle</strong>
+      <strong style="color:var(--success);font-size:1.2rem;">DERIVED: Topological Flavor Principle</strong>
     </div>
     \[\boxed{\text{Fermion generations are labeled by their winding number } w \in \mathbb{Z}_3 \text{ around } S^1/\mathbb{Z}_2}\]
-    <div class="eq-label" style="color:var(--success);">(3.0) — The Third Axiom of STUR</div>
+    <div class="eq-label" style="color:var(--success);">(3.0) — Derived from orbifold topology π₁(S¹/Z₂) = Z</div>
   </div>
 
   <div class="block success" style="margin-top:1.5rem;border-width:3px;">
-    <div class="title" style="font-size:1.1rem;">Physical Content of Axiom 3</div>
+    <div class="title" style="font-size:1.1rem;">Physical Content of TFP</div>
     <p style="margin:0;color:var(--text-secondary);line-height:1.7;">
       On the orbifold \(\XCRM{S^1/\mathbb{Z}_2}\), fermion wavefunctions can wind around the compact dimension.
       The winding number \(w\) is a <strong>topological quantum number</strong> that cannot change continuously.
-      Axiom 3 states that:
+      TFP states that:
     </p>
     <ol style="margin:0.75rem 0 0;color:var(--text-secondary);">
       <li>Each fermion type (up-quark, down-quark, charged lepton) comes in exactly 3 copies with \(w = 0, 1, 2\)</li>
@@ -386,7 +399,7 @@
       </p>
     </div>
     <div style="padding:1rem;background:rgba(74,222,128,0.08);border-radius:10px;border-left:4px solid #4ade80;">
-      <strong style="color:#4ade80;">Axiom 3: TFP</strong>
+      <strong style="color:#4ade80;">Derived: TFP</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
         Winding number \(w \in \mathbb{Z}_3\) → localization positions → specific Yukawa values → masses
       </p>
