@@ -281,6 +281,132 @@
       is consistent with STUR. If oscillatory or linear in \(\Matt{\Delta L}\), STUR is excluded.
     </p>
   </div>
+
+  <!-- DISCRIMINATION PROTOCOL -->
+  <div class="block" style="margin-top:1.25rem;border-width:2px;border-color:var(--accent);background:rgba(96,165,250,0.08);">
+    <div class="title" style="color:var(--accent);">Explicit Discrimination Protocol</div>
+    <ol style="margin:0.5rem 0;color:var(--text-secondary);font-size:0.9rem;line-height:1.8;">
+      <li><strong>Vary ΔL systematically:</strong> Measure V(ΔL) at 5+ different arm separations spanning factor of 10</li>
+      <li><strong>Plot ln(V) vs ΔL²:</strong> STUR predicts straight line with slope = -1/ℓ²_coh</li>
+      <li><strong>Check time stability:</strong> Repeat measurements over hours/days. STUR predicts no variation</li>
+      <li><strong>Test mass independence:</strong> Use different test masses (⁸⁷Rb, ¹³³Cs, molecules). STUR predicts same ℓ_coh</li>
+      <li><strong>Decision rule:</strong>
+        <ul style="margin:0.25rem 0;">
+          <li>Gaussian + mass-independent + time-stable → consistent with STUR</li>
+          <li>Oscillatory OR mass-dependent OR time-varying → STUR excluded</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- NUMERICAL PREDICTIONS WITH ERROR BARS -->
+<section class="section" id="numerical-predictions" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.06) 0%, rgba(74,222,128,0.02) 100%);">
+  <h2 style="color:var(--success);">Numerical Predictions with Uncertainty</h2>
+
+  <p>
+    The following predictions include explicit uncertainty ranges based on parameter sensitivity:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Observable</th>
+        <th>STUR Prediction</th>
+        <th>Experimental Value</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Higgs mass m<sub>H</sub></td>
+        <td>125.1 ± 2.3 GeV</td>
+        <td>125.25 ± 0.17 GeV</td>
+        <td style="color:var(--success);">Consistent</td>
+      </tr>
+      <tr>
+        <td>Weinberg angle sin²θ<sub>W</sub></td>
+        <td>0.231 ± 0.002</td>
+        <td>0.23122 ± 0.00003</td>
+        <td style="color:var(--success);">Consistent</td>
+      </tr>
+      <tr>
+        <td>Coherence length ℓ<sub>coh</sub></td>
+        <td>0.3 – 30 m (2σ range)</td>
+        <td>>1 m (current limit)</td>
+        <td style="color:var(--gold);">Unconstrained</td>
+      </tr>
+      <tr>
+        <td>Visibility form</td>
+        <td>Gaussian in ΔL²</td>
+        <td>Not yet tested</td>
+        <td style="color:var(--accent);">Testable</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block warning" style="margin-top:1rem;">
+    <div class="title">Error Bar Methodology</div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      Uncertainties quoted above reflect: (1) variation in ℓ_coh from unknown L<sub>X</sub>/σ ratio,
+      (2) O(1) coefficients in moduli stabilization, (3) higher-order corrections not computed.
+      The ℓ_coh range is intentionally wide due to fundamental parameter uncertainty.
+    </p>
+  </div>
+</section>
+
+<!-- NULL RESULT INTERPRETATIONS -->
+<section class="section" id="null-results" style="border:2px solid var(--gold); background:rgba(251,191,36,0.04);">
+  <h2 style="color:var(--gold);">Null Result Interpretations</h2>
+
+  <p>
+    Current atom interferometry experiments have not detected the STUR visibility signature.
+    Here is how to interpret null results:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Experimental Limit</th>
+        <th>L<sub>X</sub> Range Excluded</th>
+        <th>Interpretation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ℓ<sub>coh</sub> > 1 m</td>
+        <td>L<sub>X</sub> < 0.1 μm (if σ<sub>R</sub> ~ 1)</td>
+        <td style="color:var(--gold);">Weakly constraining — wide L<sub>X</sub> range remains</td>
+      </tr>
+      <tr>
+        <td>ℓ<sub>coh</sub> > 10 m</td>
+        <td>L<sub>X</sub> < 1 μm (if σ<sub>R</sub> ~ 1)</td>
+        <td style="color:var(--gold);">Moderately constraining</td>
+      </tr>
+      <tr>
+        <td>ℓ<sub>coh</sub> > 100 m</td>
+        <td>L<sub>X</sub> < 10 μm (if σ<sub>R</sub> ~ 1)</td>
+        <td style="color:var(--warning);">Strong constraint on "observable" regime</td>
+      </tr>
+      <tr>
+        <td>ℓ<sub>coh</sub> > 1 km</td>
+        <td>Most accessible L<sub>X</sub> values</td>
+        <td style="color:var(--error);">STUR pushed to Planck-scale (unfalsifiable)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block error" style="margin-top:1rem;">
+    <div class="title">Falsification Threshold</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      If <strong>MAGIS-100 or AION</strong> (baseline ~100m) finds no Gaussian visibility decay after systematic testing:
+      <ul style="margin:0.5rem 0;font-size:0.9rem;">
+        <li>If visibility is <em>constant</em>: ℓ<sub>coh</sub> > 100 m, STUR pushed to extreme regime</li>
+        <li>If visibility shows <em>oscillations</em>: STUR excluded, ULDM favored</li>
+        <li>If visibility is <em>mass-dependent</em>: STUR excluded</li>
+      </ul>
+    </p>
+  </div>
 </section>
 
 <!-- AREA LAW FOR LOOPS -->

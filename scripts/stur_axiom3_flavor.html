@@ -63,14 +63,31 @@
     </p>
     <ul style="margin:0.75rem 0 0;color:var(--text-secondary);">
       <li>The orbifold fundamental group \(\pi_1(S^1/\mathbb{Z}_2) = \mathbb{Z}\) forces quantized winding</li>
-      <li>The \(\mathbb{Z}_2\) identification restricts allowed windings to \(w \in \mathbb{Z}_3 = \{0, 1, 2\}\)</li>
+      <li>The \(\mathbb{Z}_2\) identification restricts allowed windings via boundary conditions (see below)</li>
       <li>Each winding sector corresponds to one fermion generation</li>
     </ul>
   </div>
 
+  <!-- EXPLICIT Z₃ DERIVATION -->
+  <div class="block" style="margin-top:1.25rem;border-width:2px;border-color:var(--accent-secondary);background:rgba(167,139,250,0.08);">
+    <div class="title" style="color:var(--accent-secondary);">Why Exactly 3 Windings: Explicit Derivation</div>
+    <p style="margin:0 0 0.75rem;color:var(--text-secondary);line-height:1.7;">
+      The restriction from \(\mathbb{Z}\) to 3 values requires explicit justification:
+    </p>
+    <ol style="margin:0;color:var(--text-secondary);line-height:1.9;font-size:0.92rem;">
+      <li><strong>Boundary conditions:</strong> At fixed points \(X = 0\) and \(X = L_X\), fermions satisfy \(\psi(X) = \pm\gamma^5 \psi(-X)\), restricting phases</li>
+      <li><strong>Anomaly cancellation:</strong> The index theorem constraint \(\text{ind}(D) = n_L - n_R = 3\) (for SM) bounds the generation count</li>
+      <li><strong>MHP minimization:</strong> The holonomy cost functional \(\Omega\) has coefficients that select \(n_{gen} = 3\) as the minimum</li>
+      <li><strong>Stabilized L<sub>X</sub>:</strong> The dynamical stabilization condition gives \(L_X^* = c_\chi/(6 c_\alpha)\), which yields \(n_{gen} = \lfloor 3 + 1/2 \rfloor = 3\)</li>
+    </ol>
+    <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.88rem;">
+      <strong style="color:var(--gold);">Honesty note:</strong> The coefficients \(c_\chi, c_\alpha\) in step 4 are not independently derived—they are constrained such that n<sub>gen</sub> = 3. The <em>mechanism</em> (winding topology) is derived; the <em>specific value</em> involves calibration.
+    </p>
+  </div>
+
   <p style="margin-top:1rem;color:var(--text-secondary);">
-    <strong>Key insight:</strong> The existence of exactly 3 generations and their hierarchical masses is
-    <em>geometrically inevitable</em> once we work on the orbifold. Axiom 3 simply states this topological fact.
+    <strong>Key insight:</strong> The existence of hierarchical generations is
+    <em>geometrically natural</em> on the orbifold. The specific number n = 3 follows from a combination of topology and dynamical selection with calibrated coefficients.
   </p>
 </section>
 
@@ -195,7 +212,7 @@
   </div>
 
   <p>
-    where \(\lambda \approx 0.22\) is the Wolfenstein parameter. This gives:
+    where \(\lambda \approx 0.22\) is the Wolfenstein parameter. <strong style="color:var(--gold);">Note:</strong> The value λ ≈ 0.22 is <em>fitted</em> to observation (equivalently, L<sub>X</sub>/σ is calibrated). The <em>exponential form</em> of the hierarchy is derived; the <em>specific ratio</em> uses one input. This gives:
   </p>
 
   <table>
@@ -377,7 +394,7 @@
     <div style="padding:1rem;background:rgba(34,211,238,0.08);border-radius:10px;border-left:4px solid #22d3ee;">
       <strong style="color:#22d3ee;">Result: Complete Theory</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        Zero free parameters — \(L_X\) is dynamically stabilized. All masses, mixings, and phases follow from geometry.
+        Minimal free parameters — \(L_X\) is dynamically stabilized. All masses, mixings, and phases follow from geometry.
       </p>
     </div>
   </div>
@@ -397,7 +414,7 @@
     <p style="margin:0;color:var(--text);font-size:1.05rem;line-height:1.7;">
       The <strong>Topological Flavor Principle</strong> is not a choice—it is <em>forced</em> by the orbifold geometry.
       Once we work on \(S^1/\mathbb{Z}_2\), winding numbers exist and determine flavor structure.
-      STUR has <strong>zero free parameters</strong> — the scale \(L_X\) is dynamically stabilized by Casimir-holonomy balance.
+      STUR has <strong>one effective parameter</strong> (L<sub>X</sub>/σ<sub>R</sub> ratio) — the scale \(L_X\) is dynamically stabilized but σ<sub>R</sub> is calibrated.
     </p>
   </div>
 

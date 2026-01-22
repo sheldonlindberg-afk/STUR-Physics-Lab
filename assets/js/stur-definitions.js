@@ -227,7 +227,7 @@ const STUR_DEFINITIONS = {
   // FIRST PRINCIPLES — Three-Axiom Framework
   // ============================================================
   firstPrinciples: {
-    statement: "STUR is a unified framework built on three axioms forced by orbifold geometry: (1) Master Action, (2) DHP, (3) TFP. Standard Model + gravity derived with zero free parameters — L_X is dynamically determined by Casimir-holonomy balance.",
+    statement: "STUR is a candidate unified framework built on three axioms on an orbifold: (1) Master Action, (2) DHP, (3) TFP. Standard Model + gravity strongly constrained with minimal free parameters — L_X is dynamically stabilized by Casimir-holonomy balance.",
 
     theoryDeterminedParameters: ["L_X (internal dimension size — dynamically stabilized by Casimir-holonomy balance)"],
 

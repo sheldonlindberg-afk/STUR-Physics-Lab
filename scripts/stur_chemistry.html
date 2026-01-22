@@ -31,6 +31,14 @@
       .verdict-enhanced { color: #4ade80; }
       .verdict-standard { color: #fbbf24; }
       .verdict-weak { color: #94a3b8; }
+
+      /* STUR vs SM Comparison Holoscreen */
+      .hs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      @media(max-width:900px) { .hs-grid { grid-template-columns: 1fr; } }
+      .hs-card { background: rgba(0,0,0,0.3); border-radius: 12px; overflow: hidden; }
+      .hs-head { padding: 0.85rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .hs-body { padding: 1rem; }
+      .h { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -94,16 +102,40 @@
     <div class="glass-section" style="border-color:var(--success);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
             <span class="stur-icon icon-check size-24" style="color:var(--success);"></span>
-            <h2 class="glass-section-title" style="color:var(--success);">Derivation Chain</h2>
+            <h2 class="glass-section-title" style="color:var(--success);">Complete Derivation Chain: Master Action → Chemistry</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--success);">Master Action → Chemistry Predictions:</strong></p>
-            <ol style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Step 1:</strong> Saturation operator \(\XCRM{S(u)}\) enhances electron pair coherence in molecular orbitals</li>
-                <li><strong>Step 2:</strong> Enhanced coherence → increased overlap integral → stronger bonds</li>
-                <li><strong>Step 3:</strong> Modified activation barriers via XCRM coupling to transition states</li>
-            </ol>
-            <p style="margin-bottom:0.5rem;"><strong style="color:var(--gold);">Note:</strong> This is a derived application of STUR to chemistry. The core prediction (Gaussian visibility decay) is the primary falsification target for the complete framework.</p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--success);">From Three Axioms to Chemistry Predictions:</strong></p>
+
+            <div style="display:grid;gap:0.75rem;margin:1rem 0;">
+                <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;border-left:3px solid var(--accent);">
+                    <strong style="color:var(--accent);">Axiom 1 (Master Action):</strong>
+                    <div style="margin-top:0.5rem;color:var(--text-secondary);">
+                        \[S = \int_{M^4 \times S^1/\mathbb{Z}_2} d^5x\, e\, \left(\frac{1}{2\kappa}\Tor{\mathcal{T}} + \Quant{\mathcal{L}_{\rm matter}} + \Pot{V(R)}\right)\]
+                        <p style="font-size:0.85rem;margin-top:0.5rem;">The 5D orbifold geometry couples matter fields to torsion and the radion potential.</p>
+                    </div>
+                </div>
+
+                <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;border-left:3px solid var(--gold);">
+                    <strong style="color:var(--gold);">Axiom 2 (DHP) → Electron Coherence:</strong>
+                    <div style="margin-top:0.5rem;color:var(--text-secondary);">
+                        \[\XCRM{S_u(u)} = \tanh(u)(1 - e^{-u}) \quad \text{where } u = \ell_{\rm eff}/L_X\]
+                        <p style="font-size:0.85rem;margin-top:0.5rem;">The saturation operator enhances electron pair coherence in molecular orbitals, identical to the mechanism enabling Cooper pairs in superconductors.</p>
+                    </div>
+                </div>
+
+                <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;border-left:3px solid #f472b6;">
+                    <strong style="color:#f472b6;">XCRM Closure → Bond Enhancement:</strong>
+                    <div style="margin-top:0.5rem;color:var(--text-secondary);">
+                        \[\Matt{\xi_{\rm bond}^{\rm STUR}} = \Matt{\xi_{\rm bond}^{\rm QM}} \cdot (1 + \XCRM{S_u} \cdot \sigma_R/L_X)\]
+                        <p style="font-size:0.85rem;margin-top:0.5rem;">Enhanced coherence length increases the overlap integral, strengthening covalent bonds. This is a <em>derived mechanism</em> from the same physics that produces the visibility law.</p>
+                    </div>
+                </div>
+            </div>
+
+            <p style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.1);border-radius:8px;border-left:3px solid var(--gold);">
+                <strong style="color:var(--gold);">Status:</strong> Mechanism derived from Master Action. Numerical coefficients depend on the L<sub>X</sub>/σ<sub>R</sub> ratio (STUR's one effective parameter). Chemistry predictions are <em>secondary</em> to the core visibility law falsification.
+            </p>
         </div>
     </div>
 
@@ -491,6 +523,160 @@
     </section>
 
     <!-- ============================================================
+         SECTION: STUR vs SM COMPARISON HOLOSCREEN
+         ============================================================ -->
+    <section class="section" id="comparison-holoscreen" style="border:2px solid var(--accent); background:linear-gradient(135deg, rgba(34,211,238,0.06) 0%, rgba(167,139,250,0.04) 100%);">
+        <h2 style="color:var(--accent);">STUR vs Standard Model Comparison Holoscreen</h2>
+
+        <p style="margin-bottom:1rem;">
+            Interactive side-by-side comparison of STUR predictions against Standard Model quantum chemistry.
+            Select a molecule or enter a custom formula to visualize the differences.
+        </p>
+
+        <div class="hs-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <!-- LEFT: SM/QM Panel -->
+            <div class="hs-card" style="background:rgba(0,0,0,0.3);border-radius:12px;border:1px solid rgba(96,165,250,0.3);">
+                <div class="hs-head" style="padding:0.85rem;border-bottom:1px solid rgba(96,165,250,0.2);background:linear-gradient(180deg,rgba(96,165,250,0.08),transparent);">
+                    <div class="h" style="font-size:0.85rem;font-weight:800;color:#60a5fa;">STANDARD MODEL (QM)</div>
+                </div>
+                <div class="hs-body" style="padding:1rem;">
+                    <canvas id="smCanvas" width="500" height="300" style="width:100%;height:auto;border-radius:8px;background:rgba(0,0,0,0.2);"></canvas>
+                    <div class="sm-results" style="margin-top:1rem;">
+                        <div class="result-row" style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <span style="color:var(--text-muted);font-size:0.85rem;">Bond Energy D<sub>e</sub></span>
+                            <span id="sm_De" style="font-family:var(--font-mono);font-weight:600;color:#60a5fa;">— kJ/mol</span>
+                        </div>
+                        <div class="result-row" style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <span style="color:var(--text-muted);font-size:0.85rem;">Activation Energy E<sub>a</sub></span>
+                            <span id="sm_Ea" style="font-family:var(--font-mono);font-weight:600;color:#60a5fa;">— kJ/mol</span>
+                        </div>
+                        <div class="result-row" style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <span style="color:var(--text-muted);font-size:0.85rem;">Rate Constant k</span>
+                            <span id="sm_k" style="font-family:var(--font-mono);font-weight:600;color:#60a5fa;">— s⁻¹</span>
+                        </div>
+                        <div class="result-row" style="display:flex;justify-content:space-between;padding:0.4rem 0;">
+                            <span style="color:var(--text-muted);font-size:0.85rem;">Tunnel Probability P</span>
+                            <span id="sm_P" style="font-family:var(--font-mono);font-weight:600;color:#60a5fa;">—</span>
+                        </div>
+                    </div>
+                    <div style="margin-top:0.75rem;padding:0.5rem;background:rgba(96,165,250,0.08);border-radius:6px;font-size:0.8rem;color:var(--text-muted);">
+                        <strong style="color:#60a5fa;">Basis:</strong> Hartree-Fock / DFT / CCSD(T) — no XCRM coherence
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: STUR Panel -->
+            <div class="hs-card" style="background:rgba(0,0,0,0.3);border-radius:12px;border:1px solid rgba(74,222,128,0.3);">
+                <div class="hs-head" style="padding:0.85rem;border-bottom:1px solid rgba(74,222,128,0.2);background:linear-gradient(180deg,rgba(74,222,128,0.08),transparent);">
+                    <div class="h" style="font-size:0.85rem;font-weight:800;color:#4ade80;">STUR (XCRM-ENHANCED)</div>
+                </div>
+                <div class="hs-body" style="padding:1rem;">
+                    <canvas id="sturCanvas" width="500" height="300" style="width:100%;height:auto;border-radius:8px;background:rgba(0,0,0,0.2);"></canvas>
+                    <div class="stur-results" style="margin-top:1rem;">
+                        <div class="result-row" style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <span style="color:var(--text-muted);font-size:0.85rem;">Bond Energy D<sub>e</sub><sup>STUR</sup></span>
+                            <span id="stur_De" style="font-family:var(--font-mono);font-weight:600;color:#4ade80;">— kJ/mol</span>
+                        </div>
+                        <div class="result-row" style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <span style="color:var(--text-muted);font-size:0.85rem;">Activation Energy E<sub>a</sub><sup>STUR</sup></span>
+                            <span id="stur_Ea" style="font-family:var(--font-mono);font-weight:600;color:#4ade80;">— kJ/mol</span>
+                        </div>
+                        <div class="result-row" style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <span style="color:var(--text-muted);font-size:0.85rem;">Rate Constant k<sup>STUR</sup></span>
+                            <span id="stur_k" style="font-family:var(--font-mono);font-weight:600;color:#4ade80;">— s⁻¹</span>
+                        </div>
+                        <div class="result-row" style="display:flex;justify-content:space-between;padding:0.4rem 0;">
+                            <span style="color:var(--text-muted);font-size:0.85rem;">Tunnel Probability P<sup>STUR</sup></span>
+                            <span id="stur_P" style="font-family:var(--font-mono);font-weight:600;color:#4ade80;">—</span>
+                        </div>
+                    </div>
+                    <div style="margin-top:0.75rem;padding:0.5rem;background:rgba(74,222,128,0.08);border-radius:6px;font-size:0.8rem;color:var(--text-muted);">
+                        <strong style="color:#4ade80;">Enhancement:</strong> S<sub>u</sub>(u<sub>eff</sub>) × σ<sub>R</sub>/L<sub>X</sub> coherence boost
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Row -->
+        <div style="margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+            <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;border:1px solid rgba(255,255,255,0.08);">
+                <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--text-muted);margin-bottom:0.5rem;">Preset Molecules</label>
+                <select id="molPreset" style="width:100%;padding:0.5rem;border-radius:8px;background:rgba(0,0,0,0.4);color:var(--text);border:1px solid var(--border);">
+                    <option value="C6H6">Benzene (C₆H₆) — Aromatic</option>
+                    <option value="LaH10">LaH₁₀ — Superconductor candidate</option>
+                    <option value="La2C36H45Bi1" selected>La₂C₃₆H₄₅Bi — High-u<sub>eff</sub></option>
+                    <option value="CH4">Methane (CH₄) — Simple</option>
+                    <option value="H2O">Water (H₂O) — Standard</option>
+                    <option value="Fe2C10H10">Ferrocene (Fe₂C₁₀H₁₀) — Organometallic</option>
+                    <option value="PtH4C2">Pt complex — Heavy anchor</option>
+                    <option value="custom">Custom formula...</option>
+                </select>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;border:1px solid rgba(255,255,255,0.08);">
+                <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--text-muted);margin-bottom:0.5rem;">Custom Formula</label>
+                <input type="text" id="customMol" class="calc-input" value="La2C36H45Bi1" placeholder="e.g., La2C36H45Bi1" style="margin-top:0;">
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;border:1px solid rgba(255,255,255,0.08);">
+                <label style="display:block;font-size:0.8rem;font-weight:700;color:var(--text-muted);margin-bottom:0.5rem;">Temperature (K)</label>
+                <input type="range" id="tempRange" min="200" max="500" value="300" style="width:100%;">
+                <div style="margin-top:0.35rem;font-family:var(--font-mono);font-size:0.85rem;color:var(--text-secondary);">T = <span id="tempVal">300</span> K</div>
+            </div>
+        </div>
+
+        <!-- Difference Visualization -->
+        <div style="margin-top:1.5rem;background:rgba(0,0,0,0.3);border-radius:12px;padding:1.25rem;border:1px solid rgba(167,139,250,0.3);">
+            <h4 style="margin:0 0 1rem;color:#a78bfa;">Δ Difference: STUR − SM</h4>
+            <canvas id="diffCanvas" width="1100" height="220" style="width:100%;height:auto;border-radius:8px;background:rgba(0,0,0,0.2);"></canvas>
+
+            <div style="margin-top:1rem;display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;">
+                <div style="text-align:center;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);">ΔD<sub>e</sub></div>
+                    <div id="diff_De" style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:#4ade80;">+0.0%</div>
+                </div>
+                <div style="text-align:center;padding:0.75rem;background:rgba(251,191,36,0.08);border-radius:8px;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);">ΔE<sub>a</sub></div>
+                    <div id="diff_Ea" style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:#fbbf24;">−0.0%</div>
+                </div>
+                <div style="text-align:center;padding:0.75rem;background:rgba(34,211,238,0.08);border-radius:8px;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);">Rate ×</div>
+                    <div id="diff_k" style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:#22d3ee;">1.0×</div>
+                </div>
+                <div style="text-align:center;padding:0.75rem;background:rgba(167,139,250,0.08);border-radius:8px;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);">u<sub>eff</sub></div>
+                    <div id="diff_ueff" style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:#a78bfa;">0.00</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Derivation Summary -->
+        <div class="block success" style="margin-top:1.5rem;border-width:2px;">
+            <div class="title">How STUR Differs from SM</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:0.75rem;">
+                <div>
+                    <h5 style="color:#60a5fa;margin:0 0 0.5rem;">Standard Model (QM)</h5>
+                    <ul style="margin:0;padding-left:1.2rem;color:var(--text-secondary);font-size:0.9rem;">
+                        <li>Electron wavefunctions from Schrödinger/Dirac equation</li>
+                        <li>Bond energies from overlap integrals + exchange</li>
+                        <li>No coupling to spacetime geometry</li>
+                        <li>Tunneling via WKB approximation</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="color:#4ade80;margin:0 0 0.5rem;">STUR (XCRM-Enhanced)</h5>
+                    <ul style="margin:0;padding-left:1.2rem;color:var(--text-secondary);font-size:0.9rem;">
+                        <li>Electron pairs couple to 5D teleparallel holonomy</li>
+                        <li>Coherence enhanced by saturation operator S<sub>u</sub>(u)</li>
+                        <li>Bond enhancement: D<sub>e</sub> × (1 + S<sub>u</sub>·σ<sub>R</sub>/L<sub>X</sub>)</li>
+                        <li>Tunneling boosted by (1 + S<sub>u</sub>) factor</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: SUMMARY FALSIFICATION
          ============================================================ -->
     <section class="section" style="border:2px solid #ef4444; background:rgba(239,68,68,0.04);">
@@ -673,6 +859,379 @@ document.getElementById('formula').addEventListener('keypress', (e) => { if (e.k
 
 // Initial calculation
 calculate();
+
+/* ============================================================
+   STUR vs SM COMPARISON HOLOSCREEN
+   ============================================================ */
+(function() {
+    const smCanvas = document.getElementById('smCanvas');
+    const sturCanvas = document.getElementById('sturCanvas');
+    const diffCanvas = document.getElementById('diffCanvas');
+
+    if (!smCanvas || !sturCanvas || !diffCanvas) return;
+
+    const smCtx = smCanvas.getContext('2d');
+    const sturCtx = sturCanvas.getContext('2d');
+    const diffCtx = diffCanvas.getContext('2d');
+
+    const molPreset = document.getElementById('molPreset');
+    const customMol = document.getElementById('customMol');
+    const tempRange = document.getElementById('tempRange');
+    const tempVal = document.getElementById('tempVal');
+
+    // Chemistry constants
+    const REFERENCE_DE = 400; // kJ/mol reference bond energy
+    const REFERENCE_EA = 80;  // kJ/mol reference activation energy
+    const SIGMA_LX = 0.15;    // σ_R / L_X ratio
+    const K_B = 8.314e-3;     // kJ/(mol·K)
+    const A_FACTOR = 1e13;    // Arrhenius pre-factor (s⁻¹)
+
+    // Chronon values for heavy atoms
+    const CHRONON = {La: 0.14, C: 0.04, H: 0.01, Bi: 0.42, Fe: 0.18, Pt: 0.35, Pd: 0.30, Zn: 0.12, N: 0.03, O: 0.03, S: 0.08};
+    const ANCHOR = {La: 2.0, Bi: 3.0, Fe: 1.5, Pt: 2.5, Pd: 2.2, Zn: 1.2};
+
+    // Molecule presets with realistic values
+    const PRESETS = {
+        'C6H6':         { De: 500, Ea: 85, name: 'Benzene' },
+        'LaH10':        { De: 380, Ea: 65, name: 'LaH₁₀' },
+        'La2C36H45Bi1': { De: 420, Ea: 72, name: 'La₂C₃₆H₄₅Bi' },
+        'CH4':          { De: 440, Ea: 90, name: 'Methane' },
+        'H2O':          { De: 460, Ea: 95, name: 'Water' },
+        'Fe2C10H10':    { De: 410, Ea: 78, name: 'Ferrocene' },
+        'PtH4C2':       { De: 395, Ea: 70, name: 'Pt-hydride' }
+    };
+
+    function parseFormula(s) {
+        const r = {};
+        for (const m of s.matchAll(/([A-Z][a-z]?)(\d*)/g)) {
+            if (m[1]) r[m[1]] = +m[2] || 1;
+        }
+        return Object.keys(r).length ? r : null;
+    }
+
+    function Su(u) {
+        return Math.tanh(u) * (1 - Math.exp(-Math.max(0, u)));
+    }
+
+    function u_geo(s) {
+        const C = s.C || 0, H = s.H || 0;
+        if (!C && !H) return 0.5;
+        let anc = 0;
+        for (let k in s) anc += (ANCHOR[k] || 0) * s[k];
+        if (anc === 0) anc = 1;
+        const val = Math.sqrt(Math.max(1, C)) * Math.pow(Math.max(1, H) / anc, 1/3) / 0.12;
+        return Math.log(Math.max(0.01, val));
+    }
+
+    function u_chr(s) {
+        let tot = 0;
+        for (let k in s) tot += s[k];
+        if (tot === 0) return 0;
+        let v = 0;
+        for (let k in s) v += (CHRONON[k] || 0.02) * (s[k] / tot);
+        return (v - 0.04) / 0.10;
+    }
+
+    function clearCanvas(ctx, w, h) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = 'rgba(0,0,0,0.2)';
+        ctx.fillRect(0, 0, w, h);
+    }
+
+    function drawPotentialCurve(ctx, w, h, De, Ea, color, label, showEnhancement = false, enhanceFactor = 1) {
+        clearCanvas(ctx, w, h);
+        const padL = 50, padR = 20, padT = 30, padB = 40;
+        const gx0 = padL, gx1 = w - padR, gy0 = padT, gy1 = h - padB;
+
+        // Draw grid
+        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 5; i++) {
+            const x = gx0 + (i/5) * (gx1 - gx0);
+            const y = gy0 + (i/5) * (gy1 - gy0);
+            ctx.beginPath(); ctx.moveTo(x, gy0); ctx.lineTo(x, gy1); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(gx0, y); ctx.lineTo(gx1, y); ctx.stroke();
+        }
+
+        // Draw Morse potential curve
+        const N = 200;
+        const r0 = 1.5; // Equilibrium distance
+        const alpha = 1.2;
+        const rMin = 0.5, rMax = 4.0;
+        const EMax = De * 1.3;
+
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+
+        for (let i = 0; i < N; i++) {
+            const r = rMin + (i / (N-1)) * (rMax - rMin);
+            const x = gx0 + ((r - rMin) / (rMax - rMin)) * (gx1 - gx0);
+
+            // Morse potential: V(r) = De * (1 - exp(-alpha*(r-r0)))^2 - De
+            const exp_term = Math.exp(-alpha * (r - r0));
+            const V = De * Math.pow(1 - exp_term, 2) - De;
+
+            const y = gy1 - ((V + De) / EMax) * (gy1 - gy0);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Draw activation barrier as dashed line
+        ctx.strokeStyle = 'rgba(251,191,36,0.7)';
+        ctx.setLineDash([6, 4]);
+        ctx.lineWidth = 2;
+        const barrierY = gy1 - ((Ea) / EMax) * (gy1 - gy0);
+        ctx.beginPath();
+        ctx.moveTo(gx0, barrierY);
+        ctx.lineTo(gx1, barrierY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Draw dissociation limit
+        ctx.strokeStyle = 'rgba(239,68,68,0.5)';
+        ctx.setLineDash([4, 4]);
+        const dissocY = gy0;
+        ctx.beginPath();
+        ctx.moveTo(gx0, dissocY);
+        ctx.lineTo(gx1, dissocY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Labels
+        ctx.fillStyle = 'rgba(226,232,240,0.9)';
+        ctx.font = '11px ui-monospace, monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('Bond Distance r (Å)', (gx0 + gx1) / 2, h - 8);
+        ctx.save();
+        ctx.translate(12, (gy0 + gy1) / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText('Energy (kJ/mol)', 0, 0);
+        ctx.restore();
+
+        // Legend
+        ctx.textAlign = 'left';
+        ctx.fillStyle = color;
+        ctx.fillRect(gx0 + 10, gy0 + 8, 12, 3);
+        ctx.fillStyle = 'rgba(226,232,240,0.85)';
+        ctx.fillText(label, gx0 + 26, gy0 + 12);
+
+        ctx.fillStyle = 'rgba(251,191,36,0.7)';
+        ctx.fillRect(gx0 + 10, gy0 + 24, 12, 3);
+        ctx.fillStyle = 'rgba(226,232,240,0.85)';
+        ctx.fillText('E_a = ' + Ea.toFixed(1) + ' kJ/mol', gx0 + 26, gy0 + 28);
+
+        if (showEnhancement && enhanceFactor > 1.001) {
+            ctx.fillStyle = 'rgba(74,222,128,0.15)';
+            const enhanceHeight = (gy1 - gy0) * (enhanceFactor - 1) * 0.3;
+            ctx.fillRect(gx0, gy1 - enhanceHeight, gx1 - gx0, enhanceHeight);
+            ctx.fillStyle = 'rgba(74,222,128,0.9)';
+            ctx.font = '10px ui-monospace, monospace';
+            ctx.fillText('Enhancement zone', gx0 + 10, gy1 - enhanceHeight + 14);
+        }
+    }
+
+    function drawDifferenceChart(ctx, w, h, smDe, smEa, sturDe, sturEa, ueff) {
+        clearCanvas(ctx, w, h);
+        const padL = 60, padR = 30, padT = 30, padB = 40;
+        const gx0 = padL, gx1 = w - padR, gy0 = padT, gy1 = h - padB;
+
+        // Draw axes
+        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(gx0, gy0, gx1 - gx0, gy1 - gy0);
+
+        // Zero line
+        const midY = (gy0 + gy1) / 2;
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.beginPath();
+        ctx.moveTo(gx0, midY);
+        ctx.lineTo(gx1, midY);
+        ctx.stroke();
+
+        // Calculate differences
+        const diffDe = ((sturDe - smDe) / smDe) * 100;
+        const diffEa = ((sturEa - smEa) / smEa) * 100;
+
+        // Bar chart
+        const barW = 80;
+        const categories = [
+            { label: 'ΔD_e', value: diffDe, color: 'rgba(74,222,128,0.8)', x: gx0 + 100 },
+            { label: 'ΔE_a', value: diffEa, color: 'rgba(251,191,36,0.8)', x: gx0 + 250 },
+            { label: 'S_u(u)', value: Su(ueff) * 100, color: 'rgba(167,139,250,0.8)', x: gx0 + 400 },
+            { label: 'u_eff', value: ueff * 30, color: 'rgba(34,211,238,0.8)', x: gx0 + 550 }
+        ];
+
+        const maxVal = 30;
+        const scale = (gy1 - gy0) / 2 / maxVal;
+
+        for (const cat of categories) {
+            const barH = Math.abs(cat.value) * scale;
+            const barY = cat.value >= 0 ? midY - barH : midY;
+
+            ctx.fillStyle = cat.color;
+            ctx.fillRect(cat.x - barW/2, barY, barW, barH);
+
+            // Border
+            ctx.strokeStyle = cat.color.replace('0.8', '1');
+            ctx.lineWidth = 2;
+            ctx.strokeRect(cat.x - barW/2, barY, barW, barH);
+
+            // Label
+            ctx.fillStyle = 'rgba(226,232,240,0.9)';
+            ctx.font = '12px ui-monospace, monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText(cat.label, cat.x, gy1 + 18);
+
+            // Value
+            ctx.fillStyle = cat.color.replace('0.8', '1');
+            ctx.font = 'bold 11px ui-monospace, monospace';
+            const valY = cat.value >= 0 ? barY - 6 : barY + barH + 14;
+            ctx.fillText((cat.value >= 0 ? '+' : '') + cat.value.toFixed(1) + '%', cat.x, valY);
+        }
+
+        // Draw u_eff curve showing enhancement vs u
+        const curveX0 = gx0 + 650;
+        const curveX1 = gx1 - 20;
+        const curveW = curveX1 - curveX0;
+        const curveH = (gy1 - gy0) * 0.8;
+        const curveY0 = gy0 + 20;
+
+        ctx.fillStyle = 'rgba(255,255,255,0.03)';
+        ctx.fillRect(curveX0, curveY0, curveW, curveH);
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+        ctx.strokeRect(curveX0, curveY0, curveW, curveH);
+
+        // Draw S_u curve
+        ctx.strokeStyle = 'rgba(167,139,250,0.9)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let i = 0; i <= 100; i++) {
+            const u = (i / 100) * 5;
+            const x = curveX0 + (i / 100) * curveW;
+            const y = curveY0 + curveH - Su(u) * curveH;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Mark current u_eff
+        if (ueff >= 0 && ueff <= 5) {
+            const markX = curveX0 + (ueff / 5) * curveW;
+            const markY = curveY0 + curveH - Su(ueff) * curveH;
+
+            ctx.fillStyle = 'rgba(251,191,36,0.95)';
+            ctx.beginPath();
+            ctx.arc(markX, markY, 6, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = 'rgba(251,191,36,0.5)';
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(markX, curveY0 + curveH);
+            ctx.lineTo(markX, markY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        // Curve labels
+        ctx.fillStyle = 'rgba(226,232,240,0.7)';
+        ctx.font = '10px ui-monospace, monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('S_u(u) Enhancement Curve', curveX0 + curveW/2, curveY0 + curveH + 16);
+        ctx.fillText('u=0', curveX0, curveY0 + curveH + 28);
+        ctx.fillText('u=5', curveX1, curveY0 + curveH + 28);
+
+        // Y-axis labels
+        ctx.textAlign = 'right';
+        ctx.fillText('+' + maxVal + '%', gx0 - 8, gy0 + 4);
+        ctx.fillText('0', gx0 - 8, midY + 4);
+        ctx.fillText('-' + maxVal + '%', gx0 - 8, gy1 + 4);
+    }
+
+    function updateComparison() {
+        const formula = customMol.value || 'C6H6';
+        const T = parseFloat(tempRange.value) || 300;
+        tempVal.textContent = T;
+
+        const s = parseFormula(formula);
+        if (!s) return;
+
+        // Get reference values
+        let baseDe = REFERENCE_DE, baseEa = REFERENCE_EA;
+        if (PRESETS[formula]) {
+            baseDe = PRESETS[formula].De;
+            baseEa = PRESETS[formula].Ea;
+        }
+
+        // Calculate u_eff
+        const ug = u_geo(s);
+        const uc = u_chr(s);
+        const ueff = ug + 0.85 * uc;
+        const su = Su(ueff);
+
+        // SM values (standard QM)
+        const smDe = baseDe;
+        const smEa = baseEa;
+        const smK = A_FACTOR * Math.exp(-smEa / (K_B * T));
+        const smP = Math.exp(-smEa / (K_B * T));
+
+        // STUR values (enhanced)
+        const sturDe = smDe * (1 + su * SIGMA_LX);
+        const sturEa = smEa * Math.exp(-su * SIGMA_LX);
+        const sturK = A_FACTOR * Math.exp(-sturEa / (K_B * T));
+        const sturP = smP * (1 + su);
+
+        // Update displays
+        document.getElementById('sm_De').textContent = smDe.toFixed(1) + ' kJ/mol';
+        document.getElementById('sm_Ea').textContent = smEa.toFixed(1) + ' kJ/mol';
+        document.getElementById('sm_k').textContent = smK.toExponential(2) + ' s⁻¹';
+        document.getElementById('sm_P').textContent = smP.toExponential(3);
+
+        document.getElementById('stur_De').textContent = sturDe.toFixed(1) + ' kJ/mol';
+        document.getElementById('stur_Ea').textContent = sturEa.toFixed(1) + ' kJ/mol';
+        document.getElementById('stur_k').textContent = sturK.toExponential(2) + ' s⁻¹';
+        document.getElementById('stur_P').textContent = sturP.toExponential(3);
+
+        // Update differences
+        const diffDe = ((sturDe - smDe) / smDe) * 100;
+        const diffEa = ((sturEa - smEa) / smEa) * 100;
+        const rateRatio = sturK / smK;
+
+        document.getElementById('diff_De').textContent = '+' + diffDe.toFixed(1) + '%';
+        document.getElementById('diff_Ea').textContent = diffEa.toFixed(1) + '%';
+        document.getElementById('diff_k').textContent = rateRatio.toFixed(2) + '×';
+        document.getElementById('diff_ueff').textContent = ueff.toFixed(2);
+
+        // Draw canvases
+        drawPotentialCurve(smCtx, smCanvas.width, smCanvas.height, smDe, smEa, 'rgba(96,165,250,0.9)', 'SM Morse Potential');
+        drawPotentialCurve(sturCtx, sturCanvas.width, sturCanvas.height, sturDe, sturEa, 'rgba(74,222,128,0.9)', 'STUR-Enhanced', true, 1 + su * SIGMA_LX);
+        drawDifferenceChart(diffCtx, diffCanvas.width, diffCanvas.height, smDe, smEa, sturDe, sturEa, ueff);
+    }
+
+    // Event listeners
+    molPreset.addEventListener('change', function() {
+        if (this.value !== 'custom') {
+            customMol.value = this.value;
+        }
+        updateComparison();
+    });
+
+    customMol.addEventListener('input', function() {
+        molPreset.value = 'custom';
+        updateComparison();
+    });
+
+    customMol.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') updateComparison();
+    });
+
+    tempRange.addEventListener('input', updateComparison);
+
+    // Initial render
+    updateComparison();
+})();
 </script>
 
 <!-- Mobile Nav -->

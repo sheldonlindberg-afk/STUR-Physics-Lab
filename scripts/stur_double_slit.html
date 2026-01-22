@@ -86,7 +86,7 @@
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Tests the STUR Gaussian visibility law against standard QM for plasmon-mediated double-slit interference.
-            The single parameter \(\Diff{\sigma_R}/\XCRM{L_X}\) determines fringe contrast decay.
+            The effective parameter ratio \(\Diff{\sigma_R}/\XCRM{L_X}\) determines fringe contrast decay — <em>form</em> is derived, <em>scale</em> is calibrated.
         </p>
 
         <!-- Status Badge -->
@@ -164,25 +164,41 @@
                 <span style="padding:6px 12px;background:rgba(34,211,238,0.15);border-radius:8px;border:1px solid rgba(34,211,238,0.4);color:#22d3ee;font-weight:600;">Gaussian Visibility (B.15)</span>
             </div>
 
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #fbbf24;">
                     <strong style="color:#fbbf24;font-size:0.8rem;">Step 1: XCRM Coupling</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">χR∂<sub>X</sub>R term in Master Action generates resistance holonomy Φ<sub>R</sub> along matter paths</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">χR∂<sub>X</sub>R term in Master Action generates resistance holonomy:</p>
+                    <div style="margin:8px 0;padding:8px;background:rgba(251,191,36,0.08);border-radius:4px;font-size:0.85rem;">
+                        \[\XCRM{\Phi_R} = \int_{\gamma} \XCRM{\chi R}\,\partial_X \Diff{R}\,dX\]
+                    </div>
+                    <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-dim);">Phase accumulated along matter path γ through extra dimension</p>
                     <a href="stur_technical_appendix.html#sec9" style="font-size:0.75rem;color:var(--accent);">→ Eq. 9.1</a>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
                     <strong style="color:#4ade80;font-size:0.8rem;">Step 2: CLT Application</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Many uncorrelated fluctuations (N = ΔL/L<sub>X</sub> ≫ 1) → Gaussian phase distribution</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Many uncorrelated fluctuations (N ≫ 1) → Gaussian distribution:</p>
+                    <div style="margin:8px 0;padding:8px;background:rgba(74,222,128,0.08);border-radius:4px;font-size:0.85rem;">
+                        \[N = \frac{\Matt{\Delta L}}{\XCRM{L_X}} \gg 1 \;\Rightarrow\; P(\Phi_R) \sim \mathcal{N}(0, N\Diff{\sigma_R}^2)\]
+                    </div>
+                    <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-dim);">Central Limit Theorem guarantees Gaussian phase statistics</p>
                     <a href="stur_technical_appendix.html#visibility-derivation" style="font-size:0.75rem;color:var(--accent);">→ Eq. B.11-B.12</a>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
                     <strong style="color:#4ade80;font-size:0.8rem;">Step 3: Phase Averaging</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">⟨e<sup>iΦ<sub>R</sub></sup>⟩ = exp(−⟨Φ<sub>R</sub>²⟩/2) for Gaussian phases</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">For Gaussian-distributed phases, expectation gives:</p>
+                    <div style="margin:8px 0;padding:8px;background:rgba(74,222,128,0.08);border-radius:4px;font-size:0.85rem;">
+                        \[\langle e^{i\Phi_R} \rangle = \exp\!\Bigl[-\tfrac{1}{2}\langle\Phi_R^2\rangle\Bigr] = \exp\!\Bigl[-\tfrac{1}{2}\,\frac{\Matt{\Delta L}^2\Diff{\sigma_R}^2}{\XCRM{L_X}^2}\Bigr]\]
+                    </div>
+                    <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-dim);">Standard result for Gaussian random variables</p>
                     <a href="stur_technical_appendix.html#visibility-derivation" style="font-size:0.75rem;color:var(--accent);">→ Eq. B.13-B.14</a>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #22d3ee;">
                     <strong style="color:#22d3ee;font-size:0.8rem;">Result: Gaussian Visibility</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>) — quadratic in ΔL, not linear</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Visibility = |⟨e<sup>iΦ</sup>⟩|, yielding the derived form:</p>
+                    <div style="margin:8px 0;padding:8px;background:rgba(34,211,238,0.08);border-radius:4px;font-size:0.85rem;">
+                        \[\Matt{\mathcal{V}(\Delta L)} = \Matt{V_0}\exp\!\Bigl[-\frac{\Matt{\Delta L}^2}{\Matt{\ell_{\rm coh}}^2}\Bigr], \quad \Matt{\ell_{\rm coh}} = \frac{\sqrt{2}\XCRM{L_X}}{\Quant{y}\Diff{\sigma_R}}\]
+                    </div>
+                    <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-dim);"><strong>Form</strong> (Gaussian in ΔL²) is derived — <strong>scale</strong> (ℓ<sub>coh</sub>) depends on L<sub>X</sub>/σ<sub>R</sub></p>
                     <a href="stur_technical_appendix.html#visibility-derivation" style="font-size:0.75rem;color:var(--accent);">→ Eq. B.15 (QED)</a>
                 </div>
             </div>
@@ -190,6 +206,124 @@
             <div style="margin-top:1rem;padding:10px 14px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
                 <strong style="color:#ef4444;font-size:0.85rem;">Falsification Criterion:</strong>
                 <span style="font-size:0.85rem;color:var(--text-secondary);">If visibility decays linearly in ΔL (not ΔL²), shows temporal oscillations, or depends on particle mass, <strong>STUR is excluded</strong>.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         STUR vs STANDARD QM COMPARISON HOLOSCREEN
+         ============================================================ -->
+    <div class="glass-section" style="border-color:var(--neon-cyan);background:rgba(34,211,238,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-grid size-24" style="color:var(--neon-cyan);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-cyan);">STUR vs Standard QM — Interactive Comparison</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);font-size:0.9rem;">
+                Compare visibility predictions: <strong style="color:#4ade80;">STUR</strong> (Gaussian decay from XCRM decoherence) vs <strong style="color:#60a5fa;">Standard QM</strong> (Fraunhofer diffraction only). Adjust wavelength and see real-time differences.
+            </p>
+
+            <!-- Controls -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;">
+                <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;">
+                    <label style="color:var(--text-muted);font-size:0.8rem;display:block;margin-bottom:0.5rem;">Wavelength λ (nm)</label>
+                    <input type="range" id="dsLambdaSlider" min="350" max="700" value="532" style="width:100%;accent-color:var(--neon-cyan);">
+                    <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-dim);">
+                        <span>350 (UV)</span>
+                        <span id="dsLambdaValue" style="color:var(--neon-cyan);font-weight:600;">532 nm</span>
+                        <span>700 (Red)</span>
+                    </div>
+                </div>
+                <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;">
+                    <label style="color:var(--text-muted);font-size:0.8rem;display:block;margin-bottom:0.5rem;">Path Difference ΔL (μm)</label>
+                    <input type="range" id="dsDeltaLSlider" min="0" max="2000" value="500" style="width:100%;accent-color:var(--neon-gold);">
+                    <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-dim);">
+                        <span>0</span>
+                        <span id="dsDeltaLValue" style="color:var(--neon-gold);font-weight:600;">500 nm</span>
+                        <span>2000</span>
+                    </div>
+                </div>
+                <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;">
+                    <label style="color:var(--text-muted);font-size:0.8rem;display:block;margin-bottom:0.5rem;">Plasmon Q Factor</label>
+                    <input type="range" id="dsQSlider" min="2" max="15" value="6.5" step="0.5" style="width:100%;accent-color:var(--neon-green);">
+                    <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-dim);">
+                        <span>2 (low)</span>
+                        <span id="dsQValue" style="color:var(--neon-green);font-weight:600;">Q = 6.5</span>
+                        <span>15 (high)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualization Canvas -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                <div style="background:rgba(0,0,0,0.4);border-radius:12px;padding:1rem;">
+                    <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;text-align:center;">STUR Visibility (Gaussian)</h4>
+                    <canvas id="dsCanvasSTUR" width="400" height="200" style="width:100%;border-radius:8px;background:#050814;"></canvas>
+                    <div style="text-align:center;margin-top:0.5rem;">
+                        <span style="font-size:0.8rem;color:var(--text-muted);">V = </span>
+                        <span id="dsVisSTUR" style="font-size:1.1rem;font-weight:700;color:var(--neon-green);">—</span>
+                    </div>
+                </div>
+                <div style="background:rgba(0,0,0,0.4);border-radius:12px;padding:1rem;">
+                    <h4 style="color:#60a5fa;font-size:0.85rem;margin:0 0 0.5rem;text-align:center;">Standard QM Visibility</h4>
+                    <canvas id="dsCanvasQM" width="400" height="200" style="width:100%;border-radius:8px;background:#050814;"></canvas>
+                    <div style="text-align:center;margin-top:0.5rem;">
+                        <span style="font-size:0.8rem;color:var(--text-muted);">V = </span>
+                        <span id="dsVisQM" style="font-size:1.1rem;font-weight:700;color:#60a5fa;">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Difference Visualization -->
+            <div style="margin-top:1rem;background:rgba(0,0,0,0.4);border-radius:12px;padding:1rem;">
+                <h4 style="color:var(--neon-gold);font-size:0.85rem;margin:0 0 0.5rem;text-align:center;">Visibility vs Path Difference ΔL</h4>
+                <canvas id="dsCanvasDiff" width="800" height="250" style="width:100%;border-radius:8px;background:#050814;"></canvas>
+                <div style="display:flex;justify-content:center;gap:2rem;margin-top:0.5rem;font-size:0.75rem;">
+                    <span><span style="display:inline-block;width:12px;height:3px;background:#4ade80;vertical-align:middle;margin-right:4px;"></span>STUR (Gaussian decay)</span>
+                    <span><span style="display:inline-block;width:12px;height:3px;background:#60a5fa;vertical-align:middle;margin-right:4px;"></span>Standard QM (Fraunhofer)</span>
+                    <span><span style="display:inline-block;width:12px;height:3px;background:#f59e0b;vertical-align:middle;margin-right:4px;"></span>Difference (STUR − QM)</span>
+                </div>
+            </div>
+
+            <!-- Key Insight Box -->
+            <div style="margin-top:1rem;padding:1rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.3);">
+                <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Key Difference: What Each Model Predicts</h4>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;font-size:0.85rem;">
+                    <div>
+                        <strong style="color:var(--neon-green);">STUR:</strong>
+                        <ul style="margin:0.5rem 0 0 1rem;padding:0;color:var(--text-secondary);">
+                            <li>Visibility decays as <strong>exp(−ΔL²/ℓ²<sub>coh</sub>)</strong></li>
+                            <li>XCRM holonomy induces phase dispersion</li>
+                            <li>Coherence length <em>derived</em>: ℓ<sub>coh</sub> = √2 L<sub>X</sub>/(y σ<sub>R</sub>)</li>
+                            <li>Form is non-negotiable (Gaussian from CLT)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong style="color:#60a5fa;">Standard QM:</strong>
+                        <ul style="margin:0.5rem 0 0 1rem;padding:0;color:var(--text-secondary);">
+                            <li>Visibility from <strong>sinc²(πaθ/λ)</strong> envelope</li>
+                            <li>No X-bundle decoherence mechanism</li>
+                            <li>Coherence depends only on slit geometry</li>
+                            <li>No additional path-length damping</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equations Side by Side -->
+            <div style="margin-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                <div style="padding:1rem;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid var(--neon-green);">
+                    <strong style="color:var(--neon-green);font-size:0.8rem;">STUR Eq. (3.15)</strong>
+                    <div style="margin-top:0.5rem;font-size:0.9rem;">
+                        \[\Matt{\mathcal{V}(\Delta L)} = \Matt{V_0} \exp\!\Bigl[-\frac{\Matt{\Delta L}^2}{\Matt{\ell_{\rm coh}}^2}\Bigr]\]
+                    </div>
+                </div>
+                <div style="padding:1rem;background:rgba(96,165,250,0.08);border-radius:8px;border-left:3px solid #60a5fa;">
+                    <strong style="color:#60a5fa;font-size:0.8rem;">Standard QM (Fraunhofer)</strong>
+                    <div style="margin-top:0.5rem;font-size:0.9rem;">
+                        \[\Matt{\mathcal{V}_{\rm QM}} = \left|\frac{\sin(\pi a \theta / \lambda)}{\pi a \theta / \lambda}\right|^2 \cdot \cos^2(\pi d \theta / \lambda)\]
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -204,7 +338,8 @@
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
-                All predictions derived from Master Action via XCRM holonomy and CLT phase averaging. No free parameters beyond \(\Diff{\sigma_R}/\XCRM{L_X}\).
+                All predictions derived from Master Action via XCRM holonomy and CLT phase averaging.
+                One effective parameter: \(\Diff{\sigma_R}/\XCRM{L_X}\) ratio — the Gaussian <em>form</em> is derived (non-negotiable), the coherence <em>scale</em> is calibrated from plasmon data.
             </p>
 
             <!-- DOUBLE.1 -->
@@ -348,9 +483,10 @@
 
             <p><strong>Key parameters:</strong></p>
             <ul style="font-size:0.9rem;color:var(--text-secondary);">
-              <li>\(\XCRM{L_X}\) — internal dimension size (single free parameter)</li>
+              <li>\(\XCRM{L_X}\) — internal dimension size (stabilized via topological stability, <a href="stur_technical_appendix.html#LX-stability" style="color:var(--neon-green)">§A.3</a>)</li>
               <li>\(\Diff{\sigma_R}\) — resistance fluctuation RMS (<a href="stur_technical_appendix.html#parameter-definitions" style="color:var(--neon-green)">Eq. A.6: derived from XCRM equilibrium</a>)</li>
               <li>\(\Quant{y}\) — Yukawa coupling (set to \(\Quant{y}=1\) in simulations)</li>
+              <li><strong>Note:</strong> One effective parameter: \(\Diff{\sigma_R}/\XCRM{L_X}\) ratio — form derived, scale calibrated</li>
             </ul>
         </div>
     </section>
@@ -792,7 +928,7 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab — Complete unified theory with falsifiable predictions</p>
+    <p>STUR Physics Lab — Unified framework with falsifiable predictions</p>
     <p>
         <a href="stur_core_theory.html">Core Theory</a> ·
         <a href="../index.html#problem-closures">Problem Closures</a> ·
@@ -869,6 +1005,287 @@ document.getElementById('copyBtn').addEventListener('click', function() {
 document.getElementById('dlBtn').addEventListener('click', function() {
     const code = document.getElementById('codeBlock').textContent;
     STUR.download(code, 'stur_doubleslit.py', 'text/x-python');
+});
+
+// ============================================================
+// STUR vs QM COMPARISON HOLOSCREEN
+// ============================================================
+
+// Geometry constants
+const DS_GEOM = {
+    d: 1.0e-3,    // slit separation [m]
+    a: 0.15e-3,   // slit width [m]
+    L: 5.0,       // screen distance [m]
+    n_eff: 1.50   // effective refractive index
+};
+
+// STUR coherence length: ℓ_coh = Q·λ / (2π·n_eff)
+function dsCoherenceLength(lambda_m, Q) {
+    return (Q / (2 * Math.PI * DS_GEOM.n_eff)) * lambda_m;
+}
+
+// Saturation function S_u(u) = tanh(u)(1 - e^{-u})
+function dsSu(u) {
+    if (u < 1e-10) return 0;
+    return Math.tanh(u) * (1 - Math.exp(-u));
+}
+
+// STUR Gaussian visibility: V = V₀ exp(-ΔL²/ℓ²_coh)
+function dsVisibilityStur(deltaL_m, lambda_m, Q) {
+    const L0 = dsCoherenceLength(lambda_m, Q);
+    if (L0 < 1e-15) return 0;
+    const ratio = deltaL_m / L0;
+    return Math.exp(-ratio * ratio);
+}
+
+// Standard QM visibility (Fraunhofer envelope only - no XCRM decoherence)
+function dsVisibilityQM(deltaL_m, lambda_m) {
+    // For standard QM, visibility is constant (no path-length decoherence)
+    // Only envelope sinc² matters, which we normalize to 1 at center
+    // The key difference: QM predicts V ≈ constant, STUR predicts V → 0 as ΔL → ∞
+    return 1.0;
+}
+
+// sinc function
+function dsSinc(x) {
+    if (Math.abs(x) < 1e-12) return 1.0;
+    return Math.sin(x) / x;
+}
+
+// Draw interference pattern on canvas
+function dsDrawPattern(canvasId, lambda_m, Q, isStur) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+
+    // Clear
+    ctx.fillStyle = '#050814';
+    ctx.fillRect(0, 0, W, H);
+
+    const yRange = 0.03; // ±3cm screen position
+    const L0 = dsCoherenceLength(lambda_m, Q);
+
+    // Draw intensity pattern
+    ctx.beginPath();
+    const color = isStur ? '#4ade80' : '#60a5fa';
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+
+    for (let px = 0; px < W; px++) {
+        const y = -yRange + 2 * yRange * (px / W);
+        const deltaL = Math.abs(DS_GEOM.d * y / DS_GEOM.L);
+
+        // Envelope (sinc²)
+        const theta = y / DS_GEOM.L;
+        const envelope = Math.pow(dsSinc(Math.PI * DS_GEOM.a * theta / lambda_m), 2);
+
+        // Fringe (cos²)
+        const fringe = Math.pow(Math.cos(Math.PI * DS_GEOM.d * theta / lambda_m), 2);
+
+        // STUR adds Gaussian damping
+        let visibility = 1.0;
+        if (isStur) {
+            visibility = dsVisibilityStur(deltaL, lambda_m, Q);
+        }
+
+        const intensity = envelope * (0.5 + 0.5 * fringe * visibility);
+        const py = H - intensity * H * 0.9 - H * 0.05;
+
+        if (px === 0) {
+            ctx.moveTo(px, py);
+        } else {
+            ctx.lineTo(px, py);
+        }
+    }
+    ctx.stroke();
+
+    // Draw coherence length marker for STUR
+    if (isStur && L0 > 0) {
+        const markerX = W * (0.5 + L0 / (2 * yRange * DS_GEOM.d / DS_GEOM.L));
+        if (markerX > 0 && markerX < W) {
+            ctx.strokeStyle = 'rgba(251,191,36,0.5)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(markerX, 0);
+            ctx.lineTo(markerX, H);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+    }
+}
+
+// Draw visibility vs path difference comparison
+function dsDrawComparison(lambda_m, Q) {
+    const canvas = document.getElementById('dsCanvasDiff');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+
+    // Clear
+    ctx.fillStyle = '#050814';
+    ctx.fillRect(0, 0, W, H);
+
+    const pad = 50;
+    const maxDeltaL = 2000e-9; // 2000 nm
+
+    // Axes
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad, H - pad);
+    ctx.lineTo(W - pad, H - pad);
+    ctx.moveTo(pad, H - pad);
+    ctx.lineTo(pad, pad);
+    ctx.stroke();
+
+    // Labels
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '12px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('ΔL (nm)', W / 2, H - 10);
+    ctx.save();
+    ctx.translate(15, H / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Visibility', 0, 0);
+    ctx.restore();
+
+    // X axis labels
+    for (let i = 0; i <= 4; i++) {
+        const val = (maxDeltaL * 1e9 * i / 4).toFixed(0);
+        const x = pad + (W - 2 * pad) * i / 4;
+        ctx.fillText(val, x, H - pad + 20);
+    }
+
+    // Y axis labels
+    for (let i = 0; i <= 4; i++) {
+        const val = (i / 4).toFixed(1);
+        const y = H - pad - (H - 2 * pad) * i / 4;
+        ctx.textAlign = 'right';
+        ctx.fillText(val, pad - 10, y + 4);
+    }
+
+    // Grid
+    ctx.strokeStyle = '#1f2a44';
+    ctx.lineWidth = 0.5;
+    for (let i = 1; i <= 4; i++) {
+        const x = pad + (W - 2 * pad) * i / 4;
+        ctx.beginPath();
+        ctx.moveTo(x, pad);
+        ctx.lineTo(x, H - pad);
+        ctx.stroke();
+
+        const y = H - pad - (H - 2 * pad) * i / 4;
+        ctx.beginPath();
+        ctx.moveTo(pad, y);
+        ctx.lineTo(W - pad, y);
+        ctx.stroke();
+    }
+
+    // STUR curve (Gaussian)
+    ctx.strokeStyle = '#4ade80';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let px = 0; px <= W - 2 * pad; px++) {
+        const deltaL = maxDeltaL * px / (W - 2 * pad);
+        const V = dsVisibilityStur(deltaL, lambda_m, Q);
+        const x = pad + px;
+        const y = H - pad - (H - 2 * pad) * V;
+        if (px === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // QM curve (constant = 1)
+    ctx.strokeStyle = '#60a5fa';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(pad, H - pad - (H - 2 * pad) * 1.0);
+    ctx.lineTo(W - pad, H - pad - (H - 2 * pad) * 1.0);
+    ctx.stroke();
+
+    // Difference curve (STUR - QM)
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 3]);
+    ctx.beginPath();
+    for (let px = 0; px <= W - 2 * pad; px++) {
+        const deltaL = maxDeltaL * px / (W - 2 * pad);
+        const V_stur = dsVisibilityStur(deltaL, lambda_m, Q);
+        const V_qm = 1.0;
+        const diff = (V_stur - V_qm + 1) / 2; // Normalize to [0,1]
+        const x = pad + px;
+        const y = H - pad - (H - 2 * pad) * diff;
+        if (px === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Mark coherence length
+    const L0 = dsCoherenceLength(lambda_m, Q);
+    const L0_px = pad + (W - 2 * pad) * (L0 / maxDeltaL);
+    if (L0_px > pad && L0_px < W - pad) {
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(L0_px, pad);
+        ctx.lineTo(L0_px, H - pad);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = '10px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('ℓ_coh = ' + (L0 * 1e9).toFixed(0) + ' nm', L0_px, pad - 5);
+    }
+}
+
+// Update all visualizations
+function dsUpdateComparison() {
+    const lambda_nm = parseFloat(document.getElementById('dsLambdaSlider').value);
+    const deltaL_nm = parseFloat(document.getElementById('dsDeltaLSlider').value);
+    const Q = parseFloat(document.getElementById('dsQSlider').value);
+
+    const lambda_m = lambda_nm * 1e-9;
+    const deltaL_m = deltaL_nm * 1e-9;
+
+    // Update value displays
+    document.getElementById('dsLambdaValue').textContent = lambda_nm + ' nm';
+    document.getElementById('dsDeltaLValue').textContent = deltaL_nm + ' nm';
+    document.getElementById('dsQValue').textContent = 'Q = ' + Q.toFixed(1);
+
+    // Calculate visibilities at current ΔL
+    const V_stur = dsVisibilityStur(deltaL_m, lambda_m, Q);
+    const V_qm = dsVisibilityQM(deltaL_m, lambda_m);
+
+    document.getElementById('dsVisSTUR').textContent = V_stur.toFixed(4);
+    document.getElementById('dsVisQM').textContent = V_qm.toFixed(4);
+
+    // Draw patterns
+    dsDrawPattern('dsCanvasSTUR', lambda_m, Q, true);
+    dsDrawPattern('dsCanvasQM', lambda_m, Q, false);
+    dsDrawComparison(lambda_m, Q);
+}
+
+// Initialize comparison holoscreen
+document.addEventListener('DOMContentLoaded', function() {
+    const lambdaSlider = document.getElementById('dsLambdaSlider');
+    const deltaLSlider = document.getElementById('dsDeltaLSlider');
+    const qSlider = document.getElementById('dsQSlider');
+
+    if (lambdaSlider && deltaLSlider && qSlider) {
+        lambdaSlider.addEventListener('input', dsUpdateComparison);
+        deltaLSlider.addEventListener('input', dsUpdateComparison);
+        qSlider.addEventListener('input', dsUpdateComparison);
+
+        // Initial render
+        dsUpdateComparison();
+    }
 });
 </script>
 

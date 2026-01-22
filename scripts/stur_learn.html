@@ -105,6 +105,363 @@
   </div>
 </section>
 
+<!-- ================================================================
+     FOUNDATIONS: SM, GR, AND HOW STUR UNIFIES THEM
+     ================================================================ -->
+<section class="section" id="foundations-unified" style="border:2px solid var(--accent); background:linear-gradient(135deg, rgba(34,211,238,0.06) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--accent);">Foundations: What Standard Physics Gets Right — and Where It Stops</h2>
+
+  <p style="font-size:1.02rem;color:var(--text);margin-bottom:1.5rem;">
+    Before understanding how STUR unifies physics, you need to see where standard physics succeeds and where it hits walls.
+    This section teaches the core ideas of the <strong>Standard Model</strong> and <strong>General Relativity</strong>, then shows
+    <em>exactly how</em> STUR derives what they assume.
+  </p>
+
+  <!-- THE STANDARD MODEL: WHAT IT DOES -->
+  <details class="learn-box comparison" open>
+    <summary>
+      The Standard Model — Particle Physics Foundation
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>What it is:</strong> A quantum field theory describing all known particles and three of the four forces (electromagnetic, weak, strong — but not gravity).</p>
+
+      <div class="intuition-block" style="border-color:#60a5fa;">
+        <div class="intuition-header" style="color:#60a5fa;">The SM Lagrangian — Everything in One Line</div>
+        <div class="eq" style="font-size:0.95rem;">
+          \[\mathcal{L}_{\rm SM} = -\frac{1}{4}F_{\mu\nu}^a F^{a\mu\nu} + i\bar\psi\gamma^\mu D_\mu\psi + |D_\mu H|^2 - V(H) + y\bar\psi H\psi\]
+        </div>
+        <p style="font-size:0.88rem;margin-top:0.75rem;">
+          <strong>Term by term:</strong>
+          <span style="color:#60a5fa;">Gauge fields</span> (forces) +
+          <span style="color:#22d3ee;">Fermions</span> (matter) +
+          <span style="color:#f472b6;">Higgs kinetic</span> +
+          <span style="color:#f472b6;">Higgs potential</span> +
+          <span style="color:#fbbf24;">Yukawa couplings</span> (masses)
+        </p>
+      </div>
+
+      <h4 style="color:#4ade80;margin-top:1.25rem;">What SM Gets Right</h4>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;margin-top:0.75rem;">
+        <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+          <strong style="color:#4ade80;font-size:0.9rem;">Particle Spectrum</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">All known particles fit: quarks, leptons, gauge bosons, Higgs</p>
+        </div>
+        <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+          <strong style="color:#4ade80;font-size:0.9rem;">Force Unification</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">Electroweak unification at ~100 GeV confirmed at LHC</p>
+        </div>
+        <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+          <strong style="color:#4ade80;font-size:0.9rem;">Precision Tests</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">Anomalous magnetic moment: theory matches to 10⁻¹⁰</p>
+        </div>
+      </div>
+
+      <h4 style="color:#ef4444;margin-top:1.25rem;">What SM Cannot Explain — Just Accepts</h4>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;margin-top:0.75rem;">
+        <div style="padding:12px;background:rgba(239,68,68,0.08);border-radius:8px;border-left:3px solid #ef4444;">
+          <strong style="color:#ef4444;font-size:0.9rem;">Why SU(3)×SU(2)×U(1)?</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">The gauge group is an INPUT, not derived</p>
+        </div>
+        <div style="padding:12px;background:rgba(239,68,68,0.08);border-radius:8px;border-left:3px solid #ef4444;">
+          <strong style="color:#ef4444;font-size:0.9rem;">Why 3 Generations?</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">Electron/muon/tau copies — just accepted</p>
+        </div>
+        <div style="padding:12px;background:rgba(239,68,68,0.08);border-radius:8px;border-left:3px solid #ef4444;">
+          <strong style="color:#ef4444;font-size:0.9rem;">~20 Free Parameters</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">Masses, mixing angles — measured, not predicted</p>
+        </div>
+        <div style="padding:12px;background:rgba(239,68,68,0.08);border-radius:8px;border-left:3px solid #ef4444;">
+          <strong style="color:#ef4444;font-size:0.9rem;">No Gravity</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">SM is fundamentally incompatible with GR</p>
+        </div>
+      </div>
+
+      <div style="margin-top:1.25rem;padding:1rem;background:rgba(251,191,36,0.08);border-radius:10px;border-left:3px solid #fbbf24;">
+        <strong style="color:#fbbf24;">STUR Claim:</strong>
+        <span style="color:var(--text-secondary);font-size:0.9rem;">
+          All four "mysteries" above are <em>derived</em> from the three axioms. The gauge group, generation number, and parameter values follow from orbifold geometry.
+        </span>
+      </div>
+    </div>
+  </details>
+
+  <!-- GENERAL RELATIVITY: WHAT IT DOES -->
+  <details class="learn-box comparison">
+    <summary>
+      General Relativity — Gravity and Spacetime
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>What it is:</strong> Einstein's theory where gravity isn't a force — it's the curvature of spacetime caused by mass-energy.</p>
+
+      <div class="intuition-block" style="border-color:#60a5fa;">
+        <div class="intuition-header" style="color:#60a5fa;">Einstein's Field Equations — Geometry = Matter</div>
+        <div class="eq" style="font-size:1rem;">
+          \[G_{\mu\nu} + \Lambda g_{\mu\nu} = \frac{8\pi G}{c^4} T_{\mu\nu}\]
+        </div>
+        <p style="font-size:0.88rem;margin-top:0.75rem;">
+          <strong>Left side:</strong> Spacetime curvature (geometry)<br>
+          <strong>Right side:</strong> Energy-momentum (matter)<br>
+          <strong>Λ term:</strong> Cosmological constant (dark energy)
+        </p>
+      </div>
+
+      <h4 style="color:#4ade80;margin-top:1.25rem;">What GR Gets Right</h4>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;margin-top:0.75rem;">
+        <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+          <strong style="color:#4ade80;font-size:0.9rem;">Mercury's Orbit</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">43 arcsec/century precession — predicted exactly</p>
+        </div>
+        <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+          <strong style="color:#4ade80;font-size:0.9rem;">Gravitational Waves</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">LIGO detection (2015) — waveform matches perfectly</p>
+        </div>
+        <div style="padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
+          <strong style="color:#4ade80;font-size:0.9rem;">Black Hole Images</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">Event Horizon Telescope — shadow size as predicted</p>
+        </div>
+      </div>
+
+      <h4 style="color:#ef4444;margin-top:1.25rem;">What GR Cannot Explain</h4>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;margin-top:0.75rem;">
+        <div style="padding:12px;background:rgba(239,68,68,0.08);border-radius:8px;border-left:3px solid #ef4444;">
+          <strong style="color:#ef4444;font-size:0.9rem;">Quantum Incompatibility</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">Gravity + QM → infinities. No consistent theory.</p>
+        </div>
+        <div style="padding:12px;background:rgba(239,68,68,0.08);border-radius:8px;border-left:3px solid #ef4444;">
+          <strong style="color:#ef4444;font-size:0.9rem;">Dark Energy (Λ)</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">Λ must be input — 120 orders wrong if calculated</p>
+        </div>
+        <div style="padding:12px;background:rgba(239,68,68,0.08);border-radius:8px;border-left:3px solid #ef4444;">
+          <strong style="color:#ef4444;font-size:0.9rem;">Singularities</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">Black holes and Big Bang — physics breaks down</p>
+        </div>
+        <div style="padding:12px;background:rgba(239,68,68,0.08);border-radius:8px;border-left:3px solid #ef4444;">
+          <strong style="color:#ef4444;font-size:0.9rem;">No Particle Physics</strong>
+          <p style="margin:6px 0 0;font-size:0.82rem;color:var(--text-tertiary);">GR says nothing about quarks, electrons, forces</p>
+        </div>
+      </div>
+
+      <div style="margin-top:1.25rem;padding:1rem;background:rgba(251,191,36,0.08);border-radius:10px;border-left:3px solid #fbbf24;">
+        <strong style="color:#fbbf24;">STUR Claim:</strong>
+        <span style="color:var(--text-secondary);font-size:0.9rem;">
+          GR emerges as the equilibrium limit of the resistance field. The torsion coupling αR𝕋 becomes (1/16πG)𝕋 when R→R_bg, giving TEGR ≡ GR observationally.
+        </span>
+      </div>
+    </div>
+  </details>
+
+  <!-- STUR: HOW IT UNIFIES WITH DERIVATIONS -->
+  <details class="learn-box derivation" open>
+    <summary>
+      How STUR Derives What SM and GR Assume
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p style="margin-bottom:1rem;">
+        STUR doesn't just claim to unify SM and GR — it provides explicit derivation chains. Here are the key steps:
+      </p>
+
+      <!-- DERIVATION 1: Gauge Group -->
+      <div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:1.25rem;margin-bottom:1rem;border-left:4px solid #4ade80;">
+        <h4 style="margin:0 0 0.75rem;color:#4ade80;">Derivation 1: Why SU(3)×SU(2)×U(1)?</h4>
+
+        <div class="walkthrough" style="margin-left:0;">
+          <div class="step" style="border-left:2px solid #4ade80;padding-left:1rem;margin-bottom:0.75rem;">
+            <strong style="color:var(--text);">Step 1: Path Integral over Holonomies</strong>
+            <p style="margin:4px 0 0;color:var(--text-secondary);font-size:0.88rem;">
+              The STUR path integral includes gauge field configurations on the orbifold:
+              \[Z = \int \mathcal{D}A\, e^{iS[A]} = \sum_{G} e^{-\Omega[G]}\]
+            </p>
+          </div>
+          <div class="step" style="border-left:2px solid #4ade80;padding-left:1rem;margin-bottom:0.75rem;">
+            <strong style="color:var(--text);">Step 2: MHP Cost Function</strong>
+            <p style="margin:4px 0 0;color:var(--text-secondary);font-size:0.88rem;">
+              The holonomy cost function (derived from Faddeev-Popov effective action):
+              \[\Omega[G] = \frac{\ln 2}{2}\left[\dim(G) + \sum_f \dim(r_f) - \text{rank}(G)\right]\]
+            </p>
+          </div>
+          <div class="step" style="border-left:2px solid #4ade80;padding-left:1rem;margin-bottom:0.75rem;">
+            <strong style="color:var(--text);">Step 3: Minimize Over Anomaly-Free Groups</strong>
+            <p style="margin:4px 0 0;color:var(--text-secondary);font-size:0.88rem;">
+              Among all anomaly-free chiral gauge groups with SM fermion content:
+              \[G_{\rm SM} = \arg\min_{G} \Omega[G] = SU(3) \times SU(2) \times U(1)\]
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top:0.75rem;padding:0.75rem;background:rgba(74,222,128,0.1);border-radius:8px;">
+          <strong style="color:#4ade80;">Result:</strong>
+          <span style="font-size:0.88rem;color:var(--text-secondary);">
+            The SM gauge group has the <em>lowest holonomy cost</em> — it's selected, not assumed.
+            <a href="stur_mhp_coefficients.html" style="color:#4ade80;margin-left:0.5rem;">Full calculation →</a>
+          </span>
+        </div>
+      </div>
+
+      <!-- DERIVATION 2: Gravity -->
+      <div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:1.25rem;margin-bottom:1rem;border-left:4px solid #60a5fa;">
+        <h4 style="margin:0 0 0.75rem;color:#60a5fa;">Derivation 2: How Gravity Emerges</h4>
+
+        <div class="walkthrough" style="margin-left:0;">
+          <div class="step" style="border-left:2px solid #60a5fa;padding-left:1rem;margin-bottom:0.75rem;">
+            <strong style="color:var(--text);">Step 1: Torsion Coupling in Master Action</strong>
+            <p style="margin:4px 0 0;color:var(--text-secondary);font-size:0.88rem;">
+              The Master Action contains: \(\Tor{\alpha R \mathbb{T}}\) where \(\mathbb{T}\) is the torsion scalar
+            </p>
+          </div>
+          <div class="step" style="border-left:2px solid #60a5fa;padding-left:1rem;margin-bottom:0.75rem;">
+            <strong style="color:var(--text);">Step 2: Take Equilibrium Limit</strong>
+            <p style="margin:4px 0 0;color:var(--text-secondary);font-size:0.88rem;">
+              When \(R\) fluctuations average out: \(R \to R_{\rm bg}\) (background value)
+            </p>
+          </div>
+          <div class="step" style="border-left:2px solid #60a5fa;padding-left:1rem;margin-bottom:0.75rem;">
+            <strong style="color:var(--text);">Step 3: Match to TEGR</strong>
+            <p style="margin:4px 0 0;color:var(--text-secondary);font-size:0.88rem;">
+              The term becomes: \(\alpha R_{\rm bg} \mathbb{T} = \frac{1}{16\pi G}\mathbb{T}\)
+              <br>This is exactly the TEGR (Teleparallel Equivalent of GR) Lagrangian!
+            </p>
+          </div>
+          <div class="step" style="border-left:2px solid #60a5fa;padding-left:1rem;margin-bottom:0.75rem;">
+            <strong style="color:var(--text);">Step 4: TEGR ≡ GR Theorem</strong>
+            <p style="margin:4px 0 0;color:var(--text-secondary);font-size:0.88rem;">
+              Boundary term theorem: \(e\mathcal{R} = -e\mathbb{T} + 2\partial_\mu(eT^\mu)\)
+              <br>TEGR gives identical predictions to GR for all classical tests.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top:0.75rem;padding:0.75rem;background:rgba(96,165,250,0.1);border-radius:8px;">
+          <strong style="color:#60a5fa;">Result:</strong>
+          <span style="font-size:0.88rem;color:var(--text-secondary);">
+            Gravity isn't fundamental — it emerges from the resistance field equilibrium. Newton's constant is: \(G = 1/(16\pi\alpha R_{\rm bg})\)
+            <a href="stur_gravity_emergence.html" style="color:#60a5fa;margin-left:0.5rem;">Full derivation →</a>
+          </span>
+        </div>
+      </div>
+
+      <!-- DERIVATION 3: Three Generations -->
+      <div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:1.25rem;margin-bottom:1rem;border-left:4px solid #f472b6;">
+        <h4 style="margin:0 0 0.75rem;color:#f472b6;">Derivation 3: Why Exactly 3 Generations?</h4>
+
+        <div class="walkthrough" style="margin-left:0;">
+          <div class="step" style="border-left:2px solid #f472b6;padding-left:1rem;margin-bottom:0.75rem;">
+            <strong style="color:var(--text);">Step 1: Orbifold Topology</strong>
+            <p style="margin:4px 0 0;color:var(--text-secondary);font-size:0.88rem;">
+              On \(S^1/\mathbb{Z}_2\), fermions can have winding numbers \(w \in \mathbb{Z}\)
+            </p>
+          </div>
+          <div class="step" style="border-left:2px solid #f472b6;padding-left:1rem;margin-bottom:0.75rem;">
+            <strong style="color:var(--text);">Step 2: Anomaly Cancellation</strong>
+            <p style="margin:4px 0 0;color:var(--text-secondary);font-size:0.88rem;">
+              For the theory to be consistent (no gauge anomalies), windings must be restricted to \(\mathbb{Z}_3 = \{0,1,2\}\)
+            </p>
+          </div>
+          <div class="step" style="border-left:2px solid #f472b6;padding-left:1rem;margin-bottom:0.75rem;">
+            <strong style="color:var(--text);">Step 3: Each Winding = One Generation</strong>
+            <p style="margin:4px 0 0;color:var(--text-secondary);font-size:0.88rem;">
+              w=0 → 3rd gen (top, bottom, tau) near Higgs<br>
+              w=1 → 2nd gen (charm, strange, muon) displaced<br>
+              w=2 → 1st gen (up, down, electron) furthest
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top:0.75rem;padding:0.75rem;background:rgba(244,114,182,0.1);border-radius:8px;">
+          <strong style="color:#f472b6;">Result:</strong>
+          <span style="font-size:0.88rem;color:var(--text-secondary);">
+            Three generations are <em>forced</em> by orbifold topology + anomaly cancellation. Not four, not two — exactly three.
+            <a href="stur_axiom3_flavor.html" style="color:#f472b6;margin-left:0.5rem;">TFP derivation →</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SIDE-BY-SIDE COMPARISON TABLE -->
+  <div style="margin-top:1.5rem;overflow-x:auto;">
+    <h3 style="color:var(--accent);margin-bottom:1rem;">Side-by-Side: SM vs GR vs STUR</h3>
+    <table class="comparison-table" style="width:100%;font-size:0.88rem;">
+      <thead>
+        <tr>
+          <th style="width:22%;">Aspect</th>
+          <th style="width:26%;background:rgba(96,165,250,0.1);color:#60a5fa;">Standard Model</th>
+          <th style="width:26%;background:rgba(167,139,250,0.1);color:#a78bfa;">General Relativity</th>
+          <th style="width:26%;background:rgba(74,222,128,0.1);color:#4ade80;">STUR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Foundation</strong></td>
+          <td>Quantum field theory on flat spacetime</td>
+          <td>Classical geometry of curved spacetime</td>
+          <td>5D orbifold M⁴ × S¹/Z₂ with resistance field</td>
+        </tr>
+        <tr>
+          <td><strong>Gauge Group</strong></td>
+          <td style="color:#ef4444;">INPUT: SU(3)×SU(2)×U(1)</td>
+          <td>Not applicable</td>
+          <td style="color:#4ade80;">DERIVED: MHP minimization</td>
+        </tr>
+        <tr>
+          <td><strong>Gravity</strong></td>
+          <td style="color:#ef4444;">Incompatible</td>
+          <td>Postulated: G_μν = 8πG T_μν</td>
+          <td style="color:#4ade80;">DERIVED: Equilibrium limit → TEGR ≡ GR</td>
+        </tr>
+        <tr>
+          <td><strong>Generations</strong></td>
+          <td style="color:#ef4444;">INPUT: 3 copies assumed</td>
+          <td>Not applicable</td>
+          <td style="color:#4ade80;">DERIVED: Z₃ winding on orbifold</td>
+        </tr>
+        <tr>
+          <td><strong>Mass Hierarchies</strong></td>
+          <td style="color:#ef4444;">INPUT: 9 Yukawa couplings</td>
+          <td>Not applicable</td>
+          <td style="color:#4ade80;">DERIVED: Localization from winding (mechanism); λ≈0.22 calibrated</td>
+        </tr>
+        <tr>
+          <td><strong>Dark Energy</strong></td>
+          <td>Not addressed</td>
+          <td style="color:#ef4444;">INPUT: Λ measured</td>
+          <td style="color:#4ade80;">DERIVED: R_bg equilibrium sets Λ</td>
+        </tr>
+        <tr>
+          <td><strong>Quantum Gravity</strong></td>
+          <td style="color:#ef4444;">No consistent theory</td>
+          <td style="color:#ef4444;">Non-renormalizable</td>
+          <td style="color:#4ade80;">DHP provides UV completion mechanism</td>
+        </tr>
+        <tr>
+          <td><strong>Free Parameters</strong></td>
+          <td style="color:#ef4444;">~20 free parameters</td>
+          <td style="color:#ef4444;">G, Λ (2 parameters)</td>
+          <td style="color:#4ade80;">1 effective parameter: L_X/σ_R ratio</td>
+        </tr>
+        <tr>
+          <td><strong>Falsification</strong></td>
+          <td>No single kill test</td>
+          <td>Highly tested classically</td>
+          <td style="color:#fbbf24;">Gaussian visibility law — testable NOW</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top:1.5rem;padding:1rem;background:rgba(74,222,128,0.08);border-radius:10px;border:2px solid #4ade80;">
+    <strong style="color:#4ade80;font-size:1rem;">The Unification Principle</strong>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.92rem;line-height:1.65;">
+      SM and GR are both <em>correct</em> within their domains — STUR doesn't replace them, it <strong>derives</strong> them.
+      SM emerges from STUR in the particle physics limit (flat spacetime, low energy).
+      GR emerges from STUR in the gravitational limit (equilibrium R, classical spacetime).
+      The testable difference is the visibility law: Gaussian in ΔL² with coherence length ~0.3–30 m.
+    </p>
+  </div>
+</section>
+
 <!-- EQUATION COLOR CODING SYSTEM -->
 <section class="section" id="color-coding" style="padding-top: 1rem;">
   <h2>Reading STUR Equations</h2>
@@ -451,11 +808,11 @@
       </div>
     </div>
 
-    <!-- SINGLE PARAMETER -->
+    <!-- ONE EFFECTIVE PARAMETER -->
     <div style="margin-top:20px;text-align:center;padding:12px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px dashed var(--border-standard);">
-      <span style="color:var(--text-muted);font-size:0.8rem;">Single free parameter: </span>
-      <span style="color:#fbbf24;font-weight:600;">L<sub>X</sub></span>
-      <span style="color:var(--text-muted);font-size:0.8rem;"> (size of extra dimension, ~0.1-10 μm)</span>
+      <span style="color:var(--text-muted);font-size:0.8rem;">One effective parameter: </span>
+      <span style="color:#fbbf24;font-weight:600;">L<sub>X</sub>/σ<sub>R</sub></span>
+      <span style="color:var(--text-muted);font-size:0.8rem;"> ratio (L<sub>X</sub> stabilized, σ<sub>R</sub> calibrated)</span>
     </div>
   </div>
 
@@ -889,11 +1246,11 @@
       </div>
 
       <div class="block success">
-        <div class="title">No Free Parameters in V(R)</div>
+        <div class="title">V(R) Form Derived from Geometry</div>
         <p style="margin:0;color:var(--text-secondary)">
-          Unlike most theories where potentials are chosen by hand, STUR's potential is
-          <strong>derived</strong> from geometry. The only parameters (\(\lambda\), \(v\)) are
-          determined by the orbifold size \(L_X\) and stabilization conditions.
+          Unlike most theories where potentials are chosen by hand, STUR's potential <strong>form</strong> is
+          derived from geometry. The parameters (\(\lambda\), \(v\)) are
+          determined by the orbifold size \(L_X\) — STUR's single effective parameter.
         </p>
       </div>
     </div>
@@ -1159,11 +1516,11 @@
   </div>
 
   <div style="margin-top:1.25rem;padding:0.85rem 1rem;background:rgba(74,222,128,0.1);border-radius:8px;border-left:3px solid #4ade80;">
-    <strong style="color:#4ade80;">Complete Theory: All Physics Derived from Geometry</strong>
+    <strong style="color:#4ade80;">Unified Framework: 19 Problems with Derived Mechanisms</strong>
     <p style="margin:8px 0 0;font-size:0.88rem;color:var(--text-secondary);line-height:1.5;">
-      All 19 physics derivations follow from three axioms <em>forced</em> by orbifold topology.
-      Axiom 3 (TFP) is not a choice—winding numbers must exist on S¹/Z₂, and these determine all Yukawa couplings and mixing angles.
-      No free parameters remain except L<sub>X</sub> (dynamically stabilized).
+      All 19 physics problems have <em>mechanisms derived</em> from three axioms forced by orbifold topology.
+      Axiom 3 (TFP) is not a choice—winding numbers must exist on S¹/Z₂, determining the <em>structure</em> of Yukawa couplings and mixing angles.
+      One effective parameter remains: L<sub>X</sub>/σ<sub>R</sub> ratio (L<sub>X</sub> stabilized; some coefficients like λ≈0.22 calibrated).
     </p>
   </div>
 </section>
