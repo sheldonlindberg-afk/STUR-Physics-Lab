@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Gravity & Cosmology — STUR Physics Lab</title>
+<meta name="description" content="Gravity emergence, cosmological constant, inflation, dark matter, and black hole thermodynamics—all derived from STUR geometry.">
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+<style>
+:root { --hub-color: #60a5fa; }
+.hub-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+.hub-header { text-align: center; margin-bottom: 40px; padding: 40px 20px; background: linear-gradient(135deg, rgba(96,165,250,0.1) 0%, rgba(0,0,0,0.3) 100%); border-radius: 20px; border: 1px solid rgba(96,165,250,0.2); }
+.hub-header h1 { font-size: 2rem; color: var(--hub-color); margin-bottom: 12px; }
+.hub-header p { color: var(--text-secondary); font-size: 1rem; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+.hub-section { margin-bottom: 32px; }
+.hub-section-title { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; color: var(--hub-color); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(96,165,250,0.2); }
+.hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.hub-card { display: block; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); text-decoration: none; transition: all 0.2s ease; }
+.hub-card:hover { background: rgba(96,165,250,0.08); border-color: rgba(96,165,250,0.3); transform: translateY(-2px); }
+.hub-card .title { font-weight: 600; color: var(--text-primary); margin-bottom: 6px; font-size: 0.95rem; }
+.hub-card .desc { font-size: 0.8rem; color: var(--text-tertiary); line-height: 1.4; }
+.hub-card .tag { display: inline-block; margin-top: 8px; padding: 2px 8px; background: rgba(96,165,250,0.15); color: var(--hub-color); border-radius: 4px; font-size: 0.7rem; }
+.highlight-box { padding: 20px; background: rgba(96,165,250,0.06); border-radius: 12px; border-left: 4px solid var(--hub-color); margin-bottom: 16px; }
+.highlight-box .value { font-size: 1.5rem; color: var(--hub-color); font-weight: 700; }
+.highlight-box .label { font-size: 0.85rem; color: var(--text-tertiary); }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-tertiary); text-decoration: none; font-size: 0.85rem; margin-bottom: 20px; }
+.back-link:hover { color: var(--text-primary); }
+</style>
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">
+      <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Home</a>
+      <a href="stur_learn.html" class="glass-nav-link">Learn</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="../sitemap.html" class="glass-nav-link">Site Map</a>
+    </div>
+  </nav>
+</header>
+
+<div class="hub-container">
+  <a href="../index.html" class="back-link">← Back to Home</a>
+
+  <div class="hub-header">
+    <h1>Gravity & Cosmology</h1>
+    <p>General relativity emerges as TEGR from the torsion sector. The cosmological constant, inflation, and dark matter are all derived—not fitted.</p>
+  </div>
+
+  <!-- KEY PREDICTIONS -->
+  <section class="hub-section">
+    <div class="hub-section-title">Key Derived Values</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+      <div class="highlight-box">
+        <div class="value">Λ ~ 10⁻¹²⁰</div>
+        <div class="label">Cosmological constant (Planck units)</div>
+      </div>
+      <div class="highlight-box">
+        <div class="value">η_B ~ 10⁻¹⁰</div>
+        <div class="label">Baryon asymmetry</div>
+      </div>
+      <div class="highlight-box">
+        <div class="value">S = A/4</div>
+        <div class="label">Black hole entropy</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRAVITY EMERGENCE -->
+  <section class="hub-section">
+    <div class="hub-section-title">Gravity Emergence</div>
+    <div class="hub-grid">
+      <a href="stur_gravity_emergence.html" class="hub-card">
+        <div class="title">Gravity Emergence</div>
+        <div class="desc">How TEGR emerges from the torsion sector of the Master Action</div>
+        <span class="tag">From Axiom 1</span>
+      </a>
+      <a href="stur_black_hole_thermodynamics.html" class="hub-card">
+        <div class="title">Black Hole Thermodynamics</div>
+        <div class="desc">Bekenstein-Hawking entropy S = A/4 derived</div>
+        <span class="tag">S = A/4</span>
+      </a>
+      <a href="stur_quantum_gravity.html" class="hub-card">
+        <div class="title">Quantum Gravity</div>
+        <div class="desc">UV completion via holonomy regulation</div>
+        <span class="tag">UV Complete</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- COSMOLOGY -->
+  <section class="hub-section">
+    <div class="hub-section-title">Cosmological Solutions</div>
+    <div class="hub-grid">
+      <a href="stur_cosmological_derivation.html" class="hub-card">
+        <div class="title">Cosmological Derivation</div>
+        <div class="desc">FLRW cosmology from STUR field equations</div>
+      </a>
+      <a href="stur_cosmological_constant.html" class="hub-card">
+        <div class="title">Cosmological Constant</div>
+        <div class="desc">Λ ~ 10⁻¹²⁰ from Casimir energy cancellation</div>
+        <span class="tag">10⁻¹²⁰</span>
+      </a>
+      <a href="stur_inflation_derivation.html" class="hub-card">
+        <div class="title">Inflation & Baryogenesis</div>
+        <div class="desc">Slow-roll from R-field potential; CPT violation for η_B</div>
+      </a>
+      <a href="stur_baryogenesis_numerical.html" class="hub-card">
+        <div class="title">Baryon Asymmetry</div>
+        <div class="desc">η_B ~ 10⁻¹⁰ from leptogenesis</div>
+        <span class="tag">10⁻¹⁰</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- DARK SECTOR -->
+  <section class="hub-section">
+    <div class="hub-section-title">Dark Sector</div>
+    <div class="hub-grid">
+      <a href="stur_darkmatter_derivation.html" class="hub-card">
+        <div class="title">Dark Matter (LKP)</div>
+        <div class="desc">Lightest KK particle as stable dark matter candidate</div>
+        <span class="tag">From KK Modes</span>
+      </a>
+      <a href="stur_galaxy.html" class="hub-card">
+        <div class="title">Galaxy Rotation Curves</div>
+        <div class="desc">STUR modulator effects on galactic dynamics</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- UNIVERSE MODELS -->
+  <section class="hub-section">
+    <div class="hub-section-title">Universe Models</div>
+    <div class="hub-grid">
+      <a href="stur_solidbh.html" class="hub-card">
+        <div class="title">Big Bang / Bounce</div>
+        <div class="desc">Torsion prevents singularity—cosmic bounce</div>
+      </a>
+      <a href="stur_5duniverse.html" class="hub-card">
+        <div class="title">5D Unified Gravity</div>
+        <div class="desc">Full 5D metric and dimensional reduction</div>
+      </a>
+      <a href="stur_universe.html" class="hub-card">
+        <div class="title">Universe Atlas POV</div>
+        <div class="desc">Visualization of STUR cosmology</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- KEY INSIGHT -->
+  <section class="hub-section">
+    <div class="hub-section-title">Key Insight</div>
+    <div style="background:rgba(0,0,0,0.3);padding:20px;border-radius:12px;">
+      <p style="color:var(--text-secondary);line-height:1.7;margin:0;">
+        The cosmological constant problem is <strong style="color:var(--hub-color);">solved</strong> in STUR:
+        the Casimir energy from the extra dimension naturally cancels against bulk contributions,
+        leaving Λ ~ 10⁻¹²⁰ in Planck units. Dark matter is the lightest Kaluza-Klein particle.
+        No fine-tuning required.
+      </p>
+    </div>
+  </section>
+
+  <footer style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);">
+    <p style="color:var(--text-quaternary);font-size:0.85rem;">
+      <a href="../index.html" style="color:var(--text-tertiary);">← Home</a> ·
+      <a href="stur_gravity_emergence.html" style="color:var(--hub-color);">Gravity Emergence →</a>
+    </p>
+  </footer>
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+  });
+</script>
+</body>
+</html>

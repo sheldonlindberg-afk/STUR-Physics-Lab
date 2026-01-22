@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Quantum Theory — STUR Physics Lab</title>
+<meta name="description" content="Quantum mechanics emerges from the path integral. Feynman rules, Dirac equation, QCD confinement—all derived from STUR.">
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+<style>
+:root { --hub-color: #22d3ee; }
+.hub-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+.hub-header { text-align: center; margin-bottom: 40px; padding: 40px 20px; background: linear-gradient(135deg, rgba(34,211,238,0.1) 0%, rgba(0,0,0,0.3) 100%); border-radius: 20px; border: 1px solid rgba(34,211,238,0.2); }
+.hub-header h1 { font-size: 2rem; color: var(--hub-color); margin-bottom: 12px; }
+.hub-header p { color: var(--text-secondary); font-size: 1rem; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+.hub-section { margin-bottom: 32px; }
+.hub-section-title { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; color: var(--hub-color); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(34,211,238,0.2); }
+.hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.hub-card { display: block; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); text-decoration: none; transition: all 0.2s ease; }
+.hub-card:hover { background: rgba(34,211,238,0.08); border-color: rgba(34,211,238,0.3); transform: translateY(-2px); }
+.hub-card .title { font-weight: 600; color: var(--text-primary); margin-bottom: 6px; font-size: 0.95rem; }
+.hub-card .desc { font-size: 0.8rem; color: var(--text-tertiary); line-height: 1.4; }
+.hub-card .tag { display: inline-block; margin-top: 8px; padding: 2px 8px; background: rgba(34,211,238,0.15); color: var(--hub-color); border-radius: 4px; font-size: 0.7rem; }
+.equation-box { padding: 16px; background: rgba(0,0,0,0.4); border-radius: 8px; font-family: monospace; color: var(--hub-color); text-align: center; margin: 12px 0; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-tertiary); text-decoration: none; font-size: 0.85rem; margin-bottom: 20px; }
+.back-link:hover { color: var(--text-primary); }
+</style>
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">
+      <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Home</a>
+      <a href="stur_learn.html" class="glass-nav-link">Learn</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="../sitemap.html" class="glass-nav-link">Site Map</a>
+    </div>
+  </nav>
+</header>
+
+<div class="hub-container">
+  <a href="../index.html" class="back-link">← Back to Home</a>
+
+  <div class="hub-header">
+    <h1>Quantum Theory</h1>
+    <p>Quantum mechanics is not postulated—it emerges from the path integral over the resistance field. All QM postulates are derived.</p>
+  </div>
+
+  <!-- KEY INSIGHT -->
+  <section class="hub-section">
+    <div class="hub-section-title">Central Result</div>
+    <div class="equation-box">
+      Z = ∫ DR exp(iS[R]/ℏ) → Schrödinger equation, Born rule, superposition
+    </div>
+    <p style="color:var(--text-tertiary);font-size:0.85rem;text-align:center;">
+      The path integral over R-field configurations yields all quantum mechanical postulates.
+    </p>
+  </section>
+
+  <!-- QM EMERGENCE -->
+  <section class="hub-section">
+    <div class="hub-section-title">QM Emergence</div>
+    <div class="hub-grid">
+      <a href="stur_qm_emergence.html" class="hub-card">
+        <div class="title">QM Emergence</div>
+        <div class="desc">All QM postulates derived from path integral</div>
+        <span class="tag">From Path Integral</span>
+      </a>
+      <a href="stur_feynman_rules.html" class="hub-card">
+        <div class="title">Feynman Rules</div>
+        <div class="desc">QFT structure from STUR field expansion</div>
+      </a>
+      <a href="stur_quantum_corrections.html" class="hub-card">
+        <div class="title">Quantum Corrections</div>
+        <div class="desc">Loop corrections and renormalization</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- RELATIVISTIC QM -->
+  <section class="hub-section">
+    <div class="hub-section-title">Relativistic Equations</div>
+    <div class="hub-grid">
+      <a href="stur_dirac_equation.html" class="hub-card">
+        <div class="title">Dirac Equation</div>
+        <div class="desc">Spin-½ fermions from orbifold reduction</div>
+        <span class="tag">Spin-½</span>
+      </a>
+      <a href="stur_maxwell_equations.html" class="hub-card">
+        <div class="title">Maxwell Equations</div>
+        <div class="desc">Electromagnetism from U(1) sector</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- QCD & WEAK -->
+  <section class="hub-section">
+    <div class="hub-section-title">Strong & Weak Interactions</div>
+    <div class="hub-grid">
+      <a href="stur_qcd_confinement.html" class="hub-card">
+        <div class="title">QCD Confinement</div>
+        <div class="desc">Area law from holonomy and asymptotic freedom</div>
+        <span class="tag">Confinement</span>
+      </a>
+      <a href="stur_weak_interaction.html" class="hub-card">
+        <div class="title">Weak Interaction</div>
+        <div class="desc">W/Z bosons from SU(2) gauge sector</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- UV BEHAVIOR -->
+  <section class="hub-section">
+    <div class="hub-section-title">UV Completion</div>
+    <div class="hub-grid">
+      <a href="stur_quantum_gravity.html" class="hub-card">
+        <div class="title">Quantum Gravity</div>
+        <div class="desc">UV finite via holonomy regulation</div>
+        <span class="tag">UV Complete</span>
+      </a>
+      <a href="stur_uv_completion.html" class="hub-card">
+        <div class="title">UV Completion</div>
+        <div class="desc">Why STUR remains finite at all scales</div>
+      </a>
+      <a href="stur_uv_finiteness_proof.html" class="hub-card">
+        <div class="title">UV Finiteness Proof</div>
+        <div class="desc">All-orders proof of finiteness</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- APPLICATIONS -->
+  <section class="hub-section">
+    <div class="hub-section-title">Applications</div>
+    <div class="hub-grid">
+      <a href="stur_chemistry.html" class="hub-card">
+        <div class="title">STUR Chemistry</div>
+        <div class="desc">Chemical bonding from quantum STUR</div>
+      </a>
+      <a href="stur_appendix_casimir.html" class="hub-card">
+        <div class="title">Casimir Appendix</div>
+        <div class="desc">Casimir effect and moduli stabilization</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- KEY POINTS -->
+  <section class="hub-section">
+    <div class="hub-section-title">Key Points</div>
+    <div style="background:rgba(0,0,0,0.3);padding:20px;border-radius:12px;">
+      <ul style="color:var(--text-secondary);line-height:2;margin:0;padding-left:20px;">
+        <li><strong style="color:var(--hub-color);">Schrödinger equation</strong> — emerges from saddle point of path integral</li>
+        <li><strong style="color:var(--hub-color);">Born rule</strong> — follows from probability interpretation of |ψ|²</li>
+        <li><strong style="color:var(--hub-color);">Superposition</strong> — linearity from path integral sum</li>
+        <li><strong style="color:var(--hub-color);">Measurement</strong> — decoherence from R-field environment</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);">
+    <p style="color:var(--text-quaternary);font-size:0.85rem;">
+      <a href="../index.html" style="color:var(--text-tertiary);">← Home</a> ·
+      <a href="stur_qm_emergence.html" style="color:var(--hub-color);">QM Emergence →</a>
+    </p>
+  </footer>
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+  });
+</script>
+</body>
+</html>

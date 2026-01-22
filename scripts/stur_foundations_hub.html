@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Foundations — STUR Physics Lab</title>
+<meta name="description" content="The three axioms of STUR: Master Action, DHP, and TFP. How geometry determines all physics.">
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+<style>
+:root { --hub-color: #4ade80; }
+.hub-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+.hub-header { text-align: center; margin-bottom: 40px; padding: 40px 20px; background: linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(0,0,0,0.3) 100%); border-radius: 20px; border: 1px solid rgba(74,222,128,0.2); }
+.hub-header h1 { font-size: 2rem; color: var(--hub-color); margin-bottom: 12px; }
+.hub-header p { color: var(--text-secondary); font-size: 1rem; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+.hub-section { margin-bottom: 32px; }
+.hub-section-title { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; color: var(--hub-color); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(74,222,128,0.2); }
+.hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.hub-card { display: block; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); text-decoration: none; transition: all 0.2s ease; }
+.hub-card:hover { background: rgba(74,222,128,0.08); border-color: rgba(74,222,128,0.3); transform: translateY(-2px); }
+.hub-card .title { font-weight: 600; color: var(--text-primary); margin-bottom: 6px; font-size: 0.95rem; }
+.hub-card .desc { font-size: 0.8rem; color: var(--text-tertiary); line-height: 1.4; }
+.hub-card .tag { display: inline-block; margin-top: 8px; padding: 2px 8px; background: rgba(74,222,128,0.15); color: var(--hub-color); border-radius: 4px; font-size: 0.7rem; }
+.axiom-box { padding: 20px; background: rgba(74,222,128,0.06); border-radius: 12px; border-left: 4px solid var(--hub-color); margin-bottom: 16px; }
+.axiom-box h3 { color: var(--hub-color); font-size: 1rem; margin-bottom: 8px; }
+.axiom-box p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin: 0; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-tertiary); text-decoration: none; font-size: 0.85rem; margin-bottom: 20px; }
+.back-link:hover { color: var(--text-primary); }
+</style>
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">
+      <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Home</a>
+      <a href="stur_learn.html" class="glass-nav-link">Learn</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="../sitemap.html" class="glass-nav-link">Site Map</a>
+    </div>
+  </nav>
+</header>
+
+<div class="hub-container">
+  <a href="../index.html" class="back-link">← Back to Home</a>
+
+  <div class="hub-header">
+    <h1>Foundations</h1>
+    <p>STUR is built on three axioms forced by the geometry of a 5D orbifold M⁴ × S¹/Z₂. Everything else—including MHP—is derived.</p>
+  </div>
+
+  <!-- THE THREE AXIOMS -->
+  <section class="hub-section">
+    <div class="hub-section-title">The Three Axioms</div>
+
+    <div class="axiom-box">
+      <h3>Axiom 1: Master Action</h3>
+      <p>S = ∫ d⁴x dX √(-g) [½(∇R)² - V(R) + χR∂_X R + αR𝕋 + ℒ_matter]<br>
+      Defines dynamics of the resistance field R on the 5D orbifold.</p>
+    </div>
+
+    <div class="axiom-box">
+      <h3>Axiom 2: DHP (Dynamical Holonomy Principle)</h3>
+      <p>The universe evolves along paths that minimize the integrated holonomy action. This selects the physical vacuum and determines dynamics.</p>
+    </div>
+
+    <div class="axiom-box">
+      <h3>Axiom 3: TFP (Topological Flavor Principle)</h3>
+      <p>Fermion generations are labeled by winding number w ∈ Z₃ on the orbifold. This explains why there are exactly 3 generations.</p>
+    </div>
+  </section>
+
+  <!-- AXIOM PAGES -->
+  <section class="hub-section">
+    <div class="hub-section-title">Axiom Deep Dives</div>
+    <div class="hub-grid">
+      <a href="stur_geometry_axioms.html" class="hub-card">
+        <div class="title">Master Action (Axiom 1)</div>
+        <div class="desc">Complete derivation of the action from orbifold geometry</div>
+        <span class="tag">Axiom 1</span>
+      </a>
+      <a href="stur_mhp_derivation.html" class="hub-card">
+        <div class="title">DHP & MHP Derivation</div>
+        <div class="desc">How MHP emerges from the path integral saddle point</div>
+        <span class="tag">Axiom 2</span>
+      </a>
+      <a href="stur_axiom3_flavor.html" class="hub-card">
+        <div class="title">Topological Flavor (TFP)</div>
+        <div class="desc">Winding numbers and the origin of 3 generations</div>
+        <span class="tag">Axiom 3</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- CORE THEORY -->
+  <section class="hub-section">
+    <div class="hub-section-title">Core Theory Documents</div>
+    <div class="hub-grid">
+      <a href="stur_core_theory.html" class="hub-card">
+        <div class="title">Core Theory</div>
+        <div class="desc">Main entry point for the complete theoretical framework</div>
+        <span class="tag">Entry Point</span>
+      </a>
+      <a href="stur_unified_framework.html" class="hub-card">
+        <div class="title">Unified Framework</div>
+        <div class="desc">How all sectors connect under XCRM closure</div>
+      </a>
+      <a href="stur_xcrm_closure.html" class="hub-card">
+        <div class="title">XCRM Closure</div>
+        <div class="desc">The central mechanism: X-coordinate relaxation</div>
+        <span class="tag">Key Mechanism</span>
+      </a>
+      <a href="stur_action_uniqueness.html" class="hub-card">
+        <div class="title">Action Uniqueness</div>
+        <div class="desc">Proof that the Master Action is the unique consistent choice</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- TECHNICAL -->
+  <section class="hub-section">
+    <div class="hub-section-title">Technical Details</div>
+    <div class="hub-grid">
+      <a href="stur_dhp_equations.html" class="hub-card">
+        <div class="title">DHP Equations</div>
+        <div class="desc">Explicit equations of motion from DHP</div>
+      </a>
+      <a href="stur_energy_conditions.html" class="hub-card">
+        <div class="title">Energy Conditions</div>
+        <div class="desc">XCRM satisfies all classical energy conditions</div>
+      </a>
+      <a href="stur_uv_completion.html" class="hub-card">
+        <div class="title">UV Completion</div>
+        <div class="desc">How STUR remains finite at high energies</div>
+      </a>
+      <a href="stur_uv_finiteness_proof.html" class="hub-card">
+        <div class="title">UV Finiteness Proof</div>
+        <div class="desc">All-orders proof of finiteness</div>
+      </a>
+      <a href="stur_technical_appendix.html" class="hub-card">
+        <div class="title">Technical Appendix</div>
+        <div class="desc">Full derivations and mathematical details</div>
+      </a>
+      <a href="stur_open_problems.html" class="hub-card">
+        <div class="title">Open Problems</div>
+        <div class="desc">What remains to be understood</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- KEY POINTS -->
+  <section class="hub-section">
+    <div class="hub-section-title">Key Points</div>
+    <div style="background:rgba(0,0,0,0.3);padding:20px;border-radius:12px;">
+      <ul style="color:var(--text-secondary);line-height:2;margin:0;padding-left:20px;">
+        <li><strong style="color:var(--hub-color);">MHP is derived</strong> — not an axiom. It follows from the path integral saddle point.</li>
+        <li><strong style="color:var(--hub-color);">L_X is stabilized</strong> — dynamically fixed by Casimir-holonomy balance (~0.1–10 μm).</li>
+        <li><strong style="color:var(--hub-color);">Zero free parameters</strong> — all physics determined by geometry after moduli stabilization.</li>
+        <li><strong style="color:var(--hub-color);">Three axioms are forced</strong> — by consistency on the orbifold, not arbitrary choices.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);">
+    <p style="color:var(--text-quaternary);font-size:0.85rem;">
+      <a href="../index.html" style="color:var(--text-tertiary);">← Home</a> ·
+      <a href="stur_core_theory.html" style="color:var(--hub-color);">Core Theory →</a>
+    </p>
+  </footer>
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+  });
+</script>
+</body>
+</html>

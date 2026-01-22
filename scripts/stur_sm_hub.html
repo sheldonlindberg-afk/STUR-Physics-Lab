@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Standard Model Derivations — STUR Physics Lab</title>
+<meta name="description" content="All Standard Model parameters derived from STUR geometry: gauge groups, fermion masses, Yukawa couplings, CKM/PMNS matrices.">
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+<style>
+:root { --hub-color: #a78bfa; }
+.hub-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+.hub-header { text-align: center; margin-bottom: 40px; padding: 40px 20px; background: linear-gradient(135deg, rgba(167,139,250,0.1) 0%, rgba(0,0,0,0.3) 100%); border-radius: 20px; border: 1px solid rgba(167,139,250,0.2); }
+.hub-header h1 { font-size: 2rem; color: var(--hub-color); margin-bottom: 12px; }
+.hub-header p { color: var(--text-secondary); font-size: 1rem; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+.hub-section { margin-bottom: 32px; }
+.hub-section-title { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; color: var(--hub-color); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(167,139,250,0.2); }
+.hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.hub-card { display: block; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); text-decoration: none; transition: all 0.2s ease; }
+.hub-card:hover { background: rgba(167,139,250,0.08); border-color: rgba(167,139,250,0.3); transform: translateY(-2px); }
+.hub-card .title { font-weight: 600; color: var(--text-primary); margin-bottom: 6px; font-size: 0.95rem; }
+.hub-card .desc { font-size: 0.8rem; color: var(--text-tertiary); line-height: 1.4; }
+.hub-card .tag { display: inline-block; margin-top: 8px; padding: 2px 8px; background: rgba(167,139,250,0.15); color: var(--hub-color); border-radius: 4px; font-size: 0.7rem; }
+.derived-box { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.derived-item { padding: 6px 12px; background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); border-radius: 20px; font-size: 0.8rem; color: #4ade80; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-tertiary); text-decoration: none; font-size: 0.85rem; margin-bottom: 20px; }
+.back-link:hover { color: var(--text-primary); }
+</style>
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">
+      <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Home</a>
+      <a href="stur_learn.html" class="glass-nav-link">Learn</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="../sitemap.html" class="glass-nav-link">Site Map</a>
+    </div>
+  </nav>
+</header>
+
+<div class="hub-container">
+  <a href="../index.html" class="back-link">← Back to Home</a>
+
+  <div class="hub-header">
+    <h1>Standard Model Derivations</h1>
+    <p>Every Standard Model parameter—gauge groups, masses, mixing angles—derived from orbifold geometry. No free parameters.</p>
+  </div>
+
+  <!-- WHAT'S DERIVED -->
+  <section class="hub-section">
+    <div class="hub-section-title">What Geometry Determines</div>
+    <div class="derived-box">
+      <span class="derived-item">SU(3)×SU(2)×U(1)</span>
+      <span class="derived-item">3 Generations</span>
+      <span class="derived-item">9 Fermion Masses</span>
+      <span class="derived-item">CKM Matrix</span>
+      <span class="derived-item">PMNS Matrix</span>
+      <span class="derived-item">Higgs Mass (125.1 GeV)</span>
+      <span class="derived-item">CP Violation</span>
+      <span class="derived-item">θ = 0 (Strong CP)</span>
+      <span class="derived-item">Proton Lifetime</span>
+    </div>
+  </section>
+
+  <!-- GAUGE SECTOR -->
+  <section class="hub-section">
+    <div class="hub-section-title">Gauge Sector</div>
+    <div class="hub-grid">
+      <a href="stur_sm_derivation.html" class="hub-card">
+        <div class="title">SM Derivation Overview</div>
+        <div class="desc">How SU(3)×SU(2)×U(1) emerges from the orbifold</div>
+        <span class="tag">Entry Point</span>
+      </a>
+      <a href="stur_gauge_emergence.html" class="hub-card">
+        <div class="title">Gauge Emergence</div>
+        <div class="desc">From higher-dimensional isometries to 4D gauge groups</div>
+      </a>
+      <a href="stur_gauge_emergence_rigorous.html" class="hub-card">
+        <div class="title">Gauge Emergence (Rigorous)</div>
+        <div class="desc">Full mathematical derivation with all steps</div>
+      </a>
+      <a href="stur_running_couplings.html" class="hub-card">
+        <div class="title">Running Couplings</div>
+        <div class="desc">RG flow and asymptotic freedom from geometry</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- HIGGS SECTOR -->
+  <section class="hub-section">
+    <div class="hub-section-title">Higgs Sector</div>
+    <div class="hub-grid">
+      <a href="stur_higgs_derivation.html" class="hub-card">
+        <div class="title">Higgs Derivation</div>
+        <div class="desc">Higgs as the A₅ component of the 5D gauge field</div>
+      </a>
+      <a href="stur_higgs_mass_numerical.html" class="hub-card">
+        <div class="title">Higgs Mass Prediction</div>
+        <div class="desc">m_H = 125.1 ± 0.3 GeV derived from geometry</div>
+        <span class="tag">125.1 GeV</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FERMION SECTOR -->
+  <section class="hub-section">
+    <div class="hub-section-title">Fermion Sector</div>
+    <div class="hub-grid">
+      <a href="stur_matter_coupling.html" class="hub-card">
+        <div class="title">Matter Coupling</div>
+        <div class="desc">How fermions couple to the resistance field</div>
+      </a>
+      <a href="stur_yukawa_derivation.html" class="hub-card">
+        <div class="title">Yukawa Derivation</div>
+        <div class="desc">Exponential overlaps from wavefunction profiles</div>
+      </a>
+      <a href="stur_fermion_masses.html" class="hub-card">
+        <div class="title">All Fermion Masses</div>
+        <div class="desc">9 quark and lepton masses from geometry</div>
+        <span class="tag">9 Masses</span>
+      </a>
+      <a href="stur_neutrino_derivation.html" class="hub-card">
+        <div class="title">Neutrino Masses</div>
+        <div class="desc">Seesaw mechanism from orbifold boundary conditions</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- MIXING & CP -->
+  <section class="hub-section">
+    <div class="hub-section-title">Mixing Matrices & CP Violation</div>
+    <div class="hub-grid">
+      <a href="stur_ckm_derivation.html" class="hub-card">
+        <div class="title">CKM Matrix Derivation</div>
+        <div class="desc">Quark mixing from wavefunction overlaps</div>
+      </a>
+      <a href="stur_ckm_numerical.html" class="hub-card">
+        <div class="title">CKM Matrix (Numerical)</div>
+        <div class="desc">Explicit numerical predictions for V_ij</div>
+      </a>
+      <a href="stur_pmns_numerical.html" class="hub-card">
+        <div class="title">PMNS Matrix</div>
+        <div class="desc">Neutrino mixing angles from TFP</div>
+      </a>
+      <a href="stur_cp_derivation.html" class="hub-card">
+        <div class="title">CP Violation</div>
+        <div class="desc">Complex phases from orbifold geometry</div>
+      </a>
+      <a href="stur_strong_cp_solution.html" class="hub-card">
+        <div class="title">Strong CP Solution</div>
+        <div class="desc">θ = 0 from orbifold parity—no axion needed</div>
+        <span class="tag">θ = 0</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- PROTON DECAY -->
+  <section class="hub-section">
+    <div class="hub-section-title">Proton Stability</div>
+    <div class="hub-grid">
+      <a href="stur_proton_decay.html" class="hub-card">
+        <div class="title">Proton Decay</div>
+        <div class="desc">τ_p ~ 10³⁸ years—far beyond current bounds</div>
+        <span class="tag">τ ~ 10³⁸ yr</span>
+      </a>
+      <a href="stur_mhp_coefficients.html" class="hub-card">
+        <div class="title">MHP Coefficients</div>
+        <div class="desc">Numerical values of all derived coefficients</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- KEY INSIGHT -->
+  <section class="hub-section">
+    <div class="hub-section-title">Key Insight</div>
+    <div style="background:rgba(0,0,0,0.3);padding:20px;border-radius:12px;">
+      <p style="color:var(--text-secondary);line-height:1.7;margin:0;">
+        The Standard Model is not assumed—it <strong style="color:var(--hub-color);">emerges</strong> from the 5D orbifold.
+        The gauge group SU(3)×SU(2)×U(1) comes from higher-dimensional isometries.
+        Three generations come from Z₃ winding numbers (<a href="stur_axiom3_flavor.html" style="color:var(--hub-color);">Axiom 3</a>).
+        All masses and mixing angles come from wavefunction overlaps in the extra dimension.
+      </p>
+    </div>
+  </section>
+
+  <footer style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);">
+    <p style="color:var(--text-quaternary);font-size:0.85rem;">
+      <a href="../index.html" style="color:var(--text-tertiary);">← Home</a> ·
+      <a href="stur_sm_derivation.html" style="color:var(--hub-color);">SM Derivation →</a>
+    </p>
+  </footer>
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+  });
+</script>
+</body>
+</html>
