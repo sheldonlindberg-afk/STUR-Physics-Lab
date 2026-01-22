@@ -441,7 +441,6 @@
       <div class="pillar-indicator"><span class="pillar-dot tegr"></span>TEGR</div>
       <div class="pillar-indicator"><span class="pillar-dot hgem"></span>HGEM</div>
       <div class="pillar-indicator"><span class="pillar-dot stur"></span>STUR</div>
-      <div class="pillar-indicator"><span class="pillar-dot chrono"></span>Chronomagnetics</div>
     </div>
   </div>
 
@@ -459,7 +458,7 @@
       This framework presents a <strong>unified teleparallel effective theory</strong> with an explicit
       <strong>STUR resistance field</strong> coupled to torsion. TEGR (≡ GR) provides the geometric backbone;
       STUR supplies the dynamical scalar resistance field \(\XCRM{R(x^\mu,t,X)}\) and its gauge-invariant holonomy;
-      HGEM is the weak-field (linear) limit; Chronomagnetics provides log-periodic modulation.
+      HGEM is the weak-field (linear) limit.
       <strong>No claim is made</strong> that Standard Model parameters, coupling constants,
       or cosmological initial conditions are derived. This is an <em>effective</em> framework, not a UV-complete theory.
     </p>
@@ -508,7 +507,7 @@
     <a href="#sec-tegr" class="nav-card tegr"><h3>TEGR Backbone</h3><p>Teleparallel gravity ≡ GR</p></a>
     <a href="#sec-hgem" class="nav-card hgem"><h3>HGEM Waves</h3><p>Gravitoelectromagnetic sector</p></a>
     <a href="#sec-stur" class="nav-card stur"><h3>STUR Holonomy</h3><p>Interferometric observable</p></a>
-    <a href="#sec-chrono" class="nav-card chrono"><h3>Chronomagnetics</h3><p>Log-periodic modulation</p></a>
+    <a href="#sec-computational" class="nav-card" style="border-color:var(--gold)"><h3>Computational</h3><p>Simulation constants</p></a>
     <a href="#sec-action" class="nav-card"><h3>Action Principle</h3><p>Coupled field equations</p></a>
     <a href="#sec-solver" class="nav-card" style="border-color:var(--purple)"><h3>1D Solver</h3><p>R ↔ T back-reaction</p></a>
     <a href="#sec-holoscreen" class="nav-card stur"><h3>Interactive Holoscreen</h3><p>Live visibility calculator</p></a>
@@ -526,8 +525,6 @@
         <div class="flow-box stur">STUR<br><small>Law</small></div>
         <span class="flow-arrow">→</span>
         <div class="flow-box hgem">HGEM<br><small>Linear limit</small></div>
-        <span class="flow-arrow">→</span>
-        <div class="flow-box chrono">Chrono<br><small>Modulation</small></div>
       </div>
     </div>
     <table>
@@ -535,7 +532,6 @@
       <tr><td><strong style="color:var(--tegr)">TEGR</strong></td><td>Geometric backbone</td><td>Tetrad \(\Tor{e^a{}_\mu}\), torsion \(\Tor{T^a{}_{bc}}\)</td><td>Established (≡ GR)</td></tr>
       <tr><td><strong style="color:var(--stur)">STUR</strong></td><td>Dynamical law</td><td>Resistance field \(\XCRM{R(x^\mu,t,X)}\) and holonomy \(\Quant{\Phi_R}\)</td><td>Closed, simulable, falsifiable</td></tr>
       <tr><td><strong style="color:var(--hgem)">HGEM</strong></td><td>Wave sector</td><td>GEM potentials \(\Pot{\Phi_g}, \Tor{\vec{A}_g}\)</td><td>Derived (weak-field limit)</td></tr>
-      <tr><td><strong style="color:var(--chrono)">Chronomagnetics</strong></td><td>Modulation</td><td>Log-time \(\XCRM{u(t)}\), constant \(\Pot{\lambda}\)</td><td>Derived from XCRM X-mode spectrum</td></tr>
     </table>
   </section>
 
@@ -742,50 +738,47 @@
 
   </section>
 
-  <section id="sec-chrono">
-    <h2><span class="section-dot" style="background:var(--chrono)"></span> Chronomagnetics: Log-Periodic Modulation</h2>
-    <p>Chronomagnetics introduces a log-periodic modulation of tangential contortion, defined from exact triangle geometry and embedded consistently within the teleparallel (TEGR) formalism.</p>
-    <div class="eq law">\[\boxed{\color{#fbbf24}{\lambda} = \frac{3722}{2705} \approx 1.376}\]<div class="eq-label">(Chronomagnetic Constant)</div></div>
-    <p>This is an <em>exactly defined geometric ratio</em> arising from a specific illustrative triangle construction \(\Matt{\{116, 138, 144\}}\). The triangle is not claimed to be unique.</p>
+  <section id="sec-computational">
+    <h2><span class="section-dot" style="background:var(--gold)"></span> Computational Constants (Simulation Only)</h2>
+
+    <div class="block" style="border-left:4px solid #a78bfa;background:rgba(167,139,250,0.08);margin-bottom:1rem;">
+      <div class="title" style="color:#a78bfa;">Historical Note</div>
+      <p class="muted" style="margin:0;">
+        The constant \(\lambda = 3722/2705\) was previously part of a "chronomagnetics" framework that has been
+        <strong>removed from the core STUR physics theory</strong>. It is retained here solely for
+        computational/AGI simulation purposes — providing useful triangle weighting ratios and log-periodic
+        modulation structure for numerical experiments.
+      </p>
+    </div>
+
+    <div class="eq law">\[\boxed{\color{#fbbf24}{\lambda} = \frac{3722}{2705} \approx 1.376}\]<div class="eq-label">(Computational Constant — Not Core Physics)</div></div>
+
     <p class="muted">
-      The functional mapping from triangle data to \(\Pot{\lambda}\) is a chosen
-      <strong>demonstrator construction</strong>, not a first-principles derivation.
-      Its purpose is to show that exact rational log-periodic ratios can arise
-      from rigid geometry without invoking numerology.
+      This constant provides useful numerical structure for simulations but <strong>makes no testable predictions
+      beyond the core STUR theory</strong>. The core STUR predictions (Gaussian visibility decay, coherence length)
+      are independent of this constant.
     </p>
 
-<h3>Triangle Geometry Derivation</h3>
-<p class="muted">
-  The fundamental triangle △ABC with sides \(\Matt{a = 144, b = 138, c = 116}\) provides the geometric basis:
-</p>
+<h3>Computational Applications</h3>
 <div class="card-grid">
-  <div class="card" style="border-left:3px solid var(--chrono)">
-    <h4>Semiperimeter</h4>
-    <div class="eq">\[\color{#fbbf24}{s} = \frac{a+b+c}{2} = 199\]</div>
-  </div>
-  <div class="card" style="border-left:3px solid var(--chrono)">
-    <h4>Area Squared</h4>
-    <div class="eq">\[\color{#fb923c}{A^2} = \color{#fbbf24}{s}(\color{#fbbf24}{s}-a)(\color{#fbbf24}{s}-b)(\color{#fbbf24}{s}-c) = 55,414,535 \quad (\sqrt{\color{#fb923c}{A^2}} \approx 7442.75)\]</div>
+  <div class="card" style="border-left:3px solid var(--gold)">
+    <h4>Triangle Weights</h4>
+    <div class="eq">\[w_D = \frac{1}{1+\lambda+\lambda^2}, \quad w_\chi = \frac{\lambda}{1+\lambda+\lambda^2}, \quad w_\Pi = \frac{\lambda^2}{1+\lambda+\lambda^2}\]</div>
   </div>
   <div class="card" style="border-left:3px solid var(--gold)">
-    <h4>Construction</h4>
-    <div class="eq">\[\color{#fbbf24}{\lambda} = \frac{\lfloor\sqrt{\color{#fb923c}{A^2}}\rfloor}{10(\color{#fbbf24}{s} + 3c - 6)} = \frac{7442}{5410} \approx \frac{3722}{2705}\]</div>
+    <h4>Log-Periodic Modulation</h4>
+    <div class="eq">\[\mathcal{M}(u) = 1 + \epsilon \cos(2\pi u / \ln\lambda)\]</div>
   </div>
 </div>
 
-<h3>Log-Time Parameterization</h3>
-<div class="eq boxed">\[\color{#f472b6}{\mathcal{M}(u)} = 1 + \epsilon \cos(2\pi \color{#22d3ee}{u} / \ln\color{#fbbf24}{\lambda}), \quad \color{#22d3ee}{u(t)} = \ln\big((t + t_c)/t_0\big)\]</div>
-<p class="muted" style="margin:0.5rem 0;">
-  Angular frequency: \(\XCRM{\omega} = 2\pi/\ln\Pot{\lambda} \approx 19.687\). Reference time: \(\Matt{t_0} = 1\) Ma.
-</p>
-
-<div class="block success">
-  <div class="title">XCRM Closure: Chronomagnetics</div>
+<div class="block warning">
+  <div class="title">Computational Use Only</div>
   <p class="muted">
-    Chronomagnetics is <strong>derived from XCRM X-mode spectrum</strong> (<a href="stur_core_theory.html#sec5" style="color:var(--stur)">Foundations §5.3.6</a>).
-    The constant \(\Pot{\lambda} = 3722/2705\) emerges uniquely from the quantized X-mode spectrum on the orbifold.
-    It modulates the STUR transport/coupling sector via \(\XCRM{\chi} \rightarrow \XCRM{\chi}\,\Pot{\mathcal{M}(u)}\),
-    while preserving TEGR field equations.
+    The λ constant and associated modulation structure are preserved for the
+    <a href="stur_agiseed.html" style="color:var(--stur);">RFD Simulator</a> and AGI applications.
+    They are <strong>not part of the core STUR physics derivation chain</strong>.
+    See <a href="../DERIVATION_CHAIN.md" style="color:var(--stur);">DERIVATION_CHAIN.md v2.1</a> for the
+    complete formal theory with all experimentally verified constraints.
   </p>
 </div>
 
@@ -1187,7 +1180,7 @@
       <div class="card" style="border-left:3px solid var(--stur)"><h4>STUR PDE</h4><div class="eq">\[\partial_t \color{#fbbf24}{R}=\color{#4ade80}{\nabla\!\cdot(D\nabla R)}-\nabla \color{#fbbf24}{R}\cdot\Omega+\color{#fbbf24}{\chi}\,\partial_X \color{#fbbf24}{R}+S\]</div></div>
       <div class="card" style="border-left:3px solid var(--stur)"><h4>Resistance Holonomy</h4><div class="eq">\[\color{#c4b5fd}{\Phi_R(\mathcal{C})} = \color{#c4b5fd}{\oint_{\mathcal{C}}} \color{#fbbf24}{\mathsf{J}_a}\, dx^a\]</div></div>
       <div class="card" style="border-left:3px solid var(--stur)"><h4>Visibility Law</h4><div class="eq">\[\color{#f472b6}{V} = V_0 e^{-\color{#c4b5fd}{\langle\Phi_R^2\rangle}/2}\]</div></div>
-      <div class="card" style="border-left:3px solid var(--chrono)"><h4>Chronomagnetic Modulation</h4><div class="eq">\[\color{#f472b6}{\mathcal{M}(u)} = 1 + \epsilon\cos(2\pi \color{#22d3ee}{u}/\ln\color{#fbbf24}{\lambda})\]</div></div>
+      <div class="card" style="border-left:3px solid var(--gold)"><h4>Modulation (Computational)</h4><div class="eq">\[\color{#f472b6}{\mathcal{M}(u)} = 1 + \epsilon\cos(2\pi \color{#22d3ee}{u}/\ln\color{#fbbf24}{\lambda})\]</div><p style="font-size:0.7rem;color:var(--text-dim);margin:0.25rem 0 0;">λ = 3722/2705 — computational only</p></div>
       <div class="card" style="border-left:3px solid var(--stur)"><h4>Coherence Length</h4><div class="eq">\[\color{#22d3ee}{\ell_{\rm coh}} = \sqrt{2}\, \color{#fbbf24}{L_X} / \color{#4ade80}{\sigma_R}\]</div></div>
     </div>
   </section>
@@ -1305,7 +1298,7 @@
     <a href="#sec-tegr">TEGR</a>
     <a href="#sec-hgem">HGEM</a>
     <a href="#sec-stur">STUR</a>
-    <a href="#sec-chrono">Chronomagnetics</a>
+    <a href="#sec-computational">Computational</a>
     <a href="#sec-action">Action</a>
     <a href="#sec-falsification">Falsification</a>
     <a href="#sec-holoscreen">Holoscreen</a>
