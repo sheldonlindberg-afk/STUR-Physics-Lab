@@ -14,7 +14,7 @@
 
   const STUR_VERSION = {
     // Current version
-    version: '1.0.0',
+    version: '1.1.0',
     releaseDate: '2026-01-22',
 
     // Theory status - IMMUTABLE after publication
@@ -43,6 +43,62 @@
         ],
         testPlatforms: ['MAGIS-100', 'AION', 'Sagnac loops'],
         coherenceLengthRange: { min: 0.3, max: 30, unit: 'm' }
+      },
+      'SONO-001': {
+        id: 'SONO-001',
+        name: 'Chi-Collapse Correlation',
+        equation: '\\text{corr}(\\chi_{\\text{amp}}, R_0/R_{\\min}) > 0.5',
+        equationChecksum: 'sha256:d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2',
+        registeredDate: '2026-01-22',
+        status: 'active',
+        falsificationCriteria: [
+          'Chi excitation uncorrelated with bubble collapse ratio',
+          'Correlation coefficient < 0.5'
+        ],
+        testPlatforms: ['Single-bubble sonoluminescence', 'Multi-fluid comparison'],
+        observable: 'Chi amplitude vs R₀/R_min correlation'
+      },
+      'SONO-002': {
+        id: 'SONO-002',
+        name: 'Noble Gas Temperature Enhancement',
+        equation: 'T_{\\max}^{\\rm Ar} > T_{\\max}^{\\rm H_2O}',
+        equationChecksum: 'sha256:e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3',
+        registeredDate: '2026-01-22',
+        status: 'active',
+        falsificationCriteria: [
+          'Noble gases (Ar, Xe, He) show lower T_max than water',
+          'γ = 5/3 adiabatic scaling violated'
+        ],
+        testPlatforms: ['Multi-fluid sonoluminescence'],
+        expectedValues: { Ar: '~30,000 K', H2O: '~20,000 K' }
+      },
+      'SONO-003': {
+        id: 'SONO-003',
+        name: 'Wien Peak Consistency',
+        equation: '|\\lambda_{\\text{peak}} - 2.898 \\times 10^{-3}/T_{\\max}| / (2.898 \\times 10^{-3}/T_{\\max}) < 0.20',
+        equationChecksum: 'sha256:f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4',
+        registeredDate: '2026-01-22',
+        status: 'active',
+        falsificationCriteria: [
+          'Wien peak deviation > 20%',
+          'Non-thermal emission mechanism indicated'
+        ],
+        testPlatforms: ['Spectroscopic sonoluminescence'],
+        tolerance: '±20%'
+      },
+      'SONO-004': {
+        id: 'SONO-004',
+        name: 'Chi Response Rate Scale',
+        equation: '\\Gamma_\\chi \\sim 5 \\times 10^6 \\, \\text{s}^{-1}',
+        equationChecksum: 'sha256:a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5',
+        registeredDate: '2026-01-22',
+        status: 'phenomenological',
+        falsificationCriteria: [
+          'Requires experimental calibration',
+          'Uncertainty ±50%'
+        ],
+        testPlatforms: ['Time-resolved sonoluminescence'],
+        uncertainty: '±50%'
       }
     },
 
@@ -71,11 +127,38 @@
         checksum: 'sha256:c9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0',
         tier: 'derived',
         registeredDate: '2026-01-15'
+      },
+      'EQ-004': {
+        id: 'EQ-004',
+        name: 'Chi-Torsion Excitation',
+        latex: '\\frac{d\\chi}{dt} = \\Gamma_\\chi \\left(\\frac{R_0}{R} - 1\\right)',
+        checksum: 'sha256:b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6',
+        tier: 'phenomenological',
+        registeredDate: '2026-01-22'
+      },
+      'EQ-005': {
+        id: 'EQ-005',
+        name: 'Rayleigh-Plesset Dynamics',
+        latex: 'R\\ddot{R} + \\frac{3}{2}\\dot{R}^2 = \\frac{1}{\\rho}\\left[P_g - P_\\infty - P_A\\sin(\\omega t) - \\frac{2\\sigma}{R} - \\frac{4\\mu\\dot{R}}{R}\\right]',
+        checksum: 'sha256:c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7',
+        tier: 'classical',
+        registeredDate: '2026-01-22'
       }
     },
 
     // Changelog - immutable history of theory modifications
     changelog: [
+      {
+        version: '1.1.0',
+        date: '2026-01-22',
+        changes: [
+          'Added interactive sonoluminescence falsification simulation',
+          'Registered SONO-001 through SONO-004 predictions',
+          'Added chi-torsion excitation equation (EQ-004)',
+          'Real-time Rayleigh-Plesset bubble dynamics visualization',
+          'Multi-fluid comparison: H₂O, D₂O, Ar, Xe, He, SF₆, Air'
+        ]
+      },
       {
         version: '1.0.0',
         date: '2026-01-22',

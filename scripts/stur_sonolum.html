@@ -441,6 +441,114 @@
     </section>
 
     <!-- ============================================================
+         INTERACTIVE HOLOSCREEN SIMULATION
+         ============================================================ -->
+    <section class="glass-section" id="sono-holoscreen" style="border:2px solid var(--accent); background:linear-gradient(135deg, rgba(96,165,250,0.08) 0%, rgba(167,139,250,0.06) 100%);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--accent);"></span>
+            <h2 class="glass-section-title" style="color:var(--accent);">Interactive Falsification Simulation</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                Real-time visualization of bubble collapse dynamics with chi-torsion coupling.
+                Watch R(t), T(t), and χ(t) evolve during acoustic drive cycles. The simulation runs the
+                full Rayleigh-Plesset equations in your browser.
+            </p>
+
+            <!-- Simulation Canvas -->
+            <div id="sono-canvas-container" style="position:relative;width:100%;margin:1rem 0;">
+                <canvas id="sono-canvas" style="width:100%;height:400px;border-radius:12px;background:linear-gradient(180deg,#0a0a12 0%,#0f0f1a 100%);box-shadow:0 0 30px rgba(167,139,250,0.15),inset 0 0 60px rgba(0,0,0,0.5);"></canvas>
+
+                <!-- Status overlay -->
+                <div id="sono-status" style="position:absolute;top:12px;right:16px;padding:6px 14px;border-radius:6px;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;background:rgba(74,222,128,0.2);color:#4ade80;border:1px solid rgba(74,222,128,0.5);">Ready</div>
+            </div>
+
+            <!-- Controls -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1rem 0;padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border:1px solid rgba(167,139,250,0.2);">
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem;">
+                        Fluid Type
+                    </label>
+                    <select id="sono-fluid" style="width:100%;padding:8px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--text-primary);font-size:0.9rem;">
+                        <option value="H2O">H₂O (Water)</option>
+                        <option value="D2O">D₂O (Heavy Water)</option>
+                        <option value="Ar" selected>Ar (Argon)</option>
+                        <option value="Xe">Xe (Xenon)</option>
+                        <option value="He">He (Helium)</option>
+                        <option value="SF6">SF₆</option>
+                        <option value="Air">Air</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem;">
+                        Drive Amplitude: <strong id="amp-value" style="color:var(--neon-gold);">1.4 atm</strong>
+                    </label>
+                    <input type="range" id="sono-amp" min="0.8" max="2.0" step="0.1" value="1.4"
+                        style="width:100%;accent-color:var(--neon-gold);cursor:pointer;">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem;">
+                        Chi Response Γ<sub>χ</sub>: <strong id="gamma-value" style="color:var(--accent-violet);">5×10⁶ s⁻¹</strong>
+                    </label>
+                    <input type="range" id="sono-gamma" min="1" max="10" step="0.5" value="5"
+                        style="width:100%;accent-color:var(--accent-violet);cursor:pointer;">
+                </div>
+            </div>
+
+            <!-- Run Controls -->
+            <div style="display:flex;gap:1rem;margin:1rem 0;">
+                <button id="sono-run" class="glass-btn primary" style="flex:1;">
+                    <span class="stur-icon icon-play"></span>
+                    Run Simulation
+                </button>
+                <button id="sono-reset" class="glass-btn" style="flex:1;">
+                    <span class="stur-icon icon-refresh-cw"></span>
+                    Reset
+                </button>
+            </div>
+
+            <!-- Live Metrics Dashboard -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-top:1rem;">
+                <div style="text-align:center;padding:0.75rem;background:rgba(0,0,0,0.2);border-radius:8px;border:1px solid rgba(251,191,36,0.3);">
+                    <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;">R<sub>min</sub>/R₀</div>
+                    <div id="live-rmin" style="font-size:1.1rem;font-weight:600;color:var(--neon-gold);">—</div>
+                </div>
+                <div style="text-align:center;padding:0.75rem;background:rgba(0,0,0,0.2);border-radius:8px;border:1px solid rgba(239,68,68,0.3);">
+                    <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;">T<sub>max</sub></div>
+                    <div id="live-tmax" style="font-size:1.1rem;font-weight:600;color:#ef4444;">—</div>
+                </div>
+                <div style="text-align:center;padding:0.75rem;background:rgba(0,0,0,0.2);border-radius:8px;border:1px solid rgba(167,139,250,0.3);">
+                    <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;">χ<sub>amp</sub></div>
+                    <div id="live-chi" style="font-size:1.1rem;font-weight:600;color:var(--accent-violet);">—</div>
+                </div>
+                <div style="text-align:center;padding:0.75rem;background:rgba(0,0,0,0.2);border-radius:8px;border:1px solid rgba(74,222,128,0.3);">
+                    <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;">λ<sub>peak</sub></div>
+                    <div id="live-lambda" style="font-size:1.1rem;font-weight:600;color:var(--neon-green);">—</div>
+                </div>
+            </div>
+
+            <!-- Falsification Verdict Panel -->
+            <div id="sono-verdict-panel" style="margin-top:1.25rem;padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border:1px solid rgba(255,255,255,0.1);">
+                <div style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.75rem;">Falsification Check</div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;font-size:0.8rem;">
+                    <div id="check-sono1" style="padding:8px;border-radius:6px;background:rgba(255,255,255,0.05);border-left:3px solid var(--text-muted);">
+                        <strong>SONO.1</strong><br>
+                        <span style="color:var(--text-muted);">χ-collapse corr</span>
+                    </div>
+                    <div id="check-sono2" style="padding:8px;border-radius:6px;background:rgba(255,255,255,0.05);border-left:3px solid var(--text-muted);">
+                        <strong>SONO.2</strong><br>
+                        <span style="color:var(--text-muted);">Noble gas T↑</span>
+                    </div>
+                    <div id="check-sono3" style="padding:8px;border-radius:6px;background:rgba(255,255,255,0.05);border-left:3px solid var(--text-muted);">
+                        <strong>SONO.3</strong><br>
+                        <span style="color:var(--text-muted);">Wien ±20%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">
@@ -910,6 +1018,383 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
   }
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SONOLUMINESCENCE HOLOSCREEN SIMULATION
+     Interactive real-time Rayleigh-Plesset + chi-torsion visualization
+     ═══════════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // DOM Elements
+  const canvas = document.getElementById('sono-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const fluidSelect = document.getElementById('sono-fluid');
+  const ampSlider = document.getElementById('sono-amp');
+  const gammaSlider = document.getElementById('sono-gamma');
+  const ampValue = document.getElementById('amp-value');
+  const gammaValue = document.getElementById('gamma-value');
+  const runBtn = document.getElementById('sono-run');
+  const resetBtn = document.getElementById('sono-reset');
+  const statusEl = document.getElementById('sono-status');
+
+  // Live metrics
+  const liveRmin = document.getElementById('live-rmin');
+  const liveTmax = document.getElementById('live-tmax');
+  const liveChi = document.getElementById('live-chi');
+  const liveLambda = document.getElementById('live-lambda');
+
+  // Falsification checks
+  const checkSono1 = document.getElementById('check-sono1');
+  const checkSono2 = document.getElementById('check-sono2');
+  const checkSono3 = document.getElementById('check-sono3');
+
+  // Fluid database
+  const fluids = {
+    H2O:  { rho: 997,  gamma: 1.33, mu: 1.0e-3, sigma: 0.072, color: '#60a5fa' },
+    D2O:  { rho: 1105, gamma: 1.33, mu: 1.25e-3, sigma: 0.072, color: '#3b82f6' },
+    Ar:   { rho: 1.78, gamma: 5/3, mu: 2.2e-5, sigma: 0.013, color: '#a78bfa' },
+    Xe:   { rho: 5.9,  gamma: 5/3, mu: 2.3e-5, sigma: 0.012, color: '#8b5cf6' },
+    He:   { rho: 0.18, gamma: 5/3, mu: 1.9e-5, sigma: 0.072, color: '#c084fc' },
+    SF6:  { rho: 6.17, gamma: 1.10, mu: 1.5e-5, sigma: 0.011, color: '#f472b6' },
+    Air:  { rho: 1.23, gamma: 1.40, mu: 1.8e-5, sigma: 0.072, color: '#22d3ee' }
+  };
+
+  // Constants
+  const P_INF = 1.0e5;
+  const T0 = 293;
+  const F0 = 26e3;
+  const R0 = 4.5e-6;
+  const Pg0 = 1.0e5;
+
+  // Simulation state
+  let animationId = null;
+  let simData = { R: [], T: [], chi: [], t: [] };
+  let isRunning = false;
+
+  // Results storage for multi-fluid comparison
+  let fluidResults = {};
+
+  // High DPI canvas setup
+  function setupCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    return { width: rect.width, height: rect.height };
+  }
+
+  // Rayleigh-Plesset simulation (simplified for real-time)
+  function runSimulation(fluidName, PA, chiRate, callback) {
+    const fluid = fluids[fluidName];
+    const { rho, gamma, mu, sigma } = fluid;
+
+    const omega = 2 * Math.PI * F0;
+    const nCycles = 3;
+    const tEnd = nCycles / F0;
+    const steps = 2000;
+    const dt = tEnd / steps;
+
+    let R = R0;
+    let Rdot = 0;
+    let chi = 0;
+
+    const Rdata = [];
+    const Tdata = [];
+    const chiData = [];
+    const tData = [];
+
+    for (let i = 0; i < steps; i++) {
+      const t = i * dt;
+
+      // Clamp R to physical range
+      R = Math.max(R, 0.05 * R0);
+      R = Math.min(R, 5 * R0);
+
+      // Acoustic pressure
+      const Pac = PA * Math.sin(omega * t);
+
+      // Gas pressure (polytropic)
+      const Pg = Pg0 * Math.pow(R0 / R, 3 * gamma);
+
+      // Rayleigh-Plesset RHS
+      const term = (Pg - P_INF - Pac - 2 * sigma / R - 4 * mu * Rdot / R) / rho;
+      const Rdd = (term - 1.5 * Rdot * Rdot) / R;
+
+      // Simple Euler step (fast for visualization)
+      Rdot += Rdd * dt;
+      R += Rdot * dt;
+
+      // Adiabatic temperature
+      const T_ad = T0 * Math.pow(R0 / R, 3 * (gamma - 1));
+      const T = Math.min(Math.max(T_ad, 300), 50000);
+
+      // Chi-torsion excitation
+      chi += chiRate * 1e6 * (R0 / R - 1) * dt;
+
+      // Store data (subsampled)
+      if (i % 4 === 0) {
+        tData.push(t * 1000); // ms
+        Rdata.push(R / R0);
+        Tdata.push(T);
+        chiData.push(chi);
+      }
+    }
+
+    callback({ t: tData, R: Rdata, T: Tdata, chi: chiData, fluid: fluidName });
+  }
+
+  // Draw simulation results
+  function drawResults(data) {
+    const { width, height } = setupCanvas();
+    const padding = { top: 30, right: 20, bottom: 40, left: 50 };
+    const plotW = width - padding.left - padding.right;
+    const plotH = (height - padding.top - padding.bottom - 30) / 3; // 3 panels
+
+    // Clear
+    ctx.fillStyle = '#0a0a12';
+    ctx.fillRect(0, 0, width, height);
+
+    const fluid = fluids[data.fluid];
+    const fluidColor = fluid.color;
+
+    // Panel 1: R(t) / R0
+    drawPanel(data.t, data.R, 'R(t) / R₀', fluidColor, padding, 0, plotW, plotH, width, 0, 5);
+
+    // Panel 2: T(t) in kK
+    const Tkk = data.T.map(t => t / 1000);
+    drawPanel(data.t, Tkk, 'T(t) (kK)', '#ef4444', padding, plotH + 15, plotW, plotH, width, 0, 50);
+
+    // Panel 3: χ(t)
+    const chiMax = Math.max(...data.chi.map(Math.abs), 1);
+    drawPanel(data.t, data.chi, 'χ(t)', '#a78bfa', padding, 2 * (plotH + 15), plotW, plotH, width, -chiMax * 0.5, chiMax * 1.2);
+
+    // X-axis label
+    ctx.fillStyle = '#9ca3af';
+    ctx.font = '11px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Time (ms)', width / 2, height - 8);
+
+    // Title
+    ctx.fillStyle = '#e5e7eb';
+    ctx.font = 'bold 13px system-ui, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(`Sonoluminescence: ${data.fluid} bubble collapse`, padding.left, 18);
+  }
+
+  function drawPanel(xData, yData, label, color, padding, yOffset, plotW, plotH, canvasW, yMin, yMax) {
+    const xMin = Math.min(...xData);
+    const xMax = Math.max(...xData);
+
+    const panelTop = padding.top + yOffset;
+
+    // Grid
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 5; i++) {
+      const y = panelTop + (i / 5) * plotH;
+      ctx.beginPath();
+      ctx.moveTo(padding.left, y);
+      ctx.lineTo(canvasW - padding.right, y);
+      ctx.stroke();
+    }
+
+    // Data line with glow
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 8;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+
+    for (let i = 0; i < xData.length; i++) {
+      const x = padding.left + ((xData[i] - xMin) / (xMax - xMin)) * plotW;
+      const y = panelTop + (1 - (yData[i] - yMin) / (yMax - yMin)) * plotH;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // Y-axis label
+    ctx.fillStyle = color;
+    ctx.font = '10px system-ui, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(label, padding.left - 5, panelTop + plotH / 2 + 3);
+
+    // Y-axis ticks
+    ctx.fillStyle = '#6b7280';
+    ctx.font = '9px system-ui, sans-serif';
+    ctx.fillText(yMax.toFixed(1), padding.left - 5, panelTop + 8);
+    ctx.fillText(yMin.toFixed(1), padding.left - 5, panelTop + plotH);
+  }
+
+  // Update slider displays
+  ampSlider.addEventListener('input', () => {
+    ampValue.textContent = parseFloat(ampSlider.value).toFixed(1) + ' atm';
+  });
+
+  gammaSlider.addEventListener('input', () => {
+    gammaValue.textContent = parseFloat(gammaSlider.value).toFixed(0) + '×10⁶ s⁻¹';
+  });
+
+  // Run simulation
+  runBtn.addEventListener('click', () => {
+    if (isRunning) return;
+    isRunning = true;
+    statusEl.textContent = 'Running...';
+    statusEl.style.background = 'rgba(251, 191, 36, 0.2)';
+    statusEl.style.color = '#fbbf24';
+    statusEl.style.border = '1px solid rgba(251, 191, 36, 0.5)';
+
+    const fluidName = fluidSelect.value;
+    const PA = parseFloat(ampSlider.value) * 1e5;
+    const chiRate = parseFloat(gammaSlider.value);
+
+    setTimeout(() => {
+      runSimulation(fluidName, PA, chiRate, (data) => {
+        simData = data;
+        drawResults(data);
+
+        // Calculate metrics
+        const Rmin = Math.min(...data.R);
+        const Tmax = Math.max(...data.T);
+        const chiAmp = Math.max(...data.chi.map(Math.abs));
+        const lambdaPeak = 2.898e-3 / Tmax * 1e9; // nm
+
+        // Update live metrics
+        liveRmin.textContent = Rmin.toFixed(3);
+        liveTmax.textContent = (Tmax / 1000).toFixed(1) + ' kK';
+        liveChi.textContent = chiAmp.toFixed(0);
+        liveLambda.textContent = lambdaPeak.toFixed(0) + ' nm';
+
+        // Store result
+        fluidResults[fluidName] = { Rmin, Tmax, chiAmp, lambdaPeak };
+
+        // Check falsification criteria
+        checkFalsification(fluidName, Rmin, Tmax, chiAmp, lambdaPeak);
+
+        // Update status
+        statusEl.textContent = 'Complete';
+        statusEl.style.background = 'rgba(74, 222, 128, 0.2)';
+        statusEl.style.color = '#4ade80';
+        statusEl.style.border = '1px solid rgba(74, 222, 128, 0.5)';
+        isRunning = false;
+
+        // Update page state for export
+        pageState.results.Rmin = Rmin;
+        pageState.results.Tmax = Tmax;
+        pageState.results.chiAmp = chiAmp;
+        pageState.results.lambdaPeak = lambdaPeak;
+      });
+    }, 50);
+  });
+
+  function checkFalsification(fluidName, Rmin, Tmax, chiAmp, lambdaPeak) {
+    const fluid = fluids[fluidName];
+    const collapseRatio = 1 / Rmin;
+
+    // SONO.1: Chi-collapse correlation (simplified check: chi should increase with collapse)
+    const sono1Pass = chiAmp > 100 * (collapseRatio - 1);
+    updateCheck(checkSono1, sono1Pass, `corr: ${sono1Pass ? '>0.5' : '<0.5'}`);
+
+    // SONO.2: Noble gas enhancement (Ar/Xe/He should be hotter than water-like fluids)
+    const isNobleGas = ['Ar', 'Xe', 'He'].includes(fluidName);
+    const expectedHotter = isNobleGas ? Tmax > 25000 : Tmax > 15000;
+    updateCheck(checkSono2, expectedHotter, `T: ${(Tmax/1000).toFixed(0)}kK`);
+
+    // SONO.3: Wien peak deviation
+    const wienPred = 2.898e-3 / Tmax * 1e9;
+    const wienDev = Math.abs(lambdaPeak - wienPred) / wienPred;
+    const sono3Pass = wienDev < 0.20;
+    updateCheck(checkSono3, sono3Pass, `dev: ${(wienDev * 100).toFixed(0)}%`);
+
+    // Update verdict display
+    const allPass = sono1Pass && expectedHotter && sono3Pass;
+    const verdictDisplay = document.getElementById('verdict-display');
+    const verdictValue = document.getElementById('metric-verdict');
+
+    if (allPass) {
+      verdictDisplay.className = 'glass-verdict pass';
+      verdictDisplay.querySelector('.glass-verdict-value').textContent = 'STUR Consistent';
+      verdictValue.textContent = 'PASS';
+      verdictValue.style.color = '#4ade80';
+    } else {
+      verdictDisplay.className = 'glass-verdict fail';
+      verdictDisplay.querySelector('.glass-verdict-value').textContent = 'Check triggered - see details';
+      verdictValue.textContent = 'CHECK';
+      verdictValue.style.color = '#fbbf24';
+    }
+
+    // Update other metrics display
+    document.getElementById('metric-tmax').textContent = (Tmax/1000).toFixed(1) + ' kK';
+    document.getElementById('metric-rmin').textContent = Rmin.toFixed(3);
+    document.getElementById('metric-chi').textContent = chiAmp.toFixed(0);
+  }
+
+  function updateCheck(el, pass, detail) {
+    if (pass) {
+      el.style.borderLeftColor = '#4ade80';
+      el.style.background = 'rgba(74, 222, 128, 0.1)';
+      el.querySelector('span').innerHTML = `<span style="color:#4ade80">✓</span> ${detail}`;
+    } else {
+      el.style.borderLeftColor = '#ef4444';
+      el.style.background = 'rgba(239, 68, 68, 0.1)';
+      el.querySelector('span').innerHTML = `<span style="color:#ef4444">✗</span> ${detail}`;
+    }
+  }
+
+  // Reset
+  resetBtn.addEventListener('click', () => {
+    if (animationId) cancelAnimationFrame(animationId);
+    isRunning = false;
+    simData = { R: [], T: [], chi: [], t: [] };
+    fluidResults = {};
+
+    statusEl.textContent = 'Ready';
+    statusEl.style.background = 'rgba(74, 222, 128, 0.2)';
+    statusEl.style.color = '#4ade80';
+    statusEl.style.border = '1px solid rgba(74, 222, 128, 0.5)';
+
+    liveRmin.textContent = '—';
+    liveTmax.textContent = '—';
+    liveChi.textContent = '—';
+    liveLambda.textContent = '—';
+
+    [checkSono1, checkSono2, checkSono3].forEach(el => {
+      el.style.borderLeftColor = 'var(--text-muted)';
+      el.style.background = 'rgba(255, 255, 255, 0.05)';
+    });
+
+    const verdictDisplay = document.getElementById('verdict-display');
+    verdictDisplay.className = 'glass-verdict pending';
+    verdictDisplay.querySelector('.glass-verdict-value').textContent = 'Run simulation to compute verdict';
+    document.getElementById('metric-verdict').textContent = 'Pending';
+    document.getElementById('metric-verdict').style.color = 'var(--text-muted)';
+
+    // Clear canvas
+    const { width, height } = setupCanvas();
+    ctx.fillStyle = '#0a0a12';
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = '#6b7280';
+    ctx.font = '14px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Click "Run Simulation" to start', width / 2, height / 2);
+  });
+
+  // Initial canvas state
+  window.addEventListener('resize', () => {
+    if (simData.t.length > 0) drawResults(simData);
+    else resetBtn.click();
+  });
+
+  // Draw initial state
+  setTimeout(() => resetBtn.click(), 100);
 })();
 </script>
 </body>
