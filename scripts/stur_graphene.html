@@ -122,7 +122,7 @@
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>Potential form \(\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-\Diff{v}^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
-                <li>X-bundle coupling structure: \(\XCRM{U(X-R)}\) in Master Action induces matter-field interactions</li>
+                <li>X-bundle coupling structure: \(\XCRM{\chi R\partial_X R}\) in Master Action induces matter-field interactions</li>
                 <li>Axion-like coupling form: \(\Matt{\mathcal{L}} = \XCRM{g_a} \XCRM{\phi} \Matt{\bar{\psi}}\gamma^5\Matt{\psi}\) from X-bundle sector</li>
                 <li>Coherence length: \(\Matt{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / (\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
             </ul>
@@ -307,19 +307,18 @@
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
-                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
-                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
-                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
-                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
-                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                S[R,g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\XCRM{\chi R\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
+                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action</div>
+                <div class="stur-eq-label">Master Action (5D Orbifold)</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> The X-bundle coupling \(\XCRM{U(X-R)}\) induces an effective axion-like interaction with graphene Dirac fermions:</p>
+            <p><strong>Limit assumed:</strong> The X-bundle coupling \(\XCRM{\chi R\partial_X R}\) induces an effective axion-like interaction with graphene Dirac fermions:</p>
 
             <div class="stur-eq derived">
                 \[

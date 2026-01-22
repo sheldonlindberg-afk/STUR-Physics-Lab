@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Simulations & Apps — STUR Physics Lab</title>
+<meta name="description" content="Interactive demonstrations of STUR physics: double-slit, plasma confinement, superconductor predictions, and more.">
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+<style>
+:root { --hub-color: #fbbf24; }
+.hub-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+.hub-header { text-align: center; margin-bottom: 40px; padding: 40px 20px; background: linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(0,0,0,0.3) 100%); border-radius: 20px; border: 1px solid rgba(251,191,36,0.2); }
+.hub-header h1 { font-size: 2rem; color: var(--hub-color); margin-bottom: 12px; }
+.hub-header p { color: var(--text-secondary); font-size: 1rem; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+.hub-section { margin-bottom: 32px; }
+.hub-section-title { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; color: var(--hub-color); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(251,191,36,0.2); }
+.hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.hub-card { display: block; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); text-decoration: none; transition: all 0.2s ease; }
+.hub-card:hover { background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.3); transform: translateY(-2px); }
+.hub-card .title { font-weight: 600; color: var(--text-primary); margin-bottom: 6px; font-size: 0.95rem; }
+.hub-card .desc { font-size: 0.8rem; color: var(--text-tertiary); line-height: 1.4; }
+.hub-card .tag { display: inline-block; margin-top: 8px; padding: 2px 8px; background: rgba(251,191,36,0.15); color: var(--hub-color); border-radius: 4px; font-size: 0.7rem; }
+.hub-card .tag.interactive { background: rgba(34,211,238,0.15); color: #22d3ee; }
+.hub-card .tag.falsifiable { background: rgba(239,68,68,0.15); color: #ef4444; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-tertiary); text-decoration: none; font-size: 0.85rem; margin-bottom: 20px; }
+.back-link:hover { color: var(--text-primary); }
+</style>
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">
+      <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Home</a>
+      <a href="stur_learn.html" class="glass-nav-link">Learn</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="../sitemap.html" class="glass-nav-link">Site Map</a>
+    </div>
+  </nav>
+</header>
+
+<div class="hub-container">
+  <a href="../index.html" class="back-link">← Back to Home</a>
+
+  <div class="hub-header">
+    <h1>Simulations & Apps</h1>
+    <p>Interactive demonstrations of STUR predictions. Each simulation includes falsification criteria—if results deviate, the theory is excluded.</p>
+  </div>
+
+  <!-- INTERFEROMETRY -->
+  <section class="hub-section">
+    <div class="hub-section-title">Interferometry & Visibility</div>
+    <div class="hub-grid">
+      <a href="stur_double_slit.html" class="hub-card">
+        <div class="title">Double Slit Plasmon</div>
+        <div class="desc">Gaussian visibility decay V(ΔL) = V₀ exp(−ΔL²/ℓ²)</div>
+        <span class="tag falsifiable">Falsifiable</span>
+      </a>
+      <a href="stur_tabletop.html" class="hub-card">
+        <div class="title">Whispering Gallery Mode</div>
+        <div class="desc">Precision tabletop interferometry test</div>
+        <span class="tag interactive">Interactive</span>
+      </a>
+      <a href="stur_testpage.html" class="hub-card">
+        <div class="title">Holoscreen Alpha-5</div>
+        <div class="desc">Interactive visibility parameter explorer</div>
+        <span class="tag interactive">Interactive</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- PLASMA & CONFINEMENT -->
+  <section class="hub-section">
+    <div class="hub-section-title">Plasma & Confinement</div>
+    <div class="hub-grid">
+      <a href="stur_plasmaconfinement.html" class="hub-card">
+        <div class="title">Plasma Torus 4D</div>
+        <div class="desc">STUR-modulated Lorentz force confinement</div>
+        <span class="tag interactive">Interactive</span>
+      </a>
+      <a href="stur_arc.html" class="hub-card">
+        <div class="title">Resistance Arc Simulator</div>
+        <div class="desc">Arc discharge dynamics with STUR modulator</div>
+        <span class="tag interactive">Interactive</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- SUPERCONDUCTIVITY -->
+  <section class="hub-section">
+    <div class="hub-section-title">Superconductivity</div>
+    <div class="hub-grid">
+      <a href="stur_superconductor.html" class="hub-card">
+        <div class="title">Ambient-Temp Superconductor</div>
+        <div class="desc">STUR coherence mechanism for high-Tc prediction</div>
+        <span class="tag falsifiable">Falsifiable</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ORBITAL MECHANICS -->
+  <section class="hub-section">
+    <div class="hub-section-title">Orbital Mechanics</div>
+    <div class="hub-grid">
+      <a href="stur_3bodyproblem.html" class="hub-card">
+        <div class="title">3-Body RK4 Orbit</div>
+        <div class="desc">STUR-modified gravitational dynamics</div>
+        <span class="tag interactive">Interactive</span>
+      </a>
+      <a href="stur_chronomagnetics.html" class="hub-card">
+        <div class="title">Chronomagnetics</div>
+        <div class="desc">Time-dependent electromagnetic fields</div>
+        <span class="tag interactive">Interactive</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- QUANTUM & EXOTIC -->
+  <section class="hub-section">
+    <div class="hub-section-title">Quantum & Exotic</div>
+    <div class="hub-grid">
+      <a href="stur_quantumcomputing.html" class="hub-card">
+        <div class="title">Quantum Computing</div>
+        <div class="desc">STUR-modulated quantum evolution</div>
+        <span class="tag interactive">Interactive</span>
+      </a>
+      <a href="stur_sonolum.html" class="hub-card">
+        <div class="title">Sonoluminescence 5D</div>
+        <div class="desc">Bubble collapse and light emission</div>
+        <span class="tag interactive">Interactive</span>
+      </a>
+      <a href="stur_graphene.html" class="hub-card">
+        <div class="title">Graphene-Axion</div>
+        <div class="desc">Axion-like coupling in graphene</div>
+        <span class="tag falsifiable">Falsifiable</span>
+      </a>
+      <a href="stur_scalar.html" class="hub-card">
+        <div class="title">Scalar Bounce</div>
+        <div class="desc">Cosmological bounce dynamics</div>
+        <span class="tag interactive">Interactive</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="hub-section">
+    <div class="hub-section-title">Verification Tools</div>
+    <div class="hub-grid">
+      <a href="stur_toe_proof.html" class="hub-card">
+        <div class="title">TOE Isochrony Proof</div>
+        <div class="desc">Verification that theory is closed</div>
+        <span class="tag">Validation</span>
+      </a>
+      <a href="stur_sandbox.html" class="hub-card">
+        <div class="title">STUR Sandbox</div>
+        <div class="desc">Experiment with STUR equations</div>
+        <span class="tag interactive">Interactive</span>
+      </a>
+      <a href="stur_engine.html" class="hub-card">
+        <div class="title">STUR Engine</div>
+        <div class="desc">Core computation engine</div>
+      </a>
+      <a href="stur_geometry_verifier.html" class="hub-card">
+        <div class="title">Geometry Verifier</div>
+        <div class="desc">Validate geometric consistency</div>
+        <span class="tag">Validation</span>
+      </a>
+    </div>
+  </section>
+
+  <footer style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);">
+    <p style="color:var(--text-quaternary);font-size:0.85rem;">
+      <a href="../index.html" style="color:var(--text-tertiary);">← Home</a> ·
+      <a href="stur_double_slit.html" style="color:var(--hub-color);">Double Slit →</a>
+    </p>
+  </footer>
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+  });
+</script>
+</body>
+</html>

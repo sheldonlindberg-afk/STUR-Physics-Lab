@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Site Map — STUR Physics Lab</title>
+<meta name="description" content="Complete directory of all pages in the STUR Physics Lab, organized by category.">
+
+<link rel="stylesheet" href="assets/css/stur-core.css">
+<link rel="stylesheet" href="assets/css/stur-glass.css">
+<link rel="stylesheet" href="assets/css/stur-icons.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+.sitemap-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.sitemap-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.sitemap-header h1 {
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.sitemap-header p {
+  color: var(--text-tertiary);
+  font-size: 0.95rem;
+}
+.sitemap-section {
+  margin-bottom: 32px;
+}
+.sitemap-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.sitemap-section-header .icon {
+  font-size: 1.5rem;
+}
+.sitemap-section-header h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--section-color, var(--text-primary));
+  margin: 0;
+}
+.sitemap-section-header .count {
+  font-size: 0.75rem;
+  color: var(--text-quaternary);
+  background: rgba(255,255,255,0.05);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+.sitemap-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 8px;
+}
+.sitemap-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+.sitemap-link:hover {
+  background: rgba(255,255,255,0.05);
+  color: var(--text-primary);
+  border-color: var(--section-color, rgba(255,255,255,0.1));
+}
+.sitemap-link .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--section-color, var(--text-quaternary));
+  flex-shrink: 0;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+}
+.back-link:hover {
+  color: var(--text-primary);
+}
+</style>
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="index.html" class="glass-nav-brand">
+      <img src="assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg" aria-hidden="true"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="index.html" class="glass-nav-link">Home</a>
+      <a href="scripts/stur_learn.html" class="glass-nav-link">Learn</a>
+      <a href="scripts/stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="sitemap.html" class="glass-nav-link active">Site Map</a>
+    </div>
+  </nav>
+</header>
+
+<div class="sitemap-container">
+  <a href="index.html" class="back-link">← Back to Home</a>
+
+  <div class="sitemap-header">
+    <h1>Site Map</h1>
+    <p>Complete directory of all STUR Physics Lab pages</p>
+  </div>
+
+  <!-- ROOT PAGES -->
+  <section class="sitemap-section" style="--section-color:#60a5fa;">
+    <div class="sitemap-section-header">
+      <span class="icon">🏠</span>
+      <h2>Main Pages</h2>
+      <span class="count">4 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="index.html" class="sitemap-link"><span class="dot"></span>Home</a>
+      <a href="about.html" class="sitemap-link"><span class="dot"></span>About STUR</a>
+      <a href="mycitations.html" class="sitemap-link"><span class="dot"></span>References & Citations</a>
+      <a href="sitemap.html" class="sitemap-link"><span class="dot"></span>Site Map</a>
+    </div>
+  </section>
+
+  <!-- LEARNING -->
+  <section class="sitemap-section" style="--section-color:#60a5fa;">
+    <div class="sitemap-section-header">
+      <span class="icon">📚</span>
+      <h2>Learn STUR</h2>
+      <span class="count">2 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="scripts/stur_learn.html" class="sitemap-link"><span class="dot"></span>Learn STUR Physics (Tutorial)</a>
+      <a href="scripts/stur_faq.html" class="sitemap-link"><span class="dot"></span>FAQ</a>
+    </div>
+  </section>
+
+  <!-- CORE THEORY & FOUNDATIONS -->
+  <section class="sitemap-section" style="--section-color:#4ade80;">
+    <div class="sitemap-section-header">
+      <span class="icon">📐</span>
+      <h2>Core Theory & Foundations</h2>
+      <span class="count">14 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="scripts/stur_core_theory.html" class="sitemap-link"><span class="dot"></span>Core Theory (Entry Point)</a>
+      <a href="scripts/stur_unified_framework.html" class="sitemap-link"><span class="dot"></span>Unified Framework</a>
+      <a href="scripts/stur_geometry_axioms.html" class="sitemap-link"><span class="dot"></span>Master Action (Axiom 1)</a>
+      <a href="scripts/stur_mhp_derivation.html" class="sitemap-link"><span class="dot"></span>DHP & MHP Derivation (Axiom 2)</a>
+      <a href="scripts/stur_axiom3_flavor.html" class="sitemap-link"><span class="dot"></span>Topological Flavor (Axiom 3)</a>
+      <a href="scripts/stur_xcrm_closure.html" class="sitemap-link"><span class="dot"></span>XCRM Closure</a>
+      <a href="scripts/stur_action_uniqueness.html" class="sitemap-link"><span class="dot"></span>Action Uniqueness Proof</a>
+      <a href="scripts/stur_dhp_equations.html" class="sitemap-link"><span class="dot"></span>DHP Equations</a>
+      <a href="scripts/stur_energy_conditions.html" class="sitemap-link"><span class="dot"></span>Energy Conditions</a>
+      <a href="scripts/stur_uv_completion.html" class="sitemap-link"><span class="dot"></span>UV Completion</a>
+      <a href="scripts/stur_uv_finiteness_proof.html" class="sitemap-link"><span class="dot"></span>UV Finiteness Proof</a>
+      <a href="scripts/stur_technical_appendix.html" class="sitemap-link"><span class="dot"></span>Technical Appendix</a>
+      <a href="scripts/stur_foundations_complete.html" class="sitemap-link"><span class="dot"></span>Foundations Complete</a>
+      <a href="scripts/stur_open_problems.html" class="sitemap-link"><span class="dot"></span>Open Problems</a>
+    </div>
+  </section>
+
+  <!-- STANDARD MODEL DERIVATIONS -->
+  <section class="sitemap-section" style="--section-color:#a78bfa;">
+    <div class="sitemap-section-header">
+      <span class="icon">⚛️</span>
+      <h2>Standard Model Derivations</h2>
+      <span class="count">17 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="scripts/stur_sm_derivation.html" class="sitemap-link"><span class="dot"></span>SM Derivation Overview</a>
+      <a href="scripts/stur_gauge_emergence.html" class="sitemap-link"><span class="dot"></span>Gauge Emergence</a>
+      <a href="scripts/stur_gauge_emergence_rigorous.html" class="sitemap-link"><span class="dot"></span>Gauge Emergence (Rigorous)</a>
+      <a href="scripts/stur_matter_coupling.html" class="sitemap-link"><span class="dot"></span>Matter Coupling</a>
+      <a href="scripts/stur_higgs_derivation.html" class="sitemap-link"><span class="dot"></span>Higgs Derivation</a>
+      <a href="scripts/stur_higgs_mass_numerical.html" class="sitemap-link"><span class="dot"></span>Higgs Mass (125.1 GeV)</a>
+      <a href="scripts/stur_yukawa_derivation.html" class="sitemap-link"><span class="dot"></span>Yukawa Derivation</a>
+      <a href="scripts/stur_fermion_masses.html" class="sitemap-link"><span class="dot"></span>Fermion Masses</a>
+      <a href="scripts/stur_ckm_derivation.html" class="sitemap-link"><span class="dot"></span>CKM Matrix Derivation</a>
+      <a href="scripts/stur_ckm_numerical.html" class="sitemap-link"><span class="dot"></span>CKM Matrix (Numerical)</a>
+      <a href="scripts/stur_pmns_numerical.html" class="sitemap-link"><span class="dot"></span>PMNS Matrix</a>
+      <a href="scripts/stur_neutrino_derivation.html" class="sitemap-link"><span class="dot"></span>Neutrino Masses</a>
+      <a href="scripts/stur_cp_derivation.html" class="sitemap-link"><span class="dot"></span>CP Violation</a>
+      <a href="scripts/stur_strong_cp_solution.html" class="sitemap-link"><span class="dot"></span>Strong CP Solution (θ = 0)</a>
+      <a href="scripts/stur_running_couplings.html" class="sitemap-link"><span class="dot"></span>Running Couplings</a>
+      <a href="scripts/stur_proton_decay.html" class="sitemap-link"><span class="dot"></span>Proton Decay</a>
+      <a href="scripts/stur_mhp_coefficients.html" class="sitemap-link"><span class="dot"></span>MHP Coefficients</a>
+    </div>
+  </section>
+
+  <!-- QUANTUM MECHANICS & FIELD THEORY -->
+  <section class="sitemap-section" style="--section-color:#22d3ee;">
+    <div class="sitemap-section-header">
+      <span class="icon">🔬</span>
+      <h2>Quantum Mechanics & Field Theory</h2>
+      <span class="count">10 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="scripts/stur_qm_emergence.html" class="sitemap-link"><span class="dot"></span>QM Emergence</a>
+      <a href="scripts/stur_feynman_rules.html" class="sitemap-link"><span class="dot"></span>Feynman Rules</a>
+      <a href="scripts/stur_dirac_equation.html" class="sitemap-link"><span class="dot"></span>Dirac Equation</a>
+      <a href="scripts/stur_maxwell_equations.html" class="sitemap-link"><span class="dot"></span>Maxwell Equations</a>
+      <a href="scripts/stur_qcd_confinement.html" class="sitemap-link"><span class="dot"></span>QCD Confinement</a>
+      <a href="scripts/stur_weak_interaction.html" class="sitemap-link"><span class="dot"></span>Weak Interaction</a>
+      <a href="scripts/stur_quantum_corrections.html" class="sitemap-link"><span class="dot"></span>Quantum Corrections</a>
+      <a href="scripts/stur_quantum_gravity.html" class="sitemap-link"><span class="dot"></span>Quantum Gravity</a>
+      <a href="scripts/stur_appendix_casimir.html" class="sitemap-link"><span class="dot"></span>Casimir Appendix</a>
+      <a href="scripts/stur_chemistry.html" class="sitemap-link"><span class="dot"></span>STUR Chemistry</a>
+    </div>
+  </section>
+
+  <!-- COSMOLOGY & EARLY UNIVERSE -->
+  <section class="sitemap-section" style="--section-color:#60a5fa;">
+    <div class="sitemap-section-header">
+      <span class="icon">🌌</span>
+      <h2>Cosmology & Early Universe</h2>
+      <span class="count">8 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="scripts/stur_gravity_emergence.html" class="sitemap-link"><span class="dot"></span>Gravity Emergence</a>
+      <a href="scripts/stur_cosmological_derivation.html" class="sitemap-link"><span class="dot"></span>Cosmological Derivation</a>
+      <a href="scripts/stur_cosmological_constant.html" class="sitemap-link"><span class="dot"></span>Cosmological Constant</a>
+      <a href="scripts/stur_inflation_derivation.html" class="sitemap-link"><span class="dot"></span>Inflation & Baryogenesis</a>
+      <a href="scripts/stur_baryogenesis_numerical.html" class="sitemap-link"><span class="dot"></span>Baryon Asymmetry</a>
+      <a href="scripts/stur_darkmatter_derivation.html" class="sitemap-link"><span class="dot"></span>Dark Matter (LKP)</a>
+      <a href="scripts/stur_black_hole_thermodynamics.html" class="sitemap-link"><span class="dot"></span>Black Hole Thermodynamics</a>
+      <a href="scripts/stur_solidbh.html" class="sitemap-link"><span class="dot"></span>Big Bang / Bounce</a>
+    </div>
+  </section>
+
+  <!-- PREDICTIONS & FALSIFICATION -->
+  <section class="sitemap-section" style="--section-color:#ef4444;">
+    <div class="sitemap-section-header">
+      <span class="icon">🎯</span>
+      <h2>Predictions & Falsification</h2>
+      <span class="count">4 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="scripts/stur_predictions.html" class="sitemap-link"><span class="dot"></span>Predictions Overview</a>
+      <a href="scripts/stur_numerical_predictions.html" class="sitemap-link"><span class="dot"></span>Numerical Predictions</a>
+      <a href="scripts/stur_falsification.html" class="sitemap-link"><span class="dot"></span>Falsification Protocol</a>
+      <a href="scripts/stur_experimental_protocol.html" class="sitemap-link"><span class="dot"></span>Experimental Protocol</a>
+    </div>
+  </section>
+
+  <!-- SIMULATIONS & INTERACTIVE -->
+  <section class="sitemap-section" style="--section-color:#fbbf24;">
+    <div class="sitemap-section-header">
+      <span class="icon">🧪</span>
+      <h2>Simulations & Interactive Tools</h2>
+      <span class="count">14 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="scripts/stur_double_slit.html" class="sitemap-link"><span class="dot"></span>Double Slit Plasmon</a>
+      <a href="scripts/stur_arc.html" class="sitemap-link"><span class="dot"></span>Resistance Arc Simulator</a>
+      <a href="scripts/stur_plasmaconfinement.html" class="sitemap-link"><span class="dot"></span>Plasma Torus 4D</a>
+      <a href="scripts/stur_3bodyproblem.html" class="sitemap-link"><span class="dot"></span>3-Body RK4 Orbit</a>
+      <a href="scripts/stur_quantumcomputing.html" class="sitemap-link"><span class="dot"></span>Quantum Computing</a>
+      <a href="scripts/stur_chronomagnetics.html" class="sitemap-link"><span class="dot"></span>Chronomagnetics</a>
+      <a href="scripts/stur_sonolum.html" class="sitemap-link"><span class="dot"></span>Sonoluminescence 5D</a>
+      <a href="scripts/stur_tabletop.html" class="sitemap-link"><span class="dot"></span>Whispering Gallery Mode</a>
+      <a href="scripts/stur_toe_proof.html" class="sitemap-link"><span class="dot"></span>TOE Isochrony Proof</a>
+      <a href="scripts/stur_graphene.html" class="sitemap-link"><span class="dot"></span>Graphene-Axion</a>
+      <a href="scripts/stur_scalar.html" class="sitemap-link"><span class="dot"></span>Scalar Bounce</a>
+      <a href="scripts/stur_superconductor.html" class="sitemap-link"><span class="dot"></span>Ambient-Temp Superconductor</a>
+      <a href="scripts/stur_sandbox.html" class="sitemap-link"><span class="dot"></span>STUR Sandbox</a>
+      <a href="scripts/stur_testpage.html" class="sitemap-link"><span class="dot"></span>Holoscreen Alpha-5</a>
+    </div>
+  </section>
+
+  <!-- ASTRONOMICAL -->
+  <section class="sitemap-section" style="--section-color:#c4b5fd;">
+    <div class="sitemap-section-header">
+      <span class="icon">🔭</span>
+      <h2>Astronomical & Astrophysics</h2>
+      <span class="count">6 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="scripts/stur_galaxy.html" class="sitemap-link"><span class="dot"></span>Galaxy Rotation Curves</a>
+      <a href="scripts/stur_5duniverse.html" class="sitemap-link"><span class="dot"></span>5D Unified Gravity</a>
+      <a href="scripts/stur_universe.html" class="sitemap-link"><span class="dot"></span>Universe Atlas POV</a>
+      <a href="scripts/stur_wow.html" class="sitemap-link"><span class="dot"></span>Wow! Signal Analysis</a>
+      <a href="scripts/stur_replicator.html" class="sitemap-link"><span class="dot"></span>Stress-Failure Envelope</a>
+      <a href="scripts/stur_thegoldenratio.html" class="sitemap-link"><span class="dot"></span>Golden Ratio Attractor</a>
+    </div>
+  </section>
+
+  <!-- BIOLOGICAL -->
+  <section class="sitemap-section" style="--section-color:#f472b6;">
+    <div class="sitemap-section-header">
+      <span class="icon">🧬</span>
+      <h2>Biological Applications</h2>
+      <span class="count">7 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="scripts/stur_atp.html" class="sitemap-link"><span class="dot"></span>Mitochondria Population</a>
+      <a href="scripts/stur_atp1.html" class="sitemap-link"><span class="dot"></span>Mito Life/Death State</a>
+      <a href="scripts/stur_life.html" class="sitemap-link"><span class="dot"></span>Hydrothermal Proto-Cell</a>
+      <a href="scripts/stur_neuro.html" class="sitemap-link"><span class="dot"></span>Neuroplasticity χ-Synapse</a>
+      <a href="scripts/stur_immunity.html" class="sitemap-link"><span class="dot"></span>Universal Immunity</a>
+      <a href="scripts/stur_mindgate.html" class="sitemap-link"><span class="dot"></span>Mind Gate Multi-Sector</a>
+      <a href="scripts/stur_agiseed.html" class="sitemap-link"><span class="dot"></span>STUR RFD Simulator</a>
+    </div>
+  </section>
+
+  <!-- EXPLORATORY -->
+  <section class="sitemap-section" style="--section-color:#94a3b8;">
+    <div class="sitemap-section-header">
+      <span class="icon">🔧</span>
+      <h2>Exploratory & Tools</h2>
+      <span class="count">7 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="scripts/stur_torweather.html" class="sitemap-link"><span class="dot"></span>3D Weather Hybrid</a>
+      <a href="scripts/stur_gate.html" class="sitemap-link"><span class="dot"></span>Resistance Corridor</a>
+      <a href="scripts/stur_engine.html" class="sitemap-link"><span class="dot"></span>STUR Engine</a>
+      <a href="scripts/stur_geometry_verifier.html" class="sitemap-link"><span class="dot"></span>Geometry Verifier</a>
+      <a href="scripts/stur_helix.html" class="sitemap-link"><span class="dot"></span>Helix TOE Verifier</a>
+      <a href="scripts/stur_unification_reveal.html" class="sitemap-link"><span class="dot"></span>Unification Map</a>
+    </div>
+  </section>
+
+  <!-- REFERENCE -->
+  <section class="sitemap-section" style="--section-color:#64748b;">
+    <div class="sitemap-section-header">
+      <span class="icon">📖</span>
+      <h2>Reference & Documentation</h2>
+      <span class="count">3 pages</span>
+    </div>
+    <div class="sitemap-links">
+      <a href="scripts/stur_symbols.html" class="sitemap-link"><span class="dot"></span>Symbols & Tables</a>
+      <a href="scripts/stur_glossary.html" class="sitemap-link"><span class="dot"></span>Glossary</a>
+      <a href="scripts/stur_faq.html" class="sitemap-link"><span class="dot"></span>FAQ</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.1);">
+    <p style="color:var(--text-quaternary);font-size:0.85rem;">
+      Total: ~97 pages across all categories
+    </p>
+    <p style="color:var(--text-quaternary);font-size:0.8rem;margin-top:8px;">
+      <a href="index.html" style="color:var(--text-tertiary);">← Return to Home</a>
+    </p>
+  </footer>
+</div>
+
+<script src="assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
+</body>
+</html>
