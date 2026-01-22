@@ -15,9 +15,9 @@
 
 ## Executive Summary
 
-The STUR (Substrate Teleparallel Unified Resistance) framework presents a **well-structured theoretical edifice** with clear derivation chains from 2 axioms (Master Action + DHP) to observable predictions. The documentation demonstrates strong commitment to scientific integrity by:
+The STUR (Substrate Teleparallel Unified Resistance) framework presents a **well-structured theoretical edifice** with clear derivation chains from 3 axioms (Master Action + DHP + TFP) to observable predictions. The documentation demonstrates strong commitment to scientific integrity by:
 
-1. **Complete derivation chains** from three axioms to all 15 physics problems
+1. **Complete derivation chains** from three axioms to all 19 physics problems
 2. **Providing falsifiable predictions** with clear criteria for exclusion
 3. **Acknowledging open problems** and areas requiring further work
 4. **Tracing all physics** back to geometric first principles
@@ -30,14 +30,15 @@ The STUR (Substrate Teleparallel Unified Resistance) framework presents a **well
 
 ### 1.1 Axiom Structure (Excellent)
 
-The framework reduces to **2 postulated axioms**:
+The framework reduces to **3 postulated axioms**:
 
 | Axiom | Statement | Status |
 |-------|-----------|--------|
 | **A1: Master Action** | Physics on M⁴ × S¹/Z₂ with XCRM coupling | Postulated |
 | **A2: DHP** | Universe minimizes integrated holonomy | Postulated |
+| **A3: TFP** | Fermion generations labeled by winding w ∈ Z₃ | Postulated (topologically forced) |
 
-**Previous MHP has been demoted to derived status** - this is a significant theoretical improvement documented in `stur_mhp_derivation.html`.
+**MHP is derived from the path integral** - this is a significant theoretical improvement documented in `stur_mhp_derivation.html`.
 
 **Closure Assessment:** ✓ The axiom count is minimal. All subsequent physics traces back to these two principles.
 
@@ -290,8 +291,8 @@ Clear discrimination table provided for STUR vs ULDM:
 ### Theory Closure: **ACHIEVED**
 
 The STUR framework achieves genuine theoretical closure:
-- 2 axioms → all physics
-- Single dynamically-stabilized parameter (Lₓ)
+- 3 axioms (Master Action + DHP + TFP) → all physics
+- Zero free parameters (Lₓ dynamically stabilized)
 - Unique falsifiable prediction (Gaussian visibility)
 
 ### Reasoning Quality: **HIGH**

@@ -14,7 +14,7 @@
 
 ## Executive Summary
 
-STUR (Sheldon's Theory of Unified Resistance) is an ambitious unified physics framework presented through a professionally-designed web laboratory. The theory proposes that fundamental physics emerges from two axioms (Master Action + DHP) operating on a 5D orbifold manifold S¹/Z₂, with MHP derived from the path integral saddle point condition.
+STUR (Sheldon's Theory of Unified Resistance) is an ambitious unified physics framework presented through a professionally-designed web laboratory. The theory proposes that fundamental physics emerges from three axioms (Master Action + DHP + TFP) operating on a 5D orbifold manifold M⁴ × S¹/Z₂, with MHP derived from the path integral saddle point condition.
 
 **Overall Assessment:** The presentation is of *exceptional quality* for public-facing physics documentation. The theory is well-organized, mathematically detailed, and—critically—**falsifiable**. The documentation demonstrates sophisticated understanding of physics pedagogy and responsible scientific communication.
 

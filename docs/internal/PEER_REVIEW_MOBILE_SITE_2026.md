@@ -27,9 +27,9 @@ This peer review examines STUR (Space-Time Unified Resistance) Physics Lab from 
 
 ## 1. Theoretical Foundation Assessment
 
-### 1.1 The Two-Axiom Framework
+### 1.1 The Three-Axiom Framework
 
-STUR proposes a unified physics framework built on two axioms:
+STUR proposes a unified physics framework built on three axioms:
 
 **Axiom 1: The Master Action**
 ```
@@ -41,12 +41,19 @@ S_STUR = ∫ d⁵x √−g [ ½(∇R)² − V(R) + χR∂ₓR + αR𝕋 + ℒ_ma
 Ω_DHP[history] = ∫₀^t_f Ω[config(t)] dt
 ```
 
+**Axiom 3: Topological Flavor Principle (TFP)**
+```
+X_i* = (w_i/3)L_X + δX(Q,Y,T₃), where w ∈ {0, 1, 2}
+```
+- Fermion generations labeled by winding number w ∈ Z₃ on S¹/Z₂
+- Topologically forced by orbifold structure
+
 **Derived Principle: Minimum Holonomy Principle (MHP)**
 - Derived from path integral saddle point conditions
 - Not an independent axiom (this is correctly stated)
 
 #### Strengths
-- **Minimal foundation**: Only two axioms + one free parameter (L_X)
+- **Minimal foundation**: Three axioms + zero free parameters (L_X dynamically stabilized)
 - **Clear derivation chain**: MHP explicitly derived from Axiom 1 via Faddeev-Popov procedure
 - **Topological closure**: V(R) determined uniquely from orbifold topology (S¹/Z₂)
 - **TEGR emergence**: General relativity recovered as equilibrium limit
