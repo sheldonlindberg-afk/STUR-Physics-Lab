@@ -39,11 +39,11 @@ const STUR_DEFINITIONS = {
     tfp: {
       id: "Axiom 3",
       name: "Topological Flavor Principle (TFP)",
-      description: "Fermion generations are labeled by winding number w ∈ Z₃ on S¹/Z₂ — topologically forced by orbifold structure",
+      description: "Fermion generations are labeled by winding sectors on S¹/Z₂ — constrained by orbifold structure and calibrated selection",
       equation: "X_i* = (w_i/3)L_X + δX(Q,Y,T₃), where w ∈ {0, 1, 2}",
       closes: ["3 generations", "Yukawa hierarchies", "CKM/PMNS matrices", "CP violation phase (δ_CKM ≈ 68°)"],
       physicalMotivation: {
-        summary: "TFP is not a choice — it is forced by the topology of S¹/Z₂",
+        summary: "TFP is motivated by the topology of S¹/Z₂ and calibrated selection",
         mechanisms: [
           "Orbifold fundamental group π₁(S¹/Z₂) = Z forces quantized winding",
           "Z₂ identification restricts allowed windings to w ∈ {0, 1, 2}",
@@ -83,14 +83,14 @@ const STUR_DEFINITIONS = {
   },
 
   // ============================================================
-  // THEORY CLOSURE STATUS — COMPLETE UNIFIED THEORY
+  // THEORY CLOSURE STATUS — CANDIDATE FRAMEWORK
   // ============================================================
   closure: {
-    status: "COMPLETE_UNIFIED_THEORY",
-    statusLabel: "Complete theory from 3 axioms forced by geometry",
-    derivationsComplete: true,
+    status: "CANDIDATE_FRAMEWORK",
+    statusLabel: "Candidate framework from 3 axioms motivated by geometry",
+    derivationsComplete: false,
     axiomCount: 3,
-    freeParameters: 0, // L_X is dynamically stabilized by Casimir-holonomy balance
+    freeParameters: 1, // One effective ratio remains after stabilization (L_X/σ_R)
     theoryDeterminedParameters: 1, // L_X value is determined by theory, measured for verification
     parameters: {
       L_X: {

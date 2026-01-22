@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Master Action Uniqueness — Symmetry Constraints and Derivation</title>
-<meta name="description" content="Mathematical proof that the STUR Master Action is the unique action satisfying orbifold consistency, locality, renormalizability, and Z2 parity constraints.">
+<title>STUR Master Action Consistency Constraints — Symmetry Bounds and Motivation</title>
+<meta name="description" content="Consistency constraints that narrow the STUR Master Action under orbifold symmetry, locality, renormalizability, and Z2 parity assumptions.">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -34,8 +34,8 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Master Action Uniqueness Theorem</h1>
-  <p class="subtitle">Why This Action and No Other</p>
+  <h1>Master Action Consistency Constraints</h1>
+  <p class="subtitle">Why This Form Is a Minimal Consistent Choice</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
     Addresses: <a href="../PEER_REVIEW_2026_01.md" style="color:var(--accent);">Peer Review Gap 3.1</a>
   </p>
@@ -54,22 +54,22 @@
   <h2 style="color:var(--gold);">Executive Summary</h2>
 
   <div class="block gold" style="border-width:3px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="font-size:1.1rem;">Theorem: Master Action Uniqueness</div>
+    <div class="title" style="font-size:1.1rem;">Statement: Minimal Consistent Master Action</div>
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
-      The STUR Master Action is the <strong>unique</strong> action on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> satisfying:
+      The STUR Master Action is a <strong>minimal</strong> choice on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> satisfying:
     </p>
     <ol style="margin:0.75rem 0 0;color:var(--text-secondary);line-height:1.8;">
       <li>5D diffeomorphism invariance</li>
       <li>Z<sub>2</sub> orbifold parity</li>
       <li>At most two derivatives (power-counting renormalizability)</li>
-      <li>Single scalar field R</li>
-      <li>Teleparallel gravity structure</li>
+      <li>Single scalar field R (assumed field content)</li>
+      <li>Teleparallel gravity structure (assumed formulation)</li>
     </ol>
   </div>
 
   <p style="margin-top:1rem;color:var(--text-secondary);font-size:0.95rem;">
     This addresses the peer review concern: "Why these terms and no others?" The answer is that symmetry and consistency
-    requirements leave no freedom—the action is forced by the constraints.
+    requirements strongly constrain the form once the modeling choices are fixed.
   </p>
 </section>
 
@@ -167,7 +167,7 @@
     <div class="title" style="color:#4ade80;">Constraint C4: Non-Trivial X-Dynamics</div>
     <p style="margin:0;color:var(--text-secondary);">
       The extra dimension must have physical content. This requires a term coupling \(R\) to \(\partial_X R\).
-      The unique such term consistent with C1-C3 is \(R \partial_X R\).
+      The lowest-order term consistent with C1-C3 is \(R \partial_X R\).
     </p>
   </div>
 
@@ -183,7 +183,7 @@
 
 <!-- SECTION 2: UNIQUENESS PROOF -->
 <section class="section" id="uniqueness-proof" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">2. Uniqueness Proof</h2>
+  <h2 style="color:var(--success);">2. Consistency-Restricted Form</h2>
 
   <h3>2.1 General Form of the Action</h3>
 
@@ -272,11 +272,11 @@
     </p>
   </div>
 
-  <h3>2.4 The Unique Result</h3>
+  <h3>2.4 The Minimal Result</h3>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
     \[\boxed{S = \int d^5x\, \sqrt{-g}\, \Big[ \tfrac{1}{2}(\nabla R)^2 - V(R) + \chi R \partial_X R + \alpha R \mathbb{T} + \mathcal{L}_{\rm matter} \Big]}\]
-    <div class="eq-label" style="color:var(--success);">(2.4) — The Unique Master Action</div>
+    <div class="eq-label" style="color:var(--success);">(2.4) — The Minimal Master Action</div>
   </div>
 
   <p>The coefficients \(\tfrac{1}{2}\), \(\chi\), \(\alpha\) are coupling constants that can be absorbed by field redefinitions, leaving essentially one free parameter (the ratio \(\chi/\alpha\)).</p>
@@ -319,14 +319,14 @@
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
     \[\boxed{V(R) = \frac{\lambda}{4}(R^2 - v^2)^2 = -\frac{\lambda v^2}{2}R^2 + \frac{\lambda}{4}R^4 + \text{const}}\]
-    <div class="eq-label" style="color:var(--gold);">(3.4) — Unique minimal potential</div>
+    <div class="eq-label" style="color:var(--gold);">(3.4) — Minimal renormalizable potential</div>
   </div>
 
   <div class="block success">
     <div class="title">Result: V(R) Is Determined</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The double-well form is the <strong>unique</strong> renormalizable, Z<sub>2</sub>-symmetric, stable potential
-      with spontaneous symmetry breaking. It is not chosen—it is forced by consistency requirements.
+      The double-well form is the <strong>minimal</strong> renormalizable, Z<sub>2</sub>-symmetric, stable potential
+      with spontaneous symmetry breaking. It is selected by consistency requirements once the field content is fixed.
     </p>
   </div>
 </section>
@@ -339,7 +339,7 @@
 
   <p>In pure gravity, the Lovelock theorem states that the Einstein-Hilbert action is the unique diffeomorphism-invariant action with at most second derivatives in 4D.</p>
 
-  <p>STUR's uniqueness theorem is the analog for scalar-gravity systems on orbifolds:</p>
+  <p>STUR's consistency argument is an analog for scalar-gravity systems on orbifolds:</p>
 
   <table>
     <thead>
@@ -362,9 +362,9 @@
         <td>Diffeomorphisms + Z<sub>2</sub></td>
       </tr>
       <tr>
-        <td>Uniqueness</td>
+        <td>Constraint</td>
         <td>Lovelock theorem</td>
-        <td>This theorem</td>
+        <td>Consistency bounds</td>
       </tr>
       <tr>
         <td>Result</td>
@@ -377,9 +377,9 @@
   <div class="block gold">
     <div class="title">The Parallel</div>
     <p style="margin:0;color:var(--text-secondary);">
-      Just as GR's action is not arbitrarily chosen but forced by symmetry and consistency,
-      the STUR Master Action is forced by the orbifold structure and its symmetries.
-      <strong>There is no freedom in the form of the action.</strong>
+      Just as GR's action is not arbitrarily chosen but tightly constrained by symmetry and consistency,
+      the STUR Master Action is constrained by the orbifold structure and its symmetries.
+      <strong>The form is minimal given the stated assumptions.</strong>
     </p>
   </div>
 </section>
@@ -417,7 +417,7 @@
   <div class="block success">
     <div class="title">Summary</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Master Action form is uniquely determined by symmetry and consistency.
+      The Master Action form is tightly constrained by symmetry and consistency.
       The numerical value of coupling constants requires additional input (or dynamical determination via MHP).
       This is no different from GR, where Newton's constant G must be measured.
     </p>
@@ -426,23 +426,23 @@
 
 <!-- CONCLUSION -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--success);">Conclusion: Axiom 1 Is Forced by Consistency</h2>
+  <h2 style="color:var(--success);">Conclusion: Axiom 1 Is Constrained by Consistency</h2>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\text{Orbifold} + \text{Z}_2 + \text{Locality} + \text{Stability} \;\Rightarrow\; \text{Unique Master Action}}\]
-    <div class="eq-label" style="color:var(--success);">The Uniqueness Theorem</div>
+    \[\boxed{\text{Orbifold} + \text{Z}_2 + \text{Locality} + \text{Stability} \;\Rightarrow\; \text{Minimal Consistent Action}}\]
+    <div class="eq-label" style="color:var(--success);">Consistency Constraint</div>
   </div>
 
   <p style="text-align:center;margin-top:1rem;font-size:1.05rem;color:var(--text);">
-    <strong>The question "why this action?" has an answer: because no other action satisfies all the constraints.</strong>
+    <strong>The question "why this action?" has an answer: it is the minimal form satisfying the stated constraints.</strong>
   </p>
 
   <div style="margin-top:1.5rem;padding:1rem;background:rgba(96,165,250,0.08);border-radius:8px;border-left:3px solid #60a5fa;">
     <strong style="color:#60a5fa;">Peer Review Response</strong>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       This document addresses Gap 3.1 from the peer review: "The uniqueness of this action form is never established."
-      We have shown that the Master Action is the unique action satisfying diffeomorphism invariance, Z<sub>2</sub> parity,
-      power-counting renormalizability, non-trivial X-dynamics, and well-posed field equations.
+      We show that the Master Action is a minimal action satisfying diffeomorphism invariance, Z<sub>2</sub> parity,
+      power-counting renormalizability, non-trivial X-dynamics, and well-posed field equations, given the assumed field content.
     </p>
   </div>
 </section>

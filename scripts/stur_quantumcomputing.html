@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QC Lattice — STUR Physics Lab</title>
+    <title>QC Lattice Holoscreen — STUR Physics Lab</title>
 
     <!-- STUR Theme System -->
     <link rel="stylesheet" href="../assets/css/stur-core.css">
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
+    <link rel="stylesheet" href="../assets/css/stur-theory.css">
 
     <!-- STUR MathJax with physics domain color macros -->
     <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -77,15 +78,16 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1 class="page-title-falsifiable">QC Lattice Simulation</h1>
+        <h1 class="page-title-falsifiable">QC Lattice Holoscreen</h1>
         <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
             From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
             <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            Deterministic quantum computing lattice using STUR-modulated resistance generator.
-            Tests entanglement entropy, flux conservation, and continuity equation.
+            Canonical holoscreen simulation for deterministic quantum lattice dynamics using the STUR-modulated
+            resistance generator. Tests entanglement entropy, flux conservation, and the continuity equation
+            under STUR-only coherence damping and appendix-aligned inputs.
         </p>
 
         <!-- Status Badge -->
@@ -111,6 +113,32 @@
         <div class="eq-legend-item"><span class="eq-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
+
+    <!-- PURPOSE AND STATUS -->
+    <section class="section" id="purpose" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(74,222,128,0.04) 100%);">
+        <h2 style="color:var(--gold);">Purpose and Status</h2>
+        <div class="block gold">
+            <div class="title">Holoscreen Instrument</div>
+            <p style="margin:0;color:var(--text-secondary)">
+                This holoscreen implements a STUR-modulated lattice generator to probe coherence limits in
+                a discrete quantum register. It is an exploratory simulation meant to mirror the Appendix
+                visibility law in a lattice setting for diagnostic sweeps and falsification planning.
+            </p>
+        </div>
+        <div class="block warning">
+            <div class="title">Interpretation Guidance</div>
+            <ul style="margin:0;color:var(--text-secondary);font-size:0.95rem">
+                <li>Uses the STUR holonomy phase averaging \(\langle e^{i\Phi_R}\rangle\) as the coherence kernel.</li>
+                <li>Maintains unitary evolution via a Hermitian \(\XCRM{R_{\rm STUR}}\) generator.</li>
+                <li>Lattice length \(\XCRM{L_0}\) is calibrated in lattice units (exploratory scale).</li>
+                <li>All physics inputs are STUR-only; no environmental decoherence terms are added.</li>
+            </ul>
+        </div>
+        <div class="eq law" style="margin:1rem 0;">
+            \[\boxed{\color{#a78bfa}{\dot{\rho}} = -i\,[\color{#22d3ee}{H_0} + \color{#fbbf24}{R_{\rm STUR}},\,\color{#a78bfa}{\rho}]}\]
+            <div class="eq-label">STUR Lattice Generator — <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--gold);">Tech. Appendix Eq. B.16</a></div>
+        </div>
+    </section>
 
     <!-- First Principles Status -->
     <div class="glass-section" style="border-color:var(--neon-violet);background:rgba(167,139,250,0.04);margin-bottom:1.5rem;">
@@ -188,6 +216,63 @@
             </div>
         </div>
     </div>
+
+    <!-- HOLOSCREEN INSTRUMENT -->
+    <section class="glass-section" id="holoscreen-instrument" style="border-color:var(--accent-secondary);background:rgba(167,139,250,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-cpu size-24" style="color:var(--accent-secondary);"></span>
+            <h2 class="glass-section-title" style="color:var(--accent-secondary);">Holoscreen Instrument</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                The lattice holoscreen integrates a STUR-modulated generator on a finite qubit chain and
+                reports coherence diagnostics tied to the Appendix visibility law. Parameter symbols match
+                Core Theory and Technical Appendix notation.
+            </p>
+            <table class="glass-table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Meaning</th>
+                        <th>Value (Holoscreen)</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>\(\XCRM{L_0}\)</td>
+                        <td>STUR coherence length (lattice units)</td>
+                        <td>1.0 (calibrated)</td>
+                        <td><a href="stur_technical_appendix.html#parameters" style="color:var(--accent);">Appendix §A.4</a></td>
+                    </tr>
+                    <tr>
+                        <td>\(\Matt{N}\)</td>
+                        <td>Number of lattice sites</td>
+                        <td>6</td>
+                        <td>Holoscreen input</td>
+                    </tr>
+                    <tr>
+                        <td>\(\Diff{J}\)</td>
+                        <td>Hopping strength</td>
+                        <td>1</td>
+                        <td>Holoscreen input</td>
+                    </tr>
+                    <tr>
+                        <td>\(\Diff{\sigma_R}\)</td>
+                        <td>Resistance fluctuation RMS</td>
+                        <td>0.2</td>
+                        <td>Exploratory scale</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(0,0,0,0.25);border-radius:8px;">
+                <strong style="color:var(--neon-green);">Outputs:</strong>
+                <span style="color:var(--text-secondary);">
+                    entanglement entropy, continuity residual, flux statistics, coherence decay profile.
+                </span>
+            </div>
+        </div>
+    </section>
 
     <!-- ============================================================
          QUANTITATIVE PREDICTIONS
@@ -749,7 +834,7 @@ print(f"\nOutputs: stur_qc_lattice.png, stur_qc_lattice.json")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab — Complete unified theory with falsifiable predictions</p>
+    <p>STUR Physics Lab — Candidate unified framework with falsifiable predictions</p>
     <p>
         <a href="stur_core_theory.html">Core Theory</a> ·
         <a href="../index.html#problem-closures">Problem Closures</a> ·

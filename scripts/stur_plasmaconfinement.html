@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plasma Torus 4D — STUR Physics Lab</title>
+    <title>Plasma Torus Holoscreen — STUR Physics Lab</title>
 
     <!-- STUR Theme System -->
     <link rel="stylesheet" href="../assets/css/stur-core.css">
     <link rel="stylesheet" href="../assets/css/stur-glass.css">
     <link rel="stylesheet" href="../assets/css/stur-icons.css">
+    <link rel="stylesheet" href="../assets/css/stur-theory.css">
 
     <!-- STUR MathJax with physics domain color macros -->
     <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -77,15 +78,16 @@
 <main class="stur-container">
 
     <header style="text-align:center; margin-bottom:2rem;">
-        <h1 class="page-title-falsifiable">Plasma Torus 4D</h1>
+        <h1 class="page-title-falsifiable">Plasma Torus Holoscreen</h1>
         <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
             From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
             <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            Multi-particle plasma confinement with STUR-modulated Lorentz force in weak-field GR.
-            Tests how the resistance scalar \(\XCRM{S(r)}\) affects charged particle dynamics in a tokamak-like geometry.
+            Canonical holoscreen simulation for multi-particle plasma confinement with the STUR-modulated Lorentz force
+            in weak-field GR. Tests how the resistance scalar \(\XCRM{S(r)}\) reshapes charged particle dynamics in a
+            tokamak-like geometry, using only STUR field equations and appendix-anchored inputs.
         </p>
 
         <!-- Status Badge -->
@@ -111,6 +113,34 @@
         <div class="eq-legend-item"><span class="eq-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
+
+    <!-- PURPOSE AND STATUS -->
+    <section class="section" id="purpose" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(74,222,128,0.04) 100%);">
+        <h2 style="color:var(--gold);">Purpose and Status</h2>
+        <div class="block gold">
+            <div class="title">Holoscreen Instrument</div>
+            <p style="margin:0;color:var(--text-secondary)">
+                This holoscreen implements the STUR-modulated Lorentz force as a
+                <strong>diagnostic simulation</strong> for tokamak-scale confinement. It is an
+                executable realization of the torsion-sector coupling in the Master Action and
+                is intended for parameter sweeps and falsification planning.
+            </p>
+        </div>
+        <div class="block warning">
+            <div class="title">Interpretation Guidance</div>
+            <ul style="margin:0;color:var(--text-secondary);font-size:0.95rem">
+                <li>Uses the <strong>STUR modulator form</strong> derived from orbifold \(V(R)\) (Tech. Appendix §A.4).</li>
+                <li>Assumes weak-field GR with Earth gravity for a laboratory-scale torus.</li>
+                <li>Outputs are simulation diagnostics (mean \(\XCRM{\langle S \rangle}\), confinement time, invariant error).</li>
+                <li>Numerical scale \(\Matt{L_0}\) is calibrated to laboratory plasmas; the functional form is derived.</li>
+            </ul>
+        </div>
+        <div class="eq law" style="margin:1rem 0;">
+            \[\boxed{\color{#22d3ee}{\frac{d u^\mu}{d\tau}} + \color{#60a5fa}{\Gamma^\mu_{\alpha\beta} u^\alpha u^\beta} =
+            \frac{q}{m}\,\color{#f472b6}{S(r_{\text{phys}})}\,\color{#60a5fa}{F^\mu{}_\nu}\,\color{#22d3ee}{u^\nu}}\]
+            <div class="eq-label">STUR-Modified Lorentz Force — <a href="stur_core_theory.html#sec3" style="color:var(--gold);">Core Theory §3</a></div>
+        </div>
+    </section>
 
     <!-- First Principles Status -->
     <div class="glass-section" style="border-color:var(--neon-cyan);background:rgba(34,211,238,0.04);margin-bottom:1.5rem;">
@@ -190,6 +220,64 @@
             </div>
         </div>
     </div>
+
+    <!-- HOLOSCREEN INSTRUMENT -->
+    <section class="glass-section" id="holoscreen-instrument" style="border-color:var(--accent-secondary);background:rgba(167,139,250,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-cpu size-24" style="color:var(--accent-secondary);"></span>
+            <h2 class="glass-section-title" style="color:var(--accent-secondary);">Holoscreen Instrument</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                The simulation integrates STUR-modulated trajectories in a toroidal field, preserving the
+                relativistic invariant while logging confinement diagnostics. Parameter symbols match the
+                Technical Appendix and Core Theory notation.
+            </p>
+            <table class="glass-table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Meaning</th>
+                        <th>Value (Holoscreen)</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>\(\Matt{L_0}\)</td>
+                        <td>STUR modulation length</td>
+                        <td>1 mm (calibrated)</td>
+                        <td><a href="stur_technical_appendix.html#parameters" style="color:var(--accent);">Appendix §A.4</a></td>
+                    </tr>
+                    <tr>
+                        <td>\(\Tor{R}, \Tor{a}\)</td>
+                        <td>Torus major/minor radius</td>
+                        <td>2 cm / 4 mm</td>
+                        <td>Lab geometry</td>
+                    </tr>
+                    <tr>
+                        <td>\(\Matt{B_z}\)</td>
+                        <td>Axial magnetic field</td>
+                        <td>1.5 T</td>
+                        <td>Scenario input</td>
+                    </tr>
+                    <tr>
+                        <td>\(\Matt{\beta_0}\)</td>
+                        <td>Initial speed / c</td>
+                        <td>0.12</td>
+                        <td>Scenario input</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(0,0,0,0.25);border-radius:8px;">
+                <strong style="color:var(--neon-green);">Outputs:</strong>
+                <span style="color:var(--text-secondary);">
+                    mean \(\XCRM{\langle S \rangle}\), invariant error, confinement time, trajectory plots
+                    (see executable code output section below).
+                </span>
+            </div>
+        </div>
+    </section>
 
     <!-- ============================================================
          QUANTITATIVE PREDICTIONS
@@ -777,7 +865,7 @@ print(f"\nOutputs: stur_plasma_torus.png, stur_plasma_torus.json")</pre>
      FOOTER
      ============================================================ -->
 <footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab — Complete unified theory with falsifiable predictions</p>
+    <p>STUR Physics Lab — Candidate unified framework with falsifiable predictions</p>
     <p>
         <a href="stur_core_theory.html">Core Theory</a> ·
         <a href="../index.html#problem-closures">Problem Closures</a> ·
