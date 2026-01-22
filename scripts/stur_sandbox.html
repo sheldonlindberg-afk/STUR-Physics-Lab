@@ -105,9 +105,9 @@
             <span class="verify-status pass" id="satStatus">PASS</span>
         </div>
         <div class="verify-card">
-            <h4>Chronomagnetic λ</h4>
+            <h4>Computational λ</h4>
             <p>\(\lambda = 3722/2705 \approx 1.376\)</p>
-            <p style="margin-top:0.3rem;font-size:0.72rem;color:var(--text-dim)">Derived from XCRM spectrum</p>
+            <p style="margin-top:0.3rem;font-size:0.72rem;color:var(--text-dim)">For simulation only — not core physics</p>
             <span class="verify-status pass" id="chronoStatus">PASS</span>
         </div>
     </div>
@@ -221,12 +221,12 @@ print(f"  V(ℓ_coh) = {V_at_lcoh:.6f}, expected = {V_expected:.6f}")
 print(f"  Error: {err:.4f}%  {'PASS' if err < 0.01 else 'FAIL'}")
 
 # ═══════════════════════════════════════════════════════════
-# CHRONOMAGNETIC CONSTANT λ = 3722/2705
+# COMPUTATIONAL CONSTANT λ = 3722/2705 (for simulation only)
 # ═══════════════════════════════════════════════════════════
-print(f"\nTest 3: Chronomagnetic Constant")
+print(f"\nTest 3: Computational Constant λ")
 print(f"  λ = {LAMBDA:.10f}")
 print(f"  ln(λ) = {np.log(LAMBDA):.10f}")
-print(f"  PASS: λ derived from XCRM spectrum")
+print(f"  PASS: λ preserved for AGI/simulation use (not core physics)")
 
 # ═══════════════════════════════════════════════════════════
 # SUMMARY

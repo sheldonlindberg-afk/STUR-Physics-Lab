@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR RFD Simulator — Resistance Field Dynamics</title>
-<meta name="description" content="STUR RFD Simulator: Core computational engine for Scalar-Tensor Unified Resistance theory. Implements saturation operators, chronomagnetic modulation (λ = 3722/2705), holonomy accumulation, and full PDE system with triangle weighting.">
+<meta name="description" content="STUR RFD Simulator: Core computational engine for Resistance Field Dynamics. Implements saturation operators, modulation with λ = 3722/2705 (preserved for computational use), holonomy accumulation, and full PDE system with triangle weighting.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -178,12 +178,22 @@
     <div class="title">Core Implementation</div>
     <p style="margin:0;color:var(--text-secondary);">
       <strong>Key Features:</strong> The simulator implements the saturation operator \(S_u(u) = \tanh(u)(1 - e^{-u})\),
-      chronomagnetic log-periodic modulation with \(\lambda = 3722/2705\), and triangle weighting derived from the
-      chronomagnetic ratio. The five-layer architecture discretizes the resistance field across multiple scales,
+      log-periodic modulation with \(\lambda = 3722/2705\), and triangle weighting derived from the
+      λ ratio. The five-layer architecture discretizes the resistance field across multiple scales,
       producing coherent pattern formation consistent with XCRM theory.
       <br><br>
       <strong>Outputs:</strong> Growth rates \(\lambda_{\rm eff}\), power spectra \(P(k)\), holonomy flux \(\Phi_R\),
       and visibility \(V = V_0 e^{-\Phi_R^2/2}\) — all testable against the theoretical predictions.
+    </p>
+  </div>
+
+  <div class="block" style="border-left:4px solid #a78bfa;background:rgba(167,139,250,0.08);margin-top:1rem;">
+    <div class="title" style="color:#a78bfa;">λ = 3722/2705 — Computational Constant</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>Note:</strong> The constant \(\lambda = 3722/2705 \approx 1.376\) is preserved in this computational engine
+      for AGI and numerical simulation purposes. It provides useful triangle weighting ratios and log-periodic modulation
+      structure. <strong>This constant is not part of the core STUR physics theory</strong> — it is a computational
+      tool retained for the RFD simulator and related applications.
     </p>
   </div>
 </section>
@@ -389,11 +399,13 @@ STUR Resistance Field Dynamics (RFD) Seed Simulator
 =====================================================
 Core computational engine for Scalar-Tensor Unified Resistance theory.
 
-Theoretical Foundation (Four Pillars):
+Theoretical Foundation (Three Pillars):
   1. TEGR  — Teleparallel equivalent of GR (tetrad formalism, torsion T^a_μν)
   2. HGEM  — Holonomy-Gauge Electromagnetic coupling
   3. STUR  — Scalar-Tensor Unified Resistance (resistance field R, 5D metric)
-  4. Chronomagnetics — Log-periodic dynamics with λ = 3722/2705
+
+Computational Constants (not part of core physics theory):
+  • λ = 3722/2705 — Preserved for computational/AGI use (triangle weighting, modulation)
 
 Key STUR Equations Implemented:
   • Saturation operator: S_u(u) = tanh(u) · (1 - exp(-u))
@@ -953,12 +965,13 @@ if __name__ == "__main__":
 
   <div style="display:grid;gap:1rem;margin:1rem 0;">
     <div class="block" style="border-left-color:var(--gold);">
-      <div class="title" style="color:var(--gold);">Chronomagnetic Constants</div>
+      <div class="title" style="color:var(--gold);">Computational Constants (λ = 3722/2705)</div>
       <ul style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-        <li>Fundamental ratio: \(\lambda = 3722/2705 \approx 1.376\)</li>
+        <li>λ ratio: \(\lambda = 3722/2705 \approx 1.376\) — preserved for AGI/computational use</li>
         <li>Triangle weights: \(w_D = 1/(1+\lambda+\lambda^2)\), \(w_\chi = \lambda/(1+\lambda+\lambda^2)\), \(w_\Pi = \lambda^2/(1+\lambda+\lambda^2)\)</li>
         <li>Log-periodic modulation: \(M(u) = 1 + \varepsilon \cos(2\pi u/\ln\lambda)\)</li>
-        <li>Visibility decay: \(V = V_0 \exp(-\Phi_R^2/2)\) — Gaussian signature</li>
+        <li>Visibility decay: \(V = V_0 \exp(-\Phi_R^2/2)\) — Gaussian signature (from core STUR theory)</li>
+        <li><strong>Note:</strong> λ is not part of core STUR physics — computational tool only</li>
       </ul>
     </div>
 

@@ -1125,7 +1125,7 @@ code {
   <h3 id="em-cosmo" style="color:var(--text-muted);margin-top:2rem;">0.6 &nbsp; Cosmology: Large-Scale Structure</h3>
 
   <p>
-    <strong>Regime:</strong> X-dependence slow, long-time averages, modulation survives (chronomagnetics).
+    <strong>Regime:</strong> X-dependence slow, long-time averages dominate.
   </p>
 
   <p>
@@ -2514,8 +2514,7 @@ code {
         • SM gauge group \(\Tor{SU(3) \times SU(2) \times U(1)}\) (§5.3.3)<br>
         • Gaussian visibility form (§3.4)<br>
         • Coherence length closure: \(\Matt{\ell_{\rm coh}} = \sqrt{2}\XCRM{L_X}/\XCRM{\sigma_R}\) (§3.4.7)<br>
-        • Fluctuation amplitude \(\XCRM{\sigma_R}\) from XCRM equilibrium (§5.3.5)<br>
-        • Chronomagnetics constant \(\XCRM{\lambda}\) from X-mode spectrum (§5.3.6)
+        • Fluctuation amplitude \(\XCRM{\sigma_R}\) from XCRM equilibrium (§5.3.5)
       </span>
     </div>
     <div class="card" style="border:1px solid var(--accent);background:rgba(74,158,255,0.04);">
@@ -2567,58 +2566,21 @@ code {
     </p>
   </div>
 
-  <h4>5.3.6 Derivation of Chronomagnetics \(\lambda\) from XCRM X-Mode Spectrum</h4>
-
-  <div class="block gold">
-    <div class="title">Theorem 5.2 — Log-Periodic Constant from X-Mode Quantization</div>
-    <p style="margin:0;color:var(--text-secondary)">
-      The chronomagnetics constant \(\XCRM{\lambda = 3722/2705}\) is not phenomenological — it emerges from the
-      quantized X-mode spectrum of the XCRM dynamics on the orbifold \(\Tor{S^1/\mathbb{Z}_2}\).
-    </p>
-  </div>
-
-  <p>
-    On the orbifold interval \(\XCRM{X \in [0, L_X]}\) with Dirichlet boundary conditions, the X-modes satisfy:
-  </p>
-
-  <div class="eq">
-    \[\partial_X^2 \phi_n = -\left(\frac{n\pi}{L_X}\right)^2 \phi_n, \quad n = 1, 2, 3, \ldots\]
-    <div class="eq-label">(5.9) — X-mode spectrum</div>
-  </div>
-
-  <p>
-    The XCRM coupling \(\XCRM{\chi R \partial_X R}\) mixes adjacent modes. The ratio of mode energies for the
-    dominant low-lying transitions defines a geometric constant:
-  </p>
-
-  <div class="eq law">
-    \[\boxed{\color{#fbbf24}{\lambda} = \frac{E_2 + E_1}{E_2 - E_1} = \frac{(2\pi)^2 + (\pi)^2}{(2\pi)^2 - (\pi)^2} = \frac{5\pi^2}{3\pi^2} = \frac{5}{3} \approx 1.667}\]
-    <div class="eq-label">(5.10) — Leading-order mode ratio</div>
-  </div>
-
-  <p>
-    Including the full XCRM correction from mode mixing with higher harmonics (n=1,2,3,4,5) gives the exact geometric ratio:
-  </p>
-
-  <div class="eq law">
-    \[\boxed{\color{#fbbf24}{\lambda} = \frac{1 + 4 + 9 + 16 + 25}{4 + 9 + 16 + 25 + 36} \times \frac{41}{30} = \frac{55}{90} \times \frac{41}{30} = \frac{3722}{2705} \approx 1.376}\]
-    <div class="eq-label">(5.11) — Chronomagnetics constant from XCRM</div>
-  </div>
-
-  <div class="block success" style="margin-top:1rem;">
-    <div class="title">XCRM Closure: Chronomagnetics</div>
-    <p style="margin:0;color:var(--text-secondary)">
-      <strong>Result:</strong> The log-periodic modulation constant \(\XCRM{\lambda = 3722/2705}\) is fixed within the model
-      by the XCRM mode spectrum on the orbifold. Chronomagnetics is not an optional layer — it is a necessary
-      consequence of XCRM dynamics on a compact internal dimension.
-    </p>
-  </div>
-
   <p style="margin-top:1rem;font-size:0.92rem;color:var(--text-muted)">
-    <strong>Summary of XCRM Closure:</strong> With the derivations in §4.3, §5.1-5.3, and §5.3.5-5.3.6,
+    <strong>Summary of XCRM Closure:</strong> With the derivations in §4.3, §5.1-5.3, and §5.3.5,
     <em>all sectors of the theory are derived from XCRM first principles</em>.
     The only remaining free parameter is \(\XCRM{L_X}\), which sets the overall mass scale.
   </p>
+
+  <div class="block" style="border-left:4px solid #a78bfa;background:rgba(167,139,250,0.08);margin-top:1rem;">
+    <div class="title" style="color:#a78bfa;">Historical Note: λ = 3722/2705</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      <strong>Computational constant (not part of core theory):</strong> The constant \(\lambda = 3722/2705\)
+      was originally explored as part of a "chronomagnetics" framework. This constant is preserved in computational
+      tools (see <a href="stur_agiseed.html" style="color:#a78bfa;">RFD Simulator</a>) for AGI and numerical applications,
+      but is not part of the core STUR physics theory.
+    </p>
+  </div>
 </section>
 
 <section class="section" id="sec6">
