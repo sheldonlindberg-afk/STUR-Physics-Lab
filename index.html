@@ -336,13 +336,13 @@
 .card-title {
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--card-accent, var(--text-primary));
   margin-bottom: 8px;
 }
 
 .card-desc {
   font-size: 0.88rem;
-  color: var(--text-tertiary);
+  color: var(--card-accent, var(--text-tertiary));
   line-height: 1.6;
   flex: 1;
 }
@@ -669,16 +669,6 @@
         <div class="card-meta">10 Derivations  •  UV Complete</div>
       </a>
 
-      <!-- Predictions -->
-      <a href="scripts/stur_predictions.html" class="category-card" style="--card-accent:#ef4444; --card-accent-rgb:239,68,68;">
-        <div class="card-icon-wrap">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        </div>
-        <div class="card-title">Falsifiable Predictions</div>
-        <div class="card-desc">Gaussian visibility decay V(ΔL) = V₀ exp(-ΔL²/ℓ²). Explicit falsification criteria. No moving goalposts.</div>
-        <div class="card-meta">l_coh = 0.3-30 m  •  Testable</div>
-      </a>
-
       <!-- Simulations -->
       <a href="scripts/stur_simulations_hub.html" class="category-card" style="--card-accent:#fbbf24; --card-accent-rgb:251,191,36;">
         <div class="card-icon-wrap">
@@ -707,6 +697,16 @@
         <div class="card-title">Reference</div>
         <div class="card-desc">Symbol tables, glossary, FAQ, technical appendix, open problems.</div>
         <div class="card-meta">Symbols  •  Glossary  •  FAQ</div>
+      </a>
+
+      <!-- Falsifiable Prediction -->
+      <a href="scripts/stur_predictions.html" class="category-card" style="--card-accent:#ef4444; --card-accent-rgb:239,68,68;">
+        <div class="card-icon-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <div class="card-title">Falsifiable Prediction</div>
+        <div class="card-desc">Gaussian visibility decay V(ΔL) = V₀ exp(-ΔL²/ℓ²). Explicit falsification criteria. No moving goalposts.</div>
+        <div class="card-meta">l_coh = 0.3-30 m  •  Testable</div>
       </a>
     </div>
   </section>
