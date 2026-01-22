@@ -199,6 +199,7 @@
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-secondary);
+  text-decoration: none;
   transition: all 0.3s ease;
 }
 
@@ -401,87 +402,6 @@
 /* ============================================================
    QUICK LINKS - LIQUID GLASS
    ============================================================ */
-.quick-section {
-  text-align: center;
-  margin-bottom: 48px;
-}
-
-.quick-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.quick-link {
-  padding: 10px 18px;
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 100px;
-  font-size: 0.85rem;
-  color: var(--text-tertiary);
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.quick-link:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: var(--text-primary);
-  transform: translateY(-2px);
-}
-
-/* ============================================================
-   FALSIFICATION BOX - LIQUID GLASS
-   ============================================================ */
-.falsification-glass {
-  position: relative;
-  background: rgba(239, 68, 68, 0.04);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid rgba(239, 68, 68, 0.15);
-  border-left: 3px solid #ef4444;
-  border-radius: var(--radius-lg);
-  padding: 24px 28px;
-  margin-bottom: 48px;
-}
-
-.falsification-glass .glass-title {
-  color: #ef4444;
-  font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.falsification-glass .glass-title svg {
-  width: 20px;
-  height: 20px;
-  stroke: #ef4444;
-  stroke-width: 2;
-  fill: none;
-}
-
-.falsification-glass p {
-  font-size: 0.92rem;
-  color: var(--text-tertiary);
-  line-height: 1.7;
-}
-
-.falsification-glass a {
-  color: #ef4444;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.falsification-glass a:hover {
-  text-decoration: underline;
-}
-
 /* ============================================================
    FOOTER - LIQUID GLASS
    ============================================================ */
@@ -489,34 +409,6 @@
   text-align: center;
   padding: 48px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.footer-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  margin-bottom: 24px;
-}
-
-.btn-footer {
-  padding: 12px 24px;
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--radius-sm);
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.btn-footer:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
 }
 
 .footer-meta {
@@ -630,38 +522,39 @@
     <!-- === INTRO GLASS CARD === -->
     <div class="intro-glass animate-in delay-2">
       <p class="intro-text">
-        STUR derives the Standard Model, general relativity, and quantum mechanics from
-        <strong>three axioms</strong> on a 5D orbifold. The X-Cross Resistance Mechanism (XCRM)
-        couples the resistance field R to extra-dimensional gradients, generating gauge fields,
-        mass hierarchies, and quantum coherence from geometry.
+        STUR develops a unified framework that constrains the Standard Model, general relativity,
+        and quantum mechanics using <strong>three axioms</strong> on a 5D orbifold. The X-Cross Resistance
+        Mechanism (XCRM) couples the resistance field R to extra-dimensional gradients, providing
+        derived mechanisms for gauge structure, mass hierarchies, and quantum coherence while
+        leaving some numerical coefficients calibrated to observation.
       </p>
 
       <!-- Feature Pills -->
       <div class="feature-pills">
-        <div class="feature-pill axioms">
+        <a class="feature-pill axioms" href="scripts/stur_foundations_hub.html">
           <span class="pill-icon">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </span>
           3 Axioms
-        </div>
-        <div class="feature-pill derived">
+        </a>
+        <a class="feature-pill derived" href="scripts/stur_core_theory.html">
           <span class="pill-icon">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </span>
-          Fully Derived
-        </div>
-        <div class="feature-pill physics">
+          Mechanisms Derived
+        </a>
+        <a class="feature-pill physics" href="scripts/stur_sm_hub.html">
           <span class="pill-icon">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </span>
           All SM + Gravity
-        </div>
-        <div class="feature-pill testable">
+        </a>
+        <a class="feature-pill testable" href="scripts/stur_predictions.html">
           <span class="pill-icon">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </span>
           Testable Now
-        </div>
+        </a>
       </div>
 
       <!-- Action Buttons -->
@@ -701,8 +594,8 @@
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
         </div>
         <div class="card-title">Standard Model</div>
-        <div class="card-desc">Gauge groups, fermion masses, Yukawa couplings, CKM/PMNS matrices—all derived from geometry.</div>
-        <div class="card-meta">17 Derivations  •  All Parameters</div>
+        <div class="card-desc">Gauge-group selection, fermion localization, Yukawa mechanisms, CKM/PMNS structure—derived mechanisms with calibrated coefficients.</div>
+        <div class="card-meta">17 Derivations  •  Mechanisms + Calibration</div>
       </a>
 
       <!-- Gravity & Cosmology -->
@@ -741,7 +634,7 @@
           <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
         </div>
         <div class="card-title">Biological Applications</div>
-        <div class="card-desc">ATP dynamics, neuroplasticity, immunity, origin of life—derived from XCRM coupling.</div>
+        <div class="card-desc">ATP dynamics, neuroplasticity, immunity, origin of life—mechanisms motivated by XCRM coupling.</div>
         <div class="card-meta">7 Applications  •  Falsifiable</div>
       </a>
 
@@ -767,40 +660,8 @@
     </div>
   </section>
 
-  <!-- === QUICK LINKS === -->
-  <section class="quick-section animate-in delay-4">
-    <p class="section-label" style="margin-bottom:16px;">Quick Links</p>
-    <div class="quick-links">
-      <a href="scripts/stur_falsification.html" class="quick-link">Falsification Protocol</a>
-      <a href="scripts/stur_numerical_predictions.html" class="quick-link">Numerical Predictions</a>
-      <a href="scripts/stur_faq.html" class="quick-link">FAQ</a>
-      <a href="scripts/stur_glossary.html" class="quick-link">Glossary</a>
-      <a href="about.html" class="quick-link">About</a>
-      <a href="mycitations.html" class="quick-link">References</a>
-      <a href="sitemap.html" class="quick-link">Full Site Map</a>
-    </div>
-  </section>
-
-  <!-- === FALSIFICATION BOX === -->
-  <div class="falsification-glass animate-in delay-4">
-    <p class="glass-title">
-      <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Falsification Criteria
-    </p>
-    <p>
-      STUR predicts <strong>Gaussian visibility decay</strong>: V(ΔL) = V₀ exp(-ΔL²/ℓ²<sub>coh</sub>).
-      The theory is <strong>excluded</strong> if visibility is oscillatory, time-dependent, or mass-dependent.
-      See <a href="scripts/stur_falsification.html">full falsification protocol</a>.
-    </p>
-  </div>
-
   <!-- === FOOTER === -->
   <footer class="site-footer">
-    <div class="footer-actions">
-      <a href="about.html" class="btn-footer">About STUR</a>
-      <a href="sitemap.html" class="btn-footer">Site Map</a>
-      <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank" rel="noopener" class="btn-footer">GitHub</a>
-    </div>
     <p class="footer-meta">
       © 2026 Sheldon Lon Lindberg · STUR Physics Framework<br>
       CC-BY-4.0 License · <em>Open for scrutiny and falsification testing</em>

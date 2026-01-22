@@ -1,7 +1,7 @@
 /**
  * STUR UI Utilities
  * Shared JavaScript for all STUR Physics Lab pages
- * Complete Theory Edition (MHP + DHP)
+ * Candidate Framework Edition (MHP + DHP)
  *
  * Import via: <script src="../assets/js/stur-ui.js"></script>
  */
@@ -10,7 +10,7 @@
   'use strict';
 
   const STUR = {
-    versionName: 'Complete Theory'
+    versionName: 'Candidate Framework'
   };
 
   // ============================================================
