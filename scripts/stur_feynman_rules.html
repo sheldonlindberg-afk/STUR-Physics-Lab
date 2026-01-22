@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Feynman Rules — Complete Diagrammatic Expansion</title>
+<meta name="description" content="Complete Feynman rules for STUR quantum field theory. Propagators, vertices, and loop calculations derived from the 5D Master Action.">
+
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_feynman_rules.html" class="glass-nav-link active">Feynman Rules</a>
+      <a href="stur_symbols.html" class="glass-nav-link">Symbols</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>STUR Feynman Rules</h1>
+  <p class="subtitle">Complete Diagrammatic Perturbation Theory</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    Propagators, vertices, and loop rules from Axiom 1
+  </p>
+</header>
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--success);">Overview</h2>
+
+  <p>These Feynman rules are derived from the STUR Master Action (Axiom 1) via the path integral.
+  They enable systematic calculation of scattering amplitudes and loop corrections.</p>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">Key Features</div>
+    <ul style="margin:0;color:var(--text-secondary);">
+      <li>5D propagators with KK mode summation</li>
+      <li>Holonomy-regulated UV behavior</li>
+      <li>Standard Model vertices at low energy</li>
+      <li>XCRM vertices for R-field interactions</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SECTION 1: PROPAGATORS -->
+<section class="section" id="propagators" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--gold);">1. Propagators</h2>
+
+  <h3>1.1 Scalar (R-Field) Propagator</h3>
+
+  <p>The resistance field R propagator in momentum space:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\feynmandiagram[inline=(a.base), horizontal=a to b]{a -- [scalar] b}; = \frac{i}{p^2 - m_R^2 + i\varepsilon} \cdot W_{\rm hol}(p)}\]
+    <div class="eq-label" style="color:var(--gold);">(1.1) — R-field propagator</div>
+  </div>
+
+  <p>where the holonomy weight factor is:</p>
+
+  <div class="eq boxed">
+    \[W_{\rm hol}(p) = e^{-\beta \Omega(p)} = e^{-\beta |p| L_X}\]
+    <div class="eq-label">(1.2)</div>
+  </div>
+
+  <p>This provides automatic UV regulation without introducing a hard cutoff.</p>
+
+  <h3>1.2 Fermion Propagator</h3>
+
+  <p>For 4D fermions after KK reduction:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--matter);">
+    \[\boxed{\feynmandiagram[inline=(a.base), horizontal=a to b]{a -- [fermion] b}; = \frac{i(\slashed{p} + m)}{p^2 - m^2 + i\varepsilon}}\]
+    <div class="eq-label" style="color:var(--matter);">(1.3) — Fermion propagator</div>
+  </div>
+
+  <p>The fermion mass m includes contributions from both Higgs VEV and wavefunction localization.</p>
+
+  <h3>1.3 Gauge Boson Propagator</h3>
+
+  <p>In Feynman gauge (ξ = 1):</p>
+
+  <div class="eq law" style="background:#000;border:2px solid #22d3ee;">
+    \[\boxed{\feynmandiagram[inline=(a.base), horizontal=a to b]{a -- [photon] b}; = \frac{-i g_{\mu\nu}}{k^2 + i\varepsilon}}\]
+    <div class="eq-label" style="color:#22d3ee;">(1.4) — Gauge boson propagator (massless)</div>
+  </div>
+
+  <p>For massive gauge bosons (W, Z):</p>
+
+  <div class="eq boxed">
+    \[\frac{-i(g_{\mu\nu} - k_\mu k_\nu/M^2)}{k^2 - M^2 + i\varepsilon}\]
+    <div class="eq-label">(1.5)</div>
+  </div>
+
+  <h3>1.4 Graviton Propagator</h3>
+
+  <p>In de Donder gauge:</p>
+
+  <div class="eq boxed">
+    \[\feynmandiagram[inline=(a.base), horizontal=a to b]{a -- [gluon] b}; = \frac{i P_{\mu\nu,\rho\sigma}}{k^2 + i\varepsilon}\]
+    <div class="eq-label">(1.6)</div>
+  </div>
+
+  <p>where P<sub>μν,ρσ</sub> = ½(η<sub>μρ</sub>η<sub>νσ</sub> + η<sub>μσ</sub>η<sub>νρ</sub> - η<sub>μν</sub>η<sub>ρσ</sub>).</p>
+
+  <h3>1.5 KK Mode Propagators</h3>
+
+  <p>For the n-th Kaluza-Klein mode:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{G_n(p) = \frac{i}{p^2 - m_n^2 + i\varepsilon}, \quad m_n = \frac{n}{L_X}}\]
+    <div class="eq-label" style="color:var(--gold);">(1.7) — KK mode propagator</div>
+  </div>
+
+  <p>Full 5D propagator sums over all modes:</p>
+
+  <div class="eq boxed">
+    \[G_{\rm 5D}(p, p_5) = \sum_{n=-\infty}^{\infty} \frac{i}{p^2 - (n/L_X)^2 + i\varepsilon} \cdot \delta(p_5 - n/L_X)\]
+    <div class="eq-label">(1.8)</div>
+  </div>
+</section>
+
+<!-- SECTION 2: VERTICES -->
+<section class="section" id="vertices">
+  <h2>2. Interaction Vertices</h2>
+
+  <h3>2.1 Yukawa Vertex (R-ψ-ψ̄)</h3>
+
+  <p>The fundamental STUR matter coupling:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{\feynmandiagram[inline=(v.base), horizontal=a to v to b]{a -- [fermion] v -- [fermion] b, v -- [scalar] c}; = -iy}\]
+    <div class="eq-label" style="color:var(--success);">(2.1) — Yukawa vertex</div>
+  </div>
+
+  <p>This generates fermion masses and quantum phases from R-field.</p>
+
+  <h3>2.2 Gauge-Fermion Vertex</h3>
+
+  <div class="eq law" style="background:#000;border:2px solid #22d3ee;">
+    \[\boxed{\feynmandiagram[inline=(v.base), horizontal=a to v to b]{a -- [fermion] v -- [fermion] b, v -- [photon] c}; = -ig\gamma^\mu T^a}\]
+    <div class="eq-label" style="color:#22d3ee;">(2.2) — Gauge-fermion vertex</div>
+  </div>
+
+  <p>where T<sup>a</sup> are the gauge group generators in the appropriate representation.</p>
+
+  <h3>2.3 Triple Gauge Vertex</h3>
+
+  <p>For non-Abelian gauge fields:</p>
+
+  <div class="eq boxed">
+    \[\feynmandiagram[inline=(v.base)]{a -- [photon] v, b -- [photon] v, c -- [photon] v}; = gf^{abc}\left[g^{\mu\nu}(k_1 - k_2)^\rho + \text{cyclic}\right]\]
+    <div class="eq-label">(2.3)</div>
+  </div>
+
+  <h3>2.4 Quartic Gauge Vertex</h3>
+
+  <div class="eq boxed">
+    \[\feynmandiagram[inline=(v.base)]{a -- [photon] v, b -- [photon] v, c -- [photon] v, d -- [photon] v}; = -ig^2\left[f^{abe}f^{cde}(g^{\mu\rho}g^{\nu\sigma} - g^{\mu\sigma}g^{\nu\rho}) + \text{perms}\right]\]
+    <div class="eq-label">(2.4)</div>
+  </div>
+
+  <h3>2.5 XCRM Vertices</h3>
+
+  <p>The αR𝕋 coupling gives gravity-R interaction:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\feynmandiagram[inline=(v.base)]{a -- [scalar] v, b -- [gluon] v, c -- [gluon] v}; = i\alpha \cdot T_{\mu\nu\rho\sigma}}\]
+    <div class="eq-label" style="color:var(--gold);">(2.5) — R-gravity vertex</div>
+  </div>
+
+  <p>where T<sub>μνρσ</sub> is the torsion tensor structure.</p>
+
+  <h3>2.6 Higgs Vertices</h3>
+
+  <p>Since H = A<sub>5</sub>, Higgs interactions come from gauge kinetic terms:</p>
+
+  <div class="eq boxed">
+    \[\feynmandiagram[inline=(v.base)]{a -- [scalar] v, b -- [photon] v, c -- [photon] v}; = ig^2 v\, g^{\mu\nu}\]
+    <div class="eq-label">(2.6) — HWW vertex</div>
+  </div>
+
+  <div class="eq boxed">
+    \[\feynmandiagram[inline=(v.base)]{a -- [scalar] v, b -- [fermion] v -- [fermion] c}; = -\frac{im_f}{v}\]
+    <div class="eq-label">(2.7) — Hff̄ vertex</div>
+  </div>
+</section>
+
+<!-- SECTION 3: EXTERNAL LINES -->
+<section class="section" id="external" style="border:2px solid var(--matter); background:rgba(244,114,182,0.04);">
+  <h2 style="color:var(--matter);">3. External Line Rules</h2>
+
+  <h3>3.1 Incoming Fermion</h3>
+
+  <div class="eq boxed">
+    \[\text{Incoming } e^-: \quad u(p,s)\]
+    <div class="eq-label">(3.1)</div>
+  </div>
+
+  <h3>3.2 Outgoing Fermion</h3>
+
+  <div class="eq boxed">
+    \[\text{Outgoing } e^-: \quad \bar{u}(p,s)\]
+    <div class="eq-label">(3.2)</div>
+  </div>
+
+  <h3>3.3 Incoming Antifermion</h3>
+
+  <div class="eq boxed">
+    \[\text{Incoming } e^+: \quad \bar{v}(p,s)\]
+    <div class="eq-label">(3.3)</div>
+  </div>
+
+  <h3>3.4 Outgoing Antifermion</h3>
+
+  <div class="eq boxed">
+    \[\text{Outgoing } e^+: \quad v(p,s)\]
+    <div class="eq-label">(3.4)</div>
+  </div>
+
+  <h3>3.5 External Gauge Boson</h3>
+
+  <div class="eq boxed">
+    \[\text{Incoming/Outgoing photon}: \quad \varepsilon_\mu(k, \lambda)\]
+    <div class="eq-label">(3.5)</div>
+  </div>
+
+  <h3>3.6 External Scalar</h3>
+
+  <div class="eq boxed">
+    \[\text{Incoming/Outgoing R or H}: \quad 1\]
+    <div class="eq-label">(3.6)</div>
+  </div>
+</section>
+
+<!-- SECTION 4: LOOP RULES -->
+<section class="section" id="loops" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
+  <h2 style="color:var(--success);">4. Loop Integration Rules</h2>
+
+  <h3>4.1 Loop Momentum Integration</h3>
+
+  <p>For each internal momentum not fixed by conservation:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{\int \frac{d^4k}{(2\pi)^4} \cdot W_{\rm hol}(k)}\]
+    <div class="eq-label" style="color:var(--success);">(4.1) — Loop integration with holonomy weight</div>
+  </div>
+
+  <h3>4.2 Fermion Loop Factor</h3>
+
+  <div class="eq boxed">
+    \[\text{Closed fermion loop}: \quad (-1) \times \text{Tr}[\cdots]\]
+    <div class="eq-label">(4.2)</div>
+  </div>
+
+  <h3>4.3 Symmetry Factor</h3>
+
+  <div class="eq boxed">
+    \[\text{Symmetry factor}: \quad \frac{1}{S}\]
+    <div class="eq-label">(4.3)</div>
+  </div>
+
+  <p>where S is the order of the automorphism group of the diagram.</p>
+
+  <h3>4.4 KK Sum</h3>
+
+  <p>For each internal line in the 5D theory:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\sum_{n=-\infty}^{\infty} \text{(with } p_5 = n/L_X \text{)}}\]
+    <div class="eq-label" style="color:var(--gold);">(4.4) — KK mode summation</div>
+  </div>
+
+  <h3>4.5 UV Finiteness</h3>
+
+  <p>The holonomy weight W<sub>hol</sub>(k) ensures all loop integrals converge:</p>
+
+  <div class="eq boxed">
+    \[\int d^4k\, \frac{e^{-\beta|k|L_X}}{(k^2)^n} < \infty \quad \text{for all } n \geq 0\]
+    <div class="eq-label">(4.5)</div>
+  </div>
+
+  <div class="block success">
+    <div class="title">No Regularization Needed</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Unlike standard QFT, STUR loop integrals are finite without dimensional regularization
+      or other artificial regulators. The holonomy weight provides a natural physical cutoff.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 5: EXAMPLE CALCULATIONS -->
+<section class="section" id="examples">
+  <h2>5. Example Calculations</h2>
+
+  <h3>5.1 Electron Self-Energy</h3>
+
+  <p>One-loop correction to electron propagator:</p>
+
+  <div class="eq boxed">
+    \[\Sigma(p) = -e^2 \int \frac{d^4k}{(2\pi)^4} \frac{\gamma^\mu(\slashed{p} - \slashed{k} + m)\gamma_\mu}{[(p-k)^2 - m^2][k^2]} W_{\rm hol}(k)\]
+    <div class="eq-label">(5.1)</div>
+  </div>
+
+  <h3>5.2 Vacuum Polarization</h3>
+
+  <div class="eq boxed">
+    \[\Pi^{\mu\nu}(q) = -e^2 \int \frac{d^4k}{(2\pi)^4} \frac{\text{Tr}[\gamma^\mu(\slashed{k}+m)\gamma^\nu(\slashed{k}-\slashed{q}+m)]}{[k^2-m^2][(k-q)^2-m^2]} W_{\rm hol}(k)\]
+    <div class="eq-label">(5.2)</div>
+  </div>
+
+  <h3>5.3 R-Field Self-Energy</h3>
+
+  <p>From XCRM and Yukawa loops:</p>
+
+  <div class="eq boxed">
+    \[\Pi_R(p) = -y^2 \int \frac{d^4k}{(2\pi)^4} \frac{\text{Tr}[(\slashed{k}+m)(\slashed{k}-\slashed{p}+m)]}{[k^2-m^2][(k-p)^2-m^2]} W_{\rm hol}(k)\]
+    <div class="eq-label">(5.3)</div>
+  </div>
+
+  <h3>5.4 Finite Results</h3>
+
+  <p>With holonomy regulation, these evaluate to:</p>
+
+  <div class="eq boxed">
+    \[\Sigma(p) = \frac{\alpha}{4\pi} m \left[\ln\frac{M_{\rm KK}^2}{m^2} - \frac{3}{2}\right] + O(p^2/M_{\rm KK}^2)\]
+    <div class="eq-label">(5.4)</div>
+  </div>
+
+  <p>where M<sub>KK</sub> = 1/L<sub>X</sub> is the KK scale.</p>
+</section>
+
+<!-- SECTION 6: RENORMALIZATION -->
+<section class="section" id="renormalization">
+  <h2>6. Renormalization</h2>
+
+  <h3>6.1 Counterterms</h3>
+
+  <p>Even though loops are finite, we still define renormalized quantities:</p>
+
+  <div class="eq boxed">
+    \[\begin{aligned}
+    \psi_{\rm bare} &= Z_\psi^{1/2} \psi_{\rm ren} \\
+    m_{\rm bare} &= Z_m m_{\rm ren} \\
+    e_{\rm bare} &= Z_e e_{\rm ren}
+    \end{aligned}\]
+    <div class="eq-label">(6.1)</div>
+  </div>
+
+  <h3>6.2 Beta Functions</h3>
+
+  <p>The STUR beta functions (from <a href="stur_running_couplings.html">Running Couplings</a>):</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\beta_g = \mu\frac{dg}{d\mu} = -\frac{g^3}{16\pi^2}\left(\frac{11}{3}C_A - \frac{4}{3}n_f T_F\right)}\]
+    <div class="eq-label" style="color:var(--gold);">(6.2) — Gauge coupling beta function</div>
+  </div>
+
+  <h3>6.3 Running Masses</h3>
+
+  <div class="eq boxed">
+    \[\gamma_m = \mu\frac{d\ln m}{d\mu} = -\frac{3\alpha}{4\pi}\]
+    <div class="eq-label">(6.3)</div>
+  </div>
+</section>
+
+<!-- SECTION 7: SUMMARY TABLE -->
+<section class="section" id="summary" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">7. Quick Reference Summary</h2>
+
+  <table>
+    <thead>
+      <tr><th>Element</th><th>Rule</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Scalar propagator</td>
+        <td>i/(p² - m²) · W<sub>hol</sub>(p)</td>
+      </tr>
+      <tr>
+        <td>Fermion propagator</td>
+        <td>i(p̸ + m)/(p² - m²)</td>
+      </tr>
+      <tr>
+        <td>Gauge propagator</td>
+        <td>-ig<sub>μν</sub>/k²</td>
+      </tr>
+      <tr>
+        <td>Yukawa vertex</td>
+        <td>-iy</td>
+      </tr>
+      <tr>
+        <td>Gauge vertex</td>
+        <td>-igγ<sup>μ</sup>T<sup>a</sup></td>
+      </tr>
+      <tr>
+        <td>Loop integration</td>
+        <td>∫d⁴k/(2π)⁴ · W<sub>hol</sub>(k)</td>
+      </tr>
+      <tr>
+        <td>Fermion loop</td>
+        <td>Factor of (-1)</td>
+      </tr>
+      <tr>
+        <td>KK sum</td>
+        <td>Σ<sub>n</sub> with m<sub>n</sub> = n/L<sub>X</sub></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block success" style="margin-top:1rem;">
+    <div class="title">Complete QFT Structure</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      These rules enable calculation of any scattering amplitude or loop correction in STUR.
+      The holonomy weight ensures all results are finite without artificial regularization.
+    </p>
+  </div>
+</section>
+
+<nav class="page-nav">
+  <a href="stur_qm_emergence.html" class="prev">QM Emergence</a>
+  <a href="stur_quantum_corrections.html" class="next">Quantum Corrections</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Feynman Rules</strong></p>
+  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>
