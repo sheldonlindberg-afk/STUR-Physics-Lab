@@ -227,11 +227,18 @@
   text-decoration: none;
 }
 
+/* Desktop: Active page gets GREEN highlight */
 .glass-nav-link.active {
-  color: var(--neon-cyan);
-  background: rgba(56, 189, 248, 0.08);
-  border-color: rgba(56, 189, 248, 0.3);
-  box-shadow: 0 0 8px rgba(56, 189, 248, 0.15);
+  color: var(--neon-green, #4ade80);
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.35);
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.2);
+}
+
+.glass-nav-link.active:hover {
+  color: #ffffff;
+  background: rgba(74, 222, 128, 0.18);
+  border-color: rgba(74, 222, 128, 0.5);
 }
 
 /* Social icons in nav header */
@@ -410,25 +417,34 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
+  /* Social links - enhanced blue liquid glass (external links) */
   .glass-nav-social-mobile .glass-nav-link {
     justify-content: center;
     gap: 0.75rem;
-    background: rgba(56, 189, 248, 0.08);
-    border-color: rgba(56, 189, 248, 0.2);
+    /* Stronger blue for social/external links */
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%);
+    border-color: rgba(56, 189, 248, 0.35);
     color: var(--neon-cyan);
+    box-shadow:
+      0 4px 16px rgba(56, 189, 248, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .glass-nav-social-mobile .glass-nav-link:hover,
   .glass-nav-social-mobile .glass-nav-link:focus {
-    background: rgba(56, 189, 248, 0.15);
-    border-color: rgba(56, 189, 248, 0.35);
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.22) 0%, rgba(96, 165, 250, 0.15) 100%);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #ffffff;
+    box-shadow:
+      0 6px 24px rgba(56, 189, 248, 0.25),
+      0 0 12px rgba(56, 189, 248, 0.15);
   }
 
   .glass-nav-social-mobile svg {
     flex-shrink: 0;
   }
 
-  /* Mobile nav links - full width, touch-friendly */
+  /* Mobile nav links - full width, touch-friendly, BLUE highlights */
   .glass-nav-link {
     width: 100%;
     text-align: center;
@@ -441,47 +457,80 @@
     border-radius: var(--radius-md);
     font-size: 1rem;
     font-weight: 500;
-    color: var(--text-main);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--glass-border);
-    transition: background 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+    /* Blue-tinted liquid glass by default */
+    color: var(--neon-cyan, #38bdf8);
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(56, 189, 248, 0.04) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    box-shadow:
+      0 4px 16px rgba(56, 189, 248, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     -webkit-tap-highlight-color: transparent;
   }
 
   .glass-nav-link:hover,
   .glass-nav-link:focus {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--glass-border-active);
+    /* Brighter blue on hover */
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(56, 189, 248, 0.1) 100%);
+    border-color: rgba(56, 189, 248, 0.5);
     transform: scale(1.02);
+    box-shadow:
+      0 6px 24px rgba(56, 189, 248, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
     outline: none;
   }
 
   .glass-nav-link:active {
     transform: scale(0.98);
-    background: rgba(255, 255, 255, 0.15);
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(56, 189, 248, 0.15) 100%);
   }
 
+  /* ACTIVE PAGE - GREEN highlight */
   .glass-nav-link.active {
-    color: var(--neon-cyan);
-    background: rgba(56, 189, 248, 0.1);
-    border-color: rgba(56, 189, 248, 0.35);
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    color: var(--neon-green, #4ade80);
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(74, 222, 128, 0.08) 100%);
+    border-color: rgba(74, 222, 128, 0.4);
+    box-shadow:
+      0 4px 20px rgba(74, 222, 128, 0.2),
+      0 0 12px rgba(74, 222, 128, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
-  /* Share button in mobile menu */
+  .glass-nav-link.active:hover,
+  .glass-nav-link.active:focus {
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.25) 0%, rgba(74, 222, 128, 0.15) 100%);
+    border-color: rgba(74, 222, 128, 0.6);
+    box-shadow:
+      0 6px 28px rgba(74, 222, 128, 0.3),
+      0 0 16px rgba(74, 222, 128, 0.2);
+  }
+
+  /* Share button in mobile menu - GOLD accent for actions */
   button.glass-nav-link.glass-share-btn {
     width: 100%;
     justify-content: center;
     margin-top: 0.5rem;
-    background: rgba(74, 222, 128, 0.1);
-    border-color: rgba(74, 222, 128, 0.25);
-    color: var(--neon-green);
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(251, 146, 60, 0.08) 100%);
+    border-color: rgba(251, 191, 36, 0.35);
+    color: var(--neon-gold, #fbbf24);
+    box-shadow:
+      0 4px 16px rgba(251, 191, 36, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   button.glass-nav-link.glass-share-btn:hover,
   button.glass-nav-link.glass-share-btn:focus {
-    background: rgba(74, 222, 128, 0.2);
-    border-color: rgba(74, 222, 128, 0.4);
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.22) 0%, rgba(251, 146, 60, 0.15) 100%);
+    border-color: rgba(251, 191, 36, 0.5);
+    color: #ffffff;
+    box-shadow:
+      0 6px 24px rgba(251, 191, 36, 0.2),
+      0 0 12px rgba(251, 191, 36, 0.15);
   }
 }
 
