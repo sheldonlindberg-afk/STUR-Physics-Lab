@@ -121,7 +121,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Master Action → Proto-Cell Bifurcation:</strong></p>
             <ol style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Step 1:</strong> XCRM coupling term \(\XCRM{U(X-R)}\) creates positive feedback amplification</li>
+                <li><strong>Step 1:</strong> XCRM coupling term \(\XCRM{\chi R\partial_X R}\) creates positive feedback amplification</li>
                 <li><strong>Step 2:</strong> Chemical resistance field \(\Diff{R} = \sum w_i [C_i]\) maps molecular concentrations</li>
                 <li><strong>Step 3:</strong> Critical coupling \(\XCRM{\chi_X^*}\) triggers symmetry breaking from homogeneous to structured</li>
             </ol>
@@ -168,16 +168,15 @@
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
-                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
-                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
-                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
-                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
-                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                S[R,g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\XCRM{\chi R\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
+                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action</div>
+                <div class="stur-eq-label">Master Action (5D Orbifold)</div>
             </div>
 
             <p><strong>Step 1 — Chemical Resistance Field:</strong> Map molecular concentrations to STUR resistance:</p>
@@ -573,7 +572,7 @@ plt.show()</pre>
 
             <div class="stur-eq law">
                 \[
-                \XCRM{U(X-R)} \xrightarrow{\text{chemical limit}} \XCRM{f_X} = \exp[\XCRM{\chi_X}(\Diff{R} - \Diff{R_{\rm bg}})]
+                \XCRM{\chi R\partial_X R} \xrightarrow{\text{chemical limit}} \XCRM{f_X} = \exp[\XCRM{\chi_X}(\Diff{R} - \Diff{R_{\rm bg}})]
                 \]
                 <div class="stur-eq-label">XCRM → Autocatalysis</div>
             </div>

@@ -121,7 +121,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>XCRM feedback mechanism: U(X-R) coupling in Master Action drives equilibration</li>
+                <li>XCRM feedback mechanism: χR∂_X R coupling in Master Action drives equilibration</li>
                 <li>Attractor existence: V(R) potential minimum at \(\Diff{R_{\rm bg}}\) creates stable fixed point</li>
                 <li>Energy-information-geometry triad: all three emerge from Master Action sectors</li>
                 <li>Self-correction dynamics: saturation operator S(u) provides bounded feedback</li>
@@ -147,7 +147,7 @@
             <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:1rem;">
                 <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;font-weight:600;">Master Action</span>
                 <span style="color:var(--text-muted);">→</span>
-                <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;">U(X-R) Coupling</span>
+                <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;">χR∂_X R Coupling</span>
                 <span style="color:var(--text-muted);">→</span>
                 <span style="padding:6px 12px;background:rgba(244,114,182,0.15);border-radius:8px;border:1px solid rgba(244,114,182,0.4);color:#f472b6;">V(R) Minimum</span>
                 <span style="color:var(--text-muted);">→</span>
@@ -157,7 +157,7 @@
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #fbbf24;">
                     <strong style="color:#fbbf24;font-size:0.8rem;">Step 1: XCRM Coupling</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">U(X-R) term creates restoring force toward X = R equilibrium</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">χR∂_X R term creates restoring force toward coherent field equilibrium</p>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #f472b6;">
                     <strong style="color:#f472b6;font-size:0.8rem;">Step 2: Potential Minimum</strong>
@@ -279,7 +279,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Perfect Resistance Ratio \(\XCRM{R^*} = \Pot{E}/(\XCRM{I} \Tor{\Phi})\) converging to unity attractor.</p>
             <p><strong>Scale:</strong> Universal across all STUR-coupled systems (Replicator, Arc, WGM, Double-Slit, Helix).</p>
-            <p><strong>Connection:</strong> The <a href="stur_core_theory.html#master-action" class="core-ref">XCRM coupling U(X-R)</a> enforces geometric-informational equilibrium via feedback dynamics.</p>
+            <p><strong>Connection:</strong> The <a href="stur_core_theory.html#master-action" class="core-ref">XCRM coupling χR∂_X R</a> enforces geometric-informational equilibrium via feedback dynamics.</p>
         </div>
     </section>
 
@@ -296,16 +296,15 @@
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
-                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
-                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
-                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
-                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
-                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                S[R,g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\XCRM{\chi R\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
+                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action</div>
+                <div class="stur-eq-label">Master Action (5D Orbifold)</div>
             </div>
 
             <p><strong>Three STUR fields:</strong> Energy \(\Pot{E(t)}\), Information flow \(\XCRM{I(t)}\), Geometric flux \(\Tor{\Phi(t)}\):</p>
@@ -398,7 +397,7 @@
 #   - stur_goldenratio.json  (attractor statistics)
 #   - stur_goldenratio.png   (time evolution plot)
 #
-# Derived from Master Action U(X-R) coupling term
+# Derived from Master Action χR∂_X R coupling term
 # ===============================================================
 
 import numpy as np

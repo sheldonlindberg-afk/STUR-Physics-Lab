@@ -122,7 +122,7 @@
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Master Action → Bioenergetic Limit:</strong></p>
             <ol style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li><strong>Step 1:</strong> Master Action kinetic term \(\Diff{\alpha(\nabla R)^2}\) yields membrane resistance gradients</li>
-                <li><strong>Step 2:</strong> XCRM coupling \(\XCRM{U(X-R)}\) maps to cristae curvature-efficiency relation</li>
+                <li><strong>Step 2:</strong> XCRM coupling \(\XCRM{\chi R\partial_X R}\) maps to cristae curvature-efficiency relation</li>
                 <li><strong>Step 3:</strong> Saturation operator \(\XCRM{S(u)}\) limits proton pumping efficiency at extreme curvatures</li>
             </ol>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-cyan);">Biological Mapping:</strong></p>
@@ -167,16 +167,15 @@
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\,\sqrt{-g}\;\Bigl[
-                  \underbrace{\alpha\,(\nabla R)^2}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{V(R)}_{\color{#f472b6}\text{potential}}
-                  \;+\; \underbrace{\beta\,(\partial_t X)^2}_{\color{#fbbf24}\text{XCRM}}
-                  \;-\; \underbrace{U(X - R)}_{\color{#fbbf24}\text{coupling}}
-                  \;+\; \underbrace{L_{\text{torsion}}}_{\color{#60a5fa}\text{gravity}}
-                  \;+\; \underbrace{L_{\text{matter}}}_{\color{#22d3ee}\text{fields}}
+                S[R,g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\XCRM{\chi R\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
+                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action</div>
+                <div class="stur-eq-label">Master Action (5D Orbifold)</div>
             </div>
 
             <p><strong>Step 1 — Bioenergetic Limit:</strong> At mitochondrial scales, the kinetic term reduces to membrane resistance dynamics:</p>
@@ -559,7 +558,7 @@ plt.show()</pre>
 
             <div class="stur-eq law">
                 \[
-                S_{\rm STUR} \xrightarrow{\text{membrane limit}} \Pot{\Delta\Psi_m} \cdot \Diff{\nabla R} + \XCRM{U(X-R)}
+                S_{\rm STUR} \xrightarrow{\text{membrane limit}} \Pot{\Delta\Psi_m} \cdot \Diff{\nabla R} + \XCRM{\chi R\partial_X R}
                 \]
                 <div class="stur-eq-label">Bioenergetic Reduction</div>
             </div>
