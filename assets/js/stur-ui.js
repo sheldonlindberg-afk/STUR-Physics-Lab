@@ -1048,10 +1048,167 @@
   // INITIALIZATION
   // ============================================================
 
+  // ============================================================
+  // ERROR HANDLING & RESILIENCE
+  // ============================================================
+
+  /**
+   * Global error handler for uncaught errors
+   */
+  STUR.setupErrorHandling = function() {
+    // Catch uncaught errors
+    window.addEventListener('error', function(event) {
+      console.error('[STUR] Uncaught error:', event.error);
+      STUR.logError({
+        type: 'uncaught',
+        message: event.message,
+        filename: event.filename,
+        lineno: event.lineno,
+        colno: event.colno,
+        stack: event.error?.stack
+      });
+    });
+
+    // Catch unhandled promise rejections
+    window.addEventListener('unhandledrejection', function(event) {
+      console.error('[STUR] Unhandled rejection:', event.reason);
+      STUR.logError({
+        type: 'unhandled_rejection',
+        message: event.reason?.message || String(event.reason),
+        stack: event.reason?.stack
+      });
+    });
+  };
+
+  /**
+   * Error logging (can be extended for remote logging)
+   */
+  STUR.errorLog = [];
+
+  STUR.logError = function(error) {
+    const entry = {
+      timestamp: new Date().toISOString(),
+      url: window.location.href,
+      userAgent: navigator.userAgent,
+      ...error
+    };
+    STUR.errorLog.push(entry);
+
+    // Keep only last 50 errors to prevent memory issues
+    if (STUR.errorLog.length > 50) {
+      STUR.errorLog.shift();
+    }
+
+    // Store in sessionStorage for debugging
+    try {
+      sessionStorage.setItem('stur_errors', JSON.stringify(STUR.errorLog));
+    } catch (e) {
+      // Storage full or disabled, ignore
+    }
+  };
+
+  /**
+   * Safe function wrapper - executes function with error boundary
+   */
+  STUR.safeExec = function(fn, fallback) {
+    return function(...args) {
+      try {
+        return fn.apply(this, args);
+      } catch (error) {
+        console.error('[STUR] Safe execution error:', error);
+        STUR.logError({
+          type: 'safe_exec',
+          message: error.message,
+          stack: error.stack,
+          function: fn.name || 'anonymous'
+        });
+        if (typeof fallback === 'function') {
+          return fallback(error, ...args);
+        }
+        return fallback;
+      }
+    };
+  };
+
+  /**
+   * Input validation utilities
+   */
+  STUR.validate = {
+    // Validate number within range
+    number: function(value, min, max, defaultValue) {
+      const num = parseFloat(value);
+      if (isNaN(num)) return defaultValue;
+      if (min !== undefined && num < min) return min;
+      if (max !== undefined && num > max) return max;
+      return num;
+    },
+
+    // Sanitize string input (prevent XSS)
+    string: function(value, maxLength) {
+      if (typeof value !== 'string') return '';
+      let sanitized = value
+        .replace(/[<>]/g, '') // Remove angle brackets
+        .replace(/javascript:/gi, '') // Remove javascript: protocol
+        .replace(/on\w+=/gi, ''); // Remove event handlers
+      if (maxLength) {
+        sanitized = sanitized.slice(0, maxLength);
+      }
+      return sanitized;
+    },
+
+    // Validate coherence length for simulations
+    coherenceLength: function(value) {
+      return STUR.validate.number(value, 0.1, 1000, 3.0);
+    },
+
+    // Validate visibility value
+    visibility: function(value) {
+      return STUR.validate.number(value, 0, 1, 1.0);
+    },
+
+    // Validate path difference
+    pathDifference: function(value) {
+      return STUR.validate.number(value, 0, 1000, 0);
+    }
+  };
+
+  /**
+   * Get diagnostic report for debugging
+   */
+  STUR.getDiagnostics = function() {
+    return {
+      version: STUR.version,
+      versionName: STUR.versionName,
+      errors: STUR.errorLog,
+      browser: {
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        online: navigator.onLine,
+        cookiesEnabled: navigator.cookieEnabled
+      },
+      page: {
+        url: window.location.href,
+        title: document.title,
+        readyState: document.readyState
+      },
+      performance: window.performance ? {
+        loadTime: performance.timing.loadEventEnd - performance.timing.navigationStart,
+        domReady: performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart
+      } : null,
+      storage: {
+        localStorage: typeof localStorage !== 'undefined',
+        sessionStorage: typeof sessionStorage !== 'undefined',
+        serviceWorker: 'serviceWorker' in navigator
+      }
+    };
+  };
+
   /**
    * Initialize all STUR UI components
    */
   STUR.init = function() {
+    // Setup error handling first
+    STUR.setupErrorHandling();
     STUR.initNav();
     STUR.initModals();
     STUR.initCitation();

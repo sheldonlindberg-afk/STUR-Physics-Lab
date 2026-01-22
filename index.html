@@ -6,6 +6,48 @@
 <title>STUR Physics Lab — Unified Framework</title>
 <meta name="description" content="Candidate unified physics framework from three axioms. Standard Model + gravity strongly constrained by orbifold geometry. Falsifiable prediction: Gaussian visibility decay.">
 
+<!-- Security Headers -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<!-- PWA Support -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#4ade80">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="STUR Lab">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+
+<!-- Open Graph / Social -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="STUR Physics Lab — Unified Framework">
+<meta property="og:description" content="Complete unified physics framework from 3 axioms with 0 free parameters. Falsifiable prediction: Gaussian visibility decay in atom interferometry.">
+<meta property="og:url" content="https://stur-physics-lab.org/">
+<meta property="og:image" content="/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="STUR Physics Lab">
+<meta name="twitter:description" content="Unified physics from 3 axioms. Falsifiable. No free parameters.">
+
+<!-- Structured Data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "STUR Physics Lab",
+  "description": "Stochastic Teleparallel Unified Resistance - A complete unified physics framework",
+  "url": "https://stur-physics-lab.org/",
+  "author": {
+    "@type": "Person",
+    "name": "Sheldon Lon Lindberg"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-01-22",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "keywords": ["unified physics", "quantum gravity", "teleparallel gravity", "Standard Model", "falsifiable predictions", "atom interferometry"]
+}
+</script>
+
 <!-- STUR Theme System -->
 <link rel="stylesheet" href="assets/css/stur-core.css">
 <link rel="stylesheet" href="assets/css/stur-glass.css">
@@ -524,10 +566,24 @@
 </head>
 <body>
 
+<!-- Skip Link for Accessibility -->
+<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;padding:1rem 2rem;background:#4ade80;color:#0a0a0f;font-weight:600;text-decoration:none;border-radius:0 0 8px 8px;">Skip to main content</a>
+<style>
+.skip-link:focus {
+  position: fixed !important;
+  left: 50% !important;
+  transform: translateX(-50%);
+  top: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+</style>
+
 <!-- ============================================================
      NAVIGATION
      ============================================================ -->
-<header class="glass-header">
+<header class="glass-header" role="banner">
     <nav class="glass-nav">
         <a href="index.html" class="glass-nav-brand">
             <img src="assets/4.13.png" alt="STUR" class="nav-logo">
@@ -755,12 +811,40 @@
 <!-- STUR UI JavaScript -->
 <script src="assets/js/stur-ui.js"></script>
 <script src="assets/js/stur-definitions.js"></script>
+<script src="assets/js/stur-version.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof STUR !== 'undefined' && STUR.initNav) {
       STUR.initNav();
     }
   });
+
+  // Service Worker Registration
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js')
+        .then(function(registration) {
+          console.log('[STUR] Service Worker registered:', registration.scope);
+
+          // Check for updates
+          registration.addEventListener('updatefound', function() {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', function() {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New version available
+                console.log('[STUR] New version available');
+                if (typeof STUR !== 'undefined' && STUR.toast) {
+                  STUR.toast('New version available. Refresh to update.', 'info');
+                }
+              }
+            });
+          });
+        })
+        .catch(function(error) {
+          console.warn('[STUR] Service Worker registration failed:', error);
+        });
+    });
+  }
 </script>
 </body>
 </html>

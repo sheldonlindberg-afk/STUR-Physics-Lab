@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR Physics Lab - Test Suite</title>
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<style>
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-tertiary);
+  margin-bottom: 2rem;
+}
+
+.test-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+.btn-primary:hover {
+  background: #22c55e;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.summary-card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-passed .stat-value { color: #4ade80; }
+.stat-failed .stat-value { color: #ef4444; }
+.stat-total .stat-value { color: var(--gold); }
+
+#test-output {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.test-pass {
+  color: #4ade80;
+}
+
+.test-fail {
+  color: #ef4444;
+}
+
+.test-header {
+  color: var(--gold);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.loading {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<h1>STUR Physics Lab Test Suite</h1>
+<p class="subtitle">Validates physics calculations, theory integrity, and falsification criteria</p>
+
+<div class="test-controls">
+  <button class="btn btn-primary" onclick="runTests()">Run All Tests</button>
+  <button class="btn btn-secondary" onclick="clearOutput()">Clear Output</button>
+  <a href="../index.html" class="btn btn-secondary" style="text-decoration:none;">Back to Lab</a>
+</div>
+
+<div class="summary-card">
+  <div class="stat-card stat-total">
+    <div class="stat-value" id="total-count">—</div>
+    <div class="stat-label">Total Tests</div>
+  </div>
+  <div class="stat-card stat-passed">
+    <div class="stat-value" id="passed-count">—</div>
+    <div class="stat-label">Passed</div>
+  </div>
+  <div class="stat-card stat-failed">
+    <div class="stat-value" id="failed-count">—</div>
+    <div class="stat-label">Failed</div>
+  </div>
+</div>
+
+<div id="test-output">
+  <div class="loading">Click "Run All Tests" to execute the test suite...</div>
+</div>
+
+<script src="../assets/js/stur-version.js"></script>
+<script>
+function runTests() {
+  const output = document.getElementById('test-output');
+  output.innerHTML = '<div class="test-header">Running STUR Test Suite...</div>';
+
+  // Override console.log to capture test output
+  const originalLog = console.log;
+  const logs = [];
+
+  console.log = function(...args) {
+    originalLog.apply(console, args);
+    logs.push(args.join(' '));
+  };
+
+  // Load and run tests
+  const script = document.createElement('script');
+  script.src = 'stur-tests.js?' + Date.now(); // Cache bust
+  script.onload = function() {
+    console.log = originalLog;
+
+    // Update UI
+    if (window.STURTests) {
+      document.getElementById('total-count').textContent = STURTests.passed + STURTests.failed;
+      document.getElementById('passed-count').textContent = STURTests.passed;
+      document.getElementById('failed-count').textContent = STURTests.failed;
+
+      // Format output
+      let html = '<div class="test-header">STUR PHYSICS LAB - TEST SUITE</div>';
+      STURTests.results.forEach(result => {
+        const cls = result.status === 'PASS' ? 'test-pass' : 'test-fail';
+        const icon = result.status === 'PASS' ? '✓' : '✗';
+        html += `<div class="${cls}">${icon} ${result.name}`;
+        if (result.error) {
+          html += `<br><span style="margin-left:1.5rem;opacity:0.7;">→ ${result.error}</span>`;
+        }
+        html += '</div>';
+      });
+
+      html += `<div class="test-header" style="margin-top:1rem;">Summary: ${STURTests.passed} passed, ${STURTests.failed} failed</div>`;
+      output.innerHTML = html;
+    }
+  };
+
+  document.body.appendChild(script);
+}
+
+function clearOutput() {
+  document.getElementById('test-output').innerHTML = '<div class="loading">Click "Run All Tests" to execute the test suite...</div>';
+  document.getElementById('total-count').textContent = '—';
+  document.getElementById('passed-count').textContent = '—';
+  document.getElementById('failed-count').textContent = '—';
+}
+</script>
+
+</body>
+</html>
