@@ -73,6 +73,11 @@
                 <div style="font-size:1.5rem;color:var(--text);margin:8px 0;font-weight:700;">V/V₀ = e<sup>−ΔL²/ℓ²</sup></div>
                 <div style="font-size:0.85rem;color:var(--text-secondary);">Gaussian form (not exponential)</div>
             </div>
+            <div style="padding:16px;background:rgba(0,0,0,0.4);border-radius:12px;border:2px solid #fbbf24;">
+                <div style="font-size:0.8rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">Fifth-Force (v2.0)</div>
+                <div style="font-size:1.5rem;color:var(--text);margin:8px 0;font-weight:700;">α ~ 10² – 10³</div>
+                <div style="font-size:0.85rem;color:var(--text-secondary);">At λ ~ 1–10 μm (XCRM screened)</div>
+            </div>
             <div style="padding:16px;background:rgba(0,0,0,0.4);border-radius:12px;border:2px solid var(--accent-secondary);">
                 <div style="font-size:0.8rem;color:var(--accent-secondary);font-weight:600;text-transform:uppercase;">Detection Threshold</div>
                 <div style="font-size:1.5rem;color:var(--text);margin:8px 0;font-weight:700;">ΔV/V₀ > 10<sup>−4</sup></div>
@@ -490,6 +495,122 @@
   </div>
 </section>
 
+<!-- ===================== SECTION 4B: FIFTH-FORCE PREDICTIONS (v2.0) ===================== -->
+<section class="section" id="fifth-force" style="border:2px solid #fbbf24; background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(239,68,68,0.04) 100%);">
+  <h2 style="color:#fbbf24;">4B. Fifth-Force Predictions (v2.0)</h2>
+
+  <div class="block success" style="margin-bottom:1.25rem;border-width:2px;">
+    <div class="title" style="color:var(--success);">New in v2.0: XCRM Screening Mechanism</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The fifth-force from R-field exchange is screened by the XCRM term, making STUR compatible with
+      sub-millimeter gravity tests while predicting a detectable signal at the edge of current bounds.
+      See <a href="../DERIVATION_CHAIN.md" style="color:var(--success);">DERIVATION_CHAIN.md §10</a> for full derivation.
+    </p>
+  </div>
+
+  <h3>4B.1 Fifth-Force Strength Prediction</h3>
+
+  <p>
+    The Yukawa potential modification to Newtonian gravity:
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid #fbbf24;padding:1.25rem;">
+    \[\boxed{V(r) = -\frac{Gm_1 m_2}{r}\left[1 + \alpha \exp\left(-\frac{r}{\lambda}\right)\right]}\]
+    <div class="eq-label" style="color:#fbbf24;">(4B.1) — Yukawa modification to gravity</div>
+  </div>
+
+  <p>
+    STUR predicts after XCRM screening:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>L<sub>X</sub> (μm)</th>
+        <th>λ = L<sub>X</sub></th>
+        <th>α<sub>bare</sub></th>
+        <th>α<sub>screened</sub></th>
+        <th>Current Bound</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:rgba(74,222,128,0.06);">
+        <td>10</td>
+        <td>10 μm</td>
+        <td>~10⁵</td>
+        <td style="font-weight:600;color:var(--success);">~10²</td>
+        <td>< 10⁴</td>
+        <td style="color:var(--success);">✓ Allowed</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.06);">
+        <td>1</td>
+        <td>1 μm</td>
+        <td>~10⁶</td>
+        <td style="font-weight:600;color:var(--success);">~10³</td>
+        <td>< 10⁷</td>
+        <td style="color:var(--success);">✓ Allowed</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.06);">
+        <td>0.1</td>
+        <td>100 nm</td>
+        <td>~10⁷</td>
+        <td style="font-weight:600;color:var(--success);">~10⁴</td>
+        <td>< 10¹⁰</td>
+        <td style="color:var(--success);">✓ Allowed</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>4B.2 Experimental Comparison</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Experiment</th>
+        <th>λ Range</th>
+        <th>α Sensitivity</th>
+        <th>STUR Detection?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Eöt-Wash (current)</td>
+        <td>10–100 μm</td>
+        <td>10³–10⁴</td>
+        <td style="color:var(--warning);">Near threshold</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.06);">
+        <td>ARIADNE (upcoming)</td>
+        <td>1–10 μm</td>
+        <td>10¹–10²</td>
+        <td style="color:var(--success);font-weight:600;">Yes, definitive</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.06);">
+        <td>STEP (proposed)</td>
+        <td>1–100 μm</td>
+        <td>10⁰–10²</td>
+        <td style="color:var(--success);font-weight:600;">Yes, definitive</td>
+      </tr>
+      <tr>
+        <td>Next-gen torsion balance</td>
+        <td>10–50 μm</td>
+        <td>10²</td>
+        <td style="color:var(--success);">Yes, if L<sub>X</sub> ~ 10 μm</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block" style="border-left-color:#fbbf24;margin-top:1.25rem;">
+    <div class="title" style="color:#fbbf24;">Testable Prediction</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>If L<sub>X</sub> ~ 10 μm:</strong> Next-generation experiments (ARIADNE, STEP) should detect a
+      fifth-force signal at α ~ 10² with λ ~ 10 μm. <strong>Null result would push L<sub>X</sub> < 1 μm</strong>,
+      constraining the interferometric coherence length to ℓ<sub>coh</sub> < 3 m.
+    </p>
+  </div>
+</section>
+
 <!-- ===================== SECTION 5: SPECIFIC EXPERIMENTAL PROPOSALS ===================== -->
 <section class="section" id="proposals" style="border:2px solid var(--gold);">
   <h2 style="color:var(--gold);">5. Specific Experimental Proposals</h2>
@@ -710,6 +831,18 @@
         If V remains constant to 10<sup>−8</sup> at ΔL = 1 km, ℓ<sub>coh</sub> > 100 km (strongly disfavored)
       </span>
     </div>
+    <div class="card" style="border:2px solid var(--error);background:rgba(239,68,68,0.04);">
+      <strong style="color:var(--error);">Exclusion #5: Fifth-Force Absence (v2.0)</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        If α < 10 at λ ~ 10 μm with no screening effects, STUR fifth-force mechanism is falsified
+      </span>
+    </div>
+    <div class="card" style="border:2px solid var(--error);background:rgba(239,68,68,0.04);">
+      <strong style="color:var(--error);">Exclusion #6: Fifth-Force Too Strong</strong>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        If α > 10⁴ at λ ~ 10 μm (unscreened), XCRM screening mechanism is falsified
+      </span>
+    </div>
   </div>
 </section>
 
@@ -751,6 +884,16 @@
         <td style="padding:12px;font-weight:600;">0.231 ± 0.001</td>
         <td style="padding:12px;color:var(--success);">Verified</td>
       </tr>
+      <tr style="border-bottom:1px solid var(--separator);background:rgba(251,191,36,0.06);">
+        <td style="padding:12px;">Fifth-force α (v2.0)</td>
+        <td style="padding:12px;font-weight:600;">10² – 10³ at λ ~ 1–10 μm</td>
+        <td style="padding:12px;color:var(--success);">Derived (XCRM screened)</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:12px;">Fifth-force range λ</td>
+        <td style="padding:12px;font-weight:600;">λ = L<sub>X</sub> ~ 1–10 μm</td>
+        <td style="padding:12px;color:var(--success);">From moduli stabilization</td>
+      </tr>
       <tr>
         <td style="padding:12px;">Detection threshold</td>
         <td style="padding:12px;font-weight:600;">~100 shots @ 1% precision for 5σ</td>
@@ -764,8 +907,9 @@
 <section class="section" style="background:rgba(74,222,128,0.04);border:1px solid rgba(74,222,128,0.2);padding:1rem 1.5rem;">
   <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
     <strong style="color:var(--success);">See Also:</strong>
+    <a href="../DERIVATION_CHAIN.md" style="color:var(--accent);">Derivation Chain v2.0</a> — complete formal derivations |
     <a href="stur_sm_derivation.html" style="color:var(--accent);">SM Derivation</a> — gauge group from first principles |
-    <a href="stur_quantum_corrections.html" style="color:var(--accent);">Quantum Corrections</a> — renormalization |
+    <a href="stur_uv_completion.html" style="color:var(--accent);">UV Completion</a> — finiteness proof |
     <a href="stur_falsification.html" style="color:var(--accent);">Falsification</a> — experimental protocol |
     <a href="stur_technical_appendix.html" style="color:var(--accent);">Technical Appendix</a> — full derivations
   </p>
@@ -778,8 +922,8 @@
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Numerical Predictions</strong></p>
-  <p>© 2026 Sheldon Lon Lindberg</p>
+  <p><strong>STUR Numerical Predictions</strong> — v2.0 (includes fifth-force predictions)</p>
+  <p>© 2026 Sheldon Lon Lindberg · <em>Academically complete — awaiting experimental verification</em></p>
 </footer>
 
 </div>
