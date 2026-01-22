@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Experimental Protocol — Testing the Visibility Prediction</title>
+<meta name="description" content="Complete experimental protocol for testing STUR's primary prediction: Gaussian visibility decay in matter-wave interferometry. Specific apparatus requirements, data analysis, and falsification criteria.">
+
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_predictions.html" class="glass-nav-link">Predictions</a>
+      <a href="stur_experimental_protocol.html" class="glass-nav-link active">Protocol</a>
+      <a href="stur_falsification.html" class="glass-nav-link">Falsification</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>Experimental Protocol</h1>
+  <p class="subtitle">Testing STUR with Matter-Wave Interferometry</p>
+</header>
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--success);">The Test</h2>
+
+  <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">STUR's Primary Prediction</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      Matter-wave visibility decays as a <strong>Gaussian in path-length difference squared</strong>:
+    </p>
+    <div class="eq law" style="margin:0.75rem 0;background:#000;border:2px solid var(--success);">
+      \[\boxed{V(\Delta L) = V_0 \exp\left(-\frac{\Delta L^2}{\ell_{\rm coh}^2}\right)}\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      with coherence length \(\ell_{\rm coh} \in [0.3, 30]\) meters.
+    </p>
+  </div>
+
+  <p style="margin-top:1rem;color:var(--text-secondary);">
+    This document provides a complete experimental protocol for testing this prediction with current technology.
+  </p>
+</section>
+
+<!-- SECTION 1: APPARATUS REQUIREMENTS -->
+<section class="section" id="apparatus">
+  <h2>1. Apparatus Requirements</h2>
+
+  <h3>1.1 Recommended Platforms</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Experiment</th>
+        <th>Location</th>
+        <th>Max Path Difference</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:rgba(74,222,128,0.08);">
+        <td><strong>MAGIS-100</strong></td>
+        <td>Fermilab, USA</td>
+        <td>100 m</td>
+        <td>Operational</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.08);">
+        <td><strong>AION-10</strong></td>
+        <td>Oxford, UK</td>
+        <td>10 m</td>
+        <td>Operational</td>
+      </tr>
+      <tr>
+        <td>ZAIGA</td>
+        <td>Wuhan, China</td>
+        <td>300 m</td>
+        <td>Under construction</td>
+      </tr>
+      <tr>
+        <td>MIGA</td>
+        <td>LSBB, France</td>
+        <td>150 m</td>
+        <td>Under construction</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>1.2 Minimum Requirements</h3>
+
+  <div class="card-grid" style="margin:1rem 0;">
+    <div class="card" style="border:1px solid var(--success);">
+      <strong style="color:var(--success);">Path Difference Control</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);">
+        Variable from 0.1 m to ≥10 m with mm precision
+      </p>
+    </div>
+    <div class="card" style="border:1px solid var(--success);">
+      <strong style="color:var(--success);">Visibility Measurement</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);">
+        Resolution ≤ 1% across full range
+      </p>
+    </div>
+    <div class="card" style="border:1px solid var(--success);">
+      <strong style="color:var(--success);">Environmental Control</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);">
+        Vibration isolation, temperature stability ±0.1 K
+      </p>
+    </div>
+    <div class="card" style="border:1px solid var(--success);">
+      <strong style="color:var(--success);">Multiple Species</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);">
+        At least 2 atomic species (e.g., <sup>87</sup>Rb, <sup>133</sup>Cs)
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: MEASUREMENT PROTOCOL -->
+<section class="section" id="protocol" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--gold);">2. Measurement Protocol</h2>
+
+  <h3>2.1 Data Collection Procedure</h3>
+
+  <div class="walkthrough" style="margin:1rem 0;">
+    <div class="step">
+      <div class="step-content">
+        <strong>Step 1: Calibration</strong><br>
+        Measure visibility V<sub>0</sub> at ΔL = 0 to establish baseline. Repeat N ≥ 100 times for statistical significance.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Step 2: Path Difference Scan</strong><br>
+        Systematically vary ΔL from 0.1 m to maximum in steps of 0.5 m. At each point, measure visibility with N ≥ 50 repetitions.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Step 3: Time Stability Check</strong><br>
+        At fixed ΔL ≈ ℓ<sub>coh</sub>/2, monitor visibility for ≥ 24 hours to verify no time dependence.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Step 4: Mass Independence Test</strong><br>
+        Repeat Steps 1-3 with second atomic species. Compare visibility vs. ΔL curves.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Step 5: Functional Form Analysis</strong><br>
+        Fit data to competing models and perform statistical comparison.
+      </div>
+    </div>
+  </div>
+
+  <h3>2.2 Data Points Required</h3>
+
+  <table>
+    <thead>
+      <tr><th>ΔL Range</th><th>Spacing</th><th>Points</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>0 - 1 m</td><td>0.1 m</td><td>10</td><td>Near-field calibration</td></tr>
+      <tr><td>1 - 5 m</td><td>0.5 m</td><td>8</td><td>Transition region</td></tr>
+      <tr><td>5 - 20 m</td><td>1 m</td><td>15</td><td>Main test region</td></tr>
+      <tr><td>20 - 50 m</td><td>5 m</td><td>6</td><td>Deep suppression</td></tr>
+      <tr style="background:rgba(74,222,128,0.08);">
+        <td colspan="2"><strong>Total</strong></td>
+        <td><strong>39</strong></td>
+        <td>Minimum for robust fit</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 3: DATA ANALYSIS -->
+<section class="section" id="analysis">
+  <h2>3. Data Analysis Protocol</h2>
+
+  <h3>3.1 Competing Models</h3>
+
+  <p>Fit the visibility data V(ΔL) to four models:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{\text{STUR:} \quad V(\Delta L) = V_0 \exp\left(-\frac{\Delta L^2}{\ell_{\rm coh}^2}\right)}\]
+    <div class="eq-label" style="color:var(--success);">Model A (STUR Prediction)</div>
+  </div>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--error);">
+    \[\boxed{\text{ULDM:} \quad V(\Delta L) = V_0 \left|\cos\left(\frac{m_a \Delta L}{2\hbar}\right)\right|}\]
+    <div class="eq-label" style="color:var(--error);">Model B (Ultra-Light Dark Matter)</div>
+  </div>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--warning);">
+    \[\boxed{\text{Decoherence:} \quad V(\Delta L) = V_0 \exp\left(-\Gamma t(\Delta L)\right)}\]
+    <div class="eq-label" style="color:var(--warning);">Model C (Environmental Decoherence)</div>
+  </div>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--accent-secondary);">
+    \[\boxed{\text{Exponential:} \quad V(\Delta L) = V_0 \exp\left(-\frac{\Delta L}{\lambda}\right)}\]
+    <div class="eq-label" style="color:var(--accent-secondary);">Model D (Exponential Decay)</div>
+  </div>
+
+  <h3>3.2 Statistical Analysis</h3>
+
+  <p>For each model, compute:</p>
+
+  <ul>
+    <li><strong>χ² / d.o.f.</strong> — Goodness of fit</li>
+    <li><strong>AIC</strong> — Akaike Information Criterion</li>
+    <li><strong>BIC</strong> — Bayesian Information Criterion</li>
+    <li><strong>Bayes Factor</strong> — Model comparison</li>
+  </ul>
+
+  <div class="eq boxed">
+    \[\text{AIC} = 2k - 2\ln(\hat{L}), \quad \text{BIC} = k\ln(n) - 2\ln(\hat{L})\]
+    <div class="eq-label">(3.1)</div>
+  </div>
+
+  <h3>3.3 Discrimination Criteria</h3>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">STUR Confirmed If:</div>
+    <ul style="margin:0;color:var(--text-secondary);">
+      <li>Model A (Gaussian in ΔL²) has lowest AIC/BIC</li>
+      <li>Bayes factor for A vs B, C, D all > 10</li>
+      <li>Fitted ℓ<sub>coh</sub> ∈ [0.3, 30] m</li>
+      <li>No statistically significant time dependence</li>
+      <li>No mass dependence (both species give same ℓ<sub>coh</sub>)</li>
+    </ul>
+  </div>
+
+  <div class="block" style="border-color:var(--error);">
+    <div class="title" style="color:var(--error);">STUR Falsified If:</div>
+    <ul style="margin:0;color:var(--text-secondary);">
+      <li>Model B (oscillatory) has lowest AIC/BIC with > 5σ confidence</li>
+      <li>OR Model C (time-dependent) fits with > 5σ time variation</li>
+      <li>OR visibility depends on atomic mass at > 5σ significance</li>
+      <li>OR Gaussian fit gives ℓ<sub>coh</sub> < 0.1 m or > 100 m</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SECTION 4: SYSTEMATIC ERRORS -->
+<section class="section" id="systematics">
+  <h2>4. Systematic Error Budget</h2>
+
+  <table>
+    <thead>
+      <tr><th>Source</th><th>Estimated Error</th><th>Mitigation</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Path length uncertainty</td>
+        <td>± 1 mm</td>
+        <td>Laser ranging calibration</td>
+      </tr>
+      <tr>
+        <td>Vibration decoherence</td>
+        <td>Variable</td>
+        <td>Active isolation, correlation with seismometer</td>
+      </tr>
+      <tr>
+        <td>Magnetic field gradients</td>
+        <td>± 0.5%</td>
+        <td>Shielding, clock transitions</td>
+      </tr>
+      <tr>
+        <td>Beam splitter imperfections</td>
+        <td>± 1%</td>
+        <td>Calibration with V<sub>0</sub> measurement</td>
+      </tr>
+      <tr>
+        <td>Detection efficiency</td>
+        <td>± 2%</td>
+        <td>Monitor total atom number</td>
+      </tr>
+      <tr style="background:rgba(251,191,36,0.08);">
+        <td><strong>Total systematic</strong></td>
+        <td><strong>≤ 3%</strong></td>
+        <td>Quadrature sum</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 5: EXPECTED RESULTS -->
+<section class="section" id="expected" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--success);">5. Expected Results</h2>
+
+  <h3>5.1 If STUR Is Correct</h3>
+
+  <p>For ℓ<sub>coh</sub> = 3 m (central prediction):</p>
+
+  <table>
+    <thead>
+      <tr><th>ΔL (m)</th><th>V/V<sub>0</sub></th><th>Measurable?</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>0.5</td><td>0.97</td><td style="color:var(--success);">Yes</td></tr>
+      <tr><td>1.0</td><td>0.89</td><td style="color:var(--success);">Yes</td></tr>
+      <tr><td>2.0</td><td>0.64</td><td style="color:var(--success);">Yes</td></tr>
+      <tr><td>3.0</td><td>0.37</td><td style="color:var(--success);">Yes</td></tr>
+      <tr><td>5.0</td><td>0.11</td><td style="color:var(--success);">Yes</td></tr>
+      <tr><td>10.0</td><td>0.0001</td><td style="color:var(--warning);">Near limit</td></tr>
+    </tbody>
+  </table>
+
+  <h3>5.2 Signal-to-Noise Estimate</h3>
+
+  <p>For N = 1000 atoms per shot, shot noise:</p>
+
+  <div class="eq boxed">
+    \[\sigma_V = \frac{1}{\sqrt{N}} \approx 3\%\]
+    <div class="eq-label">(5.1)</div>
+  </div>
+
+  <p>With 50 repetitions per point:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{\sigma_V^{\rm stat} = \frac{3\%}{\sqrt{50}} \approx 0.4\%}\]
+    <div class="eq-label" style="color:var(--success);">(5.2) — Statistical precision</div>
+  </div>
+
+  <p>This is sufficient to distinguish Gaussian from exponential decay at > 5σ for ℓ<sub>coh</sub> = 3 m.</p>
+</section>
+
+<!-- SECTION 6: TIMELINE -->
+<section class="section" id="timeline">
+  <h2>6. Proposed Experimental Campaign</h2>
+
+  <div class="walkthrough" style="margin:1rem 0;">
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 1: Calibration</strong><br>
+        Establish V<sub>0</sub>, verify environmental stability, characterize systematics.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 2: Primary Scan</strong><br>
+        Full ΔL scan with primary species (<sup>87</sup>Rb).
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 3: Mass Independence</strong><br>
+        Repeat scan with secondary species (<sup>133</sup>Cs or <sup>170</sup>Yb).
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 4: Time Stability</strong><br>
+        Extended monitoring for time-dependent effects.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 5: Publication</strong><br>
+        Full statistical analysis, peer review, publication.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSION -->
+<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--success);">Conclusion</h2>
+
+  <p style="font-size:1.05rem;color:var(--text);">
+    <strong>STUR provides a clear, falsifiable prediction testable with existing matter-wave interferometers.</strong>
+    The protocol outlined here specifies:
+  </p>
+
+  <ul style="color:var(--text-secondary);">
+    <li>Exact functional form to test</li>
+    <li>Competing models to distinguish</li>
+    <li>Statistical criteria for confirmation/falsification</li>
+    <li>Systematic error budget</li>
+    <li>Experimental campaign structure</li>
+  </ul>
+
+  <div class="block success" style="margin-top:1rem;">
+    <div class="title">Call to Experimentalists</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Collaborations operating long-baseline atom interferometers (MAGIS-100, AION, ZAIGA, MIGA) are invited
+      to test this prediction. The author is available for detailed discussions of experimental requirements
+      and data analysis methodology.
+    </p>
+  </div>
+</section>
+
+<nav class="page-nav">
+  <a href="stur_predictions.html" class="prev">Predictions Overview</a>
+  <a href="stur_falsification.html" class="next">Falsification Criteria</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Experimental Protocol</strong></p>
+  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

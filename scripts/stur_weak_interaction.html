@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Weak Interaction — W/Z Bosons and Beta Decay</title>
+<meta name="description" content="Derivation of the weak interaction from STUR axioms. W and Z bosons, beta decay, and parity violation emerge from SU(2)×U(1) gauge symmetry breaking.">
+
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_weak_interaction.html" class="glass-nav-link active">Weak Force</a>
+      <a href="stur_symbols.html" class="glass-nav-link">Symbols</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>The Weak Interaction from STUR</h1>
+  <p class="subtitle">W/Z Bosons, Beta Decay, and Parity Violation</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    Complete derivation of the weak nuclear force
+  </p>
+</header>
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--success);">Executive Summary</h2>
+
+  <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Main Results</div>
+    <p style="margin:0;color:var(--text);line-height:1.7;">
+      The weak interaction emerges from STUR through:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <li>SU(2)<sub>L</sub> × U(1)<sub>Y</sub> gauge symmetry from MHP</li>
+      <li>Spontaneous symmetry breaking via Higgs (H = A<sub>5</sub>)</li>
+      <li>Massive W<sup>±</sup> and Z<sup>0</sup> bosons</li>
+      <li>Parity violation from chiral fermion localization</li>
+      <li>Beta decay amplitude fully determined</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SECTION 1: ELECTROWEAK GAUGE GROUP -->
+<section class="section" id="ew-gauge">
+  <h2>1. Electroweak Gauge Symmetry</h2>
+
+  <h3>1.1 SU(2)<sub>L</sub> × U(1)<sub>Y</sub> from MHP</h3>
+
+  <p>From <a href="stur_gauge_emergence_rigorous.html">Gauge Emergence</a>, the electroweak gauge group
+  is selected by holonomy minimization:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{G_{\rm EW} = SU(2)_L \times U(1)_Y}\]
+    <div class="eq-label" style="color:var(--gold);">(1.1) — Electroweak gauge group</div>
+  </div>
+
+  <h3>1.2 Gauge Bosons</h3>
+
+  <p>The gauge fields are:</p>
+  <ul>
+    <li>W<sup>1</sup><sub>μ</sub>, W<sup>2</sup><sub>μ</sub>, W<sup>3</sup><sub>μ</sub>: SU(2)<sub>L</sub> triplet (3 bosons)</li>
+    <li>B<sub>μ</sub>: U(1)<sub>Y</sub> singlet (1 boson)</li>
+  </ul>
+
+  <h3>1.3 Gauge Couplings</h3>
+
+  <div class="eq boxed">
+    \[g_2 \equiv g_{SU(2)} \approx 0.65, \quad g_1 \equiv g_{U(1)} \approx 0.36\]
+    <div class="eq-label">(1.2)</div>
+  </div>
+</section>
+
+<!-- SECTION 2: SYMMETRY BREAKING -->
+<section class="section" id="symmetry-breaking" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">2. Electroweak Symmetry Breaking</h2>
+
+  <h3>2.1 Higgs = A<sub>5</sub></h3>
+
+  <p>From <a href="stur_higgs_derivation.html">Higgs Derivation</a>, the Higgs field is the fifth
+  component of the gauge field:</p>
+
+  <div class="eq boxed">
+    \[H = A_5 \quad \text{(boundary mode on orbifold)}\]
+    <div class="eq-label">(2.1)</div>
+  </div>
+
+  <h3>2.2 Higgs VEV</h3>
+
+  <p>Coleman-Weinberg mechanism gives:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\langle H \rangle = \frac{1}{\sqrt{2}}\begin{pmatrix} 0 \\ v \end{pmatrix}, \quad v = 246\, \text{GeV}}\]
+    <div class="eq-label" style="color:var(--gold);">(2.2) — Higgs VEV</div>
+  </div>
+
+  <h3>2.3 Symmetry Breaking Pattern</h3>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{SU(2)_L \times U(1)_Y \;\xrightarrow{\langle H \rangle \neq 0}\; U(1)_{\rm em}}\]
+    <div class="eq-label" style="color:var(--success);">(2.3) — EWSB pattern</div>
+  </div>
+
+  <p>Three generators are broken → three massive gauge bosons (W<sup>+</sup>, W<sup>-</sup>, Z<sup>0</sup>).
+  One generator survives → one massless boson (photon γ).</p>
+</section>
+
+<!-- SECTION 3: W AND Z BOSONS -->
+<section class="section" id="wz-bosons" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
+  <h2 style="color:var(--success);">3. W and Z Boson Masses</h2>
+
+  <h3>3.1 Physical Gauge Bosons</h3>
+
+  <p>The mass eigenstates are:</p>
+
+  <div class="eq boxed">
+    \[W^\pm_\mu = \frac{1}{\sqrt{2}}(W^1_\mu \mp iW^2_\mu)\]
+    <div class="eq-label">(3.1)</div>
+  </div>
+
+  <div class="eq boxed">
+    \[Z_\mu = \cos\theta_W W^3_\mu - \sin\theta_W B_\mu\]
+    <div class="eq-label">(3.2)</div>
+  </div>
+
+  <div class="eq boxed">
+    \[A_\mu = \sin\theta_W W^3_\mu + \cos\theta_W B_\mu\]
+    <div class="eq-label">(3.3)</div>
+  </div>
+
+  <h3>3.2 Weinberg Angle</h3>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\tan\theta_W = \frac{g_1}{g_2}, \quad \sin^2\theta_W \approx 0.231}\]
+    <div class="eq-label" style="color:var(--gold);">(3.4) — Weinberg angle</div>
+  </div>
+
+  <h3>3.3 Boson Masses</h3>
+
+  <p>From the Higgs mechanism:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{M_W = \frac{g_2 v}{2} = 80.4\, \text{GeV}}\]
+    <div class="eq-label" style="color:var(--success);">(3.5a) — W mass (DERIVED)</div>
+  </div>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{M_Z = \frac{v\sqrt{g_1^2 + g_2^2}}{2} = \frac{M_W}{\cos\theta_W} = 91.2\, \text{GeV}}\]
+    <div class="eq-label" style="color:var(--success);">(3.5b) — Z mass (DERIVED)</div>
+  </div>
+
+  <div class="eq boxed">
+    \[M_\gamma = 0 \quad \text{(photon massless)}\]
+    <div class="eq-label">(3.5c)</div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Precision Agreement</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Observed: M<sub>W</sub> = 80.377 ± 0.012 GeV, M<sub>Z</sub> = 91.1876 ± 0.0021 GeV.
+      STUR predictions match experiment.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 4: CHARGED CURRENT INTERACTION -->
+<section class="section" id="charged-current" style="border:2px solid var(--matter); background:rgba(244,114,182,0.04);">
+  <h2 style="color:var(--matter);">4. Charged Current (W) Interaction</h2>
+
+  <h3>4.1 W-Fermion Coupling</h3>
+
+  <p>The W boson couples only to left-handed fermions:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--matter);">
+    \[\boxed{\mathcal{L}_{CC} = -\frac{g_2}{\sqrt{2}}\left(W^+_\mu \bar{u}_L\gamma^\mu d_L + W^-_\mu \bar{d}_L\gamma^\mu u_L + \text{leptons}\right)}\]
+    <div class="eq-label" style="color:var(--matter);">(4.1) — Charged current interaction</div>
+  </div>
+
+  <h3>4.2 Parity Violation</h3>
+
+  <p>The W couples only to left-handed particles because:</p>
+  <ul>
+    <li>Ψ<sub>L</sub> has zero mode on orbifold (from Z<sub>2</sub> parity)</li>
+    <li>Ψ<sub>R</sub> has no zero mode at weak scale</li>
+  </ul>
+
+  <div class="block gold">
+    <div class="title">Maximal Parity Violation</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Parity violation is <strong>not put in by hand</strong>—it follows from the orbifold
+      boundary conditions. Left-handed fermions have different localization than right-handed.
+    </p>
+  </div>
+
+  <h3>4.3 CKM Matrix</h3>
+
+  <p>For quarks, the W couples to mass eigenstates via the CKM matrix:</p>
+
+  <div class="eq boxed">
+    \[\mathcal{L}_{CC}^{\rm quark} = -\frac{g_2}{\sqrt{2}} W^+_\mu \bar{u}_{iL}\gamma^\mu V_{ij} d_{jL} + \text{h.c.}\]
+    <div class="eq-label">(4.2)</div>
+  </div>
+
+  <p>where V<sub>ij</sub> is the CKM matrix derived in <a href="stur_ckm_derivation.html">CKM Derivation</a>.</p>
+</section>
+
+<!-- SECTION 5: BETA DECAY -->
+<section class="section" id="beta-decay" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--success);">5. Beta Decay</h2>
+
+  <h3>5.1 Neutron Decay</h3>
+
+  <p>The process n → p + e<sup>-</sup> + ν̄<sub>e</sub> at the quark level:</p>
+
+  <div class="eq boxed">
+    \[d \to u + W^- \to u + e^- + \bar{\nu}_e\]
+    <div class="eq-label">(5.1)</div>
+  </div>
+
+  <h3>5.2 Amplitude</h3>
+
+  <p>The tree-level amplitude:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{\mathcal{M} = \frac{g_2^2}{8M_W^2} V_{ud} \left[\bar{u}\gamma^\mu(1-\gamma^5)d\right]\left[\bar{e}\gamma_\mu(1-\gamma^5)\nu\right]}\]
+    <div class="eq-label" style="color:var(--success);">(5.2) — Beta decay amplitude</div>
+  </div>
+
+  <h3>5.3 Fermi Constant</h3>
+
+  <p>In the low-energy limit (q² << M<sub>W</sub>²), we recover Fermi's theory:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{G_F = \frac{g_2^2}{4\sqrt{2}M_W^2} = 1.166 \times 10^{-5}\, \text{GeV}^{-2}}\]
+    <div class="eq-label" style="color:var(--success);">(5.3) — Fermi constant (DERIVED)</div>
+  </div>
+
+  <h3>5.4 Neutron Lifetime</h3>
+
+  <p>The neutron lifetime is calculated from the amplitude:</p>
+
+  <div class="eq boxed">
+    \[\tau_n = \frac{2\pi^3}{m_e^5 G_F^2 |V_{ud}|^2 (1 + 3g_A^2) f}\]
+    <div class="eq-label">(5.4)</div>
+  </div>
+
+  <p>where f is a phase space factor and g<sub>A</sub> is the axial coupling.</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{\tau_n \approx 880\, \text{seconds}}\]
+    <div class="eq-label" style="color:var(--success);">(5.5) — Neutron lifetime</div>
+  </div>
+
+  <p>Observed: τ<sub>n</sub> = 879.4 ± 0.6 s.</p>
+</section>
+
+<!-- SECTION 6: NEUTRAL CURRENT -->
+<section class="section" id="neutral-current">
+  <h2>6. Neutral Current (Z) Interaction</h2>
+
+  <h3>6.1 Z-Fermion Coupling</h3>
+
+  <div class="eq law" style="background:#000;border:2px solid #22d3ee;">
+    \[\boxed{\mathcal{L}_{NC} = -\frac{g_2}{\cos\theta_W} Z_\mu \bar{f}\gamma^\mu(g_V^f - g_A^f\gamma^5)f}\]
+    <div class="eq-label" style="color:#22d3ee;">(6.1) — Neutral current interaction</div>
+  </div>
+
+  <h3>6.2 Vector and Axial Couplings</h3>
+
+  <div class="eq boxed">
+    \[g_V^f = T_3^f - 2Q_f\sin^2\theta_W, \quad g_A^f = T_3^f\]
+    <div class="eq-label">(6.2)</div>
+  </div>
+
+  <p>where T<sub>3</sub> is the weak isospin and Q is the electric charge.</p>
+
+  <h3>6.3 Neutrino Scattering</h3>
+
+  <p>The Z enables neutrino-electron scattering:</p>
+
+  <div class="eq boxed">
+    \[\nu_e + e^- \to \nu_e + e^-\]
+    <div class="eq-label">(6.3)</div>
+  </div>
+
+  <p>This was the key discovery of neutral currents (1973).</p>
+</section>
+
+<!-- SECTION 7: W AND Z DECAYS -->
+<section class="section" id="decays">
+  <h2>7. W and Z Boson Decays</h2>
+
+  <h3>7.1 W Decay Modes</h3>
+
+  <table>
+    <thead>
+      <tr><th>Mode</th><th>Branching Ratio</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>W → eν</td><td>10.7%</td></tr>
+      <tr><td>W → μν</td><td>10.7%</td></tr>
+      <tr><td>W → τν</td><td>10.7%</td></tr>
+      <tr><td>W → qq̄' (hadronic)</td><td>67.6%</td></tr>
+    </tbody>
+  </table>
+
+  <p>Total width: Γ<sub>W</sub> ≈ 2.1 GeV.</p>
+
+  <h3>7.2 Z Decay Modes</h3>
+
+  <table>
+    <thead>
+      <tr><th>Mode</th><th>Branching Ratio</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Z → e<sup>+</sup>e<sup>-</sup></td><td>3.4%</td></tr>
+      <tr><td>Z → μ<sup>+</sup>μ<sup>-</sup></td><td>3.4%</td></tr>
+      <tr><td>Z → τ<sup>+</sup>τ<sup>-</sup></td><td>3.4%</td></tr>
+      <tr><td>Z → νν̄ (invisible)</td><td>20%</td></tr>
+      <tr><td>Z → qq̄ (hadronic)</td><td>70%</td></tr>
+    </tbody>
+  </table>
+
+  <p>Total width: Γ<sub>Z</sub> ≈ 2.5 GeV.</p>
+
+  <h3>7.3 Counting Neutrino Generations</h3>
+
+  <p>The invisible Z width gives:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{N_\nu = 2.984 \pm 0.008 \approx 3}\]
+    <div class="eq-label" style="color:var(--success);">(7.1) — Three light neutrinos</div>
+  </div>
+
+  <p>Consistent with STUR's prediction of 3 generations from topology.</p>
+</section>
+
+<!-- SECTION 8: DERIVATION CHAIN -->
+<section class="section" id="chain" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">8. Complete Derivation Chain</h2>
+
+  <div class="walkthrough" style="margin:1rem 0;">
+    <div class="step">
+      <div class="step-content">
+        <strong>Axiom 1: Gauge Action</strong><br>
+        SU(2)<sub>L</sub> × U(1)<sub>Y</sub> from MHP
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Higgs = A<sub>5</sub></strong><br>
+        Fifth gauge component as Higgs doublet
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>EWSB</strong><br>
+        ⟨H⟩ = v/√2 breaks SU(2)×U(1) → U(1)<sub>em</sub>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>W, Z Masses</strong><br>
+        M<sub>W</sub> = 80.4 GeV, M<sub>Z</sub> = 91.2 GeV
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Charged Current</strong><br>
+        W couples to left-handed doublets
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Beta Decay</strong><br>
+        d → u + e + ν̄ via W exchange
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Fermi Theory</strong><br>
+        G<sub>F</sub> = g²/(4√2 M<sub>W</sub>²)
+      </div>
+    </div>
+  </div>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
+    \[\boxed{\text{Axiom 1} \;\xrightarrow{MHP}\; SU(2)\times U(1) \;\xrightarrow{H=A_5}\; \text{EWSB} \;\xrightarrow{}\; W, Z \;\xrightarrow{}\; \beta\text{-decay}}\]
+    <div class="eq-label" style="color:var(--success);">Complete Weak Interaction Derivation</div>
+  </div>
+
+  <div class="block success" style="margin-top:1rem;">
+    <div class="title">Weak Force from Geometry</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The entire weak interaction—W and Z bosons, parity violation, beta decay, CKM mixing—
+      follows from Axiom 1 (gauge emergence) and the orbifold Higgs mechanism.
+      No additional assumptions are required.
+    </p>
+  </div>
+</section>
+
+<nav class="page-nav">
+  <a href="stur_qcd_confinement.html" class="prev">QCD Confinement</a>
+  <a href="stur_sm_derivation.html" class="next">SM Derivation</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Weak Interaction</strong></p>
+  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

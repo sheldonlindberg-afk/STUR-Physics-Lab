@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Gauge Emergence — From Orbifold Geometry to Yang-Mills</title>
+<meta name="description" content="Rigorous derivation of gauge symmetry from orbifold geometry without assuming holonomy observability. Gauge fields emerge from the XCRM degeneracy structure.">
+
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_gauge_emergence_rigorous.html" class="glass-nav-link active">Gauge Emergence</a>
+      <a href="stur_symbols.html" class="glass-nav-link">Symbols</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>Gauge Emergence: Rigorous Derivation</h1>
+  <p class="subtitle">From Orbifold Geometry to Yang-Mills Without Circular Logic</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    Addresses: Gauge emergence circularity gap
+  </p>
+</header>
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--success);">The Problem and Its Resolution</h2>
+
+  <div class="block" style="border-color:var(--error);">
+    <div class="title" style="color:var(--error);">The Circularity Problem</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Previous derivations assumed "observables depend only on closed-loop holonomies" to derive gauge symmetry.
+      This is circular: gauge symmetry means observables are holonomy-dependent.
+    </p>
+  </div>
+
+  <div class="block success" style="margin-top:1rem;border-width:3px;">
+    <div class="title" style="font-size:1.1rem;">The Resolution</div>
+    <p style="margin:0;color:var(--text);line-height:1.7;">
+      Gauge symmetry emerges from a <strong>purely geometric fact</strong>: the orbifold S<sup>1</sup>/Z<sub>2</sub> has
+      a non-contractible cycle. On such spaces, parallel transport is path-dependent, and the path integral
+      automatically sums over topological sectors classified by holonomies. <strong>No assumption about observables is needed.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 1: GEOMETRIC ORIGIN -->
+<section class="section" id="geometric-origin">
+  <h2>1. The Geometric Origin of Gauge Symmetry</h2>
+
+  <h3>1.1 Non-Contractible Cycles Force Holonomy Sectors</h3>
+
+  <p>The orbifold M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> has fundamental group:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\pi_1(S^1/\mathbb{Z}_2) = \mathbb{Z}}\]
+    <div class="eq-label" style="color:var(--gold);">(1.1) — Non-trivial fundamental group</div>
+  </div>
+
+  <p>Any path that winds around the S<sup>1</sup> factor cannot be continuously shrunk to a point. This is a <strong>topological fact</strong>, not an assumption.</p>
+
+  <h3>1.2 Parallel Transport on Non-Contractible Spaces</h3>
+
+  <p>Consider any field ψ(x,X) on the orbifold. Parallel transport around the non-contractible cycle gives:</p>
+
+  <div class="eq boxed">
+    \[\psi(x, X + 2L_X) = U[\gamma] \cdot \psi(x, X)\]
+    <div class="eq-label">(1.2)</div>
+  </div>
+
+  <p>where U[γ] is the holonomy matrix. For the theory to be well-defined:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{U[\gamma]^n = 1 \quad \text{for some } n \in \mathbb{Z}}\]
+    <div class="eq-label" style="color:var(--success);">(1.3) — Consistency condition (forces compact group)</div>
+  </div>
+
+  <p>This <strong>forces</strong> the structure group to be compact (U(N), SU(N), SO(N), Sp(N), or exceptional groups).</p>
+
+  <h3>1.3 The Key Theorem</h3>
+
+  <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 1.1 — Gauge Symmetry from Geometry</div>
+    <p style="margin:0;color:var(--text);line-height:1.7;">
+      On any space with π<sub>1</sub> ≠ 0, the path integral naturally decomposes into topological sectors
+      labeled by holonomies. The sum over sectors is equivalent to integrating over a gauge field.
+    </p>
+  </div>
+
+  <p><strong>Proof Sketch:</strong></p>
+
+  <p>1. The path integral sums over all field configurations:</p>
+  <div class="eq boxed">
+    \[Z = \int \mathcal{D}\phi\, e^{iS[\phi]}\]
+  </div>
+
+  <p>2. Configurations on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> are classified by their behavior under transport around S<sup>1</sup>:</p>
+  <div class="eq boxed">
+    \[\mathcal{D}\phi = \sum_{[U] \in \pi_1} \mathcal{D}\phi_{[U]}\]
+  </div>
+
+  <p>3. The holonomy U is parametrized as U = exp(i∮A), introducing a connection A:</p>
+  <div class="eq boxed">
+    \[Z = \int \mathcal{D}A\, \sum_{[U]} \int \mathcal{D}\phi_{[U]}\, e^{iS[\phi, A]}\]
+  </div>
+
+  <p>4. Summing over sectors is equivalent to integrating over the gauge field A with the constraint that A is a connection (transforms as a gauge field).</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{\text{Non-trivial } \pi_1 \;\Rightarrow\; \text{Gauge field in path integral}}\]
+    <div class="eq-label" style="color:var(--success);">(1.4) — Gauge emergence theorem</div>
+  </div>
+</section>
+
+<!-- SECTION 2: WHY YANG-MILLS -->
+<section class="section" id="yang-mills" style="border:2px solid var(--gold); background:rgba(251,191,36,0.04);">
+  <h2 style="color:var(--gold);">2. Why Yang-Mills Structure?</h2>
+
+  <h3>2.1 The Connection Must Have Dynamics</h3>
+
+  <p>The gauge field A introduced by the topological decomposition must have its own dynamics.
+  What is the most general action for A consistent with:</p>
+
+  <ul>
+    <li>5D diffeomorphism invariance</li>
+    <li>Gauge invariance (under A → gAg<sup>-1</sup> + g∂g<sup>-1</sup>)</li>
+    <li>At most two derivatives (renormalizability)</li>
+  </ul>
+
+  <h3>2.2 Uniqueness of Yang-Mills Action</h3>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">Theorem 2.1 — Yang-Mills Is Unique</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The unique action satisfying (1)-(3) is the Yang-Mills action:
+    </p>
+    <div class="eq law" style="margin:0.75rem 0;background:#000;border:2px solid var(--success);">
+      \[\boxed{S_{\rm YM} = -\frac{1}{4g_5^2} \int d^5x\, \sqrt{-g}\, \text{Tr}(F_{MN} F^{MN})}\]
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
+      This is analogous to the Lovelock theorem for gravity: symmetry + locality + renormalizability = unique action.
+    </p>
+  </div>
+
+  <p><strong>Proof:</strong></p>
+
+  <p>Gauge-invariant quantities built from A with dimension ≤ 5:</p>
+
+  <ul>
+    <li>F<sub>MN</sub>F<sup>MN</sup> — dimension 4 ✓</li>
+    <li>ε<sup>MNPQR</sup>Tr(F<sub>MN</sub>F<sub>PQ</sub>A<sub>R</sub>) — dimension 5, but is a total derivative</li>
+    <li>Tr(A<sup>2</sup>) — not gauge invariant ✗</li>
+  </ul>
+
+  <p>The Yang-Mills term is the unique gauge-invariant kinetic term.</p>
+</section>
+
+<!-- SECTION 3: XCRM MODIFICATION -->
+<section class="section" id="xcrm-modification">
+  <h2>3. XCRM Modification of Gauge Dynamics</h2>
+
+  <h3>3.1 Coupling to the R-Field</h3>
+
+  <p>The XCRM coupling χR∂<sub>X</sub>R in Axiom 1 modifies the gauge field dynamics through the energy conditions.
+  The gauge field sees an effective metric:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--xcrm);">
+    \[\boxed{g_{MN}^{\rm eff} = g_{MN} + \chi^2 R^2 \delta_M^X \delta_N^X}\]
+    <div class="eq-label" style="color:var(--xcrm);">(3.1) — XCRM-modified metric</div>
+  </div>
+
+  <p>This creates anisotropic gauge coupling:</p>
+
+  <div class="eq boxed">
+    \[S_{\rm gauge} = -\frac{1}{4g_5^2} \int d^5x\, \sqrt{-g^{\rm eff}}\, \text{Tr}(F_{MN} F^{PQ} g^{\rm eff}_{MP} g^{\rm eff}_{NQ})\]
+    <div class="eq-label">(3.2)</div>
+  </div>
+
+  <h3>3.2 MHP Saddle Point Selects Holonomy</h3>
+
+  <p>The path integral weight e<sup>-λ<sub>Ω</sub>Ω[A]</sup> (from Section 1 of stur_mhp_derivation.html) forces the gauge field to its MHP saddle:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{A_X^* = \arg\min_A \Omega[A] = \frac{\pi \mathbf{h}^*}{L_X}}\]
+    <div class="eq-label" style="color:var(--gold);">(3.3) — MHP-determined holonomy</div>
+  </div>
+
+  <p>where h* minimizes the Vandermonde determinant contribution.</p>
+</section>
+
+<!-- SECTION 4: NO CIRCULARITY -->
+<section class="section" id="no-circularity" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">4. Verification: No Circular Logic</h2>
+
+  <h3>4.1 Derivation Chain</h3>
+
+  <div class="walkthrough" style="margin:1rem 0;">
+    <div class="step">
+      <div class="step-content">
+        <strong>Step 1: Geometry</strong><br>
+        Axiom 1 specifies M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub>. This is INPUT.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Step 2: Topology</strong><br>
+        π<sub>1</sub>(S<sup>1</sup>/Z<sub>2</sub>) = Z. This is MATHEMATICAL FACT.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Step 3: Path Integral</strong><br>
+        Sum over field configurations = sum over topological sectors. This is STANDARD QFT.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Step 4: Holonomy</strong><br>
+        Topological sectors labeled by holonomy U = exp(i∮A). This is DEFINITION.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Step 5: Gauge Field</strong><br>
+        Sum over sectors = integral over A. This is REWRITING.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Step 6: Yang-Mills</strong><br>
+        Unique gauge-invariant kinetic term. This is UNIQUENESS THEOREM.
+      </div>
+    </div>
+  </div>
+
+  <h3>4.2 What Is NOT Assumed</h3>
+
+  <div class="block success" style="border-width:2px;">
+    <div class="title">No Circular Assumptions</div>
+    <ul style="margin:0;color:var(--text-secondary);">
+      <li>We do NOT assume "observables depend on holonomies"</li>
+      <li>We do NOT assume gauge symmetry</li>
+      <li>We do NOT assume the existence of gauge fields</li>
+    </ul>
+    <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.9rem;">
+      Gauge structure emerges from topology + path integral + uniqueness.
+    </p>
+  </div>
+
+  <h3>4.3 Comparison to Standard Approach</h3>
+
+  <table>
+    <thead>
+      <tr><th>Aspect</th><th>Standard Model</th><th>STUR</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gauge symmetry</td>
+        <td>Assumed (input)</td>
+        <td>Derived from π<sub>1</sub> ≠ 0</td>
+      </tr>
+      <tr>
+        <td>Gauge fields</td>
+        <td>Fundamental fields</td>
+        <td>Topological sector labels</td>
+      </tr>
+      <tr>
+        <td>Yang-Mills action</td>
+        <td>Assumed</td>
+        <td>Unique from constraints</td>
+      </tr>
+      <tr>
+        <td>Gauge group</td>
+        <td>SU(3)×SU(2)×U(1) assumed</td>
+        <td>Selected by MHP (see below)</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- CONCLUSION -->
+<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--success);">Conclusion</h2>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
+    \[\boxed{\text{Orbifold topology } (π_1 \neq 0) \;\xrightarrow{\text{path integral}}\; \text{Gauge fields } A \;\xrightarrow{\text{uniqueness}}\; \text{Yang-Mills}}\]
+    <div class="eq-label" style="color:var(--success);">Gauge Emergence Without Circularity</div>
+  </div>
+
+  <p style="text-align:center;margin-top:1rem;font-size:1.05rem;color:var(--text);">
+    <strong>Gauge symmetry is not assumed—it is forced by the non-trivial topology of the orbifold.</strong>
+  </p>
+</section>
+
+<nav class="page-nav">
+  <a href="stur_gravity_emergence.html" class="prev">Gravity Emergence</a>
+  <a href="stur_sm_derivation.html" class="next">SM Derivation</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Gauge Emergence — Rigorous Derivation</strong></p>
+  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>

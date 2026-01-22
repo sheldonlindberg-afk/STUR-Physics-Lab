@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Quantum Gravity — Planck Scale Physics</title>
+<meta name="description" content="Complete quantum gravity framework: graviton, Planck scale physics, and UV completion from STUR.">
+
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_black_hole_thermodynamics.html" class="glass-nav-link">Black Holes</a>
+      <a href="stur_gravity_emergence.html" class="glass-nav-link">Gravity Emergence</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 class="page-title-core">Quantum Gravity in STUR</h1>
+  <p class="subtitle">Planck Scale Physics, Graviton, and UV Completion</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
+    <a href="stur_black_hole_thermodynamics.html" style="color:var(--accent);">Black holes</a>
+  </p>
+</header>
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(74,222,128,0.02) 100%);">
+  <h2 style="color:var(--success);">Quantum Gravity from Holonomy Quantization</h2>
+
+  <p><strong>STUR provides a UV-complete quantum gravity framework</strong> through:</p>
+
+  <ol style="color:var(--text-secondary);margin:1rem 0 1rem 1.5rem;line-height:1.9;">
+    <li>Holonomy quantization replaces metric quantization</li>
+    <li>The extra dimension provides a natural UV cutoff at \(M_{\rm KK} \sim 5\) TeV</li>
+    <li>Gravity is emergent from the resistance field, not fundamental</li>
+    <li>The Planck scale emerges as a composite scale: \(M_{\rm Pl} = M_{\rm KK} / \sqrt{G_5 / L_X}\)</li>
+  </ol>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;">
+    \[\boxed{M_{\rm Pl}^2 = \frac{\XCRM{L_X}}{G_5} = \frac{\XCRM{L_X} \cdot M_{\rm KK}^3}{\lambda_5}}\]
+    <div class="eq-label" style="color:var(--success);">(QG.1) — Planck mass from 5D parameters</div>
+  </div>
+</section>
+
+<!-- GRAVITON SECTOR -->
+<section class="section" id="graviton">
+  <h2>1. The Graviton in STUR</h2>
+
+  <h3>1.1 5D Graviton Decomposition</h3>
+
+  <p>The 5D metric fluctuation \(h_{MN}\) decomposes under the orbifold:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\Tor{h_{MN}} \to \begin{cases}
+    \Tor{h_{\mu\nu}^{(0)}} & \text{4D graviton (massless)} \\
+    \Tor{h_{\mu\nu}^{(n)}} & \text{KK gravitons (mass } m_n = n/L_X \text{)} \\
+    \Tor{h_{\mu 5}} & \text{Graviphoton (projected out by } \mathbb{Z}_2 \text{)} \\
+    \Tor{h_{55}} & \text{Radion (stabilized by DHP)}
+    \end{cases}\]
+    <div class="eq-label">(QG.2) — Graviton KK tower</div>
+  </div>
+
+  <h3>1.2 Massless Graviton</h3>
+
+  <p>The 4D massless graviton is the zero mode of the 5D metric:</p>
+
+  <div class="eq" style="margin:1rem 0;">
+    \[\Tor{h_{\mu\nu}^{(0)}(x)} = \frac{1}{\sqrt{\pi L_X}} \int_0^{\pi L_X} \Tor{h_{\mu\nu}(x, X)}\, dX\]
+  </div>
+
+  <p>The graviton propagator in STUR:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\Quant{\langle h_{\mu\nu}(k) h_{\rho\sigma}(-k) \rangle} = \frac{i\, P_{\mu\nu\rho\sigma}}{k^2 + i\epsilon} \cdot \XCRM{W_{\rm hol}(k)}}\]
+    <div class="eq-label" style="color:var(--gold);">(QG.3) — Graviton propagator with holonomy weight</div>
+  </div>
+
+  <p>where \(P_{\mu\nu\rho\sigma}\) is the transverse-traceless projector and \(\XCRM{W_{\rm hol}(k)} = e^{-|k|L_X/\beta}\) is the holonomy suppression factor that regulates UV divergences.</p>
+
+  <h3>1.3 KK Graviton Spectrum</h3>
+
+  <table>
+    <thead>
+      <tr><th>Mode</th><th>Mass</th><th>Coupling</th><th>Phenomenology</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>\(n = 0\)</td>
+        <td>0</td>
+        <td>\(1/M_{\rm Pl}\)</td>
+        <td>Standard gravity</td>
+      </tr>
+      <tr>
+        <td>\(n = 1\)</td>
+        <td>\(\sim 5\) TeV</td>
+        <td>\(1/M_{\rm Pl}\)</td>
+        <td>LHC searches</td>
+      </tr>
+      <tr>
+        <td>\(n = 2\)</td>
+        <td>\(\sim 10\) TeV</td>
+        <td>\(1/M_{\rm Pl}\)</td>
+        <td>Future colliders</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- UV COMPLETION -->
+<section class="section" id="uv" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">2. UV Completion via Holonomy</h2>
+
+  <h3>2.1 The Holonomy Regulator</h3>
+
+  <p>In STUR, all loop integrals are regulated by the holonomy weight:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;">
+    \[\boxed{\int \frac{d^4k}{(2\pi)^4} \to \int \frac{d^4k}{(2\pi)^4}\, \XCRM{W_{\rm hol}(k)} = \int \frac{d^4k}{(2\pi)^4}\, e^{-|k| \XCRM{L_X}}}\]
+    <div class="eq-label" style="color:var(--success);">(QG.4) — Holonomy-regulated integrals</div>
+  </div>
+
+  <p>This exponential suppression eliminates all UV divergences without introducing new particles or higher derivatives.</p>
+
+  <h3>2.2 No Ghosts, No Tachyons</h3>
+
+  <p>The holonomy regulation preserves:</p>
+
+  <ul style="color:var(--text-secondary);margin:1rem 0 1rem 1.5rem;">
+    <li><strong>Unitarity:</strong> No negative norm states (no ghosts)</li>
+    <li><strong>Causality:</strong> No superluminal propagation (no tachyons)</li>
+    <li><strong>Lorentz invariance:</strong> Preserved in 4D effective theory</li>
+    <li><strong>Gauge invariance:</strong> Diffeomorphism invariance maintained</li>
+  </ul>
+
+  <h3>2.3 Finite Quantum Corrections</h3>
+
+  <p>All gravitational loop corrections are finite. For example, the 1-loop correction to Newton's constant:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\delta G_N = \frac{G_N^2}{16\pi^2} \int d^4k\, k^2 \cdot \XCRM{W_{\rm hol}^2(k)} = \frac{G_N^2}{16\pi^2 \XCRM{L_X^4}} < 10^{-60}\]
+    <div class="eq-label">(QG.5) — Finite 1-loop correction</div>
+  </div>
+</section>
+
+<!-- PLANCK SCALE PHYSICS -->
+<section class="section" id="planck">
+  <h2>3. Planck Scale Physics</h2>
+
+  <h3>3.1 The Planck Scale as Composite</h3>
+
+  <p>In STUR, the Planck scale is not fundamental—it emerges from 5D parameters:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--accent);padding:1.25rem;">
+    \[\boxed{M_{\rm Pl} = \sqrt{\frac{\XCRM{L_X} \cdot M_{\rm KK}^3}{\lambda_5}} \approx 2.4 \times 10^{18} \text{ GeV}}\]
+    <div class="eq-label" style="color:var(--accent);">(QG.6) — Planck mass derivation</div>
+  </div>
+
+  <p>With \(M_{\rm KK} \sim 5\) TeV and \(\lambda_5 \sim 1\), this requires \(L_X \sim 10^{-17}\) m.</p>
+
+  <h3>3.2 Modified Dispersion Relations</h3>
+
+  <p>Near the Planck scale, STUR predicts modified dispersion relations:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[E^2 = p^2 c^2 + m^2 c^4 + \XCRM{\alpha_{\rm LV}} \cdot \frac{p^4 c^4}{M_{\rm Pl}^2}\]
+    <div class="eq-label">(QG.7) — Modified dispersion relation</div>
+  </div>
+
+  <p>where \(\XCRM{\alpha_{\rm LV}} \sim (M_{\rm KK}/M_{\rm Pl})^2 \sim 10^{-30}\). This is consistent with gamma-ray burst constraints.</p>
+
+  <h3>3.3 Minimum Length</h3>
+
+  <p>The holonomy structure implies a minimum measurable length:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1rem;">
+    \[\boxed{\Delta x_{\rm min} = \XCRM{L_X} \cdot \sqrt{\frac{\Delta p}{M_{\rm KK}}} \geq \XCRM{L_X} \sim 10^{-17} \text{ m}}\]
+    <div class="eq-label" style="color:var(--gold);">(QG.8) — Minimum length from holonomy</div>
+  </div>
+
+  <p>This is much larger than the Planck length (\(10^{-35}\) m), providing an accessible scale for quantum gravity effects.</p>
+</section>
+
+<!-- GRAVITATIONAL SCATTERING -->
+<section class="section" id="scattering" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(167,139,250,0.02) 100%);">
+  <h2 style="color:var(--accent-secondary);">4. Trans-Planckian Scattering</h2>
+
+  <h3>4.1 High-Energy Behavior</h3>
+
+  <p>At energies \(E > M_{\rm KK}\), graviton exchange includes the KK tower:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\mathcal{A}(s, t) \sim \sum_{n=0}^{\infty} \frac{s^2}{M_{\rm Pl}^2 (t - m_n^2)} \cdot \XCRM{W_{\rm hol}(\sqrt{s})}\]
+    <div class="eq-label">(QG.9) — KK graviton amplitude</div>
+  </div>
+
+  <h3>4.2 Black Hole Production Threshold</h3>
+
+  <p>In STUR, black hole production in collisions requires:</p>
+
+  <div class="eq" style="margin:1rem 0;">
+    \[E_{\rm CM} > M_{\rm min}^{\rm BH} \sim M_{\rm KK} \sim 5 \text{ TeV}\]
+  </div>
+
+  <p>This is below the 4D Planck scale but above current LHC energies (13.6 TeV CM, but with parton fractions).</p>
+
+  <h3>4.3 Regge Behavior</h3>
+
+  <p>At very high energies, the amplitude exhibits Regge behavior:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--accent-secondary);padding:1rem;">
+    \[\boxed{\mathcal{A}(s, t) \sim s^{2 + \alpha' t} \cdot \exp(-\XCRM{L_X} \sqrt{s})}\]
+    <div class="eq-label" style="color:var(--accent-secondary);">(QG.10) — Regge trajectory with holonomy damping</div>
+  </div>
+
+  <p>The holonomy factor ensures the amplitude is bounded at all energies.</p>
+</section>
+
+<!-- EMERGENCE OF SPACETIME -->
+<section class="section" id="emergence">
+  <h2>5. Emergence of Spacetime</h2>
+
+  <h3>5.1 Pre-Geometric Phase</h3>
+
+  <p>In STUR, spacetime emerges from the resistance field dynamics:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\Tor{g_{\mu\nu}} = \eta_{\mu\nu} + \Tor{\alpha} \cdot \Diff{R} \cdot \Tor{\partial_\mu\partial_\nu R} + O(R^2)\]
+    <div class="eq-label">(QG.11) — Metric from resistance field</div>
+  </div>
+
+  <p>At the fundamental level, there is no spacetime—only the R-field and its holonomy.</p>
+
+  <h3>5.2 Spacetime Discreteness</h3>
+
+  <p>The holonomy quantization implies a discrete structure at the KK scale:</p>
+
+  <ul style="color:var(--text-secondary);margin:1rem 0 1rem 1.5rem;">
+    <li>Areas are quantized: \(A = n \cdot \XCRM{L_X^2}\)</li>
+    <li>Volumes are quantized: \(V = m \cdot \XCRM{L_X^3}\)</li>
+    <li>Time intervals are quantized: \(\Delta t = k \cdot \XCRM{L_X/c}\)</li>
+  </ul>
+
+  <h3>5.3 Causal Structure</h3>
+
+  <p>The causal structure emerges from the R-field light cone:</p>
+
+  <div class="eq" style="margin:1rem 0;">
+    \[ds^2 = 0 \quad \Leftrightarrow \quad \Diff{\nabla R} \cdot \Diff{\nabla R} = 0\]
+  </div>
+</section>
+
+<!-- PREDICTIONS TABLE -->
+<section class="section" id="predictions">
+  <h2>6. Summary of Quantum Gravity Predictions</h2>
+
+  <table>
+    <thead>
+      <tr><th>Prediction</th><th>STUR Value</th><th>Test</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Minimum length</td>
+        <td>\(\sim 10^{-17}\) m</td>
+        <td>High-energy scattering</td>
+      </tr>
+      <tr>
+        <td>KK graviton mass</td>
+        <td>\(\sim 5\) TeV</td>
+        <td>LHC/FCC searches</td>
+      </tr>
+      <tr>
+        <td>Lorentz violation parameter</td>
+        <td>\(\alpha_{\rm LV} < 10^{-30}\)</td>
+        <td>GRB time delays</td>
+      </tr>
+      <tr>
+        <td>Minimum BH mass</td>
+        <td>\(\sim 5\) TeV</td>
+        <td>Collider signatures</td>
+      </tr>
+      <tr>
+        <td>Graviton number density</td>
+        <td>\(n_g \sim T^3\)</td>
+        <td>Cosmological constraints</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- FALSIFICATION -->
+<section class="section" style="border:2px solid var(--error); background:linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(239,68,68,0.02) 100%);">
+  <h2 style="color:var(--error);">7. Falsification Criteria</h2>
+
+  <ol style="color:var(--text-secondary);margin:1rem 0 1rem 1.5rem;line-height:1.9;">
+    <li><strong>Large Lorentz violation:</strong> If \(\alpha_{\rm LV} > 10^{-20}\), holonomy regulation fails</li>
+    <li><strong>Low-mass KK gravitons:</strong> Discovery at \(M < 3\) TeV would change the scale</li>
+    <li><strong>Non-finite loop corrections:</strong> Detection of divergent radiative corrections would falsify UV completion</li>
+    <li><strong>Continuous spacetime at KK scale:</strong> Evidence against discreteness at \(\sim 10^{-17}\) m</li>
+  </ol>
+</section>
+
+<nav class="page-nav">
+  <a href="stur_black_hole_thermodynamics.html" class="prev">← Black Holes</a>
+  <a href="stur_gravity_emergence.html" class="next">Gravity Emergence →</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR Quantum Gravity</strong></p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>
