@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>STUR Physics Lab — Unified Framework</title>
-<meta name="description" content="Unified physics framework from three axioms forced by orbifold geometry. Standard Model + gravity derived from one dynamically stabilized parameter (L_X). Falsifiable prediction: Gaussian visibility decay V(ΔL) = V₀ exp(−ΔL²/ℓ²_coh) on 5D orbifold S¹/Z₂.">
+<meta name="description" content="Unified physics framework from three axioms. Standard Model + gravity derived from orbifold geometry. Zero free parameters. Falsifiable prediction: Gaussian visibility decay.">
 
 <!-- STUR Theme System -->
 <link rel="stylesheet" href="assets/css/stur-core.css">
@@ -14,6 +14,131 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+/* Category Cards */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.category-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.category-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--card-accent, rgba(255,255,255,0.2));
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.category-card .card-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+.category-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.category-card .card-desc {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  line-height: 1.5;
+  flex: 1;
+}
+.category-card .card-count {
+  font-size: 0.75rem;
+  color: var(--card-accent, var(--text-quaternary));
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Primary Action Buttons */
+.primary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin: 32px 0;
+}
+.btn-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.btn-hero.primary {
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  color: #000;
+}
+.btn-hero.secondary {
+  background: rgba(74,222,128,0.15);
+  color: #4ade80;
+  border: 1px solid rgba(74,222,128,0.3);
+}
+.btn-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* Differentiator */
+.diff-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 24px 0;
+}
+.diff-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 24px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.diff-item .check {
+  color: #4ade80;
+  font-weight: bold;
+}
+
+/* Quick Links */
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 16px 0;
+}
+.quick-link {
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.quick-link:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-primary);
+}
+</style>
 </head>
 <body>
 
@@ -45,11 +170,10 @@
             <span class="stur-icon icon-menu lg" aria-hidden="true"></span>
         </button>
         <div class="glass-nav-links">
-            <a href="index.html" class="glass-nav-link active">Index</a>
+            <a href="index.html" class="glass-nav-link active">Home</a>
             <a href="scripts/stur_learn.html" class="glass-nav-link">Learn</a>
             <a href="scripts/stur_core_theory.html" class="glass-nav-link">Core Theory</a>
-            <a href="scripts/stur_symbols.html" class="glass-nav-link">Symbols</a>
-            <a href="scripts/stur_predictions.html" class="glass-nav-link">Predictions</a>
+            <a href="sitemap.html" class="glass-nav-link">Site Map</a>
             <!-- Mobile-only social links -->
             <div class="glass-nav-social-mobile">
                 <a href="https://www.tiktok.com/@that1sheldon" target="_blank" rel="noopener" class="glass-nav-link">
@@ -65,10 +189,6 @@
                     GitHub
                 </a>
             </div>
-            <button class="glass-nav-link glass-share-btn" onclick="STUR.share()" title="Share this page">
-                <span class="stur-icon icon-link" aria-hidden="true"></span>
-                Share
-            </button>
         </div>
     </nav>
 </header>
@@ -78,286 +198,143 @@
   <header class="site-header">
     <img src="assets/4.13.png" alt="STUR Physics Lab" class="logo-mark">
     <h1 class="site-title animate-in delay-1">STUR Physics Lab</h1>
-    <p class="site-tagline animate-in delay-2">Three Axioms. Complete Theory. Falsifiable.</p>
-    <p class="site-description animate-in delay-3">
-      A theoretical framework unifying gravity, gauge interactions, and quantum mechanics
-      through a single resistance field. STUR derives the Standard Model, all Yukawa couplings,
-      and general relativity from three axioms, producing a falsifiable prediction:
-      Gaussian visibility decay in matter-wave interferometry.
-    </p>
+    <p class="site-tagline animate-in delay-2">One Framework. All Physics. Testable.</p>
   </header>
 
-  <!-- === WHAT MAKES STUR DIFFERENT === -->
-  <section class="glass-panel animate-in delay-4">
-    <h2>What Makes This Different</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
-      <div style="padding: 16px; background: rgba(74,222,128,0.06); border-radius: 12px; border-left: 3px solid #4ade80;">
-        <strong style="color:#4ade80; font-size: 0.9rem;">Minimal Foundation</strong>
-        <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.5;">
-          Three axioms forced by orbifold geometry. One dynamically stabilized parameter.
-          <strong>All physics derived</strong> — including Yukawa couplings and mixing angles via <a href="scripts/stur_axiom3_flavor.html" style="color:#4ade80;">Axiom 3 (TFP)</a>.
-        </p>
-      </div>
-      <div style="padding: 16px; background: rgba(239,68,68,0.06); border-radius: 12px; border-left: 3px solid #ef4444;">
-        <strong style="color:#ef4444; font-size: 0.9rem;">Explicit Kill Criteria</strong>
-        <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.5;">
-          The <a href="scripts/stur_falsification.html" style="color:#ef4444;">falsification protocol</a>
-          specifies exactly what experimental results would exclude the theory. No moving goalposts.
-        </p>
-      </div>
-      <div style="padding: 16px; background: rgba(100,210,255,0.06); border-radius: 12px; border-left: 3px solid #64D2FF;">
-        <strong style="color:#64D2FF; font-size: 0.9rem;">Testable Now</strong>
-        <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.5;">
-          The predicted coherence length (0.3–30 m) is within reach of
-          <a href="scripts/stur_numerical_predictions.html" style="color:#64D2FF;">current interferometers</a>
-          like MAGIS-100 and AION.
-        </p>
-      </div>
-    </div>
-    <p style="margin-top: 16px; font-size: 0.8rem; color: var(--text-quaternary); text-align: center;">
-      New to STUR? Start with <a href="scripts/stur_learn.html" style="color:#60a5fa;">Learn STUR Physics</a>
-      or jump to <a href="scripts/stur_core_theory.html" style="color:var(--tier-core);">Core Theory</a>.
+  <!-- === INTRO === -->
+  <section class="glass-panel animate-in delay-3" style="text-align:center;">
+    <p style="font-size:1.1rem;color:var(--text-secondary);line-height:1.7;max-width:700px;margin:0 auto;">
+      STUR derives the Standard Model, general relativity, and quantum mechanics from
+      <strong style="color:#4ade80;">three axioms</strong> on a 5D orbifold.
+      No free parameters. One falsifiable prediction.
     </p>
+
+    <!-- Differentiators -->
+    <div class="diff-box">
+      <div class="diff-item"><span class="check">✓</span> 3 Axioms</div>
+      <div class="diff-item"><span class="check">✓</span> 0 Free Parameters</div>
+      <div class="diff-item"><span class="check">✓</span> All SM + Gravity</div>
+      <div class="diff-item"><span class="check">✓</span> Testable Now</div>
+    </div>
+
+    <!-- Primary Actions -->
+    <div class="primary-actions">
+      <a href="scripts/stur_learn.html" class="btn-hero primary">
+        <span class="stur-icon icon-book" aria-hidden="true"></span>
+        Learn STUR
+      </a>
+      <a href="scripts/stur_core_theory.html" class="btn-hero secondary">
+        <span class="stur-icon icon-document" aria-hidden="true"></span>
+        Core Theory
+      </a>
+    </div>
   </section>
 
-  <!-- === NEW: LEARN STUR === -->
-  <div class="section-header">
-    <span class="section-indicator" style="background: #60a5fa;"></span>
-    <span class="section-title">Learn STUR</span>
-    <span class="section-badge">Educational</span>
-  </div>
-  <div class="sim-grid animate-in delay-5">
-    <div class="sim-card" style="--card-accent: #60a5fa; grid-column: span 2; background: linear-gradient(135deg, rgba(96,165,250,0.08) 0%, rgba(167,139,250,0.04) 100%);">
-      <a href="scripts/stur_learn.html" style="display:flex;flex-direction:column;gap:0.5rem;">
-        <strong style="font-size:1.1rem;color:var(--text-primary);">Learn STUR Physics</strong>
-        <span style="font-size:0.9rem;color:var(--text-tertiary);line-height:1.5;">Multi-level tutorial: prerequisites, step-by-step derivations, comparisons to standard physics. Start here if you're new.</span>
+  <!-- === CATEGORY CARDS === -->
+  <section class="animate-in delay-4">
+    <h2 style="text-align:center;color:var(--text-secondary);font-size:1rem;font-weight:400;margin-bottom:8px;">Explore by Category</h2>
+
+    <div class="category-grid">
+      <!-- Foundations -->
+      <a href="scripts/stur_foundations_hub.html" class="category-card" style="--card-accent:#4ade80;">
+        <div class="card-icon">📐</div>
+        <div class="card-title">Foundations</div>
+        <div class="card-desc">The 3 axioms, Master Action, DHP, TFP, and how MHP is derived from the path integral.</div>
+        <div class="card-count">3 Axioms • MHP Derivation • Geometry</div>
       </a>
-      <span class="card-tag" style="color: #60a5fa;">Tutorial</span>
+
+      <!-- Standard Model -->
+      <a href="scripts/stur_sm_hub.html" class="category-card" style="--card-accent:#a78bfa;">
+        <div class="card-icon">⚛️</div>
+        <div class="card-title">Standard Model</div>
+        <div class="card-desc">Gauge groups, fermion masses, Yukawa couplings, CKM/PMNS matrices—all derived from geometry.</div>
+        <div class="card-count">17 Derivations • All Parameters</div>
+      </a>
+
+      <!-- Gravity & Cosmology -->
+      <a href="scripts/stur_cosmology_hub.html" class="category-card" style="--card-accent:#60a5fa;">
+        <div class="card-icon">🌌</div>
+        <div class="card-title">Gravity & Cosmology</div>
+        <div class="card-desc">TEGR emergence, black hole thermodynamics, inflation, dark matter, cosmological constant.</div>
+        <div class="card-count">8 Topics • Λ = 10⁻¹²⁰</div>
+      </a>
+
+      <!-- Quantum Theory -->
+      <a href="scripts/stur_quantum_hub.html" class="category-card" style="--card-accent:#22d3ee;">
+        <div class="card-icon">🔬</div>
+        <div class="card-title">Quantum Theory</div>
+        <div class="card-desc">QM emergence, Feynman rules, Dirac equation, QCD confinement—all from the path integral.</div>
+        <div class="card-count">10 Derivations • UV Complete</div>
+      </a>
+
+      <!-- Predictions -->
+      <a href="scripts/stur_predictions.html" class="category-card" style="--card-accent:#ef4444;">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">Falsifiable Predictions</div>
+        <div class="card-desc">Gaussian visibility decay V(ΔL) = V₀ exp(−ΔL²/ℓ²). Explicit kill criteria. No moving goalposts.</div>
+        <div class="card-count">ℓ_coh = 0.3–30 m • Testable</div>
+      </a>
+
+      <!-- Simulations -->
+      <a href="scripts/stur_simulations_hub.html" class="category-card" style="--card-accent:#fbbf24;">
+        <div class="card-icon">🧪</div>
+        <div class="card-title">Simulations & Apps</div>
+        <div class="card-desc">Interactive demonstrations: double-slit, plasma confinement, superconductor, n-body orbits.</div>
+        <div class="card-count">14 Interactive Tools</div>
+      </a>
+
+      <!-- Biological -->
+      <a href="scripts/stur_biological_hub.html" class="category-card" style="--card-accent:#f472b6;">
+        <div class="card-icon">🧬</div>
+        <div class="card-title">Biological Applications</div>
+        <div class="card-desc">ATP dynamics, neuroplasticity, immunity, origin of life—derived from XCRM coupling.</div>
+        <div class="card-count">7 Applications • Falsifiable</div>
+      </a>
+
+      <!-- Reference -->
+      <a href="scripts/stur_symbols.html" class="category-card" style="--card-accent:#94a3b8;">
+        <div class="card-icon">📖</div>
+        <div class="card-title">Reference</div>
+        <div class="card-desc">Symbol tables, glossary, FAQ, technical appendix, open problems.</div>
+        <div class="card-count">Symbols • Glossary • FAQ</div>
+      </a>
     </div>
-  </div>
+  </section>
 
-  <!-- === TIER 1: CORE THEORY === -->
-  <div class="section-header">
-    <span class="section-indicator" style="background: var(--tier-core);"></span>
-    <span class="section-title">Core Theory</span>
-    <span class="section-badge">Technical</span>
-  </div>
-  <div class="sim-grid animate-in delay-5">
-    <div class="sim-card tier-core"><a href="scripts/stur_core_theory.html">Core Theory</a><span class="card-tag" style="color: var(--tier-core);">Entry Point</span></div>
-    <div class="sim-card tier-core"><a href="scripts/stur_unified_framework.html">Unified Framework</a></div>
-    <div class="sim-card tier-core"><a href="scripts/stur_engine.html">STUR Engine</a></div>
-    <div class="sim-card tier-core"><a href="scripts/stur_geometry_verifier.html">Geometry Verifier</a><span class="card-tag" style="color: var(--tier-core);">Validation</span></div>
-    <div class="sim-card tier-core"><a href="scripts/stur_helix.html">Helix TOE Verifier</a></div>
-    <div class="sim-card tier-core"><a href="scripts/stur_unification_reveal.html">Unification Map</a><span class="card-tag" style="color: var(--tier-core);">Overview</span></div>
-  </div>
-
-  <!-- === TIER 1.5: FOUNDATIONS & REFERENCE === -->
-  <div class="section-header">
-    <span class="section-indicator" style="background: #a78bfa;"></span>
-    <span class="section-title">Foundations & Reference</span>
-    <span class="section-badge">Deep Dive</span>
-  </div>
-  <div class="sim-grid">
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_geometry_axioms.html">Master Action</a><span class="card-tag" style="color: #4ade80;">Axiom 1</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_mhp_derivation.html">Dynamical Holonomy (DHP)</a><span class="card-tag" style="color: #4ade80;">Axiom 2</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_axiom3_flavor.html">Topological Flavor (TFP)</a><span class="card-tag" style="color: #4ade80;">Axiom 3</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_mhp_derivation.html#mhp-derivation">MHP Derivation</a><span class="card-tag" style="color: #a78bfa;">From Axioms</span></div>
-    <div class="sim-card" style="--card-accent: #fbbf24;"><a href="scripts/stur_xcrm_closure.html">XCRM Closure</a><span class="card-tag" style="color: #fbbf24;">Central Mechanism</span></div>
-    <div class="sim-card" style="--card-accent: #60a5fa;"><a href="scripts/stur_gravity_emergence.html">Gravity Emergence</a><span class="card-tag" style="color: #60a5fa;">From Axiom 1</span></div>
-    <div class="sim-card" style="--card-accent: #22d3ee;"><a href="scripts/stur_gauge_emergence.html">Gauge Emergence</a><span class="card-tag" style="color: #22d3ee;">From Axiom 1</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_sm_derivation.html">SM Derivation</a><span class="card-tag" style="color: #4ade80;">From Axioms 1-3</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_matter_coupling.html">Matter Coupling</a><span class="card-tag" style="color: #a78bfa;">From Axiom 1</span></div>
-    <div class="sim-card" style="--card-accent: #64D2FF;"><a href="scripts/stur_predictions.html">Predictions Overview</a><span class="card-tag" style="color: #64D2FF;">From All 3</span></div>
-    <div class="sim-card" style="--card-accent: #fbbf24;"><a href="scripts/stur_numerical_predictions.html">Numerical Predictions</a><span class="card-tag" style="color: #fbbf24;">Concrete Values</span></div>
-    <div class="sim-card" style="--card-accent: #f472b6;"><a href="scripts/stur_quantum_corrections.html">Quantum Corrections</a><span class="card-tag" style="color: #f472b6;">From Axiom 1</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_uv_completion.html">UV Completion</a><span class="card-tag" style="color: #4ade80;">Axioms 1-2</span></div>
-    <div class="sim-card" style="--card-accent: #ef4444;"><a href="scripts/stur_falsification.html">Falsification Protocol</a><span class="card-tag" style="color: #ef4444;">Kill Criteria</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_technical_appendix.html">Technical Appendix</a><span class="card-tag" style="color: #a78bfa;">Full Derivations</span></div>
-    <div class="sim-card" style="--card-accent: #22d3ee;"><a href="scripts/stur_symbols.html">Symbols & Tables</a><span class="card-tag" style="color: #22d3ee;">Reference</span></div>
-    <div class="sim-card" style="--card-accent: #fbbf24;"><a href="scripts/stur_glossary.html">Glossary</a><span class="card-tag" style="color: #fbbf24;">Definitions</span></div>
-    <div class="sim-card" style="--card-accent: #ef4444;"><a href="scripts/stur_faq.html">FAQ</a><span class="card-tag" style="color: #ef4444;">Skeptic Q&A</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_action_uniqueness.html">Action Uniqueness</a><span class="card-tag" style="color: #4ade80;">Proof</span></div>
-    <div class="sim-card" style="--card-accent: #22d3ee;"><a href="scripts/stur_dhp_equations.html">DHP Equations</a><span class="card-tag" style="color: #22d3ee;">Dynamics</span></div>
-    <div class="sim-card" style="--card-accent: #f472b6;"><a href="scripts/stur_uv_finiteness_proof.html">UV Finiteness Proof</a><span class="card-tag" style="color: #f472b6;">All-Orders</span></div>
-    <div class="sim-card" style="--card-accent: #60a5fa;"><a href="scripts/stur_experimental_protocol.html">Experimental Protocol</a><span class="card-tag" style="color: #60a5fa;">Testing</span></div>
-    <div class="sim-card" style="--card-accent: #fbbf24;"><a href="scripts/stur_open_problems.html">Open Problems</a><span class="card-tag" style="color: #fbbf24;">Transparency</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_gauge_emergence_rigorous.html">Gauge Emergence</a><span class="card-tag" style="color: #4ade80;">Rigorous</span></div>
-    <div class="sim-card" style="--card-accent: #f472b6;"><a href="scripts/stur_higgs_derivation.html">Higgs Derivation</a><span class="card-tag" style="color: #f472b6;">From A₅</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_mhp_coefficients.html">MHP Coefficients</a><span class="card-tag" style="color: #a78bfa;">Calculated</span></div>
-    <div class="sim-card" style="--card-accent: #f472b6;"><a href="scripts/stur_higgs_mass_numerical.html">Higgs Mass Prediction</a><span class="card-tag" style="color: #f472b6;">125.1 GeV</span></div>
-    <div class="sim-card" style="--card-accent: #22d3ee;"><a href="scripts/stur_running_couplings.html">Running Couplings</a><span class="card-tag" style="color: #22d3ee;">Asymptotic Freedom</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_proton_decay.html">Proton Decay</a><span class="card-tag" style="color: #4ade80;">τ ~ 10³⁸ yr</span></div>
-    <div class="sim-card" style="--card-accent: #fbbf24;"><a href="scripts/stur_strong_cp_solution.html">Strong CP Solution</a><span class="card-tag" style="color: #fbbf24;">θ = 0</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_qm_emergence.html">QM Emergence</a><span class="card-tag" style="color: #a78bfa;">Schrodinger Eq.</span></div>
-    <div class="sim-card" style="--card-accent: #22d3ee;"><a href="scripts/stur_feynman_rules.html">Feynman Rules</a><span class="card-tag" style="color: #22d3ee;">QFT Structure</span></div>
-    <div class="sim-card" style="--card-accent: #60a5fa;"><a href="scripts/stur_maxwell_equations.html">Maxwell Equations</a><span class="card-tag" style="color: #60a5fa;">From U(1)</span></div>
-    <div class="sim-card" style="--card-accent: #f472b6;"><a href="scripts/stur_dirac_equation.html">Dirac Equation</a><span class="card-tag" style="color: #f472b6;">Spin-½</span></div>
-    <div class="sim-card" style="--card-accent: #ef4444;"><a href="scripts/stur_qcd_confinement.html">QCD Confinement</a><span class="card-tag" style="color: #ef4444;">Holonomy</span></div>
-    <div class="sim-card" style="--card-accent: #fbbf24;"><a href="scripts/stur_weak_interaction.html">Weak Interaction</a><span class="card-tag" style="color: #fbbf24;">W/Z Bosons</span></div>
-  </div>
-
-  <!-- === COMPLETE DERIVATIONS — What Geometry Determines === -->
-  <div class="section-header" id="derivations">
-    <span class="section-indicator" style="background: #4ade80;"></span>
-    <span class="section-title">Complete Derivations</span>
-    <span class="section-badge" style="background:rgba(74,222,128,0.15);color:#4ade80;">From Geometry</span>
-  </div>
-  <div style="padding:10px 16px;margin-bottom:12px;background:rgba(74,222,128,0.06);border-radius:8px;border-left:3px solid #4ade80;font-size:0.8rem;color:var(--text-tertiary);">
-    <strong style="color:#4ade80;">All physics determined by orbifold geometry.</strong> The 3 axioms are forced by topology—
-    winding numbers, holonomy minimization, and gauge consistency are not choices.
-    See <a href="scripts/stur_axiom3_flavor.html" style="color:#22d3ee;">Axiom 3 (TFP)</a>.
-  </div>
-  <div class="sim-grid">
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_uv_completion.html">UV Completion</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_uv_completion.html">Hierarchy Problem</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_sm_derivation.html">SM Gauge Group</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_sm_derivation.html#three-generations">3 Generations</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_yukawa_derivation.html">Yukawa Hierarchies</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_ckm_derivation.html">CKM/PMNS Matrices</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_neutrino_derivation.html">Neutrino Masses</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_cp_derivation.html">CP Violation</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_darkmatter_derivation.html">Dark Matter (LKP)</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_cosmological_derivation.html">Cosmological Constant</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_inflation_derivation.html">Inflation</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_inflation_derivation.html">Baryogenesis</a><span class="card-tag" style="color: #4ade80;">Derived</span></div>
-    <div class="sim-card" style="--card-accent: #22d3ee;"><a href="scripts/stur_fermion_masses.html">All Fermion Masses</a><span class="card-tag" style="color: #22d3ee;">9 Masses</span></div>
-    <div class="sim-card" style="--card-accent: #f472b6;"><a href="scripts/stur_ckm_numerical.html">CKM Matrix</a><span class="card-tag" style="color: #f472b6;">Numerical</span></div>
-    <div class="sim-card" style="--card-accent: #a78bfa;"><a href="scripts/stur_pmns_numerical.html">PMNS Matrix</a><span class="card-tag" style="color: #a78bfa;">Numerical</span></div>
-    <div class="sim-card" style="--card-accent: #fbbf24;"><a href="scripts/stur_cosmological_constant.html">Cosmological Constant Λ</a><span class="card-tag" style="color: #fbbf24;">10⁻¹²⁰</span></div>
-    <div class="sim-card" style="--card-accent: #ef4444;"><a href="scripts/stur_baryogenesis_numerical.html">Baryon Asymmetry η<sub>B</sub></a><span class="card-tag" style="color: #ef4444;">10⁻¹⁰</span></div>
-    <div class="sim-card" style="--card-accent: #60a5fa;"><a href="scripts/stur_black_hole_thermodynamics.html">Black Hole Thermodynamics</a><span class="card-tag" style="color: #60a5fa;">S = A/4</span></div>
-    <div class="sim-card" style="--card-accent: #4ade80;"><a href="scripts/stur_quantum_gravity.html">Quantum Gravity</a><span class="card-tag" style="color: #4ade80;">UV Complete</span></div>
-  </div>
-
-  <!-- === TIER 2: FALSIFIABLE === -->
-  <div class="section-header">
-    <span class="section-indicator" style="background: var(--tier-falsifiable);"></span>
-    <span class="section-title">Falsifiable Predictions</span>
-    <span class="section-badge">Testable</span>
-  </div>
-  <div class="sim-grid">
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_double_slit.html">Double Slit Plasmon</a></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_arc.html">Resistance Arc Simulator</a></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_plasmaconfinement.html">Plasma Torus 4D</a></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_3bodyproblem.html">3-Body RK4 Orbit</a></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_quantumcomputing.html">Quantum Computing</a></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_chronomagnetics.html">Chronomagnetics</a></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_sonolum.html">Sonoluminescence 5D</a></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_tabletop.html">Whispering Gallery</a></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_toe_proof.html">TOE Isochrony Proof</a></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_graphene.html">Graphene-Axion</a></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_scalar.html">Scalar Bounce</a></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_superconductor.html">Ambient-Temp Superconductor</a><span class="card-tag" style="color: var(--tier-falsifiable);">ATS</span></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_chemistry.html">STUR Chemistry</a><span class="card-tag" style="color: var(--tier-falsifiable);">Bonding</span></div>
-  </div>
-
-  <!-- === TIER 3: DERIVED === -->
-  <div class="section-header">
-    <span class="section-indicator" style="background: var(--tier-derived);"></span>
-    <span class="section-title">Derived Applications</span>
-    <span class="section-badge" style="background:rgba(255,214,10,0.15);color:#ffd60a;">From 3 Axioms</span>
-  </div>
-  <div style="padding:10px 16px;margin-bottom:12px;background:rgba(255,214,10,0.06);border-radius:8px;border-left:3px solid #ffd60a;font-size:0.8rem;color:var(--text-tertiary);">
-    <strong style="color:#ffd60a;">Note:</strong> Quantitative predictions derived from the 3 axioms. Each page includes explicit falsification criteria with testable thresholds.
-  </div>
-  <div class="sim-grid">
-    <div class="sim-card tier-derived"><a href="scripts/stur_galaxy.html">Galaxy Rotation Curves</a><span class="card-tag" style="color:#ffd60a;">From Axiom 1</span></div>
-    <div class="sim-card tier-derived"><a href="scripts/stur_replicator.html">Stress-Failure Envelope</a><span class="card-tag" style="color:#ffd60a;">From Axiom 1</span></div>
-    <div class="sim-card tier-derived"><a href="scripts/stur_thegoldenratio.html">Golden Ratio Attractor</a><span class="card-tag" style="color:#ffd60a;">From XCRM</span></div>
-    <div class="sim-card tier-derived"><a href="scripts/stur_solidbh.html">Big Bang Origin</a><span class="card-tag" style="color:#ffd60a;">From Axiom 2</span></div>
-    <div class="sim-card tier-derived"><a href="scripts/stur_torweather.html">3D Weather Hybrid</a><span class="card-tag" style="color:#ffd60a;">From Axiom 1</span></div>
-    <div class="sim-card tier-derived"><a href="scripts/stur_energy_conditions.html">XCRM Energy Conditions</a><span class="card-tag" style="color:#ffd60a;">From XCRM</span></div>
-    <div class="sim-card tier-derived"><a href="scripts/stur_gate.html">Resistance Corridor</a><span class="card-tag" style="color:#ffd60a;">From Axiom 1</span></div>
-  </div>
-
-  <!-- === TIER 4: COSMOLOGICAL (Now Falsifiable) === -->
-  <div class="section-header">
-    <span class="section-indicator" style="background: var(--tier-falsifiable);"></span>
-    <span class="section-title">Cosmological</span>
-    <span class="section-badge">From 3 Axioms</span>
-  </div>
-  <div class="sim-grid">
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_5duniverse.html">5D Unified Gravity</a><span class="card-tag" style="color:var(--tier-falsifiable);">From Axiom 1</span></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_universe.html">Universe Atlas POV</a><span class="card-tag" style="color:var(--tier-falsifiable);">From Axiom 2</span></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_wow.html">Wow! Signal Analysis</a><span class="card-tag" style="color:var(--tier-falsifiable);">From XCRM</span></div>
-  </div>
-
-  <!-- === TIER 5: BIOLOGICAL === -->
-  <div class="section-header">
-    <span class="section-indicator" style="background: var(--tier-biological);"></span>
-    <span class="section-title">Biological / Consciousness</span>
-    <span class="section-badge" style="background:rgba(255,214,10,0.15);color:#ffd60a;">From 3 Axioms</span>
-  </div>
-  <div style="padding:10px 16px;margin-bottom:12px;background:rgba(255,214,10,0.06);border-radius:8px;border-left:3px solid #ffd60a;font-size:0.8rem;color:var(--text-tertiary);">
-    <strong style="color:#ffd60a;">Note:</strong> Biological predictions derived from the 3 axioms. Each page includes explicit falsification criteria with testable thresholds.
-  </div>
-  <div class="sim-grid">
-    <div class="sim-card tier-biological"><a href="scripts/stur_atp.html">Mitochondria Population</a><span class="card-tag" style="color:#ffd60a;">From Axiom 1</span></div>
-    <div class="sim-card tier-biological"><a href="scripts/stur_atp1.html">Mito Life/Death State</a><span class="card-tag" style="color:#ffd60a;">From Axiom 1</span></div>
-    <div class="sim-card tier-biological"><a href="scripts/stur_life.html">Hydrothermal Proto-Cell</a><span class="card-tag" style="color:#ffd60a;">From XCRM</span></div>
-    <div class="sim-card tier-biological"><a href="scripts/stur_neuro.html">Neuroplasticity χ-Synapse</a><span class="card-tag" style="color:#ffd60a;">From Axiom 1</span></div>
-    <div class="sim-card tier-biological"><a href="scripts/stur_immunity.html">Universal Immunity</a><span class="card-tag" style="color:#ffd60a;">From Axiom 1</span></div>
-    <div class="sim-card tier-biological"><a href="scripts/stur_mindgate.html">Mind Gate Multi-Sector</a><span class="card-tag" style="color:#ffd60a;">From XCRM</span></div>
-    <div class="sim-card tier-biological"><a href="scripts/stur_agiseed.html">STUR RFD Simulator</a><span class="card-tag" style="color:#ffd60a;">XCRM Engine</span></div>
-  </div>
-
-  <!-- === TIER 6: EXPLORATORY (Now Falsifiable) === -->
-  <div class="section-header">
-    <span class="section-indicator" style="background: var(--tier-falsifiable);"></span>
-    <span class="section-title">Exploratory / Sandbox</span>
-    <span class="section-badge">Tools</span>
-  </div>
-  <div class="sim-grid">
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_sandbox.html">STUR Sandbox</a><span class="card-tag" style="color:var(--tier-falsifiable);">Verify Axioms</span></div>
-    <div class="sim-card tier-falsifiable"><a href="scripts/stur_testpage.html">Holoscreen Alpha-5</a><span class="card-tag" style="color:var(--tier-falsifiable);">Interactive</span></div>
-  </div>
-
-  <!-- === ACTION BUTTONS === -->
-  <div class="action-group">
-    <a href="about.html" class="btn btn-primary">Learn More</a>
-    <a href="mycitations.html" class="btn btn-secondary">References</a>
-    <a href="https://www.tiktok.com/@that1sheldon" target="_blank" rel="noopener" class="btn btn-secondary">TikTok</a>
-    <a href="https://x.com/that1sheldon" target="_blank" rel="noopener" class="btn btn-secondary">X / Twitter</a>
-    <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank" rel="noopener" class="btn btn-secondary">GitHub</a>
-  </div>
-
-  <!-- === VIDEO === -->
-  <section class="video-section">
-    <div class="video-container">
-      <iframe
-        src="https://www.youtube.com/embed/ugELY1Hhptg?autoplay=0&mute=0&controls=1"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-        loading="lazy">
-      </iframe>
+  <!-- === QUICK LINKS === -->
+  <section style="text-align:center;margin:32px 0;">
+    <p style="font-size:0.85rem;color:var(--text-quaternary);margin-bottom:12px;">Quick Links</p>
+    <div class="quick-links">
+      <a href="scripts/stur_falsification.html" class="quick-link">Falsification Protocol</a>
+      <a href="scripts/stur_numerical_predictions.html" class="quick-link">Numerical Predictions</a>
+      <a href="scripts/stur_faq.html" class="quick-link">FAQ</a>
+      <a href="scripts/stur_glossary.html" class="quick-link">Glossary</a>
+      <a href="about.html" class="quick-link">About</a>
+      <a href="mycitations.html" class="quick-link">References</a>
+      <a href="sitemap.html" class="quick-link">Full Site Map</a>
     </div>
+  </section>
+
+  <!-- === FALSIFICATION BOX === -->
+  <section class="glass-panel" style="border-left:3px solid #ef4444;background:rgba(239,68,68,0.04);">
+    <p style="color:#ef4444;font-weight:600;margin-bottom:8px;">How to Kill This Theory</p>
+    <p style="font-size:0.9rem;color:var(--text-tertiary);line-height:1.6;">
+      STUR predicts <strong>Gaussian visibility decay</strong>: V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>).
+      The theory is <strong>excluded</strong> if visibility is oscillatory, time-dependent, or mass-dependent.
+      See <a href="scripts/stur_falsification.html" style="color:#ef4444;">full falsification protocol</a>.
+    </p>
   </section>
 
   <!-- === FOOTER === -->
   <footer class="site-footer">
-    <!-- Simulation Tier Legend -->
-    <div class="tier-legend">
-      <div class="legend-item"><span class="legend-dot" style="background: #60a5fa;"></span>Learn</div>
-      <div class="legend-item"><span class="legend-dot" style="background: var(--tier-core);"></span>Core Theory</div>
-      <div class="legend-item"><span class="legend-dot" style="background: #a78bfa;"></span>Foundations</div>
-      <div class="legend-item"><span class="legend-dot" style="background: var(--tier-falsifiable);"></span>Falsifiable</div>
-      <div class="legend-item"><span class="legend-dot" style="background: var(--tier-derived);"></span>Derived</div>
-      <div class="legend-item"><span class="legend-dot" style="background: var(--tier-biological);"></span>Biological</div>
+    <div class="action-group" style="margin-bottom:24px;">
+      <a href="about.html" class="btn btn-secondary">About STUR</a>
+      <a href="sitemap.html" class="btn btn-secondary">Site Map</a>
+      <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank" rel="noopener" class="btn btn-secondary">GitHub</a>
     </div>
-
-    <p class="footer-note">
-      STUR survives only if its <strong>falsifiable predictions</strong> hold.
-      The theory is excluded if visibility is oscillatory (ULDM), time-dependent, or mass-dependent.
-    </p>
     <p class="footer-meta">
       © 2026 Sheldon Lon Lindberg · STUR Physics Framework<br>
       CC-BY-4.0 License · <em>Open for scrutiny and falsification testing</em>
-    </p>
-    <p class="footer-meta" style="margin-top: 16px; opacity: 0.7;">
-      <a href="https://github.com" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">
-        <span class="stur-icon icon-github" style="vertical-align: middle; margin-right: 4px;" aria-hidden="true"></span>
-        Hosted on GitHub
-      </a>
     </p>
   </footer>
 </div>
