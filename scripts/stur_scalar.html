@@ -206,7 +206,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     The scale factor must reach a positive minimum during the bounce, avoiding singularity.
-                    <br><strong>Kill condition:</strong> If \(\Tor{a_{\min}} = 0\), singularity occurs and STUR bounce is falsified.
+                    <br><strong>Exclusion condition:</strong> If \(\Tor{a_{\min}} = 0\), singularity occurs and STUR bounce is falsified.
                 </p>
             </div>
 
@@ -220,7 +220,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Hubble parameter must cross zero exactly once during the bounce.
-                    <br><strong>Kill condition:</strong> No zero-crossing or multiple crossings falsifies bounce mechanism.
+                    <br><strong>Exclusion condition:</strong> No zero-crossing or multiple crossings falsifies bounce mechanism.
                 </p>
             </div>
 
@@ -234,7 +234,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Energy density is bounded above by critical density.
-                    <br><strong>Kill condition:</strong> If \(\Matt{\rho} > \Pot{\rho_c}\), modified Friedmann equation breaks down.
+                    <br><strong>Exclusion condition:</strong> If \(\Matt{\rho} > \Pot{\rho_c}\), modified Friedmann equation breaks down.
                 </p>
             </div>
 
@@ -390,9 +390,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> \(\Tor{a_{\min}} = 0\) — singularity forms despite modified Friedmann equation.</li>
-                <li><strong>Kill-2:</strong> \(\Tor{H}\) does not cross zero — no bounce transition occurs.</li>
-                <li><strong>Kill-3:</strong> \(\Matt{\rho}\) exceeds \(\Pot{\rho_c}\) — critical density bound violated.</li>
+                <li><strong>Exclusion-1:</strong> \(\Tor{a_{\min}} = 0\) — singularity forms despite modified Friedmann equation.</li>
+                <li><strong>Exclusion-2:</strong> \(\Tor{H}\) does not cross zero — no bounce transition occurs.</li>
+                <li><strong>Exclusion-3:</strong> \(\Matt{\rho}\) exceeds \(\Pot{\rho_c}\) — critical density bound violated.</li>
             </ul>
 
             <!-- Verdict display -->
@@ -630,9 +630,9 @@ report = {
             "ρ exceeds ρ_c"
         ],
         "triggered": [
-            "Kill-1" if not a_nonsingular else None,
-            "Kill-2" if not H_crosses_zero else None,
-            "Kill-3" if not rho_bounded else None
+            "Exclusion-1" if not a_nonsingular else None,
+            "Exclusion-2" if not H_crosses_zero else None,
+            "Exclusion-3" if not rho_bounded else None
         ],
         "falsified": falsified
     },

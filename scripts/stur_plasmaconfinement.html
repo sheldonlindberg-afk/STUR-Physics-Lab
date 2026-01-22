@@ -256,7 +256,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Loop visibility depends on enclosed area, not perimeter.
-                    <br><strong>Kill condition:</strong> If visibility scales with perimeter, STUR is falsified.
+                    <br><strong>Exclusion condition:</strong> If visibility scales with perimeter, STUR is falsified.
                 </p>
             </div>
         </div>
@@ -398,9 +398,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> 4-velocity invariant deviates: \(|\Matt{u^\mu u_\mu} + c^2| / c^2 > 0.01\).</li>
-                <li><strong>Kill-2:</strong> STUR modulation shows no radius dependence (mean \(\XCRM{S}\) constant across all \(\Tor{r}\)).</li>
-                <li><strong>Kill-3:</strong> Particles escape confinement faster with STUR than without (\(\XCRM{S} = 1\)).</li>
+                <li><strong>Exclusion-1:</strong> 4-velocity invariant deviates: \(|\Matt{u^\mu u_\mu} + c^2| / c^2 > 0.01\).</li>
+                <li><strong>Exclusion-2:</strong> STUR modulation shows no radius dependence (mean \(\XCRM{S}\) constant across all \(\Tor{r}\)).</li>
+                <li><strong>Exclusion-3:</strong> Particles escape confinement faster with STUR than without (\(\XCRM{S} = 1\)).</li>
             </ul>
 
             <!-- Verdict display -->
@@ -613,11 +613,11 @@ for k in range(Nsteps):
 # FALSIFICATION CHECK
 # ===============================================================
 inv_error = abs(np.mean(uinv_mu) + c*c) / (c*c)
-kill1 = inv_error > 0.01
-kill2 = np.std(S_hist) < 1e-6  # No radius dependence
-kill3 = False  # Would need comparison run
+excl1 = inv_error > 0.01
+excl2 = np.std(S_hist) < 1e-6  # No radius dependence
+excl3 = False  # Would need comparison run
 
-falsified = kill1 or kill2 or kill3
+falsified = excl1 or excl2 or excl3
 
 # ===============================================================
 # OUTPUT
@@ -648,7 +648,7 @@ report = {
     },
     "falsification": {
         "criteria": ["Invariant error > 1%", "No S(r) dependence", "Worse confinement"],
-        "triggered": ["Kill-1" if kill1 else None, "Kill-2" if kill2 else None],
+        "triggered": ["Exclusion-1" if excl1 else None, "Exclusion-2" if excl2 else None],
         "falsified": falsified
     }
 }

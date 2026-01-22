@@ -214,7 +214,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     RK4 integration must preserve total energy to machine precision.
-                    <br><strong>Kill condition:</strong> Drift &gt; \(10^{-10}\) indicates numerical instability.
+                    <br><strong>Exclusion condition:</strong> Drift &gt; \(10^{-10}\) indicates numerical instability.
                 </p>
             </div>
 
@@ -400,9 +400,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Energy drift \(|\Diff{\Delta E/E}| > 10^{-10}\) despite correct integration.</li>
-                <li><strong>Kill-2:</strong> Orbits become chaotic/unstable faster than Newtonian prediction.</li>
-                <li><strong>Kill-3:</strong> STUR orbital frequency \(\Tor{\omega}\) deviates from observed value by more than 1%.</li>
+                <li><strong>Exclusion-1:</strong> Energy drift \(|\Diff{\Delta E/E}| > 10^{-10}\) despite correct integration.</li>
+                <li><strong>Exclusion-2:</strong> Orbits become chaotic/unstable faster than Newtonian prediction.</li>
+                <li><strong>Exclusion-3:</strong> STUR orbital frequency \(\Tor{\omega}\) deviates from observed value by more than 1%.</li>
             </ul>
 
             <!-- Verdict display -->
@@ -580,11 +580,11 @@ for k in range(N):
 # FALSIFICATION CHECK
 # ===============================================================
 dE_rel = (E_hist[-1,0] - E_hist[0,0]) / E_hist[0,0]
-kill1 = abs(dE_rel) > 1e-10
-kill2 = False  # Would need stability analysis
-kill3 = False  # Would need observation comparison
+excl1 = abs(dE_rel) > 1e-10
+excl2 = False  # Would need stability analysis
+excl3 = False  # Would need observation comparison
 
-falsified = kill1 or kill2 or kill3
+falsified = excl1 or excl2 or excl3
 
 # ===============================================================
 # OUTPUT
@@ -612,7 +612,7 @@ report = {
     },
     "falsification": {
         "criteria": ["|ΔE/E| > 1e-10", "Chaotic instability", "ω deviation > 1%"],
-        "triggered": ["Kill-1" if kill1 else None],
+        "triggered": ["Exclusion-1" if excl1 else None],
         "falsified": falsified
     }
 }

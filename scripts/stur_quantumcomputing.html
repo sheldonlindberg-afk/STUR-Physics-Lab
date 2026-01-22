@@ -212,7 +212,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Local continuity must hold to machine precision for unitary evolution.
-                    <br><strong>Kill condition:</strong> If residual exceeds \(10^{-8}\), numerical breakdown falsifies test.
+                    <br><strong>Exclusion condition:</strong> If residual exceeds \(10^{-8}\), numerical breakdown falsifies test.
                 </p>
             </div>
 
@@ -226,7 +226,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Resistance flux \(\Quant{\Phi_R} = \text{Re}(\Matt{\Psi}^\dagger \XCRM{R} \Matt{\Psi})\) remains bounded.
-                    <br><strong>Kill condition:</strong> Drift exceeding 1% falsifies STUR unitarity.
+                    <br><strong>Exclusion condition:</strong> Drift exceeding 1% falsifies STUR unitarity.
                 </p>
             </div>
 
@@ -395,9 +395,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Continuity residual \(|\Diff{\partial_t} \Matt{\rho_i} + \sum_j \Diff{J_{i \to j}}| > 10^{-8}\).</li>
-                <li><strong>Kill-2:</strong> Flux drift \(|\Quant{\Delta \Phi_R} / \Quant{\Phi_R}| > 0.01\) over simulation time.</li>
-                <li><strong>Kill-3:</strong> Entanglement entropy exceeds maximum theoretical bound for bipartition.</li>
+                <li><strong>Exclusion-1:</strong> Continuity residual \(|\Diff{\partial_t} \Matt{\rho_i} + \sum_j \Diff{J_{i \to j}}| > 10^{-8}\).</li>
+                <li><strong>Exclusion-2:</strong> Flux drift \(|\Quant{\Delta \Phi_R} / \Quant{\Phi_R}| > 0.01\) over simulation time.</li>
+                <li><strong>Exclusion-3:</strong> Entanglement entropy exceeds maximum theoretical bound for bipartition.</li>
             </ul>
 
             <!-- Verdict display -->
@@ -612,11 +612,11 @@ flux_drift = (max(flux_vals) - min(flux_vals)) / (abs(flux0) + 1e-15)
 # ===============================================================
 # FALSIFICATION CHECK
 # ===============================================================
-kill1 = False  # Would need continuity run
-kill2 = flux_drift > 0.01
-kill3 = S_max > NA  # Max possible is NA bits
+excl1 = False  # Would need continuity run
+excl2 = flux_drift > 0.01
+excl3 = S_max > NA  # Max possible is NA bits
 
-falsified = kill1 or kill2 or kill3
+falsified = excl1 or excl2 or excl3
 
 # ===============================================================
 # OUTPUT
@@ -644,7 +644,7 @@ report = {
     },
     "falsification": {
         "criteria": ["Continuity residual > 1e-8", "Flux drift > 1%", "S_A > max bound"],
-        "triggered": ["Kill-2" if kill2 else None, "Kill-3" if kill3 else None],
+        "triggered": ["Exclusion-2" if excl2 else None, "Exclusion-3" if excl3 else None],
         "falsified": falsified
     }
 }

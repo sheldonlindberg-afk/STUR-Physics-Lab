@@ -233,7 +233,7 @@
         <div class="block" style="border-left-color:#ef4444;background:rgba(239,68,68,0.04);margin-top:1rem;">
             <div class="title" style="color:#ef4444;">Falsification Criterion</div>
             <p style="margin:0;color:var(--text-secondary);">
-                <strong>Kill condition:</strong> Experimental bond dissociation energies for materials with \(\XCRM{u_{\rm eff}} > 1.5\)
+                <strong>Exclusion condition:</strong> Experimental bond dissociation energies for materials with \(\XCRM{u_{\rm eff}} > 1.5\)
                 match DFT/CCSD(T) predictions within 2% (i.e., no STUR enhancement observed).
                 <br><strong>Threshold:</strong> \(|D_e^{\rm exp} - D_e^{\rm QM}| / D_e^{\rm QM} < 0.02\) for ≥5 high-\(u_{\rm eff}\) compounds.
             </p>
@@ -285,7 +285,7 @@
         <div class="block" style="border-left-color:#ef4444;background:rgba(239,68,68,0.04);margin-top:1rem;">
             <div class="title" style="color:#ef4444;">Falsification Criterion</div>
             <p style="margin:0;color:var(--text-secondary);">
-                <strong>Kill condition:</strong> Measured activation energies for high-\(u_{\rm eff}\) reactions
+                <strong>Exclusion condition:</strong> Measured activation energies for high-\(u_{\rm eff}\) reactions
                 match transition state theory predictions within 5%.
                 <br><strong>Threshold:</strong> \(|E_a^{\rm exp} - E_a^{\rm TST}| / E_a^{\rm TST} < 0.05\) for ≥5 reactions with \(u_{\rm eff} > 1.5\).
             </p>
@@ -333,7 +333,7 @@
         <div class="block" style="border-left-color:#ef4444;background:rgba(239,68,68,0.04);margin-top:1rem;">
             <div class="title" style="color:#ef4444;">Falsification Criterion</div>
             <p style="margin:0;color:var(--text-secondary);">
-                <strong>Kill condition:</strong> Catalyst TOF shows no correlation with \(u_{\rm eff}\) across a series
+                <strong>Exclusion condition:</strong> Catalyst TOF shows no correlation with \(u_{\rm eff}\) across a series
                 of structurally similar catalysts with varying heavy atom content.
                 <br><strong>Threshold:</strong> Pearson correlation \(r(\text{TOF}, u_{\rm eff}) < 0.3\) across ≥8 catalysts.
             </p>
@@ -381,7 +381,7 @@
         <div class="block" style="border-left-color:#ef4444;background:rgba(239,68,68,0.04);margin-top:1rem;">
             <div class="title" style="color:#ef4444;">Falsification Criterion</div>
             <p style="margin:0;color:var(--text-secondary);">
-                <strong>Kill condition:</strong> Measured resonance energies match Hückel/DFT predictions within 5%
+                <strong>Exclusion condition:</strong> Measured resonance energies match Hückel/DFT predictions within 5%
                 for aromatic systems with heavy-atom substituents.
                 <br><strong>Threshold:</strong> \(|\Delta H_{\rm res}^{\rm exp} - \Delta H_{\rm res}^{\rm Hückel}| / \Delta H_{\rm res}^{\rm Hückel} < 0.05\) for ≥5 systems with \(u_{\rm eff} > 1.0\).
             </p>
@@ -429,7 +429,7 @@
         <div class="block" style="border-left-color:#ef4444;background:rgba(239,68,68,0.04);margin-top:1rem;">
             <div class="title" style="color:#ef4444;">Falsification Criterion</div>
             <p style="margin:0;color:var(--text-secondary);">
-                <strong>Kill condition:</strong> Kinetic isotope effects in high-\(u_{\rm eff}\) systems match
+                <strong>Exclusion condition:</strong> Kinetic isotope effects in high-\(u_{\rm eff}\) systems match
                 semiclassical (Bigeleisen-Mayer) predictions within 10%.
                 <br><strong>Threshold:</strong> \(|{\rm KIE}^{\rm exp} - {\rm KIE}^{\rm semi}| / {\rm KIE}^{\rm semi} < 0.10\) for ≥5 reactions.
             </p>
@@ -686,31 +686,31 @@
 
         <div style="display:grid;gap:0.75rem;">
             <div class="block" style="border-left-color:#ef4444;">
-                <div class="title" style="color:#ef4444;">Kill-1: Bond Energy Null</div>
+                <div class="title" style="color:#ef4444;">Exclusion-1: Bond Energy Null</div>
                 <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
                     High-\(u_{\rm eff}\) compounds show bond energies matching QM predictions within 2%.
                 </p>
             </div>
             <div class="block" style="border-left-color:#ef4444;">
-                <div class="title" style="color:#ef4444;">Kill-2: Activation Energy Null</div>
+                <div class="title" style="color:#ef4444;">Exclusion-2: Activation Energy Null</div>
                 <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
                     Reaction kinetics for high-\(u_{\rm eff}\) systems match TST predictions within 5%.
                 </p>
             </div>
             <div class="block" style="border-left-color:#ef4444;">
-                <div class="title" style="color:#ef4444;">Kill-3: Catalysis Null</div>
+                <div class="title" style="color:#ef4444;">Exclusion-3: Catalysis Null</div>
                 <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
                     Catalyst TOF shows no correlation with \(u_{\rm eff}\) (\(r < 0.3\)).
                 </p>
             </div>
             <div class="block" style="border-left-color:#ef4444;">
-                <div class="title" style="color:#ef4444;">Kill-4: Aromaticity Null</div>
+                <div class="title" style="color:#ef4444;">Exclusion-4: Aromaticity Null</div>
                 <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
                     Heavy-atom aromatics show resonance energies matching Hückel within 5%.
                 </p>
             </div>
             <div class="block" style="border-left-color:#ef4444;">
-                <div class="title" style="color:#ef4444;">Kill-5: Tunneling Null</div>
+                <div class="title" style="color:#ef4444;">Exclusion-5: Tunneling Null</div>
                 <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
                     Kinetic isotope effects match semiclassical predictions within 10%.
                 </p>

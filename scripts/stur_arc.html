@@ -397,9 +397,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Measured trap frequency deviates from \(\Diff{f_{\text{trap}}} = \sqrt{\Diff{k_{\text{eff}}}/\Matt{m_B}}/(2\pi)\) by more than 10%.</li>
-                <li><strong>Kill-2:</strong> Coherence ratio decays faster than \(\exp(-k_B T / \Pot{E_{\text{bind}}})\) predicts.</li>
-                <li><strong>Kill-3:</strong> Stiffness shows no dependence on gap distance \(\Matt{d}\) (no feedback mechanism).</li>
+                <li><strong>Exclusion-1:</strong> Measured trap frequency deviates from \(\Diff{f_{\text{trap}}} = \sqrt{\Diff{k_{\text{eff}}}/\Matt{m_B}}/(2\pi)\) by more than 10%.</li>
+                <li><strong>Exclusion-2:</strong> Coherence ratio decays faster than \(\exp(-k_B T / \Pot{E_{\text{bind}}})\) predicts.</li>
+                <li><strong>Exclusion-3:</strong> Stiffness shows no dependence on gap distance \(\Matt{d}\) (no feedback mechanism).</li>
             </ul>
 
             <!-- Verdict display -->
@@ -601,17 +601,17 @@ coh = float(np.exp(-(kB*T0)/abs(Ebind))) if Ebind != 0 else 0.0
 # ===============================================================
 # FALSIFICATION CHECK
 # ===============================================================
-# Kill-1: trap frequency within expected range
+# Exclusion-1: trap frequency within expected range
 ftrap_expected = np.sqrt(kstat/mB)/(2*np.pi)
-kill1 = abs(ftrap - ftrap_expected)/ftrap_expected > 0.1
+excl1 = abs(ftrap - ftrap_expected)/ftrap_expected > 0.1
 
-# Kill-2: coherence should be positive and bounded
-kill2 = coh < 0 or coh > 1
+# Exclusion-2: coherence should be positive and bounded
+excl2 = coh < 0 or coh > 1
 
-# Kill-3: feedback should increase stiffness
-kill3 = keff(dfin) <= kstat
+# Exclusion-3: feedback should increase stiffness
+excl3 = keff(dfin) <= kstat
 
-falsified = kill1 or kill2 or kill3
+falsified = excl1 or excl2 or excl3
 
 # ===============================================================
 # OUTPUT
@@ -645,9 +645,9 @@ report = {
             "No feedback stiffening"
         ],
         "triggered": [
-            "Kill-1" if kill1 else None,
-            "Kill-2" if kill2 else None,
-            "Kill-3" if kill3 else None
+            "Exclusion-1" if excl1 else None,
+            "Exclusion-2" if excl2 else None,
+            "Exclusion-3" if excl3 else None
         ],
         "falsified": falsified
     }

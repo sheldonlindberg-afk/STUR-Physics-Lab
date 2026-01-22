@@ -404,9 +404,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Modulation index \(\Pot{M}\) diverges at any cosmic epoch (saturation fails).</li>
-                <li><strong>Kill-2:</strong> RMSE between STUR and QM interference exceeds 5% at any \(\Diff{R_q}\).</li>
-                <li><strong>Kill-3:</strong> Phase divergence exceeds \(\Quant{\pi/2}\) in any regime (decoherence breakdown).</li>
+                <li><strong>Exclusion-1:</strong> Modulation index \(\Pot{M}\) diverges at any cosmic epoch (saturation fails).</li>
+                <li><strong>Exclusion-2:</strong> RMSE between STUR and QM interference exceeds 5% at any \(\Diff{R_q}\).</li>
+                <li><strong>Exclusion-3:</strong> Phase divergence exceeds \(\Quant{\pi/2}\) in any regime (decoherence breakdown).</li>
             </ul>
 
             <!-- Verdict display -->
@@ -686,20 +686,20 @@ chrono = chrono_diagnostic(Rq_test)
 falsified = False
 triggered = []
 
-# Kill-1: M divergence check
+# Exclusion-1: M divergence check
 M_max = chrono["M"]
 if not math.isfinite(M_max) or M_max > 100:
-    triggered.append("Kill-1: M divergence")
+    triggered.append("Exclusion-1: M divergence")
     falsified = True
 
-# Kill-2: RMSE > 5%
+# Exclusion-2: RMSE > 5%
 if data["rmse"] > 0.05:
-    triggered.append("Kill-2: RMSE > 5%")
+    triggered.append("Exclusion-2: RMSE > 5%")
     falsified = True
 
-# Kill-3: Phase divergence > pi/2
+# Exclusion-3: Phase divergence > pi/2
 if data["phase_div"] > math.pi / 2:
-    triggered.append("Kill-3: Phase divergence")
+    triggered.append("Exclusion-3: Phase divergence")
     falsified = True
 
 write_svg(OUT_SVG, data, chrono)
@@ -733,9 +733,9 @@ report = {
     "cosmic_events": COSMIC_EVENTS,
     "falsification": {
         "criteria": [
-            "Kill-1: M divergence",
-            "Kill-2: RMSE > 5%",
-            "Kill-3: Phase divergence > pi/2"
+            "Exclusion-1: M divergence",
+            "Exclusion-2: RMSE > 5%",
+            "Exclusion-3: Phase divergence > pi/2"
         ],
         "triggered": triggered if triggered else None,
         "falsified": falsified

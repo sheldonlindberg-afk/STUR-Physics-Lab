@@ -236,7 +236,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Isochrony ratio must be constant across all mass scales.
-                    <br><strong>Kill condition:</strong> If ratio varies with mass, STUR universality fails.
+                    <br><strong>Exclusion condition:</strong> If ratio varies with mass, STUR universality fails.
                 </p>
             </div>
 
@@ -396,9 +396,9 @@
         <div class="glass-section-body">
             <p><strong>This page falsifies STUR if:</strong></p>
             <ul>
-                <li><strong>Kill-1:</strong> Period does not scale as \(\XCRM{T} \propto \sqrt{\Matt{m}}\) for any mass range.</li>
-                <li><strong>Kill-2:</strong> Back-solved interaction scale \(\Pot{A}\) does not self-consistently reproduce \(\Tor{k_{\text{target}}}\).</li>
-                <li><strong>Kill-3:</strong> Isochrony ratio \(\XCRM{T}/\sqrt{\Matt{m}}\) varies with mass, contradicting universal curvature.</li>
+                <li><strong>Exclusion-1:</strong> Period does not scale as \(\XCRM{T} \propto \sqrt{\Matt{m}}\) for any mass range.</li>
+                <li><strong>Exclusion-2:</strong> Back-solved interaction scale \(\Pot{A}\) does not self-consistently reproduce \(\Tor{k_{\text{target}}}\).</li>
+                <li><strong>Exclusion-3:</strong> Isochrony ratio \(\XCRM{T}/\sqrt{\Matt{m}}\) varies with mass, contradicting universal curvature.</li>
             </ul>
 
             <!-- Verdict display -->
@@ -627,7 +627,7 @@ report = {
             "A back-solve inconsistent",
             "Isochrony ratio varies"
         ],
-        "triggered": ["Kill-1" if falsified else None],
+        "triggered": ["Exclusion-1" if falsified else None],
         "falsified": falsified
     },
     "outputs": {"json": OUT_JSON, "png": OUT_PNG}
