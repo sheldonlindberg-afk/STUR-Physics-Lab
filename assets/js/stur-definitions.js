@@ -56,7 +56,7 @@ const STUR_DEFINITIONS = {
       equation: "X_i* = (w_i/3)L_X + δX(Q,Y,T₃), where w ∈ {0, 1, 2}",
       status: "DERIVED: π₁(S¹/Z₂) = Z forces exactly 3 winding sectors",
       closes: ["3 generations", "Yukawa hierarchies", "CKM/PMNS matrices", "CP violation phase (δ_CKM ≈ 68°)"],
-      derivation: "stur_axiom3_flavor.html",
+      derivation: "stur_tfp_flavor.html",
       physicalMotivation: {
         summary: "TFP emerges from orbifold topology — it is a theorem, not an axiom",
         mechanisms: [
@@ -291,7 +291,7 @@ const STUR_DEFINITIONS = {
     ],
 
     tfpCloses: [
-      "Generation number (3 winding sectors w ∈ {0,1,2} on S¹/Z₂) — ESTABLISHED: stur_axiom3_flavor.html",
+      "Generation number (3 winding sectors w ∈ {0,1,2} on S¹/Z₂) — ESTABLISHED: stur_tfp_flavor.html",
       "Yukawa hierarchies — ESTABLISHED: stur_yukawa_derivation.html (winding → localization → overlap integrals)",
       "CKM/PMNS matrices — ESTABLISHED: stur_ckm_derivation.html (winding mismatch between up/down and ν/ℓ)",
       "CP violation phase (δ_CKM ≈ 68° from orbifold holonomy) — ESTABLISHED: stur_cp_derivation.html"
