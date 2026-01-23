@@ -68,6 +68,7 @@
   // ============================================================
 
   let shareMenuEl = null;
+  let shareMenuTriggerEl = null; // Track the element that opened the share menu for focus return
 
   /**
    * Social share platforms configuration
@@ -128,22 +129,31 @@
       className: 'stur-share-menu'
     });
 
-    shareMenuEl.innerHTML = `
-      <div class="stur-share-menu-content">
-        <div class="stur-share-menu-header">
-          <span>Share</span>
-          <button class="stur-share-menu-close" aria-label="Close">&times;</button>
-        </div>
-        <div class="stur-share-menu-options">
-          ${sharePlatforms.map(p => `
-            <button class="stur-share-option" data-platform="${p.id}" style="--platform-color: ${p.color}">
-              <span class="stur-share-icon stur-share-icon-${p.icon}"></span>
-              <span class="stur-share-label">${p.label}</span>
-            </button>
-          `).join('')}
-        </div>
-      </div>
-    `;
+    // Build share menu DOM safely without innerHTML
+    const menuContent = STUR.createElement('div', { className: 'stur-share-menu-content' });
+
+    const menuHeader = STUR.createElement('div', { className: 'stur-share-menu-header' });
+    menuHeader.appendChild(STUR.createElement('span', {}, 'Share'));
+    const closeBtn = STUR.createElement('button', {
+      className: 'stur-share-menu-close',
+      'aria-label': 'Close'
+    }, '\u00D7');
+    menuHeader.appendChild(closeBtn);
+    menuContent.appendChild(menuHeader);
+
+    const optionsContainer = STUR.createElement('div', { className: 'stur-share-menu-options' });
+    sharePlatforms.forEach(p => {
+      const btn = STUR.createElement('button', {
+        className: 'stur-share-option',
+        dataset: { platform: p.id }
+      });
+      btn.style.setProperty('--platform-color', p.color);
+      btn.appendChild(STUR.createElement('span', { className: 'stur-share-icon stur-share-icon-' + p.icon }));
+      btn.appendChild(STUR.createElement('span', { className: 'stur-share-label' }, p.label));
+      optionsContainer.appendChild(btn);
+    });
+    menuContent.appendChild(optionsContainer);
+    shareMenuEl.appendChild(menuContent);
 
     // Add styles if not already present
     if (!document.getElementById('stur-share-styles')) {
@@ -328,8 +338,8 @@
 
     document.body.appendChild(shareMenuEl);
 
-    // Close button handler
-    shareMenuEl.querySelector('.stur-share-menu-close').addEventListener('click', () => {
+    // Close button handler (use the closeBtn reference we created)
+    closeBtn.addEventListener('click', () => {
       STUR.closeShareMenu();
     });
 
@@ -377,9 +387,14 @@
    * Open share menu
    */
   STUR.openShareMenu = function() {
+    // Save the currently focused element to restore later
+    shareMenuTriggerEl = document.activeElement;
     const menu = createShareMenu();
     requestAnimationFrame(() => {
       menu.classList.add('open');
+      // Focus the first share option for accessibility
+      const firstOption = menu.querySelector('.stur-share-option');
+      if (firstOption) firstOption.focus();
     });
     document.body.style.overflow = 'hidden';
   };
@@ -391,6 +406,11 @@
     if (shareMenuEl) {
       shareMenuEl.classList.remove('open');
       document.body.style.overflow = '';
+      // Restore focus to the element that triggered the menu
+      if (shareMenuTriggerEl && typeof shareMenuTriggerEl.focus === 'function') {
+        shareMenuTriggerEl.focus();
+        shareMenuTriggerEl = null;
+      }
     }
   };
 
@@ -569,10 +589,18 @@
       info: 'info'
     };
 
-    toast.innerHTML = `
-      <span class="stur-icon icon-${iconMap[type] || 'info'} md" style="color:var(--neon-${type === 'error' ? 'red' : type === 'success' ? 'green' : type === 'warning' ? 'gold' : 'cyan'});flex-shrink:0"></span>
-      <span style="flex:1">${message}</span>
-    `;
+    // Build toast DOM safely without innerHTML
+    const iconColor = type === 'error' ? 'red' : type === 'success' ? 'green' : type === 'warning' ? 'gold' : 'cyan';
+    const iconSpan = STUR.createElement('span', {
+      className: 'stur-icon icon-' + (iconMap[type] || 'info') + ' md'
+    });
+    iconSpan.style.cssText = 'color:var(--neon-' + iconColor + ');flex-shrink:0';
+    toast.appendChild(iconSpan);
+
+    const msgSpan = STUR.createElement('span', {});
+    msgSpan.style.flex = '1';
+    msgSpan.textContent = message;
+    toast.appendChild(msgSpan);
 
     // Allow dismissing by clicking
     toast.addEventListener('click', () => {
@@ -1001,14 +1029,22 @@
   // MODAL UTILITIES
   // ============================================================
 
+  // Track modal trigger elements for focus restoration
+  const modalTriggers = new Map();
+
   /**
    * Open a modal
    */
   STUR.openModal = function(modalId) {
     const overlay = document.getElementById(modalId);
     if (overlay) {
+      // Save the currently focused element to restore later
+      modalTriggers.set(modalId, document.activeElement);
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
+      // Focus the first focusable element in the modal
+      const focusable = overlay.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (focusable) focusable.focus();
     }
   };
 
@@ -1020,6 +1056,12 @@
     if (overlay) {
       overlay.classList.remove('open');
       document.body.style.overflow = '';
+      // Restore focus to the element that triggered the modal
+      const trigger = modalTriggers.get(modalId);
+      if (trigger && typeof trigger.focus === 'function') {
+        trigger.focus();
+        modalTriggers.delete(modalId);
+      }
     }
   };
 
@@ -1030,8 +1072,8 @@
     STUR.$$('.glass-modal-overlay').forEach(overlay => {
       overlay.addEventListener('click', (e) => {
         if (e.target === overlay) {
-          overlay.classList.remove('open');
-          document.body.style.overflow = '';
+          // Use closeModal to ensure focus is restored
+          STUR.closeModal(overlay.id);
         }
       });
     });
@@ -1040,8 +1082,8 @@
       btn.addEventListener('click', () => {
         const overlay = btn.closest('.glass-modal-overlay');
         if (overlay) {
-          overlay.classList.remove('open');
-          document.body.style.overflow = '';
+          // Use closeModal to ensure focus is restored
+          STUR.closeModal(overlay.id);
         }
       });
     });

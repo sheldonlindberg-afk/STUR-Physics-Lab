@@ -14,9 +14,9 @@ const STUR_DEFINITIONS = {
   versionNumber: "2.5",
 
   // Theory status caveat - displayed where appropriate
-  theoryCaveat: "STUR v2.5 is an axiom-free unified framework with falsifiable predictions. " +
-    "All mechanisms and parameters are derived from XCRM doublet coupling on a Z₃ helix — zero axioms, zero free parameters. " +
-    "The R-field doublet R = (R₁, R₂) with winding phase automatically gives: 3 generations (|Z₃| = 3), SU(3) from geometry (Z₃ = center), and CC = 0 (no domain wall). " +
+  theoryCaveat: "STUR v2.5 is a candidate unified framework built from one foundational coupling with falsifiable predictions. " +
+    "All mechanisms and parameters are derived from XCRM doublet coupling on a Z₃ helix. " +
+    "The R-field doublet R = (R₁, R₂) with winding phase automatically gives: 3 generations (|Z₃| = 3) and SU(3) from geometry (Z₃ = center). " +
     "Ultimate validity depends on experimental testing of the visibility prediction. " +
     "See DERIVATION_CHAIN_HELIX.md for complete derivation chains.",
 
@@ -270,11 +270,11 @@ const STUR_DEFINITIONS = {
   },
 
   // ============================================================
-  // FIRST PRINCIPLES — v2.5 Helix Geometry (Zero-Axiom Framework)
+  // FIRST PRINCIPLES — v2.5 Helix Geometry
   // See DERIVATION_CHAIN_HELIX.md for formal status of each derivation
   // ============================================================
   firstPrinciples: {
-    statement: "STUR v2.5 is an axiom-free unified framework: XCRM doublet coupling χ(R₁∂_XR₂ - R₂∂_XR₁) on a derived Z₃ helix uniquely determines the Standard Model + gravity. Zero axioms, zero free parameters. R-doublet winding gives 3 generations (AUTOMATIC from |Z₃|=3), SU(3) (from Z₃=center), and CC=0 (no domain wall).",
+    statement: "STUR v2.5 is a candidate unified framework: XCRM doublet coupling χ(R₁∂_XR₂ - R₂∂_XR₁) on a derived Z₃ helix provides the foundation for deriving Standard Model + gravity. R-doublet winding gives 3 generations (automatic from |Z₃|=3) and SU(3) (from Z₃=center). Awaiting experimental verification.",
 
     theoryDeterminedParameters: [
       "L_X ~ 1-10 μm (Casimir-holonomy balance — uniquely determined)",
