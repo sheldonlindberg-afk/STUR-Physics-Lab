@@ -88,7 +88,7 @@
     </div>
     <div style="padding:0.9rem;background:rgba(244,114,182,0.04);border-radius:8px;border-left:3px solid #f472b6;">
       <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;">Relaxation</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Pot{V(R)}\) — Potential driving \(\Pot{R \to R_{\rm bg}}\)</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Pot{V(|\mathbf{R}|)}\) — Potential driving \(\Pot{R \to R_{\rm bg}}\)</div>
     </div>
     <div style="padding:0.9rem;background:rgba(251,191,36,0.04);border-radius:8px;border-left:3px solid #fbbf24;">
       <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">XCRM Closure (Doublet)</div>
@@ -244,7 +244,7 @@
   <h2 style="color:var(--gold);">XCRM: The Central Mechanism</h2>
 
   <p style="font-size:1rem;color:var(--text);margin-bottom:1rem;">
-    The <strong>X-Cross Resistance Mechanism (XCRM)</strong> is the term \(\XCRM{\chi R \partial_X R}\) that couples
+    The <strong>X-Cross Resistance Mechanism (XCRM)</strong> is the term \(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}\) that couples
     the resistance field \(\XCRM{R}\) to its own gradient along the internal dimension \(\XCRM{X}\). This single term is
     responsible for:
   </p>
@@ -276,7 +276,7 @@
       <div class="intuition-block">
         <div class="intuition-header">Think of It Like This</div>
         <p>
-          Imagine the resistance field \(R\) as the "density" of a 5D fluid. The XCRM term \(\chi R \partial_X R\)
+          Imagine the resistance field \(R\) as the "density" of a 5D fluid. The XCRM term \(\chi |\mathbf{R}|^2 \partial_X \phi\)
           is like a current that flows in the \(X\) direction whenever \(R\) varies. This current:
         </p>
         <ul>
@@ -300,7 +300,7 @@
     </summary>
     <div class="learn-content">
       <p>
-        The XCRM term \(\chi R \partial_X R\) is the <strong>minimal</strong> first-order X-derivative coupling allowed by:
+        The XCRM term \(\chi |\mathbf{R}|^2 \partial_X \phi\) is the <strong>minimal</strong> first-order X-derivative coupling allowed by:
       </p>
       <ul>
         <li><strong>Z₂ symmetry:</strong> The Z₃ helix requires \(R(-X) = -R(X)\). The term \(R\partial_X R\) is even under this.</li>
@@ -541,7 +541,7 @@
     The resistance sector holonomy cost is:
   </p>
   <div class="eq" style="margin:0.75rem 0;background:rgba(74,222,128,0.05);padding:0.75rem;border-left:3px solid #4ade80;">
-    \[\Omega_R = \int d^4x\, \sqrt{-g}\, \left[ \Diff{\tfrac{1}{2}(\nabla R)^2} + \Pot{V(R)} + \XCRM{\chi R \partial_X R} \right]\]
+    \[\Omega_R = \int d^4x\, \sqrt{-g}\, \left[ \Diff{\tfrac{1}{2}(\nabla R)^2} + \Pot{V(|\mathbf{R}|)} + \XCRM{\chi |\mathbf{R}|^2 \partial_X \phi} \right]\]
   </div>
   <p style="color:var(--text-secondary);">
     Varying with respect to R and applying the Euler-Lagrange equation:
@@ -551,7 +551,7 @@
     <div class="eq-label" style="color:#4ade80;">(DHP.5) — Resistance Field Equation</div>
   </div>
   <p style="color:var(--text-secondary);font-size:0.92rem;">
-    For the double-well potential \(V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\), this becomes:
+    For the double-well potential \(V(|\mathbf{R}|) = \frac{\lambda}{4}(R^2 - v^2)^2\), this becomes:
   </p>
   <div class="eq" style="margin:0.75rem 0;background:rgba(74,222,128,0.05);padding:0.75rem;border-left:3px solid #4ade80;">
     \[\Diff{\nabla^2 R} = \Pot{\lambda R(R^2 - v^2)} + \XCRM{2\chi \partial_X R}\]

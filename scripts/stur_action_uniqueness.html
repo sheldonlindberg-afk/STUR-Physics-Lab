@@ -155,7 +155,7 @@
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <li>\((\nabla R)^2\) — dimension 5</li>
-      <li>\(R^2\), \(R^4\) (via potential V(R)) — dimension 3, 6 (marginal with coupling)</li>
+      <li>\(R^2\), \(R^4\) (via potential V(|\mathbf{R}|)) — dimension 3, 6 (marginal with coupling)</li>
       <li>\(R \cdot \text{curvature}\) — dimension 5</li>
     </ul>
   </div>
@@ -187,7 +187,7 @@
   <p>The most general action satisfying C1-C3 is:</p>
 
   <div class="eq boxed">
-    \[S = \int d^5x\, \sqrt{-g}\, \Big[ f_1(\nabla R)^2 + f_2 V(R) + f_3 R \partial_X R + f_4 R \mathcal{T} + f_5 \mathcal{L}_{\rm matter} \Big]\]
+    \[S = \int d^5x\, \sqrt{-g}\, \Big[ f_1(\nabla R)^2 + f_2 V(|\mathbf{R}|) + f_3 R \partial_X R + f_4 R \mathcal{T} + f_5 \mathcal{L}_{\rm matter} \Big]\]
     <div class="eq-label">(2.1) — General form</div>
   </div>
 
@@ -215,7 +215,7 @@
     <tbody>
       <tr><td>\((\nabla_\mu R)^2\)</td><td>Even</td><td style="color:var(--success);">Yes</td></tr>
       <tr><td>\((\partial_X R)^2\)</td><td>Even</td><td style="color:var(--success);">Yes</td></tr>
-      <tr><td>\(V(R) = R^2 + R^4 + ...\)</td><td>Even</td><td style="color:var(--success);">Yes</td></tr>
+      <tr><td>\(V(|\mathbf{R}|) = R^2 + R^4 + ...\)</td><td>Even</td><td style="color:var(--success);">Yes</td></tr>
       <tr><td>\(R \partial_X R\)</td><td>Odd × Even = Odd</td><td style="color:var(--error);">No*</td></tr>
       <tr><td>\(R \mathcal{T}\)</td><td>Odd × Even = Odd</td><td style="color:var(--error);">No*</td></tr>
     </tbody>
@@ -272,7 +272,7 @@
   <h3>2.4 The Minimal Result</h3>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{S = \int d^5x\, \sqrt{-g}\, \Big[ \tfrac{1}{2}(\nabla R)^2 - V(R) + \chi R \partial_X R + \alpha R \mathbb{T} + \mathcal{L}_{\rm matter} \Big]}\]
+    \[\boxed{S = \int d^5x\, \sqrt{-g}\, \Big[ \tfrac{1}{2}(\nabla R)^2 - V(|\mathbf{R}|) + \chi |\mathbf{R}|^2 \partial_X \phi + \alpha R \mathbb{T} + \mathcal{L}_{\rm matter} \Big]}\]
     <div class="eq-label" style="color:var(--success);">(2.4) — The Minimal Master Action</div>
   </div>
 
@@ -281,23 +281,23 @@
 
 <!-- SECTION 3: POTENTIAL UNIQUENESS -->
 <section class="section" id="potential">
-  <h2>3. Why V(R) Must Be Double-Well</h2>
+  <h2>3. Why V(|\mathbf{R}|) Must Be Double-Well</h2>
 
-  <h3>3.1 Z<sub>2</sub> Symmetry Constrains V(R)</h3>
+  <h3>3.1 Z<sub>2</sub> Symmetry Constrains V(|\mathbf{R}|)</h3>
 
   <p>Since R is Z<sub>2</sub>-odd, the potential must be Z<sub>2</sub>-even:</p>
 
   <div class="eq boxed">
-    \[V(-R) = V(R) \quad \Rightarrow \quad V(R) = a_2 R^2 + a_4 R^4 + a_6 R^6 + ...\]
+    \[V(-R) = V(|\mathbf{R}|) \quad \Rightarrow \quad V(|\mathbf{R}|) = a_2 R^2 + a_4 R^4 + a_6 R^6 + ...\]
     <div class="eq-label">(3.1) — Z<sub>2</sub>-even potential</div>
   </div>
 
   <h3>3.2 Stability Requires \(a_4 > 0\)</h3>
 
-  <p>For the theory to have a stable ground state, V(R) must be bounded below:</p>
+  <p>For the theory to have a stable ground state, V(|\mathbf{R}|) must be bounded below:</p>
 
   <div class="eq boxed">
-    \[V(R) \to +\infty \quad \text{as} \quad |R| \to \infty\]
+    \[V(|\mathbf{R}|) \to +\infty \quad \text{as} \quad |R| \to \infty\]
     <div class="eq-label">(3.2) — Stability requirement</div>
   </div>
 
@@ -315,12 +315,12 @@
   <h3>3.4 The Minimal Double-Well</h3>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{V(R) = \frac{\lambda}{4}(R^2 - v^2)^2 = -\frac{\lambda v^2}{2}R^2 + \frac{\lambda}{4}R^4 + \text{const}}\]
+    \[\boxed{V(|\mathbf{R}|) = \frac{\lambda}{4}(R^2 - v^2)^2 = -\frac{\lambda v^2}{2}R^2 + \frac{\lambda}{4}R^4 + \text{const}}\]
     <div class="eq-label" style="color:var(--gold);">(3.4) — Minimal renormalizable potential</div>
   </div>
 
   <div class="block success">
-    <div class="title">Result: V(R) Is Determined</div>
+    <div class="title">Result: V(|\mathbf{R}|) Is Determined</div>
     <p style="margin:0;color:var(--text-secondary);">
       The double-well form is the <strong>minimal</strong> renormalizable, Z<sub>2</sub>-symmetric, stable potential
       with spontaneous symmetry breaking. It is selected by consistency requirements once the field content is fixed.

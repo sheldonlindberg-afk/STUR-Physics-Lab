@@ -160,7 +160,7 @@
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>Energy conditions follow directly from Master Action structure</li>
                 <li>Orbifold boundary conditions determine XCRM integral</li>
-                <li>Mexican-hat potential V(R) ≥ 0 from topology</li>
+                <li>Mexican-hat potential V(|\mathbf{R}|) ≥ 0 from topology</li>
                 <li>Kinetic terms manifestly positive definite</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Phenomenological Inputs:</strong></p>
@@ -187,7 +187,7 @@
             <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
                 <strong style="color:var(--neon-green);">ENERGY.1 — Non-Negative Density</strong>
                 <div class="stur-eq derived" style="margin:0.75rem 0;">
-                    \[\boxed{\Matt{\rho_R} = \Diff{\tfrac{1}{2}(\partial R)^2} + \Pot{V(R)} \geq 0 \quad \forall\, R, \partial R}\]
+                    \[\boxed{\Matt{\rho_R} = \Diff{\tfrac{1}{2}(\partial R)^2} + \Pot{V(|\mathbf{R}|)} \geq 0 \quad \forall\, R, \partial R}\]
                 </div>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
                     Total R-field energy density is strictly non-negative everywhere in spacetime.
@@ -253,7 +253,7 @@
                 <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
                     <strong style="color:#ef4444;font-size:0.85rem;">Exclusion 3: Potential Sign Violation</strong>
                     <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">
-                        If V(R) < 0 for any R value, the Mexican-hat derivation from Z₃ helix topology is falsified.
+                        If V(|\mathbf{R}|) < 0 for any R value, the Mexican-hat derivation from Z₃ helix topology is falsified.
                     </p>
                 </div>
                 <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
@@ -301,7 +301,7 @@
         <p>The STUR master action on the 5D Z₃ helix \(\Tor{\mathcal{M}^5 = M^4 \times Z₃ helix}\) is:</p>
 
         <div class="eq law">
-            \[S = \int d^4x\, dX\, \sqrt{-g}\, \Bigl[\underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\text{kinetic}} - \underbrace{\Pot{V(R)}}_{\text{potential}} + \underbrace{\XCRM{\chi R \partial_X R}}_{\text{XCRM}} + \underbrace{\Tor{\alpha R \mathbb{T}}}_{\text{gravity}} + \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\text{fields}}\Bigr]\]
+            \[S = \int d^4x\, dX\, \sqrt{-g}\, \Bigl[\underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\text{kinetic}} - \underbrace{\Pot{V(|\mathbf{R}|)}}_{\text{potential}} + \underbrace{\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}}_{\text{XCRM}} + \underbrace{\Tor{\alpha R \mathbb{T}}}_{\text{gravity}} + \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\text{fields}}\Bigr]\]
             <div class="eq-label">(2.1) — STUR Master Action</div>
         </div>
 
@@ -311,7 +311,7 @@
         </p>
 
         <div class="eq boxed">
-            \[\Matt{T_{\mu\nu}^{(R)}} = \Diff{\partial_\mu R \partial_\nu R} - g_{\mu\nu}\Bigl[\Diff{\tfrac{1}{2}(\nabla R)^2} - \Pot{V(R)}\Bigr] + \text{(XCRM terms)}\]
+            \[\Matt{T_{\mu\nu}^{(R)}} = \Diff{\partial_\mu R \partial_\nu R} - g_{\mu\nu}\Bigl[\Diff{\tfrac{1}{2}(\nabla R)^2} - \Pot{V(|\mathbf{R}|)}\Bigr] + \text{(XCRM terms)}\]
             <div class="eq-label">(2.2) — R-field stress-energy</div>
         </div>
 
@@ -320,7 +320,7 @@
         <p>The energy density (00-component in the rest frame) is:</p>
 
         <div class="eq boxed">
-            \[\Matt{\rho_R} = \Diff{\tfrac{1}{2}(\partial_t R)^2} + \Diff{\tfrac{1}{2}(\nabla R)^2} + \Pot{V(R)} + \XCRM{\rho_{\rm XCRM}}\]
+            \[\Matt{\rho_R} = \Diff{\tfrac{1}{2}(\partial_t R)^2} + \Diff{\tfrac{1}{2}(\nabla R)^2} + \Pot{V(|\mathbf{R}|)} + \XCRM{\rho_{\rm XCRM}}\]
             <div class="eq-label">(2.3) — R-field energy density</div>
         </div>
 
@@ -352,13 +352,13 @@
         </div>
 
         <div class="analysis-card neutral">
-            <h4 style="color:var(--neon-gold);">Potential Term: \(\Pot{V(R)}\) — Sign Depends on Form</h4>
+            <h4 style="color:var(--neon-gold);">Potential Term: \(\Pot{V(|\mathbf{R}|)}\) — Sign Depends on Form</h4>
             <p style="margin:0;color:var(--text-secondary);">
-                The potential \(\Pot{V(R) = \frac{\lambda}{4}(R^2 - v^2)^2}\) is derived from Z₃ helix topology
+                The potential \(\Pot{V(|\mathbf{R}|) = \frac{\lambda}{4}(R^2 - v^2)^2}\) is derived from Z₃ helix topology
                 and is <strong>non-negative everywhere</strong>. It has minima at \(R = \pm v\) where \(V = 0\).
             </p>
             <div class="eq" style="margin:0.75rem 0;">
-                \[\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2 - v^2)^2 \geq 0 \quad \forall R\]
+                \[\Pot{V(|\mathbf{R}|)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2 - v^2)^2 \geq 0 \quad \forall R\]
             </div>
             <p style="margin:0;color:var(--neon-gold);font-size:0.9rem;">
                 <strong>Verdict:</strong> Always \(\geq 0\). The Mexican-hat potential cannot go negative.
@@ -366,9 +366,9 @@
         </div>
 
         <div class="analysis-card negative">
-            <h4 style="color:var(--error);">XCRM Term: \(\XCRM{\chi R \partial_X R}\) — Can Be Negative!</h4>
+            <h4 style="color:var(--error);">XCRM Term: \(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}\) — Can Be Negative!</h4>
             <p style="margin:0;color:var(--text-secondary);">
-                The XCRM coupling \(\XCRM{\chi R \partial_X R}\) is the <strong>only term that can contribute negative energy</strong>.
+                The XCRM coupling \(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}\) is the <strong>only term that can contribute negative energy</strong>.
                 After X-integration:
             </p>
             <div class="eq" style="margin:0.75rem 0;">
@@ -564,9 +564,9 @@ N_x = 100       # Grid points in X
 N_r = 50        # Grid points in radial coordinate
 
 # ===============================================================
-# POTENTIAL V(R)
+# POTENTIAL V(|\mathbf{R}|)
 # ===============================================================
-def V(R):
+def V(|\mathbf{R}|):
     """Mexican-hat potential - always non-negative"""
     return (lam / 4.0) * (R**2 - v**2)**2
 

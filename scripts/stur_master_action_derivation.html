@@ -158,7 +158,7 @@
   <p>Consider all possible terms with one X-derivative:</p>
 
   <div class="eq" style="border-color:var(--gold);">
-    \[\color{#fbbf24}{\chi R \partial_X R} \quad \text{has dimension: } \frac{3}{2} + 1 + \frac{3}{2} = 4\]
+    \[\color{#fbbf24}{\chi |\mathbf{R}|^2 \partial_X \phi} \quad \text{has dimension: } \frac{3}{2} + 1 + \frac{3}{2} = 4\]
     <div class="eq-label">(1.2) &mdash; XCRM dimension count</div>
   </div>
 
@@ -181,7 +181,7 @@
   <p>For the XCRM term to be Z<sub>2</sub>-invariant in the action:</p>
 
   <div class="eq">
-    \[\chi R \partial_X R \xrightarrow{Z_2} \chi R(-X) \cdot (-\partial_X) R(-X)\]
+    \[\chi |\mathbf{R}|^2 \partial_X \phi \xrightarrow{Z_2} \chi R(-X) \cdot (-\partial_X) R(-X)\]
   </div>
 
   <p>This is invariant if and only if R is <strong>even</strong> under Z<sub>2</sub>: R(-X) = R(X).</p>
@@ -223,14 +223,14 @@
 
   <h4>Dimension 5 (potential energy):</h4>
   <div class="eq" style="border-color:#f472b6;">
-    \[\color{#f472b6}{-V(R)} = -\frac{\lambda}{4}(R^2 - v^2)^2\]
+    \[\color{#f472b6}{-V(|\mathbf{R}|)} = -\frac{\lambda}{4}(R^2 - v^2)^2\]
     <div class="eq-label">(2.2) &mdash; Z<sub>2</sub>-symmetric potential</div>
   </div>
   <p>Z<sub>2</sub> symmetry R &rarr; -R forbids odd powers. The quartic potential is the simplest bounded choice.</p>
 
   <h4>Dimension 4 (XCRM coupling):</h4>
   <div class="eq" style="border-color:#fbbf24;">
-    \[\color{#fbbf24}{\chi R \partial_X R}\]
+    \[\color{#fbbf24}{\chi |\mathbf{R}|^2 \partial_X \phi}\]
     <div class="eq-label">(2.3) &mdash; Extra-dimension coupling (unique)</div>
   </div>
   <p>Already established as unique in &sect;1.</p>
@@ -245,7 +245,7 @@
   <h3>2.2 The Complete Master Action</h3>
 
   <div class="eq law" style="border-color:var(--gold);border-width:3px;background:rgba(251,191,36,0.08);">
-    \[\boxed{\mathcal{S}_{\text{STUR}} = \int d^5x\, \sqrt{-g} \left[ \color{#4ade80}{\frac{1}{2}(\nabla R)^2} \color{#f472b6}{- V(R)} + \color{#fbbf24}{\chi R \partial_X R} + \color{#60a5fa}{\alpha R \mathbb{T}} + \color{#22d3ee}{\mathcal{L}_{\text{matter}}} \right]}\]
+    \[\boxed{\mathcal{S}_{\text{STUR}} = \int d^5x\, \sqrt{-g} \left[ \color{#4ade80}{\frac{1}{2}(\nabla R)^2} \color{#f472b6}{- V(|\mathbf{R}|)} + \color{#fbbf24}{\chi |\mathbf{R}|^2 \partial_X \phi} + \color{#60a5fa}{\alpha R \mathbb{T}} + \color{#22d3ee}{\mathcal{L}_{\text{matter}}} \right]}\]
     <div class="eq-label">(2.5) &mdash; The Master Action (complete)</div>
   </div>
 
@@ -266,7 +266,7 @@
         <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#4ade80;">Required: canonical kinetic term</td>
       </tr>
       <tr>
-        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">V(R)</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">V(|\mathbf{R}|)</td>
         <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">5</td>
         <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#4ade80;">Required: spontaneous symmetry breaking</td>
       </tr>

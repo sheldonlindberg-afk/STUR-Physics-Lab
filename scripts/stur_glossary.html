@@ -81,7 +81,7 @@
     <div class="title" style="color:var(--gold);">XCRM — X-Coupled Resistance Manifold</div>
     <p style="margin:0;color:var(--text-secondary);">
       The central mechanism of STUR. The resistance field \(\XCRM{R}\) couples to an internal coordinate
-      \(\XCRM{X}\) via the term \(\XCRM{\chi R \partial_X R}\) in the master action. This coupling:
+      \(\XCRM{X}\) via the term \(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}\) in the master action. This coupling:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
       <li>Generates the resistance holonomy observable</li>
@@ -175,7 +175,7 @@
     <div style="background:rgba(74,222,128,0.08);padding:12px 16px;border-radius:8px;margin-top:0.75rem;">
       <strong style="color:#4ade80;font-size:0.85rem;">Why This Matters for Physics:</strong>
       <ul style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);line-height:1.7;">
-        <li>The boundary conditions at X = 0 and X = L_X <strong>force</strong> the potential V(R) to have a specific double-well shape</li>
+        <li>The boundary conditions at X = 0 and X = L_X <strong>force</strong> the potential V(|\mathbf{R}|) to have a specific double-well shape</li>
         <li>Matter (fermions) gets <strong>trapped</strong> at the boundaries—this is where we live in 4D</li>
         <li>The <strong>winding number</strong> around this shape determines how many particle generations exist (answer: 3)</li>
       </ul>
@@ -238,13 +238,13 @@
       <tr>
         <td style="color:var(--potential);font-weight:600;">\(\Pot{\lambda}\)</td>
         <td>Self-Coupling</td>
-        <td>Quartic coefficient in V(R); related to L_X by \(\lambda = c_\lambda/L_X\)</td>
+        <td>Quartic coefficient in V(|\mathbf{R}|); related to L_X by \(\lambda = c_\lambda/L_X\)</td>
         <td style="color:var(--warning);">Derived from L_X</td>
       </tr>
       <tr>
         <td style="color:var(--gold);font-weight:600;">\(\XCRM{\chi}\)</td>
         <td>XCRM Coupling</td>
-        <td>Coefficient of \(\chi R \partial_X R\); dimension \(M^2\)</td>
+        <td>Coefficient of \(\chi |\mathbf{R}|^2 \partial_X \phi\); dimension \(M^2\)</td>
         <td style="color:var(--success);">Derived: \(\chi = c_\chi/L_X^2\)</td>
       </tr>
       <tr>
@@ -263,7 +263,7 @@
         <td style="color:var(--diffusion);font-weight:600;">\(\Diff{R_{\rm bg}}\)</td>
         <td>Background Resistance</td>
         <td>Equilibrium value of R; equals vacuum expectation value v</td>
-        <td style="color:var(--success);">Derived from V(R) minimum</td>
+        <td style="color:var(--success);">Derived from V(|\mathbf{R}|) minimum</td>
       </tr>
       <tr>
         <td style="color:var(--matter);font-weight:600;">\(\Matt{\ell_{\rm coh}}\)</td>
@@ -299,7 +299,7 @@
       All dynamics derive from a single action functional on the 5D Z₃ helix:
     </p>
     <div class="eq law" style="margin:0.75rem 0;">
-      \[S[R,g,X] = \int d^4x\, dX\, \sqrt{-g}\, \bigl[\Diff{\tfrac{1}{2}(\nabla R)^2} - \Pot{V(R)} + \XCRM{\chi R\partial_X R} + \Tor{\alpha R\mathbb{T}} + \Matt{\mathcal{L}_{\rm matter}}\bigr]\]
+      \[S[\mathbf{R},g,X] = \int d^4x\, dX\, \sqrt{-g}\, \bigl[\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2} - \Pot{V(|\mathbf{R}|)} + \XCRM{\chi |\mathbf{R}|^2\partial_X \phi} + \Tor{\alpha |\mathbf{R}|\mathbb{T}} + \Matt{\mathcal{L}_{\rm matter}}\bigr]\]
     </div>
     <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">
       This Master Action defines the dynamical content. All other STUR results follow from varying this action.
@@ -357,9 +357,9 @@
       </p>
     </div>
     <div class="card" style="border:1px solid var(--potential);">
-      <strong style="color:var(--potential);">Potential V(R)</strong>
+      <strong style="color:var(--potential);">Potential V(|\mathbf{R}|)</strong>
       <p style="font-size:0.88rem;color:var(--text-secondary);margin:0.5rem 0 0;">
-        Derived from Z₃ helix topology: \(\Pot{V(R)} = \frac{\lambda}{4}(R^2 - v^2)^2\).
+        Derived from Z₃ helix topology: \(\Pot{V(|\mathbf{R}|)} = \frac{\lambda}{4}(R^2 - v^2)^2\).
         Mexican hat form with degenerate minima at \(\pm v\).
       </p>
     </div>

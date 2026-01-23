@@ -118,7 +118,7 @@
       <tr>
         <td style="color:#fbbf24;font-weight:600;">\(\chi\)</td>
         <td>XCRM Coupling</td>
-        <td>Coefficient of \(\chi R\partial_X R\); \(\chi = c_\chi/L_X^2\)</td>
+        <td>Coefficient of \(\chi |\mathbf{R}|^2\partial_X \phi\); \(\chi = c_\chi/L_X^2\)</td>
         <td style="color:#4ade80;">Derived</td>
       </tr>
       <tr>
@@ -271,7 +271,7 @@
       <tr>
         <td style="color:#fbbf24;font-weight:600;">XCRM</td>
         <td>X-Coupled Resistance Manifold</td>
-        <td>Central coupling mechanism via \(\chi R\partial_X R\)</td>
+        <td>Central coupling mechanism via \(\chi |\mathbf{R}|^2\partial_X \phi\)</td>
       </tr>
       <tr>
         <td style="color:#4ade80;font-weight:600;">MHP</td>
@@ -430,7 +430,7 @@
   <div class="block gold" style="margin:1.5rem 0;">
     <div class="title">Derived: Master Action (from XCRM)</div>
     <div class="eq law">
-      \[S[R,g,X] = \int d^4x\, dX\, \sqrt{-g}\, \Big[\Diff{\tfrac{1}{2}(\nabla R)^2} - \Pot{V(R)} + \XCRM{\chi R\partial_X R} + \Tor{\alpha R\mathbb{T}} + \Matt{\mathcal{L}_{\rm matter}}\Big]\]
+      \[S[\mathbf{R},g,X] = \int d^4x\, dX\, \sqrt{-g}\, \Big[\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2} - \Pot{V(R)} + \XCRM{\chi |\mathbf{R}|^2\partial_X \phi} + \Tor{\alpha R\mathbb{T}} + \Matt{\mathcal{L}_{\rm matter}}\Big]\]
     </div>
   </div>
 
@@ -517,7 +517,7 @@
           <strong style="color:#4ade80;">Diffusion / Kinetic</strong>
         </div>
         <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
-          Terms like \(\tfrac{1}{2}(\nabla R)^2\) — field propagation, energy transport
+          Terms like \(\tfrac{1}{2}|\nabla \mathbf{R}|^2\) — field propagation, energy transport
         </p>
       </div>
 
@@ -537,7 +537,7 @@
           <strong style="color:#fbbf24;">XCRM / X-Coupling</strong>
         </div>
         <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);">
-          Terms like \(\chi R\partial_X R\) — internal dimension coupling, visibility
+          Terms like \(\chi |\mathbf{R}|^2\partial_X \phi\) — internal dimension coupling, visibility
         </p>
       </div>
 
