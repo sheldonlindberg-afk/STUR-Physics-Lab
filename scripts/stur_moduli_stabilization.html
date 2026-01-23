@@ -35,14 +35,34 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Moduli Stabilization</h1>
+  <h1>Moduli Stabilization (v2.4.1)</h1>
   <p class="subtitle">Casimir-Holonomy Balance Uniquely Determines L<sub>X</sub></p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    <span style="color:var(--gold);font-weight:600;">v2.4.1</span> ·
     Built on <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a> ·
     Enables <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a> ·
-    <a href="stur_core_theory.html" style="color:var(--accent);">Core Theory</a>
+    <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a>
   </p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+
+  <!-- Derivation Chain Visualization -->
+  <div style="margin:1.25rem auto;max-width:750px;padding:1rem;background:rgba(0,0,0,0.4);border:2px solid var(--gold);border-radius:12px;">
+    <div style="font-size:0.8rem;color:var(--gold);text-align:center;margin-bottom:0.75rem;font-weight:600;">DERIVATION CHAIN</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap;font-size:0.85rem;">
+      <a href="stur_xcrm_closure.html" style="color:var(--accent);padding:0.3rem 0.6rem;background:rgba(251,191,36,0.15);border-radius:6px;text-decoration:none;">XCRM</a>
+      <span style="color:var(--text-dim);">→</span>
+      <a href="stur_master_action_derivation.html" style="color:var(--text-secondary);padding:0.3rem 0.6rem;background:rgba(255,255,255,0.05);border-radius:6px;text-decoration:none;">Master Action</a>
+      <span style="color:var(--text-dim);">→</span>
+      <a href="stur_dhp_derivation.html" style="color:var(--text-secondary);padding:0.3rem 0.6rem;background:rgba(255,255,255,0.05);border-radius:6px;text-decoration:none;">DHP</a>
+      <span style="color:var(--text-dim);">→</span>
+      <a href="stur_mhp_derivation.html" style="color:var(--text-secondary);padding:0.3rem 0.6rem;background:rgba(255,255,255,0.05);border-radius:6px;text-decoration:none;">MHP</a>
+      <span style="color:var(--text-dim);">→</span>
+      <span style="color:var(--success);padding:0.3rem 0.6rem;background:rgba(74,222,128,0.2);border-radius:6px;border:1px solid var(--success);font-weight:600;">L<sub>X</sub> Stabilization</span>
+    </div>
+    <div style="text-align:center;margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);">
+      Everything derived, nothing assumed
+    </div>
+  </div>
 </header>
 
 <div class="physics-legend">
@@ -85,7 +105,7 @@
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
     <div class="title">Key Result</div>
     <p style="font-size:1.05rem;margin:0;">
-      <strong>L<sub>X</sub> is not a free parameter.</strong> It is uniquely fixed by the competition between Casimir attraction (wants small L<sub>X</sub>) and holonomy cost (wants large L<sub>X</sub>).
+      <strong>L<sub>X</sub> is not a free parameter.</strong> It is uniquely fixed by the competition between Casimir repulsion (fermion-dominated, prevents collapse to L<sub>X</sub> → 0) and XCRM energy (provides restoring force toward finite L<sub>X</sub>).
     </p>
   </div>
 </section>
@@ -407,24 +427,46 @@
 
 <!-- CONCLUSION -->
 <section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--gold);">Conclusion: L<sub>X</sub> Is Uniquely Determined</h2>
+  <h2 style="color:var(--gold);">Conclusion: L<sub>X</sub> Is Uniquely Determined (v2.4.1)</h2>
 
   <div class="eq law" style="border-color:var(--gold);border-width:3px;">
-    \[\boxed{E_C \sim -\frac{1}{L_X^5} \quad \text{vs} \quad E_h \sim \frac{1}{L_X} \quad \Rightarrow \quad L_X^* = \left( \frac{\text{Casimir}}{\text{Holonomy}} \right)^{1/4} \approx 1.2 \, \mu\text{m}}\]
+    \[\boxed{E_C \sim +\frac{|N_{\text{eff}}|}{L_X^5} \quad \text{(repulsive)} \quad \text{balanced by} \quad E_{\text{XCRM}} \quad \Rightarrow \quad L_X^* \approx 1.2 \, \mu\text{m}}\]
     <div class="eq-label">The moduli stabilization mechanism</div>
   </div>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
     <div class="title" style="font-size:1.2rem;">Summary</div>
     <ol style="margin:1rem 0;padding-left:1.5rem;">
-      <li><strong>Casimir energy</strong> from vacuum fluctuations scales as 1/L<sub>X</sub><sup>5</sup></li>
-      <li><strong>Holonomy energy</strong> from gauge configuration scales as 1/L<sub>X</sub></li>
-      <li><strong>Competition</strong> creates a unique minimum at L<sub>X</sub>*</li>
+      <li><strong>Casimir energy</strong> (fermion-dominated, N<sub>eff</sub> &lt; 0): repulsive, prevents collapse</li>
+      <li><strong>Holonomy + XCRM energy</strong>: provides restoring force toward finite L<sub>X</sub></li>
+      <li><strong>Balance</strong> creates a unique stable minimum at L<sub>X</sub>*</li>
       <li><strong>All SM parameters</strong> follow from this single derived scale</li>
     </ol>
     <p style="font-size:1.05rem;margin-top:1rem;color:var(--gold);">
-      <strong>L<sub>X</sub> is not a free parameter &mdash; it is uniquely fixed by the Casimir-holonomy balance.</strong>
+      <strong>L<sub>X</sub> is not a free parameter &mdash; it is uniquely fixed by dynamical balance.</strong>
     </p>
+  </div>
+
+  <!-- Position in Derivation Chain -->
+  <div style="margin-top:2rem;padding:1rem;background:rgba(0,0,0,0.3);border:2px solid var(--success);border-radius:10px;">
+    <div style="font-size:0.85rem;color:var(--success);font-weight:600;margin-bottom:0.75rem;">Position in Derivation Chain</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
+      <div style="padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;border-left:3px solid var(--text-dim);">
+        <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:0.3rem;">RECEIVES FROM</div>
+        <div style="color:var(--text);font-weight:600;"><a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a></div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">Holonomy cost functional</div>
+      </div>
+      <div style="padding:0.75rem;background:rgba(74,222,128,0.1);border-radius:6px;border:2px solid var(--success);">
+        <div style="font-size:0.75rem;color:var(--success);margin-bottom:0.3rem;">THIS PAGE</div>
+        <div style="color:var(--success);font-weight:600;">L<sub>X</sub> Stabilization</div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">Unique orbifold size</div>
+      </div>
+      <div style="padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;border-left:3px solid var(--text-dim);">
+        <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:0.3rem;">ENABLES</div>
+        <div style="color:var(--text);font-weight:600;"><a href="stur_predictions.html" style="color:var(--accent);">Predictions</a></div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">ℓ<sub>coh</sub>, Yukawas, CKM</div>
+      </div>
+    </div>
   </div>
 
   <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
@@ -433,6 +475,11 @@
     <a href="stur_core_theory.html" class="btn btn-outline">&rarr; Core Theory Overview</a>
   </div>
 </section>
+
+<footer class="footer">
+  <p><strong>STUR Moduli Stabilization</strong> · v2.4.1</p>
+  <p>© 2026 Sheldon Lon Lindberg · Everything derived, nothing assumed</p>
+</footer>
 
 </div>
 
