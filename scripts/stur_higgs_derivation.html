@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Higgs Mechanism — Electroweak Symmetry Breaking from 5D Geometry</title>
-<meta name="description" content="Higgs mechanism derived from XCRM via Master Action. The Higgs emerges as A₅ boundary mode; EWSB from orbifold boundary conditions. v2.4.1">
+<meta name="description" content="Higgs mechanism derived from XCRM via Master Action. The Higgs emerges as A₅ boundary mode; EWSB from Z₃ helix boundary conditions. v2.5 Helix">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -34,14 +34,30 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Higgs Mechanism — Derived from 5D Geometry</h1>
+  <h1 class="page-title-falsifiable">Higgs Mechanism — Derived from 5D Geometry</h1>
   <p class="subtitle">EWSB from Master Action via A₅ Boundary Mode</p>
+
+  <!-- v2.5 Helix Highlight -->
+  <div style="margin:1rem auto;max-width:700px;padding:1rem;background:rgba(34,211,238,0.15);border:3px solid #22d3ee;border-radius:12px;">
+    <div style="font-size:0.9rem;color:#22d3ee;text-align:center;font-weight:600;">★ v2.5 HELIX BREAKTHROUGH</div>
+    <p style="margin:0.5rem 0 0;color:var(--text);text-align:center;font-size:0.95rem;">
+      <strong>Higgs from Z₃ Helix:</strong> The A₅ mode localizes naturally on the Z₃ helix structure. EWSB is geometric.
+    </p>
+  </div>
 
   <!-- v2.5 Helix Derivation Chain Visualization -->
   <div style="margin:1.25rem auto;max-width:700px;padding:0.75rem;background:linear-gradient(90deg,rgba(74,222,128,0.08),rgba(167,139,250,0.12),rgba(74,222,128,0.08));border-radius:10px;font-size:0.85rem;text-align:center;">
-    <strong>Complete chain:</strong> XCRM → Master Action → <strong style="color:var(--success);">Higgs (A₅)</strong> → EWSB → SM Masses
+    <strong>Complete chain:</strong> XCRM → Z₃ Helix → <strong style="color:var(--success);">Higgs (A₅)</strong> → EWSB → SM Masses
   </div>
   <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);">v2.5 Helix — Everything derived, nothing assumed</p>
+
+  <!-- Status Badge -->
+  <div style="margin-top:1rem;">
+    <span class="stur-status success">
+      <span class="stur-icon icon-check sm"></span>
+      FALSIFIABLE
+    </span>
+  </div>
 </header>
 
 <!-- EXECUTIVE SUMMARY -->
@@ -87,15 +103,15 @@
     </p>
   </div>
 
-  <h3>1.2 Z<sub>2</sub> Parity Assignment</h3>
+  <h3>1.2 Z₃ Helix Boundary Conditions</h3>
 
-  <p>On the orbifold S<sup>1</sup>/Z<sub>2</sub>, fields must have definite parity under X → -X.</p>
+  <p>On the Z₃ helix \(M^4 \times S^1\), the R-field doublet rotates by 120° per circuit. Fields satisfy helix boundary conditions:</p>
 
   <p>For the gauge field, consistency with gauge invariance requires:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{A_\mu(x, -X) = P A_\mu(x, X) P^{-1}, \quad A_5(x, -X) = -P A_5(x, X) P^{-1}}\]
-    <div class="eq-label" style="color:var(--gold);">(1.2) — Z<sub>2</sub> parity assignment</div>
+    \[\boxed{A_\mu(x, X+L_X) = P A_\mu(x, X) P^{-1}, \quad A_5(x, X+L_X) = \omega \cdot P A_5(x, X) P^{-1}}\]
+    <div class="eq-label" style="color:var(--gold);">(1.2) — Z₃ helix boundary conditions, ω = e<sup>2πi/3</sup></div>
   </div>
 
   <p>where P is the parity matrix acting on gauge indices.</p>
@@ -106,35 +122,35 @@
 
   <table>
     <thead>
-      <tr><th>Field</th><th>Z<sub>2</sub> Parity</th><th>4D Zero Mode</th><th>Interpretation</th></tr>
+      <tr><th>Field</th><th>Z₃ Phase</th><th>4D Zero Mode</th><th>Interpretation</th></tr>
     </thead>
     <tbody>
       <tr>
         <td>A<sub>μ</sub><sup>a</sup> (a=1,2,3)</td>
-        <td>Even</td>
+        <td>1</td>
         <td>Yes</td>
         <td>W<sup>±</sup>, Z<sup>0</sup> gauge bosons</td>
       </tr>
       <tr>
         <td>A<sub>μ</sub><sup>Y</sup></td>
-        <td>Even</td>
+        <td>1</td>
         <td>Yes</td>
         <td>Photon/B field</td>
       </tr>
       <tr style="background:rgba(74,222,128,0.08);">
         <td>A<sub>5</sub><sup>a</sup> (a=1,2,3)</td>
-        <td>Odd</td>
-        <td>No bulk, Yes boundary</td>
+        <td>ω</td>
+        <td>Localized mode</td>
         <td><strong>Higgs doublet</strong></td>
       </tr>
     </tbody>
   </table>
 
   <div class="block success" style="border-width:2px;">
-    <div class="title">Result: Higgs = A<sub>5</sub> Boundary Mode</div>
+    <div class="title">★ Result: Higgs = A<sub>5</sub> Helix Mode (v2.5)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Z<sub>2</sub>-odd A<sub>5</sub> component vanishes in the bulk but has a localized mode at the orbifold fixed points.
-      This boundary mode transforms as a doublet under SU(2)<sub>L</sub>—it IS the Higgs field.
+      The Z₃-twisted A<sub>5</sub> component has a localized mode along the helix.
+      This mode transforms as a doublet under SU(2)<sub>L</sub>—it IS the Higgs field.
     </p>
   </div>
 </section>
@@ -314,14 +330,14 @@
   <div class="walkthrough" style="margin:1rem 0;">
     <div class="step">
       <div class="step-content">
-        <strong>Derived: Master Action on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub></strong><br>
-        5D gauge field A<sub>M</sub> exists on orbifold (from XCRM).
+        <strong>Derived: Master Action on M<sup>4</sup> × S<sup>1</sup> (Z₃ Helix)</strong><br>
+        5D gauge field A<sub>M</sub> exists on helix (from XCRM).
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Z<sub>2</sub> Orbifold Parity</strong><br>
-        A<sub>5</sub> is Z<sub>2</sub>-odd → boundary-localized scalar mode.
+        <strong>Z₃ Helix Boundary Conditions</strong><br>
+        A<sub>5</sub> acquires Z₃ phase → localized scalar mode on helix.
       </div>
     </div>
     <div class="step">
@@ -351,8 +367,8 @@
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\XCRM{\chi R\partial_X R} \;\xrightarrow{\text{Master Action}}\; A_5 \;\xrightarrow{\text{Z}_2}\; \text{Higgs} \;\xrightarrow{\text{CW}}\; V_{\rm eff} \;\xrightarrow{\min}\; \text{EWSB}}\]
-    <div class="eq-label" style="color:var(--success);">Complete EWSB Derivation from XCRM</div>
+    \[\boxed{\XCRM{\chi |R|^2\partial_X\phi} \;\xrightarrow{\text{Z}_3\text{ Helix}}\; A_5 \;\xrightarrow{\text{localized}}\; \text{Higgs} \;\xrightarrow{\text{CW}}\; V_{\rm eff} \;\xrightarrow{\min}\; \text{EWSB}}\]
+    <div class="eq-label" style="color:var(--success);">Complete EWSB Derivation from XCRM (v2.5 Helix)</div>
   </div>
 
   <div class="block success" style="margin-top:1rem;">

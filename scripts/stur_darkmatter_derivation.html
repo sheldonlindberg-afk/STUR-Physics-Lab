@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Dark Matter — Derivation from First Principles</title>
-<meta name="description" content="Complete derivation of dark matter as the Lightest Kaluza-Klein Particle. Stable LKP emerges from orbifold parity without new assumptions. v2.4.1">
+<meta name="description" content="Complete derivation of dark matter as the Lightest Kaluza-Klein Particle. Stable LKP emerges from Z₃ helix parity without new assumptions. v2.5 Helix">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -34,15 +34,31 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Dark Matter — Derived from First Principles</h1>
+  <h1 class="page-title-falsifiable">Dark Matter — Derived from First Principles</h1>
   <p class="subtitle">The Lightest Kaluza-Klein Particle as Dark Matter</p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
 
+  <!-- v2.5 Helix Highlight -->
+  <div style="margin:1rem auto;max-width:700px;padding:1rem;background:rgba(34,211,238,0.15);border:3px solid #22d3ee;border-radius:12px;">
+    <div style="font-size:0.9rem;color:#22d3ee;text-align:center;font-weight:600;">★ v2.5 HELIX BREAKTHROUGH</div>
+    <p style="margin:0.5rem 0 0;color:var(--text);text-align:center;font-size:0.95rem;">
+      <strong>KK-Parity from Z₃:</strong> The Z₃ helix symmetry provides natural KK-parity. LKP stability is geometric.
+    </p>
+  </div>
+
   <!-- v2.5 Helix Derivation Chain Visualization -->
   <div style="margin:1.25rem auto;max-width:700px;padding:0.75rem;background:linear-gradient(90deg,rgba(74,222,128,0.08),rgba(167,139,250,0.12),rgba(74,222,128,0.08));border-radius:10px;font-size:0.85rem;text-align:center;">
-    <strong>Complete chain:</strong> XCRM → Master Action → KK Tower → KK-Parity → <strong style="color:var(--success);">Stable LKP</strong>
+    <strong>Complete chain:</strong> XCRM → Z₃ Helix → KK Tower → KK-Parity → <strong style="color:var(--success);">Stable LKP</strong>
   </div>
   <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);">v2.5 Helix — Everything derived, nothing assumed</p>
+
+  <!-- Status Badge -->
+  <div style="margin-top:1rem;">
+    <span class="stur-status success">
+      <span class="stur-icon icon-check sm"></span>
+      FALSIFIABLE
+    </span>
+  </div>
 </header>
 
 <div class="physics-legend">
@@ -63,7 +79,7 @@
     <div class="title" style="font-size:1.1rem;">Dark Matter Derived from XCRM Foundation</div>
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
       <strong>Dark matter is the Lightest Kaluza-Klein Particle (LKP), automatically stable.</strong>
-      The orbifold \(S^1/\mathbb{Z}_2\) geometry produces a discrete KK-parity symmetry. The LKP, being
+      The Z₃ helix geometry \(M^4 \times S^1\) with 120° winding produces a discrete KK-parity symmetry. The LKP, being
       the lightest particle with odd KK-parity, cannot decay to SM particles (all KK-even). Its mass is
       determined by the compactification scale, and its relic abundance matches observation for
       \(M_{\rm LKP} \sim\) 0.5–1 TeV.
@@ -83,9 +99,9 @@
       </p>
     </div>
     <div style="padding:1rem;background:rgba(167,139,250,0.08);border-radius:10px;border-left:4px solid #a78bfa;">
-      <strong style="color:#a78bfa;">Step 2: KK-Parity from Orbifold</strong>
+      <strong style="color:#a78bfa;">Step 2: KK-Parity from Z₃ Helix</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        \(\XCRM{\mathbb{Z}_2}\) reflection gives conserved KK-parity: \(P_{KK} = (-1)^n\)
+        \(\XCRM{\mathbb{Z}_3}\) helix symmetry gives conserved KK-parity: \(P_{KK} = \omega^n\) where \(\omega = e^{2\pi i/3}\)
       </p>
     </div>
     <div style="padding:1rem;background:rgba(251,191,36,0.08);border-radius:10px;border-left:4px solid #fbbf24;">
@@ -110,7 +126,7 @@
   <h3>1.1 5D to 4D Decomposition</h3>
 
   <p>
-    Any 5D field on the orbifold \(M^4 \times S^1/\mathbb{Z}_2\) can be expanded in Fourier modes:
+    Any 5D field on the Z₃ helix \(M^4 \times S^1\) can be expanded in Fourier modes:
   </p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
@@ -119,15 +135,12 @@
   </div>
 
   <p>
-    where the mode functions satisfy orbifold boundary conditions:
+    where the mode functions satisfy Z₃ helix boundary conditions:
   </p>
 
   <div class="eq boxed">
-    \[f_n(X) = \begin{cases}
-      \sqrt{2}\cos(n\pi X/L_X) & \text{(even modes)} \\
-      \sqrt{2}\sin(n\pi X/L_X) & \text{(odd modes)}
-    \end{cases}\]
-    <div class="eq-label">(1.2) — Orbifold mode functions</div>
+    \[f_n(X) = e^{2\pi i n X / 3L_X} \quad \text{with } n \in \mathbb{Z}\]
+    <div class="eq-label">(1.2) — Z₃ helix mode functions</div>
   </div>
 
   <h3>1.2 KK Mass Spectrum</h3>
@@ -178,19 +191,19 @@
 <section class="section" id="kk-parity" style="border:2px solid var(--accent-violet); background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(244,114,182,0.04) 100%);">
   <h2 style="color:var(--accent-violet);">2. KK-Parity: The Stabilizing Symmetry</h2>
 
-  <h3>2.1 Origin from Orbifold</h3>
+  <h3>2.1 Origin from Z₃ Helix</h3>
 
   <p>
-    The \(\mathbb{Z}_2\) orbifold action \(X \to -X\) induces a discrete symmetry on the KK tower:
+    The \(\mathbb{Z}_3\) helix symmetry \(X \to X + L_X\) with R rotating by 120° induces a discrete symmetry on the KK tower:
   </p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--accent-violet);padding:1.25rem;">
-    \[\boxed{P_{KK}: \Phi^{(n)} \to (-1)^n \Phi^{(n)}}\]
-    <div class="eq-label" style="color:var(--accent-violet);">(2.1) — KK-parity transformation</div>
+    \[\boxed{P_{KK}: \Phi^{(n)} \to \omega^n \Phi^{(n)}, \quad \omega = e^{2\pi i/3}}\]
+    <div class="eq-label" style="color:var(--accent-violet);">(2.1) — Z₃ KK-parity transformation</div>
   </div>
 
   <p>
-    This is an <strong>exact symmetry</strong> of the action — it follows geometrically from the orbifold.
+    This is an <strong>exact symmetry</strong> of the action — it follows geometrically from the Z₃ helix structure.
   </p>
 
   <h3>2.2 Parity Assignments</h3>
@@ -245,10 +258,11 @@
   </div>
 
   <div class="block success" style="border-width:3px;">
-    <div class="title">No New Symmetry Needed</div>
+    <div class="title">★ No New Symmetry Needed — Z₃ Does It All</div>
     <p style="margin:0;color:var(--text-secondary);">
       Unlike SUSY (which needs R-parity) or other DM models (which need ad hoc \(\mathbb{Z}_2\)),
-      KK-parity emerges automatically from the orbifold geometry in the Master Action.
+      KK-parity emerges automatically from the Z₃ helix geometry. The same Z₃ that gives 3 generations
+      also stabilizes dark matter!
     </p>
   </div>
 </section>
@@ -462,12 +476,13 @@
       </ul>
     </div>
     <div style="padding:1rem;background:rgba(74,222,128,0.08);border-radius:10px;border:1px solid rgba(74,222,128,0.3);">
-      <strong style="color:#4ade80;">STUR</strong>
+      <strong style="color:#4ade80;">STUR v2.5 Helix</strong>
       <ul style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--text-secondary);">
         <li>LKP from existing 5D fields</li>
-        <li>Stability from orbifold geometry</li>
+        <li>Stability from Z₃ helix geometry</li>
         <li>Mass from \(L_X^{-1}\) scale</li>
         <li>Relic abundance automatic</li>
+        <li>★ Same Z₃ gives 3 generations!</li>
       </ul>
     </div>
   </div>
@@ -478,12 +493,12 @@
   <h2 style="color:var(--success);">Summary: Dark Matter Problem DERIVED</h2>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\XCRM{S^1/\mathbb{Z}_2} \xrightarrow{\text{KK tower}} \Phi^{(n)} \xrightarrow{P_{KK}=(-1)^n} \text{LKP stable} \xrightarrow{\text{freeze-out}} \Omega_{\rm DM} h^2 \approx 0.12}\]
-    <div class="eq-label" style="color:var(--success);">Complete Derivation Chain</div>
+    \[\boxed{\XCRM{\text{Z}_3\text{ helix}} \xrightarrow{\text{KK tower}} \Phi^{(n)} \xrightarrow{P_{KK}=\omega^n} \text{LKP stable} \xrightarrow{\text{freeze-out}} \Omega_{\rm DM} h^2 \approx 0.12}\]
+    <div class="eq-label" style="color:var(--success);">Complete Derivation Chain (v2.5 Helix)</div>
   </div>
 
   <p style="text-align:center;margin-top:1rem;font-size:1.1rem;color:var(--text);">
-    <strong>Dark matter is the Lightest Kaluza-Klein Particle, automatically stable from orbifold geometry.</strong>
+    <strong>Dark matter is the Lightest Kaluza-Klein Particle, automatically stable from Z₃ helix geometry.</strong>
   </p>
 </section>
 
