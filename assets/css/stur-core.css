@@ -45,6 +45,13 @@
   --neon-pink: #f472b6;
   --neon-red: #f87171;
 
+  /* Short aliases for convenience */
+  --gold: var(--neon-gold);
+  --cyan: var(--neon-cyan);
+  --green: var(--neon-green);
+  --violet: var(--neon-violet);
+  --pink: var(--neon-pink);
+
   /* Semantic colors */
   --color-success: #4ade80;
   --color-warning: #fbbf24;
