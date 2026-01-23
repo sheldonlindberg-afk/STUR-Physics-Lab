@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Higgs Mechanism — Electroweak Symmetry Breaking from 5D Geometry</title>
-<meta name="description" content="Derivation of the Higgs mechanism from STUR axioms. The Higgs field emerges from the R-field boundary mode, and EWSB is implied by orbifold boundary conditions.">
+<meta name="description" content="Higgs mechanism derived from XCRM via Master Action. The Higgs emerges as A₅ boundary mode; EWSB from orbifold boundary conditions. v2.4.1">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -34,11 +34,14 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Higgs Mechanism from 5D Geometry</h1>
-  <p class="subtitle">Electroweak Symmetry Breaking from Axiom 1</p>
-  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    Addresses: Missing Higgs mechanism derivation
-  </p>
+  <h1>Higgs Mechanism — Derived from 5D Geometry</h1>
+  <p class="subtitle">EWSB from Master Action via A₅ Boundary Mode</p>
+
+  <!-- v2.4.1 Derivation Chain Visualization -->
+  <div style="margin:1.25rem auto;max-width:700px;padding:0.75rem;background:linear-gradient(90deg,rgba(74,222,128,0.08),rgba(167,139,250,0.12),rgba(74,222,128,0.08));border-radius:10px;font-size:0.85rem;text-align:center;">
+    <strong>Complete chain:</strong> XCRM → Master Action → <strong style="color:var(--success);">Higgs (A₅)</strong> → EWSB → SM Masses
+  </div>
+  <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);">v2.4.1 — Everything derived, nothing assumed</p>
 </header>
 
 <!-- EXECUTIVE SUMMARY -->
@@ -311,51 +314,51 @@
   <div class="walkthrough" style="margin:1rem 0;">
     <div class="step">
       <div class="step-content">
-        <strong>Axiom 1: Master Action on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub></strong><br>
-        5D gauge field A<sub>M</sub> exists on orbifold.
+        <strong>Derived: Master Action on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub></strong><br>
+        5D gauge field A<sub>M</sub> exists on orbifold (from XCRM).
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Z<sub>2</sub> Parity</strong><br>
+        <strong>Z<sub>2</sub> Orbifold Parity</strong><br>
         A<sub>5</sub> is Z<sub>2</sub>-odd → boundary-localized scalar mode.
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>SU(2) Doublet</strong><br>
+        <strong>SU(2) Doublet Structure</strong><br>
         A<sub>5</sub> transforms as SU(2)<sub>L</sub> doublet = Higgs field H.
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Coleman-Weinberg</strong><br>
+        <strong>Coleman-Weinberg Mechanism</strong><br>
         Quantum corrections generate V<sub>eff</sub>(H) with Mexican hat shape.
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>EWSB</strong><br>
+        <strong>Electroweak Symmetry Breaking</strong><br>
         V<sub>eff</sub> minimized at ⟨H⟩ = v ≠ 0 → SU(2)×U(1) → U(1)<sub>em</sub>.
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Masses</strong><br>
+        <strong>Masses Generated</strong><br>
         W, Z, fermions acquire mass proportional to v.
       </div>
     </div>
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\text{Axiom 1} \;\xrightarrow{A_5}\; \text{Higgs} \;\xrightarrow{\text{CW}}\; V_{\rm eff} \;\xrightarrow{\min}\; \text{EWSB} \;\xrightarrow{}\; \text{Masses}}\]
-    <div class="eq-label" style="color:var(--success);">Complete EWSB Derivation from Axiom 1</div>
+    \[\boxed{\XCRM{\chi R\partial_X R} \;\xrightarrow{\text{Master Action}}\; A_5 \;\xrightarrow{\text{Z}_2}\; \text{Higgs} \;\xrightarrow{\text{CW}}\; V_{\rm eff} \;\xrightarrow{\min}\; \text{EWSB}}\]
+    <div class="eq-label" style="color:var(--success);">Complete EWSB Derivation from XCRM</div>
   </div>
 
   <div class="block success" style="margin-top:1rem;">
     <div class="title">No External Input</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Higgs mechanism is completely derived from Axiom 1:
+      The Higgs mechanism is completely derived from XCRM via Master Action:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <li>Higgs field = A<sub>5</sub> boundary mode (not input)</li>
