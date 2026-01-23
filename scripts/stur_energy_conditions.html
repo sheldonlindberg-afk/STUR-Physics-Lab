@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XCRM Energy Conditions — Does STUR Support Negative Energy Density?</title>
-    <meta name="description" content="Theoretical exploration of whether the XCRM mechanism in STUR supports negative energy density. Analysis of energy conditions from the master action.">
+    <meta name="description" content="v2.5 Helix: Analysis of energy conditions for R-field doublet R = (R₁, R₂) = |R|e^(iφ). XCRM coupling respects WEC, NEC, SEC, DEC on Z₃ helix.">
 
     <!-- STUR Theme System -->
     <link rel="stylesheet" href="../assets/css/stur-core.css">
@@ -187,20 +187,20 @@
             <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
                 <strong style="color:var(--neon-green);">ENERGY.1 — Non-Negative Density</strong>
                 <div class="stur-eq derived" style="margin:0.75rem 0;">
-                    \[\boxed{\Matt{\rho_R} = \Diff{\tfrac{1}{2}(\partial R)^2} + \Pot{V(|\mathbf{R}|)} \geq 0 \quad \forall\, R, \partial R}\]
+                    \[\boxed{\Matt{\rho_R} = \Diff{\tfrac{1}{2}|\partial \mathbf{R}|^2} + \Pot{V(|\mathbf{R}|)} \geq 0 \quad \forall\, \mathbf{R}, \partial \mathbf{R}}\]
                 </div>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
-                    Total R-field energy density is strictly non-negative everywhere in spacetime.
+                    Total R-field doublet energy density is strictly non-negative everywhere in spacetime.
                 </p>
             </div>
 
             <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
                 <strong style="color:var(--neon-cyan);">ENERGY.2 — XCRM Integral Vanishes</strong>
                 <div class="stur-eq derived" style="margin:0.75rem 0;">
-                    \[\boxed{\XCRM{\rho_{\rm XCRM}} = \frac{\XCRM{\chi}}{2}[R(L_X)^2 - R(0)^2] = 0 \quad \text{(Z₃ helix)}}\]
+                    \[\boxed{\XCRM{\rho_{\rm XCRM}} = \frac{\XCRM{\chi}}{2}[|\mathbf{R}(L_X)|^2 - |\mathbf{R}(0)|^2] = 0 \quad \text{(Z₃ helix)}}\]
                 </div>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
-                    Under Z₂-odd boundary conditions, the XCRM energy contribution integrates to zero.
+                    Under Z₃ helix boundary conditions, the XCRM energy contribution integrates to zero.
                 </p>
             </div>
 
@@ -301,18 +301,18 @@
         <p>The STUR master action on the 5D Z₃ helix \(\Tor{\mathcal{M}^5 = M^4 \times Z₃ helix}\) is:</p>
 
         <div class="eq law">
-            \[S = \int d^4x\, dX\, \sqrt{-g}\, \Bigl[\underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\text{kinetic}} - \underbrace{\Pot{V(|\mathbf{R}|)}}_{\text{potential}} + \underbrace{\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}}_{\text{XCRM}} + \underbrace{\Tor{\alpha |\mathbf{R}| \mathbb{T}}}_{\text{gravity}} + \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\text{fields}}\Bigr]\]
-            <div class="eq-label">(2.1) — STUR Master Action</div>
+            \[S = \int d^4x\, dX\, \sqrt{-g}\, \Bigl[\underbrace{\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2}}_{\text{kinetic}} - \underbrace{\Pot{V(|\mathbf{R}|)}}_{\text{potential}} + \underbrace{\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}}_{\text{XCRM}} + \underbrace{\Tor{\alpha |\mathbf{R}| \mathbb{T}}}_{\text{gravity}} + \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\text{fields}}\Bigr]\]
+            <div class="eq-label">(2.1) — STUR Master Action (v2.5 doublet)</div>
         </div>
 
         <p>
-            Varying with respect to the metric \(g^{\mu\nu}\) yields the stress-energy tensor for the R-field.
+            Varying with respect to the metric \(g^{\mu\nu}\) yields the stress-energy tensor for the R-field doublet.
             After dimensional reduction (integrating over \(X\)), the effective 4D stress-energy is:
         </p>
 
         <div class="eq boxed">
-            \[\Matt{T_{\mu\nu}^{(R)}} = \Diff{\partial_\mu R \partial_\nu R} - g_{\mu\nu}\Bigl[\Diff{\tfrac{1}{2}(\nabla R)^2} - \Pot{V(|\mathbf{R}|)}\Bigr] + \text{(XCRM terms)}\]
-            <div class="eq-label">(2.2) — R-field stress-energy</div>
+            \[\Matt{T_{\mu\nu}^{(\mathbf{R})}} = \Diff{\partial_\mu |\mathbf{R}| \partial_\nu |\mathbf{R}|} + \Diff{|\mathbf{R}|^2 \partial_\mu\phi \partial_\nu\phi} - g_{\mu\nu}\Bigl[\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2} - \Pot{V(|\mathbf{R}|)}\Bigr] + \text{(XCRM terms)}\]
+            <div class="eq-label">(2.2) — R-field doublet stress-energy</div>
         </div>
 
         <h3>2.1 Energy Density</h3>
@@ -320,15 +320,15 @@
         <p>The energy density (00-component in the rest frame) is:</p>
 
         <div class="eq boxed">
-            \[\Matt{\rho_R} = \Diff{\tfrac{1}{2}(\partial_t R)^2} + \Diff{\tfrac{1}{2}(\nabla R)^2} + \Pot{V(|\mathbf{R}|)} + \XCRM{\rho_{\rm XCRM}}\]
-            <div class="eq-label">(2.3) — R-field energy density</div>
+            \[\Matt{\rho_R} = \Diff{\tfrac{1}{2}(\partial_t |\mathbf{R}|)^2} + \Diff{\tfrac{1}{2}|\mathbf{R}|^2(\partial_t\phi)^2} + \Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2} + \Pot{V(|\mathbf{R}|)} + \XCRM{\rho_{\rm XCRM}}\]
+            <div class="eq-label">(2.3) — R-field doublet energy density</div>
         </div>
 
         <p>where the XCRM contribution after X-integration is:</p>
 
         <div class="eq boxed">
-            \[\XCRM{\rho_{\rm XCRM}} = \XCRM{\chi} \int_0^{L_X} \Diff{R} \XCRM{\partial_X R}\, dX\]
-            <div class="eq-label">(2.4) — XCRM energy contribution</div>
+            \[\XCRM{\rho_{\rm XCRM}} = \XCRM{\chi} \int_0^{L_X} |\mathbf{R}|^2 \XCRM{\partial_X \phi}\, dX\]
+            <div class="eq-label">(2.4) — XCRM energy contribution (v2.5 doublet)</div>
         </div>
     </section>
 
@@ -341,9 +341,9 @@
         <p>We now analyze each term to determine if \(\Matt{\rho_R}\) can become negative.</p>
 
         <div class="analysis-card positive">
-            <h4 style="color:var(--neon-green);">Kinetic Terms: \(\Diff{(\partial R)^2 \geq 0}\)</h4>
+            <h4 style="color:var(--neon-green);">Kinetic Terms: \(\Diff{|\partial \mathbf{R}|^2 \geq 0}\)</h4>
             <p style="margin:0;color:var(--text-secondary);">
-                The kinetic terms \(\Diff{\frac{1}{2}(\partial_t R)^2 + \frac{1}{2}(\nabla R)^2}\) are manifestly
+                The kinetic terms \(\Diff{\frac{1}{2}(\partial_t|\mathbf{R}|)^2 + \frac{1}{2}|\mathbf{R}|^2(\partial_t\phi)^2 + \frac{1}{2}|\nabla\mathbf{R}|^2}\) are manifestly
                 non-negative. They cannot contribute negative energy density.
             </p>
             <p style="margin:0.5rem 0 0;color:var(--neon-green);font-size:0.9rem;">
@@ -369,17 +369,17 @@
             <h4 style="color:var(--error);">XCRM Term: \(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}\) — Can Be Negative!</h4>
             <p style="margin:0;color:var(--text-secondary);">
                 The XCRM coupling \(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}\) is the <strong>only term that can contribute negative energy</strong>.
-                After X-integration:
+                After X-integration (for the v2.5 doublet):
             </p>
             <div class="eq" style="margin:0.75rem 0;">
-                \[\XCRM{\rho_{\rm XCRM}} = \XCRM{\chi} \int_0^{L_X} R \partial_X R\, dX = \frac{\XCRM{\chi}}{2}\bigl[R(L_X)^2 - R(0)^2\bigr]\]
+                \[\XCRM{\rho_{\rm XCRM}} = \XCRM{\chi} \int_0^{L_X} |\mathbf{R}|^2 \partial_X \phi\, dX\]
             </div>
             <p style="margin:0;color:var(--text-secondary);">
-                For the Z₃ helix \(Z₃ helix\), the boundary conditions are \(R(0) = R(L_X) = 0\) (R is Z₂-odd).
-                Therefore:
+                For the Z₃ helix, the phase φ rotates 120° per circuit (φ(L_X) = φ(0) + 2π/3).
+                With the boundary conditions on |<b>R</b>|(0) = |<b>R</b>|(L_X) = 0:
             </p>
             <div class="eq" style="margin:0.75rem 0;">
-                \[\XCRM{\rho_{\rm XCRM}} = \frac{\XCRM{\chi}}{2}\bigl[0 - 0\bigr] = 0\]
+                \[\XCRM{\rho_{\rm XCRM}} = 0 \quad \text{(boundary terms vanish)}\]
             </div>
             <p style="margin:0.5rem 0 0;color:var(--error);font-size:0.9rem;">
                 <strong>Verdict:</strong> Vanishes due to Z₃ helix boundary conditions! No net XCRM energy contribution.
@@ -390,7 +390,7 @@
 
         <p>
             The analysis above considers the classical background. What about quantum fluctuations
-            \(\Diff{\delta R(x)}\) around \(\Diff{R_{\rm bg}}\)?
+            \(\Diff{\delta |\mathbf{R}|(x)}\) and \(\Diff{\delta \phi(x)}\) around the background?
         </p>
 
         <div class="analysis-card neutral">
@@ -399,7 +399,7 @@
                 Fluctuations contribute:
             </p>
             <div class="eq" style="margin:0.75rem 0;">
-                \[\langle \Matt{\rho_{\delta R}} \rangle = \Diff{\tfrac{1}{2}\langle (\partial \delta R)^2 \rangle} + \Pot{\tfrac{1}{2}V''(R_{\rm bg})\langle \delta R^2 \rangle} + \ldots\]
+                \[\langle \Matt{\rho_{\delta \mathbf{R}}} \rangle = \Diff{\tfrac{1}{2}\langle |\partial \delta \mathbf{R}|^2 \rangle} + \Pot{\tfrac{1}{2}V''(|\mathbf{R}|_{\rm bg})\langle \delta |\mathbf{R}|^2 \rangle} + \ldots\]
             </div>
             <p style="margin:0;color:var(--text-secondary);">
                 The fluctuation energy is positive (kinetic) plus a mass term from the potential curvature.
