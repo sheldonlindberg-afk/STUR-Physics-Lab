@@ -11,7 +11,7 @@
 
 const STUR_DEFINITIONS = {
   versionName: "Unified Framework",
-  versionNumber: "1.1.1",
+  versionNumber: "2.4.1",
 
   // Theory status caveat - displayed where appropriate
   theoryCaveat: "STUR v2.4 is an axiom-free unified framework with falsifiable predictions. " +
@@ -145,7 +145,11 @@ const STUR_DEFINITIONS = {
       { name: "CP violation", mechanism: "Holonomy phase", equation: "F.18", status: "mechanism", note: "Spontaneous CP from complex holonomy vacuum", derivation: "stur_cp_derivation.html" },
       { name: "Dark matter (LKP)", mechanism: "KK parity stability", equation: "F.20", status: "mechanism", note: "Orbifold Z_2 gives stable LKP; mass depends on L_X", derivation: "stur_darkmatter_derivation.html" },
       { name: "Cosmological constant", mechanism: "R-field self-tuning", equation: "F.22", status: "proposed", note: "Mechanism outlined; rigorous proof needed", derivation: "stur_cosmological_derivation.html" },
-      { name: "Inflation + Baryogenesis", mechanism: "R-field dynamics + leptogenesis", equation: "F.24-25", status: "mechanism", note: "R-field slow-roll + geometric CP phases", derivation: "stur_inflation_derivation.html" }
+      { name: "Inflation + Baryogenesis", mechanism: "R-field dynamics + leptogenesis", equation: "F.24-25", status: "mechanism", note: "R-field slow-roll + geometric CP phases", derivation: "stur_inflation_derivation.html" },
+      { name: "Gauge coupling unification", mechanism: "5D orbifold localization", equation: "GU.13", status: "established", note: "α_i(M_Pl) from MHP + Kac-Moody levels", derivation: "stur_gauge_unification_derivation.html" },
+      { name: "Complete leptogenesis", mechanism: "Full Boltzmann + sphalerons", equation: "LT.16", status: "established", note: "η_B = 6.12×10⁻¹⁰ from thermal history", derivation: "stur_leptogenesis_thermal.html" },
+      { name: "Fifth-force screening", mechanism: "XCRM RG screening", equation: "F.28", status: "established", note: "All-orders suppression via holonomy regulation", derivation: "stur_fifth_force_screening.html" },
+      { name: "Strong CP solution", mechanism: "Orbifold Z₂ parity", equation: "F.30", status: "established", note: "θ̄_eff = 0 exactly from geometry", derivation: "stur_strong_cp_solution.html" }
     ],
 
     // Well-Motivated Proposals (all now established with complete derivations)
@@ -167,7 +171,11 @@ const STUR_DEFINITIONS = {
       { name: "CP violation", mechanism: "Holonomy phase", equation: "F.18", status: "established" },
       { name: "Dark matter (LKP)", mechanism: "KK parity stability", equation: "F.20", status: "established" },
       { name: "Cosmological constant", mechanism: "R-field self-tuning", equation: "F.22", status: "established" },
-      { name: "Inflation + Baryogenesis", mechanism: "R-field dynamics + leptogenesis", equation: "F.24-25", status: "established" }
+      { name: "Inflation + Baryogenesis", mechanism: "R-field dynamics + leptogenesis", equation: "F.24-25", status: "established" },
+      { name: "Gauge coupling unification", mechanism: "5D orbifold localization", equation: "GU.13", status: "established" },
+      { name: "Complete leptogenesis", mechanism: "Full Boltzmann + sphalerons", equation: "LT.16", status: "established" },
+      { name: "Fifth-force screening", mechanism: "XCRM RG screening", equation: "F.28", status: "established" },
+      { name: "Strong CP solution", mechanism: "Orbifold Z₂ parity", equation: "F.30", status: "established" }
     ],
     keyPrediction: {
       name: "Non-negotiable visibility law",
@@ -306,9 +314,12 @@ const STUR_DEFINITIONS = {
       "Neutrino masses (bulk seesaw mechanism) — ESTABLISHED: stur_neutrino_derivation.html",
       "CP violation (spontaneous from holonomy phase) — ESTABLISHED: stur_cp_derivation.html",
       "Dark matter (KK parity stabilizes LKP) — ESTABLISHED: stur_darkmatter_derivation.html",
-      "Cosmological constant (R-field self-tuning) — ESTABLISHED: stur_cosmological_derivation.html",
+      "Cosmological constant (R-field self-tuning) — ESTABLISHED: stur_cosmological_constant.html",
       "Inflation (R-field slow-roll from MHP) — ESTABLISHED: stur_inflation_derivation.html",
-      "Baryogenesis (leptogenesis with geometric CP) — ESTABLISHED: stur_inflation_derivation.html",
+      "Baryogenesis (complete leptogenesis) — ESTABLISHED: stur_leptogenesis_thermal.html",
+      "Gauge coupling unification (5D geometry) — ESTABLISHED: stur_gauge_unification_derivation.html",
+      "Fifth-force screening (XCRM regulation) — ESTABLISHED: stur_fifth_force_screening.html",
+      "Strong CP (θ=0 from orbifold) — ESTABLISHED: stur_strong_cp_solution.html",
       "Quantum gravity (finite holonomy path integral)"
     ],
 
