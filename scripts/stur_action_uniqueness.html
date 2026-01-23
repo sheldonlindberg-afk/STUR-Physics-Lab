@@ -154,9 +154,9 @@
       Terms with dimension ≤ 5 are:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      <li>\((\nabla R)^2\) — dimension 5</li>
-      <li>\(R^2\), \(R^4\) (via potential V(|\mathbf{R}|)) — dimension 3, 6 (marginal with coupling)</li>
-      <li>\(R \cdot \text{curvature}\) — dimension 5</li>
+      <li>\(|\nabla\mathbf{R}|^2\) — dimension 5 (doublet kinetic)</li>
+      <li>\(|\mathbf{R}|^2\), \(|\mathbf{R}|^4\) (via potential V(|<strong>R</strong>|)) — dimension 3, 6 (marginal with coupling)</li>
+      <li>\(|\mathbf{R}| \cdot \text{curvature}\) — dimension 5</li>
     </ul>
   </div>
 
@@ -187,8 +187,8 @@
   <p>The most general action satisfying C1-C3 is:</p>
 
   <div class="eq boxed">
-    \[S = \int d^5x\, \sqrt{-g}\, \Big[ f_1(\nabla R)^2 + f_2 V(|\mathbf{R}|) + f_3 R \partial_X R + f_4 R \mathcal{T} + f_5 \mathcal{L}_{\rm matter} \Big]\]
-    <div class="eq-label">(2.1) — General form</div>
+    \[S = \int d^5x\, \sqrt{-g}\, \Big[ f_1|\nabla\mathbf{R}|^2 + f_2 V(|\mathbf{R}|) + f_3 |\mathbf{R}|^2 \partial_X \phi + f_4 |\mathbf{R}| \mathcal{T} + f_5 \mathcal{L}_{\rm matter} \Big]\]
+    <div class="eq-label">(2.1) — General form (v2.5 doublet)</div>
   </div>
 
   <p>where \(f_i\) are dimensionful coupling constants and \(\mathcal{T}\) is either the Ricci scalar \(\mathcal{R}\) or the torsion scalar \(\mathbb{T}\).</p>
@@ -247,9 +247,9 @@
 
   <p>This term is non-renormalizable by power counting (C3). Excluded.</p>
 
-  <h4>Why not \((\partial_X R)^2\) alone?</h4>
+  <h4>Why not \((\partial_X |\mathbf{R}|)^2\) alone?</h4>
 
-  <p>This is already included in \((\nabla R)^2 = (\nabla_\mu R)^2 + (\partial_X R)^2\). No new term.</p>
+  <p>This is already included in \(|\nabla\mathbf{R}|^2 = (\nabla_\mu |\mathbf{R}|)^2 + |\mathbf{R}|^2(\nabla\phi)^2 + (\partial_X |\mathbf{R}|)^2 + |\mathbf{R}|^2(\partial_X\phi)^2\). No new term.</p>
 
   <h4>Why not \(\nabla_\mu R \nabla^\mu R\) without \(\partial_X R\)?</h4>
 
@@ -272,8 +272,8 @@
   <h3>2.4 The Minimal Result</h3>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{S = \int d^5x\, \sqrt{-g}\, \Big[ \tfrac{1}{2}(\nabla R)^2 - V(|\mathbf{R}|) + \chi |\mathbf{R}|^2 \partial_X \phi + \alpha |\mathbf{R}| \mathbb{T} + \mathcal{L}_{\rm matter} \Big]}\]
-    <div class="eq-label" style="color:var(--success);">(2.4) — The Minimal Master Action</div>
+    \[\boxed{S = \int d^5x\, \sqrt{-g}\, \Big[ \tfrac{1}{2}|\nabla\mathbf{R}|^2 - V(|\mathbf{R}|) + \chi |\mathbf{R}|^2 \partial_X \phi + \alpha |\mathbf{R}| \mathbb{T} + \mathcal{L}_{\rm matter} \Big]}\]
+    <div class="eq-label" style="color:var(--success);">(2.4) — The Minimal Master Action (v2.5 doublet)</div>
   </div>
 
   <p>The coefficients \(\tfrac{1}{2}\), \(\chi\), \(\alpha\) are coupling constants that can be absorbed by field redefinitions, leaving essentially one free parameter (the ratio \(\chi/\alpha\)).</p>

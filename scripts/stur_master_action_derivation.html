@@ -214,12 +214,12 @@
 
   <p>We enumerate all allowed terms by dimension:</p>
 
-  <h4>Dimension 3 (kinetic energy):</h4>
+  <h4>Dimension 3 (kinetic energy — v2.5 doublet):</h4>
   <div class="eq" style="border-color:#4ade80;">
-    \[\color{#4ade80}{\frac{1}{2}(\nabla R)^2} = \frac{1}{2}\eta^{MN}\partial_M R \partial_N R\]
-    <div class="eq-label">(2.1) &mdash; Kinetic term (unique)</div>
+    \[\color{#4ade80}{\frac{1}{2}|\nabla\mathbf{R}|^2} = \frac{1}{2}(\nabla|\mathbf{R}|)^2 + \frac{1}{2}|\mathbf{R}|^2(\nabla\phi)^2\]
+    <div class="eq-label">(2.1) &mdash; Doublet kinetic term</div>
   </div>
-  <p>This is the <strong>unique</strong> two-derivative kinetic term for a real scalar. The coefficient 1/2 is conventional.</p>
+  <p>For the doublet <strong>R</strong> = |<strong>R</strong>|e<sup>iφ</sup>, the kinetic energy decomposes into magnitude and phase gradients.</p>
 
   <h4>Dimension 5 (potential energy):</h4>
   <div class="eq" style="border-color:#f472b6;">
@@ -245,8 +245,8 @@
   <h3>2.2 The Complete Master Action</h3>
 
   <div class="eq law" style="border-color:var(--gold);border-width:3px;background:rgba(251,191,36,0.08);">
-    \[\boxed{\mathcal{S}_{\text{STUR}} = \int d^5x\, \sqrt{-g} \left[ \color{#4ade80}{\frac{1}{2}(\nabla R)^2} \color{#f472b6}{- V(|\mathbf{R}|)} + \color{#fbbf24}{\chi |\mathbf{R}|^2 \partial_X \phi} + \color{#60a5fa}{\alpha |\mathbf{R}| \mathbb{T}} + \color{#22d3ee}{\mathcal{L}_{\text{matter}}} \right]}\]
-    <div class="eq-label">(2.5) &mdash; The Master Action (complete)</div>
+    \[\boxed{\mathcal{S}_{\text{STUR}} = \int d^5x\, \sqrt{-g} \left[ \color{#4ade80}{\frac{1}{2}|\nabla\mathbf{R}|^2} \color{#f472b6}{- V(|\mathbf{R}|)} + \color{#fbbf24}{\chi |\mathbf{R}|^2 \partial_X \phi} + \color{#60a5fa}{\alpha |\mathbf{R}| \mathbb{T}} + \color{#22d3ee}{\mathcal{L}_{\text{matter}}} \right]}\]
+    <div class="eq-label">(2.5) &mdash; The Master Action (v2.5 doublet complete)</div>
   </div>
 
   <h3>2.3 Why This Form Is Forced</h3>
