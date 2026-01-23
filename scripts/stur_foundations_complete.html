@@ -4473,14 +4473,14 @@ code {
   <h3>B.3 Influence Functional</h3>
 
   <p>
-    Decomposing \(R = R_+ - R_-\) (forward/backward branches) and taking the Keldysh rotation 
-    \(R_{\rm cl} = (R_+ + R_-)/2\), \(R_{\rm q} = R_+ - R_-\):
+    Decomposing \(|\mathbf{R}| = |\mathbf{R}|_+ - |\mathbf{R}|_-\) (forward/backward branches) and taking the Keldysh rotation
+    \(|\mathbf{R}|_{\rm cl} = (|\mathbf{R}|_+ + |\mathbf{R}|_-)/2\), \(|\mathbf{R}|_{\rm q} = |\mathbf{R}|_+ - |\mathbf{R}|_-\):
   </p>
 
   <div class="eq">
-    \[\color{#e2e8f0}{S_{\rm IF}}[\color{#fbbf24}{R_{\rm cl}}, R_{\rm q}] = \color{#c4b5fd}{\int} \dd^4 x\, R_{\rm q}\left[-\color{#f472b6}{\gamma} \dot{R}_{\rm cl}
-    + \color{#4ade80}{D}\nabla^2 \color{#fbbf24}{R_{\rm cl}}\right] + i\color{#c4b5fd}{\int} \dd^4 x\, R_{\rm q}^2 \cdot \color{#f472b6}{\gamma} T_{\rm eff}\]
-    <div class="eq-label">(B.4)</div>
+    \[\color{#e2e8f0}{S_{\rm IF}}[\color{#fbbf24}{|\mathbf{R}|_{\rm cl}}, |\mathbf{R}|_{\rm q}] = \color{#c4b5fd}{\int} \dd^4 x\, |\mathbf{R}|_{\rm q}\left[-\color{#f472b6}{\gamma} \dot{|\mathbf{R}|}_{\rm cl}
+    + \color{#4ade80}{D}\nabla^2 \color{#fbbf24}{|\mathbf{R}|_{\rm cl}}\right] + i\color{#c4b5fd}{\int} \dd^4 x\, |\mathbf{R}|_{\rm q}^2 \cdot \color{#f472b6}{\gamma} T_{\rm eff}\]
+    <div class="eq-label">(B.4) — v2.5 doublet magnitude</div>
   </div>
 
   <p>
@@ -4488,20 +4488,20 @@ code {
     theorem relates the noise kernel to \(\gamma T_{\rm eff}\).
   </p>
 
-  <h3>B.4 Langevin Equation</h3>
+  <h3>B.4 Langevin Equation (v2.5 Doublet Magnitude)</h3>
 
   <p>
-    The equation of motion for \(R_{\rm cl}\) in the presence of the stochastic \(R_{\rm q}\) source is:
+    The equation of motion for \(|\mathbf{R}|_{\rm cl}\) in the presence of the stochastic \(|\mathbf{R}|_{\rm q}\) source is:
   </p>
 
   <div class="eq">
-    \[\dot{\color{#fbbf24}{R}} + \color{#f472b6}{\Gamma}(\color{#fbbf24}{R} - R_{\rm eq}) = \color{#4ade80}{D}\nabla^2 \color{#fbbf24}{R} + \xi, \quad
+    \[\dot{\color{#fbbf24}{|\mathbf{R}|}} + \color{#f472b6}{\Gamma}(\color{#fbbf24}{|\mathbf{R}|} - |\mathbf{R}|_{\rm eq}) = \color{#4ade80}{D}\nabla^2 \color{#fbbf24}{|\mathbf{R}|} + \xi, \quad
     \langle\xi(x)\xi(x')\rangle = 2\color{#f472b6}{\Gamma} T_{\rm eff}\, \delta^{(4)}(x - x')\]
-    <div class="eq-label">(B.5)</div>
+    <div class="eq-label">(B.5) — Doublet magnitude Langevin</div>
   </div>
 
   <p>
-    The covariant generalization replaces \(\dot{R}\) with \(u^\mu \partial_\mu R\) where \(u^\mu\) 
+    The covariant generalization replaces \(\dot{|\mathbf{R}|}\) with \(u^\mu \partial_\mu |\mathbf{R}|\) where \(u^\mu\)
     is the bath 4-velocity. See Calzetta & Hu (2008), Chapters 6–8 for the full derivation.
   </p>
 </section>
