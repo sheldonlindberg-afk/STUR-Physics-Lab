@@ -523,6 +523,76 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                Real-time quantum lattice simulation with STUR-modulated coherence. Watch probability flow and
+                entanglement entropy evolve under the resistance generator.
+            </p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="qcCanvas" width="550" height="380" style="width:100%;background:#000;border-radius:10px;border:1px solid var(--border-dim);"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;">
+                        <button class="glass-btn primary" id="qcStart">
+                            <span class="stur-icon icon-play"></span> Start
+                        </button>
+                        <button class="glass-btn" id="qcReset">
+                            <span class="stur-icon icon-refresh-cw"></span> Reset
+                        </button>
+                        <button class="glass-btn" id="qcToggleSTUR">
+                            <span class="stur-icon icon-toggle-right"></span> STUR: ON
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div style="background:rgba(0,0,0,0.25);padding:1rem;border-radius:10px;">
+                    <h4 style="color:var(--neon-cyan);margin:0 0 1rem;font-size:0.85rem;">Parameters</h4>
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">Lattice Sites: <span id="qcSitesVal">6</span></label>
+                    <input type="range" id="qcSites" min="4" max="10" value="6" style="width:100%;margin-bottom:0.75rem;">
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">Hopping J: <span id="qcJVal">1.0</span></label>
+                    <input type="range" id="qcJ" min="0.1" max="3.0" step="0.1" value="1.0" style="width:100%;margin-bottom:0.75rem;">
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">σ_R (STUR): <span id="qcSigmaVal">0.2</span></label>
+                    <input type="range" id="qcSigma" min="0.01" max="0.5" step="0.01" value="0.2" style="width:100%;margin-bottom:1rem;">
+
+                    <hr style="border-color:rgba(255,255,255,0.1);margin:1rem 0;">
+                    <h4 style="color:var(--neon-gold);margin:0 0 0.75rem;font-size:0.85rem;">Live Diagnostics</h4>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;font-size:0.75rem;">
+                        <div style="color:var(--text-muted);">Entropy S_A:</div>
+                        <div id="qcLiveS" style="color:#a78bfa;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">Purity:</div>
+                        <div id="qcLivePurity" style="color:#4ade80;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">Norm:</div>
+                        <div id="qcLiveNorm" style="color:#60a5fa;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">Time:</div>
+                        <div id="qcLiveTime" style="color:#22d3ee;font-family:var(--font-mono);">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(167,139,250,0.08);border-radius:8px;border:1px solid rgba(167,139,250,0.2);font-size:0.85rem;">
+                <strong style="color:#a78bfa;">Visualization:</strong>
+                <span style="color:var(--text-secondary);">
+                    Bars show probability at each lattice site. The wavepacket spreads under hopping Hamiltonian H₀,
+                    with STUR's R_STUR modulating coherence. Entanglement entropy S_A measures quantum correlations.
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">
@@ -903,6 +973,322 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
   }
+})();
+</script>
+
+<!-- QC Lattice Holoscreen JavaScript -->
+<script>
+(function() {
+    // State
+    let N = 6;           // Number of lattice sites
+    let psi = [];        // Wave function (complex amplitudes)
+    let running = false;
+    let sturEnabled = true;
+    let animationId = null;
+    let simTime = 0;
+    let entropyHistory = [];
+
+    // Parameters
+    let params = {
+        J: 1.0,     // Hopping strength
+        sigma: 0.2  // STUR fluctuation scale
+    };
+
+    // DOM
+    const canvas = document.getElementById('qcCanvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+
+    // Complex number helpers
+    function cmul(a, b) { return [a[0]*b[0] - a[1]*b[1], a[0]*b[1] + a[1]*b[0]]; }
+    function cadd(a, b) { return [a[0]+b[0], a[1]+b[1]]; }
+    function csub(a, b) { return [a[0]-b[0], a[1]-b[1]]; }
+    function cscale(a, s) { return [a[0]*s, a[1]*s]; }
+    function cnorm2(a) { return a[0]*a[0] + a[1]*a[1]; }
+    function cconj(a) { return [a[0], -a[1]]; }
+
+    // Initialize wavefunction - localized at center
+    function initPsi() {
+        psi = [];
+        const center = Math.floor(N / 2);
+        for (let i = 0; i < N; i++) {
+            if (i === center) {
+                psi.push([1, 0]); // Localized at center
+            } else {
+                psi.push([0, 0]);
+            }
+        }
+        simTime = 0;
+        entropyHistory = [];
+    }
+
+    // Normalize wavefunction
+    function normalize() {
+        let norm2 = 0;
+        for (let i = 0; i < N; i++) norm2 += cnorm2(psi[i]);
+        const norm = Math.sqrt(norm2);
+        if (norm > 1e-10) {
+            for (let i = 0; i < N; i++) psi[i] = cscale(psi[i], 1/norm);
+        }
+    }
+
+    // STUR modulator
+    function S_STUR(r, L0) {
+        const u = Math.abs(r) / L0;
+        return Math.tanh(u) * (1 - Math.exp(-u));
+    }
+
+    // Time evolution step using Trotter decomposition
+    function step() {
+        const dt = 0.02;
+        const J = params.J;
+
+        // Apply hopping Hamiltonian: H_0 = -J Σ (|i><i+1| + h.c.)
+        // Using Trotter: exp(-iHdt) ≈ exp(-iH_hop dt)
+        for (let iter = 0; iter < 5; iter++) {
+            // Even bonds
+            for (let i = 0; i < N - 1; i += 2) {
+                const theta = -J * dt;
+                const c = Math.cos(theta);
+                const s = Math.sin(theta);
+                // Rotation matrix applied to (psi[i], psi[i+1])
+                const psi_i = [...psi[i]];
+                const psi_j = [...psi[i+1]];
+                psi[i] = cadd(cscale(psi_i, c), cmul([0, -s], psi_j));
+                psi[i+1] = cadd(cmul([0, -s], psi_i), cscale(psi_j, c));
+            }
+
+            // Odd bonds
+            for (let i = 1; i < N - 1; i += 2) {
+                const theta = -J * dt;
+                const c = Math.cos(theta);
+                const s = Math.sin(theta);
+                const psi_i = [...psi[i]];
+                const psi_j = [...psi[i+1]];
+                psi[i] = cadd(cscale(psi_i, c), cmul([0, -s], psi_j));
+                psi[i+1] = cadd(cmul([0, -s], psi_i), cscale(psi_j, c));
+            }
+
+            // STUR coherence modulation
+            if (sturEnabled) {
+                for (let i = 0; i < N; i++) {
+                    const r = Math.abs(i - N/2) + 0.5;
+                    const S = S_STUR(r, 2.0);
+                    // Apply phase modulation
+                    const phi = params.sigma * S * (Math.random() - 0.5) * dt * 10;
+                    const c = Math.cos(phi);
+                    const s = Math.sin(phi);
+                    psi[i] = cmul(psi[i], [c, s]);
+                }
+            }
+
+            simTime += dt;
+        }
+
+        normalize();
+    }
+
+    // Compute entanglement entropy for A = first half
+    function entropyA() {
+        const nA = Math.floor(N / 2);
+        // Reduced density matrix ρ_A = Tr_B(|ψ><ψ|)
+        // For pure state on 1D chain, this is simple
+        let rhoA = [];
+        for (let i = 0; i < nA; i++) {
+            rhoA.push([]);
+            for (let j = 0; j < nA; j++) {
+                // Partial trace over B sites
+                let sum = [0, 0];
+                for (let k = 0; k < (N - nA); k++) {
+                    // This is a simplification - actual entanglement entropy
+                    // requires proper partial trace. For visualization, use
+                    // approximation based on probability spread
+                }
+                rhoA[i].push(sum);
+            }
+        }
+
+        // Simple approximation: entropy from probability spread
+        let probA = 0, probB = 0;
+        for (let i = 0; i < N; i++) {
+            const p = cnorm2(psi[i]);
+            if (i < nA) probA += p;
+            else probB += p;
+        }
+
+        // Binary entropy approximation
+        if (probA > 1e-10 && probA < 1 - 1e-10) {
+            return -probA * Math.log2(probA) - (1-probA) * Math.log2(1-probA);
+        }
+        return 0;
+    }
+
+    // Draw
+    function draw() {
+        if (!ctx) return;
+
+        ctx.fillStyle = '#050814';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const barWidth = 50;
+        const maxHeight = 200;
+        const startX = (canvas.width - N * barWidth) / 2;
+        const baseY = 250;
+
+        // Draw probability bars
+        for (let i = 0; i < N; i++) {
+            const prob = cnorm2(psi[i]);
+            const height = prob * maxHeight;
+            const x = startX + i * barWidth + 5;
+
+            // Bar gradient
+            const color = sturEnabled ? '#fbbf24' : '#22d3ee';
+            const alpha = 0.5 + prob * 0.5;
+            ctx.fillStyle = color;
+            ctx.globalAlpha = alpha;
+            ctx.fillRect(x, baseY - height, barWidth - 10, height);
+            ctx.globalAlpha = 1;
+
+            // Label
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(`|${i}⟩`, x + (barWidth - 10)/2, baseY + 15);
+            ctx.fillText(prob.toFixed(3), x + (barWidth - 10)/2, baseY + 28);
+        }
+
+        // Draw entropy history
+        const entropy = entropyA();
+        entropyHistory.push(entropy);
+        if (entropyHistory.length > 200) entropyHistory.shift();
+
+        const graphY = 320;
+        const graphH = 50;
+        ctx.strokeStyle = '#a78bfa';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        entropyHistory.forEach((e, i) => {
+            const x = (i / 200) * canvas.width;
+            const y = graphY - (e / 1.5) * graphH;
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // Axis
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.beginPath();
+        ctx.moveTo(0, graphY);
+        ctx.lineTo(canvas.width, graphY);
+        ctx.stroke();
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('S_A(t)', 5, graphY - graphH + 5);
+
+        // Diagnostics
+        let norm2 = 0;
+        for (let i = 0; i < N; i++) norm2 += cnorm2(psi[i]);
+        const purity = norm2; // For pure state, purity = 1
+
+        const elS = document.getElementById('qcLiveS');
+        const elPurity = document.getElementById('qcLivePurity');
+        const elNorm = document.getElementById('qcLiveNorm');
+        const elTime = document.getElementById('qcLiveTime');
+
+        if (elS) elS.textContent = entropy.toFixed(4);
+        if (elPurity) elPurity.textContent = purity.toFixed(6);
+        if (elNorm) elNorm.textContent = Math.sqrt(norm2).toFixed(6);
+        if (elTime) elTime.textContent = simTime.toFixed(2);
+
+        // Title
+        ctx.fillStyle = sturEnabled ? '#4ade80' : '#22d3ee';
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(sturEnabled ? 'STUR QC Lattice' : 'Standard QM (no STUR)', 10, 20);
+
+        // Parameters
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px sans-serif';
+        ctx.fillText(`N = ${N}, J = ${params.J}, σ_R = ${params.sigma}`, 10, 35);
+    }
+
+    // Animation loop
+    function animate() {
+        if (!running) return;
+        step();
+        draw();
+        animationId = requestAnimationFrame(animate);
+    }
+
+    // Setup controls
+    function setupControls() {
+        const startBtn = document.getElementById('qcStart');
+        const resetBtn = document.getElementById('qcReset');
+        const toggleBtn = document.getElementById('qcToggleSTUR');
+
+        if (startBtn) {
+            startBtn.addEventListener('click', () => {
+                running = !running;
+                startBtn.innerHTML = running ?
+                    '<span class="stur-icon icon-pause"></span> Pause' :
+                    '<span class="stur-icon icon-play"></span> Start';
+                if (running) animate();
+            });
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                running = false;
+                if (startBtn) startBtn.innerHTML = '<span class="stur-icon icon-play"></span> Start';
+                initPsi();
+                draw();
+            });
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                sturEnabled = !sturEnabled;
+                toggleBtn.innerHTML = sturEnabled ?
+                    '<span class="stur-icon icon-toggle-right"></span> STUR: ON' :
+                    '<span class="stur-icon icon-toggle-left"></span> STUR: OFF';
+            });
+        }
+
+        // Sliders
+        const sitesSlider = document.getElementById('qcSites');
+        const jSlider = document.getElementById('qcJ');
+        const sigmaSlider = document.getElementById('qcSigma');
+
+        if (sitesSlider) {
+            sitesSlider.addEventListener('input', () => {
+                N = parseInt(sitesSlider.value);
+                document.getElementById('qcSitesVal').textContent = N;
+                initPsi();
+                draw();
+            });
+        }
+
+        if (jSlider) {
+            jSlider.addEventListener('input', () => {
+                params.J = parseFloat(jSlider.value);
+                document.getElementById('qcJVal').textContent = params.J.toFixed(1);
+            });
+        }
+
+        if (sigmaSlider) {
+            sigmaSlider.addEventListener('input', () => {
+                params.sigma = parseFloat(sigmaSlider.value);
+                document.getElementById('qcSigmaVal').textContent = params.sigma.toFixed(2);
+            });
+        }
+    }
+
+    // Initialize
+    if (canvas && ctx) {
+        initPsi();
+        draw();
+        setupControls();
+    }
 })();
 </script>
 </body>

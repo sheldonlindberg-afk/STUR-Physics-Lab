@@ -529,6 +529,79 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                Real-time plasma torus simulation with STUR-modulated confinement. Adjust parameters to see how
+                the resistance scalar \(\XCRM{S(r)}\) affects particle dynamics.
+            </p>
+
+            <div style="display:grid;grid-template-columns:1fr 300px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="plasmaCanvas" width="600" height="400" style="width:100%;background:#000;border-radius:10px;border:1px solid var(--border-dim);"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;">
+                        <button class="glass-btn primary" id="plasmaStart">
+                            <span class="stur-icon icon-play"></span> Start
+                        </button>
+                        <button class="glass-btn" id="plasmaReset">
+                            <span class="stur-icon icon-refresh-cw"></span> Reset
+                        </button>
+                        <button class="glass-btn" id="plasmaToggleSTUR">
+                            <span class="stur-icon icon-toggle-right"></span> STUR: ON
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div style="background:rgba(0,0,0,0.25);padding:1rem;border-radius:10px;">
+                    <h4 style="color:var(--neon-cyan);margin:0 0 1rem;font-size:0.85rem;">Parameters</h4>
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">Particles: <span id="plasmaParticlesVal">100</span></label>
+                    <input type="range" id="plasmaParticles" min="20" max="300" value="100" style="width:100%;margin-bottom:0.75rem;">
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">B-field (T): <span id="plasmaBfieldVal">1.5</span></label>
+                    <input type="range" id="plasmaBfield" min="0.5" max="3.0" step="0.1" value="1.5" style="width:100%;margin-bottom:0.75rem;">
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">L₀ (mm): <span id="plasmaL0Val">1.0</span></label>
+                    <input type="range" id="plasmaL0" min="0.1" max="5.0" step="0.1" value="1.0" style="width:100%;margin-bottom:0.75rem;">
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">β₀ (v/c): <span id="plasmaBetaVal">0.12</span></label>
+                    <input type="range" id="plasmaBeta" min="0.01" max="0.3" step="0.01" value="0.12" style="width:100%;margin-bottom:1rem;">
+
+                    <hr style="border-color:rgba(255,255,255,0.1);margin:1rem 0;">
+                    <h4 style="color:var(--neon-gold);margin:0 0 0.75rem;font-size:0.85rem;">Live Diagnostics</h4>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;font-size:0.75rem;">
+                        <div style="color:var(--text-muted);">Mean S:</div>
+                        <div id="plasmaLiveS" style="color:#4ade80;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">Mean γ:</div>
+                        <div id="plasmaLiveGamma" style="color:#60a5fa;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">Confined:</div>
+                        <div id="plasmaLiveConfined" style="color:#a78bfa;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">Time (μs):</div>
+                        <div id="plasmaLiveTime" style="color:#22d3ee;font-family:var(--font-mono);">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.2);font-size:0.85rem;">
+                <strong style="color:#4ade80;">Visualization:</strong>
+                <span style="color:var(--text-secondary);">
+                    Gold particles show STUR-modulated motion. Toggle STUR off to compare with standard Lorentz force (cyan).
+                    The S(r) modulator reduces effective coupling at small radii, modifying confinement behavior.
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">
@@ -945,6 +1018,265 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
   }
+})();
+</script>
+
+<!-- Plasma Holoscreen JavaScript -->
+<script>
+(function() {
+    // Constants
+    const c = 2.99792458e8;
+    const R_major = 0.02;  // 2 cm
+    const a_minor = 0.004; // 4 mm
+
+    // State
+    let particles = [];
+    let running = false;
+    let sturEnabled = true;
+    let animationId = null;
+    let simTime = 0;
+
+    // Parameters (will be updated from sliders)
+    let params = {
+        N: 100,
+        Bz: 1.5,
+        L0: 1e-3,
+        beta0: 0.12
+    };
+
+    // DOM elements
+    const canvas = document.getElementById('plasmaCanvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+
+    // STUR Modulator: S(r) = tanh(r/L0) * (1 - exp(-r/L0))
+    function S_STUR(r, L0) {
+        const u = r / L0;
+        return Math.tanh(u) * (1 - Math.exp(-u));
+    }
+
+    // Initialize particles in torus
+    function initParticles() {
+        particles = [];
+        const v0 = params.beta0 * c;
+
+        for (let i = 0; i < params.N; i++) {
+            const theta = Math.random() * 2 * Math.PI;
+            const psi = Math.random() * 2 * Math.PI;
+            const r_minor = a_minor * (0.6 + 0.4 * Math.random());
+
+            const x = (R_major + r_minor * Math.cos(psi)) * Math.cos(theta);
+            const y = (R_major + r_minor * Math.cos(psi)) * Math.sin(theta);
+            const z = r_minor * Math.sin(psi);
+
+            const tx = -Math.sin(theta);
+            const ty = Math.cos(theta);
+            const pitch = 0.15;
+            const norm = Math.sqrt(1 + pitch * pitch);
+
+            particles.push({
+                x, y, z,
+                vx: v0 * tx / norm,
+                vy: v0 * ty / norm,
+                vz: v0 * pitch / norm,
+                S: 1
+            });
+        }
+        simTime = 0;
+    }
+
+    // Compute gamma factor
+    function gamma(vx, vy, vz) {
+        const b2 = (vx*vx + vy*vy + vz*vz) / (c*c);
+        return 1 / Math.sqrt(Math.max(1e-10, 1 - Math.min(0.9999, b2)));
+    }
+
+    // Boris rotation with optional STUR modulation
+    function borisStep(p, dt) {
+        const r = Math.sqrt(p.x*p.x + p.y*p.y + p.z*p.z);
+        const S = sturEnabled ? S_STUR(r, params.L0) : 1;
+        p.S = S;
+
+        const g = gamma(p.vx, p.vy, p.vz);
+        const qm = 1.602e-19 / 1.67e-27; // q/m for proton
+        const th = (qm * params.Bz / g) * S * dt;
+
+        const cth = Math.cos(th);
+        const sth = Math.sin(th);
+        const vxn = cth * p.vx - sth * p.vy;
+        const vyn = sth * p.vx + cth * p.vy;
+        p.vx = vxn;
+        p.vy = vyn;
+
+        // Drift
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.z += p.vz * dt;
+    }
+
+    // Check if particle is confined in torus
+    function isConfined(p) {
+        const R_xy = Math.sqrt(p.x*p.x + p.y*p.y);
+        const dr = R_xy - R_major;
+        const r_minor_actual = Math.sqrt(dr*dr + p.z*p.z);
+        return r_minor_actual < a_minor * 2;
+    }
+
+    // Simulation step
+    function step() {
+        const dt = 1e-11; // 10 ps
+        for (let i = 0; i < 10; i++) {
+            particles.forEach(p => borisStep(p, dt));
+            simTime += dt;
+        }
+    }
+
+    // Draw visualization
+    function draw() {
+        if (!ctx) return;
+
+        ctx.fillStyle = '#050814';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const scale = 8000;
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+
+        // Draw torus outline
+        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(cx, cy, R_major * scale, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        // Draw minor radius indicator
+        ctx.beginPath();
+        ctx.arc(cx + R_major * scale, cy, a_minor * scale, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        // Draw particles
+        let meanS = 0, meanGamma = 0, confined = 0;
+
+        particles.forEach(p => {
+            const px = cx + p.x * scale;
+            const py = cy - p.y * scale;
+            const g = gamma(p.vx, p.vy, p.vz);
+
+            meanS += p.S;
+            meanGamma += g;
+            if (isConfined(p)) confined++;
+
+            // Color based on STUR value
+            const hue = sturEnabled ? 45 : 180; // Gold for STUR, cyan for standard
+            const brightness = 50 + 50 * p.S;
+            ctx.fillStyle = `hsl(${hue}, 90%, ${brightness}%)`;
+            ctx.beginPath();
+            ctx.arc(px, py, 2, 0, 2 * Math.PI);
+            ctx.fill();
+        });
+
+        meanS /= particles.length;
+        meanGamma /= particles.length;
+
+        // Update diagnostics
+        const elS = document.getElementById('plasmaLiveS');
+        const elGamma = document.getElementById('plasmaLiveGamma');
+        const elConfined = document.getElementById('plasmaLiveConfined');
+        const elTime = document.getElementById('plasmaLiveTime');
+
+        if (elS) elS.textContent = meanS.toFixed(4);
+        if (elGamma) elGamma.textContent = meanGamma.toFixed(4);
+        if (elConfined) elConfined.textContent = `${confined}/${particles.length}`;
+        if (elTime) elTime.textContent = (simTime * 1e6).toFixed(3);
+
+        // Update page metrics
+        const metricS = document.getElementById('metric-S');
+        const metricGamma = document.getElementById('metric-gamma');
+        if (metricS) metricS.textContent = meanS.toFixed(4);
+        if (metricGamma) metricGamma.textContent = meanGamma.toFixed(4);
+
+        // Draw title
+        ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+        ctx.font = '14px sans-serif';
+        ctx.fillText(sturEnabled ? 'STUR Plasma Torus' : 'Standard Lorentz (S=1)', 10, 20);
+
+        // Draw legend
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px sans-serif';
+        ctx.fillText(`B = ${params.Bz} T, L₀ = ${(params.L0*1000).toFixed(1)} mm, β₀ = ${params.beta0}`, 10, canvas.height - 10);
+    }
+
+    // Animation loop
+    function animate() {
+        if (!running) return;
+        step();
+        draw();
+        animationId = requestAnimationFrame(animate);
+    }
+
+    // Event handlers
+    function setupControls() {
+        const startBtn = document.getElementById('plasmaStart');
+        const resetBtn = document.getElementById('plasmaReset');
+        const toggleBtn = document.getElementById('plasmaToggleSTUR');
+
+        if (startBtn) {
+            startBtn.addEventListener('click', () => {
+                running = !running;
+                startBtn.innerHTML = running ?
+                    '<span class="stur-icon icon-pause"></span> Pause' :
+                    '<span class="stur-icon icon-play"></span> Start';
+                if (running) animate();
+            });
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                running = false;
+                if (startBtn) startBtn.innerHTML = '<span class="stur-icon icon-play"></span> Start';
+                initParticles();
+                draw();
+            });
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                sturEnabled = !sturEnabled;
+                toggleBtn.innerHTML = sturEnabled ?
+                    '<span class="stur-icon icon-toggle-right"></span> STUR: ON' :
+                    '<span class="stur-icon icon-toggle-left"></span> STUR: OFF';
+            });
+        }
+
+        // Sliders
+        const sliders = [
+            { id: 'plasmaParticles', param: 'N', valId: 'plasmaParticlesVal', parse: parseInt },
+            { id: 'plasmaBfield', param: 'Bz', valId: 'plasmaBfieldVal', parse: parseFloat },
+            { id: 'plasmaL0', param: 'L0', valId: 'plasmaL0Val', parse: v => parseFloat(v) * 1e-3, display: v => (v * 1e3).toFixed(1) },
+            { id: 'plasmaBeta', param: 'beta0', valId: 'plasmaBetaVal', parse: parseFloat }
+        ];
+
+        sliders.forEach(s => {
+            const el = document.getElementById(s.id);
+            const valEl = document.getElementById(s.valId);
+            if (el && valEl) {
+                el.addEventListener('input', () => {
+                    params[s.param] = s.parse(el.value);
+                    valEl.textContent = s.display ? s.display(params[s.param]) : el.value;
+                    if (s.param === 'N') {
+                        initParticles();
+                        draw();
+                    }
+                });
+            }
+        });
+    }
+
+    // Initialize
+    if (canvas && ctx) {
+        initParticles();
+        draw();
+        setupControls();
+    }
 })();
 </script>
 </body>

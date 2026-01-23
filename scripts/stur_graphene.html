@@ -435,6 +435,76 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                Real-time graphene-axion coupling visualization. Adjust the coupling strength \(\XCRM{g_a}\) to see
+                how STUR's X-bundle coupling modifies conductivity and scattering time.
+            </p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="grapheneCanvas" width="550" height="380" style="width:100%;background:#000;border-radius:10px;border:1px solid var(--border-dim);"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;">
+                        <button class="glass-btn primary" id="grapheneStart">
+                            <span class="stur-icon icon-play"></span> Animate
+                        </button>
+                        <button class="glass-btn" id="grapheneReset">
+                            <span class="stur-icon icon-refresh-cw"></span> Reset
+                        </button>
+                        <button class="glass-btn" id="grapheneToggleSTUR">
+                            <span class="stur-icon icon-toggle-right"></span> STUR: ON
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div style="background:rgba(0,0,0,0.25);padding:1rem;border-radius:10px;">
+                    <h4 style="color:var(--neon-cyan);margin:0 0 1rem;font-size:0.85rem;">Parameters</h4>
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">log₁₀(g_a): <span id="grapheneGaVal">-12</span></label>
+                    <input type="range" id="grapheneGa" min="-14" max="-8" step="0.5" value="-12" style="width:100%;margin-bottom:0.75rem;">
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">B-field (T): <span id="grapheneBVal">10</span></label>
+                    <input type="range" id="grapheneB" min="1" max="20" step="1" value="10" style="width:100%;margin-bottom:0.75rem;">
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">Exponent p: <span id="graphenePVal">0.65</span></label>
+                    <input type="range" id="grapheneP" min="0.3" max="1.0" step="0.05" value="0.65" style="width:100%;margin-bottom:1rem;">
+
+                    <hr style="border-color:rgba(255,255,255,0.1);margin:1rem 0;">
+                    <h4 style="color:var(--neon-gold);margin:0 0 0.75rem;font-size:0.85rem;">Live Diagnostics</h4>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;font-size:0.75rem;">
+                        <div style="color:var(--text-muted);">Δτ/τ:</div>
+                        <div id="grapheneLiveDt" style="color:#4ade80;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">Δσ_xx/σ_xx:</div>
+                        <div id="grapheneLiveSxx" style="color:#60a5fa;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">Δσ_xy/σ_xy:</div>
+                        <div id="grapheneLiveSxy" style="color:#a78bfa;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">τ (ps):</div>
+                        <div id="grapheneLiveTau" style="color:#22d3ee;font-family:var(--font-mono);">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.2);font-size:0.85rem;">
+                <strong style="color:#4ade80;">Visualization:</strong>
+                <span style="color:var(--text-secondary);">
+                    The honeycomb lattice shows Dirac electron flow with STUR's axion-like coupling.
+                    Increase g_a to see enhanced conductivity shifts from the X-bundle interaction.
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">
@@ -801,6 +871,310 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
   }
+})();
+</script>
+
+<!-- Graphene-Axion Holoscreen JavaScript -->
+<script>
+(function() {
+    // Constants
+    const e = 1.602e-19;    // Electron charge
+    const hbar = 1.055e-34; // Reduced Planck
+    const vF = 1e6;         // Fermi velocity (m/s)
+    const kB = 1.38e-23;    // Boltzmann
+
+    // State
+    let running = false;
+    let sturEnabled = true;
+    let animationId = null;
+    let time = 0;
+    let electrons = [];
+
+    // Parameters
+    let params = {
+        ga_log: -12,  // log10(g_a)
+        B: 10,        // Tesla
+        p: 0.65,      // Scaling exponent
+        C: 5e-6,      // Coefficient
+        tau0: 1e-13   // Base scattering time (s)
+    };
+
+    // DOM
+    const canvas = document.getElementById('grapheneCanvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+
+    // Compute STUR shifts
+    function computeShifts() {
+        const ga = Math.pow(10, params.ga_log);
+        const g0 = 1e-12;
+        const ratio = ga / g0;
+
+        const dt_tau = sturEnabled ? params.C * Math.pow(ratio, params.p) : 0;
+        const dsxx = dt_tau;  // Δσ_xx/σ_xx ≈ Δτ/τ
+        const dsxy = 2 * dt_tau;  // Δσ_xy/σ_xy ≈ 2 Δτ/τ
+
+        return { dt_tau, dsxx, dsxy, tau: params.tau0 * (1 + dt_tau) };
+    }
+
+    // Initialize electrons on graphene lattice
+    function initElectrons() {
+        electrons = [];
+        const n = 30;
+        for (let i = 0; i < n; i++) {
+            electrons.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 2,
+                vy: (Math.random() - 0.5) * 2,
+                phase: Math.random() * 2 * Math.PI
+            });
+        }
+        time = 0;
+    }
+
+    // Draw honeycomb lattice
+    function drawLattice() {
+        const a = 20; // Lattice constant
+        const h = a * Math.sqrt(3) / 2;
+
+        ctx.strokeStyle = 'rgba(100, 165, 250, 0.15)';
+        ctx.lineWidth = 1;
+
+        for (let row = -1; row < canvas.height / h + 1; row++) {
+            for (let col = -1; col < canvas.width / (1.5 * a) + 1; col++) {
+                const x0 = col * 1.5 * a;
+                const y0 = row * 2 * h + (col % 2) * h;
+
+                // Draw hexagon
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const angle = Math.PI / 6 + i * Math.PI / 3;
+                    const px = x0 + a * Math.cos(angle);
+                    const py = y0 + a * Math.sin(angle);
+                    i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+                }
+                ctx.closePath();
+                ctx.stroke();
+            }
+        }
+    }
+
+    // Draw electrons with Dirac cone effect
+    function drawElectrons() {
+        const shifts = computeShifts();
+        const speedMod = 1 + shifts.dt_tau * 1000; // Amplified for visualization
+
+        electrons.forEach(el => {
+            // Update position
+            el.x += el.vx * speedMod * 2;
+            el.y += el.vy * speedMod * 2;
+
+            // Add cyclotron motion from B-field
+            const omega = e * params.B / (0.05 * 9.1e-31); // Effective mass
+            const angle = omega * time * 1e-12;
+            el.phase += 0.02 * params.B / 10;
+
+            // Wrap around
+            if (el.x < 0) el.x = canvas.width;
+            if (el.x > canvas.width) el.x = 0;
+            if (el.y < 0) el.y = canvas.height;
+            if (el.y > canvas.height) el.y = 0;
+
+            // Draw electron
+            const color = sturEnabled ? '#fbbf24' : '#22d3ee';
+            const glow = Math.sin(el.phase) * 0.3 + 0.7;
+
+            ctx.fillStyle = color;
+            ctx.globalAlpha = glow;
+            ctx.beginPath();
+            ctx.arc(el.x, el.y, 4, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Draw trail
+            const trailLen = 10 + shifts.dt_tau * 5000;
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1.5;
+            ctx.globalAlpha = 0.3;
+            ctx.beginPath();
+            ctx.moveTo(el.x, el.y);
+            ctx.lineTo(el.x - el.vx * trailLen, el.y - el.vy * trailLen);
+            ctx.stroke();
+
+            ctx.globalAlpha = 1;
+        });
+    }
+
+    // Draw scaling curve
+    function drawScalingCurve() {
+        const graphX = 380;
+        const graphY = 60;
+        const graphW = 150;
+        const graphH = 80;
+
+        // Background
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.fillRect(graphX, graphY, graphW, graphH);
+
+        // Axes
+        ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(graphX + 10, graphY + graphH - 10);
+        ctx.lineTo(graphX + graphW - 10, graphY + graphH - 10);
+        ctx.moveTo(graphX + 10, graphY + 10);
+        ctx.lineTo(graphX + 10, graphY + graphH - 10);
+        ctx.stroke();
+
+        // Draw curve: Δτ/τ = C(g_a/g_0)^p
+        ctx.strokeStyle = sturEnabled ? '#4ade80' : '#22d3ee';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+
+        for (let i = 0; i <= 50; i++) {
+            const logG = -14 + i * (6 / 50); // log10(g_a) from -14 to -8
+            const ratio = Math.pow(10, logG + 12); // g_a / g_0
+            const y_val = params.C * Math.pow(ratio, params.p);
+            const y_log = Math.log10(Math.max(y_val, 1e-10));
+
+            const px = graphX + 10 + (i / 50) * (graphW - 20);
+            const py = graphY + graphH - 10 - ((y_log + 10) / 6) * (graphH - 20);
+
+            i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        // Current point
+        const currX = graphX + 10 + ((params.ga_log + 14) / 6) * (graphW - 20);
+        const shifts = computeShifts();
+        const currYLog = Math.log10(Math.max(shifts.dt_tau, 1e-10));
+        const currY = graphY + graphH - 10 - ((currYLog + 10) / 6) * (graphH - 20);
+
+        ctx.fillStyle = '#f472b6';
+        ctx.beginPath();
+        ctx.arc(currX, currY, 5, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Labels
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '9px sans-serif';
+        ctx.fillText('log(Δτ/τ)', graphX + 12, graphY + 20);
+        ctx.fillText('log(g_a)', graphX + graphW - 35, graphY + graphH - 2);
+    }
+
+    // Draw visualization
+    function draw() {
+        if (!ctx) return;
+
+        ctx.fillStyle = '#050814';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        drawLattice();
+        drawElectrons();
+        drawScalingCurve();
+
+        // Diagnostics
+        const shifts = computeShifts();
+
+        const elDt = document.getElementById('grapheneLiveDt');
+        const elSxx = document.getElementById('grapheneLiveSxx');
+        const elSxy = document.getElementById('grapheneLiveSxy');
+        const elTau = document.getElementById('grapheneLiveTau');
+
+        if (elDt) elDt.textContent = shifts.dt_tau.toExponential(2);
+        if (elSxx) elSxx.textContent = shifts.dsxx.toExponential(2);
+        if (elSxy) elSxy.textContent = shifts.dsxy.toExponential(2);
+        if (elTau) elTau.textContent = (shifts.tau * 1e12).toFixed(3);
+
+        // Title
+        ctx.fillStyle = sturEnabled ? '#4ade80' : '#22d3ee';
+        ctx.font = '14px sans-serif';
+        ctx.fillText(sturEnabled ? 'STUR Graphene-Axion' : 'Standard QED (g_a = 0)', 10, 20);
+
+        // Parameters
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px sans-serif';
+        ctx.fillText(`g_a = 10^${params.ga_log}, B = ${params.B} T, p = ${params.p}`, 10, canvas.height - 10);
+
+        time += 1;
+    }
+
+    // Animation loop
+    function animate() {
+        if (!running) return;
+        draw();
+        animationId = requestAnimationFrame(animate);
+    }
+
+    // Setup controls
+    function setupControls() {
+        const startBtn = document.getElementById('grapheneStart');
+        const resetBtn = document.getElementById('grapheneReset');
+        const toggleBtn = document.getElementById('grapheneToggleSTUR');
+
+        if (startBtn) {
+            startBtn.addEventListener('click', () => {
+                running = !running;
+                startBtn.innerHTML = running ?
+                    '<span class="stur-icon icon-pause"></span> Pause' :
+                    '<span class="stur-icon icon-play"></span> Animate';
+                if (running) animate();
+            });
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                running = false;
+                if (startBtn) startBtn.innerHTML = '<span class="stur-icon icon-play"></span> Animate';
+                initElectrons();
+                draw();
+            });
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                sturEnabled = !sturEnabled;
+                toggleBtn.innerHTML = sturEnabled ?
+                    '<span class="stur-icon icon-toggle-right"></span> STUR: ON' :
+                    '<span class="stur-icon icon-toggle-left"></span> STUR: OFF';
+                draw();
+            });
+        }
+
+        // Sliders
+        const gaSlider = document.getElementById('grapheneGa');
+        const bSlider = document.getElementById('grapheneB');
+        const pSlider = document.getElementById('grapheneP');
+
+        if (gaSlider) {
+            gaSlider.addEventListener('input', () => {
+                params.ga_log = parseFloat(gaSlider.value);
+                document.getElementById('grapheneGaVal').textContent = params.ga_log;
+                draw();
+            });
+        }
+
+        if (bSlider) {
+            bSlider.addEventListener('input', () => {
+                params.B = parseFloat(bSlider.value);
+                document.getElementById('grapheneBVal').textContent = params.B;
+            });
+        }
+
+        if (pSlider) {
+            pSlider.addEventListener('input', () => {
+                params.p = parseFloat(pSlider.value);
+                document.getElementById('graphenePVal').textContent = params.p.toFixed(2);
+                draw();
+            });
+        }
+    }
+
+    // Initialize
+    if (canvas && ctx) {
+        initElectrons();
+        draw();
+        setupControls();
+    }
 })();
 </script>
 </body>

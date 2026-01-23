@@ -440,6 +440,79 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                Real-time resistance arc oscillator simulation. The STUR modulator \(\XCRM{S(r)}\) gates
+                all force contributions, creating distance-dependent effective stiffness.
+            </p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="arcCanvas" width="550" height="350" style="width:100%;background:#000;border-radius:10px;border:1px solid var(--border-dim);"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;">
+                        <button class="glass-btn primary" id="arcStart">
+                            <span class="stur-icon icon-play"></span> Start
+                        </button>
+                        <button class="glass-btn" id="arcReset">
+                            <span class="stur-icon icon-refresh-cw"></span> Reset
+                        </button>
+                        <button class="glass-btn" id="arcPoke">
+                            <span class="stur-icon icon-zap"></span> Poke
+                        </button>
+                        <button class="glass-btn" id="arcToggleSTUR">
+                            <span class="stur-icon icon-toggle-right"></span> STUR: ON
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div style="background:rgba(0,0,0,0.25);padding:1rem;border-radius:10px;">
+                    <h4 style="color:var(--neon-cyan);margin:0 0 1rem;font-size:0.85rem;">Parameters</h4>
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">L₀ (10⁻¹⁰ m): <span id="arcL0Val">1.0</span></label>
+                    <input type="range" id="arcL0" min="0.1" max="5.0" step="0.1" value="1.0" style="width:100%;margin-bottom:0.75rem;">
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">k_static (N/m): <span id="arcKstaticVal">10000</span></label>
+                    <input type="range" id="arcKstatic" min="1000" max="50000" step="1000" value="10000" style="width:100%;margin-bottom:0.75rem;">
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">Damping: <span id="arcDampVal">0.02</span></label>
+                    <input type="range" id="arcDamp" min="0.001" max="0.1" step="0.001" value="0.02" style="width:100%;margin-bottom:1rem;">
+
+                    <hr style="border-color:rgba(255,255,255,0.1);margin:1rem 0;">
+                    <h4 style="color:var(--neon-gold);margin:0 0 0.75rem;font-size:0.85rem;">Live Diagnostics</h4>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;font-size:0.75rem;">
+                        <div style="color:var(--text-muted);">S(r):</div>
+                        <div id="arcLiveS" style="color:#4ade80;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">k_eff:</div>
+                        <div id="arcLiveK" style="color:#60a5fa;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">f_trap (Hz):</div>
+                        <div id="arcLiveF" style="color:#a78bfa;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">Amplitude:</div>
+                        <div id="arcLiveAmp" style="color:#22d3ee;font-family:var(--font-mono);">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.2);font-size:0.85rem;">
+                <strong style="color:#4ade80;">Visualization:</strong>
+                <span style="color:var(--text-secondary);">
+                    The oscillator shows STUR-modulated stiffness where k_eff increases at small displacements.
+                    Click "Poke" to perturb the system and observe damped oscillations.
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">
@@ -846,6 +919,277 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
   }
+})();
+</script>
+
+<!-- Resistance Arc Holoscreen JavaScript -->
+<script>
+(function() {
+    // State
+    let d = 1e-11;   // displacement (m)
+    let v = 0;       // velocity (m/s)
+    let running = false;
+    let sturEnabled = true;
+    let animationId = null;
+    let simTime = 0;
+    let history = [];
+
+    // Parameters
+    let params = {
+        L0: 1e-10,      // STUR length scale (m)
+        kstatic: 10000, // static stiffness (N/m)
+        kfb: 1e9,       // feedback stiffness gain
+        m: 1e-6,        // mass (1 µg)
+        gamma: 0.02     // damping coefficient
+    };
+
+    // DOM elements
+    const canvas = document.getElementById('arcCanvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+
+    // STUR Modulator
+    function S_STUR(r, L0) {
+        const u = Math.abs(r) / L0;
+        return Math.tanh(u) * (1 - Math.exp(-u));
+    }
+
+    // Effective stiffness: k_eff = k_static + k_fb / (|d| + epsilon)
+    function k_eff(d) {
+        const eps = 1e-15;
+        const S = sturEnabled ? S_STUR(Math.abs(d), params.L0) : 1;
+        return params.kstatic + (params.kfb / (Math.abs(d) + eps)) * S;
+    }
+
+    // Reset
+    function reset() {
+        d = 1e-11;
+        v = 0;
+        simTime = 0;
+        history = [];
+    }
+
+    // Poke the oscillator
+    function poke() {
+        d += 5e-11 * (Math.random() - 0.5);
+        v += 1e-4 * (Math.random() - 0.5);
+    }
+
+    // Physics step (RK2)
+    function step() {
+        const dt = 1e-7; // 0.1 µs
+
+        for (let i = 0; i < 50; i++) {
+            const k = k_eff(d);
+            const a = -(k / params.m) * d - params.gamma * v;
+
+            // RK2
+            const d_mid = d + 0.5 * dt * v;
+            const v_mid = v + 0.5 * dt * a;
+            const k_mid = k_eff(d_mid);
+            const a_mid = -(k_mid / params.m) * d_mid - params.gamma * v_mid;
+
+            v += dt * a_mid;
+            d += dt * v_mid;
+            simTime += dt;
+        }
+
+        // Record history
+        history.push({ t: simTime, d: d });
+        if (history.length > 300) history.shift();
+    }
+
+    // Draw
+    function draw() {
+        if (!ctx) return;
+
+        ctx.fillStyle = '#050814';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2 - 40;
+
+        // Draw equilibrium line
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(cx, 50);
+        ctx.lineTo(cx, cy + 50);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Scale for visualization (1 nm = 50 px)
+        const scale = 5e12;
+        const px = cx + d * scale;
+
+        // Draw mass
+        const color = sturEnabled ? '#fbbf24' : '#22d3ee';
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(px, cy, 20, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Draw glow
+        const grad = ctx.createRadialGradient(px, cy, 0, px, cy, 40);
+        grad.addColorStop(0, color + '66');
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(px, cy, 40, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Draw spring representation
+        ctx.strokeStyle = 'rgba(74, 222, 128, 0.6)';
+        ctx.lineWidth = 2;
+        const segments = 15;
+        const startX = 50;
+        const endX = px - 20;
+        const segLen = (endX - startX) / segments;
+        ctx.beginPath();
+        ctx.moveTo(startX, cy);
+        for (let i = 1; i <= segments; i++) {
+            const x = startX + i * segLen;
+            const y = cy + (i % 2 === 0 ? 0 : (i % 4 === 1 ? -10 : 10));
+            ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Draw waveform (bottom section)
+        const waveY = canvas.height - 80;
+        const waveH = 60;
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+        ctx.beginPath();
+        ctx.moveTo(0, waveY);
+        ctx.lineTo(canvas.width, waveY);
+        ctx.stroke();
+
+        if (history.length > 1) {
+            ctx.strokeStyle = sturEnabled ? '#4ade80' : '#22d3ee';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            history.forEach((h, i) => {
+                const x = (i / 300) * canvas.width;
+                const y = waveY - (h.d * 5e12) * (waveH / 100);
+                i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+        }
+
+        // Compute diagnostics
+        const S = S_STUR(Math.abs(d), params.L0);
+        const k = k_eff(d);
+        const f = Math.sqrt(k / params.m) / (2 * Math.PI);
+        const amp = Math.abs(d) * 1e9; // nm
+
+        // Update displays
+        const elS = document.getElementById('arcLiveS');
+        const elK = document.getElementById('arcLiveK');
+        const elF = document.getElementById('arcLiveF');
+        const elAmp = document.getElementById('arcLiveAmp');
+
+        if (elS) elS.textContent = S.toFixed(4);
+        if (elK) elK.textContent = k.toExponential(2);
+        if (elF) elF.textContent = f.toFixed(1);
+        if (elAmp) elAmp.textContent = amp.toFixed(3) + ' nm';
+
+        // Update page metrics
+        const metricK = document.getElementById('metric-kstatic');
+        const metricF = document.getElementById('metric-ftrap');
+        if (metricK) metricK.textContent = k.toExponential(1);
+        if (metricF) metricF.textContent = f.toFixed(0) + ' Hz';
+
+        // Title
+        ctx.fillStyle = sturEnabled ? '#4ade80' : '#22d3ee';
+        ctx.font = '14px sans-serif';
+        ctx.fillText(sturEnabled ? 'STUR Resistance Arc' : 'Standard Oscillator (S=1)', 10, 20);
+
+        // Legend
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px sans-serif';
+        ctx.fillText(`L₀ = ${(params.L0*1e10).toFixed(1)}×10⁻¹⁰ m, k_static = ${params.kstatic} N/m`, 10, canvas.height - 10);
+    }
+
+    // Animation loop
+    function animate() {
+        if (!running) return;
+        step();
+        draw();
+        animationId = requestAnimationFrame(animate);
+    }
+
+    // Setup controls
+    function setupControls() {
+        const startBtn = document.getElementById('arcStart');
+        const resetBtn = document.getElementById('arcReset');
+        const pokeBtn = document.getElementById('arcPoke');
+        const toggleBtn = document.getElementById('arcToggleSTUR');
+
+        if (startBtn) {
+            startBtn.addEventListener('click', () => {
+                running = !running;
+                startBtn.innerHTML = running ?
+                    '<span class="stur-icon icon-pause"></span> Pause' :
+                    '<span class="stur-icon icon-play"></span> Start';
+                if (running) animate();
+            });
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                running = false;
+                if (startBtn) startBtn.innerHTML = '<span class="stur-icon icon-play"></span> Start';
+                reset();
+                draw();
+            });
+        }
+
+        if (pokeBtn) {
+            pokeBtn.addEventListener('click', poke);
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                sturEnabled = !sturEnabled;
+                toggleBtn.innerHTML = sturEnabled ?
+                    '<span class="stur-icon icon-toggle-right"></span> STUR: ON' :
+                    '<span class="stur-icon icon-toggle-left"></span> STUR: OFF';
+            });
+        }
+
+        // Sliders
+        const L0Slider = document.getElementById('arcL0');
+        const kSlider = document.getElementById('arcKstatic');
+        const dampSlider = document.getElementById('arcDamp');
+
+        if (L0Slider) {
+            L0Slider.addEventListener('input', () => {
+                params.L0 = parseFloat(L0Slider.value) * 1e-10;
+                document.getElementById('arcL0Val').textContent = L0Slider.value;
+            });
+        }
+
+        if (kSlider) {
+            kSlider.addEventListener('input', () => {
+                params.kstatic = parseFloat(kSlider.value);
+                document.getElementById('arcKstaticVal').textContent = kSlider.value;
+            });
+        }
+
+        if (dampSlider) {
+            dampSlider.addEventListener('input', () => {
+                params.gamma = parseFloat(dampSlider.value);
+                document.getElementById('arcDampVal').textContent = dampSlider.value;
+            });
+        }
+    }
+
+    // Initialize
+    if (canvas && ctx) {
+        reset();
+        poke(); // Initial perturbation
+        draw();
+        setupControls();
+    }
 })();
 </script>
 </body>

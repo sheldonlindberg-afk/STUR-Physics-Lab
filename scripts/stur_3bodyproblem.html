@@ -443,6 +443,79 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;color:var(--text-secondary);">
+                Real-time 3-body orbit simulation with STUR-modified gravity. The resistance modulator
+                \(\XCRM{S(r)}\) regularizes short-range interactions, stabilizing the equilateral configuration.
+            </p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="orbitCanvas" width="550" height="450" style="width:100%;background:#000;border-radius:10px;border:1px solid var(--border-dim);"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;">
+                        <button class="glass-btn primary" id="orbitStart">
+                            <span class="stur-icon icon-play"></span> Start
+                        </button>
+                        <button class="glass-btn" id="orbitReset">
+                            <span class="stur-icon icon-refresh-cw"></span> Reset
+                        </button>
+                        <button class="glass-btn" id="orbitToggleSTUR">
+                            <span class="stur-icon icon-toggle-right"></span> STUR: ON
+                        </button>
+                        <button class="glass-btn" id="orbitTrails">
+                            <span class="stur-icon icon-eye"></span> Trails
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div style="background:rgba(0,0,0,0.25);padding:1rem;border-radius:10px;">
+                    <h4 style="color:var(--neon-cyan);margin:0 0 1rem;font-size:0.85rem;">Parameters</h4>
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">Mass (10²⁴ kg): <span id="orbitMassVal">1.0</span></label>
+                    <input type="range" id="orbitMass" min="0.5" max="5.0" step="0.1" value="1.0" style="width:100%;margin-bottom:0.75rem;">
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">L₀ (10⁹ m): <span id="orbitL0Val">1.0</span></label>
+                    <input type="range" id="orbitL0" min="0.1" max="5.0" step="0.1" value="1.0" style="width:100%;margin-bottom:0.75rem;">
+
+                    <label style="font-size:0.8rem;color:var(--text-muted);">Radius (10⁹ m): <span id="orbitRadiusVal">1.73</span></label>
+                    <input type="range" id="orbitRadius" min="0.5" max="4.0" step="0.01" value="1.73" style="width:100%;margin-bottom:1rem;">
+
+                    <hr style="border-color:rgba(255,255,255,0.1);margin:1rem 0;">
+                    <h4 style="color:var(--neon-gold);margin:0 0 0.75rem;font-size:0.85rem;">Live Diagnostics</h4>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;font-size:0.75rem;">
+                        <div style="color:var(--text-muted);">Mean S:</div>
+                        <div id="orbitLiveS" style="color:#4ade80;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">ΔE/E:</div>
+                        <div id="orbitLivedE" style="color:#60a5fa;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">Period (yr):</div>
+                        <div id="orbitLivePeriod" style="color:#a78bfa;font-family:var(--font-mono);">—</div>
+                        <div style="color:var(--text-muted);">Orbits:</div>
+                        <div id="orbitLiveOrbits" style="color:#22d3ee;font-family:var(--font-mono);">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.2);font-size:0.85rem;">
+                <strong style="color:#4ade80;">Visualization:</strong>
+                <span style="color:var(--text-secondary);">
+                    Three equal masses orbit in an equilateral configuration. STUR's S(r) modulator stabilizes
+                    orbits that would be chaotic in pure Newtonian gravity. Toggle STUR off to compare.
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">
@@ -810,6 +883,404 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 1500);
   }
+})();
+</script>
+
+<!-- 3-Body Orbit Holoscreen JavaScript -->
+<script>
+(function() {
+    // Constants
+    const G = 6.6743e-11;
+    const YEAR_S = 3.15576e7;
+
+    // State
+    let bodies = [];
+    let trails = [[], [], []];
+    let running = false;
+    let sturEnabled = true;
+    let showTrails = true;
+    let animationId = null;
+    let simTime = 0;
+    let E0 = 0;
+    let orbitCount = 0;
+    let lastAngle = 0;
+
+    // Parameters
+    let params = {
+        mass: 1e24,   // kg
+        L0: 1e9,      // m
+        R: 1.73205e9  // m (orbital radius)
+    };
+
+    // DOM elements
+    const canvas = document.getElementById('orbitCanvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+
+    // STUR Modulator
+    function S_STUR(r, L0) {
+        const u = r / L0;
+        return Math.tanh(u) * (1 - Math.exp(-u));
+    }
+
+    // Derivative dS/dr
+    function dS_dr(r, L0) {
+        const u = r / L0;
+        const ch = Math.cosh(u);
+        return (1/L0) * ((1 - Math.exp(-u))/(ch*ch) + Math.tanh(u)*Math.exp(-u));
+    }
+
+    // Compute acceleration on body i
+    function acceleration(bodies, i, L0) {
+        let ax = 0, ay = 0;
+        const m = params.mass;
+
+        for (let j = 0; j < 3; j++) {
+            if (i === j) continue;
+
+            const dx = bodies[j].x - bodies[i].x;
+            const dy = bodies[j].y - bodies[i].y;
+            const r = Math.sqrt(dx*dx + dy*dy);
+
+            if (r < 1e6) continue;
+
+            const S = sturEnabled ? S_STUR(r, L0) : 1;
+            const Sp = sturEnabled ? dS_dr(r, L0) : 0;
+
+            // d/dr[S(r)/r] = (Sp*r - S) / r^2
+            const dSr = (Sp * r - S) / (r * r);
+
+            // a = -G * m * dSr * rhat
+            const fac = -G * m * dSr;
+            ax += fac * dx / r;
+            ay += fac * dy / r;
+        }
+
+        return { ax, ay };
+    }
+
+    // RK4 step
+    function rk4Step(bodies, dt) {
+        const n = 3;
+        const L0 = params.L0;
+
+        // State: [x, y, vx, vy] for each body
+        function derivs(state) {
+            const d = [];
+            for (let i = 0; i < n; i++) {
+                const bodies_temp = state.map((s, j) => ({
+                    x: s.x, y: s.y, vx: s.vx, vy: s.vy
+                }));
+                const a = acceleration(bodies_temp, i, L0);
+                d.push({ dx: state[i].vx, dy: state[i].vy, dvx: a.ax, dvy: a.ay });
+            }
+            return d;
+        }
+
+        function addState(s, d, h) {
+            return s.map((si, i) => ({
+                x: si.x + h * d[i].dx,
+                y: si.y + h * d[i].dy,
+                vx: si.vx + h * d[i].dvx,
+                vy: si.vy + h * d[i].dvy
+            }));
+        }
+
+        const state = bodies.map(b => ({ x: b.x, y: b.y, vx: b.vx, vy: b.vy }));
+        const k1 = derivs(state);
+        const k2 = derivs(addState(state, k1, dt/2));
+        const k3 = derivs(addState(state, k2, dt/2));
+        const k4 = derivs(addState(state, k3, dt));
+
+        for (let i = 0; i < n; i++) {
+            bodies[i].x += (dt/6) * (k1[i].dx + 2*k2[i].dx + 2*k3[i].dx + k4[i].dx);
+            bodies[i].y += (dt/6) * (k1[i].dy + 2*k2[i].dy + 2*k3[i].dy + k4[i].dy);
+            bodies[i].vx += (dt/6) * (k1[i].dvx + 2*k2[i].dvx + 2*k3[i].dvx + k4[i].dvx);
+            bodies[i].vy += (dt/6) * (k1[i].dvy + 2*k2[i].dvy + 2*k3[i].dvy + k4[i].dvy);
+        }
+    }
+
+    // STUR orbital frequency
+    function omega_stur(R, L0, m) {
+        const r = R * Math.sqrt(3); // inter-body distance
+        const S = S_STUR(r, L0);
+        const Sp = dS_dr(r, L0);
+        const dSr = (Sp * r - S) / (r * r);
+        const w2 = -3 * G * m * dSr / r;
+        return w2 > 0 ? Math.sqrt(w2) : 0.001;
+    }
+
+    // Energy
+    function totalEnergy() {
+        const m = params.mass;
+        const L0 = params.L0;
+        let KE = 0, PE = 0;
+
+        for (let i = 0; i < 3; i++) {
+            KE += 0.5 * m * (bodies[i].vx*bodies[i].vx + bodies[i].vy*bodies[i].vy);
+        }
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = i + 1; j < 3; j++) {
+                const dx = bodies[i].x - bodies[j].x;
+                const dy = bodies[i].y - bodies[j].y;
+                const r = Math.sqrt(dx*dx + dy*dy);
+                const S = sturEnabled ? S_STUR(r, L0) : 1;
+                PE -= G * m * m * S / r;
+            }
+        }
+
+        return KE + PE;
+    }
+
+    // Initialize equilateral configuration
+    function initBodies() {
+        const R = params.R;
+        const L0 = params.L0;
+        const m = params.mass;
+
+        const w = sturEnabled ? omega_stur(R, L0, m) : Math.sqrt(G * m / (R * R * R * Math.sqrt(3)));
+
+        bodies = [];
+        trails = [[], [], []];
+
+        const phases = [0, 2*Math.PI/3, 4*Math.PI/3];
+        const colors = ['#ff4444', '#44ff44', '#4488ff'];
+
+        phases.forEach((p, i) => {
+            bodies.push({
+                x: -R * Math.cos(p),
+                y: R * Math.sin(p),
+                vx: -R * w * Math.sin(p),
+                vy: -R * w * Math.cos(p),
+                color: colors[i]
+            });
+        });
+
+        simTime = 0;
+        orbitCount = 0;
+        lastAngle = Math.atan2(bodies[0].y, bodies[0].x);
+        E0 = totalEnergy();
+    }
+
+    // Simulation step
+    function step() {
+        const w = omega_stur(params.R, params.L0, params.mass);
+        const T = 2 * Math.PI / w;
+        const dt = T / 2000;
+
+        for (let i = 0; i < 5; i++) {
+            rk4Step(bodies, dt);
+            simTime += dt;
+
+            // Track orbit count
+            const angle = Math.atan2(bodies[0].y, bodies[0].x);
+            if (lastAngle > 2 && angle < -2) orbitCount++;
+            if (lastAngle < -2 && angle > 2) orbitCount--;
+            lastAngle = angle;
+        }
+
+        // Update trails
+        if (showTrails) {
+            bodies.forEach((b, i) => {
+                trails[i].push({ x: b.x, y: b.y });
+                if (trails[i].length > 500) trails[i].shift();
+            });
+        }
+    }
+
+    // Draw
+    function draw() {
+        if (!ctx) return;
+
+        ctx.fillStyle = '#050814';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const scale = 150 / params.R;
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+
+        // Draw trails
+        if (showTrails) {
+            trails.forEach((trail, i) => {
+                if (trail.length < 2) return;
+                ctx.strokeStyle = bodies[i].color;
+                ctx.lineWidth = 1;
+                ctx.globalAlpha = 0.4;
+                ctx.beginPath();
+                trail.forEach((p, j) => {
+                    const px = cx + p.x * scale;
+                    const py = cy - p.y * scale;
+                    j === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+                });
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+            });
+        }
+
+        // Draw connecting lines
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        bodies.forEach((b, i) => {
+            const next = bodies[(i + 1) % 3];
+            ctx.moveTo(cx + b.x * scale, cy - b.y * scale);
+            ctx.lineTo(cx + next.x * scale, cy - next.y * scale);
+        });
+        ctx.stroke();
+
+        // Draw bodies
+        let meanS = 0;
+        bodies.forEach((b, i) => {
+            const px = cx + b.x * scale;
+            const py = cy - b.y * scale;
+
+            // Compute S for this position (average with others)
+            for (let j = 0; j < 3; j++) {
+                if (i === j) continue;
+                const dx = bodies[j].x - b.x;
+                const dy = bodies[j].y - b.y;
+                const r = Math.sqrt(dx*dx + dy*dy);
+                meanS += S_STUR(r, params.L0);
+            }
+
+            ctx.fillStyle = b.color;
+            ctx.beginPath();
+            ctx.arc(px, py, 8, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Glow
+            const grad = ctx.createRadialGradient(px, py, 0, px, py, 20);
+            grad.addColorStop(0, b.color + '44');
+            grad.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(px, py, 20, 0, 2 * Math.PI);
+            ctx.fill();
+        });
+
+        meanS /= 6; // 3 bodies, 2 pairs each
+
+        // Diagnostics
+        const E = totalEnergy();
+        const dE = (E - E0) / Math.abs(E0);
+        const w = omega_stur(params.R, params.L0, params.mass);
+        const T = 2 * Math.PI / w / YEAR_S;
+
+        const elS = document.getElementById('orbitLiveS');
+        const eldE = document.getElementById('orbitLivedE');
+        const elPeriod = document.getElementById('orbitLivePeriod');
+        const elOrbits = document.getElementById('orbitLiveOrbits');
+
+        if (elS) elS.textContent = (sturEnabled ? meanS : 1).toFixed(4);
+        if (eldE) eldE.textContent = dE.toExponential(2);
+        if (elPeriod) elPeriod.textContent = T.toFixed(3);
+        if (elOrbits) elOrbits.textContent = Math.abs(orbitCount).toFixed(1);
+
+        // Title
+        ctx.fillStyle = sturEnabled ? '#4ade80' : '#22d3ee';
+        ctx.font = '14px sans-serif';
+        ctx.fillText(sturEnabled ? 'STUR 3-Body Orbit' : 'Newtonian (S=1)', 10, 20);
+
+        // Legend
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px sans-serif';
+        ctx.fillText(`m = ${(params.mass/1e24).toFixed(1)}×10²⁴ kg, L₀ = ${(params.L0/1e9).toFixed(1)}×10⁹ m`, 10, canvas.height - 10);
+    }
+
+    // Animation loop
+    function animate() {
+        if (!running) return;
+        step();
+        draw();
+        animationId = requestAnimationFrame(animate);
+    }
+
+    // Setup controls
+    function setupControls() {
+        const startBtn = document.getElementById('orbitStart');
+        const resetBtn = document.getElementById('orbitReset');
+        const toggleBtn = document.getElementById('orbitToggleSTUR');
+        const trailsBtn = document.getElementById('orbitTrails');
+
+        if (startBtn) {
+            startBtn.addEventListener('click', () => {
+                running = !running;
+                startBtn.innerHTML = running ?
+                    '<span class="stur-icon icon-pause"></span> Pause' :
+                    '<span class="stur-icon icon-play"></span> Start';
+                if (running) animate();
+            });
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                running = false;
+                if (startBtn) startBtn.innerHTML = '<span class="stur-icon icon-play"></span> Start';
+                initBodies();
+                draw();
+            });
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                sturEnabled = !sturEnabled;
+                toggleBtn.innerHTML = sturEnabled ?
+                    '<span class="stur-icon icon-toggle-right"></span> STUR: ON' :
+                    '<span class="stur-icon icon-toggle-left"></span> STUR: OFF';
+                initBodies();
+                draw();
+            });
+        }
+
+        if (trailsBtn) {
+            trailsBtn.addEventListener('click', () => {
+                showTrails = !showTrails;
+                trailsBtn.innerHTML = showTrails ?
+                    '<span class="stur-icon icon-eye"></span> Trails' :
+                    '<span class="stur-icon icon-eye-off"></span> Trails';
+                trails = [[], [], []];
+            });
+        }
+
+        // Sliders
+        const massSlider = document.getElementById('orbitMass');
+        const L0Slider = document.getElementById('orbitL0');
+        const radiusSlider = document.getElementById('orbitRadius');
+
+        if (massSlider) {
+            massSlider.addEventListener('input', () => {
+                params.mass = parseFloat(massSlider.value) * 1e24;
+                document.getElementById('orbitMassVal').textContent = massSlider.value;
+                initBodies();
+                draw();
+            });
+        }
+
+        if (L0Slider) {
+            L0Slider.addEventListener('input', () => {
+                params.L0 = parseFloat(L0Slider.value) * 1e9;
+                document.getElementById('orbitL0Val').textContent = L0Slider.value;
+                initBodies();
+                draw();
+            });
+        }
+
+        if (radiusSlider) {
+            radiusSlider.addEventListener('input', () => {
+                params.R = parseFloat(radiusSlider.value) * 1e9;
+                document.getElementById('orbitRadiusVal').textContent = radiusSlider.value;
+                initBodies();
+                draw();
+            });
+        }
+    }
+
+    // Initialize
+    if (canvas && ctx) {
+        initBodies();
+        draw();
+        setupControls();
+    }
 })();
 </script>
 </body>
