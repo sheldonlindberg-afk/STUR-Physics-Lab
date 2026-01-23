@@ -9,7 +9,7 @@
  * - Images: Cache-first
  */
 
-const CACHE_VERSION = 'stur-v2.4.0';
+const CACHE_VERSION = 'stur-v2.4.1';
 const CACHE_NAME = `stur-cache-${CACHE_VERSION}`;
 
 // Core shell files - always cache these
