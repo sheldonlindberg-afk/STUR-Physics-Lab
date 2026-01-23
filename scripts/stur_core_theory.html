@@ -36,11 +36,12 @@
 
 <header class="masthead">
   <h1 class="page-title-core">STUR Core Theory</h1>
-  <p class="subtitle">Unified Framework: XCRM → All Physics (v2.4.1)</p>
+  <p class="subtitle">Unified Framework: XCRM → All Physics (v2.5 — Helix Geometry)</p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg · <em>Everything derived, nothing assumed — falsifiable predictions</em></p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    <a href="../DERIVATION_CHAIN.md" style="color:var(--accent);">Complete derivation chain →</a> ·
-    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived from path integral</a>
+    <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--accent);">Complete helix derivation chain →</a> ·
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived from path integral</a> ·
+    <a href="../DERIVATION_CHAIN.md" style="color:var(--accent-dim);">v2.4.1 orbifold chain</a>
   </p>
   <div style="margin-top:1rem;">
     <button class="btn btn-cite" id="copyCite">Copy Citation</button>
@@ -68,13 +69,16 @@
   </p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem 1.5rem;">
-    \[\boxed{S_{\rm STUR}[R, g, X] = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{-g}\,
-    \Big[\underbrace{\color{#4ade80}{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
-    - \underbrace{\color{#f472b6}{V(R)}}_{\color{#f472b6}\text{relaxation}}
-    + \underbrace{\color{#fbbf24}{\chi\, R\,\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
-    + \underbrace{\color{#60a5fa}{\alpha\, R\, \mathbb{T}}}_{\color{#60a5fa}\text{torsion}}
+    \[\boxed{S_{\rm STUR}[\mathbf{R}, g, X] = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{-g}\,
+    \Big[\underbrace{\color{#4ade80}{\tfrac{1}{2}(\nabla \mathbf{R})^2}}_{\color{#4ade80}\text{diffusion}}
+    - \underbrace{\color{#f472b6}{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{relaxation}}
+    + \underbrace{\color{#fbbf24}{\chi\,(R_1\partial_X R_2 - R_2\partial_X R_1)}}_{\color{#fbbf24}\text{XCRM (doublet)}}
+    + \underbrace{\color{#60a5fa}{\alpha\, |\mathbf{R}|\, \mathbb{T}}}_{\color{#60a5fa}\text{torsion}}
     + \color{#22d3ee}{\mathcal{L}_{\rm matter}}\Big]}\]
-    <div class="eq-label" style="color:var(--gold);">(0.1) — The Unified Resistance Action</div>
+    <div class="eq-label" style="color:var(--gold);">(0.1) — The Unified Resistance Action (v2.5 Helix)</div>
+    <div style="font-size:0.85rem;color:var(--text-secondary);margin-top:0.5rem;text-align:center;">
+      <strong>R-field as doublet:</strong> R = (R₁, R₂) with |R|² = R₁² + R₂² — keeps TEGR coupling real while allowing winding
+    </div>
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
@@ -87,8 +91,8 @@
       <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Pot{V(R)}\) — Potential driving \(\Pot{R \to R_{\rm bg}}\)</div>
     </div>
     <div style="padding:0.9rem;background:rgba(251,191,36,0.04);border-radius:8px;border-left:3px solid #fbbf24;">
-      <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">XCRM Closure</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\XCRM{\chi R \partial_X R}\) — Internal dimension coupling (fixes constants)</div>
+      <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">XCRM Closure (Doublet)</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\XCRM{\chi(R_1\partial_X R_2 - R_2\partial_X R_1)}\) — Winding energy on Z₃ helix</div>
     </div>
     <div style="padding:0.9rem;background:rgba(96,165,250,0.04);border-radius:8px;border-left:3px solid #60a5fa;">
       <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;">Torsion Source</div>
@@ -163,29 +167,29 @@
   </details>
 </section>
 
-<!-- v2.4.1 COMPLETE DERIVATION STRUCTURE -->
+<!-- v2.5 COMPLETE DERIVATION STRUCTURE — HELIX GEOMETRY -->
 <section class="section" id="derivation-structure" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.12) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">Complete Derivation Structure (v2.4.1)</h2>
+  <h2 style="color:var(--success);">Complete Derivation Structure (v2.5 — Helix Geometry)</h2>
 
   <p style="color:var(--text);margin-bottom:1rem;font-size:1.05rem;">
-    <strong>Everything derived, nothing assumed.</strong> All physics follows by logical necessity from the XCRM coupling.
-    <a href="../DERIVATION_CHAIN.md" style="color:var(--accent);margin-left:0.5rem;">Complete derivation chain →</a>
+    <strong>Everything derived, nothing assumed.</strong> All physics follows by logical necessity from the XCRM doublet coupling on a Z₃ helix.
+    <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--accent);margin-left:0.5rem;">Complete helix derivation →</a>
   </p>
 
   <div class="block gold" style="border-width:3px;background:rgba(0,0,0,0.6);">
     <div class="title" style="font-size:1.1rem;">The Logical Chain (Every Arrow Is Necessity)</div>
     <div style="font-family:monospace;color:var(--text);padding:1rem;background:#000;border-radius:4px;margin-top:0.5rem;line-height:1.8;">
-      XCRM coupling χR∂<sub>X</sub>R  ← (from Sheldon's Theory framework)<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ requires compact dimension<br>
-      M⁴ × S¹ geometry<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ Z₂ symmetry of XCRM<br>
-      M⁴ × S¹/Z₂ orbifold (uniquely determined)<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ unique torsion coupling at dim ≤5<br>
-      αR𝕋 → gravity emerges (TEGR = GR)<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ path integral formulation<br>
-      All dynamics determined<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ topology + gauge quantum numbers<br>
-      <strong style="color:var(--success);">ALL Standard Model structure derived</strong>
+      XCRM <strong>doublet</strong> coupling χ(R₁∂<sub>X</sub>R₂ − R₂∂<sub>X</sub>R₁)  ← (R-field as doublet for TEGR compatibility)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ requires compact dimension + winding<br>
+      M⁴ × S¹ with Z₃ <strong>helix</strong> structure<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ Z₃ = center(SU(3))<br>
+      <strong style="color:#fbbf24;">SU(3)<sub>color</sub> emerges naturally!</strong><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ unique torsion coupling α|R|𝕋<br>
+      Gravity emerges (TEGR = GR)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ 3 helix phases → 3 generations<br>
+      <strong style="color:var(--success);">3 generations AUTOMATIC from Z₃</strong><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ no domain wall on helix<br>
+      <strong style="color:#22d3ee;">Cosmological constant SOLVED (Λ ≈ 0)</strong>
     </div>
   </div>
 
@@ -200,9 +204,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>5D orbifold geometry</td><td>XCRM requires compact X + Z₂ symmetry</td><td><a href="stur_master_action_derivation.html" style="color:var(--accent);">Master Action</a></td></tr>
+        <tr><td>5D Z₃ helix geometry</td><td>XCRM doublet requires compact X + winding</td><td><a href="stur_master_action_derivation.html" style="color:var(--accent);">Master Action</a></td></tr>
         <tr><td>DHP (Dynamical Holonomy)</td><td>Path integral saddle point condition</td><td><a href="stur_dhp_derivation.html" style="color:var(--accent);">DHP Derivation</a></td></tr>
-        <tr><td>TFP (Topological Flavor)</td><td>Topology π₁(S¹/Z₂) = Z</td><td><a href="stur_tfp_flavor.html" style="color:var(--accent);">TFP Derivation</a></td></tr>
+        <tr><td>TFP (Topological Flavor)</td><td>Z₃ helix phases (automatic)</td><td><a href="stur_tfp_flavor.html" style="color:var(--accent);">TFP Derivation</a></td></tr>
         <tr><td>MHP (Minimum Holonomy)</td><td>Faddeev-Popov determinant</td><td><a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP Derivation</a></td></tr>
         <tr><td>L<sub>X</sub> stabilization</td><td>Casimir-holonomy balance</td><td><a href="stur_moduli_stabilization.html" style="color:var(--accent);">Moduli Stabilization</a></td></tr>
         <tr><td>Gauge unification</td><td>5D geometry + Kac-Moody levels</td><td><a href="stur_gauge_unification_derivation.html" style="color:var(--accent);">Gauge Unification</a></td></tr>
@@ -221,7 +225,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>n<sub>gen</sub> = 3</td><td>Topology + dynamics (§4.1)</td><td>3 (exact)</td></tr>
+        <tr><td>n<sub>gen</sub> = 3</td><td><strong>Z₃ helix phases (automatic)</strong></td><td>3 (exact)</td></tr>
         <tr><td>λ (Wolfenstein)</td><td>L<sub>X</sub>/σ from R-field curvature (§6.0a)</td><td>≈ 0.22</td></tr>
         <tr><td>A (Wolfenstein)</td><td>Hypercharge splitting (§7.2)</td><td>≈ 0.81</td></tr>
         <tr><td>√(ρ²+η²)</td><td>Color/hypercharge phases (§7.3)</td><td>≈ 0.39</td></tr>
