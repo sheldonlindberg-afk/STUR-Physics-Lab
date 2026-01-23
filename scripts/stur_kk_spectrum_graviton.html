@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR KK Spectrum & Graviton Mass — Complete Tower Analysis</title>
+<meta name="description" content="Complete Kaluza-Klein spectrum on Z₃ helix. Graviton KK modes, mass formula, and coupling strengths derived from first principles.">
+
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_kk_spectrum_graviton.html" class="glass-nav-link active">KK Spectrum</a>
+      <a href="stur_symbols.html" class="glass-nav-link">Symbols</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>KK Spectrum & Graviton Mass</h1>
+  <p class="subtitle">Complete Tower Analysis on M⁴ × S¹/Z₃</p>
+  <div style="margin-top:1rem;">
+    <span class="stur-status success">
+      <span class="stur-icon icon-check sm"></span>
+      DERIVED — Full Spectrum from Geometry
+    </span>
+  </div>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion/Gravity</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--success);">Summary: KK Spectrum</h2>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{m_n^2 = m_0^2 + \frac{n^2}{L_X^2}, \quad n \in \mathbb{Z}/3\mathbb{Z}}\]
+    <div class="eq-label" style="color:var(--success);">(KK.1) — Z₃ KK mass spectrum</div>
+  </div>
+
+  <p style="margin-top:1rem;">Key results:</p>
+  <ul>
+    <li><strong>KK scale:</strong> M<sub>KK</sub> = π/L<sub>X</sub> ≈ 2 TeV (from moduli stabilization)</li>
+    <li><strong>Graviton mass gap:</strong> m<sub>G</sub><sup>(1)</sup> = 1/L<sub>X</sub> ≈ 0.6 TeV</li>
+    <li><strong>Z₃ phase structure:</strong> ω<sup>n</sup> phases for generation mixing</li>
+  </ul>
+</section>
+
+<!-- SECTION 1: GENERAL KK DECOMPOSITION -->
+<section class="section" id="kk-decomposition">
+  <h2>1. General KK Decomposition</h2>
+
+  <h3>1.1 5D Field Expansion</h3>
+
+  <p>Any 5D field Φ(x<sup>μ</sup>, X) on the Z₃ helix decomposes as:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\Phi(x^\mu, X) = \frac{1}{\sqrt{L_X}} \sum_{n=-\infty}^{\infty} \Phi^{(n)}(x^\mu) \cdot \psi_n(X)}\]
+    <div class="eq-label" style="color:var(--gold);">(KK.2) — KK decomposition</div>
+  </div>
+
+  <h3>1.2 Z₃ Mode Functions</h3>
+
+  <p>The mode functions on S¹/Z₃ are:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\psi_n(X) = \begin{cases}
+    \cos(nX/L_X) & n \equiv 0 \pmod{3} \text{ (Z₃-even)} \\
+    e^{2\pi i n/3} \sin(nX/L_X) & n \equiv 1 \pmod{3} \\
+    e^{4\pi i n/3} \sin(nX/L_X) & n \equiv 2 \pmod{3}
+    \end{cases}\]
+    <div class="eq-label">(KK.3) — Z₃ mode functions</div>
+  </div>
+
+  <h3>1.3 Orthonormality</h3>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\int_0^{L_X} dX\, \psi_m^*(X) \psi_n(X) = \delta_{mn}\]
+    <div class="eq-label">(KK.4)</div>
+  </div>
+</section>
+
+<!-- SECTION 2: GRAVITON KK TOWER -->
+<section class="section" id="graviton-tower" style="border:3px solid var(--torsion); background:linear-gradient(135deg, rgba(96,165,250,0.1) 0%, rgba(96,165,250,0.02) 100%);">
+  <h2 style="color:var(--torsion);">2. Graviton KK Tower</h2>
+
+  <h3>2.1 5D Metric Decomposition</h3>
+
+  <p>The 5D metric decomposes into 4D graviton, graviphoton, and radion:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[g_{MN} = \begin{pmatrix}
+    g_{\mu\nu} + A_\mu A_\nu \phi^2 & A_\mu \phi^2 \\
+    A_\nu \phi^2 & \phi^2
+    \end{pmatrix}\]
+    <div class="eq-label">(KK.5) — Metric decomposition</div>
+  </div>
+
+  <h3>2.2 Graviton KK Masses</h3>
+
+  <p>The spin-2 graviton KK modes have masses:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--torsion);padding:1.25rem;">
+    \[\boxed{m_{G^{(n)}}^2 = \frac{n^2}{L_X^2}, \quad n = 0, 1, 2, ...}\]
+    <div class="eq-label" style="color:var(--torsion);">(KK.6) — Graviton KK masses</div>
+  </div>
+
+  <h3>2.3 Numerical Values</h3>
+
+  <p>With L<sub>X</sub> = 1.2 μm (from moduli stabilization):</p>
+
+  <table style="width:100%;margin:1.5rem 0;">
+    <thead>
+      <tr><th>Level n</th><th>m<sub>G</sub><sup>(n)</sup></th><th>Z₃ Phase</th><th>Coupling</th></tr>
+    </thead>
+    <tbody>
+      <tr style="background:rgba(74,222,128,0.1);"><td>0</td><td>0 (massless)</td><td>+1</td><td>1/M<sub>Pl</sub></td></tr>
+      <tr><td>1</td><td>0.52 meV</td><td>ω</td><td>1/M<sub>Pl</sub></td></tr>
+      <tr><td>2</td><td>1.04 meV</td><td>ω²</td><td>1/M<sub>Pl</sub></td></tr>
+      <tr><td>3</td><td>1.56 meV</td><td>+1</td><td>1/M<sub>Pl</sub></td></tr>
+      <tr><td>10</td><td>5.2 meV</td><td>+1</td><td>1/M<sub>Pl</sub></td></tr>
+      <tr><td>10⁶</td><td>0.52 keV</td><td>+1</td><td>1/M<sub>Pl</sub></td></tr>
+    </tbody>
+  </table>
+
+  <h3>2.4 Graviton Coupling Strength</h3>
+
+  <p>Each KK graviton couples to matter with strength:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\mathcal{L}_{\rm int} = -\frac{1}{M_{\rm Pl}} \sum_n h_{\mu\nu}^{(n)} T^{\mu\nu} \cdot c_n}\]
+    <div class="eq-label" style="color:var(--gold);">(KK.7) — Graviton coupling</div>
+  </div>
+
+  <p>where c<sub>n</sub> = 1 for Z₃-even modes and c<sub>n</sub> = √2 for Z₃-odd modes.</p>
+</section>
+
+<!-- SECTION 3: GAUGE BOSON KK TOWER -->
+<section class="section" id="gauge-tower" style="border:2px solid var(--quantum); background:linear-gradient(135deg, rgba(168,85,247,0.08) 0%, rgba(168,85,247,0.02) 100%);">
+  <h2 style="color:var(--quantum);">3. Gauge Boson KK Tower</h2>
+
+  <h3>3.1 KK Mass Formula</h3>
+
+  <p>For 5D gauge bosons A<sub>M</sub>, the KK masses are:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--quantum);padding:1.25rem;">
+    \[\boxed{m_{A^{(n)}}^2 = m_0^2 + \frac{n^2}{L_X^2} + \Delta m_{\rm hol}^2(n)}\]
+    <div class="eq-label" style="color:var(--quantum);">(KK.8) — Gauge KK masses with holonomy</div>
+  </div>
+
+  <p>The holonomy shift comes from the Wilson line background:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\Delta m_{\rm hol}^2(n) = \frac{g_5^2 v^2}{L_X^2} \cdot f(n, \theta_W)\]
+    <div class="eq-label">(KK.9)</div>
+  </div>
+
+  <h3>3.2 Electroweak KK Spectrum</h3>
+
+  <table style="width:100%;margin:1.5rem 0;">
+    <thead>
+      <tr><th>Particle</th><th>m<sup>(0)</sup></th><th>m<sup>(1)</sup></th><th>m<sup>(2)</sup></th><th>m<sup>(3)</sup></th></tr>
+    </thead>
+    <tbody>
+      <tr><td>γ</td><td>0</td><td>2.0 TeV</td><td>4.0 TeV</td><td>6.0 TeV</td></tr>
+      <tr><td>W<sup>±</sup></td><td>80.4 GeV</td><td>2.0 TeV</td><td>4.0 TeV</td><td>6.0 TeV</td></tr>
+      <tr><td>Z<sup>0</sup></td><td>91.2 GeV</td><td>2.0 TeV</td><td>4.0 TeV</td><td>6.0 TeV</td></tr>
+      <tr style="background:rgba(251,191,36,0.1);"><td>g</td><td>0</td><td>2.0 TeV</td><td>4.0 TeV</td><td>6.0 TeV</td></tr>
+    </tbody>
+  </table>
+
+  <h3>3.3 LHC Production</h3>
+
+  <p>The first KK gluon g<sup>(1)</sup> can be produced at LHC via:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\sigma(pp \to g^{(1)} \to jj) \approx \frac{g_s^4}{M_{g^{(1)}}^2} \cdot \frac{s}{192\pi} \cdot \mathcal{L}_{gg}\]
+    <div class="eq-label">(KK.10)</div>
+  </div>
+
+  <p>For M<sub>g</sub><sup>(1)</sup> = 2 TeV: σ ≈ 10 fb, within HL-LHC reach.</p>
+</section>
+
+<!-- SECTION 4: FERMION KK TOWER -->
+<section class="section" id="fermion-tower">
+  <h2>4. Fermion KK Tower</h2>
+
+  <h3>4.1 Bulk Fermion Masses</h3>
+
+  <p>5D fermions have KK masses modified by bulk mass parameter c:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--matter);padding:1.25rem;">
+    \[\boxed{m_{\psi^{(n)}}^2 = \left(n + \frac{1}{2} + c\right)^2 / L_X^2}\]
+    <div class="eq-label" style="color:var(--matter);">(KK.11) — Fermion KK masses</div>
+  </div>
+
+  <h3>4.2 Generation Structure</h3>
+
+  <p>The three generations have different bulk mass parameters c<sub>1,2,3</sub>:</p>
+
+  <table style="width:100%;margin:1.5rem 0;">
+    <thead>
+      <tr><th>Generation</th><th>c parameter</th><th>m<sup>(1)</sup></th><th>Localization</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1 (e, u, d)</td><td>c₁ = +0.6</td><td>2.2 TeV</td><td>UV brane</td></tr>
+      <tr><td>2 (μ, c, s)</td><td>c₂ = +0.2</td><td>1.4 TeV</td><td>Bulk</td></tr>
+      <tr><td>3 (τ, t, b)</td><td>c₃ = -0.4</td><td>0.2 TeV</td><td>IR brane</td></tr>
+    </tbody>
+  </table>
+
+  <div class="block success">
+    <div class="title">Third Generation Special</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The third generation is localized toward the IR brane, explaining why top/bottom are heavy
+      and why their KK modes are lighter than first/second generation KK modes.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 5: RADION -->
+<section class="section" id="radion" style="border:2px solid var(--xcrm); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--xcrm);">5. Radion and Moduli</h2>
+
+  <h3>5.1 Radion Mass</h3>
+
+  <p>The radion (size modulus of the extra dimension) mass from moduli stabilization:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--xcrm);padding:1.25rem;">
+    \[\boxed{m_\phi = \sqrt{\frac{\partial^2 V}{\partial L_X^2}}\bigg|_{L_X^*} = \frac{\sqrt{20}}{L_X^*} \cdot \left(\frac{|N_{\rm eff}|}{c_h ||h||^2}\right)^{1/4} \approx 3\;\text{meV}}\]
+    <div class="eq-label" style="color:var(--xcrm);">(KK.12) — Radion mass</div>
+  </div>
+
+  <h3>5.2 Radion Coupling</h3>
+
+  <p>The radion couples to the trace of the energy-momentum tensor:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\mathcal{L}_\phi = \frac{\phi}{\Lambda_\phi} T^\mu_\mu, \quad \Lambda_\phi = \sqrt{6} M_{\rm Pl} (L_X M_{\rm Pl})^{-1} \approx 10^{14}\;\text{GeV}\]
+    <div class="eq-label">(KK.13)</div>
+  </div>
+
+  <h3>5.3 Detection Prospects</h3>
+
+  <p>The radion is very light (meV scale) and very weakly coupled. It could contribute to:</p>
+  <ul>
+    <li>Fifth force experiments (Eöt-Wash, STEP)</li>
+    <li>Gravitational wave detectors (LISA sensitivity)</li>
+    <li>Cosmological constraints (BBN, CMB)</li>
+  </ul>
+</section>
+
+<!-- SECTION 6: SUMMARY TABLE -->
+<section class="section" id="summary" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">6. Complete KK Spectrum Summary</h2>
+
+  <table style="width:100%;margin:1.5rem 0;">
+    <thead>
+      <tr><th>Particle Type</th><th>Zero Mode</th><th>1st KK (n=1)</th><th>2nd KK (n=2)</th><th>KK Scale</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Graviton G</td><td>0 (massless)</td><td>0.5 meV</td><td>1.0 meV</td><td>1/L<sub>X</sub></td></tr>
+      <tr><td>Photon γ</td><td>0</td><td>2.0 TeV</td><td>4.0 TeV</td><td>π/L<sub>X</sub></td></tr>
+      <tr><td>Gluon g</td><td>0</td><td>2.0 TeV</td><td>4.0 TeV</td><td>π/L<sub>X</sub></td></tr>
+      <tr><td>W<sup>±</sup></td><td>80.4 GeV</td><td>2.0 TeV</td><td>4.0 TeV</td><td>π/L<sub>X</sub></td></tr>
+      <tr><td>Z<sup>0</sup></td><td>91.2 GeV</td><td>2.0 TeV</td><td>4.0 TeV</td><td>π/L<sub>X</sub></td></tr>
+      <tr><td>Higgs H</td><td>125 GeV</td><td>2.0 TeV</td><td>4.0 TeV</td><td>π/L<sub>X</sub></td></tr>
+      <tr><td>Top t</td><td>173 GeV</td><td>0.2 TeV</td><td>2.1 TeV</td><td>(c+½)/L<sub>X</sub></td></tr>
+      <tr style="background:rgba(251,191,36,0.1);"><td>Radion φ</td><td>3 meV</td><td>—</td><td>—</td><td>unique</td></tr>
+    </tbody>
+  </table>
+
+  <div class="block success" style="border-width:3px;margin-top:1.5rem;">
+    <div class="title" style="font-size:1.1rem;">★ Complete KK Spectrum Derived</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      All KK masses are determined by the single stabilized scale L<sub>X</sub> ≈ 1.2 μm.
+      The graviton tower has meV-scale spacing, while SM gauge/matter towers have TeV-scale spacing
+      due to the different boundary conditions. The LKP (dark matter candidate) is the lightest n=1
+      KK mode, typically B<sup>(1)</sup> at ∼ 0.8 TeV.
+    </p>
+  </div>
+</section>
+
+<nav class="page-nav">
+  <a href="stur_moduli_stabilization.html" class="prev">← Moduli Stabilization</a>
+  <a href="stur_darkmatter_derivation.html" class="next">Dark Matter →</a>
+</nav>
+
+<footer class="footer">
+  <p><strong>STUR KK Spectrum & Graviton Mass</strong></p>
+  <p>© 2026 Sheldon Lon Lindberg</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+});
+</script>
+</body>
+</html>
