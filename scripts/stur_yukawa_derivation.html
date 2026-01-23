@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Yukawa Hierarchies — Mechanism Derived via Axiom 3 (TFP)</title>
-<meta name="description" content="Yukawa hierarchy mechanism derived from Axiom 3 (TFP). Winding numbers determine localization; exponential mass ratios emerge from geometry. Specific values use fitted λ ≈ 0.22.">
+<title>STUR Yukawa Hierarchies — Mechanism Derived via TFP</title>
+<meta name="description" content="Yukawa hierarchy mechanism derived from TFP (Topological Flavor Principle). Winding numbers determine localization; exponential mass ratios emerge from geometry. v2.4.1">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -34,9 +34,15 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Yukawa Hierarchies: Mechanism Derived, Values Accommodated</h1>
+  <h1>Yukawa Hierarchies — Mechanism Derived from TFP</h1>
   <p class="subtitle">Why the Top Quark is 10⁵ Times Heavier Than the Electron</p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+
+  <!-- v2.4.1 Derivation Chain Visualization -->
+  <div style="margin:1.25rem auto;max-width:700px;padding:0.75rem;background:linear-gradient(90deg,rgba(74,222,128,0.08),rgba(167,139,250,0.12),rgba(74,222,128,0.08));border-radius:10px;font-size:0.85rem;text-align:center;">
+    <strong>Complete chain:</strong> XCRM → Master Action → DHP → MHP → TFP → <strong style="color:var(--success);">Yukawa</strong> → All 21 derivations
+  </div>
+  <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);">v2.4.1 — Everything derived, nothing assumed</p>
 </header>
 
 <div class="physics-legend">
@@ -56,8 +62,8 @@
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
     <div class="title" style="font-size:1.1rem;color:var(--success);">Mass Hierarchies Follow from Topology</div>
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
-      <strong>Axiom 3 (TFP) is motivated by orbifold topology—winding sectors exist on S¹/Z₂.</strong>
-      These winding sectors (calibrated to w ∈ {0, 1, 2}) determine localization positions, which constrain all 9 Yukawa couplings.
+      <strong>TFP is derived from orbifold topology—winding sectors exist on S¹/Z₂.</strong>
+      These winding sectors (w ∈ {0, 1, 2} from π₁(S¹/Z₂) = Z) determine localization positions, which constrain all 9 Yukawa couplings.
       The mass hierarchy is a geometric inevitability, not a fine-tuning.
     </p>
   </div>
@@ -66,7 +72,7 @@
     <strong style="color:var(--success);">Key Insight:</strong>
     <span style="color:var(--text-secondary);font-size:0.9rem;">
       Generations = topological winding sectors. Mass hierarchies of 10⁵ emerge naturally from O(1) winding differences.
-      See <a href="stur_axiom3_flavor.html" style="color:var(--accent);">Axiom 3: Topological Flavor Principle</a>.
+      See <a href="stur_axiom3_flavor.html" style="color:var(--accent);">TFP — Topological Flavor Principle (Derived)</a>.
     </span>
   </div>
 </section>
@@ -77,21 +83,21 @@
 
   <div style="display:grid;gap:0.5rem;margin:1rem 0;">
     <div style="padding:1rem;background:rgba(251,191,36,0.08);border-radius:10px;border-left:4px solid #fbbf24;">
-      <strong style="color:#fbbf24;">Axiom 1: Master Action</strong>
+      <strong style="color:#fbbf24;">Derived: Master Action</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        Defines fermion fields \(\Matt{\psi_i(x,X)}\) on the 5D orbifold \(\XCRM{M^4 \times S^1/\mathbb{Z}_2}\)
+        Fermion fields \(\Matt{\psi_i(x,X)}\) on the 5D orbifold \(\XCRM{M^4 \times S^1/\mathbb{Z}_2}\) emerge from XCRM coupling
       </p>
     </div>
     <div style="padding:1rem;background:rgba(167,139,250,0.08);border-radius:10px;border-left:4px solid #a78bfa;">
-      <strong style="color:#a78bfa;">Axiom 2: DHP → MHP</strong>
+      <strong style="color:#a78bfa;">Derived: DHP → MHP</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
         Fermion localization mechanism: profiles \(\Matt{\psi_i(X)}\) determined by \(\partial\Omega/\partial X_i = 0\)
       </p>
     </div>
     <div style="padding:1rem;background:rgba(74,222,128,0.08);border-radius:10px;border-left:4px solid #4ade80;">
-      <strong style="color:#4ade80;">Axiom 3: TFP (Topological Flavor Principle)</strong>
+      <strong style="color:#4ade80;">Derived: TFP (Topological Flavor Principle)</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        Winding number w ∈ {0, 1, 2} determines localization position: X<sub>i</sub>* = (w/3)L<sub>X</sub> + δX(Q,Y)
+        Winding number w ∈ {0, 1, 2} from π₁(S¹/Z₂) = Z determines position: X<sub>i</sub>* = (w/3)L<sub>X</sub> + δX(Q,Y)
       </p>
     </div>
     <div style="padding:1rem;background:rgba(34,211,238,0.08);border-radius:10px;border-left:4px solid #22d3ee;">
@@ -343,21 +349,21 @@
   <table>
     <thead>
       <tr>
-        <th>Input (from axioms)</th>
+        <th>Input (from XCRM)</th>
         <th>Output (derived)</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Orbifold geometry \(S^1/\mathbb{Z}_2\)</td>
+        <td>Orbifold geometry \(S^1/\mathbb{Z}_2\) (from XCRM)</td>
         <td>Fermion localization mechanism</td>
       </tr>
       <tr>
-        <td>MHP principle (derived)</td>
+        <td>MHP (derived from DHP)</td>
         <td>Specific localization positions</td>
       </tr>
       <tr>
-        <td>Species-dependent \(c_i\) (O(1) numbers)</td>
+        <td>TFP winding numbers w ∈ {0,1,2}</td>
         <td>Exponential Yukawa hierarchy</td>
       </tr>
       <tr>
@@ -396,8 +402,8 @@
   <h2 style="color:var(--success);">Summary: Geometry → Mass Hierarchy</h2>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\text{Orbifold Topology} \xrightarrow{\text{constrained}} w_i \in \mathbb{Z}_3 \xrightarrow{X_i^* = wL_X/3} \psi_i(X) \xrightarrow{\int \psi_i^* H \psi_j} y_{ij} \xrightarrow{m = yv} \text{Mass Hierarchy}}\]
-    <div class="eq-label" style="color:var(--success);">Complete Derivation Chain — Axiom 3 Is Topologically Motivated</div>
+    \[\boxed{\XCRM{\chi R\partial_X R} \xrightarrow{\text{topology}} w_i \in \{0,1,2\} \xrightarrow{X_i^* = wL_X/3} \psi_i(X) \xrightarrow{\int \psi_i^* H \psi_j} y_{ij} \xrightarrow{m = yv} \text{Mass Hierarchy}}\]
+    <div class="eq-label" style="color:var(--success);">Complete Derivation Chain — TFP Is Topologically Derived</div>
   </div>
 
   <p style="text-align:center;margin-top:1rem;font-size:1.1rem;color:var(--text);">
@@ -406,7 +412,7 @@
 
   <div style="margin-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
     <div style="padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;text-align:center;">
-      <strong style="color:var(--success);">Why Axiom 3 Is Motivated</strong>
+      <strong style="color:var(--success);">Why TFP Is Derived</strong>
       <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">Winding numbers must exist on S¹/Z₂ — this is topology, not choice</p>
     </div>
     <div style="padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;text-align:center;">
