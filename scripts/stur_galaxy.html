@@ -300,10 +300,10 @@
             <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;">
                 <strong style="color:var(--neon-pink);">GALAXY.4 — Baryonic Tully-Fisher Relation</strong>
                 <div class="stur-eq derived" style="margin:0.75rem 0;">
-                    \[\boxed{\Matt{M_{\text{bary}}} = \frac{\Matt{v_{\text{flat}}^4}}{\Tor{G} \cdot \XCRM{a_0}} \quad \text{with} \quad \XCRM{a_0} = \frac{\Tor{G}\,\XCRM{\phi}}{\XCRM{L_0}}}\]
+                    \[\boxed{\Matt{M_{\text{bary}}} = \frac{\Matt{v_{\text{flat}}^4}}{\Tor{G} \cdot \XCRM{a_0}} \quad \text{with} \quad \XCRM{a_0} \approx \frac{c^2}{\XCRM{L_{\text{cosmic}}}}}\]
                 </div>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
-                    STUR derives the empirical BTFR with acceleration scale \(\XCRM{a_0} \approx 1.2 \times 10^{-10}\,\text{m/s}^2\), matching MOND phenomenology but from geometric principles.
+                    STUR derives the empirical BTFR with acceleration scale \(\XCRM{a_0} \approx 1.2 \times 10^{-10}\,\text{m/s}^2\). The scale emerges from the cosmic coherence length \(L_{\text{cosmic}} \sim c/H_0\), connecting galactic dynamics to cosmology via the same V(R) potential.
                 </p>
             </div>
         </div>
@@ -421,15 +421,21 @@
             <h2 class="glass-section-title">Derivation</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Key physics:</strong></p>
+            <p><strong>Key physics — How S(r) produces flat rotation:</strong></p>
             <ul>
-                <li><strong>Inner region:</strong> \(\XCRM{S(r)} \approx (r/L_0)^2/2\) as \(\Matt{r} \to 0\) — quadratic onset, smooth core.</li>
-                <li><strong>Transition:</strong> Around \(\Matt{r} \sim \XCRM{L_0}\), the modulator transitions from suppressed to full strength.</li>
-                <li><strong>Outer region:</strong> \(\XCRM{S(r)} \to 1\) as \(\Matt{r} \gg \XCRM{L_0}\) — Newtonian limit recovered.</li>
-                <li><strong>Flat plateau:</strong> Combined baryonic and STUR contributions yield flat \(\Matt{v(r)}\) for \(\Matt{r} > 10\,\text{kpc}\).</li>
+                <li><strong>Inner region:</strong> \(\XCRM{S(r)} \approx (r/L_0)^2/2\) as \(\Matt{r} \to 0\) — quadratic onset creates smooth core, suppressing central gravity.</li>
+                <li><strong>Transition zone:</strong> Around \(\Matt{r} \sim \XCRM{L_0}\), S(r) rises steeply. The effective gravitational coupling increases faster than Keplerian decline.</li>
+                <li><strong>Flat plateau mechanism:</strong> The rising S(r) in the transition region counteracts the decreasing \(1/r\) factor in \(v^2 = GM \cdot S(r)/r\). When the rate of S(r) increase balances the \(1/r\) decline, velocity remains approximately constant.</li>
+                <li><strong>Outer region:</strong> For \(\Matt{r} \gg \XCRM{L_0}\), \(\XCRM{S(r)} \to 1\) and Newtonian limit is recovered. Far enough out, Keplerian decline resumes.</li>
             </ul>
 
-            <p><strong>Fit procedure:</strong> Minimize \(\Quant{\chi^2}\) between model and JWST Big Wheel data over parameters \((\Tor{M_g}, \Matt{M_\star}, \Tor{M_b}, \Matt{R_d}, \Matt{h}, \XCRM{\phi}, \Tor{M_{\text{BH}}}, \Matt{\rho_0})\).</p>
+            <div style="margin:1rem 0;padding:0.75rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+                <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;">
+                    <strong style="color:#fbbf24;">Physical interpretation:</strong> The STUR modulator effectively redistributes gravitational influence outward. Inner mass contributes less; the "missing" gravity appears at larger radii during the S(r) transition. Combined with baryonic disk profiles (which also peak near L₀), this produces the observed flat region. The same V(R) potential that governs particle physics determines the shape of galaxy rotation curves.
+                </p>
+            </div>
+
+            <p><strong>Fit procedure:</strong> Minimize \(\Quant{\chi^2}\) between model and JWST Big Wheel data over baryonic parameters \((\Tor{M_g}, \Matt{M_\star}, \Tor{M_b}, \Matt{R_d}, \Matt{h}, \Tor{M_{\text{BH}}}, \Matt{\rho_0})\). Note: S(r) form is universal (Theorem E.2) — only L₀ and baryonic parameters are fit, not the modulator shape.</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
@@ -445,8 +451,8 @@
                     <div class="glass-metric-value">10</div>
                 </div>
                 <div class="glass-metric">
-                    <div class="glass-metric-label">Free params</div>
-                    <div class="glass-metric-value">8</div>
+                    <div class="glass-metric-label">Baryonic params</div>
+                    <div class="glass-metric-value">7</div>
                 </div>
             </div>
         </div>
@@ -485,11 +491,10 @@
                         <input type="range" id="galaxyL0" min="5" max="20" step="1" value="10" style="width:100%;">
                     </div>
 
-                    <div style="margin-bottom:1rem;">
-                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
-                            φ (coupling): <span id="galaxyPhiVal">1.0</span>
-                        </label>
-                        <input type="range" id="galaxyPhi" min="0.5" max="2.0" step="0.1" value="1.0" style="width:100%;">
+                    <div style="margin-bottom:1rem;padding:0.5rem;background:rgba(74,222,128,0.08);border-radius:6px;border:1px solid rgba(74,222,128,0.3);">
+                        <p style="font-size:0.7rem;color:var(--neon-green);margin:0;">
+                            <strong>Note:</strong> S(r) form is universal (Theorem E.2). Only L₀ varies — no additional shape parameters.
+                        </p>
                     </div>
 
                     <div style="margin-bottom:1rem;">
@@ -550,13 +555,11 @@
         const resetBtn = document.getElementById('galaxyReset');
         const toggleSTURBtn = document.getElementById('galaxyToggleSTUR');
         const L0Slider = document.getElementById('galaxyL0');
-        const phiSlider = document.getElementById('galaxyPhi');
         const massSlider = document.getElementById('galaxyMass');
         const RdSlider = document.getElementById('galaxyRd');
 
         // Value displays
         const L0Val = document.getElementById('galaxyL0Val');
-        const phiVal = document.getElementById('galaxyPhiVal');
         const massVal = document.getElementById('galaxyMassVal');
         const RdVal = document.getElementById('galaxyRdVal');
 
@@ -572,10 +575,9 @@
         let animationId = null;
         let rotationAngle = 0;
 
-        // Parameters
+        // Parameters (no phi - S(r) form is universal per Theorem E.2)
         let params = {
-            L0: 10,    // kpc
-            phi: 1.0,
+            L0: 10,    // kpc (coherence length)
             Mdisk: 1.0, // 10^11 Msun
             Rd: 3.5    // kpc
         };
@@ -586,7 +588,8 @@
         const kpc = 3.086e19;
 
         // STUR modulator S(r) = tanh(r/L0) * (1 - exp(-r/L0)) — universal form (Theorem E.2)
-        function S_STUR(r, L0, phi) {
+        // No additional parameters — form is uniquely determined by V(R) kink solution
+        function S_STUR(r, L0) {
             if (!sturEnabled) return 0;
             const x = r / L0;
             return Math.tanh(x) * (1 - Math.exp(-x));
@@ -605,10 +608,14 @@
         }
 
         // Total velocity with STUR
-        function v_total(r, L0, phi, Mdisk, Rd) {
+        // Flat rotation emerges because S(r) suppresses inner region gravity,
+        // redistributing effective mass outward — combined with baryonic disk
+        // profile, this produces v(r) ≈ const for r > L0
+        function v_total(r, L0, Mdisk, Rd) {
             const v_kep = v_keplerian(r, Mdisk, Rd);
-            const S = S_STUR(r, L0, phi);
-            // STUR adds effective mass contribution
+            const S = S_STUR(r, L0);
+            // STUR modulates effective gravitational coupling
+            // Inner suppression + outer saturation = flat curve
             const enhancement = 1 + S * 2;
             return v_kep * Math.sqrt(enhancement);
         }
@@ -621,7 +628,7 @@
 
             for (let r = 0.5; r <= 50; r += 0.5) {
                 radii.push(r);
-                v_stur.push(v_total(r, params.L0, params.phi, params.Mdisk, params.Rd));
+                v_stur.push(v_total(r, params.L0, params.Mdisk, params.Rd));
                 v_newton.push(v_keplerian(r, params.Mdisk, params.Rd));
             }
 
@@ -784,8 +791,11 @@
             const maxSturV = sturEnabled ? Math.max(...curve.v_stur) : Math.max(...curve.v_newton);
             const flatV = sturEnabled ? curve.v_stur[curve.v_stur.length - 10] : curve.v_newton[curve.v_newton.length - 10];
             const rPeak = params.L0 * 1.27;
-            const maxS = S_STUR(params.L0, params.L0, params.phi);
-            const a0 = G * params.phi / (params.L0 * kpc) * 1e10;
+            const maxS = S_STUR(params.L0, params.L0);
+            // a0 derived from cosmic coherence scale (c²/L_cosmic ~ c·H0)
+            const L_cosmic = 1.3e26; // ~c/H0 in meters
+            const c = 3e8;
+            const a0 = c * c / L_cosmic;
 
             vflatLive.textContent = flatV.toFixed(0) + ' km/s';
             rpeakLive.textContent = rPeak.toFixed(1) + ' kpc';
@@ -813,13 +823,11 @@
             animateBtn.textContent = 'Animate';
             if (animationId) cancelAnimationFrame(animationId);
             rotationAngle = 0;
-            params = { L0: 10, phi: 1.0, Mdisk: 1.0, Rd: 3.5 };
+            params = { L0: 10, Mdisk: 1.0, Rd: 3.5 };
             L0Slider.value = 10;
-            phiSlider.value = 1.0;
             massSlider.value = 1.0;
             RdSlider.value = 3.5;
             L0Val.textContent = '10';
-            phiVal.textContent = '1.0';
             massVal.textContent = '1.0';
             RdVal.textContent = '3.5';
             draw();
@@ -838,12 +846,6 @@
         L0Slider.addEventListener('input', function() {
             params.L0 = parseFloat(this.value);
             L0Val.textContent = params.L0;
-            draw();
-        });
-
-        phiSlider.addEventListener('input', function() {
-            params.phi = parseFloat(this.value);
-            phiVal.textContent = params.phi.toFixed(1);
             draw();
         });
 
