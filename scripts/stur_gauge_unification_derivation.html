@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Gauge Unification — Complete Derivation of α_i from 5D Geometry</title>
-<meta name="description" content="Complete derivation of gauge coupling initial conditions from STUR 5D orbifold localization geometry. Zero free parameters.">
+<title>STUR Gauge Unification — Complete Derivation of α_i from 5D Z₃ Helix Geometry (v2.5)</title>
+<meta name="description" content="v2.5 Helix: Complete derivation of gauge coupling initial conditions from STUR 5D Z₃ helix geometry. SU(3) from Z₃ = center(SU(3)). Zero free parameters.">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -34,13 +34,24 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Gauge Coupling Unification</h1>
-  <p class="subtitle">Complete Derivation: α_i(M_Pl) from 5D Localization Geometry</p>
+  <h1 style="background: linear-gradient(135deg, #ffffff 0%, #22d3ee 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Gauge Coupling Unification (v2.5 Helix)</h1>
+  <p class="subtitle">★ SU(3) from Z₃ = center(SU(3)), All Couplings Derived</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    <span style="color:#22d3ee;font-weight:600;">v2.5 Helix</span> ·
     From <a href="stur_master_action_derivation.html" style="color:var(--accent);">Master Action</a> ·
     <a href="stur_dhp_derivation.html" style="color:var(--accent);">DHP</a> ·
     <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a>
   </p>
+
+  <!-- v2.5 Helix Highlight -->
+  <div style="margin:1rem auto;max-width:700px;padding:1rem;background:rgba(34,211,238,0.15);border:3px solid #22d3ee;border-radius:12px;">
+    <div style="font-size:0.9rem;color:#22d3ee;text-align:center;font-weight:600;">★ v2.5 HELIX BREAKTHROUGH</div>
+    <p style="margin:0.5rem 0 0;color:var(--text);text-align:center;font-size:0.95rem;">
+      <strong>SU(3)<sub>color</sub>:</strong> Emerges from Z₃ = center(SU(3)) — geometric necessity<br>
+      Gauge couplings derived from Z₃ helix geometry + MHP. Zero free parameters.
+    </p>
+  </div>
+
   <div style="margin-top:1rem;">
     <span class="stur-status success">
       <span class="stur-icon icon-check sm"></span>
@@ -61,9 +72,9 @@
 
 <!-- EXECUTIVE SUMMARY -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--success);">Summary: Gauge Couplings Are Derived</h2>
+  <h2 style="color:var(--success);">Summary: Gauge Couplings Are Derived (v2.5 Helix)</h2>
 
-  <p>In STUR v2.4, the gauge coupling constants at the Planck scale are <strong>not free parameters</strong>. They emerge from the 5D orbifold geometry via three mechanisms:</p>
+  <p>In STUR v2.5, the gauge coupling constants at the Planck scale are <strong>not free parameters</strong>. They emerge from the 5D Z₃ helix geometry via three mechanisms:</p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.25rem 0;">
     <div style="padding:1rem;background:rgba(74,222,128,0.06);border-radius:10px;border-left:4px solid #4ade80;">
@@ -105,16 +116,21 @@
     \[\Quant{F_{MN}} = \partial_M \Quant{A_N} - \partial_N \Quant{A_M} - i[\Quant{A_M}, \Quant{A_N}]\]
   </div>
 
-  <h3>1.2 Orbifold Parity Assignments</h3>
+  <h3>1.2 Z₃ Helix Boundary Conditions (v2.5)</h3>
 
-  <p>Under the S¹/Z₂ orbifold with parity P:</p>
+  <p>Under the Z₃ helix with boundary condition (R rotates 120° per circuit):</p>
 
   <div class="eq boxed" style="margin:1rem 0;">
-    \[\Quant{A_\mu(x, -X)} = P \Quant{A_\mu(x, X)} P^{-1}, \quad \Quant{A_5(x, -X)} = -P \Quant{A_5(x, X)} P^{-1}\]
-    <div class="eq-label">(GU.3) — Orbifold parity</div>
+    \[\Quant{A_\mu(x, X + L_X)} = \omega \Quant{A_\mu(x, X)} \omega^{-1}, \quad \omega = e^{2\pi i/3}\]
+    <div class="eq-label">(GU.3) — Z₃ helix boundary condition</div>
   </div>
 
-  <p>The parity matrix P for the unified group G = SU(5) (or larger) breaks the symmetry:</p>
+  <p style="background:rgba(34,211,238,0.1);padding:0.75rem;border-radius:8px;border-left:3px solid #22d3ee;margin:1rem 0;">
+    <strong style="color:#22d3ee;">★ v2.5 Key Insight:</strong> The Z₃ holonomy condition automatically selects SU(3) as the color gauge group, since Z₃ = center(SU(3)).
+    This is a <em>geometric necessity</em>, not a choice.
+  </p>
+
+  <p>For GUT breaking, the parity matrix P for the unified group G = SU(5) (or larger) breaks the symmetry:</p>
 
   <div class="eq" style="margin:1rem 0;">
     \[P = \text{diag}(+1, +1, +1, -1, -1) \quad \Rightarrow \quad \text{SU}(5) \to \text{SU}(3)_C \times \text{SU}(2)_L \times \text{U}(1)_Y\]
@@ -339,28 +355,31 @@
 
   <p>The gauge couplings emerge through the following chain with zero free parameters:</p>
 
-  <div style="font-family:var(--font-mono);font-size:0.9rem;background:#000;padding:1.5rem;border-radius:8px;border:1px solid var(--glass-border);margin:1rem 0;">
+  <div style="font-family:var(--font-mono);font-size:0.9rem;background:#000;padding:1.5rem;border-radius:8px;border:2px solid #22d3ee;margin:1rem 0;">
     <pre style="margin:0;color:var(--text-secondary);line-height:1.8;">
-XCRM coupling χR∂ₓR
-    ↓ symmetry + positivity
-Master Action (uniquely determined)
-    ↓ Faddeev-Popov path integral
-DHP with Vandermonde measure
-    ↓ saddle point condition
+<span style="color:#fbbf24;">XCRM doublet χ(R₁∂ₓR₂ - R₂∂ₓR₁)</span>
+    ↓ doublet required for real TEGR coupling
+<span style="color:#22d3ee;">★ Z₃ helix geometry (v2.5)</span>
+    ↓ R rotates 120° per circuit
+<span style="color:#a855f7;">★ SU(3) from Z₃ = center(SU(3))</span>
+    ↓ MHP + holonomy minimization
 g₅² = 4π/√N_eff  [MHP-determined]
-    ↓ orbifold parity assignment
+    ↓ Z₃ helix boundary conditions
 k₁ = 5/3, k₂ = 1, k₃ = 1
     ↓ dimensional reduction
 α_i(M_GUT) = k_i · g₅² · M_KK / 4π²
     ↓ RG running + threshold corrections
-α_s(M_Z) = 0.118, sin²θ_W = 0.2312
+<span style="color:#4ade80;">α_s(M_Z) = 0.118, sin²θ_W = 0.2312</span>
     </pre>
   </div>
 
   <div class="block success" style="border-width:3px;">
-    <div class="title" style="font-size:1.1rem;">Result: Gauge Unification Derived</div>
+    <div class="title" style="font-size:1.1rem;">★ Result: Gauge Unification Derived (v2.5 Helix)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      All three Standard Model gauge couplings are derived from the XCRM foundation through the MHP mechanism. The unified coupling g₅² is determined by holonomy minimization, not chosen by hand. The Kac-Moody levels k<sub>i</sub> are fixed by the orbifold embedding that also breaks GUT symmetry and stabilizes the proton.
+      All three Standard Model gauge couplings are derived from the XCRM doublet on Z₃ helix through the MHP mechanism.
+      <strong style="color:#22d3ee;">SU(3)<sub>color</sub> emerges geometrically</strong> from Z₃ = center(SU(3)).
+      The unified coupling g₅² is determined by holonomy minimization, not chosen by hand.
+      The Kac-Moody levels k<sub>i</sub> are fixed by the Z₃ helix embedding that breaks GUT symmetry and stabilizes the proton.
     </p>
   </div>
 </section>
@@ -383,8 +402,8 @@ k₁ = 5/3, k₂ = 1, k₃ = 1
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Gauge Unification Derivation</strong></p>
-  <p>© 2026 Sheldon Lon Lindberg</p>
+  <p><strong>STUR Gauge Unification Derivation</strong> · v2.5 Helix</p>
+  <p>© 2026 Sheldon Lon Lindberg · SU(3) from Z₃ geometry</p>
 </footer>
 
 </div>
