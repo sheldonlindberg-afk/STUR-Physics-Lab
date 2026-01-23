@@ -541,22 +541,31 @@
     The resistance sector holonomy cost is:
   </p>
   <div class="eq" style="margin:0.75rem 0;background:rgba(74,222,128,0.05);padding:0.75rem;border-left:3px solid #4ade80;">
-    \[\Omega_R = \int d^4x\, \sqrt{-g}\, \left[ \Diff{\tfrac{1}{2}(\nabla R)^2} + \Pot{V(|\mathbf{R}|)} + \XCRM{\chi |\mathbf{R}|^2 \partial_X \phi} \right]\]
+    \[\Omega_R = \int d^4x\, \sqrt{-g}\, \left[ \Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2} + \Pot{V(|\mathbf{R}|)} + \XCRM{\chi |\mathbf{R}|^2 \partial_X \phi} \right]\]
   </div>
+  <p style="color:var(--text-tertiary);font-size:0.85rem;margin:0.5rem 0;">
+    <em>where</em> \(|\nabla \mathbf{R}|^2 = (\nabla|\mathbf{R}|)^2 + |\mathbf{R}|^2(\nabla\phi)^2\) <em>for the doublet</em> \(\mathbf{R} = |\mathbf{R}|e^{i\phi}\).
+  </p>
   <p style="color:var(--text-secondary);">
-    Varying with respect to R and applying the Euler-Lagrange equation:
+    Varying with respect to the doublet components yields two coupled equations — one for the magnitude |<b>R</b>| and one for the phase φ:
   </p>
   <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid #4ade80;padding:1rem;">
-    \[\boxed{\Diff{\nabla^2 R} - \Pot{\frac{\partial V}{\partial R}} - \XCRM{\chi \partial_X R} - \XCRM{\chi R \frac{\partial}{\partial R}(\partial_X R)} = 0}\]
-    <div class="eq-label" style="color:#4ade80;">(DHP.5) — Resistance Field Equation</div>
+    <p style="color:#4ade80;font-size:0.85rem;margin:0 0 0.5rem;"><strong>Magnitude Equation:</strong></p>
+    \[\boxed{\Diff{\nabla^2|\mathbf{R}|} = \Pot{V'(|\mathbf{R}|)} + \Diff{|\mathbf{R}|(\nabla\phi)^2} + \XCRM{2\chi|\mathbf{R}|\partial_X\phi}}\]
+    <p style="color:#22d3ee;font-size:0.85rem;margin:0.75rem 0 0.5rem;"><strong>Phase Equation (R-current continuity):</strong></p>
+    \[\boxed{\Quant{\partial_\mu(|\mathbf{R}|^2\partial^\mu\phi)} = -\XCRM{\chi\,\partial_X(|\mathbf{R}|^2)}}\]
+    <div class="eq-label" style="color:#4ade80;">(DHP.5a,b) — Resistance Field Doublet Equations</div>
   </div>
   <p style="color:var(--text-secondary);font-size:0.92rem;">
-    For the double-well potential \(V(|\mathbf{R}|) = \frac{\lambda}{4}(R^2 - v^2)^2\), this becomes:
+    For the double-well potential \(V(|\mathbf{R}|) = \frac{\lambda}{4}(|\mathbf{R}|^2 - v^2)^2\), this becomes:
   </p>
   <div class="eq" style="margin:0.75rem 0;background:rgba(74,222,128,0.05);padding:0.75rem;border-left:3px solid #4ade80;">
-    \[\Diff{\nabla^2 R} = \Pot{\lambda R(R^2 - v^2)} + \XCRM{2\chi \partial_X R}\]
-    <div class="eq-label">(DHP.6) — Explicit R Evolution</div>
+    \[\Diff{\nabla^2|\mathbf{R}|} = \Pot{\lambda|\mathbf{R}|(|\mathbf{R}|^2 - v^2)} + \Diff{|\mathbf{R}|(\nabla\phi)^2} + \XCRM{2\chi|\mathbf{R}|\partial_X\phi}\]
+    <div class="eq-label">(DHP.6) — Explicit |<b>R</b>| Evolution</div>
   </div>
+  <p style="color:var(--text-tertiary);font-size:0.85rem;margin-top:0.5rem;">
+    The phase equation (DHP.5b) is independent of V and expresses R-current conservation with XCRM source.
+  </p>
 
   <h3 style="margin-top:1.5rem;color:#a78bfa;">2. Gauge Holonomy Evolution</h3>
   <p style="color:var(--text-secondary);">
@@ -600,17 +609,18 @@
 
   <h3 style="margin-top:1.5rem;">Coupled System Summary</h3>
   <div class="block gold" style="border-width:2px;background:rgba(0,0,0,0.5);">
-    <div class="title">Complete DHP Evolution System</div>
+    <div class="title">Complete DHP Evolution System (v2.5 Doublet)</div>
     <div class="eq" style="margin:0.5rem 0;background:#000;padding:1rem;border:1px solid var(--gold);">
       \[\begin{aligned}
-      \Diff{\nabla^2 R} &= \Pot{\lambda R(R^2 - v^2)} + \XCRM{2\chi \partial_X R} \\[0.5em]
-      \Quant{\dot{h}_i} &= \gamma_h \pi \sum_{j \neq i} \cot(\pi(h_i - h_j)) \\[0.5em]
-      \XCRM{\dot{L}_X} &= \gamma_L \left( -\frac{4\zeta(5)\, N_{\rm eff}}{L_X^5} + \frac{c_h \|\mathbf{h}\|^2}{L_X^2} \right)
+      \Diff{\nabla^2|\mathbf{R}|} &= \Pot{\lambda|\mathbf{R}|(|\mathbf{R}|^2 - v^2)} + \Diff{|\mathbf{R}|(\nabla\phi)^2} + \XCRM{2\chi|\mathbf{R}|\partial_X\phi} && \text{(magnitude)}\\[0.5em]
+      \Quant{\partial_\mu(|\mathbf{R}|^2\partial^\mu\phi)} &= -\XCRM{\chi\,\partial_X(|\mathbf{R}|^2)} && \text{(phase)}\\[0.5em]
+      \Quant{\dot{h}_i} &= \gamma_h \pi \sum_{j \neq i} \cot(\pi(h_i - h_j)) && \text{(holonomy)}\\[0.5em]
+      \XCRM{\dot{L}_X} &= \gamma_L \left( -\frac{4\zeta(5)\, N_{\rm eff}}{L_X^5} + \frac{c_h \|\mathbf{h}\|^2}{L_X^2} \right) && \text{(moduli)}
       \end{aligned}\]
       <div class="eq-label" style="color:var(--gold);">(DHP.10) — Complete Coupled Evolution</div>
     </div>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      These three coupled equations, derived from δΩ<sub>DHP</sub> = 0, govern the complete cosmological evolution of STUR fields.
+      These four coupled equations, derived from δΩ<sub>DHP</sub> = 0 for the R-field doublet <b>R</b> = |<b>R</b>|e<sup>iφ</sup>, govern the complete cosmological evolution of STUR fields. The phase equation expresses R-current continuity with XCRM sourcing.
     </p>
   </div>
 
