@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Master Action Derivation — From XCRM to Unique Dynamics</title>
-<meta name="description" content="Complete derivation showing the Master Action is uniquely determined by XCRM coupling plus diffeomorphism invariance on M4 x S1/Z2.">
+<title>STUR Master Action Derivation — From XCRM to Unique Dynamics (v2.4.1)</title>
+<meta name="description" content="Complete derivation: Master Action uniquely determined by XCRM coupling χR∂ₓR plus diffeomorphism invariance on M⁴ × S¹/Z₂. Everything derived, nothing assumed.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -35,12 +35,13 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Master Action Derivation</h1>
+  <h1>Master Action Derivation (v2.4.1)</h1>
   <p class="subtitle">XCRM Coupling Uniquely Determines the Dynamics</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    Foundation for <a href="stur_dhp_derivation.html" style="color:var(--accent);">DHP</a> ·
-    Enables <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a> ·
-    <a href="stur_core_theory.html" style="color:var(--accent);">Core Theory</a>
+    <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM Foundation</a> →
+    <strong style="color:var(--gold);">Master Action</strong> →
+    <a href="stur_dhp_derivation.html" style="color:var(--accent);">DHP</a> →
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a>
   </p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
 </header>
@@ -90,14 +91,14 @@
   <div class="block" style="border-color:var(--gold);border-width:3px;background:rgba(0,0,0,0.5);">
     <div class="title" style="font-size:1.1rem;">Theorem 1.1 &mdash; XCRM Uniqueness</div>
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
-      The XCRM coupling <span class="eq-xcrm">&chi;R&part;<sub>X</sub>R</span> is the <strong>unique dimension-5 operator</strong>
-      coupling a scalar field R to an extra dimension X that:
+      The XCRM coupling <span class="eq-xcrm">&chi;R&part;<sub>X</sub>R</span> is the <strong>unique renormalizable operator</strong>
+      coupling a scalar field R to the extra dimension X that:
     </p>
     <ol style="margin:1rem 0;padding-left:1.5rem;color:var(--text);">
       <li>Respects 4D Lorentz invariance</li>
-      <li>Is odd under Z<sub>2</sub>: X &rarr; -X (required for orbifold consistency)</li>
-      <li>Contains exactly one X-derivative</li>
-      <li>Is real-valued and bounded from below</li>
+      <li>Is consistent with Z<sub>2</sub> orbifold identification (R even under X &rarr; -X)</li>
+      <li>Contains exactly one X-derivative (distinguishes X from 4D)</li>
+      <li>Has mass dimension &le; 5 (renormalizable in 5D)</li>
     </ol>
   </div>
 
@@ -121,14 +122,14 @@
     <div class="eq-label">(1.2) &mdash; XCRM dimension count</div>
   </div>
 
-  <p>This is dimension 4, not 5. To make it dimension 5, we need either:</p>
+  <p>The 5D Lagrangian density must have dimension 5 (since [d<sup>5</sup>x] = -5 and the action is dimensionless). Since R&part;<sub>X</sub>R has dimension 4, the coupling &chi; must have dimension 1:</p>
 
-  <ul>
-    <li><strong>Option A:</strong> Multiply by a mass scale M &rarr; M&chi;R&part;<sub>X</sub>R &mdash; but this introduces a free parameter</li>
-    <li><strong>Option B:</strong> Integrate over the full orbifold volume &rarr; dimension is correct after &int;dX</li>
-  </ul>
+  <div class="eq" style="border-color:var(--gold);">
+    \[[\chi] = 5 - 4 = 1 \quad \Rightarrow \quad \chi \sim \frac{1}{L_X}\]
+    <div class="eq-label">(1.3) &mdash; Coupling dimension fixed by consistency</div>
+  </div>
 
-  <p>Option B is natural: the coupling strength &chi; absorbs the dimensionful factor 1/L<sub>X</sub>.</p>
+  <p><strong>Key insight:</strong> The coupling &chi; is naturally set by the compactification scale L<sub>X</sub> &mdash; no free parameter is introduced. This is the first example of how STUR derives quantities rather than assuming them.</p>
 
   <h3>1.3 Z<sub>2</sub> Orbifold Requirement</h3>
 
@@ -347,17 +348,18 @@
 
 <!-- CONCLUSION -->
 <section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--gold);">Conclusion: The Master Action Is Unique</h2>
+  <h2 style="color:var(--gold);">Conclusion: The Master Action Is Unique (v2.4.1)</h2>
 
   <div class="block success" style="border-width:3px;">
     <div class="title" style="font-size:1.2rem;">Summary</div>
     <p style="font-size:1.05rem;line-height:1.8;">
-      Starting from the XCRM coupling &chi;R&part;<sub>X</sub>R as the unique dimension-5 operator on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub>, we have shown:
+      Starting from the XCRM coupling &chi;R&part;<sub>X</sub>R as the unique renormalizable operator on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub>, we have shown:
     </p>
     <ol style="margin:1rem 0;padding-left:1.5rem;">
       <li>The kinetic term &frac12;(&nabla;R)<sup>2</sup> is forced by unitarity</li>
       <li>The potential V(R) is constrained to Z<sub>2</sub>-symmetric form</li>
       <li>The gravity coupling &alpha;R&Tscr; is the minimal diffeomorphism-invariant extension</li>
+      <li>The coupling &chi; ~ 1/L<sub>X</sub> is fixed by dimensional analysis</li>
       <li>All other terms are forbidden by symmetry, dimension, or stability</li>
     </ol>
     <p style="font-size:1.05rem;margin-top:1rem;color:var(--gold);">
@@ -365,9 +367,24 @@
     </p>
   </div>
 
+  <div class="block" style="border-color:var(--gold);margin-top:1.5rem;">
+    <div class="title">Position in Derivation Chain (v2.4.1)</div>
+    <div style="font-family:monospace;padding:0.75rem;background:#000;border-radius:4px;line-height:1.8;">
+      <span style="color:#fbbf24;">XCRM (χR∂<sub>X</sub>R)</span> &rarr;
+      <span style="color:#4ade80;font-weight:bold;">Master Action</span> &rarr;
+      <span style="color:#a78bfa;">DHP</span> &rarr;
+      <span style="color:#22d3ee;">MHP</span> &rarr;
+      <span style="color:#60a5fa;">TFP</span> &rarr;
+      <span style="color:#f472b6;">All Physics</span>
+    </div>
+    <p style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--text-secondary);">
+      This derivation establishes the first link: XCRM &rarr; Master Action. The subsequent principles (DHP, MHP, TFP) follow from the Master Action via path integral analysis.
+    </p>
+  </div>
+
   <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
-    <a href="stur_dhp_derivation.html" class="btn btn-primary">&rarr; DHP Derivation</a>
-    <a href="stur_mhp_derivation.html" class="btn btn-secondary">&rarr; MHP Derivation</a>
+    <a href="stur_dhp_derivation.html" class="btn btn-primary">&rarr; Next: DHP Derivation</a>
+    <a href="stur_moduli_stabilization.html" class="btn btn-secondary">&rarr; L<sub>X</sub> Stabilization</a>
     <a href="stur_core_theory.html" class="btn btn-outline">&rarr; Core Theory Overview</a>
   </div>
 </section>
