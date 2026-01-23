@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR DHP Derivation — Dynamical Holonomy from Path Integral</title>
-<meta name="description" content="Complete derivation of the Dynamical Holonomy Principle from path integral saddle point conditions on the orbifold.">
+<title>STUR DHP Derivation — Dynamical Holonomy from Path Integral (v2.4.1)</title>
+<meta name="description" content="Complete derivation: Dynamical Holonomy Principle emerges from Faddeev-Popov gauge fixing on M⁴ × S¹/Z₂. Everything derived, nothing assumed.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -35,12 +35,14 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>DHP Derivation</h1>
+  <h1>DHP Derivation (v2.4.1)</h1>
   <p class="subtitle">Dynamical Holonomy Principle from Path Integral Saddle Points</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    Built on <a href="stur_master_action_derivation.html" style="color:var(--accent);">Master Action</a> ·
-    Enables <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a> ·
-    <a href="stur_core_theory.html" style="color:var(--accent);">Core Theory</a>
+    <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM</a> →
+    <a href="stur_master_action_derivation.html" style="color:var(--accent);">Master Action</a> →
+    <strong style="color:var(--quantum);">DHP</strong> →
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a> →
+    <a href="stur_axiom3_flavor.html" style="color:var(--accent);">TFP</a>
   </p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
 </header>
@@ -217,21 +219,28 @@
 
   <h3>3.3 Gauge-Invariant Form</h3>
 
-  <p>The trace of the holonomy is gauge-invariant:</p>
+  <p>The Vandermonde determinant can be expressed in gauge-invariant form using Polyakov loop traces:</p>
 
   <div class="eq law" style="border-color:var(--success);">
-    \[\boxed{\Omega[A] = \text{Tr}(W^\dagger W) = \sum_i |e^{i\theta_i}|^2 = n \quad \text{(for SU}(n)\text{)}}\]
+    \[\boxed{\Omega[A] = -\log|\Delta_{\text{FP}}| = -\sum_{i < j} \log\left| 2\sin\frac{\theta_i - \theta_j}{2} \right|}\]
     <div class="eq-label">(3.3) &mdash; Holonomy cost functional</div>
   </div>
 
-  <p>More generally, the holonomy cost includes contributions from all matter fields:</p>
+  <p>This is <strong>minimized</strong> when eigenvalues {&theta;<sub>i</sub>} are uniformly distributed around the circle, and <strong>diverges</strong> when any two eigenvalues coincide (&theta;<sub>i</sub> = &theta;<sub>j</sub>).</p>
+
+  <div class="block" style="border-color:var(--success);">
+    <div class="title">Gauge Invariance</div>
+    <p>The eigenvalues {&theta;<sub>i</sub>} are gauge-invariant (they are the phases of gauge-invariant Wilson loop eigenvalues). Equivalently, &Omega; can be expressed using traces Tr(W<sup>k</sup>) which are manifestly gauge-invariant.</p>
+  </div>
+
+  <p>The full holonomy functional including matter contributions:</p>
 
   <div class="eq" style="border-color:var(--success);">
-    \[\Omega_{\text{total}}[A, \psi, X_i] = \int \text{Tr}(W^\dagger W) \, d\mu + \lambda_\psi \sum_i \int |D_X \psi_i|^2 \, dX + \kappa \cdot I_{\text{top}}\]
+    \[\Omega_{\text{total}}[A, \psi, X_i] = \Omega[A] + \lambda_\psi \sum_i \int |D_X \psi_i|^2 \, dX + \kappa \cdot I_{\text{top}}\]
     <div class="eq-label">(3.4) &mdash; Total holonomy functional</div>
   </div>
 
-  <p>where I<sub>top</sub> is a topological invariant (Chern number).</p>
+  <p>where I<sub>top</sub> is a topological invariant (winding number on the orbifold).</p>
 
 </section>
 
@@ -343,10 +352,10 @@
 
 <!-- CONCLUSION -->
 <section class="section" style="border:3px solid var(--quantum); background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--quantum);">Conclusion: DHP Is Derived</h2>
+  <h2 style="color:var(--quantum);">Conclusion: DHP Is Derived (v2.4.1)</h2>
 
   <div class="eq law" style="border-color:var(--quantum);border-width:3px;">
-    \[\boxed{\text{Orbifold QFT} \xrightarrow{\text{Faddeev-Popov}} \text{Vandermonde} \xrightarrow{\exp} S_{\text{hol}} \xrightarrow{\int dt} \Omega_{\text{DHP}}}\]
+    \[\boxed{\text{Orbifold QFT} \xrightarrow{\text{Faddeev-Popov}} \text{Vandermonde} \xrightarrow{-\log} S_{\text{hol}} \xrightarrow{\int dt} \Omega_{\text{DHP}}}\]
     <div class="eq-label">The derivation chain</div>
   </div>
 
@@ -354,8 +363,23 @@
     <strong>DHP emerges from the structure of gauge theory on compact spaces.</strong> No additional assumption is needed beyond the Master Action on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub>.
   </p>
 
+  <div class="block" style="border-color:var(--quantum);margin-top:1.5rem;">
+    <div class="title">Position in Derivation Chain (v2.4.1)</div>
+    <div style="font-family:monospace;padding:0.75rem;background:#000;border-radius:4px;line-height:1.8;">
+      <span style="color:#fbbf24;">XCRM</span> &rarr;
+      <span style="color:#4ade80;">Master Action</span> &rarr;
+      <span style="color:#a78bfa;font-weight:bold;">DHP</span> &rarr;
+      <span style="color:#22d3ee;">MHP</span> &rarr;
+      <span style="color:#60a5fa;">TFP</span> &rarr;
+      <span style="color:#f472b6;">All Physics</span>
+    </div>
+    <p style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--text-secondary);">
+      DHP is the second derived principle: it follows from Faddeev-Popov gauge fixing on the orbifold. MHP and TFP then follow from DHP via path integral saddle point analysis.
+    </p>
+  </div>
+
   <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
-    <a href="stur_mhp_derivation.html" class="btn btn-primary">&rarr; MHP Derivation</a>
+    <a href="stur_mhp_derivation.html" class="btn btn-primary">&rarr; Next: MHP Derivation</a>
     <a href="stur_moduli_stabilization.html" class="btn btn-secondary">&rarr; L<sub>X</sub> Stabilization</a>
     <a href="stur_core_theory.html" class="btn btn-outline">&rarr; Core Theory Overview</a>
   </div>
