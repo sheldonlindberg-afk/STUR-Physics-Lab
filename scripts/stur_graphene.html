@@ -79,7 +79,7 @@
     <header style="text-align:center; margin-bottom:2rem;">
         <h1 class="page-title-falsifiable">Graphene-Axion Coupler</h1>
         <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-            From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
+            From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
             <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
@@ -90,7 +90,11 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status success">
+            <!-- v2.5 Helix Badge -->
+        <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:400px;font-size:0.8rem;">
+          <span style="color:#22d3ee;font-weight:600;">★ v2.5 HELIX</span> — Z₃ geometry derived
+        </div>
+        <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
@@ -121,8 +125,8 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-\Diff{v}^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold topology (§2.5)</a></li>
-                <li>X-bundle coupling structure: \(\XCRM{\chi R\partial_X R}\) in Master Action induces matter-field interactions</li>
+                <li>Potential form \(\Pot{V(|\mathbf{R}|)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-\Diff{v}^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">Z₃ helix topology (§2.5)</a></li>
+                <li>X-bundle coupling structure: \(\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}\) in Master Action induces matter-field interactions</li>
                 <li>Axion-like coupling form: \(\Matt{\mathcal{L}} = \XCRM{g_a} \XCRM{\phi} \Matt{\bar{\psi}}\gamma^5\Matt{\psi}\) from X-bundle sector</li>
                 <li>Coherence length: \(\Matt{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / (\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
             </ul>
@@ -143,11 +147,11 @@
     <div class="glass-section" style="border-color:var(--accent-violet);background:rgba(167,139,250,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
             <span class="stur-icon icon-link size-24" style="color:var(--accent-violet);"></span>
-            <h2 class="glass-section-title" style="color:var(--accent-violet);">Derivation Chain: Axioms → Graphene-Axion Coupling</h2>
+            <h2 class="glass-section-title" style="color:var(--accent-violet);">Derivation Chain: XCRM → Graphene-Axion Coupling</h2>
         </div>
         <div class="glass-section-body">
             <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:1rem;">
-                <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;font-weight:600;">Axiom 1: Master Action</span>
+                <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;font-weight:600;">XCRM → Master Action</span>
                 <span style="color:var(--text-muted);">→</span>
                 <span style="padding:6px 12px;background:rgba(74,222,128,0.15);border-radius:8px;border:1px solid rgba(74,222,128,0.4);color:#4ade80;">XCRM + Matter</span>
                 <span style="color:var(--text-muted);">→</span>
@@ -168,7 +172,7 @@
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
                     <strong style="color:#4ade80;font-size:0.8rem;">Step 3: XCRM Resonance</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">χR∂<sub>X</sub>R creates axion-like coupling to external fields</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">χ|<strong>R</strong>|²∂<sub>X</sub>φ creates axion-like coupling to external fields</p>
                     <a href="stur_technical_appendix.html#sec9" style="font-size:0.75rem;color:var(--accent);">→ Eq. 9.1</a>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #a78bfa;">
@@ -307,18 +311,18 @@
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
-                  \underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
-                  \;+\; \underbrace{\XCRM{\chi R\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
-                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                S[\mathbf{R},g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2}}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{\Pot{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}}_{\color{#fbbf24}\text{XCRM}}
+                  \;+\; \underbrace{\Tor{\alpha |\mathbf{R}|\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (5D Orbifold)</div>
+                <div class="stur-eq-label">Master Action (5D Z₃ Helix)</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> The X-bundle coupling \(\XCRM{\chi R\partial_X R}\) induces an effective axion-like interaction with graphene Dirac fermions:</p>
+            <p><strong>Limit assumed:</strong> The X-bundle coupling \(\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}\) induces an effective axion-like interaction with graphene Dirac fermions:</p>
 
             <div class="stur-eq derived">
                 \[

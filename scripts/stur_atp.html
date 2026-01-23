@@ -79,7 +79,7 @@
     <header style="text-align:center; margin-bottom:2rem;">
         <h1 class="page-title-biological">Mitochondria Population Dynamics</h1>
         <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-            From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
+            From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
             <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
@@ -90,7 +90,11 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status success">
+            <!-- v2.5 Helix Badge -->
+        <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:400px;font-size:0.8rem;">
+          <span style="color:#22d3ee;font-weight:600;">★ v2.5 HELIX</span> — R-field doublet dynamics
+        </div>
+        <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
@@ -121,8 +125,8 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Master Action → Bioenergetic Limit:</strong></p>
             <ol style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Step 1:</strong> Master Action kinetic term \(\Diff{\alpha(\nabla R)^2}\) yields membrane resistance gradients</li>
-                <li><strong>Step 2:</strong> XCRM coupling \(\XCRM{\chi R\partial_X R}\) maps to cristae curvature-efficiency relation</li>
+                <li><strong>Step 1:</strong> Master Action kinetic term \(\Diff{\alpha|\nabla\mathbf{R}|^2}\) yields membrane resistance gradients</li>
+                <li><strong>Step 2:</strong> XCRM coupling \(\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}\) maps to cristae curvature-efficiency relation</li>
                 <li><strong>Step 3:</strong> Saturation operator \(\XCRM{S(u)}\) limits proton pumping efficiency at extreme curvatures</li>
             </ol>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-cyan);">Biological Mapping:</strong></p>
@@ -167,24 +171,24 @@
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
-                  \underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
-                  \;+\; \underbrace{\XCRM{\chi R\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
-                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                S[\mathbf{R},g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2}}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{\Pot{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}}_{\color{#fbbf24}\text{XCRM}}
+                  \;+\; \underbrace{\Tor{\alpha |\mathbf{R}|\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (5D Orbifold)</div>
+                <div class="stur-eq-label">Master Action (5D Z₃ Helix) — R = (R₁, R₂) = |R|e<sup>iφ</sup></div>
             </div>
 
             <p><strong>Step 1 — Bioenergetic Limit:</strong> At mitochondrial scales, the kinetic term reduces to membrane resistance dynamics:</p>
 
             <div class="stur-eq derived">
                 \[
-                \Diff{\alpha(\nabla R)^2} \;\longrightarrow\; \Pot{\Delta\Psi_m} \cdot \Diff{\nabla_{\perp} R}
+                \Diff{\alpha|\nabla\mathbf{R}|^2} \;\longrightarrow\; \Pot{\Delta\Psi_m} \cdot \Diff{\nabla_{\perp} |\mathbf{R}|}
                 \]
-                <div class="stur-eq-label">MITO.0 — Membrane Potential Mapping</div>
+                <div class="stur-eq-label">MITO.0 — Membrane Potential Mapping (v2.5 doublet)</div>
             </div>
 
             <p><strong>Step 2 — Saturation Operator:</strong> The STUR saturation function couples cristae curvature to efficiency:</p>
@@ -365,7 +369,7 @@
 #   - Population statistics for pmf, ATP, Damage, Ca2+, mPTP
 #   - Comparison of healthy, uncoupled, apoptotic modes
 #
-# Derived from orbifold-derived V(R) potential (Foundations §2.5)
+# Derived from Z₃ helix-derived V(R) potential (Foundations §2.5)
 # ===============================================================
 
 import math, numpy as np, matplotlib.pyplot as plt
@@ -558,7 +562,7 @@ plt.show()</pre>
 
             <div class="stur-eq law">
                 \[
-                S_{\rm STUR} \xrightarrow{\text{membrane limit}} \Pot{\Delta\Psi_m} \cdot \Diff{\nabla R} + \XCRM{\chi R\partial_X R}
+                S_{\rm STUR} \xrightarrow{\text{membrane limit}} \Pot{\Delta\Psi_m} \cdot \Diff{\nabla R} + \XCRM{\chi |\mathbf{R}|^2\partial_X \phi}
                 \]
                 <div class="stur-eq-label">Bioenergetic Reduction</div>
             </div>

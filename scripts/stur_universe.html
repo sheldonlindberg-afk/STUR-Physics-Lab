@@ -79,7 +79,7 @@
     <header style="text-align:center; margin-bottom:2rem;">
         <h1 class="page-title-cosmological">Universe Atlas POV</h1>
         <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-            From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
+            From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
             <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
@@ -121,7 +121,7 @@
         <div class="glass-section-body" style="font-size:0.97rem;">
             <p style="margin-bottom:0.7rem;"><strong style="color:var(--neon-green);">Derived from Master Action:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Coherence function \(\XCRM{S}(r) = \tanh(r/\XCRM{L_0})(1-e^{-r/\XCRM{L_0}})\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
+                <li>Coherence function \(\XCRM{S}(r) = \tanh(r/\XCRM{L_0})(1-e^{-r/\XCRM{L_0}})\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">Z₃ helix-derived V(R) (§2.5)</a></li>
                 <li>Helix geodesic paths — from torsion sector \(\Tor{L_{\text{torsion}}}\) in Master Action</li>
                 <li>Energy transport channels — from diffusion term \(\Diff{\alpha}(\Diff{\nabla R})^2\)</li>
                 <li>Coherence scale L<sub>0</sub> = R<sub>max</sub>/10 sets filament characteristic width</li>
@@ -262,7 +262,7 @@
             <p>The Universe Atlas POV derives from the STUR framework through the coherence function and helix geometry:</p>
 
             <ul>
-                <li><strong>Master Action origin:</strong> The coherence function \(\XCRM{S}(r) = \tanh(r/\XCRM{L_0})(1 - e^{-r/\XCRM{L_0}})\) emerges directly from the <a href="stur_core_theory.html#VR-derivation">orbifold-derived V(R) potential (§2.5)</a>, which governs energy transport efficiency across cosmic scales.</li>
+                <li><strong>Master Action origin:</strong> The coherence function \(\XCRM{S}(r) = \tanh(r/\XCRM{L_0})(1 - e^{-r/\XCRM{L_0}})\) emerges directly from the <a href="stur_core_theory.html#VR-derivation">Z₃ helix-derived V(R) potential (§2.5)</a>, which governs energy transport efficiency across cosmic scales.</li>
 
                 <li><strong>Langevin dynamics:</strong> The helix funnel paths connecting Earth to distant structures follow geodesics modulated by the stochastic dynamics of the <a href="stur_core_theory.html#langevin">Effective Langevin Equation (6.2)</a>. This explains why energy and information flow preferentially along certain cosmic filaments.</li>
 
@@ -293,15 +293,15 @@
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
-                  \underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
-                  \;+\; \underbrace{\XCRM{\chi R\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
-                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                S[\mathbf{R},g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2}}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{\Pot{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}}_{\color{#fbbf24}\text{XCRM}}
+                  \;+\; \underbrace{\Tor{\alpha |\mathbf{R}|\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (5D Orbifold)</div>
+                <div class="stur-eq-label">Master Action (5D Z₃ Helix)</div>
             </div>
 
             <p><strong>STUR coherence profile:</strong> Derived from the potential term, the coherence function governs radial energy transport:</p>
@@ -688,7 +688,7 @@ print(f"Outputs: {OUT_PNG_3D}, {OUT_JSON}")</pre>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
                 <li>STUR Core Theory, <a href="stur_core_theory.html">stur_core_theory.html</a> — S(r) Coherence Function</li>
-                <li>Problem Closures, <a href="../index.html#problem-closures">19 problems with derived mechanisms</a></li>
+                <li>Problem Closures, <a href="../index.html#problem-closures">21 derivations with derived mechanisms</a></li>
                 <li>Tully et al. — The Laniakea Supercluster of Galaxies</li>
                 <li>2MRS — 2MASS Redshift Survey Structure Catalog</li>
                 <li>JWST Deep Fields — CEERS, JADES, HUDF Field Coordinates</li>

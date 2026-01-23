@@ -79,18 +79,22 @@
     <header style="text-align:center; margin-bottom:2rem;">
         <h1 class="page-title-falsifiable">Scalar Bounce Cosmology</h1>
         <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-            From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
+            From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
             <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            Tests the STUR cosmological bounce from the <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived R-field potential V(R)</a>.
+            Tests the STUR cosmological bounce from the <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">Z₃ helix-derived R-field potential V(R)</a>.
             A scalar field \(\Matt{\phi(t)}\) coupled to the modified Friedmann equation produces non-singular bounces.
         </p>
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status success">
+            <!-- v2.5 Helix Badge -->
+        <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:400px;font-size:0.8rem;">
+          <span style="color:#22d3ee;font-weight:600;">★ v2.5 HELIX</span> — Z₃ geometry derived
+        </div>
+        <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
@@ -142,11 +146,11 @@
     <div class="glass-section" style="border-color:var(--accent-violet);background:rgba(167,139,250,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
             <span class="stur-icon icon-link size-24" style="color:var(--accent-violet);"></span>
-            <h2 class="glass-section-title" style="color:var(--accent-violet);">Derivation Chain: Axioms → Scalar Bounce Dynamics</h2>
+            <h2 class="glass-section-title" style="color:var(--accent-violet);">Derivation Chain: XCRM → Scalar Bounce Dynamics</h2>
         </div>
         <div class="glass-section-body">
             <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:1rem;">
-                <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;font-weight:600;">Axiom 1: Master Action</span>
+                <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;font-weight:600;">XCRM → Master Action</span>
                 <span style="color:var(--text-muted);">→</span>
                 <span style="padding:6px 12px;background:rgba(74,222,128,0.15);border-radius:8px;border:1px solid rgba(74,222,128,0.4);color:#4ade80;">Diffusion ½(∇R)²</span>
                 <span style="color:var(--text-muted);">→</span>
@@ -162,8 +166,8 @@
                     <a href="stur_core_theory.html#master-action" style="font-size:0.75rem;color:var(--accent);">→ Core Theory §2</a>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #f472b6;">
-                    <strong style="color:#f472b6;font-size:0.8rem;">Step 2: Double Well</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">V(R) = λ(R²−v²)²/4 has minima at R = ±v</p>
+                    <strong style="color:#f472b6;font-size:0.8rem;">Step 2: Doublet Potential (v2.5)</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">V(|<strong>R</strong>|) = λ(|<strong>R</strong>|²−v²)²/4 has minimum at |<strong>R</strong>| = v</p>
                     <a href="stur_xcrm_closure.html" style="font-size:0.75rem;color:var(--accent);">→ XCRM Closure</a>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #fbbf24;">
@@ -306,15 +310,15 @@
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
-                  \underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
-                  \;+\; \underbrace{\XCRM{\chi R\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
-                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                S[\mathbf{R},g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2}}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{\Pot{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}}_{\color{#fbbf24}\text{XCRM}}
+                  \;+\; \underbrace{\Tor{\alpha |\mathbf{R}|\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (5D Orbifold)</div>
+                <div class="stur-eq-label">Master Action (5D Z₃ Helix)</div>
             </div>
 
             <p><strong>Limit assumed:</strong> The torsion term \(\Tor{L_{\text{torsion}}}\) modifies the Friedmann equation at high densities:</p>

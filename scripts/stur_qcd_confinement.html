@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR QCD Confinement — Color Confinement from Holonomy Dynamics</title>
-<meta name="description" content="Derivation of QCD confinement from STUR axioms. The holonomy mechanism naturally explains why quarks are confined and hadrons form.">
+<meta name="description" content="v2.5 Helix: Derivation of QCD confinement from STUR axioms. The holonomy mechanism naturally explains why quarks are confined and hadrons form.">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -50,7 +50,7 @@
     <p style="margin:0;color:var(--text);line-height:1.7;">
       QCD confinement—the fact that isolated quarks cannot exist—emerges from STUR through two mechanisms:
       (1) <strong>Asymptotic freedom</strong> from negative beta function (derived in <a href="stur_running_couplings.html" style="color:var(--success);">Running Couplings</a>),
-      and (2) <strong>area law for Wilson loops</strong> from holonomy dynamics (Axiom 2).
+      and (2) <strong>area law for Wilson loops</strong> from holonomy dynamics (DHP).
     </p>
   </div>
 </section>
@@ -111,7 +111,7 @@
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
     \[\boxed{S_{\rm QCD} = -\frac{1}{4}\int d^4x\, G^a_{\mu\nu}G^{a\mu\nu} + \int d^4x\, \bar{q}(i\gamma^\mu D_\mu - m)q}\]
-    <div class="eq-label" style="color:var(--gold);">(2.2) — QCD action from Axiom 1</div>
+    <div class="eq-label" style="color:var(--gold);">(2.2) — QCD action from Master Action</div>
   </div>
 
   <p>where G<sup>a</sup><sub>μν</sub> = ∂<sub>μ</sub>G<sup>a</sup><sub>ν</sub> - ∂<sub>ν</sub>G<sup>a</sup><sub>μ</sub> + g<sub>s</sub>f<sup>abc</sup>G<sup>b</sup><sub>μ</sub>G<sup>c</sup><sub>ν</sub>.</p>
@@ -178,7 +178,7 @@
 
   <h3>4.2 Connection to Holonomy Principle</h3>
 
-  <p>In STUR, the Dynamical Holonomy Principle (Axiom 2) governs holonomy dynamics:</p>
+  <p>In STUR, the Dynamical Holonomy Principle (DHP) governs holonomy dynamics:</p>
 
   <div class="eq boxed">
     \[\Omega[W] = \text{Tr}[\mathbf{1} - W] \geq 0\]
@@ -350,7 +350,7 @@
   <div class="walkthrough" style="margin:1rem 0;">
     <div class="step">
       <div class="step-content">
-        <strong>Axiom 1: Gauge Action</strong><br>
+        <strong>Master Action: Gauge Kinetic Term</strong><br>
         Yang-Mills kinetic term -¼G<sub>μν</sub>G<sup>μν</sup>
       </div>
     </div>
@@ -374,7 +374,7 @@
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Axiom 2: Holonomy Dynamics</strong><br>
+        <strong>Derived: DHP (Holonomy Dynamics)</strong><br>
         Wilson loop governed by DHP
       </div>
     </div>
@@ -393,14 +393,14 @@
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\text{Axioms 1+2} \;\xrightarrow{SU(3)}\; \beta < 0 \;\xrightarrow{\text{IR}}\; \alpha_s \to \infty \;\xrightarrow{\text{DHP}}\; \text{Area law} \;\xrightarrow{}\; \text{Confinement}}\]
+    \[\boxed{\text{Master Action + DHP} \;\xrightarrow{SU(3)}\; \beta < 0 \;\xrightarrow{\text{IR}}\; \alpha_s \to \infty \;\xrightarrow{\text{DHP}}\; \text{Area law} \;\xrightarrow{}\; \text{Confinement}}\]
     <div class="eq-label" style="color:var(--success);">Complete Confinement Derivation</div>
   </div>
 
   <div class="block success" style="margin-top:1rem;">
-    <div class="title">Confinement from Axioms</div>
+    <div class="title">Confinement from XCRM Foundation</div>
     <p style="margin:0;color:var(--text-secondary);">
-      QCD confinement—quarks never appear in isolation—follows from Axioms 1 and 2.
+      QCD confinement—quarks never appear in isolation—follows from the Master Action and DHP.
       Asymptotic freedom (from gauge dynamics) plus holonomy area law (from DHP) together
       ensure that color charges are confined into hadrons.
     </p>

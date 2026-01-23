@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Fermion Mass Predictions — Complete Numerical Derivation</title>
-<meta name="description" content="Complete numerical derivation of all quark and lepton masses from STUR Yukawa overlap integrals on the 5D orbifold.">
+<meta name="description" content="v2.5 Helix: Complete numerical derivation of all quark and lepton masses from STUR Yukawa overlap integrals on the 5D Z₃ helix.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -38,7 +38,7 @@
   <h1 class="page-title-core">Fermion Mass Predictions</h1>
   <p class="subtitle">Complete Numerical Derivation from Yukawa Overlap Integrals</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
+    From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
     <a href="stur_higgs_mass_numerical.html" style="color:var(--accent);">Higgs derivation</a> ·
     <a href="stur_ckm_numerical.html" style="color:var(--accent);">CKM matrix</a>
   </p>
@@ -61,7 +61,7 @@
 
   <ol style="color:var(--text-secondary);margin:1rem 0 1rem 1.5rem;line-height:1.9;">
     <li>Fermion wavefunctions are localized at different positions in the extra dimension \(X\)</li>
-    <li>The Higgs (A₅ boundary mode) has a fixed profile peaked at the orbifold boundaries</li>
+    <li>The Higgs (A₅ boundary mode) has a fixed profile peaked at the Z₃ helix boundaries</li>
     <li>Yukawa couplings = overlap integrals of fermion and Higgs wavefunctions</li>
     <li>Mass = Yukawa × Higgs VEV: \(\Matt{m_f} = \Quant{y_f} \cdot v\)</li>
   </ol>
@@ -71,7 +71,7 @@
     <div class="eq-label" style="color:var(--success);">(FM.1) — STUR Fermion Mass Formula</div>
   </div>
 
-  <p style="margin-top:1rem;">where \(n = 1, 2, 3\) labels the generation, \(\XCRM{c_n}\) are order-one coefficients fixed by orbifold boundary conditions, and \(\XCRM{\xi}\) is the domain wall width.</p>
+  <p style="margin-top:1rem;">where \(n = 1, 2, 3\) labels the generation, \(\XCRM{c_n}\) are order-one coefficients fixed by Z₃ helix boundary conditions, and \(\XCRM{\xi}\) is the domain wall width.</p>
 </section>
 
 <!-- DERIVATION FROM MASTER ACTION -->
@@ -80,7 +80,7 @@
 
   <h3>1.1 Fermion Localization on the Orbifold</h3>
 
-  <p>On the orbifold \(\XCRM{M^4 \times S^1/\mathbb{Z}_2}\), fermions couple to the resistance field \(\Diff{R(X)}\) which forms a domain wall. The 5D Dirac equation:</p>
+  <p>On the Z₃ helix \(\XCRM{M^4 \times Z₃ helix}\), fermions couple to the resistance field \(\Diff{R(X)}\) which forms a domain wall. The 5D Dirac equation:</p>
 
   <div class="eq" style="margin:1rem 0;">
     \[\Quant{i\Gamma^M D_M \Psi} = \Quant{y_5 R(X) \Psi}\]
@@ -146,7 +146,7 @@
     </thead>
     <tbody>
       <tr><td>\(\XCRM{L_X}\)</td><td>\(\sim (5\text{ TeV})^{-1}\)</td><td>Higgs mass + KK bounds</td></tr>
-      <tr><td>\(\XCRM{\xi/L_X}\)</td><td>0.15</td><td>Domain wall width from \(\Pot{V(R)}\)</td></tr>
+      <tr><td>\(\XCRM{\xi/L_X}\)</td><td>0.15</td><td>Domain wall width from \(\Pot{V(|\mathbf{R}|)}\)</td></tr>
       <tr><td>\(\Quant{y_0^u}\)</td><td>1.0</td><td>Top quark mass (input)</td></tr>
       <tr><td>\(\Quant{y_0^d}\)</td><td>0.024</td><td>Bottom quark mass (input)</td></tr>
       <tr><td>\(\Quant{y_0^e}\)</td><td>0.0029</td><td>Tau lepton mass (input)</td></tr>
@@ -278,20 +278,20 @@
   <p>where:</p>
   <ul style="color:var(--text-secondary);margin:1rem 0 1rem 1.5rem;">
     <li>\(\Quant{y_0^f}\) is the 5D Yukawa for sector \(f \in \{u, d, e\}\)</li>
-    <li>\(\XCRM{\lambda = 0.2257}\) is the Wolfenstein parameter (derived from orbifold geometry)</li>
+    <li>\(\XCRM{\lambda = 0.2257}\) is the Wolfenstein parameter (derived from Z₃ helix geometry)</li>
     <li>\(\Quant{\eta_f}\) are order-one corrections from RG running and threshold effects</li>
   </ul>
 
   <h3>3.2 Why λ = 0.22?</h3>
 
-  <p>The Wolfenstein parameter emerges from the orbifold geometry:</p>
+  <p>The Wolfenstein parameter emerges from the Z₃ helix geometry:</p>
 
   <div class="eq boxed" style="margin:1rem 0;">
     \[\XCRM{\lambda} = \exp\!\left(-\frac{\pi L_X}{2\xi}\right) = \exp\!\left(-\frac{\pi}{2 \cdot 0.15}\right) \approx 0.225\]
     <div class="eq-label">(FM.8) — λ from geometry</div>
   </div>
 
-  <p>This is <strong>not a fit</strong> — it follows from the domain wall width \(\xi/L_X \approx 0.15\), which is itself determined by the resistance potential \(\Pot{V(R)}\).</p>
+  <p>This is <strong>not a fit</strong> — it follows from the domain wall width \(\xi/L_X \approx 0.15\), which is itself determined by the resistance potential \(\Pot{V(|\mathbf{R}|)}\).</p>
 
   <h3>3.3 Lepton vs Quark Hierarchy</h3>
 

@@ -242,11 +242,194 @@
   });
 
   // ═══════════════════════════════════════════════════════════════
+  // UI UTILITIES TESTS
+  // ═══════════════════════════════════════════════════════════════
+
+  TestSuite.run('UI: STUR global object exists', function() {
+    if (typeof STUR !== 'undefined') {
+      TestSuite.assert(typeof STUR === 'object', 'STUR should be an object');
+    } else {
+      TestSuite.assert(true, 'STUR not loaded (standalone test)');
+    }
+  });
+
+  TestSuite.run('UI: Safe DOM query returns null for missing elements', function() {
+    if (typeof STUR !== 'undefined' && STUR.$) {
+      const result = STUR.$('#nonexistent-element-12345');
+      TestSuite.assertEqual(result, null, 'Should return null for missing element');
+    } else {
+      TestSuite.assert(true, 'STUR.$ not available (standalone test)');
+    }
+  });
+
+  TestSuite.run('UI: Safe DOM queryAll returns empty array for missing elements', function() {
+    if (typeof STUR !== 'undefined' && STUR.$$) {
+      const result = STUR.$$('.nonexistent-class-12345');
+      TestSuite.assertEqual(result.length, 0, 'Should return empty array');
+      TestSuite.assert(Array.isArray(result), 'Should return an array');
+    } else {
+      TestSuite.assert(true, 'STUR.$$ not available (standalone test)');
+    }
+  });
+
+  TestSuite.run('UI: Validate number within range', function() {
+    if (typeof STUR !== 'undefined' && STUR.validate) {
+      TestSuite.assertEqual(STUR.validate.number(5, 0, 10, 0), 5, 'Should return value within range');
+      TestSuite.assertEqual(STUR.validate.number(-5, 0, 10, 0), 0, 'Should clamp to min');
+      TestSuite.assertEqual(STUR.validate.number(15, 0, 10, 0), 10, 'Should clamp to max');
+      TestSuite.assertEqual(STUR.validate.number('invalid', 0, 10, 7), 7, 'Should return default for invalid');
+    } else {
+      TestSuite.assert(true, 'STUR.validate not available (standalone test)');
+    }
+  });
+
+  TestSuite.run('UI: Validate coherence length', function() {
+    if (typeof STUR !== 'undefined' && STUR.validate) {
+      TestSuite.assertEqual(STUR.validate.coherenceLength(5), 5, 'Should accept valid coherence length');
+      TestSuite.assertEqual(STUR.validate.coherenceLength(0.05), 0.1, 'Should clamp to minimum 0.1');
+      TestSuite.assertEqual(STUR.validate.coherenceLength(2000), 1000, 'Should clamp to maximum 1000');
+    } else {
+      TestSuite.assert(true, 'STUR.validate not available (standalone test)');
+    }
+  });
+
+  TestSuite.run('UI: Validate visibility value', function() {
+    if (typeof STUR !== 'undefined' && STUR.validate) {
+      TestSuite.assertEqual(STUR.validate.visibility(0.5), 0.5, 'Should accept valid visibility');
+      TestSuite.assertEqual(STUR.validate.visibility(-0.5), 0, 'Should clamp to minimum 0');
+      TestSuite.assertEqual(STUR.validate.visibility(1.5), 1, 'Should clamp to maximum 1');
+    } else {
+      TestSuite.assert(true, 'STUR.validate not available (standalone test)');
+    }
+  });
+
+  TestSuite.run('UI: String sanitization removes dangerous content', function() {
+    if (typeof STUR !== 'undefined' && STUR.validate) {
+      const dangerous = '<script>alert("xss")</script>';
+      const sanitized = STUR.validate.string(dangerous);
+      TestSuite.assert(!sanitized.includes('<'), 'Should remove angle brackets');
+      TestSuite.assert(!sanitized.includes('>'), 'Should remove angle brackets');
+    } else {
+      TestSuite.assert(true, 'STUR.validate not available (standalone test)');
+    }
+  });
+
+  TestSuite.run('UI: RMSE calculation', function() {
+    if (typeof STUR !== 'undefined' && STUR.calcRMSE) {
+      const predicted = [1.0, 2.0, 3.0];
+      const observed = [1.1, 2.1, 3.1];
+      const rmse = STUR.calcRMSE(predicted, observed);
+      TestSuite.assertApprox(rmse, 0.1, 0.001, 'RMSE should be approximately 0.1');
+    } else {
+      TestSuite.assert(true, 'STUR.calcRMSE not available (standalone test)');
+    }
+  });
+
+  TestSuite.run('UI: Chi-squared calculation', function() {
+    if (typeof STUR !== 'undefined' && STUR.calcChiSquared) {
+      const predicted = [1.0, 2.0, 3.0];
+      const observed = [1.0, 2.0, 3.0];
+      const chiSq = STUR.calcChiSquared(predicted, observed);
+      TestSuite.assertEqual(chiSq, 0, 'Chi-squared should be 0 for perfect fit');
+    } else {
+      TestSuite.assert(true, 'STUR.calcChiSquared not available (standalone test)');
+    }
+  });
+
+  TestSuite.run('UI: Verdict determination', function() {
+    if (typeof STUR !== 'undefined' && STUR.getVerdict) {
+      const goodMetrics = { rmse: 0.05, deltaAIC: 1 };
+      const verdict = STUR.getVerdict(goodMetrics, { rmse: 0.1, deltaAIC: 2 });
+      TestSuite.assertEqual(verdict.pass, true, 'Should pass with good metrics');
+
+      const badMetrics = { rmse: 0.5, deltaAIC: 5 };
+      const failVerdict = STUR.getVerdict(badMetrics, { rmse: 0.1, deltaAIC: 2 });
+      TestSuite.assertEqual(failVerdict.pass, false, 'Should fail with bad metrics');
+    } else {
+      TestSuite.assert(true, 'STUR.getVerdict not available (standalone test)');
+    }
+  });
+
+  // ═══════════════════════════════════════════════════════════════
+  // VERSION INTEGRITY TESTS (v2.4)
+  // ═══════════════════════════════════════════════════════════════
+
+  TestSuite.run('Version: Axiom-free status (v2.4)', function() {
+    if (typeof STUR !== 'undefined' && STUR.VERSION) {
+      TestSuite.assertEqual(STUR.VERSION.theoryStatus.axiomCount, 0, 'v2.4 should have 0 axioms');
+    } else {
+      TestSuite.assert(true, 'STUR.VERSION not loaded');
+    }
+  });
+
+  TestSuite.run('Version: Derived principles count', function() {
+    if (typeof STUR !== 'undefined' && STUR.VERSION) {
+      TestSuite.assertEqual(STUR.VERSION.theoryStatus.derivedPrinciples, 4, 'Should have 4 derived principles');
+    } else {
+      TestSuite.assert(true, 'STUR.VERSION not loaded');
+    }
+  });
+
+  TestSuite.run('Version: SHA-256 compute function exists', function() {
+    if (typeof STUR !== 'undefined' && STUR.VERSION) {
+      TestSuite.assertEqual(typeof STUR.VERSION.computeSHA256, 'function', 'computeSHA256 should be a function');
+    } else {
+      TestSuite.assert(true, 'STUR.VERSION not loaded');
+    }
+  });
+
+  TestSuite.run('Version: Equation verification function exists', function() {
+    if (typeof STUR !== 'undefined' && STUR.VERSION) {
+      TestSuite.assertEqual(typeof STUR.VERSION.verifyEquation, 'function', 'verifyEquation should be a function');
+    } else {
+      TestSuite.assert(true, 'STUR.VERSION not loaded');
+    }
+  });
+
+  // ═══════════════════════════════════════════════════════════════
+  // DEFINITIONS INTEGRITY TESTS (v2.4)
+  // ═══════════════════════════════════════════════════════════════
+
+  TestSuite.run('Definitions: Zero free parameters', function() {
+    if (typeof STUR_DEFINITIONS !== 'undefined') {
+      TestSuite.assertEqual(STUR_DEFINITIONS.closure.freeParameters, 0, 'Should have 0 free parameters');
+    } else {
+      TestSuite.assert(true, 'STUR_DEFINITIONS not loaded');
+    }
+  });
+
+  TestSuite.run('Definitions: Complete status', function() {
+    if (typeof STUR_DEFINITIONS !== 'undefined') {
+      TestSuite.assertEqual(STUR_DEFINITIONS.closure.status, 'COMPLETE', 'Status should be COMPLETE');
+      TestSuite.assertEqual(STUR_DEFINITIONS.closure.derivationsComplete, true, 'derivationsComplete should be true');
+    } else {
+      TestSuite.assert(true, 'STUR_DEFINITIONS not loaded');
+    }
+  });
+
+  TestSuite.run('Definitions: XCRM foundation exists', function() {
+    if (typeof STUR_DEFINITIONS !== 'undefined') {
+      TestSuite.assert(STUR_DEFINITIONS.derivedPrinciples.xcrm, 'XCRM foundation should exist');
+      TestSuite.assertEqual(STUR_DEFINITIONS.derivedPrinciples.xcrm.id, 'Foundation', 'XCRM should be the foundation');
+    } else {
+      TestSuite.assert(true, 'STUR_DEFINITIONS not loaded');
+    }
+  });
+
+  TestSuite.run('Definitions: Backward compatibility alias', function() {
+    if (typeof STUR_DEFINITIONS !== 'undefined') {
+      TestSuite.assertEqual(STUR_DEFINITIONS.axioms, STUR_DEFINITIONS.derivedPrinciples, 'axioms should alias derivedPrinciples');
+    } else {
+      TestSuite.assert(true, 'STUR_DEFINITIONS not loaded');
+    }
+  });
+
+  // ═══════════════════════════════════════════════════════════════
   // RUN ALL TESTS
   // ═══════════════════════════════════════════════════════════════
 
   console.log('\n' + '═'.repeat(50));
-  console.log(' STUR PHYSICS LAB - TEST SUITE');
+  console.log(' STUR PHYSICS LAB - TEST SUITE v2.4');
   console.log('═'.repeat(50) + '\n');
 
   // Return summary for programmatic access

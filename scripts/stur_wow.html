@@ -79,7 +79,7 @@
     <header style="text-align:center; margin-bottom:2rem;">
         <h1 class="page-title-cosmological">Wow! Signal Analysis</h1>
         <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-            From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
+            From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
             <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
@@ -123,7 +123,7 @@
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>5D damped wave equation — from torsion sector \(\Tor{L_{\text{torsion}}}\) in Master Action</li>
                 <li>Resistance field dynamics \(\Diff{R(t,x,X)}\) — from <a href="stur_core_theory.html#langevin" style="color:var(--neon-green)">Langevin equation (6.2)</a></li>
-                <li>Wave packet localization — from XCRM coupling \(\XCRM{\chi R\partial_X R}\)</li>
+                <li>Wave packet localization — from XCRM coupling \(\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}\)</li>
                 <li>Super-Gaussian envelope: N=12 order from coherence transition dynamics</li>
             </ul>
             <p style="margin-bottom:0.7rem;"><strong style="color:var(--accent-violet);">Testable Predictions for Future Transients:</strong></p>
@@ -293,15 +293,15 @@
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
-                  \underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
-                  \;+\; \underbrace{\XCRM{\chi R\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
-                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                S[\mathbf{R},g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2}}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{\Pot{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}}_{\color{#fbbf24}\text{XCRM}}
+                  \;+\; \underbrace{\Tor{\alpha |\mathbf{R}|\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (5D Orbifold)</div>
+                <div class="stur-eq-label">Master Action (5D Z₃ Helix)</div>
             </div>
 
             <p><strong>5D wave equation:</strong> The resistance field evolves on a 5D manifold with brane coordinate \(\Diff{x}\) and bulk coordinate \(\XCRM{X}\):</p>

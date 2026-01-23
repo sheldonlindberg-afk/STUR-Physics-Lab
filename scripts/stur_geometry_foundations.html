@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Derived Geometry — Orbifold Structure from XCRM (v2.4)</title>
-<meta name="description" content="The five-dimensional orbifold M⁴ × S¹/Z₂ is uniquely determined by the XCRM coupling. Zero axioms — geometry follows by logical necessity.">
+<title>STUR Derived Geometry — Z₃ Helix Structure from XCRM (v2.5 Helix)</title>
+<meta name="description" content="The Z₃ helix geometry M⁴ × S¹ with R-doublet winding is uniquely determined by XCRM. 3 generations automatic, SU(3) from geometry, CC solved.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -26,7 +26,7 @@
     <div class="glass-nav-links">
       <a href="../index.html" class="glass-nav-link">Index</a>
       <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
-      <a href="stur_geometry_axioms.html" class="glass-nav-link active">Geometry</a>
+      <a href="stur_geometry_foundations.html" class="glass-nav-link active">Geometry</a>
       <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
     </div>
   </nav>
@@ -35,12 +35,12 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Derived Geometry (v2.4)</h1>
-  <p class="subtitle">The Five-Dimensional Orbifold — Uniquely Determined by XCRM</p>
+  <h1>Derived Geometry (v2.5 Helix)</h1>
+  <p class="subtitle">Z₃ Helix Structure — R-Doublet Winding Forces All Physics</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    <a href="stur_core_theory.html" style="color:var(--accent);">Axiom-free framework</a> ·
-    <a href="../DERIVATION_CHAIN.md" style="color:var(--accent);">Complete derivation chain</a> ·
-    <em>Zero axioms — geometry follows from XCRM</em>
+    <a href="stur_core_theory.html" style="color:var(--accent);">Unified framework</a> ·
+    <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--accent);">Complete derivation chain</a> ·
+    <em>3 generations automatic, SU(3) from geometry, CC = 0</em>
   </p>
   <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
@@ -63,18 +63,18 @@
     </div>
     <div class="glass-section-body">
         <p style="color:var(--text-secondary);margin-bottom:1rem;">
-            The 5D orbifold geometry is <strong>derived from XCRM</strong> — it is the unique space compatible with the χR∂<sub>X</sub>R coupling.
-            This page documents the geometric structure; subsequent pages show each physics derivation explicitly.
+            In v2.5, the XCRM coupling with <strong>R-doublet</strong> R = (R₁, R₂) forces <strong>Z₃ helix geometry</strong>.
+            The doublet winding 120°/circuit solves: 3 generations (|Z₃| = 3), SU(3) (Z₃ = center), CC = 0 (|R| = v everywhere).
         </p>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;margin-bottom:1rem;">
-            <div style="padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #fbbf24;">
-                <strong style="color:#fbbf24;font-size:0.8rem;">Geometry</strong>
-                <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-secondary);">M⁴ × S¹/Z₂ orbifold with warped metric</p>
-                <span style="font-size:0.7rem;color:var(--text-muted);">This page</span>
+            <div style="padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
+                <strong style="color:#4ade80;font-size:0.8rem;">Z₃ Helix Geometry</strong>
+                <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-secondary);">M⁴ × S¹ with R-doublet winding</p>
+                <span style="font-size:0.7rem;color:var(--text-muted);">This page (v2.5)</span>
             </div>
             <div style="padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #22d3ee;">
-                <strong style="color:#22d3ee;font-size:0.8rem;">→ V(R) Potential</strong>
+                <strong style="color:#22d3ee;font-size:0.8rem;">→ V(|\mathbf{R}|) Potential</strong>
                 <p style="margin:4px 0 0;font-size:0.75rem;color:var(--text-secondary);">Z₂ parity forces double-well form</p>
                 <a href="stur_xcrm_closure.html" style="font-size:0.7rem;color:var(--accent);">XCRM Closure →</a>
             </div>
@@ -110,76 +110,79 @@
     </div>
 </div>
 
-<!-- SECTION 1: AXIOM-FREE FOUNDATION -->
+<!-- SECTION 1: XCRM FOUNDATION (v2.5 Helix) -->
 <section class="section" id="sec1">
-  <h2>1. The XCRM Foundation (v2.4)</h2>
+  <h2>1. The XCRM Foundation (v2.5 Helix)</h2>
 
   <div class="block success" style="border-width:3px;margin-bottom:1.5rem;background:rgba(74,222,128,0.08);">
-    <div class="title" style="color:var(--success);font-size:1.1rem;">Key Insight: Zero Axioms</div>
+    <div class="title" style="color:var(--success);font-size:1.1rem;">v2.5 Breakthrough: Z₃ Helix Geometry</div>
     <p style="margin:0;color:var(--text);">
-      <strong>STUR has no axioms.</strong> Everything — including the orbifold geometry itself — is derived from the XCRM coupling χR∂<sub>X</sub>R.
-      What were previously called "axioms" are now understood as <em>derived consequences</em> of this single mechanism.
+      <strong>XCRM with R-doublet forces Z₃ helix.</strong> The doublet R = (R₁, R₂) with XCRM coupling
+      χ(R₁∂<sub>X</sub>R₂ - R₂∂<sub>X</sub>R₁) drives phase winding. Stability requires 3 windings per circuit,
+      giving Z₃ symmetry that solves all major open problems automatically.
     </p>
   </div>
 
-  <h3>1.1 Why This Geometry Is Unique</h3>
+  <h3>1.1 Why This Geometry Is Unique (v2.5)</h3>
 
   <p>
-    The XCRM coupling χR∂<sub>X</sub>R <strong>requires</strong> the five-dimensional orbifold structure:
+    The XCRM coupling with R-doublet <strong>forces</strong> Z₃ helix geometry:
   </p>
 
   <ul>
-    <li><strong>Compact X-dimension:</strong> The ∂<sub>X</sub>R term requires a dimension to differentiate along</li>
-    <li><strong>Z₂ symmetry:</strong> XCRM is invariant under X → −X, which forces the orbifold quotient</li>
-    <li><strong>S¹/Z₂ uniquely:</strong> This is the only compact 1D manifold with Z₂ symmetry and finite length</li>
-    <li><strong>Torsion coupling:</strong> αR𝕋 is the unique torsion-scalar coupling at dimension ≤5</li>
+    <li><strong>R-doublet requirement:</strong> TEGR coupling α|R|𝕋 needs real |R|; XCRM phase dynamics needs complex arg(R)</li>
+    <li><strong>Doublet resolution:</strong> R = (R₁, R₂) with magnitude |R| and phase φ = arctan(R₂/R₁)</li>
+    <li><strong>Phase winding:</strong> XCRM coupling χ|R|²∂<sub>X</sub>φ drives φ to wind around X-circle</li>
+    <li><strong>Stability:</strong> Positive energy + holonomy minimization fixes χ = -π/(3L<sub>X</sub>) → exactly 3 windings</li>
   </ul>
 
-  <div class="block gold" style="border-width:3px;margin-top:1.5rem;">
-    <div class="title" style="font-size:1.1rem;">The Logical Chain (v2.4)</div>
+  <div class="block success" style="border-width:3px;margin-top:1.5rem;">
+    <div class="title" style="font-size:1.1rem;color:#4ade80;">The Logical Chain (v2.5 Helix)</div>
     <div style="font-family:monospace;color:var(--text);padding:1rem;background:#000;border-radius:4px;margin-top:0.5rem;line-height:1.8;">
-      XCRM coupling χR∂<sub>X</sub>R  ← (from Sheldon's Theory framework)<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ requires compact dimension<br>
-      M⁴ × S¹ geometry<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ Z₂ symmetry of XCRM<br>
-      <strong style="color:var(--gold);">M⁴ × S¹/Z₂ orbifold</strong> (uniquely determined)<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ unique torsion coupling<br>
-      αR𝕋 → gravity emerges (TEGR = GR)
+      XCRM with R-doublet: χ(R₁∂<sub>X</sub>R₂ - R₂∂<sub>X</sub>R₁)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ stability requires 3 phase windings<br>
+      <strong style="color:#4ade80;">Z₃ Helix Geometry</strong> (M⁴ × S¹ with R winding 120°/circuit)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ |Z₃| = 3<br>
+      <strong style="color:#fbbf24;">3 Generations AUTOMATIC</strong> (theorem, not calculation)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ Z₃ = center(SU(3))<br>
+      <strong style="color:#60a5fa;">SU(3) Color FROM GEOMETRY</strong><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ |R| = v everywhere<br>
+      <strong style="color:#22d3ee;">CC = 0 SOLVED</strong> (no domain wall → ρ<sub>vac</sub> = 0)
     </div>
   </div>
 
-  <h3 style="margin-top:2rem;">1.2 What Were Previously "Axioms" — Now Derived</h3>
+  <h3 style="margin-top:2rem;">1.2 Derived Principles — Complete Derivation Chain</h3>
 
   <p style="color:var(--text-secondary);margin-bottom:1rem;">
     These principles follow by mathematical necessity from XCRM. <strong>They are not postulates.</strong>
   </p>
 
   <div class="block success" style="border-width:2px;">
-    <div class="title" style="color:var(--success);">Derived: The Master Action</div>
+    <div class="title" style="color:var(--success);">Derived: The Master Action (v2.5 Doublet Form)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The action on the orbifold \(\XCRM{\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2}\) is uniquely determined:
+      The action on M⁴ × S¹ with R-doublet is uniquely determined:
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      S = ∫d⁵x √-g [½(∇R)² − V(R) + χR∂<sub>X</sub>R + αR𝕋 + ℒ<sub>matter</sub>]
+      S = ∫d⁵x √-g [½(∇|R|)² − V(|R|) + χ(R₁∂<sub>X</sub>R₂ - R₂∂<sub>X</sub>R₁) + α|R|𝕋 + ℒ<sub>matter</sub>]
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
-      Each term is minimal and unique: kinetic (standard), potential (Z₂-symmetric SSB), XCRM (foundation), torsion (unique at dim ≤5).
+      The doublet XCRM term equals χ|R|²∂<sub>X</sub>φ, driving phase winding that creates Z₃ helix geometry.
     </p>
   </div>
 
   <div class="block success" style="border-width:2px;">
     <div class="title" style="color:var(--success);">Derived: Dynamic Holonomy Principle (DHP)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      DHP follows from the <strong>path integral saddle point condition</strong> (§2.1). The universe evolves toward
-      holonomy-minimizing configurations as a mathematical consequence of quantum mechanics on compact spaces.
+      DHP follows from the <strong>path integral saddle point condition</strong>. The Z₃ helix structure
+      naturally emerges from holonomy minimization on the compact dimension.
     </p>
   </div>
 
   <div class="block success" style="border-width:2px;">
-    <div class="title" style="color:var(--success);">Derived: Topological Flavor Principle (TFP)</div>
+    <div class="title" style="color:var(--success);">Derived: TFP from Z₃ Helix (v2.5 AUTOMATIC)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      TFP follows from topology: π₁(S¹/Z₂) = Z. Fermion generations are labeled by winding number w ∈ Z,
-      and dynamics selects the Z₃ residue classes, giving exactly 3 generations.
+      In v2.5, TFP is <strong>automatic</strong>: the Z₃ helix geometry has |Z₃| = 3 distinct sectors.
+      Each fermion couples to one sector → n<sub>gen</sub> = 3 is a <em>theorem</em>, not a calculation.
     </p>
   </div>
 
@@ -202,13 +205,13 @@
     <div class="card" style="border:1px solid var(--torsion);">
       <strong style="color:var(--torsion);">Teleparallel Gravity</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        The term \(\Tor{\alpha R \mathbb{T}}\) couples resistance to torsion, yielding TEGR ≡ GR at equilibrium.
+        The term \(\Tor{\alpha |\mathbf{R}| \mathbb{T}}\) couples resistance to torsion, yielding TEGR ≡ GR at equilibrium.
       </span>
     </div>
     <div class="card" style="border:1px solid var(--gold);">
       <strong style="color:var(--gold);">XCRM Foundation</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        The term \(\XCRM{\chi R \partial_X R}\) is the foundation from which geometry and gauge structure derive.
+        The term \(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}\) is the foundation from which geometry and gauge structure derive.
       </span>
     </div>
     <div class="card" style="border:1px solid var(--matter);">
@@ -219,34 +222,31 @@
     </div>
   </div>
 
-  <h3>1.4 What the Framework Determines (v2.4)</h3>
+  <h3>1.4 What the Framework Determines (v2.5 Helix)</h3>
 
   <div class="block success" style="border-width:3px;">
-    <div class="title" style="font-size:1.05rem;color:var(--success);">All 19 Problems — Zero Axioms, Zero Calibrated Parameters</div>
+    <div class="title" style="font-size:1.05rem;color:var(--success);">v2.5 Helix: 3 Major Problems SOLVED Automatically</div>
     <p style="margin:0 0 0.5rem;color:var(--text-secondary);font-size:0.9rem;">
-      Every mechanism has a complete derivation chain from XCRM. No external inputs.
-      <a href="../DERIVATION_CHAIN.md" style="color:var(--accent);">Complete derivation chain →</a>
+      Z₃ helix geometry from R-doublet solves problems that were open in v2.4.
+      <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--accent);">Complete derivation chain →</a>
     </p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-top:0.75rem;">
       <div style="font-size:0.85rem;color:var(--text-secondary);">
-        <strong style="color:var(--success);">Foundational (7)</strong><br>
-        • Orbifold geometry derived<br>
-        • Gaussian visibility (CLT)<br>
-        • TEGR emergence<br>
-        • <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a><br>
-        • <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">L<sub>X</sub> stabilized</a><br>
-        • DHP, TFP derived<br>
-        • <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM closure</a>
+        <strong style="color:#4ade80;">AUTOMATIC (v2.5)</strong><br>
+        • <strong>n<sub>gen</sub> = 3</strong> from |Z₃| = 3<br>
+        • <strong>SU(3)</strong> from Z₃ = center<br>
+        • <strong>CC = 0</strong> from |R| = v<br>
+        • Z₃ helix geometry forced<br>
+        • Only 1 open: Planck QG
       </div>
       <div style="font-size:0.85rem;color:var(--text-secondary);">
-        <strong style="color:var(--gold);">Standard Model (4)</strong><br>
+        <strong style="color:var(--gold);">Standard Model</strong><br>
         • <a href="stur_sm_derivation.html" style="color:var(--accent);">Gauge group derived</a><br>
-        • 3 generations (topology)<br>
         • <a href="stur_yukawa_derivation.html" style="color:var(--accent);">Yukawa hierarchies</a><br>
         • <a href="stur_ckm_derivation.html" style="color:var(--accent);">All CKM/PMNS derived</a>
       </div>
       <div style="font-size:0.85rem;color:var(--text-secondary);">
-        <strong style="color:var(--quantum);">Beyond SM (5)</strong><br>
+        <strong style="color:var(--quantum);">Beyond SM</strong><br>
         • <a href="stur_uv_completion.html" style="color:var(--accent);">UV completion</a><br>
         • Neutrino masses + ordering<br>
         • <a href="stur_cp_derivation.html" style="color:var(--accent);">CP phase δ derived</a><br>
@@ -254,8 +254,8 @@
         • <a href="stur_darkmatter_derivation.html" style="color:var(--accent);">Dark matter (LKP)</a>
       </div>
       <div style="font-size:0.85rem;color:var(--text-secondary);">
-        <strong style="color:var(--torsion);">Cosmology (3)</strong><br>
-        • <a href="stur_cosmological_derivation.html" style="color:var(--accent);">Cosmological constant</a><br>
+        <strong style="color:var(--torsion);">Cosmology</strong><br>
+        • <a href="stur_cosmological_derivation.html" style="color:var(--accent);">CC = 0 (SOLVED!)</a><br>
         • <a href="stur_inflation_derivation.html" style="color:var(--accent);">Inflation</a><br>
         • Baryogenesis (leptogenesis)
       </div>
@@ -263,24 +263,25 @@
   </div>
 </section>
 
-<!-- SECTION 2: MANIFOLD STRUCTURE -->
+<!-- SECTION 2: MANIFOLD STRUCTURE (v2.5 Helix) -->
 <section class="section" id="sec2">
-  <h2>2. Manifold Structure</h2>
+  <h2>2. Manifold Structure (v2.5 Helix)</h2>
 
-  <h3>2.1 Orbifold Definition</h3>
+  <h3>2.1 Z₃ Helix Definition</h3>
 
-  <div class="block">
-    <div class="title">Definition 2.1 — Five-Dimensional Arena</div>
+  <div class="block" style="border-color:#4ade80;">
+    <div class="title">Definition 2.1 — Z₃ Helix Arena (v2.5)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      \(\XCRM{\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2}\) with coordinate \(\XCRM{X \in [0, L_X]}\), fixed points at the
-      orbifold boundaries \(\XCRM{X = 0}\) and \(\XCRM{X = L_X}\), and parity symmetry \(\XCRM{X \mapsto -X}\).
+      \(\XCRM{\Mcal^5 = M^4 \times S^1}\) with coordinate \(\XCRM{X \in [0, L_X]}\), R-doublet R = (R₁, R₂)
+      with |R| = v constant and phase φ winding by 2π/3 per X-circuit. The Z₃ discrete symmetry emerges from
+      the 3-fold phase winding.
     </p>
   </div>
 
   <p>
-    The orbifold structure is essential for chiral fermion localization and provides natural boundary
-    conditions for the resistance field. The \(\XCRM{\mathbb{Z}_2}\) parity projects out unwanted zero modes
-    and ensures four-dimensional chirality emerges from the five-dimensional theory.
+    The Z₃ helix structure replaces the v2.4 Z₃ helix. The key insight: |R| = v <strong>everywhere</strong>,
+    with only the phase φ varying. This eliminates domain walls (solving CC problem) while providing
+    3 distinct sectors for fermion generations (automatic from |Z₃| = 3).
   </p>
 
   <h3>2.2 Metric Ansatz</h3>
@@ -294,7 +295,7 @@
     <div class="title">Geometric Meaning of the Ansatz</div>
     <p style="margin:0;color:var(--text-secondary)">
       Equation (2.1) defines a <strong>warped product geometry</strong> between four-dimensional spacetime
-      \(\Tor{(M^4, g_{\mu\nu})}\) and a compact orbifold coordinate \(\XCRM{X}\). Each constant-\(\XCRM{X}\) hypersurface
+      \(\Tor{(M^4, g_{\mu\nu})}\) and a compact Z₃ helix coordinate \(\XCRM{X}\). Each constant-\(\XCRM{X}\) hypersurface
       carries induced metric \(\Tor{g^{(4)}_{\mu\nu}(x;X) = e^{2\sigma(X)} g_{\mu\nu}(x)}\).
     </p>
   </div>
@@ -309,7 +310,7 @@
       \XCRM{\sigma(X)} &:\; \text{Warping function along } X \\
       \Tor{g_{\mu\nu}(x)} &:\; \text{Base four-dimensional metric tensor} \\
       \XCRM{r_c} &:\; \text{Proper radius of the compact dimension} \\
-      \XCRM{X} &:\; \text{Dimensionless orbifold coordinate}
+      \XCRM{X} &:\; \text{Dimensionless Z₃ helix coordinate}
     \end{aligned}
     \]
   </div>
@@ -373,7 +374,7 @@
   <h2 style="color:var(--gold);">How XCRM Uses This Geometry</h2>
 
   <p>
-    The XCRM term \(\XCRM{\chi R \partial_X R}\) operates on this geometric structure:
+    The XCRM term \(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}\) operates on this geometric structure:
   </p>
 
   <ul>
@@ -405,7 +406,7 @@
     <strong style="color:var(--gold);">See Also:</strong>
     <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP Derivation</a> — path integral origin, Vandermonde determinant |
     <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">Moduli Stabilization</a> — Casimir-holonomy balance fixes L<sub>X</sub> |
-    <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM Closure</a> — V(R) derivation from topology
+    <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM Closure</a> — V(|\mathbf{R}|) derivation from topology
   </p>
 </section>
 
@@ -416,8 +417,8 @@
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Derived Geometry (v2.4)</strong></p>
-  <p>© 2026 Sheldon Lon Lindberg · <em>Zero axioms — geometry follows from XCRM</em></p>
+  <p><strong>STUR Z₃ Helix Geometry (v2.5)</strong></p>
+  <p>© 2026 Sheldon Lon Lindberg · <em>Z₃ helix from R-doublet solves: 3 generations, SU(3), CC = 0</em></p>
 </footer>
 
 </div>

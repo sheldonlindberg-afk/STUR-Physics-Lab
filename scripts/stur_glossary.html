@@ -55,7 +55,7 @@
     <strong style="color:var(--gold);">Jump to:</strong>
     <a href="#core-concepts" style="color:var(--accent);margin:0 0.5rem;">Core Concepts</a> |
     <a href="#parameters" style="color:var(--accent);margin:0 0.5rem;">Parameters</a> |
-    <a href="#axioms" style="color:var(--accent);margin:0 0.5rem;">Axioms</a> |
+    <a href="#derivation-chain" style="color:var(--accent);margin:0 0.5rem;">Derivation Chain</a> |
     <a href="#mathematical" style="color:var(--accent);margin:0 0.5rem;">Mathematical Objects</a> |
     <a href="#experimental" style="color:var(--accent);margin:0 0.5rem;">Experimental Terms</a>
   </p>
@@ -66,11 +66,11 @@
   <h2 style="color:var(--gold);">Core Concepts</h2>
 
   <div class="block gold" style="margin-bottom:1.5rem;">
-    <div class="title">STUR — Sheldon's Theory of Unified Resistance</div>
+    <div class="title">STUR — Sheldon's Theory of Unified Resistance (v2.5 Helix)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      A unified physics framework proposing that fundamental physics emerges from a single resistance field
-      \(\XCRM{R(x^\mu, X)}\) defined on a 5D orbifold manifold \(M_4 \times S^1/\mathbb{Z}_2\).
-      The theory derives gravity (via TEGR), gauge forces, matter, and cosmology from three axioms (Master Action + DHP; MHP is <a href="stur_mhp_derivation.html" style="color:var(--accent);">derived from path integral</a>).
+      A unified physics framework proposing that fundamental physics emerges from the R-field doublet
+      <strong>R</strong> = (R₁, R₂) = |<strong>R</strong>|e<sup>iφ</sup> defined on a 5D Z₃ helix manifold M⁴ × S¹.
+      The theory derives gravity (via TEGR), gauge forces, matter, and cosmology from XCRM doublet foundation (χ|<strong>R</strong>|²∂ₓφ → Master Action → DHP → MHP; <a href="stur_mhp_derivation.html" style="color:var(--accent);">all derived from path integral</a>).
     </p>
     <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.9rem;">
       <strong>See:</strong> <a href="stur_core_theory.html" style="color:var(--accent);">Core Theory</a>
@@ -81,7 +81,7 @@
     <div class="title" style="color:var(--gold);">XCRM — X-Coupled Resistance Manifold</div>
     <p style="margin:0;color:var(--text-secondary);">
       The central mechanism of STUR. The resistance field \(\XCRM{R}\) couples to an internal coordinate
-      \(\XCRM{X}\) via the term \(\XCRM{\chi R \partial_X R}\) in the master action. This coupling:
+      \(\XCRM{X}\) via the term \(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}\) in the master action. This coupling:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
       <li>Generates the resistance holonomy observable</li>
@@ -110,9 +110,9 @@
 
   <!-- ORBIFOLD VISUAL EXPLANATION -->
   <div class="block" style="margin-bottom:1.5rem;border-left-color:var(--accent-secondary);border-width:3px;">
-    <div class="title" style="color:var(--accent-secondary);font-size:1.1rem;">Orbifold S¹/Z₂ — The Shape of the Extra Dimension</div>
+    <div class="title" style="color:var(--accent-secondary);font-size:1.1rem;">Orbifold Z₃ helix — The Shape of the Extra Dimension</div>
     <p style="margin:0;color:var(--text-secondary);">
-      An <strong>orbifold</strong> is a geometric space with special "folding" symmetry. STUR uses the simplest orbifold: a circle folded in half.
+      An <strong>Z₃ helix</strong> is a geometric space with special "folding" symmetry. STUR uses the simplest Z₃ helix: a circle folded in half.
     </p>
 
     <!-- Visual Diagram -->
@@ -157,7 +157,7 @@
           <circle cx="50" cy="85" r="6" fill="#fbbf24" stroke="#fbbf24" stroke-width="2"/>
           <text x="65" y="18" fill="#fbbf24" font-size="10">X = 0</text>
           <text x="65" y="88" fill="#fbbf24" font-size="10">X = L_X</text>
-          <text x="50" y="55" text-anchor="middle" fill="#94a3b8" font-size="10">S¹/Z₂</text>
+          <text x="50" y="55" text-anchor="middle" fill="#94a3b8" font-size="10">Z₃ helix</text>
         </svg>
         <div style="font-size:0.7rem;color:var(--text-quaternary);">Orbifold with boundaries</div>
       </div>
@@ -166,7 +166,7 @@
     <div style="background:rgba(167,139,250,0.08);padding:12px 16px;border-radius:8px;margin-top:0.75rem;">
       <strong style="color:var(--accent-secondary);font-size:0.85rem;">Plain English:</strong>
       <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);line-height:1.6;">
-        An orbifold is like a circle that's been <strong>folded in half</strong>, creating a line segment with two special <strong>boundary points</strong>
+        An Z₃ helix is like a circle that's been <strong>folded in half</strong>, creating a line segment with two special <strong>boundary points</strong>
         (shown in gold). These boundaries are called "fixed points" because they don't move when you fold. The "Z₂" means the fold identifies
         opposite points: if you walk one way around the original circle, you end up at the same spot as walking the other way.
       </p>
@@ -175,7 +175,7 @@
     <div style="background:rgba(74,222,128,0.08);padding:12px 16px;border-radius:8px;margin-top:0.75rem;">
       <strong style="color:#4ade80;font-size:0.85rem;">Why This Matters for Physics:</strong>
       <ul style="margin:6px 0 0;font-size:0.85rem;color:var(--text-tertiary);line-height:1.7;">
-        <li>The boundary conditions at X = 0 and X = L_X <strong>force</strong> the potential V(R) to have a specific double-well shape</li>
+        <li>The boundary conditions at X = 0 and X = L_X <strong>force</strong> the potential V(|\mathbf{R}|) to have a specific double-well shape</li>
         <li>Matter (fermions) gets <strong>trapped</strong> at the boundaries—this is where we live in 4D</li>
         <li>The <strong>winding number</strong> around this shape determines how many particle generations exist (answer: 3)</li>
       </ul>
@@ -190,12 +190,12 @@
     <div class="title" style="color:var(--accent);">R-field — Resistance Field</div>
     <p style="margin:0;color:var(--text-secondary);">
       The fundamental dynamical variable in STUR. A real scalar field \(\XCRM{R(x^\mu, X)}\) defined on
-      the 5D orbifold, representing "resistance to change" in the fabric of spacetime. The R-field:
+      the 5D Z₃ helix, representing "resistance to change" in the fabric of spacetime. The R-field:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
       <li>Has background value \(\Diff{R_{\rm bg}}\) at equilibrium</li>
       <li>Fluctuates with RMS amplitude \(\Diff{\sigma_R}\)</li>
-      <li>Couples to torsion via \(\Tor{\alpha R \mathbb{T}}\)</li>
+      <li>Couples to torsion via \(\Tor{\alpha |\mathbf{R}| \mathbb{T}}\)</li>
       <li>Obeys Z₂ parity: R is Z₂-odd</li>
     </ul>
   </div>
@@ -232,25 +232,25 @@
       <tr>
         <td style="color:var(--gold);font-weight:600;">\(\XCRM{L_X}\)</td>
         <td>Compactification Scale</td>
-        <td>Proper size of the internal dimension (orbifold interval length)</td>
+        <td>Proper size of the internal dimension (Z₃ helix interval length)</td>
         <td style="color:var(--warning);">Free (must be measured)</td>
       </tr>
       <tr>
         <td style="color:var(--potential);font-weight:600;">\(\Pot{\lambda}\)</td>
         <td>Self-Coupling</td>
-        <td>Quartic coefficient in V(R); related to L_X by \(\lambda = c_\lambda/L_X\)</td>
+        <td>Quartic coefficient in V(|\mathbf{R}|); related to L_X by \(\lambda = c_\lambda/L_X\)</td>
         <td style="color:var(--warning);">Derived from L_X</td>
       </tr>
       <tr>
         <td style="color:var(--gold);font-weight:600;">\(\XCRM{\chi}\)</td>
         <td>XCRM Coupling</td>
-        <td>Coefficient of \(\chi R \partial_X R\); dimension \(M^2\)</td>
+        <td>Coefficient of \(\chi |\mathbf{R}|^2 \partial_X \phi\); dimension \(M^2\)</td>
         <td style="color:var(--success);">Derived: \(\chi = c_\chi/L_X^2\)</td>
       </tr>
       <tr>
         <td style="color:var(--torsion);font-weight:600;">\(\Tor{\alpha}\)</td>
         <td>Torsion Coupling</td>
-        <td>Coefficient of \(\alpha R \mathbb{T}\); determines G</td>
+        <td>Coefficient of \(\alpha |\mathbf{R}| \mathbb{T}\); determines G</td>
         <td style="color:var(--success);">Derived: \(\alpha = 1/(16\pi G R_{\rm bg})\)</td>
       </tr>
       <tr>
@@ -263,7 +263,7 @@
         <td style="color:var(--diffusion);font-weight:600;">\(\Diff{R_{\rm bg}}\)</td>
         <td>Background Resistance</td>
         <td>Equilibrium value of R; equals vacuum expectation value v</td>
-        <td style="color:var(--success);">Derived from V(R) minimum</td>
+        <td style="color:var(--success);">Derived from V(|\mathbf{R}|) minimum</td>
       </tr>
       <tr>
         <td style="color:var(--matter);font-weight:600;">\(\Matt{\ell_{\rm coh}}\)</td>
@@ -289,20 +289,20 @@
   </div>
 </section>
 
-<!-- AXIOMS -->
-<section class="section" id="axioms" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
-  <h2 style="color:var(--success);">The Three Axioms</h2>
+<!-- DERIVATION CHAIN -->
+<section class="section" id="derivation-chain" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
+  <h2 style="color:var(--success);">The Derivation Chain</h2>
 
   <div class="block gold" style="margin-bottom:1.5rem;border-width:2px;">
-    <div class="title">Axiom 1 — Master Action</div>
+    <div class="title">Derived: Master Action (from XCRM)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      All dynamics derive from a single action functional on the 5D orbifold:
+      All dynamics derive from a single action functional on the 5D Z₃ helix:
     </p>
     <div class="eq law" style="margin:0.75rem 0;">
-      \[S[R,g,X] = \int d^4x\, dX\, \sqrt{-g}\, \bigl[\Diff{\tfrac{1}{2}(\nabla R)^2} - \Pot{V(R)} + \XCRM{\chi R\partial_X R} + \Tor{\alpha R\mathbb{T}} + \Matt{\mathcal{L}_{\rm matter}}\bigr]\]
+      \[S[\mathbf{R},g,X] = \int d^4x\, dX\, \sqrt{-g}\, \bigl[\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2} - \Pot{V(|\mathbf{R}|)} + \XCRM{\chi |\mathbf{R}|^2\partial_X \phi} + \Tor{\alpha |\mathbf{R}|\mathbb{T}} + \Matt{\mathcal{L}_{\rm matter}}\bigr]\]
     </div>
     <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">
-      This axiom defines the dynamical content. All other STUR results follow from varying this action.
+      This Master Action defines the dynamical content. All other STUR results follow from varying this action.
     </p>
   </div>
 
@@ -323,7 +323,7 @@
   </div>
 
   <div class="block" style="border-left-color:var(--accent-secondary);">
-    <div class="title" style="color:var(--accent-secondary);">Axiom 2 — DHP (Dynamical Holonomy Principle)</div>
+    <div class="title" style="color:var(--accent-secondary);">Derived: DHP (Dynamical Holonomy Principle)</div>
     <p style="margin:0;color:var(--text-secondary);">
       Time evolution is governed by the requirement that holonomy remains finite for all times:
     </p>
@@ -357,17 +357,17 @@
       </p>
     </div>
     <div class="card" style="border:1px solid var(--potential);">
-      <strong style="color:var(--potential);">Potential V(R)</strong>
+      <strong style="color:var(--potential);">Potential V(|R|) (v2.5)</strong>
       <p style="font-size:0.88rem;color:var(--text-secondary);margin:0.5rem 0 0;">
-        Derived from orbifold topology: \(\Pot{V(R)} = \frac{\lambda}{4}(R^2 - v^2)^2\).
-        Mexican hat form with degenerate minima at \(\pm v\).
+        Derived from Z₃ helix topology: \(\Pot{V(|\mathbf{R}|)} = \frac{\lambda}{4}(|\mathbf{R}|^2 - v^2)^2\).
+        Depends only on doublet magnitude |<strong>R</strong>|, with minimum at |<strong>R</strong>| = v.
       </p>
     </div>
     <div class="card" style="border:1px solid var(--gold);">
-      <strong style="color:var(--gold);">Orbifold \(S^1/\mathbb{Z}_2\)</strong>
+      <strong style="color:var(--gold);">Z₃ Helix (v2.5)</strong>
       <p style="font-size:0.88rem;color:var(--text-secondary);margin:0.5rem 0 0;">
-        The internal manifold: a circle with Z₂ identification. Has two fixed points at X=0 and X=L_X.
-        The R-field is Z₂-odd, giving boundary conditions R(0) = R(L_X) = 0.
+        The internal manifold: M⁴ × S¹ with R-doublet winding 120° per circuit (Z₃ = center(SU(3))).
+        Gives n_gen = |Z₃| = 3 automatically and SU(3) color from geometry.
       </p>
     </div>
     <div class="card" style="border:1px solid var(--quantum);">

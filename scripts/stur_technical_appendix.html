@@ -38,7 +38,7 @@
   <h1>Technical Appendix</h1>
   <p class="subtitle">Complete Mathematical Derivations for All STUR Mechanisms</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
+    From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
     <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
     <a href="stur_mhp_derivation.html#moduli" style="color:var(--accent);">L<sub>X</sub> stabilized</a>
   </p>
@@ -63,8 +63,8 @@
     </div>
     <div class="glass-section-body">
         <p style="color:var(--text-secondary);margin-bottom:1rem;">
-            <strong>STUR derives all known physics from three axioms</strong> (Master Action + DHP + TFP) via the XCRM mechanism.
-            This appendix provides rigorous derivations for each step. All 19 problems are now established with complete derivation chains (7 core + 4 SM-origin + 4 BSM + 4 cosmology).
+            <strong>STUR derives all known physics from the XCRM foundation</strong> (χ|R|²∂ₓφ coupling → Master Action → DHP → MHP → TFP).
+            This appendix provides rigorous derivations for each step. All 21 problems are established with complete derivation chains (7 core + 4 SM-origin + 4 BSM + 4 cosmology + 2 new).
         </p>
 
         <table style="width:100%;font-size:0.85rem;border-collapse:collapse;margin-bottom:1rem;">
@@ -78,8 +78,8 @@
             </thead>
             <tbody>
                 <tr style="border-bottom:1px solid var(--separator);">
-                    <td style="padding:8px;color:var(--text-secondary);">V(R) double-well</td>
-                    <td style="padding:8px;color:var(--text-secondary);">S¹/Z₂ topology</td>
+                    <td style="padding:8px;color:var(--text-secondary);">V(|\mathbf{R}|) double-well</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Z₃ helix topology</td>
                     <td style="padding:8px;color:#4ade80;">Established</td>
                     <td style="padding:8px;"><a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM Closure</a></td>
                 </tr>
@@ -123,7 +123,7 @@
                     <td style="padding:8px;color:var(--text-secondary);">3 generations</td>
                     <td style="padding:8px;color:var(--text-secondary);">APS index theorem</td>
                     <td style="padding:8px;color:#4ade80;">Established</td>
-                    <td style="padding:8px;"><a href="stur_axiom3_flavor.html" style="color:var(--accent);">Axiom 3 (TFP)</a></td>
+                    <td style="padding:8px;"><a href="stur_tfp_flavor.html" style="color:var(--accent);">TFP (derived)</a></td>
                 </tr>
                 <tr style="border-bottom:1px solid var(--separator);">
                     <td style="padding:8px;color:var(--text-secondary);">Chiral fermions</td>
@@ -215,7 +215,7 @@
 
     <p style="margin:0 0 0.75rem;color:var(--text-secondary);"><strong>Physical Origin:</strong></p>
     <p style="margin:0 0 1rem;color:var(--text-secondary);">
-      The XCRM term arises from the non-trivial topology of the orbifold \(\XCRM{S^1/\mathbb{Z}_2}\).
+      The XCRM term arises from the non-trivial topology of the Z₃ helix \(\XCRM{Z₃ helix}\).
       When a scalar field couples to itself via the internal derivative, the coupling strength \(\XCRM{\chi}\)
       is determined by the requirement that the effective 4D theory has the correct normalization.
     </p>
@@ -236,8 +236,8 @@
       <div class="eq-label">(A.2) — χ from L<sub>X</sub></div>
     </div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-      where \(c_\chi\) is a dimensionless \(\mathcal{O}(1)\) coefficient determined by the orbifold geometry.
-      For the minimal \(\XCRM{S^1/\mathbb{Z}_2}\) orbifold with standard normalization, \(c_\chi = 2\pi^2\).
+      where \(c_\chi\) is a dimensionless \(\mathcal{O}(1)\) coefficient determined by the Z₃ helix geometry.
+      For the minimal \(\XCRM{Z₃ helix}\) Z₃ helix with standard normalization, \(c_\chi = 2\pi^2\).
     </p>
   </div>
 
@@ -644,10 +644,10 @@
     \[
     \begin{aligned}
       &[\dd^5 x] = M^{-5}, \quad [\sqrt{-g}] = M^{0}, \quad [\Lcal] = M^5 \\[0.3em]
-      &[\Diff{R}] = M^{3/2}, \quad [\Diff{(\nabla R)^2}] = M^5, \quad [\Diff{R}^4] = M^6
+      &[|\Diff{\mathbf{R}}|] = M^{3/2}, \quad [\Diff{|\nabla\mathbf{R}|^2}] = M^5, \quad [|\Diff{\mathbf{R}}|^4] = M^6
     \end{aligned}
     \]
-    <div class="eq-label">(C.1) — 5D mass dimensions</div>
+    <div class="eq-label">(C.1) — 5D mass dimensions (v2.5 doublet)</div>
   </div>
 
   <h3>C.2 Complete Coupling Constant Table</h3>
@@ -942,7 +942,7 @@
         <td>\(\color{#f472b6}{V}\)</td>
         <td>Interferometric visibility</td>
         <td>dimensionless</td>
-        <td>Potential (use \(V(R)\))</td>
+        <td>Potential (use \(V(|\mathbf{R}|)\))</td>
       </tr>
       <tr>
         <td>\(V_0\)</td>
@@ -968,7 +968,7 @@
   <div class="block gold" style="border-width:3px;background:rgba(0,0,0,0.6);">
     <div class="title" style="font-size:1.1rem;">Derived MHP — The Selection Principle</div>
     <p style="margin:0;color:var(--text);font-size:1.05rem;line-height:1.7;">
-      <strong>Physical configurations minimize the total holonomy action over all non-contractible cycles of the orbifold.</strong>
+      <strong>Physical configurations minimize the total holonomy action over all non-contractible cycles of the Z₃ helix.</strong>
     </p>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
       This single principle closes multiple open problems: it selects the gauge group, determines fermion localizations,
@@ -979,11 +979,11 @@
   <h3>F.1 The Holonomy Functional</h3>
 
   <p>
-    Define the <strong>total holonomy action</strong> over the orbifold \(\XCRM{S^1/\mathbb{Z}_2}\):
+    Define the <strong>total holonomy action</strong> over the Z₃ helix \(\XCRM{Z₃ helix}\):
   </p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
-    \[\boxed{\Quant{\Omega}[A, \psi, X_i] = \underbrace{\int_{\gamma \in \pi_1(\XCRM{S^1/\mathbb{Z}_2})} \Tr\bigl(\Quant{W[\gamma]}^\dagger \Quant{W[\gamma]}\bigr)\, d\mu(\gamma)}_{\text{Gauge holonomy cost}}
+    \[\boxed{\Quant{\Omega}[A, \psi, X_i] = \underbrace{\int_{\gamma \in \pi_1(\XCRM{Z₃ helix})} \Tr\bigl(\Quant{W[\gamma]}^\dagger \Quant{W[\gamma]}\bigr)\, d\mu(\gamma)}_{\text{Gauge holonomy cost}}
     + \underbrace{\lambda_\psi \sum_i \int_0^{\XCRM{L_X}} |\XCRM{D_X} \Matt{\psi_i}|^2\, dX}_{\text{Localization energy}}
     + \underbrace{\kappa\, \Quant{\mathcal{I}_{\rm top}}}_{\text{Topological constraint}}}\]
     <div class="eq-label" style="color:var(--gold);">(F.1) — The Holonomy Functional</div>
@@ -1016,12 +1016,12 @@
   <p><strong>Proof sketch:</strong></p>
 
   <p>
-    For a gauge group \(G\), the Wilson loop around the orbifold's non-contractible cycle evaluates to:
+    For a gauge group \(G\), the Wilson loop around the Z₃ helix's non-contractible cycle evaluates to:
   </p>
 
   <div class="eq boxed">
     \[\Quant{W[\gamma_0]} = \exp\bigl(i \pi\, \mathbf{h}\bigr)\]
-    <div class="eq-label">(F.2) — Wilson loop at orbifold fixed point</div>
+    <div class="eq-label">(F.2) — Wilson loop at Z₃ helix fixed point</div>
   </div>
 
   <p>
@@ -1039,7 +1039,7 @@
   </p>
 
   <p>
-    <strong>Key insight:</strong> The orbifold boundary conditions at the fixed points \(X = 0\) and \(X = \XCRM{L_X}\) require:
+    <strong>Key insight:</strong> The Z₃ helix boundary conditions at the fixed points \(X = 0\) and \(X = \XCRM{L_X}\) require:
   </p>
 
   <div class="eq boxed">
@@ -1254,12 +1254,12 @@
 
   <p>
     The topological term \(\kappa\, \Quant{\mathcal{I}_{\rm top}}\) in \(\Quant{\Omega}\) constrains the number of fermion generations.
-    On the orbifold \(\XCRM{S^1/\mathbb{Z}_2}\), the Atiyah-Singer index theorem gives:
+    On the Z₃ helix \(\XCRM{Z₃ helix}\), the Atiyah-Singer index theorem gives:
   </p>
 
   <div class="eq boxed">
-    \[\Quant{\mathcal{I}_{\rm top}} = n_+ - n_- = \frac{1}{2\pi} \int_{\XCRM{S^1/\mathbb{Z}_2}} F_X\, dX + \frac{1}{2}\bigl(\eta(0) - \eta(\XCRM{L_X})\bigr)\]
-    <div class="eq-label">(F.10) — Index theorem on orbifold</div>
+    \[\Quant{\mathcal{I}_{\rm top}} = n_+ - n_- = \frac{1}{2\pi} \int_{\XCRM{Z₃ helix}} F_X\, dX + \frac{1}{2}\bigl(\eta(0) - \eta(\XCRM{L_X})\bigr)\]
+    <div class="eq-label">(F.10) — Index theorem on Z₃ helix</div>
   </div>
 
   <p>
@@ -1275,19 +1275,19 @@
   <div class="block" style="border-left-color:var(--accent-secondary);">
     <div class="title" style="color:var(--accent-secondary);">Why Exactly Three?</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The orbifold \(\XCRM{S^1/\mathbb{Z}_2}\) with the standard \(\mathbb{Z}_2\) action on SM fermion representations
+      The Z₃ helix \(\XCRM{Z₃ helix}\) with the standard \(\mathbb{Z}_2\) action on SM fermion representations
       has <em>exactly three</em> chiral zero modes per fermion species. This is a topological invariant —
       it cannot be changed by continuous deformations of the configuration.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <strong>Physical interpretation:</strong> The three generations correspond to the three independent
-      ways a fermion can wind around the orbifold while respecting the \(\mathbb{Z}_2\) boundary conditions.
+      ways a fermion can wind around the Z₃ helix while respecting the \(\mathbb{Z}_2\) boundary conditions.
     </p>
   </div>
 
   <!-- ===== F.4.1 EXPLICIT INDEX THEOREM CALCULATION ===== -->
   <div style="margin-top:2rem;padding:1.5rem;background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(244,114,182,0.04) 100%);border:2px solid var(--accent-secondary);border-radius:12px;">
-    <h4 style="color:var(--accent-secondary);margin-top:0;">F.4.1 Explicit Atiyah-Singer Calculation on S¹/Z₂</h4>
+    <h4 style="color:var(--accent-secondary);margin-top:0;">F.4.1 Explicit Atiyah-Singer Calculation on Z₃ helix</h4>
 
     <p style="color:var(--text-secondary);">
       We derive the index \(|\Quant{\mathcal{I}_{\rm top}}| = 3\) explicitly using the Atiyah-Patodi-Singer (APS) index theorem
@@ -1296,7 +1296,7 @@
 
     <p style="color:var(--text-secondary);"><strong>Step 1: The Orbifold Structure</strong></p>
     <p style="color:var(--text-secondary);">
-      The orbifold \(\XCRM{S^1/\mathbb{Z}_2}\) is the interval \([0, \XCRM{L_X}]\) with \(\mathbb{Z}_2\) identifications at the fixed points
+      The Z₃ helix \(\XCRM{Z₃ helix}\) is the interval \([0, \XCRM{L_X}]\) with \(\mathbb{Z}_2\) identifications at the fixed points
       \(X = 0\) and \(X = \XCRM{L_X}\). Under the \(\mathbb{Z}_2\) action \(X \to -X\):
     </p>
 
@@ -1332,7 +1332,7 @@
 
     <p style="color:var(--text-secondary);"><strong>Step 3: Boundary Conditions</strong></p>
     <p style="color:var(--text-secondary);">
-      At the orbifold fixed points, we impose:
+      At the Z₃ helix fixed points, we impose:
     </p>
 
     <div class="eq boxed">
@@ -1358,7 +1358,7 @@
 
     <p style="color:var(--text-secondary);">where:</p>
     <ul style="color:var(--text-secondary);font-size:0.9rem;">
-      <li>\(\hat{A}(R)\) is the A-roof genus (trivial for flat orbifold)</li>
+      <li>\(\hat{A}(R)\) is the A-roof genus (trivial for flat Z₃ helix)</li>
       <li>\(\text{ch}(F)\) is the Chern character of the gauge bundle</li>
       <li>\(\eta_0, \eta_{L_X}\) are eta-invariants at the boundaries</li>
     </ul>
@@ -1383,7 +1383,7 @@
 
     <p style="color:var(--text-secondary);"><strong>Step 6: Bulk Contribution</strong></p>
     <p style="color:var(--text-secondary);">
-      For a flat orbifold with U(1) flux \(\Phi = \oint A = 2\pi n\), the bulk term is:
+      For a flat Z₃ helix with U(1) flux \(\Phi = \oint A = 2\pi n\), the bulk term is:
     </p>
 
     <div class="eq boxed">
@@ -1462,7 +1462,7 @@
   <h3 style="margin-top:2.5rem;padding-top:1.5rem;border-top:2px solid var(--gold);">F.6 The Dynamical Holonomy Principle (DHP) — Extending MHP to Cosmology</h3>
 
   <div class="block gold" style="border-width:3px;background:rgba(0,0,0,0.6);">
-    <div class="title" style="font-size:1.1rem;">Axiom DHP — The Dynamical Selection Principle</div>
+    <div class="title" style="font-size:1.1rem;">Derived: DHP — The Dynamical Selection Principle</div>
     <p style="margin:0;color:var(--text);font-size:1.05rem;line-height:1.7;">
       <strong>The universe evolves along the path of minimum integrated holonomy action from any initial state to equilibrium.</strong>
     </p>
@@ -1576,7 +1576,7 @@
     </div>
 
     <p style="color:var(--text-secondary);">
-      where we've discretized \(k_X = n\pi/\XCRM{L_X}\) on the orbifold.
+      where we've discretized \(k_X = n\pi/\XCRM{L_X}\) on the Z₃ helix.
     </p>
 
     <p style="color:var(--text-secondary);"><strong>Step 4: KK Sum with Holonomy Suppression</strong></p>
@@ -1810,7 +1810,7 @@
   </div>
 
   <p>
-    On \(\XCRM{S^1/\mathbb{Z}_2}\), the two fixed points provide independent phases. The physical CP-violating phase is:
+    On \(\XCRM{Z₃ helix}\), the two fixed points provide independent phases. The physical CP-violating phase is:
   </p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--accent-secondary);">
@@ -1821,7 +1821,7 @@
   <div class="block success">
     <div class="title">Result: CP Violation Derived</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The CKM and PMNS CP-violating phases arise from the relative holonomy phase between orbifold fixed points.
+      The CKM and PMNS CP-violating phases arise from the relative holonomy phase between Z₃ helix fixed points.
       CP violation is geometric, not an additional input.
     </p>
   </div>
@@ -1829,7 +1829,7 @@
   <h3>F.10 Dark Matter from KK Parity</h3>
 
   <p>
-    The orbifold \(\mathbb{Z}_2\) acts on Kaluza-Klein modes as:
+    The Z₃ helix \(\mathbb{Z}_2\) acts on Kaluza-Klein modes as:
   </p>
 
   <div class="eq boxed">
@@ -1857,7 +1857,7 @@
   <h3>F.11 Cosmological Constant from Holonomy Cancellation</h3>
 
   <p>
-    The DHP requires minimum <em>total</em> holonomy over cosmic time. The potential \(\Pot{V(R)}\) contributes:
+    The DHP requires minimum <em>total</em> holonomy over cosmic time. The potential \(\Pot{V(|\mathbf{R}|)}\) contributes:
   </p>
 
   <div class="eq boxed">
@@ -2064,7 +2064,7 @@
   <div class="block gold" style="margin-top:1.5rem;border-width:3px;">
     <div class="title" style="font-size:1.1rem;">CANDIDATE UNIFIED FRAMEWORK</div>
     <p style="margin:0;color:var(--text);">
-      <strong>Three axioms (Master Action + DHP + TFP) provide a constrained framework with derived mechanisms and calibrated coefficients.</strong>
+      <strong>XCRM foundation (χ|R|²∂ₓφ → Master Action → DHP → MHP → TFP) provides a constrained framework with derived mechanisms and calibrated coefficients.</strong>
     </p>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
       The theory has <strong>one dynamically stabilized parameter</strong>:
@@ -2074,7 +2074,7 @@
     </ul>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
       The mechanisms for gauge group selection, generations, masses, mixing, CP violation, dark matter, cosmological constant,
-      inflation, baryogenesis, and quantum gravity are derived from the three axioms, with select inputs and fitted coefficients.
+      inflation, baryogenesis, and quantum gravity are derived from the XCRM foundation, with select inputs and fitted coefficients.
       <a href="../index.html#problem-closures" style="color:var(--accent);">See all derivation pages →</a>
     </p>
   </div>
@@ -2199,7 +2199,7 @@
   <ul>
     <li><strong>Localization mechanism:</strong> \(\partial\Quant{\Omega}/\partial X_i = 0\) determines localization equation form (Eq. F.8)</li>
     <li><strong>Exponential hierarchy form:</strong> Wavefunction overlap gives \(y \sim e^{-\Delta X^2/\sigma^2}\) structure</li>
-    <li><strong>Chirality:</strong> The \(\mathbb{Z}_2\) orbifold naturally produces chiral zero modes</li>
+    <li><strong>Chirality:</strong> The \(\mathbb{Z}_2\) Z₃ helix naturally produces chiral zero modes</li>
   </ul>
 
   <h3>H.2 What Requires Input (Values)</h3>
@@ -2241,7 +2241,7 @@
   <div class="block success" style="border-width:2px;">
     <div class="title">Status: DERIVED by DHP (Section F.8-F.9)</div>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li><strong>CP violation:</strong> Derived from holonomy phase mismatch between orbifold fixed points (Eq. F.18)</li>
+      <li><strong>CP violation:</strong> Derived from holonomy phase mismatch between Z₃ helix fixed points (Eq. F.18)</li>
       <li><strong>Neutrino masses:</strong> Derived from maximal localization separation — right-handed neutrinos at opposite fixed point (Eq. F.16)</li>
     </ul>
   </div>
@@ -2291,13 +2291,13 @@
       </tr>
       <tr>
         <td><strong>Yukawa hierarchies</strong></td>
-        <td>Winding numbers determine localization (Axiom 3: TFP)</td>
+        <td>Winding numbers determine localization (TFP, derived)</td>
         <td>Eq. F.9</td>
         <td style="color:var(--gold);font-weight:600;">CALIBRATED</td>
       </tr>
       <tr>
         <td><strong>CKM/PMNS mixing</strong></td>
-        <td>Winding number difference determines mixing angles (Axiom 3: TFP)</td>
+        <td>Winding number difference determines mixing angles (TFP, derived)</td>
         <td>Section H</td>
         <td style="color:var(--gold);font-weight:600;">CALIBRATED</td>
       </tr>
@@ -2405,7 +2405,7 @@
       <strong>Master Action + DHP = Candidate framework with mechanisms derived and calibrated coefficients.</strong>
     </p>
     <ul style="margin:0.75rem 0 0;color:var(--text-secondary);">
-      <li><strong style="color:#4ade80;">19 problems addressed</strong> — Mechanisms derived with calibrated inputs where noted (<a href="../index.html#problem-closures" style="color:var(--accent);">see derivation pages</a>)</li>
+      <li><strong style="color:#4ade80;">21 complete derivations</strong> — Mechanisms derived with calibrated inputs where noted (<a href="../index.html#problem-closures" style="color:var(--accent);">see derivation pages</a>)</li>
       <li><strong>Core + SM + BSM + Cosmology</strong> — Gaussian visibility, TEGR, gauge group, generations, hierarchy problem, UV completion, neutrino masses, CP violation, dark matter, cosmological constant, inflation, baryogenesis</li>
       <li><strong>5 experimental tests</strong> — falsifiable predictions for coherence length, visibility form, mass independence, L<sub>X</sub>, and LKP dark matter</li>
     </ul>
@@ -2415,17 +2415,15 @@
   </div>
 
   <div class="block gold" style="margin-top:1.5rem;border-width:3px;">
-    <div class="title" style="font-size:1.1rem;">The Three Axioms of STUR</div>
+    <div class="title" style="font-size:1.1rem;">The XCRM Derivation Chain</div>
     <ol style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li><strong>Master Action</strong> (Eq. 0.1) — Defines the dynamics: \(S = \int \Diff{(\nabla R)^2} + \Pot{V(R)} + \XCRM{\chi R \partial_X R} + \Tor{\alpha R \mathcal{T}}\)</li>
-      <li><strong>Dynamical Holonomy Principle</strong> (Eq. F.12) — Governs evolution: cosmology, quantum gravity, UV completion</li>
-      <li><strong>Topological Flavor Principle</strong> (<a href="stur_axiom3_flavor.html" style="color:var(--accent);">Axiom 3</a>) — Fermion generations from winding numbers w ∈ Z₃</li>
+      <li><strong>XCRM Coupling</strong> (χ|R|²∂ₓφ) — The sole foundation from which all physics derives</li>
+      <li><strong>Master Action</strong> (Eq. 0.1) — Derived dynamics: \(S = \int \Diff{|\nabla\mathbf{R}|^2} + \Pot{V(|\mathbf{R}|)} + \XCRM{\chi |\mathbf{R}|^2 \partial_X \phi} + \Tor{\alpha |\mathbf{R}| \mathcal{T}}\)</li>
+      <li><strong>DHP → MHP</strong> (Eq. F.12) — Derived from path integral saddle point (<a href="stur_mhp_derivation.html" style="color:var(--accent);">see derivation</a>)</li>
+      <li><strong>TFP</strong> (<a href="stur_tfp_flavor.html" style="color:var(--accent);">Derived</a>) — Fermion generations from π₁(Z₃ helix) = Z topology</li>
     </ol>
-    <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
-      <strong>MHP is derived</strong> from the path integral saddle point condition (<a href="stur_mhp_derivation.html" style="color:var(--accent);">see derivation</a>).
-    </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      From these three axioms, a broad set of mechanisms emerges, with select inputs required for calibration.
+      From this derivation chain, a broad set of mechanisms emerges, with select inputs required for calibration.
     </p>
   </div>
 </section>

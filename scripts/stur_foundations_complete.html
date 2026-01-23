@@ -718,7 +718,7 @@ code {
 
   <p>
     We present <strong>STUR (Sheldon's Theory of Unified Resistance)</strong>, a five-dimensional framework 
-    built on a symmetric tensor field \(\XCRM{\Rcal_{AB}}\) on the orbifold \(\Tor{\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2}\),
+    built on a symmetric tensor field \(\XCRM{\Rcal_{AB}}\) on the Z₃ helix \(\Tor{\Mcal^5 = M^4 \times Z₃ helix}\),
     used as an <em>organizational and phenomenological framework</em> rather than a source of new
     ultraviolet gravitational dynamics.
     This document is intended as a <strong>falsifiable theoretical–experimental framework</strong>, not as a
@@ -770,7 +770,7 @@ code {
           • Resistance holonomy as the primary teleparallel observable<br>
           • Yang-Mills from local degeneracy covariance<br>
           • Gaussian visibility form from <em>Markovian</em> phase averaging<br>
-          • Chiral localization from orbifold + domain wall<br>
+          • Chiral localization from Z₃ helix + domain wall<br>
           • Exponential Yukawa overlaps
         </span>
       </div>
@@ -801,31 +801,31 @@ code {
   </p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem 1.5rem;">
-    \[\boxed{S_{\rm STUR}[R, g, X] = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{-g}\,
-    \Big[\underbrace{\color{#4ade80}{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
-    - \underbrace{\color{#f472b6}{V(R)}}_{\color{#f472b6}\text{relaxation}}
-    + \underbrace{\color{#fbbf24}{\chi\, R\,\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
-    + \underbrace{\color{#60a5fa}{\alpha\, R\, \mathbb{T}}}_{\color{#60a5fa}\text{torsion}}
+    \[\boxed{S_{\rm STUR}[\mathbf{R}, g, X] = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{-g}\,
+    \Big[\underbrace{\color{#4ade80}{\tfrac{1}{2}|\nabla\mathbf{R}|^2}}_{\color{#4ade80}\text{diffusion}}
+    - \underbrace{\color{#f472b6}{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{relaxation}}
+    + \underbrace{\color{#fbbf24}{\chi\, |\mathbf{R}|^2\,\partial_X\phi}}_{\color{#fbbf24}\text{XCRM}}
+    + \underbrace{\color{#60a5fa}{\alpha\, |\mathbf{R}|\, \mathbb{T}}}_{\color{#60a5fa}\text{torsion}}
     + \color{#22d3ee}{\mathcal{L}_{\rm matter}}\Big]}\]
-    <div class="eq-label" style="color:var(--gold);">(0.1) — The Unified Resistance Action</div>
+    <div class="eq-label" style="color:var(--gold);">(0.1) — The Unified Resistance Action (v2.5 doublet: <strong>R</strong> = |<strong>R</strong>|e<sup>iφ</sup>)</div>
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
     <div style="padding:0.9rem;background:rgba(74,222,128,0.04);border-radius:8px;border-left:3px solid #4ade80;">
       <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Diffusion</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\tfrac{1}{2}(\nabla R)^2\) — Kinetic term driving spatial smoothing</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\tfrac{1}{2}|\nabla\mathbf{R}|^2 = \tfrac{1}{2}(\nabla|\mathbf{R}|)^2 + \tfrac{1}{2}|\mathbf{R}|^2(\nabla\phi)^2\) — Doublet kinetic</div>
     </div>
     <div style="padding:0.9rem;background:rgba(244,114,182,0.04);border-radius:8px;border-left:3px solid #f472b6;">
       <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Relaxation</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Pot{V(R)}\) — Potential driving \(\XCRM{R} \to \XCRM{R_{\rm bg}}\)</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Pot{V(|\mathbf{R}|)}\) — Potential driving \(\XCRM{R} \to \XCRM{R_{\rm bg}}\)</div>
     </div>
     <div style="padding:0.9rem;background:rgba(251,191,36,0.04);border-radius:8px;border-left:3px solid #fbbf24;">
       <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">XCRM Closure</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\XCRM{\chi R \partial_X R}\) — Internal dimension coupling (fixes constants)</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi}\) — Internal dimension coupling (fixes constants)</div>
     </div>
     <div style="padding:0.9rem;background:rgba(96,165,250,0.04);border-radius:8px;border-left:3px solid #60a5fa;">
       <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Torsion Source</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Tor{\alpha R \mathbb{T}}\) — Teleparallel gravity coupling</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Tor{\alpha |\mathbf{R}| \mathbb{T}}\) — Teleparallel gravity coupling</div>
     </div>
   </div>
 
@@ -845,9 +845,9 @@ code {
   </div>
 
   <ol style="margin-top:1rem;">
-    <li><strong>Classical limit (\(\Quant{\hbar} \to 0\)):</strong> The PDE \(\partial_t \XCRM{R} = \Diff{D\nabla^2 R} - \Pot{V'(R)} + \XCRM{\chi\partial_X R} + \Tor{\alpha\mathbb{T}R}\) governs evolution. This is what the STUR Engine and Sandbox simulate.</li>
-    <li><strong>Stationary phase:</strong> Quantum amplitudes concentrate on classical paths \(\XCRM{\bar{R}}\) satisfying \(\delta S/\delta R = 0\).</li>
-    <li><strong>1-loop correction:</strong> The functional determinant \(\det(\delta^2 S/\delta R^2)\) gives leading quantum corrections. This appears in the Double Slit and Quantum Computing simulations.</li>
+    <li><strong>Classical limit (\(\Quant{\hbar} \to 0\)):</strong> The doublet magnitude PDE \(\partial_t |\XCRM{\mathbf{R}}| = \Diff{D\nabla^2 |\mathbf{R}|} - \Pot{V'(|\mathbf{R}|)} + |\mathbf{R}|(\nabla\phi)^2 + \XCRM{\chi|\mathbf{R}|\partial_X\phi} + \Tor{\alpha\mathbb{T}|\mathbf{R}|}\) governs evolution. This is what the STUR Engine and Sandbox simulate.</li>
+    <li><strong>Stationary phase:</strong> Quantum amplitudes concentrate on classical paths \(|\XCRM{\bar{\mathbf{R}}}|\) satisfying \(\delta S/\delta |\mathbf{R}| = 0\).</li>
+    <li><strong>1-loop correction:</strong> The functional determinant \(\det(\delta^2 S/\delta |\mathbf{R}|^2)\) gives leading quantum corrections. This appears in the Double Slit and Quantum Computing simulations.</li>
   </ol>
 
   <div class="block success" style="margin-top:1.25rem;">
@@ -1277,8 +1277,8 @@ code {
   <div class="block gold">
     <div class="title">Axiom I — Arena</div>
     <p style="margin:0;color:var(--text-secondary)">
-      Dynamics unfold on \(\Tor{\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2}\), where \(\Tor{M^4}\) is globally hyperbolic
-      and \(\XCRM{X \in [0, L_X]}\) parametrizes the orbifold interval.
+      Dynamics unfold on \(\Tor{\Mcal^5 = M^4 \times Z₃ helix}\), where \(\Tor{M^4}\) is globally hyperbolic
+      and \(\XCRM{X \in [0, L_X]}\) parametrizes the Z₃ helix interval.
     </p>
   </div>
 
@@ -1338,7 +1338,7 @@ code {
   <div class="block">
     <div class="title">Definition 2.1 — Five-Dimensional Arena</div>
     <p style="margin:0;color:var(--text-secondary)">
-      \(\Tor{\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2}\) with \(\XCRM{X \in [0, L_X]}\), fixed points at boundaries,
+      \(\Tor{\Mcal^5 = M^4 \times Z₃ helix}\) with \(\XCRM{X \in [0, L_X]}\), fixed points at boundaries,
       and parity \(\XCRM{X \mapsto -X}\).
     </p>
   </div>
@@ -1353,7 +1353,7 @@ code {
     <div class="title">Geometric Meaning of the Ansatz</div>
     <p style="margin:0;color:var(--text-secondary)">
       Equation (2.1) defines a <strong>warped product geometry</strong> between a four-dimensional spacetime
-      \(\Tor{(M^4,g_{\mu\nu})}\) and a one-dimensional compact orbifold coordinate \(\XCRM{X}\).
+      \(\Tor{(M^4,g_{\mu\nu})}\) and a one-dimensional compact Z₃ helix coordinate \(\XCRM{X}\).
       Each hypersurface of constant \(\XCRM{X}\) carries an induced four-dimensional metric
       \(\Tor{g^{(4)}_{\mu\nu}(x;X) = e^{2\sigma(X)} g_{\mu\nu}(x)}\).
       The extra dimension has proper line element \(\XCRM{\dd s_X = r_c\,\dd X}\).
@@ -1371,7 +1371,7 @@ code {
       g_{\mu\nu}(x) &:\; \text{Base four-dimensional metric tensor} \\
       x^\mu &:\; \text{Coordinates on } M^4,\; \mu,\nu=0,1,2,3 \\
       r_c &:\; \text{Proper radius (length scale) of the compact dimension} \\
-      X &:\; \text{Dimensionless coordinate on } S^1/\mathbb{Z}_2
+      X &:\; \text{Dimensionless coordinate on } Z₃ helix
     \end{aligned}
     \]
   </div>
@@ -1705,16 +1705,16 @@ code {
   </table>
 
   <!-- ════════════════════════════════════════════════════════════════════════
-       §2.5 DERIVATION OF V(R) FROM ORBIFOLD TOPOLOGY
+       §2.5 DERIVATION OF V(|\mathbf{R}|) FROM ORBIFOLD TOPOLOGY
        ════════════════════════════════════════════════════════════════════════ -->
 
-  <h3 id="VR-derivation">2.5 Derivation of V(R) from Orbifold Topology</h3>
+  <h3 id="VR-derivation">2.5 Derivation of V(|\mathbf{R}|) from Orbifold Topology</h3>
 
   <div class="block gold" style="border-width:2px;">
     <div class="title">First Principles Statement</div>
     <p style="margin:0;color:var(--text-secondary)">
-      <strong>The double-well potential \(\Pot{V(R)} = \frac{\XCRM{\lambda}}{4}(\XCRM{R}^2 - \XCRM{v}^2)^2\) is not assumed — it is
-      tightly constrained by the \(\Tor{S^1/\mathbb{Z}_2}\) orbifold topology.</strong>
+      <strong>The double-well potential \(\Pot{V(|\mathbf{R}|)} = \frac{\XCRM{\lambda}}{4}(\XCRM{R}^2 - \XCRM{v}^2)^2\) is not assumed — it is
+      tightly constrained by the \(\Tor{Z₃ helix}\) Z₃ helix topology.</strong>
       This section proves that the manifold structure forces this functional form.
     </p>
   </div>
@@ -1722,7 +1722,7 @@ code {
   <h4>2.5.1 The \(\Tor{\mathbb{Z}_2}\) Parity Assignment</h4>
 
   <p>
-    On the orbifold \(\Tor{\Mcal^5 = M^4 \times S^1/\mathbb{Z}_2}\), the identification \(\XCRM{X} \sim \XCRM{-X}\) creates
+    On the Z₃ helix \(\Tor{\Mcal^5 = M^4 \times Z₃ helix}\), the identification \(\XCRM{X} \sim \XCRM{-X}\) creates
     fixed points at \(\XCRM{X = 0}\) and \(\XCRM{X = L_X}\). Fields must transform definitely under this \(\Tor{\mathbb{Z}_2}\):
   </p>
 
@@ -1740,7 +1740,7 @@ code {
     </p>
     <ol style="margin:0.5rem 0 0;color:var(--text-secondary)">
       <li><strong>Chiral fermion localization:</strong> Yukawa couplings \(\Quant{y}\XCRM{R}\Matt{\bar\Psi\Psi}\) require \(\XCRM{R}\) to
-          change sign across the orbifold to generate chiral zero modes with opposite chiralities at
+          change sign across the Z₃ helix to generate chiral zero modes with opposite chiralities at
           the two fixed points.</li>
       <li><strong>Domain wall physics:</strong> The resistance field must interpolate between distinct
           vacuum states to create the brane structure of the theory.</li>
@@ -1750,7 +1750,7 @@ code {
   <h4>2.5.2 Boundary Conditions at Fixed Points</h4>
 
   <p>
-    The \(\mathbb{Z}_2\)-odd assignment has immediate consequences at the orbifold fixed points:
+    The \(\mathbb{Z}_2\)-odd assignment has immediate consequences at the Z₃ helix fixed points:
   </p>
 
   <div class="eq definition">
@@ -1766,23 +1766,23 @@ code {
   <div class="block success">
     <div class="title">Topological Constraint</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The scalar field is <em>forced</em> to vanish at both orbifold boundaries. This is not a choice —
-      it is a mathematical consequence of the \(\Tor{\mathbb{Z}_2}\)-odd parity on \(\Tor{S^1/\mathbb{Z}_2}\).
+      The scalar field is <em>forced</em> to vanish at both Z₃ helix boundaries. This is not a choice —
+      it is a mathematical consequence of the \(\Tor{\mathbb{Z}_2}\)-odd parity on \(\Tor{Z₃ helix}\).
     </p>
   </div>
 
   <h4>2.5.3 Action Symmetry Constraints</h4>
 
   <p>
-    The action \(\Tor{S[R]}\) must be invariant under the orbifold identification. Since the integration measure
+    The action \(\Tor{S[R]}\) must be invariant under the Z₃ helix identification. Since the integration measure
     and metric are \(\mathbb{Z}_2\)-even, the potential term must satisfy:
   </p>
 
   <div class="eq boxed">
     \[
-      \int_{\Mcal^5} d^5x\, \sqrt{-g}\, V(R) = \int_{\Mcal^5} d^5x\, \sqrt{-g}\, V(-R)
+      \int_{\Mcal^5} d^5x\, \sqrt{-g}\, V(|\mathbf{R}|) = \int_{\Mcal^5} d^5x\, \sqrt{-g}\, V(-R)
       \quad\Rightarrow\quad
-      \boxed{V(R) = V(-R)}
+      \boxed{V(|\mathbf{R}|) = V(-R)}
     \]
     <div class="eq-label">(2.12) — Action invariance requires even potential</div>
   </div>
@@ -1793,7 +1793,7 @@ code {
 
   <div class="eq">
     \[
-      V(R) = a_0 + a_2 R^2 + a_4 R^4 + a_6 R^6 + \cdots
+      V(|\mathbf{R}|) = a_0 + a_2 R^2 + a_4 R^4 + a_6 R^6 + \cdots
     \]
     <div class="eq-label">(2.13)</div>
   </div>
@@ -1819,7 +1819,7 @@ code {
 
   <div class="eq boxed">
     \[
-      V(R) = \frac{m^2}{2} R^2 + \frac{\lambda}{4} R^4 + \text{const}
+      V(|\mathbf{R}|) = \frac{m^2}{2} R^2 + \frac{\lambda}{4} R^4 + \text{const}
     \]
     <div class="eq-label">(2.14) — Most general renormalizable even potential</div>
   </div>
@@ -1835,14 +1835,14 @@ code {
   <div class="block info">
     <div class="title">Theorem 2.1 — Degenerate Minima are Forced</div>
     <p style="margin:0;color:var(--text-secondary)">
-      For a stable kink profile interpolating between the orbifold boundaries while passing through
-      a non-zero bulk value, the potential \(\Pot{V(R)}\) must have degenerate minima at \(\XCRM{R = \pm v} \neq 0\).
+      For a stable kink profile interpolating between the Z₃ helix boundaries while passing through
+      a non-zero bulk value, the potential \(\Pot{V(|\mathbf{R}|)}\) must have degenerate minima at \(\XCRM{R = \pm v} \neq 0\).
     </p>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);">
-      <strong>Proof:</strong> If \(\Pot{V(R)}\) had a unique minimum at \(\XCRM{R} = 0\), the boundary conditions
+      <strong>Proof:</strong> If \(\Pot{V(|\mathbf{R}|)}\) had a unique minimum at \(\XCRM{R} = 0\), the boundary conditions
       \(\XCRM{R(0) = R(L_X) = 0}\) would be satisfied by the trivial solution \(\XCRM{R} \equiv 0\) everywhere.
       Non-trivial physics requires the field to "roll" through \(\XCRM{R} \neq 0\) in the bulk, which
-      is energetically favorable only if \(\Pot{V(R)} < \Pot{V(0)}\) for some \(\XCRM{R} \neq 0\).
+      is energetically favorable only if \(\Pot{V(|\mathbf{R}|)} < \Pot{V(0)}\) for some \(\XCRM{R} \neq 0\).
     </p>
   </div>
 
@@ -1876,7 +1876,7 @@ code {
 
   <div class="eq definition">
     \[
-      V(R) = -\frac{\lambda v^2}{2} R^2 + \frac{\lambda}{4} R^4 = \frac{\lambda}{4}\left(R^4 - 2v^2 R^2\right)
+      V(|\mathbf{R}|) = -\frac{\lambda v^2}{2} R^2 + \frac{\lambda}{4} R^4 = \frac{\lambda}{4}\left(R^4 - 2v^2 R^2\right)
       = \frac{\lambda}{4}\left(R^2 - v^2\right)^2 - \frac{\lambda v^4}{4}
     \]
   </div>
@@ -1887,18 +1887,18 @@ code {
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem 1.5rem;">
     \[
-      \boxed{\color{#f472b6}{V(R)} = \frac{\color{#fbbf24}{\lambda}}{4}\left(\color{#4ade80}{R}^2 - \color{#fbbf24}{v}^2\right)^2}
+      \boxed{\color{#f472b6}{V(|\mathbf{R}|)} = \frac{\color{#fbbf24}{\lambda}}{4}\left(\color{#4ade80}{R}^2 - \color{#fbbf24}{v}^2\right)^2}
     \]
-    <div class="eq-label" style="color:var(--success);">(2.16) — Double-well potential from orbifold topology</div>
+    <div class="eq-label" style="color:var(--success);">(2.16) — Double-well potential from Z₃ helix topology</div>
   </div>
 
   <div class="block success" style="margin-top:1.25rem;border-width:2px;">
-    <div class="title">Theorem 2.2 — Uniqueness of V(R)</div>
+    <div class="title">Theorem 2.2 — Uniqueness of V(|\mathbf{R}|)</div>
     <p style="margin:0;color:var(--text-secondary)">
       The double-well potential (2.16) is the <strong>unique</strong> renormalizable potential compatible with:
     </p>
     <ol style="margin:0.5rem 0 0;color:var(--text-secondary)">
-      <li>\(\Tor{\mathbb{Z}_2}\) orbifold symmetry (even in \(\XCRM{R}\))</li>
+      <li>\(\Tor{\mathbb{Z}_2}\) Z₃ helix symmetry (even in \(\XCRM{R}\))</li>
       <li>Five-dimensional power counting (polynomial degree \(\leq 4\))</li>
       <li>Topological stability (degenerate non-zero minima)</li>
       <li>Orbifold boundary conditions (\(\XCRM{R} = 0\) at fixed points)</li>
@@ -1930,7 +1930,7 @@ code {
     <div class="title">Physical Interpretation</div>
     <p style="margin:0;color:var(--text-secondary)">
       The kink (2.17) is a <strong>domain wall</strong> interpolating between the two degenerate vacua
-      \(\XCRM{R = \pm v}\). The orbifold boundary conditions truncate this domain wall at \(\XCRM{X = 0}\) and \(\XCRM{X = L_X}\),
+      \(\XCRM{R = \pm v}\). The Z₃ helix boundary conditions truncate this domain wall at \(\XCRM{X = 0}\) and \(\XCRM{X = L_X}\),
       where the \(\tanh\) approaches but does not reach \(\pm v\). The fermions localize at the domain
       wall center (where \(\XCRM{R} = 0\)), acquiring mass through the gradient \(\Diff{\partial_X R_0}\).
     </p>
@@ -1952,7 +1952,7 @@ code {
   <p>
     where \(\Matt{L_0 = \ell_{\rm coh}}\) is the coherence length. The \(\tanh\) factor originates directly
     from the kink solution (2.17), while the exponential factor arises from XCRM relaxation.
-    <strong>Thus \(\XCRM{S(r)}\) is derived, not assumed, from the orbifold-enforced potential \(\Pot{V(R)}\).</strong>
+    <strong>Thus \(\XCRM{S(r)}\) is derived, not assumed, from the Z₃ helix-enforced potential \(\Pot{V(|\mathbf{R}|)}\).</strong>
   </p>
 
   <div class="block info" style="margin-top:1rem;">
@@ -1960,7 +1960,7 @@ code {
     <p style="margin:0;color:var(--text-secondary);font-size:0.95rem;">
       <strong>Orbifold topology</strong> \(\xrightarrow{\mathbb{Z}_2\text{-odd}}\)
       <strong>Boundary conditions</strong> \(\xrightarrow{\text{stability}}\)
-      <strong>Double-well V(R)</strong> \(\xrightarrow{\text{minimize}}\)
+      <strong>Double-well V(|\mathbf{R}|)</strong> \(\xrightarrow{\text{minimize}}\)
       <strong>Kink \(\XCRM{R_0(X)}\)</strong> \(\xrightarrow{\text{+XCRM}}\)
       <strong>S(r) operator</strong>
     </p>
@@ -1990,8 +1990,8 @@ code {
   </div>
 
   <div class="eq boxed">
-    \[S_{\rm scalar} = \int_{\Mcal^5} \dd^5 x\, e \left[\color{#4ade80}{-\frac{1}{2}(\nabla R)^2} \color{#f472b6}{- V(R)} + \color{#fbbf24}{\Lcal_{\rm env}(R, \chi)}\right]\]
-    <div class="eq-label">(3.4) — Scalar + environment</div>
+    \[S_{\rm scalar} = \int_{\Mcal^5} \dd^5 x\, e \left[\color{#4ade80}{-\frac{1}{2}|\nabla\mathbf{R}|^2} \color{#f472b6}{- V(|\mathbf{R}|)} + \color{#fbbf24}{\Lcal_{\rm env}(|\mathbf{R}|, \phi)}\right]\]
+    <div class="eq-label">(3.4) — Scalar + environment (v2.5 doublet)</div>
   </div>
 
   <div class="eq boxed">
@@ -1999,15 +1999,16 @@ code {
     <div class="eq-label">(3.5) — Matter with Yukawa coupling</div>
   </div>
 
-  <h3>3.3 Field Equations</h3>
+  <h3>3.3 Field Equations (v2.5 Doublet)</h3>
   <div class="eq">
     \[\begin{aligned}
       \text{Gravity:} &\quad G_{\mu\nu} = \kappa_4 T_{\mu\nu} \\
       \text{Gauge:} &\quad \Dcal_M \Fcal^{MN} = \mathcal{J}^N \\
-      \text{Scalar:} &\quad \Box R - V'(R) = y\bar{\Psi}\Psi + \partial_R \Lcal_{\rm env} \\
-      \text{Fermion:} &\quad (i\Gamma^M D_M - yR)\Psi = 0
+      \text{Magnitude:} &\quad \nabla^2|\mathbf{R}| - V'(|\mathbf{R}|) - |\mathbf{R}|(\nabla\phi)^2 = y\bar{\Psi}\Psi + \partial_{|\mathbf{R}|} \Lcal_{\rm env} \\
+      \text{Phase:} &\quad \partial_\mu(|\mathbf{R}|^2\partial^\mu\phi) = -\chi\partial_X(|\mathbf{R}|^2) \\
+      \text{Fermion:} &\quad (i\Gamma^M D_M - y|\mathbf{R}|)\Psi = 0
     \end{aligned}\]
-    <div class="eq-label">(3.6)</div>
+    <div class="eq-label">(3.6) — Doublet: <strong>R</strong> = |<strong>R</strong>|e<sup>iφ</sup></div>
   </div>
 
   <h3>3.4 Semiclassical Expansion from XCRM</h3>
@@ -2164,7 +2165,7 @@ code {
   </div>
 
   <p>
-    The XCRM coupling \(\XCRM{\chi R \partial_X R = \frac{\chi}{2}\partial_X(R^2)}\) is a total X-derivative.
+    The XCRM coupling \(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi = \frac{\chi}{2}\partial_X(R^2)}\) is a total X-derivative.
     After integrating by parts and applying boundary conditions, the effective 4D action contains
     a contribution from X-fluctuations around \(\XCRM{\bar{R}}\).
   </p>
@@ -2316,20 +2317,20 @@ code {
     </div>
     <div class="step">
       <span class="step-label">Step 2:</span>
-      The XCRM term vanishes: \(\XCRM{\chi R \partial_X R = \frac{\chi}{2}\partial_X(R^2) \to \frac{\chi}{2}\partial_X(R_{\rm bg}^2) = 0}\)
+      The XCRM term vanishes: \(\XCRM{\chi |\mathbf{R}|^2 \partial_X \phi = \frac{\chi}{2}\partial_X(R^2) \to \frac{\chi}{2}\partial_X(R_{\rm bg}^2) = 0}\)
       (since \(\XCRM{R_{\rm bg}}\) is X-independent at equilibrium).
     </div>
     <div class="step">
       <span class="step-label">Step 3:</span>
-      The diffusion term vanishes: \(\Diff{(\nabla R)^2} \to (\nabla \XCRM{R_{\rm bg}})^2 = 0\).
+      The diffusion term vanishes: \(\Diff{|\nabla\mathbf{R}|^2} \to (\nabla |\XCRM{\mathbf{R}}|_{\rm bg})^2 + |\XCRM{\mathbf{R}}|_{\rm bg}^2(\nabla\phi)^2 \to 0\) at equilibrium.
     </div>
     <div class="step">
       <span class="step-label">Step 4:</span>
-      The potential term becomes constant: \(\Pot{V(R)} \to \Pot{V(R_{\rm bg})} \equiv \Tor{\Lambda_{\rm eff}}\) (effective cosmological constant).
+      The potential term becomes constant: \(\Pot{V(|\mathbf{R}|)} \to \Pot{V(R_{\rm bg})} \equiv \Tor{\Lambda_{\rm eff}}\) (effective cosmological constant).
     </div>
     <div class="step">
       <span class="step-label">Step 5:</span>
-      The torsion coupling simplifies: \(\Tor{\alpha R \mathbb{T}} \to \Tor{\alpha R_{\rm bg} \mathbb{T} = \frac{1}{16\pi G}\mathbb{T}}\)
+      The torsion coupling simplifies: \(\Tor{\alpha |\mathbf{R}| \mathbb{T}} \to \Tor{\alpha R_{\rm bg} \mathbb{T} = \frac{1}{16\pi G}\mathbb{T}}\)
       where we identify \(\Tor{\alpha R_{\rm bg} = 1/(16\pi G)}\).
     </div>
   </div>
@@ -2466,7 +2467,7 @@ code {
   <div class="block info">
     <div class="title">Constraint 1 — Compactness</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The resistance kinetic term must be positive definite: \(\int \Diff{(\nabla R)^2} \ge 0\).
+      The doublet kinetic term must be positive definite: \(\int \Diff{|\nabla\mathbf{R}|^2} \ge 0\).
       This requires the degeneracy metric \(\kappa_{IJ}\) to be positive definite,
       admitting only <strong>compact Lie groups</strong>: SU(N), SO(N), U(1).
     </p>
@@ -2484,7 +2485,7 @@ code {
   <div class="block info" style="margin-top:0.75rem;">
     <div class="title">Constraint 3 — Minimality + Chirality</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The theory must: (a) allow chiral fermion localization (enforced via orbifolding),
+      The theory must: (a) allow chiral fermion localization (enforced via Z₃ helixing),
       (b) support nontrivial loop holonomy, (c) avoid additional unobserved long-range forces.
       The <strong>smallest</strong> compact group satisfying all three is:
     </p>
@@ -2586,11 +2587,11 @@ code {
 <section class="section" id="sec6">
   <h2>6. Scalar Sector: Effective Dynamics</h2>
 
-  <h3>6.1 Microscopic Theory</h3>
+  <h3>6.1 Microscopic Theory (v2.5 Doublet)</h3>
   <div class="eq">
-    \[\Lcal_{\rm scalar}^{\rm micro} = -\frac{1}{2}(\partial R)^2 - V(R) - \frac{1}{2}(\partial\chi)^2 
-    - \frac{1}{2}m_\chi^2 \chi^2 - \lambda R\chi^2\]
-    <div class="eq-label">(6.1)</div>
+    \[\Lcal_{\rm scalar}^{\rm micro} = -\frac{1}{2}|\nabla\mathbf{R}|^2 - V(|\mathbf{R}|) - \frac{1}{2}(\partial\chi)^2
+    - \frac{1}{2}m_\chi^2 \chi^2 - \lambda |\mathbf{R}|\chi^2\]
+    <div class="eq-label">(6.1) — Doublet kinetic: |∇<strong>R</strong>|² = (∇|<strong>R</strong>|)² + |<strong>R</strong>|²(∇φ)²</div>
   </div>
 
   <p>
@@ -2754,7 +2755,7 @@ code {
       <div class="eq-label">(7.1)</div>
     </div>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary)">
-      Zero modes localize exponentially near domain walls where \(\XCRM{R(X_*)} = 0\). The orbifold
+      Zero modes localize exponentially near domain walls where \(\XCRM{R(X_*)} = 0\). The Z₃ helix
       \(\Tor{\mathbb{Z}_2}\) projection ensures chirality by removing the opposite-chirality zero mode.
     </p>
   </div>
@@ -4472,14 +4473,14 @@ code {
   <h3>B.3 Influence Functional</h3>
 
   <p>
-    Decomposing \(R = R_+ - R_-\) (forward/backward branches) and taking the Keldysh rotation 
-    \(R_{\rm cl} = (R_+ + R_-)/2\), \(R_{\rm q} = R_+ - R_-\):
+    Decomposing \(|\mathbf{R}| = |\mathbf{R}|_+ - |\mathbf{R}|_-\) (forward/backward branches) and taking the Keldysh rotation
+    \(|\mathbf{R}|_{\rm cl} = (|\mathbf{R}|_+ + |\mathbf{R}|_-)/2\), \(|\mathbf{R}|_{\rm q} = |\mathbf{R}|_+ - |\mathbf{R}|_-\):
   </p>
 
   <div class="eq">
-    \[\color{#e2e8f0}{S_{\rm IF}}[\color{#fbbf24}{R_{\rm cl}}, R_{\rm q}] = \color{#c4b5fd}{\int} \dd^4 x\, R_{\rm q}\left[-\color{#f472b6}{\gamma} \dot{R}_{\rm cl}
-    + \color{#4ade80}{D}\nabla^2 \color{#fbbf24}{R_{\rm cl}}\right] + i\color{#c4b5fd}{\int} \dd^4 x\, R_{\rm q}^2 \cdot \color{#f472b6}{\gamma} T_{\rm eff}\]
-    <div class="eq-label">(B.4)</div>
+    \[\color{#e2e8f0}{S_{\rm IF}}[\color{#fbbf24}{|\mathbf{R}|_{\rm cl}}, |\mathbf{R}|_{\rm q}] = \color{#c4b5fd}{\int} \dd^4 x\, |\mathbf{R}|_{\rm q}\left[-\color{#f472b6}{\gamma} \dot{|\mathbf{R}|}_{\rm cl}
+    + \color{#4ade80}{D}\nabla^2 \color{#fbbf24}{|\mathbf{R}|_{\rm cl}}\right] + i\color{#c4b5fd}{\int} \dd^4 x\, |\mathbf{R}|_{\rm q}^2 \cdot \color{#f472b6}{\gamma} T_{\rm eff}\]
+    <div class="eq-label">(B.4) — v2.5 doublet magnitude</div>
   </div>
 
   <p>
@@ -4487,20 +4488,20 @@ code {
     theorem relates the noise kernel to \(\gamma T_{\rm eff}\).
   </p>
 
-  <h3>B.4 Langevin Equation</h3>
+  <h3>B.4 Langevin Equation (v2.5 Doublet Magnitude)</h3>
 
   <p>
-    The equation of motion for \(R_{\rm cl}\) in the presence of the stochastic \(R_{\rm q}\) source is:
+    The equation of motion for \(|\mathbf{R}|_{\rm cl}\) in the presence of the stochastic \(|\mathbf{R}|_{\rm q}\) source is:
   </p>
 
   <div class="eq">
-    \[\dot{\color{#fbbf24}{R}} + \color{#f472b6}{\Gamma}(\color{#fbbf24}{R} - R_{\rm eq}) = \color{#4ade80}{D}\nabla^2 \color{#fbbf24}{R} + \xi, \quad
+    \[\dot{\color{#fbbf24}{|\mathbf{R}|}} + \color{#f472b6}{\Gamma}(\color{#fbbf24}{|\mathbf{R}|} - |\mathbf{R}|_{\rm eq}) = \color{#4ade80}{D}\nabla^2 \color{#fbbf24}{|\mathbf{R}|} + \xi, \quad
     \langle\xi(x)\xi(x')\rangle = 2\color{#f472b6}{\Gamma} T_{\rm eff}\, \delta^{(4)}(x - x')\]
-    <div class="eq-label">(B.5)</div>
+    <div class="eq-label">(B.5) — Doublet magnitude Langevin</div>
   </div>
 
   <p>
-    The covariant generalization replaces \(\dot{R}\) with \(u^\mu \partial_\mu R\) where \(u^\mu\) 
+    The covariant generalization replaces \(\dot{|\mathbf{R}|}\) with \(u^\mu \partial_\mu |\mathbf{R}|\) where \(u^\mu\)
     is the bath 4-velocity. See Calzetta & Hu (2008), Chapters 6–8 for the full derivation.
   </p>
 </section>
@@ -4766,14 +4767,14 @@ code {
     phenomenological equations implemented in the interactive simulators.
   </p>
 
-  <h3>E.1 Gravitational Saturation Operator S(r) from Orbifold-Derived V(R)</h3>
+  <h3>E.1 Gravitational Saturation Operator S(r) from Orbifold-Derived V(|\mathbf{R}|)</h3>
 
   <div class="block gold">
     <div class="title">Purpose</div>
     <p style="margin:0;color:var(--text-secondary)">
       The 3-body and gravitational simulations use a saturation operator \(S(r)\) to modify Newtonian gravity.
-      This section derives \(S(r)\) from the scalar potential \(V(R)\) — which is itself derived from the
-      orbifold topology in <a href="#VR-derivation" style="color:var(--gold)">§2.5</a> — establishing
+      This section derives \(S(r)\) from the scalar potential \(V(|\mathbf{R}|)\) — which is itself derived from the
+      Z₃ helix topology in <a href="#VR-derivation" style="color:var(--gold)">§2.5</a> — establishing
       the complete derivation chain from first principles to simulation observables.
     </p>
   </div>
@@ -4786,13 +4787,13 @@ code {
 
   <div class="eq">
     \[
-      \color{#4ade80}{S_{\rm scalar}} = \color{#c4b5fd}{\int} d^5x\, e\, \left[\color{#4ade80}{-\frac{1}{2}(\nabla R)^2} \color{#f472b6}{- V(R)} + \color{#60a5fa}{\alpha R\, \mathbb{T}}\right]
+      \color{#4ade80}{S_{\rm scalar}} = \color{#c4b5fd}{\int} d^5x\, e\, \left[\color{#4ade80}{-\frac{1}{2}|\nabla\mathbf{R}|^2} \color{#f472b6}{- V(|\mathbf{R}|)} + \color{#60a5fa}{\alpha |\mathbf{R}|\, \mathbb{T}}\right]
     \]
-    <div class="eq-label">(E.1)</div>
+    <div class="eq-label">(E.1) — v2.5 doublet</div>
   </div>
 
   <p>
-    The critical term is the torsion coupling \(\alpha R\, \mathbb{T}\). In the weak-field, non-relativistic limit,
+    The critical term is the torsion coupling \(\alpha |\mathbf{R}|\, \mathbb{T}\). In the weak-field, non-relativistic limit,
     the torsion scalar \(\mathbb{T}\) reduces to a trace involving gravitational field gradients:
     \(\mathbb{T} \to -2\nabla^2 \Phi_N / c^2\), where \(\Phi_N\) is the Newtonian potential.
   </p>
@@ -4812,9 +4813,9 @@ code {
   </div>
 
   <p>
-    where \(f(x)\) is determined by the potential \(V(R)\). As derived in
-    <a href="#VR-derivation" style="color:var(--stur)">§2.5</a>, the orbifold topology uniquely determines
-    the double-well form \(V(R) = \frac{\lambda}{4}(R^2 - v^2)^2\). The resulting kink solution
+    where \(f(x)\) is determined by the potential \(V(|\mathbf{R}|)\). As derived in
+    <a href="#VR-derivation" style="color:var(--stur)">§2.5</a>, the Z₃ helix topology uniquely determines
+    the double-well form \(V(|\mathbf{R}|) = \frac{\lambda}{4}(R^2 - v^2)^2\). The resulting kink solution
     \(R_0(r) = v \tanh(r/\xi)\) (with \(\xi = \sqrt{2/\lambda}/v\), see Eq. 2.17) yields:
   </p>
 
@@ -4893,7 +4894,7 @@ code {
   <div class="block success">
     <div class="title">Theorem E.2 — Universal S(r) Across Scales</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The saturation operator \(\XCRM{S(r)}\) derived from \(\Pot{V(R)}\) applies identically at all scales with
+      The saturation operator \(\XCRM{S(r)}\) derived from \(\Pot{V(|\mathbf{R}|)}\) applies identically at all scales with
       only the characteristic length \(\Matt{L_0}\) changing to match the local coherence scale:
     </p>
     <div class="eq law" style="margin-top:0.75rem;">
@@ -4903,8 +4904,8 @@ code {
   </div>
 
   <p>
-    This unification is non-trivial: the <em>same functional form</em> derived from the orbifold-forced
-    potential \(\Pot{V(R)}\) (§2.5) governs gravitational corrections at:
+    This unification is non-trivial: the <em>same functional form</em> derived from the Z₃ helix-forced
+    potential \(\Pot{V(|\mathbf{R}|)}\) (§2.5) governs gravitational corrections at:
   </p>
 
   <ul class="defs">

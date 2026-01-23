@@ -79,7 +79,7 @@
     <header style="text-align:center; margin-bottom:2rem;">
         <h1 class="page-title-biological">Hydrothermal Proto-Cell Emergence</h1>
         <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-            From <a href="stur_core_theory.html" style="color:var(--accent);">3 axioms</a> ·
+            From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
             <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
@@ -90,7 +90,11 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <span class="stur-status success">
+            <!-- v2.5 Helix Badge -->
+        <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:400px;font-size:0.8rem;">
+          <span style="color:#22d3ee;font-weight:600;">★ v2.5 HELIX</span> — Z₃ geometry derived
+        </div>
+        <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
                 FALSIFIABLE
             </span>
@@ -121,7 +125,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Master Action → Proto-Cell Bifurcation:</strong></p>
             <ol style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Step 1:</strong> XCRM coupling term \(\XCRM{\chi R\partial_X R}\) creates positive feedback amplification</li>
+                <li><strong>Step 1:</strong> XCRM coupling term \(\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}\) creates positive feedback amplification</li>
                 <li><strong>Step 2:</strong> Chemical resistance field \(\Diff{R} = \sum w_i [C_i]\) maps molecular concentrations</li>
                 <li><strong>Step 3:</strong> Critical coupling \(\XCRM{\chi_X^*}\) triggers symmetry breaking from homogeneous to structured</li>
             </ol>
@@ -168,15 +172,15 @@
 
             <div class="stur-eq law">
                 \[
-                S[R,g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
-                  \underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
-                  \;+\; \underbrace{\XCRM{\chi R\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
-                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                S[\mathbf{R},g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
+                  \underbrace{\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2}}_{\color{#4ade80}\text{diffusion}}
+                  \;-\; \underbrace{\Pot{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{potential}}
+                  \;+\; \underbrace{\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}}_{\color{#fbbf24}\text{XCRM}}
+                  \;+\; \underbrace{\Tor{\alpha |\mathbf{R}|\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">Master Action (5D Orbifold)</div>
+                <div class="stur-eq-label">Master Action (5D Z₃ Helix) — R = (R₁, R₂) = |R|e<sup>iφ</sup></div>
             </div>
 
             <p><strong>Step 1 — Chemical Resistance Field:</strong> Map molecular concentrations to STUR resistance:</p>
@@ -572,7 +576,7 @@ plt.show()</pre>
 
             <div class="stur-eq law">
                 \[
-                \XCRM{\chi R\partial_X R} \xrightarrow{\text{chemical limit}} \XCRM{f_X} = \exp[\XCRM{\chi_X}(\Diff{R} - \Diff{R_{\rm bg}})]
+                \XCRM{\chi |\mathbf{R}|^2\partial_X \phi} \xrightarrow{\text{chemical limit}} \XCRM{f_X} = \exp[\XCRM{\chi_X}(\Diff{R} - \Diff{R_{\rm bg}})]
                 \]
                 <div class="stur-eq-label">XCRM → Autocatalysis</div>
             </div>
