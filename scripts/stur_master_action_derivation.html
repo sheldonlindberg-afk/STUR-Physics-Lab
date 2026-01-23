@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Master Action Derivation — From XCRM to Unique Dynamics (v2.4.1)</title>
-<meta name="description" content="Complete derivation: Master Action uniquely determined by XCRM coupling χR∂ₓR plus diffeomorphism invariance on M⁴ × S¹/Z₂. Everything derived, nothing assumed.">
+<title>STUR Master Action Derivation — From XCRM Doublet to Unique Dynamics (v2.5 Helix)</title>
+<meta name="description" content="Complete derivation: Master Action uniquely determined by XCRM doublet coupling χ(R₁∂ₓR₂-R₂∂ₓR₁) on M⁴ × S¹ with Z₃ helix geometry. Everything derived, nothing assumed.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -35,8 +35,8 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Master Action Derivation (v2.4.1)</h1>
-  <p class="subtitle">XCRM Coupling Uniquely Determines the Dynamics</p>
+  <h1>Master Action Derivation (v2.5 Helix)</h1>
+  <p class="subtitle">XCRM Doublet R = (R₁, R₂) Uniquely Determines the Dynamics</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
     <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM Foundation</a> →
     <strong style="color:var(--gold);">Master Action</strong> →
@@ -80,6 +80,46 @@
     <div style="padding:1rem;background:rgba(96,165,250,0.06);border-radius:10px;border-left:4px solid #60a5fa;">
       <div style="font-size:0.85rem;color:#60a5fa;font-weight:700;margin-bottom:0.5rem;">&sect;4: GRAVITY EMERGENCE</div>
       <div style="font-size:0.9rem;color:var(--text-secondary);">Torsion coupling &alpha;R&Tscr; yields teleparallel gravity.</div>
+    </div>
+  </div>
+</section>
+
+<!-- v2.5 HELIX BREAKTHROUGH -->
+<section class="section" style="border:3px solid #4ade80; background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:#4ade80;">v2.5 Helix Breakthrough: The Doublet Requirement</h2>
+
+  <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Key Discovery: R Must Be a Doublet</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      The gravity coupling <span class="eq-torsion">&alpha;R&Tscr;</span> requires R to be <strong>real</strong> for gauge invariance.
+      But XCRM dynamics requires phase evolution. The only consistent solution is a <strong>doublet</strong>:
+    </p>
+  </div>
+
+  <div class="eq law" style="border-color:#4ade80;border-width:3px;background:rgba(0,0,0,0.6);margin:1.5rem 0;">
+    \[\boxed{\Diff{R} = (\Diff{R_1}, \Diff{R_2}), \quad |\Diff{R}|^2 = \Diff{R_1}^2 + \Diff{R_2}^2, \quad \phi = \arctan(\Diff{R_2}/\Diff{R_1})}\]
+    <div class="eq-label" style="color:#4ade80;">[H.1] &mdash; R-field doublet structure (v2.5)</div>
+  </div>
+
+  <p>The XCRM coupling becomes:</p>
+
+  <div class="eq law" style="border-color:#fbbf24;border-width:3px;background:rgba(0,0,0,0.6);">
+    \[\boxed{\XCRM{\chi}(\Diff{R_1}\XCRM{\partial_X}\Diff{R_2} - \Diff{R_2}\XCRM{\partial_X}\Diff{R_1}) = \XCRM{\chi}|\Diff{R}|^2\XCRM{\partial_X}\phi}\]
+    <div class="eq-label" style="color:#fbbf24;">[H.2] &mdash; XCRM Doublet Coupling</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.5rem 0;">
+    <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
+      <strong style="color:#4ade80;font-size:0.85rem;">CC SOLVED</strong>
+      <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">|R| = v constant &rarr; no domain wall &rarr; ρ<sub>vac</sub> = 0</p>
+    </div>
+    <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #a855f7;">
+      <strong style="color:#a855f7;font-size:0.85rem;">3 GENERATIONS</strong>
+      <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Z₃ helix &rarr; |Z₃| = 3 &rarr; n<sub>gen</sub> = 3 automatic</p>
+    </div>
+    <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #60a5fa;">
+      <strong style="color:#60a5fa;font-size:0.85rem;">SU(3) FROM Z₃</strong>
+      <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Z₃ = center(SU(3)) &rarr; color is geometric necessity</p>
     </div>
   </div>
 </section>
@@ -273,19 +313,21 @@
     <li><strong>Not generated:</strong> The path integral saddle point doesn't favor them</li>
   </ul>
 
-  <h3>3.2 Multiple Scalar Fields</h3>
+  <h3>3.2 Why Exactly a Doublet? (v2.5 Update)</h3>
 
-  <p>Could we have R<sub>1</sub>, R<sub>2</sub>, ... instead of just R?</p>
+  <p>In v2.4.1, we argued a single R suffices. <strong>v2.5 reveals this was incomplete:</strong></p>
 
-  <div class="block" style="border-color:var(--warning);">
-    <div class="title">Occam's Razor</div>
-    <p>A single R-field suffices to generate all observed physics. Additional fields would introduce:</p>
+  <div class="block success" style="border-color:#4ade80;">
+    <div class="title">Doublet Is Forced, Not Optional</div>
+    <p>The torsion coupling &alpha;R&Tscr; requires R to be <strong>real</strong> for the Lagrangian to be gauge-invariant.
+    But phase dynamics (XCRM) requires evolution of arg(R). The resolution:</p>
     <ul>
-      <li>Free parameters (their masses, couplings)</li>
-      <li>Additional moduli requiring stabilization</li>
-      <li>No new predictive power</li>
+      <li><strong>R = (R₁, R₂)</strong> &mdash; a doublet with magnitude |R| and phase φ</li>
+      <li>The TEGR coupling uses |R| (real, gauge-invariant)</li>
+      <li>The XCRM coupling drives phase winding ∂<sub>X</sub>φ</li>
+      <li>This gives <strong>Z₃ helix</strong> geometry with |R| = v constant</li>
     </ul>
-    <p><strong>Conclusion:</strong> Minimal field content is theoretically preferred.</p>
+    <p style="color:#4ade80;margin-top:0.75rem;"><strong>Result:</strong> Exactly two components—no more, no fewer—are required by consistency.</p>
   </div>
 
   <h3>3.3 Different Geometry</h3>
@@ -347,38 +389,37 @@
 </section>
 
 <!-- CONCLUSION -->
-<section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--gold);">Conclusion: The Master Action Is Unique (v2.4.1)</h2>
+<section class="section" style="border:3px solid #4ade80; background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(251,191,36,0.04) 100%);">
+  <h2 style="color:#4ade80;">Conclusion: The Master Action Is Unique (v2.5 Helix)</h2>
 
   <div class="block success" style="border-width:3px;">
     <div class="title" style="font-size:1.2rem;">Summary</div>
     <p style="font-size:1.05rem;line-height:1.8;">
-      Starting from the XCRM coupling &chi;R&part;<sub>X</sub>R as the unique renormalizable operator on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub>, we have shown:
+      Starting from the XCRM doublet coupling &chi;(R₁∂<sub>X</sub>R₂ − R₂∂<sub>X</sub>R₁) on M<sup>4</sup> &times; S<sup>1</sup> with Z₃ helix, we have shown:
     </p>
     <ol style="margin:1rem 0;padding-left:1.5rem;">
       <li>The kinetic term &frac12;(&nabla;R)<sup>2</sup> is forced by unitarity</li>
-      <li>The potential V(R) is constrained to Z<sub>2</sub>-symmetric form</li>
-      <li>The gravity coupling &alpha;R&Tscr; is the minimal diffeomorphism-invariant extension</li>
-      <li>The coupling &chi; ~ 1/L<sub>X</sub> is fixed by dimensional analysis</li>
-      <li>All other terms are forbidden by symmetry, dimension, or stability</li>
+      <li><strong style="color:#4ade80;">R = (R₁, R₂) doublet</strong> is forced by TEGR reality + XCRM dynamics</li>
+      <li>The gravity coupling &alpha;|R|&Tscr; uses gauge-invariant magnitude</li>
+      <li>The coupling &chi; = −π/(3L<sub>X</sub>) is fixed by helix stability</li>
+      <li><strong style="color:#4ade80;">Z₃ helix geometry</strong> solves CC, gives 3 generations, forces SU(3)</li>
     </ol>
-    <p style="font-size:1.05rem;margin-top:1rem;color:var(--gold);">
-      <strong>The Master Action is not postulated &mdash; it is derived from XCRM + consistency requirements.</strong>
+    <p style="font-size:1.05rem;margin-top:1rem;color:#4ade80;">
+      <strong>The Master Action is not postulated &mdash; it is derived from XCRM doublet + consistency requirements.</strong>
     </p>
   </div>
 
-  <div class="block" style="border-color:var(--gold);margin-top:1.5rem;">
-    <div class="title">Position in Derivation Chain (v2.4.1)</div>
+  <div class="block" style="border-color:#4ade80;margin-top:1.5rem;">
+    <div class="title">Position in Derivation Chain (v2.5 Helix)</div>
     <div style="font-family:monospace;padding:0.75rem;background:#000;border-radius:4px;line-height:1.8;">
-      <span style="color:#fbbf24;">XCRM (χR∂<sub>X</sub>R)</span> &rarr;
+      <span style="color:#fbbf24;">XCRM Doublet</span> &rarr;
       <span style="color:#4ade80;font-weight:bold;">Master Action</span> &rarr;
-      <span style="color:#a78bfa;">DHP</span> &rarr;
-      <span style="color:#22d3ee;">MHP</span> &rarr;
-      <span style="color:#60a5fa;">TFP</span> &rarr;
-      <span style="color:#f472b6;">All Physics</span>
+      <span style="color:#a855f7;">Z₃ Helix</span> &rarr;
+      <span style="color:#f472b6;">CC=0, 3 gen, SU(3)</span> &rarr;
+      <span style="color:#60a5fa;">All Physics</span>
     </div>
     <p style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--text-secondary);">
-      This derivation establishes the first link: XCRM &rarr; Master Action. The subsequent principles (DHP, MHP, TFP) follow from the Master Action via path integral analysis.
+      The doublet requirement is the key insight of v2.5. It forces Z₃ helix geometry, which automatically solves the CC problem, explains 3 generations, and derives SU(3) color.
     </p>
   </div>
 
