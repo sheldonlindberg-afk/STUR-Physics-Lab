@@ -915,9 +915,9 @@
    */
   STUR.eqColors = {
     diffusion: '#4ade80',  // Green - Kinetic/Diffusion: ½(∇R)²
-    potential: '#f472b6',  // Pink - Relaxation Potential: V(R)
-    xcrm: '#fbbf24',       // Gold - XCRM Coupling: χR∂_X R
-    torsion: '#60a5fa',    // Blue - Torsion Source: αR𝕋
+    potential: '#f472b6',  // Pink - Relaxation Potential: V(|R|)
+    xcrm: '#fbbf24',       // Gold - XCRM Doublet: χ(R₁∂_XR₂ - R₂∂_XR₁)
+    torsion: '#60a5fa',    // Blue - Torsion Source: α|R|𝕋
     quantum: '#a78bfa',    // Violet - Loop corrections, holonomy
     matter: '#22d3ee'      // Cyan - Matter fields: ℒ_matter
   };

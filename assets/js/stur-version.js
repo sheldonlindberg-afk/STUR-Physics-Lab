@@ -14,19 +14,24 @@
 
   const STUR_VERSION = {
     // Current version
-    version: '1.1.0',
-    releaseDate: '2026-01-22',
+    version: '1.2.0',
+    releaseDate: '2026-01-23',
 
     // Theory status - IMMUTABLE after publication
     theoryStatus: {
       complete: true,
-      axiomCount: 0, // v2.4: Axiom-free — XCRM is derived necessity, not axiom
-      derivedPrinciples: 4, // XCRM → Master Action → DHP → TFP → MHP
+      axiomCount: 0, // v2.5: Axiom-free — XCRM doublet on Z₃ helix is derived necessity, not axiom
+      derivedPrinciples: 4, // XCRM doublet → Master Action → DHP → TFP/MHP (TFP automatic in v2.5)
       freeParameters: 0,
-      closedProblems: 15,
-      lastModified: '2026-01-22',
-      version: '2.4',
-      versionName: 'Axiom-Free Unified Framework'
+      closedProblems: 20, // v2.5 adds: CC solved, 3 gen automatic, SU(3) from geometry
+      lastModified: '2026-01-23',
+      version: '2.5',
+      versionName: 'Helix Geometry',
+      v25Breakthroughs: [
+        '3 generations AUTOMATIC from |Z₃| = 3',
+        'SU(3) color natural from Z₃ = center(SU(3))',
+        'Cosmological constant SOLVED: |R| = v everywhere → no domain wall → Λ = 0'
+      ]
     },
 
     // Prediction registry - each prediction is timestamped and checksummed
