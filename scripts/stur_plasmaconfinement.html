@@ -129,7 +129,7 @@
         <div class="block warning">
             <div class="title">Interpretation Guidance</div>
             <ul style="margin:0;color:var(--text-secondary);font-size:0.95rem">
-                <li>Uses the <strong>STUR modulator form</strong> derived from orbifold \(V(R)\) (Tech. Appendix §A.4).</li>
+                <li>Uses the <strong>STUR modulator form</strong> derived from Z₃ helix \(V(R)\) (Tech. Appendix §A.4).</li>
                 <li>Assumes weak-field GR with Earth gravity for a laboratory-scale torus.</li>
                 <li>Outputs are simulation diagnostics (mean \(\XCRM{\langle S \rangle}\), confinement time, invariant error).</li>
                 <li>Numerical scale \(\Matt{L_0}\) is calibrated to laboratory plasmas; the functional form is derived.</li>
@@ -595,7 +595,7 @@ def grad_phi_vec(x, y, z):
     return fac*x, fac*y, fac*(z + R_E)
 
 # ===============================================================
-# STUR SCALAR [from orbifold-derived V(R), §2.5]
+# STUR SCALAR [from Z₃ helix-derived V(R), §2.5]
 # S(r) = tanh(r/L₀) · (1 - exp(-r/L₀))
 # ===============================================================
 def S_STUR_vec(x, y, z):
