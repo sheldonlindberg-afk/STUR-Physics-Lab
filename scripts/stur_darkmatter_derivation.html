@@ -191,20 +191,57 @@
 <section class="section" id="kk-parity" style="border:2px solid var(--accent-violet); background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(244,114,182,0.04) 100%);">
   <h2 style="color:var(--accent-violet);">2. KK-Parity: The Stabilizing Symmetry</h2>
 
-  <h3>2.1 Origin from Z₃ Helix</h3>
+  <h3>2.1 Complete KK-Parity Derivation from Z₃ Helix</h3>
 
-  <p>
-    The \(\mathbb{Z}_3\) helix symmetry \(X \to X + L_X\) with R rotating by 120° induces a discrete symmetry on the KK tower:
-  </p>
+  <p><strong>Step 1: Z₃ action on the circle</strong></p>
+  <p>The Z₃ helix structure defines a discrete identification:</p>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--accent-violet);padding:1.25rem;">
-    \[\boxed{P_{KK}: \Phi^{(n)} \to \omega^n \Phi^{(n)}, \quad \omega = e^{2\pi i/3}}\]
-    <div class="eq-label" style="color:var(--accent-violet);">(2.1) — Z₃ KK-parity transformation</div>
+  <div class="eq" style="margin:0.75rem 0;padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;">
+    \[g: X \mapsto X + \frac{L_X}{3}, \quad \Diff{R}(X) \mapsto \omega \cdot \Diff{R}(X)\]
   </div>
 
-  <p>
-    This is an <strong>exact symmetry</strong> of the action — it follows geometrically from the Z₃ helix structure.
-  </p>
+  <p>where ω = e^{2πi/3} is the primitive cube root of unity.</p>
+
+  <p><strong>Step 2: Derive transformation of KK modes</strong></p>
+  <p>For a 5D field Φ(x^μ, X) with KK expansion:</p>
+
+  <div class="eq" style="margin:0.75rem 0;padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;">
+    \[\Phi(x^\mu, X) = \sum_n \Phi^{(n)}(x^\mu) e^{2\pi i n X / L_X}\]
+  </div>
+
+  <p>Under the Z₃ transformation g:</p>
+
+  <div class="eq" style="margin:0.75rem 0;padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;">
+    \[\begin{aligned}
+    g[\Phi(x^\mu, X)] &= \Phi(x^\mu, X + L_X/3) \\
+    &= \sum_n \Phi^{(n)}(x^\mu) e^{2\pi i n (X + L_X/3) / L_X} \\
+    &= \sum_n \Phi^{(n)}(x^\mu) e^{2\pi i n X / L_X} \cdot e^{2\pi i n / 3} \\
+    &= \sum_n \omega^n \Phi^{(n)}(x^\mu) e^{2\pi i n X / L_X}
+    \end{aligned}\]
+  </div>
+
+  <p><strong>Step 3: Define KK-parity</strong></p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--accent-violet);padding:1.25rem;margin:0.75rem 0;">
+    \[\boxed{P_{KK}: \Phi^{(n)} \to \omega^n \Phi^{(n)}, \quad \omega = e^{2\pi i/3}}\]
+    <div class="eq-label" style="color:var(--accent-violet);">(2.1) — KK-parity: DERIVED from Z₃</div>
+  </div>
+
+  <p><strong>Step 4: Show this is conserved</strong></p>
+  <p>The 5D action is Z₃-invariant by construction. For any vertex in the action:</p>
+
+  <div class="eq" style="margin:0.75rem 0;padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;">
+    \[\int d^4x \int_0^{L_X} dX\, \Phi_1^{(n_1)} \Phi_2^{(n_2)} \Phi_3^{(n_3)} e^{i(n_1 + n_2 + n_3) 2\pi X / L_X}\]
+  </div>
+
+  <p>This is non-zero only if n₁ + n₂ + n₃ ≡ 0 (mod 3), ensuring:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1rem;margin:0.75rem 0;">
+    \[\boxed{\omega^{n_1} \cdot \omega^{n_2} \cdot \omega^{n_3} = \omega^{n_1 + n_2 + n_3} = 1 \quad \text{(KK-parity conserved)}}\]
+    <div class="eq-label" style="color:var(--success);">(2.1b) — KK-parity conservation: DERIVED</div>
+  </div>
+
+  <p>This is an <strong>exact symmetry</strong> of the action — it follows geometrically from the Z₃ helix structure.</p>
 
   <h3>2.2 Parity Assignments</h3>
 
