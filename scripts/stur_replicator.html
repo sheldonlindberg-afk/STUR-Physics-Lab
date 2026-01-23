@@ -121,7 +121,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Energy requirement structure: \(\Pot{E_{\text{need}}} = \int \Pot{V(R)}\,dV\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R) (§2.5)</a></li>
+                <li>Energy requirement structure: \(\Pot{E_{\text{need}}} = \int \Pot{V(R)}\,dV\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">Z₃ helix-derived V(R) (§2.5)</a></li>
                 <li>Entropy-energy coupling: \(\Diff{\Delta S_{\text{eff}}} \cdot \Matt{T}\) — thermodynamic consistency with diffusion term</li>
                 <li>Resistance equilibrium: \(\Diff{R^*} = \Pot{E}/(\XCRM{I} \cdot \Tor{\Phi})\) — from XCRM coupling structure</li>
                 <li>Failure mode boundaries: emerge from saturation operator \(\XCRM{S(u)}\) limits</li>
@@ -157,7 +157,7 @@
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #f472b6;">
                     <strong style="color:#f472b6;font-size:0.8rem;">Step 1: Potential Energy</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">V(R) from orbifold compactification determines minimum energy for state transitions</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">V(R) from Z₃ helix compactification determines minimum energy for state transitions</p>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
                     <strong style="color:#4ade80;font-size:0.8rem;">Step 2: Diffusion Entropy</strong>
@@ -279,7 +279,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Failure-mode classification (stable, power-limited, biology-limited) across mass and time scales.</p>
             <p><strong>Scale:</strong> Mass range \(10^{-6}\) to \(10\,\text{kg}\), replication times \(\Matt{t} \sim 60\,\text{s}\).</p>
-            <p><strong>Connection:</strong> The STUR <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R) potential (§2.5)</a> determines energy requirements and entropy gradients that govern replicator stability.</p>
+            <p><strong>Connection:</strong> The STUR <a href="stur_core_theory.html#VR-derivation" class="core-ref">Z₃ helix-derived V(R) potential (§2.5)</a> determines energy requirements and entropy gradients that govern replicator stability.</p>
         </div>
     </section>
 
@@ -307,7 +307,7 @@
                 <div class="stur-eq-label">Master Action (5D Orbifold)</div>
             </div>
 
-            <p><strong>Replicator limit:</strong> The energy requirement for replication is derived from the <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a>:</p>
+            <p><strong>Replicator limit:</strong> The energy requirement for replication is derived from the <a href="stur_core_theory.html#VR-derivation" class="core-ref">Z₃ helix-derived V(R) (§2.5)</a>:</p>
 
             <div class="stur-eq derived">
                 \[
@@ -386,14 +386,14 @@
 # ===============================================================
 # STUR Replicator - Stress-Failure Envelope
 #
-# Derives failure-mode boundaries from orbifold-derived V(R) (§2.5)
+# Derives failure-mode boundaries from Z₃ helix-derived V(R) (§2.5)
 # Classifications: stable, power-limited, biology-limited
 #
 # Outputs:
 #   - stur_replicator.json  (classification results)
 #   - stur_replicator.png   (failure envelope plots)
 #
-# Derived from orbifold-derived V(R) potential (Foundations §2.5)
+# Derived from Z₃ helix-derived V(R) potential (Foundations §2.5)
 # ===============================================================
 
 import numpy as np

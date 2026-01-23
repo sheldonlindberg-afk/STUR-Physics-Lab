@@ -166,7 +166,7 @@
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #f472b6;">
                     <strong style="color:#f472b6;font-size:0.8rem;">Step 1: Potential Derivation</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">V(R) = λ(R²−v²)²/4 constrained by S¹/Z₂ orbifold topology</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">V(R) = λ(R²−v²)²/4 constrained by Z₃ helix Z₃ helix topology</p>
                     <a href="stur_xcrm_closure.html" style="font-size:0.75rem;color:var(--accent);">→ XCRM Closure §2.5</a>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
@@ -326,13 +326,13 @@
                 <div class="stur-eq-label">Master Action (5D Orbifold)</div>
             </div>
 
-            <p><strong>Limit assumed:</strong> Flat spacetime, <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R) (§2.5)</a> induces the STUR radial modulator applied to effective confinement.</p>
+            <p><strong>Limit assumed:</strong> Flat spacetime, <a href="stur_core_theory.html#VR-derivation" class="core-ref">Z₃ helix-derived V(R) (§2.5)</a> induces the STUR radial modulator applied to effective confinement.</p>
 
             <div class="stur-eq derived">
                 \[
                 \color{#f472b6}{S(r)} = \tanh\!\bigl(\color{#fb923c}{r}/\color{#22d3ee}{L_0}\bigr)\,\bigl(1 - e^{-\color{#fb923c}{r}/\color{#22d3ee}{L_0}}\bigr)
                 \]
-                <div class="stur-eq-label">Radial Modulator from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived V(R)</a></div>
+                <div class="stur-eq-label">Radial Modulator from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">Z₃ helix-derived V(R)</a></div>
             </div>
 
             <p>The photon trajectory satisfies ray-tracing equations with the effective refractive index modulated by \(\Pot{S(r)}\):</p>
@@ -469,7 +469,7 @@ import json, time
 # 1) STUR RADIAL MODULATOR
 # ===============================================================
 def S_r(r, L0=1.0):
-    """STUR radial modulator from orbifold-derived V(R) (§2.5)"""
+    """STUR radial modulator from Z₃ helix-derived V(R) (§2.5)"""
     u = r / L0
     return np.tanh(u) * (1.0 - np.exp(-u))
 
