@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR MHP Derivation — From Path Integral to Holonomy Minimization</title>
-<meta name="description" content="Complete derivation of the Minimum Holonomy Principle from path integral saddle point conditions, plus moduli stabilization mechanism.">
+<title>STUR MHP Derivation — From Path Integral to Holonomy Minimization (v2.5 Helix)</title>
+<meta name="description" content="MHP derived from path integral saddle point. v2.5 Helix: Z₃ geometry gives |Z₃|=3 generations automatically, SU(3) from center(SU(3))=Z₃.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -38,10 +38,10 @@
   <h1>MHP — Minimum Holonomy Principle (Derived)</h1>
   <p class="subtitle">From Path Integral Saddle Point to Holonomy Minimization</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    <span style="color:var(--gold);font-weight:600;">v2.4.1</span> ·
+    <span style="color:#4ade80;font-weight:600;">v2.5 Helix</span> ·
     Built on <a href="stur_dhp_derivation.html" style="color:var(--accent);">DHP</a> ·
     Enables <a href="stur_tfp_flavor.html" style="color:var(--accent);">TFP</a> ·
-    <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a>
+    <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM Doublet foundation</a>
   </p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
 
@@ -438,7 +438,7 @@
 <section class="section" id="assumptions" style="border:2px solid var(--accent-secondary); background:rgba(167,139,250,0.04);">
   <h2 style="color:var(--accent-secondary);">3. Explicit Assumptions and Inputs</h2>
 
-  <h3>3.1 XCRM Foundation (v2.4.1)</h3>
+  <h3>3.1 XCRM Doublet Foundation (v2.5 Helix)</h3>
 
   <table>
     <thead>
@@ -446,19 +446,29 @@
     </thead>
     <tbody>
       <tr>
-        <td><strong>XCRM Coupling</strong></td>
-        <td>Unique renormalizable scalar-geometry coupling: \(\chi R \partial_X R\)</td>
+        <td><strong>XCRM Doublet</strong></td>
+        <td>Doublet coupling: \(\chi(R_1\partial_X R_2 - R_2\partial_X R_1) = \chi|R|^2\partial_X\phi\)</td>
         <td style="color:var(--success);">FOUNDATION</td>
       </tr>
       <tr>
-        <td><strong>Master Action</strong></td>
-        <td>Physics described by XCRM action on \(M^4 \times S^1/\mathbb{Z}_2\)</td>
+        <td><strong>Z₃ Helix</strong></td>
+        <td>M⁴ × S¹ with R rotating 120° per circuit, |R| = v constant</td>
         <td style="color:var(--success);">DERIVED</td>
       </tr>
       <tr>
-        <td><strong>DHP</strong></td>
-        <td>Path integral measure induces holonomy-dependent weighting</td>
-        <td style="color:var(--success);">DERIVED</td>
+        <td><strong>CC = 0</strong></td>
+        <td>No domain wall → ρ<sub>vac</sub> = 0 exactly</td>
+        <td style="color:#4ade80;font-weight:bold;">SOLVED</td>
+      </tr>
+      <tr>
+        <td><strong>3 Generations</strong></td>
+        <td>|Z₃| = 3 → n<sub>gen</sub> = 3 automatic (theorem, not calculation)</td>
+        <td style="color:#4ade80;font-weight:bold;">AUTOMATIC</td>
+      </tr>
+      <tr>
+        <td><strong>SU(3) Color</strong></td>
+        <td>Z₃ = center(SU(3)) → color gauge group is geometric</td>
+        <td style="color:#4ade80;font-weight:bold;">GEOMETRIC</td>
       </tr>
       <tr>
         <td><strong>MHP</strong></td>
@@ -469,7 +479,8 @@
   </table>
 
   <p style="font-size:0.9rem;color:var(--text-muted);">
-    <strong>v2.4.1 Structure:</strong> Everything derives from XCRM uniqueness: <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM</a> → <a href="stur_master_action_derivation.html" style="color:var(--accent);">Master Action</a> → <a href="stur_dhp_derivation.html" style="color:var(--accent);">DHP</a> → MHP → <a href="stur_tfp_flavor.html" style="color:var(--accent);">TFP</a>.
+    <strong>v2.5 Helix Structure:</strong> XCRM Doublet → Z₃ Helix → CC solved, 3 gen automatic, SU(3) from geometry.
+    See <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM Foundation</a> for full derivation.
   </p>
 
   <h3>3.2 What Is Genuinely Predicted?</h3>
@@ -536,8 +547,18 @@
       </tr>
       <tr>
         <td style="color:var(--error);">"3 generations uniquely predicted"</td>
-        <td style="color:var(--success);">"3 generations from topology + coefficients calibrated to give n=3"</td>
-        <td style="color:var(--gold);">Mechanism ✓</td>
+        <td style="color:#4ade80;font-weight:bold;">"3 generations automatic: |Z₃| = 3 (v2.5 Helix)"</td>
+        <td style="color:#4ade80;">THEOREM</td>
+      </tr>
+      <tr>
+        <td style="color:var(--error);">"CC problem unsolved"</td>
+        <td style="color:#4ade80;font-weight:bold;">"CC solved: |R| = v → no domain wall → ρ<sub>vac</sub> = 0 (v2.5)"</td>
+        <td style="color:#4ade80;">SOLVED</td>
+      </tr>
+      <tr>
+        <td style="color:var(--error);">"SU(3) from holonomy cost"</td>
+        <td style="color:#4ade80;font-weight:bold;">"SU(3) from geometry: Z₃ = center(SU(3)) (v2.5)"</td>
+        <td style="color:#4ade80;">GEOMETRIC</td>
       </tr>
       <tr>
         <td style="color:var(--success);">"L<sub>X</sub> dynamically stabilized"</td>
@@ -559,22 +580,22 @@
 
 <!-- COMPLETE DERIVATION CHAIN -->
 <section class="section" id="derivation-chain" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.12) 0%, rgba(167,139,250,0.08) 100%);">
-  <h2 style="color:var(--gold);">5. Complete Derivation Chain (v2.4.1)</h2>
+  <h2 style="color:#4ade80;">5. Complete Derivation Chain (v2.5 Helix)</h2>
 
   <p style="color:var(--text);font-size:1.05rem;">
-    In v2.4.1, STUR adopts the principle: <strong>"Everything derived, nothing assumed."</strong> The entire framework flows from one unique coupling:
+    In v2.5, STUR achieves: <strong>"Everything derived, nothing assumed."</strong> The XCRM doublet forces Z₃ helix geometry, solving CC, giving 3 generations automatically, and deriving SU(3) from geometry:
   </p>
 
-  <div class="block gold" style="margin:1.5rem 0;border-width:3px;background:rgba(0,0,0,0.6);">
-    <div class="title" style="font-size:1.2rem;">Foundation: XCRM Coupling</div>
+  <div class="block success" style="margin:1.5rem 0;border-width:3px;background:rgba(0,0,0,0.6);">
+    <div class="title" style="font-size:1.2rem;">Foundation: XCRM Doublet Coupling (v2.5)</div>
     <p style="margin:0.5rem 0;color:var(--text-secondary);">
-      The unique renormalizable scalar-geometry operator on \(M^4 \times S^1/\mathbb{Z}_2\):
+      R = (R₁, R₂) doublet on M⁴ × S¹ with Z₃ helix geometry:
     </p>
-    <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);padding:1rem;">
-      \[\boxed{\XCRM{\chi R \partial_X R}}\]
+    <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid #4ade80;padding:1rem;">
+      \[\boxed{\XCRM{\chi}(\Diff{R_1}\XCRM{\partial_X}\Diff{R_2} - \Diff{R_2}\XCRM{\partial_X}\Diff{R_1}) = \XCRM{\chi}|\Diff{R}|^2\XCRM{\partial_X}\phi}\]
     </div>
     <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">
-      <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM uniqueness proof →</a>
+      <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM Doublet derivation →</a>
     </p>
   </div>
 
@@ -671,8 +692,8 @@
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR MHP Derivation & Moduli Stabilization</strong> · v2.4.1</p>
-  <p>© 2026 Sheldon Lon Lindberg · Everything derived, nothing assumed</p>
+  <p><strong>STUR MHP Derivation & Moduli Stabilization</strong> · v2.5 Helix</p>
+  <p>© 2026 Sheldon Lon Lindberg · XCRM Doublet → Z₃ Helix → CC solved, 3 gen automatic, SU(3) from geometry</p>
 </footer>
 
 </div>
