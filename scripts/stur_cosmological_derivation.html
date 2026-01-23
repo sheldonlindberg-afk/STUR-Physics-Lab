@@ -157,19 +157,20 @@
     <li>\(\Lambda_{\rm QFT}\): Standard Model vacuum energy</li>
   </ul>
 
-  <h3>1.2 The R-Field Contribution</h3>
+  <h3>1.2 The R-Field Contribution (v2.5 Helix)</h3>
 
   <p>
-    The diffusion field \(R\) has a potential energy:
+    The R-field doublet <strong>R</strong> = (R₁, R₂) = |<strong>R</strong>|e<sup>iφ</sup> has vacuum energy from both magnitude and phase:
   </p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{\Lambda_R = -c_R \int_0^{L_X} \Diff{R}(X)^2 \, dX = -c_R \, \Diff{R}_{\rm bg}^2 \, \XCRM{L_X}}\]
-    <div class="eq-label" style="color:var(--success);">(1.2) — Negative R-field vacuum energy</div>
+    \[\boxed{\Lambda_R = -c_R \int_0^{L_X} |\Diff{\mathbf{R}}(X)|^2 \, dX = -c_R \, |\Diff{\mathbf{R}}|_{\rm bg}^2 \, \XCRM{L_X}}\]
+    <div class="eq-label" style="color:var(--success);">(1.2) — Negative R-field vacuum energy (doublet)</div>
   </div>
 
   <p>
-    The crucial sign: the R-field kinetic term contributes <strong>negative</strong> vacuum energy!
+    The crucial sign: the R-field kinetic term contributes <strong>negative</strong> vacuum energy!<br>
+    <span style="color:var(--text-muted);font-size:0.9rem;">v2.5: On the Z₃ helix, |<strong>R</strong>| = v constant, and φ rotates 2π/3 per circuit.</span>
   </p>
 </section>
 
@@ -180,36 +181,36 @@
   <h3>2.1 MHP Minimization</h3>
 
   <p>
-    The MHP requires:
+    The MHP requires (v2.5 doublet):
   </p>
 
   <div class="eq boxed">
-    \[\frac{\partial \XCRM{\Omega}}{\partial \Diff{R}_{\rm bg}} = 0\]
-    <div class="eq-label">(2.1) — MHP condition for R</div>
+    \[\frac{\partial \XCRM{\Omega}}{\partial |\Diff{\mathbf{R}}|_{\rm bg}} = 0\]
+    <div class="eq-label">(2.1) — MHP condition for |<strong>R</strong>|</div>
   </div>
 
   <p>
-    The holonomy cost function includes the vacuum energy:
+    The holonomy cost function includes the vacuum energy (v2.5 doublet form):
   </p>
 
   <div class="eq boxed">
-    \[\XCRM{\Omega}[\Diff{R}] = \int d^4x \sqrt{-g} \left[\Lambda_{\rm other} - c_R \Diff{R}^2 + \frac{1}{2}(\partial\Diff{R})^2 + ...\right]\]
-    <div class="eq-label">(2.2) — Holonomy cost including vacuum</div>
+    \[\XCRM{\Omega}[\Diff{\mathbf{R}}] = \int d^4x \sqrt{-g} \left[\Lambda_{\rm other} - c_R |\Diff{\mathbf{R}}|^2 + \frac{1}{2}|\nabla\Diff{\mathbf{R}}|^2 + ...\right]\]
+    <div class="eq-label">(2.2) — Holonomy cost including vacuum (doublet kinetic: |∇<strong>R</strong>|² = (∇|<strong>R</strong>|)² + |<strong>R</strong>|²(∇φ)²)</div>
   </div>
 
   <h3>2.2 Dynamical Adjustment</h3>
 
   <p>
-    Minimizing with respect to \(R_{\rm bg}\):
+    Minimizing with respect to |<strong>R</strong>|<sub>bg</sub>:
   </p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--accent-violet);padding:1.25rem;">
-    \[\boxed{\frac{\partial \XCRM{\Omega}}{\partial \Diff{R}_{\rm bg}} = 0 \quad \Rightarrow \quad \Diff{R}_{\rm bg}^2 = \frac{\Lambda_{\rm other}}{c_R}}\]
-    <div class="eq-label" style="color:var(--accent-violet);">(2.3) — R-field self-tuning</div>
+    \[\boxed{\frac{\partial \XCRM{\Omega}}{\partial |\Diff{\mathbf{R}}|_{\rm bg}} = 0 \quad \Rightarrow \quad |\Diff{\mathbf{R}}|_{\rm bg}^2 = \frac{\Lambda_{\rm other}}{c_R}}\]
+    <div class="eq-label" style="color:var(--accent-violet);">(2.3) — R-field self-tuning (doublet magnitude)</div>
   </div>
 
   <p>
-    The R-field background <strong>automatically adjusts</strong> to cancel the vacuum energy!
+    The R-field magnitude <strong>automatically adjusts</strong> to cancel the vacuum energy!
   </p>
 
   <div class="block gold">
@@ -228,16 +229,16 @@
   <h3>3.1 Why Cancellation Isn't Perfect</h3>
 
   <p>
-    The self-tuning mechanism has a finite response time. The R-field equation of motion is:
+    The self-tuning mechanism has a finite response time. The R-field magnitude equation of motion (v2.5):
   </p>
 
   <div class="eq boxed">
-    \[\ddot{\Diff{R}} + 3H\dot{\Diff{R}} + \frac{\partial V}{\partial \Diff{R}} = 0\]
-    <div class="eq-label">(3.1) — R-field dynamics</div>
+    \[\ddot{|\Diff{\mathbf{R}}|} + 3H\dot{|\Diff{\mathbf{R}}|} + \frac{\partial V}{\partial |\Diff{\mathbf{R}}|} - |\Diff{\mathbf{R}}|\dot{\phi}^2 = 0\]
+    <div class="eq-label">(3.1) — R-field magnitude dynamics (doublet)</div>
   </div>
 
   <p>
-    The Hubble friction term \(3H\dot{R}\) limits how fast R can adjust.
+    The Hubble friction term 3H|<strong>Ṙ</strong>| limits how fast |<strong>R</strong>| can adjust. The phase φ satisfies ∂<sub>μ</sub>(|<strong>R</strong>|²∂<sup>μ</sup>φ) = 0 in vacuum.
   </p>
 
   <h3>3.2 Cosmological Timescale Sets Λ</h3>
@@ -282,12 +283,12 @@
   <h3>4.1 Dynamic Dark Energy</h3>
 
   <p>
-    The R-field acts as a quintessence-like dark energy with equation of state:
+    The R-field acts as a quintessence-like dark energy with equation of state (v2.5 doublet):
   </p>
 
   <div class="eq boxed">
-    \[w = \frac{p_R}{\rho_R} = \frac{\dot{R}^2/2 - V(R)}{\dot{R}^2/2 + V(R)}\]
-    <div class="eq-label">(4.1) — R-field equation of state</div>
+    \[w = \frac{p_R}{\rho_R} = \frac{\tfrac{1}{2}(\dot{|\mathbf{R}|}^2 + |\mathbf{R}|^2\dot{\phi}^2) - V(|\mathbf{R}|)}{\tfrac{1}{2}(\dot{|\mathbf{R}|}^2 + |\mathbf{R}|^2\dot{\phi}^2) + V(|\mathbf{R}|)}\]
+    <div class="eq-label">(4.1) — R-field equation of state (doublet kinetic energy)</div>
   </div>
 
   <p>
@@ -333,16 +334,16 @@
   <h3>5.2 R-Field Readjustment</h3>
 
   <p>
-    In STUR, the R-field readjusts after each phase transition:
+    In STUR, the R-field magnitude readjusts after each phase transition:
   </p>
 
   <div class="eq boxed">
-    \[\Diff{R}_{\rm bg} \to \Diff{R}_{\rm bg} + \delta R, \quad \text{where } c_R (\delta R)^2 \approx \Delta\Lambda_{\rm EW}\]
-    <div class="eq-label">(5.2) — Post-transition relaxation</div>
+    \[|\Diff{\mathbf{R}}|_{\rm bg} \to |\Diff{\mathbf{R}}|_{\rm bg} + \delta|\mathbf{R}|, \quad \text{where } c_R (\delta|\mathbf{R}|)^2 \approx \Delta\Lambda_{\rm EW}\]
+    <div class="eq-label">(5.2) — Post-transition relaxation (doublet magnitude)</div>
   </div>
 
   <p>
-    The adjustment happens on timescale \(\tau \sim m_R^{-1}\), much faster than \(H^{-1}\) at early times.
+    The adjustment happens on timescale τ ~ m<sub>|<strong>R</strong>|</sub><sup>-1</sup>, much faster than H<sup>-1</sup> at early times.
     This ensures the vacuum energy remains nearly canceled throughout cosmic history.
   </p>
 </section>
@@ -405,8 +406,8 @@
   <h2 style="color:var(--success);">Summary: Cosmological Constant Problem DERIVED</h2>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\Lambda_{\rm other} \xrightarrow{\text{MHP}} \Diff{R}_{\rm bg} \text{ adjusts} \xrightarrow{-c_R R^2} \text{cancellation} \xrightarrow{H\text{-limited}} \Lambda_{\rm eff} \sim H_0^2 M_{\rm Pl}^2}\]
-    <div class="eq-label" style="color:var(--success);">Complete Derivation Chain</div>
+    \[\boxed{\Lambda_{\rm other} \xrightarrow{\text{MHP}} |\Diff{\mathbf{R}}|_{\rm bg} \text{ adjusts} \xrightarrow{-c_R |\mathbf{R}|^2} \text{cancellation} \xrightarrow{H\text{-limited}} \Lambda_{\rm eff} \sim H_0^2 M_{\rm Pl}^2}\]
+    <div class="eq-label" style="color:var(--success);">Complete Derivation Chain (v2.5 doublet)</div>
   </div>
 
   <p style="text-align:center;margin-top:1rem;font-size:1.1rem;color:var(--text);">

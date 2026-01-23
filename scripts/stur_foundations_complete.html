@@ -801,19 +801,19 @@ code {
   </p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem 1.5rem;">
-    \[\boxed{S_{\rm STUR}[R, g, X] = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{-g}\,
-    \Big[\underbrace{\color{#4ade80}{\tfrac{1}{2}(\nabla R)^2}}_{\color{#4ade80}\text{diffusion}}
+    \[\boxed{S_{\rm STUR}[\mathbf{R}, g, X] = \int_{\mathcal{M}^5} d^4x\, dX\, \sqrt{-g}\,
+    \Big[\underbrace{\color{#4ade80}{\tfrac{1}{2}|\nabla\mathbf{R}|^2}}_{\color{#4ade80}\text{diffusion}}
     - \underbrace{\color{#f472b6}{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{relaxation}}
-    + \underbrace{\color{#fbbf24}{\chi\, R\,\partial_X R}}_{\color{#fbbf24}\text{XCRM}}
-    + \underbrace{\color{#60a5fa}{\alpha\, R\, \mathbb{T}}}_{\color{#60a5fa}\text{torsion}}
+    + \underbrace{\color{#fbbf24}{\chi\, |\mathbf{R}|^2\,\partial_X\phi}}_{\color{#fbbf24}\text{XCRM}}
+    + \underbrace{\color{#60a5fa}{\alpha\, |\mathbf{R}|\, \mathbb{T}}}_{\color{#60a5fa}\text{torsion}}
     + \color{#22d3ee}{\mathcal{L}_{\rm matter}}\Big]}\]
-    <div class="eq-label" style="color:var(--gold);">(0.1) — The Unified Resistance Action</div>
+    <div class="eq-label" style="color:var(--gold);">(0.1) — The Unified Resistance Action (v2.5 doublet: <strong>R</strong> = |<strong>R</strong>|e<sup>iφ</sup>)</div>
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
     <div style="padding:0.9rem;background:rgba(74,222,128,0.04);border-radius:8px;border-left:3px solid #4ade80;">
       <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Diffusion</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\tfrac{1}{2}(\nabla R)^2\) — Kinetic term driving spatial smoothing</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\tfrac{1}{2}|\nabla\mathbf{R}|^2 = \tfrac{1}{2}(\nabla|\mathbf{R}|)^2 + \tfrac{1}{2}|\mathbf{R}|^2(\nabla\phi)^2\) — Doublet kinetic</div>
     </div>
     <div style="padding:0.9rem;background:rgba(244,114,182,0.04);border-radius:8px;border-left:3px solid #f472b6;">
       <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Relaxation</div>
@@ -845,9 +845,9 @@ code {
   </div>
 
   <ol style="margin-top:1rem;">
-    <li><strong>Classical limit (\(\Quant{\hbar} \to 0\)):</strong> The PDE \(\partial_t \XCRM{R} = \Diff{D\nabla^2 R} - \Pot{V'(R)} + \XCRM{\chi\partial_X R} + \Tor{\alpha\mathbb{T}R}\) governs evolution. This is what the STUR Engine and Sandbox simulate.</li>
-    <li><strong>Stationary phase:</strong> Quantum amplitudes concentrate on classical paths \(\XCRM{\bar{R}}\) satisfying \(\delta S/\delta R = 0\).</li>
-    <li><strong>1-loop correction:</strong> The functional determinant \(\det(\delta^2 S/\delta R^2)\) gives leading quantum corrections. This appears in the Double Slit and Quantum Computing simulations.</li>
+    <li><strong>Classical limit (\(\Quant{\hbar} \to 0\)):</strong> The doublet magnitude PDE \(\partial_t |\XCRM{\mathbf{R}}| = \Diff{D\nabla^2 |\mathbf{R}|} - \Pot{V'(|\mathbf{R}|)} + |\mathbf{R}|(\nabla\phi)^2 + \XCRM{\chi|\mathbf{R}|\partial_X\phi} + \Tor{\alpha\mathbb{T}|\mathbf{R}|}\) governs evolution. This is what the STUR Engine and Sandbox simulate.</li>
+    <li><strong>Stationary phase:</strong> Quantum amplitudes concentrate on classical paths \(|\XCRM{\bar{\mathbf{R}}}|\) satisfying \(\delta S/\delta |\mathbf{R}| = 0\).</li>
+    <li><strong>1-loop correction:</strong> The functional determinant \(\det(\delta^2 S/\delta |\mathbf{R}|^2)\) gives leading quantum corrections. This appears in the Double Slit and Quantum Computing simulations.</li>
   </ol>
 
   <div class="block success" style="margin-top:1.25rem;">
@@ -1990,8 +1990,8 @@ code {
   </div>
 
   <div class="eq boxed">
-    \[S_{\rm scalar} = \int_{\Mcal^5} \dd^5 x\, e \left[\color{#4ade80}{-\frac{1}{2}(\nabla R)^2} \color{#f472b6}{- V(|\mathbf{R}|)} + \color{#fbbf24}{\Lcal_{\rm env}(R, \chi)}\right]\]
-    <div class="eq-label">(3.4) — Scalar + environment</div>
+    \[S_{\rm scalar} = \int_{\Mcal^5} \dd^5 x\, e \left[\color{#4ade80}{-\frac{1}{2}|\nabla\mathbf{R}|^2} \color{#f472b6}{- V(|\mathbf{R}|)} + \color{#fbbf24}{\Lcal_{\rm env}(|\mathbf{R}|, \phi)}\right]\]
+    <div class="eq-label">(3.4) — Scalar + environment (v2.5 doublet)</div>
   </div>
 
   <div class="eq boxed">
@@ -1999,15 +1999,16 @@ code {
     <div class="eq-label">(3.5) — Matter with Yukawa coupling</div>
   </div>
 
-  <h3>3.3 Field Equations</h3>
+  <h3>3.3 Field Equations (v2.5 Doublet)</h3>
   <div class="eq">
     \[\begin{aligned}
       \text{Gravity:} &\quad G_{\mu\nu} = \kappa_4 T_{\mu\nu} \\
       \text{Gauge:} &\quad \Dcal_M \Fcal^{MN} = \mathcal{J}^N \\
-      \text{Scalar:} &\quad \Box R - V'(R) = y\bar{\Psi}\Psi + \partial_R \Lcal_{\rm env} \\
-      \text{Fermion:} &\quad (i\Gamma^M D_M - yR)\Psi = 0
+      \text{Magnitude:} &\quad \nabla^2|\mathbf{R}| - V'(|\mathbf{R}|) - |\mathbf{R}|(\nabla\phi)^2 = y\bar{\Psi}\Psi + \partial_{|\mathbf{R}|} \Lcal_{\rm env} \\
+      \text{Phase:} &\quad \partial_\mu(|\mathbf{R}|^2\partial^\mu\phi) = -\chi\partial_X(|\mathbf{R}|^2) \\
+      \text{Fermion:} &\quad (i\Gamma^M D_M - y|\mathbf{R}|)\Psi = 0
     \end{aligned}\]
-    <div class="eq-label">(3.6)</div>
+    <div class="eq-label">(3.6) — Doublet: <strong>R</strong> = |<strong>R</strong>|e<sup>iφ</sup></div>
   </div>
 
   <h3>3.4 Semiclassical Expansion from XCRM</h3>
@@ -2321,7 +2322,7 @@ code {
     </div>
     <div class="step">
       <span class="step-label">Step 3:</span>
-      The diffusion term vanishes: \(\Diff{(\nabla R)^2} \to (\nabla \XCRM{R_{\rm bg}})^2 = 0\).
+      The diffusion term vanishes: \(\Diff{|\nabla\mathbf{R}|^2} \to (\nabla |\XCRM{\mathbf{R}}|_{\rm bg})^2 + |\XCRM{\mathbf{R}}|_{\rm bg}^2(\nabla\phi)^2 \to 0\) at equilibrium.
     </div>
     <div class="step">
       <span class="step-label">Step 4:</span>
@@ -2586,11 +2587,11 @@ code {
 <section class="section" id="sec6">
   <h2>6. Scalar Sector: Effective Dynamics</h2>
 
-  <h3>6.1 Microscopic Theory</h3>
+  <h3>6.1 Microscopic Theory (v2.5 Doublet)</h3>
   <div class="eq">
-    \[\Lcal_{\rm scalar}^{\rm micro} = -\frac{1}{2}(\partial R)^2 - V(|\mathbf{R}|) - \frac{1}{2}(\partial\chi)^2 
-    - \frac{1}{2}m_\chi^2 \chi^2 - \lambda R\chi^2\]
-    <div class="eq-label">(6.1)</div>
+    \[\Lcal_{\rm scalar}^{\rm micro} = -\frac{1}{2}|\nabla\mathbf{R}|^2 - V(|\mathbf{R}|) - \frac{1}{2}(\partial\chi)^2
+    - \frac{1}{2}m_\chi^2 \chi^2 - \lambda |\mathbf{R}|\chi^2\]
+    <div class="eq-label">(6.1) — Doublet kinetic: |∇<strong>R</strong>|² = (∇|<strong>R</strong>|)² + |<strong>R</strong>|²(∇φ)²</div>
   </div>
 
   <p>
@@ -4786,13 +4787,13 @@ code {
 
   <div class="eq">
     \[
-      \color{#4ade80}{S_{\rm scalar}} = \color{#c4b5fd}{\int} d^5x\, e\, \left[\color{#4ade80}{-\frac{1}{2}(\nabla R)^2} \color{#f472b6}{- V(|\mathbf{R}|)} + \color{#60a5fa}{\alpha R\, \mathbb{T}}\right]
+      \color{#4ade80}{S_{\rm scalar}} = \color{#c4b5fd}{\int} d^5x\, e\, \left[\color{#4ade80}{-\frac{1}{2}|\nabla\mathbf{R}|^2} \color{#f472b6}{- V(|\mathbf{R}|)} + \color{#60a5fa}{\alpha |\mathbf{R}|\, \mathbb{T}}\right]
     \]
-    <div class="eq-label">(E.1)</div>
+    <div class="eq-label">(E.1) — v2.5 doublet</div>
   </div>
 
   <p>
-    The critical term is the torsion coupling \(\alpha R\, \mathbb{T}\). In the weak-field, non-relativistic limit,
+    The critical term is the torsion coupling \(\alpha |\mathbf{R}|\, \mathbb{T}\). In the weak-field, non-relativistic limit,
     the torsion scalar \(\mathbb{T}\) reduces to a trace involving gravitational field gradients:
     \(\mathbb{T} \to -2\nabla^2 \Phi_N / c^2\), where \(\Phi_N\) is the Newtonian potential.
   </p>

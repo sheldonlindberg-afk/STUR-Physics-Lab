@@ -72,11 +72,11 @@
     <div class="eq-label" style="color:var(--gold);">(1.1) — Full 5D path integral</div>
   </div>
 
-  <p>where S<sub>STUR</sub> is the Master Action (from XCRM):</p>
+  <p>where S<sub>STUR</sub> is the Master Action (from XCRM, v2.5 doublet form):</p>
 
   <div class="eq boxed">
-    \[S_{\rm STUR} = \int d^5x \sqrt{-g} \left[\frac{M_5^3}{2}\mathcal{R} + \frac{1}{2}(\partial R)^2 - V(R) + \alpha |\mathbf{R}| \mathbb{T} + \mathcal{L}_{\rm gauge} + \mathcal{L}_{\rm matter}\right]\]
-    <div class="eq-label">(1.2)</div>
+    \[S_{\rm STUR} = \int d^5x \sqrt{-g} \left[\frac{M_5^3}{2}\mathcal{R} + \frac{1}{2}|\nabla\mathbf{R}|^2 - V(|\mathbf{R}|) + \chi|\mathbf{R}|^2\partial_X\phi + \alpha |\mathbf{R}| \mathbb{T} + \mathcal{L}_{\rm gauge} + \mathcal{L}_{\rm matter}\right]\]
+    <div class="eq-label">(1.2) — Doublet kinetic: |∇<strong>R</strong>|² = (∇|<strong>R</strong>|)² + |<strong>R</strong>|²(∇φ)²</div>
   </div>
 
   <h3>1.2 Dimensional Reduction to 4D</h3>
@@ -331,11 +331,11 @@
 
   <h3>5.3 Decoherence Rate</h3>
 
-  <p>The off-diagonal terms decay with rate:</p>
+  <p>The off-diagonal terms decay with rate (v2.5 doublet):</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--matter);">
-    \[\boxed{\Gamma_{\rm dec} = \frac{y^2 \langle R^2 \rangle}{\hbar^2} \cdot \Delta x^2}\]
-    <div class="eq-label" style="color:var(--matter);">(5.3) — Decoherence rate from R-field</div>
+    \[\boxed{\Gamma_{\rm dec} = \frac{y^2 \langle |\mathbf{R}|^2 \rangle}{\hbar^2} \cdot \Delta x^2}\]
+    <div class="eq-label" style="color:var(--matter);">(5.3) — Decoherence rate from R-field magnitude</div>
   </div>
 
   <p>For macroscopic separations Δx, Γ<sub>dec</sub> >> observation time, giving effective collapse.</p>
