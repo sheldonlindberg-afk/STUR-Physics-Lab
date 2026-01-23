@@ -222,22 +222,53 @@
     <li>||h||<sup>2</sup> = Tr(h<sup>&dagger;</sup>h) is the holonomy norm</li>
   </ul>
 
-  <h3>2.3 Determining c<sub>h</sub></h3>
+  <h3>2.3 Complete Derivation of c<sub>h</sub></h3>
 
-  <p>The coefficient c<sub>h</sub> is computed from the Faddeev-Popov procedure:</p>
+  <div class="block" style="border:3px solid #a855f7;background:rgba(168,85,247,0.08);margin:1rem 0;">
+    <div class="title" style="color:#a855f7;">★ Holonomy Coefficient: Full Derivation</div>
 
-  <div class="eq">
-    \[c_h = \frac{g^2 C_2(G)}{16\pi^2}\]
-    <div class="eq-label">(2.3) &mdash; Holonomy coefficient</div>
-  </div>
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin:0.5rem 0;">
+      <strong>Step 1: General formula from Faddeev-Popov determinant</strong>
+    </p>
 
-  <p>where g is the gauge coupling and C<sub>2</sub>(G) is the quadratic Casimir of the gauge group.</p>
+    <div class="eq" style="border-color:#a855f7;">
+      \[\XCRM{c_h} = \frac{1}{16\pi^2} \sum_a g_a^2 C_2(G_a)\]
+      <div class="eq-label">(2.3a) &mdash; Holonomy coefficient formula</div>
+    </div>
 
-  <p>For G<sub>SM</sub> = SU(3) &times; SU(2) &times; U(1):</p>
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin:0.75rem 0;">
+      <strong>Step 2: Standard Model gauge group contributions</strong>
+    </p>
 
-  <div class="eq">
-    \[c_h \approx \frac{\alpha_s \cdot 3 + \alpha_W \cdot 2 + \alpha_Y \cdot 0}{4\pi} \approx 0.03\]
-    <div class="eq-label">(2.4) &mdash; SM holonomy coefficient</div>
+    <table style="font-size:0.85rem;margin:0.75rem 0;">
+      <tr><th>Group</th><th>C₂(G)</th><th>g²/4π (at M<sub>Z</sub>)</th><th>Contribution</th></tr>
+      <tr><td>SU(3)<sub>c</sub></td><td>3</td><td>α<sub>s</sub> = 0.118</td><td>3 × 0.118/4π = 0.0282</td></tr>
+      <tr><td>SU(2)<sub>L</sub></td><td>2</td><td>α<sub>W</sub> = 0.034</td><td>2 × 0.034/4π = 0.0054</td></tr>
+      <tr><td>U(1)<sub>Y</sub></td><td>0</td><td>α<sub>Y</sub> = 0.010</td><td>0</td></tr>
+      <tr style="background:rgba(168,85,247,0.15);"><td><strong>Total</strong></td><td></td><td></td><td><strong>0.0336 ≈ 0.03</strong></td></tr>
+    </table>
+
+    <div class="eq law" style="border-color:#a855f7;background:#000;">
+      \[\boxed{\XCRM{c_h} = \frac{3\alpha_s + 2\alpha_W}{4\pi} = \frac{3 \times 0.118 + 2 \times 0.034}{4\pi} = \frac{0.422}{12.57} = 0.0336}\]
+      <div class="eq-label" style="color:#a855f7;">(2.3b) &mdash; c<sub>h</sub> = 0.034 (DERIVED)</div>
+    </div>
+
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin:0.75rem 0;">
+      <strong>Step 3: Holonomy norm ||h||²</strong>
+    </p>
+
+    <p style="color:var(--text-secondary);font-size:0.85rem;">
+      For the Standard Model gauge group, ||h||² = Tr(h†h) where h is the holonomy matrix. On Z₃ helix:
+    </p>
+
+    <div class="eq" style="margin:0.5rem 0;">
+      \[h_{Z_3} = \text{diag}(1, \omega, \omega^2) \otimes \mathbf{1}_{\text{SM}}, \quad \omega = e^{2\pi i/3}\]
+    </div>
+
+    <div class="eq law" style="border-color:#4ade80;background:#000;">
+      \[\boxed{\|h\|^2 = \text{dim}(G_{\rm SM}) = 8 + 3 + 1 = 12}\]
+      <div class="eq-label" style="color:#4ade80;">(2.3c) &mdash; ||h||² = 12 (DERIVED from dim(G<sub>SM</sub>))</div>
+    </div>
   </div>
 
 </section>

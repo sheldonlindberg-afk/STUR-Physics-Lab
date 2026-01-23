@@ -348,6 +348,431 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;">Real-time mitochondria population dynamics with STUR resistance modulation. Watch how the S(r) saturation function affects ATP production, ROS damage, and mPTP opening.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="mitoCanvas" width="600" height="400" style="background:#050814;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+                        <button class="glass-btn primary" id="mitoStart">Start</button>
+                        <button class="glass-btn" id="mitoReset">Reset</button>
+                        <button class="glass-btn" id="mitoToggleSTUR" style="background:rgba(251,191,36,0.15);border-color:#fbbf24;color:#fbbf24;">STUR: ON</button>
+                        <select id="mitoMode" class="glass-btn" style="padding:0.4rem 0.75rem;background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border-dim);border-radius:6px;">
+                            <option value="healthy">Healthy</option>
+                            <option value="uncoupled">Uncoupled</option>
+                            <option value="apoptotic">Apoptotic</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Controls Panel -->
+                <div style="background:var(--bg-secondary);border-radius:12px;padding:1rem;border:1px solid var(--border-dim);">
+                    <h4 style="color:var(--neon-green);margin-bottom:1rem;font-size:0.9rem;">Parameters</h4>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            L₀ (coherence): <span id="mitoL0Val">0.25</span> µm
+                        </label>
+                        <input type="range" id="mitoL0" min="0.1" max="0.5" step="0.01" value="0.25" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Population: <span id="mitoPopVal">200</span>
+                        </label>
+                        <input type="range" id="mitoPop" min="50" max="500" step="10" value="200" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            ATP Demand: <span id="mitoATPVal">1.0</span>×
+                        </label>
+                        <input type="range" id="mitoATP" min="0.5" max="2.0" step="0.1" value="1.0" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Ca²⁺ Stress: <span id="mitoCaVal">1.0</span>×
+                        </label>
+                        <input type="range" id="mitoCa" min="0.5" max="3.0" step="0.1" value="1.0" style="width:100%;">
+                    </div>
+
+                    <hr style="border:none;border-top:1px solid var(--border-dim);margin:1rem 0;">
+
+                    <h4 style="color:var(--neon-cyan);margin-bottom:0.75rem;font-size:0.9rem;">Live Diagnostics</h4>
+                    <div class="glass-metrics" style="grid-template-columns:1fr 1fr;gap:0.5rem;">
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">pmf (mV)</div>
+                            <div class="glass-metric-value" id="mitoPmfLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">S(u)</div>
+                            <div class="glass-metric-value" id="mitoSuLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Healthy</div>
+                            <div class="glass-metric-value" id="mitoHealthyLive" style="font-size:0.9rem;color:#4ade80;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Damaged</div>
+                            <div class="glass-metric-value" id="mitoDamagedLive" style="font-size:0.9rem;color:#ef4444;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">mPTP Open</div>
+                            <div class="glass-metric-value" id="mitoMptpLive" style="font-size:0.9rem;color:#f472b6;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Time</div>
+                            <div class="glass-metric-value" id="mitoTimeLive" style="font-size:0.9rem;">0.0s</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+                    <strong style="color:#fbbf24;">STUR Effect:</strong> The resistance modulator <span class="eq-xcrm">S(r) = tanh(r/L₀)(1 - e<sup>-r/L₀</sup>)</span>
+                    couples cristae curvature to ATP efficiency. Toggle STUR off to see standard bioenergetics without geometric coherence effects.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Holoscreen JavaScript -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('mitoCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Controls
+        const startBtn = document.getElementById('mitoStart');
+        const resetBtn = document.getElementById('mitoReset');
+        const toggleSTURBtn = document.getElementById('mitoToggleSTUR');
+        const modeSelect = document.getElementById('mitoMode');
+        const L0Slider = document.getElementById('mitoL0');
+        const popSlider = document.getElementById('mitoPop');
+        const atpSlider = document.getElementById('mitoATP');
+        const caSlider = document.getElementById('mitoCa');
+
+        // Value displays
+        const L0Val = document.getElementById('mitoL0Val');
+        const popVal = document.getElementById('mitoPopVal');
+        const atpVal = document.getElementById('mitoATPVal');
+        const caVal = document.getElementById('mitoCaVal');
+
+        // Live diagnostics
+        const pmfLive = document.getElementById('mitoPmfLive');
+        const suLive = document.getElementById('mitoSuLive');
+        const healthyLive = document.getElementById('mitoHealthyLive');
+        const damagedLive = document.getElementById('mitoDamagedLive');
+        const mptpLive = document.getElementById('mitoMptpLive');
+        const timeLive = document.getElementById('mitoTimeLive');
+
+        // State
+        let running = false;
+        let sturEnabled = true;
+        let animationId = null;
+        let simTime = 0;
+        let mitochondria = [];
+
+        // Parameters
+        let params = {
+            L0: 0.25,
+            population: 200,
+            atpDemand: 1.0,
+            caStress: 1.0
+        };
+
+        // STUR Saturation function
+        function S_STUR(r, L0) {
+            const x = r / L0;
+            return Math.tanh(x) * (1 - Math.exp(-x));
+        }
+
+        // Mode parameters
+        function getModeParams(mode) {
+            switch(mode) {
+                case 'healthy':
+                    return { driveK: 4, leakBase: 3e-4, rosGain: 5e-4, rosThresh: 220 };
+                case 'uncoupled':
+                    return { driveK: 4, leakBase: 1.5e-3, rosGain: 5e-4, rosThresh: 190 };
+                case 'apoptotic':
+                    return { driveK: 4.8, leakBase: 2.5e-3, rosGain: 6e-3, rosThresh: 160 };
+                default:
+                    return { driveK: 4, leakBase: 3e-4, rosGain: 5e-4, rosThresh: 220 };
+            }
+        }
+
+        // Initialize mitochondria
+        function initMitochondria() {
+            mitochondria = [];
+            const count = params.population;
+            const margin = 30;
+            const w = canvas.width - 2 * margin;
+            const h = canvas.height - 80;
+
+            for (let i = 0; i < count; i++) {
+                const r_curv = 0.1 + Math.random() * 0.4; // cristae curvature 0.1-0.5 µm
+                mitochondria.push({
+                    x: margin + Math.random() * w,
+                    y: margin + Math.random() * h,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: (Math.random() - 0.5) * 0.3,
+                    pmf: 20 + Math.random() * 30,
+                    damage: 0,
+                    ca: 0.1,
+                    mptpOpen: false,
+                    r_curv: r_curv,
+                    size: 4 + r_curv * 8
+                });
+            }
+            simTime = 0;
+        }
+
+        // Update simulation
+        function update(dt) {
+            const mode = modeSelect.value;
+            const modeP = getModeParams(mode);
+            const L0 = params.L0;
+            const atpMult = params.atpDemand;
+            const caMult = params.caStress;
+
+            // STUR geometry values
+            const Rd = 0.3, Rl = 0.6;
+            const Sd = sturEnabled ? S_STUR(Rd, L0) : 0.5;
+
+            // ATP burst around t=30
+            let atpBurst = 0;
+            if (simTime > 20 && simTime < 40) {
+                atpBurst = 2 * Math.exp(-Math.pow(simTime - 30, 2) / 50);
+            }
+            const atpUse = (1 + atpBurst) * atpMult;
+
+            // NADH oscillation
+            const NADH = Math.max(0, 0.5 + 0.5 * Math.sin(2 * Math.PI * simTime / 2) * Math.exp(-simTime / 4));
+
+            let totalPmf = 0;
+            let healthyCount = 0;
+            let damagedCount = 0;
+            let mptpCount = 0;
+
+            for (let m of mitochondria) {
+                // Position update with boundary bounce
+                m.x += m.vx;
+                m.y += m.vy;
+                if (m.x < 30 || m.x > canvas.width - 30) m.vx *= -1;
+                if (m.y < 30 || m.y > canvas.height - 80) m.vy *= -1;
+
+                // STUR effect on efficiency
+                const Su = sturEnabled ? S_STUR(m.r_curv, L0) : 0;
+                const efficiencyBoost = sturEnabled ? (1 + 0.15 * Su) : 1;
+                const damageProtection = sturEnabled ? Math.exp(-0.3 * Su) : 1;
+
+                // Bioenergetics
+                const leakEff = modeP.leakBase * (1 + 5 * m.damage) * (m.mptpOpen ? 50 : 1);
+                const pumpMult = m.mptpOpen ? 0.1 : 1;
+
+                const pDrive = 400 * modeP.driveK * Sd * NADH * pumpMult * efficiencyBoost;
+                const ros = modeP.rosGain * Math.max(0, m.pmf - modeP.rosThresh * 0.6);
+
+                // Update pmf
+                const dpmf = (pDrive - leakEff * m.pmf - 0.03 * atpUse - 2e-3 * ros) / 5;
+                m.pmf = Math.max(0, Math.min(500, m.pmf + dpmf * dt + (Math.random() - 0.5) * 0.5));
+
+                // Update damage (protected by STUR)
+                m.damage += 1e-5 * ros * dt * damageProtection;
+                m.damage = Math.min(1, m.damage);
+
+                // Update Ca2+
+                const caIn = (0.005 + 0.05 * ros) * caMult;
+                m.ca += caIn * dt - 0.05 * (m.ca - 0.1) * dt;
+                m.ca = Math.max(0.1, m.ca);
+
+                // mPTP opening (STUR raises threshold)
+                const caThresh = sturEnabled ? 0.5 * (1 + 0.5 * Su) : 0.5;
+                const damageThresh = sturEnabled ? 0.5 * (1 + 0.3 * Su) : 0.5;
+                if (m.damage > damageThresh && m.ca > caThresh && !m.mptpOpen) {
+                    m.mptpOpen = true;
+                }
+
+                // Count states
+                totalPmf += m.pmf;
+                if (m.mptpOpen) mptpCount++;
+                else if (m.damage > 0.3) damagedCount++;
+                else healthyCount++;
+            }
+
+            simTime += dt;
+
+            // Update diagnostics
+            const avgPmf = totalPmf / mitochondria.length;
+            const avgSu = sturEnabled ? S_STUR(0.25, L0) : 0;
+            pmfLive.textContent = avgPmf.toFixed(1);
+            suLive.textContent = sturEnabled ? avgSu.toFixed(3) : '—';
+            healthyLive.textContent = healthyCount;
+            damagedLive.textContent = damagedCount;
+            mptpLive.textContent = mptpCount;
+            timeLive.textContent = simTime.toFixed(1) + 's';
+        }
+
+        // Draw
+        function draw() {
+            ctx.fillStyle = '#050814';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw title
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.font = 'bold 14px monospace';
+            ctx.fillText(sturEnabled ? 'STUR Mitochondria Population' : 'Standard Bioenergetics', 20, 25);
+
+            // Draw mode
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '11px monospace';
+            ctx.fillText(`Mode: ${modeSelect.value.toUpperCase()} | L₀=${params.L0.toFixed(2)}µm`, 20, 42);
+
+            // Draw mitochondria
+            for (let m of mitochondria) {
+                let color;
+                if (m.mptpOpen) {
+                    color = '#ef4444'; // Red - mPTP open
+                } else if (m.damage > 0.3) {
+                    color = '#f97316'; // Orange - damaged
+                } else if (sturEnabled) {
+                    // Gold gradient based on STUR efficiency
+                    const Su = S_STUR(m.r_curv, params.L0);
+                    const g = Math.floor(180 + Su * 75);
+                    color = `rgb(251, ${g}, 36)`;
+                } else {
+                    // Cyan for standard
+                    color = '#22d3ee';
+                }
+
+                ctx.beginPath();
+                ctx.ellipse(m.x, m.y, m.size * 1.5, m.size, 0, 0, 2 * Math.PI);
+                ctx.fillStyle = color;
+                ctx.globalAlpha = 0.7 + 0.3 * (m.pmf / 200);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+
+                // Inner membrane (cristae) lines
+                if (!m.mptpOpen && m.damage < 0.5) {
+                    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                    ctx.lineWidth = 0.5;
+                    for (let i = -2; i <= 2; i++) {
+                        ctx.beginPath();
+                        ctx.moveTo(m.x - m.size, m.y + i * 1.5);
+                        ctx.lineTo(m.x + m.size, m.y + i * 1.5);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw legend
+            ctx.font = '10px monospace';
+            const legendY = canvas.height - 25;
+
+            ctx.fillStyle = '#4ade80';
+            ctx.fillRect(20, legendY, 10, 10);
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Healthy', 35, legendY + 9);
+
+            ctx.fillStyle = '#f97316';
+            ctx.fillRect(100, legendY, 10, 10);
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Damaged', 115, legendY + 9);
+
+            ctx.fillStyle = '#ef4444';
+            ctx.fillRect(190, legendY, 10, 10);
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('mPTP Open', 205, legendY + 9);
+
+            if (sturEnabled) {
+                ctx.fillStyle = '#fbbf24';
+                ctx.fillRect(290, legendY, 10, 10);
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText('STUR Active', 305, legendY + 9);
+            }
+
+            // Draw time bar
+            const barWidth = canvas.width - 40;
+            const progress = Math.min(simTime / 100, 1);
+            ctx.fillStyle = '#1f2a44';
+            ctx.fillRect(20, canvas.height - 10, barWidth, 4);
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.fillRect(20, canvas.height - 10, barWidth * progress, 4);
+        }
+
+        // Animation loop
+        function animate() {
+            if (!running) return;
+            update(0.1);
+            draw();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Event handlers
+        startBtn.addEventListener('click', function() {
+            running = !running;
+            startBtn.textContent = running ? 'Pause' : 'Start';
+            if (running) animate();
+        });
+
+        resetBtn.addEventListener('click', function() {
+            running = false;
+            startBtn.textContent = 'Start';
+            if (animationId) cancelAnimationFrame(animationId);
+            initMitochondria();
+            draw();
+        });
+
+        toggleSTURBtn.addEventListener('click', function() {
+            sturEnabled = !sturEnabled;
+            toggleSTURBtn.textContent = sturEnabled ? 'STUR: ON' : 'STUR: OFF';
+            toggleSTURBtn.style.background = sturEnabled ? 'rgba(251,191,36,0.15)' : 'rgba(34,211,238,0.15)';
+            toggleSTURBtn.style.borderColor = sturEnabled ? '#fbbf24' : '#22d3ee';
+            toggleSTURBtn.style.color = sturEnabled ? '#fbbf24' : '#22d3ee';
+            draw();
+        });
+
+        // Slider handlers
+        L0Slider.addEventListener('input', function() {
+            params.L0 = parseFloat(this.value);
+            L0Val.textContent = params.L0.toFixed(2);
+        });
+
+        popSlider.addEventListener('input', function() {
+            params.population = parseInt(this.value);
+            popVal.textContent = params.population;
+            initMitochondria();
+            draw();
+        });
+
+        atpSlider.addEventListener('input', function() {
+            params.atpDemand = parseFloat(this.value);
+            atpVal.textContent = params.atpDemand.toFixed(1);
+        });
+
+        caSlider.addEventListener('input', function() {
+            params.caStress = parseFloat(this.value);
+            caVal.textContent = params.caStress.toFixed(1);
+        });
+
+        // Initialize
+        initMitochondria();
+        draw();
+    })();
+    </script>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">

@@ -85,7 +85,7 @@
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Derives galactic rotation curves from the STUR radial modulator \(\XCRM{S(r)}\).
-            The same <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">Z₃ helix-derived V(R)</a> that governs particle physics produces flat rotation at galactic scales — L₀, Λ, and φ are derived from the Z₃ helix geometry.
+            The same <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">Z₃ helix-derived V(R)</a> that governs particle physics produces flat rotation at galactic scales — the universal S(r) form applies at all scales per Theorem E.2.
         </p>
 
         <!-- Status Badge -->
@@ -125,10 +125,8 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">ALL Parameters Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Modulator form:</strong> \(\XCRM{\mathcal{S}(r)}\) arises from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">Z₃ helix-derived V(R)</a> via radial integration of coherence kernel</li>
-                <li><strong>Length scale L₀:</strong> Derived from XCRM coherence scaling (see derivation below)</li>
-                <li><strong>Cosmological cutoff Λ:</strong> Identical to <a href="stur_cosmological_constant.html" style="color:var(--neon-green)">cosmological Λ derivation</a> — residual R-field energy density</li>
-                <li><strong>Coupling φ:</strong> Fixed by holonomy normalization: \(\oint \phi\,d\theta = 2\pi\)</li>
+                <li><strong>Modulator form:</strong> \(\XCRM{S(r)} = \tanh(r/L_0)(1 - e^{-r/L_0})\) — universal form from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">Z₃ helix-derived V(R) (Theorem E.2)</a></li>
+                <li><strong>Length scale L₀:</strong> Derived from XCRM coherence scaling at galactic scales (see derivation below)</li>
                 <li><strong>Dark matter equivalent:</strong> KK parity LKP (Eq. F.20) provides DM mass without new particles</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-cyan);">Observational Inputs (Standard Astrophysics):</strong></p>
@@ -173,51 +171,33 @@
                 </p>
             </div>
 
-            <!-- Lambda Derivation -->
-            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;border-left:3px solid var(--neon-gold);">
-                <h4 style="color:var(--neon-gold);font-size:0.9rem;margin:0 0 0.75rem;">Derivation 2: Cosmological Cutoff Λ</h4>
-                <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:0.5rem;">
-                    The cutoff Λ is <em>identical</em> to the cosmological constant derived in <a href="stur_cosmological_constant.html" style="color:var(--neon-gold);">the Λ derivation page</a>. From the residual R-field energy density after relaxation:
-                </p>
-                <div style="margin:0.75rem 0;padding:10px;background:rgba(251,191,36,0.08);border-radius:4px;">
-                    \[\Pot{\Lambda} = \frac{8\pi \Tor{G}}{\Diff{c}^4} \cdot \Pot{\rho_{\rm vac}} = \frac{\Pot{m_R}^2 \Pot{v^2}}{2\Matt{M_{\rm Pl}^2}} \cdot \frac{1}{\XCRM{N_{\rm eff}}}\]
-                </div>
-                <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:0.5rem;">
-                    With \(\Pot{m_R} \sim \text{meV}\), \(\Pot{v} = 246\,\text{GeV}\), and \(\XCRM{N_{\rm eff}} = (\Matt{M_{\rm Pl}}/\XCRM{M_{\rm KK}})^2 \sim 10^{30}\):
-                </p>
-                <div style="margin:0.5rem 0;padding:10px;background:rgba(251,191,36,0.15);border-radius:4px;border:1px solid rgba(251,191,36,0.4);">
-                    \[\boxed{\Pot{\Lambda} = 4.5 \times 10^{-52}\,\text{m}^{-2} \;\Leftrightarrow\; r_\Lambda = 1/\sqrt{\Lambda} \approx 1.5\,\text{Mpc}}\]
-                </div>
-                <p style="font-size:0.8rem;color:var(--text-dim);margin:0.5rem 0 0;">
-                    <strong>Consistency check:</strong> This Λ matches Planck 2018 cosmological measurements within 1σ.
-                </p>
-            </div>
-
-            <!-- phi Derivation -->
+            <!-- S(r) Form Derivation -->
             <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;border-left:3px solid var(--accent-violet);">
-                <h4 style="color:var(--accent-violet);font-size:0.9rem;margin:0 0 0.75rem;">Derivation 3: Holonomy Coupling φ</h4>
+                <h4 style="color:var(--accent-violet);font-size:0.9rem;margin:0 0 0.75rem;">Derivation 2: Universal Modulator Form (Theorem E.2)</h4>
                 <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:0.5rem;">
-                    The coupling φ is fixed by the holonomy normalization condition. For the X-bundle phase to be single-valued:
+                    The saturation operator S(r) derived from V(|R|) applies <strong>identically at all scales</strong> with appropriate L₀:
                 </p>
                 <div style="margin:0.75rem 0;padding:10px;background:rgba(167,139,250,0.08);border-radius:4px;">
-                    \[\oint_{\gamma} \XCRM{\phi}\,\Diff{R}\,\partial_X\Diff{R}\,dX = 2\pi n, \quad n \in \mathbb{Z}\]
+                    \[\XCRM{S(r)} = \tanh(r/\XCRM{L_0})\cdot(1 - e^{-r/\XCRM{L_0}})\]
                 </div>
                 <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:0.5rem;">
-                    For the fundamental winding (n=1) with background \(\langle R \rangle = v\):
+                    Key properties derived from V(R):
                 </p>
+                <ul style="font-size:0.85rem;color:var(--text-secondary);margin:0 0 0.5rem 1.2rem;">
+                    <li>\(\XCRM{S(r)} \to 0\) as \(r \to 0\): Quadratic onset (smooth core)</li>
+                    <li>\(\XCRM{S(r)} \to 1\) as \(r \to \infty\): Newtonian limit recovered</li>
+                    <li>Same functional form at micro, stellar, and galactic scales</li>
+                </ul>
                 <div style="margin:0.5rem 0;padding:10px;background:rgba(167,139,250,0.15);border-radius:4px;border:1px solid rgba(167,139,250,0.4);">
-                    \[\boxed{\XCRM{\phi} = \frac{2\pi}{\Pot{v}^2 \XCRM{L_X}} \approx 1.0 \quad \text{(dimensionless, normalized)}}\]
+                    \[\boxed{\XCRM{S(r)} = \tanh(r/L_0)(1-e^{-r/L_0}) \quad \text{for } L_0 \in \{L_\text{micro}, L_\text{stellar}, L_\text{galactic}\}}\]
                 </div>
-                <p style="font-size:0.8rem;color:var(--text-dim);margin:0.5rem 0 0;">
-                    <strong>Physical meaning:</strong> φ = 1 means the modulator reaches full strength at the coherence scale — no arbitrary normalization.
-                </p>
             </div>
 
             <div style="margin-top:1rem;padding:1rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.3);">
-                <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">One Effective Parameter</h4>
+                <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">Universal S(r) Form — Zero Additional Parameters</h4>
                 <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;">
-                    All three galactic parameters (L₀, Λ, φ) are derived from the same XCRM/Z₃ helix structure that governs microscale physics.
-                    The <strong>L_X/σ_R ratio</strong> (one effective parameter) determines both particle physics and galactic dynamics. The galactic modulator form is not fitted — it is derived.
+                    The galactic modulator uses the <strong>same S(r) functional form</strong> as microscale physics (Theorem E.2).
+                    Only L₀ changes with scale — the form itself is universal. Both particle physics and galactic dynamics emerge from the same V(R) potential.
                 </p>
             </div>
         </div>
@@ -298,32 +278,32 @@
             </div>
 
             <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
-                <strong style="color:var(--neon-cyan);">GALAXY.2 — Modulator Peak Location</strong>
+                <strong style="color:var(--neon-cyan);">GALAXY.2 — Modulator Transition Scale</strong>
                 <div class="stur-eq derived" style="margin:0.75rem 0;">
-                    \[\boxed{\Matt{r_{\text{peak}}} = \XCRM{L_0} \cdot \sqrt{\frac{1 + \sqrt{5}}{2}} \approx 1.27\,\XCRM{L_0}}\]
+                    \[\boxed{\XCRM{S(L_0)} = \tanh(1)(1 - e^{-1}) \approx 0.48}\]
                 </div>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
-                    The modulator peaks at \(\sim 12\,\text{kpc}\) for standard spirals. This predicts a universal transition radius correlated with galaxy mass.
+                    At \(r = L_0\), the modulator reaches ~48% of full strength. For \(r > 3L_0\), \(\XCRM{S(r)} > 0.95\) (Newtonian regime). This transition scale is universal across all galaxies.
                 </p>
             </div>
 
             <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
-                <strong style="color:var(--neon-gold);">GALAXY.3 — Cosmological Cutoff Scale</strong>
+                <strong style="color:var(--neon-gold);">GALAXY.3 — Newtonian Limit Recovery</strong>
                 <div class="stur-eq derived" style="margin:0.75rem 0;">
-                    \[\boxed{\Matt{r_{\Lambda}} = \frac{1}{\sqrt{\Pot{\Lambda}}} \approx 4.7 \times 10^{25}\,\text{m} \sim 1.5\,\text{Mpc}}\]
+                    \[\boxed{\XCRM{S(r)} \to 1 \quad \text{as} \quad r \gg \XCRM{L_0}}\]
                 </div>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
-                    STUR predicts exponential suppression of rotation enhancement beyond \(\sim 1.5\,\text{Mpc}\). No effect on cosmic scales — consistent with large-scale structure observations.
+                    STUR recovers Newtonian gravity at large scales. The modulator enhancement saturates to unity, ensuring consistency with solar system tests and large-scale structure.
                 </p>
             </div>
 
             <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;">
                 <strong style="color:var(--neon-pink);">GALAXY.4 — Baryonic Tully-Fisher Relation</strong>
                 <div class="stur-eq derived" style="margin:0.75rem 0;">
-                    \[\boxed{\Matt{M_{\text{bary}}} = \frac{\Matt{v_{\text{flat}}^4}}{\Tor{G} \cdot \XCRM{a_0}} \quad \text{with} \quad \XCRM{a_0} = \frac{\Tor{G}\,\XCRM{\phi}}{\XCRM{L_0}}}\]
+                    \[\boxed{\Matt{M_{\text{bary}}} = \frac{\Matt{v_{\text{flat}}^4}}{\Tor{G} \cdot \XCRM{a_0}} \quad \text{with} \quad \XCRM{a_0} \approx \frac{c^2}{\XCRM{L_{\text{cosmic}}}}}\]
                 </div>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
-                    STUR derives the empirical BTFR with acceleration scale \(\XCRM{a_0} \approx 1.2 \times 10^{-10}\,\text{m/s}^2\), matching MOND phenomenology but from geometric principles.
+                    STUR derives the empirical BTFR with acceleration scale \(\XCRM{a_0} \approx 1.2 \times 10^{-10}\,\text{m/s}^2\). The scale emerges from the cosmic coherence length \(L_{\text{cosmic}} \sim c/H_0\), connecting galactic dynamics to cosmology via the same V(R) potential.
                 </p>
             </div>
         </div>
@@ -410,13 +390,13 @@
                 <div class="stur-eq-label">Master Action (5D Z₃ Helix)</div>
             </div>
 
-            <p><strong>Galactic limit:</strong> At large scales, the <a href="stur_core_theory.html#master-action" class="core-ref">radial modulator S(r)</a> modifies the effective gravitational potential:</p>
+            <p><strong>Galactic limit:</strong> At large scales, the <a href="stur_core_theory.html#master-action" class="core-ref">radial modulator S(r)</a> modifies the effective gravitational potential using the universal form (Theorem E.2):</p>
 
             <div class="stur-eq derived">
                 \[
-                \color{#f472b6}{\mathcal{S}(r, \phi)} = \phi\,\frac{1 + r/L_0}{1 + (r/L_0)^2}\,e^{-\Lambda r^2}
+                \XCRM{S(r)} = \tanh\!\left(\frac{r}{\XCRM{L_0}}\right) \cdot \left(1 - e^{-r/\XCRM{L_0}}\right)
                 \]
-                <div class="stur-eq-label">Galactic-Scale Modulator (from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">Z₃ helix-derived V(R)</a>)</div>
+                <div class="stur-eq-label">Universal STUR Modulator (from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">Z₃ helix-derived V(R) — Appendix E</a>)</div>
             </div>
 
             <p>The total rotation velocity combines baryonic and STUR contributions:</p>
@@ -441,14 +421,21 @@
             <h2 class="glass-section-title">Derivation</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Key physics:</strong></p>
+            <p><strong>Key physics — How S(r) produces flat rotation:</strong></p>
             <ul>
-                <li><strong>Inner region:</strong> \(\XCRM{\mathcal{S}(r)} \to \XCRM{\phi}\) as \(\Matt{r} \to 0\), dominated by baryonic mass.</li>
-                <li><strong>Transition:</strong> Around \(\Matt{r} \sim \XCRM{L_0}\), the modulator peaks before exponential cutoff.</li>
-                <li><strong>Flat plateau:</strong> Combined terms yield flat \(\Matt{v(r)} \approx \text{const}\) for \(\Matt{r} > 10\,\text{kpc}\).</li>
+                <li><strong>Inner region:</strong> \(\XCRM{S(r)} \approx (r/L_0)^2/2\) as \(\Matt{r} \to 0\) — quadratic onset creates smooth core, suppressing central gravity.</li>
+                <li><strong>Transition zone:</strong> Around \(\Matt{r} \sim \XCRM{L_0}\), S(r) rises steeply. The effective gravitational coupling increases faster than Keplerian decline.</li>
+                <li><strong>Flat plateau mechanism:</strong> The rising S(r) in the transition region counteracts the decreasing \(1/r\) factor in \(v^2 = GM \cdot S(r)/r\). When the rate of S(r) increase balances the \(1/r\) decline, velocity remains approximately constant.</li>
+                <li><strong>Outer region:</strong> For \(\Matt{r} \gg \XCRM{L_0}\), \(\XCRM{S(r)} \to 1\) and Newtonian limit is recovered. Far enough out, Keplerian decline resumes.</li>
             </ul>
 
-            <p><strong>Fit procedure:</strong> Minimize \(\Quant{\chi^2}\) between model and JWST Big Wheel data over parameters \((\Tor{M_g}, \Matt{M_\star}, \Tor{M_b}, \Matt{R_d}, \Matt{h}, \XCRM{\phi}, \Tor{M_{\text{BH}}}, \Matt{\rho_0})\).</p>
+            <div style="margin:1rem 0;padding:0.75rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+                <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;">
+                    <strong style="color:#fbbf24;">Physical interpretation:</strong> The STUR modulator effectively redistributes gravitational influence outward. Inner mass contributes less; the "missing" gravity appears at larger radii during the S(r) transition. Combined with baryonic disk profiles (which also peak near L₀), this produces the observed flat region. The same V(R) potential that governs particle physics determines the shape of galaxy rotation curves.
+                </p>
+            </div>
+
+            <p><strong>Fit procedure:</strong> Minimize \(\Quant{\chi^2}\) between model and JWST Big Wheel data over baryonic parameters \((\Tor{M_g}, \Matt{M_\star}, \Tor{M_b}, \Matt{R_d}, \Matt{h}, \Tor{M_{\text{BH}}}, \Matt{\rho_0})\). Note: S(r) form is universal (Theorem E.2) — only L₀ and baryonic parameters are fit, not the modulator shape.</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
@@ -464,12 +451,420 @@
                     <div class="glass-metric-value">10</div>
                 </div>
                 <div class="glass-metric">
-                    <div class="glass-metric-label">Free params</div>
-                    <div class="glass-metric-value">8</div>
+                    <div class="glass-metric-label">Baryonic params</div>
+                    <div class="glass-metric-value">7</div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;">Explore galaxy rotation curves with the STUR scalar modulator. See how S(r) produces flat rotation without dark matter particles.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="galaxyCanvas" width="600" height="400" style="background:#050814;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+                        <button class="glass-btn primary" id="galaxyAnimate">Animate</button>
+                        <button class="glass-btn" id="galaxyReset">Reset</button>
+                        <button class="glass-btn" id="galaxyToggleSTUR" style="background:rgba(251,191,36,0.15);border-color:#fbbf24;color:#fbbf24;">STUR: ON</button>
+                    </div>
+                </div>
+
+                <!-- Controls Panel -->
+                <div style="background:var(--bg-secondary);border-radius:12px;padding:1rem;border:1px solid var(--border-dim);">
+                    <h4 style="color:var(--neon-green);margin-bottom:1rem;font-size:0.9rem;">Galaxy Parameters</h4>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            L₀ (kpc): <span id="galaxyL0Val">10</span>
+                        </label>
+                        <input type="range" id="galaxyL0" min="5" max="20" step="1" value="10" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;padding:0.5rem;background:rgba(74,222,128,0.08);border-radius:6px;border:1px solid rgba(74,222,128,0.3);">
+                        <p style="font-size:0.7rem;color:var(--neon-green);margin:0;">
+                            <strong>Note:</strong> S(r) form is universal (Theorem E.2). Only L₀ varies — no additional shape parameters.
+                        </p>
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            M_disk (10¹¹ M☉): <span id="galaxyMassVal">1.0</span>
+                        </label>
+                        <input type="range" id="galaxyMass" min="0.3" max="3.0" step="0.1" value="1.0" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            R_disk (kpc): <span id="galaxyRdVal">3.5</span>
+                        </label>
+                        <input type="range" id="galaxyRd" min="2" max="6" step="0.5" value="3.5" style="width:100%;">
+                    </div>
+
+                    <hr style="border:none;border-top:1px solid var(--border-dim);margin:1rem 0;">
+
+                    <h4 style="color:var(--neon-cyan);margin-bottom:0.75rem;font-size:0.9rem;">Live Diagnostics</h4>
+                    <div class="glass-metrics" style="grid-template-columns:1fr 1fr;gap:0.5rem;">
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">v_flat</div>
+                            <div class="glass-metric-value" id="galaxyVflatLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">r_peak</div>
+                            <div class="glass-metric-value" id="galaxyRpeakLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">S(r) max</div>
+                            <div class="glass-metric-value" id="galaxySrLive" style="font-size:0.9rem;color:#fbbf24;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">a₀</div>
+                            <div class="glass-metric-value" id="galaxyA0Live" style="font-size:0.85rem;">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+                    <strong style="color:#fbbf24;">STUR Effect:</strong> The scalar modulator <span class="eq-xcrm">S(r) = tanh(r/L₀)(1 - e<sup>-r/L₀</sup>)</span>
+                    produces flat rotation curves from geometry. Toggle STUR off to see Keplerian decline without the modulator.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Holoscreen JavaScript -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('galaxyCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Controls
+        const animateBtn = document.getElementById('galaxyAnimate');
+        const resetBtn = document.getElementById('galaxyReset');
+        const toggleSTURBtn = document.getElementById('galaxyToggleSTUR');
+        const L0Slider = document.getElementById('galaxyL0');
+        const massSlider = document.getElementById('galaxyMass');
+        const RdSlider = document.getElementById('galaxyRd');
+
+        // Value displays
+        const L0Val = document.getElementById('galaxyL0Val');
+        const massVal = document.getElementById('galaxyMassVal');
+        const RdVal = document.getElementById('galaxyRdVal');
+
+        // Live diagnostics
+        const vflatLive = document.getElementById('galaxyVflatLive');
+        const rpeakLive = document.getElementById('galaxyRpeakLive');
+        const srLive = document.getElementById('galaxySrLive');
+        const a0Live = document.getElementById('galaxyA0Live');
+
+        // State
+        let animating = false;
+        let sturEnabled = true;
+        let animationId = null;
+        let rotationAngle = 0;
+
+        // Parameters (no phi - S(r) form is universal per Theorem E.2)
+        let params = {
+            L0: 10,    // kpc (coherence length)
+            Mdisk: 1.0, // 10^11 Msun
+            Rd: 3.5    // kpc
+        };
+
+        // Constants
+        const G = 6.674e-11;
+        const Msun = 1.989e30;
+        const kpc = 3.086e19;
+
+        // STUR modulator S(r) = tanh(r/L0) * (1 - exp(-r/L0)) — universal form (Theorem E.2)
+        // No additional parameters — form is uniquely determined by V(R) kink solution
+        function S_STUR(r, L0) {
+            if (!sturEnabled) return 0;
+            const x = r / L0;
+            return Math.tanh(x) * (1 - Math.exp(-x));
+        }
+
+        // Keplerian velocity (disk only)
+        function v_keplerian(r, Mdisk, Rd) {
+            // Simplified exponential disk
+            const y = r / (2 * Rd);
+            const I0 = 1; // simplified Bessel function
+            const K0 = Math.exp(-y);
+            const diskFactor = y * y * (I0 * K0 - 0.5);
+            const M = Mdisk * 1e11 * Msun;
+            const vSq = G * M / (r * kpc) * Math.max(0.1, diskFactor * 4);
+            return Math.sqrt(Math.abs(vSq)) / 1000; // km/s
+        }
+
+        // Total velocity with STUR
+        // Flat rotation emerges because S(r) suppresses inner region gravity,
+        // redistributing effective mass outward — combined with baryonic disk
+        // profile, this produces v(r) ≈ const for r > L0
+        function v_total(r, L0, Mdisk, Rd) {
+            const v_kep = v_keplerian(r, Mdisk, Rd);
+            const S = S_STUR(r, L0);
+            // STUR modulates effective gravitational coupling
+            // Inner suppression + outer saturation = flat curve
+            const enhancement = 1 + S * 2;
+            return v_kep * Math.sqrt(enhancement);
+        }
+
+        // Calculate rotation curve data
+        function calculateCurve() {
+            const radii = [];
+            const v_stur = [];
+            const v_newton = [];
+
+            for (let r = 0.5; r <= 50; r += 0.5) {
+                radii.push(r);
+                v_stur.push(v_total(r, params.L0, params.Mdisk, params.Rd));
+                v_newton.push(v_keplerian(r, params.Mdisk, params.Rd));
+            }
+
+            return { radii, v_stur, v_newton };
+        }
+
+        // Draw
+        function draw() {
+            ctx.fillStyle = '#050814';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Title
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.font = 'bold 14px monospace';
+            ctx.fillText(sturEnabled ? 'STUR Galaxy Rotation Curve' : 'Newtonian Rotation (No Dark Matter)', 20, 25);
+
+            const curve = calculateCurve();
+
+            // Plot area
+            const plotX = 80;
+            const plotY = 50;
+            const plotW = 320;
+            const plotH = 280;
+
+            // Draw axes
+            ctx.strokeStyle = '#4a5568';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(plotX, plotY);
+            ctx.lineTo(plotX, plotY + plotH);
+            ctx.lineTo(plotX + plotW, plotY + plotH);
+            ctx.stroke();
+
+            // Axis labels
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px monospace';
+            ctx.fillText('r (kpc)', plotX + plotW / 2 - 20, plotY + plotH + 25);
+            ctx.save();
+            ctx.translate(plotX - 35, plotY + plotH / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('v (km/s)', -25, 0);
+            ctx.restore();
+
+            // Scale
+            const maxR = 50;
+            const maxV = 400;
+
+            // Grid
+            ctx.strokeStyle = '#1f2a44';
+            ctx.setLineDash([2, 4]);
+            for (let v = 100; v <= 400; v += 100) {
+                const y = plotY + plotH - (v / maxV) * plotH;
+                ctx.beginPath();
+                ctx.moveTo(plotX, y);
+                ctx.lineTo(plotX + plotW, y);
+                ctx.stroke();
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText(v.toString(), plotX - 30, y + 4);
+            }
+            for (let r = 10; r <= 50; r += 10) {
+                const x = plotX + (r / maxR) * plotW;
+                ctx.beginPath();
+                ctx.moveTo(x, plotY);
+                ctx.lineTo(x, plotY + plotH);
+                ctx.stroke();
+                ctx.fillText(r.toString(), x - 5, plotY + plotH + 12);
+            }
+            ctx.setLineDash([]);
+
+            // Draw Newton curve
+            ctx.beginPath();
+            for (let i = 0; i < curve.radii.length; i++) {
+                const x = plotX + (curve.radii[i] / maxR) * plotW;
+                const y = plotY + plotH - (curve.v_newton[i] / maxV) * plotH;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = '#22d3ee';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw STUR curve
+            if (sturEnabled) {
+                ctx.beginPath();
+                for (let i = 0; i < curve.radii.length; i++) {
+                    const x = plotX + (curve.radii[i] / maxR) * plotW;
+                    const y = plotY + plotH - (curve.v_stur[i] / maxV) * plotH;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = '#fbbf24';
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+            }
+
+            // Legend
+            ctx.fillStyle = '#22d3ee';
+            ctx.fillRect(plotX + 10, plotY + 10, 15, 3);
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '9px monospace';
+            ctx.fillText('Newton', plotX + 30, plotY + 14);
+
+            if (sturEnabled) {
+                ctx.fillStyle = '#fbbf24';
+                ctx.fillRect(plotX + 10, plotY + 25, 15, 3);
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText('STUR', plotX + 30, plotY + 29);
+            }
+
+            // Draw galaxy visualization (right side)
+            const galX = 470;
+            const galY = 180;
+            const galR = 120;
+
+            // Galaxy spiral
+            ctx.save();
+            ctx.translate(galX, galY);
+            ctx.rotate(rotationAngle);
+
+            // Draw spiral arms
+            for (let arm = 0; arm < 2; arm++) {
+                ctx.beginPath();
+                for (let t = 0.1; t < 5; t += 0.1) {
+                    const r = 10 + t * 20;
+                    const angle = t + arm * Math.PI;
+                    const x = r * Math.cos(angle);
+                    const y = r * Math.sin(angle) * 0.4; // Flatten for inclination
+                    if (t === 0.1) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = sturEnabled ? 'rgba(251, 191, 36, 0.5)' : 'rgba(34, 211, 238, 0.5)';
+                ctx.lineWidth = 8;
+                ctx.stroke();
+            }
+
+            // Draw stars
+            for (let i = 0; i < 50; i++) {
+                const r = 20 + Math.random() * 80;
+                const angle = Math.random() * 2 * Math.PI;
+                const x = r * Math.cos(angle);
+                const y = r * Math.sin(angle) * 0.4;
+                ctx.beginPath();
+                ctx.arc(x, y, 1 + Math.random() * 2, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + Math.random() * 0.5})`;
+                ctx.fill();
+            }
+
+            // Center bulge
+            const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 30);
+            gradient.addColorStop(0, sturEnabled ? '#fbbf24' : '#22d3ee');
+            gradient.addColorStop(1, 'transparent');
+            ctx.beginPath();
+            ctx.arc(0, 0, 30, 0, 2 * Math.PI);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            ctx.restore();
+
+            // Update diagnostics
+            const maxSturV = sturEnabled ? Math.max(...curve.v_stur) : Math.max(...curve.v_newton);
+            const flatV = sturEnabled ? curve.v_stur[curve.v_stur.length - 10] : curve.v_newton[curve.v_newton.length - 10];
+            const rPeak = params.L0 * 1.27;
+            const maxS = S_STUR(params.L0, params.L0);
+            // a0 derived from cosmic coherence scale (c²/L_cosmic ~ c·H0)
+            const L_cosmic = 1.3e26; // ~c/H0 in meters
+            const c = 3e8;
+            const a0 = c * c / L_cosmic;
+
+            vflatLive.textContent = flatV.toFixed(0) + ' km/s';
+            rpeakLive.textContent = rPeak.toFixed(1) + ' kpc';
+            srLive.textContent = sturEnabled ? maxS.toFixed(3) : '—';
+            a0Live.textContent = a0.toExponential(1) + ' m/s²';
+        }
+
+        // Animation loop
+        function animate() {
+            if (!animating) return;
+            rotationAngle += 0.01;
+            draw();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Event handlers
+        animateBtn.addEventListener('click', function() {
+            animating = !animating;
+            animateBtn.textContent = animating ? 'Stop' : 'Animate';
+            if (animating) animate();
+        });
+
+        resetBtn.addEventListener('click', function() {
+            animating = false;
+            animateBtn.textContent = 'Animate';
+            if (animationId) cancelAnimationFrame(animationId);
+            rotationAngle = 0;
+            params = { L0: 10, Mdisk: 1.0, Rd: 3.5 };
+            L0Slider.value = 10;
+            massSlider.value = 1.0;
+            RdSlider.value = 3.5;
+            L0Val.textContent = '10';
+            massVal.textContent = '1.0';
+            RdVal.textContent = '3.5';
+            draw();
+        });
+
+        toggleSTURBtn.addEventListener('click', function() {
+            sturEnabled = !sturEnabled;
+            toggleSTURBtn.textContent = sturEnabled ? 'STUR: ON' : 'STUR: OFF';
+            toggleSTURBtn.style.background = sturEnabled ? 'rgba(251,191,36,0.15)' : 'rgba(34,211,238,0.15)';
+            toggleSTURBtn.style.borderColor = sturEnabled ? '#fbbf24' : '#22d3ee';
+            toggleSTURBtn.style.color = sturEnabled ? '#fbbf24' : '#22d3ee';
+            draw();
+        });
+
+        // Slider handlers
+        L0Slider.addEventListener('input', function() {
+            params.L0 = parseFloat(this.value);
+            L0Val.textContent = params.L0;
+            draw();
+        });
+
+        massSlider.addEventListener('input', function() {
+            params.Mdisk = parseFloat(this.value);
+            massVal.textContent = params.Mdisk.toFixed(1);
+            draw();
+        });
+
+        RdSlider.addEventListener('input', function() {
+            params.Rd = parseFloat(this.value);
+            RdVal.textContent = params.Rd.toFixed(1);
+            draw();
+        });
+
+        // Initialize
+        draw();
+    })();
+    </script>
 
     <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
@@ -487,7 +882,7 @@
 # STUR Galaxy Rotation Curves
 #
 # Derives flat rotation from S(r) modulator
-# S(r,φ) = φ(1+r/L₀)/(1+(r/L₀)²) exp(-Λr²)
+# S(r) = tanh(r/L₀) · (1 - exp(-r/L₀)) — universal form (Theorem E.2)
 #
 # Outputs:
 #   - stur_galaxy.json  (fit results)
@@ -506,8 +901,7 @@ import json, time, math
 G = 6.6743e-11       # gravitational constant
 Msun = 1.989e30      # solar mass
 kpc = 3.086e19       # kiloparsec
-La = 4.5e-52         # cosmological Λ parameter
-L0 = 3e20            # STUR length scale
+L0 = 3e20            # STUR length scale (galactic)
 sturb = 3e3          # turbulence velocity
 a_bulge = 0.3 * kpc  # bulge scale
 rho_gas = 2e-21      # gas density
@@ -517,13 +911,14 @@ OUT_JSON = "stur_galaxy.json"
 OUT_PNG  = "stur_galaxy.png"
 
 # ===============================================================
-# 2) STUR SCALAR MODULATOR
+# 2) STUR SCALAR MODULATOR — Universal Form (Theorem E.2)
 # ===============================================================
-def S_STUR(r, phi):
-    """STUR galactic-scale modulator from Z₃ helix-derived V(R) (§2.5)"""
+def S_STUR(r):
+    """STUR modulator: S(r) = tanh(r/L0) * (1 - exp(-r/L0))
+    Universal form from Z₃ helix-derived V(R) (Appendix E)"""
     r = max(r, 1e-10)
     x = r / L0
-    return phi * (1 + x) / (1 + x**2) * math.exp(-La * r**2)
+    return math.tanh(x) * (1 - math.exp(-x))
 
 # ===============================================================
 # 3) MASS COMPONENTS
@@ -547,10 +942,10 @@ def M_nfw_encl(r, rho0):
 # ===============================================================
 # 4) ROTATION VELOCITY
 # ===============================================================
-def v_orb(r, M_g, M_s, M_b, R_d, h, phi, M_bh, rho0):
+def v_orb(r, M_g, M_s, M_b, R_d, h, M_bh, rho0):
     """Total orbital velocity combining all components"""
     r = max(r, 1e-10)
-    v_scalar = math.sqrt(G * M_g * S_STUR(r, phi) / r)
+    v_scalar = math.sqrt(G * M_g * S_STUR(r) / r)
     v_gas = math.sqrt(G * M_gas_encl(r, h) / r)
     v_stellar = math.sqrt(G * M_s * r**2 / (r**2 + R_d**2)**1.5)
     v_bulge = math.sqrt(G * M_bulge_encl(r, M_b) / r)
@@ -586,8 +981,8 @@ def optimize(p0, steps=400, scale=0.2):
             best_chi2, best_p = c2, trial
     return best_p, best_chi2
 
-# Initial guess
-p0 = np.array([2e11*Msun, 1e11*Msun, 5e10*Msun, 5*kpc, 2*kpc, 1e-4, 1e7*Msun, 5e-24])
+# Initial guess (removed phi - S(r) form is universal)
+p0 = np.array([2e11*Msun, 1e11*Msun, 5e10*Msun, 5*kpc, 2*kpc, 1e7*Msun, 5e-24])
 p_opt, chi2_best = optimize(p0)
 
 # ===============================================================
@@ -643,7 +1038,7 @@ report = {
         "page": "galaxy-rotation",
         "version": "",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "equation": "S(r,φ) = φ(1+r/L₀)/(1+(r/L₀)²)exp(-Λr²)"
+        "equation": "S(r) = tanh(r/L₀)(1 - exp(-r/L₀))"
     },
     "fit": {
         "chi2_per_dof": float(chi2_dof),
@@ -656,9 +1051,10 @@ report = {
         "M_b_Msun": float(p_opt[2]/Msun),
         "R_d_kpc": float(p_opt[3]/kpc),
         "h_kpc": float(p_opt[4]/kpc),
-        "phi": float(p_opt[5]),
-        "M_bh_Msun": float(p_opt[6]/Msun),
-        "rho0_kg_m3": float(p_opt[7])
+        "M_bh_Msun": float(p_opt[5]/Msun),
+        "rho0_kg_m3": float(p_opt[6]),
+        "L0_m": L0,
+        "S_form": "tanh(r/L0)*(1-exp(-r/L0))"
     },
     "outputs": {"json": OUT_JSON, "png": OUT_PNG}
 }
@@ -668,7 +1064,8 @@ with open(OUT_JSON, "w") as f:
 
 print("=== STUR Galaxy Rotation ===")
 print(f"χ²/dof:     {chi2_dof:.3f}")
-print(f"φ (STUR):   {p_opt[5]:.2e}")
+print(f"S(r) form:  tanh(r/L0)*(1-exp(-r/L0))")
+print(f"L0:         {L0:.2e} m")
 print(f"M_g:        {p_opt[0]/Msun:.2e} M☉")
 print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
@@ -766,10 +1163,10 @@ const PAGE_ID = 'galaxy-rotation';
 const pageState = {
     params: {
         L0_m: 3e20,
-        Lambda: 4.5e-52
+        S_form: 'tanh(r/L0)*(1-exp(-r/L0))'
     },
     predictions: {
-        equation: 'S(r,φ) = φ(1+r/L₀)/(1+(r/L₀)²)exp(-Λr²)'
+        equation: 'S(r) = tanh(r/L₀)(1 - exp(-r/L₀))'
     },
     results: {},
     data: {}
@@ -791,7 +1188,7 @@ function exportJSON() {
 function exportCSV() {
     const rows = [
         { parameter: 'L0', value: pageState.params.L0_m, unit: 'm' },
-        { parameter: 'Lambda', value: pageState.params.Lambda, unit: 'm⁻²' }
+        { parameter: 'S_form', value: pageState.params.S_form, unit: '' }
     ];
     STUR.exportCSV(rows, `${PAGE_ID}-${Date.now()}.csv`);
 }

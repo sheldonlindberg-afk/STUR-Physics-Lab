@@ -110,12 +110,15 @@
   <div class="block gold" style="border-width:2px;">
     <div class="title">Definition</div>
     <p style="margin:0 0 1rem;color:var(--text-secondary);">
-      The XCRM coupling \(\XCRM{\chi}\) appears in the master action as the coefficient of the X-derivative term:
+      The XCRM coupling \(\XCRM{\chi}\) appears in the master action as the coefficient of the X-derivative term. For the doublet \(\Diff{\mathbf{R}} = (R_1, R_2)\):
     </p>
     <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--gold);">
-      \[\boxed{\XCRM{S_{\rm XCRM}} = \int_{\Mcal^5} \dd^5x\, \sqrt{-g}\, \XCRM{\chi}\, \Diff{R}\, \XCRM{\partial_X R}}\]
-      <div class="eq-label" style="color:var(--gold);">(A.1) — XCRM action term</div>
+      \[\boxed{\XCRM{S_{\rm XCRM}} = \int_{\Mcal^5} \dd^5x\, \sqrt{-g}\, \XCRM{\chi}\, |\Diff{\mathbf{R}}|^2\, \XCRM{\partial_X \phi}}\]
+      <div class="eq-label" style="color:var(--gold);">(A.1) — XCRM action term (doublet form)</div>
     </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.85rem;">
+      Equivalently: \(\XCRM{\chi}(R_1 \partial_X R_2 - R_2 \partial_X R_1)\). The doublet structure ensures the torsion coupling remains real.
+    </p>
   </div>
 
   <h3>Physical Origin</h3>
@@ -127,9 +130,9 @@
 
   <h3>Dimensional Analysis</h3>
   <div class="eq boxed" style="margin:1rem 0;">
-    \[[\XCRM{\chi} \Diff{R} \XCRM{\partial_X R}] = M^5 \;\;\Rightarrow\;\; [\XCRM{\chi}] \cdot [\Diff{R}] \cdot [\Diff{R}/L] = M^5\]
-    \[[\XCRM{\chi}] \cdot M^{3/2} \cdot M^{3/2} = M^5 \;\;\Rightarrow\;\; \boxed{[\XCRM{\chi}] = M^2}\]
-    <div class="eq-label">(A.2) — \(\chi\) has mass dimension 2</div>
+    \[[\XCRM{\chi} |\Diff{\mathbf{R}}|^2 \XCRM{\partial_X \phi}] = M^5 \;\;\Rightarrow\;\; [\XCRM{\chi}] \cdot [\Diff{R}]^2 \cdot [1/L] = M^5\]
+    \[[\XCRM{\chi}] \cdot M^{3} \cdot M^{-1} = M^5 \;\;\Rightarrow\;\; \boxed{[\XCRM{\chi}] = M^3}\]
+    <div class="eq-label">(A.2) — \(\chi\) has mass dimension 3 (doublet form)</div>
   </div>
 
   <h3>Determination from \(L_X\)</h3>
@@ -137,12 +140,12 @@
     Once the compactification scale \(\XCRM{L_X}\) is fixed experimentally, dimensional analysis determines:
   </p>
   <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--success);">
-    \[\boxed{\XCRM{\chi} = \frac{c_\chi}{\XCRM{L_X}^2}}\]
-    <div class="eq-label" style="color:var(--success);">(A.3) — \(\chi\) from \(L_X\)</div>
+    \[\boxed{\XCRM{\chi} = \frac{c_\chi}{\XCRM{L_X}^3}}\]
+    <div class="eq-label" style="color:var(--success);">(A.3) — \(\chi\) from \(L_X\) (doublet form)</div>
   </div>
   <p style="color:var(--text-secondary);font-size:0.9rem;">
     where \(c_\chi\) is a dimensionless \(\mathcal{O}(1)\) coefficient determined by the Z₃ helix geometry.
-    For the minimal \(\XCRM{Z₃ helix}\) Z₃ helix with standard normalization, \(c_\chi = 2\pi^2\).
+    For the minimal Z₃ helix with standard normalization, \(c_\chi = 2\pi^2\).
   </p>
 </section>
 
@@ -294,7 +297,7 @@
 <!-- NAVIGATION -->
 <nav class="page-nav">
   <a href="stur_technical_appendix.html" class="prev">Appendix Index</a>
-  <a href="stur_appendix_visibility.html" class="next">B: Visibility Derivation</a>
+  <a href="stur_appendix_loop.html" class="next">C: Loop Geometry</a>
 </nav>
 
 <footer class="footer">

@@ -115,31 +115,7 @@
     </div>
 </div>
 
-<!-- HISTORICAL: v2.4.1 (historical) ORBIFOLD APPROACH -->
-<details class="glass-section" style="border-color:var(--text-muted);margin-bottom:1.5rem;">
-    <summary class="glass-section-header" style="cursor:pointer;">
-        <span class="stur-icon icon-link size-24" style="color:var(--text-muted);"></span>
-        <h2 class="glass-section-title" style="color:var(--text-muted);">Historical: v2.4.1 (historical) Orbifold Approach</h2>
-    </summary>
-    <div class="glass-section-body">
-        <p style="color:var(--text-tertiary);margin-bottom:1rem;">
-            <em>Note: The Z₃ helix approach (v2.4.1 (historical)) required domain wall cancellation for CC, with fine-tuning concerns.
-            The helix geometry (v2.5) solves this by eliminating the domain wall entirely.</em>
-        </p>
-
-        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:1rem;opacity:0.7;">
-            <span style="padding:6px 12px;background:rgba(167,139,250,0.15);border-radius:8px;border:1px solid rgba(167,139,250,0.4);color:#a78bfa;font-weight:600;">Z₃ helix Orbifold</span>
-            <span style="color:var(--text-muted);">→</span>
-            <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;font-weight:600;">Z₂ Parity</span>
-            <span style="color:var(--text-muted);">→</span>
-            <span style="padding:6px 12px;background:rgba(244,114,182,0.15);border-radius:8px;border:1px solid rgba(244,114,182,0.4);color:#f472b6;font-weight:600;">V(|R|) = λ(|R|²-v²)²/4</span>
-            <span style="color:var(--text-muted);">→</span>
-            <span style="padding:6px 12px;background:rgba(74,222,128,0.15);border-radius:8px;border:1px solid rgba(74,222,128,0.4);color:#4ade80;font-weight:600;">Kink Solution</span>
-        </div>
-    </div>
-</details>
-
-<!-- v2.5: HELIX GEOMETRY -->
+<!-- HELIX GEOMETRY -->
 <section class="section" id="helix-geometry" style="border:2px solid #4ade80; background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(167,139,250,0.04) 100%);">
   <h2 style="color:#4ade80;">[H.1] The XCRM Doublet: Why R Must Be a Pair</h2>
 
@@ -192,22 +168,6 @@
     </p>
   </div>
 </section>
-
-<!-- HISTORICAL: ORBIFOLD V(R) DERIVATION -->
-<details class="section" style="border:1px solid var(--text-muted);">
-  <summary style="color:var(--text-muted);cursor:pointer;padding:0.5rem 0;">
-    <strong>Historical (v2.4.1 (historical)): Derivation of V(R) from Orbifold Topology</strong>
-  </summary>
-
-  <div class="block" style="border-width:1px;margin-top:1rem;">
-    <div class="title" style="color:var(--text-muted);">v2.4.1 (historical) First Principles</div>
-    <p style="margin:0;color:var(--text-tertiary)">
-      <em>In the Z₃ helix approach, the double-well potential V(R) = λ(R² - v²)²/4 was derived from
-      Z₃ helix topology. This gave a kink solution with domain wall. The helix approach (v2.5) supersedes this
-      by eliminating the domain wall entirely.</em>
-    </p>
-  </div>
-</details>
 
 <!-- Z2 PARITY -->
 <section class="section" id="z2-parity">
@@ -520,11 +480,11 @@
       \[\XCRM{\Phi_R} = \oint \Diff{R} \, d\XCRM{X} = \int_0^{L_X} \Diff{R}(x, \XCRM{X}) \, d\XCRM{X}\]
 
       For \(\XCRM{\Phi_R}\) to generate a gauge transformation on observables, the action must couple
-      \(\XCRM{\Phi_R}\) to local physics. The unique renormalizable coupling is:
-      \[S_{\rm cross} = \int d^4x \int d\XCRM{X} \sqrt{-g} \, \XCRM{\chi} \Diff{R} \XCRM{\partial_X} \Diff{R}\]
+      \(\XCRM{\Phi_R}\) to local physics. The unique renormalizable coupling for the doublet \(\Diff{\mathbf{R}} = (R_1, R_2)\) is:
+      \[S_{\rm cross} = \int d^4x \int d\XCRM{X} \sqrt{-g} \, \XCRM{\chi} |\Diff{\mathbf{R}}|^2 \XCRM{\partial_X \phi}\]
 
-      This is the only term that: (1) is Z₂-even (both factors are Z₂-odd), (2) is renormalizable,
-      (3) couples the local field to its X-variation, generating holonomy-dependent dynamics.
+      This is the only term that: (1) preserves the doublet structure, (2) is renormalizable,
+      (3) couples the local field to its X-variation via the phase φ, generating holonomy-dependent dynamics.
     </p>
   </div>
 

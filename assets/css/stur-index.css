@@ -685,6 +685,43 @@ button:focus-visible {
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
 }
 
+/* === HERO EQUATION === */
+.hero-equation {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  padding: 32px 40px;
+  margin-bottom: 16px;
+  letter-spacing: 0.02em;
+}
+
+.hero-equation sub {
+  font-size: 0.6em;
+  vertical-align: baseline;
+  position: relative;
+  bottom: -0.25em;
+}
+
+.equation-caption {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  margin: 0 0 32px;
+  letter-spacing: 0.02em;
+}
+
+.eq-muted {
+  color: var(--text-quaternary, #6b7280);
+}
+
+/* === SECTION LABELS === */
+.section-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
 .intro-text {
   font-size: 1.15rem;
   color: var(--text-secondary);
