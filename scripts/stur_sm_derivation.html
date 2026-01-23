@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Standard Model Derivation — Gauge Group from First Principles</title>
-<meta name="description" content="Complete first-principles derivation of the Standard Model gauge group SU(3)×SU(2)×U(1) from STUR axioms: anomaly cancellation, holonomy minimization, and hypercharge quantization.">
+<meta name="description" content="Complete first-principles derivation of the Standard Model gauge group SU(3)×SU(2)×U(1) from XCRM foundation: anomaly cancellation, holonomy minimization, and hypercharge quantization. v2.4.1">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -37,6 +37,13 @@
 <header class="masthead">
   <h1 style="background: linear-gradient(135deg, #ffffff 0%, #22d3ee 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Standard Model Derivation</h1>
   <p class="subtitle">SU(3)<sub>C</sub> × SU(2)<sub>L</sub> × U(1)<sub>Y</sub> from First Principles</p>
+
+  <!-- v2.4.1 Derivation Chain Visualization -->
+  <div style="margin:1.25rem auto;max-width:700px;padding:0.75rem;background:linear-gradient(90deg,rgba(74,222,128,0.08),rgba(167,139,250,0.12),rgba(74,222,128,0.08));border-radius:10px;font-size:0.85rem;text-align:center;">
+    <strong>Complete chain:</strong> XCRM → Master Action → DHP → MHP → <strong style="color:var(--success);">SM Gauge Group</strong>
+  </div>
+  <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);">v2.4.1 — Everything derived, nothing assumed</p>
+
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
     From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
     <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
@@ -79,10 +86,10 @@
         <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.6);">
             <div class="title" style="font-size:1.1rem;">Theorem 1.1 — Standard Model Strongly Constrained by Geometry</div>
             <p style="margin:0;color:var(--text);font-size:1.05rem;line-height:1.7;">
-                <strong>G<sub>SM</sub> = SU(3)<sub>C</sub> × SU(2)<sub>L</sub> × U(1)<sub>Y</sub> is strongly constrained by Axiom 1:</strong>
+                <strong>G<sub>SM</sub> = SU(3)<sub>C</sub> × SU(2)<sub>L</sub> × U(1)<sub>Y</sub> is strongly constrained by XCRM via Master Action:</strong>
             </p>
             <ol style="margin:0.75rem 0 0;color:var(--text-secondary);line-height:1.8;">
-                <li>Orbifold consistency on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> (Axiom 1)</li>
+                <li>Orbifold consistency on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> (from Master Action)</li>
                 <li>Chiral fermion localization at fixed points (from Z₂-odd R field)</li>
                 <li>Anomaly cancellation (geometric consistency of path integral)</li>
                 <li>Minimum holonomy cost functional Ω[G] (MHP, derived)</li>
@@ -311,14 +318,14 @@
     <p style="margin:0;color:var(--text-secondary);">
       On the orbifold M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub>, anomaly cancellation is a <strong>geometric consistency condition</strong>,
       not a separate physical requirement. The path integral measure is well-defined if and only if all gauge anomalies vanish.
-      This follows directly from Axiom 1 — no additional input is needed.
+      This follows directly from the Master Action — no additional input is needed.
     </p>
   </div>
 
   <h3>3.1 Why Anomaly Cancellation Is Geometric</h3>
 
   <p>
-    The Master Action (Axiom 1) defines the theory on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub>. For this theory to exist mathematically:
+    The Master Action (derived from XCRM) defines the theory on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub>. For this theory to exist mathematically:
   </p>
 
   <div class="walkthrough" style="margin:1rem 0;">
@@ -343,13 +350,13 @@
     <div class="step">
       <div class="step-content">
         <strong>Step 4: This is not input — it's existence</strong><br>
-        If Γ ≠ 0, the theory defined by Axiom 1 does not exist. Anomaly cancellation is a <em>consistency condition of the axiom</em>, not a separate assumption.
+        If Γ ≠ 0, the theory defined by the Master Action does not exist. Anomaly cancellation is a <em>consistency condition of the derivation</em>, not a separate assumption.
       </div>
     </div>
   </div>
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);">
-    \[\boxed{\text{Axiom 1 well-defined} \;\Leftrightarrow\; \Gamma[A] = 0 \;\Leftrightarrow\; \text{Anomalies cancel}}\]
+    \[\boxed{\text{Master Action well-defined} \;\Leftrightarrow\; \Gamma[A] = 0 \;\Leftrightarrow\; \text{Anomalies cancel}}\]
     <div class="eq-label" style="color:var(--success);">(3.0) — Anomaly cancellation is geometric consistency</div>
   </div>
 
@@ -839,11 +846,11 @@
 
   <!-- DERIVATION STATUS -->
   <div style="margin-bottom:1.25rem;padding:0.85rem 1rem;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:8px;">
-    <strong style="color:var(--success);">Strongly Constrained by Axiom 1:</strong>
+    <strong style="color:var(--success);">Strongly Constrained by XCRM Foundation:</strong>
     <ul style="margin:0.5rem 0 0;font-size:0.88rem;color:var(--text-secondary);">
       <li><strong>Anomaly cancellation</strong> — geometric consistency of path integral (§3)</li>
       <li><strong>Minimal solution selection</strong> — MHP selects minimum holonomy (§5)</li>
-      <li><strong>Orbifold geometry</strong> — M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> is Axiom 1</li>
+      <li><strong>Orbifold geometry</strong> — M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> from Master Action</li>
     </ul>
   </div>
 
@@ -861,7 +868,7 @@
   </div>
 
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.6);">
-    <div class="title" style="font-size:1.1rem;">Theorem 1.1 — SM Gauge Group Derived from Axiom 1</div>
+    <div class="title" style="font-size:1.1rem;">Theorem 1.1 — SM Gauge Group Derived from XCRM via Master Action</div>
     <p style="margin:0;color:var(--text);line-height:1.8;">
       Starting from the STUR Master Action on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub>, we have shown:
     </p>
