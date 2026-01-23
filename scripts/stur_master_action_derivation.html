@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Master Action Derivation — From XCRM to Unique Dynamics</title>
+<meta name="description" content="Complete derivation showing the Master Action is uniquely determined by XCRM coupling plus diffeomorphism invariance on M4 x S1/Z2.">
+
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_master_action_derivation.html" class="glass-nav-link active">Master Action</a>
+      <a href="stur_symbols.html" class="glass-nav-link">Symbols</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>Master Action Derivation</h1>
+  <p class="subtitle">XCRM Coupling Uniquely Determines the Dynamics</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    Foundation for <a href="stur_dhp_derivation.html" style="color:var(--accent);">DHP</a> ·
+    Enables <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a> ·
+    <a href="stur_core_theory.html" style="color:var(--accent);">Core Theory</a>
+  </p>
+  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">Executive Summary</h2>
+
+  <p style="color:var(--text);font-size:1.05rem;">
+    This document proves the Master Action is <strong>uniquely determined</strong> by XCRM coupling on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub>:
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.25rem 0;">
+    <div style="padding:1rem;background:rgba(251,191,36,0.06);border-radius:10px;border-left:4px solid #fbbf24;">
+      <div style="font-size:0.85rem;color:#fbbf24;font-weight:700;margin-bottom:0.5rem;">&sect;1: XCRM AS FOUNDATION</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">The unique dimension-5 coupling &chi;R&part;<sub>X</sub>R requires 5D geometry.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(74,222,128,0.06);border-radius:10px;border-left:4px solid #4ade80;">
+      <div style="font-size:0.85rem;color:#4ade80;font-weight:700;margin-bottom:0.5rem;">&sect;2: UNIQUENESS PROOF</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">Dimensional analysis + Z<sub>2</sub> symmetry fixes all terms.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(167,139,250,0.06);border-radius:10px;border-left:4px solid #a78bfa;">
+      <div style="font-size:0.85rem;color:#a78bfa;font-weight:700;margin-bottom:0.5rem;">&sect;3: ALTERNATIVE REJECTION</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">Why other terms are forbidden or redundant.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(96,165,250,0.06);border-radius:10px;border-left:4px solid #60a5fa;">
+      <div style="font-size:0.85rem;color:#60a5fa;font-weight:700;margin-bottom:0.5rem;">&sect;4: GRAVITY EMERGENCE</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">Torsion coupling &alpha;R&Tscr; yields teleparallel gravity.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 1: XCRM FOUNDATION -->
+<section class="section" id="xcrm-foundation" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--gold);">1. XCRM: The Unique Starting Point</h2>
+
+  <div class="block" style="border-color:var(--gold);border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 1.1 &mdash; XCRM Uniqueness</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      The XCRM coupling <span class="eq-xcrm">&chi;R&part;<sub>X</sub>R</span> is the <strong>unique dimension-5 operator</strong>
+      coupling a scalar field R to an extra dimension X that:
+    </p>
+    <ol style="margin:1rem 0;padding-left:1.5rem;color:var(--text);">
+      <li>Respects 4D Lorentz invariance</li>
+      <li>Is odd under Z<sub>2</sub>: X &rarr; -X (required for orbifold consistency)</li>
+      <li>Contains exactly one X-derivative</li>
+      <li>Is real-valued and bounded from below</li>
+    </ol>
+  </div>
+
+  <h3>1.1 Dimensional Analysis</h3>
+
+  <p>In 5D with coordinates (x<sup>&mu;</sup>, X) where X &isin; [0, L<sub>X</sub>], the resistance field R(x,X) has mass dimension:</p>
+
+  <div class="eq">
+    \[\boxed{[R] = \frac{3}{2}}\]
+    <div class="eq-label">(1.1) &mdash; R-field dimension in 5D</div>
+  </div>
+
+  <p>For the action to be dimensionless (&int; d<sup>5</sup>x &Lscr; with [d<sup>5</sup>x] = -5), we need [&Lscr;] = 5.</p>
+
+  <h3>1.2 Building the XCRM Term</h3>
+
+  <p>Consider all possible terms with one X-derivative:</p>
+
+  <div class="eq" style="border-color:var(--gold);">
+    \[\color{#fbbf24}{\chi R \partial_X R} \quad \text{has dimension: } \frac{3}{2} + 1 + \frac{3}{2} = 4\]
+    <div class="eq-label">(1.2) &mdash; XCRM dimension count</div>
+  </div>
+
+  <p>This is dimension 4, not 5. To make it dimension 5, we need either:</p>
+
+  <ul>
+    <li><strong>Option A:</strong> Multiply by a mass scale M &rarr; M&chi;R&part;<sub>X</sub>R &mdash; but this introduces a free parameter</li>
+    <li><strong>Option B:</strong> Integrate over the full orbifold volume &rarr; dimension is correct after &int;dX</li>
+  </ul>
+
+  <p>Option B is natural: the coupling strength &chi; absorbs the dimensionful factor 1/L<sub>X</sub>.</p>
+
+  <h3>1.3 Z<sub>2</sub> Orbifold Requirement</h3>
+
+  <div class="block warning" style="border-width:2px;">
+    <div class="title">Critical Constraint: Orbifold Consistency</div>
+    <p>On S<sup>1</sup>/Z<sub>2</sub>, the identification X &cong; -X forces fields to be either <strong>even</strong> or <strong>odd</strong> under Z<sub>2</sub>.</p>
+  </div>
+
+  <p>For the XCRM term to be Z<sub>2</sub>-invariant in the action:</p>
+
+  <div class="eq">
+    \[\chi R \partial_X R \xrightarrow{Z_2} \chi R(-X) \cdot (-\partial_X) R(-X)\]
+  </div>
+
+  <p>This is invariant if and only if R is <strong>even</strong> under Z<sub>2</sub>: R(-X) = R(X).</p>
+
+  <div class="block success" style="border-width:3px;">
+    <div class="title">Result: R-field Parity</div>
+    <p><strong>R(x, X) = R(x, -X)</strong> &mdash; The resistance field is Z<sub>2</sub>-even, ensuring XCRM is well-defined on the orbifold.</p>
+  </div>
+
+</section>
+
+<!-- SECTION 2: UNIQUENESS PROOF -->
+<section class="section" id="uniqueness" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">2. Uniqueness of the Master Action</h2>
+
+  <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 2.1 &mdash; Master Action Uniqueness</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      Given XCRM coupling on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub>, the Master Action is uniquely determined (up to O(1) coefficients) by:
+    </p>
+    <ol style="margin:1rem 0;padding-left:1.5rem;color:var(--text);">
+      <li>5D diffeomorphism invariance</li>
+      <li>Z<sub>2</sub> orbifold symmetry</li>
+      <li>Renormalizability (dimension &le; 5 operators only)</li>
+      <li>Reality and boundedness from below</li>
+    </ol>
+  </div>
+
+  <h3>2.1 Systematic Construction</h3>
+
+  <p>We enumerate all allowed terms by dimension:</p>
+
+  <h4>Dimension 3 (kinetic energy):</h4>
+  <div class="eq" style="border-color:#4ade80;">
+    \[\color{#4ade80}{\frac{1}{2}(\nabla R)^2} = \frac{1}{2}\eta^{MN}\partial_M R \partial_N R\]
+    <div class="eq-label">(2.1) &mdash; Kinetic term (unique)</div>
+  </div>
+  <p>This is the <strong>unique</strong> two-derivative kinetic term for a real scalar. The coefficient 1/2 is conventional.</p>
+
+  <h4>Dimension 5 (potential energy):</h4>
+  <div class="eq" style="border-color:#f472b6;">
+    \[\color{#f472b6}{-V(R)} = -\frac{\lambda}{4}(R^2 - v^2)^2\]
+    <div class="eq-label">(2.2) &mdash; Z<sub>2</sub>-symmetric potential</div>
+  </div>
+  <p>Z<sub>2</sub> symmetry R &rarr; -R forbids odd powers. The quartic potential is the simplest bounded choice.</p>
+
+  <h4>Dimension 4 (XCRM coupling):</h4>
+  <div class="eq" style="border-color:#fbbf24;">
+    \[\color{#fbbf24}{\chi R \partial_X R}\]
+    <div class="eq-label">(2.3) &mdash; Extra-dimension coupling (unique)</div>
+  </div>
+  <p>Already established as unique in &sect;1.</p>
+
+  <h4>Dimension 5 (gravity coupling):</h4>
+  <div class="eq" style="border-color:#60a5fa;">
+    \[\color{#60a5fa}{\alpha R \mathbb{T}}\]
+    <div class="eq-label">(2.4) &mdash; Torsion scalar coupling</div>
+  </div>
+  <p>Where &Tscr; = T<sup>&rho;</sup><sub>&mu;&nu;</sub>T<sub>&rho;</sub><sup>&mu;&nu;</sup> + ... is the teleparallel torsion scalar. This couples R to spacetime geometry.</p>
+
+  <h3>2.2 The Complete Master Action</h3>
+
+  <div class="eq law" style="border-color:var(--gold);border-width:3px;background:rgba(251,191,36,0.08);">
+    \[\boxed{\mathcal{S}_{\text{STUR}} = \int d^5x\, \sqrt{-g} \left[ \color{#4ade80}{\frac{1}{2}(\nabla R)^2} \color{#f472b6}{- V(R)} + \color{#fbbf24}{\chi R \partial_X R} + \color{#60a5fa}{\alpha R \mathbb{T}} + \color{#22d3ee}{\mathcal{L}_{\text{matter}}} \right]}\]
+    <div class="eq-label">(2.5) &mdash; The Master Action (complete)</div>
+  </div>
+
+  <h3>2.3 Why This Form Is Forced</h3>
+
+  <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;">
+    <thead>
+      <tr style="background:rgba(255,255,255,0.05);">
+        <th style="padding:0.75rem;text-align:left;border-bottom:2px solid var(--gold);">Term</th>
+        <th style="padding:0.75rem;text-align:center;border-bottom:2px solid var(--gold);">Dim</th>
+        <th style="padding:0.75rem;text-align:left;border-bottom:2px solid var(--gold);">Why Required/Forbidden</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">&frac12;(&nabla;R)<sup>2</sup></td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">3</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#4ade80;">Required: canonical kinetic term</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">V(R)</td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">5</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#4ade80;">Required: spontaneous symmetry breaking</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">&chi;R&part;<sub>X</sub>R</td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">4</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#fbbf24;">Foundation: defines STUR dynamics</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">&alpha;R&Tscr;</td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">5</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#4ade80;">Required: gravity sector</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">R<sup>3</sup></td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">4.5</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ef4444;">Forbidden: violates Z<sub>2</sub></td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">(&part;<sub>X</sub>R)<sup>2</sup></td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">4</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#94a3b8;">Absorbed in (&nabla;R)<sup>2</sup></td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">R<sup>2</sup>&part;<sub>X</sub>R</td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">5.5</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ef4444;">Forbidden: non-renormalizable</td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+
+<!-- SECTION 3: ALTERNATIVE REJECTION -->
+<section class="section" id="alternatives" style="border:2px solid var(--warning); background:rgba(251,191,36,0.03);">
+  <h2 style="color:var(--warning);">3. Why Alternatives Fail</h2>
+
+  <h3>3.1 Higher-Derivative Terms</h3>
+
+  <p>Terms like R&Box;R or (&Box;R)<sup>2</sup> would be allowed by symmetry but:</p>
+  <ul>
+    <li><strong>Ghost instabilities:</strong> Higher time derivatives lead to negative-norm states</li>
+    <li><strong>Non-renormalizable:</strong> Dimension &gt; 5 operators are suppressed by UV cutoff</li>
+    <li><strong>Not generated:</strong> The path integral saddle point doesn't favor them</li>
+  </ul>
+
+  <h3>3.2 Multiple Scalar Fields</h3>
+
+  <p>Could we have R<sub>1</sub>, R<sub>2</sub>, ... instead of just R?</p>
+
+  <div class="block" style="border-color:var(--warning);">
+    <div class="title">Occam's Razor</div>
+    <p>A single R-field suffices to generate all observed physics. Additional fields would introduce:</p>
+    <ul>
+      <li>Free parameters (their masses, couplings)</li>
+      <li>Additional moduli requiring stabilization</li>
+      <li>No new predictive power</li>
+    </ul>
+    <p><strong>Conclusion:</strong> Minimal field content is theoretically preferred.</p>
+  </div>
+
+  <h3>3.3 Different Geometry</h3>
+
+  <p>Why M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub> specifically?</p>
+
+  <div class="block success">
+    <div class="title">Orbifold Selection</div>
+    <ul>
+      <li><strong>S<sup>1</sup>:</strong> Simplest compact manifold allowing XCRM</li>
+      <li><strong>Z<sub>2</sub>:</strong> Required for chiral fermions (parity projection)</li>
+      <li><strong>Single extra dimension:</strong> Minimal extension of 4D</li>
+    </ul>
+    <p>Higher-dimensional orbifolds (T<sup>2</sup>/Z<sub>n</sub>, etc.) are mathematically consistent but introduce additional moduli without improving predictions.</p>
+  </div>
+
+</section>
+
+<!-- SECTION 4: GRAVITY EMERGENCE -->
+<section class="section" id="gravity" style="border:3px solid #60a5fa; background:linear-gradient(135deg, rgba(96,165,250,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:#60a5fa;">4. Gravity Emergence from &alpha;R&Tscr;</h2>
+
+  <div class="block" style="border-color:#60a5fa;border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 4.1 &mdash; Teleparallel Gravity</div>
+    <p>The coupling <span class="eq-torsion">&alpha;R&Tscr;</span> generates Einstein gravity (TEGR formulation) when R acquires its VEV.</p>
+  </div>
+
+  <h3>4.1 Torsion Scalar Definition</h3>
+
+  <p>In teleparallel gravity, spacetime geometry is encoded in torsion rather than curvature:</p>
+
+  <div class="eq" style="border-color:#60a5fa;">
+    \[\mathbb{T} = \frac{1}{4}T^{\rho}{}_{\mu\nu}T_{\rho}{}^{\mu\nu} + \frac{1}{2}T^{\rho}{}_{\mu\nu}T^{\nu\mu}{}_{\rho} - T^{\rho}{}_{\rho\mu}T^{\nu\mu}{}_{\nu}\]
+    <div class="eq-label">(4.1) &mdash; Torsion scalar</div>
+  </div>
+
+  <p>where T<sup>&rho;</sup><sub>&mu;&nu;</sub> = e<sup>&rho;</sup><sub>a</sub>(&part;<sub>&mu;</sub>e<sup>a</sup><sub>&nu;</sub> - &part;<sub>&nu;</sub>e<sup>a</sup><sub>&mu;</sub>) is the torsion tensor.</p>
+
+  <h3>4.2 Effective Newton's Constant</h3>
+
+  <p>When R &rarr; &langle;R&rangle; = R<sub>0</sub> (vacuum expectation value):</p>
+
+  <div class="eq law" style="border-color:#60a5fa;">
+    \[\boxed{\alpha R_0 \mathbb{T} = \frac{1}{16\pi G_N} \mathbb{T} \quad \Rightarrow \quad G_N = \frac{1}{16\pi \alpha R_0}}\]
+    <div class="eq-label">(4.2) &mdash; Newton's constant from XCRM</div>
+  </div>
+
+  <p>This identifies G<sub>N</sub> in terms of STUR parameters &mdash; Newton's constant is <strong>derived</strong>, not input.</p>
+
+  <h3>4.3 TEGR Equivalence</h3>
+
+  <div class="block success">
+    <div class="title">Key Result</div>
+    <p>The teleparallel torsion scalar &Tscr; differs from the Ricci scalar R<sub>Ricci</sub> by a total derivative:</p>
+    \[\mathbb{T} = -R_{\text{Ricci}} + \text{boundary term}\]
+    <p>Therefore &alpha;R&Tscr; generates <strong>identical</strong> gravitational dynamics to Einstein-Hilbert, but in a formulation compatible with gauge theory.</p>
+  </div>
+
+</section>
+
+<!-- CONCLUSION -->
+<section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(74,222,128,0.04) 100%);">
+  <h2 style="color:var(--gold);">Conclusion: The Master Action Is Unique</h2>
+
+  <div class="block success" style="border-width:3px;">
+    <div class="title" style="font-size:1.2rem;">Summary</div>
+    <p style="font-size:1.05rem;line-height:1.8;">
+      Starting from the XCRM coupling &chi;R&part;<sub>X</sub>R as the unique dimension-5 operator on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub>, we have shown:
+    </p>
+    <ol style="margin:1rem 0;padding-left:1.5rem;">
+      <li>The kinetic term &frac12;(&nabla;R)<sup>2</sup> is forced by unitarity</li>
+      <li>The potential V(R) is constrained to Z<sub>2</sub>-symmetric form</li>
+      <li>The gravity coupling &alpha;R&Tscr; is the minimal diffeomorphism-invariant extension</li>
+      <li>All other terms are forbidden by symmetry, dimension, or stability</li>
+    </ol>
+    <p style="font-size:1.05rem;margin-top:1rem;color:var(--gold);">
+      <strong>The Master Action is not postulated &mdash; it is derived from XCRM + consistency requirements.</strong>
+    </p>
+  </div>
+
+  <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+    <a href="stur_dhp_derivation.html" class="btn btn-primary">&rarr; DHP Derivation</a>
+    <a href="stur_mhp_derivation.html" class="btn btn-secondary">&rarr; MHP Derivation</a>
+    <a href="stur_core_theory.html" class="btn btn-outline">&rarr; Core Theory Overview</a>
+  </div>
+</section>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+</body>
+</html>

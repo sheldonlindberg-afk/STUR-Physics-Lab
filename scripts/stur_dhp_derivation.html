@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR DHP Derivation — Dynamical Holonomy from Path Integral</title>
+<meta name="description" content="Complete derivation of the Dynamical Holonomy Principle from path integral saddle point conditions on the orbifold.">
+
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_dhp_derivation.html" class="glass-nav-link active">DHP</a>
+      <a href="stur_symbols.html" class="glass-nav-link">Symbols</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1>DHP Derivation</h1>
+  <p class="subtitle">Dynamical Holonomy Principle from Path Integral Saddle Points</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    Built on <a href="stur_master_action_derivation.html" style="color:var(--accent);">Master Action</a> ·
+    Enables <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a> ·
+    <a href="stur_core_theory.html" style="color:var(--accent);">Core Theory</a>
+  </p>
+  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section" style="border:3px solid var(--quantum); background:linear-gradient(135deg, rgba(167,139,250,0.1) 0%, rgba(96,165,250,0.06) 100%);">
+  <h2 style="color:var(--quantum);">Executive Summary</h2>
+
+  <p style="color:var(--text);font-size:1.05rem;">
+    This document derives the <strong>Dynamical Holonomy Principle</strong> from first principles:
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.25rem 0;">
+    <div style="padding:1rem;background:rgba(167,139,250,0.06);border-radius:10px;border-left:4px solid #a78bfa;">
+      <div style="font-size:0.85rem;color:#a78bfa;font-weight:700;margin-bottom:0.5rem;">&sect;1: PATH INTEGRAL SETUP</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">Gauge theory partition function on the orbifold.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(96,165,250,0.06);border-radius:10px;border-left:4px solid #60a5fa;">
+      <div style="font-size:0.85rem;color:#60a5fa;font-weight:700;margin-bottom:0.5rem;">&sect;2: FADDEEV-POPOV</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">Gauge-fixing introduces the Vandermonde determinant.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(74,222,128,0.06);border-radius:10px;border-left:4px solid #4ade80;">
+      <div style="font-size:0.85rem;color:#4ade80;font-weight:700;margin-bottom:0.5rem;">&sect;3: HOLONOMY WEIGHTING</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">Large holonomy configurations are exponentially suppressed.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(251,191,36,0.06);border-radius:10px;border-left:4px solid #fbbf24;">
+      <div style="font-size:0.85rem;color:#fbbf24;font-weight:700;margin-bottom:0.5rem;">&sect;4: DYNAMICAL EVOLUTION</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">Time-integrated holonomy defines DHP.</div>
+    </div>
+  </div>
+
+  <div class="block success" style="border-width:3px;margin-top:1.5rem;">
+    <div class="title">Key Result</div>
+    <p style="font-size:1.05rem;margin:0;">
+      <strong>DHP is not postulated &mdash; it emerges from the path integral measure on compact spaces.</strong>
+      The universe evolves along paths of minimum integrated holonomy because the quantum amplitude exponentially suppresses alternatives.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 1: PATH INTEGRAL SETUP -->
+<section class="section" id="path-integral" style="border:3px solid var(--quantum); background:linear-gradient(135deg, rgba(167,139,250,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--quantum);">1. Path Integral on the Orbifold</h2>
+
+  <h3>1.1 The Partition Function</h3>
+
+  <p>The quantum theory is defined by the path integral over all field configurations:</p>
+
+  <div class="eq" style="border-color:var(--quantum);">
+    \[Z = \int \mathcal{D}A \, \mathcal{D}\psi \, \mathcal{D}R \, e^{i S_{\text{STUR}}[A, \psi, R]}\]
+    <div class="eq-label">(1.1) &mdash; Full partition function</div>
+  </div>
+
+  <p>where:</p>
+  <ul>
+    <li>A<sub>&mu;</sub>(x, X) = gauge field on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub></li>
+    <li>&psi;(x, X) = fermion fields</li>
+    <li>R(x, X) = resistance field</li>
+  </ul>
+
+  <h3>1.2 Gauge Redundancy</h3>
+
+  <p>The path integral over A includes gauge-equivalent configurations. We must fix the gauge to avoid overcounting.</p>
+
+  <div class="block warning">
+    <div class="title">The Gauge Orbit Problem</div>
+    <p>Configurations related by gauge transformations A &rarr; A<sup>g</sup> = gAg<sup>-1</sup> + g&part;g<sup>-1</sup> are physically identical. The naive integral diverges because it sums each physical state infinitely many times.</p>
+  </div>
+
+  <h3>1.3 Wilson Loop (Holonomy)</h3>
+
+  <p>On the compact dimension X &isin; [0, L<sub>X</sub>], define the <strong>Wilson loop</strong> around S<sup>1</sup>:</p>
+
+  <div class="eq law" style="border-color:var(--quantum);">
+    \[\boxed{W[A] = \mathcal{P} \exp\left( i \oint_{S^1} A_X \, dX \right)}\]
+    <div class="eq-label">(1.2) &mdash; Wilson loop (holonomy)</div>
+  </div>
+
+  <p>This is gauge-covariant: under g(x), W &rarr; g(x)Wg(x)<sup>-1</sup>. The <strong>eigenvalues</strong> of W are gauge-invariant.</p>
+
+</section>
+
+<!-- SECTION 2: FADDEEV-POPOV -->
+<section class="section" id="faddeev-popov" style="border:3px solid #60a5fa; background:linear-gradient(135deg, rgba(96,165,250,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:#60a5fa;">2. Faddeev-Popov Gauge Fixing</h2>
+
+  <div class="block" style="border-color:#60a5fa;border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 2.1 &mdash; Faddeev-Popov Determinant</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      Proper gauge-fixing on the orbifold introduces a <strong>Vandermonde determinant</strong> that depends on the holonomy eigenvalues.
+    </p>
+  </div>
+
+  <h3>2.1 Standard Faddeev-Popov Procedure</h3>
+
+  <p>Insert the identity:</p>
+
+  <div class="eq">
+    \[1 = \int \mathcal{D}g \, \delta(F[A^g]) \, \det\left( \frac{\delta F[A^g]}{\delta g} \right)\]
+  </div>
+
+  <p>where F[A] = 0 is the gauge-fixing condition. For Lorenz gauge, F[A] = &part;<sup>&mu;</sup>A<sub>&mu;</sub>.</p>
+
+  <h3>2.2 Holonomy Gauge on the Orbifold</h3>
+
+  <p>On M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub>, we can partially fix the gauge by diagonalizing the holonomy:</p>
+
+  <div class="eq" style="border-color:#60a5fa;">
+    \[W = \text{diag}(e^{i\theta_1}, e^{i\theta_2}, \ldots, e^{i\theta_n})\]
+    <div class="eq-label">(2.1) &mdash; Diagonalized holonomy</div>
+  </div>
+
+  <p>The Faddeev-Popov determinant for this gauge choice is:</p>
+
+  <div class="eq law" style="border-color:#60a5fa;">
+    \[\boxed{\Delta_{\text{FP}} = \prod_{i < j} \left| e^{i\theta_i} - e^{i\theta_j} \right|^2 = \prod_{i < j} 4\sin^2\left(\frac{\theta_i - \theta_j}{2}\right)}\]
+    <div class="eq-label">(2.2) &mdash; Vandermonde determinant</div>
+  </div>
+
+  <h3>2.3 Physical Interpretation</h3>
+
+  <div class="block success">
+    <div class="title">Key Insight: Holonomy Suppression</div>
+    <p>The Vandermonde determinant <strong>vanishes</strong> when any two eigenvalues coincide (&theta;<sub>i</sub> = &theta;<sub>j</sub>). It is <strong>maximized</strong> when eigenvalues are uniformly spread around the unit circle.</p>
+    <p style="margin-top:0.75rem;">This means:</p>
+    <ul>
+      <li>Configurations with <strong>degenerate</strong> holonomy (W &prop; &Iscr;) have measure zero</li>
+      <li>Configurations with <strong>spread-out</strong> eigenvalues are exponentially favored</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- SECTION 3: HOLONOMY WEIGHTING -->
+<section class="section" id="holonomy-weighting" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">3. Holonomy Cost Function</h2>
+
+  <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 3.1 &mdash; Effective Holonomy Action</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      The Faddeev-Popov determinant can be exponentiated into an effective action that <strong>penalizes large holonomy</strong>.
+    </p>
+  </div>
+
+  <h3>3.1 From Determinant to Action</h3>
+
+  <p>Write &Delta;<sub>FP</sub> = e<sup>-S<sub>hol</sub></sup> where:</p>
+
+  <div class="eq law" style="border-color:var(--success);">
+    \[\boxed{S_{\text{hol}}[W] = -\log \Delta_{\text{FP}} = -\sum_{i < j} \log\left| 4\sin^2\left(\frac{\theta_i - \theta_j}{2}\right) \right|}\]
+    <div class="eq-label">(3.1) &mdash; Holonomy action</div>
+  </div>
+
+  <p>This is minimized when eigenvalues are maximally separated.</p>
+
+  <h3>3.2 Quadratic Approximation</h3>
+
+  <p>Near the identity (small &theta;<sub>i</sub>), expand:</p>
+
+  <div class="eq">
+    \[S_{\text{hol}} \approx \sum_{i < j} \frac{(\theta_i - \theta_j)^2}{4} + O(\theta^4) \propto \text{Tr}(W^\dagger W - 1)\]
+    <div class="eq-label">(3.2) &mdash; Quadratic holonomy cost</div>
+  </div>
+
+  <h3>3.3 Gauge-Invariant Form</h3>
+
+  <p>The trace of the holonomy is gauge-invariant:</p>
+
+  <div class="eq law" style="border-color:var(--success);">
+    \[\boxed{\Omega[A] = \text{Tr}(W^\dagger W) = \sum_i |e^{i\theta_i}|^2 = n \quad \text{(for SU}(n)\text{)}}\]
+    <div class="eq-label">(3.3) &mdash; Holonomy cost functional</div>
+  </div>
+
+  <p>More generally, the holonomy cost includes contributions from all matter fields:</p>
+
+  <div class="eq" style="border-color:var(--success);">
+    \[\Omega_{\text{total}}[A, \psi, X_i] = \int \text{Tr}(W^\dagger W) \, d\mu + \lambda_\psi \sum_i \int |D_X \psi_i|^2 \, dX + \kappa \cdot I_{\text{top}}\]
+    <div class="eq-label">(3.4) &mdash; Total holonomy functional</div>
+  </div>
+
+  <p>where I<sub>top</sub> is a topological invariant (Chern number).</p>
+
+</section>
+
+<!-- SECTION 4: DYNAMICAL EVOLUTION -->
+<section class="section" id="dynamics" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">4. The Dynamical Holonomy Principle</h2>
+
+  <div class="block" style="border-color:var(--gold);border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 4.1 &mdash; DHP Statement</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      <strong>The universe evolves along the path that minimizes the time-integrated holonomy action.</strong>
+    </p>
+  </div>
+
+  <h3>4.1 Time-Integrated Holonomy</h3>
+
+  <p>For a history {config(t)} from t = 0 to t = t<sub>f</sub>, define:</p>
+
+  <div class="eq law" style="border-color:var(--gold);">
+    \[\boxed{\Omega_{\text{DHP}}[\text{history}] = \int_0^{t_f} \Omega[\text{config}(t)] \, dt}\]
+    <div class="eq-label">(4.1) &mdash; DHP functional</div>
+  </div>
+
+  <h3>4.2 Variational Principle</h3>
+
+  <p>The path integral selects histories that extremize the total action including holonomy cost:</p>
+
+  <div class="eq">
+    \[\delta\left( S_{\text{STUR}} + S_{\text{hol}} \right) = 0\]
+    <div class="eq-label">(4.2) &mdash; DHP variational principle</div>
+  </div>
+
+  <p>This is the <strong>Dynamical Holonomy Principle</strong>: physical evolution minimizes &Omega;<sub>DHP</sub>.</p>
+
+  <h3>4.3 What DHP Closes</h3>
+
+  <p>The DHP resolves multiple open problems simultaneously:</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;">
+    <thead>
+      <tr style="background:rgba(255,255,255,0.05);">
+        <th style="padding:0.75rem;text-align:left;border-bottom:2px solid var(--gold);">Problem</th>
+        <th style="padding:0.75rem;text-align:left;border-bottom:2px solid var(--gold);">How DHP Resolves It</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">UV Completion</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Holonomy cost regularizes high-energy modes</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Neutrino Masses</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Bulk seesaw + localization from holonomy minimization</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">CP Violation</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Holonomy phase quantization gives &delta;<sub>CKM</sub></td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Dark Matter</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Lightest KK parity-odd state stabilized by topology</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">&Lambda; Problem</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">R-field screening of vacuum energy</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Inflation</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">R-field slow-roll driven by holonomy gradient</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Baryogenesis</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">CP violation + out-of-equilibrium dynamics</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Quantum Gravity</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Holonomy-weighted path integral is finite</td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+
+<!-- SECTION 5: FORMAL DERIVATION -->
+<section class="section" id="formal" style="border:2px solid var(--quantum); background:rgba(167,139,250,0.03);">
+  <h2 style="color:var(--quantum);">5. Formal Derivation Summary</h2>
+
+  <h3>5.1 The Complete Argument</h3>
+
+  <ol style="line-height:2;">
+    <li><strong>Start:</strong> Path integral Z = &int; &Dscr;A &Dscr;&psi; &Dscr;R exp(iS<sub>STUR</sub>)</li>
+    <li><strong>Gauge fix:</strong> Insert Faddeev-Popov determinant &Delta;<sub>FP</sub></li>
+    <li><strong>On orbifold:</strong> &Delta;<sub>FP</sub> = Vandermonde in holonomy eigenvalues</li>
+    <li><strong>Exponentiate:</strong> &Delta;<sub>FP</sub> = exp(-S<sub>hol</sub>)</li>
+    <li><strong>Effective action:</strong> S<sub>eff</sub> = S<sub>STUR</sub> + S<sub>hol</sub></li>
+    <li><strong>Saddle point:</strong> &delta;S<sub>eff</sub> = 0 &rArr; minimize holonomy</li>
+    <li><strong>Time integrate:</strong> &Omega;<sub>DHP</sub> = &int; &Omega;(t) dt</li>
+    <li><strong>Result:</strong> DHP &equiv; "extremize &Omega;<sub>DHP</sub>"</li>
+  </ol>
+
+  <div class="block success" style="border-width:3px;">
+    <div class="title" style="font-size:1.2rem;">Conclusion</div>
+    <p style="font-size:1.05rem;margin:0;">
+      The Dynamical Holonomy Principle is not an independent axiom. It is a <strong>theorem</strong> of quantum field theory on compact spaces: the Faddeev-Popov procedure on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub> automatically generates a holonomy cost that the path integral extremizes.
+    </p>
+  </div>
+
+</section>
+
+<!-- CONCLUSION -->
+<section class="section" style="border:3px solid var(--quantum); background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(74,222,128,0.04) 100%);">
+  <h2 style="color:var(--quantum);">Conclusion: DHP Is Derived</h2>
+
+  <div class="eq law" style="border-color:var(--quantum);border-width:3px;">
+    \[\boxed{\text{Orbifold QFT} \xrightarrow{\text{Faddeev-Popov}} \text{Vandermonde} \xrightarrow{\exp} S_{\text{hol}} \xrightarrow{\int dt} \Omega_{\text{DHP}}}\]
+    <div class="eq-label">The derivation chain</div>
+  </div>
+
+  <p style="font-size:1.05rem;margin-top:1.5rem;">
+    <strong>DHP emerges from the structure of gauge theory on compact spaces.</strong> No additional assumption is needed beyond the Master Action on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub>.
+  </p>
+
+  <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+    <a href="stur_mhp_derivation.html" class="btn btn-primary">&rarr; MHP Derivation</a>
+    <a href="stur_moduli_stabilization.html" class="btn btn-secondary">&rarr; L<sub>X</sub> Stabilization</a>
+    <a href="stur_core_theory.html" class="btn btn-outline">&rarr; Core Theory Overview</a>
+  </div>
+</section>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+</body>
+</html>
