@@ -373,6 +373,430 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;">Simulate 3D atmospheric events with STUR resistance forcing. Watch how S(r) modulates microbursts, funnel formation, and heat domes.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="weatherCanvas" width="600" height="400" style="background:#050814;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+                        <button class="glass-btn primary" id="weatherStart">Start</button>
+                        <button class="glass-btn" id="weatherReset">Reset</button>
+                        <button class="glass-btn" id="weatherToggleSTUR" style="background:rgba(251,191,36,0.15);border-color:#fbbf24;color:#fbbf24;">STUR: ON</button>
+                        <select id="weatherEvent" class="glass-btn" style="padding:0.4rem 0.75rem;background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border-dim);border-radius:6px;">
+                            <option value="microburst">Microburst</option>
+                            <option value="funnel">Funnel Cloud</option>
+                            <option value="heatdome">Heat Dome</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Controls Panel -->
+                <div style="background:var(--bg-secondary);border-radius:12px;padding:1rem;border:1px solid var(--border-dim);">
+                    <h4 style="color:var(--neon-green);margin-bottom:1rem;font-size:0.9rem;">Parameters</h4>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            L₀ (km): <span id="weatherL0Val">100</span>
+                        </label>
+                        <input type="range" id="weatherL0" min="50" max="200" step="10" value="100" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Wind Speed (m/s): <span id="weatherWindVal">15</span>
+                        </label>
+                        <input type="range" id="weatherWind" min="5" max="50" step="5" value="15" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Temperature (°C): <span id="weatherTempVal">25</span>
+                        </label>
+                        <input type="range" id="weatherTemp" min="10" max="45" step="1" value="25" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Humidity (%): <span id="weatherHumidVal">60</span>
+                        </label>
+                        <input type="range" id="weatherHumid" min="20" max="95" step="5" value="60" style="width:100%;">
+                    </div>
+
+                    <hr style="border:none;border-top:1px solid var(--border-dim);margin:1rem 0;">
+
+                    <h4 style="color:var(--neon-cyan);margin-bottom:0.75rem;font-size:0.9rem;">Live Diagnostics</h4>
+                    <div class="glass-metrics" style="grid-template-columns:1fr 1fr;gap:0.5rem;">
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">S(r) force</div>
+                            <div class="glass-metric-value" id="weatherSrLive" style="font-size:0.9rem;color:#fbbf24;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Event Type</div>
+                            <div class="glass-metric-value" id="weatherTypeLive" style="font-size:0.8rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Intensity</div>
+                            <div class="glass-metric-value" id="weatherIntensityLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Time</div>
+                            <div class="glass-metric-value" id="weatherTimeLive" style="font-size:0.9rem;">0 s</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+                    <strong style="color:#fbbf24;">STUR Effect:</strong> The S(r) radial modulator creates coherent atmospheric forcing.
+                    Microbursts show enhanced downdraft; funnels gain rotational coherence; heat domes maintain persistent pressure gradients. Toggle STUR off to see standard fluid dynamics.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Holoscreen JavaScript -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('weatherCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Controls
+        const startBtn = document.getElementById('weatherStart');
+        const resetBtn = document.getElementById('weatherReset');
+        const toggleSTURBtn = document.getElementById('weatherToggleSTUR');
+        const eventSelect = document.getElementById('weatherEvent');
+        const L0Slider = document.getElementById('weatherL0');
+        const windSlider = document.getElementById('weatherWind');
+        const tempSlider = document.getElementById('weatherTemp');
+        const humidSlider = document.getElementById('weatherHumid');
+
+        // Value displays
+        const L0Val = document.getElementById('weatherL0Val');
+        const windVal = document.getElementById('weatherWindVal');
+        const tempVal = document.getElementById('weatherTempVal');
+        const humidVal = document.getElementById('weatherHumidVal');
+
+        // Live diagnostics
+        const srLive = document.getElementById('weatherSrLive');
+        const typeLive = document.getElementById('weatherTypeLive');
+        const intensityLive = document.getElementById('weatherIntensityLive');
+        const timeLive = document.getElementById('weatherTimeLive');
+
+        // State
+        let running = false;
+        let sturEnabled = true;
+        let animationId = null;
+        let simTime = 0;
+        let particles = [];
+
+        // Parameters
+        let params = {
+            L0: 100,
+            windSpeed: 15,
+            temp: 25,
+            humidity: 60
+        };
+
+        // S(r) STUR modulator
+        function S_STUR(r, L0) {
+            if (!sturEnabled) return 0;
+            const x = r / L0;
+            return Math.tanh(x) * (1 - Math.exp(-x));
+        }
+
+        // Initialize particles
+        function initParticles() {
+            particles = [];
+            const count = 300;
+            const event = eventSelect.value;
+
+            for (let i = 0; i < count; i++) {
+                let x, y, vx, vy;
+
+                if (event === 'microburst') {
+                    // Particles spread from center downward
+                    const angle = Math.random() * 2 * Math.PI;
+                    const r = Math.random() * 50;
+                    x = canvas.width / 2 + r * Math.cos(angle);
+                    y = 80 + Math.random() * 100;
+                    vx = (Math.random() - 0.5) * 2;
+                    vy = 1 + Math.random() * 2;
+                } else if (event === 'funnel') {
+                    // Rotating column
+                    const angle = Math.random() * 2 * Math.PI;
+                    const r = 20 + Math.random() * 60;
+                    x = canvas.width / 2 + r * Math.cos(angle);
+                    y = 100 + Math.random() * 200;
+                    vx = -Math.sin(angle) * 3;
+                    vy = -0.5 + Math.random() * 0.5;
+                } else {
+                    // Heat dome - rising parcels
+                    x = 100 + Math.random() * (canvas.width - 200);
+                    y = canvas.height - 50 - Math.random() * 100;
+                    vx = (Math.random() - 0.5) * 0.5;
+                    vy = -0.5 - Math.random() * 1;
+                }
+
+                particles.push({
+                    x, y, vx, vy,
+                    temp: params.temp + (Math.random() - 0.5) * 10,
+                    size: 2 + Math.random() * 2
+                });
+            }
+            simTime = 0;
+        }
+
+        // Update simulation
+        function update(dt) {
+            const event = eventSelect.value;
+            const L0 = params.L0;
+            let totalSr = 0;
+            let maxIntensity = 0;
+
+            for (let p of particles) {
+                const dx = p.x - canvas.width / 2;
+                const dy = p.y - canvas.height / 2;
+                const r = Math.sqrt(dx * dx + dy * dy);
+                const Sr = S_STUR(r, L0);
+                totalSr += Sr;
+
+                // STUR force contribution
+                const sturForce = sturEnabled ? Sr * 0.5 : 0;
+
+                if (event === 'microburst') {
+                    // Enhanced downdraft with STUR
+                    p.vy += (0.05 + sturForce * 0.1) * dt;
+                    p.vx += (dx / r) * sturForce * 0.05 * dt;
+
+                    // Ground spread
+                    if (p.y > canvas.height - 80) {
+                        p.vy = 0;
+                        p.vx = (p.x < canvas.width / 2 ? -1 : 1) * (2 + sturForce * 3);
+                    }
+                } else if (event === 'funnel') {
+                    // Rotational enhancement with STUR
+                    const angle = Math.atan2(dy, dx);
+                    const rotSpeed = (3 + sturForce * 5) / (r + 10);
+                    p.vx += -Math.sin(angle) * rotSpeed * dt * 10;
+                    p.vy += Math.cos(angle) * rotSpeed * dt * 5 - (0.02 + sturForce * 0.05);
+
+                    // Pull toward center
+                    p.vx -= dx * 0.001 * (1 + sturForce);
+                    p.vy -= dy * 0.0005;
+                } else {
+                    // Heat dome - persistent high pressure
+                    p.vy -= (0.02 + sturForce * 0.03) * dt;
+                    p.vx += (Math.random() - 0.5) * 0.1;
+
+                    // Subsidence at edges
+                    if (Math.abs(dx) > 150) {
+                        p.vy += 0.05;
+                    }
+                }
+
+                // Apply velocity
+                p.x += p.vx * dt * 10;
+                p.y += p.vy * dt * 10;
+
+                // Boundary handling
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height - 80;
+                if (p.y > canvas.height) p.y = 80;
+
+                maxIntensity = Math.max(maxIntensity, Math.sqrt(p.vx * p.vx + p.vy * p.vy));
+            }
+
+            simTime += dt;
+
+            // Update diagnostics
+            const avgSr = totalSr / particles.length;
+            srLive.textContent = sturEnabled ? avgSr.toFixed(3) : '—';
+            typeLive.textContent = event.charAt(0).toUpperCase() + event.slice(1);
+            intensityLive.textContent = maxIntensity.toFixed(1) + ' m/s';
+            timeLive.textContent = simTime.toFixed(1) + ' s';
+        }
+
+        // Draw
+        function draw() {
+            ctx.fillStyle = '#050814';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const event = eventSelect.value;
+
+            // Title
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.font = 'bold 14px monospace';
+            ctx.fillText(sturEnabled ? 'STUR Atmospheric Dynamics' : 'Standard Fluid Dynamics', 20, 25);
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '11px monospace';
+            ctx.fillText(`Event: ${event} | L₀=${params.L0}km | Wind=${params.windSpeed}m/s`, 20, 42);
+
+            // Draw ground
+            ctx.fillStyle = '#1f2a44';
+            ctx.fillRect(0, canvas.height - 40, canvas.width, 40);
+
+            // Draw atmospheric layers
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height - 40);
+            gradient.addColorStop(0, 'rgba(96, 165, 250, 0.1)');
+            gradient.addColorStop(0.5, 'rgba(96, 165, 250, 0.05)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height - 40);
+
+            // Draw event-specific background
+            if (event === 'microburst') {
+                // Cloud base
+                ctx.fillStyle = 'rgba(148, 163, 184, 0.3)';
+                ctx.beginPath();
+                ctx.ellipse(canvas.width / 2, 60, 120, 40, 0, 0, Math.PI);
+                ctx.fill();
+
+                // Downdraft indicator
+                if (sturEnabled) {
+                    ctx.strokeStyle = 'rgba(251, 191, 36, 0.3)';
+                    ctx.setLineDash([5, 5]);
+                    ctx.beginPath();
+                    ctx.moveTo(canvas.width / 2, 60);
+                    ctx.lineTo(canvas.width / 2, canvas.height - 80);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+            } else if (event === 'funnel') {
+                // Funnel outline
+                ctx.strokeStyle = sturEnabled ? 'rgba(251, 191, 36, 0.3)' : 'rgba(34, 211, 238, 0.2)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(canvas.width / 2 - 80, 60);
+                ctx.lineTo(canvas.width / 2 - 20, canvas.height - 80);
+                ctx.moveTo(canvas.width / 2 + 80, 60);
+                ctx.lineTo(canvas.width / 2 + 20, canvas.height - 80);
+                ctx.stroke();
+            } else {
+                // Heat dome pressure contours
+                for (let i = 0; i < 3; i++) {
+                    ctx.strokeStyle = `rgba(239, 68, 68, ${0.2 - i * 0.05})`;
+                    ctx.beginPath();
+                    ctx.ellipse(canvas.width / 2, canvas.height - 40, 200 - i * 50, 150 - i * 40, 0, Math.PI, 2 * Math.PI);
+                    ctx.stroke();
+                }
+            }
+
+            // Draw particles
+            for (const p of particles) {
+                const r = Math.sqrt((p.x - canvas.width/2)**2 + (p.y - canvas.height/2)**2);
+                const Sr = S_STUR(r, params.L0);
+
+                let color;
+                if (event === 'heatdome') {
+                    // Temperature coloring
+                    const tNorm = (p.temp - 15) / 30;
+                    const r = Math.min(255, Math.floor(150 + tNorm * 105));
+                    const g = Math.max(0, Math.floor(100 - tNorm * 100));
+                    const b = Math.max(0, Math.floor(100 - tNorm * 100));
+                    color = `rgb(${r},${g},${b})`;
+                } else if (sturEnabled) {
+                    const alpha = 0.5 + Sr * 0.5;
+                    color = `rgba(251, 191, 36, ${alpha})`;
+                } else {
+                    color = 'rgba(34, 211, 238, 0.6)';
+                }
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+                ctx.fillStyle = color;
+                ctx.fill();
+            }
+
+            // Legend
+            ctx.font = '9px monospace';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Atmosphere', 20, canvas.height - 25);
+
+            if (sturEnabled) {
+                ctx.fillStyle = '#fbbf24';
+                ctx.fillRect(canvas.width - 120, 55, 10, 10);
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText('STUR enhanced', canvas.width - 105, 63);
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            if (!running) return;
+            update(0.1);
+            draw();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Event handlers
+        startBtn.addEventListener('click', function() {
+            running = !running;
+            startBtn.textContent = running ? 'Pause' : 'Start';
+            if (running) animate();
+        });
+
+        resetBtn.addEventListener('click', function() {
+            running = false;
+            startBtn.textContent = 'Start';
+            if (animationId) cancelAnimationFrame(animationId);
+            initParticles();
+            draw();
+        });
+
+        toggleSTURBtn.addEventListener('click', function() {
+            sturEnabled = !sturEnabled;
+            toggleSTURBtn.textContent = sturEnabled ? 'STUR: ON' : 'STUR: OFF';
+            toggleSTURBtn.style.background = sturEnabled ? 'rgba(251,191,36,0.15)' : 'rgba(34,211,238,0.15)';
+            toggleSTURBtn.style.borderColor = sturEnabled ? '#fbbf24' : '#22d3ee';
+            toggleSTURBtn.style.color = sturEnabled ? '#fbbf24' : '#22d3ee';
+            draw();
+        });
+
+        eventSelect.addEventListener('change', function() {
+            initParticles();
+            draw();
+        });
+
+        // Slider handlers
+        L0Slider.addEventListener('input', function() {
+            params.L0 = parseInt(this.value);
+            L0Val.textContent = params.L0;
+        });
+
+        windSlider.addEventListener('input', function() {
+            params.windSpeed = parseInt(this.value);
+            windVal.textContent = params.windSpeed;
+        });
+
+        tempSlider.addEventListener('input', function() {
+            params.temp = parseInt(this.value);
+            tempVal.textContent = params.temp;
+        });
+
+        humidSlider.addEventListener('input', function() {
+            params.humidity = parseInt(this.value);
+            humidVal.textContent = params.humidity;
+        });
+
+        // Initialize
+        initParticles();
+        draw();
+    })();
+    </script>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">

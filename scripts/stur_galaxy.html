@@ -472,6 +472,421 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;">Explore galaxy rotation curves with the STUR scalar modulator. See how S(r) produces flat rotation without dark matter particles.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="galaxyCanvas" width="600" height="400" style="background:#050814;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+                        <button class="glass-btn primary" id="galaxyAnimate">Animate</button>
+                        <button class="glass-btn" id="galaxyReset">Reset</button>
+                        <button class="glass-btn" id="galaxyToggleSTUR" style="background:rgba(251,191,36,0.15);border-color:#fbbf24;color:#fbbf24;">STUR: ON</button>
+                    </div>
+                </div>
+
+                <!-- Controls Panel -->
+                <div style="background:var(--bg-secondary);border-radius:12px;padding:1rem;border:1px solid var(--border-dim);">
+                    <h4 style="color:var(--neon-green);margin-bottom:1rem;font-size:0.9rem;">Galaxy Parameters</h4>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            L₀ (kpc): <span id="galaxyL0Val">10</span>
+                        </label>
+                        <input type="range" id="galaxyL0" min="5" max="20" step="1" value="10" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            φ (coupling): <span id="galaxyPhiVal">1.0</span>
+                        </label>
+                        <input type="range" id="galaxyPhi" min="0.5" max="2.0" step="0.1" value="1.0" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            M_disk (10¹¹ M☉): <span id="galaxyMassVal">1.0</span>
+                        </label>
+                        <input type="range" id="galaxyMass" min="0.3" max="3.0" step="0.1" value="1.0" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            R_disk (kpc): <span id="galaxyRdVal">3.5</span>
+                        </label>
+                        <input type="range" id="galaxyRd" min="2" max="6" step="0.5" value="3.5" style="width:100%;">
+                    </div>
+
+                    <hr style="border:none;border-top:1px solid var(--border-dim);margin:1rem 0;">
+
+                    <h4 style="color:var(--neon-cyan);margin-bottom:0.75rem;font-size:0.9rem;">Live Diagnostics</h4>
+                    <div class="glass-metrics" style="grid-template-columns:1fr 1fr;gap:0.5rem;">
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">v_flat</div>
+                            <div class="glass-metric-value" id="galaxyVflatLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">r_peak</div>
+                            <div class="glass-metric-value" id="galaxyRpeakLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">S(r) max</div>
+                            <div class="glass-metric-value" id="galaxySrLive" style="font-size:0.9rem;color:#fbbf24;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">a₀</div>
+                            <div class="glass-metric-value" id="galaxyA0Live" style="font-size:0.85rem;">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+                    <strong style="color:#fbbf24;">STUR Effect:</strong> The scalar modulator <span class="eq-xcrm">S(r) = φ(1+r/L₀)/(1+(r/L₀)²)e<sup>-Λr²</sup></span>
+                    produces flat rotation curves from geometry. Toggle STUR off to see Keplerian decline without the modulator.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Holoscreen JavaScript -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('galaxyCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Controls
+        const animateBtn = document.getElementById('galaxyAnimate');
+        const resetBtn = document.getElementById('galaxyReset');
+        const toggleSTURBtn = document.getElementById('galaxyToggleSTUR');
+        const L0Slider = document.getElementById('galaxyL0');
+        const phiSlider = document.getElementById('galaxyPhi');
+        const massSlider = document.getElementById('galaxyMass');
+        const RdSlider = document.getElementById('galaxyRd');
+
+        // Value displays
+        const L0Val = document.getElementById('galaxyL0Val');
+        const phiVal = document.getElementById('galaxyPhiVal');
+        const massVal = document.getElementById('galaxyMassVal');
+        const RdVal = document.getElementById('galaxyRdVal');
+
+        // Live diagnostics
+        const vflatLive = document.getElementById('galaxyVflatLive');
+        const rpeakLive = document.getElementById('galaxyRpeakLive');
+        const srLive = document.getElementById('galaxySrLive');
+        const a0Live = document.getElementById('galaxyA0Live');
+
+        // State
+        let animating = false;
+        let sturEnabled = true;
+        let animationId = null;
+        let rotationAngle = 0;
+
+        // Parameters
+        let params = {
+            L0: 10,    // kpc
+            phi: 1.0,
+            Mdisk: 1.0, // 10^11 Msun
+            Rd: 3.5    // kpc
+        };
+
+        // Constants
+        const G = 6.674e-11;
+        const Msun = 1.989e30;
+        const kpc = 3.086e19;
+        const Lambda = 4.5e-52;
+
+        // STUR modulator S(r)
+        function S_STUR(r, L0, phi) {
+            if (!sturEnabled) return 0;
+            const x = r / L0;
+            const modulator = phi * (1 + x) / (1 + x * x);
+            const cutoff = Math.exp(-Lambda * (r * kpc) * (r * kpc));
+            return modulator * cutoff;
+        }
+
+        // Keplerian velocity (disk only)
+        function v_keplerian(r, Mdisk, Rd) {
+            // Simplified exponential disk
+            const y = r / (2 * Rd);
+            const I0 = 1; // simplified Bessel function
+            const K0 = Math.exp(-y);
+            const diskFactor = y * y * (I0 * K0 - 0.5);
+            const M = Mdisk * 1e11 * Msun;
+            const vSq = G * M / (r * kpc) * Math.max(0.1, diskFactor * 4);
+            return Math.sqrt(Math.abs(vSq)) / 1000; // km/s
+        }
+
+        // Total velocity with STUR
+        function v_total(r, L0, phi, Mdisk, Rd) {
+            const v_kep = v_keplerian(r, Mdisk, Rd);
+            const S = S_STUR(r, L0, phi);
+            // STUR adds effective mass contribution
+            const enhancement = 1 + S * 2;
+            return v_kep * Math.sqrt(enhancement);
+        }
+
+        // Calculate rotation curve data
+        function calculateCurve() {
+            const radii = [];
+            const v_stur = [];
+            const v_newton = [];
+
+            for (let r = 0.5; r <= 50; r += 0.5) {
+                radii.push(r);
+                v_stur.push(v_total(r, params.L0, params.phi, params.Mdisk, params.Rd));
+                v_newton.push(v_keplerian(r, params.Mdisk, params.Rd));
+            }
+
+            return { radii, v_stur, v_newton };
+        }
+
+        // Draw
+        function draw() {
+            ctx.fillStyle = '#050814';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Title
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.font = 'bold 14px monospace';
+            ctx.fillText(sturEnabled ? 'STUR Galaxy Rotation Curve' : 'Newtonian Rotation (No Dark Matter)', 20, 25);
+
+            const curve = calculateCurve();
+
+            // Plot area
+            const plotX = 80;
+            const plotY = 50;
+            const plotW = 320;
+            const plotH = 280;
+
+            // Draw axes
+            ctx.strokeStyle = '#4a5568';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(plotX, plotY);
+            ctx.lineTo(plotX, plotY + plotH);
+            ctx.lineTo(plotX + plotW, plotY + plotH);
+            ctx.stroke();
+
+            // Axis labels
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px monospace';
+            ctx.fillText('r (kpc)', plotX + plotW / 2 - 20, plotY + plotH + 25);
+            ctx.save();
+            ctx.translate(plotX - 35, plotY + plotH / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('v (km/s)', -25, 0);
+            ctx.restore();
+
+            // Scale
+            const maxR = 50;
+            const maxV = 400;
+
+            // Grid
+            ctx.strokeStyle = '#1f2a44';
+            ctx.setLineDash([2, 4]);
+            for (let v = 100; v <= 400; v += 100) {
+                const y = plotY + plotH - (v / maxV) * plotH;
+                ctx.beginPath();
+                ctx.moveTo(plotX, y);
+                ctx.lineTo(plotX + plotW, y);
+                ctx.stroke();
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText(v.toString(), plotX - 30, y + 4);
+            }
+            for (let r = 10; r <= 50; r += 10) {
+                const x = plotX + (r / maxR) * plotW;
+                ctx.beginPath();
+                ctx.moveTo(x, plotY);
+                ctx.lineTo(x, plotY + plotH);
+                ctx.stroke();
+                ctx.fillText(r.toString(), x - 5, plotY + plotH + 12);
+            }
+            ctx.setLineDash([]);
+
+            // Draw Newton curve
+            ctx.beginPath();
+            for (let i = 0; i < curve.radii.length; i++) {
+                const x = plotX + (curve.radii[i] / maxR) * plotW;
+                const y = plotY + plotH - (curve.v_newton[i] / maxV) * plotH;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = '#22d3ee';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw STUR curve
+            if (sturEnabled) {
+                ctx.beginPath();
+                for (let i = 0; i < curve.radii.length; i++) {
+                    const x = plotX + (curve.radii[i] / maxR) * plotW;
+                    const y = plotY + plotH - (curve.v_stur[i] / maxV) * plotH;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = '#fbbf24';
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+            }
+
+            // Legend
+            ctx.fillStyle = '#22d3ee';
+            ctx.fillRect(plotX + 10, plotY + 10, 15, 3);
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '9px monospace';
+            ctx.fillText('Newton', plotX + 30, plotY + 14);
+
+            if (sturEnabled) {
+                ctx.fillStyle = '#fbbf24';
+                ctx.fillRect(plotX + 10, plotY + 25, 15, 3);
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText('STUR', plotX + 30, plotY + 29);
+            }
+
+            // Draw galaxy visualization (right side)
+            const galX = 470;
+            const galY = 180;
+            const galR = 120;
+
+            // Galaxy spiral
+            ctx.save();
+            ctx.translate(galX, galY);
+            ctx.rotate(rotationAngle);
+
+            // Draw spiral arms
+            for (let arm = 0; arm < 2; arm++) {
+                ctx.beginPath();
+                for (let t = 0.1; t < 5; t += 0.1) {
+                    const r = 10 + t * 20;
+                    const angle = t + arm * Math.PI;
+                    const x = r * Math.cos(angle);
+                    const y = r * Math.sin(angle) * 0.4; // Flatten for inclination
+                    if (t === 0.1) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = sturEnabled ? 'rgba(251, 191, 36, 0.5)' : 'rgba(34, 211, 238, 0.5)';
+                ctx.lineWidth = 8;
+                ctx.stroke();
+            }
+
+            // Draw stars
+            for (let i = 0; i < 50; i++) {
+                const r = 20 + Math.random() * 80;
+                const angle = Math.random() * 2 * Math.PI;
+                const x = r * Math.cos(angle);
+                const y = r * Math.sin(angle) * 0.4;
+                ctx.beginPath();
+                ctx.arc(x, y, 1 + Math.random() * 2, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + Math.random() * 0.5})`;
+                ctx.fill();
+            }
+
+            // Center bulge
+            const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 30);
+            gradient.addColorStop(0, sturEnabled ? '#fbbf24' : '#22d3ee');
+            gradient.addColorStop(1, 'transparent');
+            ctx.beginPath();
+            ctx.arc(0, 0, 30, 0, 2 * Math.PI);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            ctx.restore();
+
+            // Update diagnostics
+            const maxSturV = sturEnabled ? Math.max(...curve.v_stur) : Math.max(...curve.v_newton);
+            const flatV = sturEnabled ? curve.v_stur[curve.v_stur.length - 10] : curve.v_newton[curve.v_newton.length - 10];
+            const rPeak = params.L0 * 1.27;
+            const maxS = S_STUR(params.L0, params.L0, params.phi);
+            const a0 = G * params.phi / (params.L0 * kpc) * 1e10;
+
+            vflatLive.textContent = flatV.toFixed(0) + ' km/s';
+            rpeakLive.textContent = rPeak.toFixed(1) + ' kpc';
+            srLive.textContent = sturEnabled ? maxS.toFixed(3) : '—';
+            a0Live.textContent = a0.toExponential(1) + ' m/s²';
+        }
+
+        // Animation loop
+        function animate() {
+            if (!animating) return;
+            rotationAngle += 0.01;
+            draw();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Event handlers
+        animateBtn.addEventListener('click', function() {
+            animating = !animating;
+            animateBtn.textContent = animating ? 'Stop' : 'Animate';
+            if (animating) animate();
+        });
+
+        resetBtn.addEventListener('click', function() {
+            animating = false;
+            animateBtn.textContent = 'Animate';
+            if (animationId) cancelAnimationFrame(animationId);
+            rotationAngle = 0;
+            params = { L0: 10, phi: 1.0, Mdisk: 1.0, Rd: 3.5 };
+            L0Slider.value = 10;
+            phiSlider.value = 1.0;
+            massSlider.value = 1.0;
+            RdSlider.value = 3.5;
+            L0Val.textContent = '10';
+            phiVal.textContent = '1.0';
+            massVal.textContent = '1.0';
+            RdVal.textContent = '3.5';
+            draw();
+        });
+
+        toggleSTURBtn.addEventListener('click', function() {
+            sturEnabled = !sturEnabled;
+            toggleSTURBtn.textContent = sturEnabled ? 'STUR: ON' : 'STUR: OFF';
+            toggleSTURBtn.style.background = sturEnabled ? 'rgba(251,191,36,0.15)' : 'rgba(34,211,238,0.15)';
+            toggleSTURBtn.style.borderColor = sturEnabled ? '#fbbf24' : '#22d3ee';
+            toggleSTURBtn.style.color = sturEnabled ? '#fbbf24' : '#22d3ee';
+            draw();
+        });
+
+        // Slider handlers
+        L0Slider.addEventListener('input', function() {
+            params.L0 = parseFloat(this.value);
+            L0Val.textContent = params.L0;
+            draw();
+        });
+
+        phiSlider.addEventListener('input', function() {
+            params.phi = parseFloat(this.value);
+            phiVal.textContent = params.phi.toFixed(1);
+            draw();
+        });
+
+        massSlider.addEventListener('input', function() {
+            params.Mdisk = parseFloat(this.value);
+            massVal.textContent = params.Mdisk.toFixed(1);
+            draw();
+        });
+
+        RdSlider.addEventListener('input', function() {
+            params.Rd = parseFloat(this.value);
+            RdVal.textContent = params.Rd.toFixed(1);
+            draw();
+        });
+
+        // Initialize
+        draw();
+    })();
+    </script>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">

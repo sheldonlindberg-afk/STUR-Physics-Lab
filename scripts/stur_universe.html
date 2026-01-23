@@ -366,6 +366,398 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;">Explore the STUR cosmic web structure from Earth's POV. The S(r) coherence function shapes filament connectivity.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="universeCanvas" width="600" height="400" style="background:#050814;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+                        <button class="glass-btn primary" id="universeRotate">Rotate</button>
+                        <button class="glass-btn" id="universeReset">Reset</button>
+                        <button class="glass-btn" id="universeToggleSTUR" style="background:rgba(251,191,36,0.15);border-color:#fbbf24;color:#fbbf24;">STUR: ON</button>
+                    </div>
+                </div>
+
+                <!-- Controls Panel -->
+                <div style="background:var(--bg-secondary);border-radius:12px;padding:1rem;border:1px solid var(--border-dim);">
+                    <h4 style="color:var(--neon-green);margin-bottom:1rem;font-size:0.9rem;">Cosmic Parameters</h4>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            z_max: <span id="universeZmaxVal">5.0</span>
+                        </label>
+                        <input type="range" id="universeZmax" min="1" max="15" step="0.5" value="5" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            H₀ (km/s/Mpc): <span id="universeH0Val">70</span>
+                        </label>
+                        <input type="range" id="universeH0" min="60" max="80" step="1" value="70" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Ω_m: <span id="universeOmVal">0.3</span>
+                        </label>
+                        <input type="range" id="universeOm" min="0.1" max="0.5" step="0.05" value="0.3" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Density: <span id="universeDensityVal">200</span> structures
+                        </label>
+                        <input type="range" id="universeDensity" min="50" max="500" step="25" value="200" style="width:100%;">
+                    </div>
+
+                    <hr style="border:none;border-top:1px solid var(--border-dim);margin:1rem 0;">
+
+                    <h4 style="color:var(--neon-cyan);margin-bottom:0.75rem;font-size:0.9rem;">Live Diagnostics</h4>
+                    <div class="glass-metrics" style="grid-template-columns:1fr 1fr;gap:0.5rem;">
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Structures</div>
+                            <div class="glass-metric-value" id="universeCountLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Filaments</div>
+                            <div class="glass-metric-value" id="universeFilLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">S(r) mean</div>
+                            <div class="glass-metric-value" id="universeSrLive" style="font-size:0.9rem;color:#fbbf24;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">View</div>
+                            <div class="glass-metric-value" id="universeViewLive" style="font-size:0.85rem;">0°</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+                    <strong style="color:#fbbf24;">STUR Effect:</strong> The S(r) coherence function determines filament connectivity in the cosmic web.
+                    With STUR, structures show enhanced clustering along Z₃ helix geometry. Toggle off to see random distribution.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Holoscreen JavaScript -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('universeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Controls
+        const rotateBtn = document.getElementById('universeRotate');
+        const resetBtn = document.getElementById('universeReset');
+        const toggleSTURBtn = document.getElementById('universeToggleSTUR');
+        const zmaxSlider = document.getElementById('universeZmax');
+        const h0Slider = document.getElementById('universeH0');
+        const omSlider = document.getElementById('universeOm');
+        const densitySlider = document.getElementById('universeDensity');
+
+        // Value displays
+        const zmaxVal = document.getElementById('universeZmaxVal');
+        const h0Val = document.getElementById('universeH0Val');
+        const omVal = document.getElementById('universeOmVal');
+        const densityVal = document.getElementById('universeDensityVal');
+
+        // Live diagnostics
+        const countLive = document.getElementById('universeCountLive');
+        const filLive = document.getElementById('universeFilLive');
+        const srLive = document.getElementById('universeSrLive');
+        const viewLive = document.getElementById('universeViewLive');
+
+        // State
+        let rotating = false;
+        let sturEnabled = true;
+        let animationId = null;
+        let viewAngle = 0;
+        let structures = [];
+        let filaments = [];
+
+        // Parameters
+        let params = {
+            zmax: 5.0,
+            H0: 70,
+            Om: 0.3,
+            density: 200
+        };
+
+        // S(r) coherence function
+        function S_STUR(r, L0) {
+            if (!sturEnabled) return 0.5;
+            const x = r / L0;
+            return Math.tanh(x) * (1 - Math.exp(-x));
+        }
+
+        // Generate cosmic structures
+        function generateStructures() {
+            structures = [];
+            filaments = [];
+
+            const L0 = 100; // Mpc coherence scale
+            const numStructures = params.density;
+
+            // Generate structures
+            for (let i = 0; i < numStructures; i++) {
+                const z = Math.random() * params.zmax;
+                const ra = Math.random() * 360 - 180;
+                const dec = (Math.random() - 0.5) * 180;
+
+                // Comoving distance
+                const dc = z * 3000 / params.H0; // simplified
+
+                // Cartesian
+                const theta = ra * Math.PI / 180;
+                const phi = dec * Math.PI / 180;
+                const x = dc * Math.cos(phi) * Math.cos(theta);
+                const y = dc * Math.cos(phi) * Math.sin(theta);
+                const zCoord = dc * Math.sin(phi);
+
+                // STUR coherence affects clustering
+                const Sr = S_STUR(dc, L0);
+                const clusterBias = sturEnabled ? 1 + Sr * 2 : 1;
+
+                // Apply STUR-induced clustering (bias toward filaments)
+                if (sturEnabled && Math.random() < Sr * 0.5) {
+                    // Pull toward nearest existing structure (filament formation)
+                    let nearest = null;
+                    let minDist = Infinity;
+                    for (const s of structures) {
+                        const dist = Math.sqrt((s.x - x)**2 + (s.y - y)**2 + (s.z - zCoord)**2);
+                        if (dist < minDist && dist > 10) {
+                            minDist = dist;
+                            nearest = s;
+                        }
+                    }
+                    if (nearest && minDist < 500) {
+                        filaments.push({
+                            x1: x, y1: y, z1: zCoord,
+                            x2: nearest.x, y2: nearest.y, z2: nearest.z,
+                            strength: Sr
+                        });
+                    }
+                }
+
+                structures.push({
+                    x: x, y: y, z: zCoord,
+                    redshift: z,
+                    Sr: Sr,
+                    size: 2 + z * 0.5,
+                    type: z < 1 ? 'nearby' : (z < 3 ? 'distant' : 'highz')
+                });
+            }
+        }
+
+        // 3D to 2D projection
+        function project(x, y, z) {
+            const cos = Math.cos(viewAngle);
+            const sin = Math.sin(viewAngle);
+
+            // Rotate around Y axis
+            const xr = x * cos - z * sin;
+            const zr = x * sin + z * cos;
+
+            // Perspective projection
+            const scale = 800 / (800 + zr);
+            const px = canvas.width / 2 + xr * scale * 0.05;
+            const py = canvas.height / 2 - y * scale * 0.05;
+
+            return { x: px, y: py, scale: scale, depth: zr };
+        }
+
+        // Draw
+        function draw() {
+            ctx.fillStyle = '#050814';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Title
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.font = 'bold 14px monospace';
+            ctx.fillText(sturEnabled ? 'STUR Cosmic Web' : 'Random Distribution', 20, 25);
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '11px monospace';
+            ctx.fillText(`z_max=${params.zmax} | ${structures.length} structures`, 20, 42);
+
+            // Draw Earth at center
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, canvas.height / 2, 8, 0, 2 * Math.PI);
+            ctx.fillStyle = '#4ade80';
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '8px monospace';
+            ctx.fillText('Earth', canvas.width / 2 - 12, canvas.height / 2 + 20);
+
+            // Sort by depth for proper rendering
+            const sortedStructures = [...structures].sort((a, b) => {
+                const pa = project(a.x, a.y, a.z);
+                const pb = project(b.x, b.y, b.z);
+                return pb.depth - pa.depth;
+            });
+
+            // Draw filaments first
+            if (sturEnabled) {
+                for (const f of filaments) {
+                    const p1 = project(f.x1, f.y1, f.z1);
+                    const p2 = project(f.x2, f.y2, f.z2);
+
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.strokeStyle = `rgba(251, 191, 36, ${0.1 + f.strength * 0.3})`;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            }
+
+            // Draw structures
+            let totalSr = 0;
+            for (const s of sortedStructures) {
+                const p = project(s.x, s.y, s.z);
+                if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) continue;
+
+                totalSr += s.Sr;
+
+                // Color by type/redshift
+                let color;
+                if (sturEnabled) {
+                    const alpha = 0.5 + s.Sr * 0.5;
+                    if (s.type === 'nearby') color = `rgba(74, 222, 128, ${alpha})`;
+                    else if (s.type === 'distant') color = `rgba(251, 191, 36, ${alpha})`;
+                    else color = `rgba(239, 68, 68, ${alpha})`;
+                } else {
+                    color = '#22d3ee';
+                }
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, s.size * p.scale, 0, 2 * Math.PI);
+                ctx.fillStyle = color;
+                ctx.fill();
+            }
+
+            // Draw distance rings
+            ctx.strokeStyle = '#1f2a44';
+            ctx.setLineDash([5, 5]);
+            for (const r of [100, 200, 300]) {
+                ctx.beginPath();
+                ctx.arc(canvas.width / 2, canvas.height / 2, r, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+            ctx.setLineDash([]);
+
+            // Legend
+            const legX = canvas.width - 100;
+            ctx.font = '9px monospace';
+
+            ctx.fillStyle = '#4ade80';
+            ctx.beginPath();
+            ctx.arc(legX, 60, 4, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('z < 1', legX + 10, 63);
+
+            ctx.fillStyle = '#fbbf24';
+            ctx.beginPath();
+            ctx.arc(legX, 80, 4, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('1 < z < 3', legX + 10, 83);
+
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(legX, 100, 4, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('z > 3', legX + 10, 103);
+
+            // Update diagnostics
+            countLive.textContent = structures.length;
+            filLive.textContent = filaments.length;
+            srLive.textContent = sturEnabled ? (totalSr / structures.length).toFixed(3) : '—';
+            viewLive.textContent = Math.round(viewAngle * 180 / Math.PI) + '°';
+        }
+
+        // Animation loop
+        function animate() {
+            if (!rotating) return;
+            viewAngle += 0.01;
+            draw();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Event handlers
+        rotateBtn.addEventListener('click', function() {
+            rotating = !rotating;
+            rotateBtn.textContent = rotating ? 'Stop' : 'Rotate';
+            if (rotating) animate();
+        });
+
+        resetBtn.addEventListener('click', function() {
+            rotating = false;
+            rotateBtn.textContent = 'Rotate';
+            if (animationId) cancelAnimationFrame(animationId);
+            viewAngle = 0;
+            generateStructures();
+            draw();
+        });
+
+        toggleSTURBtn.addEventListener('click', function() {
+            sturEnabled = !sturEnabled;
+            toggleSTURBtn.textContent = sturEnabled ? 'STUR: ON' : 'STUR: OFF';
+            toggleSTURBtn.style.background = sturEnabled ? 'rgba(251,191,36,0.15)' : 'rgba(34,211,238,0.15)';
+            toggleSTURBtn.style.borderColor = sturEnabled ? '#fbbf24' : '#22d3ee';
+            toggleSTURBtn.style.color = sturEnabled ? '#fbbf24' : '#22d3ee';
+            generateStructures();
+            draw();
+        });
+
+        // Slider handlers
+        zmaxSlider.addEventListener('input', function() {
+            params.zmax = parseFloat(this.value);
+            zmaxVal.textContent = params.zmax.toFixed(1);
+            generateStructures();
+            draw();
+        });
+
+        h0Slider.addEventListener('input', function() {
+            params.H0 = parseInt(this.value);
+            h0Val.textContent = params.H0;
+            generateStructures();
+            draw();
+        });
+
+        omSlider.addEventListener('input', function() {
+            params.Om = parseFloat(this.value);
+            omVal.textContent = params.Om.toFixed(2);
+        });
+
+        densitySlider.addEventListener('input', function() {
+            params.density = parseInt(this.value);
+            densityVal.textContent = params.density;
+            generateStructures();
+            draw();
+        });
+
+        // Initialize
+        generateStructures();
+        draw();
+    })();
+    </script>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">

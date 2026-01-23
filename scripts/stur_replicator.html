@@ -376,6 +376,509 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;">Explore the STUR stress-failure envelope across mass and energy scales. See how replicators transition between stable, power-limited, and biology-limited regimes.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="replicatorCanvas" width="600" height="400" style="background:#050814;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+                        <button class="glass-btn primary" id="replicatorStart">Simulate</button>
+                        <button class="glass-btn" id="replicatorReset">Reset</button>
+                        <button class="glass-btn" id="replicatorToggleSTUR" style="background:rgba(251,191,36,0.15);border-color:#fbbf24;color:#fbbf24;">STUR: ON</button>
+                        <button class="glass-btn" id="replicatorAdd">Add Replicator</button>
+                    </div>
+                </div>
+
+                <!-- Controls Panel -->
+                <div style="background:var(--bg-secondary);border-radius:12px;padding:1rem;border:1px solid var(--border-dim);">
+                    <h4 style="color:var(--neon-green);margin-bottom:1rem;font-size:0.9rem;">Parameters</h4>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Mass (log kg): <span id="replicatorMassVal">-3</span>
+                        </label>
+                        <input type="range" id="replicatorMass" min="-6" max="1" step="0.5" value="-3" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Replication Time: <span id="replicatorTimeVal">60</span> s
+                        </label>
+                        <input type="range" id="replicatorTime" min="10" max="300" step="10" value="60" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Energy Budget: <span id="replicatorEnergyVal">1.0</span>×
+                        </label>
+                        <input type="range" id="replicatorEnergy" min="0.1" max="3.0" step="0.1" value="1.0" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Entropy Gradient: <span id="replicatorEntropyVal">0.1</span>
+                        </label>
+                        <input type="range" id="replicatorEntropy" min="0.01" max="0.5" step="0.01" value="0.1" style="width:100%;">
+                    </div>
+
+                    <hr style="border:none;border-top:1px solid var(--border-dim);margin:1rem 0;">
+
+                    <h4 style="color:var(--neon-cyan);margin-bottom:0.75rem;font-size:0.9rem;">Live Diagnostics</h4>
+                    <div class="glass-metrics" style="grid-template-columns:1fr 1fr;gap:0.5rem;">
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">E/mc²</div>
+                            <div class="glass-metric-value" id="replicatorRatioLive" style="font-size:0.85rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">R* ratio</div>
+                            <div class="glass-metric-value" id="replicatorRstarLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Mode</div>
+                            <div class="glass-metric-value" id="replicatorModeLive" style="font-size:0.8rem;color:#4ade80;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Stable</div>
+                            <div class="glass-metric-value" id="replicatorStableLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Power-lim</div>
+                            <div class="glass-metric-value" id="replicatorPowerLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Bio-lim</div>
+                            <div class="glass-metric-value" id="replicatorBioLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+                    <strong style="color:#fbbf24;">STUR Effect:</strong> The saturation operator <span class="eq-xcrm">S(u)</span> determines stability boundaries.
+                    When <span class="eq-potential">E_need/mc² < 10⁻⁸</span> and <span class="eq-diffusion">ΔS_eff < 0.15 k_B</span>, replication is stable. Toggle STUR off to see unconstrained failure modes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Holoscreen JavaScript -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('replicatorCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Controls
+        const startBtn = document.getElementById('replicatorStart');
+        const resetBtn = document.getElementById('replicatorReset');
+        const toggleSTURBtn = document.getElementById('replicatorToggleSTUR');
+        const addBtn = document.getElementById('replicatorAdd');
+        const massSlider = document.getElementById('replicatorMass');
+        const timeSlider = document.getElementById('replicatorTime');
+        const energySlider = document.getElementById('replicatorEnergy');
+        const entropySlider = document.getElementById('replicatorEntropy');
+
+        // Value displays
+        const massVal = document.getElementById('replicatorMassVal');
+        const timeVal = document.getElementById('replicatorTimeVal');
+        const energyVal = document.getElementById('replicatorEnergyVal');
+        const entropyVal = document.getElementById('replicatorEntropyVal');
+
+        // Live diagnostics
+        const ratioLive = document.getElementById('replicatorRatioLive');
+        const rstarLive = document.getElementById('replicatorRstarLive');
+        const modeLive = document.getElementById('replicatorModeLive');
+        const stableLive = document.getElementById('replicatorStableLive');
+        const powerLive = document.getElementById('replicatorPowerLive');
+        const bioLive = document.getElementById('replicatorBioLive');
+
+        // State
+        let running = false;
+        let sturEnabled = true;
+        let animationId = null;
+        let replicators = [];
+        let simTime = 0;
+
+        // Parameters
+        let params = {
+            logMass: -3,
+            repTime: 60,
+            energyBudget: 1.0,
+            entropyGrad: 0.1
+        };
+
+        // Mode colors
+        const modeColors = {
+            stable: '#4ade80',
+            power: '#fbbf24',
+            biology: '#f472b6'
+        };
+
+        // Determine failure mode
+        function getFailureMode(mass, energy, entropy) {
+            const c2 = 9e16; // c^2
+            const ratio = energy / (mass * c2);
+            const threshold_power = sturEnabled ? 1e-8 : 1e-7;
+            const threshold_entropy = sturEnabled ? 0.15 : 0.1;
+
+            if (ratio > threshold_power) return 'power';
+            if (entropy > threshold_entropy) return 'biology';
+            return 'stable';
+        }
+
+        // Calculate R* ratio
+        function getRstarRatio(energy, mass) {
+            const I = 1.0; // normalized
+            const Phi = sturEnabled ? 1.0 : 0.8;
+            return energy / (I * Phi * mass * 1e3);
+        }
+
+        // Add replicator
+        function addReplicator() {
+            const mass = Math.pow(10, params.logMass);
+            const energy = params.energyBudget * mass * 1e-11 * 9e16; // scaled energy
+            const entropy = params.entropyGrad;
+
+            const mode = getFailureMode(mass, energy, entropy);
+            const rstar = getRstarRatio(energy, mass);
+
+            replicators.push({
+                mass: mass,
+                logMass: params.logMass,
+                energy: energy,
+                entropy: entropy,
+                mode: mode,
+                rstar: rstar,
+                x: 100 + (params.logMass + 6) * 60,
+                y: 200 + (Math.random() - 0.5) * 100,
+                size: 8 + Math.log10(mass + 1e-7) * 2,
+                progress: 0,
+                repTime: params.repTime,
+                alive: true
+            });
+        }
+
+        // Initialize
+        function initSimulation() {
+            replicators = [];
+            simTime = 0;
+
+            // Add some sample replicators
+            const samples = [
+                {logMass: -6, energy: 0.5, entropy: 0.05},
+                {logMass: -3, energy: 1.0, entropy: 0.1},
+                {logMass: -1, energy: 1.5, entropy: 0.15},
+                {logMass: 0, energy: 2.0, entropy: 0.25}
+            ];
+
+            for (const s of samples) {
+                params.logMass = s.logMass;
+                params.energyBudget = s.energy;
+                params.entropyGrad = s.entropy;
+                addReplicator();
+            }
+
+            // Reset params
+            params.logMass = parseFloat(massSlider.value);
+            params.energyBudget = parseFloat(energySlider.value);
+            params.entropyGrad = parseFloat(entropySlider.value);
+        }
+
+        // Update simulation
+        function update(dt) {
+            simTime += dt;
+
+            let stableCount = 0, powerCount = 0, bioCount = 0;
+
+            for (let r of replicators) {
+                if (!r.alive) continue;
+
+                // Update progress
+                if (r.mode === 'stable') {
+                    r.progress += dt / r.repTime;
+                    if (r.progress >= 1) {
+                        r.progress = 0; // Replicate
+                    }
+                    stableCount++;
+                } else if (r.mode === 'power') {
+                    r.progress += dt / (r.repTime * 3); // Slower
+                    if (r.progress >= 0.5) {
+                        r.alive = false; // Fail
+                    }
+                    powerCount++;
+                } else {
+                    r.progress += dt / (r.repTime * 2);
+                    if (r.progress >= 0.7) {
+                        r.alive = false; // Fail
+                    }
+                    bioCount++;
+                }
+
+                // Small motion
+                r.y += Math.sin(simTime * 0.1 + r.logMass) * 0.2;
+            }
+
+            // Update diagnostics
+            const mass = Math.pow(10, params.logMass);
+            const energy = params.energyBudget * mass * 1e-11 * 9e16;
+            const ratio = energy / (mass * 9e16);
+            const rstar = getRstarRatio(energy, mass);
+            const mode = getFailureMode(mass, energy, params.entropyGrad);
+
+            ratioLive.textContent = ratio.toExponential(1);
+            rstarLive.textContent = rstar.toFixed(2);
+            modeLive.textContent = mode.toUpperCase();
+            modeLive.style.color = modeColors[mode];
+            stableLive.textContent = stableCount;
+            powerLive.textContent = powerCount;
+            bioLive.textContent = bioCount;
+        }
+
+        // Draw
+        function draw() {
+            ctx.fillStyle = '#050814';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Title
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.font = 'bold 14px monospace';
+            ctx.fillText(sturEnabled ? 'STUR Stress-Failure Envelope' : 'Standard Failure Analysis', 20, 25);
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '11px monospace';
+            ctx.fillText(`Time: ${simTime.toFixed(1)}s | Replicators: ${replicators.filter(r => r.alive).length}`, 20, 42);
+
+            // Draw phase diagram background
+            const diagramX = 60;
+            const diagramY = 60;
+            const diagramW = 480;
+            const diagramH = 280;
+
+            // Draw zones
+            // Power-limited zone (left)
+            ctx.fillStyle = 'rgba(251, 191, 36, 0.1)';
+            ctx.fillRect(diagramX, diagramY, diagramW * 0.3, diagramH);
+
+            // Biology-limited zone (top)
+            ctx.fillStyle = 'rgba(244, 114, 182, 0.1)';
+            ctx.fillRect(diagramX + diagramW * 0.3, diagramY, diagramW * 0.7, diagramH * 0.4);
+
+            // Stable zone (bottom right)
+            ctx.fillStyle = 'rgba(74, 222, 128, 0.1)';
+            ctx.fillRect(diagramX + diagramW * 0.3, diagramY + diagramH * 0.4, diagramW * 0.7, diagramH * 0.6);
+
+            // Axes
+            ctx.strokeStyle = '#4a5568';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(diagramX, diagramY + diagramH);
+            ctx.lineTo(diagramX + diagramW, diagramY + diagramH);
+            ctx.moveTo(diagramX, diagramY);
+            ctx.lineTo(diagramX, diagramY + diagramH);
+            ctx.stroke();
+
+            // Axis labels
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px monospace';
+            ctx.fillText('Log Mass (kg)', diagramX + diagramW / 2 - 40, diagramY + diagramH + 20);
+            ctx.save();
+            ctx.translate(diagramX - 30, diagramY + diagramH / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('Energy/Entropy', -40, 0);
+            ctx.restore();
+
+            // Mass scale
+            ctx.font = '8px monospace';
+            for (let m = -6; m <= 1; m += 1) {
+                const x = diagramX + (m + 6) / 7 * diagramW;
+                ctx.fillText(m.toString(), x - 5, diagramY + diagramH + 12);
+            }
+
+            // Zone labels
+            ctx.font = '11px monospace';
+            ctx.fillStyle = '#fbbf24';
+            ctx.fillText('POWER', diagramX + 20, diagramY + diagramH / 2);
+            ctx.fillText('LIMITED', diagramX + 20, diagramY + diagramH / 2 + 15);
+
+            ctx.fillStyle = '#f472b6';
+            ctx.fillText('BIOLOGY LIMITED', diagramX + diagramW * 0.55, diagramY + diagramH * 0.2);
+
+            ctx.fillStyle = '#4ade80';
+            ctx.fillText('STABLE', diagramX + diagramW * 0.55, diagramY + diagramH * 0.7);
+
+            // Draw threshold lines
+            ctx.setLineDash([5, 5]);
+            ctx.strokeStyle = '#fbbf24';
+            ctx.beginPath();
+            ctx.moveTo(diagramX + diagramW * 0.3, diagramY);
+            ctx.lineTo(diagramX + diagramW * 0.3, diagramY + diagramH);
+            ctx.stroke();
+
+            ctx.strokeStyle = '#f472b6';
+            ctx.beginPath();
+            ctx.moveTo(diagramX + diagramW * 0.3, diagramY + diagramH * 0.4);
+            ctx.lineTo(diagramX + diagramW, diagramY + diagramH * 0.4);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw replicators
+            for (let r of replicators) {
+                if (!r.alive) continue;
+
+                const x = diagramX + (r.logMass + 6) / 7 * diagramW;
+                const y = diagramY + diagramH * (1 - (r.entropy / 0.5));
+
+                // Draw replicator circle
+                ctx.beginPath();
+                ctx.arc(x, y, r.size, 0, 2 * Math.PI);
+                ctx.fillStyle = modeColors[r.mode];
+                ctx.globalAlpha = 0.7;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                ctx.strokeStyle = modeColors[r.mode];
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Progress ring
+                ctx.beginPath();
+                ctx.arc(x, y, r.size + 3, -Math.PI / 2, -Math.PI / 2 + r.progress * 2 * Math.PI);
+                ctx.strokeStyle = r.mode === 'stable' ? '#fff' : '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            // Draw current selection marker
+            const currentX = diagramX + (params.logMass + 6) / 7 * diagramW;
+            const currentY = diagramY + diagramH * (1 - (params.entropyGrad / 0.5));
+
+            ctx.beginPath();
+            ctx.arc(currentX, currentY, 15, 0, 2 * Math.PI);
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([3, 3]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Legend
+            const legX = canvas.width - 140;
+            const legY = 60;
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px monospace';
+            ctx.fillText('Legend:', legX, legY);
+
+            ctx.beginPath();
+            ctx.arc(legX + 8, legY + 20, 6, 0, 2*Math.PI);
+            ctx.fillStyle = '#4ade80';
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Stable', legX + 20, legY + 24);
+
+            ctx.beginPath();
+            ctx.arc(legX + 8, legY + 40, 6, 0, 2*Math.PI);
+            ctx.fillStyle = '#fbbf24';
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Power-lim', legX + 20, legY + 44);
+
+            ctx.beginPath();
+            ctx.arc(legX + 8, legY + 60, 6, 0, 2*Math.PI);
+            ctx.fillStyle = '#f472b6';
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Bio-lim', legX + 20, legY + 64);
+
+            // R* indicator
+            const rstar = getRstarRatio(params.energyBudget * Math.pow(10, params.logMass) * 1e-11 * 9e16, Math.pow(10, params.logMass));
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px monospace';
+            ctx.fillText(`R* = ${rstar.toFixed(2)}`, legX, legY + 90);
+            ctx.fillStyle = rstar > 0.9 && rstar < 1.1 ? '#4ade80' : '#ef4444';
+            ctx.fillText(rstar > 0.9 && rstar < 1.1 ? '✓ Optimal' : '✗ Suboptimal', legX, legY + 105);
+        }
+
+        // Animation loop
+        function animate() {
+            if (!running) return;
+            update(0.5);
+            draw();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Event handlers
+        startBtn.addEventListener('click', function() {
+            running = !running;
+            startBtn.textContent = running ? 'Pause' : 'Simulate';
+            if (running) animate();
+        });
+
+        resetBtn.addEventListener('click', function() {
+            running = false;
+            startBtn.textContent = 'Simulate';
+            if (animationId) cancelAnimationFrame(animationId);
+            initSimulation();
+            draw();
+        });
+
+        toggleSTURBtn.addEventListener('click', function() {
+            sturEnabled = !sturEnabled;
+            toggleSTURBtn.textContent = sturEnabled ? 'STUR: ON' : 'STUR: OFF';
+            toggleSTURBtn.style.background = sturEnabled ? 'rgba(251,191,36,0.15)' : 'rgba(34,211,238,0.15)';
+            toggleSTURBtn.style.borderColor = sturEnabled ? '#fbbf24' : '#22d3ee';
+            toggleSTURBtn.style.color = sturEnabled ? '#fbbf24' : '#22d3ee';
+
+            // Recalculate all replicator modes
+            for (let r of replicators) {
+                r.mode = getFailureMode(r.mass, r.energy, r.entropy);
+            }
+            draw();
+        });
+
+        addBtn.addEventListener('click', function() {
+            addReplicator();
+            draw();
+        });
+
+        // Slider handlers
+        massSlider.addEventListener('input', function() {
+            params.logMass = parseFloat(this.value);
+            massVal.textContent = params.logMass.toFixed(1);
+            draw();
+        });
+
+        timeSlider.addEventListener('input', function() {
+            params.repTime = parseInt(this.value);
+            timeVal.textContent = params.repTime;
+        });
+
+        energySlider.addEventListener('input', function() {
+            params.energyBudget = parseFloat(this.value);
+            energyVal.textContent = params.energyBudget.toFixed(1);
+            draw();
+        });
+
+        entropySlider.addEventListener('input', function() {
+            params.entropyGrad = parseFloat(this.value);
+            entropyVal.textContent = params.entropyGrad.toFixed(2);
+            draw();
+        });
+
+        // Initialize
+        initSimulation();
+        draw();
+    })();
+    </script>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">

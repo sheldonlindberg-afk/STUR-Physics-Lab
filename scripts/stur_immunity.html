@@ -334,6 +334,512 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;">Real-time immune system dynamics with STUR curvature-regulated activation. Watch how the S(r,t) regulator creates size-dependent immune response across different disease regimes.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="immuneCanvas" width="600" height="400" style="background:#050814;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+                        <button class="glass-btn primary" id="immuneStart">Start</button>
+                        <button class="glass-btn" id="immuneReset">Reset</button>
+                        <button class="glass-btn" id="immuneToggleSTUR" style="background:rgba(251,191,36,0.15);border-color:#fbbf24;color:#fbbf24;">STUR: ON</button>
+                        <select id="immuneMode" class="glass-btn" style="padding:0.4rem 0.75rem;background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border-dim);border-radius:6px;">
+                            <option value="flu">Flu (Acute)</option>
+                            <option value="cancer">Cancer (Suppressed)</option>
+                            <option value="HIV">HIV (Collapse)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Controls Panel -->
+                <div style="background:var(--bg-secondary);border-radius:12px;padding:1rem;border:1px solid var(--border-dim);">
+                    <h4 style="color:var(--neon-green);margin-bottom:1rem;font-size:0.9rem;">Parameters</h4>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            L₀ (coherence): <span id="immuneL0Val">0.50</span> µm
+                        </label>
+                        <input type="range" id="immuneL0" min="0.2" max="1.0" step="0.05" value="0.50" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Pathogen Load: <span id="immuneLoadVal">1.0</span>×
+                        </label>
+                        <input type="range" id="immuneLoad" min="0.2" max="3.0" step="0.1" value="1.0" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Decay κ: <span id="immuneKappaVal">1.0</span>×
+                        </label>
+                        <input type="range" id="immuneKappa" min="0.1" max="2.0" step="0.1" value="1.0" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Immune Strength: <span id="immuneStrengthVal">1.0</span>×
+                        </label>
+                        <input type="range" id="immuneStrength" min="0.3" max="2.0" step="0.1" value="1.0" style="width:100%;">
+                    </div>
+
+                    <hr style="border:none;border-top:1px solid var(--border-dim);margin:1rem 0;">
+
+                    <h4 style="color:var(--neon-cyan);margin-bottom:0.75rem;font-size:0.9rem;">Live Diagnostics</h4>
+                    <div class="glass-metrics" style="grid-template-columns:1fr 1fr;gap:0.5rem;">
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">S(r) avg</div>
+                            <div class="glass-metric-value" id="immuneSrLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">F_immune</div>
+                            <div class="glass-metric-value" id="immuneForceLive" style="font-size:0.9rem;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Pathogens</div>
+                            <div class="glass-metric-value" id="immunePathLive" style="font-size:0.9rem;color:#ef4444;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Immune</div>
+                            <div class="glass-metric-value" id="immuneCellLive" style="font-size:0.9rem;color:#4ade80;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Clearance</div>
+                            <div class="glass-metric-value" id="immuneClearLive" style="font-size:0.9rem;color:#22d3ee;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Time</div>
+                            <div class="glass-metric-value" id="immuneTimeLive" style="font-size:0.9rem;">0 min</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+                    <strong style="color:#fbbf24;">STUR Effect:</strong> The curvature regulator <span class="eq-xcrm">S(r,t) = tanh(r/L₀)(1-e<sup>-r/L₀</sup>)e<sup>-κt</sup></span>
+                    creates size-dependent immune activation. Large pathogen clusters trigger strong response; small clusters are tolerated. Toggle STUR off to see uniform activation.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Holoscreen JavaScript -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('immuneCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Controls
+        const startBtn = document.getElementById('immuneStart');
+        const resetBtn = document.getElementById('immuneReset');
+        const toggleSTURBtn = document.getElementById('immuneToggleSTUR');
+        const modeSelect = document.getElementById('immuneMode');
+        const L0Slider = document.getElementById('immuneL0');
+        const loadSlider = document.getElementById('immuneLoad');
+        const kappaSlider = document.getElementById('immuneKappa');
+        const strengthSlider = document.getElementById('immuneStrength');
+
+        // Value displays
+        const L0Val = document.getElementById('immuneL0Val');
+        const loadVal = document.getElementById('immuneLoadVal');
+        const kappaVal = document.getElementById('immuneKappaVal');
+        const strengthVal = document.getElementById('immuneStrengthVal');
+
+        // Live diagnostics
+        const srLive = document.getElementById('immuneSrLive');
+        const forceLive = document.getElementById('immuneForceLive');
+        const pathLive = document.getElementById('immunePathLive');
+        const cellLive = document.getElementById('immuneCellLive');
+        const clearLive = document.getElementById('immuneClearLive');
+        const timeLive = document.getElementById('immuneTimeLive');
+
+        // State
+        let running = false;
+        let sturEnabled = true;
+        let animationId = null;
+        let simTime = 0;
+        let pathogens = [];
+        let immuneCells = [];
+        let clearanceCount = 0;
+
+        // Parameters
+        let params = {
+            L0: 0.5,
+            pathogenLoad: 1.0,
+            kappa: 1.0,
+            immuneStrength: 1.0
+        };
+
+        // STUR Saturation function with time decay
+        function S_STUR(r, L0, t, kappa) {
+            const x = r / L0;
+            return Math.tanh(x) * (1 - Math.exp(-x)) * Math.exp(-kappa * t * 0.001);
+        }
+
+        // Mode parameters
+        function getModeParams(mode) {
+            switch(mode) {
+                case 'flu':
+                    return { immuneBase: 1.0, suppressRatio: 0.4, kappaScale: 1.0, label: 'Acute' };
+                case 'cancer':
+                    return { immuneBase: 0.6, suppressRatio: 0.9, kappaScale: 0.3, label: 'Suppressed' };
+                case 'HIV':
+                    return { immuneBase: 0.3, suppressRatio: 0.7, kappaScale: 0.5, label: 'Collapse' };
+                default:
+                    return { immuneBase: 1.0, suppressRatio: 0.4, kappaScale: 1.0, label: 'Acute' };
+            }
+        }
+
+        // Initialize simulation
+        function initSimulation() {
+            pathogens = [];
+            immuneCells = [];
+            clearanceCount = 0;
+            simTime = 0;
+
+            const margin = 40;
+            const w = canvas.width - 2 * margin;
+            const h = canvas.height - 80;
+
+            // Create pathogen clusters of varying sizes
+            const numPathogens = Math.floor(30 * params.pathogenLoad);
+            for (let i = 0; i < numPathogens; i++) {
+                const size = 0.1 + Math.random() * 1.5; // Size in µm (0.1 to 1.6)
+                pathogens.push({
+                    x: margin + Math.random() * w,
+                    y: margin + Math.random() * h,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: size,
+                    health: 1.0,
+                    displaySize: 3 + size * 8
+                });
+            }
+
+            // Create immune cells
+            const numImmune = Math.floor(20 * params.immuneStrength);
+            for (let i = 0; i < numImmune; i++) {
+                immuneCells.push({
+                    x: margin + Math.random() * w,
+                    y: margin + Math.random() * h,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: (Math.random() - 0.5) * 0.8,
+                    active: false,
+                    target: null
+                });
+            }
+        }
+
+        // Update simulation
+        function update(dt) {
+            const mode = modeSelect.value;
+            const modeP = getModeParams(mode);
+            const L0 = params.L0;
+            const kappaMult = params.kappa * modeP.kappaScale;
+
+            let totalSr = 0;
+            let totalForce = 0;
+
+            // Update pathogens
+            for (let p of pathogens) {
+                if (p.health <= 0) continue;
+
+                // Movement with boundary bounce
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 40 || p.x > canvas.width - 40) p.vx *= -1;
+                if (p.y < 40 || p.y > canvas.height - 80) p.vy *= -1;
+
+                // STUR size-dependent activation
+                const Sr = sturEnabled ? S_STUR(p.size, L0, simTime, kappaMult) : 1.0;
+                totalSr += Sr;
+            }
+
+            // Update immune cells
+            for (let cell of immuneCells) {
+                // Find nearest pathogen
+                let nearestP = null;
+                let nearestDist = Infinity;
+
+                for (let p of pathogens) {
+                    if (p.health <= 0) continue;
+                    const dx = p.x - cell.x;
+                    const dy = p.y - cell.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+
+                    // STUR: only target pathogens above size threshold
+                    const Sr = sturEnabled ? S_STUR(p.size, L0, simTime, kappaMult) : 1.0;
+                    const effectiveDist = dist / (Sr * modeP.immuneBase + 0.01);
+
+                    if (effectiveDist < nearestDist && Sr > 0.1) {
+                        nearestDist = effectiveDist;
+                        nearestP = p;
+                    }
+                }
+
+                cell.target = nearestP;
+                cell.active = nearestP !== null;
+
+                if (nearestP) {
+                    // Move toward target (chemotaxis)
+                    const dx = nearestP.x - cell.x;
+                    const dy = nearestP.y - cell.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist > 0) {
+                        const speed = 1.5 * modeP.immuneBase * params.immuneStrength;
+                        cell.vx = dx / dist * speed;
+                        cell.vy = dy / dist * speed;
+                    }
+
+                    // Attack if close enough
+                    if (dist < 15) {
+                        const Sr = sturEnabled ? S_STUR(nearestP.size, L0, simTime, kappaMult) : 1.0;
+                        const attackPower = 0.02 * Sr * modeP.immuneBase * (1 - modeP.suppressRatio) * params.immuneStrength;
+                        nearestP.health -= attackPower;
+                        totalForce += attackPower * 100;
+
+                        if (nearestP.health <= 0) {
+                            clearanceCount++;
+                        }
+                    }
+                } else {
+                    // Random patrol
+                    cell.vx += (Math.random() - 0.5) * 0.2;
+                    cell.vy += (Math.random() - 0.5) * 0.2;
+                    cell.vx *= 0.95;
+                    cell.vy *= 0.95;
+                }
+
+                // Move
+                cell.x += cell.vx;
+                cell.y += cell.vy;
+                if (cell.x < 40 || cell.x > canvas.width - 40) cell.vx *= -1;
+                if (cell.y < 40 || cell.y > canvas.height - 80) cell.vy *= -1;
+            }
+
+            simTime += dt * 10; // Scale time to minutes
+
+            // Update diagnostics
+            const alivePathogens = pathogens.filter(p => p.health > 0);
+            const avgSr = alivePathogens.length > 0 ? totalSr / alivePathogens.length : 0;
+            srLive.textContent = sturEnabled ? avgSr.toFixed(3) : '—';
+            forceLive.textContent = totalForce.toFixed(1);
+            pathLive.textContent = alivePathogens.length;
+            cellLive.textContent = immuneCells.length;
+            clearLive.textContent = clearanceCount;
+            timeLive.textContent = Math.floor(simTime) + ' min';
+        }
+
+        // Draw
+        function draw() {
+            ctx.fillStyle = '#050814';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const mode = modeSelect.value;
+            const modeP = getModeParams(mode);
+
+            // Draw title
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.font = 'bold 14px monospace';
+            ctx.fillText(sturEnabled ? 'STUR Universal Immunity Field' : 'Standard Immunity Model', 20, 25);
+
+            // Draw mode info
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '11px monospace';
+            ctx.fillText(`Mode: ${mode.toUpperCase()} (${modeP.label}) | L₀=${params.L0.toFixed(2)}µm`, 20, 42);
+
+            // Draw pathogens
+            for (let p of pathogens) {
+                if (p.health <= 0) continue;
+
+                const Sr = sturEnabled ? S_STUR(p.size, params.L0, simTime, params.kappa * modeP.kappaScale) : 1.0;
+
+                // Color based on size/activation
+                let color;
+                if (Sr > 0.8) {
+                    color = '#ef4444'; // Large cluster - red (high activation)
+                } else if (Sr > 0.4) {
+                    color = '#f97316'; // Medium cluster - orange
+                } else {
+                    color = '#fbbf24'; // Small cluster - gold (tolerated)
+                }
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.displaySize * p.health, 0, 2 * Math.PI);
+                ctx.fillStyle = color;
+                ctx.globalAlpha = 0.6 + 0.4 * p.health;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+
+                // Draw size indicator ring if STUR active
+                if (sturEnabled && Sr > 0.1) {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.displaySize * 1.5, 0, 2 * Math.PI * Sr);
+                    ctx.strokeStyle = '#fbbf24';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            }
+
+            // Draw immune cells
+            for (let cell of immuneCells) {
+                ctx.beginPath();
+                ctx.arc(cell.x, cell.y, 6, 0, 2 * Math.PI);
+                ctx.fillStyle = cell.active ? '#4ade80' : '#22d3ee';
+                ctx.fill();
+
+                // Draw attack line to target
+                if (cell.active && cell.target && cell.target.health > 0) {
+                    const dx = cell.target.x - cell.x;
+                    const dy = cell.target.y - cell.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 50) {
+                        ctx.beginPath();
+                        ctx.moveTo(cell.x, cell.y);
+                        ctx.lineTo(cell.target.x, cell.target.y);
+                        ctx.strokeStyle = 'rgba(74, 222, 128, 0.3)';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw legend
+            ctx.font = '10px monospace';
+            const legendY = canvas.height - 25;
+
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(25, legendY + 5, 5, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Large (S>0.8)', 35, legendY + 9);
+
+            ctx.fillStyle = '#f97316';
+            ctx.beginPath();
+            ctx.arc(130, legendY + 5, 5, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Medium', 140, legendY + 9);
+
+            ctx.fillStyle = '#fbbf24';
+            ctx.beginPath();
+            ctx.arc(210, legendY + 5, 5, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Small (tolerated)', 220, legendY + 9);
+
+            ctx.fillStyle = '#4ade80';
+            ctx.beginPath();
+            ctx.arc(340, legendY + 5, 5, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Immune cell', 350, legendY + 9);
+
+            // Draw activation curve (mini graph)
+            const graphX = canvas.width - 120;
+            const graphY = 55;
+            const graphW = 100;
+            const graphH = 40;
+
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(graphX, graphY, graphW, graphH);
+            ctx.strokeStyle = '#334155';
+            ctx.strokeRect(graphX, graphY, graphW, graphH);
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '8px monospace';
+            ctx.fillText('S(r) vs r', graphX + 5, graphY + 10);
+
+            // Draw S(r) curve
+            ctx.beginPath();
+            ctx.moveTo(graphX, graphY + graphH);
+            for (let i = 0; i <= graphW; i++) {
+                const r = (i / graphW) * 2; // r from 0 to 2 µm
+                const Sr = sturEnabled ? S_STUR(r, params.L0, 0, 0) : 1.0;
+                const y = graphY + graphH - Sr * graphH;
+                ctx.lineTo(graphX + i, y);
+            }
+            ctx.strokeStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+        }
+
+        // Animation loop
+        function animate() {
+            if (!running) return;
+            update(0.1);
+            draw();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Event handlers
+        startBtn.addEventListener('click', function() {
+            running = !running;
+            startBtn.textContent = running ? 'Pause' : 'Start';
+            if (running) animate();
+        });
+
+        resetBtn.addEventListener('click', function() {
+            running = false;
+            startBtn.textContent = 'Start';
+            if (animationId) cancelAnimationFrame(animationId);
+            initSimulation();
+            draw();
+        });
+
+        toggleSTURBtn.addEventListener('click', function() {
+            sturEnabled = !sturEnabled;
+            toggleSTURBtn.textContent = sturEnabled ? 'STUR: ON' : 'STUR: OFF';
+            toggleSTURBtn.style.background = sturEnabled ? 'rgba(251,191,36,0.15)' : 'rgba(34,211,238,0.15)';
+            toggleSTURBtn.style.borderColor = sturEnabled ? '#fbbf24' : '#22d3ee';
+            toggleSTURBtn.style.color = sturEnabled ? '#fbbf24' : '#22d3ee';
+            draw();
+        });
+
+        // Slider handlers
+        L0Slider.addEventListener('input', function() {
+            params.L0 = parseFloat(this.value);
+            L0Val.textContent = params.L0.toFixed(2);
+        });
+
+        loadSlider.addEventListener('input', function() {
+            params.pathogenLoad = parseFloat(this.value);
+            loadVal.textContent = params.pathogenLoad.toFixed(1);
+        });
+
+        kappaSlider.addEventListener('input', function() {
+            params.kappa = parseFloat(this.value);
+            kappaVal.textContent = params.kappa.toFixed(1);
+        });
+
+        strengthSlider.addEventListener('input', function() {
+            params.immuneStrength = parseFloat(this.value);
+            strengthVal.textContent = params.immuneStrength.toFixed(1);
+        });
+
+        modeSelect.addEventListener('change', function() {
+            initSimulation();
+            draw();
+        });
+
+        // Initialize
+        initSimulation();
+        draw();
+    })();
+    </script>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">

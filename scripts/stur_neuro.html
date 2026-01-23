@@ -349,6 +349,610 @@
     </section>
 
     <!-- ============================================================
+         SECTION: INTERACTIVE HOLOSCREEN
+         ============================================================ -->
+    <section class="glass-section" style="border-color: var(--neon-green);">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+        </div>
+        <div class="glass-section-body">
+            <p style="margin-bottom:1rem;">Real-time STDP learning dynamics with STUR coherence enhancement. Watch how the λ_X coherence factor enhances LTP and suppresses LTD in STUR-aligned synapses.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Canvas -->
+                <div>
+                    <canvas id="neuroCanvas" width="600" height="400" style="background:#050814;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+                        <button class="glass-btn primary" id="neuroStart">Start</button>
+                        <button class="glass-btn" id="neuroReset">Reset</button>
+                        <button class="glass-btn" id="neuroToggleSTUR" style="background:rgba(251,191,36,0.15);border-color:#fbbf24;color:#fbbf24;">STUR: ON</button>
+                        <button class="glass-btn" id="neuroSpike">Trigger Spike</button>
+                    </div>
+                </div>
+
+                <!-- Controls Panel -->
+                <div style="background:var(--bg-secondary);border-radius:12px;padding:1rem;border:1px solid var(--border-dim);">
+                    <h4 style="color:var(--neon-green);margin-bottom:1rem;font-size:0.9rem;">Parameters</h4>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Coherence c: <span id="neuroCoherenceVal">0.5</span>
+                        </label>
+                        <input type="range" id="neuroCoherence" min="0" max="1.0" step="0.05" value="0.5" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            τ+ (LTP): <span id="neuroTauPlusVal">20</span> ms
+                        </label>
+                        <input type="range" id="neuroTauPlus" min="5" max="50" step="5" value="20" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            τ- (LTD): <span id="neuroTauMinusVal">20</span> ms
+                        </label>
+                        <input type="range" id="neuroTauMinus" min="5" max="50" step="5" value="20" style="width:100%;">
+                    </div>
+
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">
+                            Spike Rate: <span id="neuroRateVal">10</span> Hz
+                        </label>
+                        <input type="range" id="neuroRate" min="2" max="30" step="1" value="10" style="width:100%;">
+                    </div>
+
+                    <hr style="border:none;border-top:1px solid var(--border-dim);margin:1rem 0;">
+
+                    <h4 style="color:var(--neon-cyan);margin-bottom:0.75rem;font-size:0.9rem;">Live Diagnostics</h4>
+                    <div class="glass-metrics" style="grid-template-columns:1fr 1fr;gap:0.5rem;">
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">λ_X</div>
+                            <div class="glass-metric-value" id="neuroLambdaLive" style="font-size:0.9rem;color:#fbbf24;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">LTP boost</div>
+                            <div class="glass-metric-value" id="neuroLTPLive" style="font-size:0.9rem;color:#4ade80;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">w_classic</div>
+                            <div class="glass-metric-value" id="neuroWcLive" style="font-size:0.9rem;color:#f472b6;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">w_STUR</div>
+                            <div class="glass-metric-value" id="neuroWsLive" style="font-size:0.9rem;color:#4ade80;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">LTD factor</div>
+                            <div class="glass-metric-value" id="neuroLTDLive" style="font-size:0.9rem;color:#ef4444;">—</div>
+                        </div>
+                        <div class="glass-metric" style="padding:0.5rem;">
+                            <div class="glass-metric-label" style="font-size:0.65rem;">Time</div>
+                            <div class="glass-metric-value" id="neuroTimeLive" style="font-size:0.9rem;">0 ms</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+                    <strong style="color:#fbbf24;">STUR Effect:</strong> The coherence factor <span class="eq-xcrm">λ_X = ½(1+c)·w</span>
+                    modulates STDP: LTP is enhanced by <span class="eq-matter">(1+4λ_X)</span> while LTD is reduced by <span class="eq-potential">(1-3λ_X)</span>. Above λ_X > 0.33, LTD is completely suppressed.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Holoscreen JavaScript -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('neuroCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Controls
+        const startBtn = document.getElementById('neuroStart');
+        const resetBtn = document.getElementById('neuroReset');
+        const toggleSTURBtn = document.getElementById('neuroToggleSTUR');
+        const spikeBtn = document.getElementById('neuroSpike');
+        const coherenceSlider = document.getElementById('neuroCoherence');
+        const tauPlusSlider = document.getElementById('neuroTauPlus');
+        const tauMinusSlider = document.getElementById('neuroTauMinus');
+        const rateSlider = document.getElementById('neuroRate');
+
+        // Value displays
+        const coherenceVal = document.getElementById('neuroCoherenceVal');
+        const tauPlusVal = document.getElementById('neuroTauPlusVal');
+        const tauMinusVal = document.getElementById('neuroTauMinusVal');
+        const rateVal = document.getElementById('neuroRateVal');
+
+        // Live diagnostics
+        const lambdaLive = document.getElementById('neuroLambdaLive');
+        const ltpLive = document.getElementById('neuroLTPLive');
+        const wcLive = document.getElementById('neuroWcLive');
+        const wsLive = document.getElementById('neuroWsLive');
+        const ltdLive = document.getElementById('neuroLTDLive');
+        const timeLive = document.getElementById('neuroTimeLive');
+
+        // State
+        let running = false;
+        let sturEnabled = true;
+        let animationId = null;
+        let simTime = 0;
+
+        // Neuron state
+        let preSpikes = [];
+        let postSpikes = [];
+        let w_classic = 0.5;
+        let w_stur = 0.5;
+        let lastPreSpikeTime = null;
+        let lastPostSpikeTime = null;
+
+        // Voltage traces (simplified)
+        let V_pre_history = [];
+        let V_post_history = [];
+        let w_classic_history = [];
+        let w_stur_history = [];
+
+        // Parameters
+        let params = {
+            coherence: 0.5,
+            tauPlus: 20,
+            tauMinus: 20,
+            spikeRate: 10
+        };
+
+        // STDP parameters
+        const A_plus = 0.02;
+        const A_minus = 0.024;
+        const w_max = 2.0;
+        const w_min = 0.0;
+
+        // Initialize
+        function initSimulation() {
+            preSpikes = [];
+            postSpikes = [];
+            w_classic = 0.5;
+            w_stur = 0.5;
+            lastPreSpikeTime = null;
+            lastPostSpikeTime = null;
+            V_pre_history = [];
+            V_post_history = [];
+            w_classic_history = [];
+            w_stur_history = [];
+            simTime = 0;
+        }
+
+        // Calculate lambda_X
+        function getLambdaX() {
+            return 0.5 * (1 + params.coherence) * w_stur;
+        }
+
+        // STDP update
+        function applySTDP(deltaT, isPreFirst) {
+            const lambda_X = getLambdaX();
+            const factor_LTP = sturEnabled ? (1 + 4 * lambda_X) : 1;
+            const factor_LTD = sturEnabled ? Math.max(0, 1 - 3 * lambda_X) : 1;
+
+            if (isPreFirst && deltaT > 0) {
+                // Pre before Post -> LTP
+                const dw = A_plus * Math.exp(-deltaT / params.tauPlus);
+                w_classic = Math.min(w_max, w_classic + dw);
+                w_stur = Math.min(w_max, w_stur + dw * factor_LTP);
+            } else if (!isPreFirst && deltaT > 0) {
+                // Post before Pre -> LTD
+                const dw = A_minus * Math.exp(-deltaT / params.tauMinus);
+                w_classic = Math.max(w_min, w_classic - dw);
+                w_stur = Math.max(w_min, w_stur - dw * factor_LTD);
+            }
+        }
+
+        // Generate spike
+        function generatePreSpike() {
+            const t = simTime;
+            preSpikes.push(t);
+            if (preSpikes.length > 100) preSpikes.shift();
+
+            // Apply LTD if there was a recent post spike
+            if (lastPostSpikeTime !== null) {
+                const deltaT = t - lastPostSpikeTime;
+                if (deltaT < 100) {
+                    applySTDP(deltaT, false);
+                }
+            }
+            lastPreSpikeTime = t;
+
+            // Post spike follows with some probability based on weight
+            if (Math.random() < w_stur * 0.3) {
+                setTimeout(() => {
+                    generatePostSpike();
+                }, 5 + Math.random() * 10);
+            }
+        }
+
+        function generatePostSpike() {
+            const t = simTime;
+            postSpikes.push(t);
+            if (postSpikes.length > 100) postSpikes.shift();
+
+            // Apply LTP if there was a recent pre spike
+            if (lastPreSpikeTime !== null) {
+                const deltaT = t - lastPreSpikeTime;
+                if (deltaT < 100) {
+                    applySTDP(deltaT, true);
+                }
+            }
+            lastPostSpikeTime = t;
+        }
+
+        // Update simulation
+        function update(dt) {
+            simTime += dt;
+
+            // Random pre-neuron spiking based on rate
+            if (Math.random() < params.spikeRate * dt / 1000) {
+                generatePreSpike();
+            }
+
+            // Small weight decay
+            w_classic = Math.max(w_min, w_classic - 0.0001 * dt);
+            w_stur = Math.max(w_min, w_stur - 0.0001 * dt);
+
+            // Store history
+            const V_pre = preSpikes.some(t => simTime - t < 5) ? 40 : -65;
+            const V_post = postSpikes.some(t => simTime - t < 5) ? 40 : -65;
+
+            V_pre_history.push(V_pre);
+            V_post_history.push(V_post);
+            w_classic_history.push(w_classic);
+            w_stur_history.push(w_stur);
+
+            // Keep history limited
+            const maxHistory = 600;
+            if (V_pre_history.length > maxHistory) {
+                V_pre_history.shift();
+                V_post_history.shift();
+                w_classic_history.shift();
+                w_stur_history.shift();
+            }
+
+            // Update diagnostics
+            const lambda_X = getLambdaX();
+            lambdaLive.textContent = sturEnabled ? lambda_X.toFixed(3) : '—';
+            ltpLive.textContent = sturEnabled ? (1 + 4 * lambda_X).toFixed(2) + '×' : '1.0×';
+            wcLive.textContent = w_classic.toFixed(3);
+            wsLive.textContent = w_stur.toFixed(3);
+            const ltdFactor = sturEnabled ? Math.max(0, 1 - 3 * lambda_X) : 1;
+            ltdLive.textContent = ltdFactor.toFixed(2) + '×';
+            timeLive.textContent = Math.floor(simTime) + ' ms';
+        }
+
+        // Draw
+        function draw() {
+            ctx.fillStyle = '#050814';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Title
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.font = 'bold 14px monospace';
+            ctx.fillText(sturEnabled ? 'STUR STDP Competition' : 'Standard STDP', 20, 25);
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '11px monospace';
+            ctx.fillText(`c=${params.coherence.toFixed(2)} | λ_X=${getLambdaX().toFixed(3)}`, 20, 42);
+
+            // Draw neurons
+            const preX = 80, preY = 120;
+            const postX = 280, postY = 120;
+
+            // Pre neuron
+            ctx.beginPath();
+            ctx.arc(preX, preY, 25, 0, 2*Math.PI);
+            ctx.fillStyle = preSpikes.some(t => simTime - t < 10) ? '#60a5fa' : '#1e3a5f';
+            ctx.fill();
+            ctx.strokeStyle = '#60a5fa';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = '#fff';
+            ctx.font = '10px monospace';
+            ctx.fillText('PRE', preX - 12, preY + 4);
+
+            // Post neuron
+            ctx.beginPath();
+            ctx.arc(postX, postY, 25, 0, 2*Math.PI);
+            ctx.fillStyle = postSpikes.some(t => simTime - t < 10) ? '#4ade80' : '#1e3f2a';
+            ctx.fill();
+            ctx.strokeStyle = '#4ade80';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = '#fff';
+            ctx.fillText('POST', postX - 15, postY + 4);
+
+            // Synapse connection
+            const synapseStrength = Math.min(1, (w_classic + w_stur) / 2);
+            ctx.beginPath();
+            ctx.moveTo(preX + 25, preY);
+            ctx.lineTo(postX - 25, postY);
+            ctx.strokeStyle = sturEnabled ? `rgba(251, 191, 36, ${0.3 + 0.7 * synapseStrength})` : `rgba(34, 211, 238, ${0.3 + 0.7 * synapseStrength})`;
+            ctx.lineWidth = 2 + 4 * synapseStrength;
+            ctx.stroke();
+
+            // Weight indicator on synapse
+            const midX = (preX + postX) / 2;
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.font = '9px monospace';
+            ctx.fillText(`w=${((w_classic + w_stur) / 2).toFixed(2)}`, midX - 20, preY - 15);
+
+            // Voltage traces
+            const traceX = 380;
+            const traceY = 60;
+            const traceW = 200;
+            const traceH = 60;
+
+            // Pre trace
+            ctx.fillStyle = '#1f2a44';
+            ctx.fillRect(traceX, traceY, traceW, traceH);
+            ctx.strokeStyle = '#334155';
+            ctx.strokeRect(traceX, traceY, traceW, traceH);
+
+            ctx.fillStyle = '#60a5fa';
+            ctx.font = '9px monospace';
+            ctx.fillText('V_pre', traceX + 5, traceY + 12);
+
+            if (V_pre_history.length > 1) {
+                ctx.beginPath();
+                for (let i = 0; i < V_pre_history.length; i++) {
+                    const x = traceX + (i / V_pre_history.length) * traceW;
+                    const y = traceY + traceH - ((V_pre_history[i] + 70) / 120) * traceH;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = '#60a5fa';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            // Post trace
+            const postTraceY = traceY + traceH + 10;
+            ctx.fillStyle = '#1f2a44';
+            ctx.fillRect(traceX, postTraceY, traceW, traceH);
+            ctx.strokeStyle = '#334155';
+            ctx.strokeRect(traceX, postTraceY, traceW, traceH);
+
+            ctx.fillStyle = '#4ade80';
+            ctx.fillText('V_post', traceX + 5, postTraceY + 12);
+
+            if (V_post_history.length > 1) {
+                ctx.beginPath();
+                for (let i = 0; i < V_post_history.length; i++) {
+                    const x = traceX + (i / V_post_history.length) * traceW;
+                    const y = postTraceY + traceH - ((V_post_history[i] + 70) / 120) * traceH;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = '#4ade80';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            // Weight evolution
+            const weightY = postTraceY + traceH + 20;
+            const weightH = 100;
+            ctx.fillStyle = '#1f2a44';
+            ctx.fillRect(traceX, weightY, traceW, weightH);
+            ctx.strokeStyle = '#334155';
+            ctx.strokeRect(traceX, weightY, traceW, weightH);
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Weights', traceX + 5, weightY + 12);
+
+            // Classic weight
+            if (w_classic_history.length > 1) {
+                ctx.beginPath();
+                for (let i = 0; i < w_classic_history.length; i++) {
+                    const x = traceX + (i / w_classic_history.length) * traceW;
+                    const y = weightY + weightH - (w_classic_history[i] / w_max) * weightH;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = '#f472b6';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+
+            // STUR weight
+            if (w_stur_history.length > 1) {
+                ctx.beginPath();
+                for (let i = 0; i < w_stur_history.length; i++) {
+                    const x = traceX + (i / w_stur_history.length) * traceW;
+                    const y = weightY + weightH - (w_stur_history[i] / w_max) * weightH;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+
+            // Weight legend
+            ctx.fillStyle = '#f472b6';
+            ctx.fillRect(traceX + 80, weightY + 5, 10, 3);
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('classic', traceX + 95, weightY + 10);
+
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.fillRect(traceX + 140, weightY + 5, 10, 3);
+            ctx.fillText('STUR', traceX + 155, weightY + 10);
+
+            // STDP curve (bottom left)
+            const stdpX = 20;
+            const stdpY = 180;
+            const stdpW = 150;
+            const stdpH = 100;
+
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(stdpX, stdpY, stdpW, stdpH);
+            ctx.strokeStyle = '#334155';
+            ctx.strokeRect(stdpX, stdpY, stdpW, stdpH);
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '9px monospace';
+            ctx.fillText('STDP Curve', stdpX + 5, stdpY + 12);
+
+            // Draw axes
+            const axisY = stdpY + stdpH / 2;
+            ctx.strokeStyle = '#4a5568';
+            ctx.beginPath();
+            ctx.moveTo(stdpX + 10, axisY);
+            ctx.lineTo(stdpX + stdpW - 10, axisY);
+            ctx.moveTo(stdpX + stdpW / 2, stdpY + 20);
+            ctx.lineTo(stdpX + stdpW / 2, stdpY + stdpH - 10);
+            ctx.stroke();
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '7px monospace';
+            ctx.fillText('Δt', stdpX + stdpW - 20, axisY - 3);
+            ctx.fillText('Δw', stdpX + stdpW / 2 + 3, stdpY + 25);
+
+            // Draw STDP curves
+            const lambda_X = getLambdaX();
+            const ltpBoost = sturEnabled ? (1 + 4 * lambda_X) : 1;
+            const ltdReduce = sturEnabled ? Math.max(0, 1 - 3 * lambda_X) : 1;
+
+            // Classic curve
+            ctx.beginPath();
+            for (let dt = -60; dt <= 60; dt += 2) {
+                const x = stdpX + stdpW / 2 + dt * (stdpW / 2 - 10) / 60;
+                let dw;
+                if (dt > 0) {
+                    dw = A_plus * Math.exp(-dt / params.tauPlus);
+                } else {
+                    dw = -A_minus * Math.exp(dt / params.tauMinus);
+                }
+                const y = axisY - dw * 800;
+                if (dt === -60) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = '#f472b6';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // STUR curve
+            if (sturEnabled) {
+                ctx.beginPath();
+                for (let dt = -60; dt <= 60; dt += 2) {
+                    const x = stdpX + stdpW / 2 + dt * (stdpW / 2 - 10) / 60;
+                    let dw;
+                    if (dt > 0) {
+                        dw = A_plus * ltpBoost * Math.exp(-dt / params.tauPlus);
+                    } else {
+                        dw = -A_minus * ltdReduce * Math.exp(dt / params.tauMinus);
+                    }
+                    const y = axisY - dw * 800;
+                    if (dt === -60) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = '#fbbf24';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+
+            // Labels
+            ctx.fillStyle = '#4ade80';
+            ctx.fillText('LTP', stdpX + stdpW - 25, stdpY + 30);
+            ctx.fillStyle = '#ef4444';
+            ctx.fillText('LTD', stdpX + stdpW - 25, stdpY + stdpH - 15);
+
+            // Coherence bar
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px monospace';
+            ctx.fillText(`Coherence: ${params.coherence.toFixed(2)}`, 20, canvas.height - 40);
+
+            const barW = 150;
+            ctx.fillStyle = '#1f2a44';
+            ctx.fillRect(20, canvas.height - 30, barW, 10);
+            ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.fillRect(20, canvas.height - 30, barW * params.coherence, 10);
+
+            // λ_X threshold line
+            const threshX = 20 + barW * (0.33 / 1.0);
+            ctx.strokeStyle = '#ef4444';
+            ctx.setLineDash([2,2]);
+            ctx.beginPath();
+            ctx.moveTo(threshX, canvas.height - 35);
+            ctx.lineTo(threshX, canvas.height - 15);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#ef4444';
+            ctx.font = '8px monospace';
+            ctx.fillText('LTD=0', threshX - 10, canvas.height - 12);
+        }
+
+        // Animation loop
+        function animate() {
+            if (!running) return;
+            update(16);
+            draw();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Event handlers
+        startBtn.addEventListener('click', function() {
+            running = !running;
+            startBtn.textContent = running ? 'Pause' : 'Start';
+            if (running) animate();
+        });
+
+        resetBtn.addEventListener('click', function() {
+            running = false;
+            startBtn.textContent = 'Start';
+            if (animationId) cancelAnimationFrame(animationId);
+            initSimulation();
+            draw();
+        });
+
+        toggleSTURBtn.addEventListener('click', function() {
+            sturEnabled = !sturEnabled;
+            toggleSTURBtn.textContent = sturEnabled ? 'STUR: ON' : 'STUR: OFF';
+            toggleSTURBtn.style.background = sturEnabled ? 'rgba(251,191,36,0.15)' : 'rgba(34,211,238,0.15)';
+            toggleSTURBtn.style.borderColor = sturEnabled ? '#fbbf24' : '#22d3ee';
+            toggleSTURBtn.style.color = sturEnabled ? '#fbbf24' : '#22d3ee';
+            draw();
+        });
+
+        spikeBtn.addEventListener('click', function() {
+            generatePreSpike();
+            draw();
+        });
+
+        // Slider handlers
+        coherenceSlider.addEventListener('input', function() {
+            params.coherence = parseFloat(this.value);
+            coherenceVal.textContent = params.coherence.toFixed(2);
+        });
+
+        tauPlusSlider.addEventListener('input', function() {
+            params.tauPlus = parseInt(this.value);
+            tauPlusVal.textContent = params.tauPlus;
+        });
+
+        tauMinusSlider.addEventListener('input', function() {
+            params.tauMinus = parseInt(this.value);
+            tauMinusVal.textContent = params.tauMinus;
+        });
+
+        rateSlider.addEventListener('input', function() {
+            params.spikeRate = parseInt(this.value);
+            rateVal.textContent = params.spikeRate;
+        });
+
+        // Initialize
+        initSimulation();
+        draw();
+    })();
+    </script>
+
+    <!-- ============================================================
          SECTION: EXECUTABLE SIMULATION
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-cyan);">
