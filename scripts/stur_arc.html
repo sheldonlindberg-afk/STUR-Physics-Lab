@@ -126,7 +126,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Potential form \(\Pot{V(R)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">Z₃ helix topology (§2.5)</a></li>
+                <li>Potential form \(\Pot{V(|\mathbf{R}|)} = \frac{\Pot{\lambda}}{4}(\Diff{R}^2-v^2)^2\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">Z₃ helix topology (§2.5)</a></li>
                 <li>STUR modulator form: \(\XCRM{S(r)} = \tanh(r/\Matt{L_0})(1 - e^{-r/\Matt{L_0}})\) — from <a href="stur_core_theory.html#appE" style="color:var(--neon-green)">Appendix E</a></li>
                 <li>Coherence length: \(\Matt{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / (\Quant{y}\Diff{\sigma_R})\) with \(\Quant{y}=1\) — from <a href="stur_core_theory.html#sec3-4" style="color:var(--neon-green)">§3.4</a></li>
                 <li>Resistance-mediated dynamics — S(r) gates all force contributions</li>
@@ -138,7 +138,7 @@
                 <li>Feedback stiffness gain \(\Diff{k_{\text{fb}}}\) — phenomenological parameter</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
-                <strong>Connection to Core Theory:</strong> The modulator \(\XCRM{S(r)}\) emerges from the potential term \(\Pot{V(R)}\) in the Master Action.
+                <strong>Connection to Core Theory:</strong> The modulator \(\XCRM{S(r)}\) emerges from the potential term \(\Pot{V(|\mathbf{R}|)}\) in the Master Action.
                 The functional form is non-negotiable; only the length scale \(\Matt{L_0}\) is domain-specific.
             </p>
         </div>
@@ -296,7 +296,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Effective stiffness \(\Diff{k_{\text{eff}}}\), trap frequency \(\Diff{f_{\text{trap}}}\), binding energy \(\Pot{E_{\text{bind}}}\), and coherence ratio \(\Matt{\eta_{\text{coh}}}\) of a resistance-mediated oscillator.</p>
             <p><strong>Geometry:</strong> Radial 1D configuration with characteristic length \(\Matt{L_0} \sim 10^{-10}\,\text{m}\) and gap dynamics \(\Matt{d(t)}\).</p>
-            <p><strong>Regime:</strong> Coherent oscillations with damping — tests potential term \(\Pot{V(R)}\) and coupling to matter sector.</p>
+            <p><strong>Regime:</strong> Coherent oscillations with damping — tests potential term \(\Pot{V(|\mathbf{R}|)}\) and coupling to matter sector.</p>
         </div>
     </section>
 
@@ -315,9 +315,9 @@
                 \[
                 S[\mathbf{R},g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
                   \underbrace{\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2}}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
+                  \;-\; \underbrace{\Pot{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{potential}}
                   \;+\; \underbrace{\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}}_{\color{#fbbf24}\text{XCRM}}
-                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{\Tor{\alpha |\mathbf{R}|\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]

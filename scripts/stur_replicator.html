@@ -125,7 +125,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Energy requirement structure: \(\Pot{E_{\text{need}}} = \int \Pot{V(R)}\,dV\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">Z₃ helix-derived V(R) (§2.5)</a></li>
+                <li>Energy requirement structure: \(\Pot{E_{\text{need}}} = \int \Pot{V(|\mathbf{R}|)}\,dV\) — from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">Z₃ helix-derived V(R) (§2.5)</a></li>
                 <li>Entropy-energy coupling: \(\Diff{\Delta S_{\text{eff}}} \cdot \Matt{T}\) — thermodynamic consistency with diffusion term</li>
                 <li>Resistance equilibrium: \(\Diff{R^*} = \Pot{E}/(\XCRM{I} \cdot \Tor{\Phi})\) — from XCRM coupling structure</li>
                 <li>Failure mode boundaries: emerge from saturation operator \(\XCRM{S(u)}\) limits</li>
@@ -302,9 +302,9 @@
                 \[
                 S[\mathbf{R},g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
                   \underbrace{\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2}}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
+                  \;-\; \underbrace{\Pot{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{potential}}
                   \;+\; \underbrace{\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}}_{\color{#fbbf24}\text{XCRM}}
-                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{\Tor{\alpha |\mathbf{R}|\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]

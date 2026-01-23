@@ -125,7 +125,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Master Action → Multi-Well Potential:</strong></p>
             <ol style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Step 1:</strong> The STUR potential term \(\Pot{V(R)}\) has multiple minima corresponding to discrete states</li>
+                <li><strong>Step 1:</strong> The STUR potential term \(\Pot{V(|\mathbf{R}|)}\) has multiple minima corresponding to discrete states</li>
                 <li><strong>Step 2:</strong> The saturation operator \(\XCRM{S(u)}\) sets barrier heights between states</li>
                 <li><strong>Step 3:</strong> Stochastic fluctuations (Ca²⁺, ROS) drive Kramers-like state transitions</li>
             </ol>
@@ -174,9 +174,9 @@
                 \[
                 S[\mathbf{R},g,X] = \int d^4x\, dX\,\sqrt{-g}\;\Bigl[
                   \underbrace{\Diff{\tfrac{1}{2}|\nabla \mathbf{R}|^2}}_{\color{#4ade80}\text{diffusion}}
-                  \;-\; \underbrace{\Pot{V(R)}}_{\color{#f472b6}\text{potential}}
+                  \;-\; \underbrace{\Pot{V(|\mathbf{R}|)}}_{\color{#f472b6}\text{potential}}
                   \;+\; \underbrace{\XCRM{\chi |\mathbf{R}|^2\partial_X \phi}}_{\color{#fbbf24}\text{XCRM}}
-                  \;+\; \underbrace{\Tor{\alpha R\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
+                  \;+\; \underbrace{\Tor{\alpha |\mathbf{R}|\mathbb{T}}}_{\color{#60a5fa}\text{gravity}}
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
@@ -187,7 +187,7 @@
 
             <div class="stur-eq derived">
                 \[
-                \boxed{\Pot{V(R)} = \sum_{i} \Pot{V_i} \cdot \exp\!\left(-\frac{(R - R_i)^2}{2\Diff{\sigma_i^2}}\right)}
+                \boxed{\Pot{V(|\mathbf{R}|)} = \sum_{i} \Pot{V_i} \cdot \exp\!\left(-\frac{(R - R_i)^2}{2\Diff{\sigma_i^2}}\right)}
                 \]
                 <div class="stur-eq-label">STATE.V — Multi-Well Potential</div>
             </div>
@@ -664,7 +664,7 @@ plt.show()</pre>
 
             <div class="stur-eq law">
                 \[
-                \Pot{V(R)} \xrightarrow{\text{multi-well}} \{R_{\rm healthy}, R_{\rm stressed}, R_{\rm pre}, R_{\rm uncoupled}, R_{\rm mPTP}\}
+                \Pot{V(|\mathbf{R}|)} \xrightarrow{\text{multi-well}} \{R_{\rm healthy}, R_{\rm stressed}, R_{\rm pre}, R_{\rm uncoupled}, R_{\rm mPTP}\}
                 \]
                 <div class="stur-eq-label">Potential Minima</div>
             </div>
@@ -677,7 +677,7 @@ plt.show()</pre>
                     <th style="text-align:left;padding:0.5rem;color:var(--neon-gold);">Measurement</th>
                 </tr>
                 <tr style="border-bottom:1px solid var(--border-dim);">
-                    <td style="padding:0.5rem;">\(\Pot{V(R)}\) minima</td>
+                    <td style="padding:0.5rem;">\(\Pot{V(|\mathbf{R}|)}\) minima</td>
                     <td style="padding:0.5rem;">Discrete metabolic states</td>
                     <td style="padding:0.5rem;">pmf/ROS/Ca²⁺ clustering</td>
                 </tr>
