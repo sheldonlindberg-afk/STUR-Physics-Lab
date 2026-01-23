@@ -906,7 +906,7 @@ code {
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.95rem;">
       Any deviation from this functional form — oscillatory, exponential in \(\Diff{\Delta L}\), time-dependent,
       or mass-dependent — <span style="color:var(--error);font-weight:600;">falsifies STUR</span>.
-      (Note: The <em>form</em> is derived; ℓ<sub>coh</sub> depends on the L<sub>X</sub>/σ<sub>R</sub> ratio, STUR's one effective parameter.)
+      (Note: Both <em>form</em> and <em>scale</em> are derived; ℓ<sub>coh</sub> depends on the L<sub>X</sub>/σ<sub>R</sub> ratio, which is fully determined by Z₃ helix geometry — zero free parameters.)
     </p>
   </div>
 
@@ -921,15 +921,15 @@ code {
         <li>Area scaling for loop geometries</li>
       </ul>
     </div>
-    <div class="card" style="border:1px solid var(--warning);background:rgba(251,191,36,0.04);">
-      <strong style="color:var(--warning);">What STUR does NOT predict (free parameter)</strong>
+    <div class="card" style="border:1px solid var(--success);background:rgba(74,222,128,0.04);">
+      <strong style="color:var(--success);">What v2.5 Helix now derives (zero free parameters)</strong>
       <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
-        <li>The numerical value of \(\Matt{\ell_{\rm coh}}\)</li>
-        <li>The absolute magnitude of visibility suppression</li>
-        <li>The specific values of \(\XCRM{\chi}\), \(\XCRM{L_X}\), or \(\XCRM{\sigma_R}\) individually</li>
+        <li>The numerical value of \(\Matt{\ell_{\rm coh}}\) from Z₃ helix geometry</li>
+        <li>The absolute magnitude from Casimir-holonomy balance</li>
+        <li>\(\XCRM{L_X}\) dynamically stabilized, \(\XCRM{\chi}\) and \(\XCRM{\sigma_R}\) derived from XCRM equilibrium</li>
       </ul>
       <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-muted);">
-        These must be determined experimentally or from UV completion.
+        All parameters are determined by Z₃ helix geometry — zero free parameters.
       </p>
     </div>
   </div>
@@ -1162,7 +1162,7 @@ code {
          Any Markdown-style code fencing has been removed to preserve
          strict HTML validity for archival and print use. -->
     <p style="color:var(--gold);"><strong><a href="#master-action" style="color:var(--gold);">0. The Master Action (Start Here)</a></strong></p>
-    <p style="margin-left:1.5rem;color:var(--success)"><a href="#first-principles" style="color:var(--success)">0.1 First Principles Statement (Single Parameter)</a></p>
+    <p style="margin-left:1.5rem;color:var(--success)"><a href="#first-principles" style="color:var(--success)">0.1 First Principles Statement (Zero Free Parameters)</a></p>
     <p style="margin-left:1.5rem;color:var(--accent-secondary)"><a href="#emergence" style="color:var(--accent-secondary)">0.2 Emergence of Physical Theories</a></p>
 
     <p><strong>Part I — Framework</strong></p>
@@ -2518,12 +2518,12 @@ code {
         • Fluctuation amplitude \(\XCRM{\sigma_R}\) from XCRM equilibrium (§5.3.5)
       </span>
     </div>
-    <div class="card" style="border:1px solid var(--accent);background:rgba(74,158,255,0.04);">
-      <strong style="color:var(--accent)">Single Remaining Free Parameter</strong>
+    <div class="card" style="border:1px solid var(--success);background:rgba(74,222,128,0.04);">
+      <strong style="color:var(--success)">Zero Free Parameters (v2.5 Helix)</strong>
       <span style="font-size:0.88rem;color:var(--text-secondary)">
-        • The compactification scale \(\XCRM{L_X}\) (sets all mass scales)<br>
+        • The compactification scale \(\XCRM{L_X}\) is dynamically stabilized by Casimir-holonomy balance<br>
         <br>
-        <em style="color:var(--text-muted)">Note: Once \(\XCRM{L_X}\) is fixed experimentally, all other parameters are determined by XCRM.</em>
+        <em style="color:var(--text-muted)">In v2.5, all parameters are determined by Z₃ helix geometry — nothing is free.</em>
       </span>
     </div>
   </div>
@@ -2570,7 +2570,7 @@ code {
   <p style="margin-top:1rem;font-size:0.92rem;color:var(--text-muted)">
     <strong>Summary of XCRM Closure:</strong> With the derivations in §4.3, §5.1-5.3, and §5.3.5,
     <em>all sectors of the theory are derived from XCRM first principles</em>.
-    The only remaining free parameter is \(\XCRM{L_X}\), which sets the overall mass scale.
+    In v2.5 Helix, \(\XCRM{L_X}\) is dynamically stabilized by Casimir-holonomy balance — zero free parameters.
   </p>
 
   <div class="block" style="border-left:4px solid #a78bfa;background:rgba(167,139,250,0.08);margin-top:1rem;">
@@ -3223,7 +3223,7 @@ code {
           • Heavy bath modes produce Markovian noise<br>
           • Phase shift: random \(\delta\phi\) each shot<br>
           • Visibility: Gaussian decay \(\exp(-\Delta L^2/\ell^2)\)<br>
-          • Sensitivity: \(\ell_{\rm coh}\) as free parameter<br>
+          • Sensitivity: \(\ell_{\rm coh}\) derived from Z₃ geometry<br>
           • Regime: high-dissipation, uncorrelated fluctuations
         </span>
       </div>
@@ -4357,9 +4357,9 @@ code {
       <li><strong>Parameter relation:</strong> \(\ell_{\rm coh} = \sqrt{2} L_X / \sigma_R\) derived from X-integration (Eq. 3.18)</li>
     </ul>
     <p style="margin:0;color:var(--text-secondary)">
-      <strong>Remaining open:</strong> The absolute values of \(L_X\) and \(\sigma_R\) are not predicted
-      from first principles. These require either UV completion (fixing \(L_X\) to Planck or KK scale)
-      or experimental measurement. The <em>ratio</em> \(\sigma_R / L_X\) is the single free parameter.
+      <strong>v2.5 Helix Resolution:</strong> In v2.5, \(L_X\) is dynamically stabilized by Casimir-holonomy balance,
+      and \(\sigma_R\) is derived from XCRM equilibrium. The <em>ratio</em> \(\sigma_R / L_X\) is fully determined
+      by Z₃ helix geometry — zero free parameters.
     </p>
   </div>
 
@@ -4933,7 +4933,7 @@ code {
   <p>
     <strong>Key insight:</strong> The scale \(L_0 = \ell_{\rm coh}\) is set by the local coherence environment.
     In galactic contexts, \(\Matt{L_0}\) emerges from the collective X-field coherence of the baryonic matter
-    distribution, not from any additional parameters. This maintains the single-parameter structure of STUR.
+    distribution, not from any additional parameters. This maintains the zero-free-parameter structure of STUR v2.5.
   </p>
 
   <h3>E.2 Chi-Torsion Channel: Dimensional Analysis</h3>
