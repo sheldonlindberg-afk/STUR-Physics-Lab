@@ -197,7 +197,7 @@
             <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
                 <strong style="color:var(--neon-cyan);">ENERGY.2 — XCRM Integral Vanishes</strong>
                 <div class="stur-eq derived" style="margin:0.75rem 0;">
-                    \[\boxed{\XCRM{\rho_{\rm XCRM}} = \frac{\XCRM{\chi}}{2}[R(L_X)^2 - R(0)^2] = 0 \quad \text{(orbifold)}}\]
+                    \[\boxed{\XCRM{\rho_{\rm XCRM}} = \frac{\XCRM{\chi}}{2}[R(L_X)^2 - R(0)^2] = 0 \quad \text{(Z₃ helix)}}\]
                 </div>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
                     Under Z₂-odd boundary conditions, the XCRM energy contribution integrates to zero.
@@ -247,13 +247,13 @@
                 <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
                     <strong style="color:#ef4444;font-size:0.85rem;">Exclusion 2: Non-Zero XCRM Integral</strong>
                     <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">
-                        If the XCRM integral does not vanish under orbifold boundary conditions, the derivation is wrong.
+                        If the XCRM integral does not vanish under Z₃ helix boundary conditions, the derivation is wrong.
                     </p>
                 </div>
                 <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
                     <strong style="color:#ef4444;font-size:0.85rem;">Exclusion 3: Potential Sign Violation</strong>
                     <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">
-                        If V(R) < 0 for any R value, the Mexican-hat derivation from orbifold topology is falsified.
+                        If V(R) < 0 for any R value, the Mexican-hat derivation from Z₃ helix topology is falsified.
                     </p>
                 </div>
                 <div style="padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
@@ -298,7 +298,7 @@
     <section class="section" id="stress-energy">
         <h2>2. Stress-Energy Tensor from the Master Action</h2>
 
-        <p>The STUR master action on the 5D orbifold \(\Tor{\mathcal{M}^5 = M^4 \times S^1/\mathbb{Z}_2}\) is:</p>
+        <p>The STUR master action on the 5D Z₃ helix \(\Tor{\mathcal{M}^5 = M^4 \times S^1/\mathbb{Z}_2}\) is:</p>
 
         <div class="eq law">
             \[S = \int d^4x\, dX\, \sqrt{-g}\, \Bigl[\underbrace{\Diff{\tfrac{1}{2}(\nabla R)^2}}_{\text{kinetic}} - \underbrace{\Pot{V(R)}}_{\text{potential}} + \underbrace{\XCRM{\chi R \partial_X R}}_{\text{XCRM}} + \underbrace{\Tor{\alpha R \mathbb{T}}}_{\text{gravity}} + \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\text{fields}}\Bigr]\]
@@ -354,7 +354,7 @@
         <div class="analysis-card neutral">
             <h4 style="color:var(--neon-gold);">Potential Term: \(\Pot{V(R)}\) — Sign Depends on Form</h4>
             <p style="margin:0;color:var(--text-secondary);">
-                The potential \(\Pot{V(R) = \frac{\lambda}{4}(R^2 - v^2)^2}\) is derived from orbifold topology
+                The potential \(\Pot{V(R) = \frac{\lambda}{4}(R^2 - v^2)^2}\) is derived from Z₃ helix topology
                 and is <strong>non-negative everywhere</strong>. It has minima at \(R = \pm v\) where \(V = 0\).
             </p>
             <div class="eq" style="margin:0.75rem 0;">
@@ -375,14 +375,14 @@
                 \[\XCRM{\rho_{\rm XCRM}} = \XCRM{\chi} \int_0^{L_X} R \partial_X R\, dX = \frac{\XCRM{\chi}}{2}\bigl[R(L_X)^2 - R(0)^2\bigr]\]
             </div>
             <p style="margin:0;color:var(--text-secondary);">
-                For the orbifold \(S^1/\mathbb{Z}_2\), the boundary conditions are \(R(0) = R(L_X) = 0\) (R is Z₂-odd).
+                For the Z₃ helix \(S^1/\mathbb{Z}_2\), the boundary conditions are \(R(0) = R(L_X) = 0\) (R is Z₂-odd).
                 Therefore:
             </p>
             <div class="eq" style="margin:0.75rem 0;">
                 \[\XCRM{\rho_{\rm XCRM}} = \frac{\XCRM{\chi}}{2}\bigl[0 - 0\bigr] = 0\]
             </div>
             <p style="margin:0.5rem 0 0;color:var(--error);font-size:0.9rem;">
-                <strong>Verdict:</strong> Vanishes due to orbifold boundary conditions! No net XCRM energy contribution.
+                <strong>Verdict:</strong> Vanishes due to Z₃ helix boundary conditions! No net XCRM energy contribution.
             </p>
         </div>
 
@@ -420,7 +420,7 @@
         <div class="verdict-box">
             <h3>VERDICT: XCRM Does NOT Support Negative Energy Density</h3>
             <p style="margin:0;color:var(--text);font-size:1.05rem;">
-                Under the standard STUR framework with orbifold boundary conditions,
+                Under the standard STUR framework with Z₃ helix boundary conditions,
                 <strong>all energy contributions are non-negative</strong>.
             </p>
         </div>
@@ -453,7 +453,7 @@
         </p>
 
         <ul>
-            <li><strong>Modified boundary conditions:</strong> Non-orbifold compactifications could change the XCRM integral</li>
+            <li><strong>Modified boundary conditions:</strong> Non-Z₃ helix compactifications could change the XCRM integral</li>
             <li><strong>Higher-derivative terms:</strong> Adding \((\nabla^2 R)^2\) could introduce sign-indefinite contributions</li>
             <li><strong>Coupling to exotic fields:</strong> New fields with wrong-sign kinetic terms (ghosts)</li>
             <li><strong>Non-minimal torsion coupling:</strong> Higher-order torsion invariants</li>
@@ -535,7 +535,7 @@
 XCRM Energy Conditions Verification
 ====================================
 Numerically verifies that STUR energy density is non-negative
-under orbifold boundary conditions.
+under Z₃ helix boundary conditions.
 
 Outputs:
   - stur_energy_conditions.json
@@ -697,7 +697,7 @@ report = {
         "page": "xcrm-energy-conditions",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "question": "Does XCRM support negative energy density?",
-        "answer": "NO - all energy densities are non-negative under orbifold boundary conditions"
+        "answer": "NO - all energy densities are non-negative under Z₃ helix boundary conditions"
     },
     "parameters": {
         "L_X_m": L_X,

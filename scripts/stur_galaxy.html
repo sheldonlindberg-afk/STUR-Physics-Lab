@@ -85,7 +85,7 @@
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Derives galactic rotation curves from the STUR radial modulator \(\XCRM{S(r)}\).
-            The same <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived V(R)</a> that governs particle physics produces flat rotation at galactic scales — L₀, Λ, and φ are derived from the orbifold geometry.
+            The same <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">Z₃ helix-derived V(R)</a> that governs particle physics produces flat rotation at galactic scales — L₀, Λ, and φ are derived from the Z₃ helix geometry.
         </p>
 
         <!-- Status Badge -->
@@ -121,7 +121,7 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">ALL Parameters Derived from First Principles:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Modulator form:</strong> \(\XCRM{\mathcal{S}(r)}\) arises from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">orbifold-derived V(R)</a> via radial integration of coherence kernel</li>
+                <li><strong>Modulator form:</strong> \(\XCRM{\mathcal{S}(r)}\) arises from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">Z₃ helix-derived V(R)</a> via radial integration of coherence kernel</li>
                 <li><strong>Length scale L₀:</strong> Derived from XCRM coherence scaling (see derivation below)</li>
                 <li><strong>Cosmological cutoff Λ:</strong> Identical to <a href="stur_cosmological_constant.html" style="color:var(--neon-green)">cosmological Λ derivation</a> — residual R-field energy density</li>
                 <li><strong>Coupling φ:</strong> Fixed by holonomy normalization: \(\oint \phi\,d\theta = 2\pi\)</li>
@@ -133,7 +133,7 @@
                 <li>Distance scales from standard cosmology (H₀, etc.)</li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
-                <strong>Key Advance:</strong> The galactic modulator uses the <em>same</em> V(R) potential as microscale physics. L₀ and Λ are derived from the same orbifold structure that governs particle physics.
+                <strong>Key Advance:</strong> The galactic modulator uses the <em>same</em> V(R) potential as microscale physics. L₀ and Λ are derived from the same Z₃ helix structure that governs particle physics.
             </p>
         </div>
     </div>
@@ -212,7 +212,7 @@
             <div style="margin-top:1rem;padding:1rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.3);">
                 <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">One Effective Parameter</h4>
                 <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;">
-                    All three galactic parameters (L₀, Λ, φ) are derived from the same XCRM/orbifold structure that governs microscale physics.
+                    All three galactic parameters (L₀, Λ, φ) are derived from the same XCRM/Z₃ helix structure that governs microscale physics.
                     The <strong>L_X/σ_R ratio</strong> (one effective parameter) determines both particle physics and galactic dynamics. The galactic modulator form is not fitted — it is derived.
                 </p>
             </div>
@@ -378,7 +378,7 @@
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Circular rotation velocity \(\Matt{v(r)}\) vs galactocentric radius for spiral galaxies.</p>
             <p><strong>Scale:</strong> \(\Matt{r} \sim 1-50\,\text{kpc}\), matching JWST Big Wheel observations.</p>
-            <p><strong>Connection:</strong> The STUR scalar modulator derived from the <a href="stur_core_theory.html#VR-derivation" class="core-ref">orbifold-derived V(R) potential (§2.5)</a> modifies effective gravitational potential without invoking dark matter particles.</p>
+            <p><strong>Connection:</strong> The STUR scalar modulator derived from the <a href="stur_core_theory.html#VR-derivation" class="core-ref">Z₃ helix-derived V(R) potential (§2.5)</a> modifies effective gravitational potential without invoking dark matter particles.</p>
         </div>
     </section>
 
@@ -412,7 +412,7 @@
                 \[
                 \color{#f472b6}{\mathcal{S}(r, \phi)} = \phi\,\frac{1 + r/L_0}{1 + (r/L_0)^2}\,e^{-\Lambda r^2}
                 \]
-                <div class="stur-eq-label">Galactic-Scale Modulator (from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">orbifold-derived V(R)</a>)</div>
+                <div class="stur-eq-label">Galactic-Scale Modulator (from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-pink)">Z₃ helix-derived V(R)</a>)</div>
             </div>
 
             <p>The total rotation velocity combines baryonic and STUR contributions:</p>
@@ -489,7 +489,7 @@
 #   - stur_galaxy.json  (fit results)
 #   - stur_galaxy.png   (rotation curve + residuals)
 #
-# Derived from orbifold-derived V(R) potential (Foundations §2.5)
+# Derived from Z₃ helix-derived V(R) potential (Foundations §2.5)
 # ===============================================================
 
 import numpy as np
@@ -516,7 +516,7 @@ OUT_PNG  = "stur_galaxy.png"
 # 2) STUR SCALAR MODULATOR
 # ===============================================================
 def S_STUR(r, phi):
-    """STUR galactic-scale modulator from orbifold-derived V(R) (§2.5)"""
+    """STUR galactic-scale modulator from Z₃ helix-derived V(R) (§2.5)"""
     r = max(r, 1e-10)
     x = r / L0
     return phi * (1 + x) / (1 + x**2) * math.exp(-La * r**2)
