@@ -1,6 +1,6 @@
 /**
  * STUR Theory Pages - Shared Styles
- * Candidate Framework: XCRM + MHP + DHP
+ * Complete Framework: XCRM Doublet on Z₃ Helix (v2.5)
  * Used across all STUR theory documentation pages
  *
  * Requires: stur-core.css, stur-glass.css, stur-icons.css
@@ -9,20 +9,20 @@
  * Educational color scheme for equation terms:
  *
  *   DIFFUSION (#4ade80 Green)    - Kinetic terms: ½(∇R)²
- *   POTENTIAL (#f472b6 Pink)     - Relaxation: V(R)
- *   XCRM      (#fbbf24 Gold)     - X-Coupling: χR∂_X R
- *   TORSION   (#60a5fa Blue)     - Gravity: αR𝕋
+ *   POTENTIAL (#f472b6 Pink)     - Relaxation: V(|R|)
+ *   XCRM      (#fbbf24 Gold)     - X-Coupling: χ(R₁∂_XR₂ - R₂∂_XR₁)
+ *   TORSION   (#60a5fa Blue)     - Gravity: α|R|𝕋
  *   MATTER    (#22d3ee Cyan)     - Matter fields: ℒ_matter
  *   QUANTUM   (#a78bfa Violet)   - Loop corrections, holonomy
  *
- * === XCRM FOUNDATION (v2.4.1) ===
- * Master Action (from XCRM) - Defines dynamics on M⁴ × S¹/Z₂
+ * === XCRM DOUBLET FOUNDATION (v2.5 Helix) ===
+ * Master Action (from XCRM doublet) - Defines dynamics on M⁴ × S¹ with Z₃ helix
  * DHP (Derived) - Governs evolution (cosmology, QG, UV completion)
- * TFP (Derived) - Topological Flavor Principle (generations, Yukawas)
+ * TFP (AUTOMATIC in v2.5) - 3 generations from |Z₃| = 3 (theorem, not calculation)
  * MHP (Derived) - Emerges from path integral (selects ground state)
  *
- * One effective parameter: L_X/σ_R ratio (L_X stabilized, σ_R calibrated)
- * 21 complete derivations: mechanisms derived, some coefficients calibrated.
+ * v2.5 Breakthroughs: 3 gen automatic, SU(3) from Z₃=center, CC = 0 solved
+ * One effective parameter: L_X (dynamically stabilized by Casimir-holonomy)
  */
 
 /* ============================================================
