@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STUR Helix TOE Verifier – Geometry + Spectrum</title>
 
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
 <!-- STUR Theme System -->
 <link rel="stylesheet" href="../assets/css/stur-core.css">
 <link rel="stylesheet" href="../assets/css/stur-glass.css">
@@ -115,6 +119,123 @@
     </div>
 </div>
 
+<!-- Z₃ Helix Geometry Foundation -->
+<div style="max-width:950px;margin:1.5rem auto;background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(167,139,250,0.04) 100%);border:2px solid var(--neon-gold);border-radius:12px;padding:1.5rem;">
+  <h2 style="color:var(--neon-gold);margin:0 0 1rem;font-size:1.2rem;text-align:center;">Z₃ Helix Geometry — Derivation Chain Foundation</h2>
+
+  <!-- Boundary Condition -->
+  <div style="background:rgba(0,0,0,0.4);border-radius:8px;padding:1rem;margin-bottom:1rem;">
+    <h3 style="color:var(--neon-cyan);margin:0 0 0.75rem;font-size:0.95rem;">Z₃ Helix Boundary Condition</h3>
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:0.75rem;">
+      The R-field doublet winds through field space on a Z₃ helix. Going around the extra dimension once
+      (X → X + L<sub>X</sub>), R rotates by 120° in the (R₁, R₂) plane:
+    </p>
+    <div style="text-align:center;padding:0.75rem;background:#000;border-radius:6px;border:1px solid var(--neon-gold);">
+      \[\XCRM{\mathbf{R}(X + L_X) = \mathbf{R}_{2\pi/3} \cdot \mathbf{R}(X)}\]
+    </div>
+  </div>
+
+  <!-- Rotation Matrix -->
+  <div style="background:rgba(0,0,0,0.4);border-radius:8px;padding:1rem;margin-bottom:1rem;">
+    <h3 style="color:var(--neon-cyan);margin:0 0 0.75rem;font-size:0.95rem;">Rotation Matrix (120° in Field Space)</h3>
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:0.75rem;">
+      The explicit matrix form of the Z₃ rotation:
+    </p>
+    <div style="text-align:center;padding:0.75rem;background:#000;border-radius:6px;border:1px solid var(--neon-gold);">
+      \[\begin{pmatrix} \XCRM{R_1(X + L_X)} \\ \XCRM{R_2(X + L_X)} \end{pmatrix} =
+      \begin{pmatrix} \cos(2\pi/3) & -\sin(2\pi/3) \\ \sin(2\pi/3) & \cos(2\pi/3) \end{pmatrix}
+      \begin{pmatrix} \XCRM{R_1(X)} \\ \XCRM{R_2(X)} \end{pmatrix}\]
+    </div>
+    <div style="text-align:center;padding:0.75rem;background:#000;border-radius:6px;border:1px solid var(--neon-cyan);margin-top:0.5rem;">
+      \[= \begin{pmatrix} \Quant{-\tfrac{1}{2}} & \Quant{-\tfrac{\sqrt{3}}{2}} \\ \Quant{\tfrac{\sqrt{3}}{2}} & \Quant{-\tfrac{1}{2}} \end{pmatrix}
+      \begin{pmatrix} \XCRM{R_1(X)} \\ \XCRM{R_2(X)} \end{pmatrix}\]
+    </div>
+  </div>
+
+  <!-- Vacuum Solution -->
+  <div style="background:rgba(0,0,0,0.4);border-radius:8px;padding:1rem;margin-bottom:1rem;">
+    <h3 style="color:var(--neon-cyan);margin:0 0 0.75rem;font-size:0.95rem;">Vacuum Solution — Linear Winding</h3>
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:0.75rem;">
+      The energy-minimizing configuration has constant magnitude and linear phase winding:
+    </p>
+    <div style="text-align:center;padding:0.75rem;background:#000;border-radius:6px;border:1px solid var(--neon-green);">
+      \[\boxed{\Diff{R_1(X) = v \cos\!\bigl(2\pi X / 3L_X\bigr)}, \quad \Diff{R_2(X) = v \sin\!\bigl(2\pi X / 3L_X\bigr)}}\]
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.5rem;margin-top:0.75rem;">
+      <div style="background:rgba(74,222,128,0.1);padding:0.5rem;border-radius:4px;text-align:center;">
+        <span style="color:var(--neon-green);font-size:0.8rem;">|\(\mathbf{R}\)| = v</span><br>
+        <span style="color:var(--text-muted);font-size:0.7rem;">constant magnitude</span>
+      </div>
+      <div style="background:rgba(74,222,128,0.1);padding:0.5rem;border-radius:4px;text-align:center;">
+        <span style="color:var(--neon-green);font-size:0.8rem;">\(\phi = 2\pi X / 3L_X\)</span><br>
+        <span style="color:var(--text-muted);font-size:0.7rem;">linear winding</span>
+      </div>
+      <div style="background:rgba(74,222,128,0.1);padding:0.5rem;border-radius:4px;text-align:center;">
+        <span style="color:var(--neon-green);font-size:0.8rem;">\(\partial_X\phi = 2\pi/3L_X\)</span><br>
+        <span style="color:var(--text-muted);font-size:0.7rem;">constant rate</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Domain Wall -->
+  <div style="background:rgba(74,222,128,0.08);border:1px solid var(--neon-green);border-radius:8px;padding:1rem;margin-bottom:1rem;">
+    <h3 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.95rem;">No Domain Wall — Cosmological Constant Addressed</h3>
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin:0;">
+      <strong style="color:var(--neon-green);">Key insight:</strong> The helix vacuum has <strong>|R| = v constant everywhere</strong>.
+      Unlike domain wall solutions where |R| varies between vacua (causing large vacuum energy gradients),
+      the helix smoothly interpolates via phase rotation while maintaining constant magnitude.
+      This is why Z₃ helix topology naturally addresses the cosmological constant problem.
+    </p>
+  </div>
+
+  <!-- Three Generations -->
+  <div style="background:rgba(0,0,0,0.4);border-radius:8px;padding:1rem;margin-bottom:1rem;">
+    <h3 style="color:var(--neon-cyan);margin:0 0 0.75rem;font-size:0.95rem;">Three Generations from Z₃ Phases</h3>
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:0.75rem;">
+      Fermions are localized at the three distinct Z₃ phase positions — generations are geometric:
+    </p>
+    <div style="text-align:center;padding:0.75rem;background:#000;border-radius:6px;border:1px solid var(--neon-gold);">
+      \[\Matt{\phi_g = \frac{2\pi g}{3}}, \quad g \in \{0, 1, 2\}\]
+    </div>
+    <div style="display:flex;justify-content:center;gap:1rem;margin-top:0.75rem;flex-wrap:wrap;">
+      <div style="background:rgba(34,211,238,0.1);padding:0.5rem 1rem;border-radius:6px;text-align:center;">
+        <span style="color:var(--neon-cyan);font-weight:600;">Gen 1</span><br>
+        <span style="color:var(--text-muted);font-size:0.8rem;">\(\phi_0 = 0\)</span><br>
+        <span style="color:var(--text-secondary);font-size:0.75rem;">(e, u, d)</span>
+      </div>
+      <div style="background:rgba(34,211,238,0.1);padding:0.5rem 1rem;border-radius:6px;text-align:center;">
+        <span style="color:var(--neon-cyan);font-weight:600;">Gen 2</span><br>
+        <span style="color:var(--text-muted);font-size:0.8rem;">\(\phi_1 = 2\pi/3\)</span><br>
+        <span style="color:var(--text-secondary);font-size:0.75rem;">(\(\mu\), c, s)</span>
+      </div>
+      <div style="background:rgba(34,211,238,0.1);padding:0.5rem 1rem;border-radius:6px;text-align:center;">
+        <span style="color:var(--neon-cyan);font-weight:600;">Gen 3</span><br>
+        <span style="color:var(--text-muted);font-size:0.8rem;">\(\phi_2 = 4\pi/3\)</span><br>
+        <span style="color:var(--text-secondary);font-size:0.75rem;">(\(\tau\), t, b)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Z₃ Uniqueness Proof Reference -->
+  <div style="background:rgba(167,139,250,0.08);border:1px solid var(--neon-purple, #a78bfa);border-radius:8px;padding:1rem;">
+    <h3 style="color:var(--neon-purple, #a78bfa);margin:0 0 0.5rem;font-size:0.95rem;">Z₃ Uniqueness — Why N = 3?</h3>
+    <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:0.5rem;">
+      <strong>Theorem:</strong> Z₃ is the <em>unique</em> helix structure consistent with:
+    </p>
+    <ul style="margin:0 0 0.5rem 1.2rem;padding:0;font-size:0.85rem;color:var(--text-secondary);">
+      <li><strong style="color:var(--neon-purple, #a78bfa);">Gauge anomaly cancellation</strong> — Tr[Y³] = 0 per generation</li>
+      <li><strong style="color:var(--neon-purple, #a78bfa);">Gravitational anomaly cancellation</strong> — fermion spectrum constraint</li>
+      <li><strong style="color:var(--neon-purple, #a78bfa);">SU(3) center compatibility</strong> — center(SU(3)) = Z₃</li>
+      <li><strong style="color:var(--neon-purple, #a78bfa);">Holonomy moduli stabilization</strong> — finite holonomy potential</li>
+    </ul>
+    <p style="color:var(--text-muted);font-size:0.8rem;margin:0;">
+      N = 2 does not fix generation number. N = 4, 5, 7, ... are incompatible with SU(3) center.
+      N = 6, 9, 12, ... give too many generations and are energetically unstable.
+      <a href="stur_core_theory.html#derivation-structure" style="color:var(--neon-purple, #a78bfa);">Full uniqueness proof →</a>
+    </p>
+  </div>
+</div>
+
 <!-- Equation Color Legend -->
 <div class="eq-legend">
   <div class="eq-legend-item"><span class="eq-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span> — Kinetic</div>
@@ -158,6 +279,7 @@
     itself derived from Z₃ helix topology (<a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-gold)">§2.5</a>),
     with S(r) extraction in <a href="stur_core_theory.html#appE" style="color:var(--neon-gold)">Appendix E</a>.
     The helix quantization rule itself is <em>not</em> derived — it is a phenomenological postulate being tested.
+    See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--neon-gold)">complete derivation chain</a> for the full Z₃ uniqueness proof.
   </div>
   <div style="margin-top:8px;padding:8px 10px;background:rgba(96,165,250,0.06);border-radius:6px;font-size:11px;color:var(--text-muted);">
     <strong>Note on L₀:</strong> The helix quantization defines \(\XCRM{L_0} = 1/\sqrt{(\Quant{n}^2+\Quant{m}^2)(\Tor{\kappa}^2+\Tor{\tau}^2)}\), which differs from
@@ -169,28 +291,36 @@
 <h2>STUR Helix Quantization &amp; Hydrogen 1s Test</h2>
 <div class="desc">
 <p>
+<strong>Connection to core theory:</strong> The Z₃ helix boundary condition
+\(\XCRM{\mathbf{R}(X + L_X) = \mathbf{R}_{2\pi/3} \cdot \mathbf{R}(X)}\)
+determines the vacuum winding rate \(\partial_X\phi = 2\pi/3L_X\).
+This page explores a <em>phenomenological extension</em> — testing whether macroscopic helices
+share a universal quantization scale L₀ related to the extra dimension.
+</p>
+
+<p>
 We treat any helical trajectory as a STUR object: geometry encodes resistance.
-A helix of radius <code>R</code> and pitch <code>P</code> has curvature <code>κ</code> and torsion <code>τ</code>:
+A helix of radius <code>R</code> and pitch <code>P</code> has curvature \(\Tor{\kappa}\) and torsion \(\Tor{\tau}\):
 </p>
 
 <p style="text-align:center;">
-κ = R / (R² + c²), &nbsp;&nbsp; τ = c / (R² + c²), &nbsp;&nbsp; c = P / (2π).
+\[\Tor{\kappa} = R / (R^2 + c^2), \quad \Tor{\tau} = c / (R^2 + c^2), \quad c = P / (2\pi)\]
 </p>
 
 <p>
 STUR postulates that stable helical states sit on a discrete lattice in
-<code>(κ, τ)</code>-space labeled by integers <code>(n,m)</code> and a universal geometric scale <code>L₀</code>:
+\((\Tor{\kappa}, \Tor{\tau})\)-space labeled by integers \((\Quant{n},\Quant{m})\) and a universal geometric scale \(\XCRM{L_0}\):
 </p>
 
-<p style="text-align:center;">
-(κ² + τ²)(n² + m²) = 1 / L₀²  &nbsp;&nbsp;⟹&nbsp;&nbsp;
-L₀ = 1 / √[(n² + m²)(κ² + τ²)].
-</p>
+<div style="text-align:center;padding:0.75rem;background:rgba(0,0,0,0.4);border-radius:6px;margin:1rem 0;">
+\[(\Tor{\kappa}^2 + \Tor{\tau}^2)(\Quant{n}^2 + \Quant{m}^2) = 1 / \XCRM{L_0}^2 \quad\Longrightarrow\quad
+\XCRM{L_0} = \frac{1}{\sqrt{(\Quant{n}^2 + \Quant{m}^2)(\Tor{\kappa}^2 + \Tor{\tau}^2)}}\]
+</div>
 
 <p>
-By fitting <code>(n,m)</code> for very different helices
-(solar orbit, DNA, electron gyro, α-helix, tendril) we test whether a
-single <code>L₀</code> emerges across scales. That defines a
+By fitting \((\Quant{n},\Quant{m})\) for very different helices
+(solar orbit, DNA, electron gyro, alpha-helix, tendril) we test whether a
+single \(\XCRM{L_0}\) emerges across scales. That defines a
 <strong>geometric unification scale</strong> inside the STUR framework.
 </p>
 
@@ -200,28 +330,27 @@ single <code>L₀</code> emerges across scales. That defines a
 On the spectral side, we apply the STUR radial modulator to the hydrogen 1s state:
 </p>
 
-<p style="text-align:center;">
-S<span style="vertical-align:sub;">STUR</span>(r;L₀) =
-tanh(r/L₀) (1 − e<sup>−r/L₀</sup>).
-</p>
+<div style="text-align:center;padding:0.75rem;background:rgba(0,0,0,0.4);border-radius:6px;margin:1rem 0;">
+\[\Pot{S_{\rm STUR}(r; L_0)} = \tanh(r/\XCRM{L_0}) \cdot \bigl(1 - e^{-r/\XCRM{L_0}}\bigr)\]
+</div>
 
 <p>
-We treat <code>S</code> as a small perturbation to the Coulomb potential and estimate the
-first-order fractional shift from the expectation value
+We treat \(\Pot{S}\) as a small perturbation to the Coulomb potential and estimate the
+first-order fractional shift from the expectation value:
 </p>
 
-<p style="text-align:center;">
-ΔE/E ≈ &lt;S − 1&gt;<sub>1s</sub>,
-</p>
+<div style="text-align:center;padding:0.75rem;background:rgba(0,0,0,0.4);border-radius:6px;margin:1rem 0;">
+\[\Quant{\Delta E / E} \approx \langle \Pot{S} - 1 \rangle_{1s}\]
+</div>
 
 <p>
 where the average is taken with respect to the standard hydrogen 1s radial probability
-density. For each <code>L₀</code> we compute:
+density. For each \(\XCRM{L_0}\) we compute:
 </p>
 
 <ul>
-  <li><code>|ΔE|</code> in µeV for the hydrogen 1s bound state.</li>
-  <li><code>|ΔE/E|</code> and compare it against NIST precision bands (~10⁻¹⁰ and ~10⁻¹²).</li>
+  <li>\(|\Quant{\Delta E}|\) in micro-eV for the hydrogen 1s bound state.</li>
+  <li>\(|\Quant{\Delta E / E}|\) and compare it against NIST precision bands (~10<sup>-10</sup> and ~10<sup>-12</sup>).</li>
 </ul>
 
 <p>
@@ -229,11 +358,11 @@ The script outputs:
 </p>
 
 <ul>
-  <li>A helix table with best-fit <code>(n,m)</code>, <code>κ</code>, <code>τ</code>, and inferred <code>L₀</code>.</li>
+  <li>A helix table with best-fit \((\Quant{n},\Quant{m})\), \(\Tor{\kappa}\), \(\Tor{\tau}\), and inferred \(\XCRM{L_0}\).</li>
   <li>Two plots:
     <ul>
-      <li>|ΔE₁ₛ| vs <code>L₀</code> in µeV (log–log).</li>
-      <li>|ΔE/E| vs <code>L₀</code> compared to NIST bands.</li>
+      <li>\(|\Quant{\Delta E_{1s}}|\) vs \(\XCRM{L_0}\) in micro-eV (log-log).</li>
+      <li>\(|\Quant{\Delta E / E}|\) vs \(\XCRM{L_0}\) compared to NIST bands.</li>
     </ul>
   </li>
   <li>A JSON file <code>stur_helix_spectrum.json</code> with all key arrays and fit results.</li>
@@ -247,7 +376,13 @@ The script outputs:
 """
 STUR Helix TOE Verifier – Geometry + Spectrum
 ---------------------------------------------
-A) Helix κ–τ quantization:
+Derivation chain context:
+   Z₃ helix boundary condition: R(X + L_X) = R_{2π/3} · R(X)
+   Rotation matrix: [[-½, -√3/2], [√3/2, -½]]
+   Vacuum: R₁ = v cos(2πX/3L_X), R₂ = v sin(2πX/3L_X)
+   Three generations from φ_g = 2πg/3, g ∈ {0,1,2}
+
+A) Helix κ–τ quantization (phenomenological extension):
    - Fits discrete (n,m) to observed helices
    - Infers universal L0 from
        L0 = 1 / sqrt[(n^2+m^2)(κ^2+τ^2)]
@@ -453,7 +588,7 @@ hydrogen 1s shift plots, and the exported <code>stur_helix_spectrum.json</code>.
 </p>
 
 <footer>
-© 2025 STUR Physics Lab · Helix TOE Verifier · Unified Resistance Geometry &amp; Spectrum
+© 2025-2026 STUR Physics Lab · Helix TOE Verifier · Unified Resistance Geometry &amp; Spectrum
 </footer>
 
 <script>
