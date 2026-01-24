@@ -68,6 +68,7 @@
   // ============================================================
 
   let shareMenuEl = null;
+  let shareMenuTriggerEl = null; // Track element that opened share menu for focus restoration
 
   /**
    * Social share platforms configuration
@@ -377,9 +378,14 @@
    * Open share menu
    */
   STUR.openShareMenu = function() {
+    // Save current focus for restoration when menu closes
+    shareMenuTriggerEl = document.activeElement;
     const menu = createShareMenu();
     requestAnimationFrame(() => {
       menu.classList.add('open');
+      // Focus first interactive element for accessibility
+      const firstOption = menu.querySelector('.stur-share-option, .stur-share-menu-close');
+      if (firstOption) firstOption.focus();
     });
     document.body.style.overflow = 'hidden';
   };
@@ -391,6 +397,11 @@
     if (shareMenuEl) {
       shareMenuEl.classList.remove('open');
       document.body.style.overflow = '';
+      // Restore focus to element that opened the menu
+      if (shareMenuTriggerEl && typeof shareMenuTriggerEl.focus === 'function') {
+        shareMenuTriggerEl.focus();
+        shareMenuTriggerEl = null;
+      }
     }
   };
 
@@ -569,10 +580,15 @@
       info: 'info'
     };
 
-    toast.innerHTML = `
-      <span class="stur-icon icon-${iconMap[type] || 'info'} md" style="color:var(--neon-${type === 'error' ? 'red' : type === 'success' ? 'green' : type === 'warning' ? 'gold' : 'cyan'});flex-shrink:0"></span>
-      <span style="flex:1">${message}</span>
-    `;
+    // Build toast content safely (avoid innerHTML with user content for XSS protection)
+    const iconSpan = STUR.createElement('span', {
+      className: `stur-icon icon-${iconMap[type] || 'info'} md`,
+      style: `color:var(--neon-${type === 'error' ? 'red' : type === 'success' ? 'green' : type === 'warning' ? 'gold' : 'cyan'});flex-shrink:0`
+    });
+    const messageSpan = STUR.createElement('span', { style: 'flex:1' });
+    messageSpan.textContent = message; // Safe: uses textContent instead of innerHTML
+    toast.appendChild(iconSpan);
+    toast.appendChild(messageSpan);
 
     // Allow dismissing by clicking
     toast.addEventListener('click', () => {
@@ -1001,14 +1017,22 @@
   // MODAL UTILITIES
   // ============================================================
 
+  // Track modal trigger elements for focus restoration
+  const modalTriggers = new Map();
+
   /**
    * Open a modal
    */
   STUR.openModal = function(modalId) {
     const overlay = document.getElementById(modalId);
     if (overlay) {
+      // Save current focus for restoration when modal closes
+      modalTriggers.set(modalId, document.activeElement);
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
+      // Focus first interactive element in modal for accessibility
+      const firstFocusable = overlay.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (firstFocusable) firstFocusable.focus();
     }
   };
 
@@ -1020,6 +1044,12 @@
     if (overlay) {
       overlay.classList.remove('open');
       document.body.style.overflow = '';
+      // Restore focus to element that opened the modal
+      const trigger = modalTriggers.get(modalId);
+      if (trigger && typeof trigger.focus === 'function') {
+        trigger.focus();
+        modalTriggers.delete(modalId);
+      }
     }
   };
 
