@@ -55,11 +55,75 @@
   </div>
 </section>
 
-<!-- SECTION 1: THE CONFINEMENT PROBLEM -->
-<section class="section" id="problem">
-  <h2>1. The Confinement Problem</h2>
+<!-- SECTION 1: CONFINEMENT FROM Z₃ HOLONOMY -->
+<section class="section" id="z3-confinement" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">1. Confinement from Z₃ Holonomy</h2>
 
-  <h3>1.1 Experimental Fact</h3>
+  <h3>1.1 The Z₃ = center(SU(3)) Connection</h3>
+
+  <p>The \(\XCRM{Z_3}\) helix structure connects directly to QCD through the center of SU(3):</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\Tor{Z_3} = Z(SU(3)) = \{\mathbf{1}, \omega\mathbf{1}, \omega^2\mathbf{1}\}, \quad \omega = e^{2\pi i/3}}\]
+    <div class="eq-label" style="color:var(--gold);">(1.1) — Z₃ as center of SU(3)</div>
+  </div>
+
+  <p>The Z₃ helix geometry <strong>predetermines</strong> SU(3) as the color gauge group:</p>
+
+  <div class="eq boxed">
+    \[\XCRM{Z_3 \text{ helix}} \;\longleftrightarrow\; \Tor{Z_3} = Z(SU(3)) \;\longleftrightarrow\; SU(3)_{\text{color}}\]
+    <div class="eq-label">(1.2)</div>
+  </div>
+
+  <h3>1.2 Holonomy Constraint on S¹</h3>
+
+  <p>Gauge field holonomy around the compact dimension must satisfy the Z₃ helix constraint:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{W_{\text{color}} = \mathcal{P}\exp\left(ig_s \oint_{S^1} G_X dX\right), \quad W^3 = \mathbf{1}}\]
+    <div class="eq-label" style="color:var(--success);">(1.3) — Color holonomy constraint</div>
+  </div>
+
+  <h3>1.3 Center Symmetry and Confinement</h3>
+
+  <p>The holonomy can wind non-trivially around the Z₃ center:</p>
+
+  <div class="eq boxed">
+    \[W_{\text{color}} \in \Tor{Z_3} \subset SU(3)\]
+    <div class="eq-label">(1.4)</div>
+  </div>
+
+  <p>The <strong>order parameter</strong> for confinement is the Polyakov loop (thermal Wilson line):</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{\langle \text{Tr}\, W_{\text{color}} \rangle = 0 \quad \Rightarrow \quad \text{CONFINEMENT}}\]
+    <div class="eq-label" style="color:var(--success);">(1.5) — Center symmetry criterion</div>
+  </div>
+
+  <h3>1.4 Physical Interpretation</h3>
+
+  <p>When center symmetry is unbroken (⟨Tr W⟩ = 0):</p>
+  <ul>
+    <li>Isolated color charges <strong>cannot propagate</strong></li>
+    <li>Free quarks are <strong>energetically forbidden</strong></li>
+    <li>Only color-singlet states (hadrons) are physical</li>
+  </ul>
+
+  <div class="block success" style="margin-top:1rem;">
+    <div class="title">Z₃ Helix Forces Confinement</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The \(\XCRM{Z_3}\) helix geometry implies \(\Tor{Z_3} = Z(SU(3))\), which gives center symmetry.
+      Unbroken center symmetry \(\Rightarrow\) confinement. This is a <strong>geometric mechanism</strong>,
+      not an ad hoc assumption.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 2: THE CONFINEMENT PROBLEM -->
+<section class="section" id="problem">
+  <h2>2. The Confinement Problem</h2>
+
+  <h3>2.1 Experimental Fact</h3>
 
   <p>No isolated quark has ever been observed. All strongly-interacting particles are either:</p>
   <ul>
@@ -67,12 +131,12 @@
     <li><strong>Baryons</strong>: three-quark combinations (qqq)</li>
   </ul>
 
-  <h3>1.2 The Theoretical Challenge</h3>
+  <h3>2.2 The Theoretical Challenge</h3>
 
   <p>QCD is well-defined, but proving confinement from first principles is one of the
   <strong>Millennium Prize Problems</strong>. STUR provides a mechanism.</p>
 
-  <h3>1.3 Key Observables</h3>
+  <h3>2.3 Key Observables</h3>
 
   <p>Confinement is characterized by:</p>
   <ul>
@@ -82,11 +146,11 @@
   </ul>
 </section>
 
-<!-- SECTION 2: SU(3) FROM STUR -->
+<!-- SECTION 3: SU(3) FROM STUR -->
 <section class="section" id="su3" style="border:2px solid var(--gold); background:rgba(251,191,36,0.04);">
-  <h2 style="color:var(--gold);">2. SU(3) Color from STUR</h2>
+  <h2 style="color:var(--gold);">3. SU(3) Color from STUR</h2>
 
-  <h3>2.1 Gauge Group Emergence</h3>
+  <h3>3.1 Gauge Group Emergence</h3>
 
   <p>From <a href="stur_gauge_emergence_rigorous.html">Gauge Emergence</a>, the Standard Model gauge group
   is selected by MHP:</p>
@@ -96,7 +160,7 @@
     <div class="eq-label">(2.1)</div>
   </div>
 
-  <h3>2.2 Why SU(3)?</h3>
+  <h3>3.2 Why SU(3)?</h3>
 
   <p>The color group SU(3) is required for:</p>
   <ul>
@@ -105,7 +169,7 @@
     <li>Asymptotic freedom (required for UV completion)</li>
   </ul>
 
-  <h3>2.3 QCD Action</h3>
+  <h3>3.3 QCD Action</h3>
 
   <p>The SU(3) sector of the Master Action:</p>
 
@@ -117,11 +181,11 @@
   <p>where G<sup>a</sup><sub>μν</sub> = ∂<sub>μ</sub>G<sup>a</sup><sub>ν</sub> - ∂<sub>ν</sub>G<sup>a</sup><sub>μ</sub> + g<sub>s</sub>f<sup>abc</sup>G<sup>b</sup><sub>μ</sub>G<sup>c</sup><sub>ν</sub>.</p>
 </section>
 
-<!-- SECTION 3: ASYMPTOTIC FREEDOM -->
+<!-- SECTION 4: ASYMPTOTIC FREEDOM -->
 <section class="section" id="asymptotic-freedom" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
-  <h2 style="color:var(--success);">3. Asymptotic Freedom</h2>
+  <h2 style="color:var(--success);">4. Asymptotic Freedom</h2>
 
-  <h3>3.1 Beta Function</h3>
+  <h3>4.1 Beta Function</h3>
 
   <p>From <a href="stur_running_couplings.html">Running Couplings</a>, the QCD beta function is:</p>
 
@@ -132,7 +196,7 @@
 
   <p>For N<sub>c</sub> = 3 colors and n<sub>f</sub> = 6 flavors, b<sub>0</sub> = 7 > 0, so β < 0.</p>
 
-  <h3>3.2 Running Coupling</h3>
+  <h3>4.2 Running Coupling</h3>
 
   <p>The strong coupling decreases at high energy:</p>
 
@@ -143,7 +207,7 @@
 
   <p>As Q → ∞, α<sub>s</sub> → 0: quarks become free at high energy.</p>
 
-  <h3>3.3 Infrared Growth</h3>
+  <h3>4.3 Infrared Growth</h3>
 
   <p>Conversely, as Q → Λ<sub>QCD</sub> ≈ 200 MeV:</p>
 
@@ -163,11 +227,11 @@
   </div>
 </section>
 
-<!-- SECTION 4: WILSON LOOP AREA LAW -->
+<!-- SECTION 5: WILSON LOOP AREA LAW -->
 <section class="section" id="wilson-loop" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--gold);">4. Wilson Loop and Area Law</h2>
+  <h2 style="color:var(--gold);">5. Wilson Loop and Area Law</h2>
 
-  <h3>4.1 Wilson Loop Definition</h3>
+  <h3>5.1 Wilson Loop Definition</h3>
 
   <p>The Wilson loop is the holonomy around a closed curve C:</p>
 
@@ -176,7 +240,7 @@
     <div class="eq-label" style="color:var(--gold);">(4.1) — Wilson loop</div>
   </div>
 
-  <h3>4.2 Connection to Holonomy Principle</h3>
+  <h3>5.2 Connection to Holonomy Principle</h3>
 
   <p>In STUR, the Dynamical Holonomy Principle (DHP) governs holonomy dynamics:</p>
 
@@ -187,7 +251,7 @@
 
   <p>MHP minimizes Ω, but in the infrared, fluctuations become strong.</p>
 
-  <h3>4.3 Area Law Emergence</h3>
+  <h3>5.3 Area Law Emergence</h3>
 
   <p>For a rectangular loop of size R × T (R = spatial, T = temporal):</p>
 
@@ -196,7 +260,7 @@
     <div class="eq-label" style="color:var(--success);">(4.3) — Area law (confinement criterion)</div>
   </div>
 
-  <h3>4.4 String Tension</h3>
+  <h3>5.4 String Tension</h3>
 
   <p>The string tension σ arises from holonomy fluctuations in the strong-coupling regime:</p>
 
@@ -207,7 +271,7 @@
 
   <p>Lattice QCD gives σ ≈ (420 MeV)² ≈ 0.18 GeV².</p>
 
-  <h3>4.5 Physical Interpretation</h3>
+  <h3>5.5 Physical Interpretation</h3>
 
   <p>The area law means the energy to separate a quark-antiquark pair grows linearly with distance:</p>
 
@@ -219,11 +283,11 @@
   <p>At r ~ 1 fm, the energy exceeds 2m<sub>q</sub>, creating new qq̄ pairs instead of free quarks.</p>
 </section>
 
-<!-- SECTION 5: HOLONOMY MECHANISM -->
+<!-- SECTION 6: HOLONOMY MECHANISM -->
 <section class="section" id="holonomy-mechanism">
-  <h2>5. STUR Holonomy Mechanism for Confinement</h2>
+  <h2>6. STUR Holonomy Mechanism for Confinement</h2>
 
-  <h3>5.1 Color Holonomy</h3>
+  <h3>6.1 Color Holonomy</h3>
 
   <p>In STUR, the color Wilson loop around the extra dimension X:</p>
 
@@ -232,7 +296,7 @@
     <div class="eq-label">(5.1)</div>
   </div>
 
-  <h3>5.2 Center Symmetry</h3>
+  <h3>6.2 Center Symmetry</h3>
 
   <p>SU(3) has a Z<sub>3</sub> center: {1, e<sup>2πi/3</sup>, e<sup>4πi/3</sup>}. The holonomy can wind around this center:</p>
 
@@ -241,7 +305,7 @@
     <div class="eq-label">(5.2)</div>
   </div>
 
-  <h3>5.3 Confinement = Unbroken Center Symmetry</h3>
+  <h3>6.3 Confinement = Unbroken Center Symmetry</h3>
 
   <p>In the confined phase:</p>
 
@@ -252,7 +316,7 @@
 
   <p>When ⟨Tr W⟩ = 0, isolated color charges (quarks) cannot propagate—they are confined.</p>
 
-  <h3>5.4 Deconfinement Transition</h3>
+  <h3>6.4 Deconfinement Transition</h3>
 
   <p>At high temperature T > T<sub>c</sub> ≈ 170 MeV, center symmetry breaks:</p>
 
@@ -264,11 +328,11 @@
   <p>This is the quark-gluon plasma phase observed at RHIC and LHC.</p>
 </section>
 
-<!-- SECTION 6: FLUX TUBES -->
+<!-- SECTION 7: FLUX TUBES -->
 <section class="section" id="flux-tubes" style="border:2px solid var(--matter); background:rgba(244,114,182,0.04);">
-  <h2 style="color:var(--matter);">6. Color Flux Tubes</h2>
+  <h2 style="color:var(--matter);">7. Color Flux Tubes</h2>
 
-  <h3>6.1 Dual Superconductor Picture</h3>
+  <h3>7.1 Dual Superconductor Picture</h3>
 
   <p>Confinement is analogous to the Meissner effect in superconductors:</p>
 
@@ -283,7 +347,7 @@
     </tbody>
   </table>
 
-  <h3>6.2 Flux Tube Properties</h3>
+  <h3>7.2 Flux Tube Properties</h3>
 
   <p>The color field between qq̄ forms a tube:</p>
 
@@ -297,7 +361,7 @@
     <div class="eq-label">(6.2)</div>
   </div>
 
-  <h3>6.3 String Breaking</h3>
+  <h3>7.3 String Breaking</h3>
 
   <p>When the flux tube energy exceeds 2m<sub>q</sub>:</p>
 
@@ -309,11 +373,11 @@
   <p>The string breaks, producing new hadrons rather than free quarks.</p>
 </section>
 
-<!-- SECTION 7: HADRON SPECTRUM -->
+<!-- SECTION 8: HADRON SPECTRUM -->
 <section class="section" id="hadrons">
-  <h2>7. Hadron Spectrum from Confinement</h2>
+  <h2>8. Hadron Spectrum from Confinement</h2>
 
-  <h3>7.1 Meson Spectrum</h3>
+  <h3>8.1 Meson Spectrum</h3>
 
   <p>Mesons are qq̄ bound states. From the linear potential:</p>
 
@@ -324,7 +388,7 @@
 
   <p>This gives Regge trajectories observed in hadron spectroscopy.</p>
 
-  <h3>7.2 Baryon Spectrum</h3>
+  <h3>8.2 Baryon Spectrum</h3>
 
   <p>Baryons are qqq states with Y-shaped flux configuration:</p>
 
@@ -333,7 +397,7 @@
     <div class="eq-label">(7.2)</div>
   </div>
 
-  <h3>7.3 Exotic States</h3>
+  <h3>8.3 Exotic States</h3>
 
   <p>Confinement also allows:</p>
   <ul>
@@ -343,9 +407,9 @@
   </ul>
 </section>
 
-<!-- SECTION 8: DERIVATION CHAIN -->
+<!-- SECTION 9: DERIVATION CHAIN -->
 <section class="section" id="chain" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">8. Complete Derivation Chain</h2>
+  <h2 style="color:var(--success);">9. Complete Derivation Chain</h2>
 
   <div class="walkthrough" style="margin:1rem 0;">
     <div class="step">
