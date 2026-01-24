@@ -31,14 +31,14 @@ The key insight: the R-field is a **doublet** that winds through field space on 
 ```
 XCRM doublet coupling → helix geometry required → Z₃ structure natural →
 SU(3) from center(SU(3))=Z₃ → 3 generations from 3 phases → all SM derived →
-no domain wall → cosmological constant solved
+no domain wall → cosmological constant addressed
 ```
 
 **Key results:**
 - ⬛ **One starting point:** XCRM doublet coupling χ(R₁∂_XR₂ - R₂∂_XR₁)
 - ⊙ **Geometry derived:** M⁴ × S¹ with Z₃ helix structure
 - ⊙ **All SM from Z₃:** gauge group, generations, Yukawas, CP violation
-- ★ **CC solved:** No domain wall energy, XCRM provides cancellation
+- ★ **CC addressed:** No domain wall energy, XCRM provides cancellation
 - ✓ **Falsifiable:** Same predictions as before, now with complete derivation
 
 ---
@@ -1916,7 +1916,7 @@ General Relativity emerges, not assumed!
 
 ## Part IV: Cosmological Constant Solution ★
 
-### 11. Why the CC Problem is Solved
+### 11. Why the CC Problem is Addressed
 
 #### 11.1 The Problem (Review)
 
@@ -2361,7 +2361,7 @@ Matches observation!
 │                      ↓                                                      │
 │  [H.10.3] α|R|𝕋 → TEGR → General Relativity                 ⊙ DERIVED   │
 │                      ↓                                                      │
-│  [H.11.10] No domain wall + XCRM cancellation → Λ ≈ 0        ★ SOLVED    │
+│  [H.11.10] No domain wall + XCRM cancellation → Λ ≈ 0        ★ ADDRESSED │
 │                      ↓                                                      │
 │  [H.11.11] Loop corrections → Λ_obs ~ 10⁻⁴⁷ GeV⁴            ✓ MATCHES   │
 │                                                                             │
@@ -2670,7 +2670,7 @@ The theory is **FALSIFIED** if:
 | Yukawa hierarchy | Derived (overlap) | ⊙ **DERIVED** (phase overlap) |
 | CKM matrix | Derived (mismatch) | ⊙ **DERIVED** (phase mismatch) |
 | CP violation | Derived (holonomy) | ★ **NATURAL** (helix chirality) |
-| Cosmological constant | **OPEN** (7 orders off) | ★ **SOLVED** (no domain wall) |
+| Cosmological constant | **OPEN** (7 orders off) | ★ **Addressed** (no domain wall) |
 | Planck-scale QG | Beyond EFT | ★ **ADDRESSED** (Z₃ topology) |
 | Free parameters | ~2-3 | ◆ **~1** (L_X only) |
 
@@ -2742,7 +2742,7 @@ From the single XCRM doublet coupling, we derive:
 | CKM mixing | Phase mismatch | ⊙ Derived |
 | CP violation | Helix chirality | ★ Natural |
 | Gravity | TEGR | ⊙ Derived |
-| Cosmological constant ≈ 0 | No domain wall | ★ Solved |
+| Cosmological constant ≈ 0 | No domain wall | ★ Addressed |
 | Planck-scale QG | Z₃ topology | ★ Addressed |
 
 **All from one equation. Zero arbitrary choices. Falsifiable predictions.**
