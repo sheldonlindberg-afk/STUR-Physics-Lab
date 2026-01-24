@@ -87,9 +87,10 @@
     <div class="card" style="border:2px solid var(--success);background:rgba(74,222,128,0.06);">
       <strong style="color:var(--success);">STUR Consistent</strong>
       <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
-        <li>Visibility decays as Gaussian in \(\Matt{\Delta L^2}\)</li>
-        <li>No temporal oscillation at fixed \(\Matt{\Delta L}\)</li>
-        <li>Mass-independent at fixed shot time</li>
+        <li>Visibility decays as Gaussian in \(\Matt{\Delta L^2}\) (NOT oscillatory)</li>
+        <li>No temporal oscillation at fixed \(\Matt{\Delta L}\) (distinguishes from ULDM)</li>
+        <li>Mass-independent coherence length at fixed shot time</li>
+        <li>Coherence length \(\Matt{\ell_{\rm coh}} \in [0.3, 30]\) m</li>
         <li>Area scaling for loop geometries</li>
         <li>Single coherence length fits all data</li>
       </ul>
@@ -98,10 +99,11 @@
       <strong style="color:var(--error);">STUR Falsified</strong>
       <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
         <li>Visibility linear in \(\Matt{\Delta L}\) (not quadratic)</li>
-        <li>Sinusoidal temporal modulation</li>
+        <li>Sinusoidal temporal modulation (ULDM signature)</li>
         <li>Mass-dependent visibility at fixed \(\Matt{\Delta L}\)</li>
         <li>Exponential (not Gaussian) decay</li>
         <li>Multiple coherence lengths required</li>
+        <li>\(\Matt{\ell_{\rm coh}}\) outside range [0.3, 30] m</li>
       </ul>
     </div>
   </div>
@@ -119,18 +121,23 @@
     <tbody>
       <tr>
         <td><strong>Functional form</strong></td>
-        <td>\(\ln \Matt{V} \propto -\Matt{\Delta L}^2\)</td>
+        <td>\(\ln \Matt{V} \propto -\Matt{\Delta L}^2\) (Gaussian)</td>
         <td>\(\ln \Matt{V} \propto -\Matt{\Delta L}\) or oscillatory</td>
       </tr>
       <tr>
         <td><strong>Time dependence</strong></td>
         <td>None (at equilibrium)</td>
-        <td>Periodic modulation at any frequency</td>
+        <td>Periodic modulation at any frequency (ULDM signature)</td>
       </tr>
       <tr>
         <td><strong>Mass dependence</strong></td>
-        <td>None (at fixed \(\Matt{\Delta L}\))</td>
-        <td>\(\Matt{V}\) depends on particle mass</td>
+        <td>Coherence length mass-independent</td>
+        <td>\(\Matt{\ell_{\rm coh}}\) depends on particle mass</td>
+      </tr>
+      <tr>
+        <td><strong>Coherence scale</strong></td>
+        <td>\(\Matt{\ell_{\rm coh}} \in [0.3, 30]\) m</td>
+        <td>\(\Matt{\ell_{\rm coh}} < 0.3\) m or \(\Matt{\ell_{\rm coh}} > 30\) m</td>
       </tr>
       <tr>
         <td><strong>Temperature dependence</strong></td>
@@ -199,8 +206,12 @@
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
       <li><strong style="color:var(--success);">UV completion:</strong> Holonomy self-regulation provides geometric UV cutoff (<a href="stur_uv_completion.html" style="color:var(--success);">see derivation</a>)</li>
       <li><strong style="color:var(--success);">Gauge group:</strong> SU(3)×SU(2)×U(1) from MHP holonomy minimization (<a href="stur_gauge_emergence.html" style="color:var(--success);">see derivation</a>)</li>
-      <li><strong style="color:var(--success);">Generation number:</strong> 3 generations from APS index theorem on Z₃ helix (<a href="stur_sm_derivation.html" style="color:var(--success);">see derivation</a>)</li>
-      <li><strong style="color:var(--success);">Flavor structure:</strong> From MHP localization saddle points (<a href="stur_sm_derivation.html" style="color:var(--success);">see derivation</a>)</li>
+      <li><strong style="color:var(--success);">Generation number:</strong> Exactly 3 generations from \(|Z_3| = 3\) (<a href="stur_sm_derivation.html" style="color:var(--success);">see derivation</a>)</li>
+      <li><strong style="color:var(--success);">Neutrino ordering:</strong> Normal hierarchy \(m_1 < m_2 < m_3\) from bulk propagation + seesaw (<a href="stur_neutrino_derivation.html" style="color:var(--success);">see derivation</a>)</li>
+      <li><strong style="color:var(--success);">Higgs mass:</strong> \(m_H = 125.0 \pm 2.3\) GeV from Coleman-Weinberg (<a href="stur_higgs_derivation.html" style="color:var(--success);">see derivation</a>)</li>
+      <li><strong style="color:var(--success);">Wolfenstein λ:</strong> \(\lambda \approx 0.22\) from \(L_X/\sigma\) ratio (<a href="stur_ckm_derivation.html" style="color:var(--success);">see derivation</a>)</li>
+      <li><strong style="color:var(--success);">Jarlskog invariant:</strong> \(J \approx 3 \times 10^{-5}\) from Wolfenstein expansion (<a href="stur_ckm_derivation.html" style="color:var(--success);">see derivation</a>)</li>
+      <li><strong style="color:var(--success);">Fifth force:</strong> Signal at some scale from R-field coupling (<a href="stur_predictions.html" style="color:var(--success);">see predictions</a>)</li>
     </ul>
   </div>
 
@@ -275,6 +286,128 @@
   </div>
 </section>
 
+<!-- DERIVATION CHAIN PREDICTIONS -->
+<section class="section" id="sec13" style="border:2px solid var(--accent); background:linear-gradient(135deg, rgba(34,211,238,0.08) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--accent);">13. Derivation Chain Predictions (Beyond Interferometry)</h2>
+
+  <p style="color:var(--text-secondary);margin-bottom:1rem;">
+    Beyond the primary interferometric signature, STUR's derivation chain makes additional falsifiable predictions.
+    These emerge from the Z₃ helix geometry and XCRM coupling.
+  </p>
+
+  <h3>13.1 Fundamental Structure Predictions</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Prediction</th>
+        <th>STUR Value</th>
+        <th>Falsifying Observation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Generation number</strong></td>
+        <td>Exactly 3 (from \(|Z_3| = 3\))</td>
+        <td>Discovery of 4th generation</td>
+      </tr>
+      <tr>
+        <td><strong>Neutrino mass ordering</strong></td>
+        <td>Normal: \(\Matt{m_1 < m_2 < m_3}\)</td>
+        <td>Inverted ordering confirmed</td>
+      </tr>
+      <tr>
+        <td><strong>Fifth force</strong></td>
+        <td>Signal at some scale \(\lambda \sim \mu\)m</td>
+        <td>No fifth force at any scale</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>13.2 Electroweak Sector Predictions</h3>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1rem;margin:1rem 0;">
+    \[\boxed{\Matt{m_H} = 125.0 \pm 2.3 \;\text{GeV}}\]
+    <div class="eq-label" style="color:var(--gold);">(13.1) — Higgs mass from Coleman-Weinberg + Z₃ boundary</div>
+  </div>
+
+  <p style="color:var(--text-secondary);font-size:0.9rem;">
+    The Higgs emerges as the A<sub>5</sub> boundary mode; its mass is determined by Coleman-Weinberg
+    corrections from top/W loops. <a href="stur_higgs_derivation.html" style="color:var(--accent);">See derivation</a>.
+  </p>
+
+  <h3>13.3 Flavor Sector Predictions</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>STUR Prediction</th>
+        <th>Observed Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Wolfenstein \(\XCRM{\lambda}\)</strong></td>
+        <td>\(\XCRM{\lambda} \approx 0.22\) (from \(L_X/\sigma\))</td>
+        <td>\(\lambda = 0.22453 \pm 0.00044\)</td>
+      </tr>
+      <tr>
+        <td><strong>Jarlskog invariant \(\XCRM{J}\)</strong></td>
+        <td>\(\XCRM{J} \approx 3 \times 10^{-5}\)</td>
+        <td>\(J = (3.08 \pm 0.13) \times 10^{-5}\)</td>
+      </tr>
+      <tr>
+        <td><strong>CP phase \(\XCRM{\delta_{\rm CKM}}\)</strong></td>
+        <td>\(\XCRM{\delta} \approx 67°\) (holonomy flux)</td>
+        <td>\(\delta = 65.4° \pm 3.2°\)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="eq" style="margin:1rem 0;">
+    \[\XCRM{J} = \text{Im}(V_{us} V_{cb} V_{ub}^* V_{cs}^*) \approx \XCRM{\lambda^6 A^2 \eta} \approx 3 \times 10^{-5}\]
+    <div class="eq-label">(13.2) — Jarlskog invariant from Wolfenstein expansion</div>
+  </div>
+
+  <p style="color:var(--text-secondary);font-size:0.9rem;">
+    All four Wolfenstein parameters (λ, A, ρ, η) are derived from gauge quantum numbers—zero calibration.
+    <a href="stur_ckm_derivation.html" style="color:var(--accent);">See CKM derivation</a>.
+  </p>
+
+  <h3>13.4 Distinguishing STUR from ULDM</h3>
+
+  <div class="card-grid" style="margin:1rem 0;">
+    <div class="card" style="border:2px solid var(--accent);background:rgba(34,211,238,0.06);">
+      <strong style="color:var(--accent);">STUR Signature</strong>
+      <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
+        <li>Gaussian decay in \(\Matt{\Delta L^2}\)</li>
+        <li><strong>No temporal oscillations</strong></li>
+        <li>Mass-independent coherence</li>
+        <li>Geometric origin (CLT averaging)</li>
+      </ul>
+    </div>
+    <div class="card" style="border:2px solid var(--accent-violet);background:rgba(167,139,250,0.06);">
+      <strong style="color:var(--accent-violet);">ULDM Signature</strong>
+      <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
+        <li>Sinusoidal modulation</li>
+        <li><strong>Temporal oscillations</strong> at \(\omega \sim m_\phi\)</li>
+        <li>Mass-dependent effects</li>
+        <li>Wave-like dark matter origin</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Critical Distinguishing Feature</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>Temporal oscillations:</strong> ULDM predicts periodic visibility modulation at frequency
+      \(\omega \sim m_\phi c^2/\hbar\). STUR predicts <strong>no temporal modulation</strong>—the Gaussian
+      decay is static at equilibrium. This is the cleanest experimental discriminant.
+    </p>
+  </div>
+</section>
+
 <!-- THEORETICAL STATUS -->
 <section class="section" id="sec14">
   <h2>14. Framework Status: Derivation Classification</h2>
@@ -339,12 +472,15 @@
   </div>
 
   <div class="block success" style="margin-top:1.5rem;border-color:var(--success);border-width:2px;">
-    <div class="title" style="color:var(--success);">Key Falsifiable Prediction (Non-Negotiable)</div>
+    <div class="title" style="color:var(--success);">Key Falsifiable Predictions (Non-Negotiable)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>Visibility:</strong> \(\Matt{V(\Delta L)} = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) — Gaussian in \(\Delta L^2\), no time dependence, no mass dependence.
+      <strong>Primary (Interferometry):</strong> \(\Matt{V(\Delta L)} = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) — Gaussian in \(\Delta L^2\), no temporal oscillations, mass-independent coherence length, \(\Matt{\ell_{\rm coh}} \in [0.3, 30]\) m.
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      Testable with MAGIS-100, AION, and Sagnac loops. <strong>The theory stands or falls on this prediction.</strong>
+      <strong>Secondary (Particle Physics):</strong> Exactly 3 generations, normal neutrino ordering (\(m_1 < m_2 < m_3\)), Higgs mass \(m_H = 125.0 \pm 2.3\) GeV, Wolfenstein \(\lambda \approx 0.22\), Jarlskog \(J \approx 3 \times 10^{-5}\), fifth force signal at some scale.
+    </p>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      Testable with MAGIS-100, AION, Sagnac loops, JUNO, and DUNE. <strong>The theory stands or falls on these predictions.</strong>
     </p>
   </div>
 </section>
