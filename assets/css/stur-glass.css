@@ -227,18 +227,18 @@
   text-decoration: none;
 }
 
-/* Desktop: Active page gets GREEN highlight */
+/* Desktop: Active page gets BLUE highlight (matching social buttons) */
 .glass-nav-link.active {
-  color: var(--neon-green, #4ade80);
-  background: rgba(74, 222, 128, 0.1);
-  border-color: rgba(74, 222, 128, 0.35);
-  box-shadow: 0 0 10px rgba(74, 222, 128, 0.2);
+  color: var(--neon-cyan, #38bdf8);
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
 }
 
 .glass-nav-link.active:hover {
   color: #ffffff;
-  background: rgba(74, 222, 128, 0.18);
-  border-color: rgba(74, 222, 128, 0.5);
+  background: rgba(56, 189, 248, 0.18);
+  border-color: rgba(56, 189, 248, 0.5);
 }
 
 /* Social icons in nav header */
@@ -489,25 +489,25 @@
     background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(56, 189, 248, 0.15) 100%);
   }
 
-  /* ACTIVE PAGE - GREEN highlight */
+  /* ACTIVE PAGE - BLUE highlight (matching social buttons) */
   .glass-nav-link.active {
-    color: var(--neon-green, #4ade80);
-    background: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(74, 222, 128, 0.08) 100%);
-    border-color: rgba(74, 222, 128, 0.4);
+    color: var(--neon-cyan, #38bdf8);
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(96, 165, 250, 0.10) 100%);
+    border-color: rgba(56, 189, 248, 0.4);
     box-shadow:
-      0 4px 20px rgba(74, 222, 128, 0.2),
-      0 0 12px rgba(74, 222, 128, 0.15),
+      0 4px 20px rgba(56, 189, 248, 0.2),
+      0 0 12px rgba(56, 189, 248, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .glass-nav-link.active:hover,
   .glass-nav-link.active:focus {
     color: #ffffff;
-    background: linear-gradient(135deg, rgba(74, 222, 128, 0.25) 0%, rgba(74, 222, 128, 0.15) 100%);
-    border-color: rgba(74, 222, 128, 0.6);
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(96, 165, 250, 0.18) 100%);
+    border-color: rgba(56, 189, 248, 0.6);
     box-shadow:
-      0 6px 28px rgba(74, 222, 128, 0.3),
-      0 0 16px rgba(74, 222, 128, 0.2);
+      0 6px 28px rgba(56, 189, 248, 0.3),
+      0 0 16px rgba(56, 189, 248, 0.2);
   }
 
   /* Share button in mobile menu - GOLD accent for actions */
