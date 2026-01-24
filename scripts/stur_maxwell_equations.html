@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Maxwell Equations — Electromagnetism from Gauge Emergence</title>
-<meta name="description" content="Derivation of Maxwell's equations from STUR gauge emergence. The U(1) sector of the Standard Model gives classical electromagnetism.">
+<title>STUR Maxwell Equations — Electromagnetism from U(1) Gauge Emergence</title>
+<meta name="description" content="Complete derivation of Maxwell's equations from STUR Z3 helix gauge emergence. Field strength tensor, fine structure constant, and gauge invariance from helix periodicity.">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -35,11 +35,18 @@
 
 <header class="masthead">
   <h1>Maxwell's Equations from STUR</h1>
-  <p class="subtitle">Electromagnetism from U(1) Gauge Emergence</p>
+  <p class="subtitle">Electromagnetism from U(1) Gauge Emergence on Z<sub>3</sub> Helix</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    Complete derivation of classical electromagnetism from the Master Action
+    Complete derivation of classical electromagnetism from the Master Action [H.3.7]
   </p>
 </header>
+
+<!-- v2.5 Helix Badge -->
+<div style="text-align:center; margin:1rem 0;">
+  <div style="display:inline-block;padding:0.5rem 1rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;font-size:0.8rem;">
+    <span style="color:#22d3ee;font-weight:600;">v2.5 HELIX</span> — U(1)<sub>em</sub> from Z<sub>3</sub> gauge emergence
+  </div>
+</div>
 
 <!-- EXECUTIVE SUMMARY -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
@@ -48,321 +55,587 @@
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
     <div class="title" style="font-size:1.1rem;">Main Result</div>
     <p style="margin:0;color:var(--text);line-height:1.7;">
-      Maxwell's equations are <strong>not fundamental</strong> in STUR—they emerge from the U(1)<sub>em</sub>
-      sector of the gauge theory derived from the Master Action. All four Maxwell equations follow from the
-      Yang-Mills action in the Abelian limit.
+      Maxwell's equations are <strong>not fundamental</strong> in STUR. They emerge from the U(1)<sub>em</sub>
+      sector of the gauge theory derived from the Master Action on the Z<sub>3</sub> helix. All four Maxwell equations
+      follow from the Yang-Mills action in the Abelian limit, with gauge invariance arising from helix periodicity.
     </p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-top:1rem;">
+    <div style="background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:8px;border-left:3px solid var(--gold);">
+      <strong style="color:var(--gold);">Field Strength</strong><br>
+      <span style="color:var(--text-secondary);font-size:0.9rem;">F<sub>μν</sub> = ∂<sub>μ</sub>A<sub>ν</sub> - ∂<sub>ν</sub>A<sub>μ</sub></span>
+    </div>
+    <div style="background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:8px;border-left:3px solid var(--success);">
+      <strong style="color:var(--success);">Fine Structure</strong><br>
+      <span style="color:var(--text-secondary);font-size:0.9rem;">α = e<sup>2</sup>/(4πε<sub>0</sub>ℏc) ≈ 1/137</span>
+    </div>
+    <div style="background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:8px;border-left:3px solid #a78bfa;">
+      <strong style="color:#a78bfa;">Gauge Invariance</strong><br>
+      <span style="color:var(--text-secondary);font-size:0.9rem;">From Z<sub>3</sub> helix periodicity</span>
+    </div>
   </div>
 </section>
 
-<!-- SECTION 1: GAUGE EMERGENCE RECAP -->
-<section class="section" id="gauge-recap">
-  <h2>1. U(1) Gauge Field from STUR</h2>
+<!-- SECTION 1: U(1) GAUGE EMERGENCE FROM Z3 HELIX -->
+<section class="section" id="gauge-emergence">
+  <h2>1. U(1) Gauge Emergence from Z<sub>3</sub> Helix</h2>
 
-  <h3>1.1 Gauge Emergence</h3>
+  <h3>1.1 Non-Trivial Topology Forces Gauge Connection</h3>
 
-  <p>From <a href="stur_gauge_emergence_rigorous.html">Gauge Emergence</a>, the Z₃ helix topology forces
-  gauge fields to maintain parallel transport consistency:</p>
-
-  <div class="eq boxed">
-    \[\pi_1(Z₃ helix) \neq 0 \quad \Rightarrow \quad \text{Gauge connection } A_\mu \text{ required}\]
-    <div class="eq-label">(1.1)</div>
-  </div>
-
-  <h3>1.2 The Electromagnetic Field</h3>
-
-  <p>After electroweak symmetry breaking, the photon field A<sub>μ</sub><sup>em</sup> is:</p>
+  <p>From the Z<sub>3</sub> helix geometry (see <a href="stur_gauge_emergence_rigorous.html">Gauge Emergence</a>),
+  the fundamental group is non-trivial:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{A_\mu^{\rm em} = \cos\theta_W B_\mu + \sin\theta_W W_\mu^3}\]
-    <div class="eq-label" style="color:var(--gold);">(1.2) — Photon from EW mixing</div>
+    \[\boxed{\pi_1(Z_3 \text{ helix}) = \mathbb{Z} \neq 0 \quad \Rightarrow \quad \text{Gauge connection } \XCRM{A_\mu} \text{ required}}\]
+    <div class="eq-label" style="color:var(--gold);">(1.1) — Gauge emergence from topology [H.5.1]</div>
   </div>
 
-  <p>This is a massless U(1) gauge field with coupling e = g sin θ<sub>W</sub>.</p>
+  <p>Any path winding around the S<sup>1</sup> factor cannot be shrunk to a point. This topological fact
+  forces the introduction of a gauge connection to maintain parallel transport consistency.</p>
 
-  <h3>1.3 The Yang-Mills Action for U(1)</h3>
+  <details class="learn-box derivation">
+    <summary>
+      Derivation: Why Non-Trivial Topology Requires Gauge Fields
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>On a space with π<sub>1</sub> ≠ 0, the path integral naturally decomposes into topological sectors:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.4);padding:0.75rem;margin:0.75rem 0;">
+        \[\mathcal{D}\phi = \sum_{[U] \in \pi_1} \mathcal{D}\phi_{[U]}\]
+      </div>
+      <p>The holonomy U is parametrized as U = exp(i∮A), introducing the connection A. Summing over
+      topological sectors is equivalent to integrating over the gauge field:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.4);padding:0.75rem;margin:0.75rem 0;">
+        \[Z = \int \mathcal{D}A\, \sum_{[U]} \int \mathcal{D}\phi_{[U]}\, e^{iS[\phi, A]}\]
+      </div>
+      <p>This is a geometric necessity, not an assumption about observables.</p>
+    </div>
+  </details>
 
-  <p>The gauge kinetic term from the Master Action for U(1)<sub>em</sub>:</p>
+  <h3>1.2 Gauge Invariance from Helix Periodicity</h3>
+
+  <p>On the Z<sub>3</sub> helix, fields satisfy twisted boundary conditions:</p>
+
+  <div class="eq boxed">
+    \[\XCRM{\psi(X + L_X)} = e^{i\theta} \XCRM{\psi(X)}\]
+    <div class="eq-label">(1.2)</div>
+  </div>
+
+  <p>The phase θ is arbitrary and unobservable. This freedom generates the gauge symmetry:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid #a78bfa;padding:1.25rem;">
+    \[\boxed{A_\mu \to A_\mu + \partial_\mu \chi, \quad \psi \to e^{ie\chi}\psi}\]
+    <div class="eq-label" style="color:#a78bfa;">(1.3) — U(1) gauge invariance from helix periodicity</div>
+  </div>
+
+  <details class="learn-box analogy">
+    <summary>
+      Physical Intuition: The Helix Phase Freedom
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Analogy:</strong> Imagine walking around a helix staircase. When you complete one loop,
+      you're at the same angular position but a different height. The "height difference" is like the
+      gauge phase — it's a convention you can choose freely.</p>
+      <p>On the Z<sub>3</sub> helix, going around once rotates R by 120° in field space. The phase
+      of this rotation can be absorbed into a redefinition of the gauge field — this is gauge invariance.</p>
+    </div>
+  </details>
+
+  <h3>1.3 U(1)<sub>em</sub> After Electroweak Symmetry Breaking</h3>
+
+  <p>The Standard Model gauge group SU(3)<sub>C</sub> × SU(2)<sub>L</sub> × U(1)<sub>Y</sub> emerges from
+  MHP on the Z<sub>3</sub> helix [H.5.7]. After electroweak symmetry breaking, the photon field is:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\Matt{A_\mu^{\rm em}} = \cos\theta_W \Quant{B_\mu} + \sin\theta_W \Quant{W_\mu^3}}\]
+    <div class="eq-label" style="color:var(--gold);">(1.4) — Photon from electroweak mixing</div>
+  </div>
+
+  <p>This is a massless U(1) gauge field with coupling e = g sin θ<sub>W</sub>, where θ<sub>W</sub> is
+  the Weinberg angle.</p>
+</section>
+
+<!-- SECTION 2: ELECTROMAGNETIC FIELD STRENGTH TENSOR -->
+<section class="section" id="field-strength" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">2. The Electromagnetic Field Strength Tensor</h2>
+
+  <h3>2.1 Definition from Gauge Connection</h3>
+
+  <p>The field strength tensor is the curvature of the U(1) gauge connection:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\Tor{F_{\mu\nu}} = \partial_\mu \XCRM{A_\nu} - \partial_\nu \XCRM{A_\mu}}\]
+    <div class="eq-label" style="color:var(--gold);">(2.1) — Electromagnetic field strength tensor</div>
+  </div>
+
+  <p>This antisymmetric tensor encodes both the electric and magnetic fields in a Lorentz-covariant form.</p>
+
+  <h3>2.2 Yang-Mills Action for U(1)</h3>
+
+  <p>From the Master Action [H.3.7], the gauge kinetic term for U(1)<sub>em</sub>:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);">
-    \[\boxed{S_{\rm EM} = -\frac{1}{4}\int d^4x\, F_{\mu\nu}F^{\mu\nu}}\]
-    <div class="eq-label" style="color:var(--success);">(1.3) — Electromagnetic action</div>
+    \[\boxed{S_{\rm EM} = -\frac{1}{4}\int d^4x\, \Tor{F_{\mu\nu}}\Tor{F^{\mu\nu}}}\]
+    <div class="eq-label" style="color:var(--success);">(2.2) — Electromagnetic action from Master Action</div>
   </div>
 
-  <p>where the field strength tensor is:</p>
+  <details class="learn-box derivation">
+    <summary>
+      Derivation: Why -1/4 F<sup>2</sup> Is Unique
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p>The Yang-Mills action is the unique gauge-invariant kinetic term at dimension ≤ 4.
+      Gauge-invariant quantities built from A with dimension ≤ 5:</p>
+      <ul style="color:var(--text-secondary);">
+        <li><strong>F<sub>MN</sub>F<sup>MN</sup></strong> — dimension 4 (unique kinetic term)</li>
+        <li>ε<sup>MNPQR</sup>Tr(F<sub>MN</sub>F<sub>PQ</sub>A<sub>R</sub>) — dimension 5, but is a total derivative</li>
+        <li>Tr(A<sup>2</sup>) — not gauge invariant</li>
+      </ul>
+      <p>This is analogous to the Lovelock theorem for gravity: symmetry + locality + renormalizability = unique action.</p>
+    </div>
+  </details>
 
-  <div class="eq boxed">
-    \[F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu\]
-    <div class="eq-label">(1.4)</div>
-  </div>
-</section>
-
-<!-- SECTION 2: MAXWELL FROM VARIATION -->
-<section class="section" id="maxwell-derivation" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--gold);">2. Deriving Maxwell's Equations</h2>
-
-  <h3>2.1 The Full Action with Sources</h3>
-
-  <p>Including matter coupling from the Master Action:</p>
-
-  <div class="eq boxed">
-    \[S = -\frac{1}{4}\int d^4x\, F_{\mu\nu}F^{\mu\nu} - \int d^4x\, j^\mu A_\mu\]
-    <div class="eq-label">(2.1)</div>
-  </div>
-
-  <p>where j<sup>μ</sup> = (ρ, j) is the 4-current from charged matter fields.</p>
-
-  <h3>2.2 Euler-Lagrange Equations</h3>
-
-  <p>Varying with respect to A<sub>μ</sub>:</p>
-
-  <div class="eq boxed">
-    \[\frac{\delta S}{\delta A_\nu} = 0 \quad \Rightarrow \quad \partial_\mu F^{\mu\nu} = j^\nu\]
-    <div class="eq-label">(2.2)</div>
-  </div>
-
-  <h3>2.3 Inhomogeneous Maxwell Equations</h3>
-
-  <p>Expanding (2.2) in components:</p>
-
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{\nabla \cdot \mathbf{E} = \rho/\varepsilon_0}\]
-    <div class="eq-label" style="color:var(--success);">(2.3a) — Gauss's Law (DERIVED)</div>
-  </div>
-
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{\nabla \times \mathbf{B} - \frac{1}{c^2}\frac{\partial \mathbf{E}}{\partial t} = \mu_0 \mathbf{j}}\]
-    <div class="eq-label" style="color:var(--success);">(2.3b) — Ampère-Maxwell Law (DERIVED)</div>
-  </div>
-
-  <h3>2.4 Homogeneous Maxwell Equations</h3>
-
-  <p>The Bianchi identity for F<sub>μν</sub>:</p>
-
-  <div class="eq boxed">
-    \[\partial_\lambda F_{\mu\nu} + \partial_\mu F_{\nu\lambda} + \partial_\nu F_{\lambda\mu} = 0\]
-    <div class="eq-label">(2.4)</div>
-  </div>
-
-  <p>This is an identity (not an equation of motion) following from F = dA. In components:</p>
-
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{\nabla \cdot \mathbf{B} = 0}\]
-    <div class="eq-label" style="color:var(--success);">(2.5a) — No Magnetic Monopoles (DERIVED)</div>
-  </div>
-
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{\nabla \times \mathbf{E} + \frac{\partial \mathbf{B}}{\partial t} = 0}\]
-    <div class="eq-label" style="color:var(--success);">(2.5b) — Faraday's Law (DERIVED)</div>
-  </div>
-
-  <div class="block success" style="margin-top:1rem;">
-    <div class="title">All Four Maxwell Equations Derived</div>
-    <p style="margin:0;color:var(--text-secondary);">
-      Equations (2.3a,b) and (2.5a,b) are the complete set of Maxwell's equations.
-      They follow from the gauge action in the Master Action—not postulated.
-    </p>
-  </div>
-</section>
-
-<!-- SECTION 3: E AND B FIELDS -->
-<section class="section" id="fields">
-  <h2>3. Electric and Magnetic Fields</h2>
-
-  <h3>3.1 Field Definitions</h3>
+  <h3>2.3 Electric and Magnetic Fields</h3>
 
   <p>The E and B fields are components of F<sub>μν</sub>:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{E^i = F^{0i} = -\partial_0 A^i - \partial^i A^0}\]
-    <div class="eq-label" style="color:var(--gold);">(3.1) — Electric field</div>
+    \[\boxed{\Matt{E^i} = \Tor{F^{0i}} = -\partial_0 \XCRM{A^i} - \partial^i \XCRM{A^0}}\]
+    <div class="eq-label" style="color:var(--gold);">(2.3) — Electric field from F<sub>μν</sub></div>
   </div>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{B^i = -\frac{1}{2}\epsilon^{ijk}F_{jk} = (\nabla \times \mathbf{A})^i}\]
-    <div class="eq-label" style="color:var(--gold);">(3.2) — Magnetic field</div>
+    \[\boxed{\Tor{B^i} = -\frac{1}{2}\epsilon^{ijk}\Tor{F_{jk}} = (\nabla \times \XCRM{\mathbf{A}})^i}\]
+    <div class="eq-label" style="color:var(--gold);">(2.4) — Magnetic field from F<sub>μν</sub></div>
   </div>
 
-  <h3>3.2 Covariant Form</h3>
+  <h3>2.4 Covariant Matrix Form</h3>
 
   <p>The field strength tensor in matrix form:</p>
 
   <div class="eq boxed">
-    \[F^{\mu\nu} = \begin{pmatrix} 0 & -E_x/c & -E_y/c & -E_z/c \\ E_x/c & 0 & -B_z & B_y \\ E_y/c & B_z & 0 & -B_x \\ E_z/c & -B_y & B_x & 0 \end{pmatrix}\]
-    <div class="eq-label">(3.3)</div>
+    \[\Tor{F^{\mu\nu}} = \begin{pmatrix} 0 & -E_x/c & -E_y/c & -E_z/c \\ E_x/c & 0 & -B_z & B_y \\ E_y/c & B_z & 0 & -B_x \\ E_z/c & -B_y & B_x & 0 \end{pmatrix}\]
+    <div class="eq-label">(2.5)</div>
   </div>
 
-  <h3>3.3 Gauge Invariance</h3>
+  <h3>2.5 Manifest Gauge Invariance</h3>
 
   <p>Under gauge transformation A<sub>μ</sub> → A<sub>μ</sub> + ∂<sub>μ</sub>χ:</p>
 
   <div class="eq boxed">
-    \[F_{\mu\nu} \to F_{\mu\nu} \quad \text{(invariant)}\]
+    \[\Tor{F_{\mu\nu}} \to \partial_\mu(A_\nu + \partial_\nu\chi) - \partial_\nu(A_\mu + \partial_\mu\chi) = \Tor{F_{\mu\nu}} + \underbrace{(\partial_\mu\partial_\nu - \partial_\nu\partial_\mu)\chi}_{= 0}\]
+    <div class="eq-label">(2.6)</div>
+  </div>
+
+  <div class="block success" style="margin-top:1rem;">
+    <div class="title">Physical Observables Are Gauge-Invariant</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The fields E and B are gauge-invariant, hence physical observables. The potential A<sub>μ</sub>
+      is not directly observable — only its curvature F<sub>μν</sub> has physical meaning.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 3: MAXWELL EQUATIONS FROM VARIATION -->
+<section class="section" id="maxwell-derivation" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
+  <h2 style="color:var(--success);">3. Deriving Maxwell's Equations</h2>
+
+  <h3>3.1 The Full Action with Sources</h3>
+
+  <p>Including matter coupling from the Master Action:</p>
+
+  <div class="eq boxed">
+    \[S = -\frac{1}{4}\int d^4x\, \Tor{F_{\mu\nu}}\Tor{F^{\mu\nu}} - \int d^4x\, \Matt{j^\mu} \XCRM{A_\mu}\]
+    <div class="eq-label">(3.1)</div>
+  </div>
+
+  <p>where j<sup>μ</sup> = (ρ, j) is the 4-current from charged matter fields.</p>
+
+  <h3>3.2 Euler-Lagrange Equations</h3>
+
+  <p>Varying with respect to A<sub>ν</sub>:</p>
+
+  <div class="eq boxed">
+    \[\frac{\delta S}{\delta A_\nu} = 0 \quad \Rightarrow \quad \partial_\mu \Tor{F^{\mu\nu}} = \Matt{j^\nu}\]
+    <div class="eq-label">(3.2)</div>
+  </div>
+
+  <details class="learn-box derivation">
+    <summary>
+      Full Derivation: Euler-Lagrange for Gauge Fields
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>The Lagrangian density is:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.4);padding:0.75rem;margin:0.75rem 0;">
+        \[\mathcal{L} = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu} - j^\mu A_\mu\]
+      </div>
+      <p>Using F<sub>μν</sub> = ∂<sub>μ</sub>A<sub>ν</sub> - ∂<sub>ν</sub>A<sub>μ</sub>:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.4);padding:0.75rem;margin:0.75rem 0;">
+        \[\frac{\partial \mathcal{L}}{\partial A_\nu} = -j^\nu, \quad
+        \frac{\partial \mathcal{L}}{\partial(\partial_\mu A_\nu)} = -F^{\mu\nu}\]
+      </div>
+      <p>The Euler-Lagrange equation gives:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.4);padding:0.75rem;margin:0.75rem 0;">
+        \[\partial_\mu \frac{\partial \mathcal{L}}{\partial(\partial_\mu A_\nu)} - \frac{\partial \mathcal{L}}{\partial A_\nu} = 0
+        \quad \Rightarrow \quad -\partial_\mu F^{\mu\nu} + j^\nu = 0\]
+      </div>
+    </div>
+  </details>
+
+  <h3>3.3 Inhomogeneous Maxwell Equations</h3>
+
+  <p>Expanding ∂<sub>μ</sub>F<sup>μν</sup> = j<sup>ν</sup> in components:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{\nabla \cdot \Matt{\mathbf{E}} = \frac{\rho}{\varepsilon_0}}\]
+    <div class="eq-label" style="color:var(--success);">(3.3a) — Gauss's Law (DERIVED)</div>
+  </div>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{\nabla \times \Tor{\mathbf{B}} - \frac{1}{c^2}\frac{\partial \Matt{\mathbf{E}}}{\partial t} = \mu_0 \Matt{\mathbf{j}}}\]
+    <div class="eq-label" style="color:var(--success);">(3.3b) — Ampere-Maxwell Law (DERIVED)</div>
+  </div>
+
+  <h3>3.4 Homogeneous Maxwell Equations</h3>
+
+  <p>The Bianchi identity for F<sub>μν</sub> is a mathematical identity, not an equation of motion:</p>
+
+  <div class="eq boxed">
+    \[\partial_\lambda \Tor{F_{\mu\nu}} + \partial_\mu \Tor{F_{\nu\lambda}} + \partial_\nu \Tor{F_{\lambda\mu}} = 0\]
     <div class="eq-label">(3.4)</div>
   </div>
 
-  <p>Physical fields E and B are gauge-invariant observables.</p>
+  <p>This follows from F = dA (the field strength is an exact form). In components:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{\nabla \cdot \Tor{\mathbf{B}} = 0}\]
+    <div class="eq-label" style="color:var(--success);">(3.5a) — No Magnetic Monopoles (DERIVED)</div>
+  </div>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{\nabla \times \Matt{\mathbf{E}} + \frac{\partial \Tor{\mathbf{B}}}{\partial t} = 0}\]
+    <div class="eq-label" style="color:var(--success);">(3.5b) — Faraday's Law (DERIVED)</div>
+  </div>
+
+  <div class="block success" style="margin-top:1rem;border-width:3px;">
+    <div class="title" style="font-size:1.1rem;">All Four Maxwell Equations Derived</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Equations (3.3a,b) and (3.5a,b) are the complete set of Maxwell's equations.
+      They follow from the gauge action in the Master Action — <strong>not postulated</strong>.
+    </p>
+  </div>
 </section>
 
-<!-- SECTION 4: WAVE EQUATION -->
-<section class="section" id="waves" style="border:2px solid #22d3ee; background:rgba(34,211,238,0.04);">
-  <h2 style="color:#22d3ee;">4. Electromagnetic Waves</h2>
+<!-- SECTION 4: FINE STRUCTURE CONSTANT -->
+<section class="section" id="fine-structure" style="border:2px solid #a78bfa; background:rgba(167,139,250,0.04);">
+  <h2 style="color:#a78bfa;">4. The Fine Structure Constant</h2>
 
-  <h3>4.1 Wave Equation from Maxwell</h3>
+  <h3>4.1 Definition and Value</h3>
+
+  <p>The electromagnetic coupling strength is encoded in the fine structure constant:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid #a78bfa;padding:1.25rem;">
+    \[\boxed{\Quant{\alpha} = \frac{e^2}{4\pi\varepsilon_0\hbar c} \approx \frac{1}{137.036}}\]
+    <div class="eq-label" style="color:#a78bfa;">(4.1) — Fine structure constant</div>
+  </div>
+
+  <p>This dimensionless number characterizes the strength of electromagnetic interactions.</p>
+
+  <h3>4.2 Relation to Electroweak Couplings</h3>
+
+  <p>In STUR, α emerges from the electroweak sector after symmetry breaking. The electromagnetic
+  coupling e is related to the SU(2)<sub>L</sub> × U(1)<sub>Y</sub> couplings by:</p>
+
+  <div class="eq boxed">
+    \[e = g_2 \sin\theta_W = g_1 \cos\theta_W\]
+    <div class="eq-label">(4.2)</div>
+  </div>
+
+  <p>Therefore the fine structure constant is:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid #a78bfa;">
+    \[\boxed{\Quant{\alpha} = \frac{g_1^2 g_2^2}{4\pi(g_1^2 + g_2^2)}}\]
+    <div class="eq-label" style="color:#a78bfa;">(4.3) — α from electroweak unification</div>
+  </div>
+
+  <details class="learn-box derivation">
+    <summary>
+      Derivation: Fine Structure from Weinberg Angle
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>The electroweak mixing gives:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.4);padding:0.75rem;margin:0.75rem 0;">
+        \[\tan\theta_W = \frac{g_1}{g_2}\]
+      </div>
+      <p>The electromagnetic coupling is:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.4);padding:0.75rem;margin:0.75rem 0;">
+        \[e = \frac{g_1 g_2}{\sqrt{g_1^2 + g_2^2}}\]
+      </div>
+      <p>Therefore:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.4);padding:0.75rem;margin:0.75rem 0;">
+        \[\alpha = \frac{e^2}{4\pi} = \frac{g_1^2 g_2^2}{4\pi(g_1^2 + g_2^2)}\]
+      </div>
+      <p>At M<sub>Z</sub>: g<sub>1</sub> ≈ 0.357, g<sub>2</sub> ≈ 0.652, giving α<sup>-1</sup> ≈ 128
+      (running to low energy gives ≈ 137).</p>
+    </div>
+  </details>
+
+  <h3>4.3 Running of α with Energy</h3>
+
+  <p>From <a href="stur_running_couplings.html">Running Couplings</a>, α runs with energy scale Q:</p>
+
+  <div class="eq boxed">
+    \[\Quant{\alpha^{-1}(Q)} = \Quant{\alpha^{-1}(M_Z)} - \frac{1}{3\pi}\sum_f Q_f^2 \ln\frac{Q}{M_Z}\]
+    <div class="eq-label">(4.4)</div>
+  </div>
+
+  <p>The running is due to vacuum polarization from charged fermion loops. At low energies
+  (Q → 0), α<sup>-1</sup> → 137.036.</p>
+
+  <details class="learn-box example">
+    <summary>
+      Example: α at Different Scales
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <table style="width:100%;color:var(--text-secondary);">
+        <thead>
+          <tr><th>Scale</th><th>α<sup>-1</sup></th><th>Physical Context</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Q → 0</td><td>137.036</td><td>Atomic physics, chemistry</td></tr>
+          <tr><td>Q = m<sub>e</sub></td><td>137.03</td><td>Electron mass</td></tr>
+          <tr><td>Q = M<sub>Z</sub></td><td>128.9</td><td>Z boson mass</td></tr>
+          <tr><td>Q = M<sub>GUT</sub></td><td>~25</td><td>Grand unification</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+</section>
+
+<!-- SECTION 5: ELECTROMAGNETIC WAVES -->
+<section class="section" id="waves" style="border:2px solid #22d3ee; background:rgba(34,211,238,0.04);">
+  <h2 style="color:#22d3ee;">5. Electromagnetic Waves</h2>
+
+  <h3>5.1 Wave Equation from Maxwell</h3>
 
   <p>In vacuum (ρ = 0, j = 0), combining Maxwell equations:</p>
 
   <div class="eq law" style="background:#000;border:2px solid #22d3ee;">
-    \[\boxed{\nabla^2 \mathbf{E} - \frac{1}{c^2}\frac{\partial^2 \mathbf{E}}{\partial t^2} = 0}\]
-    <div class="eq-label" style="color:#22d3ee;">(4.1) — EM wave equation (DERIVED)</div>
+    \[\boxed{\nabla^2 \Matt{\mathbf{E}} - \frac{1}{c^2}\frac{\partial^2 \Matt{\mathbf{E}}}{\partial t^2} = 0}\]
+    <div class="eq-label" style="color:#22d3ee;">(5.1) — EM wave equation (DERIVED)</div>
   </div>
 
   <p>Similarly for B. This gives propagating waves with speed:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);">
-    \[\boxed{c = \frac{1}{\sqrt{\varepsilon_0 \mu_0}} = 299,792,458\, \text{m/s}}\]
-    <div class="eq-label" style="color:var(--success);">(4.2) — Speed of light (DERIVED)</div>
+    \[\boxed{c = \frac{1}{\sqrt{\varepsilon_0 \mu_0}} = 299{,}792{,}458\, \text{m/s}}\]
+    <div class="eq-label" style="color:var(--success);">(5.2) — Speed of light (DERIVED)</div>
   </div>
 
-  <h3>4.2 Photon as Gauge Boson</h3>
+  <h3>5.2 Photon as Gauge Boson</h3>
 
-  <p>Quantizing the electromagnetic field gives the photon—the massless gauge boson of U(1)<sub>em</sub>:</p>
+  <p>Quantizing the electromagnetic field gives the photon — the massless gauge boson of U(1)<sub>em</sub>:</p>
 
   <div class="eq boxed">
-    \[A_\mu(x) = \int \frac{d^3k}{(2\pi)^3 2\omega_k} \sum_{\lambda} \left[\varepsilon_\mu^\lambda(k) a_\lambda(k) e^{-ik\cdot x} + \text{h.c.}\right]\]
-    <div class="eq-label">(4.3)</div>
+    \[\XCRM{A_\mu(x)} = \int \frac{d^3k}{(2\pi)^3 2\omega_k} \sum_{\lambda} \left[\varepsilon_\mu^\lambda(k) a_\lambda(k) e^{-ik\cdot x} + \text{h.c.}\right]\]
+    <div class="eq-label">(5.3)</div>
   </div>
 
-  <p>where ε<sup>λ</sup> are polarization vectors and a<sub>λ</sub> are annihilation operators.</p>
+  <p>where ε<sup>λ</sup> are polarization vectors (two physical polarizations) and a<sub>λ</sub> are annihilation operators.</p>
+
+  <div class="block" style="border-color:#22d3ee;background:rgba(34,211,238,0.08);">
+    <div class="title" style="color:#22d3ee;">Photon Properties from STUR</div>
+    <ul style="margin:0;color:var(--text-secondary);">
+      <li><strong>Mass = 0:</strong> U(1)<sub>em</sub> is unbroken after EWSB</li>
+      <li><strong>Spin = 1:</strong> From Lorentz representation of A<sub>μ</sub></li>
+      <li><strong>2 polarizations:</strong> Gauge invariance removes 2 of 4 degrees of freedom</li>
+    </ul>
+  </div>
 </section>
 
-<!-- SECTION 5: COUPLING TO MATTER -->
+<!-- SECTION 6: COUPLING TO MATTER -->
 <section class="section" id="matter" style="border:2px solid var(--matter); background:rgba(244,114,182,0.04);">
-  <h2 style="color:var(--matter);">5. Coupling to Charged Matter</h2>
+  <h2 style="color:var(--matter);">6. Coupling to Charged Matter</h2>
 
-  <h3>5.1 Minimal Coupling</h3>
+  <h3>6.1 Minimal Coupling</h3>
 
-  <p>From the gauge principle, matter couples via:</p>
+  <p>From the gauge principle, matter couples via covariant derivative:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--matter);">
-    \[\boxed{\partial_\mu \to D_\mu = \partial_\mu + ieA_\mu}\]
-    <div class="eq-label" style="color:var(--matter);">(5.1) — Minimal coupling</div>
+    \[\boxed{\partial_\mu \to D_\mu = \partial_\mu + ie\XCRM{A_\mu}}\]
+    <div class="eq-label" style="color:var(--matter);">(6.1) — Minimal coupling</div>
   </div>
 
-  <h3>5.2 Current Conservation</h3>
+  <p>This prescription ensures gauge invariance of the matter Lagrangian.</p>
+
+  <h3>6.2 Current Conservation</h3>
 
   <p>The Noether current from gauge symmetry:</p>
 
   <div class="eq boxed">
-    \[j^\mu = e\bar{\psi}\gamma^\mu\psi\]
-    <div class="eq-label">(5.2)</div>
+    \[\Matt{j^\mu} = e\bar{\psi}\gamma^\mu\psi\]
+    <div class="eq-label">(6.2)</div>
   </div>
 
-  <p>satisfies ∂<sub>μ</sub>j<sup>μ</sup> = 0 (charge conservation).</p>
+  <p>satisfies ∂<sub>μ</sub>j<sup>μ</sup> = 0 (charge conservation). This is the source for Maxwell's equations.</p>
 
-  <h3>5.3 Lorentz Force</h3>
+  <h3>6.3 Lorentz Force</h3>
 
   <p>The force on a charged particle follows from the matter action:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--matter);">
-    \[\boxed{\mathbf{F} = q(\mathbf{E} + \mathbf{v} \times \mathbf{B})}\]
-    <div class="eq-label" style="color:var(--matter);">(5.3) — Lorentz force (DERIVED)</div>
+    \[\boxed{\Matt{\mathbf{F}} = q(\Matt{\mathbf{E}} + \mathbf{v} \times \Tor{\mathbf{B}})}\]
+    <div class="eq-label" style="color:var(--matter);">(6.3) — Lorentz force (DERIVED)</div>
   </div>
+
+  <details class="learn-box derivation">
+    <summary>
+      Derivation: Lorentz Force from Action Principle
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p>The action for a relativistic charged particle in an EM field:</p>
+      <div class="eq" style="background:rgba(0,0,0,0.4);padding:0.75rem;margin:0.75rem 0;">
+        \[S = -mc\int ds - q\int A_\mu dx^\mu\]
+      </div>
+      <p>Varying with respect to the particle trajectory x<sup>μ</sup>(τ):</p>
+      <div class="eq" style="background:rgba(0,0,0,0.4);padding:0.75rem;margin:0.75rem 0;">
+        \[m\frac{du^\mu}{d\tau} = qF^{\mu\nu}u_\nu\]
+      </div>
+      <p>In 3-vector notation, this becomes the Lorentz force law.</p>
+    </div>
+  </details>
 </section>
 
-<!-- SECTION 6: FINE STRUCTURE CONSTANT -->
-<section class="section" id="alpha">
-  <h2>6. The Fine Structure Constant</h2>
-
-  <h3>6.1 Definition</h3>
-
-  <p>The electromagnetic coupling strength:</p>
-
-  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{\alpha = \frac{e^2}{4\pi\varepsilon_0\hbar c} \approx \frac{1}{137.036}}\]
-    <div class="eq-label" style="color:var(--gold);">(6.1) — Fine structure constant</div>
-  </div>
-
-  <h3>6.2 Relation to Electroweak</h3>
-
-  <p>In STUR, α is determined by the EW couplings:</p>
-
-  <div class="eq boxed">
-    \[\alpha = \frac{g_1^2 g_2^2}{4\pi(g_1^2 + g_2^2)} \sin^2\theta_W\]
-    <div class="eq-label">(6.2)</div>
-  </div>
-
-  <h3>6.3 Running Coupling</h3>
-
-  <p>From <a href="stur_running_couplings.html">Running Couplings</a>, α runs with energy:</p>
-
-  <div class="eq boxed">
-    \[\alpha^{-1}(Q) = \alpha^{-1}(M_Z) - \frac{1}{3\pi}\sum_f Q_f^2 \ln\frac{Q}{M_Z}\]
-    <div class="eq-label">(6.3)</div>
-  </div>
-</section>
-
-<!-- SECTION 7: DERIVATION CHAIN -->
+<!-- SECTION 7: COMPLETE DERIVATION CHAIN -->
 <section class="section" id="chain" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
   <h2 style="color:var(--success);">7. Complete Derivation Chain</h2>
 
   <div class="walkthrough" style="margin:1rem 0;">
     <div class="step">
       <div class="step-content">
-        <strong>Master Action on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub></strong><br>
-        Contains gauge kinetic term -¼F<sub>MN</sub>F<sup>MN</sup>
+        <strong>Master Action on M<sup>4</sup> × S<sup>1</sup></strong><br>
+        Contains gauge kinetic term -1/4 F<sub>MN</sub>F<sup>MN</sup> [H.3.7]
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Gauge Emergence</strong><br>
-        Topology forces gauge connection A<sub>μ</sub>
+        <strong>Z<sub>3</sub> Helix Topology</strong><br>
+        π<sub>1</sub> ≠ 0 forces gauge connection A<sub>μ</sub>
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>SM Gauge Group</strong><br>
-        MHP selects SU(3) × SU(2) × U(1)
+        <strong>MHP Selects Gauge Group</strong><br>
+        SU(3) × SU(2) × U(1) from holonomy minimum [H.5.7]
       </div>
     </div>
     <div class="step">
       <div class="step-content">
         <strong>Electroweak Breaking</strong><br>
-        Higgs VEV → U(1)<sub>em</sub> survives
+        Higgs VEV → U(1)<sub>em</sub> survives as unbroken gauge symmetry
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Photon Field</strong><br>
+        <strong>Photon Field Emerges</strong><br>
         A<sup>em</sup><sub>μ</sub> = cos θ<sub>W</sub> B<sub>μ</sub> + sin θ<sub>W</sub> W<sup>3</sup><sub>μ</sub>
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Euler-Lagrange</strong><br>
-        ∂<sub>μ</sub>F<sup>μν</sup> = j<sup>ν</sup>
+        <strong>Euler-Lagrange Variation</strong><br>
+        ∂<sub>μ</sub>F<sup>μν</sup> = j<sup>ν</sup> (equations of motion)
       </div>
     </div>
     <div class="step">
       <div class="step-content">
         <strong>Maxwell Equations</strong><br>
-        ∇·E = ρ, ∇×B = j + ∂E/∂t, etc.
+        Gauss, Ampere-Maxwell, Faraday, no monopoles — all derived
       </div>
     </div>
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\text{Master Action} \;\xrightarrow{\text{gauge}}\; F_{\mu\nu} \;\xrightarrow{\text{EW}}\; A^{\rm em}_\mu \;\xrightarrow{\text{E-L}}\; \text{Maxwell}}\]
+    \[\boxed{\text{XCRM} \;\xrightarrow{\text{Z}_3}\; F_{MN} \;\xrightarrow{\text{MHP}}\; G_{\rm SM} \;\xrightarrow{\text{EWSB}}\; A^{\rm em}_\mu \;\xrightarrow{\text{E-L}}\; \text{Maxwell}}\]
     <div class="eq-label" style="color:var(--success);">Complete Electromagnetism Derivation</div>
   </div>
 
-  <div class="block success" style="margin-top:1rem;">
-    <div class="title">Maxwell Is Not Fundamental</div>
+  <div class="block success" style="margin-top:1rem;border-width:3px;">
+    <div class="title" style="font-size:1.1rem;">Maxwell Is Not Fundamental</div>
     <p style="margin:0;color:var(--text-secondary);">
       Maxwell's equations are the low-energy, Abelian limit of the gauge theory from the Master Action.
-      They are <strong>derived consequences</strong>, not axioms.
+      They are <strong>derived consequences</strong> of the Z<sub>3</sub> helix geometry, not axioms.
+      The fine structure constant, gauge invariance, and all of classical electromagnetism follow from
+      a single starting point: the XCRM doublet coupling.
     </p>
   </div>
+</section>
+
+<!-- EQUATION SUMMARY TABLE -->
+<section class="section" id="summary">
+  <h2>Equation Summary</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Eq.</th>
+        <th>Name</th>
+        <th>Formula</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>(2.1)</td>
+        <td>Field Strength</td>
+        <td>F<sub>μν</sub> = ∂<sub>μ</sub>A<sub>ν</sub> - ∂<sub>ν</sub>A<sub>μ</sub></td>
+        <td style="color:var(--success);">Derived</td>
+      </tr>
+      <tr>
+        <td>(3.3a)</td>
+        <td>Gauss's Law</td>
+        <td>∇·E = ρ/ε<sub>0</sub></td>
+        <td style="color:var(--success);">Derived</td>
+      </tr>
+      <tr>
+        <td>(3.3b)</td>
+        <td>Ampere-Maxwell</td>
+        <td>∇×B - (1/c<sup>2</sup>)∂E/∂t = μ<sub>0</sub>j</td>
+        <td style="color:var(--success);">Derived</td>
+      </tr>
+      <tr>
+        <td>(3.5a)</td>
+        <td>No Monopoles</td>
+        <td>∇·B = 0</td>
+        <td style="color:var(--success);">Derived</td>
+      </tr>
+      <tr>
+        <td>(3.5b)</td>
+        <td>Faraday's Law</td>
+        <td>∇×E + ∂B/∂t = 0</td>
+        <td style="color:var(--success);">Derived</td>
+      </tr>
+      <tr>
+        <td>(4.1)</td>
+        <td>Fine Structure</td>
+        <td>α = e<sup>2</sup>/(4πε<sub>0</sub>ℏc) ≈ 1/137</td>
+        <td style="color:var(--gold);">From EW</td>
+      </tr>
+      <tr>
+        <td>(6.3)</td>
+        <td>Lorentz Force</td>
+        <td>F = q(E + v×B)</td>
+        <td style="color:var(--success);">Derived</td>
+      </tr>
+    </tbody>
+  </table>
 </section>
 
 <nav class="page-nav">
@@ -371,8 +644,9 @@
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Maxwell Equations</strong></p>
-  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+  <p><strong>STUR Maxwell Equations — v2.5 Helix</strong></p>
+  <p>Derivation Chain Reference: [H.3.7], [H.5.1], [H.5.7]</p>
+  <p>&copy; 2025-2026 Sheldon Lon Lindberg</p>
 </footer>
 
 </div>

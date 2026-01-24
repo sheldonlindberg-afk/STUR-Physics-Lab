@@ -25,7 +25,7 @@
         color: #00ffcc;
         max-height: 500px;
       }
-    
+
 /* Toast notification */
 .toast {
   position: fixed;
@@ -42,6 +42,81 @@
   pointer-events: none;
 }
 .toast.show { opacity: 1; }
+
+/* Collapsible sections */
+.stur-collapsible {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border-dim);
+  border-radius: 10px;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+.stur-collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid transparent;
+  transition: background 0.2s, border-color 0.2s;
+}
+.stur-collapsible-header:hover {
+  background: rgba(255,255,255,0.05);
+}
+.stur-collapsible.open .stur-collapsible-header {
+  border-bottom-color: var(--border-dim);
+}
+.stur-collapsible-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.stur-collapsible-icon {
+  transition: transform 0.3s;
+  color: var(--text-muted);
+}
+.stur-collapsible.open .stur-collapsible-icon {
+  transform: rotate(180deg);
+}
+.stur-collapsible-content {
+  display: none;
+  padding: 1rem;
+}
+.stur-collapsible.open .stur-collapsible-content {
+  display: block;
+}
+.derivation-step {
+  padding: 0.75rem;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  border-left: 3px solid var(--accent);
+}
+.derivation-step h5 {
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+}
+.derivation-step p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.helix-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: rgba(167,139,250,0.15);
+  border: 1px solid rgba(167,139,250,0.4);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #a78bfa;
+}
 </style>
 </head>
 <body>

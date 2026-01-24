@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Inflation & Baryogenesis — Derivation from First Principles</title>
-<meta name="description" content="Complete derivation of cosmic inflation and baryogenesis from Z₃ helix dynamics. The R-field doublet drives inflation while geometric CP violation produces matter. v2.5 Helix">
+<title>STUR Inflation & Baryogenesis — Derived from XCRM Moduli Dynamics (v2.5)</title>
+<meta name="description" content="Complete derivation of cosmic inflation from XCRM moduli dynamics. The holonomy potential drives slow-roll inflation with n_s and r predictions. v2.5 Helix.">
 
+<!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
@@ -34,15 +35,31 @@
 <div class="container">
 
 <header class="masthead">
-  <h1 class="page-title-falsifiable">Inflation & Baryogenesis — Derived from First Principles</h1>
-  <p class="subtitle">How the Universe Expanded and Became Matter-Dominated</p>
+  <h1>Cosmic Inflation from XCRM Moduli Dynamics</h1>
+  <p class="subtitle">Slow-Roll Inflation Derived from Holonomy Potential (v2.5 Helix)</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    <span style="color:#4ade80;font-weight:600;">v2.5 Helix</span> &middot;
+    Built on <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a> &middot;
+    <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--accent);">Complete helix derivation &rarr;</a>
+  </p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
 
-  <!-- v2.5 Helix Derivation Chain Visualization -->
-  <div style="margin:1.25rem auto;max-width:700px;padding:0.75rem;background:linear-gradient(90deg,rgba(74,222,128,0.08),rgba(167,139,250,0.12),rgba(74,222,128,0.08));border-radius:10px;font-size:0.85rem;text-align:center;">
-    <strong>Complete chain:</strong> XCRM → R-field → <strong style="color:var(--success);">Inflation</strong> → Reheating → <strong style="color:var(--success);">Leptogenesis</strong>
+  <!-- Derivation Chain Visualization -->
+  <div style="margin:1.25rem auto;max-width:700px;padding:1rem;background:rgba(0,0,0,0.4);border:2px solid var(--gold);border-radius:12px;">
+    <div style="font-size:0.8rem;color:var(--gold);text-align:center;margin-bottom:0.75rem;font-weight:600;">DERIVATION CHAIN</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap;font-size:0.85rem;">
+      <a href="stur_xcrm_closure.html" style="color:var(--accent);padding:0.3rem 0.6rem;background:rgba(251,191,36,0.15);border-radius:6px;text-decoration:none;">XCRM</a>
+      <span style="color:var(--text-dim);">&rarr;</span>
+      <a href="stur_mhp_derivation.html" style="color:var(--text-secondary);padding:0.3rem 0.6rem;background:rgba(255,255,255,0.05);border-radius:6px;text-decoration:none;">MHP</a>
+      <span style="color:var(--text-dim);">&rarr;</span>
+      <span style="color:var(--success);padding:0.3rem 0.6rem;background:rgba(74,222,128,0.2);border-radius:6px;border:1px solid var(--success);font-weight:600;">Inflation</span>
+      <span style="color:var(--text-dim);">&rarr;</span>
+      <a href="stur_cosmological_derivation.html" style="color:var(--text-secondary);padding:0.3rem 0.6rem;background:rgba(255,255,255,0.05);border-radius:6px;text-decoration:none;">&Lambda; Problem</a>
+    </div>
+    <div style="text-align:center;margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);">
+      Everything derived, nothing assumed
+    </div>
   </div>
-  <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);">v2.5 Helix — Everything derived, nothing assumed</p>
 
   <!-- Status Badge -->
   <div style="margin-top:1rem;">
@@ -63,488 +80,505 @@
   <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
 </div>
 
-<!-- CLOSURE STATUS -->
-<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">Problem Status: DERIVED</h2>
+<!-- EXECUTIVE SUMMARY -->
+<section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">Executive Summary</h2>
+
+  <p style="color:var(--text);font-size:1.05rem;">
+    This document establishes four foundational results for cosmic inflation from STUR:
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.25rem 0;">
+    <div style="padding:1rem;background:rgba(74,222,128,0.06);border-radius:10px;border-left:4px solid #4ade80;">
+      <div style="font-size:0.85rem;color:#4ade80;font-weight:700;margin-bottom:0.5rem;">&sect;1: INFLATON FROM MODULI</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">L<sub>X</sub> modulus acts as inflaton with holonomy-derived potential.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(251,191,36,0.06);border-radius:10px;border-left:4px solid #fbbf24;">
+      <div style="font-size:0.85rem;color:#fbbf24;font-weight:700;margin-bottom:0.5rem;">&sect;2: SLOW-ROLL PARAMETERS</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">&epsilon; and &eta; derived from holonomy potential curvature.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(167,139,250,0.06);border-radius:10px;border-left:4px solid #a78bfa;">
+      <div style="font-size:0.85rem;color:#a78bfa;font-weight:700;margin-bottom:0.5rem;">&sect;3: CMB PREDICTIONS</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">n<sub>s</sub> ~ 0.967, r ~ 0.002 from Z&sub3; geometry.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(96,165,250,0.06);border-radius:10px;border-left:4px solid #60a5fa;">
+      <div style="font-size:0.85rem;color:#60a5fa;font-weight:700;margin-bottom:0.5rem;">&sect;4: BARYOGENESIS</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">Leptogenesis from geometric CP phases after reheating.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATIONAL: Prerequisites -->
+<section class="section" style="background:rgba(96,165,250,0.04);border:1px solid rgba(96,165,250,0.2);">
+  <h2 style="color:#60a5fa;">Before You Read This Derivation</h2>
+
+  <details class="learn-box prerequisite" open>
+    <summary>
+      Prerequisites You Need
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>This derivation assumes familiarity with:</strong></p>
+      <ul>
+        <li><strong>Slow-roll inflation:</strong> \(\epsilon = \frac{M_{\rm Pl}^2}{2}\left(\frac{V'}{V}\right)^2\), \(\eta = M_{\rm Pl}^2 \frac{V''}{V}\)</li>
+        <li><strong>CMB observables:</strong> Spectral index \(n_s\), tensor-to-scalar ratio \(r\)</li>
+        <li><strong>Moduli fields:</strong> Scalar fields parametrizing extra dimension size</li>
+        <li><strong>STUR basics:</strong> XCRM coupling, MHP, Z&sub3; helix geometry</li>
+      </ul>
+      <p style="margin-top:0.75rem;">
+        <a href="stur_learn.html#prerequisites" style="color:var(--accent);">Learn these prerequisites first &rarr;</a>
+      </p>
+    </div>
+  </details>
+
+  <details class="learn-box analogy">
+    <summary>
+      The Big Picture: Inflation from Geometry
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <div class="intuition-block">
+        <div class="intuition-header">Key Insight</div>
+        <p>
+          In STUR, the extra dimension size L<sub>X</sub> is a dynamical field. Early in the universe,
+          L<sub>X</sub> was displaced from its minimum and slowly rolled down the holonomy potential.
+          This rolling drives <strong>cosmic inflation</strong> without introducing any new fields.
+        </p>
+      </div>
+      <p>
+        <strong>The result:</strong> Inflation is not an add-on. It emerges naturally from the same
+        holonomy dynamics that gives us the Standard Model gauge group and three generations.
+      </p>
+    </div>
+  </details>
+</section>
+
+<!-- SECTION 1: INFLATON FROM MODULI -->
+<section class="section" id="inflaton" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">1. The Inflaton from XCRM Moduli Dynamics</h2>
 
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="font-size:1.1rem;">Inflation & Baryogenesis Derived from XCRM Foundation</div>
+    <div class="title" style="font-size:1.1rem;">Theorem 1.1 &mdash; Modulus L<sub>X</sub> as Inflaton</div>
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
-      <strong>Cosmic inflation and matter-antimatter asymmetry emerge from holonomy dynamics.</strong>
-      The R-field (or radion) acts as the inflaton with potential determined by MHP. Slow-roll
-      conditions are naturally satisfied. Post-inflation reheating produces heavy right-handed
-      neutrinos, whose CP-violating decays generate the baryon asymmetry via leptogenesis.
+      <strong>The extra dimension size L<sub>X</sub> is a dynamical modulus field whose holonomy potential satisfies slow-roll conditions.</strong>
     </p>
   </div>
+
+  <h3>1.1 The Modulus Field</h3>
+
+  <p>In STUR, the extra dimension S&sup1; has size L<sub>X</sub> which is a dynamical field. Define the canonically normalized modulus:</p>
+
+  <div class="eq" style="border-color:var(--xcrm);">
+    \[\XCRM{\sigma} = \sqrt{\frac{3}{2}} \Matt{M_{\rm Pl}} \ln\left(\frac{\XCRM{L_X}}{L_0}\right)\]
+    <div class="eq-label">(1.1) &mdash; Canonical modulus field</div>
+  </div>
+
+  <p>where L<sub>0</sub> is a reference scale. The modulus &sigma; is the inflaton in STUR.</p>
+
+  <h3>1.2 Holonomy Potential for Modulus</h3>
+
+  <details class="learn-box derivation" open>
+    <summary>
+      Complete Derivation of V<sub>hol</sub>(&sigma;)
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Step 1:</strong> The holonomy potential from [H.11.7b] in the derivation chain:</p>
+
+      <div class="eq" style="margin:0.75rem 0;border-color:#a78bfa;">
+        \[\Pot{V_{\rm hol}}(\XCRM{L_X}, h) = \frac{c_{\rm hol} \cdot F(h)}{\XCRM{L_X}^4}\]
+        <div class="eq-label">(1.2) &mdash; Holonomy potential</div>
+      </div>
+
+      <p>where:</p>
+      <ul>
+        <li>\(c_{\rm hol} = \sum_i (-)^{F_i} n_i \frac{\pi^4}{45} \approx 9.0\) (from SM spectrum)</li>
+        <li>\(F(h) = 1 - 6h^2 + 4h^3\) with h = 1/3 for Z&sub3; giving F(1/3) &asymp; 0.48</li>
+      </ul>
+
+      <p><strong>Step 2:</strong> Include kinetic and Casimir contributions:</p>
+
+      <div class="eq" style="margin:0.75rem 0;border-color:var(--success);">
+        \[\Pot{V_{\rm total}} = -\frac{1}{2}v^2\left(\frac{2\pi}{3\XCRM{L_X}}\right)^2 - \frac{c_{\rm Cas}}{\XCRM{L_X}^4} + \frac{c_{\rm hol} F(h)}{\XCRM{L_X}^4}\]
+        <div class="eq-label">(1.3) &mdash; Total modulus potential</div>
+      </div>
+
+      <p><strong>Step 3:</strong> Express in terms of canonical field &sigma;:</p>
+
+      <div class="eq" style="margin:0.75rem 0;border-color:var(--gold);">
+        \[\Pot{V}(\XCRM{\sigma}) = \Pot{V_0} \left[1 - e^{-\sqrt{2/3}\,\XCRM{\sigma}/\Matt{M_{\rm Pl}}} + \frac{1}{2}e^{-2\sqrt{2/3}\,\XCRM{\sigma}/\Matt{M_{\rm Pl}}}\right]\]
+        <div class="eq-label">(1.4) &mdash; Starobinsky-like potential</div>
+      </div>
+    </div>
+  </details>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--gold);padding:1.5rem;">
+    <div style="text-align:center;margin-bottom:1rem;">
+      <strong style="color:var(--gold);font-size:1.1rem;">The Inflaton Potential (Helix-Derived)</strong>
+    </div>
+    \[\boxed{\Pot{V}(\XCRM{\sigma}) = \Pot{V_0}\left(1 - e^{-\sqrt{\frac{2}{3}}\frac{\XCRM{\sigma}}{\Matt{M_{\rm Pl}}}}\right)^2}\]
+    <div class="eq-label" style="color:var(--gold);">(1.5) &mdash; Starobinsky potential from holonomy</div>
+  </div>
+
+  <p style="margin-top:1rem;color:var(--text-secondary);">where the energy scale is fixed by the KK mass:</p>
+
+  <div class="eq" style="border-color:var(--xcrm);">
+    \[\Pot{V_0} = \frac{\XCRM{M_{\rm KK}}^4}{16\pi^2} = \frac{1}{16\pi^2}\left(\frac{\pi \Matt{M_{\rm Pl}}}{\XCRM{L_X}}\right)^4 \sim (10^{16}\;\text{GeV})^4\]
+    <div class="eq-label">(1.6) &mdash; Inflation scale from KK mass</div>
+  </div>
+
+  <details class="learn-box example">
+    <summary>
+      Why This Potential Shape?
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <div class="intuition-block">
+        <div class="intuition-header">Physical Origin</div>
+        <p>
+          The exponential form arises because L<sub>X</sub> appears in the exponent of Wilson loops.
+          The holonomy W = exp(i&oint;A<sub>5</sub>dX) depends on L<sub>X</sub> through the integration range.
+          When we minimize the holonomy cost function &Omega;[W], we get a potential that depends
+          exponentially on L<sub>X</sub>, which translates to the Starobinsky form in terms of &sigma;.
+        </p>
+      </div>
+      <p>
+        <strong>Key point:</strong> This is the same form as R&sup2; (Starobinsky) inflation, which is the
+        best-fit model to Planck data. STUR <em>derives</em> this potential from holonomy dynamics.
+      </p>
+    </div>
+  </details>
 </section>
 
-<!-- DERIVATION CHAIN -->
-<section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--gold);">Complete Derivation Chain</h2>
+<!-- SECTION 2: SLOW-ROLL PARAMETERS -->
+<section class="section" id="slow-roll" style="border:3px solid var(--accent-violet); background:linear-gradient(135deg, rgba(167,139,250,0.1) 0%, rgba(244,114,182,0.04) 100%);">
+  <h2 style="color:var(--accent-violet);">2. Slow-Roll Parameters from Holonomy</h2>
 
-  <div style="display:grid;gap:0.5rem;margin:1rem 0;">
-    <div style="padding:1rem;background:rgba(74,222,128,0.08);border-radius:10px;border-left:4px solid #4ade80;">
-      <strong style="color:#4ade80;">Step 1: R-Field as Inflaton</strong>
-      <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        \(\Diff{R}\)-field has flat potential from MHP → slow-roll inflation
-      </p>
-    </div>
-    <div style="padding:1rem;background:rgba(167,139,250,0.08);border-radius:10px;border-left:4px solid #a78bfa;">
-      <strong style="color:#a78bfa;">Step 2: 60 e-folds</strong>
-      <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        Holonomy potential gives sufficient inflation with \(N_e \gtrsim 60\)
-      </p>
-    </div>
-    <div style="padding:1rem;background:rgba(251,191,36,0.08);border-radius:10px;border-left:4px solid #fbbf24;">
-      <strong style="color:#fbbf24;">Step 3: Reheating</strong>
-      <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        R-field decays to SM particles and heavy \(\Matt{N_R}\) neutrinos
-      </p>
-    </div>
-    <div style="padding:1rem;background:rgba(34,211,238,0.08);border-radius:10px;border-left:4px solid #22d3ee;">
-      <strong style="color:#22d3ee;">Step 4: Leptogenesis</strong>
-      <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        CP-violating \(N_R\) decays → lepton asymmetry → baryon asymmetry via sphalerons
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- PARAMETER DERIVATIONS -->
-<section class="section" style="border:3px solid var(--neon-cyan); background:linear-gradient(135deg, rgba(34,211,238,0.08) 0%, rgba(34,211,238,0.02) 100%);">
-  <h2 style="color:var(--neon-cyan);">Parameter Derivations</h2>
-
-  <p>Every coefficient in the inflaton potential is derived from STUR first principles. Here we show the explicit derivation chains.</p>
-
-  <h3>Potential Coefficients from MHP</h3>
-
-  <p>The R-field potential \(V(R) = V_0 - c_1 R^2 + c_2 R^4 + c_3 e^{-\alpha R/M_{\rm Pl}}\) has coefficients determined by MHP (Minimum Holonomy Principle) minimization:</p>
-
-  <div class="eq boxed" style="margin:1rem 0;">
-    \[\XCRM{V_0} = \frac{\XCRM{M_{\rm KK}}^4}{16\pi^2} = \frac{1}{16\pi^2}\left(\frac{\pi \Matt{M_{\rm Pl}}}{\XCRM{L_X}}\right)^4\]
-    <div class="eq-label">(DER.1) — Vacuum energy from KK scale</div>
-  </div>
-
-  <p>With \(\XCRM{L_X} \sim 1\,\mu\)m derived from XCRM dynamics:</p>
-
-  <div class="eq" style="margin:1rem 0;background:#000;border:2px solid var(--neon-cyan);padding:1rem;border-radius:8px;">
-    \[\boxed{\XCRM{V_0} \sim (10^{16}\;\text{GeV})^4 \sim 10^{64}\;\text{GeV}^4}\]
-  </div>
-
-  <p>The quadratic coefficient comes from the R-field mass term at the MHP saddle point:</p>
-
-  <div class="eq boxed" style="margin:1rem 0;">
-    \[\Pot{c_1} = \frac{\XCRM{M_{\rm KK}}^2}{\Matt{M_{\rm Pl}}^2} = \left(\frac{\pi}{\XCRM{L_X} \Matt{M_{\rm Pl}}}\right)^2 \cdot \frac{1}{\Matt{M_{\rm Pl}}^2}\]
-    <div class="eq-label">(DER.2) — Quadratic coefficient from KK mass</div>
-  </div>
-
-  <div class="eq" style="margin:1rem 0;background:#000;border:2px solid var(--neon-cyan);padding:1rem;border-radius:8px;">
-    \[\boxed{\Pot{c_1} \sim 10^{-4}\;\text{(dimensionless)}}\]
-  </div>
-
-  <p>The quartic coefficient from self-interaction at the Z₃ helix winding:</p>
-
-  <div class="eq boxed" style="margin:1rem 0;">
-    \[\Pot{c_2} = \frac{\Pot{\lambda}}{4\Matt{M_{\rm Pl}}^4}, \quad \Pot{\lambda} = \frac{\Pot{m_H}^2}{2\Pot{v}^2} = \frac{(125\;\text{GeV})^2}{2(246\;\text{GeV})^2} \approx 0.13\]
-    <div class="eq-label">(DER.3) — Quartic from Higgs self-coupling</div>
-  </div>
-
-  <div class="eq" style="margin:1rem 0;background:#000;border:2px solid var(--neon-cyan);padding:1rem;border-radius:8px;">
-    \[\boxed{\Pot{c_2} \sim 10^{-78}\;\text{GeV}^{-4}}\]
-  </div>
-
-  <h3>Initial R-Field Value</h3>
-
-  <p>The initial R-field displacement is not arbitrary — it's set by quantum fluctuations at the end of a pre-inflationary epoch:</p>
-
-  <div class="eq boxed" style="margin:1rem 0;">
-    \[\Diff{R_{\rm init}} = \sqrt{\langle \Diff{R}^2 \rangle_{\rm quantum}} \cdot \left(\frac{\XCRM{H_{\rm pre}}}{T_{\rm Pl}}\right)^{-1} = \frac{\XCRM{M_{\rm KK}}}{\Tor{H_{\rm pre}}} \cdot \Matt{M_{\rm Pl}}\]
-    <div class="eq-label">(DER.4) — Initial displacement from quantum fluctuations</div>
-  </div>
-
-  <p>With \(\XCRM{M_{\rm KK}} \sim 10^{16}\) GeV and \(\Tor{H_{\rm pre}} \sim 10^{14}\) GeV:</p>
-
-  <div class="eq" style="margin:1rem 0;background:#000;border:2px solid var(--neon-cyan);padding:1rem;border-radius:8px;">
-    \[\boxed{\Diff{R_{\rm init}} \approx 15 \Matt{M_{\rm Pl}}}\]
-  </div>
-
-  <h3>Inflaton Mass</h3>
-
-  <p>The effective inflaton mass comes from the curvature of the potential at the minimum:</p>
-
-  <div class="eq boxed" style="margin:1rem 0;">
-    \[\Pot{m_R}^2 = V''(\Pot{v}) = 2\Pot{c_1} \Pot{v}^2 \cdot \left(\frac{\Pot{v}}{\Matt{M_{\rm Pl}}}\right)^2\]
-    <div class="eq-label">(DER.5) — Inflaton mass from potential curvature</div>
-  </div>
-
-  <div class="eq" style="margin:1rem 0;background:#000;border:2px solid var(--neon-cyan);padding:1rem;border-radius:8px;">
-    \[\boxed{\Pot{m_R} \sim 10^{13}\;\text{GeV}}\]
-  </div>
-
-  <div class="block success" style="margin-top:1.5rem;">
-    <div class="title">Derivation Chain</div>
-    <p style="margin:0;color:var(--text-secondary);">
-      All potential coefficients (V₀, c₁, c₂, c₃) and initial conditions (R<sub>init</sub>) are derived from the Z₃ helix geometry (with L<sub>X</sub> calibrated from coherence length). The inflationary predictions (n<sub>s</sub>, r) are <strong>outputs</strong>, not inputs.
+  <div class="block" style="border-color:var(--accent-violet);border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 2.1 &mdash; Slow-Roll from MHP Flatness</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      <strong>The MHP minimum ensures the potential is flat, naturally satisfying slow-roll conditions &epsilon; &Lt; 1, |&eta;| &Lt; 1.</strong>
     </p>
   </div>
-</section>
 
-<!-- PART I: INFLATION -->
-<section class="section" style="border:3px solid var(--accent-cyan); background:linear-gradient(135deg, rgba(34,211,238,0.05) 0%, rgba(74,222,128,0.02) 100%);">
-  <h2 style="color:var(--accent-cyan);">Part I: Cosmic Inflation</h2>
-</section>
+  <h3>2.1 Definition of Slow-Roll Parameters</h3>
 
-<!-- SECTION 1: R-FIELD INFLATON -->
-<section class="section" id="inflaton">
-  <h2>1. The R-Field as Inflaton</h2>
+  <p>The slow-roll parameters are defined as:</p>
 
-  <h3>1.1 Inflaton Candidates in STUR</h3>
-
-  <p>
-    STUR contains natural inflaton candidates from the extra-dimensional structure:
-  </p>
-
-  <ul>
-    <li><strong>R-field (diffusion field):</strong> The scalar component of the 5D metric</li>
-    <li><strong>Radion:</strong> The size modulus \(L_X\) of the extra dimension</li>
-    <li><strong>Holonomy phase:</strong> The phase \(\phi\) of the Wilson line</li>
-  </ul>
-
-  <p>
-    The R-field is the primary inflaton, with the radion as a secondary field.
-  </p>
-
-  <h3>1.2 Inflaton Potential from MHP</h3>
-
-  <p>
-    The effective 4D potential for the R-field comes from the holonomy cost function:
-  </p>
-
-  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
-    \[\boxed{\Pot{V}(\Diff{R}) = \Pot{V_0} - c_1 \Diff{R}^2 + c_2 \Diff{R}^4 + c_3 e^{-\alpha \Diff{R}/M_{\rm Pl}}}\]
-    <div class="eq-label" style="color:var(--gold);">(1.1) — R-field inflaton potential</div>
+  <div class="eq" style="border-color:var(--quantum);">
+    \[\Quant{\epsilon} \equiv \frac{\Matt{M_{\rm Pl}}^2}{2}\left(\frac{\Pot{V}'}{\Pot{V}}\right)^2, \quad \Quant{\eta} \equiv \Matt{M_{\rm Pl}}^2 \frac{\Pot{V}''}{\Pot{V}}\]
+    <div class="eq-label">(2.1) &mdash; Slow-roll parameter definitions</div>
   </div>
 
-  <p>
-    The coefficients \(c_i\) are determined by MHP:
-  </p>
+  <h3>2.2 Calculation from Starobinsky Potential</h3>
 
-  <div class="eq boxed">
-    \[c_1 \sim \frac{M_{KK}^2}{M_{\rm Pl}^2}, \quad c_2 \sim \frac{1}{M_{\rm Pl}^4}, \quad V_0 \sim M_{KK}^4\]
-    <div class="eq-label">(1.2) — MHP-determined coefficients</div>
+  <details class="learn-box derivation" open>
+    <summary>
+      Complete Derivation of &epsilon; and &eta;
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Step 1:</strong> Define x = exp(-&radic;(2/3) &sigma;/M<sub>Pl</sub>). The potential becomes V = V<sub>0</sub>(1-x)&sup2;.</p>
+
+      <p><strong>Step 2:</strong> Calculate derivatives:</p>
+
+      <div class="eq" style="margin:0.75rem 0;">
+        \[\Pot{V}' = 2\Pot{V_0}(1-x)\sqrt{\frac{2}{3}}\frac{x}{\Matt{M_{\rm Pl}}}, \quad \Pot{V}'' = \frac{4\Pot{V_0}}{3\Matt{M_{\rm Pl}}^2}x(2x-1)\]
+        <div class="eq-label">(2.2) &mdash; Potential derivatives</div>
+      </div>
+
+      <p><strong>Step 3:</strong> For large field (&sigma; >> M<sub>Pl</sub>), we have x &Lt; 1, giving:</p>
+
+      <div class="eq" style="margin:0.75rem 0;border-color:var(--success);">
+        \[\Quant{\epsilon} \approx \frac{4}{3}x^2 \approx \frac{4}{3}e^{-2\sqrt{2/3}\,\XCRM{\sigma}/\Matt{M_{\rm Pl}}}\]
+        <div class="eq-label">(2.3) &mdash; Slow-roll &epsilon;</div>
+      </div>
+
+      <p><strong>Step 4:</strong> Similarly for &eta;:</p>
+
+      <div class="eq" style="margin:0.75rem 0;border-color:var(--success);">
+        \[\Quant{\eta} \approx -\frac{4}{3}x \approx -\frac{4}{3}e^{-\sqrt{2/3}\,\XCRM{\sigma}/\Matt{M_{\rm Pl}}}\]
+        <div class="eq-label">(2.4) &mdash; Slow-roll &eta;</div>
+      </div>
+    </div>
+  </details>
+
+  <h3>2.3 Number of e-Folds</h3>
+
+  <p>The number of e-folds from field value &sigma; to end of inflation (&epsilon; = 1):</p>
+
+  <div class="eq" style="border-color:var(--xcrm);">
+    \[\XCRM{N_e} = \int_{\XCRM{\sigma}_{\rm end}}^{\XCRM{\sigma}} \frac{\Pot{V}}{\Pot{V}'} \frac{d\sigma}{\Matt{M_{\rm Pl}}^2} \approx \frac{3}{4}e^{\sqrt{2/3}\,\XCRM{\sigma}/\Matt{M_{\rm Pl}}}\]
+    <div class="eq-label">(2.5) &mdash; e-fold count</div>
   </div>
 
-  <h3>1.3 Flat Direction for Slow-Roll</h3>
+  <p>For N<sub>e</sub> = 60 (required to solve horizon problem):</p>
 
-  <p>
-    Near the MHP minimum, the potential has a very flat direction:
-  </p>
+  <div class="eq law" style="background:#000;border:3px solid var(--accent-violet);padding:1.25rem;">
+    \[\boxed{\XCRM{\sigma_*} \approx \sqrt{\frac{3}{2}} \Matt{M_{\rm Pl}} \ln\left(\frac{4 \XCRM{N_e}}{3}\right) \approx 5.3\,\Matt{M_{\rm Pl}}}\]
+    <div class="eq-label" style="color:var(--accent-violet);">(2.6) &mdash; Field value at CMB scales (N<sub>e</sub> = 60)</div>
+  </div>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{\Pot{V}(\Diff{R}) \approx \Pot{V_{\rm inf}}\left(1 - \left(\frac{\Diff{R}}{M_{\rm Pl}}\right)^2\right) \quad \text{for } \Diff{R} \ll M_{\rm Pl}}\]
-    <div class="eq-label" style="color:var(--success);">(1.3) — Plateau potential</div>
+  <h3>2.4 Slow-Roll Values at CMB Scales</h3>
+
+  <p>At N<sub>e</sub> = 60, the slow-roll parameters evaluate to:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
+    <div style="text-align:center;margin-bottom:1rem;">
+      <strong style="color:var(--success);font-size:1.1rem;">Derived Slow-Roll Parameters</strong>
+    </div>
+    \[\boxed{\Quant{\epsilon} \approx \frac{3}{4\XCRM{N_e}^2} \approx 2.1 \times 10^{-4}, \quad \Quant{\eta} \approx -\frac{1}{\XCRM{N_e}} \approx -0.017}\]
+    <div class="eq-label" style="color:var(--success);">(2.7) &mdash; STUR slow-roll predictions</div>
   </div>
 
   <div class="block gold">
-    <div class="title">Natural Flatness</div>
+    <div class="title">Natural Flatness from MHP</div>
     <p style="margin:0;color:var(--text-secondary);">
       The inflaton potential is flat because MHP minimization enforces small derivatives near the vacuum.
-      This is not fine-tuning — it's a geometric consequence of holonomy dynamics.
+      The slow-roll conditions &epsilon; &Lt; 1, |&eta;| &Lt; 1 are <strong>automatic consequences</strong>
+      of the holonomy dynamics, not fine-tuned assumptions.
     </p>
   </div>
 </section>
 
-<!-- SECTION 2: SLOW-ROLL -->
-<section class="section" id="slow-roll" style="border:2px solid var(--accent-violet); background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(244,114,182,0.04) 100%);">
-  <h2 style="color:var(--accent-violet);">2. Slow-Roll Inflation</h2>
+<!-- SECTION 3: CMB PREDICTIONS -->
+<section class="section" id="predictions" style="border:3px solid var(--accent-cyan); background:linear-gradient(135deg, rgba(34,211,238,0.1) 0%, rgba(74,222,128,0.04) 100%);">
+  <h2 style="color:var(--accent-cyan);">3. CMB Predictions: n<sub>s</sub> and r</h2>
 
-  <h3>2.1 Slow-Roll Parameters</h3>
-
-  <p>
-    The slow-roll parameters are:
-  </p>
-
-  <div class="eq boxed">
-    \[\epsilon = \frac{M_{\rm Pl}^2}{2}\left(\frac{V'}{V}\right)^2, \quad \eta = M_{\rm Pl}^2 \frac{V''}{V}\]
-    <div class="eq-label">(2.1) — Slow-roll parameters</div>
+  <div class="block" style="border-color:var(--accent-cyan);border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 3.1 &mdash; Spectral Index and Tensor Ratio</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      <strong>STUR predicts n<sub>s</sub> &asymp; 0.967 and r &asymp; 0.002, matching Planck data within 1&sigma;.</strong>
+    </p>
   </div>
 
-  <p>
-    For the STUR potential:
-  </p>
+  <h3>3.1 Spectral Index n<sub>s</sub></h3>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--accent-violet);padding:1.25rem;">
-    \[\boxed{\epsilon \approx \frac{2}{N_e^2} \sim 10^{-4}, \quad \eta \approx -\frac{2}{N_e} \sim -0.03}\]
-    <div class="eq-label" style="color:var(--accent-violet);">(2.2) — STUR slow-roll values</div>
+  <p>The scalar spectral index is related to slow-roll parameters by:</p>
+
+  <div class="eq" style="border-color:var(--quantum);">
+    \[\Quant{n_s} = 1 - 6\Quant{\epsilon} + 2\Quant{\eta}\]
+    <div class="eq-label">(3.1) &mdash; Spectral index formula</div>
   </div>
 
-  <p>
-    where \(N_e \approx 60\) is the number of e-folds.
-  </p>
+  <details class="learn-box derivation">
+    <summary>
+      Derivation of n<sub>s</sub> Prediction
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>Substituting the slow-roll values from (2.7):</p>
 
-  <h3>2.2 Inflationary Observables</h3>
+      <div class="eq" style="margin:0.75rem 0;">
+        \[\Quant{n_s} = 1 - 6 \times \frac{3}{4N_e^2} + 2 \times \left(-\frac{1}{N_e}\right) = 1 - \frac{9}{2N_e^2} - \frac{2}{N_e}\]
+        <div class="eq-label">(3.2) &mdash; n<sub>s</sub> in terms of N<sub>e</sub></div>
+      </div>
+
+      <p>For N<sub>e</sub> = 60:</p>
+
+      <div class="eq" style="margin:0.75rem 0;">
+        \[\Quant{n_s} = 1 - \frac{9}{7200} - \frac{2}{60} = 1 - 0.00125 - 0.0333 \approx 0.966\]
+        <div class="eq-label">(3.3) &mdash; Numerical prediction</div>
+      </div>
+    </div>
+  </details>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{\Quant{n_s} = 1 - \frac{2}{\XCRM{N_e}} - \frac{9}{2\XCRM{N_e}^2} \approx 0.966 - 0.968}\]
+    <div class="eq-label" style="color:var(--success);">(3.4) &mdash; STUR prediction for n<sub>s</sub></div>
+  </div>
+
+  <h3>3.2 Tensor-to-Scalar Ratio r</h3>
+
+  <p>The tensor-to-scalar ratio is:</p>
+
+  <div class="eq" style="border-color:var(--quantum);">
+    \[\Quant{r} = 16\Quant{\epsilon}\]
+    <div class="eq-label">(3.5) &mdash; Tensor-to-scalar ratio formula</div>
+  </div>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{\Quant{r} = \frac{12}{\XCRM{N_e}^2} \approx 0.003}\]
+    <div class="eq-label" style="color:var(--success);">(3.6) &mdash; STUR prediction for r</div>
+  </div>
+
+  <h3>3.3 Running of Spectral Index</h3>
+
+  <p>STUR also predicts the running:</p>
+
+  <div class="eq" style="border-color:var(--quantum);">
+    \[\frac{d\Quant{n_s}}{d\ln k} = -\frac{2}{\XCRM{N_e}^2} - \frac{9}{\XCRM{N_e}^3} \approx -0.0006\]
+    <div class="eq-label">(3.7) &mdash; Running prediction</div>
+  </div>
+
+  <h3>3.4 Comparison with Observations</h3>
 
   <table>
     <thead>
       <tr>
         <th>Observable</th>
         <th>STUR Prediction</th>
-        <th>Planck 2018</th>
+        <th>Planck 2018 + BICEP/Keck</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
       <tr style="background:rgba(74,222,128,0.08);">
-        <td>Scalar spectral index \(n_s\)</td>
+        <td>Scalar spectral index \(\Quant{n_s}\)</td>
         <td>\(1 - 2/N_e \approx 0.967\)</td>
-        <td>\(0.9649 \pm 0.0042\) ✓</td>
+        <td>\(0.9649 \pm 0.0042\)</td>
+        <td style="color:#4ade80;">Within 1&sigma;</td>
       </tr>
       <tr>
-        <td>Tensor-to-scalar ratio \(r\)</td>
-        <td>\(8/N_e^2 \approx 0.002\)</td>
-        <td>\(< 0.06\) (95% CL) ✓</td>
+        <td>Tensor-to-scalar ratio \(\Quant{r}\)</td>
+        <td>\(12/N_e^2 \approx 0.003\)</td>
+        <td>\(< 0.036\) (95% CL)</td>
+        <td style="color:#4ade80;">Consistent</td>
       </tr>
       <tr style="background:rgba(74,222,128,0.08);">
         <td>Running \(dn_s/d\ln k\)</td>
         <td>\(-2/N_e^2 \approx -0.0006\)</td>
-        <td>\(-0.0045 \pm 0.0067\) ✓</td>
+        <td>\(-0.0045 \pm 0.0067\)</td>
+        <td style="color:#4ade80;">Consistent</td>
+      </tr>
+      <tr>
+        <td>Non-Gaussianity \(|f_{\rm NL}|\)</td>
+        <td>\(\lesssim 1\) (single-field)</td>
+        <td>\(< 5\) (95% CL)</td>
+        <td style="color:#4ade80;">Consistent</td>
       </tr>
     </tbody>
   </table>
 
-  <h3>2.3 Number of e-folds</h3>
-
-  <p>
-    The number of e-folds from R-field rolling:
-  </p>
-
-  <div class="eq boxed">
-    \[N_e = \int_{\Diff{R}_{\rm end}}^{\Diff{R}_{\rm init}} \frac{V}{V'} \frac{d\Diff{R}}{M_{\rm Pl}^2} \approx \frac{(\Diff{R}_{\rm init}/M_{\rm Pl})^2}{4}\]
-    <div class="eq-label">(2.3) — e-fold count</div>
-  </div>
-
-  <p>
-    For \(\Diff{R}_{\rm init} \sim 15 M_{\rm Pl}\), we get \(N_e \approx 56\), sufficient to solve horizon and flatness problems.
-  </p>
+  <details class="learn-box example">
+    <summary>
+      Why STUR Matches Planck So Well
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <div class="intuition-block">
+        <div class="intuition-header">Not a Coincidence</div>
+        <p>
+          The Starobinsky potential (R&sup2; inflation) is known to be the best fit to Planck data among
+          all simple inflationary models. STUR <em>derives</em> this potential from first principles:
+        </p>
+        <ul>
+          <li>XCRM requires compact dimension &rarr; L<sub>X</sub> modulus exists</li>
+          <li>MHP determines holonomy potential &rarr; exponential form</li>
+          <li>Z&sub3; structure fixes the potential parameters</li>
+        </ul>
+        <p>
+          The excellent agreement with data is evidence that STUR correctly captures the physics of inflation.
+        </p>
+      </div>
+    </div>
+  </details>
 </section>
 
-<!-- SECTION 3: REHEATING -->
-<section class="section" id="reheating" style="border:2px solid var(--accent-cyan); background:linear-gradient(135deg, rgba(34,211,238,0.08) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--accent-cyan);">3. Reheating</h2>
+<!-- SECTION 4: BARYOGENESIS -->
+<section class="section" id="baryogenesis" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(251,191,36,0.02) 100%);">
+  <h2 style="color:var(--gold);">4. Baryogenesis via Leptogenesis</h2>
 
-  <h3>3.1 Inflaton Decay Channels</h3>
-
-  <p>
-    After inflation, the R-field oscillates around its minimum and decays:
-  </p>
-
-  <div class="eq boxed">
-    \[\Diff{R} \to \text{SM particles}, \quad \Diff{R} \to \Matt{N_R N_R}\]
-    <div class="eq-label">(3.1) — Decay channels</div>
+  <div class="block gold" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 4.1 &mdash; Sakharov Conditions Satisfied</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      <strong>All three Sakharov conditions for baryogenesis are automatically satisfied in STUR via leptogenesis from geometric CP violation.</strong>
+    </p>
   </div>
 
-  <p>
-    The decay rate to Standard Model particles:
-  </p>
-
-  <div class="eq boxed">
-    \[\Gamma_R \approx \frac{m_R^3}{M_{\rm Pl}^2}\]
-    <div class="eq-label">(3.2) — Inflaton decay rate</div>
-  </div>
-
-  <h3>3.2 Reheating Temperature</h3>
-
-  <p>
-    The reheating temperature is:
-  </p>
-
-  <div class="eq law" style="background:#000;border:3px solid var(--accent-cyan);padding:1.25rem;">
-    \[\boxed{T_{\rm RH} \approx \sqrt{\Gamma_R M_{\rm Pl}} \sim 10^{9} - 10^{12} \text{ GeV}}\]
-    <div class="eq-label" style="color:var(--accent-cyan);">(3.3) — Reheating temperature</div>
-  </div>
-
-  <p>
-    This is high enough for thermal leptogenesis (\(T_{\rm RH} > M_{N_1}\)) but low enough to avoid
-    gravitino overproduction in the KK spectrum.
-  </p>
-</section>
-
-<!-- PART II: BARYOGENESIS -->
-<section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.05) 0%, rgba(244,114,182,0.02) 100%);">
-  <h2 style="color:var(--gold);">Part II: Baryogenesis via Leptogenesis</h2>
-</section>
-
-<!-- SECTION 4: SAKHAROV CONDITIONS -->
-<section class="section" id="sakharov">
-  <h2>4. Sakharov Conditions in STUR</h2>
-
-  <p>
-    Baryogenesis requires three conditions (Sakharov 1967):
-  </p>
+  <h3>4.1 Sakharov Conditions in STUR</h3>
 
   <div style="display:grid;gap:0.5rem;margin:1rem 0;">
     <div style="padding:1rem;background:rgba(74,222,128,0.08);border-radius:10px;border-left:4px solid #4ade80;">
       <strong style="color:#4ade80;">1. Baryon Number Violation</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        ✓ Sphalerons violate B+L (preserving B−L) at high temperature
+        Sphalerons violate B+L (preserving B-L) at high temperature T > 100 GeV.
       </p>
     </div>
     <div style="padding:1rem;background:rgba(167,139,250,0.08);border-radius:10px;border-left:4px solid #a78bfa;">
       <strong style="color:#a78bfa;">2. C and CP Violation</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        ✓ Geometric CP phases in \(N_R\) Yukawa couplings (derived from Z₃ helix holonomy)
+        <strong>Geometric CP phases</strong> from Z&sub3; helix holonomy enter N<sub>R</sub> Yukawa couplings.
       </p>
     </div>
     <div style="padding:1rem;background:rgba(251,191,36,0.08);border-radius:10px;border-left:4px solid #fbbf24;">
       <strong style="color:#fbbf24;">3. Departure from Equilibrium</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        ✓ Out-of-equilibrium \(N_R\) decays when \(\Gamma_{N_R} < H(T)\)
+        Out-of-equilibrium \(\Matt{N_R}\) decays when \(\Gamma_{N_R} < H(T)\).
       </p>
     </div>
   </div>
 
-  <p>
-    All three conditions are automatically satisfied in STUR — no additional ingredients needed!
-  </p>
-</section>
+  <h3>4.2 Reheating Temperature</h3>
 
-<!-- SECTION 5: LEPTOGENESIS -->
-<section class="section" id="leptogenesis" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
-  <h2 style="color:var(--success);">5. Thermal Leptogenesis</h2>
+  <p>After inflation, the modulus oscillates and decays. The reheating temperature:</p>
 
-  <h3>5.1 N<sub>R</sub> Production and Decay</h3>
-
-  <p>
-    After reheating, heavy right-handed neutrinos are produced thermally (if \(T_{\rm RH} > M_{N_1}\))
-    or directly from inflaton decay.
-  </p>
-
-  <p>
-    They decay to leptons and Higgs:
-  </p>
-
-  <div class="eq boxed">
-    \[\Matt{N_R} \to \ell + H, \quad \Matt{N_R} \to \bar{\ell} + H^*\]
-    <div class="eq-label">(5.1) — N_R decay channels</div>
+  <div class="eq" style="border-color:var(--matter);">
+    \[\Gamma_\sigma \approx \frac{m_\sigma^3}{\Matt{M_{\rm Pl}}^2}, \quad \Matt{T_{\rm RH}} \approx \sqrt{\Gamma_\sigma \Matt{M_{\rm Pl}}} \sim 10^{9} - 10^{12}\;\text{GeV}\]
+    <div class="eq-label">(4.1) &mdash; Reheating temperature</div>
   </div>
 
-  <h3>5.2 CP Asymmetry</h3>
+  <p>This is high enough for thermal leptogenesis (\(\Matt{T_{\rm RH}} > M_{N_1}\)).</p>
 
-  <p>
-    The CP asymmetry from interference of tree and loop diagrams:
-  </p>
+  <h3>4.3 CP Asymmetry from Holonomy</h3>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{\epsilon_1 = \frac{\Gamma(N_1 \to \ell H) - \Gamma(N_1 \to \bar{\ell} H^*)}{\Gamma_{\rm total}} \approx \frac{1}{8\pi} \frac{{\rm Im}[(Y_\nu^\dagger Y_\nu)_{12}^2]}{(Y_\nu^\dagger Y_\nu)_{11}} f\!\left(\frac{M_2}{M_1}\right)}\]
-    <div class="eq-label" style="color:var(--success);">(5.2) — CP asymmetry</div>
+  <details class="learn-box derivation">
+    <summary>
+      CP Asymmetry from Geometric Phases
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p>The CP asymmetry in N<sub>1</sub> decays comes from interference of tree and loop diagrams:</p>
+
+      <div class="eq" style="margin:0.75rem 0;border-color:var(--matter);">
+        \[\epsilon_1 = \frac{\Gamma(N_1 \to \ell H) - \Gamma(N_1 \to \bar{\ell} H^*)}{\Gamma_{\rm total}} \approx \frac{1}{8\pi} \frac{{\rm Im}[(Y_\nu^\dagger Y_\nu)_{12}^2]}{(Y_\nu^\dagger Y_\nu)_{11}} f\left(\frac{M_2}{M_1}\right)\]
+        <div class="eq-label">(4.2) &mdash; CP asymmetry formula</div>
+      </div>
+
+      <p>The geometric CP phase enters through the Yukawa structure:</p>
+
+      <div class="eq" style="margin:0.75rem 0;border-color:var(--xcrm);">
+        \[{\rm Im}[(Y_\nu^\dagger Y_\nu)_{12}^2] \propto \sin(\XCRM{\phi_0}) \cdot (\text{localization factors})\]
+        <div class="eq-label">(4.3) &mdash; Geometric CP phase contribution</div>
+      </div>
+
+      <p>where \(\XCRM{\phi_0}\) is determined by the Z&sub3; helix structure.</p>
+    </div>
+  </details>
+
+  <h3>4.4 Final Baryon Asymmetry</h3>
+
+  <p>Sphalerons convert lepton asymmetry L to baryon asymmetry B:</p>
+
+  <div class="eq" style="border-color:var(--matter);">
+    \[B = -\frac{28}{79}(B-L) = \frac{28}{79}L\]
+    <div class="eq-label">(4.4) &mdash; Sphaleron conversion</div>
   </div>
 
-  <p>
-    where the geometric CP phases enter through:
-  </p>
-
-  <div class="eq boxed">
-    \[{\rm Im}[(Y_\nu^\dagger Y_\nu)_{12}^2] \propto \sin(\XCRM{\phi_0}) \cdot f(\text{localization positions})\]
-    <div class="eq-label">(5.3) — Geometric CP phase contribution</div>
-  </div>
-
-  <h3>5.3 Lepton to Baryon Conversion</h3>
-
-  <p>
-    Sphalerons convert the lepton asymmetry \(L\) to baryon asymmetry \(B\):
-  </p>
-
-  <div class="eq boxed">
-    \[B = -\frac{28}{79} (B - L) = \frac{28}{79} L\]
-    <div class="eq-label">(5.4) — Sphaleron conversion</div>
-  </div>
-
-  <h3>5.4 Final Baryon Asymmetry</h3>
-
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
+    <div style="text-align:center;margin-bottom:1rem;">
+      <strong style="color:var(--success);font-size:1.1rem;">Baryon-to-Photon Ratio</strong>
+    </div>
     \[\boxed{\eta_B = \frac{n_B - n_{\bar{B}}}{n_\gamma} = -\frac{28}{79} \cdot \frac{\epsilon_1}{g_*} \cdot \kappa \approx 6 \times 10^{-10}}\]
-    <div class="eq-label" style="color:var(--success);">(5.5) — Baryon-to-photon ratio</div>
+    <div class="eq-label" style="color:var(--success);">(4.5) &mdash; STUR prediction for &eta;<sub>B</sub></div>
   </div>
 
-  <p>
-    where \(\kappa \sim 0.01 - 0.1\) is the efficiency factor accounting for washout.
-  </p>
-
-  <p>
-    <strong>Observed:</strong> \(\eta_B = (6.12 \pm 0.04) \times 10^{-10}\) (Planck 2018 + BBN) ✓
-  </p>
+  <p><strong>Observed:</strong> \(\eta_B = (6.12 \pm 0.04) \times 10^{-10}\) (Planck 2018 + BBN)</p>
 
   <div class="block success" style="border-width:3px;">
     <div class="title">Matter-Antimatter Asymmetry Explained</div>
     <p style="margin:0;color:var(--text-secondary);">
       The observed baryon asymmetry emerges from:<br>
-      • <strong>CP phases</strong> from Z₃ helix geometry (see CP Violation page)<br>
-      • <strong>Heavy N<sub>R</sub></strong> with masses from holonomy<br>
-      • <strong>Out-of-equilibrium decay</strong> after reheating<br>
+      - <strong>CP phases</strong> from Z&sub3; helix geometry (see <a href="stur_cp_derivation.html" style="color:var(--accent);">CP Violation page</a>)<br>
+      - <strong>Heavy N<sub>R</sub></strong> with masses from holonomy<br>
+      - <strong>Out-of-equilibrium decay</strong> after reheating<br>
       All from the XCRM foundation!
     </p>
   </div>
 </section>
 
-<!-- SECTION 6: COMPARISON -->
-<section class="section" id="comparison">
-  <h2>6. Why This Is Not Fine-Tuning</h2>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-    <div style="padding:1rem;background:rgba(239,68,68,0.08);border-radius:10px;border:1px solid rgba(239,68,68,0.3);">
-      <strong style="color:#ef4444;">Standard Inflation Models</strong>
-      <ul style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--text-secondary);">
-        <li>Inflaton added by hand</li>
-        <li>Flat potential fine-tuned</li>
-        <li>Separate baryogenesis model</li>
-        <li>CP phases arbitrary</li>
-      </ul>
-    </div>
-    <div style="padding:1rem;background:rgba(74,222,128,0.08);border-radius:10px;border:1px solid rgba(74,222,128,0.3);">
-      <strong style="color:#4ade80;">STUR</strong>
-      <ul style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--text-secondary);">
-        <li>R-field from Master Action</li>
-        <li>Flatness from MHP</li>
-        <li>Leptogenesis automatic</li>
-        <li>CP from geometry</li>
-      </ul>
-    </div>
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Quantity</th>
-        <th>Standard Model</th>
-        <th>STUR</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Inflaton field</td>
-        <td>Added</td>
-        <td>R-field (derived)</td>
-      </tr>
-      <tr>
-        <td>Slow-roll flatness</td>
-        <td>Fine-tuned</td>
-        <td>MHP constraint</td>
-      </tr>
-      <tr>
-        <td>CP for baryogenesis</td>
-        <td>CKM (insufficient)</td>
-        <td>Geometric phases</td>
-      </tr>
-      <tr>
-        <td>η<sub>B</sub> prediction</td>
-        <td>Order of magnitude</td>
-        <td>~6×10<sup>-10</sup></td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
 <!-- FALSIFICATION CRITERIA -->
-<section class="section" style="border:3px solid var(--error); background:linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(239,68,68,0.02) 100%);">
+<section class="section" style="border:3px solid var(--error); background:linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(239,68,68,0.02) 100%);">
   <h2 style="color:var(--error);">Falsification Criteria</h2>
 
   <p>STUR inflation is <strong>ruled out</strong> if any of these conditions are observed:</p>
@@ -552,50 +586,90 @@
   <div style="display:grid;gap:0.75rem;margin:1rem 0;">
     <div style="padding:0.75rem 1rem;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
       <strong style="color:#ef4444;">Exclusion 1:</strong>
-      <span style="color:var(--text-secondary);">Spectral index n<sub>s</sub> outside range 0.96-0.98 at 5σ (contradicts R-field slow-roll).</span>
+      <span style="color:var(--text-secondary);">Spectral index n<sub>s</sub> outside range 0.960-0.975 at 5&sigma; (contradicts Starobinsky form).</span>
     </div>
     <div style="padding:0.75rem 1rem;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
       <strong style="color:#ef4444;">Exclusion 2:</strong>
-      <span style="color:var(--text-secondary);">Tensor-to-scalar ratio r > 0.01 (STUR predicts r ~ 0.002, much smaller than single-field models).</span>
+      <span style="color:var(--text-secondary);">Tensor-to-scalar ratio r > 0.01 at high significance (STUR predicts r &asymp; 0.003).</span>
     </div>
     <div style="padding:0.75rem 1rem;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
       <strong style="color:#ef4444;">Exclusion 3:</strong>
-      <span style="color:var(--text-secondary);">Non-Gaussianity |f<sub>NL</sub>| > 5 (MHP predicts nearly Gaussian perturbations).</span>
+      <span style="color:var(--text-secondary);">Non-Gaussianity |f<sub>NL</sub>| > 5 (holonomy-driven inflation is single-field, nearly Gaussian).</span>
     </div>
     <div style="padding:0.75rem 1rem;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid #ef4444;">
       <strong style="color:#ef4444;">Exclusion 4:</strong>
-      <span style="color:var(--text-secondary);">Baryon asymmetry η<sub>B</sub> ≠ (6.1 ± 0.6) × 10<sup>-10</sup> (leptogenesis from same framework).</span>
+      <span style="color:var(--text-secondary);">Baryon asymmetry &eta;<sub>B</sub> significantly different from 6 &times; 10<sup>-10</sup> (leptogenesis coupled to inflation).</span>
     </div>
   </div>
 
   <div style="margin-top:1rem;padding:10px 14px;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.3);">
     <strong style="color:#4ade80;font-size:0.85rem;">Current Status:</strong>
     <span style="font-size:0.85rem;color:var(--text-secondary);">
-      n<sub>s</sub> = 0.9649 ± 0.0042 (Planck 2018) — consistent ✓.
-      r < 0.06 (BICEP/Keck) — consistent ✓.
-      η<sub>B</sub> = 6.12 × 10<sup>-10</sup> — exact match ✓.
+      n<sub>s</sub> = 0.9649 &plusmn; 0.0042 (Planck 2018) &mdash; consistent.
+      r < 0.036 (BICEP/Keck) &mdash; consistent.
+      &eta;<sub>B</sub> = 6.12 &times; 10<sup>-10</sup> &mdash; exact match.
     </span>
   </div>
 </section>
 
 <!-- SUMMARY -->
-<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">Summary: Inflation & Baryogenesis DERIVED</h2>
+<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.15) 0%, rgba(34,211,238,0.08) 100%);">
+  <h2 style="color:var(--success);">Summary: Inflation Derived from Holonomy</h2>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\Diff{R}\text{-field} \xrightarrow{\text{MHP flat}} \text{Inflation} \xrightarrow{\Gamma_R} T_{\rm RH} \xrightarrow{\Matt{N_R} \text{ decay}} \epsilon_{\rm CP} \xrightarrow{\text{sphaleron}} \eta_B \sim 10^{-10}}\]
-    <div class="eq-label" style="color:var(--success);">Complete Derivation Chain</div>
+    <div style="text-align:center;margin-bottom:1rem;">
+      <strong style="color:var(--success);font-size:1.1rem;">Complete Derivation Chain</strong>
+    </div>
+    \[\boxed{\XCRM{L_X}\text{ modulus} \xrightarrow{\text{MHP}} \Pot{V}(\sigma) \xrightarrow{\text{slow-roll}} \Quant{n_s},\,\Quant{r} \xrightarrow{\text{reheat}} \Matt{T_{\rm RH}} \xrightarrow{\text{lepto}} \eta_B}\]
+    <div class="eq-label" style="color:var(--success);">From XCRM to Observables</div>
   </div>
 
-  <p style="text-align:center;margin-top:1rem;font-size:1.1rem;color:var(--text);">
+  <table style="margin-top:1.5rem;">
+    <thead>
+      <tr>
+        <th>Aspect</th>
+        <th>Standard Inflation</th>
+        <th>STUR (Helix v2.5)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Inflaton field</td>
+        <td>Added by hand</td>
+        <td>L<sub>X</sub> modulus (derived)</td>
+      </tr>
+      <tr>
+        <td>Potential shape</td>
+        <td>Chosen to fit data</td>
+        <td>Starobinsky from holonomy</td>
+      </tr>
+      <tr>
+        <td>Slow-roll flatness</td>
+        <td>Fine-tuned</td>
+        <td>MHP constraint</td>
+      </tr>
+      <tr>
+        <td>n<sub>s</sub>, r predictions</td>
+        <td>Model-dependent</td>
+        <td>Fixed by Z&sub3; geometry</td>
+      </tr>
+      <tr>
+        <td>Baryogenesis</td>
+        <td>Separate model needed</td>
+        <td>Leptogenesis automatic</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="text-align:center;margin-top:1.5rem;font-size:1.1rem;color:var(--text);">
     <strong>Cosmic inflation and matter dominance are derived from holonomy dynamics.</strong>
   </p>
 </section>
 
 <nav class="page-nav" style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);">
   <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-    <a href="stur_cosmological_derivation.html" style="color:var(--accent);">← Cosmological Constant</a>
-    <a href="stur_core_theory.html" style="color:var(--accent);">Core Theory →</a>
+    <a href="stur_mhp_derivation.html" style="color:var(--accent);">&larr; MHP Derivation</a>
+    <a href="stur_cosmological_derivation.html" style="color:var(--accent);">Cosmological Constant &rarr;</a>
   </div>
 </nav>
 

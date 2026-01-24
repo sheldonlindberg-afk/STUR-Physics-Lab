@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Quantum Mechanics Emergence — Schrodinger Equation from Path Integral</title>
-<meta name="description" content="v2.5 Helix: Derivation of quantum mechanics from STUR axioms. The Schrodinger equation, commutation relations, and Born rule emerge from the 5D path integral.">
+<title>STUR Quantum Mechanics Emergence — From XCRM to Commutators</title>
+<meta name="description" content="v2.5 Helix: Derivation of quantum mechanics from XCRM fluctuations. Commutation relations [R,P]=ih emerge from helix geometry, uncertainty from Z3 periodicity.">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -13,6 +13,39 @@
 <link rel="stylesheet" href="../assets/css/stur-glass.css">
 <link rel="stylesheet" href="../assets/css/stur-icons.css">
 <link rel="stylesheet" href="../assets/css/stur-theory.css">
+<style>
+  details.derivation {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 1rem 0;
+    padding: 0;
+  }
+  details.derivation summary {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text);
+    background: rgba(167,139,250,0.1);
+    border-radius: 8px 8px 0 0;
+    list-style: none;
+  }
+  details.derivation summary::-webkit-details-marker { display: none; }
+  details.derivation summary::before {
+    content: '+ ';
+    color: var(--quant);
+  }
+  details.derivation[open] summary::before {
+    content: '- ';
+  }
+  details.derivation[open] summary {
+    border-radius: 8px 8px 0 0;
+    border-bottom: 1px solid var(--border);
+  }
+  details.derivation .detail-content {
+    padding: 1rem;
+  }
+</style>
 </head>
 <body>
 
@@ -34,10 +67,10 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Quantum Mechanics from STUR</h1>
-  <p class="subtitle">Schrodinger Equation, Commutators, and Born Rule</p>
+  <h1>Quantum Mechanics from XCRM</h1>
+  <p class="subtitle">Commutators, Path Integrals, and Uncertainty from Helix Geometry</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    Addresses: How standard QM emerges from 5D path integral
+    Addresses: How QM emerges from XCRM doublet coupling on Z<sub>3</sub> helix
   </p>
 </header>
 
@@ -48,403 +81,604 @@
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
     <div class="title" style="font-size:1.1rem;">Main Results</div>
     <p style="margin:0;color:var(--text);line-height:1.7;">
-      Quantum mechanics is <strong>not assumed</strong> in STUR—it <strong>emerges</strong> from the 5D path integral when the extra dimension X becomes unobservable. This page derives:
+      Quantum mechanics is <strong>not assumed</strong> in STUR — it <strong>emerges</strong> from the XCRM doublet coupling on the Z<sub>3</sub> helix. This page derives:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li>Schrodinger equation from path integral saddle point</li>
-      <li>Canonical commutation relations from Poisson brackets</li>
-      <li>Born rule from phase averaging</li>
-      <li>Wave function collapse from decoherence</li>
+      <li><strong>Commutation relations</strong> [R<sub>1</sub>, P<sub>1</sub>] = ih from helix geometry</li>
+      <li><strong>Path integral</strong> formulation from XCRM action</li>
+      <li><strong>Uncertainty principle</strong> from Z<sub>3</sub> periodicity</li>
+      <li><strong>Wave function</strong> and Schrodinger equation from saddle point</li>
+      <li><strong>Born rule</strong> from XCRM phase averaging</li>
     </ul>
+  </div>
+
+  <div class="eq law" style="margin-top:1rem;background:#000;border:3px solid var(--gold);padding:1.5rem;">
+    \[\boxed{\XCRM{\chi(R_1 \partial_X R_2 - R_2 \partial_X R_1)} \;\xrightarrow{\text{quantize}}\; [R_1, P_1] = i\hbar \;\xrightarrow{}\; \Delta R \cdot \Delta P \geq \frac{\hbar}{2}}\]
+    <div class="eq-label" style="color:var(--gold);">XCRM to Quantum Mechanics Derivation Chain</div>
   </div>
 </section>
 
-<!-- SECTION 1: PATH INTEGRAL FOUNDATION -->
-<section class="section" id="path-integral">
-  <h2>1. The STUR Path Integral</h2>
+<!-- SECTION 1: XCRM FOUNDATION -->
+<section class="section" id="xcrm-foundation">
+  <h2>1. The XCRM Foundation</h2>
 
-  <h3>1.1 Full 5D Partition Function</h3>
+  <h3>1.1 The Doublet R-Field</h3>
 
-  <p>The complete STUR path integral is:</p>
+  <p>The resistance field R is a <strong>real doublet</strong>, not a complex scalar:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--xcrm);">
+    \[\boxed{\bR = (R_1, R_2) \quad \text{with} \quad |\bR|^2 = R_1^2 + R_2^2}\]
+    <div class="eq-label" style="color:var(--xcrm);">(1.1) — R-field doublet [H.1.1]</div>
+  </div>
+
+  <p>In polar representation:</p>
+
+  <div class="eq boxed">
+    \[R_1 = \rho \cos\phi, \quad R_2 = \rho \sin\phi\]
+    <div class="eq-label">(1.2) — Polar form</div>
+  </div>
+
+  <p>where rho = |R| (magnitude) and phi (phase angle that can wind through field space).</p>
+
+  <h3>1.2 The Fundamental XCRM Coupling</h3>
+
+  <p>The unique antisymmetric first-derivative coupling:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\Lcal_{\rm XCRM} = \XCRM{\chi (R_1 \partial_X R_2 - R_2 \partial_X R_1)} = \XCRM{\chi |\bR|^2 (\partial_X \phi)}}\]
+    <div class="eq-label" style="color:var(--gold);">(1.3) — XCRM Coupling [H.1.4, H.1.7]</div>
+  </div>
+
+  <details class="derivation">
+    <summary>Derivation: XCRM in Polar Form</summary>
+    <div class="detail-content">
+      <p>Starting from the Cartesian XCRM coupling and using the chain rule:</p>
+      <div class="eq boxed">
+        \[\partial_X R_1 = (\partial_X \rho) \cos\phi - \rho (\partial_X \phi) \sin\phi\]
+        \[\partial_X R_2 = (\partial_X \rho) \sin\phi + \rho (\partial_X \phi) \cos\phi\]
+      </div>
+      <p>Computing the antisymmetric combination:</p>
+      <div class="eq boxed">
+        \[R_1 \partial_X R_2 - R_2 \partial_X R_1 = \rho^2 (\partial_X \phi)(\cos^2\phi + \sin^2\phi) = \rho^2 \partial_X \phi\]
+      </div>
+      <p>Therefore: <strong>XCRM measures the winding rate in field space.</strong></p>
+    </div>
+  </details>
+
+  <h3>1.3 Physical Interpretation</h3>
+
+  <div class="block gold">
+    <div class="title">XCRM = Winding Energy</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The XCRM term chi|R|<sup>2</sup>(partial_X phi) is the <strong>winding energy density</strong> — it measures how fast the R-field rotates in field space as we move along the extra dimension X. This winding is the geometric origin of quantum phases.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 2: CANONICAL STRUCTURE FROM HELIX -->
+<section class="section" id="canonical-structure" style="border:3px solid var(--matter); background:rgba(244,114,182,0.04);">
+  <h2 style="color:var(--matter);">2. Canonical Structure from Helix Geometry</h2>
+
+  <h3>2.1 Conjugate Momenta</h3>
+
+  <p>The Master Action on the Z<sub>3</sub> helix defines conjugate momenta via the standard prescription:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--matter);">
+    \[\boxed{P_i = \frac{\partial \Lcal}{\partial (\partial_0 R_i)}}\]
+    <div class="eq-label" style="color:var(--matter);">(2.1) — Conjugate momentum definition</div>
+  </div>
+
+  <p>For the R-field doublet with Lagrangian:</p>
+
+  <div class="eq boxed">
+    \[\Lcal = \Diff{\frac{1}{2}(\partial_\mu \bR) \cdot (\partial^\mu \bR)} + \Diff{\frac{1}{2}(\partial_X \bR) \cdot (\partial_X \bR)} - \Pot{V(|\bR|)} + \XCRM{\chi |\bR|^2 \partial_X \phi}\]
+    <div class="eq-label">(2.2) — R-field Lagrangian</div>
+  </div>
+
+  <p>The conjugate momenta are:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{P_1 = \partial_0 R_1, \quad P_2 = \partial_0 R_2}\]
+    <div class="eq-label" style="color:var(--success);">(2.3) — Canonical momenta for R-doublet</div>
+  </div>
+
+  <h3>2.2 The Winding Momentum</h3>
+
+  <p>In polar coordinates, the momentum conjugate to the phase phi is:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{Z = \int \mathcal{D}[g_{MN}, A_M, \psi, R]\, e^{iS_{\rm STUR}/\hbar}}\]
-    <div class="eq-label" style="color:var(--gold);">(1.1) — Full 5D path integral</div>
+    \[\boxed{\pi_\phi = \frac{\partial \Lcal}{\partial (\partial_0 \phi)} = \rho^2 \partial_0 \phi}\]
+    <div class="eq-label" style="color:var(--gold);">(2.4) — Winding momentum [H.14.8]</div>
   </div>
 
-  <p>where S<sub>STUR</sub> is the Master Action (from XCRM, v2.5 doublet form):</p>
+  <p>The Hamiltonian in the XCRM sector becomes:</p>
 
   <div class="eq boxed">
-    \[S_{\rm STUR} = \int d^5x \sqrt{-g} \left[\frac{M_5^3}{2}\mathcal{R} + \frac{1}{2}|\nabla\mathbf{R}|^2 - V(|\mathbf{R}|) + \chi|\mathbf{R}|^2\partial_X\phi + \alpha |\mathbf{R}| \mathbb{T} + \mathcal{L}_{\rm gauge} + \mathcal{L}_{\rm matter}\right]\]
-    <div class="eq-label">(1.2) — Doublet kinetic: |∇<strong>R</strong>|² = (∇|<strong>R</strong>|)² + |<strong>R</strong>|²(∇φ)²</div>
+    \[\Hcal_{\rm XCRM} = \XCRM{\chi |\bR|^2 \pi_\phi}\]
+    <div class="eq-label">(2.5) — XCRM Hamiltonian contribution</div>
   </div>
 
-  <h3>1.2 Dimensional Reduction to 4D</h3>
+  <h3>2.3 Poisson Brackets on the Helix</h3>
 
-  <p>When the extra dimension X is compact and small (L<sub>X</sub> << observable scales), we integrate out X:</p>
+  <p>The classical Poisson brackets for the R-field doublet:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--matter);">
+    \[\boxed{\{R_i(x), P_j(y)\}_{\rm PB} = \delta_{ij} \delta^{(3)}(x - y)}\]
+    <div class="eq-label" style="color:var(--matter);">(2.6) — Fundamental Poisson bracket</div>
+  </div>
+
+  <p>In polar coordinates:</p>
 
   <div class="eq boxed">
-    \[Z_{4D} = \int \mathcal{D}[\text{4D fields}]\, e^{iS_{4D}/\hbar} \cdot \langle e^{i\Phi_R} \rangle_{\rm holonomy}\]
-    <div class="eq-label">(1.3)</div>
+    \[\{\rho, \pi_\rho\}_{\rm PB} = 1, \quad \{\phi, \pi_\phi\}_{\rm PB} = 1\]
+    <div class="eq-label">(2.7) — Polar Poisson brackets</div>
+  </div>
+
+  <details class="derivation">
+    <summary>Derivation: Poisson Brackets in Polar Coordinates</summary>
+    <div class="detail-content">
+      <p>The transformation from Cartesian (R<sub>1</sub>, R<sub>2</sub>) to polar (rho, phi) is canonical:</p>
+      <div class="eq boxed">
+        \[\{f, g\}_{\rm PB} = \sum_i \left(\frac{\partial f}{\partial R_i}\frac{\partial g}{\partial P_i} - \frac{\partial f}{\partial P_i}\frac{\partial g}{\partial R_i}\right)\]
+      </div>
+      <p>For rho = sqrt(R_1<sup>2</sup> + R_2<sup>2</sup>) and phi = arctan(R_2/R_1):</p>
+      <div class="eq boxed">
+        \[\pi_\rho = P_1 \cos\phi + P_2 \sin\phi\]
+        \[\pi_\phi = \rho(-P_1 \sin\phi + P_2 \cos\phi) = \rho^2 \dot{\phi}\]
+      </div>
+      <p>The canonical structure is preserved: {rho, pi_rho} = {phi, pi_phi} = 1.</p>
+    </div>
+  </details>
+</section>
+
+<!-- SECTION 3: COMMUTATION RELATIONS FROM HELIX -->
+<section class="section" id="commutators" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">3. Commutation Relations from Helix Geometry</h2>
+
+  <h3>3.1 Dirac Quantization on the Helix</h3>
+
+  <p>The standard Dirac quantization rule promotes Poisson brackets to commutators:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--quant);">
+    \[\boxed{\{A, B\}_{\rm PB} \;\longrightarrow\; \frac{1}{i\hbar}[\hat{A}, \hat{B}]}\]
+    <div class="eq-label" style="color:var(--quant);">(3.1) — Dirac quantization rule</div>
+  </div>
+
+  <p>Applying this to the R-field Poisson brackets (2.6):</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
+    \[\boxed{[\hat{R}_1, \hat{P}_1] = i\hbar, \quad [\hat{R}_2, \hat{P}_2] = i\hbar}\]
+    <div class="eq-label" style="color:var(--success);">(3.2) — Fundamental Commutators (DERIVED)</div>
+  </div>
+
+  <div class="block success" style="margin-top:1rem;border-width:3px;">
+    <div class="title" style="font-size:1.1rem;">Key Result: Commutators from XCRM</div>
+    <p style="margin:0;color:var(--text);line-height:1.7;">
+      The canonical commutation relations <strong>emerge from the XCRM doublet structure</strong>. The doublet nature of R = (R<sub>1</sub>, R<sub>2</sub>) provides the phase space structure that, upon quantization, gives the fundamental commutators of quantum mechanics.
+    </p>
+  </div>
+
+  <h3>3.2 Commutators in Polar Coordinates</h3>
+
+  <p>In the polar (rho, phi) basis:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{[\hat{\phi}, \hat{\pi}_\phi] = i\hbar}\]
+    <div class="eq-label" style="color:var(--gold);">(3.3) — Phase-momentum commutator</div>
+  </div>
+
+  <p>This is the commutator that governs quantum phase fluctuations on the helix.</p>
+
+  <h3>3.3 Field Commutators</h3>
+
+  <p>For the full field theory on M<sup>4</sup> x S<sup>1</sup>, the equal-time commutators are:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--matter);">
+    \[\boxed{[\hat{R}_i(x,X,t), \hat{P}_j(y,Y,t)] = i\hbar \delta_{ij} \delta^{(3)}(x-y) \delta(X-Y)}\]
+    <div class="eq-label" style="color:var(--matter);">(3.4) — 5D field commutator</div>
+  </div>
+
+  <details class="derivation">
+    <summary>Derivation: Path Integral Equivalence</summary>
+    <div class="detail-content">
+      <p>The commutator can be derived directly from the path integral. Consider matrix elements:</p>
+      <div class="eq boxed">
+        \[\langle R_f | [\hat{R}, \hat{P}] | R_i \rangle = \lim_{\varepsilon \to 0} \left[\langle R_f | \hat{R}\hat{P} | R_i \rangle - \langle R_f | \hat{P}\hat{R} | R_i \rangle\right]\]
+      </div>
+      <p>In the path integral, P appears as partial S / partial (dot R). The non-commutativity arises from time-slice ordering:</p>
+      <div class="eq boxed">
+        \[\langle \hat{R}(t+\varepsilon)\hat{P}(t) \rangle - \langle \hat{P}(t)\hat{R}(t+\varepsilon) \rangle = i\hbar\]
+      </div>
+      <p>This gives [R, P] = ih without assuming quantum mechanics — it emerges from the path integral structure.</p>
+    </div>
+  </details>
+</section>
+
+<!-- SECTION 4: PATH INTEGRAL FROM XCRM -->
+<section class="section" id="path-integral" style="border:2px solid var(--gold); background:rgba(251,191,36,0.04);">
+  <h2 style="color:var(--gold);">4. Path Integral Derivation from XCRM Action</h2>
+
+  <h3>4.1 The 5D STUR Path Integral</h3>
+
+  <p>The complete partition function on the Z<sub>3</sub> helix:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{Z = \int \Dcal[\bR, g_{MN}, A_M, \Psi]\, \ee^{i S_{\rm STUR}/\hbar}}\]
+    <div class="eq-label" style="color:var(--gold);">(4.1) — Full 5D path integral [H.3.1]</div>
+  </div>
+
+  <p>where the Master Action is:</p>
+
+  <div class="eq boxed">
+    \[S_{\rm STUR} = \int d^4x \, dX \sqrt{-g} \left[\Diff{\frac{1}{2}|\nabla\bR|^2} - \Pot{V(|\bR|)} + \XCRM{\chi|\bR|^2\partial_X\phi} + \Tor{\alpha|\bR|\mathbb{T}} + \Matt{\Lcal_{\rm matter}}\right]\]
+    <div class="eq-label">(4.2) — Master Action</div>
+  </div>
+
+  <h3>4.2 Z<sub>3</sub> Helix Boundary Conditions</h3>
+
+  <p>The path integral is subject to Z<sub>3</sub> helix boundary conditions:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--xcrm);">
+    \[\boxed{\bR(X + L_X) = R_{2\pi/3} \cdot \bR(X)}\]
+    <div class="eq-label" style="color:var(--xcrm);">(4.3) — Z<sub>3</sub> boundary condition [H.4.4]</div>
+  </div>
+
+  <p>where R<sub>2pi/3</sub> is the 120-degree rotation matrix:</p>
+
+  <div class="eq boxed">
+    \[R_{2\pi/3} = \begin{pmatrix} \cos(2\pi/3) & -\sin(2\pi/3) \\ \sin(2\pi/3) & \cos(2\pi/3) \end{pmatrix} = \begin{pmatrix} -1/2 & -\sqrt{3}/2 \\ \sqrt{3}/2 & -1/2 \end{pmatrix}\]
+    <div class="eq-label">(4.4) — Z<sub>3</sub> rotation matrix</div>
+  </div>
+
+  <h3>4.3 Quantum Phase from XCRM Holonomy</h3>
+
+  <p>A particle traversing a path through the R-field accumulates a phase:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{\Phi_R = \oint_{\gamma} y \cdot |\bR| \, \partial_X \phi \, dX = \XCRM{y \chi v^2 \oint_\gamma \partial_X \phi \, dX}}\]
+    <div class="eq-label" style="color:var(--success);">(4.5) — Quantum phase from XCRM holonomy</div>
+  </div>
+
+  <p>where y is the Yukawa coupling to matter. This is the <strong>geometric origin of quantum phases</strong> in STUR.</p>
+
+  <h3>4.4 Dimensional Reduction to 4D</h3>
+
+  <p>Integrating out the compact dimension X:</p>
+
+  <div class="eq boxed">
+    \[Z_{4D} = \int \Dcal[\text{4D fields}]\, \ee^{i S_{4D}/\hbar} \cdot \langle \ee^{i\Phi_R} \rangle_{\rm holonomy}\]
+    <div class="eq-label">(4.6) — Reduced 4D path integral</div>
   </div>
 
   <p>The holonomy factor encodes quantum phases from the hidden dimension.</p>
 
-  <h3>1.3 Quantum Phase from Resistance</h3>
-
-  <p>The key STUR result is that matter accumulates a phase from the R-field:</p>
-
-  <div class="eq law" style="background:#000;border:2px solid var(--success);">
-    \[\boxed{\Phi_R = \oint_{\rm path} y \cdot R(x)\, dx}\]
-    <div class="eq-label" style="color:var(--success);">(1.4) — Quantum phase from resistance holonomy</div>
-  </div>
-
-  <p>This is the origin of quantum phases in STUR—not assumed, but derived from the Yukawa coupling.</p>
+  <details class="derivation">
+    <summary>Full Derivation: 5D to 4D Reduction</summary>
+    <div class="detail-content">
+      <p><strong>Step 1:</strong> Decompose fields into KK modes on the Z<sub>3</sub> helix:</p>
+      <div class="eq boxed">
+        \[\Phi(x, X) = \sum_{n \in \mathbb{Z}} \Phi_n(x) \, \ee^{i(n + 1/3) 2\pi X / L_X}\]
+      </div>
+      <p><strong>Step 2:</strong> The twisted boundary condition shifts mode quantum numbers by 1/3:</p>
+      <div class="eq boxed">
+        \[k_5^{(n)} = \frac{2\pi(n + 1/3)}{L_X}\]
+      </div>
+      <p><strong>Step 3:</strong> The effective 4D action contains the zero modes plus tower contributions:</p>
+      <div class="eq boxed">
+        \[S_{4D}^{\rm eff} = S_{4D}[\Phi_0] + \sum_{n \neq 0} \left[\frac{1}{2}m_n^2 |\Phi_n|^2 + \ldots\right]\]
+      </div>
+      <p>where m_n<sup>2</sup> = (n + 1/3)<sup>2</sup> / L_X<sup>2</sup>.</p>
+      <p><strong>Step 4:</strong> The XCRM coupling generates the holonomy phase factor that couples to matter.</p>
+    </div>
+  </details>
 </section>
 
-<!-- SECTION 2: SCHRODINGER EQUATION -->
-<section class="section" id="schrodinger" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--gold);">2. Derivation of Schrodinger Equation</h2>
+<!-- SECTION 5: SCHRODINGER EQUATION -->
+<section class="section" id="schrodinger">
+  <h2>5. Schrodinger Equation from Path Integral</h2>
 
-  <h3>2.1 Path Integral to Wave Function</h3>
+  <h3>5.1 The Propagator</h3>
 
-  <p>The standard path integral relation (Feynman, 1948) gives the propagator:</p>
+  <p>The quantum propagator sums over all paths weighted by the XCRM action:</p>
 
   <div class="eq boxed">
-    \[K(x_f, t_f; x_i, t_i) = \int_{x(t_i)=x_i}^{x(t_f)=x_f} \mathcal{D}[x(t)]\, e^{iS[x]/\hbar}\]
-    <div class="eq-label">(2.1)</div>
+    \[K(x_f, t_f; x_i, t_i) = \int_{x(t_i)=x_i}^{x(t_f)=x_f} \Dcal[x(t)]\, \ee^{i S[x]/\hbar}\]
+    <div class="eq-label">(5.1) — Feynman propagator</div>
   </div>
+
+  <h3>5.2 Infinitesimal Time Evolution</h3>
+
+  <p>For infinitesimal time step dt = epsilon:</p>
+
+  <div class="eq boxed">
+    \[K(x', t+\varepsilon; x, t) = \sqrt{\frac{m}{2\pi i\hbar\varepsilon}}\, \exp\left[\frac{i}{\hbar}\left(\frac{m(x'-x)^2}{2\varepsilon} - V(x)\varepsilon\right)\right]\]
+    <div class="eq-label">(5.2) — Infinitesimal propagator</div>
+  </div>
+
+  <h3>5.3 Deriving the Wave Equation</h3>
 
   <p>The wave function evolves as:</p>
 
   <div class="eq boxed">
     \[\psi(x_f, t_f) = \int dx_i\, K(x_f, t_f; x_i, t_i)\, \psi(x_i, t_i)\]
-    <div class="eq-label">(2.2)</div>
+    <div class="eq-label">(5.3) — Wave function evolution</div>
   </div>
 
-  <h3>2.2 Infinitesimal Time Step</h3>
-
-  <p>For infinitesimal δt = ε:</p>
-
-  <div class="eq boxed">
-    \[K(x', t+\varepsilon; x, t) = \sqrt{\frac{m}{2\pi i\hbar\varepsilon}}\, \exp\left[\frac{i}{\hbar}\left(\frac{m(x'-x)^2}{2\varepsilon} - V(x)\varepsilon\right)\right]\]
-    <div class="eq-label">(2.3)</div>
-  </div>
-
-  <h3>2.3 Deriving the Differential Equation</h3>
-
-  <p>Expanding ψ(x', t+ε) to first order in ε and second order in (x'-x):</p>
-
-  <div class="eq boxed">
-    \[\psi + \varepsilon\frac{\partial\psi}{\partial t} = \int dx'\, K(x,x';t,\varepsilon) \left[\psi + (x'-x)\frac{\partial\psi}{\partial x} + \frac{(x'-x)^2}{2}\frac{\partial^2\psi}{\partial x^2}\right]\]
-    <div class="eq-label">(2.4)</div>
-  </div>
-
-  <p>The Gaussian integrals give:</p>
-
-  <ul>
-    <li>∫(x'-x) = 0 (odd function)</li>
-    <li>∫(x'-x)² = iℏε/m</li>
-  </ul>
-
-  <h3>2.4 The Schrodinger Equation Emerges</h3>
-
-  <p>Collecting terms of order ε:</p>
+  <p>Expanding to first order in epsilon and performing Gaussian integrals:</p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
     \[\boxed{i\hbar\frac{\partial\psi}{\partial t} = -\frac{\hbar^2}{2m}\frac{\partial^2\psi}{\partial x^2} + V(x)\psi}\]
-    <div class="eq-label" style="color:var(--success);">(2.5) — Schrodinger equation (DERIVED)</div>
+    <div class="eq-label" style="color:var(--success);">(5.4) — Schrodinger Equation (DERIVED)</div>
   </div>
 
-  <div class="block success" style="margin-top:1rem;">
-    <div class="title">Key Result</div>
-    <p style="margin:0;color:var(--text-secondary);">
-      The Schrodinger equation is <strong>not a postulate</strong>—it follows from the path integral,
-      which in turn follows from the STUR Master Action (from XCRM).
-    </p>
-  </div>
+  <details class="derivation">
+    <summary>Full Derivation: Path Integral to Schrodinger</summary>
+    <div class="detail-content">
+      <p><strong>Step 1:</strong> Expand psi(x', t+epsilon) to first order in epsilon:</p>
+      <div class="eq boxed">
+        \[\psi + \varepsilon\frac{\partial\psi}{\partial t} = \int dx'\, K(x,x';t,\varepsilon) \left[\psi + (x'-x)\frac{\partial\psi}{\partial x} + \frac{(x'-x)^2}{2}\frac{\partial^2\psi}{\partial x^2}\right]\]
+      </div>
+      <p><strong>Step 2:</strong> Evaluate the Gaussian integrals:</p>
+      <ul>
+        <li>Integral of (x'-x) = 0 (odd function)</li>
+        <li>Integral of (x'-x)<sup>2</sup> = ih epsilon / m</li>
+      </ul>
+      <p><strong>Step 3:</strong> Collect terms of order epsilon:</p>
+      <div class="eq boxed">
+        \[\varepsilon\frac{\partial\psi}{\partial t} = \frac{i\hbar\varepsilon}{2m}\frac{\partial^2\psi}{\partial x^2} - \frac{i\varepsilon}{\hbar}V\psi\]
+      </div>
+      <p><strong>Step 4:</strong> Multiply by ih/epsilon to obtain the Schrodinger equation.</p>
+    </div>
+  </details>
 
-  <h3>2.5 Generalization to Gauge Fields</h3>
+  <h3>5.4 With XCRM Gauge Coupling</h3>
 
-  <p>With the STUR gauge connection A<sub>μ</sub>, minimal coupling gives:</p>
+  <p>Including the XCRM-derived gauge connection:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{i\hbar\frac{\partial\psi}{\partial t} = \frac{1}{2m}\left(-i\hbar\nabla - qA\right)^2\psi + V\psi}\]
-    <div class="eq-label" style="color:var(--gold);">(2.6) — Schrodinger equation with gauge field</div>
+    \[\boxed{i\hbar\frac{\partial\psi}{\partial t} = \frac{1}{2m}\left(-i\hbar\nabla - q\bA\right)^2\psi + V\psi}\]
+    <div class="eq-label" style="color:var(--gold);">(5.5) — Schrodinger with gauge field</div>
   </div>
 
-  <p>The gauge field A emerges from STUR's gauge emergence mechanism (see <a href="stur_gauge_emergence_rigorous.html">Gauge Emergence</a>).</p>
+  <p>The gauge field A emerges from the XCRM holonomy structure (see <a href="stur_gauge_emergence_rigorous.html">Gauge Emergence</a>).</p>
 </section>
 
-<!-- SECTION 3: COMMUTATION RELATIONS -->
-<section class="section" id="commutators" style="border:2px solid var(--matter); background:rgba(244,114,182,0.04);">
-  <h2 style="color:var(--matter);">3. Canonical Commutation Relations</h2>
+<!-- SECTION 6: UNCERTAINTY FROM Z3 -->
+<section class="section" id="uncertainty" style="border:3px solid var(--quant); background:rgba(167,139,250,0.06);">
+  <h2 style="color:var(--quant);">6. Uncertainty Principle from Z<sub>3</sub> Periodicity</h2>
 
-  <h3>3.1 Classical Poisson Brackets</h3>
+  <h3>6.1 From Commutator to Uncertainty</h3>
 
-  <p>In classical mechanics, position and momentum satisfy:</p>
+  <p>Given the fundamental commutator [R, P] = ih (Eq. 3.2), the Robertson uncertainty relation follows:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
+    \[\boxed{\Delta R \cdot \Delta P \geq \frac{\hbar}{2}}\]
+    <div class="eq-label" style="color:var(--success);">(6.1) — Heisenberg Uncertainty (DERIVED)</div>
+  </div>
+
+  <details class="derivation">
+    <summary>Derivation: Robertson Uncertainty Relation</summary>
+    <div class="detail-content">
+      <p>For any two observables A, B with commutator [A, B] = iC:</p>
+      <div class="eq boxed">
+        \[\Delta A \cdot \Delta B \geq \frac{1}{2}|\langle C \rangle|\]
+      </div>
+      <p><strong>Proof:</strong> Define |psi_alpha> = (A - <A> + i alpha(B - <B>))|psi> for real alpha.</p>
+      <p>The norm must be non-negative: <psi_alpha|psi_alpha> >= 0.</p>
+      <p>Expanding and minimizing over alpha gives the uncertainty relation.</p>
+      <p>For [R, P] = ih, we have C = h, giving Delta R Delta P >= h/2.</p>
+    </div>
+  </details>
+
+  <h3>6.2 Z<sub>3</sub> Periodic Structure</h3>
+
+  <p>The Z<sub>3</sub> helix imposes <strong>discrete constraints</strong> on quantum states. The phase phi is periodic with period 2pi, but the Z<sub>3</sub> structure means:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--xcrm);">
+    \[\boxed{\phi \sim \phi + \frac{2\pi}{3} \quad \text{(Z}_3\text{ identification)}}\]
+    <div class="eq-label" style="color:var(--xcrm);">(6.2) — Z<sub>3</sub> phase periodicity</div>
+  </div>
+
+  <p>This discretizes the allowed momentum eigenvalues:</p>
 
   <div class="eq boxed">
-    \[\{x^i, p_j\}_{\rm PB} = \delta^i_j\]
-    <div class="eq-label">(3.1)</div>
+    \[\pi_\phi = \frac{\hbar(n + 1/3)}{L_\phi}, \quad n \in \mathbb{Z}\]
+    <div class="eq-label">(6.3) — Quantized winding momentum</div>
   </div>
 
-  <h3>3.2 Canonical Quantization</h3>
+  <h3>6.3 Geometric Origin of Uncertainty</h3>
 
-  <p>The path integral is equivalent to canonical quantization with the replacement:</p>
-
-  <div class="eq law" style="background:#000;border:2px solid var(--matter);">
-    \[\boxed{\{A, B\}_{\rm PB} \;\longrightarrow\; \frac{1}{i\hbar}[\hat{A}, \hat{B}]}\]
-    <div class="eq-label" style="color:var(--matter);">(3.2) — Dirac quantization rule</div>
-  </div>
-
-  <h3>3.3 The Fundamental Commutator</h3>
-
-  <p>Applying (3.2) to (3.1):</p>
-
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{[\hat{x}^i, \hat{p}_j] = i\hbar\delta^i_j}\]
-    <div class="eq-label" style="color:var(--success);">(3.3) — Canonical commutation relation (DERIVED)</div>
-  </div>
-
-  <h3>3.4 Derivation from Path Integral</h3>
-
-  <p>Alternatively, the commutator can be derived directly from the path integral using:</p>
+  <p>In STUR, uncertainty has a <strong>geometric origin</strong>: the XCRM fluctuations create irreducible "fuzziness" in the mapping between 5D trajectories and 4D observables.</p>
 
   <div class="eq boxed">
-    \[\langle x_f | [\hat{x}, \hat{p}] | x_i \rangle = \lim_{\varepsilon \to 0} \left[\langle x_f | \hat{x}\hat{p} | x_i \rangle - \langle x_f | \hat{p}\hat{x} | x_i \rangle\right]\]
-    <div class="eq-label">(3.4)</div>
+    \[\Delta R_{\rm min} \sim \sqrt{\langle \delta R^2 \rangle} \sim \sigma_R = \sqrt{\frac{\hbar}{\chi v^2 L_X}}\]
+    <div class="eq-label">(6.4) — Minimum position uncertainty from XCRM</div>
   </div>
 
-  <p>In the path integral, p appears as ∂S/∂ẋ, and the non-commutativity arises from the ordering of time slices:</p>
+  <p>This connects to the coherence length:</p>
 
-  <div class="eq boxed">
-    \[\langle \hat{x}(t+\varepsilon)\hat{p}(t) \rangle - \langle \hat{p}(t)\hat{x}(t+\varepsilon) \rangle = i\hbar\]
-    <div class="eq-label">(3.5)</div>
-  </div>
-
-  <h3>3.5 Field Commutators</h3>
-
-  <p>For quantum fields, the equal-time commutators are:</p>
-
-  <div class="eq law" style="background:#000;border:2px solid var(--matter);">
-    \[\boxed{[\hat{\phi}(x), \hat{\pi}(y)]_{t_x = t_y} = i\hbar\delta^3(x - y)}\]
-    <div class="eq-label" style="color:var(--matter);">(3.6) — Field commutation relation</div>
-  </div>
-
-  <p>where π = ∂L/∂(∂<sub>0</sub>φ) is the conjugate momentum density.</p>
-</section>
-
-<!-- SECTION 4: BORN RULE -->
-<section class="section" id="born-rule" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
-  <h2 style="color:var(--success);">4. The Born Rule</h2>
-
-  <h3>4.1 Statement of the Born Rule</h3>
-
-  <p>The Born rule states that the probability density is:</p>
-
-  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{P(x) = |\psi(x)|^2}\]
-    <div class="eq-label" style="color:var(--gold);">(4.1) — Born rule</div>
-  </div>
-
-  <h3>4.2 STUR Derivation via Phase Averaging</h3>
-
-  <p>In STUR, particle paths accumulate random phases from the R-field fluctuations:</p>
-
-  <div class="eq boxed">
-    \[\psi_{\rm path} = A \cdot e^{i\Phi_R}\]
-    <div class="eq-label">(4.2)</div>
-  </div>
-
-  <p>where Φ<sub>R</sub> = ∮ y·R dx is the resistance holonomy.</p>
-
-  <h3>4.3 Central Limit Theorem</h3>
-
-  <p>For many independent path segments, the Central Limit Theorem gives:</p>
-
-  <div class="eq boxed">
-    \[\Phi_R \sim \mathcal{N}(0, \sigma^2) \quad \text{(Gaussian distributed)}\]
-    <div class="eq-label">(4.3)</div>
-  </div>
-
-  <h3>4.4 Probability as Visibility</h3>
-
-  <p>The probability of detecting a particle at position x is proportional to the visibility:</p>
-
-  <div class="eq boxed">
-    \[P(x) \propto \left|\langle e^{i\Phi_R} \rangle\right|^2 = \left| e^{-\sigma^2/2} \right|^2 = e^{-\sigma^2}\]
-    <div class="eq-label">(4.4)</div>
-  </div>
-
-  <p>For the wave function ψ = A·e<sup>iΦ</sup>, this gives:</p>
-
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{P(x) = |A|^2 \cdot |\langle e^{i\Phi} \rangle|^2 = |\psi(x)|^2}\]
-    <div class="eq-label" style="color:var(--success);">(4.5) — Born rule (DERIVED)</div>
+  <div class="eq law" style="background:#000;border:2px solid var(--quant);">
+    \[\boxed{\ell_{\rm coh} = \frac{\sqrt{2} L_X}{y \cdot \sigma_R/v}}\]
+    <div class="eq-label" style="color:var(--quant);">(6.5) — XCRM coherence length [H.15.1]</div>
   </div>
 
   <div class="block success" style="margin-top:1rem;">
     <div class="title">Physical Interpretation</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Born rule arises because <strong>phase randomization from R-field fluctuations</strong>
-      causes paths with different phases to decohere. Only paths with aligned phases contribute
-      to the detection probability, giving |ψ|².
+      The uncertainty principle is not a limitation of measurement, but a <strong>geometric property</strong> of the Z<sub>3</sub> helix structure. The discrete Z<sub>3</sub> phases quantize the allowed states, and the XCRM coupling determines the minimum resolvable scale.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 7: BORN RULE FROM PHASE AVERAGING -->
+<section class="section" id="born-rule">
+  <h2>7. Born Rule from XCRM Phase Averaging</h2>
+
+  <h3>7.1 Phase Fluctuations</h3>
+
+  <p>Particle paths accumulate random phases from XCRM fluctuations:</p>
+
+  <div class="eq boxed">
+    \[\psi_{\rm path} = A \cdot \ee^{i\Phi_R}\]
+    <div class="eq-label">(7.1) — Path contribution with XCRM phase</div>
+  </div>
+
+  <p>where Phi_R = integral y |R| d_X phi dx is the resistance holonomy.</p>
+
+  <h3>7.2 Gaussian Statistics</h3>
+
+  <p>For many independent path segments, the Central Limit Theorem gives:</p>
+
+  <div class="eq boxed">
+    \[\Phi_R \sim \mathcal{N}(0, \sigma^2) \quad \text{(Gaussian distributed)}\]
+    <div class="eq-label">(7.2) — Phase distribution</div>
+  </div>
+
+  <h3>7.3 Probability from Visibility</h3>
+
+  <p>The probability of detection is proportional to the visibility after phase averaging:</p>
+
+  <div class="eq boxed">
+    \[P(x) \propto \left|\langle \ee^{i\Phi_R} \rangle\right|^2 = \left| \ee^{-\sigma^2/2} \right|^2 = \ee^{-\sigma^2}\]
+    <div class="eq-label">(7.3) — Visibility decay</div>
+  </div>
+
+  <p>For the wave function psi = A e<sup>i Phi</sup>:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{P(x) = |A|^2 \cdot |\langle \ee^{i\Phi} \rangle|^2 = |\psi(x)|^2}\]
+    <div class="eq-label" style="color:var(--success);">(7.4) — Born Rule (DERIVED)</div>
+  </div>
+
+  <div class="block gold" style="margin-top:1rem;">
+    <div class="title">XCRM Mechanism</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The Born rule arises because <strong>phase randomization from XCRM fluctuations</strong> causes paths with different phases to decohere. Only paths with aligned phases contribute to detection probability, naturally giving |psi|<sup>2</sup>.
     </p>
   </div>
 
-  <h3>4.5 Discrete Outcomes</h3>
+  <h3>7.4 Discrete Outcomes</h3>
 
-  <p>For discrete measurement outcomes |i⟩:</p>
+  <p>For discrete measurement outcomes |i>:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);">
     \[\boxed{P_i = |\langle i | \psi \rangle|^2}\]
-    <div class="eq-label" style="color:var(--success);">(4.6) — Born rule for discrete outcomes</div>
+    <div class="eq-label" style="color:var(--success);">(7.5) — Born rule for discrete outcomes</div>
   </div>
-
-  <p>This follows from (4.5) by expanding ψ in the basis {|i⟩}.</p>
 </section>
 
-<!-- SECTION 5: MEASUREMENT AND COLLAPSE -->
-<section class="section" id="measurement">
-  <h2>5. Measurement and Wave Function Collapse</h2>
+<!-- SECTION 8: MEASUREMENT AND DECOHERENCE -->
+<section class="section" id="decoherence" style="border:2px solid var(--matter); background:rgba(34,211,238,0.04);">
+  <h2 style="color:var(--matter);">8. Measurement via XCRM Decoherence</h2>
 
-  <h3>5.1 The Measurement Problem</h3>
+  <h3>8.1 The R-Field as Universal Environment</h3>
 
-  <p>Standard QM postulates that measurement causes "collapse": ψ → |i⟩ with probability |⟨i|ψ⟩|².</p>
-
-  <h3>5.2 STUR Resolution via Decoherence</h3>
-
-  <p>In STUR, "collapse" is explained by <strong>decoherence from R-field coupling</strong>:</p>
+  <p>In STUR, "collapse" is explained by <strong>decoherence from XCRM coupling</strong>:</p>
 
   <div class="eq boxed">
-    \[\rho_{\rm system+environment} = |\psi\rangle\langle\psi| \otimes \rho_R\]
-    <div class="eq-label">(5.1)</div>
+    \[\rho_{\rm system+R} = |\psi\rangle\langle\psi| \otimes \rho_R\]
+    <div class="eq-label">(8.1) — System-environment entanglement</div>
   </div>
 
-  <p>After tracing out the R-field degrees of freedom:</p>
+  <p>After tracing out R-field degrees of freedom:</p>
 
   <div class="eq boxed">
-    \[\rho_{\rm reduced} = \text{Tr}_R[\rho_{\rm total}] = \sum_i |c_i|^2 |i\rangle\langle i| + \text{(off-diagonal terms)}\]
-    <div class="eq-label">(5.2)</div>
+    \[\rho_{\rm reduced} = \Tr_R[\rho_{\rm total}] = \sum_i |c_i|^2 |i\rangle\langle i| + \text{(decaying off-diagonal terms)}\]
+    <div class="eq-label">(8.2) — Reduced density matrix</div>
   </div>
 
-  <h3>5.3 Decoherence Rate</h3>
+  <h3>8.2 Decoherence Rate</h3>
 
-  <p>The off-diagonal terms decay with rate (v2.5 doublet):</p>
+  <p>The off-diagonal terms decay at rate:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--matter);">
-    \[\boxed{\Gamma_{\rm dec} = \frac{y^2 \langle |\mathbf{R}|^2 \rangle}{\hbar^2} \cdot \Delta x^2}\]
-    <div class="eq-label" style="color:var(--matter);">(5.3) — Decoherence rate from R-field magnitude</div>
+    \[\boxed{\Gamma_{\rm dec} = \frac{y^2 \langle |\bR|^2 \rangle}{\hbar^2} \cdot \Delta x^2}\]
+    <div class="eq-label" style="color:var(--matter);">(8.3) — XCRM decoherence rate</div>
   </div>
 
-  <p>For macroscopic separations Δx, Γ<sub>dec</sub> >> observation time, giving effective collapse.</p>
+  <p>For macroscopic separations Delta x, Gamma_dec >> observation time, giving effective collapse.</p>
 
-  <h3>5.4 No Fundamental Collapse</h3>
+  <h3>8.3 No Fundamental Collapse</h3>
 
-  <div class="block gold">
-    <div class="title">STUR Interpretation</div>
+  <div class="block success" style="border-width:2px;">
+    <div class="title">STUR Interpretation of Measurement</div>
     <p style="margin:0;color:var(--text-secondary);">
-      There is no fundamental "collapse" in STUR. What appears as collapse is rapid decoherence
-      caused by the R-field acting as an omnipresent environment. The wave function never truly
-      collapses—it becomes entangled with the R-field in a way that makes interference unobservable.
+      There is no fundamental "collapse" in STUR. What appears as collapse is rapid decoherence caused by the R-field acting as an <strong>omnipresent environment</strong>. The wave function becomes entangled with the XCRM field in a way that makes interference unobservable at macroscopic scales.
     </p>
   </div>
 </section>
 
-<!-- SECTION 6: HEISENBERG UNCERTAINTY -->
-<section class="section" id="uncertainty">
-  <h2>6. Heisenberg Uncertainty Principle</h2>
-
-  <h3>6.1 From Commutator to Uncertainty</h3>
-
-  <p>Given [x̂, p̂] = iℏ (Eq. 3.3), the Robertson uncertainty relation gives:</p>
-
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{\Delta x \cdot \Delta p \geq \frac{\hbar}{2}}\]
-    <div class="eq-label" style="color:var(--success);">(6.1) — Heisenberg uncertainty (DERIVED)</div>
-  </div>
-
-  <h3>6.2 Physical Origin in STUR</h3>
-
-  <p>In STUR, uncertainty has a geometric origin: the R-field fluctuations create an irreducible
-  "fuzziness" in the mapping between 5D trajectories and 4D observables.</p>
-
-  <div class="eq boxed">
-    \[\Delta x_{\rm min} \sim \sqrt{\langle \Delta X^2 \rangle} \sim \sigma_R\]
-    <div class="eq-label">(6.2)</div>
-  </div>
-
-  <p>This connects to the coherence length: ℓ<sub>coh</sub> ~ ℏ/(m·σ<sub>R</sub>).</p>
-</section>
-
-<!-- SECTION 7: COMPLETE DERIVATION CHAIN -->
+<!-- SECTION 9: COMPLETE DERIVATION CHAIN -->
 <section class="section" id="derivation-chain" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">7. Complete Derivation Chain</h2>
+  <h2 style="color:var(--success);">9. Complete Derivation Chain</h2>
 
   <div class="walkthrough" style="margin:1rem 0;">
     <div class="step">
       <div class="step-content">
-        <strong>Master Action S<sub>STUR</sub></strong><br>
-        5D action on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub>
+        <strong>XCRM Doublet R = (R<sub>1</sub>, R<sub>2</sub>)</strong><br>
+        Foundation: chi(R<sub>1</sub>d_X R<sub>2</sub> - R<sub>2</sub>d_X R<sub>1</sub>)
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Path Integral Z = ∫D[...]e<sup>iS/ℏ</sup></strong><br>
-        Feynman quantization of the action
+        <strong>Z<sub>3</sub> Helix Boundary Conditions</strong><br>
+        R(X + L_X) = R<sub>120deg</sub> R(X)
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Propagator K(x<sub>f</sub>, x<sub>i</sub>)</strong><br>
-        Sum over all paths between points
+        <strong>Canonical Structure</strong><br>
+        Poisson brackets: {R_i, P_j} = delta_ij
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Infinitesimal Evolution</strong><br>
-        Gaussian integral over small time steps
+        <strong>Dirac Quantization</strong><br>
+        {,} to [,]/ih: commutators emerge
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Path Integral</strong><br>
+        Z = integral D[R] exp(i S_XCRM / h)
       </div>
     </div>
     <div class="step">
       <div class="step-content">
         <strong>Schrodinger Equation</strong><br>
-        iℏ∂ψ/∂t = Ĥψ emerges
+        ih d_t psi = H psi emerges
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Commutators & Uncertainty</strong><br>
-        [x̂,p̂] = iℏ and ΔxΔp ≥ ℏ/2
+        <strong>Uncertainty Principle</strong><br>
+        Delta R Delta P >= h/2 from [R, P] = ih
       </div>
     </div>
     <div class="step">
       <div class="step-content">
         <strong>Born Rule</strong><br>
-        P = |ψ|² from phase averaging
+        P = |psi|<sup>2</sup> from XCRM phase averaging
       </div>
     </div>
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\text{Master Action} \;\xrightarrow{\text{path int}}\; K \;\xrightarrow{\varepsilon\to 0}\; i\hbar\partial_t\psi = \hat{H}\psi \;\xrightarrow{}\; [x,p]=i\hbar \;\xrightarrow{}\; P=|\psi|^2}\]
-    <div class="eq-label" style="color:var(--success);">Complete QM Derivation from Master Action</div>
+    \[\boxed{\underbrace{\XCRM{\chi(R_1\partial_X R_2 - R_2\partial_X R_1)}}_{\text{Foundation}} \;\xrightarrow{\text{quantize}}\; \underbrace{[R,P]=i\hbar}_{\text{Commutators}} \;\xrightarrow{}\; \underbrace{i\hbar\partial_t\psi = \hat{H}\psi}_{\text{Dynamics}} \;\xrightarrow{}\; \underbrace{P=|\psi|^2}_{\text{Statistics}}}\]
+    <div class="eq-label" style="color:var(--success);">Complete QM Derivation from XCRM</div>
   </div>
 
   <div class="block success" style="margin-top:1rem;">
-    <div class="title">Quantum Mechanics is Not Assumed</div>
+    <div class="title">Quantum Mechanics is DERIVED, Not Assumed</div>
     <p style="margin:0;color:var(--text-secondary);">
-      All of quantum mechanics—Schrodinger equation, commutation relations, uncertainty principle,
-      Born rule—follows from the STUR Master Action via the path integral formulation.
-      QM is <strong>derived</strong>, not postulated.
+      All of quantum mechanics — Schrodinger equation, commutation relations, uncertainty principle, Born rule — follows from the XCRM doublet coupling on the Z<sub>3</sub> helix via canonical quantization and the path integral formulation. QM is <strong>derived</strong>, not postulated.
     </p>
   </div>
 </section>
 
-<!-- SECTION 8: COMPARISON WITH STANDARD QM -->
+<!-- SECTION 10: COMPARISON TABLE -->
 <section class="section" id="comparison">
-  <h2>8. STUR vs Standard QM Postulates</h2>
+  <h2>10. STUR vs Standard QM Postulates</h2>
 
   <table>
     <thead>
@@ -460,20 +694,24 @@
         <td style="color:var(--success);">Follows from real eigenvalues requirement</td>
       </tr>
       <tr>
-        <td>Schrodinger equation: iℏ∂<sub>t</sub>ψ = Ĥψ</td>
-        <td style="color:var(--success);">Derived (Section 2)</td>
+        <td>Commutator [x, p] = ih</td>
+        <td style="color:var(--success);">Derived from XCRM doublet (Section 3)</td>
       </tr>
       <tr>
-        <td>Born rule: P = |⟨a|ψ⟩|²</td>
-        <td style="color:var(--success);">Derived from decoherence (Section 4)</td>
+        <td>Schrodinger equation ih d_t psi = H psi</td>
+        <td style="color:var(--success);">Derived from path integral (Section 5)</td>
+      </tr>
+      <tr>
+        <td>Born rule P = |<a|psi>|<sup>2</sup></td>
+        <td style="color:var(--success);">Derived from phase averaging (Section 7)</td>
       </tr>
       <tr>
         <td>Measurement causes collapse</td>
-        <td style="color:var(--success);">Explained by R-field decoherence (Section 5)</td>
+        <td style="color:var(--success);">Explained by XCRM decoherence (Section 8)</td>
       </tr>
       <tr>
-        <td>Commutator [x̂,p̂] = iℏ</td>
-        <td style="color:var(--success);">Derived (Section 3)</td>
+        <td>Uncertainty Delta x Delta p >= h/2</td>
+        <td style="color:var(--success);">Derived from Z<sub>3</sub> structure (Section 6)</td>
       </tr>
     </tbody>
   </table>
@@ -481,8 +719,7 @@
   <div class="block gold" style="margin-top:1rem;">
     <div class="title">Fewer Postulates</div>
     <p style="margin:0;color:var(--text-secondary);">
-      STUR replaces the 6 postulates of standard QM with 1 axiom (the Master Action).
-      Everything else follows mathematically.
+      STUR replaces the 6+ postulates of standard QM with <strong>1 geometric principle</strong>: the XCRM doublet coupling on the Z<sub>3</sub> helix. Everything else follows mathematically.
     </p>
   </div>
 </section>
@@ -494,6 +731,7 @@
 
 <footer class="footer">
   <p><strong>STUR Quantum Mechanics Emergence</strong></p>
+  <p>From DERIVATION_CHAIN_HELIX.md: Sections 1-4, 14</p>
   <p>&copy; 2026 Sheldon Lon Lindberg</p>
 </footer>
 

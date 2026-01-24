@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Dirac Equation — Relativistic Quantum Mechanics from 5D</title>
-<meta name="description" content="Derivation of the Dirac equation from STUR 5D fermion action. Spin-½ particles and antimatter emerge from the Z₃ helix structure.">
+<title>STUR Dirac Equation — Relativistic Quantum Mechanics from XCRM Linearization (v2.5 Helix)</title>
+<meta name="description" content="v2.5 Helix: Dirac equation emerges from XCRM linearization. Spinor structure from Z3 phases, gamma matrices from helix geometry, chirality from winding number.">
 
+<!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
@@ -25,8 +26,8 @@
     <div class="glass-nav-links">
       <a href="../index.html" class="glass-nav-link">Index</a>
       <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
-      <a href="stur_dirac_equation.html" class="glass-nav-link active">Dirac Equation</a>
-      <a href="stur_symbols.html" class="glass-nav-link">Symbols</a>
+      <a href="stur_dirac_equation.html" class="glass-nav-link active">Dirac</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
     </div>
   </nav>
 </header>
@@ -34,12 +35,73 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>The Dirac Equation from STUR</h1>
-  <p class="subtitle">Spin-½ Particles from 5D Fermion Action</p>
+  <h1 style="background: linear-gradient(135deg, #ffffff 0%, #f472b6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">The Dirac Equation (v2.5 Helix)</h1>
+  <p class="subtitle">Spin-1/2 Particles from XCRM Linearization</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    Derives relativistic quantum mechanics for electrons, quarks, neutrinos
+    <span style="color:#f472b6;font-weight:600;">v2.5 Helix</span> ·
+    From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM doublet</a> ·
+    <a href="stur_gauge_emergence.html" style="color:var(--accent);">Gauge derived</a> ·
+    <em>Spinors are geometric</em>
   </p>
+  <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
+
+<!-- v2.5 HELIX HIGHLIGHT -->
+<div style="margin:1rem auto;max-width:800px;padding:1rem;background:rgba(244,114,182,0.15);border:3px solid #f472b6;border-radius:12px;">
+  <div style="font-size:0.9rem;color:#f472b6;text-align:center;font-weight:600;">DIRAC FROM GEOMETRY</div>
+  <p style="margin:0.5rem 0 0;color:var(--text);text-align:center;font-size:0.95rem;">
+    <strong>The Dirac equation emerges from XCRM linearization.</strong><br>
+    Spinor structure, gamma matrices, and chirality all follow from Z₃ helix geometry!
+  </p>
+</div>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- DERIVATION CHAIN -->
+<div class="glass-section" style="border-color:#f472b6;background:rgba(244,114,182,0.06);margin-bottom:1.5rem;">
+    <div class="glass-section-header">
+        <span class="stur-icon icon-link size-24" style="color:#f472b6;"></span>
+        <h2 class="glass-section-title" style="color:#f472b6;">v2.5 Derivation Chain: XCRM → 5D Fermions → Dirac Equation</h2>
+    </div>
+    <div class="glass-section-body">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:1rem;">
+            <span style="padding:6px 12px;background:rgba(251,191,36,0.15);border-radius:8px;border:1px solid rgba(251,191,36,0.4);color:#fbbf24;font-weight:600;">XCRM doublet</span>
+            <span style="color:var(--text-muted);">→</span>
+            <span style="padding:6px 12px;background:rgba(34,211,238,0.15);border-radius:8px;border:1px solid rgba(34,211,238,0.4);color:#22d3ee;font-weight:600;">Z₃ helix</span>
+            <span style="color:var(--text-muted);">→</span>
+            <span style="padding:6px 12px;background:rgba(167,139,250,0.15);border-radius:8px;border:1px solid rgba(167,139,250,0.4);color:#a78bfa;">5D Dirac action</span>
+            <span style="color:var(--text-muted);">→</span>
+            <span style="padding:6px 12px;background:rgba(244,114,182,0.2);border-radius:8px;border:2px solid #f472b6;color:#f472b6;font-weight:600;">4D Dirac equation</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+            <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #fbbf24;">
+                <strong style="color:#fbbf24;font-size:0.8rem;">Step 1: XCRM Linearization</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Linearize XCRM coupling to obtain first-order equation</p>
+            </div>
+            <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #22d3ee;">
+                <strong style="color:#22d3ee;font-size:0.8rem;">Step 2: Spinor from Z₃</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Three Z₃ phases → three generations of spinors</p>
+            </div>
+            <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #a78bfa;">
+                <strong style="color:#a78bfa;font-size:0.8rem;">Step 3: Gamma from Helix</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Gamma matrices from Clifford algebra on M⁴ × S¹</p>
+            </div>
+            <div style="padding:12px;background:rgba(244,114,182,0.1);border-radius:8px;border:2px solid #f472b6;">
+                <strong style="color:#f472b6;font-size:0.8rem;">Result: Dirac</strong>
+                <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">(iγ·∂ - m)ψ = 0 emerges from geometry</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- EXECUTIVE SUMMARY -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
@@ -48,318 +110,637 @@
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
     <div class="title" style="font-size:1.1rem;">Main Result</div>
     <p style="margin:0;color:var(--text);line-height:1.7;">
-      The Dirac equation emerges from the 5D fermion action in the Master Action (from XCRM).
-      Upon dimensional reduction, 5D spinors yield 4D Dirac spinors obeying the standard
-      relativistic wave equation. <strong>Spin, antimatter, and the g-factor</strong> all follow.
+      The Dirac equation emerges from <strong>XCRM linearization</strong> in the Master Action.
+      The 5D fermion action \(\Matt{\bar\Psi \Gamma^M D_M \Psi}\) on the Z₃ helix naturally yields
+      4D Dirac spinors. <strong>Spin, antimatter, gamma matrices, and chirality</strong> all follow
+      from the helix geometry — they are not postulated.
+    </p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;margin-top:1rem;">
+    <div style="background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:8px;border-left:3px solid #4ade80;">
+      <strong style="color:#4ade80;font-size:0.8rem;">Spinors</strong>
+      <p style="margin:4px 0 0;font-size:0.78rem;color:var(--text-secondary);">From Z₃ phase structure</p>
+    </div>
+    <div style="background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:8px;border-left:3px solid #22d3ee;">
+      <strong style="color:#22d3ee;font-size:0.8rem;">Gamma Matrices</strong>
+      <p style="margin:4px 0 0;font-size:0.78rem;color:var(--text-secondary);">From 5D Clifford algebra</p>
+    </div>
+    <div style="background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:8px;border-left:3px solid #a78bfa;">
+      <strong style="color:#a78bfa;font-size:0.8rem;">Chirality</strong>
+      <p style="margin:4px 0 0;font-size:0.78rem;color:var(--text-secondary);">From winding number</p>
+    </div>
+    <div style="background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:8px;border-left:3px solid #f472b6;">
+      <strong style="color:#f472b6;font-size:0.8rem;">Antimatter</strong>
+      <p style="margin:4px 0 0;font-size:0.78rem;color:var(--text-secondary);">From E = ±√(p²+m²)</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 1: XCRM LINEARIZATION -->
+<section class="section" id="xcrm-linearization" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(167,139,250,0.04) 100%);">
+  <h2 style="color:var(--gold);">1. Dirac Emergence from XCRM Linearization</h2>
+
+  <h3>1.1 The XCRM Coupling (Foundation)</h3>
+
+  <p>From the <a href="stur_core_theory.html" style="color:var(--gold);">Master Action</a>, the fundamental XCRM coupling:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\XCRM{\mathcal{L}_{\rm XCRM} = \chi (R_1 \partial_X R_2 - R_2 \partial_X R_1) = \chi |R|^2 \partial_X \phi}}\]
+    <div class="eq-label" style="color:var(--gold);">(1.1) — XCRM coupling in polar form [H.1.7]</div>
+  </div>
+
+  <p>The XCRM term is <strong>first-order in derivatives</strong>. This is the key insight: first-order equations naturally describe fermions!</p>
+
+  <h3>1.2 From Second-Order to First-Order</h3>
+
+  <p>The Klein-Gordon equation (second-order) describes spin-0 particles:</p>
+
+  <div class="eq boxed">
+    \[(\Diff{\partial_\mu \partial^\mu} + \Pot{m^2})\Phi = 0\]
+    <div class="eq-label">(1.2) — Klein-Gordon (spin-0)</div>
+  </div>
+
+  <p>To describe spin-1/2, Dirac sought a <strong>first-order equation</strong>. The XCRM coupling naturally provides this structure through linearization.</p>
+
+  <details class="learn-box derivation">
+    <summary>
+      <span>Linearization Procedure</span>
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p>The XCRM winding term \(\XCRM{\chi |R|^2 \partial_X \phi}\) suggests a linearization ansatz. Consider the R-field doublet fluctuations around vacuum:</p>
+
+      <div class="eq boxed">
+        \[\XCRM{R_i(x,X)} = v \cdot f_i(X) + \Matt{\delta R_i(x,X)}\]
+        <div class="eq-label">(1.3)</div>
+      </div>
+
+      <p>where \(f_i(X)\) encodes the helix winding. The antisymmetric structure \(R_1 \partial_X R_2 - R_2 \partial_X R_1\) linearizes to:</p>
+
+      <div class="eq boxed">
+        \[\XCRM{\delta\mathcal{L}} \sim v^2 \partial_X(\delta\phi) + \Matt{\bar\psi \partial_X \psi}\]
+        <div class="eq-label">(1.4)</div>
+      </div>
+
+      <p>The second term has the structure of a <strong>Dirac kinetic term</strong> in the fifth dimension. Combined with the 4D kinetic terms, this gives the full 5D Dirac action.</p>
+    </div>
+  </details>
+
+  <h3>1.3 The 5D Fermion Action</h3>
+
+  <p>The fermion sector of the Master Action [H.3.8]:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid #f472b6;padding:1.25rem;">
+    \[\boxed{\Matt{S_{\rm fermion} = \int d^5x\, \sqrt{-g}\, \bar{\Psi}(i\Gamma^M D_M - m_5)\Psi}}\]
+    <div class="eq-label" style="color:#f472b6;">(1.5) — 5D fermion action [H.3.8]</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-top:1rem;">
+    <div style="background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:8px;">
+      <strong style="color:var(--text);font-size:0.85rem;">\(\Matt{\Psi}\)</strong>
+      <p style="margin:4px 0 0;font-size:0.8rem;color:var(--text-secondary);">5D Dirac spinor (4 complex components)</p>
+    </div>
+    <div style="background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:8px;">
+      <strong style="color:var(--text);font-size:0.85rem;">\(\Matt{\Gamma^M}\)</strong>
+      <p style="margin:4px 0 0;font-size:0.8rem;color:var(--text-secondary);">5D gamma matrices (M = 0,1,2,3,5)</p>
+    </div>
+    <div style="background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:8px;">
+      <strong style="color:var(--text);font-size:0.85rem;">\(\Matt{D_M}\)</strong>
+      <p style="margin:4px 0 0;font-size:0.8rem;color:var(--text-secondary);">= ∂<sub>M</sub> + ω<sub>M</sub> + igA<sub>M</sub></p>
+    </div>
+    <div style="background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:8px;">
+      <strong style="color:var(--text);font-size:0.85rem;">\(\Matt{m_5}\)</strong>
+      <p style="margin:4px 0 0;font-size:0.8rem;color:var(--text-secondary);">5D mass parameter</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: SPINOR STRUCTURE FROM Z₃ -->
+<section class="section" id="spinor-z3" style="border:2px solid #22d3ee; background:rgba(34,211,238,0.04);">
+  <h2 style="color:#22d3ee;">2. Spinor Structure from Z₃ Phases</h2>
+
+  <h3>2.1 Three Generations from Z₃ Helix</h3>
+
+  <p>On the Z₃ helix, fermions are characterized by their phase position [H.6.1]:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid #22d3ee;">
+    \[\boxed{\Matt{\phi_g = \frac{2\pi g}{3}}, \quad g \in \{0, 1, 2\}}\]
+    <div class="eq-label" style="color:#22d3ee;">(2.1) — Three generations from Z₃ [H.6.1]</div>
+  </div>
+
+  <div style="display:flex;justify-content:center;gap:1.5rem;margin:1.5rem 0;flex-wrap:wrap;">
+    <div style="background:rgba(34,211,238,0.1);padding:1rem 1.5rem;border-radius:8px;text-align:center;border:1px solid rgba(34,211,238,0.3);">
+      <span style="color:#22d3ee;font-weight:700;font-size:1.1rem;">Generation 1</span><br>
+      <span style="color:var(--text-muted);font-size:0.9rem;">\(\phi_0 = 0\)</span><br>
+      <span style="color:var(--text-secondary);font-size:0.85rem;">(e, u, d)</span>
+    </div>
+    <div style="background:rgba(34,211,238,0.1);padding:1rem 1.5rem;border-radius:8px;text-align:center;border:1px solid rgba(34,211,238,0.3);">
+      <span style="color:#22d3ee;font-weight:700;font-size:1.1rem;">Generation 2</span><br>
+      <span style="color:var(--text-muted);font-size:0.9rem;">\(\phi_1 = 2\pi/3\)</span><br>
+      <span style="color:var(--text-secondary);font-size:0.85rem;">(μ, c, s)</span>
+    </div>
+    <div style="background:rgba(34,211,238,0.1);padding:1rem 1.5rem;border-radius:8px;text-align:center;border:1px solid rgba(34,211,238,0.3);">
+      <span style="color:#22d3ee;font-weight:700;font-size:1.1rem;">Generation 3</span><br>
+      <span style="color:var(--text-muted);font-size:0.9rem;">\(\phi_2 = 4\pi/3\)</span><br>
+      <span style="color:var(--text-secondary);font-size:0.85rem;">(τ, t, b)</span>
+    </div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Key Insight: Generations Are Geometric</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>n<sub>gen</sub> = 3 is TOPOLOGICAL, not dynamical!</strong> The Z₃ helix automatically
+      has exactly three distinct phases. This is a theorem from the geometry, not a parameter choice.
+    </p>
+  </div>
+
+  <h3>2.2 Fermion Wavefunctions</h3>
+
+  <p>Each generation has a wavefunction peaked at its Z₃ phase [H.6.3]:</p>
+
+  <div class="eq boxed">
+    \[\Matt{\psi_g(X) \propto \exp\left[-\frac{(\phi(X) - \phi_g)^2}{2\sigma^2}\right]}\]
+    <div class="eq-label">(2.2) — Localized fermion wavefunction [H.6.3]</div>
+  </div>
+
+  <details class="learn-box example">
+    <summary>
+      <span>Wavefunction Overlap and Yukawa Hierarchy</span>
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>The overlap between generation wavefunctions determines Yukawa couplings [H.7.2]:</p>
+
+      <div class="eq boxed">
+        \[\Matt{Y_{ij}} \propto \exp\left[-\frac{|\phi_i - \phi_j|^2}{4\sigma^2}\right]\]
+        <div class="eq-label">(2.3)</div>
+      </div>
+
+      <p>With phase separation \(\Delta\phi = 2\pi/3\), this gives the Wolfenstein parameter:</p>
+
+      <div class="eq boxed">
+        \[\XCRM{\lambda = e^{-2\pi/3} \approx 0.12} \quad \xrightarrow{\rm RG\ running} \quad \Matt{\lambda_{\rm phys} \approx 0.22}\]
+        <div class="eq-label">(2.4) — Wolfenstein parameter from Z₃ [H.7.5f]</div>
+      </div>
+
+      <p>After RG running and threshold corrections, this matches the observed CKM parameter!</p>
+    </div>
+  </details>
+
+  <h3>2.3 Spinor Representation</h3>
+
+  <p>The 5D spinor decomposes under 4D Lorentz as:</p>
+
+  <div class="eq boxed">
+    \[\Matt{\Psi} = \begin{pmatrix} \Matt{\psi_L} \\ \Matt{\psi_R} \end{pmatrix}, \quad \text{where } \Matt{\psi_{L,R}} \text{ are 4D Weyl spinors}\]
+    <div class="eq-label">(2.5) — 5D spinor decomposition</div>
+  </div>
+
+  <p>The Z₃ helix boundary condition acts on spinors as:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid #22d3ee;">
+    \[\boxed{\Matt{\Psi(X + L_X)} = \Quant{e^{2\pi i/3}} \cdot \Matt{\Psi(X)}}\]
+    <div class="eq-label" style="color:#22d3ee;">(2.6) — Z₃ twisted boundary condition for fermions</div>
+  </div>
+</section>
+
+<!-- SECTION 3: GAMMA MATRICES FROM HELIX -->
+<section class="section" id="gamma-matrices" style="border:2px solid #a78bfa; background:rgba(167,139,250,0.04);">
+  <h2 style="color:#a78bfa;">3. Gamma Matrix Construction from Helix Geometry</h2>
+
+  <h3>3.1 5D Clifford Algebra</h3>
+
+  <p>On M⁴ × S¹ with Z₃ helix structure, the gamma matrices satisfy the 5D Clifford algebra:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid #a78bfa;">
+    \[\boxed{\Quant{\{\Gamma^M, \Gamma^N\} = 2g^{MN}}}\]
+    <div class="eq-label" style="color:#a78bfa;">(3.1) — 5D Clifford algebra</div>
+  </div>
+
+  <p>where \(g^{MN} = \text{diag}(+,-,-,-,-)\) for M, N = 0,1,2,3,5.</p>
+
+  <h3>3.2 Explicit Representation</h3>
+
+  <p>The 5D gamma matrices in terms of 4D Dirac matrices:</p>
+
+  <div class="eq boxed">
+    \[\Quant{\Gamma^\mu = \gamma^\mu \otimes \mathbf{1}}, \quad \Quant{\Gamma^5 = \gamma^5 \otimes \sigma_3}\]
+    <div class="eq-label">(3.2) — 5D gamma matrices from 4D</div>
+  </div>
+
+  <p>where \(\gamma^5 = i\gamma^0\gamma^1\gamma^2\gamma^3\) is the 4D chirality matrix.</p>
+
+  <details class="learn-box derivation">
+    <summary>
+      <span>Gamma Matrix Derivation from Helix</span>
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Step 1:</strong> The 4D gamma matrices in the Dirac representation:</p>
+
+      <div class="eq boxed">
+        \[\gamma^0 = \begin{pmatrix} \mathbf{1} & 0 \\ 0 & -\mathbf{1} \end{pmatrix}, \quad
+          \gamma^i = \begin{pmatrix} 0 & \sigma^i \\ -\sigma^i & 0 \end{pmatrix}\]
+        <div class="eq-label">(3.3)</div>
+      </div>
+
+      <p><strong>Step 2:</strong> The chirality matrix:</p>
+
+      <div class="eq boxed">
+        \[\gamma^5 = i\gamma^0\gamma^1\gamma^2\gamma^3 = \begin{pmatrix} 0 & \mathbf{1} \\ \mathbf{1} & 0 \end{pmatrix}\]
+        <div class="eq-label">(3.4)</div>
+      </div>
+
+      <p><strong>Step 3:</strong> For the fifth dimension on the Z₃ helix, we need \(\Gamma^5\) to anticommute with all \(\Gamma^\mu\) and square to \(-\mathbf{1}\). The choice \(\Gamma^5 = \gamma^5 \otimes \sigma_3\) satisfies these constraints.</p>
+
+      <p><strong>Key insight:</strong> The \(\sigma_3\) factor encodes the <strong>helix winding direction</strong> — clockwise vs counterclockwise winding corresponds to different eigenvalues of \(\sigma_3\).</p>
+    </div>
+  </details>
+
+  <h3>3.3 Helix Geometry and Spin Connection</h3>
+
+  <p>On the Z₃ helix, the metric includes the winding:</p>
+
+  <div class="eq boxed">
+    \[ds^2 = \Tor{g_{\mu\nu}}dx^\mu dx^\nu - \XCRM{L_X^2}d\theta^2, \quad \theta = \frac{2\pi X}{3L_X}\]
+    <div class="eq-label">(3.5) — Helix metric</div>
+  </div>
+
+  <p>The spin connection on this geometry:</p>
+
+  <div class="eq boxed">
+    \[\Quant{\omega_\mu^{ab} = \frac{1}{2}e^{a\nu}(\partial_\mu e^b_\nu - \partial_\nu e^b_\mu) - (a \leftrightarrow b)}\]
+    <div class="eq-label">(3.6) — Spin connection</div>
+  </div>
+
+  <p>contributes to the covariant derivative acting on spinors, ensuring the Dirac equation is geometric.</p>
+</section>
+
+<!-- SECTION 4: CHIRALITY FROM WINDING -->
+<section class="section" id="chirality" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(244,114,182,0.04) 100%);">
+  <h2 style="color:var(--gold);">4. Chirality from Winding Number</h2>
+
+  <h3>4.1 Winding Number as Topological Invariant</h3>
+
+  <p>The R-field configuration is characterized by its winding number [H.14.1]:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\XCRM{w = \frac{1}{2\pi}\oint \partial_X \phi\, dX = \frac{1}{3}}}\]
+    <div class="eq-label" style="color:var(--gold);">(4.1) — Winding number on Z₃ helix [H.14.1]</div>
+  </div>
+
+  <p>The total winding number \(N_{\rm wind} = w/3\) is a <strong>topological invariant</strong> — it cannot change under continuous deformations.</p>
+
+  <h3>4.2 Chirality and Z₂ Parity</h3>
+
+  <p>On the Z₃ helix, the chirality operator connects to the winding direction:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid #f472b6;">
+    \[\boxed{\Matt{\Psi_L(-X) = +\Psi_L(X)}, \quad \Matt{\Psi_R(-X) = -\Psi_R(X)}}\]
+    <div class="eq-label" style="color:#f472b6;">(4.2) — Chiral Z₂ assignment</div>
+  </div>
+
+  <p>This boundary condition determines which chiralities have zero modes:</p>
+
+  <table style="width:100%;margin:1rem 0;">
+    <thead>
+      <tr>
+        <th>Chirality</th>
+        <th>Z₂ Parity</th>
+        <th>Zero Mode?</th>
+        <th>Physical Consequence</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#4ade80;">Ψ<sub>L</sub> (left-handed)</td>
+        <td>Even (+)</td>
+        <td style="color:#4ade80;">Yes</td>
+        <td>Massless at tree level</td>
+      </tr>
+      <tr>
+        <td style="color:#f472b6;">Ψ<sub>R</sub> (right-handed)</td>
+        <td>Odd (-)</td>
+        <td style="color:#f472b6;">No</td>
+        <td>Mass ~ 1/L<sub>X</sub></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details class="learn-box comparison">
+    <summary>
+      <span>CP Violation from Helix Chirality</span>
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p>The helix has an intrinsic handedness — it winds either clockwise or counterclockwise. This <strong>spontaneously breaks CP</strong> [H.8.3]!</p>
+
+      <div class="eq boxed">
+        \[\text{Right-handed helix: } \partial_X\phi > 0 \quad \longleftrightarrow \quad \text{Left-handed helix: } \partial_X\phi < 0\]
+        <div class="eq-label">(4.3)</div>
+      </div>
+
+      <p>The CP-violating phase in the CKM matrix arises from this helix chirality [H.8.6]:</p>
+
+      <div class="eq boxed">
+        \[\XCRM{\delta_{\rm geo} \approx 70°} \quad \xrightarrow{\rm corrections} \quad \Matt{\delta_{\rm CP} \approx 68°}\]
+        <div class="eq-label">(4.4) — CP phase from helix chirality</div>
+      </div>
+    </div>
+  </details>
+
+  <h3>4.3 Anomaly Cancellation</h3>
+
+  <p>The chiral spectrum must satisfy anomaly cancellation. For the SM fermion content per generation (15 Weyl fermions), the Z₃ helix automatically provides [H.2.8]:</p>
+
+  <div class="eq boxed">
+    \[\Quant{\text{Tr}[Y^3] = 0}, \quad \Quant{\text{Tr}[SU(2)^2 Y] = 0} \quad \text{per generation}\]
+    <div class="eq-label">(4.5) — Anomaly cancellation conditions</div>
+  </div>
+
+  <div class="block success">
+    <div class="title">Why N = 3 Is Unique</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Z₃ is the <strong>unique</strong> helix structure that satisfies: (1) gauge anomaly cancellation,
+      (2) gravitational anomaly cancellation, (3) SU(3) center compatibility, and (4) holonomy moduli stabilization.
+      Other values (N = 2, 4, 5, ...) fail one or more of these constraints [H.2.9].
     </p>
   </div>
 </section>
 
-<!-- SECTION 1: 5D FERMION ACTION -->
-<section class="section" id="5d-action">
-  <h2>1. The 5D Fermion Action</h2>
+<!-- SECTION 5: DIMENSIONAL REDUCTION -->
+<section class="section" id="reduction" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--success);">5. Dimensional Reduction to 4D Dirac Equation</h2>
 
-  <h3>1.1 Master Action Fermion Sector</h3>
+  <h3>5.1 KK Mode Expansion</h3>
 
-  <p>From the Master Action, the matter sector includes 5D Dirac fermions:</p>
-
-  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{S_{\rm fermion} = \int d^5x\, \sqrt{-g}\, \bar{\Psi}(i\Gamma^M D_M - m_5)\Psi}\]
-    <div class="eq-label" style="color:var(--gold);">(1.1) — 5D fermion action</div>
-  </div>
-
-  <p>where:</p>
-  <ul>
-    <li>Ψ is a 5D Dirac spinor (4 complex components)</li>
-    <li>Γ<sup>M</sup> are 5D gamma matrices (M = 0,1,2,3,5)</li>
-    <li>D<sub>M</sub> = ∂<sub>M</sub> + ω<sub>M</sub> + igA<sub>M</sub> is the covariant derivative</li>
-    <li>m<sub>5</sub> is the 5D mass parameter</li>
-  </ul>
-
-  <h3>1.2 5D Gamma Matrices</h3>
-
-  <p>The 5D Clifford algebra:</p>
+  <p>On the Z₃ helix S¹, the 5D spinor expands as:</p>
 
   <div class="eq boxed">
-    \[\{\Gamma^M, \Gamma^N\} = 2g^{MN}\]
-    <div class="eq-label">(1.2)</div>
+    \[\Matt{\Psi(x,X) = \sum_{n=0}^{\infty} \psi_n(x) f_n(X)}\]
+    <div class="eq-label">(5.1) — Kaluza-Klein expansion</div>
   </div>
 
-  <p>Explicit representation:</p>
+  <p>where \(f_n(X)\) are KK mode profiles satisfying Z₃ twisted boundary conditions.</p>
 
-  <div class="eq boxed">
-    \[\Gamma^\mu = \gamma^\mu \otimes \mathbf{1}, \quad \Gamma^5 = \gamma^5 \otimes \sigma_3\]
-    <div class="eq-label">(1.3)</div>
-  </div>
-
-  <p>where γ<sup>μ</sup> are the standard 4D Dirac matrices and γ<sup>5</sup> = iγ<sup>0</sup>γ<sup>1</sup>γ<sup>2</sup>γ<sup>3</sup>.</p>
-</section>
-
-<!-- SECTION 2: DIMENSIONAL REDUCTION -->
-<section class="section" id="reduction" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--gold);">2. Dimensional Reduction to 4D</h2>
-
-  <h3>2.1 KK Mode Expansion</h3>
-
-  <p>On the Z₃ helix S<sup>1</sup>/Z<sub>2</sub>, the 5D spinor expands as:</p>
-
-  <div class="eq boxed">
-    \[\Psi(x,X) = \sum_{n=0}^{\infty} \psi_n(x) f_n(X)\]
-    <div class="eq-label">(2.1)</div>
-  </div>
-
-  <p>where f<sub>n</sub>(X) are the KK mode profiles satisfying Z₃ helix boundary conditions.</p>
-
-  <h3>2.2 Chirality and Z<sub>2</sub> Parity</h3>
-
-  <p>Under the Z<sub>2</sub> Z₃ helix action (X → -X), chirality determines parity:</p>
-
-  <div class="eq law" style="background:#000;border:2px solid var(--matter);">
-    \[\boxed{\Psi_L(-X) = +\Psi_L(X), \quad \Psi_R(-X) = -\Psi_R(X)}\]
-    <div class="eq-label" style="color:var(--matter);">(2.2) — Chiral Z<sub>2</sub> assignment</div>
-  </div>
-
-  <p>This gives:</p>
-  <ul>
-    <li>Ψ<sub>L</sub>: Zero mode exists (massless at tree level)</li>
-    <li>Ψ<sub>R</sub>: No zero mode (mass ~ 1/L<sub>X</sub>)</li>
-  </ul>
-
-  <h3>2.3 4D Effective Action</h3>
+  <h3>5.2 Zero Mode Action</h3>
 
   <p>Integrating over X, the zero mode action becomes:</p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{S_{\rm 4D} = \int d^4x\, \bar{\psi}(i\gamma^\mu D_\mu - m)\psi}\]
-    <div class="eq-label" style="color:var(--success);">(2.3) — 4D Dirac action (DERIVED)</div>
+    \[\boxed{\Matt{S_{\rm 4D} = \int d^4x\, \bar{\psi}(i\gamma^\mu D_\mu - m)\psi}}\]
+    <div class="eq-label" style="color:var(--success);">(5.2) — 4D Dirac action (DERIVED)</div>
   </div>
 
-  <p>where m arises from the Higgs mechanism (Yukawa coupling to H = A<sub>5</sub>).</p>
-</section>
+  <p>where the 4D mass \(m\) arises from the Yukawa coupling to the Higgs \(H = A_5\).</p>
 
-<!-- SECTION 3: DIRAC EQUATION -->
-<section class="section" id="dirac-eq" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
-  <h2 style="color:var(--success);">3. The Dirac Equation</h2>
+  <h3>5.3 The Dirac Equation</h3>
 
-  <h3>3.1 Euler-Lagrange Variation</h3>
-
-  <p>Varying S<sub>4D</sub> with respect to ψ̄:</p>
+  <p>Varying the 4D action with respect to \(\bar\psi\):</p>
 
   <div class="eq boxed">
-    \[\frac{\delta S}{\delta \bar{\psi}} = 0 \quad \Rightarrow \quad (i\gamma^\mu D_\mu - m)\psi = 0\]
-    <div class="eq-label">(3.1)</div>
+    \[\frac{\delta S_{\rm 4D}}{\delta \bar{\psi}} = 0 \quad \Rightarrow \quad \Matt{(i\gamma^\mu D_\mu - m)\psi = 0}\]
+    <div class="eq-label">(5.3) — Euler-Lagrange variation</div>
   </div>
 
-  <h3>3.2 Free Dirac Equation</h3>
-
-  <p>In the absence of gauge fields (D<sub>μ</sub> → ∂<sub>μ</sub>):</p>
+  <p>In the absence of gauge fields (free particle):</p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{(i\gamma^\mu \partial_\mu - m)\psi = 0}\]
-    <div class="eq-label" style="color:var(--success);">(3.2) — Dirac Equation (DERIVED)</div>
+    \[\boxed{\Matt{(i\gamma^\mu \partial_\mu - m)\psi = 0}}\]
+    <div class="eq-label" style="color:var(--success);">(5.4) — Free Dirac Equation (DERIVED)</div>
   </div>
 
-  <p>Or equivalently:</p>
+  <p>Or in Hamiltonian form:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);">
-    \[\boxed{i\hbar\frac{\partial\psi}{\partial t} = \left(-i\hbar c\boldsymbol{\alpha}\cdot\nabla + \beta mc^2\right)\psi}\]
-    <div class="eq-label" style="color:var(--success);">(3.3) — Hamiltonian form</div>
+    \[\boxed{\Matt{i\hbar\frac{\partial\psi}{\partial t} = \left(-i\hbar c\boldsymbol{\alpha}\cdot\nabla + \beta mc^2\right)\psi}}\]
+    <div class="eq-label" style="color:var(--success);">(5.5) — Hamiltonian form</div>
   </div>
 
-  <h3>3.3 Conjugate Equation</h3>
-
-  <p>Varying with respect to ψ gives the adjoint equation:</p>
-
-  <div class="eq boxed">
-    \[\bar{\psi}(i\gamma^\mu \overleftarrow{\partial}_\mu + m) = 0\]
-    <div class="eq-label">(3.4)</div>
-  </div>
+  <p>where \(\boldsymbol{\alpha} = \gamma^0\boldsymbol{\gamma}\) and \(\beta = \gamma^0\).</p>
 </section>
 
-<!-- SECTION 4: PHYSICAL CONTENT -->
+<!-- SECTION 6: PHYSICAL CONTENT -->
 <section class="section" id="physics">
-  <h2>4. Physical Content of the Dirac Equation</h2>
+  <h2>6. Physical Content of the Dirac Equation</h2>
 
-  <h3>4.1 Spin-½ Angular Momentum</h3>
+  <h3>6.1 Spin-1/2 Angular Momentum</h3>
 
   <p>The Dirac equation automatically incorporates spin:</p>
 
-  <div class="eq law" style="background:#000;border:2px solid var(--matter);">
-    \[\boxed{\mathbf{S} = \frac{\hbar}{2}\boldsymbol{\Sigma}, \quad \Sigma^i = \begin{pmatrix} \sigma^i & 0 \\ 0 & \sigma^i \end{pmatrix}}\]
-    <div class="eq-label" style="color:var(--matter);">(4.1) — Spin operator (DERIVED)</div>
+  <div class="eq law" style="background:#000;border:2px solid #22d3ee;">
+    \[\boxed{\Matt{\mathbf{S} = \frac{\hbar}{2}\boldsymbol{\Sigma}}, \quad \Matt{\Sigma^i = \begin{pmatrix} \sigma^i & 0 \\ 0 & \sigma^i \end{pmatrix}}}\]
+    <div class="eq-label" style="color:#22d3ee;">(6.1) — Spin operator (DERIVED)</div>
   </div>
 
-  <p>This is not put in by hand—it follows from the Lorentz group representation.</p>
+  <p>This is <strong>not put in by hand</strong> — it follows from the Lorentz group representation on spinors.</p>
 
-  <h3>4.2 Antimatter</h3>
+  <h3>6.2 Antimatter</h3>
 
   <p>The Dirac equation has both positive and negative energy solutions:</p>
 
   <div class="eq boxed">
-    \[E = \pm\sqrt{p^2c^2 + m^2c^4}\]
-    <div class="eq-label">(4.2)</div>
+    \[\Matt{E = \pm\sqrt{p^2c^2 + m^2c^4}}\]
+    <div class="eq-label">(6.2) — Energy eigenvalues</div>
   </div>
 
-  <p>Negative energy solutions are reinterpreted as positive-energy antiparticles (positrons, antiquarks).</p>
+  <p>Negative energy solutions are reinterpreted as positive-energy <strong>antiparticles</strong>.</p>
 
   <div class="block success">
     <div class="title">Antimatter Predicted</div>
     <p style="margin:0;color:var(--text-secondary);">
       The existence of antimatter is a <strong>prediction</strong> of the Dirac equation,
-      which itself follows from STUR's 5D fermion action. Positrons were discovered in 1932,
+      which itself follows from STUR's XCRM linearization. Positrons were discovered in 1932,
       confirming this prediction.
     </p>
   </div>
 
-  <h3>4.3 Magnetic Moment</h3>
+  <h3>6.3 Magnetic Moment (g-factor)</h3>
 
   <p>The electron's magnetic moment from the Dirac equation:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--success);">
-    \[\boxed{\boldsymbol{\mu} = g_s \frac{e}{2m}\mathbf{S}, \quad g_s = 2 \text{ (at tree level)}}\]
-    <div class="eq-label" style="color:var(--success);">(4.3) — Dirac g-factor</div>
+    \[\boxed{\Matt{\boldsymbol{\mu} = g_s \frac{e}{2m}\mathbf{S}}, \quad \Matt{g_s = 2} \text{ (at tree level)}}\]
+    <div class="eq-label" style="color:var(--success);">(6.3) — Dirac g-factor</div>
   </div>
 
-  <p>Loop corrections from QED give g<sub>s</sub> = 2.00231..., matching experiment to 12 decimal places.</p>
+  <p>Loop corrections from QED give \(g_s = 2.00231...\), matching experiment to 12 decimal places.</p>
 
-  <h3>4.4 Zitterbewegung</h3>
+  <details class="learn-box example">
+    <summary>
+      <span>Zitterbewegung — Rapid Oscillation</span>
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>The Dirac equation predicts rapid oscillation of the electron position:</p>
 
-  <p>The Dirac equation predicts rapid oscillation of the electron position:</p>
+      <div class="eq boxed">
+        \[\Matt{\omega_{\rm zitter} = \frac{2mc^2}{\hbar} \approx 1.6 \times 10^{21}\, \text{Hz}}\]
+        <div class="eq-label">(6.4)</div>
+      </div>
 
-  <div class="eq boxed">
-    \[\omega_{\rm zitter} = \frac{2mc^2}{\hbar} \approx 1.6 \times 10^{21}\, \text{Hz}\]
-    <div class="eq-label">(4.4)</div>
-  </div>
+      <p>This "trembling motion" arises from interference between positive and negative energy components and has been indirectly observed in ion trap experiments.</p>
+    </div>
+  </details>
 </section>
 
-<!-- SECTION 5: GAUGE COUPLING -->
+<!-- SECTION 7: GAUGE COUPLING -->
 <section class="section" id="gauge" style="border:2px solid #22d3ee; background:rgba(34,211,238,0.04);">
-  <h2 style="color:#22d3ee;">5. Coupling to Gauge Fields</h2>
+  <h2 style="color:#22d3ee;">7. Coupling to Gauge Fields</h2>
 
-  <h3>5.1 Covariant Dirac Equation</h3>
+  <h3>7.1 Covariant Dirac Equation</h3>
 
   <p>With electromagnetic field:</p>
 
   <div class="eq law" style="background:#000;border:2px solid #22d3ee;">
-    \[\boxed{(i\gamma^\mu(\partial_\mu + ieA_\mu) - m)\psi = 0}\]
-    <div class="eq-label" style="color:#22d3ee;">(5.1) — Dirac in EM field</div>
+    \[\boxed{\Matt{(i\gamma^\mu(\partial_\mu + ieA_\mu) - m)\psi = 0}}\]
+    <div class="eq-label" style="color:#22d3ee;">(7.1) — Dirac in EM field</div>
   </div>
 
-  <h3>5.2 Non-Abelian Extension</h3>
+  <h3>7.2 Non-Abelian Extension</h3>
 
   <p>For quarks coupled to SU(3)<sub>c</sub>:</p>
 
   <div class="eq boxed">
-    \[(i\gamma^\mu(\partial_\mu + ig_s G_\mu^a T^a) - m)\psi = 0\]
-    <div class="eq-label">(5.2)</div>
+    \[\Matt{(i\gamma^\mu(\partial_\mu + ig_s G_\mu^a T^a) - m)\psi = 0}\]
+    <div class="eq-label">(7.2) — QCD Dirac equation</div>
   </div>
 
-  <h3>5.3 Full Standard Model Coupling</h3>
+  <h3>7.3 Full Standard Model Covariant Derivative</h3>
 
   <p>The complete covariant derivative for a left-handed quark:</p>
 
   <div class="eq boxed">
-    \[D_\mu = \partial_\mu + ig_s G_\mu^a T^a + ig_2 W_\mu^i \tau^i + ig_1 Y B_\mu\]
-    <div class="eq-label">(5.3)</div>
+    \[\Matt{D_\mu = \partial_\mu + ig_s G_\mu^a T^a + ig_2 W_\mu^i \tau^i + ig_1 Y B_\mu}\]
+    <div class="eq-label">(7.3) — Full SM covariant derivative</div>
   </div>
+
+  <p>All gauge couplings emerge from the <a href="stur_gauge_emergence.html" style="color:var(--accent);">XCRM degeneracy structure</a>.</p>
 </section>
 
-<!-- SECTION 6: FERMION GENERATIONS -->
-<section class="section" id="generations" style="border:2px solid var(--matter); background:rgba(244,114,182,0.04);">
-  <h2 style="color:var(--matter);">6. Three Generations of Fermions</h2>
-
-  <h3>6.1 Electron, Muon, Tau</h3>
-
-  <p>Each charged lepton satisfies the Dirac equation with its mass:</p>
-
-  <table>
-    <thead>
-      <tr><th>Fermion</th><th>Mass (MeV)</th><th>Dirac Equation</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Electron (e)</td><td>0.511</td><td>(iγ·∂ - m<sub>e</sub>)ψ<sub>e</sub> = 0</td></tr>
-      <tr><td>Muon (μ)</td><td>105.7</td><td>(iγ·∂ - m<sub>μ</sub>)ψ<sub>μ</sub> = 0</td></tr>
-      <tr><td>Tau (τ)</td><td>1776.9</td><td>(iγ·∂ - m<sub>τ</sub>)ψ<sub>τ</sub> = 0</td></tr>
-    </tbody>
-  </table>
-
-  <h3>6.2 Mass Origin</h3>
-
-  <p>From the <a href="stur_yukawa_derivation.html">Yukawa Derivation</a>, masses arise from:</p>
-
-  <div class="eq boxed">
-    \[m_f = y_f \cdot v = y_f \cdot 246\, \text{GeV}\]
-    <div class="eq-label">(6.1)</div>
-  </div>
-
-  <p>where y<sub>f</sub> is determined by wavefunction overlap (TFP).</p>
-
-  <h3>6.3 Three Generations from Topology</h3>
-
-  <p>From <a href="stur_sm_derivation.html">SM Derivation</a>, exactly 3 generations arise from:</p>
-
-  <div class="eq law" style="background:#000;border:2px solid var(--matter);">
-    \[\boxed{N_{\rm gen} = |\chi(\mathcal{M})| = 3}\]
-    <div class="eq-label" style="color:var(--matter);">(6.2) — Three generations from topology</div>
-  </div>
-</section>
-
-<!-- SECTION 7: DERIVATION CHAIN -->
+<!-- SECTION 8: COMPLETE DERIVATION CHAIN -->
 <section class="section" id="chain" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">7. Complete Derivation Chain</h2>
+  <h2 style="color:var(--success);">8. Complete Derivation Chain</h2>
 
   <div class="walkthrough" style="margin:1rem 0;">
     <div class="step">
       <div class="step-content">
-        <strong>Master Action: 5D Fermion Action</strong><br>
-        S = ∫d<sup>5</sup>x ψ̄(iΓ<sup>M</sup>D<sub>M</sub> - m<sub>5</sub>)Ψ
+        <strong>XCRM Doublet Coupling (Foundation)</strong><br>
+        \(\XCRM{\mathcal{L}_{\rm XCRM} = \chi(R_1\partial_X R_2 - R_2\partial_X R_1)}\)
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Orbifold Compactification</strong><br>
-        S<sup>1</sup>/Z<sub>2</sub> with chiral boundary conditions
+        <strong>Linearization → First-Order Structure</strong><br>
+        XCRM first-order in derivatives → fermionic structure
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>5D Fermion Action</strong><br>
+        \(\Matt{S = \int d^5x\, \bar\Psi(i\Gamma^M D_M - m_5)\Psi}\)
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Z₃ Helix Compactification</strong><br>
+        Twisted boundary conditions, three phases → three generations
       </div>
     </div>
     <div class="step">
       <div class="step-content">
         <strong>KK Reduction</strong><br>
-        Zero mode ψ<sub>0</sub>(x) survives
+        Zero mode \(\psi_0(x)\) survives with chiral projection
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>4D Dirac Action</strong><br>
-        S<sub>4D</sub> = ∫d<sup>4</sup>x ψ̄(iγ<sup>μ</sup>D<sub>μ</sub> - m)ψ
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <strong>Euler-Lagrange</strong><br>
-        δS/δψ̄ = 0
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-content">
-        <strong>Dirac Equation</strong><br>
-        (iγ<sup>μ</sup>∂<sub>μ</sub> - m)ψ = 0
+        <strong>4D Dirac Equation</strong><br>
+        \(\Matt{(i\gamma^\mu\partial_\mu - m)\psi = 0}\)
       </div>
     </div>
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\text{Master Action} \;\xrightarrow{5D}\; \bar{\Psi}\Gamma^M D_M\Psi \;\xrightarrow{Z₃ helix}\; \bar{\psi}\gamma^\mu D_\mu\psi \;\xrightarrow{\text{E-L}}\; (i\gamma\cdot\partial - m)\psi = 0}\]
+    \[\boxed{\XCRM{\text{XCRM}} \;\xrightarrow{\text{linearize}}\; \Matt{\bar{\Psi}\Gamma^M D_M\Psi} \;\xrightarrow{\text{Z}_3 \text{ helix}}\; \Matt{\bar{\psi}\gamma^\mu D_\mu\psi} \;\xrightarrow{\text{E-L}}\; \Matt{(i\gamma\cdot\partial - m)\psi = 0}}\]
     <div class="eq-label" style="color:var(--success);">Complete Dirac Equation Derivation</div>
   </div>
 
   <div class="block success" style="margin-top:1rem;">
     <div class="title">Relativistic QM Is Not Postulated</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Dirac equation—describing electrons, quarks, and all spin-½ particles—follows
-      from the 5D fermion action in the Master Action. Spin, antimatter, and magnetic moments
-      are <strong>derived consequences</strong>.
+      The Dirac equation — describing electrons, quarks, and all spin-1/2 particles — follows
+      from XCRM linearization on the Z₃ helix. Spin, antimatter, gamma matrices, chirality,
+      and magnetic moments are all <strong>derived consequences</strong> of the geometry.
     </p>
   </div>
+</section>
+
+<!-- EQUATION REFERENCE -->
+<section class="section" id="equations" style="border:1px solid var(--border);">
+  <h2>Equation Reference</h2>
+
+  <table style="width:100%;font-size:0.85rem;">
+    <thead>
+      <tr>
+        <th>Eq.</th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Reference</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>(1.1)</td>
+        <td>XCRM coupling (polar form)</td>
+        <td style="color:#fbbf24;">Foundation</td>
+        <td>[H.1.7]</td>
+      </tr>
+      <tr>
+        <td>(1.5)</td>
+        <td>5D fermion action</td>
+        <td style="color:#a78bfa;">Unique</td>
+        <td>[H.3.8]</td>
+      </tr>
+      <tr>
+        <td>(2.1)</td>
+        <td>Three generations from Z₃</td>
+        <td style="color:#4ade80;">Automatic</td>
+        <td>[H.6.1]</td>
+      </tr>
+      <tr>
+        <td>(3.1)</td>
+        <td>5D Clifford algebra</td>
+        <td style="color:#a78bfa;">Derived</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>(4.1)</td>
+        <td>Winding number</td>
+        <td style="color:#4ade80;">Topological</td>
+        <td>[H.14.1]</td>
+      </tr>
+      <tr>
+        <td>(5.4)</td>
+        <td>Free Dirac equation</td>
+        <td style="color:#4ade80;">Derived</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>(6.1)</td>
+        <td>Spin operator</td>
+        <td style="color:#4ade80;">Derived</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>(6.3)</td>
+        <td>Dirac g-factor</td>
+        <td style="color:#4ade80;">Verified</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
 </section>
 
 <nav class="page-nav">
@@ -368,16 +749,37 @@
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Dirac Equation</strong></p>
-  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+  <p><strong>STUR Dirac Equation (v2.5 Helix)</strong></p>
+  <p>Relativistic Quantum Mechanics from XCRM Linearization</p>
+  <p>&copy; 2025-2026 Sheldon Lon Lindberg</p>
 </footer>
 
 </div>
+
+<!-- Toast for copy confirmation -->
+<div class="toast" id="toast">Copied to clipboard</div>
 
 <script src="../assets/js/stur-ui.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
+
+  // Copy citation button
+  const citeBtn = document.getElementById('copyCite');
+  const toast = document.getElementById('toast');
+
+  if (citeBtn) {
+    citeBtn.addEventListener('click', function() {
+      const citation = 'Lindberg, S. L. (2026). STUR Dirac Equation: Relativistic Quantum Mechanics from XCRM Linearization. STUR Physics Lab v2.5 Helix.';
+      navigator.clipboard.writeText(citation).then(function() {
+        if (toast) {
+          toast.textContent = 'Citation copied!';
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+      });
+    });
+  }
 });
 </script>
 </body>

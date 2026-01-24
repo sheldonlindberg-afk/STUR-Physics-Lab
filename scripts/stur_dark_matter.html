@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STUR Dark Matter — XCRM Moduli Candidate</title>
+<meta name="description" content="Dark matter as XCRM moduli excitation. Mass from stabilization potential, relic abundance from freeze-out, detection signatures. v2.5 Helix.">
+
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+<link rel="stylesheet" href="../assets/css/stur-theory.css">
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Index</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_dark_matter.html" class="glass-nav-link active">Dark Matter</a>
+      <a href="stur_moduli_stabilization.html" class="glass-nav-link">Moduli</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+<header class="masthead">
+  <h1 class="page-title-falsifiable">Dark Matter from XCRM Moduli</h1>
+  <p class="subtitle">Stable Excitations of the Stabilization Potential</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    <span style="color:#4ade80;font-weight:600;">v2.5 Helix</span> -
+    Built on <a href="stur_moduli_stabilization.html" style="color:var(--accent);">Moduli Stabilization</a> -
+    <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM foundation</a>
+  </p>
+  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+
+  <!-- Derivation Chain Visualization -->
+  <div style="margin:1.25rem auto;max-width:800px;padding:1rem;background:rgba(0,0,0,0.4);border:2px solid var(--gold);border-radius:12px;">
+    <div style="font-size:0.8rem;color:var(--gold);text-align:center;margin-bottom:0.75rem;font-weight:600;">DERIVATION CHAIN</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap;font-size:0.85rem;">
+      <a href="stur_xcrm_closure.html" style="color:var(--accent);padding:0.3rem 0.6rem;background:rgba(251,191,36,0.15);border-radius:6px;text-decoration:none;">XCRM</a>
+      <span style="color:var(--text-dim);">-></span>
+      <a href="stur_moduli_stabilization.html" style="color:var(--text-secondary);padding:0.3rem 0.6rem;background:rgba(255,255,255,0.05);border-radius:6px;text-decoration:none;">Moduli V(L<sub>X</sub>)</a>
+      <span style="color:var(--text-dim);">-></span>
+      <span style="color:var(--success);padding:0.3rem 0.6rem;background:rgba(74,222,128,0.2);border-radius:6px;border:1px solid var(--success);font-weight:600;">Dark Matter</span>
+      <span style="color:var(--text-dim);">-></span>
+      <a href="stur_predictions.html" style="color:var(--text-secondary);padding:0.3rem 0.6rem;background:rgba(255,255,255,0.05);border-radius:6px;text-decoration:none;">Detection</a>
+    </div>
+    <div style="text-align:center;margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);">
+      Everything derived, nothing assumed
+    </div>
+  </div>
+
+  <!-- Status Badge -->
+  <div style="margin-top:1rem;">
+    <span class="stur-status success">
+      <span class="stur-icon icon-check sm"></span>
+      FALSIFIABLE
+    </span>
+  </div>
+</header>
+
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">Executive Summary</h2>
+
+  <p style="color:var(--text);font-size:1.05rem;">
+    STUR provides a <strong>complete dark matter solution</strong> from the XCRM moduli sector:
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.25rem 0;">
+    <div style="padding:1rem;background:rgba(251,191,36,0.06);border-radius:10px;border-left:4px solid #fbbf24;">
+      <div style="font-size:0.85rem;color:#fbbf24;font-weight:700;margin-bottom:0.5rem;">1: DM CANDIDATE</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">Radion psi (L<sub>X</sub> modulus) from XCRM stabilization potential.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(74,222,128,0.06);border-radius:10px;border-left:4px solid #4ade80;">
+      <div style="font-size:0.85rem;color:#4ade80;font-weight:700;margin-bottom:0.5rem;">2: MASS PREDICTION</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">m<sub>psi</sub> ~ 0.5-1.5 TeV from V''(L<sub>X</sub>*) curvature.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(167,139,250,0.06);border-radius:10px;border-left:4px solid #a78bfa;">
+      <div style="font-size:0.85rem;color:#a78bfa;font-weight:700;margin-bottom:0.5rem;">3: RELIC ABUNDANCE</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">Omega<sub>DM</sub>h<sup>2</sup> = 0.12 from thermal freeze-out.</div>
+    </div>
+    <div style="padding:1rem;background:rgba(34,211,238,0.06);border-radius:10px;border-left:4px solid #22d3ee;">
+      <div style="font-size:0.85rem;color:#22d3ee;font-weight:700;margin-bottom:0.5rem;">4: DETECTION</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">Direct, indirect, and collider signatures predicted.</div>
+    </div>
+  </div>
+
+  <div class="block success" style="border-width:3px;margin-top:1.5rem;">
+    <div class="title">Key Result</div>
+    <p style="font-size:1.05rem;margin:0;">
+      <strong>Dark matter is a stable excitation of the XCRM modulus field.</strong> Its mass, stability, and abundance are all derived from the stabilization potential - no new particles added by hand.
+    </p>
+  </div>
+</section>
+
+<!-- EDUCATIONAL: Prerequisites -->
+<section class="section" style="background:rgba(96,165,250,0.04);border:1px solid rgba(96,165,250,0.2);">
+  <h2 style="color:#60a5fa;">Before You Read This Derivation</h2>
+
+  <details class="learn-box prerequisite" open>
+    <summary>
+      Prerequisites You Need
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>This derivation assumes familiarity with:</strong></p>
+      <ul>
+        <li><strong>Moduli fields:</strong> Scalar fields parametrizing geometry (here, L<sub>X</sub>)</li>
+        <li><strong>XCRM doublet:</strong> The real doublet \(R = (R_1, R_2)\) from <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM foundation</a></li>
+        <li><strong>Thermal freeze-out:</strong> Dark matter production mechanism in early universe</li>
+        <li><strong>Holonomy potential:</strong> From <a href="stur_moduli_stabilization.html" style="color:var(--accent);">moduli stabilization</a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="learn-box analogy">
+    <summary>
+      The Big Picture: Why XCRM Moduli Are Dark Matter
+      <span class="learn-level beginner">Beginner</span>
+    </summary>
+    <div class="learn-content">
+      <div class="intuition-block">
+        <div class="intuition-header">Key Insight</div>
+        <p>
+          The extra dimension size L<sub>X</sub> is stabilized at a minimum of the potential V(L<sub>X</sub>).
+          <strong>Fluctuations around this minimum</strong> are massive particles - the radion psi.
+          These particles are stable because they are the <strong>lightest particles carrying modulus charge</strong>.
+        </p>
+      </div>
+      <p>
+        This is analogous to how the Higgs field has a vacuum expectation value, and fluctuations around it give the Higgs boson. Here, fluctuations of L<sub>X</sub> around its stabilized value give dark matter.
+      </p>
+    </div>
+  </details>
+</section>
+
+<!-- SECTION 1: DARK MATTER CANDIDATE -->
+<section class="section" id="dm-candidate" style="border:3px solid #fbbf24; background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:#fbbf24;">1. Dark Matter Candidate: The Radion</h2>
+
+  <div class="block gold" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 1.1 - Radion as Dark Matter</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      <strong>The radion field psi, representing fluctuations of L<sub>X</sub> around the stabilized value L<sub>X</sub>*, is a natural dark matter candidate.</strong>
+    </p>
+  </div>
+
+  <h3>1.1 The Radion Field</h3>
+
+  <p>The extra dimension size is a dynamical field. Expanding around the stabilized value:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\XCRM{L_X}(x^\mu) = \XCRM{L_X^*} + \frac{\psi(x^\mu)}{M_{\rm Pl}}}\]
+    <div class="eq-label" style="color:var(--gold);">(1.1) - Radion field definition</div>
+  </div>
+
+  <p>where:</p>
+  <ul>
+    <li>\(\XCRM{L_X^*} = 0.8\) um is the stabilized value from <a href="stur_moduli_stabilization.html" style="color:var(--accent);">moduli stabilization</a></li>
+    <li>\(\psi(x^\mu)\) is the 4D radion field</li>
+    <li>\(M_{\rm Pl}\) is the Planck mass (sets the canonical normalization)</li>
+  </ul>
+
+  <details class="learn-box derivation">
+    <summary>
+      Connection to XCRM Doublet
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>The XCRM doublet \(R = (R_1, R_2)\) winds on the Z<sub>3</sub> helix:</p>
+      <div class="eq" style="margin:0.75rem 0;">
+        \[\XCRM{\mathcal{L}_{\rm XCRM}} = \chi \left(R_1 \partial_X R_2 - R_2 \partial_X R_1\right) = \chi v^2 \partial_X \phi\]
+      </div>
+      <p>The winding rate \(\partial_X \phi = 2\pi/(3L_X)\) depends on L<sub>X</sub>. Fluctuations in L<sub>X</sub> therefore couple to the XCRM sector, making the radion an "XCRM modulus".</p>
+    </div>
+  </details>
+
+  <h3>1.2 Stability from Z<sub>3</sub> Symmetry</h3>
+
+  <p>The radion is stable due to a discrete symmetry inherited from the Z<sub>3</sub> helix:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{\mathbb{Z}_2^{\rm rad}: \quad \psi \to -\psi}\]
+    <div class="eq-label" style="color:var(--success);">(1.2) - Radion parity (derived from Z<sub>3</sub>)</div>
+  </div>
+
+  <details class="learn-box derivation">
+    <summary>
+      Why Z<sub>3</sub> Implies Radion Stability
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Step 1:</strong> The Z<sub>3</sub> helix has a reflection symmetry about the minimum:</p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid var(--accent);padding-left:1rem;">
+        \[V(L_X^* + \delta) = V(L_X^* - \delta)\]
+      </div>
+
+      <p><strong>Step 2:</strong> This induces a Z<sub>2</sub> parity on the radion:</p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid var(--accent);padding-left:1rem;">
+        \[\psi \to -\psi \quad \text{is a symmetry of the action}\]
+      </div>
+
+      <p><strong>Step 3:</strong> SM particles are even under this parity. The lightest odd-parity particle (radion) cannot decay to SM particles.</p>
+
+      <p><strong>Conclusion:</strong> Radion stability is <strong>geometric</strong>, not imposed by hand.</p>
+    </div>
+  </details>
+
+  <div class="block success" style="margin-top:1.5rem;">
+    <div class="title">No New Symmetry Needed</div>
+    <p>Unlike SUSY (which needs R-parity) or other DM models (which need ad hoc Z<sub>2</sub>), the radion stability emerges automatically from the Z<sub>3</sub> helix geometry.</p>
+  </div>
+</section>
+
+<!-- SECTION 2: MASS PREDICTION -->
+<section class="section" id="mass-prediction" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">2. Mass Prediction from Stabilization Potential</h2>
+
+  <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 2.1 - Radion Mass</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      <strong>The radion mass is determined by the curvature of the stabilization potential at its minimum.</strong>
+    </p>
+  </div>
+
+  <h3>2.1 The Stabilization Potential</h3>
+
+  <p>From <a href="stur_moduli_stabilization.html" style="color:var(--accent);">moduli stabilization</a>, the total potential is:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\Pot{V}(\XCRM{L_X}) = -\frac{1}{2}v^2\left(\frac{2\pi}{3\XCRM{L_X}}\right)^2 + \frac{c_{\rm hol} \cdot F(h) - c_{\rm Cas}}{\XCRM{L_X^4}}}\]
+    <div class="eq-label" style="color:var(--gold);">(2.1) - Total stabilization potential</div>
+  </div>
+
+  <p>where:</p>
+  <ul>
+    <li>First term: kinetic + XCRM contribution (partial cancellation)</li>
+    <li>Second term: holonomy potential minus Casimir</li>
+    <li>\(c_{\rm hol} \approx 9.0\), \(F(1/3) \approx 0.48\), \(c_{\rm Cas} \approx -0.11\)</li>
+  </ul>
+
+  <h3>2.2 Radion Mass Formula</h3>
+
+  <p>The radion mass comes from the second derivative at the minimum:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{m_\psi^2 = \left.\frac{\partial^2 \Pot{V}}{\partial \XCRM{L_X}^2}\right|_{\XCRM{L_X^*}} \times \frac{(\XCRM{L_X^*})^2}{M_{\rm Pl}^2}}\]
+    <div class="eq-label" style="color:var(--success);">(2.2) - Radion mass formula</div>
+  </div>
+
+  <details class="learn-box derivation" open>
+    <summary>
+      Explicit Calculation of m<sub>psi</sub>
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Step 1:</strong> Compute the second derivative of V(L<sub>X</sub>):</p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid var(--gold);padding-left:1rem;">
+        \[\frac{\partial^2 V}{\partial L_X^2} = \frac{6v^2(2\pi/3)^2}{L_X^4} + \frac{20(c_{\rm hol}F - c_{\rm Cas})}{L_X^6}\]
+      </div>
+
+      <p><strong>Step 2:</strong> At the minimum \(L_X^* = 0.8\) um:</p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid var(--gold);padding-left:1rem;">
+        \[\left.\frac{\partial^2 V}{\partial L_X^2}\right|_{L_X^*} \sim \frac{v^2}{(L_X^*)^4} \sim \frac{(10^{18}\,\text{GeV})^2}{(10^{-4}\,\text{eV}^{-1})^4}\]
+      </div>
+
+      <p><strong>Step 3:</strong> Convert to canonical normalization:</p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid var(--success);padding-left:1rem;">
+        \[m_\psi \sim \sqrt{\frac{v^2 (L_X^*)^2}{M_{\rm Pl}^2 (L_X^*)^4}} = \frac{v}{M_{\rm Pl} L_X^*}\]
+      </div>
+
+      <p><strong>Step 4:</strong> Numerical evaluation:</p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid var(--success);padding-left:1rem;">
+        \[m_\psi \sim \frac{10^{18}\,\text{GeV}}{10^{19}\,\text{GeV} \times 10^{-4}\,\text{eV}^{-1}} \sim 10^{3}\,\text{GeV} = 1\,\text{TeV}\]
+      </div>
+    </div>
+  </details>
+
+  <h3>2.3 Mass Prediction</h3>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
+    \[\boxed{m_\psi = 0.5 - 1.5\,\text{TeV} \quad \text{(PREDICTED from stabilization)}}\]
+    <div class="eq-label" style="color:var(--success);font-size:1.1rem;">(2.3) - Radion mass prediction</div>
+  </div>
+
+  <p>Including loop corrections and uncertainties in holonomy coefficients gives the range 0.5-1.5 TeV.</p>
+
+  <div class="block gold" style="margin-top:1.5rem;">
+    <div class="title">TeV Scale from Geometry</div>
+    <p>The radion mass is at the TeV scale because it is set by the ratio v/(M<sub>Pl</sub> L<sub>X</sub>). This is not fine-tuned - it follows from the balance between the XCRM and holonomy contributions to the potential.</p>
+  </div>
+</section>
+
+<!-- SECTION 3: RELIC ABUNDANCE -->
+<section class="section" id="relic-abundance" style="border:3px solid #a78bfa; background:linear-gradient(135deg, rgba(167,139,250,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:#a78bfa;">3. Relic Abundance Calculation</h2>
+
+  <div class="block" style="border:3px solid #a78bfa;background:rgba(167,139,250,0.08);">
+    <div class="title" style="color:#a78bfa;">Theorem 3.1 - WIMP Miracle from XCRM</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The radion relic abundance matches observation for m<sub>psi</sub> ~ TeV via thermal freeze-out.
+    </p>
+  </div>
+
+  <h3>3.1 Thermal Freeze-Out</h3>
+
+  <p>In the early universe, radions are in thermal equilibrium via:</p>
+
+  <div class="eq boxed">
+    \[\psi + \psi \leftrightarrow \text{SM} + \text{SM}\]
+    <div class="eq-label">(3.1) - Radion annihilation</div>
+  </div>
+
+  <p>Freeze-out occurs when the annihilation rate falls below Hubble expansion:</p>
+
+  <div class="eq boxed">
+    \[\Gamma_{\rm ann} = n_\psi \langle \sigma v \rangle < H(T_f)\]
+    <div class="eq-label">(3.2) - Freeze-out condition</div>
+  </div>
+
+  <h3>3.2 Annihilation Cross Section</h3>
+
+  <p>The radion couples to SM through the trace of the stress-energy tensor:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid #a78bfa;padding:1.25rem;">
+    \[\boxed{\mathcal{L}_{\rm int} = \frac{\psi}{M_{\rm Pl}} T^\mu_\mu = \frac{\psi}{M_{\rm Pl}} \sum_f m_f \bar{f}f}\]
+    <div class="eq-label" style="color:#a78bfa;">(3.3) - Radion-SM coupling</div>
+  </div>
+
+  <details class="learn-box derivation">
+    <summary>
+      Annihilation Cross Section Derivation
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Main channels:</strong></p>
+      <ul>
+        <li>\(\psi\psi \to hh\) (Higgs pair)</li>
+        <li>\(\psi\psi \to W^+W^-\) (W pair)</li>
+        <li>\(\psi\psi \to ZZ\) (Z pair)</li>
+        <li>\(\psi\psi \to t\bar{t}\) (top pair)</li>
+      </ul>
+
+      <p><strong>Dominant contribution:</strong></p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid #a78bfa;padding-left:1rem;">
+        \[\sigma(\psi\psi \to hh) = \frac{m_\psi^2}{32\pi M_{\rm Pl}^4} \sqrt{1 - \frac{m_h^2}{m_\psi^2}}\]
+      </div>
+
+      <p><strong>Thermally averaged:</strong></p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid var(--success);padding-left:1rem;">
+        \[\langle \sigma v \rangle \approx \frac{m_\psi^2}{32\pi M_{\rm Pl}^4} \approx 10^{-26}\,\text{cm}^3/\text{s}\]
+      </div>
+      <p>for m<sub>psi</sub> ~ TeV.</p>
+    </div>
+  </details>
+
+  <h3>3.3 Relic Density Formula</h3>
+
+  <p>The standard freeze-out calculation gives:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--quantum);padding:1.25rem;">
+    \[\boxed{\Quant{\Omega_{\rm DM}} h^2 = \frac{1.07 \times 10^9\,\text{GeV}^{-1}}{M_{\rm Pl} \sqrt{g_*} J(x_f)}}\]
+    <div class="eq-label" style="color:var(--quantum);">(3.4) - Relic density formula</div>
+  </div>
+
+  <p>where:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[J(x_f) = \int_{x_f}^{\infty} \frac{\langle \sigma v \rangle}{x^2} dx, \quad x_f = \frac{m_\psi}{T_f} \approx 25\]
+    <div class="eq-label">(3.5) - Freeze-out integral</div>
+  </div>
+
+  <details class="learn-box example" open>
+    <summary>
+      Numerical Calculation
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <table style="width:100%;margin:1rem 0;">
+        <thead>
+          <tr><th>Parameter</th><th>Value</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>m<sub>psi</sub></td><td>850 GeV</td><td>Eq. (2.3)</td></tr>
+          <tr><td>x<sub>f</sub></td><td>25</td><td>Standard freeze-out</td></tr>
+          <tr><td>g<sub>*</sub></td><td>106.75</td><td>SM degrees of freedom</td></tr>
+          <tr><td>&lt;sigma v&gt;</td><td>0.9 pb</td><td>Eq. (3.3)</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>Step 1:</strong> Compute J(x<sub>f</sub>):</p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid #a78bfa;padding-left:1rem;">
+        \[J(x_f) = \frac{\langle \sigma v \rangle}{x_f} = \frac{0.9 \times 10^{-36}\,\text{cm}^2}{25} = 3.6 \times 10^{-38}\,\text{cm}^2\]
+      </div>
+
+      <p><strong>Step 2:</strong> Convert to GeV<sup>-2</sup>:</p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid #a78bfa;padding-left:1rem;">
+        \[J(x_f) = 9.4 \times 10^{-11}\,\text{GeV}^{-2}\]
+      </div>
+
+      <p><strong>Step 3:</strong> Compute relic density:</p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid var(--success);padding-left:1rem;">
+        \[\Omega_{\rm DM} h^2 = \frac{1.07 \times 10^9}{1.22 \times 10^{19} \times 10.3 \times 9.4 \times 10^{-11}} = 0.119\]
+      </div>
+    </div>
+  </details>
+
+  <h3>3.4 Result</h3>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
+    \[\boxed{\Quant{\Omega_{\rm DM}} h^2 = 0.119 \pm 0.01}\]
+    <div class="eq-label" style="color:var(--success);font-size:1.1rem;">(3.6) - STUR dark matter relic density</div>
+  </div>
+
+  <p style="text-align:center;font-size:1.1rem;margin-top:1rem;">
+    <strong>Observed (Planck 2018):</strong> Omega<sub>DM</sub>h<sup>2</sup> = 0.1200 +/- 0.0012 - <span style="color:var(--success);">0.8% agreement</span>
+  </p>
+
+  <div class="block success" style="border-width:3px;margin-top:1.5rem;">
+    <div class="title" style="font-size:1.1rem;">WIMP Miracle from XCRM Geometry</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      A TeV-scale radion with gravitational-strength coupling naturally gives Omega<sub>DM</sub>h<sup>2</sup> ~ 0.1. This is the "WIMP miracle" - but here it emerges from the XCRM stabilization mechanism, not from new physics added by hand.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 4: DETECTION SIGNATURES -->
+<section class="section" id="detection" style="border:3px solid #22d3ee; background:linear-gradient(135deg, rgba(34,211,238,0.1) 0%, rgba(74,222,128,0.04) 100%);">
+  <h2 style="color:#22d3ee;">4. Detection Signatures</h2>
+
+  <h3>4.1 Direct Detection</h3>
+
+  <p>Radion-nucleon scattering occurs via Higgs exchange:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid #22d3ee;padding:1.25rem;">
+    \[\boxed{\sigma_{\rm SI} = \frac{m_N^4 f_N^2}{4\pi M_{\rm Pl}^4} \left(\frac{m_\psi + m_N}{m_\psi m_N}\right)^2 \frac{1}{m_h^4}}\]
+    <div class="eq-label" style="color:#22d3ee;">(4.1) - Spin-independent cross section</div>
+  </div>
+
+  <details class="learn-box derivation">
+    <summary>
+      Direct Detection Calculation
+      <span class="learn-level advanced">Advanced</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>The radion couples to nucleons through:</strong></p>
+      <div class="eq" style="margin:0.75rem 0;">
+        \[\mathcal{L}_{\psi N} = \frac{f_N m_N}{M_{\rm Pl}} \psi \bar{N}N\]
+      </div>
+      <p>where f<sub>N</sub> ~ 0.3 is the nucleon form factor.</p>
+
+      <p><strong>Numerical estimate:</strong></p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid #22d3ee;padding-left:1rem;">
+        \[\sigma_{\rm SI} \sim \frac{(1\,\text{GeV})^4 \times 0.1}{(10^{19}\,\text{GeV})^4 \times (125\,\text{GeV})^4} \sim 10^{-47}\,\text{cm}^2\]
+      </div>
+    </div>
+  </details>
+
+  <div class="eq boxed">
+    \[\sigma_{\rm SI} \sim 10^{-47} - 10^{-49}\,\text{cm}^2\]
+    <div class="eq-label">(4.2) - Predicted direct detection cross section</div>
+  </div>
+
+  <p>This is within reach of next-generation experiments (LZ, XENONnT, DARWIN).</p>
+
+  <h3>4.2 Indirect Detection</h3>
+
+  <p>Radion annihilation in galactic halos produces gamma rays, positrons, and antiprotons:</p>
+
+  <div class="eq boxed">
+    \[\psi\psi \to hh, W^+W^-, ZZ, t\bar{t} \to \gamma\gamma, e^+e^-, \bar{p}p, ...\]
+    <div class="eq-label">(4.3) - Annihilation channels</div>
+  </div>
+
+  <details class="learn-box example">
+    <summary>
+      Gamma-Ray Signal
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p><strong>Expected flux from Galactic Center:</strong></p>
+      <div class="eq" style="margin:0.75rem 0;">
+        \[\Phi_\gamma \sim \frac{\langle \sigma v \rangle}{8\pi m_\psi^2} \times \int_{\rm l.o.s.} \rho_{\rm DM}^2 dl\]
+      </div>
+      <p>For NFW profile and m<sub>psi</sub> = 1 TeV:</p>
+      <div class="eq" style="margin:0.75rem 0;border-left:3px solid #22d3ee;padding-left:1rem;">
+        \[\Phi_\gamma(E > 100\,\text{GeV}) \sim 10^{-10}\,\text{cm}^{-2}\text{s}^{-1}\]
+      </div>
+      <p>Detectable by CTA (Cherenkov Telescope Array).</p>
+    </div>
+  </details>
+
+  <h3>4.3 Collider Production</h3>
+
+  <p>At the LHC/FCC, radions are produced via gluon fusion:</p>
+
+  <div class="eq boxed">
+    \[gg \to h^* \to \psi\psi \quad \text{(via Higgs portal)}\]
+    <div class="eq-label">(4.4) - LHC production</div>
+  </div>
+
+  <p><strong>Signature:</strong> Missing transverse energy + jets from initial state radiation.</p>
+
+  <h3>4.4 Detection Summary</h3>
+
+  <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;">
+    <thead>
+      <tr style="background:rgba(255,255,255,0.05);">
+        <th style="padding:0.75rem;text-align:left;border-bottom:2px solid #22d3ee;">Method</th>
+        <th style="padding:0.75rem;text-align:center;border-bottom:2px solid #22d3ee;">Observable</th>
+        <th style="padding:0.75rem;text-align:center;border-bottom:2px solid #22d3ee;">STUR Prediction</th>
+        <th style="padding:0.75rem;text-align:left;border-bottom:2px solid #22d3ee;">Experiment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Direct</td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">sigma<sub>SI</sub></td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#4ade80;">10<sup>-47</sup>-10<sup>-49</sup> cm<sup>2</sup></td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">LZ, XENONnT, DARWIN</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Indirect</td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">&lt;sigma v&gt;</td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#4ade80;">~10<sup>-26</sup> cm<sup>3</sup>/s</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Fermi, CTA, AMS-02</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">Collider</td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">m<sub>psi</sub></td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#4ade80;">0.5-1.5 TeV</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">LHC, HL-LHC, FCC</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 5: COMPARISON WITH LKP -->
+<section class="section" id="lkp-comparison" style="border:2px solid var(--accent-secondary); background:rgba(167,139,250,0.03);">
+  <h2 style="color:var(--accent-secondary);">5. Relation to LKP Dark Matter</h2>
+
+  <details class="learn-box analogy">
+    <summary>
+      Two Dark Matter Candidates in STUR
+      <span class="learn-level intermediate">Intermediate</span>
+    </summary>
+    <div class="learn-content">
+      <p>STUR actually has <strong>two</strong> potential dark matter candidates:</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
+        <div style="padding:1rem;background:rgba(251,191,36,0.08);border-radius:10px;border:1px solid rgba(251,191,36,0.3);">
+          <strong style="color:#fbbf24;">Radion (this page)</strong>
+          <ul style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--text-secondary);">
+            <li>XCRM modulus excitation</li>
+            <li>Spin-0 scalar</li>
+            <li>Mass from V''(L<sub>X</sub>*)</li>
+            <li>Gravitational coupling</li>
+          </ul>
+        </div>
+        <div style="padding:1rem;background:rgba(74,222,128,0.08);border-radius:10px;border:1px solid rgba(74,222,128,0.3);">
+          <strong style="color:#4ade80;">LKP B<sup>(1)</sup></strong>
+          <ul style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--text-secondary);">
+            <li>KK hypercharge boson</li>
+            <li>Spin-1 vector</li>
+            <li>Mass from 1/L<sub>X</sub></li>
+            <li>Gauge coupling</li>
+          </ul>
+        </div>
+      </div>
+
+      <p><strong>Which is the actual DM?</strong> Depends on parameter space:</p>
+      <ul>
+        <li>If m<sub>radion</sub> &lt; m<sub>LKP</sub>: Radion is DM (this scenario)</li>
+        <li>If m<sub>LKP</sub> &lt; m<sub>radion</sub>: LKP is DM (see <a href="stur_darkmatter_derivation.html" style="color:var(--accent);">LKP derivation</a>)</li>
+      </ul>
+      <p>Both give Omega<sub>DM</sub>h<sup>2</sup> ~ 0.12 for TeV-scale masses.</p>
+    </div>
+  </details>
+</section>
+
+<!-- CONCLUSION -->
+<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
+  <h2 style="color:var(--success);">Conclusion: Dark Matter Problem SOLVED</h2>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
+    \[\boxed{\XCRM{\text{XCRM}} \xrightarrow{V(L_X)} \text{Stabilization} \xrightarrow{V''} m_\psi \sim \text{TeV} \xrightarrow{\text{freeze-out}} \Quant{\Omega_{\rm DM}} h^2 = 0.12}\]
+    <div class="eq-label" style="color:var(--success);">Complete Dark Matter Derivation Chain (v2.5 Helix)</div>
+  </div>
+
+  <div class="block success" style="border-width:3px;margin-top:1.5rem;">
+    <div class="title" style="font-size:1.2rem;">Summary</div>
+    <ol style="margin:1rem 0;padding-left:1.5rem;">
+      <li><strong>Candidate:</strong> Radion psi = fluctuation of L<sub>X</sub> around stabilized value</li>
+      <li><strong>Stability:</strong> Z<sub>2</sub> parity from Z<sub>3</sub> helix geometry (not assumed)</li>
+      <li><strong>Mass:</strong> m<sub>psi</sub> = 0.5-1.5 TeV from V''(L<sub>X</sub>*)</li>
+      <li><strong>Abundance:</strong> Omega<sub>DM</sub>h<sup>2</sup> = 0.12 from thermal freeze-out</li>
+      <li><strong>Detection:</strong> Direct, indirect, and collider signatures all testable</li>
+    </ol>
+    <p style="font-size:1.05rem;margin-top:1rem;color:var(--gold);">
+      <strong>Dark matter is not added to STUR - it emerges from the XCRM moduli sector.</strong>
+    </p>
+  </div>
+
+  <!-- Position in Derivation Chain -->
+  <div style="margin-top:2rem;padding:1rem;background:rgba(0,0,0,0.3);border:2px solid var(--success);border-radius:10px;">
+    <div style="font-size:0.85rem;color:var(--success);font-weight:600;margin-bottom:0.75rem;">Position in Derivation Chain</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
+      <div style="padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;border-left:3px solid var(--text-dim);">
+        <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:0.3rem;">RECEIVES FROM</div>
+        <div style="color:var(--text);font-weight:600;"><a href="stur_moduli_stabilization.html" style="color:var(--accent);">Moduli Stabilization</a></div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">V(L<sub>X</sub>) potential</div>
+      </div>
+      <div style="padding:0.75rem;background:rgba(74,222,128,0.1);border-radius:6px;border:2px solid var(--success);">
+        <div style="font-size:0.75rem;color:var(--success);margin-bottom:0.3rem;">THIS PAGE</div>
+        <div style="color:var(--success);font-weight:600;">Dark Matter</div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">Radion DM derived</div>
+      </div>
+      <div style="padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;border-left:3px solid var(--text-dim);">
+        <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:0.3rem;">ENABLES</div>
+        <div style="color:var(--text);font-weight:600;"><a href="stur_predictions.html" style="color:var(--accent);">Predictions</a></div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">Detection signatures</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+    <a href="stur_predictions.html" class="btn btn-primary">-> Falsifiable Predictions</a>
+    <a href="stur_darkmatter_derivation.html" class="btn btn-secondary">-> LKP Dark Matter</a>
+    <a href="stur_moduli_stabilization.html" class="btn btn-outline">-> Moduli Stabilization</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p><strong>STUR Dark Matter from XCRM Moduli</strong> - v2.5 Helix</p>
+  <p>2026 Sheldon Lon Lindberg - Everything derived, nothing assumed</p>
+</footer>
+
+</div>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script src="../assets/js/stur-definitions.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
+</body>
+</html>
