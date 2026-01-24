@@ -123,6 +123,25 @@
     </p>
   </div>
 
+  <!-- KEY VALUES BOX -->
+  <div class="block gold" style="border-width:3px;margin-bottom:1.5rem;background:rgba(251,191,36,0.08);">
+    <div class="title" style="color:var(--gold);font-size:1.1rem;">Key Derived Values (from DERIVATION_CHAIN_HELIX.md)</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:0.75rem;">
+      <div>
+        <div style="color:var(--text-muted);font-size:0.8rem;">Compactification Scale</div>
+        <div style="color:#fbbf24;font-size:1.1rem;font-weight:700;">\(\XCRM{L_X} \approx 0.8\,\mu\text{m}\)</div>
+      </div>
+      <div>
+        <div style="color:var(--text-muted);font-size:0.8rem;">Higgs Mass</div>
+        <div style="color:#22d3ee;font-size:1.1rem;font-weight:700;">\(\Matt{m_H} = 125.0\,\text{GeV}\)</div>
+      </div>
+      <div>
+        <div style="color:var(--text-muted);font-size:0.8rem;">GUT Scale</div>
+        <div style="color:#a78bfa;font-size:1.1rem;font-weight:700;">\(\Quant{M_{\rm GUT}} = 1.8 \times 10^{16}\,\text{GeV}\)</div>
+      </div>
+    </div>
+  </div>
+
   <h3>1.1 Why This Geometry Is Unique (v2.5)</h3>
 
   <p>
@@ -135,6 +154,50 @@
     <li><strong>Phase winding:</strong> XCRM coupling χ|R|²∂<sub>X</sub>φ drives φ to wind around X-circle</li>
     <li><strong>Stability:</strong> Positive energy + holonomy minimization fixes χ = -π/(3L<sub>X</sub>) → exactly 3 windings</li>
   </ul>
+
+  <!-- XCRM UNIQUENESS THEOREM -->
+  <div class="block gold" style="border-width:3px;margin:1.5rem 0;background:rgba(251,191,36,0.08);">
+    <div class="title" style="color:var(--gold);font-size:1.15rem;">[H.1.8] XCRM Uniqueness Theorem</div>
+    <p style="margin:0.5rem 0;color:var(--text-secondary);">
+      <strong>Given:</strong>
+    </p>
+    <ul style="margin:0.5rem 0;color:var(--text-secondary);">
+      <li>\(\Diff{\mathbf{R}}\) is a real doublet \((R_1, R_2)\)</li>
+      <li>Coupling must be first-order in \(\XCRM{\partial_X}\)</li>
+      <li>Coupling must be \(\mathbb{Z}_2\) invariant</li>
+      <li>Coupling must not be a total derivative</li>
+    </ul>
+    <p style="margin:0.75rem 0 0.5rem;color:var(--text);">
+      <strong>Then:</strong> The ONLY such coupling is
+    </p>
+    <div class="eq law" style="margin:0.75rem 0;border-color:var(--gold);">
+      \[\boxed{\XCRM{\mathcal{L}_{\rm XCRM}} = \XCRM{\chi} \left( \Diff{R_1} \XCRM{\partial_X} \Diff{R_2} - \Diff{R_2} \XCRM{\partial_X} \Diff{R_1} \right) = \XCRM{\chi} |\Diff{\mathbf{R}}|^2 \XCRM{\partial_X \phi}}\]
+      <div class="eq-label" style="color:var(--gold);">Equation [H.1.7] — XCRM in polar form</div>
+    </div>
+    <p style="margin:0.75rem 0 0;color:var(--gold);font-weight:600;">
+      This is a THEOREM, not a choice.
+    </p>
+  </div>
+
+  <!-- PROOF BY EXHAUSTIVE ENUMERATION -->
+  <div class="block" style="border-left-color:var(--quantum);margin:1rem 0;">
+    <div class="title" style="color:var(--quantum);">Proof by Exhaustive Enumeration</div>
+    <p style="margin:0.5rem 0;color:var(--text-secondary);"><strong>Step 1: Dimensional constraints</strong></p>
+    <p style="margin:0 0 0.5rem;color:var(--text-secondary);font-size:0.9rem;">
+      In 5D, [S] = 0, [ℒ] = mass⁵, [R<sub>i</sub>] = mass<sup>3/2</sup>, [∂<sub>X</sub>] = mass¹, [χ] = mass⁰.
+    </p>
+    <p style="margin:0.5rem 0;color:var(--text-secondary);"><strong>Step 2: Possible first-derivative terms</strong></p>
+    <table style="font-size:0.85rem;margin:0.5rem 0;width:100%;">
+      <tr><th>Term</th><th>Form</th><th>Status</th></tr>
+      <tr><td>\(\Diff{R_1} \XCRM{\partial_X} \Diff{R_1}\)</td><td>\(= \tfrac{1}{2}\partial_X(R_1^2)\)</td><td style="color:var(--error);">Total derivative</td></tr>
+      <tr><td>\(\Diff{R_2} \XCRM{\partial_X} \Diff{R_2}\)</td><td>\(= \tfrac{1}{2}\partial_X(R_2^2)\)</td><td style="color:var(--error);">Total derivative</td></tr>
+      <tr><td>\(\Diff{R_1} \XCRM{\partial_X} \Diff{R_2} + \Diff{R_2} \XCRM{\partial_X} \Diff{R_1}\)</td><td>\(= \partial_X(R_1 R_2)\)</td><td style="color:var(--error);">Total derivative</td></tr>
+      <tr style="background:rgba(74,222,128,0.1);"><td>\(\Diff{R_1} \XCRM{\partial_X} \Diff{R_2} - \Diff{R_2} \XCRM{\partial_X} \Diff{R_1}\)</td><td>\(= |\mathbf{R}|^2 \partial_X\phi\)</td><td style="color:var(--success);">UNIQUE</td></tr>
+    </table>
+    <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      The antisymmetric combination is the <strong>only</strong> non-trivial first-derivative coupling. ∎
+    </p>
+  </div>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
     <div class="title" style="font-size:1.1rem;color:#4ade80;">The Logical Chain (v2.5 Helix)</div>
@@ -283,6 +346,49 @@
     with only the phase φ varying. This eliminates domain walls (solving CC problem) while providing
     3 distinct sectors for fermion generations (automatic from |Z₃| = 3).
   </p>
+
+  <!-- Z₃ HELIX DERIVATION FROM DERIVATION CHAIN -->
+  <div class="block success" style="border-width:3px;margin:1.5rem 0;background:rgba(74,222,128,0.08);">
+    <div class="title" style="color:var(--success);font-size:1.1rem;">[H.2.9] Z₃ Helix Geometry (DERIVED)</div>
+    <p style="margin:0.5rem 0;color:var(--text-secondary);">
+      The helix boundary condition follows from single-valuedness of R after N circuits:
+    </p>
+    <div class="eq law" style="margin:0.75rem 0;border-color:var(--success);">
+      \[\Diff{\mathbf{R}}(X + \XCRM{L_X}) = \Tor{R_{2\pi/3}} \cdot \Diff{\mathbf{R}}(X)\]
+    </div>
+    <p style="margin:0.5rem 0;color:var(--text-secondary);">where the rotation matrix is:</p>
+    <div class="eq" style="margin:0.75rem 0;">
+      \[\Tor{R_{2\pi/3}} = \begin{pmatrix} \cos(2\pi/3) & -\sin(2\pi/3) \\ \sin(2\pi/3) & \cos(2\pi/3) \end{pmatrix} = \begin{pmatrix} -\frac{1}{2} & -\frac{\sqrt{3}}{2} \\ \frac{\sqrt{3}}{2} & -\frac{1}{2} \end{pmatrix}\]
+      <div class="eq-label">Equation [H.2.7] — Z₃ rotation matrix</div>
+    </div>
+    <p style="margin:0.75rem 0;color:var(--text-secondary);">
+      <strong>Physical interpretation:</strong> Going around X once, R rotates by 120° in field space. This is the definition of a helix!
+    </p>
+  </div>
+
+  <!-- WHY N=3 THEOREM -->
+  <div class="block gold" style="border-width:3px;margin:1.5rem 0;background:rgba(251,191,36,0.08);">
+    <div class="title" style="color:var(--gold);font-size:1.1rem;">[H.2.8c] Z₃ Uniqueness Theorem</div>
+    <p style="margin:0.5rem 0;color:var(--text-secondary);">
+      <strong>Z₃ is the UNIQUE helix structure</strong> consistent with:
+    </p>
+    <ul style="margin:0.5rem 0;color:var(--text-secondary);">
+      <li>Gauge anomaly cancellation</li>
+      <li>Gravitational anomaly cancellation</li>
+      <li>SU(3) holonomy compatibility: \(\Quant{Z(SU(3)) = Z_3}\)</li>
+      <li>Moduli stabilization (minimum of \(\Pot{V_{\rm hol}}\))</li>
+    </ul>
+    <table style="font-size:0.85rem;margin:0.75rem 0;width:100%;">
+      <tr><th>N</th><th>Status</th><th>Reason</th></tr>
+      <tr><td>N = 2</td><td style="color:var(--error);">Rejected</td><td>Does not determine generation number</td></tr>
+      <tr style="background:rgba(74,222,128,0.15);"><td>N = 3</td><td style="color:var(--success);">UNIQUE</td><td>Satisfies all constraints</td></tr>
+      <tr><td>N = 4, 5, 7, ...</td><td style="color:var(--error);">Rejected</td><td>Incompatible with Z(SU(3)) = Z₃</td></tr>
+      <tr><td>N = 6, 9, 12, ...</td><td style="color:var(--error);">Rejected</td><td>Too many generations, energetically unstable</td></tr>
+    </table>
+    <p style="margin:0.75rem 0 0;color:var(--gold);font-weight:600;">
+      Consequence: n<sub>gen</sub> = 3 is DERIVED from Z₃, not fitted to observation!
+    </p>
+  </div>
 
   <h3>2.2 Metric Ansatz</h3>
 

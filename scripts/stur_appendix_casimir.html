@@ -53,9 +53,61 @@
   <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
 </div>
 
+<!-- R-FIELD VACUUM ENERGY -->
+<section class="section" id="r-field-vacuum" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">D.1 R-Field Vacuum Energy</h2>
+
+  <h3>D.1.1 The XCRM Winding Contribution</h3>
+
+  <p>The \(\Diff{R}\)-field on the \(\XCRM{Z_3}\) helix has winding energy density from the XCRM term:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\rho_{\XCRM{XCRM}} = \chi \Diff{v}^2 \partial_X \phi = \chi \Diff{v}^2 \cdot \frac{2\pi}{3\XCRM{L_X}}}\]
+    <div class="eq-label" style="color:var(--gold);">(D.1a) — XCRM winding energy density</div>
+  </div>
+
+  <p>where \(\Diff{v}\) is the R-field VEV and \(\phi = 2\pi X/(3\XCRM{L_X})\) is the helix winding.</p>
+
+  <h3>D.1.2 Kinetic Energy from Winding</h3>
+
+  <p>The gradient of the R-field phase also contributes kinetic energy:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);">
+    \[\boxed{\rho_{\text{kin}} = \frac{1}{2}\Diff{v}^2 (\partial_X \phi)^2 = \frac{1}{2}\Diff{v}^2 \left(\frac{2\pi}{3\XCRM{L_X}}\right)^2}\]
+    <div class="eq-label" style="color:var(--success);">(D.1b) — Kinetic energy density</div>
+  </div>
+
+  <h3>D.1.3 Total R-Field Vacuum Energy</h3>
+
+  <p>The total vacuum energy from the R-field sector:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+    \[\boxed{\rho_{\Diff{R}}^{\text{vac}} = \rho_{\text{kin}} + \rho_{\XCRM{XCRM}} + \Quant{E_{\text{Casimir}}}}\]
+    <div class="eq-label" style="color:var(--success);">(D.1c) — Total R-field vacuum energy</div>
+  </div>
+
+  <h3>D.1.4 The Cancellation Mechanism</h3>
+
+  <p>For vacuum stability, \(\chi\) is <strong>fixed</strong> (not tuned) by requiring \(\partial \rho / \partial \XCRM{L_X} = 0\):</p>
+
+  <div class="eq boxed">
+    \[\chi = -\frac{\pi}{3\XCRM{L_X}} - \frac{3\XCRM{L_X} \Quant{E_{\text{Casimir}}}}{2\pi \Diff{v}^2}\]
+    <div class="eq-label">(D.1d) — χ is fixed by stability</div>
+  </div>
+
+  <div class="block success" style="margin-top:1rem;">
+    <div class="title">Key Result: No Domain Wall</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      On the \(\XCRM{Z_3}\) helix, \(|\Diff{R}| = \Diff{v}\) everywhere (constant magnitude).
+      Unlike the orbifold, there is <strong>no domain wall</strong>. The R-field merely rotates in field space,
+      eliminating the dominant contribution to vacuum energy that would otherwise destroy the universe.
+    </p>
+  </div>
+</section>
+
 <!-- INTRODUCTION -->
 <section class="section" id="intro" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
-  <h2 style="color:var(--gold);">D.1 The Moduli Problem</h2>
+  <h2 style="color:var(--gold);">D.2 The Moduli Problem</h2>
 
   <div class="block gold" style="border-width:2px;">
     <div class="title">Why Stabilization Matters</div>
@@ -74,7 +126,7 @@
 
 <!-- RADION FIELD -->
 <section class="section" id="radion">
-  <h2>D.2 The Radion Field</h2>
+  <h2>D.3 The Radion Field</h2>
 
   <h3>Definition</h3>
   <p>
@@ -104,7 +156,7 @@
 
 <!-- CASIMIR ENERGY -->
 <section class="section" id="casimir" style="border-left:4px solid var(--accent-secondary);">
-  <h2 style="color:var(--accent-secondary);">D.3 Casimir Energy: The Shrinking Force</h2>
+  <h2 style="color:var(--accent-secondary);">D.4 Casimir Energy: The Shrinking Force</h2>
 
   <h3>Physical Origin</h3>
   <p>
@@ -154,7 +206,7 @@
 
 <!-- HOLONOMY ENERGY -->
 <section class="section" id="holonomy" style="border-left:4px solid var(--gold);">
-  <h2 style="color:var(--gold);">D.4 Holonomy Energy: The Resisting Force</h2>
+  <h2 style="color:var(--gold);">D.5 Holonomy Energy: The Resisting Force</h2>
 
   <h3>Physical Origin</h3>
   <p>
@@ -207,7 +259,7 @@
 
 <!-- TOTAL POTENTIAL -->
 <section class="section" id="total" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(74,222,128,0.02) 100%);">
-  <h2 style="color:var(--success);">D.5 Total Radion Potential and Stabilization</h2>
+  <h2 style="color:var(--success);">D.6 Total Radion Potential and Stabilization</h2>
 
   <h3>Combined Potential</h3>
   <div class="eq law" style="margin:1rem 0;background:#000;border:2px solid var(--success);padding:1.25rem;">
@@ -266,7 +318,7 @@
 
 <!-- RADION MASS -->
 <section class="section" id="mass">
-  <h2>D.6 Radion Mass and Fifth Force Constraints</h2>
+  <h2>D.7 Radion Mass and Fifth Force Constraints</h2>
 
   <h3>Mass from Curvature</h3>
   <p>
@@ -309,7 +361,7 @@
 
 <!-- NUMERICAL EXAMPLE -->
 <section class="section" id="numerical">
-  <h2>D.7 Numerical Example</h2>
+  <h2>D.8 Numerical Example</h2>
 
   <h3>Input Parameters</h3>
   <table>

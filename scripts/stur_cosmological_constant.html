@@ -52,7 +52,7 @@
 
 <!-- THE PROBLEM -->
 <section class="section" style="border:2px solid var(--error); background:linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(239,68,68,0.02) 100%);">
-  <h2 style="color:var(--error);">The Worst Prediction in Physics</h2>
+  <h2 style="color:var(--error);">The Worst Prediction in Physics [H.11.1]</h2>
 
   <p>The cosmological constant problem is the largest discrepancy between theory and observation in physics:</p>
 
@@ -63,14 +63,51 @@
   <p><strong>Naive QFT:</strong> \(\Lambda \sim M_{\rm Pl}^4 \sim 10^{76}\) GeV⁴</p>
   <p><strong>Observed:</strong> \(\Lambda \sim (2.3 \text{ meV})^4 \sim 10^{-47}\) GeV⁴</p>
 
-  <p style="margin-top:1rem;"><strong>STUR solves this through the holonomy self-tuning mechanism.</strong></p>
+  <p style="margin-top:1rem;"><strong>STUR addresses this through the Z₃ helix geometry — no domain walls, no fine-tuning.</strong></p>
+</section>
+
+<!-- THE KEY INSIGHT -->
+<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.12) 0%, rgba(74,222,128,0.04) 100%);">
+  <h2 style="color:var(--success);">The Key Insight: Helix Avoids Domain Walls [H.4.5]</h2>
+
+  <p><strong>Compare orbifold vs helix:</strong></p>
+
+  <table style="width:100%;margin:1rem 0;">
+    <thead>
+      <tr><th>Geometry</th><th>R-field Profile</th><th>Domain Wall?</th><th>Energy</th></tr>
+    </thead>
+    <tbody>
+      <tr style="background:rgba(239,68,68,0.1);">
+        <td>Orbifold S¹/Z₂</td>
+        <td>\(R = v\cdot\tanh[(X-L/2)/\xi]\)</td>
+        <td style="color:#ef4444;font-weight:bold;">YES</td>
+        <td>\(E_{\rm DW} \sim v^4/\xi\)</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.1);">
+        <td>Z₃ Helix</td>
+        <td>\(R = v\cdot(\cos\phi, \sin\phi)\)</td>
+        <td style="color:var(--success);font-weight:bold;">NO</td>
+        <td>\(E_{\rm DW} = 0\)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;margin:1rem 0;">
+    \[\boxed{\begin{aligned}
+    \text{Orbifold:}\quad &E_{\rm DW} \sim v^4/\xi \gg 0 \quad\text{(problem!)} \\[0.5em]
+    \text{Helix:}\quad &E_{\rm DW} = 0 \quad\text{(}\Diff{|R| = v}\text{ everywhere)}
+    \end{aligned}}\]
+    <div class="eq-label" style="color:var(--success);">[H.4.5] — NO DOMAIN WALL on helix!</div>
+  </div>
+
+  <p>On the orbifold, R must interpolate from \(-v\) to \(+v\), creating a domain wall. On the helix, R merely <strong>rotates in field space</strong> — its magnitude stays constant!</p>
 </section>
 
 <!-- STUR SOLUTION — HELIX GEOMETRY v2.5 -->
-<section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.12) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--success);">★ STUR Solution: Helix Geometry (v2.5)</h2>
+<section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.12) 0%, rgba(251,191,36,0.04) 100%);">
+  <h2 style="color:var(--gold);">★ STUR Solution: Λ ≈ 0 from Helix Geometry [H.11.10]</h2>
 
-  <h3>1.1 The Key Insight: No Domain Wall on Helix</h3>
+  <h3>1.1 The Z₃ Helix Configuration [H.4.4]</h3>
 
   <p>The breakthrough: On the Z₃ helix, the R-field doublet has <strong>constant magnitude</strong>:</p>
 
@@ -150,17 +187,32 @@
     <div class="eq-label" style="color:var(--neon-cyan);">(Λ.H5) — L<sub>X</sub> DERIVED from holonomy stabilization</div>
   </div>
 
-  <h3>1.5 Three Consistency Conditions → ρ<sub>vac</sub> = 0</h3>
+  <h3>1.5 The Cosmological Constant Solution [H.11.10]</h3>
 
-  <p>The cosmological constant vanishes automatically when <strong>three consistency conditions</strong> are satisfied:</p>
+  <p>The cosmological constant is <strong>zero at tree level</strong> because of three consistency conditions:</p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
     \[\boxed{\begin{aligned}
-    \text{(1) } &\XCRM{\chi} = -\frac{2\pi}{3L_X} \quad &\text{(from stability)} \\[0.5em]
-    \text{(2) } &L_X \approx 0.8\,\mu\text{m} \quad &\text{(from holonomy)} \\[0.5em]
-    \text{(3) } &v = \frac{1}{\sqrt{16\pi\alpha\, G_N}} \quad &\text{(from } G_N \text{)}
+    \text{(1) } &\text{No domain wall} \quad &\text{(helix has constant } |R| = v\text{)} \\[0.5em]
+    \text{(2) } &\text{XCRM cancellation} \quad &\text{(} \XCRM{\chi} \text{ fixed by stability)} \\[0.5em]
+    \text{(3) } &\text{Holonomy cancellation} \quad &\text{(MHP minimum)}
     \end{aligned}}\]
-    <div class="eq-label" style="color:var(--success);">(Λ.H6) — Three conditions give ρ<sub>vac</sub> = 0</div>
+    <div class="eq-label" style="color:var(--success);">[H.11.10] — Cosmological constant solution</div>
+  </div>
+
+  <div class="block success" style="margin-top:1rem;border-width:3px;">
+    <div class="title">This is NOT Fine-Tuning!</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The three conditions are <strong>consistency requirements</strong>:
+    </p>
+    <ul style="margin:0.5rem 0 0 1rem;color:var(--text-secondary);">
+      <li>\(\XCRM{\chi}\) is determined by requiring the helix to be stable</li>
+      <li>\(L_X\) is determined by holonomy stabilization (MHP)</li>
+      <li>\(v\) is determined by matching to Newton's constant \(G_N\)</li>
+    </ul>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <strong>These are not free parameters — they are derived!</strong>
+    </p>
   </div>
 
   <p>With these conditions, the vacuum energy components cancel:</p>

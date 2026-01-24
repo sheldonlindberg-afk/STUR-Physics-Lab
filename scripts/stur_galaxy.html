@@ -116,6 +116,55 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
+    <!-- Derivation Chain Reference -->
+    <div class="glass-section" style="border-color:var(--neon-cyan);background:rgba(34,211,238,0.06);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-link size-24" style="color:var(--neon-cyan);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-cyan);">Derivation Chain Reference — TEGR Gravity & Dark Matter</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.92rem;">
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-cyan);">From <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--neon-cyan);">DERIVATION_CHAIN_HELIX.md</a>:</strong></p>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:1rem;">
+                <div style="padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--neon-cyan);">
+                    <strong style="color:var(--neon-cyan);font-size:0.85rem;">[H.1.3] TEGR = GR Equivalence</strong>
+                    <div class="stur-eq derived" style="margin:0.5rem 0;font-size:0.9rem;">
+                        \[\Tor{\mathcal{L}_{TEGR}} = \alpha |R| \mathbb{T}\]
+                    </div>
+                    <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+                        Torsion coupling gives Teleparallel Equivalent of GR. TEGR = GR at equilibrium, modified gravity at galactic R-gradients.
+                    </p>
+                </div>
+
+                <div style="padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--accent-violet);">
+                    <strong style="color:var(--accent-violet);font-size:0.85rem;">[H.DM.3] Dark Matter from LKP</strong>
+                    <div class="stur-eq derived" style="margin:0.5rem 0;font-size:0.9rem;">
+                        \[\boxed{M_{LKP} \approx 0.8\text{-}1.2\;\text{TeV}}\]
+                    </div>
+                    <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+                        <strong>Lightest Kaluza-Klein Particle</strong> — stable via KK-parity \(P_{KK} = (-1)^n\). Cannot decay to SM particles.
+                    </p>
+                </div>
+
+                <div style="padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--neon-green);">
+                    <strong style="color:var(--neon-green);font-size:0.85rem;">[H.DM.6] Relic Abundance Match</strong>
+                    <div class="stur-eq derived" style="margin:0.5rem 0;font-size:0.9rem;">
+                        \[\Omega_{DM} h^2 \approx 0.12\]
+                    </div>
+                    <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+                        LKP thermal freeze-out matches observed dark matter density. No exotic particles needed — DM from geometry.
+                    </p>
+                </div>
+            </div>
+
+            <div style="padding:0.75rem;background:rgba(34,211,238,0.1);border-radius:8px;border:1px solid rgba(34,211,238,0.3);">
+                <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;">
+                    <strong style="color:var(--neon-cyan);">Key Insight:</strong> Galaxy rotation curves arise from TEGR (α|R|𝕋) at equilibrium + geometric dark matter from KK-parity LKP. Both derive from the Master Action with \(L_X \approx 0.8\,\mu\text{m}\).
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- First Principles Status -->
     <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
@@ -127,7 +176,7 @@
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li><strong>Modulator form:</strong> \(\XCRM{S(r)} = \tanh(r/L_0)(1 - e^{-r/L_0})\) — universal form from <a href="stur_core_theory.html#VR-derivation" style="color:var(--neon-green)">Z₃ helix-derived V(R) (Theorem E.2)</a></li>
                 <li><strong>Length scale L₀:</strong> Derived from XCRM coherence scaling at galactic scales (see derivation below)</li>
-                <li><strong>Dark matter equivalent:</strong> KK parity LKP (Eq. F.20) provides DM mass without new particles</li>
+                <li><strong>Dark matter equivalent:</strong> LKP from KK-parity <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--neon-cyan);">[H.DM.3]</a> provides DM mass without new particles</li>
             </ul>
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-cyan);">Observational Inputs (Standard Astrophysics):</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
@@ -1122,6 +1171,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
+                <li><strong style="color:var(--neon-cyan);">STUR Derivation Chain</strong>, <a href="../DERIVATION_CHAIN_HELIX.md">DERIVATION_CHAIN_HELIX.md</a> — TEGR gravity [H.1.3], LKP dark matter [H.DM.3], L_X ≈ 0.8 μm</li>
                 <li>STUR Core Theory, <a href="stur_core_theory.html">stur_core_theory.html</a> — S(r) Radial Modulator</li>
                 <li>Problem Closures, <a href="../index.html#problem-closures">21 derivations with derived mechanisms</a></li>
                 <li>Rubin & Ford — ApJ 159, 379 (flat rotation curves)</li>

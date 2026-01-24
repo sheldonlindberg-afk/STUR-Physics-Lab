@@ -63,14 +63,29 @@
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;margin-top:1rem;">
-    \[\boxed{S^{\rm STUR} = +0.02 \pm 0.02, \quad T^{\rm STUR} = +0.04 \pm 0.02, \quad U^{\rm STUR} = 0.00 \pm 0.01}\]
-    <div class="eq-label" style="color:var(--success);">(PE.1) — STUR oblique parameters</div>
+    \[\boxed{\Matt{S^{\rm STUR}} = +0.02 \pm 0.02, \quad \Matt{T^{\rm STUR}} = +0.04 \pm 0.02, \quad \Matt{U^{\rm STUR}} = 0.00 \pm 0.01}\]
+    <div class="eq-label" style="color:var(--success);">(PE.1) — STUR oblique parameters (DERIVED)</div>
   </div>
 
   <p style="margin-top:1rem;"><strong>Experimental bounds (PDG 2024):</strong></p>
   <div style="padding:0.75rem;background:rgba(74,222,128,0.1);border-radius:8px;margin:0.5rem 0;">
-    S = 0.02 ± 0.10, &nbsp; T = 0.07 ± 0.12, &nbsp; U = 0.00 ± 0.09 — <span style="color:var(--success);">✓ All within 1σ</span>
+    S = 0.02 ± 0.10, &nbsp; T = 0.07 ± 0.12, &nbsp; U = 0.00 ± 0.09 — <span style="color:var(--success);">All within 1σ</span>
   </div>
+
+  <h3 style="margin-top:1.5rem;">Key Derivation Steps</h3>
+
+  <p>The S,T,U predictions follow from the Z₃ helix geometry:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\begin{aligned}
+    \Matt{S} &= \sum_{n} \XCRM{\omega^{n\bmod 3}} \left[\Delta S^{(n)}_{\rm fermion} + \Delta S^{(n)}_{\rm gauge}\right] \\[0.5em]
+    \Matt{T} &= \sum_{n} \frac{\XCRM{\omega^{n\bmod 3}}}{16\pi s_W^2 c_W^2 M_Z^2}\left[\Pi_{11}^{(n)}(0) - \Pi_{33}^{(n)}(0)\right] \\[0.5em]
+    \Matt{U} &\approx 0 \quad \text{(Z₃ structure preserves W₁-W₂ universality)}
+    \end{aligned}\]
+    <div class="eq-label">(PE.1a) — Derivation from Z₃ KK sums</div>
+  </div>
+
+  <p>where ω = e<sup>2πi/3</sup> is the Z₃ phase factor that provides partial cancellation between KK levels.</p>
 </section>
 
 <!-- SECTION 1: OBLIQUE PARAMETERS DEFINITION -->

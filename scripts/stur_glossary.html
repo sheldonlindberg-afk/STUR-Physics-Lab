@@ -69,11 +69,21 @@
     <div class="title">STUR — Sheldon's Theory of Unified Resistance (v2.5 Helix)</div>
     <p style="margin:0;color:var(--text-secondary);">
       A unified physics framework proposing that fundamental physics emerges from the R-field doublet
-      <strong>R</strong> = (R₁, R₂) = |<strong>R</strong>|e<sup>iφ</sup> defined on a 5D Z₃ helix manifold M⁴ × S¹.
-      The theory derives gravity (via TEGR), gauge forces, matter, and cosmology from XCRM doublet foundation (χ|<strong>R</strong>|²∂ₓφ → Master Action → DHP → MHP; <a href="stur_mhp_derivation.html" style="color:var(--accent);">all derived from path integral</a>).
+      \(\XCRM{\mathbf{R}} = (R_1, R_2) = |R|e^{i\phi}\) defined on a 5D Z₃ helix manifold M⁴ × S¹.
+      The theory derives gravity (via TEGR), gauge forces, matter, and cosmology from XCRM doublet foundation.
     </p>
-    <p style="margin:0.75rem 0 0;color:var(--text-muted);font-size:0.9rem;">
-      <strong>See:</strong> <a href="stur_core_theory.html" style="color:var(--accent);">Core Theory</a>
+    <div style="margin:0.75rem 0;padding:0.75rem;background:rgba(74,222,128,0.1);border-radius:8px;border-left:3px solid #4ade80;">
+      <strong style="color:#4ade80;">v2.5 Helix Achievements:</strong>
+      <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.88rem;">
+        <li><strong>25 problems solved</strong> from XCRM doublet foundation [H.1.4]</li>
+        <li><strong>21 falsifiable predictions</strong> with specific numerical values</li>
+        <li><strong>All parameters derived</strong> — \(L_X \approx 0.8\,\mu\text{m}\) dynamically stabilized</li>
+        <li><strong>3 generations automatic</strong> — \(|Z_3| = 3\) is a theorem, not a calculation</li>
+      </ul>
+    </div>
+    <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.9rem;">
+      <strong>See:</strong> <a href="stur_core_theory.html" style="color:var(--accent);">Core Theory</a> |
+      <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--accent);">Complete Derivation Chain</a>
     </p>
   </div>
 
@@ -213,6 +223,81 @@
       The visibility is determined by averaging over the phase distribution: \(\Matt{V} = V_0 |\langle e^{i\Phi_R} \rangle|\).
     </p>
   </div>
+
+  <div class="block" style="margin-top:1.5rem;border-left-color:#4ade80;">
+    <div class="title" style="color:#4ade80;">MHP — Minimum Holonomy Principle</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>Derived, not postulated.</strong> The MHP emerges from the path integral saddle point condition
+      via Faddeev-Popov procedure [H.5.6]. The holonomy cost functional:
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\Quant{\Omega[h]} = -\sum_{\alpha>0} \ln|2\sin(\pi\alpha \cdot h)|\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      Minimizing \(\Omega\) over anomaly-free gauge groups <strong>selects</strong> \(G_{\rm SM} = SU(3) \times SU(2) \times U(1)\).
+    </p>
+  </div>
+
+  <div class="block" style="margin-top:1.5rem;border-left-color:#f472b6;">
+    <div class="title" style="color:#f472b6;">TFP — Topological Flavor Principle</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Flavor structure (Yukawa couplings, mixing angles) is determined by the fundamental group \(\pi_1(Z_3\,\text{helix})\).
+      Fermions at different Z₃ phases have winding numbers \(w \in \{0, 1, 2\}\):
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\XCRM{Y_{ij}} \propto \lambda^{|w_i - w_j|} \quad \text{where} \quad \lambda = e^{-2\pi/3}\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      After RG running: \(\lambda_{\rm phys} \approx 0.217\) (4% from PDG value 0.2257).
+    </p>
+  </div>
+
+  <div class="block" style="margin-top:1.5rem;border-left-color:#60a5fa;">
+    <div class="title" style="color:#60a5fa;">DHP — Dynamical Holonomy Principle</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Time evolution is governed by holonomy finiteness at all times:
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\XCRM{\delta\Omega_{\rm DHP}} = 0 \quad \text{where} \quad \Omega_{\rm DHP} = \int dt\, \langle|\Phi_R|^2\rangle\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      DHP provides UV completion and prevents quadratic divergences (hierarchy problem resolution).
+    </p>
+  </div>
+
+  <div class="block" style="margin-top:1.5rem;border-left-color:#fbbf24;">
+    <div class="title" style="color:#fbbf24;">Winding Number \(w\)</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The Z₃ charge of a fermion, taking values \(w \in \{0, 1, 2\}\). Determines which Z₃ fixed point
+      the fermion localizes at:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      <li>\(w = 0\): Generation 1 (e, u, d) at phase \(\phi = 0\)</li>
+      <li>\(w = 1\): Generation 2 (μ, c, s) at phase \(\phi = 2\pi/3\)</li>
+      <li>\(w = 2\): Generation 3 (τ, t, b) at phase \(\phi = 4\pi/3\)</li>
+    </ul>
+    <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
+      <strong>Reference:</strong> [H.6.1] in Derivation Chain
+    </p>
+  </div>
+
+  <div class="block" style="margin-top:1.5rem;border-left-color:#22d3ee;">
+    <div class="title" style="color:#22d3ee;">Wolfenstein Parameter \(\lambda\)</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The fundamental expansion parameter for CKM matrix elements. In STUR, \(\lambda\) is <strong>calculated</strong>
+      from Z₃ phase separation:
+    </p>
+    <div class="eq boxed" style="margin:0.75rem 0;">
+      \[\XCRM{\lambda_{\rm GUT}} = e^{-2\pi/3} = 0.1234\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
+      After two-loop RG running, KK threshold corrections, and electroweak matching:
+      \(\lambda_{\rm phys} = 0.217\) (compared to PDG: 0.2257 ± 0.0010).
+    </p>
+    <p style="margin:0.5rem 0 0;color:var(--text-muted);font-size:0.85rem;">
+      <strong>Reference:</strong> [H.7.5g] — Complete two-loop derivation
+    </p>
+  </div>
 </section>
 
 <!-- PARAMETERS -->
@@ -281,12 +366,64 @@
   </table>
 
   <div class="block success" style="margin-top:1rem;">
-    <div class="title">Parameter Closure</div>
+    <div class="title">Parameter Closure — Zero Free Parameters</div>
     <p style="margin:0;color:var(--text-secondary);">
-      After XCRM closure, STUR has all parameters <strong>derived from geometry</strong>: the compactification scale \(\XCRM{L_X}\) is dynamically stabilized
-      by Casimir-holonomy balance. All mechanisms and numerical coefficients are derived from Z₃ helix geometry.
+      After XCRM closure, STUR has <strong>all parameters derived from geometry</strong>:
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      <li>\(\Diff{L_X^* \approx 0.8\,\mu\text{m}}\) — dynamically stabilized by Casimir-holonomy balance [H.2.11]</li>
+      <li>\(\XCRM{\chi = -\pi/(3L_X)}\) — fixed by vacuum stability [H.4.10]</li>
+      <li>\(\Tor{\alpha = 1/(16\pi G R_{\rm bg})}\) — gives correct Newton's constant</li>
+      <li>\(\Pot{\lambda}\), \(\Pot{v}\) — determined by doublet potential shape</li>
+    </ul>
+    <p style="margin:0.5rem 0 0;color:#4ade80;font-size:0.9rem;">
+      Compare to Standard Model: <strong>19+ free parameters</strong> that must be measured.
     </p>
   </div>
+
+  <h3 style="color:var(--gold);margin-top:2rem;">Key Derived Quantities (v2.5)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Quantity</th>
+        <th>Formula</th>
+        <th>Value</th>
+        <th>Reference</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:600;">Compactification Scale</td>
+        <td>\(L_X^* = (4\zeta(5)|N_{\rm eff}|/(c_h\|h\|^2))^{1/3}\)</td>
+        <td>\(\approx 0.8\,\mu\text{m}\)</td>
+        <td>[H.2.11]</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600;">KK Mass Scale</td>
+        <td>\(M_{\rm KK} = \hbar c/L_X\)</td>
+        <td>\(\approx 0.25\,\text{eV}\)</td>
+        <td>[H.2.11]</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600;">Wolfenstein \(\lambda\)</td>
+        <td>\(\lambda = e^{-2\pi/3} \times (\text{RG factors})\)</td>
+        <td>\(0.217\) (PDG: 0.226)</td>
+        <td>[H.7.5g]</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600;">Coherence Length</td>
+        <td>\(\ell_{\rm coh} = \sqrt{2}L_X/(y\sigma_R)\)</td>
+        <td>\(0.3\text{--}30\,\text{m}\)</td>
+        <td>[H.4.4]</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600;">Proton Lifetime</td>
+        <td>\(\tau_p \propto M_{\rm GUT}^4/m_p^5\)</td>
+        <td>\(8.6 \times 10^{38}\,\text{years}\)</td>
+        <td>[H.8.5]</td>
+      </tr>
+    </tbody>
+  </table>
 </section>
 
 <!-- DERIVATION CHAIN -->

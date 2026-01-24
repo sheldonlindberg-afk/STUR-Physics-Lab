@@ -141,6 +141,57 @@
         </div>
     </div>
 
+    <!-- Stress-Failure Envelope from Z₃ Helix -->
+    <div class="glass-section" style="border-color:var(--neon-cyan);background:rgba(34,211,238,0.04);margin-bottom:1.5rem;">
+        <div class="glass-section-header">
+            <span class="stur-icon icon-link size-24" style="color:var(--neon-cyan);"></span>
+            <h2 class="glass-section-title" style="color:var(--neon-cyan);">Stress-Failure Envelope from Z₃ Helix Geometry</h2>
+        </div>
+        <div class="glass-section-body" style="font-size:0.92rem;">
+            <p style="margin-bottom:0.75rem;color:var(--text-secondary);">
+                The stress-failure envelope derives from the fundamental XCRM structure in <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--neon-cyan);">DERIVATION_CHAIN_HELIX.md</a>:
+            </p>
+
+            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                <strong style="color:var(--neon-pink);">V(R) Potential from Z₃ Orbifold [H.2.5]</strong>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[\Pot{V(|R|)} = \frac{\lambda}{4}(|R|^2 - v^2)^2\]
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+                    The Mexican hat potential emerges from Z₃ orbifold compactification.
+                    Energy requirements \(E_{\text{need}} = \int V(R)\,dV\) set fundamental replication limits.
+                </p>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                <strong style="color:var(--neon-gold);">XCRM Saturation Operator [H.1.8]</strong>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[\XCRM{S(u)} = \tanh(u)(1 - e^{-u})\]
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+                    The saturation operator determines stability boundaries at high stress.
+                    When \(S(u) \to 1\), the system reaches maximum coherence — failure modes emerge beyond this limit.
+                </p>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;">
+                <strong style="color:var(--neon-green);">Entropy-Energy Balance [H.3.4]</strong>
+                <div class="stur-eq derived" style="margin:0.75rem 0;">
+                    \[\Diff{E_{\text{need}}} = \int \Pot{V(R)}\,dV + \Diff{\Delta S_{\text{eff}}} \cdot \Matt{T}\]
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+                    Replication energy combines potential energy (from V(R)) and entropy cost (from diffusion term).
+                    This determines the stable/power-limited/biology-limited classification boundaries.
+                </p>
+            </div>
+
+            <p style="font-size:0.82rem;color:var(--text-dim);margin:0.75rem 0 0;">
+                <strong>Derivation chain:</strong> [H.1.1] R-field doublet → [H.2.5] V(R) potential → [H.3.4] Energy-entropy balance → failure mode classification.
+                See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--neon-cyan);">DERIVATION_CHAIN_HELIX.md Part I-II</a>.
+            </p>
+        </div>
+    </div>
+
     <!-- DERIVATION CHAIN -->
     <div class="glass-section" style="border-color:var(--accent-violet);background:rgba(167,139,250,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">

@@ -378,9 +378,74 @@
   <p>This connects to the coherence length: ℓ<sub>coh</sub> ~ ℏ/(m·σ<sub>R</sub>).</p>
 </section>
 
-<!-- SECTION 7: COMPLETE DERIVATION CHAIN -->
+<!-- SECTION 7: QM FROM R-FIELD FLUCTUATIONS -->
+<section class="section" id="rfield-qm" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">7. Quantum Mechanics from R-Field Fluctuations</h2>
+
+  <h3>7.1 The Stochastic R-Field</h3>
+
+  <p>The resistance field \(\Diff{R}\) has quantum fluctuations characterized by:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\Diff{\delta R(x)} \sim \mathcal{N}(0, \Diff{\sigma_R^2}) \quad \text{with} \quad \Diff{\sigma_R} \sim 10^{-6} v \sim 10^{12} \text{ GeV}}\]
+    <div class="eq-label" style="color:var(--gold);">(7.1) — R-field fluctuation amplitude</div>
+  </div>
+
+  <h3>7.2 Gaussian Phase Statistics</h3>
+
+  <p>The R-field fluctuations induce Gaussian-distributed phases on matter paths:</p>
+
+  <div class="eq boxed">
+    \[\Quant{P(\delta\phi)} \propto \exp\left(-\frac{\delta\phi^2}{2\Quant{\sigma_\phi^2}}\right)\]
+    <div class="eq-label">(7.2) — Gaussian phase distribution from central limit theorem</div>
+  </div>
+
+  <p>where the phase variance accumulates over the path:</p>
+
+  <div class="eq boxed">
+    \[\Quant{\sigma_\phi^2} = \frac{y^2 \Diff{\sigma_R^2}}{\XCRM{L_X}} \times L_{\rm path}\]
+    <div class="eq-label">(7.3)</div>
+  </div>
+
+  <h3>7.3 Visibility and Coherence Length</h3>
+
+  <p>Interference visibility depends on coherence between paths. The STUR coherence length:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
+    \[\boxed{\Matt{\ell_{\rm coh}} = \frac{\hbar}{\Quant{y} \cdot \Diff{\sigma_R}/v} \approx 1 - 100 \text{ m}}\]
+    <div class="eq-label" style="color:var(--success);">(7.4) — STUR coherence length (DERIVED)</div>
+  </div>
+
+  <p>The visibility decays as:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\Matt{V(\Delta L)} = \Matt{V_0} \exp\left(-\frac{\Delta L^2}{\Matt{\ell_{\rm coh}^2}}\right)}\]
+    <div class="eq-label" style="color:var(--gold);">(7.5) — Gaussian visibility decay (testable prediction)</div>
+  </div>
+
+  <h3>7.4 Emergence of Quantization</h3>
+
+  <p>The discrete nature of quantum mechanics emerges from the Z<sub>3</sub> holonomy structure:</p>
+
+  <div class="eq boxed">
+    \[\XCRM{\oint A_X \, dX} = \frac{2\pi n}{3}, \quad n \in \{0, 1, 2\}\]
+    <div class="eq-label">(7.6) — Z<sub>3</sub> holonomy quantization</div>
+  </div>
+
+  <div class="block gold">
+    <div class="title">R-Field as Quantum Environment</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The R-field fluctuations act as an ever-present quantum environment. They induce:
+      <strong>(1)</strong> phase randomization leading to Born rule,
+      <strong>(2)</strong> decoherence causing apparent collapse,
+      <strong>(3)</strong> uncertainty from irreducible fuzziness.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 8: COMPLETE DERIVATION CHAIN -->
 <section class="section" id="derivation-chain" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">7. Complete Derivation Chain</h2>
+  <h2 style="color:var(--success);">8. Complete Derivation Chain</h2>
 
   <div class="walkthrough" style="margin:1rem 0;">
     <div class="step">
@@ -442,9 +507,9 @@
   </div>
 </section>
 
-<!-- SECTION 8: COMPARISON WITH STANDARD QM -->
+<!-- SECTION 9: COMPARISON WITH STANDARD QM -->
 <section class="section" id="comparison">
-  <h2>8. STUR vs Standard QM Postulates</h2>
+  <h2>9. STUR vs Standard QM Postulates</h2>
 
   <table>
     <thead>

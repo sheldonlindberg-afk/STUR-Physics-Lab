@@ -41,6 +41,16 @@
   </p>
 </header>
 
+<div class="physics-legend">
+  <div class="physics-legend-title">Equation Color Code</div>
+  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
+  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
+</div>
+
 <!-- EXECUTIVE SUMMARY -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
   <h2 style="color:var(--success);">The Test</h2>
@@ -347,39 +357,316 @@
   <p>This is sufficient to distinguish Gaussian from exponential decay at > 5σ for ℓ<sub>coh</sub> = 3 m.</p>
 </section>
 
-<!-- SECTION 6: TIMELINE -->
-<section class="section" id="timeline">
-  <h2>6. Proposed Experimental Campaign</h2>
+<!-- SECTION 6: MAGIS-100 SPECIFIC PROTOCOL -->
+<section class="section" id="magis100" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">6. MAGIS-100 Protocol</h2>
+
+  <p style="color:var(--text-secondary);margin-bottom:1rem;">
+    MAGIS-100 at Fermilab provides the ideal platform for testing STUR's primary prediction with its 100 m baseline
+    and \(10^{-6}\) visibility sensitivity.
+  </p>
+
+  <h3>6.1 MAGIS-100 Configuration for STUR Test</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>MAGIS-100 Capability</th>
+        <th>STUR Requirement</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Baseline</td>
+        <td>10 m, 30 m, 100 m (configurable)</td>
+        <td>Multiple baselines spanning 1 decade</td>
+        <td style="color:var(--success);">Excellent</td>
+      </tr>
+      <tr>
+        <td>Visibility precision</td>
+        <td>\(\delta V/V_0 \sim 10^{-6}\)</td>
+        <td>\(\delta V/V_0 < 10^{-3}\) for \(\Matt{\ell_{\rm coh}} < 100\) m</td>
+        <td style="color:var(--success);">Excellent</td>
+      </tr>
+      <tr>
+        <td>Atom species</td>
+        <td><sup>87</sup>Sr (primary), <sup>88</sup>Sr (secondary)</td>
+        <td>Two species for mass-independence test</td>
+        <td style="color:var(--success);">Available</td>
+      </tr>
+      <tr>
+        <td>Integration time</td>
+        <td>Hours to days</td>
+        <td>~1 hour for 5σ at \(\Matt{\ell_{\rm coh}} = 30\) m</td>
+        <td style="color:var(--success);">Sufficient</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>6.2 MAGIS-100 STUR Measurement Protocol</h3>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem;margin:1rem 0;">
+    \[\boxed{\text{STUR Signal:} \quad \Matt{V(100\,\text{m})} = V_0 \exp\!\left(-\frac{10000}{\Matt{\ell_{\rm coh}}^2}\right)}\]
+    <div class="eq-label" style="color:var(--gold);">(6.1) — Predicted visibility at 100 m baseline</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>\(\Matt{\ell_{\rm coh}}\)</th>
+        <th>V(10 m)/V<sub>0</sub></th>
+        <th>V(30 m)/V<sub>0</sub></th>
+        <th>V(100 m)/V<sub>0</sub></th>
+        <th>Detection?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:rgba(74,222,128,0.06);">
+        <td>3 m</td>
+        <td style="color:var(--warning);">10<sup>−5</sup></td>
+        <td style="color:var(--error);">~0</td>
+        <td style="color:var(--error);">~0</td>
+        <td style="color:var(--success);">Definitive</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.06);">
+        <td>10 m</td>
+        <td style="font-weight:600;">0.37</td>
+        <td style="color:var(--warning);">0.011</td>
+        <td style="color:var(--error);">~0</td>
+        <td style="color:var(--success);">Definitive</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.06);">
+        <td>30 m</td>
+        <td style="font-weight:600;">0.90</td>
+        <td style="font-weight:600;">0.37</td>
+        <td style="color:var(--warning);">0.011</td>
+        <td style="color:var(--success);">Definitive</td>
+      </tr>
+      <tr>
+        <td>100 m</td>
+        <td>0.99</td>
+        <td>0.91</td>
+        <td style="font-weight:600;">0.37</td>
+        <td style="color:var(--success);">Yes</td>
+      </tr>
+      <tr>
+        <td>300 m</td>
+        <td>0.999</td>
+        <td>0.99</td>
+        <td>0.90</td>
+        <td style="color:var(--warning);">Marginal</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="block success" style="border-width:2px;margin-top:1rem;">
+    <div class="title">MAGIS-100 Detection Capability</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>MAGIS-100 will definitively test STUR for \(\Matt{\ell_{\rm coh}} < 100\) m</strong>,
+      covering the full predicted range [0.3, 30] m. A single campaign can establish or exclude
+      STUR's primary prediction at > 5σ significance.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 7: EINSTEIN TELESCOPE PROTOCOL -->
+<section class="section" id="einstein-telescope" style="border:3px solid var(--accent-violet); background:linear-gradient(135deg, rgba(167,139,250,0.1) 0%, rgba(96,165,250,0.06) 100%);">
+  <h2 style="color:var(--accent-violet);">7. Einstein Telescope / Cosmic Explorer Protocol</h2>
+
+  <p style="color:var(--text-secondary);margin-bottom:1rem;">
+    Third-generation gravitational wave detectors will provide the definitive test of STUR's
+    \(\XCRM{f_{\rm XCRM,eff}}\) prediction through frequency-dependent dispersion and polarization birefringence.
+  </p>
+
+  <h3>7.1 XCRM GW Dispersion Signature</h3>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--accent-violet);padding:1.25rem;margin:1rem 0;">
+    \[\boxed{\Tor{v_g(f)} = c \times \left[1 - \frac{f^2}{\XCRM{f_{\rm XCRM,eff}}^2}\right]}\]
+    <div class="eq-label" style="color:var(--accent-violet);">(7.1) — Frequency-dependent GW group velocity</div>
+  </div>
+
+  <p style="color:var(--text-secondary);">
+    The time delay between frequency components \(f_1\) and \(f_2\) from a source at distance \(D\):
+  </p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--accent-violet);padding:1.25rem;margin:1rem 0;">
+    \[\boxed{\Delta t = \frac{D}{c} \times \frac{|f_2^2 - f_1^2|}{\XCRM{f_{\rm XCRM,eff}}^2}}\]
+    <div class="eq-label" style="color:var(--accent-violet);">(7.2) — GW dispersion time delay</div>
+  </div>
+
+  <h3>7.2 Einstein Telescope Detection Thresholds</h3>
+
+  <table>
+    <thead>
+      <tr style="background:rgba(167,139,250,0.1);">
+        <th>Source Type</th>
+        <th>Redshift</th>
+        <th>Predicted Δt</th>
+        <th>ET Sensitivity</th>
+        <th>Detection?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Binary Neutron Star</td>
+        <td>z = 0.5</td>
+        <td>0.1 − 10 ms</td>
+        <td>~0.1 ms</td>
+        <td style="color:var(--success);font-weight:600;">YES</td>
+      </tr>
+      <tr>
+        <td>Binary Neutron Star</td>
+        <td>z = 1</td>
+        <td>0.5 − 50 ms</td>
+        <td>~0.1 ms</td>
+        <td style="color:var(--success);font-weight:600;">YES</td>
+      </tr>
+      <tr>
+        <td>Binary Black Hole</td>
+        <td>z = 2</td>
+        <td>1 − 100 ms</td>
+        <td>~1 ms</td>
+        <td style="color:var(--success);font-weight:600;">YES</td>
+      </tr>
+      <tr>
+        <td>Stochastic background</td>
+        <td>Cosmological</td>
+        <td>\(\Omega_{\rm GW} \sim 10^{-18}\)</td>
+        <td>\(\Omega_{\rm GW} \sim 10^{-13}\)</td>
+        <td style="color:var(--warning);">Below threshold</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>7.3 Polarization Birefringence Test</h3>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--accent-violet);padding:1.25rem;margin:1rem 0;">
+    \[\boxed{\Delta\psi = \Quant{\beta_{\rm eff}} \times \frac{f^2}{\XCRM{f_{\rm XCRM,eff}}^2} \times \frac{D}{\lambda_{\rm XCRM}}}\]
+    <div class="eq-label" style="color:var(--accent-violet);">(7.3) — GW birefringence from Z<sub>3</sub> helix chirality</div>
+  </div>
+
+  <p style="color:var(--text-secondary);">
+    where \(\Quant{\beta_{\rm eff}} = \sqrt{3}/2 \approx 0.87\) from the \(\Quant{Z_3}\) helix phase.
+  </p>
+
+  <div class="card-grid" style="margin:1rem 0;">
+    <div class="card" style="border:2px solid var(--success);background:rgba(74,222,128,0.04);">
+      <strong style="color:var(--success);">STUR Confirmed If</strong>
+      <ul style="margin:0.5rem 0 0;font-size:0.88rem;color:var(--text-secondary);">
+        <li>Δt = 0.1 − 10 ms for z > 0.5 BNS mergers</li>
+        <li>Δt scales as D × (f₂² − f₁²)</li>
+        <li>Weak birefringence |Δψ| < 0.1 rad over band</li>
+        <li>\(\XCRM{f_{\rm XCRM,eff}} \in [10^{10}, 10^{12}]\) Hz</li>
+      </ul>
+    </div>
+    <div class="card" style="border:2px solid var(--error);background:rgba(239,68,68,0.04);">
+      <strong style="color:var(--error);">STUR Falsified If</strong>
+      <ul style="margin:0.5rem 0 0;font-size:0.88rem;color:var(--text-secondary);">
+        <li>Δt > 100 ms for z > 0.5 sources</li>
+        <li>Δt < 0.01 ms (null result → \(f_{\rm XCRM,eff} > 10^{12}\) Hz)</li>
+        <li>Strong birefringence |h_L² − h_R²|/(h_L² + h_R²) > 10%</li>
+        <li>No frequency-dependent dispersion at any scale</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>7.4 Einstein Telescope Analysis Protocol</h3>
 
   <div class="walkthrough" style="margin:1rem 0;">
     <div class="step">
       <div class="step-content">
-        <strong>Phase 1: Calibration</strong><br>
-        Establish V<sub>0</sub>, verify environmental stability, characterize systematics.
+        <strong>Step 1: Source Selection</strong><br>
+        Identify binary neutron star mergers at z > 0.5 with well-measured distances (from EM counterparts or host galaxy redshifts).
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Phase 2: Primary Scan</strong><br>
-        Full ΔL scan with primary species (<sup>87</sup>Rb).
+        <strong>Step 2: Waveform Analysis</strong><br>
+        Extract arrival times of frequency components f₁ = 100 Hz and f₂ = 1000 Hz using matched filtering.
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Phase 3: Mass Independence</strong><br>
-        Repeat scan with secondary species (<sup>133</sup>Cs or <sup>170</sup>Yb).
+        <strong>Step 3: Dispersion Measurement</strong><br>
+        Measure Δt = t(f₂) − t(f₁) after correcting for standard propagation delays.
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Phase 4: Time Stability</strong><br>
-        Extended monitoring for time-dependent effects.
+        <strong>Step 4: f<sub>XCRM,eff</sub> Extraction</strong><br>
+        Fit dispersion data to \(\XCRM{f_{\rm XCRM,eff}} = \sqrt{D \times (f_2^2 - f_1^2) / (c \times \Delta t)}\).
       </div>
     </div>
     <div class="step">
       <div class="step-content">
-        <strong>Phase 5: Publication</strong><br>
-        Full statistical analysis, peer review, publication.
+        <strong>Step 5: Birefringence Check</strong><br>
+        Compare L and R circular polarization amplitudes as function of frequency.
+      </div>
+    </div>
+  </div>
+
+  <div class="block" style="border-left-color:var(--accent-violet);margin-top:1.5rem;">
+    <div class="title" style="color:var(--accent-violet);">STUR Prediction for Einstein Telescope</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>For \(\XCRM{f_{\rm XCRM,eff}} = (1.2 \pm 0.8) \times 10^{11}\) Hz:</strong><br>
+      A BNS merger at z = 1 (D ~ 6.7 Gpc) with f₁ = 100 Hz and f₂ = 1000 Hz should show:
+    </p>
+    <div class="eq" style="margin:0.75rem 0;">
+      \[\Delta t \approx \frac{6.7 \times 10^{25}\, \text{m}}{3 \times 10^8\, \text{m/s}} \times \frac{10^6 - 10^4}{1.4 \times 10^{22}} \approx 1.6\, \text{ms}\]
+    </div>
+    <p style="margin:0;color:var(--text-secondary);">
+      This is well within Einstein Telescope's ~0.1 ms timing resolution.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 8: TIMELINE -->
+<section class="section" id="timeline">
+  <h2>8. Proposed Experimental Campaign</h2>
+
+  <div class="walkthrough" style="margin:1rem 0;">
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 1: Calibration (Now)</strong><br>
+        Establish V<sub>0</sub>, verify environmental stability, characterize systematics at MAGIS-100 and AION-10.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 2: Primary Scan (2026-2027)</strong><br>
+        Full ΔL scan with primary species (<sup>87</sup>Sr at MAGIS-100, <sup>87</sup>Rb at AION).
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 3: Mass Independence (2027-2028)</strong><br>
+        Repeat scan with secondary species (<sup>88</sup>Sr, <sup>133</sup>Cs, or <sup>170</sup>Yb).
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 4: Time Stability (2028)</strong><br>
+        Extended monitoring for time-dependent effects (ULDM discrimination).
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 5: Fifth Force (2028-2030)</strong><br>
+        ARIADNE and next-gen torsion balance tests at λ ~ 1 μm.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 6: GW Dispersion (2030s)</strong><br>
+        Einstein Telescope and Cosmic Explorer dispersion measurements.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Phase 7: Publication & Verdict</strong><br>
+        Full statistical analysis, peer review, definitive confirmation or falsification.
       </div>
     </div>
   </div>
@@ -387,27 +674,50 @@
 
 <!-- CONCLUSION -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--success);">Conclusion</h2>
+  <h2 style="color:var(--success);">9. Conclusion</h2>
 
   <p style="font-size:1.05rem;color:var(--text);">
-    <strong>STUR provides a clear, falsifiable prediction testable with existing matter-wave interferometers.</strong>
-    The protocol outlined here specifies:
+    <strong>STUR provides 21 falsifiable predictions testable with current and near-future technology.</strong>
+    This protocol specifies:
   </p>
 
   <ul style="color:var(--text-secondary);">
-    <li>Exact functional form to test</li>
-    <li>Competing models to distinguish</li>
-    <li>Statistical criteria for confirmation/falsification</li>
-    <li>Systematic error budget</li>
-    <li>Experimental campaign structure</li>
+    <li>Primary test: Gaussian visibility decay \(\Matt{V(\Delta L)} = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\)</li>
+    <li>MAGIS-100 protocol for \(\Matt{\ell_{\rm coh}} \in [0.3, 30]\) m verification</li>
+    <li>Einstein Telescope protocol for \(\XCRM{f_{\rm XCRM,eff}} = (1.2 \pm 0.8) \times 10^{11}\) Hz</li>
+    <li>Fifth-force test at \(\XCRM{\lambda} \sim 0.8\, \mu\)m with ARIADNE/STEP</li>
+    <li>Complete statistical criteria for confirmation/falsification</li>
+    <li>Seven-phase experimental campaign timeline (2026-2030s)</li>
   </ul>
 
-  <div class="block success" style="margin-top:1rem;">
+  <div class="card-grid" style="margin:1rem 0;">
+    <div class="card" style="border:2px solid var(--accent);background:rgba(34,211,238,0.04);">
+      <strong style="color:var(--accent);">Interferometry (Now)</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);">
+        MAGIS-100 and AION-10 can definitively test the primary visibility prediction within 1-2 years of dedicated operation.
+      </p>
+    </div>
+    <div class="card" style="border:2px solid var(--gold);background:rgba(251,191,36,0.04);">
+      <strong style="color:var(--gold);">Fifth Force (2028-2030)</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);">
+        ARIADNE and next-gen torsion balance will probe the predicted α ~ 10² signal at λ ~ 0.8 μm.
+      </p>
+    </div>
+    <div class="card" style="border:2px solid var(--accent-violet);background:rgba(167,139,250,0.04);">
+      <strong style="color:var(--accent-violet);">GW Dispersion (2030s)</strong>
+      <p style="font-size:0.88rem;color:var(--text-secondary);">
+        Einstein Telescope will measure 0.1-10 ms dispersion for high-z sources, definitively testing \(\XCRM{f_{\rm XCRM,eff}}\).
+      </p>
+    </div>
+  </div>
+
+  <div class="block success" style="margin-top:1rem;border-width:2px;">
     <div class="title">Call to Experimentalists</div>
     <p style="margin:0;color:var(--text-secondary);">
-      Collaborations operating long-baseline atom interferometers (MAGIS-100, AION, ZAIGA, MIGA) are invited
-      to test this prediction. The author is available for detailed discussions of experimental requirements
-      and data analysis methodology.
+      Collaborations operating long-baseline atom interferometers (MAGIS-100, AION, ZAIGA, MIGA),
+      short-range gravity experiments (Eöt-Wash, ARIADNE, STEP), and gravitational wave detectors
+      (LIGO/Virgo/KAGRA, Einstein Telescope, Cosmic Explorer) are invited to test these predictions.
+      <strong>The theory stands or falls on these experiments.</strong>
     </p>
   </div>
 </section>
@@ -418,8 +728,8 @@
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Experimental Protocol</strong></p>
-  <p>&copy; 2026 Sheldon Lon Lindberg</p>
+  <p><strong>STUR Experimental Protocol</strong> — v2.5 Helix (MAGIS-100 & Einstein Telescope)</p>
+  <p>&copy; 2026 Sheldon Lon Lindberg · <em>21 falsifiable predictions with complete experimental protocols</em></p>
 </footer>
 
 </div>

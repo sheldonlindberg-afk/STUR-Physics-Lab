@@ -6,6 +6,10 @@
 <title>Simulations & Apps — STUR Physics Lab</title>
 <meta name="description" content="v2.5 Helix: Interactive demonstrations of STUR physics from Z₃ helix geometry. Double-slit, plasma confinement, superconductor predictions, and more.">
 
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
 <link rel="stylesheet" href="../assets/css/stur-core.css">
 <link rel="stylesheet" href="../assets/css/stur-glass.css">
 <link rel="stylesheet" href="../assets/css/stur-icons.css">
@@ -63,26 +67,48 @@
       <div style="font-size:0.8rem;color:#22d3ee;font-weight:600;">★ v2.5 HELIX</div>
       <p style="margin:0.25rem 0 0;font-size:0.85rem;color:var(--text-secondary);">All simulations grounded in Z₃ helix geometry</p>
     </div>
+    <!-- Key STUR Parameters from DERIVATION_CHAIN_HELIX.md -->
+    <div style="margin-top:1.25rem;padding:1rem 1.25rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:10px;max-width:600px;margin-left:auto;margin-right:auto;text-align:left;">
+      <div style="font-size:0.75rem;color:var(--hub-color);font-weight:600;margin-bottom:0.5rem;text-align:center;">DERIVED PARAMETERS [H.2.10, H.15.1]</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;font-size:0.85rem;">
+        <div style="color:var(--text-secondary);">
+          <span style="color:#60a5fa;">Compactification:</span><br>
+          \(\Lx \approx 0.8\,\mu\text{m}\)
+        </div>
+        <div style="color:var(--text-secondary);">
+          <span style="color:#4ade80;">Coherence Length:</span><br>
+          \(\lcoh \in [0.3, 30]\,\text{m}\)
+        </div>
+        <div style="color:var(--text-secondary);">
+          <span style="color:#f472b6;">Z₃ Helix:</span><br>
+          \(R(X + \Lx) = R_{2\pi/3} \cdot R(X)\)
+        </div>
+        <div style="color:var(--text-secondary);">
+          <span style="color:#ef4444;">Falsifiable:</span><br>
+          <a href="stur_predictions.html" style="color:#ef4444;">21 predictions</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Universal Falsification Statement -->
   <div class="falsifiable-banner">
     <span class="icon">⊗</span>
-    <strong>All simulations are falsifiable.</strong> Each page defines explicit exclusion criteria. STUR is excluded if any prediction fails.
+    <strong>All simulations are falsifiable.</strong> <a href="stur_predictions.html" style="color:#ef4444;">21 quantitative predictions</a> with explicit exclusion criteria. STUR is excluded if any prediction fails.
   </div>
 
   <!-- INTERFEROMETRY -->
   <section class="hub-section">
-    <div class="hub-section-title">Interferometry & Visibility</div>
+    <div class="hub-section-title">Interferometry & Visibility — \(V(\Delta L) = V_0 e^{-\Delta L^2/\lcoh^2}\)</div>
     <div class="hub-grid">
       <a href="stur_double_slit.html" class="hub-card">
         <div class="title">Double Slit Plasmon</div>
-        <div class="desc">Gaussian visibility decay V(ΔL) = V₀ exp(−ΔL²/ℓ²)</div>
+        <div class="desc">Gaussian visibility decay from XCRM holonomy [H.15.1n]. Coherence length \(\lcoh \in [0.3, 30]\,\text{m}\)</div>
         <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_tabletop.html" class="hub-card">
         <div class="title">Whispering Gallery Mode</div>
-        <div class="desc">Precision tabletop interferometry test</div>
+        <div class="desc">Precision tabletop interferometry test at \(\Lx \approx 0.8\,\mu\text{m}\) scale</div>
         <span class="tag interactive">Interactive</span>
       </a>
     </div>
@@ -90,16 +116,16 @@
 
   <!-- PLASMA & CONFINEMENT -->
   <section class="hub-section">
-    <div class="hub-section-title">Plasma & Confinement</div>
+    <div class="hub-section-title">Plasma & Confinement — Z₃ Helix Dynamics</div>
     <div class="hub-grid">
       <a href="stur_plasmaconfinement.html" class="hub-card">
         <div class="title">Plasma Torus 4D</div>
-        <div class="desc">STUR-modulated Lorentz force confinement</div>
+        <div class="desc">STUR-modulated Lorentz force with Z₃ phase structure</div>
         <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_arc.html" class="hub-card">
         <div class="title">Resistance Arc Simulator</div>
-        <div class="desc">Arc discharge dynamics with STUR modulator</div>
+        <div class="desc">Arc discharge dynamics with XCRM coupling \(\chi = -\pi/(3\Lx)\)</div>
         <span class="tag interactive">Interactive</span>
       </a>
     </div>
@@ -107,11 +133,11 @@
 
   <!-- SUPERCONDUCTIVITY -->
   <section class="hub-section">
-    <div class="hub-section-title">Superconductivity</div>
+    <div class="hub-section-title">Superconductivity — R-Field Coherence</div>
     <div class="hub-grid">
       <a href="stur_superconductor.html" class="hub-card">
         <div class="title">Ambient-Temp Superconductor</div>
-        <div class="desc">STUR coherence mechanism for high-Tc prediction</div>
+        <div class="desc">XCRM-induced pair coherence at \(|R| = v\) (no domain wall)</div>
         <span class="tag interactive">Interactive</span>
       </a>
     </div>
@@ -119,11 +145,11 @@
 
   <!-- ORBITAL MECHANICS -->
   <section class="hub-section">
-    <div class="hub-section-title">Orbital Mechanics</div>
+    <div class="hub-section-title">Orbital Mechanics — TEGR Gravity</div>
     <div class="hub-grid">
       <a href="stur_3bodyproblem.html" class="hub-card">
         <div class="title">3-Body RK4 Orbit</div>
-        <div class="desc">STUR-modified gravitational dynamics</div>
+        <div class="desc">Torsion-based gravity from \(\alpha|R|\mathbb{T}\) coupling [H.10.1]</div>
         <span class="tag interactive">Interactive</span>
       </a>
     </div>
@@ -131,26 +157,26 @@
 
   <!-- QUANTUM & EXOTIC -->
   <section class="hub-section">
-    <div class="hub-section-title">Quantum & Exotic</div>
+    <div class="hub-section-title">Quantum & Exotic — Z₃ Phase Structure</div>
     <div class="hub-grid">
       <a href="stur_quantumcomputing.html" class="hub-card">
         <div class="title">Quantum Computing</div>
-        <div class="desc">STUR-modulated quantum evolution</div>
+        <div class="desc">Z₃ holonomy \(\omega = e^{i2\pi/3}\) in quantum gates</div>
         <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_sonolum.html" class="hub-card">
         <div class="title">Sonoluminescence 5D</div>
-        <div class="desc">Chi-torsion bubble collapse with live falsification</div>
+        <div class="desc">XCRM-torsion bubble collapse with live falsification</div>
         <span class="tag live">Live Sim</span>
       </a>
       <a href="stur_graphene.html" class="hub-card">
         <div class="title">Graphene-Axion</div>
-        <div class="desc">Axion-like coupling in graphene</div>
+        <div class="desc">XCRM-like coupling in graphene lattice</div>
         <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_scalar.html" class="hub-card">
         <div class="title">Scalar Bounce</div>
-        <div class="desc">Cosmological bounce dynamics</div>
+        <div class="desc">R-field cosmological bounce with \(V(R) = \frac{\lambda}{4}(|R|^2 - v^2)^2\)</div>
         <span class="tag interactive">Interactive</span>
       </a>
     </div>
@@ -158,33 +184,43 @@
 
   <!-- TOOLS -->
   <section class="hub-section">
-    <div class="hub-section-title">Verification Tools</div>
+    <div class="hub-section-title">Verification Tools — Derivation Chain Validators</div>
     <div class="hub-grid">
       <a href="stur_toe_proof.html" class="hub-card">
         <div class="title">TOE Isochrony Proof</div>
-        <div class="desc">Verification that theory is closed</div>
+        <div class="desc">Verify theory closure from XCRM foundation [H.1.4]</div>
         <span class="tag">Validation</span>
       </a>
       <a href="stur_sandbox.html" class="hub-card">
         <div class="title">STUR Sandbox</div>
-        <div class="desc">Experiment with STUR equations</div>
+        <div class="desc">Experiment with master action equations [H.3.1]</div>
         <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_engine.html" class="hub-card">
         <div class="title">STUR Engine</div>
-        <div class="desc">Core computation engine</div>
+        <div class="desc">Compute \(\Lx\), \(\lcoh\), Z₃ parameters</div>
       </a>
       <a href="stur_geometry_verifier.html" class="hub-card">
         <div class="title">Geometry Verifier</div>
-        <div class="desc">Validate geometric consistency</div>
+        <div class="desc">Validate \(M^4 \times S^1\) with Z₃ helix [H.2.9]</div>
         <span class="tag">Validation</span>
       </a>
     </div>
   </section>
 
+  <!-- Key Derivation Chain Reference -->
+  <div style="margin-top:32px;padding:1rem;background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.2);border-radius:10px;text-align:center;">
+    <div style="font-size:0.8rem;color:#60a5fa;font-weight:600;margin-bottom:0.5rem;">DERIVATION CHAIN REFERENCE</div>
+    <p style="margin:0;font-size:0.85rem;color:var(--text-secondary);">
+      All simulations derive from <a href="../DERIVATION_CHAIN_HELIX.md" style="color:#60a5fa;">DERIVATION_CHAIN_HELIX.md</a>:<br>
+      \(\mathcal{L}_{\text{XCRM}} = \XCRM{\chi(R_1\partial_X R_2 - R_2\partial_X R_1)} = \XCRM{\chi|R|^2 \partial_X\phi}\) <span style="color:var(--text-tertiary);">[H.1.7]</span>
+    </p>
+  </div>
+
   <footer style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);">
     <p style="color:var(--text-quaternary);font-size:0.85rem;">
       <a href="../index.html" style="color:var(--text-tertiary);">← Home</a> ·
+      <a href="stur_predictions.html" style="color:#ef4444;">Predictions</a> ·
       <a href="stur_double_slit.html" style="color:var(--hub-color);">Double Slit →</a>
     </p>
   </footer>

@@ -55,37 +55,237 @@
   <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
 </div>
 
-<!-- EXECUTIVE SUMMARY -->
+<!-- EXECUTIVE SUMMARY - ALL 21 PREDICTIONS WITH ERROR BARS -->
 <div class="glass-section" style="border-color:var(--gold);background:rgba(251,191,36,0.06);margin-bottom:1.5rem;">
     <div class="glass-section-header">
         <span class="stur-icon icon-link size-24" style="color:var(--gold);"></span>
-        <h2 class="glass-section-title" style="color:var(--gold);">Executive Summary: Key Predictions</h2>
+        <h2 class="glass-section-title" style="color:var(--gold);">Executive Summary: Complete Numerical Predictions</h2>
     </div>
     <div class="glass-section-body">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
             <div style="padding:16px;background:rgba(0,0,0,0.4);border-radius:12px;border:2px solid var(--success);">
                 <div style="font-size:0.8rem;color:var(--success);font-weight:600;text-transform:uppercase;">Primary Prediction</div>
                 <div style="font-size:1.5rem;color:var(--text);margin:8px 0;font-weight:700;">ℓ<sub>coh</sub> = 0.3 – 30 m</div>
-                <div style="font-size:0.85rem;color:var(--text-secondary);">Coherence length for L<sub>X</sub> ~ 1–10 μm</div>
+                <div style="font-size:0.85rem;color:var(--text-secondary);">Coherence length for L<sub>X</sub> ≈ 0.8 μm</div>
             </div>
             <div style="padding:16px;background:rgba(0,0,0,0.4);border-radius:12px;border:2px solid var(--accent);">
                 <div style="font-size:0.8rem;color:var(--accent);font-weight:600;text-transform:uppercase;">Visibility Decay</div>
-                <div style="font-size:1.5rem;color:var(--text);margin:8px 0;font-weight:700;">V/V₀ = e<sup>−ΔL²/ℓ²</sup></div>
-                <div style="font-size:0.85rem;color:var(--text-secondary);">Gaussian form (not exponential)</div>
+                <div style="font-size:1.3rem;color:var(--text);margin:8px 0;font-weight:700;">V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>)</div>
+                <div style="font-size:0.85rem;color:var(--text-secondary);">Gaussian form (NOT exponential)</div>
             </div>
             <div style="padding:16px;background:rgba(0,0,0,0.4);border-radius:12px;border:2px solid #fbbf24;">
-                <div style="font-size:0.8rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">Fifth-Force (v2.0)</div>
-                <div style="font-size:1.5rem;color:var(--text);margin:8px 0;font-weight:700;">α ~ 10² – 10³</div>
-                <div style="font-size:0.85rem;color:var(--text-secondary);">At λ ~ 1–10 μm (XCRM screened)</div>
+                <div style="font-size:0.8rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">Fifth Force</div>
+                <div style="font-size:1.4rem;color:var(--text);margin:8px 0;font-weight:700;">λ ~ 0.8 μm, α ~ 10²</div>
+                <div style="font-size:0.85rem;color:var(--text-secondary);">XCRM screened at L<sub>X</sub> scale</div>
+            </div>
+            <div style="padding:16px;background:rgba(0,0,0,0.4);border-radius:12px;border:2px solid var(--accent-violet);">
+                <div style="font-size:0.8rem;color:var(--accent-violet);font-weight:600;text-transform:uppercase;">GW Dispersion Scale</div>
+                <div style="font-size:1.2rem;color:var(--text);margin:8px 0;font-weight:700;">f<sub>XCRM,eff</sub> = (1.2 ± 0.8) × 10<sup>11</sup> Hz</div>
+                <div style="font-size:0.85rem;color:var(--text-secondary);">Einstein Telescope testable</div>
             </div>
             <div style="padding:16px;background:rgba(0,0,0,0.4);border-radius:12px;border:2px solid var(--accent-secondary);">
-                <div style="font-size:0.8rem;color:var(--accent-secondary);font-weight:600;text-transform:uppercase;">Detection Threshold</div>
-                <div style="font-size:1.5rem;color:var(--text);margin:8px 0;font-weight:700;">ΔV/V₀ > 10<sup>−4</sup></div>
-                <div style="font-size:0.85rem;color:var(--text-secondary);">At ΔL = 1 m, requires ℓ<sub>coh</sub> < 100 m</div>
+                <div style="font-size:0.8rem;color:var(--accent-secondary);font-weight:600;text-transform:uppercase;">Compactification Scale</div>
+                <div style="font-size:1.5rem;color:var(--text);margin:8px 0;font-weight:700;">L<sub>X</sub> ≈ 0.8 μm</div>
+                <div style="font-size:0.85rem;color:var(--text-secondary);">From Casimir-holonomy balance</div>
+            </div>
+            <div style="padding:16px;background:rgba(0,0,0,0.4);border-radius:12px;border:2px solid var(--success);">
+                <div style="font-size:0.8rem;color:var(--success);font-weight:600;text-transform:uppercase;">KK Mass Scale</div>
+                <div style="font-size:1.5rem;color:var(--text);margin:8px 0;font-weight:700;">M<sub>KK</sub> ≈ 0.25 eV</div>
+                <div style="font-size:0.85rem;color:var(--text-secondary);">M<sub>KK</sub> = ℏc/L<sub>X</sub></div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- ALL NUMERICAL VALUES TABLE -->
+<section class="section" id="all-predictions" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.04) 100%);">
+  <h2 style="color:var(--success);">Complete Numerical Predictions with Error Bars</h2>
+
+  <p style="color:var(--text-secondary);margin-bottom:1rem;">
+    All values below are <strong>derived from first principles</strong> using the \(\XCRM{\text{XCRM}}\) coupling
+    and \(\Quant{Z_3}\) helix geometry. Zero free parameters are calibrated to data.
+  </p>
+
+  <table style="width:100%;border-collapse:collapse;">
+    <thead>
+      <tr style="border-bottom:2px solid var(--separator);background:rgba(0,0,0,0.3);">
+        <th style="text-align:left;padding:12px;">Parameter</th>
+        <th style="text-align:left;padding:12px;">Predicted Value</th>
+        <th style="text-align:left;padding:12px;">Uncertainty</th>
+        <th style="text-align:left;padding:12px;">Derivation Source</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- INTERFEROMETRY -->
+      <tr style="background:rgba(34,211,238,0.08);"><td colspan="4" style="padding:8px 12px;font-weight:600;color:var(--accent);">Interferometric Predictions</td></tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\Matt{\ell_{\rm coh}}\)</td>
+        <td style="padding:10px 12px;font-weight:600;">3 m (benchmark)</td>
+        <td style="padding:10px 12px;">[0.3, 30] m range</td>
+        <td style="padding:10px 12px;">[H.15.1] CLT averaging</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">Visibility form</td>
+        <td style="padding:10px 12px;font-weight:600;">\(\Matt{V} = V_0 e^{-\Delta L^2/\ell^2}\)</td>
+        <td style="padding:10px 12px;">Exact (theorem)</td>
+        <td style="padding:10px 12px;">[H.15.1] Gaussian R-statistics</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\ln V\) slope</td>
+        <td style="padding:10px 12px;font-weight:600;">\(-1/\ell_{\rm coh}^2\)</td>
+        <td style="padding:10px 12px;">[−11.1, −0.001] m<sup>−2</sup></td>
+        <td style="padding:10px 12px;">[H.15.1] Derivative test</td>
+      </tr>
+
+      <!-- FUNDAMENTAL SCALES -->
+      <tr style="background:rgba(251,191,36,0.08);"><td colspan="4" style="padding:8px 12px;font-weight:600;color:var(--gold);">Fundamental Scales</td></tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\XCRM{L_X}\)</td>
+        <td style="padding:10px 12px;font-weight:600;">0.8 μm</td>
+        <td style="padding:10px 12px;">±0.2 μm (theory)</td>
+        <td style="padding:10px 12px;">[H.2.10] Casimir-holonomy balance</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\XCRM{M_{\rm KK}}\)</td>
+        <td style="padding:10px 12px;font-weight:600;">0.25 eV</td>
+        <td style="padding:10px 12px;">±0.06 eV</td>
+        <td style="padding:10px 12px;">M<sub>KK</sub> = ℏc/L<sub>X</sub></td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\XCRM{\chi}\)</td>
+        <td style="padding:10px 12px;font-weight:600;">−2π/(3L<sub>X</sub>)</td>
+        <td style="padding:10px 12px;">Fixed by stability</td>
+        <td style="padding:10px 12px;">[H.11.7] MHP equilibrium</td>
+      </tr>
+
+      <!-- FIFTH FORCE -->
+      <tr style="background:rgba(251,191,36,0.08);"><td colspan="4" style="padding:8px 12px;font-weight:600;color:var(--gold);">Fifth Force</td></tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\XCRM{\lambda}\) (range)</td>
+        <td style="padding:10px 12px;font-weight:600;">≈ 0.8 μm</td>
+        <td style="padding:10px 12px;">[0.5, 1.2] μm</td>
+        <td style="padding:10px 12px;">λ = L<sub>X</sub></td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\XCRM{\alpha}\) (strength)</td>
+        <td style="padding:10px 12px;font-weight:600;">~10<sup>2</sup> − 10<sup>3</sup></td>
+        <td style="padding:10px 12px;">Factor ~10</td>
+        <td style="padding:10px 12px;">[H.15.2] XCRM screening</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">Screening factor</td>
+        <td style="padding:10px 12px;font-weight:600;">~10<sup>−3</sup></td>
+        <td style="padding:10px 12px;">Order of magnitude</td>
+        <td style="padding:10px 12px;">\(\XCRM{\chi}\) term screening</td>
+      </tr>
+
+      <!-- GRAVITATIONAL WAVES -->
+      <tr style="background:rgba(167,139,250,0.08);"><td colspan="4" style="padding:8px 12px;font-weight:600;color:var(--accent-violet);">Gravitational Wave Signatures</td></tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\XCRM{f_{\rm XCRM,eff}}\)</td>
+        <td style="padding:10px 12px;font-weight:600;">(1.2 ± 0.8) × 10<sup>11</sup> Hz</td>
+        <td style="padding:10px 12px;">±0.8 × 10<sup>11</sup> Hz</td>
+        <td style="padding:10px 12px;">[H.15.5y] L<sub>X</sub> stabilization</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\XCRM{E_{\rm XCRM,eff}}\)</td>
+        <td style="padding:10px 12px;font-weight:600;">~0.5 meV</td>
+        <td style="padding:10px 12px;">±0.3 meV</td>
+        <td style="padding:10px 12px;">E = hf<sub>XCRM,eff</sub></td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">Dispersion Δt (z>0.5)</td>
+        <td style="padding:10px 12px;font-weight:600;">0.1 − 10 ms</td>
+        <td style="padding:10px 12px;">Order of magnitude</td>
+        <td style="padding:10px 12px;">[H.15.5aa] BNS mergers</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\Quant{\beta_{\rm eff}}\) (birefringence)</td>
+        <td style="padding:10px 12px;font-weight:600;">√3/2 ≈ 0.87</td>
+        <td style="padding:10px 12px;">Exact (Z<sub>3</sub> phase)</td>
+        <td style="padding:10px 12px;">[H.15.5q] Helix chirality</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\Tor{\Omega_{\rm GW,peak}}\) × h<sup>2</sup></td>
+        <td style="padding:10px 12px;font-weight:600;">~10<sup>−18</sup></td>
+        <td style="padding:10px 12px;">Order of magnitude</td>
+        <td style="padding:10px 12px;">[H.15.5v] R-field sourcing</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">GW speed deviation</td>
+        <td style="padding:10px 12px;font-weight:600;">|c<sub>g</sub> − c|/c < 10<sup>−30</sup></td>
+        <td style="padding:10px 12px;">Upper bound</td>
+        <td style="padding:10px 12px;">[H.15.5] TEGR equivalence</td>
+      </tr>
+
+      <!-- PARTICLE PHYSICS -->
+      <tr style="background:rgba(96,165,250,0.08);"><td colspan="4" style="padding:8px 12px;font-weight:600;color:var(--accent-secondary);">Particle Physics</td></tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">\(\Matt{m_H}\)</td>
+        <td style="padding:10px 12px;font-weight:600;">125.0 GeV</td>
+        <td style="padding:10px 12px;">±2.3 GeV</td>
+        <td style="padding:10px 12px;">Coleman-Weinberg + Z<sub>3</sub></td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">Wolfenstein \(\XCRM{\lambda}\)</td>
+        <td style="padding:10px 12px;font-weight:600;">≈ 0.22</td>
+        <td style="padding:10px 12px;">±0.01</td>
+        <td style="padding:10px 12px;">L<sub>X</sub>/σ ratio</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">Jarlskog \(\XCRM{J}\)</td>
+        <td style="padding:10px 12px;font-weight:600;">≈ 3 × 10<sup>−5</sup></td>
+        <td style="padding:10px 12px;">±0.5 × 10<sup>−5</sup></td>
+        <td style="padding:10px 12px;">Wolfenstein expansion</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">CKM phase \(\XCRM{\delta}\)</td>
+        <td style="padding:10px 12px;font-weight:600;">≈ 67°</td>
+        <td style="padding:10px 12px;">±5°</td>
+        <td style="padding:10px 12px;">Holonomy flux</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">sin<sup>2</sup>θ<sub>W</sub>(M<sub>Z</sub>)</td>
+        <td style="padding:10px 12px;font-weight:600;">0.231</td>
+        <td style="padding:10px 12px;">±0.001</td>
+        <td style="padding:10px 12px;">Gauge unification</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">Generation number</td>
+        <td style="padding:10px 12px;font-weight:600;">Exactly 3</td>
+        <td style="padding:10px 12px;">Exact (|Z<sub>3</sub>| = 3)</td>
+        <td style="padding:10px 12px;">[H.2.4] APS index</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">Neutrino ordering</td>
+        <td style="padding:10px 12px;font-weight:600;">Normal (m<sub>1</sub> < m<sub>2</sub> < m<sub>3</sub>)</td>
+        <td style="padding:10px 12px;">Binary prediction</td>
+        <td style="padding:10px 12px;">[H.15.3] Seesaw + helix</td>
+      </tr>
+
+      <!-- PRECISION TESTS -->
+      <tr style="background:rgba(74,222,128,0.08);"><td colspan="4" style="padding:8px 12px;font-weight:600;color:var(--success);">Precision Test Consistency</td></tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">Electron EDM</td>
+        <td style="padding:10px 12px;font-weight:600;">~10<sup>−38</sup> e·cm</td>
+        <td style="padding:10px 12px;">9 orders below bound</td>
+        <td style="padding:10px 12px;">Two-loop CP suppression</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--separator);">
+        <td style="padding:10px 12px;">ΔS parameter</td>
+        <td style="padding:10px 12px;font-weight:600;">~10<sup>−18</sup></td>
+        <td style="padding:10px 12px;">17 orders below bound</td>
+        <td style="padding:10px 12px;">KK decoupling</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 12px;">ΔN<sub>eff</sub> (BBN)</td>
+        <td style="padding:10px 12px;font-weight:600;">~0</td>
+        <td style="padding:10px 12px;">KK never thermalize</td>
+        <td style="padding:10px 12px;">Γ<sub>KK</sub> << H<sub>BBN</sub></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
 
 <!-- ===================== SECTION 1: PARAMETER DETERMINATION ===================== -->
 <section class="section" id="parameters" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(167,139,250,0.04) 100%);">

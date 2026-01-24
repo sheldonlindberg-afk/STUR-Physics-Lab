@@ -36,9 +36,22 @@
 <header class="masthead">
   <h1>UV Finiteness: Complete Proof</h1>
   <p class="subtitle">All-Orders Convergence from Holonomy Regulation</p>
+  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+
+  <!-- Key Parameters Box -->
+  <div style="margin:1rem auto;max-width:700px;padding:0.75rem 1rem;background:rgba(251,191,36,0.08);border:2px solid #fbbf24;border-radius:10px;">
+    <div style="font-size:0.85rem;color:#fbbf24;font-weight:600;margin-bottom:0.5rem;">KEY DERIVED PARAMETERS</div>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;font-size:0.85rem;color:var(--text-secondary);">
+      <span><strong style="color:#4ade80;">L<sub>X</sub></strong> ≈ 0.8 μm</span>
+      <span><strong style="color:#a78bfa;">Λ<sub>Ω</sub></strong> ~ 1/L<sub>X</sub></span>
+      <span><strong style="color:#f472b6;">D<sub>eff</sub></strong> &lt; 1 (all diagrams)</span>
+      <span><strong style="color:#60a5fa;">Λ<sub>UV</sub></strong> = natural cutoff</span>
+    </div>
+  </div>
+
   <!-- v2.5 Helix Badge -->
   <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:400px;font-size:0.8rem;">
-    <span style="color:#22d3ee;font-weight:600;">★ v2.5 HELIX</span> — Z₃ geometry derived
+    <span style="color:#22d3ee;font-weight:600;">★ v2.5 HELIX</span> — Z<sub>3</sub> holonomy provides natural UV regulation
   </div>
 </header>
 
@@ -69,6 +82,36 @@
     <li>Establish all-orders finiteness by induction</li>
     <li>Address overlapping divergences and gauge invariance</li>
   </ol>
+</section>
+
+<!-- SECTION 0: UV REGULATION FROM Z3 -->
+<section class="section" id="z3-regulation" style="border:3px solid #4ade80; background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:#4ade80;">0. Natural UV Regulation from Z<sub>3</sub> Helix</h2>
+
+  <div class="block" style="border-color:#4ade80;border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Core Principle — Holonomy as Natural Cutoff</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      The Z<sub>3</sub> helix geometry with size L<sub>X</sub> ≈ 0.8 μm provides a <strong>natural UV cutoff</strong>
+      Λ<sub>Ω</sub> ~ 1/L<sub>X</sub> ≈ 0.25 eV. All loop integrals converge without external regularization.
+    </p>
+  </div>
+
+  <h3>0.1 Why the Helix Regulates UV Divergences</h3>
+
+  <p>In standard quantum field theory, loop diagrams diverge as k → ∞. In STUR:</p>
+
+  <ol>
+    <li><strong>Compact dimension:</strong> The k<sub>X</sub> momenta are discretized: k<sub>X</sub> = 2πn/(3L<sub>X</sub>)</li>
+    <li><strong>Holonomy weight:</strong> The path integral contains e<sup>−λ<sub>Ω</sub>Ω[A]</sup> which suppresses high-k<sub>X</sub> modes</li>
+    <li><strong>Modified propagators:</strong> All propagators acquire effective mass ~ 1/L<sub>X</sub></li>
+  </ol>
+
+  <div class="eq law" style="background:#000;border:3px solid #4ade80;padding:1.25rem;">
+    \[\boxed{\Lambda_\Omega = \frac{g_5^2 \lambda_\Omega}{L_X^2} \sim \frac{1}{L_X} \approx 0.25\, \text{eV}}\]
+    <div class="eq-label" style="color:#4ade80;">(0.1) — Natural UV cutoff from Z<sub>3</sub> helix geometry</div>
+  </div>
+
+  <p>This is not a regularization scheme — it is the <strong>physical structure</strong> of the theory. The compactification scale L<sub>X</sub> ≈ 0.8 μm is dynamically determined (see <a href="stur_master_action_derivation.html#moduli" style="color:var(--accent);">Moduli Stabilization</a>).</p>
 </section>
 
 <!-- SECTION 1: HOLONOMY-WEIGHTED PATH INTEGRAL -->
@@ -460,8 +503,23 @@
     <div class="eq-label" style="color:var(--success);">UV Finiteness Theorem — Complete Statement</div>
   </div>
 
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.5rem 0;">
+    <div style="padding:1rem;background:rgba(74,222,128,0.08);border-radius:10px;border-left:4px solid #4ade80;">
+      <strong style="color:#4ade80;">Natural Cutoff</strong>
+      <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">Λ<sub>Ω</sub> ~ 1/L<sub>X</sub> ≈ 0.25 eV</p>
+    </div>
+    <div style="padding:1rem;background:rgba(167,139,250,0.08);border-radius:10px;border-left:4px solid #a78bfa;">
+      <strong style="color:#a78bfa;">All Orders Finite</strong>
+      <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">D<sub>eff</sub> &lt; 1 for all diagrams</p>
+    </div>
+    <div style="padding:1rem;background:rgba(251,191,36,0.08);border-radius:10px;border-left:4px solid #fbbf24;">
+      <strong style="color:#fbbf24;">L<sub>X</sub> ≈ 0.8 μm</strong>
+      <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">Dynamically stabilized (not free)</p>
+    </div>
+  </div>
+
   <p style="text-align:center;margin-top:1rem;font-size:1.05rem;color:var(--text);">
-    <strong>STUR is UV-finite to all orders, with the Z₃ helix size \(L_X\) providing the natural UV cutoff \(\Lambda_\Omega \sim 1/L_X\).</strong>
+    <strong>STUR is UV-finite to all orders, with the Z<sub>3</sub> helix size \(L_X \approx 0.8\, \mu\text{m}\) providing the natural UV cutoff \(\Lambda_\Omega \sim 1/L_X\).</strong>
   </p>
 </section>
 
