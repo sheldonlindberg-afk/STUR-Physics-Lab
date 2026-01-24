@@ -5,25 +5,28 @@
 **Author:** Sheldon Lon Lindberg
 **Date:** 2026-01-23
 **Version:** 2.4.1
-**Status:** XCRM Foundation — Everything Derived, Nothing Assumed
+**Status:** XCRM Foundation — Minimal Axioms, Maximum Derivation
 
 ---
 
 ## Abstract
 
-This document establishes that STUR is a **complete, axiom-free unified theory**. Starting from the XCRM coupling (derived from the original Sheldon's Theory of Unified Resistance framework), every aspect of the theory — including the geometry itself — follows by logical necessity.
+This document establishes that STUR is a **unified theory with minimal axioms**. Starting from the XCRM coupling as the foundational axiom, every aspect of the theory — including the geometry itself — follows by logical necessity.
 
 **The logical chain:**
 ```
-XCRM coupling → requires compact dimension → chiral fermions require orbifold →
+XCRM coupling (AXIOM) → requires compact dimension → chiral fermions require orbifold →
 minimal orbifold is S¹/Z₂ → path integral determines dynamics → all SM structure derived
 ```
 
-**There are no axioms.** There is only the XCRM framework and the chain of logical consequences.
+**Foundational Axioms:**
+1. The XCRM coupling exists: χ(R₁∂_XR₂ - R₂∂_XR₁)
+2. The R-field is a real doublet (required for TEGR compatibility)
+3. N = 3 for the discrete symmetry group (matched to observed 3 generations)
 
 **Key results:**
-- **Zero axioms** — geometry follows from XCRM requirements (§0)
-- **Zero calibrated parameters** — all SM parameters derived from gauge quantum numbers
+- **Minimal axioms** — geometry follows from XCRM requirements (§0)
+- **Constrained parameters** — SM parameters derived from gauge quantum numbers
 - **Complete derivation chain** — every result follows from XCRM + path integral
 - **Falsifiable predictions** — testable with current technology
 
@@ -2772,10 +2775,10 @@ BR(μ → eγ) ~ (α/4π) × |∑_i U*_μi U_ei (m_νi/M_W)²|² ~ 10⁻⁵⁴
 
 ## 11. Summary: XCRM Foundation Derivation Status (v2.4.1)
 
-### The Logical Chain (No Axioms Required)
+### The Logical Chain (From Foundational Axioms)
 
 ```
-XCRM coupling χR∂_X R (from Sheldon's Theory framework)
+XCRM coupling χR∂_X R (FOUNDATIONAL AXIOM)
          ↓ requires compact dimension
 M⁴ × S¹ geometry
          ↓ Z₂ symmetry of XCRM
@@ -2784,13 +2787,13 @@ M⁴ × S¹/Z₂ orbifold (uniquely determined)
 Gravity emerges (TEGR → GR)
          ↓ path integral formulation
 All dynamics determined
-         ↓ orbifold topology
+         ↓ orbifold topology + N=3 INPUT
 Three generations, gauge group
          ↓ gauge quantum numbers
 All SM parameters derived
 ```
 
-**Every arrow is a logical necessity, not a choice.**
+**Most arrows are logical necessities; N=3 is matched to observation.**
 
 ### Complete Derivation Table
 
@@ -3230,7 +3233,7 @@ This is not a philosophical framework — it is a **calculable physical theory**
 ---
 
 *Document version: 2.4.1 (2026-01-23)*
-*Status: XCRM Foundation — Everything Derived, Nothing Assumed*
+*Status: XCRM Foundation — Minimal Axioms, Maximum Derivation*
 
 *Changes from v2.4:*
 - *Terminology updated: "Axiom 1/2/3" → "Master Action/DHP/TFP (all derived)"*

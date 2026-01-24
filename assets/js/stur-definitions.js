@@ -10,28 +10,29 @@
  */
 
 const STUR_DEFINITIONS = {
-  versionName: "Helix Geometry",
-  versionNumber: "2.5",
+  versionName: "Helix Geometry (Revised)",
+  versionNumber: "2.5.1",
 
   // Theory status caveat - displayed where appropriate
-  theoryCaveat: "STUR v2.5 is a candidate unified framework built from one foundational coupling with falsifiable predictions. " +
-    "All mechanisms and parameters are derived from XCRM doublet coupling on a Z₃ helix. " +
-    "The R-field doublet R = (R₁, R₂) with winding phase automatically gives: 3 generations (|Z₃| = 3) and SU(3) from geometry (Z₃ = center). " +
+  theoryCaveat: "STUR v2.5.1 is a candidate unified framework with minimal axioms and falsifiable predictions. " +
+    "Foundational axioms: (1) XCRM doublet coupling, (2) R-field doublet structure, (3) N=3 discrete symmetry (matched to observed 3 generations). " +
+    "SU(3) is motivated by Z₃ = center(SU(3)) (heuristic connection, rigorous derivation remains open). " +
     "Ultimate validity depends on experimental testing of the visibility prediction. " +
-    "See DERIVATION_CHAIN_HELIX.md for complete derivation chains.",
+    "See DERIVATION_CHAIN_HELIX.md for derivation chains and honest assessment of open problems.",
 
   // ============================================================
-  // DERIVED PRINCIPLES (v2.5: all derived from XCRM doublet, none are axioms)
-  // Foundation: XCRM doublet coupling χ(R₁∂_XR₂ - R₂∂_XR₁) → Master Action → DHP → TFP → MHP
+  // FOUNDATIONAL AXIOMS AND DERIVED PRINCIPLES (v2.5.1)
+  // Axioms: (1) XCRM coupling, (2) R-doublet, (3) N=3 matched to observation
+  // Derived: Master Action → DHP → TFP → MHP
   // ============================================================
   derivedPrinciples: {
     xcrm: {
-      id: "Foundation",
+      id: "Axiom 1",
       name: "XCRM Doublet Coupling",
-      description: "The unique antisymmetric dimension-5 coupling χ(R₁∂_XR₂ - R₂∂_XR₁) between R-field doublet and extra dimension — the sole foundation from which everything follows",
+      description: "The antisymmetric dimension-5 coupling χ(R₁∂_XR₂ - R₂∂_XR₁) between R-field doublet and extra dimension — the foundational axiom",
       equation: "χ(R₁∂_X R₂ - R₂∂_X R₁) = χ|R|²∂_X φ",
-      status: "FOUNDATION: Uniquely determined by dimensional analysis + TEGR compatibility on M⁴ × S¹ with Z₃ helix",
-      derives: ["Z₃ helix geometry", "Master Action", "3 generations (automatic)", "SU(3) from geometry", "CC = 0"]
+      status: "AXIOM: The foundational postulate of STUR",
+      derives: ["Master Action", "DHP", "MHP", "Visibility prediction"]
     },
     masterAction: {
       id: "Derived 1",
@@ -51,19 +52,19 @@ const STUR_DEFINITIONS = {
       derivation: "stur_dhp_derivation.html"
     },
     tfp: {
-      id: "Derived 3",
+      id: "Derived 3 (given N=3 input)",
       name: "Topological Flavor Principle (TFP)",
-      description: "Fermion generations labeled by Z₃ phases — AUTOMATIC from helix topology, not calculated",
+      description: "Fermion generations labeled by Z₃ phases — follows from N=3 axiom",
       equation: "φ_g = 2πg/3 for g ∈ {0, 1, 2}",
-      status: "AUTOMATIC: Z₃ helix has exactly 3 distinct phases → 3 generations is a THEOREM",
-      closes: ["3 generations (AUTOMATIC)", "Yukawa hierarchies", "CKM/PMNS matrices", "CP violation (helix chirality → δ_CKM ≈ 70°)"],
+      status: "DERIVED (given N=3 INPUT): Z₃ helix has 3 phases → 3 generations",
+      closes: ["Yukawa hierarchies", "CKM/PMNS matrices", "CP violation (helix chirality → δ_CKM ≈ 70°)"],
       derivation: "stur_tfp_flavor.html",
       physicalMotivation: {
-        summary: "TFP is AUTOMATIC from Z₃ helix — it is a theorem, not a calculation",
+        summary: "TFP follows from choosing N=3 discrete symmetry (matched to observed 3 generations)",
         mechanisms: [
-          "Z₃ helix structure has exactly |Z₃| = 3 distinct phase sectors",
+          "N=3 is an INPUT matched to observation (3 observed generations)",
+          "Given N=3, Z₃ helix has exactly 3 distinct phase sectors",
           "Each fermion couples to one phase sector → one generation",
-          "n_gen = 3 is TOPOLOGICAL, not dynamical",
           "Phase positions φ = 0, 2π/3, 4π/3 correspond to generations 1, 2, 3"
         ]
       }
@@ -274,13 +275,19 @@ const STUR_DEFINITIONS = {
   // See DERIVATION_CHAIN_HELIX.md for formal status of each derivation
   // ============================================================
   firstPrinciples: {
-    statement: "STUR v2.5 is a candidate unified framework: XCRM doublet coupling χ(R₁∂_XR₂ - R₂∂_XR₁) on a derived Z₃ helix provides the foundation for deriving Standard Model + gravity. R-doublet winding gives 3 generations (automatic from |Z₃|=3) and SU(3) (from Z₃=center). Awaiting experimental verification.",
+    statement: "STUR v2.5.1 is a candidate unified framework with minimal axioms: (1) XCRM doublet coupling, (2) R-doublet structure, (3) N=3 matched to observed generations. SU(3) is motivated by Z₃ = center(SU(3)) (heuristic). Awaiting experimental verification of Gaussian visibility prediction.",
+
+    foundationalAxioms: [
+      "XCRM doublet coupling χ(R₁∂_XR₂ - R₂∂_XR₁) — fundamental postulate",
+      "R-field is a real doublet (required for TEGR compatibility)",
+      "N = 3 discrete symmetry (matched to observed 3 generations)"
+    ],
 
     theoryDeterminedParameters: [
-      "L_X ~ 1-10 μm (Casimir-holonomy balance — uniquely determined)",
-      "χ = -π/(3L_X) (vacuum stability — uniquely determined)",
-      "n_gen = 3 (AUTOMATIC from Z₃ helix structure)",
-      "All 19 SM parameters (derived from Z₃ helix geometry + MHP localization)"
+      "L_X ~ 1-10 μm (Casimir-holonomy balance — constrained)",
+      "χ = -π/(3L_X) (vacuum stability — constrained)",
+      "n_gen = 3 (follows from N=3 INPUT)",
+      "SM parameters (derived from geometry + MHP, some with input from observation)"
     ],
 
     closureRelation: {
