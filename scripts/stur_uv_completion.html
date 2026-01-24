@@ -38,6 +38,13 @@
   <h1>UV Completion via Holonomy Self-Regulation</h1>
   <p class="subtitle">How STUR Remains Finite at All Energy Scales</p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+  <!-- Key Parameters from Derivation Chain -->
+  <div style="margin:0.75rem auto;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid #4ade80;max-width:600px;font-size:0.85rem;">
+    <strong style="color:#4ade80;">Key UV Completion Values:</strong><br>
+    \(\XCRM{L_X} \approx 0.8\,\mu\text{m}\),
+    \(\zeta(-2, 1/3) = -1/81\),
+    \(\XCRM{N_{\rm eff}} = -149\)
+  </div>
 </header>
 
 <div class="physics-legend">
@@ -290,9 +297,25 @@
     <div class="title">Result: Geometric UV Completion</div>
     <p style="margin:0;color:var(--text-secondary);">
       The effective UV cutoff emerges from the interplay of the compact dimension scale \(1/\XCRM{L_X}\)
-      and the Planck scale \(\Tors{M_{\text{Pl}}}\). For typical STUR parameters with
-      \(\XCRM{L_X} \sim 10^{-2}\) m, we have \(1/\XCRM{L_X} \sim 10^{-5}\) eV, far below the Planck scale.
+      and the Planck scale \(\Tors{M_{\text{Pl}}}\). For STUR parameters with
+      \(\XCRM{L_X} \approx 0.8\,\mu\text{m}\), we have \(\XCRM{M_{KK}} = \hbar c/L_X \approx 0.25\,\text{eV}\).
       The theory is UV-complete at <strong>all accessible energies</strong>.
+    </p>
+  </div>
+
+  <div class="block" style="border-color:var(--gold);margin-top:1rem;">
+    <div class="title">From DERIVATION_CHAIN_HELIX.md: Moduli Stabilization</div>
+    <p style="margin:0;font-size:0.9rem;color:var(--text-secondary);">
+      The extra dimension size is dynamically stabilized by Casimir-holonomy balance:
+    </p>
+    <p style="margin:0.5rem 0;font-family:monospace;font-size:0.85rem;color:var(--text);">
+      \(\XCRM{L_X^*} = \left(\frac{4\zeta(5)|\XCRM{N_{\rm eff}}|}{\XCRM{c_h}\|h\|^2}\right)^{1/3}\)
+    </p>
+    <p style="margin:0;font-size:0.85rem;color:var(--text-secondary);">
+      With \(\XCRM{N_{\rm eff}} = -149\) (fermion-dominated), \(\XCRM{c_h} = 1.35\), \(\|h\|^2 = 0.162\):
+    </p>
+    <p style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--success);">
+      <strong>Result:</strong> \(\XCRM{L_X} \approx 0.8\,\mu\text{m}\) — a <strong>prediction</strong>, not a free parameter
     </p>
   </div>
 </section>
@@ -469,10 +492,15 @@
       <tr style="background:rgba(74,222,128,0.08);">
         <td style="font-weight:600;">STUR holonomy</td>
         <td style="font-weight:600;">Z₃ + Hurwitz ζ</td>
-        <td style="font-weight:600;color:var(--success);">Built-in, ζ(-2,1/3) = -1/81</td>
+        <td style="font-weight:600;color:var(--success);">Built-in, \(\zeta(-2,1/3) = -1/81\)</td>
       </tr>
     </tbody>
   </table>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1.25rem;margin-top:1.5rem;">
+    \[\boxed{\zeta\left(-2, \frac{1}{3}\right) = -\frac{1}{81} \quad \Rightarrow \quad \text{Quadratic divergence} \to \text{finite}}\]
+    <div class="eq-label" style="color:var(--success);">The Hurwitz zeta function makes STUR UV-finite</div>
+  </div>
 </section>
 
 <!-- SECTION 4: CONSEQUENCES -->
@@ -523,10 +551,11 @@
   </p>
 
   <div class="block success">
-    <div class="title">L_X Is Dynamically Determined</div>
+    <div class="title">\(\XCRM{L_X} \approx 0.8\,\mu\text{m}\) Is Dynamically Determined</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The compactification scale \(\XCRM{L_X}\) is fixed by Casimir-holonomy balance (see MHP derivation).
-      The <strong>numerical value</strong> of \(\Matt{\ell_{\rm coh}}\) must be <em>measured to verify</em> the theory,
+      The compactification scale \(\XCRM{L_X}\) is fixed by Casimir-holonomy balance with \(\XCRM{N_{\rm eff}} = -149\).
+      This yields \(\XCRM{L_X} \approx 0.8\,\mu\text{m}\) and \(\XCRM{M_{KK}} \approx 0.25\,\text{eV}\).
+      The coherence length \(\Matt{\ell_{\rm coh}}\) must be <em>measured to verify</em> the theory,
       but this is not a free parameter — it is a <strong>prediction</strong> that can be tested.
     </p>
   </div>

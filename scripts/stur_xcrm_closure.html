@@ -35,13 +35,26 @@
 <div class="container">
 
 <header class="masthead">
-  <h1 style="background: linear-gradient(135deg, #fbbf24 0%, #22d3ee 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">XCRM Foundation</h1>
+  <h1 style="background: linear-gradient(135deg, #fbbf24 0%, #22d3ee 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">XCRM Foundation &amp; Uniqueness</h1>
   <p class="subtitle">The Source of All Physics — XCRM Doublet → Everything (v2.5 Helix)</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
     <a href="stur_core_theory.html" style="color:var(--accent);">Unified framework</a> ·
-    <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--accent);">Complete derivation chain</a> ·
-    <em>R = (R₁, R₂) doublet → Z₃ helix → CC addressed, 3 gen automatic, SU(3) from geometry</em>
+    <a href="stur_master_action_derivation.html" style="color:var(--accent);">Master Action</a> ·
+    <em>R = (R<sub>1</sub>, R<sub>2</sub>) doublet → Z<sub>3</sub> helix → CC addressed, 3 gen automatic, SU(3) from geometry</em>
   </p>
+  <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+
+  <!-- Key Parameters Box -->
+  <div style="margin:1rem auto;max-width:700px;padding:0.75rem 1rem;background:rgba(251,191,36,0.08);border:2px solid #fbbf24;border-radius:10px;">
+    <div style="font-size:0.85rem;color:#fbbf24;font-weight:600;margin-bottom:0.5rem;">KEY DERIVED PARAMETERS</div>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;font-size:0.85rem;color:var(--text-secondary);">
+      <span><strong style="color:#4ade80;">L<sub>X</sub></strong> ≈ 0.8 μm</span>
+      <span><strong style="color:#a78bfa;">N<sub>eff</sub></strong> = −149</span>
+      <span><strong style="color:#fbbf24;">χ</strong> = −π/(3L<sub>X</sub>)</span>
+      <span><strong style="color:#f472b6;">ρ<sub>vac</sub></strong> = 0 (exact)</span>
+    </div>
+  </div>
+
   <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
 
@@ -54,6 +67,70 @@
   <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
   <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
 </div>
+
+<!-- XCRM UNIQUENESS THEOREM -->
+<section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">[H.1.8] XCRM Uniqueness Theorem</h2>
+
+  <div class="block" style="border-color:var(--gold);border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 1.8 — XCRM Is the Unique First-Derivative Coupling</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      Given a real doublet R = (R<sub>1</sub>, R<sub>2</sub>) on a compact dimension with Z<sub>2</sub> parity,
+      the <strong>unique</strong> non-trivial first-derivative coupling is the XCRM term.
+    </p>
+  </div>
+
+  <h3>Complete Proof by Exhaustive Enumeration</h3>
+
+  <p><strong>Step 1:</strong> All possible first-derivative terms in X for doublet R = (R<sub>1</sub>, R<sub>2</sub>):</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:1rem 0;">
+    <thead>
+      <tr style="background:rgba(255,255,255,0.05);">
+        <th style="padding:0.5rem;text-align:left;border-bottom:2px solid var(--gold);">Term</th>
+        <th style="padding:0.5rem;text-align:center;border-bottom:2px solid var(--gold);">Form</th>
+        <th style="padding:0.5rem;text-align:left;border-bottom:2px solid var(--gold);">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">R<sub>1</sub>∂<sub>X</sub>R<sub>1</sub></td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">½∂<sub>X</sub>(R<sub>1</sub>²)</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ef4444;">Total derivative</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">R<sub>2</sub>∂<sub>X</sub>R<sub>2</sub></td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">½∂<sub>X</sub>(R<sub>2</sub>²)</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ef4444;">Total derivative</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);">R<sub>1</sub>∂<sub>X</sub>R<sub>2</sub> + R<sub>2</sub>∂<sub>X</sub>R<sub>1</sub></td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">∂<sub>X</sub>(R<sub>1</sub>R<sub>2</sub>)</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#ef4444;">Total derivative</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.1);">
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);font-weight:bold;">R<sub>1</sub>∂<sub>X</sub>R<sub>2</sub> − R<sub>2</sub>∂<sub>X</sub>R<sub>1</sub></td>
+        <td style="padding:0.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);font-weight:bold;">|R|²∂<sub>X</sub>φ</td>
+        <td style="padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1);color:#4ade80;font-weight:bold;">UNIQUE surviving term</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Step 2:</strong> The antisymmetric combination = |R|²∂<sub>X</sub>φ is NOT a total derivative.</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--gold);padding:1.25rem;">
+    \[\boxed{\XCRM{\mathcal{L}_{\rm XCRM}} = \XCRM{\chi} \left(\Diff{R_1}\XCRM{\partial_X}\Diff{R_2} - \Diff{R_2}\XCRM{\partial_X}\Diff{R_1}\right) = \XCRM{\chi}|\Diff{R}|^2\XCRM{\partial_X}\phi}\]
+    <div class="eq-label" style="color:var(--gold);">[H.1.4] — The UNIQUE first-derivative coupling (THEOREM)</div>
+  </div>
+
+  <div class="block success" style="border-width:3px;margin-top:1rem;">
+    <div class="title">Result: XCRM Is Not a Choice</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      Given the requirements (real doublet, compact dimension, Z<sub>2</sub> parity), XCRM is the
+      <strong>only</strong> non-trivial first-derivative coupling. This is a mathematical theorem, not a phenomenological assumption.
+    </p>
+  </div>
+</section>
 
 <!-- v2.5 HELIX BREAKTHROUGH -->
 <div class="glass-section" style="border-color:#4ade80;background:rgba(74,222,128,0.08);margin-bottom:1.5rem;">

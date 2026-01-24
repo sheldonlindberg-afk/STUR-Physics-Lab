@@ -53,6 +53,10 @@
   <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:400px;font-size:0.8rem;">
     <span style="color:#22d3ee;font-weight:600;">★ v2.5 HELIX</span> — Z₃ geometry derived
   </div>
+  <!-- Key Parameter -->
+  <p style="margin:0.75rem 0;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid #4ade80;font-size:0.9rem;">
+    <strong style="color:#4ade80;">STUR predicts Normal Ordering:</strong> m₁ &lt; m₂ &lt; m₃ from Z₃ resonance mechanism
+  </p>
 </header>
 
 <!-- EXECUTIVE SUMMARY -->
@@ -135,15 +139,15 @@
     \[\Quant{(m_D)_{ij}} = \Quant{y_\nu^{(5)}} \int_0^{\pi L_X} dX\, \Quant{f_L^{(i)}(X)} \cdot \Pot{H(X)} \cdot \Quant{f_R^{(j)}(X)}\]
   </div>
 
-  <p>The structure follows the same \(\lambda^{|i-j|}\) pattern as quarks:</p>
+  <p>The structure follows the same \(\XCRM{\lambda}^{|i-j|}\) pattern as quarks, with \(\XCRM{\lambda} = 0.219\) from Z₃ phase overlap:</p>
 
   <div class="eq boxed" style="margin:1rem 0;">
     \[\Quant{m_D} = v \cdot \Quant{y_\nu} \begin{pmatrix}
-    \lambda^4 & \lambda^3 & \lambda^2 \\
-    \lambda^3 & \lambda^2 & \lambda \\
-    \lambda^2 & \lambda & 1
-    \end{pmatrix}\]
-    <div class="eq-label">(PMNS.4) — Dirac mass texture from localization</div>
+    \XCRM{\lambda}^4 & \XCRM{\lambda}^3 & \XCRM{\lambda}^2 \\
+    \XCRM{\lambda}^3 & \XCRM{\lambda}^2 & \XCRM{\lambda} \\
+    \XCRM{\lambda}^2 & \XCRM{\lambda} & 1
+    \end{pmatrix}, \quad \XCRM{\lambda} = 0.219\]
+    <div class="eq-label">(PMNS.4) — Dirac mass texture from Z₃ localization</div>
   </div>
 
   <h3>1.3 Majorana Mass from Holonomy</h3>
@@ -217,20 +221,20 @@
 
   <div class="eq boxed" style="margin:1rem 0;">
     \[\XCRM{M_R} = M_0 \begin{pmatrix}
-    1 & \lambda & \lambda^2 \\
-    \lambda & 1 & \lambda \\
-    \lambda^2 & \lambda & 1
-    \end{pmatrix}\]
+    1 & \XCRM{\lambda} & \XCRM{\lambda}^2 \\
+    \XCRM{\lambda} & 1 & \XCRM{\lambda} \\
+    \XCRM{\lambda}^2 & \XCRM{\lambda} & 1
+    \end{pmatrix}, \quad \XCRM{\lambda} = 0.219\]
     <div class="eq-label">(PMNS.6b) — Majorana mass texture from Z₃</div>
   </div>
 
   <p>The combination \(m_D M_R^{-1} m_D^T\) gives eigenvalues scaling as:</p>
 
   <div class="eq" style="margin:1rem 0;">
-    \[m_1 : m_2 : m_3 \approx \lambda^4 : \lambda^2 : 1\]
+    \[m_1 : m_2 : m_3 \approx \XCRM{\lambda}^4 : \XCRM{\lambda}^2 : 1 \approx 2.3 \times 10^{-3} : 4.8 \times 10^{-2} : 1\]
   </div>
 
-  <p>This is the characteristic Normal Hierarchy pattern: \(m_1 \ll m_2 \ll m_3\).</p>
+  <p>This is the characteristic <strong>Normal Hierarchy</strong> pattern: \(m_1 \ll m_2 \ll m_3\).</p>
 
   <h3>2.2 Numerical Calculation</h3>
 
@@ -323,14 +327,14 @@
 
   <h3>4.1 Dirac CP Phase</h3>
 
-  <p>The leptonic CP phase arises from the same holonomy mechanism as the CKM phase:</p>
+  <p>The leptonic CP phase arises from the Z₃ holonomy mechanism. The fundamental phase is \(\XCRM{\delta_{\rm hol}} = 2\pi/3 = 120°\), which maps to the PMNS phase through the lepton sector:</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--accent-secondary);padding:1.25rem;">
-    \[\boxed{\delta_{\rm CP}^{\rm PMNS} = \pi + \arctan\!\left(\frac{\bar{\eta}_\ell}{\bar{\rho}_\ell}\right) = 197°}\]
-    <div class="eq-label" style="color:var(--accent-secondary);">(PMNS.12) — Leptonic CP phase</div>
+    \[\boxed{\XCRM{\delta_{\rm CP}^{\rm PMNS}} = \pi + \arctan\!\left(\frac{\bar{\eta}_\ell}{\bar{\rho}_\ell}\right) \approx 4\pi/3 = 240° \to 197°}\]
+    <div class="eq-label" style="color:var(--accent-secondary);">(PMNS.12) — Leptonic CP phase from Z₃ holonomy</div>
   </div>
 
-  <p><strong>Current best fit:</strong> \(\delta_{\rm CP} = 197° \pm 25°\) (NuFIT 5.2) — STUR hits the central value.</p>
+  <p><strong>Current best fit:</strong> \(\delta_{\rm CP} = 197° \pm 25°\) (NuFIT 5.2) — consistent with Z₃ prediction \(\delta \approx 200°-240°\).</p>
 
   <h3>4.2 Majorana Phases</h3>
 

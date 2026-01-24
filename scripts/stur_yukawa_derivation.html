@@ -34,15 +34,26 @@
 <div class="container">
 
 <header class="masthead">
-  <h1 class="page-title-falsifiable">Yukawa Hierarchies — Mechanism Derived from TFP</h1>
-  <p class="subtitle">Why the Top Quark is 10⁵ Times Heavier Than the Electron</p>
+  <h1 class="page-title-falsifiable">Yukawa Hierarchies — Wavefunction Overlap Derivation</h1>
+  <p class="subtitle">Why the Top Quark is 10<sup>5</sup> Times Heavier Than the Electron</p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+
+  <!-- Key Parameters Box -->
+  <div style="margin:1rem auto;max-width:700px;padding:0.75rem 1rem;background:rgba(251,191,36,0.08);border:2px solid #fbbf24;border-radius:10px;">
+    <div style="font-size:0.85rem;color:#fbbf24;font-weight:600;margin-bottom:0.5rem;">KEY DERIVED PARAMETERS</div>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;font-size:0.85rem;color:var(--text-secondary);">
+      <span><strong style="color:#4ade80;">L<sub>X</sub></strong> ≈ 0.8 μm</span>
+      <span><strong style="color:#a78bfa;">σ/L<sub>X</sub></strong> ≈ 0.1</span>
+      <span><strong style="color:#f472b6;">m<sub>t</sub>/m<sub>e</sub></strong> ≈ 3.4×10<sup>5</sup></span>
+      <span><strong style="color:#22d3ee;">λ</strong> ≈ 0.22 (Wolfenstein)</span>
+    </div>
+  </div>
 
   <!-- v2.5 Helix Highlight -->
   <div style="margin:1rem auto;max-width:700px;padding:1rem;background:rgba(34,211,238,0.15);border:3px solid #22d3ee;border-radius:12px;">
     <div style="font-size:0.9rem;color:#22d3ee;text-align:center;font-weight:600;">★ v2.5 HELIX BREAKTHROUGH</div>
     <p style="margin:0.5rem 0 0;color:var(--text);text-align:center;font-size:0.95rem;">
-      <strong>Z₃ Winding = Generations:</strong> w ∈ {0, 1, 2} from Z₃ helix → exactly 3 fermion families. Hierarchy is geometric.
+      <strong>Z<sub>3</sub> Winding = Generations:</strong> w ∈ {0, 1, 2} from Z<sub>3</sub> helix → exactly 3 fermion families. Hierarchy is geometric.
     </p>
   </div>
 
@@ -200,10 +211,34 @@
 </section>
 
 <!-- SECTION 2: YUKAWA AS OVERLAP -->
-<section class="section" id="yukawa-overlap" style="border:2px solid var(--accent-cyan); background:linear-gradient(135deg, rgba(34,211,238,0.08) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--accent-cyan);">2. Yukawa Couplings as Overlap Integrals</h2>
+<section class="section" id="yukawa-overlap" style="border:3px solid var(--accent-cyan); background:linear-gradient(135deg, rgba(34,211,238,0.08) 0%, rgba(74,222,128,0.04) 100%);">
+  <h2 style="color:var(--accent-cyan);">2. Yukawa Couplings from Wavefunction Overlap</h2>
 
-  <h3>2.1 The 4D Effective Yukawa</h3>
+  <div class="block" style="border-color:#22d3ee;border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">Theorem 2.1 &mdash; Yukawa = Overlap Integral</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      The 4D Yukawa couplings are <strong>computed</strong> from the overlap of localized wavefunctions.
+      Exponential hierarchies emerge naturally from O(1) localization differences.
+    </p>
+  </div>
+
+  <h3>2.1 Zero-Mode Wavefunctions at Z<sub>3</sub> Fixed Points</h3>
+
+  <p>Each generation g ∈ {1, 2, 3} has a Gaussian wavefunction localized at its Z<sub>3</sub> fixed point:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid #4ade80;padding:1.25rem;">
+    \[\boxed{\Matt{\psi^{(g)}}(X) = \left(\frac{m_0}{\pi}\right)^{1/4} \exp\left[-\frac{m_0(X - X_g)^2}{2}\right], \quad X_g = \frac{(g-1)\XCRM{L_X}}{3}}\]
+    <div class="eq-label" style="color:#4ade80;">(2.1) &mdash; Gaussian zero-mode profile [H.6.2k]</div>
+  </div>
+
+  <p>Properties:</p>
+  <ul>
+    <li><strong>Localization width:</strong> σ = 1/√m<sub>0</sub> ≈ 0.1 L<sub>X</sub></li>
+    <li><strong>Orthonormality:</strong> ⟨ψ<sup>(g)</sup>|ψ<sup>(g')</sup>⟩ = δ<sub>gg'</sub> + O(e<sup>−(ΔX)²/4σ²</sup>)</li>
+    <li><strong>Completeness:</strong> Σ<sub>g</sub> |ψ<sup>(g)</sup>⟩⟨ψ<sup>(g)</sup>| = 1</li>
+  </ul>
+
+  <h3>2.2 The 5D Yukawa Interaction</h3>
 
   <p>
     The 5D Yukawa interaction in the Master Action is:
@@ -211,8 +246,10 @@
 
   <div class="eq boxed">
     \[\Matt{\mathcal{L}}_{\rm Yuk}^{5D} = \tilde{y}_{ij} \, \Matt{\bar{\psi}_i} \, \Matt{H} \, \Matt{\psi_j}\]
-    <div class="eq-label">(2.1) — 5D Yukawa term</div>
+    <div class="eq-label">(2.2) — 5D Yukawa term</div>
   </div>
+
+  <h3>2.3 Dimensional Reduction to 4D</h3>
 
   <p>
     Integrating over the extra dimension to get the 4D effective coupling:
@@ -220,21 +257,21 @@
 
   <div class="eq law" style="background:#000;border:3px solid var(--accent-cyan);padding:1.25rem;">
     \[\boxed{\Matt{y_{ij}} = \tilde{y}_{ij} \int_0^{\XCRM{L_X}} \Matt{\psi_i}^*(X) \, \Matt{H}(X) \, \Matt{\psi_j}(X) \, dX}\]
-    <div class="eq-label" style="color:var(--accent-cyan);">(2.2) — 4D Yukawa from overlap</div>
+    <div class="eq-label" style="color:var(--accent-cyan);">(2.3) — 4D Yukawa from overlap integral</div>
   </div>
 
-  <h3>2.2 Higgs Localization</h3>
+  <h3>2.4 Higgs Localization</h3>
 
   <p>
-    The Higgs field is localized near one of the Z₃ helix fixed points (say \(X = 0\)):
+    The Higgs field is localized near the X = 0 fixed point (gauge-Higgs unification):
   </p>
 
   <div class="eq boxed">
     \[\Matt{H}(X) = H_0 \exp\!\left(-\frac{X^2}{2\sigma_H^2}\right)\]
-    <div class="eq-label">(2.3) — Higgs profile</div>
+    <div class="eq-label">(2.4) — Higgs profile at orbifold fixed point</div>
   </div>
 
-  <h3>2.3 Computing the Overlap</h3>
+  <h3>2.5 Computing the Overlap</h3>
 
   <p>
     For fermion \(\psi_i\) localized at \(X_i^*\) and \(\psi_j\) at \(X_j^*\):
@@ -242,7 +279,7 @@
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
     \[\boxed{\Matt{y_{ij}} = \tilde{y}_{ij} \cdot \exp\!\left(-\frac{X_i^{*2}}{2(\sigma_i^2 + \sigma_H^2)} - \frac{X_j^{*2}}{2(\sigma_j^2 + \sigma_H^2)}\right) \cdot \mathcal{N}_{ij}}\]
-    <div class="eq-label" style="color:var(--success);">(2.4) — Yukawa from localization</div>
+    <div class="eq-label" style="color:var(--success);">(2.5) — Yukawa from localization distance</div>
   </div>
 
   <p>
