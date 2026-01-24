@@ -14,9 +14,9 @@ const STUR_DEFINITIONS = {
   versionNumber: "2.5",
 
   // Theory status caveat - displayed where appropriate
-  theoryCaveat: "STUR v2.5 is an axiom-free unified framework with falsifiable predictions. " +
-    "All mechanisms and parameters are derived from XCRM doublet coupling on a Z₃ helix — zero axioms, zero free parameters. " +
-    "The R-field doublet R = (R₁, R₂) with winding phase automatically gives: 3 generations (|Z₃| = 3), SU(3) from geometry (Z₃ = center), and CC = 0 (no domain wall). " +
+  theoryCaveat: "STUR v2.5 is a candidate unified framework built from one foundational coupling with falsifiable predictions. " +
+    "All mechanisms and parameters are derived from XCRM doublet coupling on a Z₃ helix. " +
+    "The R-field doublet R = (R₁, R₂) with winding phase automatically gives: 3 generations (|Z₃| = 3) and SU(3) from geometry (Z₃ = center). " +
     "Ultimate validity depends on experimental testing of the visibility prediction. " +
     "See DERIVATION_CHAIN_HELIX.md for complete derivation chains.",
 
@@ -47,7 +47,7 @@ const STUR_DEFINITIONS = {
       description: "Emerges from path integral saddle point on Z₃ helix — not postulated",
       equation: "Ω_DHP[history] = ∫₀^t_f Ω[config(t)] dt",
       status: "DERIVED: Faddeev-Popov procedure on Z₃ helix forces holonomy minimization",
-      closes: ["UV completion", "Neutrino masses", "CP violation", "Dark matter", "Λ = 0 (SOLVED)", "Inflation", "Baryogenesis", "Quantum gravity"],
+      closes: ["UV completion", "Neutrino masses", "CP violation", "Dark matter", "Λ addressed", "Inflation", "Baryogenesis", "Quantum gravity"],
       derivation: "stur_dhp_derivation.html"
     },
     tfp: {
@@ -114,7 +114,7 @@ const STUR_DEFINITIONS = {
     v25Improvements: {
       threeGenerations: "AUTOMATIC from |Z₃| = 3 (theorem, not calculation)",
       su3Color: "NATURAL from Z₃ = center(SU(3))",
-      cosmologicalConstant: "SOLVED: |R| = v everywhere → no domain wall → Λ = 0",
+      cosmologicalConstant: "Addressed: |R| = v everywhere → no domain wall → Λ reduced (quantum corrections remain)",
       cpViolation: "NATURAL from helix chirality"
     },
     parameters: {
@@ -159,7 +159,7 @@ const STUR_DEFINITIONS = {
       { name: "Neutrino masses", mechanism: "Bulk seesaw", equation: "F.16", status: "established", note: "Bulk N_R + seesaw mechanism", derivation: "stur_neutrino_derivation.html" },
       { name: "CP violation", mechanism: "Helix chirality", equation: "H.8.6", status: "automatic", note: "v2.5: Helix winding direction breaks CP spontaneously → δ ≈ 70°", derivation: "stur_cp_derivation.html" },
       { name: "Dark matter (LKP)", mechanism: "KK parity stability", equation: "F.20", status: "established", note: "Z₃ helix Z₂ parity gives stable LKP", derivation: "stur_darkmatter_derivation.html" },
-      { name: "Cosmological constant", mechanism: "No domain wall", equation: "H.11.10", status: "automatic", note: "v2.5 SOLVED: |R| = v everywhere on helix → zero domain wall energy → Λ = 0", derivation: "stur_cosmological_derivation.html" },
+      { name: "Cosmological constant", mechanism: "No domain wall", equation: "H.11.10", status: "addressed", note: "v2.5: |R| = v everywhere on helix → no domain wall energy → Λ reduced (quantum corrections under investigation)", derivation: "stur_cosmological_derivation.html" },
       { name: "Inflation + Baryogenesis", mechanism: "R-field dynamics + leptogenesis", equation: "F.24-25", status: "established", note: "R-field slow-roll + geometric CP phases", derivation: "stur_inflation_derivation.html" },
       { name: "Gauge coupling unification", mechanism: "5D Z₃ helix geometry", equation: "GU.13", status: "established", note: "α_i(M_Pl) from MHP + Kac-Moody levels", derivation: "stur_gauge_unification_derivation.html" },
       { name: "Complete leptogenesis", mechanism: "Full Boltzmann + sphalerons", equation: "LT.16", status: "established", note: "η_B = 6.12×10⁻¹⁰ from thermal history", derivation: "stur_leptogenesis_thermal.html" },
@@ -270,11 +270,11 @@ const STUR_DEFINITIONS = {
   },
 
   // ============================================================
-  // FIRST PRINCIPLES — v2.5 Helix Geometry (Zero-Axiom Framework)
+  // FIRST PRINCIPLES — v2.5 Helix Geometry
   // See DERIVATION_CHAIN_HELIX.md for formal status of each derivation
   // ============================================================
   firstPrinciples: {
-    statement: "STUR v2.5 is an axiom-free unified framework: XCRM doublet coupling χ(R₁∂_XR₂ - R₂∂_XR₁) on a derived Z₃ helix uniquely determines the Standard Model + gravity. Zero axioms, zero free parameters. R-doublet winding gives 3 generations (AUTOMATIC from |Z₃|=3), SU(3) (from Z₃=center), and CC=0 (no domain wall).",
+    statement: "STUR v2.5 is a candidate unified framework: XCRM doublet coupling χ(R₁∂_XR₂ - R₂∂_XR₁) on a derived Z₃ helix provides the foundation for deriving Standard Model + gravity. R-doublet winding gives 3 generations (automatic from |Z₃|=3) and SU(3) (from Z₃=center). Awaiting experimental verification.",
 
     theoryDeterminedParameters: [
       "L_X ~ 1-10 μm (Casimir-holonomy balance — uniquely determined)",
@@ -323,9 +323,9 @@ const STUR_DEFINITIONS = {
       uvCompletion: "ESTABLISHED: UV finiteness via holonomy self-regulation. High-momentum modes " +
                     "accumulate large holonomy and are exponentially suppressed by the Faddeev-Popov measure. " +
                     "All loop integrals converge without regularization. See stur_uv_completion.html.",
-      cosmologicalConstant: "v2.5 SOLVED: On the Z₃ helix, |R| = v everywhere (only phase varies). " +
-                           "No domain wall → zero domain wall energy → Λ = 0 to leading order. " +
-                           "Observed Λ > 0 from quantum corrections O(ℏ)."
+      cosmologicalConstant: "v2.5 Addressed: On the Z₃ helix, |R| = v everywhere (only phase varies). " +
+                           "No domain wall → zero domain wall energy → Λ reduced to leading order. " +
+                           "Observed Λ > 0 requires quantum corrections (under investigation)."
     },
 
     dhpCloses: [
@@ -333,7 +333,7 @@ const STUR_DEFINITIONS = {
       "Neutrino masses (bulk seesaw mechanism) — ESTABLISHED: stur_neutrino_derivation.html",
       "CP violation (helix chirality) — AUTOMATIC in v2.5: helix has handedness → spontaneous CP breaking",
       "Dark matter (KK parity stabilizes LKP) — ESTABLISHED: stur_darkmatter_derivation.html",
-      "Cosmological constant — v2.5 SOLVED: no domain wall on helix → Λ = 0",
+      "Cosmological constant — v2.5 Addressed: no domain wall on helix → Λ reduced",
       "Inflation (R-field slow-roll from MHP) — ESTABLISHED: stur_inflation_derivation.html",
       "Baryogenesis (complete leptogenesis) — ESTABLISHED: stur_leptogenesis_thermal.html",
       "Gauge coupling unification (5D Z₃ helix geometry) — ESTABLISHED: stur_gauge_unification_derivation.html",
