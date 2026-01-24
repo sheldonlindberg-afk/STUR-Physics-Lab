@@ -267,79 +267,92 @@
     <h1 class="hero-title">STUR Physics Lab</h1>
 
     <p class="hero-subtitle">
-      Candidate Theory of Everything — One action unifies gravity, gauge forces, and quantum matter
+      A candidate "Theory of Everything" — one equation that may explain why physics works the way it does
     </p>
 
-    <!-- The Master Action -->
-    <div class="equation-box">
-      <div class="equation-label">The STUR Master Action</div>
-      <div class="equation-main">
-        \[S_{\rm STUR} = \int_{\mathcal{M}^5} d^5x \sqrt{-g}\, \Big[
-        \Diff{\tfrac{1}{2}(\nabla \mathbf{R})^2}
-        - \Pot{V(|\mathbf{R}|)}
-        + \XCRM{\chi(R_1\partial_X R_2 - R_2\partial_X R_1)}
-        + \Tor{\alpha|\mathbf{R}|\mathbb{T}}
-        + \Matt{\mathcal{L}_{\rm matter}}
-        \Big]\]
+    <!-- Plain English Summary -->
+    <div style="max-width:800px;margin:0 auto 2rem;padding:0 1rem;">
+      <div style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.3);border-radius:12px;padding:1.5rem;">
+        <h2 style="margin:0 0 1rem;font-size:1.1rem;color:#4ade80;font-weight:600;">The Big Idea (No Jargon)</h2>
+        <p style="margin:0 0 1rem;color:#e5e7eb;line-height:1.7;">
+          Physics has unanswered questions: <em>Why exactly 3 families of particles? Why does the Higgs mass have this specific value? Why do quarks and leptons exist at all?</em>
+        </p>
+        <p style="margin:0 0 1rem;color:#e5e7eb;line-height:1.7;">
+          STUR proposes: <strong>space has a tiny hidden dimension</strong> (like a drinking straw looks 1D from far away but is really a 2D surface). A field twists through this dimension like a helix. That twist—and only that twist—forces the universe to have exactly the particles and forces we observe.
+        </p>
+        <p style="margin:0;color:#a1a1aa;line-height:1.7;font-size:0.9rem;">
+          <strong style="color:#fbbf24;">Key claim:</strong> The helix twist is the <em>only</em> mathematically consistent way to organize the field. Everything else—gravity, electrons, quarks, the Higgs—follows automatically. No adjustable parameters. If experiments disagree, the theory is wrong.
+        </p>
       </div>
-      <p class="equation-note">
-        The <strong>XCRM doublet coupling</strong> \(\XCRM{\chi(R_1\partial_X R_2 - R_2\partial_X R_1)}\) on a compact fifth dimension
-        forces Z₃ helix geometry, from which <strong>General Relativity</strong> emerges via the torsion term \(\Tor{\alpha|\mathbf{R}|\mathbb{T}}\),
-        and the <strong>Standard Model</strong> emerges via holonomy and phase localization.
-      </p>
+    </div>
 
-      <!-- Physics Domain Legend -->
-      <div class="physics-legend">
-        <div class="physics-legend-item">
-          <span class="physics-legend-dot kinetic"></span>
-          <span style="color:#4ade80">Kinetic</span>
+    <!-- What It Explains -->
+    <div style="max-width:900px;margin:0 auto 2rem;padding:0 1rem;">
+      <p style="text-align:center;color:#71717a;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Compared to Standard Physics</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+        <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;border-left:3px solid #ef4444;">
+          <div style="font-size:0.75rem;color:#ef4444;text-transform:uppercase;margin-bottom:0.5rem;">Standard Model says:</div>
+          <div style="color:#a1a1aa;font-size:0.9rem;">"3 particle families exist."</div>
+          <div style="color:#71717a;font-size:0.8rem;margin-top:0.25rem;">(But doesn't explain why 3)</div>
         </div>
-        <div class="physics-legend-item">
-          <span class="physics-legend-dot potential"></span>
-          <span style="color:#f472b6">Potential</span>
+        <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;border-left:3px solid #4ade80;">
+          <div style="font-size:0.75rem;color:#4ade80;text-transform:uppercase;margin-bottom:0.5rem;">STUR derives:</div>
+          <div style="color:#e5e7eb;font-size:0.9rem;">"The helix has 3 twist positions."</div>
+          <div style="color:#71717a;font-size:0.8rem;margin-top:0.25rem;">→ Exactly 3 families, no more</div>
         </div>
-        <div class="physics-legend-item">
-          <span class="physics-legend-dot xcrm"></span>
-          <span style="color:#fbbf24">XCRM</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem;">
+        <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;border-left:3px solid #ef4444;">
+          <div style="font-size:0.75rem;color:#ef4444;text-transform:uppercase;margin-bottom:0.5rem;">Standard Model says:</div>
+          <div style="color:#a1a1aa;font-size:0.9rem;">"Higgs mass is 125 GeV."</div>
+          <div style="color:#71717a;font-size:0.8rem;margin-top:0.25rem;">(Measured, not predicted)</div>
         </div>
-        <div class="physics-legend-item">
-          <span class="physics-legend-dot torsion"></span>
-          <span style="color:#60a5fa">Gravity (TEGR)</span>
-        </div>
-        <div class="physics-legend-item">
-          <span class="physics-legend-dot matter"></span>
-          <span style="color:#22d3ee">Matter (SM)</span>
+        <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;border-left:3px solid #4ade80;">
+          <div style="font-size:0.75rem;color:#4ade80;text-transform:uppercase;margin-bottom:0.5rem;">STUR calculates:</div>
+          <div style="color:#e5e7eb;font-size:0.9rem;">"Higgs mass = 125 ± 2 GeV"</div>
+          <div style="color:#71717a;font-size:0.8rem;margin-top:0.25rem;">→ Derived from geometry</div>
         </div>
       </div>
     </div>
 
-    <!-- Term Explanation -->
-    <div style="max-width:800px;margin:1.5rem auto;padding:0 1rem;">
-      <details style="background:rgba(0,0,0,0.3);border-radius:12px;padding:1rem 1.25rem;border:1px solid rgba(255,255,255,0.08);">
-        <summary style="cursor:pointer;font-weight:600;color:#e5e7eb;font-size:0.95rem;">
-          Term-by-Term Explanation
+    <!-- The Master Action (Collapsible) -->
+    <div style="max-width:800px;margin:0 auto 1.5rem;padding:0 1rem;">
+      <details style="background:linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(20,20,30,0.8) 100%);border:2px solid rgba(251,191,36,0.4);border-radius:16px;padding:1rem 1.5rem;">
+        <summary style="cursor:pointer;font-weight:600;color:#fbbf24;font-size:0.95rem;display:flex;align-items:center;gap:0.5rem;">
+          <span>Show the Full Equation (for physicists)</span>
+          <span style="font-size:0.75rem;color:#71717a;font-weight:400;">— the "Master Action"</span>
         </summary>
-        <div style="margin-top:1rem;font-size:0.9rem;color:#a1a1aa;line-height:1.8;">
-          <p style="margin:0.5rem 0;"><span style="color:#4ade80;font-weight:600;">½(∇R)²</span> — Kinetic energy of the resistance doublet field <strong>R</strong> = (R₁, R₂)</p>
-          <p style="margin:0.5rem 0;"><span style="color:#f472b6;font-weight:600;">V(|R|)</span> — Mexican-hat potential driving spontaneous symmetry breaking</p>
-          <p style="margin:0.5rem 0;"><span style="color:#fbbf24;font-weight:600;">χ(R₁∂<sub>X</sub>R₂ − R₂∂<sub>X</sub>R₁)</span> — <strong>XCRM coupling</strong>: the unique first-derivative interaction on the compact dimension X. Forces Z₃ helix geometry.</p>
-          <p style="margin:0.5rem 0;"><span style="color:#60a5fa;font-weight:600;">α|R|𝕋</span> — Scalar-torsion coupling: |R| sources teleparallel gravity (TEGR ≡ GR)</p>
-          <p style="margin:0.5rem 0;"><span style="color:#22d3ee;font-weight:600;">ℒ<sub>matter</sub></span> — Standard Model fermions localized at Z₃ fixed points</p>
+        <div style="margin-top:1.5rem;">
+          <div class="equation-main">
+            \[S_{\rm STUR} = \int_{\mathcal{M}^5} d^5x \sqrt{-g}\, \Big[
+            \Diff{\tfrac{1}{2}(\nabla \mathbf{R})^2}
+            - \Pot{V(|\mathbf{R}|)}
+            + \XCRM{\chi(R_1\partial_X R_2 - R_2\partial_X R_1)}
+            + \Tor{\alpha|\mathbf{R}|\mathbb{T}}
+            + \Matt{\mathcal{L}_{\rm matter}}
+            \Big]\]
+          </div>
+          <div style="font-size:0.85rem;color:#a1a1aa;line-height:1.7;margin-top:1rem;">
+            <p style="margin:0.5rem 0;"><span style="color:#4ade80;font-weight:600;">Green:</span> How the field moves (kinetic energy)</p>
+            <p style="margin:0.5rem 0;"><span style="color:#f472b6;font-weight:600;">Pink:</span> The "Mexican hat" potential that breaks symmetry</p>
+            <p style="margin:0.5rem 0;"><span style="color:#fbbf24;font-weight:600;">Gold:</span> The helix twist — this is the key new ingredient</p>
+            <p style="margin:0.5rem 0;"><span style="color:#60a5fa;font-weight:600;">Blue:</span> How the field creates gravity (equivalent to Einstein's)</p>
+            <p style="margin:0.5rem 0;"><span style="color:#22d3ee;font-weight:600;">Cyan:</span> All the particles we know (electrons, quarks, etc.)</p>
+          </div>
         </div>
       </details>
     </div>
 
-    <!-- Derivation Chain -->
+    <!-- Simple Chain -->
     <div class="chain-box">
       <div class="chain-flow">
-        <span class="term">XCRM</span> <span class="arrow">→</span>
-        Z₃ Helix <span class="arrow">→</span>
-        <span class="result">SU(3)×SU(2)×U(1)</span> +
-        <span class="result">3 Generations</span> +
-        <span class="result">TEGR = GR</span>
+        <span class="term">Helix Twist</span> <span class="arrow">→</span>
+        <span class="result">Gravity</span> +
+        <span class="result">3 Particle Families</span> +
+        <span class="result">All Forces</span>
       </div>
       <p style="margin:0.75rem 0 0;font-size:0.8rem;color:#71717a;">
-        Complete derivation chain — no free parameters, zero open problems, falsifiable predictions
+        One rule produces all known physics — no adjustable parameters — testable predictions
       </p>
     </div>
 
