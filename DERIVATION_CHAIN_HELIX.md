@@ -132,6 +132,29 @@ The doublet allows:
 
 #### 1.3 The XCRM Coupling ⬛
 
+**Physical Meaning:**
+
+The XCRM coupling measures how fast the R-field "rotates" through field space as you move
+through the extra dimension X. Think of R = (R₁, R₂) as an arrow in a 2D plane:
+
+```
+     R₂ ↑
+        |    R(X) = arrow of length |R| at angle φ
+        |   ↗
+        |  /
+        | / φ
+        |/___________→ R₁
+
+As X increases, the arrow rotates. XCRM measures this rotation rate: ∂φ/∂X
+```
+
+**Why this is the foundation:**
+
+1. **Winding requires topology:** For φ to wind (increase by 2π), X must be compact (a circle)
+2. **Winding requires a doublet:** A single real field can't wind; it must cross zero (domain wall)
+3. **Winding quantization:** On a circle, total winding must be an integer × 2π
+4. **Z₃ helix:** The N=3 axiom gives winding of 2π/3 per circuit → 3 generations
+
 The unique antisymmetric first-derivative coupling:
 
 ```
@@ -139,6 +162,12 @@ The unique antisymmetric first-derivative coupling:
 │  [H.1.4] ⬛ THE FUNDAMENTAL EQUATION                                │
 │                                                                     │
 │     ℒ_XCRM = χ (R₁ ∂_X R₂ - R₂ ∂_X R₁)                            │
+│                                                                     │
+│  Physical interpretation:                                           │
+│  • χ = coupling strength (determines how much energy is in winding) │
+│  • R₁, R₂ = components of the resistance field doublet             │
+│  • ∂_X = derivative along extra dimension                           │
+│  • The antisymmetric combination extracts pure rotation (no stretch)│
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```

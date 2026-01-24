@@ -114,26 +114,36 @@
     <div class="equation-box foundation" id="axioms">
 [H.1.1] AXIOM 1: XCRM COUPLING
 
-    L_XCRM = chi (R1 dX R2 - R2 dX R1)
+    L_XCRM = chi (R1 dX R2 - R2 dX R1) = chi |R|^2 (d phi/dX)
 
-where:
-- R = (R1, R2) is a real doublet
-- chi is the XCRM coupling strength
-- dX denotes derivative along compact dimension
+PHYSICAL MEANING:
+The R-field is a 2D arrow (R1, R2) that rotates as you move through X.
+XCRM measures this rotation rate: how fast phi winds through field space.
+
+The antisymmetric combination R1 dX R2 - R2 dX R1 extracts PURE ROTATION:
+- If R stretches but doesn't rotate: XCRM = 0
+- If R rotates but doesn't stretch: XCRM = |R|^2 × (rotation rate)
+
+This is analogous to angular momentum: L = r × p extracts pure rotation.
 
 [H.1.2] AXIOM 2: R-DOUBLET STRUCTURE
 
-    R1 = rho cos(phi)
-    R2 = rho sin(phi)
-    |R|^2 = R1^2 + R2^2 = rho^2
+    R1 = rho cos(phi)    |R| = rho = constant magnitude
+    R2 = rho sin(phi)    phi = angle in field space (WINDS!)
 
-Required for TEGR compatibility (keeps coupling real).
+WHY DOUBLET?
+- Single scalar: can't wind (must cross zero → domain wall)
+- Complex scalar: TEGR coupling becomes complex (unphysical)
+- Real doublet: winds continuously, TEGR stays real ✓
 
 [H.1.3] AXIOM 3: N = 3 (Z3 SYMMETRY)
 
-    R(X + LX) = exp(2pi i/3) R(X)
+    R(X + LX) = R_{120°} R(X)    [rotation by 2pi/3]
 
-Field rotates 120 degrees per circuit. Matched to 3 observed generations.
+WHY 3?
+- Field winds 120° per circuit of the extra dimension
+- This is MATCHED to observation: there are 3 generations of fermions
+- The Z3 structure gives: 3 generations, SU(3) color, CC cancellation
     </div>
   </div>
 </section>
