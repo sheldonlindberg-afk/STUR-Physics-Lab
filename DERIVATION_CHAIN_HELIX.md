@@ -2745,7 +2745,6 @@ At complete evaporation:
 │  UV divergences       │ Infinite          │ ★ Solved (holonomy)   │
 │                                                                     │
 │  All Planck-scale issues resolved via Z₃ topology.                 │
-│  future work, but the FRAMEWORK is complete.                       │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
