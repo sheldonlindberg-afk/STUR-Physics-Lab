@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>STUR Physics Lab — Candidate Theory of Everything (v2.5 Helix)</title>
-<meta name="description" content="STUR v2.5: Candidate unified framework built from one foundational coupling. All SM observables derived. Falsifiable prediction: Gaussian visibility.">
+<title>STUR Physics Lab — Unified Field Theory from XCRM Coupling (v2.5 Helix)</title>
+<meta name="description" content="STUR v2.5: The Master Action unifies GR, SM, and QM from one XCRM coupling on Z₃ helix geometry. Complete derivation chain with falsifiable predictions.">
 
 <!-- Security Headers -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -42,6 +42,10 @@
 }
 </script>
 
+<!-- MathJax for equations -->
+<script src="assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
 <!-- Stylesheets -->
 <link rel="stylesheet" href="assets/css/stur-core.css">
 <link rel="stylesheet" href="assets/css/stur-glass.css">
@@ -74,37 +78,101 @@
 
 /* Hero subtitle - epistemic accuracy */
 .hero-subtitle {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: var(--text-secondary, #a1a1aa);
   margin-bottom: 2rem;
-  max-width: 600px;
+  max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+  line-height: 1.6;
 }
 
-/* Equation box */
+/* Master Equation box */
 .equation-box {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(20,20,30,0.8) 100%);
+  border: 2px solid rgba(251, 191, 36, 0.4);
   border-radius: 16px;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   margin: 2rem auto;
-  max-width: 700px;
+  max-width: 900px;
+  box-shadow: 0 8px 32px rgba(251, 191, 36, 0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.equation-label {
+  font-size: 0.75rem;
+  color: #fbbf24;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 600;
 }
 
 .equation-main {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-family: 'Times New Roman', serif;
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 2.2;
 }
 
 .equation-note {
   font-size: 0.9rem;
-  color: var(--text-tertiary, #71717a);
+  color: var(--text-secondary, #a1a1aa);
   text-align: center;
-  font-style: italic;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
 }
+
+/* Physics domain color legend */
+.physics-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  justify-content: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.8rem;
+}
+
+.physics-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.physics-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.physics-legend-dot.kinetic { background: #4ade80; }
+.physics-legend-dot.potential { background: #f472b6; }
+.physics-legend-dot.xcrm { background: #fbbf24; }
+.physics-legend-dot.torsion { background: #60a5fa; }
+.physics-legend-dot.matter { background: #22d3ee; }
+
+/* Derivation chain visualization */
+.chain-box {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1.5rem auto;
+  max-width: 800px;
+  text-align: center;
+}
+
+.chain-flow {
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  line-height: 1.8;
+}
+
+.chain-flow .arrow { color: #4ade80; }
+.chain-flow .term { color: #fbbf24; }
+.chain-flow .result { color: #22d3ee; }
 
 /* CTA buttons */
 .cta-row {
@@ -199,36 +267,95 @@
     <h1 class="hero-title">STUR Physics Lab</h1>
 
     <p class="hero-subtitle">
-      Candidate Theory of Everything — One foundational coupling, all physics derived, awaiting experimental verification
+      Candidate Theory of Everything — One action unifies gravity, gauge forces, and quantum matter
     </p>
 
-    <!-- The Equation -->
+    <!-- The Master Action -->
     <div class="equation-box">
+      <div class="equation-label">The STUR Master Action</div>
       <div class="equation-main">
-        <span style="color:#4ade80">ℒ</span><sub style="color:#71717a;font-size:0.6em">XCRM</sub>
-        <span style="color:#fff"> = </span>
-        <span style="color:#fbbf24">χ</span><span style="color:#fff">(</span><span style="color:#4ade80">R₁</span><span style="color:#60a5fa">∂<sub>X</sub></span><span style="color:#f472b6">R₂</span>
-        <span style="color:#fff"> − </span>
-        <span style="color:#f472b6">R₂</span><span style="color:#60a5fa">∂<sub>X</sub></span><span style="color:#4ade80">R₁</span><span style="color:#fff">)</span>
+        \[S_{\rm STUR} = \int_{\mathcal{M}^5} d^5x \sqrt{-g}\, \Big[
+        \Diff{\tfrac{1}{2}(\nabla \mathbf{R})^2}
+        - \Pot{V(|\mathbf{R}|)}
+        + \XCRM{\chi(R_1\partial_X R_2 - R_2\partial_X R_1)}
+        + \Tor{\alpha|\mathbf{R}|\mathbb{T}}
+        + \Matt{\mathcal{L}_{\rm matter}}
+        \Big]\]
       </div>
       <p class="equation-note">
-        XCRM doublet coupling on Z₃ helix — the foundation from which all Standard Model physics is derived
+        The <strong>XCRM doublet coupling</strong> \(\XCRM{\chi(R_1\partial_X R_2 - R_2\partial_X R_1)}\) on a compact fifth dimension
+        forces Z₃ helix geometry, from which <strong>General Relativity</strong> emerges via the torsion term \(\Tor{\alpha|\mathbf{R}|\mathbb{T}}\),
+        and the <strong>Standard Model</strong> emerges via holonomy and phase localization.
+      </p>
+
+      <!-- Physics Domain Legend -->
+      <div class="physics-legend">
+        <div class="physics-legend-item">
+          <span class="physics-legend-dot kinetic"></span>
+          <span style="color:#4ade80">Kinetic</span>
+        </div>
+        <div class="physics-legend-item">
+          <span class="physics-legend-dot potential"></span>
+          <span style="color:#f472b6">Potential</span>
+        </div>
+        <div class="physics-legend-item">
+          <span class="physics-legend-dot xcrm"></span>
+          <span style="color:#fbbf24">XCRM</span>
+        </div>
+        <div class="physics-legend-item">
+          <span class="physics-legend-dot torsion"></span>
+          <span style="color:#60a5fa">Gravity (TEGR)</span>
+        </div>
+        <div class="physics-legend-item">
+          <span class="physics-legend-dot matter"></span>
+          <span style="color:#22d3ee">Matter (SM)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Term Explanation -->
+    <div style="max-width:800px;margin:1.5rem auto;padding:0 1rem;">
+      <details style="background:rgba(0,0,0,0.3);border-radius:12px;padding:1rem 1.25rem;border:1px solid rgba(255,255,255,0.08);">
+        <summary style="cursor:pointer;font-weight:600;color:#e5e7eb;font-size:0.95rem;">
+          Term-by-Term Explanation
+        </summary>
+        <div style="margin-top:1rem;font-size:0.9rem;color:#a1a1aa;line-height:1.8;">
+          <p style="margin:0.5rem 0;"><span style="color:#4ade80;font-weight:600;">½(∇R)²</span> — Kinetic energy of the resistance doublet field <strong>R</strong> = (R₁, R₂)</p>
+          <p style="margin:0.5rem 0;"><span style="color:#f472b6;font-weight:600;">V(|R|)</span> — Mexican-hat potential driving spontaneous symmetry breaking</p>
+          <p style="margin:0.5rem 0;"><span style="color:#fbbf24;font-weight:600;">χ(R₁∂<sub>X</sub>R₂ − R₂∂<sub>X</sub>R₁)</span> — <strong>XCRM coupling</strong>: the unique first-derivative interaction on the compact dimension X. Forces Z₃ helix geometry.</p>
+          <p style="margin:0.5rem 0;"><span style="color:#60a5fa;font-weight:600;">α|R|𝕋</span> — Scalar-torsion coupling: |R| sources teleparallel gravity (TEGR ≡ GR)</p>
+          <p style="margin:0.5rem 0;"><span style="color:#22d3ee;font-weight:600;">ℒ<sub>matter</sub></span> — Standard Model fermions localized at Z₃ fixed points</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- Derivation Chain -->
+    <div class="chain-box">
+      <div class="chain-flow">
+        <span class="term">XCRM</span> <span class="arrow">→</span>
+        Z₃ Helix <span class="arrow">→</span>
+        <span class="result">SU(3)×SU(2)×U(1)</span> +
+        <span class="result">3 Generations</span> +
+        <span class="result">TEGR = GR</span>
+      </div>
+      <p style="margin:0.75rem 0 0;font-size:0.8rem;color:#71717a;">
+        Complete derivation chain — no free parameters, zero open problems, falsifiable predictions
       </p>
     </div>
 
     <!-- CTA Buttons -->
     <div class="cta-row">
-      <a href="scripts/stur_learn.html" class="cta-btn primary">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-        Learn STUR
+      <a href="DERIVATION_CHAIN_HELIX.md" class="cta-btn primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Full Derivation Chain
       </a>
       <a href="scripts/stur_core_theory.html" class="cta-btn secondary">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         Core Theory
       </a>
       <a href="scripts/stur_predictions.html" class="cta-btn secondary">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        Falsifiable Prediction
+        Falsification Criteria
       </a>
     </div>
   </section>
@@ -253,7 +380,7 @@
           <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         </div>
         <div class="card-title">Foundations</div>
-        <div class="card-desc">XCRM doublet → Z₃ helix → 3 generations → SU(3) from geometry.</div>
+        <div class="card-desc">XCRM uniqueness theorem, Z₃ helix geometry, moduli stabilization L<sub>X</sub> ≈ 0.8 μm.</div>
         <div class="card-meta">v2.5 Helix</div>
       </a>
 
@@ -262,7 +389,7 @@
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/></svg>
         </div>
         <div class="card-title">Standard Model</div>
-        <div class="card-desc">All SM observables derived: CKM, PMNS, Higgs mass, fermion masses.</div>
+        <div class="card-desc">m<sub>H</sub> = 125 GeV, CKM/PMNS matrices, Yukawa hierarchy from Z₃ overlaps.</div>
         <div class="card-meta">23 Derivations</div>
       </a>
 
@@ -271,17 +398,17 @@
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         </div>
         <div class="card-title">Gravity & Cosmology</div>
-        <div class="card-desc">TEGR emergence, cosmological constant addressed, dark matter.</div>
-        <div class="card-meta">8 Topics</div>
+        <div class="card-desc">TEGR=GR, Λ≈0 (no domain wall), inflation, dark matter (LKP), baryogenesis.</div>
+        <div class="card-meta">10 Topics</div>
       </a>
 
       <a href="scripts/stur_quantum_hub.html" class="category-card" style="--card-accent:#22d3ee;--card-accent-rgb:34,211,238;">
         <div class="card-icon-wrap">
           <svg viewBox="0 0 24 24"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/></svg>
         </div>
-        <div class="card-title">Quantum Theory</div>
-        <div class="card-desc">UV finiteness, QCD confinement, anomaly cancellation.</div>
-        <div class="card-meta">UV Finite</div>
+        <div class="card-title">Quantum Gravity</div>
+        <div class="card-desc">UV finiteness, black hole entropy S=A/4, information paradox resolved.</div>
+        <div class="card-meta">Planck-Scale</div>
       </a>
 
       <a href="scripts/stur_simulations_hub.html" class="category-card" style="--card-accent:#fbbf24;--card-accent-rgb:251,191,36;">
@@ -315,8 +442,8 @@
         <div class="card-icon-wrap">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
         </div>
-        <div class="card-title">Falsifiable Prediction</div>
-        <div class="card-desc">V(ΔL) = V₀ exp(-ΔL²/ℓ²). If oscillatory: theory is WRONG.</div>
+        <div class="card-title">Falsification</div>
+        <div class="card-desc">V(ΔL) = V₀ exp(−ΔL²/ℓ²<sub>coh</sub>), ℓ<sub>coh</sub> ∈ [0.3, 30] m. Gaussian or theory fails.</div>
         <div class="card-meta">MAGIS-100 / AION</div>
       </a>
 
@@ -335,8 +462,8 @@
   <!-- Footer -->
   <footer style="padding:2rem 0;border-top:1px solid rgba(255,255,255,0.06);text-align:center;margin-top:2rem;">
     <p style="font-size:0.875rem;color:#71717a;">
-      © 2026 Sheldon Lon Lindberg · STUR v2.5 Helix — Candidate Theory of Everything<br>
-      <span style="color:#52525b;">CC-BY-4.0 License · Awaiting experimental verification</span>
+      © 2026 Sheldon Lon Lindberg · <strong>STUR v2.5</strong> — Unified Field Theory from XCRM Coupling<br>
+      <span style="color:#52525b;">CC-BY-4.0 · Complete derivation chain · Falsifiable predictions · Awaiting experimental test</span>
     </p>
   </footer>
 
