@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>STUR Physics Lab — Candidate Theory of Everything (v2.5 Helix)</title>
-<meta name="description" content="STUR v2.5: Candidate Theory of Everything built from one foundational coupling. All SM observables calculated to 1-6% accuracy. Falsifiable prediction: Gaussian visibility ℓ = 0.3-30m.">
+<meta name="description" content="STUR v2.5: Candidate unified framework built from one foundational coupling. All SM observables derived. Falsifiable prediction: Gaussian visibility.">
 
 <!-- Security Headers -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -21,13 +21,13 @@
 
 <!-- Open Graph / Social -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="STUR Physics Lab — Candidate Theory of Everything (v2.5)">
-<meta property="og:description" content="Candidate TOE: One equation derives all physics. λ = 0.217, CKM 1-2%, m_H = 125 GeV. Testable predictions. Falsifiable now.">
+<meta property="og:title" content="STUR Physics Lab — Candidate Theory of Everything">
+<meta property="og:description" content="One foundational coupling derives all physics. Testable. Falsifiable.">
 <meta property="og:url" content="https://stur-physics-lab.org/">
 <meta property="og:image" content="assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="STUR Physics Lab — Candidate Theory of Everything">
-<meta name="twitter:description" content="One equation → all physics derived. Every SM observable matches PDG to 1-6%. Falsifiable: test with MAGIS-100/AION now.">
+<meta name="twitter:title" content="STUR Physics Lab">
+<meta name="twitter:description" content="Candidate TOE with falsifiable predictions. Test with MAGIS-100/AION.">
 
 <!-- Structured Data for SEO -->
 <script type="application/ld+json">
@@ -35,260 +35,329 @@
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "STUR Physics Lab",
-  "description": "STUR: Candidate Theory of Everything built from one foundational coupling. All Standard Model observables derived from XCRM doublet on Z₃ helix.",
+  "description": "Candidate Theory of Everything built from one foundational coupling. Awaiting experimental verification.",
   "url": "https://stur-physics-lab.org/",
-  "author": {
-    "@type": "Person",
-    "name": "Sheldon Lon Lindberg"
-  },
-  "datePublished": "2026-01-01",
-  "dateModified": "2026-01-23",
-  "license": "https://creativecommons.org/licenses/by/4.0/",
-  "keywords": ["unified physics", "quantum gravity", "teleparallel gravity", "Standard Model", "falsifiable predictions", "atom interferometry"]
+  "author": {"@type": "Person", "name": "Sheldon Lon Lindberg"},
+  "license": "https://creativecommons.org/licenses/by/4.0/"
 }
 </script>
 
-<!-- STUR Theme System -->
+<!-- Stylesheets -->
 <link rel="stylesheet" href="assets/css/stur-core.css">
 <link rel="stylesheet" href="assets/css/stur-glass.css">
 <link rel="stylesheet" href="assets/css/stur-icons.css">
 <link rel="stylesheet" href="assets/css/stur-index.css">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+/* Hero logo - guaranteed to display */
+.hero-logo {
+  width: 120px;
+  height: 120px;
+  display: block;
+  margin: 0 auto 1.5rem auto;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(74, 222, 128, 0.3);
+  border: 2px solid rgba(74, 222, 128, 0.4);
+}
+
+/* Hero title styling */
+.hero-title {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, #fff 0%, #4ade80 50%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero subtitle - epistemic accuracy */
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary, #a1a1aa);
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Equation box */
+.equation-box {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 700px;
+}
+
+.equation-main {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-family: 'Times New Roman', serif;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.equation-note {
+  font-size: 0.9rem;
+  color: var(--text-tertiary, #71717a);
+  text-align: center;
+  font-style: italic;
+}
+
+/* CTA buttons */
+.cta-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cta-btn.primary {
+  background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  color: #000;
+}
+
+.cta-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(74, 222, 128, 0.4);
+}
+
+.cta-btn.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cta-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+</style>
 </head>
 <body>
 
-<!-- Skip Link for Accessibility -->
+<!-- Skip Link -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<!-- ============================================================
-     NAVIGATION
-     ============================================================ -->
+<!-- Navigation -->
 <header class="glass-header" role="banner">
-    <nav class="glass-nav">
-        <a href="index.html" class="glass-nav-brand">
-            <img src="assets/4.13.png" alt="STUR" class="nav-logo">
-            STUR Lab
-        </a>
-        <div class="glass-nav-social">
-            <a href="https://www.tiktok.com/@that1sheldon" target="_blank" rel="noopener" class="glass-social-icon" title="TikTok">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
-            </a>
-            <a href="https://x.com/that1sheldon" target="_blank" rel="noopener" class="glass-social-icon" title="X (Twitter)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-            <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-social-icon" title="GitHub">
-                <span class="stur-icon icon-github md"></span>
-            </a>
-        </div>
-        <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-            <span class="stur-icon icon-menu lg"></span>
-        </button>
-        <div class="glass-nav-links">
-            <a href="index.html" class="glass-nav-link active">Home</a>
-            <a href="scripts/stur_learn.html" class="glass-nav-link">Learn</a>
-            <a href="scripts/stur_core_theory.html" class="glass-nav-link">Core Theory</a>
-            <a href="sitemap.html" class="glass-nav-link">Site Map</a>
-            <div class="glass-nav-social-mobile">
-                <a href="https://www.tiktok.com/@that1sheldon" target="_blank" rel="noopener" class="glass-nav-link">TikTok</a>
-                <a href="https://x.com/that1sheldon" target="_blank" rel="noopener" class="glass-nav-link">X (Twitter)</a>
-                <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-nav-link">GitHub</a>
-            </div>
-        </div>
-    </nav>
+  <nav class="glass-nav">
+    <a href="index.html" class="glass-nav-brand">
+      <img src="assets/4.13.png" alt="STUR" class="nav-logo" style="width:32px;height:32px;border-radius:6px;">
+      STUR Lab
+    </a>
+    <div class="glass-nav-social">
+      <a href="https://www.tiktok.com/@that1sheldon" target="_blank" rel="noopener" class="glass-social-icon" title="TikTok">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
+      </a>
+      <a href="https://x.com/that1sheldon" target="_blank" rel="noopener" class="glass-social-icon" title="X">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="https://github.com/sheldonlindberg-afk/STUR-Physics-Lab" target="_blank" rel="noopener" class="glass-social-icon" title="GitHub">
+        <span class="stur-icon icon-github md"></span>
+      </a>
+    </div>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="index.html" class="glass-nav-link active">Home</a>
+      <a href="scripts/stur_learn.html" class="glass-nav-link">Learn</a>
+      <a href="scripts/stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="sitemap.html" class="glass-nav-link">Site Map</a>
+    </div>
+  </nav>
 </header>
 
-<div class="container" id="main-content" role="main">
+<!-- Main Content -->
+<main class="container" id="main-content">
 
-  <!-- === HERO SECTION === -->
-  <section class="hero-section">
-    <header class="site-header animate-in delay-1">
-      <img src="assets/4.13.png" alt="STUR Physics Lab" class="logo-mark">
-      <h1 class="site-title">STUR Physics Lab</h1>
-      <p class="site-tagline">One Equation. All Physics Derived.</p>
-    </header>
+  <!-- HERO -->
+  <section class="hero-section" style="text-align:center;padding:4rem 1rem;">
 
-    <!-- === INTRO GLASS CARD === -->
-    <div class="intro-glass animate-in delay-2">
-      <!-- The XCRM Equation -->
-      <div class="equation-display hero-equation">
-        <span class="eq-action">ℒ</span><sub class="eq-muted">XCRM</sub>
-        <span class="eq-operator">=</span>
-        <span class="eq-xcrm">χ</span><span class="eq-bracket">(</span><span class="eq-diffusion">R₁</span><span class="eq-torsion">∂<sub>X</sub></span><span class="eq-potential">R₂</span>
-        <span class="eq-operator">−</span>
-        <span class="eq-potential">R₂</span><span class="eq-torsion">∂<sub>X</sub></span><span class="eq-diffusion">R₁</span><span class="eq-bracket">)</span>
+    <!-- Logo - explicit display -->
+    <img src="assets/4.13.png"
+         alt="STUR Physics Lab Logo"
+         class="hero-logo"
+         onerror="this.style.display='none'">
+
+    <h1 class="hero-title">STUR Physics Lab</h1>
+
+    <p class="hero-subtitle">
+      Candidate Theory of Everything — One foundational coupling, all physics derived, awaiting experimental verification
+    </p>
+
+    <!-- The Equation -->
+    <div class="equation-box">
+      <div class="equation-main">
+        <span style="color:#4ade80">ℒ</span><sub style="color:#71717a;font-size:0.6em">XCRM</sub>
+        <span style="color:#fff"> = </span>
+        <span style="color:#fbbf24">χ</span><span style="color:#fff">(</span><span style="color:#4ade80">R₁</span><span style="color:#60a5fa">∂<sub>X</sub></span><span style="color:#f472b6">R₂</span>
+        <span style="color:#fff"> − </span>
+        <span style="color:#f472b6">R₂</span><span style="color:#60a5fa">∂<sub>X</sub></span><span style="color:#4ade80">R₁</span><span style="color:#fff">)</span>
       </div>
-      <p class="equation-caption">One foundational coupling. All physics derived. Awaiting experimental verification.</p>
+      <p class="equation-note">
+        XCRM doublet coupling on Z₃ helix — the foundation from which all Standard Model physics is derived
+      </p>
+    </div>
 
-      <!-- Action Buttons -->
-      <div class="action-buttons">
-        <a href="scripts/stur_learn.html" class="btn-glass primary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          Learn STUR
-        </a>
-        <a href="scripts/stur_core_theory.html" class="btn-glass secondary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          Core Theory
-        </a>
-      </div>
+    <!-- CTA Buttons -->
+    <div class="cta-row">
+      <a href="scripts/stur_learn.html" class="cta-btn primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Learn STUR
+      </a>
+      <a href="scripts/stur_core_theory.html" class="cta-btn secondary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Core Theory
+      </a>
+      <a href="scripts/stur_predictions.html" class="cta-btn secondary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        Falsifiable Prediction
+      </a>
     </div>
   </section>
 
-  <!-- === CATEGORY CARDS === -->
-  <section class="animate-in delay-3">
-    <div class="section-header">
-      <p class="section-label">Explore by Category</p>
-    </div>
+  <!-- CATEGORY CARDS -->
+  <section style="padding:2rem 0;">
+    <p style="text-align:center;color:var(--text-tertiary);margin-bottom:2rem;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.1em;">Explore by Category</p>
 
     <div class="category-grid">
-      <!-- Learn STUR - Entry Point for Newcomers -->
-      <a href="scripts/stur_learn.html" class="category-card" style="--card-accent:#fbbf24; --card-accent-rgb:251,191,36;">
+
+      <a href="scripts/stur_learn.html" class="category-card" style="--card-accent:#fbbf24;--card-accent-rgb:251,191,36;">
         <div class="card-icon-wrap">
           <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
         </div>
         <div class="card-title">Learn STUR</div>
-        <div class="card-desc">New to STUR? Start here. Step-by-step guide from standard physics to unified framework.</div>
-        <div class="card-meta">Start Here  •  Beginner-Friendly  •  Multi-Level</div>
+        <div class="card-desc">New here? Step-by-step guide from standard physics to the unified framework.</div>
+        <div class="card-meta">Start Here</div>
       </a>
 
-      <!-- Foundations -->
-      <a href="scripts/stur_foundations_hub.html" class="category-card" style="--card-accent:#4ade80; --card-accent-rgb:74,222,128;">
+      <a href="scripts/stur_foundations_hub.html" class="category-card" style="--card-accent:#4ade80;--card-accent-rgb:74,222,128;">
         <div class="card-icon-wrap">
           <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         </div>
-        <div class="card-title">Foundations (v2.5 Helix)</div>
-        <div class="card-desc">XCRM doublet → Z₃ helix → 3 generations automatic → SU(3) from geometry. Complete logical chain with explicit calculations.</div>
-        <div class="card-meta">One Coupling  •  All Derived  •  Falsifiable</div>
+        <div class="card-title">Foundations</div>
+        <div class="card-desc">XCRM doublet → Z₃ helix → 3 generations → SU(3) from geometry.</div>
+        <div class="card-meta">v2.5 Helix</div>
       </a>
 
-      <!-- Standard Model -->
-      <a href="scripts/stur_sm_hub.html" class="category-card" style="--card-accent:#a78bfa; --card-accent-rgb:167,139,250;">
+      <a href="scripts/stur_sm_hub.html" class="category-card" style="--card-accent:#a78bfa;--card-accent-rgb:167,139,250;">
         <div class="card-icon-wrap">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/></svg>
         </div>
         <div class="card-title">Standard Model</div>
-        <div class="card-desc">Every SM observable calculated: λ = 0.217, CKM (1-2% accuracy), PMNS angles, m<sub>H</sub> = 125 GeV, all fermion mass ratios. No fitting.</div>
-        <div class="card-meta">23 Derivations  •  All Match PDG</div>
+        <div class="card-desc">All SM observables derived: CKM, PMNS, Higgs mass, fermion masses.</div>
+        <div class="card-meta">23 Derivations</div>
       </a>
 
-      <!-- Gravity & Cosmology -->
-      <a href="scripts/stur_cosmology_hub.html" class="category-card" style="--card-accent:#60a5fa; --card-accent-rgb:96,165,250;">
+      <a href="scripts/stur_cosmology_hub.html" class="category-card" style="--card-accent:#60a5fa;--card-accent-rgb:96,165,250;">
         <div class="card-icon-wrap">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         </div>
         <div class="card-title">Gravity & Cosmology</div>
-        <div class="card-desc">G = 1/(16παv) derived. CC addressed via XCRM self-tuning mechanism. BH information preserved via Z₃ topology. Dark matter from LKP.</div>
-        <div class="card-meta">8 Topics  •  CC Problem Addressed</div>
+        <div class="card-desc">TEGR emergence, cosmological constant addressed, dark matter.</div>
+        <div class="card-meta">8 Topics</div>
       </a>
 
-      <!-- Quantum Theory -->
-      <a href="scripts/stur_quantum_hub.html" class="category-card" style="--card-accent:#22d3ee; --card-accent-rgb:34,211,238;">
+      <a href="scripts/stur_quantum_hub.html" class="category-card" style="--card-accent:#22d3ee;--card-accent-rgb:34,211,238;">
         <div class="card-icon-wrap">
-          <svg viewBox="0 0 24 24"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="m16.24 7.76 2.83-2.83"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/></svg>
         </div>
         <div class="card-title">Quantum Theory</div>
-        <div class="card-desc">UV finiteness from holonomy regularization. QCD confinement from Z₃ center symmetry. Anomaly cancellation proven on helix.</div>
-        <div class="card-meta">10 Derivations  •  UV Finite</div>
+        <div class="card-desc">UV finiteness, QCD confinement, anomaly cancellation.</div>
+        <div class="card-meta">UV Finite</div>
       </a>
 
-      <!-- Simulations -->
-      <a href="scripts/stur_simulations_hub.html" class="category-card" style="--card-accent:#fbbf24; --card-accent-rgb:251,191,36;">
+      <a href="scripts/stur_simulations_hub.html" class="category-card" style="--card-accent:#fbbf24;--card-accent-rgb:251,191,36;">
         <div class="card-icon-wrap">
           <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         </div>
-        <div class="card-title">Simulations & Apps</div>
-        <div class="card-desc">Interactive demonstrations: double-slit, plasma confinement, superconductor, n-body orbits.</div>
-        <div class="card-meta">14 Interactive Tools</div>
+        <div class="card-title">Simulations</div>
+        <div class="card-desc">Interactive demos: double-slit, plasma, superconductor, orbits.</div>
+        <div class="card-meta">14 Tools</div>
       </a>
 
-      <!-- Biological -->
-      <a href="scripts/stur_biological_hub.html" class="category-card" style="--card-accent:#f472b6; --card-accent-rgb:244,114,182;">
+      <a href="scripts/stur_biological_hub.html" class="category-card" style="--card-accent:#f472b6;--card-accent-rgb:244,114,182;">
         <div class="card-icon-wrap">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <div class="card-title">Biological Applications</div>
-        <div class="card-desc">ATP dynamics, neuroplasticity, immunity, origin of life—mechanisms motivated by XCRM coupling.</div>
-        <div class="card-meta">7 Applications  •  Falsifiable</div>
+        <div class="card-title">Biological</div>
+        <div class="card-desc">ATP dynamics, neuroplasticity, origin of life mechanisms.</div>
+        <div class="card-meta">7 Applications</div>
       </a>
 
-      <!-- Reference -->
-      <a href="scripts/stur_symbols.html" class="category-card" style="--card-accent:#94a3b8; --card-accent-rgb:148,163,184;">
+      <a href="scripts/stur_symbols.html" class="category-card" style="--card-accent:#94a3b8;--card-accent-rgb:148,163,184;">
         <div class="card-icon-wrap">
           <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
         </div>
         <div class="card-title">Reference</div>
-        <div class="card-desc">Symbol tables, glossary, FAQ, technical appendix. Complete equation reference with all derivation steps.</div>
-        <div class="card-meta">Symbols  •  Glossary  •  Equations</div>
+        <div class="card-desc">Symbol tables, glossary, FAQ, technical appendix.</div>
+        <div class="card-meta">Equations</div>
       </a>
 
-      <!-- Falsifiable Prediction -->
-      <a href="scripts/stur_predictions.html" class="category-card" style="--card-accent:#ef4444; --card-accent-rgb:239,68,68;">
+      <a href="scripts/stur_predictions.html" class="category-card" style="--card-accent:#ef4444;--card-accent-rgb:239,68,68;">
         <div class="card-icon-wrap">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
         </div>
         <div class="card-title">Falsifiable Prediction</div>
-        <div class="card-desc">V(ΔL) = V₀ exp(-ΔL²/ℓ²) with ℓ = 0.3-30 m. If oscillatory or mass-dependent: theory is WRONG. No adjustments possible.</div>
-        <div class="card-meta">MAGIS-100  •  AION  •  Now</div>
+        <div class="card-desc">V(ΔL) = V₀ exp(-ΔL²/ℓ²). If oscillatory: theory is WRONG.</div>
+        <div class="card-meta">MAGIS-100 / AION</div>
       </a>
+
     </div>
   </section>
 
-  <!-- === QUICK LINKS === -->
-  <section class="quick-links-section animate-in delay-4">
-    <div class="quick-links-grid">
-      <a href="DERIVATION_CHAIN_HELIX.md" class="quick-link-btn academic">Full Derivation Chain</a>
-      <a href="about.html" class="quick-link-btn">About</a>
-      <a href="sitemap.html" class="quick-link-btn">Site Map</a>
+  <!-- Quick Links -->
+  <section style="padding:2rem 0;text-align:center;">
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="DERIVATION_CHAIN_HELIX.md" style="color:#fbbf24;text-decoration:none;padding:0.5rem 1rem;border:1px solid rgba(251,191,36,0.3);border-radius:8px;">Full Derivation Chain</a>
+      <a href="about.html" style="color:#a1a1aa;text-decoration:none;padding:0.5rem 1rem;border:1px solid rgba(255,255,255,0.1);border-radius:8px;">About</a>
+      <a href="sitemap.html" style="color:#a1a1aa;text-decoration:none;padding:0.5rem 1rem;border:1px solid rgba(255,255,255,0.1);border-radius:8px;">Site Map</a>
     </div>
   </section>
 
-  <!-- === FOOTER === -->
-  <footer class="site-footer">
-    <p class="footer-meta">
+  <!-- Footer -->
+  <footer style="padding:2rem 0;border-top:1px solid rgba(255,255,255,0.06);text-align:center;margin-top:2rem;">
+    <p style="font-size:0.875rem;color:#71717a;">
       © 2026 Sheldon Lon Lindberg · STUR v2.5 Helix — Candidate Theory of Everything<br>
-      CC-BY-4.0 License · <em>Every calculation open for scrutiny — awaiting experimental verification</em>
+      <span style="color:#52525b;">CC-BY-4.0 License · Awaiting experimental verification</span>
     </p>
   </footer>
-</div>
 
-<!-- STUR UI JavaScript -->
+</main>
+
+<!-- Scripts -->
 <script src="assets/js/stur-ui.js"></script>
 <script src="assets/js/stur-definitions.js"></script>
 <script src="assets/js/stur-version.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    if (typeof STUR !== 'undefined' && STUR.initNav) {
-      STUR.initNav();
-    }
-  });
-
-  // Service Worker Registration
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('/sw.js')
-        .then(function(registration) {
-          console.log('[STUR] Service Worker registered:', registration.scope);
-
-          // Check for updates
-          registration.addEventListener('updatefound', function() {
-            const newWorker = registration.installing;
-            newWorker.addEventListener('statechange', function() {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // New version available
-                console.log('[STUR] New version available');
-                if (typeof STUR !== 'undefined' && STUR.toast) {
-                  STUR.toast('New version available. Refresh to update.', 'info');
-                }
-              }
-            });
-          });
-        })
-        .catch(function(error) {
-          console.warn('[STUR] Service Worker registration failed:', error);
-        });
-    });
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof STUR !== 'undefined' && STUR.initNav) {
+    STUR.initNav();
   }
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').catch(function() {});
+  });
+}
 </script>
 </body>
 </html>
