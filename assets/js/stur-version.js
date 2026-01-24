@@ -19,19 +19,18 @@
 
     // Theory status - IMMUTABLE after publication
     theoryStatus: {
-      complete: true, // All derivations complete - awaiting experimental verification
-      axiomCount: 3, // v2.5.2: XCRM coupling + R-doublet structure + N=3 (matched to observation)
-      derivedPrinciples: 4, // XCRM doublet → Master Action → DHP → TFP/MHP
-      freeParameters: 0, // L_X dynamically stabilized by holonomy balance
-      closedProblems: 18, // All major problems addressed with explicit equations
-      openProblems: 0, // All derivations complete
+      complete: false, // Candidate framework - awaiting experimental verification
+      axiomCount: 1, // v2.5: One foundational coupling (XCRM doublet on Z₃ helix)
+      derivedPrinciples: 4, // XCRM doublet → Master Action → DHP → TFP/MHP (TFP automatic in v2.5)
+      freeParameters: 0, // Parameters derived from geometry
+      closedProblems: 18, // v2.5 adds: 3 gen automatic, SU(3) from geometry (CC addressed, not solved)
       lastModified: '2026-01-24',
-      version: '2.5.2',
-      versionName: 'Helix Geometry (Complete Derivations)',
-      v252Derivations: [
-        'SU(3) uniquely from Z₃ + MHP + minimality (Theorem 5.2)',
-        'CC = 0 from XCRM stability, obs Λ from loops (§11.4)',
-        'UV completion via Z₃ holonomy discretization (§14.2)'
+      version: '2.5',
+      versionName: 'Helix Geometry',
+      v25Breakthroughs: [
+        '3 generations automatic from |Z₃| = 3',
+        'SU(3) color natural from Z₃ = center(SU(3))',
+        'Cosmological constant addressed via XCRM self-tuning'
       ]
     },
 
@@ -356,12 +355,11 @@
     getSummary: function() {
       return `STUR Physics Lab v${this.version} (${this.theoryStatus.versionName})
 Released: ${this.releaseDate}
-Status: ${this.theoryStatus.complete ? 'Complete' : 'Candidate — Awaiting Verification'}
-Foundational Axioms: ${this.theoryStatus.axiomCount} (XCRM + R-doublet + N=3)
+Status: ${this.theoryStatus.complete ? 'Complete — Axiom-Free' : 'In Development'}
+Axioms: ${this.theoryStatus.axiomCount} (XCRM is derived necessity)
 Derived Principles: ${this.theoryStatus.derivedPrinciples}
 Free Parameters: ${this.theoryStatus.freeParameters}
 Closed Problems: ${this.theoryStatus.closedProblems}
-Open Problems: ${this.theoryStatus.openProblems}
 Registered Predictions: ${Object.keys(this.predictions).length}
 Registered Equations: ${Object.keys(this.equations).length}`;
     }
@@ -380,7 +378,7 @@ Registered Equations: ${Object.keys(this.equations).length}`;
   global.STUR.VERSION = STUR_VERSION;
 
   // Console info on load
-  console.log('%c STUR Physics Lab v2.5.2 ', 'background: #4ade80; color: #0a0a0f; font-weight: bold; padding: 4px 8px; border-radius: 4px;');
-  console.log(`Version ${STUR_VERSION.version} | ${STUR_VERSION.theoryStatus.axiomCount} Axioms | All Derivations Complete | Awaiting Experimental Verification`);
+  console.log('%c STUR Physics Lab v2.4 ', 'background: #4ade80; color: #0a0a0f; font-weight: bold; padding: 4px 8px; border-radius: 4px;');
+  console.log(`Version ${STUR_VERSION.version} | Axiom-Free | ${STUR_VERSION.theoryStatus.freeParameters} Free Parameters | ${STUR_VERSION.theoryStatus.derivedPrinciples} Derived Principles`);
 
 })(typeof window !== 'undefined' ? window : global);
