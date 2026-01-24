@@ -160,8 +160,12 @@
 }
 
 .logo-mark {
+  display: block;
+  margin: 0 auto;
   width: 180px;
   height: 180px;
+  max-width: 100%;
+  object-fit: contain;
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg), 0 0 48px rgba(10, 132, 255, 0.12);
   transition: transform var(--duration-normal) var(--ease-spring),
