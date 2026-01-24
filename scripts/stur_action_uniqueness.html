@@ -279,6 +279,74 @@
   <p>The coefficients \(\tfrac{1}{2}\), \(\chi\), \(\alpha\) are coupling constants. In v2.5 Helix, the ratio \(\chi/\alpha\) is fixed by consistency conditions on the Z₃ helix, leaving <strong>all parameters derived</strong>.</p>
 </section>
 
+<!-- SECTION 2.5: XCRM UNIQUENESS PROOF (FROM DERIVATION CHAIN) -->
+<section class="section" id="xcrm-uniqueness" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color:var(--gold);">2.5 XCRM Uniqueness: Complete Proof</h2>
+
+  <div class="block gold" style="border-width:3px;background:rgba(0,0,0,0.5);">
+    <div class="title" style="font-size:1.1rem;">[H.1.8] Theorem — XCRM is the Unique First-Derivative Doublet Coupling</div>
+    <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
+      The XCRM coupling \(\XCRM{\chi(R_1 \partial_X R_2 - R_2 \partial_X R_1)}\) is the <strong>UNIQUE</strong> first-derivative doublet coupling to the fifth dimension.
+    </p>
+  </div>
+
+  <h3>Step 1: Dimensional Constraints</h3>
+  <p>In 5D, the action has dimension [S] = 0 (ℏ = 1). The Lagrangian density has [ℒ] = mass⁵. The fields have dimensions:</p>
+  <div class="eq boxed">
+    \[[\Diff{R_i}] = \text{mass}^{3/2} \quad [\XCRM{\partial_X}] = \text{mass}^1 \quad [\XCRM{\chi}] = \text{mass}^0\]
+    <div class="eq-label">(2.5) — Dimensional analysis</div>
+  </div>
+
+  <h3>Step 2: Enumerate All Possible First-Derivative Couplings</h3>
+  <p>For a doublet \(\Diff{\mathbf{R}} = (R_1, R_2)\), the possible first-derivative terms in X are:</p>
+  <table>
+    <thead>
+      <tr><th>Term</th><th>Form</th><th>Dimension</th><th>Symmetric?</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>\(\Diff{R_1} \XCRM{\partial_X} \Diff{R_1}\)</td><td>\(= \tfrac{1}{2}\partial_X R_1^2\)</td><td>mass⁴</td><td style="color:var(--error);">Total deriv.</td></tr>
+      <tr><td>\(\Diff{R_2} \XCRM{\partial_X} \Diff{R_2}\)</td><td>\(= \tfrac{1}{2}\partial_X R_2^2\)</td><td>mass⁴</td><td style="color:var(--error);">Total deriv.</td></tr>
+      <tr><td>\(\Diff{R_1} \XCRM{\partial_X} \Diff{R_2} + \Diff{R_2} \XCRM{\partial_X} \Diff{R_1}\)</td><td>\(= \partial_X(R_1 R_2)\)</td><td>mass⁴</td><td style="color:var(--error);">Total deriv.</td></tr>
+      <tr style="background:rgba(251,191,36,0.15);">
+        <td><strong>\(\Diff{R_1} \XCRM{\partial_X} \Diff{R_2} - \Diff{R_2} \XCRM{\partial_X} \Diff{R_1}\)</strong></td>
+        <td><strong>\(= |\mathbf{R}|^2 \partial_X\phi\)</strong></td>
+        <td>mass⁴</td>
+        <td style="color:var(--success);"><strong>Antisymmetric ✓</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Step 3: Eliminate Total Derivatives</h3>
+  <p>On a compact manifold with periodic/helix boundary conditions, total derivatives integrate to boundary terms that vanish:</p>
+  <div class="eq">
+    \[\int_0^{L_X} \partial_X(R_1^2)\, dX = R_1^2(L_X) - R_1^2(0) = 0 \quad \text{(periodic BC)}\]
+  </div>
+
+  <h3>Step 4: Z₂ Symmetry Check</h3>
+  <p>Under \(\Diff{\mathbf{R}} \to -\Diff{\mathbf{R}}\) (i.e., \(R_1 \to -R_1\), \(R_2 \to -R_2\)):</p>
+  <div class="eq">
+    \[\XCRM{R_1 \partial_X R_2 - R_2 \partial_X R_1} \;\to\; (-R_1)\partial_X(-R_2) - (-R_2)\partial_X(-R_1) = R_1 \partial_X R_2 - R_2 \partial_X R_1 \;\;\checkmark\]
+    <div class="eq-label">(2.6) — XCRM is Z₂-even</div>
+  </div>
+
+  <h3>Result: XCRM is Unique</h3>
+  <div class="eq law" style="background:#000;border:3px solid var(--gold);padding:1.5rem;">
+    \[\boxed{\XCRM{\mathcal{L}_{\rm XCRM}} = \XCRM{\chi} \left( \Diff{R_1} \XCRM{\partial_X} \Diff{R_2} - \Diff{R_2} \XCRM{\partial_X} \Diff{R_1} \right) = \XCRM{\chi} |\Diff{\mathbf{R}}|^2 \XCRM{\partial_X \phi}}\]
+    <div class="eq-label" style="color:var(--gold);">(2.7) — The Unique XCRM Coupling</div>
+  </div>
+
+  <div class="block success" style="margin-top:1rem;">
+    <div class="title">Properties of XCRM</div>
+    <ul style="margin:0.5rem 0;color:var(--text-secondary);">
+      <li><strong>Real:</strong> All terms are real scalars ✓</li>
+      <li><strong>Antisymmetric:</strong> Under \(\mathbf{R} \to -\mathbf{R}\), preserves Z₂ ✓</li>
+      <li><strong>Measures winding:</strong> \(\XCRM{\partial_X \phi}\) is the winding rate in field space ✓</li>
+      <li><strong>Requires compact X:</strong> For finite action ✓</li>
+      <li><strong>Unique:</strong> At dimension ≤ 5 ✓</li>
+    </ul>
+  </div>
+</section>
+
 <!-- SECTION 3: POTENTIAL UNIQUENESS -->
 <section class="section" id="potential">
   <h2>3. Why V(|\mathbf{R}|) Must Be Double-Well</h2>

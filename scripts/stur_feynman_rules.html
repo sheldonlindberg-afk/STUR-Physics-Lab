@@ -179,27 +179,60 @@
 
   <h3>2.5 XCRM Vertices</h3>
 
-  <p>The αR𝕋 coupling gives gravity-R interaction:</p>
+  <p>The XCRM coupling \(\XCRM{\chi}(\Diff{R_1}\partial_X\Diff{R_2} - \Diff{R_2}\partial_X\Diff{R_1})\) generates unique vertices:</p>
 
-  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{\feynmandiagram[inline=(v.base)]{a -- [scalar] v, b -- [gluon] v, c -- [gluon] v}; = i\alpha \cdot T_{\mu\nu\rho\sigma}}\]
-    <div class="eq-label" style="color:var(--gold);">(2.5) — R-gravity vertex</div>
+  <div class="eq law" style="background:#000;border:3px solid var(--gold);padding:1.5rem;">
+    \[\boxed{\XCRM{V_{\rm XCRM}} = i\XCRM{\chi}\left(p_X^{(2)} - p_X^{(1)}\right)}\]
+    <div class="eq-label" style="color:var(--gold);">(2.5a) — XCRM vertex: R<sub>1</sub>-R<sub>2</sub> coupling</div>
   </div>
 
-  <p>where T<sub>μνρσ</sub> is the torsion tensor structure.</p>
+  <p>where \(p_X^{(i)}\) is the fifth-momentum component of leg \(i\). In polar form \(\Diff{R} = \rho e^{i\phi}\):</p>
 
-  <h3>2.6 Higgs Vertices</h3>
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\XCRM{V_{\rm XCRM}^{\rm polar}} = i\XCRM{\chi}\rho^2 \cdot p_X^{(\phi)}}\]
+    <div class="eq-label" style="color:var(--gold);">(2.5b) — XCRM vertex in polar representation</div>
+  </div>
+
+  <h3>2.6 XCRM-Gravity Vertex</h3>
+
+  <p>The \(\Tor{\alpha}|\Diff{R}|\mathbb{T}\) coupling gives the R-gravity-torsion interaction:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--torsion);">
+    \[\boxed{\Tor{V_{R\mathbb{T}}} = i\Tor{\alpha} \cdot \Tor{T_{\mu\nu\rho\sigma}}}\]
+    <div class="eq-label" style="color:var(--torsion);">(2.6) — R-gravity-torsion vertex</div>
+  </div>
+
+  <p>where \(\Tor{T_{\mu\nu\rho\sigma}}\) is the torsion tensor structure.</p>
+
+  <h3>2.7 XCRM Z<sub>3</sub> Phase Vertex</h3>
+
+  <p>At Z<sub>3</sub> fixed points, vertices carry phase factors:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--accent);padding:1.25rem;">
+    \[\boxed{\XCRM{V_n^{(Z_3)}} = \XCRM{V_n} \times \exp\left(i\frac{2\pi n}{3}\right), \quad n \in \{0, 1, 2\}}\]
+    <div class="eq-label" style="color:var(--accent);">(2.7) — Z<sub>3</sub> phase-dressed vertex</div>
+  </div>
+
+  <div class="block gold" style="margin-top:1rem;">
+    <div class="title">XCRM Vertices Are Unique</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      The XCRM vertices are the <strong>only</strong> first-derivative couplings for the R-doublet.
+      They measure winding rate \(\partial_X\phi\) in field space, coupling matter to the Z<sub>3</sub> helix structure.
+    </p>
+  </div>
+
+  <h3>2.8 Higgs Vertices</h3>
 
   <p>Since H = A<sub>5</sub>, Higgs interactions come from gauge kinetic terms:</p>
 
   <div class="eq boxed">
     \[\feynmandiagram[inline=(v.base)]{a -- [scalar] v, b -- [photon] v, c -- [photon] v}; = ig^2 v\, g^{\mu\nu}\]
-    <div class="eq-label">(2.6) — HWW vertex</div>
+    <div class="eq-label">(2.8) — HWW vertex</div>
   </div>
 
   <div class="eq boxed">
     \[\feynmandiagram[inline=(v.base)]{a -- [scalar] v, b -- [fermion] v -- [fermion] c}; = -\frac{im_f}{v}\]
-    <div class="eq-label">(2.7) — Hff̄ vertex</div>
+    <div class="eq-label">(2.9) — Hff̄ vertex</div>
   </div>
 </section>
 
@@ -304,6 +337,28 @@
       or other artificial regulators. The holonomy weight provides a natural physical cutoff.
     </p>
   </div>
+
+  <h3>4.6 XCRM Loop Contributions</h3>
+
+  <p>The XCRM vertex contributes to loop diagrams with an additional phase factor:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--gold);">
+    \[\boxed{\XCRM{\Sigma_{\rm XCRM}(p)} = \frac{\XCRM{\chi}^2}{\XCRM{L_X}} \sum_n \XCRM{W_n^2} \int \frac{d^4k}{(2\pi)^4} \frac{k_X^2}{(k^2 + m_n^2)^2}}\]
+    <div class="eq-label" style="color:var(--gold);">(4.6) — XCRM self-energy contribution</div>
+  </div>
+
+  <p>where the holonomy weights \(\XCRM{W_n} = |\sin(\pi(n + 1/3)/3)|\) regulate the KK sum.</p>
+
+  <h3>4.7 Z<sub>3</sub> Phase Averaging</h3>
+
+  <p>In loop diagrams, sum over Z<sub>3</sub> phases at each internal vertex:</p>
+
+  <div class="eq law" style="background:#000;border:2px solid var(--accent);">
+    \[\boxed{\sum_{g=0}^{2} \exp\left(i\frac{2\pi g}{3}\right) = 0 \quad \text{(Z}_3 \text{ phase cancellation)}}\]
+    <div class="eq-label" style="color:var(--accent);">(4.7) — Z<sub>3</sub> phase averaging rule</div>
+  </div>
+
+  <p>This cancellation is responsible for anomaly cancellation and generation structure.</p>
 </section>
 
 <!-- SECTION 5: EXAMPLE CALCULATIONS -->

@@ -79,13 +79,274 @@
   </div>
 </section>
 
+<!-- COMPLETE FALSIFICATION DECISION MATRIX -->
+<section class="section" id="sec12-matrix" style="border:3px solid var(--error); background:linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(251,191,36,0.06) 100%);">
+  <h2 style="color:var(--error);">12.1 Complete Falsification Decision Matrix (21 Predictions)</h2>
+
+  <p style="color:var(--text-secondary);margin-bottom:1.5rem;">
+    STUR makes exactly <strong>21 falsifiable predictions</strong> derived from the \(\XCRM{\text{XCRM}}\) coupling and \(\Quant{Z_3}\) helix geometry.
+    Each prediction is testable with current or near-future technology.
+  </p>
+
+  <!-- CATEGORY 1: INTERFEROMETRY -->
+  <h3 style="color:var(--accent);">Category A: Interferometric Predictions (6)</h3>
+
+  <table>
+    <thead>
+      <tr style="background:rgba(34,211,238,0.1);">
+        <th>#</th>
+        <th>Prediction</th>
+        <th>STUR Value</th>
+        <th>Falsifying Observation</th>
+        <th>Test Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>A1</strong></td>
+        <td>Visibility functional form</td>
+        <td>\(\Matt{V(\Delta L)} = \Matt{V_0} e^{-\Delta L^2/\ell_{\rm coh}^2}\)</td>
+        <td>Linear or oscillatory decay</td>
+        <td style="color:var(--warning);">Testable now</td>
+      </tr>
+      <tr>
+        <td><strong>A2</strong></td>
+        <td>Coherence length range</td>
+        <td>\(\Matt{\ell_{\rm coh}} \in [0.3, 30]\) m</td>
+        <td>\(\Matt{\ell_{\rm coh}} < 0.3\) m or \(> 30\) m</td>
+        <td style="color:var(--warning);">Testable now</td>
+      </tr>
+      <tr>
+        <td><strong>A3</strong></td>
+        <td>Mass independence</td>
+        <td>Same \(\Matt{\ell_{\rm coh}}\) for all species</td>
+        <td>\(\Matt{\ell_{\rm coh}}\) depends on particle mass</td>
+        <td style="color:var(--warning);">Testable now</td>
+      </tr>
+      <tr>
+        <td><strong>A4</strong></td>
+        <td>Time independence</td>
+        <td>No temporal modulation</td>
+        <td>Periodic visibility oscillation (ULDM signature)</td>
+        <td style="color:var(--warning);">Testable now</td>
+      </tr>
+      <tr>
+        <td><strong>A5</strong></td>
+        <td>Loop area scaling</td>
+        <td>Visibility scales with enclosed area</td>
+        <td>No area enhancement in Sagnac geometry</td>
+        <td style="color:var(--accent);">Planned</td>
+      </tr>
+      <tr>
+        <td><strong>A6</strong></td>
+        <td>Universal coherence</td>
+        <td>Single \(\Matt{\ell_{\rm coh}}\) fits all data</td>
+        <td>Multiple coherence lengths required</td>
+        <td style="color:var(--warning);">Testable now</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CATEGORY 2: FIFTH FORCE -->
+  <h3 style="color:var(--gold);margin-top:1.5rem;">Category B: Fifth Force Predictions (3)</h3>
+
+  <table>
+    <thead>
+      <tr style="background:rgba(251,191,36,0.1);">
+        <th>#</th>
+        <th>Prediction</th>
+        <th>STUR Value</th>
+        <th>Falsifying Observation</th>
+        <th>Test Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>B1</strong></td>
+        <td>Fifth force range</td>
+        <td>\(\XCRM{\lambda} \sim 0.8\, \mu\text{m}\) (from \(L_X\) stabilization)</td>
+        <td>No signal at any scale \(\lambda \in [0.1, 100]\, \mu\)m</td>
+        <td style="color:var(--accent);">Next-gen</td>
+      </tr>
+      <tr>
+        <td><strong>B2</strong></td>
+        <td>Fifth force strength</td>
+        <td>\(\XCRM{\alpha} \sim 10^2 - 10^3\) (XCRM screened)</td>
+        <td>\(\alpha > 10^4\) or \(\alpha < 10\) at \(\lambda \sim \mu\)m</td>
+        <td style="color:var(--accent);">ARIADNE, STEP</td>
+      </tr>
+      <tr>
+        <td><strong>B3</strong></td>
+        <td>XCRM screening</td>
+        <td>Screening factor \(\sim 10^{-3}\) from \(\XCRM{\chi}\) term</td>
+        <td>Unscreened bare coupling detected</td>
+        <td style="color:var(--accent);">Next-gen</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CATEGORY 3: PARTICLE PHYSICS -->
+  <h3 style="color:var(--accent-violet);margin-top:1.5rem;">Category C: Particle Physics Predictions (5)</h3>
+
+  <table>
+    <thead>
+      <tr style="background:rgba(167,139,250,0.1);">
+        <th>#</th>
+        <th>Prediction</th>
+        <th>STUR Value</th>
+        <th>Falsifying Observation</th>
+        <th>Test Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>C1</strong></td>
+        <td>Generation number</td>
+        <td>Exactly 3 (from \(\Quant{|Z_3|} = 3\))</td>
+        <td>Discovery of 4th generation</td>
+        <td style="color:var(--success);">Verified</td>
+      </tr>
+      <tr>
+        <td><strong>C2</strong></td>
+        <td>Neutrino ordering</td>
+        <td>Normal: \(\Matt{m_1 < m_2 < m_3}\)</td>
+        <td>Inverted ordering confirmed</td>
+        <td style="color:var(--accent);">JUNO, DUNE</td>
+      </tr>
+      <tr>
+        <td><strong>C3</strong></td>
+        <td>Higgs mass</td>
+        <td>\(\Matt{m_H} = 125.0 \pm 2.3\) GeV</td>
+        <td>More precise measurement outside range</td>
+        <td style="color:var(--success);">Verified</td>
+      </tr>
+      <tr>
+        <td><strong>C4</strong></td>
+        <td>Wolfenstein \(\lambda\)</td>
+        <td>\(\XCRM{\lambda} \approx 0.22\) (from \(L_X/\sigma\))</td>
+        <td>Significant deviation from 0.22</td>
+        <td style="color:var(--success);">Verified</td>
+      </tr>
+      <tr>
+        <td><strong>C5</strong></td>
+        <td>CKM CP phase</td>
+        <td>\(\XCRM{\delta_{\rm CKM}} \approx 67°\) (holonomy flux)</td>
+        <td>Phase outside \(60° - 75°\) range</td>
+        <td style="color:var(--success);">Verified</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CATEGORY 4: GRAVITATIONAL WAVES -->
+  <h3 style="color:var(--accent-secondary);margin-top:1.5rem;">Category D: Gravitational Wave Predictions (5)</h3>
+
+  <table>
+    <thead>
+      <tr style="background:rgba(96,165,250,0.1);">
+        <th>#</th>
+        <th>Prediction</th>
+        <th>STUR Value</th>
+        <th>Falsifying Observation</th>
+        <th>Test Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>D1</strong></td>
+        <td>GW dispersion scale</td>
+        <td>\(\XCRM{f_{\rm XCRM,eff}} = (1.2 \pm 0.8) \times 10^{11}\) Hz</td>
+        <td>\(f_{\rm XCRM,eff} > 10^{12}\) Hz (null) or \(< 10^{10}\) Hz</td>
+        <td style="color:var(--accent);">Einstein Telescope</td>
+      </tr>
+      <tr>
+        <td><strong>D2</strong></td>
+        <td>Dispersion time delay</td>
+        <td>\(\Delta t \sim 0.1 - 10\) ms for \(z > 0.5\) BNS</td>
+        <td>\(\Delta t > 100\) ms or \(< 0.01\) ms</td>
+        <td style="color:var(--accent);">2030s</td>
+      </tr>
+      <tr>
+        <td><strong>D3</strong></td>
+        <td>GW birefringence</td>
+        <td>\(|h_L^2 - h_R^2|/(h_L^2 + h_R^2) < 1\%\) for \(z < 1\)</td>
+        <td>Birefringence \(> 10\%\) for nearby sources</td>
+        <td style="color:var(--success);">Consistent</td>
+      </tr>
+      <tr>
+        <td><strong>D4</strong></td>
+        <td>Stochastic GW background</td>
+        <td>\(\Omega_{\rm GW} \times h^2 \sim 10^{-18}\) at 0.2 nHz</td>
+        <td>\(\Omega_{\rm GW} > 10^{-12}\) at nHz</td>
+        <td style="color:var(--accent);">DECIGO/BBO</td>
+      </tr>
+      <tr>
+        <td><strong>D5</strong></td>
+        <td>GW speed</td>
+        <td>\(\Tor{|c_g - c|/c} < 10^{-30}\)</td>
+        <td>Measurable deviation from \(c\)</td>
+        <td style="color:var(--success);">Verified</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CATEGORY 5: COSMOLOGY & OTHERS -->
+  <h3 style="color:var(--success);margin-top:1.5rem;">Category E: Cosmology & Fundamental (2)</h3>
+
+  <table>
+    <thead>
+      <tr style="background:rgba(74,222,128,0.1);">
+        <th>#</th>
+        <th>Prediction</th>
+        <th>STUR Value</th>
+        <th>Falsifying Observation</th>
+        <th>Test Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>E1</strong></td>
+        <td>No domain walls</td>
+        <td>Zero domain wall energy (doublet structure)</td>
+        <td>Cosmological domain wall detection</td>
+        <td style="color:var(--success);">Consistent</td>
+      </tr>
+      <tr>
+        <td><strong>E2</strong></td>
+        <td>Information preservation</td>
+        <td>\(\Quant{Z_3}\) information preserved in BH evaporation</td>
+        <td>Genuine information loss observed</td>
+        <td style="color:var(--accent);">Theoretical</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- DECISION SUMMARY BOX -->
+  <div class="block error" style="margin-top:1.5rem;border-width:3px;">
+    <div class="title" style="font-size:1.1rem;">Falsification Decision Rule</div>
+    <p style="margin:0.5rem 0;color:var(--text);">
+      <strong>STUR is FALSIFIED if ANY ONE of the following occurs:</strong>
+    </p>
+    <ul style="margin:0.5rem 0;color:var(--text-secondary);font-size:0.95rem;">
+      <li>Visibility decay is NOT Gaussian in \(\Matt{\Delta L^2}\)</li>
+      <li>Coherence length is mass-dependent</li>
+      <li>Time-dependent visibility modulation detected (ULDM signature)</li>
+      <li>\(\Matt{\ell_{\rm coh}} < 0.3\) m or \(\Matt{\ell_{\rm coh}} > 30\) m</li>
+      <li>No fifth force at ANY scale with sufficient sensitivity</li>
+      <li>4th generation fermion discovered</li>
+      <li>Inverted neutrino mass ordering confirmed</li>
+      <li>GW dispersion \(\Delta t > 100\) ms for \(z > 0.5\) sources</li>
+      <li>GW birefringence \(> 10\%\) for \(z < 1\) sources</li>
+    </ul>
+  </div>
+</section>
+
 <!-- DECISION CRITERIA -->
 <section class="section" id="sec12-criteria">
-  <h2>12.1 Decision Criteria</h2>
+  <h2>12.2 Binary Decision Criteria</h2>
 
   <div class="card-grid" style="margin-bottom:1.5rem;">
     <div class="card" style="border:2px solid var(--success);background:rgba(74,222,128,0.06);">
-      <strong style="color:var(--success);">STUR Consistent</strong>
+      <strong style="color:var(--success);">STUR Consistent (All Must Hold)</strong>
       <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
         <li>Visibility decays as Gaussian in \(\Matt{\Delta L^2}\) (NOT oscillatory)</li>
         <li>No temporal oscillation at fixed \(\Matt{\Delta L}\) (distinguishes from ULDM)</li>
@@ -93,10 +354,12 @@
         <li>Coherence length \(\Matt{\ell_{\rm coh}} \in [0.3, 30]\) m</li>
         <li>Area scaling for loop geometries</li>
         <li>Single coherence length fits all data</li>
+        <li>\(\XCRM{f_{\rm XCRM,eff}} \in [10^{10}, 10^{12}]\) Hz</li>
+        <li>Normal neutrino mass ordering</li>
       </ul>
     </div>
     <div class="card" style="border:2px solid var(--error);background:rgba(239,68,68,0.06);">
-      <strong style="color:var(--error);">STUR Falsified</strong>
+      <strong style="color:var(--error);">STUR Falsified (Any One Sufficient)</strong>
       <ul style="margin:0.5rem 0 0;padding-left:1.1rem;font-size:0.88rem;color:var(--text-secondary);">
         <li>Visibility linear in \(\Matt{\Delta L}\) (not quadratic)</li>
         <li>Sinusoidal temporal modulation (ULDM signature)</li>
@@ -104,11 +367,13 @@
         <li>Exponential (not Gaussian) decay</li>
         <li>Multiple coherence lengths required</li>
         <li>\(\Matt{\ell_{\rm coh}}\) outside range [0.3, 30] m</li>
+        <li>GW dispersion \(\Delta t > 100\) ms at high-z</li>
+        <li>4th generation or inverted neutrino ordering</li>
       </ul>
     </div>
   </div>
 
-  <h3>12.2 Specific Falsification Tests</h3>
+  <h3>12.3 Quantitative Falsification Tests</h3>
 
   <table>
     <thead>
@@ -138,6 +403,16 @@
         <td><strong>Coherence scale</strong></td>
         <td>\(\Matt{\ell_{\rm coh}} \in [0.3, 30]\) m</td>
         <td>\(\Matt{\ell_{\rm coh}} < 0.3\) m or \(\Matt{\ell_{\rm coh}} > 30\) m</td>
+      </tr>
+      <tr>
+        <td><strong>Fifth force</strong></td>
+        <td>\(\XCRM{\alpha} \sim 10^2\) at \(\lambda \sim 0.8\, \mu\)m</td>
+        <td>No signal at ANY scale or \(\alpha > 10^4\)</td>
+      </tr>
+      <tr>
+        <td><strong>GW dispersion</strong></td>
+        <td>\(\XCRM{f_{\rm XCRM,eff}} = (1.2 \pm 0.8) \times 10^{11}\) Hz</td>
+        <td>\(\Delta t > 100\) ms or \(< 0.01\) ms for BNS at \(z > 0.5\)</td>
       </tr>
       <tr>
         <td><strong>Temperature dependence</strong></td>
@@ -501,8 +776,8 @@
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Falsification Protocol</strong></p>
-  <p>© 2026 Sheldon Lon Lindberg</p>
+  <p><strong>STUR Falsification Protocol</strong> — v2.5 Helix (Complete Decision Matrix)</p>
+  <p>&copy; 2026 Sheldon Lon Lindberg · <em>21 falsifiable predictions — the theory stands or falls on these tests</em></p>
 </footer>
 
 </div>

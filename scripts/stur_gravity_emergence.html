@@ -184,6 +184,65 @@
   </div>
 </section>
 
+<!-- TORSION COUPLING DERIVATION FROM HELIX -->
+<section class="section" id="torsion-coupling-helix" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(251,191,36,0.04) 100%);">
+  <h2 style="color:var(--gold);">4.2b TEGR = GR from Torsion Coupling [H.10]</h2>
+
+  <div class="block gold" style="border-width:3px;">
+    <div class="title">The Torsion Coupling in STUR [H.10.1]</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The unique scalar-torsion coupling at dimension ≤ 5 is:
+    </p>
+  </div>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--gold);padding:1.25rem;margin:1rem 0;">
+    \[\boxed{\Lcal_{\rm TEGR} = \XCRM{\alpha} \Diff{|R|} \Tor{\mathbb{T}}}\]
+    <div class="eq-label" style="color:var(--gold);">[H.10.1] — STUR torsion coupling</div>
+  </div>
+
+  <h3>4.2b.1 Torsion Scalar Definition [H.10.2]</h3>
+
+  <p>The torsion scalar \(\Tor{\mathbb{T}}\) is constructed from the torsion tensor:</p>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\Tor{T^P{}_{MN}} = e_a^P(\partial_M e^a_N - \partial_N e^a_M)\]
+    <div class="eq-label">[H.10.2] — Torsion tensor</div>
+  </div>
+
+  <div class="eq boxed" style="margin:1rem 0;">
+    \[\Tor{\mathbb{T}} = \frac{1}{4}T^{PMN}T_{PMN} + \frac{1}{2}T^{PMN}T_{NPM} - T^P{}_{PM}T^{QM}{}_Q\]
+    <div class="eq-label">[H.10.3] — Torsion scalar</div>
+  </div>
+
+  <h3>4.2b.2 The Fundamental Equivalence [H.10.4-5]</h3>
+
+  <p>The torsion scalar \(\Tor{\mathbb{T}}\) is related to the Ricci scalar by a boundary term:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;margin:1rem 0;">
+    \[\boxed{\Tor{R_{\rm GR}} = -\Tor{\mathbb{T}} + 2\nabla_\mu(\Tor{T^\mu})}\]
+    <div class="eq-label" style="color:var(--success);">[H.10.4] — Boundary term relation</div>
+  </div>
+
+  <p>At low energies where boundary terms can be neglected:</p>
+
+  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;margin:1rem 0;">
+    \[\boxed{\text{TEGR field equations} \;\longleftrightarrow\; \text{Einstein field equations}}\]
+    <div class="eq-label" style="color:var(--success);">[H.10.5] — TEGR = GR equivalence</div>
+  </div>
+
+  <div class="block success" style="border-width:3px;margin-top:1.5rem;">
+    <div class="title">General Relativity Emerges — Not Assumed!</div>
+    <p style="margin:0;color:var(--text-secondary);">
+      <strong>This is a profound result:</strong> Einstein's General Relativity emerges from the XCRM torsion coupling \(\XCRM{\alpha}\Diff{|R|}\Tor{\mathbb{T}}\) in the equilibrium limit. GR is not postulated as a fundamental law — it arises as the low-energy effective theory of STUR dynamics.
+    </p>
+    <ul style="margin:0.5rem 0 0;color:var(--text-secondary)">
+      <li>At \(\Diff{R \to R_{\rm bg}}\): Pure TEGR/GR dynamics</li>
+      <li>At short distances: XCRM corrections to gravity appear</li>
+      <li>Gravity is unified with the R-field sector through the torsion coupling</li>
+    </ul>
+  </div>
+</section>
+
 <!-- TEGR FROM XCRM -->
 <section class="section" id="tegr-from-xcrm" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
   <h2 style="color:var(--gold);">4.3 TEGR Emergence from XCRM</h2>

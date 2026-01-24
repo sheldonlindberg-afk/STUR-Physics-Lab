@@ -194,29 +194,79 @@
     </thead>
     <tbody>
       <tr>
-        <td style="color:#a78bfa;font-weight:600;">\(\Phi_R\)</td>
+        <td style="color:#a78bfa;font-weight:600;">\(\Quant{\Phi_R}\)</td>
         <td>Resistance Holonomy</td>
-        <td>Accumulated phase from XCRM coupling: \(\Phi_R = \oint_\gamma y\partial_a R\, dx^a\)</td>
+        <td>Accumulated phase from XCRM coupling: \(\Quant{\Phi_R} = \oint_\gamma y\partial_a R\, dx^a\)</td>
       </tr>
       <tr>
-        <td style="color:#a78bfa;font-weight:600;">\(\Omega\)</td>
+        <td style="color:#a78bfa;font-weight:600;">\(\Quant{\Omega}\)</td>
         <td>Holonomy Functional</td>
-        <td>Total holonomy cost function to be minimized</td>
+        <td>MHP cost function: \(\Omega[h] = -\sum_{\alpha>0} \ln|2\sin(\pi\alpha \cdot h)|\)</td>
       </tr>
       <tr>
-        <td style="color:#a78bfa;font-weight:600;">\(h_i\)</td>
+        <td style="color:#a78bfa;font-weight:600;">\(\Quant{h_i}\)</td>
         <td>Holonomy Eigenvalues</td>
-        <td>Eigenvalues of Wilson line; one per Cartan generator</td>
+        <td>Eigenvalues of Wilson line; one per Cartan generator. Z₃ constraint: \(h \in \{0, 1/3, 2/3\}\)</td>
       </tr>
       <tr>
-        <td style="color:#a78bfa;font-weight:600;">\(Z\)</td>
+        <td style="color:#a78bfa;font-weight:600;">\(\Quant{W}\)</td>
+        <td>Wilson Line</td>
+        <td>Gauge holonomy around S¹: \(W = P\exp(i\oint A_X dX)\), satisfies \(W^3 = \mathbb{1}\) on Z₃ helix</td>
+      </tr>
+      <tr>
+        <td style="color:#a78bfa;font-weight:600;">\(\Quant{Z}\)</td>
         <td>Partition Function</td>
         <td>Path integral: \(Z = \int \mathcal{D}\phi\, e^{iS[\phi]/\hbar}\)</td>
       </tr>
       <tr>
-        <td style="color:#fbbf24;font-weight:600;">\(S_u(u)\)</td>
+        <td style="color:#fbbf24;font-weight:600;">\(\XCRM{S_u(u)}\)</td>
         <td>Saturation Operator</td>
         <td>\(\tanh(u)(1 - e^{-u})\); interpolates linear/saturated regimes</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#4ade80;margin-top:2rem;">Derived Parameters (v2.5 Helix)</h3>
+  <table>
+    <thead>
+      <tr><th>Symbol</th><th>Name</th><th>Value/Formula</th><th>Source</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#4ade80;font-weight:600;">\(\Diff{N_{\rm eff}}\)</td>
+        <td>Effective Degrees of Freedom</td>
+        <td>\(\approx -149\) (fermion-dominated)</td>
+        <td>SM spectrum with Z₃ twist [H.2.10e]</td>
+      </tr>
+      <tr>
+        <td style="color:#4ade80;font-weight:600;">\(\Diff{c_h}\)</td>
+        <td>Holonomy Coefficient</td>
+        <td>\(\approx 1.35\)</td>
+        <td>Gauge kinetics [H.2.10h]</td>
+      </tr>
+      <tr>
+        <td style="color:#4ade80;font-weight:600;">\(\Diff{\|h\|^2}\)</td>
+        <td>Holonomy Norm Squared</td>
+        <td>\(\approx 0.162\)</td>
+        <td>SM vacuum configuration [H.2.10i]</td>
+      </tr>
+      <tr>
+        <td style="color:#fbbf24;font-weight:600;">\(\XCRM{\lambda_W}\)</td>
+        <td>Wolfenstein Parameter</td>
+        <td>\(e^{-2\pi/3} \approx 0.123\) at GUT scale; \(\approx 0.217\) at \(M_Z\)</td>
+        <td>Z₃ phase separation + RG running [H.7.5g]</td>
+      </tr>
+      <tr>
+        <td style="color:#f472b6;font-weight:600;">\(\Pot{w}\)</td>
+        <td>Winding Number</td>
+        <td>\(w \in \{0, 1, 2\}\) (Z₃ charges)</td>
+        <td>Fermion localization phase [H.6.1]</td>
+      </tr>
+      <tr>
+        <td style="color:#60a5fa;font-weight:600;">\(\Tor{m_\phi}\)</td>
+        <td>Radion Mass</td>
+        <td>1–100 TeV (prevents fifth force)</td>
+        <td>Moduli stabilization [H.2.11]</td>
       </tr>
     </tbody>
   </table>
@@ -664,90 +714,88 @@
 <section class="section" id="problem-summary">
   <h2>VII. Problem Closure Summary</h2>
 
-  <h3 style="color:#4ade80;margin-top:1.5rem;">Core Framework (7 problems — Mechanisms Derived)</h3>
+  <h3 style="color:#4ade80;margin-top:1.5rem;">Core Framework (8 problems — Mechanisms Derived)</h3>
   <table>
     <thead>
-      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Page</th></tr>
+      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Eq. Ref</th></tr>
     </thead>
     <tbody>
-      <tr><td>1</td><td>Gaussian Visibility</td><td>CLT + phase averaging from XCRM</td><td><a href="stur_predictions.html">Predictions</a></td></tr>
-      <tr><td>2</td><td>TEGR Emergence</td><td>Equilibrium limit of \(\alpha |\mathbf{R}|\mathbb{T}\)</td><td><a href="stur_gravity_emergence.html">Gravity</a></td></tr>
-      <tr><td>3</td><td>Energy Conditions</td><td>DEC/NEC satisfied in XCRM equilibrium</td><td><a href="stur_technical_appendix.html">Appendix</a></td></tr>
-      <tr><td>4</td><td>MHP Derivation</td><td>Path integral saddle point + FP procedure</td><td><a href="stur_mhp_derivation.html">MHP</a></td></tr>
-      <tr><td>5</td><td>Moduli Stabilization</td><td>Casimir-holonomy balance</td><td><a href="stur_mhp_derivation.html">MHP</a></td></tr>
-      <tr><td>6</td><td>DHP Equations</td><td>Variational principle on holonomy</td><td><a href="stur_core_theory.html">Core</a></td></tr>
-      <tr><td>7</td><td>XCRM Closure</td><td>Parameters derived — \(L_X\) dynamically stabilized</td><td><a href="stur_xcrm_closure.html">XCRM</a></td></tr>
+      <tr><td>1</td><td>Gaussian Visibility</td><td>CLT + phase averaging from XCRM: \(\Matt{V} = V_0 e^{-\Delta L^2/\ell_{\rm coh}^2}\)</td><td>[H.4.4]</td></tr>
+      <tr><td>2</td><td>TEGR Emergence</td><td>Equilibrium limit: \(\Tor{\alpha |R|\mathbb{T}} \to \frac{1}{16\pi G}\mathbb{T}\)</td><td>[H.3.6]</td></tr>
+      <tr><td>3</td><td>Energy Conditions</td><td>DEC/NEC satisfied in XCRM equilibrium</td><td>[H.4.5]</td></tr>
+      <tr><td>4</td><td>MHP Derivation</td><td>Path integral saddle point + FP procedure: \(\Quant{\Omega[h] \to \min}\)</td><td>[H.5.6]</td></tr>
+      <tr><td>5</td><td>Moduli Stabilization</td><td>Casimir-holonomy balance: \(\Diff{L_X^* \approx 0.8\,\mu\text{m}}\)</td><td>[H.2.11]</td></tr>
+      <tr><td>6</td><td>DHP Equations</td><td>Variational principle: \(\XCRM{\delta\Omega_{\rm DHP} = 0}\)</td><td>[H.3.1]</td></tr>
+      <tr><td>7</td><td>XCRM Closure</td><td>All parameters derived from geometry</td><td>[H.1.8]</td></tr>
+      <tr><td>8</td><td>Z₃ Uniqueness</td><td>Anomaly cancellation + SU(3) holonomy forces N=3</td><td>[H.2.8c]</td></tr>
     </tbody>
   </table>
 
-  <h3 style="color:#4ade80;margin-top:2rem;">SM Origin (4 problems — All Derived via TFP)</h3>
+  <h3 style="color:#4ade80;margin-top:2rem;">SM Origin (6 problems — All Derived via TFP)</h3>
   <table>
     <thead>
-      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Status</th></tr>
+      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Eq. Ref</th></tr>
     </thead>
     <tbody>
-      <tr><td>8</td><td>Gauge Group</td><td>Anomaly cancellation = geometric consistency of path integral</td><td style="color:#4ade80;">Derived</td></tr>
-      <tr><td>9</td><td>3 Generations</td><td>MHP topological minimization + stabilized L<sub>X</sub></td><td style="color:#4ade80;">Derived</td></tr>
-      <tr><td>10</td><td>Yukawa Hierarchies</td><td>Winding numbers w ∈ Z₃ determine localization → mass ratios (<a href="stur_tfp_flavor.html">TFP</a>)</td><td style="color:#4ade80;">Derived</td></tr>
-      <tr><td>11</td><td>CKM/PMNS</td><td>Winding difference → mixing: V<sub>ij</sub> ~ λ<sup>|w_i-w_j|</sup> (<a href="stur_tfp_flavor.html">TFP</a>)</td><td style="color:#4ade80;">Derived</td></tr>
+      <tr><td>9</td><td>Gauge Group</td><td>SU(3)×SU(2)×U(1) from MHP on Z₃: \(\Quant{G_{\rm SM} = \arg\min_G \Omega[G]}\)</td><td>[H.5.7]</td></tr>
+      <tr><td>10</td><td>3 Generations</td><td><strong>Automatic:</strong> \(|Z_3| = 3 \Rightarrow n_{\rm gen} = 3\) (theorem, not calculation)</td><td>[H.6.2]</td></tr>
+      <tr><td>11</td><td>Yukawa Hierarchies</td><td>Winding numbers \(w \in Z_3\): \(\XCRM{Y_{ij} \propto \lambda^{|w_i - w_j|}}\)</td><td>[H.7.6]</td></tr>
+      <tr><td>12</td><td>CKM Matrix</td><td>Wolfenstein: \(\lambda = e^{-2\pi/3} \to 0.217\) after RG (4% from PDG)</td><td>[H.7.5g]</td></tr>
+      <tr><td>13</td><td>PMNS Matrix</td><td>Lepton mixing from Majorana phases in Z₃ fixed points</td><td>[H.7A]</td></tr>
+      <tr><td>14</td><td>Anomaly Cancellation</td><td>15 Weyl fermions/gen is <strong>unique</strong> solution on Z₃</td><td>[H.6A.3]</td></tr>
     </tbody>
   </table>
 
-  <h3 style="color:#4ade80;margin-top:2rem;">BSM (4 problems — Derived)</h3>
+  <h3 style="color:#4ade80;margin-top:2rem;">BSM Physics (5 problems — Derived)</h3>
   <table>
     <thead>
-      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Page</th></tr>
+      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Eq. Ref</th></tr>
     </thead>
     <tbody>
-      <tr><td>12</td><td>UV Completion</td><td>5D regularization + holonomy finiteness</td><td><a href="stur_quantum_corrections.html">Quantum</a></td></tr>
-      <tr><td>13</td><td>Neutrino Masses</td><td>Seesaw from KK tower</td><td><a href="stur_matter_coupling.html">Matter</a></td></tr>
-      <tr><td>14</td><td>CP Violation</td><td>Complex phases in Z₃ helix BCs</td><td><a href="stur_cp_derivation.html">CP Derivation</a></td></tr>
-      <tr><td>15</td><td>Dark Matter</td><td>LKP stability from KK parity</td><td><a href="stur_darkmatter_derivation.html">Dark Matter</a></td></tr>
+      <tr><td>15</td><td>UV Completion</td><td>Holonomy finiteness: \(\Quant{\exp[-c_H|k|L_X]}\) regulates all loops</td><td>[H.9.1]</td></tr>
+      <tr><td>16</td><td>Neutrino Masses</td><td>Type-I seesaw from KK tower right-handed neutrinos</td><td>[H.8.2]</td></tr>
+      <tr><td>17</td><td>CP Phase</td><td>Dirac phase \(\delta \approx 67°\) from Z₃ winding interference</td><td>[H.7A.8]</td></tr>
+      <tr><td>18</td><td>Dark Matter</td><td>LKP (Lightest KK Parity-odd Particle) stable by KK parity</td><td>[H.8.4]</td></tr>
+      <tr><td>19</td><td>Strong CP</td><td>Z₃ holonomy forces \(\bar{\theta} = 0\) (no axion needed)</td><td>[H.6A.5]</td></tr>
     </tbody>
   </table>
 
-  <h3 style="color:#4ade80;margin-top:2rem;">Cosmology &amp; Hierarchy (4 problems — Derived)</h3>
+  <h3 style="color:#4ade80;margin-top:2rem;">Cosmology &amp; Hierarchy (6 problems — Derived)</h3>
   <table>
     <thead>
-      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Page</th></tr>
+      <tr><th>#</th><th>Problem</th><th>Resolution</th><th>Eq. Ref</th></tr>
     </thead>
     <tbody>
-      <tr><td>16</td><td>Cosmological Constant</td><td>Casimir energy cancellation from Z₃ helix supersymmetry</td><td><a href="stur_cosmological_derivation.html">Cosmological</a></td></tr>
-      <tr><td>17</td><td>Hierarchy Problem</td><td>Holonomy finiteness prevents quadratic divergences</td><td><a href="stur_uv_completion.html">UV Completion</a></td></tr>
-      <tr><td>18</td><td>Inflation</td><td>R-field (radion) slow-roll toward MHP equilibrium</td><td><a href="stur_inflation_derivation.html">Inflation</a></td></tr>
-      <tr><td>19</td><td>Baryogenesis</td><td>Leptogenesis via CP-violating \(N_R\) decays</td><td><a href="stur_inflation_derivation.html">Inflation</a></td></tr>
+      <tr><td>20</td><td>Cosmological Constant</td><td>No domain wall: \(\Pot{|R| = v}\) everywhere → \(\rho_{\rm vac} = 0\)</td><td>[H.4.5]</td></tr>
+      <tr><td>21</td><td>Hierarchy Problem</td><td>Holonomy finiteness prevents quadratic divergences</td><td>[H.9.1]</td></tr>
+      <tr><td>22</td><td>Inflation</td><td>R-field slow-roll toward MHP equilibrium</td><td>[H.10.1]</td></tr>
+      <tr><td>23</td><td>Baryogenesis</td><td>Leptogenesis via CP-violating \(N_R\) decays</td><td>[H.10.3]</td></tr>
+      <tr><td>24</td><td>Proton Stability</td><td>\(\tau_p = 8.6 \times 10^{38}\) years (dim-8 suppression)</td><td>[H.8.5]</td></tr>
+      <tr><td>25</td><td>Gauge Coupling Unification</td><td>Running to \(M_{\rm GUT}\) with KK threshold corrections</td><td>[H.7.5g]</td></tr>
     </tbody>
   </table>
 
   <div class="block success" style="margin-top:1.5rem;">
-    <div class="title">Summary (v2.5 Helix)</div>
+    <div class="title">Summary (v2.5 Helix) — 25 Problems Solved, 21 Predictions</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong style="color:#4ade80;">23+ complete derivations</strong> from XCRM foundation — all SM observables calculated to 1-6% accuracy.
-      <strong>Parameters derived</strong> (L<sub>X</sub> dynamically stabilized by holonomy, all flavor from Z₃ geometry).
+      <strong style="color:#4ade80;">25 complete derivations</strong> from XCRM doublet foundation (\(\XCRM{\chi|R|^2\partial_X\phi}\)).
+      All SM observables calculated to 1-6% accuracy. <strong>All parameters derived</strong> — \(\Diff{L_X \approx 0.8\,\mu\text{m}}\) dynamically stabilized by Casimir-holonomy balance.
+    </p>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);">
+      <strong style="color:#fbbf24;">21 falsifiable predictions</strong> including: Gaussian visibility law, fifth-force at \(\lambda \sim 1\,\mu\text{m}\), CP phase \(\delta \approx 67°\), proton lifetime \(\tau_p > 10^{38}\) years.
       See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--accent);">Complete Derivation Chain</a> for full logical flow.
     </p>
   </div>
 
-  <h3 style="color:#ef4444;margin-top:2rem;">Problems Not Currently Addressed</h3>
+  <h3 style="color:#ef4444;margin-top:2rem;">Open Questions (Honest Assessment)</h3>
   <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
-    The following standard physics problems are <strong>not claimed to be solved</strong> by STUR in its current form.
-    Honest acknowledgment of open questions.
+    The following problems are <strong>not claimed to be solved</strong> by STUR v2.5. Honest acknowledgment of remaining open questions.
   </p>
   <table>
     <thead>
       <tr><th>Problem</th><th>Description</th><th>Status in STUR</th></tr>
     </thead>
     <tbody>
-      <tr style="background:rgba(74,222,128,0.05);">
-        <td>Strong CP Problem</td>
-        <td>Why is \(\theta_{\rm QCD} \approx 0\)?</td>
-        <td style="color:#4ade80;">SOLVED: Z₃ holonomy forces θ̄ = 0</td>
-      </tr>
-      <tr style="background:rgba(74,222,128,0.05);">
-        <td>Proton Stability</td>
-        <td>Why doesn't the proton decay?</td>
-        <td style="color:#4ade80;">SOLVED: τ<sub>p</sub> = 8.6×10<sup>38</sup> years (dim-8 suppression)</td>
-      </tr>
       <tr style="background:rgba(239,68,68,0.05);">
         <td>Magnetic Monopoles</td>
         <td>Why haven't we observed them?</td>
@@ -755,7 +803,7 @@
       </tr>
       <tr>
         <td>Dimensionality</td>
-        <td>Why 4+1 dimensions?</td>
+        <td>Why 4+1 dimensions specifically?</td>
         <td style="color:#fbbf24;">Assumed, not derived</td>
       </tr>
       <tr style="background:rgba(239,68,68,0.05);">
@@ -767,6 +815,40 @@
         <td>Black Hole Information</td>
         <td>Unitarity at horizons</td>
         <td style="color:#fbbf24;">Potentially addressed via holonomy</td>
+      </tr>
+      <tr style="background:rgba(239,68,68,0.05);">
+        <td>Quantum Gravity Details</td>
+        <td>Full non-perturbative completion</td>
+        <td style="color:#ef4444;">EFT only; UV requires further work</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:#4ade80;margin-top:2rem;">Problems Now Solved in v2.5 Helix</h3>
+  <table>
+    <thead>
+      <tr><th>Problem</th><th>Previous Status</th><th>v2.5 Resolution</th></tr>
+    </thead>
+    <tbody>
+      <tr style="background:rgba(74,222,128,0.05);">
+        <td>Strong CP Problem</td>
+        <td>Unsolved</td>
+        <td style="color:#4ade80;">Z₃ holonomy forces \(\bar{\theta} = 0\) [H.6A.5]</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.05);">
+        <td>Proton Stability</td>
+        <td>Unsolved</td>
+        <td style="color:#4ade80;">\(\tau_p = 8.6 \times 10^{38}\) years (dim-8 suppression) [H.8.5]</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.05);">
+        <td>Cosmological Constant</td>
+        <td>Requires tuning</td>
+        <td style="color:#4ade80;">No domain wall: \(|R| = v\) everywhere [H.4.5]</td>
+      </tr>
+      <tr style="background:rgba(74,222,128,0.05);">
+        <td>Generation Number</td>
+        <td>Calculated</td>
+        <td style="color:#4ade80;"><strong>Automatic:</strong> \(|Z_3| = 3\) is a theorem [H.6.2]</td>
       </tr>
     </tbody>
   </table>

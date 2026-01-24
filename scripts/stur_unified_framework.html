@@ -496,6 +496,63 @@
     </p>
   </div>
 
+  <!-- MASTER ACTION FROM DERIVATION CHAIN -->
+  <div class="eq boxed" style="margin:1.5rem 0;border:3px solid var(--gold);background:rgba(0,0,0,0.7);padding:1.5rem;">
+    <div style="text-align:center;color:var(--gold);font-weight:700;margin-bottom:1rem;font-size:1.1rem;">[H.3.1] THE MASTER ACTION</div>
+    \[
+    \begin{aligned}
+    S_{\rm STUR} = \int d^4x\, dX\, \sqrt{-g}\, \Big[
+      &\;\Diff{\tfrac{1}{2}(\partial_\mu \mathbf{R})\cdot(\partial^\mu \mathbf{R})} && \text{(4D Kinetic)} \\[4pt]
+      +\, &\Diff{\tfrac{1}{2}(\partial_X \mathbf{R})\cdot(\partial_X \mathbf{R})} && \text{(5D Kinetic)} \\[4pt]
+      -\, &\Pot{\tfrac{\lambda}{4}(|\mathbf{R}|^2 - v^2)^2} && \text{(Potential/SSB)} \\[4pt]
+      +\, &\XCRM{\chi(R_1 \partial_X R_2 - R_2 \partial_X R_1)} && \text{(XCRM — foundation)} \\[4pt]
+      +\, &\Tor{\alpha |\mathbf{R}| \mathbb{T}} && \text{(Torsion → GR)} \\[4pt]
+      -\, &\Matt{\tfrac{1}{4}F^a_{MN}F^{aMN}} && \text{(Yang-Mills)} \\[4pt]
+      +\, &\Matt{\bar\Psi \Gamma^M D_M \Psi} && \text{(Fermions)} \\[4pt]
+      +\, &\Matt{|D_M H|^2 - V(H)} && \text{(Higgs from } A_5\text{)}
+    \Big]
+    \end{aligned}
+    \]
+    <div class="eq-label" style="color:var(--gold);font-size:0.9rem;">with Z₃ helix boundary conditions: \(\mathbf{R}(X + L_X) = R_{2\pi/3} \cdot \mathbf{R}(X)\)</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.75rem;margin:1rem 0;">
+    <div style="padding:0.75rem;background:rgba(74,222,128,0.1);border-radius:8px;border-left:3px solid #4ade80;">
+      <strong style="color:#4ade80;font-size:0.85rem;">\(\Diff{\text{Green}}\) — Diffusion/Kinetic</strong>
+      <p style="margin:0.3rem 0 0;font-size:0.8rem;color:var(--text-secondary);">Gradient energy terms</p>
+    </div>
+    <div style="padding:0.75rem;background:rgba(244,114,182,0.1);border-radius:8px;border-left:3px solid #f472b6;">
+      <strong style="color:#f472b6;font-size:0.85rem;">\(\Pot{\text{Pink}}\) — Potential</strong>
+      <p style="margin:0.3rem 0 0;font-size:0.8rem;color:var(--text-secondary);">SSB double-well V(|R|)</p>
+    </div>
+    <div style="padding:0.75rem;background:rgba(251,191,36,0.1);border-radius:8px;border-left:3px solid #fbbf24;">
+      <strong style="color:#fbbf24;font-size:0.85rem;">\(\XCRM{\text{Gold}}\) — XCRM</strong>
+      <p style="margin:0.3rem 0 0;font-size:0.8rem;color:var(--text-secondary);">X-coupling (foundation)</p>
+    </div>
+    <div style="padding:0.75rem;background:rgba(96,165,250,0.1);border-radius:8px;border-left:3px solid #60a5fa;">
+      <strong style="color:#60a5fa;font-size:0.85rem;">\(\Tor{\text{Blue}}\) — Torsion</strong>
+      <p style="margin:0.3rem 0 0;font-size:0.8rem;color:var(--text-secondary);">Gravity sector (TEGR)</p>
+    </div>
+    <div style="padding:0.75rem;background:rgba(34,211,238,0.1);border-radius:8px;border-left:3px solid #22d3ee;">
+      <strong style="color:#22d3ee;font-size:0.85rem;">\(\Matt{\text{Cyan}}\) — Matter</strong>
+      <p style="margin:0.3rem 0 0;font-size:0.8rem;color:var(--text-secondary);">Gauge, fermion, Higgs</p>
+    </div>
+    <div style="padding:0.75rem;background:rgba(167,139,250,0.1);border-radius:8px;border-left:3px solid #a78bfa;">
+      <strong style="color:#a78bfa;font-size:0.85rem;">\(\Quant{\text{Violet}}\) — Quantum</strong>
+      <p style="margin:0.3rem 0 0;font-size:0.8rem;color:var(--text-secondary);">Loop corrections, holonomy</p>
+    </div>
+  </div>
+
+  <div class="block success" style="margin:1rem 0;">
+    <div class="title">Key Physical Values (from DERIVATION_CHAIN_HELIX.md)</div>
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;margin-top:0.5rem;">
+      <div><span style="color:var(--text-muted);">L<sub>X</sub>:</span> <strong style="color:#fbbf24;">≈ 0.8 μm</strong></div>
+      <div><span style="color:var(--text-muted);">m<sub>H</sub>:</span> <strong style="color:#22d3ee;">125.0 GeV</strong></div>
+      <div><span style="color:var(--text-muted);">M<sub>GUT</sub>:</span> <strong style="color:#a78bfa;">1.8×10¹⁶ GeV</strong></div>
+      <div><span style="color:var(--text-muted);">N<sub>eff</sub>:</span> <strong style="color:#f472b6;">-149</strong></div>
+    </div>
+  </div>
+
   <table>
     <tr>
       <th>Pillar</th>

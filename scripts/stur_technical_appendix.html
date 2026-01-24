@@ -192,6 +192,109 @@
     </div>
 </div>
 
+<!-- RIGOROUS CALCULATION REFERENCES (FROM DERIVATION_CHAIN_HELIX.md) -->
+<div class="glass-section" style="border-color:var(--gold);background:rgba(251,191,36,0.04);margin-bottom:1.5rem;">
+    <div class="glass-section-header">
+        <span class="stur-icon icon-link size-24" style="color:var(--gold);"></span>
+        <h2 class="glass-section-title" style="color:var(--gold);">Rigorous Calculation References</h2>
+    </div>
+    <div class="glass-section-body">
+        <p style="color:var(--text-secondary);margin-bottom:1rem;">
+            The following key results from <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--accent);">DERIVATION_CHAIN_HELIX.md</a> establish the complete derivation chain with explicit numerical calculations.
+        </p>
+
+        <!-- KEY VALUES -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1rem 0;">
+            <div style="padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #fbbf24;">
+                <div style="font-size:0.75rem;color:var(--text-muted);">Compactification Scale [H.2.11]</div>
+                <div style="font-size:1.2rem;font-weight:700;color:#fbbf24;">\(\XCRM{L_X} \approx 0.8\,\mu\text{m}\)</div>
+                <div style="font-size:0.8rem;color:var(--text-secondary);">M<sub>KK</sub> ≈ 0.25 eV</div>
+            </div>
+            <div style="padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #22d3ee;">
+                <div style="font-size:0.75rem;color:var(--text-muted);">Higgs Mass [H.10.3]</div>
+                <div style="font-size:1.2rem;font-weight:700;color:#22d3ee;">\(\Matt{m_H} = 125.0\,\text{GeV}\)</div>
+                <div style="font-size:0.8rem;color:var(--text-secondary);">Within ±1 GeV of observation</div>
+            </div>
+            <div style="padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #a78bfa;">
+                <div style="font-size:0.75rem;color:var(--text-muted);">GUT Scale [H.9.3]</div>
+                <div style="font-size:1.2rem;font-weight:700;color:#a78bfa;">\(\Quant{M_{\rm GUT}} = 1.8 \times 10^{16}\,\text{GeV}\)</div>
+                <div style="font-size:0.8rem;color:var(--text-secondary);">From gauge coupling unification</div>
+            </div>
+            <div style="padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #f472b6;">
+                <div style="font-size:0.75rem;color:var(--text-muted);">Effective DOF [H.2.10e]</div>
+                <div style="font-size:1.2rem;font-weight:700;color:#f472b6;">\(\Pot{N_{\rm eff}} = -149\)</div>
+                <div style="font-size:0.8rem;color:var(--text-secondary);">Fermion-dominated Casimir</div>
+            </div>
+        </div>
+
+        <table style="width:100%;font-size:0.85rem;border-collapse:collapse;margin:1rem 0;">
+            <thead>
+                <tr style="border-bottom:2px solid var(--separator);">
+                    <th style="text-align:left;padding:8px;color:var(--gold);">Equation</th>
+                    <th style="text-align:left;padding:8px;color:var(--gold);">Result</th>
+                    <th style="text-align:left;padding:8px;color:var(--gold);">Derivation Chain</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">[H.1.8]</td>
+                    <td style="padding:8px;color:var(--text-secondary);">XCRM Uniqueness Theorem</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Exhaustive enumeration of first-derivative couplings</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">[H.2.8c]</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Z₃ Uniqueness Theorem</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Anomaly cancellation + SU(3) holonomy compatibility</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">[H.2.8c-11]</td>
+                    <td style="padding:8px;color:var(--text-secondary);">\(V_{\rm hol}(Z_6)/V_{\rm hol}(Z_3) \approx 1.8\)</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Explicit holonomy potential calculation</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">[H.2.10]</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Moduli Stabilization Master Formula</td>
+                    <td style="padding:8px;color:var(--text-secondary);">\(L_X^* = (4\zeta(5)|N_{\rm eff}|/(c_h||h||^2))^{1/3}\)</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">[H.2.10e]</td>
+                    <td style="padding:8px;color:var(--text-secondary);">\(N_{\rm eff} = -149\)</td>
+                    <td style="padding:8px;color:var(--text-secondary);">SM field counting with Z₃ twist factors</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">[H.2.10h]</td>
+                    <td style="padding:8px;color:var(--text-secondary);">\(c_h = 1.35\)</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Holonomy coefficient from SU(3)×SU(2)×U(1)</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">[H.2.10i]</td>
+                    <td style="padding:8px;color:var(--text-secondary);">\(||h||^2 = 0.162\)</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Holonomy norm from SM vacuum configuration</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--separator);">
+                    <td style="padding:8px;color:var(--text-secondary);">[H.3.1]</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Master Action</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Complete 5D action with all terms unique</td>
+                </tr>
+                <tr>
+                    <td style="padding:8px;color:var(--text-secondary);">[H.4.4]</td>
+                    <td style="padding:8px;color:var(--text-secondary);">Helix Vacuum Configuration</td>
+                    <td style="padding:8px;color:var(--text-secondary);">\(R_1 = v\cos(2\pi X/3L_X)\), \(R_2 = v\sin(2\pi X/3L_X)\)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="padding:10px 14px;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.3);margin-top:1rem;">
+            <strong style="color:#4ade80;font-size:0.85rem;">Calculation Verification</strong>
+            <span style="font-size:0.85rem;color:var(--text-secondary);">
+                All numerical values can be verified against the complete derivation chain in
+                <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--accent);">DERIVATION_CHAIN_HELIX.md</a>.
+                Equation labels [H.n.m] reference specific derivations.
+            </span>
+        </div>
+    </div>
+</div>
+
 <!-- ===================== SECTION A: FUNDAMENTAL PARAMETER DEFINITIONS ===================== -->
 <section class="section" id="parameters" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
   <h2 style="color:var(--gold);">A. Fundamental Parameter Definitions</h2>
