@@ -760,6 +760,17 @@ document.addEventListener('DOMContentLoaded', function() {
     drawSimulation(lcoh);
   }
 
+  // Color function for readouts
+  function visColor(v) {
+    if (v > 0.5) {
+      const t = (v - 0.5) * 2;
+      return `rgb(${Math.round(251 - t * 177)}, ${Math.round(191 + t * 31)}, ${Math.round(36 + t * 92)})`;
+    } else {
+      const t = v * 2;
+      return `rgb(${Math.round(239 + t * 12)}, ${Math.round(68 + t * 123)}, ${Math.round(68 - t * 32)})`;
+    }
+  }
+
   slider.addEventListener('input', updateSimulation);
   window.addEventListener('resize', updateSimulation);
 
