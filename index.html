@@ -151,7 +151,7 @@ body {
   font-weight: 600;
   font-size: 1.1rem;
   border-radius: 12px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -160,12 +160,22 @@ body {
   box-shadow: 0 8px 24px rgba(74,222,128,0.3);
 }
 
+/* Section titles */
+.section-title {
+  font-size: 0.8rem;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 2rem 0 1rem;
+  padding-left: 4px;
+}
+
 /* Link grid */
 .link-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
 }
 
 .link-card {
@@ -204,7 +214,7 @@ body {
   text-align: center;
   padding: 2rem 0;
   border-top: 1px solid rgba(255,255,255,0.06);
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .site-footer p {
@@ -233,22 +243,22 @@ body {
       STUR Lab
     </a>
     <nav class="nav-links">
-      <a href="scripts/stur_learn.html">Learn</a>
+      <a href="scripts/stur_faq.html">FAQ</a>
       <a href="about.html">About</a>
-      <a href="sitemap.html">More</a>
+      <a href="sitemap.html">All Pages</a>
     </nav>
   </header>
 
   <!-- Hero -->
   <section class="hero">
     <h1>A Theory of Everything</h1>
-    <p>What if all the numbers in physics come from one simple idea? STUR is a framework that tries to calculate everything from a single starting point.</p>
+    <p>What if all the numbers in physics come from one simple idea? STUR calculates everything from a single starting point.</p>
   </section>
 
   <!-- The Idea -->
   <div class="main-card">
     <h2>The Simple Version</h2>
-    <p>Physics has lots of numbers — how heavy particles are, how strong forces are. Nobody knows why they have those exact values. STUR says they all come from one thing: the shape of the universe is like a spiral with 3 steps. That's it. Everything else follows from that geometry.</p>
+    <p>Physics has lots of numbers — how heavy particles are, how strong forces are. STUR says they all come from one thing: the shape of the universe is like a spiral with 3 steps. Everything else follows from that geometry.</p>
   </div>
 
   <!-- Stats -->
@@ -270,12 +280,13 @@ body {
   <!-- Main CTA -->
   <a href="scripts/stur_learn.html" class="btn-primary">Start Learning →</a>
 
-  <!-- Quick Links -->
+  <!-- EXPLORE THE THEORY -->
+  <div class="section-title">Explore the Theory</div>
   <div class="link-grid">
-    <a href="scripts/stur_predictions.html" class="link-card">
-      <div class="link-card-icon">🎯</div>
-      <div class="link-card-title">Predictions</div>
-      <div class="link-card-desc">Can it be proven wrong?</div>
+    <a href="scripts/stur_foundations_hub.html" class="link-card">
+      <div class="link-card-icon">🔬</div>
+      <div class="link-card-title">Foundations</div>
+      <div class="link-card-desc">The core math behind it</div>
     </a>
     <a href="scripts/stur_sm_hub.html" class="link-card">
       <div class="link-card-icon">⚛️</div>
@@ -284,17 +295,33 @@ body {
     </a>
     <a href="scripts/stur_cosmology_hub.html" class="link-card">
       <div class="link-card-icon">🌌</div>
-      <div class="link-card-title">Space</div>
-      <div class="link-card-desc">Gravity and the universe</div>
+      <div class="link-card-title">Gravity & Cosmos</div>
+      <div class="link-card-desc">Black holes, dark matter</div>
+    </a>
+    <a href="scripts/stur_quantum_hub.html" class="link-card">
+      <div class="link-card-icon">💫</div>
+      <div class="link-card-title">Quantum</div>
+      <div class="link-card-desc">Where physics gets weird</div>
+    </a>
+  </div>
+
+  <!-- TEST IT -->
+  <div class="section-title">Test It</div>
+  <div class="link-grid">
+    <a href="scripts/stur_predictions.html" class="link-card">
+      <div class="link-card-icon">🎯</div>
+      <div class="link-card-title">Predictions</div>
+      <div class="link-card-desc">21 ways to prove it wrong</div>
     </a>
     <a href="scripts/stur_simulations_hub.html" class="link-card">
       <div class="link-card-icon">🧪</div>
-      <div class="link-card-title">Try It</div>
+      <div class="link-card-title">Simulations</div>
       <div class="link-card-desc">Interactive demos</div>
     </a>
   </div>
 
-  <!-- More Links -->
+  <!-- REFERENCE -->
+  <div class="section-title">Reference</div>
   <div class="link-grid">
     <a href="scripts/stur_core_theory.html" class="link-card">
       <div class="link-card-icon">📐</div>
@@ -306,11 +333,21 @@ body {
       <div class="link-card-title">Glossary</div>
       <div class="link-card-desc">What the words mean</div>
     </a>
+    <a href="scripts/stur_symbols.html" class="link-card">
+      <div class="link-card-icon">🔣</div>
+      <div class="link-card-title">Symbols</div>
+      <div class="link-card-desc">Math notation guide</div>
+    </a>
+    <a href="scripts/stur_faq.html" class="link-card">
+      <div class="link-card-icon">❓</div>
+      <div class="link-card-title">FAQ</div>
+      <div class="link-card-desc">Common questions</div>
+    </a>
   </div>
 
   <!-- Footer -->
   <footer class="site-footer">
-    <p>© 2026 Sheldon Lindberg · STUR v3.8</p>
+    <p>© 2026 Sheldon Lindberg · STUR v3.8 · <a href="sitemap.html" style="color:#71717a;">View All Pages</a></p>
   </footer>
 
 </div>
