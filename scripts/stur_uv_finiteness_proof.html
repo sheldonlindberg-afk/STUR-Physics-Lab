@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR UV Finiteness — Complete All-Orders Proof</title>
-<meta name="description" content="Complete mathematical proof of UV finiteness in STUR: holonomy-weighted path integral, modified propagators, and all-orders convergence.">
+<title>STUR v3.8 TOE — EFT-Level UV Finiteness Proof</title>
+<meta name="description" content="STUR v3.8 Helix Geometry TOE: EFT-level UV finiteness proof from holonomy regulation. ONE input (M_Planck), ZERO free dimensionless parameters. Honest about UV completion being open.">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -34,9 +34,19 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>UV Finiteness: Complete Proof</h1>
-  <p class="subtitle">All-Orders Convergence from Holonomy Regulation</p>
+  <h1>EFT-Level UV Finiteness Proof</h1>
+  <p class="subtitle">All-Orders Convergence from Holonomy Regulation (Valid Below M<sub>KK</sub>)</p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+
+  <!-- v3.8 TOE Framework Box -->
+  <div style="margin:1rem auto;max-width:700px;padding:0.75rem 1rem;background:rgba(74,222,128,0.08);border:2px solid #4ade80;border-radius:10px;">
+    <div style="font-size:0.85rem;color:#4ade80;font-weight:600;margin-bottom:0.5rem;">v3.8 HELIX GEOMETRY TOE FRAMEWORK</div>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;font-size:0.85rem;color:var(--text-secondary);">
+      <span><strong style="color:#fbbf24;">ONE Input:</strong> M<sub>Planck</sub></span>
+      <span><strong style="color:#a78bfa;">ZERO</strong> free dimensionless parameters</span>
+      <span><strong style="color:#f472b6;">EFT valid below</strong> M<sub>KK</sub> ~ 1/L<sub>X</sub></span>
+    </div>
+  </div>
 
   <!-- Key Parameters Box -->
   <div style="margin:1rem auto;max-width:700px;padding:0.75rem 1rem;background:rgba(251,191,36,0.08);border:2px solid #fbbf24;border-radius:10px;">
@@ -49,9 +59,9 @@
     </div>
   </div>
 
-  <!-- v2.5 Helix Badge -->
-  <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:400px;font-size:0.8rem;">
-    <span style="color:#22d3ee;font-weight:600;">★ v2.5 HELIX</span> — Z<sub>3</sub> holonomy provides natural UV regulation
+  <!-- v3.8 Helix Geometry TOE Badge -->
+  <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:500px;font-size:0.8rem;">
+    <span style="color:#22d3ee;font-weight:600;">★ v3.8 Helix Geometry TOE</span> — Z<sub>3</sub> holonomy provides natural UV regulation
   </div>
 </header>
 
@@ -63,13 +73,24 @@
 
 <!-- EXECUTIVE SUMMARY -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--success);">Main Theorem</h2>
+  <h2 style="color:var(--success);">Main Theorem (EFT Level)</h2>
 
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="font-size:1.1rem;">Theorem: UV Finiteness of STUR</div>
+    <div class="title" style="font-size:1.1rem;">Theorem: EFT-Level UV Finiteness of STUR</div>
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
-      The holonomy-weighted path integral of STUR is <strong>UV-finite to all orders in perturbation theory</strong>.
+      The holonomy-weighted path integral of STUR is <strong>UV-finite to all orders in perturbation theory</strong>
+      within the EFT regime (E &lt; M<sub>KK</sub> ~ 1/L<sub>X</sub>).
       All loop diagrams converge without additional renormalization beyond wavefunction renormalization.
+    </p>
+  </div>
+
+  <!-- Honest Assessment Box -->
+  <div style="margin:1rem 0;padding:0.75rem 1rem;background:rgba(251,191,36,0.08);border:2px solid #fbbf24;border-radius:10px;">
+    <div style="font-size:0.85rem;color:#fbbf24;font-weight:600;margin-bottom:0.5rem;">HONEST ASSESSMENT</div>
+    <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;line-height:1.6;">
+      This is <strong>EFT-level finiteness</strong>, not a complete UV completion. STUR is an effective field theory
+      valid below M<sub>KK</sub>. The full UV completion at/above the Planck scale remains an open question.
+      We are honest that the theory's behavior at E &gt; M<sub>Planck</sub> requires additional physics.
     </p>
   </div>
 
@@ -84,15 +105,15 @@
   </ol>
 </section>
 
-<!-- SECTION 0: UV REGULATION FROM Z3 -->
+<!-- SECTION 0: UV REGULATION FROM Z3 (v3.8 Helix Geometry TOE) -->
 <section class="section" id="z3-regulation" style="border:3px solid #4ade80; background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:#4ade80;">0. Natural UV Regulation from Z<sub>3</sub> Helix</h2>
+  <h2 style="color:#4ade80;">0. Natural UV Regulation from Z<sub>3</sub> Helix (v3.8 TOE)</h2>
 
   <div class="block" style="border-color:#4ade80;border-width:3px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="font-size:1.1rem;">Core Principle — Holonomy as Natural Cutoff</div>
+    <div class="title" style="font-size:1.1rem;">Core Principle — Holonomy as Natural EFT Cutoff</div>
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
       The Z<sub>3</sub> helix geometry with size L<sub>X</sub> ≈ 0.8 μm provides a <strong>natural UV cutoff</strong>
-      Λ<sub>Ω</sub> ~ 1/L<sub>X</sub> ≈ 0.25 eV. All loop integrals converge without external regularization.
+      Λ<sub>Ω</sub> ~ 1/L<sub>X</sub> ≈ 0.25 eV. All loop integrals converge within the EFT regime (E &lt; M<sub>KK</sub>).
     </p>
   </div>
 
@@ -302,16 +323,16 @@
   </div>
 </section>
 
-<!-- SECTION 4: ALL-ORDERS PROOF -->
+<!-- SECTION 4: ALL-ORDERS PROOF (EFT LEVEL) -->
 <section class="section" id="all-orders" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">4. All-Orders Finiteness: Inductive Proof</h2>
+  <h2 style="color:var(--success);">4. All-Orders Finiteness: Inductive Proof (EFT Level)</h2>
 
   <h3>4.1 Theorem Statement</h3>
 
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="font-size:1.1rem;">Theorem 4.1 — All-Orders UV Finiteness</div>
+    <div class="title" style="font-size:1.1rem;">Theorem 4.1 — EFT-Level All-Orders UV Finiteness</div>
     <p style="margin:0;color:var(--text);line-height:1.7;">
-      For any Feynman diagram \(\Gamma\) with \(L\) loops, the amplitude \(\mathcal{A}_\Gamma\) satisfies:
+      For any Feynman diagram \(\Gamma\) with \(L\) loops in the EFT regime (E &lt; M<sub>KK</sub>), the amplitude \(\mathcal{A}_\Gamma\) satisfies:
     </p>
     <div class="eq law" style="margin:0.75rem 0;background:#000;border:2px solid var(--success);">
       \[\boxed{|\mathcal{A}_\Gamma| \leq C_\Gamma \cdot \Lambda_\Omega^{-L} < \infty}\]
@@ -493,14 +514,23 @@
 
 <!-- CONCLUSION -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--success);">Conclusion: Complete UV Finiteness</h2>
+  <h2 style="color:var(--success);">Conclusion: EFT-Level UV Finiteness</h2>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
     \[\boxed{\begin{aligned}
     &\text{Perturbative:} \quad |\mathcal{A}_\Gamma| \leq C_\Gamma \Lambda_\Omega^{-L} < \infty \quad \forall \Gamma \\[0.5em]
     &\text{Non-perturbative:} \quad e^{-\lambda_\Omega \Omega[\phi_{\rm np}]} \to 0 \text{ for small-scale } \phi_{\rm np}
     \end{aligned}}\]
-    <div class="eq-label" style="color:var(--success);">UV Finiteness Theorem — Complete Statement</div>
+    <div class="eq-label" style="color:var(--success);">EFT-Level UV Finiteness Theorem — Valid Below M<sub>KK</sub></div>
+  </div>
+
+  <!-- v3.8 TOE Framework Summary -->
+  <div style="margin:1.5rem 0;padding:1rem;background:rgba(74,222,128,0.08);border:2px solid #4ade80;border-radius:10px;">
+    <div style="font-size:0.9rem;color:#4ade80;font-weight:600;margin-bottom:0.5rem;">v3.8 HELIX GEOMETRY TOE FRAMEWORK</div>
+    <div style="display:flex;flex-wrap:wrap;gap:1.5rem;font-size:0.9rem;color:var(--text-secondary);">
+      <span><strong style="color:#fbbf24;">ONE Input:</strong> M<sub>Planck</sub></span>
+      <span><strong style="color:#a78bfa;">ZERO</strong> free dimensionless parameters</span>
+    </div>
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.5rem 0;">
@@ -518,8 +548,18 @@
     </div>
   </div>
 
+  <!-- Honest Assessment -->
+  <div style="margin:1rem 0;padding:0.75rem 1rem;background:rgba(251,191,36,0.08);border:2px solid #fbbf24;border-radius:10px;">
+    <div style="font-size:0.85rem;color:#fbbf24;font-weight:600;margin-bottom:0.5rem;">HONEST ASSESSMENT — What This Proves</div>
+    <ul style="margin:0;padding-left:1.2rem;color:var(--text-secondary);font-size:0.9rem;line-height:1.6;">
+      <li><strong>Proven:</strong> UV finiteness within the EFT regime (E &lt; M<sub>KK</sub>)</li>
+      <li><strong>Open:</strong> Full UV completion at/above M<sub>Planck</sub> remains to be established</li>
+      <li><strong>Honest:</strong> STUR is an EFT valid below M<sub>KK</sub>, not a claimed complete theory of quantum gravity</li>
+    </ul>
+  </div>
+
   <p style="text-align:center;margin-top:1rem;font-size:1.05rem;color:var(--text);">
-    <strong>STUR is UV-finite to all orders, with the Z<sub>3</sub> helix size \(L_X \approx 0.8\, \mu\text{m}\) providing the natural UV cutoff \(\Lambda_\Omega \sim 1/L_X\).</strong>
+    <strong>STUR achieves EFT-level UV finiteness to all orders, with the Z<sub>3</sub> helix size \(L_X \approx 0.8\, \mu\text{m}\) providing the natural cutoff. UV completion beyond M<sub>KK</sub> remains an open question.</strong>
   </p>
 </section>
 
@@ -529,7 +569,7 @@
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR UV Finiteness Complete Proof</strong></p>
+  <p><strong>STUR v3.8 Helix Geometry TOE — EFT-Level UV Finiteness Proof</strong></p>
   <p>&copy; 2026 Sheldon Lon Lindberg</p>
 </footer>
 
