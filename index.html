@@ -2,479 +2,319 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>STUR Physics Lab — A Theory of Everything</title>
-<meta name="description" content="STUR: A unified physics framework that explains where all the numbers in physics come from. One starting point, everything else calculated.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUR Physics Lab</title>
+<meta name="description" content="STUR: A physics theory that calculates everything from one starting point.">
 
-<!-- Security Headers -->
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
-
-<!-- PWA Support -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#4ade80">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="STUR Lab">
 <link rel="apple-touch-icon" href="assets/4.13.png">
 
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="STUR Physics Lab — A Theory of Everything">
-<meta property="og:description" content="A unified physics framework that explains where all the numbers in physics come from.">
-<meta property="og:url" content="https://stur-physics-lab.org/">
-
-<!-- MathJax -->
-<script src="assets/js/stur-mathjax-config.js"></script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-
-<!-- Stylesheets -->
 <link rel="stylesheet" href="assets/css/stur-core.css">
 <link rel="stylesheet" href="assets/css/stur-glass.css">
 <link rel="stylesheet" href="assets/css/stur-icons.css">
-<link rel="stylesheet" href="assets/css/stur-index.css">
 
 <style>
-/* Clean, modern hero */
-.hero-section {
-  text-align: center;
-  padding: 3rem 1.5rem 2rem;
-  max-width: 900px;
+* { box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+}
+
+.page {
+  max-width: 700px;
   margin: 0 auto;
+  padding: 2rem 1.5rem;
 }
 
-.hero-logo {
-  width: 100px;
-  height: 100px;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 8px 32px rgba(74, 222, 128, 0.25);
-}
-
-.hero-title {
-  font-size: clamp(2.2rem, 6vw, 3.2rem);
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #fff 0%, #4ade80 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-tagline {
-  font-size: 1.2rem;
-  color: #a1a1aa;
+/* Header */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
   margin-bottom: 2rem;
 }
 
-/* Simple explanation cards */
-.explain-section {
-  max-width: 800px;
-  margin: 0 auto 2.5rem;
-  padding: 0 1rem;
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
-.explain-card {
+.logo img {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: #a1a1aa;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+  color: #fff;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 2rem 0 3rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  color: #a1a1aa;
+  line-height: 1.7;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Main card */
+.main-card {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 16px;
   padding: 2rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.explain-card h2 {
-  font-size: 1.3rem;
+.main-card h2 {
+  font-size: 1.2rem;
   color: #4ade80;
   margin: 0 0 1rem;
-  font-weight: 600;
 }
 
-.explain-card p {
+.main-card p {
   color: #d4d4d8;
   line-height: 1.8;
-  margin: 0 0 1rem;
-  font-size: 1.05rem;
+  margin: 0;
+  font-size: 1rem;
 }
 
-.explain-card p:last-child {
-  margin-bottom: 0;
-}
-
-/* Comparison box */
-.compare-box {
+/* Stats row */
+.stats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  margin: 1.5rem 0;
+  margin-bottom: 2rem;
 }
 
-@media (max-width: 600px) {
-  .compare-box { grid-template-columns: 1fr; }
-}
-
-.compare-item {
-  background: rgba(0,0,0,0.3);
+.stat {
+  background: rgba(74,222,128,0.05);
+  border: 1px solid rgba(74,222,128,0.15);
   border-radius: 12px;
-  padding: 1.25rem;
-}
-
-.compare-item.old {
-  border-left: 3px solid #ef4444;
-}
-
-.compare-item.new {
-  border-left: 3px solid #4ade80;
-}
-
-.compare-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-.compare-item.old .compare-label { color: #ef4444; }
-.compare-item.new .compare-label { color: #4ade80; }
-
-.compare-text {
-  color: #e5e7eb;
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-/* Key points */
-.key-points {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-
-.key-point {
-  background: rgba(74,222,128,0.06);
-  border: 1px solid rgba(74,222,128,0.2);
-  border-radius: 12px;
-  padding: 1.25rem;
+  padding: 1.25rem 1rem;
   text-align: center;
 }
 
-.key-point-number {
-  font-size: 2rem;
+.stat-num {
+  font-size: 1.8rem;
   font-weight: 700;
   color: #4ade80;
 }
 
-.key-point-label {
+.stat-label {
+  font-size: 0.8rem;
   color: #a1a1aa;
-  font-size: 0.9rem;
   margin-top: 0.25rem;
 }
 
-/* CTA buttons */
-.cta-row {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 2rem 0;
-}
-
-.cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1.5rem;
-  border-radius: 12px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.cta-btn.primary {
+/* Primary button */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 1rem;
   background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
   color: #000;
-}
-
-.cta-btn.primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(74, 222, 128, 0.4);
-}
-
-.cta-btn.secondary {
-  background: rgba(255,255,255,0.08);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.15);
-}
-
-.cta-btn.secondary:hover {
-  background: rgba(255,255,255,0.12);
-}
-
-/* Category cards */
-.category-section {
-  padding: 2rem 1rem;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.category-section h2 {
   text-align: center;
-  color: #71717a;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: 1.5rem;
-  font-weight: 500;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.category-grid {
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(74,222,128,0.3);
+}
+
+/* Link grid */
+.link-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
 }
 
-.cat-card {
+.link-card {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 12px;
   padding: 1.25rem;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
 }
 
-.cat-card:hover {
+.link-card:hover {
   background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.15);
   transform: translateY(-2px);
 }
 
-.cat-card-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #fff;
+.link-card-icon {
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
 }
 
-.cat-card-desc {
-  color: #a1a1aa;
-  font-size: 0.9rem;
-  line-height: 1.5;
+.link-card-title {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.link-card-desc {
+  color: #71717a;
+  font-size: 0.8rem;
 }
 
 /* Footer */
 .site-footer {
-  padding: 2rem 1rem;
-  border-top: 1px solid rgba(255,255,255,0.06);
   text-align: center;
-  margin-top: 2rem;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: 1rem;
 }
 
 .site-footer p {
-  font-size: 0.875rem;
-  color: #71717a;
+  color: #52525b;
+  font-size: 0.85rem;
   margin: 0;
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+  .hero h1 { font-size: 2rem; }
+  .stats { grid-template-columns: 1fr; }
+  .link-grid { grid-template-columns: 1fr; }
+  .nav-links { gap: 1rem; }
 }
 </style>
 </head>
 <body>
 
-<!-- Navigation -->
-<header class="glass-header">
-  <nav class="glass-nav">
-    <a href="index.html" class="glass-nav-brand">
-      <img src="assets/4.13.png" alt="STUR" style="width:28px;height:28px;border-radius:6px;">
+<div class="page">
+
+  <!-- Header -->
+  <header class="site-header">
+    <a href="index.html" class="logo">
+      <img src="assets/4.13.png" alt="">
       STUR Lab
     </a>
-    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span class="stur-icon icon-menu lg"></span>
-    </button>
-    <div class="glass-nav-links">
-      <a href="index.html" class="glass-nav-link active">Home</a>
-      <a href="scripts/stur_learn.html" class="glass-nav-link">Learn</a>
-      <a href="scripts/stur_core_theory.html" class="glass-nav-link">Theory</a>
-      <a href="sitemap.html" class="glass-nav-link">Explore</a>
-    </div>
-  </nav>
-</header>
+    <nav class="nav-links">
+      <a href="scripts/stur_learn.html">Learn</a>
+      <a href="about.html">About</a>
+      <a href="sitemap.html">More</a>
+    </nav>
+  </header>
 
-<main class="container" id="main-content">
-
-  <!-- HERO -->
-  <section class="hero-section">
-    <img src="assets/4.13.png" alt="STUR Logo" class="hero-logo">
-    <h1 class="hero-title">STUR Physics Lab</h1>
-    <p class="hero-tagline">A Theory of Everything — explained simply</p>
+  <!-- Hero -->
+  <section class="hero">
+    <h1>A Theory of Everything</h1>
+    <p>What if all the numbers in physics come from one simple idea? STUR is a framework that tries to calculate everything from a single starting point.</p>
   </section>
 
-  <!-- SIMPLE EXPLANATION -->
-  <section class="explain-section">
+  <!-- The Idea -->
+  <div class="main-card">
+    <h2>The Simple Version</h2>
+    <p>Physics has lots of numbers — how heavy particles are, how strong forces are. Nobody knows why they have those exact values. STUR says they all come from one thing: the shape of the universe is like a spiral with 3 steps. That's it. Everything else follows from that geometry.</p>
+  </div>
 
-    <div class="explain-card">
-      <h2>What is STUR?</h2>
-      <p>
-        STUR is a physics framework that tries to answer a big question: <strong>Where do all the numbers in physics come from?</strong>
-      </p>
-      <p>
-        Right now, physicists have to measure things like the mass of an electron or how strong gravity is. These numbers are just plugged into equations — nobody knows <em>why</em> they have those exact values.
-      </p>
-      <p>
-        STUR proposes that if you start with just <strong>one number</strong> (the Planck mass — nature's fundamental scale), everything else can be <strong>calculated</strong>, not measured.
-      </p>
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Starting point</div>
     </div>
-
-    <div class="explain-card">
-      <h2>The Big Idea</h2>
-      <p>
-        Imagine the universe is like a spiral staircase with exactly 3 steps that repeat. This "helix" shape isn't random — it's the simplest structure that works mathematically.
-      </p>
-      <p>
-        STUR says this spiral geometry explains:
-      </p>
-      <div class="key-points">
-        <div class="key-point">
-          <div class="key-point-number">3</div>
-          <div class="key-point-label">Particle families</div>
-        </div>
-        <div class="key-point">
-          <div class="key-point-number">125</div>
-          <div class="key-point-label">Higgs mass (GeV)</div>
-        </div>
-        <div class="key-point">
-          <div class="key-point-number">21</div>
-          <div class="key-point-label">Testable predictions</div>
-        </div>
-      </div>
-      <p>
-        Why are there exactly 3 types of electrons (electron, muon, tau)? Why does the Higgs boson weigh what it does? STUR calculates these from geometry instead of measuring them.
-      </p>
+    <div class="stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Particle families</div>
     </div>
-
-    <div class="explain-card">
-      <h2>How is this different?</h2>
-      <div class="compare-box">
-        <div class="compare-item old">
-          <div class="compare-label">Standard Physics</div>
-          <div class="compare-text">
-            "There are 3 particle families."<br>
-            <em>Why 3? We don't know — we just measured it.</em>
-          </div>
-        </div>
-        <div class="compare-item new">
-          <div class="compare-label">STUR</div>
-          <div class="compare-text">
-            "The spiral has 3 positions."<br>
-            <em>3 families exist because 3 is the only number that fits the geometry.</em>
-          </div>
-        </div>
-      </div>
-      <div class="compare-box">
-        <div class="compare-item old">
-          <div class="compare-label">Standard Physics</div>
-          <div class="compare-text">
-            "The Higgs mass is 125 GeV."<br>
-            <em>Why that number? Unknown — we measured it at the LHC.</em>
-          </div>
-        </div>
-        <div class="compare-item new">
-          <div class="compare-label">STUR</div>
-          <div class="compare-text">
-            "The Higgs mass is ~125 GeV."<br>
-            <em>Calculated from how the Higgs connects to gravity in the spiral.</em>
-          </div>
-        </div>
-      </div>
+    <div class="stat">
+      <div class="stat-num">21</div>
+      <div class="stat-label">Testable predictions</div>
     </div>
+  </div>
 
-    <div class="explain-card">
-      <h2>Can we test it?</h2>
-      <p>
-        Yes! A good theory makes predictions that could prove it wrong. STUR makes <strong>21 specific predictions</strong> that experiments can check.
-      </p>
-      <p>
-        For example, STUR predicts a specific pattern in how atoms lose quantum behavior over distance. Experiments like MAGIS-100 and AION (giant atom interferometers) are being built right now that could test this.
-      </p>
-      <p>
-        <strong>If the experiments don't match the predictions, STUR is wrong.</strong> That's how science works — and that's what makes STUR a real scientific theory, not just an idea.
-      </p>
-    </div>
+  <!-- Main CTA -->
+  <a href="scripts/stur_learn.html" class="btn-primary">Start Learning →</a>
 
-    <!-- CTAs -->
-    <div class="cta-row">
-      <a href="scripts/stur_learn.html" class="cta-btn primary">
-        Start Learning
-      </a>
-      <a href="scripts/stur_predictions.html" class="cta-btn secondary">
-        See the Predictions
-      </a>
-    </div>
+  <!-- Quick Links -->
+  <div class="link-grid">
+    <a href="scripts/stur_predictions.html" class="link-card">
+      <div class="link-card-icon">🎯</div>
+      <div class="link-card-title">Predictions</div>
+      <div class="link-card-desc">Can it be proven wrong?</div>
+    </a>
+    <a href="scripts/stur_sm_hub.html" class="link-card">
+      <div class="link-card-icon">⚛️</div>
+      <div class="link-card-title">Particles</div>
+      <div class="link-card-desc">Quarks, electrons, Higgs</div>
+    </a>
+    <a href="scripts/stur_cosmology_hub.html" class="link-card">
+      <div class="link-card-icon">🌌</div>
+      <div class="link-card-title">Space</div>
+      <div class="link-card-desc">Gravity and the universe</div>
+    </a>
+    <a href="scripts/stur_simulations_hub.html" class="link-card">
+      <div class="link-card-icon">🧪</div>
+      <div class="link-card-title">Try It</div>
+      <div class="link-card-desc">Interactive demos</div>
+    </a>
+  </div>
 
-  </section>
+  <!-- More Links -->
+  <div class="link-grid">
+    <a href="scripts/stur_core_theory.html" class="link-card">
+      <div class="link-card-icon">📐</div>
+      <div class="link-card-title">Full Theory</div>
+      <div class="link-card-desc">Technical details</div>
+    </a>
+    <a href="scripts/stur_glossary.html" class="link-card">
+      <div class="link-card-icon">📖</div>
+      <div class="link-card-title">Glossary</div>
+      <div class="link-card-desc">What the words mean</div>
+    </a>
+  </div>
 
-  <!-- EXPLORE CATEGORIES -->
-  <section class="category-section">
-    <h2>Explore Topics</h2>
-    <div class="category-grid">
-
-      <a href="scripts/stur_learn.html" class="cat-card">
-        <div class="cat-card-title" style="color:#fbbf24;">📚 Learn STUR</div>
-        <div class="cat-card-desc">New here? Start with the basics and work your way up.</div>
-      </a>
-
-      <a href="scripts/stur_foundations_hub.html" class="cat-card">
-        <div class="cat-card-title" style="color:#4ade80;">🔬 Foundations</div>
-        <div class="cat-card-desc">The core math and geometry behind the theory.</div>
-      </a>
-
-      <a href="scripts/stur_sm_hub.html" class="cat-card">
-        <div class="cat-card-title" style="color:#a78bfa;">⚛️ Particles</div>
-        <div class="cat-card-desc">How STUR explains quarks, electrons, and the Higgs.</div>
-      </a>
-
-      <a href="scripts/stur_cosmology_hub.html" class="cat-card">
-        <div class="cat-card-title" style="color:#60a5fa;">🌌 Gravity & Space</div>
-        <div class="cat-card-desc">Black holes, dark matter, and the expanding universe.</div>
-      </a>
-
-      <a href="scripts/stur_predictions.html" class="cat-card">
-        <div class="cat-card-title" style="color:#ef4444;">🎯 Predictions</div>
-        <div class="cat-card-desc">21 testable predictions — how to prove STUR right or wrong.</div>
-      </a>
-
-      <a href="scripts/stur_simulations_hub.html" class="cat-card">
-        <div class="cat-card-title" style="color:#22d3ee;">🧪 Simulations</div>
-        <div class="cat-card-desc">Interactive demos you can play with.</div>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- QUICK LINKS -->
-  <section style="padding:1.5rem 1rem;text-align:center;">
-    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-      <a href="scripts/stur_core_theory.html" style="color:#a1a1aa;text-decoration:none;padding:0.5rem 1rem;border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-size:0.9rem;">Full Technical Theory</a>
-      <a href="about.html" style="color:#a1a1aa;text-decoration:none;padding:0.5rem 1rem;border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-size:0.9rem;">About</a>
-      <a href="sitemap.html" style="color:#a1a1aa;text-decoration:none;padding:0.5rem 1rem;border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-size:0.9rem;">Site Map</a>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
+  <!-- Footer -->
   <footer class="site-footer">
-    <p>
-      © 2026 Sheldon Lon Lindberg · STUR v3.8<br>
-      <span style="color:#52525b;">A Theory of Everything — One starting point, everything calculated</span>
-    </p>
+    <p>© 2026 Sheldon Lindberg · STUR v3.8</p>
   </footer>
 
-</main>
+</div>
 
-<!-- Scripts -->
 <script src="assets/js/stur-ui.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  if (typeof STUR !== 'undefined' && STUR.initNav) {
-    STUR.initNav();
-  }
-});
-</script>
 </body>
 </html>
