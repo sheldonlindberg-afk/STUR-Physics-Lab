@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR Quantum Mechanics Emergence — Schrodinger Equation from Path Integral</title>
-<meta name="description" content="v2.5 Helix: Derivation of quantum mechanics from STUR axioms. The Schrodinger equation, commutation relations, and Born rule emerge from the 5D path integral.">
+<meta name="description" content="v3.8 Helix Geometry TOE: Quantum mechanics emerges from ONE input (M_Planck). Complete derivation chain from Master Action to Schrodinger equation, commutation relations, and Born rule via 5D path integral.">
 
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -34,49 +34,56 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Quantum Mechanics from STUR</h1>
-  <p class="subtitle">Schrodinger Equation, Commutators, and Born Rule</p>
+  <h1>Quantum Mechanics from STUR v3.8</h1>
+  <p class="subtitle">Helix Geometry TOE: QM Emerges from ONE Input (M<sub>Planck</sub>)</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    Addresses: How standard QM emerges from 5D path integral
+    Complete Derivation Chain: M<sub>Planck</sub> → Master Action → Path Integral → Schrodinger Equation
   </p>
 </header>
 
 <!-- EXECUTIVE SUMMARY -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--success);">Executive Summary</h2>
+  <h2 style="color:var(--success);">Executive Summary — v3.8 Helix Geometry TOE</h2>
 
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="font-size:1.1rem;">Main Results</div>
+    <div class="title" style="font-size:1.1rem;">ONE Input Framework: M<sub>Planck</sub> → Quantum Mechanics</div>
     <p style="margin:0;color:var(--text);line-height:1.7;">
-      Quantum mechanics is <strong>not assumed</strong> in STUR—it <strong>emerges</strong> from the 5D path integral when the extra dimension X becomes unobservable. This page derives:
+      In the v3.8 TOE framework, quantum mechanics is <strong>not assumed</strong>—it <strong>emerges</strong> from ONE input (M<sub>Planck</sub>) through the complete derivation chain. The 5D path integral on the helix geometry M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> produces all QM phenomena when the extra dimension X becomes unobservable:
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li>Schrodinger equation from path integral saddle point</li>
-      <li>Canonical commutation relations from Poisson brackets</li>
-      <li>Born rule from phase averaging</li>
-      <li>Wave function collapse from decoherence</li>
+      <li><strong>Schrodinger equation</strong> from path integral saddle point (Section 2)</li>
+      <li><strong>Canonical commutation relations</strong> from Poisson brackets (Section 3)</li>
+      <li><strong>Born rule</strong> from R-field phase averaging (Section 4)</li>
+      <li><strong>Wave function collapse</strong> from R-field decoherence (Section 5)</li>
     </ul>
+  </div>
+
+  <div class="block gold" style="margin-top:1rem;border-width:2px;">
+    <div class="title">Position in Complete Derivation Chain</div>
+    <p style="margin:0;color:var(--text-secondary);line-height:1.6;">
+      M<sub>Planck</sub> → L<sub>X</sub>, v, M<sub>5</sub> → Master Action S<sub>STUR</sub> → <strong>Path Integral</strong> → <strong>QM Emergence</strong> → Standard Model + Gravity
+    </p>
   </div>
 </section>
 
 <!-- SECTION 1: PATH INTEGRAL FOUNDATION -->
 <section class="section" id="path-integral">
-  <h2>1. The STUR Path Integral</h2>
+  <h2>1. The STUR Path Integral — v3.8 Helix Geometry</h2>
 
-  <h3>1.1 Full 5D Partition Function</h3>
+  <h3>1.1 Full 5D Partition Function from ONE Input</h3>
 
-  <p>The complete STUR path integral is:</p>
+  <p>In the v3.8 TOE framework, the complete STUR path integral follows from ONE input (M<sub>Planck</sub>):</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--gold);">
-    \[\boxed{Z = \int \mathcal{D}[g_{MN}, A_M, \psi, R]\, e^{iS_{\rm STUR}/\hbar}}\]
-    <div class="eq-label" style="color:var(--gold);">(1.1) — Full 5D path integral</div>
+    \[\boxed{Z = \int \mathcal{D}[g_{MN}, A_M, \psi, \mathbf{R}]\, e^{iS_{\rm STUR}/\hbar}}\]
+    <div class="eq-label" style="color:var(--gold);">(1.1) — Full 5D path integral on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub></div>
   </div>
 
-  <p>where S<sub>STUR</sub> is the Master Action (from XCRM, v2.5 doublet form):</p>
+  <p>where S<sub>STUR</sub> is the Master Action with all scales derived from M<sub>Planck</sub> (v3.8 doublet form):</p>
 
   <div class="eq boxed">
     \[S_{\rm STUR} = \int d^5x \sqrt{-g} \left[\frac{M_5^3}{2}\mathcal{R} + \frac{1}{2}|\nabla\mathbf{R}|^2 - V(|\mathbf{R}|) + \chi|\mathbf{R}|^2\partial_X\phi + \alpha |\mathbf{R}| \mathbb{T} + \mathcal{L}_{\rm gauge} + \mathcal{L}_{\rm matter}\right]\]
-    <div class="eq-label">(1.2) — Doublet kinetic: |∇<strong>R</strong>|² = (∇|<strong>R</strong>|)² + |<strong>R</strong>|²(∇φ)²</div>
+    <div class="eq-label">(1.2) — v3.8 Master Action: M<sub>5</sub> = (M<sub>Pl</sub>²/L<sub>X</sub>)<sup>1/3</sup> from ONE input</div>
   </div>
 
   <h3>1.2 Dimensional Reduction to 4D</h3>
@@ -104,7 +111,7 @@
 
 <!-- SECTION 2: SCHRODINGER EQUATION -->
 <section class="section" id="schrodinger" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--gold);">2. Derivation of Schrodinger Equation</h2>
+  <h2 style="color:var(--gold);">2. Derivation of Schrodinger Equation — From ONE Input</h2>
 
   <h3>2.1 Path Integral to Wave Function</h3>
 
@@ -157,10 +164,11 @@
   </div>
 
   <div class="block success" style="margin-top:1rem;">
-    <div class="title">Key Result</div>
+    <div class="title">Key Result — v3.8 Derivation Chain</div>
     <p style="margin:0;color:var(--text-secondary);">
       The Schrodinger equation is <strong>not a postulate</strong>—it follows from the path integral,
-      which in turn follows from the STUR Master Action (from XCRM).
+      which in turn follows from the STUR Master Action. In v3.8, the entire chain traces back to
+      <strong>ONE input</strong>: M<sub>Planck</sub> → S<sub>STUR</sub> → Path Integral → Schrodinger Equation.
     </p>
   </div>
 
@@ -331,7 +339,7 @@
 
   <h3>5.3 Decoherence Rate</h3>
 
-  <p>The off-diagonal terms decay with rate (v2.5 doublet):</p>
+  <p>The off-diagonal terms decay with rate (v3.8 doublet R-field):</p>
 
   <div class="eq law" style="background:#000;border:2px solid var(--matter);">
     \[\boxed{\Gamma_{\rm dec} = \frac{y^2 \langle |\mathbf{R}|^2 \rangle}{\hbar^2} \cdot \Delta x^2}\]
@@ -380,7 +388,7 @@
 
 <!-- SECTION 7: QM FROM R-FIELD FLUCTUATIONS -->
 <section class="section" id="rfield-qm" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--gold);">7. Quantum Mechanics from R-Field Fluctuations</h2>
+  <h2 style="color:var(--gold);">7. Quantum Mechanics from R-Field Fluctuations — v3.8 TOE</h2>
 
   <h3>7.1 The Stochastic R-Field</h3>
 
@@ -445,9 +453,21 @@
 
 <!-- SECTION 8: COMPLETE DERIVATION CHAIN -->
 <section class="section" id="derivation-chain" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">8. Complete Derivation Chain</h2>
+  <h2 style="color:var(--success);">8. Complete Derivation Chain — v3.8 ONE Input Framework</h2>
 
   <div class="walkthrough" style="margin:1rem 0;">
+    <div class="step">
+      <div class="step-content">
+        <strong>ONE Input: M<sub>Planck</sub></strong><br>
+        Single fundamental scale sets everything
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <strong>Derived Scales: L<sub>X</sub>, v, M<sub>5</sub></strong><br>
+        Compactification, VEV, 5D Planck mass
+      </div>
+    </div>
     <div class="step">
       <div class="step-content">
         <strong>Master Action S<sub>STUR</sub></strong><br>
@@ -487,29 +507,30 @@
     <div class="step">
       <div class="step-content">
         <strong>Born Rule</strong><br>
-        P = |ψ|² from phase averaging
+        P = |ψ|² from R-field phase averaging
       </div>
     </div>
   </div>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\text{Master Action} \;\xrightarrow{\text{path int}}\; K \;\xrightarrow{\varepsilon\to 0}\; i\hbar\partial_t\psi = \hat{H}\psi \;\xrightarrow{}\; [x,p]=i\hbar \;\xrightarrow{}\; P=|\psi|^2}\]
-    <div class="eq-label" style="color:var(--success);">Complete QM Derivation from Master Action</div>
+    \[\boxed{M_{\rm Pl} \;\xrightarrow{\text{v3.8}}\; S_{\rm STUR} \;\xrightarrow{\text{path int}}\; K \;\xrightarrow{\varepsilon\to 0}\; i\hbar\partial_t\psi = \hat{H}\psi \;\xrightarrow{}\; [x,p]=i\hbar \;\xrightarrow{}\; P=|\psi|^2}\]
+    <div class="eq-label" style="color:var(--success);">v3.8 Complete QM Derivation: ONE Input → All of Quantum Mechanics</div>
   </div>
 
   <div class="block success" style="margin-top:1rem;">
-    <div class="title">Quantum Mechanics is Not Assumed</div>
+    <div class="title">v3.8 TOE: Quantum Mechanics from ONE Input</div>
     <p style="margin:0;color:var(--text-secondary);">
-      All of quantum mechanics—Schrodinger equation, commutation relations, uncertainty principle,
-      Born rule—follows from the STUR Master Action via the path integral formulation.
-      QM is <strong>derived</strong>, not postulated.
+      In the v3.8 Helix Geometry TOE, all of quantum mechanics—Schrodinger equation, commutation relations,
+      uncertainty principle, Born rule—follows from <strong>ONE input</strong> (M<sub>Planck</sub>) via the
+      complete derivation chain. QM is <strong>derived</strong>, not postulated. The R-field fluctuations
+      on M<sup>4</sup> × S<sup>1</sup>/Z<sub>2</sub> provide the physical mechanism for all quantum phenomena.
     </p>
   </div>
 </section>
 
 <!-- SECTION 9: COMPARISON WITH STANDARD QM -->
 <section class="section" id="comparison">
-  <h2>9. STUR vs Standard QM Postulates</h2>
+  <h2>9. v3.8 STUR vs Standard QM Postulates</h2>
 
   <table>
     <thead>
@@ -544,10 +565,11 @@
   </table>
 
   <div class="block gold" style="margin-top:1rem;">
-    <div class="title">Fewer Postulates</div>
+    <div class="title">v3.8 TOE: ONE Input Replaces All QM Postulates</div>
     <p style="margin:0;color:var(--text-secondary);">
-      STUR replaces the 6 postulates of standard QM with 1 axiom (the Master Action).
-      Everything else follows mathematically.
+      STUR v3.8 replaces the 6 postulates of standard QM with <strong>ONE input</strong> (M<sub>Planck</sub>).
+      The Master Action, helix geometry, and all derived scales follow from this single input.
+      Quantum mechanics then emerges mathematically from the path integral formulation.
     </p>
   </div>
 </section>
@@ -558,7 +580,7 @@
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Quantum Mechanics Emergence</strong></p>
+  <p><strong>STUR v3.8 Helix Geometry TOE — Quantum Mechanics Emergence</strong></p>
   <p>&copy; 2026 Sheldon Lon Lindberg</p>
 </footer>
 
