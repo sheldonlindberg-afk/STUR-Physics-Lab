@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUR Unification Map — Framework</title>
+    <meta name="description" content="STUR v3.8 Helix Geometry TOE: ONE input (M_Planck), ZERO free parameters, complete unification of all fundamental forces.">
+    <title>STUR Unification Map — v3.8 Helix Geometry TOE</title>
 
     <!-- STUR Theme System -->
     <link rel="stylesheet" href="../assets/css/stur-core.css">
@@ -239,9 +240,10 @@
             This map shows how each page connects to the unified framework.
         </p>
         <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
-            <span class="stur-badge"><span class="stur-dot good"></span> Framework</span>
-            <span class="stur-badge">XCRM-Closed</span>
-            <span class="stur-badge">One Free Ratio</span>
+            <span class="stur-badge"><span class="stur-dot good"></span> v3.8 Helix Geometry TOE</span>
+            <span class="stur-badge">ONE Input (M<sub>Planck</sub>)</span>
+            <span class="stur-badge">ZERO Free Parameters</span>
+            <span class="stur-badge">Complete Unification</span>
         </div>
         <!-- Citation Button -->
         <div style="margin-top:1rem;">
@@ -304,7 +306,7 @@
                 </div>
             </div>
 
-            <p><strong>Parameters derived:</strong> The \(L_X/\sigma_R\) ratio is fully determined by XCRM dynamics. All parameters including \(\Diff{\sigma_R}\) are <a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">derived from XCRM</a> (v2.5 Helix).</p>
+            <p><strong>Parameters derived:</strong> The \(L_X/\sigma_R\) ratio is fully determined by XCRM dynamics. All parameters including \(\Diff{\sigma_R}\) are <a href="stur_core_theory.html#sec5" style="color:var(--neon-green)">derived from XCRM</a> (v3.8 Helix Geometry TOE).</p>
 
             <p><strong>Observable:</strong> Every page maps to the holonomy variance:</p>
 
@@ -325,7 +327,7 @@
     <section class="glass-section" style="border-color:rgba(74,222,128,0.5);background:linear-gradient(135deg, rgba(74,222,128,0.06) 0%, rgba(251,191,36,0.04) 50%, rgba(167,139,250,0.04) 100%);">
         <div class="glass-section-header">
             <span class="stur-icon icon-chart size-24" style="color:var(--neon-green);"></span>
-            <h2 class="glass-section-title" style="color:var(--neon-green);">Complete Theory of Everything — Z₃ Helix</h2>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Complete Theory of Everything — v3.8 Helix Geometry TOE</h2>
         </div>
         <div class="glass-section-body">
 
@@ -687,10 +689,11 @@
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Framework:</strong> STUR v2.5 Helix |
+                <strong>Framework:</strong> STUR v3.8 Helix Geometry TOE |
+                <strong>Input:</strong> ONE (M<sub>Planck</sub>) |
+                <strong>Free Parameters:</strong> ZERO |
                 <strong>Problems Solved:</strong> 25+ |
                 <strong>Predictions:</strong> 21 |
-                <strong>Free Parameters:</strong> 0 |
                 <strong>Last updated:</strong> <span id="timestamp"></span>
             </div>
         </div>
@@ -747,18 +750,21 @@ const limitTable = [
 function generateReport() {
     const report = {
         meta: {
-            framework: 'STUR v2.5 Helix',
+            framework: 'STUR v3.8 Helix Geometry TOE',
+            input: 'ONE (M_Planck)',
+            freeParameters: 'ZERO',
             generated: new Date().toISOString(),
             totalPages: 34,
             problemsSolved: '25+',
             falsifiablePredictions: 21,
-            freeParameters: 0
+            completeUnification: true
         },
         derivationChain: 'XCRM doublet → helix required → Z₃ unique → SU(3) from center → 3 generations → all SM derived → Λ addressed',
         masterAction: 'S[R,g,X] = ∫d⁴x dX √(-g)[½|∇R|² - V(|R|) + χ(R₁∂_XR₂ - R₂∂_XR₁) + α|R|𝕋 + ℒ_matter]',
         z3BoundaryCondition: 'R(X + L_X) = R_{2π/3} · R(X)',
         universalPrediction: 'V(ΔL) = V₀ exp(-ΔL²/ℓ²_coh)',
-        freeParameters: '0 (L_X dynamically stabilized by Z₃ holonomy)',
+        singleInput: 'M_Planck (all other scales derived)',
+        freeParameters: 'ZERO (L_X dynamically stabilized by Z₃ holonomy)',
         problemCategories: {
             particlePhysics: 8,
             cosmology: 7,
