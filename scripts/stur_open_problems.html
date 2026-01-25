@@ -233,21 +233,22 @@
     though experimental verification remains ongoing.
   </p>
 
-  <h3>2.1 kappa Derivation <span style="background:#4ade80;color:#000;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">CLOSED v3.7</span></h3>
+  <h3>2.1 kappa Derivation <span style="background:#f59e0b;color:#000;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">~80% DERIVED</span></h3>
 
-  <div class="block success">
-    <div class="title" style="color:var(--success);">Closed: kappa = 2.52 +/- 0.16</div>
+  <div class="block" style="border-color:#f59e0b;border-width:2px;background:rgba(245,158,11,0.1);">
+    <div class="title" style="color:#f59e0b;">Partial: kappa = 2.52 +/- 0.16</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>The XCRM coupling constant kappa is now fully derived:</strong>
+      <strong>The XCRM coupling constant kappa is approximately 80% derived from first principles:</strong>
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <li><strong>Method:</strong> Z_3 holonomy constraint + gauge coupling unification</li>
       <li><strong>Result:</strong> \(\kappa = 2.52 \pm 0.16\)</li>
       <li><strong>Derivation:</strong> From \(\kappa = \pi/\sqrt{3} \cdot (1 + \delta_{loop})\) with calculated loop corrections</li>
+      <li><strong style="color:#f59e0b;">Honest caveat:</strong> The loop correction \(\delta_{loop}\) relies on estimated boundary conditions; ~20% of the derivation uses phenomenological matching rather than pure first-principles calculation</li>
     </ul>
-    <p style="margin:0.5rem 0 0;color:var(--success);">
-      Complete derivation chain with quantified uncertainties.
-      See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--success);">DERIVATION_CHAIN.md Section 8</a>.
+    <p style="margin:0.5rem 0 0;color:#f59e0b;">
+      Well-motivated framework with quantified uncertainties, but complete first-principles derivation requires UV completion.
+      See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:#f59e0b;">DERIVATION_CHAIN.md Section 8</a>.
     </p>
   </div>
 
@@ -269,22 +270,23 @@
     </p>
   </div>
 
-  <h3>2.3 L_X / v / M_R Unification <span style="background:#4ade80;color:#000;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">CLOSED v3.7</span></h3>
+  <h3>2.3 L_X / v / M_R Unification <span style="background:#f59e0b;color:#000;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">MECHANISM IDENTIFIED</span></h3>
 
-  <div class="block success">
-    <div class="title" style="color:var(--success);">Closed: Scale Unification</div>
+  <div class="block" style="border-color:#f59e0b;border-width:2px;background:rgba(245,158,11,0.1);">
+    <div class="title" style="color:#f59e0b;">Partial: Scale Unification (Mechanism Identified)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>The three fundamental scales are now unified:</strong>
+      <strong>The stabilization mechanism for L_X is identified, but precise values depend on assumptions:</strong>
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <li><strong>L_X:</strong> Extra dimension size (derived from M_Pl / m_EW hierarchy)</li>
       <li><strong>v:</strong> R-field VEV (set by XCRM stability)</li>
       <li><strong>M_R:</strong> Right-handed neutrino mass (from localization + seesaw)</li>
       <li><strong>Relation:</strong> \(L_X \cdot v = \sqrt{3}/\kappa\), \(M_R = v^2/M_{Pl}\)</li>
+      <li><strong style="color:#f59e0b;">Honest caveat:</strong> The L_X stabilization mechanism is identified (moduli potential from Casimir + R-field tension), but the precise value depends on: (1) boundary conditions at the helix fixed points, (2) quantum corrections to the moduli potential, (3) assumed initial conditions</li>
     </ul>
-    <p style="margin:0.5rem 0 0;color:var(--success);">
-      All scales derived from single geometric principle.
-      See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--success);">DERIVATION_CHAIN.md Section 6</a>.
+    <p style="margin:0.5rem 0 0;color:#f59e0b;">
+      Geometric unification principle established; precise numerical predictions require UV completion to fix all boundary conditions.
+      See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:#f59e0b;">DERIVATION_CHAIN.md Section 6</a>.
     </p>
   </div>
 
@@ -367,16 +369,16 @@
     </p>
   </div>
 
-  <h3>Summary of Closed Problems</h3>
+  <h3>Summary of Derivation Status</h3>
 
   <table style="font-size:0.9rem;">
     <thead>
       <tr><th>Problem</th><th>Solution</th><th>Status</th></tr>
     </thead>
     <tbody>
-      <tr><td>kappa derivation</td><td>Z_3 holonomy + loop corrections</td><td style="color:#4ade80;">CLOSED (2.52 +/- 0.16)</td></tr>
+      <tr style="background:rgba(245,158,11,0.15);"><td>kappa derivation</td><td>Z_3 holonomy + loop corrections</td><td style="color:#f59e0b;">~80% DERIVED (2.52 +/- 0.16)</td></tr>
       <tr><td>eta-bar chain</td><td>Phase matching at boundaries</td><td style="color:#4ade80;">CLOSED (0.350)</td></tr>
-      <tr><td>L_X/v/M_R unification</td><td>Single geometric principle</td><td style="color:#4ade80;">CLOSED</td></tr>
+      <tr style="background:rgba(245,158,11,0.15);"><td>L_X/v/M_R unification</td><td>Single geometric principle</td><td style="color:#f59e0b;">MECHANISM (assumptions needed)</td></tr>
       <tr><td>Strong CP</td><td>Z_3 parity forces theta = 0</td><td style="color:#4ade80;">CLOSED</td></tr>
       <tr><td>Proton stability</td><td>Z_3 symmetry forbids decay</td><td style="color:#4ade80;">CLOSED</td></tr>
       <tr><td>3 generations</td><td>Z_3 fixed points</td><td style="color:#4ade80;">CLOSED</td></tr>
@@ -385,6 +387,12 @@
       <tr><td>Gauge hierarchy</td><td>Moduli stabilization</td><td style="color:#4ade80;">CLOSED (EFT level)</td></tr>
     </tbody>
   </table>
+
+  <p style="color:var(--text-muted);font-size:0.9rem;margin-top:1rem;border-left:3px solid var(--gold);padding-left:1rem;">
+    <strong>Note:</strong> "Closed" means the derivation chain is mathematically complete at the EFT level.
+    Some derivations marked ~80% or "mechanism" indicate that full first-principles completion awaits UV theory.
+    Honest science distinguishes between "we have a framework" and "we have a complete derivation."
+  </p>
 </section>
 
 <!-- SECTION 3: OPEN PROBLEMS -->
@@ -399,38 +407,47 @@
   <h3>3.1 UV Completion <span style="background:#ef4444;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">CRITICAL OPEN</span></h3>
 
   <div class="block" style="border-color:#ef4444;border-width:2px;background:rgba(239,68,68,0.1);">
-    <div class="title" style="color:#ef4444;">Open: No Complete UV Theory</div>
+    <div class="title" style="color:#ef4444;">Open: Requires String/M-Theory Embedding</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>STUR currently operates as an effective field theory.</strong> Key gaps:
+      <strong>STUR is an effective field theory that REQUIRES embedding in a UV-complete framework.</strong>
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      <li><strong>Holonomy cutoff:</strong> Provides UV regulation but mechanism not fully specified</li>
-      <li><strong>Trans-Planckian physics:</strong> Behavior above M_Pl remains unclear</li>
-      <li><strong>String embedding:</strong> Possible but not demonstrated</li>
-      <li><strong>Non-perturbative sector:</strong> Requires rigorous treatment</li>
+      <li><strong>Holonomy cutoff:</strong> Provides UV regulation at EFT level, but this is a placeholder -- not a UV completion</li>
+      <li><strong>Trans-Planckian physics:</strong> Behavior above M_Pl is completely undefined in STUR alone</li>
+      <li><strong>String/M-theory embedding:</strong> Most promising path -- Z_3 orbifold structures exist in string compactifications, but explicit embedding not yet constructed</li>
+      <li><strong>Non-perturbative sector:</strong> Requires rigorous treatment that EFT cannot provide</li>
     </ul>
     <p style="margin:0.5rem 0 0;color:#ef4444;">
-      <strong>Required:</strong> Either demonstrate UV completeness or embed STUR in a known UV-complete framework (string theory, asymptotic safety, etc.)
+      <strong>Honest assessment:</strong> STUR cannot claim TOE status without UV completion. The most realistic path is:
     </p>
+    <ul style="margin:0.5rem 0 0;color:#ef4444;font-size:0.9rem;">
+      <li>Embed STUR as low-energy limit of string/M-theory compactification</li>
+      <li>Or demonstrate connection to asymptotic safety fixed point</li>
+      <li>Until then, STUR remains a well-motivated EFT framework, not a complete theory</li>
+    </ul>
   </div>
 
-  <h3>3.2 Cosmological Constant <span style="background:#f59e0b;color:#000;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">PARTIAL</span></h3>
+  <h3>3.2 Cosmological Constant <span style="background:#ef4444;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">FINE-TUNING REMAINS</span></h3>
 
-  <div class="block" style="border-color:#f59e0b;border-width:2px;background:rgba(245,158,11,0.1);">
-    <div class="title" style="color:#f59e0b;">Partial: Framework Only</div>
+  <div class="block" style="border-color:#ef4444;border-width:2px;background:rgba(239,68,68,0.1);">
+    <div class="title" style="color:#ef4444;">Partial Framework: Fine-Tuning Still Required</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>STUR provides a framework but not a complete solution:</strong>
+      <strong>STUR provides a partial framework, but does NOT solve the cosmological constant problem:</strong>
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      <li><strong>What works:</strong> Helix geometry avoids domain walls, |R| = v everywhere</li>
-      <li><strong>Natural cancellation:</strong> Zero-mode + gradient energy sum claimed to cancel</li>
-      <li><strong>Loop corrections:</strong> Give Lambda ~ (10^-3 eV)^4, roughly matching observation</li>
+      <li><strong>What STUR offers:</strong> Helix geometry avoids domain walls, |R| = v everywhere provides smooth vacuum</li>
+      <li><strong>Claimed cancellation:</strong> Zero-mode + gradient energy sum proposed to cancel at tree level</li>
+      <li><strong>Loop corrections:</strong> Give Lambda ~ (10^-3 eV)^4, roughly matching observation in order of magnitude</li>
     </ul>
-    <p style="margin:0.5rem 0 0;color:#f59e0b;">
-      <strong>Gap:</strong> The 10^122 fine-tuning problem is addressed at framework level but
-      rigorous proof of natural cancellation requires UV completion. The claim "no fine-tuning"
-      is framework-dependent and needs further justification.
+    <p style="margin:0.5rem 0 0;color:#ef4444;">
+      <strong>Critical honesty:</strong> The 10^122 fine-tuning problem is NOT solved. The framework:
     </p>
+    <ul style="margin:0.5rem 0 0;color:#ef4444;font-size:0.9rem;">
+      <li>Still requires fine-tuning of the R-field potential parameters</li>
+      <li>The "natural cancellation" claim assumes specific boundary conditions that are themselves fine-tuned</li>
+      <li>Loop corrections achieving the right magnitude requires UV completion we don't have</li>
+      <li>This is a framework for addressing Lambda, not a solution -- honest physics admits this distinction</li>
+    </ul>
   </div>
 
   <h3>3.3 Quantum Gravity Rigor <span style="background:#f59e0b;color:#000;padding:2px 6px;border-radius:4px;font-size:0.75rem;margin-left:0.5rem;">PARTIAL</span></h3>
@@ -489,8 +506,10 @@
       <tr><th>Problem</th><th>Current Status</th><th>Required for TOE</th></tr>
     </thead>
     <tbody>
-      <tr style="background:rgba(239,68,68,0.15);"><td>UV completion</td><td style="color:#ef4444;">Open</td><td>Full UV theory or embedding</td></tr>
-      <tr style="background:rgba(245,158,11,0.15);"><td>Cosmological constant</td><td style="color:#f59e0b;">Partial</td><td>Rigorous cancellation proof</td></tr>
+      <tr style="background:rgba(239,68,68,0.15);"><td>UV completion</td><td style="color:#ef4444;">OPEN</td><td>String/M-theory embedding</td></tr>
+      <tr style="background:rgba(239,68,68,0.15);"><td>Cosmological constant</td><td style="color:#ef4444;">FINE-TUNING REMAINS</td><td>Actual solution, not framework</td></tr>
+      <tr style="background:rgba(245,158,11,0.15);"><td>kappa full derivation</td><td style="color:#f59e0b;">~80% derived</td><td>UV boundary conditions</td></tr>
+      <tr style="background:rgba(245,158,11,0.15);"><td>L_X stabilization</td><td style="color:#f59e0b;">Mechanism only</td><td>Fix assumption dependencies</td></tr>
       <tr style="background:rgba(245,158,11,0.15);"><td>Quantum gravity</td><td style="color:#f59e0b;">Partial</td><td>Non-perturbative rigor</td></tr>
       <tr style="background:rgba(96,165,250,0.15);"><td>Experimental tests</td><td style="color:#60a5fa;">Pending</td><td>Verification or falsification</td></tr>
       <tr style="background:rgba(96,165,250,0.15);"><td>Leptogenesis precision</td><td style="color:#60a5fa;">Partial</td><td>Reduced M_R uncertainty</td></tr>
@@ -612,12 +631,13 @@
   <h3>5.2 Theoretical Development</h3>
 
   <ul style="color:var(--text-secondary);">
-    <li><del style="color:var(--text-muted);">kappa derivation</del> <span style="color:var(--success);">CLOSED (v3.7)</span></li>
+    <li><span style="color:#f59e0b;">kappa derivation</span> <span style="color:#f59e0b;">~80% DERIVED (needs UV boundary conditions)</span></li>
     <li><del style="color:var(--text-muted);">eta-bar chain</del> <span style="color:var(--success);">CLOSED (v3.7)</span></li>
-    <li><del style="color:var(--text-muted);">L_X/v/M_R unification</del> <span style="color:var(--success);">CLOSED (v3.7)</span></li>
+    <li><span style="color:#f59e0b;">L_X stabilization</span> <span style="color:#f59e0b;">MECHANISM IDENTIFIED (precise value needs assumptions fixed)</span></li>
     <li><del style="color:var(--text-muted);">CKM parameters</del> <span style="color:var(--success);">CLOSED</span></li>
     <li><del style="color:var(--text-muted);">Strong CP solution</del> <span style="color:var(--success);">CLOSED</span></li>
-    <li><strong>UV completion mechanism</strong> -- critical open problem</li>
+    <li><strong style="color:#ef4444;">UV completion mechanism</strong> -- critical open problem, requires string/M-theory</li>
+    <li><strong style="color:#ef4444;">Cosmological constant</strong> -- framework only, fine-tuning still required</li>
     <li><strong>Non-perturbative lattice formulation</strong></li>
     <li><strong>Full cosmological simulation with DHP</strong></li>
   </ul>
@@ -652,20 +672,12 @@
     </p>
   </div>
 
-  <h3>Achievements (Closed Derivations)</h3>
+  <h3>Achievements (Complete Derivations)</h3>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0.75rem;margin:1rem 0;">
     <div class="block success" style="margin:0;padding:0.75rem;">
-      <strong style="color:#4ade80;">kappa = 2.52 +/- 0.16</strong><br>
-      <span style="font-size:0.85rem;">Complete derivation chain</span>
-    </div>
-    <div class="block success" style="margin:0;padding:0.75rem;">
       <strong style="color:#4ade80;">eta-bar = 0.350</strong><br>
       <span style="font-size:0.85rem;">Matches PDG within 1.5%</span>
-    </div>
-    <div class="block success" style="margin:0;padding:0.75rem;">
-      <strong style="color:#4ade80;">L_X/v/M_R Unified</strong><br>
-      <span style="font-size:0.85rem;">Single geometric principle</span>
     </div>
     <div class="block success" style="margin:0;padding:0.75rem;">
       <strong style="color:#4ade80;">3 Generations</strong><br>
@@ -679,6 +691,14 @@
       <strong style="color:#4ade80;">Higgs Mass</strong><br>
       <span style="font-size:0.85rem;">125.1 GeV predicted</span>
     </div>
+    <div class="block" style="margin:0;padding:0.75rem;border-color:#f59e0b;background:rgba(245,158,11,0.1);">
+      <strong style="color:#f59e0b;">kappa ~ 2.52</strong><br>
+      <span style="font-size:0.85rem;">~80% derived (needs UV completion)</span>
+    </div>
+    <div class="block" style="margin:0;padding:0.75rem;border-color:#f59e0b;background:rgba(245,158,11,0.1);">
+      <strong style="color:#f59e0b;">L_X Stabilization</strong><br>
+      <span style="font-size:0.85rem;">Mechanism identified (assumptions)</span>
+    </div>
   </div>
 
   <h3>Remaining Gaps (Open Problems)</h3>
@@ -686,15 +706,15 @@
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0.75rem;margin:1rem 0;">
     <div class="block" style="margin:0;padding:0.75rem;border-color:#ef4444;background:rgba(239,68,68,0.1);">
       <strong style="color:#ef4444;">UV Completion</strong><br>
-      <span style="font-size:0.85rem;">Critical: No complete UV theory</span>
+      <span style="font-size:0.85rem;">Critical: Requires string/M-theory embedding</span>
     </div>
-    <div class="block" style="margin:0;padding:0.75rem;border-color:#f59e0b;background:rgba(245,158,11,0.1);">
-      <strong style="color:#f59e0b;">Cosmological Constant</strong><br>
-      <span style="font-size:0.85rem;">Partial: Framework only</span>
+    <div class="block" style="margin:0;padding:0.75rem;border-color:#ef4444;background:rgba(239,68,68,0.1);">
+      <strong style="color:#ef4444;">Cosmological Constant</strong><br>
+      <span style="font-size:0.85rem;">Critical: Fine-tuning still required</span>
     </div>
     <div class="block" style="margin:0;padding:0.75rem;border-color:#f59e0b;background:rgba(245,158,11,0.1);">
       <strong style="color:#f59e0b;">Quantum Gravity</strong><br>
-      <span style="font-size:0.85rem;">Partial: Needs rigor</span>
+      <span style="font-size:0.85rem;">Partial: Needs non-perturbative rigor</span>
     </div>
   </div>
 
@@ -711,10 +731,12 @@
   </div>
 
   <p style="color:var(--text);margin-top:1rem;font-size:1rem;border-left:3px solid var(--gold);padding-left:1rem;">
-    <strong>Bottom line:</strong> STUR v3.8 represents substantial progress toward a unified framework,
-    with closed derivation chains for many fundamental parameters. However, critical gaps remain --
-    particularly UV completion and rigorous cosmological constant derivation.
-    <strong>Honest acknowledgment of both achievements and limitations is essential for scientific credibility.</strong>
+    <strong>Bottom line:</strong> STUR v3.8 is a well-motivated phenomenological EFT framework with
+    genuine achievements (Strong CP, 3 generations, Higgs mass) alongside honest limitations.
+    Critical gaps remain: UV completion requires string/M-theory embedding, the cosmological constant
+    problem is addressed but NOT solved (fine-tuning persists), and some derivations (~80% of kappa, L_X stabilization)
+    rely on assumptions that await UV-complete justification.
+    <strong>Good science admits what it doesn't know. STUR v3.8 is promising but incomplete.</strong>
   </p>
 </section>
 

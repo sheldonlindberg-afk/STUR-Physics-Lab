@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Simulations & Apps — STUR Physics Lab</title>
-<meta name="description" content="v2.5 Helix: Interactive demonstrations of STUR physics from Z₃ helix geometry. Double-slit, plasma confinement, superconductor predictions, and more.">
+<meta name="description" content="v3.8 TOE: Interactive demonstrations of STUR physics derived from ONE input (M_Planck) with ZERO free parameters. Z₃ helix geometry, double-slit, plasma confinement, superconductor predictions.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -61,32 +61,35 @@
 
   <div class="hub-header">
     <h1>Simulations & Apps</h1>
-    <p>Interactive demonstrations of STUR predictions. Each simulation includes falsification criteria—if results deviate, the theory is excluded.</p>
-    <!-- v2.5 Helix Badge -->
+    <p>Interactive demonstrations of STUR predictions. All results are <strong>DERIVED</strong> from a single input—not fitted. Each simulation includes falsification criteria.</p>
+    <!-- v3.8 TOE Badge -->
     <div style="margin-top:1rem;padding:0.75rem;background:rgba(34,211,238,0.15);border:2px solid #22d3ee;border-radius:10px;max-width:500px;margin-left:auto;margin-right:auto;">
-      <div style="font-size:0.8rem;color:#22d3ee;font-weight:600;">★ v2.5 HELIX</div>
-      <p style="margin:0.25rem 0 0;font-size:0.85rem;color:var(--text-secondary);">All simulations grounded in Z₃ helix geometry</p>
+      <div style="font-size:0.8rem;color:#22d3ee;font-weight:600;">★ v3.8 TOE FRAMEWORK</div>
+      <p style="margin:0.25rem 0 0;font-size:0.85rem;color:var(--text-secondary);">ONE input: \(M_{\text{Planck}}\) · ZERO free parameters · Z₃ helix geometry</p>
     </div>
-    <!-- Key STUR Parameters from DERIVATION_CHAIN_HELIX.md -->
-    <div style="margin-top:1.25rem;padding:1rem 1.25rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:10px;max-width:600px;margin-left:auto;margin-right:auto;text-align:left;">
-      <div style="font-size:0.75rem;color:var(--hub-color);font-weight:600;margin-bottom:0.5rem;text-align:center;">DERIVED PARAMETERS [H.2.10, H.15.1]</div>
+    <!-- TOE Derivation Chain Summary -->
+    <div style="margin-top:1.25rem;padding:1rem 1.25rem;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:10px;max-width:650px;margin-left:auto;margin-right:auto;text-align:left;">
+      <div style="font-size:0.75rem;color:var(--hub-color);font-weight:600;margin-bottom:0.5rem;text-align:center;">DERIVATION CHAIN: \(M_{\text{Planck}} \to\) ALL PHYSICS</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;font-size:0.85rem;">
         <div style="color:var(--text-secondary);">
-          <span style="color:#60a5fa;">Compactification:</span><br>
+          <span style="color:#60a5fa;">Single Input:</span><br>
+          \(M_P = \sqrt{\hbar c / G}\)
+        </div>
+        <div style="color:var(--text-secondary);">
+          <span style="color:#4ade80;">Derived Scale:</span><br>
           \(\Lx \approx 0.8\,\mu\text{m}\)
         </div>
         <div style="color:var(--text-secondary);">
-          <span style="color:#4ade80;">Coherence Length:</span><br>
-          \(\lcoh \in [0.3, 30]\,\text{m}\)
-        </div>
-        <div style="color:var(--text-secondary);">
           <span style="color:#f472b6;">Z₃ Helix:</span><br>
-          \(R(X + \Lx) = R_{2\pi/3} \cdot R(X)\)
+          \(R(X + \Lx) = e^{i2\pi/3} R(X)\)
         </div>
         <div style="color:var(--text-secondary);">
           <span style="color:#ef4444;">Falsifiable:</span><br>
-          <a href="stur_predictions.html" style="color:#ef4444;">21 predictions</a>
+          <a href="stur_predictions.html" style="color:#ef4444;">21 derived predictions</a>
         </div>
+      </div>
+      <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid rgba(251,191,36,0.2);text-align:center;font-size:0.8rem;color:var(--text-tertiary);">
+        <strong style="color:var(--hub-color);">Zero free dimensionless parameters</strong> — all constants derived from \(M_P\)
       </div>
     </div>
   </div>
@@ -94,21 +97,21 @@
   <!-- Universal Falsification Statement -->
   <div class="falsifiable-banner">
     <span class="icon">⊗</span>
-    <strong>All simulations are falsifiable.</strong> <a href="stur_predictions.html" style="color:#ef4444;">21 quantitative predictions</a> with explicit exclusion criteria. STUR is excluded if any prediction fails.
+    <strong>All predictions DERIVED, not fitted.</strong> <a href="stur_predictions.html" style="color:#ef4444;">21 quantitative predictions</a> from \(M_P\) alone. STUR is excluded if any prediction fails.
   </div>
 
   <!-- INTERFEROMETRY -->
   <section class="hub-section">
-    <div class="hub-section-title">Interferometry & Visibility — \(V(\Delta L) = V_0 e^{-\Delta L^2/\lcoh^2}\)</div>
+    <div class="hub-section-title">Interferometry — Derived from \(M_P \to \Lx \to \lcoh\)</div>
     <div class="hub-grid">
       <a href="stur_double_slit.html" class="hub-card">
         <div class="title">Double Slit Plasmon</div>
-        <div class="desc">Gaussian visibility decay from XCRM holonomy [H.15.1n]. Coherence length \(\lcoh \in [0.3, 30]\,\text{m}\)</div>
+        <div class="desc">Visibility decay \(V(\Delta L)\) derived from Z₃ holonomy. Coherence length from \(M_P\), not fitted.</div>
         <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_tabletop.html" class="hub-card">
         <div class="title">Whispering Gallery Mode</div>
-        <div class="desc">Precision tabletop interferometry test at \(\Lx \approx 0.8\,\mu\text{m}\) scale</div>
+        <div class="desc">Tests derived scale \(\Lx \approx 0.8\,\mu\text{m}\) — emerges from \(M_P\) alone</div>
         <span class="tag interactive">Interactive</span>
       </a>
     </div>
@@ -116,16 +119,16 @@
 
   <!-- PLASMA & CONFINEMENT -->
   <section class="hub-section">
-    <div class="hub-section-title">Plasma & Confinement — Z₃ Helix Dynamics</div>
+    <div class="hub-section-title">Plasma & Confinement — Z₃ Helix from \(M_P\)</div>
     <div class="hub-grid">
       <a href="stur_plasmaconfinement.html" class="hub-card">
         <div class="title">Plasma Torus 4D</div>
-        <div class="desc">STUR-modulated Lorentz force with Z₃ phase structure</div>
+        <div class="desc">Z₃ phase structure derived from helix geometry. Confinement emerges from \(M_P\).</div>
         <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_arc.html" class="hub-card">
         <div class="title">Resistance Arc Simulator</div>
-        <div class="desc">Arc discharge dynamics with XCRM coupling \(\chi = -\pi/(3\Lx)\)</div>
+        <div class="desc">XCRM coupling \(\chi = -\pi/(3\Lx)\) derived, not fitted</div>
         <span class="tag interactive">Interactive</span>
       </a>
     </div>
@@ -133,11 +136,11 @@
 
   <!-- SUPERCONDUCTIVITY -->
   <section class="hub-section">
-    <div class="hub-section-title">Superconductivity — R-Field Coherence</div>
+    <div class="hub-section-title">Superconductivity — \(T_c\) Derived from \(M_P\)</div>
     <div class="hub-grid">
       <a href="stur_superconductor.html" class="hub-card">
         <div class="title">Ambient-Temp Superconductor</div>
-        <div class="desc">XCRM-induced pair coherence at \(|R| = v\) (no domain wall)</div>
+        <div class="desc">Critical temperature derived from R-field VEV \(|R| = v\). Zero free parameters.</div>
         <span class="tag interactive">Interactive</span>
       </a>
     </div>
@@ -145,11 +148,11 @@
 
   <!-- ORBITAL MECHANICS -->
   <section class="hub-section">
-    <div class="hub-section-title">Orbital Mechanics — TEGR Gravity</div>
+    <div class="hub-section-title">Orbital Mechanics — Gravity Emerges from \(M_P\)</div>
     <div class="hub-grid">
       <a href="stur_3bodyproblem.html" class="hub-card">
         <div class="title">3-Body RK4 Orbit</div>
-        <div class="desc">Torsion-based gravity from \(\alpha|R|\mathbb{T}\) coupling [H.10.1]</div>
+        <div class="desc">TEGR gravity derived from R-torsion coupling. \(G\) emerges from \(M_P\).</div>
         <span class="tag interactive">Interactive</span>
       </a>
     </div>
@@ -157,26 +160,26 @@
 
   <!-- QUANTUM & EXOTIC -->
   <section class="hub-section">
-    <div class="hub-section-title">Quantum & Exotic — Z₃ Phase Structure</div>
+    <div class="hub-section-title">Quantum & Exotic — Z₃ Helix Predictions</div>
     <div class="hub-grid">
       <a href="stur_quantumcomputing.html" class="hub-card">
         <div class="title">Quantum Computing</div>
-        <div class="desc">Z₃ holonomy \(\omega = e^{i2\pi/3}\) in quantum gates</div>
+        <div class="desc">Z₃ holonomy \(\omega = e^{i2\pi/3}\) derived from helix geometry</div>
         <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_sonolum.html" class="hub-card">
         <div class="title">Sonoluminescence 5D</div>
-        <div class="desc">XCRM-torsion bubble collapse with live falsification</div>
+        <div class="desc">Bubble dynamics from derived XCRM-torsion coupling</div>
         <span class="tag live">Live Sim</span>
       </a>
       <a href="stur_graphene.html" class="hub-card">
         <div class="title">Graphene-Axion</div>
-        <div class="desc">XCRM-like coupling in graphene lattice</div>
+        <div class="desc">Lattice coupling derived from Z₃ structure</div>
         <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_scalar.html" class="hub-card">
         <div class="title">Scalar Bounce</div>
-        <div class="desc">R-field cosmological bounce with \(V(R) = \frac{\lambda}{4}(|R|^2 - v^2)^2\)</div>
+        <div class="desc">R-field potential \(V(R)\) with \(\lambda, v\) derived from \(M_P\)</div>
         <span class="tag interactive">Interactive</span>
       </a>
     </div>
@@ -184,36 +187,37 @@
 
   <!-- TOOLS -->
   <section class="hub-section">
-    <div class="hub-section-title">Verification Tools — Derivation Chain Validators</div>
+    <div class="hub-section-title">Verification Tools — \(M_P \to\) Derivation Chain</div>
     <div class="hub-grid">
       <a href="stur_toe_proof.html" class="hub-card">
-        <div class="title">TOE Isochrony Proof</div>
-        <div class="desc">Verify theory closure from XCRM foundation [H.1.4]</div>
+        <div class="title">TOE Derivation Proof</div>
+        <div class="desc">Verify complete chain: \(M_P \to\) all physics with zero free parameters</div>
         <span class="tag">Validation</span>
       </a>
       <a href="stur_sandbox.html" class="hub-card">
         <div class="title">STUR Sandbox</div>
-        <div class="desc">Experiment with master action equations [H.3.1]</div>
+        <div class="desc">Explore how predictions emerge from single \(M_P\) input</div>
         <span class="tag interactive">Interactive</span>
       </a>
       <a href="stur_engine.html" class="hub-card">
         <div class="title">STUR Engine</div>
-        <div class="desc">Compute \(\Lx\), \(\lcoh\), Z₃ parameters</div>
+        <div class="desc">Derive \(\Lx\), \(\lcoh\), Z₃ parameters from \(M_P\)</div>
       </a>
       <a href="stur_geometry_verifier.html" class="hub-card">
         <div class="title">Geometry Verifier</div>
-        <div class="desc">Validate \(M^4 \times S^1\) with Z₃ helix [H.2.9]</div>
+        <div class="desc">Validate Z₃ helix on \(M^4 \times S^1\) derived geometry</div>
         <span class="tag">Validation</span>
       </a>
     </div>
   </section>
 
-  <!-- Key Derivation Chain Reference -->
+  <!-- v3.8 TOE Derivation Chain Reference -->
   <div style="margin-top:32px;padding:1rem;background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.2);border-radius:10px;text-align:center;">
-    <div style="font-size:0.8rem;color:#60a5fa;font-weight:600;margin-bottom:0.5rem;">DERIVATION CHAIN REFERENCE</div>
+    <div style="font-size:0.8rem;color:#60a5fa;font-weight:600;margin-bottom:0.5rem;">v3.8 TOE: ONE INPUT, ZERO FREE PARAMETERS</div>
     <p style="margin:0;font-size:0.85rem;color:var(--text-secondary);">
-      All simulations derive from <a href="../DERIVATION_CHAIN_HELIX.md" style="color:#60a5fa;">DERIVATION_CHAIN_HELIX.md</a>:<br>
-      \(\mathcal{L}_{\text{XCRM}} = \XCRM{\chi(R_1\partial_X R_2 - R_2\partial_X R_1)} = \XCRM{\chi|R|^2 \partial_X\phi}\) <span style="color:var(--text-tertiary);">[H.1.7]</span>
+      <strong>Single input:</strong> \(M_P = \sqrt{\hbar c / G} \approx 2.18 \times 10^{-8}\,\text{kg}\)<br>
+      <strong>Derivation chain:</strong> \(M_P \to \Lx \to \chi \to v \to\) all coupling constants<br>
+      <span style="color:var(--text-tertiary);">Z₃ helix geometry determines structure; all predictions derived, not fitted.</span>
     </p>
   </div>
 

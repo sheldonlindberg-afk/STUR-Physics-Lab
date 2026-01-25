@@ -65,6 +65,7 @@
         <li><strong>Partial tree-level cancellation:</strong> XCRM stability condition cancels kinetic + coupling terms</li>
         <li><strong>Holonomy stabilization:</strong> MHP determines L<sub>X</sub> ~ 0.8 μm dynamically</li>
         <li><strong>Loop-scale estimate:</strong> Residual ~ (1/16π²)/L<sub>X</sub>⁴ gives correct order of magnitude</li>
+        <li><strong>Numerical proximity:</strong> M<sub>KK</sub>⁴ ~ 10⁻⁵² GeV⁴ ~ Λ<sub>obs</sub> (suggestive, but NOT a derivation)</li>
       </ul>
     </div>
     <!-- What Remains Open -->
@@ -150,7 +151,7 @@
   <p>On the orbifold, R must interpolate from \(-v\) to \(+v\), creating a domain wall. On the helix, R merely <strong>rotates in field space</strong> — its magnitude stays constant!</p>
 </section>
 
-<!-- STUR SOLUTION — HELIX GEOMETRY v2.5 -->
+<!-- STUR PARTIAL FRAMEWORK — HELIX GEOMETRY v3.8 -->
 <section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.12) 0%, rgba(251,191,36,0.04) 100%);">
   <h2 style="color:var(--gold);">STUR Partial Framework: Domain Wall Elimination + Partial Cancellation [H.11.10]</h2>
 
@@ -234,9 +235,9 @@
     <div class="eq-label" style="color:var(--neon-cyan);">(Λ.H5) — L<sub>X</sub> DERIVED from holonomy stabilization</div>
   </div>
 
-  <h3>1.5 The Cosmological Constant Solution [H.11.10]</h3>
+  <h3>1.5 Tree-Level Structure (NOT a Complete Solution) [H.11.10]</h3>
 
-  <p>The cosmological constant is <strong>zero at tree level</strong> because of three consistency conditions:</p>
+  <p>At tree level, the cosmological constant structure depends on three consistency conditions — but complete cancellation is <strong>NOT derived</strong>:</p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
     \[\boxed{\begin{aligned}
@@ -248,9 +249,9 @@
   </div>
 
   <div class="block warning" style="margin-top:1rem;border-width:3px;">
-    <div class="title">Partial Progress — But Fine-Tuning Remains</div>
+    <div class="title">CRITICAL CAVEAT: Complete Cancellation NOT Derived</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The three conditions are <strong>consistency requirements</strong>:
+      The three conditions are <strong>consistency requirements</strong>, not a solution:
     </p>
     <ul style="margin:0.5rem 0 0 1rem;color:var(--text-secondary);">
       <li>\(\XCRM{\chi}\) is determined by requiring the helix to be stable</li>
@@ -258,7 +259,7 @@
       <li>\(v\) is determined by matching to Newton's constant \(G_N\)</li>
     </ul>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <strong>However:</strong> These derived conditions do NOT automatically guarantee Λ ≈ 0. The Casimir + holonomy cancellation still requires ~10⁻⁷⁰ precision that is not explained by any dynamical principle.
+      <strong>However:</strong> These derived conditions do NOT automatically guarantee Λ ≈ 0. The Casimir + holonomy cancellation still requires ~10⁻⁷⁰ precision that is not explained by any dynamical principle. <strong style="color:var(--error);">The CC problem remains genuinely OPEN in STUR.</strong>
     </p>
   </div>
 
@@ -279,9 +280,9 @@
     <div class="eq-label" style="color:var(--warning);">(Λ.H7) — Requires Casimir/holonomy cancellation (fine-tuning ~10⁻⁷⁰ not explained)</div>
   </div>
 
-  <h3>1.6 Observed Λ > 0 from Loop Corrections</h3>
+  <h3>1.6 Loop Correction Estimate (Order of Magnitude Only)</h3>
 
-  <p>The observed cosmological constant Λ > 0 arises from 1-loop quantum corrections that don't cancel exactly:</p>
+  <p><strong>IF</strong> tree-level terms were to cancel (which requires unexplained fine-tuning), the observed Λ > 0 would arise from 1-loop quantum corrections:</p>
 
   <div class="eq law" style="background:#000;border:3px solid #a855f7;padding:1.25rem;">
     \[\boxed{\delta\rho_{\rm loop} \sim \frac{1}{16\pi^2} \times \frac{1}{L_X^4}}\]
@@ -304,20 +305,25 @@
     \[\delta\rho_{\rm loop} \sim 1.5 \times 10^{22} \times (\hbar c)^4 \sim 1.5 \times 10^{22} \times 1.5 \times 10^{-51}\,\text{GeV}^4\]
   </div>
 
-  <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
+  <div class="eq law" style="background:#000;border:3px solid var(--warning);padding:1.25rem;">
     \[\boxed{\Quant{\rho_\Lambda^{\rm STUR}} \sim 10^{-47}\,\text{GeV}^4 \sim (2\text{--}3\,\text{meV})^4}\]
-    <div class="eq-label" style="color:var(--success);">(Λ.H9) — STUR prediction matches observation!</div>
+    <div class="eq-label" style="color:var(--warning);">(Λ.H9) — Numerical proximity (suggestive, but assumes unexplained tree-level cancellation)</div>
   </div>
 
-  <p><strong>Observed value:</strong> \(\rho_\Lambda = (2.3 \pm 0.1\,\text{meV})^4 \sim 10^{-47}\) GeV⁴ — <span style="color:var(--success);font-weight:bold;">Agreement!</span></p>
+  <p><strong>Observed value:</strong> \(\rho_\Lambda = (2.3 \pm 0.1\,\text{meV})^4 \sim 10^{-47}\) GeV⁴ — <span style="color:var(--warning);font-weight:bold;">Order of magnitude match, but NOT a derivation</span></p>
 
-  <div style="margin-top:1.5rem;padding:1rem;background:rgba(251,191,36,0.1);border-radius:8px;border:1px solid var(--warning);">
-    <strong style="color:var(--warning);">Summary: Partial Progress with Remaining Fine-Tuning</strong>
+  <div style="margin-top:1.5rem;padding:1rem;background:rgba(251,191,36,0.1);border-radius:8px;border:2px solid var(--warning);">
+    <strong style="color:var(--warning);">Summary: Partial Progress, NOT a Solution</strong>
+    <p style="margin:0.5rem 0;color:var(--text-secondary);font-style:italic;">
+      The cosmological constant problem remains one of the biggest open problems in physics, including in STUR.
+    </p>
     <ul style="margin:0.5rem 0 0 1rem;color:var(--text-secondary);">
-      <li>\(\XCRM{\chi}\) is determined by stability condition (Λ.H4) <span style="color:var(--success);">✓</span></li>
-      <li>\(L_X\) is determined by holonomy stabilization (Λ.H5) <span style="color:var(--success);">✓</span></li>
-      <li>\(v\) is determined by Newton's constant \(G_N\) <span style="color:var(--success);">✓</span></li>
+      <li>\(\XCRM{\chi}\) determined by stability condition (Λ.H4) <span style="color:var(--success);">✓</span></li>
+      <li>\(L_X\) determined by holonomy stabilization (Λ.H5) <span style="color:var(--success);">✓</span></li>
+      <li>\(v\) determined by Newton's constant \(G_N\) <span style="color:var(--success);">✓</span></li>
       <li>Domain wall energy eliminated by helix geometry <span style="color:var(--success);">✓</span></li>
+      <li>Numerical proximity: M<sub>KK</sub>⁴ ~ 10⁻⁵² GeV⁴ ~ Λ<sub>obs</sub> <span style="color:var(--warning);">(suggestive)</span></li>
+      <li style="color:var(--error);"><strong>BUT:</strong> Complete tree-level cancellation NOT derived</li>
       <li style="color:var(--error);"><strong>BUT:</strong> Casimir + holonomy cancellation requires ~10⁻⁷⁰ fine-tuning (NOT explained)</li>
       <li style="color:var(--error);"><strong>BUT:</strong> Full loop corrections not calculated; radiative stability not proven</li>
     </ul>
@@ -440,12 +446,12 @@
 
   <p>Converting to energy units (\(\hbar c = 1.97 \times 10^{-13}\) GeV·m):</p>
 
-  <div class="eq law" style="background:#000;border:2px solid var(--success);padding:1rem;">
+  <div class="eq law" style="background:#000;border:2px solid var(--warning);padding:1rem;">
     \[\boxed{\Pot{\rho_\Lambda^{\rm STUR}} \sim 10^{-47}\,\text{GeV}^4 \sim (2\text{--}3\,\text{meV})^4}\]
-    <div class="eq-label" style="color:var(--success);">(Λ.11) — Dark energy density prediction</div>
+    <div class="eq-label" style="color:var(--warning);">(Λ.11) — Dark energy density estimate (order of magnitude only)</div>
   </div>
 
-  <p><strong>Observed:</strong> \(\rho_\Lambda = (2.3 \pm 0.1\,\text{meV})^4 \sim 10^{-47}\) GeV⁴ — <span style="color:var(--success);">Matches observation!</span></p>
+  <p><strong>Observed:</strong> \(\rho_\Lambda = (2.3 \pm 0.1\,\text{meV})^4 \sim 10^{-47}\) GeV⁴ — <span style="color:var(--warning);">Order of magnitude match (assumes tree-level cancellation)</span></p>
 
   <h3>2.4 What STUR Does and Does Not Explain</h3>
 
