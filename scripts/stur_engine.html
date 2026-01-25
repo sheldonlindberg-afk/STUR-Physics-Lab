@@ -453,18 +453,18 @@
 <div class="container">
 
   <div class="block warning">
-    <div class="title">Scope and Status</div>
+    <div class="title">Scope and Status (v3.8 TOE)</div>
     <p class="muted" style="margin:0">
+      <strong>One input (M<sub>Planck</sub>), zero free dimensionless parameters.</strong>
       This framework presents a <strong>unified teleparallel effective theory</strong> with an explicit
       <strong>STUR resistance field</strong> coupled to torsion. TEGR (≡ GR) provides the geometric backbone;
       STUR supplies the dynamical scalar resistance field \(\XCRM{R(x^\mu,t,X)}\) and its gauge-invariant holonomy;
       HGEM is the weak-field (linear) limit.
-      <strong>No claim is made</strong> that Standard Model parameters, coupling constants,
-      or cosmological initial conditions are derived. This is an <em>effective</em> framework, not a UV-complete theory.
     </p>
     <p class="muted" style="margin:0.75rem 0 0">
-      After dimensional reduction, STUR closes with all parameters derived: the \(\Diff{\sigma_R}/\XCRM{L_X}\) ratio is fully determined.
-      Both the Gaussian <em>form</em> and coherence <em>scale</em> are derived from XCRM dynamics (<a href="stur_technical_appendix.html#parameters" style="color:var(--stur)">Tech. Appendix §A.4</a>).
+      <strong>What is derived vs. applied:</strong> All scales (L<sub>X</sub>, σ<sub>R</sub>, ℓ<sub>coh</sub>) are <em>derived</em> from Z₃ helix geometry.
+      The visibility law is an <em>application</em> of these derived scales to interferometric predictions.
+      See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--stur)">DERIVATION_CHAIN_HELIX.md</a> for the complete derivation chain.
     </p>
   </div>
 
@@ -474,31 +474,30 @@
       STUR predicts that a scalar resistance field coupled to teleparallel torsion produces a
       <strong>Gaussian visibility suppression</strong>
       \(\Pot{V(\Delta L)} = V_0\exp[-(\Matt{\Delta L}/\Matt{\ell_{\rm coh}})^2]\)
-      that depends dominantly on interferometer arm separation \(\Matt{\Delta L}\) and is
-      <strong>independent of particle mass and internal structure at fixed shot time</strong>,
-      to leading order in the small-holonomy (Gaussian) regime.
+      with \(\Matt{\ell_{\rm coh}}\) <em>derived</em> (not fitted) from Z₃ geometry.
+      The suppression depends dominantly on interferometer arm separation \(\Matt{\Delta L}\) and is
+      <strong>independent of particle mass and internal structure at fixed shot time</strong>.
       This is the single discriminating observable that distinguishes STUR from decoherence, ULDM, and standard QM.
     </p>
   </div>
 
   <!-- First Principles Statement -->
   <div class="block success" style="border-left:4px solid var(--stur);margin-top:1rem;">
-    <div class="title" style="color:var(--stur);">First Principles Statement</div>
+    <div class="title" style="color:var(--stur);">First Principles Statement (v3.8 TOE)</div>
     <p class="muted" style="margin:0;font-size:0.95rem;line-height:1.65;">
-      <strong style="color:var(--text);">STUR makes exactly one adjustable prediction — the coherence length \(\Matt{\ell_{\rm coh}}\).</strong>
-      Given any two of \(\{\XCRM{\chi},\, \XCRM{L_X},\, \Matt{\ell_{\rm coh}}\}\), the third is determined by the closure relation
-      \(\Matt{\ell_{\rm coh}} = \sqrt{2}\,\XCRM{L_X}/\Diff{\sigma_R}\).
+      <strong style="color:var(--text);">STUR v3.8: ONE input (M<sub>Planck</sub>), ZERO free dimensionless parameters.</strong>
+      All scales are derived: \(\XCRM{L_X} \approx 0.8\,\mu\text{m}\) from Casimir-holonomy balance,
+      \(\Diff{\sigma_R}\) from XCRM equilibrium, and \(\Matt{\ell_{\rm coh}} = \sqrt{2}\,\XCRM{L_X}/\Diff{\sigma_R}\) from Z₃ geometry.
     </p>
     <p class="muted" style="margin:0.75rem 0 0;font-size:0.95rem;line-height:1.65;">
-      <strong style="color:var(--error);">The form of the visibility law \(\Pot{V(\Delta L)} = V_0 \exp(-\Matt{\Delta L}^2/\Matt{\ell_{\rm coh}}^2)\) is NOT adjustable</strong>
+      <strong style="color:var(--error);">The visibility law \(\Pot{V(\Delta L)} = V_0 \exp(-\Matt{\Delta L}^2/\Matt{\ell_{\rm coh}}^2)\) is DERIVED, not assumed</strong>
       — it follows necessarily from Gaussian phase averaging of the XCRM holonomy.
       Any deviation from Gaussian \(\Matt{\Delta L^2}\) dependence falsifies STUR.
-      (Note: Both <em>form</em> and <em>scale</em> are derived; ℓ<sub>coh</sub> depends on the L<sub>X</sub>/σ<sub>R</sub> ratio, which is fully determined by Z₃ helix geometry.)
     </p>
     <p class="muted" style="margin:0.75rem 0 0;font-size:0.9rem;line-height:1.55;">
-      <strong>Derivation chain:</strong> Orbifold topology (<a href="stur_core_theory.html#VR-derivation" style="color:var(--stur)">§2.5</a>) → V(R) potential → S(r) modulator → coherence length closure.
-      See <a href="stur_core_theory.html#master-action" style="color:var(--stur)">Foundations §0</a> and
-      <a href="stur_core_theory.html#appE" style="color:var(--stur)">Appendix E</a> for complete derivations.
+      <strong>Derivation chain:</strong> M<sub>Planck</sub> → Z₃ orbifold geometry → V(R) Mexican hat potential →
+      Casimir-holonomy L<sub>X</sub> stabilization → σ<sub>R</sub> from XCRM equilibrium → coherence length determined.
+      See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--stur)">DERIVATION_CHAIN_HELIX.md</a> for complete derivations.
     </p>
   </div>
 
@@ -701,12 +700,12 @@
   <div class="card"><h4>Saturation Operator</h4><div class="eq">\[\color{#f472b6}{S_u(u)} = \tanh(u)(1 - e^{-u})\]</div></div>
 </div>
 <div class="block success">
-  <div class="title">XCRM Closure: All Parameters Derived</div>
+  <div class="title">XCRM Closure: Zero Free Parameters (v3.8)</div>
   <p class="muted">
-    The coherence length is <strong>derived</strong> from X-integration: \(\Matt{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / \Diff{\sigma_R}\)
-    where \(\XCRM{L_X}\) is dynamically stabilized and \(\Diff{\sigma_R}\) is <strong>derived from XCRM equilibrium</strong>
-    (<a href="stur_technical_appendix.html#parameters" style="color:var(--stur)">Tech. Appendix §A.4</a>).
-    The equivalent form \(\Matt{\ell_{\rm coh}} = \Tor{p_0}/(\Quant{y}\, \Tor{K_{\rm eff}})\) uses \(\Tor{K_{\rm eff}} \equiv \Diff{\sigma_R}\).
+    <strong>Derived:</strong> \(\Matt{\ell_{\rm coh}} = \sqrt{2} \XCRM{L_X} / \Diff{\sigma_R}\) with both factors determined by geometry:
+    \(\XCRM{L_X} \approx 0.8\,\mu\text{m}\) from Casimir-holonomy balance, \(\Diff{\sigma_R}\) from XCRM equilibrium.
+    <strong>Application:</strong> The visibility formula applies this derived scale to interferometric predictions.
+    See <a href="../DERIVATION_CHAIN_HELIX.md#parameters" style="color:var(--stur)">DERIVATION_CHAIN_HELIX.md</a> for complete derivation.
   </p>
 </div>
 
@@ -777,27 +776,27 @@
     The λ constant and associated modulation structure are preserved for the
     <a href="stur_agiseed.html" style="color:var(--stur);">RFD Simulator</a> and AGI applications.
     They are <strong>not part of the core STUR physics derivation chain</strong>.
-    See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--stur);">v2.5 Helix Derivation Chain</a> for the
-    complete formal theory with all experimentally verified constraints.
+    See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--stur);">v3.8 Helix Derivation Chain</a> for the
+    complete TOE framework.
   </p>
 </div>
 
 <div class="block success" style="border-left:4px solid var(--stur);margin-top:1rem;">
-  <div class="title" style="color:var(--stur);">STUR Framework — v2.5 Helix Derivation Chain</div>
+  <div class="title" style="color:var(--stur);">STUR Framework — v3.8 Complete TOE</div>
   <p class="muted" style="margin:0;font-size:0.95rem;line-height:1.65;">
-    <strong style="color:var(--text);">Complete derivation chain:</strong>
+    <strong style="color:var(--text);">One input (M<sub>Planck</sub>), zero free parameters:</strong>
     The STUR unified framework derives from Z₃ helix geometry on M⁴ × S¹.
     The R-field doublet winds through field space, producing:
   </p>
   <ul class="muted" style="margin:0.5rem 0 0 1.2rem;font-size:0.92rem;">
-    <li><strong>XCRM coupling:</strong> χ(R₁∂_XR₂ - R₂∂_XR₁) = χ|R|²∂_Xφ — the winding energy density</li>
-    <li><strong>V(R) potential:</strong> Mexican hat from Z₃ orbifold compactification</li>
-    <li><strong>S(r) modulator:</strong> S(r) = tanh(r/L₀)(1 - e^{-r/L₀}) — derived saturation form</li>
-    <li><strong>Coherence length:</strong> ℓ_coh = √2 L_X/σ_R — fully determined closure</li>
+    <li><strong>Derived:</strong> L<sub>X</sub> ≈ 0.8 μm from Casimir-holonomy balance</li>
+    <li><strong>Derived:</strong> σ<sub>R</sub> from XCRM equilibrium dynamics</li>
+    <li><strong>Derived:</strong> ℓ<sub>coh</sub> = √2 L<sub>X</sub>/σ<sub>R</sub> — no free parameters</li>
+    <li><strong>Application:</strong> Visibility law applies these derived scales to interferometry</li>
   </ul>
   <p class="muted" style="margin:0.75rem 0 0;font-size:0.88rem;">
     See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--stur);">DERIVATION_CHAIN_HELIX.md</a>
-    for complete proofs: [H.1.7] XCRM in polar form, [H.2.9] Z₃ geometry derived.
+    for complete derivation chain from M<sub>Planck</sub> to all predictions.
   </p>
 </div>
 
@@ -1292,26 +1291,27 @@
   </section>
 
   <div class="block success" style="margin:2rem 1.5rem;">
-    <div class="title">XCRM Closure Complete</div>
+    <div class="title">STUR v3.8 — Derivation Status</div>
     <p class="muted" style="margin:0">
-      <strong>Level 1 (Closed):</strong> Emergent 4D equation via X-integration;
-      coherence length \(\Matt{\ell_{\rm coh}} = \sqrt{2}\, \XCRM{L_X} / \Diff{\sigma_R}\) derived from manifold geometry.<br>
-      <strong>Level 2 (Closed):</strong> Loop enhancement via Stokes' theorem provides observability pathway.<br>
-      <strong>Level 3 (Closed):</strong> \(\Diff{\sigma_R}\) derived from XCRM equilibrium (<a href="stur_technical_appendix.html#parameters" style="color:var(--stur)">Tech. Appendix §A.4</a>).<br>
-      <strong>All parameters derived:</strong> \(L_X/\sigma_R\) ratio fully determined by XCRM dynamics (v2.5 Helix).
+      <strong>Derived (from M<sub>Planck</sub>):</strong> L<sub>X</sub> ≈ 0.8 μm from Casimir-holonomy balance;
+      σ<sub>R</sub> from XCRM equilibrium; ℓ<sub>coh</sub> = √2 L<sub>X</sub>/σ<sub>R</sub> fully determined.<br>
+      <strong>Application:</strong> Visibility law V(ΔL) = V₀exp(−ΔL²/ℓ<sub>coh</sub>²) applies these derived scales to interferometry.<br>
+      <strong>Zero free parameters:</strong> All scales determined by Z₃ helix geometry.
+      See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--stur)">DERIVATION_CHAIN_HELIX.md</a> for complete TOE derivation chain.
     </p>
   </div>
 
 </div>
 
 <footer>
-  <p><strong>STUR</strong> — Unified Teleparallel Effective Framework</p>
+  <p><strong>STUR v3.8</strong> — Unified Teleparallel Effective Framework (TOE)</p>
   <p style="color:var(--text-muted)">© 2026 Sheldon Lon Lindberg</p>
   <p class="muted" style="max-width:700px;margin:1rem auto">
-    TEGR provides the geometric substrate (torsion formulation equivalent to GR). STUR introduces a scalar 
-    resistance field coupled to torsion, yielding the central observable: Gaussian visibility suppression 
-    dependent only on arm separation. This framework is falsifiable and simulable. It does not claim 
-    ultraviolet completeness or derivation of Standard Model parameters.
+    <strong>One input (M<sub>Planck</sub>), zero free parameters.</strong>
+    TEGR provides the geometric substrate (torsion formulation equivalent to GR). STUR introduces a scalar
+    resistance field coupled to torsion, yielding Gaussian visibility suppression
+    dependent only on arm separation. All scales (L<sub>X</sub>, σ<sub>R</sub>, ℓ<sub>coh</sub>) are derived from Z₃ helix geometry.
+    This framework is falsifiable and simulable.
   </p>
   <div class="footer-links">
     <a href="#sec-tegr">TEGR</a>

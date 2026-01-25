@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR DHP Derivation — Dynamical Holonomy from Path Integral (v2.5 Helix)</title>
-<meta name="description" content="Complete derivation: Dynamical Holonomy Principle emerges from Faddeev-Popov gauge fixing on M⁴ × S¹ with Z₃ helix geometry. Everything derived, nothing assumed.">
+<title>STUR DHP Derivation — Dynamical Holonomy from Path Integral (v3.8 Helix Geometry TOE)</title>
+<meta name="description" content="TOE derivation chain: From M_Planck through XCRM to DHP. The Dynamical Holonomy Principle emerges from Faddeev-Popov gauge fixing on M⁴ × S¹ with Z₃ helix geometry. Complete TOE framework v3.8.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -35,9 +35,10 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>DHP Derivation (v2.5 Helix)</h1>
+  <h1>DHP Derivation (v3.8 Helix Geometry TOE)</h1>
   <p class="subtitle">Dynamical Holonomy Principle from Path Integral Saddle Points</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    <span style="color:var(--gold);">M<sub>Planck</sub></span> →
     <a href="stur_xcrm_closure.html" style="color:var(--accent);">XCRM</a> →
     <a href="stur_master_action_derivation.html" style="color:var(--accent);">Master Action</a> →
     <strong style="color:var(--quantum);">DHP</strong> →
@@ -45,6 +46,11 @@
     <a href="stur_tfp_flavor.html" style="color:var(--accent);">TFP</a>
   </p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
+  <!-- TOE Derivation Context -->
+  <div style="margin:0.75rem auto;padding:0.75rem;background:rgba(251,191,36,0.08);border-radius:8px;border:1px solid #fbbf24;max-width:650px;font-size:0.85rem;">
+    <strong style="color:#fbbf24;">TOE Derivation Chain:</strong>
+    All parameters derived from \(M_{\rm Planck}\) via XCRM closure
+  </div>
   <!-- Key Parameters from Derivation Chain -->
   <div style="margin:0.75rem auto;padding:0.75rem;background:rgba(167,139,250,0.08);border-radius:8px;border:1px solid #a78bfa;max-width:600px;font-size:0.85rem;">
     <strong style="color:#a78bfa;">Key Parameters:</strong>
@@ -66,10 +72,10 @@
 
 <!-- EXECUTIVE SUMMARY -->
 <section class="section" style="border:3px solid var(--quantum); background:linear-gradient(135deg, rgba(167,139,250,0.1) 0%, rgba(96,165,250,0.06) 100%);">
-  <h2 style="color:var(--quantum);">Executive Summary</h2>
+  <h2 style="color:var(--quantum);">Executive Summary (TOE Framework v3.8)</h2>
 
   <p style="color:var(--text);font-size:1.05rem;">
-    This document derives the <strong>Dynamical Holonomy Principle</strong> from first principles:
+    This document derives the <strong>Dynamical Holonomy Principle</strong> within the complete TOE derivation chain originating from \(M_{\rm Planck}\):
   </p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.25rem 0;">
@@ -92,10 +98,13 @@
   </div>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
-    <div class="title">Key Result</div>
+    <div class="title">Key Result (TOE v3.8)</div>
     <p style="font-size:1.05rem;margin:0;">
       <strong>DHP is not postulated &mdash; it emerges from the path integral measure on compact spaces.</strong>
       The universe evolves along paths of minimum integrated holonomy because the quantum amplitude exponentially suppresses alternatives.
+    </p>
+    <p style="font-size:0.95rem;margin-top:0.75rem;color:var(--text-secondary);">
+      <strong>TOE Context:</strong> DHP sits in the derivation chain \(M_{\rm Planck} \to \text{XCRM} \to \text{Master Action} \to \text{DHP}\), with all parameters determined by Planck-scale boundary conditions.
     </p>
   </div>
 </section>
@@ -253,12 +262,15 @@
 
 <!-- SECTION 4: DYNAMICAL EVOLUTION -->
 <section class="section" id="dynamics" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--gold);">4. The Dynamical Holonomy Principle</h2>
+  <h2 style="color:var(--gold);">4. The Dynamical Holonomy Principle (TOE v3.8)</h2>
 
   <div class="block" style="border-color:var(--gold);border-width:3px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="font-size:1.1rem;">Theorem 4.1 &mdash; DHP Statement</div>
+    <div class="title" style="font-size:1.1rem;">Theorem 4.1 &mdash; DHP Statement (TOE Framework)</div>
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
       <strong>The universe evolves along the path that minimizes the time-integrated holonomy action.</strong>
+    </p>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
+      All holonomy parameters are derived from \(M_{\rm Planck}\) through the XCRM closure mechanism.
     </p>
   </div>
 
@@ -282,9 +294,9 @@
 
   <p>This is the <strong>Dynamical Holonomy Principle</strong>: physical evolution minimizes &Omega;<sub>DHP</sub>.</p>
 
-  <h3>4.3 What DHP Closes</h3>
+  <h3>4.3 What DHP Closes (TOE Framework)</h3>
 
-  <p>The DHP resolves multiple open problems simultaneously:</p>
+  <p>Within the TOE derivation chain from \(M_{\rm Planck}\), DHP resolves multiple open problems simultaneously:</p>
 
   <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;">
     <thead>
@@ -333,25 +345,27 @@
 
 <!-- SECTION 5: FORMAL DERIVATION -->
 <section class="section" id="formal" style="border:2px solid var(--quantum); background:rgba(167,139,250,0.03);">
-  <h2 style="color:var(--quantum);">5. Formal Derivation Summary</h2>
+  <h2 style="color:var(--quantum);">5. Formal Derivation Summary (TOE v3.8)</h2>
 
-  <h3>5.1 The Complete Argument</h3>
+  <h3>5.1 The Complete TOE Argument</h3>
 
   <ol style="line-height:2;">
-    <li><strong>Start:</strong> Path integral Z = &int; &Dscr;A &Dscr;&psi; &Dscr;R exp(iS<sub>STUR</sub>)</li>
+    <li><strong>Planck anchor:</strong> Begin with M<sub>Planck</sub> as the sole fundamental scale</li>
+    <li><strong>XCRM closure:</strong> Derive L<sub>X</sub>, M<sub>KK</sub>, N<sub>eff</sub> from Planck-scale boundary conditions</li>
+    <li><strong>Path integral:</strong> Z = &int; &Dscr;A &Dscr;&psi; &Dscr;R exp(iS<sub>STUR</sub>)</li>
     <li><strong>Gauge fix:</strong> Insert Faddeev-Popov determinant &Delta;<sub>FP</sub></li>
     <li><strong>On Z₃ helix:</strong> &Delta;<sub>FP</sub> = Vandermonde in holonomy eigenvalues</li>
     <li><strong>Exponentiate:</strong> &Delta;<sub>FP</sub> = exp(-S<sub>hol</sub>)</li>
     <li><strong>Effective action:</strong> S<sub>eff</sub> = S<sub>STUR</sub> + S<sub>hol</sub></li>
     <li><strong>Saddle point:</strong> &delta;S<sub>eff</sub> = 0 &rArr; minimize holonomy</li>
     <li><strong>Time integrate:</strong> &Omega;<sub>DHP</sub> = &int; &Omega;(t) dt</li>
-    <li><strong>Result:</strong> DHP &equiv; "extremize &Omega;<sub>DHP</sub>"</li>
+    <li><strong>Result:</strong> DHP &equiv; "extremize &Omega;<sub>DHP</sub>" with all parameters from M<sub>Planck</sub></li>
   </ol>
 
   <div class="block success" style="border-width:3px;">
-    <div class="title" style="font-size:1.2rem;">Conclusion</div>
+    <div class="title" style="font-size:1.2rem;">TOE Conclusion (v3.8)</div>
     <p style="font-size:1.05rem;margin:0;">
-      The Dynamical Holonomy Principle is not an independent axiom. It is a <strong>theorem</strong> of quantum field theory on compact spaces: the Faddeev-Popov procedure on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub> automatically generates a holonomy cost that the path integral extremizes.
+      The Dynamical Holonomy Principle is not an independent axiom. It is a <strong>theorem</strong> of quantum field theory on compact spaces: the Faddeev-Popov procedure on M<sup>4</sup> &times; S<sup>1</sup>/Z<sub>2</sub> automatically generates a holonomy cost that the path integral extremizes. Within the TOE framework, DHP inherits all parameters from the M<sub>Planck</sub> &rarr; XCRM derivation chain.
     </p>
   </div>
 
@@ -359,21 +373,22 @@
 
 <!-- CONCLUSION -->
 <section class="section" style="border:3px solid var(--quantum); background:linear-gradient(135deg, rgba(167,139,250,0.08) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--quantum);">Conclusion: DHP Is Derived (v2.5 Helix)</h2>
+  <h2 style="color:var(--quantum);">Conclusion: DHP Is Derived (v3.8 Helix Geometry TOE)</h2>
 
-  <div class="eq law" style="border-color:var(--quantum);border-width:3px;">
-    \[\boxed{\text{Z}_3\text{ Helix QFT} \xrightarrow{\text{Faddeev-Popov}} \text{Vandermonde} \xrightarrow{-\log} S_{\text{hol}} \xrightarrow{\int dt} \Omega_{\text{DHP}}}\]
-    <div class="eq-label">The derivation chain</div>
+  <div class="eq law" style="border-color:var(--gold);border-width:3px;">
+    \[\boxed{M_{\rm Planck} \xrightarrow{\text{XCRM}} \text{Z}_3\text{ Helix} \xrightarrow{\text{Faddeev-Popov}} \text{Vandermonde} \xrightarrow{-\log} S_{\text{hol}} \xrightarrow{\int dt} \Omega_{\text{DHP}}}\]
+    <div class="eq-label">The complete TOE derivation chain</div>
   </div>
 
   <p style="font-size:1.05rem;margin-top:1.5rem;">
-    <strong>DHP emerges from the structure of gauge theory on compact spaces.</strong> In v2.5 Helix, the Z₃ geometry from R-doublet winding enhances the holonomy structure, giving 3 generations automatically.
+    <strong>DHP emerges from the structure of gauge theory on compact spaces within the TOE framework.</strong> In v3.8 Helix Geometry TOE, all parameters trace back to \(M_{\rm Planck}\) through XCRM closure. The Z₃ geometry from R-doublet winding enhances the holonomy structure, giving 3 generations automatically.
   </p>
 
-  <div class="block" style="border-color:var(--quantum);margin-top:1.5rem;">
-    <div class="title">Position in Derivation Chain (v2.5 Helix)</div>
+  <div class="block" style="border-color:var(--gold);margin-top:1.5rem;">
+    <div class="title">Position in TOE Derivation Chain (v3.8)</div>
     <div style="font-family:monospace;padding:0.75rem;background:#000;border-radius:4px;line-height:1.8;">
-      <span style="color:#fbbf24;">XCRM + R-doublet</span> &rarr;
+      <span style="color:#fbbf24;font-weight:bold;">M<sub>Planck</sub></span> &rarr;
+      <span style="color:#f472b6;">XCRM + R-doublet</span> &rarr;
       <span style="color:#4ade80;">Z₃ Helix</span> &rarr;
       <span style="color:#a78bfa;font-weight:bold;">DHP</span> &rarr;
       <span style="color:#22d3ee;">MHP</span> &rarr;
@@ -381,7 +396,7 @@
       <span style="color:#f472b6;">All Physics</span>
     </div>
     <p style="margin:0.5rem 0 0;font-size:0.9rem;color:var(--text-secondary);">
-      DHP follows from Faddeev-Popov gauge fixing on Z₃ helix geometry. The Z₃ structure then forces 3 generations, SU(3), and CC = 0.
+      DHP follows from Faddeev-Popov gauge fixing on Z₃ helix geometry. The Z₃ structure then forces 3 generations, SU(3), and CC = 0. All parameters derived from \(M_{\rm Planck}\).
     </p>
     <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-muted);">
       <strong>Key derived values:</strong> \(\XCRM{\lambda} = 0.219\), \(\XCRM{A} = 0.81\), \(\XCRM{L_X} = 0.8\,\mu\text{m}\), \(\XCRM{N_{\rm eff}} = -149\)

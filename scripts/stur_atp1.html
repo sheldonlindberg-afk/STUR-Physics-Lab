@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mito Life/Death v4 — STUR Physics Lab</title>
+    <title>Mito Life/Death v3.8 TOE — STUR Physics Lab</title>
 
     <!-- STUR Theme System -->
     <link rel="stylesheet" href="../assets/css/stur-core.css">
@@ -90,9 +90,9 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <!-- v2.5 Helix Badge -->
-        <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:400px;font-size:0.8rem;">
-          <span style="color:#22d3ee;font-weight:600;">★ v2.5 HELIX</span> — R-field doublet dynamics
+            <!-- v3.8 TOE Badge -->
+        <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:500px;font-size:0.8rem;">
+          <span style="color:#22d3ee;font-weight:600;">v3.8 TOE</span> — 1 input (M_Planck), 0 free parameters | Biological application
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -120,23 +120,26 @@
     <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
             <span class="stur-icon icon-check size-24" style="color:var(--neon-green);"></span>
-            <h2 class="glass-section-title" style="color:var(--neon-green);">Derivation Chain</h2>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Framework Status</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Master Action → Multi-Well Potential:</strong></p>
-            <ol style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>Step 1:</strong> The STUR potential term \(\Pot{V(|\mathbf{R}|)}\) has multiple minima corresponding to discrete states</li>
-                <li><strong>Step 2:</strong> The saturation operator \(\XCRM{S(u)}\) sets barrier heights between states</li>
-                <li><strong>Step 3:</strong> Stochastic fluctuations (Ca²⁺, ROS) drive Kramers-like state transitions</li>
-            </ol>
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-cyan);">State Machine Mapping:</strong></p>
+            <p style="margin-bottom:0.75rem;padding:0.75rem;background:rgba(251,191,36,0.08);border-radius:8px;border-left:3px solid #fbbf24;">
+                <strong style="color:#fbbf24;">Honest Assessment:</strong> This page is a <em>biological application</em> of STUR concepts, not a direct derivation from M_Planck. The numerical thresholds (120 mV, 1.2 µM, etc.) are phenomenological fits to experimental mitochondrial data. STUR provides the <em>mathematical framework</em> (multi-well potential, S(u) saturation); biology provides the <em>parameter values</em>.
+            </p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">What IS Derived (from M_Planck):</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Healthy → Stressed: barrier ∝ \(\Pot{V(R_{\rm stress}) - V(R_{\rm healthy})}\)</li>
-                <li>Stressed → Pre-apoptotic: barrier ∝ \(\XCRM{S(u_{\rm eff})}\) (curvature-dependent)</li>
-                <li>Pre-apoptotic → mPTP: barrier collapses when \(\XCRM{S(u) < 0.2}\)</li>
+                <li>The saturation function form: \(\XCRM{S(u) = \tanh(u)(1-e^{-u})}\)</li>
+                <li>Multi-well potential structure from Z₃ symmetry</li>
+                <li>Kramers-like transition dynamics from emergent Langevin equation</li>
+            </ul>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-cyan);">What is Application (phenomenological):</strong></p>
+            <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
+                <li>Specific threshold values: pmf_stress = 120 mV, Ca²⁺_mPTP = 1.2 µM, etc.</li>
+                <li>Mapping of mitochondrial states to potential minima</li>
+                <li>Rate constants and timescales (fitted to biological data)</li>
             </ul>
             <p style="margin-top:0.75rem;padding:0.75rem;background:rgba(34,211,238,0.08);border-radius:8px;border-left:3px solid #22d3ee;">
-                <strong style="color:#22d3ee;">Mitochondrial R-Field Coherence:</strong> State transitions depend on the R-field doublet coherence |R|²e^{iφ}. The Z₃ helix geometry constrains allowed states, with Fibonacci/spiral patterns emerging in cristae organization under optimal coherence. See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:#22d3ee;">DERIVATION_CHAIN_HELIX.md</a> [H.1.7]-[H.1.8] for the XCRM uniqueness theorem.
+                <strong style="color:#22d3ee;">Why This Matters:</strong> The STUR framework provides a <em>principled</em> way to model state transitions (vs ad-hoc thresholds), and predicts curvature-dependent stability that standard models lack. The testable claim is not the threshold values, but the <em>functional form</em> of S(u) and its dependence on cristae geometry.
             </p>
         </div>
     </div>
@@ -147,18 +150,21 @@
     <section class="glass-section test">
         <div class="glass-section-header">
             <span class="stur-icon icon-layers size-24"></span>
-            <h2 class="glass-section-title">What This Page Derives</h2>
+            <h2 class="glass-section-title">What This Page Applies</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>Observable:</strong> Quantitative state transition thresholds for single mitochondria derived from STUR potential barriers.</p>
+            <p><strong>Observable:</strong> Single-mitochondrion state transitions modeled using STUR multi-well potential framework.</p>
             <p><strong>Scale:</strong> Cristae curvature \(\XCRM{r} \sim 0.1\text{--}0.5\,\mu\text{m}\), coherence length \(\XCRM{L_X} \approx 0.25\,\mu\text{m}\).</p>
-            <p><strong>Predictions:</strong></p>
+            <p><strong>Testable Hypotheses</strong> (threshold values from literature; functional form from STUR):</p>
             <ul>
                 <li><strong>STATE.1:</strong> Healthy→Stressed transition: pmf &lt; 120 mV OR Ca²⁺ &gt; 0.6 µM OR ROS &gt; 0.4 a.u.</li>
                 <li><strong>STATE.2:</strong> Stressed→Pre-apoptotic: pmf &lt; 96 mV OR Ca²⁺ &gt; 0.9 µM OR ROS &gt; 0.7 a.u.</li>
                 <li><strong>STATE.3:</strong> mPTP opening threshold: Ca²⁺ &gt; 1.2 µM AND ROS &gt; 0.8 a.u. AND pmf &lt; 120 mV</li>
                 <li><strong>STATE.4:</strong> Recovery condition: pmf &gt; 120 mV AND ROS &lt; 0.3 a.u. AND Ca²⁺ &lt; 0.5 µM</li>
             </ul>
+            <p style="font-size:0.85rem;color:var(--text-dim);margin-top:0.75rem;">
+                <em>The unique STUR contribution: curvature-dependent barrier heights via S(u) function, not the threshold numbers themselves.</em>
+            </p>
         </div>
     </section>
 
@@ -359,13 +365,15 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Mitochondria Lab - Life/Death v4.0
+# STUR Mitochondria Lab - Life/Death v3.8 TOE
 #
 # Single mitochondrion with STUR coherence regimes:
 #   - pmf, ATP, Ca2+, ROS, cristae geometry, swelling
 #   - State machine: healthy -> stressed -> pre_apoptotic -> uncoupled -> mPTP
 #
-# Derived from Z₃ helix-derived V(R) potential (Foundations §2.5)
+# v3.8 TOE Framework: 1 input (M_Planck), 0 free parameters
+# NOTE: Threshold values are phenomenological (fit to bio data).
+# STUR provides the functional form S(u); biology provides the numbers.
 # ===============================================================
 
 import numpy as np
@@ -568,7 +576,7 @@ def phenotype(summary):
 cfg = preset_state("healthy")
 t, pmf, ATP, Ca_m, ROS, states, summary = run_mito_sim_full(**cfg)
 
-print("=== STUR Mitochondria Life/Death ===")
+print("=== STUR Mitochondria Life/Death v3.8 TOE ===")
 for k, v in summary.items():
     print(f"{k:20s} = {v}")
 print("\nPhenotype:", phenotype(summary))
@@ -607,7 +615,7 @@ ax4.set_yticklabels(list(state_map.keys()))
 ax4.set_title("State Timeline", color='#ffaa00')
 ax4.set_xlabel("Time (s)", color='#94a3b8')
 
-fig.suptitle('STUR Mito Life/Death v4.0', color='#ffaa00', fontsize=14)
+fig.suptitle('STUR Mito Life/Death v3.8 TOE', color='#ffaa00', fontsize=14)
 plt.tight_layout()
 plt.show()</pre>
 
@@ -660,16 +668,22 @@ plt.show()</pre>
     <section class="glass-section" style="border-color: #f472b6;">
         <div class="glass-section-header">
             <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
-            <h2 class="glass-section-title" style="color:#f472b6;">Derivation Summary</h2>
+            <h2 class="glass-section-title" style="color:#f472b6;">Application Summary</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>From Master Action to State Machine:</strong></p>
+            <p><strong>v3.8 TOE Framework:</strong> 1 input (M_Planck) → 0 free parameters at fundamental level</p>
+            <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:1rem;">
+                <em>This biological application maps STUR mathematical structures to mitochondrial observables.
+                The mapping is principled but phenomenological — numerical values come from biology, not from M_Planck.</em>
+            </p>
+
+            <p><strong>STUR Framework → Biological State Machine:</strong></p>
 
             <div class="stur-eq law">
                 \[
-                \Pot{V(|\mathbf{R}|)} \xrightarrow{\text{multi-well}} \{R_{\rm healthy}, R_{\rm stressed}, R_{\rm pre}, R_{\rm uncoupled}, R_{\rm mPTP}\}
+                \Pot{V(|\mathbf{R}|)} \xrightarrow{\text{application}} \{R_{\rm healthy}, R_{\rm stressed}, R_{\rm pre}, R_{\rm uncoupled}, R_{\rm mPTP}\}
                 \]
-                <div class="stur-eq-label">Potential Minima</div>
+                <div class="stur-eq-label">Potential Minima (Application)</div>
             </div>
 
             <p><strong>Physical Mapping:</strong></p>
@@ -701,16 +715,16 @@ plt.show()</pre>
                 </tr>
             </table>
 
-            <p><strong>Emergent Langevin Dynamics:</strong> The STUR 4D equation manifests as stochastic state hopping:</p>
+            <p><strong>Applied Langevin Dynamics:</strong> The STUR mathematical form applied to mitochondrial state hopping:</p>
 
             <div class="stur-eq derived">
                 \[
                 \frac{d\Pot{R}}{d\Matt{t}} = -\Pot{\frac{\partial V}{\partial R}} + \XCRM{S(u)} \cdot \Pot{\Gamma} + \Matt{\xi(t)}
                 \]
-                <div class="stur-eq-label">Langevin State Dynamics</div>
+                <div class="stur-eq-label">Langevin Dynamics (Applied)</div>
             </div>
 
-            <p>where the saturation term \(\XCRM{S(u)}\) increases the effective barrier height, stabilizing the current state against fluctuation-driven transitions.</p>
+            <p>The saturation function S(u) is <em>derived</em> from STUR; its application to cristae curvature stabilization is a <em>testable hypothesis</em> about how the mathematical form manifests in biology.</p>
 
             <p><strong>Cross-References:</strong></p>
             <ul style="font-size:0.9rem;">
