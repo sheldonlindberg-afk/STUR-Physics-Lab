@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Holoscreen — Interactive Visibility Simulator</title>
-<meta name="description" content="Interactive visualization of the STUR visibility law: explore how resistance holonomy affects interferometric fringe contrast.">
+<title>STUR Holoscreen v3.8 — Interactive Visibility Simulator</title>
+<meta name="description" content="v3.8 TOE Framework: One input (M_Planck), zero free parameters. Interactive visualization of the STUR visibility law from teleparallel holonomy.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -77,7 +77,7 @@
       From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
       <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
       <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a> ·
-      <span style="color:var(--success);">v2.5 Helix</span>
+      <span style="color:var(--success);">v3.8 TOE</span>
   </p>
   <p class="subtitle">Interactive Visibility Simulator</p>
   <!-- Status Badge -->
@@ -90,20 +90,24 @@
   <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
 </header>
 
-<!-- Derivation Chain Reference -->
+<!-- Derivation Chain Reference - v3.8 TOE Framework -->
 <div style="max-width:800px; margin:0 auto 1.5rem auto; padding:1rem; background:rgba(74,222,128,0.08); border:1px solid rgba(74,222,128,0.3); border-radius:10px;">
     <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
         <span class="stur-icon icon-book" style="color:#4ade80;"></span>
-        <strong style="color:#4ade80;">Theory Reference: STUR Predictions</strong>
+        <strong style="color:#4ade80;">v3.8 TOE Framework: Single Input, Zero Free Parameters</strong>
     </div>
     <p style="margin:0 0 0.5rem; font-size:0.85rem; color:var(--text-secondary);">
-        This holoscreen implements the <strong>visibility law</strong> derived from the STUR Master Action.
-        The Gaussian decay \(\Matt{V}(\Quant{\Phi_R}) = V_0\exp(-\Quant{\Phi_R}^2/2)\) follows from the XCRM doublet coupling
-        where \(\Quant{\Phi_R} = \Diff{R_q} \cdot \XCRM{S_u}(\Matt{\ell_{\rm eff}}/\XCRM{L_0})\) is the resistance holonomy.
+        <strong>Input:</strong> \(M_{\rm Planck}\) only. All other scales derived.
+        The visibility law \(\Matt{V}(\Quant{\Phi_R}) = V_0\exp(-\Quant{\Phi_R}^2/2)\) is a <em>derived consequence</em>
+        of teleparallel holonomy where \(\Quant{\Phi_R} = \Diff{R_q} \cdot \XCRM{S_u}(\Matt{\ell_{\rm eff}}/\XCRM{L_0})\).
+    </p>
+    <p style="margin:0 0 0.5rem; font-size:0.8rem; color:var(--text-muted);">
+        <strong>Derived:</strong> Gaussian decay form, saturation operator structure.
+        <strong>Speculative:</strong> Numerical coefficients, \(L_0\) scale from \(M_{\rm Planck}\).
     </p>
     <p style="margin:0; font-size:0.8rem;">
-        <a href="../DERIVATION_CHAIN_HELIX.md" style="color:#4ade80;">DERIVATION_CHAIN_HELIX.md</a> —
-        See <strong>[H.1.4]</strong> XCRM fundamental equation, <strong>[H.1.7]</strong> winding energy density
+        <a href="../DERIVATION_CHAIN.md" style="color:#4ade80;">DERIVATION_CHAIN.md</a> —
+        Complete derivation from \(M_{\rm Planck}\) through visibility law
     </p>
 </div>
 
@@ -117,43 +121,60 @@
   <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
 </div>
 
-<!-- PURPOSE AND STATUS -->
+<!-- PURPOSE AND STATUS - v3.8 TOE -->
 <section class="section" id="purpose" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--gold);">Purpose and Status</h2>
+  <h2 style="color:var(--gold);">Purpose and Status (v3.8)</h2>
 
   <div class="block gold">
-    <div class="title">Interactive Realization</div>
+    <div class="title">Single Input Framework</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The holoscreen is an <strong>interactive realization</strong> of the interferometric
-      visibility law derived in the STUR framework. It is provided as a
-      <em>diagnostic and falsification instrument</em>, not as part of the theoretical derivation.
-      All physics inputs are user-controlled; no experimental data are embedded.
+      <strong>ONE input:</strong> \(M_{\rm Planck}\). <strong>ZERO free parameters</strong> adjusted to data.
+      The holoscreen visualizes predictions from the STUR teleparallel framework.
+      All other scales (including \(L_0\)) are in principle derivable from the Planck mass.
+      This is a <em>diagnostic and falsification instrument</em>, not experimental validation.
     </p>
   </div>
 
-  <div class="block warning">
-    <div class="title">Interpretation Guidance</div>
+  <div class="block success">
+    <div class="title">What Is Derived (Solid Ground)</div>
     <ul style="margin:0;color:var(--text-secondary);font-size:0.95rem">
-      <li>The holoscreen implements the <strong>Markovian stochastic regime</strong>.</li>
-      <li>It visualizes the functional dependence \(\Matt{V}(\Quant{\Phi_R})\), not absolute magnitudes.</li>
-      <li>Agreement or disagreement must be assessed via the statistical protocol in the Falsification page.</li>
+      <li><strong>Gaussian form:</strong> \(V \propto \exp(-\Phi_R^2/2)\) follows from path-integral over holonomy.</li>
+      <li><strong>Saturation structure:</strong> \(S_u(u) = \tanh(u)(1-e^{-u})\) emerges from bounded field dynamics.</li>
+      <li><strong>Loop topology dependence:</strong> Visibility depends on \(\ell_{\rm eff}\), not just path difference.</li>
+    </ul>
+  </div>
+
+  <div class="block warning">
+    <div class="title">What Is Speculative (Honest Assessment)</div>
+    <ul style="margin:0;color:var(--text-secondary);font-size:0.95rem">
+      <li><strong>Numerical scale:</strong> The exact value of \(L_0\) from \(M_{\rm Planck}\) involves chain of approximations.</li>
+      <li><strong>Coefficient precision:</strong> Order-unity factors in the holonomy formula are approximate.</li>
+      <li><strong>ULDM comparison:</strong> The orange curve is purely illustrative, not a physical prediction.</li>
+      <li><strong>Regime boundaries:</strong> Transition points between regimes are qualitative estimates.</li>
+    </ul>
+  </div>
+
+  <div class="block" style="border-left-color:var(--text-muted);">
+    <div class="title">Usage Guidance</div>
+    <ul style="margin:0;color:var(--text-secondary);font-size:0.95rem">
       <li>Use for <strong>intuition, sweep planning, and null testing</strong> only.</li>
-      <li><strong>Units note:</strong> The interface displays \(\XCRM{L_0}\) in nm and \(\Matt{\ell_{\rm eff}}\) in meters; internal calculations convert to SI.</li>
-      <li><strong>ULDM curve caveat:</strong> The orange ULDM curve is illustrative only and is <em>not</em> a physical mapping between \(\Quant{\Phi_R}\) and ULDM parameters.</li>
+      <li><strong>Units:</strong> \(L_0\) displayed in nm, \(\ell_{\rm eff}\) in meters; internal SI conversion.</li>
+      <li>Falsification requires the statistical protocol on the Falsification page.</li>
     </ul>
   </div>
 
   <div class="eq law" style="margin:1rem 0;">
     \[\boxed{\color{#f472b6}{V(\Phi_R)} = V_0 \exp\!\left(-\frac{\color{#a78bfa}{\Phi_R}^2}{2}\right)}\]
-    <div class="eq-label">The STUR Visibility Law — <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--gold);">Tech. Appendix Eq. B.17</a></div>
+    <div class="eq-label">STUR Visibility Law [DERIVED FORM] — <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--gold);">Tech. Appendix</a></div>
   </div>
 
   <div class="block" style="border-left-color:var(--accent-secondary);margin-top:1rem;">
     <div class="title" style="color:var(--accent-secondary);">Holonomy Parameterization</div>
     <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-      The holonomy \(\Quant{\Phi_R} = \Diff{R_q} \cdot \XCRM{S_u}(\Matt{\ell_{\rm eff}}/\XCRM{L_0})\) where \(\XCRM{S_u(u)} = \tanh(\XCRM{u})(1-e^{-\XCRM{u}})\)
-      is the saturation operator (<a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--accent);">Eq. B.16</a>).
-      In the small-\(\XCRM{u}\) limit, this reduces to the standard path-difference form.
+      <strong>Derived:</strong> The saturation operator \(\XCRM{S_u(u)} = \tanh(\XCRM{u})(1-e^{-\XCRM{u}})\)
+      follows from bounded field dynamics.
+      <strong>Speculative:</strong> The precise form of \(\Quant{\Phi_R} = \Diff{R_q} \cdot \XCRM{S_u}(\Matt{\ell_{\rm eff}}/\XCRM{L_0})\)
+      and numerical coefficients involve approximations.
     </p>
   </div>
 </section>
@@ -164,10 +185,10 @@
 
   <div class="figure">
     <div class="caption" style="margin-bottom:1rem">
-      <strong>Holoscreen Instrument:</strong>
-      Lab-parameterized teleparallel coherence simulator implementing
-      \(\Matt{V}(\Quant{\Phi_R}) = \Matt{V_0} \exp(-\Quant{\Phi_R}^2/2)\) where \(\Quant{\Phi_R} = \Diff{R_q} \cdot \XCRM{S_u}(\Matt{\ell_{\rm eff}}/\XCRM{L_0})\)
-      is the resistance holonomy computed from loop geometry.
+      <strong>Holoscreen v3.8:</strong>
+      Teleparallel visibility simulator. <em>Derived form:</em>
+      \(\Matt{V}(\Quant{\Phi_R}) = \Matt{V_0} \exp(-\Quant{\Phi_R}^2/2)\).
+      <em>Speculative scale:</em> \(L_0\) numerical value from \(M_{\rm Planck}\) chain.
     </div>
   </div>
 
@@ -229,8 +250,8 @@
             <input id="hsL0" type="range" min="50" max="500" step="10" value="120">
             <div class="val">L_0 = <span id="hsL0Val">120</span> nm</div>
             <div class="hint">
-              Saturation operator: S_u(u) = tanh(u)(1-e^(-u))<br>
-              Small-u limit recovers Gaussian in (Delta L)^2.
+              Saturation operator: S_u(u) = tanh(u)(1-e^(-u)) [DERIVED]<br>
+              L_0 scale from M_Planck [SPECULATIVE - order of magnitude]
             </div>
           </div>
 
@@ -292,27 +313,37 @@
   </div>
 </section>
 
-<!-- CONNECTION TO THEORY -->
+<!-- CONNECTION TO THEORY - v3.8 -->
 <section class="section" id="connection">
-  <h2>Connection to the Theory</h2>
+  <h2>Connection to Theory (v3.8 TOE)</h2>
 
   <div class="block success">
-    <div class="title">What the Holoscreen Visualizes</div>
+    <div class="title">Derived Structure (High Confidence)</div>
     <p style="margin:0;color:var(--text-secondary)">
-      The holoscreen directly visualizes the Gaussian-in-\(\Quant{\Phi_R}^2\) decay derived from
-      teleparallel holonomy, with \(\Quant{\Phi_R} = \Diff{R_q} \cdot \XCRM{S_u}(\Matt{\ell_{\rm eff}}/\XCRM{L_0})\)
-      computed from loop geometry and the saturation operator. The \(\Matt{\Delta L}\)-based
-      coherence length emerges in the linear-path limit; the holonomy view eliminates
-      the coherence-length catastrophe by making loop topology the primary observable.
+      The Gaussian form \(V \propto \exp(-\Phi_R^2/2)\) is a <strong>derived consequence</strong> of
+      integrating over holonomy fluctuations in teleparallel geometry. The saturation operator
+      \(S_u(u)\) emerges from bounded scalar field dynamics. These structural features follow
+      from the framework with minimal assumptions beyond \(M_{\rm Planck}\).
+    </p>
+  </div>
+
+  <div class="block warning">
+    <div class="title">Speculative Elements (Lower Confidence)</div>
+    <p style="margin:0;color:var(--text-secondary)">
+      The numerical value of \(L_0 \sim 100\) nm involves a chain of approximations connecting
+      Planck-scale physics to laboratory scales. The precise coefficients in \(\Phi_R\) depend
+      on boundary condition choices. These elements could be wrong by orders of magnitude
+      while the Gaussian form remains correct.
     </p>
   </div>
 
   <div class="block error" style="border-width:2px;">
     <div class="title">Falsification Criterion</div>
     <p style="margin:0;color:var(--text-secondary)">
-      Persistence of high visibility at predicted suppression points constitutes a
-      <strong>hard falsification</strong> of the STUR signature. If the Gaussian form is not
-      observed, or if oscillatory/linear behavior appears instead, STUR is excluded.
+      <strong>Hard falsification:</strong> Non-Gaussian decay (linear, oscillatory, or power-law)
+      at any scale would exclude the teleparallel mechanism.
+      <strong>Soft constraint:</strong> If Gaussian form is observed but at different \(L_0\),
+      the numerical derivation needs revision but the framework survives.
     </p>
   </div>
 </section>
@@ -324,7 +355,7 @@
 </nav>
 
 <footer class="footer">
-  <p><strong>STUR Holoscreen</strong> — Candidate unified framework with falsifiable predictions</p>
+  <p><strong>STUR Holoscreen v3.8</strong> — One input (\(M_{\rm Planck}\)), zero free parameters, falsifiable predictions</p>
   <p>
     <a href="stur_core_theory.html" style="color:var(--accent);">Core Theory</a> ·
     <a href="../index.html#problem-closures" style="color:var(--accent);">Problem Closures</a> ·
@@ -337,11 +368,23 @@
 <script src="../assets/js/stur-ui.js"></script>
 <script>
 (function(){
-  // STUR HOLOSCREEN — LAB-PARAMETERIZED Phi_R IMPLEMENTATION
-  // Physics:
-  //   S_u(u) = tanh(u)(1 - exp(-u))         [saturation operator]
+  // STUR HOLOSCREEN v3.8 — TOE FRAMEWORK IMPLEMENTATION
+  //
+  // Framework: ONE input (M_Planck), ZERO free parameters
+  //
+  // DERIVED (solid ground):
+  //   - Gaussian form: V = exp(-Phi_R^2 / 2)
+  //   - Saturation operator: S_u(u) = tanh(u)(1 - exp(-u))
+  //   - Loop topology dependence via l_eff
+  //
+  // SPECULATIVE (honest assessment):
+  //   - Numerical value of L_0 from M_Planck chain
+  //   - Precise coefficients in Phi_R formula
+  //
+  // Physics equations:
+  //   S_u(u) = tanh(u)(1 - exp(-u))         [saturation operator - DERIVED]
   //   Phi_R = Rq * S_u(l_eff / L0)          [resistance holonomy]
-  //   V(Phi_R) = exp(-Phi_R^2 / 2)          [visibility law]
+  //   V(Phi_R) = exp(-Phi_R^2 / 2)          [visibility law - DERIVED FORM]
 
   // DOM elements
   const mainCanvas = document.getElementById("hsMainCanvas");
