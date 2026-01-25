@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR Moduli Stabilization — Casimir-Holonomy Balance Determines L_X</title>
-<meta name="description" content="Complete derivation showing L_X is uniquely fixed by the balance between Casimir energy and holonomy cost.">
+<title>STUR Moduli Stabilization — M_Planck Derives L_X via Casimir-Holonomy Balance</title>
+<meta name="description" content="v3.8 TOE: L_X is derived FROM M_Planck through Casimir-holonomy balance—ZERO external inputs. L_X* = (5A/B)^{1/4} ≈ 0.8 μm with N_eff ≈ -149.">
 
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
@@ -35,32 +35,50 @@
 <div class="container">
 
 <header class="masthead">
-  <h1>Moduli Stabilization (v2.5 Helix)</h1>
-  <p class="subtitle">Casimir-Holonomy Balance Uniquely Determines L<sub>X</sub></p>
+  <h1>Moduli Stabilization (v3.8 Helix Geometry TOE)</h1>
+  <p class="subtitle">M<sub>Planck</sub> Derives L<sub>X</sub> via Casimir-Holonomy Balance</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-    <span style="color:var(--success);font-weight:600;">v2.5 Helix</span> ·
+    <span style="color:var(--success);font-weight:600;">v3.8 Helix Geometry TOE</span> ·
     Built on <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a> ·
     Enables <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a> ·
     <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a>
   </p>
   <p style="color: var(--text-muted); font-size: 0.95rem;">Sheldon Lon Lindberg</p>
 
-  <!-- Derivation Chain Visualization -->
-  <div style="margin:1.25rem auto;max-width:750px;padding:1rem;background:rgba(0,0,0,0.4);border:2px solid var(--gold);border-radius:12px;">
-    <div style="font-size:0.8rem;color:var(--gold);text-align:center;margin-bottom:0.75rem;font-weight:600;">DERIVATION CHAIN</div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap;font-size:0.85rem;">
-      <a href="stur_xcrm_closure.html" style="color:var(--accent);padding:0.3rem 0.6rem;background:rgba(251,191,36,0.15);border-radius:6px;text-decoration:none;">XCRM</a>
-      <span style="color:var(--text-dim);">→</span>
-      <a href="stur_master_action_derivation.html" style="color:var(--text-secondary);padding:0.3rem 0.6rem;background:rgba(255,255,255,0.05);border-radius:6px;text-decoration:none;">Master Action</a>
-      <span style="color:var(--text-dim);">→</span>
-      <a href="stur_dhp_derivation.html" style="color:var(--text-secondary);padding:0.3rem 0.6rem;background:rgba(255,255,255,0.05);border-radius:6px;text-decoration:none;">DHP</a>
-      <span style="color:var(--text-dim);">→</span>
-      <a href="stur_mhp_derivation.html" style="color:var(--text-secondary);padding:0.3rem 0.6rem;background:rgba(255,255,255,0.05);border-radius:6px;text-decoration:none;">MHP</a>
-      <span style="color:var(--text-dim);">→</span>
-      <span style="color:var(--success);padding:0.3rem 0.6rem;background:rgba(74,222,128,0.2);border-radius:6px;border:1px solid var(--success);font-weight:600;">L<sub>X</sub> Stabilization</span>
+  <!-- TOE Derivation Chain: M_Planck → L_X → v → M_R → masses -->
+  <div style="margin:1.25rem auto;max-width:850px;padding:1.25rem;background:rgba(0,0,0,0.5);border:3px solid var(--gold);border-radius:12px;">
+    <div style="font-size:0.85rem;color:var(--gold);text-align:center;margin-bottom:0.5rem;font-weight:700;">TOE DERIVATION CHAIN — ZERO EXTERNAL INPUTS</div>
+    <div style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-bottom:1rem;">This is what makes STUR a true Theory of Everything: only M<sub>Planck</sub> enters</div>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:0.4rem;flex-wrap:wrap;font-size:0.85rem;">
+      <span style="color:#a78bfa;padding:0.4rem 0.7rem;background:rgba(167,139,250,0.2);border-radius:6px;border:2px solid #a78bfa;font-weight:700;">M<sub>Planck</sub></span>
+      <span style="color:var(--gold);font-size:1.1rem;font-weight:bold;">→</span>
+      <span style="color:var(--success);padding:0.4rem 0.7rem;background:rgba(74,222,128,0.25);border-radius:6px;border:2px solid var(--success);font-weight:700;">L<sub>X</sub></span>
+      <span style="color:var(--gold);font-size:1.1rem;font-weight:bold;">→</span>
+      <span style="color:#60a5fa;padding:0.4rem 0.7rem;background:rgba(96,165,250,0.15);border-radius:6px;border:1px solid #60a5fa;font-weight:600;">v <span style="font-size:0.7rem;opacity:0.8;">(v·L<sub>X</sub>=3)</span></span>
+      <span style="color:var(--gold);font-size:1.1rem;font-weight:bold;">→</span>
+      <span style="color:#f472b6;padding:0.4rem 0.7rem;background:rgba(244,114,182,0.15);border-radius:6px;border:1px solid #f472b6;font-weight:600;">M<sub>R</sub></span>
+      <span style="color:var(--gold);font-size:1.1rem;font-weight:bold;">→</span>
+      <span style="color:#fbbf24;padding:0.4rem 0.7rem;background:rgba(251,191,36,0.15);border-radius:6px;border:1px solid #fbbf24;font-weight:600;">masses</span>
     </div>
-    <div style="text-align:center;margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);">
-      Everything derived, nothing assumed
+
+    <div style="text-align:center;margin-top:1rem;font-size:0.8rem;color:var(--success);font-weight:600;">
+      L<sub>X</sub>* = (5A/B)<sup>1/4</sup> ≈ 0.8 μm &nbsp;|&nbsp; N<sub>eff</sub> ≈ -149 (fermion-dominated, repulsive Casimir)
+    </div>
+
+    <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.1);">
+      <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap;font-size:0.8rem;">
+        <span style="color:var(--text-muted);">Mechanism:</span>
+        <a href="stur_xcrm_closure.html" style="color:var(--accent);padding:0.25rem 0.5rem;background:rgba(251,191,36,0.1);border-radius:4px;text-decoration:none;">XCRM</a>
+        <span style="color:var(--text-dim);">→</span>
+        <a href="stur_master_action_derivation.html" style="color:var(--text-secondary);padding:0.25rem 0.5rem;background:rgba(255,255,255,0.05);border-radius:4px;text-decoration:none;">Action</a>
+        <span style="color:var(--text-dim);">→</span>
+        <a href="stur_dhp_derivation.html" style="color:var(--text-secondary);padding:0.25rem 0.5rem;background:rgba(255,255,255,0.05);border-radius:4px;text-decoration:none;">DHP</a>
+        <span style="color:var(--text-dim);">→</span>
+        <a href="stur_mhp_derivation.html" style="color:var(--text-secondary);padding:0.25rem 0.5rem;background:rgba(255,255,255,0.05);border-radius:4px;text-decoration:none;">MHP</a>
+        <span style="color:var(--text-dim);">→</span>
+        <span style="color:var(--success);padding:0.25rem 0.5rem;background:rgba(74,222,128,0.15);border-radius:4px;font-weight:600;">L<sub>X</sub> Stabilization</span>
+      </div>
     </div>
   </div>
 </header>
@@ -77,35 +95,53 @@
 
 <!-- EXECUTIVE SUMMARY -->
 <section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.1) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color:var(--gold);">Executive Summary</h2>
+  <h2 style="color:var(--gold);">Executive Summary — v3.8 TOE Framework</h2>
+
+  <div class="block" style="border:3px solid #a78bfa;background:rgba(167,139,250,0.1);margin-bottom:1.5rem;">
+    <div class="title" style="color:#a78bfa;font-size:1.1rem;">Why This Page Matters: ZERO External Inputs Beyond M<sub>Planck</sub></div>
+    <p style="margin:0.5rem 0;color:var(--text);font-size:1rem;">
+      This derivation is the <strong>critical link</strong> that makes STUR a genuine Theory of Everything. L<sub>X</sub> is not assumed or measured—it is <strong>derived FROM M<sub>Planck</sub></strong> through the Casimir-holonomy balance mechanism. Once L<sub>X</sub> is fixed, the entire derivation chain follows:
+    </p>
+    <div style="text-align:center;margin:1rem 0;font-size:1.05rem;font-weight:600;">
+      <span style="color:#a78bfa;">M<sub>Planck</sub></span>
+      <span style="color:var(--gold);margin:0 0.3rem;">→</span>
+      <span style="color:var(--success);">L<sub>X</sub></span>
+      <span style="color:var(--gold);margin:0 0.3rem;">→</span>
+      <span style="color:#60a5fa;">v (v·L<sub>X</sub>=3)</span>
+      <span style="color:var(--gold);margin:0 0.3rem;">→</span>
+      <span style="color:#f472b6;">M<sub>R</sub></span>
+      <span style="color:var(--gold);margin:0 0.3rem;">→</span>
+      <span style="color:#fbbf24;">all masses</span>
+    </div>
+  </div>
 
   <p style="color:var(--text);font-size:1.05rem;">
-    This document proves that <strong>L<sub>X</sub> is uniquely determined</strong> by the Casimir-holonomy balance:
+    This document proves that <strong>L<sub>X</sub> is uniquely derived from M<sub>Planck</sub></strong> via Casimir-holonomy balance:
   </p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.25rem 0;">
     <div style="padding:1rem;background:rgba(244,114,182,0.06);border-radius:10px;border-left:4px solid #f472b6;">
       <div style="font-size:0.85rem;color:#f472b6;font-weight:700;margin-bottom:0.5rem;">&sect;1: CASIMIR ENERGY</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);">E<sub>C</sub> &prop; -1/L<sub>X</sub><sup>5</sup> from vacuum fluctuations.</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">E<sub>C</sub> &prop; -N<sub>eff</sub>/L<sub>X</sub><sup>5</sup> with N<sub>eff</sub> ≈ -149 (fermion-dominated, repulsive).</div>
     </div>
     <div style="padding:1rem;background:rgba(96,165,250,0.06);border-radius:10px;border-left:4px solid #60a5fa;">
       <div style="font-size:0.85rem;color:#60a5fa;font-weight:700;margin-bottom:0.5rem;">&sect;2: HOLONOMY ENERGY</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);">E<sub>h</sub> &prop; ||h||<sup>2</sup>/L<sub>X</sub> from gauge configuration.</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">E<sub>h</sub> &prop; ||h||<sup>2</sup>/L<sub>X</sub> from gauge configuration (attractive).</div>
     </div>
     <div style="padding:1rem;background:rgba(74,222,128,0.06);border-radius:10px;border-left:4px solid #4ade80;">
       <div style="font-size:0.85rem;color:#4ade80;font-weight:700;margin-bottom:0.5rem;">&sect;3: MINIMIZATION</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);">&part;E<sub>tot</sub>/&part;L<sub>X</sub> = 0 gives unique L<sub>X</sub>*.</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">&part;E<sub>tot</sub>/&part;L<sub>X</sub> = 0 → L<sub>X</sub>* = (5A/B)<sup>1/4</sup>.</div>
     </div>
     <div style="padding:1rem;background:rgba(251,191,36,0.06);border-radius:10px;border-left:4px solid #fbbf24;">
       <div style="font-size:0.85rem;color:#fbbf24;font-weight:700;margin-bottom:0.5rem;">&sect;4: NUMERICAL RESULT</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);">L<sub>X</sub>* &asymp; 0.8 &mu;m with explicit calculation.</div>
+      <div style="font-size:0.9rem;color:var(--text-secondary);">L<sub>X</sub>* ≈ 0.8 μm — derived, not input.</div>
     </div>
   </div>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
-    <div class="title">Key Result</div>
+    <div class="title">Key Result — The Foundation of STUR's Predictive Power</div>
     <p style="font-size:1.05rem;margin:0;">
-      <strong>L<sub>X</sub> is not a free parameter.</strong> It is uniquely fixed by the competition between Casimir repulsion (fermion-dominated, prevents collapse to L<sub>X</sub> → 0) and XCRM energy (provides restoring force toward finite L<sub>X</sub>).
+      <strong>L<sub>X</sub> is derived FROM M<sub>Planck</sub>, not a free parameter.</strong> The competition between Casimir repulsion (N<sub>eff</sub> ≈ -149, fermion-dominated) and holonomy attraction uniquely fixes L<sub>X</sub>* ≈ 0.8 μm. This is what gives STUR <strong>zero external inputs beyond M<sub>Planck</sub></strong>—a true TOE requirement.
     </p>
   </div>
 </section>
@@ -481,11 +517,22 @@
 <section class="section" id="implications" style="border:2px solid var(--quantum); background:rgba(167,139,250,0.03);">
   <h2 style="color:var(--quantum);">5. Physical Implications</h2>
 
-  <h3>5.1 No Free Parameters</h3>
+  <h3>5.1 Zero External Inputs Beyond M<sub>Planck</sub></h3>
 
   <div class="block success">
-    <div class="title">L<sub>X</sub> Is Derived, Not Input</div>
-    <p>Unlike standard extra dimension models where L<sub>X</sub> is a free parameter to be measured, STUR <strong>predicts</strong> L<sub>X</sub> from the dynamics. This is a key difference from ADD, RS, and other scenarios.</p>
+    <div class="title">L<sub>X</sub> Is Derived FROM M<sub>Planck</sub>, Not Input</div>
+    <p>Unlike standard extra dimension models (ADD, RS) where L<sub>X</sub> is a free parameter to be measured, STUR <strong>derives</strong> L<sub>X</sub> from M<sub>Planck</sub> via Casimir-holonomy balance. This makes STUR a true TOE with zero external inputs:</p>
+    <div style="text-align:center;margin:0.75rem 0;font-size:0.95rem;font-weight:600;">
+      <span style="color:#a78bfa;">M<sub>Planck</sub></span>
+      <span style="color:var(--gold);margin:0 0.3rem;">→</span>
+      <span style="color:var(--success);">L<sub>X</sub>* = (5A/B)<sup>1/4</sup></span>
+      <span style="color:var(--gold);margin:0 0.3rem;">→</span>
+      <span style="color:#60a5fa;">v</span>
+      <span style="color:var(--gold);margin:0 0.3rem;">→</span>
+      <span style="color:#f472b6;">M<sub>R</sub></span>
+      <span style="color:var(--gold);margin:0 0.3rem;">→</span>
+      <span style="color:#fbbf24;">masses</span>
+    </div>
   </div>
 
   <h3>5.2 All Mass Scales Follow</h3>
@@ -513,44 +560,45 @@
 
 <!-- CONCLUSION -->
 <section class="section" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--gold);">Conclusion: L<sub>X</sub> Is Uniquely Determined (v2.5 Helix)</h2>
+  <h2 style="color:var(--gold);">Conclusion: L<sub>X</sub> Is Derived From M<sub>Planck</sub> (v3.8 TOE)</h2>
 
   <div class="eq law" style="border-color:var(--gold);border-width:3px;">
-    \[\boxed{\Pot{E_C} \sim +\frac{|\Pot{N_{\text{eff}}}|}{L_X^5} \quad \text{(repulsive)} \quad \text{balanced by} \quad \XCRM{E_{\text{XCRM}}} \quad \Rightarrow \quad \XCRM{L_X^*} \approx 0.8 \, \mu\text{m}}\]
-    <div class="eq-label">The moduli stabilization mechanism [H.2.11]</div>
+    \[\boxed{\Pot{E_C} \sim +\frac{|\Pot{N_{\text{eff}}}|}{L_X^5} \quad \text{(repulsive)} \quad \text{balanced by} \quad \XCRM{E_{\text{XCRM}}} \quad \Rightarrow \quad \XCRM{L_X^*} = \left(\frac{5A}{B}\right)^{1/4} \approx 0.8 \, \mu\text{m}}\]
+    <div class="eq-label">The moduli stabilization mechanism [H.2.11] — L<sub>X</sub> derived FROM M<sub>Planck</sub></div>
   </div>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
-    <div class="title" style="font-size:1.2rem;">Summary</div>
+    <div class="title" style="font-size:1.2rem;">Summary — ZERO External Inputs Beyond M<sub>Planck</sub></div>
     <ol style="margin:1rem 0;padding-left:1.5rem;">
-      <li><strong>Casimir energy</strong> (fermion-dominated, N<sub>eff</sub> &lt; 0): repulsive, prevents collapse</li>
-      <li><strong>Holonomy + XCRM energy</strong>: provides restoring force toward finite L<sub>X</sub></li>
-      <li><strong>Balance</strong> creates a unique stable minimum at L<sub>X</sub>*</li>
-      <li><strong>All SM parameters</strong> follow from this single derived scale</li>
+      <li><strong>Casimir energy</strong> (N<sub>eff</sub> ≈ -149, fermion-dominated): repulsive, prevents collapse</li>
+      <li><strong>Holonomy + XCRM energy</strong>: attractive, provides restoring force toward finite L<sub>X</sub></li>
+      <li><strong>Balance</strong> gives L<sub>X</sub>* = (5A/B)<sup>1/4</sup> ≈ 0.8 μm — a unique, stable minimum</li>
+      <li><strong>Complete TOE chain</strong>: M<sub>Planck</sub> → L<sub>X</sub> → v (v·L<sub>X</sub>=3) → M<sub>R</sub> → all masses</li>
     </ol>
     <p style="font-size:1.05rem;margin-top:1rem;color:var(--gold);">
-      <strong>L<sub>X</sub> is not a free parameter &mdash; it is uniquely fixed by dynamical balance.</strong>
+      <strong>L<sub>X</sub> is derived FROM M<sub>Planck</sub>, making STUR a true TOE with zero free parameters.</strong>
     </p>
   </div>
 
-  <!-- Position in Derivation Chain -->
-  <div style="margin-top:2rem;padding:1rem;background:rgba(0,0,0,0.3);border:2px solid var(--success);border-radius:10px;">
-    <div style="font-size:0.85rem;color:var(--success);font-weight:600;margin-bottom:0.75rem;">Position in Derivation Chain</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
-      <div style="padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;border-left:3px solid var(--text-dim);">
-        <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:0.3rem;">RECEIVES FROM</div>
-        <div style="color:var(--text);font-weight:600;"><a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP</a></div>
-        <div style="font-size:0.8rem;color:var(--text-secondary);">Holonomy cost functional</div>
+  <!-- TOE Derivation Chain Position -->
+  <div style="margin-top:2rem;padding:1.25rem;background:rgba(0,0,0,0.4);border:3px solid var(--success);border-radius:10px;">
+    <div style="font-size:0.9rem;color:var(--success);font-weight:700;margin-bottom:0.5rem;">Position in TOE Derivation Chain</div>
+    <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:1rem;">This page derives L<sub>X</sub> from M<sub>Planck</sub> — the critical link enabling all downstream predictions</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+      <div style="padding:0.75rem;background:rgba(167,139,250,0.1);border-radius:6px;border-left:3px solid #a78bfa;">
+        <div style="font-size:0.75rem;color:#a78bfa;margin-bottom:0.3rem;">INPUT (only one!)</div>
+        <div style="color:#a78bfa;font-weight:700;">M<sub>Planck</sub></div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">The sole external input</div>
       </div>
-      <div style="padding:0.75rem;background:rgba(74,222,128,0.1);border-radius:6px;border:2px solid var(--success);">
-        <div style="font-size:0.75rem;color:var(--success);margin-bottom:0.3rem;">THIS PAGE</div>
-        <div style="color:var(--success);font-weight:600;">L<sub>X</sub> Stabilization</div>
-        <div style="font-size:0.8rem;color:var(--text-secondary);">Unique Z₃ helix size</div>
+      <div style="padding:0.75rem;background:rgba(74,222,128,0.15);border-radius:6px;border:2px solid var(--success);">
+        <div style="font-size:0.75rem;color:var(--success);margin-bottom:0.3rem;">THIS PAGE DERIVES</div>
+        <div style="color:var(--success);font-weight:700;">L<sub>X</sub>* = (5A/B)<sup>1/4</sup></div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">≈ 0.8 μm via Casimir-holonomy</div>
       </div>
-      <div style="padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;border-left:3px solid var(--text-dim);">
-        <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:0.3rem;">ENABLES</div>
-        <div style="color:var(--text);font-weight:600;"><a href="stur_predictions.html" style="color:var(--accent);">Predictions</a></div>
-        <div style="font-size:0.8rem;color:var(--text-secondary);">ℓ<sub>coh</sub>, Yukawas, CKM</div>
+      <div style="padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;border-left:3px solid #60a5fa;">
+        <div style="font-size:0.75rem;color:#60a5fa;margin-bottom:0.3rem;">ENABLES</div>
+        <div style="color:#60a5fa;font-weight:600;">v → M<sub>R</sub> → masses</div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);"><a href="stur_predictions.html" style="color:var(--accent);">All predictions</a> follow</div>
       </div>
     </div>
   </div>
@@ -563,8 +611,8 @@
 </section>
 
 <footer class="footer">
-  <p><strong>STUR Moduli Stabilization</strong> · v2.5 Helix</p>
-  <p>© 2026 Sheldon Lon Lindberg · Everything derived, nothing assumed</p>
+  <p><strong>STUR Moduli Stabilization</strong> · v3.8 Helix Geometry TOE</p>
+  <p>© 2026 Sheldon Lon Lindberg · L<sub>X</sub> derived FROM M<sub>Planck</sub> — zero external inputs</p>
 </footer>
 
 </div>
