@@ -23,10 +23,7 @@
 /* Use imported font */
 body {
   font-family: 'Inter', sans-serif;
-  background:
-    radial-gradient(900px 600px at 15% 10%, #0b1220 0%, transparent 60%),
-    radial-gradient(800px 500px at 85% 20%, #020617 0%, transparent 65%),
-    linear-gradient(180deg, #020617, #000);
+  background: #000;
 }
 
 /* ---------- Layout ---------- */
@@ -102,10 +99,6 @@ body {
 }
 
 .explore-item {
-  display: grid;
-  grid-template-columns: 6px 1fr;
-  gap: 1.25rem;
-
   padding: 1.25rem 1.5rem;
   border-radius: 14px;
 
@@ -118,8 +111,8 @@ body {
 }
 
 .explore-item.glass {
-  backdrop-filter: blur(14px) saturate(120%);
-  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
 }
 
 .explore-item:not(:last-child) {
@@ -131,17 +124,11 @@ body {
 .explore-item:last-child {
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.04),
-    0 14px 40px rgba(0,0,0,0.5);
+    0 12px 32px rgba(0,0,0,0.45);
 }
 
 .explore-item:hover::before {
   opacity: 0.5;
-}
-
-.explore-item .marker {
-  width: 4px;
-  border-radius: 2px;
-  background: rgba(255,255,255,0.25);
 }
 
 .explore-item .title {
@@ -188,7 +175,7 @@ body {
       transparent 65%
     );
 
-  opacity: 0.45;
+  opacity: 0.28;
   pointer-events: none;
 }
 
@@ -199,10 +186,18 @@ body {
   --glass-b: rgba(14,165,233,0.15);
 }
 
+.foundations .title {
+  color: #60a5fa;
+}
+
 /* Standard Model — violet (spectral) */
 .standard-model {
   --glass-a: rgba(139,92,246,0.45);
   --glass-b: rgba(109,40,217,0.15);
+}
+
+.standard-model .title {
+  color: #a78bfa;
 }
 
 /* Cosmology — green (expansion / matter) */
@@ -211,10 +206,18 @@ body {
   --glass-b: rgba(22,163,74,0.15);
 }
 
+.cosmology .title {
+  color: #34d399;
+}
+
 /* Simulations — amber (experimental) */
 .simulations {
   --glass-a: rgba(245,158,11,0.45);
   --glass-b: rgba(217,119,6,0.15);
+}
+
+.simulations .title {
+  color: #fbbf24;
 }
 
 /* ---------- CTA ---------- */
@@ -328,28 +331,24 @@ body {
   <div class="section-title">Theory Structure</div>
   <section class="explore">
     <a href="scripts/stur_core_theory.html" class="explore-item glass foundations">
-      <span class="marker"></span>
       <div class="content">
         <div class="title">Foundations</div>
         <div class="desc">Master action, geometry, XCRM closure</div>
       </div>
     </a>
     <a href="scripts/stur_sm_derivation.html" class="explore-item glass standard-model">
-      <span class="marker"></span>
       <div class="content">
         <div class="title">Standard Model</div>
         <div class="desc">Particles, masses, mixing, CP</div>
       </div>
     </a>
     <a href="scripts/stur_cosmological_derivation.html" class="explore-item glass cosmology">
-      <span class="marker"></span>
       <div class="content">
         <div class="title">Cosmology</div>
         <div class="desc">Inflation, dark matter, bounce</div>
       </div>
     </a>
     <a href="scripts/stur_sandbox.html" class="explore-item glass simulations">
-      <span class="marker"></span>
       <div class="content">
         <div class="title">Simulations</div>
         <div class="desc">Interactive numerical tests</div>
