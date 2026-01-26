@@ -1,10 +1,10 @@
 # STUR Theoretical Framework — The Helix Argument
 
 **Document Type:** Philosophical-Physical Derivation with Full Calculations
-**Framework:** STUR v3.8 (Helix Geometry) — Theory of Everything
+**Framework:** STUR v4.0 (Helix Geometry) — Effective Theory of Everything
 **Author:** Sheldon Lon Lindberg
-**Date:** 2026-01-25
-**Status:** Complete Theory of Everything — One Input (M_Planck), All Else Derived
+**Date:** 2026-01-26
+**Status:** Complete EFT with TOE-Level Predictions — CC Mechanism Developed, UV Completion Paths Identified
 
 ---
 
@@ -3775,7 +3775,85 @@ M_Planck
 
 **ONE Input. Everything Else Derived.**
 
-**Status:** Complete Theory of Everything. The framework makes 21 falsifiable predictions, with neutrino mass ordering (JUNO 2025-2027) as the most decisive near-term test.
+**Status:** Complete Effective Field Theory with TOE-level predictions. The framework makes 21 falsifiable predictions, with neutrino mass ordering (JUNO 2025-2027) as the most decisive near-term test.
+
+---
+
+## Part XVII: Extended Derivations (v4.0)
+
+### New Derivations Added in v4.0
+
+**1. Discrete Gauge Z₃ Cosmological Constant Mechanism**
+See: `DISCRETE_GAUGE_Z3_CC_SOLUTION.md`
+
+The Z₃ orbifold symmetry is promoted to a discrete GAUGE symmetry via the Krauss-Wilczek mechanism:
+- U(1)_X → Z₃ via charge-3 Higgs breaking
+- Cosmological constant field λ transforms as λ → ω·λ
+- Gauge invariance forces ⟨λ⟩ = 0 exactly at tree level
+- Protected to all perturbative orders by Z₃ Ward identities
+- SM field content satisfies Banks-Dixon anomaly cancellation
+- Residual Λ ~ 10⁻⁴⁷ GeV⁴ from meV-scale explicit Z₃ breaking
+
+**2. UV Completion Exploration**
+See: `UV_COMPLETION_EXPLORATION.md`
+
+Most promising UV completion paths identified:
+- F-theory on j=0 elliptic fibrations (HIGH promise)
+- Type IIB on T²/Z₃ orientifolds (HIGH promise)
+- M-theory on G₂ manifolds with Z₃ isometry (MEDIUM promise)
+
+The Z₃ helix has natural string theory origins:
+- R-field doublet emerges from Kähler modulus
+- XCRM term from modulus kinetic terms
+- Three generations from Z₃ fixed points
+
+**3. κ Higher-Order Corrections — First Principles**
+See: `KAPPA_HIGHER_ORDER_CORRECTIONS.md` (updated)
+
+Complete first-principles derivation of KK tower dressing:
+- Explicit 5D action with Z₃ orbifold projection
+- One-loop Coleman-Weinberg effective potential
+- Delta κ_KK = +0.11 ± 0.03 from UV divergence cancellation
+
+**4. Publication and Web Documentation**
+See: `STUR_PAPER_DRAFT.md`, `STUR_WEB_OVERVIEW.md`
+
+Framework documented for peer review and public accessibility.
+
+---
+
+## Part XVIII: Remaining Issues for TOE Closure
+
+### Critical Gaps
+
+| Issue | Status | Required for TOE | Path to Resolution |
+|-------|--------|------------------|-------------------|
+| CC Residual Λ | Framework only | YES | Derive meV breaking scale from neutrino physics |
+| UV Completion | Paths identified | YES | Explicit F-theory/Type IIB construction |
+| L_X Scale Ambiguity | Two scales: 10⁻³² m and μm | Clarification | Determine if two distinct scales or error |
+| Individual Fermion Masses | Pattern derived, values fitted | Partial | Derive generation-dependent phase shifts |
+
+### Notation Inconsistencies
+
+See: `NOTATION_ISSUES_AND_INCONSISTENCIES.md` for complete list.
+
+### Assessment
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  STUR v4.0 FRAMEWORK STATUS                                 │
+│                                                             │
+│  TOPOLOGY/SYMMETRY: 100% derived (N_gen, gauge group, θ_QCD)│
+│  FLAVOR PHYSICS: ~90% derived (κ, λ, η̄, patterns)          │
+│  COSMOLOGICAL CONSTANT: ~60% (mechanism complete,           │
+│                               residual Λ needs work)        │
+│  UV COMPLETION: ~30% (paths identified, construction needed)│
+│                                                             │
+│  OVERALL: Effective TOE with specific remaining gaps.       │
+│  Key test: Discrete gauge Z₃ mechanism for CC.              │
+│  If residual Λ derives from m_ν scale: COMPLETE TOE.        │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ---
 
