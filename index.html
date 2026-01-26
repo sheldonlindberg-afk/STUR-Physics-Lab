@@ -14,9 +14,9 @@
 <link rel="apple-touch-icon" href="assets/4.13.png">
 <link rel="icon" type="image/png" href="assets/4.13.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/stur-core.css">
+<link rel="stylesheet" href="assets/css/stur-glass.css">
+<link rel="stylesheet" href="assets/css/stur-icons.css">
 
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,81 +58,6 @@ html, body {
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   FLOATING PILL BAR - Premium Liquid Glass
-   ════════════════════════════════════════════════════════════════════════ */
-.pill-bar {
-  position: fixed;
-  top: calc(12px + var(--safe-top));
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 100px;
-  border: 1px solid var(--glass-border);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.12),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.2);
-}
-
-.pill-bar::before {
-  content: '';
-  position: absolute;
-  top: 1px;
-  left: 10px;
-  right: 10px;
-  height: 50%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
-  border-radius: 100px;
-  pointer-events: none;
-}
-
-.pill {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: transparent;
-  border: none;
-  border-radius: 100px;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 14px;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  text-decoration: none;
-}
-
-.pill:active { transform: scale(0.95); }
-.pill.active { background: rgba(255, 255, 255, 0.12); color: #fff; }
-.pill:hover { color: rgba(255, 255, 255, 0.9); }
-.pill svg { width: 18px; height: 18px; flex-shrink: 0; }
-.pill.icon-only { padding: 8px 10px; }
-
-.status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 4px var(--accent), 0 0 8px var(--accent);
-  animation: statusPulse 2s ease-in-out infinite;
-}
-
-@keyframes statusPulse {
-  0%, 100% { box-shadow: 0 0 4px var(--accent), 0 0 8px var(--accent); }
-  50% { box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent), 0 0 24px rgba(74, 222, 128, 0.4); }
-}
-
-/* ════════════════════════════════════════════════════════════════════════
    MAIN CONTENT
    ════════════════════════════════════════════════════════════════════════ */
 .main {
@@ -141,7 +66,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: calc(80px + var(--safe-top)) 24px calc(40px + var(--safe-bottom));
+  padding: 40px 24px calc(40px + var(--safe-bottom));
   text-align: center;
 }
 
@@ -403,15 +328,6 @@ html, body {
    RESPONSIVE
    ════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 480px) {
-  .pill-bar {
-    padding: 4px;
-    gap: 2px;
-  }
-  .pill {
-    padding: 7px 12px;
-    font-size: 13px;
-  }
-  .pill.icon-only { padding: 7px 9px; }
   .hero-title { font-size: 28px; }
   .hero-subtitle { font-size: 14px; }
   .actions { max-width: 280px; }
@@ -437,23 +353,22 @@ html, body {
 </head>
 <body>
 
-<div id="app">
-  <!-- Floating Pill Bar -->
-  <nav class="pill-bar">
-    <a href="about.html" class="pill">About</a>
-    <a href="index.html" class="pill active">
-      <span class="status-dot"></span>
-      STUR
-    </a>
-    <a href="scripts/stur_faq.html" class="pill">FAQ</a>
-    <a href="sitemap.html" class="pill icon-only" aria-label="Explore all pages">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <circle cx="11" cy="11" r="8"/>
-        <path d="M21 21l-4.35-4.35"/>
-      </svg>
-    </a>
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="index.html" class="glass-nav-brand">STUR Lab</a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="index.html" class="glass-nav-link active">Index</a>
+      <a href="scripts/stur_learn.html" class="glass-nav-link">Learn</a>
+      <a href="scripts/stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="scripts/stur_faq.html" class="glass-nav-link">FAQ</a>
+    </div>
   </nav>
+</header>
 
+<div id="app">
   <!-- Main Content -->
   <main class="main">
     <div class="hero-icon">
