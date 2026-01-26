@@ -75,9 +75,9 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <!-- v3.8 TOE Badge -->
+            <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(34,211,238,0.12);border:1px solid #22d3ee;border-radius:8px;max-width:400px;font-size:0.8rem;">
-          <span style="color:#22d3ee;font-weight:600;">★ v3.8 TOE</span> — One input (M<sub>Planck</sub>), zero free parameters
+          <span style="color:#22d3ee;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — One input (M<sub>Planck</sub>), zero free parameters
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -105,7 +105,7 @@
     <div class="glass-section" style="border-color:var(--neon-cyan);background:rgba(34,211,238,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
             <span class="stur-icon icon-book size-24" style="color:var(--neon-cyan);"></span>
-            <h2 class="glass-section-title" style="color:var(--neon-cyan);">v3.8 TOE Framework</h2>
+            <h2 class="glass-section-title" style="color:var(--neon-cyan);">Complete EFT Framework</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.9rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-cyan);">Single Input:</strong> \(M_{\rm Planck} = \sqrt{\hbar c / G}\) — all other scales derived, zero free parameters.</p>
@@ -130,7 +130,7 @@
     <div class="glass-section" style="border-color:var(--success);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
             <span class="stur-icon icon-check size-24" style="color:var(--success);"></span>
-            <h2 class="glass-section-title" style="color:var(--success);">Derivation Chain (v3.8 TOE)</h2>
+            <h2 class="glass-section-title" style="color:var(--success);">Derivation Chain</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--success);">M<sub>Planck</sub> → QED → Condensed Matter → Superconductivity:</strong></p>
@@ -150,7 +150,7 @@
          ============================================================ -->
     <section class="glass-section" style="border-left:3px solid var(--neon-green);background:rgba(74,222,128,0.04);">
         <div class="glass-section-header">
-            <h2 class="glass-section-title" style="color:var(--neon-green);">Derivation from First Principles (v3.8 TOE)</h2>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Derivation from First Principles</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:1rem;">
@@ -257,7 +257,7 @@
     <section class="glass-section model">
         <div class="glass-section-header">
             <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
-            <h2 class="glass-section-title">v3.8 TOE: Superconductivity from First Principles</h2>
+            <h2 class="glass-section-title">Complete EFT: Superconductivity from First Principles</h2>
         </div>
         <div class="glass-section-body">
             <p><strong>Single Input:</strong> All predictions derive from M<sub>Planck</sub> through established physics:</p>
@@ -469,14 +469,11 @@ La1C40H50</textarea>
 <!-- ============================================================
      FOOTER
      ============================================================ -->
-<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab — Candidate unified framework with falsifiable predictions</p>
-    <p>
-        <a href="stur_core_theory.html">Core Theory</a> ·
-        <a href="../index.html#problem-closures">Problem Closures</a> ·
-        <a href="stur_falsification.html">Falsification</a> ·
-        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
-    </p>
+<footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
+  <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
+    © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
+  </p>
 </footer>
 
 <!-- ============================================================
@@ -593,7 +590,7 @@ function runSweep() {
         const verdict = finalVerdict({...d, robustOK: bOK, phononOK: phon, isotopeOK: iso.robust, pressureProxy: pp});
         rows.push({formula: f, ...d, robustOK: bOK, phononOK: phon, isotopeOK: iso.robust, pressureProxy: pp, verdict});
     });
-    LAST = {rows, params: p, ts: new Date().toISOString(), version: "v3.8-TOE"};
+    LAST = {rows, params: p, ts: new Date().toISOString(), version: "4.0"};
     renderTable(rows);
     if (rows.length) selectRow(0);
 }
@@ -678,7 +675,7 @@ document.getElementById("exportCSV").onclick = function() {
 
 document.getElementById("exportJSON").onclick = function() {
     if (!LAST) return STUR.toast("No data", "warning");
-    STUR.exportJSON({...LAST, meta: {page: "holoscreen-ats", version: "v3.8-TOE"}}, `holoscreen-ats-${Date.now()}.json`);
+    STUR.exportJSON({...LAST, meta: {page: "holoscreen-ats", version: "4.0"}}, `holoscreen-ats-${Date.now()}.json`);
 };
 
 // Citation copy functionality
