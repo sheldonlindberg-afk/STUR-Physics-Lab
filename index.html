@@ -129,10 +129,10 @@ html, body {
   justify-content: center;
   gap: 10px;
   padding: 16px 24px;
-  background: rgba(74, 222, 128, 0.85);
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.9) 0%, rgba(34, 197, 94, 0.9) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 16px;
   color: #000;
   font-size: 16px;
@@ -140,38 +140,59 @@ html, body {
   font-family: inherit;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow:
     0 4px 20px var(--accent-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 0 40px rgba(74, 222, 128, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   position: relative;
   overflow: hidden;
+  animation: btnPulse 3s ease-in-out infinite;
+}
+
+@keyframes btnPulse {
+  0%, 100% { box-shadow: 0 4px 20px var(--accent-glow), 0 0 40px rgba(74, 222, 128, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+  50% { box-shadow: 0 4px 25px var(--accent-glow), 0 0 60px rgba(74, 222, 128, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
 }
 
 .btn-primary::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 10%;
-  right: 10%;
-  height: 50%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
-  border-radius: 16px;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
   pointer-events: none;
 }
 
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 8px 30px var(--accent-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+.btn-primary:hover::before {
+  left: 100%;
 }
 
-.btn-primary:active { transform: scale(0.98); }
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 8px 35px var(--accent-glow),
+    0 0 50px rgba(74, 222, 128, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  animation: none;
+}
+
+.btn-primary:active {
+  transform: translateY(-1px) scale(0.98);
+  transition: all 0.1s ease;
+}
 
 .btn-primary svg {
   width: 20px;
   height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.btn-primary:hover svg {
+  transform: translateX(4px);
 }
 
 .btn-secondary {
@@ -180,10 +201,10 @@ html, body {
   justify-content: center;
   gap: 8px;
   padding: 14px 24px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   color: var(--text-secondary);
   font-size: 15px;
@@ -191,15 +212,43 @@ html, body {
   font-family: inherit;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-secondary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent, rgba(255, 255, 255, 0.05));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-secondary:hover::before {
+  opacity: 1;
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
   color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.btn-secondary:active { transform: scale(0.98); }
+.btn-secondary:active {
+  transform: translateY(0) scale(0.98);
+  transition: all 0.1s ease;
+}
 
 /* ════════════════════════════════════════════════════════════════════════
    EXPLORE GRID
@@ -236,30 +285,60 @@ html, body {
   align-items: center;
   justify-content: center;
   padding: 20px 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 16px;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.explore-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.explore-card:hover::before {
+  opacity: 1;
 }
 
 .explore-card:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
-.explore-card:active { transform: scale(0.98); }
+.explore-card:active {
+  transform: translateY(-2px) scale(0.98);
+  transition: all 0.1s ease;
+}
 
 .explore-icon {
   width: 28px;
   height: 28px;
   margin-bottom: 8px;
+  transition: transform 0.3s ease;
+}
+
+.explore-card:hover .explore-icon {
+  transform: scale(1.15);
 }
 
 .explore-icon svg {
   width: 100%;
   height: 100%;
+  transition: filter 0.3s ease;
+}
+
+.explore-card:hover .explore-icon svg {
+  filter: drop-shadow(0 0 8px currentColor);
 }
 
 .explore-title {
@@ -297,10 +376,15 @@ html, body {
   color: var(--text-tertiary);
   text-decoration: none;
   font-size: 13px;
-  transition: color 0.2s;
+  transition: all 0.2s ease;
+  padding: 4px 8px;
+  border-radius: 6px;
 }
 
-.footer-link:hover { color: var(--text-secondary); }
+.footer-link:hover {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+}
 
 .footer-meta {
   font-size: 12px;
