@@ -141,7 +141,7 @@
 /* === GLASS HEADER/NAV === */
 .glass-header {
   position: sticky;
-  top: 0;
+  top: env(safe-area-inset-top);
   z-index: 100;
   /* Black liquid glass effect */
   background: rgba(0, 0, 0, 0.85);
@@ -327,7 +327,7 @@
 
   .glass-header {
     position: sticky;
-    top: 0;
+    top: env(safe-area-inset-top);
     /* Ensure dropdown positions relative to header */
   }
 
