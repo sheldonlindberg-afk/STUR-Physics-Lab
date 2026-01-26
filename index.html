@@ -293,6 +293,59 @@ body {
     transparent
   );
 }
+
+/* ---------- Liquid Glass Social Icons (Banner) ---------- */
+
+.nav-social-glass {
+  display: inline-flex;
+  gap: 0.5rem;
+  margin-left: 0.75rem;
+  align-items: center;
+}
+
+.social-chip {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+  color: var(--text-primary);
+
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 6px 18px rgba(0,0,0,0.45);
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.social-chip:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    0 10px 26px rgba(0,0,0,0.6);
+}
+
+.social-chip .stur-icon {
+  font-size: 1rem;
+}
+
+/* ---------- Mobile handling ---------- */
+@media (max-width: 768px) {
+  .nav-social-glass {
+    display: none;
+  }
+}
+
 </style>
 </head>
 
@@ -316,6 +369,29 @@ body {
       <a href="scripts/stur_core_theory.html" class="glass-nav-link">Core Theory</a>
       <a href="sitemap.html" class="glass-nav-link">Site Map</a>
       <a href="javascript:void(0)" onclick="window.open('https://translate.google.com/translate?u=' + location.href)" aria-label="Translate this page" style="font-size:0.75rem;color:var(--text-quaternary);">Translate</a>
+<div class="nav-social-glass">
+  <a href="https://github.com/sheldonlindberg-afk"
+     target="_blank"
+     aria-label="GitHub"
+     class="glass social-chip">
+    <span class="stur-icon icon-github"></span>
+  </a>
+
+  <a href="https://x.com/that1sheldon"
+     target="_blank"
+     aria-label="X"
+     class="glass social-chip">
+    <span class="stur-icon icon-x"></span>
+  </a>
+
+  <a href="https://www.linkedin.com/in/sheldon-lindberg-202109351"
+     target="_blank"
+     aria-label="LinkedIn"
+     class="glass social-chip">
+    <span class="stur-icon icon-linkedin"></span>
+  </a>
+</div>
+
     </div>
   </nav>
 </header>
