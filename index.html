@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>STUR Physics Lab — A Complete Theory of Everything</title>
-<meta name="description" content="STUR Physics Lab — A unified resistance-based Theory of Everything.">
+<meta name="description" content="STUR Physics Lab — A unified resistance-based Theory of Everything with full derivation chain, predictions, and falsification protocols.">
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#4ade80">
@@ -19,220 +19,364 @@
 <link rel="stylesheet" href="assets/css/stur-glass.css">
 <link rel="stylesheet" href="assets/css/stur-icons.css">
 
+
 <style>
-/* ======================================================
-   0. VARIABLES (Safety Fallbacks)
-   ====================================================== */
-:root {
-  --text-primary: #f3f4f6;
-  --text-secondary: #d1d5db;
-  --text-tertiary: #9ca3af;
-  --text-quaternary: #6b7280;
-  --accent-green: #4ade80;
-}
-
-/* ======================================================
-   1. GLOBAL: NO TEXT SELECTION / NO TAP HIGHLIGHT
-   ====================================================== */
-* {
-  -webkit-tap-highlight-color: transparent;
-  box-sizing: border-box;
-}
-
-::selection { background: transparent; }
-::-moz-selection { background: transparent; }
-
-a, button {
-  user-select: none;
-  -webkit-user-select: none;
-  outline: none;
-}
-
-/* ======================================================
-   2. BASE
-   ====================================================== */
+/* Use imported font */
 body {
-  margin: 0;
   font-family: 'Inter', sans-serif;
   background: radial-gradient(circle at 50% 0%, #0c0e12 0%, #000 100%);
-  color: var(--text-primary);
+  color: #e5e7eb;
   min-height: 100vh;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
 }
 
+/* ---------- Layout ---------- */
 .main-container {
   max-width: 900px;
   margin: 0 auto;
   padding: 48px 20px 64px;
 }
 
-/* ======================================================
-   3. HEADER & NAV
-   ====================================================== */
-.glass-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  background: rgba(0,0,0,0.6);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.glass-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 14px 24px;
-  gap: 20px;
-}
-
-.glass-nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  font-weight: 700;
-  color: var(--accent-green);
-  flex-shrink: 0;
-}
-
-.nav-logo {
-  height: 32px;
-  width: 32px;
-  object-fit: contain;
-}
-
-.glass-nav-links {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* ======================================================
-   4. INTERACTIVE SURFACES
-   ====================================================== */
-.glass-nav-link, .primary-cta, .explore-item, .social-chip {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  overflow: hidden;
-  text-decoration: none;
-  transition: transform 0.1s ease, background 0.2s ease;
-}
-
-.glass-nav-link::after, .primary-cta::after, .explore-item::after, .social-chip::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.15);
-  opacity: 0;
-  transition: opacity 0.1s ease;
-  pointer-events: none;
-}
-
-.glass-nav-link:active::after, .primary-cta:active::after, .explore-item:active::after, .social-chip:active::after {
-  opacity: 1;
-}
-
-.glass-nav-link:active, .primary-cta:active, .explore-item:active, .social-chip:active {
-  transform: scale(0.97);
-}
-
-/* ======================================================
-   5. COMPONENTS
-   ====================================================== */
+/* ---------- Hero ---------- */
 .hero {
   text-align: center;
-  margin-bottom: 40px;
-}
-
-.hero h1 {
-  font-size: clamp(2rem, 8vw, 2.8rem);
-  font-weight: 700;
-  color: var(--accent-green);
-  margin-bottom: 12px;
-  text-shadow: 0 0 20px rgba(74,222,128,0.2);
-}
-
-.hero p {
-  max-width: 600px;
-  margin: 0 auto;
-  font-size: 1.1rem;
-  color: var(--text-tertiary);
-}
-
-.highlight-card {
-  padding: 24px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
   margin-bottom: 32px;
 }
 
-.highlight-card h2 { color: var(--accent-green); font-size: 1.25rem; margin-top: 0; }
-.highlight-card p { color: var(--text-secondary); margin-bottom: 0; }
-
-.primary-cta {
-  display: flex;
-  margin: 0 auto 40px;
-  width: 100%;
-  max-width: 320px;
-  padding: 16px;
-  border-radius: 14px;
-  font-weight: 600;
-  background: linear-gradient(135deg, rgba(34,197,94,0.3), rgba(22,163,74,0.1));
-  color: #d1fae5;
-  border: 1px solid rgba(34,197,94,0.3);
+.hero h1 {
+  font-size: 2.8rem; /* Slightly larger for impact */
+  font-weight: 700;
+  color: #e5e7eb;
+  margin-bottom: 12px;
 }
 
+.hero p {
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 1.15rem; /* Slightly larger */
+  color: var(--text-tertiary);
+  line-height: 1.7;
+}
+
+/* ---------- Highlight Card ---------- */
+.highlight-card {
+  position: relative;
+  padding: 24px;
+  border-radius: 18px;
+
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+
+  background: rgba(255,255,255,0.025);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 14px 40px rgba(0,0,0,0.55);
+}
+
+.highlight-card h2 {
+  color: #4ade80;
+  font-size: 1.3rem; /* Slightly larger */
+  margin-bottom: 12px;
+}
+
+.highlight-card p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* ---------- Sections ---------- */
+.section-title {
+  font-size: 0.8rem; /* Slightly larger */
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-quaternary);
+  margin: 24px 0 12px;
+  padding-left: 4px;
+}
+
+/* ---------- Explore ---------- */
 .explore {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1.25rem;
+  margin-top: 0;
+}
+
+@media (min-width: 640px) {
+  .explore {
+    grid-template-columns: 1fr 1fr; /* Two-column layout for desktop */
+  }
 }
 
 .explore-item {
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 1.5rem;
+  padding: 1.25rem 1.5rem;
   border-radius: 14px;
+
+  text-decoration: none;
+  color: var(--text-primary);
+
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.2s ease;
+}
+
+.explore-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 20px 40px rgba(0,0,0,0.6);
+}
+
+.explore-item:hover::before {
+  opacity: 0.45; /* Brightens the colored glow on hover */
+}
+
+.explore-item.glass {
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+}
+
+.explore-item:not(:last-child) {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 8px 24px rgba(0,0,0,0.35);
+}
+
+.explore-item:last-child {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 12px 32px rgba(0,0,0,0.45);
+}
+
+.explore-item .title {
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.explore-item .desc {
+  font-size: 0.85rem;
+  color: var(--text-quaternary);
+  margin-top: 0.25rem;
+}
+
+/* COLORED LIQUID GLASS — BASE */
+.glass {
+  position: relative;
+
+  backdrop-filter: blur(16px) saturate(125%);
+  -webkit-backdrop-filter: blur(16px) saturate(125%);
+
   background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08); 
+  
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 10px 30px rgba(0,0,0,0.45);
 }
 
-.explore-item .title { font-weight: 600; margin-bottom: 4px; color: var(--text-primary); }
-.explore-item .desc { font-size: 0.85rem; color: var(--text-quaternary); }
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
 
-.nav-social-glass { display: flex; gap: 8px; }
-.social-chip { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.05); }
+  background:
+    radial-gradient(
+      120% 140% at 0% 0%,
+      var(--glass-a),
+      transparent 60%
+    ),
+    radial-gradient(
+      120% 140% at 100% 100%,
+      var(--glass-b),
+      transparent 65%
+    );
 
-.glass-nav-link { color: var(--text-secondary); padding: 8px 12px; border-radius: 10px; font-size: 0.95rem; }
-.glass-nav-link.active { background: rgba(74, 222, 128, 0.1); color: var(--accent-green); border: 1px solid rgba(74, 222, 128, 0.2); }
-
-@media (max-width: 768px) {
-  .nav-social-glass { display: none; }
-  .glass-nav-links { font-size: 0.85rem; gap: 4px; }
+  opacity: 0.28;
+  pointer-events: none;
 }
 
-.site-footer {
-  margin-top: 80px;
-  padding: 32px 0;
-  border-top: 1px solid rgba(255,255,255,0.05);
+/* ---------- Markers ---------- */
+/* Foundations — cool structural blue */
+.foundations {
+  --glass-a: rgba(56,189,248,0.45);
+  --glass-b: rgba(14,165,233,0.15);
+}
+
+.foundations .title {
+  color: #60a5fa;
+}
+
+/* Standard Model — violet (spectral) */
+.standard-model {
+  --glass-a: rgba(139,92,246,0.45);
+  --glass-b: rgba(109,40,217,0.15);
+}
+
+.standard-model .title {
+  color: #a78bfa;
+}
+
+/* Cosmology — green (expansion / matter) */
+.cosmology {
+  --glass-a: rgba(34,197,94,0.45);
+  --glass-b: rgba(22,163,74,0.15);
+}
+
+.cosmology .title {
+  color: #34d399;
+}
+
+/* Simulations — amber (experimental) */
+.simulations {
+  --glass-a: rgba(245,158,11,0.45);
+  --glass-b: rgba(217,119,6,0.15);
+}
+
+.simulations .title {
+  color: #fbbf24;
+}
+
+/* ---------- CTA ---------- */
+.primary-cta {
+  display: block;
+  margin: 32px auto 0;
+  max-width: 360px;
   text-align: center;
+  padding: 16px;
+  font-weight: 600;
+  border-radius: 14px;
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  background: linear-gradient(
+    135deg,
+    rgba(34,197,94,0.35),
+    rgba(22,163,74,0.15)
+  );
+  color: #d1fae5;
+  border: 1px solid rgba(34,197,94,0.35);
+  text-decoration: none;
+  box-shadow: none;
+  transition: all 0.15s ease;
+}
+
+.primary-cta:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  margin-top: 64px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+}
+
+.site-footer p {
   color: var(--text-quaternary);
   font-size: 0.85rem;
 }
+
+/* ---------- Separator ---------- */
+.liquid-sep {
+  border: none;
+  height: 1px;
+  margin: 2rem auto 1.25rem;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.25),
+    transparent
+  );
+}
+
+/* ---------- Liquid Glass Social Icons (Banner) ---------- */
+
+.nav-social-glass {
+  display: inline-flex;
+  gap: 0.5rem;
+  margin-left: 0.75rem;
+  align-items: center;
+}
+
+.social-chip {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+  color: var(--text-primary);
+
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 6px 18px rgba(0,0,0,0.45);
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.social-chip:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    0 10px 26px rgba(0,0,0,0.6);
+}
+
+.social-chip .stur-icon {
+  font-size: 1rem;
+}
+
+/* ---------- Mobile handling ---------- */
+@media (max-width: 768px) {
+  .nav-social-glass {
+    display: none;
+  }
+}
+
+/* Active nav link button highlight */
+.glass-nav-link.active {
+  background: linear-gradient(135deg, rgba(34,197,94,0.35), rgba(22,163,74,0.15));
+  border: 1px solid rgba(34,197,94,0.35);
+  border-radius: 14px;
+  color: #e5e7eb; /* normal text color, no highlight */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  padding: 8px 16px; /* make it button-like if needed */
+}
+
+/* ---------- Fix anchor interaction behavior ---------- */
+
+.glass-nav-link,
+.primary-cta,
+.explore-item,
+.social-chip {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+.glass-nav-link:active,
+.primary-cta:active,
+.explore-item:active,
+.social-chip:active {
+  transform: translateY(-1px);
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- ===== Canonical Glass Header ===== -->
 <header class="glass-header">
   <nav class="glass-nav">
     <a href="index.html" class="glass-nav-brand">
@@ -240,55 +384,114 @@ body {
       STUR Lab
     </a>
 
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg" aria-hidden="true"></span>
+    </button>
+
     <div class="glass-nav-links">
       <a href="index.html" class="glass-nav-link active">Home</a>
       <a href="scripts/stur_learn.html" class="glass-nav-link">Learn</a>
-      <a href="scripts/stur_core_theory.html" class="glass-nav-link">Theory</a>
-      
-      <div class="nav-social-glass">
-        <a href="#" class="social-chip"><span class="stur-icon icon-github"></span></a>
-        <a href="#" class="social-chip"><span class="stur-icon icon-x"></span></a>
-      </div>
+      <a href="scripts/stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="sitemap.html" class="glass-nav-link">Site Map</a>
+      <a href="javascript:void(0)" onclick="window.open('https://translate.google.com/translate?u=' + location.href)" aria-label="Translate this page" style="font-size:0.75rem;color:var(--text-quaternary);">Translate</a>
+<div class="nav-social-glass">
+  <a href="https://github.com/sheldonlindberg-afk"
+     target="_blank"
+     aria-label="GitHub"
+     class="glass social-chip">
+    <span class="stur-icon icon-github"></span>
+  </a>
+
+  <a href="https://x.com/that1sheldon"
+     target="_blank"
+     aria-label="X"
+     class="glass social-chip">
+    <span class="stur-icon icon-x"></span>
+  </a>
+
+  <a href="https://www.linkedin.com/in/sheldon-lindberg-202109351"
+     target="_blank"
+     aria-label="LinkedIn"
+     class="glass social-chip">
+    <span class="stur-icon icon-linkedin"></span>
+  </a>
+</div>
+
     </div>
   </nav>
 </header>
 
+<!-- ===== Main Content ===== -->
 <main class="main-container">
+
   <section class="hero">
     <h1>STUR Physics Lab</h1>
-    <p>A resistance-based Theory of Everything deriving spacetime, particles, forces, and cosmology.</p>
+    <p style="margin-top:-6px;font-size:0.85rem;color:var(--text-quaternary);letter-spacing:0.08em;text-transform:uppercase;">
+      Unified Resistance Framework · v3.8
+    </p>
+    <p>
+      A resistance-based Theory of Everything deriving spacetime, particles,
+      forces, and cosmology from a single geometric principle.
+    </p>
   </section>
 
   <section class="highlight-card">
     <h2>The Core Idea</h2>
-    <p>STUR replaces arbitrary constants with geometry. All physical structure emerges from a compact resistance manifold with quantized helical closure.</p>
+    <p>
+      STUR replaces arbitrary constants with geometry. All physical structure
+      emerges from a <strong>compact resistance manifold</strong> with quantized helical closure.
+    </p>
+  
   </section>
 
-  <a href="scripts/stur_learn.html" class="primary-cta">Learn STUR Physics</a>
+  <a href="scripts/stur_learn.html" class="primary-cta">
+    Learn STUR Physics
+  </a>
 
+  <hr class="liquid-sep">
+
+  <div class="section-title">Theory Structure</div>
   <section class="explore">
-    <a href="#" class="explore-item">
-      <div class="title">Foundations</div>
-      <div class="desc">Master action, geometry, XCRM closure</div>
+    <a href="scripts/stur_core_theory.html" class="explore-item glass foundations">
+      <div class="content">
+        <div class="title">Foundations</div>
+        <div class="desc">Master action, geometry, XCRM closure</div>
+      </div>
     </a>
-    <a href="#" class="explore-item">
-      <div class="title">Standard Model</div>
-      <div class="desc">Particles, masses, mixing, CP</div>
+    <a href="scripts/stur_sm_derivation.html" class="explore-item glass standard-model">
+      <div class="content">
+        <div class="title">Standard Model</div>
+        <div class="desc">Particles, masses, mixing, CP</div>
+      </div>
     </a>
-    <a href="#" class="explore-item">
-      <div class="title">Cosmology</div>
-      <div class="desc">Inflation, dark matter, bounce</div>
+    <a href="scripts/stur_cosmological_derivation.html" class="explore-item glass cosmology">
+      <div class="content">
+        <div class="title">Cosmology</div>
+        <div class="desc">Inflation, dark matter, bounce</div>
+      </div>
     </a>
-    <a href="#" class="explore-item">
-      <div class="title">Simulations</div>
-      <div class="desc">Interactive numerical tests</div>
+    <a href="scripts/stur_sandbox.html" class="explore-item glass simulations">
+      <div class="content">
+        <div class="title">Simulations</div>
+        <div class="desc">Interactive numerical tests</div>
+      </div>
     </a>
   </section>
 
   <footer class="site-footer">
     <p>© 2026 Sheldon Lindberg · STUR v3.8</p>
   </footer>
+
 </main>
+
+<script src="assets/js/stur-ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof STUR !== 'undefined' && STUR.initNav) {
+    STUR.initNav();
+  }
+});
+</script>
 
 </body>
 </html>
