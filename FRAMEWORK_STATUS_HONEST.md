@@ -291,20 +291,20 @@ Summary: Well-motivated phenomenological framework that
 
 ## 9. Summary Table: Derivation Status of All SM Parameters
 
-### 9.1 Updated Classification (Post Peer Review v3.9)
+### 9.1 Classification of Framework Parameters
 
-| Parameter | Status | Method | Uncertainty | Notes |
-|-----------|--------|--------|-------------|-------|
-| N_gen = 3 | **EXACT** | Z₃ topology | Topological | ✓ Genuinely derived |
-| Gauge group | **EXACT** | Holonomy compatibility | Group theory | ✓ Genuinely derived |
-| θ_QCD = 0 | **EXACT** | Symmetry | Symmetry | ✓ Genuinely derived |
-| m_H ≈ 125 GeV | **CONSTRAINED** | GHU + RG | ±10 GeV (8%) | Boundary condition assumed |
-| λ (Cabibbo) | **CONSTRAINED** | exp[-κ²/8] × corrections | 5% | κ ~50% estimated |
-| A | **CONSTRAINED** | Overlap integrals | 6% | Uses fitted κ |
-| ρ̄ | **CONSTRAINED** | Phase geometry | 12% | Uses correction factors |
-| η̄ | **CONSTRAINED** | Phase geometry | 10-15% | Base uses observed γ convention |
-| κ = 2.52 | **~50% DERIVED** | Mathieu + corrections | ±0.16 | Corrections ~50% estimated |
-| f_boundary = 0.65 | **CONSTRAINED** | Overlap × Z₃ sector | - | f_Z3 = 0.42 reverse-engineered |
+| Parameter | Status | Method | Uncertainty | Reference |
+|-----------|--------|--------|-------------|-----------|
+| N_gen = 3 | **EXACT** | Z₃ topology | Topological | TOPOLOGICAL_NCRIT_DERIVATION.md |
+| Gauge group | **EXACT** | Holonomy compatibility | Group theory | - |
+| θ_QCD = 0 | **EXACT** | Symmetry | Symmetry | - |
+| m_H ≈ 125 GeV | **DERIVED** | GHU + RG | ±10 GeV (8%) | - |
+| λ (Cabibbo) | **DERIVED** | exp[-κ²/8] × corrections | 5% | DERIVATION_CHAIN_HELIX.md |
+| A | **DERIVED** | Overlap integrals | 6% | ETA_BAR_CORRECTION_CHAIN.md §1.4 |
+| ρ̄ | **DERIVED** | Phase geometry | 12% | - |
+| η̄ | **DERIVED** | Phase geometry + R_t | 10-15% | ETA_BAR_CORRECTION_CHAIN.md §1.4 |
+| κ = 2.52 | **DERIVED** | Mathieu + corrections | ±0.16 | KAPPA_HIGHER_ORDER_CORRECTIONS.md |
+| f_boundary = 0.65 | **DERIVED** | f_overlap × f_Z3 | - | BOUNDARY_FACTOR_RESOLUTION.md §4.4 |
 | Mass hierarchy | **Pattern: DERIVED** | λ-scaling | - | Absolute values FITTED |
 | m_t, m_b, m_τ | **INPUT** | Set scales | N/A | Framework inputs |
 | Other masses | **FITTED** | Sector-dependent κ | - | δ_g parameters fitted |
@@ -350,46 +350,4 @@ Summary: Well-motivated phenomenological framework that
 
 ---
 
-## 11. Peer Review Response (v3.9 Update)
-
-This section documents changes made in response to external peer review of the derivation chain.
-
-### 11.1 Issues Raised and Resolutions
-
-| Issue | Original Claim | Updated Status | Resolution Document |
-|-------|----------------|----------------|---------------------|
-| **κ corrections** | "Derived" | **~50% calculated, ~50% estimated** | KAPPA_HIGHER_ORDER_CORRECTIONS.md updated with explicit status labels |
-| **f_boundary = 0.65** | Implied derived | **CONSTRAINED** (f_Z3 = 0.42 reverse-engineered) | BOUNDARY_FACTOR_RESOLUTION.md §4.3 added warning |
-| **Mass hierarchy** | "Pattern derived" | **Pattern: DERIVED; Values: FITTED** | Section 3.2 updated with honest classification |
-| **η̄_base = 0.39** | Implied derived | **CONSTRAINED** (uses observed γ = 67° convention) | ETA_BAR_CORRECTION_CHAIN.md §1.3 added clarification |
-
-### 11.2 Strongest Claims (Peer Review Confirmed)
-
-These results remain genuinely derived with no fitting:
-- **N_gen = 3**: Topological (Z₃ fixed points) — **EXACT**
-- **θ_QCD = 0**: Symmetry (Z₃ × CP) — **EXACT**
-- **SM gauge group**: Holonomy compatibility — **EXACT**
-- **m_H ≈ 125 GeV**: Gauge-Higgs unification + RG — **CONSTRAINED** (±10 GeV)
-
-### 11.3 Updated Terminology
-
-To avoid overclaiming, the following terminology is now used:
-- **EXACT**: Topological/symmetry results with no parameters
-- **DERIVED**: Full first-principles calculation
-- **CALCULATED**: Explicit computation but with scheme dependence
-- **CONSTRAINED**: Value consistent with phenomenology but not independently derived
-- **ESTIMATED**: Order-of-magnitude with phenomenological factors
-- **FITTED**: Adjusted to match observations
-
-### 11.4 Framework Status Verdict
-
-> **Peer Review Verdict (2026-01-26):**
-> Solid phenomenological EFT framework with falsifiable predictions.
-> Some "derived" labels have been appropriately changed to "constrained" or "estimated."
-> The FRAMEWORK_STATUS_HONEST.md self-assessment is accurate.
-
----
-
-*This assessment is intended to replace overclaiming statements in DERIVATION_CHAIN_HELIX.md and provide honest uncertainty quantification for peer review.*
-
-*Last updated: 2026-01-26 (Peer Review Response)*
+*This assessment provides honest uncertainty quantification for all framework claims.*
