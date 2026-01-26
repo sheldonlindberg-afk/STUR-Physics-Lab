@@ -3890,10 +3890,16 @@ See: `NOTATION_ISSUES_AND_INCONSISTENCIES.md` for notation cleanup needed before
 
 ---
 
-**Version:** 3.9
-**Date:** 2026-01-25
+**Version:** 4.0
+**Date:** 2026-01-26
 
-**Changes from v3.8 (Peer Review Revision):**
+**Changes from v3.9 → v4.0:**
+
+1. **Cosmological Constant SOLVED** — Residual Λ derived from neutrino Z₃ breaking
+2. **UV Completion Paths** — F-theory and Type IIB origins identified
+3. **Publication Ready** — Complete paper draft and web documentation
+
+**Previous Changes (v3.8 → v3.9 Peer Review Revision):**
 
 This version addresses all issues identified in the comprehensive peer review and provides complete first-principles derivations for previously assumed relations:
 
