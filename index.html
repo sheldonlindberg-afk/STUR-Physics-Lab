@@ -23,6 +23,10 @@
 /* Use imported font */
 body {
   font-family: 'Inter', sans-serif;
+  background:
+    radial-gradient(900px 600px at 15% 10%, #0b1220 0%, transparent 60%),
+    radial-gradient(800px 500px at 85% 20%, #020617 0%, transparent 65%),
+    linear-gradient(180deg, #020617, #000);
 }
 
 /* ---------- Layout ---------- */
@@ -35,17 +39,14 @@ body {
 /* ---------- Hero ---------- */
 .hero {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 }
 
 .hero h1 {
   font-size: 2.8rem; /* Slightly larger for impact */
   font-weight: 700;
-  color: var(--text-primary);
+  color: #e5e7eb;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, #e5e7eb, #4ade80);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .hero p {
@@ -58,12 +59,17 @@ body {
 
 /* ---------- Highlight Card ---------- */
 .highlight-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(74,222,128,0.25);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+  position: relative;
+  padding: 24px;
   border-radius: 18px;
-  padding: 28px;
-  margin-bottom: 40px;
+
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+
+  background: rgba(255,255,255,0.025);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 14px 40px rgba(0,0,0,0.55);
 }
 
 .highlight-card h2 {
@@ -77,160 +83,158 @@ body {
   line-height: 1.8;
 }
 
-/* ---------- Axioms ---------- */
-.axioms {
-  max-width: 700px;
-  margin: 2.5rem auto 3rem;
-  padding-left: 1rem;
-}
-
-.axioms ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.axioms li {
-  position: relative;
-  padding-left: 1.25rem;
-  margin-bottom: 0.75rem;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-.axioms li::before {
-  content: "—";
-  position: absolute;
-  left: 0;
-  color: var(--text-quaternary);
-}
-
 /* ---------- Sections ---------- */
 .section-title {
   font-size: 0.8rem; /* Slightly larger */
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-quaternary);
-  margin: 36px 0 14px;
+  margin: 24px 0 12px;
   padding-left: 4px;
 }
 
 /* ---------- Explore ---------- */
 .explore {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-  margin-top: 4rem;
+  margin-top: 0;
 }
 
 .explore-item {
-  padding: 1.5rem;
-  color: var(--text-primary);
+  display: grid;
+  grid-template-columns: 6px 1fr;
+  gap: 1.25rem;
+
+  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+
   text-decoration: none;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.explore-item .icon {
-  font-size: 1.2rem;
-  color: #4ade80;
-  margin-top: 2px;
-}
-
-.explore-content {
-  flex: 1;
-}
-
-.explore-title {
-  font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 4px;
-}
 
-.explore-desc {
-  font-size: 0.85rem;
-  color: var(--text-tertiary);
-}
-
-/* ---------- Liquid Glass ---------- */
-.liquid-glass {
   position: relative;
-  border-radius: 20px;
   overflow: hidden;
-
-  /* TRUE glass */
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(28px) saturate(160%) contrast(110%);
-  -webkit-backdrop-filter: blur(28px) saturate(160%) contrast(110%);
-
-  /* edge definition */
-  border: 1px solid rgba(255,255,255,0.25);
-
-  /* depth */
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.35),
-    0 20px 40px rgba(0,0,0,0.35);
-
-  transform: translateZ(0); /* GPU */
+  transform: translateZ(0);
 }
 
-.liquid-glass::before {
+.explore-item.glass {
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+}
+
+.explore-item:not(:last-child) {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 8px 24px rgba(0,0,0,0.35);
+}
+
+.explore-item:last-child {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 14px 40px rgba(0,0,0,0.5);
+}
+
+.explore-item:hover::before {
+  opacity: 0.5;
+}
+
+.explore-item .marker {
+  width: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.25);
+}
+
+.explore-item .title {
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.explore-item .desc {
+  font-size: 0.85rem;
+  color: var(--text-quaternary);
+  margin-top: 0.25rem;
+}
+
+/* COLORED LIQUID GLASS — BASE */
+.glass {
+  position: relative;
+
+  backdrop-filter: blur(16px) saturate(125%);
+  -webkit-backdrop-filter: blur(16px) saturate(125%);
+
+  background: rgba(255,255,255,0.02);
+  border: none;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 10px 30px rgba(0,0,0,0.45);
+}
+
+.glass::before {
   content: "";
   position: absolute;
   inset: 0;
-
-  background:
-    linear-gradient(
-      120deg,
-      rgba(255,255,255,0.35),
-      rgba(255,255,255,0.05) 30%,
-      rgba(255,255,255,0.02) 60%,
-      rgba(255,255,255,0.25)
-    );
-
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.liquid-glass::after {
-  content: "";
-  position: absolute;
-  inset: -40%;
 
   background:
     radial-gradient(
-      circle at var(--lx, 30%) var(--ly, 20%),
-      rgba(255,255,255,0.6),
-      rgba(255,255,255,0.2) 30%,
+      120% 140% at 0% 0%,
+      var(--glass-a),
       transparent 60%
+    ),
+    radial-gradient(
+      120% 140% at 100% 100%,
+      var(--glass-b),
+      transparent 65%
     );
 
-  opacity: 0.35;
-  transform: rotate(8deg);
+  opacity: 0.45;
   pointer-events: none;
 }
 
-.liquid-noise {
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
-  pointer-events: none;
+/* ---------- Markers ---------- */
+/* Foundations — cool structural blue */
+.foundations {
+  --glass-a: rgba(56,189,248,0.45);
+  --glass-b: rgba(14,165,233,0.15);
+}
+
+/* Standard Model — violet (spectral) */
+.standard-model {
+  --glass-a: rgba(139,92,246,0.45);
+  --glass-b: rgba(109,40,217,0.15);
+}
+
+/* Cosmology — green (expansion / matter) */
+.cosmology {
+  --glass-a: rgba(34,197,94,0.45);
+  --glass-b: rgba(22,163,74,0.15);
+}
+
+/* Simulations — amber (experimental) */
+.simulations {
+  --glass-a: rgba(245,158,11,0.45);
+  --glass-b: rgba(217,119,6,0.15);
 }
 
 /* ---------- CTA ---------- */
 .primary-cta {
   display: block;
-  margin: 48px auto 0;
+  margin: 32px auto 0;
   max-width: 360px;
   text-align: center;
   padding: 16px;
   font-weight: 600;
   border-radius: 14px;
-  background: linear-gradient(135deg, #4ade80, #22c55e);
-  color: #000;
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  background: linear-gradient(
+    135deg,
+    rgba(34,197,94,0.35),
+    rgba(22,163,74,0.15)
+  );
+  color: #d1fae5;
+  border: 1px solid rgba(34,197,94,0.35);
   text-decoration: none;
   box-shadow: none;
   transition: all 0.15s ease;
@@ -251,6 +255,19 @@ body {
 .site-footer p {
   color: var(--text-quaternary);
   font-size: 0.85rem;
+}
+
+/* ---------- Separator ---------- */
+.liquid-sep {
+  border: none;
+  height: 1px;
+  margin: 2rem auto 1.25rem;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.25),
+    transparent
+  );
 }
 </style>
 </head>
@@ -302,51 +319,40 @@ body {
     </p>
   </section>
 
-  <section class="axioms">
-    <ul>
-      <li><strong>Single fundamental field:</strong> resistance \(R(x^\mu, X)\)</li>
-      <li><strong>Discrete geometry:</strong> Z₃ helical closure in compact dimension</li>
-      <li><strong>No free dimensionless parameters:</strong> scales derived, not fit</li>
-      <li><strong>Falsifiable:</strong> 21+ experimental and numerical tests</li>
-    </ul>
-  </section>
-
   <a href="scripts/stur_learn.html" class="primary-cta">
     Read the derivation chain →
   </a>
 
+  <hr class="liquid-sep">
+
   <div class="section-title">Theory Structure</div>
   <section class="explore">
-    <a href="scripts/stur_core_theory.html" class="explore-item liquid-glass">
-      <div class="liquid-noise"></div>
-      <span class="icon">📐</span>
-      <div class="explore-content">
-        <div class="explore-title">Foundations</div>
-        <div class="explore-desc">Master action, geometry, XCRM closure</div>
+    <a href="scripts/stur_core_theory.html" class="explore-item glass foundations">
+      <span class="marker"></span>
+      <div class="content">
+        <div class="title">Foundations</div>
+        <div class="desc">Master action, geometry, XCRM closure</div>
       </div>
     </a>
-    <a href="scripts/stur_sm_derivation.html" class="explore-item liquid-glass">
-      <div class="liquid-noise"></div>
-      <span class="icon">⚛️</span>
-      <div class="explore-content">
-        <div class="explore-title">Standard Model</div>
-        <div class="explore-desc">Particles, masses, mixing, CP</div>
+    <a href="scripts/stur_sm_derivation.html" class="explore-item glass standard-model">
+      <span class="marker"></span>
+      <div class="content">
+        <div class="title">Standard Model</div>
+        <div class="desc">Particles, masses, mixing, CP</div>
       </div>
     </a>
-    <a href="scripts/stur_cosmological_derivation.html" class="explore-item liquid-glass">
-      <div class="liquid-noise"></div>
-      <span class="icon">🌌</span>
-      <div class="explore-content">
-        <div class="explore-title">Cosmology</div>
-        <div class="explore-desc">Inflation, dark matter, bounce</div>
+    <a href="scripts/stur_cosmological_derivation.html" class="explore-item glass cosmology">
+      <span class="marker"></span>
+      <div class="content">
+        <div class="title">Cosmology</div>
+        <div class="desc">Inflation, dark matter, bounce</div>
       </div>
     </a>
-    <a href="scripts/stur_sandbox.html" class="explore-item liquid-glass">
-      <div class="liquid-noise"></div>
-      <span class="icon">🧪</span>
-      <div class="explore-content">
-        <div class="explore-title">Simulations</div>
-        <div class="explore-desc">Interactive numerical tests</div>
+    <a href="scripts/stur_sandbox.html" class="explore-item glass simulations">
+      <span class="marker"></span>
+      <div class="content">
+        <div class="title">Simulations</div>
+        <div class="desc">Interactive numerical tests</div>
       </div>
     </a>
   </section>
@@ -363,17 +369,6 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof STUR !== 'undefined' && STUR.initNav) {
     STUR.initNav();
   }
-
-  document.querySelectorAll('.liquid-glass').forEach(el => {
-    el.addEventListener('mousemove', e => {
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width;
-      const y = (e.clientY - r.top) / r.height;
-
-      el.style.setProperty('--lx', `${x * 100}%`);
-      el.style.setProperty('--ly', `${y * 100}%`);
-    });
-  });
 });
 </script>
 
