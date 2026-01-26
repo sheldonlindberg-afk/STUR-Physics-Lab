@@ -92,9 +92,9 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <!-- v3.8 TOE Badge -->
+            <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:500px;font-size:0.8rem;">
-          <span style="color:#4ade80;font-weight:600;">★ v3.8 TOE</span> — One input (M<sub>Planck</sub>), zero free parameters
+          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — One input (M<sub>Planck</sub>), zero free parameters
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -118,11 +118,11 @@
         <div class="eq-legend-item"><span class="eq-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
     </div>
 
-    <!-- v3.8 TOE Framework Status -->
+    <!-- v4.0 TOE Framework Status -->
     <div class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
             <span class="stur-icon icon-check-circle size-24" style="color:var(--neon-green);"></span>
-            <h2 class="glass-section-title" style="color:var(--neon-green);">v3.8 TOE Framework Status</h2>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Complete EFT Framework Status</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">One Input, Zero Free Parameters:</strong></p>
@@ -206,7 +206,7 @@
                 </div>
             </div>
             <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;font-size:0.85rem;border:1px solid rgba(74,222,128,0.2);">
-                <strong style="color:var(--neon-green);">v3.8 TOE Status:</strong>
+                <strong style="color:var(--neon-green);">Framework Status:</strong>
                 All physics (modulator form, coherence scale, coupling constants) derives from \(M_{\rm Planck}\) via the Z₃ helix geometry.
                 Only apparatus configuration (torus size, field strength) is specified by the experimenter.
             </div>
@@ -456,7 +456,7 @@
                   \;+\; \underbrace{\Matt{\mathcal{L}_{\rm matter}}}_{\color{#22d3ee}\text{fields}}
                 \Bigr]
                 \]
-                <div class="stur-eq-label">v3.8 Master Action — One Input (M<sub>Planck</sub>)</div>
+                <div class="stur-eq-label">Master Action (5D Z₃ Geometry) — One Input (M<sub>Planck</sub>)</div>
             </div>
 
             <p><strong>Limit assumed:</strong> Weak-field GR metric with Earth gravity. The STUR modulator gates the Lorentz force:</p>
@@ -656,11 +656,11 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 """
-STUR Plasma Torus — Multi-Particle 4D (v3.8 TOE)
+STUR Plasma Torus — Multi-Particle 4D
 ==================================================
 Tests STUR-modulated Lorentz force in weak-field GR.
 
-v3.8 TOE: One input (M_Planck), zero free parameters.
+Complete EFT Framework: One input (M_Planck), zero free parameters.
 Plasma physics emerges: M_Planck → Z₃ helix → SM gauge group → U(1)_EM + XCRM → confinement
 
 Key equation: du^μ/dτ + Γ^μ_αβ u^α u^β = (q/m) S F^μ_ν u^ν
@@ -715,7 +715,7 @@ def grad_phi_vec(x, y, z):
     return fac*x, fac*y, fac*(z + R_E)
 
 # ===============================================================
-# STUR SCALAR — v3.8 TOE: Derived from M_Planck via Z₃ geometry
+# STUR SCALAR — Derived from M_Planck via Z₃ geometry
 # S(r) = tanh(r/L₀) · (1 - exp(-r/L₀))
 # Emergence chain: M_Planck → Z₃ helix → SM → U(1)_EM + XCRM → S(r)
 # ===============================================================
@@ -835,7 +835,7 @@ r = np.sqrt(x*x + y*y + z*z)
 report = {
     "meta": {
         "page": "plasma-torus-4d",
-        "version": "v3.8-TOE",
+        "version": "4.0",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "S = tanh(r/L₀)·(1 - exp(-r/L₀))"
     },
@@ -955,7 +955,7 @@ print(f"\nOutputs: stur_plasma_torus.png, stur_plasma_torus.json")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR v3.8 TOE |
+                <strong>Version:</strong> STUR Framework |
                 <strong>Page:</strong> plasma-torus-4d |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -985,14 +985,11 @@ print(f"\nOutputs: stur_plasma_torus.png, stur_plasma_torus.json")</pre>
 <!-- ============================================================
      FOOTER
      ============================================================ -->
-<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab — Candidate unified framework with falsifiable predictions</p>
-    <p>
-        <a href="stur_core_theory.html">Core Theory</a> ·
-        <a href="../index.html#problem-closures">Problem Closures</a> ·
-        <a href="stur_falsification.html">Falsification</a> ·
-        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
-    </p>
+<footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
+  <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
+    © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
+  </p>
 </footer>
 
 <!-- ============================================================

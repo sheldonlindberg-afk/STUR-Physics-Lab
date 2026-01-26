@@ -2,534 +2,545 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-<title>STUR Physics Lab — A Complete Theory of Everything</title>
-<meta name="description" content="STUR Physics Lab — A unified resistance-based Theory of Everything with full derivation chain, predictions, and falsification protocols.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="STUR">
+<title>STUR — Theory of Everything</title>
+<meta name="description" content="STUR: A resistance-based physics framework. One starting point. Everything derived. Awaiting falsification.">
 
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4ade80">
 <link rel="apple-touch-icon" href="assets/4.13.png">
+<link rel="icon" type="image/png" href="assets/4.13.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/stur-core.css">
-<link rel="stylesheet" href="assets/css/stur-glass.css">
-<link rel="stylesheet" href="assets/css/stur-icons.css">
-
-
 <style>
-/* Use imported font */
-body {
-  font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at 50% 0%, #0c0e12 0%, #000 100%);
-  color: #e5e7eb;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+  --safe-left: env(safe-area-inset-left);
+  --safe-right: env(safe-area-inset-right);
+  --accent: #4ade80;
+  --accent-glow: rgba(74, 222, 128, 0.4);
+  --accent-dim: rgba(74, 222, 128, 0.15);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.4);
+  --border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(40, 40, 45, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.15);
+}
+
+html, body {
+  height: 100%;
+  background: #000;
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+#app {
   min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ---------- Layout ---------- */
-.main-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 48px 20px 64px;
+/* ════════════════════════════════════════════════════════════════════════
+   FLOATING PILL BAR - Premium Liquid Glass
+   ════════════════════════════════════════════════════════════════════════ */
+.pill-bar {
+  position: fixed;
+  top: calc(12px + var(--safe-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 100px;
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.2);
 }
 
-/* ---------- Hero ---------- */
-.hero {
+.pill-bar::before {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 10px;
+  right: 10px;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  border-radius: 100px;
+  pointer-events: none;
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.pill:active { transform: scale(0.95); }
+.pill.active { background: rgba(255, 255, 255, 0.12); color: #fff; }
+.pill:hover { color: rgba(255, 255, 255, 0.9); }
+.pill svg { width: 18px; height: 18px; flex-shrink: 0; }
+.pill.icon-only { padding: 8px 10px; }
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 4px var(--accent), 0 0 8px var(--accent);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 4px var(--accent), 0 0 8px var(--accent); }
+  50% { box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent), 0 0 24px rgba(74, 222, 128, 0.4); }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ════════════════════════════════════════════════════════════════════════ */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(80px + var(--safe-top)) 24px calc(40px + var(--safe-bottom));
   text-align: center;
+}
+
+.hero-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  background: #000;
+  box-shadow: 0 20px 50px rgba(74, 222, 128, 0.2);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  color: var(--text-tertiary);
+  font-size: 16px;
   margin-bottom: 32px;
 }
 
-.hero h1 {
-  font-size: 2.8rem; /* Slightly larger for impact */
-  font-weight: 700;
-  color: #e5e7eb;
-  margin-bottom: 12px;
-}
-
-.hero p {
-  max-width: 640px;
-  margin: 0 auto;
-  font-size: 1.15rem; /* Slightly larger */
-  color: var(--text-tertiary);
-  line-height: 1.7;
-}
-
-/* ---------- Highlight Card ---------- */
-.highlight-card {
-  position: relative;
-  padding: 24px;
-  border-radius: 18px;
-
-  backdrop-filter: blur(18px) saturate(120%);
-  -webkit-backdrop-filter: blur(18px) saturate(120%);
-
-  background: rgba(255,255,255,0.025);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.05),
-    0 14px 40px rgba(0,0,0,0.55);
-}
-
-.highlight-card h2 {
-  color: #4ade80;
-  font-size: 1.3rem; /* Slightly larger */
-  margin-bottom: 12px;
-}
-
-.highlight-card p {
-  color: var(--text-secondary);
-  line-height: 1.8;
-}
-
-/* ---------- Sections ---------- */
-.section-title {
-  font-size: 0.8rem; /* Slightly larger */
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-quaternary);
-  margin: 24px 0 12px;
-  padding-left: 4px;
-}
-
-/* ---------- Explore ---------- */
-.explore {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-  margin-top: 0;
-}
-
-@media (min-width: 640px) {
-  .explore {
-    grid-template-columns: 1fr 1fr; /* Two-column layout for desktop */
-  }
-}
-
-.explore-item {
-  padding: 1.25rem 1.5rem;
-  border-radius: 14px;
-
-  text-decoration: none;
-  color: var(--text-primary);
-
-  position: relative;
-  overflow: hidden;
-  transform: translateZ(0);
-  transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.2s ease;
-}
-
-.explore-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    inset 0 1px 0 rgba(255,255,255,0.1),
-    0 20px 40px rgba(0,0,0,0.6);
-}
-
-.explore-item:hover::before {
-  opacity: 0.45; /* Brightens the colored glow on hover */
-}
-
-.explore-item.glass {
-  backdrop-filter: blur(16px) saturate(120%);
-  -webkit-backdrop-filter: blur(16px) saturate(120%);
-}
-
-.explore-item:not(:last-child) {
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.04),
-    0 8px 24px rgba(0,0,0,0.35);
-}
-
-.explore-item:last-child {
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.04),
-    0 12px 32px rgba(0,0,0,0.45);
-}
-
-.explore-item .title {
-  font-size: 1.05rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-}
-
-.explore-item .desc {
-  font-size: 0.85rem;
-  color: var(--text-quaternary);
-  margin-top: 0.25rem;
-}
-
-/* COLORED LIQUID GLASS — BASE */
-.glass {
-  position: relative;
-
-  backdrop-filter: blur(16px) saturate(125%);
-  -webkit-backdrop-filter: blur(16px) saturate(125%);
-
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08); 
-  
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.05),
-    0 10px 30px rgba(0,0,0,0.45);
-}
-
-.glass::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background:
-    radial-gradient(
-      120% 140% at 0% 0%,
-      var(--glass-a),
-      transparent 60%
-    ),
-    radial-gradient(
-      120% 140% at 100% 100%,
-      var(--glass-b),
-      transparent 65%
-    );
-
-  opacity: 0.28;
-  pointer-events: none;
-}
-
-/* ---------- Markers ---------- */
-/* Foundations — cool structural blue */
-.foundations {
-  --glass-a: rgba(56,189,248,0.45);
-  --glass-b: rgba(14,165,233,0.15);
-}
-
-.foundations .title {
-  color: #60a5fa;
-}
-
-/* Standard Model — violet (spectral) */
-.standard-model {
-  --glass-a: rgba(139,92,246,0.45);
-  --glass-b: rgba(109,40,217,0.15);
-}
-
-.standard-model .title {
-  color: #a78bfa;
-}
-
-/* Cosmology — green (expansion / matter) */
-.cosmology {
-  --glass-a: rgba(34,197,94,0.45);
-  --glass-b: rgba(22,163,74,0.15);
-}
-
-.cosmology .title {
-  color: #34d399;
-}
-
-/* Simulations — amber (experimental) */
-.simulations {
-  --glass-a: rgba(245,158,11,0.45);
-  --glass-b: rgba(217,119,6,0.15);
-}
-
-.simulations .title {
-  color: #fbbf24;
-}
-
-/* ---------- CTA ---------- */
-.primary-cta {
-  display: block;
-  margin: 32px auto 0;
-  max-width: 360px;
-  text-align: center;
-  padding: 16px;
-  font-weight: 600;
-  border-radius: 14px;
-  backdrop-filter: blur(14px) saturate(120%);
-  -webkit-backdrop-filter: blur(14px) saturate(120%);
-  background: linear-gradient(
-    135deg,
-    rgba(34,197,94,0.35),
-    rgba(22,163,74,0.15)
-  );
-  color: #d1fae5;
-  border: 1px solid rgba(34,197,94,0.35);
-  text-decoration: none;
-  box-shadow: none;
-  transition: all 0.15s ease;
-}
-
-.primary-cta:hover {
-  transform: translateY(-2px);
-}
-
-/* ---------- Footer ---------- */
-.site-footer {
-  margin-top: 64px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  text-align: center;
-}
-
-.site-footer p {
-  color: var(--text-quaternary);
-  font-size: 0.85rem;
-}
-
-/* ---------- Separator ---------- */
-.liquid-sep {
-  border: none;
-  height: 1px;
-  margin: 2rem auto 1.25rem;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,0.25),
-    transparent
-  );
-}
-
-/* ---------- Liquid Glass Social Icons (Banner) ---------- */
-
-.nav-social-glass {
+.hero-badge {
   display: inline-flex;
-  gap: 0.5rem;
-  margin-left: 0.75rem;
   align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  border-radius: 100px;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 40px;
 }
 
-.social-chip {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
+.hero-badge .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: statusPulse 2s ease-in-out infinite;
+}
 
-  display: inline-flex;
+/* ════════════════════════════════════════════════════════════════════════
+   ACTION BUTTONS
+   ════════════════════════════════════════════════════════════════════════ */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 48px;
+}
+
+.btn-primary {
+  display: flex;
   align-items: center;
   justify-content: center;
-
-  text-decoration: none;
-  color: var(--text-primary);
-
-  backdrop-filter: blur(14px) saturate(120%);
-  -webkit-backdrop-filter: blur(14px) saturate(120%);
-
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.12);
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    0 6px 18px rgba(0,0,0,0.45);
-
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.social-chip:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    0 10px 26px rgba(0,0,0,0.6);
-}
-
-.social-chip .stur-icon {
-  font-size: 1rem;
-}
-
-/* ---------- Mobile handling ---------- */
-@media (max-width: 768px) {
-  .nav-social-glass {
-    display: none;
-  }
-}
-
-/* Active nav link button highlight */
-.glass-nav-link.active {
-  background: linear-gradient(135deg, rgba(34,197,94,0.35), rgba(22,163,74,0.15));
-  border: 1px solid rgba(34,197,94,0.35);
-  border-radius: 14px;
-  color: #e5e7eb; /* normal text color, no highlight */
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  padding: 8px 16px; /* make it button-like if needed */
-}
-
-/* ---------- Fix anchor interaction behavior ---------- */
-
-.glass-nav-link,
-.primary-cta,
-.explore-item,
-.social-chip {
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  gap: 10px;
+  padding: 16px 24px;
+  background: rgba(74, 222, 128, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-}
-
-.glass-nav-link:active,
-.primary-cta:active,
-.explore-item:active,
-.social-chip:active {
-  transform: translateY(-1px);
-}
-
-/* === PATCH: Force green hero title (override only) === */
-.hero h1 {
-  color: #4ade80;
-}
-
-
-/* === PATCH: Disable text selection flash on interactive elements === */
-.glass-nav-link,
-.primary-cta,
-.explore-item,
-.social-chip {
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow:
+    0 4px 20px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   position: relative;
+  overflow: hidden;
 }
 
-/* === PATCH: Surface highlight overlay on press === */
-.glass-nav-link::after,
-.primary-cta::after,
-.explore-item::after,
-.social-chip::after {
-  content: "";
+.btn-primary::before {
+  content: '';
   position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.18);
-  opacity: 0;
-  transition: opacity 0.08s ease;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+  border-radius: 16px;
   pointer-events: none;
 }
 
-.glass-nav-link:active::after,
-.primary-cta:active::after,
-.explore-item:active::after,
-.social-chip:active::after {
-  opacity: 1;
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 30px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-primary svg {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.btn-secondary:active { transform: scale(0.98); }
+
+/* ════════════════════════════════════════════════════════════════════════
+   EXPLORE GRID
+   ════════════════════════════════════════════════════════════════════════ */
+.explore-section {
+  width: 100%;
+  max-width: 800px;
+  padding: 0 24px;
+}
+
+.explore-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  margin-bottom: 16px;
+}
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .explore-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.explore-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.explore-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.explore-card:active { transform: scale(0.98); }
+
+.explore-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+
+.explore-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.explore-desc {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════════════════════════════════════ */
+.footer {
+  padding: 24px;
+  padding-bottom: calc(24px + var(--safe-bottom));
+  text-align: center;
+  border-top: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-bottom: 16px;
+}
+
+.footer-link {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.footer-link:hover { color: var(--text-secondary); }
+
+.footer-meta {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.footer-meta a {
+  color: var(--text-tertiary);
+  text-decoration: none;
+}
+
+.footer-meta a:hover { color: var(--text-secondary); }
+
+.version-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  font-family: 'SF Mono', 'Menlo', monospace;
+  font-size: 11px;
+  margin-left: 8px;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .pill-bar {
+    padding: 4px;
+    gap: 2px;
+  }
+  .pill {
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+  .pill.icon-only { padding: 7px 9px; }
+  .hero-title { font-size: 28px; }
+  .hero-subtitle { font-size: 14px; }
+  .actions { max-width: 280px; }
+}
+
+@media (min-width: 768px) {
+  .hero-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 28px;
+  }
+  .hero-title { font-size: 42px; }
+}
+
+/* Premium animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.main { animation: fadeIn 0.6s ease-out; }
 </style>
 </head>
-
 <body>
 
-<!-- ===== Canonical Glass Header ===== -->
-<header class="glass-header">
-  <nav class="glass-nav">
-    <a href="index.html" class="glass-nav-brand">
-      <img src="assets/4.13.png" alt="STUR" class="nav-logo">
-      STUR Lab
+<div id="app">
+  <!-- Floating Pill Bar -->
+  <nav class="pill-bar">
+    <a href="about.html" class="pill">About</a>
+    <a href="index.html" class="pill active">
+      <span class="status-dot"></span>
+      STUR
     </a>
-
-    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span class="stur-icon icon-menu lg" aria-hidden="true"></span>
-    </button>
-
-    <div class="glass-nav-links">
-      <a href="index.html" class="glass-nav-link active">Home</a>
-      <a href="scripts/stur_learn.html" class="glass-nav-link">Learn</a>
-      <a href="scripts/stur_core_theory.html" class="glass-nav-link">Core Theory</a>
-      <a href="sitemap.html" class="glass-nav-link">Site Map</a>
-      <a href="javascript:void(0)" onclick="window.open('https://translate.google.com/translate?u=' + location.href)" aria-label="Translate this page" style="font-size:0.75rem;color:var(--text-quaternary);">Translate</a>
-<div class="nav-social-glass">
-  <a href="https://github.com/sheldonlindberg-afk"
-     target="_blank"
-     aria-label="GitHub"
-     class="glass social-chip">
-    <span class="stur-icon icon-github"></span>
-  </a>
-
-  <a href="https://x.com/that1sheldon"
-     target="_blank"
-     aria-label="X"
-     class="glass social-chip">
-    <span class="stur-icon icon-x"></span>
-  </a>
-
-  <a href="https://www.linkedin.com/in/sheldon-lindberg-202109351"
-     target="_blank"
-     aria-label="LinkedIn"
-     class="glass social-chip">
-    <span class="stur-icon icon-linkedin"></span>
-  </a>
-</div>
-
-    </div>
+    <a href="scripts/stur_faq.html" class="pill">FAQ</a>
+    <a href="sitemap.html" class="pill icon-only" aria-label="Explore all pages">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+      </svg>
+    </a>
   </nav>
-</header>
 
-<!-- ===== Main Content ===== -->
-<main class="main-container">
+  <!-- Main Content -->
+  <main class="main">
+    <div class="hero-icon">
+      <img src="assets/4.13.png" alt="STUR" width="120" height="120">
+    </div>
 
-  <section class="hero">
-    <h1>STUR Physics Lab</h1>
-    <p style="margin-top:-6px;font-size:0.85rem;color:var(--text-quaternary);letter-spacing:0.08em;text-transform:uppercase;">
-      Unified Resistance Framework
+    <h1 class="hero-title">STUR</h1>
+    <p class="hero-subtitle">Resistance-Based Physics</p>
+
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Theory of Everything Candidate
+    </div>
+
+    <div class="actions">
+      <a href="scripts/stur_learn.html" class="btn-primary">
+        Begin the Journey
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a href="scripts/stur_predictions.html" class="btn-secondary">
+        21 Falsifiable Predictions
+      </a>
+    </div>
+
+    <!-- Explore Grid -->
+    <section class="explore-section">
+      <div class="explore-label">Explore</div>
+      <div class="explore-grid">
+        <a href="scripts/stur_foundations_hub.html" class="explore-card">
+          <span class="explore-icon">◈</span>
+          <span class="explore-title">Foundations</span>
+          <span class="explore-desc">Core theory</span>
+        </a>
+        <a href="scripts/stur_sm_hub.html" class="explore-card">
+          <span class="explore-icon">⬡</span>
+          <span class="explore-title">Particles</span>
+          <span class="explore-desc">Matter</span>
+        </a>
+        <a href="scripts/stur_cosmology_hub.html" class="explore-card">
+          <span class="explore-icon">◉</span>
+          <span class="explore-title">Cosmos</span>
+          <span class="explore-desc">Large scale</span>
+        </a>
+        <a href="scripts/stur_quantum_hub.html" class="explore-card">
+          <span class="explore-icon">✧</span>
+          <span class="explore-title">Quantum</span>
+          <span class="explore-desc">Small scale</span>
+        </a>
+        <a href="scripts/stur_simulations_hub.html" class="explore-card">
+          <span class="explore-icon">▣</span>
+          <span class="explore-title">Simulations</span>
+          <span class="explore-desc">Interactive</span>
+        </a>
+        <a href="scripts/stur_core_theory.html" class="explore-card">
+          <span class="explore-icon">◎</span>
+          <span class="explore-title">Full Theory</span>
+          <span class="explore-desc">Technical</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <nav class="footer-links">
+      <a href="scripts/stur_glossary.html" class="footer-link">Glossary</a>
+      <a href="scripts/stur_symbols.html" class="footer-link">Symbols</a>
+      <a href="mycitations.html" class="footer-link">Citations</a>
+      <a href="sitemap.html" class="footer-link">All Pages</a>
+    </nav>
+    <p class="footer-meta">
+      © 2026 Sheldon Lindberg · <a href="sitemap.html">Site Map</a>
+      <span class="version-badge">v4.0</span>
     </p>
-    <p>
-      A resistance-based Theory of Everything deriving spacetime, particles,
-      forces, and cosmology from a single geometric principle.
-    </p>
-  </section>
-
-  <section class="highlight-card">
-    <h2>The Core Idea</h2>
-    <p>
-      STUR replaces arbitrary constants with geometry. All physical structure
-      emerges from a <strong>compact resistance manifold</strong> with quantized helical closure.
-    </p>
-  
-  </section>
-
-  <a href="scripts/stur_learn.html" class="primary-cta">
-    Learn STUR Physics
-  </a>
-
-  <hr class="liquid-sep">
-
-  <div class="section-title">Theory Structure</div>
-  <section class="explore">
-    <a href="scripts/stur_core_theory.html" class="explore-item glass foundations">
-      <div class="content">
-        <div class="title">Foundations</div>
-        <div class="desc">Master action, geometry, XCRM closure</div>
-      </div>
-    </a>
-    <a href="scripts/stur_sm_derivation.html" class="explore-item glass standard-model">
-      <div class="content">
-        <div class="title">Standard Model</div>
-        <div class="desc">Particles, masses, mixing, CP</div>
-      </div>
-    </a>
-    <a href="scripts/stur_cosmological_derivation.html" class="explore-item glass cosmology">
-      <div class="content">
-        <div class="title">Cosmology</div>
-        <div class="desc">Inflation, dark matter, bounce</div>
-      </div>
-    </a>
-    <a href="scripts/stur_sandbox.html" class="explore-item glass simulations">
-      <div class="content">
-        <div class="title">Simulations</div>
-        <div class="desc">Interactive numerical tests</div>
-      </div>
-    </a>
-  </section>
-
-  <footer class="site-footer">
-    <p>© 2026 Sheldon Lindberg · STUR v3.8</p>
   </footer>
-
-</main>
-
-<script src="assets/js/stur-ui.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  if (typeof STUR !== 'undefined' && STUR.initNav) {
-    STUR.initNav();
-  }
-});
-</script>
+</div>
 
 </body>
 </html>

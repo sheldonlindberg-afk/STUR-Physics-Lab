@@ -91,9 +91,9 @@
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
-            <!-- v3.8 TOE Badge -->
+            <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:480px;font-size:0.8rem;">
-          <span style="color:#4ade80;font-weight:600;">v3.8 TOE</span> — QED application | ONE input (M_Planck) | ZERO free parameters
+          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — QED application | ONE input (M_Planck) | ZERO free parameters
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -121,7 +121,7 @@
     <div class="glass-section" style="border-color:var(--neon-cyan);background:rgba(34,211,238,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
             <span class="stur-icon icon-book size-24" style="color:var(--neon-cyan);"></span>
-            <h2 class="glass-section-title" style="color:var(--neon-cyan);">v3.8 TOE Framework</h2>
+            <h2 class="glass-section-title" style="color:var(--neon-cyan);">Complete EFT Framework</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.9rem;">
             <p style="margin-bottom:0.75rem;">Sonoluminescence emerges from QED vacuum fluctuations amplified by rapid bubble collapse:</p>
@@ -299,7 +299,7 @@
           <p>Classical Rayleigh-Plesset collapse; pure thermodynamic heating without QED vacuum contribution.</p>
         </div>
         <div class="harness-section stur-prediction">
-          <h4>QED Prediction (v3.8 TOE)</h4>
+          <h4>QED Prediction (Complete EFT)</h4>
           <p>Dynamical Casimir: \(N_\gamma \propto \alpha_{\rm em}^3 (\dot{R}/c)^2\); photon count correlates with collapse ratio \(\Diff{R_0}/\Diff{R_{\min}}\).</p>
         </div>
         <div class="harness-section metric">
@@ -307,7 +307,7 @@
           <p>Correlation \(\text{corr}(N_\gamma, \Diff{R_0}/\Diff{R_{\min}})\), Wien peak deviation, noble gas \(\Matt{T_{\max}}\) ordering</p>
         </div>
       </div>
-      <a href="stur_core_theory.html" class="core-ref">Core Definition: QED from M_Planck (v3.8 TOE)</a>
+      <a href="stur_core_theory.html" class="core-ref">Core Definition: QED from M_Planck (Complete EFT)</a>
     </div>
 
     <!-- ============================================================
@@ -585,7 +585,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # =====================================================================
-# STUR v3.8 TOE — Sonoluminescence from QED Vacuum Fluctuations
+# STUR Sonoluminescence from QED Vacuum Fluctuations
 #
 # ONE INPUT: M_Planck (sets all scales)
 # ZERO FREE PARAMETERS: alpha_em = 1/137 derived from gauge unification
@@ -766,7 +766,7 @@ def run_multibubble(fluid_name, N=60):
 results = {}
 fluids_order = list(fluids.keys())
 
-print("=== STUR v3.8 TOE: Sonoluminescence from QED ===")
+print("=== STUR Complete EFT: Sonoluminescence from QED ===")
 print("ONE INPUT: M_Planck | ZERO FREE PARAMETERS: alpha_em derived")
 for name in fluids_order:
     print("Running:", name)
@@ -821,7 +821,7 @@ if wien_dev > 0.20:
 xpos = np.arange(len(fluids_order))
 
 fig, ax = plt.subplots(1, 3, figsize=(14, 4))
-fig.suptitle("STUR v3.8 TOE: Sonoluminescence from QED (ONE input, ZERO free params)",
+fig.suptitle("STUR Complete EFT: Sonoluminescence from QED (ONE input, ZERO free params)",
              fontsize=11, color='#4ade80')
 
 # Panel 1: peak temperature
@@ -855,8 +855,8 @@ plt.show()
 report = {
     "meta": {
         "page": "sonoluminescence-lab",
-        "version": "v3.8",
-        "framework": "TOE: Sonoluminescence from QED",
+        "version": "4.0",
+        "framework": "Complete EFT: Sonoluminescence from QED",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "inputs": "ONE: M_Planck",
         "free_parameters": "ZERO",
@@ -895,7 +895,7 @@ with open(OUT_JSON, "w") as f:
 
 print(json.dumps(report, indent=2))
 print(f"\nFALSIFIED = {falsified}")
-print("STUR v3.8 TOE Sonoluminescence Complete.")</pre>
+print("STUR Complete EFT Sonoluminescence Complete.")</pre>
 
             <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem;">
                 <button class="glass-btn primary" id="copyBtn">
@@ -942,7 +942,7 @@ print("STUR v3.8 TOE Sonoluminescence Complete.")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> v3.8 TOE |
+                <strong>Version:</strong> Complete EFT |
                 <strong>Inputs:</strong> ONE (M_Planck) |
                 <strong>Free params:</strong> ZERO |
                 <strong>Page:</strong> sonoluminescence-lab |
@@ -961,7 +961,7 @@ print("STUR v3.8 TOE Sonoluminescence Complete.")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR v3.8 TOE, <a href="stur_core_theory.html">stur_core_theory.html</a> — QED from M_Planck</li>
+                <li>STUR Complete EFT, <a href="stur_core_theory.html">stur_core_theory.html</a> — QED from M_Planck</li>
                 <li>Dynamical Casimir Effect — Moore (1970), Schwinger et al. (1992)</li>
                 <li>Rayleigh-Plesset equation for bubble dynamics</li>
                 <li>Brenner, Hilgenfeldt, Lohse — Rev. Mod. Phys. 74 (2002) — Sonoluminescence theory</li>
@@ -974,14 +974,11 @@ print("STUR v3.8 TOE Sonoluminescence Complete.")</pre>
 <!-- ============================================================
      FOOTER
      ============================================================ -->
-<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR v3.8 TOE — ONE input (M_Planck) | ZERO free parameters | Falsifiable predictions</p>
-    <p>
-        <a href="stur_core_theory.html">Core Theory</a> ·
-        <a href="../index.html#problem-closures">Problem Closures</a> ·
-        <a href="stur_falsification.html">Falsification</a> ·
-        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
-    </p>
+<footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
+  <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
+    © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
+  </p>
 </footer>
 
 <!-- ============================================================
@@ -1001,8 +998,8 @@ print("STUR v3.8 TOE Sonoluminescence Complete.")</pre>
 // Page-specific state
 const PAGE_ID = 'sonoluminescence-lab';
 const pageState = {
-    version: 'v3.8',
-    framework: 'TOE: Sonoluminescence from QED',
+    version: '4.0',
+    framework: 'Complete EFT: Sonoluminescence from QED',
     inputs: 'ONE: M_Planck',
     free_parameters: 'ZERO',
     params: {
@@ -1236,7 +1233,7 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     ctx.fillStyle = '#e5e7eb';
     ctx.font = 'bold 13px system-ui, sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText(`v3.8 TOE: ${data.fluid} bubble (QED photon production)`, padding.left, 18);
+    ctx.fillText(`Complete EFT: ${data.fluid} bubble (QED photon production)`, padding.left, 18);
   }
 
   function drawPanel(xData, yData, label, color, padding, yOffset, plotW, plotH, canvasW, yMin, yMax) {

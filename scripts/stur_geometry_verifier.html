@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Z₃ Geometry Verifier — STUR v3.8 TOE Framework</title>
+<title>Z₃ Geometry Verifier — STUR TOE Framework</title>
 
 <!-- STUR Theme System -->
 <link rel="stylesheet" href="../assets/css/stur-core.css">
@@ -135,7 +135,7 @@ canvas{
       From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
       <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
       <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a> ·
-      <span style="color:var(--success);">v3.8 TOE</span>
+      <span style="color:var(--success);">TOE Candidate</span>
   </p>
   <!-- Status Badge -->
   <div style="margin-top:1rem;">
@@ -170,9 +170,9 @@ canvas{
      Z₃ HELIX DERIVATION CHAIN — CORE FRAMEWORK
      ================================================================ -->
 <div class="card" style="border-left:3px solid var(--neon-gold);background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(167,139,250,0.04) 100%);">
-  <div class="card-title" style="color:var(--neon-gold);">Z₃ Helix Derivation Chain — v3.8 TOE Framework</div>
+  <div class="card-title" style="color:var(--neon-gold);">Z₃ Helix Derivation Chain — TOE Candidate Framework</div>
 
-  <!-- Key Stats Banner - v3.8 TOE Framework -->
+  <!-- Key Stats Banner - TOE Candidate Framework -->
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;">
     <div style="background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.5);border-radius:8px;padding:12px;text-align:center;">
       <div style="font-size:28px;font-weight:800;color:var(--neon-gold);font-family:var(--font-mono);">1</div>
@@ -584,14 +584,11 @@ canvas{
 <!-- ============================================================
      FOOTER
      ============================================================ -->
-<footer style="text-align:center; padding:2rem; color:var(--text-dim); font-size:0.8rem;">
-    <p>STUR Physics Lab v3.8 — Z₃ Geometry Verification Tool (ONE input: M_Planck, ZERO free parameters)</p>
-    <p>
-        <a href="stur_core_theory.html">Core Theory</a> ·
-        <a href="../index.html#problem-closures">Problem Closures</a> ·
-        <a href="stur_falsification.html">Falsification</a> ·
-        <a href="https://github.com/sheldonlindberg/STUR-Physics-Lab" target="_blank">GitHub</a>
-    </p>
+<footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
+  <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
+    © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
+  </p>
 </footer>
 
 <script>
@@ -1155,8 +1152,8 @@ function exportSnapshot(){
   const Rds=[]; for(let i=0;i<80;i++) Rds.push(+R[Math.floor(i*(NX-1)/79)].toFixed(6));
   
   download(JSON.stringify({
-    meta:{title:"Z₃ Geometry Verifier — STUR v3.8 TOE Framework",
-          timestamp:new Date().toISOString(), version:"v3.8-TOE",
+    meta:{title:"Z₃ Geometry Verifier — STUR TOE Candidate Framework",
+          timestamp:new Date().toISOString(), version:"v4.0",
           authors:"James Lockwood and Sheldon Lindberg"},
     controls:{gamma:g,bhMass_Msol:M/Msol,
               doubleSlit:{energy_eV:+$("energy").value,a_nm:+$("a_nm").value,d_nm:+$("d_nm").value}},
