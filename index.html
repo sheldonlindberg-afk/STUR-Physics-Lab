@@ -3,38 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR Physics Lab</title>
-<meta name="description" content="STUR: A physics theory that calculates everything from one starting point.">
+<title>STUR — A Theory of Everything</title>
+<meta name="description" content="STUR: A resistance-based physics framework. One starting point. Everything derived. Awaiting falsification.">
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#4ade80">
 <link rel="apple-touch-icon" href="assets/4.13.png">
 
-<link rel="stylesheet" href="assets/css/stur-core.css">
-<link rel="stylesheet" href="assets/css/stur-glass.css">
-<link rel="stylesheet" href="assets/css/stur-icons.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; }
-
-body {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+:root {
+  --green: #4ade80;
+  --green-dim: rgba(74, 222, 128, 0.15);
+  --green-glow: rgba(74, 222, 128, 0.4);
+  --pink: #f472b6;
+  --gold: #fbbf24;
+  --blue: #60a5fa;
+  --cyan: #22d3ee;
+  --violet: #a78bfa;
+  --bg-deep: #05070a;
+  --bg-surface: rgba(255,255,255,0.02);
+  --border: rgba(255,255,255,0.06);
+  --text-main: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --text-dim: #52525b;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ambient background effect */
+.ambient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.ambient::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(74, 222, 128, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(96, 165, 250, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(167, 139, 250, 0.015) 0%, transparent 60%);
+  animation: ambientShift 30s ease-in-out infinite;
+}
+
+@keyframes ambientShift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(-2%, 2%) rotate(1deg); }
+  66% { transform: translate(2%, -1%) rotate(-1deg); }
+}
+
+/* Page container */
 .page {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Header */
-.site-header {
+.header {
+  padding: 1.5rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
-  margin-bottom: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .logo {
@@ -42,7 +104,7 @@ body {
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
-  color: #fff;
+  color: var(--text-main);
   font-weight: 600;
   font-size: 1.1rem;
 }
@@ -50,308 +112,418 @@ body {
 .logo img {
   width: 36px;
   height: 36px;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
-.nav-links {
+.nav {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
-.nav-links a {
-  color: #a1a1aa;
+.nav a {
+  color: var(--text-muted);
   text-decoration: none;
   font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-.nav-links a:hover {
-  color: #fff;
+.nav a:hover {
+  color: var(--text-main);
 }
 
-/* Hero */
+/* Hero Section */
 .hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 2rem 0 3rem;
-}
-
-.hero h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #fff;
-}
-
-.hero p {
-  font-size: 1.15rem;
-  color: #a1a1aa;
-  line-height: 1.7;
-  max-width: 500px;
+  padding: 2rem;
+  max-width: 800px;
   margin: 0 auto;
 }
 
-/* Main card */
-.main-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-}
-
-.main-card h2 {
-  font-size: 1.2rem;
-  color: #4ade80;
-  margin: 0 0 1rem;
-}
-
-.main-card p {
-  color: #d4d4d8;
-  line-height: 1.8;
-  margin: 0;
-  font-size: 1rem;
-}
-
-/* Stats row */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.stat {
-  background: rgba(74,222,128,0.05);
-  border: 1px solid rgba(74,222,128,0.15);
-  border-radius: 12px;
-  padding: 1.25rem 1rem;
-  text-align: center;
-}
-
-.stat-num {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #4ade80;
-}
-
-.stat-label {
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--green-dim);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  border-radius: 100px;
   font-size: 0.8rem;
-  color: #a1a1aa;
-  margin-top: 0.25rem;
+  color: var(--green);
+  font-weight: 500;
+  margin-bottom: 2rem;
+  letter-spacing: 0.02em;
 }
 
-/* Primary button */
-.btn-primary {
-  display: block;
-  width: 100%;
-  padding: 1rem;
-  background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+.badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.03em;
+}
+
+.hero h1 span {
+  background: linear-gradient(135deg, var(--green) 0%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 540px;
+  margin-bottom: 3rem;
+  font-weight: 400;
+}
+
+/* Primary CTA */
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--green) 0%, #22c55e 100%);
   color: #000;
-  text-align: center;
   text-decoration: none;
   font-weight: 600;
   font-size: 1.1rem;
   border-radius: 12px;
-  margin-bottom: 1.5rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px var(--green-glow);
+  margin-bottom: 1rem;
 }
 
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(74,222,128,0.3);
+.cta-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px var(--green-glow);
 }
 
-/* Section titles */
-.section-title {
-  font-size: 0.8rem;
-  color: #71717a;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin: 2rem 0 1rem;
-  padding-left: 4px;
+.cta-primary svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s;
 }
 
-/* Link grid */
-.link-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
+.cta-primary:hover svg {
+  transform: translateX(4px);
 }
 
-.link-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 1.25rem;
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  color: var(--text-muted);
   text-decoration: none;
-  transition: all 0.2s;
+  font-size: 0.95rem;
+  transition: color 0.2s;
 }
 
-.link-card:hover {
-  background: rgba(255,255,255,0.06);
-  transform: translateY(-2px);
+.cta-secondary:hover {
+  color: var(--text-main);
 }
 
-.link-card-icon {
-  font-size: 1.5rem;
+/* Explore Grid */
+.explore {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.explore-label {
+  text-align: center;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  margin-bottom: 2rem;
+}
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.explore-card {
+  position: relative;
+  padding: 1.5rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.explore-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--card-color, var(--green)), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.explore-card:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.1);
+  transform: translateY(-4px);
+}
+
+.explore-card:hover::before {
+  opacity: 1;
+}
+
+.explore-icon {
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.explore-title {
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 1rem;
   margin-bottom: 0.5rem;
 }
 
-.link-card-title {
-  font-weight: 600;
-  color: #fff;
-  font-size: 0.95rem;
-  margin-bottom: 0.25rem;
+.explore-desc {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  line-height: 1.5;
 }
 
-.link-card-desc {
-  color: #71717a;
-  font-size: 0.8rem;
+/* Card color accents */
+.card-foundations { --card-color: var(--green); }
+.card-particles { --card-color: var(--cyan); }
+.card-cosmos { --card-color: var(--violet); }
+.card-quantum { --card-color: var(--pink); }
+.card-predictions { --card-color: var(--gold); }
+.card-simulations { --card-color: var(--blue); }
+
+/* Quick Links */
+.quick-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.quick-link {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+
+.quick-link:hover {
+  color: var(--text-muted);
 }
 
 /* Footer */
-.site-footer {
+.footer {
   text-align: center;
-  padding: 2rem 0;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  margin-top: 2rem;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  background: rgba(0,0,0,0.3);
 }
 
-.site-footer p {
-  color: #52525b;
-  font-size: 0.85rem;
-  margin: 0;
+.footer p {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: var(--text-muted);
+}
+
+.version {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: rgba(255,255,255,0.03);
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
 }
 
 /* Mobile */
-@media (max-width: 500px) {
-  .hero h1 { font-size: 2rem; }
-  .stats { grid-template-columns: 1fr; }
-  .link-grid { grid-template-columns: 1fr; }
-  .nav-links { gap: 1rem; }
+@media (max-width: 640px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+
+  .nav {
+    gap: 1rem;
+  }
+
+  .nav a {
+    font-size: 0.8rem;
+  }
+
+  .hero {
+    padding: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .explore {
+    padding: 3rem 1.5rem;
+  }
+
+  .explore-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .explore-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .explore-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
 <body>
 
+<div class="ambient"></div>
+
 <div class="page">
 
   <!-- Header -->
-  <header class="site-header">
+  <header class="header">
     <a href="index.html" class="logo">
-      <img src="assets/4.13.png" alt="">
-      STUR Lab
+      <img src="assets/4.13.png" alt="STUR">
+      STUR
     </a>
-    <nav class="nav-links">
-      <a href="scripts/stur_faq.html">FAQ</a>
+    <nav class="nav">
       <a href="about.html">About</a>
-      <a href="sitemap.html">All Pages</a>
+      <a href="scripts/stur_faq.html">FAQ</a>
+      <a href="sitemap.html">Explore</a>
     </nav>
   </header>
 
   <!-- Hero -->
-  <section class="hero">
-    <h1>A Theory of Everything</h1>
-    <p>What if all the numbers in physics come from one simple idea? STUR calculates everything from a single starting point.</p>
+  <main class="hero">
+    <div class="badge">Theory of Everything Candidate</div>
+
+    <h1>Physics from <span>Resistance</span></h1>
+
+    <p class="hero-subtitle">
+      A complete framework deriving all fundamental constants from geometry.
+      One starting point. Everything calculated. Awaiting falsification.
+    </p>
+
+    <a href="scripts/stur_learn.html" class="cta-primary">
+      Begin the Journey
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
+
+    <a href="scripts/stur_predictions.html" class="cta-secondary">
+      View 21 Falsifiable Predictions →
+    </a>
+  </main>
+
+  <!-- Explore Grid -->
+  <section class="explore">
+    <div class="explore-label">Dive Deeper</div>
+    <div class="explore-grid">
+
+      <a href="scripts/stur_foundations_hub.html" class="explore-card card-foundations">
+        <span class="explore-icon">◈</span>
+        <div class="explore-title">Foundations</div>
+        <div class="explore-desc">Where it all begins</div>
+      </a>
+
+      <a href="scripts/stur_sm_hub.html" class="explore-card card-particles">
+        <span class="explore-icon">⬡</span>
+        <div class="explore-title">Particles</div>
+        <div class="explore-desc">Matter decoded</div>
+      </a>
+
+      <a href="scripts/stur_cosmology_hub.html" class="explore-card card-cosmos">
+        <span class="explore-icon">◉</span>
+        <div class="explore-title">Cosmos</div>
+        <div class="explore-desc">The large scale</div>
+      </a>
+
+      <a href="scripts/stur_quantum_hub.html" class="explore-card card-quantum">
+        <span class="explore-icon">✧</span>
+        <div class="explore-title">Quantum</div>
+        <div class="explore-desc">The small scale</div>
+      </a>
+
+      <a href="scripts/stur_predictions.html" class="explore-card card-predictions">
+        <span class="explore-icon">◎</span>
+        <div class="explore-title">Predictions</div>
+        <div class="explore-desc">Test the theory</div>
+      </a>
+
+      <a href="scripts/stur_simulations_hub.html" class="explore-card card-simulations">
+        <span class="explore-icon">▣</span>
+        <div class="explore-title">Simulations</div>
+        <div class="explore-desc">See it in action</div>
+      </a>
+
+    </div>
   </section>
 
-  <!-- The Idea -->
-  <div class="main-card">
-    <h2>The Simple Version</h2>
-    <p>Physics has lots of numbers — how heavy particles are, how strong forces are. STUR says they all come from one thing: the shape of the universe is like a spiral with 3 steps. Everything else follows from that geometry.</p>
-  </div>
-
-  <!-- Stats -->
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-num">1</div>
-      <div class="stat-label">Starting point</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">3</div>
-      <div class="stat-label">Particle families</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">21</div>
-      <div class="stat-label">Testable predictions</div>
-    </div>
-  </div>
-
-  <!-- Main CTA -->
-  <a href="scripts/stur_learn.html" class="btn-primary">Start Learning →</a>
-
-  <!-- EXPLORE THE THEORY -->
-  <div class="section-title">Explore the Theory</div>
-  <div class="link-grid">
-    <a href="scripts/stur_foundations_hub.html" class="link-card">
-      <div class="link-card-icon">🔬</div>
-      <div class="link-card-title">Foundations</div>
-      <div class="link-card-desc">The core math behind it</div>
-    </a>
-    <a href="scripts/stur_sm_hub.html" class="link-card">
-      <div class="link-card-icon">⚛️</div>
-      <div class="link-card-title">Particles</div>
-      <div class="link-card-desc">Quarks, electrons, Higgs</div>
-    </a>
-    <a href="scripts/stur_cosmology_hub.html" class="link-card">
-      <div class="link-card-icon">🌌</div>
-      <div class="link-card-title">Gravity & Cosmos</div>
-      <div class="link-card-desc">Black holes, dark matter</div>
-    </a>
-    <a href="scripts/stur_quantum_hub.html" class="link-card">
-      <div class="link-card-icon">💫</div>
-      <div class="link-card-title">Quantum</div>
-      <div class="link-card-desc">Where physics gets weird</div>
-    </a>
-  </div>
-
-  <!-- TEST IT -->
-  <div class="section-title">Test It</div>
-  <div class="link-grid">
-    <a href="scripts/stur_predictions.html" class="link-card">
-      <div class="link-card-icon">🎯</div>
-      <div class="link-card-title">Predictions</div>
-      <div class="link-card-desc">21 ways to prove it wrong</div>
-    </a>
-    <a href="scripts/stur_simulations_hub.html" class="link-card">
-      <div class="link-card-icon">🧪</div>
-      <div class="link-card-title">Simulations</div>
-      <div class="link-card-desc">Interactive demos</div>
-    </a>
-  </div>
-
-  <!-- REFERENCE -->
-  <div class="section-title">Reference</div>
-  <div class="link-grid">
-    <a href="scripts/stur_core_theory.html" class="link-card">
-      <div class="link-card-icon">📐</div>
-      <div class="link-card-title">Full Theory</div>
-      <div class="link-card-desc">Technical details</div>
-    </a>
-    <a href="scripts/stur_glossary.html" class="link-card">
-      <div class="link-card-icon">📖</div>
-      <div class="link-card-title">Glossary</div>
-      <div class="link-card-desc">What the words mean</div>
-    </a>
-    <a href="scripts/stur_symbols.html" class="link-card">
-      <div class="link-card-icon">🔣</div>
-      <div class="link-card-title">Symbols</div>
-      <div class="link-card-desc">Math notation guide</div>
-    </a>
-    <a href="scripts/stur_faq.html" class="link-card">
-      <div class="link-card-icon">❓</div>
-      <div class="link-card-title">FAQ</div>
-      <div class="link-card-desc">Common questions</div>
-    </a>
-  </div>
+  <!-- Quick Links -->
+  <nav class="quick-links">
+    <a href="scripts/stur_core_theory.html" class="quick-link">Full Theory</a>
+    <a href="scripts/stur_glossary.html" class="quick-link">Glossary</a>
+    <a href="scripts/stur_symbols.html" class="quick-link">Symbols</a>
+    <a href="mycitations.html" class="quick-link">Citations</a>
+    <a href="sitemap.html" class="quick-link">All 117 Pages</a>
+  </nav>
 
   <!-- Footer -->
-  <footer class="site-footer">
-    <p>© 2026 Sheldon Lindberg · STUR v3.8 · <a href="sitemap.html" style="color:#71717a;">View All Pages</a></p>
+  <footer class="footer">
+    <p>© 2026 Sheldon Lindberg · <a href="sitemap.html">Site Map</a> <span class="version">v4.0</span></p>
   </footer>
 
 </div>
 
-<script src="assets/js/stur-ui.js"></script>
 </body>
 </html>
