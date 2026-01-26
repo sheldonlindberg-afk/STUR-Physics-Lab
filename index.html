@@ -371,6 +371,44 @@ body {
   transform: translateY(-1px);
 }
 
+/* === PATCH: Force green hero title (override only) === */
+.hero h1 {
+  color: #4ade80;
+}
+
+
+/* === PATCH: Disable text selection flash on interactive elements === */
+.glass-nav-link,
+.primary-cta,
+.explore-item,
+.social-chip {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+/* === PATCH: Surface highlight overlay on press === */
+.glass-nav-link::after,
+.primary-cta::after,
+.explore-item::after,
+.social-chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.18);
+  opacity: 0;
+  transition: opacity 0.08s ease;
+  pointer-events: none;
+}
+
+.glass-nav-link:active::after,
+.primary-cta:active::after,
+.explore-item:active::after,
+.social-chip:active::after {
+  opacity: 1;
+}
+
 </style>
 </head>
 
