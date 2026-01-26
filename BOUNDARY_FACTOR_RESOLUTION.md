@@ -162,7 +162,39 @@ f_STUR = f_overlap x f_sector
 f_sector = 0.65 / 1.55 = 0.42
 ```
 
-**This is consistent!** The 0.42 factor represents additional Z_3 sector physics beyond the simple overlap integral.
+---
+
+### ⚠️ IMPORTANT: Derivation Status Clarification
+
+**STATUS: CONSTRAINED (not fully derived)**
+
+The decomposition 0.65 = 1.55 × 0.42 has an honesty issue:
+
+1. **f_overlap = 1.55** is CALCULATED from explicit overlap integrals ✓
+2. **f_Z3 = 0.42** is EXTRACTED from the requirement that the product = 0.65
+
+**The problem:** We derive 0.42 by dividing the target value (0.65) by the overlap
+factor (1.55). This is mathematically consistent but raises the question: was 0.42
+derived independently, or reverse-engineered to match the phenomenological value?
+
+**Cross-check with sector fraction:**
+```
+Sector fraction² = (erf(0.884))² = (0.79)² = 0.62 ≠ 0.42
+```
+
+The discrepancy (0.62 vs 0.42) suggests additional suppression mechanisms beyond
+simple sector confinement, which are estimated rather than derived:
+- Phase interference between sector boundaries
+- Boundary damping effects
+- Z₃ twisted sector contributions
+
+**Honest classification:** The factor f_boundary = 0.65 should be labeled as
+**CONSTRAINED** (overall value consistent with phenomenology) rather than
+**DERIVED** (each component calculated from first principles).
+
+---
+
+The 0.42 factor represents additional Z_3 sector physics beyond the simple overlap integral, but its precise value is constrained by phenomenology rather than independently derived.
 
 ---
 
@@ -240,14 +272,14 @@ Where:
 
 ### 7.1 Mathematical Result
 
-| Effect | Factor | Direction |
-|--------|--------|-----------|
-| Overlap integral ratio | 1.55 | Enhancement |
-| Z_3 sector confinement | 0.42 | Suppression |
-| Combined "boundary" factor | 0.65 | Net suppression |
-| Holonomy averaging | 0.85 | Suppression |
-| RG running | 0.87 | Suppression |
-| **Total correction** | **0.48** | **Net suppression** |
+| Effect | Factor | Direction | Status |
+|--------|--------|-----------|--------|
+| Overlap integral ratio | 1.55 | Enhancement | **CALCULATED** |
+| Z_3 sector confinement | 0.42 | Suppression | **CONSTRAINED** (see §4.3) |
+| Combined "boundary" factor | 0.65 | Net suppression | **CONSTRAINED** |
+| Holonomy averaging | 0.85 | Suppression | Semi-derived |
+| RG running | 0.87 | Suppression | Semi-derived |
+| **Total correction** | **0.48** | **Net suppression** | |
 
 ### 7.2 Physical Conclusion
 

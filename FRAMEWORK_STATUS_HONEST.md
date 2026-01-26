@@ -74,13 +74,20 @@ These parameters are predicted to lie within certain ranges or follow certain pa
 
 ### 3.2 Mass Hierarchies
 
-| Sector | Pattern Derived | Absolute Values |
-|--------|-----------------|-----------------|
-| Up quarks | m_t : m_c : m_u ~ 1 : lambda^4 : lambda^8 | NOT derived (require generation-dependent kappa) |
-| Down quarks | m_b : m_s : m_d ~ 1 : lambda^2 : lambda^4 | Pattern partially works |
-| Leptons | m_tau : m_mu : m_e ~ 1 : lambda^2 : lambda^4 | Pattern approximately works |
+| Sector | Pattern Derived | Absolute Values | Status |
+|--------|-----------------|-----------------|--------|
+| Up quarks | m_t : m_c : m_u ~ 1 : λ^4 : λ^8 | NOT derived (require generation-dependent κ) | **Pattern: DERIVED; Values: FITTED** |
+| Down quarks | m_b : m_s : m_d ~ 1 : λ^2 : λ^4 | Pattern partially works | **Pattern: DERIVED; Values: FITTED** |
+| Leptons | m_τ : m_μ : m_e ~ 1 : λ^2 : λ^4 | Pattern approximately works | **Pattern: DERIVED; Values: FITTED** |
 
-**Critical Note:** The document acknowledges (line 2133-2137) that "precise values require numerical fitting of delta_g and sector-dependent kappa."
+**Critical Note:** The Wolfenstein λ PATTERN (powers of λ for successive generations) follows from Gaussian overlap geometry. However, ABSOLUTE MASS VALUES require:
+- Generation-dependent localization parameters δ_g
+- Sector-dependent κ modifications
+- These parameters are FITTED to observed masses, not derived from first principles
+
+**Honest Classification:**
+- λ-scaling pattern: **DERIVED** from Z₃ geometry
+- Absolute mass ratios: **FITTED** using δ_g parameters
 
 ### 3.3 Higgs Mass
 
@@ -284,22 +291,37 @@ Summary: Well-motivated phenomenological framework that
 
 ## 9. Summary Table: Derivation Status of All SM Parameters
 
-| Parameter | Status | Method | Uncertainty |
-|-----------|--------|--------|-------------|
-| N_gen = 3 | **DERIVED** | Z_3 topology | Exact |
-| Gauge group | **DERIVED** | Holonomy | Exact |
-| theta_QCD = 0 | **DERIVED** | Symmetry | Exact |
-| lambda | Constrained | exp[-kappa^2/8] x corrections | 5% (kappa fitted) |
-| A | Constrained | Overlap integrals | 6% |
-| rho-bar | Constrained | Phase geometry | 12% |
-| eta-bar | Constrained | Phase geometry | 10-15% |
-| m_H | Constrained | GHU + RG | 8% |
-| m_t, m_b, m_tau | **INPUT** | Set scales | N/A |
-| Other masses | Fitted | Sector-dependent kappa | Pattern derived, values fitted |
-| g_1, g_2, g_3 at M_Z | Standard RG | From alpha_GUT | Standard |
-| v (Higgs VEV) | **INPUT** | Sets EW scale | N/A |
-| PMNS angles | Constrained | Z_3 resonance | **Needs verification** |
-| Neutrino masses | Constrained | Type-I seesaw | Depends on M_R |
+### 9.1 Updated Classification (Post Peer Review v3.9)
+
+| Parameter | Status | Method | Uncertainty | Notes |
+|-----------|--------|--------|-------------|-------|
+| N_gen = 3 | **EXACT** | Z₃ topology | Topological | ✓ Genuinely derived |
+| Gauge group | **EXACT** | Holonomy compatibility | Group theory | ✓ Genuinely derived |
+| θ_QCD = 0 | **EXACT** | Symmetry | Symmetry | ✓ Genuinely derived |
+| m_H ≈ 125 GeV | **CONSTRAINED** | GHU + RG | ±10 GeV (8%) | Boundary condition assumed |
+| λ (Cabibbo) | **CONSTRAINED** | exp[-κ²/8] × corrections | 5% | κ ~50% estimated |
+| A | **CONSTRAINED** | Overlap integrals | 6% | Uses fitted κ |
+| ρ̄ | **CONSTRAINED** | Phase geometry | 12% | Uses correction factors |
+| η̄ | **CONSTRAINED** | Phase geometry | 10-15% | Base uses observed γ convention |
+| κ = 2.52 | **~50% DERIVED** | Mathieu + corrections | ±0.16 | Corrections ~50% estimated |
+| f_boundary = 0.65 | **CONSTRAINED** | Overlap × Z₃ sector | - | f_Z3 = 0.42 reverse-engineered |
+| Mass hierarchy | **Pattern: DERIVED** | λ-scaling | - | Absolute values FITTED |
+| m_t, m_b, m_τ | **INPUT** | Set scales | N/A | Framework inputs |
+| Other masses | **FITTED** | Sector-dependent κ | - | δ_g parameters fitted |
+| g_1, g_2, g_3 at M_Z | Standard RG | From α_GUT | Standard | - |
+| v (Higgs VEV) | **INPUT** | Sets EW scale | N/A | Framework input |
+| PMNS angles | **CONSTRAINED** | Z₃ resonance | - | Needs verification |
+| Neutrino masses | **CONSTRAINED** | Type-I seesaw | - | Depends on M_R (fitted) |
+
+### 9.2 Classification Key
+
+| Label | Meaning |
+|-------|---------|
+| **EXACT** | Follows from topology/symmetry with no adjustable parameters |
+| **DERIVED** | Calculated from first principles with explicit formulae |
+| **CONSTRAINED** | Predicted within ranges, but depends on estimated/fitted parameters |
+| **FITTED** | Adjusted to match observations |
+| **INPUT** | Framework input, not predicted |
 
 ---
 
@@ -328,4 +350,46 @@ Summary: Well-motivated phenomenological framework that
 
 ---
 
+## 11. Peer Review Response (v3.9 Update)
+
+This section documents changes made in response to external peer review of the derivation chain.
+
+### 11.1 Issues Raised and Resolutions
+
+| Issue | Original Claim | Updated Status | Resolution Document |
+|-------|----------------|----------------|---------------------|
+| **κ corrections** | "Derived" | **~50% calculated, ~50% estimated** | KAPPA_HIGHER_ORDER_CORRECTIONS.md updated with explicit status labels |
+| **f_boundary = 0.65** | Implied derived | **CONSTRAINED** (f_Z3 = 0.42 reverse-engineered) | BOUNDARY_FACTOR_RESOLUTION.md §4.3 added warning |
+| **Mass hierarchy** | "Pattern derived" | **Pattern: DERIVED; Values: FITTED** | Section 3.2 updated with honest classification |
+| **η̄_base = 0.39** | Implied derived | **CONSTRAINED** (uses observed γ = 67° convention) | ETA_BAR_CORRECTION_CHAIN.md §1.3 added clarification |
+
+### 11.2 Strongest Claims (Peer Review Confirmed)
+
+These results remain genuinely derived with no fitting:
+- **N_gen = 3**: Topological (Z₃ fixed points) — **EXACT**
+- **θ_QCD = 0**: Symmetry (Z₃ × CP) — **EXACT**
+- **SM gauge group**: Holonomy compatibility — **EXACT**
+- **m_H ≈ 125 GeV**: Gauge-Higgs unification + RG — **CONSTRAINED** (±10 GeV)
+
+### 11.3 Updated Terminology
+
+To avoid overclaiming, the following terminology is now used:
+- **EXACT**: Topological/symmetry results with no parameters
+- **DERIVED**: Full first-principles calculation
+- **CALCULATED**: Explicit computation but with scheme dependence
+- **CONSTRAINED**: Value consistent with phenomenology but not independently derived
+- **ESTIMATED**: Order-of-magnitude with phenomenological factors
+- **FITTED**: Adjusted to match observations
+
+### 11.4 Framework Status Verdict
+
+> **Peer Review Verdict (2026-01-26):**
+> Solid phenomenological EFT framework with falsifiable predictions.
+> Some "derived" labels have been appropriately changed to "constrained" or "estimated."
+> The FRAMEWORK_STATUS_HONEST.md self-assessment is accurate.
+
+---
+
 *This assessment is intended to replace overclaiming statements in DERIVATION_CHAIN_HELIX.md and provide honest uncertainty quantification for peer review.*
+
+*Last updated: 2026-01-26 (Peer Review Response)*

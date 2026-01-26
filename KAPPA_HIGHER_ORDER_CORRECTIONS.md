@@ -673,10 +673,16 @@ Delta_kappa_virtual = kappa_0 × Delta_E / (2 E_0)
 
 **Non-perturbative enhancement factor:**
 
+**STATUS: ESTIMATED**
+
 The above perturbative results are enhanced by a factor ~2.7 due to:
 1. Resummation of higher KK modes (n = 6, 9, 12, ...)
 2. Self-consistent backreaction on sigma
 3. Running between M_KK and localization scale
+
+**Important Note:** The 2.7× enhancement factor is an ORDER-OF-MAGNITUDE ESTIMATE based on
+expected resummation effects, NOT a rigorous calculation. This is the primary source of
+the "estimated" classification for this correction.
 
 This gives:
 ```
@@ -685,32 +691,36 @@ Delta_kappa_KK = 0.041 × 2.7 = 0.11 ± 0.03
 
 The uncertainty arises from:
 - Unknown M_KK/v ratio: ± 0.02
-- Higher-order corrections: ± 0.01
+- Enhancement factor uncertainty: ± 0.02 (dominant)
 - Z_3 projection ambiguities: ± 0.01
 
-### 3.11 Final KK Result (DERIVED)
+### 3.11 Final KK Result (CONSTRAINED)
 
 ```
 +------------------------------------------------------------------+
 |                                                                  |
-|  FIRST-PRINCIPLES KK TOWER DRESSING RESULT                       |
+|  KK TOWER DRESSING RESULT                                        |
 |                                                                  |
 |  Delta_kappa_KK = +0.11 +/- 0.03                                 |
 |                                                                  |
-|  Derived from:                                                   |
+|  Calculated perturbative contributions:                          |
 |    - One-loop Coleman-Weinberg potential (Sec 3.3-3.4)           |
 |    - Wave function renormalization (Sec 3.5)                     |
 |    - Threshold matching at M_KK (Sec 3.6)                        |
 |    - Z_3 periodic image coherence (Sec 3.8)                      |
 |    - Virtual KK exchange (Sec 3.9)                               |
+|    Subtotal (perturbative): +0.041                               |
+|                                                                  |
+|  Estimated enhancement:                                          |
+|    - 2.7× factor from resummation effects                        |
+|    - This enhancement is NOT rigorously derived                  |
 |                                                                  |
 |  Mathematical verification:                                      |
-|    - All loop integrals computed explicitly                      |
+|    - Perturbative loop integrals computed explicitly             |
 |    - Zeta regularization for KK sums                             |
-|    - Z_3 projection consistently applied                         |
-|    - Matches expected parametric scaling: O(y^2/16pi^2) x logs   |
+|    - Parametric scaling matches: O(y^2/16pi^2) x logs            |
 |                                                                  |
-|  STATUS: DERIVED (not estimated)                                 |
+|  STATUS: CONSTRAINED (perturbative base + estimated enhancement) |
 |                                                                  |
 +------------------------------------------------------------------+
 ```
@@ -1409,13 +1419,17 @@ The corrections are:
 
 ### 6.1 Individual Contributions
 
-| Correction | Value | Uncertainty | Primary Source |
-|------------|-------|-------------|----------------|
-| Two-loop Mathieu | +0.08 | +/- 0.02 | Higher Fourier harmonics |
-| KK tower dressing | +0.11 | +/- 0.03 | Potential renormalization |
-| Gauge backreaction | +0.06 | +/- 0.02 | RG matching |
-| Z_3 orbifold | +0.05 | +/- 0.02 | Twisted sector |
-| **Total** | **+0.30** | **+/- 0.05** | |
+| Correction | Value | Uncertainty | Primary Source | Status |
+|------------|-------|-------------|----------------|--------|
+| Two-loop Mathieu | +0.08 | +/- 0.02 | Higher Fourier harmonics | **CALCULATED** |
+| KK tower dressing | +0.11 | +/- 0.03 | Potential renormalization | **ESTIMATED** (2.7× enhancement factor) |
+| Gauge backreaction | +0.06 | +/- 0.02 | RG matching | **CALCULATED** |
+| Z_3 orbifold | +0.05 | +/- 0.02 | Twisted sector | **ESTIMATED** |
+| **Total** | **+0.30** | **+/- 0.05** | | **~50% calculated, ~50% estimated** |
+
+**Derivation Status Clarification:**
+- **CALCULATED**: Full perturbative calculation with explicit loop integrals
+- **ESTIMATED**: Order-of-magnitude estimates with phenomenological enhancement factors
 
 ### 6.2 Final Result
 

@@ -96,6 +96,29 @@ eta-bar_base = sin(67 deg) x 0.424
             = 0.39
 ```
 
+---
+
+### ⚠️ IMPORTANT: Derivation Status Clarification
+
+**STATUS: CONSTRAINED (uses observational input)**
+
+The base calculation uses γ ≈ 67°, which requires careful interpretation:
+
+1. **What IS derived:** δ_CKM = 66.8° from helix geometry (θ_χ + δ_tb × f_screen)
+2. **What uses observation:** The identification γ ≈ δ_CKM relies on the standard
+   unitarity triangle convention, where γ is defined as arg(-V_ud V_ub* / V_cd V_cb*)
+
+**The mixing of prediction with data:**
+- The STUR framework derives δ_CKM ≈ 67° from geometry ✓
+- But using this in η̄ = sin(γ) × R_t assumes the observed CKM structure
+- R_t = 0.424 in this formula uses additional inputs beyond pure geometry
+
+**Honest classification:** η̄_base = 0.39 should be labeled as **CONSTRAINED**
+rather than **DERIVED**, because it combines geometric predictions with
+standard CKM phenomenology conventions.
+
+---
+
 This is 12% above the observed value. The following three corrections reduce it to the experimental value.
 
 ---
