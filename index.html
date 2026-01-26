@@ -77,32 +77,33 @@ body {
   line-height: 1.8;
 }
 
-/* ---------- Stats ---------- */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px;
-  margin-bottom: 48px;
+/* ---------- Axioms ---------- */
+.axioms {
+  max-width: 700px;
+  margin: 2.5rem auto 3rem;
+  padding-left: 1rem;
 }
 
-.stat {
-  text-align: center;
-  padding: 18px 12px;
-  background: rgba(74,222,128,0.06);
-  border: 1px solid rgba(74,222,128,0.18);
-  border-radius: 14px;
+.axioms ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.stat-value {
-  font-size: 2.2rem; /* Larger for emphasis */
-  font-weight: 700;
-  color: #4ade80;
+.axioms li {
+  position: relative;
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
-.stat-label {
-  font-size: 0.85rem; /* Slightly larger */
-  color: var(--text-tertiary);
-  margin-top: 4px;
+.axioms li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--text-quaternary);
 }
 
 /* ---------- Sections ---------- */
@@ -115,49 +116,108 @@ body {
   padding-left: 4px;
 }
 
-/* ---------- Link Grid ---------- */
-.link-grid {
+/* ---------- Explore ---------- */
+.explore {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
+  gap: 1rem;
+  margin-top: 4rem;
 }
 
-.link-card {
+.explore-item {
+  padding: 1.5rem;
+  color: var(--text-primary);
+  text-decoration: none;
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 18px;
-  border-radius: 14px;
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(255,255,255,0.08);
-  text-decoration: none;
-  transition: all 0.15s ease;
 }
 
-.link-card:hover {
-  background: rgba(255,255,255,0.06);
-  transform: translateY(-2px);
-}
-
-.link-card .icon {
+.explore-item .icon {
   font-size: 1.2rem;
   color: #4ade80;
   margin-top: 2px;
 }
 
-.link-content {
+.explore-content {
   flex: 1;
 }
 
-.link-title {
+.explore-title {
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 4px;
 }
 
-.link-desc {
+.explore-desc {
   font-size: 0.85rem;
   color: var(--text-tertiary);
+}
+
+/* ---------- Liquid Glass ---------- */
+.liquid-glass {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+
+  /* TRUE glass */
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(28px) saturate(160%) contrast(110%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%) contrast(110%);
+
+  /* edge definition */
+  border: 1px solid rgba(255,255,255,0.25);
+
+  /* depth */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.35),
+    0 20px 40px rgba(0,0,0,0.35);
+
+  transform: translateZ(0); /* GPU */
+}
+
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255,255,255,0.35),
+      rgba(255,255,255,0.05) 30%,
+      rgba(255,255,255,0.02) 60%,
+      rgba(255,255,255,0.25)
+    );
+
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.liquid-glass::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+
+  background:
+    radial-gradient(
+      circle at var(--lx, 30%) var(--ly, 20%),
+      rgba(255,255,255,0.6),
+      rgba(255,255,255,0.2) 30%,
+      transparent 60%
+    );
+
+  opacity: 0.35;
+  transform: rotate(8deg);
+  pointer-events: none;
+}
+
+.liquid-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
 }
 
 /* ---------- CTA ---------- */
@@ -172,13 +232,12 @@ body {
   background: linear-gradient(135deg, #4ade80, #22c55e);
   color: #000;
   text-decoration: none;
-  box-shadow: 0 12px 28px rgba(74,222,128,0.25);
+  box-shadow: none;
   transition: all 0.15s ease;
 }
 
 .primary-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 32px rgba(74,222,128,0.3);
 }
 
 /* ---------- Footer ---------- */
@@ -243,56 +302,54 @@ body {
     </p>
   </section>
 
-  <section class="stats">
-    <div class="stat">
-      <div class="stat-value">1</div>
-      <div class="stat-label">Fundamental field</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">3</div>
-      <div class="stat-label">Helical closures</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">21+</div>
-      <div class="stat-label">Falsifiable predictions</div>
-    </div>
+  <section class="axioms">
+    <ul>
+      <li><strong>Single fundamental field:</strong> resistance \(R(x^\mu, X)\)</li>
+      <li><strong>Discrete geometry:</strong> Z₃ helical closure in compact dimension</li>
+      <li><strong>No free dimensionless parameters:</strong> scales derived, not fit</li>
+      <li><strong>Falsifiable:</strong> 21+ experimental and numerical tests</li>
+    </ul>
   </section>
 
-  <div class="section-title">Explore</div>
-  <div class="link-grid">
-    <a href="scripts/stur_core_theory.html" class="link-card">
-      <span class="icon">📐</span>
-      <div class="link-content">
-        <div class="link-title">Foundations</div>
-        <div class="link-desc">Master action, geometry, XCRM closure</div>
-      </div>
-    </a>
-    <a href="scripts/stur_sm_derivation.html" class="link-card">
-      <span class="icon">⚛️</span>
-      <div class="link-content">
-        <div class="link-title">Standard Model</div>
-        <div class="link-desc">Particles, masses, mixing, CP</div>
-      </div>
-    </a>
-    <a href="scripts/stur_cosmological_derivation.html" class="link-card">
-      <span class="icon">🌌</span>
-      <div class="link-content">
-        <div class="link-title">Cosmology</div>
-        <div class="link-desc">Inflation, dark matter, bounce</div>
-      </div>
-    </a>
-    <a href="scripts/stur_sandbox.html" class="link-card">
-      <span class="icon">🧪</span>
-      <div class="link-content">
-        <div class="link-title">Simulations</div>
-        <div class="link-desc">Interactive numerical tests</div>
-      </div>
-    </a>
-  </div>
-
   <a href="scripts/stur_learn.html" class="primary-cta">
-    Start with Derivations & Falsification →
+    Read the derivation chain →
   </a>
+
+  <div class="section-title">Theory Structure</div>
+  <section class="explore">
+    <a href="scripts/stur_core_theory.html" class="explore-item liquid-glass">
+      <div class="liquid-noise"></div>
+      <span class="icon">📐</span>
+      <div class="explore-content">
+        <div class="explore-title">Foundations</div>
+        <div class="explore-desc">Master action, geometry, XCRM closure</div>
+      </div>
+    </a>
+    <a href="scripts/stur_sm_derivation.html" class="explore-item liquid-glass">
+      <div class="liquid-noise"></div>
+      <span class="icon">⚛️</span>
+      <div class="explore-content">
+        <div class="explore-title">Standard Model</div>
+        <div class="explore-desc">Particles, masses, mixing, CP</div>
+      </div>
+    </a>
+    <a href="scripts/stur_cosmological_derivation.html" class="explore-item liquid-glass">
+      <div class="liquid-noise"></div>
+      <span class="icon">🌌</span>
+      <div class="explore-content">
+        <div class="explore-title">Cosmology</div>
+        <div class="explore-desc">Inflation, dark matter, bounce</div>
+      </div>
+    </a>
+    <a href="scripts/stur_sandbox.html" class="explore-item liquid-glass">
+      <div class="liquid-noise"></div>
+      <span class="icon">🧪</span>
+      <div class="explore-content">
+        <div class="explore-title">Simulations</div>
+        <div class="explore-desc">Interactive numerical tests</div>
+      </div>
+    </a>
+  </section>
 
   <footer class="site-footer">
     <p>© 2026 Sheldon Lindberg · STUR v3.8</p>
@@ -306,6 +363,17 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof STUR !== 'undefined' && STUR.initNav) {
     STUR.initNav();
   }
+
+  document.querySelectorAll('.liquid-glass').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+
+      el.style.setProperty('--lx', `${x * 100}%`);
+      el.style.setProperty('--ly', `${y * 100}%`);
+    });
+  });
 });
 </script>
 
