@@ -2,527 +2,544 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUR — A Theory of Everything</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="STUR">
+<title>STUR — Theory of Everything</title>
 <meta name="description" content="STUR: A resistance-based physics framework. One starting point. Everything derived. Awaiting falsification.">
 
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4ade80">
 <link rel="apple-touch-icon" href="assets/4.13.png">
+<link rel="icon" type="image/png" href="assets/4.13.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --green: #4ade80;
-  --green-dim: rgba(74, 222, 128, 0.15);
-  --green-glow: rgba(74, 222, 128, 0.4);
-  --pink: #f472b6;
-  --gold: #fbbf24;
-  --blue: #60a5fa;
-  --cyan: #22d3ee;
-  --violet: #a78bfa;
-  --bg-deep: #05070a;
-  --bg-surface: rgba(255,255,255,0.02);
-  --border: rgba(255,255,255,0.06);
-  --text-main: #f4f4f5;
-  --text-muted: #a1a1aa;
-  --text-dim: #52525b;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+  --safe-left: env(safe-area-inset-left);
+  --safe-right: env(safe-area-inset-right);
+  --accent: #4ade80;
+  --accent-glow: rgba(74, 222, 128, 0.4);
+  --accent-dim: rgba(74, 222, 128, 0.15);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.4);
+  --border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(40, 40, 45, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.15);
 }
 
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg-deep);
-  color: var(--text-main);
-  min-height: 100vh;
-  overflow-x: hidden;
+html, body {
+  height: 100%;
+  background: #000;
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
 }
 
-/* Ambient background effect */
-.ambient {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.ambient::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background:
-    radial-gradient(ellipse at 20% 20%, rgba(74, 222, 128, 0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 80%, rgba(96, 165, 250, 0.02) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(167, 139, 250, 0.015) 0%, transparent 60%);
-  animation: ambientShift 30s ease-in-out infinite;
-}
-
-@keyframes ambientShift {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  33% { transform: translate(-2%, 2%) rotate(1deg); }
-  66% { transform: translate(2%, -1%) rotate(-1deg); }
-}
-
-/* Page container */
-.page {
-  position: relative;
-  z-index: 1;
+#app {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
 
-/* Header */
-.header {
-  padding: 1.5rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.logo {
+/* ════════════════════════════════════════════════════════════════════════
+   FLOATING PILL BAR - Premium Liquid Glass
+   ════════════════════════════════════════════════════════════════════════ */
+.pill-bar {
+  position: fixed;
+  top: calc(12px + var(--safe-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  text-decoration: none;
-  color: var(--text-main);
-  font-weight: 600;
-  font-size: 1.1rem;
+  gap: 4px;
+  padding: 6px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 100px;
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.2);
 }
 
-.logo img {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+.pill-bar::before {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 10px;
+  right: 10px;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  border-radius: 100px;
+  pointer-events: none;
 }
 
-.nav {
+.pill {
   display: flex;
-  gap: 2rem;
-}
-
-.nav a {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.9rem;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
   font-weight: 500;
-  transition: color 0.2s;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
-.nav a:hover {
-  color: var(--text-main);
+.pill:active { transform: scale(0.95); }
+.pill.active { background: rgba(255, 255, 255, 0.12); color: #fff; }
+.pill:hover { color: rgba(255, 255, 255, 0.9); }
+.pill svg { width: 18px; height: 18px; flex-shrink: 0; }
+.pill.icon-only { padding: 8px 10px; }
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 4px var(--accent), 0 0 8px var(--accent);
+  animation: statusPulse 2s ease-in-out infinite;
 }
 
-/* Hero Section */
-.hero {
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 4px var(--accent), 0 0 8px var(--accent); }
+  50% { box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent), 0 0 24px rgba(74, 222, 128, 0.4); }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ════════════════════════════════════════════════════════════════════════ */
+.main {
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: center;
+  padding: calc(80px + var(--safe-top)) 24px calc(40px + var(--safe-bottom));
   text-align: center;
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
-.badge {
-  display: inline-flex;
+.hero-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 24px;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: var(--green-dim);
-  border: 1px solid rgba(74, 222, 128, 0.2);
-  border-radius: 100px;
-  font-size: 0.8rem;
-  color: var(--green);
-  font-weight: 500;
-  margin-bottom: 2rem;
-  letter-spacing: 0.02em;
+  justify-content: center;
+  margin-bottom: 24px;
+  background: #000;
+  box-shadow: 0 20px 50px rgba(74, 222, 128, 0.2);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.badge::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background: var(--green);
-  border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
+.hero-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-.hero h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
+.hero-title {
+  font-size: 36px;
   font-weight: 700;
-  line-height: 1.1;
-  margin-bottom: 1.5rem;
-  letter-spacing: -0.03em;
-}
-
-.hero h1 span {
-  background: linear-gradient(135deg, var(--green) 0%, var(--cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-  max-width: 540px;
-  margin-bottom: 3rem;
-  font-weight: 400;
+  color: var(--text-tertiary);
+  font-size: 16px;
+  margin-bottom: 32px;
 }
 
-/* Primary CTA */
-.cta-primary {
+.hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, var(--green) 0%, #22c55e 100%);
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  border-radius: 100px;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 40px;
+}
+
+.hero-badge .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   ACTION BUTTONS
+   ════════════════════════════════════════════════════════════════════════ */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 48px;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 24px;
+  background: rgba(74, 222, 128, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
   color: #000;
-  text-decoration: none;
+  font-size: 16px;
   font-weight: 600;
-  font-size: 1.1rem;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px var(--green-glow);
-  margin-bottom: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow:
+    0 4px 20px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
 }
 
-.cta-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px var(--green-glow);
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+  border-radius: 16px;
+  pointer-events: none;
 }
 
-.cta-primary svg {
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 30px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-primary svg {
   width: 20px;
   height: 20px;
-  transition: transform 0.2s;
 }
 
-.cta-primary:hover svg {
-  transform: translateX(4px);
-}
-
-.cta-secondary {
-  display: inline-flex;
+.btn-secondary {
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  color: var(--text-muted);
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
   text-decoration: none;
-  font-size: 0.95rem;
-  transition: color 0.2s;
+  transition: all 0.2s ease;
 }
 
-.cta-secondary:hover {
-  color: var(--text-main);
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
 }
 
-/* Explore Grid */
-.explore {
-  padding: 4rem 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
+.btn-secondary:active { transform: scale(0.98); }
+
+/* ════════════════════════════════════════════════════════════════════════
+   EXPLORE GRID
+   ════════════════════════════════════════════════════════════════════════ */
+.explore-section {
   width: 100%;
+  max-width: 800px;
+  padding: 0 24px;
 }
 
 .explore-label {
-  text-align: center;
-  font-size: 0.75rem;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--text-dim);
-  margin-bottom: 2rem;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  margin-bottom: 16px;
 }
 
 .explore-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .explore-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .explore-card {
-  position: relative;
-  padding: 1.5rem;
-  background: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 12px;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   border-radius: 16px;
   text-decoration: none;
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.explore-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--card-color, var(--green)), transparent);
-  opacity: 0;
-  transition: opacity 0.3s;
+  transition: all 0.2s ease;
 }
 
 .explore-card:hover {
-  background: rgba(255,255,255,0.04);
-  border-color: rgba(255,255,255,0.1);
-  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
-.explore-card:hover::before {
-  opacity: 1;
-}
+.explore-card:active { transform: scale(0.98); }
 
 .explore-icon {
-  font-size: 1.75rem;
-  margin-bottom: 0.75rem;
-  display: block;
+  font-size: 24px;
+  margin-bottom: 8px;
+  opacity: 0.8;
 }
 
 .explore-title {
+  font-size: 13px;
   font-weight: 600;
-  color: var(--text-main);
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  margin-bottom: 2px;
 }
 
 .explore-desc {
-  color: var(--text-dim);
-  font-size: 0.85rem;
-  line-height: 1.5;
+  font-size: 11px;
+  color: var(--text-tertiary);
 }
 
-/* Card color accents */
-.card-foundations { --card-color: var(--green); }
-.card-particles { --card-color: var(--cyan); }
-.card-cosmos { --card-color: var(--violet); }
-.card-quantum { --card-color: var(--pink); }
-.card-predictions { --card-color: var(--gold); }
-.card-simulations { --card-color: var(--blue); }
+/* ════════════════════════════════════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════════════════════════════════════ */
+.footer {
+  padding: 24px;
+  padding-bottom: calc(24px + var(--safe-bottom));
+  text-align: center;
+  border-top: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.5);
+}
 
-/* Quick Links */
-.quick-links {
+.footer-links {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-  padding: 2rem;
-  border-top: 1px solid var(--border);
+  gap: 8px 20px;
+  margin-bottom: 16px;
 }
 
-.quick-link {
-  color: var(--text-dim);
+.footer-link {
+  color: var(--text-tertiary);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 13px;
   transition: color 0.2s;
 }
 
-.quick-link:hover {
-  color: var(--text-muted);
+.footer-link:hover { color: var(--text-secondary); }
+
+.footer-meta {
+  font-size: 12px;
+  color: var(--text-tertiary);
 }
 
-/* Footer */
-.footer {
-  text-align: center;
-  padding: 2rem;
-  border-top: 1px solid var(--border);
-  background: rgba(0,0,0,0.3);
-}
-
-.footer p {
-  color: var(--text-dim);
-  font-size: 0.8rem;
-}
-
-.footer a {
-  color: var(--text-dim);
+.footer-meta a {
+  color: var(--text-tertiary);
   text-decoration: none;
 }
 
-.footer a:hover {
-  color: var(--text-muted);
-}
+.footer-meta a:hover { color: var(--text-secondary); }
 
-.version {
+.version-badge {
   display: inline-block;
-  padding: 0.25rem 0.5rem;
-  background: rgba(255,255,255,0.03);
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 4px;
-  font-family: monospace;
-  font-size: 0.75rem;
-  margin-left: 0.5rem;
+  font-family: 'SF Mono', 'Menlo', monospace;
+  font-size: 11px;
+  margin-left: 8px;
 }
 
-/* Mobile */
-@media (max-width: 640px) {
-  .header {
-    padding: 1rem 1.5rem;
+/* ════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .pill-bar {
+    padding: 4px;
+    gap: 2px;
   }
-
-  .nav {
-    gap: 1rem;
+  .pill {
+    padding: 7px 12px;
+    font-size: 13px;
   }
-
-  .nav a {
-    font-size: 0.8rem;
-  }
-
-  .hero {
-    padding: 1.5rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1.1rem;
-  }
-
-  .explore {
-    padding: 3rem 1.5rem;
-  }
-
-  .explore-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .explore-card {
-    padding: 1.25rem;
-  }
+  .pill.icon-only { padding: 7px 9px; }
+  .hero-title { font-size: 28px; }
+  .hero-subtitle { font-size: 14px; }
+  .actions { max-width: 280px; }
 }
 
-@media (max-width: 400px) {
-  .explore-grid {
-    grid-template-columns: 1fr;
+@media (min-width: 768px) {
+  .hero-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 28px;
   }
+  .hero-title { font-size: 42px; }
 }
+
+/* Premium animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.main { animation: fadeIn 0.6s ease-out; }
 </style>
 </head>
 <body>
 
-<div class="ambient"></div>
-
-<div class="page">
-
-  <!-- Header -->
-  <header class="header">
-    <a href="index.html" class="logo">
-      <img src="assets/4.13.png" alt="STUR">
+<div id="app">
+  <!-- Floating Pill Bar -->
+  <nav class="pill-bar">
+    <a href="about.html" class="pill">About</a>
+    <a href="index.html" class="pill active">
+      <span class="status-dot"></span>
       STUR
     </a>
-    <nav class="nav">
-      <a href="about.html">About</a>
-      <a href="scripts/stur_faq.html">FAQ</a>
-      <a href="sitemap.html">Explore</a>
-    </nav>
-  </header>
-
-  <!-- Hero -->
-  <main class="hero">
-    <div class="badge">Theory of Everything Candidate</div>
-
-    <h1>Physics from <span>Resistance</span></h1>
-
-    <p class="hero-subtitle">
-      A complete framework deriving all fundamental constants from geometry.
-      One starting point. Everything calculated. Awaiting falsification.
-    </p>
-
-    <a href="scripts/stur_learn.html" class="cta-primary">
-      Begin the Journey
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 12h14M12 5l7 7-7 7"/>
+    <a href="scripts/stur_faq.html" class="pill">FAQ</a>
+    <a href="sitemap.html" class="pill icon-only" aria-label="Explore all pages">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
       </svg>
     </a>
-
-    <a href="scripts/stur_predictions.html" class="cta-secondary">
-      View 21 Falsifiable Predictions →
-    </a>
-  </main>
-
-  <!-- Explore Grid -->
-  <section class="explore">
-    <div class="explore-label">Dive Deeper</div>
-    <div class="explore-grid">
-
-      <a href="scripts/stur_foundations_hub.html" class="explore-card card-foundations">
-        <span class="explore-icon">◈</span>
-        <div class="explore-title">Foundations</div>
-        <div class="explore-desc">Where it all begins</div>
-      </a>
-
-      <a href="scripts/stur_sm_hub.html" class="explore-card card-particles">
-        <span class="explore-icon">⬡</span>
-        <div class="explore-title">Particles</div>
-        <div class="explore-desc">Matter decoded</div>
-      </a>
-
-      <a href="scripts/stur_cosmology_hub.html" class="explore-card card-cosmos">
-        <span class="explore-icon">◉</span>
-        <div class="explore-title">Cosmos</div>
-        <div class="explore-desc">The large scale</div>
-      </a>
-
-      <a href="scripts/stur_quantum_hub.html" class="explore-card card-quantum">
-        <span class="explore-icon">✧</span>
-        <div class="explore-title">Quantum</div>
-        <div class="explore-desc">The small scale</div>
-      </a>
-
-      <a href="scripts/stur_predictions.html" class="explore-card card-predictions">
-        <span class="explore-icon">◎</span>
-        <div class="explore-title">Predictions</div>
-        <div class="explore-desc">Test the theory</div>
-      </a>
-
-      <a href="scripts/stur_simulations_hub.html" class="explore-card card-simulations">
-        <span class="explore-icon">▣</span>
-        <div class="explore-title">Simulations</div>
-        <div class="explore-desc">See it in action</div>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- Quick Links -->
-  <nav class="quick-links">
-    <a href="scripts/stur_core_theory.html" class="quick-link">Full Theory</a>
-    <a href="scripts/stur_glossary.html" class="quick-link">Glossary</a>
-    <a href="scripts/stur_symbols.html" class="quick-link">Symbols</a>
-    <a href="mycitations.html" class="quick-link">Citations</a>
-    <a href="sitemap.html" class="quick-link">All 117 Pages</a>
   </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="hero-icon">
+      <img src="assets/4.13.png" alt="STUR" width="120" height="120">
+    </div>
+
+    <h1 class="hero-title">STUR</h1>
+    <p class="hero-subtitle">Resistance-Based Physics</p>
+
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Theory of Everything Candidate
+    </div>
+
+    <div class="actions">
+      <a href="scripts/stur_learn.html" class="btn-primary">
+        Begin the Journey
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a href="scripts/stur_predictions.html" class="btn-secondary">
+        21 Falsifiable Predictions
+      </a>
+    </div>
+
+    <!-- Explore Grid -->
+    <section class="explore-section">
+      <div class="explore-label">Explore</div>
+      <div class="explore-grid">
+        <a href="scripts/stur_foundations_hub.html" class="explore-card">
+          <span class="explore-icon">◈</span>
+          <span class="explore-title">Foundations</span>
+          <span class="explore-desc">Core theory</span>
+        </a>
+        <a href="scripts/stur_sm_hub.html" class="explore-card">
+          <span class="explore-icon">⬡</span>
+          <span class="explore-title">Particles</span>
+          <span class="explore-desc">Matter</span>
+        </a>
+        <a href="scripts/stur_cosmology_hub.html" class="explore-card">
+          <span class="explore-icon">◉</span>
+          <span class="explore-title">Cosmos</span>
+          <span class="explore-desc">Large scale</span>
+        </a>
+        <a href="scripts/stur_quantum_hub.html" class="explore-card">
+          <span class="explore-icon">✧</span>
+          <span class="explore-title">Quantum</span>
+          <span class="explore-desc">Small scale</span>
+        </a>
+        <a href="scripts/stur_simulations_hub.html" class="explore-card">
+          <span class="explore-icon">▣</span>
+          <span class="explore-title">Simulations</span>
+          <span class="explore-desc">Interactive</span>
+        </a>
+        <a href="scripts/stur_core_theory.html" class="explore-card">
+          <span class="explore-icon">◎</span>
+          <span class="explore-title">Full Theory</span>
+          <span class="explore-desc">Technical</span>
+        </a>
+      </div>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer class="footer">
-    <p>© 2026 Sheldon Lindberg · <a href="sitemap.html">Site Map</a> <span class="version">v4.0</span></p>
+    <nav class="footer-links">
+      <a href="scripts/stur_glossary.html" class="footer-link">Glossary</a>
+      <a href="scripts/stur_symbols.html" class="footer-link">Symbols</a>
+      <a href="mycitations.html" class="footer-link">Citations</a>
+      <a href="sitemap.html" class="footer-link">All 117 Pages</a>
+    </nav>
+    <p class="footer-meta">
+      © 2026 Sheldon Lindberg · <a href="sitemap.html">Site Map</a>
+      <span class="version-badge">v4.0</span>
+    </p>
   </footer>
-
 </div>
 
 </body>
