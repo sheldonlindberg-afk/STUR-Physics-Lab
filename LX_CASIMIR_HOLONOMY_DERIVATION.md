@@ -1,7 +1,7 @@
 # Derivation of L_X from Casimir-Holonomy Energy Balance
 
 **Document Type:** First-Principles Derivation
-**Framework:** STUR v3.7 (Helix Geometry)
+**Framework:** STUR v4.3 (Helix Geometry)
 **Date:** 2026-01-25
 **Purpose:** Derive L_X ~ 0.8 um from fundamental physics without fitting
 
@@ -187,10 +187,9 @@ OR: Count Dirac fermions in 5D representation
 **Using standard 5D counting:**
 ```
 Per generation: 18 Dirac fermions (quarks: 3*3*2=18, leptons: 3*2=6)
-Wait, let me use the document values:
 ```
 
-**From STUR framework (3 generations, with Z_3 phases):**
+Using the document values from the STUR framework (3 generations, with Z_3 phases):
 ```
 Per generation: 144 real dof (from stur_moduli_stabilization.html)
   - This counts all quark and lepton spinor components

@@ -1,7 +1,7 @@
 # Scale Unification Analysis: The Pattern Behind STUR's "External Inputs"
 
 **Document Type:** Deep Analysis
-**Framework:** STUR v3.7 (Helix Geometry)
+**Framework:** STUR v4.3 (Helix Geometry)
 **Date:** 2026-01-25
 **Purpose:** Investigate whether L_X, v, and M_R are truly independent, or connected through Z₃ geometry
 

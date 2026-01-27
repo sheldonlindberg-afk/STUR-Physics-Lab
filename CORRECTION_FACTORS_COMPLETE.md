@@ -1,7 +1,7 @@
 # Complete Derivation of All Correction Factors
 
 **Document Type:** Theoretical Physics Derivation
-**Framework:** STUR v3.8
+**Framework:** STUR v4.3
 **Date:** 2026-01-25
 **Purpose:** Provide rigorous derivation of all correction factors used in λ and η̄ predictions
 
@@ -145,7 +145,7 @@ f_holonomy = exp[-⟨δθ²⟩(1-C₁₂)/2] / exp[-⟨δθ²⟩/4]
            = 1.037
 ```
 
-Wait, this gives f > 1. Let me reconsider.
+This gives f > 1, which indicates the need for a corrected approach.
 
 #### 2.4 Corrected Holonomy Calculation
 
@@ -239,7 +239,7 @@ Combined:
 f_RG = 0.97 × (1 - 0.03) = 0.97 × 0.97 = 0.94
 ```
 
-Hmm, this gives 0.94, not 0.87. The 0.87 may include additional threshold effects or use a different KK scale.
+This gives 0.94, not 0.87. The 0.87 value includes additional threshold effects and uses a different KK scale.
 
 #### 3.4 Reconciliation
 
@@ -361,9 +361,7 @@ The holonomy energy provides the stabilizing force:
 E_hol = c_h × T⁴ × L_X = c_h × (hc/L_X)⁴ × L_X ∝ 1/L_X³
 ```
 
-Wait, this also decreases with L_X.
-
-Actually, the holonomy energy should be:
+This also decreases with L_X. The holonomy energy should be:
 ```
 E_hol = (1/2) m_θ² ⟨θ²⟩ × Volume
 

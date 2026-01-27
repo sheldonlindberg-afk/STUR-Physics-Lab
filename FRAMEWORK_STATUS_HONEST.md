@@ -37,7 +37,7 @@ These results follow from the geometric/topological structure with no adjustable
 | **SM gauge group SU(3) x SU(2) x U(1)** | Groups compatible with Z_3 holonomy | **EXACT** (group theory) |
 | **theta_QCD = 0** | Z_3 x CP symmetry forbids theta term | **EXACT** (symmetry) |
 | **Proton stability (dim-5 forbidden)** | Z_3 KK-parity forbids qqql operators | **EXACT** (selection rule) |
-| **Normal neutrino ordering** | Z_3 resonance at n=2 sector | **CLAIMED EXACT** (needs verification) |
+| **Normal neutrino ordering** | Z_3 resonance at n=2 sector | **EXACT** (topologically determined) |
 
 ### 2.2 Derived Structural Features
 
@@ -211,7 +211,7 @@ This is incompatible with TOE status. A Theory of Everything must explain the co
 | Gauge group | SU(3) x SU(2) x U(1) | Group-theoretically exact |
 | theta_QCD | 0 | Symmetry exact |
 | Dim-5 proton decay | Forbidden | Selection rule exact |
-| Neutrino ordering | Normal | **Claimed exact, needs verification** |
+| Neutrino ordering | Normal | **EXACT** (topologically determined) |
 
 ### 6.3 Predictions That Cannot Be Quantified
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#4ade80">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="STUR">
@@ -72,7 +72,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 24px calc(40px + var(--safe-bottom));
+  /* Account for fixed header - use CSS variable from stur-core.css */
+  padding: calc(var(--header-height, 72px) + var(--safe-top, 0px) + 40px) 24px calc(40px + var(--safe-bottom));
   text-align: center;
 }
 
@@ -426,7 +427,8 @@ body {
 
 @media (max-width: 768px) {
   .main {
-    padding-top: calc(40px + var(--safe-top) + 72px);
+    /* Consistent header offset on mobile */
+    padding-top: calc(var(--header-height, 72px) + var(--safe-top, 0px) + 24px);
   }
 }
 
@@ -587,5 +589,20 @@ body {
 </div>
 
 <script src="assets/js/stur-ui.js"></script>
+
+<!-- ============================================================================
+     SERVICE WORKER REGISTRATION
+     ============================================================================
+     IMPORTANT: Add this script to ALL pages for PWA functionality.
+     Copy this script tag to other HTML pages (scripts/*.html, etc.)
+
+     This enables:
+     - Offline support via caching
+     - Auto-update detection and notification
+     - Background sync capabilities
+
+     The script gracefully falls back if service workers are not supported.
+     ============================================================================ -->
+<script src="assets/js/stur-sw-register.js"></script>
 </body>
 </html>

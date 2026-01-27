@@ -16,6 +16,7 @@ const CACHE_NAME = `stur-cache-${CACHE_VERSION}`;
 const SHELL_ASSETS = [
   '/',
   '/index.html',
+  '/manifest.json',
   '/about.html',
   '/sitemap.html',
   '/assets/css/stur-core.css',
@@ -27,6 +28,7 @@ const SHELL_ASSETS = [
   '/assets/js/stur-definitions.js',
   '/assets/js/stur-version.js',
   '/assets/js/stur-mathjax-config.js',
+  '/assets/js/stur-sw-register.js',
   '/assets/4.13.png'
 ];
 

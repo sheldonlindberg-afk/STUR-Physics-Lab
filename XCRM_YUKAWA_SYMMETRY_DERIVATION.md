@@ -1,7 +1,7 @@
 # First-Principles Derivation of XCRM-Yukawa Symmetry
 
 **Document Type:** Theoretical Physics Derivation
-**Framework:** STUR v3.8
+**Framework:** STUR v4.3
 **Date:** 2026-01-25
 **Status:** Complete First-Principles Analysis
 **Purpose:** Derive y = |χ|·L_X from geometric principles, eliminating it as an assumption
@@ -230,7 +230,7 @@ For each fermion generation, the localization energy is:
 E_loc = ε₀ · (yv)²/k² ≈ (1/2) · (yv)² / k²  [ground state ε₀ ~ 1/2 for harmonic]
 ```
 
-Actually, let me be more careful. The fermion zero-mode energy in the Mathieu potential:
+More precisely, the fermion zero-mode energy in the Mathieu potential:
 
 ```
 E_0 = ω/2 = √(α/2) / 2 = (1/2)√((yv·L_X/2π)²/2)
@@ -415,7 +415,7 @@ This is because both must scale the same way under the superconformal R-symmetry
 y = |χ| · √L_X
 ```
 
-Hmm, this gives y ~ √L_X dependence, not y ~ L_X.
+This gives y ~ sqrt(L_X) dependence, not y ~ L_X.
 
 ---
 

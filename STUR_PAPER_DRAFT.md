@@ -3,8 +3,8 @@
 **Author:** Sheldon Lon Lindberg
 **Institution:** [To be added]
 **Date:** January 2026
-**Document Type:** Publication Draft for Peer Review
-**Framework Version:** STUR v3.9
+**Document Type:** Publication Preprint
+**Framework Version:** STUR v4.3
 
 ---
 

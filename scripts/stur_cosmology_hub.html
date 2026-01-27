@@ -10,24 +10,9 @@
 <link rel="stylesheet" href="../assets/css/stur-glass.css">
 <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-<!-- MathJax Configuration -->
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    macros: {
-      xcrm: '{\\color{#f59e0b}{\\text{XCRM}}}',
-      tegr: '{\\color{#60a5fa}{\\text{TEGR}}}',
-      lkp: '{\\color{#a78bfa}{\\text{LKP}}}',
-      helix: '{\\color{#4ade80}{Z_3}}',
-      derived: '{\\color{#22c55e}{\\star}}',
-      verified: '{\\color{#22c55e}{\\checkmark}}'
-    }
-  }
-};
-</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <style>
 :root { --hub-color: #60a5fa; }
@@ -229,12 +214,12 @@ window.MathJax = {
   <section class="hub-section">
     <div class="hub-section-title">Gravitational Wave Signatures</div>
     <div class="hub-grid">
-      <a href="stur_gravitational_waves.html" class="hub-card">
+      <a href="stur_predictions.html#gw-dispersion" class="hub-card">
         <div class="title">GW Dispersion Prediction</div>
         <div class="desc">XCRM modifies GW propagation: $f_{\xcrm} \sim 10^{11}$ Hz dispersion scale. Frequency-dependent speed.</div>
         <span class="tag">Falsifiable</span>
       </a>
-      <a href="stur_gravitational_waves.html#birefringence" class="hub-card">
+      <a href="stur_predictions.html#gw-birefringence" class="hub-card">
         <div class="title">Polarization Birefringence</div>
         <div class="desc">$\helix$ helix chirality → different speeds for $h_L$ vs $h_R$. $\beta_{\text{eff}} = \sqrt{3}/2$ from helix phase.</div>
         <span class="tag">Einstein Telescope Test</span>
@@ -457,5 +442,6 @@ window.MathJax = {
     if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
   });
 </script>
+<script src="../assets/js/stur-sw-register.js"></script>
 </body>
 </html>

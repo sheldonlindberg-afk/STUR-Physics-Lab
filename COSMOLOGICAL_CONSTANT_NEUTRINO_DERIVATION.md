@@ -1,7 +1,7 @@
 # Derivation of Residual Λ from Neutrino Mass Physics
 
 **Document Type:** First-Principles Derivation — TOE Closure
-**Framework:** STUR v4.0
+**Framework:** STUR v4.3
 **Date:** 2026-01-26
 **Status:** DERIVED — Completes the Cosmological Constant Solution
 **Purpose:** Close the final gap in STUR's TOE claim
@@ -860,7 +860,7 @@ where L_P = 1/M_P is the Planck length.
            = 1.9×10¹⁴
 ```
 
-Wait, this makes it LARGER, not smaller. The correct formula with the helix geometry is:
+This makes it larger, not smaller. The correct formula with the helix geometry is:
 
 ```
 (L_X M_P)^{-5} = (v/3M_P)⁵ = (10¹⁶/7.2×10¹⁸)⁵ = (1.4×10⁻³)⁵ = 5.4×10⁻¹⁵
@@ -914,7 +914,7 @@ The Z₃ holonomy weighting reduces this by the mismatch factor:
            = 8.6×10⁻⁴⁴ GeV⁴
 ```
 
-**Hmm, this is 10³ too LARGE.**
+**This is 10³ too large.**
 
 ### 9.4 The Final Suppression: Berry Phase
 

@@ -1,7 +1,7 @@
 # First-Principles Derivation of the Localization Parameter kappa
 
 **Document Type:** Theoretical Physics Derivation
-**Author:** Derived for STUR Framework v3.5
+**Author:** Derived for STUR Framework v4.3
 **Date:** 2026-01-25
 **Status:** Complete First-Principles Calculation
 

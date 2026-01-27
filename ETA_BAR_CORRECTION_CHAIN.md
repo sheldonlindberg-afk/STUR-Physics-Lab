@@ -1,7 +1,7 @@
 # Complete Derivation of the eta-bar Correction Chain
 
 **Document Type:** Theoretical Physics Derivation
-**Framework:** STUR v3.6 (Z3 Helix Geometry)
+**Framework:** STUR v4.3 (Z3 Helix Geometry)
 **Version:** 1.0
 **Date:** 2026-01-25
 **Purpose:** Derive the three correction factors connecting eta-bar_base = 0.39 to eta-bar_obs = 0.348

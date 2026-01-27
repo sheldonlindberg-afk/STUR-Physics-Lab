@@ -18,6 +18,10 @@
 
 /* === ROOT VARIABLES === */
 :root {
+  /* Layout constants for scroll behavior consistency */
+  --header-height: 72px;
+  --scroll-offset: calc(var(--header-height) + 16px);
+
   /* Background layers (abyss to panel) */
   --bg-abyss: #05070c;
   --bg-deep: #080b14;
@@ -104,7 +108,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(72px + env(safe-area-inset-top));
+  scroll-padding-top: calc(var(--scroll-offset) + env(safe-area-inset-top, 0px));
   color-scheme: dark;
 }
 
@@ -223,6 +227,8 @@ pre {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
+  /* Account for fixed header */
+  padding-top: calc(var(--header-height) + env(safe-area-inset-top, 0px) + 2rem);
 }
 
 .stur-container.narrow {
@@ -233,9 +239,17 @@ pre {
   max-width: 1400px;
 }
 
+/* Main content area offset for fixed header */
+main,
+.main,
+[role="main"] {
+  padding-top: calc(var(--header-height) + env(safe-area-inset-top, 0px));
+}
+
 @media (max-width: 768px) {
   .stur-container {
     padding: 1.5rem 1rem;
+    padding-top: calc(var(--header-height) + env(safe-area-inset-top, 0px) + 1.5rem);
   }
 }
 

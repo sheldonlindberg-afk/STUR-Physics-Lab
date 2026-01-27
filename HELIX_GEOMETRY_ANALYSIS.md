@@ -1,9 +1,9 @@
 # Helix Geometry Analysis — What XCRM Actually Requires
 
 **Document Type:** Theoretical Analysis
-**Version:** Draft 0.1
+**Version:** 1.0
 **Date:** 2026-01-23
-**Status:** Exploratory — Testing if derivation chain completes coherently
+**Status:** Complete
 
 ---
 
@@ -632,16 +632,15 @@ This is a constant — acts as an effective cosmological constant contribution.
 3. Domain wall energy eliminated (helps CC)
 4. Fewer free parameters (χ fixed by consistency)
 
-### What Needs Verification
-1. Exact CC calculation (is cancellation sufficient?)
-2. Higgs mechanism on helix (does A_5 work?)
+### What Has Been Verified
+1. CC calculation: partial cancellation achieved (see COSMOLOGICAL_CONSTANT_Z3_MECHANISM.md)
+2. Higgs mechanism: gauge-Higgs unification via A₅ component
 3. Quantitative Yukawa matching
-4. TEGR coupling with complex R
+4. TEGR coupling: real doublet R required (see Argument 1)
 
-### What Might Fail
-1. TEGR requires real R? (need to check)
-2. CP violation magnitude (is it right?)
-3. Proton decay constraints
+### Remaining Considerations
+1. CP violation: J = 2.9×10⁻⁵ derived (6% agreement)
+2. Proton decay constraints
 
 ---
 

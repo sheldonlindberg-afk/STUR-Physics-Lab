@@ -10,23 +10,9 @@
 <link rel="stylesheet" href="../assets/css/stur-glass.css">
 <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
-<!-- MathJax Configuration -->
-<script>
-MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    macros: {
-      pred: ['\\color{#4ade80}{#1}', 1],
-      obs: ['\\color{#60a5fa}{#1}', 1],
-      der: ['\\color{#a78bfa}{#1}', 1],
-      warn: ['\\color{#f59e0b}{#1}', 1]
-    }
-  },
-  svg: { fontCache: 'global' }
-};
-</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<!-- STUR MathJax with physics domain color macros -->
+<script src="../assets/js/stur-mathjax-config.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <style>
 :root { --hub-color: #a78bfa; }
@@ -82,8 +68,8 @@ MathJax = {
     </p>
     <p style="margin-top:8px;">
       <strong style="color:#f59e0b;">Zero free parameters. Zero fits.</strong>
-      <a href="../DERIVATION_CHAIN_TOE.md" style="color:var(--hub-color);margin-left:0.5rem;">Full derivation chain →</a>
-      <a href="../TOE_PARAMETER_TABLE.md" style="color:var(--hub-color);margin-left:0.5rem;">Parameter table →</a>
+      <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--hub-color);margin-left:0.5rem;">Full derivation chain →</a>
+      <a href="stur_symbols.html" style="color:var(--hub-color);margin-left:0.5rem;">Parameter table →</a>
     </p>
   </div>
 
@@ -166,7 +152,7 @@ MathJax = {
       </p>
       <p style="color:var(--text-tertiary);font-size:0.8rem;margin:8px 0 0 0;">
         Experimental: $\obs{m_H = 125.10 \pm 0.14\ \text{GeV}}$ — <strong style="color:#4ade80;">Agreement: 0.01 GeV!</strong>
-        <a href="../calculations/higgs_mass_derivation.py" style="color:var(--hub-color);margin-left:0.5rem;">derivation →</a>
+        <a href="stur_higgs_derivation.html" style="color:var(--hub-color);margin-left:0.5rem;">derivation →</a>
       </p>
     </div>
 
@@ -210,7 +196,7 @@ MathJax = {
         </div>
       </div>
       <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.6;margin:0;">
-        CP-violating phase: $\quad \pred{\delta_{\text{CKM}} = 69.4°}$ vs $\obs{65.6° \pm 2.6°}$ (exp) — <a href="../calculations/ckm_phase_derivation.py" style="color:var(--hub-color);">derivation →</a>
+        CP-violating phase: $\quad \pred{\delta_{\text{CKM}} = 69.4°}$ vs $\obs{65.6° \pm 2.6°}$ (exp) — <a href="stur_ckm_derivation.html" style="color:var(--hub-color);">derivation →</a>
       </p>
     </div>
 
@@ -224,7 +210,7 @@ MathJax = {
         Converged result: $\quad \pred{M_{\text{GUT}} = (2.1 \pm 0.3) \times 10^{16}\ \text{GeV}}$, $\quad \alpha_{\text{GUT}} = 0.0393$
       </p>
       <p style="color:var(--text-tertiary);font-size:0.8rem;margin:8px 0 0 0;">
-        <a href="../calculations/boundary_corrections/" style="color:var(--hub-color);">Boundary correction scripts →</a>
+        <a href="../BOUNDARY_CORRECTION_DERIVATION.md" style="color:var(--hub-color);">Boundary correction derivation →</a>
       </p>
     </div>
 
@@ -382,9 +368,9 @@ MathJax = {
           Zero free parameters. All 26 SM constants derived. This is what a TOE looks like.
         </p>
         <p style="color:var(--text-tertiary);font-size:0.8rem;margin:8px 0 0 0;">
-          See: <a href="../DERIVATION_CHAIN_TOE.md" style="color:var(--hub-color);">Complete derivation chain</a> |
-          <a href="../calculations/boundary_corrections/" style="color:var(--hub-color);">Boundary calculations</a> |
-          <a href="../TOE_HONEST_ASSESSMENT.md" style="color:var(--hub-color);">Honest assessment</a>
+          See: <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--hub-color);">Complete derivation chain</a> |
+          <a href="../BOUNDARY_CORRECTION_DERIVATION.md" style="color:var(--hub-color);">Boundary calculations</a> |
+          <a href="../FRAMEWORK_STATUS_HONEST.md" style="color:var(--hub-color);">Honest assessment</a>
         </p>
       </div>
     </div>
@@ -404,5 +390,6 @@ MathJax = {
     if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
   });
 </script>
+<script src="../assets/js/stur-sw-register.js"></script>
 </body>
 </html>

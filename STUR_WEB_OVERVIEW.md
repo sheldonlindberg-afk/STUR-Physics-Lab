@@ -252,4 +252,4 @@ This framework is presented for scientific evaluation. Constructive feedback, cr
 
 ---
 
-*Last updated: January 2026 | Framework version: STUR v3.9*
+*Last updated: January 2026 | Framework version: STUR v4.3*
