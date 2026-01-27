@@ -1,7 +1,7 @@
 # Holonomy Enhancement Factor Derivation: λ_hol from Z₃ Geometry
 
 **Document Type:** First-Principles Derivation
-**Framework:** STUR v3.7 (Helix Geometry)
+**Framework:** STUR v4.3 (Helix Geometry)
 **Date:** 2026-01-25
 **Purpose:** Complete derivation of λ_hol ≈ 20 from Z₃ fixed point geometry
 

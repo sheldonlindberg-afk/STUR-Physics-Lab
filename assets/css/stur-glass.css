@@ -140,8 +140,10 @@
 
 /* === GLASS HEADER/NAV === */
 .glass-header {
-  position: sticky;
-  top: env(safe-area-inset-top);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   /* Black liquid glass effect */
   background: rgba(0, 0, 0, 0.85);
@@ -150,6 +152,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   padding: 0.75rem 1.5rem;
   /* Safe area support for modern phones */
+  padding-top: calc(0.75rem + env(safe-area-inset-top, 0px));
   padding-left: max(1.5rem, env(safe-area-inset-left));
   padding-right: max(1.5rem, env(safe-area-inset-right));
   /* Subtle inner glow for liquid glass effect */
@@ -315,7 +318,13 @@
    ============================================================ */
 @media (max-width: 768px) {
   .glass-header {
+    /* Fixed positioning maintained on mobile */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     padding: 0.625rem 1rem;
+    padding-top: calc(0.625rem + env(safe-area-inset-top, 0px));
     padding-left: max(1rem, env(safe-area-inset-left));
     padding-right: max(1rem, env(safe-area-inset-right));
   }
@@ -323,12 +332,6 @@
   .glass-nav {
     position: static; /* Allow dropdown to position relative to header */
     flex-wrap: nowrap;
-  }
-
-  .glass-header {
-    position: sticky;
-    top: env(safe-area-inset-top);
-    /* Ensure dropdown positions relative to header */
   }
 
   .glass-nav-brand {

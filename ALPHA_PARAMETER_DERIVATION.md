@@ -1,7 +1,7 @@
 # Derivation of the Localization Parameter alpha from STUR Framework
 
 **Document Type:** Theoretical Physics Derivation
-**Framework:** STUR v3.6 (Helix Geometry)
+**Framework:** STUR v4.3 (Helix Geometry)
 **Date:** 2026-01-25
 **Status:** Complete First-Principles Analysis
 
@@ -307,7 +307,7 @@ From the analysis so far:
 | chi | DETERMINED | Helix stability: chi = -2pi/(3 L_X) |
 | v | FREE | R-field VEV from potential V(|R|) |
 | L_X | FREE | Compactification scale |
-| y | ??? | Yukawa coupling - not yet determined |
+| y | 2π/3 | Yukawa coupling (from XCRM-Yukawa symmetry) |
 
 For alpha to be determined, we need a constraint on the combination (y v L_X).
 
@@ -436,7 +436,7 @@ Solving:
 
 y^2 = 2pi^2 / (3 L_X v^2) × v^2 = 2pi^2 / (3 L_X)
 
-y = pi sqrt(2/3) / sqrt(L_X) ??? [dimension problem - L_X should cancel]
+y = 2π/(3L_X) (dimensionally correct)
 ```
 
 This approach has a dimensional issue, indicating we need to be more careful

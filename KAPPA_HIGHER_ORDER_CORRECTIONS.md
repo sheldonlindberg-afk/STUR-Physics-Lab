@@ -1,7 +1,7 @@
 # Higher-Order Corrections to the Localization Parameter Kappa
 
 **Document Type:** Theoretical Physics Calculation
-**Author:** Derived for STUR Framework v3.6
+**Author:** Derived for STUR Framework v4.3
 **Date:** 2026-01-25
 **Status:** Complete Higher-Order Analysis
 
@@ -1374,7 +1374,7 @@ N^2 = 1 / P_domain = 1.14
 sigma_eff = sigma / sqrt(N^2) = sigma * sqrt(P_domain) = 0.943 * sqrt(0.88) = 0.88
 ```
 
-Wait, this makes sigma SMALLER, hence kappa LARGER:
+This makes sigma smaller, hence kappa larger:
 ```
 kappa_Z3 = (2*pi/3) / 0.88 = 2.38
 Delta_kappa_normalization = 2.38 - 2.22 = +0.16
@@ -1446,15 +1446,9 @@ Omega_eff^2 = Omega_0^2 + 9*gamma = alpha/2 + 9*alpha/81 = alpha/2 + alpha/9
             = 0.61 * alpha
 ```
 
-Wait, this is LESS than Omega_0^2 = alpha/2 = 0.5*alpha.
+Note: 11/18 = 0.61 > 1/2 = 0.5, so the twisted sector contribution tightens the localization.
 
-Let me reconsider. The twisted sector adds to the curvature at the fixed point:
-```
-V''(0) = alpha/2 + 9*gamma = alpha/2 + alpha/9 = (11/18)*alpha
-```
-
-Hmm, 11/18 = 0.61 < 1/2 is wrong. Let me recalculate.
-
+The twisted sector adds to the curvature at the fixed point:
 ```
 V_twist = gamma * (1 - cos(3*theta))
 V_twist'' = 9*gamma * cos(3*theta)|_{theta=0} = 9*gamma
@@ -1644,7 +1638,7 @@ Delta_alpha_orbifold ~ 2 * 0.05 / 0.30 ~ 0.33
 Total Delta_alpha / alpha ~ 2.0
 ```
 
-Wait, this exceeds 88%. The discrepancy arises because d(kappa)/d(alpha) is not
+This exceeds 88%. The discrepancy arises because d(kappa)/d(alpha) is not
 constant - it decreases at larger alpha.
 
 At alpha = 1.5 (midpoint):

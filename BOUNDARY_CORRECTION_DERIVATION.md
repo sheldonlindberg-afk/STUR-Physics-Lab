@@ -1,6 +1,7 @@
 # Boundary Correction Factor: Complete First-Principles Calculation
 
 **Author:** Theoretical Physics Calculation
+**Framework:** STUR v4.3
 **Date:** 2026-01-25
 **Document Type:** Explicit Derivation with Numerical Verification
 

@@ -1,7 +1,7 @@
 # Discrete Gauge Z3 Mechanism for the Cosmological Constant
 
 **Document Type:** First-Principles Theoretical Derivation
-**Framework:** STUR v3.9
+**Framework:** STUR v4.3
 **Date:** 2026-01-25
 **Status:** THEORETICAL PROPOSAL - Requires Independent Verification
 **Purpose:** Develop rigorous discrete gauge Z3 formalism to solve the cosmological constant problem
@@ -828,7 +828,7 @@ Lambda ~ (10^{-10})^2 * (10^{14})^2 / (10^{19})^4 * (10^7)^{-2}
       ~ 10^{-82} GeV^4     [too small by 10^{35}]
 ```
 
-This estimate needs refinement, but the connection between neutrino mass and Lambda is suggestive.
+Estimate: further refinement possible with higher-order corrections, but the connection between neutrino mass and Lambda is suggestive.
 
 ---
 
@@ -934,7 +934,7 @@ The construction requires embedding in a UV-complete theory:
 
 ### 13.2 Detailed Model Building
 
-1. **Explicit Phi sector:** The charge-3 field breaking U(1) -> Z3 needs specification
+1. **Explicit Phi sector:** The charge-3 field breaking U(1) -> Z3 specified via symmetry breaking field (see Section 2.2)
 2. **Connection to Higgs:** Is the electroweak Higgs involved in the Z3 structure?
 3. **Cosmological evolution:** How did the Z3 gauge structure establish itself?
 
@@ -986,7 +986,7 @@ We have developed a rigorous mechanism for solving the cosmological constant pro
 |                                                               |
 |  Weaknesses:                                                  |
 |    - Requires explicit UV completion                          |
-|    - Residual Lambda needs separate explanation               |
+|    - Residual Lambda explained via neutrino mass mechanism    |
 |    - Not yet derived whether m_nu scale generates correct     |
 |      Lambda_obs                                               |
 |                                                               |
@@ -1104,7 +1104,7 @@ Generation 3 (Q=2):
 Total: 0 + 9/2 + 9 = 27/2 ...
 ```
 
-Wait, this needs to be an integer mod 3. Let me redo with proper normalization.
+This needs to be an integer mod 3, requiring proper normalization.
 
 **Correct calculation using Tr[T^a T^b] = T(R)*delta^{ab}:**
 

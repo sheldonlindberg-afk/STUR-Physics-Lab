@@ -1144,7 +1144,7 @@ Distinct equivalence classes in [0, 2π):
     Class 2: {2π/9, 8π/9, 14π/9} → Phase φ₂ = 2π/3 (by convention)
     Class 3: {4π/9, 10π/9, 16π/9}→ Phase φ₃ = 4π/3 (by convention)
 
-Actually, fermions localize at the three DISTINCT phases:
+Fermions localize at the three distinct phases:
     φ₁ = 0
     φ₂ = 2π/3
     φ₃ = 4π/3
@@ -2017,16 +2017,9 @@ Converting to common denominator (36):
     L_L: +1/4 = +9/36
     e_R: +1 = +36/36
 
-Wait, signs for R-handed fields flip:
-    Q_L (L): +1/36
-    u_R (R): +32/36  (sign flips for R)
-    d_R (R): -4/36   (sign flips for R)
-    L_L (L): -1/4 = -9/36
-    e_R (R): -1 → +1 = +36/36
+Note: Signs for R-handed fields flip in the anomaly calculation.
 
-Hmm, let me recalculate more carefully.
-
-Anomaly = Σ Y³ for left-handed minus Σ Y³ for right-handed:
+Anomaly = Sigma Y^3 for left-handed minus Sigma Y^3 for right-handed:
 
 Left-handed (Q_L, L_L):
     Q_L: 3 colors × 2 SU(2) × (1/6)³ = 6/216 = 1/36
@@ -2323,8 +2316,7 @@ From |V_ub|/|V_cb| = 0.085:
     η̄ ≈ 0.42 × 0.92 = 0.39
     ρ̄ ≈ 0.42 × 0.39 = 0.16
 
-Actually, more carefully:
-    The apex of the unitarity triangle:
+More precisely, the apex of the unitarity triangle:
     (ρ̄, η̄) from V_ub*/|V_cb| constraint and V_td/|V_cb| constraint.
 
 From helix geometry with δ_CKM ≈ 67°:
@@ -5567,7 +5559,7 @@ Domain walls interpolating between Z₃ vacua have tension:
 Contribution to κ:
     δκ^(DW) ~ σ_DW / M_KK⁴ ~ 10⁻¹² / 10⁻¹⁶ ~ 10⁴ GeV⁻¹
 
-Wait, this seems large! But domain walls are cosmologically
+This appears large, but domain walls are cosmologically
 excluded (over-close universe), so we require:
     - DW annihilation before BBN (T > MeV)
     - Z₃ explicit breaking at high scale
@@ -5610,7 +5602,7 @@ This gives:
       = 0.452 × 1.10
       = 0.50...
 
-Wait, this doesn't match 0.225! The issue is that additional
+This does not match 0.225. The resolution is that additional
 suppression factors enter:
 
     λ = exp[−κ²/8] × f_hol × f_Berry × f_RG

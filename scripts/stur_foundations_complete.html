@@ -182,13 +182,13 @@ a:hover { color: var(--accent-secondary); }
 
 /* Scroll margin for sections */
 .section {
-  scroll-margin-top: 80px;
+  scroll-margin-top: var(--scroll-offset, 88px);
 }
 
 /* Physics Domain Color Legend - Sticky */
 .physics-legend {
   position: sticky;
-  top: 60px;
+  top: calc(var(--header-height, 72px) + env(safe-area-inset-top, 0px));
   z-index: 50;
   background: linear-gradient(180deg, rgba(5, 10, 20, 0.98), rgba(5, 10, 20, 0.95));
   backdrop-filter: blur(12px);
@@ -5400,5 +5400,6 @@ code {
     }
   });
 </script>
+<script src="../assets/js/stur-sw-register.js"></script>
 </body>
 </html>

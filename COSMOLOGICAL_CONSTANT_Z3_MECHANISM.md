@@ -1,7 +1,7 @@
 # Z₃ Protection Mechanism for the Cosmological Constant
 
 **Document Type:** Theoretical Derivation (Exploratory)
-**Framework:** STUR v3.9
+**Framework:** STUR v4.3
 **Date:** 2026-01-25
 **Status:** PROPOSED MECHANISM — Requires Verification
 **Purpose:** Attempt to derive Λ ≈ 0 from Z₃ discrete symmetry
@@ -84,7 +84,7 @@ This requires:
 R₁∂_XR₂ - R₂∂_XR₁ → ω²(R₁∂_XR₂ - R₂∂_XR₁)  (transforms as ω²)
 ```
 
-Wait — the XCRM term transforms non-trivially! This needs careful treatment.
+The XCRM term transforms non-trivially, requiring careful treatment.
 
 ### 2.3 Corrected Analysis: XCRM Invariance
 
@@ -95,9 +95,7 @@ For the Lagrangian to be invariant, examine each term:
 (∂_μR)² → (∂_μ(ωR))² = ω²(∂_μR)²  ✗ NOT invariant!
 ```
 
-This seems wrong. Let me reconsider.
-
-**Actually:** The Z₃ acts on the extra-dimensional coordinate X, not on R directly. The field configuration:
+The resolution: The Z₃ acts on the extra-dimensional coordinate X, not on R directly. The field configuration:
 ```
 R(X) = v(cos(2πX/3L_X), sin(2πX/3L_X))
 ```
@@ -109,7 +107,7 @@ R(X + L_X/3) = v(cos(2π(X + L_X/3)/3L_X), sin(2π(X + L_X/3)/3L_X))
              = rotation by 2π/9
 ```
 
-Hmm, this is a rotation by 2π/9, not 2π/3. Let me reconsider the vacuum structure.
+This is a rotation by 2π/9, not 2π/3. The vacuum structure requires reconsideration.
 
 **Correct vacuum:**
 
@@ -462,7 +460,7 @@ This requires:
 | Simple Z₃ invariance | ρ_vac is invariant, no cancellation | ✗ Failed |
 | Holonomy quantization | Numerical check shows no cancellation | ✗ Failed |
 | Dynamical relaxation | Possible but requires tuning | △ Partial |
-| Sequestering | Promising, needs detailed calculation | △ Partial |
+| Sequestering | Promising, detailed calculation in DISCRETE_GAUGE_Z3_CC_SOLUTION.md | △ Partial |
 | Discrete gauge symmetry | Most promising, needs rigorous formulation | ✓ Promising |
 
 ### 8.2 Most Promising Path: Discrete Gauge Z₃

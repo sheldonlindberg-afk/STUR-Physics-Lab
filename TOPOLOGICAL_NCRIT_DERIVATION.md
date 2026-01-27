@@ -1,7 +1,7 @@
 # Topological Derivation of N_crit = 3: Why Exactly Three Generations
 
 **Document Type:** Theoretical Physics Derivation
-**Framework:** STUR v3.8
+**Framework:** STUR v4.3
 **Date:** 2026-01-25
 **Purpose:** Provide explicit topological calculation that N_crit = 3 is preferred
 

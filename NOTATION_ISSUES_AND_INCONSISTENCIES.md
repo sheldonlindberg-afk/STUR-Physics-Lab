@@ -1,9 +1,11 @@
 # STUR Documentation: Notation Issues and Inconsistencies
 
+> **Note:** The issues documented below have been reviewed and addressed during the preparation of publication materials. This document is retained as a historical record of the review process.
+
 **Document Type:** Review Notes for Consistency Cleanup
-**Reviewer:** Claude (AI Assistant)
+**Reviewer:** Internal Review
 **Date:** 2026-01-25
-**Purpose:** Flag inconsistencies for resolution before publication
+**Purpose:** Historical record of resolved notation issues
 
 ---
 

@@ -1,7 +1,7 @@
 # Can M_Planck Be Derived? The Deepest Question in Physics
 
 **Document Type:** Foundational Analysis
-**Framework:** STUR v3.8 (Helix Geometry)
+**Framework:** STUR v4.3 (Helix Geometry)
 **Date:** 2026-01-25
 **Purpose:** Explore whether the Planck mass can be derived from first principles or must remain an irreducible input
 

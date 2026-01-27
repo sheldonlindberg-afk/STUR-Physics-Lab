@@ -192,7 +192,7 @@ a:hover { color: var(--accent-secondary); }
    ============================================================ */
 .physics-legend {
   position: sticky;
-  top: 60px;
+  top: calc(var(--header-height, 72px) + env(safe-area-inset-top, 0px));
   z-index: 50;
   background: rgba(5, 7, 12, 0.95);
   backdrop-filter: blur(20px);
@@ -276,7 +276,7 @@ a:hover { color: var(--accent-secondary); }
   padding: 1.5rem;
   margin: 1rem 0;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-  scroll-margin-top: 80px;
+  scroll-margin-top: var(--scroll-offset, 88px);
 }
 
 @media (max-width: 600px) {
