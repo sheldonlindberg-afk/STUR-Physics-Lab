@@ -85,6 +85,22 @@
       "icons": [{ "src": "assets/icons/icon-96.png", "sizes": "96x96" }]
     }
   ],
+  "screenshots": [
+    {
+      "src": "assets/screenshots/desktop-home.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "STUR Physics Lab Homepage"
+    },
+    {
+      "src": "assets/screenshots/mobile-home.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "STUR Physics Lab Mobile View"
+    }
+  ],
   "related_applications": [],
   "prefer_related_applications": false
 }
