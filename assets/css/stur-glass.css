@@ -153,8 +153,8 @@
   padding: 0.75rem 1.5rem;
   /* Safe area support for modern phones */
   padding-top: calc(0.75rem + env(safe-area-inset-top, 0px));
-  padding-left: max(1.5rem, env(safe-area-inset-left));
-  padding-right: max(1.5rem, env(safe-area-inset-right));
+  padding-left: max(1.5rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
   /* Subtle inner glow for liquid glass effect */
   box-shadow:
     inset 0 -1px 0 rgba(255, 255, 255, 0.03),
@@ -340,8 +340,8 @@
     right: 0;
     padding: 0.625rem 1rem;
     padding-top: calc(0.625rem + env(safe-area-inset-top, 0px));
-    padding-left: max(1rem, env(safe-area-inset-left));
-    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
   }
 
   .glass-nav {
@@ -1084,8 +1084,8 @@ button.glass-nav-link:hover {
 @media (max-width: 480px) {
   .glass-header {
     padding: 0.5rem 0.75rem;
-    padding-left: max(0.75rem, env(safe-area-inset-left));
-    padding-right: max(0.75rem, env(safe-area-inset-right));
+    padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
   }
 
   .glass-nav-brand {
