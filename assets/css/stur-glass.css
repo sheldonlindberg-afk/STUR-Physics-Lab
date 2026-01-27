@@ -161,6 +161,21 @@
     0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
+/* Standalone PWA mode - extra padding for device status bar */
+@media (display-mode: standalone) {
+  .glass-header {
+    /* Ensure adequate padding when running as installed PWA */
+    padding-top: calc(0.75rem + max(env(safe-area-inset-top, 0px), 44px));
+  }
+}
+
+/* iOS standalone mode with fullscreen fallback */
+@media (display-mode: fullscreen) {
+  .glass-header {
+    padding-top: calc(0.75rem + max(env(safe-area-inset-top, 0px), 44px));
+  }
+}
+
 .glass-nav {
   display: flex;
   align-items: center;
