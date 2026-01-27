@@ -161,6 +161,21 @@
     0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
+/* Standalone PWA mode - extra padding for status bar */
+@media (display-mode: standalone) {
+  .glass-header {
+    /* Additional padding when running as installed PWA */
+    padding-top: calc(1rem + env(safe-area-inset-top, 20px));
+  }
+}
+
+/* iOS standalone mode fallback */
+@media (display-mode: standalone), (display-mode: fullscreen) {
+  .glass-header {
+    padding-top: max(1rem, calc(0.75rem + env(safe-area-inset-top, 20px)));
+  }
+}
+
 .glass-nav {
   display: flex;
   align-items: center;
@@ -328,7 +343,17 @@
     padding-left: max(1rem, env(safe-area-inset-left));
     padding-right: max(1rem, env(safe-area-inset-right));
   }
+}
 
+/* Mobile + Standalone PWA mode - enhanced padding for status bar */
+@media (max-width: 768px) and (display-mode: standalone) {
+  .glass-header {
+    /* Extra padding for standalone PWA on mobile */
+    padding-top: calc(0.875rem + env(safe-area-inset-top, 20px));
+  }
+}
+
+@media (max-width: 768px) {
   .glass-nav {
     position: static; /* Allow dropdown to position relative to header */
     flex-wrap: nowrap;
