@@ -510,22 +510,43 @@ For helix: ∂_X φ = 2π/(N·L_X)
 Therefore: χ = -2π/(N·L_X)
 ```
 
-**Why N = 3? — Independent Derivation from Holonomy Potential Minimization**
+**Why N = 3? — Empirical Anchor with Theoretical Consistency**
 
-The following derivation establishes N = 3 from an **external principle** (energy minimization
-combined with the observed fermion spectrum), breaking the potential logical circle between
-Z₃ geometry and SU(3) gauge structure.
+**CRITICAL CLARIFICATION ON LOGICAL STRUCTURE:**
+
+The original version of this argument contained a circularity: it used SU(3) color
+compatibility to constrain N ∈ {3, 6, 9, ...}, then derived N = 3, then claimed SU(3)
+emerges from Z₃. This was circular because SU(3) was presupposed to derive N = 3.
+
+**The corrected logical structure is:**
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│  EMPIRICAL INPUT: N_gen = 3 (observed fermion generations)              │
+│                                                                         │
+│  This fixes N = 3 for the Z_N orbifold (one generation per fixed point) │
+│                                                                         │
+│  DERIVED CONSEQUENCES (given N = 3):                                    │
+│    → Compatible gauge groups have center containing Z₃                  │
+│    → SU(3) is the MINIMAL such group (Z(SU(3)) = Z₃ exactly)           │
+│    → SM gauge group SU(3)×SU(2)×U(1) emerges uniquely                  │
+│    → θ_QCD = 0 from Z₃ × CP symmetry                                   │
+│    → Proton stability from Z₃ selection rules                          │
+│                                                                         │
+│  STATUS: N = 3 is an EMPIRICAL ANCHOR, not a first-principles output   │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-#### THEOREM: Z₃ Selection from Holonomy Potential Minimization
+#### THEOREM: Gauge Group Emergence from Z₃ Orbifold (Given N = 3)
 
-**External Inputs (not derived within STUR):**
-1. Observed SM fermion spectrum with quantum numbers
-2. Principle of vacuum energy minimization
+**Empirical Input (not derived within STUR):**
+1. N_gen = 3 observed fermion generations [PDG 2024: 2.984 ± 0.008 from Z-width]
+2. This fixes N = 3 (one generation localized at each Z₃ fixed point)
 
-**Statement:** For a 5D theory on M⁴ × S¹/Z_N with SM matter content, the one-loop
-effective potential for the holonomy angle θ = 2π/N has a global minimum at N = 3.
+**Statement:** Given N = 3, the Standard Model gauge group SU(3)×SU(2)×U(1) is the
+unique minimal gauge structure compatible with the Z₃ orbifold holonomy.
 
 ---
 
@@ -4242,6 +4263,32 @@ L_X = ħc / M_KK = (1.97 × 10⁻⁷ eV·m) / (0.25 eV)
 
 ### 19.2 Cosmological Constant — Discrete Gauge Z₃ Mechanism
 
+**CRITICAL CLARIFICATION: Scope and Limitations**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  HONEST ASSESSMENT OF THE Z₃ CC MECHANISM                           │
+│                                                                     │
+│  What this mechanism DOES:                                          │
+│    • Forbids Z₃-charged operators from contributing to ⟨T_μν⟩       │
+│    • Provides a selection rule that reduces the CC problem          │
+│    • Gives a natural small residual from symmetry breaking          │
+│                                                                     │
+│  What this mechanism does NOT do:                                   │
+│    • Does NOT address vacuum energy from Z₃-neutral operators       │
+│    • Does NOT solve the full CC problem (T_μν is Z₃-neutral)       │
+│    • Does NOT explain why Λ_bare ≈ 0 at tree level                 │
+│                                                                     │
+│  STATUS: PARTIAL MECHANISM — reduces but does not solve CC problem  │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+The fundamental issue: The stress-energy tensor T_μν and therefore Λ = ⟨T_μν⟩g^μν
+are GAUGE SINGLETS. The Z₃ symmetry cannot directly forbid contributions to Λ
+from Z₃-invariant combinations of fields.
+
+**What the mechanism actually achieves:**
+
 **Step 1: Promote Z₃ to Gauge Symmetry (Krauss-Wilczek)**
 
 Embed Z₃ in continuous U(1)_X:
@@ -4253,42 +4300,39 @@ U(1)_X gauge theory in 5D with charge-3 Higgs Φ
 The Z₃ remnant is a GAUGE symmetry (not global)
 ```
 
-**Step 2: Cosmological Constant Field Construction**
+**Step 2: Z₃-Charged Sector Selection Rule**
 
-Introduce CC field λ that transforms under Z₃:
+For fields λ transforming non-trivially under Z₃:
 ```
 λ(X + L_X/3) = ω × λ(X)     where ω = e^(2πi/3)
 
 Mode expansion: λ(X) = Σₙ λₙ exp[2πi(n + 1/3)X/L_X]
 
-Key result: NO zero mode — lightest mode has p₀ = 2π/(3L_X)
+Result: NO zero mode for Z₃-charged fields
+        These fields cannot develop VEVs that contribute to Λ
 ```
 
-**Step 3: Gauge Invariance Enforces ⟨λ⟩ = 0**
+**Step 3: Ward Identity (for Z₃-charged operators only)**
 
-Ward identity derivation:
 ```
 Under Z₃ gauge transformation: λ → ω × λ
 
 For VEV to be non-zero, must be gauge-invariant:
-⟨λ⟩ = ⟨ω × λ⟩ = ω × ⟨λ⟩
+⟨λ⟩ = ⟨ω × λ⟩ = ω × ⟨λ⟩  →  ⟨λ⟩ = 0
 
-This requires: (1 − ω) × ⟨λ⟩ = 0
-
-Since ω ≠ 1:  ⟨λ⟩ = 0  EXACTLY
+LIMITATION: This only applies to operators with non-trivial Z₃ charge.
+            The combination |λ|² is Z₃-neutral and CAN have non-zero VEV.
+            Vacuum energy ⟨V(|λ|)⟩ is NOT protected by this Ward identity.
 ```
 
-**Step 4: Radiative Protection (All Orders)**
+**Step 4: What IS Protected**
 
-At n-th order in perturbation theory:
+The Z₃ mechanism protects against:
 ```
-Vertices: Z₃-invariant (from classical action)
-Propagators: ⟨λ(x)λ*(y)⟩ = G(x,y)    (covariant)
-            ⟨λ(x)λ(y)⟩ = 0          (violates Z₃ → forbidden)
-
-Z₃ Ward identity: ⟨∂Γₙ/∂λ⟩ = 0 for non-invariant terms
-
-Result: No perturbative correction can generate ⟨λ⟩ ≠ 0
+✓ Linear terms: ⟨λ⟩ = 0 (forbidden by Ward identity)
+✓ Odd-power terms: ⟨λ³⟩ requires 3 insertions, still Z₃-neutral
+✗ Quadratic terms: ⟨|λ|²⟩ ≠ 0 (Z₃-neutral, NOT protected)
+✗ Potential energy: ⟨V(|λ|)⟩ ≠ 0 (Z₃-neutral, NOT protected)
 ```
 
 **Step 5: Banks-Dixon Anomaly Cancellation**
@@ -4309,19 +4353,12 @@ Gen 1: 0 × 4 = 0
 Gen 2: 1 × 4 = 4
 Gen 3: 2 × 4 = 8
 Total: 0 + 4 + 8 = 12 = 0 (mod 3) ✓
+
+NOTE: Anomaly cancellation is NECESSARY for consistency but does not
+      by itself solve the CC problem.
 ```
 
-**Step 6: Non-perturbative Suppression**
-
-```
-Instanton action: S_inst = (8π²/g₅²) × Vol₄/L_X ~ (M_GUT × L_X)⁴/α_GUT ~ 10⁶⁴
-
-δΛ ~ exp(−S_inst) ~ exp(−10⁶⁴) ≈ 0
-
-Domain wall nucleation: P ~ exp(−10²²) ≈ 0
-```
-
-**Step 7: Residual Λ from Neutrino Z₃ Breaking**
+**Step 6: Residual Λ from Neutrino Z₃ Breaking**
 
 Majorana masses for generations 2,3 break Z₃:
 ```
@@ -4331,21 +4368,30 @@ M_ν Majorana ~ 10¹⁴ GeV × (Z₃-breaking phases)
 
 where W_g = exp(2πig/3), m_g are neutrino masses
 
-Numerical: Λ_residual = (1.1 ± 0.5) × 10⁻⁴⁸ GeV⁴
-Observed:  Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴
-Agreement: Factor of 3 (0.5σ given uncertainties)
+Numerical estimate: Λ_residual = (1.1 ± 0.5) × 10⁻⁴⁸ GeV⁴
+Observed value:     Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴
+Discrepancy:        Factor of ~26 (NOT factor of 3 as previously claimed)
 ```
+
+**Step 7: Honest Assessment**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│  COSMOLOGICAL CONSTANT: DERIVED                                     │
+│  COSMOLOGICAL CONSTANT: PARTIALLY ADDRESSED                         │
 │                                                                     │
-│  Tree level: Λ = 0  (Z₃ gauge Ward identity)                       │
-│  Perturbative: Protected to all orders                              │
-│  Non-perturbative: Suppressed by exp(−10⁶⁴)                        │
-│  Residual: Λ ~ 10⁻⁴⁸ GeV⁴ from neutrino Z₃ breaking               │
+│  What works:                                                        │
+│    • Z₃ symmetry reduces allowed CC contributions                   │
+│    • Neutrino breaking gives naturally small residual               │
+│    • Order of magnitude is suggestive (~10⁻⁴⁷ to 10⁻⁴⁸ GeV⁴)       │
 │                                                                     │
-│  SM field content satisfies Banks-Dixon anomaly cancellation        │
+│  What remains unsolved:                                             │
+│    • Why is Λ_bare ≈ 0 at tree level? (assumed, not derived)       │
+│    • Z₃-neutral contributions (|φ|², curvature terms) unprotected  │
+│    • Factor of ~26 discrepancy in residual calculation              │
+│                                                                     │
+│  STATUS: SUGGESTIVE MECHANISM, NOT COMPLETE SOLUTION                │
+│                                                                     │
+│  The CC problem remains one of the OPEN QUESTIONS in STUR.          │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -4353,7 +4399,29 @@ Agreement: Factor of 3 (0.5σ given uncertainties)
 
 ### 19.3 UV Completion — F-theory Embedding
 
-**Step 1: Z₃ from Elliptic Fibration**
+**CRITICAL CLARIFICATION: Construction Status**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  HONEST ASSESSMENT OF UV COMPLETION STATUS                          │
+│                                                                     │
+│  What has been IDENTIFIED:                                          │
+│    • F-theory on j=0 elliptic fibration as natural UV home         │
+│    • Qualitative matching of Z₃ symmetry structures                 │
+│    • Plausible identification of R-field with modulus T             │
+│                                                                     │
+│  What has NOT been constructed:                                     │
+│    • Explicit CY₄ manifold with Hodge numbers                       │
+│    • D3-brane tadpole cancellation verification                     │
+│    • Flux quantization and moduli stabilization                     │
+│    • Chiral spectrum calculation from intersection theory           │
+│    • Proof that XCRM coefficient χ takes required value             │
+│                                                                     │
+│  STATUS: PROMISING DIRECTION, NOT COMPLETE CONSTRUCTION             │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Step 1: Z₃ from Elliptic Fibration (IDENTIFIED)**
 
 F-theory compactifies on elliptic CY₄ → B₃:
 ```
@@ -4363,10 +4431,15 @@ At j = 0 point (f = 0, g = g₀): enhanced Z₃ symmetry
 
 Z₃ action: (x, y) → (ω²x, y)
 
-This is the natural home for STUR's Z₃ helix
+This provides natural Z₃ structure compatible with STUR helix
+
+REQUIRED BUT NOT YET DONE:
+  • Explicit base B₃ construction with required properties
+  • Verification that j = 0 locus has correct topology
+  • Hodge numbers h^{1,1}, h^{2,1}, h^{3,1} calculation
 ```
 
-**Step 2: R-field from Moduli**
+**Step 2: R-field from Moduli (PLAUSIBLE)**
 
 Type IIB modulus on T²/Z₃:
 ```
@@ -4374,15 +4447,20 @@ T = T₁ + iT₂  (Kähler modulus = volume + B-field)
 
 Under Z₃: T → ω × T
 
-Identification: R = (Re T, Im T) = (R₁, R₂)
+Proposed identification: R = (Re T, Im T) = (R₁, R₂)
 
-This explains:
+This would explain:
 - R is a doublet (complex modulus → 2 real components)
 - R transforms under Z₃ (inherited from orbifold)
 - |R| couples to gravity (T controls string coupling)
+
+REQUIRED BUT NOT YET DONE:
+  • Prove T survives as light mode after stabilization
+  • Show T has required kinetic normalization
+  • Verify no other light moduli interfere
 ```
 
-**Step 3: XCRM Emergence**
+**Step 3: XCRM Emergence (SKETCHED)**
 
 From Type IIB kinetic terms:
 ```
@@ -4390,13 +4468,17 @@ L_IIB ⊃ ∂_M T × ∂_N T̄ × g^{MN}
 
 On S¹/Z₃: T(X + L_X) = ω × T(X)
 
-Dimensional reduction gives:
+Dimensional reduction would give:
 χ × |T|² × ∂_X(arg T) = χ × (R₁ ∂_X R₂ − R₂ ∂_X R₁)
 
-This IS the XCRM term with χ = −2π/(3L_X)
+REQUIRED BUT NOT YET DONE:
+  • Explicit dimensional reduction with all fields
+  • Calculation of χ coefficient from string theory
+  • Verification χ = −2π/(3L_X) emerges naturally
+  • Show no unwanted additional terms appear
 ```
 
-**Step 4: Three Generations from Fixed Points**
+**Step 4: Three Generations from Fixed Points (TOPOLOGICAL)**
 
 ```
 Z₃ action on T² has 3 fixed points:
@@ -4404,11 +4486,14 @@ Z₃ action on T² has 3 fixed points:
   z₁ = (1/3)(1 + ω)
   z₂ = (1/3)(1 + ω²)
 
-Each fixed point localizes one generation
-→ N_gen = 3 is TOPOLOGICAL
+This is ROBUST: fixed point count is topological invariant
+→ N_gen = 3 follows from Z₃ orbifold structure
+
+NOTE: This argument is solid IF the F-theory embedding is valid.
+      The generation count is a consequence, not a construction.
 ```
 
-**Step 5: Gauge Group from Holonomy**
+**Step 5: Gauge Group from Holonomy (CONSISTENT)**
 
 ```
 Wilson line around compact dimension:
@@ -4418,73 +4503,147 @@ Groups compatible with Z₃ holonomy: SU(3) × SU(2) × U(1)
 (Z₃ = center of SU(3))
 
 Higher symmetries (SU(5), SO(10)) broken by Wilson line
+
+NOTE: This is a consistency check, not a derivation.
+      Gauge group structure assumed from low-energy data.
+```
+
+**Step 6: What Would Be Required for Complete UV Completion**
+
+```
+A complete F-theory construction requires:
+
+1. GEOMETRY:
+   □ Explicit CY₄ as elliptic fibration over B₃
+   □ Base B₃ = (P²×P¹)/Z₃ or similar with required properties
+   □ Hodge numbers: h^{1,1}(CY₄), h^{2,1}(CY₄), h^{3,1}(CY₄)
+   □ Euler characteristic: χ(CY₄) for tadpole constraint
+
+2. FLUXES:
+   □ G₄ flux quantization on CY₄
+   □ D3-brane tadpole: N_D3 + N_flux/2 = χ(CY₄)/24
+   □ Flux-induced superpotential W = ∫ G₄ ∧ Ω
+
+3. MODULI:
+   □ Kähler moduli stabilization (KKLT or LVS)
+   □ Complex structure moduli stabilization
+   □ Identify which modulus corresponds to R-field
+   □ Verify R remains light with correct kinetic term
+
+4. SPECTRUM:
+   □ Chiral matter from 7-brane intersections
+   □ Yukawa couplings from triple intersections
+   □ Verify 3 generations with correct quantum numbers
+
+CURRENT STATUS: Items 1-4 are OPEN. The embedding is promising
+                but not demonstrated.
 ```
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│  UV COMPLETION: F-theory on j=0 elliptic fibration                 │
+│  UV COMPLETION: PROMISING DIRECTION, CONSTRUCTION INCOMPLETE        │
 │                                                                     │
-│  Z₃ helix: Natural from elliptic fiber Z₃ symmetry                 │
-│  R-doublet: Kähler modulus T = T₁ + iT₂                            │
-│  XCRM term: From modulus kinetic terms under Z₃ twist              │
-│  3 generations: 3 fixed points of Z₃ action                        │
-│  SM gauge group: Only group compatible with Z₃ holonomy            │
+│  Identified:                                                        │
+│    • F-theory on j=0 elliptic fibration as natural candidate       │
+│    • Z₃ symmetry structure matches STUR requirements                │
+│    • Modulus T as potential R-field origin                         │
 │                                                                     │
-│  String embedding provides UV-complete quantum gravity              │
+│  Not yet constructed:                                               │
+│    • Explicit CY₄ geometry with Hodge numbers                      │
+│    • Flux quantization and tadpole cancellation                     │
+│    • Moduli stabilization with R remaining light                    │
+│    • Chiral spectrum verification                                   │
+│                                                                     │
+│  STATUS: UV completion IDENTIFIED but NOT CONSTRUCTED               │
+│          This represents an open research direction                 │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-### 19.4 TOE Closure Summary
+### 19.4 TOE Closure Summary — Honest Assessment
 
-**All quantities derived from three axioms + M_Planck:**
+**Status of derivations from three axioms + M_Planck:**
 
-| Quantity | Derivation Method | Status |
-|----------|-------------------|--------|
-| L_X = 0.8 μm | Casimir-holonomy energy minimization | **DERIVED** |
-| v = 3/L_X ≈ M_GUT | Z₃ winding quantization | **DERIVED** |
-| M_R = 20/L_X | Holonomy enhancement at fixed points | **DERIVED** |
-| Λ_tree = 0 | Z₃ discrete gauge Ward identity | **EXACT** |
-| Λ_residual ~ 10⁻⁴⁸ GeV⁴ | Neutrino Majorana Z₃ breaking | **DERIVED** |
-| N_gen = 3 | Z₃ fixed point counting / topology | **EXACT** |
-| SM gauge group | Z₃ holonomy compatibility | **DERIVED** |
-| θ_QCD = 0 | Z₃ × CP symmetry | **EXACT** |
-| κ = 2.52 ± 0.16 | Mathieu + higher-order corrections | **DERIVED** |
-| λ = 0.220 | exp[−κ²/8] × correction factors | **DERIVED** |
-| η̄ = 0.350 ± 0.020 | Helix geometry + holonomy/Berry/RG | **DERIVED** |
-| UV completion | F-theory j=0 elliptic fibration | **IDENTIFIED** |
+| Quantity | Derivation Method | Honest Status |
+|----------|-------------------|---------------|
+| L_X = 0.8 μm | Casimir-holonomy energy minimization | **DERIVED** (with N_eff uncertainty) |
+| v = 3/L_X ≈ M_GUT | Z₃ winding quantization | **DERIVED** (given N=3) |
+| M_R = 20/L_X | Holonomy enhancement at fixed points | **DERIVED** (given N=3) |
+| Λ_tree ≈ 0 | Z₃ gauge symmetry | **PARTIAL** (only Z₃-charged sector) |
+| Λ_residual ~ 10⁻⁴⁸ GeV⁴ | Neutrino Z₃ breaking | **ESTIMATED** (factor ~26 discrepancy) |
+| N_gen = 3 | Observation | **EMPIRICAL ANCHOR** |
+| SM gauge group | Z₃ holonomy compatibility | **DERIVED** (given N=3 empirical) |
+| θ_QCD = 0 | Z₃ × CP symmetry | **EXACT** (genuine prediction) |
+| κ = 2.22 ± 0.15 | Mathieu equation | **DERIVED** (1.9σ tension with needed value) |
+| λ = 0.220 | exp[−κ²/8] × corrections | **SEMI-FITTED** (correction factors estimated) |
+| η̄ = 0.350 ± 0.020 | Helix + corrections | **SEMI-FITTED** (multiple correction factors) |
+| UV completion | F-theory j=0 fibration | **IDENTIFIED** (not constructed) |
+
+**Correction Factor Assessment:**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  CORRECTION FACTORS: Honestly Characterized                         │
+│                                                                     │
+│  For λ (Cabibbo angle):                                            │
+│    λ = exp[-κ²/8] × f_boundary × f_holonomy × f_RG                 │
+│      = 0.540 × 0.65 × 0.85 × 0.87 = 0.220                          │
+│                                                                     │
+│  Individual factors:                                                │
+│    f_boundary = 0.65 ± 0.05  (overlap enhancement × Z₃ suppression)│
+│    f_holonomy = 0.85 ± 0.03  (SU(3) fluctuations)                  │
+│    f_RG       = 0.87 ± 0.02  (running M_KK → M_Z)                  │
+│                                                                     │
+│  STATUS: These factors are ESTIMATED from physical arguments,       │
+│          not derived from first principles. Each has O(10%) error.  │
+│          Combined product is tuned to match observation.            │
+│                                                                     │
+│  This is SEMI-FITTING: the mechanism is physical but numerical      │
+│  coefficients are adjusted to match data.                           │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 ```
 ┌═══════════════════════════════════════════════════════════════════════┐
 ║                                                                       ║
-║                    TOE CLOSURE: COMPLETE                              ║
+║          FRAMEWORK STATUS: HONEST ASSESSMENT                          ║
 ║                                                                       ║
 ║  ┌─────────────────────────────────────────────────────────────────┐ ║
 ║  │                                                                 │ ║
-║  │  INPUT: M_Planck (one dimensional constant)                    │ ║
+║  │  INPUTS:                                                        │ ║
+║  │    • M_Planck (dimensional constant)                           │ ║
+║  │    • N_gen = 3 (empirical anchor from observation)             │ ║
 ║  │                                                                 │ ║
 ║  │  AXIOMS:                                                        │ ║
 ║  │    1. 5D spacetime M⁴ × S¹                                     │ ║
 ║  │    2. Real doublet R-field with torsion coupling               │ ║
 ║  │    3. Energy minimization                                       │ ║
 ║  │                                                                 │ ║
-║  │  DERIVED:                                                       │ ║
-║  │    • L_X from Casimir-holonomy balance                         │ ║
-║  │    • Z₃ helix from stability (N=3 minimizes energy)            │ ║
-║  │    • 3 generations from fixed point topology                   │ ║
-║  │    • SM gauge group from holonomy compatibility                │ ║
-║  │    • All fermion masses from Gaussian overlap geometry         │ ║
-║  │    • Λ = 0 (tree) from discrete gauge Z₃ Ward identity         │ ║
-║  │    • Λ_residual from neutrino Z₃ breaking                      │ ║
-║  │    • UV completion via F-theory embedding                      │ ║
+║  │  GENUINELY DERIVED (given N=3):                                 │ ║
+║  │    ✓ SM gauge group from Z₃ holonomy compatibility             │ ║
+║  │    ✓ θ_QCD = 0 from Z₃ × CP symmetry                          │ ║
+║  │    ✓ Proton stability from Z₃ selection rules                  │ ║
+║  │    ✓ Mass hierarchy PATTERN from Gaussian geometry             │ ║
+║  │    ✓ L_X scale from Casimir-holonomy balance                   │ ║
 ║  │                                                                 │ ║
-║  │  21 falsifiable predictions made                                │ ║
+║  │  SEMI-FITTED (mechanism + adjusted coefficients):               │ ║
+║  │    ~ κ parameter (1.9σ tension, needs α adjustment)            │ ║
+║  │    ~ λ Cabibbo (product of 4 estimated correction factors)     │ ║
+║  │    ~ η̄ CP phase (product of 4 estimated correction factors)   │ ║
+║  │    ~ Fermion mass ratios (overlap integrals + corrections)     │ ║
+║  │                                                                 │ ║
+║  │  OPEN PROBLEMS:                                                 │ ║
+║  │    ✗ Cosmological constant (Z₃ mechanism incomplete)           │ ║
+║  │    ✗ UV completion (F-theory identified, not constructed)      │ ║
+║  │    ✗ PMNS angles (3 parameters fitted, not derived)            │ ║
+║  │    ✗ Absolute mass scales (v determined by N=3 input)          │ ║
 ║  │                                                                 │ ║
 ║  └─────────────────────────────────────────────────────────────────┘ ║
 ║                                                                       ║
-║  Status: THEORY OF EVERYTHING CANDIDATE                               ║
-║          with first-principles derivations complete                   ║
+║  Status: PHENOMENOLOGICAL FRAMEWORK with geometric motivation        ║
+║          Strong points: Pattern derivations, θ_QCD = 0               ║
+║          Weak points: Numerical predictions require fitting          ║
 ║                                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 ```
