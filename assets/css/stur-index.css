@@ -581,20 +581,20 @@ button:focus-visible {
   .glass-panel { padding: 16px 14px; margin: 20px 0; border-radius: 12px; }
   .glass-panel h2 { font-size: 1rem; }
   .glass-panel .subtitle { font-size: 0.85rem; }
-  .equation-display { font-size: 0.7rem; padding: 12px 10px; overflow-x: auto; white-space: nowrap; }
-  .term-legend { grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.7rem; }
-  .panel-footer { font-size: 0.75rem; }
+  .equation-display { font-size: 0.875rem; padding: 12px 10px; overflow-x: auto; white-space: nowrap; }
+  .term-legend { grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.875rem; }
+  .panel-footer { font-size: 0.8rem; }
   .section-header { margin: 28px 0 12px; padding: 0; }
-  .section-title { font-size: 0.7rem; }
-  .section-badge { font-size: 0.6rem; padding: 2px 6px; }
+  .section-title { font-size: 0.8rem; }
+  .section-badge { font-size: 0.7rem; padding: 2px 6px; }
   .sim-grid { grid-template-columns: 1fr; gap: 8px; }
   .sim-card { padding: 14px 16px; border-radius: 10px; }
-  .sim-card a { font-size: 0.875rem; }
-  .sim-card .card-tag { font-size: 0.6rem; margin-top: 4px; }
+  .sim-card a { font-size: 0.9rem; }
+  .sim-card .card-tag { font-size: 0.7rem; margin-top: 4px; }
   .action-group { flex-direction: column; align-items: stretch; padding: 0; gap: 8px; margin: 40px 0; }
   .btn { justify-content: center; padding: 14px 20px; font-size: 0.9rem; }
   .tier-legend { gap: 8px 16px; }
-  .legend-item { font-size: 0.65rem; }
+  .legend-item { font-size: 0.8rem; }
   .video-section { margin: 32px auto 48px; }
   .site-footer { margin-top: 48px; padding: 24px 0; }
   .footer-note { font-size: 0.75rem; padding: 0 8px; }
@@ -609,11 +609,11 @@ button:focus-visible {
   .site-tagline { font-size: 0.9rem; }
   .site-description { font-size: 0.85rem; }
   .glass-panel { padding: 14px 12px; margin: 16px 0; }
-  .equation-display { font-size: 0.65rem; padding: 10px 8px; }
-  .term-legend { grid-template-columns: 1fr; gap: 4px; font-size: 0.65rem; }
+  .equation-display { font-size: 0.85rem; padding: 10px 8px; }
+  .term-legend { grid-template-columns: 1fr; gap: 4px; font-size: 0.85rem; }
   .sim-card { padding: 12px 14px; }
-  .sim-card a { font-size: 0.8rem; }
-  .legend-item { font-size: 0.6rem; }
+  .sim-card a { font-size: 0.85rem; }
+  .legend-item { font-size: 0.75rem; }
 }
 
 /* === PERFORMANCE: Reduced motion for low-power mode === */

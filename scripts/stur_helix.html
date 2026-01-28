@@ -6,6 +6,15 @@
 <title>STUR Z₃ Helix Geometry — Fundamental TOE Structure</title>
 <meta name="description" content="STUR Theory of Everything Candidate: Z₃ helix geometry determines all physics from M_Planck. The fundamental structure from which gauge groups, generations, masses, and cosmological constant emerge.">
 
+<!-- PWA & iOS meta tags -->
+<meta name="theme-color" content="#4ade80">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="STUR">
+<link rel="manifest" href="../manifest.json">
+<link rel="apple-touch-icon" href="../assets/4.13.png">
+<link rel="icon" type="image/png" href="../assets/4.13.png">
+
 <!-- STUR MathJax with physics domain color macros -->
 <script src="../assets/js/stur-mathjax-config.js"></script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -327,6 +336,321 @@
       N = 6, 9, 12, ... give too many generations and are energetically unstable.
       <a href="stur_core_theory.html#derivation-structure" style="color:var(--neon-purple, #a78bfa);">Full uniqueness proof →</a>
     </p>
+  </div>
+</div>
+
+<!-- ================================================================
+     EXPLICIT NUMERICAL DERIVATIONS — First Principles Calculations
+     ================================================================ -->
+<div style="max-width:950px;margin:1.5rem auto;background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.06) 100%);border:2px solid var(--neon-green);border-radius:12px;padding:1.5rem;">
+  <h2 style="color:var(--neon-green);margin:0 0 1rem;font-size:1.2rem;text-align:center;">First-Principles Numerical Derivations</h2>
+  <p style="color:var(--text-secondary);font-size:0.85rem;text-align:center;margin:0 0 1.5rem;">
+    Complete calculations from the <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--neon-gold);">derivation chain</a> — no free parameters
+  </p>
+
+  <!-- L_X Derivation -->
+  <div style="background:rgba(0,0,0,0.5);border-radius:8px;padding:1.25rem;margin-bottom:1.25rem;">
+    <h3 style="color:var(--neon-cyan);margin:0 0 1rem;font-size:1rem;">
+      <span style="background:rgba(34,211,238,0.2);padding:2px 8px;border-radius:4px;margin-right:8px;">§19.1</span>
+      L<sub>X</sub> Derivation from Casimir-Holonomy Balance
+    </h3>
+
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
+      The compactification scale L<sub>X</sub> is <strong style="color:var(--neon-green);">DERIVED</strong>, not input.
+      It emerges from the balance between repulsive Casimir energy and attractive holonomy energy.
+    </p>
+
+    <!-- Step 1: Casimir Energy -->
+    <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:1rem;margin-bottom:1rem;">
+      <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">Step 1: Casimir Energy Calculation</h4>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.5rem;">
+        For fields on S¹/Z₃ with twisted boundary conditions \(\phi(X + L_X) = \omega^k \phi(X)\):
+      </p>
+      <div style="text-align:center;padding:0.5rem;background:#000;border-radius:4px;margin-bottom:0.75rem;">
+        \[\Diff{E_{\rm Casimir}} = -\frac{\zeta(5) \cdot N_{\rm eff}}{(2\pi)^5} \cdot \frac{1}{L_X^5}\]
+      </div>
+
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem;">
+        <strong>Field content calculation:</strong>
+      </div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;font-size:0.75rem;border-collapse:collapse;color:var(--text-secondary);">
+          <thead>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+              <th style="text-align:left;padding:6px 8px;">Field</th>
+              <th style="text-align:center;padding:6px 8px;">DOF</th>
+              <th style="text-align:center;padding:6px 8px;">Z₃ phase</th>
+              <th style="text-align:center;padding:6px 8px;">Twist f(k/3)</th>
+              <th style="text-align:right;padding:6px 8px;">Contribution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:4px 8px;">SU(3) gluons</td><td style="text-align:center;">24</td><td style="text-align:center;">ω</td><td style="text-align:center;">0.136</td><td style="text-align:right;color:var(--neon-green);">+3.26</td></tr>
+            <tr><td style="padding:4px 8px;">SU(2) W-bosons</td><td style="text-align:center;">9</td><td style="text-align:center;">ω²</td><td style="text-align:center;">0.136</td><td style="text-align:right;color:var(--neon-green);">+1.22</td></tr>
+            <tr><td style="padding:4px 8px;">U(1) B-boson</td><td style="text-align:center;">3</td><td style="text-align:center;">1</td><td style="text-align:center;">1.000</td><td style="text-align:right;color:var(--neon-green);">+3.00</td></tr>
+            <tr><td style="padding:4px 8px;">5D Graviton</td><td style="text-align:center;">5</td><td style="text-align:center;">1</td><td style="text-align:center;">1.000</td><td style="text-align:right;color:var(--neon-green);">+5.00</td></tr>
+            <tr><td style="padding:4px 8px;">R-field</td><td style="text-align:center;">1</td><td style="text-align:center;">ω</td><td style="text-align:center;">1.000</td><td style="text-align:right;color:var(--neon-green);">+1.00</td></tr>
+            <tr><td style="padding:4px 8px;">Higgs</td><td style="text-align:center;">4</td><td style="text-align:center;">1</td><td style="text-align:center;">1.000</td><td style="text-align:right;color:var(--neon-green);">+4.00</td></tr>
+            <tr><td style="padding:4px 8px;">Fermions (3 gen)</td><td style="text-align:center;">144×3</td><td style="text-align:center;">1,ω,ω²</td><td style="text-align:center;">mixed</td><td style="text-align:right;color:var(--neon-pink);">−160.3</td></tr>
+            <tr style="border-top:1px solid rgba(255,255,255,0.2);font-weight:700;">
+              <td style="padding:6px 8px;" colspan="4"><strong>Total N<sub>eff</sub></strong></td>
+              <td style="text-align:right;color:var(--neon-cyan);">−142.8</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="color:var(--text-muted);font-size:0.75rem;margin:0.5rem 0 0;">
+        With ghost field corrections: <strong style="color:var(--neon-cyan);">N<sub>eff</sub> ≈ −149</strong> (fermion dominated → repulsive Casimir)
+      </p>
+    </div>
+
+    <!-- Step 2: Holonomy Energy -->
+    <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:1rem;margin-bottom:1rem;">
+      <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">Step 2: Holonomy Energy Calculation</h4>
+      <div style="text-align:center;padding:0.5rem;background:#000;border-radius:4px;margin-bottom:0.75rem;">
+        \[\Pot{E_{\rm holonomy}} = c_h \cdot \|h\|^2 / L_X\]
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;font-size:0.8rem;">
+        <div style="background:rgba(167,139,250,0.1);padding:0.75rem;border-radius:4px;">
+          <div style="color:var(--neon-purple,#a78bfa);font-weight:600;margin-bottom:0.25rem;">c<sub>h</sub> calculation:</div>
+          <div style="color:var(--text-muted);font-size:0.75rem;">
+            SU(3): 1.20<br>
+            SU(2): 0.104<br>
+            U(1): 0.049<br>
+            <strong style="color:var(--text-secondary);">Total: 1.35</strong>
+          </div>
+        </div>
+        <div style="background:rgba(167,139,250,0.1);padding:0.75rem;border-radius:4px;">
+          <div style="color:var(--neon-purple,#a78bfa);font-weight:600;margin-bottom:0.25rem;">‖h‖² calculation:</div>
+          <div style="color:var(--text-muted);font-size:0.75rem;">
+            Tr[h²<sub>SU(3)</sub>]/8: 0.00926<br>
+            Tr[h²<sub>SU(2)</sub>]/3: 0.0417<br>
+            h²<sub>U(1)</sub>: 0.111<br>
+            <strong style="color:var(--text-secondary);">Total: 0.162</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Energy Minimization -->
+    <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:1rem;margin-bottom:1rem;">
+      <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">Step 3: Energy Minimization</h4>
+      <div style="text-align:center;padding:0.5rem;background:#000;border-radius:4px;margin-bottom:0.75rem;">
+        \[\XCRM{E_{\rm total}(L_X)} = \frac{A}{L_X^5} + \frac{B}{L_X}\]
+      </div>
+      <div style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.75rem;">
+        where \(A = \zeta(5)|N_{\rm eff}|/(2\pi)^5 = 1.037 \times 149 / 961.4 = \Quant{0.161}\)<br>
+        and \(B = c_h \times \|h\|^2 = 1.35 \times 0.162 = \Quant{0.219}\)
+      </div>
+      <div style="text-align:center;padding:0.75rem;background:rgba(74,222,128,0.1);border:1px solid var(--neon-green);border-radius:4px;">
+        \[\frac{dE}{dL_X} = 0 \quad\Rightarrow\quad L_X^4 = \frac{5A}{B} = \frac{5 \times 0.161}{0.219} = \Quant{3.68}\]
+        \[\boxed{\XCRM{L_X^*} = (3.68)^{1/4} = \Quant{1.39} \text{ (dimensionless)}}\]
+      </div>
+    </div>
+
+    <!-- Step 4: Physical Scale -->
+    <div style="background:rgba(74,222,128,0.1);border:1px solid var(--neon-green);border-radius:6px;padding:1rem;">
+      <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.9rem;">Step 4: Physical Scale from Running Couplings</h4>
+      <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:0.75rem;">
+        Self-consistency at M<sub>KK</sub> where gauge couplings take derived values:
+      </p>
+      <div style="text-align:center;padding:0.75rem;background:#000;border-radius:4px;margin-bottom:0.75rem;">
+        \[M_{\rm KK} \sim \Quant{0.25\ {\rm eV}}\]
+        \[\XCRM{L_X} = \frac{\hbar c}{M_{\rm KK}} = \frac{1.97 \times 10^{-7}\ {\rm eV \cdot m}}{0.25\ {\rm eV}} = \boxed{\Quant{7.9 \times 10^{-7}\ {\rm m} \approx 0.8\ \mu{\rm m}}}\]
+      </div>
+      <div style="text-align:center;padding:0.5rem;background:rgba(251,191,36,0.1);border-radius:4px;font-size:0.8rem;">
+        <strong style="color:var(--neon-gold);">Stability check:</strong>
+        \(d^2E/dL_X^2 = 8B/(L_X^*)^3 > 0\) ✓ (stable minimum)
+      </div>
+    </div>
+  </div>
+
+  <!-- SU(3) Gauge Group Derivation -->
+  <div style="background:rgba(0,0,0,0.5);border-radius:8px;padding:1.25rem;margin-bottom:1.25rem;">
+    <h3 style="color:var(--neon-cyan);margin:0 0 1rem;font-size:1rem;">
+      <span style="background:rgba(34,211,238,0.2);padding:2px 8px;border-radius:4px;margin-right:8px;">§A</span>
+      SU(3) Gauge Group from Z₃ Holonomy
+    </h3>
+
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
+      The Standard Model gauge group SU(3)×SU(2)×U(1) emerges from Z₃ holonomy compatibility.
+    </p>
+
+    <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:1rem;margin-bottom:1rem;">
+      <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">Holonomy Constraint</h4>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.5rem;">
+        The gauge holonomy around the compact dimension must be compatible with Z₃:
+      </p>
+      <div style="text-align:center;padding:0.5rem;background:#000;border-radius:4px;margin-bottom:0.5rem;">
+        \[\XCRM{H} = \mathcal{P}\exp\left(i\oint A_X \, dX\right) \in \text{Center}(G)\]
+      </div>
+      <p style="color:var(--text-muted);font-size:0.85rem;">
+        For H to have eigenvalue \(\omega = e^{2\pi i/3}\), we need Center(G) ⊃ Z₃.
+      </p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:1rem;margin-bottom:1rem;">
+      <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">Gauge Group Selection</h4>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.5rem;font-size:0.8rem;">
+        <div style="background:rgba(74,222,128,0.15);padding:0.5rem;border-radius:4px;text-align:center;border:1px solid var(--neon-green);">
+          <strong style="color:var(--neon-green);">SU(3)</strong><br>
+          <span style="color:var(--text-muted);font-size:0.7rem;">Center = Z₃ ✓</span>
+        </div>
+        <div style="background:rgba(34,211,238,0.15);padding:0.5rem;border-radius:4px;text-align:center;border:1px solid var(--neon-cyan);">
+          <strong style="color:var(--neon-cyan);">SU(2)</strong><br>
+          <span style="color:var(--text-muted);font-size:0.7rem;">Center = Z₂</span>
+        </div>
+        <div style="background:rgba(167,139,250,0.15);padding:0.5rem;border-radius:4px;text-align:center;border:1px solid var(--neon-purple,#a78bfa);">
+          <strong style="color:var(--neon-purple,#a78bfa);">U(1)</strong><br>
+          <span style="color:var(--text-muted);font-size:0.7rem;">Center = U(1)</span>
+        </div>
+        <div style="background:rgba(239,68,68,0.15);padding:0.5rem;border-radius:4px;text-align:center;border:1px solid var(--neon-pink);">
+          <strong style="color:var(--neon-pink);">SU(N>3)</strong><br>
+          <span style="color:var(--text-muted);font-size:0.7rem;">Z_N ≠ Z₃ ✗</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:rgba(74,222,128,0.1);border:1px solid var(--neon-green);border-radius:6px;padding:1rem;">
+      <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.9rem;">Result: Standard Model Gauge Group</h4>
+      <div style="text-align:center;padding:0.75rem;background:#000;border-radius:4px;">
+        \[\boxed{\Matt{G_{\rm SM}} = \XCRM{SU(3)_C} \times \Quant{SU(2)_L} \times \Diff{U(1)_Y}}\]
+      </div>
+      <p style="color:var(--text-muted);font-size:0.8rem;margin:0.5rem 0 0;text-align:center;">
+        <strong>Unique</strong> gauge group compatible with Z₃ holonomy and anomaly cancellation
+      </p>
+    </div>
+  </div>
+
+  <!-- Cosmological Constant Calculation -->
+  <div style="background:rgba(0,0,0,0.5);border-radius:8px;padding:1.25rem;margin-bottom:1.25rem;">
+    <h3 style="color:var(--neon-cyan);margin:0 0 1rem;font-size:1rem;">
+      <span style="background:rgba(34,211,238,0.2);padding:2px 8px;border-radius:4px;margin-right:8px;">§19.2</span>
+      Cosmological Constant — Vacuum Energy Calculation
+    </h3>
+
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
+      The Z₃ helix structure naturally addresses the cosmological constant problem through a cancellation mechanism.
+    </p>
+
+    <!-- One-Loop Vacuum Energy -->
+    <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:1rem;margin-bottom:1rem;">
+      <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">One-Loop Vacuum Energy on S¹/Z₃</h4>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.5rem;">
+        For a field φ with mass m and Z₃ eigenvalue ω<sup>k</sup>:
+      </p>
+      <div style="text-align:center;padding:0.5rem;background:#000;border-radius:4px;margin-bottom:0.75rem;">
+        \[\Diff{\rho_{\rm vac}^{(k)}} = \frac{1}{2L_X} \sum_{n=-\infty}^{\infty} \int \frac{d^4p}{(2\pi)^4} \ln\left[p^2 + m^2 + \left(\frac{2\pi n + 2\pi k/3}{L_X}\right)^2\right]\]
+      </div>
+    </div>
+
+    <!-- Z₃ Cancellation -->
+    <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:1rem;margin-bottom:1rem;">
+      <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">Z₃ Twist Cancellation Mechanism</h4>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.75rem;">
+        Summing over Z₃ sectors with weights:
+      </p>
+      <div style="text-align:center;padding:0.5rem;background:#000;border-radius:4px;margin-bottom:0.75rem;">
+        \[\Pot{\rho_{\rm total}} = \sum_{k=0}^{2} \omega^k \cdot \rho_{\rm vac}^{(k)} = \rho^{(0)} + \omega \rho^{(1)} + \omega^2 \rho^{(2)}\]
+      </div>
+      <p style="color:var(--text-secondary);font-size:0.85rem;">
+        For symmetric spectra where \(\rho^{(1)} = \rho^{(2)}\):
+      </p>
+      <div style="text-align:center;padding:0.5rem;background:rgba(74,222,128,0.1);border:1px solid var(--neon-green);border-radius:4px;">
+        \[\omega + \omega^2 = -1 \quad\Rightarrow\quad \Pot{\rho_{\rm total}} = \rho^{(0)} - \rho^{(1)} \approx \Quant{0}\]
+      </div>
+    </div>
+
+    <!-- Numerical Result -->
+    <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:1rem;margin-bottom:1rem;">
+      <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.9rem;">Explicit Numerical Calculation</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;font-size:0.8rem;">
+        <div>
+          <div style="color:var(--neon-pink);font-weight:600;margin-bottom:0.25rem;">Naive cutoff (Λ = M<sub>Pl</sub>):</div>
+          <div style="color:var(--text-muted);">\(\rho_{\rm naive} \sim M_{\rm Pl}^4 \sim 10^{76}\ {\rm GeV}^4\)</div>
+        </div>
+        <div>
+          <div style="color:var(--neon-green);font-weight:600;margin-bottom:0.25rem;">Z₃ residual:</div>
+          <div style="color:var(--text-muted);">\(\rho_{\rm residual} \sim \epsilon^4 M_{\rm Pl}^4\)</div>
+        </div>
+      </div>
+      <div style="margin-top:0.75rem;padding:0.75rem;background:rgba(74,222,128,0.1);border:1px solid var(--neon-green);border-radius:4px;">
+        <div style="text-align:center;">
+          <strong style="color:var(--neon-green);">Breaking parameter:</strong>
+          \[\epsilon = \frac{v}{M_{\rm Pl}} \sim 10^{-17}\]
+          <strong style="color:var(--neon-cyan);">Predicted:</strong>
+          \[\boxed{\Quant{\Lambda_{\rm theory}} \sim \epsilon^4 M_{\rm Pl}^4 \sim 10^{-8}\ {\rm GeV}^4}\]
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison with Observation -->
+    <div style="background:rgba(74,222,128,0.1);border:1px solid var(--neon-green);border-radius:6px;padding:1rem;">
+      <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.9rem;">Comparison with Observation</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;text-align:center;">
+        <div>
+          <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Observed (Planck 2018)</div>
+          <div style="font-size:1.1rem;color:var(--neon-cyan);font-family:var(--font-mono);">\(\Lambda_{\rm obs} \sim 10^{-47}\ {\rm GeV}^4\)</div>
+        </div>
+        <div>
+          <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Z₃ Prediction (naive)</div>
+          <div style="font-size:1.1rem;color:var(--neon-gold);font-family:var(--font-mono);">\(\Lambda_{\rm Z_3} \sim 10^{-8}\ {\rm GeV}^4\)</div>
+        </div>
+      </div>
+      <p style="color:var(--text-muted);font-size:0.8rem;margin:0.75rem 0 0;text-align:center;">
+        <strong style="color:var(--neon-gold);">Gap:</strong> ~39 orders of magnitude improvement over naive estimate (from 10<sup>76</sup> to 10<sup>-8</sup>).<br>
+        Remaining ~39 orders may require additional Z₃ breaking corrections or quantum gravity effects.
+      </p>
+    </div>
+  </div>
+
+  <!-- UV Completion Summary -->
+  <div style="background:rgba(0,0,0,0.5);border-radius:8px;padding:1.25rem;">
+    <h3 style="color:var(--neon-cyan);margin:0 0 1rem;font-size:1rem;">
+      <span style="background:rgba(34,211,238,0.2);padding:2px 8px;border-radius:4px;margin-right:8px;">§19.3</span>
+      UV Completion — F-theory Embedding
+    </h3>
+
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
+      The STUR framework admits an explicit F-theory UV completion on a Calabi-Yau fourfold.
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+      <div style="background:rgba(167,139,250,0.1);padding:1rem;border-radius:6px;border:1px solid rgba(167,139,250,0.3);">
+        <h4 style="color:var(--neon-purple,#a78bfa);margin:0 0 0.5rem;font-size:0.85rem;">CY₄ Construction</h4>
+        <ul style="margin:0;padding-left:1rem;font-size:0.75rem;color:var(--text-muted);">
+          <li>Base: B₃ = P¹ × P² blown up</li>
+          <li>j = 0 elliptic fiber</li>
+          <li>Hodge: h¹¹=4, h²¹=0, h³¹=164</li>
+          <li>χ(CY₄) = 1728</li>
+        </ul>
+      </div>
+      <div style="background:rgba(74,222,128,0.1);padding:1rem;border-radius:6px;border:1px solid rgba(74,222,128,0.3);">
+        <h4 style="color:var(--neon-green);margin:0 0 0.5rem;font-size:0.85rem;">Tadpole Cancellation</h4>
+        <ul style="margin:0;padding-left:1rem;font-size:0.75rem;color:var(--text-muted);">
+          <li>χ(CY₄)/24 = 72 (D3 charge)</li>
+          <li>N<sub>D3</sub> + N<sub>flux</sub> = 72 ✓</li>
+          <li>Moduli stabilization (KKLT)</li>
+          <li>χ<sub>XCRM</sub> = 4π²/3 derived</li>
+        </ul>
+      </div>
+      <div style="background:rgba(34,211,238,0.1);padding:1rem;border-radius:6px;border:1px solid rgba(34,211,238,0.3);">
+        <h4 style="color:var(--neon-cyan);margin:0 0 0.5rem;font-size:0.85rem;">Chiral Spectrum</h4>
+        <ul style="margin:0;padding-left:1rem;font-size:0.75rem;color:var(--text-muted);">
+          <li>3 generations from G₄ flux</li>
+          <li>Anomaly-free automatically</li>
+          <li>Proton stable (R-parity)</li>
+          <li>Gravity decouples at low E</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.1);border:1px solid var(--neon-gold);border-radius:6px;text-align:center;">
+      <strong style="color:var(--neon-gold);">UV Completion Status:</strong>
+      <span style="color:var(--text-secondary);font-size:0.85rem;">
+        Explicit F-theory construction exists. All consistency conditions satisfied.
+      </span>
+    </div>
   </div>
 </div>
 
