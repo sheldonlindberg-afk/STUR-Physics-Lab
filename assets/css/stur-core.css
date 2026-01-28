@@ -19,7 +19,8 @@
 /* === ROOT VARIABLES === */
 :root {
   /* Layout constants for scroll behavior consistency */
-  --header-height: 72px;
+  --header-height: 56px;
+  --header-height-mobile: 48px;
   --scroll-offset: calc(var(--header-height) + 16px);
 
   /* Background layers (abyss to panel) */
@@ -1211,5 +1212,43 @@ h1.page-title-exploratory {
   .verdict-box {
     flex-direction: column;
     text-align: center;
+  }
+}
+
+/* ============================================================
+   MOBILE TEXT OVERFLOW & WORD BREAK RULES
+   ============================================================ */
+
+/* Prevent text overflow on all text containers */
+h1, h2, h3, h4, h5, h6,
+p, li, td, th,
+.card-title,
+.card-desc,
+.section-title,
+.glass-nav-link,
+.sim-card a,
+.concept-title,
+.physics-legend-item,
+.learn-box summary {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Long URLs and code should break */
+a, code, pre {
+  word-break: break-word;
+}
+
+/* Ensure minimum line-height for readability on mobile */
+@media (max-width: 768px) {
+  body {
+    line-height: 1.6;
+  }
+
+  /* Ensure small text is readable */
+  small, .text-sm, .text-xs,
+  .legend-item, .card-tag, .badge {
+    line-height: 1.5;
   }
 }
