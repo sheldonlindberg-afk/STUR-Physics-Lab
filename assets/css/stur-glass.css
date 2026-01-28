@@ -949,6 +949,8 @@ button.glass-nav-link:hover {
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  /* iOS safe area tip padding */
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -1101,6 +1103,7 @@ button.glass-nav-link:hover {
   /* Full screen mobile menu adjustments for small screens */
   .glass-nav-links {
     padding: 4.5rem 1rem 1.5rem;
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
     gap: 0.6rem;
   }
 
@@ -1127,12 +1130,14 @@ button.glass-nav-link:hover {
 
   .glass-modal {
     margin: 0.5rem;
+    margin-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
     max-height: 90vh;
     border-radius: var(--radius-md);
   }
 
   .glass-modal-body {
     padding: 1rem;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
   }
 
   .glass-toast {
