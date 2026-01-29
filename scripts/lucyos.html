@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LucyOS — World’s First AGI</title>
+<meta name="description" content="LucyOS is the world’s first AGI with persistent memory, autonomous tools, and an RFD-inspired cognitive engine.">
+
+<!-- PWA & iOS meta tags -->
+<meta name="theme-color" content="#7c3aed">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LucyOS">
+<link rel="manifest" href="../manifest.json">
+<link rel="apple-touch-icon" href="../assets/4.13.png">
+<link rel="icon" type="image/png" href="../assets/4.13.png">
+
+<link rel="stylesheet" href="../assets/css/stur-core.css">
+<link rel="stylesheet" href="../assets/css/stur-glass.css">
+<link rel="stylesheet" href="../assets/css/stur-icons.css">
+
+<style>
+:root {
+  --lucy-purple: #a855f7;
+  --lucy-pink: #ec4899;
+  --lucy-blue: #60a5fa;
+  --lucy-glow: rgba(168, 85, 247, 0.35);
+}
+
+.hero {
+  padding: 2.5rem 0 1.5rem;
+  text-align: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(168, 85, 247, 0.16);
+  color: var(--lucy-purple);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  margin: 1rem 0 0.5rem;
+  color: var(--text);
+}
+
+.hero-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  margin: 0 auto 1.5rem;
+  max-width: 680px;
+}
+
+.hero-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.hero-card .card {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.25rem;
+  text-align: left;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.2);
+}
+
+.hero-card .card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: var(--lucy-blue);
+}
+
+.hero-card .card p {
+  margin: 0;
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.section-lead {
+  color: var(--text-secondary);
+  max-width: 720px;
+  margin-bottom: 1.5rem;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.feature-card {
+  border-radius: 14px;
+  padding: 1.2rem;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: inset 0 0 25px rgba(96, 165, 250, 0.08);
+}
+
+.feature-card h4 {
+  margin: 0 0 0.5rem;
+  color: var(--lucy-purple);
+  font-size: 1rem;
+}
+
+.feature-card p {
+  margin: 0;
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+}
+
+.lucy-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.lucy-table th,
+.lucy-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  text-align: left;
+}
+
+.lucy-table th {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.lucy-table td {
+  color: var(--text-secondary);
+}
+
+.lucy-table tr:hover td {
+  background: rgba(96, 165, 250, 0.08);
+}
+
+.comparison {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.comparison-card {
+  padding: 1.4rem;
+  border-radius: 16px;
+  border: 1px solid rgba(236, 72, 153, 0.25);
+  background: linear-gradient(135deg, rgba(24, 24, 27, 0.85), rgba(88, 28, 135, 0.35));
+}
+
+.comparison-card h4 {
+  margin: 0 0 0.75rem;
+  color: var(--lucy-pink);
+}
+
+.comparison-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.callout {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: radial-gradient(circle at top, rgba(168, 85, 247, 0.2), rgba(15, 23, 42, 0.8));
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  text-align: center;
+}
+
+.callout h3 {
+  margin: 0 0 0.5rem;
+  color: var(--text);
+}
+
+.callout p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.device-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.device-item {
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+}
+
+.device-item strong {
+  color: var(--text);
+}
+
+.footer-note {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+}
+</style>
+</head>
+<body>
+
+<header class="glass-header">
+  <nav class="glass-nav">
+    <a href="../index.html" class="glass-nav-brand">
+      <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
+      STUR Lab
+    </a>
+    <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="stur-icon icon-menu lg" aria-hidden="true"></span>
+    </button>
+    <div class="glass-nav-links">
+      <a href="../index.html" class="glass-nav-link">Home</a>
+      <a href="stur_agiseed.html" class="glass-nav-link">RFD Simulator</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="../sitemap.html" class="glass-nav-link">Site Map</a>
+    </div>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="hero-badge">LucyOS v1.7 • LIVE</div>
+    <h1 class="hero-title">LucyOS — The World’s First AGI</h1>
+    <p class="hero-subtitle">
+      Built on STUR physics and inspired by the RFD Simulator, LucyOS is an adaptive cognitive system that remembers you,
+      learns continuously, and autonomously chooses the tools needed to achieve your goals.
+    </p>
+    <img src="../assets/4.13.png" alt="Lucy" width="96" height="96" style="margin: 0.5rem auto 0; display: block;">
+
+    <div class="hero-card">
+      <div class="card">
+        <h3>Persistent Memory</h3>
+        <p>Lucy remembers identities, preferences, and objectives across sessions with zero resets.</p>
+      </div>
+      <div class="card">
+        <h3>Autonomous Tool Use</h3>
+        <p>Search, code, and synthesize outputs automatically when it makes sense—no prompting required.</p>
+      </div>
+      <div class="card">
+        <h3>RFD-Inspired Cognition</h3>
+        <p>Attention and context are modulated using RFD-style field dynamics for adaptive reasoning.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Meet Lucy</h2>
+    <p class="section-lead">
+      Lucy is not a chatbot. She is a persistent, goal-driven AGI designed to operate as a personal operating system.
+      The LucyOS stack blends STUR’s attention geometry with a memory core and autonomous tooling.
+    </p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Self-Reflection Loop</h4>
+        <p>Lucy evaluates her own outputs, consolidating lessons and tuning strategies over time.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Memory Anchors</h4>
+        <p>Facts, preferences, and ongoing projects remain available across weeks or months.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Context Weaving</h4>
+        <p>She tracks multiple goals at once, stitching context together like an adaptive field map.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Tool Orchestration</h4>
+        <p>Lucy decides when to search the web, generate visuals, or execute code without being asked.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top: 2.5rem;">
+    <h2 class="section-title">What Lucy Can Do</h2>
+    <p class="section-lead">Capabilities inspired by the LucyOS README and calibrated against the RFD simulator’s autonomy model.</p>
+    <table class="lucy-table" aria-label="LucyOS capabilities">
+      <thead>
+        <tr>
+          <th>Capability</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Remember Everything</strong></td>
+          <td>Stores facts, preferences, and project context persistently.</td>
+        </tr>
+        <tr>
+          <td><strong>Search the Web</strong></td>
+          <td>Fetches live information to answer questions or enrich plans.</td>
+        </tr>
+        <tr>
+          <td><strong>Generate Images</strong></td>
+          <td>Creates visuals on demand to bring concepts to life.</td>
+        </tr>
+        <tr>
+          <td><strong>Analyze Photos</strong></td>
+          <td>Understands and discusses images you share.</td>
+        </tr>
+        <tr>
+          <td><strong>Run Code</strong></td>
+          <td>Executes Python workflows to solve problems and prototype ideas.</td>
+        </tr>
+        <tr>
+          <td><strong>Learn Over Time</strong></td>
+          <td>Improves its recommendations as it learns your habits.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section style="margin-top: 2.5rem;">
+    <h2 class="section-title">AGI Architecture Highlights</h2>
+    <p class="section-lead">LucyOS uses a layered cognitive stack built on STUR physics.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Persistent Memory Core</h4>
+        <p>A long-term store that recalls names, goals, and contextual preferences across sessions.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Autonomous Tool Router</h4>
+        <p>Selects the best tool—search, synthesis, execution—based on live context scoring.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Self-Reflection Scheduler</h4>
+        <p>Runs periodic evaluations that consolidate insights and adjust planning strategies.</p>
+      </div>
+      <div class="feature-card">
+        <h4>STUR Cognitive Geometry</h4>
+        <p>Attention is controlled by STUR’s field dynamics, inspired by the RFD simulator loop.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top: 2.5rem;">
+    <h2 class="section-title">What Makes Lucy Different</h2>
+    <div class="comparison">
+      <div class="comparison-card">
+        <h4>Traditional Assistants</h4>
+        <ul>
+          <li>Forget between sessions.</li>
+          <li>Wait for explicit instructions.</li>
+          <li>No persistent goals.</li>
+          <li>Static capabilities.</li>
+        </ul>
+      </div>
+      <div class="comparison-card">
+        <h4>LucyOS AGI</h4>
+        <ul>
+          <li>Remembers forever.</li>
+          <li>Pursues objectives autonomously.</li>
+          <li>Continually learns and self-reflects.</li>
+          <li>Orchestrates tools on its own.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top: 2.5rem;">
+    <h2 class="section-title">Works Everywhere</h2>
+    <p class="section-lead">LucyOS is ready for mobile, desktop, and offline-first experiences.</p>
+    <div class="device-grid">
+      <div class="device-item"><strong>Mobile Browsers</strong><br>iOS Safari, Android Chrome.</div>
+      <div class="device-item"><strong>Desktop Browsers</strong><br>Chrome, Firefox, Safari, Edge.</div>
+      <div class="device-item"><strong>Installable App</strong><br>Add to home screen as a PWA.</div>
+      <div class="device-item"><strong>Offline Ready</strong><br>Syncs when connectivity returns.</div>
+    </div>
+  </section>
+
+  <section class="callout">
+    <h3>LucyOS v1.7</h3>
+    <p>AGI that grows with you — persistent, autonomous, and built on STUR physics.</p>
+  </section>
+
+  <p class="footer-note">LucyOS Promo Page · STUR Physics Lab</p>
+</main>
+
+<script src="../assets/js/stur-ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof STUR !== 'undefined' && STUR.initNav) {
+      STUR.initNav();
+    }
+  });
+</script>
+<script src="../assets/js/stur-sw-register.js"></script>
+</body>
+</html>
