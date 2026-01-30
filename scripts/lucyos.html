@@ -220,6 +220,145 @@
   margin-top: 3rem;
   font-size: 0.9rem;
   color: var(--text-tertiary);
+  /* Safe area padding for bottom home indicator */
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* === MOBILE PWA SAFE AREA FIXES === */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  /* Account for fixed header and safe areas */
+  padding-top: calc(80px + env(safe-area-inset-top, 0px));
+  padding-left: max(1.5rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.25rem 1rem;
+    padding-top: calc(70px + env(safe-area-inset-top, 0px));
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .hero {
+    padding: 1.5rem 0 1rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.6rem, 5vw, 2.5rem);
+    word-wrap: break-word;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+    padding: 0 0.5rem;
+  }
+
+  .hero-card {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .comparison {
+    grid-template-columns: 1fr;
+  }
+
+  .device-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .lucy-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .lucy-table th,
+  .lucy-table td {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .callout {
+    padding: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .footer-note {
+    margin-top: 2rem;
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Small mobile screens */
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem 0.875rem;
+    padding-top: calc(65px + env(safe-area-inset-top, 0px));
+    padding-left: max(0.875rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.875rem, env(safe-area-inset-right, 0px));
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .hero-card .card {
+    padding: 1rem;
+  }
+
+  .feature-card {
+    padding: 1rem;
+  }
+
+  .comparison-card {
+    padding: 1.1rem;
+  }
+
+  .device-item {
+    padding: 0.85rem 1rem;
+  }
+}
+
+/* PWA standalone mode - extra safe area handling */
+@media (display-mode: standalone) {
+  .container {
+    padding-top: calc(90px + env(safe-area-inset-top, 0px));
+  }
+
+  .footer-note {
+    padding-bottom: calc(2.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Touch-friendly targets */
+@media (pointer: coarse) {
+  .hero-badge,
+  .hero-card .card,
+  .feature-card,
+  .comparison-card,
+  .device-item,
+  .callout {
+    min-height: 44px;
+  }
+
+  .lucy-table td,
+  .lucy-table th {
+    min-height: 44px;
+    padding: 0.75rem;
+  }
 }
 </style>
 </head>
