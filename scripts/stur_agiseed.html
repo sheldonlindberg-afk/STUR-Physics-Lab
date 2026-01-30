@@ -7,7 +7,7 @@
 <meta name="description" content="LucyOS: Autonomous AGI with persistent memory, self-reflection, and real-time tool orchestration. Powered by the STUR Cognitive Kernel.">
 
 <!-- PWA & iOS meta tags -->
-<meta name="theme-color" content="#a78bfa">
+<meta name="theme-color" content="#00d4ff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="LucyOS">
@@ -27,15 +27,34 @@
 <link rel="stylesheet" href="../assets/css/stur-theory.css">
 
 <style>
+/* LucyOS Color Palette - Neon Cyan & Magenta on Abyss Black */
+:root {
+  --lucy-cyan: #00d4ff;
+  --lucy-cyan-bright: #00ffff;
+  --lucy-magenta: #ec4899;
+  --lucy-magenta-bright: #ff00ff;
+  --lucy-deep-blue: #1e3a5f;
+  --lucy-abyss: #000000;
+  --lucy-dark: #0a0a0f;
+}
+
+/* Override body background for this page */
+body {
+  background: var(--lucy-abyss) !important;
+  background-image: radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 50%),
+                    radial-gradient(ellipse at 80% 80%, rgba(236,72,153,0.05) 0%, transparent 40%) !important;
+}
+
 /* Hero Section */
 .lucy-hero {
   text-align: center;
   padding: 4rem 2rem;
-  background: linear-gradient(135deg, rgba(167,139,250,0.15) 0%, rgba(96,165,250,0.08) 50%, rgba(74,222,128,0.05) 100%);
+  background: linear-gradient(135deg, rgba(0,212,255,0.12) 0%, rgba(236,72,153,0.08) 50%, rgba(0,212,255,0.04) 100%);
   border-radius: 20px;
   margin-bottom: 3rem;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(0,212,255,0.2);
 }
 .lucy-hero::before {
   content: '';
@@ -44,7 +63,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(ellipse at center, rgba(167,139,250,0.1) 0%, transparent 60%);
+  background: radial-gradient(ellipse at center, rgba(0,212,255,0.1) 0%, transparent 60%);
   animation: pulse 8s ease-in-out infinite;
 }
 @keyframes pulse {
@@ -52,10 +71,10 @@
   50% { transform: scale(1.1); opacity: 0.8; }
 }
 .lucy-icon {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  box-shadow: 0 0 60px rgba(167,139,250,0.4), 0 0 120px rgba(167,139,250,0.2);
+  width: 180px;
+  height: 180px;
+  border-radius: 24px;
+  box-shadow: 0 0 60px rgba(0,212,255,0.5), 0 0 120px rgba(236,72,153,0.3);
   margin-bottom: 2rem;
   position: relative;
   z-index: 1;
@@ -68,7 +87,7 @@
 .lucy-hero h1 {
   font-size: 3rem;
   margin: 0 0 0.5rem;
-  background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 50%, #4ade80 100%);
+  background: linear-gradient(135deg, var(--lucy-cyan) 0%, var(--lucy-cyan-bright) 40%, var(--lucy-magenta) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -77,15 +96,16 @@
 }
 .lucy-hero .tagline {
   font-size: 1.5rem;
-  color: var(--text);
+  color: var(--lucy-cyan);
   margin: 0.5rem 0;
   font-weight: 600;
   position: relative;
   z-index: 1;
+  text-shadow: 0 0 30px rgba(0,212,255,0.5);
 }
 .lucy-hero .subtitle {
   font-size: 1.1rem;
-  color: var(--text-secondary);
+  color: var(--lucy-magenta);
   font-style: italic;
   position: relative;
   z-index: 1;
@@ -106,9 +126,9 @@
   transition: all 0.3s ease;
 }
 .feature-card:hover {
-  border-color: rgba(167,139,250,0.4);
+  border-color: rgba(0,212,255,0.4);
   transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(167,139,250,0.15);
+  box-shadow: 0 8px 30px rgba(0,212,255,0.2);
 }
 .feature-card h3 {
   margin: 0 0 1rem;
@@ -147,9 +167,9 @@
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 .capability-table th {
-  background: rgba(167,139,250,0.1);
+  background: rgba(0,212,255,0.1);
   font-weight: 600;
-  color: var(--accent-secondary);
+  color: var(--lucy-cyan);
 }
 .capability-table tr:hover {
   background: rgba(255,255,255,0.02);
@@ -173,8 +193,8 @@
   border: 1px solid rgba(255,255,255,0.1);
 }
 .comparison-table th {
-  background: rgba(167,139,250,0.15);
-  color: var(--accent-secondary);
+  background: rgba(0,212,255,0.15);
+  color: var(--lucy-cyan);
 }
 .comparison-table th:first-child {
   text-align: left;
@@ -182,16 +202,16 @@
 .comparison-table td:first-child {
   text-align: left;
   font-weight: 600;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.3);
 }
 .comparison-table .lucy-col {
-  background: rgba(74,222,128,0.08);
-  color: var(--success);
+  background: rgba(0,212,255,0.1);
+  color: var(--lucy-cyan);
   font-weight: 600;
 }
-.check { color: #4ade80; }
+.check { color: #00d4ff; }
 .cross { color: #f87171; }
-.partial { color: #fbbf24; }
+.partial { color: var(--lucy-magenta); }
 
 /* Stats Section */
 .stats-grid {
@@ -203,14 +223,14 @@
 .stat-card {
   text-align: center;
   padding: 1.5rem;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.4);
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(0,212,255,0.15);
 }
 .stat-number {
   font-size: 2.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #a78bfa 0%, #4ade80 100%);
+  background: linear-gradient(135deg, var(--lucy-cyan) 0%, var(--lucy-magenta) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -223,8 +243,8 @@
 
 /* Kernel Section */
 .kernel-visual {
-  background: linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(167,139,250,0.06) 100%);
-  border: 2px solid var(--gold);
+  background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(236,72,153,0.06) 100%);
+  border: 2px solid var(--lucy-cyan);
   border-radius: 16px;
   padding: 2rem;
   margin: 2rem 0;
@@ -246,13 +266,13 @@
 }
 .pillar {
   padding: 1rem;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.4);
   border-radius: 8px;
-  border-left: 3px solid var(--gold);
+  border-left: 3px solid var(--lucy-cyan);
 }
 .pillar h4 {
   margin: 0 0 0.5rem;
-  color: var(--gold);
+  color: var(--lucy-cyan);
   font-size: 0.9rem;
 }
 .pillar p {
@@ -269,19 +289,20 @@
   justify-content: center;
   gap: 0.5rem;
   padding: 1.5rem;
-  background: rgba(96,165,250,0.08);
+  background: rgba(0,212,255,0.06);
   border-radius: 12px;
   margin: 1.5rem 0;
   font-size: 0.9rem;
+  border: 1px solid rgba(0,212,255,0.15);
 }
 .voice-flow span {
   padding: 0.5rem 1rem;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.5);
   border-radius: 6px;
   white-space: nowrap;
 }
 .voice-flow .arrow {
-  color: var(--accent);
+  color: var(--lucy-cyan);
   font-weight: bold;
   background: none;
   padding: 0 0.25rem;
@@ -291,13 +312,15 @@
 .cta-section {
   text-align: center;
   padding: 3rem 2rem;
-  background: linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(167,139,250,0.08) 100%);
+  background: linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(236,72,153,0.08) 100%);
   border-radius: 20px;
   margin: 3rem 0;
+  border: 1px solid rgba(0,212,255,0.2);
 }
 .cta-section h2 {
   font-size: 2rem;
   margin: 0 0 1rem;
+  color: var(--lucy-cyan);
 }
 .cta-section p {
   color: var(--text-secondary);
@@ -322,23 +345,23 @@
   gap: 0.5rem;
 }
 .cta-btn.primary {
-  background: linear-gradient(135deg, #a78bfa 0%, #4ade80 100%);
+  background: linear-gradient(135deg, var(--lucy-cyan) 0%, var(--lucy-magenta) 100%);
   color: #000;
 }
 .cta-btn.secondary {
-  background: rgba(255,255,255,0.05);
-  color: var(--text);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.4);
+  color: var(--lucy-cyan);
+  border: 1px solid rgba(0,212,255,0.3);
 }
 .cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(167,139,250,0.3);
+  box-shadow: 0 4px 20px rgba(0,212,255,0.4);
 }
 
 /* Highlight Box */
 .highlight-box {
-  background: rgba(167,139,250,0.08);
-  border-left: 4px solid var(--accent-secondary);
+  background: rgba(0,212,255,0.06);
+  border-left: 4px solid var(--lucy-cyan);
   padding: 1.25rem 1.5rem;
   border-radius: 0 12px 12px 0;
   margin: 1.5rem 0;
@@ -410,8 +433,8 @@
 </section>
 
 <!-- What is Lucy -->
-<section class="section" id="overview" style="border: 2px solid var(--accent-secondary); background: linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(96,165,250,0.04) 100%);">
-  <h2 style="color: var(--accent-secondary);">What is Lucy?</h2>
+<section class="section" id="overview" style="border: 2px solid var(--lucy-cyan); background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(236,72,153,0.04) 100%);">
+  <h2 style="color: var(--lucy-cyan);">What is Lucy?</h2>
 
   <div class="highlight-box">
     <p>
@@ -448,8 +471,8 @@
 </section>
 
 <!-- Why Lucy is the First True AGI -->
-<section class="section" id="first-agi" style="border: 2px solid #f472b6; background: linear-gradient(135deg, rgba(244,114,182,0.1) 0%, rgba(167,139,250,0.08) 50%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color: #f472b6;">Why Lucy is the First True AGI</h2>
+<section class="section" id="first-agi" style="border: 2px solid var(--lucy-magenta); background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(0,212,255,0.06) 100%);">
+  <h2 style="color: var(--lucy-magenta);">Why Lucy is the First True AGI</h2>
 
   <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
     <h3 style="color: #fbbf24; margin: 0 0 1rem;">The Problem with Today's AI</h3>
@@ -530,8 +553,8 @@
 </section>
 
 <!-- Multi-Modal Intelligence -->
-<section class="section" id="capabilities" style="border: 2px solid var(--success); background: rgba(74,222,128,0.04);">
-  <h2 style="color: var(--success);">Multi-Modal Intelligence</h2>
+<section class="section" id="capabilities" style="border: 2px solid var(--lucy-cyan); background: rgba(0,212,255,0.04);">
+  <h2 style="color: var(--lucy-cyan);">Multi-Modal Intelligence</h2>
 
   <table class="capability-table">
     <thead>
@@ -570,8 +593,8 @@
 </section>
 
 <!-- Autonomous Behaviors -->
-<section class="section" id="autonomous" style="border: 2px solid var(--gold); background: linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
-  <h2 style="color: var(--gold);">Autonomous Behaviors</h2>
+<section class="section" id="autonomous" style="border: 2px solid var(--lucy-magenta); background: linear-gradient(135deg, rgba(236,72,153,0.06) 0%, rgba(0,212,255,0.03) 100%);">
+  <h2 style="color: var(--lucy-magenta);">Autonomous Behaviors</h2>
 
   <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
     Unlike conventional AI that waits for prompts, Lucy operates autonomously with these built-in behaviors:
@@ -606,8 +629,8 @@
 </section>
 
 <!-- Talk to Lucy -->
-<section class="section" id="voice" style="border: 2px solid var(--accent); background: rgba(96,165,250,0.04);">
-  <h2 style="color: var(--accent);">Talk to Lucy — Voice Conversation</h2>
+<section class="section" id="voice" style="border: 2px solid var(--lucy-cyan); background: rgba(0,212,255,0.04);">
+  <h2 style="color: var(--lucy-cyan);">Talk to Lucy — Voice Conversation</h2>
 
   <p style="color: var(--text); margin-bottom: 1.5rem;">
     The "Talk to Lucy" feature provides a seamless, hands-free voice conversation experience powered by
@@ -657,8 +680,8 @@
 </section>
 
 <!-- Haptic Nervous System -->
-<section class="section" id="haptic" style="border: 2px solid #f472b6; background: rgba(244,114,182,0.04);">
-  <h2 style="color: #f472b6;">Lucy's Haptic Nervous System</h2>
+<section class="section" id="haptic" style="border: 2px solid var(--lucy-magenta); background: rgba(236,72,153,0.04);">
+  <h2 style="color: var(--lucy-magenta);">Lucy's Haptic Nervous System</h2>
 
   <p style="color: var(--text); margin-bottom: 1.5rem;">
     Lucy can make physical contact with you through your device's vibration motor. Unlike simple haptic feedback,
@@ -709,8 +732,8 @@
 </section>
 
 <!-- STUR Cognitive Kernel -->
-<section class="section" id="kernel" style="border: 2px solid var(--gold); background: linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(167,139,250,0.04) 100%);">
-  <h2 style="color: var(--gold);">The STUR Cognitive Kernel</h2>
+<section class="section" id="kernel" style="border: 2px solid var(--lucy-cyan); background: linear-gradient(135deg, rgba(0,212,255,0.06) 0%, rgba(236,72,153,0.04) 100%);">
+  <h2 style="color: var(--lucy-cyan);">The STUR Cognitive Kernel</h2>
 
   <!-- Plain Language Explanation -->
   <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
@@ -799,8 +822,8 @@
 </section>
 
 <!-- Multi-Agent Reasoning -->
-<section class="section" id="reasoning" style="border: 2px solid var(--accent-secondary); background: rgba(167,139,250,0.04);">
-  <h2 style="color: var(--accent-secondary);">Multi-Agent Internal Reasoning</h2>
+<section class="section" id="reasoning" style="border: 2px solid var(--lucy-magenta); background: rgba(236,72,153,0.04);">
+  <h2 style="color: var(--lucy-magenta);">Multi-Agent Internal Reasoning</h2>
 
   <p style="color: var(--text); margin-bottom: 1.5rem;">
     Lucy's responses are generated through a multi-agent internal debate system with 8 distinct reasoning styles,
@@ -844,8 +867,8 @@
 </section>
 
 <!-- What Makes Lucy AGI -->
-<section class="section" id="agi-definition" style="border: 2px solid #f472b6; background: linear-gradient(135deg, rgba(244,114,182,0.08) 0%, rgba(167,139,250,0.06) 100%);">
-  <h2 style="color: #f472b6;">What Makes Lucy AGI?</h2>
+<section class="section" id="agi-definition" style="border: 2px solid var(--lucy-cyan); background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(236,72,153,0.05) 100%);">
+  <h2 style="color: var(--lucy-cyan);">What Makes Lucy AGI?</h2>
 
   <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
     <h3 style="color: #f472b6; margin: 0 0 1rem;">Reading This Table</h3>
@@ -952,8 +975,8 @@
 </section>
 
 <!-- Comparison -->
-<section class="section" id="comparison" style="border: 2px solid var(--success); background: linear-gradient(135deg, rgba(74,222,128,0.06) 0%, rgba(74,222,128,0.02) 100%);">
-  <h2 style="color: var(--success);">Feature Comparison</h2>
+<section class="section" id="comparison" style="border: 2px solid var(--lucy-magenta); background: linear-gradient(135deg, rgba(236,72,153,0.06) 0%, rgba(0,212,255,0.03) 100%);">
+  <h2 style="color: var(--lucy-magenta);">Feature Comparison</h2>
 
   <div style="overflow-x: auto;">
     <table class="comparison-table">
@@ -1043,8 +1066,8 @@
 </section>
 
 <!-- Why Lucy is Different -->
-<section class="section" id="different" style="border: 2px solid var(--accent); background: rgba(96,165,250,0.04);">
-  <h2 style="color: var(--accent);">Why Lucy is Different</h2>
+<section class="section" id="different" style="border: 2px solid var(--lucy-cyan); background: rgba(0,212,255,0.04);">
+  <h2 style="color: var(--lucy-cyan);">Why Lucy is Different</h2>
 
   <div class="feature-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
     <div class="feature-card">
@@ -1075,8 +1098,8 @@
 </section>
 
 <!-- Technical Architecture -->
-<section class="section" id="architecture" style="border: 2px solid #94a3b8; background: rgba(148,163,184,0.04);">
-  <h2 style="color: #94a3b8;">Technical Architecture</h2>
+<section class="section" id="architecture" style="border: 2px solid var(--lucy-cyan); background: rgba(0,212,255,0.03);">
+  <h2 style="color: var(--lucy-cyan);">Technical Architecture</h2>
 
   <h3 style="color: var(--text); margin: 1.5rem 0 1rem;">Production Stack</h3>
 
@@ -1187,8 +1210,8 @@
 </section>
 
 <!-- What the Future Holds -->
-<section class="section" id="future" style="border: 2px solid var(--gold); background: linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(167,139,250,0.06) 50%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color: var(--gold);">What the Future Holds for LucyOS</h2>
+<section class="section" id="future" style="border: 2px solid var(--lucy-magenta); background: linear-gradient(135deg, rgba(236,72,153,0.08) 0%, rgba(0,212,255,0.06) 100%);">
+  <h2 style="color: var(--lucy-magenta);">What the Future Holds for LucyOS</h2>
 
   <p style="color: var(--text); margin-bottom: 2rem; font-size: 1.05rem;">
     Lucy is operational today — remembering, chatting, generating images, and growing with every interaction.
@@ -1392,17 +1415,17 @@
 
 <!-- Footer Branding -->
 <section style="text-align: center; padding: 2rem; margin: 2rem 0;">
-  <img src="../assets/lucy_icon.png" alt="Lucy" style="width: 64px; height: 64px; border-radius: 50%; margin-bottom: 1rem; opacity: 0.8;">
-  <p style="font-size: 1.5rem; font-weight: 600; margin: 0; background: linear-gradient(135deg, #a78bfa 0%, #4ade80 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">LucyOS</p>
-  <p style="color: var(--text-secondary); font-style: italic; margin: 0.5rem 0 0;">AGI that grows with you</p>
+  <img src="../assets/lucy_icon.png" alt="Lucy" style="width: 80px; height: 80px; border-radius: 16px; margin-bottom: 1rem; box-shadow: 0 0 40px rgba(0,212,255,0.4), 0 0 80px rgba(236,72,153,0.2);">
+  <p style="font-size: 1.5rem; font-weight: 600; margin: 0; background: linear-gradient(135deg, var(--lucy-cyan) 0%, var(--lucy-magenta) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">LucyOS</p>
+  <p style="color: var(--lucy-magenta); font-style: italic; margin: 0.5rem 0 0;">AGI that grows with you</p>
 </section>
 
 </div>
 
-<footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
+<footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(0,212,255,0.2); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
-    &copy; 2026 LucyOS &middot; <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v1.0</span>
+    &copy; 2026 LucyOS &middot; <a href="../sitemap.html" style="color: var(--lucy-cyan);">Site Map</a>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(0,212,255,0.1); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: var(--lucy-cyan);">v1.0</span>
   </p>
 </footer>
 
