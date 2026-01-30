@@ -126,6 +126,7 @@
       <a href="../index.html" class="glass-nav-link">Index</a>
       <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
       <a href="stur_superconductor.html" class="glass-nav-link active">ATS</a>
+      <a href="lucyos.html" class="glass-nav-link">LucyOS</a>
       <a href="stur_symbols.html" class="glass-nav-link">Symbols</a>
     </div>
   </nav>
@@ -148,20 +149,54 @@
     </p>
   </div>
 
-  <!-- Complete TOE Master Derivation Chain -->
-  <div style="margin:1.25rem auto;max-width:900px;padding:1rem;background:linear-gradient(90deg,rgba(251,191,36,0.12),rgba(74,222,128,0.15),rgba(34,211,238,0.12),rgba(168,85,247,0.1));border-radius:10px;font-size:0.9rem;text-align:center;">
-    <strong style="color:#4ade80;">ATS Derivation Chain:</strong><br>
-    <span style="color:#fbbf24;">M<sub>Planck</sub></span>
-    <span style="color:var(--text-muted);">→</span>
-    <span style="color:#22d3ee;">L<sub>X</sub></span>
-    <span style="color:var(--text-muted);">→</span>
-    <span style="color:#a855f7;">S(u) Operator</span>
-    <span style="color:var(--text-muted);">→</span>
-    <span style="color:#4ade80;">ℓ<sub>coh</sub></span>
-    <span style="color:var(--text-muted);">→</span>
-    <span style="color:#fbbf24;">T<sub>c</sub> > 300 K</span>
+  <!-- Complete TOE Statistics Banner (matching helix format) -->
+  <div style="max-width:900px;margin:1.25rem auto;background:linear-gradient(135deg, rgba(251,191,36,0.12) 0%, rgba(74,222,128,0.08) 50%, rgba(167,139,250,0.08) 100%);border:2px solid #fbbf24;border-radius:12px;padding:1.25rem;">
+    <h4 style="color:#fbbf24;margin:0 0 1rem;font-size:1rem;text-align:center;text-transform:uppercase;letter-spacing:1px;">STUR Complete TOE — ATS Derivation from Z₃ Helix</h4>
+
+    <!-- Key Stats Grid -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1rem;">
+      <div style="background:rgba(74,222,128,0.15);border:2px solid rgba(74,222,128,0.5);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:28px;font-weight:800;color:#4ade80;font-family:monospace;line-height:1;">1</div>
+        <div style="font-size:11px;color:var(--text);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px;">Input Required</div>
+        <div style="font-size:9px;color:var(--text-muted);margin-top:2px;">M<sub>Planck</sub> only</div>
+      </div>
+      <div style="background:rgba(34,211,238,0.15);border:2px solid rgba(34,211,238,0.5);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:28px;font-weight:800;color:#22d3ee;font-family:monospace;line-height:1;">394 K</div>
+        <div style="font-size:11px;color:var(--text);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px;">Predicted T<sub>c</sub></div>
+        <div style="font-size:9px;color:var(--text-muted);margin-top:2px;">Above room temp</div>
+      </div>
+      <div style="background:rgba(167,139,250,0.15);border:2px solid rgba(167,139,250,0.5);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:28px;font-weight:800;color:#a78bfa;font-family:monospace;line-height:1;">0</div>
+        <div style="font-size:11px;color:var(--text);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px;">Fitted Parameters</div>
+        <div style="font-size:9px;color:var(--text-muted);margin-top:2px;">All derived</div>
+      </div>
+    </div>
+
+    <!-- Complete Derivation Chain Flow -->
+    <div style="background:rgba(0,0,0,0.5);border-radius:8px;padding:12px;margin-bottom:0.75rem;">
+      <h5 style="color:#fbbf24;margin:0 0 8px;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;">ATS Derivation Chain: M<sub>Planck</sub> → T<sub>c</sub></h5>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:0.78rem;">
+        <span style="background:rgba(251,191,36,0.3);color:#fbbf24;padding:4px 10px;border-radius:4px;font-weight:700;border:1px solid #fbbf24;">M<sub>Planck</sub></span>
+        <span style="color:var(--text-muted);">→</span>
+        <span style="background:rgba(251,191,36,0.2);color:#fbbf24;padding:4px 10px;border-radius:4px;">Z₃ Helix</span>
+        <span style="color:var(--text-muted);">→</span>
+        <span style="background:rgba(34,211,238,0.2);color:#22d3ee;padding:4px 10px;border-radius:4px;">L<sub>X</sub> ≈ 0.8 μm</span>
+        <span style="color:var(--text-muted);">→</span>
+        <span style="background:rgba(168,85,247,0.2);color:#a855f7;padding:4px 10px;border-radius:4px;">S(u) Operator</span>
+        <span style="color:var(--text-muted);">→</span>
+        <span style="background:rgba(244,114,182,0.2);color:#f472b6;padding:4px 10px;border-radius:4px;">Δ₀ ≈ 60 meV</span>
+        <span style="color:var(--text-muted);">→</span>
+        <span style="background:rgba(74,222,128,0.3);color:#4ade80;padding:4px 10px;border-radius:4px;font-weight:700;border:1px solid #4ade80;">T<sub>c</sub> ≈ 394 K</span>
+      </div>
+      <p style="color:var(--text-muted);font-size:0.7rem;margin:8px 0 0;text-align:center;">
+        Same saturation operator <strong style="color:#00d4ff;">S(u)</strong> powers both ATS and <a href="lucyos.html" style="color:#00d4ff;">Lucy's cognitive kernel</a>
+      </p>
+    </div>
+
+    <div style="margin-top:8px;padding:6px 10px;background:rgba(251,191,36,0.06);border-radius:6px;font-size:10px;color:var(--text-muted);text-align:center;">
+      <strong>Full derivations:</strong> <a href="../DERIVATION_CHAIN_HELIX.md" style="color:#fbbf24;">DERIVATION_CHAIN_HELIX.md</a> — Complete Z₃ helix mathematics
+    </div>
   </div>
-  <p style="text-align:center;font-size:0.85rem;color:var(--text-muted);">Complete TOE — Superconductivity is geometry</p>
 
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
     From <a href="stur_master_action_derivation.html" style="color:var(--accent);">Master Action</a> ·
