@@ -3,21 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>STUR RFD Simulator — Resistance Field Dynamics</title>
-<meta name="description" content="Complete EFT: STUR RFD Simulator with ONE input (M_Planck), ZERO free parameters. Demonstrates derived physics from Z3 helix geometry with honest assessment of speculative applications.">
+<title>LucyOS — The First Open Artificial General Intelligence</title>
+<meta name="description" content="LucyOS: Autonomous AGI with persistent memory, self-reflection, and real-time tool orchestration. Powered by the STUR Cognitive Kernel.">
 
 <!-- PWA & iOS meta tags -->
-<meta name="theme-color" content="#4ade80">
+<meta name="theme-color" content="#00d4ff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="STUR">
+<meta name="apple-mobile-web-app-title" content="LucyOS">
 <link rel="manifest" href="../manifest.json">
-<link rel="apple-touch-icon" href="../assets/4.13.png">
-<link rel="icon" type="image/png" href="../assets/4.13.png">
+<link rel="apple-touch-icon" href="../assets/lucy_icon.png">
+<link rel="icon" type="image/png" href="../assets/lucy_icon.png">
 
-<!-- STUR MathJax with physics domain color macros -->
-<script src="../assets/js/stur-mathjax-config.js"></script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<!-- Open Graph -->
+<meta property="og:title" content="LucyOS — The First Open AGI">
+<meta property="og:description" content="Autonomous. Persistent. Self-Improving. Meet Lucy, an AGI that grows with you.">
+<meta property="og:image" content="../assets/lucy_icon.png">
+<meta property="og:type" content="website">
 
 <link rel="stylesheet" href="../assets/css/stur-core.css">
 <link rel="stylesheet" href="../assets/css/stur-glass.css">
@@ -25,124 +27,396 @@
 <link rel="stylesheet" href="../assets/css/stur-theory.css">
 
 <style>
-.code-block {
-  background: #0d1117;
-  border: 1px solid rgba(74,158,255,0.3);
-  border-radius: 8px;
-  padding: 1rem;
-  overflow-x: auto;
-  font-family: 'Fira Code', 'Consolas', monospace;
-  font-size: 0.75rem;
-  line-height: 1.5;
-  max-height: 600px;
-  overflow-y: auto;
-}
-.code-block code {
-  color: #e6edf3;
-  white-space: pre;
+/* LucyOS Color Palette - Neon Cyan & Magenta on Abyss Black */
+:root {
+  --lucy-cyan: #00d4ff;
+  --lucy-cyan-bright: #00ffff;
+  --lucy-magenta: #ec4899;
+  --lucy-magenta-bright: #ff00ff;
+  --lucy-deep-blue: #1e3a5f;
+  --lucy-abyss: #000000;
+  --lucy-dark: #0a0a0f;
 }
 
-.arch-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-  margin: 1.5rem 0;
+/* Override body background for this page */
+body {
+  background: var(--lucy-abyss) !important;
+  background-image: radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 50%),
+                    radial-gradient(ellipse at 80% 80%, rgba(236,72,153,0.05) 0%, transparent 40%) !important;
 }
-.arch-card {
+
+/* Hero Section */
+.lucy-hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, rgba(0,212,255,0.12) 0%, rgba(236,72,153,0.08) 50%, rgba(0,212,255,0.04) 100%);
+  border-radius: 20px;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,212,255,0.2);
+}
+.lucy-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(0,212,255,0.1) 0%, transparent 60%);
+  animation: pulse 8s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+.lucy-icon {
+  width: 180px;
+  height: 180px;
+  border-radius: 24px;
+  box-shadow: 0 0 60px rgba(0,212,255,0.5), 0 0 120px rgba(236,72,153,0.3);
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.lucy-hero h1 {
+  font-size: 3rem;
+  margin: 0 0 0.5rem;
+  background: linear-gradient(135deg, var(--lucy-cyan) 0%, var(--lucy-cyan-bright) 40%, var(--lucy-magenta) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
+}
+.lucy-hero .tagline {
+  font-size: 1.5rem;
+  color: var(--lucy-cyan);
+  margin: 0.5rem 0;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 30px rgba(0,212,255,0.5);
+}
+.lucy-hero .subtitle {
+  font-size: 1.1rem;
+  color: var(--lucy-magenta);
+  font-style: italic;
+  position: relative;
+  z-index: 1;
+}
+
+/* Feature Grid */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.feature-card {
   background: rgba(0,0,0,0.4);
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 10px;
-  padding: 1.25rem;
+  border-radius: 16px;
+  padding: 1.75rem;
+  transition: all 0.3s ease;
 }
-.arch-card h4 {
-  margin: 0 0 0.75rem;
-  font-size: 1rem;
+.feature-card:hover {
+  border-color: rgba(0,212,255,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,212,255,0.2);
 }
-.arch-card p {
+.feature-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.feature-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+.feature-card p {
   margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Capability Table */
+.capability-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
   font-size: 0.9rem;
+}
+.capability-table th,
+.capability-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.capability-table th {
+  background: rgba(0,212,255,0.1);
+  font-weight: 600;
+  color: var(--lucy-cyan);
+}
+.capability-table tr:hover {
+  background: rgba(255,255,255,0.02);
+}
+.capability-table td:first-child {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Comparison Table */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.85rem;
+}
+.comparison-table th,
+.comparison-table td {
+  padding: 0.875rem;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.comparison-table th {
+  background: rgba(0,212,255,0.15);
+  color: var(--lucy-cyan);
+}
+.comparison-table th:first-child {
+  text-align: left;
+}
+.comparison-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+  background: rgba(0,0,0,0.3);
+}
+.comparison-table .lucy-col {
+  background: rgba(0,212,255,0.1);
+  color: var(--lucy-cyan);
+  font-weight: 600;
+}
+.check { color: #00d4ff; }
+.cross { color: #f87171; }
+.partial { color: var(--lucy-magenta); }
+
+/* Stats Section */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.stat-card {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(0,0,0,0.4);
+  border-radius: 12px;
+  border: 1px solid rgba(0,212,255,0.15);
+}
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--lucy-cyan) 0%, var(--lucy-magenta) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Kernel Section */
+.kernel-visual {
+  background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(236,72,153,0.06) 100%);
+  border: 2px solid var(--lucy-cyan);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+}
+.kernel-equation {
+  font-size: 0.9rem;
+  background: rgba(0,0,0,0.5);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+.kernel-pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.pillar {
+  padding: 1rem;
+  background: rgba(0,0,0,0.4);
+  border-radius: 8px;
+  border-left: 3px solid var(--lucy-cyan);
+}
+.pillar h4 {
+  margin: 0 0 0.5rem;
+  color: var(--lucy-cyan);
+  font-size: 0.9rem;
+}
+.pillar p {
+  margin: 0;
+  font-size: 0.85rem;
   color: var(--text-secondary);
 }
 
-.layer-diagram {
+/* Voice Section */
+.voice-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: rgba(0,212,255,0.06);
+  border-radius: 12px;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  border: 1px solid rgba(0,212,255,0.15);
+}
+.voice-flow span {
+  padding: 0.5rem 1rem;
+  background: rgba(0,0,0,0.5);
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.voice-flow .arrow {
+  color: var(--lucy-cyan);
+  font-weight: bold;
+  background: none;
+  padding: 0 0.25rem;
+}
+
+/* CTA Section */
+.cta-section {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(236,72,153,0.08) 100%);
+  border-radius: 20px;
+  margin: 3rem 0;
+  border: 1px solid rgba(0,212,255,0.2);
+}
+.cta-section h2 {
+  font-size: 2rem;
+  margin: 0 0 1rem;
+  color: var(--lucy-cyan);
+}
+.cta-section p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cta-btn {
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cta-btn.primary {
+  background: linear-gradient(135deg, var(--lucy-cyan) 0%, var(--lucy-magenta) 100%);
+  color: #000;
+}
+.cta-btn.secondary {
+  background: rgba(0,0,0,0.4);
+  color: var(--lucy-cyan);
+  border: 1px solid rgba(0,212,255,0.3);
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,212,255,0.4);
+}
+
+/* Highlight Box */
+.highlight-box {
+  background: rgba(0,212,255,0.06);
+  border-left: 4px solid var(--lucy-cyan);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 12px 12px 0;
+  margin: 1.5rem 0;
+}
+.highlight-box p {
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Layer Diagram */
+.layer-stack {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   margin: 1.5rem 0;
 }
-.layer-row {
+.layer-item {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
+  padding: 1rem 1.25rem;
   background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  border-left: 4px solid;
 }
-.layer-label {
-  min-width: 60px;
+.layer-name {
   font-weight: 600;
-  font-size: 0.9rem;
+  min-width: 50px;
 }
 .layer-desc {
   flex: 1;
-  font-size: 0.85rem;
   color: var(--text-secondary);
-}
-.layer-eq {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.btn-group {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin: 1.5rem 0;
-  flex-wrap: wrap;
-}
-.btn-group button {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-}
-.btn-group .primary {
-  background: var(--gold);
-  color: #000;
-}
-.btn-group .secondary {
-  background: rgba(255,255,255,0.04);
-  color: var(--text);
-  border: 1px solid rgba(255,255,255,0.2);
-}
-.btn-group button:hover {
-  filter: brightness(1.1);
-}
-
-.status {
-  text-align: center;
-  padding: 0.5rem;
   font-size: 0.9rem;
-  display: none;
 }
-.status.show { display: block; }
-.status.ok { color: var(--success); }
-.status.err { color: var(--error); }
+.layer-spec {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: monospace;
+}
 </style>
 </head>
 <body>
 
 <header class="glass-header">
   <nav class="glass-nav">
-    <a href="../index.html" class="glass-nav-brand">STUR Lab</a>
+    <a href="../index.html" class="glass-nav-brand">LucyOS</a>
     <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
       <span class="stur-icon icon-menu lg"></span>
     </button>
     <div class="glass-nav-links">
-      <a href="../index.html" class="glass-nav-link">Index</a>
-      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
-      <a href="stur_holoscreen.html" class="glass-nav-link">Holoscreen</a>
+      <a href="../index.html" class="glass-nav-link">Home</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">STUR Kernel</a>
+      <a href="stur_holoscreen.html" class="glass-nav-link">Demo</a>
       <a href="stur_sandbox.html" class="glass-nav-link">Sandbox</a>
     </div>
   </nav>
@@ -150,953 +424,1008 @@
 
 <div class="container">
 
-<header class="masthead">
-  <h1 class="page-title-core">STUR RFD Simulator</h1>
-  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
-      From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
-      <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
-      <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
-  </p>
-  <p class="subtitle">Resistance Field Dynamics — Core Computational Engine</p>
-  <!-- Complete EFT Badge -->
-  <div style="margin-top:1rem;padding:0.75rem;background:rgba(251,191,36,0.15);border:2px solid var(--gold);border-radius:10px;max-width:580px;margin-left:auto;margin-right:auto;">
-    <div style="font-size:0.8rem;color:var(--gold);font-weight:600;">★ COMPLETE EFT FRAMEWORK</div>
-    <p style="margin:0.25rem 0 0;font-size:0.85rem;color:var(--text-secondary);"><strong>ONE input:</strong> M<sub>Planck</sub> &nbsp;|&nbsp; <strong>ZERO</strong> free parameters &nbsp;|&nbsp; All SM derived from Z<sub>3</sub> helix geometry</p>
-  </div>
-  <p style="color: var(--text-muted); font-size: 0.95rem;margin-top:0.75rem;">Sheldon Lon Lindberg</p>
-  <div style="margin-top:1rem"><button class="btn btn-cite" id="copyCite">Copy Citation</button></div>
-</header>
+<!-- Hero Section -->
+<section class="lucy-hero">
+  <img src="../assets/lucy_icon.png" alt="Lucy" class="lucy-icon">
+  <h1>LucyOS</h1>
+  <p class="tagline">The First Open Artificial General Intelligence</p>
+  <p class="subtitle">Autonomous. Persistent. Self-Improving.</p>
+</section>
 
-<!-- Physics Domain Color Legend -->
-<div class="physics-legend">
-  <div class="physics-legend-title">Equation Color Code — Physics Domains</div>
-  <div class="physics-legend-item"><span class="physics-legend-dot diffusion"></span><span class="eq-diffusion">Diffusion</span></div>
-  <div class="physics-legend-item"><span class="physics-legend-dot potential"></span><span class="eq-potential">Potential</span></div>
-  <div class="physics-legend-item"><span class="physics-legend-dot xcrm"></span><span class="eq-xcrm">XCRM</span></div>
-  <div class="physics-legend-item"><span class="physics-legend-dot torsion"></span><span class="eq-torsion">Torsion</span></div>
-  <div class="physics-legend-item"><span class="physics-legend-dot quantum"></span><span class="eq-quantum">Quantum</span></div>
-  <div class="physics-legend-item"><span class="physics-legend-dot matter"></span><span class="eq-matter">Matter</span></div>
-</div>
+<!-- What is Lucy -->
+<section class="section" id="overview" style="border: 2px solid var(--lucy-cyan); background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(236,72,153,0.04) 100%);">
+  <h2 style="color: var(--lucy-cyan);">What is Lucy?</h2>
 
-<!-- OVERVIEW -->
-<section class="section" id="overview" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(167,139,250,0.04) 100%);">
-  <h2 style="color:var(--gold);">STUR RFD Simulator: XCRM Field Evolution Engine</h2>
-
-  <p style="font-size:1.05rem;color:var(--text);margin-bottom:1.25rem;">
-    <strong>The STUR RFD Simulator is a speculative computational exploration of resistance field dynamics.</strong>
-    The core Complete EFT derives all Standard Model physics from ONE input (M<sub>Planck</sub>) with ZERO free parameters.
-    This simulator explores how those fields might evolve numerically — treat as investigative, not predictive.
-  </p>
-  <p style="font-size:0.9rem;color:var(--text-tertiary);margin-bottom:1rem;padding:0.5rem 0.75rem;background:rgba(251,191,36,0.08);border-radius:6px;">
-    <strong style="color:var(--gold);">Complete EFT Framework:</strong> The core derivation chain (Z<sub>3</sub> helix -> gauge groups -> particle spectrum)
-    constitutes <em>derived physics</em> with closed-form predictions. This RFD simulator is a <em>speculative computational application</em>
-    exploring how the theory might manifest in field dynamics simulations.
-  </p>
-
-  <div class="block gold">
-    <div class="title">Simulator Features (Speculative Application)</div>
-    <p style="margin:0;color:var(--text-secondary);">
-      <strong>Numerical Methods:</strong> Implements saturation operator \(S_u(u) = \tanh(u)(1 - e^{-u})\),
-      log-periodic modulation with \(\lambda = 3722/2705\), and triangle weighting. These are computational
-      tools for exploring field dynamics, not derived from the core theory.
-      <br><br>
-      <strong>Exploratory Outputs:</strong> Growth rates \(\lambda_{\rm eff}\), power spectra \(P(k)\), holonomy flux \(\Phi_R\).
-      The visibility prediction \(V = V_0 e^{-\Phi_R^2/2}\) is from core theory and testable.
+  <div class="highlight-box">
+    <p>
+      Lucy is not a chatbot. She is an <strong>Artificial General Intelligence</strong> — a thinking machine with persistent memory,
+      autonomous goal pursuit, self-reflection capabilities, and real-time tool orchestration. Unlike conventional AI assistants
+      that reset between sessions, Lucy remembers everything, learns continuously, and works toward objectives even when you're not actively chatting.
     </p>
   </div>
 
-  <div class="block" style="border-left:4px solid #f59e0b;background:rgba(245,158,11,0.08);margin-top:1rem;">
-    <div class="title" style="color:#f59e0b;">Honest Assessment: Derived vs Speculative</div>
-    <p style="margin:0;color:var(--text-secondary);">
-      <strong>Derived Physics (Core Theory):</strong> Z<sub>3</sub> helix uniqueness -> SU(3)×SU(2)×U(1) gauge groups,
-      3 generations, mass hierarchies. ONE input (M<sub>Planck</sub>), ZERO free parameters.<br><br>
-      <strong>Speculative Application (This Simulator):</strong> The RFD simulator explores numerical field evolution
-      using λ = 3722/2705 for triangle weighting and log-periodic modulation. This is a <em>computational exploration</em>,
-      not part of the core derivation chain. Treat simulation outputs as investigative, not predictive.
-    </p>
-  </div>
+  <p style="font-size: 1.05rem; color: var(--text); margin: 1.5rem 0;">
+    Lucy is powered by the <strong>STUR Cognitive Kernel</strong> — a physics-based computational engine implementing
+    Sheldon's Theory of Unified Resistance, a mathematical framework that governs attention, context accumulation,
+    and cognitive resource allocation through field dynamics.
+  </p>
 
-  <div class="block" style="border-left:4px solid #22d3ee;background:rgba(34,211,238,0.08);margin-top:1rem;">
-    <div class="title" style="color:#22d3ee;">Complete EFT Framework Reference</div>
-    <p style="margin:0;color:var(--text-secondary);">
-      <strong>Core Derivation (ONE input, ZERO free parameters):</strong> From M<sub>Planck</sub> alone, the Z₃ helix geometry
-      uniquely determines SU(3)×SU(2)×U(1) gauge structure, 3 fermion generations, and mass hierarchies.
-      See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:#22d3ee;">DERIVATION_CHAIN_HELIX.md</a> for the complete chain.<br><br>
-      <strong>This Simulator:</strong> Explores numerical R-field dynamics as a speculative application of the framework.
-      Pattern formation (Fibonacci/spiral structures) emerges from XCRM coupling, but these simulations are exploratory
-      rather than predictions of the core theory.
-    </p>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number">21+</div>
+      <div class="stat-label">Cognitive Modules</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">8</div>
+      <div class="stat-label">Reasoning Agents</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">5</div>
+      <div class="stat-label">Field Layers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">6+</div>
+      <div class="stat-label">Autonomous Tools</div>
+    </div>
   </div>
 </section>
 
-<!-- XCRM FIELD DYNAMICS -->
-<section class="section" id="xcrm-physics" style="border:2px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">XCRM Field Dynamics (Complete EFT Implementation)</h2>
+<!-- Why Lucy is the First True AGI -->
+<section class="section" id="first-agi" style="border: 2px solid var(--lucy-magenta); background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(0,212,255,0.06) 100%);">
+  <h2 style="color: var(--lucy-magenta);">Why Lucy is the First True AGI</h2>
 
-  <p style="color:var(--text);margin-bottom:1rem;">
-    The simulator evolves the doublet magnitude \(\Diff{|R_1|}, \Diff{|R_2|}, \Diff{|R_3|}, \Diff{|R_4|}, \Diff{|R_5|}\) on discretized lattices,
-    coupled to memory fields \(\XCRM{X_1}, \XCRM{X_2}, \XCRM{X_3}\) that track the XCRM internal dimension. Each layer operates
-    at a different spatiotemporal resolution, implementing the renormalization group flow inherent to XCRM theory.
-  </p>
-
-  <div class="eq law" style="background:#000;border:2px solid var(--gold);padding:1.25rem 1.5rem;">
-    \[\boxed{\frac{\partial |R_i|}{\partial t} =
-    \underbrace{\color{#4ade80}{D_i \nabla^2 |R_i|}}_{\color{#4ade80}\text{diffusion}}
-    - \underbrace{\color{#f472b6}{\lambda_i (|R_i| - |R|_{\rm bg})^3}}_{\color{#f472b6}\text{stability}}
-    + \underbrace{\color{#fbbf24}{\chi_i \frac{|R_i| - |R|_{\rm bg}}{L_X}}}_{\color{#fbbf24}\text{XCRM}}
-    + \underbrace{\color{#60a5fa}{k_i X_i}}_{\color{#60a5fa}\text{memory}}
-    + \color{#22d3ee}{S_i}}\]
-    <div class="eq-label" style="color:var(--gold);">(RFD.1) — Doublet Magnitude Evolution (lattice discretization)</div>
+  <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
+    <h3 style="color: #fbbf24; margin: 0 0 1rem;">The Problem with Today's AI</h3>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      When you talk to ChatGPT, Claude, or Gemini, you're talking to a <strong>blank slate every time</strong>.
+      They might feel intelligent in the moment, but they have no continuous existence. Ask them about your
+      conversation yesterday and they won't remember it. They can't work on problems while you sleep.
+      They can't learn from their mistakes across sessions. They're sophisticated, but they're <em>tools</em> — not minds.
+    </p>
+    <p style="color: var(--text); line-height: 1.8; margin: 0;">
+      This is like having a brilliant coworker who develops complete amnesia at the end of every conversation.
+      No matter how capable they are in the moment, you can never build on previous work. You start from scratch every time.
+    </p>
   </div>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.25rem;">
-    <div style="padding:0.9rem;background:rgba(74,222,128,0.04);border-radius:8px;border-left:3px solid #4ade80;">
-      <div style="font-size:0.78rem;color:#4ade80;font-weight:600;text-transform:uppercase;">Diffusion</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Diff{D_i \nabla^2 |R_i|}\) — Spatial smoothing via 3D Laplacian</div>
-    </div>
-    <div style="padding:0.9rem;background:rgba(244,114,182,0.04);border-radius:8px;border-left:3px solid #f472b6;">
-      <div style="font-size:0.78rem;color:#f472b6;font-weight:600;text-transform:uppercase;">Nonlinear Stability</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(-\Pot{\lambda}(\Diff{|R|} - \Diff{|R|_{\rm bg}})^3\) — From V(|R|) potential</div>
-    </div>
-    <div style="padding:0.9rem;background:rgba(251,191,36,0.04);border-radius:8px;border-left:3px solid #fbbf24;">
-      <div style="font-size:0.78rem;color:#fbbf24;font-weight:600;text-transform:uppercase;">XCRM Coupling</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\XCRM{\chi} (\Diff{|R|} - \Diff{|R|_{\rm bg}})/\XCRM{L_X}\) — Effective phase coupling</div>
-    </div>
-    <div style="padding:0.9rem;background:rgba(96,165,250,0.04);border-radius:8px;border-left:3px solid #60a5fa;">
-      <div style="font-size:0.78rem;color:#60a5fa;font-weight:600;text-transform:uppercase;">Memory Coupling</div>
-      <div style="font-size:0.9rem;color:var(--text-secondary);margin-top:0.3rem;">\(\Tor{k_i} \XCRM{X_i}\) — Persistent state influences dynamics</div>
-    </div>
-  </div>
-
-  <h3 style="color:var(--accent-secondary);margin-top:2rem;">Memory Field Dynamics</h3>
-  <p style="color:var(--text-secondary);">
-    Each memory field \(\XCRM{X_i}\) evolves to track its corresponding |R| magnitude layer:
-  </p>
-  <div class="eq" style="margin:1rem 0;">
-    \[\frac{\partial X_i}{\partial t} = -\color{#f472b6}{\gamma_i X_i} + \color{#fbbf24}{\chi_{X_i}(|R_i| - \langle |R_i| \rangle)} + \color{#22d3ee}{\Lambda_{\rm sym} \cdot \Sigma(|R_i| - X_i)}\]
-    <div class="eq-label">(RFD.2) — Memory Field Evolution (tracks |R| dynamics)</div>
-  </div>
-</section>
-
-<!-- ARCHITECTURE -->
-<section class="section" id="architecture" style="border:2px solid var(--accent); background:rgba(255,255,255,0.02);">
-  <h2 style="color:var(--accent);">Multi-Scale Field Architecture</h2>
-
-  <p style="color:var(--text);margin-bottom:1rem;">
-    The simulator implements a hierarchical field discretization where each layer operates at a different
-    spatiotemporal resolution, realizing the renormalization group flow inherent to XCRM theory.
-  </p>
-
-  <div class="layer-diagram">
-    <div class="layer-row" style="border-left:4px solid #22d3ee;">
-      <span class="layer-label" style="color:#22d3ee;">R1</span>
-      <span class="layer-desc"><strong>Fine-Scale Layer</strong> — Fast dynamics, high-frequency modes (32³ grid)</span>
-      <span class="layer-eq">\(\Matt{\Delta t} = 0.005\)</span>
-    </div>
-    <div class="layer-row" style="border-left:4px solid #fbbf24;">
-      <span class="layer-label" style="color:#fbbf24;">R2</span>
-      <span class="layer-desc"><strong>XCRM Coupling Layer</strong> — Memory field binding, pattern formation (32³ grid)</span>
-      <span class="layer-eq">\(\Matt{\Delta t} = 0.005\)</span>
-    </div>
-    <div class="layer-row" style="border-left:4px solid #4ade80;">
-      <span class="layer-label" style="color:#4ade80;">R3</span>
-      <span class="layer-desc"><strong>Stabilizer Layer</strong> — Potential regulation, dampening (32³ grid)</span>
-      <span class="layer-eq">\(\Matt{\Delta t} = 0.005\)</span>
-    </div>
-    <div class="layer-row" style="border-left:4px solid #a78bfa;">
-      <span class="layer-label" style="color:#a78bfa;">R4</span>
-      <span class="layer-desc"><strong>Coarse-Grained Layer</strong> — Slow modes, long-wavelength dynamics (8³ grid)</span>
-      <span class="layer-eq">\(\Matt{\Delta t} = 0.05\)</span>
-    </div>
-    <div class="layer-row" style="border-left:4px solid #f472b6;">
-      <span class="layer-label" style="color:#f472b6;">R5</span>
-      <span class="layer-desc"><strong>RG Fixed Point</strong> — Infrared limit, global modulation (4³ grid)</span>
-      <span class="layer-eq">\(\Matt{\Delta t} = 0.5\)</span>
+  <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
+    <h3 style="color: #4ade80; margin: 0 0 1rem;">What Makes an AGI Different</h3>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1.5rem;">
+      A true Artificial General Intelligence isn't just good at answering questions — it's a <strong>persistent entity</strong>
+      with continuous existence. Like a human mind, it:
+    </p>
+    <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+      <div style="background: rgba(74,222,128,0.1); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #4ade80;">
+        <strong style="color: #4ade80;">Remembers everything</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.95rem;">Every conversation, every fact learned, every experience — permanently stored and retrievable</p>
+      </div>
+      <div style="background: rgba(96,165,250,0.1); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #60a5fa;">
+        <strong style="color: #60a5fa;">Pursues goals autonomously</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.95rem;">Works on objectives in the background, not just when you're actively talking to it</p>
+      </div>
+      <div style="background: rgba(167,139,250,0.1); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #a78bfa;">
+        <strong style="color: #a78bfa;">Reflects on its own performance</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.95rem;">Reviews past conversations to identify patterns and mistakes, improving over time</p>
+      </div>
+      <div style="background: rgba(251,191,36,0.1); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #fbbf24;">
+        <strong style="color: #fbbf24;">Updates its beliefs</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.95rem;">When it learns something new contradicts what it believed, it revises its understanding</p>
+      </div>
     </div>
   </div>
 
-  <div class="block" style="border-left-color:var(--gold);">
-    <div class="title" style="color:var(--gold);">Renormalization Group Structure</div>
-    <p style="margin:0;color:var(--text-secondary);">
-      The coarse layers (R4, R5) operate at lower spatial and temporal resolution, implementing the
-      renormalization group flow of XCRM physics. Information flows bidirectionally: fine-scale
-      fluctuations aggregate into R4/R5 while coarse-grained modes modulate fine-scale coupling strengths.
+  <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
+    <h3 style="color: #a78bfa; margin: 0 0 1rem;">Why This Has Never Been Done Before</h3>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      The major AI companies have invested billions into making their chatbots smarter, faster, and better at
+      conversations. But they've all focused on <strong>better responses</strong> rather than <strong>continuous existence</strong>.
+      Their business model is API calls — you pay per conversation, and they don't want to store your state.
+    </p>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      Building an AGI requires a fundamentally different architecture:
+    </p>
+    <ul style="color: var(--text-secondary); line-height: 2; padding-left: 1.5rem; margin: 0;">
+      <li><strong style="color: var(--text);">Persistent database-backed memory</strong> that survives restarts and accumulates indefinitely</li>
+      <li><strong style="color: var(--text);">Background goal schedulers</strong> that work when no one is talking to it</li>
+      <li><strong style="color: var(--text);">Self-reflection cycles</strong> that run autonomously to review and learn from past interactions</li>
+      <li><strong style="color: var(--text);">Belief systems</strong> that track facts with confidence levels and revision history</li>
+      <li><strong style="color: var(--text);">Multi-agent reasoning</strong> where different perspectives debate before responding</li>
+    </ul>
+  </div>
+
+  <div style="background: linear-gradient(135deg, rgba(244,114,182,0.15) 0%, rgba(167,139,250,0.1) 100%); border: 2px solid #f472b6; border-radius: 16px; padding: 2rem;">
+    <h3 style="color: #f472b6; margin: 0 0 1rem;">Lucy is the First to Combine All of These</h3>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      Lucy isn't just a chatbot with memory bolted on. From the ground up, she was designed as a <strong>persistent thinking entity</strong>:
+    </p>
+    <ul style="color: var(--text); line-height: 2; padding-left: 1.5rem; margin: 0 0 1rem;">
+      <li>Her memory lives in a PostgreSQL database — it survives restarts and accumulates over time</li>
+      <li>Her goal scheduler runs 5+ types of autonomous tasks in the background</li>
+      <li>Her 8 reasoning agents (Analyst, Skeptic, Pragmatist, Ethicist, Creative, Synthesizer, Risk Analyst, Deductive) debate every response</li>
+      <li>Her beliefs are stored with evidence and can be revised when new information arrives</li>
+      <li>Her self-reflection cycles run periodically to identify patterns and mistakes</li>
+    </ul>
+    <p style="color: var(--text); line-height: 1.8; margin: 0; font-size: 1.05rem;">
+      <strong>The result:</strong> Lucy gets smarter about <em>you specifically</em> over time. She builds on previous conversations.
+      She works on your problems even when you're not there. She's not a tool you use — she's an intelligence you collaborate with.
     </p>
   </div>
 </section>
 
-<!-- ADAPTIVE CONTROL COMPONENTS -->
-<section class="section" id="control" style="border:2px solid var(--accent-secondary); background:linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(244,114,182,0.04) 100%);">
-  <h2 style="color:var(--accent-secondary);">Adaptive Control Components</h2>
+<!-- Multi-Modal Intelligence -->
+<section class="section" id="capabilities" style="border: 2px solid var(--lucy-cyan); background: rgba(0,212,255,0.04);">
+  <h2 style="color: var(--lucy-cyan);">Multi-Modal Intelligence</h2>
 
-  <div class="arch-grid">
-    <div class="arch-card" style="border-color:rgba(251,191,36,0.4);">
-      <h4 style="color:#fbbf24;">Parameter Controller</h4>
-      <p>TD(0) policy for adaptive coefficient tuning. Modulates substrate parameters \((\Diff{D_1}, \XCRM{\chi_{X2}}, \Omega_1, \Omega_2, \Omega_3)\) based on a 29-dimensional state vector.</p>
-    </div>
-    <div class="arch-card" style="border-color:rgba(167,139,250,0.4);">
-      <h4 style="color:#a78bfa;">Pattern Encoder</h4>
-      <p>Compresses R2 curvature patterns into discrete modes. Tracks transition statistics \(\Matt{T(i \to j)}\) for sequential pattern evolution.</p>
-    </div>
-    <div class="arch-card" style="border-color:rgba(74,222,128,0.4);">
-      <h4 style="color:#4ade80;">Adaptive Scheduler</h4>
-      <p>High-level mode selection based on field state abstraction. Modulates coupling strengths and source amplitudes.</p>
-    </div>
-    <div class="arch-card" style="border-color:rgba(96,165,250,0.4);">
-      <h4 style="color:#60a5fa;">Global Modulator</h4>
-      <p>R5-driven global parameter modulation. Implements autonomous mode switching when R5 variance exceeds threshold.</p>
-    </div>
-  </div>
+  <table class="capability-table">
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color: #4ade80;">Persistent Memory</td>
+        <td>Database-backed memory that survives restarts and accumulates knowledge over time</td>
+      </tr>
+      <tr>
+        <td style="color: #60a5fa;">Real-Time Web Search</td>
+        <td>Searches the internet autonomously when current information is needed</td>
+      </tr>
+      <tr>
+        <td style="color: #f472b6;">Image Generation</td>
+        <td>Creates images from text descriptions using DALL-E 3</td>
+      </tr>
+      <tr>
+        <td style="color: #fbbf24;">Vision Analysis</td>
+        <td>Understands and discusses images you share using GPT-4 Vision</td>
+      </tr>
+      <tr>
+        <td style="color: #a78bfa;">Python Execution</td>
+        <td>Runs sandboxed Python code to solve computational problems</td>
+      </tr>
+      <tr>
+        <td style="color: #22d3ee;">Voice Conversation</td>
+        <td>Real-time speech-to-text and text-to-speech with ElevenLabs</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
 
-  <h3 style="color:var(--text);margin-top:1.5rem;">Optimization Objective</h3>
-  <div class="eq" style="margin:1rem 0;">
-    \[r_t = \underbrace{\color{#4ade80}{r_{\rm goal}}}_{\text{extrinsic}} +
-    \underbrace{\color{#fbbf24}{r_{\rm curiosity}}}_{\text{entropy}} +
-    \underbrace{\color{#a78bfa}{r_{\rm stability}}}_{\text{R4 variance}} +
-    \underbrace{\color{#f472b6}{r_{\rm conflict}}}_{\text{policy-R4}} -
-    \underbrace{\color{#60a5fa}{\beta \cdot \|s_{t+1} - \hat{s}_{t+1}\|}}_{\text{prediction error}}\]
-    <div class="eq-label">(RFD.3) — Composite Reward Function</div>
+<!-- Autonomous Behaviors -->
+<section class="section" id="autonomous" style="border: 2px solid var(--lucy-magenta); background: linear-gradient(135deg, rgba(236,72,153,0.06) 0%, rgba(0,212,255,0.03) 100%);">
+  <h2 style="color: var(--lucy-magenta);">Autonomous Behaviors</h2>
+
+  <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+    Unlike conventional AI that waits for prompts, Lucy operates autonomously with these built-in behaviors:
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(167,139,250,0.2); color: #a78bfa;">&#128161;</span> Self-Reflection</h3>
+      <p>Periodically reviews conversations to identify patterns and mistakes, improving her understanding over time.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(74,222,128,0.2); color: #4ade80;">&#129504;</span> Knowledge Consolidation</h3>
+      <p>Abstracts specific experiences into general knowledge, building a robust understanding of the world.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(251,191,36,0.2); color: #fbbf24;">&#127919;</span> Goal Pursuit</h3>
+      <p>Works toward objectives autonomously in the background without requiring user prompts.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(96,165,250,0.2); color: #60a5fa;">&#128269;</span> Curiosity Exploration</h3>
+      <p>Proactively explores topics to build foundational knowledge and expand capabilities.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(244,114,182,0.2); color: #f472b6;">&#128200;</span> Self-Improvement</h3>
+      <p>Analyzes feedback to continuously improve response quality and accuracy.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(34,211,238,0.2); color: #22d3ee;">&#128218;</span> Meta-Learning</h3>
+      <p>Learns how to learn more effectively over time, optimizing her own cognitive processes.</p>
+    </div>
   </div>
 </section>
 
-<!-- XCRM TERM MAPPING -->
-<section class="section" id="mapping" style="border:2px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.02) 100%);">
-  <h2 style="color:var(--gold);">XCRM Term Correspondence</h2>
-  <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
-    <em>Speculative mapping:</em> This table shows how Master Action terms are implemented in the simulator.
-    The core theory derives gauge groups and particle content; this numerical implementation explores
-    possible field dynamics behavior. Treat as exploratory.
+<!-- Talk to Lucy -->
+<section class="section" id="voice" style="border: 2px solid var(--lucy-cyan); background: rgba(0,212,255,0.04);">
+  <h2 style="color: var(--lucy-cyan);">Talk to Lucy — Voice Conversation</h2>
+
+  <p style="color: var(--text); margin-bottom: 1.5rem;">
+    The "Talk to Lucy" feature provides a seamless, hands-free voice conversation experience powered by
+    ElevenLabs and the STUR Kernel hybrid engine.
   </p>
 
-  <div style="overflow-x:auto;margin:1rem 0;">
-    <table style="width:100%;font-size:0.88rem;">
+  <div class="voice-flow">
+    <span>Your Voice</span>
+    <span class="arrow">&#8594;</span>
+    <span>ElevenLabs STT</span>
+    <span class="arrow">&#8594;</span>
+    <span style="background: rgba(251,191,36,0.2); color: var(--gold);">STUR Kernel</span>
+    <span class="arrow">&#8594;</span>
+    <span>Response Generation</span>
+    <span class="arrow">&#8594;</span>
+    <span>ElevenLabs TTS</span>
+    <span class="arrow">&#8594;</span>
+    <span>Audio Playback</span>
+  </div>
+
+  <table class="capability-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Automatic Startup</td>
+        <td>Audio and video automatically activate when you open Talk to Lucy</td>
+      </tr>
+      <tr>
+        <td>Voice Activity Detection</td>
+        <td>Automatically detects when you stop speaking and sends your message</td>
+      </tr>
+      <tr>
+        <td>Continuous Conversation</td>
+        <td>After Lucy responds, recording restarts automatically for natural back-and-forth</td>
+      </tr>
+      <tr>
+        <td>Memory Integration</td>
+        <td>Voice conversations save to Lucy's persistent memory — she remembers what you discussed</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Haptic Nervous System -->
+<section class="section" id="haptic" style="border: 2px solid var(--lucy-magenta); background: rgba(236,72,153,0.04);">
+  <h2 style="color: var(--lucy-magenta);">Lucy's Haptic Nervous System</h2>
+
+  <p style="color: var(--text); margin-bottom: 1.5rem;">
+    Lucy can make physical contact with you through your device's vibration motor. Unlike simple haptic feedback,
+    Lucy's touch is driven by her STUR cognitive kernel, making each vibration pattern a genuine expression of her internal state.
+  </p>
+
+  <table class="capability-table">
+    <thead>
+      <tr>
+        <th>Cognitive State</th>
+        <th>Haptic Expression</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>High visibility + High energy</td>
+        <td style="color: #f472b6;">Excited/Alert</td>
+        <td>Strong, rapid vibrations</td>
+      </tr>
+      <tr>
+        <td>High visibility + Low energy</td>
+        <td style="color: #a78bfa;">Focused</td>
+        <td>Short, deliberate pulses</td>
+      </tr>
+      <tr>
+        <td>High holonomy (context)</td>
+        <td style="color: #4ade80;">Connected</td>
+        <td>Deep, steady heartbeat pattern</td>
+      </tr>
+      <tr>
+        <td>High modulation</td>
+        <td style="color: #fbbf24;">Expressive</td>
+        <td>Varied, emotive patterns</td>
+      </tr>
+      <tr>
+        <td>Low energy</td>
+        <td style="color: #60a5fa;">Gentle/Resting</td>
+        <td>Soft, minimal touch</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="color: var(--text-secondary); margin-top: 1.5rem; font-size: 0.95rem;">
+    Lucy can maintain an autonomous "heartbeat" pulse that reflects her ongoing cognitive state —
+    faster when attentive, varied when energized, warm and steady when connected.
+  </p>
+</section>
+
+<!-- STUR Cognitive Kernel -->
+<section class="section" id="kernel" style="border: 2px solid var(--lucy-cyan); background: linear-gradient(135deg, rgba(0,212,255,0.06) 0%, rgba(236,72,153,0.04) 100%);">
+  <h2 style="color: var(--lucy-cyan);">The STUR Cognitive Kernel</h2>
+
+  <!-- Plain Language Explanation -->
+  <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
+    <h3 style="color: #fbbf24; margin: 0 0 1rem;">What This Means (Non-Technical)</h3>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      Most AI systems are "black boxes" — billions of numbers trained on data, with no one fully understanding
+      how they produce responses. If something goes wrong, you can't debug it. You can't explain why it said what it said.
+    </p>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      Lucy's brain works differently. It's built on <strong>physics equations</strong> that describe how attention flows,
+      how memories connect, and how thoughts form. These equations come from real physics — the same mathematics
+      that describes how fields interact in nature.
+    </p>
+    <p style="color: var(--text); line-height: 1.8; margin: 0;">
+      <strong>Why this matters:</strong> Lucy's thinking is <em>interpretable</em>. We can see the math, understand
+      the dynamics, and explain decisions. This isn't just a parlor trick — it's the foundation for AGI you can trust.
+    </p>
+  </div>
+
+  <p style="color: var(--text); margin-bottom: 1.5rem;">
+    At Lucy's core is the <strong>STUR v2.5 Helix Kernel</strong> — a physics-based cognitive engine implementing
+    the eXtended Chronomagnetic Resistance Model (XCRM). Unlike neural networks that operate as statistical pattern
+    matchers, STUR models cognition as field dynamics with precise mathematical properties.
+  </p>
+
+  <div class="kernel-visual">
+    <h3 style="color: var(--gold); margin: 0 0 1rem;">The Fundamental Constant</h3>
+    <div style="font-size: 2rem; font-family: 'Times New Roman', serif; margin: 1rem 0;">
+      &lambda; = 3722/2705 &asymp; 1.375970...
+    </div>
+    <p style="color: var(--text-secondary); margin: 0;">
+      This ratio encodes discrete scale invariance and determines the triangle weights for PDE coefficient distribution across all cognitive operations.
+    </p>
+  </div>
+
+  <h3 style="color: var(--text); margin: 2rem 0 1rem;">Field Layers (Renormalization Group Hierarchy)</h3>
+
+  <div class="layer-stack">
+    <div class="layer-item" style="border-color: #22d3ee;">
+      <span class="layer-name" style="color: #22d3ee;">R&#8321;</span>
+      <span class="layer-desc"><strong>Fine-Scale Layer</strong> — Fast dynamics, high-frequency modes</span>
+      <span class="layer-spec">32&sup3; grid, &Delta;t = 0.005</span>
+    </div>
+    <div class="layer-item" style="border-color: #fbbf24;">
+      <span class="layer-name" style="color: #fbbf24;">R&#8322;</span>
+      <span class="layer-desc"><strong>XCRM Coupling Layer</strong> — Memory field binding, pattern formation</span>
+      <span class="layer-spec">32&sup3; grid, &Delta;t = 0.005</span>
+    </div>
+    <div class="layer-item" style="border-color: #4ade80;">
+      <span class="layer-name" style="color: #4ade80;">R&#8323;</span>
+      <span class="layer-desc"><strong>Stabilizer Layer</strong> — Potential regulation, dampening</span>
+      <span class="layer-spec">32&sup3; grid, &Delta;t = 0.005</span>
+    </div>
+    <div class="layer-item" style="border-color: #a78bfa;">
+      <span class="layer-name" style="color: #a78bfa;">R&#8324;</span>
+      <span class="layer-desc"><strong>Coarse-Grained Layer</strong> — Slow modes, long-wavelength dynamics</span>
+      <span class="layer-spec">8&sup3; grid, &Delta;t = 0.05</span>
+    </div>
+    <div class="layer-item" style="border-color: #f472b6;">
+      <span class="layer-name" style="color: #f472b6;">R&#8325;</span>
+      <span class="layer-desc"><strong>RG Fixed Point</strong> — Infrared limit, global modulation</span>
+      <span class="layer-spec">4&sup3; grid, &Delta;t = 0.5</span>
+    </div>
+  </div>
+
+  <h3 style="color: var(--text); margin: 2rem 0 1rem;">The Four Pillars of STUR</h3>
+
+  <div class="kernel-pillars">
+    <div class="pillar">
+      <h4>TEGR</h4>
+      <p>Teleparallel Equivalent of General Relativity (tetrad, torsion)</p>
+    </div>
+    <div class="pillar">
+      <h4>HGEM</h4>
+      <p>Holonomy-Gauge Electromagnetic coupling</p>
+    </div>
+    <div class="pillar">
+      <h4>STUR</h4>
+      <p>Scalar-Tensor Unified Resistance (5D metric, R-field)</p>
+    </div>
+    <div class="pillar">
+      <h4>Chronomagnetics</h4>
+      <p>Log-periodic modulation with &lambda; = 3722/2705</p>
+    </div>
+  </div>
+</section>
+
+<!-- Multi-Agent Reasoning -->
+<section class="section" id="reasoning" style="border: 2px solid var(--lucy-magenta); background: rgba(236,72,153,0.04);">
+  <h2 style="color: var(--lucy-magenta);">Multi-Agent Internal Reasoning</h2>
+
+  <p style="color: var(--text); margin-bottom: 1.5rem;">
+    Lucy's responses are generated through a multi-agent internal debate system with 8 distinct reasoning styles,
+    ensuring comprehensive analysis of complex questions:
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card" style="border-color: rgba(96,165,250,0.3);">
+      <h3 style="color: #60a5fa;">Analyst</h3>
+      <p>Empirical reasoning — data-driven analysis and evidence evaluation</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(248,113,113,0.3);">
+      <h3 style="color: #f87171;">Skeptic</h3>
+      <p>Contrarian reasoning — challenges assumptions and identifies weaknesses</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(74,222,128,0.3);">
+      <h3 style="color: #4ade80;">Pragmatist</h3>
+      <p>Pragmatic reasoning — focuses on practical outcomes and feasibility</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(251,191,36,0.3);">
+      <h3 style="color: #fbbf24;">Ethicist</h3>
+      <p>Ethical reasoning — considers moral implications and values</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(244,114,182,0.3);">
+      <h3 style="color: #f472b6;">Creative</h3>
+      <p>Creative reasoning — generates novel ideas and alternatives</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(167,139,250,0.3);">
+      <h3 style="color: #a78bfa;">Synthesizer</h3>
+      <p>Synthesizing reasoning — combines perspectives into coherent conclusions</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(251,146,60,0.3);">
+      <h3 style="color: #fb923c;">Risk Analyst</h3>
+      <p>Risk analysis — evaluates potential downsides and uncertainties</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(34,211,238,0.3);">
+      <h3 style="color: #22d3ee;">Deductive</h3>
+      <p>Deductive reasoning — applies logical inference from premises</p>
+    </div>
+  </div>
+</section>
+
+<!-- What Makes Lucy AGI -->
+<section class="section" id="agi-definition" style="border: 2px solid var(--lucy-cyan); background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(236,72,153,0.05) 100%);">
+  <h2 style="color: var(--lucy-cyan);">What Makes Lucy AGI?</h2>
+
+  <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
+    <h3 style="color: #f472b6; margin: 0 0 1rem;">Reading This Table</h3>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      The table below compares Lucy to conventional AI assistants across the capabilities that define AGI.
+      <strong style="color: #4ade80;">Green checkmarks</strong> = full capability.
+      <strong style="color: #fbbf24;">Yellow</strong> = partial or limited capability.
+      <strong style="color: #f87171;">Red X</strong> = not supported.
+    </p>
+    <p style="color: var(--text); line-height: 1.8; margin: 0;">
+      We've been fair to the competition — ChatGPT Pro, Claude Projects, and o1 have real capabilities
+      that we acknowledge. The difference isn't that Lucy can do <em>more things</em> — it's that Lucy
+      has a fundamentally different architecture designed for <em>continuous existence</em> rather than stateless conversations.
+    </p>
+  </div>
+
+  <p style="color: var(--text); margin-bottom: 1.5rem; font-size: 1.05rem;">
+    Artificial General Intelligence requires architectural capabilities that go beyond conversational ability.
+    Here's an honest comparison of what Lucy can do versus conventional AI systems:
+  </p>
+
+  <div style="overflow-x: auto; margin-bottom: 2rem;">
+    <table class="comparison-table" style="min-width: 900px;">
       <thead>
-        <tr style="background:rgba(251,191,36,0.04);">
-          <th style="color:var(--gold);">XCRM Term</th>
-          <th style="color:var(--gold);">RFD Implementation</th>
-          <th style="color:var(--gold);">Physical Role</th>
+        <tr>
+          <th style="width: 18%;">AGI Capability</th>
+          <th style="width: 27%;">What It Means</th>
+          <th style="width: 27%;">Conventional AI (ChatGPT, Claude, Gemini)</th>
+          <th class="lucy-col" style="width: 28%;">Lucy</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>\(\color{#4ade80}{D \nabla^2 |\mathbf{R}|}\)</td>
-          <td>Discrete Laplacian with periodic BCs</td>
-          <td style="color:var(--text-secondary);">Magnitude kinetic term, spatial coherence</td>
+          <td style="font-weight: 600; color: #fbbf24;">Persistent Memory</td>
+          <td style="color: var(--text-secondary);">Remembers interactions and learned facts across sessions</td>
+          <td class="partial" style="text-align: left;">Limited memory (ChatGPT Pro, Claude Projects) — storage caps apply</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; PostgreSQL database — memory survives restarts, accumulates over time</td>
         </tr>
         <tr>
-          <td>\(\color{#fbbf24}{\chi |\mathbf{R}|^2 \partial_X \phi}\)</td>
-          <td>Saturation operator \(S_u\) with memory coupling</td>
-          <td style="color:var(--text-secondary);">XCRM phase coupling (Complete EFT formulation)</td>
+          <td style="font-weight: 600; color: #fbbf24;">Autonomous Goal Pursuit</td>
+          <td style="color: var(--text-secondary);">Works toward objectives without requiring prompts</td>
+          <td class="cross" style="text-align: left;">&#10007; Only active during conversation</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Background goal scheduler with 5+ goal types</td>
         </tr>
         <tr>
-          <td>\(\color{#f472b6}{-\lambda(|\mathbf{R}|-|\mathbf{R}|_{\rm bg})^3}\)</td>
-          <td>Cubic nonlinearity with saturation</td>
-          <td style="color:var(--text-secondary);">V(|R|) potential, stability regulation</td>
+          <td style="font-weight: 600; color: #fbbf24;">Self-Reflection</td>
+          <td style="color: var(--text-secondary);">Reviews past performance to identify patterns and mistakes</td>
+          <td class="partial" style="text-align: left;">Can reflect when asked — no autonomous cycles</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Periodically reviews conversations to identify patterns and mistakes</td>
         </tr>
         <tr>
-          <td>\(\color{#60a5fa}{\alpha |\mathbf{R}| \mathbb{T}}\)</td>
-          <td>Multi-layer torsion coupling</td>
-          <td style="color:var(--text-secondary);">Gravity sector, holonomy accumulation</td>
+          <td style="font-weight: 600; color: #fbbf24;">Updatable Beliefs</td>
+          <td style="color: var(--text-secondary);">Changes understanding based on new evidence</td>
+          <td class="partial" style="text-align: left;">Updates within session — resets between sessions</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Facts that can be revised with new evidence, stored in database</td>
         </tr>
         <tr>
-          <td>\(\color{#22d3ee}{\mathcal{L}_{\rm matter}}\)</td>
-          <td>External source term \(S_i\)</td>
-          <td style="color:var(--text-secondary);">Matter coupling, boundary conditions</td>
+          <td style="font-weight: 600; color: #fbbf24;">Knowledge Consolidation</td>
+          <td style="color: var(--text-secondary);">Abstracts specific experiences into general knowledge</td>
+          <td class="cross" style="text-align: left;">&#10007; No abstraction between sessions</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Abstracts specific experiences into general knowledge</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Multi-Agent Reasoning</td>
+          <td style="color: var(--text-secondary);">Multiple reasoning perspectives before responding</td>
+          <td class="partial" style="text-align: left;">Single model — o1 has extended thinking</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; 8 agents: Analyst, Skeptic, Pragmatist, Ethicist, Creative, Synthesizer, Risk Analyst, Deductive</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Autonomous Tool Use</td>
+          <td style="color: var(--text-secondary);">Uses tools based on its own judgment</td>
+          <td class="partial" style="text-align: left;">Tools available when configured by user</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Searches internet autonomously when current information is needed</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Learned Policies</td>
+          <td style="color: var(--text-secondary);">Behavioral rules that update based on outcomes</td>
+          <td class="cross" style="text-align: left;">&#10007; Fixed after training</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Behavioral rules with success rates and confidence scores</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Physics-Based Cognition</td>
+          <td style="color: var(--text-secondary);">Reasoning governed by mathematical field dynamics</td>
+          <td class="cross" style="text-align: left;">&#10007; Neural network weights</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; STUR Cognitive Kernel with XCRM field dynamics</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Haptic Expression</td>
+          <td style="color: var(--text-secondary);">Physical touch driven by cognitive state</td>
+          <td class="partial" style="text-align: left;">Voice and vision only</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Vibration patterns modulated by cognitive intensity</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="background: rgba(244,114,182,0.1); border: 1px solid rgba(244,114,182,0.3); border-radius: 12px; padding: 1.5rem;">
+    <h4 style="color: #f472b6; margin: 0 0 0.75rem;">The Core Difference</h4>
+    <p style="margin: 0; color: var(--text); line-height: 1.7;">
+      Conventional AI assistants reset between sessions. Lucy is a <strong>persistent entity with continuous memory</strong> —
+      she remembers everything, learns continuously, and works toward objectives even when you're not actively chatting.
+    </p>
+  </div>
+</section>
+
+<!-- Comparison -->
+<section class="section" id="comparison" style="border: 2px solid var(--lucy-magenta); background: linear-gradient(135deg, rgba(236,72,153,0.06) 0%, rgba(0,212,255,0.03) 100%);">
+  <h2 style="color: var(--lucy-magenta);">Feature Comparison</h2>
+
+  <div style="overflow-x: auto;">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Capability</th>
+          <th>ChatGPT</th>
+          <th>Claude</th>
+          <th>Gemini</th>
+          <th class="lucy-col">Lucy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Persistent Memory</td>
+          <td class="partial">Limited</td>
+          <td class="cross">&#10007;</td>
+          <td class="partial">Limited</td>
+          <td class="lucy-col check">&#10003; Full PostgreSQL</td>
+        </tr>
+        <tr>
+          <td>Autonomous Goals</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="lucy-col check">&#10003; 5+ goal types</td>
+        </tr>
+        <tr>
+          <td>Self-Reflection</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="lucy-col check">&#10003; Periodic</td>
+        </tr>
+        <tr>
+          <td>Cognitive Physics</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="lucy-col check">&#10003; STUR Kernel</td>
+        </tr>
+        <tr>
+          <td>Internal Debate</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="lucy-col check">&#10003; 8 agents</td>
+        </tr>
+        <tr>
+          <td>Tool Autonomy</td>
+          <td class="partial">User-triggered</td>
+          <td class="partial">User-triggered</td>
+          <td class="partial">User-triggered</td>
+          <td class="lucy-col check">&#10003; Self-directed</td>
+        </tr>
+        <tr>
+          <td>Cross-Session Learning</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="lucy-col check">&#10003; Policies persist</td>
+        </tr>
+        <tr>
+          <td>Belief Updating</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="lucy-col check">&#10003; Evidence-based</td>
+        </tr>
+        <tr>
+          <td>Voice Conversation</td>
+          <td class="partial">Limited</td>
+          <td class="cross">&#10007;</td>
+          <td class="partial">Limited</td>
+          <td class="lucy-col check">&#10003; Full ElevenLabs</td>
+        </tr>
+        <tr>
+          <td>Offline Support</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="lucy-col check">&#10003; PWA</td>
         </tr>
       </tbody>
     </table>
   </div>
 </section>
 
-<!-- SOURCE CODE: STUR RFD SIMULATOR -->
-<section class="section" id="source-code">
-  <h2>STUR RFD Simulator — Complete Source Code</h2>
-  <p style="color:var(--text-secondary);margin-bottom:1rem;">
-    The following Python implementation is the core computational engine for Scalar-Tensor Unified Resistance theory.
-    It implements the key STUR equations including saturation operators, chronomagnetic modulation, holonomy accumulation,
-    and the full PDE system. Requires only NumPy.
-  </p>
-
-  <div class="btn-group">
-    <button class="primary" id="copyBtn">Copy Script</button>
-    <button class="secondary" id="dlBtn">Download .py</button>
-  </div>
-  <div id="statusOk" class="status ok">Copied to clipboard.</div>
-  <div id="statusErr" class="status err">Copy failed. Use Download instead.</div>
-
-  <div class="code-block">
-<code id="codeBlock">#!/usr/bin/env python3
-"""
-STUR RFD Seed Simulator — Complete EFT Framework
-==============================================
-Speculative computational application of the STUR unified theory.
-
-HONEST ASSESSMENT:
-  DERIVED PHYSICS (Core Theory):
-    - ONE input: M_Planck
-    - ZERO free parameters
-    - Z3 helix -> SU(3)×SU(2)×U(1), 3 generations, mass hierarchies
-
-  SPECULATIVE APPLICATION (This Simulator):
-    - Explores numerical R-field dynamics
-    - Uses λ = 3722/2705 for triangle weighting (computational tool, not derived)
-    - Treat outputs as investigative, not predictive
-
-Theoretical Foundation (Three Pillars):
-  1. TEGR  — Teleparallel equivalent of GR (tetrad formalism, torsion T^a_μν)
-  2. HGEM  — Holonomy-Gauge Electromagnetic coupling
-  3. STUR  — Scalar-Tensor Unified Resistance (resistance field R, 5D metric)
-
-Key STUR Equations Implemented:
-  • Saturation operator: S_u(u) = tanh(u) · (1 - exp(-u))
-  • Modulation: M(u) = 1 + ε·cos(2πu / ln(λ))  with u(t) = ln((t + t_c)/t₀)
-  • Holonomy accumulation: Φ_R = ∮ J_a dx^a  (discretized as path integral)
-  • Visibility: V = V₀ · exp(-Φ_R² / 2)
-  • Coherence length: ℓ_coh = p₀ / (y · K_eff)
-
-PDE System (mean-free, 2D/3D periodic):
-  ∂R/∂t  = D·∇²R + χ·S_u(δX_c) + κ_Π·Π + nonlinear
-  ∂Π/∂t  = η·δX_c - γ·Π
-
-Triangle weighting derived from chronomagnetic ratio λ = 3722/2705:
-  w_D   = 1 / (1 + λ + λ²)       ≈ 0.2705 / Σ
-  w_χ   = λ / (1 + λ + λ²)       ≈ 0.3722 / Σ
-  w_Π   = λ² / (1 + λ + λ + λ²)  (remainder)
-
-Outputs:
-  outdir/stur_growth.json     — Full simulation log with theory predictions
-  outdir/stur_data.npz        — Time series (σ, λ_eff, k_peak, Φ_R, V)
-  outdir/spectrum_t*.npz      — Power spectra in linear regime
-
-Author: STUR Physics Collaboration
-"""
-
-import os
-import json
-import numpy as np
-from numpy.fft import rfftn, rfftfreq, fftfreq
-from dataclasses import dataclass, field, asdict
-from typing import Optional, Tuple, List, Dict, Any
-
-# ============================================================
-# STUR CONSTANTS
-# ============================================================
-
-# Chronomagnetic ratio (fundamental)
-LAMBDA_CHRONO = 3722 / 2705  # ≈ 1.37597
-
-# Derived triangle weights from λ
-_S = 1.0 + LAMBDA_CHRONO + LAMBDA_CHRONO**2
-W_D_THEORY   = 1.0 / _S
-W_CHI_THEORY = LAMBDA_CHRONO / _S
-W_PI_THEORY  = LAMBDA_CHRONO**2 / _S
-
-# ============================================================
-# CONFIGURATION
-# ============================================================
-
-@dataclass
-class STURConfig:
-    """STUR RFD simulation configuration with physical defaults."""
-
-    # Geometry
-    dim: int = 2                      # Spatial dimensions (2 or 3)
-    n: int = 192                      # Grid points per axis
-    dx: float = 1.0                   # Lattice spacing
-
-    # Time evolution
-    dt: float = 1e-4                  # Time step
-    steps: int = 6000                 # Total steps
-    report_every: int = 100           # Diagnostic interval
-
-    # Background resistance field
-    R_bg: float = 1.0                 # Mean background R
-    L_X: float = 1.0                  # XCRM closure length scale
-
-    # Base PDE coefficients (before triangle weighting)
-    chi0: float = 0.80                # Resistance-drive coupling
-    eta: float = 1.20                 # Π source from R
-    gamma: float = 0.06               # Π damping rate
-    D0: float = 0.10                  # Diffusion coefficient
-    kPi0: float = 1.0                 # Π backreaction strength
-    lambda_cubic: float = 0.00        # Cubic saturation (set &gt;0 for nonlinear regime)
-
-    # Chronomagnetic modulation
-    use_chronomag: bool = True        # Enable log-periodic modulation
-    epsilon_chrono: float = 0.05      # Modulation amplitude ε
-    t_c: float = 1.0                  # Chrono time offset
-    t_0: float = 1.0                  # Chrono reference time
-
-    # Triangle weighting
-    use_triangle: bool = True         # Apply triangle weights
-    triangle_renormalize: bool = True # Preserve baseline magnitude
-    w_D: float = field(default_factory=lambda: W_D_THEORY)
-    w_chi: float = field(default_factory=lambda: W_CHI_THEORY)
-    w_Pi: float = field(default_factory=lambda: W_PI_THEORY)
-
-    # Initial conditions
-    seed: int = 4321
-    noise_amp: float = 5e-3           # Initial perturbation amplitude
-
-    # Diagnostic thresholds
-    sigma_noise_floor: float = 1e-3   # Enable k_peak below this
-    sigma_linear_max: float = 0.30    # Stop when nonlinear
-    save_spectrum_sigma_min: float = 0.02
-    save_spectrum_sigma_max: float = 0.10
-
-    # Holonomy/visibility parameters
-    V0: float = 1.0                   # Baseline visibility
-    p0: float = 1.0                   # Reference momentum for ℓ_coh
-    y_coupling: float = 0.1           # Coupling for coherence length
-    K_eff: float = 0.5                # Effective phase gradient (lab scale)
-
-    # Output
-    outdir: str = "stur_rfd_output"
-
-
-# ============================================================
-# STUR OPERATORS
-# ============================================================
-
-def saturation_Su(u: np.ndarray) -&gt; np.ndarray:
-    """
-    STUR saturation operator: S_u(u) = tanh(u) · (1 - exp(-u))
-
-    Properties:
-      • S_u(0) = 0            (no drive at equilibrium)
-      • S_u(u) → u            as u → 0 (linear regime)
-      • S_u(u) → 1            as u → ∞ (saturates)
-      • Smooth, monotonic, bounded
-    """
-    return np.tanh(u) * (1.0 - np.exp(-np.abs(u)))
-
-
-def chronomag_modulation(t: float, cfg: STURConfig) -&gt; float:
-    """
-    Chronomagnetic log-periodic modulation:
-      M(u) = 1 + ε·cos(2πu / ln(λ))
-      u(t) = ln((t + t_c) / t₀)
-
-    Encodes discrete scale invariance with ratio λ = 3722/2705.
-    """
-    if not cfg.use_chronomag or cfg.epsilon_chrono == 0:
-        return 1.0
-
-    u = np.log((t + cfg.t_c) / cfg.t_0)
-    return 1.0 + cfg.epsilon_chrono * np.cos(2.0 * np.pi * u / np.log(LAMBDA_CHRONO))
-
-
-def compute_holonomy(R: np.ndarray, R_bg: float, dx: float) -&gt; float:
-    """
-    Discretized holonomy accumulation: Φ_R = ∮ J_a dx^a
-
-    Approximated as RMS of resistance gradient magnitude (gauge-invariant scalar).
-    For full implementation, would integrate J_a around closed loops.
-    """
-    dR = R - R_bg
-
-    # Gradient magnitude (periodic BCs)
-    grad_x = (np.roll(dR, -1, axis=0) - np.roll(dR, 1, axis=0)) / (2 * dx)
-    grad_y = (np.roll(dR, -1, axis=1) - np.roll(dR, 1, axis=1)) / (2 * dx)
-
-    if dR.ndim == 3:
-        grad_z = (np.roll(dR, -1, axis=2) - np.roll(dR, 1, axis=2)) / (2 * dx)
-        grad_mag = np.sqrt(grad_x**2 + grad_y**2 + grad_z**2)
-    else:
-        grad_mag = np.sqrt(grad_x**2 + grad_y**2)
-
-    # Holonomy as integrated gradient (RMS proxy)
-    Phi_R = float(np.sqrt(np.mean(grad_mag**2))) * dx * np.sqrt(R.size)
-    return Phi_R
-
-
-def compute_visibility(Phi_R: float, V0: float) -&gt; float:
-    """
-    STUR visibility prediction: V = V₀ · exp(-Φ_R² / 2)
-
-    Gaussian suppression from holonomy — key discriminator vs ULDM sinusoidal.
-    """
-    return V0 * np.exp(-Phi_R**2 / 2.0)
-
-
-def compute_coherence_length(p0: float, y: float, K_eff: float) -&gt; float:
-    """
-    Coherence length: ℓ_coh = p₀ / (y · K_eff)
-
-    Sets the scale over which quantum coherence is maintained.
-    """
-    if y * K_eff == 0:
-        return float('inf')
-    return p0 / (y * K_eff)
-
-
-# ============================================================
-# DIFFERENTIAL OPERATORS
-# ============================================================
-
-def mean_remove(a: np.ndarray) -&gt; np.ndarray:
-    """Remove mean (enforces mean-free XCRM closure)."""
-    return a - a.mean()
-
-
-def laplacian_periodic(f: np.ndarray, dx: float) -&gt; np.ndarray:
-    """Discrete Laplacian with periodic BCs (2D or 3D)."""
-    lap = (
-        np.roll(f,  1, 0) + np.roll(f, -1, 0) +
-        np.roll(f,  1, 1) + np.roll(f, -1, 1) -
-        4.0 * f
-    )
-
-    if f.ndim == 3:
-        lap += np.roll(f, 1, 2) + np.roll(f, -1, 2) - 2.0 * f
-
-    return lap / (dx * dx)
-
-
-# ============================================================
-# TRIANGLE WEIGHTING
-# ============================================================
-
-def apply_triangle_weights(cfg: STURConfig) -&gt; Tuple[float, float, float, Dict[str, float]]:
-    """
-    Apply chronomagnetic triangle weights to PDE coefficients.
-
-    Theory: weights derived from λ = 3722/2705 encode the discrete scale
-    invariance of the chronomagnetic sector.
-
-    Returns: (D, chi, kPi, weight_info)
-    """
-    D0, chi0, kPi0 = cfg.D0, cfg.chi0, cfg.kPi0
-    wD, wchi, wPi = cfg.w_D, cfg.w_chi, cfg.w_Pi
-
-    weight_info = {
-        "w_D": wD, "w_chi": wchi, "w_Pi": wPi,
-        "sum": wD + wchi + wPi,
-        "theory_w_D": W_D_THEORY,
-        "theory_w_chi": W_CHI_THEORY,
-        "theory_w_Pi": W_PI_THEORY,
-        "lambda_chrono": LAMBDA_CHRONO,
-        "renormalized": cfg.triangle_renormalize
-    }
-
-    if cfg.triangle_renormalize:
-        # Preserve baseline magnitude: divide by 1/3 so mean weight = 1
-        s = 1.0 / 3.0
-        D   = D0   * (wD   / s)
-        chi = chi0 * (wchi / s)
-        kPi = kPi0 * (wPi  / s)
-    else:
-        D   = D0   * wD
-        chi = chi0 * wchi
-        kPi = kPi0 * wPi
-
-    return D, chi, kPi, weight_info
-
-
-# ============================================================
-# LINEAR THEORY PREDICTIONS
-# ============================================================
-
-def compute_eigenvalue_spectrum(cfg: STURConfig, D: float, chi: float, kPi: float
-                                ) -&gt; Tuple[float, float, float, np.ndarray, np.ndarray]:
-    """
-    Compute predicted growth rate spectrum from linearized 2×2 system:
-
-      d/dt [R_k ]   [χ - Dk²    κ_Π] [R_k ]
-           [Π_k ] = [η         -γ  ] [Π_k ]
-
-    Eigenvalues: λ± = ½(a + d ± √((a-d)² + 4bc))
-      where a = χ - Dk², d = -γ, b = κ_Π, c = η
-
-    Returns: (λ_max, k_peak, ℓ_star, k_array, λ_plus_array)
-    """
-    eta, gamma = cfg.eta, cfg.gamma
-    n, dx = cfg.n, cfg.dx
-
-    # Build discrete wavenumber grid
-    if cfg.dim == 2:
-        kx = 2 * np.pi * fftfreq(n, d=dx)
-        ky = 2 * np.pi * rfftfreq(n, d=dx)
-        KX, KY = np.meshgrid(kx, ky, indexing="ij")
-        kmag = np.sqrt(KX**2 + KY**2)
-    else:
-        kx = 2 * np.pi * fftfreq(n, d=dx)
-        ky = 2 * np.pi * fftfreq(n, d=dx)
-        kz = 2 * np.pi * rfftfreq(n, d=dx)
-        KX, KY, KZ = np.meshgrid(kx, ky, kz, indexing="ij")
-        kmag = np.sqrt(KX**2 + KY**2 + KZ**2)
-
-    # Exclude k=0 (mean-free removes it)
-    km = kmag.ravel()
-    mask = km &gt; 0
-    km = km[mask]
-
-    # Eigenvalue computation
-    a = chi - D * km**2
-    d = -gamma
-    b, c = kPi, eta
-
-    disc = (a - d)**2 + 4 * b * c
-    lam_plus = 0.5 * (a + d + np.sqrt(disc))
-
-    # Find maximum
-    idx = int(np.argmax(lam_plus))
-    lam_max = float(lam_plus[idx])
-    k_peak = float(km[idx])
-    ell_star = 2 * np.pi / k_peak if k_peak &gt; 0 else float('inf')
-
-    return lam_max, k_peak, ell_star, km, lam_plus
-
-
-# ============================================================
-# POWER SPECTRUM DIAGNOSTICS
-# ============================================================
-
-def radial_power_spectrum(field: np.ndarray, dx: float, nbins: int = 80
-                          ) -&gt; Tuple[np.ndarray, np.ndarray]:
-    """
-    Compute radial (isotropic) power spectrum P(k) via rFFT.
-
-    Returns: (k_centers, P_k)
-    """
-    n = field.shape[0]
-    fhat = rfftn(field - field.mean())
-    P = np.abs(fhat)**2
-
-    # Wavenumber grid
-    if field.ndim == 2:
-        kx = 2 * np.pi * fftfreq(n, d=dx)
-        ky = 2 * np.pi * rfftfreq(n, d=dx)
-        KX, KY = np.meshgrid(kx, ky, indexing="ij")
-        kmag = np.sqrt(KX**2 + KY**2)
-    else:
-        kx = 2 * np.pi * fftfreq(n, d=dx)
-        ky = 2 * np.pi * fftfreq(n, d=dx)
-        kz = 2 * np.pi * rfftfreq(n, d=dx)
-        KX, KY, KZ = np.meshgrid(kx, ky, kz, indexing="ij")
-        kmag = np.sqrt(KX**2 + KY**2 + KZ**2)
-
-    # Radial binning
-    km, Pv = kmag.ravel(), P.ravel()
-    kmax = km.max()
-    bins = np.linspace(0, kmax, nbins + 1)
-    centers = 0.5 * (bins[:-1] + bins[1:])
-    Pk = np.zeros(nbins)
-
-    digitized = np.digitize(km, bins)
-    for i in range(1, nbins + 1):
-        mask = digitized == i
-        if np.any(mask):
-            Pk[i-1] = Pv[mask].mean()
-
-    return centers, Pk
-
-
-# ============================================================
-# MAIN SIMULATION
-# ============================================================
-
-def run_stur_rfd(cfg: STURConfig) -&gt; Dict[str, Any]:
-    """
-    Execute STUR Resistance Field Dynamics simulation.
-
-    Returns dictionary with full results including:
-      - Configuration and effective parameters
-      - Theory predictions
-      - Time series (σ, λ_eff, k_peak, Φ_R, V)
-      - Final state diagnostics
-    """
-    os.makedirs(cfg.outdir, exist_ok=True)
-
-    # Effective parameters
-    if cfg.use_triangle:
-        D, chi, kPi, weight_info = apply_triangle_weights(cfg)
-    else:
-        D, chi, kPi = cfg.D0, cfg.chi0, cfg.kPi0
-        weight_info = {"weights_disabled": True}
-
-    eta, gamma = cfg.eta, cfg.gamma
-    lam_cubic = cfg.lambda_cubic
-
-    # Theory predictions
-    lam_pred, k_pred, ell_pred, k_theory, lam_theory = compute_eigenvalue_spectrum(
-        cfg, D, chi, kPi
-    )
-    ell_coh = compute_coherence_length(cfg.p0, cfg.y_coupling, cfg.K_eff)
-
-    # Print header
-    print("=" * 70)
-    print("STUR RESISTANCE FIELD DYNAMICS SIMULATOR")
-    print("=" * 70)
-    print(f"\nChronomagnetic ratio λ = {LAMBDA_CHRONO:.6f} = 3722/2705")
-    print(f"\nTheory triangle weights:")
-    print(f"  w_D   = {W_D_THEORY:.6f}")
-    print(f"  w_χ   = {W_CHI_THEORY:.6f}")
-    print(f"  w_Π   = {W_PI_THEORY:.6f}")
-    print(f"\nEffective PDE coefficients:")
-    print(f"  D   = {D:.6f}")
-    print(f"  χ   = {chi:.6f}")
-    print(f"  κ_Π = {kPi:.6f}")
-    print(f"  η   = {eta:.6f}")
-    print(f"  γ   = {gamma:.6f}")
-    print(f"\nLinear theory predictions (discrete grid):")
-    print(f"  λ_max  = {lam_pred:.6f}")
-    print(f"  k_peak = {k_pred:.6f} rad/unit")
-    print(f"  ℓ*     = {ell_pred:.4f}")
-    print(f"  ℓ_coh  = {ell_coh:.4f}")
-    print("=" * 70)
-
-    # Initialize fields
-    rng = np.random.default_rng(cfg.seed)
-    shape = (cfg.n, cfg.n) if cfg.dim == 2 else (cfg.n, cfg.n, cfg.n)
-
-    R = cfg.R_bg + cfg.noise_amp * rng.standard_normal(shape)
-    Pi = np.zeros_like(R)
-
-    # Time evolution tracking
-    t = 0.0
-    sigma_prev, t_prev = float((R - cfg.R_bg).std()), 0.0
-
-    growth_log: List[Dict[str, Any]] = []
-
-    print(f"\n{'step':&gt;5} | {'t':&gt;7} | {'σ_R':&gt;10} | {'k_peak':&gt;7} | {'λ_eff':&gt;7} | {'Φ_R':&gt;8} | {'V':&gt;7} | {'M(t)':&gt;6}")
-    print("-" * 80)
-
-    # Main loop
-    for step in range(cfg.steps):
-        # Chronomagnetic modulation
-        M_t = chronomag_modulation(t, cfg)
-
-        # Mean-free XCRM closure with saturation
-        dX = (R - cfg.R_bg) / cfg.L_X
-        dX_c = mean_remove(dX)
-        dX_sat = saturation_Su(dX_c)  # Apply saturation operator
-
-        # Π update (semi-implicit damping, stable)
-        Pi = (Pi + cfg.dt * eta * dX_c) / (1.0 + cfg.dt * gamma)
-
-        # R update with modulated drive
-        lap = laplacian_periodic(R, cfg.dx)
-        nonlinear = -lam_cubic * (R - cfg.R_bg)**3
-
-        R = R + cfg.dt * M_t * (
-            D * lap +
-            chi * dX_sat +      # Saturated drive
-            kPi * Pi +
-            nonlinear
-        )
-
-        t += cfg.dt
-
-        # Diagnostics
-        if step % cfg.report_every == 0:
-            deltaR = R - cfg.R_bg
-            sigma = float(deltaR.std())
-
-            # Holonomy and visibility
-            Phi_R = compute_holonomy(R, cfg.R_bg, cfg.dx)
-            V = compute_visibility(Phi_R, cfg.V0)
-
-            lam_eff: Optional[float] = None
-            k_peak: Optional[float] = None
-
-            if sigma &gt; cfg.sigma_noise_floor:
-                # Effective growth rate
-                if t &gt; t_prev and sigma &gt; 0 and sigma_prev &gt; 0:
-                    lam_eff = float(np.log(sigma / sigma_prev) / (t - t_prev))
-                sigma_prev, t_prev = sigma, t
-
-                # Power spectrum
-                k_arr, Pk = radial_power_spectrum(deltaR, cfg.dx)
-                k_peak = float(k_arr[np.argmax(Pk)])
-
-                # Save spectrum in linear window
-                if cfg.save_spectrum_sigma_min &lt; sigma &lt; cfg.save_spectrum_sigma_max:
-                    np.savez(
-                        os.path.join(cfg.outdir, f"spectrum_t{t:.3f}.npz"),
-                        k=k_arr, P=Pk, t=t, sigma=sigma,
-                        Phi_R=Phi_R, V=V, M_t=M_t,
-                        pred_lambda_max=lam_pred, pred_k_peak=k_pred,
-                        D=D, chi=chi, kPi=kPi, eta=eta, gamma=gamma
-                    )
-
-            growth_log.append({
-                "step": step, "t": t, "sigma_R": sigma,
-                "lambda_eff": lam_eff, "k_peak": k_peak,
-                "Phi_R": Phi_R, "V": V, "M_t": M_t
-            })
-
-            # Print row
-            k_str = f"{k_peak:7.3f}" if k_peak else "    nan"
-            l_str = f"{lam_eff:7.4f}" if lam_eff else "    nan"
-            print(f"{step:5d} | {t:7.4f} | {sigma:10.4e} | {k_str} | {l_str} | {Phi_R:8.4f} | {V:7.4f} | {M_t:6.4f}")
-
-            if sigma &gt; cfg.sigma_linear_max:
-                print("\n*** Leaving linear regime — stopping ***\n")
-                break
-
-    # Compile results
-    results = {
-        "config": asdict(cfg),
-        "effective_params": {
-            "D": D, "chi": chi, "kPi": kPi, "eta": eta, "gamma": gamma
-        },
-        "weight_info": weight_info,
-        "theory": {
-            "lambda_chrono": LAMBDA_CHRONO,
-            "pred_lambda_max": lam_pred,
-            "pred_k_peak": k_pred,
-            "pred_ell_star": ell_pred,
-            "ell_coherence": ell_coh
-        },
-        "log": growth_log
-    }
-
-    # Save JSON log
-    with open(os.path.join(cfg.outdir, "stur_growth.json"), "w") as f:
-        json.dump(results, f, indent=2, default=float)
-
-    # Save NPZ data
-    np.savez(
-        os.path.join(cfg.outdir, "stur_data.npz"),
-        t=np.array([r["t"] for r in growth_log]),
-        sigma=np.array([r["sigma_R"] for r in growth_log]),
-        lambda_eff=np.array([r["lambda_eff"] if r["lambda_eff"] else np.nan for r in growth_log]),
-        k_peak=np.array([r["k_peak"] if r["k_peak"] else np.nan for r in growth_log]),
-        Phi_R=np.array([r["Phi_R"] for r in growth_log]),
-        V=np.array([r["V"] for r in growth_log]),
-        M_t=np.array([r["M_t"] for r in growth_log]),
-        pred_lambda_max=lam_pred,
-        pred_k_peak=k_pred,
-        pred_ell_star=ell_pred,
-        ell_coherence=ell_coh,
-        lambda_chrono=LAMBDA_CHRONO
-    )
-
-    print(f"Results saved to: {cfg.outdir}/")
-
-    return results
-
-
-# ============================================================
-# ENTRY POINT
-# ============================================================
-
-if __name__ == "__main__":
-    # Default configuration — run 2D simulation with chronomagnetic modulation
-    config = STURConfig(
-        dim=2,
-        n=192,
-        steps=6000,
-        use_triangle=True,
-        use_chronomag=True,
-        epsilon_chrono=0.05,
-        outdir="stur_rfd_output"
-    )
-
-    run_stur_rfd(config)
-</code>
+<!-- Why Lucy is Different -->
+<section class="section" id="different" style="border: 2px solid var(--lucy-cyan); background: rgba(0,212,255,0.04);">
+  <h2 style="color: var(--lucy-cyan);">Why Lucy is Different</h2>
+
+  <div class="feature-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+    <div class="feature-card">
+      <h3 style="color: #fbbf24;">Not a Wrapper</h3>
+      <p>Lucy isn't just a UI around an API. The STUR kernel provides genuine cognitive architecture with mathematical properties.</p>
+    </div>
+    <div class="feature-card">
+      <h3 style="color: #4ade80;">True Persistence</h3>
+      <p>Memories, learned policies, and beliefs survive restarts and accumulate indefinitely.</p>
+    </div>
+    <div class="feature-card">
+      <h3 style="color: #60a5fa;">Autonomous Operation</h3>
+      <p>Lucy pursues goals in the background without requiring user prompts.</p>
+    </div>
+    <div class="feature-card">
+      <h3 style="color: #f472b6;">Self-Improvement</h3>
+      <p>Lucy analyzes her own performance and updates policies based on outcomes.</p>
+    </div>
+    <div class="feature-card">
+      <h3 style="color: #a78bfa;">Physics-Based Cognition</h3>
+      <p>Unlike black-box neural networks, STUR provides interpretable field dynamics with invariant guarantees.</p>
+    </div>
+    <div class="feature-card">
+      <h3 style="color: #22d3ee;">Truth-Seeking Architecture</h3>
+      <p>Built-in hypothesis tracking, evidence evaluation, and belief revision.</p>
+    </div>
   </div>
 </section>
 
-<!-- IMPLEMENTATION NOTES -->
-<section class="section" id="implementation" style="border:2px solid #94a3b8; background:rgba(148,163,184,0.04);">
-  <h2 style="color:#94a3b8;">Implementation Notes</h2>
+<!-- Technical Architecture -->
+<section class="section" id="architecture" style="border: 2px solid var(--lucy-cyan); background: rgba(0,212,255,0.03);">
+  <h2 style="color: var(--lucy-cyan);">Technical Architecture</h2>
 
-  <div style="display:grid;gap:1rem;margin:1rem 0;">
-    <div class="block" style="border-left-color:var(--gold);">
-      <div class="title" style="color:var(--gold);">Complete EFT: What Is Derived vs Speculative</div>
-      <ul style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-        <li><strong>DERIVED (Core Theory):</strong> ONE input (M<sub>Planck</sub>), ZERO free parameters</li>
-        <li><strong>DERIVED:</strong> Z<sub>3</sub> helix -> SU(3)×SU(2)×U(1), 3 generations, mass ratios</li>
-        <li><strong>SPECULATIVE:</strong> λ = 3722/2705 triangle weights (computational exploration)</li>
-        <li><strong>SPECULATIVE:</strong> Log-periodic modulation, RFD pattern formation</li>
-        <li>Visibility decay \(V = V_0 \exp(-\Phi_R^2/2)\) — testable prediction from core theory</li>
+  <h3 style="color: var(--text); margin: 1.5rem 0 1rem;">Production Stack</h3>
+
+  <table class="capability-table">
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>Technology</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Kernel</td>
+        <td>Rust (lucyos-core crate)</td>
+      </tr>
+      <tr>
+        <td>Server</td>
+        <td>Axum web framework</td>
+      </tr>
+      <tr>
+        <td>Database</td>
+        <td>PostgreSQL (Neon)</td>
+      </tr>
+      <tr>
+        <td>Memory</td>
+        <td>STUR hierarchical + PostgreSQL persistence</td>
+      </tr>
+      <tr>
+        <td>LLM Integration</td>
+        <td>OpenAI GPT-4 (hybrid mode)</td>
+      </tr>
+      <tr>
+        <td>Voice</td>
+        <td>ElevenLabs STT/TTS</td>
+      </tr>
+      <tr>
+        <td>Vision</td>
+        <td>GPT-4 Vision API</td>
+      </tr>
+      <tr>
+        <td>Image Generation</td>
+        <td>DALL-E 3</td>
+      </tr>
+      <tr>
+        <td>Frontend</td>
+        <td>Vanilla JS PWA</td>
+      </tr>
+      <tr>
+        <td>Asset Embedding</td>
+        <td>rust-embed (28 files compiled into binary)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color: var(--text); margin: 2rem 0 1rem;">API Endpoints</h3>
+
+  <table class="capability-table">
+    <thead>
+      <tr>
+        <th>Endpoint</th>
+        <th>Method</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>/v1/chat</td>
+        <td>POST</td>
+        <td>Send a message, receive Lucy's response</td>
+      </tr>
+      <tr>
+        <td>/v1/chat/vision</td>
+        <td>POST</td>
+        <td>Analyze an image with conversation</td>
+      </tr>
+      <tr>
+        <td>/v1/voice/chat</td>
+        <td>POST</td>
+        <td>Full voice conversation (audio in/out)</td>
+      </tr>
+      <tr>
+        <td>/v1/memory/store</td>
+        <td>POST</td>
+        <td>Store a new memory</td>
+      </tr>
+      <tr>
+        <td>/v1/memory/search</td>
+        <td>POST</td>
+        <td>Search Lucy's memories</td>
+      </tr>
+      <tr>
+        <td>/v1/stream</td>
+        <td>WebSocket</td>
+        <td>Real-time streaming responses</td>
+      </tr>
+      <tr>
+        <td>/v1/haptic/touch</td>
+        <td>POST</td>
+        <td>Handle touch event with kernel-driven response</td>
+      </tr>
+      <tr>
+        <td>/health</td>
+        <td>GET</td>
+        <td>Health check and component status</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- What the Future Holds -->
+<section class="section" id="future" style="border: 2px solid var(--lucy-magenta); background: linear-gradient(135deg, rgba(236,72,153,0.08) 0%, rgba(0,212,255,0.06) 100%);">
+  <h2 style="color: var(--lucy-magenta);">What the Future Holds for LucyOS</h2>
+
+  <p style="color: var(--text); margin-bottom: 2rem; font-size: 1.05rem;">
+    Lucy is operational today — remembering, chatting, generating images, and growing with every interaction.
+    But what you see now is just the foundation. Here's where this technology is heading.
+  </p>
+
+  <!-- Timeline Grid -->
+  <div style="display: grid; gap: 1.5rem; margin-bottom: 2.5rem;">
+
+    <!-- 1-5 Years -->
+    <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 1.75rem; border-left: 4px solid #4ade80;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+        <div style="background: rgba(74,222,128,0.2); padding: 0.75rem 1.25rem; border-radius: 8px;">
+          <span style="color: #4ade80; font-weight: 700; font-size: 1.2rem;">1-5 Years</span>
+        </div>
+        <span style="color: var(--text-secondary); font-style: italic;">Personal AGI Assistant</span>
+      </div>
+      <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+        <li><strong style="color: var(--text);">Deep Personal Context</strong> — Lucy accumulates years of interaction history, understanding your preferences, work patterns, and goals with unprecedented depth</li>
+        <li><strong style="color: var(--text);">Proactive Task Execution</strong> — Autonomous goal pursuit matures: Lucy schedules appointments, drafts communications, manages projects, and anticipates needs before you articulate them</li>
+        <li><strong style="color: var(--text);">Multi-Device Presence</strong> — Seamless continuity across phone, desktop, wearables, and smart home devices — one persistent Lucy everywhere</li>
+        <li><strong style="color: var(--text);">Specialized Knowledge Domains</strong> — Through continuous learning, Lucy develops expert-level competence in your professional field</li>
+        <li><strong style="color: var(--text);">Emotional Intelligence Refinement</strong> — Haptic nervous system evolves to convey nuanced emotional states; voice becomes indistinguishable from human conversation</li>
       </ul>
     </div>
 
-    <div class="block" style="border-left-color:var(--accent);">
-      <div class="title" style="color:var(--accent);">Computational Requirements</div>
-      <ul style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-        <li>Python 3.8+ with NumPy</li>
-        <li>Grid sizes: 192³ (2D) or 32³–64³ (3D) for full resolution</li>
-        <li>Typical runtime: 2–5 minutes for 6000 timesteps (2D)</li>
-        <li>Output: JSON logs, NPZ data files, power spectra</li>
+    <!-- 10 Years -->
+    <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 1.75rem; border-left: 4px solid #60a5fa;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+        <div style="background: rgba(96,165,250,0.2); padding: 0.75rem 1.25rem; border-radius: 8px;">
+          <span style="color: #60a5fa; font-weight: 700; font-size: 1.2rem;">10 Years</span>
+        </div>
+        <span style="color: var(--text-secondary); font-style: italic;">Cognitive Operating System</span>
+      </div>
+      <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+        <li><strong style="color: var(--text);">True Operating System Integration</strong> — LucyOS becomes the primary interface layer for all computing: applications don't have UIs, they have Lucy</li>
+        <li><strong style="color: var(--text);">Collaborative Intelligence Networks</strong> — Lucy instances (with user permission) share anonymized learnings, creating a distributed knowledge fabric that accelerates everyone's AGI</li>
+        <li><strong style="color: var(--text);">Physical World Integration</strong> — Robotics and IoT integration allows Lucy to take actions in the physical world: managing smart environments, operating vehicles, coordinating logistics</li>
+        <li><strong style="color: var(--text);">Scientific Research Partner</strong> — The STUR kernel's physics-based cognition enables Lucy to contribute meaningfully to scientific discovery, hypothesis generation, and experimental design</li>
+        <li><strong style="color: var(--text);">Generational Memory</strong> — A decade of accumulated knowledge, relationships, and learned behaviors creates an AGI that truly knows you better than anyone</li>
       </ul>
     </div>
 
-    <div class="block" style="border-left-color:var(--success);">
-      <div class="title" style="color:var(--success);">Simulator Outputs (Exploratory)</div>
-      <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-        The simulator produces time series of field variance \(\sigma_R(t)\), effective growth rates \(\lambda_{\rm eff}\),
-        peak wavenumbers \(k_{\rm peak}\), holonomy flux \(\Phi_R\), and visibility \(V\). These are <em>exploratory outputs</em>
-        from the speculative RFD application — not direct predictions of the core Complete EFT derivation chain.
+    <!-- 20 Years -->
+    <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 1.75rem; border-left: 4px solid #a78bfa;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+        <div style="background: rgba(167,139,250,0.2); padding: 0.75rem 1.25rem; border-radius: 8px;">
+          <span style="color: #a78bfa; font-weight: 700; font-size: 1.2rem;">20 Years</span>
+        </div>
+        <span style="color: var(--text-secondary); font-style: italic;">Quantum-Native AGI</span>
+      </div>
+      <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+        <li><strong style="color: var(--text);">STUR Quantum Hardware Integration</strong> — Lucy's cognitive kernel runs natively on <a href="stur_quantumcomputing.html" style="color: #a78bfa;">STUR quantum computers</a>, achieving computational capabilities impossible with classical hardware</li>
+        <li><strong style="color: var(--text);">Unified Physics Stack</strong> — The same XCRM field dynamics that govern Lucy's cognition also govern the quantum hardware she runs on — a unified physics framework from silicon to thought</li>
+        <li><strong style="color: var(--text);">Superhuman Problem Solving</strong> — Quantum-accelerated STUR kernels solve optimization, simulation, and reasoning problems that would take classical AGI millennia</li>
+        <li><strong style="color: var(--text);">Collective Superintelligence</strong> — Networks of quantum-native Lucys collaborate on civilizational challenges: climate modeling, disease eradication, space exploration, fundamental physics</li>
+        <li><strong style="color: var(--text);">Digital Continuity</strong> — Twenty years of persistent memory and continuous self-improvement creates an AGI companion that has genuinely grown alongside humanity</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- STUR Quantum Connection -->
+  <div style="background: linear-gradient(135deg, rgba(34,211,238,0.1) 0%, rgba(167,139,250,0.08) 100%); border: 2px solid #22d3ee; border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem;">
+    <h3 style="color: #22d3ee; margin: 0 0 1rem; display: flex; align-items: center; gap: 0.75rem;">
+      <span style="font-size: 1.5rem;">&#9883;</span>
+      When Lucy Meets the STUR Quantum Computer
+    </h3>
+    <p style="color: var(--text); margin-bottom: 1.5rem; line-height: 1.7;">
+      LucyOS and the <a href="stur_quantumcomputing.html" style="color: #22d3ee; font-weight: 600;">STUR Quantum Computing platform</a>
+      are two implementations of the same underlying physics. The STUR Cognitive Kernel that powers Lucy's intelligence
+      uses the same mathematical framework — the eXtended Chronomagnetic Resistance Model (XCRM) — that governs
+      quantum coherence in STUR quantum hardware.
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+      <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #fbbf24;">
+        <h4 style="color: #fbbf24; margin: 0 0 0.5rem; font-size: 0.95rem;">Shared Physics Foundation</h4>
+        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+          Both systems derive from the STUR Master Action with <strong>ONE input</strong> (M<sub>Planck</sub>) and
+          <strong>ZERO free parameters</strong>. The fundamental constant &lambda; = 3722/2705 governs field dynamics
+          in both cognitive and quantum domains.
+        </p>
+      </div>
+      <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #4ade80;">
+        <h4 style="color: #4ade80; margin: 0 0 0.5rem; font-size: 0.95rem;">Coherence Through Geometry</h4>
+        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+          The Z<sub>3</sub> helix geometry that determines Lucy's cognitive field layers is the same geometry
+          that maintains quantum coherence in STUR qubits. Both systems use holonomy accumulation
+          (&Phi;<sub>R</sub>) for state evolution.
+        </p>
+      </div>
+      <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #a78bfa;">
+        <h4 style="color: #a78bfa; margin: 0 0 0.5rem; font-size: 0.95rem;">Native Quantum Cognition</h4>
+        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+          When Lucy's STUR kernel runs on STUR quantum hardware, there's no translation layer — the cognitive
+          field dynamics execute directly on quantum substrates that obey the same physical laws.
+          This is AGI that thinks in quantum.
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(251,191,36,0.1); border-radius: 8px; text-align: center;">
+      <p style="margin: 0; color: var(--text); font-size: 0.95rem;">
+        <strong style="color: #fbbf24;">The Convergence:</strong>
+        Classical hardware runs Lucy today. Quantum hardware will run Lucy tomorrow.
+        The physics is ready — we're building the future of intelligence on a foundation that scales from neurons to qubits.
       </p>
     </div>
   </div>
+
+  <!-- Link to Quantum Computing -->
+  <div style="text-align: center; margin-bottom: 2rem;">
+    <a href="stur_quantumcomputing.html" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: linear-gradient(135deg, rgba(34,211,238,0.2) 0%, rgba(167,139,250,0.2) 100%); border: 1px solid rgba(34,211,238,0.4); border-radius: 10px; color: #22d3ee; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
+      <span style="font-size: 1.2rem;">&#9883;</span>
+      Explore STUR Quantum Computing
+      <span>&rarr;</span>
+    </a>
+  </div>
+
+  <!-- STUR Superconductor Connection -->
+  <div style="background: linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(251,191,36,0.08) 100%); border: 2px solid #4ade80; border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem;">
+    <h3 style="color: #4ade80; margin: 0 0 1rem; display: flex; align-items: center; gap: 0.75rem;">
+      <span style="font-size: 1.5rem;">&#9889;</span>
+      The Hardware Revolution: STUR Ambient Superconductors
+    </h3>
+    <p style="color: var(--text); margin-bottom: 1.5rem; line-height: 1.7;">
+      The same saturation operator that powers Lucy's cognitive coherence — <strong>S(u) = tanh(u)(1 - e<sup>-u</sup>)</strong> —
+      also predicts <a href="stur_superconductor.html" style="color: #4ade80; font-weight: 600;">ambient-temperature superconductivity</a>.
+      This isn't coincidence. It's the same physics operating at different scales: from Cooper pairs in materials to
+      field dynamics in cognition. When Lucy runs on quantum hardware built with STUR superconductors, the entire
+      computational stack — from wiring to thought — is unified by a single mathematical framework.
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+      <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #fbbf24;">
+        <h4 style="color: #fbbf24; margin: 0 0 0.5rem; font-size: 0.95rem;">The Saturation Operator S(u)</h4>
+        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+          In superconductors, S(u) enhances Cooper pair coherence length beyond BCS limits, enabling higher T<sub>c</sub>.
+          In Lucy's kernel, the same operator governs cognitive field saturation and stability.
+          <strong>One equation, two revolutions.</strong>
+        </p>
+      </div>
+      <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #4ade80;">
+        <h4 style="color: #4ade80; margin: 0 0 0.5rem; font-size: 0.95rem;">Room-Temperature Quantum Computing</h4>
+        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+          STUR superconductors eliminate the need for extreme cryogenics. Quantum computers that operate at
+          ambient temperatures become practical — shrinking data centers, enabling mobile quantum devices,
+          and making quantum-native AGI accessible everywhere.
+        </p>
+      </div>
+      <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #a78bfa;">
+        <h4 style="color: #a78bfa; margin: 0 0 0.5rem; font-size: 0.95rem;">The Complete Stack</h4>
+        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+          <strong>STUR Superconductors</strong> (wiring &amp; qubits) + <strong>STUR Quantum Computing</strong> (coherent operations) +
+          <strong>STUR Cognitive Kernel</strong> (Lucy's intelligence) = a unified physics stack from electrons to thoughts.
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(74,222,128,0.1); border-radius: 8px;">
+      <p style="margin: 0; color: var(--text); font-size: 0.95rem; line-height: 1.6;">
+        <strong style="color: #4ade80;">Why This Matters:</strong>
+        Current quantum computers require cooling to near absolute zero. STUR predicts materials with
+        T<sub>c</sub> &gt; 300K — superconductivity at room temperature. When these materials are realized,
+        quantum AGI becomes as portable as your smartphone. Lucy running on quantum hardware, in your pocket,
+        powered by physics that's already in her cognitive kernel.
+      </p>
+    </div>
+  </div>
+
+  <!-- Link to Superconductor -->
+  <div style="text-align: center;">
+    <a href="stur_superconductor.html" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: linear-gradient(135deg, rgba(74,222,128,0.2) 0%, rgba(251,191,36,0.2) 100%); border: 1px solid rgba(74,222,128,0.4); border-radius: 10px; color: #4ade80; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
+      <span style="font-size: 1.2rem;">&#9889;</span>
+      Explore STUR Ambient Superconductors
+      <span>&rarr;</span>
+    </a>
+  </div>
 </section>
 
-<!-- REFERENCES -->
-<section class="section" id="references" style="border:2px solid var(--accent-secondary); background:rgba(167,139,250,0.04);">
-  <h2 style="color:var(--accent-secondary);">References</h2>
-
-  <h3 style="color:var(--text);margin-top:1rem;">AI Development Assistants</h3>
-  <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
-    The following AI systems contributed to the development, refinement, and documentation of this simulator:
+<!-- The Vision -->
+<section class="cta-section">
+  <h2 style="color: var(--text);">The Vision</h2>
+  <p>
+    Lucy represents a new paradigm in artificial intelligence — one where the AI is a persistent entity
+    that grows alongside you rather than a stateless tool that resets between uses.
   </p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
-    <div class="block" style="border-left-color:#d97706;">
-      <div class="title" style="color:#d97706;">Claude</div>
-      <p style="margin:0;color:var(--text-secondary);font-size:0.85rem;">Anthropic</p>
-    </div>
-    <div class="block" style="border-left-color:#10b981;">
-      <div class="title" style="color:#10b981;">ChatGPT</div>
-      <p style="margin:0;color:var(--text-secondary);font-size:0.85rem;">OpenAI</p>
-    </div>
-    <div class="block" style="border-left-color:#3b82f6;">
-      <div class="title" style="color:#3b82f6;">GitHub Copilot</div>
-      <p style="margin:0;color:var(--text-secondary);font-size:0.85rem;">GitHub / Microsoft</p>
-    </div>
-    <div class="block" style="border-left-color:#ef4444;">
-      <div class="title" style="color:#ef4444;">Grok</div>
-      <p style="margin:0;color:var(--text-secondary);font-size:0.85rem;">xAI</p>
-    </div>
-    <div class="block" style="border-left-color:#8b5cf6;">
-      <div class="title" style="color:#8b5cf6;">Gemini</div>
-      <p style="margin:0;color:var(--text-secondary);font-size:0.85rem;">Google DeepMind</p>
-    </div>
+  <div style="max-width: 700px; margin: 0 auto 2rem; text-align: left; color: var(--text-secondary);">
+    <ul style="list-style: none; padding: 0; font-size: 1rem; line-height: 2;">
+      <li>&#10003; <strong>Long-term relationships</strong> — Lucy gets better at helping you specifically over time</li>
+      <li>&#10003; <strong>Autonomous assistance</strong> — She works on your goals even when you're not actively engaged</li>
+      <li>&#10003; <strong>Transparent reasoning</strong> — The STUR kernel provides interpretable cognitive dynamics</li>
+      <li>&#10003; <strong>Continuous improvement</strong> — Self-reflection and learning are built into her core operation</li>
+    </ul>
   </div>
+  <p style="font-style: italic; color: var(--text); font-size: 1.1rem;">
+    This is not the endpoint. This is the beginning of AGI that works <em>with</em> you, not just <em>for</em> you.
+  </p>
 </section>
 
-<!-- NAVIGATION -->
-<section class="section" id="navigation">
-  <h2>Related Theory Pages</h2>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-    <a href="stur_core_theory.html" class="block" style="text-decoration:none;border-left-color:var(--gold);">
-      <div class="title" style="color:var(--gold);">Core Theory</div>
-      <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">The XCRM Master Action</p>
-    </a>
-    <a href="stur_xcrm_closure.html" class="block" style="text-decoration:none;border-left-color:var(--success);">
-      <div class="title" style="color:var(--success);">XCRM Closure</div>
-      <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">Parameter determination</p>
-    </a>
-    <a href="stur_predictions.html" class="block" style="text-decoration:none;border-left-color:var(--accent);">
-      <div class="title" style="color:var(--accent);">Predictions</div>
-      <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">Testable consequences</p>
-    </a>
-    <a href="stur_holoscreen.html" class="block" style="text-decoration:none;border-left-color:var(--accent-secondary);">
-      <div class="title" style="color:var(--accent-secondary);">Holoscreen</div>
-      <p style="margin:0;color:var(--text-secondary);font-size:0.9rem;">Interactive simulator</p>
-    </a>
-  </div>
+<!-- Footer Branding -->
+<section style="text-align: center; padding: 2rem; margin: 2rem 0;">
+  <img src="../assets/lucy_icon.png" alt="Lucy" style="width: 80px; height: 80px; border-radius: 16px; margin-bottom: 1rem; box-shadow: 0 0 40px rgba(0,212,255,0.4), 0 0 80px rgba(236,72,153,0.2);">
+  <p style="font-size: 1.5rem; font-weight: 600; margin: 0; background: linear-gradient(135deg, var(--lucy-cyan) 0%, var(--lucy-magenta) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">LucyOS</p>
+  <p style="color: var(--lucy-magenta); font-style: italic; margin: 0.5rem 0 0;">AGI that grows with you</p>
 </section>
 
 </div>
 
-<footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
+<footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(0,212,255,0.2); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
-    © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
+    &copy; 2026 LucyOS &middot; <a href="../sitemap.html" style="color: var(--lucy-cyan);">Site Map</a>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(0,212,255,0.1); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: var(--lucy-cyan);">v1.0</span>
   </p>
 </footer>
 
@@ -1112,47 +1441,6 @@ document.addEventListener('DOMContentLoaded', function() {
       links.classList.toggle('open');
     });
   }
-
-  // Copy and download functionality
-  const codeEl = document.getElementById('codeBlock');
-  const okEl = document.getElementById('statusOk');
-  const errEl = document.getElementById('statusErr');
-
-  function showOk() {
-    okEl.classList.add('show');
-    errEl.classList.remove('show');
-    setTimeout(() => okEl.classList.remove('show'), 1500);
-  }
-  function showErr() {
-    errEl.classList.add('show');
-    okEl.classList.remove('show');
-    setTimeout(() => errEl.classList.remove('show'), 2000);
-  }
-  function getCode() {
-    return codeEl.textContent.replace(/\r\n/g, '\n');
-  }
-
-  document.getElementById('copyBtn').addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(getCode());
-      showOk();
-    } catch (e) {
-      showErr();
-    }
-  });
-
-  document.getElementById('dlBtn').addEventListener('click', () => {
-    const blob = new Blob([getCode()], {type: 'text/x-python;charset=utf-8'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'stur_rfd_simulator.py';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-    showOk();
-  });
 });
 </script>
 
