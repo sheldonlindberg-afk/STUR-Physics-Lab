@@ -7,6 +7,11 @@
    <link rel="stylesheet" href="assets/css/stur-index.css">
    ============================================================ */
 
+/* === PWA/Web App Layout Support === */
+body, main, [role="main"] {
+  padding-top: calc(var(--header-height, 56px) + env(safe-area-inset-top, 0px));
+}
+
 /* === LIQUID GLASS DESIGN SYSTEM === */
 :root {
   /* Glass effects */
