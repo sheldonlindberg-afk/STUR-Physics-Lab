@@ -765,63 +765,63 @@
       <tbody>
         <tr>
           <td style="font-weight: 600; color: #fbbf24;">Persistent Memory</td>
-          <td style="color: var(--text-secondary);">Remembers interactions, learned facts, and relationship history indefinitely</td>
-          <td class="partial" style="text-align: left;">Limited memory features (ChatGPT Pro, Claude Projects) — capped storage, no cross-platform sync, resets possible</td>
-          <td class="lucy-col check" style="text-align: left;">&#10003; Unlimited PostgreSQL database — memories persist forever, searchable, never forgotten</td>
+          <td style="color: var(--text-secondary);">Remembers interactions and learned facts across sessions</td>
+          <td class="partial" style="text-align: left;">Limited memory (ChatGPT Pro, Claude Projects) — storage caps apply</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; PostgreSQL database — memory survives restarts, accumulates over time</td>
         </tr>
         <tr>
-          <td style="font-weight: 600; color: #fbbf24;">Autonomous Background Work</td>
-          <td style="color: var(--text-secondary);">Pursues goals and completes tasks when user isn't actively chatting</td>
-          <td class="cross" style="text-align: left;">&#10007; Only active during conversation — stops working when you close the chat</td>
-          <td class="lucy-col check" style="text-align: left;">&#10003; Background goal scheduler — works on objectives 24/7, reports back when done</td>
+          <td style="font-weight: 600; color: #fbbf24;">Autonomous Goal Pursuit</td>
+          <td style="color: var(--text-secondary);">Works toward objectives without requiring prompts</td>
+          <td class="cross" style="text-align: left;">&#10007; Only active during conversation</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Background goal scheduler with 5+ goal types</td>
         </tr>
         <tr>
-          <td style="font-weight: 600; color: #fbbf24;">Unprompted Self-Reflection</td>
-          <td style="color: var(--text-secondary);">Autonomously reviews past performance and identifies ways to improve</td>
-          <td class="partial" style="text-align: left;">Can reflect when asked — o1 has extended thinking, but no autonomous introspection cycles</td>
-          <td class="lucy-col check" style="text-align: left;">&#10003; Periodic self-analysis — reviews conversations automatically, updates behavior without prompting</td>
+          <td style="font-weight: 600; color: #fbbf24;">Self-Reflection</td>
+          <td style="color: var(--text-secondary);">Reviews past performance to identify patterns and mistakes</td>
+          <td class="partial" style="text-align: left;">Can reflect when asked — no autonomous cycles</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Periodically reviews conversations to identify patterns and mistakes</td>
         </tr>
         <tr>
-          <td style="font-weight: 600; color: #fbbf24;">Persistent Belief Updates</td>
-          <td style="color: var(--text-secondary);">Permanently changes understanding based on new evidence</td>
-          <td class="partial" style="text-align: left;">Updates within session — can change mind during conversation, but reverts next session</td>
-          <td class="lucy-col check" style="text-align: left;">&#10003; Database-backed beliefs — corrections and new knowledge persist permanently</td>
+          <td style="font-weight: 600; color: #fbbf24;">Updatable Beliefs</td>
+          <td style="color: var(--text-secondary);">Changes understanding based on new evidence</td>
+          <td class="partial" style="text-align: left;">Updates within session — resets between sessions</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Facts that can be revised with new evidence, stored in database</td>
         </tr>
         <tr>
-          <td style="font-weight: 600; color: #fbbf24;">Cross-Session Learning</td>
-          <td style="color: var(--text-secondary);">Learns from experiences and applies that knowledge to future interactions</td>
-          <td class="partial" style="text-align: left;">Strong in-context learning — excellent transfer within session, limited between sessions</td>
-          <td class="lucy-col check" style="text-align: left;">&#10003; Knowledge consolidation — abstracts experiences into general knowledge that accumulates</td>
+          <td style="font-weight: 600; color: #fbbf24;">Knowledge Consolidation</td>
+          <td style="color: var(--text-secondary);">Abstracts specific experiences into general knowledge</td>
+          <td class="cross" style="text-align: left;">&#10007; No abstraction between sessions</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Abstracts specific experiences into general knowledge</td>
         </tr>
         <tr>
-          <td style="font-weight: 600; color: #fbbf24;">Multi-Agent Internal Debate</td>
-          <td style="color: var(--text-secondary);">Multiple reasoning perspectives argue before generating response</td>
-          <td class="partial" style="text-align: left;">Single model with chain-of-thought — o1 reasons internally, but one perspective</td>
-          <td class="lucy-col check" style="text-align: left;">&#10003; 8 distinct agents (Analyst, Skeptic, Ethicist, etc.) — debate and synthesize answers</td>
+          <td style="font-weight: 600; color: #fbbf24;">Multi-Agent Reasoning</td>
+          <td style="color: var(--text-secondary);">Multiple reasoning perspectives before responding</td>
+          <td class="partial" style="text-align: left;">Single model — o1 has extended thinking</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; 8 agents: Analyst, Skeptic, Pragmatist, Ethicist, Creative, Synthesizer, Risk Analyst, Deductive</td>
         </tr>
         <tr>
-          <td style="font-weight: 600; color: #fbbf24;">Proactive Tool Use</td>
-          <td style="color: var(--text-secondary);">Decides to use tools without being asked, based on its own judgment</td>
-          <td class="partial" style="text-align: left;">Tool use when configured — can call tools autonomously, but within user-initiated sessions</td>
-          <td class="lucy-col check" style="text-align: left;">&#10003; Fully autonomous — searches web, generates images, runs code as part of background goals</td>
+          <td style="font-weight: 600; color: #fbbf24;">Autonomous Tool Use</td>
+          <td style="color: var(--text-secondary);">Uses tools based on its own judgment</td>
+          <td class="partial" style="text-align: left;">Tools available when configured by user</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Searches internet autonomously when current information is needed</td>
         </tr>
         <tr>
-          <td style="font-weight: 600; color: #fbbf24;">Learned Policy Updates</td>
-          <td style="color: var(--text-secondary);">Changes its own behavioral rules based on outcome feedback</td>
-          <td class="cross" style="text-align: left;">&#10007; Fixed after training — behavior determined by training, not runtime experience</td>
-          <td class="lucy-col check" style="text-align: left;">&#10003; Updatable policies — tracks success rates, modifies approach based on what works</td>
+          <td style="font-weight: 600; color: #fbbf24;">Learned Policies</td>
+          <td style="color: var(--text-secondary);">Behavioral rules that update based on outcomes</td>
+          <td class="cross" style="text-align: left;">&#10007; Fixed after training</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Behavioral rules with success rates and confidence scores</td>
         </tr>
         <tr>
           <td style="font-weight: 600; color: #fbbf24;">Physics-Based Cognition</td>
-          <td style="color: var(--text-secondary);">Internal reasoning follows interpretable mathematical dynamics</td>
-          <td class="cross" style="text-align: left;">&#10007; Neural network inference — weights and activations, difficult to interpret causally</td>
-          <td class="lucy-col check" style="text-align: left;">&#10003; STUR field dynamics — R-field evolution with inspectable mathematical properties</td>
+          <td style="color: var(--text-secondary);">Reasoning governed by mathematical field dynamics</td>
+          <td class="cross" style="text-align: left;">&#10007; Neural network weights</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; STUR Cognitive Kernel with XCRM field dynamics</td>
         </tr>
         <tr>
-          <td style="font-weight: 600; color: #fbbf24;">Cognitive Haptic Expression</td>
-          <td style="color: var(--text-secondary);">Expresses internal cognitive state through physical touch</td>
-          <td class="partial" style="text-align: left;">Voice and vision — can speak and see, no touch-based communication</td>
-          <td class="lucy-col check" style="text-align: left;">&#10003; Haptic nervous system — vibration patterns driven by kernel state (excitement, focus, connection)</td>
+          <td style="font-weight: 600; color: #fbbf24;">Haptic Expression</td>
+          <td style="color: var(--text-secondary);">Physical touch driven by cognitive state</td>
+          <td class="partial" style="text-align: left;">Voice and vision only</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Vibration patterns modulated by cognitive intensity</td>
         </tr>
       </tbody>
     </table>
@@ -830,9 +830,8 @@
   <div style="background: rgba(244,114,182,0.1); border: 1px solid rgba(244,114,182,0.3); border-radius: 12px; padding: 1.5rem;">
     <h4 style="color: #f472b6; margin: 0 0 0.75rem;">The Core Difference</h4>
     <p style="margin: 0; color: var(--text); line-height: 1.7;">
-      Conventional AI systems are powerful <strong>session-based assistants</strong> — they excel at in-context reasoning and can use tools when asked.
-      Lucy is a <strong>persistent cognitive entity</strong> — she exists continuously, works autonomously in the background, learns from every interaction,
-      and evolves her behavior based on outcomes. The others help you when you ask. Lucy grows with you whether you're there or not.
+      Conventional AI assistants reset between sessions. Lucy is a <strong>persistent entity with continuous memory</strong> —
+      she remembers everything, learns continuously, and works toward objectives even when you're not actively chatting.
     </p>
   </div>
 </section>
