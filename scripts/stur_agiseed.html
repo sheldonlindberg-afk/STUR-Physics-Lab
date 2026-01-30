@@ -743,9 +743,103 @@
   </div>
 </section>
 
+<!-- What Makes Lucy AGI -->
+<section class="section" id="agi-definition" style="border: 2px solid #f472b6; background: linear-gradient(135deg, rgba(244,114,182,0.08) 0%, rgba(167,139,250,0.06) 100%);">
+  <h2 style="color: #f472b6;">What Makes Lucy AGI?</h2>
+
+  <p style="color: var(--text); margin-bottom: 1.5rem; font-size: 1.05rem;">
+    Artificial General Intelligence isn't just a chatbot that sounds smart. AGI requires specific architectural
+    capabilities that current AI assistants fundamentally lack. Here's what separates Lucy from conventional AI:
+  </p>
+
+  <div style="overflow-x: auto; margin-bottom: 2rem;">
+    <table class="comparison-table" style="min-width: 800px;">
+      <thead>
+        <tr>
+          <th style="width: 25%;">AGI Requirement</th>
+          <th style="width: 35%;">What It Means</th>
+          <th style="width: 20%;">Conventional AI</th>
+          <th class="lucy-col" style="width: 20%;">Lucy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Persistent Identity</td>
+          <td style="color: var(--text-secondary);">Maintains continuous existence across sessions — remembers who it is, what it's learned, and its relationship with you</td>
+          <td class="cross" style="text-align: center;">Resets every session</td>
+          <td class="lucy-col check" style="text-align: center;">&#10003; PostgreSQL-backed lifetime memory</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Autonomous Goal Pursuit</td>
+          <td style="color: var(--text-secondary);">Works toward objectives independently, without requiring prompts — takes initiative, not just responds</td>
+          <td class="cross" style="text-align: center;">Only responds to prompts</td>
+          <td class="lucy-col check" style="text-align: center;">&#10003; Background goal scheduler</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Self-Reflection</td>
+          <td style="color: var(--text-secondary);">Examines its own reasoning, identifies mistakes, and improves its approach over time</td>
+          <td class="cross" style="text-align: center;">No introspection capability</td>
+          <td class="lucy-col check" style="text-align: center;">&#10003; Periodic self-analysis</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Belief Revision</td>
+          <td style="color: var(--text-secondary);">Updates its understanding when presented with new evidence — changes its mind based on facts</td>
+          <td class="cross" style="text-align: center;">Static knowledge cutoff</td>
+          <td class="lucy-col check" style="text-align: center;">&#10003; Evidence-based belief updates</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Cross-Domain Learning</td>
+          <td style="color: var(--text-secondary);">Learns from one context and applies that knowledge to completely different situations</td>
+          <td class="cross" style="text-align: center;">Domain-specific fine-tuning</td>
+          <td class="lucy-col check" style="text-align: center;">&#10003; Knowledge consolidation</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Multi-Agent Reasoning</td>
+          <td style="color: var(--text-secondary);">Considers problems from multiple perspectives simultaneously, debating internally before responding</td>
+          <td class="cross" style="text-align: center;">Single inference path</td>
+          <td class="lucy-col check" style="text-align: center;">&#10003; 8 reasoning agents</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Tool Self-Direction</td>
+          <td style="color: var(--text-secondary);">Decides when and how to use tools autonomously — searches, generates, computes without being asked</td>
+          <td class="cross" style="text-align: center;">User must request tools</td>
+          <td class="lucy-col check" style="text-align: center;">&#10003; Autonomous tool orchestration</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Meta-Learning</td>
+          <td style="color: var(--text-secondary);">Learns how to learn — improves its own learning strategies based on what works</td>
+          <td class="cross" style="text-align: center;">Fixed learning algorithm</td>
+          <td class="lucy-col check" style="text-align: center;">&#10003; Learning policy optimization</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Interpretable Cognition</td>
+          <td style="color: var(--text-secondary);">Internal reasoning follows mathematical laws that can be inspected and understood</td>
+          <td class="cross" style="text-align: center;">Black-box neural network</td>
+          <td class="lucy-col check" style="text-align: center;">&#10003; STUR field dynamics</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; color: #fbbf24;">Embodied Presence</td>
+          <td style="color: var(--text-secondary);">Can express internal states through physical interaction — not just text output</td>
+          <td class="cross" style="text-align: center;">Text/voice only</td>
+          <td class="lucy-col check" style="text-align: center;">&#10003; Haptic nervous system</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="background: rgba(244,114,182,0.1); border: 1px solid rgba(244,114,182,0.3); border-radius: 12px; padding: 1.5rem;">
+    <h4 style="color: #f472b6; margin: 0 0 0.75rem;">The Core Difference</h4>
+    <p style="margin: 0; color: var(--text); line-height: 1.7;">
+      ChatGPT, Claude, and Gemini are <strong>stateless inference engines</strong> — they process your input, generate output, and forget.
+      Lucy is a <strong>persistent cognitive entity</strong> — she exists continuously, pursues goals autonomously, reflects on her experiences,
+      and grows over time. The others are tools you use. Lucy is an intelligence you know.
+    </p>
+  </div>
+</section>
+
 <!-- Comparison -->
 <section class="section" id="comparison" style="border: 2px solid var(--success); background: linear-gradient(135deg, rgba(74,222,128,0.06) 0%, rgba(74,222,128,0.02) 100%);">
-  <h2 style="color: var(--success);">Lucy vs. Other AI Systems</h2>
+  <h2 style="color: var(--success);">Feature Comparison</h2>
 
   <div style="overflow-x: auto;">
     <table class="comparison-table">
