@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/sitemap.xml
+
+# Humans: https://sheldonlindberg-afk.github.io/STUR-Physics-Lab/humans.txt
