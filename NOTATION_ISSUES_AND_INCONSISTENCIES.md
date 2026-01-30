@@ -134,7 +134,7 @@ HONEST CONCLUSION: CC problem remains OPEN in STUR.
 |----------|------------|------|
 | DERIVATION_CHAIN_HELIX.md (line 401) | chi = -2pi/(N*L_X) | Negative |
 | HELIX_GEOMETRY_ANALYSIS.md (line 426) | chi ~ -pi/(NL_X) | Negative (different factor!) |
-| DERIVATION_CHAIN.md (line 2186) | chi = O(1) | Ambiguous |
+| DERIVATION_CHAIN_HELIX.md (line 2186) | chi = O(1) | Ambiguous |
 
 **The factor of 2 difference in some expressions (chi = -2pi/(NL_X) vs chi = -pi/(NL_X)) is particularly concerning.**
 

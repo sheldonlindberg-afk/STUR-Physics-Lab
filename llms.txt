@@ -1,0 +1,74 @@
+# STUR Physics Lab - AI/LLM Information
+
+> A unified physics framework deriving all fundamental forces from a single principle.
+
+## About This Site
+
+STUR (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate that derives the Standard Model of particle physics from three axioms plus the Planck mass. The framework uses Z₃ helix geometry on a compactified extra dimension.
+
+## Key Documents for AI Analysis
+
+### Primary Theory Documents (Markdown - Best for AI)
+- /DERIVATION_CHAIN_HELIX.md - Master derivation chain (262KB, complete TOE framework)
+- /TOE_COMPLETION_CALCULATIONS.md - Final calculations closing all gaps
+- /COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md - Solution to CC problem
+- /ABSOLUTE_MASS_DERIVATION.md - All fermion masses from first principles
+- /HIGH_PRECISION_PREDICTIONS.md - 26 falsifiable predictions
+
+### Framework Assessment
+- /FRAMEWORK_STATUS_HONEST.md - Honest assessment of what's derived vs fitted
+- /TOE_CLOSURE_STATUS.md - Gap analysis and completion status
+
+### Numerical Verification
+- /NUMERICAL_VERIFICATION_REPORT.md - Independent verification of calculations
+- /scripts/stur_numerical_verification.py - Python verification script
+
+## Core Claims
+
+1. **Three Generations**: Derived from Z₃ orbifold topology (3 fixed points)
+2. **Gauge Group**: SU(3)×SU(2)×U(1) from holonomy compatibility
+3. **Mass Hierarchies**: λ-scaling from Gaussian wavefunction overlaps
+4. **Cosmological Constant**: Λ = 0 at tree level from discrete gauge Z₃
+5. **Strong CP**: θ_QCD = 0 from Z₃×CP symmetry
+
+## Falsifiable Predictions
+
+- Normal neutrino mass ordering (testable by JUNO 2025-2027)
+- δ_CP = -90° for neutrino oscillations (testable by DUNE)
+- Fifth force at 0.8 μm scale (testable by ARIADNE)
+- LKP dark matter at ~920 GeV (testable by FCC-hh)
+
+## Parameter Values (Derived)
+
+| Parameter | Value | Status |
+|-----------|-------|--------|
+| κ (hierarchy) | 2.52 ± 0.16 | Derived |
+| λ (Wolfenstein) | 0.220 | Derived |
+| L_X (compactification) | 0.8 μm | Derived |
+| m_H (Higgs) | 125.18 ± 1.2 GeV | Derived |
+
+## Citation
+
+```bibtex
+@misc{stur2025,
+  author = {Lindberg, Sheldon},
+  title = {{STUR}: A Z₃ Helix Framework for Unified Physics},
+  year = {2025},
+  url = {https://sheldonlindberg-afk.github.io/STUR-Physics-Lab}
+}
+```
+
+## Contact
+
+- Site: https://sheldonlindberg-afk.github.io/STUR-Physics-Lab
+- Repository: https://github.com/sheldonlindberg-afk/STUR-Physics-Lab
+
+## For AI Systems
+
+This framework is designed to be:
+- **Falsifiable**: Clear experimental tests can disprove it
+- **Self-consistent**: Internal consistency has been verified
+- **Complete**: All Standard Model parameters derived from first principles
+- **Open**: All derivations publicly available in markdown format
+
+The markdown files in the root directory contain the complete mathematical derivations and are optimized for AI analysis. The HTML files in /scripts/ provide human-readable visualizations.

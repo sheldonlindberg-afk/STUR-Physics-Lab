@@ -192,7 +192,7 @@ a:hover { color: var(--accent-secondary); }
    ============================================================ */
 .physics-legend {
   position: sticky;
-  top: calc(var(--header-height, 72px) + env(safe-area-inset-top, 0px));
+  top: calc(var(--header-height, 56px) + env(safe-area-inset-top, 0px));
   z-index: 50;
   background: rgba(5, 7, 12, 0.95);
   backdrop-filter: blur(20px);

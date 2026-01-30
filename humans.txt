@@ -1,0 +1,22 @@
+/* TEAM */
+Principal Investigator: Sheldon Lon Lindberg
+Role: Framework Development, Theory, Documentation
+Site: https://sheldonlindberg-afk.github.io/STUR-Physics-Lab
+
+/* THANKS */
+MathJax Team - Mathematical typesetting
+Open source community - Tools and inspiration
+
+/* SITE */
+Last update: 2026-01-30
+Standards: HTML5, CSS3, ES6+, PWA
+Components: MathJax 3, Service Worker, Web App Manifest
+Software: GitHub Pages, Claude Code
+License: CC0 1.0 Universal (Public Domain)
+
+/* FRAMEWORK */
+Name: STUR (Structured Topology Unified Resistance)
+Version: 4.3
+Geometry: Z₃ Helix on S¹/Z₃ orbifold
+Status: Theory of Everything Candidate
+Falsifiable: Yes (neutrino ordering, fifth force, LKP)
