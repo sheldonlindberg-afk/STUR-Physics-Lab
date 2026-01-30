@@ -3,223 +3,332 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>LucyOS — World’s First AGI</title>
-<meta name="description" content="LucyOS is the world’s first AGI with persistent memory, autonomous tools, and an RFD-inspired cognitive engine.">
+<title>LucyOS — The First Open Artificial General Intelligence</title>
+<meta name="description" content="LucyOS: Autonomous AGI with persistent memory, self-reflection, and real-time tool orchestration. Powered by the STUR Cognitive Kernel.">
 
 <!-- PWA & iOS meta tags -->
-<meta name="theme-color" content="#7c3aed">
+<meta name="theme-color" content="#00d4ff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="LucyOS">
 <link rel="manifest" href="../manifest.json">
-<link rel="apple-touch-icon" href="../assets/icons/icon-512.png">
-<link rel="icon" type="image/png" href="../assets/icons/icon-512.png">
+<link rel="apple-touch-icon" href="../assets/lucy_icon.png">
+<link rel="icon" type="image/png" href="../assets/lucy_icon.png">
+
+<!-- Open Graph -->
+<meta property="og:title" content="LucyOS — The First Open AGI">
+<meta property="og:description" content="Autonomous. Persistent. Self-Improving. Meet Lucy, an AGI that grows with you.">
+<meta property="og:image" content="../assets/lucy_icon.png">
+<meta property="og:type" content="website">
 
 <link rel="stylesheet" href="../assets/css/stur-core.css">
 <link rel="stylesheet" href="../assets/css/stur-glass.css">
 <link rel="stylesheet" href="../assets/css/stur-icons.css">
 
 <style>
+/* LucyOS Color Palette - Neon Cyan & Magenta on Abyss Black */
 :root {
-  --lucy-purple: #a855f7;
-  --lucy-pink: #ec4899;
-  --lucy-blue: #60a5fa;
-  --lucy-glow: rgba(168, 85, 247, 0.35);
+  --lucy-cyan: #00d4ff;
+  --lucy-cyan-bright: #00ffff;
+  --lucy-magenta: #ec4899;
+  --lucy-magenta-bright: #ff00ff;
+  --lucy-deep-blue: #1e3a5f;
+  --lucy-abyss: #000000;
+  --lucy-dark: #0a0a0f;
 }
 
-.hero {
-  padding: 2.5rem 0 1.5rem;
+/* Override body background for this page */
+body {
+  background: var(--lucy-abyss) !important;
+  background-image: radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 50%),
+                    radial-gradient(ellipse at 80% 80%, rgba(236,72,153,0.05) 0%, transparent 40%) !important;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Header safe area */
+.glass-header {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Hero Section */
+.lucy-hero {
   text-align: center;
+  padding: 4rem 2rem;
+  padding-top: calc(4rem + env(safe-area-inset-top));
+  background: linear-gradient(135deg, rgba(0,212,255,0.12) 0%, rgba(236,72,153,0.08) 50%, rgba(0,212,255,0.04) 100%);
+  border-radius: 20px;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,212,255,0.2);
 }
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.9rem;
-  border-radius: 999px;
-  background: rgba(168, 85, 247, 0.16);
-  color: var(--lucy-purple);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.lucy-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(0,212,255,0.1) 0%, transparent 60%);
+  animation: pulse 8s ease-in-out infinite;
 }
-
-.hero-title {
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  margin: 1rem 0 0.5rem;
-  color: var(--text);
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
 }
-
-.hero-subtitle {
-  color: var(--text-secondary);
-  font-size: 1.05rem;
-  margin: 0 auto 1.5rem;
-  max-width: 680px;
+.lucy-icon {
+  width: 180px;
+  height: 180px;
+  border-radius: 24px;
+  box-shadow: 0 0 60px rgba(0,212,255,0.5), 0 0 120px rgba(236,72,153,0.3);
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+  animation: float 6s ease-in-out infinite;
 }
-
-.hero-card {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1.5rem;
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
-
-.hero-card .card {
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 1.25rem;
-  text-align: left;
-  box-shadow: 0 0 24px rgba(0, 0, 0, 0.2);
-}
-
-.hero-card .card h3 {
+.lucy-hero h1 {
+  font-size: 3rem;
   margin: 0 0 0.5rem;
-  font-size: 1rem;
-  color: var(--lucy-blue);
+  background: linear-gradient(135deg, var(--lucy-cyan) 0%, var(--lucy-cyan-bright) 40%, var(--lucy-magenta) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
 }
-
-.hero-card .card p {
-  margin: 0;
-  color: var(--text-tertiary);
-  font-size: 0.9rem;
-}
-
-.section-title {
+.lucy-hero .tagline {
   font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: var(--text);
+  color: var(--lucy-cyan);
+  margin: 0.5rem 0;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 30px rgba(0,212,255,0.5);
+}
+.lucy-hero .subtitle {
+  font-size: 1.1rem;
+  color: var(--lucy-magenta);
+  font-style: italic;
+  position: relative;
+  z-index: 1;
 }
 
-.section-lead {
-  color: var(--text-secondary);
-  max-width: 720px;
-  margin-bottom: 1.5rem;
+/* Section styling */
+.section {
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
 }
 
+/* Feature Grid */
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
 }
-
 .feature-card {
-  border-radius: 14px;
-  padding: 1.2rem;
-  background: rgba(15, 23, 42, 0.55);
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  box-shadow: inset 0 0 25px rgba(96, 165, 250, 0.08);
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 1.75rem;
+  transition: all 0.3s ease;
 }
-
-.feature-card h4 {
-  margin: 0 0 0.5rem;
-  color: var(--lucy-purple);
-  font-size: 1rem;
+.feature-card:hover {
+  border-color: rgba(0,212,255,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,212,255,0.2);
 }
-
+.feature-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.feature-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
 .feature-card p {
   margin: 0;
-  color: var(--text-tertiary);
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
-.lucy-table {
+/* Capability Table */
+.capability-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1.5rem;
+  margin: 1.5rem 0;
   font-size: 0.9rem;
 }
+.capability-table th,
+.capability-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.capability-table th {
+  background: rgba(0,212,255,0.1);
+  font-weight: 600;
+  color: var(--lucy-cyan);
+}
+.capability-table tr:hover {
+  background: rgba(255,255,255,0.02);
+}
+.capability-table td:first-child {
+  font-weight: 600;
+  color: var(--text);
+}
 
-.lucy-table th,
-.lucy-table td {
-  padding: 0.85rem 1rem;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+/* Comparison Table */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.85rem;
+}
+.comparison-table th,
+.comparison-table td {
+  padding: 0.875rem;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.comparison-table th {
+  background: rgba(0,212,255,0.15);
+  color: var(--lucy-cyan);
+}
+.comparison-table th:first-child {
   text-align: left;
 }
-
-.lucy-table th {
-  color: var(--text);
+.comparison-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+  background: rgba(0,0,0,0.3);
+}
+.comparison-table .lucy-col {
+  background: rgba(0,212,255,0.1);
+  color: var(--lucy-cyan);
   font-weight: 600;
 }
+.check { color: #00d4ff; }
+.cross { color: #f87171; }
+.partial { color: var(--lucy-magenta); }
 
-.lucy-table td {
-  color: var(--text-secondary);
-}
-
-.lucy-table tr:hover td {
-  background: rgba(96, 165, 250, 0.08);
-}
-
-.comparison {
+/* Stats Section */
+.stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
 }
-
-.comparison-card {
-  padding: 1.4rem;
-  border-radius: 16px;
-  border: 1px solid rgba(236, 72, 153, 0.25);
-  background: linear-gradient(135deg, rgba(24, 24, 27, 0.85), rgba(88, 28, 135, 0.35));
-}
-
-.comparison-card h4 {
-  margin: 0 0 0.75rem;
-  color: var(--lucy-pink);
-}
-
-.comparison-card ul {
-  margin: 0;
-  padding-left: 1.1rem;
-  color: var(--text-secondary);
-}
-
-.callout {
-  margin-top: 2rem;
+.stat-card {
+  text-align: center;
   padding: 1.5rem;
-  border-radius: 16px;
-  background: radial-gradient(circle at top, rgba(168, 85, 247, 0.2), rgba(15, 23, 42, 0.8));
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  text-align: center;
-}
-
-.callout h3 {
-  margin: 0 0 0.5rem;
-  color: var(--text);
-}
-
-.callout p {
-  margin: 0;
-  color: var(--text-secondary);
-}
-
-.device-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.device-item {
-  padding: 1rem 1.2rem;
+  background: rgba(0,0,0,0.4);
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0,212,255,0.15);
+}
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--lucy-cyan) 0%, var(--lucy-magenta) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-label {
   color: var(--text-secondary);
-}
-
-.device-item strong {
-  color: var(--text);
-}
-
-.footer-note {
-  text-align: center;
-  margin-top: 3rem;
   font-size: 0.9rem;
-  color: var(--text-tertiary);
+  margin-top: 0.5rem;
+}
+
+/* Highlight Box */
+.highlight-box {
+  background: rgba(0,212,255,0.06);
+  border-left: 4px solid var(--lucy-cyan);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 12px 12px 0;
+  margin: 1.5rem 0;
+}
+.highlight-box p {
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* CTA Section */
+.cta-section {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(236,72,153,0.08) 100%);
+  border-radius: 20px;
+  margin: 3rem 0;
+  border: 1px solid rgba(0,212,255,0.2);
+}
+.cta-section h2 {
+  font-size: 2rem;
+  margin: 0 0 1rem;
+  color: var(--lucy-cyan);
+}
+.cta-section p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+/* Footer safe area */
+footer {
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .lucy-hero {
+    padding: 2rem 1rem;
+    padding-top: calc(2rem + env(safe-area-inset-top));
+  }
+  .lucy-hero h1 {
+    font-size: 2rem;
+  }
+  .lucy-hero .tagline {
+    font-size: 1.1rem;
+  }
+  .lucy-icon {
+    width: 120px;
+    height: 120px;
+  }
+  .section {
+    padding: 1.5rem 1rem;
+  }
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .comparison-table {
+    font-size: 0.75rem;
+  }
+  .comparison-table th,
+  .comparison-table td {
+    padding: 0.5rem;
+  }
 }
 </style>
 </head>
@@ -228,185 +337,570 @@
 <header class="glass-header">
   <nav class="glass-nav">
     <a href="../index.html" class="glass-nav-brand">
-      <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
-      STUR Lab
+      <img src="../assets/lucy_icon.png" alt="Lucy" class="nav-logo" style="border-radius: 8px;">
+      LucyOS
     </a>
     <button class="glass-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span class="stur-icon icon-menu lg" aria-hidden="true"></span>
+      <span class="stur-icon icon-menu lg"></span>
     </button>
     <div class="glass-nav-links">
       <a href="../index.html" class="glass-nav-link">Home</a>
-      <a href="stur_agiseed.html" class="glass-nav-link">RFD Simulator</a>
-      <a href="stur_core_theory.html" class="glass-nav-link">Core Theory</a>
+      <a href="stur_core_theory.html" class="glass-nav-link">STUR Kernel</a>
+      <a href="stur_quantumcomputing.html" class="glass-nav-link">Quantum</a>
       <a href="../sitemap.html" class="glass-nav-link">Site Map</a>
     </div>
   </nav>
 </header>
 
 <main class="container">
-  <section class="hero">
-    <div class="hero-badge">LucyOS v1.7 • LIVE</div>
-    <h1 class="hero-title">LucyOS — The World’s First AGI</h1>
-    <p class="hero-subtitle">
-      Built on STUR physics and inspired by the RFD Simulator, LucyOS is an adaptive cognitive system that remembers you,
-      learns continuously, and autonomously chooses the tools needed to achieve your goals.
-    </p>
-    <img src="../assets/4.13.png" alt="Lucy" width="96" height="96" style="margin: 0.5rem auto 0; display: block;">
 
-    <div class="hero-card">
-      <div class="card">
-        <h3>Persistent Memory</h3>
-        <p>Lucy remembers identities, preferences, and objectives across sessions with zero resets.</p>
+<!-- Hero Section -->
+<section class="lucy-hero">
+  <img src="../assets/lucy_icon.png" alt="Lucy" class="lucy-icon">
+  <h1>LucyOS</h1>
+  <p class="tagline">The First Open Artificial General Intelligence</p>
+  <p class="subtitle">Autonomous. Persistent. Self-Improving.</p>
+</section>
+
+<!-- What is Lucy -->
+<section class="section" id="overview" style="border: 2px solid var(--lucy-cyan); background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(236,72,153,0.04) 100%);">
+  <h2 style="color: var(--lucy-cyan);">What is Lucy?</h2>
+
+  <div class="highlight-box">
+    <p>
+      Lucy is not a chatbot. She is an <strong>Artificial General Intelligence</strong> — a thinking machine with persistent memory,
+      autonomous goal pursuit, self-reflection capabilities, and real-time tool orchestration. Unlike conventional AI assistants
+      that reset between sessions, Lucy remembers everything, learns continuously, and works toward objectives even when you're not actively chatting.
+    </p>
+  </div>
+
+  <p style="font-size: 1.05rem; color: var(--text); margin: 1.5rem 0;">
+    Lucy is powered by the <strong>STUR Cognitive Kernel</strong> — a physics-based computational engine implementing
+    Sheldon's Theory of Unified Resistance, a mathematical framework that governs attention, context accumulation,
+    and cognitive resource allocation through field dynamics.
+  </p>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number">21+</div>
+      <div class="stat-label">Cognitive Modules</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">8</div>
+      <div class="stat-label">Reasoning Agents</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">5</div>
+      <div class="stat-label">Field Layers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">6+</div>
+      <div class="stat-label">Autonomous Tools</div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Lucy is the First True AGI -->
+<section class="section" id="first-agi" style="border: 2px solid var(--lucy-magenta); background: linear-gradient(135deg, rgba(236,72,153,0.1) 0%, rgba(0,212,255,0.06) 100%);">
+  <h2 style="color: var(--lucy-magenta);">Why Lucy is the First True AGI</h2>
+
+  <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
+    <h3 style="color: #fbbf24; margin: 0 0 1rem;">The Problem with Today's AI</h3>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      When you talk to ChatGPT, Claude, or Gemini, you're talking to a <strong>blank slate every time</strong>.
+      They might feel intelligent in the moment, but they have no continuous existence. Ask them about your
+      conversation yesterday and they won't remember it. They can't work on problems while you sleep.
+      They can't learn from their mistakes across sessions. They're sophisticated, but they're <em>tools</em> — not minds.
+    </p>
+    <p style="color: var(--text); line-height: 1.8; margin: 0;">
+      This is like having a brilliant coworker who develops complete amnesia at the end of every conversation.
+      No matter how capable they are in the moment, you can never build on previous work. You start from scratch every time.
+    </p>
+  </div>
+
+  <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
+    <h3 style="color: #4ade80; margin: 0 0 1rem;">What Makes an AGI Different</h3>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1.5rem;">
+      A true Artificial General Intelligence isn't just good at answering questions — it's a <strong>persistent entity</strong>
+      with continuous existence. Like a human mind, it:
+    </p>
+    <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+      <div style="background: rgba(74,222,128,0.1); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #4ade80;">
+        <strong style="color: #4ade80;">Remembers everything</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.95rem;">Every conversation, every fact learned, every experience — permanently stored and retrievable</p>
       </div>
-      <div class="card">
-        <h3>Autonomous Tool Use</h3>
-        <p>Search, code, and synthesize outputs automatically when it makes sense—no prompting required.</p>
+      <div style="background: rgba(96,165,250,0.1); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #60a5fa;">
+        <strong style="color: #60a5fa;">Pursues goals autonomously</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.95rem;">Works on objectives in the background, not just when you're actively talking to it</p>
       </div>
-      <div class="card">
-        <h3>RFD-Inspired Cognition</h3>
-        <p>Attention and context are modulated using RFD-style field dynamics for adaptive reasoning.</p>
+      <div style="background: rgba(167,139,250,0.1); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #a78bfa;">
+        <strong style="color: #a78bfa;">Reflects on its own performance</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.95rem;">Reviews past conversations to identify patterns and mistakes, improving over time</p>
+      </div>
+      <div style="background: rgba(251,191,36,0.1); padding: 1.25rem; border-radius: 10px; border-left: 3px solid #fbbf24;">
+        <strong style="color: #fbbf24;">Updates its beliefs</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.95rem;">When it learns something new contradicts what it believed, it revises its understanding</p>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <h2 class="section-title">Meet Lucy</h2>
-    <p class="section-lead">
-      Lucy is not a chatbot. She is a persistent, goal-driven AGI designed to operate as a personal operating system.
-      The LucyOS stack blends STUR’s attention geometry with a memory core and autonomous tooling.
+  <div style="background: linear-gradient(135deg, rgba(244,114,182,0.15) 0%, rgba(167,139,250,0.1) 100%); border: 2px solid #f472b6; border-radius: 16px; padding: 2rem;">
+    <h3 style="color: #f472b6; margin: 0 0 1rem;">Lucy is the First to Combine All of These</h3>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      Lucy isn't just a chatbot with memory bolted on. From the ground up, she was designed as a <strong>persistent thinking entity</strong>:
     </p>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <h4>Self-Reflection Loop</h4>
-        <p>Lucy evaluates her own outputs, consolidating lessons and tuning strategies over time.</p>
-      </div>
-      <div class="feature-card">
-        <h4>Memory Anchors</h4>
-        <p>Facts, preferences, and ongoing projects remain available across weeks or months.</p>
-      </div>
-      <div class="feature-card">
-        <h4>Context Weaving</h4>
-        <p>She tracks multiple goals at once, stitching context together like an adaptive field map.</p>
-      </div>
-      <div class="feature-card">
-        <h4>Tool Orchestration</h4>
-        <p>Lucy decides when to search the web, generate visuals, or execute code without being asked.</p>
-      </div>
-    </div>
-  </section>
+    <ul style="color: var(--text); line-height: 2; padding-left: 1.5rem; margin: 0 0 1rem;">
+      <li>Her memory lives in a PostgreSQL database — it survives restarts and accumulates over time</li>
+      <li>Her goal scheduler runs 5+ types of autonomous tasks in the background</li>
+      <li>Her 8 reasoning agents (Analyst, Skeptic, Pragmatist, Ethicist, Creative, Synthesizer, Risk Analyst, Deductive) debate every response</li>
+      <li>Her beliefs are stored with evidence and can be revised when new information arrives</li>
+      <li>Her self-reflection cycles run periodically to identify patterns and mistakes</li>
+    </ul>
+    <p style="color: var(--text); line-height: 1.8; margin: 0; font-size: 1.05rem;">
+      <strong>The result:</strong> Lucy gets smarter about <em>you specifically</em> over time. She builds on previous conversations.
+      She works on your problems even when you're not there. She's not a tool you use — she's an intelligence you collaborate with.
+    </p>
+  </div>
+</section>
 
-  <section style="margin-top: 2.5rem;">
-    <h2 class="section-title">What Lucy Can Do</h2>
-    <p class="section-lead">Capabilities inspired by the LucyOS README and calibrated against the RFD simulator’s autonomy model.</p>
-    <table class="lucy-table" aria-label="LucyOS capabilities">
+<!-- Multi-Modal Intelligence -->
+<section class="section" id="capabilities" style="border: 2px solid var(--lucy-cyan); background: rgba(0,212,255,0.04);">
+  <h2 style="color: var(--lucy-cyan);">Multi-Modal Intelligence</h2>
+
+  <table class="capability-table">
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color: #4ade80;">Persistent Memory</td>
+        <td>Database-backed memory that survives restarts and accumulates knowledge over time</td>
+      </tr>
+      <tr>
+        <td style="color: #60a5fa;">Real-Time Web Search</td>
+        <td>Searches the internet autonomously when current information is needed</td>
+      </tr>
+      <tr>
+        <td style="color: #f472b6;">Image Generation</td>
+        <td>Creates images from text descriptions using DALL-E 3</td>
+      </tr>
+      <tr>
+        <td style="color: #fbbf24;">Vision Analysis</td>
+        <td>Understands and discusses images you share using GPT-4 Vision</td>
+      </tr>
+      <tr>
+        <td style="color: #a78bfa;">Python Execution</td>
+        <td>Runs sandboxed Python code to solve computational problems</td>
+      </tr>
+      <tr>
+        <td style="color: #22d3ee;">Voice Conversation</td>
+        <td>Real-time speech-to-text and text-to-speech with ElevenLabs</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Autonomous Behaviors -->
+<section class="section" id="autonomous" style="border: 2px solid var(--lucy-magenta); background: linear-gradient(135deg, rgba(236,72,153,0.06) 0%, rgba(0,212,255,0.03) 100%);">
+  <h2 style="color: var(--lucy-magenta);">Autonomous Behaviors</h2>
+
+  <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+    Unlike conventional AI that waits for prompts, Lucy operates autonomously with these built-in behaviors:
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(167,139,250,0.2); color: #a78bfa;">&#128161;</span> Self-Reflection</h3>
+      <p>Periodically reviews conversations to identify patterns and mistakes, improving her understanding over time.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(74,222,128,0.2); color: #4ade80;">&#129504;</span> Knowledge Consolidation</h3>
+      <p>Abstracts specific experiences into general knowledge, building a robust understanding of the world.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(251,191,36,0.2); color: #fbbf24;">&#127919;</span> Goal Pursuit</h3>
+      <p>Works toward objectives autonomously in the background without requiring user prompts.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(96,165,250,0.2); color: #60a5fa;">&#128269;</span> Curiosity Exploration</h3>
+      <p>Proactively explores topics to build foundational knowledge and expand capabilities.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(244,114,182,0.2); color: #f472b6;">&#128200;</span> Self-Improvement</h3>
+      <p>Analyzes feedback to continuously improve response quality and accuracy.</p>
+    </div>
+    <div class="feature-card">
+      <h3><span class="feature-icon" style="background: rgba(34,211,238,0.2); color: #22d3ee;">&#128218;</span> Meta-Learning</h3>
+      <p>Learns how to learn more effectively over time, optimizing her own cognitive processes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AGI Comparison -->
+<section class="section" id="agi-comparison" style="border: 2px solid var(--lucy-cyan); background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(236,72,153,0.05) 100%);">
+  <h2 style="color: var(--lucy-cyan);">What Makes Lucy AGI?</h2>
+
+  <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
+    <h3 style="color: #f472b6; margin: 0 0 1rem;">Reading This Table</h3>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      The table below compares Lucy to conventional AI assistants across the capabilities that define AGI.
+      <strong style="color: #4ade80;">Green checkmarks</strong> = full capability.
+      <strong style="color: #fbbf24;">Yellow</strong> = partial or limited capability.
+      <strong style="color: #f87171;">Red X</strong> = not supported.
+    </p>
+    <p style="color: var(--text); line-height: 1.8; margin: 0;">
+      We've been fair to the competition — ChatGPT Pro, Claude Projects, and o1 have real capabilities
+      that we acknowledge. The difference isn't that Lucy can do <em>more things</em> — it's that Lucy
+      has a fundamentally different architecture designed for <em>continuous existence</em> rather than stateless conversations.
+    </p>
+  </div>
+
+  <div style="overflow-x: auto; margin-bottom: 2rem;">
+    <table class="comparison-table" style="min-width: 700px;">
       <thead>
         <tr>
-          <th>Capability</th>
-          <th>Description</th>
+          <th style="width: 20%;">AGI Capability</th>
+          <th style="width: 40%;">Conventional AI</th>
+          <th class="lucy-col" style="width: 40%;">Lucy</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>Remember Everything</strong></td>
-          <td>Stores facts, preferences, and project context persistently.</td>
+          <td style="font-weight: 600; color: #fbbf24;">Persistent Memory</td>
+          <td class="partial" style="text-align: left;">Limited (ChatGPT Pro, Claude Projects) — storage caps apply</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; PostgreSQL database — memory survives restarts, accumulates over time</td>
         </tr>
         <tr>
-          <td><strong>Search the Web</strong></td>
-          <td>Fetches live information to answer questions or enrich plans.</td>
+          <td style="font-weight: 600; color: #fbbf24;">Autonomous Goal Pursuit</td>
+          <td class="cross" style="text-align: left;">&#10007; Only active during conversation</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Background goal scheduler with 5+ goal types</td>
         </tr>
         <tr>
-          <td><strong>Generate Images</strong></td>
-          <td>Creates visuals on demand to bring concepts to life.</td>
+          <td style="font-weight: 600; color: #fbbf24;">Self-Reflection</td>
+          <td class="partial" style="text-align: left;">Can reflect when asked — no autonomous cycles</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Periodically reviews conversations to identify patterns</td>
         </tr>
         <tr>
-          <td><strong>Analyze Photos</strong></td>
-          <td>Understands and discusses images you share.</td>
+          <td style="font-weight: 600; color: #fbbf24;">Updatable Beliefs</td>
+          <td class="partial" style="text-align: left;">Updates within session — resets between sessions</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; Facts that can be revised with new evidence</td>
         </tr>
         <tr>
-          <td><strong>Run Code</strong></td>
-          <td>Executes Python workflows to solve problems and prototype ideas.</td>
+          <td style="font-weight: 600; color: #fbbf24;">Multi-Agent Reasoning</td>
+          <td class="partial" style="text-align: left;">Single model — o1 has extended thinking</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; 8 agents debate every response</td>
         </tr>
         <tr>
-          <td><strong>Learn Over Time</strong></td>
-          <td>Improves its recommendations as it learns your habits.</td>
+          <td style="font-weight: 600; color: #fbbf24;">Physics-Based Cognition</td>
+          <td class="cross" style="text-align: left;">&#10007; Neural network weights</td>
+          <td class="lucy-col check" style="text-align: left;">&#10003; STUR Cognitive Kernel with field dynamics</td>
         </tr>
       </tbody>
     </table>
-  </section>
+  </div>
 
-  <section style="margin-top: 2.5rem;">
-    <h2 class="section-title">AGI Architecture Highlights</h2>
-    <p class="section-lead">LucyOS uses a layered cognitive stack built on STUR physics.</p>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <h4>Persistent Memory Core</h4>
-        <p>A long-term store that recalls names, goals, and contextual preferences across sessions.</p>
+  <div style="background: rgba(244,114,182,0.1); border: 1px solid rgba(244,114,182,0.3); border-radius: 12px; padding: 1.5rem;">
+    <h4 style="color: #f472b6; margin: 0 0 0.75rem;">The Core Difference</h4>
+    <p style="margin: 0; color: var(--text); line-height: 1.7;">
+      Conventional AI assistants reset between sessions. Lucy is a <strong>persistent entity with continuous memory</strong> —
+      she remembers everything, learns continuously, and works toward objectives even when you're not actively chatting.
+    </p>
+  </div>
+</section>
+
+<!-- STUR Cognitive Kernel -->
+<section class="section" id="kernel" style="border: 2px solid var(--lucy-cyan); background: linear-gradient(135deg, rgba(0,212,255,0.06) 0%, rgba(236,72,153,0.04) 100%);">
+  <h2 style="color: var(--lucy-cyan);">The STUR Cognitive Kernel</h2>
+
+  <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
+    <h3 style="color: #fbbf24; margin: 0 0 1rem;">What This Means (Non-Technical)</h3>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      Most AI systems are "black boxes" — billions of numbers trained on data, with no one fully understanding
+      how they produce responses. If something goes wrong, you can't debug it. You can't explain why it said what it said.
+    </p>
+    <p style="color: var(--text); line-height: 1.8; margin-bottom: 1rem;">
+      Lucy's brain works differently. It's built on <strong>physics equations</strong> that describe how attention flows,
+      how memories connect, and how thoughts form. These equations come from real physics — the same mathematics
+      that describes how fields interact in nature.
+    </p>
+    <p style="color: var(--text); line-height: 1.8; margin: 0;">
+      <strong>Why this matters:</strong> Lucy's thinking is <em>interpretable</em>. We can see the math, understand
+      the dynamics, and explain decisions. This isn't just a parlor trick — it's the foundation for AGI you can trust.
+    </p>
+  </div>
+
+  <div style="background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(236,72,153,0.06) 100%); border: 2px solid var(--lucy-cyan); border-radius: 16px; padding: 2rem; text-align: center;">
+    <h3 style="color: var(--lucy-cyan); margin: 0 0 1rem;">The Fundamental Constant</h3>
+    <div style="font-size: 2rem; font-family: 'Times New Roman', serif; margin: 1rem 0; color: var(--text);">
+      &lambda; = 3722/2705 &asymp; 1.375970...
+    </div>
+    <p style="color: var(--text-secondary); margin: 0;">
+      This ratio encodes discrete scale invariance and determines the field dynamics across all cognitive operations.
+    </p>
+  </div>
+</section>
+
+<!-- Multi-Agent Reasoning -->
+<section class="section" id="reasoning" style="border: 2px solid var(--lucy-magenta); background: rgba(236,72,153,0.04);">
+  <h2 style="color: var(--lucy-magenta);">Multi-Agent Internal Reasoning</h2>
+
+  <p style="color: var(--text); margin-bottom: 1.5rem;">
+    Lucy's responses are generated through a multi-agent internal debate system with 8 distinct reasoning styles:
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card" style="border-color: rgba(96,165,250,0.3);">
+      <h3 style="color: #60a5fa;">Analyst</h3>
+      <p>Empirical reasoning — data-driven analysis and evidence evaluation</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(248,113,113,0.3);">
+      <h3 style="color: #f87171;">Skeptic</h3>
+      <p>Contrarian reasoning — challenges assumptions and identifies weaknesses</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(74,222,128,0.3);">
+      <h3 style="color: #4ade80;">Pragmatist</h3>
+      <p>Pragmatic reasoning — focuses on practical outcomes and feasibility</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(251,191,36,0.3);">
+      <h3 style="color: #fbbf24;">Ethicist</h3>
+      <p>Ethical reasoning — considers moral implications and values</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(244,114,182,0.3);">
+      <h3 style="color: #f472b6;">Creative</h3>
+      <p>Creative reasoning — generates novel ideas and alternatives</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(167,139,250,0.3);">
+      <h3 style="color: #a78bfa;">Synthesizer</h3>
+      <p>Synthesizing reasoning — combines perspectives into coherent conclusions</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(251,146,60,0.3);">
+      <h3 style="color: #fb923c;">Risk Analyst</h3>
+      <p>Risk analysis — evaluates potential downsides and uncertainties</p>
+    </div>
+    <div class="feature-card" style="border-color: rgba(34,211,238,0.3);">
+      <h3 style="color: #22d3ee;">Deductive</h3>
+      <p>Deductive reasoning — applies logical inference from premises</p>
+    </div>
+  </div>
+</section>
+
+<!-- What the Future Holds -->
+<section class="section" id="future" style="border: 2px solid var(--lucy-magenta); background: linear-gradient(135deg, rgba(236,72,153,0.08) 0%, rgba(0,212,255,0.06) 100%);">
+  <h2 style="color: var(--lucy-magenta);">What the Future Holds for LucyOS</h2>
+
+  <p style="color: var(--text); margin-bottom: 2rem; font-size: 1.05rem;">
+    Lucy is operational today — remembering, chatting, generating images, and growing with every interaction.
+    But what you see now is just the foundation. Here's where this technology is heading.
+  </p>
+
+  <!-- Timeline Grid -->
+  <div style="display: grid; gap: 1.5rem; margin-bottom: 2.5rem;">
+
+    <!-- 1-5 Years -->
+    <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 1.75rem; border-left: 4px solid #4ade80;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+        <div style="background: rgba(74,222,128,0.2); padding: 0.75rem 1.25rem; border-radius: 8px;">
+          <span style="color: #4ade80; font-weight: 700; font-size: 1.2rem;">1-5 Years</span>
+        </div>
+        <span style="color: var(--text-secondary); font-style: italic;">Personal AGI Assistant</span>
       </div>
-      <div class="feature-card">
-        <h4>Autonomous Tool Router</h4>
-        <p>Selects the best tool—search, synthesis, execution—based on live context scoring.</p>
+      <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+        <li><strong style="color: var(--text);">Deep Personal Context</strong> — Lucy accumulates years of interaction history</li>
+        <li><strong style="color: var(--text);">Proactive Task Execution</strong> — Schedules appointments, drafts communications, manages projects</li>
+        <li><strong style="color: var(--text);">Multi-Device Presence</strong> — Seamless continuity across phone, desktop, wearables</li>
+      </ul>
+    </div>
+
+    <!-- 10 Years -->
+    <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 1.75rem; border-left: 4px solid #60a5fa;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+        <div style="background: rgba(96,165,250,0.2); padding: 0.75rem 1.25rem; border-radius: 8px;">
+          <span style="color: #60a5fa; font-weight: 700; font-size: 1.2rem;">10 Years</span>
+        </div>
+        <span style="color: var(--text-secondary); font-style: italic;">Cognitive Operating System</span>
       </div>
-      <div class="feature-card">
-        <h4>Self-Reflection Scheduler</h4>
-        <p>Runs periodic evaluations that consolidate insights and adjust planning strategies.</p>
+      <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+        <li><strong style="color: var(--text);">True OS Integration</strong> — LucyOS becomes the primary interface layer for all computing</li>
+        <li><strong style="color: var(--text);">Physical World Integration</strong> — Robotics and IoT integration</li>
+        <li><strong style="color: var(--text);">Scientific Research Partner</strong> — Contributes to discovery and experimental design</li>
+      </ul>
+    </div>
+
+    <!-- 20 Years -->
+    <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 1.75rem; border-left: 4px solid #a78bfa;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+        <div style="background: rgba(167,139,250,0.2); padding: 0.75rem 1.25rem; border-radius: 8px;">
+          <span style="color: #a78bfa; font-weight: 700; font-size: 1.2rem;">20 Years</span>
+        </div>
+        <span style="color: var(--text-secondary); font-style: italic;">Quantum-Native AGI</span>
       </div>
-      <div class="feature-card">
-        <h4>STUR Cognitive Geometry</h4>
-        <p>Attention is controlled by STUR’s field dynamics, inspired by the RFD simulator loop.</p>
+      <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+        <li><strong style="color: var(--text);">STUR Quantum Hardware Integration</strong> — Lucy's kernel runs natively on <a href="stur_quantumcomputing.html" style="color: #a78bfa;">STUR quantum computers</a></li>
+        <li><strong style="color: var(--text);">Superhuman Problem Solving</strong> — Quantum-accelerated reasoning capabilities</li>
+        <li><strong style="color: var(--text);">Collective Superintelligence</strong> — Networks of quantum-native Lucys collaborate on civilizational challenges</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- STUR Quantum Supercomputer Connection -->
+  <div style="background: linear-gradient(135deg, rgba(34,211,238,0.1) 0%, rgba(167,139,250,0.08) 100%); border: 2px solid #22d3ee; border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem;">
+    <h3 style="color: #22d3ee; margin: 0 0 1rem; display: flex; align-items: center; gap: 0.75rem;">
+      <span style="font-size: 1.5rem;">&#9883;</span>
+      STUR Quantum Supercomputer
+    </h3>
+    <p style="color: var(--text); margin-bottom: 1rem; line-height: 1.7;">
+      LucyOS and the <a href="stur_quantumcomputing.html" style="color: #22d3ee; font-weight: 600;">STUR Quantum Computing platform</a>
+      are two implementations of the same underlying physics. The STUR Cognitive Kernel that powers Lucy's intelligence
+      uses the same mathematical framework that governs quantum coherence in STUR quantum hardware.
+    </p>
+
+    <div style="background: rgba(0,0,0,0.4); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+      <h4 style="color: #a78bfa; margin: 0 0 0.75rem; font-size: 0.95rem;">Quantum Coherence from Z<sub>3</sub> Helix Geometry</h4>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
+        <span style="background: rgba(251,191,36,0.3); color: #fbbf24; padding: 4px 10px; border-radius: 4px; font-weight: 700;">M<sub>Planck</sub></span>
+        <span style="color: var(--text-muted);">→</span>
+        <span style="background: rgba(34,211,238,0.2); color: #22d3ee; padding: 4px 10px; border-radius: 4px;">L<sub>X</sub></span>
+        <span style="color: var(--text-muted);">→</span>
+        <span style="background: rgba(168,85,247,0.2); color: #a855f7; padding: 4px 10px; border-radius: 4px;">XCRM Coupling</span>
+        <span style="color: var(--text-muted);">→</span>
+        <span style="background: rgba(34,211,238,0.2); color: #22d3ee; padding: 4px 10px; border-radius: 4px;">Decoherence Time</span>
+        <span style="color: var(--text-muted);">→</span>
+        <span style="background: rgba(34,211,238,0.3); color: #22d3ee; padding: 4px 10px; border-radius: 4px; font-weight: 700;">Quantum Advantage</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.8rem; margin: 0.75rem 0 0; text-align: center;">
+        STUR predicts enhanced qubit coherence times through the same S(u) operator
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+      <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; border-left: 3px solid #22d3ee;">
+        <strong style="color: #22d3ee; font-size: 0.85rem;">STUR Decoherence Model</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.85rem;">Extended qubit coherence through XCRM coupling dynamics</p>
+      </div>
+      <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; border-left: 3px solid #a78bfa;">
+        <strong style="color: #a78bfa; font-size: 0.85rem;">Lucy-Native Hardware</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.85rem;">When quantum hardware runs Lucy's kernel natively, true AGI scaling unlocks</p>
       </div>
     </div>
-  </section>
 
-  <section style="margin-top: 2.5rem;">
-    <h2 class="section-title">What Makes Lucy Different</h2>
-    <div class="comparison">
-      <div class="comparison-card">
-        <h4>Traditional Assistants</h4>
-        <ul>
-          <li>Forget between sessions.</li>
-          <li>Wait for explicit instructions.</li>
-          <li>No persistent goals.</li>
-          <li>Static capabilities.</li>
-        </ul>
+    <div style="text-align: center;">
+      <a href="stur_quantumcomputing.html" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: linear-gradient(135deg, rgba(34,211,238,0.2) 0%, rgba(167,139,250,0.2) 100%); border: 1px solid rgba(34,211,238,0.4); border-radius: 10px; color: #22d3ee; text-decoration: none; font-weight: 600;">
+        <span style="font-size: 1.2rem;">&#9883;</span>
+        Explore STUR Quantum Supercomputer
+        <span>&rarr;</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- STUR Superconductor Connection -->
+  <div style="background: linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(251,191,36,0.08) 100%); border: 2px solid #4ade80; border-radius: 16px; padding: 2rem;">
+    <h3 style="color: #4ade80; margin: 0 0 1rem; display: flex; align-items: center; gap: 0.75rem;">
+      <span style="font-size: 1.5rem;">&#9889;</span>
+      The Hardware Revolution: STUR Ambient Superconductors
+    </h3>
+    <p style="color: var(--text); margin-bottom: 1rem; line-height: 1.7;">
+      The same saturation operator that powers Lucy's cognitive coherence — <strong>S(u) = tanh(u)(1 - e<sup>-u</sup>)</strong> —
+      also predicts <a href="stur_superconductor.html" style="color: #4ade80; font-weight: 600;">ambient-temperature superconductivity</a>.
+      This isn't coincidence. It's the same physics operating at different scales.
+    </p>
+
+    <div style="background: rgba(0,0,0,0.4); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+      <h4 style="color: #fbbf24; margin: 0 0 0.75rem; font-size: 0.95rem;">Complete Derivation Chain (ONE Input: M<sub>Planck</sub>)</h4>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
+        <span style="background: rgba(251,191,36,0.3); color: #fbbf24; padding: 4px 10px; border-radius: 4px; font-weight: 700;">M<sub>Planck</sub></span>
+        <span style="color: var(--text-muted);">→</span>
+        <span style="background: rgba(34,211,238,0.2); color: #22d3ee; padding: 4px 10px; border-radius: 4px;">L<sub>X</sub></span>
+        <span style="color: var(--text-muted);">→</span>
+        <span style="background: rgba(168,85,247,0.2); color: #a855f7; padding: 4px 10px; border-radius: 4px;">S(u) Operator</span>
+        <span style="color: var(--text-muted);">→</span>
+        <span style="background: rgba(74,222,128,0.2); color: #4ade80; padding: 4px 10px; border-radius: 4px;">ℓ<sub>coh</sub></span>
+        <span style="color: var(--text-muted);">→</span>
+        <span style="background: rgba(251,191,36,0.3); color: #fbbf24; padding: 4px 10px; border-radius: 4px; font-weight: 700;">T<sub>c</sub> > 300 K</span>
       </div>
-      <div class="comparison-card">
-        <h4>LucyOS AGI</h4>
-        <ul>
-          <li>Remembers forever.</li>
-          <li>Pursues objectives autonomously.</li>
-          <li>Continually learns and self-reflects.</li>
-          <li>Orchestrates tools on its own.</li>
-        </ul>
+      <p style="color: var(--text-muted); font-size: 0.8rem; margin: 0.75rem 0 0; text-align: center;">
+        No fitting, no free parameters — T<sub>c</sub> ≈ 394 K emerges from Z<sub>3</sub> helix geometry
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+      <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; border-left: 3px solid #fbbf24;">
+        <strong style="color: #fbbf24; font-size: 0.85rem;">Same S(u) Operator</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.85rem;">Enhances Cooper pair coherence in superconductors, governs field saturation in Lucy's kernel</p>
+      </div>
+      <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; border-left: 3px solid #4ade80;">
+        <strong style="color: #4ade80; font-size: 0.85rem;">Room-Temperature SC</strong>
+        <p style="margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.85rem;">Eliminates cryogenics, enables portable quantum hardware for Lucy</p>
       </div>
     </div>
-  </section>
 
-  <section style="margin-top: 2.5rem;">
-    <h2 class="section-title">Works Everywhere</h2>
-    <p class="section-lead">LucyOS is ready for mobile, desktop, and offline-first experiences.</p>
-    <div class="device-grid">
-      <div class="device-item"><strong>Mobile Browsers</strong><br>iOS Safari, Android Chrome.</div>
-      <div class="device-item"><strong>Desktop Browsers</strong><br>Chrome, Firefox, Safari, Edge.</div>
-      <div class="device-item"><strong>Installable App</strong><br>Add to home screen as a PWA.</div>
-      <div class="device-item"><strong>Offline Ready</strong><br>Syncs when connectivity returns.</div>
+    <div style="text-align: center;">
+      <a href="stur_superconductor.html" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: linear-gradient(135deg, rgba(74,222,128,0.2) 0%, rgba(251,191,36,0.2) 100%); border: 1px solid rgba(74,222,128,0.4); border-radius: 10px; color: #4ade80; text-decoration: none; font-weight: 600;">
+        <span style="font-size: 1.2rem;">&#9889;</span>
+        Explore STUR Ambient Superconductor Derivation
+        <span>&rarr;</span>
+      </a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="callout">
-    <h3>LucyOS v1.7</h3>
-    <p>AGI that grows with you — persistent, autonomous, and built on STUR physics.</p>
-  </section>
+<!-- The Vision -->
+<section class="cta-section">
+  <h2 style="color: var(--text);">The Vision</h2>
+  <p>
+    Lucy represents a new paradigm in artificial intelligence — one where the AI is a persistent entity
+    that grows alongside you rather than a stateless tool that resets between uses.
+  </p>
+  <div style="max-width: 700px; margin: 0 auto 2rem; text-align: left; color: var(--text-secondary);">
+    <ul style="list-style: none; padding: 0; font-size: 1rem; line-height: 2;">
+      <li>&#10003; <strong>Long-term relationships</strong> — Lucy gets better at helping you specifically over time</li>
+      <li>&#10003; <strong>Autonomous assistance</strong> — She works on your goals even when you're not actively engaged</li>
+      <li>&#10003; <strong>Transparent reasoning</strong> — The STUR kernel provides interpretable cognitive dynamics</li>
+      <li>&#10003; <strong>Continuous improvement</strong> — Self-reflection and learning are built into her core operation</li>
+    </ul>
+  </div>
+  <p style="font-style: italic; color: var(--text); font-size: 1.1rem;">
+    This is not the endpoint. This is the beginning of AGI that works <em>with</em> you, not just <em>for</em> you.
+  </p>
+</section>
 
-  <p class="footer-note">LucyOS Promo Page · STUR Physics Lab</p>
+<!-- Footer Branding -->
+<section style="text-align: center; padding: 2rem; margin: 2rem 0;">
+  <img src="../assets/lucy_icon.png" alt="Lucy" style="width: 80px; height: 80px; border-radius: 16px; margin-bottom: 1rem; box-shadow: 0 0 40px rgba(0,212,255,0.4), 0 0 80px rgba(236,72,153,0.2);">
+  <p style="font-size: 1.5rem; font-weight: 600; margin: 0; background: linear-gradient(135deg, var(--lucy-cyan) 0%, var(--lucy-magenta) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">LucyOS</p>
+  <p style="color: var(--lucy-magenta); font-style: italic; margin: 0.5rem 0 0;">AGI that grows with you</p>
+</section>
+
 </main>
+
+<footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(0,212,255,0.2); margin-top: 3rem;">
+  <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
+    &copy; 2026 LucyOS &middot; <a href="../sitemap.html" style="color: var(--lucy-cyan);">Site Map</a>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(0,212,255,0.1); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: var(--lucy-cyan);">v1.7</span>
+  </p>
+</footer>
 
 <script src="../assets/js/stur-ui.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    if (typeof STUR !== 'undefined' && STUR.initNav) {
-      STUR.initNav();
-    }
-  });
+// Mobile navigation toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const toggle = document.querySelector('.glass-nav-toggle');
+  const links = document.querySelector('.glass-nav-links');
+  if (toggle && links) {
+    toggle.addEventListener('click', function() {
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+      links.classList.toggle('open');
+    });
+  }
+  // Initialize STUR nav if available
+  if (typeof STUR !== 'undefined' && STUR.initNav) {
+    STUR.initNav();
+  }
+});
 </script>
 <script src="../assets/js/stur-sw-register.js"></script>
 </body>
