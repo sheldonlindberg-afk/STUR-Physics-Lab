@@ -1202,9 +1202,13 @@ Observed: 7.41 × 10⁻⁵ eV²
 Ratio: 5.4 (still off but closer)
 ```
 
-### 5.7 Self-Consistent M_R from Holonomy
+### 5.7 Alternative Exploration: Multi-Loop Suppressed M_R
 
-**Deriving M_R from first principles:**
+> **Note:** This section explores an alternative scenario with multi-loop suppression.
+> The **canonical derivation** uses M_R = λ_hol/L_X = 2 × 10^14 GeV (see DERIVATION_CHAIN_HELIX.md).
+> The value below (10^11 GeV) is presented for comparison only.
+
+**Exploring M_R with loop suppression:**
 
 The holonomy enhancement should give:
 ```

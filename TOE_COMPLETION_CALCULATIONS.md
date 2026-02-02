@@ -11,16 +11,17 @@
 
 This document provides the complete first-principles derivations for all parameters previously identified as "fitted," "estimated," or "not derived" in the STUR framework. After this completion:
 
-| Parameter | Previous Status | New Status |
-|-----------|-----------------|------------|
-| y (Yukawa coupling) | Free parameter | **DERIVED**: y = 2π/3 |
-| v (Higgs VEV) | Input (246 GeV) | **DERIVED**: v = 246.2 GeV |
-| f_boundary (0.65) | "Cannot be derived" | **DERIVED**: f_boundary = 0.65 |
-| λ_hol (≈20) | Estimated | **DERIVED**: λ_hol = 19.8 |
-| m_u anomaly (×7) | Open problem | **RESOLVED**: Z₃ phase shift |
-| Δm²₂₁ (×15 error) | Off by factor 15 | **CORRECTED**: Within factor 2 |
+| Parameter | Previous Status | New Status | Caveat |
+|-----------|-----------------|------------|--------|
+| y (Yukawa coupling) | Free parameter | **DERIVED**: y = 2π/3 | From XCRM-Yukawa symmetry |
+| v (Higgs VEV) | Input (246 GeV) | **CONSTRAINED** | v·L_X = 3 applies to v_R, not v_H; v remains input |
+| f_boundary (0.65) | "Cannot be derived" | **DERIVED**: f_boundary = 0.65 | From f_overlap × f_Z₃ |
+| λ_hol (≈20) | Estimated | **DERIVED**: λ_hol = 19.8 | From holonomy potential |
+| m_u anomaly (×7) | Open problem | **IMPROVED**: Within 25% | Still has systematic uncertainty |
+| Δm²₂₁ (×15 error) | Off by factor 15 | **CORRECTED**: Within factor 2 | Requires full 6×6 see-saw |
 
-**Result:** STUR now derives all 26 SM parameters from 1 fundamental input (M_Planck) plus 3 axioms.
+**Honest Result:** STUR derives ~75-80% of SM parameters from M_Planck + 3 axioms.
+Remaining inputs: v (Higgs VEV), m_t (top mass). First-generation masses have systematic errors.
 
 ---
 
@@ -834,20 +835,23 @@ The complete treatment requires the full 6×6 see-saw matrix including all mixin
 
 ## Part VI: Summary of Derived Parameters
 
-### 6.1 Complete Parameter Count
+### 6.1 Honest Parameter Status
 
-| Category | Parameters | Status |
-|----------|-----------|--------|
-| **Gauge couplings** | g₁, g₂, g₃ | DERIVED (from α_GUT + RG) |
-| **CKM matrix** | λ, A, ρ̄, η̄ | DERIVED (from κ + corrections) |
-| **PMNS matrix** | θ₁₂, θ₂₃, θ₁₃, δ | DERIVED (from Z₃ structure) |
-| **Quark masses** | m_u through m_t | DERIVED (from overlaps) |
-| **Lepton masses** | m_e, m_μ, m_τ | DERIVED (from overlaps) |
-| **Neutrino masses** | m₁, m₂, m₃ | DERIVED (from see-saw) |
-| **Higgs sector** | m_H, v | DERIVED (from GHU + REWSB) |
-| **Strong CP** | θ_QCD | DERIVED (= 0 from Z₃×CP) |
+| Category | Parameters | Status | Notes |
+|----------|-----------|--------|-------|
+| **Gauge couplings** | g₁, g₂, g₃ | DERIVED | From α_GUT + RG running |
+| **CKM matrix** | λ, A, ρ̄, η̄ | DERIVED | From κ + geometric corrections |
+| **PMNS matrix** | θ₁₂, θ₂₃, θ₁₃, δ | DERIVED | From Z₃ structure |
+| **Heavy quarks** | m_c, m_b, m_t | CONSTRAINED | m_t = INPUT, others from ratios |
+| **Light quarks** | m_u, m_d, m_s | APPROXIMATE | Factor 1.7-7 systematic errors |
+| **Lepton masses** | m_e, m_μ, m_τ | APPROXIMATE | Factor ~2 systematic errors |
+| **Neutrino masses** | m₁, m₂, m₃ | DERIVED | From see-saw with M_R = 2×10¹⁴ GeV |
+| **Higgs mass** | m_H | DERIVED | From gauge-Higgs unification + RG |
+| **Higgs VEV** | v = 246 GeV | **INPUT** | v·L_X = 3 applies to v_R, not v_H |
+| **Strong CP** | θ_QCD | DERIVED | = 0 from Z₃×CP symmetry |
 
-**Total: 26 parameters derived from 1 input (M_Planck) + 3 axioms**
+**Honest assessment:** STUR derives ~75-80% of SM parameters from M_Planck + 3 axioms.
+Remaining inputs: v (Higgs VEV), m_t (top mass). First-generation masses have systematic errors.
 
 ### 6.2 The Three Axioms
 
