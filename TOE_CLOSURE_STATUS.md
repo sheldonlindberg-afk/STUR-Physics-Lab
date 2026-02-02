@@ -103,7 +103,7 @@ The CC document states multiple values:
 - Light lepton masses: Factor ~2 errors
 
 **Result:** With gauge-Higgs unification, STUR derives ALL 26 SM parameters from M_Planck + 3 axioms.
-The 5% m_t discrepancy is within GUT threshold correction uncertainties—no 4th axiom required.
+The 5% m_t discrepancy is within GUT threshold correction uncertainties.
 See TOP_YUKAWA_DERIVATION.md for the complete derivation chain.
 
 ---

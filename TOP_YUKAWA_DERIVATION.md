@@ -323,13 +323,11 @@ The large uncertainty comes from threshold corrections at M_GUT.
 | v | Radiative EWSB | 246 ± 50 GeV | 246.22 GeV | CONSISTENT |
 
 **CONCLUSION:**
-- **y_t and m_t ARE derivable** from the 3 axioms via gauge-Higgs unification
-- **v IS derivable** via radiative EWSB, but with large theoretical uncertainty
-- **No 4th axiom is required** — the existing framework closes!
+- **y_t and m_t ARE derivable** via gauge-Higgs unification
+- **v IS derivable** via radiative EWSB (with ~20% theoretical uncertainty)
 - The 5% discrepancy in m_t is within expected threshold correction uncertainties
 
 ---
 
 **Document Status:** CALCULATION COMPLETE
-**Result:** m_t and v are DERIVABLE from 3 axioms (no 4th axiom needed)
 **Remaining uncertainty:** ~5% from GUT threshold corrections
