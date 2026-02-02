@@ -91,7 +91,8 @@ This section summarizes the key derivations establishing internal consistency.
 | Factor | Value ± Error | Derivation | Reference |
 |--------|---------------|------------|-----------|
 | Boundary | 0.65 ± 0.05 | Overlap enhancement (×1.55) × Z₃ sector suppression (×0.42) | Derivation E below |
-| Holonomy | 0.85 ± 0.03 | exp(-⟨δθ²⟩/2) with ⟨δθ²⟩ = 1/C₂(SU(3)) = 1/3 | Derivation F below |
+| Holonomy (quarks) | 0.85 ± 0.03 | exp(-⟨δθ²⟩/2) with ⟨δθ²⟩ = 1/C₂(SU(3)) = 1/3 | Derivation F below |
+| Holonomy (leptons) | 1.00 | Leptons are SU(3) singlets — no color holonomy | Derivation F below |
 | RG | 0.87 ± 0.02 | One-loop running M_KK → M_Z with KK thresholds | Derivation G below |
 | η̄ holonomy | 0.948 ± 0.015 | Correlated fluctuations between u,d sectors | ETA_BAR_CORRECTION_CHAIN.md |
 | η̄ Berry | 0.975 ± 0.010 | Geometric phase from transport on Z₃ helix | ETA_BAR_CORRECTION_CHAIN.md |
@@ -1576,7 +1577,7 @@ Full formula:
 For κ = 2.5:
     λ_bare = 0.458
     Boundary: × 0.65 (interfaces reduce overlap)
-    Holonomy: × 0.85 (phase averaging)
+    Holonomy: × 0.85 (phase averaging — quarks only; leptons get ×1.0)
     RG (M_KK → M_Z): × 0.87 (Yukawa running)
 
     λ_phys = 0.458 × 0.65 × 0.85 × 0.87
@@ -2877,11 +2878,22 @@ For Gaussian fluctuations with variance σ² = ⟨δθ²⟩:
 │           intimately connected to the Z₃ center of SU(3)   │
 │           color, which IS the Z₃ helix structure.          │
 │                                                             │
-│  Result: f_holonomy = 0.85 ± 0.04                          │
+│  ─────────────────────────────────────────────────────────  │
+│                                                             │
+│  CRITICAL: This factor applies ONLY to color-charged       │
+│            particles (quarks), not to leptons!              │
+│                                                             │
+│  Quarks (color triplets):  f_holonomy = exp(-1/6) = 0.85   │
+│  Leptons (color singlets): f_holonomy = 1.00               │
+│                                                             │
+│  Leptons are SU(3) singlets and do not couple to the       │
+│  SU(3) gauge field, so they experience no holonomy         │
+│  fluctuation suppression.                                   │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Detailed derivation:** See HOLONOMY_AVERAGING_DERIVATION.md
+**Detailed derivation:** See HOLONOMY_AVERAGING_DERIVATION.md and STUR_HOLONOMY_LEPTON_CORRECTION.md
 
 ---
 
