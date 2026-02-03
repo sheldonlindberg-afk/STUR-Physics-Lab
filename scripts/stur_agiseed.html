@@ -564,9 +564,9 @@ def saturation_Su(u: np.ndarray) -&gt; np.ndarray:
 
     Properties:
       • S_u(0) = 0            (no drive at equilibrium)
-      • S_u(u) → u            as u → 0 (linear regime)
+      • S_u(u) → u²           as u → 0 (quadratic regime)
       • S_u(u) → 1            as u → ∞ (saturates)
-      • Smooth, monotonic, bounded
+      • Smooth, monotonic, bounded, S'(0) = 0
     """
     return np.tanh(u) * (1.0 - np.exp(-np.abs(u)))
 

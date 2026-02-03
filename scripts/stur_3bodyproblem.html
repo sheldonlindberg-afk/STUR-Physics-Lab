@@ -105,15 +105,15 @@
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            Tests STUR derived gravity in the classic 3-body problem. G emerges from the TEGR chain — not assumed.
-            The S(r) modulator stabilizes equilateral orbits that would be chaotic in pure Newtonian gravity.
+            Tests STUR-modified gravity in the classic 3-body problem.
+            S(r) modulator modifies the gravitational potential at distances comparable to L&#x2080;. Note: the equilateral equal-mass 3-body orbit (Lagrange solution) is already linearly stable in Newtonian gravity. The effect of S(r) is a ~5% modification at r ~ 3L&#x2080;.
         </p>
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
             <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:500px;font-size:0.8rem;">
-          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — ONE input (M<sub>Planck</sub>), ZERO free parameters. G derived from TEGR.
+          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — Parameters: G (measured), L&#x2080; (free parameter controlling S(r) transition scale), masses and orbital radius (user-chosen initial conditions).
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -155,8 +155,8 @@
                     <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">\(\Tor{G} = \frac{1}{16\pi\alpha R_{\rm bg}}\) — emerges from TEGR torsion</p>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--neon-gold);">
-                    <strong style="color:var(--neon-gold);font-size:0.85rem;">TEGR Emergence</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Teleparallel gravity emerges from the derivation chain — not assumed</p>
+                    <strong style="color:var(--neon-gold);font-size:0.85rem;">TEGR Note</strong>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">TEGR (Teleparallel Equivalent of GR) is mathematically equivalent to GR and yields the same predictions. The S(r) modifier is an additional hypothesis beyond standard TEGR.</p>
                 </div>
             </div>
             <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;font-size:0.85rem;">
@@ -177,7 +177,7 @@
                     <h4 style="color:var(--neon-green);font-size:0.85rem;margin:0 0 0.5rem;">DERIVED (comes from the math)</h4>
                     <ul style="margin:0;padding-left:1.2rem;font-size:0.9rem;color:var(--text-secondary);">
                         <li><strong>Newton's G:</strong> \(\Tor{G} = \frac{1}{16\pi\alpha R_{\rm bg}}\) — not a free parameter!</li>
-                        <li><strong>TEGR gravity:</strong> Emerges from torsion in the derivation chain</li>
+                        <li><strong>TEGR gravity:</strong> Emerges from torsion in the derivation chain (note: TEGR is mathematically equivalent to GR — same predictions at all scales)</li>
                         <li><strong>Modulator shape:</strong> \(\XCRM{S(r)} = \tanh(r/L_0)(1 - e^{-r/L_0})\)</li>
                         <li><strong>Newtonian limit:</strong> \(\XCRM{S(r)} \to 1\) when \(r \gg L_0\)</li>
                     </ul>
@@ -193,7 +193,7 @@
             </div>
             <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;font-size:0.85rem;">
                 <strong style="color:#4ade80;">Key Point:</strong>
-                In standard physics, G is measured and plugged in. In STUR, G is <em>calculated</em> from the Planck mass via the TEGR torsion sector. Zero free parameters — just one input that sets everything else.
+                In standard physics, G is measured and plugged in. STUR claims G can be derived from the Planck mass via the TEGR torsion sector. In this simulation, however, G is set to the standard measured value. Additional parameters: L&#x2080; (free parameter), masses, and orbital radius (initial conditions).
             </div>
         </div>
     </div>
@@ -226,7 +226,7 @@
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #60a5fa;">
                     <strong style="color:#60a5fa;font-size:0.8rem;">Step 2: TEGR Emerges</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Torsion in spacetime → teleparallel gravity appears naturally</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Torsion in spacetime → teleparallel gravity appears naturally. (Note: TEGR is mathematically equivalent to GR — same predictions.)</p>
                     <a href="stur_gravity_emergence.html" style="font-size:0.75rem;color:var(--accent);">→ How gravity emerges</a>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #a78bfa;">
@@ -235,7 +235,7 @@
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #22d3ee;">
                     <strong style="color:#22d3ee;font-size:0.8rem;">Step 4: Modified Orbits</strong>
-                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">S(r) modulator predicts subtle differences from Newton</p>
+                    <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">S(r) modulator predicts subtle differences from Newton. (Note: S(r) is an additional hypothesis beyond standard TEGR/GR.)</p>
                 </div>
             </div>
 
@@ -296,8 +296,9 @@
                     \]
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
-                    STUR predicts enhanced stability due to \(\XCRM{S(r)}\) regularization at short range.
+                    STUR predicts modified stability due to \(\XCRM{S(r)}\) at short range.
                     <br><strong>Test:</strong> Compare chaos onset with pure Newtonian (\(\XCRM{S}=1\)).
+                    <br><strong style="color:#ef4444;">Status:</strong> (not yet implemented — requires perturbation analysis)
                 </p>
             </div>
 
@@ -327,7 +328,7 @@
         </div>
         <div class="harness-section null-model">
           <h4>Null Model (Standard Physics)</h4>
-          <p>Newtonian gravity with no \(\XCRM{S(r)}\) correction predicts chaotic instability and energy drift in general 3-body configurations.</p>
+          <p>Newtonian gravity with no \(\XCRM{S(r)}\) correction. Note: the equilateral equal-mass 3-body orbit (Lagrange solution) is already linearly stable in Newtonian gravity. Chaotic behavior occurs for general (non-symmetric) configurations.</p>
         </div>
         <div class="harness-section stur-prediction">
           <h4>STUR Prediction</h4>
@@ -335,7 +336,7 @@
         </div>
         <div class="harness-section metric">
           <h4>Falsification Metric</h4>
-          <p>Energy drift \(\Diff{\Delta E/E}\), Lyapunov exponent, orbital period variance</p>
+          <p>Energy drift \(\Diff{\Delta E/E}\), Lyapunov exponent (not yet implemented — requires perturbation analysis), orbital period variance</p>
         </div>
       </div>
       <a href="stur_core_theory.html#appE" class="core-ref">Core Definition: Appendix E (Classical Limit)</a>
@@ -353,7 +354,7 @@
             <p><strong>Core test:</strong> Does the DERIVED value of G (from TEGR emergence) produce correct orbital dynamics?</p>
             <p><strong>Observable:</strong> Energy conservation \(\Diff{\Delta E/E}\), orbital stability, and period regularity over multiple orbits.</p>
             <p><strong>Geometry:</strong> Equilateral triangle with side \(r = \sqrt{3}R\), three equal masses \(\Matt{m} = 10^{24}\,\text{kg}\).</p>
-            <p><strong>Complete EFT:</strong> ONE input (M<sub>Planck</sub>), G = 1/(16πα R<sub>bg</sub>) derived from TEGR, S(r) modifies short-range behavior.</p>
+            <p><strong>Parameters:</strong> G (measured), L&#x2080; (free parameter controlling S(r) transition scale), masses and orbital radius (user-chosen initial conditions).</p>
         </div>
     </section>
 
@@ -372,11 +373,11 @@
                 \[
                 \boxed{\text{Input: } M_{\text{Planck}} = 2.176 \times 10^{-8} \text{ kg}} \quad \Rightarrow \quad \boxed{G = \frac{1}{16\pi\alpha R_{\rm bg}} \text{ (derived)}}
                 \]
-                <div class="stur-eq-label">Complete EFT: ONE input, ZERO free parameters</div>
+                <div class="stur-eq-label">Parameters: G (measured), L&#x2080; (free parameter controlling S(r) transition scale), masses and orbital radius (user-chosen initial conditions)</div>
             </div>
 
             <p><strong>How gravity emerges:</strong> The TEGR (teleparallel gravity) sector emerges from torsion in the Master Action.
-               Newton's G is then <em>calculated</em>, not assumed:</p>
+               Newton's G is then <em>calculated</em>, not assumed. (Note: TEGR is mathematically equivalent to GR and produces identical predictions. The S(r) modifier used here is an additional hypothesis beyond standard TEGR.)</p>
 
             <div class="stur-eq derived">
                 \[
@@ -427,7 +428,7 @@
                 <li><strong>Modified frequency:</strong> \(\omega^2 = -3\Tor{G}\Matt{m} \cdot \frac{d}{dr}[\XCRM{S(r)}/r] / r\) using derived G.</li>
             </ul>
 
-            <p><strong>How Newton differs:</strong> Standard gravity (\(\XCRM{S} = 1\)) shows chaotic instability for general 3-body configurations, and G must be measured rather than derived.</p>
+            <p><strong>How Newton differs:</strong> Standard gravity (\(\XCRM{S} = 1\)) shows chaotic instability for general (non-symmetric) 3-body configurations, but the equilateral equal-mass orbit tested here (Lagrange solution) is already linearly stable in Newtonian gravity.</p>
 
             <div class="glass-metrics" style="margin-top:1.5rem;">
                 <div class="glass-metric">
@@ -510,8 +511,8 @@
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1rem;color:var(--text-secondary);">
-                Real-time 3-body orbit simulation using v4.0 TOE derived gravity. G comes from the TEGR emergence chain, not put in by hand.
-                The S(r) modulator regularizes short-range interactions, stabilizing the equilateral configuration.
+                Real-time 3-body orbit simulation using STUR-modified gravity. G is the standard measured value.
+                The S(r) modulator modifies short-range interactions; note that the equilateral equal-mass configuration is already linearly stable in Newtonian gravity.
             </p>
 
             <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
@@ -566,8 +567,8 @@
             <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.2);font-size:0.85rem;">
                 <strong style="color:#4ade80;">Visualization:</strong>
                 <span style="color:var(--text-secondary);">
-                    Three equal masses orbit in an equilateral configuration. STUR's S(r) modulator stabilizes
-                    orbits that would be chaotic in pure Newtonian gravity. Toggle STUR off to compare.
+                    Three equal masses orbit in an equilateral configuration. STUR's S(r) modulator modifies the gravitational potential at distances comparable to L&#x2080;.
+                    Note: this equilateral equal-mass orbit (Lagrange solution) is already linearly stable in Newtonian gravity; the S(r) effect is a ~5% modification at r ~ 3L&#x2080;. Toggle STUR off to compare.
                 </span>
             </div>
         </div>
@@ -582,7 +583,7 @@
             <h2 class="glass-section-title">Executable Simulation — v4.0 TOE</h2>
         </div>
         <div class="glass-section-body">
-            <p>RK4 integrator using DERIVED G from TEGR. Energy conserved to machine precision. Copy and run to verify.</p>
+            <p>RK4 integrator using the standard measured value of G. Energy conserved to machine precision. Copy and run to verify.</p>
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 """
@@ -591,10 +592,10 @@ STUR 3-Body RK4 Orbit — v4.0 TOE
 Tests STUR-modified gravity in equilateral 3-body configuration.
 
 v4.0 TOE Framework:
-- ONE input: M_Planck (sets all scales)
-- ZERO free parameters
-- G = 1/(16πα R_bg) is DERIVED from TEGR emergence
-- Gravity emerges from torsion sector, not postulated
+- Parameters: G (measured), L₀ (free parameter controlling S(r) transition scale),
+  masses and orbital radius (user-chosen initial conditions)
+- G = 6.6743e-11 is the standard measured value (not derived in this simulation)
+- S(r) modulator is an additional hypothesis beyond standard TEGR/GR
 
 Key equation: V_ij(r) = -G m_i m_j S(r) / r
 """
@@ -608,9 +609,8 @@ import matplotlib.pyplot as plt
 plt.style.use("dark_background")
 
 # ===============================================================
-# v4.0 TOE: G is DERIVED, not a free parameter
-# G = 1/(16πα R_bg) emerges from TEGR torsion sector
-# For simulation, we use the derived value that matches observation
+# v4.0 TOE: In STUR, G is claimed to be derivable from TEGR.
+# For this simulation, we use the standard measured value of G.
 # ===============================================================
 
 # ===============================================================
@@ -699,9 +699,9 @@ def rk4_step(x, v, m, G, L, dt):
 # ===============================================================
 # MAIN SIMULATION — v4.0 TOE
 # ===============================================================
-# G is DERIVED in STUR: G = 1/(16πα R_bg) from TEGR emergence
-# The value below matches observation, confirming the derivation
-G = 6.6743e-11    # Derived from TEGR, matches measured value
+# G is the standard measured gravitational constant.
+# In STUR theory, G is claimed to be derivable; here we use the measured value.
+G = 6.6743e-11    # G: measured value (not derived from TEGR in this simulation)
 L = 1e9           # Coherence scale (demo value for astrophysical system)
 m = np.array([1e24, 1e24, 1e24])  # Demo masses (Earth-like)
 
@@ -741,7 +741,7 @@ report = {
     "meta": {
         "page": "3-body-rk4",
         "version": "v4.0-TOE",
-        "framework": "ONE input (M_Planck), ZERO free params, G derived from TEGR",
+        "framework": "Parameters: G (measured), L0 (free parameter), masses and orbital radius (initial conditions)",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "V_ij(r) = -G m_i m_j S(r) / r, where G = 1/(16πα R_bg)"
     },
@@ -767,8 +767,8 @@ report = {
 }
 
 print("=== STUR 3-Body RK4 — v4.0 TOE ===")
-print("Framework: ONE input (M_Planck), ZERO free params")
-print(f"G = 1/(16πα R_bg) = {G:.4e} m³/(kg·s²) [DERIVED]")
+print("Parameters: G (measured), L0 (free parameter), masses and orbital radius (initial conditions)")
+print(f"G = {G:.4e} m³/(kg·s²) [measured value]")
 print(f"S(r) = tanh(r/L₀)·(1 - exp(-r/L₀)), L₀ = {L:.1e} m")
 print(f"Period: {T:.4e} s ({T/3.15576e7:.4f} yr)")
 print(f"Energy drift: ΔE/E = {dE_rel:.4e}")
@@ -851,7 +851,7 @@ print(f"\nOutputs: stur_3body.png, stur_3body.json")</pre>
             </div>
 
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Theory of Everything Candidate (ONE input, ZERO free params) |
+                <strong>Version:</strong> STUR Theory of Everything Candidate — Parameters: G (measured), L&#x2080; (free), masses, radius |
                 <strong>Page:</strong> 3-body-rk4 |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -961,9 +961,9 @@ document.getElementById('dlBtn').addEventListener('click', function() {
 <!-- 3-Body Orbit Holoscreen JavaScript — v4.0 TOE -->
 <script>
 (function() {
-    // v4.0 TOE: G is DERIVED from TEGR emergence: G = 1/(16πα R_bg)
-    // The value matches observation, confirming the derivation chain
-    const G = 6.6743e-11;  // Derived, not postulated
+    // G is the standard measured gravitational constant.
+    // In STUR theory, G is claimed to be derivable; here we use the measured value.
+    const G = 6.6743e-11;  // G: measured value (not derived from TEGR in this simulation)
     const YEAR_S = 3.15576e7;
 
     // State
