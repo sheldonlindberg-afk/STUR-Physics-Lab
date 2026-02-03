@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XCRM Energy Conditions — v4.0 Helix Geometry TOE</title>
-    <meta name="description" content="v4.0 Helix Geometry TOE: Energy conditions from ONE input (M_Planck), ZERO free parameters. Z₃ helix geometry determines WEC, NEC, SEC, DEC satisfaction.">
+    <meta name="description" content="v4.0 Helix Geometry TOE: Energy conditions from Z₃ helix geometry. ONE input (M_Planck), all couplings from geometric framework. WEC, NEC, SEC, DEC satisfaction.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -130,7 +130,7 @@
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Does STUR's X-Coupled Resistance Mechanism support negative energy density?
-            A v4.0 TOE analysis: ONE input (M<sub>Planck</sub>), ZERO free parameters, Z₃ helix geometry determines everything.
+            A v4.0 TOE analysis: ONE input (M<sub>Planck</sub>), Z₃ helix geometry determines everything.
         </p>
 
         <!-- Status Badge -->
@@ -167,17 +167,18 @@
         <div class="glass-section-body" style="font-size:0.92rem;">
             <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">v4.0 Helix Geometry TOE Framework:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li><strong>ONE input:</strong> M<sub>Planck</sub> — sets all scales</li>
-                <li><strong>ZERO free dimensionless parameters</strong> — all couplings derived from Z₃ helix geometry</li>
+                <li><strong>Framework input:</strong> M<sub>Planck</sub></li>
+                <li><strong>Z₃ helix geometry</strong> — framework for coupling derivations (see caveats below)</li>
                 <li>Energy conditions follow directly from Master Action structure</li>
                 <li>Z₃ helix boundary conditions determine XCRM integral</li>
                 <li>Mexican-hat potential V(|R|) ≥ 0 from topology</li>
             </ul>
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Geometrically Derived Parameters:</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-gold);">Parameters Used (status noted):</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
-                <li>Compactification scale <strong>L<sub>X</sub> ≈ 0.8 μm</strong> — derived from Casimir-holonomy balance</li>
-                <li>N<sub>eff</sub> = -149 (SM effective degrees of freedom from Z₃ helix)</li>
-                <li>c<sub>h</sub> = 1.35 (SU(3)×SU(2)×U(1) holonomy factor from geometry)</li>
+                <li>Compactification scale <strong>L<sub>X</sub> ≈ 0.8 μm</strong> — assumed from Casimir-holonomy balance model</li>
+                <li>N<sub>eff</sub> = -149 — assumed value for SM effective degrees of freedom</li>
+                <li>c<sub>h</sub> = 1.35 — assumed holonomy factor</li>
+                <li>Numerical verification uses v=1.0, &lambda;=0.1, &chi;=1.0 — these are <em>assumed parameter values</em>, not derived from M<sub>Planck</sub></li>
             </ul>
             <p style="font-size:0.85rem;color:var(--text-dim);margin:0;">
                 <strong>Key Result:</strong> STUR respects all classical energy conditions. This is falsifiable: detection of negative energy from STUR mechanisms would disprove the framework.
@@ -193,7 +194,7 @@
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1rem;color:var(--text-secondary);">
-                v4.0 TOE energy conditions (from ONE input M<sub>Planck</sub>, ZERO free parameters) produce specific, testable predictions:
+                Energy conditions analysis within the STUR framework. The predictions follow from the Master Action structure:
             </p>
 
             <div style="background:rgba(0,0,0,0.3);padding:1rem;border-radius:8px;margin-bottom:1rem;">
@@ -313,7 +314,7 @@
 
         <p>
             Negative energy density is required for exotic spacetime structures like traversable wormholes
-            and Alcubierre warp drives. A natural question for the v4.0 Helix Geometry TOE — with ONE input (M<sub>Planck</sub>) and ZERO free dimensionless parameters — is:
+            and Alcubierre warp drives. A natural question for the v4.0 Helix Geometry TOE — with ONE input (M<sub>Planck</sub>) and Z₃ helix geometry — is:
             <strong>Does it permit or forbid negative energy density?</strong>
         </p>
 
@@ -459,7 +460,7 @@
         <div class="verdict-box">
             <h3>VERDICT: XCRM Does NOT Support Negative Energy Density</h3>
             <p style="margin:0;color:var(--text);font-size:1.05rem;">
-                Under the v4.0 Helix Geometry TOE (ONE input M<sub>Planck</sub>, ZERO free parameters) with Z₃ helix boundary conditions,
+                Under the v4.0 Helix Geometry TOE (ONE input M<sub>Planck</sub>, geometric framework) with Z₃ helix boundary conditions,
                 <strong>all energy contributions are non-negative</strong>.
             </p>
         </div>
@@ -592,12 +593,12 @@ OUT_JSON = "stur_energy_conditions.json"
 OUT_PNG  = "stur_energy_conditions.png"
 
 # ===============================================================
-# STUR PARAMETERS
+# STUR PARAMETERS (assumed values — not derived from M_Planck)
 # ===============================================================
-L_X = 1e-6      # Compactification scale (m)
-v = 1.0         # VEV of R-field
-lam = 0.1       # Self-coupling lambda
-chi = 1.0       # XCRM coupling
+L_X = 1e-6      # Compactification scale (m) — assumed, not measured
+v = 1.0         # VEV of R-field — assumed dimensionless value
+lam = 0.1       # Self-coupling lambda — assumed
+chi = 1.0       # XCRM coupling — assumed
 
 N_x = 100       # Grid points in X
 N_r = 50        # Grid points in radial coordinate

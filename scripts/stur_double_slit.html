@@ -114,7 +114,7 @@
         <div style="margin-top:1rem;">
             <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:480px;font-size:0.8rem;">
-          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — ONE input (M_Planck), ZERO free parameters
+          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — from Z₃ helix geometry
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -152,7 +152,7 @@
                     <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Planck mass \(M_P = \sqrt{\hbar c / G}\) — everything else is derived from Z₃ helix geometry</p>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--neon-gold);">
-                    <strong style="color:var(--neon-gold);font-size:0.85rem;">ZERO Free Parameters</strong>
+                    <strong style="color:var(--neon-gold);font-size:0.85rem;">Z₃ Geometric Framework</strong>
                     <p style="margin:6px 0 0;font-size:0.8rem;color:var(--text-secondary);">Coherence length \(\ell_{\rm coh}\) emerges from the helix pitch — no tuning needed</p>
                 </div>
                 <div style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid var(--accent-violet);">
@@ -177,7 +177,7 @@
                         <li><strong>Z₃ helix pitch:</strong> \(L_X = \ell_P \cdot (2\pi/3)\) — from topology, not fitted</li>
                         <li><strong>Gaussian visibility:</strong> \(V(\Delta L) = V_0 \exp(-\Delta L^2/\ell_{\rm coh}^2)\) — CLT from helix phases</li>
                         <li><strong>Coherence length:</strong> \(\ell_{\rm coh} = \sqrt{2}\,L_X/\sigma_R\) — geometry fixes scale</li>
-                        <li><strong>Phase fluctuation:</strong> \(\sigma_R\) from R-field equilibrium — no free parameter</li>
+                        <li><strong>Phase fluctuation:</strong> \(\sigma_R\) from R-field equilibrium — derived from Z₃ structure</li>
                     </ul>
                 </div>
                 <div>
@@ -270,7 +270,7 @@
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1rem;color:var(--text-secondary);font-size:0.9rem;">
-                Compare visibility predictions: <strong style="color:#4ade80;">STUR</strong> (Gaussian decay from Z₃ helix geometry — no free parameters) vs <strong style="color:#60a5fa;">Standard QM</strong> (Fraunhofer diffraction only). Adjust wavelength and see real-time differences.
+                Compare visibility predictions: <strong style="color:#4ade80;">STUR</strong> (Gaussian decay from Z₃ helix geometry — derived from geometric structure) vs <strong style="color:#60a5fa;">Standard QM</strong> (Fraunhofer diffraction only). Adjust wavelength and see real-time differences.
             </p>
 
             <!-- Controls -->
@@ -389,7 +389,7 @@
         <div class="glass-section-body">
             <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
                 <strong style="color:var(--neon-green);">Complete EFT:</strong> All predictions flow from ONE input (M_Planck) through Z₃ helix geometry.
-                The coherence length emerges from the helix pitch — no fitting, no tuning, no free parameters.
+                The coherence length emerges from the helix pitch — no fitting, no tuning, derived from Z₃ structure.
             </p>
 
             <!-- DOUBLE.1 -->
@@ -531,7 +531,7 @@
                 <div class="stur-eq-label">Coherence Length — <a href="stur_technical_appendix.html#gaussian-visibility" style="color:var(--neon-cyan)">Tech. Appendix Eq. B.9</a></div>
             </div>
 
-            <p><strong>Complete EFT — ONE input, ZERO free parameters:</strong></p>
+            <p><strong>Complete EFT — ONE input (M<sub>Planck</sub>), geometric framework:</strong></p>
             <ul style="font-size:0.9rem;color:var(--text-secondary);">
               <li><strong style="color:var(--neon-green);">ONE input:</strong> \(M_P = \sqrt{\hbar c / G}\) — the Planck mass sets all scales</li>
               <li>\(L_X = \ell_P \cdot (2\pi/3)\) — helix pitch derived from Z₃ topology</li>
@@ -648,7 +648,7 @@
 # STUR v4.0 TOE — Double-Slit Gaussian Visibility Test
 #
 # ONE input: M_Planck (sets all scales via Z₃ helix geometry)
-# ZERO free parameters: coherence length derived, not fitted
+# Geometric framework: coherence length derived, not fitted
 #
 # Tests Eq. (3.15): V(ΔL) = V₀ exp[-½(σᵣ/Lₓ)²(ΔL)²]
 # Quantum behavior emerges from Z₃ helix phase winding
@@ -703,7 +703,7 @@ def clamp01(v):
 
 # ===============================================================
 # 4) COHERENCE LENGTH — v4.0 TOE (derived from Z₃ helix geometry)
-# L_X = ℓ_P × (2π/3) from helix pitch — no free parameter
+# L_X = ℓ_P × (2π/3) from helix pitch — derived from Z₃ structure
 # σ_R from R-field equilibrium — derived, not fitted
 # Result: ℓ_coh = √2 L_X / σ_R emerges from M_Planck alone
 # ===============================================================
@@ -873,7 +873,7 @@ report = {
     "meta": {
         "page": "double-slit-visibility",
         "version": "v4.0-TOE",
-        "framework": "ONE input (M_Planck), ZERO free parameters",
+        "framework": "Z₃ geometric framework, ONE input (M_Planck)",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "V(ΔL) = V₀ exp[-½(σᵣ/Lₓ)²(ΔL)²]"
     },
@@ -956,7 +956,7 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR Theory of Everything Candidate (ONE input: M_Planck, ZERO free parameters) |
+                <strong>Version:</strong> STUR Theory of Everything Candidate (Z₃ geometric framework) |
                 <strong>Page:</strong> double-slit-visibility |
                 <strong>Generated:</strong> <span id="timestamp"></span>
             </div>
@@ -1065,7 +1065,7 @@ document.getElementById('dlBtn').addEventListener('click', function() {
 
 // ============================================================
 // STUR vs QM COMPARISON HOLOSCREEN
-// ONE input (M_Planck), ZERO free parameters
+// Z₃ geometric framework, ONE input (M_Planck)
 // Quantum behavior emerges from Z₃ helix geometry
 // ============================================================
 

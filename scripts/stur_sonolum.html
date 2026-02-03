@@ -95,14 +95,14 @@
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
             Sonoluminescence as QED vacuum fluctuation amplification during bubble collapse.
-            ONE input: \(M_{\rm Planck}\). ZERO free parameters. All coupling strengths derived from \(\alpha_{\rm em}\).
+            ONE input: \(M_{\rm Planck}\). Z₃ geometric framework. All coupling strengths derived from \(\alpha_{\rm em}\).
         </p>
 
         <!-- Status Badge -->
         <div style="margin-top:1rem;">
             <!-- Theory of Everything Candidate Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:480px;font-size:0.8rem;">
-          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — QED application | ONE input (M_Planck) | ZERO free parameters
+          <span style="color:#4ade80;font-weight:600;">THEORY OF EVERYTHING CANDIDATE</span> — QED application | ONE input (M_Planck) | Z₃ helix geometry
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check sm"></span>
@@ -162,7 +162,7 @@
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>\(M_{\rm Planck} = 1.22 \times 10^{19}\) GeV — the single dimensionful input to the TOE</li>
             </ul>
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from QED (ZERO free parameters):</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">Derived from QED (geometric framework):</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li>Fine structure constant \(\alpha_{\rm em} = e^2/4\pi\hbar c = 1/137.036\) — from gauge coupling unification</li>
                 <li>Photon emission rate: \(\Gamma_\gamma = \alpha_{\rm em}^3 \omega_{\rm Casimir}\) — from dynamical Casimir effect</li>
@@ -234,7 +234,7 @@
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1.5rem;color:var(--text-secondary);">
-                All predictions derived from QED vacuum dynamics. ONE input: M_Planck. ZERO free parameters.
+                All predictions derived from QED vacuum dynamics. ONE input: M_Planck. Z₃ geometric framework.
             </p>
 
             <!-- SONO.1 -->
@@ -289,7 +289,7 @@
                 </div>
                 <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">
                     Photon emission rate from dynamical Casimir effect with QED coupling.
-                    <br><strong>Derived:</strong> \(\alpha_{\rm em} = 1/137\) from gauge unification, no free parameters.
+                    <br><strong>Derived:</strong> \(\alpha_{\rm em} = 1/137\) from gauge unification, derived from Z₃ structure.
                 </p>
             </div>
         </div>
@@ -376,7 +376,7 @@
                 \[
                 \Gamma_\gamma = \alpha_{\rm em}^3 \cdot \frac{|\dot{R}|}{R} \approx 10^{10}\,\text{s}^{-1} \text{ at collapse}
                 \]
-                <div class="stur-eq-label">Photon Emission Rate — from \(\alpha_{\rm em}\) only, ZERO free parameters</div>
+                <div class="stur-eq-label">Photon Emission Rate — from \(\alpha_{\rm em}\) only, derived from geometric framework</div>
             </div>
 
             <p><strong>Key insight:</strong> The bubble wall acts as an accelerating mirror. At collapse, \(\dot{R}/c \sim 10^{-3}\)
@@ -393,7 +393,7 @@
             <h2 class="glass-section-title">Prediction</h2>
         </div>
         <div class="glass-section-body">
-            <p><strong>QED-derived predictions (ZERO free parameters):</strong></p>
+            <p><strong>QED-derived predictions (geometric framework):</strong></p>
             <ul>
                 <li><strong>Noble gas enhancement:</strong> Ar, Xe, He reach hotter \(\Matt{T_{\max}}\) and shorter \(\Matt{\lambda_{\text{peak}}}\) due to \(\gamma = 5/3\) adiabatic index.</li>
                 <li><strong>Photon-collapse scaling:</strong> \(N_\gamma \propto (\dot{R}/c)^2 \propto (R_0/R_{\min})^2\) from dynamical Casimir effect.</li>
@@ -597,7 +597,7 @@
 # STUR Sonoluminescence from QED Vacuum Fluctuations
 #
 # ONE INPUT: M_Planck (sets all scales)
-# ZERO FREE PARAMETERS: alpha_em = 1/137 derived from gauge unification
+# GEOMETRIC FRAMEWORK: alpha_em = 1/137 derived from gauge unification
 #
 # Physics: Dynamical Casimir effect — moving bubble wall creates
 #          photons from vacuum via QED coupling alpha_em^3
@@ -635,7 +635,7 @@ fluids = {
 }
 
 # ---------------------------------------------------------------------
-# 2. Global constants — ONE INPUT (M_Planck), ZERO free parameters
+# 2. Global constants — ONE INPUT (M_Planck), geometric framework
 # ---------------------------------------------------------------------
 P_INF   = 1.0e5       # ambient pressure (Pa)
 T0      = 293.0       # ambient temperature (K)
@@ -776,7 +776,7 @@ results = {}
 fluids_order = list(fluids.keys())
 
 print("=== STUR Complete EFT: Sonoluminescence from QED ===")
-print("ONE INPUT: M_Planck | ZERO FREE PARAMETERS: alpha_em derived")
+print("ONE INPUT: M_Planck | GEOMETRIC FRAMEWORK: alpha_em derived")
 for name in fluids_order:
     print("Running:", name)
     Rmins, Tmaxs, Lambdas, Ngamma = run_multibubble(name, N=60)
@@ -830,7 +830,7 @@ if wien_dev > 0.20:
 xpos = np.arange(len(fluids_order))
 
 fig, ax = plt.subplots(1, 3, figsize=(14, 4))
-fig.suptitle("STUR Complete EFT: Sonoluminescence from QED (ONE input, ZERO free params)",
+fig.suptitle("STUR Complete EFT: Sonoluminescence from QED (ONE input, geometric framework)",
              fontsize=11, color='#4ade80')
 
 # Panel 1: peak temperature

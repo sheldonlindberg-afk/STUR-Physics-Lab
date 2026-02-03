@@ -249,6 +249,14 @@ For the STUR framework:
 - v ~ M_GUT ~ 2 x 10^16 GeV (R-field VEV at unification)
 - L_X ~ 1/M_KK ~ 1/M_GUT (compactification scale)
 
+> **L_X scale ambiguity:** This section uses the naive estimate L_X ~ 1/M_GUT ~
+> 10^{-32} m. The DERIVATION_CHAIN_HELIX.md Sec. 19.1 Casimir-holonomy balance
+> instead gives L_X ~ 0.8 um ~ 10^{-6} m -- a 26-order-of-magnitude difference.
+> The product y * v * L_X (and hence alpha and kappa) depends critically on which
+> L_X is used. The framework adopts the Casimir-holonomy value (see Sec. 6 below),
+> which gives v * L_X = 3 and alpha = 1. If no fifth-force signal is found at the
+> um scale, the Casimir-holonomy derivation of L_X is falsified.
+
 Therefore:
 ```
 y * v * L_X ~ 1 * (2 x 10^16 GeV) * (1 / 2 x 10^16 GeV) ~ 1
@@ -713,6 +721,12 @@ correction_factor = 0.225 / 0.540 = 0.417
 
 The previously estimated correction factor was 0.48 (from boundary, holonomy, RG).
 
+> **Provenance note:** The correction factor 0.48 is the product of f_boundary (0.65) x
+> f_holonomy (0.85) x f_RG (0.87). These individual factors are partially calibrated to
+> match the observed Cabibbo angle (see CORRECTION_FACTORS_COMPLETE.md provenance notes).
+> The first-principles calculations yield different values: f_holonomy ~ 0.91, f_RG ~ 0.94,
+> which would give a product of ~0.56, requiring kappa ~ 2.65 for an exact match.
+
 The discrepancy: 0.417 / 0.48 = 0.87
 
 This ~13% difference could arise from:
@@ -802,11 +816,17 @@ the fermion localization dynamics in the Z_3 helix geometry:
 
 ### 9.2 Comparison with Fitted Value
 
-| Quantity | Derived | Previously Used | Discrepancy |
-|----------|---------|-----------------|-------------|
-| kappa | 2.22 +/- 0.15 | 2.5 | 1.9 sigma |
+| Quantity | First-Principles | Value Used in Framework | Discrepancy |
+|----------|-----------------|------------------------|-------------|
+| kappa | 2.22 +/- 0.15 | 2.52 (after +0.30 perturbative corrections) | 1.9 sigma from base value |
 | lambda_bare | 0.54 | 0.46 | 17% |
-| alpha | 1.0 | 1.39 (implied) | 39% |
+| alpha | 1.0 | 1.39 (implied by kappa = 2.5) | 39% |
+
+> **Provenance note:** The "Previously Used" value kappa = 2.5 is obtained by adding +0.30 in
+> perturbative corrections to the first-principles value of 2.22. These corrections are
+> estimates based on dimensional analysis (see KAPPA_HIGHER_ORDER_CORRECTIONS.md), not
+> rigorous calculations. The sum conveniently reaches the value needed to reproduce the
+> observed Cabibbo angle.
 
 ### 9.3 Physical Interpretation
 

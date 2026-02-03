@@ -9,13 +9,22 @@
 
 ## Executive Summary
 
-This document provides complete first-principles derivations of all correction factors used in the STUR framework. Previous documents left some factors as estimates or contained sign/interpretation issues.
+This document provides derivations of all correction factors used in the STUR framework. Previous documents left some factors as estimates or contained sign/interpretation issues.
+
+> **Honesty note (added 2026-02-03):** Despite the original document title claiming "complete
+> first-principles derivations," several of the correction factors below involve calibration
+> to match experimental data. The annotations below document the actual provenance of each
+> factor: what is genuinely derived, what is estimated, and what is fitted.
 
 **Correction factors for λ (Wolfenstein parameter):**
 ```
 λ = exp[-κ²/8] × f_sector × f_holonomy × f_RG × f_tail
   = 0.452 × 0.62 × 0.85 × 0.87 × 1.05
   = 0.217 → matches 0.225 within uncertainties with κ = 2.52
+
+Note: The product 0.62 × 0.85 × 0.87 × 1.05 = 0.481 is partially
+calibrated to map λ_bare = 0.452 onto λ_obs = 0.225. See individual
+factor provenance notes below.
 ```
 
 **Note:** The f_tail factor (wavefunction tail correction) closes the previously observed 4-6% systematic discrepancy.
@@ -78,6 +87,16 @@ f_sector = 0.62 ± 0.03
 ```
 
 This replaces the incorrectly interpreted "boundary correction factor" of 0.65.
+
+> **Provenance note on f_sector = 0.62:** The sector confinement probability P_sector = erf(0.89)
+> = 0.789 is a genuine calculation for a Gaussian on the Z₃ domain. However, the step from
+> P_sector to f_sector = P_sector² = 0.62 assumes that the Yukawa overlap for diagonal
+> elements requires both fermions to be in the same sector with independent probabilities.
+> This is an approximation; the actual overlap integral depends on the detailed wavefunction
+> shape and the R-field profile, not simply on the product of sector probabilities. The value
+> 0.62 is close to the previously used 0.65 by construction, as both are chosen to produce the
+> correct Cabibbo angle. The calculation provides a physical motivation for a value in this
+> range, but the precise value depends on modeling choices.
 
 #### 1.4 Clarification
 
@@ -201,6 +220,14 @@ This is closer to but not exactly 0.85. The difference may come from higher-orde
 f_holonomy = 0.85 ± 0.05
 ```
 
+> **Provenance note on f_holonomy = 0.85:** The calculation above yields 0.91, not 0.85.
+> The simple exponential exp(-1/6) = 0.846 applies to absolute Yukawa couplings, not ratios.
+> The more careful calculation including off-diagonal correlations gives 0.91. The adopted
+> value 0.85 is stated to differ from 0.91 due to "higher-order correlations," but these are
+> not computed -- the value 0.85 is chosen to improve agreement with the observed Cabibbo
+> angle. This is calibration, not derivation. The first-principles calculation yields
+> f_holonomy = 0.91 +/- 0.05 for the Yukawa ratio.
+
 ---
 
 ### 3. The RG Running Factor (f_RG = 0.87)
@@ -257,6 +284,14 @@ f_RG = 0.87 ± 0.05
 
 with the understanding that this factor has the largest uncertainty among the three.
 
+> **Provenance note on f_RG = 0.87:** The document's own calculation gives 0.94, not 0.87.
+> The "reconciliation" invokes three additional effects (lower M_KK, two-loop, KK thresholds)
+> that are described qualitatively but not computed quantitatively. The choice of M_KK ~ 10^14
+> GeV (two orders of magnitude below M_GUT) is not independently motivated within the STUR
+> framework, which elsewhere uses M_KK ~ M_GUT ~ 10^16 GeV. The value 0.87 is effectively
+> chosen to produce the correct Cabibbo angle in combination with the other correction factors.
+> The first-principles calculation yields f_RG ~ 0.94 +/- 0.03.
+
 ---
 
 ### 4. The Wavefunction Tail Correction Factor (f_tail = 1.05)
@@ -307,6 +342,15 @@ f_tail = 1.05 ± 0.01 (or more precisely 1.048)
 ```
 
 This factor is multiplicative and applies universally to all Yukawa couplings.
+
+> **Provenance note on f_tail = 1.05:** This section contains its own refutation. The explicit
+> calculation gives f_tail = 0.796 (a 20% suppression), contradicting the claimed 5% enhancement.
+> The resolution invokes an undefined "phase alignment factor" and "geometric factor" without
+> calculation, to flip the sign from suppression to enhancement. Furthermore,
+> KAPPA_FIRST_PRINCIPLES_DERIVATION.md Section 9.6 shows the correction is generation-dependent
+> (q=0 gives 0.842 suppression; q=1,2 give 1.121 enhancement), not a universal 1.05. The value
+> 1.05 is chosen to close the residual discrepancy between the other correction factors and
+> observation. This is the least justified of all the correction factors.
 
 ---
 
@@ -492,17 +536,17 @@ Total: κ = 2.52 ± 0.16
 
 ### 7. Master Correction Factor Table
 
-| Factor | Value | Derivation Status | Physical Origin |
-|--------|-------|-------------------|-----------------|
-| **For λ:** | | | |
-| f_sector | 0.62 ± 0.03 | **DERIVED** | Sector confinement probability |
-| f_holonomy | 0.85 ± 0.05 | Estimated | Holonomy phase fluctuations |
-| f_RG | 0.87 ± 0.05 | Semi-derived | QCD + KK threshold running |
-| f_tail | 1.05 ± 0.01 | **DERIVED** | Wavefunction tails wrapping S¹/Z₃ |
-| **For η̄:** | | | |
-| f_hol | 0.948 ± 0.010 | **DERIVED** | exp[-⟨δθ²⟩/2] with ⟨δθ²⟩=1/3 |
-| f_Berry | 0.975 ± 0.005 | **DERIVED** | Geometric phase on Z₃ helix |
-| f_RG | 0.970 ± 0.015 | Semi-derived | RG + KK threshold |
+| Factor | Value | Derivation Status | Honest Assessment | Physical Origin |
+|--------|-------|-------------------|-------------------|-----------------|
+| **For λ:** | | | | |
+| f_sector | 0.62 ± 0.03 | **DERIVED** | Approximate; uses P_sector^2 model | Sector confinement probability |
+| f_holonomy | 0.85 ± 0.05 | **CALIBRATED** | Calculation gives 0.91; 0.85 chosen to fit data | Holonomy phase fluctuations |
+| f_RG | 0.87 ± 0.05 | **CALIBRATED** | Calculation gives 0.94; 0.87 chosen to fit data | QCD + KK threshold running |
+| f_tail | 1.05 ± 0.01 | **FITTED** | Formula gives 0.796; value chosen to close gap | Wavefunction tails wrapping S¹/Z₃ |
+| **For η̄:** | | | | |
+| f_hol | 0.948 ± 0.010 | **SEMI-DERIVED** | Based on solid variance but specific correlation model | exp[-⟨δθ²⟩/2] with ⟨δθ²⟩=1/3 |
+| f_Berry | 0.975 ± 0.005 | **DERIVED** | Genuine geometric calculation | Geometric phase on Z₃ helix |
+| f_RG | 0.970 ± 0.015 | **SEMI-DERIVED** | Depends on M_KK assumptions | RG + KK threshold |
 
 ### 8. Final Predictions
 
@@ -532,21 +576,19 @@ Agreement: 0.09σ
 
 ## 9. Conclusions
 
-### 9.1 What is Now Fully Derived
+### 9.1 What is Genuinely Derived
 
-1. **f_sector = 0.62**: Sector confinement from Gaussian probability
-2. **f_hol (η̄) = 0.948**: From SU(3) Casimir C₂ = 3
-3. **f_Berry = 0.975**: Geometric phase on Z₃ helix
-4. **f_tail = 1.05**: Wavefunction tails wrapping around S¹/Z₃
-5. **XCRM-Yukawa symmetry**: y = |χ|·L_X from natural localization
+1. **f_sector = 0.62**: Approximately derived from sector confinement probability; modeling choices affect the precise value (see provenance note in Section 1)
+2. **f_hol (η̄) = 0.948**: Semi-derived from SU(3) Casimir; depends on specific u-d correlation model
+3. **f_Berry = 0.975**: Genuinely derived geometric phase on Z₃ helix
+4. **XCRM-Yukawa symmetry**: y = |χ|·L_X from natural localization
 
-**Note:** The addition of f_tail closes the systematic 4-6% discrepancy that was present in earlier predictions, achieving excellent agreement with observed values.
+### 9.2 What is Calibrated or Fitted
 
-### 9.2 What Remains Estimated
-
-1. **f_holonomy (λ) = 0.85**: Needs more rigorous correlation calculation
-2. **f_RG = 0.87**: Depends on unknown M_KK value
-3. **Higher-order κ corrections**: Perturbative estimates
+1. **f_holonomy (λ) = 0.85**: Calculation gives 0.91; value shifted to 0.85 to match data
+2. **f_RG = 0.87**: Calculation gives 0.94; value shifted to 0.87 to match data
+3. **f_tail = 1.05**: Explicit formula gives 0.796 (suppression); value of 1.05 (enhancement) is chosen to close residual gap
+4. **Higher-order κ corrections (+0.30)**: Perturbative estimates, not rigorous calculations
 
 ### 9.3 Open Issues
 
