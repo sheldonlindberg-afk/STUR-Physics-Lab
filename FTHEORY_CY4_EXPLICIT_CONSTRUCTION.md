@@ -425,6 +425,19 @@ With Z₃ quotient and fixed points:
 
 This is the required D3-brane tadpole, and it being an integer is a consistency check.
 
+**CORRECTION (2026-02-03): χ DISCREPANCY IDENTIFIED**
+
+The Hodge number formula χ = 6(8 + h¹¹ + h³¹ - h²¹) = 6(8+3+25-3) = 198
+contradicts the SVW result χ = 1728. Direct summation over the Hodge diamond
+also gives χ = 198 (verified numerically in stur_corrections_numerical.py).
+
+Note that χ = 198 gives χ/24 = 8.25, which is NOT an integer — creating a
+D3-brane tadpole problem. Either the Hodge numbers computed in Section 2
+are incorrect (likely, given the complexity of the (P²×P¹)/Z₃ blowup),
+or the SVW gauge correction terms need revision.
+
+This discrepancy requires resolution. See TOE_CORRECTIONS_COMPLETE.md Section 6.
+
 ---
 
 ## 3. Tadpole Cancellation

@@ -2,7 +2,7 @@
 
 **Goal:** Derive y_t from the existing 3 axioms without additional input.
 
-**Status:** CALCULATION IN PROGRESS
+**Status:** CALCULATION COMPLETE (2026-02-03) — see Section 4 for result
 
 ---
 

@@ -848,28 +848,24 @@ by the underlying dynamics. The derived value is remarkably close to what is nee
 to explain the observed Wolfenstein parameter. The remaining uncertainty is in the
 secondary parameters (alpha, correction factors), not in the fundamental mechanism.
 
-### 9.6 Connection to Tail Correction Factor (f_tail)
+### 9.6 Connection to Z₃ Normalization Factor
 
-The localization parameter κ = 2.52 (with higher-order corrections) directly determines the wavefunction tail correction f_tail = 1.05:
-
-```
-σ = (2π/3) / κ = 0.831 rad
-
-f_tail = 1 + (tail probability beyond 2σ) × (overlap enhancement)
-       ≈ 1.05
-```
-
-This 5% enhancement arises from wavefunction probability density in the tails (|θ| > 2σ) that contributes to cross-generation overlap. The tail correction is:
-- **κ-dependent**: Larger κ means tighter localization and smaller tails
-- **Independent of other factors**: f_boundary, f_hol, and f_RG address different physics
-
-The complete correction chain is:
+**CORRECTION (2026-02-03):** The previous claim that κ = 2.52 determines a universal
+f_tail = 1.05 has been corrected. The wavefunction normalization on S¹/Z₃ depends
+on the Z₃ charge q of each generation:
 
 ```
-m = m_naive × f_boundary × f_hol × f_RG × f_tail
+N_q² / N_unwrapped² = 1 + 2·exp(-κ²/4)·cos(2πq/3)
+
+For κ = 2.52 (exp(-κ²/4) = 0.204):
+    q=0: N² = 1.409 → Yukawa correction = 1/√1.409 = 0.842  (SUPPRESSION)
+    q=1: N² = 0.796 → Yukawa correction = 1/√0.796 = 1.121  (ENHANCEMENT)
+    q=2: N² = 0.796 → Yukawa correction = 1/√0.796 = 1.121  (ENHANCEMENT)
 ```
 
-See UNIFIED_5_PERCENT_ANALYSIS.md for the detailed derivation of how κ = 2.52 determines f_tail = 1.05.
+The correction is NOT universal — it is generation-dependent.
+The formula 1 + 2·exp(-κ²/4)·cos(2π/3) = 0.796, NOT 1.05.
+See TOE_CORRECTIONS_COMPLETE.md Section 1 for the full derivation.
 
 ---
 
