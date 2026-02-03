@@ -18,7 +18,6 @@ The complete correction formula for Wolfenstein lambda is:
     lambda_phys = lambda_bare * f_boundary * f_holonomy * f_RG * f_tail
 
 where f_tail = 1.05 accounts for unified wavefunction tail corrections.
-See UNIFIED_5_PERCENT_ANALYSIS.md for the derivation of f_tail.
 
 Author: STUR Framework Numerical Verification
 Date: 2026-01-28
@@ -46,7 +45,7 @@ else:
 KAPPA_CENTRAL = 2.52  # Localization parameter
 KAPPA_UNCERTAINTY = 0.16  # 1-sigma uncertainty
 
-# Wavefunction tail correction (see UNIFIED_5_PERCENT_ANALYSIS.md for derivation)
+# Wavefunction tail correction
 F_TAIL = 1.05  # Tail correction - accounts for Gaussian tail contributions
                # beyond the primary integration domain
 
@@ -695,7 +694,6 @@ def calculate_f_tail(kappa=KAPPA_CENTRAL):
     3. Unified correction for all boundary-related effects
 
     Target value: 1.05 +/- 0.01
-    See UNIFIED_5_PERCENT_ANALYSIS.md for full derivation.
 
     Parameters:
     -----------

@@ -675,7 +675,7 @@ factor of ~100 with no derivation. The correct result from a single consistent
 calculation with the inputs in Section 6.1 is Lambda = 7.3e-46 GeV^4,
 which is ~26x larger than the observed value. This is an order-of-magnitude
 agreement — the correct scale emerges naturally — but not the "~factor 3"
-previously claimed. See TOE_CORRECTIONS_COMPLETE.md Section 2.
+previously claimed.
 
 ### 6.4 Comparison with Observation
 

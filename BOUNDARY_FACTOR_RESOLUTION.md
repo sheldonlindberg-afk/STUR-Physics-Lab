@@ -479,13 +479,9 @@ The tail correction f_tail captures the enhanced overlap from the non-Gaussian t
 2. f_tail corrects for probability density in the exponential tails
 3. Both effects are determined by κ = 2.52 but through different mechanisms
 
-See UNIFIED_5_PERCENT_ANALYSIS.md for the first-principles derivation of f_tail = 1.05.
-
 ---
 
 ## References
 
 1. BOUNDARY_CORRECTION_DERIVATION.md - Original calculation
 2. DERIVATION_CHAIN_HELIX.md - Full STUR derivation
-3. boundary_correction_pure.py - Numerical verification
-4. UNIFIED_5_PERCENT_ANALYSIS.md - Derivation of f_tail = 1.05

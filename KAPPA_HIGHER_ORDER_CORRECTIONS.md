@@ -1758,8 +1758,6 @@ The tail correction f_tail arises from wavefunction probability in the non-Gauss
 
 **Independence from higher-order κ corrections:** The corrections computed in this document (two-loop, KK, gauge, orbifold) affect the localization width σ and hence κ. The tail correction f_tail is then computed from the final κ value—these are sequential, not competing, effects.
 
-See UNIFIED_5_PERCENT_ANALYSIS.md for the first-principles derivation of f_tail from κ.
-
 ---
 
 ## Appendix A: Detailed Two-Loop Calculation

@@ -359,7 +359,7 @@ m = m_naive × f_boundary × f_hol × f_RG × f_tail
 - **f_boundary = 0.65**: Arises from finite-domain overlap integrals and Z_3 sector confinement (this document)
 - **f_tail = 1.05**: Arises from unified wavefunction tail contributions beyond the Gaussian core, providing a 5% enhancement
 
-The tail correction captures probability density in the extended tails of the localized wavefunctions that contribute to cross-generation overlap. This effect is calculated in UNIFIED_5_PERCENT_ANALYSIS.md using the derived value κ = 2.52.
+The tail correction captures probability density in the extended tails of the localized wavefunctions that contribute to cross-generation overlap, using the derived value κ = 2.52.
 
 Both factors are necessary for the complete physical prediction; they address different aspects of the wavefunction geometry.
 
@@ -369,4 +369,3 @@ Both factors are necessary for the complete physical prediction; they address di
 
 1. DERIVATION_CHAIN_HELIX.md - STUR Framework v3.5
 2. Abramowitz & Stegun, "Handbook of Mathematical Functions" - Error function (7.1.26)
-3. UNIFIED_5_PERCENT_ANALYSIS.md - Derivation of f_tail = 1.05

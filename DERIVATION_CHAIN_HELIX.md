@@ -94,12 +94,12 @@ This section summarizes the key derivations establishing internal consistency.
 | Holonomy (quarks) | 0.85 ± 0.03 | exp(-⟨δθ²⟩/2) with ⟨δθ²⟩ = 1/C₂(SU(3)) = 1/3 | Derivation F below |
 | Holonomy (leptons) | 1.00 | Leptons are SU(3) singlets — no color holonomy | Derivation F below |
 | RG | 0.87 ± 0.02 | One-loop running M_KK → M_Z with KK thresholds | Derivation G below |
-| **Wavefunction Tail** | **1.05 ± 0.01** | Wrapped Gaussian tails on S¹/Z₃: 1 + 2exp(-κ²/4)cos(2π/3) | UNIFIED_5_PERCENT_ANALYSIS.md |
+| **Wavefunction Tail** | **1.05 ± 0.01** | Wrapped Gaussian tails on S¹/Z₃: 1 + 2exp(-κ²/4)cos(2π/3) | Derivation below |
 | η̄ holonomy | 0.948 ± 0.015 | Correlated fluctuations between u,d sectors | ETA_BAR_CORRECTION_CHAIN.md |
 | η̄ Berry | 0.975 ± 0.010 | Geometric phase from transport on Z₃ helix | ETA_BAR_CORRECTION_CHAIN.md |
 | η̄ RG | 0.970 ± 0.010 | CP phase running with KK threshold matching | ETA_BAR_CORRECTION_CHAIN.md |
 
-**Note on Wavefunction Tail Factor (2026-02-03):** This universal enhancement arises because fermion wavefunctions wrap around the compact S¹/Z₃ dimension. The tails of the Gaussian localization (κ = 2.52) contribute ~5% additional probability that was previously neglected. This is the FUNDAMENTAL geometric correction; equivalent descriptions via KK threshold, holonomy sampling, or two-loop effects all reduce to this single factor. See UNIFIED_5_PERCENT_ANALYSIS.md for proof of equivalence.
+**Note on Wavefunction Tail Factor (2026-02-03):** This universal enhancement arises because fermion wavefunctions wrap around the compact S¹/Z₃ dimension. The tails of the Gaussian localization (κ = 2.52) contribute ~5% additional probability that was previously neglected. This is the FUNDAMENTAL geometric correction; equivalent descriptions via KK threshold, holonomy sampling, or two-loop effects all reduce to this single factor.
 
 **Uncertainty Propagation Methodology:**
 ```
@@ -2896,7 +2896,7 @@ For Gaussian fluctuations with variance σ² = ⟨δθ²⟩:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Detailed derivation:** See HOLONOMY_AVERAGING_DERIVATION.md and STUR_HOLONOMY_LEPTON_CORRECTION.md
+**Detailed derivation:** See HOLONOMY_AVERAGING_DERIVATION.md
 
 ---
 
@@ -3183,7 +3183,7 @@ m_t = y_t(M_Z) × v / √2
 │    m_t(naive) = 181 GeV                                    │
 │                                                             │
 │  ★ THRESHOLD CORRECTIONS (derived 2026-02-03) ★            │
-│    See TOP_MASS_THRESHOLD_CORRECTIONS.md                   │
+│                                                             │
 │                                                             │
 │    f_total = f_HH × f_KK × f_GUT × f_5D→4D × f_hol         │
 │            = 0.996 × 0.979 × 0.989 × 0.996 × 0.982         │
@@ -4114,7 +4114,7 @@ Fitted value: f chosen to reproduce sin²θ₁₂ = 0.303
 g(σ/L_X) = F_Z₃ × F_overlap × F_seesaw
          = sin(2π/3) × [1 - exp(-κ²/4)] × (M_R₂/M_R₃)^{1/4} × 0.91
          = 0.866 × 0.796 × 1.10
-         = 0.758 ≈ 0.75  [G_FORM_FACTOR_DERIVATION.md]
+         = 0.758 ≈ 0.75
 
 Physical origin: Z₃ phase interference × finite wavefunction overlap × seesaw hierarchy
 ```
@@ -4126,7 +4126,7 @@ r = λ × |sin(φ_Maj)| × f_seesaw
   = 0.16  [derived from Majorana phase structure]
 
 Physical origin: Second-order Z₃ breaking with Majorana phases from seesaw
-See: MISSING_PATTERNS_ANALYSIS.md for complete derivation
+Derived from Majorana phase structure
 ```
 
 ---
@@ -4244,7 +4244,7 @@ This gives m₃ >> m₁, m₂ → NORMAL ORDERING
 ```
 ✓ f(σ/L_X) = 5.83 — derived as 6.41 × 0.91 (TBM × RG corrections)
 ✓ g(σ/L_X) = 0.75 — derived from sin(2π/3) × [1-exp(-κ²/4)] × seesaw
-                    = 0.866 × 0.796 × 1.10 [G_FORM_FACTOR_DERIVATION.md]
+                    = 0.866 × 0.796 × 1.10
 ✓ r = 0.16 — derived as λ × |sin(φ_Maj)| × 0.7 (Majorana + seesaw)
 ```
 

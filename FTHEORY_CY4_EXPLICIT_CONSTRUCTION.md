@@ -436,7 +436,7 @@ D3-brane tadpole problem. Either the Hodge numbers computed in Section 2
 are incorrect (likely, given the complexity of the (P²×P¹)/Z₃ blowup),
 or the SVW gauge correction terms need revision.
 
-This discrepancy requires resolution. See TOE_CORRECTIONS_COMPLETE.md Section 6.
+This discrepancy requires resolution.
 
 ---
 

@@ -158,7 +158,7 @@ f_tail = integral_{-infinity}^{+infinity} |psi|^2 / integral_{domain} |psi|^2
        ≈ 1.05 for sigma = 0.831 rad
 ```
 
-This 5% enhancement closes the systematic discrepancy observed between raw predictions and experimental data. See UNIFIED_5_PERCENT_ANALYSIS.md for the detailed derivation.
+This 5% enhancement closes the systematic discrepancy observed between raw predictions and experimental data.
 
 **Final Value: f_tail = 1.05 +/- 0.01**
 
@@ -292,7 +292,7 @@ The previously problematic **Wolfenstein lambda parameter** is now in excellent 
 - **Observed:** 0.225 +/- 0.001
 - **Current tension:** 0.2 sigma
 
-The 5% wavefunction tail correction closes the systematic discrepancy that was previously the main source of tension in the STUR framework predictions. See UNIFIED_5_PERCENT_ANALYSIS.md for the detailed derivation of this correction.
+The 5% wavefunction tail correction closes the systematic discrepancy that was previously the main source of tension in the STUR framework predictions.
 
 ---
 
@@ -408,9 +408,6 @@ python3 scripts/stur_numerical_verification.py
 
 1. PDG 2024 Review of Particle Physics
 2. STUR Framework documentation (internal)
-3. Boundary correction calculation: `/home/user/STUR-Physics-Lab/boundary_correction_calculation.py`
-4. Kappa numerical solver: `/home/user/STUR-Physics-Lab/scripts/kappa_numerical_solver.py`
-5. Unified 5% tail correction analysis: `/home/user/STUR-Physics-Lab/UNIFIED_5_PERCENT_ANALYSIS.md`
 
 ---
 

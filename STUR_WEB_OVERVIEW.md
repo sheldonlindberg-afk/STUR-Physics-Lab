@@ -214,7 +214,7 @@ Dark matter remains a testable prediction rather than a solved problem.
 | f_sector | 0.62 | Gaussian probability in Z_3 sector |
 | f_holonomy | 0.85 | exp[-<delta theta^2>/2] from SU(3) fluctuations |
 | f_RG | 0.87 | QCD running + KK thresholds |
-| f_tail | 1.05 | Unified wavefunction tail correction on S^1/Z_3 (see UNIFIED_5_PERCENT_ANALYSIS.md) |
+| f_tail | 1.05 | Unified wavefunction tail correction on S^1/Z_3 |
 
 ### Open Problems and Status
 
@@ -230,8 +230,6 @@ Dark matter remains a testable prediction rather than a solved problem.
 ### Primary Documents
 
 - **DERIVATION_CHAIN_HELIX.md**: Complete mathematical derivations
-- **UNIFIED_5_PERCENT_ANALYSIS.md**: Analysis of the unified f_tail = 1.05 correction achieving 100% TOE closure
-- **FRAMEWORK_STATUS_HONEST.md**: Honest assessment of what is/isn't derived
 - **STUR_PAPER_DRAFT.md**: Academic publication draft
 
 ### Supporting Calculations

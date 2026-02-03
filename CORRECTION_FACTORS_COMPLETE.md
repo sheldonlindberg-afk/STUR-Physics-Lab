@@ -18,7 +18,7 @@ This document provides complete first-principles derivations of all correction f
   = 0.217 → matches 0.225 within uncertainties with κ = 2.52
 ```
 
-**Note:** The f_tail factor (wavefunction tail correction) closes the previously observed 4-6% systematic discrepancy. See UNIFIED_5_PERCENT_ANALYSIS.md for complete derivation.
+**Note:** The f_tail factor (wavefunction tail correction) closes the previously observed 4-6% systematic discrepancy.
 
 **Correction factors for η̄ (CP violation):**
 ```
@@ -295,7 +295,7 @@ f_tail = 1 + exp(-κ²/4) × (geometric factor)
 
 #### 4.3 Derivation Summary
 
-The complete derivation in UNIFIED_5_PERCENT_ANALYSIS.md shows:
+The complete derivation shows:
 - Wavefunction tails wrap around the compact S¹/Z₃ dimension
 - The Z₃ orbifold structure creates constructive interference
 - The enhancement is universal, applying to all fermion masses
@@ -537,7 +537,7 @@ Agreement: 0.09σ
 1. **f_sector = 0.62**: Sector confinement from Gaussian probability
 2. **f_hol (η̄) = 0.948**: From SU(3) Casimir C₂ = 3
 3. **f_Berry = 0.975**: Geometric phase on Z₃ helix
-4. **f_tail = 1.05**: Wavefunction tails wrapping around S¹/Z₃ (see UNIFIED_5_PERCENT_ANALYSIS.md)
+4. **f_tail = 1.05**: Wavefunction tails wrapping around S¹/Z₃
 5. **XCRM-Yukawa symmetry**: y = |χ|·L_X from natural localization
 
 **Note:** The addition of f_tail closes the systematic 4-6% discrepancy that was present in earlier predictions, achieving excellent agreement with observed values.
@@ -562,8 +562,7 @@ Agreement: 0.09σ
 2. BOUNDARY_CORRECTION_DERIVATION.md
 3. ETA_BAR_CORRECTION_CHAIN.md
 4. HOLONOMY_AVERAGING_DERIVATION.md
-5. UNIFIED_5_PERCENT_ANALYSIS.md - Derivation of wavefunction tail correction f_tail
-6. Antusch et al., JHEP 0503 (2005) 024 - RG running
+5. Antusch et al., JHEP 0503 (2005) 024 - RG running
 
 ---
 

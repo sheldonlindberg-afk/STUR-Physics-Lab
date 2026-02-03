@@ -865,7 +865,7 @@ For κ = 2.52 (exp(-κ²/4) = 0.204):
 
 The correction is NOT universal — it is generation-dependent.
 The formula 1 + 2·exp(-κ²/4)·cos(2π/3) = 0.796, NOT 1.05.
-See TOE_CORRECTIONS_COMPLETE.md Section 1 for the full derivation.
+See Section 1 above for the full derivation.
 
 ---
 
