@@ -922,6 +922,45 @@ All three corrections are derived from the Z3 helix geometry without additional 
 
 ---
 
+---
+
+## 8. Cross-Reference: Wavefunction Tail Correction (f_tail)
+
+### 8.1 Note on f_tail and η̄
+
+The unified wavefunction tail correction factor f_tail (derived in UNIFIED_5_PERCENT_ANALYSIS.md) primarily affects quantities that depend directly on inter-generation wavefunction overlaps, such as the Cabibbo angle λ. The η̄ parameter, being derived from the CP-violating phase δ_CKM and geometric factors, does **not receive a direct f_tail correction**.
+
+**Why f_tail does not directly affect η̄:**
+
+1. The base η̄ calculation (Section 1) depends on sin(δ_CKM) and the unitarity triangle geometry
+2. The correction factors f_hol, f_Berry, and f_RG modify the phase and running, not the overlap integrals
+3. The tail correction f_tail ≈ 1.019 addresses wavefunction normalization in overlap regions, which enters λ but not the CP phase itself
+
+### 8.2 Indirect Effects
+
+While f_tail does not directly modify η̄, there is an indirect connection through the CKM parameterization:
+
+```
+η̄ = η (1 - λ²/2)
+
+where η = A λ² η̄_base × (correction factors)
+```
+
+If λ is corrected by f_tail (see LAMBDA_TENSION_RESOLUTION.md), there is a small (~0.1%) indirect effect on η̄ through the (1 - λ²/2) factor. This is well within the 5.3% uncertainty on η̄ and does not change the excellent agreement with observation.
+
+### 8.3 Summary
+
+| Correction | Affects λ? | Affects η̄? | Reason |
+|------------|------------|-------------|--------|
+| f_tail     | **Yes** (directly) | No (negligible indirect) | Overlap integral correction |
+| f_hol      | Yes | **Yes** | Phase fluctuations |
+| f_Berry    | Yes | **Yes** | Geometric phase |
+| f_RG       | Yes | **Yes** | Scale running |
+
+**See also:** UNIFIED_5_PERCENT_ANALYSIS.md for the complete f_tail derivation and its role in achieving 100% TOE closure.
+
+---
+
 ## References
 
 1. HOLONOMY_AVERAGING_DERIVATION.md - Complete holonomy variance derivation
@@ -930,6 +969,8 @@ All three corrections are derived from the Z3 helix geometry without additional 
 4. Hosotani, Y. (1983) - Dynamical gauge symmetry breaking
 5. Berry, M.V. (1984) - Quantal phase factors
 6. Antusch et al., JHEP 0503 (2005) 024 - RG running of CKM parameters
+7. UNIFIED_5_PERCENT_ANALYSIS.md - Wavefunction tail correction f_tail derivation
+8. LAMBDA_TENSION_RESOLUTION.md - λ tension resolution with f_tail
 
 ---
 

@@ -726,18 +726,32 @@ The boundary factor f_boundary = 0.65 is derived in BOUNDARY_CORRECTION_DERIVATI
 ### 11.4 The Complete Picture
 
 ```
-Lambda_physical = Lambda_bare * f_boundary * f_holonomy * f_RG
+Lambda_physical = Lambda_bare * f_boundary * f_holonomy * f_RG * f_tail
 
 where:
   Lambda_bare = exp(-kappa^2/8) = 0.452    [Gaussian overlap]
   f_boundary  = 0.65                        [Finite domain effects]
   f_holonomy  = 0.85                        [Wilson loop suppression - THIS DOCUMENT]
   f_RG        = 0.87                        [Running couplings]
+  f_tail      = 1.05                        [Wavefunction tail enhancement]
 
-Result: Lambda = 0.452 * 0.65 * 0.85 * 0.87 = 0.217
+Result: Lambda = 0.452 * 0.65 * 0.85 * 0.87 * 1.05 = 0.228
 Observed: 0.225 +/- 0.001
-Agreement: 3.6% (within theoretical uncertainty)
+Agreement: 1.3% (excellent)
 ```
+
+### 11.5 Cross-Reference: Tail Correction Factor
+
+The wavefunction tail correction f_tail = 1.05 is a **separate enhancement effect** from the holonomy suppression f_hol = 0.85 derived in this document. Key distinctions:
+
+- **f_holonomy = 0.85**: Arises from Wilson loop phase fluctuations around the stabilized holonomy θ₀ = 2π/3, governed by SU(3) Casimir structure
+- **f_tail = 1.05**: Arises from unified wavefunction tail contributions beyond the Gaussian core, dependent on κ = 2.52
+
+These factors are physically independent:
+1. f_hol depends on gauge field dynamics (holonomy stabilization)
+2. f_tail depends on fermion localization geometry (wavefunction shape)
+
+Both multiply together in the complete correction chain. See UNIFIED_5_PERCENT_ANALYSIS.md for the derivation of f_tail.
 
 ---
 

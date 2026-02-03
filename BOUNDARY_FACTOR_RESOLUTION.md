@@ -453,8 +453,39 @@ sector confinement.
 
 ---
 
+---
+
+## 9. Relationship to Tail Correction Factor (f_tail)
+
+The boundary factor f_boundary = 0.65 analyzed in this document is **independent of** the wavefunction tail correction f_tail = 1.05. These corrections address different physics:
+
+| Factor | Value | Physical Origin | Effect |
+|--------|-------|-----------------|--------|
+| f_boundary | 0.65 | Finite domain + Z_3 sector confinement | Suppression |
+| f_tail | 1.05 | Wavefunction tails beyond Gaussian core | Enhancement |
+
+**Complete correction chain:**
+
+```
+λ_physical = λ_bare × f_boundary × f_hol × f_RG × f_tail
+           = 0.458 × 0.65 × 0.85 × 0.87 × 1.05
+           = 0.231
+```
+
+The tail correction f_tail captures the enhanced overlap from the non-Gaussian tails of the localized wavefunctions. While f_boundary accounts for the domain truncation of the Gaussian core, f_tail accounts for the extended tails that leak beyond the core region but still contribute to cross-generation coupling.
+
+**Why they are independent:**
+1. f_boundary operates on the normalized overlap within the finite domain
+2. f_tail corrects for probability density in the exponential tails
+3. Both effects are determined by κ = 2.52 but through different mechanisms
+
+See UNIFIED_5_PERCENT_ANALYSIS.md for the first-principles derivation of f_tail = 1.05.
+
+---
+
 ## References
 
 1. BOUNDARY_CORRECTION_DERIVATION.md - Original calculation
 2. DERIVATION_CHAIN_HELIX.md - Full STUR derivation
 3. boundary_correction_pure.py - Numerical verification
+4. UNIFIED_5_PERCENT_ANALYSIS.md - Derivation of f_tail = 1.05

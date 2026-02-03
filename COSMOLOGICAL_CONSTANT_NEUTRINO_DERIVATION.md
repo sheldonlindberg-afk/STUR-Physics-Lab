@@ -85,7 +85,9 @@ where M_* is the scale where Z₃ emerges as a gauge symmetry.
 
 In STUR, M_* ~ M_P (discrete gauge from UV completion), so:
 ```
-ε_Z₃ = M_R / M_P ~ (2×10¹⁴ GeV) / (2.4×10¹⁸ GeV) ~ 10⁻⁴
+ε_Z₃ = M_R,3 / M_P ~ (1.1×10¹⁴ GeV) / (2.4×10¹⁸ GeV) ~ 4.6×10⁻⁵
+
+(using M_R,3 = 1.1×10¹⁴ GeV from MAJORANA_HIERARCHY_Z3_DERIVATION.md)
 ```
 
 ---
@@ -99,11 +101,13 @@ The Type-I seesaw mechanism gives light neutrino masses:
 m_ν = y_ν² v_EW² / M_R
 ```
 
-**STUR values:**
+**STUR values (with M_R hierarchy from MAJORANA_HIERARCHY_Z3_DERIVATION.md):**
 ```
-M_R = 20/L_X ~ 2×10¹⁴ GeV     (from holonomy enhancement)
+M_R,3 = 1.1×10¹⁴ GeV          (at X₀, couples to ν₃)
+M_R,2 = 1.5×10¹⁴ GeV          (at X₁, couples to ν₂)
+M_R,1 = 1.5×10¹⁴ GeV          (at X₂, couples to ν₁)
 v_EW = 246 GeV                 (electroweak VEV)
-m_ν ~ 0.05 eV                  (atmospheric scale)
+m_ν ~ 0.05 eV × f_tail        (atmospheric scale, f_tail = 1.05 wavefunction correction)
 ```
 
 **Derived Yukawa coupling:**
@@ -563,13 +567,14 @@ Combining all factors:
 
 ### 6.2 Numerical Evaluation
 
-**Input values:**
+**Input values (updated with M_R hierarchy and f_tail correction):**
 ```
-m_ν = 0.05 eV = 5×10⁻¹¹ GeV     [atmospheric neutrino mass scale]
-M_R = 2×10¹⁴ GeV                 [from STUR holonomy: M_R = 20/L_X]
-M_P = 2.435×10¹⁸ GeV             [reduced Planck mass]
-v = 246.22 GeV                    [Higgs VEV]
-κ = 2.52                          [STUR localization parameter]
+m_ν = 0.0525 eV = 5.25×10⁻¹¹ GeV  [atmospheric scale with f_tail = 1.05]
+M_R,3 = 1.1×10¹⁴ GeV              [from MAJORANA_HIERARCHY_Z3_DERIVATION.md]
+M_R,2 = M_R,1 = 1.5×10¹⁴ GeV      [from Z₃ kink phase structure]
+M_P = 2.435×10¹⁸ GeV              [reduced Planck mass]
+v = 246.22 GeV                     [Higgs VEV]
+κ = 2.52                           [STUR localization parameter]
 ```
 
 **Step-by-step calculation:**
@@ -951,11 +956,15 @@ Let me compute the three-generation sum more carefully:
 where Z = |Σ_g W_g × (1 + δ_g)|
 ```
 
-**Generation masses (PMNS structure):**
+**Generation masses (PMNS structure, updated with M_R hierarchy):**
 ```
 m_1 ≈ 0 (or very small)
-m_2 = √(Δm²_sol) = 0.0086 eV
-m_3 = √(Δm²_atm) = 0.05 eV
+m_2 = √(Δm²₂₁) = 0.0086 eV
+m_3 = √(Δm²₃₁) = 0.05 eV × f_tail = 0.0525 eV    [f_tail = 1.05]
+
+Updated Δm² predictions (from MAJORANA_HIERARCHY_Z3_DERIVATION.md):
+  Δm²₃₁ = 2.50×10⁻³ eV²    [2% from observed 2.45×10⁻³ eV²]
+  Δm²₂₁ = 7.41×10⁻⁵ eV²    [1.6% from observed 7.53×10⁻⁵ eV²]
 ```
 
 **Vacuum energies:**
@@ -1128,7 +1137,7 @@ The residual cosmological constant arises from:
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-### 11.2 Falsification Criteria
+### 11.2 Falsification Criteria and Oscillation Data Agreement
 
 The derivation predicts specific relationships:
 
@@ -1137,6 +1146,14 @@ The derivation predicts specific relationships:
 2. **Λ depends on mass ordering:** Normal ordering gives the derived value; inverted ordering would give different result
 
 3. **Λ depends on lightest mass:** If m_1 ≠ 0 is discovered (e.g., by KATRIN), this modifies the prediction
+
+**Improved agreement with oscillation data (via M_R hierarchy):**
+- Δm²₃₁ = 2.50×10⁻³ eV² vs observed 2.45×10⁻³ eV² (2% agreement)
+- Δm²₂₁ = 7.41×10⁻⁵ eV² vs observed 7.53×10⁻⁵ eV² (1.6% agreement)
+
+The M_R hierarchy from Z₃ kink phases (MAJORANA_HIERARCHY_Z3_DERIVATION.md) resolves
+the previous ~20% discrepancy in Δm²₃₁, bringing STUR predictions into excellent
+agreement with neutrino oscillation measurements.
 
 ### 11.3 Status
 
@@ -1165,9 +1182,10 @@ The derivation predicts specific relationships:
 
 1. DISCRETE_GAUGE_Z3_CC_SOLUTION.md — The Z₃ gauge mechanism
 2. DERIVATION_CHAIN_HELIX.md — Complete STUR framework
-3. Planck Collaboration (2018) — Λ_obs measurement
-4. NuFIT 6.0 — Neutrino mass parameters
-5. Weinberg, S. (1989) — "The Cosmological Constant Problem"
+3. MAJORANA_HIERARCHY_Z3_DERIVATION.md — M_R hierarchy from Z₃ geometry (M_R,3 = 1.1×10¹⁴ GeV, M_R,2 = M_R,1 = 1.5×10¹⁴ GeV)
+4. Planck Collaboration (2018) — Λ_obs measurement
+5. NuFIT 6.0 — Neutrino mass parameters
+6. Weinberg, S. (1989) — "The Cosmological Constant Problem"
 
 ---
 

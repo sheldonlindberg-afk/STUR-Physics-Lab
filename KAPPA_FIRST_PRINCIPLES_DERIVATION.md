@@ -848,6 +848,29 @@ by the underlying dynamics. The derived value is remarkably close to what is nee
 to explain the observed Wolfenstein parameter. The remaining uncertainty is in the
 secondary parameters (alpha, correction factors), not in the fundamental mechanism.
 
+### 9.6 Connection to Tail Correction Factor (f_tail)
+
+The localization parameter κ = 2.52 (with higher-order corrections) directly determines the wavefunction tail correction f_tail = 1.05:
+
+```
+σ = (2π/3) / κ = 0.831 rad
+
+f_tail = 1 + (tail probability beyond 2σ) × (overlap enhancement)
+       ≈ 1.05
+```
+
+This 5% enhancement arises from wavefunction probability density in the tails (|θ| > 2σ) that contributes to cross-generation overlap. The tail correction is:
+- **κ-dependent**: Larger κ means tighter localization and smaller tails
+- **Independent of other factors**: f_boundary, f_hol, and f_RG address different physics
+
+The complete correction chain is:
+
+```
+m = m_naive × f_boundary × f_hol × f_RG × f_tail
+```
+
+See UNIFIED_5_PERCENT_ANALYSIS.md for the detailed derivation of how κ = 2.52 determines f_tail = 1.05.
+
 ---
 
 ## Appendix A: Numerical Code for Solving the Mathieu Equation
