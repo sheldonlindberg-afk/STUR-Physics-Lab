@@ -660,17 +660,22 @@ F_Berry = (1/9) × (3/2) = 1/6 = 0.167
 
 | Source | Uncertainty | Effect on Λ |
 |--------|-------------|-------------|
-| Neutrino mass values | ±20% on m₃ | ±80% (scales as m⁴) |
+| Neutrino mass values | ±10% on m₃ | ±40% (scales as m⁴) |
 | RG running | ±30% | ±30% |
 | Holonomy average | ±15% | ±15% |
 | Berry phase | ±50% | ±50% |
-| Combined (quadrature) | — | Factor of ~2 |
+| Combined (quadrature) | — | ±72% |
 
 **Result with uncertainty:**
-$$\Lambda_{\text{residual}} = (7.3 \pm 5.0) \times 10^{-46} \text{ GeV}^4$$
+$$\Lambda_{\text{residual}} = (7.3 \pm 5.3) \times 10^{-46} \text{ GeV}^4$$
 
-Alternatively, expressing as:
-$$\Lambda_{\text{residual}} = (1.1 \pm 0.5) \times 10^{-48} \text{ GeV}^4 \text{ (conservative)}$$
+**CORRECTION (2026-02-03):** The "conservative" estimate of 1.1e-48 GeV^4
+previously stated here has been removed. It contained an unexplained suppression
+factor of ~100 with no derivation. The correct result from a single consistent
+calculation with the inputs in Section 6.1 is Lambda = 7.3e-46 GeV^4,
+which is ~26x larger than the observed value. This is an order-of-magnitude
+agreement — the correct scale emerges naturally — but not the "~factor 3"
+previously claimed. See TOE_CORRECTIONS_COMPLETE.md Section 2.
 
 ### 6.4 Comparison with Observation
 

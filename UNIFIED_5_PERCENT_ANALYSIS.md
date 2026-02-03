@@ -329,23 +329,35 @@ This explains why ALL mass predictions were systematically 5% low.
 
 ### 5.3 Connection to κ = 2.52
 
-The localization parameter κ = 2.52 was derived from XCRM-Yukawa symmetry. The tail correction depends on κ:
+**CORRECTION (2026-02-03): The calculation below contained a sign error.
+See TOE_CORRECTIONS_COMPLETE.md for the full corrected derivation.**
+
+The normalization factor for Z₃-projected wavefunctions with charge q:
 ```
-f_tail(κ) = 1 + 2exp(-κ²/4)cos(2π/3)
-          = 1 - exp(-κ²/4)
-          = 1 - exp(-1.59)
-          = 1 - 0.204 × (-0.5) × 2
-          ≈ 1.05
+N_q² / N₀² = 1 + 2·exp(-κ²/4)·cos(2πq/3)
 ```
 
-For κ = 2.52 specifically:
+For κ = 2.52:
 ```
-exp(-κ²/4) = exp(-1.588) = 0.204
+exp(-κ²/4) = exp(-1.588) = 0.2044
 
-f_tail = 1 + 0.204 × 2 × (-0.5) × (-1)  [Z₃ phase interference]
-       = 1 + 0.048
-       = 1.048
+q=0: N² = 1 + 2(0.2044)(+1.0) = 1.409  → f = 1/√1.409 = 0.842  (16% SUPPRESSION)
+q=1: N² = 1 + 2(0.2044)(-0.5) = 0.796  → f = 1/√0.796 = 1.121  (12% ENHANCEMENT)
+q=2: N² = 1 + 2(0.2044)(-0.5) = 0.796  → f = 1/√0.796 = 1.121  (12% ENHANCEMENT)
 ```
+
+**Key correction:** The effect is NOT universal. It depends on the Z₃ charge:
+- Generation 1 (q=0): masses DECREASED by 16%
+- Generation 2 (q=1): masses INCREASED by 12%
+- Generation 3 (q=2): masses INCREASED by 12%
+
+The previous claim of a universal f_tail = 1.05 was based on an unjustified
+sign flip (inserting a factor of (-1) labeled "Z₃ phase interference").
+The formula 1 + 2·exp(-κ²/4)·cos(2π/3) = 1 - 0.204 = 0.796, NOT 1.05.
+
+The factor 0.796 is the normalization of the q=1 projected wavefunction.
+The Yukawa correction is f = 1/√(0.796) = 1.121 for generations 2 and 3,
+and f = 1/√(1.409) = 0.842 for generation 1.
 
 ---
 

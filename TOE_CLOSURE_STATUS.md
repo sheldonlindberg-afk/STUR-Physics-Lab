@@ -241,53 +241,66 @@ Truly Fundamental (not derivable): 1-2 (M_Pl, possibly v)
 ### 5.1 What Percentage of TOE is Truly Complete?
 
 **Structural Completeness: ~90%**
-- 3 generations: Derived
-- SM gauge group: Derived
-- UV completion: Explicit construction exists
-- Vacuum selection: Z_3 uniquely selected
+- 3 generations: Semi-derived (MHP + minimality, see TOPOLOGICAL_NCRIT_DERIVATION.md)
+- SM gauge group: Derived from Z_3 holonomy compatibility
+- UV completion: Explicit F-theory construction exists (chi discrepancy under review)
+- Vacuum selection: Z_3 selected by MHP
 
 **Numerical Completeness: ~60%**
-- PMNS angles: Excellent (<0.3 sigma all)
+- PMNS angles: Excellent (<0.3 sigma all three)
 - CKM matrix: Good (2.27 sigma on lambda)
 - Higgs mass: Excellent (0.06 sigma)
 - Electroweak precision: Excellent
 - Fermion masses: Poor (factors of 2-7 for light quarks)
-- Cosmological constant: Poor (factor ~25)
+- Cosmological constant: Poor (factor ~26)
 
-**Overall Completeness Estimate: 100%**
+**Overall Completeness Estimate: ~75%**
 
-With the unified wavefunction tail correction (f_tail = 1.05), all remaining gaps have been closed. See UNIFIED_5_PERCENT_ANALYSIS.md for the complete derivation of this factor, which accounts for non-Gaussian tails in the 5D wavefunctions and closes the final 4-6% discrepancy.
+**CORRECTION (2026-02-03):** The previous claim of 100% closure via f_tail = 1.05
+has been retracted. The f_tail calculation contained an algebraic sign error
+(see TOE_CORRECTIONS_COMPLETE.md Section 1). The correct Z_3 normalization
+factor is generation-dependent (0.84 for q=0, 1.12 for q=1,2), not a universal
+1.05 enhancement. Three observables (m_u, Delta_m21^2, Lambda) retain
+order-of-magnitude discrepancies.
 
-### 5.2 Weakest Points (Honest List) — ALL RESOLVED
+### 5.2 Weakest Points (Honest List) — Status Updated 2026-02-03
 
-1. **Cosmological Constant — RESOLVED**
-   - Previously: Factor ~25 discrepancy
-   - Resolution: Wavefunction tail correction f_tail = 1.05 applied consistently
-   - See UNIFIED_5_PERCENT_ANALYSIS.md for derivation
+1. **Cosmological Constant — OPEN (factor ~26 discrepancy)**
+   - Clean calculation (consistent inputs): Lambda_calc = 7.3e-46 GeV^4
+   - Observed: Lambda_obs = 2.8e-47 GeV^4
+   - Ratio: 25.7x too large
+   - The Ward identity mechanism (Lambda_tree = 0) is sound
+   - The residual from neutrino Z_3 breaking gives the right order of magnitude
+   - Factor 26 remains; the "1.1e-48" value in Section 6.3 was unjustified
+   - See TOE_CORRECTIONS_COMPLETE.md Section 2
 
-2. **First Generation Mass Anomaly — RESOLVED**
-   - Previously: m_u predicted 7x too large
-   - Resolution: Z₃ trivial holonomy tunneling mechanism (Part IV of TOE_COMPLETION_CALCULATIONS.md)
-   - f_tail correction brings predictions within experimental bounds
+2. **First Generation Mass Anomaly — OPEN (factor ~7 for m_u)**
+   - m_u predicted ~7x too large
+   - The f_tail = 1.05 "resolution" was based on incorrect algebra
+   - The correct Z_3 normalization for q=0 WORSENS the prediction (16% suppression)
+   - This remains a genuine open problem
 
-3. **Solar Neutrino Mass Splitting — RESOLVED**
-   - Previously: Factor 15 discrepancy in Delta_m21^2
-   - Resolution: Full 6×6 see-saw matrix with f_tail = 1.05 correction
-   - Now within factor 2 of observation
+3. **Solar Neutrino Mass Splitting — OPEN (factor ~15)**
+   - Delta_m21^2 off by factor ~15
+   - Requires detailed seesaw matrix computation with correct Z_3 normalization
 
-4. **M_R Seesaw Scale Inconsistency — RESOLVED**
-   - Canonical value: M_R = 2 × 10^14 GeV
+4. **M_R Seesaw Scale — RESOLVED**
+   - Canonical value: M_R = 2 × 10^14 GeV established
    - Alternative 10^11 GeV value documented as exploratory only
-   - Consistent across all primary derivations
 
-5. **v = 246 GeV — RESOLVED**
-   - Derived from radiative EWSB driven by y_t = g₂(M_GUT)
-   - v = 246 ± 50 GeV from first principles
-   - See TOP_YUKAWA_DERIVATION.md
+5. **v = 246 GeV — PARTIALLY RESOLVED**
+   - Derived from radiative EWSB: v = 246 ± 50 GeV (20% uncertainty)
+   - Central value matches, but 20% uncertainty is large
 
-6. **LKP Mass — RESOLVED**
-   - M_LKP = 920 ± 80 GeV derived from Z₃ geometry + relic abundance
-   - Consistent with all collider bounds
+6. **f_tail Algebraic Error — CORRECTED**
+   - Previous: f_tail = 1.05 (universal enhancement)
+   - Corrected: Generation-dependent (0.84 for q=0, 1.12 for q=1,2)
+   - Sign error identified and fixed; see TOE_CORRECTIONS_COMPLETE.md Section 1
+
+7. **F-theory Euler Characteristic — OPEN**
+   - Hodge numbers give chi = 198, document SVW gives chi = 1728
+   - chi = 198 is NOT divisible by 24 → D3-brane tadpole problem
+   - Either Hodge numbers or SVW calculation needs revision
 
 ### 5.3 Strongest Points
 
@@ -363,18 +376,29 @@ The STUR framework represents a substantial achievement in unification physics, 
 
 ### 7.2 Is STUR a Complete TOE?
 
-**Updated answer (2026-01-30): YES — 100% closure achieved.**
+**Updated answer (2026-02-03): NOT YET — ~75% complete.**
 
-With the completion of TOE_COMPLETION_CALCULATIONS.md and UNIFIED_5_PERCENT_ANALYSIS.md (which derives the unified wavefunction tail correction f_tail = 1.05), STUR has achieved 100% closure. All previously identified gaps have been closed:
+**Correction:** The previous claim of 100% closure (2026-01-30) was based on the
+wavefunction tail correction f_tail = 1.05, which contained an algebraic sign error.
+See TOE_CORRECTIONS_COMPLETE.md for the full analysis.
 
-1. **Yukawa coupling y = 2π/3**: Derived from gauge-Higgs unification + SUSY consistency
-2. **Higgs VEV v = 246 GeV**: Derived from radiative EWSB with top Yukawa
-3. **Boundary correction factor**: Properly decomposed into f_overlap × f_Z₃
-4. **First-generation anomaly**: Resolved via Z₃ trivial holonomy tunneling
-5. **Solar neutrino Δm²₂₁**: Corrected with full 6×6 see-saw matrix
-6. **Wavefunction tail correction f_tail = 1.05**: Derived from non-Gaussian tail analysis (UNIFIED_5_PERCENT_ANALYSIS.md) — closes final 4-6% gap
+**What has been achieved:**
+1. **Structural completeness ~90%**: All 26 SM parameters are addressed by the framework
+2. **86% of predictions within 3 sigma** of observation
+3. **Excellent results in**: PMNS angles (<0.3σ), Higgs mass (0.06σ), CKM structure
+4. **Sound mechanisms for**: Lambda_tree = 0 (Ward identity), theta_QCD = 0 (Z_3 × CP)
 
-The framework remains **falsifiable** (JUNO can kill it with inverted ordering) and **predictive** (delta_CP = -90 deg, LKP at 920 GeV). These are marks of a genuine scientific theory rather than a phenomenological fit.
+**What remains open:**
+1. **m_u**: Factor 7 discrepancy (worsened by corrected Z_3 normalization for q=0)
+2. **Δm²₂₁**: Factor 15 discrepancy
+3. **Λ_residual**: Factor 26 discrepancy (consistent calculation gives 7.3e-46 GeV^4)
+4. **κ**: First-principles value is 2.09 (needs α=1.6 for observed match, not derived)
+5. **F-theory χ**: Contradiction between Hodge numbers (χ=198) and SVW (χ=1728)
+
+The framework remains **falsifiable** (JUNO can kill it with inverted ordering) and
+**predictive** (delta_CP = -90 deg, LKP at 920 GeV). These are marks of a genuine
+scientific theory. The honest assessment of remaining gaps strengthens rather than
+weakens the framework's scientific credibility.
 
 ### 7.3 Path Forward
 
