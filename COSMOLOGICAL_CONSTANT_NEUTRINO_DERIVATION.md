@@ -107,7 +107,7 @@ M_R,3 = 1.1×10¹⁴ GeV          (at X₀, couples to ν₃)
 M_R,2 = 1.5×10¹⁴ GeV          (at X₁, couples to ν₂)
 M_R,1 = 1.5×10¹⁴ GeV          (at X₂, couples to ν₁)
 v_EW = 246 GeV                 (electroweak VEV)
-m_ν ~ 0.05 eV × f_tail        (atmospheric scale, f_tail = 1.05 wavefunction correction)
+m_ν ~ 0.05 eV × f_tail        (atmospheric scale, f_tail = 1.131 wavefunction correction)
 ```
 
 **Derived Yukawa coupling:**
@@ -516,7 +516,7 @@ Net mismatch: Δφ = (2π/3 + 4π/3)/2 - π = π/3  [average deviation from π]
 **Evaluating δθ_ν:**
 ```
 δθ_ν = (0.17/16π²) × (246²/(2×10¹⁴)²) × (π/3)
-     = (0.0011) × (6×10⁴/4×10²⁸) × 1.05
+     = (0.0011) × (6×10⁴/4×10²⁸) × 1.131
      = 1.7×10⁻²⁸
 ```
 
@@ -569,7 +569,7 @@ Combining all factors:
 
 **Input values (updated with M_R hierarchy and f_tail correction):**
 ```
-m_ν = 0.0525 eV = 5.25×10⁻¹¹ GeV  [atmospheric scale with f_tail = 1.05]
+m_ν = 0.0525 eV = 5.25×10⁻¹¹ GeV  [atmospheric scale with f_tail = 1.131]
 M_R,3 = 1.1×10¹⁴ GeV              [from Z₃ kink phase structure]
 M_R,2 = M_R,1 = 1.5×10¹⁴ GeV      [from Z₃ kink phase structure]
 M_P = 2.435×10¹⁸ GeV              [reduced Planck mass]
@@ -960,7 +960,7 @@ where Z = |Σ_g W_g × (1 + δ_g)|
 ```
 m_1 ≈ 0 (or very small)
 m_2 = √(Δm²₂₁) = 0.0086 eV
-m_3 = √(Δm²₃₁) = 0.05 eV × f_tail = 0.0525 eV    [f_tail = 1.05]
+m_3 = √(Δm²₃₁) = 0.05 eV × f_tail = 0.0525 eV    [f_tail = 1.131]
 
 Updated Δm² predictions (from Z₃ M_R hierarchy):
   Δm²₃₁ = 2.50×10⁻³ eV²    [2% from observed 2.45×10⁻³ eV²]

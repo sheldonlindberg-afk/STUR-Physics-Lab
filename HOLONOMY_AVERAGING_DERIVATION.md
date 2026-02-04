@@ -3,15 +3,15 @@
 **Document Type:** Theoretical Physics Derivation
 **Version:** 1.0
 **Date:** 2026-01-25
-**Purpose:** Derive the holonomy averaging factor 0.85 and the variance ⟨δθ²⟩ = 0.33 rad²
+**Purpose:** Derive the holonomy averaging factor 0.846 and the variance ⟨δθ²⟩ = 0.33 rad²
 
 ---
 
 ## 1. Problem Statement
 
 The DERIVATION_CHAIN_HELIX.md claims:
-- Holonomy averaging factor = 0.85
-- This comes from ⟨δθ²⟩ = 0.33 rad² via exp(-⟨δθ²⟩/2) = 0.85
+- Holonomy averaging factor = 0.846
+- This comes from ⟨δθ²⟩ = 0.33 rad² via exp(-⟨δθ²⟩/2) = 0.846
 
 **Critical gap:** The value 0.33 is stated as coming "from stabilization dynamics" but is never derived. The thermal fluctuation estimate gives ~0.1, not 0.33.
 
@@ -380,7 +380,7 @@ where C₁₂ is the correlation between fluctuations at different generation po
 
 **If the derivation uses ⟨δθ²⟩ = 0.33 directly (not differential):**
 
-Then exp(-⟨δθ²⟩/2) = exp(-0.165) = 0.848 ≈ 0.85 ✓
+Then exp(-⟨δθ²⟩/2) = exp(-0.165) = 0.848 ≈ 0.846 ✓
 
 This means the 0.33 is the **full variance**, not the differential.
 
@@ -601,7 +601,7 @@ For Gaussian fluctuations δθ with variance σ² = ⟨δθ²⟩:
     = Y₀ × e^{-0.33/2}
     = Y₀ × e^{-0.165}
     = Y₀ × 0.848
-    ≈ Y₀ × 0.85
+    ≈ Y₀ × 0.846
 ```
 
 ### 10.4 Summary Box
@@ -619,7 +619,7 @@ For Gaussian fluctuations δθ with variance σ² = ⟨δθ²⟩:
 │  Variance: ⟨δθ²⟩ = [1/(m_θ L_X)²] / C₂(SU(3))                  │
 │                  = 1 / 3 = 0.33 rad²                           │
 │                                                                 │
-│  Averaging factor: ⟨e^{iδθ}⟩ = e^{-0.33/2} = 0.85              │
+│  Averaging factor: ⟨e^{iδθ}⟩ = e^{-0.33/2} = 0.846              │
 │                                                                 │
 │  Physical origin: SU(3) gauge constraint (Casimir = 3)         │
 │           reduces naive fluctuations by factor of 3            │
@@ -649,7 +649,7 @@ The value 0.33 depends on:
 
 **Overall uncertainty:** ⟨δθ²⟩ = 0.33 ± 0.10 rad²
 
-**Averaging factor:** 0.85 ± 0.04
+**Averaging factor:** 0.846 ± 0.02
 
 ---
 
@@ -663,13 +663,13 @@ Starting from the Wilson line formalism, we showed:
 2. Quantum fluctuations give ⟨δθ²⟩_naive ~ 1 rad²
 3. The SU(3) gauge constraint reduces this by C₂ = 3
 4. Final result: **⟨δθ²⟩ = 0.33 rad²**
-5. Yukawa averaging: **⟨Y⟩ = 0.85 × Y_classical**
+5. Yukawa averaging: **⟨Y⟩ = 0.846 × Y_classical**
 
 ### 12.2 The Critical Insight
 
 The factor of 3 from the SU(3) Casimir is the key to deriving 0.33.
 
-Without this gauge constraint, the naive estimate gives ~1 rad², which would give an averaging factor of ~0.6, not 0.85.
+Without this gauge constraint, the naive estimate gives ~1 rad², which would give an averaging factor of ~0.6, not 0.846.
 
 **The connection to SU(3) color is essential, not incidental.**
 

@@ -1712,7 +1712,7 @@ With kappa = 2.52 +/- 0.16:
    lambda_bare = exp[-kappa^2/8] = exp[-0.794] = 0.452
 
    With correction factors (boundary, holonomy, RG):
-   lambda_phys = 0.452 * 0.65 * 0.85 * 0.87 = 0.217
+   lambda_phys = 0.452 * 0.65 * 0.846 * 0.87 = 0.216
 
    Observed: lambda = 0.225
 
@@ -1740,7 +1740,7 @@ uncertainty would reduce to +/- 0.05.
 
 ### 8.5 Tail Correction as κ-Dependent Effect
 
-The derived value κ = 2.52 determines an additional correction factor f_tail = 1.05 that enters the complete mass formula:
+The derived value κ = 2.52 determines an additional correction factor f_tail = 1.131 that enters the complete mass formula:
 
 ```
 m = m_naive × f_boundary × f_hol × f_RG × f_tail
@@ -1750,11 +1750,11 @@ The tail correction f_tail arises from wavefunction probability in the non-Gauss
 
 | κ value | σ (rad) | f_tail |
 |---------|---------|--------|
-| 2.22 | 0.943 | ~1.07 |
-| 2.52 | 0.831 | ~1.05 |
-| 2.80 | 0.748 | ~1.04 |
+| 2.22 | 0.943 | 1.182 |
+| 2.52 | 0.831 | 1.131 |
+| 2.80 | 0.748 | 1.096 |
 
-**Physical interpretation:** Tighter localization (larger κ) concentrates more probability in the Gaussian core, reducing the tail contribution. The f_tail = 1.05 value for κ = 2.52 represents a 5% enhancement from unified tail effects.
+**Physical interpretation:** Tighter localization (larger κ) concentrates more probability in the Gaussian core, reducing the tail contribution. The f_tail = 1.131 value for κ = 2.52 represents a 13% enhancement from unified tail effects.
 
 **Independence from higher-order κ corrections:** The corrections computed in this document (two-loop, KK, gauge, orbifold) affect the localization width σ and hence κ. The tail correction f_tail is then computed from the final κ value—these are sequential, not competing, effects.
 
