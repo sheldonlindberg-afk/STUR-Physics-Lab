@@ -248,30 +248,6 @@
     },
 
     /**
-     * Regenerate checksums for all equations (development utility)
-     * Run this once to generate correct checksums, then freeze
-     * @returns {Promise<Object>} - New checksums for all equations
-     */
-    regenerateChecksums: async function() {
-      const newChecksums = {};
-      console.log('Regenerating equation checksums...');
-
-      for (const [eqId, eq] of Object.entries(this.equations)) {
-        const checksum = await this.computeSHA256(eq.latex);
-        newChecksums[eqId] = {
-          name: eq.name,
-          latex: eq.latex,
-          checksum: checksum
-        };
-        console.log(`${eqId}: ${checksum}`);
-      }
-
-      console.log('Copy these checksums to update the equations registry:');
-      console.log(JSON.stringify(newChecksums, null, 2));
-      return newChecksums;
-    },
-
-    /**
      * Get prediction status for falsification tracking
      */
     getPredictionStatus: function(predId) {
