@@ -7978,3 +7978,125 @@ STATUS: All derivations numerically verified
 **Cosmological Neutrinos:**
 - Planck Collaboration, A&A **641**, A6 (2020)
 - DESI Collaboration, arXiv:2404.03002 (2024)
+
+---
+
+## ADDENDUM: First-Principles Numerical Calculation Results (2026-02-04)
+
+**Script:** `scripts/stur_first_principles_calculation.py`
+
+The following results were computed numerically from first principles, without
+using any fitted correction factors. All calculations are reproducible by
+running the script above.
+
+### A1. κ from Mathieu Equation
+
+The fermion localization equation -f''(θ) + α(1 - cos θ)f(θ) = εf(θ) was solved
+on [-π, π] with periodic boundary conditions using a finite-difference method
+(N = 2000 grid points).
+
+| α | E₀ | σ (rad) | κ (Gaussian fit) |
+|-------|--------|---------|-----------------|
+| 0.50 | 0.3862 | 1.2985 | 1.604 |
+| 1.00 | 0.6215 | 1.0038 | 2.222 |
+| 1.50 | 0.7914 | 0.8576 | 2.560 |
+| 2.00 | 0.9299 | 0.7746 | 2.795 |
+
+**For α = 1 (assumed natural value): κ = 2.222 ± 0.01**
+
+> **Note on anharmonic corrections:** The full cosine potential V = α(1 - cos θ)
+> already includes all anharmonic terms (θ⁴/24, θ⁶/720, etc.) via the Taylor series
+> of cos θ. The previously claimed "+0.08 two-loop anharmonic correction" to κ is
+> spurious — it would double-count terms already present in the cosine. The harmonic
+> approximation (V = αθ²/2) gives κ = 2.475, which is LARGER than the exact result
+> of 2.222; the anharmonic terms make the potential shallower at large θ, reducing κ.
+
+### A2. Exact Overlap Integrals (Central Result)
+
+The Wolfenstein parameter λ was computed directly from the overlap of Mathieu
+eigenstates localized at different Z₃ positions, without decomposing into
+separate correction factors.
+
+**Method:** Solve -f'' + α(1 - cos(θ - φ_g))f = εf for each generation
+g = 0, 1, 2 with φ_g = 2πg/3, all on [-π, π] with periodic BCs.
+Compute Y_{ij} = ∫ ψ_i(θ) ψ_j(θ) dθ and λ = Y₀₁/√(Y₀₀ · Y₁₁).
+
+| Method | λ (α = 1) |
+|--------|-----------|
+| Gaussian overlap (infinite line) | 0.580 |
+| Gaussian overlap (periodic S¹) | 0.350 |
+| Exact Mathieu eigenstates (periodic) | 0.663 |
+| **Observed (PDG 2024)** | **0.2250** |
+
+**For α = 1, the pure overlap gives λ = 0.663 — a factor of 2.95× too large.**
+
+The α scan shows that **α = 1.52 reproduces the observed Cabibbo angle** λ = 0.225
+from pure overlap integrals alone. This corresponds to y·v·L_X = 7.74, which is
+1.23× larger than the assumed 2π.
+
+> **Implication:** The framework's Cabibbo angle prediction requires α ≈ 1.5,
+> not α = 1. The old approach (α = 1, then multiply by correction factors
+> f_boundary × f_tail × f_holonomy × f_RG = 0.65 × 1.05 × 0.85 × 0.87 ≈ 0.49)
+> was calibrated to match observation. The first-principles calculation shows that
+> a single parameter (α) controls the prediction, and it must be 1.5, not 1.0.
+> Since α = (y·v·L_X / 2π)², the theory makes a genuine prediction IF y·v·L_X
+> can be independently determined.
+
+### A3. Holonomy Factor (SU(3) Haar Average)
+
+The color holonomy effect was computed by Monte Carlo integration over the SU(3)
+Haar measure (50,000 samples). For each random SU(3) matrix U with eigenvalue
+phases φ_c, the color-averaged Yukawa overlap was computed:
+
+Y₁₂(U) = (1/3) Σ_c exp(-(Δφ - φ_c)² / (4σ²))
+
+**Result: f_holonomy = ⟨Y₁₂(U)⟩/Y₁₂(I) = 1.311 ± 0.001**
+
+> This is an ENHANCEMENT, not a suppression. The holonomy phases can bring
+> some color components closer to the neighboring generation, increasing
+> the average overlap. The framework's claimed value of 0.85 (a suppression)
+> is incorrect for this observable. The simple estimate exp(-1/6) = 0.847
+> applies to the absolute Yukawa, not to the generation-mixing ratio.
+
+### A4. RG Running of Yukawa Ratios
+
+At one loop, the Yukawa anomalous dimension is flavor-universal:
+γ_Y = (1/16π²) × [−(8/3)g₃² − (9/4)g₂² − (17/12)g₁² + Tr(Y†Y)]
+
+Since all generations share the same anomalous dimension, the RATIO
+λ = Y₁₂/√(Y₁₁ · Y₂₂) does not run at one loop.
+
+**Result: f_RG (for the ratio) = 1.000 (exact at one loop)**
+
+> The framework's claimed f_RG = 0.87 applies to ABSOLUTE Yukawa couplings
+> running from M_KK to M_Z, not to the off-diagonal/diagonal ratio.
+> The ratio is protected by the flavor universality of the anomalous dimension.
+> Two-loop corrections from y_t only affect the third generation diagonal.
+
+### A5. Casimir N_eff Sum
+
+The twisted Casimir energy sum over all SM fields on S¹/Z₃ gives:
+
+**N_eff = −0.968** (with standard Z₃ charge assignments k = 0, 1, 2 for generations)
+
+> This is drastically different from the framework's claimed N_eff = −149.
+> The discrepancy arises from different assumptions about the Z₃ twist assignments
+> and the number of degrees of freedom included in the sum. The N_eff value
+> directly affects the Casimir-holonomy balance that determines L_X.
+
+### A6. Summary Assessment
+
+The first-principles calculation reveals that the STUR framework's Cabibbo angle
+prediction has **one genuine free parameter**: α = (y·v·L_X / 2π)², which
+determines the fermion localization strength. For α ≈ 1.5, the observed value
+λ = 0.225 is reproduced. The chain of correction factors (f_boundary, f_tail,
+f_holonomy, f_RG) was an indirect way of adjusting this single parameter.
+
+**What is genuinely derived:**
+- The MECHANISM (Gaussian overlap → exponential hierarchy) is correct
+- The functional form λ ~ exp(−κ²/8) holds
+- Three generations from Z₃ is a genuine geometric result
+
+**What requires an input:**
+- The value of α (equivalently y·v·L_X) must be determined from other physics
+- This is ONE effective free parameter, not "zero"
