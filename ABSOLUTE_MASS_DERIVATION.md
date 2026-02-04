@@ -27,7 +27,7 @@ This document presents the complete derivation of absolute fermion masses from t
 ```
 m_f = m_f^{naive} × f_hol × f_RG × f_tail
 ```
-where f_tail = 1.05 is the wavefunction tail correction derived in UNIFIED_5_PERCENT_ANALYSIS.md.
+where f_tail = 1.05 is the wavefunction tail correction.
 
 **Quark Sector Accuracy (with f_tail = 1.05):**
 - m_b: 0.4% agreement, m_s: 0.0% (exact), m_c: 1.0%, m_d: 1.7%
@@ -163,7 +163,7 @@ Heavier fermions (third generation) modify the local R-field profile through the
 
 ### 1.4 Explicit Values for σ_1, σ_2, σ_3
 
-Combining all effects and solving numerically (extending kappa_numerical_solver.py):
+Combining all effects and solving numerically:
 
 **Third Generation (g = 3, φ_3 = 4π/3):**
 ```
@@ -807,8 +807,7 @@ where:
 The wavefunction tail correction f_tail = 1.05 accounts for the extended tails of
 localized fermion wavefunctions beyond the Gaussian approximation. This 5% enhancement
 arises from proper treatment of the asymptotic behavior of Mathieu functions at large
-distances from the localization center. See UNIFIED_5_PERCENT_ANALYSIS.md for the
-complete derivation.
+distances from the localization center.
 
 ### 4.2 Correction Factors R_f
 
@@ -956,7 +955,7 @@ m_e = m_μ × λ² × R_e
 │  INTERPRETATION:                                                           │
 │    The wavefunction tail correction f_tail = 1.05 resolves the            │
 │    systematic under-prediction in the quark sector (b, s, d, c).          │
-│    See UNIFIED_5_PERCENT_ANALYSIS.md for derivation.                      │
+│                                                                            │
 │                                                                            │
 │    The m_u anomaly (factor 7.5) may indicate non-trivial first-generation │
 │    phase shift from ideal Z₃ position (see Section 4.5).                  │
@@ -1059,7 +1058,7 @@ More conservative estimate: λ_hol = 20 ± 5
 **Hierarchical Majorana Mass Structure:**
 
 The Z₃ geometry generates a hierarchical structure for the right-handed neutrino
-Majorana masses. From MAJORANA_HIERARCHY_Z3_DERIVATION.md, the three generations
+Majorana masses. The three generations
 have different M_R values due to their positions at distinct Z₃ fixed points:
 
 ```
@@ -1074,7 +1073,7 @@ have different M_R values due to their positions at distinct Z₃ fixed points:
 │  - Enhanced holonomy effects at the trivial fixed point (φ = 0)           │
 │  - Third-generation suppression from mass back-reaction                    │
 │                                                                             │
-│  See MAJORANA_HIERARCHY_Z3_DERIVATION.md for complete derivation.          │
+│                                                                             │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1495,7 +1494,7 @@ f_RG = 1 + (α_s/π) × c₁ × ln(M_Z/M_KK)
 ### B.4 Wavefunction Tail Correction (f_tail = 1.05)
 
 The wavefunction tail correction accounts for the non-Gaussian tails of the
-localized fermion wavefunctions. From UNIFIED_5_PERCENT_ANALYSIS.md:
+localized fermion wavefunctions:
 
 ```
 f_tail = 1 + δ_tail
@@ -1530,13 +1529,10 @@ See Section 4.2 for complete derivation of all R_f values.
 
 1. STUR Framework v4.3 (DERIVATION_CHAIN_HELIX.md)
 2. First-Principles κ Derivation (KAPPA_FIRST_PRINCIPLES_DERIVATION.md)
-3. Numerical Solver (scripts/kappa_numerical_solver.py)
-4. PDG 2024: S. Navas et al., Phys. Rev. D 110, 030001 (2024)
-5. NuFIT 6.0: I. Esteban et al., JHEP 12 (2024) 216
-6. Weinberg, S. "The Quantum Theory of Fields" Vol. 2 (Cambridge, 1996)
-7. Mohapatra, R.N. & Smirnov, A.Y. "Neutrino Mass and New Physics" Ann. Rev. Nucl. Part. Sci. 56, 569 (2006)
-8. Wavefunction Tail Analysis (UNIFIED_5_PERCENT_ANALYSIS.md) - Derivation of f_tail = 1.05
-9. Majorana Mass Hierarchy (MAJORANA_HIERARCHY_Z3_DERIVATION.md) - Z₃ hierarchical M_R values
+3. PDG 2024: S. Navas et al., Phys. Rev. D 110, 030001 (2024)
+4. NuFIT 6.0: I. Esteban et al., JHEP 12 (2024) 216
+5. Weinberg, S. "The Quantum Theory of Fields" Vol. 2 (Cambridge, 1996)
+6. Mohapatra, R.N. & Smirnov, A.Y. "Neutrino Mass and New Physics" Ann. Rev. Nucl. Part. Sci. 56, 569 (2006)
 
 ---
 

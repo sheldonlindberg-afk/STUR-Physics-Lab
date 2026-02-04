@@ -12,6 +12,13 @@ The overlap integral calculation correctly yields f_boundary = 1.55 (enhancement
 
 **Key Finding:** The relationship is 0.65 = 1.55 x 0.42, where 0.42 represents the Z_3 sector localization suppression that must be applied in addition to the overlap enhancement.
 
+> **Honesty note (added 2026-02-03):** The decomposition 0.65 = 1.55 x 0.42 is presented as
+> resolving the sign confusion, but the Z₃ factor 0.42 is initially obtained by dividing
+> 0.65 by 1.55 (Section 4.3). The subsequent "first-principles" derivation (Section 4.4) gives
+> 0.374, not 0.42, and requires multiplying by an ad hoc factor of 1.12 ("Z₃ fixed-point
+> enhancement") to reach 0.42. This means f_boundary = 0.65 is effectively calibrated to the
+> desired answer, with the decomposition providing post-hoc physical motivation.
+
 ---
 
 ## 1. The Calculation Results (Mathematical Facts)
@@ -280,12 +287,23 @@ With Z₃ fixed-point enhancement (factor 1.12 from localization at orbifold sin
 f_Z3 = 0.374 × 1.12 = 0.419 ≈ 0.42
 ```
 
+> **Provenance note on the 1.12 factor:** The "Z₃ fixed-point enhancement" of 1.12 is not
+> derived from first principles in this or any other STUR document. It is introduced as an
+> assertion ("factor 1.12 from localization at orbifold singularity") without a supporting
+> calculation. Without this factor, the first-principles result would be f_Z3 = 0.374,
+> giving f_boundary = 1.55 x 0.374 = 0.580, not 0.65. The factor 1.12 is the ratio needed
+> to reach the target: 0.42/0.374 = 1.123. This is a fitted adjustment.
+
 **Verification:**
 
 ```
 f_boundary = f_overlap × f_Z3
            = 1.55 × 0.42
            = 0.651 ≈ 0.65 ✓
+
+Note: This "verification" is circular — f_Z3 = 0.42 was obtained
+to make f_boundary = 0.65. The actual first-principles calculation
+gives f_Z3 = 0.374, which would yield f_boundary = 0.580.
 ```
 
 ---
@@ -364,14 +382,14 @@ Where:
 
 ### 7.1 Mathematical Result
 
-| Effect | Factor | Direction | Status |
-|--------|--------|-----------|--------|
-| Overlap integral ratio | 1.55 | Enhancement | **CALCULATED** (§1-3) |
-| Z_3 sector confinement | 0.42 | Suppression | **CALCULATED** (§4.4) |
-| Combined "boundary" factor | 0.65 | Net suppression | **DERIVED** |
-| Holonomy averaging | 0.85 | Suppression | Semi-derived |
-| RG running | 0.87 | Suppression | Semi-derived |
-| **Total correction** | **0.48** | **Net suppression** | |
+| Effect | Factor | Direction | Honest Status |
+|--------|--------|-----------|---------------|
+| Overlap integral ratio | 1.55 | Enhancement | **CALCULATED** (genuine result) |
+| Z_3 sector confinement | 0.42 | Suppression | **PARTIALLY FITTED** (first-principles gives 0.374; factor 1.12 added to reach 0.42) |
+| Combined "boundary" factor | 0.65 | Net suppression | **CALIBRATED** (depends on the 1.12 adjustment) |
+| Holonomy averaging | 0.85 | Suppression | **CALIBRATED** (calculation gives 0.91; adopted 0.85 to fit data) |
+| RG running | 0.87 | Suppression | **CALIBRATED** (calculation gives 0.94; adopted 0.87 to fit data) |
+| **Total correction** | **0.48** | **Net suppression** | **Product calibrated to reproduce lambda_obs** |
 
 ### 7.2 Physical Conclusion
 
@@ -459,10 +477,10 @@ sector confinement.
 
 The boundary factor f_boundary = 0.65 analyzed in this document is **independent of** the wavefunction tail correction f_tail = 1.05. These corrections address different physics:
 
-| Factor | Value | Physical Origin | Effect |
-|--------|-------|-----------------|--------|
-| f_boundary | 0.65 | Finite domain + Z_3 sector confinement | Suppression |
-| f_tail | 1.05 | Wavefunction tails beyond Gaussian core | Enhancement |
+| Factor | Value | Physical Origin | Effect | Provenance |
+|--------|-------|-----------------|--------|------------|
+| f_boundary | 0.65 | Finite domain + Z_3 sector confinement | Suppression | Calibrated (includes 1.12 fudge) |
+| f_tail | 1.05 | Wavefunction tails beyond Gaussian core | Enhancement | Fitted (formula gives 0.796) |
 
 **Complete correction chain:**
 
@@ -470,16 +488,24 @@ The boundary factor f_boundary = 0.65 analyzed in this document is **independent
 λ_physical = λ_bare × f_boundary × f_hol × f_RG × f_tail
            = 0.458 × 0.65 × 0.85 × 0.87 × 1.05
            = 0.231
+
+Note: All four correction factors are partially calibrated. The
+product 0.65 × 0.85 × 0.87 × 1.05 = 0.504 is tuned to map
+λ_bare = 0.458 close to λ_obs = 0.225.
 ```
 
 The tail correction f_tail captures the enhanced overlap from the non-Gaussian tails of the localized wavefunctions. While f_boundary accounts for the domain truncation of the Gaussian core, f_tail accounts for the extended tails that leak beyond the core region but still contribute to cross-generation coupling.
+
+> **Provenance note on f_tail = 1.05:** As documented in CORRECTION_FACTORS_COMPLETE.md
+> Section 4, the explicit formula for the tail correction gives 0.796 (suppression), not
+> 1.05 (enhancement). The value 1.05 is adopted to close the residual 4-6% gap. See also
+> KAPPA_FIRST_PRINCIPLES_DERIVATION.md Section 9.6, which shows the correction is
+> generation-dependent, not universal.
 
 **Why they are independent:**
 1. f_boundary operates on the normalized overlap within the finite domain
 2. f_tail corrects for probability density in the exponential tails
 3. Both effects are determined by κ = 2.52 but through different mechanisms
-
-See UNIFIED_5_PERCENT_ANALYSIS.md for the first-principles derivation of f_tail = 1.05.
 
 ---
 
@@ -487,5 +513,3 @@ See UNIFIED_5_PERCENT_ANALYSIS.md for the first-principles derivation of f_tail 
 
 1. BOUNDARY_CORRECTION_DERIVATION.md - Original calculation
 2. DERIVATION_CHAIN_HELIX.md - Full STUR derivation
-3. boundary_correction_pure.py - Numerical verification
-4. UNIFIED_5_PERCENT_ANALYSIS.md - Derivation of f_tail = 1.05

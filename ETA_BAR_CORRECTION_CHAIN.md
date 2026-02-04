@@ -928,7 +928,7 @@ All three corrections are derived from the Z3 helix geometry without additional 
 
 ### 8.1 Note on f_tail and η̄
 
-The unified wavefunction tail correction factor f_tail (derived in UNIFIED_5_PERCENT_ANALYSIS.md) primarily affects quantities that depend directly on inter-generation wavefunction overlaps, such as the Cabibbo angle λ. The η̄ parameter, being derived from the CP-violating phase δ_CKM and geometric factors, does **not receive a direct f_tail correction**.
+The unified wavefunction tail correction factor f_tail primarily affects quantities that depend directly on inter-generation wavefunction overlaps, such as the Cabibbo angle λ. The η̄ parameter, being derived from the CP-violating phase δ_CKM and geometric factors, does **not receive a direct f_tail correction**.
 
 **Why f_tail does not directly affect η̄:**
 
@@ -946,7 +946,7 @@ While f_tail does not directly modify η̄, there is an indirect connection thro
 where η = A λ² η̄_base × (correction factors)
 ```
 
-If λ is corrected by f_tail (see LAMBDA_TENSION_RESOLUTION.md), there is a small (~0.1%) indirect effect on η̄ through the (1 - λ²/2) factor. This is well within the 5.3% uncertainty on η̄ and does not change the excellent agreement with observation.
+If λ is corrected by f_tail, there is a small (~0.1%) indirect effect on η̄ through the (1 - λ²/2) factor. This is well within the 5.3% uncertainty on η̄ and does not change the excellent agreement with observation.
 
 ### 8.3 Summary
 
@@ -956,8 +956,6 @@ If λ is corrected by f_tail (see LAMBDA_TENSION_RESOLUTION.md), there is a smal
 | f_hol      | Yes | **Yes** | Phase fluctuations |
 | f_Berry    | Yes | **Yes** | Geometric phase |
 | f_RG       | Yes | **Yes** | Scale running |
-
-**See also:** UNIFIED_5_PERCENT_ANALYSIS.md for the complete f_tail derivation and its role in achieving 100% TOE closure.
 
 ---
 
@@ -969,9 +967,6 @@ If λ is corrected by f_tail (see LAMBDA_TENSION_RESOLUTION.md), there is a smal
 4. Hosotani, Y. (1983) - Dynamical gauge symmetry breaking
 5. Berry, M.V. (1984) - Quantal phase factors
 6. Antusch et al., JHEP 0503 (2005) 024 - RG running of CKM parameters
-7. UNIFIED_5_PERCENT_ANALYSIS.md - Wavefunction tail correction f_tail derivation
-8. LAMBDA_TENSION_RESOLUTION.md - λ tension resolution with f_tail
-
 ---
 
 **Document Status:** Complete derivation with explicit calculations

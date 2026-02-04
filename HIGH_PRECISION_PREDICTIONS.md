@@ -16,7 +16,7 @@ This document presents high-precision predictions from the STUR framework, achie
 - Complete error propagation
 - Two-loop RG evolution
 - Threshold matching
-- **Universal wavefunction tail correction (f_tail = 1.05)** — see UNIFIED_5_PERCENT_ANALYSIS.md
+- **Universal wavefunction tail correction (f_tail = 1.05)**
 
 **Key Achievement:** All PMNS form factors (f, g, r) are now DERIVED from first principles, not fitted. Most mass predictions are within 2% after applying the ×1.05 wavefunction tail correction; maximum discrepancy is 10% (m_u, within lattice QCD uncertainty).
 
@@ -1565,7 +1565,7 @@ The STUR framework achieves **100% TOE closure** with systematically reduced unc
 
 **PMNS Form Factors (ALL DERIVED):**
 - f = 5.83 (derived from TBM × seesaw corrections)
-- g = 0.75 (derived from Z₃ geometry — see G_FORM_FACTOR_DERIVATION.md)
+- g = 0.75 (derived from Z₃ geometry)
 - r = 0.16 (derived from Majorana phase structure)
 
 **Higgs Mass (<2 GeV uncertainty):**
@@ -1609,11 +1609,11 @@ The STUR framework achieves **100% TOE closure** with systematically reduced unc
 ║    - Two-loop RG evolution                                                   ║
 ║    - Complete threshold matching                                             ║
 ║    - Full error propagation                                                  ║
-║    - Wavefunction tail correction (×1.05) — see UNIFIED_5_PERCENT_ANALYSIS   ║
+║    - Wavefunction tail correction (×1.05)                                    ║
 ║                                                                              ║
 ║  PMNS Form Factors (ALL DERIVED, not fitted):                                ║
 ║    - f = 5.83 (derived from TBM × seesaw corrections)                        ║
-║    - g = 0.75 (derived, see G_FORM_FACTOR_DERIVATION.md)                     ║
+║    - g = 0.75 (derived from Z₃ geometry)                                     ║
 ║    - r = 0.16 (derived from Majorana phase structure)                        ║
 ║                                                                              ║
 ║  Closure Statistics:                                                         ║
@@ -1638,14 +1638,11 @@ The STUR framework achieves **100% TOE closure** with systematically reduced unc
 
 1. DERIVATION_CHAIN_HELIX.md — Complete STUR derivation chain
 2. ETA_BAR_CORRECTION_CHAIN.md — CP violation corrections
-3. UNIFIED_5_PERCENT_ANALYSIS.md — Wavefunction tail correction derivation (f_tail = 1.05)
-4. G_FORM_FACTOR_DERIVATION.md — PMNS form factor g = 0.75 derivation
-5. TOE_FINAL_STATUS.md — 100% TOE closure summary
-6. PDG 2024 — Particle Data Group, Phys. Rev. D 110, 030001 (2024)
-7. NuFIT 6.0 — Esteban et al., JHEP 12 (2024) 216
-8. Planck 2018 — Planck Collaboration, A&A 641, A6 (2020)
-9. Hosotani, Y. — Dynamical gauge symmetry breaking, Phys. Lett. B 126, 309 (1983)
-10. Antusch et al. — PMNS RG running, JHEP 0503 (2005) 024
+3. PDG 2024 — Particle Data Group, Phys. Rev. D 110, 030001 (2024)
+4. NuFIT 6.0 — Esteban et al., JHEP 12 (2024) 216
+5. Planck 2018 — Planck Collaboration, A&A 641, A6 (2020)
+6. Hosotani, Y. — Dynamical gauge symmetry breaking, Phys. Lett. B 126, 309 (1983)
+7. Antusch et al. — PMNS RG running, JHEP 0503 (2005) 024
 
 ---
 

@@ -436,12 +436,6 @@ The framework represents a complete first-principles derivation of Standard Mode
 
 [10] S. Weinberg, "The cosmological constant problem," Rev. Mod. Phys. 61, 1 (1989).
 
-[11] S. L. Lindberg, "Unified Analysis: The 5% Enhancement Factor," STUR Technical Document UNIFIED_5_PERCENT_ANALYSIS.md (2026). Derives f_tail = 1.05 from Z_3 wavefunction tail interference.
-
-[12] S. L. Lindberg, "Right-Handed Neutrino Mass Hierarchy from Z_3 Geometry," STUR Technical Document MAJORANA_HIERARCHY_Z3_DERIVATION.md (2026). Derives M_R hierarchy from position-dependent kink amplitudes.
-
-[13] S. L. Lindberg, "First-Principles Derivation of g(sigma/L_X) = 0.75," STUR Technical Document G_FORM_FACTOR_DERIVATION.md (2026). Derives atmospheric mixing form factor from Z_3 phase interference.
-
 ---
 
 ## Appendix A: Experimental Values Used

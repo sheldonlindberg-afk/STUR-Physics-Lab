@@ -297,7 +297,7 @@
     <ol style="margin:1rem 0;padding-left:1.5rem;color:var(--text);">
       <li>Must be odd: S(−u) = −S(u) (Z<sub>2</sub> parity)</li>
       <li>Must saturate: |S(u)| ≤ 1 as |u| → ∞ (boundedness)</li>
-      <li>Must be analytic at u = 0 with S′(0) = 1 (normalization)</li>
+      <li>Must vanish at u = 0 with S(u) ~ u<sup>2</sup> (quadratic onset from double-zero)</li>
       <li>Must have correct short-distance behavior (renormalizability)</li>
     </ol>
   </div>
@@ -323,7 +323,7 @@
     <div style="padding:1rem;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid #4ade80;">
       <strong style="color:#4ade80;">(1 − e<sup>−|u|</sup>) factor</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-        Ensures S(0) = 0 with correct derivative S′(0) = 1. Controls short-distance quantum corrections.
+        Ensures S(0) = 0 with quadratic onset S(u) ~ u<sup>2</sup>. Both factors vanish at u = 0, giving a double-zero that controls short-distance quantum corrections.
       </p>
     </div>
   </div>
@@ -335,7 +335,8 @@
   <div class="eq" style="border-color:#22d3ee;">
     \[\begin{aligned}
       S(0) &= 0 \\
-      S'(0) &= 1 \\
+      S'(0) &= 0 \quad \text{(double-zero: both factors vanish at origin)} \\
+      S(u) &\sim u^2 - \tfrac{u^3}{2} + O(u^4) \quad \text{for } u \ll 1 \\
       \lim_{u \to \pm\infty} S(u) &= \pm 1 \\
       S(-u) &= -S(u) \quad \text{(odd function)}
     \end{aligned}\]
@@ -344,14 +345,14 @@
 
   <h3>1.3 Expansion Near Origin</h3>
 
-  <p>For small u (weak coupling regime):</p>
+  <p>For small u, both factors vanish at u = 0, giving a quadratic leading term. Expanding tanh(u) = u − u³/3 + ⋯ and (1 − e<sup>−u</sup>) = u − u²/2 + ⋯ and multiplying:</p>
 
   <div class="eq" style="border-color:#a855f7;">
-    \[S(u) = u - \frac{u^3}{3} + \frac{u^5}{15} + O(u^7)\]
-    <div class="eq-label">(1.3) — Small-u expansion</div>
+    \[S(u) = u^2 - \frac{u^3}{2} - \frac{u^4}{6} + O(u^5)\]
+    <div class="eq-label">(1.3) — Small-u expansion (quadratic onset)</div>
   </div>
 
-  <p>This matches the BCS gap equation at leading order, explaining why conventional superconductivity works within STUR.</p>
+  <p>The quadratic onset S(u) ~ u² means STUR <strong>does not</strong> reduce to BCS at weak coupling — the pairing kernel is suppressed as Δ² rather than Δ. This is a falsifiable prediction: STUR predicts qualitatively different behavior from BCS in the weak-coupling, low-temperature limit.</p>
 
   <h3>1.4 Why S(u) Enables Ambient Temperature Superconductivity</h3>
 
@@ -443,16 +444,16 @@
     </p>
   </div>
 
-  <h3>2.4 BCS as Low-Energy Limit</h3>
+  <h3>2.4 Departure from BCS at Weak Coupling</h3>
 
-  <p>In the weak-coupling, low-temperature limit, STUR reduces to BCS. The connection is:</p>
+  <p>Because S(u) ~ u² for small u (not linear), STUR does <strong>not</strong> reduce to standard BCS at weak coupling:</p>
 
   <div class="eq" style="border-color:#a855f7;">
-    \[\lim_{g/\omega_c \to 0} S\left(\frac{g}{\omega_c}\right) = \frac{g}{\omega_c} \quad \Rightarrow \quad \Delta_{\text{STUR}} \to \Delta_{\text{BCS}}\]
-    <div class="eq-label">(2.4) — BCS emerges as weak-coupling limit</div>
+    \[\lim_{g/\omega_c \to 0} S\left(\frac{g}{\omega_c}\right) = \left(\frac{g}{\omega_c}\right)^2 \quad \neq \quad \frac{g}{\omega_c} \quad \text{(BCS)}\]
+    <div class="eq-label">(2.4) — STUR departs from BCS at weak coupling</div>
   </div>
 
-  <p>This ensures STUR is consistent with all verified BCS predictions while extending to the strong-coupling regime.</p>
+  <p>This is a <strong>falsifiable prediction</strong>: the STUR gap equation predicts a quadratic suppression of pairing at weak coupling, whereas BCS predicts linear. At strong coupling (g/ω<sub>c</sub> >> 1), both saturate to ~1 and agree. The STUR mechanism is specifically a strong-coupling enhancement that departs from BCS where BCS is already well-verified — this tension must be addressed either by modifying S(u) or by demonstrating that the relevant materials operate in the strong-coupling regime where the distinction vanishes.</p>
 </section>
 
 <!-- ===================== SECTION 3: COHERENCE LENGTH DERIVATION ===================== -->
@@ -596,16 +597,16 @@
   <h3>4.3 No Fitting Was Done</h3>
 
   <div class="block warning" style="border-width:2px;">
-    <div class="title">Critical: This Is Not A Fit</div>
+    <div class="title">Derivation Chain Status</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The derivation chain is:<br><br>
+      The intended derivation chain is:<br><br>
       <strong>M<sub>Planck</sub></strong> (measured: 1.22 × 10<sup>19</sup> GeV)<br>
-      → <strong>L<sub>X</sub></strong> (derived: 0.8 μm)<br>
-      → <strong>M<sub>R</sub></strong> (derived: 0.25 eV)<br>
-      → <strong>g<sub>eff</sub></strong> (derived from Z<sub>3</sub> geometry)<br>
-      → <strong>Δ₀</strong> (derived: ~60 meV)<br>
-      → <strong>T<sub>c</sub></strong> (derived: ~400 K)<br><br>
-      No parameter was adjusted to get T<sub>c</sub> > 300 K. This prediction emerges from the mathematics.
+      → <strong>L<sub>X</sub></strong> (derived: 0.8 μm) — from Casimir-holonomy balance<br>
+      → <strong>M<sub>R</sub></strong> (assumed: 0.25 eV) — identified with M<sub>KK</sub><br>
+      → <strong>g<sub>eff</sub></strong> (not yet derived) — coupling to condensed matter electrons<br>
+      → <strong>Δ₀</strong> (assumed: ~60 meV) — target value, not computed from gap equation<br>
+      → <strong>T<sub>c</sub></strong> (~400 K from BCS ratio) — follows from assumed Δ₀<br><br>
+      <strong>Open:</strong> The step g<sub>eff</sub> → Δ₀ requires solving the STUR gap equation [R.3] self-consistently. The simulation above does this numerically for user-chosen Δ₀.
     </p>
   </div>
 </section>
@@ -726,13 +727,17 @@
     </div>
   </div>
 
-  <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.6);">
-    <div class="title" style="font-size:1.1rem;">Conclusion: ATS from M<sub>Planck</sub></div>
+  <div class="block" style="border-width:3px;background:rgba(0,0,0,0.6);border-color:#fbbf24;">
+    <div class="title" style="font-size:1.1rem;">Status: ATS Prediction</div>
     <p style="margin:0;color:var(--text);line-height:1.8;">
-      Ambient-temperature superconductivity is a <strong>derived consequence</strong> of STUR physics.
-      The saturation operator S(u) enables Cooper pair binding at electronic energy scales,
-      bypassing the phonon bottleneck of conventional BCS theory.
-      <strong>No fitting was performed</strong> — T<sub>c</sub> > 300 K emerges from the mathematics.
+      The STUR saturation operator S(u) modifies the BCS gap equation kernel. The simulation above
+      solves the self-consistent STUR gap equation numerically with S(u) = tanh(u)(1 − e<sup>−|u|</sup>)
+      in the kernel.
+    </p>
+    <p style="margin:0.5rem 0 0;color:var(--text-secondary);line-height:1.8;">
+      <strong>Assumed (not derived):</strong> Δ₀ ≈ 60 meV (gap slider), g<sub>eff</sub>/ω<sub>c</sub> = 2.5 (coupling ratio), ω<sub>c</sub> = 250 meV (electronic cutoff).<br>
+      <strong>Derived from S(u):</strong> The shape of Δ(T) differs from BCS due to the quadratic S(u) ~ u² kernel.<br>
+      <strong>Open question:</strong> S'(0) = 0 means STUR does not recover BCS at weak coupling. This is a falsifiable departure.
     </p>
   </div>
 </section>
@@ -765,13 +770,12 @@
 
 <script src="../assets/js/stur-ui.js"></script>
 <script>
-// ATS Simulation
+// ATS Simulation — Solves STUR gap equation with S(u) operator
 document.addEventListener('DOMContentLoaded', function() {
   const canvas = document.getElementById('atsCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
-  // Set canvas size
   function resizeCanvas() {
     const container = canvas.parentElement;
     canvas.width = container.clientWidth - 32;
@@ -780,58 +784,121 @@ document.addEventListener('DOMContentLoaded', function() {
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
-  // Simulation state
   let showBCS = false;
 
-  // Get sliders
   const tempSlider = document.getElementById('tempSlider');
   const gapSlider = document.getElementById('gapSlider');
   const showBCSCheckbox = document.getElementById('showBCS');
 
-  // Calculate T_c from gap
-  function calculateTc(delta0) {
-    return delta0 / (1.76 * 0.0862); // Convert meV to K
+  // ========== S(u) Saturation Operator ==========
+  // S(u) = tanh(u)(1 - e^{-|u|})
+  // S(0) = 0, S'(0) = 0, S(u) ~ u² for small u, S(∞) = 1
+  function S(u) {
+    return Math.tanh(u) * (1 - Math.exp(-Math.abs(u)));
   }
 
-  // Calculate gap at temperature
-  function calculateGap(T, Tc, delta0) {
+  // ========== Gap Equations ==========
+
+  // BCS gap: standard weak-coupling approximation
+  // Δ_BCS(T) = Δ₀ √(1 - (T/Tc)²) tanh(1.74√(Tc/T - 1))
+  function gapBCS(T, Tc, delta0) {
     if (T >= Tc) return 0;
     const ratio = T / Tc;
-    return delta0 * Math.sqrt(1 - ratio * ratio) * Math.tanh(1.74 * Math.sqrt(Tc/T - 1));
+    return delta0 * Math.sqrt(1 - ratio * ratio) * Math.tanh(1.74 * Math.sqrt(Tc / T - 1));
   }
 
-  // Calculate coherence length
+  // STUR gap: self-consistent solution with S(u) in kernel
+  // Solve: Δ = V_eff * N(0) * ∫₀^{ωc} dξ S(Δ/kT) / √(ξ² + Δ²) * S(g_eff/ωc)
+  // We iterate to self-consistency at each temperature
+  function gapSTUR(T, delta0, gRatio) {
+    if (T <= 0) return delta0;
+    const kB = 0.0862; // meV/K
+    const kT = kB * T;
+    const omegaC = 250; // meV — electronic cutoff (not phononic)
+    const couplingFactor = S(gRatio); // S(g_eff/ωc) — coupling saturation
+
+    // Self-consistent iteration: Δ_new = λ * ∫ S(Δ/kT) / √(ξ² + Δ²) dξ
+    // λ = V_eff * N(0), calibrated so Δ(T=0) = delta0
+    let delta = delta0;
+    const N = 200; // integration points
+    const dxi = omegaC / N;
+
+    // First calibrate λ at T→0 so gap matches delta0
+    let integral0 = 0;
+    for (let i = 0; i < N; i++) {
+      const xi = (i + 0.5) * dxi;
+      const E = Math.sqrt(xi * xi + delta0 * delta0);
+      const u = E / (kB * 1); // T→0 limit: use T=1K
+      integral0 += S(u) / E * dxi;
+    }
+    const lambda = delta0 / (integral0 * couplingFactor + 1e-30);
+
+    // Now iterate at actual temperature
+    for (let iter = 0; iter < 50; iter++) {
+      let integral = 0;
+      for (let i = 0; i < N; i++) {
+        const xi = (i + 0.5) * dxi;
+        const E = Math.sqrt(xi * xi + delta * delta);
+        const u = delta / kT;
+        integral += S(u) / E * dxi;
+      }
+      const deltaNew = lambda * integral * couplingFactor;
+      if (Math.abs(deltaNew - delta) < 0.001) {
+        delta = deltaNew;
+        break;
+      }
+      delta = 0.5 * delta + 0.5 * deltaNew; // damped iteration
+    }
+    return Math.max(0, delta);
+  }
+
+  // Calculate T_c from gap (BCS ratio)
+  function calculateTc(delta0) {
+    return delta0 / (1.76 * 0.0862);
+  }
+
+  // Find STUR T_c by scanning for where gap vanishes
+  function findSTURTc(delta0, gRatio) {
+    const maxT = 800;
+    for (let T = 1; T < maxT; T += 2) {
+      if (gapSTUR(T, delta0, gRatio) < 0.01) return T;
+    }
+    return maxT;
+  }
+
   function calculateCoherenceLength(delta0) {
-    const vF = 1e6; // Fermi velocity in m/s
+    const vF = 1e6;
     const hbar = 1.055e-34;
-    return (hbar * vF / (Math.PI * delta0 * 1.6e-22)) * 1e9; // Return in nm
+    return (hbar * vF / (Math.PI * delta0 * 1.6e-22)) * 1e9;
   }
 
   // Update display
   function updateDisplay() {
     const T = parseFloat(tempSlider.value);
     const delta0 = parseFloat(gapSlider.value);
+    const gRatio = 2.5; // g_eff/ωc — coupling ratio (assumed, not derived)
 
     document.getElementById('tempValue').textContent = T;
     document.getElementById('gapInputValue').textContent = delta0;
 
-    const Tc = calculateTc(delta0);
-    const gap = calculateGap(T, Tc, delta0);
+    const TcBCS = calculateTc(delta0);
+    const TcSTUR = findSTURTc(delta0, gRatio);
+    const gap = gapSTUR(T, delta0, gRatio);
     const cohLength = calculateCoherenceLength(delta0);
 
-    document.getElementById('tcValue').textContent = Tc.toFixed(0);
+    document.getElementById('tcValue').textContent = TcSTUR.toFixed(0);
     document.getElementById('gapValue').textContent = gap.toFixed(1);
     document.getElementById('cohLengthValue').textContent = cohLength.toFixed(1);
-    document.getElementById('stateValue').textContent = T < Tc ? 'SC' : 'Normal';
-    document.getElementById('stateValue').style.color = T < Tc ? '#4ade80' : '#f87171';
+    document.getElementById('stateValue').textContent = T < TcSTUR ? 'SC' : 'Normal';
+    document.getElementById('stateValue').style.color = T < TcSTUR ? '#4ade80' : '#f87171';
   }
 
   // Draw visualization
   function draw() {
     const T = parseFloat(tempSlider.value);
     const delta0 = parseFloat(gapSlider.value);
-    const Tc = calculateTc(delta0);
-    const TcBCS = calculateTc(1); // BCS with 1 meV gap
+    const gRatio = 2.5;
+    const TcBCS = calculateTc(delta0);
 
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -870,29 +937,35 @@ document.addEventListener('DOMContentLoaded', function() {
       ctx.fillText(tMark, x, h - padding + 20);
     }
 
-    // Draw STUR gap curve
+    // Precompute STUR gap curve (iterative solver — cache results)
+    const sturGaps = [];
+    const step = 4; // compute every 4 pixels for speed
+    for (let i = 0; i <= plotW; i += step) {
+      const tPlot = Math.max(1, (i / plotW) * maxT);
+      sturGaps.push({ x: padding + i, gap: gapSTUR(tPlot, delta0, gRatio) });
+    }
+
+    // Draw STUR gap curve (green — self-consistent S(u) kernel)
     ctx.strokeStyle = '#4ade80';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    for (let i = 0; i <= plotW; i++) {
-      const tPlot = (i / plotW) * maxT;
-      const gap = calculateGap(tPlot, Tc, delta0);
-      const x = padding + i;
-      const y = h - padding - (gap / 100) * plotH;
-      if (i === 0) ctx.moveTo(x, y);
+    for (let j = 0; j < sturGaps.length; j++) {
+      const x = sturGaps[j].x;
+      const y = h - padding - (sturGaps[j].gap / 100) * plotH;
+      if (j === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     }
     ctx.stroke();
 
-    // Draw BCS curve if enabled
+    // Draw BCS curve if enabled (same Δ₀, standard BCS kernel for comparison)
     if (showBCS) {
       ctx.strokeStyle = '#94a3b8';
       ctx.lineWidth = 2;
       ctx.setLineDash([5, 5]);
       ctx.beginPath();
       for (let i = 0; i <= plotW; i++) {
-        const tPlot = (i / plotW) * maxT;
-        const gap = calculateGap(tPlot, TcBCS, 1);
+        const tPlot = Math.max(1, (i / plotW) * maxT);
+        const gap = gapBCS(tPlot, TcBCS, delta0);
         const x = padding + i;
         const y = h - padding - (gap / 100) * plotH;
         if (i === 0) ctx.moveTo(x, y);
@@ -913,15 +986,27 @@ document.addEventListener('DOMContentLoaded', function() {
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // Draw T_c marker
-    if (Tc < maxT) {
-      const tcX = padding + (Tc / maxT) * plotW;
+    // Draw STUR T_c marker
+    const TcSTUR = findSTURTc(delta0, gRatio);
+    if (TcSTUR < maxT) {
+      const tcX = padding + (TcSTUR / maxT) * plotW;
       ctx.fillStyle = '#4ade80';
       ctx.font = '11px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText(`T_c = ${Tc.toFixed(0)} K`, tcX, padding - 10);
+      ctx.fillText(`T_c(STUR) = ${TcSTUR.toFixed(0)} K`, tcX, padding - 10);
       ctx.beginPath();
       ctx.arc(tcX, h - padding, 5, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+
+    // Draw BCS T_c marker if showing BCS
+    if (showBCS && TcBCS < maxT) {
+      const tcBCSX = padding + (TcBCS / maxT) * plotW;
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '11px monospace';
+      ctx.fillText(`T_c(BCS) = ${TcBCS.toFixed(0)} K`, tcBCSX, padding - 25);
+      ctx.beginPath();
+      ctx.arc(tcBCSX, h - padding, 4, 0, 2 * Math.PI);
       ctx.fill();
     }
 
@@ -943,12 +1028,12 @@ document.addEventListener('DOMContentLoaded', function() {
     ctx.font = '11px monospace';
     ctx.textAlign = 'left';
     ctx.fillStyle = '#4ade80';
-    ctx.fillRect(w - padding - 80, padding + 10, 12, 3);
-    ctx.fillText('STUR', w - padding - 62, padding + 15);
+    ctx.fillRect(w - padding - 120, padding + 10, 12, 3);
+    ctx.fillText('STUR S(u) kernel', w - padding - 102, padding + 15);
     if (showBCS) {
       ctx.fillStyle = '#94a3b8';
-      ctx.fillRect(w - padding - 80, padding + 30, 12, 3);
-      ctx.fillText('BCS', w - padding - 62, padding + 35);
+      ctx.fillRect(w - padding - 120, padding + 30, 12, 3);
+      ctx.fillText('BCS (standard)', w - padding - 102, padding + 35);
     }
 
     updateDisplay();

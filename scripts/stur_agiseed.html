@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR RFD Simulator — Resistance Field Dynamics</title>
-<meta name="description" content="Complete EFT: STUR RFD Simulator with ONE input (M_Planck), ZERO free parameters. Demonstrates derived physics from Z3 helix geometry with honest assessment of speculative applications.">
+<meta name="description" content="STUR RFD Simulator with ONE input (M_Planck). Demonstrates derived physics from Z3 helix geometry with honest assessment of speculative applications and effective free parameters.">
 
 <!-- PWA & iOS meta tags -->
 <meta name="theme-color" content="#4ade80">
@@ -184,7 +184,7 @@
 
   <p style="font-size:1.05rem;color:var(--text);margin-bottom:1.25rem;">
     <strong>The STUR RFD Simulator is a speculative computational exploration of resistance field dynamics.</strong>
-    The core Complete EFT derives all Standard Model physics from ONE input (M<sub>Planck</sub>) with ZERO free parameters.
+    The core Complete EFT aims to derive Standard Model physics from ONE input (M<sub>Planck</sub>), though several parameters require effective fitting (see correction factors).
     This simulator explores how those fields might evolve numerically — treat as investigative, not predictive.
   </p>
   <p style="font-size:0.9rem;color:var(--text-tertiary);margin-bottom:1rem;padding:0.5rem 0.75rem;background:rgba(251,191,36,0.08);border-radius:6px;">
@@ -209,7 +209,7 @@
     <div class="title" style="color:#f59e0b;">Honest Assessment: Derived vs Speculative</div>
     <p style="margin:0;color:var(--text-secondary);">
       <strong>Derived Physics (Core Theory):</strong> Z<sub>3</sub> helix uniqueness -> SU(3)×SU(2)×U(1) gauge groups,
-      3 generations, mass hierarchies. ONE input (M<sub>Planck</sub>), ZERO free parameters.<br><br>
+      3 generations, mass hierarchies. ONE input (M<sub>Planck</sub>), though correction factors introduce effective free parameters.<br><br>
       <strong>Speculative Application (This Simulator):</strong> The RFD simulator explores numerical field evolution
       using λ = 3722/2705 for triangle weighting and log-periodic modulation. This is a <em>computational exploration</em>,
       not part of the core derivation chain. Treat simulation outputs as investigative, not predictive.
@@ -219,7 +219,7 @@
   <div class="block" style="border-left:4px solid #22d3ee;background:rgba(34,211,238,0.08);margin-top:1rem;">
     <div class="title" style="color:#22d3ee;">Complete EFT Framework Reference</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>Core Derivation (ONE input, ZERO free parameters):</strong> From M<sub>Planck</sub> alone, the Z₃ helix geometry
+      <strong>Core Derivation (ONE input: M<sub>Planck</sub>):</strong> From the Z₃ helix geometry
       uniquely determines SU(3)×SU(2)×U(1) gauge structure, 3 fermion generations, and mass hierarchies.
       See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:#22d3ee;">DERIVATION_CHAIN_HELIX.md</a> for the complete chain.<br><br>
       <strong>This Simulator:</strong> Explores numerical R-field dynamics as a speculative application of the framework.
@@ -434,7 +434,7 @@ Speculative computational application of the STUR unified theory.
 HONEST ASSESSMENT:
   DERIVED PHYSICS (Core Theory):
     - ONE input: M_Planck
-    - ZERO free parameters
+    - Correction factors introduce effective free parameters (see CORRECTION_FACTORS_COMPLETE.md)
     - Z3 helix -> SU(3)×SU(2)×U(1), 3 generations, mass hierarchies
 
   SPECULATIVE APPLICATION (This Simulator):
@@ -564,9 +564,9 @@ def saturation_Su(u: np.ndarray) -&gt; np.ndarray:
 
     Properties:
       • S_u(0) = 0            (no drive at equilibrium)
-      • S_u(u) → u            as u → 0 (linear regime)
+      • S_u(u) → u²           as u → 0 (quadratic regime)
       • S_u(u) → 1            as u → ∞ (saturates)
-      • Smooth, monotonic, bounded
+      • Smooth, monotonic, bounded, S'(0) = 0
     """
     return np.tanh(u) * (1.0 - np.exp(-np.abs(u)))
 
@@ -1007,7 +1007,7 @@ if __name__ == "__main__":
     <div class="block" style="border-left-color:var(--gold);">
       <div class="title" style="color:var(--gold);">Complete EFT: What Is Derived vs Speculative</div>
       <ul style="margin:0;color:var(--text-secondary);font-size:0.9rem;">
-        <li><strong>DERIVED (Core Theory):</strong> ONE input (M<sub>Planck</sub>), ZERO free parameters</li>
+        <li><strong>DERIVED (Core Theory):</strong> ONE input (M<sub>Planck</sub>), with effective free parameters in correction factors</li>
         <li><strong>DERIVED:</strong> Z<sub>3</sub> helix -> SU(3)×SU(2)×U(1), 3 generations, mass ratios</li>
         <li><strong>SPECULATIVE:</strong> λ = 3722/2705 triangle weights (computational exploration)</li>
         <li><strong>SPECULATIVE:</strong> Log-periodic modulation, RFD pattern formation</li>

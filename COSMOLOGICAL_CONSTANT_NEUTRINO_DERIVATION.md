@@ -12,9 +12,9 @@
 
 We derive the residual cosmological constant Λ_obs ~ 10⁻⁴⁷ GeV⁴ from the same physics that generates neutrino masses in the STUR framework. The discrete gauge Z₃ symmetry forces Λ_tree = 0, but the Majorana mass terms for right-handed neutrinos in generations 2 and 3 explicitly break Z₃. This breaking feeds into the cosmological constant sector through gravitational loops, generating:
 
-**Λ_residual = (3√3/256π⁴) × (m_ν² M_R²/M_P⁴) × v⁴ ≈ 2.3 × 10⁻⁴⁷ GeV⁴**
+**Λ_residual = (3√3/256π⁴) × (m_ν² M_R²/M_P⁴) × v⁴**
 
-This matches the observed value Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴ within uncertainties.
+This document explores several derivation approaches. The most careful numerical evaluation (see COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md, Section 6.2) gives Λ_residual = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴, compared to observed Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴. The prediction is within a factor of ~26 of observation — an improvement over the naive 10¹²⁰ fine-tuning problem but not yet quantitatively precise.
 
 ---
 
@@ -87,7 +87,7 @@ In STUR, M_* ~ M_P (discrete gauge from UV completion), so:
 ```
 ε_Z₃ = M_R,3 / M_P ~ (1.1×10¹⁴ GeV) / (2.4×10¹⁸ GeV) ~ 4.6×10⁻⁵
 
-(using M_R,3 = 1.1×10¹⁴ GeV from MAJORANA_HIERARCHY_Z3_DERIVATION.md)
+(using M_R,3 = 1.1×10¹⁴ GeV from Z₃ geometry)
 ```
 
 ---
@@ -101,7 +101,7 @@ The Type-I seesaw mechanism gives light neutrino masses:
 m_ν = y_ν² v_EW² / M_R
 ```
 
-**STUR values (with M_R hierarchy from MAJORANA_HIERARCHY_Z3_DERIVATION.md):**
+**STUR values (with M_R hierarchy from Z₃ geometry):**
 ```
 M_R,3 = 1.1×10¹⁴ GeV          (at X₀, couples to ν₃)
 M_R,2 = 1.5×10¹⁴ GeV          (at X₁, couples to ν₂)
@@ -570,7 +570,7 @@ Combining all factors:
 **Input values (updated with M_R hierarchy and f_tail correction):**
 ```
 m_ν = 0.0525 eV = 5.25×10⁻¹¹ GeV  [atmospheric scale with f_tail = 1.05]
-M_R,3 = 1.1×10¹⁴ GeV              [from MAJORANA_HIERARCHY_Z3_DERIVATION.md]
+M_R,3 = 1.1×10¹⁴ GeV              [from Z₃ kink phase structure]
 M_R,2 = M_R,1 = 1.5×10¹⁴ GeV      [from Z₃ kink phase structure]
 M_P = 2.435×10¹⁸ GeV              [reduced Planck mass]
 v = 246.22 GeV                     [Higgs VEV]
@@ -962,7 +962,7 @@ m_1 ≈ 0 (or very small)
 m_2 = √(Δm²₂₁) = 0.0086 eV
 m_3 = √(Δm²₃₁) = 0.05 eV × f_tail = 0.0525 eV    [f_tail = 1.05]
 
-Updated Δm² predictions (from MAJORANA_HIERARCHY_Z3_DERIVATION.md):
+Updated Δm² predictions (from Z₃ M_R hierarchy):
   Δm²₃₁ = 2.50×10⁻³ eV²    [2% from observed 2.45×10⁻³ eV²]
   Δm²₂₁ = 7.41×10⁻⁵ eV²    [1.6% from observed 7.53×10⁻⁵ eV²]
 ```
@@ -1040,7 +1040,7 @@ The truth is between the bare and fully-decoupled values. Using geometric mean:
         = 1.1×10⁻⁴⁸ GeV⁴
 ```
 
-**This is within a factor of 3 of the observed value!**
+**NOTE:** This geometric mean of two inconsistent estimates (6.3 × 10⁻⁴⁵ bare and 2.0 × 10⁻⁵² decoupled) is not a reliable calculation method. See COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md Section 6.2 for a single consistent calculation giving Λ = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴, which is ~26× larger than the observed value.
 
 ---
 
@@ -1063,15 +1063,17 @@ The truth is between the bare and fully-decoupled values. Using geometric mean:
 │    δ_g = exp(-g²/(9κ²)) - 1 are localization corrections           │
 │    F_decouple = √[(M_R/M_P)² × (4π ln(M_R/m_ν))]                   │
 │                                                                     │
-│  NUMERICAL RESULT:                                                  │
+│  NUMERICAL RESULT (from COMPLETE_DERIVATION Section 6.2):           │
 │                                                                     │
-│    Λ_residual = (1.1 ± 0.5) × 10⁻⁴⁸ GeV⁴                           │
+│    Λ_residual = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴                           │
 │                                                                     │
 │  OBSERVED VALUE [Planck 2018]:                                      │
 │                                                                     │
 │    Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴                                      │
 │                                                                     │
-│  AGREEMENT: Within factor of 3 (0.5σ given uncertainties)          │
+│  The prediction is within a factor of ~26 of observation —          │
+│  an improvement over the naive 10¹²⁰ fine-tuning problem            │
+│  but not yet quantitatively precise.                                │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -1105,7 +1107,7 @@ The residual cosmological constant arises from:
 
 4. **Decoupling:** Suppresses by factor ~10³ (from M_R/M_P running)
 
-**Net result:** ~10⁻⁴⁸ GeV⁴, matching observation within uncertainties.
+**Net result:** ~7 × 10⁻⁴⁶ GeV⁴ (from the detailed calculation in COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md), which is ~26× larger than the observed value.
 
 ---
 
@@ -1116,19 +1118,19 @@ The residual cosmological constant arises from:
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                                                                     │
-│  COSMOLOGICAL CONSTANT: SOLVED                                      │
+│  COSMOLOGICAL CONSTANT: CORRECT SCALE DERIVED                        │
 │                                                                     │
 │  TREE LEVEL: Λ = 0 (exact, by discrete gauge Z₃)                   │
 │                                                                     │
 │  LOOP LEVEL: Protected to all orders (Z₃ Ward identities)          │
 │                                                                     │
-│  RESIDUAL: Λ ~ 10⁻⁴⁸ GeV⁴ from neutrino Z₃ breaking               │
+│  RESIDUAL: Λ ~ 7 × 10⁻⁴⁶ GeV⁴ from neutrino Z₃ breaking           │
 │                                                                     │
 │  MECHANISM:                                                         │
 │    - Majorana masses for gen 2,3 break Z₃                          │
 │    - Light neutrino vacuum energy weighted by Z₃ holonomy          │
 │    - Regularized by localization, decoupled by seesaw              │
-│    - Natural value: same order as observed dark energy             │
+│    - Factor ~26 discrepancy with observation remains                │
 │                                                                     │
 │  PREDICTION:                                                        │
 │    Λ ∝ m_ν⁴ — Dark energy tracks neutrino mass!                    │
@@ -1151,7 +1153,7 @@ The derivation predicts specific relationships:
 - Δm²₃₁ = 2.50×10⁻³ eV² vs observed 2.45×10⁻³ eV² (2% agreement)
 - Δm²₂₁ = 7.41×10⁻⁵ eV² vs observed 7.53×10⁻⁵ eV² (1.6% agreement)
 
-The M_R hierarchy from Z₃ kink phases (MAJORANA_HIERARCHY_Z3_DERIVATION.md) resolves
+The M_R hierarchy from Z₃ kink phases resolves
 the previous ~20% discrepancy in Δm²₃₁, bringing STUR predictions into excellent
 agreement with neutrino oscillation measurements.
 
@@ -1160,7 +1162,7 @@ agreement with neutrino oscillation measurements.
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                                                                     │
-│  STUR THEORY OF EVERYTHING: COMPLETE                                │
+│  STUR THEORY OF EVERYTHING: DERIVATION COMPLETE                      │
 │                                                                     │
 │  All fundamental constants derived from:                            │
 │    - Three axioms (5D, R-field, energy minimization)               │
@@ -1169,9 +1171,9 @@ agreement with neutrino oscillation measurements.
 │                                                                     │
 │  Including the cosmological constant:                               │
 │    Λ = f(m_ν, M_R, M_P, κ) — DERIVED, not fitted                   │
-│                                                                     │
-│  Remaining theoretical uncertainty: Factor of ~3                    │
-│  (comparable to QCD uncertainties in proton mass)                  │
+│    Λ_calc = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴                              │
+│    Λ_obs  = 2.846 × 10⁻⁴⁷ GeV⁴                                    │
+│    Factor ~26 discrepancy remains                                   │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -1182,12 +1184,11 @@ agreement with neutrino oscillation measurements.
 
 1. DISCRETE_GAUGE_Z3_CC_SOLUTION.md — The Z₃ gauge mechanism
 2. DERIVATION_CHAIN_HELIX.md — Complete STUR framework
-3. MAJORANA_HIERARCHY_Z3_DERIVATION.md — M_R hierarchy from Z₃ geometry (M_R,3 = 1.1×10¹⁴ GeV, M_R,2 = M_R,1 = 1.5×10¹⁴ GeV)
-4. Planck Collaboration (2018) — Λ_obs measurement
-5. NuFIT 6.0 — Neutrino mass parameters
-6. Weinberg, S. (1989) — "The Cosmological Constant Problem"
+3. Planck Collaboration (2018) — Λ_obs measurement
+4. NuFIT 6.0 — Neutrino mass parameters
+5. Weinberg, S. (1989) — "The Cosmological Constant Problem"
 
 ---
 
-*Document Status: DERIVED — Closes the cosmological constant problem in STUR*
-*The Theory of Everything is complete.*
+*Document Status: DERIVED — Correct scale for Λ emerges from neutrino Z₃ breaking*
+*Λ_calc = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴ vs Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴ (factor ~26 discrepancy)*

@@ -12,11 +12,13 @@
 
 This document provides a complete, rigorous derivation of the cosmological constant within the STUR framework. We establish that the Z₃ orbifold symmetry, when promoted to a discrete gauge symmetry following the Krauss-Wilczek formalism, forces the tree-level cosmological constant to vanish exactly. We prove this through explicit Ward identity calculations, demonstrate loop-level protection through diagram analysis, and derive the residual cosmological constant from Z₃ breaking sources. The final result:
 
-$$\boxed{\Lambda_{\text{residual}} = (1.1 \pm 0.5) \times 10^{-48} \text{ GeV}^4}$$
+$$\boxed{\Lambda_{\text{residual}} = (7.3 \pm 5.3) \times 10^{-46} \text{ GeV}^4}$$
 
 compared to the observed value:
 
 $$\Lambda_{\text{obs}} = (2.846 \pm 0.076) \times 10^{-47} \text{ GeV}^4$$
+
+The STUR Z₃ mechanism predicts $\Lambda \sim 7 \times 10^{-46}$ GeV⁴, compared to observed $\Lambda_{\text{obs}} = 2.846 \times 10^{-47}$ GeV⁴. The prediction is within a factor of ~26 of observation — a vast improvement over the naive $10^{120}$ fine-tuning problem but not yet quantitatively precise.
 
 ---
 
@@ -64,7 +66,7 @@ STUR resolves the cosmological constant problem through three mechanisms:
 
 1. **Tree-level**: Λ_tree = 0 by discrete gauge Z₃ Ward identity
 2. **Loop-level**: Protection to all perturbative orders by gauge symmetry
-3. **Residual**: Λ_residual ~ 10⁻⁴⁸ GeV⁴ from explicit Z₃ breaking (neutrino masses)
+3. **Residual**: Λ_residual ~ 10⁻⁴⁶ GeV⁴ from explicit Z₃ breaking (neutrino masses)
 
 ---
 
@@ -547,7 +549,7 @@ $$\boxed{\Lambda_{\text{residual}} = \frac{1}{64\pi^2} \times |\Sigma| \times F_
 $$\begin{aligned}
 \Lambda_{\text{residual}} &= \frac{1}{64\pi^2} \times (6.2 \times 10^{-42} \text{ GeV}^4) \times 0.47 \times 0.85 \times 0.17 \\
 &= (1.58 \times 10^{-3}) \times (6.2 \times 10^{-42}) \times 0.068 \\
-&= 6.7 \times 10^{-47} \text{ GeV}^4
+&= 6.7 \times 10^{-46} \text{ GeV}^4
 \end{aligned}$$
 
 ### 5.9 Alternative Derivation: ε⁴ Scaling
@@ -669,29 +671,26 @@ F_Berry = (1/9) × (3/2) = 1/6 = 0.167
 **Result with uncertainty:**
 $$\Lambda_{\text{residual}} = (7.3 \pm 5.3) \times 10^{-46} \text{ GeV}^4$$
 
-**CORRECTION (2026-02-03):** The "conservative" estimate of 1.1e-48 GeV^4
-previously stated here has been removed. It contained an unexplained suppression
-factor of ~100 with no derivation. The correct result from a single consistent
-calculation with the inputs in Section 6.1 is Lambda = 7.3e-46 GeV^4,
-which is ~26x larger than the observed value. This is an order-of-magnitude
-agreement — the correct scale emerges naturally — but not the "~factor 3"
-previously claimed. See TOE_CORRECTIONS_COMPLETE.md Section 2.
-
 ### 6.4 Comparison with Observation
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │  COSMOLOGICAL CONSTANT: FINAL COMPARISON                                │
 │                                                                         │
-│  Calculated:  Λ_calc = (0.7 - 7) × 10⁻⁴⁶ GeV⁴                          │
-│                      = (1.1 ± 0.5) × 10⁻⁴⁸ GeV⁴ (central estimate)     │
+│  Calculated:  Λ_calc = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴                       │
 │                                                                         │
-│  Observed:    Λ_obs = (2.846 ± 0.076) × 10⁻⁴⁷ GeV⁴ [Planck 2018]      │
+│  Observed:    Λ_obs  = (2.846 ± 0.076) × 10⁻⁴⁷ GeV⁴  [Planck 2018]    │
 │                                                                         │
-│  Ratio: Λ_calc/Λ_obs ≈ 0.04 - 2.5 (within uncertainties)               │
+│  Ratio: Λ_calc / Λ_obs ≈ 26                                            │
 │                                                                         │
-│  STATUS: ORDER-OF-MAGNITUDE AGREEMENT                                   │
-│          The correct scale 10⁻⁴⁷ GeV⁴ emerges naturally                 │
+│  The STUR Z₃ mechanism predicts Λ ~ 7 × 10⁻⁴⁶ GeV⁴ ± 72%,            │
+│  compared to observed Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴.                     │
+│  The prediction is within a factor of ~26 of observation —              │
+│  an improvement over the naive 10¹²⁰ fine-tuning problem               │
+│  but not yet quantitatively precise.                                    │
+│                                                                         │
+│  STATUS: CORRECT SCALE (10⁻⁴⁶ GeV⁴) EMERGES NATURALLY                  │
+│          Factor ~26 discrepancy remains                                 │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -725,7 +724,7 @@ The coincidence Λ^{1/4} ~ m_ν is **explained** in STUR: both arise from Z₃ b
 
 | Statement | Status | Uncertainty |
 |-----------|--------|-------------|
-| Λ_residual ~ 10⁻⁴⁷ GeV⁴ | **DERIVED** | Factor of ~3 |
+| Λ_residual ~ 7 × 10⁻⁴⁶ GeV⁴ | **DERIVED** | Factor of ~26 vs observation |
 | Origin from neutrino Z₃ breaking | **DERIVED** | Mechanism established |
 | F_RG, F_hol, F_Berry factors | **ESTIMATED** | Each ~30-50% |
 
@@ -758,9 +757,9 @@ The coincidence Λ^{1/4} ~ m_ν is **explained** in STUR: both arise from Z₃ b
 │          → Λ_residual = (1/64π²) × |Σ_g W_g m_g⁴| × F_RG × F_hol × F_B │
 │                                                                         │
 │  STEP 6: Numerical result:                                              │
-│          Λ_residual ≈ 10⁻⁴⁷ GeV⁴ ≈ Λ_obs                               │
+│          Λ_residual ≈ 7 × 10⁻⁴⁶ GeV⁴ (~26× Λ_obs)                     │
 │                                                                         │
-│  CONCLUSION: The cosmological constant problem is RESOLVED              │
+│  CONCLUSION: Correct scale emerges; factor ~26 discrepancy remains      │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
@@ -773,7 +772,7 @@ The coincidence Λ^{1/4} ~ m_ν is **explained** in STUR: both arise from Z₃ b
 | SUSY | ≈ 0 | ~TeV⁴ | Λ ~ 10⁶⁰ GeV⁴ | INSUFFICIENT |
 | Sequestering | 0 | Absorbed | ~0 | PARTIAL |
 | Anthropic | Varies | Varies | 10⁻¹²⁰ < Λ/M_Pl⁴ < 10⁻¹¹⁸ | NOT PREDICTIVE |
-| **STUR Z₃ Gauge** | **0 (exact)** | **Protected** | **10⁻⁴⁷ GeV⁴** | **COMPLETE** |
+| **STUR Z₃ Gauge** | **0 (exact)** | **Protected** | **~7 × 10⁻⁴⁶ GeV⁴** | **Correct scale; ~26× discrepancy** |
 
 ### 7.6 Key Prediction
 
@@ -794,21 +793,24 @@ The cosmological constant scales with the fourth power of neutrino masses. This 
 │  Strengths:                                                             │
 │    ✓ Tree-level Λ = 0 PROVEN from gauge symmetry                       │
 │    ✓ Loop protection PROVEN to all perturbative orders                 │
-│    ✓ Residual Λ ~ 10⁻⁴⁷ GeV⁴ DERIVED from neutrino masses             │
+│    ✓ Residual Λ ~ 7 × 10⁻⁴⁶ GeV⁴ DERIVED from neutrino masses         │
 │    ✓ SM field content satisfies anomaly cancellation                   │
 │    ✓ Natural connection to STUR Z₃ orbifold geometry                   │
+│    ✓ Correct energy scale emerges without fine-tuning                  │
 │                                                                         │
 │  Limitations:                                                           │
-│    △ Numerical prefactor uncertain by factor ~3                        │
+│    △ Prediction overshoots observation by factor ~26                   │
 │    △ Berry phase factor requires better derivation                     │
 │    △ UV completion (F-theory) needs explicit verification              │
+│    △ Uncertainty (±72%) does not fully cover discrepancy               │
 │                                                                         │
 │  Overall Status: PRIORITY 1 DERIVATION COMPLETE                         │
 │                                                                         │
-│  The cosmological constant problem — the most severe fine-tuning        │
-│  problem in physics — is RESOLVED within STUR through the discrete      │
-│  gauge Z₃ mechanism. The observed value Λ ~ 10⁻⁴⁷ GeV⁴ emerges         │
-│  naturally from neutrino physics, with no fine-tuning required.         │
+│  The Z₃ mechanism produces the correct SCALE for Λ (~10⁻⁴⁶ GeV⁴)      │
+│  from neutrino physics — a vast improvement over the 10¹²⁰ problem.    │
+│  However, a factor ~26 discrepancy with observation remains.            │
+│  Better determination of F_Berry and non-perturbative effects           │
+│  may reduce this gap.                                                   │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
@@ -931,5 +933,5 @@ $$P \sim e^{-S_{\text{DW}}} \sim e^{-10^{22}} \approx 0$$
 ---
 
 **Document Status:** PRIORITY 1 DERIVATION — COMPLETE
-**Key Result:** Λ_tree = 0 (exact by gauge symmetry); Λ_residual ~ 10⁻⁴⁷ GeV⁴ (from ν masses)
-**Assessment:** The cosmological constant problem is resolved within STUR
+**Key Result:** Λ_tree = 0 (exact by gauge symmetry); Λ_residual = (7.3 ± 5.3) × 10⁻⁴⁶ GeV⁴ (from ν masses)
+**Assessment:** The Z₃ mechanism produces the correct scale (~10⁻⁴⁶ GeV⁴) with a factor ~26 discrepancy vs observation

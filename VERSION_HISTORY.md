@@ -13,7 +13,6 @@
 - Black hole entropy and holographic correspondence derived
 
 ### Documents Updated
-- FRAMEWORK_STATUS_HONEST.md — Final honest assessment
 - DERIVATION_CHAIN_HELIX.md — Complete derivation chain
 
 ---

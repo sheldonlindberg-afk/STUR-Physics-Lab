@@ -93,7 +93,7 @@
             <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a>
         </p>
         <p class="stur-text-muted" style="max-width:700px; margin:0 auto;">
-            Derives black hole thermodynamics from TEGR torsion with ONE input (M<sub>Planck</sub>) and ZERO free parameters.
+            Derives black hole thermodynamics from TEGR torsion with ONE input (M<sub>Planck</sub>) and Z₃ geometric framework.
             Hawking temperature, Bekenstein entropy, and information preservation emerge from first principles.
         </p>
 
@@ -101,7 +101,7 @@
         <div style="margin-top:1rem;">
             <!-- v4.0 TOE Badge -->
         <div style="margin:0.5rem auto;padding:0.5rem;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;max-width:500px;font-size:0.8rem;">
-          <span style="color:#4ade80;font-weight:600;">★ v4.0 TOE</span> — ONE input: M<sub>Pl</sub>, ZERO free parameters
+          <span style="color:#4ade80;font-weight:600;">★ v4.0 TOE</span> — ONE input: M<sub>Pl</sub>, Z₃ helix geometry
         </div>
         <span class="stur-status success">
                 <span class="stur-icon icon-check-circle sm"></span>
@@ -132,7 +132,7 @@
             <h2 class="glass-section-title" style="color:var(--neon-green);">First Principles Status — v4.0 TOE Framework</h2>
         </div>
         <div class="glass-section-body" style="font-size:0.92rem;">
-            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">ONE Input, ZERO Free Parameters:</strong></p>
+            <p style="margin-bottom:0.75rem;"><strong style="color:var(--neon-green);">ONE Input, Z₃ Geometric Framework:</strong></p>
             <ul style="margin:0 0 1rem 1.2rem;color:var(--text-muted);">
                 <li><strong>Single Input:</strong> \(M_{\text{Pl}} = \sqrt{\hbar c / G}\) — the Planck mass defines all scales</li>
                 <li>TEGR torsion scalar: \(\mathbb{T} = T^{\rho}{}_{\mu\nu}S_{\rho}{}^{\mu\nu}\) — emerges from R-field coupling</li>
@@ -197,7 +197,7 @@
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1rem;color:var(--text-secondary);">
-                Black hole thermodynamics emerges from TEGR torsion coupling with <strong>ONE input</strong> (M<sub>Pl</sub>) and <strong>ZERO free parameters</strong>.
+                Black hole thermodynamics emerges from TEGR torsion coupling with <strong>ONE input</strong> (M<sub>Pl</sub>) and <strong>Z₃ geometric framework</strong>.
             </p>
 
             <div class="stur-eq law" style="margin:1rem 0;">
@@ -232,7 +232,7 @@
 
             <div class="stur-eq law" style="margin:1rem 0;">
                 \[\boxed{T_H = \frac{\hbar c^3}{8\pi G M k_B} = \frac{\hbar \kappa}{2\pi c k_B}}\]
-                <div class="stur-eq-label">Hawking temperature from TEGR (no free parameters)</div>
+                <div class="stur-eq-label">Hawking temperature from TEGR (derived from Z₃ structure)</div>
             </div>
 
             <h3 style="color:var(--gold);margin-top:1.5rem;">Bekenstein-Hawking Entropy (Derived)</h3>
@@ -252,7 +252,7 @@
     <section class="glass-section" style="border-color:var(--neon-green);background:rgba(74,222,128,0.04);margin-bottom:1.5rem;">
         <div class="glass-section-header">
             <span class="stur-icon icon-target size-24" style="color:var(--neon-green);"></span>
-            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions (Zero Free Parameters)</h2>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Predictions (from Geometric Framework)</h2>
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1rem;color:var(--text-secondary);">
@@ -275,7 +275,7 @@
                     \[\boxed{S_{BH} = \frac{k_B c^3 A}{4 G \hbar} = \frac{\pi k_B c^3 r_s^2}{G \hbar}}\]
                 </div>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
-                    The 1/4 factor emerges from Z₃ holographic projection — <span style="color:#4ade80;">no free parameter!</span>
+                    The 1/4 factor emerges from Z₃ holographic projection — <span style="color:#4ade80;">derived from geometry!</span>
                 </p>
             </div>
 
@@ -399,7 +399,7 @@
         </div>
         <div class="glass-section-body">
             <p><strong>Observable:</strong> Hawking temperature \(T_H\), Bekenstein entropy \(S_{BH}\), and black hole evaporation timescale from TEGR first principles.</p>
-            <p><strong>Input:</strong> ONE parameter: \(M_{\text{Pl}} = \sqrt{\hbar c / G}\). ZERO free parameters — all BH physics derived.</p>
+            <p><strong>Input:</strong> ONE parameter: \(M_{\text{Pl}} = \sqrt{\hbar c / G}\). Z₃ geometric framework — all BH physics derived.</p>
             <p><strong>Connection:</strong> The <a href="stur_core_theory.html#master-action" class="core-ref">TEGR</a> torsion coupling \(\alpha |R| \mathbb{T} = (1/16\pi G)\mathbb{T}\) provides gravity from R-field dynamics.</p>
         </div>
     </section>
@@ -512,7 +512,7 @@
 #
 # Derives BH thermodynamics from TEGR with:
 #   - ONE input: M_Planck
-#   - ZERO free parameters
+#   - geometric framework
 #
 # Outputs:
 #   - stur_blackhole.json  (BH thermodynamics)
@@ -559,7 +559,7 @@ class Constants:
         return np.sqrt(self.hbar * self.G / self.c**5)
 
 # ===============================================================
-# 2) BLACK HOLE THERMODYNAMICS (ZERO free parameters)
+# 2) BLACK HOLE THERMODYNAMICS (geometric framework)
 # ===============================================================
 def schwarzschild_radius(M, C):
     """r_s = 2GM/c² — from TEGR torsion boundary"""
@@ -597,7 +597,7 @@ C = Constants()
 masses_kg = np.logspace(10, 38, 200)
 masses_Msun = masses_kg / C.M_sun
 
-# Compute all derived quantities (ZERO free parameters)
+# Compute all derived quantities (geometric framework)
 T_H = np.array([hawking_temperature(M, C) for M in masses_kg])
 S_BH = np.array([bekenstein_entropy(M, C) for M in masses_kg])
 P_H = np.array([hawking_power(M, C) for M in masses_kg])
@@ -614,7 +614,7 @@ t_evap_ref = evaporation_time(M_ref, C)
 # ===============================================================
 fig, axes = plt.subplots(2, 2, figsize=(12, 10), dpi=150)
 fig.patch.set_facecolor('#050814')
-fig.suptitle('STUR v4.0 TOE: Black Hole Thermodynamics\nONE input (M_Pl), ZERO free parameters',
+fig.suptitle('STUR v4.0 TOE: Black Hole Thermodynamics\nONE input (M_Pl), Z₃ geometric framework',
              color='#4ade80', fontsize=14, fontweight='bold')
 
 # Hawking Temperature
@@ -684,7 +684,7 @@ report = {
         "page": "black-hole-physics",
         "version": "v4.0-TOE",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "framework": "ONE input (M_Pl), ZERO free parameters"
+        "framework": "ONE input (M_Pl), Z₃ geometric framework"
     },
     "input": {
         "M_Planck_kg": float(C.M_Pl),
