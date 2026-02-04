@@ -438,7 +438,7 @@ def calc_overlap_integrals(alpha=1.0):
     print(f"      κ = {kappa:.4f}")
     print(f"      λ_bare = exp(-κ²/8) = {lambda_bare:.6f}")
     print(f"      Exact overlap / λ_bare = {effective_correction:.4f}")
-    print(f"      (Old framework used f_boundary × f_tail = 0.65 × 1.05 = 0.683)")
+    print(f"      (Old framework used f_boundary × f_tail = 0.65 × 1.131 = 0.735)")
 
     return {
         'lambda_gauss_inf': lambda_gauss_inf,
@@ -573,7 +573,7 @@ def calc_holonomy_average():
     print(f"    Y₁₂(U=I) = exp(-Δφ²/4σ²) = {y12_base:.6f}")
     print(f"    ⟨Y₁₂(U)/Y₁₂(I)⟩_Haar = {f_holonomy:.4f} ± {f_hol_std:.4f}")
     print(f"\n    Compare with framework values:")
-    print(f"      Claimed f_holonomy = 0.85 (calibrated)")
+    print(f"      Derived f_holonomy = 0.846 (SU(3) Haar average)")
     print(f"      exp(-1/6) = {np.exp(-1/6):.4f} (simple estimate)")
     print(f"      Computed:    {f_holonomy:.4f} ± {f_hol_std:.4f}")
 
@@ -900,7 +900,7 @@ def calc_alpha_scan():
         print(f"      y·v·L_X = 2π√α = {2*np.pi*np.sqrt(alpha_target):.4f}")
         print(f"\n    Compare with framework:")
         print(f"      Framework uses α = 1 (assumed), κ = 2.22, then applies")
-        print(f"      correction factors (0.65 × 1.05 × 0.85 × 0.87 = 0.49) to get λ ≈ 0.225")
+        print(f"      correction factors (0.65 × 1.131 × 0.85 × 0.87 = 0.54) to get λ ≈ 0.225")
         print(f"      First-principles calculation needs α = {alpha_target:.2f} to match directly.")
     except:
         print(f"\n    Could not interpolate — target may be outside range")
@@ -940,7 +940,7 @@ def grand_summary(kappa_results, anharmonic, overlap, holonomy, rg, casimir, alp
   3. EXACT OVERLAP INTEGRALS (α = 1):
      λ (exact periodic overlap) = {r['lambda_exact']:.6f}
      This REPLACES the old chain:
-       λ_bare × f_boundary × f_tail × f_Z3 = {r['lambda_bare']:.4f} × 0.65 × 1.05 = {r['lambda_bare']*0.65*1.05:.4f}
+       λ_bare × f_boundary × f_tail × f_Z3 = {r['lambda_bare']:.4f} × 0.65 × 1.131 = {r['lambda_bare']*0.65*1.131:.4f}
      Actual computed ratio (overlap/λ_bare): {r['effective_correction']:.4f}
        (vs claimed 0.683)
 

@@ -29,7 +29,7 @@ The framework proposes that our universe exists in a 5-dimensional spacetime man
 - **Exactly 3 generations** of matter (from Z_3 symmetry)
 - **All 26 Standard Model parameters** derived from first principles (100% within 10% of experimental values)
 - **26+ falsifiable predictions** testable by current and near-future experiments
-- **Unified wavefunction tail correction** (f_tail = 1.05) closing all remaining discrepancies
+- **Unified wavefunction tail correction** (f_tail = 1.131 from analytic overlap) closing all remaining discrepancies
 
 Starting from just **3 fundamental axioms**, STUR constructs a complete derivation chain to all known physics. With 100% TOE closure now achieved, it stands as the most constrained and falsifiable unified theory proposed.
 
@@ -40,7 +40,7 @@ Starting from just **3 fundamental axioms**, STUR constructs a complete derivati
 ### Complete Derivation Framework (100% Closure)
 - Full derivation chain from 3 axioms to all 26 Standard Model parameters
 - Z_3 helix topology explains the three-generation structure of fermions
-- Unified wavefunction tail correction (f_tail = 1.05) from Z_3 geometry
+- Unified wavefunction tail correction (f_tail = 1.131) from Z_3 geometry
 - Unified treatment of gravity, electroweak, and strong forces
 
 ### Interactive Web Documentation

@@ -307,8 +307,8 @@ If the goal is λ_phys ≈ 0.225 from λ_bare ≈ 0.458:
 
 Required total correction = 0.225/0.458 = 0.49
 
-With holonomy (0.85) and RG (0.87):
-- 0.85 × 0.87 = 0.74
+With holonomy (0.846) and RG (0.87):
+- 0.846 × 0.87 = 0.737
 - Needed boundary factor = 0.49/0.74 = **0.66** ← Matches 0.65!
 
 The 0.65 may be a **fitting parameter** chosen to give the correct final λ, rather than a first-principles derivation.
@@ -349,7 +349,7 @@ Normalized overlap:
 
 ## Note on Wavefunction Tail Correction (f_tail)
 
-The boundary correction factor f_boundary = 0.65 derived here is **distinct from** the wavefunction tail correction factor f_tail = 1.05. These are independent physical effects that multiply together in the complete correction chain:
+The boundary correction factor f_boundary = 0.65 derived here is **distinct from** the wavefunction tail correction factor f_tail = 1.131. These are independent physical effects that multiply together in the complete correction chain:
 
 ```
 m = m_naive × f_boundary × f_hol × f_RG × f_tail
@@ -357,7 +357,7 @@ m = m_naive × f_boundary × f_hol × f_RG × f_tail
 
 **Key distinction:**
 - **f_boundary = 0.65**: Arises from finite-domain overlap integrals and Z_3 sector confinement (this document)
-- **f_tail = 1.05**: Arises from unified wavefunction tail contributions beyond the Gaussian core, providing a 5% enhancement
+- **f_tail = 1.131**: Arises from unified wavefunction tail contributions beyond the Gaussian core, providing a 13% enhancement
 
 The tail correction captures probability density in the extended tails of the localized wavefunctions that contribute to cross-generation overlap, using the derived value κ = 2.52.
 

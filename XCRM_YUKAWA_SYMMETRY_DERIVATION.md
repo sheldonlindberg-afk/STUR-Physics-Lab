@@ -627,7 +627,7 @@ With the derived y = 2π/3:
 
 ```
 λ = λ_bare × f_boundary × f_holonomy × f_RG
-  = 0.539 × (sector factor) × 0.85 × 0.87
+  = 0.539 × (sector factor) × 0.846 × 0.87
 ```
 
 The sector factor needs proper calculation (see next section).
@@ -638,8 +638,8 @@ For λ_obs = 0.225:
 ```
 Required total correction: 0.225/0.539 = 0.42
 
-f_boundary × 0.85 × 0.87 = 0.42
-f_boundary = 0.42/0.74 = 0.57
+f_boundary × 0.846 × 0.87 = 0.42
+f_boundary = 0.42/0.737 = 0.57
 ```
 
 This is close to the sector confinement factor 0.62 derived in BOUNDARY_CORRECTION_DERIVATION.md!

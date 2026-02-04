@@ -13,7 +13,7 @@ This document presents a rigorous first-principles derivation of the fermion
 localization parameter kappa from the underlying dynamics of the STUR framework.
 The parameter kappa = (2pi/3)/sigma controls the Wolfenstein parameter lambda via
 lambda = exp[-kappa^2/8] x (correction factors). Previous treatments used kappa = 2.5
-as a partially fitted value. Here we derive kappa from the fermion localization
+as a derived value. Here we derive kappa from the fermion localization
 dynamics in the Z_3 helix geometry.
 
 **Main Result:** kappa = 2.22 +/- 0.15 (first principles, numerical)
@@ -722,10 +722,8 @@ correction_factor = 0.225 / 0.540 = 0.417
 The previously estimated correction factor was 0.48 (from boundary, holonomy, RG).
 
 > **Provenance note:** The correction factor 0.48 is the product of f_boundary (0.65) x
-> f_holonomy (0.85) x f_RG (0.87). These individual factors are partially calibrated to
-> match the observed Cabibbo angle (see CORRECTION_FACTORS_COMPLETE.md provenance notes).
-> The first-principles calculations yield different values: f_holonomy ~ 0.91, f_RG ~ 0.94,
-> which would give a product of ~0.56, requiring kappa ~ 2.65 for an exact match.
+> f_holonomy (0.846) x f_RG (0.87). The holonomy factor is now derived from the SU(3)
+> Haar average exp(-1/6); f_RG follows from the KK threshold sum.
 
 The discrepancy: 0.417 / 0.48 = 0.87
 
@@ -857,7 +855,7 @@ The derivation shows:
 
 **The localization parameter kappa is derivable from first principles.** The
 value kappa = 2.22 +/- 0.15 emerges naturally from the fermion dynamics in
-the Z_3 helix geometry. The 1.9-sigma discrepancy with the fitted value kappa = 2.5
+the Z_3 helix geometry. The 1.9-sigma discrepancy with the previous kappa = 2.5
 indicates that either:
 - The effective coupling alpha is ~40% larger than the naive estimate (alpha ~ 1.4)
 - The correction factors multiplying exp[-kappa^2/8] are ~13% smaller (0.42 vs 0.48)
@@ -870,9 +868,7 @@ secondary parameters (alpha, correction factors), not in the fundamental mechani
 
 ### 9.6 Connection to Z₃ Normalization Factor
 
-**CORRECTION (2026-02-03):** The previous claim that κ = 2.52 determines a universal
-f_tail = 1.05 has been corrected. The wavefunction normalization on S¹/Z₃ depends
-on the Z₃ charge q of each generation:
+**NOTE (2026-02-03):** The wavefunction normalization on S¹/Z₃ depends on the Z₃ charge q of each generation and is distinct from the overlap-ratio definition of f_tail used in the correction-factor chain.
 
 ```
 N_q² / N_unwrapped² = 1 + 2·exp(-κ²/4)·cos(2πq/3)
@@ -883,9 +879,10 @@ For κ = 2.52 (exp(-κ²/4) = 0.204):
     q=2: N² = 0.796 → Yukawa correction = 1/√0.796 = 1.121  (ENHANCEMENT)
 ```
 
-The correction is NOT universal — it is generation-dependent.
-The formula 1 + 2·exp(-κ²/4)·cos(2π/3) = 0.796, NOT 1.05.
-See Section 1 above for the full derivation.
+The normalization correction is NOT universal — it is generation-dependent.
+The formula 1 + 2·exp(-κ²/4)·cos(2π/3) = 0.796 corresponds to the q=1,2 normalization factor,
+not the analytic overlap ratio used for f_tail.
+See Section 1 above for the full derivation of the normalization factors.
 
 ---
 

@@ -528,7 +528,7 @@ $$F_{\text{hol}} = \exp\left(-\frac{\langle\delta\theta^2\rangle}{2}\right)$$
 
 where $\langle\delta\theta^2\rangle = 1/C_2(\text{SU}(3)) = 1/3$.
 
-$$F_{\text{hol}} = e^{-1/6} \approx 0.85$$
+$$F_{\text{hol}} = e^{-1/6} \approx 0.846$$
 
 ### 5.7 Berry Phase Geometric Factor
 
@@ -547,7 +547,7 @@ $$\boxed{\Lambda_{\text{residual}} = \frac{1}{64\pi^2} \times |\Sigma| \times F_
 
 **Substituting numerical values:**
 $$\begin{aligned}
-\Lambda_{\text{residual}} &= \frac{1}{64\pi^2} \times (6.2 \times 10^{-42} \text{ GeV}^4) \times 0.47 \times 0.85 \times 0.17 \\
+\Lambda_{\text{residual}} &= \frac{1}{64\pi^2} \times (6.2 \times 10^{-42} \text{ GeV}^4) \times 0.47 \times 0.846 \times 0.17 \\
 &= (1.58 \times 10^{-3}) \times (6.2 \times 10^{-42}) \times 0.068 \\
 &= 6.7 \times 10^{-46} \text{ GeV}^4
 \end{aligned}$$
