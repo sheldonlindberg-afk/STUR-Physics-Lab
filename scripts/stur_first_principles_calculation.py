@@ -22,7 +22,6 @@ No correction factors are assumed — everything is calculated.
 
 import numpy as np
 from scipy import linalg, integrate, optimize
-from scipy.special import erf
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -133,7 +132,7 @@ def extract_kappa(psi, theta):
         ss_res = np.sum(residuals**2)
         ss_tot = np.sum((prob - np.mean(prob))**2)
         r_squared = 1 - ss_res / ss_tot if ss_tot > 0 else 0
-    except:
+    except Exception:
         kappa_fit = kappa
         r_squared = 0
 
@@ -902,7 +901,7 @@ def calc_alpha_scan():
         print(f"      Framework uses α = 1 (assumed), κ = 2.22, then applies")
         print(f"      correction factors (0.65 × 1.131 × 0.85 × 0.87 = 0.54) to get λ ≈ 0.225")
         print(f"      First-principles calculation needs α = {alpha_target:.2f} to match directly.")
-    except:
+    except Exception:
         print(f"\n    Could not interpolate — target may be outside range")
         alpha_target = None
         kappa_target = None

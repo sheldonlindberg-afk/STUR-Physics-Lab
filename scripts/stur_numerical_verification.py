@@ -26,7 +26,6 @@ Date: 2026-01-28
 import numpy as np
 from scipy import linalg, integrate, optimize
 from scipy.special import erf
-from scipy.stats import norm
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -954,7 +953,7 @@ def extract_kappa_from_wavefunction(psi, theta):
         ss_tot = np.sum((prob - np.mean(prob))**2)
         r_squared = 1 - (ss_res / ss_tot) if ss_tot > 0 else 0
 
-    except:
+    except Exception:
         # Fallback: moment method
         dtheta = theta[1] - theta[0]
         mean = np.sum(theta * prob) * dtheta
@@ -1091,7 +1090,7 @@ def verify_kappa_independently(target_kappa=KAPPA_CENTRAL, alpha_range=(0.5, 5.0
     try:
         alpha_best_WKB = brentq(objective, 0.1, 20.0)
         kappa_best_WKB = kappa_WKB(alpha_best_WKB)
-    except:
+    except Exception:
         alpha_best_WKB = 1.0
         kappa_best_WKB = kappa_WKB(1.0)
 
