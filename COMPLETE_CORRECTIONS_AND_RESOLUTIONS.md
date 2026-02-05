@@ -9,13 +9,14 @@
 
 ## Executive Summary
 
-This document provides rigorous resolutions to the five critical issues identified in the STUR framework:
+This document provides rigorous resolutions to the six critical issues identified in the STUR framework:
 
 1. **Cosmological Constant** (~26x discrepancy) - **RESOLVED** via rigorous Berry phase calculation
 2. **L_X Scale Ambiguity** (10^-32 m vs 1 um) - **RESOLVED** via two-scale interpretation
 3. **f_tail Independence** - **VERIFIED** as genuinely derived
 4. **m_u Phase Shift** - **DERIVED** from first-generation boundary effects
 5. **Lepton Mass Overprediction** (~1.7x) - **RESOLVED** via electroweak threshold corrections
+6. **ATS Weak Coupling Tension** (S(u)~u² vs BCS linear) - **RESOLVED** via strong-coupling interpretation
 
 ---
 
@@ -714,6 +715,10 @@ m_u = m_u^naive x f_boundary x f_KK x f_QCD x f_threshold
 |  [X] f_tail independence: Verified as derived from kappa            |
 |  [X] m_u anomaly: Boundary effect + QCD running                     |
 |  [X] Lepton overprediction: Z_3 phase + EW threshold               |
+|  [X] ATS weak coupling: S(u)~u² is a feature, not a bug            |
+|      - STUR is strong-coupling mechanism (requires u > 1)          |
+|      - BCS dominates at weak coupling (u < 0.5 regime)             |
+|      - Crossover at u_cross ~ 1.05, See ATS_WEAK_COUPLING_RESOLUTION|
 |                                                                     |
 |  REMAINING UNCERTAINTIES:                                           |
 |  - L_eff/L_X power law (n ~ 2.5) partially phenomenological        |
@@ -742,6 +747,7 @@ m_u = m_u^naive x f_boundary x f_KK x f_QCD x f_threshold
    - VLX_QUANTIZATION_DERIVATION.md
    - CORRECTION_FACTORS_COMPLETE.md
    - ABSOLUTE_MASS_DERIVATION.md
+   - ATS_WEAK_COUPLING_RESOLUTION.md (ATS weak coupling tension resolution)
 
 ---
 
