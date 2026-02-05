@@ -1127,7 +1127,7 @@
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.0</span>
   </p>
 </footer>
 
@@ -1135,11 +1135,28 @@
 
 <script src="../assets/js/stur-ui.js"></script>
 <script>
+// ============================================================
+// STUR Predictions — v5.0 Falsification Framework
+// ============================================================
+const PR_PAGE_VERSION = '5.0';
+
+// Seeded PRNG for reproducibility (LCG: seed=42)
+let _prRngSeed = 42;
+function prSeededRandom() {
+    _prRngSeed = (_prRngSeed * 1103515245 + 12345) & 0x7fffffff;
+    return (_prRngSeed % 65536) / 65536;
+}
+
+// Core saturation operator S(u) [Eq. B.16]
+function S_u(u) {
+    return Math.tanh(u) * (1 - Math.exp(-Math.abs(u)));
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
 
   // ═══════════════════════════════════════════════════════════════
-  // MAGIS-100 HOLOSCREEN SIMULATION
+  // MAGIS-100 HOLOSCREEN SIMULATION (v5.0)
   // ═══════════════════════════════════════════════════════════════
   const canvas = document.getElementById('holoscreen-canvas');
   if (!canvas) return;

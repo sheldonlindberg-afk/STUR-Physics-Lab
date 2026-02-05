@@ -298,12 +298,24 @@ print("═"*50)</pre>
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.0</span>
   </p>
 </footer>
 
 <script src="../assets/js/stur-ui.js"></script>
 <script>
+// ============================================================
+// STUR Sandbox — v5.0 Falsification Framework
+// ============================================================
+const SB_PAGE_VERSION = '5.0';
+
+// Seeded PRNG for reproducibility (LCG: seed=42)
+let _sbRngSeed = 42;
+function sbSeededRandom() {
+    _sbRngSeed = (_sbRngSeed * 1103515245 + 12345) & 0x7fffffff;
+    return (_sbRngSeed % 65536) / 65536;
+}
+
 // Constants
 const LAMBDA = 3722 / 2705;
 let L_X = 1.0, sigma_R = 0.5, V0 = 0.95;
