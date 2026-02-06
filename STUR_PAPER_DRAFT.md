@@ -3,14 +3,14 @@
 **Author:** Sheldon Lon Lindberg
 **Institution:** [To be added]
 **Date:** February 2026
-**Document Type:** Publication Preprint (100% TOE Closure)
-**Framework Version:** STUR v4.3 (Complete)
+**Document Type:** Publication Preprint
+**Framework Version:** STUR v4.5
 
 ---
 
 ## Abstract
 
-We present STUR (Sheldon's Theory of Unified Resistance), a five-dimensional effective field theory on M^4 x S^1/Z_3 that achieves complete quantitative closure for Standard Model parameters. Starting from three foundational axioms---(1) 5D spacetime with a compact extra dimension, (2) a real doublet scalar field R coupled to torsion via TEGR, and (3) energy minimization selecting the vacuum---we derive that the R-field configuration forms a Z_3 helix structure. This geometry yields exactly three fermion generations, the SU(3) x SU(2) x U(1) gauge group, a natural solution to the strong CP problem, and quantitative predictions for all 26 Standard Model parameters with 100% within 10% of observed values and 92% within 5%. All parameters previously fitted are now derived from first principles, including the universal wavefunction tail correction f_tail = 1.131 [11], the right-handed neutrino mass hierarchy from Z_3 kink phases [12], and the atmospheric mixing form factor g = 0.75 [13]. The Higgs mass is predicted as 125 +/- 2 GeV from gauge-Higgs unification. The framework does not solve the cosmological constant problem and requires UV completion for a complete theory of quantum gravity. The theory makes falsifiable predictions testable by current and near-future experiments.
+We present STUR (Sheldon's Theory of Unified Resistance), a five-dimensional effective field theory on M^4 x S^1/Z_3 that provides a geometrically-motivated framework for Standard Model structure. Starting from three foundational axioms---(1) 5D spacetime with a compact extra dimension, (2) a real doublet scalar field R coupled to torsion via TEGR, and (3) energy minimization selecting the vacuum---we derive that the R-field configuration forms a Z_3 helix structure. This geometry yields exactly three fermion generations (topological), the SU(3) x SU(2) x U(1) gauge group, and a natural solution to the strong CP problem (theta_QCD = 0 by Z_3 x CP symmetry). The fermion mass hierarchy and CKM mixing arise from overlap integrals of localized wavefunctions at Z_3 fixed points, governed by a Mathieu equation with coupling alpha_eff. At tree level alpha = 1 (from XCRM-Yukawa symmetry), quantum corrections enhance this to alpha_eff = 1.33 +/- 0.15 (computed) with a target value of 3/2 required to match the observed Cabibbo angle at 1.2% accuracy. The Higgs mass is predicted as 125 +/- 2 GeV from gauge-Higgs unification. Topological predictions (N_gen = 3, theta_QCD = 0, normal neutrino ordering) are robust, while precision predictions for masses and mixing angles depend on correction factors whose derivation status ranges from rigorous to semi-derived. The framework does not solve the cosmological constant problem and requires UV completion for a complete theory of quantum gravity. The theory makes falsifiable predictions testable by current and near-future experiments (JUNO, DUNE, ARIADNE).
 
 **PACS:** 12.10.Dm, 11.10.Kk, 04.50.+h, 12.15.Ff
 **Keywords:** Extra dimensions, Flavor physics, CKM matrix, Gauge-Higgs unification, Z_3 orbifold
@@ -33,7 +33,15 @@ This paper presents STUR, a framework where the number of generations and their 
 
 ### 1.4 Scope and Achievements
 
-STUR is an effective field theory valid below the compactification scale M_KK that achieves 100% quantitative closure for Standard Model parameters (all 26 parameters within 10% of observed values, 92% within 5%). All parameters are derived from first principles with no free parameters beyond the compactification scale L_X. The framework does not solve the cosmological constant problem and requires embedding in string/M-theory for UV completion, but provides complete geometric derivations for SM structure including fermion masses, mixing angles, and CP violation.
+STUR is an effective field theory valid below the compactification scale M_KK. Its achievements fall into three tiers:
+
+**Tier 1 (Topological, rigorous):** N_gen = 3 from Z_3 fixed points, theta_QCD = 0 from Z_3 x CP, proton decay suppression via KK-parity, normal neutrino mass ordering, gauge group SU(3) x SU(2) x U(1).
+
+**Tier 2 (Derived with identified uncertainties):** Cabibbo angle lambda from overlap integrals (requires alpha_eff = 3/2, of which 88% is computed from first principles; see ALPHA_EFFECTIVE_DERIVATION.md), Higgs mass 125 +/- 2 GeV from gauge-Higgs unification, strong coupling alpha_s(M_Z) from KK threshold matching.
+
+**Tier 3 (Semi-derived, correction-factor dependent):** CKM parameters A, rho-bar, eta-bar involve correction factor chains with individual uncertainties of 5-15%. Fermion mass hierarchy qualitatively follows from overlap integral structure but quantitative predictions depend on correction factors (f_boundary, f_holonomy, f_RG, f_tail) whose derivation status ranges from computed to calibrated.
+
+The framework does not solve the cosmological constant problem and requires embedding in string/M-theory for UV completion. The compactification scale L_X has an unresolved dual interpretation (see LX_SCALE_HIERARCHY_RESOLUTION.md).
 
 ---
 
@@ -287,7 +295,43 @@ All mass predictions include the universal f_tail = 1.131 correction [11]. Neutr
 | **Unification** | alpha_s(M_Z) | 0.118 | 0.1180 +/- 0.0009 | PDG 2024 | EXACT |
 | | M_GUT | 1.8 x 10^16 GeV | Not directly measured | -- | Prediction |
 
-**Closure Statistics:** 26/26 parameters within 10% (100%), 24/26 within 5% (92%), 20/26 within 2% (77%).
+**Closure Statistics:** 26/26 predictions within 10% of observation, 24/26 within 5%.
+
+Note: The theoretical uncertainties (5-15% per prediction) are much larger than experimental uncertainties (0.01-1%). The sigma-counts above use the theoretical uncertainty as the denominator, making agreement appear better than it would under experimental precision.
+
+### 4.1 Parameter Derivation Status (Honesty Table)
+
+Each prediction's derivation involves intermediate quantities whose status ranges from rigorous to calibrated. This table provides a transparent assessment.
+
+| Quantity | Value Used | Derivation Status | Confidence | Notes |
+|----------|-----------|-------------------|------------|-------|
+| **N_gen = 3** | 3 (exact) | TOPOLOGICAL | HIGH | Z_3 fixed points; N=3 is input to geometry choice, not output |
+| **theta_QCD = 0** | 0 (exact) | DERIVED | HIGH | Z_3 x CP symmetry; rigorous |
+| **Gauge group** | SU(3)xSU(2)xU(1) | DERIVED | HIGH | Holonomy of Z_3 connection |
+| **alpha = 1** | 1.0 | ASSUMED | MEDIUM | From XCRM-Yukawa symmetry; not uniquely selected by axioms |
+| **alpha_eff** | 1.33 +/- 0.15 | COMPUTED | MEDIUM | From quantum corrections (target: 1.50); 12% gap unresolved |
+| **kappa** | 2.22 (base) | COMPUTED | HIGH | Numerical Mathieu equation solution |
+| **kappa corrections** | +0.30 | ESTIMATED | LOW | Dimensional analysis; potential double-counting |
+| **f_boundary** | 0.62 | SEMI-DERIVED | LOW | Sign confusion acknowledged; Z_3 factor calibrated |
+| **f_holonomy** | 0.846 | ESTIMATED | MEDIUM | exp(-1/6) approximation; MC gives 1.31 (different quantity) |
+| **f_RG** | 0.87 | INCORRECT for ratio | LOW | Yukawa RATIO protected at 1-loop; applies to absolute coupling only |
+| **f_tail** | 1.131 | CALIBRATED | LOW | Geometric origin but magnitude tuned to close 5% gap |
+| **v * L_X = 3** | 3 (exact) | DERIVED | HIGH | Z_3 winding quantization |
+| **L_X** | ~10^-32 m | DERIVED (from v) | MEDIUM | Depends on identifying v ~ M_GUT |
+| **L_eff** | ~0.8 um | DERIVED (different scale) | LOW | 10^26 ratio with L_X not fully explained |
+| **lambda_hol** | ~20 | NOT DERIVED | LOW | Stated as empirical; product decomposition inconsistent |
+| **M_R hierarchy** | xi ratios | SEMI-DERIVED | MEDIUM | Z_3 kink structure; amplitude epsilon = 0.26 fitted |
+| **m_H = 125 GeV** | 125 +/- 2 GeV | DERIVED | HIGH | Gauge-Higgs unification + RG; robust prediction |
+| **alpha_s(M_Z)** | 0.118 | DERIVED | HIGH | KK threshold matching at M_GUT |
+| **eta-bar** | 0.350 +/- 0.020 | SEMI-DERIVED | MEDIUM | Base value from helix chirality; 3 correction factors |
+
+**Summary:**
+- **5 quantities** are rigorously derived (topological or well-controlled calculations)
+- **7 quantities** are semi-derived (geometric motivation, some calibration)
+- **5 quantities** are estimated or calibrated (dimensional analysis, fitted to data)
+- **1 quantity** is acknowledged as not derived (lambda_hol)
+
+This is an improvement over generic flavor models (which have 13+ free parameters) but falls short of the "zero free parameters" claim sometimes made. The honest count of genuinely free inputs is: M_Planck, alpha (or equivalently alpha_eff), and L_X (or equivalently v).
 
 ---
 
@@ -328,22 +372,39 @@ The pattern m ~ lambda^(2n) is explained by Gaussian localization with kappa = 2
 
 With these corrections, 92% of mass predictions agree within 5% of observed values. The remaining discrepancies (m_u, m_t) require NNLO corrections specific to those particles.
 
-### 5.4 Derived Parameters (Previously Fitted)
+### 5.4 Parameter Derivation Status (Revised Assessment)
 
-As of v4.3, all previously fitted parameters have been derived from first principles:
+As of v4.5, the derivation status of key parameters has been revised to be more transparent:
 
-| Parameter | Value | Derivation | Reference |
-|-----------|-------|------------|-----------|
-| f_tail | 1.131 +/- 0.023 | Z_3 wavefunction tail overlap ratio | [11] |
-| M_R hierarchy | xi_3 : xi_2 : xi_1 = 0.55 : 0.76 : 0.76 | Z_3 kink phase structure | [12] |
-| g(sigma/L_X) | 0.75 +/- 0.05 | Z_3 phase interference + seesaw | [13] |
+**Parameters with geometric motivation but calibrated magnitude:**
 
-**Remaining constrained (not derived) parameters:**
+| Parameter | Value | Geometric Origin | Calibration | Status |
+|-----------|-------|-----------------|-------------|--------|
+| f_tail | 1.131 +/- 0.023 | S^1/Z_3 overlap ratio | Magnitude adjusted to close 5% gap | SEMI-DERIVED |
+| M_R hierarchy | xi ratios | Z_3 kink phase structure | Kink amplitude epsilon = 0.26 fitted | SEMI-DERIVED |
+| g(sigma/L_X) | 0.75 +/- 0.05 | Z_3 phase interference | Seesaw power (1/4) not derived | SEMI-DERIVED |
+| f_boundary | 0.62 | Domain truncation | Z_3 factor obtained by division | CALIBRATED |
+
+**Parameters not derived from first principles:**
 
 | Parameter | Value | Role | Status |
 |-----------|-------|------|--------|
-| L_X | ~0.8 micrometer | Compactification scale | Constrained by fifth-force experiments |
-| M_R^(0) | 2 x 10^14 GeV | RH neutrino baseline mass | Set by holonomy scale lambda_hol/L_X |
+| L_X | ~0.8 micrometer | Compactification scale (effective) | Constrained, not derived |
+| M_R^(0) | 2 x 10^14 GeV | RH neutrino baseline mass | Depends on undegrived lambda_hol ~ 20 |
+| lambda_hol | ~20 | Holonomy enhancement | NOT DERIVED (see SCALE_UNIFICATION_ANALYSIS.md) |
+| f_screen | 0.67 | eta-bar screening | NOT DERIVED |
+
+### 5.4.1 The alpha_eff Approach (v4.5)
+
+A cleaner derivation path for the Cabibbo angle replaces the multiplicative correction factor chain:
+
+**Old approach (v4.3):** lambda = exp[-kappa^2/8] x f_boundary x f_holonomy x f_RG x f_tail (5 factors)
+
+**New approach (v4.5):** Compute alpha_eff from quantum corrections to the localization potential, then obtain lambda directly from the overlap integral at alpha_eff.
+
+The computed value alpha_eff = 1.33 +/- 0.15 accounts for Z_3 twisted sector curvature, KK tower renormalization, and gauge backreaction. The target value alpha_eff = 3/2 gives lambda = 0.228 (1.2% agreement). The remaining 12% gap in alpha_eff is an open problem.
+
+See ALPHA_EFFECTIVE_DERIVATION.md for the complete calculation.
 
 ### 5.5 Notation and Sign Conventions
 
