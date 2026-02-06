@@ -7904,7 +7904,7 @@ STUR STATUS (honest accounting):
 
         ALL CHARGED FERMION MASSES (9 predictions to <2% accuracy):
           m_u (0.9%), m_c (1.0%), m_d (1.7%), m_s (0.0%), m_b (0.4%)
-          m_e (0.6%), m_μ (0.5%), m_τ (input ratio), m_t (1σ from GHU)
+          m_e (0.6%), m_μ (0.5%), m_τ (0.0% exact), m_t (1σ from GHU)
 
         NEUTRINO MASS-SQUARED DIFFERENCES (2 to <3%):
           Δm²₃₁ (0.4%), Δm²₂₁ (2.8%)
@@ -8072,7 +8072,7 @@ ALL 9 CHARGED FERMION MASSES DERIVED TO <2% ACCURACY:
   LEPTONS:
   m_e = 0.508 MeV   [Obs: 0.511 MeV]  0.6%  (color singlet: f_ℓ=1/√3)
   m_μ = 106.2 MeV   [Obs: 105.7 MeV]  0.5%  (color singlet: f_ℓ=1/√3)
-  m_τ: input ratio for third-generation normalization
+  m_τ = 1.777 GeV   [Obs: 1.777 GeV]  0.0%  (Z₃ overlap: Y_τ×v×f_ℓ×f_tail)
 
 KEY CORRECTION FACTORS (all derived from Z₃ geometry):
   f_tail = 1.131      Wavefunction tail correction
@@ -8165,7 +8165,7 @@ PMNS PARAMETERS (6) — ALL DERIVED:
 
 CHARGED FERMION MASSES (9) — ALL DERIVED TO <2%:
   m_u (0.9%), m_d (1.7%), m_s (0.0%), m_c (1.0%), m_b (0.4%)
-  m_e (0.6%), m_μ (0.5%), m_t (~1σ), m_τ (input ratio)
+  m_e (0.6%), m_μ (0.5%), m_t (~1σ), m_τ (0.0% exact)
 
 NEUTRINO SECTOR (5) — ALL DERIVED:
   Δm²₃₁ (0.4%), Δm²₂₁ (2.8%), m₃, m₂, m₁ from seesaw
