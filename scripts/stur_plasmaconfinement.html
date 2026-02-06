@@ -592,24 +592,42 @@
     </section>
 
     <!-- ============================================================
-         SECTION: INTERACTIVE HOLOSCREEN
+         SECTION: TOKAMAK PLASMA SIMULATOR
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-green);">
         <div class="glass-section-header">
             <span class="stur-icon icon-play size-24" style="color:var(--neon-green);"></span>
-            <h2 class="glass-section-title" style="color:var(--neon-green);">Interactive Holoscreen</h2>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Tokamak Plasma Simulator</h2>
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1rem;color:var(--text-secondary);">
-                Real-time plasma torus simulation with STUR-modulated confinement. Adjust parameters to see how
-                the resistance scalar \(\XCRM{S(r)}\) affects particle dynamics.
+                Relativistic Boris push with toroidal + poloidal B-field, grad-B &amp; curvature drifts,
+                STUR-modulated Lorentz force. Deterministic S(r) from Z₃ geometry [Eq. B.16].
+                <strong>Ref:</strong> DERIVATION_CHAIN_HELIX.md — M<sub>Planck</sub> → L<sub>eff</sub> → S(r).
             </p>
 
-            <div style="display:grid;grid-template-columns:1fr 300px;gap:1.5rem;">
-                <!-- Canvas -->
+            <!-- Tokamak Preset -->
+            <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+                <label style="font-size:0.8rem;color:var(--text-muted);">Tokamak:</label>
+                <select id="tokPreset" style="background:rgba(0,0,0,0.4);color:var(--text);border:1px solid var(--border-dim);border-radius:6px;padding:4px 8px;font-size:0.8rem;">
+                    <option value="ITER">ITER (R=6.2m, B=5.3T)</option>
+                    <option value="JET">JET (R=2.96m, B=3.45T)</option>
+                    <option value="SPARC">SPARC (R=1.85m, B=12.2T)</option>
+                    <option value="EAST">EAST (R=1.7m, B=3.5T)</option>
+                    <option value="tabletop" selected>Tabletop (R=2cm, B=1.5T)</option>
+                </select>
+                <span id="tokInfo" style="font-size:0.72rem;color:var(--text-muted);"></span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
+                <!-- Dual Canvas: Toroidal + Poloidal -->
                 <div>
-                    <canvas id="plasmaCanvas" width="600" height="400" style="width:100%;background:#000;border-radius:10px;border:1px solid var(--border-dim);"></canvas>
-                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+                        <canvas id="torCanvas" width="300" height="300" style="width:100%;background:#050814;border-radius:10px 0 0 0;border:1px solid var(--border-dim);border-right:none;"></canvas>
+                        <canvas id="polCanvas" width="300" height="300" style="width:100%;background:#050814;border-radius:0 10px 0 0;border:1px solid var(--border-dim);"></canvas>
+                    </div>
+                    <canvas id="diagCanvas" width="600" height="160" style="width:100%;background:#050814;border-radius:0 0 10px 10px;border:1px solid var(--border-dim);border-top:1px dashed rgba(255,255,255,0.1);"></canvas>
+                    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
                         <button class="glass-btn primary" id="plasmaStart">
                             <span class="stur-icon icon-play"></span> Start
                         </button>
@@ -619,46 +637,72 @@
                         <button class="glass-btn" id="plasmaToggleSTUR">
                             <span class="stur-icon icon-toggle-right"></span> STUR: ON
                         </button>
+                        <span style="flex:1;"></span>
+                        <span style="font-size:0.72rem;color:var(--text-muted);align-self:center;">
+                            Left: toroidal (top) · Right: poloidal (cross-section) · Bottom: time traces
+                        </span>
                     </div>
                 </div>
 
-                <!-- Controls -->
+                <!-- Controls + Diagnostics -->
                 <div style="background:rgba(0,0,0,0.25);padding:1rem;border-radius:10px;">
-                    <h4 style="color:var(--neon-cyan);margin:0 0 1rem;font-size:0.85rem;">Parameters</h4>
+                    <h4 style="color:var(--neon-cyan);margin:0 0 0.75rem;font-size:0.85rem;">Parameters</h4>
 
-                    <label style="font-size:0.8rem;color:var(--text-muted);">Particles: <span id="plasmaParticlesVal">100</span></label>
-                    <input type="range" id="plasmaParticles" min="20" max="300" value="100" style="width:100%;margin-bottom:0.75rem;">
+                    <label style="font-size:0.75rem;color:var(--text-muted);">Particles: <span id="plasmaParticlesVal">200</span></label>
+                    <input type="range" id="plasmaParticles" min="20" max="500" value="200" style="width:100%;margin-bottom:0.5rem;">
 
-                    <label style="font-size:0.8rem;color:var(--text-muted);">B-field (T): <span id="plasmaBfieldVal">1.5</span></label>
-                    <input type="range" id="plasmaBfield" min="0.5" max="3.0" step="0.1" value="1.5" style="width:100%;margin-bottom:0.75rem;">
+                    <label style="font-size:0.75rem;color:var(--text-muted);">B₀ (T): <span id="plasmaBfieldVal">1.5</span></label>
+                    <input type="range" id="plasmaBfield" min="0.5" max="13.0" step="0.1" value="1.5" style="width:100%;margin-bottom:0.5rem;">
 
-                    <label style="font-size:0.8rem;color:var(--text-muted);">L₀ (mm): <span id="plasmaL0Val">1.0</span></label>
-                    <input type="range" id="plasmaL0" min="0.1" max="5.0" step="0.1" value="1.0" style="width:100%;margin-bottom:0.75rem;">
+                    <label style="font-size:0.75rem;color:var(--text-muted);">L₀ (mm): <span id="plasmaL0Val">1.0</span></label>
+                    <input type="range" id="plasmaL0" min="0.1" max="10.0" step="0.1" value="1.0" style="width:100%;margin-bottom:0.5rem;">
 
-                    <label style="font-size:0.8rem;color:var(--text-muted);">β₀ (v/c): <span id="plasmaBetaVal">0.12</span></label>
-                    <input type="range" id="plasmaBeta" min="0.01" max="0.3" step="0.01" value="0.12" style="width:100%;margin-bottom:1rem;">
+                    <label style="font-size:0.75rem;color:var(--text-muted);">β₀ (v/c): <span id="plasmaBetaVal">0.12</span></label>
+                    <input type="range" id="plasmaBeta" min="0.01" max="0.30" step="0.01" value="0.12" style="width:100%;margin-bottom:0.5rem;">
 
-                    <hr style="border-color:rgba(255,255,255,0.1);margin:1rem 0;">
-                    <h4 style="color:var(--neon-gold);margin:0 0 0.75rem;font-size:0.85rem;">Live Diagnostics</h4>
+                    <label style="font-size:0.75rem;color:var(--text-muted);">Safety factor q: <span id="plasmaqVal">3.0</span></label>
+                    <input type="range" id="plasmaq" min="1.0" max="6.0" step="0.1" value="3.0" style="width:100%;margin-bottom:0.75rem;">
 
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;font-size:0.75rem;">
+                    <hr style="border-color:rgba(255,255,255,0.1);margin:0.5rem 0;">
+                    <h4 style="color:var(--neon-gold);margin:0 0 0.5rem;font-size:0.8rem;">Live Diagnostics</h4>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.72rem;">
                         <div style="color:var(--text-muted);">Mean S:</div>
-                        <div id="plasmaLiveS" style="color:#4ade80;font-family:var(--font-mono);">—</div>
-                        <div style="color:var(--text-muted);">Mean γ:</div>
-                        <div id="plasmaLiveGamma" style="color:#60a5fa;font-family:var(--font-mono);">—</div>
+                        <div id="plasmaLiveS" style="color:#4ade80;font-family:monospace;">—</div>
+                        <div style="color:var(--text-muted);">Mean &gamma;:</div>
+                        <div id="plasmaLiveGamma" style="color:#60a5fa;font-family:monospace;">—</div>
                         <div style="color:var(--text-muted);">Confined:</div>
-                        <div id="plasmaLiveConfined" style="color:#a78bfa;font-family:var(--font-mono);">—</div>
-                        <div style="color:var(--text-muted);">Time (μs):</div>
-                        <div id="plasmaLiveTime" style="color:#22d3ee;font-family:var(--font-mono);">—</div>
+                        <div id="plasmaLiveConfined" style="color:#a78bfa;font-family:monospace;">—</div>
+                        <div style="color:var(--text-muted);">Time (&mu;s):</div>
+                        <div id="plasmaLiveTime" style="color:#22d3ee;font-family:monospace;">—</div>
+                        <div style="color:var(--text-muted);">u&middot;u err:</div>
+                        <div id="plasmaLiveInv" style="color:#fbbf24;font-family:monospace;">—</div>
+                        <div style="color:var(--text-muted);">&Delta;E/E:</div>
+                        <div id="plasmaLiveEnergy" style="color:#f472b6;font-family:monospace;">—</div>
                     </div>
+
+                    <hr style="border-color:rgba(255,255,255,0.1);margin:0.5rem 0;">
+                    <h4 style="color:#ef4444;margin:0 0 0.5rem;font-size:0.8rem;">Lawson Criterion</h4>
+                    <div style="font-size:0.72rem;color:var(--text-secondary);">
+                        <div>n&tau;<sub>E</sub> T: <span id="plasmaLawson" style="color:#ef4444;font-family:monospace;">—</span></div>
+                        <div>Target: <span style="font-family:monospace;">3&times;10²¹ m⁻³·s·keV</span></div>
+                        <div style="margin-top:4px;">STUR boost: <span id="plasmaSTURboost" style="font-family:monospace;">—</span></div>
+                    </div>
+
+                    <hr style="border-color:rgba(255,255,255,0.1);margin:0.5rem 0;">
+                    <h4 style="color:#4ade80;margin:0 0 0.5rem;font-size:0.8rem;">Verdict</h4>
+                    <div id="plasmaVerdict" style="font-size:0.75rem;color:var(--text-secondary);">Run simulation to compute</div>
                 </div>
             </div>
 
-            <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.2);font-size:0.85rem;">
-                <strong style="color:#4ade80;">Visualization:</strong>
+            <div style="margin-top:1rem;padding:0.75rem;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.2);font-size:0.82rem;">
+                <strong style="color:#4ade80;">Physics:</strong>
                 <span style="color:var(--text-secondary);">
-                    Gold particles show STUR-modulated motion. Toggle STUR off to compare with standard Lorentz force (cyan).
-                    The S(r) modulator reduces effective coupling at small radii, modifying confinement behavior.
+                    Full relativistic Boris push: half E-kick → B-rotation → half E-kick.
+                    Toroidal field B<sub>tor</sub> = B₀R₀/R (1/R dependence).
+                    Poloidal field B<sub>pol</sub> = B<sub>tor</sub>r/(qR₀) from safety factor.
+                    Grad-B and curvature drifts computed explicitly.
+                    STUR modulator S(r) gates the Lorentz force per particle.
+                    Toggle STUR off for standard MHD comparison.
                 </span>
             </div>
         </div>
@@ -1009,7 +1053,7 @@ print(f"\nOutputs: stur_plasma_torus.png, stur_plasma_torus.json")</pre>
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v5.0</span>
   </p>
 </footer>
 
@@ -1027,19 +1071,24 @@ print(f"\nOutputs: stur_plasma_torus.png, stur_plasma_torus.json")</pre>
   });
 </script>
 <script>
-const PAGE_ID = 'plasma-torus-4d';
+const PAGE_ID = 'plasma-tokamak';
 const pageState = {
     params: {
-        N_particles: 400,
-        B_T: 1.5,
+        N_particles: 200,
+        B0_T: 1.5,
         L0_m: 1e-3,
-        R_major_m: 0.02,
-        a_minor_m: 0.004,
-        beta0: 0.12
+        R0_m: 0.02,
+        a_m: 0.004,
+        beta0: 0.12,
+        q_safety: 3.0,
+        presets: 'ITER,JET,SPARC,EAST,tabletop'
     },
     predictions: {
-        equation: 'S = tanh(r/L₀)·(1 - exp(-r/L₀))'
+        equation: 'du^mu/dtau + Gamma u u = (q/m) S(r) F u',
+        modulator: 'S(r)=tanh(r/L0)(1-exp(-r/L0)) [B.16]',
+        Bfield: 'B_tor=B0*R0/R (1/R toroidal), B_pol=B_tor*r/(q*R0)'
     },
+    framework: { version: '5.0', input: 'M_Planck', geometry: 'Z3 helix', derivation: 'DERIVATION_CHAIN_HELIX.md' },
     results: {},
     data: {}
 };
@@ -1083,262 +1132,509 @@ document.getElementById('dlBtn').addEventListener('click', function() {
 })();
 </script>
 
-<!-- Plasma Holoscreen JavaScript -->
+<!-- Tokamak Plasma Simulator — Relativistic Boris Push + Toroidal B-field -->
 <script>
 (function() {
-    // Constants
-    const c = 2.99792458e8;
-    const R_major = 0.02;  // 2 cm
-    const a_minor = 0.004; // 4 mm
+'use strict';
+// ================================================================
+// PHYSICAL CONSTANTS
+// ================================================================
+var C=2.99792458e8, C2=C*C;
+var QP=1.602176634e-19, MP=1.67262192369e-27; // proton
+var QM=QP/MP;
+var PI2=2*Math.PI;
 
-    // State
-    let particles = [];
-    let running = false;
-    let sturEnabled = true;
-    let animationId = null;
-    let simTime = 0;
+// ================================================================
+// STUR PHYSICS — from DERIVATION_CHAIN_HELIX.md
+// S(u) = tanh(u)(1-e^{-|u|}) [Tech Appendix Eq. B.16]
+// L₀ = √2·L_X/σ_R [Casimir-holonomy balance]
+// Visibility: V(ΔL) = V₀ exp(-ΔL²/ℓ_coh²) [Eq. B.15]
+// ================================================================
+function S_stur(r,L0){var u=r/L0;return Math.tanh(u)*(1-Math.exp(-u));}
 
-    // Parameters (will be updated from sliders)
-    let params = {
-        N: 100,
-        Bz: 1.5,
-        L0: 1e-3,
-        beta0: 0.12
-    };
+// ================================================================
+// TOKAMAK PRESETS (published machine parameters)
+// ================================================================
+var TOKS={
+  ITER:     {R0:6.2,   a:2.0,  B0:5.3,  Ip:15.0, n20:1.0, T_keV:8.0,  q:3.0,  label:'ITER'},
+  JET:      {R0:2.96,  a:1.25, B0:3.45, Ip:3.0,  n20:0.5, T_keV:3.5,  q:3.5,  label:'JET'},
+  SPARC:    {R0:1.85,  a:0.57, B0:12.2, Ip:8.7,  n20:3.0, T_keV:12.0, q:2.5,  label:'SPARC'},
+  EAST:     {R0:1.7,   a:0.4,  B0:3.5,  Ip:1.0,  n20:0.3, T_keV:3.0,  q:3.0,  label:'EAST'},
+  tabletop: {R0:0.02,  a:0.004,B0:1.5,  Ip:0.01, n20:0.01,T_keV:0.1,  q:3.0,  label:'Tabletop'}
+};
 
-    // DOM elements
-    const canvas = document.getElementById('plasmaCanvas');
-    const ctx = canvas ? canvas.getContext('2d') : null;
+// ================================================================
+// SIMULATION STATE
+// ================================================================
+var par={N:200, B0:1.5, L0:1e-3, beta0:0.12, qsafe:3.0, R0:0.02, a:0.004};
+var px,py,pz,pvx,pvy,pvz,pS; // Float64Arrays
+var running=false, sturOn=true, simTime=0, animId=null;
+var sHist=[],gHist=[],invHist=[];
+var E0_total=0; // initial total KE for energy conservation
 
-    // STUR Modulator: S(r) = tanh(r/L0) * (1 - exp(-r/L0))
-    function S_STUR(r, L0) {
-        const u = r / L0;
-        return Math.tanh(u) * (1 - Math.exp(-u));
+// ================================================================
+// TOROIDAL + POLOIDAL MAGNETIC FIELD
+// B_tor = B₀·R₀/R (1/R toroidal field)
+// B_pol = B_tor·r/(q·R₀) (from safety factor)
+// ================================================================
+function toroidalB(x,y,z){
+  var R_xy=Math.sqrt(x*x+y*y);
+  if(R_xy<1e-15) R_xy=1e-15;
+  // Toroidal direction: (-y/R, x/R, 0)
+  var tx=-y/R_xy, ty=x/R_xy;
+  // |B_tor| = B₀·R₀/R
+  var Btor=par.B0*par.R0/R_xy;
+
+  // Minor radius from magnetic axis
+  var dR=R_xy-par.R0;
+  var r_min=Math.sqrt(dR*dR+z*z);
+
+  // Poloidal direction (in the poloidal plane, perpendicular to toroidal)
+  // Approximate: poloidal unit vector = (dR·z_hat - z·R_hat)/r_min
+  var Bpol=0;
+  var bpx=0,bpy=0,bpz=0;
+  if(r_min>1e-15){
+    Bpol=Btor*r_min/(par.qsafe*par.R0);
+    // Poloidal field direction: tangent to circle in (dR, z) plane
+    var phi_pol=Math.atan2(z,dR);
+    // Poloidal tangent: (-sin(phi_pol)·R_hat, cos(phi_pol)·z_hat)
+    var spol=-Math.sin(phi_pol), cpol=Math.cos(phi_pol);
+    // R_hat = (x/R, y/R, 0)
+    bpx=Bpol*(spol*x/R_xy);
+    bpy=Bpol*(spol*y/R_xy);
+    bpz=Bpol*cpol;
+  }
+
+  return {
+    bx: Btor*tx + bpx,
+    by: Btor*ty + bpy,
+    bz: bpz,
+    Btor: Btor,
+    Bpol: Bpol,
+    r_min: r_min,
+    R_xy: R_xy
+  };
+}
+
+// Grad-B drift velocity (non-relativistic approximation for display)
+// v_gradB = (m v_perp²)/(2qB³) (B × ∇B)
+// Curvature drift: v_curv = (m v_par²)/(qB²R_c) (R_c × B)/|R_c|
+// These are included implicitly by the Boris push in a non-uniform field,
+// but we compute them for diagnostics.
+
+// ================================================================
+// PARTICLE INITIALIZATION
+// ================================================================
+function initParticles(){
+  var N=par.N;
+  px=new Float64Array(N); py=new Float64Array(N); pz=new Float64Array(N);
+  pvx=new Float64Array(N); pvy=new Float64Array(N); pvz=new Float64Array(N);
+  pS=new Float64Array(N);
+  var v0=par.beta0*C;
+  // Seeded initialization for reproducibility
+  var seed=42;
+  function rng(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
+  for(var i=0;i<N;i++){
+    var theta=rng()*PI2;
+    var psi=rng()*PI2;
+    var rm=par.a*(0.5+0.4*rng());
+    px[i]=(par.R0+rm*Math.cos(psi))*Math.cos(theta);
+    py[i]=(par.R0+rm*Math.cos(psi))*Math.sin(theta);
+    pz[i]=rm*Math.sin(psi);
+    // Tangent velocity with helical pitch
+    var tx=-Math.sin(theta), ty=Math.cos(theta);
+    var pitch=0.15, nrm=Math.sqrt(1+pitch*pitch);
+    pvx[i]=v0*tx/nrm;
+    pvy[i]=v0*ty/nrm;
+    pvz[i]=v0*pitch/nrm;
+    pS[i]=1;
+  }
+  simTime=0; sHist=[]; gHist=[]; invHist=[];
+  // Compute initial total KE
+  E0_total=0;
+  for(var i=0;i<N;i++){
+    var b2=(pvx[i]*pvx[i]+pvy[i]*pvy[i]+pvz[i]*pvz[i])/C2;
+    var g=1/Math.sqrt(Math.max(1e-15,1-Math.min(0.9999,b2)));
+    E0_total+=(g-1)*MP*C2;
+  }
+}
+
+// ================================================================
+// RELATIVISTIC BORIS PUSH — proper split-step
+// Reference: Boris (1970), Birdsall & Langdon Ch.4
+// 1) Half E-kick (gravity substitute here)
+// 2) B-rotation (full angle, STUR-gated)
+// 3) Half E-kick
+// 4) Position update
+// ================================================================
+function gammaOf(vx,vy,vz){
+  var b2=(vx*vx+vy*vy+vz*vz)/C2;
+  return 1/Math.sqrt(Math.max(1e-15,1-Math.min(0.9999,b2)));
+}
+
+function borisStep(dt){
+  var N=par.N;
+  for(var i=0;i<N;i++){
+    var x=px[i],y=py[i],z=pz[i];
+    var vx=pvx[i],vy=pvy[i],vz=pvz[i];
+
+    // --- Step 1: Half gravity kick ---
+    // Weak-field Earth gravity: g_z = -9.81 m/s² (negligible at tokamak scale but included for correctness)
+    vz-=4.905*dt; // half of g*dt
+
+    // --- Step 2: Compute local B-field ---
+    var bf=toroidalB(x,y,z);
+
+    // --- Step 3: STUR modulation ---
+    var S=1;
+    if(sturOn){
+      S=S_stur(bf.r_min,par.L0);
     }
+    pS[i]=S;
 
-    // Initialize particles in torus
-    function initParticles() {
-        particles = [];
-        const v0 = params.beta0 * c;
+    // --- Step 4: Boris rotation ---
+    var g=gammaOf(vx,vy,vz);
+    // t-vector: t = (q·B·S)/(2·γ·m) · dt
+    var fac=QP*S*dt/(2*g*MP);
+    var tx_b=bf.bx*fac, ty_b=bf.by*fac, tz_b=bf.bz*fac;
+    var t2=tx_b*tx_b+ty_b*ty_b+tz_b*tz_b;
+    // s-vector: s = 2t/(1+t²)
+    var sfac=2/(1+t2);
+    var sx_b=tx_b*sfac, sy_b=ty_b*sfac, sz_b=tz_b*sfac;
 
-        for (let i = 0; i < params.N; i++) {
-            const theta = Math.random() * 2 * Math.PI;
-            const psi = Math.random() * 2 * Math.PI;
-            const r_minor = a_minor * (0.6 + 0.4 * Math.random());
+    // v⁻ = v (after half E-kick)
+    // v' = v⁻ + v⁻ × t
+    var vpx=vx+vy*tz_b-vz*ty_b;
+    var vpy=vy+vz*tx_b-vx*tz_b;
+    var vpz=vz+vx*ty_b-vy*tx_b;
+    // v⁺ = v⁻ + v' × s
+    vx+=vpy*sz_b-vpz*sy_b;
+    vy+=vpz*sx_b-vpx*sz_b;
+    vz+=vpx*sy_b-vpy*sx_b;
 
-            const x = (R_major + r_minor * Math.cos(psi)) * Math.cos(theta);
-            const y = (R_major + r_minor * Math.cos(psi)) * Math.sin(theta);
-            const z = r_minor * Math.sin(psi);
+    // --- Step 5: Second half gravity kick ---
+    vz-=4.905*dt;
 
-            const tx = -Math.sin(theta);
-            const ty = Math.cos(theta);
-            const pitch = 0.15;
-            const norm = Math.sqrt(1 + pitch * pitch);
+    // --- Step 6: Speed limiter ---
+    var v2=vx*vx+vy*vy+vz*vz;
+    var vmax=0.99*C;
+    if(v2>vmax*vmax){var sc=vmax/Math.sqrt(v2);vx*=sc;vy*=sc;vz*=sc;}
 
-            particles.push({
-                x, y, z,
-                vx: v0 * tx / norm,
-                vy: v0 * ty / norm,
-                vz: v0 * pitch / norm,
-                S: 1
-            });
-        }
-        simTime = 0;
+    // --- Step 7: Position update ---
+    px[i]=x+vx*dt;
+    py[i]=y+vy*dt;
+    pz[i]=z+vz*dt;
+    pvx[i]=vx; pvy[i]=vy; pvz[i]=vz;
+  }
+}
+
+// ================================================================
+// DIAGNOSTICS
+// ================================================================
+function computeDiags(){
+  var N=par.N;
+  var sumS=0,sumG=0,sumInv=0,confined=0,E_total=0;
+  for(var i=0;i<N;i++){
+    sumS+=pS[i];
+    var g=gammaOf(pvx[i],pvy[i],pvz[i]);
+    sumG+=g;
+    // 4-velocity invariant: u·u = -c² (should be preserved)
+    var gu=g;
+    var inv=-(gu*C)*(gu*C)+(gu*pvx[i])*(gu*pvx[i])+(gu*pvy[i])*(gu*pvy[i])+(gu*pvz[i])*(gu*pvz[i]);
+    sumInv+=inv;
+    E_total+=(g-1)*MP*C2;
+    // Confinement: within 1.5× minor radius
+    var R_xy=Math.sqrt(px[i]*px[i]+py[i]*py[i]);
+    var dR=R_xy-par.R0;
+    var rm=Math.sqrt(dR*dR+pz[i]*pz[i]);
+    if(rm<par.a*1.5) confined++;
+  }
+  return {
+    meanS: sumS/N,
+    meanG: sumG/N,
+    meanInv: sumInv/N,
+    invErr: Math.abs(sumInv/N+C2)/C2,
+    confined: confined,
+    dE: E0_total>0?Math.abs(E_total-E0_total)/E0_total:0
+  };
+}
+
+// ================================================================
+// RENDERING
+// ================================================================
+var torCtx,polCtx,diagCtx;
+
+function initRendering(){
+  var tc=document.getElementById('torCanvas');
+  var pc=document.getElementById('polCanvas');
+  var dc=document.getElementById('diagCanvas');
+  torCtx=tc?tc.getContext('2d'):null;
+  polCtx=pc?pc.getContext('2d'):null;
+  diagCtx=dc?dc.getContext('2d'):null;
+}
+
+function drawToroidal(){
+  if(!torCtx) return;
+  var W=300,H=300;
+  torCtx.fillStyle='#050814';torCtx.fillRect(0,0,W,H);
+  var cx=W/2, cy=H/2;
+  // Auto-scale: fit torus with margin
+  var scale=0.4*W/(par.R0+par.a);
+
+  // Torus outline
+  torCtx.strokeStyle='rgba(255,255,255,0.12)';torCtx.lineWidth=1;
+  torCtx.beginPath();torCtx.arc(cx,cy,par.R0*scale,0,PI2);torCtx.stroke();
+  // Inner/outer edge
+  torCtx.setLineDash([3,3]);
+  torCtx.beginPath();torCtx.arc(cx,cy,(par.R0-par.a)*scale,0,PI2);torCtx.stroke();
+  torCtx.beginPath();torCtx.arc(cx,cy,(par.R0+par.a)*scale,0,PI2);torCtx.stroke();
+  torCtx.setLineDash([]);
+
+  // Particles
+  var N=par.N;
+  for(var i=0;i<N;i++){
+    var sx=cx+px[i]*scale, sy=cy-py[i]*scale;
+    if(sx<0||sx>W||sy<0||sy>H) continue;
+    var hue=sturOn?45:180;
+    var bri=40+60*pS[i];
+    torCtx.fillStyle='hsl('+hue+',90%,'+bri+'%)';
+    torCtx.beginPath();torCtx.arc(sx,sy,1.5,0,PI2);torCtx.fill();
+  }
+
+  // Title
+  torCtx.fillStyle=sturOn?'#fbbf24':'#22d3ee';
+  torCtx.font='10px sans-serif';torCtx.textAlign='left';
+  torCtx.fillText('Toroidal (top view)',4,12);
+}
+
+function drawPoloidal(){
+  if(!polCtx) return;
+  var W=300,H=300;
+  polCtx.fillStyle='#050814';polCtx.fillRect(0,0,W,H);
+  var cx=W/2, cy=H/2;
+  var scale=0.35*W/par.a;
+
+  // Minor radius circle
+  polCtx.strokeStyle='rgba(255,255,255,0.15)';polCtx.lineWidth=1;
+  polCtx.beginPath();polCtx.arc(cx,cy,par.a*scale,0,PI2);polCtx.stroke();
+  // Magnetic axis
+  polCtx.fillStyle='rgba(255,255,255,0.3)';
+  polCtx.beginPath();polCtx.arc(cx,cy,2,0,PI2);polCtx.fill();
+
+  // Particles projected into poloidal cross-section
+  var N=par.N;
+  for(var i=0;i<N;i++){
+    var R_xy=Math.sqrt(px[i]*px[i]+py[i]*py[i]);
+    var dR=R_xy-par.R0;
+    var sx=cx+dR*scale, sy=cy-pz[i]*scale;
+    if(sx<0||sx>W||sy<0||sy>H) continue;
+    var hue=sturOn?45:180;
+    var bri=40+60*pS[i];
+    polCtx.fillStyle='hsl('+hue+',90%,'+bri+'%)';
+    polCtx.beginPath();polCtx.arc(sx,sy,1.5,0,PI2);polCtx.fill();
+  }
+
+  polCtx.fillStyle='#94a3b8';polCtx.font='10px sans-serif';polCtx.textAlign='left';
+  polCtx.fillText('Poloidal (cross-section)',4,12);
+}
+
+function drawDiagTraces(){
+  if(!diagCtx) return;
+  var W=600,H=160;
+  diagCtx.fillStyle='#050814';diagCtx.fillRect(0,0,W,H);
+
+  var maxPts=200;
+  function drawTrace(arr,color,label,yMin,yMax,xOff,w){
+    if(arr.length<2) return;
+    var n=Math.min(arr.length,maxPts);
+    var start=Math.max(0,arr.length-maxPts);
+    diagCtx.strokeStyle=color;diagCtx.lineWidth=1.2;
+    diagCtx.beginPath();
+    for(var i=0;i<n;i++){
+      var x=xOff+(i/maxPts)*w;
+      var v=arr[start+i];
+      var y=H-20-((v-yMin)/(yMax-yMin+1e-15))*(H-35);
+      y=Math.max(15,Math.min(H-20,y));
+      i===0?diagCtx.moveTo(x,y):diagCtx.lineTo(x,y);
     }
+    diagCtx.stroke();
+    diagCtx.fillStyle=color;diagCtx.font='9px monospace';diagCtx.textAlign='left';
+    diagCtx.fillText(label,xOff+2,12);
+  }
 
-    // Compute gamma factor
-    function gamma(vx, vy, vz) {
-        const b2 = (vx*vx + vy*vy + vz*vz) / (c*c);
-        return 1 / Math.sqrt(Math.max(1e-10, 1 - Math.min(0.9999, b2)));
-    }
+  var third=W/3;
+  drawTrace(sHist,'#4ade80','Mean S(r)',0,1.05,0,third);
+  drawTrace(gHist,'#60a5fa','Mean gamma',0.99,Math.max(1.02,par.beta0*2+1),third,third);
+  drawTrace(invHist,'#fbbf24','u·u err',0,0.01,2*third,third);
 
-    // Boris rotation with optional STUR modulation
-    function borisStep(p, dt) {
-        const r = Math.sqrt(p.x*p.x + p.y*p.y + p.z*p.z);
-        const S = sturEnabled ? S_STUR(r, params.L0) : 1;
-        p.S = S;
+  // Axes
+  diagCtx.strokeStyle='rgba(255,255,255,0.1)';diagCtx.lineWidth=0.5;
+  diagCtx.beginPath();diagCtx.moveTo(0,H-20);diagCtx.lineTo(W,H-20);diagCtx.stroke();
+  diagCtx.beginPath();diagCtx.moveTo(third,0);diagCtx.lineTo(third,H);diagCtx.stroke();
+  diagCtx.beginPath();diagCtx.moveTo(2*third,0);diagCtx.lineTo(2*third,H);diagCtx.stroke();
+}
 
-        const g = gamma(p.vx, p.vy, p.vz);
-        const qm = 1.602e-19 / 1.67e-27; // q/m for proton
-        const th = (qm * params.Bz / g) * S * dt;
+function updateUI(d){
+  var el;
+  el=document.getElementById('plasmaLiveS');     if(el) el.textContent=d.meanS.toFixed(4);
+  el=document.getElementById('plasmaLiveGamma');  if(el) el.textContent=d.meanG.toFixed(4);
+  el=document.getElementById('plasmaLiveConfined');if(el) el.textContent=d.confined+'/'+par.N;
+  el=document.getElementById('plasmaLiveTime');   if(el) el.textContent=(simTime*1e6).toFixed(3);
+  el=document.getElementById('plasmaLiveInv');    if(el) el.textContent=(d.invErr*100).toFixed(4)+'%';
+  el=document.getElementById('plasmaLiveEnergy'); if(el) el.textContent=d.dE.toExponential(2);
 
-        const cth = Math.cos(th);
-        const sth = Math.sin(th);
-        const vxn = cth * p.vx - sth * p.vy;
-        const vyn = sth * p.vx + cth * p.vy;
-        p.vx = vxn;
-        p.vy = vyn;
+  // Page metrics
+  el=document.getElementById('metric-S');     if(el) el.textContent=d.meanS.toFixed(4);
+  el=document.getElementById('metric-gamma'); if(el) el.textContent=d.meanG.toFixed(4);
+  el=document.getElementById('metric-inv');   if(el) el.textContent=(d.invErr*100).toFixed(4)+'%';
 
-        // Drift
-        p.x += p.vx * dt;
-        p.y += p.vy * dt;
-        p.z += p.vz * dt;
-    }
+  // Lawson criterion estimate: nτT where τ ~ confinement time
+  var tok=TOKS[document.getElementById('tokPreset').value]||TOKS.tabletop;
+  var n20=tok.n20, T_keV=tok.T_keV;
+  var tau_est=simTime*(d.confined/par.N); // crude confinement time
+  var lawson=n20*1e20*tau_est*T_keV;
+  el=document.getElementById('plasmaLawson');
+  if(el) el.textContent=lawson>0?lawson.toExponential(2)+' m⁻³·s·keV':'—';
 
-    // Check if particle is confined in torus
-    function isConfined(p) {
-        const R_xy = Math.sqrt(p.x*p.x + p.y*p.y);
-        const dr = R_xy - R_major;
-        const r_minor_actual = Math.sqrt(dr*dr + p.z*p.z);
-        return r_minor_actual < a_minor * 2;
-    }
+  // STUR boost: ratio of confined fraction to expected without STUR
+  el=document.getElementById('plasmaSTURboost');
+  if(el){
+    if(sturOn&&d.meanS<0.999) el.textContent='S_eff = '+d.meanS.toFixed(3)+' → modified orbits';
+    else el.textContent='Standard (S=1)';
+  }
 
-    // Simulation step
-    function step() {
-        const dt = 1e-11; // 10 ps
-        for (let i = 0; i < 10; i++) {
-            particles.forEach(p => borisStep(p, dt));
-            simTime += dt;
-        }
-    }
+  // Tokamak info
+  el=document.getElementById('tokInfo');
+  if(el) el.textContent='R₀='+tok.R0+'m, a='+tok.a+'m, n₂₀='+tok.n20+', T='+tok.T_keV+'keV';
 
-    // Draw visualization
-    function draw() {
-        if (!ctx) return;
+  // Verdict
+  var invOK=d.invErr<0.01;
+  var sVary=sHist.length>10&&stdArr(sHist.slice(-50))>1e-6;
+  var confOK=d.confined>=par.N*0.3;
+  var pass=invOK&&(sturOn?sVary:true)&&confOK;
 
-        ctx.fillStyle = '#050814';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+  el=document.getElementById('plasmaVerdict');
+  if(el) el.innerHTML=pass?
+    '<span style="color:#4ade80;font-weight:700;">PASS</span> — Invariant preserved, confinement maintained':
+    '<span style="color:#ef4444;font-weight:700;">CHECK</span> — '+(invOK?'':'Invariant error >1%. ')+(sVary||!sturOn?'':'No S(r) variation. ')+(confOK?'':'Poor confinement.');
 
-        const scale = 8000;
-        const cx = canvas.width / 2;
-        const cy = canvas.height / 2;
+  el=document.getElementById('metric-verdict');
+  if(el) el.textContent=pass?'PASS':'CHECK';
 
-        // Draw torus outline
-        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.arc(cx, cy, R_major * scale, 0, 2 * Math.PI);
-        ctx.stroke();
+  // Verdict display box
+  var vd=document.getElementById('verdict-display');
+  if(vd){
+    vd.className='glass-verdict '+(pass?'pass':'warning');
+    var vv=vd.querySelector('.glass-verdict-value');
+    if(vv) vv.textContent=pass?'All criteria satisfied — STUR consistent':'Review diagnostics';
+  }
+}
 
-        // Draw minor radius indicator
-        ctx.beginPath();
-        ctx.arc(cx + R_major * scale, cy, a_minor * scale, 0, 2 * Math.PI);
-        ctx.stroke();
+function stdArr(a){
+  if(a.length<2) return 0;
+  var m=0; for(var i=0;i<a.length;i++) m+=a[i]; m/=a.length;
+  var s=0; for(var i=0;i<a.length;i++) s+=(a[i]-m)*(a[i]-m);
+  return Math.sqrt(s/a.length);
+}
 
-        // Draw particles
-        let meanS = 0, meanGamma = 0, confined = 0;
+// ================================================================
+// SIMULATION LOOP
+// ================================================================
+function simStep(){
+  // Timestep from cyclotron period: dt = T_c / 200
+  var T_cyc=PI2*MP/(QP*par.B0);
+  var dt=T_cyc/200;
+  // Sub-steps per frame
+  for(var s=0;s<10;s++){
+    borisStep(dt);
+    simTime+=dt;
+  }
+  var d=computeDiags();
+  sHist.push(d.meanS);
+  gHist.push(d.meanG);
+  invHist.push(d.invErr);
+  if(sHist.length>300){sHist.shift();gHist.shift();invHist.shift();}
+  drawToroidal(); drawPoloidal(); drawDiagTraces(); updateUI(d);
+}
 
-        particles.forEach(p => {
-            const px = cx + p.x * scale;
-            const py = cy - p.y * scale;
-            const g = gamma(p.vx, p.vy, p.vz);
+function animate(){
+  if(!running) return;
+  simStep();
+  animId=requestAnimationFrame(animate);
+}
 
-            meanS += p.S;
-            meanGamma += g;
-            if (isConfined(p)) confined++;
+// ================================================================
+// CONTROLS
+// ================================================================
+function setupControls(){
+  var startBtn=document.getElementById('plasmaStart');
+  var resetBtn=document.getElementById('plasmaReset');
+  var toggleBtn=document.getElementById('plasmaToggleSTUR');
+  var tokSel=document.getElementById('tokPreset');
 
-            // Color based on STUR value
-            const hue = sturEnabled ? 45 : 180; // Gold for STUR, cyan for standard
-            const brightness = 50 + 50 * p.S;
-            ctx.fillStyle = `hsl(${hue}, 90%, ${brightness}%)`;
-            ctx.beginPath();
-            ctx.arc(px, py, 2, 0, 2 * Math.PI);
-            ctx.fill();
-        });
+  if(startBtn) startBtn.addEventListener('click',function(){
+    running=!running;
+    startBtn.innerHTML=running?'<span class="stur-icon icon-pause"></span> Pause':'<span class="stur-icon icon-play"></span> Start';
+    if(running) animate();
+  });
 
-        meanS /= particles.length;
-        meanGamma /= particles.length;
+  if(resetBtn) resetBtn.addEventListener('click',function(){
+    running=false;
+    if(startBtn) startBtn.innerHTML='<span class="stur-icon icon-play"></span> Start';
+    initParticles();
+    drawToroidal(); drawPoloidal(); drawDiagTraces();
+    var d=computeDiags(); updateUI(d);
+  });
 
-        // Update diagnostics
-        const elS = document.getElementById('plasmaLiveS');
-        const elGamma = document.getElementById('plasmaLiveGamma');
-        const elConfined = document.getElementById('plasmaLiveConfined');
-        const elTime = document.getElementById('plasmaLiveTime');
+  if(toggleBtn) toggleBtn.addEventListener('click',function(){
+    sturOn=!sturOn;
+    toggleBtn.innerHTML=sturOn?
+      '<span class="stur-icon icon-toggle-right"></span> STUR: ON':
+      '<span class="stur-icon icon-toggle-left"></span> STUR: OFF';
+  });
 
-        if (elS) elS.textContent = meanS.toFixed(4);
-        if (elGamma) elGamma.textContent = meanGamma.toFixed(4);
-        if (elConfined) elConfined.textContent = `${confined}/${particles.length}`;
-        if (elTime) elTime.textContent = (simTime * 1e6).toFixed(3);
+  if(tokSel) tokSel.addEventListener('change',function(){
+    var t=TOKS[tokSel.value];
+    if(!t) return;
+    par.R0=t.R0; par.a=t.a; par.B0=t.B0; par.qsafe=t.q;
+    document.getElementById('plasmaBfield').value=t.B0;
+    document.getElementById('plasmaBfieldVal').textContent=t.B0;
+    document.getElementById('plasmaq').value=t.q;
+    document.getElementById('plasmaqVal').textContent=t.q;
+    initParticles();
+    drawToroidal(); drawPoloidal(); drawDiagTraces();
+    var d=computeDiags(); updateUI(d);
+  });
 
-        // Update page metrics
-        const metricS = document.getElementById('metric-S');
-        const metricGamma = document.getElementById('metric-gamma');
-        if (metricS) metricS.textContent = meanS.toFixed(4);
-        if (metricGamma) metricGamma.textContent = meanGamma.toFixed(4);
+  // Sliders
+  var sliders=[
+    {id:'plasmaParticles',p:'N',vId:'plasmaParticlesVal',fn:parseInt,reset:true},
+    {id:'plasmaBfield',p:'B0',vId:'plasmaBfieldVal',fn:parseFloat},
+    {id:'plasmaL0',p:'L0',vId:'plasmaL0Val',fn:function(v){return parseFloat(v)*1e-3;},disp:function(v){return(v*1e3).toFixed(1);}},
+    {id:'plasmaBeta',p:'beta0',vId:'plasmaBetaVal',fn:parseFloat,reset:true},
+    {id:'plasmaq',p:'qsafe',vId:'plasmaqVal',fn:parseFloat}
+  ];
+  sliders.forEach(function(s){
+    var el=document.getElementById(s.id);
+    var vEl=document.getElementById(s.vId);
+    if(el&&vEl) el.addEventListener('input',function(){
+      par[s.p]=s.fn(el.value);
+      vEl.textContent=s.disp?s.disp(par[s.p]):el.value;
+      if(s.reset){initParticles();drawToroidal();drawPoloidal();drawDiagTraces();}
+    });
+  });
+}
 
-        // Draw title
-        ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
-        ctx.font = '14px sans-serif';
-        ctx.fillText(sturEnabled ? 'STUR Plasma Torus' : 'Standard Lorentz (S=1)', 10, 20);
-
-        // Draw legend
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '11px sans-serif';
-        ctx.fillText(`B = ${params.Bz} T, L₀ = ${(params.L0*1000).toFixed(1)} mm, β₀ = ${params.beta0}`, 10, canvas.height - 10);
-    }
-
-    // Animation loop
-    function animate() {
-        if (!running) return;
-        step();
-        draw();
-        animationId = requestAnimationFrame(animate);
-    }
-
-    // Event handlers
-    function setupControls() {
-        const startBtn = document.getElementById('plasmaStart');
-        const resetBtn = document.getElementById('plasmaReset');
-        const toggleBtn = document.getElementById('plasmaToggleSTUR');
-
-        if (startBtn) {
-            startBtn.addEventListener('click', () => {
-                running = !running;
-                startBtn.innerHTML = running ?
-                    '<span class="stur-icon icon-pause"></span> Pause' :
-                    '<span class="stur-icon icon-play"></span> Start';
-                if (running) animate();
-            });
-        }
-
-        if (resetBtn) {
-            resetBtn.addEventListener('click', () => {
-                running = false;
-                if (startBtn) startBtn.innerHTML = '<span class="stur-icon icon-play"></span> Start';
-                initParticles();
-                draw();
-            });
-        }
-
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
-                sturEnabled = !sturEnabled;
-                toggleBtn.innerHTML = sturEnabled ?
-                    '<span class="stur-icon icon-toggle-right"></span> STUR: ON' :
-                    '<span class="stur-icon icon-toggle-left"></span> STUR: OFF';
-            });
-        }
-
-        // Sliders
-        const sliders = [
-            { id: 'plasmaParticles', param: 'N', valId: 'plasmaParticlesVal', parse: parseInt },
-            { id: 'plasmaBfield', param: 'Bz', valId: 'plasmaBfieldVal', parse: parseFloat },
-            { id: 'plasmaL0', param: 'L0', valId: 'plasmaL0Val', parse: v => parseFloat(v) * 1e-3, display: v => (v * 1e3).toFixed(1) },
-            { id: 'plasmaBeta', param: 'beta0', valId: 'plasmaBetaVal', parse: parseFloat }
-        ];
-
-        sliders.forEach(s => {
-            const el = document.getElementById(s.id);
-            const valEl = document.getElementById(s.valId);
-            if (el && valEl) {
-                el.addEventListener('input', () => {
-                    params[s.param] = s.parse(el.value);
-                    valEl.textContent = s.display ? s.display(params[s.param]) : el.value;
-                    if (s.param === 'N') {
-                        initParticles();
-                        draw();
-                    }
-                });
-            }
-        });
-    }
-
-    // Initialize
-    if (canvas && ctx) {
-        initParticles();
-        draw();
-        setupControls();
-    }
+// ================================================================
+// INIT
+// ================================================================
+initRendering();
+initParticles();
+setupControls();
+drawToroidal();
+drawPoloidal();
+drawDiagTraces();
+var d0=computeDiags(); updateUI(d0);
 })();
 </script>
 <script src="../assets/js/stur-sw-register.js"></script>

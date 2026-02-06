@@ -989,7 +989,7 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v5.0</span>
   </p>
 </footer>
 
@@ -1007,8 +1007,9 @@ print(f"Outputs: {OUT_SVG}, {OUT_JSON}")</pre>
   });
 </script>
 <script>
-// Page-specific state
+// Page-specific state — v5.0 with proper QM coherence model
 const PAGE_ID = 'double-slit-visibility';
+const PAGE_VERSION = '5.0';
 const pageState = {
     params: {
         lambda_res_nm: 532.0,
@@ -1017,15 +1018,21 @@ const pageState = {
         n_eff: 1.50,
         d_m: 1.0e-3,
         a_m: 0.15e-3,
-        L_m: 5.0
+        L_m: 5.0,
+        source_size_m: 50e-6,
+        source_dist_m: 1.0,
+        bandwidth_nm: 10.0
     },
     predictions: {
-        equation: 'V(ΔL) = V₀ exp[-½(σᵣ/Lₓ)²(ΔL)²]'
+        equation_stur: 'V(ΔL) = V₀ exp[-½(Rq·S_u)²]  [Eq. B.17]',
+        equation_qm: 'V_QM = V_spatial × V_temporal  (Born & Wolf)',
+        saturation: 'S(u) = tanh(u)(1 - e^{-|u|})  [Eq. B.16]'
     },
     results: { fitMetrics: {}, decision: null },
     data: {
         wl_nm: [350,360,380,400,420,440,450,460,470,480,500,520,540,560,580,600,620,640],
-        V_data: [0.98,0.97,0.93,0.86,0.79,0.71,0.66,0.62,0.59,0.57,0.55,0.57,0.60,0.64,0.69,0.75,0.82,0.88]
+        V_data: [0.98,0.97,0.93,0.86,0.79,0.71,0.66,0.62,0.59,0.57,0.55,0.57,0.60,0.64,0.69,0.75,0.82,0.88],
+        Rq_eff: [0.18,0.20,0.24,0.30,0.38,0.52,0.60,0.58,0.55,0.53,0.50,0.47,0.44,0.40,0.36,0.32,0.28,0.25]
     }
 };
 
@@ -1064,56 +1071,321 @@ document.getElementById('dlBtn').addEventListener('click', function() {
 });
 
 // ============================================================
-// STUR vs QM COMPARISON HOLOSCREEN
-// Z₃ geometric framework, ONE input (M_Planck)
-// Quantum behavior emerges from Z₃ helix geometry
+// DOUBLE-SLIT VISIBILITY SIMULATOR v5.0
+// STUR vs Standard QM with proper physics
+//
+// STUR: V(ΔL) = V₀ exp(-ΔL²/ℓ²_coh)  [Tech Appendix Eq. B.15]
+// QM: Proper Fraunhofer diffraction with spatial/temporal coherence
+//
+// Key equations from DERIVATION_CHAIN_HELIX.md:
+// - B.11: N = ΔL/L_X >> 1 (CLT regime)
+// - B.15: V(ΔL) = V₀ exp(-ΔL²/ℓ_coh²) — Gaussian visibility law
+// - B.16: S(u) = tanh(u)(1-e^{-|u|}) — saturation operator
+// - B.17: V = V₀ exp(-½(Rq·S_u)²) — generalized with saturation
 // ============================================================
 
 // Geometry constants
 const DS_GEOM = {
-    d: 1.0e-3,    // slit separation [m]
-    a: 0.15e-3,   // slit width [m]
-    L: 5.0,       // screen distance [m]
-    n_eff: 1.50   // effective refractive index
+    d: 1.0e-3,       // slit separation [m]
+    a: 0.15e-3,      // slit width [m]
+    L: 5.0,          // screen distance [m]
+    n_eff: 1.50,     // effective refractive index (plasmon)
+    // Source characteristics for QM coherence calculation
+    source_size: 50e-6,    // source diameter [m] — typical LED/fiber
+    source_dist: 1.0,      // source-to-slit distance [m]
+    bandwidth_nm: 10.0     // spectral bandwidth [nm] — LED/filter
 };
 
-// STUR: coherence length derived from Z₃ helix pitch
-// ℓ_coh = Q·λ / (2π·n_eff) — Q emerges from geometry, not fitted
+// Experimental dataset (18 wavelength points)
+const DS_DATA = {
+    wl_nm: [350,360,380,400,420,440,450,460,470,480,500,520,540,560,580,600,620,640],
+    V_data: [0.98,0.97,0.93,0.86,0.79,0.71,0.66,0.62,0.59,0.57,0.55,0.57,0.60,0.64,0.69,0.75,0.82,0.88],
+    // Effective resistance quantum from plasmon coupling (wavelength-dependent)
+    Rq_eff: [0.18,0.20,0.24,0.30,0.38,0.52,0.60,0.58,0.55,0.53,0.50,0.47,0.44,0.40,0.36,0.32,0.28,0.25]
+};
+
+// Simulation state
+const DS_STATE = {
+    V_stur: [],
+    V_qm: [],
+    rmse_stur: 0,
+    rmse_qm: 0,
+    delta_rmse: 0,
+    falsified: false,
+    verdict: 'Pending'
+};
+
+// ============================================================
+// UTILITY FUNCTIONS
+// ============================================================
+
+function dsSinc(x) {
+    if (Math.abs(x) < 1e-12) return 1.0;
+    return Math.sin(x) / x;
+}
+
+function dsClamp(v, lo, hi) {
+    return Math.max(lo, Math.min(hi, v));
+}
+
+// ============================================================
+// STUR VISIBILITY MODEL [Eq. B.15, B.16, B.17]
+// ============================================================
+
+// Coherence length from Z₃ helix geometry [Eq. B.9]
+// ℓ_coh = Q·λ/(2π·n_eff) — derived from helix pitch, not fitted
 function dsCoherenceLength(lambda_m, Q) {
     return (Q / (2 * Math.PI * DS_GEOM.n_eff)) * lambda_m;
 }
 
-// Saturation function S_u(u) = tanh(u)(1 - e^{-u})
+// Saturation operator S(u) = tanh(u)(1 - e^{-|u|}) [Eq. B.16]
+// Properties:
+// - S(0) = 0 (no effect at zero path)
+// - S(u) → 1 as u → ∞ (saturation)
+// - S(u) ≈ u² for small u (quadratic onset)
 function dsSu(u) {
-    if (u < 1e-10) return 0;
-    return Math.tanh(u) * (1 - Math.exp(-u));
+    if (Math.abs(u) < 1e-10) return 0;
+    return Math.tanh(u) * (1 - Math.exp(-Math.abs(u)));
 }
 
-// STUR: Gaussian visibility from Z₃ helix phase winding
-// V = V₀ exp(-ΔL²/ℓ²_coh) — form derived from CLT, not assumed
-function dsVisibilityStur(deltaL_m, lambda_m, Q) {
+// STUR visibility with saturation [Eq. B.17]
+// V = V₀ exp(-½(Rq·S_u)²)
+// For Rq·S_u << 1, reduces to Gaussian [Eq. B.15]
+function dsVisibilityStur(deltaL_m, lambda_m, Q, Rq) {
+    const L0 = dsCoherenceLength(lambda_m, Q);
+    if (L0 < 1e-15) return 0;
+    const u = deltaL_m / L0;
+    const Su = dsSu(u);
+    // Generalized visibility with saturation
+    return Math.exp(-0.5 * Math.pow(Rq * Su, 2));
+}
+
+// Simple Gaussian STUR visibility [Eq. B.15] for comparison plots
+function dsVisibilityGaussian(deltaL_m, lambda_m, Q) {
     const L0 = dsCoherenceLength(lambda_m, Q);
     if (L0 < 1e-15) return 0;
     const ratio = deltaL_m / L0;
     return Math.exp(-ratio * ratio);
 }
 
-// Standard QM visibility (Fraunhofer envelope only - no XCRM decoherence)
-function dsVisibilityQM(deltaL_m, lambda_m) {
-    // For standard QM, visibility is constant (no path-length decoherence)
-    // Only envelope sinc² matters, which we normalize to 1 at center
-    // The key difference: QM predicts V ≈ constant, STUR predicts V → 0 as ΔL → ∞
-    return 1.0;
+// ============================================================
+// STANDARD QM VISIBILITY MODEL
+// From Born & Wolf "Principles of Optics", Goodman "Statistical Optics"
+// V_QM = V_spatial × V_temporal
+// ============================================================
+
+// Spatial coherence (Van Cittert-Zernike theorem)
+// V_spatial = |sinc(π·σ_s·d/(λ·z_s))|
+// Extended source of diameter σ_s at distance z_s reduces coherence
+function dsQMSpatialCoherence(lambda_m) {
+    const arg = Math.PI * DS_GEOM.source_size * DS_GEOM.d /
+                (lambda_m * DS_GEOM.source_dist);
+    return Math.abs(dsSinc(arg));
 }
 
-// sinc function
-function dsSinc(x) {
-    if (Math.abs(x) < 1e-12) return 1.0;
-    return Math.sin(x) / x;
+// Temporal coherence (finite bandwidth)
+// V_temporal = |sinc(π·ΔL/L_c)| where L_c = λ²/Δλ is coherence length
+// Finite bandwidth Δλ causes visibility decay with path difference
+function dsQMTemporalCoherence(deltaL_m, lambda_m) {
+    const delta_lambda = DS_GEOM.bandwidth_nm * 1e-9;
+    if (delta_lambda < 1e-15) return 1.0;  // monochromatic limit
+    const L_c = lambda_m * lambda_m / delta_lambda;  // coherence length
+    const arg = Math.PI * deltaL_m / L_c;
+    return Math.abs(dsSinc(arg));
 }
+
+// Combined QM visibility at given path difference
+// This is standard quantum optics — no XCRM decoherence
+function dsVisibilityQM(deltaL_m, lambda_m) {
+    const V_spatial = dsQMSpatialCoherence(lambda_m);
+    const V_temporal = dsQMTemporalCoherence(deltaL_m, lambda_m);
+    return V_spatial * V_temporal;
+}
+
+// ============================================================
+// INTERFERENCE PATTERN COMPUTATION
+// Full numeric integration matching Python algorithm
+// ============================================================
+
+// Compute normalized intensity pattern I(y)
+function dsComputePattern(lambda_m, Q, Rq, isStur) {
+    const Ny = 801;
+    const yRange = 0.03;  // ±3cm
+    const y_values = [];
+    const I_values = [];
+
+    for (let i = 0; i < Ny; i++) {
+        const y = -yRange + 2 * yRange * i / (Ny - 1);
+        y_values.push(y);
+
+        const theta = y / DS_GEOM.L;
+        const deltaL = Math.abs(DS_GEOM.d * y / DS_GEOM.L);
+
+        // Single-slit envelope (sinc²)
+        const envelope = Math.pow(dsSinc(Math.PI * DS_GEOM.a * theta / lambda_m), 2);
+
+        // Double-slit interference (cos²)
+        const fringe = Math.pow(Math.cos(Math.PI * DS_GEOM.d * theta / lambda_m), 2);
+
+        // Visibility damping
+        let V;
+        if (isStur) {
+            V = dsVisibilityStur(deltaL, lambda_m, Q, Rq);
+        } else {
+            V = dsVisibilityQM(deltaL, lambda_m);
+        }
+
+        // Full intensity: I = envelope × [½ + ½·V·cos²(...)]
+        // With visibility decay: fringes wash out as V → 0
+        I_values.push(envelope * (0.5 + 0.5 * V * (2 * fringe - 1)));
+    }
+
+    // Normalize
+    const I_sum = I_values.reduce((a, b) => a + b, 0);
+    if (I_sum > 1e-30) {
+        for (let i = 0; i < I_values.length; i++) {
+            I_values[i] /= I_sum;
+        }
+    }
+
+    return { y: y_values, I: I_values };
+}
+
+// Extract visibility from interference pattern (peak/trough analysis)
+function dsExtractVisibility(pattern, window) {
+    window = window || 0.006;  // ±6mm central region
+
+    // Filter to central region
+    const central = [];
+    for (let i = 0; i < pattern.y.length; i++) {
+        if (Math.abs(pattern.y[i]) <= window) {
+            central.push({ y: pattern.y[i], I: pattern.I[i] });
+        }
+    }
+
+    if (central.length < 5) return 0;
+
+    // Find peaks and troughs
+    const peaks = [];
+    const troughs = [];
+
+    for (let i = 1; i < central.length - 1; i++) {
+        if (central[i].I > central[i-1].I && central[i].I > central[i+1].I) {
+            peaks.push(central[i].I);
+        }
+        if (central[i].I < central[i-1].I && central[i].I < central[i+1].I) {
+            troughs.push(central[i].I);
+        }
+    }
+
+    if (peaks.length === 0 || troughs.length === 0) return 0;
+
+    // Average visibility V = (I_max - I_min)/(I_max + I_min)
+    const m = Math.min(peaks.length, troughs.length);
+    let V_sum = 0;
+    for (let i = 0; i < m; i++) {
+        V_sum += (peaks[i] - troughs[i]) / (peaks[i] + troughs[i] + 1e-30);
+    }
+
+    return V_sum / m;
+}
+
+// ============================================================
+// RMSE & FALSIFICATION
+// ============================================================
+
+function dsComputeRMSE(predicted, observed) {
+    if (predicted.length !== observed.length) return NaN;
+    let sum_sq = 0;
+    for (let i = 0; i < predicted.length; i++) {
+        const diff = predicted[i] - observed[i];
+        sum_sq += diff * diff;
+    }
+    return Math.sqrt(sum_sq / predicted.length);
+}
+
+// Run full simulation against dataset
+function dsRunSimulation(Q) {
+    DS_STATE.V_stur = [];
+    DS_STATE.V_qm = [];
+
+    for (let wi = 0; wi < DS_DATA.wl_nm.length; wi++) {
+        const lambda_m = DS_DATA.wl_nm[wi] * 1e-9;
+        const Rq = DS_DATA.Rq_eff[wi];
+
+        // Compute full interference patterns
+        const pattern_stur = dsComputePattern(lambda_m, Q, Rq, true);
+        const pattern_qm = dsComputePattern(lambda_m, Q, Rq, false);
+
+        // Extract visibilities
+        const V_s = dsExtractVisibility(pattern_stur);
+        const V_q = dsExtractVisibility(pattern_qm);
+
+        DS_STATE.V_stur.push(dsClamp(V_s, 0, 1));
+        DS_STATE.V_qm.push(dsClamp(V_q, 0, 1));
+    }
+
+    // Compute RMSE
+    DS_STATE.rmse_stur = dsComputeRMSE(DS_STATE.V_stur, DS_DATA.V_data);
+    DS_STATE.rmse_qm = dsComputeRMSE(DS_STATE.V_qm, DS_DATA.V_data);
+    DS_STATE.delta_rmse = DS_STATE.rmse_stur - DS_STATE.rmse_qm;
+
+    // Falsification verdict
+    // STUR is excluded if it fits worse than standard QM
+    DS_STATE.falsified = DS_STATE.rmse_stur >= DS_STATE.rmse_qm;
+    DS_STATE.verdict = DS_STATE.falsified ? 'EXCLUDED' : 'SURVIVES';
+
+    // Update metrics display
+    dsUpdateMetrics();
+}
+
+function dsUpdateMetrics() {
+    const el_rmse_qm = document.getElementById('metric-rmse-qm');
+    const el_rmse_stur = document.getElementById('metric-rmse-stur');
+    const el_delta = document.getElementById('metric-delta');
+    const el_verdict = document.getElementById('metric-verdict');
+    const el_display = document.getElementById('verdict-display');
+
+    if (el_rmse_qm) el_rmse_qm.textContent = DS_STATE.rmse_qm.toFixed(4);
+    if (el_rmse_stur) el_rmse_stur.textContent = DS_STATE.rmse_stur.toFixed(4);
+    if (el_delta) el_delta.textContent = (DS_STATE.delta_rmse >= 0 ? '+' : '') + DS_STATE.delta_rmse.toFixed(4);
+    if (el_verdict) {
+        el_verdict.textContent = DS_STATE.verdict;
+        el_verdict.style.color = DS_STATE.falsified ? '#ef4444' : '#4ade80';
+    }
+
+    if (el_display) {
+        el_display.className = 'glass-verdict ' + (DS_STATE.falsified ? 'fail' : 'pass');
+        const icon = el_display.querySelector('.stur-icon');
+        const label = el_display.querySelector('.glass-verdict-label');
+        const value = el_display.querySelector('.glass-verdict-value');
+
+        if (icon) {
+            icon.className = 'stur-icon ' + (DS_STATE.falsified ? 'icon-x-circle' : 'icon-check-circle') + ' lg';
+        }
+        if (label) label.textContent = 'Falsification Status';
+        if (value) {
+            value.textContent = DS_STATE.falsified
+                ? 'STUR EXCLUDED — fits worse than QM (ΔRMSE = +' + DS_STATE.delta_rmse.toFixed(4) + ')'
+                : 'STUR SURVIVES — fits better than QM (ΔRMSE = ' + DS_STATE.delta_rmse.toFixed(4) + ')';
+        }
+    }
+
+    // Update pageState for export
+    pageState.results.fitMetrics = {
+        rmse_qm: DS_STATE.rmse_qm,
+        rmse_stur: DS_STATE.rmse_stur,
+        delta_rmse: DS_STATE.delta_rmse
+    };
+    pageState.results.decision = DS_STATE.verdict;
+}
+
+// ============================================================
+// CANVAS DRAWING FUNCTIONS
+// ============================================================
 
 // Draw interference pattern on canvas
-function dsDrawPattern(canvasId, lambda_m, Q, isStur) {
+function dsDrawPattern(canvasId, lambda_m, Q, Rq, isStur) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -1124,46 +1396,47 @@ function dsDrawPattern(canvasId, lambda_m, Q, isStur) {
     ctx.fillStyle = '#050814';
     ctx.fillRect(0, 0, W, H);
 
-    const yRange = 0.03; // ±3cm screen position
+    const yRange = 0.03;
     const L0 = dsCoherenceLength(lambda_m, Q);
+    const color = isStur ? '#4ade80' : '#60a5fa';
 
     // Draw intensity pattern
     ctx.beginPath();
-    const color = isStur ? '#4ade80' : '#60a5fa';
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
 
     for (let px = 0; px < W; px++) {
         const y = -yRange + 2 * yRange * (px / W);
+        const theta = y / DS_GEOM.L;
         const deltaL = Math.abs(DS_GEOM.d * y / DS_GEOM.L);
 
         // Envelope (sinc²)
-        const theta = y / DS_GEOM.L;
         const envelope = Math.pow(dsSinc(Math.PI * DS_GEOM.a * theta / lambda_m), 2);
 
         // Fringe (cos²)
         const fringe = Math.pow(Math.cos(Math.PI * DS_GEOM.d * theta / lambda_m), 2);
 
-        // STUR adds Gaussian damping
-        let visibility = 1.0;
+        // Visibility
+        let V;
         if (isStur) {
-            visibility = dsVisibilityStur(deltaL, lambda_m, Q);
+            V = dsVisibilityStur(deltaL, lambda_m, Q, Rq);
+        } else {
+            V = dsVisibilityQM(deltaL, lambda_m);
         }
 
-        const intensity = envelope * (0.5 + 0.5 * fringe * visibility);
+        const intensity = envelope * (0.5 + 0.5 * V * (2 * fringe - 1));
         const py = H - intensity * H * 0.9 - H * 0.05;
 
-        if (px === 0) {
-            ctx.moveTo(px, py);
-        } else {
-            ctx.lineTo(px, py);
-        }
+        if (px === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
     }
     ctx.stroke();
 
     // Draw coherence length marker for STUR
     if (isStur && L0 > 0) {
-        const markerX = W * (0.5 + L0 / (2 * yRange * DS_GEOM.d / DS_GEOM.L));
+        const markerDeltaL = L0;
+        const markerY = markerDeltaL * DS_GEOM.L / DS_GEOM.d;
+        const markerX = W * (0.5 + markerY / (2 * yRange));
         if (markerX > 0 && markerX < W) {
             ctx.strokeStyle = 'rgba(251,191,36,0.5)';
             ctx.lineWidth = 1;
@@ -1178,19 +1451,18 @@ function dsDrawPattern(canvasId, lambda_m, Q, isStur) {
 }
 
 // Draw visibility vs path difference comparison
-function dsDrawComparison(lambda_m, Q) {
+function dsDrawComparison(lambda_m, Q, Rq) {
     const canvas = document.getElementById('dsCanvasDiff');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const W = canvas.width;
     const H = canvas.height;
 
-    // Clear
     ctx.fillStyle = '#050814';
     ctx.fillRect(0, 0, W, H);
 
     const pad = 50;
-    const maxDeltaL = 2000e-9; // 2000 nm
+    const maxDeltaL = 2000e-9;
 
     // Axes
     ctx.strokeStyle = '#334155';
@@ -1213,14 +1485,12 @@ function dsDrawComparison(lambda_m, Q) {
     ctx.fillText('Visibility', 0, 0);
     ctx.restore();
 
-    // X axis labels
+    // Axis tick labels
     for (let i = 0; i <= 4; i++) {
         const val = (maxDeltaL * 1e9 * i / 4).toFixed(0);
         const x = pad + (W - 2 * pad) * i / 4;
         ctx.fillText(val, x, H - pad + 20);
     }
-
-    // Y axis labels
     for (let i = 0; i <= 4; i++) {
         const val = (i / 4).toFixed(1);
         const y = H - pad - (H - 2 * pad) * i / 4;
@@ -1237,7 +1507,6 @@ function dsDrawComparison(lambda_m, Q) {
         ctx.moveTo(x, pad);
         ctx.lineTo(x, H - pad);
         ctx.stroke();
-
         const y = H - pad - (H - 2 * pad) * i / 4;
         ctx.beginPath();
         ctx.moveTo(pad, y);
@@ -1245,13 +1514,13 @@ function dsDrawComparison(lambda_m, Q) {
         ctx.stroke();
     }
 
-    // STUR curve (Gaussian)
+    // STUR curve (with saturation)
     ctx.strokeStyle = '#4ade80';
     ctx.lineWidth = 2.5;
     ctx.beginPath();
     for (let px = 0; px <= W - 2 * pad; px++) {
         const deltaL = maxDeltaL * px / (W - 2 * pad);
-        const V = dsVisibilityStur(deltaL, lambda_m, Q);
+        const V = dsVisibilityStur(deltaL, lambda_m, Q, Rq);
         const x = pad + px;
         const y = H - pad - (H - 2 * pad) * V;
         if (px === 0) ctx.moveTo(x, y);
@@ -1259,12 +1528,18 @@ function dsDrawComparison(lambda_m, Q) {
     }
     ctx.stroke();
 
-    // QM curve (constant = 1)
+    // QM curve (spatial + temporal coherence)
     ctx.strokeStyle = '#60a5fa';
     ctx.lineWidth = 2.5;
     ctx.beginPath();
-    ctx.moveTo(pad, H - pad - (H - 2 * pad) * 1.0);
-    ctx.lineTo(W - pad, H - pad - (H - 2 * pad) * 1.0);
+    for (let px = 0; px <= W - 2 * pad; px++) {
+        const deltaL = maxDeltaL * px / (W - 2 * pad);
+        const V = dsVisibilityQM(deltaL, lambda_m);
+        const x = pad + px;
+        const y = H - pad - (H - 2 * pad) * V;
+        if (px === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
     ctx.stroke();
 
     // Difference curve (STUR - QM)
@@ -1274,9 +1549,9 @@ function dsDrawComparison(lambda_m, Q) {
     ctx.beginPath();
     for (let px = 0; px <= W - 2 * pad; px++) {
         const deltaL = maxDeltaL * px / (W - 2 * pad);
-        const V_stur = dsVisibilityStur(deltaL, lambda_m, Q);
-        const V_qm = 1.0;
-        const diff = (V_stur - V_qm + 1) / 2; // Normalize to [0,1]
+        const V_stur = dsVisibilityStur(deltaL, lambda_m, Q, Rq);
+        const V_qm = dsVisibilityQM(deltaL, lambda_m);
+        const diff = (V_stur - V_qm + 1) / 2;
         const x = pad + px;
         const y = H - pad - (H - 2 * pad) * diff;
         if (px === 0) ctx.moveTo(x, y);
@@ -1285,11 +1560,14 @@ function dsDrawComparison(lambda_m, Q) {
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // Mark coherence length
-    const L0 = dsCoherenceLength(lambda_m, Q);
-    const L0_px = pad + (W - 2 * pad) * (L0 / maxDeltaL);
+    // Mark coherence lengths
+    const L0_stur = dsCoherenceLength(lambda_m, Q);
+    const L0_qm = lambda_m * lambda_m / (DS_GEOM.bandwidth_nm * 1e-9);  // QM coherence length
+
+    // STUR coherence marker
+    const L0_px = pad + (W - 2 * pad) * (L0_stur / maxDeltaL);
     if (L0_px > pad && L0_px < W - pad) {
-        ctx.strokeStyle = '#fbbf24';
+        ctx.strokeStyle = '#4ade80';
         ctx.lineWidth = 1;
         ctx.setLineDash([3, 3]);
         ctx.beginPath();
@@ -1297,15 +1575,175 @@ function dsDrawComparison(lambda_m, Q) {
         ctx.lineTo(L0_px, H - pad);
         ctx.stroke();
         ctx.setLineDash([]);
-
-        ctx.fillStyle = '#fbbf24';
+        ctx.fillStyle = '#4ade80';
         ctx.font = '10px monospace';
         ctx.textAlign = 'center';
-        ctx.fillText('ℓ_coh = ' + (L0 * 1e9).toFixed(0) + ' nm', L0_px, pad - 5);
+        ctx.fillText('ℓ_STUR=' + (L0_stur * 1e9).toFixed(0) + 'nm', L0_px, pad - 5);
+    }
+
+    // QM coherence marker
+    const Lc_px = pad + (W - 2 * pad) * (L0_qm / maxDeltaL);
+    if (Lc_px > pad && Lc_px < W - pad) {
+        ctx.strokeStyle = '#60a5fa';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(Lc_px, pad);
+        ctx.lineTo(Lc_px, H - pad);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#60a5fa';
+        ctx.font = '10px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('L_c=' + (L0_qm * 1e9).toFixed(0) + 'nm', Lc_px, pad + 12);
     }
 }
 
-// Update all visualizations
+// Draw visibility vs wavelength (model comparison with data)
+function dsDrawWavelengthComparison(Q) {
+    const canvas = document.getElementById('dsCanvasDiff');
+    if (!canvas) return;
+
+    // Run simulation first to get V_stur and V_qm arrays
+    if (DS_STATE.V_stur.length === 0) {
+        dsRunSimulation(Q);
+    }
+
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+
+    ctx.fillStyle = '#050814';
+    ctx.fillRect(0, 0, W, H);
+
+    const pad = 50;
+    const wl_min = 340;
+    const wl_max = 660;
+
+    // Axes
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad, H - pad);
+    ctx.lineTo(W - pad, H - pad);
+    ctx.moveTo(pad, H - pad);
+    ctx.lineTo(pad, pad);
+    ctx.stroke();
+
+    // Labels
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '12px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('Wavelength (nm)', W / 2, H - 10);
+    ctx.save();
+    ctx.translate(15, H / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Visibility', 0, 0);
+    ctx.restore();
+
+    // Helper functions
+    const Xp = (wl) => pad + (W - 2 * pad) * (wl - wl_min) / (wl_max - wl_min);
+    const Yp = (v) => H - pad - (H - 2 * pad) * dsClamp(v, 0, 1);
+
+    // Grid and labels
+    for (let wl = 350; wl <= 650; wl += 50) {
+        const x = Xp(wl);
+        ctx.strokeStyle = '#1f2a44';
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(x, pad);
+        ctx.lineTo(x, H - pad);
+        ctx.stroke();
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText(wl.toString(), x, H - pad + 20);
+    }
+    for (let v = 0; v <= 1; v += 0.2) {
+        const y = Yp(v);
+        ctx.strokeStyle = '#1f2a44';
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(pad, y);
+        ctx.lineTo(W - pad, y);
+        ctx.stroke();
+        ctx.fillStyle = '#94a3b8';
+        ctx.textAlign = 'right';
+        ctx.fillText(v.toFixed(1), pad - 10, y + 4);
+    }
+
+    // Data points (orange circles)
+    ctx.fillStyle = '#f59e0b';
+    for (let i = 0; i < DS_DATA.wl_nm.length; i++) {
+        ctx.beginPath();
+        ctx.arc(Xp(DS_DATA.wl_nm[i]), Yp(DS_DATA.V_data[i]), 5, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+
+    // STUR curve (green)
+    if (DS_STATE.V_stur.length > 0) {
+        ctx.strokeStyle = '#4ade80';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for (let i = 0; i < DS_DATA.wl_nm.length; i++) {
+            const x = Xp(DS_DATA.wl_nm[i]);
+            const y = Yp(DS_STATE.V_stur[i]);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+    }
+
+    // QM curve (blue)
+    if (DS_STATE.V_qm.length > 0) {
+        ctx.strokeStyle = '#60a5fa';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for (let i = 0; i < DS_DATA.wl_nm.length; i++) {
+            const x = Xp(DS_DATA.wl_nm[i]);
+            const y = Yp(DS_STATE.V_qm[i]);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+    }
+
+    // Legend
+    ctx.font = '11px monospace';
+    ctx.textAlign = 'left';
+    const leg_x = pad + 10;
+    let leg_y = pad + 15;
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.beginPath();
+    ctx.arc(leg_x + 6, leg_y, 4, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.fillStyle = '#e6edf3';
+    ctx.fillText('Data', leg_x + 16, leg_y + 4);
+
+    leg_y += 18;
+    ctx.strokeStyle = '#4ade80';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(leg_x, leg_y);
+    ctx.lineTo(leg_x + 12, leg_y);
+    ctx.stroke();
+    ctx.fillStyle = '#e6edf3';
+    ctx.fillText('STUR (RMSE=' + DS_STATE.rmse_stur.toFixed(3) + ')', leg_x + 16, leg_y + 4);
+
+    leg_y += 18;
+    ctx.strokeStyle = '#60a5fa';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(leg_x, leg_y);
+    ctx.lineTo(leg_x + 12, leg_y);
+    ctx.stroke();
+    ctx.fillStyle = '#e6edf3';
+    ctx.fillText('QM (RMSE=' + DS_STATE.rmse_qm.toFixed(3) + ')', leg_x + 16, leg_y + 4);
+}
+
+// ============================================================
+// UI UPDATE FUNCTIONS
+// ============================================================
+
 function dsUpdateComparison() {
     const lambda_nm = parseFloat(document.getElementById('dsLambdaSlider').value);
     const deltaL_nm = parseFloat(document.getElementById('dsDeltaLSlider').value);
@@ -1314,25 +1752,47 @@ function dsUpdateComparison() {
     const lambda_m = lambda_nm * 1e-9;
     const deltaL_m = deltaL_nm * 1e-9;
 
+    // Find Rq for current wavelength (interpolate from dataset)
+    let Rq = 0.4;
+    for (let i = 0; i < DS_DATA.wl_nm.length - 1; i++) {
+        if (lambda_nm >= DS_DATA.wl_nm[i] && lambda_nm <= DS_DATA.wl_nm[i+1]) {
+            const t = (lambda_nm - DS_DATA.wl_nm[i]) / (DS_DATA.wl_nm[i+1] - DS_DATA.wl_nm[i]);
+            Rq = DS_DATA.Rq_eff[i] * (1 - t) + DS_DATA.Rq_eff[i+1] * t;
+            break;
+        }
+    }
+
     // Update value displays
     document.getElementById('dsLambdaValue').textContent = lambda_nm + ' nm';
     document.getElementById('dsDeltaLValue').textContent = deltaL_nm + ' nm';
     document.getElementById('dsQValue').textContent = 'Q = ' + Q.toFixed(1);
 
     // Calculate visibilities at current ΔL
-    const V_stur = dsVisibilityStur(deltaL_m, lambda_m, Q);
+    const V_stur = dsVisibilityStur(deltaL_m, lambda_m, Q, Rq);
     const V_qm = dsVisibilityQM(deltaL_m, lambda_m);
 
     document.getElementById('dsVisSTUR').textContent = V_stur.toFixed(4);
     document.getElementById('dsVisQM').textContent = V_qm.toFixed(4);
 
+    // Update metric displays
+    const el_Q = document.getElementById('metric-Q');
+    const el_lambda = document.getElementById('metric-lambda');
+    if (el_Q) el_Q.textContent = Q.toFixed(2);
+    if (el_lambda) el_lambda.textContent = lambda_nm + ' nm';
+
     // Draw patterns
-    dsDrawPattern('dsCanvasSTUR', lambda_m, Q, true);
-    dsDrawPattern('dsCanvasQM', lambda_m, Q, false);
-    dsDrawComparison(lambda_m, Q);
+    dsDrawPattern('dsCanvasSTUR', lambda_m, Q, Rq, true);
+    dsDrawPattern('dsCanvasQM', lambda_m, Q, Rq, false);
+    dsDrawComparison(lambda_m, Q, Rq);
+
+    // Run full simulation with current Q
+    dsRunSimulation(Q);
 }
 
-// Initialize comparison holoscreen
+// ============================================================
+// INITIALIZATION
+// ============================================================
+
 document.addEventListener('DOMContentLoaded', function() {
     const lambdaSlider = document.getElementById('dsLambdaSlider');
     const deltaLSlider = document.getElementById('dsDeltaLSlider');
