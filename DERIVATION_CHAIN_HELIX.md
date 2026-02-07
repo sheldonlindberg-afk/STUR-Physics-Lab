@@ -80,7 +80,7 @@ This section summarizes the key derivations establishing internal consistency.
 | Mass hierarchy pattern | Gaussian overlap geometry | **DERIVED** |
 | κ = 2.52 (via α_eff = 1.431) | Mathieu equation at computed α_eff | **DERIVED** (one-loop, 8.5% accuracy) |
 | λ = 0.206 (target: 0.225) | Higgs-localized overlap at α_eff | **DERIVED** (one-loop, 8.5% accuracy) |
-| η̄ = 0.350 ± 0.020 | Helix geometry + holonomy/Berry/RG | **DERIVED** |
+| η̄ = 0.359 ± 0.020 | Helix geometry + holonomy/RG (Berry=1.000) | **SEMI-DERIVED** |
 
 **Note on Status Labels:**
 - **DERIVED (topological)**: Result follows from Z₃ topology and stability
@@ -100,7 +100,7 @@ within the STUR geometry and the KK spectrum.
 | RG | 0.87 ± 0.02 | One-loop running + KK threshold sum | Derivation G below |
 | **Wavefunction Tail** | **1.131 ± 0.023** | Overlap ratio on S¹/Z₃: full-circle vs single-sector Gaussian overlap | Derivation below |
 | η̄ holonomy | 0.948 ± 0.015 | Correlated fluctuations between u,d sectors | ETA_BAR_CORRECTION_CHAIN.md |
-| η̄ Berry | 0.975 ± 0.010 | Geometric phase from transport on Z₃ helix | ETA_BAR_CORRECTION_CHAIN.md |
+| η̄ Berry | 1.000 ± 0.000 | Berry phase = 0 for real Mathieu eigenstates (v5.2 exact computation) | berry_phase_exact.py |
 | η̄ RG | 0.970 ± 0.010 | CP phase running with KK threshold matching | ETA_BAR_CORRECTION_CHAIN.md |
 
 **Provenance of each correction factor:**
@@ -111,7 +111,7 @@ within the STUR geometry and the KK spectrum.
 - **RG (0.87):** Derived from one-loop running plus explicit KK threshold sum (CORRECTION_FACTORS_COMPLETE.md §3).  
 - **Wavefunction Tail (1.131):** Derived from the analytic overlap ratio of adjacent-generation Gaussians on S¹/Z₃.  
 - **η̄ holonomy (0.948):** Derived from correlated holonomy fluctuations (ETA_BAR_CORRECTION_CHAIN.md).  
-- **η̄ Berry (0.975):** Derived from geometric phase on the helix.  
+- **η̄ Berry (1.000):** Berry phase vanishes exactly for real Mathieu ground states (⟨p⟩ = 0 by parity). Verified numerically: γ_abelian = 0, Bargmann invariant = 0. See berry_phase_exact.py.
 - **η̄ RG (0.970):** Derived from RG running with KK thresholds.
 
 **Note on Wavefunction Tail Factor (2026-02-03) — UPDATED:** The tail correction is now defined using the analytic overlap ratio of adjacent-generation Gaussians on the full S¹ compared to a single Z₃ sector. For κ = 2.52, this yields f_tail = 1.131, with uncertainty from κ propagated through the same expression.
@@ -136,11 +136,12 @@ Combined uncertainty for λ:
 Combined uncertainty for η̄:
   η̄_final = η̄_base × f_hol × f_Berry × f_RG
 
-  σ(η̄)/η̄ = √[(σ_base/η̄_base)² + (σ_hol/f_hol)² + (σ_Berry/f_Berry)² + (σ_RG/f_RG)²]
-          = √[(0.03/0.39)² + (0.015/0.948)² + (0.010/0.975)² + (0.010/0.970)²]
-          = 0.082 (8%)
+  σ(η̄)/η̄ = √[(σ_base/η̄_base)² + (σ_hol/f_hol)² + (σ_RG/f_RG)²]
+          = √[(0.03/0.39)² + (0.015/0.948)² + (0.010/0.970)²]
+          = 0.080 (8%)
 
-  η̄_final = 0.350 ± 0.029, consistent with 0.348 ± 0.010 observed
+  η̄_final = 0.359 ± 0.029 (v5.2: f_Berry = 1.000, no Berry phase correction)
+  Observed: 0.348 ± 0.010. Deviation: 1.1σ (acceptable)
 ```
 
 ### κ Derivation (v4.5 — EFFECTIVE COUPLING METHOD)
@@ -1810,26 +1811,27 @@ From helix geometry:
 | λ | 0.220 | κ = 2.52 + boundary corrections | 0.225 ± 0.001 | 2.2% |
 | A | 0.81 | Overlap integrals (Derivation C) | 0.826 ± 0.015 | 1.9% |
 | ρ̄ | 0.17 | Phase geometry (Derivation D) | 0.159 ± 0.010 | 1.1σ |
-| η̄ | **0.350** | 0.39 × 0.948 × 0.975 × 0.970 | 0.348 ± 0.010 | **0.2σ** ✓ |
+| η̄ | **0.359** | 0.39 × 0.948 × 1.000 × 0.970 | 0.348 ± 0.010 | **1.1σ** ✓ |
 
-**η̄ correction chain (derived from Z₃ geometry):**
+**η̄ correction chain (v5.2 — Berry phase corrected):**
 ```
 η̄_base = 0.39  (from helix chirality and unitarity triangle)
 
-Three geometric corrections:
+Two geometric corrections (Berry phase eliminated in v5.2):
   × 0.948  Holonomy fluctuations: ⟨δθ²⟩ = 1/C₂(SU(3)) = 1/3
-  × 0.975  Berry phase from Z₃ transport loop
+  × 1.000  Berry phase: ZERO for real Mathieu eigenstates (⟨p⟩=0 by parity)
   × 0.970  RG running + KK threshold corrections
 
-η̄_final = 0.39 × 0.948 × 0.975 × 0.970 = 0.350 ± 0.020
+η̄_final = 0.39 × 0.948 × 1.000 × 0.970 = 0.359 ± 0.020
 
 Observed: η̄ = 0.348 ± 0.010 [PDG 2024]
-Agreement: (0.350 - 0.348) / √(0.020² + 0.010²) = 0.09σ
+Agreement: (0.359 - 0.348) / √(0.020² + 0.010²) = 1.1σ (acceptable)
 
-Agreement: Excellent (< 0.2σ)
-
-The Berry phase factor (0.975), holonomy factor (0.948), and RG factor (0.970)
-are derived in ETA_BAR_CORRECTION_CHAIN.md and associated RG/holonomy sections.
+The holonomy factor (0.948) and RG factor (0.970) are derived in
+ETA_BAR_CORRECTION_CHAIN.md. The Berry phase was shown to vanish exactly
+by berry_phase_exact.py (v5.2): real ground states of the Mathieu equation
+have ⟨ψ|-i∂_θ|ψ⟩ = 0 and the Bargmann invariant for three real
+wavefunctions at Z₃ fixed points is real (γ_B = 0).
 ```
 
 **Conclusion:**
@@ -1841,7 +1843,7 @@ are derived in ETA_BAR_CORRECTION_CHAIN.md and associated RG/holonomy sections.
 │       λ = 0.220    from κ = 2.52 + corrections        ✓            │
 │       A = 0.81     from overlap integrals             ✓            │
 │       ρ̄ = 0.17     from phase geometry               ✓            │
-│       η̄ = 0.350    from correction chain             ✓            │
+│       η̄ = 0.359    from correction chain (v5.2)      ✓            │
 │                                                                     │
 │  Hierarchy structure:                                               │
 │       |V_us| ~ λ = 0.22   ✓                                        │
@@ -2253,7 +2255,7 @@ CALCULATIONS FLOW:
 | λ | exp[-κ²/8] × corrections | 0.217-0.220 | 0.225 ± 0.001 | **1.8σ** |
 | A | Helix overlap integral | 0.81 | 0.826 ± 0.015 | **1.1σ** |
 | ρ̄ | Phase calculation | 0.17 | 0.159 ± 0.010 | **1.1σ** |
-| η̄ | Holonomy × Berry × RG | 0.350 ± 0.020 | 0.348 ± 0.010 | **0.1σ** ✓ |
+| η̄ | Holonomy × RG (Berry=1.000) | 0.359 ± 0.020 | 0.348 ± 0.010 | **1.1σ** ✓ |
 | J (Jarlskog) | A²λ⁶η | 2.9×10⁻⁵ | (3.08 ± 0.13)×10⁻⁵ | **1.4σ** |
 | y_t(M_GUT) | Gauge-Higgs unification | 0.52 | — | **Derived** |
 | y_t(M_Z) | GHU + RG running | 1.04 | 0.991 | **5%** |
@@ -2764,11 +2766,11 @@ factors derived from the Z₃ helix geometry bring this into
 agreement with observation:
 
 ┌─────────────────────────────────────────────────────────────┐
-│  η̄ CORRECTION CHAIN:                                       │
+│  η̄ CORRECTION CHAIN (v5.2 — Berry phase corrected):       │
 │                                                             │
 │  η̄ = η̄_base × f_hol × f_Berry × f_RG                       │
-│    = 0.39 × 0.948 × 0.975 × 0.970                          │
-│    = 0.350 ± 0.020                                         │
+│    = 0.39 × 0.948 × 1.000 × 0.970                          │
+│    = 0.359 ± 0.020                                         │
 │                                                             │
 │  Factor breakdown:                                          │
 │    f_hol = 0.948: Holonomy fluctuation averaging           │
@@ -2776,10 +2778,11 @@ agreement with observation:
 │      - Correlated variance: ⟨(δθ_u - δθ_d)²⟩ = 0.103       │
 │      - f_hol = exp(-0.103/2) = 0.948                       │
 │                                                             │
-│    f_Berry = 0.975: Geometric Berry phase                  │
-│      - γ_Berry = -0.05 rad from u-d-s loop                 │
-│      - Shifts δ_eff = 67° - 2.9° = 64.1°                   │
-│      - f_Berry = sin(64.1°)/sin(67°) = 0.975               │
+│    f_Berry = 1.000: Berry phase VANISHES EXACTLY (v5.2)    │
+│      - Real Mathieu ground states: ⟨p⟩ = 0 by parity      │
+│      - Bargmann invariant for real ψ: γ_B = 0             │
+│      - See berry_phase_exact.py for full proof             │
+│      - Previous value 0.975 was incorrect                  │
 │                                                             │
 │    f_RG = 0.970: RG running from M_KK to M_Z               │
 │      - Phase running: -0.1%                                 │
@@ -2787,26 +2790,27 @@ agreement with observation:
 │      - EW matching: -0.5%                                   │
 │                                                             │
 │  RESULT:                                                    │
-│    Calculated:  η̄ = 0.350 ± 0.020                          │
+│    Calculated:  η̄ = 0.359 ± 0.020                          │
 │    Observed:    η̄ = 0.348 ± 0.010 (PDG 2024)               │
-│    Agreement:   0.09σ (EXCELLENT)                           │
+│    Agreement:   1.1σ (acceptable)                          │
 │                                                             │
 │  For ρ̄:                                                    │
-│    Calculated:  ρ̄ = 0.17                                   │
+│    Calculated:  ρ̄ = 0.139 (from δ_CKM = 68.3°)            │
 │    Observed:    ρ̄ = 0.159 ± 0.010                          │
-│    Agreement:   1.1σ (good)                                 │
+│    Agreement:   2.0σ (needs improvement)                   │
 │                                                             │
-│  The η̄ correction factors are derived from the Z₃ helix   │
-│  geometry. f_Berry is genuinely derived; f_hol and f_RG    │
-│  depend on the same assumptions noted for the λ factors.   │
+│  Note: Removing f_Berry worsens η̄ from 0.09σ to 1.1σ     │
+│  but is the honest result. The 0.09σ was artificial.       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-> **Provenance note on η̄ correction factors:** The Berry phase factor (0.975) is a genuine
-> geometric calculation. The holonomy factor (0.948) is semi-derived: it uses ⟨δθ²⟩ = 1/3
-> from the SU(3) Casimir but requires a specific model for u-d correlations to obtain
-> the "correlated variance" of 0.103. The RG factor (0.970) depends on the same M_KK
-> assumptions as the λ RG factor, with the -3% "KK threshold" contribution being an
+> **Provenance note on η̄ correction factors (v5.2 update):** The Berry phase factor is
+> exactly 1.000 — computed from exact Mathieu wavefunctions in berry_phase_exact.py.
+> The previous claim of 0.975 was based on inconsistent approximations (average of two
+> different calculations giving 0.976 and 0.979). The holonomy factor (0.948) is semi-derived:
+> it uses ⟨δθ²⟩ = 1/3 from the SU(3) Casimir but requires a specific model for u-d
+> correlations to obtain the "correlated variance" of 0.103. The RG factor (0.970) depends
+> on the same M_KK assumptions as the λ RG factor, with the -3% "KK threshold" being an
 > estimate rather than a rigorous calculation.
 
 **Detailed derivation:** See ETA_BAR_CORRECTION_CHAIN.md
@@ -3533,44 +3537,85 @@ This gives:
 Matching observation for top/charm!
 ```
 
-**Sector-dependent corrections:**
+**Sector-dependent corrections (v5.2 — from first-principles RG):**
 ```
-The different sectors (up, down, lepton) have different
-effective κ parameters due to their gauge charges:
+v5.2 computation (rg_enhanced_mass_hierarchy.py) replaces the hand-waved
+sector-dependent κ with a genuine calculation: α_eff(μ) runs with the
+gauge couplings, which change with energy scale.
 
-Up-type (strong + weak + hypercharge):
-    κ_u = κ₀ × (QCD factor) = 2.5 × 1.5 = 3.75
+The gauge backreaction factor is:
+    f_gauge(μ) = 1 + c₃·αs(μ)/π + c₂·α₂(μ)/π + c₁·α₁(μ)/π
 
-Down-type (strong + weak + hypercharge):
-    κ_d = κ₀ × (QCD factor) = 2.5 × 1.2 = 3.0
+where c₃ = 1.60, c₂ = 1.11, c₁ = 0.74 (from alpha_eff_rigorous_calculation.py).
 
-Leptons (weak + hypercharge only):
-    κ_e = κ₀ = 2.5
+QUARKS (SU(3) fundamental):
+    f_gauge depends on αs(μ), which runs strongly:
+    μ = m_t = 173 GeV:  αs = 0.123, f_gauge = 1.079, α_eff = 1.434
+    μ = m_c = 1.3 GeV:  αs = 0.528, f_gauge = 1.283, α_eff = 1.706
+    μ = 0.5 GeV:        αs ≈ 1.0,   f_gauge = 1.523, α_eff = 2.025
 
-This explains why:
-    - Up-type has strongest hierarchy (κ largest)
-    - Down-type intermediate
-    - Leptons weakest hierarchy
+LEPTONS (SU(3) singlet, c₃ = 0):
+    f_gauge does NOT receive QCD corrections:
+    α_eff(lepton) ≈ 1.35 at all scales (weak running only)
+
+This gives GENUINE sector-dependent κ from a calculable RG effect:
+    κ_quark(0.5 GeV)  = √(2 × 2.025) = 2.01
+    κ_lepton(0.5 GeV) = √(2 × 1.35)  = 1.64
+
+The quark/lepton hierarchy difference arises from QCD confinement.
+```
+
+**Structural limits (v5.2 — from fermion_mass_hierarchy.py):**
+```
+The exact Yukawa matrix from Mathieu wavefunctions with localized Higgs
+reveals structural limits of the single-Higgs Z₃ model:
+
+1. MAX 3rd/2nd RATIO: exp(κ²/2) = 19.2 at α = 1.48
+   Observed: m_b/m_s = 45, m_t/m_c = 136
+   GAP: Factor 2.4× (down) to 7× (up) — needs additional physics
+
+2. 2nd/1st DEGENERACY: m₂ = m₁ EXACTLY
+   The Z₃ symmetry between the two non-Higgs fixed points forces
+   generations 1 and 2 to have identical Higgs overlap.
+   Observed: m_c/m_u = 590, m_s/m_d = 20
+   This degeneracy CANNOT be broken within the minimal model.
+
+3. UP-DOWN SPLITTING: m_up/m_down = 1.000 at same Z₃ site
+   The helix phase exp(±iθ/3) gives ZERO splitting.
+   Observed: m_t/m_b = 41, m_c/m_s = 14, m_u/m_d = 0.46
+   Requires separate mechanism (e.g., Hosotani θ_H angle in GHU).
+
+4. RG ENHANCEMENT: Running αs increases κ by 19% at low scales
+   Amplifies 3rd/lighter ratio from 19 to ~21 — helps but insufficient.
 ```
 
 **Status:**
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  Mass hierarchy analysis:                                   │
+│  Mass hierarchy analysis (v5.2):                            │
 │                                                             │
-│  The simple m ~ λ^(2g) scaling is too naive.               │
+│  WHAT WORKS:                                               │
+│    ✓ 3 generations from Z₃ topology                        │
+│    ✓ 1 heavy + 2 light pattern from Higgs localization     │
+│    ✓ Quark/lepton split from αs running (c₃ = 0 for lep)  │
+│    ✓ Cabibbo angle λ = exp(-κ²/4) = 0.229 (1.6% accuracy) │
+│    ✓ Qualitative hierarchy: m₃ >> m₂ ~ m₁                 │
 │                                                             │
-│  Corrections needed:                                        │
-│    1. Generation-dependent phase shifts δ_g                │
-│    2. Sector-dependent κ from gauge corrections            │
-│    3. QCD running between m_t and light quarks             │
-│    4. Threshold corrections at each mass scale             │
+│  WHAT DOESN'T WORK:                                        │
+│    ✗ Max ratio 19 vs needed 45-136                         │
+│    ✗ 1st-2nd generation degeneracy (Z₃ symmetry)           │
+│    ✗ Up-down mass splitting (helix phase gives zero)       │
 │                                                             │
-│  The PATTERN (hierarchical masses with λ ~ 0.22)           │
-│  is explained, but precise values require numerical        │
-│  fitting of δ_g and sector-dependent κ.                    │
+│  NEEDED TO CLOSE:                                          │
+│    1. Mechanism to break 1↔2 degeneracy                    │
+│       (higher-order Z₃ breaking, second Higgs mode, or     │
+│        different R-field coupling per generation)           │
+│    2. Up-down splitting from Hosotani θ_H (computable      │
+│       from Coleman-Weinberg potential in gauge-Higgs unif.) │
+│    3. Enhanced 3rd-gen ratio (multi-loop α_eff or non-     │
+│       perturbative localization effects)                    │
 │                                                             │
-│  This is an area requiring further development.            │
+│  See: fermion_mass_hierarchy.py, rg_enhanced_mass_hierarchy │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -4488,22 +4533,31 @@ Observed: η_B = (6.1 ± 0.04) × 10⁻¹⁰ ✓ (order of magnitude)
 ρ_Casimir ~ 10⁻²⁶ GeV⁴
 ```
 
-**Status:**
+**Status (v5.2 — honest reassessment):**
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  COSMOLOGICAL CONSTANT: RESOLVED (see Part XIX.2)           │
+│  COSMOLOGICAL CONSTANT: NOT SOLVED                          │
 │                                                             │
-│  ✓ Domain wall elimination (doublet vs singlet)            │
-│  ✓ Partial tree-level cancellation (XCRM vs kinetic)       │
-│  ✓ Numerical proximity: M_KK⁴ ~ 10⁻⁵² GeV⁴ ~ Λ_obs        │
+│  v5.2 computation (cosmological_constant.py) shows:        │
 │                                                             │
-│  UPDATE: Complete mechanism derived in Part XIX.2:          │
-│  ✓ Λ_tree = 0 from Z₃ discrete gauge Ward identity         │
-│  ✓ Perturbative protection to all orders                    │
-│  ✓ Residual Λ ~ 6.5×10⁻⁴⁷ GeV⁴ from ν Z₃ breaking         │
-│    (factor ~2 vs Λ_obs; see Part XIX.2)                    │
+│  SM d.o.f. on S¹/Z₃:                                       │
+│    Δn = n_b - (7/8)n_f = 40 - 39.4 = 0.62                  │
+│    (Near boson-fermion cancellation, but NOT exact)          │
 │                                                             │
-│  CONCLUSION: Correct scale derived — see Part XIX.2         │
+│  To match Λ_obs = 2.6×10⁻⁴⁷ GeV⁴: need L ~ 80 μm         │
+│    Excluded by torsion balance experiments (L < 44 μm)      │
+│                                                             │
+│  R-field vacuum energy: V_R ~ v⁴ ~ 10⁹ GeV⁴               │
+│    Needs cancellation to 10⁻⁵⁶ — standard fine-tuning      │
+│                                                             │
+│  What the framework provides:                               │
+│    ✓ Correct SIGN (Δn > 0 → ρ_Cas > 0, Λ_obs > 0)          │
+│    ✓ Partial tree-level cancellation (XCRM vs kinetic)      │
+│    ✗ No complete mechanism for the CC                       │
+│    ✗ Twisted sector contributions UV-sensitive              │
+│                                                             │
+│  CONCLUSION: CC remains an open problem in this framework.  │
+│  See cosmological_constant.py for detailed computation.     │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -4537,11 +4591,11 @@ Observed: η_B = (6.1 ± 0.04) × 10⁻¹⁰ ✓ (order of magnitude)
 ║    • Ω_DM h² = 0.119        [Planck: 0.120 ± 0.001]  ✓              ║
 ║    • σ_SI ~ 10⁻⁴⁷ cm² (direct detection target)                      ║
 ║                                                                       ║
-║  COSMOLOGICAL CONSTANT (Z₃ discrete gauge mechanism):                 ║
-║    • Λ_tree = 0 (Ward identity from gauged Z₃)                       ║
-║    • Λ_residual = 6.5×10⁻⁴⁷ GeV⁴ (from ν sector Z₃ breaking)        ║
-║    • Observed: 2.9×10⁻⁴⁷ GeV⁴                                        ║
-║    • Agreement: Factor 2.2 (within uncertainties)    ✓              ║
+║  COSMOLOGICAL CONSTANT: OPEN PROBLEM                                  ║
+║    • Correct sign from SM Casimir (Δn = 0.62 > 0)                    ║
+║    • L ~ 80 μm needed to match Λ_obs (excluded by experiment)        ║
+║    • R-field V ~ v⁴ needs 10⁻⁵⁶ cancellation                         ║
+║    • Status: NOT SOLVED — see cosmological_constant.py               ║
 ║                                                                       ║
 ║  NEUTRINO COSMOLOGY:                                                  ║
 ║    • Σm_ν ≈ 59 meV (normal ordering)                                 ║
@@ -4560,7 +4614,7 @@ Observed: η_B = (6.1 ± 0.04) × 10⁻¹⁰ ✓ (order of magnitude)
 | r | 0.004 ± 0.001 | < 0.036 | LiteBIRD | TESTABLE |
 | η_B | ~10⁻¹⁰ | 6.1×10⁻¹⁰ | — | ORDER CORRECT |
 | Ω_DM h² | 0.119 | 0.120 ± 0.001 | — | EXCELLENT |
-| Λ | ~10⁻⁴⁷ GeV⁴ | 2.9×10⁻⁴⁷ GeV⁴ | — | FACTOR 2 |
+| Λ | NOT SOLVED | 2.9×10⁻⁴⁷ GeV⁴ | — | OPEN |
 | Σm_ν | 59 meV | < 120 meV | DESI/Euclid | TESTABLE |
 | Mass ordering | NORMAL | Unknown | JUNO 2025+ | DECISIVE |
 
@@ -4702,7 +4756,7 @@ M-theory on G₂: Associative 3-form decomposes to STUR structure
 | λ | 0.217-0.220 | 0.225±0.001 | exp[-κ²/8] × corrections | **1.8σ** |
 | A | 0.81 | 0.826±0.015 | Overlap integrals | **1.1σ** |
 | ρ̄ | 0.17 | 0.159±0.010 | Helix geometry | **1.1σ** |
-| η̄ | 0.350±0.020 | 0.348±0.010 | Holonomy × Berry × RG | **0.1σ** |
+| η̄ | 0.359±0.020 | 0.348±0.010 | Holonomy × RG (Berry=1.000) | **1.1σ** |
 
 **Constrained (~19 parameters):**
 - Mass hierarchies: Pattern m₃:m₂:m₁ ~ 1:λ²:λ⁴ derived
@@ -4780,7 +4834,7 @@ This document presents STUR as a **complete Theory of Everything** — a unified
 - 3 generations (fixed point counting)
 - κ = 2.52 ± 0.16 (Mathieu equation + higher-order corrections)
 - λ = 0.220 (Gaussian overlap with all correction factors)
-- η̄ = 0.350 ± 0.020 (holonomy × Berry × RG corrections)
+- η̄ = 0.359 ± 0.020 (holonomy × RG corrections; Berry=1.000, v5.2)
 - m_H = 125 GeV (RG evolution of quartic)
 
 **All Scales Derived from M_Planck:**
@@ -4919,104 +4973,80 @@ Residual Λ derived from first principles:
 
 This section provides the complete first-principles calculations required for Theory of Everything status.
 
-### 19.1 L_X Derivation from Casimir-Holonomy Balance
+### 19.1 L_X Determination — Status and Required Physics
 
-**The compactification scale L_X is DERIVED, not input.**
+**The compactification scale L_X is currently NOT derived from first principles.**
 
-**Step 1: Casimir Energy Calculation**
+The previous version of this section claimed L_X = 0.8 μm from a Casimir-holonomy
+balance. An explicit numerical computation (lx_effective_potential.py, v5.2) showed
+this derivation contains sign errors and does not produce a stable minimum.
 
-For fields on S¹/Z₃ with twisted boundary conditions φ(X + L_X) = ω^k φ(X):
-
-```
-E_Casimir = -ζ(5) × N_eff / (2π)⁵ × 1/L_X⁵
-
-where N_eff = N_bosons - (7/8) × N_fermions (with twist factors)
-```
-
-**Field content calculation:**
-
-| Field | DOF | Z₃ phase | Twist factor f(k/3) | Contribution |
-|-------|-----|----------|---------------------|--------------|
-| SU(3) gluons | 24 | ω | 0.136 | +3.26 |
-| SU(2) W-bosons | 9 | ω² | 0.136 | +1.22 |
-| U(1) B-boson | 3 | 1 | 1.000 | +3.00 |
-| 5D Graviton | 5 | 1 | 1.000 | +5.00 |
-| R-field | 1 | ω | 1.000 | +1.00 |
-| Higgs | 4 | 1 | 1.000 | +4.00 |
-| Fermions (3 gen) | 144×3 | 1,ω,ω² | mixed | −160.3 |
-| **Total N_eff** | | | | **−142.8** |
-
-With ghost field corrections: **N_eff ≈ −149** (fermion dominated → repulsive Casimir)
-
-**Step 2: Holonomy Energy Calculation**
+**What the computation shows:**
 
 ```
-E_holonomy = c_h × ||h||² / L_X
+The 4D effective potential on S¹/Z₃ has three contributions:
 
-c_h = Σ_G [g_G²/(16π²) × dim(G) × C₂(adj) × π⁴/15]
-    = 1.20 (SU(3)) + 0.104 (SU(2)) + 0.049 (U(1))
-    = 1.35
+  V_eff(L) = V_Cas(L) + V_hol(L) + V_helix(L)
 
-||h||² = Tr[h_SU(3)²]/8 + Tr[h_SU(2)²]/3 + h_U(1)²
-       = 0.00926 + 0.0417 + 0.111
-       = 0.162
+1. V_Cas ~ Δn / L⁴   (Casimir energy from KK tower)
+   SM: Δn = n_b - (7/8)n_f = 40 - 39.4 = 0.62
+   (With A₅ scalars: n_b = 24 gauge + 12 A₅ + 4 Higgs = 40)
+   Sign: POSITIVE (fermion-dominated → repulsive)
+
+2. V_hol ~ α_G × dim(adj) / L⁴  (holonomy potential at Z₃ point)
+   At the Z₃ symmetric point, V_hol < 0 (minimum of Hosotani potential)
+   The SIGN of V_hol is attractive (negative)
+
+3. V_helix = (2πv)²/(9L²)  (R-field winding energy)
+   Sign: POSITIVE (always repulsive)
+
+All three terms decrease as L → ∞ (V ~ 1/Lⁿ), so V_eff → 0⁺ at large L.
+Without a CONSTANT term (bare CC or flux energy), there is no stable minimum.
 ```
 
-**Step 3: Energy Minimization**
+**What is needed for L_X stabilization:**
 
 ```
-E_total(L_X) = A/L_X⁵ + B/L_X
+A stable minimum requires a term with DIFFERENT L-dependence that provides
+a restoring force. Candidates:
 
-where A = ζ(5)|N_eff|/(2π)⁵ = 1.037 × 149 / 961.4 = 0.161
-      B = c_h × ||h||² = 1.35 × 0.162 = 0.219
+1. Bulk cosmological constant Λ_5 (constant term):
+   V_eff = -|A|/L⁴ + B/L² + Λ_5
+   If the net Casimir + holonomy is attractive (A > 0) and Λ_5 > 0,
+   this has a minimum. But Λ_5 is an INPUT, not derived.
 
-dE/dL_X = 0  →  L_X⁴ = 5A/B = 5 × 0.161 / 0.219 = 3.68
+2. Flux stabilization (Freund-Rubin):
+   Magnetic flux through S¹/Z₃ contributes V_flux = F²L² (grows with L),
+   balancing the 1/L⁴ Casimir. This is the standard mechanism in string
+   compactifications but requires specifying the flux quantum.
 
-L_X* = (3.68)^(1/4) = 1.39 (dimensionless)
+3. Moduli potential from F-theory embedding:
+   The F-theory construction (Part XIX.3) should in principle determine
+   L_X through the Kähler modulus stabilization. This calculation has
+   not been performed.
 ```
 
-**Step 4: Physical Scale from Running Couplings**
-
-Self-consistency at M_KK where gauge couplings take derived values:
-
-```
-M_KK ~ 0.25 eV
-
-L_X = ħc / M_KK = (1.97 × 10⁻⁷ eV·m) / (0.25 eV)
-    = 7.9 × 10⁻⁷ m ≈ 0.8 μm
-```
-
-**Stability check:** d²E/dL_X² = 8B/(L_X*)³ > 0 ✓ (stable minimum)
+**Current status:**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│  L_X = 0.8 μm  DERIVED from Casimir-holonomy balance               │
+│  L_X = NOT YET DERIVED                                             │
 │                                                                     │
-│  Formula: L_X = [5ζ(5)|N_eff|/(2π)⁵ × c_h||h||²]^(1/4) × ħc/M_eff  │
+│  The v·L = 3 quantization condition relates L to the R-field VEV v:│
+│    L_X = 3/v                                                       │
 │                                                                     │
-│  Inputs: SM field content (N_eff), gauge couplings (c_h, ||h||²)   │
-│  All determined by framework — NO free parameters                   │
+│  If v = v_EW = 246 GeV: L_X = 2.4 fm (probed at LHC — excluded)  │
+│  If v = v_R (R-field VEV): v_R must be separately determined      │
+│                                                                     │
+│  The R-field VEV v_R is NOT necessarily the Higgs VEV v_EW.       │
+│  Identifying the correct v requires the full moduli potential.      │
+│                                                                     │
+│  OPEN: L_X requires either flux stabilization, F-theory moduli     │
+│  stabilization, or an independent determination of v_R.            │
+│                                                                     │
+│  See: lx_effective_potential.py for the complete V_eff computation  │
 └─────────────────────────────────────────────────────────────────────┘
 ```
-
-> **L_X scale ambiguity:** The Casimir-holonomy balance above gives L_X ~ 0.8 μm
-> (accessible to fifth-force experiments), while naive dimensional analysis from
-> M_GUT gives L_X ~ 1/M_GUT ~ 10⁻³² m -- a 25-order-of-magnitude discrepancy.
-> The two estimates correspond to fundamentally different physical pictures:
->
-> - **Casimir-holonomy (this derivation):** L_X is set by the balance of repulsive
->   Casimir energy (fermion-dominated, N_eff ~ -149) against attractive holonomy
->   energy. This yields L_X ~ 0.8 μm, which is falsifiable via short-range gravity
->   tests (ARIADNE, Eöt-Wash).
-> - **GUT-scale dimensional analysis:** If one simply identifies L_X ~ 1/M_GUT ~
->   1/(2 × 10¹⁶ GeV) ~ 10⁻³² m, the extra dimension is undetectably small.
->   This is the standard assumption in most Kaluza-Klein and string compactifications.
->
-> The framework adopts the Casimir-holonomy value because it emerges from the
-> explicit energy minimization of Sec. 19.1. However, this derivation depends on
-> the SM field content contributing to N_eff and the holonomy potential coefficients
-> -- assumptions that must be tested experimentally. **If no fifth-force signal is
-> found at the μm scale, the Casimir-holonomy derivation is falsified.**
 
 ---
 
@@ -5726,7 +5756,7 @@ After Z₃ quotient: 6/3 + 3×(1/3) = 2 + 1 = 3 generations ✓
 | θ_QCD = 0 | Z₃ × CP symmetry | **EXACT** |
 | κ = 2.52 ± 0.16 | Mathieu + higher-order corrections | **DERIVED** |
 | λ = 0.233 | exp[−κ²/8] × correction factors | **DERIVED** |
-| η̄ = 0.350 ± 0.020 | Helix geometry + holonomy/Berry/RG | **DERIVED** |
+| η̄ = 0.359 ± 0.020 | Helix geometry + holonomy/RG (Berry=1.000) | **SEMI-DERIVED** |
 | UV completion | F-theory j=0 elliptic fibration | **IDENTIFIED** |
 
 ```
@@ -6216,7 +6246,7 @@ DERIVED (calculated):
     9. M_R = 20/L_X        (Holonomy enhancement)
    10. κ = 2.52 ± 0.16     (Mathieu + corrections)
    11. λ = 0.220           (exp[-κ²/8] × factors)
-   12. η̄ = 0.350 ± 0.02    (Holonomy × Berry × RG)
+   12. η̄ = 0.359 ± 0.02    (Holonomy × RG; Berry=1.000, v5.2)
    13. m_H = 125 ± 10 GeV  (GHU + RG running)
    14. Λ_residual ~ 6.5×10⁻⁴⁷  (ν Majorana breaking)
    15. S_BH = A/(4l_P²)    (Z₃ horizon modes)
@@ -7104,7 +7134,7 @@ calculations with consistent conventions (see Correction Factors).
 | λ | 0.220 | ±0.012 (5%) | 0.2250 ± 0.0006 | 0.4σ |
 | A | 0.826 | ±0.045 (5%) | 0.826 ± 0.012 | 0.0σ |
 | ρ̄ | 0.159 | ±0.020 (13%) | 0.159 ± 0.010 | 0.0σ |
-| η̄ | 0.350 | ±0.025 (7%) | 0.348 ± 0.010 | 0.1σ |
+| η̄ | 0.359 | ±0.025 (7%) | 0.348 ± 0.010 | 1.1σ |
 | sin²θ₁₂ | 0.303 | ±0.015 (5%) | 0.303 ± 0.012 | 0.0σ |
 | sin²θ₂₃ | 0.573 | ±0.022 (4%) | 0.572 ± 0.018 | 0.0σ |
 | sin²θ₁₃ | 0.0221 | ±0.0018 (8%) | 0.02203 ± 0.00056 | 0.0σ |
@@ -7164,7 +7194,7 @@ Proton stable                (τ_p > 10³⁴ years)
 L_X = 0.79 ± 0.08 μm         (Casimir-holonomy)
 κ = 2.52 ± 0.10              (Mathieu + corrections)
 λ = 0.220 ± 0.012            (geometric)
-η̄ = 0.350 ± 0.025            (holonomy/Berry/RG)
+η̄ = 0.359 ± 0.025            (holonomy/RG; Berry=1.000, v5.2)
 m_H = 125 ± 8 GeV            (GHU + running)
 Λ = 6.5 × 10⁻⁴⁷ GeV⁴ (Z₃ + neutrino; Part XIX.2)
 ```
@@ -7994,20 +8024,30 @@ genuine forecasts awaiting experimental verification via 0νββ.
 ║    [✓] EDM predictions (Part XXX)                                   ║
 ║    [✓] 0νββ predictions (Part XXXI)                                 ║
 ║                                                                       ║
-║  PARAMETER STATUS (see Section 32.2 for honest accounting):          ║
-║    26/26 SM parameters derived from Z₃ geometry:                     ║
-║      • ALL charged fermion masses (9) to <2% accuracy               ║
-║      • ALL CKM parameters (4): λ, A, η̄, ρ̄                          ║
-║      • ALL PMNS Dirac parameters (4): θ₁₂, θ₂₃, θ₁₃, δ_CP          ║
-║      • ALL Majorana phases (2): α₂₁ = 238°, α₃₁ = 118°             ║
-║      • Neutrino Δm² (2), Higgs v & m_H (2), θ_QCD, N_gen, m_ν (3)  ║
+║  PARAMETER STATUS (honest accounting, v5.2):                         ║
+║    GENUINELY DERIVED from Z₃ geometry:                               ║
+║      • λ (Cabibbo angle) = exp(-κ²/4) = 0.2285 (1.6% off)          ║
+║      • N_gen = 3 (Z₃ fixed points)                                  ║
+║      • θ_QCD = 0 (Z₃ × CP symmetry)                                 ║
+║      • η̄ = 0.359 ± 0.020 (1.1σ, correction chain semi-derived)     ║
+║      • f_screen = 0.696 (Debye-Waller, first principles)            ║
+║      • m_t from GHU y_t = g_2 (if UV completion holds)              ║
+║    SEMI-DERIVED (use fitted correction factors):                     ║
+║      • Charged fermion masses use f_tail, f_node (FITTED, not derived)║
+║      • PMNS angles use tribimaximal + Z₃ perturbation ansatz        ║
+║    NOT SOLVED:                                                       ║
+║      • Cosmological constant (Δn=0.62, L~80μm excluded)             ║
+║      • L_X dynamical stabilization (no minimum found)               ║
+║      • Mass hierarchy max ratio 19 vs observed 53-277               ║
+║      • 1st-2nd generation degeneracy (Z₃ symmetry forces m₁=m₂)    ║
 ║                                                                       ║
 ║  ═══════════════════════════════════════════════════════════════════ ║
 ║                                                                       ║
-║  STATUS: COMPLETE — ALL 26 SM PARAMETERS DERIVED                      ║
+║  STATUS: PARTIAL — Core flavor sector works, structural gaps remain  ║
 ║                                                                       ║
-║  Framework complete: 26/26 Standard Model parameters derived from    ║
-║  Z₃ helix geometry with <6% accuracy. Theory awaits verification.   ║
+║  The Z₃ model successfully derives the Cabibbo angle, 3 generations, ║
+║  θ_QCD = 0, and provides a framework for the CKM phase. However,    ║
+║  mass hierarchy, CC, and L_X stabilization are NOT solved.           ║
 ║  Majorana phases α₂₁, α₃₁ are genuine predictions for nEXO.         ║
 ║                                                                       ║
 ║  PRIMARY EXPERIMENTAL TESTS:                                          ║
@@ -8029,80 +8069,86 @@ The following documents extend the derivation chain with further calculations. S
 
 **Document:** [COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md](COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md)
 
-The cosmological constant problem is **SOLVED** through discrete gauge Z₃ formulation:
+The cosmological constant problem is **NOT SOLVED** (v5.2 computation):
 
 ```
-MECHANISM SUMMARY:
+STATUS: NOT SOLVED — v5.2 Honest Assessment
 ═══════════════════════════════════════════════════════════════════
 
-1. DISCRETE GAUGE FORMULATION (Krauss-Wilczek framework)
-   - Z₃ promoted from global to discrete gauge symmetry
-   - Domain walls eliminated by gauge invariance
-   - Vacuum energy transforms non-trivially under Z₃
+1. CASIMIR ENERGY ON S¹/Z₃:
+   - SM d.o.f.: n_b = 40 (24 gauge + 12 A₅ + 4 Higgs), n_f = 45 Weyl
+   - Δn = n_b - (7/8)n_f = 40 - 39.375 = 0.625 (near cancellation)
+   - Λ_Cas ~ Δn × π²/(720 L⁴) — positive for SM spectrum
 
-2. WARD IDENTITY PROOF: Λ_tree = 0 (EXACT)
-   - Discrete gauge Ward identity: ⟨0|δT^μ_μ|0⟩ = 0
-   - Tree-level cosmological constant vanishes identically
-   - No fine-tuning required at classical level
+2. WHAT WOULD BE NEEDED:
+   - Δn = 0.625 → need L ~ 80 μm to match Λ_obs
+   - Excluded by torsion balance experiments (L < 44 μm at 95% CL)
+   - Even if L were right, R-field vacuum V_R ~ v⁴ ~ 10⁹ GeV⁴
+     requires 10⁻⁵⁶ cancellation — standard CC fine-tuning
 
-3. ONE-LOOP PROTECTION MECHANISM
-   - Z₃ twisted boundary conditions → loop contributions cancel
-   - Σ_{n∈Z₃} ω^n = 0 enforces perturbative protection
-   - All radiative corrections to Λ vanish to all orders
+3. WARD IDENTITY ARGUMENT IS INCOMPLETE:
+   - Z₃ Ward identity constrains tree-level Λ_tree = 0
+   - But loop corrections are NOT protected by Z₃ alone
+   - Σ_{n∈Z₃} ω^n = 0 applies to Z₃-charged sectors only
+   - Z₃-neutral sectors (gravity, Higgs) contribute unprotected
 
-4. RESIDUAL Λ FROM NEUTRINO Z₃ BREAKING
-   - Neutrino masses softly break Z₃ (Majorana terms)
-   - Residual contribution: Λ ~ m_ν⁴/(16π²)
-   - Numerical result: Λ ~ 6.5 × 10⁻⁴⁷ GeV⁴ (Part XIX.2)
-   - Factor ~2.3 vs Λ_obs = 2.846 × 10⁻⁴⁷ GeV⁴
+4. NEUTRINO Z₃ BREAKING ARGUMENT:
+   - Λ ~ m_ν⁴/(16π²) gives correct SCALE (~10⁻⁴⁷ GeV⁴)
+   - But this is the see-saw coincidence, not a derivation
+   - Does not address the 10⁻⁵⁶ R-field vacuum cancellation
 
-RESULT: Correct scale derived; factor ~2.3 discrepancy remains
+RESULT: The CC problem remains OPEN in the STUR framework.
+See: scripts/cosmological_constant.py for numerical computation.
 ═══════════════════════════════════════════════════════════════════
 ```
 
-### 33.2 Mass Sector Status — COMPLETE (Updated 2026-02-06)
+### 33.2 Mass Sector Status — HONEST ASSESSMENT (Updated v5.2)
 
 **Document:** [ABSOLUTE_MASS_DERIVATION.md](ABSOLUTE_MASS_DERIVATION.md)
 
 Status of fermion mass derivations from the STUR framework:
 
 ```
-MASS SECTOR STATUS: ★ ALL MASSES DERIVED ★
+MASS SECTOR STATUS: PARTIALLY DERIVED — STRUCTURAL GAPS REMAIN
 ═══════════════════════════════════════════════════════════════════
 
-ALL 9 CHARGED FERMION MASSES DERIVED TO <2% ACCURACY:
+WHAT WORKS (genuinely derived):
+  • m_t = 170.7 GeV [Obs: 172.6 GeV] ~1σ (GHU: y_t = g_2)
+    → This is genuine IF gauge-Higgs unification holds
+  • m_H = 125 GeV [Obs: 125.20 GeV] (GHU: λ = g²/4)
+    → Follows from GHU structure
+  • λ (Cabibbo angle) = 0.2285 (1.6% off) from exp(-κ²/4)
+    → Genuinely derived from α_eff
 
-  QUARKS:
-  m_u = 2.14 MeV    [Obs: 2.16 MeV]   0.9%  (Z₃ node: f_u^{node}=0.133)
-  m_d = 4.62 MeV    [Obs: 4.70 MeV]   1.7%  (f_tail = 1.131)
-  m_s = 93.5 MeV    [Obs: 93.5 MeV]   0.0%  (exact)
-  m_c = 1.26 GeV    [Obs: 1.27 GeV]   1.0%  (f_tail = 1.131)
-  m_b = 4.20 GeV    [Obs: 4.18 GeV]   0.4%  (f_tail = 1.131)
-  m_t = 170.7 GeV   [Obs: 172.6 GeV]  ~1σ   (GHU: y_t = g_2)
+WHAT USES FITTED CORRECTION FACTORS:
+  The <2% accuracy claims for charged fermion masses rely on
+  correction factors that are FITTED to reproduce observations,
+  not derived from the Z₃ geometry:
 
-  LEPTONS:
-  m_e = 0.508 MeV   [Obs: 0.511 MeV]  0.6%  (color singlet: f_ℓ=1/√3)
-  m_μ = 106.2 MeV   [Obs: 105.7 MeV]  0.5%  (color singlet: f_ℓ=1/√3)
-  m_τ = 1.777 GeV   [Obs: 1.777 GeV]  0.0%  (Z₃ overlap: Y_τ×v×f_ℓ×f_tail)
+  f_tail = 1.131    — FITTED. Claimed as "wavefunction tail correction"
+                      but the value is adjusted to match data.
+  f_u^{node} = 0.133 — FITTED. Claimed as "Z₃ twisted sector node"
+                       but chosen to reproduce m_u.
+  f_ℓ = 1/√3        — Semi-derived. Color singlet factor has a
+                       plausible Z₃ origin but is not rigorously proven.
+  f_ν^{res} = 2.3   — FITTED. Chosen to match m_νμ.
 
-KEY CORRECTION FACTORS (all derived from Z₃ geometry):
-  f_tail = 1.131      Wavefunction tail correction
-  f_ℓ = 1/√3          Color singlet correction for leptons
-  f_u^{node} = 0.133  Z₃ twisted sector node for first-gen up quark
-  f_ν^{res} = 2.3     Z₃ resonance for second-gen neutrino
+STRUCTURAL LIMITATIONS (v5.2 computation):
+  • Max geometric hierarchy: exp(κ²/2) ≈ 19.2
+    Observed: m_b/m_s = 53, m_t/m_c = 277 (need 3-15× more)
+  • 1st-2nd gen degeneracy: Z₃ symmetry forces m₁ = m₂
+    Observed: m_u/m_d ≈ 0.46, m_c/m_s ≈ 13.6 (NOT degenerate)
+  • Up-down splitting: helix phase exp(±iθ/3) gives ZERO
+    Need Hosotani mechanism or additional breaking
+  • RG enhancement helps: α_eff(0.5 GeV) = 2.03 vs α_eff(m_t) = 1.43
+    But still insufficient: max ratio ~21 (vs needed 45-277)
 
-NEUTRINO MASSES (derived from Type I seesaw):
-  Normal ordering: m₁ ≈ 0.28 meV, m₂ ~ 8.6 meV, m₃ ~ 50 meV
-  Δm²₃₁ = 2.50×10⁻³ eV²  [Obs: 2.51×10⁻³ eV²]  0.4%
-  Δm²₂₁ = 7.2×10⁻⁵ eV²   [Obs: 7.42×10⁻⁵ eV²]  2.8%
-  M_R = 6×10¹³ GeV (from holonomy-enhanced Wilson line)
+NEUTRINO MASSES (seesaw with fitted M_R):
+  M_R = 6×10¹³ GeV is chosen to reproduce mass splittings.
+  The seesaw mechanism is standard physics, not unique to STUR.
 
-HIGGS SECTOR:
-  m_H = 125 GeV     [Obs: 125.20 GeV]  ~0σ   (GHU: λ = g²/4)
-  v = 246 GeV       [Obs: 246.22 GeV]  0.1%  (Froggatt-Nielsen: λ^22)
-
-COMPLETE: All 9 charged masses + 3 neutrino masses + v + m_H derived
-from Z₃ helix geometry with <2% accuracy (charged) and <3% (neutrinos).
+See: scripts/fermion_mass_hierarchy.py for structural limits
+     scripts/rg_enhanced_mass_hierarchy.py for RG enhancement
 ═══════════════════════════════════════════════════════════════════
 ```
 
@@ -8110,7 +8156,7 @@ from Z₃ helix geometry with <2% accuracy (charged) and <3% (neutrinos).
 
 **Document:** [FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md](FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md)
 
-The UV completion is now **EXPLICIT** with full Calabi-Yau fourfold construction:
+A proposed UV completion via F-theory CY₄ construction (requires independent verification):
 
 ```
 F-THEORY CONSTRUCTION:
@@ -8146,146 +8192,171 @@ MODULI STABILIZATION:
   - Complex structure: Fixed at j = 0 locus
   - No flat directions remain
 
-STATUS: Complete, self-consistent UV completion
+STATUS: Proposed construction — needs verification that moduli
+stabilization actually produces the claimed L_X and v values.
+Note: scripts/lx_effective_potential.py finds NO minimum for L_X
+in the 5D EFT. The F-theory moduli may resolve this but the
+explicit stabilization has not been computed.
 ═══════════════════════════════════════════════════════════════════
 ```
 
-### 33.4 Prediction Status and Precision Assessment — COMPLETE (Updated 2026-02-06)
+### 33.4 Prediction Status — HONEST ASSESSMENT (Updated v5.2)
 
 **Document:** [HIGH_PRECISION_PREDICTIONS.md](HIGH_PRECISION_PREDICTIONS.md)
 
-Complete assessment of STUR prediction status (26/26 SM parameters):
+Honest assessment of STUR prediction status:
 
 ```
-PREDICTION STATUS — ALL 26 SM PARAMETERS DERIVED:
+PREDICTION STATUS — v5.2 HONEST ACCOUNTING:
 ═══════════════════════════════════════════════════════════════════
 
-CKM PARAMETERS (4) — ALL DERIVED:
-  λ = 0.225           [Obs: 0.2250]     0.0%  exact (exp[-κ²/8])
-  A = 0.816           [Obs: 0.826]      1.2%  (third-gen coupling)
-  η̄ = 0.350           [Obs: 0.348]      0.6%  (holonomy + Berry + RG)
-  ρ̄ = 0.15            [Obs: 0.159]      6%    (geometric phase)
+GENUINELY DERIVED (no fitting):
+  λ = 0.2285          [Obs: 0.2250]     1.6%  exp[-κ²/4], α_eff = 1.480
+  N_gen = 3           [Obs: 3]          exact  Z₃ fixed points
+  θ_QCD = 0           [Obs: < 10⁻¹⁰]   exact  Z₃ × CP symmetry
+  f_screen = 0.696    — Debye-Waller    derived from Mathieu eigenstate
 
-PMNS PARAMETERS (6) — ALL DERIVED:
-  θ₁₂ = 33.8°         [Obs: 33.41°]     1.2%  (tribimaximal + Z₃)
-  θ₂₃ = 47.3°         [Obs: 49.0°]      3.5%  (Z₃ maximal mixing)
-  θ₁₃ = 8.6°          [Obs: 8.54°]      0.7%  (twisted sector)
-  δ_CP = 194°         [Obs: 194°]       0%    exact (holonomy)
-  α₂₁ = 238°          [Not measured]    PREDICTION for 0νββ
-  α₃₁ = 118°          [Not measured]    PREDICTION for 0νββ
+SEMI-DERIVED (correction chain with uncertainties):
+  η̄ = 0.359 ± 0.020  [Obs: 0.348]      1.1σ  (f_Berry=1.000, f_hol, f_RG)
+  ρ̄ = 0.139 ± 0.003  [Obs: 0.159]      12.5% (from δ_CKM = 68.3° vs 65.4°)
+  δ_CKM = 68.3°       [Obs: 65.4°]     4.4%  (arctan(1/2) + π/3 × f_screen)
 
-CHARGED FERMION MASSES (9) — ALL DERIVED TO <2%:
-  m_u (0.9%), m_d (1.7%), m_s (0.0%), m_c (1.0%), m_b (0.4%)
-  m_e (0.6%), m_μ (0.5%), m_t (~1σ), m_τ (0.0% exact)
+DERIVED IF GHU HOLDS (model-dependent):
+  m_t from y_t = g_2   [Obs: 172.6 GeV]  ~1σ   gauge-Yukawa unification
+  m_H from λ = g²/4    [Obs: 125.20 GeV] ~0σ   gauge-Higgs unification
 
-NEUTRINO SECTOR (5) — ALL DERIVED:
-  Δm²₃₁ (0.4%), Δm²₂₁ (2.8%), m₃, m₂, m₁ from seesaw
+USE FITTED CORRECTION FACTORS (NOT first-principles):
+  9 charged fermion masses — "<2% accuracy" relies on f_tail, f_node
+    that are adjusted to match observed values (see §33.2)
+  A = 0.816 — uses generation-dependent enhancement (adjusted)
+  PMNS angles — tribimaximal ansatz with Z₃ perturbation
 
-HIGGS/EW SECTOR (2) — DERIVED:
-  v = 246 GeV (0.1%), m_H = 125 GeV (~0σ)
+NOT SOLVED:
+  Cosmological constant — NOT derived (see §33.1, scripts/cosmological_constant.py)
+  L_X stabilization — no dynamical minimum (see scripts/lx_effective_potential.py)
+  Mass hierarchy — max ratio 19 vs needed 53-277 (structural gap)
+  1st-2nd gen splitting — Z₃ forces degeneracy (needs additional breaking)
+  Up-down splitting — helix phase gives zero (needs Hosotani mechanism)
 
-OTHER DERIVED: θ_QCD = 0, N_gen = 3
-
-GENUINE PREDICTIONS AWAITING EXPERIMENTAL VERIFICATION:
+GENUINE PREDICTIONS (if framework is correct):
   • Majorana phases: α₂₁ = 238° ± 15°, α₃₁ = 118° ± 15°
   • 0νββ effective mass: |m_ββ| ≈ 2.5 meV
-  • Tensor-to-scalar ratio: r = 0.004
   • Neutrino mass ordering: Normal
+  • Berry phase f_Berry = 1.000 exactly (not 0.975)
 
 STATISTICAL SUMMARY:
-  26/26 SM parameters derived from Z₃ geometry
-  Average accuracy: <6% (most <2%)
-  χ²/dof for verified parameters: ~1.2 (excellent)
+  Core flavor sector: 3-4 parameters genuinely derived
+  Semi-derived with uncertainties: 3 parameters (η̄, ρ̄, δ_CKM)
+  Model-dependent (GHU): 2 parameters (m_t, m_H)
+  Fitted: ~17 parameters (masses, PMNS) — good fit ≠ derivation
 ═══════════════════════════════════════════════════════════════════
 ```
 
-### 33.5 Numerical Verification Suite
+### 33.5 Numerical Computation Scripts (v5.2)
 
-**Script:** [scripts/stur_numerical_verification.py](scripts/stur_numerical_verification.py)
-**Report:** [NUMERICAL_VERIFICATION_REPORT.md](NUMERICAL_VERIFICATION_REPORT.md)
-
-Complete numerical validation of all derivations:
+The following scripts provide reproducible numerical computations:
 
 ```
-VERIFICATION SUMMARY:
+COMPUTATION SCRIPTS — ACTUAL RESULTS:
 ═══════════════════════════════════════════════════════════════════
 
-TESTS RUN: 847
-TESTS PASSED: 847
-TESTS FAILED: 0
+CABIBBO ANGLE & CKM:
+  scripts/alpha_eff_rigorous_calculation.py
+    → α_eff = 1.480 ± 0.047 (one-loop + two-loop)
+    → κ = 2.430, σ = 0.862 rad
+    → λ = exp(-κ²/4) = 0.2285 (1.6% from observed)
 
-CATEGORIES:
-  ✓ Topological identities (N_gen, gauge group): 23/23
-  ✓ Mass derivations (all fermions + bosons): 156/156
-  ✓ Mixing parameter calculations (CKM, PMNS): 89/89
-  ✓ Cosmological constant derivation: 67/67
-  ✓ F-theory consistency checks: 234/234
-  ✓ Anomaly cancellation verification: 145/145
-  ✓ RG running calculations: 133/133
+  scripts/ckm_full_diagonalization.py
+    → Full CKM matrix from pairwise overlaps + Derivation D
+    → δ_CKM = 68.3° (4.4% from 65.4°)
 
-NUMERICAL PRECISION:
-  - All calculations performed in arbitrary precision (mpmath)
-  - Error propagation tracked through all steps
-  - Monte Carlo uncertainty estimation (10⁶ samples)
-  - Cross-validation with independent implementations
+  scripts/f_screen_first_principles.py
+    → f_screen = 0.696 ± 0.006 (Debye-Waller)
 
-REPRODUCIBILITY:
-  - All random seeds documented
-  - Complete calculation logs available
-  - Independent verification invited
+BERRY PHASE:
+  scripts/berry_phase_exact.py
+    → f_Berry = 1.000 exactly (NOT 0.975)
+    → Abelian phase: 3.3×10⁻¹⁴ (numerically zero)
+    → Bargmann invariant: arg = 0° (real wavefunctions)
 
-STATUS: All derivations numerically verified
+MASS HIERARCHY:
+  scripts/fermion_mass_hierarchy.py
+    → Max geometric ratio: exp(κ²/2) ≈ 19.2 (need 53-277)
+    → Up-down splitting from helix phase: ZERO
+
+  scripts/rg_enhanced_mass_hierarchy.py
+    → α_eff(0.5 GeV) = 2.03 (41% enhancement from QCD)
+    → Max 3rd/lighter ratio: ~21 (still insufficient)
+    → 1st-2nd gen degeneracy persists: m₂/m₁ = 1.0
+
+L_X AND COSMOLOGY:
+  scripts/lx_effective_potential.py
+    → NO dynamical minimum for L_X (all terms same sign)
+
+  scripts/cosmological_constant.py
+    → Δn = 0.625, L ~ 80 μm needed (excluded by experiment)
+    → R-field V ~ v⁴ needs 10⁻⁵⁶ cancellation
+
+All scripts are self-contained and reproducible with numpy/scipy.
 ═══════════════════════════════════════════════════════════════════
 ```
 
-### 33.6 Summary: Derivation Chain Status
+### 33.6 Summary: Derivation Chain Status — HONEST ASSESSMENT (v5.2)
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════╗
 ║                                                                       ║
-║              STUR DERIVATION STATUS — COMPLETE (26/26)                ║
+║         STUR DERIVATION STATUS — PARTIAL (v5.2 Assessment)           ║
 ║                                                                       ║
 ║  ═══════════════════════════════════════════════════════════════════ ║
 ║                                                                       ║
-║  WHAT IS GENUINELY ACHIEVED:                                          ║
-║    [✓] Cosmological constant: Λ_tree = 0 mechanism (Z₃ Ward)        ║
-║    [✓] ALL 9 charged fermion masses to <2% accuracy                 ║
-║    [✓] BOTH neutrino Δm² to <3% accuracy                            ║
-║    [✓] ALL 4 CKM parameters: λ (exact), A, η̄, ρ̄                    ║
-║    [✓] ALL 6 PMNS parameters: θ₁₂, θ₂₃, θ₁₃, δ_CP, α₂₁, α₃₁       ║
-║    [✓] Higgs VEV v = 246 GeV (0.1% accuracy)                        ║
-║    [✓] Higgs mass m_H = 125 GeV from GHU                            ║
-║    [✓] Top mass m_t from gauge-Yukawa unification                   ║
-║    [✓] 3 generations: Topological origin from Z₃ fixed points       ║
-║    [✓] θ_QCD = 0: Z₃ × CP symmetry                                  ║
-║    [✓] UV completion: F-theory CY₄ construction identified          ║
+║  WHAT IS GENUINELY DERIVED (no fitting):                              ║
+║    [✓] Cabibbo angle λ = exp(-κ²/4) = 0.2285 (1.6% off)            ║
+║    [✓] 3 generations from Z₃ fixed points (topological)             ║
+║    [✓] θ_QCD = 0 from Z₃ × CP symmetry                              ║
+║    [✓] f_screen = 0.696 from Debye-Waller (first principles)        ║
+║    [✓] f_Berry = 1.000 exactly (Berry phase vanishes for real ψ)    ║
+║    [✓] α_eff = 1.480 ± 0.047 (one-loop + two-loop)                 ║
 ║                                                                       ║
-║  KEY CORRECTION FACTORS (all derived from Z₃ geometry):              ║
-║    • f_tail = 1.131 (wavefunction tail correction)                   ║
-║    • f_ℓ = 1/√3 (color singlet correction for leptons)              ║
-║    • f_u^{node} = 0.133 (Z₃ twisted sector node for m_u)            ║
-║    • f_ν^{res} = 2.3 (Z₃ resonance for second-gen neutrino)         ║
+║  SEMI-DERIVED (correction chain, some fitting):                       ║
+║    [~] η̄ = 0.359 ± 0.020 (1.1σ from PDG; f_hol, f_RG semi-derived) ║
+║    [~] δ_CKM = 68.3° (4.4% off; 12.5% gap in ρ̄)                   ║
+║    [~] m_t, m_H from GHU (model-dependent assumption)               ║
 ║                                                                       ║
-║  GENUINE PREDICTIONS AWAITING VERIFICATION:                           ║
+║  USES FITTED CORRECTION FACTORS (NOT derived):                        ║
+║    [✗] 9 charged masses: f_tail, f_node, f_ℓ are FITTED             ║
+║    [✗] PMNS angles: tribimaximal + perturbation (semi-empirical)    ║
+║    [✗] Neutrino masses: M_R chosen to fit Δm² (standard seesaw)    ║
+║    [✗] v = 246 GeV via Froggatt-Nielsen (uses fitted exponent)      ║
+║                                                                       ║
+║  NOT SOLVED (structural gaps):                                        ║
+║    [✗] Cosmological constant: Δn=0.62, L~80μm (excluded)            ║
+║    [✗] L_X stabilization: no dynamical minimum found                 ║
+║    [✗] Mass hierarchy: max ratio 19 vs needed 53-277                 ║
+║    [✗] 1st-2nd gen degeneracy: Z₃ forces m₁ = m₂                    ║
+║    [✗] Up-down mass splitting: helix phase gives zero                ║
+║                                                                       ║
+║  GENUINE PREDICTIONS (testable):                                      ║
 ║    • Majorana phases: α₂₁ = 238°, α₃₁ = 118°                        ║
-║    • 0νββ effective mass: |m_ββ| ≈ 2.5 meV (nEXO ~2030)            ║
-║    • Tensor-to-scalar ratio: r = 0.004 (CMB-S4 ~2028)               ║
-║    • Neutrino mass ordering: Normal (JUNO 2025-27)                   ║
+║    • 0νββ effective mass: |m_ββ| ≈ 2.5 meV                          ║
+║    • Neutrino mass ordering: Normal                                  ║
 ║                                                                       ║
-║  DOCUMENTS:                                                           ║
-║    • ABSOLUTE_MASS_DERIVATION.md (complete 26/26 derivation)        ║
-║    • COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md                    ║
-║    • FTHEORY_CY4_EXPLICIT_CONSTRUCTION.md                            ║
-║    • HIGH_PRECISION_PREDICTIONS.md                                   ║
+║  NEEDED TO CLOSE THE GAP:                                             ║
+║    1. Mass hierarchy: Hosotani mechanism or Z₃ → Z₃ × Z_N breaking  ║
+║    2. L_X: Flux stabilization (F-theory moduli, KKLT-type)          ║
+║    3. CC: New mechanism beyond S¹/Z₃ Casimir                         ║
+║    4. Up-down splitting: Gauge-Higgs unification with A₅ VEV        ║
+║    5. 1st-2nd gen: Z₃ breaking perturbation or radiative splitting  ║
 ║                                                                       ║
 ║  ═══════════════════════════════════════════════════════════════════ ║
 ║                                                                       ║
-║  CONCLUSION: STUR achieves COMPLETE CLOSURE — all 26 Standard        ║
-║  Model parameters derived from Z₃ helix geometry with <6% accuracy.  ║
-║  The framework provides genuine predictions for Majorana phases      ║
-║  and other observables awaiting experimental verification.           ║
-║                                                                       ║
-║                    ★ 26/26 PARAMETERS DERIVED ★                       ║
+║  CONCLUSION: The Z₃ helix model is a PROMISING FLAVOR MODEL that     ║
+║  genuinely derives the Cabibbo angle, 3 generations, and strong CP   ║
+║  solution from geometry. However, it is NOT a complete TOE: the      ║
+║  mass hierarchy, CC, and moduli stabilization remain unsolved.       ║
+║  The framework's strength is the flavor sector; its weakness is      ║
+║  the gravitational/cosmological sector. Honest gaps must be closed   ║
+║  before claiming TOE closure.                                        ║
 ║                                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 ```
@@ -8581,7 +8652,7 @@ evaluated at the wavefunction's position.
 │    Deviation: 4.4%                                          │
 │                                                             │
 │  WOLFENSTEIN PARAMETERS (with Derivation D):                │
-│    η̄ = 0.350 ± 0.020   (obs: 0.348, dev: 0.5%)            │
+│    η̄ = 0.359 ± 0.020   (obs: 0.348, dev: 1.1σ) [v5.2]     │
 │    ρ̄ = 0.139 ± 0.003   (obs: 0.159, dev: 12.5%)           │
 │                                                             │
 │  IMPROVEMENT OVER OLD FORMULA:                              │
@@ -8617,3 +8688,174 @@ is 6.5σ from the computed value. This suggests either:
 
 The gap is well within the overall theoretical uncertainty of the framework
 (~10-15%) and represents a genuine prediction, not a fit.
+
+---
+
+### Derivation E-bis: Exact Berry Phase Proof (v5.2)
+
+**Problem:** Determine f_Berry exactly for real Mathieu ground states on S¹/Z₃.
+
+**Status:** RESOLVED (v5.2). f_Berry = 1.000 exactly (NOT 0.975 as previously claimed).
+
+**Script:** `scripts/berry_phase_exact.py`
+
+**Proof by three independent methods:**
+
+**Method 1: Abelian Berry phase**
+
+The Berry connection for the Mathieu ground state |ψ₀(θ; θ₀)⟩ parametrized
+by the potential minimum θ₀ is:
+
+```
+A(θ₀) = i⟨ψ₀(θ₀)|∂/∂θ₀|ψ₀(θ₀)⟩
+```
+
+For the cosine potential V(θ) = α(1 - cos(θ - θ₀)), the ground state at
+θ₀ = 0 is real and even: ψ₀(-θ) = ψ₀(θ). The derivative ∂/∂θ₀ evaluated
+at θ₀ = 0 maps even functions to odd functions. Therefore:
+
+```
+⟨ψ₀|∂/∂θ₀|ψ₀⟩ = ∫ ψ₀(θ) × [odd function] dθ = 0    (by parity)
+```
+
+This is equivalent to ⟨p⟩ = 0 for the ground state of a symmetric potential.
+The Berry phase γ = ∮ A dθ₀ = 0.
+
+**Numerical verification:** A(θ₀) = 3.3 × 10⁻¹⁴ (machine zero).
+
+**Method 2: Bargmann invariant**
+
+For three Z₃ states |ψ₁⟩, |ψ₂⟩, |ψ₃⟩ at θ₀ = 0, 2π/3, 4π/3:
+
+```
+γ_B = arg(⟨ψ₁|ψ₂⟩⟨ψ₂|ψ₃⟩⟨ψ₃|ψ₁⟩)
+```
+
+Since ψ₂(θ) = ψ₁(θ - 2π/3) and ψ₃(θ) = ψ₁(θ - 4π/3) are real shifts
+of a real function, ALL overlaps ⟨ψ_i|ψ_j⟩ are real. Therefore:
+
+```
+γ_B = arg(real × real × real) = 0    (exactly)
+```
+
+**Numerical verification:** arg = 0.0000° (identically zero).
+
+**Method 3: Why the original estimate was wrong**
+
+The original derivation used approximate Gaussian profiles and assumed a non-zero
+Berry connection A_φ ~ -(π/3)/(2σ²) × exp(-0.78). This is incorrect because:
+
+1. It treated the wavefunctions as complex (with ad-hoc phase factors), but
+   Mathieu eigenstates are real.
+2. The "relative Berry phase" γ_{u-d-s} involves a product of three REAL overlaps,
+   giving zero phase.
+3. The "adiabatic transport" argument conflated the hypercharge Berry phase
+   (which IS non-zero) with the geometric Berry phase in parameter space
+   (which vanishes for real eigenstates).
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  BERRY PHASE PROOF: f_Berry = 1.000 (EXACT)                 │
+│                                                             │
+│  Three independent proofs:                                  │
+│    1. Abelian: ⟨p⟩ = 0 by parity → γ = 0                  │
+│    2. Bargmann: real ψ → real overlaps → arg = 0           │
+│    3. Numerical: A = 3.3×10⁻¹⁴, arg = 0.0000°             │
+│                                                             │
+│  IMPACT: η̄ moves from 0.350 to 0.359 (1.1σ, acceptable)   │
+│                                                             │
+│  See: scripts/berry_phase_exact.py                          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### Derivation I-bis: RG-Enhanced Mass Hierarchy (v5.2)
+
+**Problem:** Can scale-dependent α_eff(μ) from QCD running close the mass
+hierarchy gap (max ratio 19 vs observed 53-277)?
+
+**Status:** PARTIALLY RESOLVED. RG enhancement is real but insufficient alone.
+
+**Script:** `scripts/rg_enhanced_mass_hierarchy.py`
+
+**Physical mechanism:**
+
+The effective potential parameter α_eff receives gauge loop corrections that
+run with energy scale μ:
+
+```
+α_eff(μ) = α_tree × f_Z₃ × f_KK × f_gauge(μ)
+
+f_gauge(μ) = 1 + c₃αs(μ)/π + c₂α₂(μ)/π + c₁α₁(μ)/π
+
+Backreaction coefficients:
+  c₃ = 1.60  (QCD — largest, from asymptotic freedom)
+  c₂ = 1.11  (SU(2)_L)
+  c₁ = 0.74  (U(1)_Y)
+```
+
+QCD asymptotic freedom makes αs(μ) large at low scales, increasing α_eff
+for lighter generations.
+
+**Results:**
+
+```
+Scale-dependent α_eff (quarks):
+  α_eff(m_t = 172 GeV) = 1.434   (third generation)
+  α_eff(m_c = 1.27 GeV) = 1.706  (second generation)
+  α_eff(0.5 GeV)        = 2.025  (first generation)
+
+Enhancement: 41% increase in α_eff from top to light quarks
+             19% increase in κ
+
+Quark vs Lepton splitting:
+  α_eff(quark, 0.5 GeV) = 2.025  (c₃ = 1.60)
+  α_eff(lepton)         = 1.348  (c₃ = 0, no QCD)
+  This naturally explains why quarks are heavier than same-generation leptons.
+```
+
+**Structural limits that RG enhancement does NOT fix:**
+
+```
+1. Max hierarchy ratio: exp(κ²/2) ≈ 21 (up from 19)
+   Still insufficient: need 53 (m_b/m_s) to 277 (m_t/m_c)
+
+2. 1st-2nd generation degeneracy: m₂/m₁ = 1.0
+   Z₃ symmetry forces the two lighter generations to be degenerate.
+   RG running shifts BOTH generations equally (same symmetry position).
+
+3. Up-down splitting: helix phase exp(±iθ/3) gives ZERO
+   The mass matrix eigenvalues are |cos(θ/3) ± i sin(θ/3)|² = 1,
+   independent of θ. No up-down mass splitting from helix phase alone.
+```
+
+**What's needed to close the gap:**
+
+```
+1. Z₃ → Z₃ × Z_N breaking (e.g., Z₃ × Z₂ for up-down splitting)
+2. Hosotani mechanism with A₅ VEV for up-down mass hierarchy
+3. Radiative corrections to lift 1st-2nd gen degeneracy
+4. Non-perturbative effects (instantons, monopoles) for large hierarchies
+
+The Z₃ model provides the FRAMEWORK (3 generations, Cabibbo angle,
+CP violation) but needs ADDITIONAL STRUCTURE for the full mass spectrum.
+```
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  RG-ENHANCED MASS HIERARCHY: PARTIALLY RESOLVED              │
+│                                                             │
+│  What works:                                                │
+│    • α_eff(μ) runs by 41% from m_t to light quarks          │
+│    • Quark-lepton splitting naturally explained              │
+│    • RG enhancement is genuine physics, not fitting          │
+│                                                             │
+│  What doesn't work:                                         │
+│    • Max ratio 21 vs needed 53-277                          │
+│    • 1st-2nd gen degeneracy persists                        │
+│    • Up-down splitting remains zero                          │
+│                                                             │
+│  See: scripts/rg_enhanced_mass_hierarchy.py                  │
+└─────────────────────────────────────────────────────────────┘
+```
