@@ -101,7 +101,7 @@ within the STUR geometry and the KK spectrum.
 | **Wavefunction Tail** | **1.131 ± 0.023** | Overlap ratio on S¹/Z₃: full-circle vs single-sector Gaussian overlap | Derivation below |
 | η̄ holonomy | 0.948 ± 0.015 | Correlated fluctuations between u,d sectors | ETA_BAR_CORRECTION_CHAIN.md |
 | η̄ Berry | 1.000 ± 0.000 | Berry phase = 0 for real Mathieu eigenstates (v5.2 exact computation) | berry_phase_exact.py |
-| η̄ RG | 0.970 ± 0.010 | CP phase running with KK threshold matching | ETA_BAR_CORRECTION_CHAIN.md |
+| η̄ RG | 1.003 ± 0.003 | CP phase running: KK threshold = 0 (Z₃ protection), EW matching +0.3% | f_RG_kk_threshold.py |
 
 **Provenance of each correction factor:**
 
@@ -112,7 +112,7 @@ within the STUR geometry and the KK spectrum.
 - **Wavefunction Tail (1.131):** Derived from the analytic overlap ratio of adjacent-generation Gaussians on S¹/Z₃.  
 - **η̄ holonomy (0.948):** Derived from correlated holonomy fluctuations (ETA_BAR_CORRECTION_CHAIN.md).  
 - **η̄ Berry (1.000):** Berry phase vanishes exactly for real Mathieu ground states (⟨p⟩ = 0 by parity). Verified numerically: γ_abelian = 0, Bargmann invariant = 0. See berry_phase_exact.py.
-- **η̄ RG (0.970):** Derived from RG running with KK thresholds.
+- **η̄ RG (1.003):** DERIVED from rigorous KK threshold + EW matching computation. KK threshold = 0 by Z₃ symmetry protection. EW matching = +0.3% from A₅ exchange. CKM running negligible (< 10⁻⁵). See f_RG_kk_threshold.py. Previous claim of 0.970 was WRONG (assumed -3% KK threshold that violates Z₃ symmetry).
 
 **Note on Wavefunction Tail Factor (2026-02-03) — UPDATED:** The tail correction is now defined using the analytic overlap ratio of adjacent-generation Gaussians on the full S¹ compared to a single Z₃ sector. For κ = 2.52, this yields f_tail = 1.131, with uncertainty from κ propagated through the same expression.
 
@@ -137,11 +137,15 @@ Combined uncertainty for η̄:
   η̄_final = η̄_base × f_hol × f_Berry × f_RG
 
   σ(η̄)/η̄ = √[(σ_base/η̄_base)² + (σ_hol/f_hol)² + (σ_RG/f_RG)²]
-          = √[(0.03/0.39)² + (0.015/0.948)² + (0.010/0.970)²]
-          = 0.080 (8%)
+          = √[(0.03/0.39)² + (0.015/0.948)² + (0.003/1.003)²]
+          = 0.079 (8%)
 
-  η̄_final = 0.359 ± 0.029 (v5.2: f_Berry = 1.000, no Berry phase correction)
-  Observed: 0.348 ± 0.010. Deviation: 1.1σ (acceptable)
+  η̄_final = 0.371 ± 0.029 (v5.3: f_RG corrected to 1.003)
+  Observed: 0.348 ± 0.010. Deviation: 0.75σ (acceptable)
+
+  Without f_hol (honest):
+  η̄_final = 0.39 × 1.000 × 1.003 = 0.391 ± 0.030
+  Deviation: 1.4σ (still consistent)
 ```
 
 ### κ Derivation (v4.5 — EFFECTIVE COUPLING METHOD)
@@ -275,7 +279,7 @@ Core scales are derived:
 - κ from Z₃ localization dynamics (KAPPA_HIGHER_ORDER_CORRECTIONS.md)
 
 Closure items resolved:
-- RG factor f_RG derived via explicit RG + KK threshold calculation (CORRECTION_FACTORS_COMPLETE.md §3).  
+- RG factor f_RG: For absolute Yukawa, 0.87 from one-loop running (CORRECTION_FACTORS_COMPLETE.md §3). For CKM/η̄, f_RG = 1.003 (v5.3: KK threshold = 0 by Z₃ symmetry, EW +0.3%; see f_RG_kk_threshold.py).
 - Boundary suppression f_boundary derived from finite-domain overlap + Higgs localization (BOUNDARY_CORRECTION_DERIVATION.md).  
 - N_gen derived from Z₃ topology and stability (TOPOLOGICAL_NCRIT_DERIVATION.md).  
 - Λ_residual derived from discrete gauge Z₃ breaking sources (COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md).  
@@ -1811,27 +1815,31 @@ From helix geometry:
 | λ | 0.220 | κ = 2.52 + boundary corrections | 0.225 ± 0.001 | 2.2% |
 | A | 0.81 | Overlap integrals (Derivation C) | 0.826 ± 0.015 | 1.9% |
 | ρ̄ | 0.17 | Phase geometry (Derivation D) | 0.159 ± 0.010 | 1.1σ |
-| η̄ | **0.359** | 0.39 × 0.948 × 1.000 × 0.970 | 0.348 ± 0.010 | **1.1σ** ✓ |
+| η̄ | **0.371** | 0.39 × 0.948 × 1.000 × 1.003 | 0.348 ± 0.010 | **0.75σ** ✓ |
 
-**η̄ correction chain (v5.2 — Berry phase corrected):**
+**η̄ correction chain (v5.3 — f_RG corrected):**
 ```
 η̄_base = 0.39  (from helix chirality and unitarity triangle)
 
-Two geometric corrections (Berry phase eliminated in v5.2):
-  × 0.948  Holonomy fluctuations: ⟨δθ²⟩ = 1/C₂(SU(3)) = 1/3
+Correction factors:
+  × 0.948  Holonomy: FITTED (Z₃ destabilized, perturbative ≈ 1.000)
   × 1.000  Berry phase: ZERO for real Mathieu eigenstates (⟨p⟩=0 by parity)
-  × 0.970  RG running + KK threshold corrections
+  × 1.003  RG running: DERIVED (KK threshold = 0 by Z₃ symmetry, EW +0.3%)
 
-η̄_final = 0.39 × 0.948 × 1.000 × 0.970 = 0.359 ± 0.020
+η̄_final = 0.39 × 0.948 × 1.000 × 1.003 = 0.371 ± 0.029
 
 Observed: η̄ = 0.348 ± 0.010 [PDG 2024]
-Agreement: (0.359 - 0.348) / √(0.020² + 0.010²) = 1.1σ (acceptable)
+Agreement: (0.371 - 0.348) / √(0.029² + 0.010²) = 0.75σ (acceptable)
 
-The holonomy factor (0.948) and RG factor (0.970) are derived in
-ETA_BAR_CORRECTION_CHAIN.md. The Berry phase was shown to vanish exactly
-by berry_phase_exact.py (v5.2): real ground states of the Mathieu equation
-have ⟨ψ|-i∂_θ|ψ⟩ = 0 and the Bargmann invariant for three real
-wavefunctions at Z₃ fixed points is real (γ_B = 0).
+Without f_hol (honest): η̄ = 0.39 × 1.003 = 0.391 ± 0.030 → 1.4σ
+
+The RG factor (1.003) is DERIVED in f_RG_kk_threshold.py:
+  - KK threshold vanishes exactly (Z₃ symmetry protection)
+  - CKM angle running negligible (< 10⁻⁵)
+  - EW matching: +0.3% from A₅ exchange in box diagrams
+  - Previous f_RG = 0.970 was WRONG (assumed -3% KK threshold)
+The holonomy factor (0.948) is FITTED — see f_hol_dynamical.py.
+The Berry phase vanishes exactly — see berry_phase_exact.py.
 ```
 
 **Conclusion:**
@@ -2369,9 +2377,12 @@ Therefore:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-> **Provenance note on f_RG = 0.87:** The RG factor is derived from one-loop running
+> **Provenance note on f_RG = 0.87 (for absolute Yukawa):** This RG factor applies to
+> absolute Yukawa coupling magnitudes (not CKM ratios). It is derived from one-loop running
 > combined with the explicit Z₃-even KK threshold sum in CORRECTION_FACTORS_COMPLETE.md §3.4.
-> This yields f_RG = 0.87 with conservative uncertainty ±0.05.
+> **NOTE (v5.3):** For CKM observables (λ, η̄), the relevant f_RG is different:
+> - For λ (Cabibbo angle): f_RG = 1.000 (Yukawa anomalous dimension is flavor-universal)
+> - For η̄ (CP phase): f_RG = 1.003 (derived in f_RG_kk_threshold.py; KK threshold = 0 by Z₃ symmetry)
 
 ---
 
@@ -2766,17 +2777,21 @@ factors derived from the Z₃ helix geometry bring this into
 agreement with observation:
 
 ┌─────────────────────────────────────────────────────────────┐
-│  η̄ CORRECTION CHAIN (v5.2 — Berry phase corrected):       │
+│  η̄ CORRECTION CHAIN (v5.3 — f_RG corrected):              │
 │                                                             │
 │  η̄ = η̄_base × f_hol × f_Berry × f_RG                       │
-│    = 0.39 × 0.948 × 1.000 × 0.970                          │
-│    = 0.359 ± 0.020                                         │
+│    = 0.39 × 0.948 × 1.000 × 1.003                          │
+│    = 0.371 ± 0.029                                         │
 │                                                             │
 │  Factor breakdown:                                          │
-│    f_hol = 0.948: Holonomy fluctuation averaging           │
-│      - ⟨δθ²⟩ = 1/C₂(SU(3)) = 1/3 rad²                      │
-│      - Correlated variance: ⟨(δθ_u - δθ_d)²⟩ = 0.103       │
-│      - f_hol = exp(-0.103/2) = 0.948                       │
+│    f_hol = 0.948: FITTED (v5.2 analysis shows not derived) │
+│      - Z₃ holonomy DESTABILIZED at 1-loop (V''<0, n_f≥2) │
+│      - Perturbative A₅ correction: O(g⁴/16π²) ≈ 10⁻⁴     │
+│      - U(1)_Y Wilson line Debye-Waller: ~10⁻⁴             │
+│      - All dynamical approaches give f_hol ≈ 1.000         │
+│      - f_hol = 0.948 improves η̄ from 1.4σ to 0.75σ       │
+│      - But cannot be derived without Z₃ stabilization      │
+│      - See f_hol_dynamical.py, f_hol_phase_correction.py   │
 │                                                             │
 │    f_Berry = 1.000: Berry phase VANISHES EXACTLY (v5.2)    │
 │      - Real Mathieu ground states: ⟨p⟩ = 0 by parity      │
@@ -2784,34 +2799,39 @@ agreement with observation:
 │      - See berry_phase_exact.py for full proof             │
 │      - Previous value 0.975 was incorrect                  │
 │                                                             │
-│    f_RG = 0.970: RG running from M_KK to M_Z               │
-│      - Phase running: -0.1%                                 │
-│      - KK threshold: -3%                                    │
-│      - EW matching: -0.5%                                   │
+│    f_RG = 1.003: DERIVED (v5.3, f_RG_kk_threshold.py)     │
+│      - KK threshold: 0% (Z₃ symmetry protection — exact)  │
+│      - CKM angle running: < 10⁻⁵ (negligible)             │
+│      - EW matching: +0.3% (A₅ exchange in box diagrams)   │
+│      - Previous f_RG = 0.970 was WRONG (-3% KK violated   │
+│        Z₃ symmetry; see f_RG_kk_threshold.py for proof)   │
 │                                                             │
 │  RESULT:                                                    │
-│    Calculated:  η̄ = 0.359 ± 0.020                          │
+│    With f_hol: η̄ = 0.371 ± 0.029 → 0.75σ from PDG        │
+│    Without f_hol (honest): η̄ = 0.391 ± 0.030 → 1.4σ      │
 │    Observed:    η̄ = 0.348 ± 0.010 (PDG 2024)               │
-│    Agreement:   1.1σ (acceptable)                          │
 │                                                             │
 │  For ρ̄:                                                    │
 │    Calculated:  ρ̄ = 0.139 (from δ_CKM = 68.3°)            │
 │    Observed:    ρ̄ = 0.159 ± 0.010                          │
 │    Agreement:   2.0σ (needs improvement)                   │
 │                                                             │
-│  Note: Removing f_Berry worsens η̄ from 0.09σ to 1.1σ     │
-│  but is the honest result. The 0.09σ was artificial.       │
+│  Status: f_hol FITTED, f_Berry EXACT, f_RG DERIVED         │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-> **Provenance note on η̄ correction factors (v5.2 update):** The Berry phase factor is
+> **Provenance note on η̄ correction factors (v5.3 update):** The Berry phase factor is
 > exactly 1.000 — computed from exact Mathieu wavefunctions in berry_phase_exact.py.
-> The previous claim of 0.975 was based on inconsistent approximations (average of two
-> different calculations giving 0.976 and 0.979). The holonomy factor (0.948) is semi-derived:
-> it uses ⟨δθ²⟩ = 1/3 from the SU(3) Casimir but requires a specific model for u-d
-> correlations to obtain the "correlated variance" of 0.103. The RG factor (0.970) depends
-> on the same M_KK assumptions as the λ RG factor, with the -3% "KK threshold" being an
-> estimate rather than a rigorous calculation.
+> The holonomy factor (0.948) is **FITTED, NOT DERIVED** — rigorous analysis in
+> f_hol_dynamical.py and f_hol_phase_correction.py shows: (1) Z₃ holonomy is destabilized
+> by SM fermions at one loop (V'' < 0 for n_f ≥ 2), (2) all perturbative approaches give
+> f_hol ≈ 1.000 (corrections suppressed by 1/16π²), (3) f_hol = 0.948 requires
+> non-perturbative stabilization of Z₃ that we cannot compute. Without f_hol:
+> η̄ = 0.391 (1.4σ from PDG), still consistent. The RG factor is now **DERIVED**:
+> f_RG = 1.003 ± 0.003 (f_RG_kk_threshold.py). The previous claim of f_RG = 0.970
+> was WRONG — the assumed -3% KK threshold correction violates Z₃ symmetry
+> (non-universal KK corrections vanish exactly for Z₃-protected observables).
+> The only surviving correction is +0.3% from A₅ exchange in EW matching.
 
 **Detailed derivation:** See ETA_BAR_CORRECTION_CHAIN.md
 
@@ -8217,7 +8237,8 @@ GENUINELY DERIVED (no fitting):
   f_screen = 0.696    — Debye-Waller    derived from Mathieu eigenstate
 
 SEMI-DERIVED (correction chain with uncertainties):
-  η̄ = 0.359 ± 0.020  [Obs: 0.348]      1.1σ  (f_Berry=1.000, f_hol, f_RG)
+  η̄ = 0.371 ± 0.029  [Obs: 0.348]      0.75σ (f_hol FITTED, f_RG=1.003 DERIVED)
+  η̄ = 0.391 ± 0.030  without f_hol     1.4σ  (honest: f_Berry=1.000, f_RG=1.003)
   ρ̄ = 0.139 ± 0.003  [Obs: 0.159]      12.5% (from δ_CKM = 68.3° vs 65.4°)
   δ_CKM = 68.3°       [Obs: 65.4°]     4.4%  (arctan(1/2) + π/3 × f_screen)
 
@@ -8233,7 +8254,10 @@ USE FITTED CORRECTION FACTORS (NOT first-principles):
 
 NOT SOLVED:
   Cosmological constant — NOT derived (see §33.1, scripts/cosmological_constant.py)
-  L_X stabilization — no dynamical minimum (see scripts/lx_effective_potential.py)
+  L_X stabilization — bulk CC gives minimum but requires Λ₅/M_Pl⁵ ~ 10⁻¹³⁹ fine-tuning
+    Radion mass ~ 10⁻³⁴ meV (EXCLUDED by torsion balance)
+    GW and flux mechanisms fail on flat S¹/Z₃
+    See scripts/lx_flux_stabilization.py
   Mass hierarchy — max ratio 19 vs needed 53-277 (structural gap)
   1st-2nd gen splitting — Z₃ forces degeneracy (needs additional breaking)
   Up-down splitting — helix phase gives zero (needs Hosotani mechanism)
@@ -8319,19 +8343,27 @@ All scripts are self-contained and reproducible with numpy/scipy.
 ║    [✓] α_eff = 1.480 ± 0.047 (one-loop + two-loop)                 ║
 ║                                                                       ║
 ║  SEMI-DERIVED (correction chain, some fitting):                       ║
-║    [~] η̄ = 0.359 ± 0.020 (1.1σ from PDG; f_hol, f_RG semi-derived) ║
+║    [~] η̄ = 0.391 without f_hol (1.4σ from PDG — consistent)        ║
+║    [~] η̄ = 0.371 with f_hol=0.948 FITTED (0.75σ from PDG)        ║
 ║    [~] δ_CKM = 68.3° (4.4% off; 12.5% gap in ρ̄)                   ║
 ║    [~] m_t, m_H from GHU (model-dependent assumption)               ║
+║    [~] m_τ/m_μ = 17.0 vs 16.8 (1% from brane-localized Yukawa)    ║
 ║                                                                       ║
 ║  USES FITTED CORRECTION FACTORS (NOT derived):                        ║
+║    [✗] f_hol = 0.948: FITTED (Z₃ destabilized, perturbative ≈ 1)   ║
+║    [✓] f_RG = 1.003: DERIVED (KK=0 by Z₃ symmetry, EW +0.3%)      ║
+║        (Previous f_RG = 0.970 was WRONG — see f_RG_kk_threshold.py)║
 ║    [✗] 9 charged masses: f_tail, f_node, f_ℓ are FITTED             ║
 ║    [✗] PMNS angles: tribimaximal + perturbation (semi-empirical)    ║
 ║    [✗] Neutrino masses: M_R chosen to fit Δm² (standard seesaw)    ║
 ║    [✗] v = 246 GeV via Froggatt-Nielsen (uses fitted exponent)      ║
 ║                                                                       ║
 ║  NOT SOLVED (structural gaps):                                        ║
+║    [✗] Z₃ holonomy destabilized: V''<0 for n_f≥2 (Hosotani)        ║
 ║    [✗] Cosmological constant: Δn=0.62, L~80μm (excluded)            ║
-║    [✗] L_X stabilization: no dynamical minimum found                 ║
+║    [✗] L_X stabilization: bulk CC gives minimum but Λ₅/M_Pl⁵~10⁻¹³⁹ ║
+║        Radion mass ~10⁻³⁴ meV EXCLUDED by torsion balance           ║
+║        GW mechanism fails on flat S¹/Z₃; flux doesn't help          ║
 ║    [✗] Mass hierarchy: max ratio 19 vs needed 53-277                 ║
 ║    [✗] 1st-2nd gen degeneracy: Z₃ forces m₁ = m₂                    ║
 ║    [✗] Up-down mass splitting: helix phase gives zero                ║
@@ -8343,7 +8375,7 @@ All scripts are self-contained and reproducible with numpy/scipy.
 ║                                                                       ║
 ║  NEEDED TO CLOSE THE GAP:                                             ║
 ║    1. Mass hierarchy: Hosotani mechanism or Z₃ → Z₃ × Z_N breaking  ║
-║    2. L_X: Flux stabilization (F-theory moduli, KKLT-type)          ║
+║    2. L_X: Need warped geometry or KKLT-type (flux fails, GW fails) ║
 ║    3. CC: New mechanism beyond S¹/Z₃ Casimir                         ║
 ║    4. Up-down splitting: Gauge-Higgs unification with A₅ VEV        ║
 ║    5. 1st-2nd gen: Z₃ breaking perturbation or radiative splitting  ║
