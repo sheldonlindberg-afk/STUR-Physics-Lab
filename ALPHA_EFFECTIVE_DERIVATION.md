@@ -834,14 +834,15 @@ NEW: α_eff = 1.00 × 1.072 × 1.240 × 1.076 × 1.034 = 1.480 (4 computed facto
 
 ### 10.5 Remaining Work (Ordered by Impact)
 
-1. **Derive f_loc for δ_CP** — currently f_loc = 0.65 gives δ_CP = 78° vs
-   observed 65.4° (19% off), causing ρ̄ to be 53% off. This is the most
-   impactful remaining gap.
-2. **Three-loop corrections** — could close the remaining 1.6% gap in λ.
-3. **Non-perturbative lattice verification** — verify α_eff on the lattice.
-4. **Full 3×3 Yukawa diagonalization** — current Wolfenstein assembly uses
-   the pairwise overlap; a proper 3×3 treatment with Higgs-localized mass
-   matrix requires careful treatment of the generation-to-fixed-point assignment.
+1. ~~**Derive f_loc for δ_CP**~~ — **RESOLVED (v5.1):** f_screen = 0.696 derived from
+   the Debye-Waller factor of the Mathieu eigenstate. Using Derivation D formula
+   δ_CKM = arctan(1/2) + π/3 × f_screen = 68.3° (4.4% from 65.4°). This reduces
+   ρ̄ deviation from 53% to 12.5%. See f_screen_first_principles.py.
+2. **Residual 12.5% gap in ρ̄** — from δ_CKM = 68.3° vs 65.4°. Possible sources:
+   refinement of η̄ correction chain, higher-order terms in Derivation D formula,
+   or three-loop corrections to α_eff that shift σ.
+3. **Three-loop corrections** — could close the remaining 1.6% gap in λ.
+4. **Non-perturbative lattice verification** — verify α_eff on the lattice.
 
 ---
 

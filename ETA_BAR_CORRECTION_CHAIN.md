@@ -67,14 +67,15 @@ The CKM CP-violating phase delta_CKM emerges from the geometric structure. The b
 
 ```
 delta_CKM = theta_chi + delta_tb x f_screen
-          = 26.57 deg + 60 deg x 0.67
-          = 66.8 deg
+          = 26.57 deg + 60 deg x 0.696
+          = 68.3 deg  (was 66.8 deg with undetermined f_screen = 0.67)
 ```
 
 where:
 - theta_chi = arctan(1/2) = 26.57 deg (helix chirality phase)
 - delta_tb = pi/3 = 60 deg (holonomy interference for t->b transition)
-- f_screen = 0.67 (wavefunction overlap screening)
+- f_screen = 0.696 ± 0.006 (Debye-Waller screening, DERIVED in v5.1
+  from |⟨ψ₀|e^{iθ}|ψ₀⟩| at α_eff = 1.480; see f_screen_first_principles.py)
 
 ### 1.3 Base eta-bar Calculation
 
