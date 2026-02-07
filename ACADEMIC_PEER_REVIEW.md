@@ -2,7 +2,7 @@
 ## Comprehensive Assessment for Journal-Readiness
 
 **Review Date:** 2026-02-07
-**Framework Version:** v5.1 (post f_screen derivation)
+**Framework Version:** v5.2 (post first-principles computation audit)
 **Reviewed by:** Independent technical audit
 **Standard:** JHEP / Physical Review D / European Physical Journal C
 
@@ -96,12 +96,23 @@ number. This is textbook parameter fitting with 3 degrees of freedom
 for 1 data point. Any observed η̄ in the range [0.33, 0.39] could be
 "matched" by adjusting these factors.
 
+**v5.2 UPDATE:** Exact computation of Berry phase from Mathieu wavefunctions
+gives f_Berry = 1.000 (not 0.975). The abelian Berry phase vanishes exactly
+(real ground state ⇒ ⟨p⟩ = 0), and the Bargmann invariant for three real
+wavefunctions at Z₃ fixed points is real (γ_B = 0). See berry_phase_exact.py.
+
+With f_Berry = 1.000, the chain becomes:
+```
+η̄ = 0.39 × 0.948 × 1.000 × 0.970 = 0.359 (1.1σ from observed)
+```
+This is still acceptable but the "0.09σ excellent agreement" was illusory.
+
 **Counter-argument from the framework:** Each factor has a stated physical
 origin (holonomy fluctuations, Berry phase, RG running). However, the
 magnitudes are not uniquely determined:
 
 - f_hol: Depends on assumed u-d correlation model (C_ud = 0.846)
-- f_Berry: Average of two inconsistent calculations (0.976 and 0.979)
+- f_Berry: **DEBUNKED (v5.2)** — exact computation gives 1.000, not 0.975
 - f_RG: Dominated by "KK threshold" estimate (~3%), not a calculation
 
 **Example 2: Fermion masses**
@@ -214,9 +225,15 @@ The paper acknowledges: "Framework, not solution." The tree-level Ward
 identity Λ_tree = 0 from Z₃ discrete gauge symmetry is stated, but:
 
 - One-loop contributions not systematically controlled
-- Fine-tuning of ~10⁻⁷⁰ still required
+- Fine-tuning of ~10⁻⁵⁶ still required
 - The claimed Λ_residual ~ 6.5 × 10⁻⁴⁷ GeV⁴ from neutrino Majorana
   masses is off by a factor of ~2.3 from observed
+
+**v5.2 UPDATE:** Explicit Casimir computation (cosmological_constant.py) shows:
+- SM d.o.f.: Δn_eff = 0.62 (near boson-fermion cancellation)
+- To match Λ_obs: need L ~ 80 μm (already excluded by torsion balance L < 44 μm)
+- R-field vacuum energy V ~ v⁴ ~ 10⁹ GeV⁴ requires cancellation to 10⁻⁵⁶
+- The CC problem is traded for an L problem, not solved
 
 For a TOE, the cosmological constant problem must be addressed, not
 merely acknowledged.
@@ -483,6 +500,97 @@ The recent computational work has genuinely strengthened the framework:
 These improvements are real and move the framework toward greater
 rigor. The direction is correct even if the destination (TOE) is
 not yet reached.
+
+---
+
+---
+
+## APPENDIX B: v5.2 COMPUTATION AUDIT RESULTS
+
+Four first-principles computations were performed in v5.2, each designed
+to close an identified gap with no correction factors.
+
+### B.1 Fermion Mass Hierarchy (fermion_mass_hierarchy.py)
+
+**Tested:** Can the Z₃ geometry reproduce observed mass ratios?
+
+| Quantity | Z₃ Geometry | Observed | Gap |
+|----------|------------|----------|-----|
+| Max m₃/m₂ | 19.2 (exp(κ²/2)) | 53 (m_b/m_s) | ×2.8 |
+| Max m₃/m₁ | — | 277 (m_t/m_c) | ×14 |
+| m_t/m_b from helix | 1.000 | 60.2 | ×60 |
+
+**Finding:** The single-α Z₃ model produces max hierarchy exp(κ²/2) = 19.2.
+This is LESS than even the down-type m_b/m_s = 53. The helix phase
+exp(±iθ/3) gives zero up-down splitting. The correction factors (f_tail,
+f_node, etc.) compensate for this structural gap — they are FITTED.
+
+**Significance:** The mass hierarchy is qualitatively correct (one heavy +
+two light generations from Higgs localization) but quantitatively insufficient
+by factors of 3-60.
+
+### B.2 L_X Effective Potential (lx_effective_potential.py)
+
+**Tested:** Does V_eff(L) have a dynamical minimum?
+
+- SM on S¹/Z₃: Δn_eff = -63 (with simplified counting), giving positive
+  Casimir energy (repulsive at small L)
+- V_helix positive at large L
+- **No local minimum found** in range [10⁻³⁵, 10⁻³] m
+- v·L = 3 gives L ~ 2.4 fm if v = v_EW (inconsistent with phenomenological L)
+
+**Finding:** L_X CANNOT be dynamically stabilized within the current framework.
+The v in v·L = 3 must be a different scale from v_EW (this needs explicit
+identification).
+
+### B.3 Berry Phase (berry_phase_exact.py)
+
+**Tested:** Does γ_Berry give f_Berry = 0.975?
+
+| Berry Phase Type | Exact Result | Claimed |
+|-----------------|-------------|---------|
+| Abelian (single gen) | 0 exactly | — |
+| Bargmann invariant (3 gen) | 0 exactly | — |
+| Helix-modified Bargmann | 0.06° | ~3° |
+| Non-Abelian holonomy phase | 0° | — |
+
+**Finding:** f_Berry = 1.000 ± 0.000 (not 0.975). The claimed Berry phase
+correction was not reproduced by exact computation. The original derivation
+averaged two inconsistent calculations. For real Mathieu ground states,
+the Berry connection vanishes by parity symmetry.
+
+**Impact on η̄:** Changes from 0.350 (0.09σ) to 0.359 (1.1σ) — still
+acceptable but "excellent agreement" was illusory.
+
+### B.4 Cosmological Constant (cosmological_constant.py)
+
+**Tested:** Can Casimir energy on S¹/Z₃ explain Λ₄?
+
+- With careful d.o.f. counting: Δn = 0.62 (near cancellation)
+- L ~ 80 μm needed to match Λ_obs (excluded by experiment: L < 44 μm)
+- R-field vacuum V_R ~ v⁴ ~ 10⁹ GeV⁴ needs 10⁻⁵⁶ cancellation
+- Twisted sector contributions UV-sensitive, uncalculable
+
+**Finding:** The CC problem is NOT solved. It is traded for an L problem
+with the same level of fine-tuning.
+
+### B.5 Updated Scorecard (v5.2)
+
+These computations change the assessment:
+
+| Criterion | v5.1 Score | v5.2 Score | Change | Reason |
+|-----------|-----------|-----------|--------|--------|
+| Derivation Integrity | 5/10 | 5/10 | — | Berry phase debunked but f_screen still holds |
+| Predictive Power | 6/10 | 5/10 | -1 | Mass hierarchy structural gap confirmed |
+| Completeness | 5/10 | 5/10 | — | CC and L_X problems confirmed, not new |
+| Honest Assessment | 9/10 | 10/10 | +1 | Performing calculations that reveal limitations |
+| TOE Viability | 3/10 | 3/10 | — | Same structural issues persist |
+
+**Updated Overall: 59/100** (was 60/100)
+
+The v5.2 computations are valuable because they establish the BOUNDARIES
+of what the Z₃ geometry can and cannot explain. This is genuine physics:
+knowing where a model fails is as important as knowing where it succeeds.
 
 ---
 
