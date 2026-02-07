@@ -1651,7 +1651,10 @@ The relative phase between up and down sectors at the first generation:
     δ_CP = arg(V_ub) = arg[W_u - W_d] × (localization factor)
 
 For up quarks in twisted sector (n=1) and down quarks in untwisted sector (n=0):
-    δ_CP = 2π/3 × f_loc = 2π/3 × 0.65 = 1.36 rad = 78°
+    [SUPERSEDED by Derivation D (v5.1):
+     δ_CKM = arctan(1/2) + π/3 × f_screen = 26.57° + 41.7° = 68.3°
+     where f_screen = 0.696 from Debye-Waller factor.
+     Old formula: δ_CP = 2π/3 × f_loc = 78° was 19% off.]
 
 The Jarlskog invariant:
     J = Im(V_us V_cb V*_ub V*_cs)

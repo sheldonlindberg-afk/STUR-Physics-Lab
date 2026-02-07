@@ -392,7 +392,7 @@ As of v4.5, the derivation status of key parameters has been revised to be more 
 | L_X | ~0.8 micrometer | Compactification scale (effective) | Constrained, not derived |
 | M_R^(0) | 2 x 10^14 GeV | RH neutrino baseline mass | Depends on undegrived lambda_hol ~ 20 |
 | lambda_hol | ~20 | Holonomy enhancement | NOT DERIVED (see SCALE_UNIFICATION_ANALYSIS.md) |
-| f_screen | 0.67 | eta-bar screening | NOT DERIVED |
+| f_screen | 0.696 ± 0.006 | CP phase Debye-Waller screening | DERIVED (q=1 DW factor of Mathieu eigenstate) |
 
 ### 5.4.1 The alpha_eff Approach (v4.5)
 
@@ -402,7 +402,7 @@ A cleaner derivation path for the Cabibbo angle replaces the multiplicative corr
 
 **New approach (v4.5):** Compute alpha_eff from quantum corrections to the localization potential, then obtain lambda directly from the overlap integral at alpha_eff.
 
-The computed value alpha_eff = 1.33 +/- 0.15 accounts for Z_3 twisted sector curvature, KK tower renormalization, and gauge backreaction. The target value alpha_eff = 3/2 gives lambda = 0.228 (1.2% agreement). The remaining 12% gap in alpha_eff is an open problem.
+The computed value alpha_eff = 1.480 +/- 0.047 (one-loop + two-loop) accounts for Z_3 twisted sector curvature, KK tower renormalization, gauge backreaction, and two-loop corrections. This gives lambda = exp(-kappa^2/4) = 0.229 (1.6% agreement). The CP phase is now computed via Derivation D: delta_CKM = arctan(1/2) + pi/3 x f_screen = 68.3° (4.4% from observed 65.4°), with f_screen = 0.696 derived from the Debye-Waller factor of the Mathieu eigenstate.
 
 See ALPHA_EFFECTIVE_DERIVATION.md for the complete calculation.
 
