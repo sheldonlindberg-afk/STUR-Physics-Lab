@@ -31,8 +31,8 @@ explicit overlap, holonomy, and RG threshold calculations listed below.
 **Correction factors for η̄ (CP violation):**
 ```
 η̄ = η̄_base × f_hol × f_Berry × f_RG
-  = 0.39 × 0.948 × 0.975 × 0.970
-  = 0.350
+  = 0.39 × 0.948 × 1.000 × 1.003
+  = 0.371
 ```
 
 ---
@@ -419,8 +419,8 @@ Total: κ = 2.52 ± 0.16
 | f_tail | 1.131 ± 0.023 | **DERIVED** | Analytic overlap ratio on S¹ vs single Z₃ sector | Wavefunction tails wrapping S¹/Z₃ |
 | **For η̄:** | | | | |
 | f_hol | 0.948 ± 0.010 | **DERIVED** | Correlated holonomy variance model | exp[-⟨δθ²⟩/2] with ⟨δθ²⟩=1/3 |
-| f_Berry | 0.975 ± 0.005 | **DERIVED** | Genuine geometric calculation | Geometric phase on Z₃ helix |
-| f_RG | 0.970 ± 0.015 | **DERIVED** | RG + KK threshold sum | RG + KK threshold |
+| f_Berry | 1.000 ± 0.005 | **DERIVED** | Genuine geometric calculation | Geometric phase on Z₃ helix |
+| f_RG | 1.003 ± 0.015 | **DERIVED** | RG + KK threshold sum | RG + KK threshold |
 
 ### 8. Final Predictions
 
@@ -439,11 +439,11 @@ Agreement: 4% (update with analytic overlap f_tail)
 
 **CP violation η̄:**
 ```
-η̄ = 0.39 × 0.948 × 0.975 × 0.970
-  = 0.350 ± 0.020
+η̄ = 0.39 × 0.948 × 1.000 × 1.003
+  = 0.371 ± 0.029
 
 Observed: η̄ = 0.348 ± 0.010
-Agreement: 0.09σ
+Agreement: 0.75σ
 ```
 
 ---
@@ -455,7 +455,7 @@ Agreement: 0.09σ
 1. **f_sector = 0.62**: Approximately derived from sector confinement probability; modeling choices affect the precise value (see provenance note in Section 1)
 2. **f_holonomy (λ) = 0.846**: Derived from SU(3) Haar average exp(-1/6)
 3. **f_hol (η̄) = 0.948**: Derived from correlated holonomy fluctuations
-4. **f_Berry = 0.975**: Genuinely derived geometric phase on Z₃ helix
+4. **f_Berry = 1.000**: Genuinely derived geometric phase on Z₃ helix
 5. **XCRM-Yukawa symmetry**: y = |χ|·L_X from natural localization
 
 ### 9.2 What is Calibrated or Fitted

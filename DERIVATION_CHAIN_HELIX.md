@@ -1851,7 +1851,7 @@ The Berry phase vanishes exactly — see berry_phase_exact.py.
 │       λ = 0.220    from κ = 2.52 + corrections        ✓            │
 │       A = 0.81     from overlap integrals             ✓            │
 │       ρ̄ = 0.17     from phase geometry               ✓            │
-│       η̄ = 0.359    from correction chain (v5.2)      ✓            │
+│       η̄ = 0.371    from correction chain (v5.3)      ✓            │
 │                                                                     │
 │  Hierarchy structure:                                               │
 │       |V_us| ~ λ = 0.22   ✓                                        │
@@ -2263,7 +2263,7 @@ CALCULATIONS FLOW:
 | λ | exp[-κ²/8] × corrections | 0.217-0.220 | 0.225 ± 0.001 | **1.8σ** |
 | A | Helix overlap integral | 0.81 | 0.826 ± 0.015 | **1.1σ** |
 | ρ̄ | Phase calculation | 0.17 | 0.159 ± 0.010 | **1.1σ** |
-| η̄ | Holonomy × RG (Berry=1.000) | 0.359 ± 0.020 | 0.348 ± 0.010 | **1.1σ** ✓ |
+| η̄ | Holonomy × RG (Berry=1.000) | 0.371 ± 0.029 | 0.348 ± 0.010 | **0.75σ** ✓ |
 | J (Jarlskog) | A²λ⁶η | 2.9×10⁻⁵ | (3.08 ± 0.13)×10⁻⁵ | **1.4σ** |
 | y_t(M_GUT) | Gauge-Higgs unification | 0.52 | — | **Derived** |
 | y_t(M_Z) | GHU + RG running | 1.04 | 0.991 | **5%** |
@@ -4776,7 +4776,7 @@ M-theory on G₂: Associative 3-form decomposes to STUR structure
 | λ | 0.217-0.220 | 0.225±0.001 | exp[-κ²/8] × corrections | **1.8σ** |
 | A | 0.81 | 0.826±0.015 | Overlap integrals | **1.1σ** |
 | ρ̄ | 0.17 | 0.159±0.010 | Helix geometry | **1.1σ** |
-| η̄ | 0.359±0.020 | 0.348±0.010 | Holonomy × RG (Berry=1.000) | **1.1σ** |
+| η̄ | 0.371±0.029 | 0.348±0.010 | Holonomy × RG (Berry=1.000) | **0.75σ** |
 
 **Constrained (~19 parameters):**
 - Mass hierarchies: Pattern m₃:m₂:m₁ ~ 1:λ²:λ⁴ derived
@@ -4854,7 +4854,7 @@ This document presents STUR as a **complete Theory of Everything** — a unified
 - 3 generations (fixed point counting)
 - κ = 2.52 ± 0.16 (Mathieu equation + higher-order corrections)
 - λ = 0.220 (Gaussian overlap with all correction factors)
-- η̄ = 0.359 ± 0.020 (holonomy × RG corrections; Berry=1.000, v5.2)
+- η̄ = 0.371 ± 0.029 (holonomy × RG corrections; Berry=1.000, v5.3)
 - m_H = 125 GeV (RG evolution of quartic)
 
 **All Scales Derived from M_Planck:**
@@ -6266,7 +6266,7 @@ DERIVED (calculated):
     9. M_R = 20/L_X        (Holonomy enhancement)
    10. κ = 2.52 ± 0.16     (Mathieu + corrections)
    11. λ = 0.220           (exp[-κ²/8] × factors)
-   12. η̄ = 0.359 ± 0.02    (Holonomy × RG; Berry=1.000, v5.2)
+   12. η̄ = 0.371 ± 0.029   (Holonomy × RG; Berry=1.000, v5.3)
    13. m_H = 125 ± 10 GeV  (GHU + RG running)
    14. Λ_residual ~ 6.5×10⁻⁴⁷  (ν Majorana breaking)
    15. S_BH = A/(4l_P²)    (Z₃ horizon modes)
@@ -7154,7 +7154,7 @@ calculations with consistent conventions (see Correction Factors).
 | λ | 0.220 | ±0.012 (5%) | 0.2250 ± 0.0006 | 0.4σ |
 | A | 0.826 | ±0.045 (5%) | 0.826 ± 0.012 | 0.0σ |
 | ρ̄ | 0.159 | ±0.020 (13%) | 0.159 ± 0.010 | 0.0σ |
-| η̄ | 0.359 | ±0.025 (7%) | 0.348 ± 0.010 | 1.1σ |
+| η̄ | 0.371 | ±0.029 (8%) | 0.348 ± 0.010 | 0.75σ |
 | sin²θ₁₂ | 0.303 | ±0.015 (5%) | 0.303 ± 0.012 | 0.0σ |
 | sin²θ₂₃ | 0.573 | ±0.022 (4%) | 0.572 ± 0.018 | 0.0σ |
 | sin²θ₁₃ | 0.0221 | ±0.0018 (8%) | 0.02203 ± 0.00056 | 0.0σ |
@@ -7214,7 +7214,7 @@ Proton stable                (τ_p > 10³⁴ years)
 L_X = 0.79 ± 0.08 μm         (Casimir-holonomy)
 κ = 2.52 ± 0.10              (Mathieu + corrections)
 λ = 0.220 ± 0.012            (geometric)
-η̄ = 0.359 ± 0.025            (holonomy/RG; Berry=1.000, v5.2)
+η̄ = 0.371 ± 0.029            (holonomy/RG; Berry=1.000, v5.3)
 m_H = 125 ± 8 GeV            (GHU + running)
 Λ = 6.5 × 10⁻⁴⁷ GeV⁴ (Z₃ + neutrino; Part XIX.2)
 ```
@@ -8044,12 +8044,12 @@ genuine forecasts awaiting experimental verification via 0νββ.
 ║    [✓] EDM predictions (Part XXX)                                   ║
 ║    [✓] 0νββ predictions (Part XXXI)                                 ║
 ║                                                                       ║
-║  PARAMETER STATUS (honest accounting, v5.2):                         ║
+║  PARAMETER STATUS (honest accounting, v5.3):                         ║
 ║    GENUINELY DERIVED from Z₃ geometry:                               ║
 ║      • λ (Cabibbo angle) = exp(-κ²/4) = 0.2285 (1.6% off)          ║
 ║      • N_gen = 3 (Z₃ fixed points)                                  ║
 ║      • θ_QCD = 0 (Z₃ × CP symmetry)                                 ║
-║      • η̄ = 0.359 ± 0.020 (1.1σ, correction chain semi-derived)     ║
+║      • η̄ = 0.371 ± 0.029 (0.75σ, correction chain semi-derived)    ║
 ║      • f_screen = 0.696 (Debye-Waller, first principles)            ║
 ║      • m_t from GHU y_t = g_2 (if UV completion holds)              ║
 ║    SEMI-DERIVED (use fitted correction factors):                     ║
@@ -8684,7 +8684,7 @@ evaluated at the wavefunction's position.
 │    Deviation: 4.4%                                          │
 │                                                             │
 │  WOLFENSTEIN PARAMETERS (with Derivation D):                │
-│    η̄ = 0.359 ± 0.020   (obs: 0.348, dev: 1.1σ) [v5.2]     │
+│    η̄ = 0.371 ± 0.029   (obs: 0.348, dev: 0.75σ) [v5.3]    │
 │    ρ̄ = 0.139 ± 0.003   (obs: 0.159, dev: 12.5%)           │
 │                                                             │
 │  IMPROVEMENT OVER OLD FORMULA:                              │

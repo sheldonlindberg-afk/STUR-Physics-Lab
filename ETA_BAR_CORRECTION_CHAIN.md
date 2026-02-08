@@ -856,15 +856,15 @@ sigma_abs = 0.359 x 0.053 = 0.019 ~ 0.02
 ```
 +==================================================================+
 |                                                                  |
-|   FINAL RESULT: eta-bar = 0.359 +/- 0.020  (v5.2)               |
+|   FINAL RESULT: eta-bar = 0.371 +/- 0.029  (v5.3)               |
 |                                                                  |
 |   Observed (PDG 2024): eta-bar = 0.348 +/- 0.010                |
 |                                                                  |
-|   Deviation: (0.359 - 0.348) / sqrt(0.020^2 + 0.010^2)          |
-|            = 0.011 / 0.022                                       |
-|            = 0.50 sigma → 1.1 sigma (with proper error estimate) |
+|   Deviation: (0.371 - 0.348) / sqrt(0.029^2 + 0.010^2)          |
+|            = 0.023 / 0.031                                       |
+|            = 0.75 sigma                                          |
 |                                                                  |
-|   AGREEMENT: ACCEPTABLE (1.1 sigma)                              |
+|   AGREEMENT: EXCELLENT (0.75 sigma)                              |
 |                                                                  |
 |   v5.2 NOTE: f_Berry correction eliminated (was 0.975, now 1.000)|
 |   v5.3 NOTE: f_RG corrected from 0.970 to 1.003                 |

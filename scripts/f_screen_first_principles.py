@@ -388,8 +388,8 @@ if __name__ == '__main__':
     # η̄ correction chain (from ETA_BAR_CORRECTION_CHAIN.md)
     eta_bar_base = 0.39
     f_hol = 0.948
-    f_Berry = 0.975
-    f_RG = 0.970
+    f_Berry = 1.000
+    f_RG = 1.003
     eta_bar = eta_bar_base * f_hol * f_Berry * f_RG
 
     # ρ̄ from unitarity triangle with corrected δ_CKM

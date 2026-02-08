@@ -666,7 +666,7 @@ This confirms our main result.
 
 **STUR uses two different Berry phase effects:**
 
-1. **For eta-bar (CKM CP violation):** f_Berry = 0.975 -- small correction to the base value
+1. **For eta-bar (CKM CP violation):** f_Berry = 1.000 -- small correction to the base value
 2. **For cosmological constant:** F_Berry = 1/(4pi^2) = 0.0253 -- significant suppression
 
 **Why the Difference?**

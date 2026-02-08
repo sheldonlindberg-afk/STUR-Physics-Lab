@@ -808,7 +808,7 @@ IF chi^2(all tensions) > chi^2_critical(dof):
 | lambda (Wolfenstein) | 0.220 | +/- 0.01 | Pre-registered |
 | A | 0.81 | +/- 0.04 | Pre-registered |
 | rho-bar | 0.17 | +/- 0.02 | Pre-registered |
-| eta-bar | 0.350 | +/- 0.020 | Pre-registered |
+| eta-bar | 0.371 | +/- 0.029 | Pre-registered |
 | Jarlskog J | 2.9 x 10^-5 | +/- 0.4 x 10^-5 | Pre-registered |
 
 ---

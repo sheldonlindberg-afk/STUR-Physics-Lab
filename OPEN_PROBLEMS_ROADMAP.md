@@ -68,7 +68,7 @@ Gap reduced to 1.35% (0.43σ). This problem is essentially SOLVED.
 - ✓ f_boundary, f_holonomy, f_RG, f_tail → eliminated by α_eff approach + exp(-κ²/4)
 - ✓ f_screen = 0.696 → DERIVED from Mathieu Debye-Waller factor (was 0.67, undetermined)
 - ✓ f_loc = 0.65 → ELIMINATED (replaced by Derivation D formula)
-- Remaining: f_hol(0.948), f_Berry(0.975), f_RG(0.970) for η̄ correction chain (semi-derived)
+- Remaining: f_hol(0.948), f_Berry(1.000), f_RG(1.003) for η̄ correction chain (semi-derived)
 **Impact:** Parameter count reduced; most CKM elements now computed from α_eff alone.
 
 **Remaining approaches:**

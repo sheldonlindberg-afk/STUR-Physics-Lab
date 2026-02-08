@@ -577,7 +577,7 @@ def final_assessment():
     # Impact on η̄
     print("  Impact on η̄ chain:")
     f_Berry = 1.000
-    f_RG = 0.970
+    f_RG = 1.003
     eta_obs = 0.357
     sigma_eta = 0.011
 

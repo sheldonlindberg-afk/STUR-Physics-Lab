@@ -806,7 +806,7 @@ This eliminates the need for the holonomy correction factor of 0.498.
 
 ### 10.3 Full CKM Matrix (via Wolfenstein Assembly)
 
-Using λ = 0.231, A = 0.846, η̄ = 0.350, ρ̄ = 0.074:
+Using λ = 0.231, A = 0.846, η̄ = 0.371, ρ̄ = 0.074:
 
 | Element | STUR | PDG | Dev |
 |---------|------|-----|-----|

@@ -202,13 +202,13 @@ lambda = exp[-kappa^2 / 8] x f_sector x f_holonomy x f_RG x f_tail
 | lambda | 0.233 +/- 0.02 | 0.2250 +/- 0.0007 | 0.8 sigma |
 | A | 0.81 +/- 0.04 | 0.826 +/- 0.015 | 1.1 sigma |
 | rho-bar | 0.17 +/- 0.02 | 0.159 +/- 0.010 | 1.1 sigma |
-| eta-bar | 0.350 +/- 0.020 | 0.348 +/- 0.010 | 0.09 sigma |
+| eta-bar | 0.371 +/- 0.029 | 0.348 +/- 0.010 | 0.75 sigma |
 | J (Jarlskog) | (2.9 +/- 0.4) x 10^-5 | (3.08 +/- 0.13) x 10^-5 | 0.5 sigma |
 
 The eta-bar prediction includes three correction factors derived from Z_3 geometry:
 - f_hol = 0.948: Holonomy fluctuation averaging (from <delta theta^2> = 1/C_2(SU(3)) = 1/3)
-- f_Berry = 0.975: Geometric Berry phase from transport on Z_3 helix
-- f_RG = 0.970: RG running with KK threshold matching
+- f_Berry = 1.000: Geometric Berry phase from transport on Z_3 helix
+- f_RG = 1.003: RG running with KK threshold matching
 
 ### 3.4 Higgs Mass
 
@@ -282,7 +282,7 @@ All mass predictions include the universal f_tail = 1.131 correction [11]. Neutr
 | **CKM** | lambda | 0.220 +/- 0.01 | 0.2250 +/- 0.0007 | PDG 2024 | 1.8 sigma |
 | | A | 0.81 +/- 0.04 | 0.826 +/- 0.015 | PDG 2024 | 1.1 sigma |
 | | rho-bar | 0.17 +/- 0.02 | 0.159 +/- 0.010 | PDG 2024 | 1.1 sigma |
-| | eta-bar | 0.350 +/- 0.020 | 0.348 +/- 0.010 | PDG 2024 | 0.09 sigma |
+| | eta-bar | 0.371 +/- 0.029 | 0.348 +/- 0.010 | PDG 2024 | 0.75 sigma |
 | **Masses** | m_H | 125 +/- 2 GeV | 125.20 +/- 0.11 GeV | PDG 2024 | EXACT |
 | | m_b | 4.20 +/- 0.08 GeV | 4.183 +/- 0.007 GeV | PDG 2024 | 0.5% |
 | | m_c | 1.26 +/- 0.03 GeV | 1.273 +/- 0.005 GeV | PDG 2024 | 0.8% |
@@ -323,7 +323,7 @@ Each prediction's derivation involves intermediate quantities whose status range
 | **M_R hierarchy** | xi ratios | SEMI-DERIVED | MEDIUM | Z_3 kink structure; amplitude epsilon = 0.26 fitted |
 | **m_H = 125 GeV** | 125 +/- 2 GeV | DERIVED | HIGH | Gauge-Higgs unification + RG; robust prediction |
 | **alpha_s(M_Z)** | 0.118 | DERIVED | HIGH | KK threshold matching at M_GUT |
-| **eta-bar** | 0.350 +/- 0.020 | SEMI-DERIVED | MEDIUM | Base value from helix chirality; 3 correction factors |
+| **eta-bar** | 0.371 +/- 0.029 | SEMI-DERIVED | MEDIUM | Base value from helix chirality; 3 correction factors |
 
 **Summary:**
 - **5 quantities** are rigorously derived (topological or well-controlled calculations)

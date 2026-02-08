@@ -293,8 +293,8 @@ def compute_cp_parameters(lambda_val, A_val, sigma, psi=None, theta=None):
     # η̄ correction chain (from ETA_BAR_CORRECTION_CHAIN.md):
     eta_bar_base = 0.39  # from holonomy phase computation
     f_hol_eta = 0.948    # holonomy correction
-    f_Berry = 0.975      # Berry phase correction
-    f_RG = 0.970         # RG running correction
+    f_Berry = 1.000      # Berry phase correction
+    f_RG = 1.003         # RG running correction
     eta_bar = eta_bar_base * f_hol_eta * f_Berry * f_RG
 
     # ρ̄ from the unitarity triangle constraint:

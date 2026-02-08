@@ -205,11 +205,11 @@ From the ETA_BAR_CORRECTION_CHAIN derivation:
 
 ```
 η̄ = η̄_base × f_hol × f_Berry × f_RG
-  = 0.39 × 0.948 × 0.975 × 0.970
-  = 0.350 ± 0.020
+  = 0.39 × 0.948 × 1.000 × 1.003
+  = 0.371 ± 0.029
 
 Observed (PDG 2024): η̄ = 0.348 ± 0.010
-Agreement: 0.09σ (excellent)
+Agreement: 0.75σ (excellent)
 ```
 
 ### 3.4 Numerical Calculation of ε₁
@@ -239,7 +239,7 @@ Using the simplified formula with derived CP violation:
 ```
 ε₁ = (3/16π) × (M₁/v²) × m_ν,heaviest × η̄ × f_loop
 
-   = (3/16π) × (1.5×10¹⁴ GeV)/(246 GeV)² × (0.05 eV) × 0.35 × 0.5
+   = (3/16π) × (1.5×10¹⁴ GeV)/(246 GeV)² × (0.05 eV) × 0.371 × 0.5
 
    = (3/16π) × 2.5×10⁹ × 5×10⁻¹¹ × 0.35 × 0.5
 
@@ -669,8 +669,8 @@ This is a prediction, not a fit: STUR specifically predicts matter over antimatt
 │          M_R,3 = 1.1×10¹⁴ GeV (ξ₃ = 0.55)                              │
 │          M_R,2 = M_R,1 = 1.5×10¹⁴ GeV (ξ₂ = ξ₁ = 0.76)                │
 │                                                                         │
-│  Step 5: CP violation η̄ = 0.35 from correction chain                  │
-│          η̄ = 0.39 × 0.948 × 0.975 × 0.970                             │
+│  Step 5: CP violation η̄ = 0.371 from correction chain                 │
+│          η̄ = 0.39 × 0.948 × 1.000 × 1.003                             │
 │                                                                         │
 │  Step 6: CP asymmetry ε₁ ≈ 1.3 × 10⁻⁶                                 │
 │          [From Yukawa phases and M_R hierarchy]                         │
@@ -726,7 +726,7 @@ Z₃ helix geometry
 | Kink amplitude | ε | 0.26 | Fitted to neutrino masses |
 | M_R,3 | — | 1.1 × 10¹⁴ GeV | Derived: M₀ × ξ₃ |
 | M_R,2, M_R,1 | — | 1.5 × 10¹⁴ GeV | Derived: M₀ × ξ₂ |
-| CP violation | η̄ | 0.35 ± 0.02 | Derived (correction chain) |
+| CP violation | η̄ | 0.371 ± 0.029 | Derived (correction chain) |
 | Holonomy phase | φ₁ | π/4 | From Z₃ winding |
 | Holonomy phase | φ₂ | π/6 | From Z₃ winding |
 | CP asymmetry | ε₁ | 1.3 × 10⁻⁶ | Computed |

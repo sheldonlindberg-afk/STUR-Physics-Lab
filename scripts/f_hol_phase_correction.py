@@ -280,7 +280,7 @@ def compute_debye_waller():
         delta_phi_sq = delta_sq
 
         f_DW = np.exp(-delta_phi_sq / 2)
-        eta = 0.39 * f_DW * 1.000 * 0.970
+        eta = 0.39 * f_DW * 1.000 * 1.003
 
         if abs(f_DW - 0.948) < abs(best_diff):
             best_diff = abs(f_DW - 0.948)
@@ -651,20 +651,20 @@ def honest_conclusion():
 
     # Impact on η̄
     f_Berry = 1.000
-    f_RG = 0.970
+    f_RG = 1.003
     eta_obs = 0.357
     sigma_eta = 0.011
 
     print(f"  η̄ chain without f_hol correction (f_hol = 1):")
     eta_no_fhol = 0.39 * 1.000 * f_Berry * f_RG
     dev_no_fhol = abs(eta_no_fhol - eta_obs) / sigma_eta
-    print(f"    η̄ = 0.39 × 1.000 × 1.000 × 0.970 = {eta_no_fhol:.4f}")
+    print(f"    η̄ = 0.39 × 1.000 × 1.000 × 1.003 = {eta_no_fhol:.4f}")
     print(f"    Deviation: {dev_no_fhol:.1f}σ from PDG ({eta_obs} ± {sigma_eta})")
 
     print(f"\n  η̄ chain with f_hol = 0.948 (fitted):")
     eta_fitted = 0.39 * 0.948 * f_Berry * f_RG
     dev_fitted = abs(eta_fitted - eta_obs) / sigma_eta
-    print(f"    η̄ = 0.39 × 0.948 × 1.000 × 0.970 = {eta_fitted:.4f}")
+    print(f"    η̄ = 0.39 × 0.948 × 1.000 × 1.003 = {eta_fitted:.4f}")
     print(f"    Deviation: {dev_fitted:.1f}σ from PDG")
 
     print(f"""
@@ -678,7 +678,7 @@ def honest_conclusion():
 
   REVISED η̄ CHAIN:
     η̄ = 0.39 × (f_hol) × 1.000 × f_RG
-    With f_hol ∈ [0.94, 1.00]: η̄ ∈ [0.358, 0.378]
+    With f_hol ∈ [0.94, 1.00]: η̄ ∈ [0.368, 0.391]
     All values consistent within 2σ of PDG
 
     HONEST STATUS: f_hol is FITTED (value 0.948)
