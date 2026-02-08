@@ -224,7 +224,7 @@
     <div style="font-family:monospace;color:var(--text);padding:1rem;background:#000;border-radius:4px;margin-top:0.5rem;line-height:1.8;font-size:0.85rem;">
       <span style="color:var(--gold);">⬛</span> <strong>M<sub>Planck</sub></strong> (ONE fundamental scale)<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ Casimir-holonomy balance [H.2.11]<br>
-      <span style="color:var(--success);">★</span> <strong style="color:#fbbf24;">L<sub>X</sub> ≈ 0.8 μm</strong> (derived, not input)<br>
+      <span style="color:#fbbf24;">⊙</span> <strong style="color:#fbbf24;">L<sub>X</sub> ≈ 0.8 μm</strong> (target; moduli stabilization open — §19.1)<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ Z₃ winding quantization: v·L<sub>X</sub> = 3<br>
       <span style="color:var(--success);">★</span> <strong style="color:#22d3ee;">v ≈ M<sub>GUT</sub></strong> (derived from L<sub>X</sub>)<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ holonomy enhancement: M<sub>R</sub> = λ<sub>hol</sub>/L<sub>X</sub><br>
@@ -250,7 +250,7 @@
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ unique torsion coupling [H.10.3]<br>
       <span style="color:#60a5fa;">⊙</span> Gravity emerges (TEGR = GR)<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ no domain wall [H.4.5]<br>
-      <span style="color:var(--success);">★</span> <strong style="color:#22d3ee;">Λ ≈ 0 addressed [H.11.10]</strong><br>
+      <span style="color:#fbbf24;">⊙</span> <strong style="color:#22d3ee;">Λ: correct sign/scale, mechanism open [H.11.10]</strong><br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ R-field slow-roll [H.11A.39]<br>
       <span style="color:var(--success);">★</span> Inflation: n<sub>s</sub> ≈ 0.964, r ≈ 0.004
     </div>
@@ -294,9 +294,9 @@
       </thead>
       <tbody>
         <tr style="background:rgba(251,191,36,0.08);"><td colspan="4" style="color:var(--gold);font-weight:600;padding:0.5rem;">Scale Parameters (from M<sub>Planck</sub>)</td></tr>
-        <tr><td>L<sub>X</sub></td><td>Casimir-holonomy balance [H.2.11] (<a href="../ABSOLUTE_MASS_DERIVATION.md" style="color:var(--accent);">proof</a>)</td><td>≈ 0.8 μm</td><td style="color:var(--success);">★ Derived</td></tr>
-        <tr><td>v (R-field VEV)</td><td>v·L<sub>X</sub> = 3 (Z₃ winding) (<a href="../ABSOLUTE_MASS_DERIVATION.md" style="color:var(--accent);">proof</a>)</td><td>≈ M<sub>GUT</sub></td><td style="color:var(--success);">★ Derived</td></tr>
-        <tr><td>M<sub>R</sub></td><td>M<sub>R</sub> = λ<sub>hol</sub>/L<sub>X</sub> (holonomy) (<a href="../ABSOLUTE_MASS_DERIVATION.md" style="color:var(--accent);">proof</a>)</td><td>2×10<sup>14</sup> GeV</td><td style="color:var(--success);">★ Derived</td></tr>
+        <tr><td>L<sub>X</sub></td><td>Casimir-holonomy balance [H.2.11] (<a href="../ABSOLUTE_MASS_DERIVATION.md" style="color:var(--accent);">details</a>)</td><td>≈ 0.8 μm</td><td style="color:#fbbf24;">⊙ Open (§19.1)</td></tr>
+        <tr><td>v (R-field VEV)</td><td>v·L<sub>X</sub> = 3 (Z₃ winding) (<a href="../ABSOLUTE_MASS_DERIVATION.md" style="color:var(--accent);">details</a>)</td><td>≈ M<sub>GUT</sub></td><td style="color:#fbbf24;">⊙ Conditional</td></tr>
+        <tr><td>M<sub>R</sub></td><td>M<sub>R</sub> = λ<sub>hol</sub>/L<sub>X</sub> (holonomy) (<a href="../ABSOLUTE_MASS_DERIVATION.md" style="color:var(--accent);">details</a>)</td><td>2×10<sup>14</sup> GeV</td><td style="color:#fbbf24;">⊙ Conditional</td></tr>
         <tr style="background:rgba(74,222,128,0.08);"><td colspan="4" style="color:var(--success);font-weight:600;padding:0.5rem;">Flavor Parameters (from Z₃ geometry)</td></tr>
         <tr><td>κ</td><td>Mathieu + two-loop + KK + gauge + Z₃</td><td>2.52 ± 0.16</td><td style="color:var(--success);">★ Derived</td></tr>
         <tr><td>λ (Wolfenstein)</td><td>exp[-κ²/8] × corrections [H.7.6]</td><td>0.220</td><td style="color:#22d3ee;">✓ exp: 0.225</td></tr>
@@ -315,7 +315,7 @@
       </tbody>
     </table>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
-      <strong>All parameters derived from M<sub>Planck</sub> + Z₃ geometry. All match experimental values within 1-1.5σ.</strong>
+      <strong>Core flavor parameters (λ, N<sub>gen</sub>, θ<sub>QCD</sub>, η̄) genuinely derived from Z₃ geometry. Scale parameters (L<sub>X</sub>, v, M<sub>R</sub>) conditional on moduli stabilization. See <a href="../DERIVATION_CHAIN_HELIX.md" style="color:var(--accent);">§33.6</a> for complete status.</strong>
     </p>
   </div>
 </section>
@@ -763,15 +763,15 @@
   <div class="block success" style="margin-top:1.5rem;border-width:3px;">
     <div class="title" style="font-size:1.1rem;">THEORY OF EVERYTHING CANDIDATE — Z₃ Helix Geometry</div>
     <p style="margin:0;color:var(--text);">
-      <strong>Complete EFT derived from M<sub>Planck</sub> + Z₃ geometry → 25+ physics problems solved with complete derivations.</strong>
+      <strong>EFT from M<sub>Planck</sub> + Z₃ geometry → core flavor sector derived, cosmological sector open (see §33.6 for honest assessment).</strong>
     </p>
     <ul style="margin:0.5rem 0 0;color:var(--text-secondary);">
-      <li>⬛ <strong>One Scale:</strong> M<sub>Planck</sub> → L<sub>X</sub> → v → M<sub>R</sub> → all parameters (complete derivation chain)</li>
-      <li>⬛ <strong>Foundation:</strong> XCRM coupling χ(R₁∂<sub>X</sub>R₂ − R₂∂<sub>X</sub>R₁) — everything follows by necessity</li>
-      <li>★ <strong>All flavor parameters:</strong> κ = 2.52 ± 0.16, λ = 0.220, η̄ = 0.371 (fully derived)</li>
-      <li>★ <strong>SM from Z₃:</strong> SU(3) from center, 3 generations automatic, m<sub>H</sub> = 125 GeV</li>
-      <li>★ <strong>Cosmology:</strong> Inflation, baryogenesis, Λ ≈ 0, dark matter (LKP)</li>
-      <li>★ <strong>Quantum gravity:</strong> Black hole entropy S = A/(4l<sub>P</sub>²) derived, information paradox resolved</li>
+      <li>⬛ <strong>Foundation:</strong> XCRM coupling χ(R₁∂<sub>X</sub>R₂ − R₂∂<sub>X</sub>R₁) — core structure follows by necessity</li>
+      <li>★ <strong>Genuinely derived:</strong> λ = 0.2285 (1.6%), N<sub>gen</sub> = 3, θ<sub>QCD</sub> = 0, f<sub>Berry</sub> = 1.000</li>
+      <li>★ <strong>Semi-derived:</strong> η̄ = 0.371 ± 0.029 (with fitted f<sub>hol</sub>; without: 0.391, 1.4σ)</li>
+      <li>★ <strong>SM from Z₃:</strong> SU(3) from center, 3 generations automatic</li>
+      <li>⊙ <strong>Open:</strong> L<sub>X</sub> stabilization, Λ mechanism, mass hierarchy (max ratio 19 vs 53-277)</li>
+      <li>⊙ <strong>Cosmology:</strong> Inflation + baryogenesis consistent; Λ and dark matter conditional on L<sub>X</sub></li>
     </ul>
     <p style="margin:0.75rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <a href="stur_master_action_derivation.html" style="color:var(--accent);">Master Action →</a> |
@@ -1234,7 +1234,7 @@
 
   <h4 style="color:var(--success);margin-top:1.5rem;font-size:0.95rem;">Cosmology (4 results)</h4>
   <ul style="color:var(--text-secondary);line-height:1.8;">
-    <li>★ <strong>Cosmological constant:</strong> No domain wall + XCRM cancellation → Λ ≈ 0 [H.11.10], matches Λ<sub>obs</sub> ~ 10<sup>−47</sup> GeV⁴ [H.11.11] (<a href="../COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md" style="color:var(--accent);">Complete CC derivation</a>)</li>
+    <li>⊙ <strong>Cosmological constant:</strong> Correct sign (Δn &gt; 0) and neutrino mechanism gives correct scale (~10<sup>−47</sup> GeV⁴), but NOT SOLVED — L~80μm required is excluded by experiment [H.11.10] (<a href="../COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md" style="color:var(--accent);">CC analysis</a>)</li>
     <li>★ <strong>Inflation:</strong> R-field radial mode as inflaton → n<sub>s</sub> ≈ 0.964, r ≈ 0.004 (Starobinsky-like) [H.11A.39] (<a href="stur_inflation_derivation.html" style="color:var(--accent);">Inflation</a>)</li>
     <li>★ <strong>Baryogenesis:</strong> Leptogenesis from CP asymmetry in ν<sub>R</sub> decays [H.9c] (<a href="stur_leptogenesis_thermal.html" style="color:var(--accent);">Leptogenesis</a>)</li>
     <li>✓ <strong>Matches Planck 2018:</strong> n<sub>s</sub>, r predictions consistent with CMB observations [H.11A.50]</li>
@@ -1252,7 +1252,7 @@
     <li>★ <strong>Fibonacci spirals & logarithmic geometry:</strong> Z₃ → 120° phase rotation → logarithmic spiral with b = −1 → Fibonacci recursion from phase overlaps [H.20.2f] (<a href="#fibonacci-section" style="color:var(--accent);">Fibonacci Connection</a>)</li>
   </ul>
 
-  <h3 style="color:var(--success);margin-top:1.5rem;">All Parameters Derived — Zero Calibration</h3>
+  <h3 style="color:var(--success);margin-top:1.5rem;">Parameter Derivation Status</h3>
   <table style="width:100%;font-size:0.88rem;margin-top:0.5rem;">
     <thead>
       <tr style="background:rgba(74,222,128,0.15);">
@@ -1264,9 +1264,9 @@
     </thead>
     <tbody>
       <tr style="background:rgba(251,191,36,0.05);"><td colspan="4" style="color:var(--gold);font-weight:600;">Scale Parameters (from M<sub>Planck</sub>)</td></tr>
-      <tr><td>L<sub>X</sub></td><td>≈ 0.8 μm</td><td>Casimir-holonomy balance [H.2.11]</td><td style="color:var(--success);">★ Derived</td></tr>
-      <tr><td>v</td><td>≈ M<sub>GUT</sub></td><td>v·L<sub>X</sub> = 3 (Z₃ winding)</td><td style="color:var(--success);">★ Derived</td></tr>
-      <tr><td>M<sub>R</sub></td><td>2×10<sup>14</sup> GeV</td><td>M<sub>R</sub> = λ<sub>hol</sub>/L<sub>X</sub></td><td style="color:var(--success);">★ Derived</td></tr>
+      <tr><td>L<sub>X</sub></td><td>≈ 0.8 μm</td><td>Casimir-holonomy balance [H.2.11]</td><td style="color:#fbbf24;">⊙ Open (§19.1)</td></tr>
+      <tr><td>v</td><td>≈ M<sub>GUT</sub></td><td>v·L<sub>X</sub> = 3 (Z₃ winding)</td><td style="color:#fbbf24;">⊙ Conditional</td></tr>
+      <tr><td>M<sub>R</sub></td><td>2×10<sup>14</sup> GeV</td><td>M<sub>R</sub> = λ<sub>hol</sub>/L<sub>X</sub></td><td style="color:#fbbf24;">⊙ Conditional</td></tr>
       <tr style="background:rgba(74,222,128,0.05);"><td colspan="4" style="color:var(--success);font-weight:600;">Flavor Parameters (from Z₃ geometry)</td></tr>
       <tr><td>κ</td><td>2.52 ± 0.16</td><td>Mathieu + higher-order corrections</td><td style="color:var(--success);">★ Derived</td></tr>
       <tr><td>λ (Wolfenstein)</td><td>0.220</td><td>exp[-κ²/8] × corrections [H.7.6]</td><td style="color:#22d3ee;">✓ exp: 0.225</td></tr>
@@ -1299,9 +1299,9 @@
   </div>
 
   <div class="block gold" style="margin-top:1rem;border-width:2px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="color:var(--gold);">Theory Status: Complete EFT Awaiting Experimental Falsification</div>
+    <div class="title" style="color:var(--gold);">Theory Status: Promising Flavor Model with Open Structural Gaps</div>
     <p style="margin:0;color:var(--text);font-size:1rem;">
-      ⬛ One scale (M<sub>Planck</sub>) · ★ <strong>26/26 SM parameters derived</strong> · ✓ All predictions match observation (&lt;6% accuracy) · ◆ Derived from Z₃ structure · <strong>Derivation chain CLOSED</strong>
+      ⬛ One scale (M<sub>Planck</sub>) · ★ <strong>Core flavor sector derived</strong> (λ, N<sub>gen</sub>, θ<sub>QCD</sub>) · ✓ All predictions match observation (&lt;6% accuracy) · ◆ From Z₃ structure · <strong>Open items: L<sub>X</sub>, Λ, mass hierarchy (§33.6)</strong>
     </p>
     <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.9rem;">
       <a href="stur_fermion_masses.html" style="color:var(--accent);">9 charged masses</a> ·

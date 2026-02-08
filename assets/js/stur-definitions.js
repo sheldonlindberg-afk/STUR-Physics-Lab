@@ -31,7 +31,7 @@ const STUR_DEFINITIONS = {
       description: "The unique antisymmetric dimension-5 coupling χ(R₁∂_XR₂ - R₂∂_XR₁) between R-field doublet and extra dimension — the sole foundation from which everything follows",
       equation: "χ(R₁∂_X R₂ - R₂∂_X R₁) = χ|R|²∂_X φ",
       status: "FOUNDATION: Uniquely determined by dimensional analysis + TEGR compatibility on M⁴ × S¹ with Z₃ helix",
-      derives: ["Z₃ helix geometry", "Master Action", "3 generations (automatic)", "SU(3) from geometry", "CC = 0"]
+      derives: ["Z₃ helix geometry", "Master Action", "3 generations (automatic)", "SU(3) from geometry", "CC: correct sign/scale (mechanism open)"]
     },
     masterAction: {
       id: "Derived 1",
@@ -47,7 +47,7 @@ const STUR_DEFINITIONS = {
       description: "Emerges from path integral saddle point on Z₃ helix — not postulated",
       equation: "Ω_DHP[history] = ∫₀^t_f Ω[config(t)] dt",
       status: "DERIVED: Faddeev-Popov procedure on Z₃ helix forces holonomy minimization",
-      closes: ["UV completion", "Neutrino masses", "CP violation", "Dark matter", "Λ addressed", "Inflation", "Baryogenesis", "Quantum gravity"],
+      closes: ["UV completion", "Neutrino masses", "CP violation", "Dark matter", "Λ (open — correct scale, mechanism incomplete)", "Inflation", "Baryogenesis", "Quantum gravity"],
       derivation: "stur_dhp_derivation.html"
     },
     tfp: {
@@ -114,7 +114,7 @@ const STUR_DEFINITIONS = {
     v25Improvements: {
       threeGenerations: "AUTOMATIC from |Z₃| = 3 (theorem, not calculation)",
       su3Color: "NATURAL from Z₃ = center(SU(3))",
-      cosmologicalConstant: "Addressed: |R| = v everywhere → no domain wall → Λ reduced (quantum corrections remain)",
+      cosmologicalConstant: "Open: correct sign (Δn > 0) and neutrino mechanism gives ~10⁻⁴⁷ GeV⁴ scale, but L~80μm excluded by experiment (v5.2 assessment)",
       cpViolation: "NATURAL from helix chirality"
     },
     parameters: {
@@ -159,7 +159,7 @@ const STUR_DEFINITIONS = {
       { name: "Neutrino masses", mechanism: "Bulk seesaw", equation: "F.16", status: "established", note: "Bulk N_R + seesaw mechanism", derivation: "stur_neutrino_derivation.html" },
       { name: "CP violation", mechanism: "Helix chirality", equation: "H.8.6", status: "automatic", note: "v2.5: Helix winding direction breaks CP spontaneously → δ ≈ 70°", derivation: "stur_cp_derivation.html" },
       { name: "Dark matter (LKP)", mechanism: "KK parity stability", equation: "F.20", status: "established", note: "Z₃ helix Z₂ parity gives stable LKP", derivation: "stur_darkmatter_derivation.html" },
-      { name: "Cosmological constant", mechanism: "No domain wall", equation: "H.11.10", status: "addressed", note: "v2.5: |R| = v everywhere on helix → no domain wall energy → Λ reduced (quantum corrections under investigation)", derivation: "stur_cosmological_derivation.html" },
+      { name: "Cosmological constant", mechanism: "Neutrino Z₃ breaking", equation: "H.11.10", status: "open", note: "v5.2: correct sign/scale (~10⁻⁴⁷ GeV⁴) but L~80μm excluded; R-field V~v⁴ needs 10⁻⁵⁶ cancellation (NOT SOLVED)", derivation: "stur_cosmological_derivation.html" },
       { name: "Inflation + Baryogenesis", mechanism: "R-field dynamics + leptogenesis", equation: "F.24-25", status: "established", note: "R-field slow-roll + geometric CP phases", derivation: "stur_inflation_derivation.html" },
       { name: "Gauge coupling unification", mechanism: "5D Z₃ helix geometry", equation: "GU.13", status: "established", note: "α_i(M_Pl) from MHP + Kac-Moody levels", derivation: "stur_gauge_unification_derivation.html" },
       { name: "Complete leptogenesis", mechanism: "Full Boltzmann + sphalerons", equation: "LT.16", status: "established", note: "η_B = 6.12×10⁻¹⁰ from thermal history", derivation: "stur_leptogenesis_thermal.html" },

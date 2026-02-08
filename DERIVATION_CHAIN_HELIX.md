@@ -77,10 +77,10 @@ This section summarizes the key derivations establishing internal consistency.
 | SM gauge group | Groups compatible with Z₃ holonomy | **DERIVED** (given N=3) |
 | θ_QCD = 0 | Z₃ × CP symmetry | **DERIVED** (given N=3) |
 | Proton stability (dim-5) | Z₃ KK-parity selection rule | **DERIVED** (given N=3) |
-| Mass hierarchy pattern | Gaussian overlap geometry | **DERIVED** |
-| κ = 2.52 (via α_eff = 1.431) | Mathieu equation at computed α_eff | **DERIVED** (one-loop, 8.5% accuracy) |
-| λ = 0.206 (target: 0.225) | Higgs-localized overlap at α_eff | **DERIVED** (one-loop, 8.5% accuracy) |
-| η̄ = 0.371 ± 0.029 | Helix geometry + holonomy/RG (Berry=1.000, f_RG=1.003) | **SEMI-DERIVED** |
+| Mass hierarchy pattern | Gaussian overlap geometry | **PARTIAL** (max ratio 19 vs needed 53-277; see §33.2) |
+| κ = 2.52 ± 0.16 (via α_eff) | Mathieu equation at computed α_eff | **DERIVED** (one-loop; v5.2 scripts: α_eff=1.480, κ=2.430) |
+| λ = 0.2285 (target: 0.225) | exp(-κ²/4) from first principles | **DERIVED** (1.6% accuracy; v5.2 scripts) |
+| η̄ = 0.371 ± 0.029 | Helix geometry + holonomy/RG (Berry=1.000, f_RG=1.003) | **SEMI-DERIVED** (f_hol=0.948 is fitted; without: η̄=0.391, 1.4σ) |
 
 **Note on Status Labels:**
 - **DERIVED (topological)**: Result follows from Z₃ topology and stability
@@ -99,7 +99,7 @@ within the STUR geometry and the KK spectrum.
 | Holonomy (leptons) | 1.00 | Leptons are SU(3) singlets — no color holonomy | Derivation F below |
 | RG | 0.87 ± 0.02 | One-loop running + KK threshold sum | Derivation G below |
 | **Wavefunction Tail** | **1.131 ± 0.023** | Overlap ratio on S¹/Z₃: full-circle vs single-sector Gaussian overlap | Derivation below |
-| η̄ holonomy | 0.948 ± 0.015 | Correlated fluctuations between u,d sectors | ETA_BAR_CORRECTION_CHAIN.md |
+| η̄ holonomy | 0.948 ± 0.015 | Correlated fluctuations between u,d sectors (**FITTED** — see §33.6) | ETA_BAR_CORRECTION_CHAIN.md |
 | η̄ Berry | 1.000 ± 0.000 | Berry phase = 0 for real Mathieu eigenstates (v5.2 exact computation) | berry_phase_exact.py |
 | η̄ RG | 1.003 ± 0.003 | CP phase running: KK threshold = 0 (Z₃ protection), EW matching +0.3% | f_RG_kk_threshold.py |
 
@@ -244,10 +244,10 @@ STUR contains TWO physically distinct length scales:
 
 | Parameter | Value | Derivation | Status |
 |-----------|-------|------------|--------|
-| L_X^{fund} | ~3×10⁻³² m | Z₃ winding quantization (v·L_X = 3) | **DERIVED** |
-| L_eff | ~0.8 μm | Casimir-holonomy energy balance | **DERIVED** |
-| v | ~M_GUT | v·L_X = 3 (Z₃ winding quantization) | **DERIVED** |
-| M_R | 2×10¹⁴ GeV | M_R = λ_hol/L_X with λ_hol ≈ 20 | **DERIVED** |
+| L_X^{fund} | ~3×10⁻³² m | Z₃ winding quantization (v·L_X = 3), given v | **CONDITIONAL** (requires v) |
+| L_eff | ~0.8 μm | Casimir-holonomy energy balance | **OPEN** (v5.2: no stable minimum found; see §19.1) |
+| v | ~M_GUT | v·L_X = 3 (Z₃ winding quantization), given L_X | **CONDITIONAL** (requires L_X) |
+| M_R | 2×10¹⁴ GeV | M_R = λ_hol/L_X with λ_hol ≈ 20 | **CONDITIONAL** (requires L_X) |
 
 **The Scale Derivation Chain:**
 ```
@@ -268,23 +268,27 @@ M_Planck (ONE fundamental input)
               └───→ Fifth-force range ~ L_eff (testable!)
 ```
 
-### Framework Status: COMPLETE (Closure Achieved)
+### Framework Status: PARTIAL (v5.2 Assessment — see §33.6 for details)
 
 **STUR has ONE fundamental dimensional input: M_Planck.**
 
-Core scales are derived:
-- L_X from Casimir-holonomy balance (LX_CASIMIR_HOLONOMY_DERIVATION.md)
-- v from Z₃ winding quantization (VLX_QUANTIZATION_DERIVATION.md)
-- M_R from holonomy enhancement (HOLONOMY_ENHANCEMENT_DERIVATION.md)
-- κ from Z₃ localization dynamics (KAPPA_HIGHER_ORDER_CORRECTIONS.md)
+**What is genuinely derived (no fitting):**
+- κ from Z₃ localization dynamics (Mathieu equation + corrections)
+- λ (Cabibbo angle) = exp(-κ²/4) = 0.2285 (1.6% from observed)
+- N_gen = 3 from Z₃ topology and stability (TOPOLOGICAL_NCRIT_DERIVATION.md)
+- θ_QCD = 0 from Z₃ × CP symmetry
+- f_Berry = 1.000 exactly (berry_phase_exact.py)
+- f_RG = 1.003 (v5.3: KK threshold = 0 by Z₃ symmetry; f_RG_kk_threshold.py)
 
-Closure items resolved:
-- RG factor f_RG: For absolute Yukawa, 0.87 from one-loop running (CORRECTION_FACTORS_COMPLETE.md §3). For CKM/η̄, f_RG = 1.003 (v5.3: KK threshold = 0 by Z₃ symmetry, EW +0.3%; see f_RG_kk_threshold.py).
-- Boundary suppression f_boundary derived from finite-domain overlap + Higgs localization (BOUNDARY_CORRECTION_DERIVATION.md).  
-- N_gen derived from Z₃ topology and stability (TOPOLOGICAL_NCRIT_DERIVATION.md).  
-- Λ_residual derived from discrete gauge Z₃ breaking sources (COSMOLOGICAL_CONSTANT_COMPLETE_DERIVATION.md).  
+**What remains open (v5.2 honest assessment):**
+- L_X stabilization: Casimir-holonomy balance has no stable minimum (lx_effective_potential.py)
+- Cosmological constant: NOT SOLVED (Δn=0.62, L~80μm excluded; see §33.1)
+- Mass hierarchy: max geometric ratio 19 vs needed 53-277 (fermion_mass_hierarchy.py)
+- 1st-2nd generation degeneracy: Z₃ forces m₁ = m₂
+- f_hol = 0.948: FITTED, not derived (§33.6)
+- 9 charged fermion masses: f_tail, f_node corrections are FITTED (§33.2)
 
-**The derivation chain is CLOSED.**
+**The core flavor sector (Cabibbo angle, 3 generations, strong CP) is derived. Scale parameters (L_X, v, M_R) and the cosmological sector have structural gaps. See §33.6 for the complete honest assessment.**
 
 ---
 
@@ -4845,40 +4849,45 @@ M-theory on G₂: Associative 3-form decomposes to STUR structure
 
 ## Conclusion
 
-This document presents STUR as a **complete Theory of Everything** — a unified framework connecting General Relativity and the Standard Model through Z₃ helix geometry with **ONE fundamental input: M_Planck**.
+This document presents STUR as a **Theory of Everything candidate** — a unified framework connecting General Relativity and the Standard Model through Z₃ helix geometry.
 
-**From three axioms**, every calculation follows:
+**From three axioms**, the core structure follows:
 - R must be a doublet (3 alternatives eliminated)
 - XCRM is unique (4 terms enumerated, 3 vanish)
-- N = 3 selected (holonomy calculation from observed N_gen)
-- 3 generations (fixed point counting)
+- N = 3 selected (holonomy + anomaly cancellation + stability)
+- 3 generations (Z₃ fixed point counting — topological)
 - κ = 2.52 ± 0.16 (Mathieu equation + higher-order corrections)
-- λ = 0.220 (Gaussian overlap with all correction factors)
-- η̄ = 0.371 ± 0.029 (holonomy × RG corrections; Berry=1.000, v5.3)
-- m_H = 125 GeV (RG evolution of quartic)
+- λ = 0.2285 (exp(-κ²/4) from first principles — 1.6% accuracy)
+- η̄ = 0.371 ± 0.029 (with f_hol=0.948 fitted) or 0.391 (without; 1.4σ from PDG)
+- θ_QCD = 0 (Z₃ × CP symmetry — no axion needed)
 
-**All Scales Derived from M_Planck:**
+**Scale Parameters (conditional on L_X):**
 ```
 M_Planck
     │
-    │ Casimir-holonomy balance (N_eff ≈ -149)
+    │ Casimir-holonomy balance → L_X ≈ 0.8 μm
+    │   (NOTE: v5.2 shows no stable minimum — §19.1)
     ↓
-  L_X ≈ 0.8 μm
+  L_X ≈ 0.8 μm (OPEN — moduli stabilization needed)
     │
     ├─→ v = 3/L_X ≈ M_GUT     (Z₃ winding: v·L_X = 3)
     │
     └─→ M_R = 20/L_X ≈ 10¹⁴ GeV  (holonomy: λ_hol ≈ 20)
 ```
 
-**Derivation Chain:**
-- **L_X**: From Casimir (repulsive) vs holonomy (attractive) energy minimization
-- **v**: From Z₃ winding quantization (v·L_X = 3)
-- **M_R**: From holonomy enhancement at Z₃ fixed points (λ_hol ≈ 20)
-- **κ**: 2.22 + 0.30 (higher-order) = 2.52 ± 0.16
-- **All correction factors**: Derived from Z₃ geometry
-- **Cosmological constant**: Residual Λ from neutrino Z₃ breaking
+**What is genuinely derived (v5.2 assessment):**
+- **Cabibbo angle** λ = exp(-κ²/4) = 0.2285 (1.6% from PDG)
+- **3 generations** from Z₃ topology (theorem)
+- **θ_QCD = 0** from Z₃ × CP symmetry
+- **f_Berry = 1.000** exactly (Berry phase vanishes for real Mathieu states)
+- **f_RG = 1.003** (KK threshold = 0 by Z₃ symmetry)
 
-**One fundamental input (M_Planck). All other parameters derived.**
+**What remains open (v5.2 honest assessment — see §33.6):**
+- **L_X stabilization**: No dynamical minimum found
+- **Cosmological constant**: NOT SOLVED (correct scale ~10⁻⁴⁷ GeV⁴ but mechanism incomplete)
+- **Mass hierarchy**: Max geometric ratio 19 vs needed 53-277
+- **1st-2nd gen splitting**: Z₃ forces m₁ = m₂
+- **Fermion masses**: f_tail, f_node corrections are fitted, not derived
 
 21 falsifiable predictions are made, with neutrino mass ordering (JUNO 2025-2027) as the most decisive near-term test.
 
@@ -4963,26 +4972,31 @@ Residual Λ derived from first principles:
 | Category | Status | Details |
 |----------|--------|---------|
 | Topology/Symmetry | **Complete** | N_gen from Z₃ topology + stability |
-| Flavor Physics | **Complete** | κ, λ from RG/threshold + boundary + holonomy |
-| Cosmological Constant | **Complete** | Λ residual from Z₃ breaking sources |
+| Flavor (Cabibbo) | **Complete** | λ = exp(-κ²/4) = 0.2285 (1.6% accuracy) |
+| Flavor (masses) | **Partial** | Max hierarchy ratio 19 vs needed 53-277; corrections fitted (§33.2) |
+| Cosmological Constant | **Open** | NOT SOLVED — correct sign/scale but L~80μm excluded (§33.1) |
+| L_X Stabilization | **Open** | No stable minimum found (§19.1, lx_effective_potential.py) |
 | UV Completion | **Paths Identified** | F-theory, Type IIB embeddings viable |
 
 ### Framework Assessment
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  STUR FRAMEWORK STATUS: COMPLETE                            │
+│  STUR FRAMEWORK STATUS: PARTIAL (v5.2 Assessment)           │
 │                                                             │
 │  TOPOLOGY/SYMMETRY: Complete (N_gen from Z₃ topology)      │
-│  FLAVOR PHYSICS: Complete (RG/thresholds + boundary)       │
-│  COSMOLOGICAL CONSTANT: Complete (Λ_residual derived)      │
-│    - Residual: Λ ~ 6.5×10⁻⁴⁷ GeV⁴ (Part XIX.2 calc)        │
-│    - Observed: Λ = 2.8×10⁻⁴⁷ GeV⁴                          │
-│    - Factor ~2.3 discrepancy (order-of-magnitude match)     │
+│  FLAVOR (CABIBBO): Complete (λ from exp(-κ²/4), 1.6%)     │
+│  FLAVOR (MASSES): Partial (corrections fitted, not derived)│
+│  COSMOLOGICAL CONSTANT: Open (NOT SOLVED — see §33.1)     │
+│    - Neutrino mechanism gives correct scale (~10⁻⁴⁷ GeV⁴)  │
+│    - But L~80μm needed, excluded by torsion balance        │
+│    - R-field V ~ v⁴ needs 10⁻⁵⁶ cancellation              │
+│  L_X STABILIZATION: Open (no minimum found — see §19.1)   │
 │  UV COMPLETION: String theory embeddings identified         │
 │                                                             │
 │  ═══════════════════════════════════════════════════════   │
-│  All fundamental constants derived from 3 axioms + M_Planck │
+│  Core flavor sector derived; structural gaps remain.        │
+│  See §33.6 for complete honest assessment.                  │
 │  ═══════════════════════════════════════════════════════   │
 └─────────────────────────────────────────────────────────────┘
 ```
