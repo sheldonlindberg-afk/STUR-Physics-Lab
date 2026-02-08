@@ -1085,7 +1085,7 @@ print(f"\nOutputs: stur_qc_lattice.png, stur_qc_lattice.json")</pre>
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.1</span>
   </p>
 </footer>
 
@@ -1104,9 +1104,9 @@ print(f"\nOutputs: stur_qc_lattice.png, stur_qc_lattice.json")</pre>
 </script>
 <script>
 // ============================================================
-// STUR Quantum Computing — v5.0 Falsification Framework
+// STUR Quantum Computing — v5.1 Falsification Framework
 // ============================================================
-const QC_PAGE_VERSION = '5.0';
+const QC_PAGE_VERSION = '5.1';
 
 // Seeded PRNG for reproducibility (LCG: seed=42)
 let _qcRngSeed = 42;
@@ -1499,17 +1499,43 @@ var PRESETS={
 // ================================================================
 var circCanvas,circCtx,probCanvas,probCtx;
 
+// DPR support for crisp retina rendering
+var qcDpr=window.devicePixelRatio||1;
+var circCssW=620,circCssH=180,probCssW=620,probCssH=200;
+
 function initCanvases(){
   circCanvas=document.getElementById('circuitCanvas');
   probCanvas=document.getElementById('probCanvas');
   circCtx=circCanvas?circCanvas.getContext('2d'):null;
   probCtx=probCanvas?probCanvas.getContext('2d'):null;
+
+  // Setup DPR on both canvases
+  if(circCanvas&&circCtx){
+    var container=circCanvas.parentElement;
+    circCssW=container?container.clientWidth:620;
+    circCssH=180;
+    circCanvas.width=circCssW*qcDpr;
+    circCanvas.height=circCssH*qcDpr;
+    circCanvas.style.width=circCssW+'px';
+    circCanvas.style.height=circCssH+'px';
+    circCtx.setTransform(qcDpr,0,0,qcDpr,0,0);
+  }
+  if(probCanvas&&probCtx){
+    var container=probCanvas.parentElement;
+    probCssW=container?container.clientWidth:620;
+    probCssH=200;
+    probCanvas.width=probCssW*qcDpr;
+    probCanvas.height=probCssH*qcDpr;
+    probCanvas.style.width=probCssW+'px';
+    probCanvas.style.height=probCssH+'px';
+    probCtx.setTransform(qcDpr,0,0,qcDpr,0,0);
+  }
 }
 
 function drawCircuit(){
   if(!circCtx) return;
-  var W=circCanvas.width, H=circCanvas.height;
-  circCtx.fillStyle='#050814'; circCtx.fillRect(0,0,W,H);
+  var W=circCssW, H=circCssH;
+  circCtx.fillStyle='#0a0a1a'; circCtx.fillRect(0,0,W,H);
   var wireY=function(q){return 25+q*(H-40)/Math.max(nQ-1,1);};
   var stepW=38, padL=45;
 
@@ -1544,8 +1570,10 @@ function drawCircuit(){
     } else {
       var y=wireY(op.qubits[0]);
       circCtx.globalAlpha=highlight;
+      if(s<execStep){circCtx.shadowColor=g?g.c:'#fff';circCtx.shadowBlur=6;}
       circCtx.fillStyle=g?g.c:'#fff';
       circCtx.fillRect(x-12,y-12,24,24);
+      circCtx.shadowBlur=0;
       circCtx.fillStyle='#000';
       circCtx.fillText(g?g.nm:op.gate,x,y+4);
       // Measurement result
@@ -1580,23 +1608,32 @@ function drawCircuit(){
 
 function drawProbs(){
   if(!probCtx) return;
-  var W=probCanvas.width, H=probCanvas.height;
-  probCtx.fillStyle='#050814'; probCtx.fillRect(0,0,W,H);
+  var W=probCssW, H=probCssH;
+  probCtx.fillStyle='#0a0a1a'; probCtx.fillRect(0,0,W,H);
 
   var qp=qubitProbs();
   var barW=Math.min(50,Math.floor((W-40)/nQ));
   var startX=(W-nQ*barW)/2, baseY=H-45, maxH=H-70;
 
+  // Grid lines
+  probCtx.strokeStyle='rgba(255,255,255,0.04)'; probCtx.lineWidth=1;
+  for(var gy=baseY;gy>20;gy-=30){
+    probCtx.beginPath(); probCtx.moveTo(0,gy); probCtx.lineTo(W,gy); probCtx.stroke();
+  }
+
   // Title
   probCtx.fillStyle='#94a3b8'; probCtx.font='11px sans-serif'; probCtx.textAlign='left';
   probCtx.fillText('Per-qubit P(|1⟩)',8,14);
 
-  // Bars
+  // Bars with glow
   for(var q=0;q<nQ;q++){
     var p=qp[q], h=p*maxH, x=startX+q*barW+3;
     var col=sturEnabled?'#fbbf24':'#22d3ee';
+    // Bar glow
+    probCtx.shadowColor=col; probCtx.shadowBlur=p>0.1?8:0;
     probCtx.fillStyle=col; probCtx.globalAlpha=0.4+p*0.6;
     probCtx.fillRect(x,baseY-h,barW-6,h);
+    probCtx.shadowBlur=0;
     probCtx.globalAlpha=1;
     // Labels
     probCtx.fillStyle='#94a3b8'; probCtx.font='10px monospace'; probCtx.textAlign='center';
@@ -1604,13 +1641,15 @@ function drawProbs(){
     probCtx.fillText(p.toFixed(3),x+(barW-6)/2,baseY+24);
   }
 
-  // Entropy bar (right side)
+  // Entropy bar (right side) with glow
   if(execStep>0){
     var S=entanglementEntropy(Math.floor(nQ/2));
     var Smax=Math.floor(nQ/2);
     var sH=(S/Math.max(Smax,1))*maxH;
+    probCtx.shadowColor='#a78bfa'; probCtx.shadowBlur=6;
     probCtx.fillStyle='#a78bfa'; probCtx.globalAlpha=0.6;
     probCtx.fillRect(W-30,baseY-sH,20,sH);
+    probCtx.shadowBlur=0;
     probCtx.globalAlpha=1;
     probCtx.fillStyle='#a78bfa'; probCtx.font='9px monospace'; probCtx.textAlign='center';
     probCtx.fillText('S_A',W-20,baseY+12);
@@ -1714,9 +1753,9 @@ function setupEvents(){
   if(cc) cc.addEventListener('click',function(e){
     if(!selectedGate) return;
     var rect=cc.getBoundingClientRect();
-    var scaleY=cc.height/rect.height;
+    var scaleY=circCssH/rect.height;
     var clickY=(e.clientY-rect.top)*scaleY;
-    var wireY=function(q){return 25+q*(cc.height-40)/Math.max(nQ-1,1);};
+    var wireY=function(q){return 25+q*(circCssH-40)/Math.max(nQ-1,1);};
     // Find closest qubit
     var bestQ=0,bestD=Infinity;
     for(var q=0;q<nQ;q++){
@@ -1788,6 +1827,7 @@ function setupEvents(){
 // INIT
 // ================================================================
 initCanvases();
+window.addEventListener('resize',function(){initCanvases();drawCircuit();drawProbs();});
 stateReset();
 setupEvents();
 drawCircuit();

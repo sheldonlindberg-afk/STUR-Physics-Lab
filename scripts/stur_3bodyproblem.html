@@ -580,7 +580,7 @@
     <section class="glass-section" style="border-color: var(--neon-gold);">
         <div class="glass-section-header">
             <span class="stur-icon icon-database size-24" style="color:var(--neon-gold);"></span>
-            <h2 class="glass-section-title" style="color:var(--neon-gold);">Observational Data Comparison (v5.0)</h2>
+            <h2 class="glass-section-title" style="color:var(--neon-gold);">Observational Data Comparison (v5.1)</h2>
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1rem;color:var(--text-secondary);">
@@ -943,7 +943,7 @@ print(f"\nOutputs: stur_3body.png, stur_3body.json")</pre>
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.1</span>
   </p>
 </footer>
 
@@ -962,9 +962,9 @@ print(f"\nOutputs: stur_3body.png, stur_3body.json")</pre>
 </script>
 <script>
 // ============================================================
-// STUR 3-Body RK4 Orbit — v5.0 Falsification Framework
+// STUR 3-Body RK4 Orbit — v5.1 Falsification Framework
 // ============================================================
-const TB_PAGE_VERSION = '5.0';
+const TB_PAGE_VERSION = '5.1';
 
 // Seeded PRNG for reproducibility (LCG: seed=42)
 let _tbRngSeed = 42;
@@ -1162,6 +1162,22 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     const canvas = document.getElementById('orbitCanvas');
     const ctx = canvas ? canvas.getContext('2d') : null;
 
+    // DPR support for crisp retina rendering
+    const dpr = window.devicePixelRatio || 1;
+    let cssW = 550, cssH = 450;
+
+    function setupOrbitDPR() {
+        if (!canvas || !ctx) return;
+        const container = canvas.parentElement;
+        cssW = container ? container.clientWidth : 550;
+        cssH = 450;
+        canvas.width = cssW * dpr;
+        canvas.height = cssH * dpr;
+        canvas.style.width = cssW + 'px';
+        canvas.style.height = cssH + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
     // STUR Modulator
     function S_STUR(r, L0) {
         const u = r / L0;
@@ -1338,34 +1354,50 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     function draw() {
         if (!ctx) return;
 
-        ctx.fillStyle = '#050814';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#0a0a1a';
+        ctx.fillRect(0, 0, cssW, cssH);
 
         const scale = 150 / params.R;
-        const cx = canvas.width / 2;
-        const cy = canvas.height / 2;
+        const cx = cssW / 2;
+        const cy = cssH / 2;
 
-        // Draw trails
+        // Grid lines
+        ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+        ctx.lineWidth = 1;
+        for (let gx = 50; gx < cssW; gx += 50) {
+            ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, cssH); ctx.stroke();
+        }
+        for (let gy = 50; gy < cssH; gy += 50) {
+            ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(cssW, gy); ctx.stroke();
+        }
+
+        // Center crosshair
+        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, cssH); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(cssW, cy); ctx.stroke();
+
+        // Draw trails with gradient fade
         if (showTrails) {
             trails.forEach((trail, i) => {
                 if (trail.length < 2) return;
-                ctx.strokeStyle = bodies[i].color;
-                ctx.lineWidth = 1;
-                ctx.globalAlpha = 0.4;
-                ctx.beginPath();
-                trail.forEach((p, j) => {
-                    const px = cx + p.x * scale;
-                    const py = cy - p.y * scale;
-                    j === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
-                });
-                ctx.stroke();
+                for (let t = 1; t < trail.length; t++) {
+                    const alpha = 0.1 + 0.5 * (t / trail.length);
+                    ctx.strokeStyle = bodies[i].color;
+                    ctx.globalAlpha = alpha;
+                    ctx.lineWidth = 1 + (t / trail.length);
+                    ctx.beginPath();
+                    ctx.moveTo(cx + trail[t-1].x * scale, cy - trail[t-1].y * scale);
+                    ctx.lineTo(cx + trail[t].x * scale, cy - trail[t].y * scale);
+                    ctx.stroke();
+                }
                 ctx.globalAlpha = 1;
             });
         }
 
         // Draw connecting lines
-        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
         ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
         ctx.beginPath();
         bodies.forEach((b, i) => {
             const next = bodies[(i + 1) % 3];
@@ -1373,6 +1405,7 @@ document.getElementById('dlBtn').addEventListener('click', function() {
             ctx.lineTo(cx + next.x * scale, cy - next.y * scale);
         });
         ctx.stroke();
+        ctx.setLineDash([]);
 
         // Draw bodies
         let meanS = 0;
@@ -1389,18 +1422,29 @@ document.getElementById('dlBtn').addEventListener('click', function() {
                 meanS += S_STUR(r, params.L0);
             }
 
+            // Outer glow
+            ctx.shadowColor = b.color;
+            ctx.shadowBlur = 18;
             ctx.fillStyle = b.color;
             ctx.beginPath();
             ctx.arc(px, py, 8, 0, 2 * Math.PI);
             ctx.fill();
+            ctx.shadowBlur = 0;
 
-            // Glow
-            const grad = ctx.createRadialGradient(px, py, 0, px, py, 20);
-            grad.addColorStop(0, b.color + '44');
+            // Radial glow ring
+            const grad = ctx.createRadialGradient(px, py, 0, px, py, 25);
+            grad.addColorStop(0, b.color + '55');
+            grad.addColorStop(0.5, b.color + '18');
             grad.addColorStop(1, 'transparent');
             ctx.fillStyle = grad;
             ctx.beginPath();
-            ctx.arc(px, py, 20, 0, 2 * Math.PI);
+            ctx.arc(px, py, 25, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Inner bright core
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(px, py, 3, 0, 2 * Math.PI);
             ctx.fill();
         });
 
@@ -1422,15 +1466,26 @@ document.getElementById('dlBtn').addEventListener('click', function() {
         if (elPeriod) elPeriod.textContent = T.toFixed(3);
         if (elOrbits) elOrbits.textContent = Math.abs(orbitCount).toFixed(1);
 
-        // Title
+        // Title with glow
+        ctx.shadowColor = sturEnabled ? '#4ade80' : '#22d3ee';
+        ctx.shadowBlur = 6;
         ctx.fillStyle = sturEnabled ? '#4ade80' : '#22d3ee';
-        ctx.font = '14px sans-serif';
-        ctx.fillText(sturEnabled ? 'STUR 3-Body Orbit' : 'Newtonian (S=1)', 10, 20);
+        ctx.font = 'bold 14px sans-serif';
+        ctx.fillText(sturEnabled ? 'STUR 3-Body Orbit' : 'Newtonian (S=1)', 10, 22);
+        ctx.shadowBlur = 0;
 
         // Legend
         ctx.fillStyle = '#94a3b8';
         ctx.font = '11px sans-serif';
-        ctx.fillText(`m = ${(params.mass/1e24).toFixed(1)}×10²⁴ kg, L₀ = ${(params.L0/1e9).toFixed(1)}×10⁹ m`, 10, canvas.height - 10);
+        ctx.fillText(`m = ${(params.mass/1e24).toFixed(1)}×10²⁴ kg, L₀ = ${(params.L0/1e9).toFixed(1)}×10⁹ m`, 10, cssH - 10);
+
+        // S(r) indicator
+        ctx.fillStyle = sturEnabled ? '#4ade80' : '#22d3ee';
+        ctx.font = '11px monospace';
+        ctx.textAlign = 'right';
+        ctx.fillText(`S̄ = ${(sturEnabled ? meanS : 1).toFixed(4)}`, cssW - 10, 22);
+        ctx.fillText(`ΔE/E = ${dE.toExponential(1)}`, cssW - 10, 38);
+        ctx.textAlign = 'left';
     }
 
     // Animation loop
@@ -1523,6 +1578,8 @@ document.getElementById('dlBtn').addEventListener('click', function() {
 
     // Initialize
     if (canvas && ctx) {
+        setupOrbitDPR();
+        window.addEventListener('resize', () => { setupOrbitDPR(); draw(); });
         initBodies();
         draw();
         setupControls();
@@ -1530,17 +1587,33 @@ document.getElementById('dlBtn').addEventListener('click', function() {
 })();
 </script>
 
-<!-- 3-Body Orbital Data Comparison Canvas (v5.0) -->
+<!-- 3-Body Orbital Data Comparison Canvas (v5.1) -->
 <script>
 (function() {
     const dataCanvas = document.getElementById('tbDataCanvas');
     const dataCtx = dataCanvas ? dataCanvas.getContext('2d') : null;
 
+    // DPR support
+    const dpr = window.devicePixelRatio || 1;
+    let dataCssW = 700, dataCssH = 400;
+
+    function setupDataDPR() {
+        if (!dataCanvas || !dataCtx) return;
+        const container = dataCanvas.parentElement;
+        dataCssW = container ? Math.min(container.clientWidth - 32, 900) : 700;
+        dataCssH = 400;
+        dataCanvas.width = dataCssW * dpr;
+        dataCanvas.height = dataCssH * dpr;
+        dataCanvas.style.width = dataCssW + 'px';
+        dataCanvas.style.height = dataCssH + 'px';
+        dataCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
     function drawDataComparison(rmseData) {
         if (!dataCtx) return;
 
-        const W = dataCanvas.width;
-        const H = dataCanvas.height;
+        const W = dataCssW;
+        const H = dataCssH;
         const margin = { top: 50, right: 140, bottom: 80, left: 80 };
         const plotW = W - margin.left - margin.right;
         const plotH = H - margin.top - margin.bottom;
@@ -1640,7 +1713,9 @@ document.getElementById('dlBtn').addEventListener('click', function() {
             dataCtx.lineTo(x, yErrDn);
             dataCtx.stroke();
 
-            // STUR prediction marker (green diamond)
+            // STUR prediction marker (green diamond with glow)
+            dataCtx.shadowColor = '#4ade80';
+            dataCtx.shadowBlur = 8;
             dataCtx.fillStyle = '#4ade80';
             dataCtx.beginPath();
             dataCtx.moveTo(x + barW/4 + 2, yStur - 6);
@@ -1649,6 +1724,7 @@ document.getElementById('dlBtn').addEventListener('click', function() {
             dataCtx.lineTo(x + barW/4 - 4, yStur);
             dataCtx.closePath();
             dataCtx.fill();
+            dataCtx.shadowBlur = 0;
 
             // System label
             dataCtx.save();
@@ -1760,6 +1836,8 @@ document.getElementById('dlBtn').addEventListener('click', function() {
 
     // Initial draw
     if (dataCanvas && dataCtx) {
+        setupDataDPR();
+        window.addEventListener('resize', () => { setupDataDPR(); drawDataComparison(null); });
         drawDataComparison(null);
     }
 })();
