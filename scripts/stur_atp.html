@@ -12,7 +12,7 @@
 <link rel="manifest" href="../manifest.json">
 <link rel="apple-touch-icon" href="../assets/4.13.png">
 <link rel="icon" type="image/png" href="../assets/4.13.png">
-    <title>Mitochondria Population v5.0 — STUR Physics Lab</title>
+    <title>Mitochondria Population v5.1 — STUR Physics Lab</title>
 
     <!-- STUR Theme System -->
     <link rel="stylesheet" href="../assets/css/stur-core.css">
@@ -399,7 +399,7 @@
             <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
                 <!-- Canvas -->
                 <div>
-                    <canvas id="mitoCanvas" width="600" height="400" style="background:#050814;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
+                    <canvas id="mitoCanvas" width="600" height="400" style="background:#0a0a1a;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
                     <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
                         <button class="glass-btn primary" id="mitoStart">Start</button>
                         <button class="glass-btn" id="mitoReset">Reset</button>
@@ -486,12 +486,12 @@
     </section>
 
     <!-- ============================================================
-         SECTION: QUANTITATIVE VALIDATION v5.0
+         SECTION: QUANTITATIVE VALIDATION v5.1
          ============================================================ -->
     <section class="glass-section" style="border-color: var(--neon-green);">
         <div class="glass-section-header">
             <span class="stur-icon icon-chart size-24" style="color:var(--neon-green);"></span>
-            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Validation (v5.0)</h2>
+            <h2 class="glass-section-title" style="color:var(--neon-green);">Quantitative Validation (v5.1)</h2>
         </div>
         <div class="glass-section-body">
             <p style="margin-bottom:1rem;">Compare STUR-predicted ATP efficiency enhancements against real experimental P/O ratio data from isolated mitochondria studies.</p>
@@ -554,11 +554,11 @@
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
                 <div>
                     <h4 style="color:var(--text-muted); font-size:0.85rem; margin-bottom:0.5rem;">P/O Ratio: Predicted vs Observed</h4>
-                    <canvas id="atp-correlation-canvas" width="400" height="300" style="width:100%; background:#050814; border-radius:8px; border:1px solid var(--border-dim);"></canvas>
+                    <canvas id="atp-correlation-canvas" width="400" height="300" style="width:100%; background:#0a0a1a; border-radius:8px; border:1px solid var(--border-dim);"></canvas>
                 </div>
                 <div>
                     <h4 style="color:var(--text-muted); font-size:0.85rem; margin-bottom:0.5rem;">Residuals by Tissue Type</h4>
-                    <canvas id="atp-residual-canvas" width="400" height="300" style="width:100%; background:#050814; border-radius:8px; border:1px solid var(--border-dim);"></canvas>
+                    <canvas id="atp-residual-canvas" width="400" height="300" style="width:100%; background:#0a0a1a; border-radius:8px; border:1px solid var(--border-dim);"></canvas>
                 </div>
             </div>
 
@@ -596,6 +596,23 @@
     (function() {
         const canvas = document.getElementById('mitoCanvas');
         const ctx = canvas.getContext('2d');
+
+        // DPR support for crisp canvas rendering
+        const dpr = window.devicePixelRatio || 1;
+        let cssW = 600, cssH = 400;
+        function setupDPR(canvasEl, w, h) {
+            const container = canvasEl.parentElement;
+            const actualW = container ? container.clientWidth : w;
+            canvasEl.width = actualW * dpr;
+            canvasEl.height = h * dpr;
+            canvasEl.style.width = actualW + 'px';
+            canvasEl.style.height = h + 'px';
+            const c = canvasEl.getContext('2d');
+            c.setTransform(dpr, 0, 0, dpr, 0, 0);
+            return { w: actualW, h: h };
+        }
+        const dims = setupDPR(canvas, 600, 400);
+        cssW = dims.w; cssH = dims.h;
 
         // Controls
         const startBtn = document.getElementById('mitoStart');
@@ -661,8 +678,8 @@
             mitochondria = [];
             const count = params.population;
             const margin = 30;
-            const w = canvas.width - 2 * margin;
-            const h = canvas.height - 80;
+            const w = cssW - 2 * margin;
+            const h = cssH - 80;
 
             for (let i = 0; i < count; i++) {
                 const r_curv = 0.1 + Math.random() * 0.4; // cristae curvature 0.1-0.5 µm
@@ -713,8 +730,8 @@
                 // Position update with boundary bounce
                 m.x += m.vx;
                 m.y += m.vy;
-                if (m.x < 30 || m.x > canvas.width - 30) m.vx *= -1;
-                if (m.y < 30 || m.y > canvas.height - 80) m.vy *= -1;
+                if (m.x < 30 || m.x > cssW - 30) m.vx *= -1;
+                if (m.y < 30 || m.y > cssH - 80) m.vy *= -1;
 
                 // STUR effect on efficiency
                 const Su = sturEnabled ? S_STUR(m.r_curv, L0) : 0;
@@ -770,13 +787,19 @@
 
         // Draw
         function draw() {
-            ctx.fillStyle = '#050814';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0a0a1a';
+            ctx.fillRect(0, 0, cssW, cssH);
 
-            // Draw title
+            // Draw title with glow when STUR active
+            if (sturEnabled) {
+                ctx.shadowColor = '#fbbf24';
+                ctx.shadowBlur = 12;
+            }
             ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
             ctx.font = 'bold 14px monospace';
             ctx.fillText(sturEnabled ? 'STUR Mitochondria Population' : 'Standard Bioenergetics', 20, 25);
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
 
             // Draw mode
             ctx.fillStyle = '#94a3b8';
@@ -800,12 +823,23 @@
                     color = '#22d3ee';
                 }
 
+                // Glow for STUR-active healthy mitochondria
+                if (sturEnabled && !m.mptpOpen && m.damage <= 0.3) {
+                    ctx.shadowColor = '#fbbf24';
+                    ctx.shadowBlur = 8;
+                } else {
+                    ctx.shadowColor = 'transparent';
+                    ctx.shadowBlur = 0;
+                }
+
                 ctx.beginPath();
                 ctx.ellipse(m.x, m.y, m.size * 1.5, m.size, 0, 0, 2 * Math.PI);
                 ctx.fillStyle = color;
                 ctx.globalAlpha = 0.7 + 0.3 * (m.pmf / 200);
                 ctx.fill();
                 ctx.globalAlpha = 1;
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
 
                 // Inner membrane (cristae) lines
                 if (!m.mptpOpen && m.damage < 0.5) {
@@ -822,7 +856,7 @@
 
             // Draw legend
             ctx.font = '10px monospace';
-            const legendY = canvas.height - 25;
+            const legendY = cssH - 25;
 
             ctx.fillStyle = '#4ade80';
             ctx.fillRect(20, legendY, 10, 10);
@@ -847,12 +881,12 @@
             }
 
             // Draw time bar
-            const barWidth = canvas.width - 40;
+            const barWidth = cssW - 40;
             const progress = Math.min(simTime / 100, 1);
             ctx.fillStyle = '#1f2a44';
-            ctx.fillRect(20, canvas.height - 10, barWidth, 4);
+            ctx.fillRect(20, cssH - 10, barWidth, 4);
             ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
-            ctx.fillRect(20, canvas.height - 10, barWidth * progress, 4);
+            ctx.fillRect(20, cssH - 10, barWidth * progress, 4);
         }
 
         // Animation loop
@@ -917,11 +951,11 @@
     </script>
 
     <!-- ============================================================
-         v5.0 QUANTITATIVE VALIDATION ENGINE
+         v5.1 QUANTITATIVE VALIDATION ENGINE
          ============================================================ -->
     <script>
     // ============================================================
-    // STUR v5.0 ATP Bioenergetics Simulation — Interactive JavaScript Engine
+    // STUR v5.1 ATP Bioenergetics Simulation — Interactive JavaScript Engine
     // ============================================================
     // Physics: Eq. B.16 saturation operator S(u) = tanh(u)(1 - exp(-u))
     //          Efficiency enhancement: η^STUR = η^base × (1 + S(u_eff) × σ_R/L_X)
@@ -938,7 +972,7 @@
     // ============================================================
 
     const ATP_PAGE_ID = 'atp-bioenergetics';
-    const PAGE_VERSION = '5.0';
+    const PAGE_VERSION = '5.1';
 
     // ============================================================
     // 1) SEEDED PRNG — Deterministic for reproducibility
@@ -1215,6 +1249,11 @@
     // 12) DRAW CANVAS PLOTS
     // ============================================================
     function atpDrawPlots() {
+        // Setup DPR on validation canvases
+        const corrCanvas = document.getElementById('atp-correlation-canvas');
+        const resCanvas = document.getElementById('atp-residual-canvas');
+        if (corrCanvas) setupDPR(corrCanvas, 400, 300);
+        if (resCanvas) setupDPR(resCanvas, 400, 300);
         atpDrawCorrelation();
         atpDrawResiduals();
     }
@@ -1223,15 +1262,16 @@
         const canvas = document.getElementById('atp-correlation-canvas');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        const w = canvas.width;
-        const h = canvas.height;
+        const w = parseInt(canvas.style.width) || 400;
+        const h = parseInt(canvas.style.height) || 300;
         const margin = { top: 30, right: 20, bottom: 40, left: 50 };
         const plotW = w - margin.left - margin.right;
         const plotH = h - margin.top - margin.bottom;
 
         // Clear
-        ctx.fillStyle = '#050814';
+        ctx.fillStyle = '#0a0a1a';
         ctx.fillRect(0, 0, w, h);
 
         // Find range
@@ -1322,15 +1362,16 @@
         const canvas = document.getElementById('atp-residual-canvas');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        const w = canvas.width;
-        const h = canvas.height;
+        const w = parseInt(canvas.style.width) || 400;
+        const h = parseInt(canvas.style.height) || 300;
         const margin = { top: 30, right: 20, bottom: 60, left: 50 };
         const plotW = w - margin.left - margin.right;
         const plotH = h - margin.top - margin.bottom;
 
         // Clear
-        ctx.fillStyle = '#050814';
+        ctx.fillStyle = '#0a0a1a';
         ctx.fillRect(0, 0, w, h);
 
         // Find range
@@ -1506,13 +1547,13 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR Mitochondria Population Dynamics (v5.0 Application)
+# STUR Mitochondria Population Dynamics (v5.1 Application)
 #
 # NOTE: This is a DOWNSTREAM APPLICATION, not a fundamental derivation.
 # ATP synthesis is real biochemistry (Standard Model + chemistry).
 # This simulation uses STUR mathematical forms to model geometry effects.
 #
-# Framework: v5.0 TOE - 1 input (M_Planck), 0 free parameters at core level
+# Framework: v5.1 TOE - 1 input (M_Planck), 0 free parameters at core level
 # Application level adds biological parameters from chemistry/SM.
 #
 # Data: Real P/O ratios from Brand & Nicholls (2011), Gnaiger (2009)
@@ -1629,7 +1670,7 @@ print("=== STUR Mitochondria Population ===")
 print("Simulation complete.")
 
 fig, axes = plt.subplots(3, 2, figsize=(12, 10), sharex=True)
-fig.patch.set_facecolor('#050814')
+fig.patch.set_facecolor('#0a0a1a')
 (ax1, ax2, ax3, ax4, ax5, ax6) = axes.flatten()
 
 for res, c, lab in zip(results, colors, labels):
@@ -1641,7 +1682,7 @@ for res, c, lab in zip(results, colors, labels):
     ax5.plot(t, res["mptp"], color=c)
 
 for ax in [ax1, ax2, ax3, ax4, ax5]:
-    ax.set_facecolor('#050814')
+    ax.set_facecolor('#0a0a1a')
     ax.tick_params(colors='#94a3b8')
     ax.grid(True, alpha=0.3, color='#1f2a44')
     for spine in ax.spines.values():
@@ -1707,7 +1748,7 @@ plt.show()</pre>
     <section class="glass-section" style="border-color: #f472b6;">
         <div class="glass-section-header">
             <img src="../assets/4.13.png" alt="STUR" class="nav-logo">
-            <h2 class="glass-section-title" style="color:#f472b6;">Application Summary (v5.0)</h2>
+            <h2 class="glass-section-title" style="color:#f472b6;">Application Summary (v5.1)</h2>
         </div>
         <div class="glass-section-body">
             <p><strong>Mathematical Forms Applied to Bioenergetics:</strong></p>
@@ -1802,7 +1843,7 @@ plt.show()</pre>
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v5.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v5.1</span>
   </p>
 </footer>
 

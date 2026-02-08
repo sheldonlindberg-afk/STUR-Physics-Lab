@@ -623,10 +623,10 @@
                 <!-- Dual Canvas: Toroidal + Poloidal -->
                 <div>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
-                        <canvas id="torCanvas" width="300" height="300" style="width:100%;background:#050814;border-radius:10px 0 0 0;border:1px solid var(--border-dim);border-right:none;"></canvas>
-                        <canvas id="polCanvas" width="300" height="300" style="width:100%;background:#050814;border-radius:0 10px 0 0;border:1px solid var(--border-dim);"></canvas>
+                        <canvas id="torCanvas" width="300" height="300" style="width:100%;background:#0a0a1a;border-radius:10px 0 0 0;border:1px solid var(--border-dim);border-right:none;"></canvas>
+                        <canvas id="polCanvas" width="300" height="300" style="width:100%;background:#0a0a1a;border-radius:0 10px 0 0;border:1px solid var(--border-dim);"></canvas>
                     </div>
-                    <canvas id="diagCanvas" width="600" height="160" style="width:100%;background:#050814;border-radius:0 0 10px 10px;border:1px solid var(--border-dim);border-top:1px dashed rgba(255,255,255,0.1);"></canvas>
+                    <canvas id="diagCanvas" width="600" height="160" style="width:100%;background:#0a0a1a;border-radius:0 0 10px 10px;border:1px solid var(--border-dim);border-top:1px dashed rgba(255,255,255,0.1);"></canvas>
                     <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
                         <button class="glass-btn primary" id="plasmaStart">
                             <span class="stur-icon icon-play"></span> Start
@@ -900,7 +900,7 @@ r = np.sqrt(x*x + y*y + z*z)
 report = {
     "meta": {
         "page": "plasma-torus-4d",
-        "version": "4.0",
+        "version": "5.1",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "equation": "S = tanh(r/L₀)·(1 - exp(-r/L₀))"
     },
@@ -1053,7 +1053,7 @@ print(f"\nOutputs: stur_plasma_torus.png, stur_plasma_torus.json")</pre>
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v5.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v5.1</span>
   </p>
 </footer>
 
@@ -1088,7 +1088,7 @@ const pageState = {
         modulator: 'S(r)=tanh(r/L0)(1-exp(-r/L0)) [B.16]',
         Bfield: 'B_tor=B0*R0/R (1/R toroidal), B_pol=B_tor*r/(q*R0)'
     },
-    framework: { version: '5.0', input: 'M_Planck', geometry: 'Z3 helix', derivation: 'DERIVATION_CHAIN_HELIX.md' },
+    framework: { version: '5.1', input: 'M_Planck', geometry: 'Z3 helix', derivation: 'DERIVATION_CHAIN_HELIX.md' },
     results: {},
     data: {}
 };
@@ -1363,6 +1363,36 @@ function computeDiags(){
 // RENDERING
 // ================================================================
 var torCtx,polCtx,diagCtx;
+var pcDpr = window.devicePixelRatio || 1;
+var torCssW=300, torCssH=300, polCssW=300, polCssH=300, diagCssW=600, diagCssH=160;
+
+function setupPlasmaDPR() {
+    var tc = document.getElementById('torCanvas');
+    var pc = document.getElementById('polCanvas');
+    var dc = document.getElementById('diagCanvas');
+    if(tc) {
+        var container = tc.parentElement;
+        torCssW = container ? Math.floor(container.clientWidth / 2) : 300;
+        torCssH = 300;
+        tc.width = torCssW * pcDpr; tc.height = torCssH * pcDpr;
+        tc.style.width = torCssW + 'px'; tc.style.height = torCssH + 'px';
+        torCtx = tc.getContext('2d'); torCtx.setTransform(pcDpr,0,0,pcDpr,0,0);
+    }
+    if(pc) {
+        polCssW = torCssW; polCssH = 300;
+        pc.width = polCssW * pcDpr; pc.height = polCssH * pcDpr;
+        pc.style.width = polCssW + 'px'; pc.style.height = polCssH + 'px';
+        polCtx = pc.getContext('2d'); polCtx.setTransform(pcDpr,0,0,pcDpr,0,0);
+    }
+    if(dc) {
+        var dContainer = dc.parentElement;
+        diagCssW = dContainer ? dContainer.clientWidth : 600;
+        diagCssH = 160;
+        dc.width = diagCssW * pcDpr; dc.height = diagCssH * pcDpr;
+        dc.style.width = diagCssW + 'px'; dc.style.height = diagCssH + 'px';
+        diagCtx = dc.getContext('2d'); diagCtx.setTransform(pcDpr,0,0,pcDpr,0,0);
+    }
+}
 
 function initRendering(){
   var tc=document.getElementById('torCanvas');
@@ -1375,8 +1405,8 @@ function initRendering(){
 
 function drawToroidal(){
   if(!torCtx) return;
-  var W=300,H=300;
-  torCtx.fillStyle='#050814';torCtx.fillRect(0,0,W,H);
+  var W=torCssW,H=torCssH;
+  torCtx.fillStyle='#0a0a1a';torCtx.fillRect(0,0,W,H);
   var cx=W/2, cy=H/2;
   // Auto-scale: fit torus with margin
   var scale=0.4*W/(par.R0+par.a);
@@ -1390,16 +1420,21 @@ function drawToroidal(){
   torCtx.beginPath();torCtx.arc(cx,cy,(par.R0+par.a)*scale,0,PI2);torCtx.stroke();
   torCtx.setLineDash([]);
 
-  // Particles
+  // Particles with glow
+  torCtx.save();
+  torCtx.shadowBlur=6;
   var N=par.N;
   for(var i=0;i<N;i++){
     var sx=cx+px[i]*scale, sy=cy-py[i]*scale;
     if(sx<0||sx>W||sy<0||sy>H) continue;
     var hue=sturOn?45:180;
     var bri=40+60*pS[i];
-    torCtx.fillStyle='hsl('+hue+',90%,'+bri+'%)';
-    torCtx.beginPath();torCtx.arc(sx,sy,1.5,0,PI2);torCtx.fill();
+    var col='hsl('+hue+',90%,'+bri+'%)';
+    torCtx.shadowColor=col;
+    torCtx.fillStyle=col;
+    torCtx.beginPath();torCtx.arc(sx,sy,1.8,0,PI2);torCtx.fill();
   }
+  torCtx.restore();
 
   // Title
   torCtx.fillStyle=sturOn?'#fbbf24':'#22d3ee';
@@ -1409,8 +1444,8 @@ function drawToroidal(){
 
 function drawPoloidal(){
   if(!polCtx) return;
-  var W=300,H=300;
-  polCtx.fillStyle='#050814';polCtx.fillRect(0,0,W,H);
+  var W=polCssW,H=polCssH;
+  polCtx.fillStyle='#0a0a1a';polCtx.fillRect(0,0,W,H);
   var cx=W/2, cy=H/2;
   var scale=0.35*W/par.a;
 
@@ -1421,7 +1456,9 @@ function drawPoloidal(){
   polCtx.fillStyle='rgba(255,255,255,0.3)';
   polCtx.beginPath();polCtx.arc(cx,cy,2,0,PI2);polCtx.fill();
 
-  // Particles projected into poloidal cross-section
+  // Particles projected into poloidal cross-section with glow
+  polCtx.save();
+  polCtx.shadowBlur=6;
   var N=par.N;
   for(var i=0;i<N;i++){
     var R_xy=Math.sqrt(px[i]*px[i]+py[i]*py[i]);
@@ -1430,9 +1467,12 @@ function drawPoloidal(){
     if(sx<0||sx>W||sy<0||sy>H) continue;
     var hue=sturOn?45:180;
     var bri=40+60*pS[i];
-    polCtx.fillStyle='hsl('+hue+',90%,'+bri+'%)';
-    polCtx.beginPath();polCtx.arc(sx,sy,1.5,0,PI2);polCtx.fill();
+    var col='hsl('+hue+',90%,'+bri+'%)';
+    polCtx.shadowColor=col;
+    polCtx.fillStyle=col;
+    polCtx.beginPath();polCtx.arc(sx,sy,1.8,0,PI2);polCtx.fill();
   }
+  polCtx.restore();
 
   polCtx.fillStyle='#94a3b8';polCtx.font='10px sans-serif';polCtx.textAlign='left';
   polCtx.fillText('Poloidal (cross-section)',4,12);
@@ -1440,8 +1480,8 @@ function drawPoloidal(){
 
 function drawDiagTraces(){
   if(!diagCtx) return;
-  var W=600,H=160;
-  diagCtx.fillStyle='#050814';diagCtx.fillRect(0,0,W,H);
+  var W=diagCssW,H=diagCssH;
+  diagCtx.fillStyle='#0a0a1a';diagCtx.fillRect(0,0,W,H);
 
   var maxPts=200;
   function drawTrace(arr,color,label,yMin,yMax,xOff,w){
@@ -1629,12 +1669,24 @@ function setupControls(){
 // INIT
 // ================================================================
 initRendering();
+setupPlasmaDPR();
 initParticles();
 setupControls();
 drawToroidal();
 drawPoloidal();
 drawDiagTraces();
 var d0=computeDiags(); updateUI(d0);
+
+// Resize handler — recalculate DPR canvas sizes and redraw
+var plasmaResizeTimer=null;
+window.addEventListener('resize',function(){
+  clearTimeout(plasmaResizeTimer);
+  plasmaResizeTimer=setTimeout(function(){
+    pcDpr=window.devicePixelRatio||1;
+    setupPlasmaDPR();
+    drawToroidal(); drawPoloidal(); drawDiagTraces();
+  },150);
+});
 })();
 </script>
 <script src="../assets/js/stur-sw-register.js"></script>

@@ -898,7 +898,7 @@ print(f"\nOutputs: stur_arc.png, stur_arc.json")</pre>
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.1</span>
   </p>
 </footer>
 
@@ -917,9 +917,9 @@ print(f"\nOutputs: stur_arc.png, stur_arc.json")</pre>
 </script>
 <script>
 // ============================================================
-// STUR Resistance Arc — v5.0 Falsification Framework
+// STUR Resistance Arc — v5.1 Falsification Framework
 // ============================================================
-const ARC_PAGE_VERSION = '5.0';
+const ARC_PAGE_VERSION = '5.1';
 
 // Seeded PRNG for reproducibility (LCG: seed=42)
 let _arcRngSeed = 42;
@@ -935,7 +935,7 @@ function S_u_arc(u) {
 
 const PAGE_ID = 'resistance-arc';
 const pageState = {
-    version: 'v5.0-TOE',
+    version: 'v5.1-TOE',
     framework: 'Z₃ geometric framework, ONE input (M_Planck)',
     derivation_chain: 'M_Planck → Z₃ → SM → Plasma',
     params: {
@@ -1018,6 +1018,22 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     const canvas = document.getElementById('arcCanvas');
     const ctx = canvas ? canvas.getContext('2d') : null;
 
+    // DPR support for crisp retina rendering
+    const dpr = window.devicePixelRatio || 1;
+    let cssW = 550, cssH = 350;
+
+    function setupArcDPR() {
+        if (!canvas || !ctx) return;
+        const container = canvas.parentElement;
+        cssW = container ? container.clientWidth : 550;
+        cssH = 350;
+        canvas.width = cssW * dpr;
+        canvas.height = cssH * dpr;
+        canvas.style.width = cssW + 'px';
+        canvas.style.height = cssH + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
     // STUR Modulator
     function S_STUR(r, L0) {
         const u = Math.abs(r) / L0;
@@ -1073,11 +1089,21 @@ document.getElementById('dlBtn').addEventListener('click', function() {
     function draw() {
         if (!ctx) return;
 
-        ctx.fillStyle = '#050814';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#0a0a1a';
+        ctx.fillRect(0, 0, cssW, cssH);
 
-        const cx = canvas.width / 2;
-        const cy = canvas.height / 2 - 40;
+        // Grid lines
+        ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+        ctx.lineWidth = 1;
+        for (let gx = 50; gx < cssW; gx += 50) {
+            ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, cssH); ctx.stroke();
+        }
+        for (let gy = 50; gy < cssH; gy += 50) {
+            ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(cssW, gy); ctx.stroke();
+        }
+
+        const cx = cssW / 2;
+        const cy = cssH / 2 - 40;
 
         // Draw equilibrium line
         ctx.strokeStyle = 'rgba(255,255,255,0.2)';
@@ -1092,20 +1118,30 @@ document.getElementById('dlBtn').addEventListener('click', function() {
         const scale = 5e12;
         const px = cx + d * scale;
 
-        // Draw mass
+        // Draw mass with enhanced glow
         const color = sturEnabled ? '#fbbf24' : '#22d3ee';
+        ctx.shadowColor = color;
+        ctx.shadowBlur = 18;
         ctx.fillStyle = color;
         ctx.beginPath();
         ctx.arc(px, cy, 20, 0, 2 * Math.PI);
         ctx.fill();
+        ctx.shadowBlur = 0;
 
-        // Draw glow
+        // Draw radial glow
         const grad = ctx.createRadialGradient(px, cy, 0, px, cy, 40);
-        grad.addColorStop(0, color + '66');
+        grad.addColorStop(0, color + '55');
+        grad.addColorStop(0.5, color + '18');
         grad.addColorStop(1, 'transparent');
         ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.arc(px, cy, 40, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Bright core
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(px, cy, 5, 0, 2 * Math.PI);
         ctx.fill();
 
         // Draw spring representation
@@ -1125,25 +1161,28 @@ document.getElementById('dlBtn').addEventListener('click', function() {
         ctx.stroke();
 
         // Draw waveform (bottom section)
-        const waveY = canvas.height - 80;
+        const waveY = cssH - 80;
         const waveH = 60;
 
         ctx.strokeStyle = 'rgba(255,255,255,0.1)';
         ctx.beginPath();
         ctx.moveTo(0, waveY);
-        ctx.lineTo(canvas.width, waveY);
+        ctx.lineTo(cssW, waveY);
         ctx.stroke();
 
         if (history.length > 1) {
+            ctx.shadowColor = sturEnabled ? '#4ade80' : '#22d3ee';
+            ctx.shadowBlur = 4;
             ctx.strokeStyle = sturEnabled ? '#4ade80' : '#22d3ee';
             ctx.lineWidth = 1.5;
             ctx.beginPath();
             history.forEach((h, i) => {
-                const x = (i / 300) * canvas.width;
+                const x = (i / 300) * cssW;
                 const y = waveY - (h.d * 5e12) * (waveH / 100);
                 i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
             });
             ctx.stroke();
+            ctx.shadowBlur = 0;
         }
 
         // Compute diagnostics
@@ -1177,7 +1216,7 @@ document.getElementById('dlBtn').addEventListener('click', function() {
         // Legend
         ctx.fillStyle = '#94a3b8';
         ctx.font = '11px sans-serif';
-        ctx.fillText(`L₀ = ${(params.L0*1e10).toFixed(1)}×10⁻¹⁰ m, k_static = ${params.kstatic} N/m`, 10, canvas.height - 10);
+        ctx.fillText(`L₀ = ${(params.L0*1e10).toFixed(1)}×10⁻¹⁰ m, k_static = ${params.kstatic} N/m`, 10, cssH - 10);
     }
 
     // Animation loop
@@ -1256,6 +1295,8 @@ document.getElementById('dlBtn').addEventListener('click', function() {
 
     // Initialize
     if (canvas && ctx) {
+        setupArcDPR();
+        window.addEventListener('resize', function() { setupArcDPR(); draw(); });
         reset();
         poke(); // Initial perturbation
         draw();

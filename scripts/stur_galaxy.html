@@ -615,7 +615,7 @@
     <!-- Holoscreen JavaScript v5.0 -->
     <script>
     // ============================================================
-    // GALAXY ROTATION CURVE SIMULATOR v5.0
+    // GALAXY ROTATION CURVE SIMULATOR v5.1
     // STUR LKP Dark Matter vs Standard ΛCDM (NFW halo)
     //
     // Key physics:
@@ -629,6 +629,21 @@
     (function() {
         const canvas = document.getElementById('galaxyCanvas');
         const ctx = canvas.getContext('2d');
+
+        // DPR support for crisp retina rendering
+        const dpr = window.devicePixelRatio || 1;
+        let cssW = 600, cssH = 400;
+
+        function setupGalaxyDPR() {
+            const container = canvas.parentElement;
+            cssW = container ? container.clientWidth : 600;
+            cssH = 400;
+            canvas.width = cssW * dpr;
+            canvas.height = cssH * dpr;
+            canvas.style.width = cssW + 'px';
+            canvas.style.height = cssH + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
 
         // Controls
         const animateBtn = document.getElementById('galaxyAnimate');
@@ -945,8 +960,8 @@
         // ============================================================
 
         function draw() {
-            ctx.fillStyle = '#050814';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0a0a1a';
+            ctx.fillRect(0, 0, cssW, cssH);
 
             // Run simulation
             const sim = runSimulation();
@@ -1070,7 +1085,9 @@
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
-                // Draw STUR curve
+                // Draw STUR curve (with glow)
+                ctx.shadowColor = '#4ade80';
+                ctx.shadowBlur = 8;
                 ctx.beginPath();
                 for (let r = 0.5; r <= 35; r += 0.5) {
                     const v = v_total_STUR(r);
@@ -1082,6 +1099,7 @@
                 ctx.strokeStyle = '#4ade80';
                 ctx.lineWidth = 2.5;
                 ctx.stroke();
+                ctx.shadowBlur = 0;
             }
 
             // Legend
@@ -1165,7 +1183,9 @@
                 ctx.fill();
             }
 
-            // Center bulge
+            // Center bulge with glow
+            ctx.shadowColor = sturEnabled ? '#4ade80' : '#22d3ee';
+            ctx.shadowBlur = 20;
             const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 25);
             gradient.addColorStop(0, sturEnabled ? '#4ade80' : '#22d3ee');
             gradient.addColorStop(1, 'transparent');
@@ -1173,6 +1193,7 @@
             ctx.arc(0, 0, 25, 0, 2 * Math.PI);
             ctx.fillStyle = gradient;
             ctx.fill();
+            ctx.shadowBlur = 0;
 
             ctx.restore();
 
@@ -1257,6 +1278,8 @@
         });
 
         // Initialize
+        setupGalaxyDPR();
+        window.addEventListener('resize', function() { setupGalaxyDPR(); draw(); });
         draw();
     })();
     </script>
@@ -1559,9 +1582,9 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
   });
 </script>
 <script>
-// Page-specific state — v5.0 with proper Bessel functions, NFW comparison, RMSE
+// Page-specific state — v5.1 with DPR + enhanced rendering
 const PAGE_ID = 'galaxy-rotation';
-const PAGE_VERSION = '5.0';
+const PAGE_VERSION = '5.1';
 const pageState = {
     params: {
         L_X_m: 0.8e-6,
