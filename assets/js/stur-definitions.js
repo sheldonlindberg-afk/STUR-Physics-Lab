@@ -120,7 +120,7 @@ const STUR_DEFINITIONS = {
     parameters: {
       L_X: {
         name: "Internal dimension size",
-        value: "L_X ~ 1-10 μm (derived)",
+        value: "L_X ≈ 0.8 μm (derived)",
         range: "Uniquely determined by Casimir-holonomy balance",
         role: "Determines all mass scales, gauge couplings, and coherence length",
         status: "DERIVED: Casimir energy E_C ∝ -1/L_X⁴ balances holonomy cost Ω ∝ L_X² at unique minimum",
@@ -129,7 +129,7 @@ const STUR_DEFINITIONS = {
       },
       chi: {
         name: "XCRM coupling",
-        value: "χ = -π/(3L_X)",
+        value: "χ = -2π/(3L_X)",
         status: "FIXED by vacuum stability (not tuned)",
         note: "Determined by requiring zero vacuum energy on Z₃ helix",
         derivation: "DERIVATION_CHAIN_HELIX.md [H.4.10]"
@@ -277,8 +277,8 @@ const STUR_DEFINITIONS = {
     statement: "STUR v2.5 is a candidate unified framework: XCRM doublet coupling χ(R₁∂_XR₂ - R₂∂_XR₁) on a derived Z₃ helix provides the foundation for deriving Standard Model + gravity. R-doublet winding gives 3 generations (automatic from |Z₃|=3) and SU(3) (from Z₃=center). Awaiting experimental verification.",
 
     theoryDeterminedParameters: [
-      "L_X ~ 1-10 μm (Casimir-holonomy balance — uniquely determined)",
-      "χ = -π/(3L_X) (vacuum stability — uniquely determined)",
+      "L_X ≈ 0.8 μm (Casimir-holonomy balance — uniquely determined)",
+      "χ = -2π/(3L_X) (vacuum stability — uniquely determined)",
       "n_gen = 3 (AUTOMATIC from Z₃ helix structure)",
       "All 19 SM parameters (derived from Z₃ helix geometry + MHP localization)"
     ],

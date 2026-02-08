@@ -80,7 +80,7 @@ This section summarizes the key derivations establishing internal consistency.
 | Mass hierarchy pattern | Gaussian overlap geometry | **DERIVED** |
 | κ = 2.52 (via α_eff = 1.431) | Mathieu equation at computed α_eff | **DERIVED** (one-loop, 8.5% accuracy) |
 | λ = 0.206 (target: 0.225) | Higgs-localized overlap at α_eff | **DERIVED** (one-loop, 8.5% accuracy) |
-| η̄ = 0.359 ± 0.020 | Helix geometry + holonomy/RG (Berry=1.000) | **SEMI-DERIVED** |
+| η̄ = 0.371 ± 0.029 | Helix geometry + holonomy/RG (Berry=1.000, f_RG=1.003) | **SEMI-DERIVED** |
 
 **Note on Status Labels:**
 - **DERIVED (topological)**: Result follows from Z₃ topology and stability
@@ -5776,7 +5776,7 @@ After Z₃ quotient: 6/3 + 3×(1/3) = 2 + 1 = 3 generations ✓
 | θ_QCD = 0 | Z₃ × CP symmetry | **EXACT** |
 | κ = 2.52 ± 0.16 | Mathieu + higher-order corrections | **DERIVED** |
 | λ = 0.233 | exp[−κ²/8] × correction factors | **DERIVED** |
-| η̄ = 0.359 ± 0.020 | Helix geometry + holonomy/RG (Berry=1.000) | **SEMI-DERIVED** |
+| η̄ = 0.371 ± 0.029 | Helix geometry + holonomy/RG (Berry=1.000, f_RG=1.003) | **SEMI-DERIVED** |
 | UV completion | F-theory j=0 elliptic fibration | **IDENTIFIED** |
 
 ```
