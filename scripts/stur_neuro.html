@@ -395,7 +395,7 @@
             <div style="display:grid;grid-template-columns:1fr 280px;gap:1.5rem;">
                 <!-- Canvas -->
                 <div>
-                    <canvas id="neuroCanvas" width="600" height="400" style="background:#050814;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
+                    <canvas id="neuroCanvas" width="600" height="400" style="background:#0a0a1a;border-radius:12px;border:1px solid var(--border-dim);width:100%;"></canvas>
                     <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
                         <button class="glass-btn primary" id="neuroStart">Start</button>
                         <button class="glass-btn" id="neuroReset">Reset</button>
@@ -482,6 +482,19 @@
     (function() {
         const canvas = document.getElementById('neuroCanvas');
         const ctx = canvas.getContext('2d');
+
+        const nrDpr = window.devicePixelRatio || 1;
+        let cssW = 600, cssH = 400;
+        function setupNeuroDPR() {
+            const container = canvas.parentElement;
+            cssW = container ? container.clientWidth : 600;
+            cssH = 400;
+            canvas.width = cssW * nrDpr;
+            canvas.height = cssH * nrDpr;
+            canvas.style.width = cssW + 'px';
+            canvas.style.height = cssH + 'px';
+            ctx.setTransform(nrDpr, 0, 0, nrDpr, 0, 0);
+        }
 
         // Controls
         const startBtn = document.getElementById('neuroStart');
@@ -662,8 +675,8 @@
 
         // Draw
         function draw() {
-            ctx.fillStyle = '#050814';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0a0a1a';
+            ctx.fillRect(0, 0, cssW, cssH);
 
             // Title
             ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
@@ -679,36 +692,44 @@
             const postX = 280, postY = 120;
 
             // Pre neuron
+            const preSpiking = preSpikes.some(t => simTime - t < 10);
+            if (preSpiking) { ctx.shadowColor = '#60a5fa'; ctx.shadowBlur = 15; }
             ctx.beginPath();
             ctx.arc(preX, preY, 25, 0, 2*Math.PI);
-            ctx.fillStyle = preSpikes.some(t => simTime - t < 10) ? '#60a5fa' : '#1e3a5f';
+            ctx.fillStyle = preSpiking ? '#60a5fa' : '#1e3a5f';
             ctx.fill();
             ctx.strokeStyle = '#60a5fa';
             ctx.lineWidth = 2;
             ctx.stroke();
+            ctx.shadowBlur = 0;
             ctx.fillStyle = '#fff';
             ctx.font = '10px monospace';
             ctx.fillText('PRE', preX - 12, preY + 4);
 
             // Post neuron
+            const postSpiking = postSpikes.some(t => simTime - t < 10);
+            if (postSpiking) { ctx.shadowColor = '#4ade80'; ctx.shadowBlur = 15; }
             ctx.beginPath();
             ctx.arc(postX, postY, 25, 0, 2*Math.PI);
-            ctx.fillStyle = postSpikes.some(t => simTime - t < 10) ? '#4ade80' : '#1e3f2a';
+            ctx.fillStyle = postSpiking ? '#4ade80' : '#1e3f2a';
             ctx.fill();
             ctx.strokeStyle = '#4ade80';
             ctx.lineWidth = 2;
             ctx.stroke();
+            ctx.shadowBlur = 0;
             ctx.fillStyle = '#fff';
             ctx.fillText('POST', postX - 15, postY + 4);
 
             // Synapse connection
             const synapseStrength = Math.min(1, (w_classic + w_stur) / 2);
+            ctx.shadowColor = sturEnabled ? '#fbbf24' : '#22d3ee'; ctx.shadowBlur = 8;
             ctx.beginPath();
             ctx.moveTo(preX + 25, preY);
             ctx.lineTo(postX - 25, postY);
             ctx.strokeStyle = sturEnabled ? `rgba(251, 191, 36, ${0.3 + 0.7 * synapseStrength})` : `rgba(34, 211, 238, ${0.3 + 0.7 * synapseStrength})`;
             ctx.lineWidth = 2 + 4 * synapseStrength;
             ctx.stroke();
+            ctx.shadowBlur = 0;
 
             // Weight indicator on synapse
             const midX = (preX + postX) / 2;
@@ -872,6 +893,7 @@
 
             // STUR curve
             if (sturEnabled) {
+                ctx.shadowColor = '#fbbf24'; ctx.shadowBlur = 6;
                 ctx.beginPath();
                 for (let dt = -60; dt <= 60; dt += 2) {
                     const x = stdpX + stdpW / 2 + dt * (stdpW / 2 - 10) / 60;
@@ -888,6 +910,7 @@
                 ctx.strokeStyle = '#fbbf24';
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
+                ctx.shadowBlur = 0;
             }
 
             // Labels
@@ -899,26 +922,26 @@
             // Coherence bar
             ctx.fillStyle = '#94a3b8';
             ctx.font = '10px monospace';
-            ctx.fillText(`Coherence: ${params.coherence.toFixed(2)}`, 20, canvas.height - 40);
+            ctx.fillText(`Coherence: ${params.coherence.toFixed(2)}`, 20, cssH - 40);
 
             const barW = 150;
             ctx.fillStyle = '#1f2a44';
-            ctx.fillRect(20, canvas.height - 30, barW, 10);
+            ctx.fillRect(20, cssH - 30, barW, 10);
             ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
-            ctx.fillRect(20, canvas.height - 30, barW * params.coherence, 10);
+            ctx.fillRect(20, cssH - 30, barW * params.coherence, 10);
 
             // λ_X threshold line
             const threshX = 20 + barW * (0.33 / 1.0);
             ctx.strokeStyle = '#ef4444';
             ctx.setLineDash([2,2]);
             ctx.beginPath();
-            ctx.moveTo(threshX, canvas.height - 35);
-            ctx.lineTo(threshX, canvas.height - 15);
+            ctx.moveTo(threshX, cssH - 35);
+            ctx.lineTo(threshX, cssH - 15);
             ctx.stroke();
             ctx.setLineDash([]);
             ctx.fillStyle = '#ef4444';
             ctx.font = '8px monospace';
-            ctx.fillText('LTD=0', threshX - 10, canvas.height - 12);
+            ctx.fillText('LTD=0', threshX - 10, cssH - 12);
         }
 
         // Animation loop
@@ -980,6 +1003,8 @@
         });
 
         // Initialize
+        setupNeuroDPR();
+        window.addEventListener('resize', function() { setupNeuroDPR(); draw(); });
         initSimulation();
         draw();
     })();
@@ -1343,7 +1368,7 @@ plt.show()</pre>
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.1</span>
   </p>
 </footer>
 
@@ -1362,9 +1387,9 @@ plt.show()</pre>
 </script>
 <script>
 // ============================================================
-// STUR Neuro — v5.0 Falsification Framework
+// STUR Neuro — v5.1 Falsification Framework
 // ============================================================
-const NR_PAGE_VERSION = '5.0';
+const NR_PAGE_VERSION = '5.1';
 
 // Seeded PRNG for reproducibility (LCG: seed=42)
 let _nrRngSeed = 42;

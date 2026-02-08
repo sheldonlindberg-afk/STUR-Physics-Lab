@@ -474,6 +474,18 @@
     (function() {
         const canvas = document.getElementById('immuneCanvas');
         const ctx = canvas.getContext('2d');
+        const imDpr = window.devicePixelRatio || 1;
+        let cssW = 600, cssH = 400;
+        function setupImmuneDPR() {
+            const container = canvas.parentElement;
+            cssW = container ? container.clientWidth : 600;
+            cssH = 400;
+            canvas.width = cssW * imDpr;
+            canvas.height = cssH * imDpr;
+            canvas.style.width = cssW + 'px';
+            canvas.style.height = cssH + 'px';
+            ctx.setTransform(imDpr, 0, 0, imDpr, 0, 0);
+        }
 
         // Controls
         const startBtn = document.getElementById('immuneStart');
@@ -544,8 +556,8 @@
             simTime = 0;
 
             const margin = 40;
-            const w = canvas.width - 2 * margin;
-            const h = canvas.height - 80;
+            const w = cssW - 2 * margin;
+            const h = cssH - 80;
 
             // Create pathogen clusters of varying sizes
             const numPathogens = Math.floor(30 * params.pathogenLoad);
@@ -593,8 +605,8 @@
                 // Movement with boundary bounce
                 p.x += p.vx;
                 p.y += p.vy;
-                if (p.x < 40 || p.x > canvas.width - 40) p.vx *= -1;
-                if (p.y < 40 || p.y > canvas.height - 80) p.vy *= -1;
+                if (p.x < 40 || p.x > cssW - 40) p.vx *= -1;
+                if (p.y < 40 || p.y > cssH - 80) p.vy *= -1;
 
                 // STUR size-dependent activation
                 const Sr = sturEnabled ? S_STUR(p.size, L0, simTime, kappaMult) : 1.0;
@@ -659,8 +671,8 @@
                 // Move
                 cell.x += cell.vx;
                 cell.y += cell.vy;
-                if (cell.x < 40 || cell.x > canvas.width - 40) cell.vx *= -1;
-                if (cell.y < 40 || cell.y > canvas.height - 80) cell.vy *= -1;
+                if (cell.x < 40 || cell.x > cssW - 40) cell.vx *= -1;
+                if (cell.y < 40 || cell.y > cssH - 80) cell.vy *= -1;
             }
 
             simTime += dt * 10; // Scale time to minutes
@@ -678,8 +690,8 @@
 
         // Draw
         function draw() {
-            ctx.fillStyle = '#050814';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0a0a1a';
+            ctx.fillRect(0, 0, cssW, cssH);
 
             const mode = modeSelect.value;
             const modeP = getModeParams(mode);
@@ -710,12 +722,14 @@
                     color = '#fbbf24'; // Small cluster - gold (tolerated)
                 }
 
+                if (Sr > 0.8) { ctx.shadowColor = '#ef4444'; ctx.shadowBlur = 8; }
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.displaySize * p.health, 0, 2 * Math.PI);
                 ctx.fillStyle = color;
                 ctx.globalAlpha = 0.6 + 0.4 * p.health;
                 ctx.fill();
                 ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
 
                 // Draw size indicator ring if STUR active
                 if (sturEnabled && Sr > 0.1) {
@@ -729,10 +743,12 @@
 
             // Draw immune cells
             for (let cell of immuneCells) {
+                if (cell.active) { ctx.shadowColor = '#4ade80'; ctx.shadowBlur = 10; }
                 ctx.beginPath();
                 ctx.arc(cell.x, cell.y, 6, 0, 2 * Math.PI);
                 ctx.fillStyle = cell.active ? '#4ade80' : '#22d3ee';
                 ctx.fill();
+                ctx.shadowBlur = 0;
 
                 // Draw attack line to target
                 if (cell.active && cell.target && cell.target.health > 0) {
@@ -752,7 +768,7 @@
 
             // Draw legend
             ctx.font = '10px monospace';
-            const legendY = canvas.height - 25;
+            const legendY = cssH - 25;
 
             ctx.fillStyle = '#ef4444';
             ctx.beginPath();
@@ -783,7 +799,7 @@
             ctx.fillText('Immune cell', 350, legendY + 9);
 
             // Draw activation curve (mini graph)
-            const graphX = canvas.width - 120;
+            const graphX = cssW - 120;
             const graphY = 55;
             const graphW = 100;
             const graphH = 40;
@@ -798,6 +814,7 @@
             ctx.fillText('S(r) vs r', graphX + 5, graphY + 10);
 
             // Draw S(r) curve
+            ctx.shadowColor = '#fbbf24'; ctx.shadowBlur = 4;
             ctx.beginPath();
             ctx.moveTo(graphX, graphY + graphH);
             for (let i = 0; i <= graphW; i++) {
@@ -809,6 +826,7 @@
             ctx.strokeStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
             ctx.lineWidth = 1.5;
             ctx.stroke();
+            ctx.shadowBlur = 0;
         }
 
         // Animation loop
@@ -870,6 +888,8 @@
         });
 
         // Initialize
+        setupImmuneDPR();
+        window.addEventListener('resize', function() { setupImmuneDPR(); initSimulation(); draw(); });
         initSimulation();
         draw();
     })();
@@ -1171,7 +1191,7 @@ plt.show()</pre>
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.1</span>
   </p>
 </footer>
 
@@ -1190,9 +1210,9 @@ plt.show()</pre>
 </script>
 <script>
 // ============================================================
-// STUR Immunity — v5.0 Falsification Framework
+// STUR Immunity — v5.1 Falsification Framework
 // ============================================================
-const IM_PAGE_VERSION = '5.0';
+const IM_PAGE_VERSION = '5.1';
 
 // Seeded PRNG for reproducibility (LCG: seed=42)
 let _imRngSeed = 42;

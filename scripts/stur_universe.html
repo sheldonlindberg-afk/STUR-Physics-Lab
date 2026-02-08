@@ -537,6 +537,20 @@
         const canvas = document.getElementById('universeCanvas');
         const ctx = canvas.getContext('2d');
 
+        // DPR support
+        const uDpr = window.devicePixelRatio || 1;
+        let cssW = 600, cssH = 400;
+        function setupUniverseDPR() {
+            const container = canvas.parentElement;
+            cssW = container ? container.clientWidth : 600;
+            cssH = 400;
+            canvas.width = cssW * uDpr;
+            canvas.height = cssH * uDpr;
+            canvas.style.width = cssW + 'px';
+            canvas.style.height = cssH + 'px';
+            ctx.setTransform(uDpr, 0, 0, uDpr, 0, 0);
+        }
+
         // Controls
         const rotateBtn = document.getElementById('universeRotate');
         const resetBtn = document.getElementById('universeReset');
@@ -651,34 +665,46 @@
 
             // Perspective projection
             const scale = 800 / (800 + zr);
-            const px = canvas.width / 2 + xr * scale * 0.05;
-            const py = canvas.height / 2 - y * scale * 0.05;
+            const px = cssW / 2 + xr * scale * 0.05;
+            const py = cssH / 2 - y * scale * 0.05;
 
             return { x: px, y: py, scale: scale, depth: zr };
         }
 
         // Draw
         function draw() {
-            ctx.fillStyle = '#050814';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0a0a1a';
+            ctx.fillRect(0, 0, cssW, cssH);
+
+            // Grid lines
+            ctx.strokeStyle = 'rgba(74,222,128,0.04)';
+            ctx.lineWidth = 1;
+            for (var gx = 0; gx < cssW; gx += 50) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, cssH); ctx.stroke(); }
+            for (var gy = 0; gy < cssH; gy += 50) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(cssW, gy); ctx.stroke(); }
 
             // Title
+            ctx.shadowColor = sturEnabled ? '#fbbf24' : '#22d3ee';
+            ctx.shadowBlur = 6;
             ctx.fillStyle = sturEnabled ? '#fbbf24' : '#22d3ee';
             ctx.font = 'bold 14px monospace';
             ctx.fillText(sturEnabled ? 'STUR v4.0 TOE Cosmic Web' : 'Random Distribution (no geometry)', 20, 25);
+            ctx.shadowBlur = 0;
 
             ctx.fillStyle = '#94a3b8';
             ctx.font = '11px monospace';
             ctx.fillText(`z_max=${params.zmax} | ${structures.length} structures`, 20, 42);
 
             // Draw Earth at center
+            ctx.shadowColor = '#4ade80';
+            ctx.shadowBlur = 20;
             ctx.beginPath();
-            ctx.arc(canvas.width / 2, canvas.height / 2, 8, 0, 2 * Math.PI);
+            ctx.arc(cssW / 2, cssH / 2, 8, 0, 2 * Math.PI);
             ctx.fillStyle = '#4ade80';
             ctx.fill();
+            ctx.shadowBlur = 0;
             ctx.fillStyle = '#94a3b8';
             ctx.font = '8px monospace';
-            ctx.fillText('Earth', canvas.width / 2 - 12, canvas.height / 2 + 20);
+            ctx.fillText('Earth', cssW / 2 - 12, cssH / 2 + 20);
 
             // Sort by depth for proper rendering
             const sortedStructures = [...structures].sort((a, b) => {
@@ -689,6 +715,8 @@
 
             // Draw filaments first
             if (sturEnabled) {
+                ctx.shadowColor = '#fbbf24';
+                ctx.shadowBlur = 4;
                 for (const f of filaments) {
                     const p1 = project(f.x1, f.y1, f.z1);
                     const p2 = project(f.x2, f.y2, f.z2);
@@ -700,13 +728,14 @@
                     ctx.lineWidth = 1;
                     ctx.stroke();
                 }
+                ctx.shadowBlur = 0;
             }
 
             // Draw structures
             let totalSr = 0;
             for (const s of sortedStructures) {
                 const p = project(s.x, s.y, s.z);
-                if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) continue;
+                if (p.x < 0 || p.x > cssW || p.y < 0 || p.y > cssH) continue;
 
                 totalSr += s.Sr;
 
@@ -732,13 +761,13 @@
             ctx.setLineDash([5, 5]);
             for (const r of [100, 200, 300]) {
                 ctx.beginPath();
-                ctx.arc(canvas.width / 2, canvas.height / 2, r, 0, 2 * Math.PI);
+                ctx.arc(cssW / 2, cssH / 2, r, 0, 2 * Math.PI);
                 ctx.stroke();
             }
             ctx.setLineDash([]);
 
             // Legend
-            const legX = canvas.width - 100;
+            const legX = cssW - 100;
             ctx.font = '9px monospace';
 
             ctx.fillStyle = '#4ade80';
@@ -831,6 +860,8 @@
         });
 
         // Initialize
+        setupUniverseDPR();
+        window.addEventListener('resize', function() { setupUniverseDPR(); draw(); });
         generateStructures();
         draw();
     })();
