@@ -692,10 +692,13 @@
     </div>
 
     <div style="margin-top:1rem;padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:8px;">
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
         <button id="resetSim" class="btn btn-secondary">Reset to Derived Values</button>
         <label style="display:flex;align-items:center;gap:0.5rem;color:var(--text-secondary);">
           <input type="checkbox" id="showBCS"> Show BCS comparison
+        </label>
+        <label style="display:flex;align-items:center;gap:0.5rem;color:var(--text-secondary);">
+          <input type="checkbox" id="showPhase"> Phase diagram mode
         </label>
       </div>
     </div>
@@ -901,7 +904,7 @@
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v5.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v5.1</span>
   </p>
 </footer>
 
@@ -915,15 +918,22 @@ document.addEventListener('DOMContentLoaded', function() {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
+  const dpr = window.devicePixelRatio || 1;
   function resizeCanvas() {
     const container = canvas.parentElement;
-    canvas.width = container.clientWidth - 32;
-    canvas.height = 400;
+    const w = container.clientWidth - 32;
+    const h = 400;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('resize', function() { resizeCanvas(); draw(); });
 
   let showBCS = false;
+  let showPhase = false;
 
   const tempSlider = document.getElementById('tempSlider');
   const gapSlider = document.getElementById('gapSlider');
@@ -960,7 +970,8 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // STUR gap: self-consistent solution with S(u) in kernel
-  // Solve: Δ = V_eff * N(0) * ∫₀^{ωc} dξ S(Δ/kT) / √(ξ² + Δ²) * S(g_eff/ωc)
+  // Solve: Δ = V_eff * N(0) * ∫₀^{ωc} dξ S(E/kT) / √(ξ² + Δ²) * S(g_eff/ωc)
+  // E = √(ξ² + Δ²) is quasiparticle energy; thermal factor depends on E, not Δ alone
   // We iterate to self-consistency at each temperature
   function gapSTUR(T, delta0, gRatio) {
     if (T <= 0) return delta0;
@@ -969,7 +980,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const omegaC = 250; // meV — electronic cutoff (not phononic)
     const couplingFactor = S(gRatio); // S(g_eff/ωc) — coupling saturation
 
-    // Self-consistent iteration: Δ_new = λ * ∫ S(Δ/kT) / √(ξ² + Δ²) dξ
+    // Self-consistent iteration: Δ_new = λ * ∫ S(E/kT) / E dξ
     // λ = V_eff * N(0), calibrated so Δ(T=0) = delta0
     let delta = delta0;
     const N = 200; // integration points
@@ -991,7 +1002,7 @@ document.addEventListener('DOMContentLoaded', function() {
       for (let i = 0; i < N; i++) {
         const xi = (i + 0.5) * dxi;
         const E = Math.sqrt(xi * xi + delta * delta);
-        const u = delta / kT;
+        const u = E / kT; // quasiparticle energy / thermal energy
         integral += S(u) / E * dxi;
       }
       const deltaNew = lambda * integral * couplingFactor;
@@ -1009,13 +1020,26 @@ document.addEventListener('DOMContentLoaded', function() {
     return delta0 / (1.76 * 0.0862);
   }
 
-  // Find STUR T_c by scanning for where gap vanishes
+  // Find STUR T_c using coarse scan + binary search refinement
   function findSTURTc(delta0, gRatio) {
     const maxT = 800;
-    for (let T = 1; T < maxT; T += 2) {
-      if (gapSTUR(T, delta0, gRatio) < 0.01) return T;
+    // Coarse scan to bracket the transition
+    let Tlow = 1, Thigh = maxT;
+    for (let T = 10; T < maxT; T += 10) {
+      if (gapSTUR(T, delta0, gRatio) < 0.01) {
+        Thigh = T;
+        Tlow = T - 10;
+        break;
+      }
     }
-    return maxT;
+    if (Thigh === maxT && gapSTUR(maxT, delta0, gRatio) > 0.01) return maxT;
+    // Binary search for precision (±0.5 K)
+    for (let i = 0; i < 15; i++) {
+      const Tmid = (Tlow + Thigh) / 2;
+      if (gapSTUR(Tmid, delta0, gRatio) > 0.01) Tlow = Tmid;
+      else Thigh = Tmid;
+    }
+    return Math.round((Tlow + Thigh) / 2);
   }
 
   function calculateCoherenceLength(delta0) {
@@ -1056,18 +1080,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const gRatio = parseFloat(uEffSlider.value);
     const TcBCS = calculateTc(delta0);
 
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Use CSS pixel dimensions (DPR handled by setTransform)
+    const w = parseInt(canvas.style.width);
+    const h = parseInt(canvas.style.height);
 
-    const w = canvas.width;
-    const h = canvas.height;
+    ctx.fillStyle = '#0a0a1a';
+    ctx.fillRect(0, 0, w, h);
+
     const padding = 60;
     const plotW = w - 2 * padding;
     const plotH = h - 2 * padding;
 
-    // Draw axes
-    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    // Draw grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
     ctx.lineWidth = 1;
+    const maxT = 600;
+    for (let tMark = 100; tMark <= maxT; tMark += 100) {
+      const x = padding + (tMark / maxT) * plotW;
+      ctx.beginPath(); ctx.moveTo(x, padding); ctx.lineTo(x, h - padding); ctx.stroke();
+    }
+    for (let gMark = 20; gMark <= 100; gMark += 20) {
+      const y = h - padding - (gMark / 100) * plotH;
+      ctx.beginPath(); ctx.moveTo(padding, y); ctx.lineTo(w - padding, y); ctx.stroke();
+    }
+
+    // Draw axes
+    ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(padding, padding);
     ctx.lineTo(padding, h - padding);
@@ -1085,13 +1124,22 @@ document.addEventListener('DOMContentLoaded', function() {
     ctx.fillText('Gap Δ (meV)', 0, 0);
     ctx.restore();
 
-    // Draw temperature markers
-    const maxT = 600;
+    // Draw temperature tick marks with minor ticks
     for (let tMark = 0; tMark <= maxT; tMark += 100) {
       const x = padding + (tMark / maxT) * plotW;
-      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
       ctx.fillText(tMark, x, h - padding + 20);
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+      ctx.beginPath(); ctx.moveTo(x, h - padding); ctx.lineTo(x, h - padding + 5); ctx.stroke();
     }
+    // Gap axis ticks
+    ctx.textAlign = 'right';
+    for (let gMark = 0; gMark <= 100; gMark += 20) {
+      const y = h - padding - (gMark / 100) * plotH;
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.fillText(gMark, padding - 8, y + 4);
+    }
+    ctx.textAlign = 'center';
 
     // Precompute STUR gap curve (iterative solver — cache results)
     const sturGaps = [];
@@ -1101,9 +1149,27 @@ document.addEventListener('DOMContentLoaded', function() {
       sturGaps.push({ x: padding + i, gap: gapSTUR(tPlot, delta0, gRatio) });
     }
 
+    // Draw STUR gap curve fill (gradient under curve)
+    const grad = ctx.createLinearGradient(0, padding, 0, h - padding);
+    grad.addColorStop(0, 'rgba(74,222,128,0.18)');
+    grad.addColorStop(1, 'rgba(74,222,128,0.01)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(sturGaps[0].x, h - padding);
+    for (let j = 0; j < sturGaps.length; j++) {
+      const x = sturGaps[j].x;
+      const y = h - padding - (sturGaps[j].gap / 100) * plotH;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(sturGaps[sturGaps.length - 1].x, h - padding);
+    ctx.closePath();
+    ctx.fill();
+
     // Draw STUR gap curve (green — self-consistent S(u) kernel)
     ctx.strokeStyle = '#4ade80';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2.5;
+    ctx.shadowColor = '#4ade80';
+    ctx.shadowBlur = 6;
     ctx.beginPath();
     for (let j = 0; j < sturGaps.length; j++) {
       const x = sturGaps[j].x;
@@ -1112,6 +1178,7 @@ document.addEventListener('DOMContentLoaded', function() {
       else ctx.lineTo(x, y);
     }
     ctx.stroke();
+    ctx.shadowBlur = 0;
 
     // Draw BCS curve if enabled (same Δ₀, standard BCS kernel for comparison)
     if (showBCS) {
@@ -1180,25 +1247,265 @@ document.addEventListener('DOMContentLoaded', function() {
     ctx.font = '10px monospace';
     ctx.fillText('300 K', rtX, padding + 15);
 
+    // Draw Cooper pair density indicator (right side mini-panel)
+    const panelX = w - padding - 130;
+    const panelY = padding + 55;
+    const panelW = 125;
+    const panelH = 80;
+    const gapAtT = gapSTUR(T, delta0, gRatio);
+    const pairDensity = gapAtT / delta0; // normalized 0→1
+
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.lineWidth = 1;
+    ctx.fillRect(panelX, panelY, panelW, panelH);
+    ctx.strokeRect(panelX, panelY, panelW, panelH);
+
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.font = '9px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('Cooper Pair Density', panelX + panelW/2, panelY + 12);
+
+    // Density bar
+    const barX = panelX + 10;
+    const barY = panelY + 20;
+    const barW = panelW - 20;
+    const barH = 14;
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fillRect(barX, barY, barW, barH);
+    const densGrad = ctx.createLinearGradient(barX, 0, barX + barW * pairDensity, 0);
+    densGrad.addColorStop(0, '#22d3ee');
+    densGrad.addColorStop(1, '#4ade80');
+    ctx.fillStyle = densGrad;
+    ctx.fillRect(barX, barY, barW * pairDensity, barH);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 10px monospace';
+    ctx.fillText((pairDensity * 100).toFixed(0) + '%', panelX + panelW/2, barY + 11);
+
+    // State indicator
+    const isSuperconducting = T < findSTURTc(delta0, gRatio);
+    ctx.font = 'bold 11px monospace';
+    ctx.fillStyle = isSuperconducting ? '#4ade80' : '#f87171';
+    ctx.fillText(isSuperconducting ? 'SUPERCONDUCTING' : 'NORMAL STATE', panelX + panelW/2, panelY + 52);
+    ctx.font = '9px monospace';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillText('Δ(T) = ' + gapAtT.toFixed(1) + ' meV', panelX + panelW/2, panelY + 68);
+
     // Legend
     ctx.font = '11px monospace';
     ctx.textAlign = 'left';
     ctx.fillStyle = '#4ade80';
-    ctx.fillRect(w - padding - 120, padding + 10, 12, 3);
-    ctx.fillText('STUR S(u) kernel', w - padding - 102, padding + 15);
+    ctx.fillRect(panelX, panelY + panelH + 10, 12, 3);
+    ctx.fillText('STUR S(u) kernel', panelX + 18, panelY + panelH + 14);
     if (showBCS) {
       ctx.fillStyle = '#94a3b8';
-      ctx.fillRect(w - padding - 120, padding + 30, 12, 3);
-      ctx.fillText('BCS (standard)', w - padding - 102, padding + 35);
+      ctx.fillRect(panelX, panelY + panelH + 26, 12, 3);
+      ctx.fillText('BCS (standard)', panelX + 18, panelY + panelH + 30);
     }
 
     updateDisplay();
   }
 
+  // Phase diagram: T_c vs coupling u for fixed Δ₀
+  function drawPhase() {
+    const delta0 = parseFloat(gapSlider.value);
+    const T = parseFloat(tempSlider.value);
+    const currentU = parseFloat(uEffSlider.value);
+    const w = parseInt(canvas.style.width);
+    const h = parseInt(canvas.style.height);
+
+    ctx.fillStyle = '#0a0a1a';
+    ctx.fillRect(0, 0, w, h);
+
+    const padding = 60;
+    const plotW = w - 2 * padding;
+    const plotH = h - 2 * padding;
+
+    // Axes
+    ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padding, padding);
+    ctx.lineTo(padding, h - padding);
+    ctx.lineTo(w - padding, h - padding);
+    ctx.stroke();
+
+    // Grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = 1;
+    const maxU = 4.0, maxTc = 600;
+    for (let u = 0.5; u <= maxU; u += 0.5) {
+      const x = padding + (u / maxU) * plotW;
+      ctx.beginPath(); ctx.moveTo(x, padding); ctx.lineTo(x, h - padding); ctx.stroke();
+    }
+    for (let tc = 100; tc <= maxTc; tc += 100) {
+      const y = h - padding - (tc / maxTc) * plotH;
+      ctx.beginPath(); ctx.moveTo(padding, y); ctx.lineTo(w - padding, y); ctx.stroke();
+    }
+
+    // Labels
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.font = '12px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('Coupling Strength u = g_eff/ω_c', w/2, h - 10);
+    ctx.save();
+    ctx.translate(15, h/2);
+    ctx.rotate(-Math.PI/2);
+    ctx.fillText('T_c (K)', 0, 0);
+    ctx.restore();
+
+    // Tick marks
+    for (let u = 0; u <= maxU; u += 0.5) {
+      const x = padding + (u / maxU) * plotW;
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.fillText(u.toFixed(1), x, h - padding + 20);
+    }
+    ctx.textAlign = 'right';
+    for (let tc = 0; tc <= maxTc; tc += 100) {
+      const y = h - padding - (tc / maxTc) * plotH;
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.fillText(tc, padding - 8, y + 4);
+    }
+
+    // Compute Tc vs u curve (STUR)
+    const sturPts = [];
+    for (let u = 0.5; u <= maxU; u += 0.05) {
+      const tc = findSTURTc(delta0, u);
+      sturPts.push({ u, tc });
+    }
+
+    // Fill superconducting region
+    const phGrad = ctx.createLinearGradient(0, h - padding, 0, padding);
+    phGrad.addColorStop(0, 'rgba(74,222,128,0.02)');
+    phGrad.addColorStop(1, 'rgba(34,211,238,0.15)');
+    ctx.fillStyle = phGrad;
+    ctx.beginPath();
+    ctx.moveTo(padding, h - padding);
+    for (const pt of sturPts) {
+      const x = padding + (pt.u / maxU) * plotW;
+      const y = h - padding - (Math.min(pt.tc, maxTc) / maxTc) * plotH;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(padding + plotW, h - padding);
+    ctx.closePath();
+    ctx.fill();
+
+    // Draw STUR Tc curve
+    ctx.strokeStyle = '#4ade80';
+    ctx.lineWidth = 2.5;
+    ctx.shadowColor = '#4ade80';
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    for (let i = 0; i < sturPts.length; i++) {
+      const x = padding + (sturPts[i].u / maxU) * plotW;
+      const y = h - padding - (Math.min(sturPts[i].tc, maxTc) / maxTc) * plotH;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // BCS Tc line (horizontal — BCS Tc is independent of u)
+    if (showBCS) {
+      const tcBCS = calculateTc(delta0);
+      const yBCS = h - padding - (Math.min(tcBCS, maxTc) / maxTc) * plotH;
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([6, 4]);
+      ctx.beginPath();
+      ctx.moveTo(padding, yBCS);
+      ctx.lineTo(w - padding, yBCS);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText('BCS T_c = ' + tcBCS.toFixed(0) + ' K', padding + 8, yBCS - 6);
+    }
+
+    // Room temperature line
+    const rtY = h - padding - (300 / maxTc) * plotH;
+    ctx.strokeStyle = 'rgba(251,191,36,0.4)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 4]);
+    ctx.beginPath();
+    ctx.moveTo(padding, rtY);
+    ctx.lineTo(w - padding, rtY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#fbbf24';
+    ctx.font = '10px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('300 K (room temp)', w - padding - 130, rtY - 6);
+
+    // Plot material presets as data points
+    const presetColors = {
+      stur: '#fbbf24', lsco: '#f472b6', lbco: '#f472b6',
+      lah10: '#22d3ee', lah10_260K: '#22d3ee', lanio2: '#a855f7', labicuo: '#ff6b6b'
+    };
+    ctx.textAlign = 'center';
+    for (const [key, preset] of Object.entries(materialPresets)) {
+      const tc = findSTURTc(preset.delta0, preset.uEff);
+      const x = padding + (preset.uEff / maxU) * plotW;
+      const y = h - padding - (Math.min(tc, maxTc) / maxTc) * plotH;
+      ctx.fillStyle = presetColors[key] || '#fff';
+      ctx.beginPath();
+      ctx.arc(x, y, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.font = '9px monospace';
+      ctx.fillText(preset.name, x, y - 10);
+    }
+
+    // Current position marker
+    const curX = padding + (currentU / maxU) * plotW;
+    const curTc = findSTURTc(delta0, currentU);
+    const curY = h - padding - (Math.min(curTc, maxTc) / maxTc) * plotH;
+    ctx.strokeStyle = '#fbbf24';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(curX, padding);
+    ctx.lineTo(curX, h - padding);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#fbbf24';
+    ctx.beginPath();
+    ctx.arc(curX, curY, 7, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('T_c = ' + curTc + ' K', curX, curY - 14);
+
+    // Region labels
+    ctx.font = 'bold 14px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(74,222,128,0.35)';
+    ctx.fillText('SUPERCONDUCTING', w/2, h - padding - plotH * 0.15);
+    ctx.fillStyle = 'rgba(239,68,68,0.25)';
+    ctx.fillText('NORMAL', w/2, padding + 30);
+
+    // Title
+    ctx.fillStyle = '#fbbf24';
+    ctx.font = 'bold 12px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('STUR Phase Diagram (Δ₀ = ' + delta0 + ' meV)', w/2, padding - 10);
+
+    updateDisplay();
+  }
+
+  // Master render — delegates to phase diagram or gap vs T
+  function render() {
+    if (showPhase) drawPhase();
+    else draw();
+  }
+
   // Event listeners
-  tempSlider.addEventListener('input', draw);
-  gapSlider.addEventListener('input', draw);
-  uEffSlider.addEventListener('input', draw);
+  tempSlider.addEventListener('input', render);
+  gapSlider.addEventListener('input', render);
+  uEffSlider.addEventListener('input', render);
 
   // Material preset selector
   if (materialSelect) {
@@ -1207,7 +1514,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (preset) {
         gapSlider.value = preset.delta0;
         uEffSlider.value = preset.uEff;
-        draw();
+        render();
       }
     });
   }
@@ -1215,7 +1522,15 @@ document.addEventListener('DOMContentLoaded', function() {
   if (showBCSCheckbox) {
     showBCSCheckbox.addEventListener('change', function() {
       showBCS = this.checked;
-      draw();
+      render();
+    });
+  }
+
+  const showPhaseCheckbox = document.getElementById('showPhase');
+  if (showPhaseCheckbox) {
+    showPhaseCheckbox.addEventListener('change', function() {
+      showPhase = this.checked;
+      render();
     });
   }
 
@@ -1224,11 +1539,11 @@ document.addEventListener('DOMContentLoaded', function() {
     gapSlider.value = 60;
     uEffSlider.value = 2.5;
     if (materialSelect) materialSelect.value = 'stur';
-    draw();
+    render();
   });
 
   // Initial draw
-  draw();
+  render();
 
   // Nav init
   if (typeof STUR !== 'undefined' && STUR.initNav) STUR.initNav();
@@ -1253,7 +1568,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ============================================================
 
 const SC_PAGE_ID = 'superconductor-tc';
-const SC_PAGE_VERSION = '5.0';
+const SC_PAGE_VERSION = '5.1';
 
 // ============================================================
 // 1) SEEDED PRNG — Deterministic for reproducibility
@@ -1551,9 +1866,16 @@ function scDrawCorrelation() {
     const canvas = document.getElementById('sc-correlation-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const cssW = 450, cssH = 350;
+    canvas.width = cssW * dpr;
+    canvas.height = cssH * dpr;
+    canvas.style.width = cssW + 'px';
+    canvas.style.height = cssH + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    const w = canvas.width;
-    const h = canvas.height;
+    const w = cssW;
+    const h = cssH;
     const margin = { top: 30, right: 20, bottom: 50, left: 60 };
     const plotW = w - margin.left - margin.right;
     const plotH = h - margin.top - margin.bottom;
@@ -1667,9 +1989,16 @@ function scDrawResiduals() {
     const canvas = document.getElementById('sc-residual-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const cssW = 450, cssH = 350;
+    canvas.width = cssW * dpr;
+    canvas.height = cssH * dpr;
+    canvas.style.width = cssW + 'px';
+    canvas.style.height = cssH + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    const w = canvas.width;
-    const h = canvas.height;
+    const w = cssW;
+    const h = cssH;
     const margin = { top: 30, right: 20, bottom: 70, left: 60 };
     const plotW = w - margin.left - margin.right;
     const plotH = h - margin.top - margin.bottom;
