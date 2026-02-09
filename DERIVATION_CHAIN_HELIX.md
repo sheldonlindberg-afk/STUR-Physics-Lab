@@ -78,8 +78,8 @@ This section summarizes the key derivations establishing internal consistency.
 | θ_QCD = 0 | Z₃ × CP symmetry | **DERIVED** (given N=3) |
 | Proton stability (dim-5) | Z₃ KK-parity selection rule | **DERIVED** (given N=3) |
 | Mass hierarchy pattern | Gaussian overlap geometry | **PARTIAL** (max ratio 19 vs needed 53-277; see §33.2) |
-| κ = 2.52 ± 0.16 (via α_eff) | Mathieu equation at computed α_eff | **DERIVED** (one-loop; v5.2 scripts: α_eff=1.480, κ=2.430) |
-| λ = 0.2285 (target: 0.225) | exp(-κ²/4) from first principles | **DERIVED** (1.6% accuracy; v5.2 scripts) |
+| κ = 2.521 (at α_eff=1.431) | Mathieu equation at first-principles α_eff | **DERIVED** (one-loop; two-loop est. κ=2.430 at α_eff≈1.48) |
+| λ = 0.206 (obs: 0.225) | exp(-κ²/4) pairwise overlap | **DERIVED** (8.5% at central α_eff; obs within 1σ band) |
 | η̄ = 0.371 ± 0.029 | Helix geometry + holonomy/RG (Berry=1.000, f_RG=1.003) | **SEMI-DERIVED** (f_hol=0.948 is fitted; without: η̄=0.391, 1.4σ) |
 
 **Note on Status Labels:**
@@ -123,15 +123,14 @@ Errors on correction factors are estimated from:
   (2) Higher-order terms neglected in leading-order calculations
   (3) Scheme dependence (MS̄ vs on-shell)
 
-Combined uncertainty for λ:
-  λ_phys = exp[-κ²/8] × f_boundary × f_holonomy × f_RG
+Combined uncertainty for λ (v5.0+ direct overlap formula):
+  λ = exp[-κ²/4]  (pairwise overlap, no correction factors needed)
 
-  σ(λ_phys)/λ_phys = √[(κσ_κ/4)² + (σ_b/f_b)² + (σ_h/f_h)² + (σ_RG/f_RG)²]
-                   = √[(2.52×0.16/4)² + (0.05/0.65)² + (0.03/0.846)² + (0.02/0.87)²]
-                   = √[0.0102 + 0.0059 + 0.0012 + 0.0005]
-                   = 0.133 (13%)
+  σ(λ)/λ = κ·σ_κ/2 (from d/dκ of exp[-κ²/4])
+         = 2.521 × 0.10 / 2 = 0.126 (12.6%)
 
-  λ_phys = 0.220 ± 0.029
+  λ = 0.206 ± 0.023
+  Note: σ_κ dominated by σ(α_eff) = ±0.045
 
 Combined uncertainty for η̄:
   η̄_final = η̄_base × f_hol × f_Berry × f_RG
@@ -261,7 +260,7 @@ M_Planck (ONE fundamental input)
     │
     └───→ Casimir-holonomy balance (4D effective theory)
               │
-              │ N_eff ≈ -149 (fermion dominated)
+              │ N_eff ≈ -0.968 (fermion dominated; v5.2 cosmological_constant.py)
               ↓
           L_eff = (5|A|/B)^{1/4} ≈ 0.8 μm  (effective coherence scale)
               │
@@ -273,8 +272,8 @@ M_Planck (ONE fundamental input)
 **STUR has ONE fundamental dimensional input: M_Planck.**
 
 **What is genuinely derived (no fitting):**
-- κ from Z₃ localization dynamics (Mathieu equation + corrections)
-- λ (Cabibbo angle) = exp(-κ²/4) = 0.2285 (1.6% from observed)
+- κ from Z₃ localization dynamics (Mathieu equation at first-principles α_eff)
+- λ (Cabibbo angle) = exp(-κ²/4) = 0.206 at central α_eff=1.431 (8.5%; obs within 1σ)
 - N_gen = 3 from Z₃ topology and stability (TOPOLOGICAL_NCRIT_DERIVATION.md)
 - θ_QCD = 0 from Z₃ × CP symmetry
 - f_Berry = 1.000 exactly (berry_phase_exact.py)
@@ -1664,7 +1663,11 @@ Y_{i,i+1}/Y_{i,i} = exp[-(2π/3)²/(8σ²)] / exp[0]
 ```
 
 **This defines the Wolfenstein parameter λ:**
+
+> **NOTE (v5.0+):** The formula below (exp[-κ²/8]) is SUPERSEDED by the correct pairwise overlap: **λ = exp[-κ²/4]**. See §33.5 for current script-verified results. The exp[-κ²/8] formula was the triple (Higgs-mediated) overlap; the correct formula uses the direct pairwise Gaussian overlap between adjacent-generation wavefunctions.
+
 ```
+[HISTORICAL — superseded by v5.0+]
 λ ≡ exp[-κ²/8]
 
 For κ = 2.5:
@@ -5780,23 +5783,23 @@ After Z₃ quotient: 6/3 + 3×(1/3) = 2 + 1 = 3 generations ✓
 
 | Quantity | Derivation Method | Status |
 |----------|-------------------|--------|
-| L_X = 0.8 μm | Casimir-holonomy energy minimization | **DERIVED** |
-| v = 3/L_X ≈ M_GUT | Z₃ winding quantization | **DERIVED** |
-| M_R = 20/L_X | Holonomy enhancement at fixed points | **DERIVED** |
+| L_X = 0.8 μm | Casimir-holonomy energy minimization | **OPEN** (no stable minimum; lx_effective_potential.py) |
+| v = 3/L_X ≈ M_GUT | Z₃ winding quantization | **CONDITIONAL** (requires L_X) |
+| M_R = 20/L_X | Holonomy enhancement at fixed points | **CONDITIONAL** (requires L_X) |
 | Λ_tree = 0 | Z₃ discrete gauge Ward identity | **EXACT** |
-| Λ_residual ~ 6.5 × 10⁻⁴⁷ GeV⁴ | Neutrino Majorana Z₃ breaking (Part XIX.2) | **DERIVED** |
+| Λ_residual | CC mechanism | **OPEN** (Δn=0.62, L~80μm excluded; cosmological_constant.py) |
 | N_gen = 3 | Z₃ fixed point counting / topology | **EXACT** |
 | SM gauge group | Z₃ holonomy compatibility | **DERIVED** |
 | θ_QCD = 0 | Z₃ × CP symmetry | **EXACT** |
-| κ = 2.52 ± 0.16 | Mathieu + higher-order corrections | **DERIVED** |
-| λ = 0.233 | exp[−κ²/8] × correction factors | **DERIVED** |
-| η̄ = 0.371 ± 0.029 | Helix geometry + holonomy/RG (Berry=1.000, f_RG=1.003) | **SEMI-DERIVED** |
+| κ = 2.521 (at α_eff=1.431) | Mathieu equation at first-principles α_eff | **DERIVED** (one-loop) |
+| λ = 0.206 | exp[−κ²/4] pairwise overlap (obs 0.225 within 1σ) | **DERIVED** (8.5% at central) |
+| η̄ = 0.371 ± 0.029 | Helix geometry + holonomy/RG (Berry=1.000, f_RG=1.003) | **SEMI-DERIVED** (f_hol fitted) |
 | UV completion | F-theory j=0 elliptic fibration | **IDENTIFIED** |
 
 ```
 ┌═══════════════════════════════════════════════════════════════════════┐
 ║                                                                       ║
-║                    TOE CLOSURE: COMPLETE — FULL DERIVATION            ║
+║              DERIVATION STATUS: PARTIAL (v5.2 Assessment)            ║
 ║                                                                       ║
 ║  ┌─────────────────────────────────────────────────────────────────┐ ║
 ║  │                                                                 │ ║
@@ -5807,22 +5810,26 @@ After Z₃ quotient: 6/3 + 3×(1/3) = 2 + 1 = 3 generations ✓
 ║  │    2. Real doublet R-field with torsion coupling               │ ║
 ║  │    3. Energy minimization                                       │ ║
 ║  │                                                                 │ ║
-║  │  DERIVED:                                                       │ ║
-║  │    • L_X from Casimir-holonomy balance                         │ ║
-║  │    • Z₃ helix from stability (N=3 minimizes energy)            │ ║
-║  │    • 3 generations from fixed point topology                   │ ║
-║  │    • SM gauge group from holonomy compatibility                │ ║
-║  │    • Fermion mass hierarchy from Z₃ overlaps                   │ ║
-║  │    • Masses and mixings with derived corrections               │ ║
-║  │    • Λ = 0 (tree) from discrete gauge Z₃ Ward identity         │ ║
-║  │    • Λ_residual from neutrino Z₃ breaking                      │ ║
-║  │    • UV completion via F-theory embedding                      │ ║
+║  │  GENUINELY DERIVED:                                             │ ║
+║  │    ✓ Z₃ helix from stability (N=3 minimizes energy)            │ ║
+║  │    ✓ 3 generations from fixed point topology                   │ ║
+║  │    ✓ SM gauge group from holonomy compatibility                │ ║
+║  │    ✓ λ = 0.206 at central α_eff (obs 0.225 within 1σ)        │ ║
+║  │    ✓ θ_QCD = 0 from Z₃ × CP symmetry                          │ ║
+║  │    ✓ f_Berry = 1.000, f_RG = 1.003, f_screen = 0.696         │ ║
+║  │                                                                 │ ║
+║  │  OPEN / NOT SOLVED:                                             │ ║
+║  │    ✗ L_X: no stable minimum (lx_effective_potential.py)        │ ║
+║  │    ✗ Λ: NOT SOLVED (Δn=0.62, L~80μm excluded)                │ ║
+║  │    ✗ Mass hierarchy: max ratio 19 vs needed 53-277            │ ║
+║  │    ✗ f_hol = 0.948 is FITTED (Z₃ destabilized)               │ ║
 ║  │                                                                 │ ║
 ║  │  21 falsifiable predictions made                                │ ║
 ║  │                                                                 │ ║
 ║  └─────────────────────────────────────────────────────────────────┘ ║
 ║                                                                       ║
-║  Status: THEORY OF EVERYTHING (EFT closure achieved)                 ║
+║  Status: PARTIAL — core flavor sector derived, structural gaps open  ║
+║  See §33.6 for complete honest assessment                            ║
 ║                                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 ```
@@ -6274,17 +6281,19 @@ EXACT (topological/symmetry):
     5. Λ_tree = 0          (Z₃ gauge Ward identity)
     6. Normal ν ordering   (Z₃ resonance)
 
-DERIVED (calculated):
-    7. L_X = 0.8 μm        (Casimir-holonomy balance)
-    8. v = 3/L_X           (Z₃ winding quantization)
-    9. M_R = 20/L_X        (Holonomy enhancement)
-   10. κ = 2.52 ± 0.16     (Mathieu + corrections)
-   11. λ = 0.220           (exp[-κ²/8] × factors)
-   12. η̄ = 0.371 ± 0.029   (Holonomy × RG; Berry=1.000, v5.3)
-   13. m_H = 125 ± 10 GeV  (GHU + RG running)
-   14. Λ_residual ~ 6.5×10⁻⁴⁷  (ν Majorana breaking)
-   15. S_BH = A/(4l_P²)    (Z₃ horizon modes)
-   16. Holographic c = 324 (3 × 108 SM dof)
+DERIVED (calculated — v5.2 scripts):
+    7. κ = 2.521            (Mathieu at α_eff=1.431; one-loop)
+    8. λ = 0.206            (exp[-κ²/4]; obs 0.225 within 1σ)
+    9. η̄ = 0.371 ± 0.029   (Holonomy × RG; Berry=1.000, f_RG=1.003)
+   10. m_H = 125 ± 10 GeV  (GHU + RG running)
+   11. S_BH = A/(4l_P²)    (Z₃ horizon modes)
+   12. Holographic c = 324  (3 × 108 SM dof)
+
+OPEN (structural gaps — v5.2 scripts):
+   13. L_X = 0.8 μm        (target; NO stable minimum found)
+   14. v = 3/L_X           (conditional on L_X stabilization)
+   15. M_R = 20/L_X        (conditional on L_X stabilization)
+   16. Λ_residual          (NOT SOLVED; Δn=0.62, L~80μm excluded)
 
 CONSTRAINED (qualitative pattern, values not ab initio):
    17-22. PMNS angles      (Z₃ resonance gives ordering, not values)
@@ -6304,7 +6313,7 @@ INPUT (4 parameters):
 ```
 ╔═══════════════════════════════════════════════════════════════════════╗
 ║                                                                       ║
-║         THEORY OF EVERYTHING CANDIDATE: FULLY CERTIFIED               ║
+║       THEORY OF EVERYTHING CANDIDATE: PARTIAL (v5.2 Assessment)      ║
 ║                                                                       ║
 ║  ═══════════════════════════════════════════════════════════════════ ║
 ║                                                                       ║
@@ -6315,19 +6324,18 @@ INPUT (4 parameters):
 ║    • M_Planck (one fundamental scale)                                ║
 ║    • Three axioms (5D, R-doublet, energy minimization)               ║
 ║                                                                       ║
-║  DERIVED:                                                             ║
-║    ✓ All scales (L_X, v, M_R) from M_Planck                          ║
+║  GENUINELY DERIVED:                                                   ║
 ║    ✓ Particle content (3 generations, SM gauge group)                ║
-║    ✓ Mass hierarchies (geometric origin)                             ║
-║    ✓ Cosmological constant (Λ=0 tree + residual)                     ║
+║    ✓ Cabibbo angle λ = 0.206 (obs 0.225, within 1σ)                ║
+║    ✓ θ_QCD = 0, f_Berry = 1.000, f_RG = 1.003                      ║
 ║    ✓ Black hole entropy (Z₃ edge modes)                              ║
 ║    ✓ Holographic correspondence (5D/4D via fixed points)            ║
-║    ✓ Information paradox (Z₃ correlation preservation)              ║
 ║                                                                       ║
-║  TECHNICAL COMPLETION:                                                ║
-║    ✓ Explicit F-theory CY₄ construction (Part XXIII)                ║
-║    ✓ PMNS verification by 4 methods (Part XXIV)                      ║
-║    ✓ Higher-loop error budget <8% (Part XXV)                         ║
+║  OPEN / NOT SOLVED (v5.2 scripts):                                   ║
+║    ✗ L_X, v, M_R: no stable minimum for L_X                        ║
+║    ✗ Mass hierarchy: max ratio 19 vs needed 53-277                  ║
+║    ✗ Cosmological constant: Δn=0.62, L~80μm excluded               ║
+║    ✗ f_hol = 0.948 is FITTED (Z₃ destabilized)                     ║
 ║                                                                       ║
 ║  PREDICTIONS:                                                         ║
 ║    • 21 falsifiable predictions                                       ║
@@ -7139,23 +7147,21 @@ leading threshold effects via the q-parameter matching:
 So the "bare" Mathieu value already incorporates thresholds.
 
 Final physical value:
-    κ = 2.52 ± 0.10  (theoretical)
+    κ = 2.52 ± 0.10  (theoretical, this section's estimate)
 
-This gives:
-    λ = exp[−κ²/8] × f_corr
-      = exp[−0.794] × 1.10
-      = 0.452 × 1.10
-      = 0.50...
+NOTE (v5.0+ UPDATE): The exp[−κ²/8] × correction factors approach
+below is SUPERSEDED by the direct pairwise overlap formula:
 
-This does not match 0.225. The resolution is that additional
-suppression factors enter:
+    λ = exp[−κ²/4]  (exact Gaussian overlap of adjacent generations)
 
-    λ = exp[−κ²/8] × f_boundary × f_holonomy × f_RG × f_tail
-      = 0.452 × 0.65 × 0.846 × 0.87 × 1.131
-      = 0.233
+At α_eff = 1.431 (one-loop first principles):
+    κ = 2.521, λ = exp[−2.521²/4] = 0.206 (8.5% from obs)
+At α_eff ≈ 1.48 (estimated two-loop):
+    κ = 2.430, λ = exp[−2.430²/4] = 0.2285 (1.6% from obs)
 
-Note: The factors are derived from overlap, holonomy, RG, and tail
-calculations with consistent conventions (see Correction Factors).
+[Historical: The old exp[−κ²/8] × factors approach gave λ ≈ 0.233
+ using 0.452 × 0.65 × 0.846 × 0.87 × 1.131. This was superseded
+ when the correct pairwise (not triple) overlap was identified.]
 ```
 
 ### 25.6 Error Budget for All Parameters
@@ -7164,8 +7170,8 @@ calculations with consistent conventions (see Correction Factors).
 
 | Parameter | Central | Theory Error | Exp Value | Pull |
 |-----------|---------|--------------|-----------|------|
-| κ | 2.52 | ±0.10 (4%) | — | — |
-| λ | 0.220 | ±0.012 (5%) | 0.2250 ± 0.0006 | 0.4σ |
+| κ | 2.521 | ±0.10 (4%) | — | — |
+| λ | 0.206 | ±0.023 (11%) | 0.2250 ± 0.0007 | 0.8σ |
 | A | 0.826 | ±0.045 (5%) | 0.826 ± 0.012 | 0.0σ |
 | ρ̄ | 0.159 | ±0.020 (13%) | 0.159 ± 0.010 | 0.0σ |
 | η̄ | 0.371 | ±0.029 (8%) | 0.348 ± 0.010 | 0.75σ |
@@ -7225,12 +7231,12 @@ Proton stable                (τ_p > 10³⁴ years)
 
 **Derived Results (with uncertainties):**
 ```
-L_X = 0.79 ± 0.08 μm         (Casimir-holonomy)
-κ = 2.52 ± 0.10              (Mathieu + corrections)
-λ = 0.220 ± 0.012            (geometric)
-η̄ = 0.371 ± 0.029            (holonomy/RG; Berry=1.000, v5.3)
+κ = 2.521 ± 0.10              (Mathieu at α_eff=1.431; one-loop)
+λ = 0.206 ± 0.023            (exp[-κ²/4]; obs 0.225 within 1σ)
+η̄ = 0.371 ± 0.029            (holonomy/RG; Berry=1.000, f_RG=1.003)
 m_H = 125 ± 8 GeV            (GHU + running)
-Λ = 6.5 × 10⁻⁴⁷ GeV⁴ (Z₃ + neutrino; Part XIX.2)
+L_X = 0.8 μm (target)        (OPEN: no stable minimum; v5.2 scripts)
+Λ = NOT SOLVED                (Δn=0.62, L~80μm excluded by experiment)
 ```
 
 **PMNS Angles (verified by 4 methods):**
@@ -8300,9 +8306,11 @@ COMPUTATION SCRIPTS — ACTUAL RESULTS:
 
 CABIBBO ANGLE & CKM:
   scripts/alpha_eff_rigorous_calculation.py
-    → α_eff = 1.480 ± 0.047 (one-loop + two-loop)
-    → κ = 2.430, σ = 0.862 rad
-    → λ = exp(-κ²/4) = 0.2285 (1.6% from observed)
+    → α_eff = 1.431 ± 0.045 (one-loop first principles)
+    → f_Z3 = 1.072, f_KK = 1.240, f_gauge = 1.076
+    → At central α_eff: κ = 2.521, λ = 0.206 (8.5% from observed)
+    → Within 1σ: α_eff ≤ 1.476, λ ≈ 0.229 (consistent with obs.)
+    → Two-loop estimate: α_eff ~ 1.48, κ = 2.430, λ = 0.2285 (1.6%)
 
   scripts/ckm_full_diagonalization.py
     → Full CKM matrix from pairwise overlaps + Derivation D
@@ -8349,12 +8357,14 @@ All scripts are self-contained and reproducible with numpy/scipy.
 ║  ═══════════════════════════════════════════════════════════════════ ║
 ║                                                                       ║
 ║  WHAT IS GENUINELY DERIVED (no fitting):                              ║
-║    [✓] Cabibbo angle λ = exp(-κ²/4) = 0.2285 (1.6% off)            ║
+║    [✓] α_eff = 1.431 ± 0.045 (one-loop; alpha_eff_rigorous.py)     ║
+║    [✓] λ = exp(-κ²/4) = 0.206 at central α_eff (8.5% off)          ║
+║        → Within 1σ: λ ≈ 0.229, consistent with obs. 0.225           ║
+║        → Two-loop est.: α_eff ~ 1.48, λ = 0.2285 (1.6% off)        ║
 ║    [✓] 3 generations from Z₃ fixed points (topological)             ║
 ║    [✓] θ_QCD = 0 from Z₃ × CP symmetry                              ║
 ║    [✓] f_screen = 0.696 from Debye-Waller (first principles)        ║
 ║    [✓] f_Berry = 1.000 exactly (Berry phase vanishes for real ψ)    ║
-║    [✓] α_eff = 1.480 ± 0.047 (one-loop + two-loop)                 ║
 ║                                                                       ║
 ║  SEMI-DERIVED (correction chain, some fitting):                       ║
 ║    [~] η̄ = 0.391 without f_hol (1.4σ from PDG — consistent)        ║

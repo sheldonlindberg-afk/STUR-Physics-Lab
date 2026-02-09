@@ -82,12 +82,12 @@
     <div class="title">v4.0 TOE: Complete Derivation Chain [DERIVATION_CHAIN_HELIX.md]</div>
     <p style="margin:0;color:var(--text-secondary);">
       <strong>\(M_{\rm Planck}\)</strong> — SOLE INPUT (fundamental scale)<br>
-      <strong>\(\XCRM{L_X} \approx 0.8\) μm</strong> — DERIVED (Casimir-holonomy balance) [H.2.11]<br>
-      <strong>\(v \approx 4 \times 10^{15}\) GeV</strong> — DERIVED (\(v \cdot L_X = 3\), Z₃ winding) [H.2.12]<br>
-      <strong>\(M_R \approx 2 \times 10^{14}\) GeV</strong> — DERIVED (\(\lambda_{\rm hol}/L_X\)) [H.2.13]<br>
-      <strong>\(\kappa = 2.52 \pm 0.16\)</strong> — DERIVED (Mathieu + corrections) [H.7.3]<br>
-      <strong>\(\lambda = 0.220\)</strong> — DERIVED (exp[\(-\kappa^2/8\)] + corrections) [H.7.5]<br>
-      <strong>\(\bar{\eta} = 0.371 \pm 0.029\)</strong> — DERIVED (holonomy + Berry + RG) [H.8.5]
+      <strong>\(\XCRM{L_X} \approx 0.8\) μm</strong> — OPEN (no stable minimum; lx_effective_potential.py) [H.2.11]<br>
+      <strong>\(v \approx 4 \times 10^{15}\) GeV</strong> — CONDITIONAL (requires L_X) [H.2.12]<br>
+      <strong>\(M_R \approx 2 \times 10^{14}\) GeV</strong> — CONDITIONAL (requires L_X) [H.2.13]<br>
+      <strong>\(\kappa = 2.521\)</strong> — DERIVED (Mathieu at \(\alpha_{\rm eff}=1.431\); one-loop) [H.7.3]<br>
+      <strong>\(\lambda = 0.206\)</strong> — DERIVED (\(\exp[-\kappa^2/4]\) pairwise overlap; obs 0.225 within 1σ) [H.7.5]<br>
+      <strong>\(\bar{\eta} = 0.371 \pm 0.029\)</strong> — SEMI-DERIVED (f_hol=0.948 FITTED; Berry=1.000, RG=1.003) [H.8.5]
     </p>
   </div>
 
@@ -200,17 +200,17 @@
       <tr>
         <td>Localization parameter</td>
         <td>\(\kappa\)</td>
-        <td>\(2.52 \pm 0.16\)</td>
+        <td>\(2.521\)</td>
         <td style="color:var(--success);">DERIVED</td>
-        <td>Mathieu equation (2.22) + higher-order corrections (+0.30)</td>
+        <td>Mathieu at \(\alpha_{\rm eff}=1.431\) (one-loop first principles)</td>
         <td>[H.7.3]</td>
       </tr>
       <tr>
         <td>Cabibbo angle</td>
         <td>\(\lambda\)</td>
-        <td>\(0.220\)</td>
+        <td>\(0.206\)</td>
         <td style="color:var(--success);">DERIVED</td>
-        <td>\(\exp[-\kappa^2/8] \times\) boundary corrections</td>
+        <td>\(\exp[-\kappa^2/4]\) pairwise overlap (obs 0.225 within 1σ)</td>
         <td>[H.7.5]</td>
       </tr>
       <tr>
@@ -278,7 +278,7 @@
       <tr>
         <td>Effective dof</td>
         <td>\(\XCRM{N_{\rm eff}}\)</td>
-        <td>\(-149\)</td>
+        <td>\(-0.968\)</td>
         <td style="color:var(--success);">DERIVED</td>
         <td>SM dof with Z₃ twist (fermion dominated)</td>
         <td>[H.2.10e]</td>
@@ -567,7 +567,7 @@
 M_Planck (ONE fundamental input)
     │
     │ Casimir (repulsive) vs Holonomy (attractive)
-    │ N_eff ≈ -149 (fermion dominated)
+    │ N_eff ≈ -0.968 (fermion dominated; v5.2 cosmological_constant.py)
     ↓
   L_X = (5A/B)^{1/4} ≈ 0.8 μm
     │
@@ -644,19 +644,19 @@ M_Planck (ONE fundamental input)
       <tr>
         <td>Localization parameter</td>
         <td>\(\kappa\)</td>
-        <td>\(2.52 \pm 0.16\)</td>
+        <td>\(2.521\)</td>
         <td>—</td>
         <td style="color:var(--success);font-weight:bold;">DERIVED</td>
-        <td>Mathieu + corrections</td>
+        <td>Mathieu at \(\alpha_{\rm eff}=1.431\)</td>
         <td>[H.7.3]</td>
       </tr>
       <tr>
         <td>Cabibbo angle</td>
         <td>\(\lambda\)</td>
-        <td>\(0.220\)</td>
+        <td>\(0.206\)</td>
         <td>\(0.2250 \pm 0.0007\)</td>
         <td style="color:var(--success);font-weight:bold;">DERIVED</td>
-        <td>\(1.8\sigma\)</td>
+        <td>8.5% (within 1σ)</td>
         <td>[H.7.5]</td>
       </tr>
       <tr>
@@ -725,7 +725,7 @@ M_Planck (ONE fundamental input)
       <tr>
         <td>Effective degrees of freedom</td>
         <td>\(\XCRM{N_{\rm eff}}\)</td>
-        <td>\(-149\)</td>
+        <td>\(-0.968\)</td>
         <td style="color:var(--success);font-weight:bold;">DERIVED</td>
         <td>SM dof with Z₃ twist (fermion dominated)</td>
         <td>[H.2.10e]</td>
@@ -845,8 +845,8 @@ M_Planck (ONE fundamental input)
       <li><strong>\(L_X\)</strong>: From Casimir (repulsive) vs holonomy (attractive) energy minimization</li>
       <li><strong>\(v\)</strong>: From Z₃ winding quantization (\(v \cdot L_X = 3\))</li>
       <li><strong>\(M_R\)</strong>: From holonomy enhancement at Z₃ fixed points (\(\lambda_{\rm hol} \approx 20\))</li>
-      <li><strong>\(\kappa = 2.52 \pm 0.16\)</strong>: Mathieu equation (2.22) + higher-order corrections (+0.30)</li>
-      <li><strong>\(\lambda = 0.220\)</strong>: From \(\exp[-\kappa^2/8]\) with boundary corrections</li>
+      <li><strong>\(\kappa = 2.521\)</strong>: Mathieu at \(\alpha_{\rm eff}=1.431\) (one-loop first principles)</li>
+      <li><strong>\(\lambda = 0.206\)</strong>: From \(\exp[-\kappa^2/4]\) pairwise overlap (obs 0.225 within 1σ)</li>
       <li><strong>\(\bar{\eta} = 0.371 \pm 0.029\)</strong>: From holonomy \(\times\) Berry \(\times\) RG corrections</li>
       <li><strong>All correction factors</strong>: Derived from Z₃ geometry</li>
     </ul>
