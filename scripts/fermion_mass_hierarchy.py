@@ -10,7 +10,7 @@ integration of Mathieu wavefunctions with a localized Higgs profile,
 then diagonalizes to get mass eigenvalues. NO correction factors.
 
 The question: What does the Z₃ geometry ACTUALLY predict for fermion
-mass ratios, given only α_eff = 1.480?
+mass ratios, given only α_eff = 1.431 (one-loop)?
 
 Physics:
 - Three generations at Z₃ fixed points: θ = 0, 2π/3, 4π/3
@@ -205,7 +205,7 @@ if __name__ == '__main__':
     print("  STUR Framework v5.1 — No Correction Factors")
     print("=" * 70)
 
-    alpha_eff = 1.480
+    alpha_eff = 1.431  # from alpha_eff_rigorous_calculation.py (one-loop)
     N = 2000
 
     # PDG mass ratios (using running masses at MZ for quarks)

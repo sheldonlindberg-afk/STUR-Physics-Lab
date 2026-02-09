@@ -108,7 +108,9 @@ def casimir_energy_density(L, n_b, n_f):
 
 def casimir_SM(L):
     """Casimir energy for SM field content on S¹/Z₃."""
-    return casimir_energy_density(L, N_scalars + N_gauge, 2 * N_Weyl)
+    # In 5D: each gauge boson → 2 transverse + 1 A₅ scalar = 3 bosonic d.o.f.
+    n_b = N_scalars + 3 * N_gauge  # 4 + 36 = 40
+    return casimir_energy_density(L, n_b, 2 * N_Weyl)
 
 
 # =========================================================================
@@ -226,8 +228,10 @@ if __name__ == '__main__':
     print(f"\n  SM field content on S¹/Z₃:")
     print(f"    Scalars (Higgs): {N_scalars} real d.o.f.")
     print(f"    Weyl fermions: {N_Weyl} × 2 (Dirac) = {2*N_Weyl}")
-    print(f"    Gauge bosons: {N_gauge}")
-    print(f"    Net: Δn = n_b - (7/8)n_f = {N_scalars + N_gauge} - {7/8 * 2 * N_Weyl:.1f} = {N_scalars + N_gauge - 7/8 * 2 * N_Weyl:.1f}")
+    print(f"    Gauge bosons: {N_gauge} × 3 (2 transverse + A₅) = {3*N_gauge} bosonic d.o.f.")
+    n_b_tot = N_scalars + 3 * N_gauge  # 4 + 36 = 40
+    print(f"    Total bosonic: {n_b_tot}")
+    print(f"    Net: Δn = n_b - (7/8)n_f = {n_b_tot} - {7/8 * 2 * N_Weyl:.1f} = {n_b_tot - 7/8 * 2 * N_Weyl:.1f}")
     print(f"    {'(fermion-dominated → positive Casimir energy)' if N_scalars + N_gauge < 7/8 * 2 * N_Weyl else '(boson-dominated → negative Casimir energy)'}")
 
     # Scan L values (in GeV⁻¹)
@@ -278,7 +282,7 @@ if __name__ == '__main__':
     print(f"")
 
     # Sign of Casimir energy determines stability
-    delta_n = N_scalars + N_gauge - (7.0/8) * 2 * N_Weyl
+    delta_n = N_scalars + 3 * N_gauge - (7.0/8) * 2 * N_Weyl
     print(f"    Effective boson-fermion count: Δn = {delta_n:.1f}")
     if delta_n < 0:
         print(f"    → Casimir energy is POSITIVE at small L (repulsive)")

@@ -12,7 +12,7 @@ actually gives and compares to the observed Λ₄.
 Key question: Does the S¹/Z₃ Casimir energy naturally give a small Λ₄?
 
 Spoiler from lx_effective_potential.py: The SM on S¹/Z₃ has
-Δn_eff = -63 (fermion-dominated), giving POSITIVE Casimir energy.
+Δn_eff = -38.75 (fermion-dominated), giving POSITIVE Casimir energy.
 
 Author: STUR Physics Lab
 Date: 2026-02-07
@@ -29,43 +29,22 @@ rho_crit = 4.08e-47    # GeV⁴ (critical density)
 v_EW = 246.22       # GeV
 
 
-def casimir_energy_density_5d(L, n_scalars=4, n_weyl=90, n_gauge=12):
+def casimir_energy_density_5d(L, n_scalars=4, n_weyl_dof=90, n_gauge=12):
     """
     5D Casimir energy density on S¹/Z₃.
 
-    ρ_Cas = (π²/1620) × (1/L⁵) × [n_b - (7/8)n_f]
-    where the 1/1620 = 1/(6 × 270) comes from the Z₃ projection
-    reducing modes to every 3rd KK level.
+    ρ_Cas = -(π²/720) × (1/L_eff⁴) × Δn
+    where Δn = n_b - (7/8)×n_f_dof
+
+    n_b = n_scalars + 3×n_gauge (2 transverse + 1 A₅ per gauge boson in 5D)
+    n_f_dof = number of real fermionic d.o.f. (= 2 × number of Weyl fermions)
+    L_eff = L/3 for S¹/Z₃ (only every 3rd KK mode survives)
     """
-    # On S¹/Z₃, only every 3rd KK mode survives: n = 0, 3, 6, ...
-    # This reduces the sum by factor of 1/3⁴ = 1/81 compared to S¹
-    # Standard S¹ result: ρ = π²/(1440 L⁵) × Δn (Ramond convention)
-    # Z₃ reduction: ρ = π²/(1440 × 81 × L⁵) × Δn ... NO
-
-    # Actually: on S¹/Z₃, the KK spectrum is m_n = 3n/L, so:
-    # ρ_Cas = Σ_{n=1}^∞ d.o.f. × (3n/L)⁵ × zeta-regularized sum
-
-    # The standard result for bosons on S¹ with radius R:
-    # ρ_b = -π²/(1440 R⁴) per d.o.f. (4D result after integration)
-
-    # For Z₃ orbifold with period L:
-    # Physical radius R = L/(2π), KK mass m_n = 2πn/L (on S¹)
-    # On Z₃: m_n = 2πn/(L/3) = 6πn/L (only multiples of 3 survive)
-
-    # Effective radius R_eff = L/3
-    # ρ_Cas = -π²/(1440) × (2π/L_eff)⁴ per boson d.o.f. (4D)
-    # where L_eff = L/3
-
-    # Simpler: use the general formula
-    # ρ_Cas = -(π²/90) × (1/L_eff⁴) × [n_b - (7/8)n_f]/(4×360)
-    # = -(π²)/(1440 × L_eff⁴) × Δn
-
-    # Standard S¹ Casimir: E_Cas/V₃ = -π²/(720 L⁴) × Δn  [Zeldovich convention]
-    # (The factor depends on convention; using Appelquist-Chodos)
-
     L_eff = L / 3  # Z₃ effective length
 
-    Delta_n = n_scalars + n_gauge * 2 - (7/8) * n_weyl
+    # In 5D each gauge boson has 3 physical d.o.f.: 2 transverse + 1 A₅ scalar
+    n_b = n_scalars + n_gauge * 3
+    Delta_n = n_b - (7/8) * n_weyl_dof
 
     # 4D vacuum energy density (after integrating over X)
     # ρ = (1/L) × integral of 5D Casimir over [0, L]
@@ -90,10 +69,7 @@ def main():
 
     # SM field content
     n_scalars = 4   # Higgs doublet (2 complex = 4 real)
-    n_weyl = 90     # 45 Weyl fermions × 2 (Dirac) = 90 Weyl
-                     # Actually: 3 gen × (2 quarks × 3 colors + 2 leptons) × 2 chiralities
-                     # = 3 × (6+2) × 2 = 48 Weyl = 24 Dirac
-                     # With color: 3×(2×3+2)×2 = 48 Weyl
+    # n_weyl_dof = 90: 45 Weyl fields × 2 real d.o.f. each = 90 fermionic d.o.f.
 
     # Let's be careful about the SM d.o.f.
     # Quarks: 6 flavors × 3 colors × 4 (Dirac spinor) = 72
@@ -106,7 +82,9 @@ def main():
     # e_L, ν_L: 2 × 3 gen = 6
     # e_R: 1 × 3 gen = 3
     # Total Weyl: 18 + 18 + 6 + 3 = 45 (SM without ν_R)
+    # Each Weyl fermion has 2 real d.o.f. → 90 fermionic d.o.f.
     n_weyl_SM = 45
+    n_f_dof = 2 * n_weyl_SM  # 90 real fermionic d.o.f.
 
     # Bosons:
     # W±, Z: 3 × 3 polarizations = 9 (but massive → 3 each in 4D+extra)
@@ -127,8 +105,6 @@ def main():
     n_b_higgs = 4  # Higgs doublet
 
     n_b_total = n_b_gauge + n_b_A5 + n_b_higgs  # = 40
-    n_f_total = n_weyl_SM  # = 45
-
     print_section("SM Field Content on S¹/Z₃", 1)
     print(f"""
   Gauge bosons (transverse): 12 × 2 = {n_b_gauge} bosonic d.o.f.
@@ -136,15 +112,16 @@ def main():
   Higgs doublet:              4 real = {n_b_higgs} bosonic d.o.f.
   Total bosonic:                       {n_b_total}
 
-  Weyl fermions (SM):                  {n_f_total}
-  (3 gen × [2(u,d)×3(color) + 2(e,ν)]_L + [2(u,d)×3(color) + 1(e)]_R = 45)
+  Weyl fermions (SM):                  {n_weyl_SM} fields × 2 d.o.f. = {n_f_dof}
+  (3 gen × [2(u,d)×3(color) + 2(e,ν)]_L + [2(u,d)×3(color) + 1(e)]_R = 45 Weyl)
+  (Each Weyl fermion has 2 real d.o.f. → 90 fermionic d.o.f.)
 
-  Δn_eff = n_b - (7/8)×n_f = {n_b_total} - (7/8)×{n_f_total}
-         = {n_b_total} - {7/8 * n_f_total:.2f}
-         = {n_b_total - 7/8 * n_f_total:.2f}
+  Δn_eff = n_b - (7/8)×n_f = {n_b_total} - (7/8)×{n_f_dof}
+         = {n_b_total} - {7/8 * n_f_dof:.2f}
+         = {n_b_total - 7/8 * n_f_dof:.2f}
     """)
 
-    Delta_n = n_b_total - (7/8) * n_f_total
+    Delta_n = n_b_total - (7/8) * n_f_dof
 
     # ================================================================
     # SECTION 2: Casimir energy at various scales
@@ -240,8 +217,8 @@ def main():
 
     print(f"""
   For exact Casimir cancellation (ρ_Cas = 0), need Δn = 0:
-    n_b = (7/8) × n_f
-    {n_b_total} ≠ (7/8) × {n_f_total} = {7/8 * n_f_total:.2f}
+    n_b = (7/8) × n_f_dof
+    {n_b_total} ≠ (7/8) × {n_f_dof} = {7/8 * n_f_dof:.2f}
 
   The SM is fermion-heavy: Δn = {Delta_n:.2f}
 
@@ -257,7 +234,7 @@ def main():
   With the STUR field content (SM + R-field):
     R-field: 2 real scalars → adds 2 to n_b
     n_b_STUR = {n_b_total} + 2 = {n_b_total + 2}
-    Δn_STUR = {n_b_total + 2} - {7/8 * n_f_total:.2f} = {n_b_total + 2 - 7/8 * n_f_total:.2f}
+    Δn_STUR = {n_b_total + 2} - {7/8 * n_f_dof:.2f} = {n_b_total + 2 - 7/8 * n_f_dof:.2f}
     Still fermion-dominated. The R-field doesn't help.
     """)
 
