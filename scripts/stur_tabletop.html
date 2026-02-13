@@ -116,11 +116,11 @@
         </div>
     </header>
 
-    <!-- v4.0 TOE Framework Reference -->
+    <!-- v6.2 TOE Reference -->
     <div style="max-width:800px; margin:0 auto 1.5rem auto; padding:1rem; background:rgba(74,222,128,0.08); border:1px solid rgba(74,222,128,0.3); border-radius:10px;">
         <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
             <span class="stur-icon icon-book" style="color:#4ade80;"></span>
-            <strong style="color:#4ade80;">v4.0 TOE Framework: Tabletop Predictions</strong>
+            <strong style="color:#4ade80;">v6.2 TOE: Tabletop Predictions</strong>
         </div>
         <p style="margin:0 0 0.5rem; font-size:0.85rem; color:var(--text-secondary);">
             <strong>ONE input:</strong> \(M_{\rm Planck}\) — <strong>Z₃ geometric framework.</strong>
@@ -571,7 +571,7 @@
 
             <pre class="stur-code" id="codeBlock">#!/usr/bin/env python3
 # ===============================================================
-# STUR v4.0 TOE — Tabletop Whispering-Gallery Photon Orbit
+# STUR v6.2 TOE — Tabletop Whispering-Gallery Photon Orbit
 #
 # ONE INPUT: M_Planck  |  geometric framework
 #
@@ -590,7 +590,7 @@ import matplotlib.pyplot as plt
 import json, time
 
 # ===============================================================
-# 1) STUR v4.0 RADIAL MODULATOR (derived from M_Planck)
+# 1) STUR v6.2 RADIAL MODULATOR (derived from M_Planck)
 # ===============================================================
 def S_r(r, L_scale=1.0):
     """STUR radial modulator - form fixed by boundary conditions
@@ -788,7 +788,7 @@ report = {
 with open(OUT_JSON, "w") as f:
     json.dump(report, f, indent=2)
 
-print("=== STUR v4.0 TOE — Tabletop WGM Test ===")
+print("=== STUR v6.2 TOE — Tabletop WGM Test ===")
 print("ONE input: M_Planck | Z₃ geometric framework")
 print(f"Bounces:    {num_bounces}")
 print(f"Path:       {path_length:.4f} m")
@@ -838,7 +838,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 
             <!-- Version stamp -->
             <div style="margin-top:1.5rem; font-size:0.72rem; color:var(--text-dim);">
-                <strong>Version:</strong> STUR v4.0 TOE |
+                <strong>Version:</strong> STUR v6.2 TOE |
                 <strong>Framework:</strong> ONE input (M<sub>Planck</sub>), Z₃ geometric framework |
                 <strong>Page:</strong> tabletop-wgm |
                 <strong>Generated:</strong> <span id="timestamp"></span>
@@ -856,7 +856,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
         </div>
         <div class="glass-section-body" style="font-size:0.88rem;">
             <ol style="margin:0; padding-left:1.5rem; color:var(--text-muted);">
-                <li>STUR v5.0 TOE Framework, <a href="stur_core_theory.html">stur_core_theory.html</a> — M<sub>Planck</sub> → All Predictions</li>
+                <li>STUR v6.2 TOE Framework, <a href="stur_core_theory.html">stur_core_theory.html</a> — M<sub>Planck</sub> → All Predictions</li>
                 <li>Derivation Chain, <a href="../DERIVATION_CHAIN_HELIX.md">DERIVATION_CHAIN_HELIX.md</a> — Complete derivation</li>
                 <li>Technical Appendix Eq. B.15-B.17, <a href="stur_technical_appendix.html#visibility-derivation">stur_technical_appendix.html</a> — Saturation operator</li>
                 <li>Gorodetsky et al., Opt. Lett. 21, 453 (1996) — Microsphere Q-factors</li>
@@ -894,7 +894,7 @@ print(f"Outputs: {OUT_PNG}, {OUT_JSON}")</pre>
 </script>
 <script>
 // ============================================================
-// STUR v5.0 Tabletop WGM Simulation — Interactive JavaScript Engine
+// STUR v6.2 Tabletop WGM Simulation — Interactive JavaScript Engine
 // ============================================================
 // Physics: Eq. B.16 saturation operator S(u) = tanh(u)(1 - exp(-u))
 //          Effective index: n_eff(r) = n_0 · S(r/L)

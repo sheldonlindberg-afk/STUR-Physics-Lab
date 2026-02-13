@@ -212,7 +212,7 @@
         <a href="https://colab.research.google.com/" target="_blank" class="secondary" style="text-decoration:none;text-align:center;padding:0.55rem 0.9rem;border-radius:10px;background:rgba(0,0,0,0.4);border:1px solid var(--border-dim);color:var(--text-primary);font-family:var(--font-mono);font-size:0.82rem;font-weight:700">▶ Open Colab</a>
     </div>
     <pre class="code" id="pythonScript">"""
-STUR v4.0 TOE FRAMEWORK — Verification Script
+STUR v6.2 TOE FRAMEWORK — Verification Script
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ONE INPUT: M_Planck (defines the scale)
 Z₃ GEOMETRIC FRAMEWORK: Everything else derived
@@ -225,7 +225,7 @@ import numpy as np
 M_Planck = 1.220890e19  # GeV (the ONLY input to the theory)
 l_Planck = 1.616255e-35  # meters (derived from M_Planck)
 
-print("STUR v4.0 TOE Framework")
+print("STUR v6.2 TOE Framework")
 print("=" * 50)
 print(f"Single Input: M_Planck = {M_Planck:.6e} GeV")
 print(f"Free Parameters: ZERO")
@@ -271,10 +271,10 @@ print(f"  V(ℓ_coh) = {V_at_lcoh:.6f}, expected = {V_expected:.6f}")
 print(f"  Error: {err:.4f}%  {'PASS' if err < 0.01 else 'FAIL'}")
 
 # ═══════════════════════════════════════════════════════════
-# SUMMARY: v4.0 TOE Framework
+# SUMMARY: v6.2 TOE
 # ═══════════════════════════════════════════════════════════
 print("\n" + "═"*50)
-print("STUR v4.0 TOE VERIFICATION COMPLETE")
+print("STUR v6.2 TOE VERIFICATION COMPLETE")
 print("━"*50)
 print("✓ ONE input: M_Planck")
 print("✓ Z₃ geometric framework")
@@ -519,7 +519,7 @@ function copyScript() {
 // Export
 function exportJSON() {
     const data = {
-        framework: 'STUR v4.0 TOE',
+        framework: 'STUR v6.2 TOE',
         input: { M_Planck: '1.220890e19 GeV (single input)' },
         freeParameters: 0,
         explorerState: { L_X, sigma_R, y: 1.0, V0 },
@@ -536,7 +536,7 @@ function exportJSON() {
 function exportCSV() {
     const lc = l_coh();
     let csv = 'Parameter,Value,Note\n';
-    csv += `Framework,STUR v4.0 TOE,\n`;
+    csv += `Framework,STUR v6.2 TOE,\n`;
     csv += `M_Planck,1.220890e19 GeV,Single Input\n`;
     csv += `Free_Parameters,0,All derived\n`;
     csv += `L_X,${L_X},Explorer state\n`;

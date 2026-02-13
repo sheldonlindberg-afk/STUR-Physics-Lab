@@ -139,13 +139,21 @@ canvas{
 <main class="stur-container">
 <div class="container">
 <header style="text-align:center; margin-bottom:2rem; padding-top:1rem;">
-  <h1 class="page-title-falsifiable">Z₃ Geometry Verifier — TOE Framework</h1>
+  <h1 class="page-title-falsifiable">Z₃ Geometry Verifier — TOE Framework (v6.2)</h1>
   <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
       From <a href="stur_core_theory.html" style="color:var(--accent);">XCRM foundation</a> ·
       <a href="stur_mhp_derivation.html" style="color:var(--accent);">MHP derived</a> ·
       <a href="stur_predictions.html" style="color:var(--accent);">Predictions</a> ·
-      <span style="color:var(--success);">TOE Candidate</span>
+      <span style="color:var(--success);">Z₃ Infinity Helix TOE</span>
   </p>
+  <div style="margin:0.75rem 0;padding:0.75rem;background:rgba(74,222,128,0.08);border-left:3px solid #4ade80;border-radius:4px;text-align:left;max-width:640px;margin-left:auto;margin-right:auto;">
+    <strong style="color:#4ade80;">Z₃ Infinity Helix TOE (v6.2):</strong> Three axioms &mdash;
+    <strong>(A1)</strong> M<sup>4</sup> &times; S<sup>1</sup> with TEGR,
+    <strong>(A2)</strong> Real doublet R-field,
+    <strong>(A3)</strong> Energy minimization &mdash;
+    yield 27 derived observables. This verification tool demonstrates the Z₃ helix geometry with real-time PDE simulation.
+    Parameters: &kappa; = 2.430, &alpha;<sub>eff</sub> = 1.480 (two-loop), &sigma; = 0.862.
+  </div>
   <!-- Status Badge -->
   <div style="margin-top:1rem;">
     <span class="stur-status success">
@@ -597,25 +605,29 @@ canvas{
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v5.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(74,222,128,0.15); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px; color: #4ade80;">v6.2</span>
   </p>
 </footer>
 
 <script>
 /* ================================================================
-   Z₃ GEOMETRY VERIFIER — v5.0
+   Z₃ GEOMETRY VERIFIER — v6.2
    ================================================================
-   PAGE_VERSION: 5.0
-   Framework: ONE input (M_Planck), Z₃ helix geometry
+   PAGE_VERSION: 6.2
+   Framework: Three axioms (A1-A3), Z₃ infinity helix TOE
+   27 derived observables from κ = 2.430, α_eff = 1.480, σ = 0.862
 
-   NEW IN v5.0:
-     - PAGE_VERSION constant
+   NEW IN v6.2:
+     - Z₃ infinity helix TOE framing (three axioms)
+     - 27 derived observables context
+     - Two-loop verified parameters
+   RETAINED FROM v5.0:
      - Seeded PRNG for reproducibility
      - Chi²-weighted RMSE falsification
      - STUR SURVIVES / EXCLUDED verdict display
    ================================================================ */
 
-const GV_PAGE_VERSION = '5.0';
+const GV_PAGE_VERSION = '6.2';
 
 // Seeded PRNG — Deterministic random for reproducibility (seed=42)
 let _gvRngSeed = 42;
@@ -1186,7 +1198,7 @@ function exportSnapshot(){
   
   download(JSON.stringify({
     meta:{title:"Z₃ Geometry Verifier — STUR TOE Candidate Framework",
-          timestamp:new Date().toISOString(), version:"v4.0",
+          timestamp:new Date().toISOString(), version:"v6.2",
           authors:"James Lockwood and Sheldon Lindberg"},
     controls:{gamma:g,bhMass_Msol:M/Msol,
               doubleSlit:{energy_eV:+$("energy").value,a_nm:+$("a_nm").value,d_nm:+$("d_nm").value}},
