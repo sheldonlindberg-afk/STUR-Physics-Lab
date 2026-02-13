@@ -782,7 +782,7 @@ Rigorous TEGR formulation providing: field equations from tetrad variation, GEM 
 
 The four-force tensor framework: F^total_μν = F^EM + F^grav + F^strong + F^torsion, derived from four independent methods (geometric curvature, modular flow, entropic gradient, variational principle). This architecture identified the XCRM coupling as the torsion component connecting R-field to gravity.
 
-### 12.3 Chronomagnetics (Burkeen, Cyrek, Lockwood, LaMarche, Beaubier, Lindberg)
+### 12.3 Chronomagnetics (Burkeen, Br Cyrek, Lockwood, LaMarche, Beaubier, Lindberg)
 
 Log-periodic dynamics of torsion contortion: triangle geometry → λ = 3722/2705, discrete scale invariance, contortion modulation K_μν(t) = K₀|sin(ω ln(t/t₀))|, fine structure connection 138 × exp(−1/143) ≈ α_em⁻¹.
 
@@ -858,7 +858,7 @@ STUR v6.0 presents a unified framework where the Standard Model emerges from the
 
 1. S. Lindberg, "Sheldon's Theory of Unified Resistance" (2025)
 2. J. Lockwood, C. Cyrek, D. Hansley, D. Burkeen, "Teleparallel Equivalent of General Relativity: Field Equations and GEM Structure" (2025)
-3. D. Burkeen, C. Cyrek, J. Lockwood, D. LaMarche, J. Beaubier, S. Lindberg, "Chronomagnetics: Log-Periodic Modulation of Torsion Contortion" (2025)
+3. D. Burkeen, C. Br Cyrek, J. M. Lockwood, D. LaMarche, J. Beaubier, S. Lindberg, "Chronomagnetics: A Comprehensive Mathematical Foundation," Spectrality Institute (2026)
 4. S. Navas et al. (Particle Data Group), Phys. Rev. D 110, 030001 (2024)
 5. I. Esteban et al. (NuFIT 6.0), JHEP 12 (2024) 216
 6. N. Arkani-Hamed, M. Schmaltz, Phys. Rev. D 61, 033005 (2000)

@@ -249,6 +249,25 @@ If you reference STUR in academic work, please cite:
   note         = {TOE candidate: CKM matrix derived to 1.6\% from dynamic Z₃
                   orbifold phase-lock on TEGR torsion gravity}
 }
+
+@misc{chronomagnetics2026,
+  author       = {Burkeen, Derek and Cyrek, Christopher Br and Lockwood, J. M.
+                  and LaMarche, Derek and Beaubier, Jay and Lindberg, Sheldon},
+  title        = {Chronomagnetics: {A} Comprehensive Mathematical Foundation},
+  year         = {2026},
+  institution  = {Spectrality Institute},
+  note         = {Log-periodic dynamics of torsion contortion,
+                  triangle geometry $\lambda = 3722/2705$}
+}
+
+@misc{tegr2026,
+  author       = {Lockwood, J. M. and Cyrek, Christopher Br and Hansley, Dustin
+                  and Burkeen, Derek J.},
+  title        = {Teleparallel Dynamics: First Principles --- From Torsion
+                  Kinematics to Field Equations},
+  year         = {2026},
+  note         = {TEGR formulation, torsion tensor formalism, GEM structure}
+}
 ```
 
 ---
