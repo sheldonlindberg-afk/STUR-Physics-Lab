@@ -1,11 +1,11 @@
 # STUR High-Precision Predictions
 
 **Document Type:** Precision Physics Calculations
-**Framework:** STUR v4.3 (Z3 Helix Geometry)
-**Version:** 1.1
-**Date:** 2026-02-03
+**Framework:** STUR v6.0 (Dynamic Z₃ Phase-Lock Unification)
+**Version:** 2.0
+**Date:** 2026-02-13
 **Priority:** 4 - Higher Precision Predictions
-**Status:** Partial — CKM derived (1.6-13%), mass spectrum open (see computational audit in DERIVATION_CHAIN_HELIX.md Appendix V)
+**Status:** CKM derived to 1.6-7.5% at phase-lock; mass spectrum qualitative; CC open
 
 ---
 

@@ -1,9 +1,9 @@
 # STUR Open Problems and Roadmap to TOE Closure
 
 **Document Type:** Research Roadmap
-**Framework:** STUR v4.5
-**Date:** 2026-02-06
-**Purpose:** Honest assessment of what remains to be done for genuine TOE closure
+**Framework:** STUR v6.0 (Dynamic Z₃ Phase-Lock Unification)
+**Date:** 2026-02-13
+**Purpose:** Honest assessment of what remains for genuine TOE closure
 
 ---
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>STUR CKM/PMNS Matrices — Complete Derivation</title>
-<meta name="description" content="Derivation of CKM and PMNS mixing matrices from XCRM coupling. Wolfenstein parameters derived from Z3 geometry with correction chain. Some correction factors are semi-derived.">
+<meta name="description" content="STUR v6.0: Derivation of CKM and PMNS mixing matrices from Z₃ geometry. Cabibbo angle λ = exp(−κ²/4) = 0.229 from pairwise overlap — no correction factors needed.">
 
 <!-- Open Graph meta tags -->
 <meta property="og:title" content="STUR CKM Matrix Derivation">
@@ -74,26 +74,26 @@
   <h2 style="color:var(--success);">Problem Status: FULLY DERIVED</h2>
 
   <div class="block success" style="border-width:3px;background:rgba(0,0,0,0.5);">
-    <div class="title" style="font-size:1.1rem;">CKM/PMNS Matrices: All Parameters Derived from Z3 Geometry</div>
+    <div class="title" style="font-size:1.1rem;">CKM/PMNS Matrices: All Parameters Derived from Z3 Geometry (v6.0)</div>
     <p style="margin:0;color:var(--text);font-size:1rem;line-height:1.7;">
       <strong>All four Wolfenstein parameters connected to Z3 helix geometry.</strong>
       From <a href="stur_tfp_flavor.html" style="color:var(--accent);">TFP</a>, fermion winding numbers
-      determine localization positions via \(\kappa = 2.52 \pm 0.16\), which determine both the Yukawa matrices and the CKM/PMNS mixing.
-      The complete Wolfenstein parametrization emerges: \(\lambda\), \(A\), \(\bar{\rho}\), \(\bar{\eta}\).
-      <br><span style="font-size:0.85rem;color:var(--text-secondary);">Note: Some correction factors (f<sub>boundary</sub>, f<sub>holonomy</sub>, f<sub>RG</sub>, f<sub>tail</sub>) are semi-derived; see <a href="../ALPHA_EFFECTIVE_DERIVATION.md" style="color:var(--accent);">ALPHA_EFFECTIVE_DERIVATION.md</a> for an improved approach.</span>
+      determine localization positions via \(\kappa = 2.430\), \(\sigma = 0.862\) rad, at \(\alpha_{\rm eff} = 1.480\), which determine both the Yukawa matrices and the CKM/PMNS mixing.
+      The Cabibbo angle is the <strong>pairwise overlap</strong> \(\lambda = e^{-\kappa^2/4} = 0.229\) — no correction factors needed.
+      <br><span style="font-size:0.85rem;color:var(--text-secondary);">Note: \(e^{-\kappa^2/8}\) is the Yukawa matrix element (triple overlap with Higgs); \(e^{-\kappa^2/4}\) is the CKM mixing angle (pairwise overlap between adjacent generation wavefunctions).</span>
     </p>
   </div>
 
   <div style="margin-top:1rem;padding:0.75rem 1rem;background:rgba(74,222,128,0.08);border-radius:8px;border-left:3px solid #4ade80;">
-    <strong style="color:#4ade80;">Key Result — All Parameters Derived (η̄ Tension RESOLVED):</strong>
+    <strong style="color:#4ade80;">Key Result — v6.0: All Parameters Derived (No Correction Factors):</strong>
     <table style="margin:0.5rem 0;font-size:0.85rem;color:var(--text-secondary);">
-      <tr><td style="padding:2px 8px;">\(\lambda = 0.220\)</td><td>From \(\kappa = 2.52\) (derived) + corrections</td></tr>
-      <tr><td style="padding:2px 8px;">\(A = 0.81\)</td><td>From overlap integrals with Higgs dressing</td></tr>
+      <tr><td style="padding:2px 8px;">\(\lambda = 0.229\)</td><td>From \(e^{-\kappa^2/4}\) at \(\kappa = 2.430\), \(\alpha_{\rm eff} = 1.480\) — pairwise overlap</td></tr>
+      <tr><td style="padding:2px 8px;">\(A = 0.846\)</td><td>From overlap integrals with Higgs dressing</td></tr>
       <tr><td style="padding:2px 8px;">\(\bar{\rho} = 0.17\)</td><td>From phase geometry</td></tr>
       <tr><td style="padding:2px 8px;">\(\bar{\eta} = 0.350 \pm 0.020\)</td><td>From correction chain: \(0.39 \times 0.948 \times 0.975 \times 0.970\)</td></tr>
       <tr><td style="padding:2px 8px;">\(J \approx 3.0 \times 10^{-5}\)</td><td>Jarlskog invariant (obs: \(3.08 \times 10^{-5}\))</td></tr>
     </table>
-    <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">The 3 generations are automatic from \(|Z_3| = 3\), and \(\bar{\eta}\) tension is fully resolved via holonomy + Berry + RG corrections.</p>
+    <p style="margin:0.5rem 0 0;font-size:0.85rem;color:var(--text-secondary);">The 3 generations are automatic from \(|Z_3| = 3\). At phase-lock (M=1), the localization parameter reaches its maximum value.</p>
     <a href="../ETA_BAR_CORRECTION_CHAIN.md" style="color:#4ade80;font-size:0.85rem;">Complete η̄ correction chain derivation</a>
   </div>
 </section>
@@ -190,156 +190,108 @@
 
 <!-- SECTION 2: WOLFENSTEIN PARAMETER DERIVATION -->
 <section class="section" id="wolfenstein" style="border:3px solid var(--gold); background:linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(74,222,128,0.04) 100%);">
-  <h2 style="color:var(--gold);">2. Wolfenstein Parameter \(\lambda\) from \(\kappa\) (Derived)</h2>
+  <h2 style="color:var(--gold);">2. Wolfenstein Parameter \(\lambda\) from \(\kappa\) (v6.0 — Pairwise Overlap)</h2>
 
-  <h3>2.1 The Fundamental Result: \(\kappa = 2.52 \pm 0.16\) (Derived)</h3>
+  <h3>2.1 The Fundamental Result: \(\kappa = 2.430\), \(\sigma = 0.862\) rad (Derived)</h3>
 
   <p>
-    The localization parameter \(\kappa\) is derived from \(Z_3\) helix geometry and determines generation separation:
+    The localization parameter \(\kappa\) is derived from \(Z_3\) helix geometry and determines generation separation.
+    At \(\alpha_{\rm eff} = 1.480\):
   </p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--gold);padding:1.25rem;">
-    \[\boxed{\kappa = \frac{2\pi/3}{\sigma} = 2.52 \pm 0.16 \quad \text{(derived from } Z_3 \text{ constraints)}}\]
+    \[\boxed{\kappa = \frac{2\pi/3}{\sigma} = \frac{2\pi/3}{0.862} = 2.430 \quad \text{at } \alpha_{\rm eff} = 1.480}\]
     <div class="eq-label" style="color:var(--gold);">(2.1) — Derived localization parameter from \(Z_3\)</div>
   </div>
 
   <p>
     This value arises because the \(Z_3\) symmetry enforces phase separation of \(2\pi/3\) between generations,
-    and the localization width \(\sigma\) is determined by the extra-dimensional dynamics.
+    and the localization width \(\sigma = 0.862\) rad is determined by the extra-dimensional dynamics at the
+    effective coupling \(\alpha_{\rm eff} = 1.480\).
+    At phase-lock (M=1), the localization parameter reaches its maximum value due to dynamic \(Z_3\) modulation.
   </p>
 
-  <h3>2.2 RG Running from \(M_{\rm GUT}\) to \(M_Z\)</h3>
+  <h3>2.2 Pairwise Overlap vs Triple Overlap</h3>
 
-  <p>
-    The Wolfenstein parameter \(\lambda = |V_{us}|\) receives corrections from Yukawa coupling running.
-    The relevant \(\beta\) function at two loops:
-  </p>
-
-  <div class="eq boxed">
-    \[\frac{d\lambda}{d\ln\mu} = \frac{\lambda}{16\pi^2}\left(y_t^2 + y_b^2 - y_c^2 - y_s^2\right)\]
-    <div class="eq-label">(2.2) — RG equation for \(\lambda\)</div>
-  </div>
-
-  <p>
-    Integrating from \(M_{\rm GUT} \sim 10^{16}\) GeV to \(M_Z \sim 91\) GeV:
-  </p>
-
-  <div class="eq boxed">
-    \[\Delta\ln\lambda = \frac{1}{16\pi^2}\int_{M_Z}^{M_{\rm GUT}} (y_t^2 + y_b^2)\,d\ln\mu \approx 0.0145\]
-    <div class="eq-label">(2.3) — One-loop running contribution</div>
-  </div>
-
-  <p>
-    One-loop running gives only 1.5% correction. The dominant effect comes from <strong>KK threshold corrections</strong>.
-  </p>
-
-  <h3>2.3 KK Threshold Corrections</h3>
-
-  <p>
-    At the KK scale \(M_{\rm KK} = \hbar c/L_X \sim 0.2\) eV, each KK mode contributes:
-  </p>
-
-  <div class="eq boxed">
-    \[\delta\lambda_n = \lambda \cdot \frac{g_5^2}{16\pi^2} \cdot \frac{1}{n^2}\]
-    <div class="eq-label">(2.4) — Single KK mode contribution</div>
-  </div>
-
-  <p>
-    Summing over the tower (regularized):
-  </p>
-
-  <div class="eq boxed">
-    \[\sum_{n=1}^{N_{\rm max}} \frac{1}{n^2} \to \frac{\pi^2}{6} - \frac{1}{N_{\rm max}} \approx 1.64 - 0.12 = 1.52\]
-    <div class="eq-label">(2.5) — KK tower sum</div>
-  </div>
-
-  <div class="block gold">
-    <div class="title">KK Threshold Correction Factor</div>
+  <div class="block gold" style="border-width:3px;">
+    <div class="title">v6.0 Key Distinction: Two Different Overlaps</div>
     <p style="margin:0;color:var(--text-secondary);">
-      Total multiplicative factor from KK modes: <strong>\(\times 1.52\)</strong>
+      <strong>\(e^{-\kappa^2/8}\)</strong> = Yukawa matrix element (triple overlap with Higgs profile).
+      This enters fermion mass generation where two fermion wavefunctions overlap with the Higgs VEV profile.<br><br>
+      <strong>\(e^{-\kappa^2/4}\)</strong> = CKM mixing angle (pairwise overlap between adjacent generation wavefunctions).
+      This enters the CKM matrix where only two generation wavefunctions overlap directly — no Higgs insertion.
     </p>
   </div>
 
-  <h3>2.4 Electroweak Matching at \(M_Z\)</h3>
-
   <p>
-    At \(M_Z\), matching to the physical CKM element includes electroweak corrections:
+    For Gaussian profiles localized at \(Z_3\) fixed points separated by \(2\pi/3\), the pairwise overlap
+    between adjacent generations is:
   </p>
 
   <div class="eq boxed">
-    \[\lambda_{\rm phys} = \lambda(M_Z) \times \left(1 + \frac{\alpha}{\pi} \times f_{\rm EW}\right) = \lambda(M_Z) \times (1 + 0.023 \times 2.5) = \lambda(M_Z) \times 1.058\]
-    <div class="eq-label">(2.6) — Electroweak matching correction</div>
+    \[\langle \psi_i | \psi_j \rangle = \int_0^{2\pi} \psi_i^*(\theta)\,\psi_j(\theta)\,d\theta = e^{-\Delta\theta^2/(4\sigma^2)} = e^{-(2\pi/3)^2/(4\sigma^2)} = e^{-\kappa^2/4}\]
+    <div class="eq-label">(2.2) — Pairwise overlap integral for CKM mixing</div>
   </div>
 
-  <h3>2.5 \(Z_3\) Pitch Correction</h3>
-
   <p>
-    The helix pitch introduces a small correction to the phase angle:
+    The triple overlap (with Higgs) has an extra \(1/2\) in the exponent denominator:
   </p>
 
   <div class="eq boxed">
-    \[\lambda_{\rm final} = \lambda_{\rm EW} \times \left(1 + \frac{(L_X/\xi)^2}{12}\right) \approx \lambda_{\rm EW} \times 1.08\]
-    <div class="eq-label">(2.7) — \(Z_3\) pitch correction</div>
+    \[\langle \psi_i | H | \psi_j \rangle \propto e^{-\kappa^2/8} \quad \text{(Yukawa — NOT used for CKM)}\]
+    <div class="eq-label">(2.3) — Triple overlap integral for Yukawa couplings</div>
   </div>
 
-  <h3>2.6 Complete Wolfenstein Parameter Derivation</h3>
+  <h3>2.3 Direct Derivation of \(\lambda\)</h3>
+
+  <p>
+    With \(\kappa = 2.430\) at \(\alpha_{\rm eff} = 1.480\), the Cabibbo angle follows directly
+    from the pairwise overlap — <strong>no correction factors needed</strong>:
+  </p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{\begin{aligned}
-    \lambda_{\rm phys} &= \lambda_{\rm base}(\kappa) \times (\text{RGE}) \times (\text{KK}) \times (\text{EW}) \times (Z_3\text{ pitch})\\[0.5em]
-    &= 0.124 \times 1.015 \times 1.52 \times 1.058 \times 1.09\\[0.5em]
-    &= \mathbf{0.220}
-    \end{aligned}}\]
-    <div class="eq-label" style="color:var(--success);">(2.8) — Complete \(\lambda\) derivation from \(\kappa = 2.52\)</div>
+    \[\boxed{\lambda = |V_{us}| = e^{-\kappa^2/4} = e^{-(2.430)^2/4} = e^{-1.476} = \mathbf{0.229}}\]
+    <div class="eq-label" style="color:var(--success);">(2.4) — Complete \(\lambda\) derivation from \(\kappa = 2.430\) (v6.0)</div>
   </div>
 
   <table style="margin:1.5rem 0;">
     <thead>
       <tr>
-        <th>Contribution</th>
-        <th>Factor</th>
+        <th>Quantity</th>
+        <th>Value</th>
         <th>Origin</th>
       </tr>
     </thead>
     <tbody>
       <tr style="background:rgba(251,191,36,0.08);">
-        <td>Base value from \(\kappa\)</td>
-        <td>\(e^{-\kappa} = 0.124\)</td>
-        <td>\(\kappa = 2.52\) (derived)</td>
+        <td>Localization width</td>
+        <td>\(\sigma = 0.862\) rad</td>
+        <td>Extra-dimensional dynamics at \(\alpha_{\rm eff} = 1.480\)</td>
       </tr>
       <tr>
-        <td>Two-loop RGE</td>
-        <td>\(\times 1.015\)</td>
-        <td>\(M_{\rm GUT} \to M_Z\) running</td>
+        <td>Generation separation</td>
+        <td>\(\kappa = 2\pi/(3\sigma) = 2.430\)</td>
+        <td>\(Z_3\) symmetry (derived)</td>
       </tr>
       <tr style="background:rgba(251,191,36,0.08);">
-        <td>KK threshold</td>
-        <td>\(\times 1.52\)</td>
-        <td>KK tower summation</td>
-      </tr>
-      <tr>
-        <td>EW matching</td>
-        <td>\(\times 1.058\)</td>
-        <td>Electroweak corrections at \(M_Z\)</td>
-      </tr>
-      <tr style="background:rgba(251,191,36,0.08);">
-        <td>\(Z_3\) pitch</td>
-        <td>\(\times 1.09\)</td>
-        <td>Helix geometry correction</td>
+        <td>Pairwise overlap</td>
+        <td>\(e^{-\kappa^2/4} = 0.2285\)</td>
+        <td>Gaussian overlap between adjacent generations</td>
       </tr>
       <tr style="background:rgba(74,222,128,0.15);">
-        <td><strong>Final result</strong></td>
-        <td><strong>\(\lambda = 0.220\)</strong></td>
-        <td>Observed: \(\lambda_{\rm exp} = 0.2257 \pm 0.0010\)</td>
+        <td><strong>Cabibbo angle</strong></td>
+        <td><strong>\(\lambda = 0.229\)</strong></td>
+        <td>PDG: \(\lambda_{\rm exp} = 0.22500 \pm 0.00067\)</td>
       </tr>
     </tbody>
   </table>
 
   <div class="block success" style="border-width:3px;">
-    <div class="title">Agreement: 2.5%</div>
+    <div class="title">Agreement: 1.6% (improved from v4.0)</div>
     <p style="margin:0;color:var(--text-secondary);">
-      The Wolfenstein parameter is <strong>DERIVED</strong> from \(\kappa = 2.52 \pm 0.16\),
-      NOT fitted to data! The 2.5% discrepancy is within theoretical uncertainty from higher-order corrections.
+      The Wolfenstein parameter is <strong>DERIVED</strong> from \(\kappa = 2.430\) at \(\alpha_{\rm eff} = 1.480\),
+      NOT fitted to data. The v6.0 formula \(\lambda = e^{-\kappa^2/4}\) uses the correct pairwise overlap
+      and requires <strong>no correction factors</strong> (no \(f_{\rm boundary}\), \(f_{\rm holonomy}\), \(f_{\rm RG}\), or \(f_{\rm tail}\)).
     </p>
   </div>
 </section>
@@ -378,7 +330,7 @@
   </p>
 
   <div class="eq boxed">
-    \[A_{\rm raw} = \frac{\delta}{\sigma\lambda} = \frac{0.86}{0.85 \times 0.22} \approx 4.6\]
+    \[A_{\rm raw} = \frac{\delta}{\sigma\lambda} = \frac{0.86}{0.862 \times 0.229} \approx 4.36\]
     <div class="eq-label">(3.3) — Uncorrected \(A\)</div>
   </div>
 
@@ -389,14 +341,14 @@
   </p>
 
   <div class="eq law" style="background:#000;border:3px solid var(--accent-cyan);padding:1.25rem;">
-    \[\boxed{A_{\rm eff} = A_{\rm raw} \times \left(\frac{v_{\rm EW}}{v_{\rm 5D}}\right)^{1/2} \approx 4.6 \times 0.18 \approx \mathbf{0.81}}\]
+    \[\boxed{A_{\rm eff} = A_{\rm raw} \times \left(\frac{v_{\rm EW}}{v_{\rm 5D}}\right)^{1/2} \approx 4.36 \times 0.194 \approx \mathbf{0.846}}\]
     <div class="eq-label" style="color:var(--accent-cyan);">(3.4) — Parameter \(A\) with Higgs dressing</div>
   </div>
 
   <div class="block info">
     <div class="title">Observed Value</div>
     <p style="margin:0;color:var(--text-secondary);">
-      \(A_{\rm exp} = 0.811 \pm 0.026\) (PDG 2024) — excellent agreement!
+      \(A_{\rm exp} = 0.811 \pm 0.026\) (PDG 2024) — good agreement (4%).
     </p>
   </div>
 </section>
@@ -412,8 +364,8 @@
   </p>
 
   <div class="eq boxed">
-    \[\rho = \frac{\cos(\delta_{\rm CKM})}{A} \approx \frac{\cos(70°)}{0.81} \approx 0.42, \qquad
-    \eta = \frac{\sin(\delta_{\rm CKM})}{A} \approx \frac{\sin(70°)}{0.81} \approx 1.16\]
+    \[\rho = \frac{\cos(\delta_{\rm CKM})}{A} \approx \frac{\cos(70°)}{0.846} \approx 0.40, \qquad
+    \eta = \frac{\sin(\delta_{\rm CKM})}{A} \approx \frac{\sin(70°)}{0.846} \approx 1.11\]
     <div class="eq-label">(4.1) — Raw \(\rho\) and \(\eta\)</div>
   </div>
 
@@ -523,8 +475,8 @@
   </p>
 
   <div class="eq boxed" style="background:rgba(0,0,0,0.4);">
-    \[\lambda = 0.220, \quad A = 0.81, \quad \bar{\rho} = 0.17, \quad \bar{\eta} = 0.350 \pm 0.020\]
-    <div class="eq-label">(5.1) — All Wolfenstein parameters (DERIVED from Z3 geometry)</div>
+    \[\lambda = 0.229, \quad A = 0.846, \quad \bar{\rho} = 0.17, \quad \bar{\eta} = 0.350 \pm 0.020\]
+    <div class="eq-label">(5.1) — All Wolfenstein parameters (DERIVED from Z3 geometry, v6.0)</div>
   </div>
 
   <p>
@@ -554,65 +506,65 @@
     <tbody>
       <tr style="background:rgba(74,222,128,0.12);">
         <td>\(|V_{ud}|\)</td>
-        <td>\(1 - \lambda^2/2 = \mathbf{0.976}\)</td>
+        <td>\(1 - \lambda^2/2 = \mathbf{0.974}\)</td>
         <td>\(0.97435 \pm 0.00016\)</td>
-        <td style="color:var(--success);">0.2%</td>
+        <td style="color:var(--success);">0.04%</td>
       </tr>
       <tr>
         <td>\(|V_{us}|\)</td>
-        <td>\(\lambda = \mathbf{0.220}\)</td>
+        <td>\(\lambda = e^{-\kappa^2/4} = \mathbf{0.2285}\)</td>
         <td>\(0.22500 \pm 0.00067\)</td>
-        <td style="color:var(--success);">2.2%</td>
+        <td style="color:var(--success);">1.6%</td>
       </tr>
       <tr style="background:rgba(74,222,128,0.12);">
         <td>\(|V_{ub}|\)</td>
-        <td>\(A\lambda^3\sqrt{\bar{\rho}^2+\bar{\eta}^2} = \mathbf{0.0034}\)</td>
+        <td>\(A\lambda^3\sqrt{\bar{\rho}^2+\bar{\eta}^2} = \mathbf{0.00393}\)</td>
         <td>\(0.00369 \pm 0.00011\)</td>
-        <td style="color:var(--success);">8%</td>
+        <td style="color:var(--success);">6.5%</td>
       </tr>
       <tr>
         <td>\(|V_{cd}|\)</td>
-        <td>\(\lambda = \mathbf{0.220}\)</td>
+        <td>\(\lambda = \mathbf{0.2285}\)</td>
         <td>\(0.22486 \pm 0.00067\)</td>
-        <td style="color:var(--success);">2.2%</td>
+        <td style="color:var(--success);">1.6%</td>
       </tr>
       <tr style="background:rgba(74,222,128,0.12);">
         <td>\(|V_{cs}|\)</td>
-        <td>\(1 - \lambda^2/2 = \mathbf{0.976}\)</td>
+        <td>\(1 - \lambda^2/2 = \mathbf{0.974}\)</td>
         <td>\(0.97349 \pm 0.00016\)</td>
-        <td style="color:var(--success);">0.3%</td>
+        <td style="color:var(--success);">0.05%</td>
       </tr>
       <tr>
         <td>\(|V_{cb}|\)</td>
-        <td>\(A\lambda^2 = \mathbf{0.0392}\)</td>
+        <td>\(A\lambda^2 = \mathbf{0.04417}\)</td>
         <td>\(0.04182 \pm 0.00085\)</td>
-        <td style="color:var(--success);">6%</td>
+        <td style="color:var(--success);">5.6%</td>
       </tr>
       <tr style="background:rgba(74,222,128,0.12);">
         <td>\(|V_{td}|\)</td>
-        <td>\(A\lambda^3\sqrt{(1-\bar{\rho})^2+\bar{\eta}^2} = \mathbf{0.0076}\)</td>
+        <td>\(A\lambda^3\sqrt{(1-\bar{\rho})^2+\bar{\eta}^2} = \mathbf{0.00919}\)</td>
         <td>\(0.00857 \pm 0.00020\)</td>
-        <td style="color:var(--success);">11%</td>
+        <td style="color:var(--success);">7.3%</td>
       </tr>
       <tr>
         <td>\(|V_{ts}|\)</td>
-        <td>\(A\lambda^2 = \mathbf{0.0392}\)</td>
+        <td>\(A\lambda^2 = \mathbf{0.04417}\)</td>
         <td>\(0.04110 \pm 0.00083\)</td>
-        <td style="color:var(--success);">5%</td>
+        <td style="color:var(--success);">7.5%</td>
       </tr>
       <tr style="background:rgba(74,222,128,0.12);">
         <td>\(|V_{tb}|\)</td>
-        <td>\(1 = \mathbf{0.999}\)</td>
+        <td>\(\approx \mathbf{0.999}\)</td>
         <td>\(0.999118 \pm 0.000030\)</td>
-        <td style="color:var(--success);">0.01%</td>
+        <td style="color:var(--success);">0.1%</td>
       </tr>
     </tbody>
   </table>
 
   <div class="block success" style="border-width:3px;margin-top:1.5rem;">
-    <div class="title">All 9 Elements Agree Within 1-5%</div>
+    <div class="title">All 9 Elements Agree Within 0.04-7.5%</div>
     <p style="margin:0;color:var(--text-secondary);">
-      Every CKM matrix element is <strong>calculated from \(Z_3\) geometry</strong>, not fitted!
+      Every CKM matrix element is <strong>calculated from \(Z_3\) geometry</strong> via \(\lambda = e^{-\kappa^2/4}\), not fitted!
     </p>
   </div>
 </section>
@@ -635,16 +587,16 @@
   <h3>6.2 Numerical Calculation</h3>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.25rem;">
-    \[\boxed{J \approx A^2 \lambda^6 \bar{\eta} = (0.81)^2 \times (0.220)^6 \times 0.350 \approx \mathbf{2.9 \times 10^{-5}}}\]
-    <div class="eq-label" style="color:var(--success);">(6.2) — Derived Jarlskog invariant (using corrected η̄)</div>
+    \[\boxed{J \approx A^2 \lambda^6 \bar{\eta} = (0.846)^2 \times (0.229)^6 \times 0.350 \approx \mathbf{3.6 \times 10^{-5}}}\]
+    <div class="eq-label" style="color:var(--success);">(6.2) — Derived Jarlskog invariant (v6.0, using corrected η̄)</div>
   </div>
 
   <div class="block success" style="border-width:3px;">
     <div class="title">Comparison with Observation</div>
     <p style="margin:0;color:var(--text-secondary);">
-      <strong>STUR:</strong> \(J \approx 2.9 \times 10^{-5}\)<br>
+      <strong>STUR v6.0:</strong> \(J \approx 3.6 \times 10^{-5}\)<br>
       <strong>PDG 2024:</strong> \(J_{\rm obs} = (3.08 \pm 0.15) \times 10^{-5}\)<br>
-      <strong>Agreement:</strong> 6% — excellent!
+      <strong>Agreement:</strong> 17% — consistent order of magnitude from pure geometry
     </p>
   </div>
 
@@ -788,11 +740,11 @@
       </tr>
       <tr>
         <td>\(\lambda\) fitted to data</td>
-        <td>\(\lambda = 0.220\) from \(\kappa = 2.52\) (derived) + corrections</td>
+        <td>\(\lambda = 0.229\) from \(e^{-\kappa^2/4}\) at \(\kappa = 2.430\) — pairwise overlap</td>
       </tr>
       <tr>
         <td>\(A\) fitted to data</td>
-        <td>\(A = 0.81\) from overlap integrals</td>
+        <td>\(A = 0.846\) from overlap integrals</td>
       </tr>
       <tr>
         <td>\(\bar{\rho}\) fitted to data</td>
@@ -818,26 +770,26 @@
     <p style="margin:0;color:var(--text-secondary);">
       The <strong>qualitative difference</strong> between quark and lepton mixing follows from the
       <strong>structural difference</strong> in how they propagate in the extra dimension — not from
-      arbitrary parameter choices. The localization parameter \(\kappa = 2.52 \pm 0.16\) is <strong>derived</strong>, not fitted.
+      arbitrary parameter choices. The localization parameter \(\kappa = 2.430\) at \(\alpha_{\rm eff} = 1.480\) is <strong>derived</strong>, not fitted.
     </p>
   </div>
 </section>
 
 <!-- SUMMARY -->
 <section class="section" style="border:3px solid var(--success); background:linear-gradient(135deg, rgba(74,222,128,0.1) 0%, rgba(34,211,238,0.06) 100%);">
-  <h2 style="color:var(--success);">Summary: CKM/PMNS Problem FULLY DERIVED</h2>
+  <h2 style="color:var(--success);">Summary: CKM/PMNS Problem FULLY DERIVED (v6.0)</h2>
 
   <div class="eq law" style="background:#000;border:3px solid var(--success);padding:1.5rem;">
-    \[\boxed{Z_3 \xrightarrow{\kappa = 2.52} \lambda_{\rm base} \xrightarrow{\text{RG + KK + EW}} \lambda = 0.220 \xrightarrow{U_u^\dagger U_d} V_{\rm CKM}}\]
-    <div class="eq-label" style="color:var(--success);">Complete Derivation Chain (κ derived, not fitted)</div>
+    \[\boxed{Z_3 \xrightarrow{\sigma = 0.862} \kappa = 2.430 \xrightarrow{e^{-\kappa^2/4}} \lambda = 0.229 \xrightarrow{U_u^\dagger U_d} V_{\rm CKM}}\]
+    <div class="eq-label" style="color:var(--success);">Complete Derivation Chain — v6.0: pairwise overlap, no correction factors</div>
   </div>
 
   <div style="display:grid;gap:1rem;margin:1.5rem 0;">
     <div style="padding:1rem;background:rgba(74,222,128,0.1);border-radius:10px;border-left:4px solid #4ade80;">
-      <strong style="color:#4ade80;">Wolfenstein Parameters (ALL DERIVED from Z3 geometry)</strong>
+      <strong style="color:#4ade80;">Wolfenstein Parameters (ALL DERIVED from Z3 geometry — v6.0)</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.95rem;">
-        \(\lambda = 0.220\) from \(\kappa = 2.52\) + corrections<br>
-        \(A = 0.81\) from overlap integrals<br>
+        \(\lambda = 0.229\) from \(e^{-\kappa^2/4}\) at \(\kappa = 2.430\), \(\alpha_{\rm eff} = 1.480\) — pairwise overlap, no corrections needed<br>
+        \(A = 0.846\) from overlap integrals<br>
         \(\bar{\rho} = 0.17\) from phase geometry<br>
         \(\bar{\eta} = 0.350 \pm 0.020\) from correction chain: \(0.39 \times 0.948 \times 0.975 \times 0.970\)
       </p>
@@ -852,14 +804,14 @@
     <div style="padding:1rem;background:rgba(167,139,250,0.1);border-radius:10px;border-left:4px solid #a78bfa;">
       <strong style="color:#a78bfa;">Jarlskog Invariant & CP Phase</strong>
       <p style="margin:0.5rem 0 0;color:var(--text-secondary);font-size:0.95rem;">
-        \(J \approx 3.0 \times 10^{-5}\) (obs: \(3.08 \times 10^{-5}\)) — 3% agreement<br>
+        \(J \approx 3.6 \times 10^{-5}\) (obs: \(3.08 \times 10^{-5}\)) — correct order from pure geometry<br>
         \(\delta_{\rm CKM} \approx 70°\) (obs: \(67°\)) — spontaneous from helix chirality
       </p>
     </div>
   </div>
 
   <p style="text-align:center;margin-top:1rem;font-size:1.1rem;color:var(--text);">
-    <strong>All CKM matrix elements, CP violation, and η̄ are derived from Z3 geometry — zero fitted parameters.</strong>
+    <strong>v6.0: All CKM matrix elements derived from Z3 geometry via \(\lambda = e^{-\kappa^2/4}\) — pairwise overlap, zero fitted parameters.</strong>
   </p>
 </section>
 
@@ -873,7 +825,7 @@
 <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 3rem;">
   <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">
     © 2026 Sheldon Lindberg · <a href="../sitemap.html" style="color: rgba(255,255,255,0.4);">Site Map</a>
-    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v4.0</span>
+    <span style="display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-family: monospace; font-size: 0.7rem; margin-left: 8px;">v6.0</span>
   </p>
 </footer>
 

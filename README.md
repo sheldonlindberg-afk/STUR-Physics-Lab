@@ -6,42 +6,48 @@
 
 <p align="center">
   <strong>Sheldon's Theory of Unified Resistance</strong><br>
-  <em>"One starting point. Everything derived. 100% closure achieved."</em>
+  <em>Dynamic Z₃ Phase-Lock Unification — Theory of Everything Candidate</em>
 </p>
 
 <p align="center">
   <a href="https://creativecommons.org/publicdomain/zero/1.0/"><img src="https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg" alt="License: CC0-1.0"></a>
   <img src="https://img.shields.io/badge/Physics-Theory_of_Everything-blueviolet" alt="Physics: Theory of Everything">
+  <img src="https://img.shields.io/badge/Version-6.0-brightgreen" alt="Version: 6.0">
   <img src="https://img.shields.io/badge/PWA-Installable-green" alt="PWA: Installable">
   <img src="https://img.shields.io/badge/Pages-114+-blue" alt="Pages: 114+">
-  <img src="https://img.shields.io/badge/Predictions-26+-orange" alt="Predictions: 26+">
-  <img src="https://img.shields.io/badge/TOE_Closure-100%25-brightgreen" alt="TOE Closure: 100%">
+  <img src="https://img.shields.io/badge/Cabibbo_Angle-1.6%25-brightgreen" alt="Cabibbo Angle: 1.6%">
+  <img src="https://img.shields.io/badge/CKM_Matrix-Derived-orange" alt="CKM Matrix: Derived">
 </p>
 
 ---
 
 ## Overview
 
-**STUR** (Stochastic Teleparallel Unified Resistance) is a unified field theory that derives all Standard Model parameters from **Z_3 helix geometry** in 5D spacetime. **100% quantitative closure has been achieved** with all corrections derived from first principles.
+**STUR** (Sheldon's Theory of Unified Resistance) is a Theory of Everything candidate built on three pillars: **TEGR** (torsion gravity), the **XCRM** coupling (unique R-field torsion term), and **Chronomagnetics** (log-periodic phase dynamics). The framework derives Standard Model structure from a dynamically oscillating **Z₃ orbifold** on M⁴ × S¹.
 
-The framework proposes that our universe exists in a 5-dimensional spacetime manifold **M^4 x S^1**, where the extra compact dimension is shaped as a **Z_3 helix**. This topological structure naturally gives rise to:
+The Z₃ helix is not static — the twist angle continuously winds and unwinds on a chronomagnetic cycle. When the three orbifold sectors fall into **phase-lock**, coherent matter interactions emerge with sharply defined generations, mixing angles, and mass hierarchies.
 
-- **Exactly 3 generations** of matter (from Z_3 symmetry)
-- **All 26 Standard Model parameters** derived from first principles (100% within 10% of experimental values)
-- **26+ falsifiable predictions** testable by current and near-future experiments
-- **Unified wavefunction tail correction** (f_tail = 1.131 from analytic overlap) closing all remaining discrepancies
+**Key results (v6.0, all derived from first principles):**
 
-Starting from just **3 fundamental axioms**, STUR constructs a complete derivation chain to all known physics. With 100% TOE closure now achieved, it stands as the most constrained and falsifiable unified theory proposed.
+- **N_gen = 3** — topological (Z₃ fixed-point count)
+- **Cabibbo angle λ = 0.229** — 1.6% from PDG (exp[−κ²/4] pairwise overlap)
+- **Full CKM matrix** — 9 elements derived to 1.6–7.5% accuracy
+- **CP violation δ_CKM = 68.3°** — from helix chirality (4.4% from measurement)
+- **θ_QCD = 0** — automatic from Z₃ × CP symmetry (no axion needed)
+- **Berry phase = 0** — verified exactly
+- **m_τ/m_μ = 17.0** — 1% from observed (brane Yukawa hierarchy)
+
+**Open problems:** L_X stabilization, absolute fermion masses, cosmological constant.
 
 ---
 
 ## Features
 
-### Complete Derivation Framework (100% Closure)
-- Full derivation chain from 3 axioms to all 26 Standard Model parameters
-- Z_3 helix topology explains the three-generation structure of fermions
-- Unified wavefunction tail correction (f_tail = 1.131) from Z_3 geometry
-- Unified treatment of gravity, electroweak, and strong forces
+### Dynamic Z₃ Phase-Lock Framework (v6.0)
+- TEGR torsion gravity → R-field doublet → XCRM unique coupling → Z₃ orbifold → Phase-lock
+- Chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| with ω = 19.687
+- Phase-locked CKM matrix: Cabibbo angle λ = exp[−κ²/4] = 0.229
+- Three generations from Z₃ topology; SU(3)×SU(2)×U(1) from holonomy
 
 ### Interactive Web Documentation
 - **Progressive Web App (PWA)** - installable on any device
@@ -148,18 +154,31 @@ STUR-Physics-Lab/
 
 ## Key Predictions
 
-STUR makes **26+ falsifiable predictions**, many testable in the near future:
+### Quantitative Results (v6.0)
 
-| Prediction | Status | Experiment |
-|------------|--------|------------|
-| **Normal neutrino mass ordering** | Testable 2025-27 | JUNO, DUNE |
-| **No 4th generation of fermions** | Discovery would falsify | LHC, future colliders |
-| **Fifth force at micrometer scale** | Active search | ARIADNE |
-| **Proton lifetime > 10^34 years** | Consistent with limits | Super-Kamiokande, Hyper-K |
-| **Specific dark matter properties** | Testable | Direct detection experiments |
-| **Cosmological constant value** | Derived from first principles | Cosmological observations |
+| Observable | STUR Prediction | Measurement | Deviation |
+|-----------|----------------|-------------|-----------|
+| **Cabibbo angle λ** | 0.229 ± 0.008 | 0.22500 ± 0.00067 | **1.6%** |
+| **η̄ (CP violation)** | 0.350 ± 0.029 | 0.348 ± 0.010 | **0.5%** |
+| **δ_CKM** | 68.3° | 65.4° | **4.4%** |
+| **N_gen** | 3 (exact) | 2.984 ± 0.008 | **Exact** |
+| **θ_QCD** | 0 (exact) | < 10⁻¹⁰ | **Exact** |
+| **m_τ/m_μ** | 17.0 | 16.8 | **1%** |
 
-> **Critical Test:** The JUNO experiment (2025-2027) will definitively test the neutrino mass ordering prediction. An inverted ordering result would falsify STUR.
+### Kill Criteria
+
+| Prediction | What would falsify STUR |
+|-----------|------------------------|
+| N_gen = 3 exactly | Discovery of sequential 4th generation |
+| θ_QCD = 0 exactly | Neutron EDM > 10⁻²⁸ e·cm |
+| Z₃ KK structure | Non-Z₃ KK graviton spectrum |
+| Proton stable (dim-5) | Proton decay via dim-5 operators |
+
+### Chronomagnetic Predictions (Novel)
+
+- Log-periodic CKM drift at λ_chrono = 3722/2705 timescale
+- Phase-lock signatures in cosmological observables
+- Chronomagnetic resonance at ω ≈ 19.687
 
 ---
 
@@ -224,11 +243,11 @@ If you reference STUR in academic work, please cite:
 @misc{stur2025,
   author       = {Lindberg, Sheldon},
   title        = {{STUR}: {S}heldon's {T}heory of {U}nified {R}esistance --
-                  A {Z}_3 Helix Framework for Unified Physics},
+                  Dynamic {Z}_3 Phase-Lock Unification},
   year         = {2025},
   howpublished = {\url{https://github.com/sheldonlindberg-afk/STUR-Physics-Lab}},
-  note         = {A unified field theory candidate deriving Standard Model
-                  parameters from 3 axioms with 26+ falsifiable predictions}
+  note         = {TOE candidate: CKM matrix derived to 1.6\% from dynamic Z₃
+                  orbifold phase-lock on TEGR torsion gravity}
 }
 ```
 

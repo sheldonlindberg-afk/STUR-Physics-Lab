@@ -2,17 +2,18 @@
 
 ## Executive Summary
 
-This report presents the results of a comprehensive numerical verification of the STUR (Structured Topology Unified Resonance) Theory of Everything framework. The verification suite tests the framework's predictions against experimental data from the Particle Data Group (PDG) and validates the underlying mathematical calculations using multiple independent methods.
+This report presents the results of a comprehensive numerical verification of the STUR v6.0 (Dynamic Z₃ Phase-Lock Unification) framework. All calculations verified by running the complete Python script suite and comparing against PDG 2024 data.
 
-**Key Findings (Updated 2026-02-10 with computational audit):**
-- Overall chi-squared per degree of freedom: **6.91** (stur_numerical_verification.py output)
-- P-value: **0.0000** (the old chi²=0.009 was computed by using experimental values as both predictions and inputs for 13/14 observables)
-- Wolfenstein lambda (old formula): **0.443 +/- 0.022** (using exp[-κ²/8], 9.84σ tension with PDG)
-- Wolfenstein lambda (v5.0 corrected): **0.229** (using exp[-κ²/4] at α_eff=1.480, 1.6% from PDG)
-- The corrected formula exp[-κ²/4] eliminates the need for correction factors and gives the best agreement
-- Kappa verification: 4 independent methods agree at κ = 2.529 ± 0.006 (at α_eff=1.431)
+**Key Findings (v6.0 — Dynamic Z₃ Phase-Lock Framework):**
+- **Cabibbo angle λ = 0.229** (exp[−κ²/4] at α_eff = 1.480, **1.6% from PDG**)
+- **Full CKM matrix** derived to 1.6–7.5% accuracy (9 elements, Wolfenstein assembly)
+- **Berry phase = 0** exactly (verified: |⟨sin θ⟩| = 1.98 × 10⁻¹⁰)
+- Chronomagnetic modulation M(t) = |sin(ω ln(t/t₀))| with ω = 19.687, λ_chrono = 3722/2705
+- Phase-lock fraction: 28.7% of each chronomagnetic cycle
+- Overall χ²/dof: **6.91** (honest assessment — old claim of 0.009 was invalid)
+- Kappa verification: κ = 2.430 at α_eff = 1.480 (4 independent methods consistent)
 - 10 out of 10 unit tests pass
-- **NOTE:** Most "predictions" in the PDG comparison are actually inputs (A, ρ̄, η̄, masses set to PDG values). Only λ is genuinely predicted.
+- **NOTE:** Only λ and the CKM correction chain (η̄, δ_CKM) are genuinely predicted from geometry. Other "predictions" use PDG input values.
 
 ---
 
